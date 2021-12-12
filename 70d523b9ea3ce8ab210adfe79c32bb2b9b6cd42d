@@ -69,6 +69,24 @@
       "parentUuid": "a2a9554e_e3c91d92",
       "revId": "70d523b9ea3ce8ab210adfe79c32bb2b9b6cd42d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95154386_f94bdde2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2021-12-12T16:08:12Z",
+      "side": 1,
+      "message": "If this portable code fails only on OpenBSD I\u0027d be very concerned :)",
+      "parentUuid": "d6238d67_15996c03",
+      "revId": "70d523b9ea3ce8ab210adfe79c32bb2b9b6cd42d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
