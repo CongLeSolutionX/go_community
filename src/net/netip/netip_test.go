@@ -347,6 +347,30 @@ func TestAddrMarshalUnmarshalBinary(t *testing.T) {
 	}
 }
 
+func TestAddrPortMarshalTextString(t *testing.T) {
+	tests := []struct {
+		in   AddrPort
+		want string
+	}{
+		{mustIPPort("1.2.3.4:80"), "1.2.3.4:80"},
+		{mustIPPort("[1::CAFE]:3"), "[1::cafe]:3"},
+		{mustIPPort("[::FFFF:192.168.140.255]:80"), "[::ffff:192.168.140.255]:80"},
+	}
+	for i, tt := range tests {
+		if got := tt.in.String(); got != tt.want {
+			t.Errorf("%d. for (%v, %v) String = %q; want %q", i, tt.in.Addr(), tt.in.Port(), got, tt.want)
+		}
+		mt, err := tt.in.MarshalText()
+		if err != nil {
+			t.Errorf("%d. for (%v, %v) MarshalText error: %v", i, tt.in.Addr(), tt.in.Port(), err)
+			continue
+		}
+		if string(mt) != tt.want {
+			t.Errorf("%d. for (%v, %v) MarshalText = %q; want %q", i, tt.in.Addr(), tt.in.Port(), mt, tt.want)
+		}
+	}
+}
+
 func TestAddrPortMarshalUnmarshalBinary(t *testing.T) {
 	tests := []struct {
 		ipport   string
