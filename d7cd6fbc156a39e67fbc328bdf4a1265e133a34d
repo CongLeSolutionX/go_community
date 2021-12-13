@@ -106,6 +106,24 @@
       "message": "Could there be a testcase for this?",
       "revId": "d7cd6fbc156a39e67fbc328bdf4a1265e133a34d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c07b051_3b6fc41a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-12-13T15:28:05Z",
+      "side": 1,
+      "message": "CL https://go-review.googlesource.com/c/go/+/371214 , where I also fix another architecture.",
+      "parentUuid": "2c1b9a21_fefd58d3",
+      "revId": "d7cd6fbc156a39e67fbc328bdf4a1265e133a34d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
