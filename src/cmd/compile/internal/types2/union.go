@@ -4,7 +4,9 @@
 
 package types2
 
-import "cmd/compile/internal/syntax"
+import (
+	"cmd/compile/internal/syntax"
+)
 
 // ----------------------------------------------------------------------------
 // API
@@ -46,10 +48,11 @@ func (t *Term) String() string { return (*term)(t).String() }
 // Avoid excessive type-checking times due to quadratic termlist operations.
 const maxTermCount = 100
 
-// parseUnion parses the given list of type expressions tlist as a union of
-// those expressions. The result is a Union type, or Typ[Invalid] for some
-// errors.
-func parseUnion(check *Checker, tlist []syntax.Expr) Type {
+// parseUnion parses uexpr as a union of expressions.
+// The result is a Union type, or Typ[Invalid] for some errors.
+func parseUnion(check *Checker, uexpr syntax.Expr) Type {
+	tlist := flattenUnion(nil, uexpr)
+
 	var terms []*Term
 	for _, x := range tlist {
 		tilde, typ := parseTilde(check, x)
@@ -105,7 +108,9 @@ func parseUnion(check *Checker, tlist []syntax.Expr) Type {
 		}
 	})
 
-	return &Union{terms, nil}
+	u := &Union{terms, nil}
+	check.recordTypeAndValue(uexpr, typexpr, u, nil)
+	return u
 }
 
 func parseTilde(check *Checker, x syntax.Expr) (tilde bool, typ Type) {
@@ -142,4 +147,12 @@ func overlappingTerm(terms []*Term, y *Term) int {
 		}
 	}
 	return -1
+}
+
+func flattenUnion(list []syntax.Expr, x syntax.Expr) []syntax.Expr {
+	if o, _ := x.(*syntax.Operation); o != nil && o.Op == syntax.Or {
+		list = flattenUnion(list, o.X)
+		x = o.Y
+	}
+	return append(list, x)
 }
