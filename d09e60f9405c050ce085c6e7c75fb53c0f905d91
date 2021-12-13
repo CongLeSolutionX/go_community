@@ -57,6 +57,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae4355c6_8d97868b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-12-13T22:45:20Z",
+      "side": 1,
+      "message": "Thanks for the review!\n",
+      "revId": "d09e60f9405c050ce085c6e7c75fb53c0f905d91",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "04153f5c_860ca752",
@@ -70,6 +87,24 @@
       "writtenOn": "2021-12-13T22:07:08Z",
       "side": 1,
       "message": "Conceivably we could put each imported instantiation into instInfoMap when it is imported. But this is fine also.",
+      "revId": "d09e60f9405c050ce085c6e7c75fb53c0f905d91",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "91738b3e_ab0b73f3",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-12-13T22:45:20Z",
+      "side": 1,
+      "message": "Yes, your suggestion sounds reasonable, but for now this fix seems more localized.  I will play with your approach and more on the interaction of inlining and generics this week, but for post-beta1.",
+      "parentUuid": "04153f5c_860ca752",
       "revId": "d09e60f9405c050ce085c6e7c75fb53c0f905d91",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
