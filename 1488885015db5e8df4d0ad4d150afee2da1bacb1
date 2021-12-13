@@ -112,6 +112,30 @@
       },
       "revId": "1488885015db5e8df4d0ad4d150afee2da1bacb1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c40442a_cfd6d839",
+        "filename": "test/retjmp.dir/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-12-13T20:30:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6cab3789_df225b7f",
+      "range": {
+        "startLine": 27,
+        "startChar": 9,
+        "endLine": 27,
+        "endChar": 11
+      },
+      "revId": "1488885015db5e8df4d0ad4d150afee2da1bacb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
