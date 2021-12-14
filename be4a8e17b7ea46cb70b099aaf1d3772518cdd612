@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86563a42_ec9428b4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-12-14T22:36:19Z",
+      "side": 1,
+      "message": "Drop this ink, the CL reference in the earlier line is sufficient.",
+      "revId": "be4a8e17b7ea46cb70b099aaf1d3772518cdd612",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f64f67b_bb2f8d3f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-12-14T22:36:19Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "be4a8e17b7ea46cb70b099aaf1d3772518cdd612",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
