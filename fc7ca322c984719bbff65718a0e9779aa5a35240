@@ -53,6 +53,23 @@
       "message": "I\u0027ll likely wait on checking this in until after beta1 is released.\n",
       "revId": "fc7ca322c984719bbff65718a0e9779aa5a35240",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3258dea_c34d6d3b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6010
+      },
+      "writtenOn": "2021-12-14T12:46:38Z",
+      "side": 1,
+      "message": "One thing: perhaps remove the old, more complicated test case?",
+      "revId": "fc7ca322c984719bbff65718a0e9779aa5a35240",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
