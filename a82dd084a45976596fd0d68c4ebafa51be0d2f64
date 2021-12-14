@@ -33,6 +33,23 @@
       "message": "I was able to gain access to a s390x system through a university and compile this code and verify that this is indeed functioning.  I guess I have an outstanding question:\n\n1. If there is a TODO, then didn\u0027t the author imply that something should be done to fix this issue?\n2. If you are strongly suggesting to leave this code as is, shouldn\u0027t this not be a TODO marked item?",
       "revId": "a82dd084a45976596fd0d68c4ebafa51be0d2f64",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e18e8e2d_0734f826",
+        "filename": "src/crypto/ecdsa/ecdsa_s390x.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2021-12-14T18:14:42Z",
+      "side": 1,
+      "message": "Leftover debug",
+      "revId": "a82dd084a45976596fd0d68c4ebafa51be0d2f64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
