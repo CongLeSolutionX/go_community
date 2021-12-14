@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b14c2ea_6316885e",
+        "filename": "src/internal/cpu/cpu.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-12-14T17:35:57Z",
+      "side": 1,
+      "message": "No need to have padding in the middle here.",
+      "revId": "71fef2a862a8bfc979f537e4d35ab3556b54945c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "facbbbde_d71f59a5",
+        "filename": "src/internal/cpu/cpu.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-12-14T17:35:57Z",
+      "side": 1,
+      "message": "This field needs a comment describing what it is.",
+      "revId": "71fef2a862a8bfc979f537e4d35ab3556b54945c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a359b72_1caa7c8c",
+        "filename": "src/internal/cpu/cpu_x86.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-12-14T17:35:57Z",
+      "side": 1,
+      "message": "I suspect this doesn\u0027t work for amd cpus.",
+      "revId": "71fef2a862a8bfc979f537e4d35ab3556b54945c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8add7299_523e593e",
+        "filename": "src/internal/cpu/cpu_x86.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-12-14T17:35:57Z",
+      "side": 1,
+      "message": "You don\u0027t need to declare this here. Just use cacheType :\u003d below.",
+      "revId": "71fef2a862a8bfc979f537e4d35ab3556b54945c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "496b461b_0a4ae229",
+        "filename": "src/runtime/memclr_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-12-14T17:35:57Z",
+      "side": 1,
+      "message": "This should be MOVL (or MOVLQZX, to be pedantic). Otherwise you\u0027re loading 4 bytes of junk into the upper bits.",
+      "range": {
+        "startLine": 73,
+        "startChar": 1,
+        "endLine": 73,
+        "endChar": 5
+      },
+      "revId": "71fef2a862a8bfc979f537e4d35ab3556b54945c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
