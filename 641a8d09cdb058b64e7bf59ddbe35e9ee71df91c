@@ -34,6 +34,23 @@
       "parentUuid": "5f0a4ad1_26dcc743",
       "revId": "641a8d09cdb058b64e7bf59ddbe35e9ee71df91c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a8afc2a_5a68f5e0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-12-15T20:07:38Z",
+      "side": 1,
+      "message": "Normally when we change code we add a test to verify that the change worked and to ensure that the code does not backslide.  The test should fail before the change and pass after the change.  I would expect this pull request to include a change to image/jpeg/reader_test.go, perhaps with a new testdata file.  Thanks.",
+      "revId": "641a8d09cdb058b64e7bf59ddbe35e9ee71df91c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
