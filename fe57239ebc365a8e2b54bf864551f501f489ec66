@@ -34,6 +34,24 @@
       "message": "We also don\u0027t allow embedding a stand-alone type parameter in an interface (this matters only for constraints at the moment as local type declarations don\u0027t work yet).\n\nNot sure if you want to mention this.",
       "revId": "fe57239ebc365a8e2b54bf864551f501f489ec66",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e24a0b1f_126cd358",
+        "filename": "doc/go1.18.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-12-15T00:17:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "092f4115_8b0edb2d",
+      "revId": "fe57239ebc365a8e2b54bf864551f501f489ec66",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
