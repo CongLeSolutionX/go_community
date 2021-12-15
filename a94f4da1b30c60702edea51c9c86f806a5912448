@@ -124,6 +124,24 @@
       "parentUuid": "be53d8f9_3e71c244",
       "revId": "a94f4da1b30c60702edea51c9c86f806a5912448",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58311537_f05fb9f5",
+        "filename": "src/cmd/go/internal/vcs/vcs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 54938
+      },
+      "writtenOn": "2021-12-15T19:42:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c603261_14e34254",
+      "revId": "a94f4da1b30c60702edea51c9c86f806a5912448",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
