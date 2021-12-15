@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "41d7a015_12b7cdc1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-12-15T20:12:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24b29d02_05119938",
+      "revId": "7100f5add675dc0fc233da08ebfd0be5fa3a94b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "00f57247_eebf4420",
@@ -89,6 +107,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4626ed2_d5764811",
+        "filename": "src/cmd/compile/internal/types/identity.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-12-15T20:12:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b69205a1_30621d0b",
+      "revId": "7100f5add675dc0fc233da08ebfd0be5fa3a94b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c8a117a6_3ac777e5",
@@ -102,6 +138,24 @@
       "writtenOn": "2021-12-15T18:01:23Z",
       "side": 1,
       "message": "Probably change t.sym -\u003e t.Sym()?  We mostly use t.Sym() even inside the types package.",
+      "revId": "7100f5add675dc0fc233da08ebfd0be5fa3a94b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a9228c0_c5419efc",
+        "filename": "src/cmd/compile/internal/types/identity.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-12-15T20:12:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8a117a6_3ac777e5",
       "revId": "7100f5add675dc0fc233da08ebfd0be5fa3a94b9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
