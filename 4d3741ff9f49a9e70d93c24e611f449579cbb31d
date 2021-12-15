@@ -36,6 +36,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c00073de_2089f23b",
+        "filename": "src/cmd/go/testdata/script/version_buildvcs_git_gpg.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 54938
+      },
+      "writtenOn": "2021-12-15T04:48:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b1c25694_f260c799",
+      "revId": "4d3741ff9f49a9e70d93c24e611f449579cbb31d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "28e1cf9b_c049b974",
@@ -67,6 +85,24 @@
       "side": 1,
       "message": "Not sure about a variable, but you can definitely copy it to a file. (For example: https://cs.opensource.google/go/go/+/master:src/cmd/go/testdata/script/test_race_install_cgo.txt;l\u003d8-11;drc\u003d9bc52686da81b515cf3ad654dfb1a536fabceafa)",
       "parentUuid": "28e1cf9b_c049b974",
+      "revId": "4d3741ff9f49a9e70d93c24e611f449579cbb31d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5a31741_ac85e817",
+        "filename": "src/cmd/go/testdata/script/version_buildvcs_git_gpg.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 54938
+      },
+      "writtenOn": "2021-12-15T04:48:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c7a3002_92af2cf0",
       "revId": "4d3741ff9f49a9e70d93c24e611f449579cbb31d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
