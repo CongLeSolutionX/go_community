@@ -70,6 +70,24 @@
       "message": "Nit: probably not needed - do you want to do the switch like at 2453, so you check for a weird complex size (not 8 or 16)?",
       "revId": "3bebd5e216277598ea2db2e21eae13d82e3b33a7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9c4b559_31d9d343",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2481,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-12-15T22:41:00Z",
+      "side": 1,
+      "message": "Or just use FloatForComplex ?",
+      "parentUuid": "524bea0e_227cf35f",
+      "revId": "3bebd5e216277598ea2db2e21eae13d82e3b33a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
