@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "594daa94_f359ce16",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34852
+      },
+      "writtenOn": "2021-12-15T20:50:09Z",
+      "side": 1,
+      "message": "This PR isn\u0027t abandoned but waiting for feedback. In my opinion it is ready to be merged.",
+      "revId": "dde3092ec0b31ba87eecaf33546986bc67fd515d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
