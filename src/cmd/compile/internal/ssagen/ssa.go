@@ -2382,7 +2382,7 @@ func (s *state) ssaShiftOp(op ir.Op, t *types.Type, u *types.Type) ssa.Op {
 func (s *state) conv(n ir.Node, v *ssa.Value, ft, tt *types.Type) *ssa.Value {
 	if ft.IsBoolean() && tt.IsKind(types.TUINT8) {
 		// Bool -> uint8 is generated internally when indexing into runtime.staticbyte.
-		return s.newValue1(ssa.OpCopy, tt, v)
+		return s.newValue1(ssa.OpCvtBoolToUint8, tt, v)
 	}
 	if ft.IsInteger() && tt.IsInteger() {
 		var op ssa.Op
@@ -2444,6 +2444,43 @@ func (s *state) conv(n ir.Node, v *ssa.Value, ft, tt *types.Type) *ssa.Value {
 			}
 		}
 		return s.newValue1(op, tt, v)
+	}
+
+	if ft.IsComplex() && tt.IsComplex() {
+		var op ssa.Op
+		if ft.Size() == tt.Size() {
+			switch ft.Size() {
+			case 8:
+				op = ssa.OpRound32F
+			case 16:
+				op = ssa.OpRound64F
+			default:
+				s.Fatalf("weird complex conversion %v -> %v", ft, tt)
+			}
+		} else if ft.Size() == 8 && tt.Size() == 16 {
+			op = ssa.OpCvt32Fto64F
+		} else if ft.Size() == 16 && tt.Size() == 8 {
+			op = ssa.OpCvt64Fto32F
+		} else {
+			s.Fatalf("weird complex conversion %v -> %v", ft, tt)
+		}
+		ftp := types.FloatForComplex(ft)
+		ttp := types.FloatForComplex(tt)
+		return s.newValue2(ssa.OpComplexMake, tt,
+			s.newValueOrSfCall1(op, ttp, s.newValue1(ssa.OpComplexReal, ftp, v)),
+			s.newValueOrSfCall1(op, ttp, s.newValue1(ssa.OpComplexImag, ftp, v)))
+	}
+
+	if tt.IsComplex() { // and ft is not complex
+		// Needed for generics support - can't happen in normal Go code.
+		var et *types.Type
+		if tt.Size() == 8 {
+			et = types.Types[types.TFLOAT32]
+		} else {
+			et = types.Types[types.TFLOAT64]
+		}
+		v = s.conv(n, v, ft, et)
+		return s.newValue2(ssa.OpComplexMake, tt, v, s.zeroVal(et))
 	}
 
 	if ft.IsFloat() || tt.IsFloat() {
@@ -2517,31 +2554,6 @@ func (s *state) conv(n ir.Node, v *ssa.Value, ft, tt *types.Type) *ssa.Value {
 		}
 		s.Fatalf("weird float to unsigned integer conversion %v -> %v", ft, tt)
 		return nil
-	}
-
-	if ft.IsComplex() && tt.IsComplex() {
-		var op ssa.Op
-		if ft.Size() == tt.Size() {
-			switch ft.Size() {
-			case 8:
-				op = ssa.OpRound32F
-			case 16:
-				op = ssa.OpRound64F
-			default:
-				s.Fatalf("weird complex conversion %v -> %v", ft, tt)
-			}
-		} else if ft.Size() == 8 && tt.Size() == 16 {
-			op = ssa.OpCvt32Fto64F
-		} else if ft.Size() == 16 && tt.Size() == 8 {
-			op = ssa.OpCvt64Fto32F
-		} else {
-			s.Fatalf("weird complex conversion %v -> %v", ft, tt)
-		}
-		ftp := types.FloatForComplex(ft)
-		ttp := types.FloatForComplex(tt)
-		return s.newValue2(ssa.OpComplexMake, tt,
-			s.newValueOrSfCall1(op, ttp, s.newValue1(ssa.OpComplexReal, ftp, v)),
-			s.newValueOrSfCall1(op, ttp, s.newValue1(ssa.OpComplexImag, ftp, v)))
 	}
 
 	s.Fatalf("unhandled OCONV %s -> %s", ft.Kind(), tt.Kind())
