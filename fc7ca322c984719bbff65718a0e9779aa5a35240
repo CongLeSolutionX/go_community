@@ -70,6 +70,41 @@
       "message": "One thing: perhaps remove the old, more complicated test case?",
       "revId": "fc7ca322c984719bbff65718a0e9779aa5a35240",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "954d72e0_0ef6912d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-12-15T23:51:50Z",
+      "side": 1,
+      "message": "I think the older test case was not too complex, and has some extra code that might be useful for testing other things as well, so I think I\u0027ll leave it in.",
+      "parentUuid": "c3258dea_c34d6d3b",
+      "revId": "fc7ca322c984719bbff65718a0e9779aa5a35240",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "868f082a_ad12b21b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2021-12-15T23:51:50Z",
+      "side": 1,
+      "message": "Thanks for the review!",
+      "revId": "fc7ca322c984719bbff65718a0e9779aa5a35240",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
