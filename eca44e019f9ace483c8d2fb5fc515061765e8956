@@ -124,6 +124,24 @@
       "message": "The timeout here has a suffix of \"sms\".  Do you mean just \"s\"?  If it\u0027s \"ms\" then going up to 4s seems like a big jump.",
       "revId": "eca44e019f9ace483c8d2fb5fc515061765e8956",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2dfff5d0_56b3fab2",
+        "filename": "src/net/timeout_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-12-15T22:33:20Z",
+      "side": 1,
+      "message": "Fixed. Just a typo: this was a ~4s write with a ~3s timeout.",
+      "parentUuid": "bc864abe_23d7d687",
+      "revId": "eca44e019f9ace483c8d2fb5fc515061765e8956",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
