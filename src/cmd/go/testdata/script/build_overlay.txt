@@ -64,6 +64,7 @@ stdout '^true$'
 # Run same tests but with gccgo.
 env GO111MODULE=off
 [!exec:gccgo] stop
+[cross] stop  # gccgo can't necessarily cross-compile
 
 ! go build -compiler=gccgo .
 go build -compiler=gccgo -overlay overlay.json -o main_gccgo$GOEXE .

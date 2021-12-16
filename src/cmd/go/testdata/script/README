@@ -35,6 +35,8 @@ Scripts also have access to these other environment variables:
 	GOROOT=<actual GOROOT>
 	GOROOT_FINAL=<actual GOROOT_FINAL>
 	TESTGO_GOROOT=<GOROOT used to build cmd/go, for use in tests that may change GOROOT>
+	TESTGO_GOHOSTARCH=<GOHOSTARCH of the installed native toolchain>
+	TETSGO_GOHOSTOS=<GOHOSTOS of the installed native toolchain>
 	HOME=/no-home
 	PATH=<actual PATH>
 	TMPDIR=$WORK/tmp
@@ -84,6 +86,7 @@ should only run when the condition is satisfied. The available conditions are:
    - [fuzz-instrumented] for whether 'go test -fuzz' uses coverage-instrumented binaries
    - [net] for whether the external network can be used
    - [link] for testenv.HasLink()
+   - [cross] for whether GOOS and/or GOARCH differs from the installed native toolchain
    - [root] for os.Geteuid() == 0
    - [symlink] for testenv.HasSymlink()
    - [case-sensitive] for whether the file system is case-sensitive
