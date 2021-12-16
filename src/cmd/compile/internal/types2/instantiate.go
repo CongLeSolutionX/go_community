@@ -157,7 +157,7 @@ func (check *Checker) verify(pos syntax.Pos, tparams []*TypeParam, targs []Type)
 
 // implements checks if V implements T and reports an error if it doesn't.
 // If a qualifier is provided, it is used in error formatting.
-func (check *Checker) implements(V, T Type, qf Qualifier) error {
+func (check *Checker) implements(V, T Type, qf Qualifier) (err error) {
 	Vu := under(V)
 	Tu := under(T)
 	if Vu == Typ[Invalid] || Tu == Typ[Invalid] {
@@ -192,17 +192,7 @@ func (check *Checker) implements(V, T Type, qf Qualifier) error {
 		return errorf("cannot implement %s (empty type set)", T)
 	}
 
-	// If T is comparable, V must be comparable.
-	// TODO(gri) the error messages could be better, here
-	if Ti.IsComparable() && !Comparable(V) {
-		if Vi != nil && Vi.Empty() {
-			return errorf("empty interface %s does not implement %s", V, T)
-		}
-		return errorf("%s does not implement comparable", V)
-	}
-
-	// V must implement T (methods)
-	// - check only if we have methods
+	// V must implement T's methods, if any.
 	if Ti.NumMethods() > 0 {
 		if m, wrong := check.missingMethod(V, Ti, true); m != nil {
 			// TODO(gri) needs to print updated name to avoid major confusion in error message!
@@ -218,6 +208,16 @@ func (check *Checker) implements(V, T Type, qf Qualifier) error {
 			}
 			return errorf("%s does not implement %s (missing method %s)", V, T, m.name)
 		}
+	}
+
+	// If T is comparable, V must be comparable.
+	// Only report this if we don't have a more specific error.
+	if Ti.IsComparable() && !Comparable(V) {
+		defer func() {
+			if err == nil {
+				err = errorf("%s does not implement comparable", V)
+			}
+		}()
 	}
 
 	// V must also be in the set of types of T, if any.
