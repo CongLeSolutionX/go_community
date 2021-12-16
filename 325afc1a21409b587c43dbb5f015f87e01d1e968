@@ -146,6 +146,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf3ffdbc_34c4d7f9",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-12-16T20:19:17Z",
+      "side": 1,
+      "message": "Good question. At this point I don\u0027t recall. 😅",
+      "parentUuid": "149fa132_ddbdc9d1",
+      "revId": "325afc1a21409b587c43dbb5f015f87e01d1e968",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c23fe396_8044300e",
@@ -159,6 +177,24 @@
       "writtenOn": "2021-10-22T21:40:15Z",
       "side": 1,
       "message": "These new environment variables should be documented in testdata/script/README.",
+      "revId": "325afc1a21409b587c43dbb5f015f87e01d1e968",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8b4c5d3_7d00edd8",
+        "filename": "src/cmd/go/script_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-12-16T20:19:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c23fe396_8044300e",
       "revId": "325afc1a21409b587c43dbb5f015f87e01d1e968",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -180,6 +216,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d62e71c0_a2da0aa1",
+        "filename": "src/cmd/go/script_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-12-16T20:19:17Z",
+      "side": 1,
+      "message": "The cgoEnabled variable is the output of \"go env CGO_ENABLED\", so it should always be either \"0\" or \"1\". (Expanded the comment to clarify.)",
+      "parentUuid": "c443e42b_fc92fb1d",
+      "revId": "325afc1a21409b587c43dbb5f015f87e01d1e968",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b09923af_e6bb46a7",
@@ -197,6 +251,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "38087f9c_c827ca2d",
+        "filename": "src/cmd/go/script_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-12-16T20:19:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b09923af_e6bb46a7",
+      "revId": "325afc1a21409b587c43dbb5f015f87e01d1e968",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5ef0e414_d750f212",
@@ -210,6 +282,24 @@
       "writtenOn": "2021-10-22T21:40:15Z",
       "side": 1,
       "message": "Not that it matters much, but why isn\u0027t this in the previous CL?",
+      "revId": "325afc1a21409b587c43dbb5f015f87e01d1e968",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5d185b9_6b29e593",
+        "filename": "src/cmd/go/testdata/script/mod_list_compiled_concurrent.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-12-16T20:19:17Z",
+      "side": 1,
+      "message": "Because git, I guess. 😞\n\nSplit into its own fixup CL.",
+      "parentUuid": "5ef0e414_d750f212",
       "revId": "325afc1a21409b587c43dbb5f015f87e01d1e968",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
