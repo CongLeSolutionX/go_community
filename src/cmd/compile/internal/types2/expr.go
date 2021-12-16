@@ -786,14 +786,18 @@ func (check *Checker) comparison(x, y *operand, op syntax.Operator) {
 			unreachable()
 		}
 		if !defined {
-			typ := x.typ
-			if x.isNil() {
-				typ = y.typ
-			}
-			if check.conf.CompilerErrorMessages {
-				err = check.sprintf("operator %s not defined on %s", op, typ)
+			if isTypeParam(x.typ) || isTypeParam(y.typ) {
+				typ := x.typ
+				if isTypeParam(y.typ) {
+					typ = y.typ
+				}
+				err = check.sprintf("%s is not comparable", typ)
 			} else {
-				err = check.sprintf("operator %s not defined for %s", op, typ)
+				typ := x.typ
+				if x.isNil() {
+					typ = y.typ
+				}
+				err = check.sprintf("operator %s not defined on %s", op, typ)
 			}
 		}
 	} else {
