@@ -53,6 +53,24 @@
       "message": "Keith, what do you think about this as a fix for #50200?\n\nWe could also include all builtin-packages by name in the check (via a list in a constant map?), but it seems like there is no general rule that distinguishes exactly the runtime packages.\n",
       "revId": "b86ff5b22afa841c5f03e8598acabbb29d4878cf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2ef6cd2_4e534c21",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2021-12-16T22:01:10Z",
+      "side": 1,
+      "message": "Sure. I think maybe we should normalize how the go.* packages look so we can apply a consistent rule for all of them, but not for 1.18.",
+      "parentUuid": "a35557d8_439d7e1d",
+      "revId": "b86ff5b22afa841c5f03e8598acabbb29d4878cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
