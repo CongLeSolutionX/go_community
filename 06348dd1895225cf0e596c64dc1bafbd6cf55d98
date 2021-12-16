@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "56a44877_bead8ab9",
+        "filename": "src/runtime/pprof/pprof_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-12-16T21:42:32Z",
+      "side": 1,
+      "message": "\u003e It would be really helpful to log how much parallelism the test tries to use. When the parallel portion fails, I\u0027ve looked up the builder config in x/build, but that\u0027s tedious and also won\u0027t work for reports from the field.\n\nAgreed, done.\n\n\u003e On top of that, now that the serial and parallel parts will be different subtests, when only the serial portion fails it would be helpful to know how many Ms and Ps it had access to (even though the cpuHog itself would only have made use of 1).\n\nI don\u0027t quite follow what you mean here. I suppose I can imagine how knowing the number of idle Ms and Ps there are could be, how do you propose we surface this?",
+      "parentUuid": "d090e676_8523be37",
+      "revId": "06348dd1895225cf0e596c64dc1bafbd6cf55d98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "5c47e2b5_103e6abd",
@@ -68,6 +86,24 @@
       "writtenOn": "2021-12-16T21:22:21Z",
       "side": 1,
       "message": "Because the call to testCPUProfile now uses a subtest\u0027s testing.T (and so will announce the name of the test ahead of that function logging the profile contents), do we still need the serial portion to be a different function?\n\nIf parallelHog took parallelism as an argument, would that improve the structure or output at all? The serial portion\u0027s stacks today are very long, and (unnecessarily) different from the parallel part\u0027s stacks.",
+      "revId": "06348dd1895225cf0e596c64dc1bafbd6cf55d98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92b2f25e_cc5d7f67",
+        "filename": "src/runtime/pprof/pprof_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-12-16T21:42:32Z",
+      "side": 1,
+      "message": "Sure, we can merge them.",
+      "parentUuid": "5c47e2b5_103e6abd",
       "revId": "06348dd1895225cf0e596c64dc1bafbd6cf55d98",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
