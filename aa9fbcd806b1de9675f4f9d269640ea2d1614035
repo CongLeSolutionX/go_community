@@ -91,6 +91,42 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "380cf528_3b72e1f6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-12-16T18:59:38Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3956f5dc_eae75146",
+      "revId": "aa9fbcd806b1de9675f4f9d269640ea2d1614035",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "feced055_83b13876",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-12-16T18:59:38Z",
+      "side": 1,
+      "message": "Indeed — seems that os.Stat doesn\u0027t perform whatever syscall is needed to set the execute bit. 🤷‍♂️",
+      "parentUuid": "4f9a65ce_d08dab83",
+      "revId": "aa9fbcd806b1de9675f4f9d269640ea2d1614035",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cd8193b6_c564b3a7",
@@ -104,6 +140,24 @@
       "writtenOn": "2021-12-04T03:28:08Z",
       "side": 1,
       "message": "I think you should revert the change in this comment.",
+      "revId": "aa9fbcd806b1de9675f4f9d269640ea2d1614035",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28387c2b_c6c5ebd1",
+        "filename": "misc/cgo/testcarchive/carchive_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 833,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-12-16T18:59:38Z",
+      "side": 1,
+      "message": "Indeed! I\u0027m not sure how I ended up making that change in the first place. 😅",
+      "parentUuid": "cd8193b6_c564b3a7",
       "revId": "aa9fbcd806b1de9675f4f9d269640ea2d1614035",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
