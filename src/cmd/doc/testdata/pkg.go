@@ -238,3 +238,11 @@ type ExportedFormattedType struct {
 	// Text after pre-formatted block.
 	ExportedField int
 }
+
+type SimpleConstraint interface {
+	~int | ~float64
+}
+
+type TildeConstraint interface {
+	~int
+}
