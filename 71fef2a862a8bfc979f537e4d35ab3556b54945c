@@ -137,6 +137,30 @@
       },
       "revId": "71fef2a862a8bfc979f537e4d35ab3556b54945c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e190fb9_ccc61a99",
+        "filename": "src/runtime/memclr_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 52588
+      },
+      "writtenOn": "2021-12-19T19:05:24Z",
+      "side": 1,
+      "message": "Thanks for running the benchmarks!\n\nI thought REP STOS also bypasses cache for larger sizes. Maybe it was only REP MOV which definitely does. Maybe it depends on the cpu.\n\nOne interesting case that could benefit from rep stos more than explicit avx2 is also machines with larger registers (avx512 which might not even need to be supported externally e.g. pentium variants). Or machines with no avx2 but internally better processing (pentiums variants of core architectures).\n\nI see if I can run some benchmarks myself in the coming weeks. There definitely is room for improvement here.\n\nIf we can get improvements without needing to depend on LLC (can be L2,L3,L4...) that would seem to only works on Intel I would prefer to merge those first. It will also get more complex with inclusive vs non-inclusive caches and multi cpu machines.",
+      "parentUuid": "496a4821_989cb1bf",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 53
+      },
+      "revId": "71fef2a862a8bfc979f537e4d35ab3556b54945c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
