@@ -113,6 +113,30 @@
       },
       "revId": "71fef2a862a8bfc979f537e4d35ab3556b54945c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "496a4821_989cb1bf",
+        "filename": "src/runtime/memclr_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 52933
+      },
+      "writtenOn": "2021-12-19T09:45:10Z",
+      "side": 1,
+      "message": "Run several benchmarks on REP STOSQ. Implementation which are compared:\n1) AVX2_small (loop_avx2 in memclr_amd64.s): uses VMOVDQU\n2) AVX2_huge (loop_avx2_huge in memclr_amd64.s): uses VMOVNTDQ\n3) REP STOSQ: implemented as simple as:\n      MOVQ\tBX, CX\n      SHRQ\t$3, CX\n      ANDQ\t$7, BX\n      REP;\tSTOSQ\n      JMP\ttail\n      \nSumups: \n*   REP STOS has startup cost and it shows worse performance comparing to AVX2_small running on\n    small sizes. But it has better perofrmance at ~1-2MB mark based on benchmarks.\n*   Non-temporal stores show better performance running on sizes which increase size of L3 cache.\n\nFull test data: https://gist.github.com/nimelehin/6e8e9765e7a8e9ce833ad7864528ae01\n\nMaybe it\u0027s worth to implement logic of memclr in the following way:\n1) The standard implementation for size which are less than L3 cache size is AVX2_small\n2) Based on if ERMS supported use REP STOSQ for sizes \u003e\u003d2MB and less than L3 cache size.\n3) For all sizes bigger than L3 cache size use non-temporal stores.",
+      "parentUuid": "b90c5d58_fe4b65d3",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 53
+      },
+      "revId": "71fef2a862a8bfc979f537e4d35ab3556b54945c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
