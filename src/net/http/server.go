@@ -495,7 +495,7 @@ type response struct {
 // or known before the header is written, the normal Go trailers mechanism
 // is preferred:
 //    https://golang.org/pkg/net/http/#ResponseWriter
-//    https://golang.org/pkg/net/http/#example_ResponseWriter_trailers
+//    https://golang.org/pkg/net/http/#example-ResponseWriter-Trailers
 const TrailerPrefix = "Trailer:"
 
 // finalTrailers is called after the Handler exits and returns a non-nil
