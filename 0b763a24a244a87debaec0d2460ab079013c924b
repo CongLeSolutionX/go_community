@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d9e7377_1eb1a6fd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 34661
+      },
+      "writtenOn": "2021-12-20T00:39:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b6bf9a0_5f61fce1",
+      "revId": "0b763a24a244a87debaec0d2460ab079013c924b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2fa44a20_b316a04a",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-12-19T19:47:50Z",
       "side": 1,
       "message": "I don\u0027t think we really need this paragraph.  The topic is enough.",
+      "revId": "0b763a24a244a87debaec0d2460ab079013c924b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b36e9e17_e3cfeed0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 34661
+      },
+      "writtenOn": "2021-12-20T00:39:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2fa44a20_b316a04a",
       "revId": "0b763a24a244a87debaec0d2460ab079013c924b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
