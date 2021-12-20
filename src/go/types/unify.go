@@ -452,6 +452,9 @@ func (u *unifier) nify(x, y Type, p *ifacePair) bool {
 		}
 
 	case *TypeParam:
+		if xbound := structuralType(x); xbound != nil {
+			return u.nify(xbound, y, p)
+		}
 		// Two type parameters (which are not part of the type parameters of the
 		// enclosing type as those are handled in the beginning of this function)
 		// are identical if they originate in the same declaration.

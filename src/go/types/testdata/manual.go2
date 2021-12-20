@@ -7,3 +7,20 @@
 
 package p
 
+func a[T any, S ~[]T](s S) int {
+	bl := b(s)
+	cl := c(s, []T(s))
+	return bl + cl
+}
+
+func b[T any, S ~[]T](s S) int {
+	return len(s)
+}
+
+func c[T any, S1, S2 ~[]T](s1 S1, s2 S2) int {
+	return len(s1) + len(s2)
+}
+
+func _() {
+	a(make([]int, 0))
+}
