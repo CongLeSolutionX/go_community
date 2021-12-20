@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68937be6_e969cc77",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-12-20T22:06:10Z",
+      "side": 1,
+      "message": "Thanks.  As long as we are touching these lines, let\u0027s switch them to go.dev rather than golang.org.  Thanks.",
+      "revId": "e044d24121037053127f63ea22a5285f2c79da2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
