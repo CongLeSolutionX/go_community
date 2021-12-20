@@ -161,6 +161,30 @@
       },
       "revId": "71fef2a862a8bfc979f537e4d35ab3556b54945c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3c22c68_d0592ca9",
+        "filename": "src/runtime/memclr_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 52933
+      },
+      "writtenOn": "2021-12-20T10:43:22Z",
+      "side": 1,
+      "message": "REP STOS DOES bypasses cache for larger sizes. I measured cache-references and it\u0027s ~200x less than VMOVDQU, while almost at the same level with NT MOVs.\n\nAVX2 small:\n    13,732,741,034      cache-references\n     3,614,721,625      cache-misses              #   26.322 % of all cache refs\nAVX2 huge:\n       488,527,576      cache-references\n        94,434,053      cache-misses              #   19.330 % of all cache refs\nREP STOS:\n        76,390,554      cache-references\n        13,121,460      cache-misses              #   17.177 % of all cache refs\n\nI remeasured performance and it still worse for REP STOS(B|Q) comparing to Non-Temporal moves. I tested one more Intel i7-8700, the results are the same. I used benchmark from memmove_test.go, but since it runs several memclr with the same size, AVX2 could show better results because of a trained branch-predictor. Intel mentioned that in Optimization Guide Section 15.16.3.3.\n\nIt is also interesting what\u0027s going on with AMD CPUs. Unfortunately, I don\u0027t have any of them. Maybe you can test this on them.",
+      "parentUuid": "5e190fb9_ccc61a99",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 53
+      },
+      "revId": "71fef2a862a8bfc979f537e4d35ab3556b54945c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
