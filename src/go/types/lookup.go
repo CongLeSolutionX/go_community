@@ -401,20 +401,21 @@ func (check *Checker) missingMethodReason(V, T Type, m, wrongType *Func) string 
 		mname = "method " + m.Name()
 	}
 	if wrongType != nil {
+		pos := check.fset.Position(wrongType.Pos())
 		if Identical(m.typ, wrongType.typ) {
 			if m.Name() == wrongType.Name() {
 				r = fmt.Sprintf("(%s has pointer receiver)", mname)
 			} else {
-				r = fmt.Sprintf("(missing %s)\n\t\thave %s^^%s\n\t\twant %s^^%s",
-					mname, wrongType.Name(), wrongType.typ, m.Name(), m.typ)
+				r = fmt.Sprintf("(missing %s)\n\t\thave %s^^%s at %s\n\t\twant %s^^%s",
+					mname, wrongType.Name(), wrongType.typ, pos, m.Name(), m.typ)
 			}
 		} else {
 			if compilerErrorMessages {
-				r = fmt.Sprintf("(wrong type for %s)\n\t\thave %s^^%s\n\t\twant %s^^%s",
-					mname, wrongType.Name(), wrongType.typ, m.Name(), m.typ)
+				r = fmt.Sprintf("(wrong type for %s)\n\t\thave %s^^%s at %s\n\t\twant %s^^%s",
+					mname, wrongType.Name(), wrongType.typ, pos, m.Name(), m.typ)
 			} else {
-				r = fmt.Sprintf("(wrong type for %s: have %s, want %s)",
-					mname, wrongType.typ, m.typ)
+				r = fmt.Sprintf("(wrong type for %s)\n\thave %s at %s\n\twant %s",
+					mname, wrongType.typ, pos, m.typ)
 			}
 		}
 		// This is a hack to print the function type without the leading
