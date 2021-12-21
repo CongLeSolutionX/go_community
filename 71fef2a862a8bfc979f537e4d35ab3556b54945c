@@ -185,6 +185,30 @@
       },
       "revId": "71fef2a862a8bfc979f537e4d35ab3556b54945c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8675b5f_6e7685b0",
+        "filename": "src/runtime/memclr_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 52933
+      },
+      "writtenOn": "2021-12-21T20:06:55Z",
+      "side": 1,
+      "message": "Implemented a simple benchmark trying to confuse a branch predictor and simulate more realistic scenarios (see CL 373362).\n\nTesting memclr on sizes 2-8Kb there is a benefit of ~4% when using rep stos. It is close to what intel mentioned.\n\nResults: https://gist.github.com/nimelehin/82956a11f1a9aea4642da6b10abb4cac",
+      "parentUuid": "e3c22c68_d0592ca9",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 53
+      },
+      "revId": "71fef2a862a8bfc979f537e4d35ab3556b54945c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
