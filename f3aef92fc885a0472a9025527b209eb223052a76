@@ -127,6 +127,24 @@
       "parentUuid": "dfb66b68_3f948aa7",
       "revId": "f3aef92fc885a0472a9025527b209eb223052a76",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac7605f0_b93cb114",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2021-12-21T22:07:33Z",
+      "side": 1,
+      "message": "CL 372218 is submitted, rebasing this on top and trying again.",
+      "parentUuid": "eeb7f8f8_77f62ecb",
+      "revId": "f3aef92fc885a0472a9025527b209eb223052a76",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
