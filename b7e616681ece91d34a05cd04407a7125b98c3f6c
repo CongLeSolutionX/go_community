@@ -34,6 +34,24 @@
       "message": "Can .preinit_array and .fini_array reach here? If yes, perhaps set the types as well.",
       "revId": "b7e616681ece91d34a05cd04407a7125b98c3f6c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7de2912f_ab0fabd8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-12-21T18:13:49Z",
+      "side": 1,
+      "message": "The Go linker is not a general ELF linker.  It only handles Go objects.  It will never generate a .preinit_array or .fini_array section (and if it ever does, and does not set the section type correctly, the test will catch it).",
+      "parentUuid": "4f9e3cab_5f420505",
+      "revId": "b7e616681ece91d34a05cd04407a7125b98c3f6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
