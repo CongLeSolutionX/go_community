@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aef4d44c_874136f0",
+        "filename": "doc/go1.18.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 720,
+      "author": {
+        "id": 12425
+      },
+      "writtenOn": "2021-12-22T04:05:04Z",
+      "side": 1,
+      "message": "Oh dear, I have no idea how that \u003c/p\u003e got in there. Opening a follow up soon. Sorry.",
+      "revId": "ebac50e9cef66920ecfe018252ffdc2294a0c249",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
