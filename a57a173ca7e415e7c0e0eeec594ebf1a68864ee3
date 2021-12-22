@@ -16,6 +16,24 @@
       "message": "There are also a few additional flags available within the go command with go test (e.g. -fuzztime, -fuzzminimizetime). I didn\u0027t plan on calling those out in the 1.18 docs, but since we\u0027re calling out testing.F, do you think we should?",
       "revId": "a57a173ca7e415e7c0e0eeec594ebf1a68864ee3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "19f3f83a_50fdaea9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-12-22T18:38:37Z",
+      "side": 1,
+      "message": "Yes, ideally in the \"Go command\" section there will be a short paragraph saying something like \"new options to support fuzzing: -fuzz, ....\"  Would you like me to write that, or do you want to do it?\n\nNote that many people read the release notes from beginning to end.  I see it as more of an index.  So although few people will miss the fact that fuzzing has been added, it\u0027s still helpful to call out visible changes in specific areas.",
+      "parentUuid": "60bc7a8a_2b679828",
+      "revId": "a57a173ca7e415e7c0e0eeec594ebf1a68864ee3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
