@@ -52,6 +52,24 @@
       "parentUuid": "19f3f83a_50fdaea9",
       "revId": "a57a173ca7e415e7c0e0eeec594ebf1a68864ee3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a21764eb_6c9bd589",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-12-23T23:58:53Z",
+      "side": 1,
+      "message": "I sent you CL 374354 (no rush to review, of course).",
+      "parentUuid": "fb3f3867_78143cf8",
+      "revId": "a57a173ca7e415e7c0e0eeec594ebf1a68864ee3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
