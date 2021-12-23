@@ -52,36 +52,13 @@ var (
 
 // contexts are the default contexts which are scanned, unless
 // overridden by the -contexts flag.
-var contexts = []*build.Context{
-	{GOOS: "linux", GOARCH: "386", CgoEnabled: true},
-	{GOOS: "linux", GOARCH: "386"},
-	{GOOS: "linux", GOARCH: "amd64", CgoEnabled: true},
-	{GOOS: "linux", GOARCH: "amd64"},
-	{GOOS: "linux", GOARCH: "arm", CgoEnabled: true},
-	{GOOS: "linux", GOARCH: "arm"},
-	{GOOS: "darwin", GOARCH: "amd64", CgoEnabled: true},
-	{GOOS: "darwin", GOARCH: "amd64"},
-	{GOOS: "windows", GOARCH: "amd64"},
-	{GOOS: "windows", GOARCH: "386"},
-	{GOOS: "freebsd", GOARCH: "386", CgoEnabled: true},
-	{GOOS: "freebsd", GOARCH: "386"},
-	{GOOS: "freebsd", GOARCH: "amd64", CgoEnabled: true},
-	{GOOS: "freebsd", GOARCH: "amd64"},
-	{GOOS: "freebsd", GOARCH: "arm", CgoEnabled: true},
-	{GOOS: "freebsd", GOARCH: "arm"},
-	{GOOS: "netbsd", GOARCH: "386", CgoEnabled: true},
-	{GOOS: "netbsd", GOARCH: "386"},
-	{GOOS: "netbsd", GOARCH: "amd64", CgoEnabled: true},
-	{GOOS: "netbsd", GOARCH: "amd64"},
-	{GOOS: "netbsd", GOARCH: "arm", CgoEnabled: true},
-	{GOOS: "netbsd", GOARCH: "arm"},
-	{GOOS: "netbsd", GOARCH: "arm64", CgoEnabled: true},
-	{GOOS: "netbsd", GOARCH: "arm64"},
-	{GOOS: "openbsd", GOARCH: "386", CgoEnabled: true},
-	{GOOS: "openbsd", GOARCH: "386"},
-	{GOOS: "openbsd", GOARCH: "amd64", CgoEnabled: true},
-	{GOOS: "openbsd", GOARCH: "amd64"},
-}
+var (
+	contexts             = []*build.Context{}
+	firstClassPorts      = []*build.Context{}
+	nonFirstClassPorts   = []*build.Context{}
+	firstClassStrings    = []string{}
+	nonFirstClassStrings = []string{}
+)
 
 func contextName(c *build.Context) string {
 	s := c.GOOS + "-" + c.GOARCH
@@ -113,6 +90,57 @@ func parseContext(c string) *build.Context {
 	return bc
 }
 
+// sortPorts loads the lists of ports from "go tool dist list -json".
+func sortPorts() {
+	type jsonResult struct {
+		GOOS, GOARCH string
+		CgoSupported bool
+		FirstClass   bool
+	}
+	out, err := exec.Command("go", "tool", "dist", "list", "-json").Output()
+	if err != nil {
+		log.Fatal(err)
+	}
+	var results []jsonResult
+	if err := json.Unmarshal(out, &results); err != nil {
+		log.Fatal(err)
+	}
+	for _, result := range results {
+		c := &build.Context{
+			GOOS:       result.GOOS,
+			GOARCH:     result.GOARCH,
+			CgoEnabled: result.CgoSupported,
+		}
+		if result.FirstClass {
+			firstClassPorts = append(firstClassPorts, c)
+			firstClassStrings = append(firstClassStrings, fmt.Sprint("(", contextName(c), ")"))
+			if c.CgoEnabled {
+				c := &build.Context{
+					GOOS:       result.GOOS,
+					GOARCH:     result.GOARCH,
+					CgoEnabled: false,
+				}
+				firstClassPorts = append(firstClassPorts, c)
+				firstClassStrings = append(firstClassStrings, fmt.Sprint("(", contextName(c), ")"))
+			}
+		} else {
+			nonFirstClassPorts = append(nonFirstClassPorts, c)
+			nonFirstClassStrings = append(nonFirstClassStrings, fmt.Sprint("(", contextName(c), ")"))
+			if c.CgoEnabled {
+				c := &build.Context{
+					GOOS:       result.GOOS,
+					GOARCH:     result.GOARCH,
+					CgoEnabled: false,
+				}
+				nonFirstClassPorts = append(nonFirstClassPorts, c)
+				nonFirstClassStrings = append(nonFirstClassStrings, fmt.Sprint("(", contextName(c), ")"))
+			}
+		}
+	}
+	contexts = firstClassPorts
+	contexts = append(contexts, nonFirstClassPorts...)
+}
+
 func setContexts() {
 	contexts = []*build.Context{}
 	for _, c := range strings.Split(*forceCtx, ",") {
@@ -132,7 +160,9 @@ func main() {
 		}
 	}
 
-	if *forceCtx != "" {
+	if *forceCtx == "" {
+		sortPorts()
+	} else {
 		setContexts()
 	}
 	for _, c := range contexts {
@@ -243,6 +273,7 @@ func set(items []string) map[string]bool {
 }
 
 var spaceParensRx = regexp.MustCompile(` \(\S+?\)`)
+var featurePort = regexp.MustCompile(`\([a-z0-9]+?(-[a-z0-9]+?){1,2}\)`)
 
 func featureWithoutContext(f string) string {
 	if !strings.Contains(f, "(") {

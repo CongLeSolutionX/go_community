@@ -1,0 +1,244 @@
+pkg net (freebsd-386-cgo), method (*UnixListener) SetUnlinkOnClose(bool)
+pkg syscall (freebsd-386-cgo), const AF_INET = 2
+pkg syscall (freebsd-386-cgo), const AF_INET ideal-int
+pkg syscall (freebsd-386-cgo), const AF_INET6 ideal-int
+pkg syscall (freebsd-386-cgo), const AF_UNIX = 1
+pkg syscall (freebsd-386-cgo), const AF_UNIX ideal-int
+pkg syscall (freebsd-386-cgo), const AF_UNSPEC = 0
+pkg syscall (freebsd-386-cgo), const AF_UNSPEC ideal-int
+pkg syscall (freebsd-386-cgo), const E2BIG Errno
+pkg syscall (freebsd-386-cgo), const EACCES Errno
+pkg syscall (freebsd-386-cgo), const EADDRINUSE Errno
+pkg syscall (freebsd-386-cgo), const EADDRNOTAVAIL Errno
+pkg syscall (freebsd-386-cgo), const EAFNOSUPPORT Errno
+pkg syscall (freebsd-386-cgo), const EAGAIN Errno
+pkg syscall (freebsd-386-cgo), const EALREADY Errno
+pkg syscall (freebsd-386-cgo), const EBADF Errno
+pkg syscall (freebsd-386-cgo), const EBUSY Errno
+pkg syscall (freebsd-386-cgo), const ECANCELED Errno
+pkg syscall (freebsd-386-cgo), const ECHILD Errno
+pkg syscall (freebsd-386-cgo), const ECONNABORTED Errno
+pkg syscall (freebsd-386-cgo), const ECONNREFUSED Errno
+pkg syscall (freebsd-386-cgo), const ECONNRESET Errno
+pkg syscall (freebsd-386-cgo), const EDEADLK Errno
+pkg syscall (freebsd-386-cgo), const EDESTADDRREQ Errno
+pkg syscall (freebsd-386-cgo), const EDOM Errno
+pkg syscall (freebsd-386-cgo), const EDQUOT Errno
+pkg syscall (freebsd-386-cgo), const EEXIST Errno
+pkg syscall (freebsd-386-cgo), const EFAULT Errno
+pkg syscall (freebsd-386-cgo), const EFBIG Errno
+pkg syscall (freebsd-386-cgo), const EHOSTDOWN Errno
+pkg syscall (freebsd-386-cgo), const EHOSTUNREACH Errno
+pkg syscall (freebsd-386-cgo), const EIDRM Errno
+pkg syscall (freebsd-386-cgo), const EILSEQ Errno
+pkg syscall (freebsd-386-cgo), const EINPROGRESS Errno
+pkg syscall (freebsd-386-cgo), const EINTR Errno
+pkg syscall (freebsd-386-cgo), const EINVAL Errno
+pkg syscall (freebsd-386-cgo), const EIO Errno
+pkg syscall (freebsd-386-cgo), const EISCONN Errno
+pkg syscall (freebsd-386-cgo), const EISDIR Errno
+pkg syscall (freebsd-386-cgo), const ELOOP Errno
+pkg syscall (freebsd-386-cgo), const EMFILE Errno
+pkg syscall (freebsd-386-cgo), const EMLINK Errno
+pkg syscall (freebsd-386-cgo), const EMSGSIZE Errno
+pkg syscall (freebsd-386-cgo), const ENAMETOOLONG Errno
+pkg syscall (freebsd-386-cgo), const ENETDOWN Errno
+pkg syscall (freebsd-386-cgo), const ENETRESET Errno
+pkg syscall (freebsd-386-cgo), const ENETUNREACH Errno
+pkg syscall (freebsd-386-cgo), const ENFILE Errno
+pkg syscall (freebsd-386-cgo), const ENOBUFS Errno
+pkg syscall (freebsd-386-cgo), const ENODEV Errno
+pkg syscall (freebsd-386-cgo), const ENOENT = 2
+pkg syscall (freebsd-386-cgo), const ENOENT Errno
+pkg syscall (freebsd-386-cgo), const ENOEXEC Errno
+pkg syscall (freebsd-386-cgo), const ENOLCK Errno
+pkg syscall (freebsd-386-cgo), const ENOMEM Errno
+pkg syscall (freebsd-386-cgo), const ENOMSG Errno
+pkg syscall (freebsd-386-cgo), const ENOPROTOOPT Errno
+pkg syscall (freebsd-386-cgo), const ENOSPC Errno
+pkg syscall (freebsd-386-cgo), const ENOSYS Errno
+pkg syscall (freebsd-386-cgo), const ENOTBLK Errno
+pkg syscall (freebsd-386-cgo), const ENOTCONN Errno
+pkg syscall (freebsd-386-cgo), const ENOTDIR Errno
+pkg syscall (freebsd-386-cgo), const ENOTEMPTY Errno
+pkg syscall (freebsd-386-cgo), const ENOTSOCK Errno
+pkg syscall (freebsd-386-cgo), const ENOTSUP Errno
+pkg syscall (freebsd-386-cgo), const ENOTTY Errno
+pkg syscall (freebsd-386-cgo), const ENXIO Errno
+pkg syscall (freebsd-386-cgo), const EOPNOTSUPP Errno
+pkg syscall (freebsd-386-cgo), const EOVERFLOW Errno
+pkg syscall (freebsd-386-cgo), const EPERM Errno
+pkg syscall (freebsd-386-cgo), const EPFNOSUPPORT Errno
+pkg syscall (freebsd-386-cgo), const EPIPE Errno
+pkg syscall (freebsd-386-cgo), const EPROTONOSUPPORT Errno
+pkg syscall (freebsd-386-cgo), const EPROTOTYPE Errno
+pkg syscall (freebsd-386-cgo), const ERANGE Errno
+pkg syscall (freebsd-386-cgo), const EREMOTE Errno
+pkg syscall (freebsd-386-cgo), const EROFS Errno
+pkg syscall (freebsd-386-cgo), const ESHUTDOWN Errno
+pkg syscall (freebsd-386-cgo), const ESOCKTNOSUPPORT Errno
+pkg syscall (freebsd-386-cgo), const ESPIPE Errno
+pkg syscall (freebsd-386-cgo), const ESRCH Errno
+pkg syscall (freebsd-386-cgo), const ESTALE Errno
+pkg syscall (freebsd-386-cgo), const ETIMEDOUT Errno
+pkg syscall (freebsd-386-cgo), const ETOOMANYREFS Errno
+pkg syscall (freebsd-386-cgo), const ETXTBSY Errno
+pkg syscall (freebsd-386-cgo), const EUSERS Errno
+pkg syscall (freebsd-386-cgo), const EWOULDBLOCK Errno
+pkg syscall (freebsd-386-cgo), const EXDEV Errno
+pkg syscall (freebsd-386-cgo), const IFF_BROADCAST = 2
+pkg syscall (freebsd-386-cgo), const IFF_BROADCAST ideal-int
+pkg syscall (freebsd-386-cgo), const IFF_LOOPBACK ideal-int
+pkg syscall (freebsd-386-cgo), const IFF_MULTICAST ideal-int
+pkg syscall (freebsd-386-cgo), const IFF_UP = 1
+pkg syscall (freebsd-386-cgo), const IFF_UP ideal-int
+pkg syscall (freebsd-386-cgo), const IPPROTO_IP = 0
+pkg syscall (freebsd-386-cgo), const IPPROTO_IP ideal-int
+pkg syscall (freebsd-386-cgo), const IPPROTO_IPV6 = 41
+pkg syscall (freebsd-386-cgo), const IPPROTO_IPV6 ideal-int
+pkg syscall (freebsd-386-cgo), const IPPROTO_TCP = 6
+pkg syscall (freebsd-386-cgo), const IPPROTO_TCP ideal-int
+pkg syscall (freebsd-386-cgo), const IPPROTO_UDP = 17
+pkg syscall (freebsd-386-cgo), const IPPROTO_UDP ideal-int
+pkg syscall (freebsd-386-cgo), const IPV6_JOIN_GROUP ideal-int
+pkg syscall (freebsd-386-cgo), const IPV6_LEAVE_GROUP ideal-int
+pkg syscall (freebsd-386-cgo), const IPV6_MULTICAST_HOPS ideal-int
+pkg syscall (freebsd-386-cgo), const IPV6_MULTICAST_IF ideal-int
+pkg syscall (freebsd-386-cgo), const IPV6_MULTICAST_LOOP ideal-int
+pkg syscall (freebsd-386-cgo), const IPV6_UNICAST_HOPS ideal-int
+pkg syscall (freebsd-386-cgo), const IPV6_V6ONLY ideal-int
+pkg syscall (freebsd-386-cgo), const IP_ADD_MEMBERSHIP ideal-int
+pkg syscall (freebsd-386-cgo), const IP_DROP_MEMBERSHIP ideal-int
+pkg syscall (freebsd-386-cgo), const IP_MULTICAST_IF ideal-int
+pkg syscall (freebsd-386-cgo), const IP_MULTICAST_LOOP ideal-int
+pkg syscall (freebsd-386-cgo), const IP_MULTICAST_TTL ideal-int
+pkg syscall (freebsd-386-cgo), const IP_TOS ideal-int
+pkg syscall (freebsd-386-cgo), const IP_TTL ideal-int
+pkg syscall (freebsd-386-cgo), const O_ASYNC ideal-int
+pkg syscall (freebsd-386-cgo), const O_NOCTTY ideal-int
+pkg syscall (freebsd-386-cgo), const O_NONBLOCK ideal-int
+pkg syscall (freebsd-386-cgo), const SHUT_RD = 0
+pkg syscall (freebsd-386-cgo), const SHUT_RD ideal-int
+pkg syscall (freebsd-386-cgo), const SHUT_RDWR = 2
+pkg syscall (freebsd-386-cgo), const SHUT_RDWR ideal-int
+pkg syscall (freebsd-386-cgo), const SHUT_WR = 1
+pkg syscall (freebsd-386-cgo), const SHUT_WR ideal-int
+pkg syscall (freebsd-386-cgo), const SIGABRT = 6
+pkg syscall (freebsd-386-cgo), const SIGABRT Signal
+pkg syscall (freebsd-386-cgo), const SIGALRM = 14
+pkg syscall (freebsd-386-cgo), const SIGALRM Signal
+pkg syscall (freebsd-386-cgo), const SIGBUS Signal
+pkg syscall (freebsd-386-cgo), const SIGFPE = 8
+pkg syscall (freebsd-386-cgo), const SIGFPE Signal
+pkg syscall (freebsd-386-cgo), const SIGHUP = 1
+pkg syscall (freebsd-386-cgo), const SIGHUP Signal
+pkg syscall (freebsd-386-cgo), const SIGILL = 4
+pkg syscall (freebsd-386-cgo), const SIGILL Signal
+pkg syscall (freebsd-386-cgo), const SIGINT = 2
+pkg syscall (freebsd-386-cgo), const SIGINT Signal
+pkg syscall (freebsd-386-cgo), const SIGKILL = 9
+pkg syscall (freebsd-386-cgo), const SIGKILL Signal
+pkg syscall (freebsd-386-cgo), const SIGPIPE = 13
+pkg syscall (freebsd-386-cgo), const SIGPIPE Signal
+pkg syscall (freebsd-386-cgo), const SIGQUIT = 3
+pkg syscall (freebsd-386-cgo), const SIGQUIT Signal
+pkg syscall (freebsd-386-cgo), const SIGSEGV = 11
+pkg syscall (freebsd-386-cgo), const SIGSEGV Signal
+pkg syscall (freebsd-386-cgo), const SIGTERM = 15
+pkg syscall (freebsd-386-cgo), const SIGTERM Signal
+pkg syscall (freebsd-386-cgo), const SIGTRAP = 5
+pkg syscall (freebsd-386-cgo), const SIGTRAP Signal
+pkg syscall (freebsd-386-cgo), const SOCK_DGRAM = 2
+pkg syscall (freebsd-386-cgo), const SOCK_DGRAM ideal-int
+pkg syscall (freebsd-386-cgo), const SOCK_RAW = 3
+pkg syscall (freebsd-386-cgo), const SOCK_RAW ideal-int
+pkg syscall (freebsd-386-cgo), const SOCK_SEQPACKET = 5
+pkg syscall (freebsd-386-cgo), const SOCK_SEQPACKET ideal-int
+pkg syscall (freebsd-386-cgo), const SOCK_STREAM = 1
+pkg syscall (freebsd-386-cgo), const SOCK_STREAM ideal-int
+pkg syscall (freebsd-386-cgo), const SOL_SOCKET ideal-int
+pkg syscall (freebsd-386-cgo), const SOMAXCONN ideal-int
+pkg syscall (freebsd-386-cgo), const SO_BROADCAST ideal-int
+pkg syscall (freebsd-386-cgo), const SO_DONTROUTE ideal-int
+pkg syscall (freebsd-386-cgo), const SO_KEEPALIVE ideal-int
+pkg syscall (freebsd-386-cgo), const SO_LINGER ideal-int
+pkg syscall (freebsd-386-cgo), const SO_RCVBUF ideal-int
+pkg syscall (freebsd-386-cgo), const SO_REUSEADDR ideal-int
+pkg syscall (freebsd-386-cgo), const SO_SNDBUF ideal-int
+pkg syscall (freebsd-386-cgo), const S_IRUSR = 256
+pkg syscall (freebsd-386-cgo), const S_IRUSR ideal-int
+pkg syscall (freebsd-386-cgo), const S_ISGID = 1024
+pkg syscall (freebsd-386-cgo), const S_ISGID ideal-int
+pkg syscall (freebsd-386-cgo), const S_ISUID = 2048
+pkg syscall (freebsd-386-cgo), const S_ISUID ideal-int
+pkg syscall (freebsd-386-cgo), const S_ISVTX = 512
+pkg syscall (freebsd-386-cgo), const S_ISVTX ideal-int
+pkg syscall (freebsd-386-cgo), const S_IWUSR = 128
+pkg syscall (freebsd-386-cgo), const S_IWUSR ideal-int
+pkg syscall (freebsd-386-cgo), const S_IXUSR = 64
+pkg syscall (freebsd-386-cgo), const S_IXUSR ideal-int
+pkg syscall (freebsd-386-cgo), const TCP_NODELAY = 1
+pkg syscall (freebsd-386-cgo), const TCP_NODELAY ideal-int
+pkg syscall (freebsd-386-cgo), func Chmod(string, uint32) error
+pkg syscall (freebsd-386-cgo), func Chown(string, int, int) error
+pkg syscall (freebsd-386-cgo), func Exec(string, []string, []string) error
+pkg syscall (freebsd-386-cgo), func Lchown(string, int, int) error
+pkg syscall (freebsd-386-cgo), func Link(string, string) error
+pkg syscall (freebsd-386-cgo), func NsecToTimespec(int64) Timespec
+pkg syscall (freebsd-386-cgo), func Readlink(string, []uint8) (int, error)
+pkg syscall (freebsd-386-cgo), func Rename(string, string) error
+pkg syscall (freebsd-386-cgo), func Rmdir(string) error
+pkg syscall (freebsd-386-cgo), func Symlink(string, string) error
+pkg syscall (freebsd-386-cgo), func TimespecToNsec(Timespec) int64
+pkg syscall (freebsd-386-cgo), func Unlink(string) error
+pkg syscall (freebsd-386-cgo), func Utimes(string, []Timeval) error
+pkg syscall (freebsd-386-cgo), func UtimesNano(string, []Timespec) error
+pkg syscall (freebsd-386-cgo), method (Errno) Error() string
+pkg syscall (freebsd-386-cgo), method (Errno) Is(error) bool
+pkg syscall (freebsd-386-cgo), method (Errno) Temporary() bool
+pkg syscall (freebsd-386-cgo), method (Errno) Timeout() bool
+pkg syscall (freebsd-386-cgo), method (Signal) Signal()
+pkg syscall (freebsd-386-cgo), method (Signal) String() string
+pkg syscall (freebsd-386-cgo), method (WaitStatus) Continued() bool
+pkg syscall (freebsd-386-cgo), method (WaitStatus) CoreDump() bool
+pkg syscall (freebsd-386-cgo), method (WaitStatus) ExitStatus() int
+pkg syscall (freebsd-386-cgo), method (WaitStatus) Exited() bool
+pkg syscall (freebsd-386-cgo), method (WaitStatus) Signal() Signal
+pkg syscall (freebsd-386-cgo), method (WaitStatus) Signaled() bool
+pkg syscall (freebsd-386-cgo), method (WaitStatus) StopSignal() Signal
+pkg syscall (freebsd-386-cgo), method (WaitStatus) Stopped() bool
+pkg syscall (freebsd-386-cgo), method (WaitStatus) TrapCause() int
+pkg syscall (freebsd-386-cgo), type Errno uintptr
+pkg syscall (freebsd-386-cgo), type IPMreq struct
+pkg syscall (freebsd-386-cgo), type IPMreq struct, Interface [4]uint8
+pkg syscall (freebsd-386-cgo), type IPMreq struct, Multiaddr [4]uint8
+pkg syscall (freebsd-386-cgo), type IPv6Mreq struct
+pkg syscall (freebsd-386-cgo), type IPv6Mreq struct, Interface uint32
+pkg syscall (freebsd-386-cgo), type IPv6Mreq struct, Multiaddr [16]uint8
+pkg syscall (freebsd-386-cgo), type Linger struct
+pkg syscall (freebsd-386-cgo), type Linger struct, Linger int32
+pkg syscall (freebsd-386-cgo), type Linger struct, Onoff int32
+pkg syscall (freebsd-386-cgo), type RawSockaddr struct
+pkg syscall (freebsd-386-cgo), type RawSockaddrAny struct
+pkg syscall (freebsd-386-cgo), type RawSockaddrAny struct, Addr RawSockaddr
+pkg syscall (freebsd-386-cgo), type RawSockaddrInet4 struct
+pkg syscall (freebsd-386-cgo), type RawSockaddrInet4 struct, Addr [4]uint8
+pkg syscall (freebsd-386-cgo), type RawSockaddrInet4 struct, Port uint16
+pkg syscall (freebsd-386-cgo), type RawSockaddrInet6 struct
+pkg syscall (freebsd-386-cgo), type RawSockaddrInet6 struct, Addr [16]uint8
+pkg syscall (freebsd-386-cgo), type RawSockaddrInet6 struct, Flowinfo uint32
+pkg syscall (freebsd-386-cgo), type RawSockaddrInet6 struct, Port uint16
+pkg syscall (freebsd-386-cgo), type RawSockaddrInet6 struct, Scope_id uint32
+pkg syscall (freebsd-386-cgo), type Rusage struct
+pkg syscall (freebsd-386-cgo), type Signal int
+pkg syscall (freebsd-386-cgo), type Sockaddr interface, unexported methods
+pkg syscall (freebsd-386-cgo), type SockaddrInet4 struct
+pkg syscall (freebsd-386-cgo), type SockaddrInet4 struct, Addr [4]uint8
+pkg syscall (freebsd-386-cgo), type SockaddrInet4 struct, Port int
+pkg syscall (freebsd-386-cgo), type SockaddrInet6 struct
+pkg syscall (freebsd-386-cgo), type SockaddrInet6 struct, Addr [16]uint8
+pkg syscall (freebsd-386-cgo), type SockaddrInet6 struct, Port int
+pkg syscall (freebsd-386-cgo), type SockaddrInet6 struct, ZoneId uint32
+pkg syscall (freebsd-386-cgo), type SockaddrUnix struct
+pkg syscall (freebsd-386-cgo), type SockaddrUnix struct, Name string
+pkg syscall (freebsd-386-cgo), var SocketDisableIPv6 bool

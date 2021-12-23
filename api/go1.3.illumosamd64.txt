@@ -1,0 +1,14 @@
+pkg math/bits (illumos-amd64), const UintSize = 64
+pkg net (illumos-amd64), method (*UnixListener) SetUnlinkOnClose(bool)
+pkg os (illumos-amd64), const DevNull = "/dev/null"
+pkg os (illumos-amd64), const O_APPEND = 8
+pkg os (illumos-amd64), const O_CREATE = 256
+pkg os (illumos-amd64), const O_EXCL = 1024
+pkg os (illumos-amd64), const O_SYNC = 16
+pkg os (illumos-amd64), const O_TRUNC = 512
+pkg os (illumos-amd64), const PathListSeparator = 58
+pkg os (illumos-amd64), const PathSeparator = 47
+pkg path/filepath (illumos-amd64), const ListSeparator = 58
+pkg path/filepath (illumos-amd64), const Separator = 47
+pkg runtime (illumos-amd64), const GOARCH = "amd64"
+pkg runtime (illumos-amd64), const GOOS = "illumos"

@@ -1,0 +1,1988 @@
+pkg math (windows-arm64), const MaxInt = 9223372036854775807
+pkg math (windows-arm64), const MaxUint = 18446744073709551615
+pkg math (windows-arm64), const MinInt = -9223372036854775808
+pkg math/bits (windows-arm64), const UintSize = 64
+pkg net (windows-arm64), method (*UnixListener) SetUnlinkOnClose(bool)
+pkg os (windows-arm64), const DevNull = "NUL"
+pkg os (windows-arm64), const O_APPEND = 1024
+pkg os (windows-arm64), const O_CREATE = 64
+pkg os (windows-arm64), const O_EXCL = 128
+pkg os (windows-arm64), const O_SYNC = 4096
+pkg os (windows-arm64), const O_TRUNC = 512
+pkg os (windows-arm64), const PathListSeparator = 59
+pkg os (windows-arm64), const PathSeparator = 92
+pkg path/filepath (windows-arm64), const ListSeparator = 59
+pkg path/filepath (windows-arm64), const Separator = 92
+pkg runtime (windows-arm64), const GOARCH = "arm64"
+pkg runtime (windows-arm64), const GOOS = "windows"
+pkg strconv (windows-arm64), const IntSize = 64
+pkg syscall (windows-arm64), const AF_INET = 2
+pkg syscall (windows-arm64), const AF_INET ideal-int
+pkg syscall (windows-arm64), const AF_INET6 = 23
+pkg syscall (windows-arm64), const AF_INET6 ideal-int
+pkg syscall (windows-arm64), const AF_NETBIOS = 17
+pkg syscall (windows-arm64), const AF_NETBIOS ideal-int
+pkg syscall (windows-arm64), const AF_UNIX = 1
+pkg syscall (windows-arm64), const AF_UNIX ideal-int
+pkg syscall (windows-arm64), const AF_UNSPEC = 0
+pkg syscall (windows-arm64), const AF_UNSPEC ideal-int
+pkg syscall (windows-arm64), const AI_CANONNAME = 2
+pkg syscall (windows-arm64), const AI_CANONNAME ideal-int
+pkg syscall (windows-arm64), const AI_NUMERICHOST = 4
+pkg syscall (windows-arm64), const AI_NUMERICHOST ideal-int
+pkg syscall (windows-arm64), const AI_PASSIVE = 1
+pkg syscall (windows-arm64), const AI_PASSIVE ideal-int
+pkg syscall (windows-arm64), const APPLICATION_ERROR = 536870912
+pkg syscall (windows-arm64), const APPLICATION_ERROR ideal-int
+pkg syscall (windows-arm64), const AUTHTYPE_CLIENT = 1
+pkg syscall (windows-arm64), const AUTHTYPE_CLIENT ideal-int
+pkg syscall (windows-arm64), const AUTHTYPE_SERVER = 2
+pkg syscall (windows-arm64), const AUTHTYPE_SERVER ideal-int
+pkg syscall (windows-arm64), const BASE_PROTOCOL = 1
+pkg syscall (windows-arm64), const BASE_PROTOCOL ideal-int
+pkg syscall (windows-arm64), const CERT_CHAIN_POLICY_AUTHENTICODE = 2
+pkg syscall (windows-arm64), const CERT_CHAIN_POLICY_AUTHENTICODE ideal-int
+pkg syscall (windows-arm64), const CERT_CHAIN_POLICY_AUTHENTICODE_TS = 3
+pkg syscall (windows-arm64), const CERT_CHAIN_POLICY_AUTHENTICODE_TS ideal-int
+pkg syscall (windows-arm64), const CERT_CHAIN_POLICY_BASE = 1
+pkg syscall (windows-arm64), const CERT_CHAIN_POLICY_BASE ideal-int
+pkg syscall (windows-arm64), const CERT_CHAIN_POLICY_BASIC_CONSTRAINTS = 5
+pkg syscall (windows-arm64), const CERT_CHAIN_POLICY_BASIC_CONSTRAINTS ideal-int
+pkg syscall (windows-arm64), const CERT_CHAIN_POLICY_EV = 8
+pkg syscall (windows-arm64), const CERT_CHAIN_POLICY_EV ideal-int
+pkg syscall (windows-arm64), const CERT_CHAIN_POLICY_MICROSOFT_ROOT = 7
+pkg syscall (windows-arm64), const CERT_CHAIN_POLICY_MICROSOFT_ROOT ideal-int
+pkg syscall (windows-arm64), const CERT_CHAIN_POLICY_NT_AUTH = 6
+pkg syscall (windows-arm64), const CERT_CHAIN_POLICY_NT_AUTH ideal-int
+pkg syscall (windows-arm64), const CERT_CHAIN_POLICY_SSL = 4
+pkg syscall (windows-arm64), const CERT_CHAIN_POLICY_SSL ideal-int
+pkg syscall (windows-arm64), const CERT_E_CN_NO_MATCH = 2148204815
+pkg syscall (windows-arm64), const CERT_E_CN_NO_MATCH ideal-int
+pkg syscall (windows-arm64), const CERT_E_EXPIRED = 2148204801
+pkg syscall (windows-arm64), const CERT_E_EXPIRED ideal-int
+pkg syscall (windows-arm64), const CERT_E_PURPOSE = 2148204806
+pkg syscall (windows-arm64), const CERT_E_PURPOSE ideal-int
+pkg syscall (windows-arm64), const CERT_E_ROLE = 2148204803
+pkg syscall (windows-arm64), const CERT_E_ROLE ideal-int
+pkg syscall (windows-arm64), const CERT_E_UNTRUSTEDROOT = 2148204809
+pkg syscall (windows-arm64), const CERT_E_UNTRUSTEDROOT ideal-int
+pkg syscall (windows-arm64), const CERT_STORE_ADD_ALWAYS = 4
+pkg syscall (windows-arm64), const CERT_STORE_ADD_ALWAYS ideal-int
+pkg syscall (windows-arm64), const CERT_STORE_DEFER_CLOSE_UNTIL_LAST_FREE_FLAG = 4
+pkg syscall (windows-arm64), const CERT_STORE_DEFER_CLOSE_UNTIL_LAST_FREE_FLAG ideal-int
+pkg syscall (windows-arm64), const CERT_STORE_PROV_MEMORY = 2
+pkg syscall (windows-arm64), const CERT_STORE_PROV_MEMORY ideal-int
+pkg syscall (windows-arm64), const CERT_TRUST_HAS_EXCLUDED_NAME_CONSTRAINT = 32768
+pkg syscall (windows-arm64), const CERT_TRUST_HAS_EXCLUDED_NAME_CONSTRAINT ideal-int
+pkg syscall (windows-arm64), const CERT_TRUST_HAS_NOT_DEFINED_NAME_CONSTRAINT = 8192
+pkg syscall (windows-arm64), const CERT_TRUST_HAS_NOT_DEFINED_NAME_CONSTRAINT ideal-int
+pkg syscall (windows-arm64), const CERT_TRUST_HAS_NOT_PERMITTED_NAME_CONSTRAINT = 16384
+pkg syscall (windows-arm64), const CERT_TRUST_HAS_NOT_PERMITTED_NAME_CONSTRAINT ideal-int
+pkg syscall (windows-arm64), const CERT_TRUST_HAS_NOT_SUPPORTED_CRITICAL_EXT = 134217728
+pkg syscall (windows-arm64), const CERT_TRUST_HAS_NOT_SUPPORTED_CRITICAL_EXT ideal-int
+pkg syscall (windows-arm64), const CERT_TRUST_HAS_NOT_SUPPORTED_NAME_CONSTRAINT = 4096
+pkg syscall (windows-arm64), const CERT_TRUST_HAS_NOT_SUPPORTED_NAME_CONSTRAINT ideal-int
+pkg syscall (windows-arm64), const CERT_TRUST_INVALID_BASIC_CONSTRAINTS = 1024
+pkg syscall (windows-arm64), const CERT_TRUST_INVALID_BASIC_CONSTRAINTS ideal-int
+pkg syscall (windows-arm64), const CERT_TRUST_INVALID_EXTENSION = 256
+pkg syscall (windows-arm64), const CERT_TRUST_INVALID_EXTENSION ideal-int
+pkg syscall (windows-arm64), const CERT_TRUST_INVALID_NAME_CONSTRAINTS = 2048
+pkg syscall (windows-arm64), const CERT_TRUST_INVALID_NAME_CONSTRAINTS ideal-int
+pkg syscall (windows-arm64), const CERT_TRUST_INVALID_POLICY_CONSTRAINTS = 512
+pkg syscall (windows-arm64), const CERT_TRUST_INVALID_POLICY_CONSTRAINTS ideal-int
+pkg syscall (windows-arm64), const CERT_TRUST_IS_CYCLIC = 128
+pkg syscall (windows-arm64), const CERT_TRUST_IS_CYCLIC ideal-int
+pkg syscall (windows-arm64), const CERT_TRUST_IS_EXPLICIT_DISTRUST = 67108864
+pkg syscall (windows-arm64), const CERT_TRUST_IS_EXPLICIT_DISTRUST ideal-int
+pkg syscall (windows-arm64), const CERT_TRUST_IS_NOT_SIGNATURE_VALID = 8
+pkg syscall (windows-arm64), const CERT_TRUST_IS_NOT_SIGNATURE_VALID ideal-int
+pkg syscall (windows-arm64), const CERT_TRUST_IS_NOT_TIME_VALID = 1
+pkg syscall (windows-arm64), const CERT_TRUST_IS_NOT_TIME_VALID ideal-int
+pkg syscall (windows-arm64), const CERT_TRUST_IS_NOT_VALID_FOR_USAGE = 16
+pkg syscall (windows-arm64), const CERT_TRUST_IS_NOT_VALID_FOR_USAGE ideal-int
+pkg syscall (windows-arm64), const CERT_TRUST_IS_OFFLINE_REVOCATION = 16777216
+pkg syscall (windows-arm64), const CERT_TRUST_IS_OFFLINE_REVOCATION ideal-int
+pkg syscall (windows-arm64), const CERT_TRUST_IS_REVOKED = 4
+pkg syscall (windows-arm64), const CERT_TRUST_IS_REVOKED ideal-int
+pkg syscall (windows-arm64), const CERT_TRUST_IS_UNTRUSTED_ROOT = 32
+pkg syscall (windows-arm64), const CERT_TRUST_IS_UNTRUSTED_ROOT ideal-int
+pkg syscall (windows-arm64), const CERT_TRUST_NO_ERROR = 0
+pkg syscall (windows-arm64), const CERT_TRUST_NO_ERROR ideal-int
+pkg syscall (windows-arm64), const CERT_TRUST_NO_ISSUANCE_CHAIN_POLICY = 33554432
+pkg syscall (windows-arm64), const CERT_TRUST_NO_ISSUANCE_CHAIN_POLICY ideal-int
+pkg syscall (windows-arm64), const CERT_TRUST_REVOCATION_STATUS_UNKNOWN = 64
+pkg syscall (windows-arm64), const CERT_TRUST_REVOCATION_STATUS_UNKNOWN ideal-int
+pkg syscall (windows-arm64), const CREATE_ALWAYS = 2
+pkg syscall (windows-arm64), const CREATE_ALWAYS ideal-int
+pkg syscall (windows-arm64), const CREATE_NEW = 1
+pkg syscall (windows-arm64), const CREATE_NEW ideal-int
+pkg syscall (windows-arm64), const CREATE_NEW_PROCESS_GROUP = 512
+pkg syscall (windows-arm64), const CREATE_NEW_PROCESS_GROUP ideal-int
+pkg syscall (windows-arm64), const CREATE_UNICODE_ENVIRONMENT = 1024
+pkg syscall (windows-arm64), const CREATE_UNICODE_ENVIRONMENT ideal-int
+pkg syscall (windows-arm64), const CRYPT_DEFAULT_CONTAINER_OPTIONAL = 128
+pkg syscall (windows-arm64), const CRYPT_DEFAULT_CONTAINER_OPTIONAL ideal-int
+pkg syscall (windows-arm64), const CRYPT_DELETEKEYSET = 16
+pkg syscall (windows-arm64), const CRYPT_DELETEKEYSET ideal-int
+pkg syscall (windows-arm64), const CRYPT_MACHINE_KEYSET = 32
+pkg syscall (windows-arm64), const CRYPT_MACHINE_KEYSET ideal-int
+pkg syscall (windows-arm64), const CRYPT_NEWKEYSET = 8
+pkg syscall (windows-arm64), const CRYPT_NEWKEYSET ideal-int
+pkg syscall (windows-arm64), const CRYPT_SILENT = 64
+pkg syscall (windows-arm64), const CRYPT_SILENT ideal-int
+pkg syscall (windows-arm64), const CRYPT_VERIFYCONTEXT = 4026531840
+pkg syscall (windows-arm64), const CRYPT_VERIFYCONTEXT ideal-int
+pkg syscall (windows-arm64), const CTRL_BREAK_EVENT = 1
+pkg syscall (windows-arm64), const CTRL_BREAK_EVENT ideal-int
+pkg syscall (windows-arm64), const CTRL_CLOSE_EVENT = 2
+pkg syscall (windows-arm64), const CTRL_CLOSE_EVENT ideal-int
+pkg syscall (windows-arm64), const CTRL_C_EVENT = 0
+pkg syscall (windows-arm64), const CTRL_C_EVENT ideal-int
+pkg syscall (windows-arm64), const CTRL_LOGOFF_EVENT = 5
+pkg syscall (windows-arm64), const CTRL_LOGOFF_EVENT ideal-int
+pkg syscall (windows-arm64), const CTRL_SHUTDOWN_EVENT = 6
+pkg syscall (windows-arm64), const CTRL_SHUTDOWN_EVENT ideal-int
+pkg syscall (windows-arm64), const DNS_INFO_NO_RECORDS = 9501
+pkg syscall (windows-arm64), const DNS_INFO_NO_RECORDS ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_A = 1
+pkg syscall (windows-arm64), const DNS_TYPE_A ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_A6 = 38
+pkg syscall (windows-arm64), const DNS_TYPE_A6 ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_AAAA = 28
+pkg syscall (windows-arm64), const DNS_TYPE_AAAA ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_ADDRS = 248
+pkg syscall (windows-arm64), const DNS_TYPE_ADDRS ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_AFSDB = 18
+pkg syscall (windows-arm64), const DNS_TYPE_AFSDB ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_ALL = 255
+pkg syscall (windows-arm64), const DNS_TYPE_ALL ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_ANY = 255
+pkg syscall (windows-arm64), const DNS_TYPE_ANY ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_ATMA = 34
+pkg syscall (windows-arm64), const DNS_TYPE_ATMA ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_AXFR = 252
+pkg syscall (windows-arm64), const DNS_TYPE_AXFR ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_CERT = 37
+pkg syscall (windows-arm64), const DNS_TYPE_CERT ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_CNAME = 5
+pkg syscall (windows-arm64), const DNS_TYPE_CNAME ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_DHCID = 49
+pkg syscall (windows-arm64), const DNS_TYPE_DHCID ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_DNAME = 39
+pkg syscall (windows-arm64), const DNS_TYPE_DNAME ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_DNSKEY = 48
+pkg syscall (windows-arm64), const DNS_TYPE_DNSKEY ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_DS = 43
+pkg syscall (windows-arm64), const DNS_TYPE_DS ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_EID = 31
+pkg syscall (windows-arm64), const DNS_TYPE_EID ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_GID = 102
+pkg syscall (windows-arm64), const DNS_TYPE_GID ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_GPOS = 27
+pkg syscall (windows-arm64), const DNS_TYPE_GPOS ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_HINFO = 13
+pkg syscall (windows-arm64), const DNS_TYPE_HINFO ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_ISDN = 20
+pkg syscall (windows-arm64), const DNS_TYPE_ISDN ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_IXFR = 251
+pkg syscall (windows-arm64), const DNS_TYPE_IXFR ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_KEY = 25
+pkg syscall (windows-arm64), const DNS_TYPE_KEY ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_KX = 36
+pkg syscall (windows-arm64), const DNS_TYPE_KX ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_LOC = 29
+pkg syscall (windows-arm64), const DNS_TYPE_LOC ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_MAILA = 254
+pkg syscall (windows-arm64), const DNS_TYPE_MAILA ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_MAILB = 253
+pkg syscall (windows-arm64), const DNS_TYPE_MAILB ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_MB = 7
+pkg syscall (windows-arm64), const DNS_TYPE_MB ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_MD = 3
+pkg syscall (windows-arm64), const DNS_TYPE_MD ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_MF = 4
+pkg syscall (windows-arm64), const DNS_TYPE_MF ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_MG = 8
+pkg syscall (windows-arm64), const DNS_TYPE_MG ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_MINFO = 14
+pkg syscall (windows-arm64), const DNS_TYPE_MINFO ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_MR = 9
+pkg syscall (windows-arm64), const DNS_TYPE_MR ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_MX = 15
+pkg syscall (windows-arm64), const DNS_TYPE_MX ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_NAPTR = 35
+pkg syscall (windows-arm64), const DNS_TYPE_NAPTR ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_NBSTAT = 65281
+pkg syscall (windows-arm64), const DNS_TYPE_NBSTAT ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_NIMLOC = 32
+pkg syscall (windows-arm64), const DNS_TYPE_NIMLOC ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_NS = 2
+pkg syscall (windows-arm64), const DNS_TYPE_NS ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_NSAP = 22
+pkg syscall (windows-arm64), const DNS_TYPE_NSAP ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_NSAPPTR = 23
+pkg syscall (windows-arm64), const DNS_TYPE_NSAPPTR ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_NSEC = 47
+pkg syscall (windows-arm64), const DNS_TYPE_NSEC ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_NULL = 10
+pkg syscall (windows-arm64), const DNS_TYPE_NULL ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_NXT = 30
+pkg syscall (windows-arm64), const DNS_TYPE_NXT ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_OPT = 41
+pkg syscall (windows-arm64), const DNS_TYPE_OPT ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_PTR = 12
+pkg syscall (windows-arm64), const DNS_TYPE_PTR ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_PX = 26
+pkg syscall (windows-arm64), const DNS_TYPE_PX ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_RP = 17
+pkg syscall (windows-arm64), const DNS_TYPE_RP ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_RRSIG = 46
+pkg syscall (windows-arm64), const DNS_TYPE_RRSIG ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_RT = 21
+pkg syscall (windows-arm64), const DNS_TYPE_RT ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_SIG = 24
+pkg syscall (windows-arm64), const DNS_TYPE_SIG ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_SINK = 40
+pkg syscall (windows-arm64), const DNS_TYPE_SINK ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_SOA = 6
+pkg syscall (windows-arm64), const DNS_TYPE_SOA ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_SRV = 33
+pkg syscall (windows-arm64), const DNS_TYPE_SRV ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_TEXT = 16
+pkg syscall (windows-arm64), const DNS_TYPE_TEXT ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_TKEY = 249
+pkg syscall (windows-arm64), const DNS_TYPE_TKEY ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_TSIG = 250
+pkg syscall (windows-arm64), const DNS_TYPE_TSIG ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_UID = 101
+pkg syscall (windows-arm64), const DNS_TYPE_UID ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_UINFO = 100
+pkg syscall (windows-arm64), const DNS_TYPE_UINFO ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_UNSPEC = 103
+pkg syscall (windows-arm64), const DNS_TYPE_UNSPEC ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_WINS = 65281
+pkg syscall (windows-arm64), const DNS_TYPE_WINS ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_WINSR = 65282
+pkg syscall (windows-arm64), const DNS_TYPE_WINSR ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_WKS = 11
+pkg syscall (windows-arm64), const DNS_TYPE_WKS ideal-int
+pkg syscall (windows-arm64), const DNS_TYPE_X25 = 19
+pkg syscall (windows-arm64), const DNS_TYPE_X25 ideal-int
+pkg syscall (windows-arm64), const DUPLICATE_CLOSE_SOURCE = 1
+pkg syscall (windows-arm64), const DUPLICATE_CLOSE_SOURCE ideal-int
+pkg syscall (windows-arm64), const DUPLICATE_SAME_ACCESS = 2
+pkg syscall (windows-arm64), const DUPLICATE_SAME_ACCESS ideal-int
+pkg syscall (windows-arm64), const DnsSectionAdditional = 3
+pkg syscall (windows-arm64), const DnsSectionAdditional ideal-int
+pkg syscall (windows-arm64), const DnsSectionAnswer = 1
+pkg syscall (windows-arm64), const DnsSectionAnswer ideal-int
+pkg syscall (windows-arm64), const DnsSectionAuthority = 2
+pkg syscall (windows-arm64), const DnsSectionAuthority ideal-int
+pkg syscall (windows-arm64), const DnsSectionQuestion = 0
+pkg syscall (windows-arm64), const DnsSectionQuestion ideal-int
+pkg syscall (windows-arm64), const E2BIG = 536870912
+pkg syscall (windows-arm64), const E2BIG Errno
+pkg syscall (windows-arm64), const EACCES = 536870913
+pkg syscall (windows-arm64), const EACCES Errno
+pkg syscall (windows-arm64), const EADDRINUSE = 536870914
+pkg syscall (windows-arm64), const EADDRINUSE Errno
+pkg syscall (windows-arm64), const EADDRNOTAVAIL = 536870915
+pkg syscall (windows-arm64), const EADDRNOTAVAIL Errno
+pkg syscall (windows-arm64), const EADV = 536870916
+pkg syscall (windows-arm64), const EADV Errno
+pkg syscall (windows-arm64), const EAFNOSUPPORT = 536870917
+pkg syscall (windows-arm64), const EAFNOSUPPORT Errno
+pkg syscall (windows-arm64), const EAGAIN = 536870918
+pkg syscall (windows-arm64), const EAGAIN Errno
+pkg syscall (windows-arm64), const EALREADY = 536870919
+pkg syscall (windows-arm64), const EALREADY Errno
+pkg syscall (windows-arm64), const EBADE = 536870920
+pkg syscall (windows-arm64), const EBADE Errno
+pkg syscall (windows-arm64), const EBADF = 536870921
+pkg syscall (windows-arm64), const EBADF Errno
+pkg syscall (windows-arm64), const EBADFD = 536870922
+pkg syscall (windows-arm64), const EBADFD Errno
+pkg syscall (windows-arm64), const EBADMSG = 536870923
+pkg syscall (windows-arm64), const EBADMSG Errno
+pkg syscall (windows-arm64), const EBADR = 536870924
+pkg syscall (windows-arm64), const EBADR Errno
+pkg syscall (windows-arm64), const EBADRQC = 536870925
+pkg syscall (windows-arm64), const EBADRQC Errno
+pkg syscall (windows-arm64), const EBADSLT = 536870926
+pkg syscall (windows-arm64), const EBADSLT Errno
+pkg syscall (windows-arm64), const EBFONT = 536870927
+pkg syscall (windows-arm64), const EBFONT Errno
+pkg syscall (windows-arm64), const EBUSY = 536870928
+pkg syscall (windows-arm64), const EBUSY Errno
+pkg syscall (windows-arm64), const ECANCELED = 536870929
+pkg syscall (windows-arm64), const ECANCELED Errno
+pkg syscall (windows-arm64), const ECHILD = 536870930
+pkg syscall (windows-arm64), const ECHILD Errno
+pkg syscall (windows-arm64), const ECHRNG = 536870931
+pkg syscall (windows-arm64), const ECHRNG Errno
+pkg syscall (windows-arm64), const ECOMM = 536870932
+pkg syscall (windows-arm64), const ECOMM Errno
+pkg syscall (windows-arm64), const ECONNABORTED = 536870933
+pkg syscall (windows-arm64), const ECONNABORTED Errno
+pkg syscall (windows-arm64), const ECONNREFUSED = 536870934
+pkg syscall (windows-arm64), const ECONNREFUSED Errno
+pkg syscall (windows-arm64), const ECONNRESET = 536870935
+pkg syscall (windows-arm64), const ECONNRESET Errno
+pkg syscall (windows-arm64), const EDEADLK = 536870936
+pkg syscall (windows-arm64), const EDEADLK Errno
+pkg syscall (windows-arm64), const EDEADLOCK = 536870937
+pkg syscall (windows-arm64), const EDEADLOCK Errno
+pkg syscall (windows-arm64), const EDESTADDRREQ = 536870938
+pkg syscall (windows-arm64), const EDESTADDRREQ Errno
+pkg syscall (windows-arm64), const EDOM = 536870939
+pkg syscall (windows-arm64), const EDOM Errno
+pkg syscall (windows-arm64), const EDOTDOT = 536870940
+pkg syscall (windows-arm64), const EDOTDOT Errno
+pkg syscall (windows-arm64), const EDQUOT = 536870941
+pkg syscall (windows-arm64), const EDQUOT Errno
+pkg syscall (windows-arm64), const EEXIST = 536870942
+pkg syscall (windows-arm64), const EEXIST Errno
+pkg syscall (windows-arm64), const EFAULT = 536870943
+pkg syscall (windows-arm64), const EFAULT Errno
+pkg syscall (windows-arm64), const EFBIG = 536870944
+pkg syscall (windows-arm64), const EFBIG Errno
+pkg syscall (windows-arm64), const EHOSTDOWN = 536870945
+pkg syscall (windows-arm64), const EHOSTDOWN Errno
+pkg syscall (windows-arm64), const EHOSTUNREACH = 536870946
+pkg syscall (windows-arm64), const EHOSTUNREACH Errno
+pkg syscall (windows-arm64), const EIDRM = 536870947
+pkg syscall (windows-arm64), const EIDRM Errno
+pkg syscall (windows-arm64), const EILSEQ = 536870948
+pkg syscall (windows-arm64), const EILSEQ Errno
+pkg syscall (windows-arm64), const EINPROGRESS = 536870949
+pkg syscall (windows-arm64), const EINPROGRESS Errno
+pkg syscall (windows-arm64), const EINTR = 536870950
+pkg syscall (windows-arm64), const EINTR Errno
+pkg syscall (windows-arm64), const EINVAL = 536870951
+pkg syscall (windows-arm64), const EINVAL Errno
+pkg syscall (windows-arm64), const EIO = 536870952
+pkg syscall (windows-arm64), const EIO Errno
+pkg syscall (windows-arm64), const EISCONN = 536870953
+pkg syscall (windows-arm64), const EISCONN Errno
+pkg syscall (windows-arm64), const EISDIR = 536870954
+pkg syscall (windows-arm64), const EISDIR Errno
+pkg syscall (windows-arm64), const EISNAM = 536870955
+pkg syscall (windows-arm64), const EISNAM Errno
+pkg syscall (windows-arm64), const EKEYEXPIRED = 536870956
+pkg syscall (windows-arm64), const EKEYEXPIRED Errno
+pkg syscall (windows-arm64), const EKEYREJECTED = 536870957
+pkg syscall (windows-arm64), const EKEYREJECTED Errno
+pkg syscall (windows-arm64), const EKEYREVOKED = 536870958
+pkg syscall (windows-arm64), const EKEYREVOKED Errno
+pkg syscall (windows-arm64), const EL2HLT = 536870959
+pkg syscall (windows-arm64), const EL2HLT Errno
+pkg syscall (windows-arm64), const EL2NSYNC = 536870960
+pkg syscall (windows-arm64), const EL2NSYNC Errno
+pkg syscall (windows-arm64), const EL3HLT = 536870961
+pkg syscall (windows-arm64), const EL3HLT Errno
+pkg syscall (windows-arm64), const EL3RST = 536870962
+pkg syscall (windows-arm64), const EL3RST Errno
+pkg syscall (windows-arm64), const ELIBACC = 536870963
+pkg syscall (windows-arm64), const ELIBACC Errno
+pkg syscall (windows-arm64), const ELIBBAD = 536870964
+pkg syscall (windows-arm64), const ELIBBAD Errno
+pkg syscall (windows-arm64), const ELIBEXEC = 536870965
+pkg syscall (windows-arm64), const ELIBEXEC Errno
+pkg syscall (windows-arm64), const ELIBMAX = 536870966
+pkg syscall (windows-arm64), const ELIBMAX Errno
+pkg syscall (windows-arm64), const ELIBSCN = 536870967
+pkg syscall (windows-arm64), const ELIBSCN Errno
+pkg syscall (windows-arm64), const ELNRNG = 536870968
+pkg syscall (windows-arm64), const ELNRNG Errno
+pkg syscall (windows-arm64), const ELOOP = 536870969
+pkg syscall (windows-arm64), const ELOOP Errno
+pkg syscall (windows-arm64), const EMEDIUMTYPE = 536870970
+pkg syscall (windows-arm64), const EMEDIUMTYPE Errno
+pkg syscall (windows-arm64), const EMFILE = 536870971
+pkg syscall (windows-arm64), const EMFILE Errno
+pkg syscall (windows-arm64), const EMLINK = 536870972
+pkg syscall (windows-arm64), const EMLINK Errno
+pkg syscall (windows-arm64), const EMSGSIZE = 536870973
+pkg syscall (windows-arm64), const EMSGSIZE Errno
+pkg syscall (windows-arm64), const EMULTIHOP = 536870974
+pkg syscall (windows-arm64), const EMULTIHOP Errno
+pkg syscall (windows-arm64), const ENAMETOOLONG = 536870975
+pkg syscall (windows-arm64), const ENAMETOOLONG Errno
+pkg syscall (windows-arm64), const ENAVAIL = 536870976
+pkg syscall (windows-arm64), const ENAVAIL Errno
+pkg syscall (windows-arm64), const ENETDOWN = 536870977
+pkg syscall (windows-arm64), const ENETDOWN Errno
+pkg syscall (windows-arm64), const ENETRESET = 536870978
+pkg syscall (windows-arm64), const ENETRESET Errno
+pkg syscall (windows-arm64), const ENETUNREACH = 536870979
+pkg syscall (windows-arm64), const ENETUNREACH Errno
+pkg syscall (windows-arm64), const ENFILE = 536870980
+pkg syscall (windows-arm64), const ENFILE Errno
+pkg syscall (windows-arm64), const ENOANO = 536870981
+pkg syscall (windows-arm64), const ENOANO Errno
+pkg syscall (windows-arm64), const ENOBUFS = 536870982
+pkg syscall (windows-arm64), const ENOBUFS Errno
+pkg syscall (windows-arm64), const ENOCSI = 536870983
+pkg syscall (windows-arm64), const ENOCSI Errno
+pkg syscall (windows-arm64), const ENODATA = 536870984
+pkg syscall (windows-arm64), const ENODATA Errno
+pkg syscall (windows-arm64), const ENODEV = 536870985
+pkg syscall (windows-arm64), const ENODEV Errno
+pkg syscall (windows-arm64), const ENOENT = 2
+pkg syscall (windows-arm64), const ENOENT Errno
+pkg syscall (windows-arm64), const ENOEXEC = 536870986
+pkg syscall (windows-arm64), const ENOEXEC Errno
+pkg syscall (windows-arm64), const ENOKEY = 536870987
+pkg syscall (windows-arm64), const ENOKEY Errno
+pkg syscall (windows-arm64), const ENOLCK = 536870988
+pkg syscall (windows-arm64), const ENOLCK Errno
+pkg syscall (windows-arm64), const ENOLINK = 536870989
+pkg syscall (windows-arm64), const ENOLINK Errno
+pkg syscall (windows-arm64), const ENOMEDIUM = 536870990
+pkg syscall (windows-arm64), const ENOMEDIUM Errno
+pkg syscall (windows-arm64), const ENOMEM = 536870991
+pkg syscall (windows-arm64), const ENOMEM Errno
+pkg syscall (windows-arm64), const ENOMSG = 536870992
+pkg syscall (windows-arm64), const ENOMSG Errno
+pkg syscall (windows-arm64), const ENONET = 536870993
+pkg syscall (windows-arm64), const ENONET Errno
+pkg syscall (windows-arm64), const ENOPKG = 536870994
+pkg syscall (windows-arm64), const ENOPKG Errno
+pkg syscall (windows-arm64), const ENOPROTOOPT = 536870995
+pkg syscall (windows-arm64), const ENOPROTOOPT Errno
+pkg syscall (windows-arm64), const ENOSPC = 536870996
+pkg syscall (windows-arm64), const ENOSPC Errno
+pkg syscall (windows-arm64), const ENOSR = 536870997
+pkg syscall (windows-arm64), const ENOSR Errno
+pkg syscall (windows-arm64), const ENOSTR = 536870998
+pkg syscall (windows-arm64), const ENOSTR Errno
+pkg syscall (windows-arm64), const ENOSYS = 536870999
+pkg syscall (windows-arm64), const ENOSYS Errno
+pkg syscall (windows-arm64), const ENOTBLK = 536871000
+pkg syscall (windows-arm64), const ENOTBLK Errno
+pkg syscall (windows-arm64), const ENOTCONN = 536871001
+pkg syscall (windows-arm64), const ENOTCONN Errno
+pkg syscall (windows-arm64), const ENOTDIR = 3
+pkg syscall (windows-arm64), const ENOTDIR Errno
+pkg syscall (windows-arm64), const ENOTEMPTY = 536871002
+pkg syscall (windows-arm64), const ENOTEMPTY Errno
+pkg syscall (windows-arm64), const ENOTNAM = 536871003
+pkg syscall (windows-arm64), const ENOTNAM Errno
+pkg syscall (windows-arm64), const ENOTRECOVERABLE = 536871004
+pkg syscall (windows-arm64), const ENOTRECOVERABLE Errno
+pkg syscall (windows-arm64), const ENOTSOCK = 536871005
+pkg syscall (windows-arm64), const ENOTSOCK Errno
+pkg syscall (windows-arm64), const ENOTSUP = 536871006
+pkg syscall (windows-arm64), const ENOTSUP Errno
+pkg syscall (windows-arm64), const ENOTTY = 536871007
+pkg syscall (windows-arm64), const ENOTTY Errno
+pkg syscall (windows-arm64), const ENOTUNIQ = 536871008
+pkg syscall (windows-arm64), const ENOTUNIQ Errno
+pkg syscall (windows-arm64), const ENXIO = 536871009
+pkg syscall (windows-arm64), const ENXIO Errno
+pkg syscall (windows-arm64), const EOPNOTSUPP = 536871010
+pkg syscall (windows-arm64), const EOPNOTSUPP Errno
+pkg syscall (windows-arm64), const EOVERFLOW = 536871011
+pkg syscall (windows-arm64), const EOVERFLOW Errno
+pkg syscall (windows-arm64), const EOWNERDEAD = 536871012
+pkg syscall (windows-arm64), const EOWNERDEAD Errno
+pkg syscall (windows-arm64), const EPERM = 536871013
+pkg syscall (windows-arm64), const EPERM Errno
+pkg syscall (windows-arm64), const EPFNOSUPPORT = 536871014
+pkg syscall (windows-arm64), const EPFNOSUPPORT Errno
+pkg syscall (windows-arm64), const EPIPE = 536871015
+pkg syscall (windows-arm64), const EPIPE Errno
+pkg syscall (windows-arm64), const EPROTO = 536871016
+pkg syscall (windows-arm64), const EPROTO Errno
+pkg syscall (windows-arm64), const EPROTONOSUPPORT = 536871017
+pkg syscall (windows-arm64), const EPROTONOSUPPORT Errno
+pkg syscall (windows-arm64), const EPROTOTYPE = 536871018
+pkg syscall (windows-arm64), const EPROTOTYPE Errno
+pkg syscall (windows-arm64), const ERANGE = 536871019
+pkg syscall (windows-arm64), const ERANGE Errno
+pkg syscall (windows-arm64), const EREMCHG = 536871020
+pkg syscall (windows-arm64), const EREMCHG Errno
+pkg syscall (windows-arm64), const EREMOTE = 536871021
+pkg syscall (windows-arm64), const EREMOTE Errno
+pkg syscall (windows-arm64), const EREMOTEIO = 536871022
+pkg syscall (windows-arm64), const EREMOTEIO Errno
+pkg syscall (windows-arm64), const ERESTART = 536871023
+pkg syscall (windows-arm64), const ERESTART Errno
+pkg syscall (windows-arm64), const EROFS = 536871024
+pkg syscall (windows-arm64), const EROFS Errno
+pkg syscall (windows-arm64), const ERROR_ACCESS_DENIED = 5
+pkg syscall (windows-arm64), const ERROR_ACCESS_DENIED Errno
+pkg syscall (windows-arm64), const ERROR_ALREADY_EXISTS = 183
+pkg syscall (windows-arm64), const ERROR_ALREADY_EXISTS Errno
+pkg syscall (windows-arm64), const ERROR_BROKEN_PIPE = 109
+pkg syscall (windows-arm64), const ERROR_BROKEN_PIPE Errno
+pkg syscall (windows-arm64), const ERROR_BUFFER_OVERFLOW = 111
+pkg syscall (windows-arm64), const ERROR_BUFFER_OVERFLOW Errno
+pkg syscall (windows-arm64), const ERROR_DIR_NOT_EMPTY = 145
+pkg syscall (windows-arm64), const ERROR_DIR_NOT_EMPTY Errno
+pkg syscall (windows-arm64), const ERROR_ENVVAR_NOT_FOUND = 203
+pkg syscall (windows-arm64), const ERROR_ENVVAR_NOT_FOUND Errno
+pkg syscall (windows-arm64), const ERROR_FILE_EXISTS = 80
+pkg syscall (windows-arm64), const ERROR_FILE_EXISTS Errno
+pkg syscall (windows-arm64), const ERROR_FILE_NOT_FOUND = 2
+pkg syscall (windows-arm64), const ERROR_FILE_NOT_FOUND Errno
+pkg syscall (windows-arm64), const ERROR_HANDLE_EOF = 38
+pkg syscall (windows-arm64), const ERROR_HANDLE_EOF Errno
+pkg syscall (windows-arm64), const ERROR_INSUFFICIENT_BUFFER = 122
+pkg syscall (windows-arm64), const ERROR_INSUFFICIENT_BUFFER Errno
+pkg syscall (windows-arm64), const ERROR_IO_PENDING = 997
+pkg syscall (windows-arm64), const ERROR_IO_PENDING Errno
+pkg syscall (windows-arm64), const ERROR_MOD_NOT_FOUND = 126
+pkg syscall (windows-arm64), const ERROR_MOD_NOT_FOUND Errno
+pkg syscall (windows-arm64), const ERROR_MORE_DATA = 234
+pkg syscall (windows-arm64), const ERROR_MORE_DATA Errno
+pkg syscall (windows-arm64), const ERROR_NETNAME_DELETED = 64
+pkg syscall (windows-arm64), const ERROR_NETNAME_DELETED Errno
+pkg syscall (windows-arm64), const ERROR_NOT_FOUND = 1168
+pkg syscall (windows-arm64), const ERROR_NOT_FOUND Errno
+pkg syscall (windows-arm64), const ERROR_NO_MORE_FILES = 18
+pkg syscall (windows-arm64), const ERROR_NO_MORE_FILES Errno
+pkg syscall (windows-arm64), const ERROR_OPERATION_ABORTED = 995
+pkg syscall (windows-arm64), const ERROR_OPERATION_ABORTED Errno
+pkg syscall (windows-arm64), const ERROR_PATH_NOT_FOUND = 3
+pkg syscall (windows-arm64), const ERROR_PATH_NOT_FOUND Errno
+pkg syscall (windows-arm64), const ERROR_PRIVILEGE_NOT_HELD = 1314
+pkg syscall (windows-arm64), const ERROR_PRIVILEGE_NOT_HELD Errno
+pkg syscall (windows-arm64), const ERROR_PROC_NOT_FOUND = 127
+pkg syscall (windows-arm64), const ERROR_PROC_NOT_FOUND Errno
+pkg syscall (windows-arm64), const ESHUTDOWN = 536871025
+pkg syscall (windows-arm64), const ESHUTDOWN Errno
+pkg syscall (windows-arm64), const ESOCKTNOSUPPORT = 536871026
+pkg syscall (windows-arm64), const ESOCKTNOSUPPORT Errno
+pkg syscall (windows-arm64), const ESPIPE = 536871027
+pkg syscall (windows-arm64), const ESPIPE Errno
+pkg syscall (windows-arm64), const ESRCH = 536871028
+pkg syscall (windows-arm64), const ESRCH Errno
+pkg syscall (windows-arm64), const ESRMNT = 536871029
+pkg syscall (windows-arm64), const ESRMNT Errno
+pkg syscall (windows-arm64), const ESTALE = 536871030
+pkg syscall (windows-arm64), const ESTALE Errno
+pkg syscall (windows-arm64), const ESTRPIPE = 536871031
+pkg syscall (windows-arm64), const ESTRPIPE Errno
+pkg syscall (windows-arm64), const ETIME = 536871032
+pkg syscall (windows-arm64), const ETIME Errno
+pkg syscall (windows-arm64), const ETIMEDOUT = 536871033
+pkg syscall (windows-arm64), const ETIMEDOUT Errno
+pkg syscall (windows-arm64), const ETOOMANYREFS = 536871034
+pkg syscall (windows-arm64), const ETOOMANYREFS Errno
+pkg syscall (windows-arm64), const ETXTBSY = 536871035
+pkg syscall (windows-arm64), const ETXTBSY Errno
+pkg syscall (windows-arm64), const EUCLEAN = 536871036
+pkg syscall (windows-arm64), const EUCLEAN Errno
+pkg syscall (windows-arm64), const EUNATCH = 536871037
+pkg syscall (windows-arm64), const EUNATCH Errno
+pkg syscall (windows-arm64), const EUSERS = 536871038
+pkg syscall (windows-arm64), const EUSERS Errno
+pkg syscall (windows-arm64), const EWINDOWS = 536871042
+pkg syscall (windows-arm64), const EWINDOWS Errno
+pkg syscall (windows-arm64), const EWOULDBLOCK = 536871039
+pkg syscall (windows-arm64), const EWOULDBLOCK Errno
+pkg syscall (windows-arm64), const EXDEV = 536871040
+pkg syscall (windows-arm64), const EXDEV Errno
+pkg syscall (windows-arm64), const EXFULL = 536871041
+pkg syscall (windows-arm64), const EXFULL Errno
+pkg syscall (windows-arm64), const FILE_ACTION_ADDED = 1
+pkg syscall (windows-arm64), const FILE_ACTION_ADDED ideal-int
+pkg syscall (windows-arm64), const FILE_ACTION_MODIFIED = 3
+pkg syscall (windows-arm64), const FILE_ACTION_MODIFIED ideal-int
+pkg syscall (windows-arm64), const FILE_ACTION_REMOVED = 2
+pkg syscall (windows-arm64), const FILE_ACTION_REMOVED ideal-int
+pkg syscall (windows-arm64), const FILE_ACTION_RENAMED_NEW_NAME = 5
+pkg syscall (windows-arm64), const FILE_ACTION_RENAMED_NEW_NAME ideal-int
+pkg syscall (windows-arm64), const FILE_ACTION_RENAMED_OLD_NAME = 4
+pkg syscall (windows-arm64), const FILE_ACTION_RENAMED_OLD_NAME ideal-int
+pkg syscall (windows-arm64), const FILE_APPEND_DATA = 4
+pkg syscall (windows-arm64), const FILE_APPEND_DATA ideal-int
+pkg syscall (windows-arm64), const FILE_ATTRIBUTE_ARCHIVE = 32
+pkg syscall (windows-arm64), const FILE_ATTRIBUTE_ARCHIVE ideal-int
+pkg syscall (windows-arm64), const FILE_ATTRIBUTE_DIRECTORY = 16
+pkg syscall (windows-arm64), const FILE_ATTRIBUTE_DIRECTORY ideal-int
+pkg syscall (windows-arm64), const FILE_ATTRIBUTE_HIDDEN = 2
+pkg syscall (windows-arm64), const FILE_ATTRIBUTE_HIDDEN ideal-int
+pkg syscall (windows-arm64), const FILE_ATTRIBUTE_NORMAL = 128
+pkg syscall (windows-arm64), const FILE_ATTRIBUTE_NORMAL ideal-int
+pkg syscall (windows-arm64), const FILE_ATTRIBUTE_READONLY = 1
+pkg syscall (windows-arm64), const FILE_ATTRIBUTE_READONLY ideal-int
+pkg syscall (windows-arm64), const FILE_ATTRIBUTE_REPARSE_POINT = 1024
+pkg syscall (windows-arm64), const FILE_ATTRIBUTE_REPARSE_POINT ideal-int
+pkg syscall (windows-arm64), const FILE_ATTRIBUTE_SYSTEM = 4
+pkg syscall (windows-arm64), const FILE_ATTRIBUTE_SYSTEM ideal-int
+pkg syscall (windows-arm64), const FILE_BEGIN = 0
+pkg syscall (windows-arm64), const FILE_BEGIN ideal-int
+pkg syscall (windows-arm64), const FILE_CURRENT = 1
+pkg syscall (windows-arm64), const FILE_CURRENT ideal-int
+pkg syscall (windows-arm64), const FILE_END = 2
+pkg syscall (windows-arm64), const FILE_END ideal-int
+pkg syscall (windows-arm64), const FILE_FLAG_BACKUP_SEMANTICS = 33554432
+pkg syscall (windows-arm64), const FILE_FLAG_BACKUP_SEMANTICS ideal-int
+pkg syscall (windows-arm64), const FILE_FLAG_OPEN_REPARSE_POINT = 2097152
+pkg syscall (windows-arm64), const FILE_FLAG_OPEN_REPARSE_POINT ideal-int
+pkg syscall (windows-arm64), const FILE_FLAG_OVERLAPPED = 1073741824
+pkg syscall (windows-arm64), const FILE_FLAG_OVERLAPPED ideal-int
+pkg syscall (windows-arm64), const FILE_LIST_DIRECTORY = 1
+pkg syscall (windows-arm64), const FILE_LIST_DIRECTORY ideal-int
+pkg syscall (windows-arm64), const FILE_MAP_COPY = 1
+pkg syscall (windows-arm64), const FILE_MAP_COPY ideal-int
+pkg syscall (windows-arm64), const FILE_MAP_EXECUTE = 32
+pkg syscall (windows-arm64), const FILE_MAP_EXECUTE ideal-int
+pkg syscall (windows-arm64), const FILE_MAP_READ = 4
+pkg syscall (windows-arm64), const FILE_MAP_READ ideal-int
+pkg syscall (windows-arm64), const FILE_MAP_WRITE = 2
+pkg syscall (windows-arm64), const FILE_MAP_WRITE ideal-int
+pkg syscall (windows-arm64), const FILE_NOTIFY_CHANGE_ATTRIBUTES = 4
+pkg syscall (windows-arm64), const FILE_NOTIFY_CHANGE_ATTRIBUTES ideal-int
+pkg syscall (windows-arm64), const FILE_NOTIFY_CHANGE_CREATION = 64
+pkg syscall (windows-arm64), const FILE_NOTIFY_CHANGE_CREATION ideal-int
+pkg syscall (windows-arm64), const FILE_NOTIFY_CHANGE_DIR_NAME = 2
+pkg syscall (windows-arm64), const FILE_NOTIFY_CHANGE_DIR_NAME ideal-int
+pkg syscall (windows-arm64), const FILE_NOTIFY_CHANGE_FILE_NAME = 1
+pkg syscall (windows-arm64), const FILE_NOTIFY_CHANGE_FILE_NAME ideal-int
+pkg syscall (windows-arm64), const FILE_NOTIFY_CHANGE_LAST_ACCESS = 32
+pkg syscall (windows-arm64), const FILE_NOTIFY_CHANGE_LAST_ACCESS ideal-int
+pkg syscall (windows-arm64), const FILE_NOTIFY_CHANGE_LAST_WRITE = 16
+pkg syscall (windows-arm64), const FILE_NOTIFY_CHANGE_LAST_WRITE ideal-int
+pkg syscall (windows-arm64), const FILE_NOTIFY_CHANGE_SIZE = 8
+pkg syscall (windows-arm64), const FILE_NOTIFY_CHANGE_SIZE ideal-int
+pkg syscall (windows-arm64), const FILE_SHARE_DELETE = 4
+pkg syscall (windows-arm64), const FILE_SHARE_DELETE ideal-int
+pkg syscall (windows-arm64), const FILE_SHARE_READ = 1
+pkg syscall (windows-arm64), const FILE_SHARE_READ ideal-int
+pkg syscall (windows-arm64), const FILE_SHARE_WRITE = 2
+pkg syscall (windows-arm64), const FILE_SHARE_WRITE ideal-int
+pkg syscall (windows-arm64), const FILE_SKIP_COMPLETION_PORT_ON_SUCCESS = 1
+pkg syscall (windows-arm64), const FILE_SKIP_COMPLETION_PORT_ON_SUCCESS ideal-int
+pkg syscall (windows-arm64), const FILE_SKIP_SET_EVENT_ON_HANDLE = 2
+pkg syscall (windows-arm64), const FILE_SKIP_SET_EVENT_ON_HANDLE ideal-int
+pkg syscall (windows-arm64), const FILE_TYPE_CHAR = 2
+pkg syscall (windows-arm64), const FILE_TYPE_CHAR ideal-int
+pkg syscall (windows-arm64), const FILE_TYPE_DISK = 1
+pkg syscall (windows-arm64), const FILE_TYPE_DISK ideal-int
+pkg syscall (windows-arm64), const FILE_TYPE_PIPE = 3
+pkg syscall (windows-arm64), const FILE_TYPE_PIPE ideal-int
+pkg syscall (windows-arm64), const FILE_TYPE_REMOTE = 32768
+pkg syscall (windows-arm64), const FILE_TYPE_REMOTE ideal-int
+pkg syscall (windows-arm64), const FILE_TYPE_UNKNOWN = 0
+pkg syscall (windows-arm64), const FILE_TYPE_UNKNOWN ideal-int
+pkg syscall (windows-arm64), const FILE_WRITE_ATTRIBUTES = 256
+pkg syscall (windows-arm64), const FILE_WRITE_ATTRIBUTES ideal-int
+pkg syscall (windows-arm64), const FORMAT_MESSAGE_ALLOCATE_BUFFER = 256
+pkg syscall (windows-arm64), const FORMAT_MESSAGE_ALLOCATE_BUFFER ideal-int
+pkg syscall (windows-arm64), const FORMAT_MESSAGE_ARGUMENT_ARRAY = 8192
+pkg syscall (windows-arm64), const FORMAT_MESSAGE_ARGUMENT_ARRAY ideal-int
+pkg syscall (windows-arm64), const FORMAT_MESSAGE_FROM_HMODULE = 2048
+pkg syscall (windows-arm64), const FORMAT_MESSAGE_FROM_HMODULE ideal-int
+pkg syscall (windows-arm64), const FORMAT_MESSAGE_FROM_STRING = 1024
+pkg syscall (windows-arm64), const FORMAT_MESSAGE_FROM_STRING ideal-int
+pkg syscall (windows-arm64), const FORMAT_MESSAGE_FROM_SYSTEM = 4096
+pkg syscall (windows-arm64), const FORMAT_MESSAGE_FROM_SYSTEM ideal-int
+pkg syscall (windows-arm64), const FORMAT_MESSAGE_IGNORE_INSERTS = 512
+pkg syscall (windows-arm64), const FORMAT_MESSAGE_IGNORE_INSERTS ideal-int
+pkg syscall (windows-arm64), const FORMAT_MESSAGE_MAX_WIDTH_MASK = 255
+pkg syscall (windows-arm64), const FORMAT_MESSAGE_MAX_WIDTH_MASK ideal-int
+pkg syscall (windows-arm64), const FSCTL_GET_REPARSE_POINT = 589992
+pkg syscall (windows-arm64), const FSCTL_GET_REPARSE_POINT ideal-int
+pkg syscall (windows-arm64), const GENERIC_ALL = 268435456
+pkg syscall (windows-arm64), const GENERIC_ALL ideal-int
+pkg syscall (windows-arm64), const GENERIC_EXECUTE = 536870912
+pkg syscall (windows-arm64), const GENERIC_EXECUTE ideal-int
+pkg syscall (windows-arm64), const GENERIC_READ = 2147483648
+pkg syscall (windows-arm64), const GENERIC_READ ideal-int
+pkg syscall (windows-arm64), const GENERIC_WRITE = 1073741824
+pkg syscall (windows-arm64), const GENERIC_WRITE ideal-int
+pkg syscall (windows-arm64), const GetFileExInfoStandard = 0
+pkg syscall (windows-arm64), const GetFileExInfoStandard ideal-int
+pkg syscall (windows-arm64), const GetFileExMaxInfoLevel = 1
+pkg syscall (windows-arm64), const GetFileExMaxInfoLevel ideal-int
+pkg syscall (windows-arm64), const HANDLE_FLAG_INHERIT = 1
+pkg syscall (windows-arm64), const HANDLE_FLAG_INHERIT ideal-int
+pkg syscall (windows-arm64), const HKEY_CLASSES_ROOT = 2147483648
+pkg syscall (windows-arm64), const HKEY_CLASSES_ROOT ideal-int
+pkg syscall (windows-arm64), const HKEY_CURRENT_CONFIG = 2147483653
+pkg syscall (windows-arm64), const HKEY_CURRENT_CONFIG ideal-int
+pkg syscall (windows-arm64), const HKEY_CURRENT_USER = 2147483649
+pkg syscall (windows-arm64), const HKEY_CURRENT_USER ideal-int
+pkg syscall (windows-arm64), const HKEY_DYN_DATA = 2147483654
+pkg syscall (windows-arm64), const HKEY_DYN_DATA ideal-int
+pkg syscall (windows-arm64), const HKEY_LOCAL_MACHINE = 2147483650
+pkg syscall (windows-arm64), const HKEY_LOCAL_MACHINE ideal-int
+pkg syscall (windows-arm64), const HKEY_PERFORMANCE_DATA = 2147483652
+pkg syscall (windows-arm64), const HKEY_PERFORMANCE_DATA ideal-int
+pkg syscall (windows-arm64), const HKEY_USERS = 2147483651
+pkg syscall (windows-arm64), const HKEY_USERS ideal-int
+pkg syscall (windows-arm64), const IFF_BROADCAST = 2
+pkg syscall (windows-arm64), const IFF_BROADCAST ideal-int
+pkg syscall (windows-arm64), const IFF_LOOPBACK = 4
+pkg syscall (windows-arm64), const IFF_LOOPBACK ideal-int
+pkg syscall (windows-arm64), const IFF_MULTICAST = 16
+pkg syscall (windows-arm64), const IFF_MULTICAST ideal-int
+pkg syscall (windows-arm64), const IFF_POINTTOPOINT = 8
+pkg syscall (windows-arm64), const IFF_POINTTOPOINT ideal-int
+pkg syscall (windows-arm64), const IFF_UP = 1
+pkg syscall (windows-arm64), const IFF_UP ideal-int
+pkg syscall (windows-arm64), const IGNORE = 0
+pkg syscall (windows-arm64), const IGNORE ideal-int
+pkg syscall (windows-arm64), const INFINITE = 4294967295
+pkg syscall (windows-arm64), const INFINITE ideal-int
+pkg syscall (windows-arm64), const INVALID_FILE_ATTRIBUTES = 4294967295
+pkg syscall (windows-arm64), const INVALID_FILE_ATTRIBUTES ideal-int
+pkg syscall (windows-arm64), const IOC_IN = 2147483648
+pkg syscall (windows-arm64), const IOC_IN ideal-int
+pkg syscall (windows-arm64), const IOC_INOUT = 3221225472
+pkg syscall (windows-arm64), const IOC_INOUT ideal-int
+pkg syscall (windows-arm64), const IOC_OUT = 1073741824
+pkg syscall (windows-arm64), const IOC_OUT ideal-int
+pkg syscall (windows-arm64), const IOC_VENDOR = 402653184
+pkg syscall (windows-arm64), const IOC_VENDOR ideal-int
+pkg syscall (windows-arm64), const IOC_WS2 = 134217728
+pkg syscall (windows-arm64), const IOC_WS2 ideal-int
+pkg syscall (windows-arm64), const IO_REPARSE_TAG_SYMLINK = 2684354572
+pkg syscall (windows-arm64), const IO_REPARSE_TAG_SYMLINK ideal-int
+pkg syscall (windows-arm64), const IPPROTO_IP = 0
+pkg syscall (windows-arm64), const IPPROTO_IP ideal-int
+pkg syscall (windows-arm64), const IPPROTO_IPV6 = 41
+pkg syscall (windows-arm64), const IPPROTO_IPV6 ideal-int
+pkg syscall (windows-arm64), const IPPROTO_TCP = 6
+pkg syscall (windows-arm64), const IPPROTO_TCP ideal-int
+pkg syscall (windows-arm64), const IPPROTO_UDP = 17
+pkg syscall (windows-arm64), const IPPROTO_UDP ideal-int
+pkg syscall (windows-arm64), const IPV6_JOIN_GROUP = 12
+pkg syscall (windows-arm64), const IPV6_JOIN_GROUP ideal-int
+pkg syscall (windows-arm64), const IPV6_LEAVE_GROUP = 13
+pkg syscall (windows-arm64), const IPV6_LEAVE_GROUP ideal-int
+pkg syscall (windows-arm64), const IPV6_MULTICAST_HOPS = 10
+pkg syscall (windows-arm64), const IPV6_MULTICAST_HOPS ideal-int
+pkg syscall (windows-arm64), const IPV6_MULTICAST_IF = 9
+pkg syscall (windows-arm64), const IPV6_MULTICAST_IF ideal-int
+pkg syscall (windows-arm64), const IPV6_MULTICAST_LOOP = 11
+pkg syscall (windows-arm64), const IPV6_MULTICAST_LOOP ideal-int
+pkg syscall (windows-arm64), const IPV6_UNICAST_HOPS = 4
+pkg syscall (windows-arm64), const IPV6_UNICAST_HOPS ideal-int
+pkg syscall (windows-arm64), const IPV6_V6ONLY = 27
+pkg syscall (windows-arm64), const IPV6_V6ONLY ideal-int
+pkg syscall (windows-arm64), const IP_ADD_MEMBERSHIP = 12
+pkg syscall (windows-arm64), const IP_ADD_MEMBERSHIP ideal-int
+pkg syscall (windows-arm64), const IP_DROP_MEMBERSHIP = 13
+pkg syscall (windows-arm64), const IP_DROP_MEMBERSHIP ideal-int
+pkg syscall (windows-arm64), const IP_MULTICAST_IF = 9
+pkg syscall (windows-arm64), const IP_MULTICAST_IF ideal-int
+pkg syscall (windows-arm64), const IP_MULTICAST_LOOP = 11
+pkg syscall (windows-arm64), const IP_MULTICAST_LOOP ideal-int
+pkg syscall (windows-arm64), const IP_MULTICAST_TTL = 10
+pkg syscall (windows-arm64), const IP_MULTICAST_TTL ideal-int
+pkg syscall (windows-arm64), const IP_TOS = 3
+pkg syscall (windows-arm64), const IP_TOS ideal-int
+pkg syscall (windows-arm64), const IP_TTL = 4
+pkg syscall (windows-arm64), const IP_TTL ideal-int
+pkg syscall (windows-arm64), const InvalidHandle = 18446744073709551615
+pkg syscall (windows-arm64), const InvalidHandle Handle
+pkg syscall (windows-arm64), const KEY_ALL_ACCESS = 983103
+pkg syscall (windows-arm64), const KEY_ALL_ACCESS ideal-int
+pkg syscall (windows-arm64), const KEY_CREATE_LINK = 32
+pkg syscall (windows-arm64), const KEY_CREATE_LINK ideal-int
+pkg syscall (windows-arm64), const KEY_CREATE_SUB_KEY = 4
+pkg syscall (windows-arm64), const KEY_CREATE_SUB_KEY ideal-int
+pkg syscall (windows-arm64), const KEY_ENUMERATE_SUB_KEYS = 8
+pkg syscall (windows-arm64), const KEY_ENUMERATE_SUB_KEYS ideal-int
+pkg syscall (windows-arm64), const KEY_EXECUTE = 131097
+pkg syscall (windows-arm64), const KEY_EXECUTE ideal-int
+pkg syscall (windows-arm64), const KEY_NOTIFY = 16
+pkg syscall (windows-arm64), const KEY_NOTIFY ideal-int
+pkg syscall (windows-arm64), const KEY_QUERY_VALUE = 1
+pkg syscall (windows-arm64), const KEY_QUERY_VALUE ideal-int
+pkg syscall (windows-arm64), const KEY_READ = 131097
+pkg syscall (windows-arm64), const KEY_READ ideal-int
+pkg syscall (windows-arm64), const KEY_SET_VALUE = 2
+pkg syscall (windows-arm64), const KEY_SET_VALUE ideal-int
+pkg syscall (windows-arm64), const KEY_WOW64_32KEY = 512
+pkg syscall (windows-arm64), const KEY_WOW64_32KEY ideal-int
+pkg syscall (windows-arm64), const KEY_WOW64_64KEY = 256
+pkg syscall (windows-arm64), const KEY_WOW64_64KEY ideal-int
+pkg syscall (windows-arm64), const KEY_WRITE = 131078
+pkg syscall (windows-arm64), const KEY_WRITE ideal-int
+pkg syscall (windows-arm64), const LANG_ENGLISH = 9
+pkg syscall (windows-arm64), const LANG_ENGLISH ideal-int
+pkg syscall (windows-arm64), const LAYERED_PROTOCOL = 0
+pkg syscall (windows-arm64), const LAYERED_PROTOCOL ideal-int
+pkg syscall (windows-arm64), const MAXIMUM_REPARSE_DATA_BUFFER_SIZE = 16384
+pkg syscall (windows-arm64), const MAXIMUM_REPARSE_DATA_BUFFER_SIZE ideal-int
+pkg syscall (windows-arm64), const MAXLEN_IFDESCR = 256
+pkg syscall (windows-arm64), const MAXLEN_IFDESCR ideal-int
+pkg syscall (windows-arm64), const MAXLEN_PHYSADDR = 8
+pkg syscall (windows-arm64), const MAXLEN_PHYSADDR ideal-int
+pkg syscall (windows-arm64), const MAX_ADAPTER_ADDRESS_LENGTH = 8
+pkg syscall (windows-arm64), const MAX_ADAPTER_ADDRESS_LENGTH ideal-int
+pkg syscall (windows-arm64), const MAX_ADAPTER_DESCRIPTION_LENGTH = 128
+pkg syscall (windows-arm64), const MAX_ADAPTER_DESCRIPTION_LENGTH ideal-int
+pkg syscall (windows-arm64), const MAX_ADAPTER_NAME_LENGTH = 256
+pkg syscall (windows-arm64), const MAX_ADAPTER_NAME_LENGTH ideal-int
+pkg syscall (windows-arm64), const MAX_COMPUTERNAME_LENGTH = 15
+pkg syscall (windows-arm64), const MAX_COMPUTERNAME_LENGTH ideal-int
+pkg syscall (windows-arm64), const MAX_INTERFACE_NAME_LEN = 256
+pkg syscall (windows-arm64), const MAX_INTERFACE_NAME_LEN ideal-int
+pkg syscall (windows-arm64), const MAX_LONG_PATH = 32768
+pkg syscall (windows-arm64), const MAX_LONG_PATH ideal-int
+pkg syscall (windows-arm64), const MAX_PATH = 260
+pkg syscall (windows-arm64), const MAX_PATH ideal-int
+pkg syscall (windows-arm64), const MAX_PROTOCOL_CHAIN = 7
+pkg syscall (windows-arm64), const MAX_PROTOCOL_CHAIN ideal-int
+pkg syscall (windows-arm64), const MaxTokenInfoClass = 29
+pkg syscall (windows-arm64), const MaxTokenInfoClass ideal-int
+pkg syscall (windows-arm64), const NameCanonical = 7
+pkg syscall (windows-arm64), const NameCanonical ideal-int
+pkg syscall (windows-arm64), const NameCanonicalEx = 9
+pkg syscall (windows-arm64), const NameCanonicalEx ideal-int
+pkg syscall (windows-arm64), const NameDisplay = 3
+pkg syscall (windows-arm64), const NameDisplay ideal-int
+pkg syscall (windows-arm64), const NameDnsDomain = 12
+pkg syscall (windows-arm64), const NameDnsDomain ideal-int
+pkg syscall (windows-arm64), const NameFullyQualifiedDN = 1
+pkg syscall (windows-arm64), const NameFullyQualifiedDN ideal-int
+pkg syscall (windows-arm64), const NameSamCompatible = 2
+pkg syscall (windows-arm64), const NameSamCompatible ideal-int
+pkg syscall (windows-arm64), const NameServicePrincipal = 10
+pkg syscall (windows-arm64), const NameServicePrincipal ideal-int
+pkg syscall (windows-arm64), const NameUniqueId = 6
+pkg syscall (windows-arm64), const NameUniqueId ideal-int
+pkg syscall (windows-arm64), const NameUnknown = 0
+pkg syscall (windows-arm64), const NameUnknown ideal-int
+pkg syscall (windows-arm64), const NameUserPrincipal = 8
+pkg syscall (windows-arm64), const NameUserPrincipal ideal-int
+pkg syscall (windows-arm64), const NetSetupDomainName = 3
+pkg syscall (windows-arm64), const NetSetupDomainName ideal-int
+pkg syscall (windows-arm64), const NetSetupUnjoined = 1
+pkg syscall (windows-arm64), const NetSetupUnjoined ideal-int
+pkg syscall (windows-arm64), const NetSetupUnknownStatus = 0
+pkg syscall (windows-arm64), const NetSetupUnknownStatus ideal-int
+pkg syscall (windows-arm64), const NetSetupWorkgroupName = 2
+pkg syscall (windows-arm64), const NetSetupWorkgroupName ideal-int
+pkg syscall (windows-arm64), const OPEN_ALWAYS = 4
+pkg syscall (windows-arm64), const OPEN_ALWAYS ideal-int
+pkg syscall (windows-arm64), const OPEN_EXISTING = 3
+pkg syscall (windows-arm64), const OPEN_EXISTING ideal-int
+pkg syscall (windows-arm64), const O_APPEND = 1024
+pkg syscall (windows-arm64), const O_ASYNC = 8192
+pkg syscall (windows-arm64), const O_ASYNC ideal-int
+pkg syscall (windows-arm64), const O_CLOEXEC = 524288
+pkg syscall (windows-arm64), const O_CREAT = 64
+pkg syscall (windows-arm64), const O_EXCL = 128
+pkg syscall (windows-arm64), const O_NOCTTY = 256
+pkg syscall (windows-arm64), const O_NOCTTY ideal-int
+pkg syscall (windows-arm64), const O_NONBLOCK = 2048
+pkg syscall (windows-arm64), const O_NONBLOCK ideal-int
+pkg syscall (windows-arm64), const O_SYNC = 4096
+pkg syscall (windows-arm64), const O_TRUNC = 512
+pkg syscall (windows-arm64), const PAGE_EXECUTE_READ = 32
+pkg syscall (windows-arm64), const PAGE_EXECUTE_READ ideal-int
+pkg syscall (windows-arm64), const PAGE_EXECUTE_READWRITE = 64
+pkg syscall (windows-arm64), const PAGE_EXECUTE_READWRITE ideal-int
+pkg syscall (windows-arm64), const PAGE_EXECUTE_WRITECOPY = 128
+pkg syscall (windows-arm64), const PAGE_EXECUTE_WRITECOPY ideal-int
+pkg syscall (windows-arm64), const PAGE_READONLY = 2
+pkg syscall (windows-arm64), const PAGE_READONLY ideal-int
+pkg syscall (windows-arm64), const PAGE_READWRITE = 4
+pkg syscall (windows-arm64), const PAGE_READWRITE ideal-int
+pkg syscall (windows-arm64), const PAGE_WRITECOPY = 8
+pkg syscall (windows-arm64), const PAGE_WRITECOPY ideal-int
+pkg syscall (windows-arm64), const PFL_HIDDEN = 4
+pkg syscall (windows-arm64), const PFL_HIDDEN ideal-int
+pkg syscall (windows-arm64), const PFL_MATCHES_PROTOCOL_ZERO = 8
+pkg syscall (windows-arm64), const PFL_MATCHES_PROTOCOL_ZERO ideal-int
+pkg syscall (windows-arm64), const PFL_MULTIPLE_PROTO_ENTRIES = 1
+pkg syscall (windows-arm64), const PFL_MULTIPLE_PROTO_ENTRIES ideal-int
+pkg syscall (windows-arm64), const PFL_NETWORKDIRECT_PROVIDER = 16
+pkg syscall (windows-arm64), const PFL_NETWORKDIRECT_PROVIDER ideal-int
+pkg syscall (windows-arm64), const PFL_RECOMMENDED_PROTO_ENTRY = 2
+pkg syscall (windows-arm64), const PFL_RECOMMENDED_PROTO_ENTRY ideal-int
+pkg syscall (windows-arm64), const PKCS_7_ASN_ENCODING = 65536
+pkg syscall (windows-arm64), const PKCS_7_ASN_ENCODING ideal-int
+pkg syscall (windows-arm64), const PROCESS_QUERY_INFORMATION = 1024
+pkg syscall (windows-arm64), const PROCESS_QUERY_INFORMATION ideal-int
+pkg syscall (windows-arm64), const PROCESS_TERMINATE = 1
+pkg syscall (windows-arm64), const PROCESS_TERMINATE ideal-int
+pkg syscall (windows-arm64), const PROV_DH_SCHANNEL = 18
+pkg syscall (windows-arm64), const PROV_DH_SCHANNEL ideal-int
+pkg syscall (windows-arm64), const PROV_DSS = 3
+pkg syscall (windows-arm64), const PROV_DSS ideal-int
+pkg syscall (windows-arm64), const PROV_DSS_DH = 13
+pkg syscall (windows-arm64), const PROV_DSS_DH ideal-int
+pkg syscall (windows-arm64), const PROV_EC_ECDSA_FULL = 16
+pkg syscall (windows-arm64), const PROV_EC_ECDSA_FULL ideal-int
+pkg syscall (windows-arm64), const PROV_EC_ECDSA_SIG = 14
+pkg syscall (windows-arm64), const PROV_EC_ECDSA_SIG ideal-int
+pkg syscall (windows-arm64), const PROV_EC_ECNRA_FULL = 17
+pkg syscall (windows-arm64), const PROV_EC_ECNRA_FULL ideal-int
+pkg syscall (windows-arm64), const PROV_EC_ECNRA_SIG = 15
+pkg syscall (windows-arm64), const PROV_EC_ECNRA_SIG ideal-int
+pkg syscall (windows-arm64), const PROV_FORTEZZA = 4
+pkg syscall (windows-arm64), const PROV_FORTEZZA ideal-int
+pkg syscall (windows-arm64), const PROV_INTEL_SEC = 22
+pkg syscall (windows-arm64), const PROV_INTEL_SEC ideal-int
+pkg syscall (windows-arm64), const PROV_MS_EXCHANGE = 5
+pkg syscall (windows-arm64), const PROV_MS_EXCHANGE ideal-int
+pkg syscall (windows-arm64), const PROV_REPLACE_OWF = 23
+pkg syscall (windows-arm64), const PROV_REPLACE_OWF ideal-int
+pkg syscall (windows-arm64), const PROV_RNG = 21
+pkg syscall (windows-arm64), const PROV_RNG ideal-int
+pkg syscall (windows-arm64), const PROV_RSA_AES = 24
+pkg syscall (windows-arm64), const PROV_RSA_AES ideal-int
+pkg syscall (windows-arm64), const PROV_RSA_FULL = 1
+pkg syscall (windows-arm64), const PROV_RSA_FULL ideal-int
+pkg syscall (windows-arm64), const PROV_RSA_SCHANNEL = 12
+pkg syscall (windows-arm64), const PROV_RSA_SCHANNEL ideal-int
+pkg syscall (windows-arm64), const PROV_RSA_SIG = 2
+pkg syscall (windows-arm64), const PROV_RSA_SIG ideal-int
+pkg syscall (windows-arm64), const PROV_SPYRUS_LYNKS = 20
+pkg syscall (windows-arm64), const PROV_SPYRUS_LYNKS ideal-int
+pkg syscall (windows-arm64), const PROV_SSL = 6
+pkg syscall (windows-arm64), const PROV_SSL ideal-int
+pkg syscall (windows-arm64), const REG_BINARY = 3
+pkg syscall (windows-arm64), const REG_BINARY ideal-int
+pkg syscall (windows-arm64), const REG_DWORD = 4
+pkg syscall (windows-arm64), const REG_DWORD ideal-int
+pkg syscall (windows-arm64), const REG_DWORD_BIG_ENDIAN = 5
+pkg syscall (windows-arm64), const REG_DWORD_BIG_ENDIAN ideal-int
+pkg syscall (windows-arm64), const REG_DWORD_LITTLE_ENDIAN = 4
+pkg syscall (windows-arm64), const REG_DWORD_LITTLE_ENDIAN ideal-int
+pkg syscall (windows-arm64), const REG_EXPAND_SZ = 2
+pkg syscall (windows-arm64), const REG_EXPAND_SZ ideal-int
+pkg syscall (windows-arm64), const REG_FULL_RESOURCE_DESCRIPTOR = 9
+pkg syscall (windows-arm64), const REG_FULL_RESOURCE_DESCRIPTOR ideal-int
+pkg syscall (windows-arm64), const REG_LINK = 6
+pkg syscall (windows-arm64), const REG_LINK ideal-int
+pkg syscall (windows-arm64), const REG_MULTI_SZ = 7
+pkg syscall (windows-arm64), const REG_MULTI_SZ ideal-int
+pkg syscall (windows-arm64), const REG_NONE = 0
+pkg syscall (windows-arm64), const REG_NONE ideal-int
+pkg syscall (windows-arm64), const REG_QWORD = 11
+pkg syscall (windows-arm64), const REG_QWORD ideal-int
+pkg syscall (windows-arm64), const REG_QWORD_LITTLE_ENDIAN = 11
+pkg syscall (windows-arm64), const REG_QWORD_LITTLE_ENDIAN ideal-int
+pkg syscall (windows-arm64), const REG_RESOURCE_LIST = 8
+pkg syscall (windows-arm64), const REG_RESOURCE_LIST ideal-int
+pkg syscall (windows-arm64), const REG_RESOURCE_REQUIREMENTS_LIST = 10
+pkg syscall (windows-arm64), const REG_RESOURCE_REQUIREMENTS_LIST ideal-int
+pkg syscall (windows-arm64), const REG_SZ = 1
+pkg syscall (windows-arm64), const REG_SZ ideal-int
+pkg syscall (windows-arm64), const SHUT_RD = 0
+pkg syscall (windows-arm64), const SHUT_RD ideal-int
+pkg syscall (windows-arm64), const SHUT_RDWR = 2
+pkg syscall (windows-arm64), const SHUT_RDWR ideal-int
+pkg syscall (windows-arm64), const SHUT_WR = 1
+pkg syscall (windows-arm64), const SHUT_WR ideal-int
+pkg syscall (windows-arm64), const SIGABRT = 6
+pkg syscall (windows-arm64), const SIGABRT Signal
+pkg syscall (windows-arm64), const SIGALRM = 14
+pkg syscall (windows-arm64), const SIGALRM Signal
+pkg syscall (windows-arm64), const SIGBUS = 7
+pkg syscall (windows-arm64), const SIGBUS Signal
+pkg syscall (windows-arm64), const SIGFPE = 8
+pkg syscall (windows-arm64), const SIGFPE Signal
+pkg syscall (windows-arm64), const SIGHUP = 1
+pkg syscall (windows-arm64), const SIGHUP Signal
+pkg syscall (windows-arm64), const SIGILL = 4
+pkg syscall (windows-arm64), const SIGILL Signal
+pkg syscall (windows-arm64), const SIGINT = 2
+pkg syscall (windows-arm64), const SIGINT Signal
+pkg syscall (windows-arm64), const SIGKILL = 9
+pkg syscall (windows-arm64), const SIGKILL Signal
+pkg syscall (windows-arm64), const SIGPIPE = 13
+pkg syscall (windows-arm64), const SIGPIPE Signal
+pkg syscall (windows-arm64), const SIGQUIT = 3
+pkg syscall (windows-arm64), const SIGQUIT Signal
+pkg syscall (windows-arm64), const SIGSEGV = 11
+pkg syscall (windows-arm64), const SIGSEGV Signal
+pkg syscall (windows-arm64), const SIGTERM = 15
+pkg syscall (windows-arm64), const SIGTERM Signal
+pkg syscall (windows-arm64), const SIGTRAP = 5
+pkg syscall (windows-arm64), const SIGTRAP Signal
+pkg syscall (windows-arm64), const SIO_GET_EXTENSION_FUNCTION_POINTER = 3355443206
+pkg syscall (windows-arm64), const SIO_GET_EXTENSION_FUNCTION_POINTER ideal-int
+pkg syscall (windows-arm64), const SIO_GET_INTERFACE_LIST = 1074033791
+pkg syscall (windows-arm64), const SIO_GET_INTERFACE_LIST ideal-int
+pkg syscall (windows-arm64), const SIO_KEEPALIVE_VALS = 2550136836
+pkg syscall (windows-arm64), const SIO_KEEPALIVE_VALS ideal-int
+pkg syscall (windows-arm64), const SIO_UDP_CONNRESET = 2550136844
+pkg syscall (windows-arm64), const SIO_UDP_CONNRESET ideal-int
+pkg syscall (windows-arm64), const SOCK_DGRAM = 2
+pkg syscall (windows-arm64), const SOCK_DGRAM ideal-int
+pkg syscall (windows-arm64), const SOCK_RAW = 3
+pkg syscall (windows-arm64), const SOCK_RAW ideal-int
+pkg syscall (windows-arm64), const SOCK_SEQPACKET = 5
+pkg syscall (windows-arm64), const SOCK_SEQPACKET ideal-int
+pkg syscall (windows-arm64), const SOCK_STREAM = 1
+pkg syscall (windows-arm64), const SOCK_STREAM ideal-int
+pkg syscall (windows-arm64), const SOL_SOCKET = 65535
+pkg syscall (windows-arm64), const SOL_SOCKET ideal-int
+pkg syscall (windows-arm64), const SOMAXCONN = 2147483647
+pkg syscall (windows-arm64), const SOMAXCONN ideal-int
+pkg syscall (windows-arm64), const SO_BROADCAST = 32
+pkg syscall (windows-arm64), const SO_BROADCAST ideal-int
+pkg syscall (windows-arm64), const SO_DONTROUTE = 16
+pkg syscall (windows-arm64), const SO_DONTROUTE ideal-int
+pkg syscall (windows-arm64), const SO_KEEPALIVE = 8
+pkg syscall (windows-arm64), const SO_KEEPALIVE ideal-int
+pkg syscall (windows-arm64), const SO_LINGER = 128
+pkg syscall (windows-arm64), const SO_LINGER ideal-int
+pkg syscall (windows-arm64), const SO_RCVBUF = 4098
+pkg syscall (windows-arm64), const SO_RCVBUF ideal-int
+pkg syscall (windows-arm64), const SO_REUSEADDR = 4
+pkg syscall (windows-arm64), const SO_REUSEADDR ideal-int
+pkg syscall (windows-arm64), const SO_SNDBUF = 4097
+pkg syscall (windows-arm64), const SO_SNDBUF ideal-int
+pkg syscall (windows-arm64), const SO_UPDATE_ACCEPT_CONTEXT = 28683
+pkg syscall (windows-arm64), const SO_UPDATE_ACCEPT_CONTEXT ideal-int
+pkg syscall (windows-arm64), const SO_UPDATE_CONNECT_CONTEXT = 28688
+pkg syscall (windows-arm64), const SO_UPDATE_CONNECT_CONTEXT ideal-int
+pkg syscall (windows-arm64), const STANDARD_RIGHTS_ALL = 2031616
+pkg syscall (windows-arm64), const STANDARD_RIGHTS_ALL ideal-int
+pkg syscall (windows-arm64), const STANDARD_RIGHTS_EXECUTE = 131072
+pkg syscall (windows-arm64), const STANDARD_RIGHTS_EXECUTE ideal-int
+pkg syscall (windows-arm64), const STANDARD_RIGHTS_READ = 131072
+pkg syscall (windows-arm64), const STANDARD_RIGHTS_READ ideal-int
+pkg syscall (windows-arm64), const STANDARD_RIGHTS_REQUIRED = 983040
+pkg syscall (windows-arm64), const STANDARD_RIGHTS_REQUIRED ideal-int
+pkg syscall (windows-arm64), const STANDARD_RIGHTS_WRITE = 131072
+pkg syscall (windows-arm64), const STANDARD_RIGHTS_WRITE ideal-int
+pkg syscall (windows-arm64), const STARTF_USESHOWWINDOW = 1
+pkg syscall (windows-arm64), const STARTF_USESHOWWINDOW ideal-int
+pkg syscall (windows-arm64), const STARTF_USESTDHANDLES = 256
+pkg syscall (windows-arm64), const STARTF_USESTDHANDLES ideal-int
+pkg syscall (windows-arm64), const STD_ERROR_HANDLE = -12
+pkg syscall (windows-arm64), const STD_ERROR_HANDLE ideal-int
+pkg syscall (windows-arm64), const STD_INPUT_HANDLE = -10
+pkg syscall (windows-arm64), const STD_INPUT_HANDLE ideal-int
+pkg syscall (windows-arm64), const STD_OUTPUT_HANDLE = -11
+pkg syscall (windows-arm64), const STD_OUTPUT_HANDLE ideal-int
+pkg syscall (windows-arm64), const SUBLANG_ENGLISH_US = 1
+pkg syscall (windows-arm64), const SUBLANG_ENGLISH_US ideal-int
+pkg syscall (windows-arm64), const SW_FORCEMINIMIZE = 11
+pkg syscall (windows-arm64), const SW_FORCEMINIMIZE ideal-int
+pkg syscall (windows-arm64), const SW_HIDE = 0
+pkg syscall (windows-arm64), const SW_HIDE ideal-int
+pkg syscall (windows-arm64), const SW_MAXIMIZE = 3
+pkg syscall (windows-arm64), const SW_MAXIMIZE ideal-int
+pkg syscall (windows-arm64), const SW_MINIMIZE = 6
+pkg syscall (windows-arm64), const SW_MINIMIZE ideal-int
+pkg syscall (windows-arm64), const SW_NORMAL = 1
+pkg syscall (windows-arm64), const SW_NORMAL ideal-int
+pkg syscall (windows-arm64), const SW_RESTORE = 9
+pkg syscall (windows-arm64), const SW_RESTORE ideal-int
+pkg syscall (windows-arm64), const SW_SHOW = 5
+pkg syscall (windows-arm64), const SW_SHOW ideal-int
+pkg syscall (windows-arm64), const SW_SHOWDEFAULT = 10
+pkg syscall (windows-arm64), const SW_SHOWDEFAULT ideal-int
+pkg syscall (windows-arm64), const SW_SHOWMAXIMIZED = 3
+pkg syscall (windows-arm64), const SW_SHOWMAXIMIZED ideal-int
+pkg syscall (windows-arm64), const SW_SHOWMINIMIZED = 2
+pkg syscall (windows-arm64), const SW_SHOWMINIMIZED ideal-int
+pkg syscall (windows-arm64), const SW_SHOWMINNOACTIVE = 7
+pkg syscall (windows-arm64), const SW_SHOWMINNOACTIVE ideal-int
+pkg syscall (windows-arm64), const SW_SHOWNA = 8
+pkg syscall (windows-arm64), const SW_SHOWNA ideal-int
+pkg syscall (windows-arm64), const SW_SHOWNOACTIVATE = 4
+pkg syscall (windows-arm64), const SW_SHOWNOACTIVATE ideal-int
+pkg syscall (windows-arm64), const SW_SHOWNORMAL = 1
+pkg syscall (windows-arm64), const SW_SHOWNORMAL ideal-int
+pkg syscall (windows-arm64), const SYMBOLIC_LINK_FLAG_DIRECTORY = 1
+pkg syscall (windows-arm64), const SYMBOLIC_LINK_FLAG_DIRECTORY ideal-int
+pkg syscall (windows-arm64), const SYNCHRONIZE = 1048576
+pkg syscall (windows-arm64), const SYNCHRONIZE ideal-int
+pkg syscall (windows-arm64), const S_IFMT = 126976
+pkg syscall (windows-arm64), const S_IRUSR = 256
+pkg syscall (windows-arm64), const S_IRUSR ideal-int
+pkg syscall (windows-arm64), const S_ISGID = 1024
+pkg syscall (windows-arm64), const S_ISGID ideal-int
+pkg syscall (windows-arm64), const S_ISUID = 2048
+pkg syscall (windows-arm64), const S_ISUID ideal-int
+pkg syscall (windows-arm64), const S_ISVTX = 512
+pkg syscall (windows-arm64), const S_ISVTX ideal-int
+pkg syscall (windows-arm64), const S_IWRITE = 128
+pkg syscall (windows-arm64), const S_IWRITE ideal-int
+pkg syscall (windows-arm64), const S_IWUSR = 128
+pkg syscall (windows-arm64), const S_IWUSR ideal-int
+pkg syscall (windows-arm64), const S_IXUSR = 64
+pkg syscall (windows-arm64), const S_IXUSR ideal-int
+pkg syscall (windows-arm64), const SidTypeAlias = 4
+pkg syscall (windows-arm64), const SidTypeAlias ideal-int
+pkg syscall (windows-arm64), const SidTypeComputer = 9
+pkg syscall (windows-arm64), const SidTypeComputer ideal-int
+pkg syscall (windows-arm64), const SidTypeDeletedAccount = 6
+pkg syscall (windows-arm64), const SidTypeDeletedAccount ideal-int
+pkg syscall (windows-arm64), const SidTypeDomain = 3
+pkg syscall (windows-arm64), const SidTypeDomain ideal-int
+pkg syscall (windows-arm64), const SidTypeGroup = 2
+pkg syscall (windows-arm64), const SidTypeGroup ideal-int
+pkg syscall (windows-arm64), const SidTypeInvalid = 7
+pkg syscall (windows-arm64), const SidTypeInvalid ideal-int
+pkg syscall (windows-arm64), const SidTypeLabel = 10
+pkg syscall (windows-arm64), const SidTypeLabel ideal-int
+pkg syscall (windows-arm64), const SidTypeUnknown = 8
+pkg syscall (windows-arm64), const SidTypeUnknown ideal-int
+pkg syscall (windows-arm64), const SidTypeUser = 1
+pkg syscall (windows-arm64), const SidTypeUser ideal-int
+pkg syscall (windows-arm64), const SidTypeWellKnownGroup = 5
+pkg syscall (windows-arm64), const SidTypeWellKnownGroup ideal-int
+pkg syscall (windows-arm64), const TCP_NODELAY = 1
+pkg syscall (windows-arm64), const TCP_NODELAY ideal-int
+pkg syscall (windows-arm64), const TF_DISCONNECT = 1
+pkg syscall (windows-arm64), const TF_DISCONNECT ideal-int
+pkg syscall (windows-arm64), const TF_REUSE_SOCKET = 2
+pkg syscall (windows-arm64), const TF_REUSE_SOCKET ideal-int
+pkg syscall (windows-arm64), const TF_USE_DEFAULT_WORKER = 0
+pkg syscall (windows-arm64), const TF_USE_DEFAULT_WORKER ideal-int
+pkg syscall (windows-arm64), const TF_USE_KERNEL_APC = 32
+pkg syscall (windows-arm64), const TF_USE_KERNEL_APC ideal-int
+pkg syscall (windows-arm64), const TF_USE_SYSTEM_THREAD = 16
+pkg syscall (windows-arm64), const TF_USE_SYSTEM_THREAD ideal-int
+pkg syscall (windows-arm64), const TF_WRITE_BEHIND = 4
+pkg syscall (windows-arm64), const TF_WRITE_BEHIND ideal-int
+pkg syscall (windows-arm64), const TH32CS_INHERIT = 2147483648
+pkg syscall (windows-arm64), const TH32CS_INHERIT ideal-int
+pkg syscall (windows-arm64), const TH32CS_SNAPALL = 15
+pkg syscall (windows-arm64), const TH32CS_SNAPALL ideal-int
+pkg syscall (windows-arm64), const TH32CS_SNAPHEAPLIST = 1
+pkg syscall (windows-arm64), const TH32CS_SNAPHEAPLIST ideal-int
+pkg syscall (windows-arm64), const TH32CS_SNAPMODULE = 8
+pkg syscall (windows-arm64), const TH32CS_SNAPMODULE ideal-int
+pkg syscall (windows-arm64), const TH32CS_SNAPMODULE32 = 16
+pkg syscall (windows-arm64), const TH32CS_SNAPMODULE32 ideal-int
+pkg syscall (windows-arm64), const TH32CS_SNAPPROCESS = 2
+pkg syscall (windows-arm64), const TH32CS_SNAPPROCESS ideal-int
+pkg syscall (windows-arm64), const TH32CS_SNAPTHREAD = 4
+pkg syscall (windows-arm64), const TH32CS_SNAPTHREAD ideal-int
+pkg syscall (windows-arm64), const TIME_ZONE_ID_DAYLIGHT = 2
+pkg syscall (windows-arm64), const TIME_ZONE_ID_DAYLIGHT ideal-int
+pkg syscall (windows-arm64), const TIME_ZONE_ID_STANDARD = 1
+pkg syscall (windows-arm64), const TIME_ZONE_ID_STANDARD ideal-int
+pkg syscall (windows-arm64), const TIME_ZONE_ID_UNKNOWN = 0
+pkg syscall (windows-arm64), const TIME_ZONE_ID_UNKNOWN ideal-int
+pkg syscall (windows-arm64), const TOKEN_ADJUST_DEFAULT = 128
+pkg syscall (windows-arm64), const TOKEN_ADJUST_DEFAULT ideal-int
+pkg syscall (windows-arm64), const TOKEN_ADJUST_GROUPS = 64
+pkg syscall (windows-arm64), const TOKEN_ADJUST_GROUPS ideal-int
+pkg syscall (windows-arm64), const TOKEN_ADJUST_PRIVILEGES = 32
+pkg syscall (windows-arm64), const TOKEN_ADJUST_PRIVILEGES ideal-int
+pkg syscall (windows-arm64), const TOKEN_ADJUST_SESSIONID = 256
+pkg syscall (windows-arm64), const TOKEN_ADJUST_SESSIONID ideal-int
+pkg syscall (windows-arm64), const TOKEN_ALL_ACCESS = 983551
+pkg syscall (windows-arm64), const TOKEN_ALL_ACCESS ideal-int
+pkg syscall (windows-arm64), const TOKEN_ASSIGN_PRIMARY = 1
+pkg syscall (windows-arm64), const TOKEN_ASSIGN_PRIMARY ideal-int
+pkg syscall (windows-arm64), const TOKEN_DUPLICATE = 2
+pkg syscall (windows-arm64), const TOKEN_DUPLICATE ideal-int
+pkg syscall (windows-arm64), const TOKEN_EXECUTE = 131072
+pkg syscall (windows-arm64), const TOKEN_EXECUTE ideal-int
+pkg syscall (windows-arm64), const TOKEN_IMPERSONATE = 4
+pkg syscall (windows-arm64), const TOKEN_IMPERSONATE ideal-int
+pkg syscall (windows-arm64), const TOKEN_QUERY = 8
+pkg syscall (windows-arm64), const TOKEN_QUERY ideal-int
+pkg syscall (windows-arm64), const TOKEN_QUERY_SOURCE = 16
+pkg syscall (windows-arm64), const TOKEN_QUERY_SOURCE ideal-int
+pkg syscall (windows-arm64), const TOKEN_READ = 131080
+pkg syscall (windows-arm64), const TOKEN_READ ideal-int
+pkg syscall (windows-arm64), const TOKEN_WRITE = 131296
+pkg syscall (windows-arm64), const TOKEN_WRITE ideal-int
+pkg syscall (windows-arm64), const TRUNCATE_EXISTING = 5
+pkg syscall (windows-arm64), const TRUNCATE_EXISTING ideal-int
+pkg syscall (windows-arm64), const TokenAccessInformation = 22
+pkg syscall (windows-arm64), const TokenAccessInformation ideal-int
+pkg syscall (windows-arm64), const TokenAuditPolicy = 16
+pkg syscall (windows-arm64), const TokenAuditPolicy ideal-int
+pkg syscall (windows-arm64), const TokenDefaultDacl = 6
+pkg syscall (windows-arm64), const TokenDefaultDacl ideal-int
+pkg syscall (windows-arm64), const TokenElevation = 20
+pkg syscall (windows-arm64), const TokenElevation ideal-int
+pkg syscall (windows-arm64), const TokenElevationType = 18
+pkg syscall (windows-arm64), const TokenElevationType ideal-int
+pkg syscall (windows-arm64), const TokenGroups = 2
+pkg syscall (windows-arm64), const TokenGroups ideal-int
+pkg syscall (windows-arm64), const TokenGroupsAndPrivileges = 13
+pkg syscall (windows-arm64), const TokenGroupsAndPrivileges ideal-int
+pkg syscall (windows-arm64), const TokenHasRestrictions = 21
+pkg syscall (windows-arm64), const TokenHasRestrictions ideal-int
+pkg syscall (windows-arm64), const TokenImpersonationLevel = 9
+pkg syscall (windows-arm64), const TokenImpersonationLevel ideal-int
+pkg syscall (windows-arm64), const TokenIntegrityLevel = 25
+pkg syscall (windows-arm64), const TokenIntegrityLevel ideal-int
+pkg syscall (windows-arm64), const TokenLinkedToken = 19
+pkg syscall (windows-arm64), const TokenLinkedToken ideal-int
+pkg syscall (windows-arm64), const TokenLogonSid = 28
+pkg syscall (windows-arm64), const TokenLogonSid ideal-int
+pkg syscall (windows-arm64), const TokenMandatoryPolicy = 27
+pkg syscall (windows-arm64), const TokenMandatoryPolicy ideal-int
+pkg syscall (windows-arm64), const TokenOrigin = 17
+pkg syscall (windows-arm64), const TokenOrigin ideal-int
+pkg syscall (windows-arm64), const TokenOwner = 4
+pkg syscall (windows-arm64), const TokenOwner ideal-int
+pkg syscall (windows-arm64), const TokenPrimaryGroup = 5
+pkg syscall (windows-arm64), const TokenPrimaryGroup ideal-int
+pkg syscall (windows-arm64), const TokenPrivileges = 3
+pkg syscall (windows-arm64), const TokenPrivileges ideal-int
+pkg syscall (windows-arm64), const TokenRestrictedSids = 11
+pkg syscall (windows-arm64), const TokenRestrictedSids ideal-int
+pkg syscall (windows-arm64), const TokenSandBoxInert = 15
+pkg syscall (windows-arm64), const TokenSandBoxInert ideal-int
+pkg syscall (windows-arm64), const TokenSessionId = 12
+pkg syscall (windows-arm64), const TokenSessionId ideal-int
+pkg syscall (windows-arm64), const TokenSessionReference = 14
+pkg syscall (windows-arm64), const TokenSessionReference ideal-int
+pkg syscall (windows-arm64), const TokenSource = 7
+pkg syscall (windows-arm64), const TokenSource ideal-int
+pkg syscall (windows-arm64), const TokenStatistics = 10
+pkg syscall (windows-arm64), const TokenStatistics ideal-int
+pkg syscall (windows-arm64), const TokenType = 8
+pkg syscall (windows-arm64), const TokenType ideal-int
+pkg syscall (windows-arm64), const TokenUIAccess = 26
+pkg syscall (windows-arm64), const TokenUIAccess ideal-int
+pkg syscall (windows-arm64), const TokenUser = 1
+pkg syscall (windows-arm64), const TokenUser ideal-int
+pkg syscall (windows-arm64), const TokenVirtualizationAllowed = 23
+pkg syscall (windows-arm64), const TokenVirtualizationAllowed ideal-int
+pkg syscall (windows-arm64), const TokenVirtualizationEnabled = 24
+pkg syscall (windows-arm64), const TokenVirtualizationEnabled ideal-int
+pkg syscall (windows-arm64), const UNIX_PATH_MAX = 108
+pkg syscall (windows-arm64), const UNIX_PATH_MAX ideal-int
+pkg syscall (windows-arm64), const USAGE_MATCH_TYPE_AND = 0
+pkg syscall (windows-arm64), const USAGE_MATCH_TYPE_AND ideal-int
+pkg syscall (windows-arm64), const USAGE_MATCH_TYPE_OR = 1
+pkg syscall (windows-arm64), const USAGE_MATCH_TYPE_OR ideal-int
+pkg syscall (windows-arm64), const WAIT_ABANDONED = 128
+pkg syscall (windows-arm64), const WAIT_ABANDONED ideal-int
+pkg syscall (windows-arm64), const WAIT_FAILED = 4294967295
+pkg syscall (windows-arm64), const WAIT_FAILED ideal-int
+pkg syscall (windows-arm64), const WAIT_OBJECT_0 = 0
+pkg syscall (windows-arm64), const WAIT_OBJECT_0 ideal-int
+pkg syscall (windows-arm64), const WAIT_TIMEOUT = 258
+pkg syscall (windows-arm64), const WAIT_TIMEOUT ideal-int
+pkg syscall (windows-arm64), const WSADESCRIPTION_LEN = 256
+pkg syscall (windows-arm64), const WSADESCRIPTION_LEN ideal-int
+pkg syscall (windows-arm64), const WSAEACCES = 10013
+pkg syscall (windows-arm64), const WSAEACCES Errno
+pkg syscall (windows-arm64), const WSAECONNABORTED = 10053
+pkg syscall (windows-arm64), const WSAECONNABORTED Errno
+pkg syscall (windows-arm64), const WSAECONNRESET = 10054
+pkg syscall (windows-arm64), const WSAECONNRESET Errno
+pkg syscall (windows-arm64), const WSAPROTOCOL_LEN = 255
+pkg syscall (windows-arm64), const WSAPROTOCOL_LEN ideal-int
+pkg syscall (windows-arm64), const WSASYS_STATUS_LEN = 128
+pkg syscall (windows-arm64), const WSASYS_STATUS_LEN ideal-int
+pkg syscall (windows-arm64), const X509_ASN_ENCODING = 1
+pkg syscall (windows-arm64), const X509_ASN_ENCODING ideal-int
+pkg syscall (windows-arm64), const XP1_CONNECTIONLESS = 1
+pkg syscall (windows-arm64), const XP1_CONNECTIONLESS ideal-int
+pkg syscall (windows-arm64), const XP1_CONNECT_DATA = 128
+pkg syscall (windows-arm64), const XP1_CONNECT_DATA ideal-int
+pkg syscall (windows-arm64), const XP1_DISCONNECT_DATA = 256
+pkg syscall (windows-arm64), const XP1_DISCONNECT_DATA ideal-int
+pkg syscall (windows-arm64), const XP1_EXPEDITED_DATA = 64
+pkg syscall (windows-arm64), const XP1_EXPEDITED_DATA ideal-int
+pkg syscall (windows-arm64), const XP1_GRACEFUL_CLOSE = 32
+pkg syscall (windows-arm64), const XP1_GRACEFUL_CLOSE ideal-int
+pkg syscall (windows-arm64), const XP1_GUARANTEED_DELIVERY = 2
+pkg syscall (windows-arm64), const XP1_GUARANTEED_DELIVERY ideal-int
+pkg syscall (windows-arm64), const XP1_GUARANTEED_ORDER = 4
+pkg syscall (windows-arm64), const XP1_GUARANTEED_ORDER ideal-int
+pkg syscall (windows-arm64), const XP1_IFS_HANDLES = 131072
+pkg syscall (windows-arm64), const XP1_IFS_HANDLES ideal-int
+pkg syscall (windows-arm64), const XP1_MESSAGE_ORIENTED = 8
+pkg syscall (windows-arm64), const XP1_MESSAGE_ORIENTED ideal-int
+pkg syscall (windows-arm64), const XP1_MULTIPOINT_CONTROL_PLANE = 2048
+pkg syscall (windows-arm64), const XP1_MULTIPOINT_CONTROL_PLANE ideal-int
+pkg syscall (windows-arm64), const XP1_MULTIPOINT_DATA_PLANE = 4096
+pkg syscall (windows-arm64), const XP1_MULTIPOINT_DATA_PLANE ideal-int
+pkg syscall (windows-arm64), const XP1_PARTIAL_MESSAGE = 262144
+pkg syscall (windows-arm64), const XP1_PARTIAL_MESSAGE ideal-int
+pkg syscall (windows-arm64), const XP1_PSEUDO_STREAM = 16
+pkg syscall (windows-arm64), const XP1_PSEUDO_STREAM ideal-int
+pkg syscall (windows-arm64), const XP1_QOS_SUPPORTED = 8192
+pkg syscall (windows-arm64), const XP1_QOS_SUPPORTED ideal-int
+pkg syscall (windows-arm64), const XP1_SAN_SUPPORT_SDP = 524288
+pkg syscall (windows-arm64), const XP1_SAN_SUPPORT_SDP ideal-int
+pkg syscall (windows-arm64), const XP1_SUPPORT_BROADCAST = 512
+pkg syscall (windows-arm64), const XP1_SUPPORT_BROADCAST ideal-int
+pkg syscall (windows-arm64), const XP1_SUPPORT_MULTIPOINT = 1024
+pkg syscall (windows-arm64), const XP1_SUPPORT_MULTIPOINT ideal-int
+pkg syscall (windows-arm64), const XP1_UNI_RECV = 65536
+pkg syscall (windows-arm64), const XP1_UNI_RECV ideal-int
+pkg syscall (windows-arm64), const XP1_UNI_SEND = 32768
+pkg syscall (windows-arm64), const XP1_UNI_SEND ideal-int
+pkg syscall (windows-arm64), func Accept(Handle) (Handle, Sockaddr, error)
+pkg syscall (windows-arm64), func AcceptEx(Handle, Handle, *uint8, uint32, uint32, uint32, *uint32, *Overlapped) error
+pkg syscall (windows-arm64), func Bind(Handle, Sockaddr) error
+pkg syscall (windows-arm64), func CancelIo(Handle) error
+pkg syscall (windows-arm64), func CancelIoEx(Handle, *Overlapped) error
+pkg syscall (windows-arm64), func CertAddCertificateContextToStore(Handle, *CertContext, uint32, **CertContext) error
+pkg syscall (windows-arm64), func CertCloseStore(Handle, uint32) error
+pkg syscall (windows-arm64), func CertCreateCertificateContext(uint32, *uint8, uint32) (*CertContext, error)
+pkg syscall (windows-arm64), func CertEnumCertificatesInStore(Handle, *CertContext) (*CertContext, error)
+pkg syscall (windows-arm64), func CertFreeCertificateChain(*CertChainContext)
+pkg syscall (windows-arm64), func CertFreeCertificateContext(*CertContext) error
+pkg syscall (windows-arm64), func CertGetCertificateChain(Handle, *CertContext, *Filetime, Handle, *CertChainPara, uint32, uintptr, **CertChainContext) error
+pkg syscall (windows-arm64), func CertOpenStore(uintptr, uint32, uintptr, uint32, uintptr) (Handle, error)
+pkg syscall (windows-arm64), func CertOpenSystemStore(Handle, *uint16) (Handle, error)
+pkg syscall (windows-arm64), func CertVerifyCertificateChainPolicy(uintptr, *CertChainContext, *CertChainPolicyPara, *CertChainPolicyStatus) error
+pkg syscall (windows-arm64), func Chmod(string, uint32) error
+pkg syscall (windows-arm64), func Chown(string, int, int) error
+pkg syscall (windows-arm64), func Close(Handle) error
+pkg syscall (windows-arm64), func CloseHandle(Handle) error
+pkg syscall (windows-arm64), func CloseOnExec(Handle)
+pkg syscall (windows-arm64), func Closesocket(Handle) error
+pkg syscall (windows-arm64), func CommandLineToArgv(*uint16, *int32) (*[8192]*[8192]uint16, error)
+pkg syscall (windows-arm64), func ComputerName() (string, error)
+pkg syscall (windows-arm64), func Connect(Handle, Sockaddr) error
+pkg syscall (windows-arm64), func ConnectEx(Handle, Sockaddr, *uint8, uint32, *uint32, *Overlapped) error
+pkg syscall (windows-arm64), func ConvertSidToStringSid(*SID, **uint16) error
+pkg syscall (windows-arm64), func ConvertStringSidToSid(*uint16, **SID) error
+pkg syscall (windows-arm64), func CopySid(uint32, *SID, *SID) error
+pkg syscall (windows-arm64), func CreateDirectory(*uint16, *SecurityAttributes) error
+pkg syscall (windows-arm64), func CreateFile(*uint16, uint32, uint32, *SecurityAttributes, uint32, uint32, int32) (Handle, error)
+pkg syscall (windows-arm64), func CreateFileMapping(Handle, *SecurityAttributes, uint32, uint32, uint32, *uint16) (Handle, error)
+pkg syscall (windows-arm64), func CreateHardLink(*uint16, *uint16, uintptr) error
+pkg syscall (windows-arm64), func CreateIoCompletionPort(Handle, Handle, uint32, uint32) (Handle, error)
+pkg syscall (windows-arm64), func CreatePipe(*Handle, *Handle, *SecurityAttributes, uint32) error
+pkg syscall (windows-arm64), func CreateProcess(*uint16, *uint16, *SecurityAttributes, *SecurityAttributes, bool, uint32, *uint16, *uint16, *StartupInfo, *ProcessInformation) error
+pkg syscall (windows-arm64), func CreateProcessAsUser(Token, *uint16, *uint16, *SecurityAttributes, *SecurityAttributes, bool, uint32, *uint16, *uint16, *StartupInfo, *ProcessInformation) error
+pkg syscall (windows-arm64), func CreateSymbolicLink(*uint16, *uint16, uint32) error
+pkg syscall (windows-arm64), func CreateToolhelp32Snapshot(uint32, uint32) (Handle, error)
+pkg syscall (windows-arm64), func CryptAcquireContext(*Handle, *uint16, *uint16, uint32, uint32) error
+pkg syscall (windows-arm64), func CryptGenRandom(Handle, uint32, *uint8) error
+pkg syscall (windows-arm64), func CryptReleaseContext(Handle, uint32) error
+pkg syscall (windows-arm64), func DeleteFile(*uint16) error
+pkg syscall (windows-arm64), func DeviceIoControl(Handle, uint32, *uint8, uint32, *uint8, uint32, *uint32, *Overlapped) error
+pkg syscall (windows-arm64), func DnsNameCompare(*uint16, *uint16) bool
+pkg syscall (windows-arm64), func DnsQuery(string, uint16, uint32, *uint8, **DNSRecord, *uint8) error
+pkg syscall (windows-arm64), func DnsRecordListFree(*DNSRecord, uint32)
+pkg syscall (windows-arm64), func DuplicateHandle(Handle, Handle, Handle, *Handle, uint32, bool, uint32) error
+pkg syscall (windows-arm64), func EscapeArg(string) string
+pkg syscall (windows-arm64), func Exec(string, []string, []string) error
+pkg syscall (windows-arm64), func ExitProcess(uint32)
+pkg syscall (windows-arm64), func Fchdir(Handle) error
+pkg syscall (windows-arm64), func Fchmod(Handle, uint32) error
+pkg syscall (windows-arm64), func Fchown(Handle, int, int) error
+pkg syscall (windows-arm64), func FindClose(Handle) error
+pkg syscall (windows-arm64), func FindFirstFile(*uint16, *Win32finddata) (Handle, error)
+pkg syscall (windows-arm64), func FindNextFile(Handle, *Win32finddata) error
+pkg syscall (windows-arm64), func FlushFileBuffers(Handle) error
+pkg syscall (windows-arm64), func FlushViewOfFile(uintptr, uintptr) error
+pkg syscall (windows-arm64), func FormatMessage(uint32, uint32, uint32, uint32, []uint16, *uint8) (uint32, error)
+pkg syscall (windows-arm64), func FreeAddrInfoW(*AddrinfoW)
+pkg syscall (windows-arm64), func FreeEnvironmentStrings(*uint16) error
+pkg syscall (windows-arm64), func FreeLibrary(Handle) error
+pkg syscall (windows-arm64), func Fsync(Handle) error
+pkg syscall (windows-arm64), func Ftruncate(Handle, int64) error
+pkg syscall (windows-arm64), func FullPath(string) (string, error)
+pkg syscall (windows-arm64), func GetAcceptExSockaddrs(*uint8, uint32, uint32, uint32, **RawSockaddrAny, *int32, **RawSockaddrAny, *int32)
+pkg syscall (windows-arm64), func GetAdaptersInfo(*IpAdapterInfo, *uint32) error
+pkg syscall (windows-arm64), func GetAddrInfoW(*uint16, *uint16, *AddrinfoW, **AddrinfoW) error
+pkg syscall (windows-arm64), func GetCommandLine() *uint16
+pkg syscall (windows-arm64), func GetComputerName(*uint16, *uint32) error
+pkg syscall (windows-arm64), func GetConsoleMode(Handle, *uint32) error
+pkg syscall (windows-arm64), func GetCurrentDirectory(uint32, *uint16) (uint32, error)
+pkg syscall (windows-arm64), func GetCurrentProcess() (Handle, error)
+pkg syscall (windows-arm64), func GetEnvironmentStrings() (*uint16, error)
+pkg syscall (windows-arm64), func GetEnvironmentVariable(*uint16, *uint16, uint32) (uint32, error)
+pkg syscall (windows-arm64), func GetExitCodeProcess(Handle, *uint32) error
+pkg syscall (windows-arm64), func GetFileAttributes(*uint16) (uint32, error)
+pkg syscall (windows-arm64), func GetFileAttributesEx(*uint16, uint32, *uint8) error
+pkg syscall (windows-arm64), func GetFileInformationByHandle(Handle, *ByHandleFileInformation) error
+pkg syscall (windows-arm64), func GetFileType(Handle) (uint32, error)
+pkg syscall (windows-arm64), func GetFullPathName(*uint16, uint32, *uint16, **uint16) (uint32, error)
+pkg syscall (windows-arm64), func GetHostByName(string) (*Hostent, error)
+pkg syscall (windows-arm64), func GetIfEntry(*MibIfRow) error
+pkg syscall (windows-arm64), func GetLastError() error
+pkg syscall (windows-arm64), func GetLengthSid(*SID) uint32
+pkg syscall (windows-arm64), func GetLongPathName(*uint16, *uint16, uint32) (uint32, error)
+pkg syscall (windows-arm64), func GetProcAddress(Handle, string) (uintptr, error)
+pkg syscall (windows-arm64), func GetProcessTimes(Handle, *Filetime, *Filetime, *Filetime, *Filetime) error
+pkg syscall (windows-arm64), func GetProtoByName(string) (*Protoent, error)
+pkg syscall (windows-arm64), func GetQueuedCompletionStatus(Handle, *uint32, *uint32, **Overlapped, uint32) error
+pkg syscall (windows-arm64), func GetServByName(string, string) (*Servent, error)
+pkg syscall (windows-arm64), func GetShortPathName(*uint16, *uint16, uint32) (uint32, error)
+pkg syscall (windows-arm64), func GetStartupInfo(*StartupInfo) error
+pkg syscall (windows-arm64), func GetStdHandle(int) (Handle, error)
+pkg syscall (windows-arm64), func GetSystemTimeAsFileTime(*Filetime)
+pkg syscall (windows-arm64), func GetTempPath(uint32, *uint16) (uint32, error)
+pkg syscall (windows-arm64), func GetTimeZoneInformation(*Timezoneinformation) (uint32, error)
+pkg syscall (windows-arm64), func GetTokenInformation(Token, uint32, *uint8, uint32, *uint32) error
+pkg syscall (windows-arm64), func GetUserNameEx(uint32, *uint16, *uint32) error
+pkg syscall (windows-arm64), func GetUserProfileDirectory(Token, *uint16, *uint32) error
+pkg syscall (windows-arm64), func GetVersion() (uint32, error)
+pkg syscall (windows-arm64), func Getpeername(Handle) (Sockaddr, error)
+pkg syscall (windows-arm64), func Getsockname(Handle) (Sockaddr, error)
+pkg syscall (windows-arm64), func Getsockopt(Handle, int32, int32, *uint8, *int32) error
+pkg syscall (windows-arm64), func GetsockoptInt(Handle, int, int) (int, error)
+pkg syscall (windows-arm64), func Lchown(string, int, int) error
+pkg syscall (windows-arm64), func Link(string, string) error
+pkg syscall (windows-arm64), func Listen(Handle, int) error
+pkg syscall (windows-arm64), func LoadCancelIoEx() error
+pkg syscall (windows-arm64), func LoadConnectEx() error
+pkg syscall (windows-arm64), func LoadCreateSymbolicLink() error
+pkg syscall (windows-arm64), func LoadDLL(string) (*DLL, error)
+pkg syscall (windows-arm64), func LoadGetAddrInfo() error
+pkg syscall (windows-arm64), func LoadLibrary(string) (Handle, error)
+pkg syscall (windows-arm64), func LoadSetFileCompletionNotificationModes() error
+pkg syscall (windows-arm64), func LocalFree(Handle) (Handle, error)
+pkg syscall (windows-arm64), func LookupAccountName(*uint16, *uint16, *SID, *uint32, *uint16, *uint32, *uint32) error
+pkg syscall (windows-arm64), func LookupAccountSid(*uint16, *SID, *uint16, *uint32, *uint16, *uint32, *uint32) error
+pkg syscall (windows-arm64), func LookupSID(string, string) (*SID, string, uint32, error)
+pkg syscall (windows-arm64), func MapViewOfFile(Handle, uint32, uint32, uint32, uintptr) (uintptr, error)
+pkg syscall (windows-arm64), func MoveFile(*uint16, *uint16) error
+pkg syscall (windows-arm64), func MustLoadDLL(string) *DLL
+pkg syscall (windows-arm64), func NetApiBufferFree(*uint8) error
+pkg syscall (windows-arm64), func NetGetJoinInformation(*uint16, **uint16, *uint32) error
+pkg syscall (windows-arm64), func NetUserGetInfo(*uint16, *uint16, uint32, **uint8) error
+pkg syscall (windows-arm64), func NewCallback(interface{}) uintptr
+pkg syscall (windows-arm64), func NewCallbackCDecl(interface{}) uintptr
+pkg syscall (windows-arm64), func NewLazyDLL(string) *LazyDLL
+pkg syscall (windows-arm64), func NsecToFiletime(int64) Filetime
+pkg syscall (windows-arm64), func NsecToTimespec(int64) Timespec
+pkg syscall (windows-arm64), func Ntohs(uint16) uint16
+pkg syscall (windows-arm64), func Open(string, int, uint32) (Handle, error)
+pkg syscall (windows-arm64), func OpenCurrentProcessToken() (Token, error)
+pkg syscall (windows-arm64), func OpenProcess(uint32, bool, uint32) (Handle, error)
+pkg syscall (windows-arm64), func OpenProcessToken(Handle, uint32, *Token) error
+pkg syscall (windows-arm64), func Pipe([]Handle) error
+pkg syscall (windows-arm64), func PostQueuedCompletionStatus(Handle, uint32, uint32, *Overlapped) error
+pkg syscall (windows-arm64), func Process32First(Handle, *ProcessEntry32) error
+pkg syscall (windows-arm64), func Process32Next(Handle, *ProcessEntry32) error
+pkg syscall (windows-arm64), func Read(Handle, []uint8) (int, error)
+pkg syscall (windows-arm64), func ReadConsole(Handle, *uint16, uint32, *uint32, *uint8) error
+pkg syscall (windows-arm64), func ReadDirectoryChanges(Handle, *uint8, uint32, bool, uint32, *uint32, *Overlapped, uintptr) error
+pkg syscall (windows-arm64), func ReadFile(Handle, []uint8, *uint32, *Overlapped) error
+pkg syscall (windows-arm64), func Readlink(string, []uint8) (int, error)
+pkg syscall (windows-arm64), func Recvfrom(Handle, []uint8, int) (int, Sockaddr, error)
+pkg syscall (windows-arm64), func RegCloseKey(Handle) error
+pkg syscall (windows-arm64), func RegEnumKeyEx(Handle, uint32, *uint16, *uint32, *uint32, *uint16, *uint32, *Filetime) error
+pkg syscall (windows-arm64), func RegOpenKeyEx(Handle, *uint16, uint32, uint32, *Handle) error
+pkg syscall (windows-arm64), func RegQueryInfoKey(Handle, *uint16, *uint32, *uint32, *uint32, *uint32, *uint32, *uint32, *uint32, *uint32, *uint32, *Filetime) error
+pkg syscall (windows-arm64), func RegQueryValueEx(Handle, *uint16, *uint32, *uint32, *uint8, *uint32) error
+pkg syscall (windows-arm64), func RemoveDirectory(*uint16) error
+pkg syscall (windows-arm64), func Rename(string, string) error
+pkg syscall (windows-arm64), func Rmdir(string) error
+pkg syscall (windows-arm64), func Seek(Handle, int64, int) (int64, error)
+pkg syscall (windows-arm64), func Sendto(Handle, []uint8, int, Sockaddr) error
+pkg syscall (windows-arm64), func SetCurrentDirectory(*uint16) error
+pkg syscall (windows-arm64), func SetEndOfFile(Handle) error
+pkg syscall (windows-arm64), func SetEnvironmentVariable(*uint16, *uint16) error
+pkg syscall (windows-arm64), func SetFileAttributes(*uint16, uint32) error
+pkg syscall (windows-arm64), func SetFileCompletionNotificationModes(Handle, uint8) error
+pkg syscall (windows-arm64), func SetFilePointer(Handle, int32, *int32, uint32) (uint32, error)
+pkg syscall (windows-arm64), func SetFileTime(Handle, *Filetime, *Filetime, *Filetime) error
+pkg syscall (windows-arm64), func SetHandleInformation(Handle, uint32, uint32) error
+pkg syscall (windows-arm64), func SetNonblock(Handle, bool) error
+pkg syscall (windows-arm64), func Setsockopt(Handle, int32, int32, *uint8, int32) error
+pkg syscall (windows-arm64), func SetsockoptIPMreq(Handle, int, int, *IPMreq) error
+pkg syscall (windows-arm64), func SetsockoptIPv6Mreq(Handle, int, int, *IPv6Mreq) error
+pkg syscall (windows-arm64), func SetsockoptInet4Addr(Handle, int, int, [4]uint8) error
+pkg syscall (windows-arm64), func SetsockoptInt(Handle, int, int, int) error
+pkg syscall (windows-arm64), func SetsockoptLinger(Handle, int, int, *Linger) error
+pkg syscall (windows-arm64), func SetsockoptTimeval(Handle, int, int, *Timeval) error
+pkg syscall (windows-arm64), func Shutdown(Handle, int) error
+pkg syscall (windows-arm64), func Socket(int, int, int) (Handle, error)
+pkg syscall (windows-arm64), func StringToSid(string) (*SID, error)
+pkg syscall (windows-arm64), func StringToUTF16(string) []uint16
+pkg syscall (windows-arm64), func StringToUTF16Ptr(string) *uint16
+pkg syscall (windows-arm64), func Symlink(string, string) error
+pkg syscall (windows-arm64), func Syscall(uintptr, uintptr, uintptr, uintptr, uintptr) (uintptr, uintptr, Errno)
+pkg syscall (windows-arm64), func Syscall12(uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr) (uintptr, uintptr, Errno)
+pkg syscall (windows-arm64), func Syscall15(uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr) (uintptr, uintptr, Errno)
+pkg syscall (windows-arm64), func Syscall18(uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr) (uintptr, uintptr, Errno)
+pkg syscall (windows-arm64), func Syscall6(uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr) (uintptr, uintptr, Errno)
+pkg syscall (windows-arm64), func Syscall9(uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr) (uintptr, uintptr, Errno)
+pkg syscall (windows-arm64), func SyscallN(uintptr, ...uintptr) (uintptr, uintptr, Errno)
+pkg syscall (windows-arm64), func TerminateProcess(Handle, uint32) error
+pkg syscall (windows-arm64), func TimespecToNsec(Timespec) int64
+pkg syscall (windows-arm64), func TranslateAccountName(string, uint32, uint32, int) (string, error)
+pkg syscall (windows-arm64), func TranslateName(*uint16, uint32, uint32, *uint16, *uint32) error
+pkg syscall (windows-arm64), func TransmitFile(Handle, Handle, uint32, uint32, *Overlapped, *TransmitFileBuffers, uint32) error
+pkg syscall (windows-arm64), func UTF16FromString(string) ([]uint16, error)
+pkg syscall (windows-arm64), func UTF16PtrFromString(string) (*uint16, error)
+pkg syscall (windows-arm64), func UTF16ToString([]uint16) string
+pkg syscall (windows-arm64), func Unlink(string) error
+pkg syscall (windows-arm64), func UnmapViewOfFile(uintptr) error
+pkg syscall (windows-arm64), func Utimes(string, []Timeval) error
+pkg syscall (windows-arm64), func UtimesNano(string, []Timespec) error
+pkg syscall (windows-arm64), func VirtualLock(uintptr, uintptr) error
+pkg syscall (windows-arm64), func VirtualUnlock(uintptr, uintptr) error
+pkg syscall (windows-arm64), func WSACleanup() error
+pkg syscall (windows-arm64), func WSAEnumProtocols(*int32, *WSAProtocolInfo, *uint32) (int32, error)
+pkg syscall (windows-arm64), func WSAIoctl(Handle, uint32, *uint8, uint32, *uint8, uint32, *uint32, *Overlapped, uintptr) error
+pkg syscall (windows-arm64), func WSARecv(Handle, *WSABuf, uint32, *uint32, *uint32, *Overlapped, *uint8) error
+pkg syscall (windows-arm64), func WSARecvFrom(Handle, *WSABuf, uint32, *uint32, *uint32, *RawSockaddrAny, *int32, *Overlapped, *uint8) error
+pkg syscall (windows-arm64), func WSASend(Handle, *WSABuf, uint32, *uint32, uint32, *Overlapped, *uint8) error
+pkg syscall (windows-arm64), func WSASendTo(Handle, *WSABuf, uint32, *uint32, uint32, *RawSockaddrAny, int32, *Overlapped, *uint8) error
+pkg syscall (windows-arm64), func WSASendto(Handle, *WSABuf, uint32, *uint32, uint32, Sockaddr, *Overlapped, *uint8) error
+pkg syscall (windows-arm64), func WSAStartup(uint32, *WSAData) error
+pkg syscall (windows-arm64), func WaitForSingleObject(Handle, uint32) (uint32, error)
+pkg syscall (windows-arm64), func Write(Handle, []uint8) (int, error)
+pkg syscall (windows-arm64), func WriteConsole(Handle, *uint16, uint32, *uint32, *uint8) error
+pkg syscall (windows-arm64), func WriteFile(Handle, []uint8, *uint32, *Overlapped) error
+pkg syscall (windows-arm64), method (*DLL) FindProc(string) (*Proc, error)
+pkg syscall (windows-arm64), method (*DLL) MustFindProc(string) *Proc
+pkg syscall (windows-arm64), method (*DLL) Release() error
+pkg syscall (windows-arm64), method (*DLLError) Error() string
+pkg syscall (windows-arm64), method (*DLLError) Unwrap() error
+pkg syscall (windows-arm64), method (*Filetime) Nanoseconds() int64
+pkg syscall (windows-arm64), method (*LazyDLL) Handle() uintptr
+pkg syscall (windows-arm64), method (*LazyDLL) Load() error
+pkg syscall (windows-arm64), method (*LazyDLL) NewProc(string) *LazyProc
+pkg syscall (windows-arm64), method (*LazyProc) Addr() uintptr
+pkg syscall (windows-arm64), method (*LazyProc) Call(...uintptr) (uintptr, uintptr, error)
+pkg syscall (windows-arm64), method (*LazyProc) Find() error
+pkg syscall (windows-arm64), method (*Proc) Addr() uintptr
+pkg syscall (windows-arm64), method (*Proc) Call(...uintptr) (uintptr, uintptr, error)
+pkg syscall (windows-arm64), method (*RawSockaddrAny) Sockaddr() (Sockaddr, error)
+pkg syscall (windows-arm64), method (*SID) Copy() (*SID, error)
+pkg syscall (windows-arm64), method (*SID) Len() int
+pkg syscall (windows-arm64), method (*SID) LookupAccount(string) (string, string, uint32, error)
+pkg syscall (windows-arm64), method (*SID) String() (string, error)
+pkg syscall (windows-arm64), method (*Timeval) Nanoseconds() int64
+pkg syscall (windows-arm64), method (Errno) Error() string
+pkg syscall (windows-arm64), method (Errno) Is(error) bool
+pkg syscall (windows-arm64), method (Errno) Temporary() bool
+pkg syscall (windows-arm64), method (Errno) Timeout() bool
+pkg syscall (windows-arm64), method (Signal) Signal()
+pkg syscall (windows-arm64), method (Signal) String() string
+pkg syscall (windows-arm64), method (Token) Close() error
+pkg syscall (windows-arm64), method (Token) GetTokenPrimaryGroup() (*Tokenprimarygroup, error)
+pkg syscall (windows-arm64), method (Token) GetTokenUser() (*Tokenuser, error)
+pkg syscall (windows-arm64), method (Token) GetUserProfileDirectory() (string, error)
+pkg syscall (windows-arm64), method (WaitStatus) Continued() bool
+pkg syscall (windows-arm64), method (WaitStatus) CoreDump() bool
+pkg syscall (windows-arm64), method (WaitStatus) ExitStatus() int
+pkg syscall (windows-arm64), method (WaitStatus) Exited() bool
+pkg syscall (windows-arm64), method (WaitStatus) Signal() Signal
+pkg syscall (windows-arm64), method (WaitStatus) Signaled() bool
+pkg syscall (windows-arm64), method (WaitStatus) StopSignal() Signal
+pkg syscall (windows-arm64), method (WaitStatus) Stopped() bool
+pkg syscall (windows-arm64), method (WaitStatus) TrapCause() int
+pkg syscall (windows-arm64), type AddrinfoW struct
+pkg syscall (windows-arm64), type AddrinfoW struct, Addr Pointer
+pkg syscall (windows-arm64), type AddrinfoW struct, Addrlen uintptr
+pkg syscall (windows-arm64), type AddrinfoW struct, Canonname *uint16
+pkg syscall (windows-arm64), type AddrinfoW struct, Family int32
+pkg syscall (windows-arm64), type AddrinfoW struct, Flags int32
+pkg syscall (windows-arm64), type AddrinfoW struct, Next *AddrinfoW
+pkg syscall (windows-arm64), type AddrinfoW struct, Protocol int32
+pkg syscall (windows-arm64), type AddrinfoW struct, Socktype int32
+pkg syscall (windows-arm64), type ByHandleFileInformation struct
+pkg syscall (windows-arm64), type ByHandleFileInformation struct, CreationTime Filetime
+pkg syscall (windows-arm64), type ByHandleFileInformation struct, FileAttributes uint32
+pkg syscall (windows-arm64), type ByHandleFileInformation struct, FileIndexHigh uint32
+pkg syscall (windows-arm64), type ByHandleFileInformation struct, FileIndexLow uint32
+pkg syscall (windows-arm64), type ByHandleFileInformation struct, FileSizeHigh uint32
+pkg syscall (windows-arm64), type ByHandleFileInformation struct, FileSizeLow uint32
+pkg syscall (windows-arm64), type ByHandleFileInformation struct, LastAccessTime Filetime
+pkg syscall (windows-arm64), type ByHandleFileInformation struct, LastWriteTime Filetime
+pkg syscall (windows-arm64), type ByHandleFileInformation struct, NumberOfLinks uint32
+pkg syscall (windows-arm64), type ByHandleFileInformation struct, VolumeSerialNumber uint32
+pkg syscall (windows-arm64), type CertChainContext struct
+pkg syscall (windows-arm64), type CertChainContext struct, ChainCount uint32
+pkg syscall (windows-arm64), type CertChainContext struct, Chains **CertSimpleChain
+pkg syscall (windows-arm64), type CertChainContext struct, HasRevocationFreshnessTime uint32
+pkg syscall (windows-arm64), type CertChainContext struct, LowerQualityChainCount uint32
+pkg syscall (windows-arm64), type CertChainContext struct, LowerQualityChains **CertChainContext
+pkg syscall (windows-arm64), type CertChainContext struct, RevocationFreshnessTime uint32
+pkg syscall (windows-arm64), type CertChainContext struct, Size uint32
+pkg syscall (windows-arm64), type CertChainContext struct, TrustStatus CertTrustStatus
+pkg syscall (windows-arm64), type CertChainElement struct
+pkg syscall (windows-arm64), type CertChainElement struct, ApplicationUsage *CertEnhKeyUsage
+pkg syscall (windows-arm64), type CertChainElement struct, CertContext *CertContext
+pkg syscall (windows-arm64), type CertChainElement struct, ExtendedErrorInfo *uint16
+pkg syscall (windows-arm64), type CertChainElement struct, IssuanceUsage *CertEnhKeyUsage
+pkg syscall (windows-arm64), type CertChainElement struct, RevocationInfo *CertRevocationInfo
+pkg syscall (windows-arm64), type CertChainElement struct, Size uint32
+pkg syscall (windows-arm64), type CertChainElement struct, TrustStatus CertTrustStatus
+pkg syscall (windows-arm64), type CertChainPara struct
+pkg syscall (windows-arm64), type CertChainPara struct, CacheResync *Filetime
+pkg syscall (windows-arm64), type CertChainPara struct, CheckRevocationFreshnessTime uint32
+pkg syscall (windows-arm64), type CertChainPara struct, RequestedUsage CertUsageMatch
+pkg syscall (windows-arm64), type CertChainPara struct, RequstedIssuancePolicy CertUsageMatch
+pkg syscall (windows-arm64), type CertChainPara struct, RevocationFreshnessTime uint32
+pkg syscall (windows-arm64), type CertChainPara struct, Size uint32
+pkg syscall (windows-arm64), type CertChainPara struct, URLRetrievalTimeout uint32
+pkg syscall (windows-arm64), type CertChainPolicyPara struct
+pkg syscall (windows-arm64), type CertChainPolicyPara struct, ExtraPolicyPara Pointer
+pkg syscall (windows-arm64), type CertChainPolicyPara struct, Flags uint32
+pkg syscall (windows-arm64), type CertChainPolicyPara struct, Size uint32
+pkg syscall (windows-arm64), type CertChainPolicyStatus struct
+pkg syscall (windows-arm64), type CertChainPolicyStatus struct, ChainIndex uint32
+pkg syscall (windows-arm64), type CertChainPolicyStatus struct, ElementIndex uint32
+pkg syscall (windows-arm64), type CertChainPolicyStatus struct, Error uint32
+pkg syscall (windows-arm64), type CertChainPolicyStatus struct, ExtraPolicyStatus Pointer
+pkg syscall (windows-arm64), type CertChainPolicyStatus struct, Size uint32
+pkg syscall (windows-arm64), type CertContext struct
+pkg syscall (windows-arm64), type CertContext struct, CertInfo *CertInfo
+pkg syscall (windows-arm64), type CertContext struct, EncodedCert *uint8
+pkg syscall (windows-arm64), type CertContext struct, EncodingType uint32
+pkg syscall (windows-arm64), type CertContext struct, Length uint32
+pkg syscall (windows-arm64), type CertContext struct, Store Handle
+pkg syscall (windows-arm64), type CertEnhKeyUsage struct
+pkg syscall (windows-arm64), type CertEnhKeyUsage struct, Length uint32
+pkg syscall (windows-arm64), type CertEnhKeyUsage struct, UsageIdentifiers **uint8
+pkg syscall (windows-arm64), type CertInfo struct
+pkg syscall (windows-arm64), type CertRevocationCrlInfo struct
+pkg syscall (windows-arm64), type CertRevocationInfo struct
+pkg syscall (windows-arm64), type CertRevocationInfo struct, CrlInfo *CertRevocationCrlInfo
+pkg syscall (windows-arm64), type CertRevocationInfo struct, FreshnessTime uint32
+pkg syscall (windows-arm64), type CertRevocationInfo struct, HasFreshnessTime uint32
+pkg syscall (windows-arm64), type CertRevocationInfo struct, OidSpecificInfo Pointer
+pkg syscall (windows-arm64), type CertRevocationInfo struct, RevocationOid *uint8
+pkg syscall (windows-arm64), type CertRevocationInfo struct, RevocationResult uint32
+pkg syscall (windows-arm64), type CertRevocationInfo struct, Size uint32
+pkg syscall (windows-arm64), type CertSimpleChain struct
+pkg syscall (windows-arm64), type CertSimpleChain struct, Elements **CertChainElement
+pkg syscall (windows-arm64), type CertSimpleChain struct, HasRevocationFreshnessTime uint32
+pkg syscall (windows-arm64), type CertSimpleChain struct, NumElements uint32
+pkg syscall (windows-arm64), type CertSimpleChain struct, RevocationFreshnessTime uint32
+pkg syscall (windows-arm64), type CertSimpleChain struct, Size uint32
+pkg syscall (windows-arm64), type CertSimpleChain struct, TrustListInfo *CertTrustListInfo
+pkg syscall (windows-arm64), type CertSimpleChain struct, TrustStatus CertTrustStatus
+pkg syscall (windows-arm64), type CertTrustListInfo struct
+pkg syscall (windows-arm64), type CertTrustStatus struct
+pkg syscall (windows-arm64), type CertTrustStatus struct, ErrorStatus uint32
+pkg syscall (windows-arm64), type CertTrustStatus struct, InfoStatus uint32
+pkg syscall (windows-arm64), type CertUsageMatch struct
+pkg syscall (windows-arm64), type CertUsageMatch struct, Type uint32
+pkg syscall (windows-arm64), type CertUsageMatch struct, Usage CertEnhKeyUsage
+pkg syscall (windows-arm64), type DLL struct
+pkg syscall (windows-arm64), type DLL struct, Handle Handle
+pkg syscall (windows-arm64), type DLL struct, Name string
+pkg syscall (windows-arm64), type DLLError struct
+pkg syscall (windows-arm64), type DLLError struct, Err error
+pkg syscall (windows-arm64), type DLLError struct, Msg string
+pkg syscall (windows-arm64), type DLLError struct, ObjName string
+pkg syscall (windows-arm64), type DNSMXData struct
+pkg syscall (windows-arm64), type DNSMXData struct, NameExchange *uint16
+pkg syscall (windows-arm64), type DNSMXData struct, Pad uint16
+pkg syscall (windows-arm64), type DNSMXData struct, Preference uint16
+pkg syscall (windows-arm64), type DNSPTRData struct
+pkg syscall (windows-arm64), type DNSPTRData struct, Host *uint16
+pkg syscall (windows-arm64), type DNSRecord struct
+pkg syscall (windows-arm64), type DNSRecord struct, Data [40]uint8
+pkg syscall (windows-arm64), type DNSRecord struct, Dw uint32
+pkg syscall (windows-arm64), type DNSRecord struct, Length uint16
+pkg syscall (windows-arm64), type DNSRecord struct, Name *uint16
+pkg syscall (windows-arm64), type DNSRecord struct, Next *DNSRecord
+pkg syscall (windows-arm64), type DNSRecord struct, Reserved uint32
+pkg syscall (windows-arm64), type DNSRecord struct, Ttl uint32
+pkg syscall (windows-arm64), type DNSRecord struct, Type uint16
+pkg syscall (windows-arm64), type DNSSRVData struct
+pkg syscall (windows-arm64), type DNSSRVData struct, Pad uint16
+pkg syscall (windows-arm64), type DNSSRVData struct, Port uint16
+pkg syscall (windows-arm64), type DNSSRVData struct, Priority uint16
+pkg syscall (windows-arm64), type DNSSRVData struct, Target *uint16
+pkg syscall (windows-arm64), type DNSSRVData struct, Weight uint16
+pkg syscall (windows-arm64), type DNSTXTData struct
+pkg syscall (windows-arm64), type DNSTXTData struct, StringArray [1]*uint16
+pkg syscall (windows-arm64), type DNSTXTData struct, StringCount uint16
+pkg syscall (windows-arm64), type Errno uintptr
+pkg syscall (windows-arm64), type FileNotifyInformation struct
+pkg syscall (windows-arm64), type FileNotifyInformation struct, Action uint32
+pkg syscall (windows-arm64), type FileNotifyInformation struct, FileName uint16
+pkg syscall (windows-arm64), type FileNotifyInformation struct, FileNameLength uint32
+pkg syscall (windows-arm64), type FileNotifyInformation struct, NextEntryOffset uint32
+pkg syscall (windows-arm64), type Filetime struct
+pkg syscall (windows-arm64), type Filetime struct, HighDateTime uint32
+pkg syscall (windows-arm64), type Filetime struct, LowDateTime uint32
+pkg syscall (windows-arm64), type GUID struct
+pkg syscall (windows-arm64), type GUID struct, Data1 uint32
+pkg syscall (windows-arm64), type GUID struct, Data2 uint16
+pkg syscall (windows-arm64), type GUID struct, Data3 uint16
+pkg syscall (windows-arm64), type GUID struct, Data4 [8]uint8
+pkg syscall (windows-arm64), type Handle uintptr
+pkg syscall (windows-arm64), type Hostent struct
+pkg syscall (windows-arm64), type Hostent struct, AddrList **uint8
+pkg syscall (windows-arm64), type Hostent struct, AddrType uint16
+pkg syscall (windows-arm64), type Hostent struct, Aliases **uint8
+pkg syscall (windows-arm64), type Hostent struct, Length uint16
+pkg syscall (windows-arm64), type Hostent struct, Name *uint8
+pkg syscall (windows-arm64), type IPMreq struct
+pkg syscall (windows-arm64), type IPMreq struct, Interface [4]uint8
+pkg syscall (windows-arm64), type IPMreq struct, Multiaddr [4]uint8
+pkg syscall (windows-arm64), type IPv6Mreq struct
+pkg syscall (windows-arm64), type IPv6Mreq struct, Interface uint32
+pkg syscall (windows-arm64), type IPv6Mreq struct, Multiaddr [16]uint8
+pkg syscall (windows-arm64), type InterfaceInfo struct
+pkg syscall (windows-arm64), type InterfaceInfo struct, Address SockaddrGen
+pkg syscall (windows-arm64), type InterfaceInfo struct, BroadcastAddress SockaddrGen
+pkg syscall (windows-arm64), type InterfaceInfo struct, Flags uint32
+pkg syscall (windows-arm64), type InterfaceInfo struct, Netmask SockaddrGen
+pkg syscall (windows-arm64), type IpAdapterInfo struct
+pkg syscall (windows-arm64), type IpAdapterInfo struct, AdapterName [260]uint8
+pkg syscall (windows-arm64), type IpAdapterInfo struct, Address [8]uint8
+pkg syscall (windows-arm64), type IpAdapterInfo struct, AddressLength uint32
+pkg syscall (windows-arm64), type IpAdapterInfo struct, ComboIndex uint32
+pkg syscall (windows-arm64), type IpAdapterInfo struct, CurrentIpAddress *IpAddrString
+pkg syscall (windows-arm64), type IpAdapterInfo struct, Description [132]uint8
+pkg syscall (windows-arm64), type IpAdapterInfo struct, DhcpEnabled uint32
+pkg syscall (windows-arm64), type IpAdapterInfo struct, DhcpServer IpAddrString
+pkg syscall (windows-arm64), type IpAdapterInfo struct, GatewayList IpAddrString
+pkg syscall (windows-arm64), type IpAdapterInfo struct, HaveWins bool
+pkg syscall (windows-arm64), type IpAdapterInfo struct, Index uint32
+pkg syscall (windows-arm64), type IpAdapterInfo struct, IpAddressList IpAddrString
+pkg syscall (windows-arm64), type IpAdapterInfo struct, LeaseExpires int64
+pkg syscall (windows-arm64), type IpAdapterInfo struct, LeaseObtained int64
+pkg syscall (windows-arm64), type IpAdapterInfo struct, Next *IpAdapterInfo
+pkg syscall (windows-arm64), type IpAdapterInfo struct, PrimaryWinsServer IpAddrString
+pkg syscall (windows-arm64), type IpAdapterInfo struct, SecondaryWinsServer IpAddrString
+pkg syscall (windows-arm64), type IpAdapterInfo struct, Type uint32
+pkg syscall (windows-arm64), type IpAddrString struct
+pkg syscall (windows-arm64), type IpAddrString struct, Context uint32
+pkg syscall (windows-arm64), type IpAddrString struct, IpAddress IpAddressString
+pkg syscall (windows-arm64), type IpAddrString struct, IpMask IpMaskString
+pkg syscall (windows-arm64), type IpAddrString struct, Next *IpAddrString
+pkg syscall (windows-arm64), type IpAddressString struct
+pkg syscall (windows-arm64), type IpAddressString struct, String [16]uint8
+pkg syscall (windows-arm64), type IpMaskString struct
+pkg syscall (windows-arm64), type IpMaskString struct, String [16]uint8
+pkg syscall (windows-arm64), type LazyDLL struct
+pkg syscall (windows-arm64), type LazyDLL struct, Name string
+pkg syscall (windows-arm64), type LazyProc struct
+pkg syscall (windows-arm64), type LazyProc struct, Name string
+pkg syscall (windows-arm64), type Linger struct
+pkg syscall (windows-arm64), type Linger struct, Linger int32
+pkg syscall (windows-arm64), type Linger struct, Onoff int32
+pkg syscall (windows-arm64), type MibIfRow struct
+pkg syscall (windows-arm64), type MibIfRow struct, AdminStatus uint32
+pkg syscall (windows-arm64), type MibIfRow struct, Descr [256]uint8
+pkg syscall (windows-arm64), type MibIfRow struct, DescrLen uint32
+pkg syscall (windows-arm64), type MibIfRow struct, InDiscards uint32
+pkg syscall (windows-arm64), type MibIfRow struct, InErrors uint32
+pkg syscall (windows-arm64), type MibIfRow struct, InNUcastPkts uint32
+pkg syscall (windows-arm64), type MibIfRow struct, InOctets uint32
+pkg syscall (windows-arm64), type MibIfRow struct, InUcastPkts uint32
+pkg syscall (windows-arm64), type MibIfRow struct, InUnknownProtos uint32
+pkg syscall (windows-arm64), type MibIfRow struct, Index uint32
+pkg syscall (windows-arm64), type MibIfRow struct, LastChange uint32
+pkg syscall (windows-arm64), type MibIfRow struct, Mtu uint32
+pkg syscall (windows-arm64), type MibIfRow struct, Name [256]uint16
+pkg syscall (windows-arm64), type MibIfRow struct, OperStatus uint32
+pkg syscall (windows-arm64), type MibIfRow struct, OutDiscards uint32
+pkg syscall (windows-arm64), type MibIfRow struct, OutErrors uint32
+pkg syscall (windows-arm64), type MibIfRow struct, OutNUcastPkts uint32
+pkg syscall (windows-arm64), type MibIfRow struct, OutOctets uint32
+pkg syscall (windows-arm64), type MibIfRow struct, OutQLen uint32
+pkg syscall (windows-arm64), type MibIfRow struct, OutUcastPkts uint32
+pkg syscall (windows-arm64), type MibIfRow struct, PhysAddr [8]uint8
+pkg syscall (windows-arm64), type MibIfRow struct, PhysAddrLen uint32
+pkg syscall (windows-arm64), type MibIfRow struct, Speed uint32
+pkg syscall (windows-arm64), type MibIfRow struct, Type uint32
+pkg syscall (windows-arm64), type Overlapped struct
+pkg syscall (windows-arm64), type Overlapped struct, HEvent Handle
+pkg syscall (windows-arm64), type Overlapped struct, Internal uintptr
+pkg syscall (windows-arm64), type Overlapped struct, InternalHigh uintptr
+pkg syscall (windows-arm64), type Overlapped struct, Offset uint32
+pkg syscall (windows-arm64), type Overlapped struct, OffsetHigh uint32
+pkg syscall (windows-arm64), type Pointer *struct
+pkg syscall (windows-arm64), type Proc struct
+pkg syscall (windows-arm64), type Proc struct, Dll *DLL
+pkg syscall (windows-arm64), type Proc struct, Name string
+pkg syscall (windows-arm64), type ProcessEntry32 struct
+pkg syscall (windows-arm64), type ProcessEntry32 struct, DefaultHeapID uintptr
+pkg syscall (windows-arm64), type ProcessEntry32 struct, ExeFile [260]uint16
+pkg syscall (windows-arm64), type ProcessEntry32 struct, Flags uint32
+pkg syscall (windows-arm64), type ProcessEntry32 struct, ModuleID uint32
+pkg syscall (windows-arm64), type ProcessEntry32 struct, ParentProcessID uint32
+pkg syscall (windows-arm64), type ProcessEntry32 struct, PriClassBase int32
+pkg syscall (windows-arm64), type ProcessEntry32 struct, ProcessID uint32
+pkg syscall (windows-arm64), type ProcessEntry32 struct, Size uint32
+pkg syscall (windows-arm64), type ProcessEntry32 struct, Threads uint32
+pkg syscall (windows-arm64), type ProcessEntry32 struct, Usage uint32
+pkg syscall (windows-arm64), type ProcessInformation struct
+pkg syscall (windows-arm64), type ProcessInformation struct, Process Handle
+pkg syscall (windows-arm64), type ProcessInformation struct, ProcessId uint32
+pkg syscall (windows-arm64), type ProcessInformation struct, Thread Handle
+pkg syscall (windows-arm64), type ProcessInformation struct, ThreadId uint32
+pkg syscall (windows-arm64), type Protoent struct
+pkg syscall (windows-arm64), type Protoent struct, Aliases **uint8
+pkg syscall (windows-arm64), type Protoent struct, Name *uint8
+pkg syscall (windows-arm64), type Protoent struct, Proto uint16
+pkg syscall (windows-arm64), type RawSockaddr struct
+pkg syscall (windows-arm64), type RawSockaddr struct, Data [14]int8
+pkg syscall (windows-arm64), type RawSockaddr struct, Family uint16
+pkg syscall (windows-arm64), type RawSockaddrAny struct
+pkg syscall (windows-arm64), type RawSockaddrAny struct, Addr RawSockaddr
+pkg syscall (windows-arm64), type RawSockaddrAny struct, Pad [100]int8
+pkg syscall (windows-arm64), type RawSockaddrInet4 struct
+pkg syscall (windows-arm64), type RawSockaddrInet4 struct, Addr [4]uint8
+pkg syscall (windows-arm64), type RawSockaddrInet4 struct, Family uint16
+pkg syscall (windows-arm64), type RawSockaddrInet4 struct, Port uint16
+pkg syscall (windows-arm64), type RawSockaddrInet4 struct, Zero [8]uint8
+pkg syscall (windows-arm64), type RawSockaddrInet6 struct
+pkg syscall (windows-arm64), type RawSockaddrInet6 struct, Addr [16]uint8
+pkg syscall (windows-arm64), type RawSockaddrInet6 struct, Family uint16
+pkg syscall (windows-arm64), type RawSockaddrInet6 struct, Flowinfo uint32
+pkg syscall (windows-arm64), type RawSockaddrInet6 struct, Port uint16
+pkg syscall (windows-arm64), type RawSockaddrInet6 struct, Scope_id uint32
+pkg syscall (windows-arm64), type RawSockaddrUnix struct
+pkg syscall (windows-arm64), type RawSockaddrUnix struct, Family uint16
+pkg syscall (windows-arm64), type RawSockaddrUnix struct, Path [108]int8
+pkg syscall (windows-arm64), type Rusage struct
+pkg syscall (windows-arm64), type Rusage struct, CreationTime Filetime
+pkg syscall (windows-arm64), type Rusage struct, ExitTime Filetime
+pkg syscall (windows-arm64), type Rusage struct, KernelTime Filetime
+pkg syscall (windows-arm64), type Rusage struct, UserTime Filetime
+pkg syscall (windows-arm64), type SID struct
+pkg syscall (windows-arm64), type SIDAndAttributes struct
+pkg syscall (windows-arm64), type SIDAndAttributes struct, Attributes uint32
+pkg syscall (windows-arm64), type SIDAndAttributes struct, Sid *SID
+pkg syscall (windows-arm64), type SSLExtraCertChainPolicyPara struct
+pkg syscall (windows-arm64), type SSLExtraCertChainPolicyPara struct, AuthType uint32
+pkg syscall (windows-arm64), type SSLExtraCertChainPolicyPara struct, Checks uint32
+pkg syscall (windows-arm64), type SSLExtraCertChainPolicyPara struct, ServerName *uint16
+pkg syscall (windows-arm64), type SSLExtraCertChainPolicyPara struct, Size uint32
+pkg syscall (windows-arm64), type SecurityAttributes struct
+pkg syscall (windows-arm64), type SecurityAttributes struct, InheritHandle uint32
+pkg syscall (windows-arm64), type SecurityAttributes struct, Length uint32
+pkg syscall (windows-arm64), type SecurityAttributes struct, SecurityDescriptor uintptr
+pkg syscall (windows-arm64), type Servent struct
+pkg syscall (windows-arm64), type Servent struct, Aliases **uint8
+pkg syscall (windows-arm64), type Servent struct, Name *uint8
+pkg syscall (windows-arm64), type Servent struct, Port uint16
+pkg syscall (windows-arm64), type Servent struct, Proto *uint8
+pkg syscall (windows-arm64), type Signal int
+pkg syscall (windows-arm64), type Sockaddr interface, unexported methods
+pkg syscall (windows-arm64), type SockaddrGen [24]uint8
+pkg syscall (windows-arm64), type SockaddrInet4 struct
+pkg syscall (windows-arm64), type SockaddrInet4 struct, Addr [4]uint8
+pkg syscall (windows-arm64), type SockaddrInet4 struct, Port int
+pkg syscall (windows-arm64), type SockaddrInet6 struct
+pkg syscall (windows-arm64), type SockaddrInet6 struct, Addr [16]uint8
+pkg syscall (windows-arm64), type SockaddrInet6 struct, Port int
+pkg syscall (windows-arm64), type SockaddrInet6 struct, ZoneId uint32
+pkg syscall (windows-arm64), type SockaddrUnix struct
+pkg syscall (windows-arm64), type SockaddrUnix struct, Name string
+pkg syscall (windows-arm64), type StartupInfo struct
+pkg syscall (windows-arm64), type StartupInfo struct, Cb uint32
+pkg syscall (windows-arm64), type StartupInfo struct, Desktop *uint16
+pkg syscall (windows-arm64), type StartupInfo struct, FillAttribute uint32
+pkg syscall (windows-arm64), type StartupInfo struct, Flags uint32
+pkg syscall (windows-arm64), type StartupInfo struct, ShowWindow uint16
+pkg syscall (windows-arm64), type StartupInfo struct, StdErr Handle
+pkg syscall (windows-arm64), type StartupInfo struct, StdInput Handle
+pkg syscall (windows-arm64), type StartupInfo struct, StdOutput Handle
+pkg syscall (windows-arm64), type StartupInfo struct, Title *uint16
+pkg syscall (windows-arm64), type StartupInfo struct, X uint32
+pkg syscall (windows-arm64), type StartupInfo struct, XCountChars uint32
+pkg syscall (windows-arm64), type StartupInfo struct, XSize uint32
+pkg syscall (windows-arm64), type StartupInfo struct, Y uint32
+pkg syscall (windows-arm64), type StartupInfo struct, YCountChars uint32
+pkg syscall (windows-arm64), type StartupInfo struct, YSize uint32
+pkg syscall (windows-arm64), type SysProcAttr struct, AdditionalInheritedHandles []Handle
+pkg syscall (windows-arm64), type SysProcAttr struct, CmdLine string
+pkg syscall (windows-arm64), type SysProcAttr struct, CreationFlags uint32
+pkg syscall (windows-arm64), type SysProcAttr struct, HideWindow bool
+pkg syscall (windows-arm64), type SysProcAttr struct, NoInheritHandles bool
+pkg syscall (windows-arm64), type SysProcAttr struct, ParentProcess Handle
+pkg syscall (windows-arm64), type SysProcAttr struct, ProcessAttributes *SecurityAttributes
+pkg syscall (windows-arm64), type SysProcAttr struct, ThreadAttributes *SecurityAttributes
+pkg syscall (windows-arm64), type SysProcAttr struct, Token Token
+pkg syscall (windows-arm64), type Systemtime struct
+pkg syscall (windows-arm64), type Systemtime struct, Day uint16
+pkg syscall (windows-arm64), type Systemtime struct, DayOfWeek uint16
+pkg syscall (windows-arm64), type Systemtime struct, Hour uint16
+pkg syscall (windows-arm64), type Systemtime struct, Milliseconds uint16
+pkg syscall (windows-arm64), type Systemtime struct, Minute uint16
+pkg syscall (windows-arm64), type Systemtime struct, Month uint16
+pkg syscall (windows-arm64), type Systemtime struct, Second uint16
+pkg syscall (windows-arm64), type Systemtime struct, Year uint16
+pkg syscall (windows-arm64), type TCPKeepalive struct
+pkg syscall (windows-arm64), type TCPKeepalive struct, Interval uint32
+pkg syscall (windows-arm64), type TCPKeepalive struct, OnOff uint32
+pkg syscall (windows-arm64), type TCPKeepalive struct, Time uint32
+pkg syscall (windows-arm64), type Timespec struct, Nsec int64
+pkg syscall (windows-arm64), type Timespec struct, Sec int64
+pkg syscall (windows-arm64), type Timeval struct, Sec int32
+pkg syscall (windows-arm64), type Timeval struct, Usec int32
+pkg syscall (windows-arm64), type Timezoneinformation struct
+pkg syscall (windows-arm64), type Timezoneinformation struct, Bias int32
+pkg syscall (windows-arm64), type Timezoneinformation struct, DaylightBias int32
+pkg syscall (windows-arm64), type Timezoneinformation struct, DaylightDate Systemtime
+pkg syscall (windows-arm64), type Timezoneinformation struct, DaylightName [32]uint16
+pkg syscall (windows-arm64), type Timezoneinformation struct, StandardBias int32
+pkg syscall (windows-arm64), type Timezoneinformation struct, StandardDate Systemtime
+pkg syscall (windows-arm64), type Timezoneinformation struct, StandardName [32]uint16
+pkg syscall (windows-arm64), type Token uintptr
+pkg syscall (windows-arm64), type Tokenprimarygroup struct
+pkg syscall (windows-arm64), type Tokenprimarygroup struct, PrimaryGroup *SID
+pkg syscall (windows-arm64), type Tokenuser struct
+pkg syscall (windows-arm64), type Tokenuser struct, User SIDAndAttributes
+pkg syscall (windows-arm64), type TransmitFileBuffers struct
+pkg syscall (windows-arm64), type TransmitFileBuffers struct, Head uintptr
+pkg syscall (windows-arm64), type TransmitFileBuffers struct, HeadLength uint32
+pkg syscall (windows-arm64), type TransmitFileBuffers struct, Tail uintptr
+pkg syscall (windows-arm64), type TransmitFileBuffers struct, TailLength uint32
+pkg syscall (windows-arm64), type UserInfo10 struct
+pkg syscall (windows-arm64), type UserInfo10 struct, Comment *uint16
+pkg syscall (windows-arm64), type UserInfo10 struct, FullName *uint16
+pkg syscall (windows-arm64), type UserInfo10 struct, Name *uint16
+pkg syscall (windows-arm64), type UserInfo10 struct, UsrComment *uint16
+pkg syscall (windows-arm64), type WSABuf struct
+pkg syscall (windows-arm64), type WSABuf struct, Buf *uint8
+pkg syscall (windows-arm64), type WSABuf struct, Len uint32
+pkg syscall (windows-arm64), type WSAData struct
+pkg syscall (windows-arm64), type WSAData struct, Description [257]uint8
+pkg syscall (windows-arm64), type WSAData struct, HighVersion uint16
+pkg syscall (windows-arm64), type WSAData struct, MaxSockets uint16
+pkg syscall (windows-arm64), type WSAData struct, MaxUdpDg uint16
+pkg syscall (windows-arm64), type WSAData struct, SystemStatus [129]uint8
+pkg syscall (windows-arm64), type WSAData struct, VendorInfo *uint8
+pkg syscall (windows-arm64), type WSAData struct, Version uint16
+pkg syscall (windows-arm64), type WSAProtocolChain struct
+pkg syscall (windows-arm64), type WSAProtocolChain struct, ChainEntries [7]uint32
+pkg syscall (windows-arm64), type WSAProtocolChain struct, ChainLen int32
+pkg syscall (windows-arm64), type WSAProtocolInfo struct
+pkg syscall (windows-arm64), type WSAProtocolInfo struct, AddressFamily int32
+pkg syscall (windows-arm64), type WSAProtocolInfo struct, CatalogEntryId uint32
+pkg syscall (windows-arm64), type WSAProtocolInfo struct, MaxSockAddr int32
+pkg syscall (windows-arm64), type WSAProtocolInfo struct, MessageSize uint32
+pkg syscall (windows-arm64), type WSAProtocolInfo struct, MinSockAddr int32
+pkg syscall (windows-arm64), type WSAProtocolInfo struct, NetworkByteOrder int32
+pkg syscall (windows-arm64), type WSAProtocolInfo struct, Protocol int32
+pkg syscall (windows-arm64), type WSAProtocolInfo struct, ProtocolChain WSAProtocolChain
+pkg syscall (windows-arm64), type WSAProtocolInfo struct, ProtocolMaxOffset int32
+pkg syscall (windows-arm64), type WSAProtocolInfo struct, ProtocolName [256]uint16
+pkg syscall (windows-arm64), type WSAProtocolInfo struct, ProviderFlags uint32
+pkg syscall (windows-arm64), type WSAProtocolInfo struct, ProviderId GUID
+pkg syscall (windows-arm64), type WSAProtocolInfo struct, ProviderReserved uint32
+pkg syscall (windows-arm64), type WSAProtocolInfo struct, SecurityScheme int32
+pkg syscall (windows-arm64), type WSAProtocolInfo struct, ServiceFlags1 uint32
+pkg syscall (windows-arm64), type WSAProtocolInfo struct, ServiceFlags2 uint32
+pkg syscall (windows-arm64), type WSAProtocolInfo struct, ServiceFlags3 uint32
+pkg syscall (windows-arm64), type WSAProtocolInfo struct, ServiceFlags4 uint32
+pkg syscall (windows-arm64), type WSAProtocolInfo struct, SocketType int32
+pkg syscall (windows-arm64), type WSAProtocolInfo struct, Version int32
+pkg syscall (windows-arm64), type WaitStatus struct
+pkg syscall (windows-arm64), type WaitStatus struct, ExitCode uint32
+pkg syscall (windows-arm64), type Win32FileAttributeData struct
+pkg syscall (windows-arm64), type Win32FileAttributeData struct, CreationTime Filetime
+pkg syscall (windows-arm64), type Win32FileAttributeData struct, FileAttributes uint32
+pkg syscall (windows-arm64), type Win32FileAttributeData struct, FileSizeHigh uint32
+pkg syscall (windows-arm64), type Win32FileAttributeData struct, FileSizeLow uint32
+pkg syscall (windows-arm64), type Win32FileAttributeData struct, LastAccessTime Filetime
+pkg syscall (windows-arm64), type Win32FileAttributeData struct, LastWriteTime Filetime
+pkg syscall (windows-arm64), type Win32finddata struct
+pkg syscall (windows-arm64), type Win32finddata struct, AlternateFileName [13]uint16
+pkg syscall (windows-arm64), type Win32finddata struct, CreationTime Filetime
+pkg syscall (windows-arm64), type Win32finddata struct, FileAttributes uint32
+pkg syscall (windows-arm64), type Win32finddata struct, FileName [259]uint16
+pkg syscall (windows-arm64), type Win32finddata struct, FileSizeHigh uint32
+pkg syscall (windows-arm64), type Win32finddata struct, FileSizeLow uint32
+pkg syscall (windows-arm64), type Win32finddata struct, LastAccessTime Filetime
+pkg syscall (windows-arm64), type Win32finddata struct, LastWriteTime Filetime
+pkg syscall (windows-arm64), type Win32finddata struct, Reserved0 uint32
+pkg syscall (windows-arm64), type Win32finddata struct, Reserved1 uint32
+pkg syscall (windows-arm64), var OID_PKIX_KP_SERVER_AUTH []uint8
+pkg syscall (windows-arm64), var OID_SERVER_GATED_CRYPTO []uint8
+pkg syscall (windows-arm64), var OID_SGC_NETSCAPE []uint8
+pkg syscall (windows-arm64), var SocketDisableIPv6 bool
+pkg syscall (windows-arm64), var Stderr Handle
+pkg syscall (windows-arm64), var Stdin Handle
+pkg syscall (windows-arm64), var Stdout Handle
+pkg syscall (windows-arm64), var WSAID_CONNECTEX GUID

@@ -1,0 +1,296 @@
+pkg math (plan9-amd64), const MaxInt = 9223372036854775807
+pkg math (plan9-amd64), const MaxUint = 18446744073709551615
+pkg math (plan9-amd64), const MinInt = -9223372036854775808
+pkg math/bits (plan9-amd64), const UintSize = 64
+pkg os (plan9-amd64), const DevNull = "/dev/null"
+pkg os (plan9-amd64), const O_APPEND = 1024
+pkg os (plan9-amd64), const O_CREATE = 8192
+pkg os (plan9-amd64), const O_EXCL = 4096
+pkg os (plan9-amd64), const O_SYNC = 0
+pkg os (plan9-amd64), const O_TRUNC = 16
+pkg os (plan9-amd64), const PathListSeparator = 0
+pkg os (plan9-amd64), const PathSeparator = 47
+pkg path/filepath (plan9-amd64), const ListSeparator = 0
+pkg path/filepath (plan9-amd64), const Separator = 47
+pkg runtime (plan9-amd64), const GOARCH = "amd64"
+pkg runtime (plan9-amd64), const GOOS = "plan9"
+pkg strconv (plan9-amd64), const IntSize = 64
+pkg syscall (plan9-amd64), const DMAPPEND = 1073741824
+pkg syscall (plan9-amd64), const DMAPPEND ideal-int
+pkg syscall (plan9-amd64), const DMAUTH = 134217728
+pkg syscall (plan9-amd64), const DMAUTH ideal-int
+pkg syscall (plan9-amd64), const DMDIR = 2147483648
+pkg syscall (plan9-amd64), const DMDIR ideal-int
+pkg syscall (plan9-amd64), const DMEXCL = 536870912
+pkg syscall (plan9-amd64), const DMEXCL ideal-int
+pkg syscall (plan9-amd64), const DMEXEC = 1
+pkg syscall (plan9-amd64), const DMEXEC ideal-int
+pkg syscall (plan9-amd64), const DMMOUNT = 268435456
+pkg syscall (plan9-amd64), const DMMOUNT ideal-int
+pkg syscall (plan9-amd64), const DMREAD = 4
+pkg syscall (plan9-amd64), const DMREAD ideal-int
+pkg syscall (plan9-amd64), const DMTMP = 67108864
+pkg syscall (plan9-amd64), const DMTMP ideal-int
+pkg syscall (plan9-amd64), const DMWRITE = 2
+pkg syscall (plan9-amd64), const DMWRITE ideal-int
+pkg syscall (plan9-amd64), const ERRMAX = 128
+pkg syscall (plan9-amd64), const ERRMAX ideal-int
+pkg syscall (plan9-amd64), const MAFTER = 2
+pkg syscall (plan9-amd64), const MAFTER ideal-int
+pkg syscall (plan9-amd64), const MBEFORE = 1
+pkg syscall (plan9-amd64), const MBEFORE ideal-int
+pkg syscall (plan9-amd64), const MCACHE = 16
+pkg syscall (plan9-amd64), const MCACHE ideal-int
+pkg syscall (plan9-amd64), const MCREATE = 4
+pkg syscall (plan9-amd64), const MCREATE ideal-int
+pkg syscall (plan9-amd64), const MMASK = 23
+pkg syscall (plan9-amd64), const MMASK ideal-int
+pkg syscall (plan9-amd64), const MORDER = 3
+pkg syscall (plan9-amd64), const MORDER ideal-int
+pkg syscall (plan9-amd64), const MREPL = 0
+pkg syscall (plan9-amd64), const MREPL ideal-int
+pkg syscall (plan9-amd64), const O_APPEND = 1024
+pkg syscall (plan9-amd64), const O_ASYNC = 0
+pkg syscall (plan9-amd64), const O_ASYNC ideal-int
+pkg syscall (plan9-amd64), const O_CLOEXEC = 32
+pkg syscall (plan9-amd64), const O_CREAT = 8192
+pkg syscall (plan9-amd64), const O_EXCL = 4096
+pkg syscall (plan9-amd64), const O_NOCTTY = 0
+pkg syscall (plan9-amd64), const O_NOCTTY ideal-int
+pkg syscall (plan9-amd64), const O_NONBLOCK = 0
+pkg syscall (plan9-amd64), const O_NONBLOCK ideal-int
+pkg syscall (plan9-amd64), const O_SYNC = 0
+pkg syscall (plan9-amd64), const O_TRUNC = 16
+pkg syscall (plan9-amd64), const QTAPPEND = 64
+pkg syscall (plan9-amd64), const QTAPPEND ideal-int
+pkg syscall (plan9-amd64), const QTAUTH = 8
+pkg syscall (plan9-amd64), const QTAUTH ideal-int
+pkg syscall (plan9-amd64), const QTDIR = 128
+pkg syscall (plan9-amd64), const QTDIR ideal-int
+pkg syscall (plan9-amd64), const QTEXCL = 32
+pkg syscall (plan9-amd64), const QTEXCL ideal-int
+pkg syscall (plan9-amd64), const QTFILE = 0
+pkg syscall (plan9-amd64), const QTFILE ideal-int
+pkg syscall (plan9-amd64), const QTMOUNT = 16
+pkg syscall (plan9-amd64), const QTMOUNT ideal-int
+pkg syscall (plan9-amd64), const QTTMP = 4
+pkg syscall (plan9-amd64), const QTTMP ideal-int
+pkg syscall (plan9-amd64), const RFCENVG = 2048
+pkg syscall (plan9-amd64), const RFCENVG ideal-int
+pkg syscall (plan9-amd64), const RFCFDG = 4096
+pkg syscall (plan9-amd64), const RFCFDG ideal-int
+pkg syscall (plan9-amd64), const RFCNAMEG = 1024
+pkg syscall (plan9-amd64), const RFCNAMEG ideal-int
+pkg syscall (plan9-amd64), const RFENVG = 2
+pkg syscall (plan9-amd64), const RFENVG ideal-int
+pkg syscall (plan9-amd64), const RFFDG = 4
+pkg syscall (plan9-amd64), const RFFDG ideal-int
+pkg syscall (plan9-amd64), const RFMEM = 32
+pkg syscall (plan9-amd64), const RFMEM ideal-int
+pkg syscall (plan9-amd64), const RFNAMEG = 1
+pkg syscall (plan9-amd64), const RFNAMEG ideal-int
+pkg syscall (plan9-amd64), const RFNOMNT = 16384
+pkg syscall (plan9-amd64), const RFNOMNT ideal-int
+pkg syscall (plan9-amd64), const RFNOTEG = 8
+pkg syscall (plan9-amd64), const RFNOTEG ideal-int
+pkg syscall (plan9-amd64), const RFNOWAIT = 64
+pkg syscall (plan9-amd64), const RFNOWAIT ideal-int
+pkg syscall (plan9-amd64), const RFPROC = 16
+pkg syscall (plan9-amd64), const RFPROC ideal-int
+pkg syscall (plan9-amd64), const RFREND = 8192
+pkg syscall (plan9-amd64), const RFREND ideal-int
+pkg syscall (plan9-amd64), const SIGABRT = "abort"
+pkg syscall (plan9-amd64), const SIGABRT Note
+pkg syscall (plan9-amd64), const SIGALRM = "alarm"
+pkg syscall (plan9-amd64), const SIGALRM Note
+pkg syscall (plan9-amd64), const SIGHUP = "hangup"
+pkg syscall (plan9-amd64), const SIGHUP Note
+pkg syscall (plan9-amd64), const SIGINT = "interrupt"
+pkg syscall (plan9-amd64), const SIGINT Note
+pkg syscall (plan9-amd64), const SIGKILL = "kill"
+pkg syscall (plan9-amd64), const SIGKILL Note
+pkg syscall (plan9-amd64), const SIGTERM = "interrupt"
+pkg syscall (plan9-amd64), const SIGTERM Note
+pkg syscall (plan9-amd64), const STATFIXLEN = 49
+pkg syscall (plan9-amd64), const STATFIXLEN ideal-int
+pkg syscall (plan9-amd64), const STATMAX = 65535
+pkg syscall (plan9-amd64), const STATMAX ideal-int
+pkg syscall (plan9-amd64), const SYS_ALARM = 6
+pkg syscall (plan9-amd64), const SYS_ALARM ideal-int
+pkg syscall (plan9-amd64), const SYS_AWAIT = 47
+pkg syscall (plan9-amd64), const SYS_AWAIT ideal-int
+pkg syscall (plan9-amd64), const SYS_BIND = 2
+pkg syscall (plan9-amd64), const SYS_BIND ideal-int
+pkg syscall (plan9-amd64), const SYS_BRK_ = 24
+pkg syscall (plan9-amd64), const SYS_BRK_ ideal-int
+pkg syscall (plan9-amd64), const SYS_CHDIR = 3
+pkg syscall (plan9-amd64), const SYS_CHDIR ideal-int
+pkg syscall (plan9-amd64), const SYS_CLOSE = 4
+pkg syscall (plan9-amd64), const SYS_CLOSE ideal-int
+pkg syscall (plan9-amd64), const SYS_CREATE = 22
+pkg syscall (plan9-amd64), const SYS_CREATE ideal-int
+pkg syscall (plan9-amd64), const SYS_DUP = 5
+pkg syscall (plan9-amd64), const SYS_DUP ideal-int
+pkg syscall (plan9-amd64), const SYS_ERRSTR = 41
+pkg syscall (plan9-amd64), const SYS_ERRSTR ideal-int
+pkg syscall (plan9-amd64), const SYS_EXEC = 7
+pkg syscall (plan9-amd64), const SYS_EXEC ideal-int
+pkg syscall (plan9-amd64), const SYS_EXITS = 8
+pkg syscall (plan9-amd64), const SYS_EXITS ideal-int
+pkg syscall (plan9-amd64), const SYS_FAUTH = 10
+pkg syscall (plan9-amd64), const SYS_FAUTH ideal-int
+pkg syscall (plan9-amd64), const SYS_FD2PATH = 23
+pkg syscall (plan9-amd64), const SYS_FD2PATH ideal-int
+pkg syscall (plan9-amd64), const SYS_FSTAT = 43
+pkg syscall (plan9-amd64), const SYS_FSTAT ideal-int
+pkg syscall (plan9-amd64), const SYS_FVERSION = 40
+pkg syscall (plan9-amd64), const SYS_FVERSION ideal-int
+pkg syscall (plan9-amd64), const SYS_FWSTAT = 45
+pkg syscall (plan9-amd64), const SYS_FWSTAT ideal-int
+pkg syscall (plan9-amd64), const SYS_MOUNT = 46
+pkg syscall (plan9-amd64), const SYS_MOUNT ideal-int
+pkg syscall (plan9-amd64), const SYS_NOTED = 29
+pkg syscall (plan9-amd64), const SYS_NOTED ideal-int
+pkg syscall (plan9-amd64), const SYS_NOTIFY = 28
+pkg syscall (plan9-amd64), const SYS_NOTIFY ideal-int
+pkg syscall (plan9-amd64), const SYS_NSEC = 53
+pkg syscall (plan9-amd64), const SYS_NSEC ideal-int
+pkg syscall (plan9-amd64), const SYS_OPEN = 14
+pkg syscall (plan9-amd64), const SYS_OPEN ideal-int
+pkg syscall (plan9-amd64), const SYS_OSEEK = 16
+pkg syscall (plan9-amd64), const SYS_OSEEK ideal-int
+pkg syscall (plan9-amd64), const SYS_PIPE = 21
+pkg syscall (plan9-amd64), const SYS_PIPE ideal-int
+pkg syscall (plan9-amd64), const SYS_PREAD = 50
+pkg syscall (plan9-amd64), const SYS_PREAD ideal-int
+pkg syscall (plan9-amd64), const SYS_PWRITE = 51
+pkg syscall (plan9-amd64), const SYS_PWRITE ideal-int
+pkg syscall (plan9-amd64), const SYS_REMOVE = 25
+pkg syscall (plan9-amd64), const SYS_REMOVE ideal-int
+pkg syscall (plan9-amd64), const SYS_RENDEZVOUS = 34
+pkg syscall (plan9-amd64), const SYS_RENDEZVOUS ideal-int
+pkg syscall (plan9-amd64), const SYS_RFORK = 19
+pkg syscall (plan9-amd64), const SYS_RFORK ideal-int
+pkg syscall (plan9-amd64), const SYS_SEEK = 39
+pkg syscall (plan9-amd64), const SYS_SEEK ideal-int
+pkg syscall (plan9-amd64), const SYS_SEGATTACH = 30
+pkg syscall (plan9-amd64), const SYS_SEGATTACH ideal-int
+pkg syscall (plan9-amd64), const SYS_SEGBRK = 12
+pkg syscall (plan9-amd64), const SYS_SEGBRK ideal-int
+pkg syscall (plan9-amd64), const SYS_SEGDETACH = 31
+pkg syscall (plan9-amd64), const SYS_SEGDETACH ideal-int
+pkg syscall (plan9-amd64), const SYS_SEGFLUSH = 33
+pkg syscall (plan9-amd64), const SYS_SEGFLUSH ideal-int
+pkg syscall (plan9-amd64), const SYS_SEGFREE = 32
+pkg syscall (plan9-amd64), const SYS_SEGFREE ideal-int
+pkg syscall (plan9-amd64), const SYS_SEMACQUIRE = 37
+pkg syscall (plan9-amd64), const SYS_SEMACQUIRE ideal-int
+pkg syscall (plan9-amd64), const SYS_SEMRELEASE = 38
+pkg syscall (plan9-amd64), const SYS_SEMRELEASE ideal-int
+pkg syscall (plan9-amd64), const SYS_SLEEP = 17
+pkg syscall (plan9-amd64), const SYS_SLEEP ideal-int
+pkg syscall (plan9-amd64), const SYS_STAT = 42
+pkg syscall (plan9-amd64), const SYS_STAT ideal-int
+pkg syscall (plan9-amd64), const SYS_SYSR1 = 0
+pkg syscall (plan9-amd64), const SYS_SYSR1 ideal-int
+pkg syscall (plan9-amd64), const SYS_TSEMACQUIRE = 52
+pkg syscall (plan9-amd64), const SYS_TSEMACQUIRE ideal-int
+pkg syscall (plan9-amd64), const SYS_UNMOUNT = 35
+pkg syscall (plan9-amd64), const SYS_UNMOUNT ideal-int
+pkg syscall (plan9-amd64), const SYS_WSTAT = 44
+pkg syscall (plan9-amd64), const SYS_WSTAT ideal-int
+pkg syscall (plan9-amd64), const S_IFMT = 126976
+pkg syscall (plan9-amd64), func Await(*Waitmsg) error
+pkg syscall (plan9-amd64), func Bind(string, string, int) error
+pkg syscall (plan9-amd64), func Close(int) error
+pkg syscall (plan9-amd64), func Create(string, int, uint32) (int, error)
+pkg syscall (plan9-amd64), func Dup(int, int) (int, error)
+pkg syscall (plan9-amd64), func Exec(string, []string, []string) error
+pkg syscall (plan9-amd64), func Fchdir(int) error
+pkg syscall (plan9-amd64), func Fd2path(int) (string, error)
+pkg syscall (plan9-amd64), func Fixwd()
+pkg syscall (plan9-amd64), func ForkExec(string, []string, *ProcAttr) (int, error)
+pkg syscall (plan9-amd64), func Fstat(int, []uint8) (int, error)
+pkg syscall (plan9-amd64), func Fwstat(int, []uint8) error
+pkg syscall (plan9-amd64), func Mount(int, int, string, int, string) error
+pkg syscall (plan9-amd64), func NewError(string) error
+pkg syscall (plan9-amd64), func Open(string, int) (int, error)
+pkg syscall (plan9-amd64), func Pipe([]int) error
+pkg syscall (plan9-amd64), func Pread(int, []uint8, int64) (int, error)
+pkg syscall (plan9-amd64), func Pwrite(int, []uint8, int64) (int, error)
+pkg syscall (plan9-amd64), func RawSyscall(uintptr, uintptr, uintptr, uintptr) (uintptr, uintptr, uintptr)
+pkg syscall (plan9-amd64), func RawSyscall6(uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr) (uintptr, uintptr, uintptr)
+pkg syscall (plan9-amd64), func Read(int, []uint8) (int, error)
+pkg syscall (plan9-amd64), func Remove(string) error
+pkg syscall (plan9-amd64), func Seek(int, int64, int) (int64, error)
+pkg syscall (plan9-amd64), func SlicePtrFromStrings([]string) ([]*uint8, error)
+pkg syscall (plan9-amd64), func Stat(string, []uint8) (int, error)
+pkg syscall (plan9-amd64), func StringSlicePtr([]string) []*uint8
+pkg syscall (plan9-amd64), func Syscall(uintptr, uintptr, uintptr, uintptr) (uintptr, uintptr, ErrorString)
+pkg syscall (plan9-amd64), func Syscall6(uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr) (uintptr, uintptr, ErrorString)
+pkg syscall (plan9-amd64), func UnmarshalDir([]uint8) (*Dir, error)
+pkg syscall (plan9-amd64), func Unmount(string, string) error
+pkg syscall (plan9-amd64), func WaitProcess(int, *Waitmsg) error
+pkg syscall (plan9-amd64), func Write(int, []uint8) (int, error)
+pkg syscall (plan9-amd64), func Wstat(string, []uint8) error
+pkg syscall (plan9-amd64), method (*Dir) Marshal([]uint8) (int, error)
+pkg syscall (plan9-amd64), method (*Dir) Null()
+pkg syscall (plan9-amd64), method (ErrorString) Error() string
+pkg syscall (plan9-amd64), method (ErrorString) Is(error) bool
+pkg syscall (plan9-amd64), method (ErrorString) Temporary() bool
+pkg syscall (plan9-amd64), method (ErrorString) Timeout() bool
+pkg syscall (plan9-amd64), method (Note) Signal()
+pkg syscall (plan9-amd64), method (Note) String() string
+pkg syscall (plan9-amd64), method (Waitmsg) ExitStatus() int
+pkg syscall (plan9-amd64), method (Waitmsg) Exited() bool
+pkg syscall (plan9-amd64), method (Waitmsg) Signaled() bool
+pkg syscall (plan9-amd64), type Dir struct
+pkg syscall (plan9-amd64), type Dir struct, Atime uint32
+pkg syscall (plan9-amd64), type Dir struct, Dev uint32
+pkg syscall (plan9-amd64), type Dir struct, Gid string
+pkg syscall (plan9-amd64), type Dir struct, Length int64
+pkg syscall (plan9-amd64), type Dir struct, Mode uint32
+pkg syscall (plan9-amd64), type Dir struct, Mtime uint32
+pkg syscall (plan9-amd64), type Dir struct, Muid string
+pkg syscall (plan9-amd64), type Dir struct, Name string
+pkg syscall (plan9-amd64), type Dir struct, Qid Qid
+pkg syscall (plan9-amd64), type Dir struct, Type uint16
+pkg syscall (plan9-amd64), type Dir struct, Uid string
+pkg syscall (plan9-amd64), type ErrorString string
+pkg syscall (plan9-amd64), type Note string
+pkg syscall (plan9-amd64), type Qid struct
+pkg syscall (plan9-amd64), type Qid struct, Path uint64
+pkg syscall (plan9-amd64), type Qid struct, Type uint8
+pkg syscall (plan9-amd64), type Qid struct, Vers uint32
+pkg syscall (plan9-amd64), type SysProcAttr struct, Rfork int
+pkg syscall (plan9-amd64), type Timespec struct, Nsec int32
+pkg syscall (plan9-amd64), type Timespec struct, Sec int32
+pkg syscall (plan9-amd64), type Timeval struct, Sec int32
+pkg syscall (plan9-amd64), type Timeval struct, Usec int32
+pkg syscall (plan9-amd64), type Waitmsg struct
+pkg syscall (plan9-amd64), type Waitmsg struct, Msg string
+pkg syscall (plan9-amd64), type Waitmsg struct, Pid int
+pkg syscall (plan9-amd64), type Waitmsg struct, Time [3]uint32
+pkg syscall (plan9-amd64), var EACCES error
+pkg syscall (plan9-amd64), var EAFNOSUPPORT error
+pkg syscall (plan9-amd64), var EBUSY error
+pkg syscall (plan9-amd64), var EEXIST error
+pkg syscall (plan9-amd64), var EINTR error
+pkg syscall (plan9-amd64), var EINVAL error
+pkg syscall (plan9-amd64), var EIO error
+pkg syscall (plan9-amd64), var EISDIR error
+pkg syscall (plan9-amd64), var EMFILE error
+pkg syscall (plan9-amd64), var ENAMETOOLONG error
+pkg syscall (plan9-amd64), var ENOENT error
+pkg syscall (plan9-amd64), var ENOTDIR error
+pkg syscall (plan9-amd64), var EPERM error
+pkg syscall (plan9-amd64), var EPLAN9 error
+pkg syscall (plan9-amd64), var ESPIPE error
+pkg syscall (plan9-amd64), var ETIMEDOUT error
+pkg syscall (plan9-amd64), var ErrBadName error
+pkg syscall (plan9-amd64), var ErrBadStat error
+pkg syscall (plan9-amd64), var ErrShortStat error
+pkg syscall (plan9-amd64), var SocketDisableIPv6 bool
+pkg syscall (plan9-amd64), var Stderr int
+pkg syscall (plan9-amd64), var Stdin int
+pkg syscall (plan9-amd64), var Stdout int

@@ -1,0 +1,2727 @@
+pkg log/syslog (aix-ppc64), const LOG_ALERT = 1
+pkg log/syslog (aix-ppc64), const LOG_ALERT Priority
+pkg log/syslog (aix-ppc64), const LOG_AUTH = 32
+pkg log/syslog (aix-ppc64), const LOG_AUTH Priority
+pkg log/syslog (aix-ppc64), const LOG_AUTHPRIV = 80
+pkg log/syslog (aix-ppc64), const LOG_AUTHPRIV Priority
+pkg log/syslog (aix-ppc64), const LOG_CRIT = 2
+pkg log/syslog (aix-ppc64), const LOG_CRIT Priority
+pkg log/syslog (aix-ppc64), const LOG_CRON = 72
+pkg log/syslog (aix-ppc64), const LOG_CRON Priority
+pkg log/syslog (aix-ppc64), const LOG_DAEMON = 24
+pkg log/syslog (aix-ppc64), const LOG_DAEMON Priority
+pkg log/syslog (aix-ppc64), const LOG_DEBUG = 7
+pkg log/syslog (aix-ppc64), const LOG_DEBUG Priority
+pkg log/syslog (aix-ppc64), const LOG_EMERG = 0
+pkg log/syslog (aix-ppc64), const LOG_EMERG Priority
+pkg log/syslog (aix-ppc64), const LOG_ERR = 3
+pkg log/syslog (aix-ppc64), const LOG_ERR Priority
+pkg log/syslog (aix-ppc64), const LOG_FTP = 88
+pkg log/syslog (aix-ppc64), const LOG_FTP Priority
+pkg log/syslog (aix-ppc64), const LOG_INFO = 6
+pkg log/syslog (aix-ppc64), const LOG_INFO Priority
+pkg log/syslog (aix-ppc64), const LOG_KERN = 0
+pkg log/syslog (aix-ppc64), const LOG_KERN Priority
+pkg log/syslog (aix-ppc64), const LOG_LOCAL0 = 128
+pkg log/syslog (aix-ppc64), const LOG_LOCAL0 Priority
+pkg log/syslog (aix-ppc64), const LOG_LOCAL1 = 136
+pkg log/syslog (aix-ppc64), const LOG_LOCAL1 Priority
+pkg log/syslog (aix-ppc64), const LOG_LOCAL2 = 144
+pkg log/syslog (aix-ppc64), const LOG_LOCAL2 Priority
+pkg log/syslog (aix-ppc64), const LOG_LOCAL3 = 152
+pkg log/syslog (aix-ppc64), const LOG_LOCAL3 Priority
+pkg log/syslog (aix-ppc64), const LOG_LOCAL4 = 160
+pkg log/syslog (aix-ppc64), const LOG_LOCAL4 Priority
+pkg log/syslog (aix-ppc64), const LOG_LOCAL5 = 168
+pkg log/syslog (aix-ppc64), const LOG_LOCAL5 Priority
+pkg log/syslog (aix-ppc64), const LOG_LOCAL6 = 176
+pkg log/syslog (aix-ppc64), const LOG_LOCAL6 Priority
+pkg log/syslog (aix-ppc64), const LOG_LOCAL7 = 184
+pkg log/syslog (aix-ppc64), const LOG_LOCAL7 Priority
+pkg log/syslog (aix-ppc64), const LOG_LPR = 48
+pkg log/syslog (aix-ppc64), const LOG_LPR Priority
+pkg log/syslog (aix-ppc64), const LOG_MAIL = 16
+pkg log/syslog (aix-ppc64), const LOG_MAIL Priority
+pkg log/syslog (aix-ppc64), const LOG_NEWS = 56
+pkg log/syslog (aix-ppc64), const LOG_NEWS Priority
+pkg log/syslog (aix-ppc64), const LOG_NOTICE = 5
+pkg log/syslog (aix-ppc64), const LOG_NOTICE Priority
+pkg log/syslog (aix-ppc64), const LOG_SYSLOG = 40
+pkg log/syslog (aix-ppc64), const LOG_SYSLOG Priority
+pkg log/syslog (aix-ppc64), const LOG_USER = 8
+pkg log/syslog (aix-ppc64), const LOG_USER Priority
+pkg log/syslog (aix-ppc64), const LOG_UUCP = 64
+pkg log/syslog (aix-ppc64), const LOG_UUCP Priority
+pkg log/syslog (aix-ppc64), const LOG_WARNING = 4
+pkg log/syslog (aix-ppc64), const LOG_WARNING Priority
+pkg log/syslog (aix-ppc64), func Dial(string, string, Priority, string) (*Writer, error)
+pkg log/syslog (aix-ppc64), func New(Priority, string) (*Writer, error)
+pkg log/syslog (aix-ppc64), func NewLogger(Priority, int) (*log.Logger, error)
+pkg log/syslog (aix-ppc64), method (*Writer) Alert(string) error
+pkg log/syslog (aix-ppc64), method (*Writer) Close() error
+pkg log/syslog (aix-ppc64), method (*Writer) Crit(string) error
+pkg log/syslog (aix-ppc64), method (*Writer) Debug(string) error
+pkg log/syslog (aix-ppc64), method (*Writer) Emerg(string) error
+pkg log/syslog (aix-ppc64), method (*Writer) Err(string) error
+pkg log/syslog (aix-ppc64), method (*Writer) Info(string) error
+pkg log/syslog (aix-ppc64), method (*Writer) Notice(string) error
+pkg log/syslog (aix-ppc64), method (*Writer) Warning(string) error
+pkg log/syslog (aix-ppc64), method (*Writer) Write([]uint8) (int, error)
+pkg log/syslog (aix-ppc64), type Priority int
+pkg log/syslog (aix-ppc64), type Writer struct
+pkg math (aix-ppc64), const MaxInt = 9223372036854775807
+pkg math (aix-ppc64), const MaxUint = 18446744073709551615
+pkg math (aix-ppc64), const MinInt = -9223372036854775808
+pkg math/bits (aix-ppc64), const UintSize = 64
+pkg net (aix-ppc64), method (*UnixListener) SetUnlinkOnClose(bool)
+pkg os (aix-ppc64), const DevNull = "/dev/null"
+pkg os (aix-ppc64), const O_APPEND = 8
+pkg os (aix-ppc64), const O_CREATE = 256
+pkg os (aix-ppc64), const O_EXCL = 1024
+pkg os (aix-ppc64), const O_SYNC = 16
+pkg os (aix-ppc64), const O_TRUNC = 512
+pkg os (aix-ppc64), const PathListSeparator = 58
+pkg os (aix-ppc64), const PathSeparator = 47
+pkg path/filepath (aix-ppc64), const ListSeparator = 58
+pkg path/filepath (aix-ppc64), const Separator = 47
+pkg runtime (aix-ppc64), const GOARCH = "ppc64"
+pkg runtime (aix-ppc64), const GOOS = "aix"
+pkg strconv (aix-ppc64), const IntSize = 64
+pkg syscall (aix-ppc64), const AF_APPLETALK = 16
+pkg syscall (aix-ppc64), const AF_APPLETALK ideal-int
+pkg syscall (aix-ppc64), const AF_BYPASS = 25
+pkg syscall (aix-ppc64), const AF_BYPASS ideal-int
+pkg syscall (aix-ppc64), const AF_CCITT = 10
+pkg syscall (aix-ppc64), const AF_CCITT ideal-int
+pkg syscall (aix-ppc64), const AF_CHAOS = 5
+pkg syscall (aix-ppc64), const AF_CHAOS ideal-int
+pkg syscall (aix-ppc64), const AF_DATAKIT = 9
+pkg syscall (aix-ppc64), const AF_DATAKIT ideal-int
+pkg syscall (aix-ppc64), const AF_DECnet = 12
+pkg syscall (aix-ppc64), const AF_DECnet ideal-int
+pkg syscall (aix-ppc64), const AF_DLI = 13
+pkg syscall (aix-ppc64), const AF_DLI ideal-int
+pkg syscall (aix-ppc64), const AF_ECMA = 8
+pkg syscall (aix-ppc64), const AF_ECMA ideal-int
+pkg syscall (aix-ppc64), const AF_HYLINK = 15
+pkg syscall (aix-ppc64), const AF_HYLINK ideal-int
+pkg syscall (aix-ppc64), const AF_IMPLINK = 3
+pkg syscall (aix-ppc64), const AF_IMPLINK ideal-int
+pkg syscall (aix-ppc64), const AF_INET = 2
+pkg syscall (aix-ppc64), const AF_INET ideal-int
+pkg syscall (aix-ppc64), const AF_INET6 = 24
+pkg syscall (aix-ppc64), const AF_INET6 ideal-int
+pkg syscall (aix-ppc64), const AF_INTF = 20
+pkg syscall (aix-ppc64), const AF_INTF ideal-int
+pkg syscall (aix-ppc64), const AF_ISO = 7
+pkg syscall (aix-ppc64), const AF_ISO ideal-int
+pkg syscall (aix-ppc64), const AF_LAT = 14
+pkg syscall (aix-ppc64), const AF_LAT ideal-int
+pkg syscall (aix-ppc64), const AF_LINK = 18
+pkg syscall (aix-ppc64), const AF_LINK ideal-int
+pkg syscall (aix-ppc64), const AF_LOCAL = 1
+pkg syscall (aix-ppc64), const AF_LOCAL ideal-int
+pkg syscall (aix-ppc64), const AF_MAX = 30
+pkg syscall (aix-ppc64), const AF_MAX ideal-int
+pkg syscall (aix-ppc64), const AF_NDD = 23
+pkg syscall (aix-ppc64), const AF_NDD ideal-int
+pkg syscall (aix-ppc64), const AF_NETWARE = 22
+pkg syscall (aix-ppc64), const AF_NETWARE ideal-int
+pkg syscall (aix-ppc64), const AF_NS = 6
+pkg syscall (aix-ppc64), const AF_NS ideal-int
+pkg syscall (aix-ppc64), const AF_OSI = 7
+pkg syscall (aix-ppc64), const AF_OSI ideal-int
+pkg syscall (aix-ppc64), const AF_PUP = 4
+pkg syscall (aix-ppc64), const AF_PUP ideal-int
+pkg syscall (aix-ppc64), const AF_RIF = 21
+pkg syscall (aix-ppc64), const AF_RIF ideal-int
+pkg syscall (aix-ppc64), const AF_ROUTE = 17
+pkg syscall (aix-ppc64), const AF_ROUTE ideal-int
+pkg syscall (aix-ppc64), const AF_SNA = 11
+pkg syscall (aix-ppc64), const AF_SNA ideal-int
+pkg syscall (aix-ppc64), const AF_UNIX = 1
+pkg syscall (aix-ppc64), const AF_UNIX ideal-int
+pkg syscall (aix-ppc64), const AF_UNSPEC = 0
+pkg syscall (aix-ppc64), const AF_UNSPEC ideal-int
+pkg syscall (aix-ppc64), const ARPHRD_802_3 = 6
+pkg syscall (aix-ppc64), const ARPHRD_802_3 ideal-int
+pkg syscall (aix-ppc64), const ARPHRD_802_5 = 6
+pkg syscall (aix-ppc64), const ARPHRD_802_5 ideal-int
+pkg syscall (aix-ppc64), const ARPHRD_ETHER = 1
+pkg syscall (aix-ppc64), const ARPHRD_ETHER ideal-int
+pkg syscall (aix-ppc64), const ARPHRD_FDDI = 1
+pkg syscall (aix-ppc64), const ARPHRD_FDDI ideal-int
+pkg syscall (aix-ppc64), const B0 = 0
+pkg syscall (aix-ppc64), const B0 ideal-int
+pkg syscall (aix-ppc64), const B110 = 3
+pkg syscall (aix-ppc64), const B110 ideal-int
+pkg syscall (aix-ppc64), const B1200 = 9
+pkg syscall (aix-ppc64), const B1200 ideal-int
+pkg syscall (aix-ppc64), const B134 = 4
+pkg syscall (aix-ppc64), const B134 ideal-int
+pkg syscall (aix-ppc64), const B150 = 5
+pkg syscall (aix-ppc64), const B150 ideal-int
+pkg syscall (aix-ppc64), const B1800 = 10
+pkg syscall (aix-ppc64), const B1800 ideal-int
+pkg syscall (aix-ppc64), const B19200 = 14
+pkg syscall (aix-ppc64), const B19200 ideal-int
+pkg syscall (aix-ppc64), const B200 = 6
+pkg syscall (aix-ppc64), const B200 ideal-int
+pkg syscall (aix-ppc64), const B2400 = 11
+pkg syscall (aix-ppc64), const B2400 ideal-int
+pkg syscall (aix-ppc64), const B300 = 7
+pkg syscall (aix-ppc64), const B300 ideal-int
+pkg syscall (aix-ppc64), const B38400 = 15
+pkg syscall (aix-ppc64), const B38400 ideal-int
+pkg syscall (aix-ppc64), const B4800 = 12
+pkg syscall (aix-ppc64), const B4800 ideal-int
+pkg syscall (aix-ppc64), const B50 = 1
+pkg syscall (aix-ppc64), const B50 ideal-int
+pkg syscall (aix-ppc64), const B600 = 8
+pkg syscall (aix-ppc64), const B600 ideal-int
+pkg syscall (aix-ppc64), const B75 = 2
+pkg syscall (aix-ppc64), const B75 ideal-int
+pkg syscall (aix-ppc64), const B9600 = 13
+pkg syscall (aix-ppc64), const B9600 ideal-int
+pkg syscall (aix-ppc64), const BRKINT = 2
+pkg syscall (aix-ppc64), const BRKINT ideal-int
+pkg syscall (aix-ppc64), const CFLUSH = 15
+pkg syscall (aix-ppc64), const CFLUSH ideal-int
+pkg syscall (aix-ppc64), const CLOCAL = 2048
+pkg syscall (aix-ppc64), const CLOCAL ideal-int
+pkg syscall (aix-ppc64), const CREAD = 128
+pkg syscall (aix-ppc64), const CREAD ideal-int
+pkg syscall (aix-ppc64), const CS5 = 0
+pkg syscall (aix-ppc64), const CS5 ideal-int
+pkg syscall (aix-ppc64), const CS6 = 16
+pkg syscall (aix-ppc64), const CS6 ideal-int
+pkg syscall (aix-ppc64), const CS7 = 32
+pkg syscall (aix-ppc64), const CS7 ideal-int
+pkg syscall (aix-ppc64), const CS8 = 48
+pkg syscall (aix-ppc64), const CS8 ideal-int
+pkg syscall (aix-ppc64), const CSIOCGIFCONF = -1072666332
+pkg syscall (aix-ppc64), const CSIOCGIFCONF ideal-int
+pkg syscall (aix-ppc64), const CSIZE = 48
+pkg syscall (aix-ppc64), const CSIZE ideal-int
+pkg syscall (aix-ppc64), const CSMAP_DIR = "/usr/lib/nls/csmap/"
+pkg syscall (aix-ppc64), const CSMAP_DIR ideal-string
+pkg syscall (aix-ppc64), const CSTART = 17
+pkg syscall (aix-ppc64), const CSTART ideal-char
+pkg syscall (aix-ppc64), const CSTOP = 19
+pkg syscall (aix-ppc64), const CSTOP ideal-char
+pkg syscall (aix-ppc64), const CSTOPB = 64
+pkg syscall (aix-ppc64), const CSTOPB ideal-int
+pkg syscall (aix-ppc64), const CSUSP = 26
+pkg syscall (aix-ppc64), const CSUSP ideal-int
+pkg syscall (aix-ppc64), const E2BIG = 7
+pkg syscall (aix-ppc64), const E2BIG Errno
+pkg syscall (aix-ppc64), const EACCES = 13
+pkg syscall (aix-ppc64), const EACCES Errno
+pkg syscall (aix-ppc64), const EADDRINUSE = 67
+pkg syscall (aix-ppc64), const EADDRINUSE Errno
+pkg syscall (aix-ppc64), const EADDRNOTAVAIL = 68
+pkg syscall (aix-ppc64), const EADDRNOTAVAIL Errno
+pkg syscall (aix-ppc64), const EAFNOSUPPORT = 66
+pkg syscall (aix-ppc64), const EAFNOSUPPORT Errno
+pkg syscall (aix-ppc64), const EAGAIN = 11
+pkg syscall (aix-ppc64), const EAGAIN Errno
+pkg syscall (aix-ppc64), const EALREADY = 56
+pkg syscall (aix-ppc64), const EALREADY Errno
+pkg syscall (aix-ppc64), const EBADF = 9
+pkg syscall (aix-ppc64), const EBADF Errno
+pkg syscall (aix-ppc64), const EBADMSG = 120
+pkg syscall (aix-ppc64), const EBADMSG Errno
+pkg syscall (aix-ppc64), const EBUSY = 16
+pkg syscall (aix-ppc64), const EBUSY Errno
+pkg syscall (aix-ppc64), const ECANCELED = 117
+pkg syscall (aix-ppc64), const ECANCELED Errno
+pkg syscall (aix-ppc64), const ECHILD = 10
+pkg syscall (aix-ppc64), const ECHILD Errno
+pkg syscall (aix-ppc64), const ECHO = 8
+pkg syscall (aix-ppc64), const ECHO ideal-int
+pkg syscall (aix-ppc64), const ECHOCTL = 131072
+pkg syscall (aix-ppc64), const ECHOCTL ideal-int
+pkg syscall (aix-ppc64), const ECHOE = 16
+pkg syscall (aix-ppc64), const ECHOE ideal-int
+pkg syscall (aix-ppc64), const ECHOK = 32
+pkg syscall (aix-ppc64), const ECHOK ideal-int
+pkg syscall (aix-ppc64), const ECHOKE = 524288
+pkg syscall (aix-ppc64), const ECHOKE ideal-int
+pkg syscall (aix-ppc64), const ECHONL = 64
+pkg syscall (aix-ppc64), const ECHONL ideal-int
+pkg syscall (aix-ppc64), const ECHOPRT = 262144
+pkg syscall (aix-ppc64), const ECHOPRT ideal-int
+pkg syscall (aix-ppc64), const ECHRNG = 37
+pkg syscall (aix-ppc64), const ECHRNG Errno
+pkg syscall (aix-ppc64), const ECH_ICMPID = 2
+pkg syscall (aix-ppc64), const ECH_ICMPID ideal-int
+pkg syscall (aix-ppc64), const ECLONEME = 82
+pkg syscall (aix-ppc64), const ECLONEME Errno
+pkg syscall (aix-ppc64), const ECONNABORTED = 72
+pkg syscall (aix-ppc64), const ECONNABORTED Errno
+pkg syscall (aix-ppc64), const ECONNREFUSED = 79
+pkg syscall (aix-ppc64), const ECONNREFUSED Errno
+pkg syscall (aix-ppc64), const ECONNRESET = 73
+pkg syscall (aix-ppc64), const ECONNRESET Errno
+pkg syscall (aix-ppc64), const ECORRUPT = 89
+pkg syscall (aix-ppc64), const ECORRUPT Errno
+pkg syscall (aix-ppc64), const EDEADLK = 45
+pkg syscall (aix-ppc64), const EDEADLK Errno
+pkg syscall (aix-ppc64), const EDESTADDREQ = 58
+pkg syscall (aix-ppc64), const EDESTADDREQ Errno
+pkg syscall (aix-ppc64), const EDESTADDRREQ = 58
+pkg syscall (aix-ppc64), const EDESTADDRREQ Errno
+pkg syscall (aix-ppc64), const EDIST = 53
+pkg syscall (aix-ppc64), const EDIST Errno
+pkg syscall (aix-ppc64), const EDOM = 33
+pkg syscall (aix-ppc64), const EDOM Errno
+pkg syscall (aix-ppc64), const EDQUOT = 88
+pkg syscall (aix-ppc64), const EDQUOT Errno
+pkg syscall (aix-ppc64), const EEXIST = 17
+pkg syscall (aix-ppc64), const EEXIST Errno
+pkg syscall (aix-ppc64), const EFAULT = 14
+pkg syscall (aix-ppc64), const EFAULT Errno
+pkg syscall (aix-ppc64), const EFBIG = 27
+pkg syscall (aix-ppc64), const EFBIG Errno
+pkg syscall (aix-ppc64), const EFORMAT = 48
+pkg syscall (aix-ppc64), const EFORMAT Errno
+pkg syscall (aix-ppc64), const EHOSTDOWN = 80
+pkg syscall (aix-ppc64), const EHOSTDOWN Errno
+pkg syscall (aix-ppc64), const EHOSTUNREACH = 81
+pkg syscall (aix-ppc64), const EHOSTUNREACH Errno
+pkg syscall (aix-ppc64), const EIDRM = 36
+pkg syscall (aix-ppc64), const EIDRM Errno
+pkg syscall (aix-ppc64), const EILSEQ = 116
+pkg syscall (aix-ppc64), const EILSEQ Errno
+pkg syscall (aix-ppc64), const EINPROGRESS = 55
+pkg syscall (aix-ppc64), const EINPROGRESS Errno
+pkg syscall (aix-ppc64), const EINTR = 4
+pkg syscall (aix-ppc64), const EINTR Errno
+pkg syscall (aix-ppc64), const EINVAL = 22
+pkg syscall (aix-ppc64), const EINVAL Errno
+pkg syscall (aix-ppc64), const EIO = 5
+pkg syscall (aix-ppc64), const EIO Errno
+pkg syscall (aix-ppc64), const EISCONN = 75
+pkg syscall (aix-ppc64), const EISCONN Errno
+pkg syscall (aix-ppc64), const EISDIR = 21
+pkg syscall (aix-ppc64), const EISDIR Errno
+pkg syscall (aix-ppc64), const EL2HLT = 44
+pkg syscall (aix-ppc64), const EL2HLT Errno
+pkg syscall (aix-ppc64), const EL2NSYNC = 38
+pkg syscall (aix-ppc64), const EL2NSYNC Errno
+pkg syscall (aix-ppc64), const EL3HLT = 39
+pkg syscall (aix-ppc64), const EL3HLT Errno
+pkg syscall (aix-ppc64), const EL3RST = 40
+pkg syscall (aix-ppc64), const EL3RST Errno
+pkg syscall (aix-ppc64), const ELNRNG = 41
+pkg syscall (aix-ppc64), const ELNRNG Errno
+pkg syscall (aix-ppc64), const ELOOP = 85
+pkg syscall (aix-ppc64), const ELOOP Errno
+pkg syscall (aix-ppc64), const EMEDIA = 110
+pkg syscall (aix-ppc64), const EMEDIA Errno
+pkg syscall (aix-ppc64), const EMFILE = 24
+pkg syscall (aix-ppc64), const EMFILE Errno
+pkg syscall (aix-ppc64), const EMLINK = 31
+pkg syscall (aix-ppc64), const EMLINK Errno
+pkg syscall (aix-ppc64), const EMSGSIZE = 59
+pkg syscall (aix-ppc64), const EMSGSIZE Errno
+pkg syscall (aix-ppc64), const EMULTIHOP = 125
+pkg syscall (aix-ppc64), const EMULTIHOP Errno
+pkg syscall (aix-ppc64), const ENAMETOOLONG = 86
+pkg syscall (aix-ppc64), const ENAMETOOLONG Errno
+pkg syscall (aix-ppc64), const ENETDOWN = 69
+pkg syscall (aix-ppc64), const ENETDOWN Errno
+pkg syscall (aix-ppc64), const ENETRESET = 71
+pkg syscall (aix-ppc64), const ENETRESET Errno
+pkg syscall (aix-ppc64), const ENETUNREACH = 70
+pkg syscall (aix-ppc64), const ENETUNREACH Errno
+pkg syscall (aix-ppc64), const ENFILE = 23
+pkg syscall (aix-ppc64), const ENFILE Errno
+pkg syscall (aix-ppc64), const ENOATTR = 112
+pkg syscall (aix-ppc64), const ENOATTR Errno
+pkg syscall (aix-ppc64), const ENOBUFS = 74
+pkg syscall (aix-ppc64), const ENOBUFS Errno
+pkg syscall (aix-ppc64), const ENOCONNECT = 50
+pkg syscall (aix-ppc64), const ENOCONNECT Errno
+pkg syscall (aix-ppc64), const ENOCSI = 43
+pkg syscall (aix-ppc64), const ENOCSI Errno
+pkg syscall (aix-ppc64), const ENODATA = 122
+pkg syscall (aix-ppc64), const ENODATA Errno
+pkg syscall (aix-ppc64), const ENODEV = 19
+pkg syscall (aix-ppc64), const ENODEV Errno
+pkg syscall (aix-ppc64), const ENOENT = 2
+pkg syscall (aix-ppc64), const ENOENT Errno
+pkg syscall (aix-ppc64), const ENOEXEC = 8
+pkg syscall (aix-ppc64), const ENOEXEC Errno
+pkg syscall (aix-ppc64), const ENOLCK = 49
+pkg syscall (aix-ppc64), const ENOLCK Errno
+pkg syscall (aix-ppc64), const ENOLINK = 126
+pkg syscall (aix-ppc64), const ENOLINK Errno
+pkg syscall (aix-ppc64), const ENOMEM = 12
+pkg syscall (aix-ppc64), const ENOMEM Errno
+pkg syscall (aix-ppc64), const ENOMSG = 35
+pkg syscall (aix-ppc64), const ENOMSG Errno
+pkg syscall (aix-ppc64), const ENOPROTOOPT = 61
+pkg syscall (aix-ppc64), const ENOPROTOOPT Errno
+pkg syscall (aix-ppc64), const ENOSPC = 28
+pkg syscall (aix-ppc64), const ENOSPC Errno
+pkg syscall (aix-ppc64), const ENOSR = 118
+pkg syscall (aix-ppc64), const ENOSR Errno
+pkg syscall (aix-ppc64), const ENOSTR = 123
+pkg syscall (aix-ppc64), const ENOSTR Errno
+pkg syscall (aix-ppc64), const ENOSYS = 109
+pkg syscall (aix-ppc64), const ENOSYS Errno
+pkg syscall (aix-ppc64), const ENOTBLK = 15
+pkg syscall (aix-ppc64), const ENOTBLK Errno
+pkg syscall (aix-ppc64), const ENOTCONN = 76
+pkg syscall (aix-ppc64), const ENOTCONN Errno
+pkg syscall (aix-ppc64), const ENOTDIR = 20
+pkg syscall (aix-ppc64), const ENOTDIR Errno
+pkg syscall (aix-ppc64), const ENOTEMPTY = 17
+pkg syscall (aix-ppc64), const ENOTEMPTY Errno
+pkg syscall (aix-ppc64), const ENOTREADY = 46
+pkg syscall (aix-ppc64), const ENOTREADY Errno
+pkg syscall (aix-ppc64), const ENOTRECOVERABLE = 94
+pkg syscall (aix-ppc64), const ENOTRECOVERABLE Errno
+pkg syscall (aix-ppc64), const ENOTRUST = 114
+pkg syscall (aix-ppc64), const ENOTRUST Errno
+pkg syscall (aix-ppc64), const ENOTSOCK = 57
+pkg syscall (aix-ppc64), const ENOTSOCK Errno
+pkg syscall (aix-ppc64), const ENOTSUP = 124
+pkg syscall (aix-ppc64), const ENOTSUP Errno
+pkg syscall (aix-ppc64), const ENOTTY = 25
+pkg syscall (aix-ppc64), const ENOTTY Errno
+pkg syscall (aix-ppc64), const ENXIO = 6
+pkg syscall (aix-ppc64), const ENXIO Errno
+pkg syscall (aix-ppc64), const EOPNOTSUPP = 64
+pkg syscall (aix-ppc64), const EOPNOTSUPP Errno
+pkg syscall (aix-ppc64), const EOVERFLOW = 127
+pkg syscall (aix-ppc64), const EOVERFLOW Errno
+pkg syscall (aix-ppc64), const EOWNERDEAD = 95
+pkg syscall (aix-ppc64), const EOWNERDEAD Errno
+pkg syscall (aix-ppc64), const EPERM = 1
+pkg syscall (aix-ppc64), const EPERM Errno
+pkg syscall (aix-ppc64), const EPFNOSUPPORT = 65
+pkg syscall (aix-ppc64), const EPFNOSUPPORT Errno
+pkg syscall (aix-ppc64), const EPIPE = 32
+pkg syscall (aix-ppc64), const EPIPE Errno
+pkg syscall (aix-ppc64), const EPROCLIM = 83
+pkg syscall (aix-ppc64), const EPROCLIM Errno
+pkg syscall (aix-ppc64), const EPROTO = 121
+pkg syscall (aix-ppc64), const EPROTO Errno
+pkg syscall (aix-ppc64), const EPROTONOSUPPORT = 62
+pkg syscall (aix-ppc64), const EPROTONOSUPPORT Errno
+pkg syscall (aix-ppc64), const EPROTOTYPE = 60
+pkg syscall (aix-ppc64), const EPROTOTYPE Errno
+pkg syscall (aix-ppc64), const ERANGE = 34
+pkg syscall (aix-ppc64), const ERANGE Errno
+pkg syscall (aix-ppc64), const EREMOTE = 93
+pkg syscall (aix-ppc64), const EREMOTE Errno
+pkg syscall (aix-ppc64), const ERESTART = 82
+pkg syscall (aix-ppc64), const ERESTART Errno
+pkg syscall (aix-ppc64), const EROFS = 30
+pkg syscall (aix-ppc64), const EROFS Errno
+pkg syscall (aix-ppc64), const ESAD = 113
+pkg syscall (aix-ppc64), const ESAD Errno
+pkg syscall (aix-ppc64), const ESHUTDOWN = 77
+pkg syscall (aix-ppc64), const ESHUTDOWN Errno
+pkg syscall (aix-ppc64), const ESOCKTNOSUPPORT = 63
+pkg syscall (aix-ppc64), const ESOCKTNOSUPPORT Errno
+pkg syscall (aix-ppc64), const ESOFT = 111
+pkg syscall (aix-ppc64), const ESOFT Errno
+pkg syscall (aix-ppc64), const ESPIPE = 29
+pkg syscall (aix-ppc64), const ESPIPE Errno
+pkg syscall (aix-ppc64), const ESRCH = 3
+pkg syscall (aix-ppc64), const ESRCH Errno
+pkg syscall (aix-ppc64), const ESTALE = 52
+pkg syscall (aix-ppc64), const ESTALE Errno
+pkg syscall (aix-ppc64), const ESYSERROR = 90
+pkg syscall (aix-ppc64), const ESYSERROR Errno
+pkg syscall (aix-ppc64), const ETHERNET_CSMACD = 6
+pkg syscall (aix-ppc64), const ETHERNET_CSMACD ideal-int
+pkg syscall (aix-ppc64), const ETIME = 119
+pkg syscall (aix-ppc64), const ETIME Errno
+pkg syscall (aix-ppc64), const ETIMEDOUT = 78
+pkg syscall (aix-ppc64), const ETIMEDOUT Errno
+pkg syscall (aix-ppc64), const ETOOMANYREFS = 115
+pkg syscall (aix-ppc64), const ETOOMANYREFS Errno
+pkg syscall (aix-ppc64), const ETXTBSY = 26
+pkg syscall (aix-ppc64), const ETXTBSY Errno
+pkg syscall (aix-ppc64), const EUNATCH = 42
+pkg syscall (aix-ppc64), const EUNATCH Errno
+pkg syscall (aix-ppc64), const EUSERS = 84
+pkg syscall (aix-ppc64), const EUSERS Errno
+pkg syscall (aix-ppc64), const EVENP = 128
+pkg syscall (aix-ppc64), const EVENP ideal-int
+pkg syscall (aix-ppc64), const EWOULDBLOCK = 11
+pkg syscall (aix-ppc64), const EWOULDBLOCK Errno
+pkg syscall (aix-ppc64), const EWRPROTECT = 47
+pkg syscall (aix-ppc64), const EWRPROTECT Errno
+pkg syscall (aix-ppc64), const EXCONTINUE = 0
+pkg syscall (aix-ppc64), const EXCONTINUE ideal-int
+pkg syscall (aix-ppc64), const EXDEV = 18
+pkg syscall (aix-ppc64), const EXDEV Errno
+pkg syscall (aix-ppc64), const EXDLOK = 3
+pkg syscall (aix-ppc64), const EXDLOK ideal-int
+pkg syscall (aix-ppc64), const EXIO = 2
+pkg syscall (aix-ppc64), const EXIO ideal-int
+pkg syscall (aix-ppc64), const EXPGIO = 0
+pkg syscall (aix-ppc64), const EXPGIO ideal-int
+pkg syscall (aix-ppc64), const EXRESUME = 2
+pkg syscall (aix-ppc64), const EXRESUME ideal-int
+pkg syscall (aix-ppc64), const EXRETURN = 1
+pkg syscall (aix-ppc64), const EXRETURN ideal-int
+pkg syscall (aix-ppc64), const EXSIG = 4
+pkg syscall (aix-ppc64), const EXSIG ideal-int
+pkg syscall (aix-ppc64), const EXTA = 14
+pkg syscall (aix-ppc64), const EXTA ideal-int
+pkg syscall (aix-ppc64), const EXTB = 15
+pkg syscall (aix-ppc64), const EXTB ideal-int
+pkg syscall (aix-ppc64), const EXTRAP = 1
+pkg syscall (aix-ppc64), const EXTRAP ideal-int
+pkg syscall (aix-ppc64), const EYEC_RTENTRYA = 2698347105741992513
+pkg syscall (aix-ppc64), const EYEC_RTENTRYA ideal-int
+pkg syscall (aix-ppc64), const EYEC_RTENTRYF = 2698347105741992518
+pkg syscall (aix-ppc64), const EYEC_RTENTRYF ideal-int
+pkg syscall (aix-ppc64), const E_ACC = 0
+pkg syscall (aix-ppc64), const E_ACC ideal-int
+pkg syscall (aix-ppc64), const FD_CLOEXEC = 1
+pkg syscall (aix-ppc64), const FD_CLOEXEC ideal-int
+pkg syscall (aix-ppc64), const FD_SETSIZE = 65534
+pkg syscall (aix-ppc64), const FD_SETSIZE ideal-int
+pkg syscall (aix-ppc64), const FLUSHBAND = 64
+pkg syscall (aix-ppc64), const FLUSHBAND ideal-int
+pkg syscall (aix-ppc64), const FLUSHLOW = 8
+pkg syscall (aix-ppc64), const FLUSHLOW ideal-int
+pkg syscall (aix-ppc64), const FLUSHO = 1048576
+pkg syscall (aix-ppc64), const FLUSHO ideal-int
+pkg syscall (aix-ppc64), const FLUSHR = 1
+pkg syscall (aix-ppc64), const FLUSHR ideal-int
+pkg syscall (aix-ppc64), const FLUSHRW = 3
+pkg syscall (aix-ppc64), const FLUSHRW ideal-int
+pkg syscall (aix-ppc64), const FLUSHW = 2
+pkg syscall (aix-ppc64), const FLUSHW ideal-int
+pkg syscall (aix-ppc64), const F_CLOSEM = 10
+pkg syscall (aix-ppc64), const F_CLOSEM ideal-int
+pkg syscall (aix-ppc64), const F_DUP2FD = 14
+pkg syscall (aix-ppc64), const F_DUP2FD ideal-int
+pkg syscall (aix-ppc64), const F_DUPFD = 0
+pkg syscall (aix-ppc64), const F_DUPFD ideal-int
+pkg syscall (aix-ppc64), const F_DUPFD_CLOEXEC = 0
+pkg syscall (aix-ppc64), const F_DUPFD_CLOEXEC ideal-int
+pkg syscall (aix-ppc64), const F_GETFD = 1
+pkg syscall (aix-ppc64), const F_GETFD ideal-int
+pkg syscall (aix-ppc64), const F_GETFL = 3
+pkg syscall (aix-ppc64), const F_GETFL ideal-int
+pkg syscall (aix-ppc64), const F_GETLK = 11
+pkg syscall (aix-ppc64), const F_GETLK ideal-int
+pkg syscall (aix-ppc64), const F_GETLK64 = 11
+pkg syscall (aix-ppc64), const F_GETLK64 ideal-int
+pkg syscall (aix-ppc64), const F_GETOWN = 8
+pkg syscall (aix-ppc64), const F_GETOWN ideal-int
+pkg syscall (aix-ppc64), const F_LOCK = 1
+pkg syscall (aix-ppc64), const F_LOCK ideal-int
+pkg syscall (aix-ppc64), const F_OK = 0
+pkg syscall (aix-ppc64), const F_OK ideal-int
+pkg syscall (aix-ppc64), const F_RDLCK = 1
+pkg syscall (aix-ppc64), const F_RDLCK ideal-int
+pkg syscall (aix-ppc64), const F_SETFD = 2
+pkg syscall (aix-ppc64), const F_SETFD ideal-int
+pkg syscall (aix-ppc64), const F_SETFL = 4
+pkg syscall (aix-ppc64), const F_SETFL ideal-int
+pkg syscall (aix-ppc64), const F_SETLK = 12
+pkg syscall (aix-ppc64), const F_SETLK ideal-int
+pkg syscall (aix-ppc64), const F_SETLK64 = 12
+pkg syscall (aix-ppc64), const F_SETLK64 ideal-int
+pkg syscall (aix-ppc64), const F_SETLKW = 13
+pkg syscall (aix-ppc64), const F_SETLKW ideal-int
+pkg syscall (aix-ppc64), const F_SETLKW64 = 13
+pkg syscall (aix-ppc64), const F_SETLKW64 ideal-int
+pkg syscall (aix-ppc64), const F_SETOWN = 9
+pkg syscall (aix-ppc64), const F_SETOWN ideal-int
+pkg syscall (aix-ppc64), const F_TEST = 3
+pkg syscall (aix-ppc64), const F_TEST ideal-int
+pkg syscall (aix-ppc64), const F_TLOCK = 2
+pkg syscall (aix-ppc64), const F_TLOCK ideal-int
+pkg syscall (aix-ppc64), const F_TSTLK = 15
+pkg syscall (aix-ppc64), const F_TSTLK ideal-int
+pkg syscall (aix-ppc64), const F_ULOCK = 0
+pkg syscall (aix-ppc64), const F_ULOCK ideal-int
+pkg syscall (aix-ppc64), const F_UNLCK = 3
+pkg syscall (aix-ppc64), const F_UNLCK ideal-int
+pkg syscall (aix-ppc64), const F_WRLCK = 2
+pkg syscall (aix-ppc64), const F_WRLCK ideal-int
+pkg syscall (aix-ppc64), const HUPCL = 1024
+pkg syscall (aix-ppc64), const HUPCL ideal-int
+pkg syscall (aix-ppc64), const ICANON = 2
+pkg syscall (aix-ppc64), const ICANON ideal-int
+pkg syscall (aix-ppc64), const ICMP6_FILTER = 38
+pkg syscall (aix-ppc64), const ICMP6_FILTER ideal-int
+pkg syscall (aix-ppc64), const ICMP6_SEC_SEND_DEL = 70
+pkg syscall (aix-ppc64), const ICMP6_SEC_SEND_DEL ideal-int
+pkg syscall (aix-ppc64), const ICMP6_SEC_SEND_GET = 71
+pkg syscall (aix-ppc64), const ICMP6_SEC_SEND_GET ideal-int
+pkg syscall (aix-ppc64), const ICMP6_SEC_SEND_SET = 68
+pkg syscall (aix-ppc64), const ICMP6_SEC_SEND_SET ideal-int
+pkg syscall (aix-ppc64), const ICMP6_SEC_SEND_SET_CGA_ADDR = 69
+pkg syscall (aix-ppc64), const ICMP6_SEC_SEND_SET_CGA_ADDR ideal-int
+pkg syscall (aix-ppc64), const ICRNL = 256
+pkg syscall (aix-ppc64), const ICRNL ideal-int
+pkg syscall (aix-ppc64), const IEXTEN = 2097152
+pkg syscall (aix-ppc64), const IEXTEN ideal-int
+pkg syscall (aix-ppc64), const IFA_FIRSTALIAS = 8192
+pkg syscall (aix-ppc64), const IFA_FIRSTALIAS ideal-int
+pkg syscall (aix-ppc64), const IFA_ROUTE = 1
+pkg syscall (aix-ppc64), const IFA_ROUTE ideal-int
+pkg syscall (aix-ppc64), const IFF_64BIT = 67108864
+pkg syscall (aix-ppc64), const IFF_64BIT ideal-int
+pkg syscall (aix-ppc64), const IFF_ALLCAST = 131072
+pkg syscall (aix-ppc64), const IFF_ALLCAST ideal-int
+pkg syscall (aix-ppc64), const IFF_ALLMULTI = 512
+pkg syscall (aix-ppc64), const IFF_ALLMULTI ideal-int
+pkg syscall (aix-ppc64), const IFF_BPF = 134217728
+pkg syscall (aix-ppc64), const IFF_BPF ideal-int
+pkg syscall (aix-ppc64), const IFF_BRIDGE = 262144
+pkg syscall (aix-ppc64), const IFF_BRIDGE ideal-int
+pkg syscall (aix-ppc64), const IFF_BROADCAST = 2
+pkg syscall (aix-ppc64), const IFF_BROADCAST ideal-int
+pkg syscall (aix-ppc64), const IFF_CANTCHANGE = 527442
+pkg syscall (aix-ppc64), const IFF_CANTCHANGE ideal-int
+pkg syscall (aix-ppc64), const IFF_CHECKSUM_OFFLOAD = 268435456
+pkg syscall (aix-ppc64), const IFF_CHECKSUM_OFFLOAD ideal-int
+pkg syscall (aix-ppc64), const IFF_D1 = 32768
+pkg syscall (aix-ppc64), const IFF_D1 ideal-int
+pkg syscall (aix-ppc64), const IFF_D2 = 16384
+pkg syscall (aix-ppc64), const IFF_D2 ideal-int
+pkg syscall (aix-ppc64), const IFF_D3 = 8192
+pkg syscall (aix-ppc64), const IFF_D3 ideal-int
+pkg syscall (aix-ppc64), const IFF_D4 = 4096
+pkg syscall (aix-ppc64), const IFF_D4 ideal-int
+pkg syscall (aix-ppc64), const IFF_DEBUG = 4
+pkg syscall (aix-ppc64), const IFF_DEBUG ideal-int
+pkg syscall (aix-ppc64), const IFF_DEVHEALTH = 16384
+pkg syscall (aix-ppc64), const IFF_DEVHEALTH ideal-int
+pkg syscall (aix-ppc64), const IFF_DO_HW_LOOPBACK = 65536
+pkg syscall (aix-ppc64), const IFF_DO_HW_LOOPBACK ideal-int
+pkg syscall (aix-ppc64), const IFF_GROUP_ROUTING = 33554432
+pkg syscall (aix-ppc64), const IFF_GROUP_ROUTING ideal-int
+pkg syscall (aix-ppc64), const IFF_IFBUFMGT = 8388608
+pkg syscall (aix-ppc64), const IFF_IFBUFMGT ideal-int
+pkg syscall (aix-ppc64), const IFF_LINK0 = 1048576
+pkg syscall (aix-ppc64), const IFF_LINK0 ideal-int
+pkg syscall (aix-ppc64), const IFF_LINK1 = 2097152
+pkg syscall (aix-ppc64), const IFF_LINK1 ideal-int
+pkg syscall (aix-ppc64), const IFF_LINK2 = 4194304
+pkg syscall (aix-ppc64), const IFF_LINK2 ideal-int
+pkg syscall (aix-ppc64), const IFF_LOOPBACK = 8
+pkg syscall (aix-ppc64), const IFF_LOOPBACK ideal-int
+pkg syscall (aix-ppc64), const IFF_MULTICAST = 524288
+pkg syscall (aix-ppc64), const IFF_MULTICAST ideal-int
+pkg syscall (aix-ppc64), const IFF_NOARP = 128
+pkg syscall (aix-ppc64), const IFF_NOARP ideal-int
+pkg syscall (aix-ppc64), const IFF_NOECHO = 2048
+pkg syscall (aix-ppc64), const IFF_NOECHO ideal-int
+pkg syscall (aix-ppc64), const IFF_NOTRAILERS = 32
+pkg syscall (aix-ppc64), const IFF_NOTRAILERS ideal-int
+pkg syscall (aix-ppc64), const IFF_OACTIVE = 1024
+pkg syscall (aix-ppc64), const IFF_OACTIVE ideal-int
+pkg syscall (aix-ppc64), const IFF_POINTOPOINT = 16
+pkg syscall (aix-ppc64), const IFF_POINTOPOINT ideal-int
+pkg syscall (aix-ppc64), const IFF_PROMISC = 256
+pkg syscall (aix-ppc64), const IFF_PROMISC ideal-int
+pkg syscall (aix-ppc64), const IFF_PSEG = 1073741824
+pkg syscall (aix-ppc64), const IFF_PSEG ideal-int
+pkg syscall (aix-ppc64), const IFF_RUNNING = 64
+pkg syscall (aix-ppc64), const IFF_RUNNING ideal-int
+pkg syscall (aix-ppc64), const IFF_SIMPLEX = 2048
+pkg syscall (aix-ppc64), const IFF_SIMPLEX ideal-int
+pkg syscall (aix-ppc64), const IFF_SNAP = 32768
+pkg syscall (aix-ppc64), const IFF_SNAP ideal-int
+pkg syscall (aix-ppc64), const IFF_TCP_DISABLE_CKSUM = 536870912
+pkg syscall (aix-ppc64), const IFF_TCP_DISABLE_CKSUM ideal-int
+pkg syscall (aix-ppc64), const IFF_TCP_NOCKSUM = 16777216
+pkg syscall (aix-ppc64), const IFF_TCP_NOCKSUM ideal-int
+pkg syscall (aix-ppc64), const IFF_UP = 1
+pkg syscall (aix-ppc64), const IFF_UP ideal-int
+pkg syscall (aix-ppc64), const IFF_VIPA = 2147483648
+pkg syscall (aix-ppc64), const IFF_VIPA ideal-int
+pkg syscall (aix-ppc64), const IFNAMSIZ = 16
+pkg syscall (aix-ppc64), const IFNAMSIZ ideal-int
+pkg syscall (aix-ppc64), const IFO_FLUSH = 1
+pkg syscall (aix-ppc64), const IFO_FLUSH ideal-int
+pkg syscall (aix-ppc64), const IFT_1822 = 2
+pkg syscall (aix-ppc64), const IFT_1822 ideal-int
+pkg syscall (aix-ppc64), const IFT_AAL5 = 49
+pkg syscall (aix-ppc64), const IFT_AAL5 ideal-int
+pkg syscall (aix-ppc64), const IFT_ARCNET = 35
+pkg syscall (aix-ppc64), const IFT_ARCNET ideal-int
+pkg syscall (aix-ppc64), const IFT_ARCNETPLUS = 36
+pkg syscall (aix-ppc64), const IFT_ARCNETPLUS ideal-int
+pkg syscall (aix-ppc64), const IFT_ATM = 37
+pkg syscall (aix-ppc64), const IFT_ATM ideal-int
+pkg syscall (aix-ppc64), const IFT_CEPT = 19
+pkg syscall (aix-ppc64), const IFT_CEPT ideal-int
+pkg syscall (aix-ppc64), const IFT_CLUSTER = 62
+pkg syscall (aix-ppc64), const IFT_CLUSTER ideal-int
+pkg syscall (aix-ppc64), const IFT_DS3 = 30
+pkg syscall (aix-ppc64), const IFT_DS3 ideal-int
+pkg syscall (aix-ppc64), const IFT_EON = 25
+pkg syscall (aix-ppc64), const IFT_EON ideal-int
+pkg syscall (aix-ppc64), const IFT_ETHER = 6
+pkg syscall (aix-ppc64), const IFT_ETHER ideal-int
+pkg syscall (aix-ppc64), const IFT_FCS = 58
+pkg syscall (aix-ppc64), const IFT_FCS ideal-int
+pkg syscall (aix-ppc64), const IFT_FDDI = 15
+pkg syscall (aix-ppc64), const IFT_FDDI ideal-int
+pkg syscall (aix-ppc64), const IFT_FRELAY = 32
+pkg syscall (aix-ppc64), const IFT_FRELAY ideal-int
+pkg syscall (aix-ppc64), const IFT_FRELAYDCE = 44
+pkg syscall (aix-ppc64), const IFT_FRELAYDCE ideal-int
+pkg syscall (aix-ppc64), const IFT_GIFTUNNEL = 60
+pkg syscall (aix-ppc64), const IFT_GIFTUNNEL ideal-int
+pkg syscall (aix-ppc64), const IFT_HDH1822 = 3
+pkg syscall (aix-ppc64), const IFT_HDH1822 ideal-int
+pkg syscall (aix-ppc64), const IFT_HF = 61
+pkg syscall (aix-ppc64), const IFT_HF ideal-int
+pkg syscall (aix-ppc64), const IFT_HIPPI = 47
+pkg syscall (aix-ppc64), const IFT_HIPPI ideal-int
+pkg syscall (aix-ppc64), const IFT_HSSI = 46
+pkg syscall (aix-ppc64), const IFT_HSSI ideal-int
+pkg syscall (aix-ppc64), const IFT_HY = 14
+pkg syscall (aix-ppc64), const IFT_HY ideal-int
+pkg syscall (aix-ppc64), const IFT_IB = 199
+pkg syscall (aix-ppc64), const IFT_IB ideal-int
+pkg syscall (aix-ppc64), const IFT_ISDNBASIC = 20
+pkg syscall (aix-ppc64), const IFT_ISDNBASIC ideal-int
+pkg syscall (aix-ppc64), const IFT_ISDNPRIMARY = 21
+pkg syscall (aix-ppc64), const IFT_ISDNPRIMARY ideal-int
+pkg syscall (aix-ppc64), const IFT_ISO88022LLC = 41
+pkg syscall (aix-ppc64), const IFT_ISO88022LLC ideal-int
+pkg syscall (aix-ppc64), const IFT_ISO88023 = 7
+pkg syscall (aix-ppc64), const IFT_ISO88023 ideal-int
+pkg syscall (aix-ppc64), const IFT_ISO88024 = 8
+pkg syscall (aix-ppc64), const IFT_ISO88024 ideal-int
+pkg syscall (aix-ppc64), const IFT_ISO88025 = 9
+pkg syscall (aix-ppc64), const IFT_ISO88025 ideal-int
+pkg syscall (aix-ppc64), const IFT_ISO88026 = 10
+pkg syscall (aix-ppc64), const IFT_ISO88026 ideal-int
+pkg syscall (aix-ppc64), const IFT_LAPB = 16
+pkg syscall (aix-ppc64), const IFT_LAPB ideal-int
+pkg syscall (aix-ppc64), const IFT_LOCALTALK = 42
+pkg syscall (aix-ppc64), const IFT_LOCALTALK ideal-int
+pkg syscall (aix-ppc64), const IFT_LOOP = 24
+pkg syscall (aix-ppc64), const IFT_LOOP ideal-int
+pkg syscall (aix-ppc64), const IFT_MIOX25 = 38
+pkg syscall (aix-ppc64), const IFT_MIOX25 ideal-int
+pkg syscall (aix-ppc64), const IFT_MODEM = 48
+pkg syscall (aix-ppc64), const IFT_MODEM ideal-int
+pkg syscall (aix-ppc64), const IFT_NSIP = 27
+pkg syscall (aix-ppc64), const IFT_NSIP ideal-int
+pkg syscall (aix-ppc64), const IFT_OTHER = 1
+pkg syscall (aix-ppc64), const IFT_OTHER ideal-int
+pkg syscall (aix-ppc64), const IFT_P10 = 12
+pkg syscall (aix-ppc64), const IFT_P10 ideal-int
+pkg syscall (aix-ppc64), const IFT_P80 = 13
+pkg syscall (aix-ppc64), const IFT_P80 ideal-int
+pkg syscall (aix-ppc64), const IFT_PARA = 34
+pkg syscall (aix-ppc64), const IFT_PARA ideal-int
+pkg syscall (aix-ppc64), const IFT_PPP = 23
+pkg syscall (aix-ppc64), const IFT_PPP ideal-int
+pkg syscall (aix-ppc64), const IFT_PROPMUX = 54
+pkg syscall (aix-ppc64), const IFT_PROPMUX ideal-int
+pkg syscall (aix-ppc64), const IFT_PROPVIRTUAL = 53
+pkg syscall (aix-ppc64), const IFT_PROPVIRTUAL ideal-int
+pkg syscall (aix-ppc64), const IFT_PTPSERIAL = 22
+pkg syscall (aix-ppc64), const IFT_PTPSERIAL ideal-int
+pkg syscall (aix-ppc64), const IFT_RS232 = 33
+pkg syscall (aix-ppc64), const IFT_RS232 ideal-int
+pkg syscall (aix-ppc64), const IFT_SDLC = 17
+pkg syscall (aix-ppc64), const IFT_SDLC ideal-int
+pkg syscall (aix-ppc64), const IFT_SIP = 31
+pkg syscall (aix-ppc64), const IFT_SIP ideal-int
+pkg syscall (aix-ppc64), const IFT_SLIP = 28
+pkg syscall (aix-ppc64), const IFT_SLIP ideal-int
+pkg syscall (aix-ppc64), const IFT_SMDSDXI = 43
+pkg syscall (aix-ppc64), const IFT_SMDSDXI ideal-int
+pkg syscall (aix-ppc64), const IFT_SMDSICIP = 52
+pkg syscall (aix-ppc64), const IFT_SMDSICIP ideal-int
+pkg syscall (aix-ppc64), const IFT_SN = 56
+pkg syscall (aix-ppc64), const IFT_SN ideal-int
+pkg syscall (aix-ppc64), const IFT_SONET = 39
+pkg syscall (aix-ppc64), const IFT_SONET ideal-int
+pkg syscall (aix-ppc64), const IFT_SONETPATH = 50
+pkg syscall (aix-ppc64), const IFT_SONETPATH ideal-int
+pkg syscall (aix-ppc64), const IFT_SONETVT = 51
+pkg syscall (aix-ppc64), const IFT_SONETVT ideal-int
+pkg syscall (aix-ppc64), const IFT_SP = 57
+pkg syscall (aix-ppc64), const IFT_SP ideal-int
+pkg syscall (aix-ppc64), const IFT_STARLAN = 11
+pkg syscall (aix-ppc64), const IFT_STARLAN ideal-int
+pkg syscall (aix-ppc64), const IFT_T1 = 18
+pkg syscall (aix-ppc64), const IFT_T1 ideal-int
+pkg syscall (aix-ppc64), const IFT_TUNNEL = 59
+pkg syscall (aix-ppc64), const IFT_TUNNEL ideal-int
+pkg syscall (aix-ppc64), const IFT_ULTRA = 29
+pkg syscall (aix-ppc64), const IFT_ULTRA ideal-int
+pkg syscall (aix-ppc64), const IFT_V35 = 45
+pkg syscall (aix-ppc64), const IFT_V35 ideal-int
+pkg syscall (aix-ppc64), const IFT_VIPA = 55
+pkg syscall (aix-ppc64), const IFT_VIPA ideal-int
+pkg syscall (aix-ppc64), const IFT_X25 = 5
+pkg syscall (aix-ppc64), const IFT_X25 ideal-int
+pkg syscall (aix-ppc64), const IFT_X25DDN = 4
+pkg syscall (aix-ppc64), const IFT_X25DDN ideal-int
+pkg syscall (aix-ppc64), const IFT_X25PLE = 40
+pkg syscall (aix-ppc64), const IFT_X25PLE ideal-int
+pkg syscall (aix-ppc64), const IFT_XETHER = 26
+pkg syscall (aix-ppc64), const IFT_XETHER ideal-int
+pkg syscall (aix-ppc64), const IGNBRK = 1
+pkg syscall (aix-ppc64), const IGNBRK ideal-int
+pkg syscall (aix-ppc64), const IGNCR = 128
+pkg syscall (aix-ppc64), const IGNCR ideal-int
+pkg syscall (aix-ppc64), const IGNPAR = 4
+pkg syscall (aix-ppc64), const IGNPAR ideal-int
+pkg syscall (aix-ppc64), const IMAXBEL = 65536
+pkg syscall (aix-ppc64), const IMAXBEL ideal-int
+pkg syscall (aix-ppc64), const INLCR = 64
+pkg syscall (aix-ppc64), const INLCR ideal-int
+pkg syscall (aix-ppc64), const INPCK = 16
+pkg syscall (aix-ppc64), const INPCK ideal-int
+pkg syscall (aix-ppc64), const IN_CLASSA_HOST = 16777215
+pkg syscall (aix-ppc64), const IN_CLASSA_HOST ideal-int
+pkg syscall (aix-ppc64), const IN_CLASSA_MAX = 128
+pkg syscall (aix-ppc64), const IN_CLASSA_MAX ideal-int
+pkg syscall (aix-ppc64), const IN_CLASSA_NET = 4278190080
+pkg syscall (aix-ppc64), const IN_CLASSA_NET ideal-int
+pkg syscall (aix-ppc64), const IN_CLASSA_NSHIFT = 24
+pkg syscall (aix-ppc64), const IN_CLASSA_NSHIFT ideal-int
+pkg syscall (aix-ppc64), const IN_CLASSB_HOST = 65535
+pkg syscall (aix-ppc64), const IN_CLASSB_HOST ideal-int
+pkg syscall (aix-ppc64), const IN_CLASSB_MAX = 65536
+pkg syscall (aix-ppc64), const IN_CLASSB_MAX ideal-int
+pkg syscall (aix-ppc64), const IN_CLASSB_NET = 4294901760
+pkg syscall (aix-ppc64), const IN_CLASSB_NET ideal-int
+pkg syscall (aix-ppc64), const IN_CLASSB_NSHIFT = 16
+pkg syscall (aix-ppc64), const IN_CLASSB_NSHIFT ideal-int
+pkg syscall (aix-ppc64), const IN_CLASSC_HOST = 255
+pkg syscall (aix-ppc64), const IN_CLASSC_HOST ideal-int
+pkg syscall (aix-ppc64), const IN_CLASSC_NET = 4294967040
+pkg syscall (aix-ppc64), const IN_CLASSC_NET ideal-int
+pkg syscall (aix-ppc64), const IN_CLASSC_NSHIFT = 8
+pkg syscall (aix-ppc64), const IN_CLASSC_NSHIFT ideal-int
+pkg syscall (aix-ppc64), const IN_CLASSD_HOST = 268435455
+pkg syscall (aix-ppc64), const IN_CLASSD_HOST ideal-int
+pkg syscall (aix-ppc64), const IN_CLASSD_NET = 4026531840
+pkg syscall (aix-ppc64), const IN_CLASSD_NET ideal-int
+pkg syscall (aix-ppc64), const IN_CLASSD_NSHIFT = 28
+pkg syscall (aix-ppc64), const IN_CLASSD_NSHIFT ideal-int
+pkg syscall (aix-ppc64), const IN_LOOPBACKNET = 127
+pkg syscall (aix-ppc64), const IN_LOOPBACKNET ideal-int
+pkg syscall (aix-ppc64), const IN_USE = 1
+pkg syscall (aix-ppc64), const IN_USE ideal-int
+pkg syscall (aix-ppc64), const IPPROTO_AH = 51
+pkg syscall (aix-ppc64), const IPPROTO_AH ideal-int
+pkg syscall (aix-ppc64), const IPPROTO_BIP = 83
+pkg syscall (aix-ppc64), const IPPROTO_BIP ideal-int
+pkg syscall (aix-ppc64), const IPPROTO_DSTOPTS = 60
+pkg syscall (aix-ppc64), const IPPROTO_DSTOPTS ideal-int
+pkg syscall (aix-ppc64), const IPPROTO_EGP = 8
+pkg syscall (aix-ppc64), const IPPROTO_EGP ideal-int
+pkg syscall (aix-ppc64), const IPPROTO_EON = 80
+pkg syscall (aix-ppc64), const IPPROTO_EON ideal-int
+pkg syscall (aix-ppc64), const IPPROTO_ESP = 50
+pkg syscall (aix-ppc64), const IPPROTO_ESP ideal-int
+pkg syscall (aix-ppc64), const IPPROTO_FRAGMENT = 44
+pkg syscall (aix-ppc64), const IPPROTO_FRAGMENT ideal-int
+pkg syscall (aix-ppc64), const IPPROTO_GGP = 3
+pkg syscall (aix-ppc64), const IPPROTO_GGP ideal-int
+pkg syscall (aix-ppc64), const IPPROTO_GIF = 140
+pkg syscall (aix-ppc64), const IPPROTO_GIF ideal-int
+pkg syscall (aix-ppc64), const IPPROTO_GRE = 47
+pkg syscall (aix-ppc64), const IPPROTO_GRE ideal-int
+pkg syscall (aix-ppc64), const IPPROTO_HOPOPTS = 0
+pkg syscall (aix-ppc64), const IPPROTO_HOPOPTS ideal-int
+pkg syscall (aix-ppc64), const IPPROTO_ICMP = 1
+pkg syscall (aix-ppc64), const IPPROTO_ICMP ideal-int
+pkg syscall (aix-ppc64), const IPPROTO_ICMPV6 = 58
+pkg syscall (aix-ppc64), const IPPROTO_ICMPV6 ideal-int
+pkg syscall (aix-ppc64), const IPPROTO_IDP = 22
+pkg syscall (aix-ppc64), const IPPROTO_IDP ideal-int
+pkg syscall (aix-ppc64), const IPPROTO_IGMP = 2
+pkg syscall (aix-ppc64), const IPPROTO_IGMP ideal-int
+pkg syscall (aix-ppc64), const IPPROTO_IP = 0
+pkg syscall (aix-ppc64), const IPPROTO_IP ideal-int
+pkg syscall (aix-ppc64), const IPPROTO_IPIP = 4
+pkg syscall (aix-ppc64), const IPPROTO_IPIP ideal-int
+pkg syscall (aix-ppc64), const IPPROTO_IPV6 = 41
+pkg syscall (aix-ppc64), const IPPROTO_IPV6 ideal-int
+pkg syscall (aix-ppc64), const IPPROTO_LOCAL = 63
+pkg syscall (aix-ppc64), const IPPROTO_LOCAL ideal-int
+pkg syscall (aix-ppc64), const IPPROTO_MAX = 256
+pkg syscall (aix-ppc64), const IPPROTO_MAX ideal-int
+pkg syscall (aix-ppc64), const IPPROTO_MH = 135
+pkg syscall (aix-ppc64), const IPPROTO_MH ideal-int
+pkg syscall (aix-ppc64), const IPPROTO_NONE = 59
+pkg syscall (aix-ppc64), const IPPROTO_NONE ideal-int
+pkg syscall (aix-ppc64), const IPPROTO_PUP = 12
+pkg syscall (aix-ppc64), const IPPROTO_PUP ideal-int
+pkg syscall (aix-ppc64), const IPPROTO_QOS = 45
+pkg syscall (aix-ppc64), const IPPROTO_QOS ideal-int
+pkg syscall (aix-ppc64), const IPPROTO_RAW = 255
+pkg syscall (aix-ppc64), const IPPROTO_RAW ideal-int
+pkg syscall (aix-ppc64), const IPPROTO_ROUTING = 43
+pkg syscall (aix-ppc64), const IPPROTO_ROUTING ideal-int
+pkg syscall (aix-ppc64), const IPPROTO_RSVP = 46
+pkg syscall (aix-ppc64), const IPPROTO_RSVP ideal-int
+pkg syscall (aix-ppc64), const IPPROTO_SCTP = 132
+pkg syscall (aix-ppc64), const IPPROTO_SCTP ideal-int
+pkg syscall (aix-ppc64), const IPPROTO_TCP = 6
+pkg syscall (aix-ppc64), const IPPROTO_TCP ideal-int
+pkg syscall (aix-ppc64), const IPPROTO_TP = 29
+pkg syscall (aix-ppc64), const IPPROTO_TP ideal-int
+pkg syscall (aix-ppc64), const IPPROTO_UDP = 17
+pkg syscall (aix-ppc64), const IPPROTO_UDP ideal-int
+pkg syscall (aix-ppc64), const IPV6_ADDRFORM = 22
+pkg syscall (aix-ppc64), const IPV6_ADDRFORM ideal-int
+pkg syscall (aix-ppc64), const IPV6_ADDR_PREFERENCES = 74
+pkg syscall (aix-ppc64), const IPV6_ADDR_PREFERENCES ideal-int
+pkg syscall (aix-ppc64), const IPV6_ADD_MEMBERSHIP = 12
+pkg syscall (aix-ppc64), const IPV6_ADD_MEMBERSHIP ideal-int
+pkg syscall (aix-ppc64), const IPV6_AIXRAWSOCKET = 57
+pkg syscall (aix-ppc64), const IPV6_AIXRAWSOCKET ideal-int
+pkg syscall (aix-ppc64), const IPV6_CHECKSUM = 39
+pkg syscall (aix-ppc64), const IPV6_CHECKSUM ideal-int
+pkg syscall (aix-ppc64), const IPV6_DONTFRAG = 45
+pkg syscall (aix-ppc64), const IPV6_DONTFRAG ideal-int
+pkg syscall (aix-ppc64), const IPV6_DROP_MEMBERSHIP = 13
+pkg syscall (aix-ppc64), const IPV6_DROP_MEMBERSHIP ideal-int
+pkg syscall (aix-ppc64), const IPV6_DSTOPTS = 54
+pkg syscall (aix-ppc64), const IPV6_DSTOPTS ideal-int
+pkg syscall (aix-ppc64), const IPV6_FLOWINFO_FLOWLABEL = 16777215
+pkg syscall (aix-ppc64), const IPV6_FLOWINFO_FLOWLABEL ideal-int
+pkg syscall (aix-ppc64), const IPV6_FLOWINFO_PRIFLOW = 268435455
+pkg syscall (aix-ppc64), const IPV6_FLOWINFO_PRIFLOW ideal-int
+pkg syscall (aix-ppc64), const IPV6_FLOWINFO_PRIORITY = 251658240
+pkg syscall (aix-ppc64), const IPV6_FLOWINFO_PRIORITY ideal-int
+pkg syscall (aix-ppc64), const IPV6_FLOWINFO_SRFLAG = 268435456
+pkg syscall (aix-ppc64), const IPV6_FLOWINFO_SRFLAG ideal-int
+pkg syscall (aix-ppc64), const IPV6_FLOWINFO_VERSION = 4026531840
+pkg syscall (aix-ppc64), const IPV6_FLOWINFO_VERSION ideal-int
+pkg syscall (aix-ppc64), const IPV6_HOPLIMIT = 40
+pkg syscall (aix-ppc64), const IPV6_HOPLIMIT ideal-int
+pkg syscall (aix-ppc64), const IPV6_HOPOPTS = 52
+pkg syscall (aix-ppc64), const IPV6_HOPOPTS ideal-int
+pkg syscall (aix-ppc64), const IPV6_JOIN_GROUP = 12
+pkg syscall (aix-ppc64), const IPV6_JOIN_GROUP ideal-int
+pkg syscall (aix-ppc64), const IPV6_LEAVE_GROUP = 13
+pkg syscall (aix-ppc64), const IPV6_LEAVE_GROUP ideal-int
+pkg syscall (aix-ppc64), const IPV6_MIPDSTOPTS = 54
+pkg syscall (aix-ppc64), const IPV6_MIPDSTOPTS ideal-int
+pkg syscall (aix-ppc64), const IPV6_MULTICAST_HOPS = 10
+pkg syscall (aix-ppc64), const IPV6_MULTICAST_HOPS ideal-int
+pkg syscall (aix-ppc64), const IPV6_MULTICAST_IF = 9
+pkg syscall (aix-ppc64), const IPV6_MULTICAST_IF ideal-int
+pkg syscall (aix-ppc64), const IPV6_MULTICAST_LOOP = 11
+pkg syscall (aix-ppc64), const IPV6_MULTICAST_LOOP ideal-int
+pkg syscall (aix-ppc64), const IPV6_NEXTHOP = 48
+pkg syscall (aix-ppc64), const IPV6_NEXTHOP ideal-int
+pkg syscall (aix-ppc64), const IPV6_NOPROBE = 28
+pkg syscall (aix-ppc64), const IPV6_NOPROBE ideal-int
+pkg syscall (aix-ppc64), const IPV6_PATHMTU = 46
+pkg syscall (aix-ppc64), const IPV6_PATHMTU ideal-int
+pkg syscall (aix-ppc64), const IPV6_PKTINFO = 33
+pkg syscall (aix-ppc64), const IPV6_PKTINFO ideal-int
+pkg syscall (aix-ppc64), const IPV6_PKTOPTIONS = 36
+pkg syscall (aix-ppc64), const IPV6_PKTOPTIONS ideal-int
+pkg syscall (aix-ppc64), const IPV6_PRIORITY_10 = 167772160
+pkg syscall (aix-ppc64), const IPV6_PRIORITY_10 ideal-int
+pkg syscall (aix-ppc64), const IPV6_PRIORITY_11 = 184549376
+pkg syscall (aix-ppc64), const IPV6_PRIORITY_11 ideal-int
+pkg syscall (aix-ppc64), const IPV6_PRIORITY_12 = 201326592
+pkg syscall (aix-ppc64), const IPV6_PRIORITY_12 ideal-int
+pkg syscall (aix-ppc64), const IPV6_PRIORITY_13 = 218103808
+pkg syscall (aix-ppc64), const IPV6_PRIORITY_13 ideal-int
+pkg syscall (aix-ppc64), const IPV6_PRIORITY_14 = 234881024
+pkg syscall (aix-ppc64), const IPV6_PRIORITY_14 ideal-int
+pkg syscall (aix-ppc64), const IPV6_PRIORITY_15 = 251658240
+pkg syscall (aix-ppc64), const IPV6_PRIORITY_15 ideal-int
+pkg syscall (aix-ppc64), const IPV6_PRIORITY_8 = 134217728
+pkg syscall (aix-ppc64), const IPV6_PRIORITY_8 ideal-int
+pkg syscall (aix-ppc64), const IPV6_PRIORITY_9 = 150994944
+pkg syscall (aix-ppc64), const IPV6_PRIORITY_9 ideal-int
+pkg syscall (aix-ppc64), const IPV6_PRIORITY_BULK = 67108864
+pkg syscall (aix-ppc64), const IPV6_PRIORITY_BULK ideal-int
+pkg syscall (aix-ppc64), const IPV6_PRIORITY_CONTROL = 117440512
+pkg syscall (aix-ppc64), const IPV6_PRIORITY_CONTROL ideal-int
+pkg syscall (aix-ppc64), const IPV6_PRIORITY_FILLER = 16777216
+pkg syscall (aix-ppc64), const IPV6_PRIORITY_FILLER ideal-int
+pkg syscall (aix-ppc64), const IPV6_PRIORITY_INTERACTIVE = 100663296
+pkg syscall (aix-ppc64), const IPV6_PRIORITY_INTERACTIVE ideal-int
+pkg syscall (aix-ppc64), const IPV6_PRIORITY_RESERVED1 = 50331648
+pkg syscall (aix-ppc64), const IPV6_PRIORITY_RESERVED1 ideal-int
+pkg syscall (aix-ppc64), const IPV6_PRIORITY_RESERVED2 = 83886080
+pkg syscall (aix-ppc64), const IPV6_PRIORITY_RESERVED2 ideal-int
+pkg syscall (aix-ppc64), const IPV6_PRIORITY_UNATTENDED = 33554432
+pkg syscall (aix-ppc64), const IPV6_PRIORITY_UNATTENDED ideal-int
+pkg syscall (aix-ppc64), const IPV6_PRIORITY_UNCHARACTERIZED = 0
+pkg syscall (aix-ppc64), const IPV6_PRIORITY_UNCHARACTERIZED ideal-int
+pkg syscall (aix-ppc64), const IPV6_RECVDSTOPTS = 56
+pkg syscall (aix-ppc64), const IPV6_RECVDSTOPTS ideal-int
+pkg syscall (aix-ppc64), const IPV6_RECVHOPLIMIT = 41
+pkg syscall (aix-ppc64), const IPV6_RECVHOPLIMIT ideal-int
+pkg syscall (aix-ppc64), const IPV6_RECVHOPOPTS = 53
+pkg syscall (aix-ppc64), const IPV6_RECVHOPOPTS ideal-int
+pkg syscall (aix-ppc64), const IPV6_RECVHOPS = 34
+pkg syscall (aix-ppc64), const IPV6_RECVHOPS ideal-int
+pkg syscall (aix-ppc64), const IPV6_RECVIF = 30
+pkg syscall (aix-ppc64), const IPV6_RECVIF ideal-int
+pkg syscall (aix-ppc64), const IPV6_RECVPATHMTU = 47
+pkg syscall (aix-ppc64), const IPV6_RECVPATHMTU ideal-int
+pkg syscall (aix-ppc64), const IPV6_RECVPKTINFO = 35
+pkg syscall (aix-ppc64), const IPV6_RECVPKTINFO ideal-int
+pkg syscall (aix-ppc64), const IPV6_RECVRTHDR = 51
+pkg syscall (aix-ppc64), const IPV6_RECVRTHDR ideal-int
+pkg syscall (aix-ppc64), const IPV6_RECVSRCRT = 29
+pkg syscall (aix-ppc64), const IPV6_RECVSRCRT ideal-int
+pkg syscall (aix-ppc64), const IPV6_RECVTCLASS = 42
+pkg syscall (aix-ppc64), const IPV6_RECVTCLASS ideal-int
+pkg syscall (aix-ppc64), const IPV6_RTHDR = 50
+pkg syscall (aix-ppc64), const IPV6_RTHDR ideal-int
+pkg syscall (aix-ppc64), const IPV6_RTHDRDSTOPTS = 55
+pkg syscall (aix-ppc64), const IPV6_RTHDRDSTOPTS ideal-int
+pkg syscall (aix-ppc64), const IPV6_RTHDR_TYPE_0 = 0
+pkg syscall (aix-ppc64), const IPV6_RTHDR_TYPE_0 ideal-int
+pkg syscall (aix-ppc64), const IPV6_RTHDR_TYPE_2 = 2
+pkg syscall (aix-ppc64), const IPV6_RTHDR_TYPE_2 ideal-int
+pkg syscall (aix-ppc64), const IPV6_SENDIF = 31
+pkg syscall (aix-ppc64), const IPV6_SENDIF ideal-int
+pkg syscall (aix-ppc64), const IPV6_SRFLAG_LOOSE = 0
+pkg syscall (aix-ppc64), const IPV6_SRFLAG_LOOSE ideal-int
+pkg syscall (aix-ppc64), const IPV6_SRFLAG_STRICT = 268435456
+pkg syscall (aix-ppc64), const IPV6_SRFLAG_STRICT ideal-int
+pkg syscall (aix-ppc64), const IPV6_TCLASS = 43
+pkg syscall (aix-ppc64), const IPV6_TCLASS ideal-int
+pkg syscall (aix-ppc64), const IPV6_TOKEN_LENGTH = 64
+pkg syscall (aix-ppc64), const IPV6_TOKEN_LENGTH ideal-int
+pkg syscall (aix-ppc64), const IPV6_UNICAST_HOPS = 4
+pkg syscall (aix-ppc64), const IPV6_UNICAST_HOPS ideal-int
+pkg syscall (aix-ppc64), const IPV6_USE_MIN_MTU = 44
+pkg syscall (aix-ppc64), const IPV6_USE_MIN_MTU ideal-int
+pkg syscall (aix-ppc64), const IPV6_V6ONLY = 37
+pkg syscall (aix-ppc64), const IPV6_V6ONLY ideal-int
+pkg syscall (aix-ppc64), const IPV6_VERSION = 1610612736
+pkg syscall (aix-ppc64), const IPV6_VERSION ideal-int
+pkg syscall (aix-ppc64), const IP_ADDRFORM = 22
+pkg syscall (aix-ppc64), const IP_ADDRFORM ideal-int
+pkg syscall (aix-ppc64), const IP_ADD_MEMBERSHIP = 12
+pkg syscall (aix-ppc64), const IP_ADD_MEMBERSHIP ideal-int
+pkg syscall (aix-ppc64), const IP_ADD_SOURCE_MEMBERSHIP = 60
+pkg syscall (aix-ppc64), const IP_ADD_SOURCE_MEMBERSHIP ideal-int
+pkg syscall (aix-ppc64), const IP_BLOCK_SOURCE = 58
+pkg syscall (aix-ppc64), const IP_BLOCK_SOURCE ideal-int
+pkg syscall (aix-ppc64), const IP_BROADCAST_IF = 16
+pkg syscall (aix-ppc64), const IP_BROADCAST_IF ideal-int
+pkg syscall (aix-ppc64), const IP_CACHE_LINE_SIZE = 128
+pkg syscall (aix-ppc64), const IP_CACHE_LINE_SIZE ideal-int
+pkg syscall (aix-ppc64), const IP_DEFAULT_MULTICAST_LOOP = 1
+pkg syscall (aix-ppc64), const IP_DEFAULT_MULTICAST_LOOP ideal-int
+pkg syscall (aix-ppc64), const IP_DEFAULT_MULTICAST_TTL = 1
+pkg syscall (aix-ppc64), const IP_DEFAULT_MULTICAST_TTL ideal-int
+pkg syscall (aix-ppc64), const IP_DF = 16384
+pkg syscall (aix-ppc64), const IP_DF ideal-int
+pkg syscall (aix-ppc64), const IP_DHCPMODE = 17
+pkg syscall (aix-ppc64), const IP_DHCPMODE ideal-int
+pkg syscall (aix-ppc64), const IP_DONTFRAG = 25
+pkg syscall (aix-ppc64), const IP_DONTFRAG ideal-int
+pkg syscall (aix-ppc64), const IP_DROP_MEMBERSHIP = 13
+pkg syscall (aix-ppc64), const IP_DROP_MEMBERSHIP ideal-int
+pkg syscall (aix-ppc64), const IP_DROP_SOURCE_MEMBERSHIP = 61
+pkg syscall (aix-ppc64), const IP_DROP_SOURCE_MEMBERSHIP ideal-int
+pkg syscall (aix-ppc64), const IP_FINDPMTU = 26
+pkg syscall (aix-ppc64), const IP_FINDPMTU ideal-int
+pkg syscall (aix-ppc64), const IP_HDRINCL = 2
+pkg syscall (aix-ppc64), const IP_HDRINCL ideal-int
+pkg syscall (aix-ppc64), const IP_INC_MEMBERSHIPS = 20
+pkg syscall (aix-ppc64), const IP_INC_MEMBERSHIPS ideal-int
+pkg syscall (aix-ppc64), const IP_INIT_MEMBERSHIP = 20
+pkg syscall (aix-ppc64), const IP_INIT_MEMBERSHIP ideal-int
+pkg syscall (aix-ppc64), const IP_MAXPACKET = 65535
+pkg syscall (aix-ppc64), const IP_MAXPACKET ideal-int
+pkg syscall (aix-ppc64), const IP_MF = 8192
+pkg syscall (aix-ppc64), const IP_MF ideal-int
+pkg syscall (aix-ppc64), const IP_MSS = 576
+pkg syscall (aix-ppc64), const IP_MSS ideal-int
+pkg syscall (aix-ppc64), const IP_MULTICAST_HOPS = 10
+pkg syscall (aix-ppc64), const IP_MULTICAST_HOPS ideal-int
+pkg syscall (aix-ppc64), const IP_MULTICAST_IF = 9
+pkg syscall (aix-ppc64), const IP_MULTICAST_IF ideal-int
+pkg syscall (aix-ppc64), const IP_MULTICAST_LOOP = 11
+pkg syscall (aix-ppc64), const IP_MULTICAST_LOOP ideal-int
+pkg syscall (aix-ppc64), const IP_MULTICAST_TTL = 10
+pkg syscall (aix-ppc64), const IP_MULTICAST_TTL ideal-int
+pkg syscall (aix-ppc64), const IP_OPT = 27
+pkg syscall (aix-ppc64), const IP_OPT ideal-int
+pkg syscall (aix-ppc64), const IP_OPTIONS = 1
+pkg syscall (aix-ppc64), const IP_OPTIONS ideal-int
+pkg syscall (aix-ppc64), const IP_PMTUAGE = 27
+pkg syscall (aix-ppc64), const IP_PMTUAGE ideal-int
+pkg syscall (aix-ppc64), const IP_RECVDSTADDR = 7
+pkg syscall (aix-ppc64), const IP_RECVDSTADDR ideal-int
+pkg syscall (aix-ppc64), const IP_RECVIF = 20
+pkg syscall (aix-ppc64), const IP_RECVIF ideal-int
+pkg syscall (aix-ppc64), const IP_RECVIFINFO = 15
+pkg syscall (aix-ppc64), const IP_RECVIFINFO ideal-int
+pkg syscall (aix-ppc64), const IP_RECVINTERFACE = 32
+pkg syscall (aix-ppc64), const IP_RECVINTERFACE ideal-int
+pkg syscall (aix-ppc64), const IP_RECVMACHDR = 14
+pkg syscall (aix-ppc64), const IP_RECVMACHDR ideal-int
+pkg syscall (aix-ppc64), const IP_RECVOPTS = 5
+pkg syscall (aix-ppc64), const IP_RECVOPTS ideal-int
+pkg syscall (aix-ppc64), const IP_RECVRETOPTS = 6
+pkg syscall (aix-ppc64), const IP_RECVRETOPTS ideal-int
+pkg syscall (aix-ppc64), const IP_RECVTTL = 34
+pkg syscall (aix-ppc64), const IP_RECVTTL ideal-int
+pkg syscall (aix-ppc64), const IP_RETOPTS = 8
+pkg syscall (aix-ppc64), const IP_RETOPTS ideal-int
+pkg syscall (aix-ppc64), const IP_SOURCE_FILTER = 72
+pkg syscall (aix-ppc64), const IP_SOURCE_FILTER ideal-int
+pkg syscall (aix-ppc64), const IP_TOS = 3
+pkg syscall (aix-ppc64), const IP_TOS ideal-int
+pkg syscall (aix-ppc64), const IP_TTL = 4
+pkg syscall (aix-ppc64), const IP_TTL ideal-int
+pkg syscall (aix-ppc64), const IP_UNBLOCK_SOURCE = 59
+pkg syscall (aix-ppc64), const IP_UNBLOCK_SOURCE ideal-int
+pkg syscall (aix-ppc64), const IP_UNICAST_HOPS = 4
+pkg syscall (aix-ppc64), const IP_UNICAST_HOPS ideal-int
+pkg syscall (aix-ppc64), const ISIG = 1
+pkg syscall (aix-ppc64), const ISIG ideal-int
+pkg syscall (aix-ppc64), const ISTRIP = 32
+pkg syscall (aix-ppc64), const ISTRIP ideal-int
+pkg syscall (aix-ppc64), const IXANY = 4096
+pkg syscall (aix-ppc64), const IXANY ideal-int
+pkg syscall (aix-ppc64), const IXOFF = 1024
+pkg syscall (aix-ppc64), const IXOFF ideal-int
+pkg syscall (aix-ppc64), const IXON = 512
+pkg syscall (aix-ppc64), const IXON ideal-int
+pkg syscall (aix-ppc64), const I_FLUSH = 536892165
+pkg syscall (aix-ppc64), const I_FLUSH ideal-int
+pkg syscall (aix-ppc64), const LNOFLSH = 32768
+pkg syscall (aix-ppc64), const LNOFLSH ideal-int
+pkg syscall (aix-ppc64), const LOCK_EX = 2
+pkg syscall (aix-ppc64), const LOCK_EX ideal-int
+pkg syscall (aix-ppc64), const LOCK_NB = 4
+pkg syscall (aix-ppc64), const LOCK_NB ideal-int
+pkg syscall (aix-ppc64), const LOCK_SH = 1
+pkg syscall (aix-ppc64), const LOCK_SH ideal-int
+pkg syscall (aix-ppc64), const LOCK_UN = 8
+pkg syscall (aix-ppc64), const LOCK_UN ideal-int
+pkg syscall (aix-ppc64), const MADV_DONTNEED = 4
+pkg syscall (aix-ppc64), const MADV_DONTNEED ideal-int
+pkg syscall (aix-ppc64), const MADV_NORMAL = 0
+pkg syscall (aix-ppc64), const MADV_NORMAL ideal-int
+pkg syscall (aix-ppc64), const MADV_RANDOM = 1
+pkg syscall (aix-ppc64), const MADV_RANDOM ideal-int
+pkg syscall (aix-ppc64), const MADV_SEQUENTIAL = 2
+pkg syscall (aix-ppc64), const MADV_SEQUENTIAL ideal-int
+pkg syscall (aix-ppc64), const MADV_SPACEAVAIL = 5
+pkg syscall (aix-ppc64), const MADV_SPACEAVAIL ideal-int
+pkg syscall (aix-ppc64), const MADV_WILLNEED = 3
+pkg syscall (aix-ppc64), const MADV_WILLNEED ideal-int
+pkg syscall (aix-ppc64), const MAP_ANON = 16
+pkg syscall (aix-ppc64), const MAP_ANON ideal-int
+pkg syscall (aix-ppc64), const MAP_ANONYMOUS = 16
+pkg syscall (aix-ppc64), const MAP_ANONYMOUS ideal-int
+pkg syscall (aix-ppc64), const MAP_FILE = 0
+pkg syscall (aix-ppc64), const MAP_FILE ideal-int
+pkg syscall (aix-ppc64), const MAP_FIXED = 256
+pkg syscall (aix-ppc64), const MAP_FIXED ideal-int
+pkg syscall (aix-ppc64), const MAP_PRIVATE = 2
+pkg syscall (aix-ppc64), const MAP_PRIVATE ideal-int
+pkg syscall (aix-ppc64), const MAP_SHARED = 1
+pkg syscall (aix-ppc64), const MAP_SHARED ideal-int
+pkg syscall (aix-ppc64), const MAP_TYPE = 240
+pkg syscall (aix-ppc64), const MAP_TYPE ideal-int
+pkg syscall (aix-ppc64), const MAP_VARIABLE = 0
+pkg syscall (aix-ppc64), const MAP_VARIABLE ideal-int
+pkg syscall (aix-ppc64), const MCL_CURRENT = 256
+pkg syscall (aix-ppc64), const MCL_CURRENT ideal-int
+pkg syscall (aix-ppc64), const MCL_FUTURE = 512
+pkg syscall (aix-ppc64), const MCL_FUTURE ideal-int
+pkg syscall (aix-ppc64), const MSG_ANY = 4
+pkg syscall (aix-ppc64), const MSG_ANY ideal-int
+pkg syscall (aix-ppc64), const MSG_ARGEXT = 1024
+pkg syscall (aix-ppc64), const MSG_ARGEXT ideal-int
+pkg syscall (aix-ppc64), const MSG_BAND = 2
+pkg syscall (aix-ppc64), const MSG_BAND ideal-int
+pkg syscall (aix-ppc64), const MSG_COMPAT = 32768
+pkg syscall (aix-ppc64), const MSG_COMPAT ideal-int
+pkg syscall (aix-ppc64), const MSG_CTRUNC = 32
+pkg syscall (aix-ppc64), const MSG_CTRUNC ideal-int
+pkg syscall (aix-ppc64), const MSG_DONTROUTE = 4
+pkg syscall (aix-ppc64), const MSG_DONTROUTE ideal-int
+pkg syscall (aix-ppc64), const MSG_EOR = 8
+pkg syscall (aix-ppc64), const MSG_EOR ideal-int
+pkg syscall (aix-ppc64), const MSG_HIPRI = 1
+pkg syscall (aix-ppc64), const MSG_HIPRI ideal-int
+pkg syscall (aix-ppc64), const MSG_MAXIOVLEN = 16
+pkg syscall (aix-ppc64), const MSG_MAXIOVLEN ideal-int
+pkg syscall (aix-ppc64), const MSG_MPEG2 = 128
+pkg syscall (aix-ppc64), const MSG_MPEG2 ideal-int
+pkg syscall (aix-ppc64), const MSG_NONBLOCK = 16384
+pkg syscall (aix-ppc64), const MSG_NONBLOCK ideal-int
+pkg syscall (aix-ppc64), const MSG_NOSIGNAL = 256
+pkg syscall (aix-ppc64), const MSG_NOSIGNAL ideal-int
+pkg syscall (aix-ppc64), const MSG_OOB = 1
+pkg syscall (aix-ppc64), const MSG_OOB ideal-int
+pkg syscall (aix-ppc64), const MSG_PEEK = 2
+pkg syscall (aix-ppc64), const MSG_PEEK ideal-int
+pkg syscall (aix-ppc64), const MSG_TRUNC = 16
+pkg syscall (aix-ppc64), const MSG_TRUNC ideal-int
+pkg syscall (aix-ppc64), const MSG_WAITALL = 64
+pkg syscall (aix-ppc64), const MSG_WAITALL ideal-int
+pkg syscall (aix-ppc64), const MSG_WAITFORONE = 512
+pkg syscall (aix-ppc64), const MSG_WAITFORONE ideal-int
+pkg syscall (aix-ppc64), const MS_ASYNC = 16
+pkg syscall (aix-ppc64), const MS_ASYNC ideal-int
+pkg syscall (aix-ppc64), const MS_EINTR = 128
+pkg syscall (aix-ppc64), const MS_EINTR ideal-int
+pkg syscall (aix-ppc64), const MS_INVALIDATE = 64
+pkg syscall (aix-ppc64), const MS_INVALIDATE ideal-int
+pkg syscall (aix-ppc64), const MS_PER_SEC = 1000
+pkg syscall (aix-ppc64), const MS_PER_SEC ideal-int
+pkg syscall (aix-ppc64), const MS_SYNC = 32
+pkg syscall (aix-ppc64), const MS_SYNC ideal-int
+pkg syscall (aix-ppc64), const NOFLSH = 128
+pkg syscall (aix-ppc64), const NOFLSH ideal-int
+pkg syscall (aix-ppc64), const NOFLUSH = 2147483648
+pkg syscall (aix-ppc64), const NOFLUSH ideal-int
+pkg syscall (aix-ppc64), const OCRNL = 8
+pkg syscall (aix-ppc64), const OCRNL ideal-int
+pkg syscall (aix-ppc64), const OFDEL = 128
+pkg syscall (aix-ppc64), const OFDEL ideal-int
+pkg syscall (aix-ppc64), const OFILL = 64
+pkg syscall (aix-ppc64), const OFILL ideal-int
+pkg syscall (aix-ppc64), const ONLCR = 4
+pkg syscall (aix-ppc64), const ONLCR ideal-int
+pkg syscall (aix-ppc64), const ONLRET = 32
+pkg syscall (aix-ppc64), const ONLRET ideal-int
+pkg syscall (aix-ppc64), const ONOCR = 16
+pkg syscall (aix-ppc64), const ONOCR ideal-int
+pkg syscall (aix-ppc64), const ONOEOT = 524288
+pkg syscall (aix-ppc64), const ONOEOT ideal-int
+pkg syscall (aix-ppc64), const OPOST = 1
+pkg syscall (aix-ppc64), const OPOST ideal-int
+pkg syscall (aix-ppc64), const O_ACCMODE = 35
+pkg syscall (aix-ppc64), const O_ACCMODE ideal-int
+pkg syscall (aix-ppc64), const O_APPEND = 8
+pkg syscall (aix-ppc64), const O_CIO = 128
+pkg syscall (aix-ppc64), const O_CIO ideal-int
+pkg syscall (aix-ppc64), const O_CIOR = 34359738368
+pkg syscall (aix-ppc64), const O_CIOR ideal-int
+pkg syscall (aix-ppc64), const O_CLOEXEC = 8388608
+pkg syscall (aix-ppc64), const O_CREAT = 256
+pkg syscall (aix-ppc64), const O_DEFER = 8192
+pkg syscall (aix-ppc64), const O_DEFER ideal-int
+pkg syscall (aix-ppc64), const O_DELAY = 16384
+pkg syscall (aix-ppc64), const O_DELAY ideal-int
+pkg syscall (aix-ppc64), const O_DIRECT = 134217728
+pkg syscall (aix-ppc64), const O_DIRECT ideal-int
+pkg syscall (aix-ppc64), const O_DIRECTORY = 524288
+pkg syscall (aix-ppc64), const O_DIRECTORY ideal-int
+pkg syscall (aix-ppc64), const O_DSYNC = 4194304
+pkg syscall (aix-ppc64), const O_DSYNC ideal-int
+pkg syscall (aix-ppc64), const O_EFSOFF = 17179869184
+pkg syscall (aix-ppc64), const O_EFSOFF ideal-int
+pkg syscall (aix-ppc64), const O_EFSON = 8589934592
+pkg syscall (aix-ppc64), const O_EFSON ideal-int
+pkg syscall (aix-ppc64), const O_EXCL = 1024
+pkg syscall (aix-ppc64), const O_EXEC = 32
+pkg syscall (aix-ppc64), const O_EXEC ideal-int
+pkg syscall (aix-ppc64), const O_LARGEFILE = 67108864
+pkg syscall (aix-ppc64), const O_LARGEFILE ideal-int
+pkg syscall (aix-ppc64), const O_NDELAY = 32768
+pkg syscall (aix-ppc64), const O_NDELAY ideal-int
+pkg syscall (aix-ppc64), const O_NOCACHE = 1048576
+pkg syscall (aix-ppc64), const O_NOCACHE ideal-int
+pkg syscall (aix-ppc64), const O_NOCTTY = 2048
+pkg syscall (aix-ppc64), const O_NOCTTY ideal-int
+pkg syscall (aix-ppc64), const O_NOFOLLOW = 16777216
+pkg syscall (aix-ppc64), const O_NOFOLLOW ideal-int
+pkg syscall (aix-ppc64), const O_NONBLOCK = 4
+pkg syscall (aix-ppc64), const O_NONBLOCK ideal-int
+pkg syscall (aix-ppc64), const O_NONE = 3
+pkg syscall (aix-ppc64), const O_NONE ideal-int
+pkg syscall (aix-ppc64), const O_NSHARE = 65536
+pkg syscall (aix-ppc64), const O_NSHARE ideal-int
+pkg syscall (aix-ppc64), const O_RAW = 4294967296
+pkg syscall (aix-ppc64), const O_RAW ideal-int
+pkg syscall (aix-ppc64), const O_RSHARE = 4096
+pkg syscall (aix-ppc64), const O_RSHARE ideal-int
+pkg syscall (aix-ppc64), const O_RSYNC = 2097152
+pkg syscall (aix-ppc64), const O_RSYNC ideal-int
+pkg syscall (aix-ppc64), const O_SEARCH = 32
+pkg syscall (aix-ppc64), const O_SEARCH ideal-int
+pkg syscall (aix-ppc64), const O_SNAPSHOT = 64
+pkg syscall (aix-ppc64), const O_SNAPSHOT ideal-int
+pkg syscall (aix-ppc64), const O_SYNC = 16
+pkg syscall (aix-ppc64), const O_TRUNC = 512
+pkg syscall (aix-ppc64), const O_TTY_INIT = 0
+pkg syscall (aix-ppc64), const O_TTY_INIT ideal-int
+pkg syscall (aix-ppc64), const PARENB = 256
+pkg syscall (aix-ppc64), const PARENB ideal-int
+pkg syscall (aix-ppc64), const PAREXT = 1048576
+pkg syscall (aix-ppc64), const PAREXT ideal-int
+pkg syscall (aix-ppc64), const PARMRK = 8
+pkg syscall (aix-ppc64), const PARMRK ideal-int
+pkg syscall (aix-ppc64), const PARODD = 512
+pkg syscall (aix-ppc64), const PARODD ideal-int
+pkg syscall (aix-ppc64), const PENDIN = 536870912
+pkg syscall (aix-ppc64), const PENDIN ideal-int
+pkg syscall (aix-ppc64), const PRIO_PGRP = 1
+pkg syscall (aix-ppc64), const PRIO_PGRP ideal-int
+pkg syscall (aix-ppc64), const PRIO_PROCESS = 0
+pkg syscall (aix-ppc64), const PRIO_PROCESS ideal-int
+pkg syscall (aix-ppc64), const PRIO_USER = 2
+pkg syscall (aix-ppc64), const PRIO_USER ideal-int
+pkg syscall (aix-ppc64), const PROT_EXEC = 4
+pkg syscall (aix-ppc64), const PROT_EXEC ideal-int
+pkg syscall (aix-ppc64), const PROT_NONE = 0
+pkg syscall (aix-ppc64), const PROT_NONE ideal-int
+pkg syscall (aix-ppc64), const PROT_READ = 1
+pkg syscall (aix-ppc64), const PROT_READ ideal-int
+pkg syscall (aix-ppc64), const PROT_WRITE = 2
+pkg syscall (aix-ppc64), const PROT_WRITE ideal-int
+pkg syscall (aix-ppc64), const PR_64BIT = 32
+pkg syscall (aix-ppc64), const PR_64BIT ideal-int
+pkg syscall (aix-ppc64), const PR_ADDR = 2
+pkg syscall (aix-ppc64), const PR_ADDR ideal-int
+pkg syscall (aix-ppc64), const PR_ARGEXT = 1024
+pkg syscall (aix-ppc64), const PR_ARGEXT ideal-int
+pkg syscall (aix-ppc64), const PR_ATOMIC = 1
+pkg syscall (aix-ppc64), const PR_ATOMIC ideal-int
+pkg syscall (aix-ppc64), const PR_CONNREQUIRED = 4
+pkg syscall (aix-ppc64), const PR_CONNREQUIRED ideal-int
+pkg syscall (aix-ppc64), const PR_FASTHZ = 5
+pkg syscall (aix-ppc64), const PR_FASTHZ ideal-int
+pkg syscall (aix-ppc64), const PR_INP = 64
+pkg syscall (aix-ppc64), const PR_INP ideal-int
+pkg syscall (aix-ppc64), const PR_INTRLEVEL = 32768
+pkg syscall (aix-ppc64), const PR_INTRLEVEL ideal-int
+pkg syscall (aix-ppc64), const PR_MLS = 256
+pkg syscall (aix-ppc64), const PR_MLS ideal-int
+pkg syscall (aix-ppc64), const PR_MLS_1_LABEL = 512
+pkg syscall (aix-ppc64), const PR_MLS_1_LABEL ideal-int
+pkg syscall (aix-ppc64), const PR_NOEOR = 16384
+pkg syscall (aix-ppc64), const PR_NOEOR ideal-int
+pkg syscall (aix-ppc64), const PR_RIGHTS = 16
+pkg syscall (aix-ppc64), const PR_RIGHTS ideal-int
+pkg syscall (aix-ppc64), const PR_SLOWHZ = 2
+pkg syscall (aix-ppc64), const PR_SLOWHZ ideal-int
+pkg syscall (aix-ppc64), const PR_WANTRCVD = 8
+pkg syscall (aix-ppc64), const PR_WANTRCVD ideal-int
+pkg syscall (aix-ppc64), const PTRACE_CONT = 7
+pkg syscall (aix-ppc64), const PTRACE_CONT ideal-int
+pkg syscall (aix-ppc64), const PTRACE_KILL = 8
+pkg syscall (aix-ppc64), const PTRACE_KILL ideal-int
+pkg syscall (aix-ppc64), const PTRACE_TRACEME = 0
+pkg syscall (aix-ppc64), const PTRACE_TRACEME ideal-int
+pkg syscall (aix-ppc64), const PT_ATTACH = 30
+pkg syscall (aix-ppc64), const PT_ATTACH ideal-int
+pkg syscall (aix-ppc64), const PT_CLEAR = 38
+pkg syscall (aix-ppc64), const PT_CLEAR ideal-int
+pkg syscall (aix-ppc64), const PT_COMMAND_MAX = 69
+pkg syscall (aix-ppc64), const PT_COMMAND_MAX ideal-int
+pkg syscall (aix-ppc64), const PT_CONTINUE = 7
+pkg syscall (aix-ppc64), const PT_CONTINUE ideal-int
+pkg syscall (aix-ppc64), const PT_DETACH = 31
+pkg syscall (aix-ppc64), const PT_DETACH ideal-int
+pkg syscall (aix-ppc64), const PT_GET_UKEY = 64
+pkg syscall (aix-ppc64), const PT_GET_UKEY ideal-int
+pkg syscall (aix-ppc64), const PT_KILL = 8
+pkg syscall (aix-ppc64), const PT_KILL ideal-int
+pkg syscall (aix-ppc64), const PT_LDINFO = 34
+pkg syscall (aix-ppc64), const PT_LDINFO ideal-int
+pkg syscall (aix-ppc64), const PT_LDXINFO = 39
+pkg syscall (aix-ppc64), const PT_LDXINFO ideal-int
+pkg syscall (aix-ppc64), const PT_MULTI = 35
+pkg syscall (aix-ppc64), const PT_MULTI ideal-int
+pkg syscall (aix-ppc64), const PT_NEXT = 36
+pkg syscall (aix-ppc64), const PT_NEXT ideal-int
+pkg syscall (aix-ppc64), const PT_QUERY = 40
+pkg syscall (aix-ppc64), const PT_QUERY ideal-int
+pkg syscall (aix-ppc64), const PT_READ_BLOCK = 17
+pkg syscall (aix-ppc64), const PT_READ_BLOCK ideal-int
+pkg syscall (aix-ppc64), const PT_READ_D = 2
+pkg syscall (aix-ppc64), const PT_READ_D ideal-int
+pkg syscall (aix-ppc64), const PT_READ_FPR = 12
+pkg syscall (aix-ppc64), const PT_READ_FPR ideal-int
+pkg syscall (aix-ppc64), const PT_READ_GPR = 11
+pkg syscall (aix-ppc64), const PT_READ_GPR ideal-int
+pkg syscall (aix-ppc64), const PT_READ_I = 1
+pkg syscall (aix-ppc64), const PT_READ_I ideal-int
+pkg syscall (aix-ppc64), const PT_REATT = 33
+pkg syscall (aix-ppc64), const PT_REATT ideal-int
+pkg syscall (aix-ppc64), const PT_REGSET = 32
+pkg syscall (aix-ppc64), const PT_REGSET ideal-int
+pkg syscall (aix-ppc64), const PT_SET = 37
+pkg syscall (aix-ppc64), const PT_SET ideal-int
+pkg syscall (aix-ppc64), const PT_STEP = 9
+pkg syscall (aix-ppc64), const PT_STEP ideal-int
+pkg syscall (aix-ppc64), const PT_TRACE_ME = 0
+pkg syscall (aix-ppc64), const PT_TRACE_ME ideal-int
+pkg syscall (aix-ppc64), const PT_WATCH = 41
+pkg syscall (aix-ppc64), const PT_WATCH ideal-int
+pkg syscall (aix-ppc64), const PT_WRITE_BLOCK = 19
+pkg syscall (aix-ppc64), const PT_WRITE_BLOCK ideal-int
+pkg syscall (aix-ppc64), const PT_WRITE_D = 5
+pkg syscall (aix-ppc64), const PT_WRITE_D ideal-int
+pkg syscall (aix-ppc64), const PT_WRITE_FPR = 15
+pkg syscall (aix-ppc64), const PT_WRITE_FPR ideal-int
+pkg syscall (aix-ppc64), const PT_WRITE_GPR = 14
+pkg syscall (aix-ppc64), const PT_WRITE_GPR ideal-int
+pkg syscall (aix-ppc64), const PT_WRITE_I = 4
+pkg syscall (aix-ppc64), const PT_WRITE_I ideal-int
+pkg syscall (aix-ppc64), const PathMax = 1023
+pkg syscall (aix-ppc64), const PathMax ideal-int
+pkg syscall (aix-ppc64), const RLIMIT_AS = 6
+pkg syscall (aix-ppc64), const RLIMIT_AS ideal-int
+pkg syscall (aix-ppc64), const RLIMIT_CORE = 4
+pkg syscall (aix-ppc64), const RLIMIT_CORE ideal-int
+pkg syscall (aix-ppc64), const RLIMIT_CPU = 0
+pkg syscall (aix-ppc64), const RLIMIT_CPU ideal-int
+pkg syscall (aix-ppc64), const RLIMIT_DATA = 2
+pkg syscall (aix-ppc64), const RLIMIT_DATA ideal-int
+pkg syscall (aix-ppc64), const RLIMIT_FSIZE = 1
+pkg syscall (aix-ppc64), const RLIMIT_FSIZE ideal-int
+pkg syscall (aix-ppc64), const RLIMIT_NOFILE = 7
+pkg syscall (aix-ppc64), const RLIMIT_NOFILE ideal-int
+pkg syscall (aix-ppc64), const RLIMIT_STACK = 3
+pkg syscall (aix-ppc64), const RLIMIT_STACK ideal-int
+pkg syscall (aix-ppc64), const RLIM_INFINITY = 9223372036854775807
+pkg syscall (aix-ppc64), const RLIM_INFINITY ideal-int
+pkg syscall (aix-ppc64), const RTAX_AUTHOR = 6
+pkg syscall (aix-ppc64), const RTAX_AUTHOR ideal-int
+pkg syscall (aix-ppc64), const RTAX_BRD = 7
+pkg syscall (aix-ppc64), const RTAX_BRD ideal-int
+pkg syscall (aix-ppc64), const RTAX_DST = 0
+pkg syscall (aix-ppc64), const RTAX_DST ideal-int
+pkg syscall (aix-ppc64), const RTAX_GATEWAY = 1
+pkg syscall (aix-ppc64), const RTAX_GATEWAY ideal-int
+pkg syscall (aix-ppc64), const RTAX_GENMASK = 3
+pkg syscall (aix-ppc64), const RTAX_GENMASK ideal-int
+pkg syscall (aix-ppc64), const RTAX_IFA = 5
+pkg syscall (aix-ppc64), const RTAX_IFA ideal-int
+pkg syscall (aix-ppc64), const RTAX_IFP = 4
+pkg syscall (aix-ppc64), const RTAX_IFP ideal-int
+pkg syscall (aix-ppc64), const RTAX_MAX = 8
+pkg syscall (aix-ppc64), const RTAX_MAX ideal-int
+pkg syscall (aix-ppc64), const RTAX_NETMASK = 2
+pkg syscall (aix-ppc64), const RTAX_NETMASK ideal-int
+pkg syscall (aix-ppc64), const RTA_AUTHOR = 64
+pkg syscall (aix-ppc64), const RTA_AUTHOR ideal-int
+pkg syscall (aix-ppc64), const RTA_BRD = 128
+pkg syscall (aix-ppc64), const RTA_BRD ideal-int
+pkg syscall (aix-ppc64), const RTA_DOWNSTREAM = 256
+pkg syscall (aix-ppc64), const RTA_DOWNSTREAM ideal-int
+pkg syscall (aix-ppc64), const RTA_DST = 1
+pkg syscall (aix-ppc64), const RTA_DST ideal-int
+pkg syscall (aix-ppc64), const RTA_GATEWAY = 2
+pkg syscall (aix-ppc64), const RTA_GATEWAY ideal-int
+pkg syscall (aix-ppc64), const RTA_GENMASK = 8
+pkg syscall (aix-ppc64), const RTA_GENMASK ideal-int
+pkg syscall (aix-ppc64), const RTA_IFA = 32
+pkg syscall (aix-ppc64), const RTA_IFA ideal-int
+pkg syscall (aix-ppc64), const RTA_IFP = 16
+pkg syscall (aix-ppc64), const RTA_IFP ideal-int
+pkg syscall (aix-ppc64), const RTA_NETMASK = 4
+pkg syscall (aix-ppc64), const RTA_NETMASK ideal-int
+pkg syscall (aix-ppc64), const RTF_ACTIVE_DGD = 16777216
+pkg syscall (aix-ppc64), const RTF_ACTIVE_DGD ideal-int
+pkg syscall (aix-ppc64), const RTF_BCE = 524288
+pkg syscall (aix-ppc64), const RTF_BCE ideal-int
+pkg syscall (aix-ppc64), const RTF_BLACKHOLE = 4096
+pkg syscall (aix-ppc64), const RTF_BLACKHOLE ideal-int
+pkg syscall (aix-ppc64), const RTF_BROADCAST = 4194304
+pkg syscall (aix-ppc64), const RTF_BROADCAST ideal-int
+pkg syscall (aix-ppc64), const RTF_BUL = 8192
+pkg syscall (aix-ppc64), const RTF_BUL ideal-int
+pkg syscall (aix-ppc64), const RTF_CLONE = 65536
+pkg syscall (aix-ppc64), const RTF_CLONE ideal-int
+pkg syscall (aix-ppc64), const RTF_CLONED = 131072
+pkg syscall (aix-ppc64), const RTF_CLONED ideal-int
+pkg syscall (aix-ppc64), const RTF_CLONING = 256
+pkg syscall (aix-ppc64), const RTF_CLONING ideal-int
+pkg syscall (aix-ppc64), const RTF_DONE = 64
+pkg syscall (aix-ppc64), const RTF_DONE ideal-int
+pkg syscall (aix-ppc64), const RTF_DYNAMIC = 16
+pkg syscall (aix-ppc64), const RTF_DYNAMIC ideal-int
+pkg syscall (aix-ppc64), const RTF_FREE_IN_PROG = 67108864
+pkg syscall (aix-ppc64), const RTF_FREE_IN_PROG ideal-int
+pkg syscall (aix-ppc64), const RTF_GATEWAY = 2
+pkg syscall (aix-ppc64), const RTF_GATEWAY ideal-int
+pkg syscall (aix-ppc64), const RTF_HOST = 4
+pkg syscall (aix-ppc64), const RTF_HOST ideal-int
+pkg syscall (aix-ppc64), const RTF_LLINFO = 1024
+pkg syscall (aix-ppc64), const RTF_LLINFO ideal-int
+pkg syscall (aix-ppc64), const RTF_LOCAL = 2097152
+pkg syscall (aix-ppc64), const RTF_LOCAL ideal-int
+pkg syscall (aix-ppc64), const RTF_MASK = 128
+pkg syscall (aix-ppc64), const RTF_MASK ideal-int
+pkg syscall (aix-ppc64), const RTF_MODIFIED = 32
+pkg syscall (aix-ppc64), const RTF_MODIFIED ideal-int
+pkg syscall (aix-ppc64), const RTF_MULTICAST = 8388608
+pkg syscall (aix-ppc64), const RTF_MULTICAST ideal-int
+pkg syscall (aix-ppc64), const RTF_PERMANENT6 = 134217728
+pkg syscall (aix-ppc64), const RTF_PERMANENT6 ideal-int
+pkg syscall (aix-ppc64), const RTF_PINNED = 1048576
+pkg syscall (aix-ppc64), const RTF_PINNED ideal-int
+pkg syscall (aix-ppc64), const RTF_PROTO1 = 32768
+pkg syscall (aix-ppc64), const RTF_PROTO1 ideal-int
+pkg syscall (aix-ppc64), const RTF_PROTO2 = 16384
+pkg syscall (aix-ppc64), const RTF_PROTO2 ideal-int
+pkg syscall (aix-ppc64), const RTF_PROTO3 = 262144
+pkg syscall (aix-ppc64), const RTF_PROTO3 ideal-int
+pkg syscall (aix-ppc64), const RTF_REJECT = 8
+pkg syscall (aix-ppc64), const RTF_REJECT ideal-int
+pkg syscall (aix-ppc64), const RTF_SMALLMTU = 262144
+pkg syscall (aix-ppc64), const RTF_SMALLMTU ideal-int
+pkg syscall (aix-ppc64), const RTF_STATIC = 2048
+pkg syscall (aix-ppc64), const RTF_STATIC ideal-int
+pkg syscall (aix-ppc64), const RTF_STOPSRCH = 33554432
+pkg syscall (aix-ppc64), const RTF_STOPSRCH ideal-int
+pkg syscall (aix-ppc64), const RTF_UNREACHABLE = 268435456
+pkg syscall (aix-ppc64), const RTF_UNREACHABLE ideal-int
+pkg syscall (aix-ppc64), const RTF_UP = 1
+pkg syscall (aix-ppc64), const RTF_UP ideal-int
+pkg syscall (aix-ppc64), const RTF_XRESOLVE = 512
+pkg syscall (aix-ppc64), const RTF_XRESOLVE ideal-int
+pkg syscall (aix-ppc64), const RTM_ADD = 1
+pkg syscall (aix-ppc64), const RTM_ADD ideal-int
+pkg syscall (aix-ppc64), const RTM_CHANGE = 3
+pkg syscall (aix-ppc64), const RTM_CHANGE ideal-int
+pkg syscall (aix-ppc64), const RTM_DELADDR = 13
+pkg syscall (aix-ppc64), const RTM_DELADDR ideal-int
+pkg syscall (aix-ppc64), const RTM_DELETE = 2
+pkg syscall (aix-ppc64), const RTM_DELETE ideal-int
+pkg syscall (aix-ppc64), const RTM_EXPIRE = 15
+pkg syscall (aix-ppc64), const RTM_EXPIRE ideal-int
+pkg syscall (aix-ppc64), const RTM_GET = 4
+pkg syscall (aix-ppc64), const RTM_GET ideal-int
+pkg syscall (aix-ppc64), const RTM_GETNEXT = 17
+pkg syscall (aix-ppc64), const RTM_GETNEXT ideal-int
+pkg syscall (aix-ppc64), const RTM_IFINFO = 14
+pkg syscall (aix-ppc64), const RTM_IFINFO ideal-int
+pkg syscall (aix-ppc64), const RTM_LOCK = 8
+pkg syscall (aix-ppc64), const RTM_LOCK ideal-int
+pkg syscall (aix-ppc64), const RTM_LOSING = 5
+pkg syscall (aix-ppc64), const RTM_LOSING ideal-int
+pkg syscall (aix-ppc64), const RTM_MISS = 7
+pkg syscall (aix-ppc64), const RTM_MISS ideal-int
+pkg syscall (aix-ppc64), const RTM_NEWADDR = 12
+pkg syscall (aix-ppc64), const RTM_NEWADDR ideal-int
+pkg syscall (aix-ppc64), const RTM_OLDADD = 9
+pkg syscall (aix-ppc64), const RTM_OLDADD ideal-int
+pkg syscall (aix-ppc64), const RTM_OLDDEL = 10
+pkg syscall (aix-ppc64), const RTM_OLDDEL ideal-int
+pkg syscall (aix-ppc64), const RTM_REDIRECT = 6
+pkg syscall (aix-ppc64), const RTM_REDIRECT ideal-int
+pkg syscall (aix-ppc64), const RTM_RESOLVE = 11
+pkg syscall (aix-ppc64), const RTM_RESOLVE ideal-int
+pkg syscall (aix-ppc64), const RTM_RTLOST = 16
+pkg syscall (aix-ppc64), const RTM_RTLOST ideal-int
+pkg syscall (aix-ppc64), const RTM_RTTUNIT = 1000000
+pkg syscall (aix-ppc64), const RTM_RTTUNIT ideal-int
+pkg syscall (aix-ppc64), const RTM_SAMEADDR = 18
+pkg syscall (aix-ppc64), const RTM_SAMEADDR ideal-int
+pkg syscall (aix-ppc64), const RTM_SET = 19
+pkg syscall (aix-ppc64), const RTM_SET ideal-int
+pkg syscall (aix-ppc64), const RTM_VERSION = 2
+pkg syscall (aix-ppc64), const RTM_VERSION ideal-int
+pkg syscall (aix-ppc64), const RTM_VERSION_GR = 4
+pkg syscall (aix-ppc64), const RTM_VERSION_GR ideal-int
+pkg syscall (aix-ppc64), const RTM_VERSION_GR_COMPAT = 3
+pkg syscall (aix-ppc64), const RTM_VERSION_GR_COMPAT ideal-int
+pkg syscall (aix-ppc64), const RTM_VERSION_POLICY = 5
+pkg syscall (aix-ppc64), const RTM_VERSION_POLICY ideal-int
+pkg syscall (aix-ppc64), const RTM_VERSION_POLICY_EXT = 6
+pkg syscall (aix-ppc64), const RTM_VERSION_POLICY_EXT ideal-int
+pkg syscall (aix-ppc64), const RTM_VERSION_POLICY_PRFN = 7
+pkg syscall (aix-ppc64), const RTM_VERSION_POLICY_PRFN ideal-int
+pkg syscall (aix-ppc64), const RTV_EXPIRE = 4
+pkg syscall (aix-ppc64), const RTV_EXPIRE ideal-int
+pkg syscall (aix-ppc64), const RTV_HOPCOUNT = 2
+pkg syscall (aix-ppc64), const RTV_HOPCOUNT ideal-int
+pkg syscall (aix-ppc64), const RTV_MTU = 1
+pkg syscall (aix-ppc64), const RTV_MTU ideal-int
+pkg syscall (aix-ppc64), const RTV_RPIPE = 8
+pkg syscall (aix-ppc64), const RTV_RPIPE ideal-int
+pkg syscall (aix-ppc64), const RTV_RTT = 64
+pkg syscall (aix-ppc64), const RTV_RTT ideal-int
+pkg syscall (aix-ppc64), const RTV_RTTVAR = 128
+pkg syscall (aix-ppc64), const RTV_RTTVAR ideal-int
+pkg syscall (aix-ppc64), const RTV_SPIPE = 16
+pkg syscall (aix-ppc64), const RTV_SPIPE ideal-int
+pkg syscall (aix-ppc64), const RTV_SSTHRESH = 32
+pkg syscall (aix-ppc64), const RTV_SSTHRESH ideal-int
+pkg syscall (aix-ppc64), const RUSAGE_CHILDREN = -1
+pkg syscall (aix-ppc64), const RUSAGE_CHILDREN ideal-int
+pkg syscall (aix-ppc64), const RUSAGE_SELF = 0
+pkg syscall (aix-ppc64), const RUSAGE_SELF ideal-int
+pkg syscall (aix-ppc64), const RUSAGE_THREAD = 1
+pkg syscall (aix-ppc64), const RUSAGE_THREAD ideal-int
+pkg syscall (aix-ppc64), const SCM_RIGHTS = 1
+pkg syscall (aix-ppc64), const SCM_RIGHTS ideal-int
+pkg syscall (aix-ppc64), const SHUT_RD = 0
+pkg syscall (aix-ppc64), const SHUT_RD ideal-int
+pkg syscall (aix-ppc64), const SHUT_RDWR = 2
+pkg syscall (aix-ppc64), const SHUT_RDWR ideal-int
+pkg syscall (aix-ppc64), const SHUT_WR = 1
+pkg syscall (aix-ppc64), const SHUT_WR ideal-int
+pkg syscall (aix-ppc64), const SIGABRT = 6
+pkg syscall (aix-ppc64), const SIGABRT Signal
+pkg syscall (aix-ppc64), const SIGAIO = 23
+pkg syscall (aix-ppc64), const SIGAIO Signal
+pkg syscall (aix-ppc64), const SIGALRM = 14
+pkg syscall (aix-ppc64), const SIGALRM Signal
+pkg syscall (aix-ppc64), const SIGALRM1 = 38
+pkg syscall (aix-ppc64), const SIGALRM1 Signal
+pkg syscall (aix-ppc64), const SIGBUS = 10
+pkg syscall (aix-ppc64), const SIGBUS Signal
+pkg syscall (aix-ppc64), const SIGCAPI = 49
+pkg syscall (aix-ppc64), const SIGCAPI Signal
+pkg syscall (aix-ppc64), const SIGCHLD = 20
+pkg syscall (aix-ppc64), const SIGCHLD Signal
+pkg syscall (aix-ppc64), const SIGCLD = 20
+pkg syscall (aix-ppc64), const SIGCLD Signal
+pkg syscall (aix-ppc64), const SIGCONT = 19
+pkg syscall (aix-ppc64), const SIGCONT Signal
+pkg syscall (aix-ppc64), const SIGCPUFAIL = 59
+pkg syscall (aix-ppc64), const SIGCPUFAIL Signal
+pkg syscall (aix-ppc64), const SIGDANGER = 33
+pkg syscall (aix-ppc64), const SIGDANGER Signal
+pkg syscall (aix-ppc64), const SIGEMT = 7
+pkg syscall (aix-ppc64), const SIGEMT Signal
+pkg syscall (aix-ppc64), const SIGFPE = 8
+pkg syscall (aix-ppc64), const SIGFPE Signal
+pkg syscall (aix-ppc64), const SIGGRANT = 60
+pkg syscall (aix-ppc64), const SIGGRANT Signal
+pkg syscall (aix-ppc64), const SIGHUP = 1
+pkg syscall (aix-ppc64), const SIGHUP Signal
+pkg syscall (aix-ppc64), const SIGILL = 4
+pkg syscall (aix-ppc64), const SIGILL Signal
+pkg syscall (aix-ppc64), const SIGINT = 2
+pkg syscall (aix-ppc64), const SIGINT Signal
+pkg syscall (aix-ppc64), const SIGIO = 23
+pkg syscall (aix-ppc64), const SIGIO Signal
+pkg syscall (aix-ppc64), const SIGIOINT = 16
+pkg syscall (aix-ppc64), const SIGIOINT Signal
+pkg syscall (aix-ppc64), const SIGIOT = 6
+pkg syscall (aix-ppc64), const SIGIOT Signal
+pkg syscall (aix-ppc64), const SIGKAP = 60
+pkg syscall (aix-ppc64), const SIGKAP Signal
+pkg syscall (aix-ppc64), const SIGKILL = 9
+pkg syscall (aix-ppc64), const SIGKILL Signal
+pkg syscall (aix-ppc64), const SIGLOST = 6
+pkg syscall (aix-ppc64), const SIGLOST Signal
+pkg syscall (aix-ppc64), const SIGMAX = 255
+pkg syscall (aix-ppc64), const SIGMAX Signal
+pkg syscall (aix-ppc64), const SIGMAX32 = 63
+pkg syscall (aix-ppc64), const SIGMAX32 Signal
+pkg syscall (aix-ppc64), const SIGMAX64 = 255
+pkg syscall (aix-ppc64), const SIGMAX64 Signal
+pkg syscall (aix-ppc64), const SIGMIGRATE = 35
+pkg syscall (aix-ppc64), const SIGMIGRATE Signal
+pkg syscall (aix-ppc64), const SIGMSG = 27
+pkg syscall (aix-ppc64), const SIGMSG Signal
+pkg syscall (aix-ppc64), const SIGPIPE = 13
+pkg syscall (aix-ppc64), const SIGPIPE Signal
+pkg syscall (aix-ppc64), const SIGPOLL = 23
+pkg syscall (aix-ppc64), const SIGPOLL Signal
+pkg syscall (aix-ppc64), const SIGPRE = 36
+pkg syscall (aix-ppc64), const SIGPRE Signal
+pkg syscall (aix-ppc64), const SIGPROF = 32
+pkg syscall (aix-ppc64), const SIGPROF Signal
+pkg syscall (aix-ppc64), const SIGPTY = 23
+pkg syscall (aix-ppc64), const SIGPTY Signal
+pkg syscall (aix-ppc64), const SIGPWR = 29
+pkg syscall (aix-ppc64), const SIGPWR Signal
+pkg syscall (aix-ppc64), const SIGQUEUE_MAX = 32
+pkg syscall (aix-ppc64), const SIGQUEUE_MAX ideal-int
+pkg syscall (aix-ppc64), const SIGQUIT = 3
+pkg syscall (aix-ppc64), const SIGQUIT Signal
+pkg syscall (aix-ppc64), const SIGRECONFIG = 58
+pkg syscall (aix-ppc64), const SIGRECONFIG Signal
+pkg syscall (aix-ppc64), const SIGRETRACT = 61
+pkg syscall (aix-ppc64), const SIGRETRACT Signal
+pkg syscall (aix-ppc64), const SIGSAK = 63
+pkg syscall (aix-ppc64), const SIGSAK Signal
+pkg syscall (aix-ppc64), const SIGSEGV = 11
+pkg syscall (aix-ppc64), const SIGSEGV Signal
+pkg syscall (aix-ppc64), const SIGSOUND = 62
+pkg syscall (aix-ppc64), const SIGSOUND Signal
+pkg syscall (aix-ppc64), const SIGSTOP = 17
+pkg syscall (aix-ppc64), const SIGSTOP Signal
+pkg syscall (aix-ppc64), const SIGSYS = 12
+pkg syscall (aix-ppc64), const SIGSYS Signal
+pkg syscall (aix-ppc64), const SIGSYSERROR = 48
+pkg syscall (aix-ppc64), const SIGSYSERROR Signal
+pkg syscall (aix-ppc64), const SIGTALRM = 38
+pkg syscall (aix-ppc64), const SIGTALRM Signal
+pkg syscall (aix-ppc64), const SIGTERM = 15
+pkg syscall (aix-ppc64), const SIGTERM Signal
+pkg syscall (aix-ppc64), const SIGTRAP = 5
+pkg syscall (aix-ppc64), const SIGTRAP Signal
+pkg syscall (aix-ppc64), const SIGTSTP = 18
+pkg syscall (aix-ppc64), const SIGTSTP Signal
+pkg syscall (aix-ppc64), const SIGTTIN = 21
+pkg syscall (aix-ppc64), const SIGTTIN Signal
+pkg syscall (aix-ppc64), const SIGTTOU = 22
+pkg syscall (aix-ppc64), const SIGTTOU Signal
+pkg syscall (aix-ppc64), const SIGURG = 16
+pkg syscall (aix-ppc64), const SIGURG Signal
+pkg syscall (aix-ppc64), const SIGUSR1 = 30
+pkg syscall (aix-ppc64), const SIGUSR1 Signal
+pkg syscall (aix-ppc64), const SIGUSR2 = 31
+pkg syscall (aix-ppc64), const SIGUSR2 Signal
+pkg syscall (aix-ppc64), const SIGVIRT = 37
+pkg syscall (aix-ppc64), const SIGVIRT Signal
+pkg syscall (aix-ppc64), const SIGVTALRM = 34
+pkg syscall (aix-ppc64), const SIGVTALRM Signal
+pkg syscall (aix-ppc64), const SIGWAITING = 39
+pkg syscall (aix-ppc64), const SIGWAITING Signal
+pkg syscall (aix-ppc64), const SIGWINCH = 28
+pkg syscall (aix-ppc64), const SIGWINCH Signal
+pkg syscall (aix-ppc64), const SIGXCPU = 24
+pkg syscall (aix-ppc64), const SIGXCPU Signal
+pkg syscall (aix-ppc64), const SIGXFSZ = 25
+pkg syscall (aix-ppc64), const SIGXFSZ Signal
+pkg syscall (aix-ppc64), const SIOCADDIFVIPA = 536897858
+pkg syscall (aix-ppc64), const SIOCADDIFVIPA ideal-int
+pkg syscall (aix-ppc64), const SIOCADDMTU = -2147194512
+pkg syscall (aix-ppc64), const SIOCADDMTU ideal-int
+pkg syscall (aix-ppc64), const SIOCADDMULTI = -2145359567
+pkg syscall (aix-ppc64), const SIOCADDMULTI ideal-int
+pkg syscall (aix-ppc64), const SIOCADDNETID = -2144835241
+pkg syscall (aix-ppc64), const SIOCADDNETID ideal-int
+pkg syscall (aix-ppc64), const SIOCADDRT = -2143784438
+pkg syscall (aix-ppc64), const SIOCADDRT ideal-int
+pkg syscall (aix-ppc64), const SIOCAIFADDR = -2143262438
+pkg syscall (aix-ppc64), const SIOCAIFADDR ideal-int
+pkg syscall (aix-ppc64), const SIOCATMARK = 1074033415
+pkg syscall (aix-ppc64), const SIOCATMARK ideal-int
+pkg syscall (aix-ppc64), const SIOCDARP = -2142476000
+pkg syscall (aix-ppc64), const SIOCDARP ideal-int
+pkg syscall (aix-ppc64), const SIOCDELIFVIPA = 536897859
+pkg syscall (aix-ppc64), const SIOCDELIFVIPA ideal-int
+pkg syscall (aix-ppc64), const SIOCDELMTU = -2147194511
+pkg syscall (aix-ppc64), const SIOCDELMTU ideal-int
+pkg syscall (aix-ppc64), const SIOCDELMULTI = -2145359566
+pkg syscall (aix-ppc64), const SIOCDELMULTI ideal-int
+pkg syscall (aix-ppc64), const SIOCDELPMTU = -2144833526
+pkg syscall (aix-ppc64), const SIOCDELPMTU ideal-int
+pkg syscall (aix-ppc64), const SIOCDELRT = -2143784437
+pkg syscall (aix-ppc64), const SIOCDELRT ideal-int
+pkg syscall (aix-ppc64), const SIOCDIFADDR = -2144835303
+pkg syscall (aix-ppc64), const SIOCDIFADDR ideal-int
+pkg syscall (aix-ppc64), const SIOCDNETOPT = -1073649280
+pkg syscall (aix-ppc64), const SIOCDNETOPT ideal-int
+pkg syscall (aix-ppc64), const SIOCDX25XLATE = -2144835227
+pkg syscall (aix-ppc64), const SIOCDX25XLATE ideal-int
+pkg syscall (aix-ppc64), const SIOCFIFADDR = -2145359469
+pkg syscall (aix-ppc64), const SIOCFIFADDR ideal-int
+pkg syscall (aix-ppc64), const SIOCGARP = -1068734170
+pkg syscall (aix-ppc64), const SIOCGARP ideal-int
+pkg syscall (aix-ppc64), const SIOCGETMTUS = 536897903
+pkg syscall (aix-ppc64), const SIOCGETMTUS ideal-int
+pkg syscall (aix-ppc64), const SIOCGETSGCNT = -1072401100
+pkg syscall (aix-ppc64), const SIOCGETSGCNT ideal-int
+pkg syscall (aix-ppc64), const SIOCGETVIFCNT = -1072401101
+pkg syscall (aix-ppc64), const SIOCGETVIFCNT ideal-int
+pkg syscall (aix-ppc64), const SIOCGHIWAT = 1074033409
+pkg syscall (aix-ppc64), const SIOCGHIWAT ideal-int
+pkg syscall (aix-ppc64), const SIOCGIFADDR = -1071093471
+pkg syscall (aix-ppc64), const SIOCGIFADDR ideal-int
+pkg syscall (aix-ppc64), const SIOCGIFADDRS = 536897932
+pkg syscall (aix-ppc64), const SIOCGIFADDRS ideal-int
+pkg syscall (aix-ppc64), const SIOCGIFBAUDRATE = -1071093395
+pkg syscall (aix-ppc64), const SIOCGIFBAUDRATE ideal-int
+pkg syscall (aix-ppc64), const SIOCGIFBRDADDR = -1071093469
+pkg syscall (aix-ppc64), const SIOCGIFBRDADDR ideal-int
+pkg syscall (aix-ppc64), const SIOCGIFCONF = -1072666299
+pkg syscall (aix-ppc64), const SIOCGIFCONF ideal-int
+pkg syscall (aix-ppc64), const SIOCGIFCONFGLOB = -1072666224
+pkg syscall (aix-ppc64), const SIOCGIFCONFGLOB ideal-int
+pkg syscall (aix-ppc64), const SIOCGIFDSTADDR = -1071093470
+pkg syscall (aix-ppc64), const SIOCGIFDSTADDR ideal-int
+pkg syscall (aix-ppc64), const SIOCGIFFLAGS = -1071093487
+pkg syscall (aix-ppc64), const SIOCGIFFLAGS ideal-int
+pkg syscall (aix-ppc64), const SIOCGIFGIDLIST = 536897896
+pkg syscall (aix-ppc64), const SIOCGIFGIDLIST ideal-int
+pkg syscall (aix-ppc64), const SIOCGIFHWADDR = -1068209771
+pkg syscall (aix-ppc64), const SIOCGIFHWADDR ideal-int
+pkg syscall (aix-ppc64), const SIOCGIFMETRIC = -1071093481
+pkg syscall (aix-ppc64), const SIOCGIFMETRIC ideal-int
+pkg syscall (aix-ppc64), const SIOCGIFMTU = -1071093418
+pkg syscall (aix-ppc64), const SIOCGIFMTU ideal-int
+pkg syscall (aix-ppc64), const SIOCGIFNETMASK = -1071093467
+pkg syscall (aix-ppc64), const SIOCGIFNETMASK ideal-int
+pkg syscall (aix-ppc64), const SIOCGIFOPTIONS = -1071093462
+pkg syscall (aix-ppc64), const SIOCGIFOPTIONS ideal-int
+pkg syscall (aix-ppc64), const SIOCGISNO = -1071093397
+pkg syscall (aix-ppc64), const SIOCGISNO ideal-int
+pkg syscall (aix-ppc64), const SIOCGLOADF = -1073452670
+pkg syscall (aix-ppc64), const SIOCGLOADF ideal-int
+pkg syscall (aix-ppc64), const SIOCGLOWAT = 1074033411
+pkg syscall (aix-ppc64), const SIOCGLOWAT ideal-int
+pkg syscall (aix-ppc64), const SIOCGNETOPT = -1073649317
+pkg syscall (aix-ppc64), const SIOCGNETOPT ideal-int
+pkg syscall (aix-ppc64), const SIOCGNETOPT1 = -1071617663
+pkg syscall (aix-ppc64), const SIOCGNETOPT1 ideal-int
+pkg syscall (aix-ppc64), const SIOCGNMTUS = 536897902
+pkg syscall (aix-ppc64), const SIOCGNMTUS ideal-int
+pkg syscall (aix-ppc64), const SIOCGPGRP = 1074033417
+pkg syscall (aix-ppc64), const SIOCGPGRP ideal-int
+pkg syscall (aix-ppc64), const SIOCGSIZIFCONF = 1074030954
+pkg syscall (aix-ppc64), const SIOCGSIZIFCONF ideal-int
+pkg syscall (aix-ppc64), const SIOCGSRCFILTER = -1072142027
+pkg syscall (aix-ppc64), const SIOCGSRCFILTER ideal-int
+pkg syscall (aix-ppc64), const SIOCGTUNEPHASE = -1073452662
+pkg syscall (aix-ppc64), const SIOCGTUNEPHASE ideal-int
+pkg syscall (aix-ppc64), const SIOCGX25XLATE = -1071093404
+pkg syscall (aix-ppc64), const SIOCGX25XLATE ideal-int
+pkg syscall (aix-ppc64), const SIOCIFATTACH = -2145359513
+pkg syscall (aix-ppc64), const SIOCIFATTACH ideal-int
+pkg syscall (aix-ppc64), const SIOCIFDETACH = -2145359514
+pkg syscall (aix-ppc64), const SIOCIFDETACH ideal-int
+pkg syscall (aix-ppc64), const SIOCIFGETPKEY = -2145359515
+pkg syscall (aix-ppc64), const SIOCIFGETPKEY ideal-int
+pkg syscall (aix-ppc64), const SIOCIF_ATM_DARP = -2145359491
+pkg syscall (aix-ppc64), const SIOCIF_ATM_DARP ideal-int
+pkg syscall (aix-ppc64), const SIOCIF_ATM_DUMPARP = -2145359493
+pkg syscall (aix-ppc64), const SIOCIF_ATM_DUMPARP ideal-int
+pkg syscall (aix-ppc64), const SIOCIF_ATM_GARP = -2145359490
+pkg syscall (aix-ppc64), const SIOCIF_ATM_GARP ideal-int
+pkg syscall (aix-ppc64), const SIOCIF_ATM_IDLE = -2145359494
+pkg syscall (aix-ppc64), const SIOCIF_ATM_IDLE ideal-int
+pkg syscall (aix-ppc64), const SIOCIF_ATM_SARP = -2145359489
+pkg syscall (aix-ppc64), const SIOCIF_ATM_SARP ideal-int
+pkg syscall (aix-ppc64), const SIOCIF_ATM_SNMPARP = -2145359495
+pkg syscall (aix-ppc64), const SIOCIF_ATM_SNMPARP ideal-int
+pkg syscall (aix-ppc64), const SIOCIF_ATM_SVC = -2145359492
+pkg syscall (aix-ppc64), const SIOCIF_ATM_SVC ideal-int
+pkg syscall (aix-ppc64), const SIOCIF_ATM_UBR = -2145359496
+pkg syscall (aix-ppc64), const SIOCIF_ATM_UBR ideal-int
+pkg syscall (aix-ppc64), const SIOCIF_DEVHEALTH = -2147194476
+pkg syscall (aix-ppc64), const SIOCIF_DEVHEALTH ideal-int
+pkg syscall (aix-ppc64), const SIOCIF_IB_ARP_INCOMP = -2145359479
+pkg syscall (aix-ppc64), const SIOCIF_IB_ARP_INCOMP ideal-int
+pkg syscall (aix-ppc64), const SIOCIF_IB_ARP_TIMER = -2145359480
+pkg syscall (aix-ppc64), const SIOCIF_IB_ARP_TIMER ideal-int
+pkg syscall (aix-ppc64), const SIOCIF_IB_CLEAR_PINFO = -1071617647
+pkg syscall (aix-ppc64), const SIOCIF_IB_CLEAR_PINFO ideal-int
+pkg syscall (aix-ppc64), const SIOCIF_IB_DEL_ARP = -2145359487
+pkg syscall (aix-ppc64), const SIOCIF_IB_DEL_ARP ideal-int
+pkg syscall (aix-ppc64), const SIOCIF_IB_DEL_PINFO = -1071617648
+pkg syscall (aix-ppc64), const SIOCIF_IB_DEL_PINFO ideal-int
+pkg syscall (aix-ppc64), const SIOCIF_IB_DUMP_ARP = -2145359488
+pkg syscall (aix-ppc64), const SIOCIF_IB_DUMP_ARP ideal-int
+pkg syscall (aix-ppc64), const SIOCIF_IB_GET_ARP = -2145359486
+pkg syscall (aix-ppc64), const SIOCIF_IB_GET_ARP ideal-int
+pkg syscall (aix-ppc64), const SIOCIF_IB_GET_INFO = -1065850485
+pkg syscall (aix-ppc64), const SIOCIF_IB_GET_INFO ideal-int
+pkg syscall (aix-ppc64), const SIOCIF_IB_GET_STATS = -1065850482
+pkg syscall (aix-ppc64), const SIOCIF_IB_GET_STATS ideal-int
+pkg syscall (aix-ppc64), const SIOCIF_IB_NOTIFY_ADDR_REM = -1065850474
+pkg syscall (aix-ppc64), const SIOCIF_IB_NOTIFY_ADDR_REM ideal-int
+pkg syscall (aix-ppc64), const SIOCIF_IB_RESET_STATS = -1065850481
+pkg syscall (aix-ppc64), const SIOCIF_IB_RESET_STATS ideal-int
+pkg syscall (aix-ppc64), const SIOCIF_IB_RESIZE_CQ = -2145359481
+pkg syscall (aix-ppc64), const SIOCIF_IB_RESIZE_CQ ideal-int
+pkg syscall (aix-ppc64), const SIOCIF_IB_SET_ARP = -2145359485
+pkg syscall (aix-ppc64), const SIOCIF_IB_SET_ARP ideal-int
+pkg syscall (aix-ppc64), const SIOCIF_IB_SET_PKEY = -2145359484
+pkg syscall (aix-ppc64), const SIOCIF_IB_SET_PKEY ideal-int
+pkg syscall (aix-ppc64), const SIOCIF_IB_SET_PORT = -2145359483
+pkg syscall (aix-ppc64), const SIOCIF_IB_SET_PORT ideal-int
+pkg syscall (aix-ppc64), const SIOCIF_IB_SET_QKEY = -2145359478
+pkg syscall (aix-ppc64), const SIOCIF_IB_SET_QKEY ideal-int
+pkg syscall (aix-ppc64), const SIOCIF_IB_SET_QSIZE = -2145359482
+pkg syscall (aix-ppc64), const SIOCIF_IB_SET_QSIZE ideal-int
+pkg syscall (aix-ppc64), const SIOCLISTIFVIPA = 536897860
+pkg syscall (aix-ppc64), const SIOCLISTIFVIPA ideal-int
+pkg syscall (aix-ppc64), const SIOCSARP = -2142476002
+pkg syscall (aix-ppc64), const SIOCSARP ideal-int
+pkg syscall (aix-ppc64), const SIOCSHIWAT = 18446744071562359552
+pkg syscall (aix-ppc64), const SIOCSHIWAT ideal-int
+pkg syscall (aix-ppc64), const SIOCSIFADDR = -2144835316
+pkg syscall (aix-ppc64), const SIOCSIFADDR ideal-int
+pkg syscall (aix-ppc64), const SIOCSIFADDRORI = -2145097331
+pkg syscall (aix-ppc64), const SIOCSIFADDRORI ideal-int
+pkg syscall (aix-ppc64), const SIOCSIFBRDADDR = -2144835309
+pkg syscall (aix-ppc64), const SIOCSIFBRDADDR ideal-int
+pkg syscall (aix-ppc64), const SIOCSIFDSTADDR = -2144835314
+pkg syscall (aix-ppc64), const SIOCSIFDSTADDR ideal-int
+pkg syscall (aix-ppc64), const SIOCSIFFLAGS = -2144835312
+pkg syscall (aix-ppc64), const SIOCSIFFLAGS ideal-int
+pkg syscall (aix-ppc64), const SIOCSIFGIDLIST = 536897897
+pkg syscall (aix-ppc64), const SIOCSIFGIDLIST ideal-int
+pkg syscall (aix-ppc64), const SIOCSIFMETRIC = -2144835304
+pkg syscall (aix-ppc64), const SIOCSIFMETRIC ideal-int
+pkg syscall (aix-ppc64), const SIOCSIFMTU = -2144835240
+pkg syscall (aix-ppc64), const SIOCSIFMTU ideal-int
+pkg syscall (aix-ppc64), const SIOCSIFNETDUMP = -2144835300
+pkg syscall (aix-ppc64), const SIOCSIFNETDUMP ideal-int
+pkg syscall (aix-ppc64), const SIOCSIFNETMASK = -2144835306
+pkg syscall (aix-ppc64), const SIOCSIFNETMASK ideal-int
+pkg syscall (aix-ppc64), const SIOCSIFOPTIONS = -2144835287
+pkg syscall (aix-ppc64), const SIOCSIFOPTIONS ideal-int
+pkg syscall (aix-ppc64), const SIOCSIFSUBCHAN = -2144835301
+pkg syscall (aix-ppc64), const SIOCSIFSUBCHAN ideal-int
+pkg syscall (aix-ppc64), const SIOCSISNO = -2144835220
+pkg syscall (aix-ppc64), const SIOCSISNO ideal-int
+pkg syscall (aix-ppc64), const SIOCSLOADF = -1073452669
+pkg syscall (aix-ppc64), const SIOCSLOADF ideal-int
+pkg syscall (aix-ppc64), const SIOCSLOWAT = 18446744071562359554
+pkg syscall (aix-ppc64), const SIOCSLOWAT ideal-int
+pkg syscall (aix-ppc64), const SIOCSNETOPT = -2147391142
+pkg syscall (aix-ppc64), const SIOCSNETOPT ideal-int
+pkg syscall (aix-ppc64), const SIOCSPGRP = 18446744071562359560
+pkg syscall (aix-ppc64), const SIOCSPGRP ideal-int
+pkg syscall (aix-ppc64), const SIOCSX25XLATE = -2144835229
+pkg syscall (aix-ppc64), const SIOCSX25XLATE ideal-int
+pkg syscall (aix-ppc64), const SOCK_CONN_DGRAM = 6
+pkg syscall (aix-ppc64), const SOCK_CONN_DGRAM ideal-int
+pkg syscall (aix-ppc64), const SOCK_DGRAM = 2
+pkg syscall (aix-ppc64), const SOCK_DGRAM ideal-int
+pkg syscall (aix-ppc64), const SOCK_RAW = 3
+pkg syscall (aix-ppc64), const SOCK_RAW ideal-int
+pkg syscall (aix-ppc64), const SOCK_RDM = 4
+pkg syscall (aix-ppc64), const SOCK_RDM ideal-int
+pkg syscall (aix-ppc64), const SOCK_SEQPACKET = 5
+pkg syscall (aix-ppc64), const SOCK_SEQPACKET ideal-int
+pkg syscall (aix-ppc64), const SOCK_STREAM = 1
+pkg syscall (aix-ppc64), const SOCK_STREAM ideal-int
+pkg syscall (aix-ppc64), const SOL_SOCKET = 65535
+pkg syscall (aix-ppc64), const SOL_SOCKET ideal-int
+pkg syscall (aix-ppc64), const SOMAXCONN = 1024
+pkg syscall (aix-ppc64), const SOMAXCONN ideal-int
+pkg syscall (aix-ppc64), const SO_ACCEPTCONN = 2
+pkg syscall (aix-ppc64), const SO_ACCEPTCONN ideal-int
+pkg syscall (aix-ppc64), const SO_AUDIT = 32768
+pkg syscall (aix-ppc64), const SO_AUDIT ideal-int
+pkg syscall (aix-ppc64), const SO_BROADCAST = 32
+pkg syscall (aix-ppc64), const SO_BROADCAST ideal-int
+pkg syscall (aix-ppc64), const SO_CKSUMRECV = 2048
+pkg syscall (aix-ppc64), const SO_CKSUMRECV ideal-int
+pkg syscall (aix-ppc64), const SO_DEBUG = 1
+pkg syscall (aix-ppc64), const SO_DEBUG ideal-int
+pkg syscall (aix-ppc64), const SO_DONTROUTE = 16
+pkg syscall (aix-ppc64), const SO_DONTROUTE ideal-int
+pkg syscall (aix-ppc64), const SO_ERROR = 4103
+pkg syscall (aix-ppc64), const SO_ERROR ideal-int
+pkg syscall (aix-ppc64), const SO_KEEPALIVE = 8
+pkg syscall (aix-ppc64), const SO_KEEPALIVE ideal-int
+pkg syscall (aix-ppc64), const SO_KERNACCEPT = 8192
+pkg syscall (aix-ppc64), const SO_KERNACCEPT ideal-int
+pkg syscall (aix-ppc64), const SO_LINGER = 128
+pkg syscall (aix-ppc64), const SO_LINGER ideal-int
+pkg syscall (aix-ppc64), const SO_NOMULTIPATH = 16384
+pkg syscall (aix-ppc64), const SO_NOMULTIPATH ideal-int
+pkg syscall (aix-ppc64), const SO_NOREUSEADDR = 4096
+pkg syscall (aix-ppc64), const SO_NOREUSEADDR ideal-int
+pkg syscall (aix-ppc64), const SO_OOBINLINE = 256
+pkg syscall (aix-ppc64), const SO_OOBINLINE ideal-int
+pkg syscall (aix-ppc64), const SO_PEERID = 4105
+pkg syscall (aix-ppc64), const SO_PEERID ideal-int
+pkg syscall (aix-ppc64), const SO_RCVBUF = 4098
+pkg syscall (aix-ppc64), const SO_RCVBUF ideal-int
+pkg syscall (aix-ppc64), const SO_RCVLOWAT = 4100
+pkg syscall (aix-ppc64), const SO_RCVLOWAT ideal-int
+pkg syscall (aix-ppc64), const SO_RCVTIMEO = 4102
+pkg syscall (aix-ppc64), const SO_RCVTIMEO ideal-int
+pkg syscall (aix-ppc64), const SO_REUSEADDR = 4
+pkg syscall (aix-ppc64), const SO_REUSEADDR ideal-int
+pkg syscall (aix-ppc64), const SO_REUSEPORT = 512
+pkg syscall (aix-ppc64), const SO_REUSEPORT ideal-int
+pkg syscall (aix-ppc64), const SO_SNDBUF = 4097
+pkg syscall (aix-ppc64), const SO_SNDBUF ideal-int
+pkg syscall (aix-ppc64), const SO_SNDLOWAT = 4099
+pkg syscall (aix-ppc64), const SO_SNDLOWAT ideal-int
+pkg syscall (aix-ppc64), const SO_SNDTIMEO = 4101
+pkg syscall (aix-ppc64), const SO_SNDTIMEO ideal-int
+pkg syscall (aix-ppc64), const SO_TIMESTAMPNS = 4106
+pkg syscall (aix-ppc64), const SO_TIMESTAMPNS ideal-int
+pkg syscall (aix-ppc64), const SO_TYPE = 4104
+pkg syscall (aix-ppc64), const SO_TYPE ideal-int
+pkg syscall (aix-ppc64), const SO_USELOOPBACK = 64
+pkg syscall (aix-ppc64), const SO_USELOOPBACK ideal-int
+pkg syscall (aix-ppc64), const SO_USE_IFBUFS = 1024
+pkg syscall (aix-ppc64), const SO_USE_IFBUFS ideal-int
+pkg syscall (aix-ppc64), const SYS_EXECVE = 2
+pkg syscall (aix-ppc64), const SYS_EXECVE ideal-int
+pkg syscall (aix-ppc64), const SYS_FCNTL = 3
+pkg syscall (aix-ppc64), const SYS_FCNTL ideal-int
+pkg syscall (aix-ppc64), const S_BANDURG = 1024
+pkg syscall (aix-ppc64), const S_BANDURG ideal-int
+pkg syscall (aix-ppc64), const S_EMODFMT = 1006632960
+pkg syscall (aix-ppc64), const S_EMODFMT ideal-int
+pkg syscall (aix-ppc64), const S_ENFMT = 1024
+pkg syscall (aix-ppc64), const S_ENFMT ideal-int
+pkg syscall (aix-ppc64), const S_ERROR = 256
+pkg syscall (aix-ppc64), const S_ERROR ideal-int
+pkg syscall (aix-ppc64), const S_HANGUP = 512
+pkg syscall (aix-ppc64), const S_HANGUP ideal-int
+pkg syscall (aix-ppc64), const S_HIPRI = 2
+pkg syscall (aix-ppc64), const S_HIPRI ideal-int
+pkg syscall (aix-ppc64), const S_ICRYPTO = 524288
+pkg syscall (aix-ppc64), const S_ICRYPTO ideal-int
+pkg syscall (aix-ppc64), const S_IEXEC = 64
+pkg syscall (aix-ppc64), const S_IEXEC ideal-int
+pkg syscall (aix-ppc64), const S_IFJOURNAL = 65536
+pkg syscall (aix-ppc64), const S_IFJOURNAL ideal-int
+pkg syscall (aix-ppc64), const S_IFMPX = 8704
+pkg syscall (aix-ppc64), const S_IFMPX ideal-int
+pkg syscall (aix-ppc64), const S_IFMT = 61440
+pkg syscall (aix-ppc64), const S_IFPDIR = 67108864
+pkg syscall (aix-ppc64), const S_IFPDIR ideal-int
+pkg syscall (aix-ppc64), const S_IFPSDIR = 134217728
+pkg syscall (aix-ppc64), const S_IFPSDIR ideal-int
+pkg syscall (aix-ppc64), const S_IFPSSDIR = 201326592
+pkg syscall (aix-ppc64), const S_IFPSSDIR ideal-int
+pkg syscall (aix-ppc64), const S_IFSYSEA = 805306368
+pkg syscall (aix-ppc64), const S_IFSYSEA ideal-int
+pkg syscall (aix-ppc64), const S_INPUT = 1
+pkg syscall (aix-ppc64), const S_INPUT ideal-int
+pkg syscall (aix-ppc64), const S_IREAD = 256
+pkg syscall (aix-ppc64), const S_IREAD ideal-int
+pkg syscall (aix-ppc64), const S_IRGRP = 32
+pkg syscall (aix-ppc64), const S_IRGRP ideal-int
+pkg syscall (aix-ppc64), const S_IROTH = 4
+pkg syscall (aix-ppc64), const S_IROTH ideal-int
+pkg syscall (aix-ppc64), const S_IRUSR = 256
+pkg syscall (aix-ppc64), const S_IRUSR ideal-int
+pkg syscall (aix-ppc64), const S_IRWXG = 56
+pkg syscall (aix-ppc64), const S_IRWXG ideal-int
+pkg syscall (aix-ppc64), const S_IRWXO = 7
+pkg syscall (aix-ppc64), const S_IRWXO ideal-int
+pkg syscall (aix-ppc64), const S_IRWXU = 448
+pkg syscall (aix-ppc64), const S_IRWXU ideal-int
+pkg syscall (aix-ppc64), const S_ISGID = 1024
+pkg syscall (aix-ppc64), const S_ISGID ideal-int
+pkg syscall (aix-ppc64), const S_ISUID = 2048
+pkg syscall (aix-ppc64), const S_ISUID ideal-int
+pkg syscall (aix-ppc64), const S_ISVTX = 512
+pkg syscall (aix-ppc64), const S_ISVTX ideal-int
+pkg syscall (aix-ppc64), const S_ITCB = 16777216
+pkg syscall (aix-ppc64), const S_ITCB ideal-int
+pkg syscall (aix-ppc64), const S_ITP = 8388608
+pkg syscall (aix-ppc64), const S_ITP ideal-int
+pkg syscall (aix-ppc64), const S_IWGRP = 16
+pkg syscall (aix-ppc64), const S_IWGRP ideal-int
+pkg syscall (aix-ppc64), const S_IWOTH = 2
+pkg syscall (aix-ppc64), const S_IWOTH ideal-int
+pkg syscall (aix-ppc64), const S_IWRITE = 128
+pkg syscall (aix-ppc64), const S_IWRITE ideal-int
+pkg syscall (aix-ppc64), const S_IWUSR = 128
+pkg syscall (aix-ppc64), const S_IWUSR ideal-int
+pkg syscall (aix-ppc64), const S_IXACL = 33554432
+pkg syscall (aix-ppc64), const S_IXACL ideal-int
+pkg syscall (aix-ppc64), const S_IXATTR = 262144
+pkg syscall (aix-ppc64), const S_IXATTR ideal-int
+pkg syscall (aix-ppc64), const S_IXGRP = 8
+pkg syscall (aix-ppc64), const S_IXGRP ideal-int
+pkg syscall (aix-ppc64), const S_IXINTERFACE = 1048576
+pkg syscall (aix-ppc64), const S_IXINTERFACE ideal-int
+pkg syscall (aix-ppc64), const S_IXMOD = 1073741824
+pkg syscall (aix-ppc64), const S_IXMOD ideal-int
+pkg syscall (aix-ppc64), const S_IXOTH = 1
+pkg syscall (aix-ppc64), const S_IXOTH ideal-int
+pkg syscall (aix-ppc64), const S_IXUSR = 64
+pkg syscall (aix-ppc64), const S_IXUSR ideal-int
+pkg syscall (aix-ppc64), const S_MSG = 8
+pkg syscall (aix-ppc64), const S_MSG ideal-int
+pkg syscall (aix-ppc64), const S_OUTPUT = 4
+pkg syscall (aix-ppc64), const S_OUTPUT ideal-int
+pkg syscall (aix-ppc64), const S_RDBAND = 32
+pkg syscall (aix-ppc64), const S_RDBAND ideal-int
+pkg syscall (aix-ppc64), const S_RDNORM = 16
+pkg syscall (aix-ppc64), const S_RDNORM ideal-int
+pkg syscall (aix-ppc64), const S_RESERVED1 = 131072
+pkg syscall (aix-ppc64), const S_RESERVED1 ideal-int
+pkg syscall (aix-ppc64), const S_RESERVED2 = 2097152
+pkg syscall (aix-ppc64), const S_RESERVED2 ideal-int
+pkg syscall (aix-ppc64), const S_RESERVED3 = 4194304
+pkg syscall (aix-ppc64), const S_RESERVED3 ideal-int
+pkg syscall (aix-ppc64), const S_RESERVED4 = 2147483648
+pkg syscall (aix-ppc64), const S_RESERVED4 ideal-int
+pkg syscall (aix-ppc64), const S_RESFMT1 = 268435456
+pkg syscall (aix-ppc64), const S_RESFMT1 ideal-int
+pkg syscall (aix-ppc64), const S_RESFMT10 = 872415232
+pkg syscall (aix-ppc64), const S_RESFMT10 ideal-int
+pkg syscall (aix-ppc64), const S_RESFMT11 = 939524096
+pkg syscall (aix-ppc64), const S_RESFMT11 ideal-int
+pkg syscall (aix-ppc64), const S_RESFMT12 = 1006632960
+pkg syscall (aix-ppc64), const S_RESFMT12 ideal-int
+pkg syscall (aix-ppc64), const S_RESFMT2 = 335544320
+pkg syscall (aix-ppc64), const S_RESFMT2 ideal-int
+pkg syscall (aix-ppc64), const S_RESFMT3 = 402653184
+pkg syscall (aix-ppc64), const S_RESFMT3 ideal-int
+pkg syscall (aix-ppc64), const S_RESFMT4 = 469762048
+pkg syscall (aix-ppc64), const S_RESFMT4 ideal-int
+pkg syscall (aix-ppc64), const S_RESFMT5 = 536870912
+pkg syscall (aix-ppc64), const S_RESFMT5 ideal-int
+pkg syscall (aix-ppc64), const S_RESFMT6 = 603979776
+pkg syscall (aix-ppc64), const S_RESFMT6 ideal-int
+pkg syscall (aix-ppc64), const S_RESFMT7 = 671088640
+pkg syscall (aix-ppc64), const S_RESFMT7 ideal-int
+pkg syscall (aix-ppc64), const S_RESFMT8 = 738197504
+pkg syscall (aix-ppc64), const S_RESFMT8 ideal-int
+pkg syscall (aix-ppc64), const S_WRBAND = 128
+pkg syscall (aix-ppc64), const S_WRBAND ideal-int
+pkg syscall (aix-ppc64), const S_WRNORM = 64
+pkg syscall (aix-ppc64), const S_WRNORM ideal-int
+pkg syscall (aix-ppc64), const SizeofCmsghdr = 12
+pkg syscall (aix-ppc64), const SizeofCmsghdr ideal-int
+pkg syscall (aix-ppc64), const SizeofICMPv6Filter = 32
+pkg syscall (aix-ppc64), const SizeofICMPv6Filter ideal-int
+pkg syscall (aix-ppc64), const SizeofIPMreq = 8
+pkg syscall (aix-ppc64), const SizeofIPMreq ideal-int
+pkg syscall (aix-ppc64), const SizeofIPv6Mreq = 20
+pkg syscall (aix-ppc64), const SizeofIPv6Mreq ideal-int
+pkg syscall (aix-ppc64), const SizeofIfMsghdr = 16
+pkg syscall (aix-ppc64), const SizeofIfMsghdr ideal-int
+pkg syscall (aix-ppc64), const SizeofLinger = 8
+pkg syscall (aix-ppc64), const SizeofLinger ideal-int
+pkg syscall (aix-ppc64), const SizeofMsghdr = 48
+pkg syscall (aix-ppc64), const SizeofMsghdr ideal-int
+pkg syscall (aix-ppc64), const SizeofSockaddrAny = 1028
+pkg syscall (aix-ppc64), const SizeofSockaddrAny ideal-int
+pkg syscall (aix-ppc64), const SizeofSockaddrDatalink = 128
+pkg syscall (aix-ppc64), const SizeofSockaddrDatalink ideal-int
+pkg syscall (aix-ppc64), const SizeofSockaddrInet4 = 16
+pkg syscall (aix-ppc64), const SizeofSockaddrInet4 ideal-int
+pkg syscall (aix-ppc64), const SizeofSockaddrInet6 = 28
+pkg syscall (aix-ppc64), const SizeofSockaddrInet6 ideal-int
+pkg syscall (aix-ppc64), const SizeofSockaddrUnix = 1025
+pkg syscall (aix-ppc64), const SizeofSockaddrUnix ideal-int
+pkg syscall (aix-ppc64), const TCIFLUSH = 0
+pkg syscall (aix-ppc64), const TCIFLUSH ideal-int
+pkg syscall (aix-ppc64), const TCIOFLUSH = 2
+pkg syscall (aix-ppc64), const TCIOFLUSH ideal-int
+pkg syscall (aix-ppc64), const TCOFLUSH = 1
+pkg syscall (aix-ppc64), const TCOFLUSH ideal-int
+pkg syscall (aix-ppc64), const TCP_24DAYS_WORTH_OF_SLOWTICKS = 4147200
+pkg syscall (aix-ppc64), const TCP_24DAYS_WORTH_OF_SLOWTICKS ideal-int
+pkg syscall (aix-ppc64), const TCP_ACLADD = 35
+pkg syscall (aix-ppc64), const TCP_ACLADD ideal-int
+pkg syscall (aix-ppc64), const TCP_ACLBIND = 38
+pkg syscall (aix-ppc64), const TCP_ACLBIND ideal-int
+pkg syscall (aix-ppc64), const TCP_ACLCLEAR = 34
+pkg syscall (aix-ppc64), const TCP_ACLCLEAR ideal-int
+pkg syscall (aix-ppc64), const TCP_ACLDEL = 36
+pkg syscall (aix-ppc64), const TCP_ACLDEL ideal-int
+pkg syscall (aix-ppc64), const TCP_ACLDENY = 8
+pkg syscall (aix-ppc64), const TCP_ACLDENY ideal-int
+pkg syscall (aix-ppc64), const TCP_ACLFLUSH = 33
+pkg syscall (aix-ppc64), const TCP_ACLFLUSH ideal-int
+pkg syscall (aix-ppc64), const TCP_ACLGID = 1
+pkg syscall (aix-ppc64), const TCP_ACLGID ideal-int
+pkg syscall (aix-ppc64), const TCP_ACLLS = 37
+pkg syscall (aix-ppc64), const TCP_ACLLS ideal-int
+pkg syscall (aix-ppc64), const TCP_ACLSUBNET = 4
+pkg syscall (aix-ppc64), const TCP_ACLSUBNET ideal-int
+pkg syscall (aix-ppc64), const TCP_ACLUID = 2
+pkg syscall (aix-ppc64), const TCP_ACLUID ideal-int
+pkg syscall (aix-ppc64), const TCP_CWND_DF = 22
+pkg syscall (aix-ppc64), const TCP_CWND_DF ideal-int
+pkg syscall (aix-ppc64), const TCP_CWND_IF = 21
+pkg syscall (aix-ppc64), const TCP_CWND_IF ideal-int
+pkg syscall (aix-ppc64), const TCP_DELAY_ACK_FIN = 2
+pkg syscall (aix-ppc64), const TCP_DELAY_ACK_FIN ideal-int
+pkg syscall (aix-ppc64), const TCP_DELAY_ACK_SYN = 1
+pkg syscall (aix-ppc64), const TCP_DELAY_ACK_SYN ideal-int
+pkg syscall (aix-ppc64), const TCP_FASTNAME = 16844810
+pkg syscall (aix-ppc64), const TCP_FASTNAME ideal-int
+pkg syscall (aix-ppc64), const TCP_KEEPCNT = 19
+pkg syscall (aix-ppc64), const TCP_KEEPCNT ideal-int
+pkg syscall (aix-ppc64), const TCP_KEEPIDLE = 17
+pkg syscall (aix-ppc64), const TCP_KEEPIDLE ideal-int
+pkg syscall (aix-ppc64), const TCP_KEEPINTVL = 18
+pkg syscall (aix-ppc64), const TCP_KEEPINTVL ideal-int
+pkg syscall (aix-ppc64), const TCP_LSPRIV = 41
+pkg syscall (aix-ppc64), const TCP_LSPRIV ideal-int
+pkg syscall (aix-ppc64), const TCP_LUID = 32
+pkg syscall (aix-ppc64), const TCP_LUID ideal-int
+pkg syscall (aix-ppc64), const TCP_MAXBURST = 8
+pkg syscall (aix-ppc64), const TCP_MAXBURST ideal-int
+pkg syscall (aix-ppc64), const TCP_MAXDF = 100
+pkg syscall (aix-ppc64), const TCP_MAXDF ideal-int
+pkg syscall (aix-ppc64), const TCP_MAXIF = 100
+pkg syscall (aix-ppc64), const TCP_MAXIF ideal-int
+pkg syscall (aix-ppc64), const TCP_MAXSEG = 2
+pkg syscall (aix-ppc64), const TCP_MAXSEG ideal-int
+pkg syscall (aix-ppc64), const TCP_MAXWIN = 65535
+pkg syscall (aix-ppc64), const TCP_MAXWIN ideal-int
+pkg syscall (aix-ppc64), const TCP_MAXWINDOWSCALE = 14
+pkg syscall (aix-ppc64), const TCP_MAXWINDOWSCALE ideal-int
+pkg syscall (aix-ppc64), const TCP_MAX_SACK = 4
+pkg syscall (aix-ppc64), const TCP_MAX_SACK ideal-int
+pkg syscall (aix-ppc64), const TCP_MSS = 1460
+pkg syscall (aix-ppc64), const TCP_MSS ideal-int
+pkg syscall (aix-ppc64), const TCP_NODELAY = 1
+pkg syscall (aix-ppc64), const TCP_NODELAY ideal-int
+pkg syscall (aix-ppc64), const TCP_NODELAYACK = 20
+pkg syscall (aix-ppc64), const TCP_NODELAYACK ideal-int
+pkg syscall (aix-ppc64), const TCP_NOREDUCE_CWND_EXIT_FRXMT = 25
+pkg syscall (aix-ppc64), const TCP_NOREDUCE_CWND_EXIT_FRXMT ideal-int
+pkg syscall (aix-ppc64), const TCP_NOREDUCE_CWND_IN_FRXMT = 24
+pkg syscall (aix-ppc64), const TCP_NOREDUCE_CWND_IN_FRXMT ideal-int
+pkg syscall (aix-ppc64), const TCP_NOTENTER_SSTART = 23
+pkg syscall (aix-ppc64), const TCP_NOTENTER_SSTART ideal-int
+pkg syscall (aix-ppc64), const TCP_OPT = 25
+pkg syscall (aix-ppc64), const TCP_OPT ideal-int
+pkg syscall (aix-ppc64), const TCP_RFC1323 = 4
+pkg syscall (aix-ppc64), const TCP_RFC1323 ideal-int
+pkg syscall (aix-ppc64), const TCP_SETPRIV = 39
+pkg syscall (aix-ppc64), const TCP_SETPRIV ideal-int
+pkg syscall (aix-ppc64), const TCP_STDURG = 16
+pkg syscall (aix-ppc64), const TCP_STDURG ideal-int
+pkg syscall (aix-ppc64), const TCP_TIMESTAMP_OPTLEN = 12
+pkg syscall (aix-ppc64), const TCP_TIMESTAMP_OPTLEN ideal-int
+pkg syscall (aix-ppc64), const TCP_UNSETPRIV = 40
+pkg syscall (aix-ppc64), const TCP_UNSETPRIV ideal-int
+pkg syscall (aix-ppc64), const TCSAFLUSH = 2
+pkg syscall (aix-ppc64), const TCSAFLUSH ideal-int
+pkg syscall (aix-ppc64), const TIOCCBRK = 536900730
+pkg syscall (aix-ppc64), const TIOCCBRK ideal-int
+pkg syscall (aix-ppc64), const TIOCCDTR = 536900728
+pkg syscall (aix-ppc64), const TIOCCDTR ideal-int
+pkg syscall (aix-ppc64), const TIOCCONS = 18446744071562359906
+pkg syscall (aix-ppc64), const TIOCCONS ideal-int
+pkg syscall (aix-ppc64), const TIOCEXCL = 536900621
+pkg syscall (aix-ppc64), const TIOCEXCL ideal-int
+pkg syscall (aix-ppc64), const TIOCFLUSH = 18446744071562359824
+pkg syscall (aix-ppc64), const TIOCFLUSH ideal-int
+pkg syscall (aix-ppc64), const TIOCGETC = 1074164754
+pkg syscall (aix-ppc64), const TIOCGETC ideal-int
+pkg syscall (aix-ppc64), const TIOCGETD = 1074033664
+pkg syscall (aix-ppc64), const TIOCGETD ideal-int
+pkg syscall (aix-ppc64), const TIOCGETP = 1074164744
+pkg syscall (aix-ppc64), const TIOCGETP ideal-int
+pkg syscall (aix-ppc64), const TIOCGLTC = 1074164852
+pkg syscall (aix-ppc64), const TIOCGLTC ideal-int
+pkg syscall (aix-ppc64), const TIOCGPGRP = 1074033783
+pkg syscall (aix-ppc64), const TIOCGPGRP ideal-int
+pkg syscall (aix-ppc64), const TIOCGSID = 1074033736
+pkg syscall (aix-ppc64), const TIOCGSID ideal-int
+pkg syscall (aix-ppc64), const TIOCGSIZE = 1074295912
+pkg syscall (aix-ppc64), const TIOCGSIZE ideal-int
+pkg syscall (aix-ppc64), const TIOCGWINSZ = 1074295912
+pkg syscall (aix-ppc64), const TIOCGWINSZ ideal-int
+pkg syscall (aix-ppc64), const TIOCHPCL = 536900610
+pkg syscall (aix-ppc64), const TIOCHPCL ideal-int
+pkg syscall (aix-ppc64), const TIOCLBIC = 18446744071562359934
+pkg syscall (aix-ppc64), const TIOCLBIC ideal-int
+pkg syscall (aix-ppc64), const TIOCLBIS = 18446744071562359935
+pkg syscall (aix-ppc64), const TIOCLBIS ideal-int
+pkg syscall (aix-ppc64), const TIOCLGET = 1074033788
+pkg syscall (aix-ppc64), const TIOCLGET ideal-int
+pkg syscall (aix-ppc64), const TIOCLSET = 18446744071562359933
+pkg syscall (aix-ppc64), const TIOCLSET ideal-int
+pkg syscall (aix-ppc64), const TIOCMBIC = 18446744071562359915
+pkg syscall (aix-ppc64), const TIOCMBIC ideal-int
+pkg syscall (aix-ppc64), const TIOCMBIS = 18446744071562359916
+pkg syscall (aix-ppc64), const TIOCMBIS ideal-int
+pkg syscall (aix-ppc64), const TIOCMGET = 1074033770
+pkg syscall (aix-ppc64), const TIOCMGET ideal-int
+pkg syscall (aix-ppc64), const TIOCMIWAIT = 18446744071562359908
+pkg syscall (aix-ppc64), const TIOCMIWAIT ideal-int
+pkg syscall (aix-ppc64), const TIOCMODG = 1074033667
+pkg syscall (aix-ppc64), const TIOCMODG ideal-int
+pkg syscall (aix-ppc64), const TIOCMODS = 18446744071562359812
+pkg syscall (aix-ppc64), const TIOCMODS ideal-int
+pkg syscall (aix-ppc64), const TIOCMSET = 18446744071562359917
+pkg syscall (aix-ppc64), const TIOCMSET ideal-int
+pkg syscall (aix-ppc64), const TIOCM_CAR = 64
+pkg syscall (aix-ppc64), const TIOCM_CAR ideal-int
+pkg syscall (aix-ppc64), const TIOCM_CD = 64
+pkg syscall (aix-ppc64), const TIOCM_CD ideal-int
+pkg syscall (aix-ppc64), const TIOCM_CTS = 32
+pkg syscall (aix-ppc64), const TIOCM_CTS ideal-int
+pkg syscall (aix-ppc64), const TIOCM_DSR = 256
+pkg syscall (aix-ppc64), const TIOCM_DSR ideal-int
+pkg syscall (aix-ppc64), const TIOCM_DTR = 2
+pkg syscall (aix-ppc64), const TIOCM_DTR ideal-int
+pkg syscall (aix-ppc64), const TIOCM_LE = 1
+pkg syscall (aix-ppc64), const TIOCM_LE ideal-int
+pkg syscall (aix-ppc64), const TIOCM_RI = 128
+pkg syscall (aix-ppc64), const TIOCM_RI ideal-int
+pkg syscall (aix-ppc64), const TIOCM_RNG = 128
+pkg syscall (aix-ppc64), const TIOCM_RNG ideal-int
+pkg syscall (aix-ppc64), const TIOCM_RTS = 4
+pkg syscall (aix-ppc64), const TIOCM_RTS ideal-int
+pkg syscall (aix-ppc64), const TIOCM_SR = 16
+pkg syscall (aix-ppc64), const TIOCM_SR ideal-int
+pkg syscall (aix-ppc64), const TIOCM_ST = 8
+pkg syscall (aix-ppc64), const TIOCM_ST ideal-int
+pkg syscall (aix-ppc64), const TIOCNOTTY = 536900721
+pkg syscall (aix-ppc64), const TIOCNOTTY ideal-int
+pkg syscall (aix-ppc64), const TIOCNXCL = 536900622
+pkg syscall (aix-ppc64), const TIOCNXCL ideal-int
+pkg syscall (aix-ppc64), const TIOCOUTQ = 1074033779
+pkg syscall (aix-ppc64), const TIOCOUTQ ideal-int
+pkg syscall (aix-ppc64), const TIOCPKT = 18446744071562359920
+pkg syscall (aix-ppc64), const TIOCPKT ideal-int
+pkg syscall (aix-ppc64), const TIOCPKT_DATA = 0
+pkg syscall (aix-ppc64), const TIOCPKT_DATA ideal-int
+pkg syscall (aix-ppc64), const TIOCPKT_DOSTOP = 32
+pkg syscall (aix-ppc64), const TIOCPKT_DOSTOP ideal-int
+pkg syscall (aix-ppc64), const TIOCPKT_FLUSHREAD = 1
+pkg syscall (aix-ppc64), const TIOCPKT_FLUSHREAD ideal-int
+pkg syscall (aix-ppc64), const TIOCPKT_FLUSHWRITE = 2
+pkg syscall (aix-ppc64), const TIOCPKT_FLUSHWRITE ideal-int
+pkg syscall (aix-ppc64), const TIOCPKT_NOSTOP = 16
+pkg syscall (aix-ppc64), const TIOCPKT_NOSTOP ideal-int
+pkg syscall (aix-ppc64), const TIOCPKT_START = 8
+pkg syscall (aix-ppc64), const TIOCPKT_START ideal-int
+pkg syscall (aix-ppc64), const TIOCPKT_STOP = 4
+pkg syscall (aix-ppc64), const TIOCPKT_STOP ideal-int
+pkg syscall (aix-ppc64), const TIOCREMOTE = 18446744071562359913
+pkg syscall (aix-ppc64), const TIOCREMOTE ideal-int
+pkg syscall (aix-ppc64), const TIOCSBRK = 536900731
+pkg syscall (aix-ppc64), const TIOCSBRK ideal-int
+pkg syscall (aix-ppc64), const TIOCSCTTY = 1
+pkg syscall (aix-ppc64), const TIOCSCTTY ideal-int
+pkg syscall (aix-ppc64), const TIOCSDTR = 536900729
+pkg syscall (aix-ppc64), const TIOCSDTR ideal-int
+pkg syscall (aix-ppc64), const TIOCSETC = 18446744071562490897
+pkg syscall (aix-ppc64), const TIOCSETC ideal-int
+pkg syscall (aix-ppc64), const TIOCSETD = 18446744071562359809
+pkg syscall (aix-ppc64), const TIOCSETD ideal-int
+pkg syscall (aix-ppc64), const TIOCSETN = 18446744071562490890
+pkg syscall (aix-ppc64), const TIOCSETN ideal-int
+pkg syscall (aix-ppc64), const TIOCSETP = 18446744071562490889
+pkg syscall (aix-ppc64), const TIOCSETP ideal-int
+pkg syscall (aix-ppc64), const TIOCSLTC = 18446744071562490997
+pkg syscall (aix-ppc64), const TIOCSLTC ideal-int
+pkg syscall (aix-ppc64), const TIOCSPGRP = 18446744071562359926
+pkg syscall (aix-ppc64), const TIOCSPGRP ideal-int
+pkg syscall (aix-ppc64), const TIOCSSIZE = 18446744071562622055
+pkg syscall (aix-ppc64), const TIOCSSIZE ideal-int
+pkg syscall (aix-ppc64), const TIOCSTART = 536900718
+pkg syscall (aix-ppc64), const TIOCSTART ideal-int
+pkg syscall (aix-ppc64), const TIOCSTI = 18446744071562163314
+pkg syscall (aix-ppc64), const TIOCSTI ideal-int
+pkg syscall (aix-ppc64), const TIOCSTOP = 536900719
+pkg syscall (aix-ppc64), const TIOCSTOP ideal-int
+pkg syscall (aix-ppc64), const TIOCSWINSZ = 18446744071562622055
+pkg syscall (aix-ppc64), const TIOCSWINSZ ideal-int
+pkg syscall (aix-ppc64), const TIOCUCNTL = 18446744071562359910
+pkg syscall (aix-ppc64), const TIOCUCNTL ideal-int
+pkg syscall (aix-ppc64), const TOSTOP = 65536
+pkg syscall (aix-ppc64), const TOSTOP ideal-int
+pkg syscall (aix-ppc64), const VDISCRD = 12
+pkg syscall (aix-ppc64), const VDISCRD ideal-int
+pkg syscall (aix-ppc64), const VDSUSP = 10
+pkg syscall (aix-ppc64), const VDSUSP ideal-int
+pkg syscall (aix-ppc64), const VEOF = 4
+pkg syscall (aix-ppc64), const VEOF ideal-int
+pkg syscall (aix-ppc64), const VEOL = 5
+pkg syscall (aix-ppc64), const VEOL ideal-int
+pkg syscall (aix-ppc64), const VEOL2 = 6
+pkg syscall (aix-ppc64), const VEOL2 ideal-int
+pkg syscall (aix-ppc64), const VERASE = 2
+pkg syscall (aix-ppc64), const VERASE ideal-int
+pkg syscall (aix-ppc64), const VINTR = 0
+pkg syscall (aix-ppc64), const VINTR ideal-int
+pkg syscall (aix-ppc64), const VKILL = 3
+pkg syscall (aix-ppc64), const VKILL ideal-int
+pkg syscall (aix-ppc64), const VLNEXT = 14
+pkg syscall (aix-ppc64), const VLNEXT ideal-int
+pkg syscall (aix-ppc64), const VMIN = 4
+pkg syscall (aix-ppc64), const VMIN ideal-int
+pkg syscall (aix-ppc64), const VQUIT = 1
+pkg syscall (aix-ppc64), const VQUIT ideal-int
+pkg syscall (aix-ppc64), const VREPRINT = 11
+pkg syscall (aix-ppc64), const VREPRINT ideal-int
+pkg syscall (aix-ppc64), const VSTART = 7
+pkg syscall (aix-ppc64), const VSTART ideal-int
+pkg syscall (aix-ppc64), const VSTOP = 8
+pkg syscall (aix-ppc64), const VSTOP ideal-int
+pkg syscall (aix-ppc64), const VSTRT = 7
+pkg syscall (aix-ppc64), const VSTRT ideal-int
+pkg syscall (aix-ppc64), const VSUSP = 9
+pkg syscall (aix-ppc64), const VSUSP ideal-int
+pkg syscall (aix-ppc64), const VT0 = 0
+pkg syscall (aix-ppc64), const VT0 ideal-int
+pkg syscall (aix-ppc64), const VT1 = 32768
+pkg syscall (aix-ppc64), const VT1 ideal-int
+pkg syscall (aix-ppc64), const VTDELAY = 8192
+pkg syscall (aix-ppc64), const VTDELAY ideal-int
+pkg syscall (aix-ppc64), const VTDLY = 32768
+pkg syscall (aix-ppc64), const VTDLY ideal-int
+pkg syscall (aix-ppc64), const VTIME = 5
+pkg syscall (aix-ppc64), const VTIME ideal-int
+pkg syscall (aix-ppc64), const VWERSE = 13
+pkg syscall (aix-ppc64), const VWERSE ideal-int
+pkg syscall (aix-ppc64), const WPARSTART = 1
+pkg syscall (aix-ppc64), const WPARSTART ideal-int
+pkg syscall (aix-ppc64), const WPARSTOP = 2
+pkg syscall (aix-ppc64), const WPARSTOP ideal-int
+pkg syscall (aix-ppc64), const WPARTTYNAME = "Global"
+pkg syscall (aix-ppc64), const WPARTTYNAME ideal-string
+pkg syscall (aix-ppc64), func Accept(int) (int, Sockaddr, error)
+pkg syscall (aix-ppc64), func Access(string, uint32) error
+pkg syscall (aix-ppc64), func Acct(string) error
+pkg syscall (aix-ppc64), func Bind(int, Sockaddr) error
+pkg syscall (aix-ppc64), func Chmod(string, uint32) error
+pkg syscall (aix-ppc64), func Chown(string, int, int) error
+pkg syscall (aix-ppc64), func Chroot(string) error
+pkg syscall (aix-ppc64), func Close(int) error
+pkg syscall (aix-ppc64), func CloseOnExec(int)
+pkg syscall (aix-ppc64), func CmsgLen(int) int
+pkg syscall (aix-ppc64), func CmsgSpace(int) int
+pkg syscall (aix-ppc64), func Connect(int, Sockaddr) error
+pkg syscall (aix-ppc64), func Dup(int) (int, error)
+pkg syscall (aix-ppc64), func Dup2(int, int) error
+pkg syscall (aix-ppc64), func Exec(string, []string, []string) error
+pkg syscall (aix-ppc64), func Faccessat(int, string, uint32, int) error
+pkg syscall (aix-ppc64), func Fchdir(int) error
+pkg syscall (aix-ppc64), func Fchmod(int, uint32) error
+pkg syscall (aix-ppc64), func Fchmodat(int, string, uint32, int) error
+pkg syscall (aix-ppc64), func Fchown(int, int, int) error
+pkg syscall (aix-ppc64), func Fchownat(int, string, int, int, int) error
+pkg syscall (aix-ppc64), func FcntlFlock(uintptr, int, *Flock_t) error
+pkg syscall (aix-ppc64), func ForkExec(string, []string, *ProcAttr) (int, error)
+pkg syscall (aix-ppc64), func Fpathconf(int, int) (int, error)
+pkg syscall (aix-ppc64), func Fstat(int, *Stat_t) error
+pkg syscall (aix-ppc64), func Fstatfs(int, *Statfs_t) error
+pkg syscall (aix-ppc64), func Fsync(int) error
+pkg syscall (aix-ppc64), func Ftruncate(int, int64) error
+pkg syscall (aix-ppc64), func Getcwd([]uint8) (int, error)
+pkg syscall (aix-ppc64), func Getkerninfo(int32, uintptr, uintptr, int64) (int32, error)
+pkg syscall (aix-ppc64), func Getpeername(int) (Sockaddr, error)
+pkg syscall (aix-ppc64), func Getpriority(int, int) (int, error)
+pkg syscall (aix-ppc64), func Getrlimit(int, *Rlimit) error
+pkg syscall (aix-ppc64), func Getsockname(int) (Sockaddr, error)
+pkg syscall (aix-ppc64), func GetsockoptInt(int, int, int) (int, error)
+pkg syscall (aix-ppc64), func Kill(int, Signal) error
+pkg syscall (aix-ppc64), func Lchown(string, int, int) error
+pkg syscall (aix-ppc64), func Link(string, string) error
+pkg syscall (aix-ppc64), func Listen(int, int) error
+pkg syscall (aix-ppc64), func Lstat(string, *Stat_t) error
+pkg syscall (aix-ppc64), func Mkdirat(int, string, uint32) error
+pkg syscall (aix-ppc64), func Mknodat(int, string, uint32, int) error
+pkg syscall (aix-ppc64), func Mmap(int, int64, int, int, int) ([]uint8, error)
+pkg syscall (aix-ppc64), func Munmap([]uint8) error
+pkg syscall (aix-ppc64), func NsecToTimespec(int64) Timespec
+pkg syscall (aix-ppc64), func Open(string, int, uint32) (int, error)
+pkg syscall (aix-ppc64), func Openat(int, string, int, uint32) (int, error)
+pkg syscall (aix-ppc64), func ParseDirent([]uint8, int, []string) (int, int, []string)
+pkg syscall (aix-ppc64), func ParseSocketControlMessage([]uint8) ([]SocketControlMessage, error)
+pkg syscall (aix-ppc64), func ParseUnixRights(*SocketControlMessage) ([]int, error)
+pkg syscall (aix-ppc64), func Pipe([]int) error
+pkg syscall (aix-ppc64), func Pread(int, []uint8, int64) (int, error)
+pkg syscall (aix-ppc64), func PtraceAttach(int) error
+pkg syscall (aix-ppc64), func PtraceCont(int, int) error
+pkg syscall (aix-ppc64), func PtraceDetach(int) error
+pkg syscall (aix-ppc64), func PtracePeekData(int, uintptr, []uint8) (int, error)
+pkg syscall (aix-ppc64), func PtracePeekText(int, uintptr, []uint8) (int, error)
+pkg syscall (aix-ppc64), func PtracePokeData(int, uintptr, []uint8) (int, error)
+pkg syscall (aix-ppc64), func PtracePokeText(int, uintptr, []uint8) (int, error)
+pkg syscall (aix-ppc64), func PtraceSingleStep(int) error
+pkg syscall (aix-ppc64), func Pwrite(int, []uint8, int64) (int, error)
+pkg syscall (aix-ppc64), func RawSyscall(uintptr, uintptr, uintptr, uintptr) (uintptr, uintptr, Errno)
+pkg syscall (aix-ppc64), func RawSyscall6(uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr) (uintptr, uintptr, Errno)
+pkg syscall (aix-ppc64), func Read(int, []uint8) (int, error)
+pkg syscall (aix-ppc64), func ReadDirent(int, []uint8) (int, error)
+pkg syscall (aix-ppc64), func Readlink(string, []uint8) (int, error)
+pkg syscall (aix-ppc64), func Reboot(int) error
+pkg syscall (aix-ppc64), func Recvfrom(int, []uint8, int) (int, Sockaddr, error)
+pkg syscall (aix-ppc64), func Recvmsg(int, []uint8, []uint8, int) (int, int, int, Sockaddr, error)
+pkg syscall (aix-ppc64), func Rename(string, string) error
+pkg syscall (aix-ppc64), func Renameat(int, string, int, string) error
+pkg syscall (aix-ppc64), func Rmdir(string) error
+pkg syscall (aix-ppc64), func Seek(int, int64, int) (int64, error)
+pkg syscall (aix-ppc64), func Sendfile(int, int, *int64, int) (int, error)
+pkg syscall (aix-ppc64), func Sendmsg(int, []uint8, []uint8, Sockaddr, int) error
+pkg syscall (aix-ppc64), func SendmsgN(int, []uint8, []uint8, Sockaddr, int) (int, error)
+pkg syscall (aix-ppc64), func Sendto(int, []uint8, int, Sockaddr) error
+pkg syscall (aix-ppc64), func SetNonblock(int, bool) error
+pkg syscall (aix-ppc64), func Setegid(int) error
+pkg syscall (aix-ppc64), func Seteuid(int) error
+pkg syscall (aix-ppc64), func Setgid(int) error
+pkg syscall (aix-ppc64), func Setgroups([]int) error
+pkg syscall (aix-ppc64), func Setpgid(int, int) error
+pkg syscall (aix-ppc64), func Setpriority(int, int, int) error
+pkg syscall (aix-ppc64), func Setregid(int, int) error
+pkg syscall (aix-ppc64), func Setreuid(int, int) error
+pkg syscall (aix-ppc64), func Setrlimit(int, *Rlimit) error
+pkg syscall (aix-ppc64), func SetsockoptByte(int, int, int, uint8) error
+pkg syscall (aix-ppc64), func SetsockoptICMPv6Filter(int, int, int, *ICMPv6Filter) error
+pkg syscall (aix-ppc64), func SetsockoptIPMreq(int, int, int, *IPMreq) error
+pkg syscall (aix-ppc64), func SetsockoptIPv6Mreq(int, int, int, *IPv6Mreq) error
+pkg syscall (aix-ppc64), func SetsockoptInet4Addr(int, int, int, [4]uint8) error
+pkg syscall (aix-ppc64), func SetsockoptInt(int, int, int, int) error
+pkg syscall (aix-ppc64), func SetsockoptLinger(int, int, int, *Linger) error
+pkg syscall (aix-ppc64), func SetsockoptString(int, int, int, string) error
+pkg syscall (aix-ppc64), func SetsockoptTimeval(int, int, int, *Timeval) error
+pkg syscall (aix-ppc64), func Shutdown(int, int) error
+pkg syscall (aix-ppc64), func SlicePtrFromStrings([]string) ([]*uint8, error)
+pkg syscall (aix-ppc64), func Socket(int, int, int) (int, error)
+pkg syscall (aix-ppc64), func Socketpair(int, int, int) ([2]int, error)
+pkg syscall (aix-ppc64), func Stat(string, *Stat_t) error
+pkg syscall (aix-ppc64), func Statfs(string, *Statfs_t) error
+pkg syscall (aix-ppc64), func StringSlicePtr([]string) []*uint8
+pkg syscall (aix-ppc64), func Symlink(string, string) error
+pkg syscall (aix-ppc64), func Syscall(uintptr, uintptr, uintptr, uintptr) (uintptr, uintptr, Errno)
+pkg syscall (aix-ppc64), func Syscall6(uintptr, uintptr, uintptr, uintptr, uintptr, uintptr, uintptr) (uintptr, uintptr, Errno)
+pkg syscall (aix-ppc64), func TimespecToNsec(Timespec) int64
+pkg syscall (aix-ppc64), func TimevalToNsec(Timeval) int64
+pkg syscall (aix-ppc64), func Truncate(string, int64) error
+pkg syscall (aix-ppc64), func Umask(int) int
+pkg syscall (aix-ppc64), func Uname(*Utsname) error
+pkg syscall (aix-ppc64), func UnixRights(...int) []uint8
+pkg syscall (aix-ppc64), func Unlink(string) error
+pkg syscall (aix-ppc64), func Unlinkat(int, string) error
+pkg syscall (aix-ppc64), func Utimes(string, []Timeval) error
+pkg syscall (aix-ppc64), func UtimesNano(string, []Timespec) error
+pkg syscall (aix-ppc64), func Wait4(int, *WaitStatus, int, *Rusage) (int, error)
+pkg syscall (aix-ppc64), func Write(int, []uint8) (int, error)
+pkg syscall (aix-ppc64), method (*Cmsghdr) SetLen(int)
+pkg syscall (aix-ppc64), method (*Iovec) SetLen(int)
+pkg syscall (aix-ppc64), method (*Msghdr) SetControllen(int)
+pkg syscall (aix-ppc64), method (*StTimespec_t) Nano() int64
+pkg syscall (aix-ppc64), method (*StTimespec_t) Unix() (int64, int64)
+pkg syscall (aix-ppc64), method (Errno) Error() string
+pkg syscall (aix-ppc64), method (Errno) Is(error) bool
+pkg syscall (aix-ppc64), method (Errno) Temporary() bool
+pkg syscall (aix-ppc64), method (Errno) Timeout() bool
+pkg syscall (aix-ppc64), method (Signal) Signal()
+pkg syscall (aix-ppc64), method (Signal) String() string
+pkg syscall (aix-ppc64), method (WaitStatus) Continued() bool
+pkg syscall (aix-ppc64), method (WaitStatus) CoreDump() bool
+pkg syscall (aix-ppc64), method (WaitStatus) ExitStatus() int
+pkg syscall (aix-ppc64), method (WaitStatus) Exited() bool
+pkg syscall (aix-ppc64), method (WaitStatus) Signal() Signal
+pkg syscall (aix-ppc64), method (WaitStatus) Signaled() bool
+pkg syscall (aix-ppc64), method (WaitStatus) StopSignal() Signal
+pkg syscall (aix-ppc64), method (WaitStatus) Stopped() bool
+pkg syscall (aix-ppc64), method (WaitStatus) TrapCause() int
+pkg syscall (aix-ppc64), type Cmsghdr struct
+pkg syscall (aix-ppc64), type Cmsghdr struct, Len uint32
+pkg syscall (aix-ppc64), type Cmsghdr struct, Level int32
+pkg syscall (aix-ppc64), type Cmsghdr struct, Type int32
+pkg syscall (aix-ppc64), type Credential struct
+pkg syscall (aix-ppc64), type Credential struct, Gid uint32
+pkg syscall (aix-ppc64), type Credential struct, Groups []uint32
+pkg syscall (aix-ppc64), type Credential struct, NoSetGroups bool
+pkg syscall (aix-ppc64), type Credential struct, Uid uint32
+pkg syscall (aix-ppc64), type Dirent struct
+pkg syscall (aix-ppc64), type Dirent struct, Ino uint64
+pkg syscall (aix-ppc64), type Dirent struct, Name [256]uint8
+pkg syscall (aix-ppc64), type Dirent struct, Namlen uint16
+pkg syscall (aix-ppc64), type Dirent struct, Offset uint64
+pkg syscall (aix-ppc64), type Dirent struct, Pad_cgo_0 [4]uint8
+pkg syscall (aix-ppc64), type Dirent struct, Reclen uint16
+pkg syscall (aix-ppc64), type Errno uintptr
+pkg syscall (aix-ppc64), type Flock_t struct
+pkg syscall (aix-ppc64), type Flock_t struct, Len int64
+pkg syscall (aix-ppc64), type Flock_t struct, Pid int32
+pkg syscall (aix-ppc64), type Flock_t struct, Start int64
+pkg syscall (aix-ppc64), type Flock_t struct, Sysid uint32
+pkg syscall (aix-ppc64), type Flock_t struct, Type int16
+pkg syscall (aix-ppc64), type Flock_t struct, Vfs int32
+pkg syscall (aix-ppc64), type Flock_t struct, Whence int16
+pkg syscall (aix-ppc64), type Fsid64_t struct
+pkg syscall (aix-ppc64), type Fsid64_t struct, Val [2]uint64
+pkg syscall (aix-ppc64), type ICMPv6Filter struct
+pkg syscall (aix-ppc64), type ICMPv6Filter struct, Filt [8]uint32
+pkg syscall (aix-ppc64), type IPMreq struct
+pkg syscall (aix-ppc64), type IPMreq struct, Interface [4]uint8
+pkg syscall (aix-ppc64), type IPMreq struct, Multiaddr [4]uint8
+pkg syscall (aix-ppc64), type IPv6Mreq struct
+pkg syscall (aix-ppc64), type IPv6Mreq struct, Interface uint32
+pkg syscall (aix-ppc64), type IPv6Mreq struct, Multiaddr [16]uint8
+pkg syscall (aix-ppc64), type IfMsgHdr struct
+pkg syscall (aix-ppc64), type IfMsgHdr struct, Addrlen uint8
+pkg syscall (aix-ppc64), type IfMsgHdr struct, Addrs int32
+pkg syscall (aix-ppc64), type IfMsgHdr struct, Flags int32
+pkg syscall (aix-ppc64), type IfMsgHdr struct, Index uint16
+pkg syscall (aix-ppc64), type IfMsgHdr struct, Msglen uint16
+pkg syscall (aix-ppc64), type IfMsgHdr struct, Pad_cgo_0 [1]uint8
+pkg syscall (aix-ppc64), type IfMsgHdr struct, Type uint8
+pkg syscall (aix-ppc64), type IfMsgHdr struct, Version uint8
+pkg syscall (aix-ppc64), type Iovec struct
+pkg syscall (aix-ppc64), type Iovec struct, Base *uint8
+pkg syscall (aix-ppc64), type Iovec struct, Len uint64
+pkg syscall (aix-ppc64), type Linger struct
+pkg syscall (aix-ppc64), type Linger struct, Linger int32
+pkg syscall (aix-ppc64), type Linger struct, Onoff int32
+pkg syscall (aix-ppc64), type Msghdr struct
+pkg syscall (aix-ppc64), type Msghdr struct, Control *uint8
+pkg syscall (aix-ppc64), type Msghdr struct, Controllen uint32
+pkg syscall (aix-ppc64), type Msghdr struct, Flags int32
+pkg syscall (aix-ppc64), type Msghdr struct, Iov *Iovec
+pkg syscall (aix-ppc64), type Msghdr struct, Iovlen int32
+pkg syscall (aix-ppc64), type Msghdr struct, Name *uint8
+pkg syscall (aix-ppc64), type Msghdr struct, Namelen uint32
+pkg syscall (aix-ppc64), type RawSockaddr struct
+pkg syscall (aix-ppc64), type RawSockaddr struct, Data [14]uint8
+pkg syscall (aix-ppc64), type RawSockaddr struct, Family uint8
+pkg syscall (aix-ppc64), type RawSockaddr struct, Len uint8
+pkg syscall (aix-ppc64), type RawSockaddrAny struct
+pkg syscall (aix-ppc64), type RawSockaddrAny struct, Addr RawSockaddr
+pkg syscall (aix-ppc64), type RawSockaddrAny struct, Pad [1012]uint8
+pkg syscall (aix-ppc64), type RawSockaddrDatalink struct
+pkg syscall (aix-ppc64), type RawSockaddrDatalink struct, Alen uint8
+pkg syscall (aix-ppc64), type RawSockaddrDatalink struct, Data [120]uint8
+pkg syscall (aix-ppc64), type RawSockaddrDatalink struct, Family uint8
+pkg syscall (aix-ppc64), type RawSockaddrDatalink struct, Index uint16
+pkg syscall (aix-ppc64), type RawSockaddrDatalink struct, Len uint8
+pkg syscall (aix-ppc64), type RawSockaddrDatalink struct, Nlen uint8
+pkg syscall (aix-ppc64), type RawSockaddrDatalink struct, Slen uint8
+pkg syscall (aix-ppc64), type RawSockaddrDatalink struct, Type uint8
+pkg syscall (aix-ppc64), type RawSockaddrInet4 struct
+pkg syscall (aix-ppc64), type RawSockaddrInet4 struct, Addr [4]uint8
+pkg syscall (aix-ppc64), type RawSockaddrInet4 struct, Family uint8
+pkg syscall (aix-ppc64), type RawSockaddrInet4 struct, Len uint8
+pkg syscall (aix-ppc64), type RawSockaddrInet4 struct, Port uint16
+pkg syscall (aix-ppc64), type RawSockaddrInet4 struct, Zero [8]uint8
+pkg syscall (aix-ppc64), type RawSockaddrInet6 struct
+pkg syscall (aix-ppc64), type RawSockaddrInet6 struct, Addr [16]uint8
+pkg syscall (aix-ppc64), type RawSockaddrInet6 struct, Family uint8
+pkg syscall (aix-ppc64), type RawSockaddrInet6 struct, Flowinfo uint32
+pkg syscall (aix-ppc64), type RawSockaddrInet6 struct, Len uint8
+pkg syscall (aix-ppc64), type RawSockaddrInet6 struct, Port uint16
+pkg syscall (aix-ppc64), type RawSockaddrInet6 struct, Scope_id uint32
+pkg syscall (aix-ppc64), type RawSockaddrUnix struct
+pkg syscall (aix-ppc64), type RawSockaddrUnix struct, Family uint8
+pkg syscall (aix-ppc64), type RawSockaddrUnix struct, Len uint8
+pkg syscall (aix-ppc64), type RawSockaddrUnix struct, Path [1023]uint8
+pkg syscall (aix-ppc64), type Rlimit struct
+pkg syscall (aix-ppc64), type Rlimit struct, Cur uint64
+pkg syscall (aix-ppc64), type Rlimit struct, Max uint64
+pkg syscall (aix-ppc64), type Rusage struct
+pkg syscall (aix-ppc64), type Rusage struct, Idrss int64
+pkg syscall (aix-ppc64), type Rusage struct, Inblock int64
+pkg syscall (aix-ppc64), type Rusage struct, Isrss int64
+pkg syscall (aix-ppc64), type Rusage struct, Ixrss int64
+pkg syscall (aix-ppc64), type Rusage struct, Majflt int64
+pkg syscall (aix-ppc64), type Rusage struct, Maxrss int64
+pkg syscall (aix-ppc64), type Rusage struct, Minflt int64
+pkg syscall (aix-ppc64), type Rusage struct, Msgrcv int64
+pkg syscall (aix-ppc64), type Rusage struct, Msgsnd int64
+pkg syscall (aix-ppc64), type Rusage struct, Nivcsw int64
+pkg syscall (aix-ppc64), type Rusage struct, Nsignals int64
+pkg syscall (aix-ppc64), type Rusage struct, Nswap int64
+pkg syscall (aix-ppc64), type Rusage struct, Nvcsw int64
+pkg syscall (aix-ppc64), type Rusage struct, Oublock int64
+pkg syscall (aix-ppc64), type Rusage struct, Stime Timeval
+pkg syscall (aix-ppc64), type Rusage struct, Utime Timeval
+pkg syscall (aix-ppc64), type Signal int
+pkg syscall (aix-ppc64), type Sockaddr interface, unexported methods
+pkg syscall (aix-ppc64), type SockaddrDatalink struct
+pkg syscall (aix-ppc64), type SockaddrDatalink struct, Alen uint8
+pkg syscall (aix-ppc64), type SockaddrDatalink struct, Data [120]uint8
+pkg syscall (aix-ppc64), type SockaddrDatalink struct, Family uint8
+pkg syscall (aix-ppc64), type SockaddrDatalink struct, Index uint16
+pkg syscall (aix-ppc64), type SockaddrDatalink struct, Len uint8
+pkg syscall (aix-ppc64), type SockaddrDatalink struct, Nlen uint8
+pkg syscall (aix-ppc64), type SockaddrDatalink struct, Slen uint8
+pkg syscall (aix-ppc64), type SockaddrDatalink struct, Type uint8
+pkg syscall (aix-ppc64), type SockaddrInet4 struct
+pkg syscall (aix-ppc64), type SockaddrInet4 struct, Addr [4]uint8
+pkg syscall (aix-ppc64), type SockaddrInet4 struct, Port int
+pkg syscall (aix-ppc64), type SockaddrInet6 struct
+pkg syscall (aix-ppc64), type SockaddrInet6 struct, Addr [16]uint8
+pkg syscall (aix-ppc64), type SockaddrInet6 struct, Port int
+pkg syscall (aix-ppc64), type SockaddrInet6 struct, ZoneId uint32
+pkg syscall (aix-ppc64), type SockaddrUnix struct
+pkg syscall (aix-ppc64), type SockaddrUnix struct, Name string
+pkg syscall (aix-ppc64), type SocketControlMessage struct
+pkg syscall (aix-ppc64), type SocketControlMessage struct, Data []uint8
+pkg syscall (aix-ppc64), type SocketControlMessage struct, Header Cmsghdr
+pkg syscall (aix-ppc64), type StTimespec_t struct
+pkg syscall (aix-ppc64), type StTimespec_t struct, Nsec int32
+pkg syscall (aix-ppc64), type StTimespec_t struct, Pad_cgo_0 [4]uint8
+pkg syscall (aix-ppc64), type StTimespec_t struct, Sec int64
+pkg syscall (aix-ppc64), type Stat_t struct
+pkg syscall (aix-ppc64), type Stat_t struct, Atim StTimespec_t
+pkg syscall (aix-ppc64), type Stat_t struct, Blksize int64
+pkg syscall (aix-ppc64), type Stat_t struct, Blocks int64
+pkg syscall (aix-ppc64), type Stat_t struct, Ctim StTimespec_t
+pkg syscall (aix-ppc64), type Stat_t struct, Dev uint64
+pkg syscall (aix-ppc64), type Stat_t struct, Flag uint16
+pkg syscall (aix-ppc64), type Stat_t struct, Gen uint32
+pkg syscall (aix-ppc64), type Stat_t struct, Gid uint32
+pkg syscall (aix-ppc64), type Stat_t struct, Ino uint64
+pkg syscall (aix-ppc64), type Stat_t struct, Mode uint32
+pkg syscall (aix-ppc64), type Stat_t struct, Mtim StTimespec_t
+pkg syscall (aix-ppc64), type Stat_t struct, Nlink int16
+pkg syscall (aix-ppc64), type Stat_t struct, Padto_ll uint32
+pkg syscall (aix-ppc64), type Stat_t struct, Rdev uint64
+pkg syscall (aix-ppc64), type Stat_t struct, Reserved [9]uint32
+pkg syscall (aix-ppc64), type Stat_t struct, Size int64
+pkg syscall (aix-ppc64), type Stat_t struct, Ssize int32
+pkg syscall (aix-ppc64), type Stat_t struct, Type uint32
+pkg syscall (aix-ppc64), type Stat_t struct, Uid uint32
+pkg syscall (aix-ppc64), type Stat_t struct, Vfs uint32
+pkg syscall (aix-ppc64), type Stat_t struct, Vfstype int32
+pkg syscall (aix-ppc64), type Statfs_t struct
+pkg syscall (aix-ppc64), type Statfs_t struct, Bavail uint64
+pkg syscall (aix-ppc64), type Statfs_t struct, Bfree uint64
+pkg syscall (aix-ppc64), type Statfs_t struct, Blocks uint64
+pkg syscall (aix-ppc64), type Statfs_t struct, Bsize uint64
+pkg syscall (aix-ppc64), type Statfs_t struct, Ffree uint64
+pkg syscall (aix-ppc64), type Statfs_t struct, Files uint64
+pkg syscall (aix-ppc64), type Statfs_t struct, Fname [32]uint8
+pkg syscall (aix-ppc64), type Statfs_t struct, Fpack [32]uint8
+pkg syscall (aix-ppc64), type Statfs_t struct, Fsid Fsid64_t
+pkg syscall (aix-ppc64), type Statfs_t struct, Fsize uint64
+pkg syscall (aix-ppc64), type Statfs_t struct, Name_max int32
+pkg syscall (aix-ppc64), type Statfs_t struct, Pad_cgo_0 [4]uint8
+pkg syscall (aix-ppc64), type Statfs_t struct, Type int32
+pkg syscall (aix-ppc64), type Statfs_t struct, Version int32
+pkg syscall (aix-ppc64), type Statfs_t struct, Vfslen int32
+pkg syscall (aix-ppc64), type Statfs_t struct, Vfsnumber int32
+pkg syscall (aix-ppc64), type Statfs_t struct, Vfsoff int32
+pkg syscall (aix-ppc64), type Statfs_t struct, Vfstype int32
+pkg syscall (aix-ppc64), type Statfs_t struct, Vfsvers int32
+pkg syscall (aix-ppc64), type SysProcAttr struct, Chroot string
+pkg syscall (aix-ppc64), type SysProcAttr struct, Credential *Credential
+pkg syscall (aix-ppc64), type SysProcAttr struct, Ctty int
+pkg syscall (aix-ppc64), type SysProcAttr struct, Foreground bool
+pkg syscall (aix-ppc64), type SysProcAttr struct, Noctty bool
+pkg syscall (aix-ppc64), type SysProcAttr struct, Pgid int
+pkg syscall (aix-ppc64), type SysProcAttr struct, Setctty bool
+pkg syscall (aix-ppc64), type SysProcAttr struct, Setpgid bool
+pkg syscall (aix-ppc64), type SysProcAttr struct, Setsid bool
+pkg syscall (aix-ppc64), type Termios struct
+pkg syscall (aix-ppc64), type Termios struct, Cc [16]uint8
+pkg syscall (aix-ppc64), type Termios struct, Cflag uint32
+pkg syscall (aix-ppc64), type Termios struct, Iflag uint32
+pkg syscall (aix-ppc64), type Termios struct, Lflag uint32
+pkg syscall (aix-ppc64), type Termios struct, Oflag uint32
+pkg syscall (aix-ppc64), type Timespec struct, Nsec int64
+pkg syscall (aix-ppc64), type Timespec struct, Sec int64
+pkg syscall (aix-ppc64), type Timeval struct, Pad_cgo_0 [4]uint8
+pkg syscall (aix-ppc64), type Timeval struct, Sec int64
+pkg syscall (aix-ppc64), type Timeval struct, Usec int32
+pkg syscall (aix-ppc64), type Timeval32 struct
+pkg syscall (aix-ppc64), type Timeval32 struct, Sec int32
+pkg syscall (aix-ppc64), type Timeval32 struct, Usec int32
+pkg syscall (aix-ppc64), type Timezone struct
+pkg syscall (aix-ppc64), type Timezone struct, Dsttime int32
+pkg syscall (aix-ppc64), type Timezone struct, Minuteswest int32
+pkg syscall (aix-ppc64), type Utsname struct
+pkg syscall (aix-ppc64), type Utsname struct, Machine [32]uint8
+pkg syscall (aix-ppc64), type Utsname struct, Nodename [32]uint8
+pkg syscall (aix-ppc64), type Utsname struct, Release [32]uint8
+pkg syscall (aix-ppc64), type Utsname struct, Sysname [32]uint8
+pkg syscall (aix-ppc64), type Utsname struct, Version [32]uint8
+pkg syscall (aix-ppc64), type WaitStatus uint32
+pkg syscall (aix-ppc64), var SocketDisableIPv6 bool
+pkg syscall (aix-ppc64), var Stderr int
+pkg syscall (aix-ppc64), var Stdin int
+pkg syscall (aix-ppc64), var Stdout int
