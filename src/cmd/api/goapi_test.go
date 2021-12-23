@@ -148,6 +148,32 @@ func TestCompareAPI(t *testing.T) {
 			ok:  true,
 			out: "+pkg syscall, type RawSockaddrInet6 struct\n",
 		},
+		{
+			name: "removal of a non-first class port from a feature is ignored",
+			required: []string{
+				"A",
+				"pkg syscall, type RawSockaddrInet6 struct",
+				"pkg syscall (dragonfly-amd64), type RawSockaddrInet6 struct",
+			},
+			features: []string{
+				"A",
+				"pkg syscall, type RawSockaddrInet6 struct",
+			},
+			ok:  true,
+			out: "",
+		},
+		{
+			name: "removal of a feature from a non-first class port is also ignored",
+			required: []string{
+				"A",
+				"pkg syscall (dragonfly-amd64), type RawSockaddrInet6 struct",
+			},
+			features: []string{
+				"A",
+			},
+			ok:  true,
+			out: "",
+		},
 	}
 	for _, tt := range tests {
 		buf := new(bytes.Buffer)

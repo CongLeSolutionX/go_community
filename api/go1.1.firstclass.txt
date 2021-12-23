@@ -1,0 +1,7 @@
+# When defaults of first class ports is used, api entries common to all appear without port name
+pkg syscall, const ENODATA Errno
+pkg syscall, const ENOSR Errno
+pkg syscall, const ENOSTR Errno
+pkg syscall, const ETIME Errno
+pkg syscall, const S_IWRITE = 128
+pkg syscall, const S_IWRITE ideal-int
