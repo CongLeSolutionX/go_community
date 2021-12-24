@@ -90,6 +90,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b92f5b42_387091ae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2021-12-24T02:11:52Z",
+      "side": 1,
+      "message": "It\u0027s ok for me to use nanotime. Maybe we can get rid of cputicks in other CLs if all architectures is using nanotime to emulate cputicks.",
+      "parentUuid": "1fb8274b_45fc4f29",
+      "revId": "a8ca3a57e30bcb2c4fc8e9aba7f89c126f5dd44c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4980c976_8439e152",
@@ -143,6 +161,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "907cd8c0_3c734512",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2021-12-24T02:11:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "985da030_ac5275aa",
+      "revId": "a8ca3a57e30bcb2c4fc8e9aba7f89c126f5dd44c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d5f7142a_6f7a4e1e",
@@ -192,6 +228,24 @@
       "side": 1,
       "message": "Yes, undo unrelated change. Thanks.",
       "parentUuid": "b9b2ad21_279c8e30",
+      "revId": "a8ca3a57e30bcb2c4fc8e9aba7f89c126f5dd44c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "328523bd_3c4ceb87",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2021-12-24T02:11:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c579f6f4_772431d4",
       "revId": "a8ca3a57e30bcb2c4fc8e9aba7f89c126f5dd44c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
