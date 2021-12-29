@@ -16,6 +16,24 @@
       "message": "This is new API which should normally go through the proposal process.  Marking temporary -2 until proposal is accepted.",
       "revId": "105c5846c78984a486aa446c4065b6c800139fb9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f73fdf36_81102edb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2021-12-29T17:53:23Z",
+      "side": 1,
+      "message": "https://github.com/golang/go/issues/46308 has been accepted just two weeks ago.",
+      "parentUuid": "bd9eb00f_ec049c27",
+      "revId": "105c5846c78984a486aa446c4065b6c800139fb9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
