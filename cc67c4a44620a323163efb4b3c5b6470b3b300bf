@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "898eaf75_721009ab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2021-12-29T17:33:15Z",
+      "side": 1,
+      "message": "See my response in https://github.com/golang/go/pull/50381#issuecomment-1002701940. Adding a temporary -2 because such a new feature would need to be proposed and discussed in the issue tracker first.",
+      "revId": "cc67c4a44620a323163efb4b3c5b6470b3b300bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
