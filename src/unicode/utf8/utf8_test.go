@@ -6,6 +6,7 @@ package utf8_test
 
 import (
 	"bytes"
+	"strings"
 	"testing"
 	"unicode"
 	. "unicode/utf8"
@@ -577,6 +578,35 @@ func BenchmarkValidStringTenASCIIChars(b *testing.B) {
 func BenchmarkValidStringTenJapaneseChars(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		ValidString("日本語日本語日本語日")
+	}
+}
+
+var longStringMostlyASCII string // ~100KB, >99% ASCII
+var longStringJapanese string    // ~100KB, non-ASCII
+
+func init() {
+	const japanese = "日本語日本語日本語日"
+	var b bytes.Buffer
+	for i := 0; b.Len() < 100_000; i++ {
+		if i%100 == 0 {
+			b.WriteString(japanese)
+		} else {
+			b.WriteString("0123456789")
+		}
+	}
+	longStringMostlyASCII = b.String()
+	longStringJapanese = strings.Repeat(japanese, 100_000/len(japanese))
+}
+
+func BenchmarkValidStringLongMostlyASCII(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		ValidString(longStringMostlyASCII)
+	}
+}
+
+func BenchmarkValidStringLongJapanese(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		ValidString(longStringJapanese)
 	}
 }
 
