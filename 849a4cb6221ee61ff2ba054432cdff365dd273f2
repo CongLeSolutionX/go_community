@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d16e5dc9_4b6ac16e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55373
+      },
+      "writtenOn": "2021-12-29T18:49:05Z",
+      "side": 1,
+      "message": "Let me know if this seems like the right trade-off, or if you have ideas for further improvements.\n\n(I haven\u0027t tested it on 32-bit CPU, and I\u0027m not sure whether the previous logic that read two uint32s and ORd them in the fast loop is better than what I have here.)",
+      "revId": "849a4cb6221ee61ff2ba054432cdff365dd273f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
