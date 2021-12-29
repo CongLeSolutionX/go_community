@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05542337_b45aafce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-12-29T18:20:51Z",
+      "side": 1,
+      "message": "TRY\u003dlinux-amd64-clang,linux-amd64-longtest,linux-amd64-staticlockranking",
+      "revId": "f862ca134fe08ab44b563340868549bbfef48852",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
