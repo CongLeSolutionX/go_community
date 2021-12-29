@@ -90,7 +90,13 @@ func replaceEnv(cmd *exec.Cmd, key, value string) {
 // mustRun executes t and fails cmd with a well-formatted message if it fails.
 func mustRun(t *testing.T, cmd *exec.Cmd) {
 	t.Helper()
+	t.Logf("running %s %v", cmd.Path, cmd.Args)
 	out, err := cmd.CombinedOutput()
+	if len(out) == 0 {
+		t.Log("no output")
+	} else {
+		t.Logf("%s", out)
+	}
 	if err != nil {
 		t.Fatalf("%#q exited with %v\n%s", strings.Join(cmd.Args, " "), err, out)
 	}

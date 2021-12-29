@@ -51,7 +51,7 @@ func TestASAN(t *testing.T) {
 			defer dir.RemoveAll(t)
 
 			outPath := dir.Join(name)
-			mustRun(t, config.goCmd("build", "-o", outPath, srcPath(tc.src)))
+			mustRun(t, config.goCmd("build", "-x", "-o", outPath, srcPath(tc.src)))
 
 			cmd := hangProneCmd(outPath)
 			if tc.memoryAccessError != "" {
