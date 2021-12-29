@@ -16,6 +16,23 @@
       "message": "This is new API and as such should go through the proposal process.  See https://golang.org/s/proposal.  Marking temporary -2 until a proposal is accepted.",
       "revId": "ba6a47ace42111e36851de614da3d1ddbeb77930",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e3cd44a_d046971e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2021-12-29T17:52:00Z",
+      "side": 1,
+      "message": "I was going to say there is a proposal, at https://github.com/golang/go/issues/39119, but then I looked again and it\u0027s not really a proposal - yet. Adding a -2 again.",
+      "revId": "ba6a47ace42111e36851de614da3d1ddbeb77930",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
