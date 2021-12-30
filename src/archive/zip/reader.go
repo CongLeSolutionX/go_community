@@ -696,14 +696,46 @@ func toValidName(name string) string {
 
 func (r *Reader) initFileList() {
 	r.fileListOnce.Do(func() {
+		files := make(map[string]bool)
 		dirs := make(map[string]bool)
 		knownDirs := make(map[string]bool)
+	fileLoop:
 		for _, file := range r.File {
 			isDir := len(file.Name) > 0 && file.Name[len(file.Name)-1] == '/'
 			name := toValidName(file.Name)
 			if name == "" {
 				continue
 			}
+
+			// We've seen jars in the wild in which a
+			// directory appears twice, once with a slash
+			// and once without. The io.FS interface can't
+			// handle the same name having multiple meanings,
+			// so always pick the directory. Issue 50390.
+			if !isDir {
+				if dirs[name] {
+					// Saw directory with this name;
+					// skip this file.
+					continue
+				}
+				files[name] = true
+			} else if isDir && files[name] {
+				// Directory, but saw file with this name;
+				// change earlier one to directory.
+				for i := range r.fileList {
+					if name == r.fileList[i].name {
+						r.fileList[i].file = file
+						r.fileList[i].isDir = true
+						delete(files, name)
+						knownDirs[name] = true
+						continue fileLoop
+					}
+				}
+			} else if files[name] {
+				// Duplicate file name.  Drop this one.
+				continue fileLoop
+			}
+
 			for dir := path.Dir(name); dir != "."; dir = path.Dir(dir) {
 				dirs[dir] = true
 			}

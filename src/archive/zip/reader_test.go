@@ -487,6 +487,35 @@ var tests = []ZipTest{
 			},
 		},
 	},
+	{
+		Name: "dupdir.zip",
+		File: []ZipTestFile{
+			{
+				Name:     "a/",
+				Content:  []byte{},
+				Mode:     fs.ModeDir | 0666,
+				Modified: time.Date(2021, 12, 29, 0, 0, 0, 0, timeZone(0)),
+			},
+			{
+				Name:     "a/b",
+				Content:  []byte{},
+				Mode:     0666,
+				Modified: time.Date(2021, 12, 29, 0, 0, 0, 0, timeZone(0)),
+			},
+			{
+				Name:     "a/b/",
+				Content:  []byte{},
+				Mode:     fs.ModeDir | 0666,
+				Modified: time.Date(2021, 12, 29, 0, 0, 0, 0, timeZone(0)),
+			},
+			{
+				Name:     "a/b/c",
+				Content:  []byte{},
+				Mode:     0666,
+				Modified: time.Date(2021, 12, 29, 0, 0, 0, 0, timeZone(0)),
+			},
+		},
+	},
 }
 
 func TestReader(t *testing.T) {
@@ -1123,7 +1152,12 @@ func TestFS(t *testing.T) {
 			"testdata/subdir.zip",
 			[]string{"a/b/c"},
 		},
+		{
+			"testdata/dupdir.zip",
+			[]string{"a/b/c"},
+		},
 	} {
+		test := test
 		t.Run(test.file, func(t *testing.T) {
 			t.Parallel()
 			z, err := OpenReader(test.file)
@@ -1133,6 +1167,49 @@ func TestFS(t *testing.T) {
 			defer z.Close()
 			if err := fstest.TestFS(z, test.want...); err != nil {
 				t.Error(err)
+			}
+		})
+	}
+}
+
+func TestFSWalk(t *testing.T) {
+	for _, test := range []struct {
+		file string
+		want []string
+	}{
+		{
+			"testdata/unix.zip",
+			[]string{".", "dir", "dir/bar", "dir/empty", "hello", "readonly"},
+		},
+		{
+			"testdata/subdir.zip",
+			[]string{".", "a", "a/b", "a/b/c"},
+		},
+		{
+			"testdata/dupdir.zip",
+			[]string{".", "a", "a/b", "a/b/c"},
+		},
+	} {
+		test := test
+		t.Run(test.file, func(t *testing.T) {
+			t.Parallel()
+			z, err := OpenReader(test.file)
+			if err != nil {
+				t.Fatal(err)
+			}
+			var files []string
+			err = fs.WalkDir(z, ".", func(path string, d fs.DirEntry, err error) error {
+				if err != nil {
+					t.Errorf("%s: %v", path, err)
+				}
+				files = append(files, path)
+				return nil
+			})
+			if err != nil {
+				t.Errorf("fs.WalkDir error: %v", err)
+			}
+			if !reflect.DeepEqual(files, test.want) {
+				t.Errorf("got %v want %v", files, test.want)
 			}
 		})
 	}
