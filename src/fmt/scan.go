@@ -423,9 +423,6 @@ func (s *ss) SkipSpace() {
 		if r == eof {
 			return
 		}
-		if r == '\r' && s.peek("\n") {
-			continue
-		}
 		if r == '\n' {
 			if s.nlIsSpace {
 				continue
@@ -454,6 +451,9 @@ func (s *ss) token(skipSpace bool, f func(rune) bool) []byte {
 			break
 		}
 		if !f(r) {
+			if r == '\r' && s.peek("\n") {
+				s.getRune() // \n is unread and not \r
+			}
 			s.UnreadRune()
 			break
 		}
