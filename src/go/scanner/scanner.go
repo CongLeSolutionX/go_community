@@ -407,7 +407,7 @@ func digitVal(ch rune) int {
 	return 16 // larger than any legal digit val
 }
 
-func lower(ch rune) rune     { return ('a' - 'A') | ch } // returns lower-case ch iff ch is ASCII letter
+func lower(ch rune) rune     { return ('a' - 'A') | ch } // returns lower-case ch if ch is ASCII letter
 func isDecimal(ch rune) bool { return '0' <= ch && ch <= '9' }
 func isHex(ch rune) bool     { return '0' <= ch && ch <= '9' || 'a' <= lower(ch) && lower(ch) <= 'f' }
 
