@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e0d2786_a4d2c11f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26957
+      },
+      "writtenOn": "2022-01-03T09:24:35Z",
+      "side": 1,
+      "message": "(manually adding reviewers)\n\nDocumentation of package \u0027fmt\u0027 confirms that \\r\\n is always treated as \\n.\n\u0027\\r\u0027 is treated as a \"white space\" char and no special treatment\nis required when skipping space.\n\nThe CL adds the treatment of \\r followed by \\n when reading a token.\n\nNo test is added as two already existed. They did not report any error, apparently,\nbecause error treatment in fmt package goes through a recovered panic.\nValues of the scan method is returned and recovered message comes afterwards.\nWhen tested interactively, the issue displays the same behavior (see below).\n\n(Scanf) Please enter first string:\nword\u003csome white spaces \u0027 \u0027\u003e\n1 \u003cnil\u003e\nPlease enter second string:\n0 unexpected newline\n\nThe documentation states that for Scanf, the format must contain all newlines.\nThe last newline (when enter is hit at the console) does not trigger an error\nwhich seems fine.\n\nAfter this CL, the behavior on windows and macos monterey for the case tested is identical.\n\nLet me know any comment,\n",
+      "revId": "d4de8cb00254e2cdde3fa4846001e988d13bd6d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
