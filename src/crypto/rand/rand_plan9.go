@@ -8,13 +8,10 @@
 package rand
 
 import (
-	"crypto/aes"
-	"crypto/cipher"
-	"encoding/binary"
+	"golang.org/x/crypto/chacha20"
 	"io"
 	"os"
 	"sync"
-	"sync/atomic"
 	"time"
 )
 
@@ -27,83 +24,42 @@ func init() {
 // reader is a new pseudorandom generator that seeds itself by
 // reading from /dev/random. The Read method on the returned
 // reader always returns the full amount asked for, or else it
-// returns an error. The generator uses the X9.31 algorithm with
-// AES-128, reseeding after every 1 MB of generated data.
+// returns an error. The generator is a fast erasure RNG.
 type reader struct {
-	mu                   sync.Mutex
-	budget               int // number of bytes that can be generated
-	cipher               cipher.Block
-	entropy              io.Reader
-	entropyUsed          int32 // atomic; whether entropy has been used
-	time, seed, dst, key [aes.BlockSize]byte
-}
-
-func warnBlocked() {
-	println("crypto/rand: blocked for 60 seconds waiting to read random data from the kernel")
-}
-
-func (r *reader) readEntropy(b []byte) error {
-	if atomic.CompareAndSwapInt32(&r.entropyUsed, 0, 1) {
-		// First use of randomness. Start timer to warn about
-		// being blocked on entropy not being available.
-		t := time.AfterFunc(time.Minute, warnBlocked)
-		defer t.Stop()
-	}
-	var err error
-	if r.entropy == nil {
-		r.entropy, err = os.Open(randomDevice)
-		if err != nil {
-			return err
-		}
-	}
-	_, err = io.ReadFull(r.entropy, b)
-	return err
+	mu      sync.Mutex
+	seeded  sync.Once
+	seedErr error
+	key     [chacha20.KeySize]byte
 }
 
 func (r *reader) Read(b []byte) (n int, err error) {
+	r.seeded.Do(func() {
+		t := time.AfterFunc(time.Minute, func() {
+			println("crypto/rand: blocked for 60 seconds waiting to read random data from the kernel")
+		})
+		defer t.Stop()
+		entropy, err := os.Open(randomDevice)
+		if err != nil {
+			r.seedErr = err
+		}
+		_, err = io.ReadFull(entropy, r.key[:])
+		r.seedErr = err
+	})
+	if r.seedErr != nil {
+		return 0, r.seedErr
+	}
 	r.mu.Lock()
 	defer r.mu.Unlock()
+
 	n = len(b)
-
-	for len(b) > 0 {
-		if r.budget == 0 {
-			err = r.readEntropy(r.seed[0:])
-			if err != nil {
-				return n - len(b), err
-			}
-			err = r.readEntropy(r.key[0:])
-			if err != nil {
-				return n - len(b), err
-			}
-			r.cipher, err = aes.NewCipher(r.key[0:])
-			if err != nil {
-				return n - len(b), err
-			}
-			r.budget = 1 << 20 // reseed after generating 1MB
-		}
-		r.budget -= aes.BlockSize
-
-		// ANSI X9.31 (== X9.17) algorithm, but using AES in place of 3DES.
-		//
-		// single block:
-		// t = encrypt(time)
-		// dst = encrypt(t^seed)
-		// seed = encrypt(t^dst)
-		ns := time.Now().UnixNano()
-		binary.BigEndian.PutUint64(r.time[:], uint64(ns))
-		r.cipher.Encrypt(r.time[0:], r.time[0:])
-		for i := 0; i < aes.BlockSize; i++ {
-			r.dst[i] = r.time[i] ^ r.seed[i]
-		}
-		r.cipher.Encrypt(r.dst[0:], r.dst[0:])
-		for i := 0; i < aes.BlockSize; i++ {
-			r.seed[i] = r.time[i] ^ r.dst[i]
-		}
-		r.cipher.Encrypt(r.seed[0:], r.seed[0:])
-
-		m := copy(b, r.dst[0:])
-		b = b[m:]
+	var zeroNonce [chacha20.NonceSize]byte
+	stream, err := chacha20.NewUnauthenticatedCipher(r.key[:], zeroNonce[:])
+	if err != nil {
+		return 0, err
 	}
+	var zeroKey [chacha20.KeySize]byte
+	stream.XORKeyStream(r.key[:], zeroKey[:])
 
+	stream.XORKeyStream(b, b) // Wart: needless XORing with whatever junk is in b already.
 	return n, nil
 }
