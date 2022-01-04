@@ -5,7 +5,9 @@
 package elf
 
 import (
+	"bytes"
 	"fmt"
+	"io"
 	"testing"
 )
 
@@ -44,6 +46,30 @@ func TestNames(t *testing.T) {
 		s := fmt.Sprint(tt.val)
 		if s != tt.str {
 			t.Errorf("#%d: Sprint(%d) = %q, want %q", i, tt.val, s, tt.str)
+		}
+	}
+}
+
+func TestNobitsSection(t *testing.T) {
+	const wrongContents = "wrong"
+	s := &Section{
+		SectionHeader: SectionHeader{
+			Type:   SHT_NOBITS,
+			Addr:   0x1000,
+			Offset: 0x1000,
+			Size:   uint64(len(wrongContents))},
+		sr: io.NewSectionReader(bytes.NewReader([]byte(wrongContents)), 0, 1<<63-1),
+	}
+	buf, err := s.Data()
+	if err != nil {
+		t.Fatalf("error reading section data: %v", err)
+	}
+	if len(buf) != len(wrongContents) {
+		t.Errorf("wrong  length %d", len(buf))
+	}
+	for i := range buf {
+		if buf[i] != 0x00 {
+			t.Errorf("wrong byte in section data at %d: %#x\n", i, buf[i])
 		}
 	}
 }
