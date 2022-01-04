@@ -34,6 +34,24 @@
       "parentUuid": "594daa94_f359ce16",
       "revId": "dde3092ec0b31ba87eecaf33546986bc67fd515d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "02bd1d8c_791a71a2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34852
+      },
+      "writtenOn": "2022-01-04T19:54:46Z",
+      "side": 1,
+      "message": "Thanks! Is there something else I can do to move this PR forward?",
+      "parentUuid": "2d817d8d_27d2c70e",
+      "revId": "dde3092ec0b31ba87eecaf33546986bc67fd515d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
