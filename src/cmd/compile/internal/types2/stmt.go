@@ -810,21 +810,26 @@ func (check *Checker) typeSwitchStmt(inner stmtContext, s *syntax.SwitchStmt, gu
 func (check *Checker) rangeStmt(inner stmtContext, s *syntax.ForStmt, rclause *syntax.RangeClause) {
 	// scope already opened
 
-	// check expression to iterate over
-	var x operand
-	check.expr(&x, rclause.X)
-
 	// determine lhs, if any
 	sKey := rclause.Lhs // possibly nil
-	var sValue syntax.Expr
+	var sValue, sExtra syntax.Expr
 	if p, _ := sKey.(*syntax.ListExpr); p != nil {
-		if len(p.ElemList) != 2 {
+		if len(p.ElemList) < 2 {
 			check.error(s, invalidAST+"invalid lhs in range clause")
 			return
 		}
+		// len(p.ElemList) >= 2
 		sKey = p.ElemList[0]
 		sValue = p.ElemList[1]
+		if len(p.ElemList) > 2 {
+			// delay error reporting until we know more
+			sExtra = p.ElemList[2]
+		}
 	}
+
+	// check expression to iterate over
+	var x operand
+	check.expr(&x, rclause.X)
 
 	// determine key/value types
 	var key, val Type
@@ -842,6 +847,11 @@ func (check *Checker) rangeStmt(inner stmtContext, s *syntax.ForStmt, rclause *s
 			}
 			if t.dir == SendOnly {
 				cause = "receive from send-only channel"
+			}
+		default:
+			if sExtra != nil {
+				check.softErrorf(sExtra, "range clause permits at most two iteration variables")
+				// ok to continue
 			}
 		}
 		key, val = rangeKeyVal(u)
