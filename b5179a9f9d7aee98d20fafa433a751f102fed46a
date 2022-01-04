@@ -72,6 +72,23 @@
       "message": "Nice way of fixing this!  Seems good, but I\u0027ll let Robert +2 it, just to re-verify the actual expected result as being a different type, etc.",
       "revId": "b5179a9f9d7aee98d20fafa433a751f102fed46a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "edc09a80_3d97088c",
+        "filename": "src/cmd/compile/internal/types/fmt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 650,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-01-04T17:43:42Z",
+      "side": 1,
+      "message": "I\u0027m probably overlooking something but why can it not be formatted as \"struct{ Int }\" ? Maybe explain that in this comment as well.",
+      "revId": "b5179a9f9d7aee98d20fafa433a751f102fed46a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
