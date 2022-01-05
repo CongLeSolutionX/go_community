@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa91c7a7_e6da3c4c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-01-05T17:02:22Z",
+      "side": 1,
+      "message": "I am very confused by the change in PS7.\n\nFrom the various existing README files, I would expect:\n\n(a) `go tool dist list -json` reports platforms that are supported by the current release, and omits platforms that are no longer supported. (That is, the portRemoved helper function should be equivalent to checking that the port is *not* reported by `go tool dist list -json`.)\n\n(b) The .txt files in GOROOT/api contain exhaustive entries for all platforms supported by the current release, as well as platform-specific entries for no-longer-supported platforms up to the release at which support for the platform was dropped.\n\n(c) The API check on a given builder should include at least the build.Context for that builder, and perhaps also the build.Contexts for all of the first-class ports. (But we should also have builders for all of the first-class ports individually, so maybe the latter is not actually important?)\n\n(d) The command to update GOROOT/api/next.txt should update all supported ports, not just the first-class ones.\n\n\nI suspect that my expectations do not match reality. I would like to better understand where they diverge.",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 62
+      },
+      "revId": "ba03f715fac599cf70302d77d032c02c1d82bb53",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "3207e72b_686544f5",
