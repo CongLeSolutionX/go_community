@@ -147,6 +147,7 @@ func (check *Checker) verify(pos token.Pos, tparams []*TypeParam, targs []Type) 
 		// as the instantiated type; before we can use it for bounds checking we
 		// need to instantiate it with the type arguments with which we instantiated
 		// the parameterized type.
+		tpar.iface() // make sure tpar.bound is a (possibly implicit) interface (was issue #50450).
 		bound := check.subst(pos, tpar.bound, smap, nil)
 		if err := check.implements(targs[i], bound, qf); err != nil {
 			return i, err
