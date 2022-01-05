@@ -148,6 +148,14 @@ func (check *Checker) verify(pos token.Pos, tparams []*TypeParam, targs []Type) 
 		// need to instantiate it with the type arguments with which we instantiated
 		// the parameterized type.
 		bound := check.subst(pos, tpar.bound, smap, nil)
+		// If we don't have an interface, wrap the type bound with an implicit interface
+		// (was issue #50450).
+		// TODO(gri) Can we do this earlier/eagerly without causing problems elsewhere?
+		if _, ok := under(bound).(*Interface); !ok {
+			t := NewInterfaceType(nil, []Type{bound})
+			t.implicit = true
+			bound = t
+		}
 		if err := check.implements(targs[i], bound, qf); err != nil {
 			return i, err
 		}
