@@ -130,14 +130,10 @@ Relative import paths
 An import path beginning with ./ or ../ is called a relative path.
 The toolchain supports relative import paths as a shortcut in two ways.
 
-First, a relative path can be used as a shorthand on the command line.
-If you are working in the directory containing the code imported as
-"unicode" and want to run the tests for "unicode/utf8", you can type
-"go test ./utf8" instead of needing to specify the full path.
-Similarly, in the reverse situation, "go test .." will test "unicode" from
-the "unicode/utf8" directory. Relative patterns are also allowed, like
-"go test ./..." to test all subdirectories. See 'go help packages' for details
-on the pattern syntax.
+Second, if you are compiling a Go program with GO111MODULE=off, you can use a
+relative path in an import statement in that program to refer to nearby code.
+This makes it easy to experiment with small multipackage programs. Go
+programs cannot use relative import paths when using Go modules.
 
 Second, if you are compiling a Go program not in a work space,
 you can use a relative path in an import statement in that program
