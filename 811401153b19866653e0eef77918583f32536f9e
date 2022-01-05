@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "afcf1c11_78304427",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55468
+      },
+      "writtenOn": "2022-01-05T06:36:50Z",
+      "side": 1,
+      "message": "Let\u0027s abandon this change and chat on https://go-review.googlesource.com/c/go/+/375535 instead.",
+      "revId": "811401153b19866653e0eef77918583f32536f9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
