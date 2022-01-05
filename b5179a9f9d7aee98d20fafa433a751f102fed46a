@@ -89,6 +89,24 @@
       "message": "I\u0027m probably overlooking something but why can it not be formatted as \"struct{ Int }\" ? Maybe explain that in this comment as well.",
       "revId": "b5179a9f9d7aee98d20fafa433a751f102fed46a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b8587d2_1650a2dc",
+        "filename": "src/cmd/compile/internal/types/fmt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 650,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-01-05T21:54:18Z",
+      "side": 1,
+      "message": "Because `Int` may be defined as a different type alias in different contexts. For example, this needs to print false:\n\n```\nvar a, b interface{}\n{\n    type Int \u003d int32\n    a \u003d struct{ Int }{}\n}\n{\n    type Int \u003d uint32\n    b \u003d struct{ Int }{}\n}\nprintln(a \u003d\u003d b)\n```\n\nWith this CL as is, the two struct types here will have link strings \"struct{ Int \u003d int32 }\" and \"struct{ Int \u003d uint32 }\", respectively, which keeps their runtime type descriptors separate.\n\n(I\u0027m still out sick, just happened to notice this question in my inbox while filling out the sick leave form.)",
+      "parentUuid": "edc09a80_3d97088c",
+      "revId": "b5179a9f9d7aee98d20fafa433a751f102fed46a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
