@@ -13,6 +13,7 @@ import (
 	"encoding/base64"
 	"errors"
 	"fmt"
+	"internal/testenv"
 	"io"
 	"log"
 	"net"
@@ -21,6 +22,7 @@ import (
 	"net/http/httptest"
 	"net/url"
 	"reflect"
+	"runtime"
 	"strconv"
 	"strings"
 	"sync"
@@ -1203,6 +1205,10 @@ func TestClientTimeout_h1(t *testing.T) { testClientTimeout(t, h1Mode) }
 func TestClientTimeout_h2(t *testing.T) { testClientTimeout(t, h2Mode) }
 
 func testClientTimeout(t *testing.T, h2 bool) {
+	if runtime.GOOS == "windows" && strings.HasPrefix(runtime.GOARCH, "arm") {
+		testenv.SkipFlaky(t, 43120)
+	}
+
 	setParallel(t)
 	defer afterTest(t)
 
