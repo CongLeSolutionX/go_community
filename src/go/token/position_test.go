@@ -148,6 +148,11 @@ func TestPositions(t *testing.T) {
 func TestLineInfo(t *testing.T) {
 	fset := NewFileSet()
 	f := fset.AddFile("foo", fset.Base(), 500)
+
+	// both should fail without side effect
+	f.AddLine(f.Size() + 1)
+	f.AddLineInfo(f.Size()+1, "bar", 42)
+
 	lines := []int{0, 42, 77, 100, 210, 220, 277, 300, 333, 401}
 	// add lines individually and provide alternative line information
 	for _, offs := range lines {
