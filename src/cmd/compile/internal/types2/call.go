@@ -526,42 +526,45 @@ func (check *Checker) selector(x *operand, e *syntax.SelectorExpr) {
 	}
 
 	obj, index, indirect = LookupFieldOrMethod(x.typ, x.mode == variable, check.pkg, sel)
+
 	if obj == nil {
-		switch {
-		case index != nil:
+		if index != nil {
 			// TODO(gri) should provide actual type where the conflict happens
 			check.errorf(e.Sel, "ambiguous selector %s.%s", x.expr, sel)
-		case indirect:
-			check.errorf(e.Sel, "cannot call pointer method %s on %s", sel, x.typ)
-		default:
-			var why string
-			if tpar, _ := x.typ.(*TypeParam); tpar != nil {
-				// Type parameter bounds don't specify fields, so don't mention "field".
-				if tname := tpar.iface().obj; tname != nil {
-					why = check.sprintf("interface %s has no method %s", tname.name, sel)
-				} else {
-					why = check.sprintf("type bound for %s has no method %s", x.typ, sel)
-				}
-			} else {
-				why = check.sprintf("type %s has no field or method %s", x.typ, sel)
-			}
-
-			// Check if capitalization of sel matters and provide better error message in that case.
-			if len(sel) > 0 {
-				var changeCase string
-				if r := rune(sel[0]); unicode.IsUpper(r) {
-					changeCase = string(unicode.ToLower(r)) + sel[1:]
-				} else {
-					changeCase = string(unicode.ToUpper(r)) + sel[1:]
-				}
-				if obj, _, _ = LookupFieldOrMethod(x.typ, x.mode == variable, check.pkg, changeCase); obj != nil {
-					why += ", but does have " + changeCase
-				}
-			}
-
-			check.errorf(e.Sel, "%s.%s undefined (%s)", x.expr, sel, why)
-
+			goto Error
 		}
+
+		if indirect {
+			check.errorf(e.Sel, "cannot call pointer method %s on %s", sel, x.typ)
+			goto Error
+		}
+	}
+
+	if obj == nil {
+		var why string
+		if tpar, _ := x.typ.(*TypeParam); tpar != nil {
+			// Type parameter bounds don't specify fields, so don't mention "field".
+			if tname := tpar.iface().obj; tname != nil {
+				why = check.sprintf("interface %s has no method %s", tname.name, sel)
+			} else {
+				why = check.sprintf("type bound for %s has no method %s", x.typ, sel)
+			}
+		} else {
+			why = check.sprintf("type %s has no field or method %s", x.typ, sel)
+		}
+		// Check if capitalization of sel matters and provide better error message in that case.
+		if len(sel) > 0 {
+			var changeCase string
+			if r := rune(sel[0]); unicode.IsUpper(r) {
+				changeCase = string(unicode.ToLower(r)) + sel[1:]
+			} else {
+				changeCase = string(unicode.ToUpper(r)) + sel[1:]
+			}
+			if obj, _, _ = LookupFieldOrMethod(x.typ, x.mode == variable, check.pkg, changeCase); obj != nil {
+				why += ", but does have " + changeCase
+			}
+		}
+		check.errorf(e.Sel, "%s.%s undefined (%s)", x.expr, sel, why)
 		goto Error
 	}
 
