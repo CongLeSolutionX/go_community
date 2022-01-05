@@ -59,6 +59,30 @@
       },
       "revId": "367bd493d536e91de3de4730d8d23d5aaf682d15",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5fdd3aec_6f872a39",
+        "filename": "src/cmd/go/testdata/script/test_fuzz_cov.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2022-01-05T20:46:59Z",
+      "side": 1,
+      "message": "Oh huh, didn\u0027t know we had this!",
+      "parentUuid": "2ba3d1b2_307730d7",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 12
+      },
+      "revId": "367bd493d536e91de3de4730d8d23d5aaf682d15",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
