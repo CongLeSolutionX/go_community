@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cf0a4cad_f200df84",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-01-05T00:02:35Z",
+      "side": 1,
+      "message": "This CL description appears to be out of date. I don\u0027t see a TrustForwardedHeaders option.",
+      "revId": "dde3092ec0b31ba87eecaf33546986bc67fd515d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "594daa94_f359ce16",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 6
@@ -50,6 +67,74 @@
       "side": 1,
       "message": "Thanks! Is there something else I can do to move this PR forward?",
       "parentUuid": "2d817d8d_27d2c70e",
+      "revId": "dde3092ec0b31ba87eecaf33546986bc67fd515d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b025f723_2345a25c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-01-05T00:02:35Z",
+      "side": 1,
+      "message": "API changes should start with a proposal.\n\nSo far as I can tell, users can get the behavior provided by this CL with a custom Director function that sets the X-Forwarded-Proto and X-Forwarded-Host headers and deletes the X-Forwarded-For header. As such, this API extension is a convenience only. Is the expansion of API surface worth that convenience?\n\nDoes this API need to consider the standards track Forwarded header from RFC 7239?\n\nBut please start with a proposal:\nhttps://github.com/golang/proposal",
+      "revId": "dde3092ec0b31ba87eecaf33546986bc67fd515d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6eb09c3_a34609b2",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-01-05T00:02:35Z",
+      "side": 1,
+      "message": "This option does too many things:\n- It enables sending X-Forwarded-Proto and X-Forwarded-Host.\n- It removes prior values of X-F-Proto, X-F-Host.\n- It overwrites prior values of X-F-For rather than appending to them.",
+      "revId": "dde3092ec0b31ba87eecaf33546986bc67fd515d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ce252e5_6e1419ce",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-01-05T00:02:35Z",
+      "side": 1,
+      "message": "outreq.Host doesn\u0027t seem to be right. X-Forwarded-Host contains the Host sent to the proxy, not a copy of the Host sent by the proxy.",
+      "revId": "dde3092ec0b31ba87eecaf33546986bc67fd515d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b72e9fc_ea2012a4",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-01-05T00:02:35Z",
+      "side": 1,
+      "message": "The user can set X-Forwarded-For to nil to prevent adding a new value. Deleting X-Forwarded-For defeats this behavior.\n\nShould we omit sending X-F-Proto and X-F-Host if they are set to nil? Should we set X-F-Proto if we don\u0027t set X-F-For?\n\nThere needs to be consideration of how these various configuration knobs interact.",
       "revId": "dde3092ec0b31ba87eecaf33546986bc67fd515d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
