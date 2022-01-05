@@ -107,6 +107,24 @@
       "parentUuid": "edc09a80_3d97088c",
       "revId": "b5179a9f9d7aee98d20fafa433a751f102fed46a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71e7a3b8_06b10835",
+        "filename": "src/cmd/compile/internal/types/fmt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 650,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-01-05T21:57:51Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7b8587d2_1650a2dc",
+      "revId": "b5179a9f9d7aee98d20fafa433a751f102fed46a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
