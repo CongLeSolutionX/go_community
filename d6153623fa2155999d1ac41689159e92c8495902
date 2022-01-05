@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ceba702_461d3b78",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55468
+      },
+      "writtenOn": "2022-01-05T06:52:24Z",
+      "side": 1,
+      "message": "The documentation for relative import paths needs to be updated. The last time it was updated was in October 2013 (go1.2rc2).\n\nDuring the holidays I spent a lot of time trying to understand why relative imports weren\u0027t working in my Go program (I was learning Go for the first time). The section on \"Relative import paths\" was confusing/misleading, so I created a patch to improve the documentation.\n\nOther users seem to have run into similar issues.\n- https://github.com/golang/go/issues/26645\n\nCode review would be much appreciated.",
+      "revId": "d6153623fa2155999d1ac41689159e92c8495902",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
