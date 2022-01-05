@@ -1,0 +1,45 @@
+// Copyright 2022 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+package p
+
+type Sf struct {
+        f int
+}
+
+func f0[P Sf](p P) {
+        _ = p.f
+        p.f = 0
+}
+
+var _ = f0[Sf]
+
+var _ = f0[Sm /* ERROR does not implement */ ]
+
+func f1[P interface{ Sf; m() }](p P) {
+        _ = p.f
+        p.f = 0
+        p.m()
+}
+
+var _ = f1[Sf /* ERROR missing method m */ ]
+var _ = f1[Sm /* ERROR does not implement */ ]
+
+type Sm struct {}
+
+func (Sm) m() {}
+
+type Sfm struct {
+        f int
+}
+
+func (Sfm) m() {}
+
+func f2[P interface{ Sfm; m() }](p P) {
+        _ = p.f
+        p.f = 0
+        p.m()
+}
+
+var _ = f2[Sfm]

@@ -538,6 +538,18 @@ func (check *Checker) selector(x *operand, e *syntax.SelectorExpr) {
 			check.errorf(e.Sel, "cannot call pointer method %s on %s", sel, x.typ)
 			goto Error
 		}
+
+		// If we have a type parameter with a structural constraint, see if there is
+		// a matching field (but not a method, those need to be declared explicitly
+		// in the constraint).
+		if isTypeParam(x.typ) {
+			if styp := structuralType(x.typ); styp != nil {
+				obj, index, indirect = LookupFieldOrMethod(styp, x.mode == variable, check.pkg, sel)
+				if _, ok := obj.(*Var); !ok {
+					obj = nil // accept fields (variables) only
+				}
+			}
+		}
 	}
 
 	if obj == nil {
