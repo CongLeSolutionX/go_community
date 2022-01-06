@@ -33,6 +33,23 @@
       "message": "A change like this definitely needs a test.  If the current tests pass incorrectly, then change that so that they fail before this change and pass afterward.  Thanks.",
       "revId": "d4de8cb00254e2cdde3fa4846001e988d13bd6d9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "904bd8b7_beb35d88",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26957
+      },
+      "writtenOn": "2022-01-06T15:14:54Z",
+      "side": 1,
+      "message": "After more investigation in the reported case, I supplemented the issue with details. It seems to me that everything works as expected. Maybe, the two lines could be removed as a performance improvement. A specific test could be added to document the behavior.",
+      "revId": "d4de8cb00254e2cdde3fa4846001e988d13bd6d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
