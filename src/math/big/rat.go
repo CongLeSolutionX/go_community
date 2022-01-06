@@ -418,7 +418,10 @@ func (x *Rat) Num() *Int {
 // If the result is a reference to x's denominator it
 // may change if a new value is assigned to x, and vice versa.
 func (x *Rat) Denom() *Int {
-	x.b.neg = false // the result is always >= 0
+	// Note that x.b.neg is guaranteed false.
+	// We cannot write to it because that will provoke races
+	// in an ostensibly read-only function. See TestDenomRace.
+
 	if len(x.b.abs) == 0 {
 		// Note: If this proves problematic, we could
 		//       panic instead and require the Rat to
