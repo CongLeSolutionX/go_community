@@ -88,6 +88,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "be1825de_c1a40806",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34852
+      },
+      "writtenOn": "2022-01-06T14:52:32Z",
+      "side": 1,
+      "message": "I opened a proposal detailing while I think it is worth it: https://github.com/golang/go/issues/50465",
+      "parentUuid": "b025f723_2345a25c",
+      "revId": "dde3092ec0b31ba87eecaf33546986bc67fd515d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c6eb09c3_a34609b2",
@@ -135,6 +153,24 @@
       "writtenOn": "2022-01-05T00:02:35Z",
       "side": 1,
       "message": "The user can set X-Forwarded-For to nil to prevent adding a new value. Deleting X-Forwarded-For defeats this behavior.\n\nShould we omit sending X-F-Proto and X-F-Host if they are set to nil? Should we set X-F-Proto if we don\u0027t set X-F-For?\n\nThere needs to be consideration of how these various configuration knobs interact.",
+      "revId": "dde3092ec0b31ba87eecaf33546986bc67fd515d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f710aae_525b2d50",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 34852
+      },
+      "writtenOn": "2022-01-06T14:52:32Z",
+      "side": 1,
+      "message": "This behavior has been added after I crafted this patch. It\u0027s why it\u0027s not supported yet: https://github.com/golang/go/issues/38079",
+      "parentUuid": "8b72e9fc_ea2012a4",
       "revId": "dde3092ec0b31ba87eecaf33546986bc67fd515d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
