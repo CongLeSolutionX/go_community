@@ -123,6 +123,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "20a36805_8ee0832a",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 34852
+      },
+      "writtenOn": "2022-01-06T16:12:17Z",
+      "side": 1,
+      "message": "Changed in the proposal and fixed in patchset 7.",
+      "parentUuid": "c6eb09c3_a34609b2",
+      "revId": "dde3092ec0b31ba87eecaf33546986bc67fd515d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1ce252e5_6e1419ce",
@@ -136,6 +154,24 @@
       "writtenOn": "2022-01-05T00:02:35Z",
       "side": 1,
       "message": "outreq.Host doesn\u0027t seem to be right. X-Forwarded-Host contains the Host sent to the proxy, not a copy of the Host sent by the proxy.",
+      "revId": "dde3092ec0b31ba87eecaf33546986bc67fd515d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e992fc87_42b18dc9",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 34852
+      },
+      "writtenOn": "2022-01-06T16:12:17Z",
+      "side": 1,
+      "message": "Thanks, fixed.",
+      "parentUuid": "1ce252e5_6e1419ce",
       "revId": "dde3092ec0b31ba87eecaf33546986bc67fd515d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -171,6 +207,24 @@
       "side": 1,
       "message": "This behavior has been added after I crafted this patch. It\u0027s why it\u0027s not supported yet: https://github.com/golang/go/issues/38079",
       "parentUuid": "8b72e9fc_ea2012a4",
+      "revId": "dde3092ec0b31ba87eecaf33546986bc67fd515d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0da38842_16e91d0b",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 34852
+      },
+      "writtenOn": "2022-01-06T16:12:17Z",
+      "side": 1,
+      "message": "Changed in the proposal and fixed in patchset 7.",
+      "parentUuid": "3f710aae_525b2d50",
       "revId": "dde3092ec0b31ba87eecaf33546986bc67fd515d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
