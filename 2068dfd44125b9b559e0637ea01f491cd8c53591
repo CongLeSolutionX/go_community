@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "487df5c0_51b34837",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-01-07T00:00:00Z",
+      "side": 1,
+      "message": "You can leave this sentence away. The example below is sufficient.",
+      "revId": "2068dfd44125b9b559e0637ea01f491cd8c53591",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fd7beb2a_e1e1578a",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -70,6 +87,23 @@
       "writtenOn": "2021-12-21T14:55:23Z",
       "side": 1,
       "message": "Thanks! This change to the error message looks helpful, but let\u0027s wait for Robert to see it. This will probably have to wait until we come back after the New Year.",
+      "revId": "2068dfd44125b9b559e0637ea01f491cd8c53591",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "207a6ab4_f37de7d0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-01-07T00:00:00Z",
+      "side": 1,
+      "message": "Thanks. LGTM.\nPlease make the matching change in go/types as well (and add it to this CL), thanks. Leaving to rfindley to +2 once he\u0027s happy with those changes as well.",
       "revId": "2068dfd44125b9b559e0637ea01f491cd8c53591",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
