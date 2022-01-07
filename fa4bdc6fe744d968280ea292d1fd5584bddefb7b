@@ -183,6 +183,41 @@
       "message": "Kind of surprising that the newly created directory would ever be more than 2048 bytes, but this change does no harm and may help.",
       "revId": "fa4bdc6fe744d968280ea292d1fd5584bddefb7b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ede855e_8af777fd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-01-07T19:59:11Z",
+      "side": 1,
+      "message": "TRY\u003d\n\n(The OS-specific SlowBots already passed; at this point I\u0027m just trying to get a TryBot run without an OpenBSD flake.)",
+      "revId": "fa4bdc6fe744d968280ea292d1fd5584bddefb7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd8be6c9_22c7689e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-01-07T19:59:11Z",
+      "side": 1,
+      "message": "I agree, it seems plausible that the buffer size is a red herring — but I do think it\u0027s interesting that it reproduces the symptoms!\n\nI almost wonder if the actual cause is some sort of synchronization effect: maybe the OS is doing some kind of lazy synchronization, and returns early instead of blocking if it already has at least one entry to report?\n\nOr, perhaps it is a kernel bug along the lines of the one in #24015 — but if that is the case, then the extra logging added in this CL should help to illustrate it in more detail.",
+      "parentUuid": "72d13bc3_af79c518",
+      "revId": "fa4bdc6fe744d968280ea292d1fd5584bddefb7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
