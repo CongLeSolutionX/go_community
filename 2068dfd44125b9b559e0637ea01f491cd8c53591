@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "137beab6_0dd83078",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2022-01-07T02:57:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "487df5c0_51b34837",
+      "revId": "2068dfd44125b9b559e0637ea01f491cd8c53591",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fd7beb2a_e1e1578a",
@@ -104,6 +122,24 @@
       "writtenOn": "2022-01-07T00:00:00Z",
       "side": 1,
       "message": "Thanks. LGTM.\nPlease make the matching change in go/types as well (and add it to this CL), thanks. Leaving to rfindley to +2 once he\u0027s happy with those changes as well.",
+      "revId": "2068dfd44125b9b559e0637ea01f491cd8c53591",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74704d30_14d980e4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2022-01-07T02:57:53Z",
+      "side": 1,
+      "message": "Done, thank you Gri!",
+      "parentUuid": "207a6ab4_f37de7d0",
       "revId": "2068dfd44125b9b559e0637ea01f491cd8c53591",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
