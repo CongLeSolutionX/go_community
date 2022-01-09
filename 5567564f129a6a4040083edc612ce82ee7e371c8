@@ -40,6 +40,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "055ae96d_13396dd5",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1984,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-01-09T14:34:20Z",
+      "side": 1,
+      "message": "Why do we need both \u0027specific types\u0027 and \u0027representative types\u0027? The distinction (if any) is confusing.",
+      "range": {
+        "startLine": 1983,
+        "startChar": 47,
+        "endLine": 1984,
+        "endChar": 80
+      },
+      "revId": "5567564f129a6a4040083edc612ce82ee7e371c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27552de2_10528a9b",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1989,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-01-09T14:34:20Z",
+      "side": 1,
+      "message": "Per comment below, maybe this should be \"For a given interface, type element, or type term, the set...\"",
+      "range": {
+        "startLine": 1989,
+        "startChar": 0,
+        "endLine": 1989,
+        "endChar": 21
+      },
+      "revId": "5567564f129a6a4040083edc612ce82ee7e371c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e0f94b75_6e8e7911",
         "filename": "doc/go_spec.html",
         "patchSetId": 2
@@ -51,6 +97,47 @@
       "writtenOn": "2022-01-08T21:16:54Z",
       "side": 1,
       "message": "First you say \"an interface with no type elements\" and here you say \"a non-empty interface\".  Should this line instead be \"an interface with type elements\"?",
+      "revId": "5567564f129a6a4040083edc612ce82ee7e371c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d6c129b_963a4b2c",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1996,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-01-09T14:34:20Z",
+      "side": 1,
+      "message": "+1, I think it should. interface{ m() } is both non-empty and has no type elements, so so its representative type set is not well-defined when applying the rule here.",
+      "parentUuid": "e0f94b75_6e8e7911",
+      "revId": "5567564f129a6a4040083edc612ce82ee7e371c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d2d3f9d_df53777e",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2001,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-01-09T14:34:20Z",
+      "side": 1,
+      "message": "Here you\u0027re defining R for a type term. I know what you mean (and maybe that\u0027s sufficient), but at this point we\u0027ve only defined R in terms of interfaces, not elements or terms.",
+      "range": {
+        "startLine": 2000,
+        "startChar": 5,
+        "endLine": 2001,
+        "endChar": 53
+      },
       "revId": "5567564f129a6a4040083edc612ce82ee7e371c8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
