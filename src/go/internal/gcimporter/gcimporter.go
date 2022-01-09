@@ -62,7 +62,7 @@ func FindPkg(path, srcDir string) (filename, id string) {
 		id = path
 	}
 
-	if false { // for debugging
+	if debug { // for debugging
 		if path != id {
 			fmt.Printf("%s -> %s\n", path, id)
 		}
