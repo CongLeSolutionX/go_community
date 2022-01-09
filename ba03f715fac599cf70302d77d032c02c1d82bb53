@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "52736e3b_26211b25",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 26957
+      },
+      "writtenOn": "2022-01-09T15:43:45Z",
+      "side": 1,
+      "message": "The objectives of the CL is to change defaults to the list of first class ports and to avoid manual maintenance of the list of ports in cmd/api.\n\n(a) portRemoved: agree.\n\n(b) The last entry in the txt files is not in the file of the last cycle of support. Some reasons:\n\n- When a platform support is dropped like darwin-386. Last specific entry if go1.9 when it was officially removed in go1.14.\n\n- If a generic entry of a feature is available, i.e. without any specific port, when the feature is added to a port, no new entry appears, for instance \"pkg image/png, type EncoderBuffer struct\" in go1.9. No other entry displays.\n\n- If the entry is platform-specific, then new lines are added in each cycle when a new port is supporting the feature, f.i. \"func TimevalToNsec(Timeval) int64\" added in Go1.2 and still adding lines afterwards.\n\n(c) The api tool does not allow to check the completeness of a port. Tests are routinely skipped for unsupported features by checking runtime.GOOS. Its aim is go promise of compatibility.\n\nAs I recall current policy, the definition of a first-class port is to have a builder running long tests.\nA non-first class port must have a builder but it may run tests using the \u0027short\u0027 flag.\n\nTo check API on each builder for any type of port would require to maintain a \u0027next\u0027 file for all ports or a next file for each port. Overriding the default is done using the existing \u0027contexts\u0027 flag.\n\nThe current default command \u0027go tool dist -run api\u0027 in use on some builders, would become something like \u0027go tool dist -contexts $(go env GO_BUILDER_NAME) -run api\u0027 which is not tested. Considering the number of added ports, some port specific file are probably required.\n\n(d) If a specific port is listed by overriding the list of contexts, all entries of the port are listed. First class ports are always maintained at release level.",
+      "parentUuid": "aa91c7a7_e6da3c4c",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 62
+      },
+      "revId": "ba03f715fac599cf70302d77d032c02c1d82bb53",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "3207e72b_686544f5",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 6
