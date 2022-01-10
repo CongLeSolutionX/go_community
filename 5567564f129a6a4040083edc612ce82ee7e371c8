@@ -38,6 +38,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f5b4dab_070bdb3f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-01-10T20:16:55Z",
+      "side": 1,
+      "message": "PTAL",
+      "revId": "5567564f129a6a4040083edc612ce82ee7e371c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "055ae96d_13396dd5",
@@ -63,6 +80,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5133ad93_063dcff8",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1984,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-01-10T20:16:55Z",
+      "side": 1,
+      "message": "This is the best approach I have come up with so far. I tried to avoid this \"helper data structure\" of representative types before and it was incorrect.\n\nAn alternative is to just talk about representative types (or call those \"specific types) and then prefix every use of them with \"non-empty and finite\". But that\u0027s very clumsy.\n\nI\u0027m all ears for a better solution.",
+      "parentUuid": "055ae96d_13396dd5",
+      "range": {
+        "startLine": 1983,
+        "startChar": 47,
+        "endLine": 1984,
+        "endChar": 80
+      },
+      "revId": "5567564f129a6a4040083edc612ce82ee7e371c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "27552de2_10528a9b",
         "filename": "doc/go_spec.html",
         "patchSetId": 2
@@ -74,6 +115,30 @@
       "writtenOn": "2022-01-09T14:34:20Z",
       "side": 1,
       "message": "Per comment below, maybe this should be \"For a given interface, type element, or type term, the set...\"",
+      "range": {
+        "startLine": 1989,
+        "startChar": 0,
+        "endLine": 1989,
+        "endChar": 21
+      },
+      "revId": "5567564f129a6a4040083edc612ce82ee7e371c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e147d54c_7070b49f",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1989,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-01-10T20:16:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27552de2_10528a9b",
       "range": {
         "startLine": 1989,
         "startChar": 0,
@@ -115,6 +180,24 @@
       "side": 1,
       "message": "+1, I think it should. interface{ m() } is both non-empty and has no type elements, so so its representative type set is not well-defined when applying the rule here.",
       "parentUuid": "e0f94b75_6e8e7911",
+      "revId": "5567564f129a6a4040083edc612ce82ee7e371c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cef71eba_dcf20323",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1996,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-01-10T20:16:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d6c129b_963a4b2c",
       "revId": "5567564f129a6a4040083edc612ce82ee7e371c8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
