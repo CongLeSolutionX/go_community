@@ -16,6 +16,24 @@
       "message": "This call appears to be missing some synchronization:\nhttps://build.golang.org/log/2e094d3f02adefebc77f18fd19a943808d46bbe6\n\nShould we roll back this CL and retry with a fix, or is there an easy fix-forward?",
       "revId": "933f6685f7d33f3865d6ef062cbb0944d3f5d2fc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a58e2d48_f76afd2d",
+        "filename": "src/cmd/compile/internal/types/fmt.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 669,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-01-10T19:29:33Z",
+      "side": 1,
+      "message": "Thanks. It\u0027s probably easy to fix, but sent a revert CL anyway because I don\u0027t want to rush it.",
+      "parentUuid": "a21dd700_d0616a7f",
+      "revId": "933f6685f7d33f3865d6ef062cbb0944d3f5d2fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
