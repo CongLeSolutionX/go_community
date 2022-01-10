@@ -59,6 +59,30 @@
       },
       "revId": "ec15ba2bfc042bef52831e82d0874cc527d26b90",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f43ced01_8b308184",
+        "filename": "src/go/types/call.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 548,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-01-10T17:26:28Z",
+      "side": 1,
+      "message": "That is fine, but this is not the only place where we should make this change.\nHow about I address this in a follow-up CL for sake of expediency? (It\u0027ll be easier then to get rebase this and the next CL and get everything to work again.) Happy to provide the CL before submitting this one.",
+      "parentUuid": "98712ff0_9794730c",
+      "range": {
+        "startLine": 548,
+        "startChar": 83,
+        "endLine": 548,
+        "endChar": 92
+      },
+      "revId": "ec15ba2bfc042bef52831e82d0874cc527d26b90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
