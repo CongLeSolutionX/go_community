@@ -6,4 +6,6 @@ package sha256
 
 import "internal/cpu"
 
+var useSHANI = cpu.X86.HasSHA && cpu.X86.HasSSE3 &&
+	cpu.X86.HasSSE41 && cpu.X86.HasAVX
 var useAVX2 = cpu.X86.HasAVX2 && cpu.X86.HasBMI2
