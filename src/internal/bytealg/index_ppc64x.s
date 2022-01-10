@@ -513,7 +513,7 @@ index2plus:
 	BNE      index3plus   // If not 2, check for 3
 	ADD      $16, R7, R9  // Check if next 16 bytes past last
 	CMP      R9, LASTBYTE // compare with last
-	BGE      index2to16   // 2 <= len(string) <= 16
+	BGE      index2rem    // 2 <= len(string) <= 16
 	MOVD     $0xff00, R21 // Mask for later
 	MTVSRD   R21, V25     // Move to Vreg
 	VSPLTH   $3, V25, V31 // Splat mask
@@ -552,7 +552,7 @@ index2loop:
 	CMP     R9, LASTBYTE    // Compare addr+17 against last byte
 	BLT     index2loop2     // If < last, continue loop
 	CMP     R7, LASTBYTE    // Compare addr+16 against last byte
-	BLT     index2to16      // If < 16 handle specially
+	BLT     index2rem       // If < 16 handle specially
 	LXVB16X (R7)(R0), V3_   // Load 16 bytes @R7 into V3
 	VSLDOI  $1, V3, V10, V3 // Shift left by 1 byte
 	BR      index2loop
@@ -562,7 +562,7 @@ index3plus:
 	BNE    index4plus   // If not check larger
 	ADD    $19, R7, R9  // Find bytes for use in this loop
 	CMP    R9, LASTBYTE // Compare against last byte
-	BGE    index2to16   // Remaining string 2<=len<=16
+	BGE    index3rem    // Remaining string 2<=len<=16
 	MOVD   $0xff00, R21 // Set up mask for upcoming loop
 	MTVSRD R21, V25     // Move mask to Vreg
 	VSPLTH $3, V25, V31 // Splat mask
@@ -612,7 +612,7 @@ index3loop:
 	CMP      R9, LASTBYTE // Compare against last byte of string
 	BLT      index3loop2  // If within, continue this loop
 	CMP      R7, LASTSTR  // Compare against last start byte
-	BLT      index2to16   // Process remainder
+	BLT      index3rem2   // Process remainder
 	VSPLTISB $0, V3       // Special case for last 16 bytes
 	BR       index3loop   // Continue this loop
 
@@ -630,8 +630,7 @@ index4plus:
 	BNE  index5plus   // If not next higher
 	ADD  $20, R7, R9  // Check string size to load
 	CMP  R9, LASTBYTE // Verify string length
-	BGE  index2to16   // If not large enough, process remaining
-	MOVD $2, R15      // Set up index
+	BGE  index4rem    // tail end: process remainder
 
 	// Set up masks for use with VSEL
 	MOVD    $0xff, R21 // Set up mask 0xff000000ff000000...
@@ -677,10 +676,83 @@ next4:
 	CMP     R9, LASTBYTE // Past end? Maybe check for extra?
 	BLT     index4loop   // If not, continue loop
 	CMP     R7, LASTSTR  // Check remainder
-	BLE     index2to16   // Process remainder
+	BLE     index4rem    // Process remainder
 	BR      notfound     // Not found
 
 index5plus:
+	CMP     R6, $5       // Check if 5 byte separator
+	BNE     index6plus    // If not next higher
+
+	ADD     $21, R7, R9  // Check string size to load
+	CMP     R9, LASTBYTE // Verify string length
+	BGE     index2to16   // tailend: process remainder
+
+	// Set up masks for use with VSEL
+	// we use the same strategy as for 4 byte separator
+	// except that we add one extra byte comparison
+	MOVD    $0xff, R21 // Set up mask 0xff000000ff000000...
+	SLD     $24, R21
+	MTVSRWS R21, V29
+
+	VSLDOI  $2, V29, V29, V30 // Mask 0x0000ff000000ff00...
+	MOVD    $0xffff, R21
+	SLD     $16, R21
+	MTVSRWS R21, V31
+
+	VSPLTW  $0, V0, V1 // Splat 1st word of separator
+	VSPLTB  $4, V0, V8 // splat 5th byte of separator
+
+index5loop:
+	LXVB16X (R7)(R0), V2_ // Load 16 bytes @R7 into V2
+
+next5:
+	VSPLTISB $0, V10            // Clear
+	MOVD     $4, R9             // Number of bytes beyond 16
+	LXVB16X  (R7)(R9), V3_      // Load 16 bytes @R7 into V2
+	VSLDOI   $12, V3, V10, V3   // Shift left last 4 bytes
+	VSLDOI   $1, V2, V3, V4     // V4=(V2:V3)<<1
+	VSLDOI   $2, V2, V3, V9     // V9=(V2:V3)<<2
+	VSLDOI   $3, V2, V3, V10    // V10=(V2:v3)<<3
+	VSLDOI   $4, V2, V3, V15    // V15=(V2:V3)<<4
+
+	VCMPEQUW V1, V2, V5         // compare index 0, 5, ... with sep
+	VCMPEQUW V1, V4, V6         // compare index 1, 6, ... with sep
+	VCMPEQUW V1, V9, V11        // compare index 2, 7, ... with sep
+	VCMPEQUW V1, V10, V12       // compare index 3, 8, ... with sep
+
+	VCMPEQUB V8, V15, V16       // compare 5th to last byte
+
+	VSEL     V6, V5, V29, V13   // merge index 0, 1, 5, 6, using mask
+	VSEL     V12, V11, V30, V14 // merge index 2, 3, 7, 8, using mask
+	VSEL     V14, V13, V31, V7  // final merge
+	VAND     V7, V16, V7         // merge with 5th byte
+
+	VCLZD    V7, V18            // Find first index for each half
+	MFVSRD   V18, R25           // Isolate value
+	CMP      R25, $64           // If < 64, found
+	BLT      foundR25           // Return found index
+
+	MFVSRLD V18, R25     // Isolate other value
+	CMP     R25, $64     // If < 64, found
+	ADD     $64, R25     // Update index for high doubleword
+	BLT     foundR25     // Return found index
+	ADD     $16, R7      // R7+=16 for next string
+	ADD     $21, R7, R9  // R+21 for all bytes to load
+	CMP     R9, LASTBYTE // Past end? Maybe check for extra?
+	BLT     index5loop   // If not, continue loop
+	CMP     R7, LASTSTR  // Check remainder
+	BLE     index2to16   // Process remainder
+	BR      notfound     // Not found
+
+index6plus:
+	CMP     R6, $7       // check if 7 byte separator
+	BNE     indexnoteq7  // if not skip to indexnoteq7
+	SUB     R7, R27, R15 // How many bytes to compare?
+	CMP     R15, $16
+	BLT     index7rem    // tail end: process remainder
+	BR      index2to16   // remaining string > 16 process usual way
+
+indexnoteq7:
 	CMP R6, $16     // Check for sep > 16
 	BGT index17plus // Handle large sep
 
@@ -689,28 +761,45 @@ index2to16:
 	CMP R7, LASTSTR // Compare last start byte
 	BGT notfound    // last takes len(sep) into account
 
-	ADD $16, R7, R9    // Check for last byte of string
+	ADD $19, R7, R9    // make sure we have enough string for unrolling by 4
 	CMP R9, LASTBYTE
-	BGT index2to16tail
+	BGT index2to16tail // not enough string go to tail processing
 
 	// At least 16 bytes of string left
 	// Mask the number of bytes in sep
-index2to16loop:
-	LXVB16X (R7)(R0), V1_ // Load 16 bytes @R7 into V1
+	VSPLTISB $0, V10            // Clear
+	MOVD     $3, R17            // Number of bytes beyond 16
 
-compare:
-	VAND       V1, SEPMASK, V2 // Mask out sep size
-	VCMPEQUBCC V0, V2, V3      // Compare masked string
-	BLT        CR6, found      // All equal
-	ADD        $1, R7          // Update ptr to next byte
+index2to16loop:
+	LXVB16X  (R7)(R0), V1 // Load 16 bytes @R7 into V1
+	LXVB16X  (R7)(R17), V5     // Load 16 bytes @R7+3 into V2
+
+	VSLDOI   $13, V5, V10, V2  // Shift left last 3 bytes
+	VSLDOI  $1, V1, V2, V3     // V3=(V1:V2)<<1
+	VSLDOI  $2, V1, V2, V4     // V4=(V1:V2)<<2
+	
+	VAND    V1, SEPMASK, V8 // Mask out sep size 0th index
+	VAND    V3, SEPMASK, V9 // Mask out sep size 1st index
+	VAND    V4, SEPMASK, V11 // Mask out sep size 2nd index	
+	VAND    V5, SEPMASK, V12 // Mask out sep size 3rd index
+	
+	VCMPEQUBCC      V0, V8, V8 // compare masked string
+	BLT     CR6, found         // All equal while comparing 0th index
+	VCMPEQUBCC      V0, V9, V9 // compare masked string
+	BLT     CR6, found2        // All equal while comparing 1st index
+	VCMPEQUBCC      V0, V11, V11    // compare masked string
+	BLT     CR6, found3        // All equal while comparing 2nd index
+	VCMPEQUBCC      V0, V12, V12    // compare masked string
+	BLT     CR6, found4        // All equal while comparing 3rd index
+
+	ADD        $4, R7          // Update ptr to next 4 bytes 
 	CMP        R7, LASTSTR     // Still less than last start byte
 	BGT        notfound        // Not found
-	ADD        $16, R7, R9     // Verify remaining bytes
-	CMP        R9, LASTBYTE    // At least 16
-	BLT        index2to16loop  // Try again
+	ADD        $19, R7, R9     // Verify remaining bytes
+	CMP        R9, LASTBYTE    // length of string least 19
+	BLE        index2to16loop  // Try again, else do post processing and jump to index2to16next
 
-	// Less than 16 bytes remaining in string
-	// Separator >= 2
+	// Post processing of unrolled loop
 index2to16tail:
 	ADD     R3, R4, R9     // End of string
 	SUB     R7, R9, R9     // Number of bytes left
@@ -719,7 +808,40 @@ index2to16tail:
 	CMP     R11, $16       // >= 16?
 	BLE     short          // Does not cross 16 bytes
 	LXVB16X (R7)(R0), V1_  // Load 16 bytes @R7 into V1
-	BR      index2to16next // Continue on
+	CMP     R9, $16        // Post-processing of unrolled loop
+	BLE     index2to16next // continue to index2to16next if <= 16 bytes
+	SUB     R16,R9, R10    // At this point R9 should be either 18 or 17
+	LXVB16X (R7)(R10), V9  
+	CMP     R10, $1        // if string length is 17 need to compare one morebyte 
+	BNE     extra2         // if string length is 18 bytes need to compare 2 more bytes
+	VSLDOI  $15, V9, V10, V25
+	VAND       V1, SEPMASK, V2 // Just compare size of sep
+	VCMPEQUBCC V0, V2, V3      // Compare sep and partial string
+	BLT        CR6, found      // Found
+	ADD        $1, R7          // Not found, try next partial string
+	CMP        R7, LASTSTR     // Check for end of string
+	BGT        notfound        // If at end, then not found
+	VSLDOI     $1, V1, V25, V1 // Shift string left by 1 byte
+	VSPLTISB        $0, V25
+	BR         index2to16next  // go to remainder loop
+extra2:
+	VSLDOI  $14, V9, V10, V25
+	VAND       V1, SEPMASK, V2 // Just compare size of sep
+	VCMPEQUBCC V0, V2, V3      // Compare sep and partial string
+	BLT        CR6, found      // Found
+	ADD        $1, R7          // Not found, try next partial string
+	CMP        R7, LASTSTR     // Check for end of string
+	BGT        notfound        // If at end, then not found
+	VSLDOI     $1, V1, V25, V1 // Shift string left by 1 byte
+	VAND       V1, SEPMASK, V2 // Just compare size of sep
+	VCMPEQUBCC V0, V2, V3      // Compare sep and partial string
+	BLT        CR6, found      // Found
+	ADD        $1, R7          // Not found, try next partial string
+	CMP        R7, LASTSTR     // Check for end of string
+	BGT        notfound        // If at end, then not found
+	VSPLTISB        $0, V25
+	VSLDOI     $1, V1, V25, V1 // Shift string left by 1 byte
+	BR         index2to16next  // Check the remaining partial string in index2to16next
 
 short:
 	RLDICR   $0, R7, $59, R9 // Adjust addr to 16 byte container
@@ -769,7 +891,7 @@ next17:
 
 notfound:
 #ifdef GOEXPERIMENT_regabiargs
-        MOVD $-1, R3   // Return -1 if not found
+	MOVD $-1, R3   // Return -1 if not found
 #else
 	MOVD $-1, R8   // Return -1 if not found
 	MOVD R8, (R14)
@@ -785,18 +907,116 @@ foundR25:
 	ADD  R25, R7   // Add to current string address
 	SUB  R3, R7    // Subtract from start of string
 #ifdef GOEXPERIMENT_regabiargs
-        MOVD R7, R3    // Return byte where found
+	MOVD R7, R3    // Return byte where found
 #else
 	MOVD R7, (R14) // Return byte where found
 #endif
 	RET
-
-found:
+found4:
+	ADD $1, R7     // found from unrolled loop at index 3
+found3:
+	 ADD $1, R7    // found from unrolled loop at index 2
+found2:
+	 ADD $1, R7    // found from unrolled loop at index 1
+found:                 // found at index 0 
 	SUB  R3, R7    // Return byte where found
 #ifdef GOEXPERIMENT_regabiargs
-        MOVD R7, R3
+	MOVD R7, R3
 #else
 	MOVD R7, (R14)
 #endif
 	RET
 
+	// finding 2 byte separator in the last <16 bytes of string
+index2rem:
+	CMP     R7, LASTSTR     // do we have any string left?
+	BGT     notfound
+	MOVHZ   0(R5), R11
+repeat:
+	MOVHZ   0(R7), R10      // compare two bytes of string and separator
+	CMPW    R10, R11, CR7
+	BEQ     CR7, found      // found if equal
+	ADD     $1, R7
+	CMP     R7, LASTSTR     // do we have any string left?
+	BLE     repeat          // repeat if we do
+	BR      notfound
+
+	// finding 3 byte separator in the last <16 bytes of string
+index3rem:
+	CMP     R7, LASTSTR     //do we have any string left?
+	BGT     notfound
+index3rem2:
+	MOVHZ   0(R5), R11
+	PCALIGN $16
+repeat3:
+	MOVHZ   0(R7), R10      // compare first two bytes with separator
+	CMPW    R10, R11, CR7
+	BEQ     CR7, partialfound       // if they match compare the last byte
+	ADD     $1, R7
+	CMP     R7, LASTSTR      // do we have any string left?
+	BLE     repeat3          // repeat if we do
+	BR      notfound
+partialfound:
+	MOVBZ   2(R7), R10      // compare the last byte of separator
+	MOVBZ   2(R5), R15
+	CMPW    R10, R15, CR7
+	BEQ     CR7, found      // found if equal
+	ADD     $1, R7
+	CMP     R7, LASTSTR     // do we have any string left?
+	BLE     repeat3         // repeat if we do
+	BR      notfound
+
+	// finding 4 byte separator in the last <16 bytes of string
+index4rem:
+	MOVW    0(R5), R11
+	PCALIGN $16
+repeat4:
+	MOVW    0(R7), R10      // compare 4 bytes of string and separator
+	CMP     R10, R11
+	BEQ     found           // found if equal
+	ADD     $1,R7
+	CMP     R7, LASTSTR     // do we have any string left?
+	BLE     repeat4         // repeat if we do
+	BR      notfound
+
+	// finding 7 byte separator in the last <16 bytes of string
+index7rem:
+	CMP     R7, LASTSTR     // do we have any string left?
+	BGT     notfound
+	MOVWZ   3(R5), R11      // move 7 bytes of separator into R11
+	SLD     $24,R11,R15
+	MOVHZ   1(R5), R17
+	SLW     $8, R17,R16
+	MOVBZ   0(R5), R17
+	OR      R16,R17,R11
+	OR      R15,R11,R11
+	ADD     $8, R7, R17     // we move a doubleword of string and shift out the last byte
+	CMP     R17, LASTBYTE   // do we have enough string left?
+	BGT     index7tail      // remaining bytes <=7 post process in index7tail
+	PCALIGN $16
+repeat7:
+	MOVD    0(R7), R10      // move doubleword of string into R10
+	RLDICL  $0, R10, $8, R10        // shift out the last byte
+	CMP     R10, R11, CR7   // do a whole doubleword comparison with separator
+	BEQ     CR7, found      // found if equal
+	ADD     $1, R7
+	ADD     $8, R7, R17     // do we have enough string left to do doubleword comparison
+	CMP     R17, LASTBYTE
+	BLE     repeat7         // repeat if we do
+index7tail:                     // postprocessing of tail
+	ADD     $7, R7, R17     // do we have 7 bytes of string left?
+	CMP     R17, LASTBYTE   // not found if we have <7 bytes
+	BGT     notfound
+	MOVW    0(R7), R10      // do a piecewise comparison with separator (4+2+1) bytes
+	MOVW    0(R5), R11
+	CMPW    R10,R11,CR7
+	BNE     CR7, notfound
+	MOVHZ   4(R7), R10
+	MOVHZ   4(R5), R11
+	CMPW    R10, R11,CR7
+	BNE     CR7, notfound
+	MOVB    6(R7), R10
+	MOVB    6(R5), R11
+	CMPW    R10, R11,CR7
+	BNE     CR7, notfound
+	BR      found
