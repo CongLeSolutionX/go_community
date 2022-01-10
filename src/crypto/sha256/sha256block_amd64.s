@@ -21,6 +21,17 @@
 //     Kirk Yap <kirk.s.yap@intel.com>
 //     Tim Chen <tim.c.chen@linux.intel.com>
 
+// The shani-version is described in an Intel White-Paper:
+// "New Instructions Supporting the Secure Hash Algorithm on Intel®
+// Architecture Processors"
+// To find it http://www.intel.com/p/en_US/embedded
+// and search for that title.
+// SHANI version by Intel, same algorithm as code in Linux kernel:
+// https://github.com/torvalds/linux/blob/master/arch/x86/crypto/sha256_ni_asm.S
+// by
+//     Sean Gulley <sean.m.gulley@intel.com>
+//     Tim Chen <tim.c.chen@linux.intel.com>
+
 // Wt = Mt; for 0 <= t <= 15
 // Wt = SIGMA1(Wt-2) + SIGMA0(Wt-15) + Wt-16; for 16 <= t <= 63
 //
@@ -551,6 +562,8 @@
 	ADDL  y3, h                        // h = t1 + S0 + MAJ					// --
 
 TEXT ·block(SB), 0, $536-32
+	CMPB ·useSHANI(SB), $1
+	JE   shani
 	CMPB ·useAVX2(SB), $1
 	JE   avx2
 
@@ -862,26 +875,191 @@ done_hash:
 	VZEROUPPER
 	RET
 
+#define MSG X0
+#define STATE0 X1
+#define STATE1 X2
+#define MSGTMP0 X3
+#define MSGTMP1 X4
+#define MSGTMP2 X5
+#define MSGTMP3 X6
+#define MSGTMP4 X7
+
+#define SHUF_MASK X8
+
+#define ABEF_SAVE X9
+#define CDGH_SAVE X10
+
+#define DATA_END BX
+
+#define SHANI_ROUND_0_11(data_off, tmp0) \
+	MOVOU data_off*16(INP), MSG          \
+	PSHUFB SHUF_MASK, MSG                \
+	MOVO MSG, tmp0                       \
+		PADDD data_off*32(TBL), MSG      \
+		SHA256RNDS2 MSG, STATE0, STATE1  \
+		PSHUFD $0xE, MSG, MSG            \
+		SHA256RNDS2 MSG, STATE1, STATE0
+
+#define SHANI_ROUND_16_59(data_off, tmp0, tmp1, tmp3) \
+	MOVO tmp0, MSG                                    \
+		PADDD data_off*32(TBL), MSG                   \
+		SHA256RNDS2 MSG, STATE0, STATE1                    \
+	MOVO tmp0, MSGTMP4                                \
+	PALIGNR $4, tmp3, MSGTMP4                         \
+	PADDD MSGTMP4, tmp1                               \
+	SHA256MSG2 tmp0, tmp1                             \
+		PSHUFD $0xE, MSG, MSG                         \
+		SHA256RNDS2 MSG, STATE1, STATE0
+
+shani:
+	// Marshal arguments into registers
+	MOVQ dig+0(FP), CTX
+	MOVQ p_base+8(FP), INP
+	MOVQ p_len+16(FP), NUM_BYTES
+
+	// Compute data end pointer
+	MOVQ INP, DATA_END
+	ADDQ NUM_BYTES, DATA_END
+
+	// Load address of table with round specific constants
+	MOVQ $K256<>(SB), TBL
+
+	// Load shuffle mask for loading data.  Reverses byte-wise
+	// endianess in each 32 bit lane
+	MOVOU flip_mask<>(SB), SHUF_MASK
+
+	// Load initial hash values out of digest
+	// Need to reorder these appropiately
+	// DCBA, HGFE -> ABEF, CDGH
+	MOVOU 0*16(CTX), STATE0
+	MOVOU 1*16(CTX), STATE1
+
+	PSHUFD $0xB1, STATE0, STATE0   // CDAB
+	PSHUFD $0x1B, STATE1, STATE1   // EFGH
+	MOVO STATE0, MSGTMP4
+	PALIGNR $8, STATE1, STATE0     // ABEF
+	PBLENDW $0xF0, MSGTMP4, STATE1 // CDGH
+
+shani_loop:
+	// Save hash values for addition after rounds
+	MOVO STATE0, ABEF_SAVE
+	MOVO STATE1, CDGH_SAVE
+
+	// Rounds 0-3
+	SHANI_ROUND_0_11(0, MSGTMP0)
+
+	// Rounds 4-7
+	SHANI_ROUND_0_11(1, MSGTMP1)
+	SHA256MSG1 MSGTMP1, MSGTMP0
+
+	// Rounds 8-11
+	SHANI_ROUND_0_11(2, MSGTMP2)
+	SHA256MSG1 MSGTMP2, MSGTMP1
+
+	// Rounds 12-15
+	MOVOU 3*16(INP), MSG
+	PSHUFB SHUF_MASK, MSG
+	MOVO MSG, MSGTMP3
+		PADDD 3*32(TBL), MSG
+		SHA256RNDS2 MSG, STATE0, STATE1
+	MOVO MSGTMP3, MSGTMP4
+	PALIGNR $4, MSGTMP2, MSGTMP4
+	PADDD MSGTMP4, MSGTMP0
+	SHA256MSG2 MSGTMP3, MSGTMP0
+		PSHUFD $0x0E, MSG, MSG
+		SHA256RNDS2 MSG, STATE1, STATE0
+	SHA256MSG1 MSGTMP3, MSGTMP2
+
+	// Rounds 16-19
+	SHANI_ROUND_16_59(4, MSGTMP0, MSGTMP1, MSGTMP3)
+	SHA256MSG1 MSGTMP0, MSGTMP3
+
+	// Rounds 20-23
+	SHANI_ROUND_16_59(5, MSGTMP1, MSGTMP2, MSGTMP0)
+	SHA256MSG1 MSGTMP1, MSGTMP0
+
+	// Rounds 24-27
+	SHANI_ROUND_16_59(6, MSGTMP2, MSGTMP3, MSGTMP1)
+	SHA256MSG1 MSGTMP2, MSGTMP1
+
+	// Rounds 28-31
+	SHANI_ROUND_16_59(7, MSGTMP3, MSGTMP0, MSGTMP2)
+	SHA256MSG1 MSGTMP3, MSGTMP2
+
+	// Rounds 32-35
+	SHANI_ROUND_16_59(8, MSGTMP0, MSGTMP1, MSGTMP3)
+	SHA256MSG1 MSGTMP0, MSGTMP3
+
+	// Rounds 36-39
+	SHANI_ROUND_16_59(9, MSGTMP1, MSGTMP2, MSGTMP0)
+	SHA256MSG1 MSGTMP1, MSGTMP0
+
+	// Rounds 40-43
+	SHANI_ROUND_16_59(10, MSGTMP2, MSGTMP3, MSGTMP1)
+	SHA256MSG1 MSGTMP2, MSGTMP1
+
+	// Rounds 44-47
+	SHANI_ROUND_16_59(11, MSGTMP3, MSGTMP0, MSGTMP2)
+	SHA256MSG1 MSGTMP3, MSGTMP2
+
+	// Rounds 48-51
+	SHANI_ROUND_16_59(12, MSGTMP0, MSGTMP1, MSGTMP3)
+	SHA256MSG1 MSGTMP0, MSGTMP3
+
+	// Rounds 52-55
+	SHANI_ROUND_16_59(13, MSGTMP1, MSGTMP2, MSGTMP0)
+
+	// Rounds 56-59
+	SHANI_ROUND_16_59(14, MSGTMP2, MSGTMP3, MSGTMP1)
+
+	// Rounds 60-63
+	MOVO MSGTMP3, MSG
+		PADDD 15*32(TBL), MSG
+		SHA256RNDS2 MSG, STATE0, STATE1
+		PSHUFD $0xE, MSG, MSG
+		SHA256RNDS2 MSG, STATE1, STATE0
+
+	// Add the current hash values with previously saved
+	PADDD ABEF_SAVE, STATE0
+	PADDD CDGH_SAVE, STATE1
+
+	// Increment data point and loop if more to process
+	ADDQ $64, INP
+	CMPQ DATA_END, INP
+	JNE shani_loop
+
+	// Write the hash values back in the correct order
+	PSHUFD $0x1B, STATE0, STATE0   // FEBA
+	PSHUFD $0xB1, STATE1, STATE1   // DCHG
+	MOVO STATE0, MSGTMP4
+	PBLENDW $0xF0, STATE1, STATE0  // DCBA
+	PALIGNR $8, MSGTMP4, STATE1    // HGFE
+
+	MOVOU STATE0, 0*16(CTX)
+	MOVOU STATE1, 1*16(CTX)
+
+	RET
+
 // shuffle byte order from LE to BE
 DATA flip_mask<>+0x00(SB)/8, $0x0405060700010203
 DATA flip_mask<>+0x08(SB)/8, $0x0c0d0e0f08090a0b
 DATA flip_mask<>+0x10(SB)/8, $0x0405060700010203
 DATA flip_mask<>+0x18(SB)/8, $0x0c0d0e0f08090a0b
-GLOBL flip_mask<>(SB), 8, $32
+GLOBL flip_mask<>(SB), RODATA, $32
 
 // shuffle xBxA -> 00BA
 DATA shuff_00BA<>+0x00(SB)/8, $0x0b0a090803020100
 DATA shuff_00BA<>+0x08(SB)/8, $0xFFFFFFFFFFFFFFFF
 DATA shuff_00BA<>+0x10(SB)/8, $0x0b0a090803020100
 DATA shuff_00BA<>+0x18(SB)/8, $0xFFFFFFFFFFFFFFFF
-GLOBL shuff_00BA<>(SB), 8, $32
+GLOBL shuff_00BA<>(SB), RODATA, $32
 
 // shuffle xDxC -> DC00
 DATA shuff_DC00<>+0x00(SB)/8, $0xFFFFFFFFFFFFFFFF
 DATA shuff_DC00<>+0x08(SB)/8, $0x0b0a090803020100
 DATA shuff_DC00<>+0x10(SB)/8, $0xFFFFFFFFFFFFFFFF
 DATA shuff_DC00<>+0x18(SB)/8, $0x0b0a090803020100
-GLOBL shuff_DC00<>(SB), 8, $32
+GLOBL shuff_DC00<>(SB), RODATA, $32
 
 // Round specific constants
 DATA K256<>+0x00(SB)/4, $0x428a2f98 // k1
