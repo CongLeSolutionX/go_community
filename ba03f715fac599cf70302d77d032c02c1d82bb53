@@ -50,6 +50,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "2188b67d_0bc300a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-01-10T22:46:04Z",
+      "side": 1,
+      "message": "\u003e (b) The last entry in the txt files is not in the file of the last cycle of support.\n\nRight; that\u0027s fine. I think the relevant invariant is: “if the current release supports a given platform, that platform\u0027s API entries are exhaustive”. (Entries for unsupported platforms might exist, and may or may not be exhaustive.)\n\n\n\u003e (c) The api tool does not allow to check the completeness of a port. Tests are routinely skipped for unsupported features by checking runtime.GOOS. Its aim is go promise of compatibility.\n\nDoesn\u0027t the API check run by `all.bash` today require (or at least report) mismatches for certain platforms? (Does that check not run on short-mode builders?)\n\n\n\u003e As I recall current policy, the definition of a first-class port is to have a builder running long tests.\n\nUnfortunately first-class ports and longtest builders are only loosely coupled. (We currently lack longtest builders for all of `darwin`, `linux/arm` and `linux/arm64`, and `windows/386`.)\n\n\n\u003e To check API on each builder for any type of port would require to maintain a \u0027next\u0027 file for all ports\n\nYes, my understanding is that today (prior to this CL) all ports share a common `next.txt` file.\n\n\n\u003e The current default command \u0027go tool dist -run api\u0027 in use on some builders, would become something like \u0027go tool dist -contexts $(go env GO_BUILDER_NAME) -run api\u0027 which is not tested. Considering the number of added ports, some port specific file are probably required.\n\u003e \n\u003e (d) If a specific port is listed by overriding the list of contexts, all entries of the port are listed. First class ports are always maintained at release level.\n\nI would expect that a missing `next.txt` entry for a given port should cause TryBots (and SlowBots and post-submit builders) for that port to fail. Is that not the case today?",
+      "parentUuid": "52736e3b_26211b25",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 62
+      },
+      "revId": "ba03f715fac599cf70302d77d032c02c1d82bb53",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "3207e72b_686544f5",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 6
