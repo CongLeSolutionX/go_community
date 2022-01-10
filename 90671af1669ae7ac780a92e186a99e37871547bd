@@ -98,6 +98,30 @@
       },
       "revId": "90671af1669ae7ac780a92e186a99e37871547bd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "82e09195_9d1739b5",
+        "filename": "test/fixedbugs/issue11656.dir/asm_ppc64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-01-10T18:14:07Z",
+      "side": 1,
+      "message": "It is not really AIX specific. On Linux it is likely that the heap is not executable. But the test is written so that even if the heap is executable it can get the desired fault.",
+      "parentUuid": "12ae829c_9d5f2895",
+      "range": {
+        "startLine": 1,
+        "startChar": 11,
+        "endLine": 1,
+        "endChar": 23
+      },
+      "revId": "90671af1669ae7ac780a92e186a99e37871547bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
