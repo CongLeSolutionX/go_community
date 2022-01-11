@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77074231_215cf4c1",
+        "filename": "src/internal/cpu/cpu_x86.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 52588
+      },
+      "writtenOn": "2022-01-11T18:47:50Z",
+      "side": 1,
+      "message": "please add \"sha\" to the list of options here too, to be able to disable them with GODEBUG.",
+      "range": {
+        "startLine": 48,
+        "startChar": 1,
+        "endLine": 48,
+        "endChar": 20
+      },
+      "revId": "076cd80859453c767f6b0c163456f6bf114debee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
