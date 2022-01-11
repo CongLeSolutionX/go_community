@@ -158,6 +158,30 @@
       },
       "revId": "90671af1669ae7ac780a92e186a99e37871547bd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5309428f_c31862bf",
+        "filename": "test/fixedbugs/issue11656.dir/asm_ppc64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2022-01-11T13:29:57Z",
+      "side": 1,
+      "message": "If I run this test on Linux after disabling the PanicOnFault, it gets the SEGV on the instruction that is in the heap. So the heap must be executable on Linux for ppc64 \u0026 ppc64le.\n\nI\u0027m not sure what is happening on AIX. If you look at the older logs, it gets a SIGILL at the instruction after the MOVD R0,0(R0) which is a bad instruction. To me implies that it ran the first instruction without getting the SEGV. However there were some AIX instructions after those first failures and the last 2 failures get the SIGILL on the MOVD R0,0(R0).",
+      "parentUuid": "82e09195_9d1739b5",
+      "range": {
+        "startLine": 1,
+        "startChar": 11,
+        "endLine": 1,
+        "endChar": 23
+      },
+      "revId": "90671af1669ae7ac780a92e186a99e37871547bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
