@@ -80,6 +80,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "342bcdfb_b7c2b7d7",
+        "filename": "src/archive/tar/fuzz_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2022-01-11T21:15:19Z",
+      "side": 1,
+      "message": "I\u0027m generally on the side of just returning, for me Skip does not really have the same semantics since that generally indicates that the entirety of the rest of the test is being skipped (documentation says \"marks the test as having been skipped and stops its execution\") which is not _really_ the case here, since execution of the target is still being repeated.",
+      "parentUuid": "66e6d488_b3e48347",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 64,
+        "endChar": 10
+      },
+      "revId": "12737e4acc88e91ec6d02c8187f0c25640023bcd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4bf939b5_9d952cde",
@@ -93,6 +117,30 @@
       "writtenOn": "2022-01-11T19:54:26Z",
       "side": 1,
       "message": "This should probably be in a defer, otherwise it won\u0027t get closed if there is a fatal error earlier. (Here and for other tests) e.g.\n\n  w :\u003d NewWriter(out)\n  defer func() {\n    if err :\u003d w.Close(); err !\u003d nil {\n      t.Errorf(\"Close error: %v\", err)\n    }\n  }()\n  for _, f :\u003d range files {\n    ....\n\nI realize this isn\u0027t what the example in archive/tar does, but maybe that\u0027s a bug in the example? Wdyt?",
+      "range": {
+        "startLine": 82,
+        "startChar": 3,
+        "endLine": 85,
+        "endChar": 3
+      },
+      "revId": "12737e4acc88e91ec6d02c8187f0c25640023bcd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "15301765_fe02b8e8",
+        "filename": "src/archive/tar/fuzz_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2022-01-11T21:15:19Z",
+      "side": 1,
+      "message": "Close here doesn\u0027t free any system resources (say like a file handle, etc) but instead is just adding any required padding and writing the footer and flushing the writer. If we hit any fatal errors we don\u0027t really care about those operations, as we won\u0027t be using the bytes any further (Close is also likely to fail if some previous operation failed, since it\u0027ll be a partial archive).",
+      "parentUuid": "4bf939b5_9d952cde",
       "range": {
         "startLine": 82,
         "startChar": 3,
@@ -126,6 +174,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d014ba3_e8ae89e2",
+        "filename": "src/archive/zip/fuzz_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2022-01-11T21:15:19Z",
+      "side": 1,
+      "message": "Yeah, something like `func (f *F) AddDir(dir string, func(string, []byte) ([]byte, error))` would be nice (callback would be for skipping/further processing files).",
+      "parentUuid": "b5cc5f93_3bb706cf",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 2
+      },
+      "revId": "12737e4acc88e91ec6d02c8187f0c25640023bcd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0383c4a9_4e1b6e59",
@@ -139,6 +211,30 @@
       "writtenOn": "2022-01-11T19:54:26Z",
       "side": 1,
       "message": "In the previous test we return/t.Skip() if there\u0027s an error reading a file. In this test we continue to the next file.\n\nI would opt for continue here, then just t.Skip() after this loop if len(files) \u003d\u003d 0 (i.e. none of the files were successfully read)",
+      "range": {
+        "startLine": 46,
+        "startChar": 4,
+        "endLine": 46,
+        "endChar": 12
+      },
+      "revId": "12737e4acc88e91ec6d02c8187f0c25640023bcd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bcff607_d32ac300",
+        "filename": "src/archive/zip/fuzz_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2022-01-11T21:15:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0383c4a9_4e1b6e59",
       "range": {
         "startLine": 46,
         "startChar": 4,
@@ -172,6 +268,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b3ee047_b9698846",
+        "filename": "src/archive/zip/fuzz_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2022-01-11T21:15:19Z",
+      "side": 1,
+      "message": "I think this is still valuable, we previously had a CVE based on calling Reader.Open on a filename which was read fine when called with File.Open.",
+      "parentUuid": "04be3bc9_a9725734",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 4
+      },
+      "revId": "12737e4acc88e91ec6d02c8187f0c25640023bcd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "890cb31f_81f9b880",
@@ -185,6 +305,30 @@
       "writtenOn": "2022-01-11T19:54:26Z",
       "side": 1,
       "message": "Maybe a comment here for why this is special cased",
+      "range": {
+        "startLine": 45,
+        "startChar": 2,
+        "endLine": 45,
+        "endChar": 46
+      },
+      "revId": "12737e4acc88e91ec6d02c8187f0c25640023bcd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1d950cd_5ecb14d5",
+        "filename": "src/compress/gzip/fuzz_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2022-01-11T21:15:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "890cb31f_81f9b880",
       "range": {
         "startLine": 45,
         "startChar": 2,
@@ -218,6 +362,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8085f424_754183cf",
+        "filename": "src/compress/gzip/fuzz_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2022-01-11T21:15:19Z",
+      "side": 1,
+      "message": "This reports things like checksum errors, which are likely to occur in generated inputs, which don\u0027t indicate any problem with the fuzzed code.",
+      "parentUuid": "5bba7c85_8b338ba7",
+      "range": {
+        "startLine": 70,
+        "startChar": 4,
+        "endLine": 70,
+        "endChar": 12
+      },
+      "revId": "12737e4acc88e91ec6d02c8187f0c25640023bcd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1fd62499_acedc488",
@@ -231,6 +399,30 @@
       "writtenOn": "2022-01-11T19:54:26Z",
       "side": 1,
       "message": "nit: probably fine to just say \"Write: %v\" and \"Flush: %v\" for each, but up to you.",
+      "range": {
+        "startLine": 80,
+        "startChar": 15,
+        "endLine": 80,
+        "endChar": 30
+      },
+      "revId": "12737e4acc88e91ec6d02c8187f0c25640023bcd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "14bd2014_23b79cc1",
+        "filename": "src/compress/gzip/fuzz_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2022-01-11T21:15:19Z",
+      "side": 1,
+      "message": "I\u0027m going to be somewhat lazy since there are so many of these, but also in a handful of cases I think it provides a little more context to be verbose 🤷.",
+      "parentUuid": "1fd62499_acedc488",
       "range": {
         "startLine": 80,
         "startChar": 15,
@@ -258,6 +450,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "65323178_933f7554",
+        "filename": "src/image/gif/fuzz_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2022-01-11T21:15:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3bd7d54_3c5be4d4",
+      "revId": "12737e4acc88e91ec6d02c8187f0c25640023bcd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "43a9a1fe_46320d25",
@@ -281,6 +491,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "10bef12e_532088df",
+        "filename": "src/image/gif/fuzz_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2022-01-11T21:15:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43a9a1fe_46320d25",
+      "range": {
+        "startLine": 58,
+        "startChar": 54,
+        "endLine": 58,
+        "endChar": 71
+      },
+      "revId": "12737e4acc88e91ec6d02c8187f0c25640023bcd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7ae94d64_934bb167",
@@ -294,6 +528,24 @@
       "writtenOn": "2022-01-11T19:54:26Z",
       "side": 1,
       "message": "extra newline",
+      "revId": "12737e4acc88e91ec6d02c8187f0c25640023bcd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "916a8adb_dadb5ff9",
+        "filename": "src/image/jpeg/fuzz_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2022-01-11T21:15:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ae94d64_934bb167",
       "revId": "12737e4acc88e91ec6d02c8187f0c25640023bcd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
