@@ -21,12 +21,12 @@ type CertPool struct {
 	// lazily parsing/decompressing it as needed.
 	lazyCerts []lazyCert
 
-	// haveSum maps from sum224(cert.Raw) to true. It's used only
+	// haveSum is the set of certificates in the pool. It's used only
 	// for AddCert duplicate detection, to avoid CertPool.contains
 	// calls in the AddCert path (because the contains method can
 	// call getCert and otherwise negate savings from lazy getCert
 	// funcs).
-	haveSum map[sum224]bool
+	haveSum map[sum224]struct{}
 
 	// systemPool indicates whether this is a special pool derived from the
 	// system roots. If it includes additional roots, it requires doing two
@@ -59,7 +59,7 @@ type lazyCert struct {
 func NewCertPool() *CertPool {
 	return &CertPool{
 		byName:  make(map[string][]int),
-		haveSum: make(map[sum224]bool),
+		haveSum: make(map[sum224]struct{}),
 	}
 }
 
@@ -80,19 +80,16 @@ func (s *CertPool) cert(n int) (*Certificate, error) {
 func (s *CertPool) copy() *CertPool {
 	p := &CertPool{
 		byName:     make(map[string][]int, len(s.byName)),
-		lazyCerts:  make([]lazyCert, len(s.lazyCerts)),
-		haveSum:    make(map[sum224]bool, len(s.haveSum)),
+		lazyCerts:  append([]lazyCert{}, s.lazyCerts...),
+		haveSum:    make(map[sum224]struct{}, len(s.haveSum)),
 		systemPool: s.systemPool,
 	}
 	for k, v := range s.byName {
-		indexes := make([]int, len(v))
-		copy(indexes, v)
-		p.byName[k] = indexes
+		p.byName[k] = append([]int{}, v...)
 	}
 	for k := range s.haveSum {
-		p.haveSum[k] = true
+		p.haveSum[k] = struct{}{}
 	}
-	copy(p.lazyCerts, s.lazyCerts)
 	return p
 }
 
@@ -161,7 +158,8 @@ func (s *CertPool) contains(cert *Certificate) bool {
 	if s == nil {
 		return false
 	}
-	return s.haveSum[sha256.Sum224(cert.Raw)]
+	_, haveSum := s.haveSum[sha256.Sum224(cert.Raw)]
+	return haveSum
 }
 
 // AddCert adds a certificate to a pool.
@@ -185,11 +183,11 @@ func (s *CertPool) addCertFunc(rawSum224 sum224, rawSubject string, getCert func
 	}
 
 	// Check that the certificate isn't being added twice.
-	if s.haveSum[rawSum224] {
+	if _, haveSum := s.haveSum[rawSum224]; haveSum {
 		return
 	}
 
-	s.haveSum[rawSum224] = true
+	s.haveSum[rawSum224] = struct{}{}
 	s.lazyCerts = append(s.lazyCerts, lazyCert{
 		rawSubject: []byte(rawSubject),
 		getCert:    getCert,
