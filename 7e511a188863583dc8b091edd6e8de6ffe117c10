@@ -72,6 +72,23 @@
       "message": "Slight fix for my recent change to improve interaction between inlining and generics.\n",
       "revId": "7e511a188863583dc8b091edd6e8de6ffe117c10",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7851e6d0_05e5671b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2022-01-11T21:19:40Z",
+      "side": 1,
+      "message": "Thanks for the review!",
+      "revId": "7e511a188863583dc8b091edd6e8de6ffe117c10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
