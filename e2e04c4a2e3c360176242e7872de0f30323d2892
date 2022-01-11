@@ -53,6 +53,24 @@
       "message": "Leaving to release team to decide if they are ok with this change at this stage in the release.",
       "revId": "e2e04c4a2e3c360176242e7872de0f30323d2892",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc65a8aa_070a7eeb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2022-01-11T12:50:18Z",
+      "side": 1,
+      "message": "Not speaking for the release team, but doesn\u0027t look critical enough for a freeze exception.",
+      "parentUuid": "817fe6b1_da4a5d59",
+      "revId": "e2e04c4a2e3c360176242e7872de0f30323d2892",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
