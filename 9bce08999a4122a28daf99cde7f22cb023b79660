@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4953532c_74023aad",
+        "filename": "src/archive/tar/fuzz_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-01-12T02:21:18Z",
+      "side": 1,
+      "message": "This is causing OOMs on several of the post-submit builders.\n\nMoreover, end users may run these tests as part of `go test all` in their own modules, and we have no particular reason to believe that their machines are any less memory-constrained than our builders.\n\nI think this approach needs to be rethought. Perhaps we could use `testing.Short()` instead, so that the \"big\" tests only run on the `-longtest` builders and for users who aren\u0027t passing the `-short` flag?\n\nIf the test really requires that much memory, we may also want to make it conditional on having a 64-bit address space. Many (but not all) of the failing builders are 32-bit platforms.",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 2
+      },
+      "revId": "9bce08999a4122a28daf99cde7f22cb023b79660",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
