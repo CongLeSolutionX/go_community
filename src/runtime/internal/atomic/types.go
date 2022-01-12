@@ -6,6 +6,28 @@ package atomic
 
 import "unsafe"
 
+// Bool is an atomically accessed bool value.
+//
+// A Bool must not be copied.
+type Bool struct {
+	noCopy noCopy
+	value  uint8
+}
+
+// Load accesses and returns the value atomically.
+func (b *Bool) Load() bool {
+	return Load8(&b.value) != 0
+}
+
+// Store updates the value atomically.
+func (b *Bool) Store(value bool) {
+	var x uint8
+	if value {
+		x = 1
+	}
+	Store8(&b.value, x)
+}
+
 // Int32 is an atomically accessed int32 value.
 //
 // An Int32 must not be copied.
