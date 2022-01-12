@@ -3,6 +3,29 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "730f797d_6100fc24",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-01-12T16:02:57Z",
+      "side": 1,
+      "message": "Hmm, this part isn\u0027t needed since we don\u0027t use the tiny allocator for types that contain pointers, I think. 🤔",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 53
+      },
+      "revId": "a7725bdc7f48810063e15b9a4d5033aa2c5782a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "ace57290_97e55c02",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
