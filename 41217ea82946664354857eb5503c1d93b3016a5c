@@ -76,6 +76,24 @@
       "message": "[short] skip\n\n(since this links and installs a binary)?",
       "revId": "41217ea82946664354857eb5503c1d93b3016a5c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90472e66_22e0b230",
+        "filename": "src/cmd/go/testdata/script/work_install_submodule.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-01-13T19:11:36Z",
+      "side": 1,
+      "message": "Is go install -n okay here?",
+      "parentUuid": "cbfca405_0fddf275",
+      "revId": "41217ea82946664354857eb5503c1d93b3016a5c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
