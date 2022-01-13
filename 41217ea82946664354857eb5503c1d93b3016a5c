@@ -61,6 +61,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b862f12_fd94eca9",
+        "filename": "src/cmd/go/testdata/script/work_install_submodule.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-01-13T19:13:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ee90908_bc47d853",
+      "range": {
+        "startLine": 2,
+        "startChar": 14,
+        "endLine": 2,
+        "endChar": 35
+      },
+      "revId": "41217ea82946664354857eb5503c1d93b3016a5c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cbfca405_0fddf275",
