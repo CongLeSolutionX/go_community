@@ -16,6 +16,24 @@
       "message": "DW_AT_data_bit_offset is subtly different from DW_AT_bit_offset and I don\u0027t see how it\u0027s possible to recover actual meaning after it\u0027s blended into Go\u0027s StructField.BitOffset.\n\nDW_AT_bit_offset defines bit offset from beginning of the bitfield storage unit + actually in big-endian sense (offset of the end of bitfield from the end of the unit).\n\nWhile DW_AT_data_bit_offset is offset from the beginning of the whole outer struct + in little endian-sense.\n\nFor the following struct:\n\nstruct cdrom_tocentry\n{\n\tchar\tcdte_track;\n\tchar\tcdte_adr\t:4;\n\tchar\tcdte_ctrl\t:4;\n\tchar\tcdte_format;\n};\n\nI see with -gdwarf-3:\n\n{Name:cdte_track Type:char ByteOffset:0 ByteSize:0 BitOffset:0 BitSize:0}\n{Name:cdte_adr Type:char ByteOffset:1 ByteSize:1 BitOffset:4 BitSize:4}\n{Name:cdte_ctrl Type:char ByteOffset:1 ByteSize:1 BitOffset:0 BitSize:4}\n{Name:cdte_format Type:char ByteOffset:2 ByteSize:0 BitOffset:0 BitSize:0}\n\nwith -gswarf-5:\n\n\u0026{Name:cdte_track Type:char ByteOffset:0 ByteSize:0 BitOffset:0 BitSize:0}\n\u0026{Name:cdte_adr Type:char ByteOffset:0 ByteSize:0 BitOffset:8 BitSize:4}\n\u0026{Name:cdte_ctrl Type:char ByteOffset:0 ByteSize:0 BitOffset:12 BitSize:4}\n\u0026{Name:cdte_format Type:char ByteOffset:2 ByteSize:0 BitOffset:0 BitSize:0}\n\nFor larger types BitOffset can be hundreds and thousands (offset from beginning of the struct).\n\nI don\u0027t see how Go package users can treat both of them.\n\n+ the following comment become wrong:\n\tBitOffset  int64 // within the ByteSize bytes at ByteOffset",
       "revId": "065f3808156c92d957fc1ad2a2a37e147ee628f4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "676fead7_09d78ba6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-01-13T14:32:31Z",
+      "side": 1,
+      "message": "Thanks Dmitry for identifying this problem. I agree that in light of your example, this CL is very problematic.\n\nI went back and read the V4 and V3 standards again, and the language is frustratingly vague (terms like \"containing entity\" and \"storage unit\" are not always precisely nailed down) so it seems not surprising that this slipped through the cracks.\n\nWould it be helpful to file a new bug to track this issue?",
+      "parentUuid": "edf0619d_daec236f",
+      "revId": "065f3808156c92d957fc1ad2a2a37e147ee628f4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
