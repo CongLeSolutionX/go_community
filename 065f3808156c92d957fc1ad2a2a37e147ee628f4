@@ -106,6 +106,24 @@
       "parentUuid": "912fd7fa_26f0181a",
       "revId": "065f3808156c92d957fc1ad2a2a37e147ee628f4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c64df0d8_c87583a9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2022-01-13T17:15:39Z",
+      "side": 1,
+      "message": "\u003e Dmitry, could you clarify what you mean by \"in big-endian sense\" and \"in little endian-sense\"?\n\nDW_AT_bit_offset is offset of the last bit of the bitfield from the end of the storage unit.\nDW_AT_data_bit_offset is offset of the first bit of the bitfield from the start of the struct.\nI assume \"natural\" ordering of bits within bytes.",
+      "parentUuid": "860155a9_7d27a94c",
+      "revId": "065f3808156c92d957fc1ad2a2a37e147ee628f4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
