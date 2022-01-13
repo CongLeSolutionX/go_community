@@ -334,6 +334,10 @@ func (r *codeRepo) convert(info *codehost.RevInfo, statVers string) (*RevInfo, e
 	// checkGoMod verifies that the go.mod file for the module exists or does not
 	// exist as required by info2.Version and the module path represented by r.
 	checkGoMod := func() (*RevInfo, error) {
+		if statVers != "" && statVers == module.CanonicalVersion(statVers) && semver.Compare(statVers, info2.Version) != 0 {
+			return nil, invalidf("resolves to version %v (is it a branch instead of a tag?)", info2.Version)
+		}
+
 		// If r.codeDir is non-empty, then the go.mod file must exist: the module
 		// author — not the module consumer, — gets to decide how to carve up the repo
 		// into modules.
@@ -377,40 +381,18 @@ func (r *codeRepo) convert(info *codehost.RevInfo, statVers string) (*RevInfo, e
 	}
 
 	// Determine version.
-	//
-	// If statVers is canonical, then the original call was repo.Stat(statVers).
-	// Since the version is canonical, we must not resolve it to anything but
-	// itself, possibly with a '+incompatible' annotation: we do not need to do
-	// the work required to look for an arbitrary pseudo-version.
-	if statVers != "" && statVers == module.CanonicalVersion(statVers) {
+
+	if module.IsPseudoVersion(statVers) {
+		if err := r.validatePseudoVersion(info, statVers); err != nil {
+			return nil, err
+		}
 		info2.Version = statVers
-
-		if module.IsPseudoVersion(info2.Version) {
-			if err := r.validatePseudoVersion(info, info2.Version); err != nil {
-				return nil, err
-			}
-			return checkGoMod()
-		}
-
-		if err := module.CheckPathMajor(info2.Version, r.pathMajor); err != nil {
-			if canUseIncompatible() {
-				info2.Version += "+incompatible"
-				return checkGoMod()
-			} else {
-				if vErr, ok := err.(*module.InvalidVersionError); ok {
-					// We're going to describe why the version is invalid in more detail,
-					// so strip out the existing “invalid version” wrapper.
-					err = vErr.Err
-				}
-				return nil, invalidf("module contains a go.mod file, so major version must be compatible: %v", err)
-			}
-		}
-
 		return checkGoMod()
 	}
 
-	// statVers is empty or non-canonical, so we need to resolve it to a canonical
-	// version or pseudo-version.
+	// statVers is not a pseudo-version, so we need to either resolve it to a
+	// canonical version or verify that it is already a canonical tag
+	// (not a branch).
 
 	// Derive or verify a version from a code repo tag.
 	// Tag must have a prefix matching codeDir.
@@ -471,8 +453,8 @@ func (r *codeRepo) convert(info *codehost.RevInfo, statVers string) (*RevInfo, e
 		v, tagIsCanonical := tagToVersion(pathTag)
 		if tagIsCanonical {
 			if statVers != "" && semver.Compare(v, statVers) == 0 {
-				// The user requested a non-canonical version, but the tag for the
-				// canonical equivalent refers to the same revision. Use it.
+				// The tag is the canonical equivalent to the version requested by the
+				// user. Use this tag so that the resolved version will match.
 				info2.Version = v
 				return checkGoMod()
 			} else {

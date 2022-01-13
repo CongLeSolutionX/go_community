@@ -421,13 +421,10 @@ var codeRepoTests = []codeRepoTest{
 	{
 		// Git branch with a semver name.
 		// TODO(#35671): this should either error out or resolve to a pseudo-version.
-		vcs:     "git",
-		path:    "vcs-test.golang.org/go/mod/gitrepo1",
-		rev:     "v2.3.4+incompatible",
-		version: "v2.3.4+incompatible",
-		name:    "76a00fb249b7f93091bc2c89a789dab1fc1bc26f",
-		short:   "76a00fb249b7",
-		time:    time.Date(2018, 4, 17, 19, 45, 48, 0, time.UTC),
+		vcs:  "git",
+		path: "vcs-test.golang.org/go/mod/gitrepo1",
+		rev:  "v2.3.4+incompatible",
+		err:  "resolves to version v2.0.1+incompatible (is it a branch instead of a tag?)",
 	},
 }
 
