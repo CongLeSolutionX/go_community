@@ -142,6 +142,24 @@
       "parentUuid": "c64df0d8_c87583a9",
       "revId": "065f3808156c92d957fc1ad2a2a37e147ee628f4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2bd95761_85d59442",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-01-13T17:49:31Z",
+      "side": 1,
+      "message": "But the DW_AT_data_bit_offset value is more useful and easier to use.",
+      "parentUuid": "8606cb17_8b595387",
+      "revId": "065f3808156c92d957fc1ad2a2a37e147ee628f4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
