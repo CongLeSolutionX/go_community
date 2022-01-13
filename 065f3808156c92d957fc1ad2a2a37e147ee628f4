@@ -52,6 +52,24 @@
       "parentUuid": "676fead7_09d78ba6",
       "revId": "065f3808156c92d957fc1ad2a2a37e147ee628f4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1cca273a_e2d28a25",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-01-13T16:53:26Z",
+      "side": 1,
+      "message": "Is it possible to standardize the meaning of StructField.BitOffset on one of these two meanings and translate the other one? Based on the current comment, it seems we intended to give a field-relative bit offset. Though presumably DWARF switched to DW_AT_data_bit_offset for some reason, so maybe it\u0027s hard to translate that back in some situations?\n\nDmitry, could you clarify what you mean by \"in big-endian sense\" and \"in little endian-sense\"? I can imagine several things that could mean, like whether it\u0027s the offset of the most- or least- significant bit in the field, or exactly how you go from an offset to which byte that offset actually lands in.",
+      "parentUuid": "9c415d6f_bdf07ebf",
+      "revId": "065f3808156c92d957fc1ad2a2a37e147ee628f4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
