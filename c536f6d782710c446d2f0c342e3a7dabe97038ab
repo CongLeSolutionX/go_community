@@ -93,6 +93,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d265c283_0251a8c0",
+        "filename": "src/runtime/netpoll.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-01-13T12:07:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "925313a7_b541a7b0",
+      "revId": "c536f6d782710c446d2f0c342e3a7dabe97038ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2b6ac8a4_4f6fa9e9",
@@ -106,6 +124,24 @@
       "writtenOn": "2022-01-13T02:14:18Z",
       "side": 1,
       "message": "NoReadDeadline and NoWriteDeadline seems to be misnamed.  They are set if there is a deadline that has already passed.  They aren\u0027t set if there is no deadline.",
+      "revId": "c536f6d782710c446d2f0c342e3a7dabe97038ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed3033b3_f96653fb",
+        "filename": "src/runtime/netpoll.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-01-13T12:07:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b6ac8a4_4f6fa9e9",
       "revId": "c536f6d782710c446d2f0c342e3a7dabe97038ab",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -133,6 +169,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a936193_6bafe455",
+        "filename": "src/runtime/netpoll.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-01-13T12:07:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "52ee13de_2ca38e2d",
+      "range": {
+        "startLine": 151,
+        "startChar": 37,
+        "endLine": 151,
+        "endChar": 57
+      },
+      "revId": "c536f6d782710c446d2f0c342e3a7dabe97038ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "22dfd119_cdc1fc1b",
@@ -146,6 +206,30 @@
       "writtenOn": "2022-01-13T02:14:18Z",
       "side": 1,
       "message": "You shouldn\u0027t need to explicitly convert pollEventErr to uint32 here.",
+      "range": {
+        "startLine": 159,
+        "startChar": 8,
+        "endLine": 159,
+        "endChar": 14
+      },
+      "revId": "c536f6d782710c446d2f0c342e3a7dabe97038ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e3f0057_67ad3f5d",
+        "filename": "src/runtime/netpoll.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-01-13T12:07:59Z",
+      "side": 1,
+      "message": "Thanks. Originally I had those constants typed and it was too many conversions no matter which type I gave them. Missed removing these.",
+      "parentUuid": "22dfd119_cdc1fc1b",
       "range": {
         "startLine": 159,
         "startChar": 8,
