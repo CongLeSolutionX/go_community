@@ -88,6 +88,24 @@
       "parentUuid": "1cca273a_e2d28a25",
       "revId": "065f3808156c92d957fc1ad2a2a37e147ee628f4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "860155a9_7d27a94c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-01-13T17:10:04Z",
+      "side": 1,
+      "message": "There are two cases where we interpret DW_AT_bit_offset: for basic types and for struct fields.\n\nThe use for basic types is very unusual: it\u0027s only \"if the value of an object of the given type does not fully occupy the storage described by a byte size attribute.\"  I suggest that for that case we simply break compatibility: ignore any DW_AT_bit_offset attribute and only record the DW_AT_data_bit_offset value.  I would be amazed if that broke anybody, and of course over time DW_AT_bit_offset entries will disappear entirely.\n\nFor struct fields we could add a new field, although that would make a moderately common data type larger.  Or we could add a new method to Reader, akin to AddressSize and ByteReader, that returns the current DWARF version; that could be used to interpret the field in a StructField.  The downside would be that nobody would remember to do that.  Although over time that wouldn\u0027t matter as DW_AT_bit_offset disappears.\n\nAny other thoughts?",
+      "parentUuid": "912fd7fa_26f0181a",
+      "revId": "065f3808156c92d957fc1ad2a2a37e147ee628f4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
