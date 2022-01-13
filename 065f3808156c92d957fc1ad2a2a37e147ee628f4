@@ -124,6 +124,24 @@
       "parentUuid": "860155a9_7d27a94c",
       "revId": "065f3808156c92d957fc1ad2a2a37e147ee628f4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8606cb17_8b595387",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2022-01-13T17:21:16Z",
+      "side": 1,
+      "message": "\u003e Any other thoughts?\n\nDo we know there are no significant users of the v3 meaning? If there are some, the natural option would be to convert DW_AT_data_bit_offset to the DW_AT_bit_offset value.",
+      "parentUuid": "c64df0d8_c87583a9",
+      "revId": "065f3808156c92d957fc1ad2a2a37e147ee628f4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
