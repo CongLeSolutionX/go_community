@@ -34,6 +34,23 @@
       "parentUuid": "b97801d7_1ca986a3",
       "revId": "549e4d1e2ee232e1e5b21475b7efe096afc5c1a9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ae2a8cc_ef1a315d",
+        "filename": "src/reflect/sort.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-01-14T22:47:57Z",
+      "side": 1,
+      "message": "If we\u0027re going to do this I think we should inline the binary search rather than using a closure.  Note that we already have a binary search in the reflect package, in typesByStrings.",
+      "revId": "549e4d1e2ee232e1e5b21475b7efe096afc5c1a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
