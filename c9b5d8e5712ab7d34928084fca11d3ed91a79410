@@ -70,6 +70,57 @@
       "message": "I assume this is waiting for go 1.19 to open up to be submitted?",
       "revId": "c9b5d8e5712ab7d34928084fca11d3ed91a79410",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3291e4fa_d92da66b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2022-01-14T11:10:49Z",
+      "side": 1,
+      "message": "Thank you for this change Alessandro and Happy New Year to you and to co-reviewers here as well. I’ve added some comments, please take a look.",
+      "revId": "c9b5d8e5712ab7d34928084fca11d3ed91a79410",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "242d2a61_e3525d88",
+        "filename": "src/debug/elf/elf_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2022-01-14T11:10:49Z",
+      "side": 1,
+      "message": "Missing resource close, please add this:\n   defer f.Close()",
+      "revId": "c9b5d8e5712ab7d34928084fca11d3ed91a79410",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8b3018b_3c29c43f",
+        "filename": "src/debug/elf/elf_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2022-01-14T11:10:49Z",
+      "side": 1,
+      "message": "Let’s make this error and code more descriptive for when it fails:\n\n if g, w :\u003d uint64(len(bssData)), bss.Size; g !\u003d w {\n      t.Errorf(“.bss section length mismatch: got %d, want %d”, g, w)\n }",
+      "revId": "c9b5d8e5712ab7d34928084fca11d3ed91a79410",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
