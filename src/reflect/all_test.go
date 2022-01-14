@@ -15,6 +15,7 @@ import (
 	"math"
 	"math/rand"
 	"os"
+	"reflect"
 	. "reflect"
 	"reflect/internal/example1"
 	"reflect/internal/example2"
@@ -6178,6 +6179,120 @@ func BenchmarkFieldByName3(b *testing.B) {
 			t.FieldByName("X")
 		}
 	})
+}
+
+type methodByName4 struct{}
+
+func (methodByName4) Method1() {}
+func (methodByName4) Method2() {}
+func (methodByName4) Method3() {}
+func (methodByName4) Method4() {}
+
+type methodByName16x struct{}
+
+func (methodByName16x) Method1x()  {}
+func (methodByName16x) Method2x()  {}
+func (methodByName16x) Method3x()  {}
+func (methodByName16x) Method4x()  {}
+func (methodByName16x) Method5x()  {}
+func (methodByName16x) Method6x()  {}
+func (methodByName16x) Method7x()  {}
+func (methodByName16x) Method8x()  {}
+func (methodByName16x) Method9x()  {}
+func (methodByName16x) Method10x() {}
+func (methodByName16x) Method11x() {}
+func (methodByName16x) Method12x() {}
+func (methodByName16x) Method13x() {}
+func (methodByName16x) Method14x() {}
+func (methodByName16x) Method15x() {}
+func (methodByName16x) Method16x() {}
+
+type methodByName32y struct{}
+
+func (methodByName32y) Method1y()  {}
+func (methodByName32y) Method2y()  {}
+func (methodByName32y) Method3y()  {}
+func (methodByName32y) Method4y()  {}
+func (methodByName32y) Method5y()  {}
+func (methodByName32y) Method6y()  {}
+func (methodByName32y) Method7y()  {}
+func (methodByName32y) Method8y()  {}
+func (methodByName32y) Method9y()  {}
+func (methodByName32y) Method10y() {}
+func (methodByName32y) Method11y() {}
+func (methodByName32y) Method12y() {}
+func (methodByName32y) Method13y() {}
+func (methodByName32y) Method14y() {}
+func (methodByName32y) Method15y() {}
+func (methodByName32y) Method16y() {}
+func (methodByName32y) Method17y() {}
+func (methodByName32y) Method18y() {}
+func (methodByName32y) Method19y() {}
+func (methodByName32y) Method20y() {}
+func (methodByName32y) Method21y() {}
+func (methodByName32y) Method22y() {}
+func (methodByName32y) Method23y() {}
+func (methodByName32y) Method24y() {}
+func (methodByName32y) Method25y() {}
+func (methodByName32y) Method26y() {}
+func (methodByName32y) Method27y() {}
+func (methodByName32y) Method28y() {}
+func (methodByName32y) Method29y() {}
+func (methodByName32y) Method30y() {}
+func (methodByName32y) Method31y() {}
+func (methodByName32y) Method32y() {}
+
+// 52 methods from the embedded types + 12 own methods
+type methodByName64 struct {
+	methodByName4
+	methodByName16x
+	methodByName32y
+}
+
+func (methodByName64) Method1z()  {}
+func (methodByName64) Method2z()  {}
+func (methodByName64) Method3z()  {}
+func (methodByName64) Method4z()  {}
+func (methodByName64) Method5z()  {}
+func (methodByName64) Method6z()  {}
+func (methodByName64) Method7z()  {}
+func (methodByName64) Method8z()  {}
+func (methodByName64) Method9z()  {}
+func (methodByName64) Method10z() {}
+func (methodByName64) Method11z() {}
+func (methodByName64) Method12z() {}
+
+func BenchmarkMethodByName(b *testing.B) {
+	tests := []struct {
+		name  string
+		value Value
+	}{
+		{"4", ValueOf(methodByName4{})},
+		{"16", ValueOf(methodByName16x{})},
+		{"32", ValueOf(methodByName32y{})},
+		{"64", ValueOf(methodByName64{})},
+	}
+
+	run := func(b *testing.B, typ reflect.Type, methodExists bool, testName, methodName string) {
+		b.Run(testName, func(b *testing.B) {
+			for i := 0; i < b.N; i++ {
+				_, ok := typ.MethodByName(methodName)
+				if methodExists != ok {
+					b.Fatalf("unexpected method lookup result for %s", methodName)
+				}
+			}
+		})
+	}
+
+	firstMethodName := func(typ Type) string { return typ.Method(0).Name }
+	lastMethodName := func(typ Type) string { return typ.Method(typ.NumMethod() - 1).Name }
+
+	for _, test := range tests {
+		typ := test.value.Type()
+		run(b, typ, true, test.name+"_first", firstMethodName(typ))
+		run(b, typ, true, test.name+"_last", lastMethodName(typ))
+		run(b, typ, false, test.name+"_nonexisting", "Method99999")
+	}
 }
 
 type S struct {
