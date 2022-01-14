@@ -53,6 +53,23 @@
       "message": "Thanks.",
       "revId": "c9b5d8e5712ab7d34928084fca11d3ed91a79410",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e00b63c_e4763f90",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5821
+      },
+      "writtenOn": "2022-01-14T07:24:13Z",
+      "side": 1,
+      "message": "I assume this is waiting for go 1.19 to open up to be submitted?",
+      "revId": "c9b5d8e5712ab7d34928084fca11d3ed91a79410",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
