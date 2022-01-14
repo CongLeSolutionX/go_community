@@ -885,12 +885,24 @@ func (t *rtype) MethodByName(name string) (m Method, ok bool) {
 	if ut == nil {
 		return Method{}, false
 	}
-	// TODO(mdempsky): Binary search.
-	for i, p := range ut.exportedMethods() {
+	methods := ut.exportedMethods()
+	// A dedicated linear search path is here to make a quite common case faster.
+	// For bigger slices, linear search is only faster if searched name is somewhere
+	// in the beginning on the slice. The value of 8 is a heuristic.
+	// if len(methods) > 8 {
+	// 	i := sortSearch(len(methods), func(i int) bool {
+	// 		return t.nameOff(methods[i].name).name() >= name
+	// 	})
+	// 	if i < len(methods) && t.nameOff(methods[i].name).name() == name {
+	// 		return t.Method(i), true
+	// 	}
+	// } else {
+	for i, p := range methods {
 		if t.nameOff(p.name).name() == name {
 			return t.Method(i), true
 		}
 	}
+	// }
 	return Method{}, false
 }
 
