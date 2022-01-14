@@ -361,6 +361,17 @@ func (r *importReader) obj(name string) {
 					rparams = make([]*types2.TypeParam, targs.Len())
 					for i := range rparams {
 						rparams[i], _ = targs.At(i).(*types2.TypeParam)
+						// golang/go#50481: blank receiver type parameters may not have the
+						// correct constraint, due to namespace collision. Work around this
+						// by creating a new type parameter with the correct constraint.
+						//
+						// Since the original blank name can't have been referenced, it is
+						// safe to do this replacement.
+						if obj := rparams[i].Obj(); obj.Name() == "_" {
+							constraint := named.TypeParams().At(i).Constraint()
+							tname := types2.NewTypeName(obj.Pos(), obj.Pkg(), "_", nil)
+							rparams[i] = types2.NewTypeParam(tname, constraint)
+						}
 					}
 				}
 				msig := r.signature(recv, rparams, nil)
