@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b97801d7_1ca986a3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-01-14T21:45:10Z",
+      "side": 1,
+      "message": "See comments on issue. I\u0027m a little nervous about stepping into reflect to speed up a program that perhaps shouldn\u0027t be using reflect at all, or could make a simple change that would avoid the overhead, such as a result cache.",
+      "revId": "549e4d1e2ee232e1e5b21475b7efe096afc5c1a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
