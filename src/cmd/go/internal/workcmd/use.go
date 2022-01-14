@@ -44,11 +44,9 @@ func init() {
 
 func runUse(ctx context.Context, cmd *base.Command, args []string) {
 	modload.InitWorkfile()
-
 	modload.ForceUseModules = true
 
 	var gowork string
-	modload.InitWorkfile()
 	gowork = modload.WorkFilePath()
 
 	workFile, err := modload.ReadWorkFile(gowork)
