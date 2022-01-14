@@ -16,6 +16,24 @@
       "message": "Does this make a difference on any benchmarks?",
       "revId": "ab318aa1e9d44e0cadccb965b8a65df635bef227",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf7bf2f6_b418b69d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55528
+      },
+      "writtenOn": "2022-01-14T00:43:10Z",
+      "side": 1,
+      "message": "Hey Ian,\n\nI think it is slightly faster when you skip the copy.\n\n```\npackage some_test\n\nimport (\n\t\"testing\"\n)\n\ntype sometest struct {\n\tb []byte\n\tr int\n\tw int\n}\n\nfunc BenchmarkSkip(b *testing.B) {\n\tvar t \u003d sometest{\n\t\tb: make([]byte, 4096),\n\t\tr: 42,\n\t\tw: 42,\n\t}\n\n\tfor i :\u003d 0; i \u003c 4e9; i++ {\n\t\tif t.r !\u003d t.w {\n\t\t\tcopy(t.b, t.b[t.r:t.w])\n\t\t}\n\t}\n}\n\nfunc BenchmarkCopy(b *testing.B) {\n\tvar t \u003d sometest{\n\t\tb: make([]byte, 4096),\n\t\tr: 42,\n\t\tw: 42,\n\t}\n\n\tfor i :\u003d 0; i \u003c 4e9; i++ {\n\t\tcopy(t.b, t.b[t.r:t.w])\n\t}\n}\n\n```\n\nI get similar results consistently:\n\n```\ncpu: Intel(R) Core(TM) i7-4770HQ CPU @ 2.20GHz\nBenchmarkSkip-8                1        1806765449 ns/op\nBenchmarkCopy-8                1        10831641555 ns/op\n```",
+      "parentUuid": "674deea6_01e76b17",
+      "revId": "ab318aa1e9d44e0cadccb965b8a65df635bef227",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
