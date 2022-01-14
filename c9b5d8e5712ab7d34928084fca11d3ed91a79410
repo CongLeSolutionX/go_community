@@ -89,6 +89,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "109e6d3e_5c4a8532",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-01-14T18:19:36Z",
+      "side": 1,
+      "message": "Sorry, I thought you were able to submit yourself.  I will submit.",
+      "parentUuid": "5e00b63c_e4763f90",
+      "revId": "c9b5d8e5712ab7d34928084fca11d3ed91a79410",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "242d2a61_e3525d88",
