@@ -16,6 +16,24 @@
       "message": "See comments on issue. I\u0027m a little nervous about stepping into reflect to speed up a program that perhaps shouldn\u0027t be using reflect at all, or could make a simple change that would avoid the overhead, such as a result cache.",
       "revId": "549e4d1e2ee232e1e5b21475b7efe096afc5c1a9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a32f0b5_e23b7ee6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25422
+      },
+      "writtenOn": "2022-01-14T21:50:17Z",
+      "side": 1,
+      "message": "That could be true that caching the results could be beneficial in there.\n\nAFAIK, it\u0027s impossible to avoid reflect package usage in there as it\u0027s used in the Hugo templating engine (and in Go stdlib templates as well).\n\nI\u0027ve posted some insights in the referenced issue. I\u0027m OK with this CL being rejected, but I think that we should at least remove the confusing TODO comment in that case?",
+      "parentUuid": "b97801d7_1ca986a3",
+      "revId": "549e4d1e2ee232e1e5b21475b7efe096afc5c1a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
