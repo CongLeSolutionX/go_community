@@ -2,10 +2,6 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Check "infinite expansion" cycle errors across instantiated types.
-// We can't detect these errors anymore at the moment. See #48962 for
-// details.
-
 package p
 
 type E0[P any] []P
@@ -25,7 +21,7 @@ type T1 struct {
         _ E1[T1]
 }
 
-type T2 /* illegal cycle */ struct {
+type T2 /* ERROR illegal cycle */ struct {
         _ E2[T2]
 }
 
@@ -35,7 +31,7 @@ type T3 struct {
 
 // some more complex cases
 
-type T4 /* illegal cycle */ struct {
+type T4 struct {
 	_ E0[E2[T4]]
 }
 
