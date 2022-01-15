@@ -60,12 +60,6 @@ func (check *Checker) validType0(typ Type, info map[*Named]typeInfo, path []Obje
 		// will terminate.
 		t = t.orig
 
-		// don't touch the type if it is from a different package or the Universe scope
-		// (doing so would lead to a race condition - was issue #35049)
-		if t.obj.pkg != check.pkg {
-			return valid
-		}
-
 		// don't report a 2nd error if we already know the type is invalid
 		// (e.g., if a cycle was detected earlier, via under).
 		if t.underlying == Typ[Invalid] {
@@ -76,17 +70,17 @@ func (check *Checker) validType0(typ Type, info map[*Named]typeInfo, path []Obje
 		switch info[t] {
 		case unknown:
 			info[t] = marked
-			info[t] = check.validType0(t.fromRHS, info, append(path, t.obj)) // only types of current package added to path
+			info[t] = check.validType0(t.fromRHS, info, append(path, t.obj))
 		case marked:
 			// cycle detected
 			for i, tn := range path {
-				if t.obj.pkg != check.pkg {
-					panic("type cycle via package-external type")
-				}
 				if tn == t.obj {
 					check.cycleError(path[i:])
 					info[t] = invalid
-					t.underlying = Typ[Invalid]
+					// don't modify imported types (leads to race condition, see #35049)
+					if t.obj.pkg == check.pkg {
+						t.underlying = Typ[Invalid]
+					}
 					return invalid
 				}
 			}
