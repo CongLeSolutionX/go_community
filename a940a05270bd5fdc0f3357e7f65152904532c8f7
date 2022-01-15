@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27347d08_06a4ec71",
+        "filename": "src/strings/builder.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-01-15T21:03:52Z",
+      "side": 1,
+      "message": "If you\u0027re going to change this line, fix it to obey the English rule that sentences start with an upper case letter. That can also make it shorter, a double win.\n\n\n// noescape hides a pointer from escape analysis. It is",
+      "revId": "a940a05270bd5fdc0f3357e7f65152904532c8f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
