@@ -1,0 +1,19 @@
+// Copyright 2022 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+package b
+
+import "a"
+
+type A a.A[A] // ERROR "invalid recursive type"
+
+// test case from issue
+
+type T0[P any] struct {
+	f P
+}
+
+type T1 struct { // ERROR "invalid recursive type"
+	_ T0[T1]
+}

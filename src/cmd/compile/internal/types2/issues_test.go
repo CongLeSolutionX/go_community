@@ -611,3 +611,51 @@ func TestIssue43124(t *testing.T) {
 		t.Errorf("type checking error for c does not disambiguate package template: %q", err)
 	}
 }
+
+// TestIssue48962 verifies that we get correct cycles reported across package
+// boundaries for recursive generic types depending on imported types.
+func TestIssue48962(t *testing.T) {
+	const asrc = `
+		package a
+		type S[Q any] struct{ f Q }
+		type P[Q any] *Q
+	`
+	const bsrc = `
+		package b
+		import "a"
+		type S[Q any] a.S[Q]
+		type P[Q any] a.P[Q]
+	`
+	const csrc = `
+		package c
+		import "b"
+		type S b.S[S]
+		type P b.P[P]
+	`
+
+	// type-check package a
+	a, err := pkgFor("a", asrc, nil)
+	if err != nil {
+		t.Fatalf("package %s failed to typecheck: %v", a.Name(), err)
+	}
+
+	// type-check package b
+	bast := mustParse(t, bsrc)
+	conf := Config{Importer: importHelper{pkg: a}}
+	b, err := conf.Check(bast.PkgName.Value, []*syntax.File{bast}, nil)
+	if err != nil {
+		t.Fatalf("package %s failed to typecheck: %v", b.Name(), err)
+	}
+
+	// type-check package c
+	errh := func(err error) {
+		// TODO(gri) verify error
+	}
+
+	cast := mustParse(t, csrc)
+	conf = Config{Error: errh, Importer: importHelper{pkg: b}}
+	c, err := conf.Check(cast.PkgName.Value, []*syntax.File{cast}, nil)
+	if err == nil {
+		t.Errorf("package %s reported no error", c.Name())
+	}
+}
