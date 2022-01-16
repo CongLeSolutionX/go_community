@@ -695,7 +695,7 @@ func typeswitches() {
 		_ = y
 	}
 
-	switch x := i /* ERROR "not an interface" */ .(type) {}
+	switch x /* ERROR "declared but not used" */ := i /* ERROR "not an interface" */ .(type) {}
 
 	switch t := x.(type) {
 	case nil:
