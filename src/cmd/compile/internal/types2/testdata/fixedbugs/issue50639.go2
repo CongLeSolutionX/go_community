@@ -1,0 +1,15 @@
+// Copyright 2022 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+package issue50639
+
+func f[T any](a T) {
+	x := 1
+	z := 3
+	switch a /* ERROR "cannot use type switch on type parameter value" */ .(type) {
+	case int:
+		println(x)
+	}
+	println(z)
+}
