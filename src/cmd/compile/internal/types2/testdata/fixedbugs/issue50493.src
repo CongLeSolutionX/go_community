@@ -1,0 +1,14 @@
+// Copyright 2022 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+package issue50493
+
+func f() {
+	x := 1
+	v := 2
+	switch v /* ERROR "is not an interface" */ .(type) {
+	case int:
+		println(x)
+	}
+}
