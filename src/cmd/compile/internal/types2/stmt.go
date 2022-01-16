@@ -736,12 +736,10 @@ func (check *Checker) typeSwitchStmt(inner stmtContext, s *syntax.SwitchStmt, gu
 	// TODO(gri) we may want to permit type switches on type parameter values at some point
 	if isTypeParam(x.typ) {
 		check.errorf(&x, "cannot use type switch on type parameter value %s", &x)
-		return
 	}
 	xtyp, _ := under(x.typ).(*Interface)
 	if xtyp == nil {
 		check.errorf(&x, "%s is not an interface", &x)
-		return
 	}
 
 	check.multipleSwitchDefaults(s.Body)
