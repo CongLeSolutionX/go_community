@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "50b77839_8b512051",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-01-16T00:25:34Z",
+      "side": 1,
+      "message": "This package isn\u0027t intended to be used for running hashes.  If we implement this change, then I think we will lost this documented guarantee: \"If two Hashes use the same Seeds, they will compute the same hash values for any given input.\"  With this change the hash value will depend on the exact sequence of Write and Sum64 calls.",
+      "revId": "4a90c773904f6e58a5f0784e8aeb41357b7d845b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
