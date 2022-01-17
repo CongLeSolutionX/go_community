@@ -33,6 +33,24 @@
       "message": "I think this is more of a style change than a fix. The old text reads okay to me. The verb is implicit.\n\nFor example:\n\n\"these packages go here, these next to them, and so on...\"\n\nSame structure. ",
       "revId": "36feb626ed471a52f37daf75fafadf90c8533c38",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "724b7a89_39f82812",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2022-01-17T15:08:06Z",
+      "side": 1,
+      "message": "I agree that both are valid, though it also seems nicer to keep the language consistent and explicit :) Especially for non-native speakers - at least I\u0027m not sure if omitting the \"is\" is colloquial or proper English without looking it up.",
+      "parentUuid": "c40fb6d8_e269171c",
+      "revId": "36feb626ed471a52f37daf75fafadf90c8533c38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
