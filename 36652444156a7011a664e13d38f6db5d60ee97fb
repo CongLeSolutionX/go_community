@@ -53,6 +53,24 @@
       "message": "Sorry, I still don\u0027t understand the context for this CL. Is there any instruction that is misassembled or failed to assemble due to this, or this is just a refactoring (which changes the binary output in an insignificant way)?",
       "revId": "36652444156a7011a664e13d38f6db5d60ee97fb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72d92639_3c298ecf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-01-17T10:00:46Z",
+      "side": 1,
+      "message": "This is just a refactoring. My commit message may not be clear enough, let\u0027s illustrate with an example.\n\nArm64 ADD instruction has three formats:\n1, ADD \u003cWd|WSP\u003e, \u003cWn|WSP\u003e, \u003cWm\u003e{, \u003cextend\u003e {#\u003camount\u003e}} // extended register\n2, ADD \u003cWd\u003e, \u003cWn\u003e, \u003cWm\u003e{, \u003cshift\u003e #\u003camount\u003e}            // shifted register\n3, ADD \u003cWd|WSP\u003e, \u003cWn|WSP\u003e, #\u003cimm\u003e{, \u003cshift\u003e}            // immediate\n\nHere we just care about the first two formats.\nFor the first extented register format, the extend type can be:\nUXTB\nUXTH\nUXTW\nLSL|UXTX\nSXTB\nSXTH\nSXTW\nSXTX\nThe default one is LSL|UXTX, namely left shift \u0027\u003c\u003c\u0027.\n\nFor the second shifted register format, the shift type can be:\nLSL\nLSR\nASR\nThe default one is LSL, namely \u0027\u003c\u003c\u0027.\n\nSo if we have one Go assembly instruction like this: ADDS\tR1\u003c\u003c3, R2, R3\nThe assembler parser is unable to know which format of arm64 instruction it corresponding to, so it treats all operands containing left shifts of registers as the second type, shifted register format. This is not a problem, because the effect of the instruction in both formats is the same.\nBUT, there\u0027s an exception, when the second source register or the destination register is RSP. For example:\nADDS\tR1\u003c\u003c3, R2, RSP\nor\nADDS\tR1\u003c\u003c3, RSP, R3\nWe must encode these cases with the extended register format, because the shift register format doesn\u0027t support RSP register. So we need to distinguish between RSP and non-RSP cases, so we have:\n{AADD, C_SHIFT, C_REG, C_NONE, C_REG, 3, 4, 0, 0, 0},\n{AADD, C_SHIFT, C_RSP, C_NONE, C_RSP, 26, 4, 0, 0, 0},\nNote that p.From is C_SHIFT type, which corresponding to arm64 shift register format.\n\nSince the second source register is RSP or the destination register is RSP is the only exception, if we classify this as the extended register format, then we do not need to consider this exception cases when dealing with operands in C_SHIFT format. This patch does this affair.\n\nThis patch doesn\u0027t change any instruction encoding, just a little code refactoring.",
+      "parentUuid": "cbbc0cf4_ce07a6ec",
+      "revId": "36652444156a7011a664e13d38f6db5d60ee97fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
