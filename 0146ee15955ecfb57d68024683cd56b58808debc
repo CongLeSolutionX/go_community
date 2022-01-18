@@ -16,6 +16,24 @@
       "message": "This is for Keith, who is already a reviewer.\n\nBut this is probably for 1.19.",
       "revId": "0146ee15955ecfb57d68024683cd56b58808debc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44865a6e_cadd5438",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2022-01-18T06:02:56Z",
+      "side": 1,
+      "message": "OK, Got it. Thank you.",
+      "parentUuid": "8b52ed18_6b7cf86a",
+      "revId": "0146ee15955ecfb57d68024683cd56b58808debc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
