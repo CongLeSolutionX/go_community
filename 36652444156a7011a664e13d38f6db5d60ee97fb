@@ -71,6 +71,64 @@
       "parentUuid": "cbbc0cf4_ce07a6ec",
       "revId": "36652444156a7011a664e13d38f6db5d60ee97fb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be12f5ae_6ad0b026",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-01-18T15:31:13Z",
+      "side": 1,
+      "message": "Thanks. So this just rewrites Rx\u003c\u003cn with an RSP  operand  to C_EXTREG so a special case in the later pass can be removed? That seems fine.\n\n(As this is not a bug fix, we\u0027ll wait for the 1.19 cycle.)",
+      "parentUuid": "72d92639_3c298ecf",
+      "revId": "36652444156a7011a664e13d38f6db5d60ee97fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd450129_fef5a43d",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 797,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-01-18T15:31:13Z",
+      "side": 1,
+      "message": "Undo. Don\u0027t move code like that. It\u0027s fine to leave a hole in the case numbers.",
+      "revId": "36652444156a7011a664e13d38f6db5d60ee97fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac072842_e039d5b8",
+        "filename": "src/cmd/internal/obj/arm64/obj7.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1089,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-01-18T15:31:13Z",
+      "side": 1,
+      "message": "Maybe name this \"op\" and num below as \"shift\"?\n\nUse named constant SHIFT_LL, something like p.From.Offset \u0026 (3\u003c\u003c22) \u003d\u003d SHIFT_LL",
+      "range": {
+        "startLine": 1089,
+        "startChar": 3,
+        "endLine": 1089,
+        "endChar": 8
+      },
+      "revId": "36652444156a7011a664e13d38f6db5d60ee97fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
