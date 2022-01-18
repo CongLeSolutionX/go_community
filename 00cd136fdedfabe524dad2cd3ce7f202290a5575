@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "913378a1_3add26ac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2022-01-18T13:41:28Z",
+      "side": 1,
+      "message": "When type switch checking encounters an error, do not\nimmediately return because the switch body might contain\nother statements that affect further type checking.",
+      "revId": "00cd136fdedfabe524dad2cd3ce7f202290a5575",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa80ae6d_c43243e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2022-01-18T13:41:28Z",
+      "side": 1,
+      "message": "Please put each on a new line so:\nFixes #50493\nFixes #50639",
+      "revId": "00cd136fdedfabe524dad2cd3ce7f202290a5575",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8833e073_f547971f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2022-01-18T13:41:28Z",
+      "side": 1,
+      "message": "Thank you for this change Xiadong! This change if accepted with require\ncorresponding updates inside go/types.",
+      "revId": "00cd136fdedfabe524dad2cd3ce7f202290a5575",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
