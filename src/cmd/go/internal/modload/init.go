@@ -983,9 +983,16 @@ func makeMainModules(ms []module.Version, rootDirs []string, modFiles []*modfile
 		workFileReplaceMap: toReplaceMap(workFileReplaces),
 		highestReplaced:    map[string]string{},
 	}
+	mainModulePaths := make(map[string]bool)
+	for _, m := range ms {
+		mainModulePaths[m.Path] = true
+	}
 	replacedByWorkFile := make(map[string]bool)
 	replacements := make(map[module.Version]module.Version)
 	for _, r := range workFileReplaces {
+		if mainModulePaths[r.Old.Path] {
+			base.Errorf("go: workspace module %v is replaced in go.work file. To fix, remove the replacement from the go.work file.", r.Old.Path)
+		}
 		replacedByWorkFile[r.Old.Path] = true
 		v, ok := mainModules.highestReplaced[r.Old.Path]
 		if !ok || semver.Compare(r.Old.Version, v) > 0 {
@@ -1021,7 +1028,7 @@ func makeMainModules(ms []module.Version, rootDirs []string, modFiles []*modfile
 		if modFiles[i] != nil {
 			curModuleReplaces := make(map[module.Version]bool)
 			for _, r := range modFiles[i].Replace {
-				if replacedByWorkFile[r.Old.Path] {
+				if replacedByWorkFile[r.Old.Path] || mainModulePaths[r.Old.Path] {
 					continue
 				} else if prev, ok := replacements[r.Old]; ok && !curModuleReplaces[r.Old] && prev != r.New {
 					base.Fatalf("go: conflicting replacements for %v:\n\t%v\n\t%v\nuse \"go work edit -replace %v=[override]\" to resolve", r.Old, prev, r.New, r.Old)
