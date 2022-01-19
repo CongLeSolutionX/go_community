@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9c3ccd8_66219aad",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2022-01-19T21:57:11Z",
+      "side": 1,
+      "message": "I have a test as well, which I can either send in this CL or in a follow-up change after the patch is in a Go release.",
+      "revId": "d7844613fd793277b08b08fd6143fab6f009f522",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
