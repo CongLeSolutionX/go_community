@@ -4,12 +4,12 @@
 
 package types2
 
-// validType verifies that the given type does not "expand" indefinitely
+// validType verifies that the given type does not "expand" infinitely
 // producing a cycle in the type graph. Cycles are detected by marking
 // defined types.
 // (Cycles involving alias types, as in "type A = [10]A" are detected
 // earlier, via the objDecl cycle detection mechanism.)
-func (check *Checker) validType(typ Type) {
+func (check *Checker) validType(typ *Named) {
 	check.validType0(typ, make(map[*Named]typeInfo), nil)
 }
 
