@@ -16,6 +16,23 @@
       "message": "SHA instruction option support added. ",
       "revId": "1331d39f366ed11a5c41f84db82ab675d16e4ba2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71cef42b_0ae4d3a9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-01-19T19:00:28Z",
+      "side": 1,
+      "message": "Blocked on #50543 and especially on licensing.\n\nWe don\u0027t want to incur new notice requirements on binaries. For https://go-review.googlesource.com/c/go/+/22608/ Intel contributed the code under Go\u0027s CLA. We would want to have the same thing done here.\n\n",
+      "revId": "1331d39f366ed11a5c41f84db82ab675d16e4ba2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
