@@ -70,6 +70,24 @@
       "parentUuid": "af1b4919_1077e42c",
       "revId": "ab318aa1e9d44e0cadccb965b8a65df635bef227",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a7cd00c_b56a0d2a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-01-19T21:49:50Z",
+      "side": 1,
+      "message": "Thanks.  If the change is not noticeable in practice then I don\u0027t think we should make this change, as the current code is simpler.",
+      "parentUuid": "ecdd60fb_e3540c83",
+      "revId": "ab318aa1e9d44e0cadccb965b8a65df635bef227",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
