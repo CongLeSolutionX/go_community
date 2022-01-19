@@ -338,7 +338,7 @@ func replacement(mod module.Version, replace map[module.Version]module.Version) 
 // workspace mode, or the workspace's directory in workspace mode.
 func Replacement(mod module.Version) module.Version {
 	foundFrom, found, foundModRoot := "", module.Version{}, ""
-	if MainModules == nil {
+	if MainModules == nil || MainModules.Contains(mod.Path) {
 		return module.Version{}
 	}
 	if _, r, ok := replacement(mod, MainModules.WorkFileReplaceMap()); ok {
