@@ -52,6 +52,24 @@
       "parentUuid": "cf7bf2f6_b418b69d",
       "revId": "ab318aa1e9d44e0cadccb965b8a65df635bef227",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ecdd60fb_e3540c83",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55528
+      },
+      "writtenOn": "2022-01-19T08:16:49Z",
+      "side": 1,
+      "message": "Hey Ian,\n\nThis should only potentially be a problem if the buffer is too small. I noticed  benchmarks don\u0027t cover this case, but after trying couple of times I couldn\u0027t see a big difference. When the if condition is added, it\u0027s faster but it\u0027s almost unnoticeable for a benchmark that could finish in reasonable time. If I try with  larger data and smaller buffers, the difference increases then. But not sure if those scenarios are very realistic. For the default buffer size, the difference is unnoticeable on my machine.",
+      "parentUuid": "af1b4919_1077e42c",
+      "revId": "ab318aa1e9d44e0cadccb965b8a65df635bef227",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
