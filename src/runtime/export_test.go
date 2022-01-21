@@ -1226,3 +1226,140 @@ func (th *TimeHistogram) Count(bucket, subBucket uint) (uint64, bool) {
 func (th *TimeHistogram) Record(duration int64) {
 	(*timeHistogram)(th).record(duration)
 }
+<<<<<<< HEAD   (0a6cf8 [release-branch.go1.16] go1.16.14)
+=======
+
+var TimeHistogramMetricsBuckets = timeHistogramMetricsBuckets
+
+func SetIntArgRegs(a int) int {
+	lock(&finlock)
+	old := intArgRegs
+	if a >= 0 {
+		intArgRegs = a
+	}
+	unlock(&finlock)
+	return old
+}
+
+func FinalizerGAsleep() bool {
+	lock(&finlock)
+	result := fingwait
+	unlock(&finlock)
+	return result
+}
+
+// For GCTestMoveStackOnNextCall, it's important not to introduce an
+// extra layer of call, since then there's a return before the "real"
+// next call.
+var GCTestMoveStackOnNextCall = gcTestMoveStackOnNextCall
+
+// For GCTestIsReachable, it's important that we do this as a call so
+// escape analysis can see through it.
+func GCTestIsReachable(ptrs ...unsafe.Pointer) (mask uint64) {
+	return gcTestIsReachable(ptrs...)
+}
+
+// For GCTestPointerClass, it's important that we do this as a call so
+// escape analysis can see through it.
+//
+// This is nosplit because gcTestPointerClass is.
+//
+//go:nosplit
+func GCTestPointerClass(p unsafe.Pointer) string {
+	return gcTestPointerClass(p)
+}
+
+const Raceenabled = raceenabled
+
+const (
+	GCBackgroundUtilization = gcBackgroundUtilization
+	GCGoalUtilization       = gcGoalUtilization
+)
+
+type GCController struct {
+	gcControllerState
+}
+
+func NewGCController(gcPercent int) *GCController {
+	// Force the controller to escape. We're going to
+	// do 64-bit atomics on it, and if it gets stack-allocated
+	// on a 32-bit architecture, it may get allocated unaligned
+	// space.
+	g := escape(new(GCController)).(*GCController)
+	g.gcControllerState.test = true // Mark it as a test copy.
+	g.init(int32(gcPercent))
+	return g
+}
+
+func (c *GCController) StartCycle(stackSize, globalsSize uint64, scannableFrac float64, gomaxprocs int) {
+	c.scannableStackSize = stackSize
+	c.globalsScan = globalsSize
+	c.heapLive = c.trigger
+	c.heapScan += uint64(float64(c.trigger-c.heapMarked) * scannableFrac)
+	c.startCycle(0, gomaxprocs)
+}
+
+func (c *GCController) AssistWorkPerByte() float64 {
+	return c.assistWorkPerByte.Load()
+}
+
+func (c *GCController) HeapGoal() uint64 {
+	return c.heapGoal
+}
+
+func (c *GCController) HeapLive() uint64 {
+	return c.heapLive
+}
+
+func (c *GCController) HeapMarked() uint64 {
+	return c.heapMarked
+}
+
+func (c *GCController) Trigger() uint64 {
+	return c.trigger
+}
+
+type GCControllerReviseDelta struct {
+	HeapLive        int64
+	HeapScan        int64
+	HeapScanWork    int64
+	StackScanWork   int64
+	GlobalsScanWork int64
+}
+
+func (c *GCController) Revise(d GCControllerReviseDelta) {
+	c.heapLive += uint64(d.HeapLive)
+	c.heapScan += uint64(d.HeapScan)
+	c.heapScanWork.Add(d.HeapScanWork)
+	c.stackScanWork.Add(d.StackScanWork)
+	c.globalsScanWork.Add(d.GlobalsScanWork)
+	c.revise()
+}
+
+func (c *GCController) EndCycle(bytesMarked uint64, assistTime, elapsed int64, gomaxprocs int) {
+	c.assistTime = assistTime
+	triggerRatio := c.endCycle(elapsed, gomaxprocs, false)
+	c.resetLive(bytesMarked)
+	c.commit(triggerRatio)
+}
+
+var escapeSink any
+
+//go:noinline
+func escape(x any) any {
+	escapeSink = x
+	escapeSink = nil
+	return x
+}
+
+// Acquirem blocks preemption.
+func Acquirem() {
+	acquirem()
+}
+
+func Releasem() {
+	releasem(getg().m)
+}
+
+var Timediv = timediv
+>>>>>>> CHANGE (2e9dcb runtime: simplify histogram buckets considerably)
