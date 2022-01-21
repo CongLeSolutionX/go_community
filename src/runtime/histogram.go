@@ -158,7 +158,7 @@ func timeHistogramMetricsBuckets() []float64 {
 			// The first two super buckets are exact with respect to integers,
 			// so we'll never have to shift the sub-bucket index. Thereafter,
 			// we shift up by 1 with each subsequent bucket.
-			subBucketShift = uint(i - 2)
+			subBucketShift = uint(i - 1)
 		}
 		for j := 0; j < timeHistNumSubBuckets; j++ {
 			// j is the sub-bucket index. By shifting the index into position to
