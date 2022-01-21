@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "090661f7_b258bd39",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-01-21T03:52:09Z",
+      "side": 1,
+      "message": "In the process of building go, function asyncPreempt was called a lot, we also need to stop the world via async preemption when gc starts. This function may not be a performance critical part, but the change is worthwhile.",
+      "parentUuid": "2fcf25ce_eeec0296",
+      "revId": "5ed911e23ef3f5cc376e9722df760cdb0272cf65",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d90c818e_2fc76dfe",
@@ -74,6 +92,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8020e8fc_63477cbb",
+        "filename": "src/runtime/mkpreempt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-01-21T03:52:09Z",
+      "side": 1,
+      "message": "Without this change, other generated files will be affected. As we can see from preempt_mips64x.s, there\u0027s a blank before and after \u0027//go:build mips64 || mips64le\u0027, without this additional \u0027\\n\u0027, there will not be a blank line after \u0027//go:build mips64 || mips64le\u0027.",
+      "parentUuid": "d90c818e_2fc76dfe",
+      "revId": "5ed911e23ef3f5cc376e9722df760cdb0272cf65",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ce4f0285_06c77bab",
         "filename": "src/runtime/mkpreempt.go",
         "patchSetId": 1
@@ -85,6 +121,24 @@
       "writtenOn": "2022-01-20T15:46:48Z",
       "side": 1,
       "message": "The change to all callers of add looks undesired. Maybe introduce an add2 method and undo those.",
+      "revId": "5ed911e23ef3f5cc376e9722df760cdb0272cf65",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "79e8f665_3cad436f",
+        "filename": "src/runtime/mkpreempt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-01-21T03:52:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce4f0285_06c77bab",
       "revId": "5ed911e23ef3f5cc376e9722df760cdb0272cf65",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
