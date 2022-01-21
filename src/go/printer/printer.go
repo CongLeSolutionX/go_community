@@ -1368,7 +1368,7 @@ func (cfg *Config) fprint(output io.Writer, fset *token.FileSet, node any, nodeS
 // A CommentedNode bundles an AST node and corresponding comments.
 // It may be provided as argument to any of the Fprint functions.
 type CommentedNode struct {
-	Node     any // *ast.File, or ast.Expr, ast.Decl, ast.Spec, or ast.Stmt
+	Node     ast.Node // *ast.File, or ast.Expr, ast.Decl, ast.Spec, or ast.Stmt
 	Comments []*ast.CommentGroup
 }
 
