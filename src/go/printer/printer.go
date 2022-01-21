@@ -1358,7 +1358,7 @@ func (cfg *Config) fprint(output io.Writer, fset *token.FileSet, node any, nodeS
 	}
 
 	// flush tabwriter, if any
-	if tw, _ := output.(*tabwriter.Writer); tw != nil {
+	if tw, ok := output.(*tabwriter.Writer); ok {
 		err = tw.Flush()
 	}
 
