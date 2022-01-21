@@ -126,6 +126,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "81e7f2b3_5d910b57",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 797,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-01-21T03:55:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd450129_fef5a43d",
+      "revId": "36652444156a7011a664e13d38f6db5d60ee97fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ac072842_e039d5b8",
@@ -139,6 +157,30 @@
       "writtenOn": "2022-01-18T15:31:13Z",
       "side": 1,
       "message": "Maybe name this \"op\" and num below as \"shift\"?\n\nUse named constant SHIFT_LL, something like p.From.Offset \u0026 (3\u003c\u003c22) \u003d\u003d SHIFT_LL",
+      "range": {
+        "startLine": 1089,
+        "startChar": 3,
+        "endLine": 1089,
+        "endChar": 8
+      },
+      "revId": "36652444156a7011a664e13d38f6db5d60ee97fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2025919d_863b847c",
+        "filename": "src/cmd/internal/obj/arm64/obj7.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1089,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-01-21T03:55:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ac072842_e039d5b8",
       "range": {
         "startLine": 1089,
         "startChar": 3,
