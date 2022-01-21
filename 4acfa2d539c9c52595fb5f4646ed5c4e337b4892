@@ -69,6 +69,24 @@
       "parentUuid": "bbce624c_704ac15e",
       "revId": "4acfa2d539c9c52595fb5f4646ed5c4e337b4892",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "59754a17_8ce45e0f",
+        "filename": "src/cmd/go/internal/modfetch/coderepo.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-01-21T17:48:57Z",
+      "side": 0,
+      "message": "Adjusted +incompatible error reporting.\n\nThe interaction with the statVers fix is a bit subtle: a statVers that is “canonical” independent of the module path might still require the addition or removal of a \"+incompatible\" suffix.\n\nThe test for this error line is in mod_invalid_version.txt:225 (updated in this CL).",
+      "parentUuid": "8d70f6c0_e8437593",
+      "revId": "4acfa2d539c9c52595fb5f4646ed5c4e337b4892",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
