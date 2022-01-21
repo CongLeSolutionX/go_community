@@ -73,6 +73,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b68a03e8_d9ed6f87",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-01-21T16:29:39Z",
+      "side": 1,
+      "message": "It is only called when receiving an OS signal. Compared to an OS signal (kernel/user mode switches, a bunch of functions called  etc.) a few extra instructions are ignorable.",
+      "parentUuid": "090661f7_b258bd39",
+      "revId": "5ed911e23ef3f5cc376e9722df760cdb0272cf65",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d90c818e_2fc76dfe",
