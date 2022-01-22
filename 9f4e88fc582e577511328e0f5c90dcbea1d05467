@@ -72,6 +72,92 @@
       "message": "Added comments with some extra relevant info that I\u0027ve learned for types.Type and related structures.",
       "revId": "9f4e88fc582e577511328e0f5c90dcbea1d05467",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d99c1f0f_440728f8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-01-22T00:13:44Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "9f4e88fc582e577511328e0f5c90dcbea1d05467",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9010b08_4b699239",
+        "filename": "src/cmd/compile/internal/types/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-01-22T00:13:44Z",
+      "side": 1,
+      "message": "nit: Go spec uses the term \"defined\"",
+      "range": {
+        "startLine": 141,
+        "startChar": 43,
+        "endLine": 141,
+        "endChar": 48
+      },
+      "revId": "9f4e88fc582e577511328e0f5c90dcbea1d05467",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be014d08_c12a00b7",
+        "filename": "src/cmd/compile/internal/types/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-01-22T00:13:44Z",
+      "side": 1,
+      "message": "I think this is misleading because during parsing time, sym.Def can change depending on what scope we\u0027re currently in.\n\nThe sentence is correct if limited to talking about package-scoped defined types. But then we should probably also recommend using Sym.PkgDef/Sym.SetPkgDef instead.",
+      "range": {
+        "startLine": 141,
+        "startChar": 55,
+        "endLine": 144,
+        "endChar": 33
+      },
+      "revId": "9f4e88fc582e577511328e0f5c90dcbea1d05467",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8834c652_571bfbbf",
+        "filename": "src/cmd/compile/internal/types/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-01-22T00:13:44Z",
+      "side": 1,
+      "message": "This is true, but I think it falls within \"unnamed parameters\", so I wouldn\u0027t think we need to call it out separately.",
+      "range": {
+        "startLine": 507,
+        "startChar": 43,
+        "endLine": 507,
+        "endChar": 83
+      },
+      "revId": "9f4e88fc582e577511328e0f5c90dcbea1d05467",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
