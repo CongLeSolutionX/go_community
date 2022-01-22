@@ -1,0 +1,28 @@
+# Test that cmd/go follows the symlink and properly determines
+# the module boundary when the working directory is a symlink.
+# Add an overlay to make sure those are handled properly even
+# with symlinks.
+
+[!symlink] skip
+
+symlink worksym -> workspace
+cd worksym
+go list -overlay $WORK/gopath/src/overlay.json all
+stdout example.com/workspace
+
+-- workspace/go.work --
+go 1.18
+
+use .
+-- workspace/go.mod --
+module example.com/workspace
+
+go  1.18
+-- overlay/pkg.go --
+package workspace
+-- overlay.json --
+{
+    "Replace": {
+        "pkg.go": "../overlay/pkg.go"
+    }
+}

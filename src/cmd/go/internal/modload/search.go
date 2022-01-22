@@ -55,6 +55,12 @@ func matchPackages(ctx context.Context, m *search.Match, tags map[string]bool, f
 
 	walkPkgs := func(root, importPathRoot string, prune pruning) {
 		root = filepath.Clean(root)
+		// Evaluate root symlink if it is one, so some path == root comparisons don't
+		// spuriously fail when root is a symlink and it points to path.
+		rootFollowSymlink := root
+		if r, err := filepath.EvalSymlinks(root); err == nil {
+			rootFollowSymlink = r
+		}
 		err := fsys.Walk(root, func(path string, fi fs.FileInfo, err error) error {
 			if err != nil {
 				m.AddError(err)
@@ -97,8 +103,10 @@ func matchPackages(ctx context.Context, m *search.Match, tags map[string]bool, f
 			if !want {
 				return filepath.SkipDir
 			}
-			// Stop at module boundaries.
-			if (prune&pruneGoMod != 0) && path != root {
+			// Stop at module boundaries. Check both root and root after following the symlink,
+			// to ensure that we've really crossed the module boundary, and not just a symlink.
+			// (If there is an overlay it may specify the file path pre-symlink).
+			if (prune&pruneGoMod != 0) && path != root && path != rootFollowSymlink {
 				if fi, err := os.Stat(filepath.Join(path, "go.mod")); err == nil && !fi.IsDir() {
 					return filepath.SkipDir
 				}
