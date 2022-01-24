@@ -107,6 +107,24 @@
       "message": "I noticed that this function `func (x *Rat) FloatString(prec int) string` may causes the same problem if the parameter `prec` is too large. Is it necessary to limit the `prec` to `MaxPrec`?",
       "revId": "0a4c8b7e97c24ae100e20c3521aa3ed9270725f6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "964a38e0_05f44018",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2022-01-24T21:55:00Z",
+      "side": 1,
+      "message": "This is a risk throughout the entire package, unfortunately, and not something that we can really fix/control. If someone calls `FloatString` with a very large precision, they are asking that a very large buffer be allocated (https://cs.opensource.google/go/go/+/refs/tags/go1.17.6:src/math/big/ratconv.go;l\u003d333).\nIt is going to be the user\u0027s responsibility to make sure they aren\u0027t asking the package to allocate more memory than they can deal with. The docs already speak to this a bit: https://pkg.go.dev/math/big#MaxPrec says \"largest (theoretically) supported precision; likely memory-limited\".\n\nThis is also not something that should be attacker controlled, so the attack surface should be extremely low.\n\nWe could perhaps document this better, though.\n\nAt the very least, this is a different problem than the one being fixed here. This CL is dealing with a bug where an unexpected integer overflow can cause bad behavior in the code. The issue you are describing is that inputs to certain functions may allocate too much memory because the user asked it to do so.",
+      "parentUuid": "a3d832e5_94755435",
+      "revId": "0a4c8b7e97c24ae100e20c3521aa3ed9270725f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
