@@ -90,7 +90,7 @@ func walkSwitchExpr(sw *ir.SwitchStmt) {
 		// Process body.
 		body.Append(ir.NewLabelStmt(ncase.Pos(), label))
 		body.Append(ncase.Body...)
-		if fall, pos := endsInFallthrough(ncase.Body); !fall {
+		if fall, pos := ir.EndsInFallthrough(ncase.Body); !fall {
 			br := ir.NewBranchStmt(base.Pos, ir.OBREAK, nil)
 			br.SetPos(pos)
 			body.Append(br)
@@ -271,24 +271,6 @@ func allCaseExprsAreSideEffectFree(sw *ir.SwitchStmt) bool {
 		}
 	}
 	return true
-}
-
-// endsInFallthrough reports whether stmts ends with a "fallthrough" statement.
-func endsInFallthrough(stmts []ir.Node) (bool, src.XPos) {
-	// Search backwards for the index of the fallthrough
-	// statement. Do not assume it'll be in the last
-	// position, since in some cases (e.g. when the statement
-	// list contains autotmp_ variables), one or more OVARKILL
-	// nodes will be at the end of the list.
-
-	i := len(stmts) - 1
-	for i >= 0 && stmts[i].Op() == ir.OVARKILL {
-		i--
-	}
-	if i < 0 {
-		return false, src.NoXPos
-	}
-	return stmts[i].Op() == ir.OFALL, stmts[i].Pos()
 }
 
 // walkSwitchType generates an AST that implements sw, where sw is a
