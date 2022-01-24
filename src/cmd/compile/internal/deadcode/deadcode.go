@@ -57,7 +57,10 @@ func stmts(nn *ir.Nodes) {
 		if n == nil {
 			continue
 		}
-		if n.Op() == ir.OIF {
+
+		constCaseFoldedPos := -1
+		switch n.Op() {
+		case ir.OIF:
 			n := n.(*ir.IfStmt)
 			n.Cond = expr(n.Cond)
 			if ir.IsConst(n.Cond, constant.Bool) {
@@ -82,6 +85,39 @@ func stmts(nn *ir.Nodes) {
 						if i > lastLabel {
 							cut = true
 						}
+					}
+				}
+			}
+		case ir.OSWITCH:
+			n := n.(*ir.SwitchStmt)
+			if ir.ConstType(n.Tag) != constant.Unknown {
+				tv := ir.ConstValue(n.Tag)
+				defaultCasePos := -1
+				for i, ncase := range n.Cases {
+					if len(ncase.List) == 0 {
+						defaultCasePos = i
+						continue
+					}
+					for _, cv := range ncase.List {
+						if ir.ConstType(cv) != constant.Unknown && tv == ir.ConstValue(cv) {
+							constCaseFoldedPos = i
+							break
+						}
+					}
+					if constCaseFoldedPos != -1 {
+						break
+					}
+				}
+				if constCaseFoldedPos == -1 {
+					constCaseFoldedPos = defaultCasePos
+				}
+				if constCaseFoldedPos > -1 {
+					for i := constCaseFoldedPos; i < len(n.Cases); i++ {
+						endsInfallthrough, _ := ir.EndsInFallthrough(n.Cases[i].Body)
+						if !endsInfallthrough {
+							break
+						}
+						constCaseFoldedPos++
 					}
 				}
 			}
@@ -111,8 +147,16 @@ func stmts(nn *ir.Nodes) {
 			}
 		case ir.OSWITCH:
 			n := n.(*ir.SwitchStmt)
-			for _, cas := range n.Cases {
-				stmts(&cas.Body)
+			constCaseFolded := constCaseFoldedPos > -1
+			for i, cas := range n.Cases {
+				if constCaseFolded && constCaseFoldedPos != i {
+					ir.VisitList(cas.Body, markHiddenClosureDead)
+				} else {
+					stmts(&cas.Body)
+				}
+			}
+			if constCaseFolded {
+				n.Cases = []*ir.CaseClause{n.Cases[constCaseFoldedPos]}
 			}
 		}
 
