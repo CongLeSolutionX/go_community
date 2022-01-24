@@ -114,6 +114,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "65da7937_d5d9b10f",
+        "filename": "src/cmd/compile/internal/types/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2022-01-24T16:54:44Z",
+      "side": 1,
+      "message": "OK, I put \"(defined)\" in parentheses, since named type and defined type are both used in this file.",
+      "parentUuid": "b9010b08_4b699239",
+      "range": {
+        "startLine": 141,
+        "startChar": 43,
+        "endLine": 141,
+        "endChar": 48
+      },
+      "revId": "9f4e88fc582e577511328e0f5c90dcbea1d05467",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "be014d08_c12a00b7",
@@ -139,6 +163,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "52518c8d_d8292198",
+        "filename": "src/cmd/compile/internal/types/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2022-01-24T16:54:44Z",
+      "side": 1,
+      "message": "OK, I changed the text so that it mainly talks about package-level types after noding.  Mentioned that local types are distinguished by vargen.",
+      "parentUuid": "be014d08_c12a00b7",
+      "range": {
+        "startLine": 141,
+        "startChar": 55,
+        "endLine": 144,
+        "endChar": 33
+      },
+      "revId": "9f4e88fc582e577511328e0f5c90dcbea1d05467",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "8834c652_571bfbbf",
         "filename": "src/cmd/compile/internal/types/type.go",
         "patchSetId": 1
@@ -150,6 +198,30 @@
       "writtenOn": "2022-01-22T00:13:44Z",
       "side": 1,
       "message": "This is true, but I think it falls within \"unnamed parameters\", so I wouldn\u0027t think we need to call it out separately.",
+      "range": {
+        "startLine": 507,
+        "startChar": 43,
+        "endLine": 507,
+        "endChar": 83
+      },
+      "revId": "9f4e88fc582e577511328e0f5c90dcbea1d05467",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e774d30_03d21050",
+        "filename": "src/cmd/compile/internal/types/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2022-01-24T16:54:44Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "8834c652_571bfbbf",
       "range": {
         "startLine": 507,
         "startChar": 43,
