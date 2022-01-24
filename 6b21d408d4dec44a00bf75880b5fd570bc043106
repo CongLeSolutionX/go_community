@@ -78,6 +78,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "92ca8c33_0015bc91",
+        "filename": "src/go/types/validtype.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-01-24T20:51:18Z",
+      "side": 1,
+      "message": "In some sense, yes. (E.g., all tests pass with this removed.) We don\u0027t want to re-analyze the same type loop again if we hit it from a different direction.",
+      "parentUuid": "34669e82_915e9c82",
+      "range": {
+        "startLine": 76,
+        "startChar": 3,
+        "endLine": 77,
+        "endChar": 29
+      },
+      "revId": "6b21d408d4dec44a00bf75880b5fd570bc043106",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8a4343b8_6e3491e5",
@@ -91,6 +115,30 @@
       "writtenOn": "2022-01-24T19:30:15Z",
       "side": 1,
       "message": "Err, it still seems like we could report cycle errors on imported objects here. Would our tests detect that? Sorry if you addressed this in an earlier CL.",
+      "range": {
+        "startLine": 86,
+        "startChar": 5,
+        "endLine": 86,
+        "endChar": 31
+      },
+      "revId": "6b21d408d4dec44a00bf75880b5fd570bc043106",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "266bef74_2856d2e1",
+        "filename": "src/go/types/validtype.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-01-24T20:51:18Z",
+      "side": 1,
+      "message": "Yes. But that\u0027s not a problem. They must be instantiated, and we have the local position information for those instantiations. The resulting error lines point exactly at each type.\n\nWe don\u0027t have an explicit test, though (verified manually). There\u0027s a minor issue that those instantiated types are not printed with package qualification (an issue in cycleError). It\u0027s not a big deal though because the position information for the trace is precise. Also, it\u0027s only indirectly related to this specific issue.\n\nI filed #50788 for 1.19. I don\u0027t think it\u0027s important for 1.18.",
+      "parentUuid": "8a4343b8_6e3491e5",
       "range": {
         "startLine": 86,
         "startChar": 5,
