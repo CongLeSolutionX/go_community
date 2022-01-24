@@ -90,6 +90,23 @@
       "parentUuid": "04fc08f0_5dcb30c3",
       "revId": "0a4c8b7e97c24ae100e20c3521aa3ed9270725f6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3d832e5_94755435",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 54933
+      },
+      "writtenOn": "2022-01-24T07:37:56Z",
+      "side": 1,
+      "message": "I noticed that this function `func (x *Rat) FloatString(prec int) string` may causes the same problem if the parameter `prec` is too large. Is it necessary to limit the `prec` to `MaxPrec`?",
+      "revId": "0a4c8b7e97c24ae100e20c3521aa3ed9270725f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
