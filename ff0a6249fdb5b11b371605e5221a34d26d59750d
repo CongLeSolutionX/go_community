@@ -57,6 +57,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "21010b82_5f5f4540",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-01-24T21:09:36Z",
+      "side": 1,
+      "message": "PTAL.\n\nAdded the missing check. Also added a test case for the new #50779 which is also addressed by this CL.",
+      "revId": "ff0a6249fdb5b11b371605e5221a34d26d59750d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ba06fcda_8542df9c",
@@ -70,6 +87,30 @@
       "writtenOn": "2022-01-24T20:14:53Z",
       "side": 1,
       "message": "\u0026\u0026 tname.IsAlias()?\n\nOtherwise don\u0027t we risk erasing a *Named type that should just have invalid underlying?",
+      "range": {
+        "startLine": 318,
+        "startChar": 4,
+        "endLine": 318,
+        "endChar": 16
+      },
+      "revId": "ff0a6249fdb5b11b371605e5221a34d26d59750d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33a26db5_a1be6493",
+        "filename": "src/go/types/decl.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-01-24T21:09:36Z",
+      "side": 1,
+      "message": "In either case, we set the type to Typ[Invalid] - so if it\u0027s already invalid, it doesn\u0027t matter. In fact this removed a follow-on error in a test case.\n\nBut I agree that this is cleaner to check. Done.",
+      "parentUuid": "ba06fcda_8542df9c",
       "range": {
         "startLine": 318,
         "startChar": 4,
