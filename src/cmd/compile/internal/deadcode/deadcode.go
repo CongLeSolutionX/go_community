@@ -111,9 +111,7 @@ func stmts(nn *ir.Nodes) {
 			}
 		case ir.OSWITCH:
 			n := n.(*ir.SwitchStmt)
-			for _, cas := range n.Cases {
-				stmts(&cas.Body)
-			}
+			switchStmt(n)
 		}
 
 		if cut {
@@ -164,4 +162,88 @@ func markHiddenClosureDead(n ir.Node) {
 		clo.Func.SetIsDeadcodeClosure(true)
 	}
 	ir.VisitList(clo.Func.Body, markHiddenClosureDead)
+}
+
+// switchStmt performs deadcode elimination for an ir.SwitchStmt node.
+//
+// If switch statement has non-constant tag, it calls stmts on each ir.CaseClause's body.
+//
+// If switch statement has constant tag:
+//
+//  + Removing any const/non-equal cases
+//  + Removing all cases if they are const and non-equal
+func switchStmt(n *ir.SwitchStmt) {
+	firstCasePos := -1
+	if ir.ConstType(n.Tag) != constant.Unknown {
+		tv := ir.ConstValue(n.Tag)
+		defaultCasePos := -1
+		allCasesAreConstant := true
+		for casePos, ncase := range n.Cases {
+			if len(ncase.List) == 0 {
+				defaultCasePos = casePos
+				continue
+			}
+			caseList := ncase.List[:0]
+			for _, cv := range ncase.List {
+				cvTyp := ir.ConstType(cv)
+				if cvTyp != constant.Unknown && ir.ConstValue(cv) != tv {
+					// This is a const/non-equal case, remove it.
+					continue
+				}
+				caseList = append(caseList, cv)
+				if cvTyp == constant.Unknown {
+					allCasesAreConstant = false
+				}
+				if cvTyp != constant.Unknown && ir.ConstValue(cv) == tv {
+					firstCasePos = casePos
+				}
+			}
+			for i := len(caseList); i < len(ncase.List); i++ {
+				ncase.List[i] = nil // allow gc-ed
+			}
+			ncase.List = caseList
+		}
+
+		// If all cases are const/non-equal, match default case.
+		if firstCasePos == -1 && allCasesAreConstant {
+			firstCasePos = defaultCasePos
+		}
+		// If all cases are const/non-equal, and there's no default case, simply removing all cases.
+		if firstCasePos == -1 && allCasesAreConstant {
+			n.Cases = nil
+			return
+		}
+	}
+
+	// Tracking what cases need to be kept.
+	casesKept := make(map[int]bool)
+	constCaseFolded := firstCasePos > -1
+	if constCaseFolded {
+		casesKept[firstCasePos] = true
+		for i := firstCasePos; i < len(n.Cases); i++ {
+			endsInfallthrough, _ := ir.EndsInFallthrough(n.Cases[i].Body)
+			if !endsInfallthrough {
+				break
+			}
+			firstCasePos++
+			casesKept[firstCasePos] = true
+		}
+	}
+
+	for i, cas := range n.Cases {
+		if constCaseFolded && !casesKept[i] {
+			ir.VisitList(cas.Body, markHiddenClosureDead)
+		} else {
+			stmts(&cas.Body)
+		}
+	}
+	if constCaseFolded {
+		cases := make([]*ir.CaseClause, 0, len(casesKept))
+		for i := range n.Cases {
+			if casesKept[i] {
+				cases = append(cases, n.Cases[i])
+			}
+		}
+		n.Cases = cases
+	}
 }
