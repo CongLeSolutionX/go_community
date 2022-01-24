@@ -143,6 +143,30 @@
       },
       "revId": "ff0a6249fdb5b11b371605e5221a34d26d59750d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebd125af_64ddc2c5",
+        "filename": "src/go/types/decl.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-01-24T21:25:42Z",
+      "side": 1,
+      "message": "Yes, good point. We don\u0027t, I was not thinking straight. But at the same time it probably wouldn\u0027t matter. In any case, this is now addressed.",
+      "parentUuid": "88300564_3b4719f3",
+      "range": {
+        "startLine": 318,
+        "startChar": 4,
+        "endLine": 318,
+        "endChar": 16
+      },
+      "revId": "ff0a6249fdb5b11b371605e5221a34d26d59750d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
