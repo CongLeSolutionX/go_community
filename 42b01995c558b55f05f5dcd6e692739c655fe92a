@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f06a4a9_80faa601",
+        "filename": "src/debug/dwarf/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-01-25T21:20:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bab2d4aa_5b4f96be",
+      "revId": "42b01995c558b55f05f5dcd6e692739c655fe92a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e7eed230_cf1b247c",
@@ -72,6 +90,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "35f1b446_35fa4c02",
+        "filename": "src/debug/dwarf/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-01-25T21:20:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7eed230_cf1b247c",
+      "revId": "42b01995c558b55f05f5dcd6e692739c655fe92a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8a33128e_b6275981",
@@ -85,6 +121,24 @@
       "writtenOn": "2022-01-25T17:25:18Z",
       "side": 1,
       "message": "I would guess that the average reader is not deeply knowledgeable about DWARF but is more interested in getting type information.  So this might be clearer if we pull up some of the information below and write something like\n\nDataBitOffset, if non-zero, is the number of bits from the start of the enclosing entity to the start of the bit field in question.  This is the DW_AT_data_bit_offset DWARF attribute that was introduced in DWARF 4.\n\nBitOffset, if non-zero, is the number of bits between the most significant bit of the storage unit holding the bit field to the most significant bit of the bit field.  This value can vary depending on the endianness of the system.  This is the DW_AT_bit_offset DWARF attribute that was deprecated in DWARF 4 and removed in DWARF 5.\n\nAt most one of DataBitOffset and BitOffset will be non-zero.",
+      "revId": "42b01995c558b55f05f5dcd6e692739c655fe92a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "19f114ee_e17400c1",
+        "filename": "src/debug/dwarf/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-01-25T21:20:24Z",
+      "side": 1,
+      "message": "OK, I\u0027ve incorporated most of this, with a few additional tweaks.",
+      "parentUuid": "8a33128e_b6275981",
       "revId": "42b01995c558b55f05f5dcd6e692739c655fe92a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
