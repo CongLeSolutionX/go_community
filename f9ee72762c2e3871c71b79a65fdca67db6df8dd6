@@ -87,6 +87,24 @@
       "parentUuid": "d628b0f2_5f1f0c54",
       "revId": "f9ee72762c2e3871c71b79a65fdca67db6df8dd6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d07b663a_388af87b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55734
+      },
+      "writtenOn": "2022-01-25T22:45:38Z",
+      "side": 1,
+      "message": "Exactly, I chose image/x-icon because that\u0027s what most servers use, but I don\u0027t mind changing that to image/vnd.microsoft.icon.",
+      "parentUuid": "eab8de13_8ad00174",
+      "revId": "f9ee72762c2e3871c71b79a65fdca67db6df8dd6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
