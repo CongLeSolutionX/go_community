@@ -397,6 +397,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "80cc6dd2_cd0b30ca",
+        "filename": "src/cmd/internal/obj/wasm/wasmobj.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 38854
+      },
+      "writtenOn": "2022-01-25T19:48:23Z",
+      "side": 1,
+      "message": "Summary: We need to cache the Go stack pointer so we can write the return values from the Web Assembly import to the correct location. Not sure why? Maybe imports could modify the location of the Go stack pointer?\n\nLong version:\n\n\nI\u0027m not sure I understand this either. Best person to ask is probably neelance/Richard Musiol. Here\u0027s my quick understanding though:\n\nHere\u0027s the generated code for:\n     //go:wasmimport test wasm_return\n     func wasm_return() uint\n     \n Code:\n     \n    # Grab Go stack pointer from a WASM global\n    # and store it in the local variable at index 1\n    # (index 0 is occupied by a parameter to the WASM function--\n    # not sure what the parameter is for)\n    global.get 0\n    local.set 1\n    # The line in question (line 201) results in this\n    # we\u0027re kind of \"caching\" the Go stack pointer\n    local.get 1\n\n    # Call the import which has signature `(func (result i64))`\n    call 23\n    # Ok, there\u0027s now an i64 on the WASM stack\n    \n    # Copy the Go stack pointer from a WASM global to\n    # the WASM local at index 1\n    global.get 0\n    local.set 1\n    \n    # Store the return value from the imported WASM function in the\n    # *old* Go stack pointer (which we \"cached\" using `local.get 1`)\n    i64.store offset\u003d8\n    # Ending stuff\n    local.get 1\n    i32.const 8\n    i32.add\n    local.tee 1\n    global.set 0\n    i32.const 0\n    return",
+      "parentUuid": "ee568639_20dc63cf",
+      "range": {
+        "startLine": 201,
+        "startChar": 4,
+        "endLine": 201,
+        "endChar": 79
+      },
+      "revId": "ba0d0319c2e099da0065ad21178f85d9611b25e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "aff178f0_94f827eb",
         "filename": "src/cmd/internal/obj/wasm/wasmobj.go",
         "patchSetId": 6
@@ -420,6 +444,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "39a9a3a9_587a40fd",
+        "filename": "src/cmd/internal/obj/wasm/wasmobj.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 38854
+      },
+      "writtenOn": "2022-01-25T19:48:23Z",
+      "side": 1,
+      "message": "Summary: I\u0027m assuming parameters/return values are stored at an 8-byte offset from the top of the Go stack. In the old WASM imports, we would pass the stack pointer to JS \u0026 the JS would be responsible for adding 8 to the SP to load parameters. In new WASM imports, we don\u0027t pass the SP to JS. We just pass the parameters directly, so we must load them using an 8-byte offset inside of WASM.\n\nOverly detailed explanation:\n\nIt\u0027s been a while since I worked on this PR, so take this with a grain of salt. But I believe:\n- Web Assembly has its own stack (it also has locals/globals)\n- Go\u0027s stack is stored in Web Assembly\u0027s memory\n- `p \u003d appendp(p, AGet, regAddr(REG_SP))` places a pointer to the Go stack (which is stored in WASM\u0027s memory) onto the current Web Assembly stack\n- This is where I\u0027m a little hazy since I don\u0027t know the details of the Go stack-based calling convention, but presumably parameters/return values are stored starting at an 8-byte offset from the top of the stack\n\nA quick example. Let\u0027s say we\u0027re calling:\n\n    //go:wasmimport test wasm-args\n    func wasm_args(a uint, b uint)\n\nA section of the generated code will look like:\n\n    # The stack pointer is stored in a WASM global\n    # We are setting the WASM variable @ index 1 to the value of the stack pointer\n    # (In WASM, parameters/locals are referred to by index)\n    global.get 0\n    local.set 1\n    local.get 1\n    \n    # At this point: the memory address of the top of the Go stack is on the WASM stack\n    # We want to load the 1st parameter from memory at a 8-byte offset from the top of the Go stack and place it onto the WASM stack\n    i64.load offset\u003d8 \n    # We push the Go stack pointer to the top of the WASM stack\n    local.get 1\n    # Load the 2nd parameter from memory at a 16-byte offset from the top of the Go stack and place it onto the WASM stack\n    i64.load offset\u003d16\n    # Call `wasm_args` which is of type (func (param i64 i64))\n    # meaning it consumes 2 values off the WASM stack\n    call 21\n    # etc.\n    \nIf `wi.Module \u003d\u003d \"go\"` (which was the old form of WASM imports), we only passed in 1 value (the Go stack pointer). The imported Javascript function would be responsible for loading values at an 8-byte offset.\n\nFor example in $GOROOT/misc/wasm/wasm_exec.js from lines 331-334 (inclusive), we can see:\n\n    // func clearTimeoutEvent(id int32)\n    \"runtime.clearTimeoutEvent\": (sp) \u003d\u003e {\n        sp \u003e\u003e\u003e\u003d 0;\n        const id \u003d this.mem.getInt32(sp + 8, true);\n        \n- The stack pointer is passed in as `sp`\n- The parameter (id int32) is loaded at an 8-byte offset from the SP",
+      "parentUuid": "aff178f0_94f827eb",
+      "range": {
+        "startLine": 205,
+        "startChar": 4,
+        "endLine": 205,
+        "endChar": 17
+      },
+      "revId": "ba0d0319c2e099da0065ad21178f85d9611b25e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0189e638_a0158e65",
         "filename": "src/cmd/internal/obj/wasm/wasmobj.go",
         "patchSetId": 6
@@ -431,6 +479,30 @@
       "writtenOn": "2021-10-12T22:33:57Z",
       "side": 1,
       "message": "Also here.",
+      "range": {
+        "startLine": 226,
+        "startChar": 4,
+        "endLine": 226,
+        "endChar": 17
+      },
+      "revId": "ba0d0319c2e099da0065ad21178f85d9611b25e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d29c4557_4b91afe9",
+        "filename": "src/cmd/internal/obj/wasm/wasmobj.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 38854
+      },
+      "writtenOn": "2022-01-25T19:48:23Z",
+      "side": 1,
+      "message": "See comment on line 205.",
+      "parentUuid": "0189e638_a0158e65",
       "range": {
         "startLine": 226,
         "startChar": 4,

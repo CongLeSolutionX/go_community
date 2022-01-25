@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d92287d_6a141350",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 38854
+      },
+      "writtenOn": "2022-01-25T19:48:23Z",
+      "side": 1,
+      "message": "Amazing work by David on bringing this PR to the finish line.\nI figured I\u0027d (try) to help answer some questions Cherry posed about wasmobj.go.\nHopefully David can use my answers to add the requested comments to the code.\n\nI think the best person to answer the question about the return values is neelance/Richard, but I gave it a shot anyways.\n\nThe explanations are definitely overly long. I figured it was better to err on the side of adding too much detail to assist people in getting this PR merged.",
+      "revId": "779788e8f2fac9631cc9712756806ef21ccb2c41",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
