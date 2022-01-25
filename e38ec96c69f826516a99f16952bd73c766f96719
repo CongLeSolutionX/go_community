@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2a4c69f_79e41282",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16375
+      },
+      "writtenOn": "2022-01-25T17:51:31Z",
+      "side": 1,
+      "message": "Should this change perhaps be accompanied with a doc clarifying the behaviour that can be expected when Parse() _does_ encounter fractional seconds with more than 9 digits specified? \n\nUnless I am missing something, as it stands this is unspecified. ",
+      "revId": "e38ec96c69f826516a99f16952bd73c766f96719",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
