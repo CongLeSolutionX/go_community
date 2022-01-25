@@ -125,6 +125,24 @@
       "parentUuid": "a3d832e5_94755435",
       "revId": "0a4c8b7e97c24ae100e20c3521aa3ed9270725f6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c8c0a86_31bc0282",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2022-01-25T19:10:00Z",
+      "side": 1,
+      "message": "I disagree heavily with the relevance judgement here. \n\nThe parsing functions of the math/big package are used in several commercial products on untrusted inputs.\n\nThere should be variants to limit memory usage per parsing function to user supplied limits and fail with a detectable error stating the cause is memory usage.\n\nI am not aware of a way using the Go Standard library to efficiently achieve such a security relevant (DoS protection) memory limited parsing of a medium sized (a few thousand) of user supplied rationals/floats.",
+      "parentUuid": "964a38e0_05f44018",
+      "revId": "0a4c8b7e97c24ae100e20c3521aa3ed9270725f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
