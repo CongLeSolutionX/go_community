@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4d0a739_b4b590b7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-01-25T17:47:18Z",
+      "side": 1,
+      "message": "Thanks.  Is there any official spec that defines \".ico\"?  IANA maintains a list of MIME types at https://www.iana.org/assignments/media-types/media-types.xhtml but I don\u0027t see \".ico\" on that list.",
+      "revId": "f9ee72762c2e3871c71b79a65fdca67db6df8dd6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
