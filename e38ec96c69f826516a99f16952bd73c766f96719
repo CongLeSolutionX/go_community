@@ -16,6 +16,24 @@
       "message": "Should this change perhaps be accompanied with a doc clarifying the behaviour that can be expected when Parse() _does_ encounter fractional seconds with more than 9 digits specified? \n\nUnless I am missing something, as it stands this is unspecified. ",
       "revId": "e38ec96c69f826516a99f16952bd73c766f96719",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ac6d19c_3de95734",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-01-25T18:44:11Z",
+      "side": 1,
+      "message": "It\u0027s not explicitly stated, but it seems to me that the right thing happens: fractions of nanoseconds are dropped, because they are too small to be represented.   Do you think we should call that out explicitly?",
+      "parentUuid": "c2a4c69f_79e41282",
+      "revId": "e38ec96c69f826516a99f16952bd73c766f96719",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
