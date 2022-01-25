@@ -51,6 +51,24 @@
       "parentUuid": "b4d0a739_b4b590b7",
       "revId": "f9ee72762c2e3871c71b79a65fdca67db6df8dd6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d628b0f2_5f1f0c54",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-01-25T20:23:57Z",
+      "side": 1,
+      "message": "Thanks.  That suggests that the MIME type should be image/vnd.microsoft.icon, not image/x-icon.",
+      "parentUuid": "b2ceb335_01e15ad4",
+      "revId": "f9ee72762c2e3871c71b79a65fdca67db6df8dd6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
