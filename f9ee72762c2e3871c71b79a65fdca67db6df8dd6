@@ -69,6 +69,24 @@
       "parentUuid": "b2ceb335_01e15ad4",
       "revId": "f9ee72762c2e3871c71b79a65fdca67db6df8dd6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eab8de13_8ad00174",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34788
+      },
+      "writtenOn": "2022-01-25T21:19:38Z",
+      "side": 1,
+      "message": "Apparently it\u0027s disputed whether the Microsoft assignment is correct, with Wikipedia linking to a source saying it was submitted by a third party.\nThere are also reported compatibility issues with image/vnd.microsoft.icon, both with clients not understanding it (though it should be rare with modern browsers) and with clients actually expecting ico format files (as opposed to any other image file type renamed to (favicon).ico which was/is common).",
+      "parentUuid": "d628b0f2_5f1f0c54",
+      "revId": "f9ee72762c2e3871c71b79a65fdca67db6df8dd6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
