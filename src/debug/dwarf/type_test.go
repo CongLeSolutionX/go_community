@@ -229,21 +229,42 @@ func TestUnsupportedTypes(t *testing.T) {
 	}
 }
 
-func TestBitOffsetsELF(t *testing.T) { testBitOffsets(t, elfData(t, "testdata/typedef.elf")) }
+var expectedBitOffsets1 = map[string]string{
+	"x": "S:1 DBO:32",
+	"y": "S:4 DBO:33",
+}
+
+var expectedBitOffsets2 = map[string]string{
+	"x": "S:1 BO:7",
+	"y": "S:4 BO:27",
+}
+
+func TestBitOffsetsELF(t *testing.T) {
+	f := "testdata/typedef.elf"
+	testBitOffsets(t, elfData(t, f), f, expectedBitOffsets2)
+}
 
 func TestBitOffsetsMachO(t *testing.T) {
-	testBitOffsets(t, machoData(t, "testdata/typedef.macho"))
+	f := "testdata/typedef.macho"
+	testBitOffsets(t, machoData(t, f), f, expectedBitOffsets2)
 }
 
 func TestBitOffsetsMachO4(t *testing.T) {
-	testBitOffsets(t, machoData(t, "testdata/typedef.macho4"))
+	f := "testdata/typedef.macho4"
+	testBitOffsets(t, machoData(t, f), f, expectedBitOffsets1)
 }
 
 func TestBitOffsetsELFDwarf4(t *testing.T) {
-	testBitOffsets(t, elfData(t, "testdata/typedef.elf4"))
+	f := "testdata/typedef.elf4"
+	testBitOffsets(t, elfData(t, f), f, expectedBitOffsets1)
 }
 
-func testBitOffsets(t *testing.T, d *Data) {
+func TestBitOffsetsELFDwarf5(t *testing.T) {
+	f := "testdata/typedef.elf5"
+	testBitOffsets(t, elfData(t, f), f, expectedBitOffsets1)
+}
+
+func testBitOffsets(t *testing.T, d *Data, tag string, expectedBitOffsets map[string]string) {
 	r := d.Reader()
 	for {
 		e, err := r.Next()
@@ -262,15 +283,26 @@ func testBitOffsets(t *testing.T, d *Data) {
 
 			t1 := typ.(*StructType)
 
+			bitInfoDump := func(f *StructField) string {
+				res := fmt.Sprintf("S:%d", f.BitSize)
+				if f.BitOffset != 0 {
+					res += fmt.Sprintf(" BO:%d", f.BitOffset)
+				}
+				if f.DataBitOffset != 0 {
+					res += fmt.Sprintf(" DBO:%d", f.DataBitOffset)
+				}
+				return res
+			}
+
 			for _, field := range t1.Field {
 				// We're only testing for bitfields
 				if field.BitSize == 0 {
 					continue
 				}
-
-				// Ensure BitOffset is not zero
-				if field.BitOffset == 0 {
-					t.Errorf("bit offset of field %s in %s %s is not set", field.Name, t1.Kind, t1.StructName)
+				got := bitInfoDump(field)
+				want := expectedBitOffsets[field.Name]
+				if got != want {
+					t.Errorf("%s: field %s in %s: got info %q want %q", tag, field.Name, t1.StructName, got, want)
 				}
 			}
 		}
