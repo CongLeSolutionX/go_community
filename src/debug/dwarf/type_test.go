@@ -269,7 +269,7 @@ func testBitOffsets(t *testing.T, d *Data) {
 				}
 
 				// Ensure BitOffset is not zero
-				if field.BitOffset == 0 {
+				if field.BitOffset == 0 && field.DataBitOffset == 0 {
 					t.Errorf("bit offset of field %s in %s %s is not set", field.Name, t1.Kind, t1.StructName)
 				}
 			}
