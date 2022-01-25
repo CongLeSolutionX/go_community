@@ -33,17 +33,35 @@ func (ex *Examiner) Populate(rdr *dwarf.Reader) error {
 	ex.parent = make(map[int]int)
 	ex.byname = make(map[string][]int)
 	var nesting []int
+	var noff []dwarf.Offset
+	var nestingError error
 	for entry, err := rdr.Next(); entry != nil; entry, err = rdr.Next() {
 		if err != nil {
 			return err
 		}
+		if os.Getenv("THANM_DEBUG") != "" {
+			t := ""
+			if entry.Tag == dwarf.TagStructType {
+				t = " struct"
+			}
+			fmt.Fprintf(os.Stderr, "=-= offset=%x tag=%d%s\n", entry.Offset, entry.Tag, t)
+		}
 		if entry.Tag == 0 {
 			// terminator
 			if len(nesting) == 0 {
-				return errors.New("nesting stack underflow")
+				// Some MACHO dwarf sections have extra zeros at the end,
+				// which wind up looking like extra zero tag DIES. If
+				// we see a zero DIE and the nesting stack is empty, buffer
+				// up the error in case this happens to be the last DIE
+				// in the unit.
+				nestingError = fmt.Errorf("nesting stack underflow at DIE offset 0x%x %+v", entry.Offset, entry)
+				continue
 			}
 			nesting = nesting[:len(nesting)-1]
 			continue
+		}
+		if nestingError != nil {
+			return nestingError
 		}
 		idx := len(ex.dies)
 		ex.dies = append(ex.dies, entry)
@@ -61,10 +79,11 @@ func (ex *Examiner) Populate(rdr *dwarf.Reader) error {
 		}
 		if entry.Children {
 			nesting = append(nesting, idx)
+			noff = append(noff, entry.Offset)
 		}
 	}
 	if len(nesting) > 0 {
-		return errors.New("unterminated child sequence")
+		return fmt.Errorf("unterminated child sequence: orphans are %+v", noff)
 	}
 	return nil
 }
