@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "19992d1f_ccc59f99",
+        "filename": "src/debug/dwarf/type.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-01-26T19:18:57Z",
+      "side": 1,
+      "message": "Done. \n\nQQ: what do people use these days for reviewing package doc formatting (e.g. tool that shows you exactly what HTML will appear on pkg.go.dev)? I know this used to be \"godoc\", but that is now deprecated as I understand it.",
+      "parentUuid": "89447b7b_f2642796",
+      "revId": "d6685aaf5e7a57781892f00d051f3b0adc429904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f007abf3_44b9662f",
         "filename": "src/debug/dwarf/type.go",
         "patchSetId": 4
@@ -113,6 +131,54 @@
         "startChar": 47,
         "endLine": 162,
         "endChar": 55
+      },
+      "revId": "d6685aaf5e7a57781892f00d051f3b0adc429904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b46f9e6_ef5438f7",
+        "filename": "src/debug/dwarf/type.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-01-26T19:18:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f214b0e_5d1784b6",
+      "range": {
+        "startLine": 162,
+        "startChar": 47,
+        "endLine": 162,
+        "endChar": 55
+      },
+      "revId": "d6685aaf5e7a57781892f00d051f3b0adc429904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c440cc9_762f2c02",
+        "filename": "src/debug/dwarf/type.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-01-26T19:18:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f007abf3_44b9662f",
+      "range": {
+        "startLine": 162,
+        "startChar": 14,
+        "endLine": 162,
+        "endChar": 20
       },
       "revId": "d6685aaf5e7a57781892f00d051f3b0adc429904",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
@@ -164,6 +230,54 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "98a0a0d9_4cfe5318",
+        "filename": "src/debug/dwarf/type.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-01-26T19:18:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b1967d05_dba202be",
+      "range": {
+        "startLine": 165,
+        "startChar": 53,
+        "endLine": 165,
+        "endChar": 65
+      },
+      "revId": "d6685aaf5e7a57781892f00d051f3b0adc429904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fee2f7d6_226a7c93",
+        "filename": "src/debug/dwarf/type.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-01-26T19:18:57Z",
+      "side": 1,
+      "message": "I\u0027ll update it to \"... enclosing entity (e.g. containing struct/class/union)\"",
+      "parentUuid": "73b0a7da_721884aa",
+      "range": {
+        "startLine": 165,
+        "startChar": 7,
+        "endLine": 165,
+        "endChar": 23
+      },
+      "revId": "d6685aaf5e7a57781892f00d051f3b0adc429904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "59864ae4_5ea5e8af",
@@ -177,6 +291,30 @@
       "writtenOn": "2022-01-26T17:36:16Z",
       "side": 1,
       "message": "This is also unclear.",
+      "range": {
+        "startLine": 170,
+        "startChar": 22,
+        "endLine": 170,
+        "endChar": 60
+      },
+      "revId": "d6685aaf5e7a57781892f00d051f3b0adc429904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce793a89_9c6ab4fe",
+        "filename": "src/debug/dwarf/type.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-01-26T19:18:57Z",
+      "side": 1,
+      "message": "I\u0027ve added some additional explanatory text.",
+      "parentUuid": "59864ae4_5ea5e8af",
       "range": {
         "startLine": 170,
         "startChar": 22,
@@ -227,6 +365,48 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3df5a058_0b9a76f6",
+        "filename": "src/debug/dwarf/type.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-01-26T19:18:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad256889_b508eb2b",
+      "range": {
+        "startLine": 191,
+        "startChar": 20,
+        "endLine": 191,
+        "endChar": 28
+      },
+      "revId": "d6685aaf5e7a57781892f00d051f3b0adc429904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a769c4d3_4e270d05",
+        "filename": "src/debug/dwarf/type.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-01-26T19:18:57Z",
+      "side": 1,
+      "message": "OK, good suggestion. I\u0027ll fold it in. New paragraph:\n\n// At most one of DataBitOffset and BitOffset will be non-zero;\n// DataBitOffset/BitOffset will only be non-zero if BitSize is\n// non-zero; whether a C compiler will use one or the other\n// will depend on compiler vintage and command line options.",
+      "parentUuid": "24f19acb_603be209",
+      "revId": "d6685aaf5e7a57781892f00d051f3b0adc429904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ab3d0a8a_7c304f84",
@@ -240,6 +420,30 @@
       "writtenOn": "2022-01-26T17:36:16Z",
       "side": 1,
       "message": "Drop \"choose to\"",
+      "range": {
+        "startLine": 192,
+        "startChar": 20,
+        "endLine": 192,
+        "endChar": 29
+      },
+      "revId": "d6685aaf5e7a57781892f00d051f3b0adc429904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4083e31_200b5c5d",
+        "filename": "src/debug/dwarf/type.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-01-26T19:18:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab3d0a8a_7c304f84",
       "range": {
         "startLine": 192,
         "startChar": 20,
@@ -275,6 +479,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9c46b919_2688feaa",
+        "filename": "src/debug/dwarf/type.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-01-26T19:18:57Z",
+      "side": 1,
+      "message": "Bit fields are one of those areas where there is a huge amount of freedom given to the C compiler. If you read the standard it basically says that lots of things are \"implementation defined\", meaning that for code like this\n\n  struct X {\n     char x:4;\n  };\n  \nif a compiler REALLY wanted to, it could use the middle four bits of the char to store the bitfield, or split the bits up into two chunks within the char.\n\nObviously most compilers are not going to do this, and the \"do whatever GCC does\" rule will prevail, but given all the weasley wording in the standard it makes sense to me to call out which compiler was used.\n\nAs a final note, I think it is useful to quote version numbers like this to provide the proper historical context. If some poor sap comes along 50 years from now and reads \u0027GCC 8\u0027, it will be a nice red flag showing that the comment was written back in the dark ages (as opposed to something more recent). :-).",
+      "parentUuid": "8b098c93_c7a4850c",
+      "range": {
+        "startLine": 196,
+        "startChar": 28,
+        "endLine": 196,
+        "endChar": 39
+      },
+      "revId": "d6685aaf5e7a57781892f00d051f3b0adc429904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "34d5c71b_c25db662",
         "filename": "src/debug/dwarf/type.go",
         "patchSetId": 4
@@ -286,6 +514,30 @@
       "writtenOn": "2022-01-26T17:36:16Z",
       "side": 1,
       "message": "\"emits\"",
+      "range": {
+        "startLine": 210,
+        "startChar": 27,
+        "endLine": 210,
+        "endChar": 42
+      },
+      "revId": "d6685aaf5e7a57781892f00d051f3b0adc429904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "941ee452_fe879723",
+        "filename": "src/debug/dwarf/type.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-01-26T19:18:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34d5c71b_c25db662",
       "range": {
         "startLine": 210,
         "startChar": 27,
@@ -319,6 +571,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5eda9191_b0314ac3",
+        "filename": "src/debug/dwarf/type.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-01-26T19:18:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f8dfc30_32f84aea",
+      "range": {
+        "startLine": 211,
+        "startChar": 3,
+        "endLine": 211,
+        "endChar": 11
+      },
+      "revId": "d6685aaf5e7a57781892f00d051f3b0adc429904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9c4edf4f_9df229ff",
@@ -332,6 +608,30 @@
       "writtenOn": "2022-01-26T17:36:16Z",
       "side": 1,
       "message": "\"bit field\"",
+      "range": {
+        "startLine": 218,
+        "startChar": 56,
+        "endLine": 218,
+        "endChar": 64
+      },
+      "revId": "d6685aaf5e7a57781892f00d051f3b0adc429904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64b810c1_137292e3",
+        "filename": "src/debug/dwarf/type.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-01-26T19:18:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c4edf4f_9df229ff",
       "range": {
         "startLine": 218,
         "startChar": 56,
@@ -359,6 +659,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5fc127f8_8ebfae86",
+        "filename": "src/debug/dwarf/type.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-01-26T19:18:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "22e5bd13_b727d9df",
+      "revId": "d6685aaf5e7a57781892f00d051f3b0adc429904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a6963d75_5f95f4e3",
@@ -382,6 +700,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e79565fb_1274d8fe",
+        "filename": "src/debug/dwarf/type.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-01-26T19:18:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6963d75_5f95f4e3",
+      "range": {
+        "startLine": 224,
+        "startChar": 32,
+        "endLine": 224,
+        "endChar": 64
+      },
+      "revId": "d6685aaf5e7a57781892f00d051f3b0adc429904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "543ab809_d152ded8",
@@ -395,6 +737,24 @@
       "writtenOn": "2022-01-26T17:36:16Z",
       "side": 1,
       "message": "If DW_AT_data_bit_offset is relative to some sort of enclosing entity (the struct?), what does it even mean for a base type?",
+      "revId": "d6685aaf5e7a57781892f00d051f3b0adc429904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dcd74780_86fee4eb",
+        "filename": "src/debug/dwarf/type.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-01-26T19:18:57Z",
+      "side": 1,
+      "message": "Yah, you got it, pretty weird. The language in the standard is:\n\n  The data bit offset attribute is the offset in bits from the beginning of the \n  containing storage to the beginning of the value.\n\nso no, there is no containing struct, there is only \"containing storage\". Which makes things extra extra confusing.",
+      "parentUuid": "543ab809_d152ded8",
       "revId": "d6685aaf5e7a57781892f00d051f3b0adc429904",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
