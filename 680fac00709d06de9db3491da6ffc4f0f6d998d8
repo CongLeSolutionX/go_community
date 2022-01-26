@@ -72,6 +72,24 @@
       "message": "LGTM, it\u0027s more suitable to build a path independent object. But after this patch, can the debugger find correctly source C file if user install go by make.bash?",
       "revId": "680fac00709d06de9db3491da6ffc4f0f6d998d8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1dc1b043_0ab4c5a8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-01-26T16:39:25Z",
+      "side": 1,
+      "message": "Given the definition of DW_AT_comp_dir, it isn\u0027t sufficient in general for a debugger to find C source files even if it is set to the actual compilation directory. (DW_AT_comp_dir records the directory in which compilation occurs, but nothing requires that to have anything to do with the locations of the source files.)\n\nI\u0027m not sure what other mechanisms are available for debuggers to locate source code, but understanding and addressing that problem is much more work than we can do during the Go 1.18 freeze. A proper regression test for a debugger locating source files would require either a debugger (or a library extracted from a debugger) that is reliable enough to use in regression tests (see #39204), and a regression test that uses the real debugger logic to locate source files.\n\nFor what it\u0027s worth, I suspect that real GDB users can retarget the source directory correctly with a little manual intervention using `set substitute-path`.¹ I\u0027m not sure about Delve users, but since Delve is Go-focused it can probably special-case some of these paths.\n\n¹https://sourceware.org/gdb/onlinedocs/gdb/Source-Path.html#set-substitute_002dpath",
+      "parentUuid": "3240a62a_3fc243ce",
+      "revId": "680fac00709d06de9db3491da6ffc4f0f6d998d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
