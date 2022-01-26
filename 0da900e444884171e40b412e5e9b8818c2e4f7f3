@@ -53,6 +53,91 @@
       "message": "RELNOTE\u003dyes",
       "revId": "0da900e444884171e40b412e5e9b8818c2e4f7f3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da965088_d347a822",
+        "filename": "src/debug/dwarf/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-01-26T02:06:14Z",
+      "side": 1,
+      "message": "s/the the/the/\n\nMaybe \"See the documentation for StructField...\" since this will appear in pkg.go.dev where it will be documentation, not a comment.",
+      "revId": "0da900e444884171e40b412e5e9b8818c2e4f7f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fafb3423_7815e5d2",
+        "filename": "src/debug/dwarf/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-01-26T02:06:14Z",
+      "side": 1,
+      "message": "s/maintstream/mainstream/",
+      "revId": "0da900e444884171e40b412e5e9b8818c2e4f7f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f317c2f_5a6d4b17",
+        "filename": "src/debug/dwarf/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-01-26T02:06:14Z",
+      "side": 1,
+      "message": "Extraneous blank line should be removed so that the comment is a doc comment.",
+      "revId": "0da900e444884171e40b412e5e9b8818c2e4f7f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a8b7ae3_e67a7d76",
+        "filename": "src/debug/dwarf/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-01-26T02:06:14Z",
+      "side": 1,
+      "message": "In pkg.go.dev I think the StructField comment will appear just below the struct definition, so I don\u0027t think we need these \"see comment on StructField\" comments.",
+      "revId": "0da900e444884171e40b412e5e9b8818c2e4f7f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5166dfae_b88b438e",
+        "filename": "src/debug/dwarf/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 687,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-01-26T02:06:14Z",
+      "side": 1,
+      "message": "Is there any existing data for this zero-byte array length fixup?",
+      "revId": "0da900e444884171e40b412e5e9b8818c2e4f7f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
