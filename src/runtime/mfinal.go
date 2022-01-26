@@ -321,11 +321,17 @@ func runfinq() {
 // closing p.d, causing syscall.Write to fail because it is writing to
 // a closed file descriptor (or, worse, to an entirely different
 // file descriptor opened by a different goroutine). To avoid this problem,
-// call runtime.KeepAlive(p) after the call to syscall.Write.
+// call KeepAlive(p) after the call to syscall.Write.
 //
 // A single goroutine runs all finalizers for a program, sequentially.
 // If a finalizer must run for a long time, it should do so by starting
 // a new goroutine.
+//
+// In the terminology of the Go memory model, a call
+// SetFinalizer(x, f) “synchronizes before” the finalization call f(x).
+// There is no guarantee that KeepAlive(x) or any other use of x
+// “synchronizes before” f(x), so in general a finalizer should use a mutex
+// or other synchronization mechanism if it needs to access mutable state in x.
 func SetFinalizer(obj any, finalizer any) {
 	if debug.sbrk != 0 {
 		// debug.sbrk never frees memory, so no finalizers run
