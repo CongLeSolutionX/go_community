@@ -113,6 +113,9 @@ var errVerifyMode = errors.New("gocacheverify=1")
 // DebugTest is set when GODEBUG=gocachetest=1 is in the environment.
 var DebugTest = false
 
+// debugTrace means to print tracing information to standard error.
+var debugTrace = false
+
 func init() { initEnv() }
 
 func initEnv() {
@@ -125,6 +128,9 @@ func initEnv() {
 		}
 		if f == "gocachehash=1" {
 			debugHash = true
+		}
+		if f == "gocachetrace=1" {
+			debugTrace = true
 		}
 		if f == "gocachetest=1" {
 			DebugTest = true
@@ -215,6 +221,16 @@ func (c *Cache) get(id ActionID) (Entry, error) {
 // GetFile looks up the action ID in the cache and returns
 // the name of the corresponding data file.
 func (c *Cache) GetFile(id ActionID) (file string, entry Entry, err error) {
+	if debugTrace {
+		defer func() {
+			if err != nil {
+				fmt.Fprintf(os.Stderr, "cache GetFile %x: err %v\n", id, err)
+			} else {
+				fmt.Fprintf(os.Stderr, "cache GetFile %x: file %s {%x %d %v}\n", id, file, entry.OutputID, entry.Size, entry.Time)
+			}
+		}()
+	}
+
 	entry, err = c.Get(id)
 	if err != nil {
 		return "", Entry{}, err
@@ -233,7 +249,17 @@ func (c *Cache) GetFile(id ActionID) (file string, entry Entry, err error) {
 // GetBytes looks up the action ID in the cache and returns
 // the corresponding output bytes.
 // GetBytes should only be used for data that can be expected to fit in memory.
-func (c *Cache) GetBytes(id ActionID) ([]byte, Entry, error) {
+func (c *Cache) GetBytes(id ActionID) (_data []byte, _entry Entry, _err error) {
+	if debugTrace {
+		defer func() {
+			if _err != nil {
+				fmt.Fprintf(os.Stderr, "cache GetBytes %x: err %v\n", id, _err)
+			} else {
+				fmt.Fprintf(os.Stderr, "cache GetFile %x: %d {%x %d %v}\n", id, len(_data), _entry.OutputID, _entry.Size, _entry.Time)
+			}
+		}()
+	}
+
 	entry, err := c.Get(id)
 	if err != nil {
 		return nil, entry, err
@@ -410,7 +436,17 @@ func (c *Cache) putIndexEntry(id ActionID, out OutputID, size int64, allowVerify
 
 // Put stores the given output in the cache as the output for the action ID.
 // It may read file twice. The content of file must not change between the two passes.
-func (c *Cache) Put(id ActionID, file io.ReadSeeker) (OutputID, int64, error) {
+func (c *Cache) Put(id ActionID, file io.ReadSeeker) (_out OutputID, _id int64, _err error) {
+	if debugTrace {
+		defer func() {
+			if _err != nil {
+				fmt.Fprintf(os.Stderr, "cache Put %x: err %v\n", id, _err)
+			} else {
+				fmt.Fprintf(os.Stderr, "cache Put %x: wrote %x %d\n", id, _out, _id)
+			}
+		}()
+	}
+
 	return c.put(id, file, true)
 }
 
@@ -468,6 +504,10 @@ func (c *Cache) copyFile(file io.ReadSeeker, out OutputID, size int64) error {
 			}
 		}
 		// Hash did not match. Fall through and rewrite file.
+	}
+
+	if debugTrace {
+		fmt.Fprintf(os.Stderr, "cache Write %x\n", out)
 	}
 
 	// Copy file to cache directory.
