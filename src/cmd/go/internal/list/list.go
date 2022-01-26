@@ -13,7 +13,9 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"reflect"
 	"sort"
+	"strconv"
 	"strings"
 	"text/template"
 
@@ -157,7 +159,10 @@ For more information about the meaning of these fields see the documentation
 for the go/build package's Context type.
 
 The -json flag causes the package data to be printed in JSON format
-instead of using the template format.
+instead of using the template format. The JSON flag can optionally be
+provided with a set of required field names to be output. If so, those
+required fields will always appear in JSON output, but others may be
+omitted to save work in computing the JSON struct.
 
 The -compiled flag causes list to set CompiledGoFiles to the Go source
 files presented to the compiler. Typically this means that it repeats
@@ -316,30 +321,66 @@ For more about modules, see https://golang.org/ref/mod.
 func init() {
 	CmdList.Run = runList // break init cycle
 	work.AddBuildFlags(CmdList, work.DefaultBuildFlags)
+	CmdList.Flag.Var(&listJsonFields, "json", "")
 	base.AddWorkfileFlag(&CmdList.Flag)
 }
 
 var (
-	listCompiled  = CmdList.Flag.Bool("compiled", false, "")
-	listDeps      = CmdList.Flag.Bool("deps", false, "")
-	listE         = CmdList.Flag.Bool("e", false, "")
-	listExport    = CmdList.Flag.Bool("export", false, "")
-	listFmt       = CmdList.Flag.String("f", "", "")
-	listFind      = CmdList.Flag.Bool("find", false, "")
-	listJson      = CmdList.Flag.Bool("json", false, "")
-	listM         = CmdList.Flag.Bool("m", false, "")
-	listRetracted = CmdList.Flag.Bool("retracted", false, "")
-	listTest      = CmdList.Flag.Bool("test", false, "")
-	listU         = CmdList.Flag.Bool("u", false, "")
-	listVersions  = CmdList.Flag.Bool("versions", false, "")
+	listCompiled   = CmdList.Flag.Bool("compiled", false, "")
+	listDeps       = CmdList.Flag.Bool("deps", false, "")
+	listE          = CmdList.Flag.Bool("e", false, "")
+	listExport     = CmdList.Flag.Bool("export", false, "")
+	listFmt        = CmdList.Flag.String("f", "", "")
+	listFind       = CmdList.Flag.Bool("find", false, "")
+	listJson       bool
+	listJsonFields JsonFlag // If not empty, only output these fields.
+	listM          = CmdList.Flag.Bool("m", false, "")
+	listRetracted  = CmdList.Flag.Bool("retracted", false, "")
+	listTest       = CmdList.Flag.Bool("test", false, "")
+	listU          = CmdList.Flag.Bool("u", false, "")
+	listVersions   = CmdList.Flag.Bool("versions", false, "")
 )
+
+// A StringsFlag is a command-line flag that interprets its argument
+// as a space-separated list of possibly-quoted strings.
+type JsonFlag map[string]bool
+
+func (v *JsonFlag) Set(s string) error {
+	if v, err := strconv.ParseBool(s); err == nil {
+		listJson = v
+		return nil
+	}
+	listJson = true
+	if *v == nil {
+		*v = make(map[string]bool)
+	}
+	for _, f := range strings.Split(s, ",") {
+		(*v)[f] = true
+	}
+	return nil
+}
+
+func (v *JsonFlag) String() string {
+	return "<JsonFlag>"
+}
+
+func (v *JsonFlag) IsBoolFlag() bool {
+	return true
+}
+
+func needJSONField(s string) bool {
+	if len(listJsonFields) == 0 {
+		return true
+	}
+	return listJsonFields[s]
+}
 
 var nl = []byte{'\n'}
 
 func runList(ctx context.Context, cmd *base.Command, args []string) {
 	modload.InitWorkfile()
 
-	if *listFmt != "" && *listJson == true {
+	if *listFmt != "" && listJson == true {
 		base.Fatalf("go list -f cannot be used with -json")
 	}
 
@@ -358,9 +399,18 @@ func runList(ctx context.Context, cmd *base.Command, args []string) {
 		}
 	}
 
-	var do func(any)
-	if *listJson {
+	var do func(x any)
+	if listJson {
 		do = func(x any) {
+			if len(listJsonFields) > 0 {
+				v := reflect.ValueOf(x).Elem() // do is always called with a non-nil pointer.
+				// Clear all non-requested fields.
+				for i := 0; i < v.NumField(); i++ {
+					if !listJsonFields[v.Type().Field(i).Name] {
+						v.Field(i).Set(reflect.Zero(v.Type().Field(i).Type))
+					}
+				}
+			}
 			b, err := json.MarshalIndent(x, "", "\t")
 			if err != nil {
 				out.Flush()
@@ -590,7 +640,7 @@ func runList(ctx context.Context, cmd *base.Command, args []string) {
 	}
 
 	// Do we need to run a build to gather information?
-	needStale := *listJson || strings.Contains(*listFmt, ".Stale")
+	needStale := (listJson && needJSONField("Stale")) || strings.Contains(*listFmt, ".Stale")
 	if needStale || *listExport || *listCompiled {
 		var b work.Builder
 		b.Init()
