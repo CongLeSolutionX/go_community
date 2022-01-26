@@ -491,6 +491,7 @@ var scriptCmds = map[string]func(*testScript, simpleStatus, []string){
 	"go":      (*testScript).cmdGo,
 	"grep":    (*testScript).cmdGrep,
 	"mkdir":   (*testScript).cmdMkdir,
+	"mv":      (*testScript).cmdMv,
 	"rm":      (*testScript).cmdRm,
 	"skip":    (*testScript).cmdSkip,
 	"stale":   (*testScript).cmdStale,
@@ -585,10 +586,6 @@ func (ts *testScript) cmdChmod(want simpleStatus, args []string) {
 
 // cmp compares two files.
 func (ts *testScript) cmdCmp(want simpleStatus, args []string) {
-	if want != success {
-		// It would be strange to say "this file can have any content except this precise byte sequence".
-		ts.fatalf("unsupported: %v cmp", want)
-	}
 	quiet := false
 	if len(args) > 0 && args[0] == "-q" {
 		quiet = true
@@ -597,14 +594,11 @@ func (ts *testScript) cmdCmp(want simpleStatus, args []string) {
 	if len(args) != 2 {
 		ts.fatalf("usage: cmp file1 file2")
 	}
-	ts.doCmdCmp(args, false, quiet)
+	ts.doCmdCmp(want, args, false, quiet)
 }
 
 // cmpenv compares two files with environment variable substitution.
 func (ts *testScript) cmdCmpenv(want simpleStatus, args []string) {
-	if want != success {
-		ts.fatalf("unsupported: %v cmpenv", want)
-	}
 	quiet := false
 	if len(args) > 0 && args[0] == "-q" {
 		quiet = true
@@ -613,10 +607,10 @@ func (ts *testScript) cmdCmpenv(want simpleStatus, args []string) {
 	if len(args) != 2 {
 		ts.fatalf("usage: cmpenv file1 file2")
 	}
-	ts.doCmdCmp(args, true, quiet)
+	ts.doCmdCmp(want, args, true, quiet)
 }
 
-func (ts *testScript) doCmdCmp(args []string, env, quiet bool) {
+func (ts *testScript) doCmdCmp(want simpleStatus, args []string, env, quiet bool) {
 	name1, name2 := args[0], args[1]
 	var text1, text2 string
 	if name1 == "stdout" {
@@ -639,6 +633,12 @@ func (ts *testScript) doCmdCmp(args []string, env, quiet bool) {
 	}
 
 	if text1 == text2 {
+		if want == failure {
+			ts.fatalf("%s and %s do not differ", name1, name2)
+		}
+		return
+	}
+	if want == failure {
 		return
 	}
 
@@ -838,6 +838,16 @@ func (ts *testScript) cmdMkdir(want simpleStatus, args []string) {
 	for _, arg := range args {
 		ts.check(os.MkdirAll(ts.mkabs(arg), 0777))
 	}
+}
+
+func (ts *testScript) cmdMv(want simpleStatus, args []string) {
+	if want != success {
+		ts.fatalf("unsupported: %v mv", want)
+	}
+	if len(args) != 2 {
+		ts.fatalf("usage: mv old new")
+	}
+	ts.check(os.Rename(ts.mkabs(args[0]), ts.mkabs(args[1])))
 }
 
 // rm removes files or directories.
