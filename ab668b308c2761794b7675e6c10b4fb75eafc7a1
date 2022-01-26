@@ -70,6 +70,24 @@
       "message": "Should ? really be supported? cmp seems more like grep than cc to me.\nSame for cmpenv.",
       "revId": "ab668b308c2761794b7675e6c10b4fb75eafc7a1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc5c2837_8dec9542",
+        "filename": "src/cmd/go/testdata/script/README",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-01-26T15:19:31Z",
+      "side": 1,
+      "message": "I can envision using `? cmp` for one-off debugging with \u0027go test -v\u0027.\n\n(I don\u0027t expect to check it in to any scripts once debugged, though.)",
+      "parentUuid": "75babb87_50a12dcc",
+      "revId": "ab668b308c2761794b7675e6c10b4fb75eafc7a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
