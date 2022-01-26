@@ -41,6 +41,11 @@ import (
 // free list.
 //
 // A Pool must not be copied after first use.
+//
+// In the terminology of the Go memory model, a call to Put(x) “happens before”
+// a call to Get returning that same value x.
+// Similarly, a call to New returning x “happens before”
+// a call to Get returning that same value x.
 type Pool struct {
 	noCopy noCopy
 

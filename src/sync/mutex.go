@@ -22,6 +22,13 @@ func throw(string) // provided by runtime
 // The zero value for a Mutex is an unlocked mutex.
 //
 // A Mutex must not be copied after first use.
+//
+// In the terminology of the Go memory model,
+// the n'th call to Unlock “happens before” the m'th call to Lock
+// for any n < m.
+// A successful call to TryLock is equivalent to a call to Lock.
+// A failed call to TryLock does not establish any “happens before”
+// relation at all.
 type Mutex struct {
 	state int32
 	sema  uint32
