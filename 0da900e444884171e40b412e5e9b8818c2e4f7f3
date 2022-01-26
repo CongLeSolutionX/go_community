@@ -228,6 +228,24 @@
       "parentUuid": "5166dfae_b88b438e",
       "revId": "0da900e444884171e40b412e5e9b8818c2e4f7f3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25d4621c_a6772e70",
+        "filename": "src/debug/dwarf/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 687,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-01-26T12:57:45Z",
+      "side": 1,
+      "message": "I\u0027ve added a new test here in case that was your concern.",
+      "parentUuid": "f2afd422_b2bca17c",
+      "revId": "0da900e444884171e40b412e5e9b8818c2e4f7f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
