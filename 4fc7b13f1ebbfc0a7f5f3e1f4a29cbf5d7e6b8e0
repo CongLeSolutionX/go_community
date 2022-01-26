@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "170edfc3_59807f91",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-01-26T20:33:09Z",
+      "side": 1,
+      "message": "TRY\u003dlinux-386-longtest, linux-amd64-longtest, windows-amd64-longtest",
+      "revId": "4fc7b13f1ebbfc0a7f5f3e1f4a29cbf5d7e6b8e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
