@@ -70,6 +70,42 @@
       "message": "LGTM. It would be nice to just check the DWARF (as opposed to doing a byte compare of the binary) but that would be a whole lot more work. ",
       "revId": "b8db509dfbcfc39a987034b598b958db20ad3823",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9619232a_d7daa359",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-01-26T15:45:34Z",
+      "side": 1,
+      "message": "\u003e 1 of 30 SlowBots failed.\n\u003e Failed on windows-amd64-longtest: https://storage.googleapis.com/go-build-log/b8db509d/windows-amd64-longtest_cffedfa9.log\n\nThe `gcc` binaries on the `windows-amd64-longtest` builders are seven years out of date(!) and do not support the flags required for reproducible builds.\n\nFiled as #50824, and I\u0027ll skip this test on Windows in the meantime.",
+      "parentUuid": "28ef942e_5b2a2781",
+      "revId": "b8db509dfbcfc39a987034b598b958db20ad3823",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4c4c27d_6777ee06",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-01-26T15:45:34Z",
+      "side": 1,
+      "message": "Honestly I would prefer to do a bytewise comparison of the binary anyway: in the long term we\u0027re aiming for fully-reproducible builds, and reproducible builds must be bytewise-equal.",
+      "parentUuid": "0930719b_c76b9ed7",
+      "revId": "b8db509dfbcfc39a987034b598b958db20ad3823",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
