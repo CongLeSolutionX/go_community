@@ -13,7 +13,7 @@ span.event {
 }
 </style>
 
-<h2>Introduction</h2>
+<h2 id="introduction">Introduction</h2>
 
 <p>
 The Go memory model specifies the conditions under which
@@ -22,7 +22,7 @@ observe values produced by writes to the same variable in a different goroutine.
 </p>
 
 
-<h2>Advice</h2>
+<h3 id="advice">Advice</h3>
 
 <p>
 Programs that modify data being simultaneously accessed by multiple goroutines
@@ -44,7 +44,42 @@ you are being too clever.
 Don't be clever.
 </p>
 
-<h2>Happens Before</h2>
+<h3 id="approach">Approach</h3>
+
+<p>
+Go approaches its memory model in much the same way as the rest of the language,
+aiming to keep the semantics simple, understandable, and useful.
+</p>
+
+<p>
+A <em>data race</em> is defined as
+a write to a memory location happening concurrently with another read or write to that same location,
+unless all the accesses involved are atomic data accesses as provided by the <code>sync/atomic</code> package.
+As noted already, programmers are strongly encouraged to use appropriate synchronization
+to avoid data races.
+In the absence of data races, Go programs behave as if all the goroutines
+were multiplexed onto a single processor.
+This property is sometimes referred to as DRF-SC: data-race-free programs
+execute in a sequentially consistent manner.
+</p>
+
+<p>
+Other programming languages typically take one of two approaches to programs containing data races.
+The first, exemplified by C and C++, is that programs with data races are invalid:
+a compiler may break them in arbitrarily surprising ways.
+The second, exemplified by Java and JavaScript, is that programs with data races
+have defined semantics, limiting the possible impact of a race and making programs
+more reliable and easier to debug.
+Go’s approach sits between these two.
+Programs with data races are invalid in the sense that an implementation
+may report the race and terminate the program.
+But otherwise, programs with data races have defined semantics
+with a limited number of outcomes,
+making errant programs more reliable and easier to debug.
+</p>
+
+
+<h2 id="hb">Happens Before</h2>
 
 <p>
 Within a single goroutine, reads and writes must behave
@@ -123,11 +158,23 @@ for <code>v</code>'s type behaves as a write in the memory model.
 Reads and writes of values larger than a single machine word
 behave as multiple machine-word-sized operations in an
 unspecified order.
+Note that this means that races on multiword data structures
+can lead to inconsistent values not
+corresponding to a single write. When the values depend on
+the consistency of internal (pointer, length) or (pointer, type) pairs,
+as is the case for interface values, maps, slices, and strings in most
+Go implementations,
+such races can in turn lead to arbitrary memory corruption.
 </p>
 
-<h2>Synchronization</h2>
+<p>
+Note that acausal and “out of thin air” writes are disallowed:
+each read must observe a value written by a preceding or concurrent write.
+</p>
 
-<h3>Initialization</h3>
+<h2 id="synchronization">Synchronization</h2>
+
+<h3 id="init">Initialization</h3>
 
 <p>
 Program initialization runs in a single goroutine,
@@ -145,7 +192,7 @@ The start of the function <code>main.main</code> happens after
 all <code>init</code> functions have finished.
 </p>
 
-<h3>Goroutine creation</h3>
+<h3 id="go">Goroutine creation</h3>
 
 <p class="rule">
 The <code>go</code> statement that starts a new goroutine
@@ -174,7 +221,7 @@ calling <code>hello</code> will print <code>"hello, world"</code>
 at some point in the future (perhaps after <code>hello</code> has returned).
 </p>
 
-<h3>Goroutine destruction</h3>
+<h3 id="goexit">Goroutine destruction</h3>
 
 <p>
 The exit of a goroutine is not guaranteed to happen before
@@ -203,7 +250,7 @@ use a synchronization mechanism such as a lock or channel
 communication to establish a relative ordering.
 </p>
 
-<h3>Channel communication</h3>
+<h3 id="chan">Channel communication</h3>
 
 <p>
 Channel communication is the main method of synchronization
@@ -330,7 +377,7 @@ func main() {
 }
 </pre>
 
-<h3>Locks</h3>
+<h3 id="locks">Locks</h3>
 
 <p>
 The <code>sync</code> package implements two lock data types,
@@ -377,7 +424,7 @@ there is an <i>n</i> such that the <code>l.RLock</code> happens (returns) after 
 before call <i>n</i>+1 to <code>l.Lock</code>.
 </p>
 
-<h3>Once</h3>
+<h3 id="once">Once</h3>
 
 <p>
 The <code>sync</code> package provides a safe mechanism for
@@ -424,7 +471,52 @@ The result will be that <code>"hello, world"</code> will be printed
 twice.
 </p>
 
-<h2>Incorrect synchronization</h2>
+<h3 id="atomic">Atomic Values</h3>
+
+<p>
+The APIs in the <a href="/pkg/sync/atomic/"><code>sync/atomic</code></a>
+package are collectively “atomic operations”
+that can be used to synchronize the execution of different goroutines.
+If the effect of an atomic operation <i>A</i> is observed by atomic operation <i>B</i>,
+then <i>A</i> happens before <i>B</i>.
+All the atomic operations executed in a program behave as though executed
+in some sequentially consistent order.
+</p>
+
+<p>
+The preceding definition has the same semantics as C++’s sequentially consistent atomics
+and Java’s <code>volatile</code> variables.
+</p>
+
+<h3 id="finalizer">Finalizers</h3>
+
+<p>
+The <a href="/pkg/runtime/"><code>runtime</code></a> package provides
+a <code>SetFinalizer</code> function that adds a finalizer to be called when
+a particular object is no longer reachable by the program.
+A call to <code>SetFinalizer(x, f)</code> happens before the finalization call <code>f(x)</code>.
+</p>
+
+<h3 id="more">Additional Mechanisms</h3>
+
+<p>
+The <code>sync</code> package provides additional synchronization abstractions,
+including <a href="/pkg/sync/#Cond">condition variables</a>,
+<a href="/pkg/sync/#Map">lock-free maps</a>,
+<a href="/pkg/sync/#Pool">allocation pools</a>,
+and
+<a href="/pkg/sync/#WaitGroup">wait groups</a>.
+The documentation for each of these specifies the guarantees it
+makes concerning synchronization.
+</p>
+
+<p>
+Other packages that provide synchronization abstractions
+should document the guarantees they make too.
+</p>
+
+
+<h2 id="badsync">Incorrect synchronization</h2>
 
 <p>
 Note that a read <span class="event">r</span> may observe the value written by a write <span class="event">w</span>
@@ -566,3 +658,155 @@ value for <code>g.msg</code>.
 In all these examples, the solution is the same:
 use explicit synchronization.
 </p>
+
+<h2 id="badcompiler">Incorrect compilation</h2>
+
+<p>
+The Go memory model restricts compiler optimizations as much as it does Go programs.
+Some compiler optimizations that would be valid in single-threaded programs are not valid in Go programs.
+In particular, a compiler must not introduce writes that do not exist in the original program,
+it must not allow a single read to observe multiple values,
+and it must not allow a single write to write multiple values.
+</p>
+
+<p>
+Not introducing data races into race-free programs means not moving
+writes out of conditional statements in which they appear.
+For example, a compiler must not invert the conditional in this program:
+</p>
+
+<pre>
+*p = 1
+if cond {
+	*p = 2
+}
+</pre>
+
+<p>
+That is, the compiler must not rewrite the program into this one:
+</p>
+
+<pre>
+*p = 2
+if !cond {
+	*p = 1
+}
+</pre>
+
+<p>
+If <code>cond</code> is false and another goroutine is reading <code>*p</code>,
+then in the original program, the other goroutine can only observe any prior value of <code>*p</code> and <code>1</code>.
+In the rewritten program, the other goroutine can observe <code>2</code>, which was previously impossible.
+</p>
+
+<p>
+Not introducing data races also means not assuming that loops terminate.
+For example, a compiler must not move the accesses to <code>*p</code> or <code>*q</code>
+ahead of the loop in this program:
+</p>
+
+<pre>
+n := 0
+for e := list; e != nil; e = e.next {
+	n++
+}
+i := *p
+*q = 1
+</pre>
+
+<p>
+If <code>list</code> pointed to a cyclic list,
+then the original program would never access <code>*p</code> or <code>*q</code>,
+but the rewritten program would.
+</p>
+
+<p>
+Not introducing data races also means not assuming that called functions
+always return or are free of synchronization operations.
+For example, a compiler must not move the accesses to <code>*p</code> or <code>*q</code>
+ahead of the function call in this program
+(at least not without direct knowledge of the precise behavior of <code>f</code>):
+</p>
+
+<pre>
+f()
+i := *p
+*q = 1
+</pre>
+
+<p>
+If the call never returned, then once again the original program
+would never access <code>*p</code> or <code>*q</code>, but the rewritten program would.
+And if the call contained synchronizing operations, then the original program
+could establish happens before edges preceding the accesses
+to <code>*p</code> and <code>*q</code>, but the rewritten program would not.
+</p>
+
+<p>
+Not allowing a single read to observe multiple values means
+not reloading local variables from shared memory.
+For example, a compiler must not spill <code>i</code> and reload it
+a second time from <code>*p</code> in this program:
+</p>
+
+<pre>
+i := *p
+if i &lt; 0 || i &gt;= len(funcs) {
+	panic("invalid function index")
+}
+... complex code ...
+// compiler must NOT reload i = *p here
+funcs[i]()
+</pre>
+
+<p>
+If the complex code needs many registers, a compiler for single-threaded programs
+could discard <code>i</code> without saving a copy and then reload
+<code>i = *p</code> just before
+<code>funcs[i]()</code>.
+A Go compiler must not, because the value of <code>*p</code> may have changed.
+(Instead, the compiler could spill <code>i</code> to the stack.)
+</p>
+
+<p>
+Not allowing a single write to write multiple values also means not using
+the memory where a local variable will be written as temporary storage before the write.
+For example, a compiler must not use <code>*p</code> as temporary storage in this program:
+</p>
+
+<pre>
+*p = i + *p/2
+</pre>
+
+<p>
+That is, it must not rewrite the program into this one:
+</p>
+
+<pre>
+*p /= 2
+*p += i
+</pre>
+
+<p>
+If <code>i</code> and <code>*p</code> start equal to 2,
+the original code does <code>*p = 3</code>,
+so a racing thread can read only 2 or 3 from <code>*p</code>.
+The rewritten code does <code>*p = 1</code> and then <code>*p = 3</code>,
+allowing a racing thread to read 1 as well.
+</p>
+
+<p>
+Note that all these optimizations are permitted in C/C++ compilers:
+a Go compiler sharing a back end with a C/C++ compiler must take care
+to disable optimizations that are invalid for Go.
+</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>
+Programmers and compilers, especially those coming from other languages,
+should not assume that Go uses the same model as another language:
+it doesn't.
+Instead, remember the advice: don't be clever.
+</p>
+
