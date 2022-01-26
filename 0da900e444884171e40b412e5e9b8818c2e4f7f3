@@ -264,6 +264,24 @@
       "parentUuid": "25d4621c_a6772e70",
       "revId": "0da900e444884171e40b412e5e9b8818c2e4f7f3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e09d951_bddad7fa",
+        "filename": "src/debug/dwarf/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 687,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-01-26T21:04:45Z",
+      "side": 1,
+      "message": "Got it.\n\nTest coverage -- the existing code in typedef.c handled the case where you have a zero-length array field followed by a regular field, but not the case where you have a zero-length array field followed by a bit field. My newly added test verifies that.",
+      "parentUuid": "425f64bb_797b9410",
+      "revId": "0da900e444884171e40b412e5e9b8818c2e4f7f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
