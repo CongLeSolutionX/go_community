@@ -37,6 +37,13 @@
 // functions, are the atomic equivalents of "return *addr" and
 // "*addr = val".
 //
+// In the terminology of the Go memory model, if the effect of
+// an atomic operation A is observed by atomic operation B,
+// then A happens before B.
+// Additionally, all the atomic operations executed in a program
+// behave as though executed in some sequentially consistent order.
+// This definition provides the same semantics as
+// C++'s sequentially consistent atomics and Java's volatile variables.
 package atomic
 
 import (
