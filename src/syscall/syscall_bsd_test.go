@@ -49,3 +49,7 @@ func TestGetfsstat(t *testing.T) {
 		}
 	}
 }
+
+func MaxFileLimit() (uint32, error) {
+	return syscall.SysctlUint32("kern.maxfilesperproc")
+}
