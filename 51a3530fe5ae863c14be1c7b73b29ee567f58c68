@@ -1,0 +1,343 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f863f7f_c7bca789",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 30903
+      },
+      "writtenOn": "2022-01-27T17:55:43Z",
+      "side": 1,
+      "message": "I would argue that this type of document requires carefully selected citations and precise conclusions.",
+      "revId": "51a3530fe5ae863c14be1c7b73b29ee567f58c68",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "335d152e_009d5a94",
+        "filename": "doc/go_mem.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 30903
+      },
+      "writtenOn": "2022-01-27T17:55:43Z",
+      "side": 1,
+      "message": "Citation needed",
+      "range": {
+        "startLine": 55,
+        "startChar": 24,
+        "endLine": 55,
+        "endChar": 31
+      },
+      "revId": "51a3530fe5ae863c14be1c7b73b29ee567f58c68",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b32576b4_1e8ec7e0",
+        "filename": "doc/go_mem.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 30903
+      },
+      "writtenOn": "2022-01-27T17:55:43Z",
+      "side": 1,
+      "message": "use before defining",
+      "range": {
+        "startLine": 56,
+        "startChar": 29,
+        "endLine": 56,
+        "endChar": 51
+      },
+      "revId": "51a3530fe5ae863c14be1c7b73b29ee567f58c68",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1795dc15_e7e5c932",
+        "filename": "doc/go_mem.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 30903
+      },
+      "writtenOn": "2022-01-27T17:55:43Z",
+      "side": 1,
+      "message": "This is a particular Go\u0027s approach, which would be more suitable to be decoupled from the sentence of defining data race.",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 110
+      },
+      "revId": "51a3530fe5ae863c14be1c7b73b29ee567f58c68",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0de08cd_abfbc839",
+        "filename": "doc/go_mem.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 30903
+      },
+      "writtenOn": "2022-01-27T17:55:43Z",
+      "side": 1,
+      "message": "Using abbreviation before defining.",
+      "range": {
+        "startLine": 62,
+        "startChar": 42,
+        "endLine": 62,
+        "endChar": 48
+      },
+      "revId": "51a3530fe5ae863c14be1c7b73b29ee567f58c68",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5ac1b1d_59c2cc02",
+        "filename": "doc/go_mem.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 30903
+      },
+      "writtenOn": "2022-01-27T17:55:43Z",
+      "side": 1,
+      "message": "Citation needed",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 48
+      },
+      "revId": "51a3530fe5ae863c14be1c7b73b29ee567f58c68",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af4060be_adab4a8e",
+        "filename": "doc/go_mem.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 30903
+      },
+      "writtenOn": "2022-01-27T17:55:43Z",
+      "side": 1,
+      "message": "Citation needed",
+      "range": {
+        "startLine": 68,
+        "startChar": 74,
+        "endLine": 68,
+        "endChar": 81
+      },
+      "revId": "51a3530fe5ae863c14be1c7b73b29ee567f58c68",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6bca933_e55b21ff",
+        "filename": "doc/go_mem.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 30903
+      },
+      "writtenOn": "2022-01-27T17:55:43Z",
+      "side": 1,
+      "message": "Citation needed",
+      "range": {
+        "startLine": 68,
+        "startChar": 26,
+        "endLine": 68,
+        "endChar": 27
+      },
+      "revId": "51a3530fe5ae863c14be1c7b73b29ee567f58c68",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "435763fe_031eb881",
+        "filename": "doc/go_mem.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 30903
+      },
+      "writtenOn": "2022-01-27T17:55:43Z",
+      "side": 1,
+      "message": "Citation needed",
+      "range": {
+        "startLine": 68,
+        "startChar": 32,
+        "endLine": 68,
+        "endChar": 35
+      },
+      "revId": "51a3530fe5ae863c14be1c7b73b29ee567f58c68",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "524069a9_5fd08123",
+        "filename": "doc/go_mem.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 30903
+      },
+      "writtenOn": "2022-01-27T17:55:43Z",
+      "side": 1,
+      "message": "Multiple citations needed",
+      "range": {
+        "startLine": 69,
+        "startChar": 11,
+        "endLine": 69,
+        "endChar": 56
+      },
+      "revId": "51a3530fe5ae863c14be1c7b73b29ee567f58c68",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a8d1098_21faf637",
+        "filename": "doc/go_mem.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 30903
+      },
+      "writtenOn": "2022-01-27T17:55:43Z",
+      "side": 1,
+      "message": "Citation needed",
+      "range": {
+        "startLine": 72,
+        "startChar": 18,
+        "endLine": 72,
+        "endChar": 33
+      },
+      "revId": "51a3530fe5ae863c14be1c7b73b29ee567f58c68",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ffa1509c_608cc3e1",
+        "filename": "doc/go_mem.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 30903
+      },
+      "writtenOn": "2022-01-27T17:55:43Z",
+      "side": 1,
+      "message": "Citation needed",
+      "range": {
+        "startLine": 72,
+        "startChar": 5,
+        "endLine": 72,
+        "endChar": 13
+      },
+      "revId": "51a3530fe5ae863c14be1c7b73b29ee567f58c68",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ddf76224_49dd8f7d",
+        "filename": "doc/go_mem.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 30903
+      },
+      "writtenOn": "2022-01-27T17:55:43Z",
+      "side": 1,
+      "message": "Citation needed",
+      "range": {
+        "startLine": 487,
+        "startChar": 57,
+        "endLine": 487,
+        "endChar": 88
+      },
+      "revId": "51a3530fe5ae863c14be1c7b73b29ee567f58c68",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd5a7d84_f560ac8e",
+        "filename": "doc/go_mem.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 30903
+      },
+      "writtenOn": "2022-01-27T17:55:43Z",
+      "side": 1,
+      "message": "Citation needed",
+      "range": {
+        "startLine": 488,
+        "startChar": 11,
+        "endLine": 488,
+        "endChar": 42
+      },
+      "revId": "51a3530fe5ae863c14be1c7b73b29ee567f58c68",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15b6e5ee_ffa364bd",
+        "filename": "doc/go_mem.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 809,
+      "author": {
+        "id": 30903
+      },
+      "writtenOn": "2022-01-27T17:55:43Z",
+      "side": 1,
+      "message": "This advice has been discussed over the past decade quite often on its actual meaning. I think it should be more clearly addressed by the end of the document concerning, for example:\n\n- Is the advice suggesting users not to overthink if possible? (most likely this?)\n- Is the advice suggesting users not to rigorize everything that has been said in this document, as it is an open question even in the research?\n\nThe advice is sage, but it might not be an excellent fit to repeat at the end of the document for the conclusion. I think a reader that reads until the end would expect a few more concrete conclusions other than an abstract one.",
+      "range": {
+        "startLine": 809,
+        "startChar": 30,
+        "endLine": 809,
+        "endChar": 45
+      },
+      "revId": "51a3530fe5ae863c14be1c7b73b29ee567f58c68",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
