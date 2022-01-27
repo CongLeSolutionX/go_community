@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build darwin || dragonfly || freebsd || openbsd
+//go:build darwin || ios || dragonfly || freebsd || openbsd
 
 package syscall_test
 
@@ -48,4 +48,8 @@ func TestGetfsstat(t *testing.T) {
 			t.Logf("mount: %s", mount)
 		}
 	}
+}
+
+func MaxFileLimit() (uint32, error) {
+	return syscall.SysctlUint32("kern.maxfilesperproc")
 }
