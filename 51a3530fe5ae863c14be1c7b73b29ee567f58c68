@@ -67,6 +67,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "257244c3_c51085b3",
+        "filename": "doc/go_mem.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 30903
+      },
+      "writtenOn": "2022-01-27T21:03:20Z",
+      "side": 1,
+      "message": "I think the general goal is to get rid of the ambiguity of the entire document.\n\nThe document describes a Go approach that differs from all other languages (This is my current impression after reading). Hence, it would be essential to distinguish concepts that occur only in Go or have been modified slightly for a particular purpose to describe this language.\n\nThis means that a concept that shares the exact definition and consensus would need a citation (could be a widely used web resource, if necessary, a book or research paper) to clarify that this concept is not invented or modified in Go. A citation to an existing source can help people quickly follow which specific context is used here.\n\nContent that compares Go and other languages also need a source to give its reader an unbiased view from existing literature (and interests). A pure descriptive sentence lacks this advantage.\n\nHenceforth, if we describe specific cases about Go, such as sync/atomic, a citation would be unnecessary as it is \"our approach.\"",
+      "parentUuid": "5c2c23d6_0ff17775",
+      "range": {
+        "startLine": 55,
+        "startChar": 24,
+        "endLine": 55,
+        "endChar": 31
+      },
+      "revId": "51a3530fe5ae863c14be1c7b73b29ee567f58c68",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b32576b4_1e8ec7e0",
         "filename": "doc/go_mem.html",
         "patchSetId": 2
