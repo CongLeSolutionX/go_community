@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1753d63c_f14112c2",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-01-27T19:02:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ac2cb200_319ae5ba",
+      "revId": "cee9d32ac61db2d163017219f2c340bd11b6da7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ce195600_ea9f7c1a",
@@ -113,6 +131,54 @@
         "startChar": 53,
         "endLine": 10,
         "endChar": 55
+      },
+      "revId": "cee9d32ac61db2d163017219f2c340bd11b6da7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88e05f1b_69701b8c",
+        "filename": "test/fixedbugs/issue50854.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-01-27T19:02:13Z",
+      "side": 1,
+      "message": "What sort of test were you looking for?  I added ones for shifts, because there are some patterns where an operand is shifted that look like they might fire go wrong.",
+      "parentUuid": "c88d268e_eae0ff9e",
+      "range": {
+        "startLine": 10,
+        "startChar": 53,
+        "endLine": 10,
+        "endChar": 55
+      },
+      "revId": "cee9d32ac61db2d163017219f2c340bd11b6da7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3aa25207_d1c488e6",
+        "filename": "test/fixedbugs/issue50854.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-01-27T19:02:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce195600_ea9f7c1a",
+      "range": {
+        "startLine": 10,
+        "startChar": 26,
+        "endLine": 10,
+        "endChar": 34
       },
       "revId": "cee9d32ac61db2d163017219f2c340bd11b6da7d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
