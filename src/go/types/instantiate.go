@@ -173,7 +173,17 @@ func (check *Checker) implements(V, T Type, qf Qualifier) error {
 
 	Ti, _ := Tu.(*Interface)
 	if Ti == nil {
-		return errorf("%s is not an interface", T)
+		var fset *token.FileSet
+		if check != nil {
+			fset = check.fset
+		}
+		var cause string
+		if isInterfacePtr(Tu) {
+			cause = sprintf(fset, qf, false, "type %s is pointer to interface, not interface", T)
+		} else {
+			cause = sprintf(fset, qf, false, "%s is not an interface", T)
+		}
+		return errorf("%s does not implement %s (%s)", V, T, cause)
 	}
 
 	// Every type satisfies the empty interface.
@@ -211,6 +221,26 @@ func (check *Checker) implements(V, T Type, qf Qualifier) error {
 				)
 			}
 			return errorf("%s does not implement %s (missing method %s)", V, T, m.name)
+		}
+	}
+
+	// V must implement T's methods, if any.
+	if Ti.NumMethods() > 0 {
+		if m, wrong := check.missingMethod(V, Ti, true); m != nil /* !Implements(V, Ti) */ {
+			if check != nil && compilerErrorMessages {
+				return errorf("%s does not implement %s %s", V, T, check.missingMethodReason(V, T, m, wrong))
+			}
+			var cause string
+			if wrong != nil {
+				if Identical(m.typ, wrong.typ) {
+					cause = fmt.Sprintf("missing method %s (%s has pointer receiver)", m.name, m.name)
+				} else {
+					cause = fmt.Sprintf("wrong type for method %s (have %s, want %s)", m.Name(), wrong.typ, m.typ)
+				}
+			} else {
+				cause = "missing method " + m.Name()
+			}
+			return errorf("%s does not implement %s: %s", V, T, cause)
 		}
 	}
 
