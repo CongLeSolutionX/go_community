@@ -34,6 +34,23 @@
       "parentUuid": "b6838fca_9acfcd56",
       "revId": "f62bcf0d7b9ae1f294b225e63317771e14f434e7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0db71dd6_191ded0a",
+        "filename": "src/sync/atomic/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-01-27T20:52:30Z",
+      "side": 1,
+      "message": "The various embedded noCopy types should be named, as in the sync package, so that these types don\u0027t inherit useless Lock and Unlock methods.",
+      "revId": "f62bcf0d7b9ae1f294b225e63317771e14f434e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
