@@ -305,7 +305,7 @@ var lookPathTests = []lookPathTest{
 	},
 }
 
-func TestLookPath(t *testing.T) {
+func TestLookPathWindows(t *testing.T) {
 	tmp := t.TempDir()
 	printpathExe := buildPrintPathExe(t, tmp)
 
