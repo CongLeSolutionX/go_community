@@ -53,6 +53,29 @@
       "message": "Could probably use a comment in the *Ops.go files about this quirk. It just says \"arg0 compare to -arg1\". Maybe needs to say \"where -arg1 does not wrap around\" or something.\n",
       "revId": "cee9d32ac61db2d163017219f2c340bd11b6da7d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce195600_ea9f7c1a",
+        "filename": "test/fixedbugs/issue50854.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-01-27T17:19:09Z",
+      "side": 1,
+      "message": "Is b needed?",
+      "range": {
+        "startLine": 10,
+        "startChar": 26,
+        "endLine": 10,
+        "endChar": 34
+      },
+      "revId": "cee9d32ac61db2d163017219f2c340bd11b6da7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
