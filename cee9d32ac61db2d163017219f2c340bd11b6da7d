@@ -182,6 +182,30 @@
       },
       "revId": "cee9d32ac61db2d163017219f2c340bd11b6da7d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9a4bb79_e504b888",
+        "filename": "test/fixedbugs/issue50854.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-01-27T20:59:08Z",
+      "side": 1,
+      "message": "I was just thinking something like\n\nfunc f2(p int64, x, y int64, b bool) bool { return -x \u003d\u003d p \u0026\u0026 p \u003d\u003d y }\n\ni.e. \u003d\u003d instead of \u003c\u003d. I think it also generates a CMN. Just to be sure that is correct.",
+      "parentUuid": "88e05f1b_69701b8c",
+      "range": {
+        "startLine": 10,
+        "startChar": 53,
+        "endLine": 10,
+        "endChar": 55
+      },
+      "revId": "cee9d32ac61db2d163017219f2c340bd11b6da7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
