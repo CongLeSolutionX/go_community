@@ -16,6 +16,24 @@
       "message": "Absolutely. Pointer in particular makes life so much easier.\n\nI wonder if it might be worth declaring a generic interface that covers all of those new types:\n\ntype ValueOf[T any] interface {\n\tLoad() T\n\tStore(T)\n\tSwap(T) T\n\tCompareAndSwap(T, T) bool\n}\n\n(I don\u0027t know what the preferred spelling for \"Of\" types is these days).\n\nUnfortunately these types aren\u0027t automatically convertible to that interface (cf https://github.com/golang/go/issues/41176) but I think the type is still useful (and makes it clear that they all conform to the same pattern too).\n",
       "revId": "f62bcf0d7b9ae1f294b225e63317771e14f434e7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4675542b_ac7d38d6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-01-27T18:36:56Z",
+      "side": 1,
+      "message": "Nice idea. Can you please comment on the proposal issue instead? Thanks.",
+      "parentUuid": "b6838fca_9acfcd56",
+      "revId": "f62bcf0d7b9ae1f294b225e63317771e14f434e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
