@@ -3,9 +3,9 @@
 # package to appear stale, and it could not be rebuilt due to a missing $CC.
 
 [!cgo] skip
-[darwin] skip # Temporary, for debugging #50892.
 
 # Control case: net must not already be stale.
+env
 ! stale net
 
 # https://go.dev/issue/47215: a missing $(go env CC) caused the precompiled net to be stale.
