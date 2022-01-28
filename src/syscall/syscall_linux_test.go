@@ -565,3 +565,42 @@ func TestSetuidEtc(t *testing.T) {
 		}
 	}
 }
+
+// TestAllThreadsSyscallNoDeadlock confirms that the AllThreadsSyscall
+// mechanism can complete on threads blocked inside the kernel.
+//
+func TestAllThreadsSyscallNoDeadlock(t *testing.T) {
+	if _, _, err := syscall.AllThreadsSyscall(syscall.SYS_PRCTL, PR_SET_KEEPCAPS, 0, 0); err == syscall.ENOTSUP {
+		t.Skip("AllThreadsSyscall disabled with cgo")
+	}
+
+	rd, wr, err := os.Pipe()
+	if err != nil {
+		t.Fatalf("unable to obtain a pipe: %v", err)
+	}
+	defer wr.Close()
+
+	// A side effect of using .Fd() here causes rd to become
+	// unpollable, which means reads of this file will block
+	// inside the kernel.
+	data := make([]byte, 1+rd.Fd())
+	go func() {
+		rd.Read(data)
+		rd.Close()
+	}()
+
+	// It will take a bit of time for that goroutine to enter the
+	// kernel, so we loop here also allowing for the code to run on
+	// different Ms.
+	pid := syscall.Getpid()
+	for i := 0; i < 100; i++ {
+		if id, _, e := syscall.AllThreadsSyscall(syscall.SYS_GETPID, 0, 0, 0); e != 0 {
+			t.Errorf("[%d] getpid failed: %v", i, e)
+		} else if int(id) != pid {
+			t.Errorf("[%d] getpid got=%d, want=%d", i, id, pid)
+		}
+		// Provide an explicit opportunity for this Go
+		// routine to change Ms.
+		runtime.Gosched()
+	}
+}
