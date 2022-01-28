@@ -1752,12 +1752,20 @@ func syscall_runtime_doAllThreadsSyscall(fn func(bool) bool) {
 			mp.mFixup.fn = fn
 			atomic.Store(&mp.mFixup.used, 1)
 			if mp.doesPark {
-				// For non-service threads this will
-				// cause the wakeup to be short lived
-				// (once the mutex is unlocked). The
-				// next real wakeup will occur after
-				// startTheWorldGC() is called.
-				notewakeup(&mp.park)
+				if mp.procid != 0 && mp.curg != nil {
+					// For unstopped threads running user
+					// code we wake them with a signal
+					// (see golang.org/issue/50113).
+					preemptM(mp)
+				} else {
+					// For other non-service threads we
+					// use the note to perform a short
+					// lived wakeup (once the mutex is
+					// unlocked). The next real wakeup
+					// will occur after startTheWorldGC()
+					// is called.
+					notewakeup(&mp.park)
+				}
 			}
 			unlock(&mp.mFixup.lock)
 		}
