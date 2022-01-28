@@ -133,7 +133,7 @@ func TestMain(m *testing.M) {
 		}
 		gotool, err := testenv.GoTool()
 		if err != nil {
-			fmt.Fprintln(os.Stderr, err)
+			fmt.Fprintln(os.Stderr, "building testgo:", err)
 			os.Exit(2)
 		}
 
