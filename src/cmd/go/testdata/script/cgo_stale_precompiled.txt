@@ -3,7 +3,6 @@
 # package to appear stale, and it could not be rebuilt due to a missing $CC.
 
 [!cgo] skip
-[darwin] skip # Temporary, for debugging #50892.
 
 # Control case: net must not already be stale.
 ! stale net
