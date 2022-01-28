@@ -100,6 +100,30 @@
       },
       "revId": "2ee96516cad4c7793eb84383e2575d90574d86c9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "463e3642_ab248e2b",
+        "filename": "src/cmd/compile/internal/types2/instantiate.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-01-28T00:38:48Z",
+      "side": 1,
+      "message": "Ack, SGTM.\n\nDo the go/types port here? I can re-review.",
+      "parentUuid": "9db54684_0c1ebee4",
+      "range": {
+        "startLine": 213,
+        "startChar": 5,
+        "endLine": 213,
+        "endChar": 87
+      },
+      "revId": "2ee96516cad4c7793eb84383e2575d90574d86c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
