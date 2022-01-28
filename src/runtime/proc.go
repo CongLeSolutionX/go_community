@@ -1758,6 +1758,12 @@ func syscall_runtime_doAllThreadsSyscall(fn func(bool) bool) {
 				// next real wakeup will occur after
 				// startTheWorldGC() is called.
 				notewakeup(&mp.park)
+				// For unstopped threads running user
+				// code we also wake them with a signal
+				// (See golang.org/issue/50113.)
+				if mp.procid != 0 && mp.curg != nil {
+					signalM(mp, sigPreempt)
+				}
 			}
 			unlock(&mp.mFixup.lock)
 		}
@@ -2397,7 +2403,7 @@ func templateThread() {
 }
 
 // Stops execution of the current m until new work is available.
-// Returns with acquired P.
+// Returns with acquired P, which is guaranteed to be non-nil.
 func stopm() {
 	_g_ := getg()
 
@@ -2414,8 +2420,13 @@ func stopm() {
 	lock(&sched.lock)
 	mput(_g_.m)
 	unlock(&sched.lock)
-	mPark()
-	acquirep(_g_.m.nextp.ptr())
+
+	var np *p
+	for np == nil {
+		mPark()
+		np = _g_.m.nextp.ptr()
+	}
+	acquirep(np)
 	_g_.m.nextp = 0
 }
 
