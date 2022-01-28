@@ -596,6 +596,7 @@ var testSigusr1 func(gp *g) bool
 //go:nowritebarrierrec
 func sighandler(sig uint32, info *siginfo, ctxt unsafe.Pointer, gp *g) {
 	_g_ := getg()
+	mDoFixup()
 	c := &sigctxt{info, ctxt}
 
 	if sig == _SIGPROF {
