@@ -38,6 +38,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ce2ebf5_bd819edd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34636
+      },
+      "writtenOn": "2022-01-29T00:12:48Z",
+      "side": 1,
+      "message": "Thanks for the review. As ever you\u0027ve homed right in on the parts it took me a while to get working...! Do my explanations make sense?",
+      "revId": "0390793084128e21a2b1c9b300b5eac840e41819",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "213fe677_fc2e7daa",
@@ -51,6 +68,30 @@
       "writtenOn": "2022-01-28T20:35:02Z",
       "side": 1,
       "message": "I\u0027m not sure what this comment is adding, since I\u0027m not sure what it would mean to have a nil acquired P. But maybe there was something else you were getting at with this addition?",
+      "range": {
+        "startLine": 2406,
+        "startChar": 26,
+        "endLine": 2406,
+        "endChar": 61
+      },
+      "revId": "0390793084128e21a2b1c9b300b5eac840e41819",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbb950ca_8c42a458",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2406,
+      "author": {
+        "id": 34636
+      },
+      "writtenOn": "2022-01-29T00:12:48Z",
+      "side": 1,
+      "message": "Since I\u0027d added some code (discussed below) to check that this was the case, I thought it made sense to be explicit about it. Previously, it was understood, but I found myself debugging a panic where it wasn\u0027t actually true. The stack trace for the panic had:\n\n[...]\nruntime.acquirep(0x0)\nruntime.stopm()\n[...]",
+      "parentUuid": "213fe677_fc2e7daa",
       "range": {
         "startLine": 2406,
         "startChar": 26,
@@ -78,6 +119,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "026e2c1c_9fc002cd",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2425,
+      "author": {
+        "id": 34636
+      },
+      "writtenOn": "2022-01-29T00:12:48Z",
+      "side": 1,
+      "message": "Empirically, the rest of the patch does make it happen. Not every time, but often enough that my test case reliably panics.\n\nI think there is some sort of race set up between the attempt to wake the thread using the note, and a signal being delivered to that same m. (Since there may be other signals around that could also interrupt the blocked m, I suspect this race was always there. But since we didn\u0027t previously have an opportunity to run the fixup from the signal handling path, it would have been indistinguishable from the deadlock condition.)\n\nPreviously, the only way the fixup could be actively triggered was from the note waking occurring inside mPark(). The mPark() code loops when mDoFixup() returns true, so this prevented mPark() from returning too soon.\n\nNow we have this patch, I think that there are some situations where both fixup mechanisms can fire, and in the case that the signal handling is first to run the fixup, it causes the mPark() to return after a single iteration of the loop, at a time when no nextp has been prepared and it leads to a panic. (The one noted above.)",
+      "parentUuid": "51b3e2ec_e1f4c3ae",
+      "revId": "0390793084128e21a2b1c9b300b5eac840e41819",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3ad023e6_f1c9c235",
@@ -91,6 +150,24 @@
       "writtenOn": "2022-01-28T20:35:02Z",
       "side": 1,
       "message": "This really doesn\u0027t seem safe. noteclear must not race with any other note operation (notewakeup or notesleep). Everywhere else, we pair it with a notesleep. I know that there will be some synchronization through mDoFixup, but I really have no idea what will happen when you do a bare noteclear in a signal handler.",
+      "revId": "0390793084128e21a2b1c9b300b5eac840e41819",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2550acbd_664f5704",
+        "filename": "src/runtime/signal_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 600,
+      "author": {
+        "id": 34636
+      },
+      "writtenOn": "2022-01-29T00:12:48Z",
+      "side": 1,
+      "message": "mDoFixup() can only return true when it actually executes the fixup. This means the noteclear() here can only execute when the world is stopped, and after the fixup is primed.\n\nIf I remove this noteclear() but leave the rest of the patch in place, the test case generates:\n\n  notewakeup - double wakeup (1)\n  fatal error: notewakeup - double wakeup\n\nTo be honest, I am not 100% sure why. However, I suspect this is related to calling syscall.AllThreadsSyscall() back to back. Since there is no penalty for calling noteclear() redundantly, this appears to make things work.",
+      "parentUuid": "3ad023e6_f1c9c235",
       "revId": "0390793084128e21a2b1c9b300b5eac840e41819",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
