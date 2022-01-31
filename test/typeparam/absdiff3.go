@@ -1,4 +1,5 @@
-// run -gcflags=-G=3
+// errorcheck -G=3
+// TODO re-enable running this test once #50937 is fixed
 
 // Copyright 2022 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
@@ -44,8 +45,8 @@ type Complex interface {
 }
 
 func ComplexAbs[T Complex](a T) T {
-	r := float64(real(a))
-	i := float64(imag(a))
+	r := float64(real(a)) // ERROR "a \(variable of type T constrained by Complex\) not supported as argument to real for go1\.18 \(see issue #50937\)"
+	i := float64(imag(a)) // ERROR "a \(variable of type T constrained by Complex\) not supported as argument to imag for go1\.18 \(see issue #50937\)"
 	d := math.Sqrt(r*r + i*i)
 	return T(complex(d, 0))
 }
