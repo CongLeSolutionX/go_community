@@ -90,6 +90,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "477d8a6c_7ebd7ff5",
+        "filename": "src/debug/dwarf/type.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-01-31T18:17:07Z",
+      "side": 1,
+      "message": "Good question! I don\u0027t know. :) \"go doc\" does this to some extent, but doesn\u0027t give you the HTML rendering.",
+      "parentUuid": "19992d1f_ccc59f99",
+      "revId": "d6685aaf5e7a57781892f00d051f3b0adc429904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f007abf3_44b9662f",
@@ -491,6 +509,30 @@
       "side": 1,
       "message": "Bit fields are one of those areas where there is a huge amount of freedom given to the C compiler. If you read the standard it basically says that lots of things are \"implementation defined\", meaning that for code like this\n\n  struct X {\n     char x:4;\n  };\n  \nif a compiler REALLY wanted to, it could use the middle four bits of the char to store the bitfield, or split the bits up into two chunks within the char.\n\nObviously most compilers are not going to do this, and the \"do whatever GCC does\" rule will prevail, but given all the weasley wording in the standard it makes sense to me to call out which compiler was used.\n\nAs a final note, I think it is useful to quote version numbers like this to provide the proper historical context. If some poor sap comes along 50 years from now and reads \u0027GCC 8\u0027, it will be a nice red flag showing that the comment was written back in the dark ages (as opposed to something more recent). :-).",
       "parentUuid": "8b098c93_c7a4850c",
+      "range": {
+        "startLine": 196,
+        "startChar": 28,
+        "endLine": 196,
+        "endChar": 39
+      },
+      "revId": "d6685aaf5e7a57781892f00d051f3b0adc429904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0fad0849_9f795ccc",
+        "filename": "src/debug/dwarf/type.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-01-31T18:17:07Z",
+      "side": 1,
+      "message": "Oh, I see. That makes sense. I thought you were saying this was how GCC 8 interpreted DWARF, but it\u0027s how GCC 8 interprets C.",
+      "parentUuid": "9c46b919_2688feaa",
       "range": {
         "startLine": 196,
         "startChar": 28,
