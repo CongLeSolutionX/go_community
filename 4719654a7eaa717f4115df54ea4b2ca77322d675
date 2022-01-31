@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a37af19_1825655e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2022-01-31T18:56:29Z",
+      "side": 1,
+      "message": "CL 24430 (https://github.com/golang/go/wiki/CommitMessage)",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 12
+      },
+      "revId": "4719654a7eaa717f4115df54ea4b2ca77322d675",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4d9e3fd_7046276d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2022-01-31T18:56:29Z",
+      "side": 1,
+      "message": "Prefer a playground link here instead: https://go.dev/play/p/RyS70bghhue",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 0
+      },
+      "revId": "4719654a7eaa717f4115df54ea4b2ca77322d675",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bff8806d_45e4d0f5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2022-01-31T18:56:29Z",
+      "side": 1,
+      "message": "I suggest the following instead. Right now there are a few more details than I believe are necessary in order to understand the issue and why the change is reasonable. Those extra details could certainly go in an issue though, if you\u0027d like to file one.\n\n```\nAfter CL 24430, reflect.DeepEqual no longer returns true\nwhen comparing a *Rat built with (*Rat).SetString(\"0\")\nwith one built with (*Rat).SetInt64(0).\nThese should be equivalent, but because (*Rat).SetString\ndoes not call norm() when returning the zero value, the\nresult of reflect.DeepEqual will be false.\n\nOne could suggest that developers should use (*Rat).Cmp instead\nof relying on reflect.DeepEqual, but if a (*Rat) is part of a\nlarger struct that is being compared, this can be cumbersome.\n```",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 29
+      },
+      "revId": "4719654a7eaa717f4115df54ea4b2ca77322d675",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ccf99eee_b72ec8f1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2022-01-31T18:56:29Z",
+      "side": 1,
+      "message": "Overall, this looks good to me. We will need to wait until the branch opens to merge this, though.",
+      "revId": "4719654a7eaa717f4115df54ea4b2ca77322d675",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a87c4b7c_113d6dbf",
+        "filename": "src/math/big/ratconv_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2022-01-31T18:56:29Z",
+      "side": 1,
+      "message": "TestRatSetStringZero",
+      "range": {
+        "startLine": 208,
+        "startChar": 5,
+        "endLine": 208,
+        "endChar": 23
+      },
+      "revId": "4719654a7eaa717f4115df54ea4b2ca77322d675",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67184b90_3da50b11",
+        "filename": "src/math/big/ratconv_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2022-01-31T18:56:29Z",
+      "side": 1,
+      "message": "Remove the comment",
+      "range": {
+        "startLine": 209,
+        "startChar": 35,
+        "endLine": 209,
+        "endChar": 71
+      },
+      "revId": "4719654a7eaa717f4115df54ea4b2ca77322d675",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "832339c5_fac956c7",
+        "filename": "src/math/big/ratconv_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2022-01-31T18:56:29Z",
+      "side": 1,
+      "message": "nit: no need to for an additional newline here",
+      "revId": "4719654a7eaa717f4115df54ea4b2ca77322d675",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
