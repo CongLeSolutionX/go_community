@@ -2615,31 +2615,34 @@ type Stmt struct {
 
 // ExecContext executes a prepared statement with the given arguments and
 // returns a Result summarizing the effect of the statement.
-func (s *Stmt) ExecContext(ctx context.Context, args ...any) (Result, error) {
+func (s *Stmt) ExecContext(ctx context.Context, args ...any) (res Result, err error) {
 	s.closemu.RLock()
 	defer s.closemu.RUnlock()
 
-	var res Result
 	strategy := cachedOrNewConn
 	for i := 0; i < maxBadConnRetries+1; i++ {
 		if i == maxBadConnRetries {
 			strategy = alwaysNewConn
 		}
-		dc, releaseConn, ds, err := s.connStmt(ctx, strategy)
-		if err != nil {
-			if errors.Is(err, driver.ErrBadConn) {
-				continue
-			}
-			return nil, err
-		}
 
-		res, err = resultFromStatement(ctx, dc.ci, ds, args...)
-		releaseConn(err)
+		res, err = s.execContext(ctx, strategy, args...)
 		if !errors.Is(err, driver.ErrBadConn) {
 			return res, err
 		}
 	}
 	return nil, driver.ErrBadConn
+}
+
+func (s *Stmt) execContext(ctx context.Context, strategy connReuseStrategy, args ...any) (res Result, err error) {
+	dc, releaseConn, ds, err := s.connStmt(ctx, strategy)
+	if err != nil {
+		return nil, err
+	}
+	defer func() {
+		releaseConn(err)
+	}()
+
+	return resultFromStatement(ctx, dc.ci, ds, args...)
 }
 
 // Exec executes a prepared statement with the given arguments and
@@ -2767,53 +2770,70 @@ func (s *Stmt) QueryContext(ctx context.Context, args ...any) (*Rows, error) {
 	s.closemu.RLock()
 	defer s.closemu.RUnlock()
 
-	var rowsi driver.Rows
 	strategy := cachedOrNewConn
 	for i := 0; i < maxBadConnRetries+1; i++ {
 		if i == maxBadConnRetries {
 			strategy = alwaysNewConn
 		}
-		dc, releaseConn, ds, err := s.connStmt(ctx, strategy)
-		if err != nil {
-			if errors.Is(err, driver.ErrBadConn) {
-				continue
-			}
-			return nil, err
-		}
 
-		rowsi, err = rowsiFromStatement(ctx, dc.ci, ds, args...)
-		if err == nil {
-			// Note: ownership of ci passes to the *Rows, to be freed
-			// with releaseConn.
-			rows := &Rows{
-				dc:    dc,
-				rowsi: rowsi,
-				// releaseConn set below
-			}
-			// addDep must be added before initContextClose or it could attempt
-			// to removeDep before it has been added.
-			s.db.addDep(s, rows)
-
-			// releaseConn must be set before initContextClose or it could
-			// release the connection before it is set.
-			rows.releaseConn = func(err error) {
-				releaseConn(err)
-				s.db.removeDep(s, rows)
-			}
-			var txctx context.Context
-			if s.cg != nil {
-				txctx = s.cg.txCtx()
-			}
-			rows.initContextClose(ctx, txctx)
-			return rows, nil
-		}
-
-		releaseConn(err)
+		rows, err := s.queryContext(ctx, strategy, args...)
 		if !errors.Is(err, driver.ErrBadConn) {
-			return nil, err
+			return rows, err
 		}
 	}
 	return nil, driver.ErrBadConn
+}
+
+func (s *Stmt) queryContext(ctx context.Context, strategy connReuseStrategy, args ...any) (rows *Rows, err error) {
+	dc, releaseConn, ds, err := s.connStmt(ctx, strategy)
+	if err != nil {
+		return nil, err
+	}
+
+	var rowsi driver.Rows
+	rowsi, err = queryContextWithSafeRelease(ctx, dc.ci, ds, releaseConn, args...)
+	if err != nil {
+		return nil, err
+	}
+	// Note: ownership of ci passes to the *Rows, to be freed
+	// with releaseConn.
+	rows = &Rows{
+		dc:    dc,
+		rowsi: rowsi,
+		// releaseConn set below
+	}
+	// addDep must be added before initContextClose or it could attempt
+	// to removeDep before it has been added.
+	s.db.addDep(s, rows)
+
+	// releaseConn must be set before initContextClose or it could
+	// release the connection before it is set.
+	rows.releaseConn = func(err error) {
+		releaseConn(err)
+		s.db.removeDep(s, rows)
+	}
+	var txctx context.Context
+	if s.cg != nil {
+		txctx = s.cg.txCtx()
+	}
+	rows.initContextClose(ctx, txctx)
+	return rows, nil
+}
+
+// queryContextWithCatch passes a prepared query statement with given arguments to the driver
+// and returns the query results as driver.Rows. The releaseConn function will be executed when a panic occurs
+func queryContextWithSafeRelease(ctx context.Context, ci driver.Conn, ds *driverStmt, releaseConn func(error), args ...any) (rows driver.Rows, err error) {
+	defer func() {
+		// if there is a panic, we need to release resources and send the panic on
+		// do not silence the panic
+		if e := recover(); e != nil {
+			releaseConn(err)
+			panic(e)
+		} else if err != nil {
+			releaseConn(err)
+		}
+	}()
+	return rowsiFromStatement(ctx, ci, ds, args...)
 }
 
 // Query executes a prepared query statement with the given arguments
