@@ -102,10 +102,11 @@ func isGeneric(t Type) bool {
 
 // Comparable reports whether values of type T are comparable.
 func Comparable(T Type) bool {
-	return comparable(T, nil)
+	return comparable(T, nil, nil)
 }
 
-func comparable(T Type, seen map[Type]bool) bool {
+// If cause != nil, it may be used to report why T is not comparable.
+func comparable(T Type, seen map[Type]bool, cause func(string, ...interface{})) bool {
 	if seen[T] {
 		return true
 	}
@@ -123,13 +124,22 @@ func comparable(T Type, seen map[Type]bool) bool {
 		return true
 	case *Struct:
 		for _, f := range t.fields {
-			if !comparable(f.typ, seen) {
+			if !comparable(f.typ, seen, nil) {
+				if cause != nil {
+					cause("struct containing %s cannot be compared", f.typ)
+				}
 				return false
 			}
 		}
 		return true
 	case *Array:
-		return comparable(t.elem, seen)
+		if !comparable(t.elem, seen, cause) {
+			if cause != nil {
+				cause("%s cannot be compared", t)
+			}
+			return false
+		}
+		return true
 	case *Interface:
 		return !isTypeParam(T) || t.typeSet().IsComparable(seen)
 	}
