@@ -53,6 +53,42 @@
       "message": "It seems fine to add some context here, but is \"building testgo\" the right thing to say if testenv.GoTool returns an error? (If you think so, then it\u0027s okay.)",
       "revId": "f18f090a45c297bb8dff5b0b684747c90d59d3b0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd5748fe_2178fe3b",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-02-01T20:34:38Z",
+      "side": 1,
+      "message": "Switched to \"locating go tool\".",
+      "parentUuid": "8ab8ea9c_624c8b5c",
+      "revId": "f18f090a45c297bb8dff5b0b684747c90d59d3b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3db26e3_6952a582",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-02-01T20:34:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ab8ea9c_624c8b5c",
+      "revId": "f18f090a45c297bb8dff5b0b684747c90d59d3b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
