@@ -72,6 +72,24 @@
       "message": "Thanks, seems like a worthwhile optimization. Two initial comments though:\n\n1. Quickly skimming the new code, I don\u0027t immediately understand the approach. E.g., what does \"caseMap\" represent, why are we looking for the default case, etc. A comment or two explaining the overall idea would be helpful.\n\n2. I\u0027m thinking we can generalize the algorithm further to benefit some more cases:\n\nIf a switch statement has a const tag value, then look at all const case conditions and simply remove any const/non-equal cases. E.g., rewrite\n\n      switch 3 {\n      case 2, 3, 4, x:\n        foo()\n      }\n      \ninto:\n      \n      switch 3 {\n      case 3, x:\n        foo()\n      }\n\nIf all of a case\u0027s values are constant and non-equal (and thus would all be removed), then we can remove the CaseClause node entirely. (Need to be mindful about OFALL nodes, of course.)",
       "revId": "269d9ad9c5773d82da40ef4c57298254f302bc7d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53845313_c0316454",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-02-01T14:51:12Z",
+      "side": 1,
+      "message": "\u003e 1. Quickly skimming the new code, I don\u0027t immediately understand the approach. E.g., what does \"caseMap\" represent, why are we looking for the default case, etc. A comment or two explaining the overall idea would be helpful.\n\nThe \"caseMap\" represents which cases will be kept, e.g, in case of:\n\n```\nswitch runtime.GOOS {\ncase \"linux\":\n\treturn \"1\"\ncase \"windows\":\n\treturn \"2\"\ncase \"darwin\":\n\tfallthrough\ndefault:\n\treturn \"4\"\n```\n\nIf on Linux, the `caseMap` will contains only `map[int]bool{0: true}`, since when the index of `case \"linux\"` is `0`, and we want to keep only that case . On Darwin, the `caseMap` will be `map[int]bool{2: true, 3: true}`, since when we have to keep those 2 cases because of the fallthrough. Note that we only use the map for keeping track what case present, the case order is preserved, because we always iterate over `n.Cases`.\n\nWe need to look at the default case if all cases are constant, and non of them match runtime.GOOS, e.g, on js/wasm, the code will look like:\n\n```\nswitch runtime.GOOS {\ndefault:\n\treturn \"4\"\n```\n\nI will add the comments then (I\u0027m on vacation).\n\n\u003e 2. I\u0027m thinking we can generalize the algorithm further to benefit some more cases\n\nSeems doable, let me try then.",
+      "parentUuid": "b2fc1791_2552af67",
+      "revId": "269d9ad9c5773d82da40ef4c57298254f302bc7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
