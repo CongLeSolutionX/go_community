@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf4f6f64_9bc44c58",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 10225
+      },
+      "writtenOn": "2022-02-01T07:22:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a37af19_1825655e",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 12
+      },
+      "revId": "4719654a7eaa717f4115df54ea4b2ca77322d675",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e4d9e3fd_7046276d",
@@ -47,6 +71,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "49533bd7_761bb862",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 10225
+      },
+      "writtenOn": "2022-02-01T07:22:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4d9e3fd_7046276d",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 0
+      },
+      "revId": "4719654a7eaa717f4115df54ea4b2ca77322d675",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bff8806d_45e4d0f5",
@@ -60,6 +108,30 @@
       "writtenOn": "2022-01-31T18:56:29Z",
       "side": 1,
       "message": "I suggest the following instead. Right now there are a few more details than I believe are necessary in order to understand the issue and why the change is reasonable. Those extra details could certainly go in an issue though, if you\u0027d like to file one.\n\n```\nAfter CL 24430, reflect.DeepEqual no longer returns true\nwhen comparing a *Rat built with (*Rat).SetString(\"0\")\nwith one built with (*Rat).SetInt64(0).\nThese should be equivalent, but because (*Rat).SetString\ndoes not call norm() when returning the zero value, the\nresult of reflect.DeepEqual will be false.\n\nOne could suggest that developers should use (*Rat).Cmp instead\nof relying on reflect.DeepEqual, but if a (*Rat) is part of a\nlarger struct that is being compared, this can be cumbersome.\n```",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 29
+      },
+      "revId": "4719654a7eaa717f4115df54ea4b2ca77322d675",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7bce7b1_3c097db6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 10225
+      },
+      "writtenOn": "2022-02-01T07:22:24Z",
+      "side": 1,
+      "message": "Done. See https://github.com/golang/go/issues/50944 .",
+      "parentUuid": "bff8806d_45e4d0f5",
       "range": {
         "startLine": 9,
         "startChar": 0,
@@ -166,6 +238,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "afd5acf6_0a5ae408",
+        "filename": "src/math/big/ratconv_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 10225
+      },
+      "writtenOn": "2022-02-01T07:22:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a87c4b7c_113d6dbf",
+      "range": {
+        "startLine": 208,
+        "startChar": 5,
+        "endLine": 208,
+        "endChar": 23
+      },
+      "revId": "4719654a7eaa717f4115df54ea4b2ca77322d675",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "67184b90_3da50b11",
@@ -189,6 +285,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "07593309_28d05f85",
+        "filename": "src/math/big/ratconv_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 10225
+      },
+      "writtenOn": "2022-02-01T07:22:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67184b90_3da50b11",
+      "range": {
+        "startLine": 209,
+        "startChar": 35,
+        "endLine": 209,
+        "endChar": 71
+      },
+      "revId": "4719654a7eaa717f4115df54ea4b2ca77322d675",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "832339c5_fac956c7",
@@ -202,6 +322,24 @@
       "writtenOn": "2022-01-31T18:56:29Z",
       "side": 1,
       "message": "nit: no need to for an additional newline here",
+      "revId": "4719654a7eaa717f4115df54ea4b2ca77322d675",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "186bc3aa_41ca8be0",
+        "filename": "src/math/big/ratconv_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 10225
+      },
+      "writtenOn": "2022-02-01T07:22:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "832339c5_fac956c7",
       "revId": "4719654a7eaa717f4115df54ea4b2ca77322d675",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
