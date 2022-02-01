@@ -3083,6 +3083,146 @@ func TestIssue20622(t *testing.T) {
 	tx.Commit()
 }
 
+// badTxDriver is a driver.Driver which causes a panic in Tx.ExecContext.
+type badTxDriver struct{}
+
+func (bd badTxDriver) Open(string) (driver.Conn, error) {
+	return &badTx{}, nil
+}
+
+// badTx implements a driver.Conn, for TestIssue50953_*.
+// Prepares driver.Stmt that panics when trying to execute.
+type badTx struct{}
+
+func (bt *badTx) Prepare(string) (driver.Stmt, error) {
+	return badTxStmt{}, nil
+}
+
+func (bt *badTx) Close() error {
+	return nil
+}
+
+func (bt *badTx) Begin() (driver.Tx, error) {
+	return &fakeTx{c: &fakeConn{db: &fakeDB{}}}, nil
+}
+
+func (bt *badTx) BeginTx(context.Context, driver.TxOptions) (driver.Tx, error) {
+	return &fakeTx{c: &fakeConn{db: &fakeDB{}}}, nil
+}
+
+// badTxStmt implements a bad driver.Stmt, for TestIssue50953_*.
+// The Exec and Query methods panics.
+type badTxStmt struct{}
+
+func (s badTxStmt) Close() error {
+	return nil
+}
+
+func (s badTxStmt) NumInput() int {
+	return 1
+}
+
+func (s badTxStmt) Exec([]driver.Value) (driver.Result, error) {
+	panic("badTxStmt.Exec")
+}
+
+func (s badTxStmt) Query([]driver.Value) (driver.Rows, error) {
+	panic("badTxStmt.Query")
+}
+
+// TestIssue https://github.com/golang/go/issues/50953
+// goroutine freezes if Exec or Query in Tx panics
+func TestIssue50953_ExecContext(t *testing.T) {
+	Register("badTx1", badTxDriver{})
+	db, err := Open("badTx1", "ignored")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer closeDB(t, db)
+
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	tx, err := db.BeginTx(ctx, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	stmt, err := tx.Prepare("INSERT|people|age=?")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	var doneChan = make(chan struct{})
+	go func() {
+		defer func() {
+			if r := recover(); r == nil {
+				t.Error("expected panic")
+			} else if want := "badTxStmt.Exec"; r.(string) != want {
+				t.Errorf("panic was %v, expected %v", r, want)
+			}
+			stmt.Close()
+			tx.Rollback()
+			close(doneChan)
+		}()
+		// badDriverStmt panics and we expect tx.Rollback to execute normally
+		stmt.ExecContext(ctx, 38)
+	}()
+	select {
+	case <-time.After(time.Second * 15):
+		t.Fatal("goroutine frozen")
+	case <-doneChan:
+		// tx released well
+	}
+}
+
+// TestIssue https://github.com/golang/go/issues/50953
+// goroutine freezes if Exec or Query in Tx panics
+func TestIssue50953_QueryContext(t *testing.T) {
+	Register("badTx2", badTxDriver{})
+	db, err := Open("badTx2", "ignored")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer closeDB(t, db)
+
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	tx, err := db.BeginTx(ctx, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	stmt, err := tx.Prepare("SELECT|people|name,age|age=?")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	var doneChan = make(chan struct{})
+	go func() {
+		defer func() {
+			if r := recover(); r == nil {
+				t.Error("expected panic")
+			} else if want := "badTxStmt.Query"; r.(string) != want {
+				t.Errorf("panic was %v, expected %v", r, want)
+			}
+			stmt.Close()
+			tx.Rollback()
+			close(doneChan)
+		}()
+		// badDriverStmt panics and we expect tx.Rollback to execute normally,
+		// so we don't need rows.Close here
+		stmt.QueryContext(ctx, 38)
+	}()
+	select {
+	case <-time.After(time.Second * 15):
+		t.Fatal("goroutine frozen")
+	case <-doneChan:
+		// tx released well
+	}
+}
+
 // golang.org/issue/5718
 func TestErrBadConnReconnect(t *testing.T) {
 	db := newTestDB(t, "foo")
