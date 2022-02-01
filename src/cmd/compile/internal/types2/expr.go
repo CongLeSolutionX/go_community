@@ -770,52 +770,76 @@ func (check *Checker) implicitTypeAndValue(x *operand, target Type) (Type, const
 	return target, nil, 0
 }
 
+// The ~ operator indicates comparison of switch case x to switch expression y.
 func (check *Checker) comparison(x, y *operand, op syntax.Operator) {
+	switchCase := false
+	if op == syntax.Tilde {
+		switchCase = true
+		op = syntax.Eql
+	}
+
+	arg := x         // operand for which error is reported, if any
+	var cause string // specific error cause, if any
+
 	// spec: "In any comparison, the first operand must be assignable
 	// to the type of the second operand, or vice versa."
-	err := ""
-	xok, _ := x.assignableTo(check, y.typ, nil)
-	yok, _ := y.assignableTo(check, x.typ, nil)
-	if xok || yok {
-		equality := false
-		defined := false
-		switch op {
-		case syntax.Eql, syntax.Neq:
-			// spec: "The equality operators == and != apply to operands that are comparable."
-			equality = true
-			defined = Comparable(x.typ) && Comparable(y.typ) || x.isNil() && hasNil(y.typ) || y.isNil() && hasNil(x.typ)
-		case syntax.Lss, syntax.Leq, syntax.Gtr, syntax.Geq:
-			// spec: The ordering operators <, <=, >, and >= apply to operands that are ordered."
-			defined = allOrdered(x.typ) && allOrdered(y.typ)
-		default:
-			unreachable()
+	ok, _ := x.assignableTo(check, y.typ, nil)
+	if !ok {
+		ok, _ = y.assignableTo(check, x.typ, nil)
+	}
+	if !ok {
+		// Report the error on the 2nd operand since we only
+		// know after seeing the 2nd operand whether we have
+		// a type mismatch.
+		// For now, do it just for the compiler to minimize
+		// the changes to existing tests.
+		if check.conf.CompilerErrorMessages {
+			arg = y
 		}
-		if !defined {
-			if equality && (isTypeParam(x.typ) || isTypeParam(y.typ)) {
-				typ := x.typ
-				if isTypeParam(y.typ) {
-					typ = y.typ
-				}
-				err = check.sprintf("%s is not comparable", typ)
-			} else {
-				typ := x.typ
-				if x.isNil() {
-					typ = y.typ
-				}
-				err = check.sprintf("operator %s not defined on %s", op, typ)
+		cause = check.sprintf("mismatched types %s and %s", x.typ, y.typ)
+		goto Error
+	}
+
+	// check if comparison is defined for operands
+	switch op {
+	case syntax.Eql, syntax.Neq:
+		// spec: "The equality operators == and != apply to operands that are comparable."
+		switch {
+		case x.isNil() || y.isNil():
+			// Comparison against nil requires that the other operand type has nil.
+			if x.isNil() {
+				arg = y
 			}
+			if !hasNil(arg.typ) {
+				// This case should only be possible for "nil == nil".
+				goto Error
+			}
+
+		case !Comparable(x.typ):
+			cause = check.incomparableCause(x.typ)
+			goto Error
+
+		case !Comparable(y.typ):
+			arg = y
+			cause = check.incomparableCause(y.typ)
+			goto Error
 		}
-	} else {
-		err = check.sprintf("mismatched types %s and %s", x.typ, y.typ)
+
+	case syntax.Lss, syntax.Leq, syntax.Gtr, syntax.Geq:
+		// spec: The ordering operators <, <=, >, and >= apply to operands that are ordered."
+		switch {
+		case !allOrdered(x.typ):
+			goto Error
+		case !allOrdered(y.typ):
+			arg = y
+			goto Error
+		}
+
+	default:
+		unreachable()
 	}
 
-	if err != "" {
-		// TODO(gri) better error message for cases where one can only compare against nil
-		check.errorf(x, invalidOp+"cannot compare %s %s %s (%s)", x.expr, op, y.expr, err)
-		x.mode = invalid
-		return
-	}
-
+	// comparison is ok
 	if x.mode == constant_ && y.mode == constant_ {
 		x.val = constant.MakeBool(constant.Compare(x.val, op2tok[op], y.val))
 		// The operands are never materialized; no need to update
@@ -833,6 +857,74 @@ func (check *Checker) comparison(x, y *operand, op syntax.Operator) {
 	// spec: "Comparison operators compare two operands and yield
 	//        an untyped boolean value."
 	x.typ = Typ[UntypedBool]
+	return
+
+Error:
+	if cause == "" {
+		if isTypeParam(x.typ) || isTypeParam(y.typ) {
+			// TODO(gri) should report the specific type causing the problem, if any
+			typ := x.typ
+			if !isTypeParam(typ) {
+				arg = y
+			}
+			cause = check.sprintf("type parameter %s is not comparable with %s", arg.typ, op)
+		} else {
+			cause = check.sprintf("operator %s not defined on %s", op, check.kindString(arg.typ)) // catch-all
+		}
+	}
+	// For switches, report errors on the first (case) operand.
+	// TODO(gri) adjust error message in that case
+	if switchCase {
+		arg = x
+	}
+	if check.conf.CompilerErrorMessages {
+		check.errorf(arg, invalidOp+"%s %s %s (%s)", x.expr, op, y.expr, cause)
+	} else {
+		check.errorf(arg, invalidOp+"cannot compare %s %s %s (%s)", x.expr, op, y.expr, cause)
+	}
+	x.mode = invalid
+}
+
+// incomparableCause returns a more specific cause why typ is not comparable.
+// If there is no more specific cause, the result is "".
+func (check *Checker) incomparableCause(typ Type) string {
+	switch under(typ).(type) {
+	case *Slice, *Signature, *Map:
+		return check.kindString(typ) + " can only be compared to nil"
+	}
+	// see if we can extract a more specific error
+	var cause string
+	comparable(typ, nil, func(format string, args ...interface{}) {
+		cause = check.sprintf(format, args...)
+	})
+	return cause
+}
+
+// kindString returns the type kind as a string.
+func (check *Checker) kindString(typ Type) string {
+	switch under(typ).(type) {
+	case *Array:
+		return "array"
+	case *Slice:
+		return "slice"
+	case *Struct:
+		return "struct"
+	case *Pointer:
+		return "pointer"
+	case *Signature:
+		return "func"
+	case *Interface:
+		if isTypeParam(typ) {
+			return check.sprintf("type parameter %s", typ)
+		}
+		return "interface"
+	case *Map:
+		return "map"
+	case *Chan:
+		return "chan"
+	default:
+		return check.sprintf("%s", typ) // catch-all
+	}
 }
 
 // If e != nil, it must be the shift expression; it may be nil for non-constant shifts.
