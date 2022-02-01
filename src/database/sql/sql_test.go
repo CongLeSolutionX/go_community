@@ -3083,6 +3083,88 @@ func TestIssue20622(t *testing.T) {
 	tx.Commit()
 }
 
+type sqlValuerPanicer struct{}
+
+func (sqlValuerPanicer) Value() (driver.Value, error) {
+	panic("something went wrong")
+}
+
+// TestIssue https://github.com/golang/go/issues/50953
+// goroutine freezes on panic
+func TestIssue50953_ExecContext(t *testing.T) {
+	db := newTestDB(t, "people")
+	defer closeDB(t, db)
+
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	tx, err := db.BeginTx(ctx, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	stmt, err := tx.Prepare("INSERT|people|name=?,age=?")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	var doneChan = make(chan struct{})
+	go func() {
+		defer func() {
+			_ = recover()
+			stmt.Close()
+			tx.Rollback()
+			close(doneChan)
+		}()
+		// sqlValuerPanicer produces a panic, and we expect tx.Rollback to execute normally
+		stmt.ExecContext(ctx, sqlValuerPanicer{}, 38)
+	}()
+	select {
+	case <-time.After(time.Second):
+		t.Fatal("cannot release")
+	case <-doneChan:
+		// tx released well
+	}
+}
+
+// TestIssue https://github.com/golang/go/issues/50953
+// goroutine freezes on panic
+func TestIssue50953_QueryContext(t *testing.T) {
+	db := newTestDB(t, "people")
+	defer closeDB(t, db)
+
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	tx, err := db.BeginTx(ctx, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	stmt, err := tx.Prepare("SELECT|people|name,age|age=?")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	var doneChan = make(chan struct{})
+	go func() {
+		defer func() {
+			_ = recover()
+			stmt.Close()
+			tx.Rollback()
+			close(doneChan)
+		}()
+		// sqlValuerPanicer produces a panic, and we expect tx.Rollback to execute normally
+		stmt.QueryContext(ctx, sqlValuerPanicer{})
+	}()
+	select {
+	case <-time.After(time.Second):
+		t.Fatal("cannot release")
+	case <-doneChan:
+		// tx released well
+	}
+}
+
 // golang.org/issue/5718
 func TestErrBadConnReconnect(t *testing.T) {
 	db := newTestDB(t, "foo")
