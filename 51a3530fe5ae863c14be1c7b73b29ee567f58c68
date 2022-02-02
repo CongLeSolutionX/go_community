@@ -91,6 +91,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7499fcb2_b478b7e0",
+        "filename": "doc/go_mem.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-02-02T15:41:56Z",
+      "side": 1,
+      "message": "I disagree for two reasons. \n\nFirst, generally speaking, the literature here varies in so many subtle ways that I would much rather say what Go does than try to say \"we do the same thing ZZZ does\" and then find out that we misunderstood what ZZZ actually does. (See all the links and references in my blog posts.)\n\nSecond, this sentence is fairly precise. The place where it is imprecise is in exactly what \"happening concurrently\" means, and that depends exactly on Go\u0027s rules, which are defined in the rest of the document and could not be defined by linking to some other non-Go reference.",
+      "parentUuid": "257244c3_c51085b3",
+      "range": {
+        "startLine": 55,
+        "startChar": 24,
+        "endLine": 55,
+        "endChar": 31
+      },
+      "revId": "51a3530fe5ae863c14be1c7b73b29ee567f58c68",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b32576b4_1e8ec7e0",
         "filename": "doc/go_mem.html",
         "patchSetId": 2
