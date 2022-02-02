@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee285ff2_e716a87c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34636
+      },
+      "writtenOn": "2022-02-02T20:34:22Z",
+      "side": 1,
+      "message": "I\u0027ve also been looking. It seems I can make a more binary choice and remove a lot of the complexity, and unpaired noteclear(). I\u0027ll finish testing it and upload a revised patch.",
+      "parentUuid": "035f0a45_2aab3289",
+      "revId": "0390793084128e21a2b1c9b300b5eac840e41819",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "213fe677_fc2e7daa",
