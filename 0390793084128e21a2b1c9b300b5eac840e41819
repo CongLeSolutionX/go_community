@@ -55,6 +55,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "035f0a45_2aab3289",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-02-02T17:24:53Z",
+      "side": 1,
+      "message": "I\u0027m working on my own version of a fix for this, either to end up with an alternate fix or to just better wrap my head around your fix.\n\nI do now understand why some of the changes in your CL are necessary. *Something* has to consume the mp.park wakeup. Before this CL, if we run a fixup, the scheduler consumes the wakeup and goes back to parking. But if the signal runs the fixup and we don\u0027t do anything about the wakeup, the wakeup will sit around and cause a wakeup later when we weren\u0027t expecting it. If a sleep is the next thing to happen, we can wake-up with a nil nextp. If another wakeup is the next thing to happen, we get a double-wakeup.",
+      "revId": "0390793084128e21a2b1c9b300b5eac840e41819",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "213fe677_fc2e7daa",
