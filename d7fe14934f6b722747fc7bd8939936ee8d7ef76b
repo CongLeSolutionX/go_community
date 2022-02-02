@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c21e1ef_eb0a0fe5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34636
+      },
+      "writtenOn": "2022-02-02T23:24:37Z",
+      "side": 1,
+      "message": "I\u0027ve imported your proposed test revision (see below for minor change). PTAL. Thanks!",
+      "revId": "d7fe14934f6b722747fc7bd8939936ee8d7ef76b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

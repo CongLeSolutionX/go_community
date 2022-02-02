@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b93d2f24_a61bbebe",
+        "filename": "src/runtime/signal_unix.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 34636
+      },
+      "writtenOn": "2022-02-02T23:24:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd269a27_a0ad4ade",
+      "revId": "1f6d7b4d3db95d0bbc790dbd23acac5932169a5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "85f98999_9997948e",
@@ -103,6 +121,24 @@
       "side": 1,
       "message": "Well that formatted strangely.\n\nhttps://gist.github.com/aclements/d41e6da37c578db8394fa08277707670",
       "parentUuid": "85f98999_9997948e",
+      "revId": "1f6d7b4d3db95d0bbc790dbd23acac5932169a5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cfca1822_61def461",
+        "filename": "src/syscall/syscall_linux_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 568,
+      "author": {
+        "id": 34636
+      },
+      "writtenOn": "2022-02-02T23:24:37Z",
+      "side": 1,
+      "message": "As written, it appears that this version deadlocks on its own. I\u0027ve had to replace the `defer wr.Close()` with a serialized `wr.Close()` just before the `wg.Wait()`.",
+      "parentUuid": "e6b7137c_e4690e68",
       "revId": "1f6d7b4d3db95d0bbc790dbd23acac5932169a5e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
