@@ -832,15 +832,14 @@ Error:
 			cause = check.sprintf("operator %s not defined on %s", op, check.kindString(arg.typ)) // catch-all
 		}
 	}
-	// For switches, report errors on the first (case) operand.
-	// TODO(gri) adjust error message in that case
 	if switchCase {
-		arg = x
-	}
-	if compilerErrorMessages {
-		check.invalidOp(arg, code, "%s %s %s (%s)", x.expr, op, y.expr, cause)
+		check.errorf(x, code, "invalid case %s in switch on %s (%s)", x.expr, y.expr, cause) // error position always at 1st operand
 	} else {
-		check.invalidOp(arg, code, "cannot compare %s %s %s (%s)", x.expr, op, y.expr, cause)
+		if compilerErrorMessages {
+			check.invalidOp(arg, code, "%s %s %s (%s)", x.expr, op, y.expr, cause)
+		} else {
+			check.invalidOp(arg, code, "cannot compare %s %s %s (%s)", x.expr, op, y.expr, cause)
+		}
 	}
 	x.mode = invalid
 }
