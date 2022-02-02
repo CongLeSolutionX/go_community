@@ -395,6 +395,11 @@ func (w *writer) unionType(typ *types2.Union) {
 func (w *writer) interfaceType(typ *types2.Interface) {
 	w.Len(typ.NumExplicitMethods())
 	w.Len(typ.NumEmbeddeds())
+	if typ.NumExplicitMethods() == 0 && typ.NumEmbeddeds() == 1 {
+		w.Bool(typ.IsImplicit())
+	} else {
+		assert(!typ.IsImplicit())
+	}
 
 	for i := 0; i < typ.NumExplicitMethods(); i++ {
 		m := typ.ExplicitMethod(i)
