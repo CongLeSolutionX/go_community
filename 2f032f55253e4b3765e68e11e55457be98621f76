@@ -71,6 +71,40 @@
       "parentUuid": "3ce672c2_2e789c6f",
       "revId": "2f032f55253e4b3765e68e11e55457be98621f76",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3425760_16e7e6e2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-02-02T15:49:02Z",
+      "side": 1,
+      "message": "I think a test is missing here.\n\nThe tests being changed are updating the error text, which is fine.\nBut all those cases involve +incompatible mismatches.\nThe general problem of mistaking a branch for a tag can arise without\nthe +incompatible mismatch, right? Assuming yes, then we should add\na test case that does not involve the +incompatible mismatch, such as\na v0.0.1 branch pointing at code with no go.mod or at code with a version-free go.mod.\n",
+      "revId": "2f032f55253e4b3765e68e11e55457be98621f76",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27a71e44_50c02bbc",
+        "filename": "src/cmd/go/internal/modfetch/coderepo_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-02-02T15:49:02Z",
+      "side": 1,
+      "message": "The TODO is done now, yes?",
+      "revId": "2f032f55253e4b3765e68e11e55457be98621f76",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
