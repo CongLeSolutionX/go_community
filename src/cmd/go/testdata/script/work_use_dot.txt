@@ -1,6 +1,7 @@
 cp go.work go.work.orig
 
-# 'go work use .' should add an entry for the current directory.
+# If the current directory contains a go.mod file,
+# 'go work use .' should add an entry for it.
 cd bar/baz
 go work use .
 cmp ../../go.work ../../go.work.rel
@@ -11,7 +12,15 @@ mv go.mod go.mod.bak
 go work use .
 cmp ../../go.work ../../go.work.orig
 
+# If the path is absolute, it should remain absolute.
 mv go.mod.bak go.mod
+go work use $PWD
+cmpenv ../../go.work ../../go.work.abs
+
+# An absolute path should replace an entry for the corresponding relative path
+# and vice-versa.
+go work use .
+cmp ../../go.work ../../go.work.rel
 go work use $PWD
 cmpenv ../../go.work ../../go.work.abs
 

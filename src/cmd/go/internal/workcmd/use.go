@@ -10,7 +10,10 @@ import (
 	"cmd/go/internal/base"
 	"cmd/go/internal/fsys"
 	"cmd/go/internal/modload"
+	"cmd/go/internal/str"
 	"context"
+	"errors"
+	"fmt"
 	"io/fs"
 	"os"
 	"path/filepath"
@@ -57,42 +60,33 @@ func runUse(ctx context.Context, cmd *base.Command, args []string) {
 		base.Fatalf("go: %v", err)
 	}
 
-	haveDirs := make(map[string][]string) // absolute → original(s)
+	absWork, err := filepath.Abs(gowork)
+	if err != nil {
+		base.Fatalf("go: %v", err)
+	}
+	workDir := filepath.Dir(absWork)
+
+	haveDirs := make(map[string][]string) // absolute path → original(s)
 	for _, use := range workFile.Use {
-		var absDir string
+		var abs string
 		if filepath.IsAbs(use.Path) {
-			absDir = filepath.Clean(use.Path)
+			abs = filepath.Clean(use.Path)
 		} else {
-			absDir = filepath.Join(filepath.Dir(gowork), use.Path)
+			abs = filepath.Join(workDir, use.Path)
 		}
-		haveDirs[absDir] = append(haveDirs[absDir], use.Path)
+		haveDirs[abs] = append(haveDirs[abs], use.Path)
 	}
 
-	addDirs := make(map[string]bool)
-	removeDirs := make(map[string]bool)
+	staleDirs := make(map[string]bool)
+	keepDirs := make(map[string]bool)
 	lookDir := func(dir string) {
-		// If the path is absolute, try to keep it absolute. If it's relative,
-		// make it relative to the go.work file rather than the working directory.
-		absDir := dir
-		if !filepath.IsAbs(dir) {
-			absDir = filepath.Join(base.Cwd(), dir)
-			rel, err := filepath.Rel(filepath.Dir(gowork), absDir)
-			if err == nil {
-				// Normalize relative paths to use slashes, so that checked-in go.work
-				// files with relative paths within the repo are platform-independent.
-				dir = filepath.ToSlash(rel)
-			} else {
-				// The path can't be made relative to the go.work file,
-				// so it must be kept absolute instead.
-				dir = absDir
-			}
-		}
+		absDir, dir := pathRel(workDir, dir)
 
 		fi, err := os.Stat(filepath.Join(absDir, "go.mod"))
 		if err != nil {
 			if os.IsNotExist(err) {
 				for _, origDir := range haveDirs[absDir] {
-					removeDirs[origDir] = true
+					staleDirs[origDir] = true
 				}
 				return
 			}
@@ -103,31 +97,114 @@ func runUse(ctx context.Context, cmd *base.Command, args []string) {
 			base.Errorf("go: %v is not regular", filepath.Join(dir, "go.mod"))
 		}
 
-		if len(haveDirs[absDir]) == 0 {
-			addDirs[dir] = true
+		for _, haveDir := range haveDirs[absDir] {
+			if haveDir != dir {
+				staleDirs[haveDir] = true
+			}
 		}
+		keepDirs[dir] = true
 	}
 
 	for _, useDir := range args {
-		if *useR {
-			fsys.Walk(useDir, func(path string, info fs.FileInfo, err error) error {
-				if !info.IsDir() {
-					return nil
-				}
-				lookDir(path)
-				return nil
-			})
+		if !*useR {
+			lookDir(useDir)
 			continue
 		}
-		lookDir(useDir)
+
+		// Add or remove entries for any subdirectories that still exist.
+		err := fsys.Walk(useDir, func(path string, info fs.FileInfo, err error) error {
+			if !info.IsDir() {
+				if info.Mode()&fs.ModeSymlink != 0 {
+					if target, err := fsys.Stat(path); err == nil && target.IsDir() {
+						fmt.Fprintf(os.Stderr, "warning: ignoring symlink %s\n", path)
+					}
+				}
+				return nil
+			}
+			lookDir(path)
+			return nil
+		})
+		if err != nil && !errors.Is(err, os.ErrNotExist) {
+			base.Errorf("go: %v", err)
+		}
+
+		absArg, _ := pathRel(workDir, useDir)
+		// Remove entries for subdirectories that no longer exist.
+		for absDir, dirs := range haveDirs {
+			if !str.HasFilePathPrefix(absDir, absArg) {
+				continue
+			}
+			seen := false
+			allStale := true
+			for _, dir := range dirs {
+				// No need to stat the go.mod file for a directory we already walked.
+				if _, kept := keepDirs[dir]; kept {
+					seen = true
+					break
+				}
+				if _, stale := staleDirs[dir]; !stale {
+					allStale = false
+				}
+			}
+			if !seen && !allStale {
+				if _, err := os.Stat(filepath.Join(absDir, "go.mod")); errors.Is(err, os.ErrNotExist) {
+					for _, dir := range dirs {
+						staleDirs[dir] = true
+					}
+				}
+			}
+		}
 	}
 
-	for dir := range removeDirs {
-		workFile.DropUse(dir)
+	for dir := range staleDirs {
+		if keepDirs[dir] {
+			// The user explicitly requested both the relative and absolute path. Keep
+			// them both (and probably report an error down the road).
+		} else {
+			workFile.DropUse(dir)
+		}
 	}
-	for dir := range addDirs {
-		workFile.AddUse(dir, "")
+	for dir := range keepDirs {
+		have := false
+		for _, haveDir := range haveDirs[dir] {
+			if haveDir == dir {
+				have = true
+				break
+			}
+		}
+		if !have {
+			workFile.AddUse(dir, "")
+		}
 	}
 	modload.UpdateWorkFile(workFile)
 	modload.WriteWorkFile(gowork, workFile)
+}
+
+// goWorkRel returns the absolute and canonical forms of dir for use in a
+// go.work file located in directory workDir.
+//
+// If dir is relative, it is intepreted relative to base.Cwd()
+// and its canonical form is relative to gowork if possible.
+// If dir is absolute or cannot be made relative to gowork,
+// its canonical form is absolute.
+//
+// Canonical absolute paths are clean.
+// Canonical relative paths are clean and slash-separated.
+func pathRel(workDir, dir string) (abs, canonical string) {
+	if filepath.IsAbs(dir) {
+		abs = filepath.Clean(dir)
+		return abs, abs
+	}
+
+	abs = filepath.Join(base.Cwd(), dir)
+	rel, err := filepath.Rel(workDir, abs)
+	if err != nil {
+		// The path can't be made relative to the go.work file,
+		// so it must be kept absolute instead.
+		return abs, abs
+	}
+
+	// Normalize relative paths to use slashes, so that checked-in go.work
+	// files with relative paths within the repo are platform-independent.
+	return abs, filepath.ToSlash(rel)
 }
