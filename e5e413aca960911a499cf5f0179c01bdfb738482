@@ -53,6 +53,23 @@
       "message": "LGTM, but the Release team will have to tell us if they want it in master or in a backport. Also needs a Go 1.17 backport.",
       "revId": "e5e413aca960911a499cf5f0179c01bdfb738482",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba68bdcb_62698666",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2022-02-03T19:55:33Z",
+      "side": 1,
+      "message": "+1 from the release team to land this in master for 1.18.",
+      "revId": "e5e413aca960911a499cf5f0179c01bdfb738482",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
