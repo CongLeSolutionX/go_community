@@ -612,6 +612,11 @@ func (ctxt *Link) loadlib() {
 				*flagLibGCC = ctxt.findLibPathCmd("--print-file-name=libcompiler_rt.a", "libcompiler_rt")
 			}
 			if ctxt.HeadType == objabi.Hwindows {
+				// Link crt2.o (if present) to resolve "atexit" when
+				// using LLVM-based compilers.
+				if p := ctxt.findLibPath("crt2.o"); p != "none" {
+					hostObject(ctxt, "crt2", p)
+				}
 				if p := ctxt.findLibPath("libmingwex.a"); p != "none" {
 					hostArchive(ctxt, p)
 				}
@@ -1996,6 +2001,29 @@ func ldobj(ctxt *Link, f *bio.Reader, lib *sym.Library, length int64, pn string,
 
 	addImports(ctxt, lib, pn)
 	return nil
+}
+
+// hostObject reads a single host object file (compare to "hostArchive").
+// This is used as part of internal linking when we need to pull in
+// files such as "crt?.o".
+func hostObject(ctxt *Link, objname string, path string) {
+	if ctxt.Debugvlog > 1 {
+		ctxt.Logf("hostObject(%s)\n", path)
+	}
+	objlib := sym.Library{
+		Pkg: objname,
+	}
+	f, err := bio.Open(path)
+	if err != nil {
+		Exitf("cannot open host object %q file %s: %v", objname, path, err)
+	}
+	defer f.Close()
+	h := ldobj(ctxt, f, &objlib, 0, path, path)
+	if h.ld == nil {
+		Exitf("unrecognized object file format in %s", path)
+	}
+	f.MustSeek(h.off, 0)
+	h.ld(ctxt, f, h.pkg, h.length, h.pn)
 }
 
 func checkFingerprint(lib *sym.Library, libfp goobj.FingerprintType, src string, srcfp goobj.FingerprintType) {
