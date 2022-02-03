@@ -264,6 +264,24 @@ func (t Time) Before(u Time) bool {
 	return ts < us || ts == us && t.nsec() < u.nsec()
 }
 
+// Compare compares the time instant t with u. If t is before u, it returns -1;
+// if t is after u, it returns 1; if they're the same, it returns 0.
+func (t Time) Compare(u Time) int {
+	var tc, uc int64
+	if t.wall&u.wall&hasMonotonic != 0 {
+		tc, uc = t.ext, u.ext
+	} else if tc, uc = t.sec(), u.sec(); tc == uc {
+		tc, uc = int64(t.nsec()), int64(u.nsec())
+	}
+	switch {
+	case tc < uc:
+		return -1
+	case tc > uc:
+		return 1
+	}
+	return 0
+}
+
 // Equal reports whether t and u represent the same time instant.
 // Two times can be equal even if they are in different locations.
 // For example, 6:00 +0200 and 4:00 UTC are Equal.

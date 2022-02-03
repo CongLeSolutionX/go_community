@@ -170,7 +170,7 @@ func startsWithLowerCase(str string) bool {
 // layout and returns the text before, the std string, and the text after.
 func nextStdChunk(layout string) (prefix string, std int, suffix string) {
 	for i := 0; i < len(layout); i++ {
-		switch c := int(layout[i]); c {
+		switch c := layout[i]; c {
 		case 'J': // January, Jan
 			if len(layout) >= i+3 && layout[i:i+3] == "Jan" {
 				if len(layout) >= i+7 && layout[i:i+7] == "January" {
@@ -434,7 +434,7 @@ func atoi(s string) (x int, err error) {
 // The "std" value passed to formatNano contains two packed fields: the number of
 // digits after the decimal and the separator character (period or comma).
 // These functions pack and unpack that variable.
-func stdFracSecond(code, n, c int) int {
+func stdFracSecond(code, n int, c byte) int {
 	// Use 0xfff to make the failure case even more absurd.
 	if c == '.' {
 		return code | ((n & 0xfff) << stdArgShift)
