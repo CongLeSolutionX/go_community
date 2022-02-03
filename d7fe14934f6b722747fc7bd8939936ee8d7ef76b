@@ -72,6 +72,41 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dddeda3c_fefc9fa4",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1755,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-02-03T19:28:07Z",
+      "side": 1,
+      "message": "My understanding is the the purpose of this check is to only send signals to Ms that appear to be stuck \"running\" user Gs (in a syscall), rather than those that have properly stopped per the STW (which will use the existing park wakeup).\n\nThat shouldn\u0027t be strictly necessary as far as I can tell, but it does make this change a bit more minimal I suppose.\n\n(Also worth noting that the check is racy, as the M may return from the syscall at any time and clear curg.)",
+      "parentUuid": "2c33e30f_fc1c9c5c",
+      "revId": "d7fe14934f6b722747fc7bd8939936ee8d7ef76b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2fb18336_5536d685",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1757,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-02-03T19:28:07Z",
+      "side": 1,
+      "message": "nit: drop \"also\". We _only_ wake them with a signal.",
+      "revId": "d7fe14934f6b722747fc7bd8939936ee8d7ef76b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "60c4be73_14c56526",
