@@ -110,6 +110,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f9f5249f_91de5b85",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1755,
+      "author": {
+        "id": 34636
+      },
+      "writtenOn": "2022-02-03T21:38:57Z",
+      "side": 1,
+      "message": "Michael, do you think this race is problematic, or not? I could temporarily hold the m.mFixup.lock inside dropg() if you think that would help.",
+      "parentUuid": "527946d4_29cddc3a",
+      "revId": "d7fe14934f6b722747fc7bd8939936ee8d7ef76b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2fb18336_5536d685",
         "filename": "src/runtime/proc.go",
         "patchSetId": 5
@@ -121,6 +139,24 @@
       "writtenOn": "2022-02-03T19:28:07Z",
       "side": 1,
       "message": "nit: drop \"also\". We _only_ wake them with a signal.",
+      "revId": "d7fe14934f6b722747fc7bd8939936ee8d7ef76b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd1163ec_0bf1c53e",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1757,
+      "author": {
+        "id": 34636
+      },
+      "writtenOn": "2022-02-03T21:38:57Z",
+      "side": 1,
+      "message": "Done\n\n[I included this in the comment update of patch set 6]",
+      "parentUuid": "2fb18336_5536d685",
       "revId": "d7fe14934f6b722747fc7bd8939936ee8d7ef76b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
