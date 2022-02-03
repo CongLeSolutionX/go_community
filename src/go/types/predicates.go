@@ -163,8 +163,13 @@ func (p *ifacePair) identical(q *ifacePair) bool {
 	return p.x == q.x && p.y == q.y || p.x == q.y && p.y == q.x
 }
 
+type typeComparer struct {
+	cmpTags bool
+	p       *ifacePair
+}
+
 // For changes to this code the corresponding changes should be made to unifier.nify.
-func identical(x, y Type, cmpTags bool, p *ifacePair) bool {
+func (c typeComparer) identical(x, y Type) bool {
 	if x == y {
 		return true
 	}
@@ -184,13 +189,13 @@ func identical(x, y Type, cmpTags bool, p *ifacePair) bool {
 		if y, ok := y.(*Array); ok {
 			// If one or both array lengths are unknown (< 0) due to some error,
 			// assume they are the same to avoid spurious follow-on errors.
-			return (x.len < 0 || y.len < 0 || x.len == y.len) && identical(x.elem, y.elem, cmpTags, p)
+			return (x.len < 0 || y.len < 0 || x.len == y.len) && c.identical(x.elem, y.elem)
 		}
 
 	case *Slice:
 		// Two slice types are identical if they have identical element types.
 		if y, ok := y.(*Slice); ok {
-			return identical(x.elem, y.elem, cmpTags, p)
+			return c.identical(x.elem, y.elem)
 		}
 
 	case *Struct:
@@ -203,9 +208,9 @@ func identical(x, y Type, cmpTags bool, p *ifacePair) bool {
 				for i, f := range x.fields {
 					g := y.fields[i]
 					if f.embedded != g.embedded ||
-						cmpTags && x.Tag(i) != y.Tag(i) ||
+						c.cmpTags && x.Tag(i) != y.Tag(i) ||
 						!f.sameId(g.pkg, g.name) ||
-						!identical(f.typ, g.typ, cmpTags, p) {
+						!c.identical(f.typ, g.typ) {
 						return false
 					}
 				}
@@ -216,7 +221,7 @@ func identical(x, y Type, cmpTags bool, p *ifacePair) bool {
 	case *Pointer:
 		// Two pointer types are identical if they have identical base types.
 		if y, ok := y.(*Pointer); ok {
-			return identical(x.base, y.base, cmpTags, p)
+			return c.identical(x.base, y.base)
 		}
 
 	case *Tuple:
@@ -227,7 +232,7 @@ func identical(x, y Type, cmpTags bool, p *ifacePair) bool {
 				if x != nil {
 					for i, v := range x.vars {
 						w := y.vars[i]
-						if !identical(v.typ, w.typ, cmpTags, p) {
+						if !c.identical(v.typ, w.typ) {
 							return false
 						}
 					}
@@ -274,7 +279,7 @@ func identical(x, y Type, cmpTags bool, p *ifacePair) bool {
 			// Constraints must be pair-wise identical, after substitution.
 			for i, xtparam := range xtparams {
 				ybound := check.subst(token.NoPos, ytparams[i].bound, smap, nil)
-				if !identical(xtparam.bound, ybound, cmpTags, p) {
+				if !c.identical(xtparam.bound, ybound) {
 					return false
 				}
 			}
@@ -284,8 +289,8 @@ func identical(x, y Type, cmpTags bool, p *ifacePair) bool {
 		}
 
 		return x.variadic == y.variadic &&
-			identical(x.params, yparams, cmpTags, p) &&
-			identical(x.results, yresults, cmpTags, p)
+			c.identical(x.params, yparams) &&
+			c.identical(x.results, yresults)
 
 	case *Union:
 		if y, _ := y.(*Union); y != nil {
@@ -339,6 +344,7 @@ func identical(x, y Type, cmpTags bool, p *ifacePair) bool {
 				// type declarations that recur via parameter types, an extremely
 				// rare occurrence). An alternative implementation might use a
 				// "visited" map, but that is probably less efficient overall.
+				p := c.p
 				q := &ifacePair{x, y, p}
 				for p != nil {
 					if p.identical(q) {
@@ -350,9 +356,10 @@ func identical(x, y Type, cmpTags bool, p *ifacePair) bool {
 					assertSortedMethods(a)
 					assertSortedMethods(b)
 				}
+				qComparer := typeComparer{c.cmpTags, q}
 				for i, f := range a {
 					g := b[i]
-					if f.Id() != g.Id() || !identical(f.typ, g.typ, cmpTags, q) {
+					if f.Id() != g.Id() || !qComparer.identical(f.typ, g.typ) {
 						return false
 					}
 				}
@@ -363,14 +370,14 @@ func identical(x, y Type, cmpTags bool, p *ifacePair) bool {
 	case *Map:
 		// Two map types are identical if they have identical key and value types.
 		if y, ok := y.(*Map); ok {
-			return identical(x.key, y.key, cmpTags, p) && identical(x.elem, y.elem, cmpTags, p)
+			return c.identical(x.key, y.key) && c.identical(x.elem, y.elem)
 		}
 
 	case *Chan:
 		// Two channel types are identical if they have identical value types
 		// and the same direction.
 		if y, ok := y.(*Chan); ok {
-			return x.dir == y.dir && identical(x.elem, y.elem, cmpTags, p)
+			return x.dir == y.dir && c.identical(x.elem, y.elem)
 		}
 
 	case *Named:
