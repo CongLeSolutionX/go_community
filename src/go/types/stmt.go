@@ -311,7 +311,7 @@ L:
 		}
 		seen[T] = e
 		if T != nil && xtyp != nil {
-			check.typeAssertion(e, x, xtyp, T)
+			check.typeAssertion(e, x, T, true)
 		}
 	}
 	return
