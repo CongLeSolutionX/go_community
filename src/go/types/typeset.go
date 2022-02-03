@@ -103,10 +103,10 @@ func (s *_TypeSet) String() string {
 func (s *_TypeSet) hasTerms() bool { return !s.terms.isEmpty() && !s.terms.isAll() }
 
 // singleType returns the single type in s if there is exactly one; otherwise the result is nil.
-func (s *_TypeSet) singleType() Type { return s.terms.singleType() }
+func (s *_TypeSet) singleType() Type { return s.terms.singleType(Identical) }
 
 // subsetOf reports whether s1 ⊆ s2.
-func (s1 *_TypeSet) subsetOf(s2 *_TypeSet) bool { return s1.terms.subsetOf(s2.terms) }
+func (s1 *_TypeSet) subsetOf(s2 *_TypeSet) bool { return s1.terms.subsetOf(s2.terms, Identical) }
 
 // TODO(gri) TypeSet.is and TypeSet.underIs should probably also go into termlist.go
 
@@ -312,7 +312,7 @@ func computeInterfaceTypeSet(check *Checker, pos token.Pos, ityp *Interface) *_T
 		// of the type sets of all its elements.
 		// Intersection cannot produce longer termlists and
 		// thus cannot overflow.
-		allTerms = allTerms.intersect(terms)
+		allTerms = allTerms.intersect(terms, Identical)
 	}
 	ityp.embedPos = nil // not needed anymore (errors have been reported)
 
@@ -389,7 +389,7 @@ func computeUnionTypeSet(check *Checker, unionSets map[*Union]*_TypeSet, pos tok
 		}
 		// The type set of a union expression is the union
 		// of the type sets of each term.
-		allTerms = allTerms.union(terms)
+		allTerms = allTerms.union(terms, Identical)
 		if len(allTerms) > maxTermCount {
 			if check != nil {
 				check.errorf(atPos(pos), _InvalidUnion, "cannot handle more than %d union terms (implementation limitation)", maxTermCount)

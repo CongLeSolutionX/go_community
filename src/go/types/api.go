@@ -452,11 +452,11 @@ func Implements(V Type, T *Interface) bool {
 // Identical reports whether x and y are identical types.
 // Receivers of Signature types are ignored.
 func Identical(x, y Type) bool {
-	return typeComparer{true, nil}.identical(x, y)
+	return typeComparer{true, nil, nil, nil}.identical(x, y)
 }
 
 // IdenticalIgnoreTags reports whether x and y are identical types if tags are ignored.
 // Receivers of Signature types are ignored.
 func IdenticalIgnoreTags(x, y Type) bool {
-	return typeComparer{false, nil}.identical(x, y)
+	return typeComparer{false, nil, nil, nil}.identical(x, y)
 }

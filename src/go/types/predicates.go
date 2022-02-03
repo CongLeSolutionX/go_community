@@ -6,7 +6,9 @@
 
 package types
 
-import "go/token"
+import (
+	"go/token"
+)
 
 // The isX predicates below report whether t is an X.
 // If t is a type parameter the result is false; i.e.,
@@ -164,8 +166,9 @@ func (p *ifacePair) identical(q *ifacePair) bool {
 }
 
 type typeComparer struct {
-	cmpTags bool
-	p       *ifacePair
+	cmpTags            bool
+	p                  *ifacePair
+	xtparams, ytparams []*TypeParam
 }
 
 // For changes to this code the corresponding changes should be made to unifier.nify.
@@ -262,35 +265,57 @@ func (c typeComparer) identical(x, y Type) bool {
 		yparams := y.params
 		yresults := y.results
 
-		if x.TypeParams().Len() > 0 {
-			// We must ignore type parameter names when comparing x and y. The
-			// easiest way to do this is to substitute x's type parameters for y's.
-			xtparams := x.TypeParams().list()
-			ytparams := y.TypeParams().list()
+		assert(len(c.xtparams) == 0 && len(c.ytparams) == 0)
 
-			var targs []Type
-			for i := range xtparams {
-				targs = append(targs, x.TypeParams().At(i))
+		xtparams := x.TypeParams().list()
+		ytparams := y.TypeParams().list()
+
+		if x.RecvTypeParams().Len() > 0 {
+			// We don't require the same number of receiver type parameters, but if
+			// we have the same number of receiver type parameters, we can see if the
+			// methods can be made identical modulo receiver type parameters.
+			if y.RecvTypeParams().Len() == x.RecvTypeParams().Len() {
 			}
-			smap := makeSubstMap(ytparams, targs)
-
-			var check *Checker // ok to call subst on a nil *Checker
-
-			// Constraints must be pair-wise identical, after substitution.
-			for i, xtparam := range xtparams {
-				ybound := check.subst(token.NoPos, ytparams[i].bound, smap, nil)
-				if !c.identical(xtparam.bound, ybound) {
-					return false
-				}
-			}
-
-			yparams = check.subst(token.NoPos, y.params, smap, nil).(*Tuple)
-			yresults = check.subst(token.NoPos, y.results, smap, nil).(*Tuple)
 		}
 
+		sigComparer := typeComparer{c.cmpTags, c.p, xtparams, ytparams}
+
+		for i, xtparam := range xtparams {
+			ytparam := ytparams[i]
+			if !sigComparer.identical(xtparam.bound, ytparam.bound) {
+				return false
+			}
+		}
+
+		// if x.TypeParams().Len() > 0 {
+		// 	// We must ignore type parameter names when comparing x and y. The
+		// 	// easiest way to do this is to substitute x's type parameters for y's.
+		// 	xtparams := x.TypeParams().list()
+		// 	ytparams := y.TypeParams().list()
+
+		// 	var targs []Type
+		// 	for i := range xtparams {
+		// 		targs = append(targs, x.TypeParams().At(i))
+		// 	}
+		// 	smap := makeSubstMap(ytparams, targs)
+
+		// 	var check *Checker // ok to call subst on a nil *Checker
+
+		// 	// Constraints must be pair-wise identical, after substitution.
+		// 	for i, xtparam := range xtparams {
+		// 		ybound := check.subst(token.NoPos, ytparams[i].bound, smap, nil)
+		// 		if !c.identical(xtparam.bound, ybound) {
+		// 			return false
+		// 		}
+		// 	}
+
+		// 	yparams = check.subst(token.NoPos, y.params, smap, nil).(*Tuple)
+		// 	yresults = check.subst(token.NoPos, y.results, smap, nil).(*Tuple)
+		// }
+
 		return x.variadic == y.variadic &&
-			c.identical(x.params, yparams) &&
-			c.identical(x.results, yresults)
+			sigComparer.identical(x.params, yparams) &&
+			sigComparer.identical(x.results, yresults)
 
 	case *Union:
 		if y, _ := y.(*Union); y != nil {
@@ -299,7 +324,7 @@ func (c typeComparer) identical(x, y Type) bool {
 			unionSets := make(map[*Union]*_TypeSet)
 			xset := computeUnionTypeSet(nil, unionSets, token.NoPos, x)
 			yset := computeUnionTypeSet(nil, unionSets, token.NoPos, y)
-			return xset.terms.equal(yset.terms)
+			return xset.terms.equal(yset.terms, c.identical)
 		}
 
 	case *Interface:
@@ -316,7 +341,7 @@ func (c typeComparer) identical(x, y Type) bool {
 			if xset.comparable != yset.comparable {
 				return false
 			}
-			if !xset.terms.equal(yset.terms) {
+			if !xset.terms.equal(yset.terms, c.identical) {
 				return false
 			}
 			a := xset.methods
@@ -356,7 +381,7 @@ func (c typeComparer) identical(x, y Type) bool {
 					assertSortedMethods(a)
 					assertSortedMethods(b)
 				}
-				qComparer := typeComparer{c.cmpTags, q}
+				qComparer := typeComparer{c.cmpTags, q, c.xtparams, c.ytparams}
 				for i, f := range a {
 					g := b[i]
 					if f.Id() != g.Id() || !qComparer.identical(f.typ, g.typ) {
@@ -412,7 +437,12 @@ func (c typeComparer) identical(x, y Type) bool {
 		}
 
 	case *TypeParam:
-		// nothing to do (x and y being equal is caught in the very beginning of this function)
+		if y, _ := y.(*TypeParam); y != nil {
+			xi := tparamIndex(c.xtparams, x)
+			if xi >= 0 {
+				return xi == tparamIndex(c.ytparams, y)
+			}
+		}
 
 	case nil:
 		// avoid a crash in case of nil type

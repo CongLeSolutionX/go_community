@@ -30,7 +30,7 @@ func (x *term) String() string {
 }
 
 // equal reports whether x and y represent the same type set.
-func (x *term) equal(y *term) bool {
+func (x *term) equal(y *term, identical func(x, y Type) bool) bool {
 	// easy cases
 	switch {
 	case x == nil || y == nil:
@@ -40,11 +40,11 @@ func (x *term) equal(y *term) bool {
 	}
 	// ∅ ⊂ x, y ⊂ 𝓤
 
-	return x.tilde == y.tilde && Identical(x.typ, y.typ)
+	return x.tilde == y.tilde && identical(x.typ, y.typ)
 }
 
 // union returns the union x ∪ y: zero, one, or two non-nil terms.
-func (x *term) union(y *term) (_, _ *term) {
+func (x *term) union(y *term, identical func(x, y Type) bool) (_, _ *term) {
 	// easy cases
 	switch {
 	case x == nil && y == nil:
@@ -60,7 +60,7 @@ func (x *term) union(y *term) (_, _ *term) {
 	}
 	// ∅ ⊂ x, y ⊂ 𝓤
 
-	if x.disjoint(y) {
+	if x.disjoint(y, identical) {
 		return x, y // x ∪ y == (x, y) if x ∩ y == ∅
 	}
 	// x.typ == y.typ
@@ -76,7 +76,7 @@ func (x *term) union(y *term) (_, _ *term) {
 }
 
 // intersect returns the intersection x ∩ y.
-func (x *term) intersect(y *term) *term {
+func (x *term) intersect(y *term, identical func(x, y Type) bool) *term {
 	// easy cases
 	switch {
 	case x == nil || y == nil:
@@ -88,7 +88,7 @@ func (x *term) intersect(y *term) *term {
 	}
 	// ∅ ⊂ x, y ⊂ 𝓤
 
-	if x.disjoint(y) {
+	if x.disjoint(y, identical) {
 		return nil // x ∩ y == ∅ if x ∩ y == ∅
 	}
 	// x.typ == y.typ
@@ -104,7 +104,7 @@ func (x *term) intersect(y *term) *term {
 }
 
 // includes reports whether t ∈ x.
-func (x *term) includes(t Type) bool {
+func (x *term) includes(t Type, identical func(x, y Type) bool) bool {
 	// easy cases
 	switch {
 	case x == nil:
@@ -118,11 +118,11 @@ func (x *term) includes(t Type) bool {
 	if x.tilde {
 		u = under(u)
 	}
-	return Identical(x.typ, u)
+	return identical(x.typ, u)
 }
 
 // subsetOf reports whether x ⊆ y.
-func (x *term) subsetOf(y *term) bool {
+func (x *term) subsetOf(y *term, identical func(x, y Type) bool) bool {
 	// easy cases
 	switch {
 	case x == nil:
@@ -136,7 +136,7 @@ func (x *term) subsetOf(y *term) bool {
 	}
 	// ∅ ⊂ x, y ⊂ 𝓤
 
-	if x.disjoint(y) {
+	if x.disjoint(y, identical) {
 		return false // x ⊆ y == false if x ∩ y == ∅
 	}
 	// x.typ == y.typ
@@ -150,7 +150,7 @@ func (x *term) subsetOf(y *term) bool {
 
 // disjoint reports whether x ∩ y == ∅.
 // x.typ and y.typ must not be nil.
-func (x *term) disjoint(y *term) bool {
+func (x *term) disjoint(y *term, identical func(x, y Type) bool) bool {
 	if debug && (x.typ == nil || y.typ == nil) {
 		panic("invalid argument(s)")
 	}
@@ -162,5 +162,5 @@ func (x *term) disjoint(y *term) bool {
 	if x.tilde {
 		uy = under(uy)
 	}
-	return !Identical(ux, uy)
+	return !identical(ux, uy)
 }

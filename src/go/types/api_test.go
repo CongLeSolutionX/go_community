@@ -1876,6 +1876,57 @@ func TestIdentical(t *testing.T) {
 	}
 }
 
+func TestIdenticalMethods(t *testing.T) {
+	// For each test, we compare the types of methods X.m and Y.m in the source.
+	tests := []struct {
+		src  string
+		want bool
+	}{
+		// Non-generic methods. Signatures are considered identical independent of their receiver.
+		{`type (X int; Y int); func (X) m(int) string { return "" }; func (Y) m(int) string { return "" }`, true},
+		{`type (X int; Y int); func (X) m(int) string { return "" }; func (*Y) m(int) string { return "" }`, true},
+		{`type (X int; Y int); func (X) m() string { return "" }; func (Y) m() string { return "" }`, true},
+		{`type (X int; Y int); func (X) m() string { return "" }; func (Y) m(int) string { return "" }`, false},
+		{`type (X int; Y int); func (X) m(int) string { return "" }; func (Y) m(int) {}`, false},
+		{`type (X int; Y int); func (X) m(int) {}; func (Y) m(int) {}`, true},
+		{`type (X int; Y int); func (X) m() {}; func (Y) m() {}`, true},
+
+		// Generic methods. Type parameters should be considered identical modulo
+		// renaming. See also issue #49722.
+		{`type (X[P ~int] int; Y[Q ~int] int); func (X[A]) m() {}; func (Y[B]) m() {}`, true},
+		{`type (X[P ~int] int; Y[Q ~int] int); func (X[A]) m(int) {}; func (Y[B]) m(int) {}`, true},
+
+		// Constraints need not match if they are not used.
+		{`type (X[P ~int] int; Y[Q any] int); func (X[A]) m() {}; func (Y[B]) m() {}`, true},
+		{`type (X[P, Q ~int] int; Y[P ~int, Q any] int); func (X[A]) m(A) {}; func (Y[B]) m(B) {}`, true},
+
+		// TODO: cases from above.
+		// {`func X[P1 any, P2 ~*P1](){}; func Y[Q1 any, Q2 ~*Q1]() {}`, true},
+		// {`func X[P1 any, P2 ~[]P1](){}; func Y[Q1 any, Q2 ~*Q1]() {}`, false},
+		// {`func X[P ~int](P){}; func Y[Q ~int](Q) {}`, true},
+		// {`func X[P ~string](P){}; func Y[Q ~int](Q) {}`, false},
+		// {`func X[P ~int]([]P){}; func Y[Q ~int]([]Q) {}`, true},
+	}
+
+	for _, test := range tests {
+		pkg, err := pkgForMode("test", "package p;"+test.src, nil, 0)
+		if err != nil {
+			t.Errorf("%s: incorrect test case: %s", test.src, err)
+			continue
+		}
+		X := pkg.Scope().Lookup("X")
+		Xm, _, _ := LookupFieldOrMethod(X.Type(), true, pkg, "m")
+		Y := pkg.Scope().Lookup("Y")
+		Ym, _, _ := LookupFieldOrMethod(Y.Type(), true, pkg, "m")
+		if Xm == nil || Ym == nil {
+			t.Fatal("test must declare both X.m and Y.m")
+		}
+		if got := Identical(Xm.Type(), Ym.Type()); got != test.want {
+			t.Errorf("Identical(%s, %s) = %t, want %t", X.Type(), Y.Type(), got, test.want)
+		}
+	}
+}
+
 func TestIdentical_issue15173(t *testing.T) {
 	// Identical should allow nil arguments and be symmetric.
 	for _, test := range []struct {

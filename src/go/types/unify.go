@@ -396,7 +396,7 @@ func (u *unifier) nify(x, y Type, p *ifacePair) bool {
 			if xset.comparable != yset.comparable {
 				return false
 			}
-			if !xset.terms.equal(yset.terms) {
+			if !xset.terms.equal(yset.terms, Identical) {
 				return false
 			}
 			a := xset.methods

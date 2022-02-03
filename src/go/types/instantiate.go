@@ -249,14 +249,14 @@ func (check *Checker) implements(V, T Type) error {
 	// Otherwise, V's type must be included in the iface type set.
 	var alt Type
 	if Ti.typeSet().is(func(t *term) bool {
-		if !t.includes(V) {
+		if !t.includes(V, Identical) {
 			// If V ∉ t.typ but V ∈ ~t.typ then remember this type
 			// so we can suggest it as an alternative in the error
 			// message.
 			if alt == nil && !t.tilde && Identical(t.typ, under(t.typ)) {
 				tt := *t
 				tt.tilde = true
-				if tt.includes(V) {
+				if tt.includes(V, Identical) {
 					alt = t.typ
 				}
 			}

@@ -170,7 +170,7 @@ func overlappingTerm(terms []*Term, y *Term) int {
 				panic("empty or top union term")
 			}
 		}
-		if !(*term)(x).disjoint((*term)(y)) {
+		if !(*term)(x).disjoint((*term)(y), Identical) {
 			return i
 		}
 	}

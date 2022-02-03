@@ -70,12 +70,12 @@ func TestTermEqual(t *testing.T) {
 		x := testTerm(args[0])
 		y := testTerm(args[1])
 		want := args[2] == "T"
-		if got := x.equal(y); got != want {
+		if got := x.equal(y, Identical); got != want {
 			t.Errorf("%v.equal(%v) = %v; want %v", x, y, got, want)
 		}
 		// equal is symmetric
 		x, y = y, x
-		if got := x.equal(y); got != want {
+		if got := x.equal(y, Identical); got != want {
 			t.Errorf("%v.equal(%v) = %v; want %v", x, y, got, want)
 		}
 	}
@@ -120,7 +120,7 @@ func TestTermUnion(t *testing.T) {
 		y := testTerm(args[1])
 		want1 := testTerm(args[2])
 		want2 := testTerm(args[3])
-		if got1, got2 := x.union(y); !got1.equal(want1) || !got2.equal(want2) {
+		if got1, got2 := x.union(y, Identical); !got1.equal(want1, Identical) || !got2.equal(want2, Identical) {
 			t.Errorf("%v.union(%v) = %v, %v; want %v, %v", x, y, got1, got2, want1, want2)
 		}
 	}
@@ -149,12 +149,12 @@ func TestTermIntersection(t *testing.T) {
 		x := testTerm(args[0])
 		y := testTerm(args[1])
 		want := testTerm(args[2])
-		if got := x.intersect(y); !got.equal(want) {
+		if got := x.intersect(y, Identical); !got.equal(want, Identical) {
 			t.Errorf("%v.intersect(%v) = %v; want %v", x, y, got, want)
 		}
 		// intersect is symmetric
 		x, y = y, x
-		if got := x.intersect(y); !got.equal(want) {
+		if got := x.intersect(y, Identical); !got.equal(want, Identical) {
 			t.Errorf("%v.intersect(%v) = %v; want %v", x, y, got, want)
 		}
 	}
@@ -175,7 +175,7 @@ func TestTermIncludes(t *testing.T) {
 		x := testTerm(args[0])
 		y := testTerm(args[1]).typ
 		want := args[2] == "T"
-		if got := x.includes(y); got != want {
+		if got := x.includes(y, Identical); got != want {
 			t.Errorf("%v.includes(%v) = %v; want %v", x, y, got, want)
 		}
 	}
@@ -205,7 +205,7 @@ func TestTermSubsetOf(t *testing.T) {
 		x := testTerm(args[0])
 		y := testTerm(args[1])
 		want := args[2] == "T"
-		if got := x.subsetOf(y); got != want {
+		if got := x.subsetOf(y, Identical); got != want {
 			t.Errorf("%v.subsetOf(%v) = %v; want %v", x, y, got, want)
 		}
 	}
@@ -228,12 +228,12 @@ func TestTermDisjoint(t *testing.T) {
 		x := testTerm(args[0])
 		y := testTerm(args[1])
 		want := args[2] == "T"
-		if got := x.disjoint(y); got != want {
+		if got := x.disjoint(y, Identical); got != want {
 			t.Errorf("%v.disjoint(%v) = %v; want %v", x, y, got, want)
 		}
 		// disjoint is symmetric
 		x, y = y, x
-		if got := x.disjoint(y); got != want {
+		if got := x.disjoint(y, Identical); got != want {
 			t.Errorf("%v.disjoint(%v) = %v; want %v", x, y, got, want)
 		}
 	}

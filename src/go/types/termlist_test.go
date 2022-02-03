@@ -99,7 +99,7 @@ func TestTermlistNorm(t *testing.T) {
 		{"~int ∪ string ∪ myInt ∪ ~string ∪ int", "~int ∪ ~string"},
 	} {
 		xl := maketl(test.xl)
-		got := maketl(test.xl).norm()
+		got := maketl(test.xl).norm(Identical)
 		if got.String() != test.want {
 			t.Errorf("(%v).norm() = %v; want %v", xl, got, test.want)
 		}
@@ -128,7 +128,7 @@ func TestTermlistSingleType(t *testing.T) {
 		"∅ ∪ ~int ∪ string": "nil",
 	} {
 		xl := maketl(test)
-		got := tstring(xl.singleType())
+		got := tstring(xl.singleType(Identical))
 		if got != want {
 			t.Errorf("(%v).singleType() == %v; want %v", test, got, want)
 		}
@@ -157,7 +157,7 @@ func TestTermlistUnion(t *testing.T) {
 	} {
 		xl := maketl(test.xl)
 		yl := maketl(test.yl)
-		got := xl.union(yl).String()
+		got := xl.union(yl, Identical).String()
 		if got != test.want {
 			t.Errorf("(%v).union(%v) = %v; want %v", test.xl, test.yl, got, test.want)
 		}
@@ -188,7 +188,7 @@ func TestTermlistIntersect(t *testing.T) {
 	} {
 		xl := maketl(test.xl)
 		yl := maketl(test.yl)
-		got := xl.intersect(yl).String()
+		got := xl.intersect(yl, Identical).String()
 		if got != test.want {
 			t.Errorf("(%v).intersect(%v) = %v; want %v", test.xl, test.yl, got, test.want)
 		}
@@ -212,7 +212,7 @@ func TestTermlistEqual(t *testing.T) {
 	} {
 		xl := maketl(test.xl)
 		yl := maketl(test.yl)
-		got := xl.equal(yl)
+		got := xl.equal(yl, Identical)
 		if got != test.want {
 			t.Errorf("(%v).equal(%v) = %v; want %v", test.xl, test.yl, got, test.want)
 		}
@@ -238,7 +238,7 @@ func TestTermlistIncludes(t *testing.T) {
 	} {
 		xl := maketl(test.xl)
 		yl := testTerm(test.typ).typ
-		got := xl.includes(yl)
+		got := xl.includes(yl, Identical)
 		if got != test.want {
 			t.Errorf("(%v).includes(%v) = %v; want %v", test.xl, yl, got, test.want)
 		}
@@ -274,7 +274,7 @@ func TestTermlistSupersetOf(t *testing.T) {
 	} {
 		xl := maketl(test.xl)
 		y := testTerm(test.typ)
-		got := xl.supersetOf(y)
+		got := xl.supersetOf(y, Identical)
 		if got != test.want {
 			t.Errorf("(%v).supersetOf(%v) = %v; want %v", test.xl, y, got, test.want)
 		}
@@ -305,7 +305,7 @@ func TestTermlistSubsetOf(t *testing.T) {
 	} {
 		xl := maketl(test.xl)
 		yl := maketl(test.yl)
-		got := xl.subsetOf(yl)
+		got := xl.subsetOf(yl, Identical)
 		if got != test.want {
 			t.Errorf("(%v).subsetOf(%v) = %v; want %v", test.xl, test.yl, got, test.want)
 		}

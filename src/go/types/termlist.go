@@ -59,7 +59,7 @@ func (xl termlist) isAll() bool {
 }
 
 // norm returns the normal form of xl.
-func (xl termlist) norm() termlist {
+func (xl termlist) norm(identical func(x, y Type) bool) termlist {
 	// Quadratic algorithm, but good enough for now.
 	// TODO(gri) fix asymptotic performance
 	used := make([]bool, len(xl))
@@ -73,7 +73,7 @@ func (xl termlist) norm() termlist {
 			if xj == nil || used[j] {
 				continue
 			}
-			if u1, u2 := xi.union(xj); u2 == nil {
+			if u1, u2 := xi.union(xj, identical); u2 == nil {
 				// If we encounter a 𝓤 term, the entire list is 𝓤.
 				// Exit early.
 				// (Note that this is not just an optimization;
@@ -94,20 +94,20 @@ func (xl termlist) norm() termlist {
 
 // If the type set represented by xl is specified by a single (non-𝓤) term,
 // singleType returns that type. Otherwise it returns nil.
-func (xl termlist) singleType() Type {
-	if nl := xl.norm(); len(nl) == 1 {
+func (xl termlist) singleType(identical func(x, y Type) bool) Type {
+	if nl := xl.norm(identical); len(nl) == 1 {
 		return nl[0].typ // if nl.isAll() then typ is nil, which is ok
 	}
 	return nil
 }
 
 // union returns the union xl ∪ yl.
-func (xl termlist) union(yl termlist) termlist {
-	return append(xl, yl...).norm()
+func (xl termlist) union(yl termlist, identical func(x, y Type) bool) termlist {
+	return append(xl, yl...).norm(identical)
 }
 
 // intersect returns the intersection xl ∩ yl.
-func (xl termlist) intersect(yl termlist) termlist {
+func (xl termlist) intersect(yl termlist, identical func(x, y Type) bool) termlist {
 	if xl.isEmpty() || yl.isEmpty() {
 		return nil
 	}
@@ -117,24 +117,25 @@ func (xl termlist) intersect(yl termlist) termlist {
 	var rl termlist
 	for _, x := range xl {
 		for _, y := range yl {
-			if r := x.intersect(y); r != nil {
+			if r := x.intersect(y, identical); r != nil {
 				rl = append(rl, r)
 			}
 		}
 	}
-	return rl.norm()
+	return rl.norm(identical)
 }
 
 // equal reports whether xl and yl represent the same type set.
-func (xl termlist) equal(yl termlist) bool {
+func (xl termlist) equal(yl termlist, identical func(x, y Type) bool) bool {
 	// TODO(gri) this should be more efficient
-	return xl.subsetOf(yl) && yl.subsetOf(xl)
+	// We need to invert the x/y relationship when calling yl.subsetOf
+	return xl.subsetOf(yl, identical) && yl.subsetOf(xl, func(y, x Type) bool { return identical(x, y) })
 }
 
 // includes reports whether t ∈ xl.
-func (xl termlist) includes(t Type) bool {
+func (xl termlist) includes(t Type, identical func(x, y Type) bool) bool {
 	for _, x := range xl {
-		if x.includes(t) {
+		if x.includes(t, identical) {
 			return true
 		}
 	}
@@ -142,9 +143,9 @@ func (xl termlist) includes(t Type) bool {
 }
 
 // supersetOf reports whether y ⊆ xl.
-func (xl termlist) supersetOf(y *term) bool {
+func (xl termlist) supersetOf(y *term, identical func(x, y Type) bool) bool {
 	for _, x := range xl {
-		if y.subsetOf(x) {
+		if y.subsetOf(x, identical) {
 			return true
 		}
 	}
@@ -152,14 +153,14 @@ func (xl termlist) supersetOf(y *term) bool {
 }
 
 // subsetOf reports whether xl ⊆ yl.
-func (xl termlist) subsetOf(yl termlist) bool {
+func (xl termlist) subsetOf(yl termlist, identical func(x, y Type) bool) bool {
 	if yl.isEmpty() {
 		return xl.isEmpty()
 	}
 
 	// each term x of xl must be a subset of yl
 	for _, x := range xl {
-		if !yl.supersetOf(x) {
+		if !yl.supersetOf(x, identical) {
 			return false // x is not a subset yl
 		}
 	}
