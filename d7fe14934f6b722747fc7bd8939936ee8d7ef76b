@@ -90,6 +90,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "527946d4_29cddc3a",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1755,
+      "author": {
+        "id": 34636
+      },
+      "writtenOn": "2022-02-03T19:31:24Z",
+      "side": 1,
+      "message": "If I remove it, the test continues to deadlock.\n\nWhat I noticed when I was first exploring the patch was that the deadlock thread always had a non-nil value for curg, which made sense to me if the code was blocked inside a syscall and hadn\u0027t fully parked in response to the stoptheworld this function had initiated.\n\nIn the cases where the code was held stopm()d this value was always nil.\n\n[FWIW I\u0027ve reworded some of the comments here.]",
+      "parentUuid": "2c33e30f_fc1c9c5c",
+      "revId": "d7fe14934f6b722747fc7bd8939936ee8d7ef76b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2fb18336_5536d685",
@@ -120,6 +138,24 @@
       "writtenOn": "2022-02-03T18:07:43Z",
       "side": 1,
       "message": "This seems like an odd place to put this, since it\u0027s right in the middle of some setup code for the rest of this function. Does it have to be here, or can it be next to the other sigPreempt block below?",
+      "revId": "d7fe14934f6b722747fc7bd8939936ee8d7ef76b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "557abe04_905cebf8",
+        "filename": "src/runtime/signal_unix.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 34636
+      },
+      "writtenOn": "2022-02-03T19:31:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "60c4be73_14c56526",
       "revId": "d7fe14934f6b722747fc7bd8939936ee8d7ef76b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
