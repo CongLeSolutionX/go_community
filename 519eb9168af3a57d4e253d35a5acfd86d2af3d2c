@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8b93cff_33cf4870",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-02-03T20:50:10Z",
+      "side": 1,
+      "message": "s/propsal/proposal/\n\nRefer to the issue as https://go.dev/issue/50770 or just #50770.  Or just write\n\nFixes #50770\n\nwhich you probably want anyhow.",
+      "revId": "519eb9168af3a57d4e253d35a5acfd86d2af3d2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5048c74_de62cbc1",
+        "filename": "src/time/time.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-02-03T20:50:10Z",
+      "side": 1,
+      "message": "This looks right but for my taste the assigment to tc and uc is a bit hidden.  How about\n\n    else {\n        tc, uc \u003d t.sec(), u.sec()\n        if tc \u003d\u003d uc {\n            tc, uc \u003d int64(t.nsec()), int64(t.usec())\n        }\n    }",
+      "revId": "519eb9168af3a57d4e253d35a5acfd86d2af3d2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
