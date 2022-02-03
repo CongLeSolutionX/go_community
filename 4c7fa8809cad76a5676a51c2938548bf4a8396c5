@@ -94,6 +94,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3f7f21d9_efacc142",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1759,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-02-03T22:03:17Z",
+      "side": 1,
+      "message": "The use of preemptM here is problematic due to interactions with `mp.signalPending`, which we don\u0027t handle.\n\n1. sighandler calls `mDoFixup` prior to `doSigPreempt`, which clears `mp.signalPending`. Thus if this call races with deliver of another `preemptM` signal, the signal handler could be past the `mDoFixup` call (thus not running the fixup), while this `preemptM` sees `mp.signalPending` is set and does not send another signal.\n\nI get a deadlock due to this with only a few hundred iterations of TestAllThreadsSyscallBlockedSyscall locally.\n\n2. If asynchronous preemption is disabled, `doSigPreempt` does not run and `mp.signalPending` is never cleared. Thus this function would send a signal only exactly once.\n\nThese could both be resolved by better handling in the signal handler:\n* Clear `mp.signalPending` even if async preemption is disabled.\n* Run `mDoFixup` after clearing `mp.signalPending`.\n\nThough IMO it would be simpler and cleaner to use `signalM` directly and avoid this interaction entirely. I know this isn\u0027t defined on every OS, but perhaps a fixUpPokeM for each OS? (Or maybe we should move syscall_runtime_doAllThreadsSyscall in its entirety to os_linux.go)",
+      "revId": "4c7fa8809cad76a5676a51c2938548bf4a8396c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "815f8609_eadecd0d",
         "filename": "src/syscall/syscall_linux_test.go",
         "patchSetId": 6
