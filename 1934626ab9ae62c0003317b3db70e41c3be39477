@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "274298ff_3ea6f710",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28615
+      },
+      "writtenOn": "2022-02-04T20:19:00Z",
+      "side": 1,
+      "message": "As a tactical matter, we don\u0027t run that package\u0027s tests on Fuchsia infrastructure - so that matters slightly less.\n\nIf we\u0027re clamping max, and realizing that round tripping through getrlimit -\u003e setrlimit causes a problem, we probably do want to query kern.maxfilelimit. Do you agree?",
+      "parentUuid": "77f8cccc_43f94399",
+      "revId": "1934626ab9ae62c0003317b3db70e41c3be39477",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "963135b0_d54cfbc9",
         "filename": "src/syscall/syscall_unix_test.go",
         "patchSetId": 2
