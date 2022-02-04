@@ -954,6 +954,7 @@ func parseCertificate(der []byte) (*Certificate, error) {
 				return nil, errors.New("x509: malformed extensions")
 			}
 			if present {
+				seenExts := make(map[string]bool)
 				if !extensions.ReadASN1(&extensions, cryptobyte_asn1.SEQUENCE) {
 					return nil, errors.New("x509: malformed extensions")
 				}
@@ -966,6 +967,10 @@ func parseCertificate(der []byte) (*Certificate, error) {
 					if err != nil {
 						return nil, err
 					}
+					if seenExts[ext.Id.String()] {
+						return nil, errors.New("x509: certificate contains duplicate extensions")
+					}
+					seenExts[ext.Id.String()] = true
 					cert.Extensions = append(cert.Extensions, ext)
 				}
 				err = processExtensions(cert)
