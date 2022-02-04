@@ -428,3 +428,7 @@ func raise(sig uint32) {
 func signalM(mp *m, sig int) {
 	lwp_kill(int32(mp.procid), sig)
 }
+
+//go:nosplit
+func runPerThreadSyscall() {
+}
