@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6845c56_ee424bc7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-02-04T19:29:38Z",
+      "side": 1,
+      "message": "What are the values on your systems?  There is nothing special about 4096 except that it happens to work.  What if we just change it to 256?",
+      "revId": "1934626ab9ae62c0003317b3db70e41c3be39477",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "963135b0_d54cfbc9",
+        "filename": "src/syscall/syscall_unix_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-02-04T19:29:38Z",
+      "side": 1,
+      "message": "The zero variable is a bit easier to read than this new code, doesn\u0027t seem necessary to change that.",
+      "revId": "1934626ab9ae62c0003317b3db70e41c3be39477",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9655d4dc_91a5d5d4",
+        "filename": "src/syscall/syscall_unix_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-02-04T19:29:38Z",
+      "side": 1,
+      "message": "I don\u0027t think this is going to work on Dragonfly and FreeBSD, where the type of the Cur field is int64.  It\u0027s unfortunate that we wound up with different field types on different systems but not sure we can do much about that now.",
+      "revId": "1934626ab9ae62c0003317b3db70e41c3be39477",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
