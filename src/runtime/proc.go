@@ -170,6 +170,7 @@ func main() {
 		// For runtime_syscall_doAllThreadsSyscall, we
 		// register sysmon is not ready for the world to be
 		// stopped.
+		// XXX
 		atomic.Store(&sched.sysmonStarting, 1)
 		systemstack(func() {
 			newm(sysmon, nil, -1)
@@ -1443,16 +1444,9 @@ func mstartm0() {
 //go:nosplit
 func mPark() {
 	g := getg()
-	for {
-		notesleep(&g.m.park)
-		// Note, because of signal handling by this parked m,
-		// a preemptive mDoFixup() may actually occur via
-		// mDoFixupAndOSYield(). (See golang.org/issue/44193)
-		noteclear(&g.m.park)
-		if !mDoFixup() {
-			return
-		}
-	}
+	notesleep(&g.m.park)
+	noteclear(&g.m.park)
+	return
 }
 
 // mexit tears down and exits the current thread.
@@ -1671,131 +1665,84 @@ func forEachP(fn func(*p)) {
 // syscall_runtime_doAllThreadsSyscall first invokes fn(true) on a
 // single, coordinating, m, and only if it returns true does it go on
 // to invoke fn(false) on all of the other m's known to the process.
+// XXX: update
 //
 //go:linkname syscall_runtime_doAllThreadsSyscall syscall.runtime_doAllThreadsSyscall
-func syscall_runtime_doAllThreadsSyscall(fn func(bool) bool) {
+func syscall_runtime_doAllThreadsSyscall(trap, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2, err uintptr) {
 	if iscgo {
 		panic("doAllThreadsSyscall not supported with cgo enabled")
 	}
-	if fn == nil {
-		return
+
+	// STW to synchronize access to allm. We can't allow addition of new Ms
+	// while we try to reach them all.
+	//
+	// Note that allocm adds new Ms to allm prior to starting the new OS
+	// thread. We must wait for the thread to start and assign procid
+	// before we can signal it. STW will not prevent new threads from
+	// starting.
+	//
+	// STW also synchronizes concurrent calls to this function, preventing
+	// concurrent mutation of mp.mFixup.
+	stopTheWorld("doAllThreadsSyscall")
+
+	r1, r2, errno := syscall_RawSyscall6(trap, a1, a2, a3, a4, a5, a6)
+	if GOARCH == "ppc64" || GOARCH == "ppc64le" {
+		// ppc64 doesn't use r2.
+		r2 = 0
 	}
-	for atomic.Load(&sched.sysmonStarting) != 0 {
+	if errno != 0 {
+		startTheWorld()
+		return r1, r2, errno
+	}
+
+	mFixupArgs = fixupArgs{
+		trap: trap,
+		a1:   a1,
+		a2:   a2,
+		a3:   a3,
+		a4:   a4,
+		a5:   a5,
+		a6:   a6,
+		r1:   r1,
+		r2:   r2,
+	}
+
+	gp := getg()
+	tid := gp.m.procid
+	for mp := allm; mp != nil; mp = mp.alllink {
+		// XXX: atomic
+		if mp.procid == tid {
+			// This m has already completed fn()
+			// call.
+			continue
+		}
+		for atomic.Load64(&mp.procid) == 0 {
+			// Thread is starting.
+			osyield()
+		}
+		mp.needFixup.Store(1)
+		signalM(mp, sigPreempt)
+	}
+
+	for {
+		done := true
+		for mp := allm; done && mp != nil; mp = mp.alllink {
+			if mp.procid == tid {
+				continue
+			}
+			done = mp.needFixup.Load() == 0
+		}
+		if done {
+			break
+		}
 		osyield()
 	}
 
-	// We don't want this thread to handle signals for the
-	// duration of this critical section. The underlying issue
-	// being that this locked coordinating m is the one monitoring
-	// for fn() execution by all the other m's of the runtime,
-	// while no regular go code execution is permitted (the world
-	// is stopped). If this present m were to get distracted to
-	// run signal handling code, and find itself waiting for a
-	// second thread to execute go code before being able to
-	// return from that signal handling, a deadlock will result.
-	// (See golang.org/issue/44193.)
-	lockOSThread()
-	var sigmask sigset
-	sigsave(&sigmask)
-	sigblock(false)
+	mFixupArgs = fixupArgs{}
 
-	stopTheWorldGC("doAllThreadsSyscall")
-	if atomic.Load(&newmHandoff.haveTemplateThread) != 0 {
-		// Ensure that there are no in-flight thread
-		// creations: don't want to race with allm.
-		lock(&newmHandoff.lock)
-		for !newmHandoff.waiting {
-			unlock(&newmHandoff.lock)
-			osyield()
-			lock(&newmHandoff.lock)
-		}
-		unlock(&newmHandoff.lock)
-	}
-	if netpollinited() {
-		netpollBreak()
-	}
-	sigRecvPrepareForFixup()
-	_g_ := getg()
-	if raceenabled {
-		// For m's running without racectx, we loan out the
-		// racectx of this call.
-		lock(&mFixupRace.lock)
-		mFixupRace.ctx = _g_.racectx
-		unlock(&mFixupRace.lock)
-	}
-	if ok := fn(true); ok {
-		tid := _g_.m.procid
-		for mp := allm; mp != nil; mp = mp.alllink {
-			if mp.procid == tid {
-				// This m has already completed fn()
-				// call.
-				continue
-			}
-			// Be wary of mp's without procid values if
-			// they are known not to park. If they are
-			// marked as parking with a zero procid, then
-			// they will be racing with this code to be
-			// allocated a procid and we will annotate
-			// them with the need to execute the fn when
-			// they acquire a procid to run it.
-			if mp.procid == 0 && !mp.doesPark {
-				// Reaching here, we are either
-				// running Windows, or cgo linked
-				// code. Neither of which are
-				// currently supported by this API.
-				throw("unsupported runtime environment")
-			}
-			// stopTheWorldGC() doesn't guarantee stopping
-			// all the threads, so we lock here to avoid
-			// the possibility of racing with mp.
-			lock(&mp.mFixup.lock)
-			mp.mFixup.fn = fn
-			atomic.Store(&mp.mFixup.used, 1)
-			if mp.doesPark {
-				// For non-service threads this will
-				// cause the wakeup to be short lived
-				// (once the mutex is unlocked). The
-				// next real wakeup will occur after
-				// startTheWorldGC() is called.
-				notewakeup(&mp.park)
-			}
-			unlock(&mp.mFixup.lock)
-		}
-		for {
-			done := true
-			for mp := allm; done && mp != nil; mp = mp.alllink {
-				if mp.procid == tid {
-					continue
-				}
-				done = atomic.Load(&mp.mFixup.used) == 0
-			}
-			if done {
-				break
-			}
-			// if needed force sysmon and/or newmHandoff to wakeup.
-			lock(&sched.lock)
-			if atomic.Load(&sched.sysmonwait) != 0 {
-				atomic.Store(&sched.sysmonwait, 0)
-				notewakeup(&sched.sysmonnote)
-			}
-			unlock(&sched.lock)
-			lock(&newmHandoff.lock)
-			if newmHandoff.waiting {
-				newmHandoff.waiting = false
-				notewakeup(&newmHandoff.wake)
-			}
-			unlock(&newmHandoff.lock)
-			osyield()
-		}
-	}
-	if raceenabled {
-		lock(&mFixupRace.lock)
-		mFixupRace.ctx = 0
-		unlock(&mFixupRace.lock)
-	}
-	startTheWorldGC()
-	msigrestore(sigmask)
-	unlockOSThread()
+	startTheWorld()
+
+	return r1, r2, errno
 }
 
 // runSafePointFn runs the safe point function, if any, for this P.
@@ -1848,7 +1795,6 @@ type cgothreadstart struct {
 //go:yeswritebarrierrec
 func allocm(_p_ *p, fn func(), id int64) *m {
 	_g_ := getg()
-	acquirem() // disable GC because it can be called from sysmon
 	if _g_.m.p == 0 {
 		acquirep(_p_) // temporarily borrow p for mallocs in this function
 	}
@@ -1894,7 +1840,6 @@ func allocm(_p_ *p, fn func(), id int64) *m {
 	if _p_ == _g_.m.p.ptr() {
 		releasep()
 	}
-	releasem(_g_.m)
 
 	return mp
 }
@@ -2204,6 +2149,16 @@ var newmHandoff struct {
 // id is optional pre-allocated m ID. Omit by passing -1.
 //go:nowritebarrierrec
 func newm(fn func(), _p_ *p, id int64) {
+	// allocm adds new Ms to allm, but they do not start until created with
+	// the OS in newm1 or the template thread.
+	//
+	// doAllThreadsSyscall requires that every M in allm will eventually
+	// start and be signal-able, even with a STW.
+	//
+	// Disable preemption here until we start the thread to ensure that
+	// anything added to allm is guaranteed to eventually start.
+	acquirem()
+
 	mp := allocm(_p_, fn, id)
 	mp.doesPark = (_p_ != nil)
 	mp.nextp.set(_p_)
@@ -2231,9 +2186,14 @@ func newm(fn func(), _p_ *p, id int64) {
 			notewakeup(&newmHandoff.wake)
 		}
 		unlock(&newmHandoff.lock)
+		// The M has not started yet, but the template thread does not
+		// participate in STW, so it will always process queued Ms and
+		// it is safe to releasem.
+		releasem(getg().m)
 		return
 	}
 	newm1(mp)
+	releasem(getg().m)
 }
 
 func newm1(mp *m) {
@@ -2281,14 +2241,22 @@ func startTemplateThread() {
 	releasem(mp)
 }
 
-// mFixupRace is used to temporarily borrow the race context from the
-// coordinating m during a syscall_runtime_doAllThreadsSyscall and
-// loan it out to each of the m's of the runtime so they can execute a
-// mFixup.fn in that context.
-var mFixupRace struct {
-	lock mutex
-	ctx  uintptr
+//go:linkname syscall_RawSyscall6 syscall.RawSyscall6
+func syscall_RawSyscall6(trap, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2, err uintptr)
+
+type fixupArgs struct {
+	trap uintptr
+	a1   uintptr
+	a2   uintptr
+	a3   uintptr
+	a4   uintptr
+	a5   uintptr
+	a6   uintptr
+	r1   uintptr
+	r2   uintptr
 }
+
+var mFixupArgs fixupArgs
 
 // mDoFixup runs any outstanding fixup function for the running m.
 // Returns true if a fixup was outstanding and actually executed.
@@ -2296,64 +2264,27 @@ var mFixupRace struct {
 // Note: to avoid deadlocks, and the need for the fixup function
 // itself to be async safe, signals are blocked for the working m
 // while it holds the mFixup lock. (See golang.org/issue/44193)
+// XXX: update
 //
 //go:nosplit
-func mDoFixup() bool {
-	_g_ := getg()
-	if used := atomic.Load(&_g_.m.mFixup.used); used == 0 {
-		return false
+func mDoFixup() {
+	gp := getg()
+	if gp.m.needFixup.Load() == 0 {
+		return
 	}
 
-	// slow path - if fixup fn is used, block signals and lock.
-	var sigmask sigset
-	sigsave(&sigmask)
-	sigblock(false)
-	lock(&_g_.m.mFixup.lock)
-	fn := _g_.m.mFixup.fn
-	if fn != nil {
-		if gcphase != _GCoff {
-			// We can't have a write barrier in this
-			// context since we may not have a P, but we
-			// clear fn to signal that we've executed the
-			// fixup. As long as fn is kept alive
-			// elsewhere, technically we should have no
-			// issues with the GC, but fn is likely
-			// generated in a different package altogether
-			// that may change independently. Just assert
-			// the GC is off so this lack of write barrier
-			// is more obviously safe.
-			throw("GC must be disabled to protect validity of fn value")
-		}
-		if _g_.racectx != 0 || !raceenabled {
-			fn(false)
-		} else {
-			// temporarily acquire the context of the
-			// originator of the
-			// syscall_runtime_doAllThreadsSyscall and
-			// block others from using it for the duration
-			// of the fixup call.
-			lock(&mFixupRace.lock)
-			_g_.racectx = mFixupRace.ctx
-			fn(false)
-			_g_.racectx = 0
-			unlock(&mFixupRace.lock)
-		}
-		*(*uintptr)(unsafe.Pointer(&_g_.m.mFixup.fn)) = 0
-		atomic.Store(&_g_.m.mFixup.used, 0)
+	r1, r2, errno := syscall_RawSyscall6(mFixupArgs.trap, mFixupArgs.a1, mFixupArgs.a2, mFixupArgs.a3, mFixupArgs.a4, mFixupArgs.a5, mFixupArgs.a6)
+	if GOARCH == "ppc64" || GOARCH == "ppc64le" {
+		// ppc64 doesn't use r2.
+		r2 = 0
 	}
-	unlock(&_g_.m.mFixup.lock)
-	msigrestore(sigmask)
-	return fn != nil
-}
+	if errno != 0 || r1 != mFixupArgs.r1 || r2 != mFixupArgs.r2 {
+		print("trap:", mFixupArgs.trap, ", a123456=[", mFixupArgs.a1, ",", mFixupArgs.a2, ",", mFixupArgs.a3, ",", mFixupArgs.a4, ",", mFixupArgs.a5, ",", mFixupArgs.a6, "]\n")
+		print("results: got {r1=", r1, ",r2=", r2, ",errno=", errno, "}, want {r1=", mFixupArgs.r1, ",r2=", mFixupArgs.r2, ",errno=0\n")
+		throw("AllThreadsSyscall6 results differ between threads; runtime corrupted")
+	}
 
-// mDoFixupAndOSYield is called when an m is unable to send a signal
-// because the allThreadsSyscall mechanism is in progress. That is, an
-// mPark() has been interrupted with this signal handler so we need to
-// ensure the fixup is executed from this context.
-//go:nosplit
-func mDoFixupAndOSYield() {
-	mDoFixup()
-	osyield()
+	gp.m.needFixup.Store(0)
 }
 
 // templateThread is a thread in a known-good state that exists solely
@@ -2392,7 +2323,6 @@ func templateThread() {
 		noteclear(&newmHandoff.wake)
 		unlock(&newmHandoff.lock)
 		notesleep(&newmHandoff.wake)
-		mDoFixup()
 	}
 }
 
@@ -5242,6 +5172,7 @@ func sysmon() {
 
 	// For syscall_runtime_doAllThreadsSyscall, sysmon is
 	// sufficiently up to participate in fixups.
+	// XXX: remove
 	atomic.Store(&sched.sysmonStarting, 0)
 
 	lasttrace := int64(0)
@@ -5258,7 +5189,6 @@ func sysmon() {
 			delay = 10 * 1000
 		}
 		usleep(delay)
-		mDoFixup()
 
 		// sysmon should not enter deep sleep if schedtrace is enabled so that
 		// it can print that information at the right time.
@@ -5295,7 +5225,6 @@ func sysmon() {
 						osRelax(true)
 					}
 					syscallWake = notetsleep(&sched.sysmonnote, sleep)
-					mDoFixup()
 					if shouldRelax {
 						osRelax(false)
 					}
@@ -5338,7 +5267,6 @@ func sysmon() {
 				incidlelocked(1)
 			}
 		}
-		mDoFixup()
 		if GOOS == "netbsd" && needSysmonWorkaround {
 			// netpoll is responsible for waiting for timer
 			// expiration, so we typically don't have to worry

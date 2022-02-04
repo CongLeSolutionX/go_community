@@ -21,6 +21,7 @@
 // sigFixup is a transient state that can only exist as a short
 // transition from sigReceiving and then on to sigIdle: it is
 // used to ensure the AllThreadsSyscall()'s mDoFixup() operation
+// XXX: update
 // occurs on the sleeping m, waiting to receive a signal.
 // Transitions between states are done atomically with CAS.
 // When signal_recv is unblocked, it resets sig.Note and rechecks sig.mask.
@@ -63,7 +64,7 @@ const (
 	sigIdle = iota
 	sigReceiving
 	sigSending
-	sigFixup
+	sigFixup // XXX
 )
 
 // sigsend delivers a signal from sighandler to the internal signal delivery queue.
@@ -117,27 +118,11 @@ Send:
 				notewakeup(&sig.note)
 				break Send
 			}
-		case sigFixup:
-			// nothing to do - we need to wait for sigIdle.
-			mDoFixupAndOSYield()
 		}
 	}
 
 	atomic.Xadd(&sig.delivering, -1)
 	return true
-}
-
-// sigRecvPrepareForFixup is used to temporarily wake up the
-// signal_recv() running thread while it is blocked waiting for the
-// arrival of a signal. If it causes the thread to wake up, the
-// sig.state travels through this sequence: sigReceiving -> sigFixup
-// -> sigIdle -> sigReceiving and resumes. (This is only called while
-// GC is disabled.)
-//go:nosplit
-func sigRecvPrepareForFixup() {
-	if atomic.Cas(&sig.state, sigReceiving, sigFixup) {
-		notewakeup(&sig.note)
-	}
 }
 
 // Called to receive the next queued signal.
@@ -167,16 +152,7 @@ func signal_recv() uint32 {
 					}
 					notetsleepg(&sig.note, -1)
 					noteclear(&sig.note)
-					if !atomic.Cas(&sig.state, sigFixup, sigIdle) {
-						break Receive
-					}
-					// Getting here, the code will
-					// loop around again to sleep
-					// in state sigReceiving. This
-					// path is taken when
-					// sigRecvPrepareForFixup()
-					// has been called by another
-					// thread.
+					break Receive
 				}
 			case sigSending:
 				if atomic.Cas(&sig.state, sigSending, sigIdle) {

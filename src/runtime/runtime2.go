@@ -564,15 +564,8 @@ type m struct {
 	syscalltick   uint32
 	freelink      *m // on sched.freem
 
-	// mFixup is used to synchronize OS related m state
-	// (credentials etc) use mutex to access. To avoid deadlocks
-	// an atomic.Load() of used being zero in mDoFixupFn()
-	// guarantees fn is nil.
-	mFixup struct {
-		lock mutex
-		used uint32
-		fn   func(bool) bool
-	}
+	// XXX: change name from fixup to something more obvious.
+	needFixup atomic.Uint8
 
 	// these are here because they are too large to be on the stack
 	// of low-level NOSPLIT functions.
