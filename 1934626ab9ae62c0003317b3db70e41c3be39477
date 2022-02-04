@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "840bc97f_506f17d7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-02-04T20:37:49Z",
+      "side": 1,
+      "message": "The point of the test is only to check that getrlimit sees the value written by setrlimit.  If we clamp the values to 128, will that work on your systems?  If so, let\u0027s do that.  Querying kern.maxfilelimit just adds complexity that is irrelevant to the test.  Let\u0027s avoid that if there is any possible way to do that.\n\nAnother approach would be to check a value other than RLIMIT_NOFILE.",
+      "parentUuid": "274298ff_3ea6f710",
+      "revId": "1934626ab9ae62c0003317b3db70e41c3be39477",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "963135b0_d54cfbc9",
         "filename": "src/syscall/syscall_unix_test.go",
         "patchSetId": 2
