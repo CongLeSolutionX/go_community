@@ -70,6 +70,9 @@ const (
 // useless), and even if it is, the application has to be ready for
 // spurious SIGURG. SIGIO wouldn't be a bad choice either, but is more
 // likely to be used for real.
+//
+// This signal is also used to request per-thread syscall execution from
+// doAllThreadsSyscall.
 const sigPreempt = _SIGURG
 
 // Stores the signal handlers registered before Go installed its own.
@@ -616,12 +619,15 @@ func sighandler(sig uint32, info *siginfo, ctxt unsafe.Pointer, gp *g) {
 		return
 	}
 
-	if sig == sigPreempt && debug.asyncpreemptoff == 0 {
-		// Might be a preemption signal.
-		doSigPreempt(gp, c)
-		// Even if this was definitely a preemption signal, it
-		// may have been coalesced with another signal, so we
-		// still let it through to the application.
+	if sig == sigPreempt {
+		runPerThreadSyscall()
+		if debug.asyncpreemptoff == 0 {
+			// Might be a preemption signal.
+			doSigPreempt(gp, c)
+			// Even if this was definitely a preemption signal, it
+			// may have been coalesced with another signal, so we
+			// still let it through to the application.
+		}
 	}
 
 	flags := int32(_SigThrow)
