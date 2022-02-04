@@ -460,3 +460,7 @@ func raise(sig uint32) {
 func signalM(mp *m, sig int) {
 	thr_kill(thread(mp.procid), sig)
 }
+
+//go:nosplit
+func runPerThreadSyscall() {
+}

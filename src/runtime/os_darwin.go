@@ -459,3 +459,7 @@ func sysargs(argc int32, argv **byte) {
 func signalM(mp *m, sig int) {
 	pthread_kill(pthread(mp.procid), uint32(sig))
 }
+
+//go:nosplit
+func runPerThreadSyscall() {
+}
