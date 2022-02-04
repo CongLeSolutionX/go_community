@@ -70,6 +70,9 @@ const (
 // useless), and even if it is, the application has to be ready for
 // spurious SIGURG. SIGIO wouldn't be a bad choice either, but is more
 // likely to be used for real.
+//
+// This signal is also used to request per-thread syscall execution from
+// doAllThreadsSyscall.
 const sigPreempt = _SIGURG
 
 // Stores the signal handlers registered before Go installed its own.
@@ -159,6 +162,13 @@ func sigInstallGoHandler(sig uint32) bool {
 		if atomic.Loaduintptr(&fwdSig[sig]) == _SIG_IGN {
 			return false
 		}
+	}
+
+	if GOOS == "linux" && !iscgo && sig == sigPerThreadSyscall {
+		// sigPerThreadSyscall is the same signal used by glibc for
+		// per-thread syscalls on Linux. We use it for the same purpose
+		// in non-cgo binaries.
+		return true
 	}
 
 	t := &sigtable[sig]
@@ -613,6 +623,15 @@ func sighandler(sig uint32, info *siginfo, ctxt unsafe.Pointer, gp *g) {
 	}
 
 	if sig == _SIGUSR1 && testSigusr1 != nil && testSigusr1(gp) {
+		return
+	}
+
+	if GOOS == "linux" && sig == sigPerThreadSyscall {
+		// sigPerThreadSyscall is the same signal used by glibc for
+		// per-thread syscalls on Linux. We use it for the same purpose
+		// in non-cgo binaries. Since this signal is not _SigNotify,
+		// there is nothing more to do once we run the syscall.
+		runPerThreadSyscall()
 		return
 	}
 
