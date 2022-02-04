@@ -634,3 +634,7 @@ func sysauxv(auxv []uintptr) {
 		}
 	}
 }
+
+//go:nosplit
+func runPerThreadSyscall() {
+}

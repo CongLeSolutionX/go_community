@@ -373,3 +373,7 @@ func setNonblock(fd int32) {
 	flags := fcntl(fd, _F_GETFL, 0)
 	fcntl(fd, _F_SETFL, flags|_O_NONBLOCK)
 }
+
+//go:nosplit
+func runPerThreadSyscall() {
+}

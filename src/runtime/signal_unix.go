@@ -616,12 +616,15 @@ func sighandler(sig uint32, info *siginfo, ctxt unsafe.Pointer, gp *g) {
 		return
 	}
 
-	if sig == sigPreempt && debug.asyncpreemptoff == 0 {
-		// Might be a preemption signal.
-		doSigPreempt(gp, c)
-		// Even if this was definitely a preemption signal, it
-		// may have been coalesced with another signal, so we
-		// still let it through to the application.
+	if sig == sigPreempt {
+		runPerThreadSyscall()
+		if debug.asyncpreemptoff == 0 {
+			// Might be a preemption signal.
+			doSigPreempt(gp, c)
+			// Even if this was definitely a preemption signal, it
+			// may have been coalesced with another signal, so we
+			// still let it through to the application.
+		}
 	}
 
 	flags := int32(_SigThrow)
