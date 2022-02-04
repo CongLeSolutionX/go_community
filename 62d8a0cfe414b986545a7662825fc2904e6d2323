@@ -34,6 +34,24 @@
       "parentUuid": "68efc8cb_dcea4922",
       "revId": "62d8a0cfe414b986545a7662825fc2904e6d2323",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66e404e8_248049a1",
+        "filename": "src/crypto/ecdsa/ecdsa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 28759
+      },
+      "writtenOn": "2022-02-04T18:32:53Z",
+      "side": 0,
+      "message": "LGTM",
+      "parentUuid": "7baef06f_1bf1cbec",
+      "revId": "62d8a0cfe414b986545a7662825fc2904e6d2323",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
