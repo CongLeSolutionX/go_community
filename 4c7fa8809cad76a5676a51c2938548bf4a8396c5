@@ -109,6 +109,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "07961b09_a8a9c164",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1759,
+      "author": {
+        "id": 34636
+      },
+      "writtenOn": "2022-02-05T07:03:51Z",
+      "side": 1,
+      "message": "I like the idea of putting the function in `runtime/os_linux.go` . After all, this whole thing is intended to work around a Linux ABI difficulty with Go\u0027s expectation of threads. As such, the moved code now uses `signalM()`.",
+      "parentUuid": "3f7f21d9_efacc142",
+      "revId": "4c7fa8809cad76a5676a51c2938548bf4a8396c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "815f8609_eadecd0d",
@@ -122,6 +140,30 @@
       "writtenOn": "2022-02-03T21:34:54Z",
       "side": 1,
       "message": "The goroutine is very unlikely to switch Ms from this Gosched (the same M will simply run it again immediately). The M we are running on also shouldn\u0027t matter at all.\n\nI don\u0027t think this Gosched should be necessary at all, but if it is, I think this comment should just say \"Give other goroutines an opportunity to run.\"",
+      "range": {
+        "startLine": 618,
+        "startChar": 2,
+        "endLine": 619,
+        "endChar": 18
+      },
+      "revId": "4c7fa8809cad76a5676a51c2938548bf4a8396c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7fc4a67_e125c5be",
+        "filename": "src/syscall/syscall_linux_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 34636
+      },
+      "writtenOn": "2022-02-05T07:03:51Z",
+      "side": 1,
+      "message": "The mechanism under test treats the calling m specially, I wanted to try to make sure changing m doesn\u0027t have corner case issues.",
+      "parentUuid": "815f8609_eadecd0d",
       "range": {
         "startLine": 618,
         "startChar": 2,

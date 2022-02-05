@@ -144,6 +144,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4915375a_998ed175",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1755,
+      "author": {
+        "id": 34636
+      },
+      "writtenOn": "2022-02-05T07:03:51Z",
+      "side": 1,
+      "message": "I\u0027ve been exploring this. I moved the allthreads function from proc.go into os_linux to be able to use signalM() as you suggest. I also blocked interrupts and put a lock around the code changing the m.curg linkage inside dropg().\n\nI started running the test with --test.count\u003d60000 under the debugger and it occasionally generates a panic stemming from runtime.acquirep(0x0) as called from inside stopm().\n\nIn an initial version of this patch I added an extra loop in stopm() to avoid that crash, but removed it at some point when I simplified the patch following discussion with Austin (patchset 2 -\u003e 3).\n\nMy working theory for why this loop is needed is that if there is a out of band sigPreempt aimed at an mp we think we\u0027re using the note to run the fixup on, that out of band signal will trigger the fixup and our notewakeup() will cause mPark() to return to soon.\n\nI put that checking loop back in and --test.count\u003d60000 under the debugger now works reliably.",
+      "parentUuid": "2311b5a7_c241309e",
+      "revId": "d7fe14934f6b722747fc7bd8939936ee8d7ef76b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2fb18336_5536d685",
