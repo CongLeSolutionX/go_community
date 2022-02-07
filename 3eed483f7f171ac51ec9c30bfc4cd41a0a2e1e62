@@ -55,6 +55,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d341dd1_dd163844",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34636
+      },
+      "writtenOn": "2022-02-07T22:38:41Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "3eed483f7f171ac51ec9c30bfc4cd41a0a2e1e62",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "63a803a2_5972613f",
@@ -74,6 +91,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cd9cac4c_8c8a71b5",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 2278,
+      "author": {
+        "id": 34636
+      },
+      "writtenOn": "2022-02-07T22:38:41Z",
+      "side": 1,
+      "message": "I\u0027ve been unable to think of a simpler way to achieve the same protection. I\u0027ll think some more or add such a comment.",
+      "parentUuid": "63a803a2_5972613f",
+      "revId": "3eed483f7f171ac51ec9c30bfc4cd41a0a2e1e62",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3f2625e5_554c98c7",
         "filename": "src/runtime/proc.go",
         "patchSetId": 7
@@ -85,6 +120,24 @@
       "writtenOn": "2022-02-07T20:47:43Z",
       "side": 1,
       "message": "We need to find a different way to do this. This adds at least two system calls on every single goroutine switch (which currently involves none).",
+      "revId": "3eed483f7f171ac51ec9c30bfc4cd41a0a2e1e62",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9dd78e9f_e86cf49f",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 3294,
+      "author": {
+        "id": 34636
+      },
+      "writtenOn": "2022-02-07T22:38:41Z",
+      "side": 1,
+      "message": "Micheal pointed out that there is a race associated with using `mp.curg !\u003d nil`, and this was a way to eliminate it. I\u0027m not convinced the race has consequences. I\u0027m happy to remove this part of the change if Michael agrees it isn\u0027t needed.\n\nThe reason for the `sigblock()` is that if we introduce a `lock()` here, we have to be sure that nothing in the signal handling path attempts to grab that same lock - but the fixup function execution does grab that lock so handling an interrupt would deadlock if we didn\u0027t block signals here.",
+      "parentUuid": "3f2625e5_554c98c7",
       "revId": "3eed483f7f171ac51ec9c30bfc4cd41a0a2e1e62",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
