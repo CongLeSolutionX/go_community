@@ -702,3 +702,26 @@ func (state *peLoaderState) preprocessSymbols() error {
 	}
 	return nil
 }
+
+// PossiblyAddCtorDtor checks to see whether we have references (from
+// host objects, presumably) to the symbols "__CTOR_LIST__" and/or
+// "__DTOR_LIST__" (which are needed in some circumstances), and if
+// these are still unresolved, creates dummy/empty versions of them.
+func PossiblyAddCtorDtor(l *loader.Loader, arch *sys.Arch) int {
+	returnAllUndefs := -1
+	undefs := l.UndefinedRelocTargets(returnAllUndefs)
+	added := 0
+	for _, symIdx := range undefs {
+		name := l.SymName(symIdx)
+		if name == "__CTOR_LIST__" || name == "__DTOR_LIST__" {
+			sb := l.CreateSymForUpdate(name, 0)
+			sb.SetType(sym.SDATA)
+			sb.AddUint64(arch, 0)
+			sb.SetReachable(true)
+			l.SetAttrSpecial(sb.Sym(), true)
+			//l.SetAttrLocal(sb.Sym(), true)
+			added++
+		}
+	}
+	return added
+}

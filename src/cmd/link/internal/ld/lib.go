@@ -628,6 +628,13 @@ func (ctxt *Link) loadlib() {
 				if p := ctxt.findLibPath("libmsvcrt.a"); p != "none" {
 					hostArchive(ctxt, p)
 				}
+				// If needed, create the __CTOR_LIST__ and __DTOR_LIST__
+				// symbols, normally done by the linker if not already
+				// present.
+				symsAdded := loadpe.PossiblyAddCtorDtor(ctxt.loader, ctxt.Arch)
+				if ctxt.Debugvlog != 0 {
+					ctxt.Logf("added %d CTOR/DTOR syms\n", symsAdded)
+				}
 				// TODO: maybe do something similar to peimporteddlls to collect all lib names
 				// and try link them all to final exe just like libmingwex.a and libmingw32.a:
 				/*
