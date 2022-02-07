@@ -663,6 +663,15 @@ func loadWindowsHostArchives(ctxt *Link) {
 			any = true
 		}
 	}
+	// If needed, create the __CTOR_LIST__ and __DTOR_LIST__
+	// symbols, normally done by the linker if not already
+	// present.
+	want := []string{"__CTOR_LIST__", "__DTOR_LIST__"}
+	isunresolved := symbolsAreUnresolved(ctxt, want)
+	symsAdded := loadpe.PossiblyAddCtorDtor(ctxt.loader, ctxt.Arch, want, isunresolved)
+	if ctxt.Debugvlog != 0 {
+		ctxt.Logf("added %d CTOR/DTOR syms\n", symsAdded)
+	}
 	// TODO: maybe do something similar to peimporteddlls to collect
 	// all lib names and try link them all to final exe just like
 	// libmingwex.a and libmingw32.a:
