@@ -6,3 +6,11 @@
 // without source arguments. Use for one-off debugging.
 
 package p
+
+// func f[T int]() {}  // using this f doesn't produce the error
+
+func _[P int]() {
+	_ = f[P] // ERROR P does not implement int (int is not an interface)
+}
+
+func f[T int]() {}  // using this f produces the error
