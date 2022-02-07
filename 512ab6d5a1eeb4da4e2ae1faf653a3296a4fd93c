@@ -78,6 +78,30 @@
       },
       "revId": "512ab6d5a1eeb4da4e2ae1faf653a3296a4fd93c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13958879_72ae6769",
+        "filename": "src/cmd/compile/internal/types2/instantiate.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-02-07T20:54:06Z",
+      "side": 1,
+      "message": "This is the trace for the small test case:\n\n/* line  7 */ func _[P int]() {\n/* line  8 */ \t_ \u003d f[P]\n/* line  9 */ }\n/* line 10 */ \n/* line 11 */ func f[T int]() {}\n\ntestdata/fixedbugs/issue51048.go2:7:6:  -- checking func _ (white, objPath \u003d )\ntestdata/fixedbugs/issue51048.go2:7:10: .  -- type int\ntestdata/fixedbugs/issue51048.go2:7:10: .  \u003d\u003e int // *Basic\ntestdata/fixedbugs/issue51048.go2:7:6:  \u003d\u003e func _[P int]() (black)\n\ntestdata/fixedbugs/issue51048.go2:11:6: -- checking func f (white, objPath \u003d )\ntestdata/fixedbugs/issue51048.go2:11:10:        .  -- type int\ntestdata/fixedbugs/issue51048.go2:11:10:        .  \u003d\u003e int // *Basic\ntestdata/fixedbugs/issue51048.go2:11:6: \u003d\u003e func f[T int]() (black)\n\n\u003d\u003d processDelayed \u003d\u003d\ntestdata/fixedbugs/issue51048.go2:7:8:  type set for int\ntestdata/fixedbugs/issue51048.go2:7:8:  \u003d\u003e {int} \ntestdata/fixedbugs/issue51048.go2:7:17: --- _: func[P₁ int]()\ntestdata/fixedbugs/issue51048.go2:8:7:  expr f[P]\ntestdata/fixedbugs/issue51048.go2:8:6:  .  expr f\ntestdata/fixedbugs/issue51048.go2:8:6:  .  \u003d\u003e f (value of type func[T int]())\ntestdata/fixedbugs/issue51048.go2:8:8:  .  -- type P\ntestdata/fixedbugs/issue51048.go2:8:8:  .  \u003d\u003e P₁ (under \u003d int) // *TypeParam\ntestdata/fixedbugs/issue51048.go2:8:6:  .  -- instantiating func[T₂ int]() with [P₁]\ntestdata/fixedbugs/issue51048.go2:8:6:  .  \u003d\u003e func() (under \u003d func())\ntestdata/fixedbugs/issue51048.go2:8:7:  \u003d\u003e f[P] (value of type func())\ntestdata/fixedbugs/issue51048.go2:11:8: type set for int\ntestdata/fixedbugs/issue51048.go2:11:8: \u003d\u003e {int} \ntestdata/fixedbugs/issue51048.go2:9:1:  --- \u003cend\u003e\ntestdata/fixedbugs/issue51048.go2:11:17:        --- f: func[T₂ int]()\ntestdata/fixedbugs/issue51048.go2:11:18:        --- \u003cend\u003e\n\nWe delay the following actions:\n1) type set computation for P\n2) verification of instantiation f[P]\n3) type set computation of T\n\nThese delayed actions are processed in the same order. When we do 2) we need the result of 3). We don\u0027t have it yet, so we force it.\n\nWhen we are processing delayed actions, it should always be ok to force computation of anything we need at that time because all the information should be present.\n\nThe delayed actions ensure that at the top-level we compute all the information we should be computing eventually (and as soon as we can, but no earlier). But within the processing of these actions, we don\u0027t have an order enforced. And sometimes it can be different that the order of the delayed actions.\n\nIn any case, I believe this change is safe. I\u0027m not sure that there\u0027s an earlier/alternative place where this should happen.",
+      "parentUuid": "eba5c2b7_51a1c7bc",
+      "range": {
+        "startLine": 138,
+        "startChar": 2,
+        "endLine": 139,
+        "endChar": 14
+      },
+      "revId": "512ab6d5a1eeb4da4e2ae1faf653a3296a4fd93c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
