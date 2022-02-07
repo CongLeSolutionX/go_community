@@ -18,6 +18,7 @@ import (
 	"fmt"
 	"io"
 	"strings"
+	"unsafe"
 )
 
 const (
@@ -140,10 +141,38 @@ const (
 	IMAGE_SCN_CNT_CODE               = 0x00000020
 	IMAGE_SCN_CNT_INITIALIZED_DATA   = 0x00000040
 	IMAGE_SCN_CNT_UNINITIALIZED_DATA = 0x00000080
+	IMAGE_SCN_LNK_COMDAT             = 0x00001000
 	IMAGE_SCN_MEM_DISCARDABLE        = 0x02000000
 	IMAGE_SCN_MEM_EXECUTE            = 0x20000000
 	IMAGE_SCN_MEM_READ               = 0x40000000
 	IMAGE_SCN_MEM_WRITE              = 0x80000000
+)
+
+// AuxFormat5 describes the expected form of an aux symbol attached to
+// a section definition. See https://docs.microsoft.com/en-us/windows/win32/debug/pe-format#auxiliary-format-5-section-definitions for more on what's going on here.
+//
+// At the moment the debug/pe package doesn't do anything with aux
+// symbols, so clients are left on their own to dig out this info.
+// TODO(thanm): promote reading of aux def symbols to debug/pe.
+type AuxFormat5 struct {
+	Size           uint32
+	NumRelocs      uint16
+	NumLineNumbers uint16
+	Checksum       uint32
+	SecNum         uint16
+	Selection      uint8
+	Padding        [3]uint8
+}
+
+// These constants make up the possible values for the 'Selection'
+// field in an AuxFormat5.
+const (
+	IMAGE_COMDAT_SELECT_NODUPLICATES = 1
+	IMAGE_COMDAT_SELECT_ANY          = 2
+	IMAGE_COMDAT_SELECT_SAME_SIZE    = 3
+	IMAGE_COMDAT_SELECT_EXACT_MATCH  = 4
+	IMAGE_COMDAT_SELECT_ASSOCIATIVE  = 5
+	IMAGE_COMDAT_SELECT_LARGEST      = 6
 )
 
 // TODO(brainman): maybe just add ReadAt method to bio.Reader instead of creating peBiobuf
@@ -180,11 +209,17 @@ type peLoaderState struct {
 	arch            *sys.Arch
 	lookup          func(string, int) loader.Sym
 	f               *pe.File
+	pn              string
 	sectsyms        map[*pe.Section]loader.Sym
 	defWithImp      map[string]struct{}
+	comdats         map[uint16]struct{} // key is section index
 	sectdata        map[*pe.Section][]byte
 	localSymVersion int
 }
+
+// comdatDefinitions records the names of symbols for which we've
+// previously seen a definition in COMDAT.
+var comdatDefinitions = make(map[string]struct{})
 
 // Load loads the PE file pn from input.
 // Symbols are written into syms, and a slice of the text symbols is returned.
@@ -198,6 +233,7 @@ func Load(l *loader.Loader, arch *sys.Arch, localSymVersion int, input *bio.Read
 		sectsyms:        make(map[*pe.Section]loader.Sym),
 		sectdata:        make(map[*pe.Section][]byte),
 		localSymVersion: localSymVersion,
+		pn:              pn,
 	}
 
 	// Some input files are archives containing multiple of
@@ -467,6 +503,15 @@ func Load(l *loader.Loader, arch *sys.Arch, localSymVersion int, input *bio.Read
 			return nil, nil, nil
 		}
 
+		if _, ok1 := state.comdats[uint16(pesym.SectionNumber-1)]; ok1 {
+			if _, ok2 := comdatDefinitions[l.SymName(s)]; ok2 {
+				// OK to discard, we've seen an instance already.
+				// TODO: add checks to make sure each
+				// instance has the same type, size, etc.
+				continue
+			}
+		}
+
 		if l.OuterSym(s) != 0 {
 			if l.AttrDuplicateOK(s) {
 				continue
@@ -487,6 +532,14 @@ func Load(l *loader.Loader, arch *sys.Arch, localSymVersion int, input *bio.Read
 				return nil, nil, fmt.Errorf("%s: duplicate symbol definition", l.SymName(s))
 			}
 			bld.SetExternal(true)
+		}
+		if _, ok := state.comdats[uint16(pesym.SectionNumber-1)]; ok {
+			// This is a COMDAT definition. Record that we're picking
+			// this instance so that we can ignore future defs.
+			if _, ok := comdatDefinitions[l.SymName(s)]; ok {
+				panic(fmt.Sprintf("found existing comdat def for %s [%d] in %s, should never happen", name, s, pn))
+			}
+			comdatDefinitions[l.SymName(s)] = struct{}{}
 		}
 	}
 
@@ -585,8 +638,20 @@ func (state *peLoaderState) readpesym(pesym *pe.COFFSymbol) (*loader.SymbolBuild
 // reading and looks for cases where we have both a symbol definition
 // for "XXX" and an "__imp_XXX" symbol, recording these cases in a map
 // in the state struct. This information will be used in readpesym()
-// above to give such symbols special treatment.
+// above to give such symbols special treatment. This function also
+// gathers information about COMDAT sections/symbols for later use
+// in readpesym().
 func (state *peLoaderState) preprocessSymbols() error {
+
+	// Locate comdat sections.
+	state.comdats = make(map[uint16]struct{})
+	for i, s := range state.f.Sections {
+		if s.Characteristics&uint32(IMAGE_SCN_LNK_COMDAT) != 0 {
+			state.comdats[uint16(i)] = struct{}{}
+		}
+	}
+
+	// Examine symbol defs.
 	imp := make(map[string]struct{})
 	def := make(map[string]struct{})
 	for i, numaux := 0, 0; i < len(state.f.COFFSymbols); i += numaux + 1 {
@@ -602,6 +667,31 @@ func (state *peLoaderState) preprocessSymbols() error {
 		def[symname] = struct{}{}
 		if strings.HasPrefix(symname, "__imp_") {
 			imp[strings.TrimPrefix(symname, "__imp_")] = struct{}{}
+		}
+		if _, isc := state.comdats[uint16(pesym.SectionNumber-1)]; !isc {
+			continue
+		}
+		if pesym.StorageClass != uint8(IMAGE_SYM_CLASS_STATIC) {
+			continue
+		}
+		// This symbol corresponds to a COMDAT section.
+		if numaux == 0 {
+			// This should never happen.
+			return fmt.Errorf("malformed aux for sec-def symbol %d %s", i, symname)
+		}
+		// COMDAT section symbol. Read the successor AUX symbol
+		// (see https://docs.microsoft.com/en-us/windows/win32/debug/pe-format#comdat-sections-object-only)
+		//
+		// This is pretty gross, but I don't see a cleaner way to
+		// handle this short of adding new code and APIs to debug/pe.
+		pesymn := &state.f.COFFSymbols[i+1]
+		up := unsafe.Pointer(pesymn)
+		aux := (*AuxFormat5)(up)
+		if aux.Selection != IMAGE_COMDAT_SELECT_ANY {
+			// We don't support strategies other than "any" right at
+			// the moment. I suspect that we may need to also support
+			// "associative", we'll see.
+			return fmt.Errorf("internal error: unsupported COMDAT selection strategy found in path=%s sec=%d strategy=%d idx=%d, please file a bug", state.pn, aux.SecNum, aux.Selection, i)
 		}
 	}
 	state.defWithImp = make(map[string]struct{})
