@@ -102,6 +102,30 @@
       },
       "revId": "512ab6d5a1eeb4da4e2ae1faf653a3296a4fd93c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3de6a01f_601cd1cd",
+        "filename": "src/cmd/compile/internal/types2/instantiate.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-02-07T20:58:25Z",
+      "side": 1,
+      "message": "Ack, I\u0027m going to +2 this CL as I agree that it should be safe.\n\nI understand now, thanks for the trace. IMO (2) should happen after (3), i.e. we should not type-check function bodies until we\u0027re finished with all other delayed actions. In fact, I misremembered and thought we already did this.",
+      "parentUuid": "13958879_72ae6769",
+      "range": {
+        "startLine": 138,
+        "startChar": 2,
+        "endLine": 139,
+        "endChar": 14
+      },
+      "revId": "512ab6d5a1eeb4da4e2ae1faf653a3296a4fd93c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
