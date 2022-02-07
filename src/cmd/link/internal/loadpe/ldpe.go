@@ -610,3 +610,23 @@ func (state *peLoaderState) preprocessSymbols() error {
 	}
 	return nil
 }
+
+// PossiblyAddCtorDtor creates (if needed) the symbols "__CTOR_LIST__"
+// and/or "__DTOR_LIST__" (which are referenced by some of the mingw
+// support library routines); 'want' holds the names of the symbols in
+// question, and 'isun' stores whether there are references to a given
+// symbol.
+func PossiblyAddCtorDtor(l *loader.Loader, arch *sys.Arch, want []string, isun []bool) int {
+	added := 0
+	for k, w := range want {
+		if isun[k] {
+			sb := l.CreateSymForUpdate(w, 0)
+			sb.SetType(sym.SDATA)
+			sb.AddUint64(arch, 0)
+			sb.SetReachable(true)
+			l.SetAttrSpecial(sb.Sym(), true)
+			added++
+		}
+	}
+	return added
+}
