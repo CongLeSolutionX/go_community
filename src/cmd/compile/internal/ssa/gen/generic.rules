@@ -37,6 +37,19 @@
 // succ* fields must be variables
 // For now, the generated successors must be a permutation of the matched successors.
 
+// Since len(x) returns non-negative values, emit an unsigned
+// comparison for the values -- this helps the arch-dependent
+// optimizations to generate the appropriate compare-with-zero variants.
+//
+// TODO(quasilyte): use something like leq32 => leq32u rewrite?
+// Right now it would introduce more codegen changes, some of them
+// involve increased text segment.
+//
+// Rules below are enough to help in `s[1:]` and `s[:1]` cases
+// as well in things like `len(s) >= 1`.
+(Leq(64|32) (Const(64|32) <t> [1]) y:(StringLen _)) => (Neq(64|32) (Const(64|32) <t> [0]) y)
+(Leq(64|32) (Const(64|32) <t> [1]) y:(SliceLen _)) => (Neq(64|32) (Const(64|32) <t> [0]) y)
+
 // constant folding
 (Trunc16to8  (Const16  [c])) => (Const8   [int8(c)])
 (Trunc32to8  (Const32  [c])) => (Const8   [int8(c)])

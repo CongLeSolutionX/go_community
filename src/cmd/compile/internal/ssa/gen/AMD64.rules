@@ -500,6 +500,12 @@
 (If (SETAE cmp) yes no) => (UGE cmp yes no)
 (If (SETO cmp) yes no) => (OS cmp yes no)
 
+// Special case some unsigned comparisons with 1 - generate a comparison with 0.
+(SETAE (CMP(Q|L|W|B)const <t> [1] y)) => (SETNE (TEST(Q|L|W|B) y y))
+(UGE (CMP(Q|L|W|B)const <t> [1] y) yes no) => (NE (TEST(Q|L|W|B) y y) yes no)
+(SETB (CMP(Q|L|W|B)const <t> [1] y)) => (SETEQ (TEST(Q|L|W|B) y y))
+(ULT (CMP(Q|L|W|B)const <t> [1] y) yes no) => (EQ (TEST(Q|L|W|B) y y) yes no)
+
 // Special case for floating point - LF/LEF not generated
 (If (SETGF  cmp) yes no) => (UGT  cmp yes no)
 (If (SETGEF cmp) yes no) => (UGE  cmp yes no)

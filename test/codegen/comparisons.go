@@ -251,61 +251,81 @@ func CmpLogicalToZero(a, b, c uint32, d, e uint64) uint64 {
 	return 0
 }
 
+func Slice1Bytes(b []byte) []byte {
+	// amd64: `TESTQ` -`CMPQ`
+	return b[1:]
+}
+
+func Slice1String(s string) string {
+	// amd64: `TESTQ` -`CMPQ`
+	return s[1:]
+}
+
 // The following CmpToZero_ex* check that cmp|cmn with bmi|bpl are generated for
 // 'comparing to zero' expressions
 
 // var + const
 // 'x-const' might be canonicalized to 'x+(-const)', so we check both
 // CMN and CMP for subtraction expressions to make the pattern robust.
-func CmpToZero_ex1(a int64, e int32) int {
+func CmpToZero_ex1(a int64, e int32, b []byte, s string) int {
+	// amd64: `TEST[QLWB]` -`CMP[QLWB]`
 	// arm64:`CMN`,-`ADD`,`(BMI|BPL)`
 	if a+3 < 0 {
 		return 1
 	}
 
+	// amd64: `TEST[QLWB]` -`CMP[QLWB]`
 	// arm64:`CMN`,-`ADD`,`BEQ`,`(BMI|BPL)`
 	if a+5 <= 0 {
 		return 1
 	}
 
+	// amd64: `TEST[QLWB]` -`CMP[QLWB]`
 	// arm64:`CMN`,-`ADD`,`(BMI|BPL)`
 	if a+13 >= 0 {
 		return 2
 	}
 
+	// amd64: `TEST[QLWB]` -`CMP[QLWB]`
 	// arm64:`CMP|CMN`,-`(ADD|SUB)`,`(BMI|BPL)`
 	if a-7 < 0 {
 		return 3
 	}
 
+	// amd64: `TEST[QLWB]` -`CMP[QLWB]`
 	// arm64:`CMP|CMN`,-`(ADD|SUB)`,`(BMI|BPL)`
 	if a-11 >= 0 {
 		return 4
 	}
 
+	// amd64: `TEST[QLWB]` -`CMP[QLWB]`
 	// arm64:`CMP|CMN`,-`(ADD|SUB)`,`BEQ`,`(BMI|BPL)`
 	if a-19 > 0 {
 		return 4
 	}
 
+	// amd64: `TEST[QLWB]` -`CMP[QLWB]`
 	// arm64:`CMNW`,-`ADDW`,`(BMI|BPL)`
 	// arm:`CMN`,-`ADD`,`(BMI|BPL)`
 	if e+3 < 0 {
 		return 5
 	}
 
+	// amd64: `TEST[QLWB]` -`CMP[QLWB]`
 	// arm64:`CMNW`,-`ADDW`,`(BMI|BPL)`
 	// arm:`CMN`,-`ADD`,`(BMI|BPL)`
 	if e+13 >= 0 {
 		return 6
 	}
 
+	// amd64: `TEST[QLWB]` -`CMP[QLWB]`
 	// arm64:`CMPW|CMNW`,`(BMI|BPL)`
 	// arm:`CMP|CMN`, -`(ADD|SUB)`, `(BMI|BPL)`
 	if e-7 < 0 {
 		return 7
 	}
 
+	// amd64: `TEST[QLWB]` -`CMP[QLWB]`
 	// arm64:`CMPW|CMNW`,`(BMI|BPL)`
 	// arm:`CMP|CMN`, -`(ADD|SUB)`, `(BMI|BPL)`
 	if e-11 >= 0 {
@@ -315,30 +335,91 @@ func CmpToZero_ex1(a int64, e int32) int {
 	return 0
 }
 
+func CmpToZero_ex1len(a int64, e int32, b []byte, s string) {
+	// amd64: `TEST[QLWB]` -`CMP[QLWB]`
+	if len(b)+5 <= 0 {
+		println(1)
+	}
+	// amd64: `TEST[QLWB]` -`CMP[QLWB]`
+	if len(s)+5 <= 0 {
+		println(2)
+	}
+
+	// amd64: `TEST[QLWB]` -`CMP[QLWB]`
+	if len(b)+13 >= 0 {
+		println(3)
+	}
+	// amd64: `TEST[QLWB]` -`CMP[QLWB]`
+	if len(s)+13 >= 0 {
+		println(4)
+	}
+
+	// amd64: `TEST[QLWB]` -`CMP[QLWB]`
+	if len(b)-7 < 0 {
+		println(5)
+	}
+	// amd64: `TEST[QLWB]` -`CMP[QLWB]`
+	if len(s)-7 < 0 {
+		println(6)
+	}
+
+	// amd64: `TEST[QLWB]` -`CMP[QLWB]`
+	if len(b)-11 >= 0 {
+		println(7)
+	}
+	// amd64: `TEST[QLWB]` -`CMP[QLWB]`
+	if len(s)-11 >= 0 {
+		println(8)
+	}
+
+	// amd64: `TEST[QLWB]` -`CMP[QLWB]`
+	if len(b)-19 > 0 {
+		println(9)
+	}
+	// amd64: `TEST[QLWB]` -`CMP[QLWB]`
+	if len(s)-19 > 0 {
+		println(10)
+	}
+
+	// amd64: `TEST[QLWB]` -`CMP[QLWB]`
+	if len(b)+3 < 0 {
+		println(11)
+	}
+	// amd64: `TEST[QLWB]` -`CMP[QLWB]`
+	if len(s)+3 < 0 {
+		println(12)
+	}
+}
+
 // var + var
 // TODO: optimize 'var - var'
 func CmpToZero_ex2(a, b, c int64, e, f, g int32) int {
+	// amd64: `TEST[QLWB]` -`CMP[QLWB]`
 	// arm64:`CMN`,-`ADD`,`(BMI|BPL)`
 	if a+b < 0 {
 		return 1
 	}
 
+	// amd64: `TEST[QLWB]` -`CMP[QLWB]`
 	// arm64:`CMN`,-`ADD`,`BEQ`,`(BMI|BPL)`
 	if a+c <= 0 {
 		return 1
 	}
 
 	// arm64:`CMN`,-`ADD`,`(BMI|BPL)`
+	// amd64: `TEST[QLWB]` -`CMP[QLWB]`
 	if b+c >= 0 {
 		return 2
 	}
 
+	// amd64: `TEST[QLWB]` -`CMP[QLWB]`
 	// arm64:`CMNW`,-`ADDW`,`(BMI|BPL)`
 	// arm:`CMN`,-`ADD`,`(BMI|BPL)`
 	if e+f < 0 {
 		return 5
 	}
 
+	// amd64: `TEST[QLWB]` -`CMP[QLWB]`
 	// arm64:`CMNW`,-`ADDW`,`(BMI|BPL)`
 	// arm:`CMN`,-`ADD`,`(BMI|BPL)`
 	if f+g >= 0 {
@@ -349,22 +430,26 @@ func CmpToZero_ex2(a, b, c int64, e, f, g int32) int {
 
 // var + var*var
 func CmpToZero_ex3(a, b, c, d int64, e, f, g, h int32) int {
+	// amd64: `TEST[QLWB]` -`CMP[QLWB]`
 	// arm64:`CMN`,-`MADD`,`MUL`,`(BMI|BPL)`
 	if a+b*c < 0 {
 		return 1
 	}
 
+	// amd64: `TEST[QLWB]` -`CMP[QLWB]`
 	// arm64:`CMN`,-`MADD`,`MUL`,`(BMI|BPL)`
 	if b+c*d >= 0 {
 		return 2
 	}
 
+	// amd64: `TEST[QLWB]` -`CMP[QLWB]`
 	// arm64:`CMNW`,-`MADDW`,`MULW`,`BEQ`,`(BMI|BPL)`
 	// arm:`CMN`,-`MULA`,`MUL`,`BEQ`,`(BMI|BPL)`
 	if e+f*g > 0 {
 		return 5
 	}
 
+	// amd64: `TEST[QLWB]` -`CMP[QLWB]`
 	// arm64:`CMNW`,-`MADDW`,`MULW`,`BEQ`,`(BMI|BPL)`
 	// arm:`CMN`,-`MULA`,`MUL`,`BEQ`,`(BMI|BPL)`
 	if f+g*h <= 0 {
@@ -375,21 +460,25 @@ func CmpToZero_ex3(a, b, c, d int64, e, f, g, h int32) int {
 
 // var - var*var
 func CmpToZero_ex4(a, b, c, d int64, e, f, g, h int32) int {
+	// amd64: `TEST[QLWB]` -`CMP[QLWB]`
 	// arm64:`CMP`,-`MSUB`,`MUL`,`BEQ`,`(BMI|BPL)`
 	if a-b*c > 0 {
 		return 1
 	}
 
+	// amd64: `TEST[QLWB]` -`CMP[QLWB]`
 	// arm64:`CMP`,-`MSUB`,`MUL`,`(BMI|BPL)`
 	if b-c*d >= 0 {
 		return 2
 	}
 
+	// amd64: `TEST[QLWB]` -`CMP[QLWB]`
 	// arm64:`CMPW`,-`MSUBW`,`MULW`,`(BMI|BPL)`
 	if e-f*g < 0 {
 		return 5
 	}
 
+	// amd64: `TEST[QLWB]` -`CMP[QLWB]`
 	// arm64:`CMPW`,-`MSUBW`,`MULW`,`(BMI|BPL)`
 	if f-g*h >= 0 {
 		return 6
@@ -398,17 +487,20 @@ func CmpToZero_ex4(a, b, c, d int64, e, f, g, h int32) int {
 }
 
 func CmpToZero_ex5(e, f int32, u uint32) int {
+	// amd64: `TEST[QLWB]` -`CMP[QLWB]`
 	// arm:`CMN`,-`ADD`,`BEQ`,`(BMI|BPL)`
 	if e+f<<1 > 0 {
 		return 1
 	}
 
+	// amd64: `TEST[QLWB]` -`CMP[QLWB]`
 	// arm:`CMP`,-`SUB`,`(BMI|BPL)`
 	if f-int32(u>>2) >= 0 {
 		return 2
 	}
 	return 0
 }
+
 func UintLtZero(a uint8, b uint16, c uint32, d uint64) int {
 	// amd64: -`(TESTB|TESTW|TESTL|TESTQ|JCC|JCS)`
 	// arm64: -`(CMPW|CMP|BHS|BLO)`
@@ -416,6 +508,19 @@ func UintLtZero(a uint8, b uint16, c uint32, d uint64) int {
 		return 1
 	}
 	return 0
+}
+
+func UintLtZeroLen(b []byte, s string) int {
+	// amd64: -`(TESTB|TESTW|TESTL|TESTQ|JCC|JCS)`
+	if len(b) < 0 || len(s) < 0 {
+		return 1
+	}
+	return 0
+}
+
+func UintLtZeroReturn(a uint8, b uint16, c uint32, d uint64) (bool, bool, bool, bool) {
+	// amd64: -`CMP[QLWB]`
+	return a < 0, b < 0, c < 0, d < 0
 }
 
 func UintGeqZero(a uint8, b uint16, c uint32, d uint64) int {
@@ -427,7 +532,21 @@ func UintGeqZero(a uint8, b uint16, c uint32, d uint64) int {
 	return 0
 }
 
+func UintLtGeqZeroLen(b []byte, s string) int {
+	// amd64: -`(TESTB|TESTW|TESTL|TESTQ|JCC|JCS)`
+	if len(b) >= 0 || len(s) >= 0 {
+		return 1
+	}
+	return 0
+}
+
+func UintGeqZeroReturn(a uint8, b uint16, c uint32, d uint64) (bool, bool, bool, bool) {
+	// amd64: -`CMP[QLWB]`
+	return a >= 0, b >= 0, c >= 0, d >= 0
+}
+
 func UintGtZero(a uint8, b uint16, c uint32, d uint64) int {
+	// amd64: `TEST[QLWB]` -`CMP[QLWB]`
 	// arm64: `(CBN?ZW)`, `(CBN?Z[^W])`, -`(CMPW|CMP|BLS|BHI)`
 	if a > 0 || b > 0 || c > 0 || d > 0 {
 		return 1
@@ -435,7 +554,27 @@ func UintGtZero(a uint8, b uint16, c uint32, d uint64) int {
 	return 0
 }
 
+func UintGtZeroLen(b []byte, s string) int {
+	// amd64: `TEST[QLWB]` -`CMP[QLWB]`
+	// arm64: `(CBN?ZW)`, `(CBN?Z[^W])`, -`(CMPW|CMP|BLS|BHI)`
+	if len(b) > 0 || len(s) > 0 {
+		return 1
+	}
+	return 0
+}
+
+func UintGtZeroLenReturn(b []byte, s string) (bool, bool) {
+	// amd64: `TEST[QLWB]` -`CMP[QLWB]`
+	return len(b) > 0, len(s) > 0
+}
+
+func UintGtZeroReturn(a uint8, b uint16, c uint32, d uint64) (bool, bool, bool, bool) {
+	// amd64: `TEST[QLWB]` -`CMP[QLWB]`
+	return a > 0, b > 0, c > 0, d > 0
+}
+
 func UintLeqZero(a uint8, b uint16, c uint32, d uint64) int {
+	// amd64: `TEST[QLWB]` -`CMP[QLWB]`
 	// arm64: `(CBN?ZW)`, `(CBN?Z[^W])`, -`(CMPW|CMP|BHI|BLS)`
 	if a <= 0 || b <= 0 || c <= 0 || d <= 0 {
 		return 1
@@ -443,7 +582,13 @@ func UintLeqZero(a uint8, b uint16, c uint32, d uint64) int {
 	return 0
 }
 
+func UintLeqZeroReturn(a uint8, b uint16, c uint32, d uint64) (bool, bool, bool, bool) {
+	// amd64: `TEST[QLWB]` -`CMP[QLWB]`
+	return a <= 0, b <= 0, c <= 0, d <= 0
+}
+
 func UintLtOne(a uint8, b uint16, c uint32, d uint64) int {
+	// amd64: `TEST[QLWB]` -`CMP[QLWB]`
 	// arm64: `(CBN?ZW)`, `(CBN?Z[^W])`, -`(CMPW|CMP|BHS|BLO)`
 	if a < 1 || b < 1 || c < 1 || d < 1 {
 		return 1
@@ -451,12 +596,36 @@ func UintLtOne(a uint8, b uint16, c uint32, d uint64) int {
 	return 0
 }
 
+func UintLtOneReturn(a uint8, b uint16, c uint32, d uint64) (bool, bool, bool, bool) {
+	// amd64: `TEST[QLWB]` -`CMP[QLWB]`
+	return a < 1, b < 1, c < 1, d < 1
+}
+
 func UintGeqOne(a uint8, b uint16, c uint32, d uint64) int {
+	// amd64: `TEST[QLWB]` -`CMP[QLWB]`
 	// arm64: `(CBN?ZW)`, `(CBN?Z[^W])`, -`(CMPW|CMP|BLO|BHS)`
 	if a >= 1 || b >= 1 || c >= 1 || d >= 1 {
 		return 1
 	}
 	return 0
+}
+
+func UintGeqOneLen(b []byte, s string) int {
+	// amd64: `TEST[QLWB]` -`CMP[QLWB]`
+	if len(b) >= 1 || len(s) >= 1 {
+		return 1
+	}
+	return 0
+}
+
+func UintGeqOneLenReturn(b []byte, s string) (bool, bool) {
+	// amd64: `TEST[QLWB]` -`CMP[QLWB]`
+	return len(b) >= 1, len(s) >= 1
+}
+
+func UintGeqOneReturn(a uint8, b uint16, c uint32, d uint64) (bool, bool, bool, bool) {
+	// amd64: `TEST[QLWB]` -`CMP[QLWB]`
+	return a >= 1, b >= 1, c >= 1, d >= 1
 }
 
 func CmpToZeroU_ex1(a uint8, b uint16, c uint32, d uint64) int {

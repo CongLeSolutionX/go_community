@@ -9761,6 +9761,47 @@ func rewriteValuegeneric_OpLeq16U(v *Value) bool {
 func rewriteValuegeneric_OpLeq32(v *Value) bool {
 	v_1 := v.Args[1]
 	v_0 := v.Args[0]
+	b := v.Block
+	// match: (Leq32 (Const32 <t> [1]) y:(StringLen _))
+	// result: (Neq32 (Const32 <t> [0]) y)
+	for {
+		if v_0.Op != OpConst32 {
+			break
+		}
+		t := v_0.Type
+		if auxIntToInt32(v_0.AuxInt) != 1 {
+			break
+		}
+		y := v_1
+		if y.Op != OpStringLen {
+			break
+		}
+		v.reset(OpNeq32)
+		v0 := b.NewValue0(v.Pos, OpConst32, t)
+		v0.AuxInt = int32ToAuxInt(0)
+		v.AddArg2(v0, y)
+		return true
+	}
+	// match: (Leq32 (Const32 <t> [1]) y:(SliceLen _))
+	// result: (Neq32 (Const32 <t> [0]) y)
+	for {
+		if v_0.Op != OpConst32 {
+			break
+		}
+		t := v_0.Type
+		if auxIntToInt32(v_0.AuxInt) != 1 {
+			break
+		}
+		y := v_1
+		if y.Op != OpSliceLen {
+			break
+		}
+		v.reset(OpNeq32)
+		v0 := b.NewValue0(v.Pos, OpConst32, t)
+		v0.AuxInt = int32ToAuxInt(0)
+		v.AddArg2(v0, y)
+		return true
+	}
 	// match: (Leq32 (Const32 [c]) (Const32 [d]))
 	// result: (ConstBool [c <= d])
 	for {
@@ -9875,6 +9916,47 @@ func rewriteValuegeneric_OpLeq32U(v *Value) bool {
 func rewriteValuegeneric_OpLeq64(v *Value) bool {
 	v_1 := v.Args[1]
 	v_0 := v.Args[0]
+	b := v.Block
+	// match: (Leq64 (Const64 <t> [1]) y:(StringLen _))
+	// result: (Neq64 (Const64 <t> [0]) y)
+	for {
+		if v_0.Op != OpConst64 {
+			break
+		}
+		t := v_0.Type
+		if auxIntToInt64(v_0.AuxInt) != 1 {
+			break
+		}
+		y := v_1
+		if y.Op != OpStringLen {
+			break
+		}
+		v.reset(OpNeq64)
+		v0 := b.NewValue0(v.Pos, OpConst64, t)
+		v0.AuxInt = int64ToAuxInt(0)
+		v.AddArg2(v0, y)
+		return true
+	}
+	// match: (Leq64 (Const64 <t> [1]) y:(SliceLen _))
+	// result: (Neq64 (Const64 <t> [0]) y)
+	for {
+		if v_0.Op != OpConst64 {
+			break
+		}
+		t := v_0.Type
+		if auxIntToInt64(v_0.AuxInt) != 1 {
+			break
+		}
+		y := v_1
+		if y.Op != OpSliceLen {
+			break
+		}
+		v.reset(OpNeq64)
+		v0 := b.NewValue0(v.Pos, OpConst64, t)
+		v0.AuxInt = int64ToAuxInt(0)
+		v.AddArg2(v0, y)
+		return true
+	}
 	// match: (Leq64 (Const64 [c]) (Const64 [d]))
 	// result: (ConstBool [c <= d])
 	for {
