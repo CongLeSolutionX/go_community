@@ -72,6 +72,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "71bd1797_cb53e25a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-02-08T20:13:32Z",
+      "side": 1,
+      "message": "I\u0027d appreciate a review of CL 383434 as well. I originally intended this as a 1.19 follow-up to simplify things, but given the complexity of this CL, I\u0027m slowly leaning towards using that for the backport instead.",
+      "revId": "3eed483f7f171ac51ec9c30bfc4cd41a0a2e1e62",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "63a803a2_5972613f",
@@ -138,6 +155,24 @@
       "side": 1,
       "message": "Micheal pointed out that there is a race associated with using `mp.curg !\u003d nil`, and this was a way to eliminate it. I\u0027m not convinced the race has consequences. I\u0027m happy to remove this part of the change if Michael agrees it isn\u0027t needed.\n\nThe reason for the `sigblock()` is that if we introduce a `lock()` here, we have to be sure that nothing in the signal handling path attempts to grab that same lock - but the fixup function execution does grab that lock so handling an interrupt would deadlock if we didn\u0027t block signals here.",
       "parentUuid": "3f2625e5_554c98c7",
+      "revId": "3eed483f7f171ac51ec9c30bfc4cd41a0a2e1e62",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2b38a4e_4da941a9",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 3294,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-02-08T20:13:32Z",
+      "side": 1,
+      "message": "\u003e I\u0027m not convinced the race has consequences.\n\nI\u0027m not either, I think we should drop this in favor of keeping the race, which I don\u0027t love but haven\u0027t thought of a bad condition.",
+      "parentUuid": "9dd78e9f_e86cf49f",
       "revId": "3eed483f7f171ac51ec9c30bfc4cd41a0a2e1e62",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
