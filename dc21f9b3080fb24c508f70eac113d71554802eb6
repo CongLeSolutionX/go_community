@@ -59,6 +59,30 @@
       },
       "revId": "dc21f9b3080fb24c508f70eac113d71554802eb6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "24d28973_e639bb47",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 809,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-02-08T05:08:52Z",
+      "side": 1,
+      "message": "In this CL I\u0027m trying to just restore the same behavior that was in 1.17, because we know that that was acceptable.  At this stage in the release I would prefer to postpone any improvements until 1.19.",
+      "parentUuid": "dce8eda5_9dbfa0f8",
+      "range": {
+        "startLine": 807,
+        "startChar": 0,
+        "endLine": 809,
+        "endChar": 2
+      },
+      "revId": "dc21f9b3080fb24c508f70eac113d71554802eb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
