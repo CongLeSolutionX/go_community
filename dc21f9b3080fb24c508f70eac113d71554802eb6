@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "589395cc_bb62cdef",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-02-08T22:12:03Z",
+      "side": 1,
+      "message": "I think it\u0027s a 1 in 2^32 problem, but I saw it happen with gccgo.  I haven\u0027t investigated further.",
+      "parentUuid": "f842c746_129c7ede",
+      "revId": "dc21f9b3080fb24c508f70eac113d71554802eb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dce8eda5_9dbfa0f8",
@@ -115,6 +133,24 @@
       "writtenOn": "2022-02-08T06:09:48Z",
       "side": 1,
       "message": "This is the same as before for little-endian machines, but different for big-endian ones. Not sure how much that matters, but it is not obviously equivalent to 1.17.",
+      "revId": "dc21f9b3080fb24c508f70eac113d71554802eb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "489220db_03bf6110",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 810,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-02-08T22:12:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b236ee9_45997d04",
       "revId": "dc21f9b3080fb24c508f70eac113d71554802eb6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
