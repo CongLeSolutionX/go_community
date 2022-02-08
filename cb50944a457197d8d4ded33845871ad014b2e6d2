@@ -80,6 +80,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f182d220_19aaf52f",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 881,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-02-08T19:22:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c6883db_942f5fcc",
+      "range": {
+        "startLine": 881,
+        "startChar": 17,
+        "endLine": 881,
+        "endChar": 22
+      },
+      "revId": "cb50944a457197d8d4ded33845871ad014b2e6d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "29d1b68e_4432296d",
@@ -93,6 +117,30 @@
       "writtenOn": "2022-02-08T19:13:51Z",
       "side": 1,
       "message": "IIRC the String method for a `flag.Value` is supposed to print the current value of the flag. (We could either store the value originally passed to Set, or maybe produce a comma-separated, sorted list here from the map\u0027s contents.)",
+      "range": {
+        "startLine": 362,
+        "startChar": 0,
+        "endLine": 365,
+        "endChar": 1
+      },
+      "revId": "cb50944a457197d8d4ded33845871ad014b2e6d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "808b7268_4927e193",
+        "filename": "src/cmd/go/internal/list/list.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-02-08T19:22:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "29d1b68e_4432296d",
       "range": {
         "startLine": 362,
         "startChar": 0,
