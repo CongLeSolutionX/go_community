@@ -421,7 +421,15 @@ func (conf *Config) Check(path string, files []*syntax.File, info *Info) (*Packa
 }
 
 // AssertableTo reports whether a value of type V can be asserted to have type T.
+// AssertableTo panics if V or T are not plain interfaces, i.e., interfaces that
+// are not simply method sets.
 func AssertableTo(V *Interface, T Type) bool {
+	if !V.IsMethodSet() {
+		panic(fmt.Sprintf("%s is not a plain method set", V))
+	}
+	if t, _ := T.Underlying().(*Interface); t != nil && !t.IsMethodSet() {
+		panic(fmt.Sprintf("%s is not a plain method set", t))
+	}
 	m, _ := (*Checker)(nil).assertableTo(V, T)
 	return m == nil
 }

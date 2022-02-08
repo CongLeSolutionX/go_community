@@ -425,15 +425,14 @@ func (check *Checker) funcString(f *Func) string {
 // method required by V and whether it is missing or just has the wrong type.
 // The receiver may be nil if assertableTo is invoked through an exported API call
 // (such as AssertableTo), i.e., when all methods have been type-checked.
-// If the global constant forceStrict is set, assertions that are known to fail
-// are not permitted.
 func (check *Checker) assertableTo(V *Interface, T Type) (method, wrongType *Func) {
 	// no static check is required if T is an interface
 	// spec: "If T is an interface type, x.(T) asserts that the
 	//        dynamic type of x implements the interface T."
-	if IsInterface(T) && !forceStrict {
+	if IsInterface(T) {
 		return
 	}
+	// TODO(gri) fix this for generalized interfaces
 	return check.missingMethod(T, V, false)
 }
 
