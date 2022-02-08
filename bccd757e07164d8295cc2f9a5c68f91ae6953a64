@@ -106,6 +106,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f74021af_0cede8f7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 53753
+      },
+      "writtenOn": "2022-02-08T08:03:13Z",
+      "side": 1,
+      "message": "We use perf c2c tool to find the false sharing issue. From the result of perf c2c tool, the data is pagesSwept,reclaimCredit and arenas. The data pagesSwept and reclaimCredit is used in reading and arenas is used in writing. So we separate pagesSwept,reclaimCredit from arenas into different cache line to avoid false sharing issue. The detail is described in the issue #47831.\n",
+      "revId": "bccd757e07164d8295cc2f9a5c68f91ae6953a64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "975f1ad7_c55fb407",
