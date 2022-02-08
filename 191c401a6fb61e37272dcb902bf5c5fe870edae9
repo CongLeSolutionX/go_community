@@ -80,6 +80,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7539b1ea_da263781",
+        "filename": "src/cmd/go/internal/workcmd/use.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-02-08T18:40:59Z",
+      "side": 1,
+      "message": "Done. (Left over from an earlier draft. 😅)",
+      "parentUuid": "bdcf63fc_d5bf6acf",
+      "range": {
+        "startLine": 80,
+        "startChar": 30,
+        "endLine": 80,
+        "endChar": 44
+      },
+      "revId": "191c401a6fb61e37272dcb902bf5c5fe870edae9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "510f66ee_09ddb668",
@@ -103,6 +127,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eaa014cc_13f3af6e",
+        "filename": "src/cmd/go/internal/workcmd/use.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-02-08T18:40:59Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "510f66ee_09ddb668",
+      "range": {
+        "startLine": 145,
+        "startChar": 6,
+        "endLine": 145,
+        "endChar": 21
+      },
+      "revId": "191c401a6fb61e37272dcb902bf5c5fe870edae9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dc1eb911_4f78f8aa",
@@ -116,6 +164,30 @@
       "writtenOn": "2022-02-08T17:45:03Z",
       "side": 1,
       "message": "workDir?",
+      "range": {
+        "startLine": 168,
+        "startChar": 41,
+        "endLine": 168,
+        "endChar": 47
+      },
+      "revId": "191c401a6fb61e37272dcb902bf5c5fe870edae9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c39d26a_a19d63f8",
+        "filename": "src/cmd/go/internal/workcmd/use.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-02-08T18:40:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc1eb911_4f78f8aa",
       "range": {
         "startLine": 168,
         "startChar": 41,
