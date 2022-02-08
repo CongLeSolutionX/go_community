@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "58445566_bbf96766",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-02-08T20:17:41Z",
+      "side": 1,
+      "message": "(I chose “Fixes” here because there doesn\u0027t seem to be any point in holding open a Go issue for a bug with a root cause external to Go — especially given that the bug has already been reported upstream.)",
+      "revId": "77d830ef99e993f66cf2783694b320e6a1fe0866",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c6b40044_026f6911",
