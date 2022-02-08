@@ -418,6 +418,15 @@ var depsRules = `
 	< crypto/internal/boring
 	< crypto/aes, crypto/des, crypto/hmac, crypto/md5, crypto/rc4,
 	  crypto/sha1, crypto/sha256, crypto/sha512
+<<<<<<< HEAD   (e14fee [dev.boringcrypto] all: merge master into dev.boringcrypto)
+=======
+	< CRYPTO;
+
+	CGO, fmt, net !< CRYPTO;
+
+	# CRYPTO-MATH is core bignum-based crypto - no cgo, net; fmt now ok.
+	CRYPTO, FMT, math/big, embed
+>>>>>>> BRANCH (c856fb crypto/elliptic: use go:embed for the precomputed p256 table)
 	< crypto/rand
 	< crypto/internal/randutil
 	< crypto/ed25519
