@@ -38,6 +38,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f842c746_129c7ede",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-02-08T06:09:48Z",
+      "side": 1,
+      "message": "I\u0027m not sure I understand why just having the high 32 bits be 0 is bad. I don\u0027t see how that leads to all 0s from fastrand. Only if all 64 bits are 0 is it bad.\nSo is this just a 1-in-2^32 problem? Or am I misunderstanding?\n\n",
+      "revId": "dc21f9b3080fb24c508f70eac113d71554802eb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dce8eda5_9dbfa0f8",
@@ -81,6 +98,23 @@
         "endLine": 809,
         "endChar": 2
       },
+      "revId": "dc21f9b3080fb24c508f70eac113d71554802eb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b236ee9_45997d04",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 810,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-02-08T06:09:48Z",
+      "side": 1,
+      "message": "This is the same as before for little-endian machines, but different for big-endian ones. Not sure how much that matters, but it is not obviously equivalent to 1.17.",
       "revId": "dc21f9b3080fb24c508f70eac113d71554802eb6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
