@@ -89,6 +89,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ffe79a50_020a6cfb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34636
+      },
+      "writtenOn": "2022-02-08T23:55:01Z",
+      "side": 1,
+      "message": "I\u0027ve tried to add a test for every issue we\u0027ve found and fixed with the current implementation, so adding the one we have in this present patch (which your re-implementation does include), should cover all the known corner cases.\n\nI\u0027m not sure how I feel about back-porting such a large change though. At the end of the day, I\u0027m not an owner of the runtime, so I will defer to the rest of you for that judgement call!",
+      "parentUuid": "71bd1797_cb53e25a",
+      "revId": "3eed483f7f171ac51ec9c30bfc4cd41a0a2e1e62",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "63a803a2_5972613f",
@@ -173,6 +191,24 @@
       "side": 1,
       "message": "\u003e I\u0027m not convinced the race has consequences.\n\nI\u0027m not either, I think we should drop this in favor of keeping the race, which I don\u0027t love but haven\u0027t thought of a bad condition.",
       "parentUuid": "9dd78e9f_e86cf49f",
+      "revId": "3eed483f7f171ac51ec9c30bfc4cd41a0a2e1e62",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f40252ba_bdab4437",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 3294,
+      "author": {
+        "id": 34636
+      },
+      "writtenOn": "2022-02-08T23:55:01Z",
+      "side": 1,
+      "message": "I\u0027m still exploring ways to simplify the other part, but I\u0027ll plan to drop this part of the change if no reason surfaces to need to keep it.",
+      "parentUuid": "a2b38a4e_4da941a9",
       "revId": "3eed483f7f171ac51ec9c30bfc4cd41a0a2e1e62",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
