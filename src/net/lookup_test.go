@@ -883,17 +883,41 @@ func TestLookupNonLDH(t *testing.T) {
 
 func TestLookupContextCancel(t *testing.T) {
 	mustHaveExternalNetwork(t)
-	defer dnsWaitGroup.Wait()
 
-	ctx, ctxCancel := context.WithCancel(context.Background())
-	ctxCancel()
-	_, err := DefaultResolver.LookupIPAddr(ctx, "google.com")
+	origTestHookLookupIP := testHookLookupIP
+	defer func() {
+		dnsWaitGroup.Wait()
+		testHookLookupIP = origTestHookLookupIP
+	}()
+
+	lookupCtx, cancelLookup := context.WithCancel(context.Background())
+	cancelLookup()
+
+	// Set testHookLookupIP to stall until the canceled call to LookupIPAddre
+	// either returns or cancels the Context controlling the lookupGroup.
+	cancelDone := make(chan struct{})
+	testHookLookupIP = func(
+		ctx context.Context,
+		fn func(context.Context, string, string) ([]IPAddr, error),
+		network string,
+		host string,
+	) ([]IPAddr, error) {
+		cancelLookup()
+		select {
+		case <-ctx.Done():
+		case <-cancelDone:
+		}
+		return fn(ctx, network, host)
+	}
+
+	_, err := DefaultResolver.LookupIPAddr(lookupCtx, "google.com")
 	if err.(*DNSError).Err != errCanceled.Error() {
 		testenv.SkipFlakyNet(t)
 		t.Fatal(err)
 	}
-	ctx = context.Background()
-	_, err = DefaultResolver.LookupIPAddr(ctx, "google.com")
+	close(cancelDone)
+
+	_, err = DefaultResolver.LookupIPAddr(context.Background(), "google.com")
 	if err != nil {
 		testenv.SkipFlakyNet(t)
 		t.Fatal(err)
