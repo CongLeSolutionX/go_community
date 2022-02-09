@@ -131,6 +131,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "376c7652_a3d1845b",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 796,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-02-09T22:34:10Z",
+      "side": 1,
+      "message": "I think too many subsequent issues are getting confused here.\n\nTaking a look at the initial CL 277434 which added the initial sigqueue, the problem was that the M running signal_recv was blocked in notetsleepg, thus preventing the fixup from completely [1].\n\nThat CL kicked the note so that M could reach the fixup in exitsyscall -\u003e gcstopm.\n\nBut it needed to do something about the signal handler sigsend, which couldn\u0027t handle state sigFixup, so it added the osyield() loop waiting for sigIdle, which introduced the deadlock possibility.\n\nWithout sigFixup, this problem no longer applies.\n\nPut another way, let\u0027s look at what the signal handler does for each state:\n\nsigIdle: CAS to sigSending, then return\nsigSending: return\nsigReceiving: CAS to sigIdle, then return\n\nThere is no reason for any of those to ever block indefinitely. Yes, CAS is a loop and could fail in the event of a race, but there is no reason for it to fail continuously. If constantly racing with signal_recv or other threads\u0027 signal handler, it probabilistically should eventually win one of those races.\n\n[1] Note that notetsleepg is ironically just a blocking syscall, like we are fixing now: https://cs.opensource.google/go/go/+/master:src/runtime/lock_futex.go;l\u003d235-237;drc\u003df229e7031a6efb2f23241b5da000c3b3203081d6",
+      "parentUuid": "6b127b12_23e9f692",
+      "revId": "d56c4974bf8163b5a1243c0a8ca8b4c5c3d97fb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fd7a8960_5d387b20",
         "filename": "src/runtime/os_linux.go",
         "patchSetId": 6
@@ -148,6 +166,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "36dd0fb9_386ce6de",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 803,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-02-09T22:34:10Z",
+      "side": 1,
+      "message": "`allocmLock.lock()` implicitly locks us to this M. But perhaps I should also add `acquirem` to make this more explicit.",
+      "parentUuid": "fd7a8960_5d387b20",
+      "revId": "d56c4974bf8163b5a1243c0a8ca8b4c5c3d97fb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ef070571_a6c67973",
         "filename": "src/runtime/os_linux.go",
         "patchSetId": 6
@@ -159,6 +195,24 @@
       "writtenOn": "2022-02-09T21:11:20Z",
       "side": 1,
       "message": "I can\u0027t see what stops goroutines migrating from one M to another while this loop is running. If that is possible and, say, we are transitioning from UID0 to UID1, is it possible for some goroutine to transition between them before the loop below completes? That is, a single goroutine observes:\n\n  running with UID0 on m1\n  running with UID1 on m1\n  running with UID0 on m2\n  running with UID1 on m2\n\nIt was to avoid this experience (and never observe the reverse transition) that the old code used stop the world.",
+      "revId": "d56c4974bf8163b5a1243c0a8ca8b4c5c3d97fb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75bdcdd6_b5743600",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 810,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-02-09T22:34:10Z",
+      "side": 1,
+      "message": "Yes, that is definitely possible. Was that a constraint on the API? I didn\u0027t notice any mention. If we need it, we could add STW back just for that purpose.\n\nThough IMO, goroutines shouldn\u0027t rely on thread state until AllThreadsSyscall returns. Is there a particular case where this visibility causes problems?",
+      "parentUuid": "ef070571_a6c67973",
       "revId": "d56c4974bf8163b5a1243c0a8ca8b4c5c3d97fb6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
