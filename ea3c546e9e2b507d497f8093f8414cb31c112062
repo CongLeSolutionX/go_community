@@ -16,6 +16,24 @@
       "message": "Maybe keep a comment like \u003c!-- CL 321889 and CL 345486 are optimizations, no need to mention. --\u003e so relnote won\u0027t prompt them again. Alternatively, we can just remember (only needed for the rest of 1.18 freeze cycle).",
       "revId": "ea3c546e9e2b507d497f8093f8414cb31c112062",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4ca3fe8_0c5535b4",
+        "filename": "doc/go1.18.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 1084,
+      "author": {
+        "id": 34411
+      },
+      "writtenOn": "2022-02-09T23:02:42Z",
+      "side": 0,
+      "message": "That sounds like a fine idea. I think we should do this moving forward.",
+      "parentUuid": "b6b8f1cb_39774925",
+      "revId": "ea3c546e9e2b507d497f8093f8414cb31c112062",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
