@@ -109,6 +109,58 @@
       "parentUuid": "1232113d_575165e0",
       "revId": "d56c4974bf8163b5a1243c0a8ca8b4c5c3d97fb6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b127b12_23e9f692",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 796,
+      "author": {
+        "id": 34636
+      },
+      "writtenOn": "2022-02-09T21:11:20Z",
+      "side": 1,
+      "message": "So this code runs without stop the world and that changes the dynamics somewhat.\n\nWhen I added that sigFixup code it was to account for the fact that the spinning thread couldn\u0027t complete until another thread was able to receive the data the in-signal-handler thread was trying to forward. This couldn\u0027t happen because the world was stopped. This meant we could neither receive signals on the code running this present function - while spinning it would be unable to start the world again, and I had to find a way to execute the fixup code from whatever that asynchronous signal handler was spinning doing.\n\nBoth of those two things are not present here. Are we saying that because the world isn\u0027t stopped, the runtime can happily schedule one of the running Ms to execute that code and unblock the signal handler M?",
+      "parentUuid": "70538955_7931d131",
+      "revId": "d56c4974bf8163b5a1243c0a8ca8b4c5c3d97fb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd7a8960_5d387b20",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 803,
+      "author": {
+        "id": 34636
+      },
+      "writtenOn": "2022-02-09T21:11:20Z",
+      "side": 1,
+      "message": "Is there any need to lock the coordinating OS thread in this function? Or is it somehow true implicitly that the M that has already run the initial syscall is guaranteed to still be this one?",
+      "revId": "d56c4974bf8163b5a1243c0a8ca8b4c5c3d97fb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef070571_a6c67973",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 810,
+      "author": {
+        "id": 34636
+      },
+      "writtenOn": "2022-02-09T21:11:20Z",
+      "side": 1,
+      "message": "I can\u0027t see what stops goroutines migrating from one M to another while this loop is running. If that is possible and, say, we are transitioning from UID0 to UID1, is it possible for some goroutine to transition between them before the loop below completes? That is, a single goroutine observes:\n\n  running with UID0 on m1\n  running with UID1 on m1\n  running with UID0 on m2\n  running with UID1 on m2\n\nIt was to avoid this experience (and never observe the reverse transition) that the old code used stop the world.",
+      "revId": "d56c4974bf8163b5a1243c0a8ca8b4c5c3d97fb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
