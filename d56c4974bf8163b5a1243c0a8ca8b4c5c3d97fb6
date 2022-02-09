@@ -91,6 +91,24 @@
       "message": "Won\u0027t this deadlock if a thread is already executing a signal handler? IIRC this is what the signal test was testing for and why the current implementation has an mDoFixupAndOSYield().",
       "revId": "d56c4974bf8163b5a1243c0a8ca8b4c5c3d97fb6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70538955_7931d131",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 796,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-02-09T17:47:54Z",
+      "side": 1,
+      "message": "I don\u0027t think so.\n\nhttps://go-review.googlesource.com/c/go/+/305149/9/src/runtime/sigqueue.go ran into trouble because sigsend would spin in the signal handler waiting for the signal_recv goroutine to change state back to sigIdle.\n\nWith this CL, sigFixup is gone completely and sigsend should no longer spin indefinitely. It can now loop only if it loses a CAS race, which it should eventually win.\n\nI\u0027m not aware of anywhere else that signal handlers can block indefinitely.",
+      "parentUuid": "1232113d_575165e0",
+      "revId": "d56c4974bf8163b5a1243c0a8ca8b4c5c3d97fb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
