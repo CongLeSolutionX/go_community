@@ -72,6 +72,24 @@
       "message": "I\u0027m concerned that if we have no tests for the block profile then it will decay and we will never notice.  Can we pare this down to a reliable test?",
       "revId": "80af73eb988b5847a3aa2dd23c3a0c9870724216",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a252874a_2df8c027",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-02-09T22:05:33Z",
+      "side": 1,
+      "message": "Hmm... It looks like the failure mode here is missing samples, so it may be possible to restructure the test to retry with longer running periods until it passes. I\u0027ll have a look.",
+      "parentUuid": "c4a94c0d_169d1d17",
+      "revId": "80af73eb988b5847a3aa2dd23c3a0c9870724216",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
