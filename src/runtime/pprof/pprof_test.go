@@ -792,6 +792,8 @@ func growstack(n int) {
 func use(x [8 << 18]byte) {}
 
 func TestBlockProfile(t *testing.T) {
+	testenv.SkipFlaky(t, 6999) // And #37844.
+
 	type TestCase struct {
 		name string
 		f    func()
