@@ -449,3 +449,11 @@ func TestPageAllocScavenge(t *testing.T) {
 		})
 	}
 }
+
+func TestScavenger(t *testing.T) {
+
+}
+
+func FuzzScavenger(f *testing.F) {
+
+}
