@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3d49b13_04c853bc",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-02-10T15:03:09Z",
+      "side": 0,
+      "message": "While we\u0027re here, it might be worth adding a comment here to go with your comment below. \"In cgo, we don\u0027t have visibility into threads created by C.\" or something.",
+      "revId": "0132989d15b00ff8acb0e076cd54ec76250e936e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d93cd320_dbe8500d",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1712,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-02-10T15:03:09Z",
+      "side": 0,
+      "message": "Is the acquirem still important, or not because it moved into newm? (If it is, put a comment on allocmLock about it acquiring the M.)",
+      "revId": "0132989d15b00ff8acb0e076cd54ec76250e936e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f464559f_e62c8a80",
+        "filename": "src/syscall/syscall_linux.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 965,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-02-10T15:03:09Z",
+      "side": 0,
+      "message": "Delete",
+      "revId": "0132989d15b00ff8acb0e076cd54ec76250e936e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

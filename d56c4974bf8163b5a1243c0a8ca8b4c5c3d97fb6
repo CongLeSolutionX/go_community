@@ -78,6 +78,63 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "da86bf23_f562f002",
+        "filename": "src/runtime/os_aix.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-02-10T15:03:09Z",
+      "side": 1,
+      "message": "Throw?",
+      "revId": "d56c4974bf8163b5a1243c0a8ca8b4c5c3d97fb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "111d3da4_75f0fb44",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 690,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-02-10T15:03:09Z",
+      "side": 1,
+      "message": "Which mp? Or is this saying that this must be true for all mp?",
+      "range": {
+        "startLine": 690,
+        "startChar": 46,
+        "endLine": 690,
+        "endChar": 74
+      },
+      "revId": "d56c4974bf8163b5a1243c0a8ca8b4c5c3d97fb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f06a802_44ff5d12",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 737,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-02-10T15:03:09Z",
+      "side": 1,
+      "message": "Shouldn\u0027t syscall.Syscall just return 0 for this? Or is this something really annoying where *some* syscalls use r2 and others leave it unset and the ones we\u0027re interested in here leave it unset?",
+      "revId": "d56c4974bf8163b5a1243c0a8ca8b4c5c3d97fb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1232113d_575165e0",
         "filename": "src/runtime/os_linux.go",
         "patchSetId": 6
@@ -213,6 +270,149 @@
       "side": 1,
       "message": "Yes, that is definitely possible. Was that a constraint on the API? I didn\u0027t notice any mention. If we need it, we could add STW back just for that purpose.\n\nThough IMO, goroutines shouldn\u0027t rely on thread state until AllThreadsSyscall returns. Is there a particular case where this visibility causes problems?",
       "parentUuid": "ef070571_a6c67973",
+      "revId": "d56c4974bf8163b5a1243c0a8ca8b4c5c3d97fb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64bee0b1_3521b65d",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 820,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-02-10T15:03:09Z",
+      "side": 1,
+      "message": "This logic tripped both you and me up a while ago. :) Can we reverse the loop nesting so the outer loop goes over allm and the inner loop osyields until mp.needPerThreadSyscall is 0?",
+      "revId": "d56c4974bf8163b5a1243c0a8ca8b4c5c3d97fb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "454dbc9a_b3f5029a",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 2023,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-02-10T15:03:09Z",
+      "side": 1,
+      "message": "This isn\u0027t quite right. Since we acquire it in read mode for allocm, it doesn\u0027t serialize the *creation* of Ms. It\u0027s more like acquiring it in write mode blocks the creation of new Ms or something.",
+      "range": {
+        "startLine": 2023,
+        "startChar": 15,
+        "endLine": 2023,
+        "endChar": 45
+      },
+      "revId": "d56c4974bf8163b5a1243c0a8ca8b4c5c3d97fb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "369b59a6_826901aa",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 2061,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-02-10T15:03:09Z",
+      "side": 1,
+      "message": "\"created by\"?",
+      "range": {
+        "startLine": 2061,
+        "startChar": 60,
+        "endLine": 2061,
+        "endChar": 72
+      },
+      "revId": "d56c4974bf8163b5a1243c0a8ca8b4c5c3d97fb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db7a2489_9b1c9531",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 2061,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-02-10T15:03:09Z",
+      "side": 1,
+      "message": "\"a new M\"?",
+      "range": {
+        "startLine": 2061,
+        "startChar": 16,
+        "endLine": 2061,
+        "endChar": 22
+      },
+      "revId": "d56c4974bf8163b5a1243c0a8ca8b4c5c3d97fb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b59110b_aae01dc4",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 2067,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-02-10T15:03:09Z",
+      "side": 1,
+      "message": "I was really confused the first time I read this. I thought you were saying this acquirem would prevent the *new* thread from stopping until it started and became signal-able. Coming back here after reading your comment in doAllThreadsSyscall, I think you\u0027re just saying that newm itself needs to not be preempted between allocm and newm1, which makes a lot more sense.",
+      "revId": "d56c4974bf8163b5a1243c0a8ca8b4c5c3d97fb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41835430_5bb99edf",
+        "filename": "src/runtime/signal_unix.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-02-10T15:03:09Z",
+      "side": 1,
+      "message": "Update the documentation on sigPreempt to mention that it\u0027s also used for all-threads syscalls.",
+      "revId": "d56c4974bf8163b5a1243c0a8ca8b4c5c3d97fb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3844035f_43bb0ef6",
+        "filename": "src/syscall/syscall_linux.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 977,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-02-10T15:03:09Z",
+      "side": 1,
+      "message": "No longer true",
+      "range": {
+        "startLine": 976,
+        "startChar": 65,
+        "endLine": 977,
+        "endChar": 8
+      },
       "revId": "d56c4974bf8163b5a1243c0a8ca8b4c5c3d97fb6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
