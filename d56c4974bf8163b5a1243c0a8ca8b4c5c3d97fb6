@@ -276,6 +276,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d5401d8c_ca77ead1",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 810,
+      "author": {
+        "id": 34636
+      },
+      "writtenOn": "2022-02-10T23:45:41Z",
+      "side": 1,
+      "message": "This behavior is different from the CGO implementation of things like `C.setuid()` and also existing uses of the `AllThreadsSyscall()`.\n\nIt doesn\u0027t seem too hard to imagine some user code that might be tripped up by these semantics `if syscall.Getuid() !\u003d 0 { deleteAFileWithoutBotheringToCheckForPermission() } else if readFilePermissionsDontRequirePrivilegeToDelete() { removeTheFile() }`. That is, the code can rely on the kernel to prevent it deleting something only after it verifies the process has dropped privilege.\n\nThe slower (safer) code could execute in all cases, but the lower complexity code assumes once the test confirms the UID is no longer that of root, it can\u0027t be retracted. I think, if someone found this worked as expected when compiled with cgo, but not without cgo, we\u0027d be treating that user report as a Go bug.",
+      "parentUuid": "75bdcdd6_b5743600",
+      "revId": "d56c4974bf8163b5a1243c0a8ca8b4c5c3d97fb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "64bee0b1_3521b65d",
         "filename": "src/runtime/os_linux.go",
         "patchSetId": 6
