@@ -53,6 +53,24 @@
       "message": "The right operand of shift can also be a type parameter, with different requirements.",
       "revId": "39a043a87d9ab1527e4c2d1bb471318aef13a043",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35192a12_baac96bb",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 4776,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-02-10T18:11:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31c3efb9_e6633e0e",
+      "revId": "39a043a87d9ab1527e4c2d1bb471318aef13a043",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
