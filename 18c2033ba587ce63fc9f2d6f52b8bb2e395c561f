@@ -16,6 +16,24 @@
       "message": "This CL appears to have broken a longtest builder.",
       "revId": "18c2033ba587ce63fc9f2d6f52b8bb2e395c561f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "12a980df_50b2580a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-02-10T22:33:27Z",
+      "side": 1,
+      "message": "I think the failure is actually due to the build-coordinator push deploying CL 384295. (Note that the same test passed on `linux-amd64-longtest`, for which the test run probably completed before the coordinator push.)\n\nCarlos is looking into it.",
+      "parentUuid": "fa47663e_9f081090",
+      "revId": "18c2033ba587ce63fc9f2d6f52b8bb2e395c561f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
