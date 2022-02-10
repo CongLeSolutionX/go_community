@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "7090b717_ec0e5885",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 55919
+      },
+      "writtenOn": "2022-02-10T17:11:47Z",
+      "side": 1,
+      "message": "Should I force push to update the previous commit message? I believe that I read in the contribution guide not to do that. Gerrit won\u0027t let me edit the message above directly (I get a 403 error).",
+      "parentUuid": "785273f4_39a0af62",
+      "range": {
+        "startLine": 7,
+        "startChar": 7,
+        "endLine": 7,
+        "endChar": 53
+      },
+      "revId": "28fbe60311375c5ad1ee710503a983cee1e43f69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "eb0ecf08_7c9e2fcb",
@@ -58,6 +82,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cad8395a_f111287d",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 55919
+      },
+      "writtenOn": "2022-02-10T17:11:47Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b6f320b1_7ce34e45",
+      "revId": "28fbe60311375c5ad1ee710503a983cee1e43f69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "25cb54e8_6384dae1",
@@ -71,6 +113,24 @@
       "writtenOn": "2022-02-10T16:36:12Z",
       "side": 1,
       "message": "We do still need an error-check on the Close call here: it is possible that one or more of the WriteAt calls are buffered locally, and may fail when they are actually flushed.\n\nThe usual idiom for that is to use a named return-value (but still with explicit returns):\n\n```\nfunc hashZip(…) (err error) {\n\t…\n\tdefer func() {\n\t\tif closeErr :\u003d hf.Close(); err \u003d\u003d nil {\n\t\t\terr \u003d closeErr\n\t\t}\n\t}()\n\tif err :\u003d hf.Truncate(int64(len(hash))); err !\u003d nil {\n\t\treturn err\n\t}\n\tif _, err :\u003d hf.WriteAt([]byte(hash), 0); err !\u003d nil {\n\t\treturn err\n\t}\n\treturn nil\n}\n```",
+      "revId": "28fbe60311375c5ad1ee710503a983cee1e43f69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "421470eb_5427a12f",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 55919
+      },
+      "writtenOn": "2022-02-10T17:11:47Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "25cb54e8_6384dae1",
       "revId": "28fbe60311375c5ad1ee710503a983cee1e43f69",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
