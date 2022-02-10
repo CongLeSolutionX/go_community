@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "785273f4_39a0af62",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-02-10T16:36:12Z",
+      "side": 1,
+      "message": "(https://go.dev/doc/contribute#first_line)\n\nThe first line of the commit message should complete the sentence “This change modifies Go to ___.”\n\nSo, maybe something like:\n\ncmd/go/internal/modfetch: avoid leaking a lockedfile.File in case of write errors",
+      "range": {
+        "startLine": 7,
+        "startChar": 7,
+        "endLine": 7,
+        "endChar": 53
+      },
+      "revId": "28fbe60311375c5ad1ee710503a983cee1e43f69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb0ecf08_7c9e2fcb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-02-10T16:36:12Z",
+      "side": 1,
+      "message": "LGTM once comments are addressed.",
+      "revId": "28fbe60311375c5ad1ee710503a983cee1e43f69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6f320b1_7ce34e45",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-02-10T16:36:12Z",
+      "side": 1,
+      "message": "I don\u0027t think a code comment is needed here. (Deferring a call to Close is a common pattern, and if someone in the future changes it to no longer be deferred they\u0027ll at least be prompted to think about why it was that way to begin with.)",
+      "revId": "28fbe60311375c5ad1ee710503a983cee1e43f69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25cb54e8_6384dae1",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-02-10T16:36:12Z",
+      "side": 1,
+      "message": "We do still need an error-check on the Close call here: it is possible that one or more of the WriteAt calls are buffered locally, and may fail when they are actually flushed.\n\nThe usual idiom for that is to use a named return-value (but still with explicit returns):\n\n```\nfunc hashZip(…) (err error) {\n\t…\n\tdefer func() {\n\t\tif closeErr :\u003d hf.Close(); err \u003d\u003d nil {\n\t\t\terr \u003d closeErr\n\t\t}\n\t}()\n\tif err :\u003d hf.Truncate(int64(len(hash))); err !\u003d nil {\n\t\treturn err\n\t}\n\tif _, err :\u003d hf.WriteAt([]byte(hash), 0); err !\u003d nil {\n\t\treturn err\n\t}\n\treturn nil\n}\n```",
+      "revId": "28fbe60311375c5ad1ee710503a983cee1e43f69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
