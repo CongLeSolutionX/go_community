@@ -1329,36 +1329,35 @@ func TestBug3486(t *testing.T) { // https://golang.org/issue/3486
 	if runtime.GOOS == "ios" {
 		t.Skipf("skipping on %s/%s", runtime.GOOS, runtime.GOARCH)
 	}
-	root, err := filepath.EvalSymlinks(runtime.GOROOT() + "/test")
+	root, err := filepath.EvalSymlinks(runtime.GOROOT() + "/misc")
 	if err != nil {
 		t.Fatal(err)
 	}
-	bugs := filepath.Join(root, "fixedbugs")
-	ken := filepath.Join(root, "ken")
-	seenBugs := false
-	seenKen := false
+	cgo := filepath.Join(root, "cgo")
+	wasm := filepath.Join(root, "wasm")
+	seenCgo, seenWasm := false, false
 	err = filepath.Walk(root, func(pth string, info fs.FileInfo, err error) error {
 		if err != nil {
 			t.Fatal(err)
 		}
 
 		switch pth {
-		case bugs:
-			seenBugs = true
+		case cgo:
+			seenCgo = true
 			return filepath.SkipDir
-		case ken:
-			if !seenBugs {
-				t.Fatal("filepath.Walk out of order - ken before fixedbugs")
+		case wasm:
+			if !seenCgo {
+				t.Fatal("filepath.Walk out of order - wasm before cgo")
 			}
-			seenKen = true
+			seenWasm = true
 		}
 		return nil
 	})
 	if err != nil {
 		t.Fatal(err)
 	}
-	if !seenKen {
-		t.Fatalf("%q not seen", ken)
+	if !seenWasm {
+		t.Fatalf("%q not seen", wasm)
 	}
 }
 
