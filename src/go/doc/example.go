@@ -270,8 +270,9 @@ func playExample(file *ast.File, f *ast.FuncDecl) *ast.File {
 	// Use unresolved identifiers to determine the imports used by this
 	// example. The heuristic assumes package names match base import
 	// paths for imports w/o renames (should be good enough most of the time).
-	namedImports := make(map[string]string) // [name]path
-	var blankImports []ast.Spec             // _ imports
+	var namedImports []ast.Spec
+	var blankImports []ast.Spec      // _ imports
+	var firstStd, firstNon token.Pos // positions of first stdlib, non-stdlib named imports
 	for _, s := range file.Imports {
 		p, err := strconv.Unquote(s.Path.Value)
 		if err != nil {
@@ -294,8 +295,30 @@ func playExample(file *ast.File, f *ast.FuncDecl) *ast.File {
 				return nil
 			}
 		}
+		// We want the imports to appear in two groups, those in the standard
+		// library and all others. ast.SortImports looks for a blank line
+		// between imports to determine grouping. Since we don't have the
+		// token.FileSet, we can't use the actual lines of the imports to ensure
+		// that blank line. Instead, we assume the original has the blank line.
+		// We find the positions of the first imports from the standard library
+		// and from elsewhere, and use those positions for the synthesized
+		// imports. Why not just use the original position of each import?
+		// Unreferenced imports are omitted, so the result might have extra
+		// blank lines.
+		std := isStdlibPath(p)
+		if firstStd == 0 && std {
+			firstStd = s.Pos()
+		}
+		if firstNon == 0 && !std {
+			firstNon = s.Pos()
+		}
 		if unresolved[n] {
-			namedImports[n] = p
+			spec := *s
+			spec.Path.ValuePos = firstStd
+			if !std {
+				spec.Path.ValuePos = firstNon
+			}
+			namedImports = append(namedImports, &spec)
 			delete(unresolved, n)
 		}
 	}
@@ -345,13 +368,7 @@ func playExample(file *ast.File, f *ast.FuncDecl) *ast.File {
 		Lparen: 1, // Need non-zero Lparen and Rparen so that printer
 		Rparen: 1, // treats this as a factored import.
 	}
-	for n, p := range namedImports {
-		s := &ast.ImportSpec{Path: &ast.BasicLit{Value: strconv.Quote(p)}}
-		if path.Base(p) != n {
-			s.Name = ast.NewIdent(n)
-		}
-		importDecl.Specs = append(importDecl.Specs, s)
-	}
+	importDecl.Specs = append(importDecl.Specs, namedImports...)
 	importDecl.Specs = append(importDecl.Specs, blankImports...)
 
 	// Synthesize main function.
@@ -369,7 +386,6 @@ func playExample(file *ast.File, f *ast.FuncDecl) *ast.File {
 	sort.Slice(decls, func(i, j int) bool {
 		return decls[i].Pos() < decls[j].Pos()
 	})
-
 	sort.Slice(comments, func(i, j int) bool {
 		return comments[i].Pos() < comments[j].Pos()
 	})
@@ -380,6 +396,13 @@ func playExample(file *ast.File, f *ast.FuncDecl) *ast.File {
 		Decls:    decls,
 		Comments: comments,
 	}
+}
+
+// isStdlibPath reports whether importPath refers to the standard library.
+// Standard library paths have no "." in their first component.
+func isStdlibPath(importPath string) bool {
+	before, _, found := strings.Cut(importPath, "/")
+	return !found || !strings.ContainsRune(before, '.')
 }
 
 // playExampleFile takes a whole file example and synthesizes a new *ast.File

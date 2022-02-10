@@ -522,6 +522,7 @@ func TestExampleEmpty(t *testing.T) {
 }
 
 func formatFile(t *testing.T, fset *token.FileSet, n *ast.File) string {
+	t.Helper()
 	if n == nil {
 		return "<nil>"
 	}
@@ -530,6 +531,66 @@ func formatFile(t *testing.T, fset *token.FileSet, n *ast.File) string {
 		t.Fatal(err)
 	}
 	return buf.String()
+}
+
+const exampleImports = `package foo_test
+
+import (
+	"fmt"
+	"log"
+	"sort"
+
+	"golang.org/x/exp/rand"
+)
+
+func Example() {
+	fmt.Println("")
+	sort.Ints([]int{1,2,3})
+	rand.Uint64()
+
+	// Output:
+}
+`
+
+const exampleImportsOutput = `package main
+
+import (
+	"fmt"
+	"sort"
+
+	"golang.org/x/exp/rand"
+)
+
+func main() {
+	fmt.Println("")
+	sort.Ints([]int{1, 2, 3})
+	rand.Uint64()
+
+}
+`
+
+func TestExampleImports(t *testing.T) {
+	// Check that imports are formatted into two groups, standard library and others, separated
+	// by a blank line.
+	fset := token.NewFileSet()
+	file, err := parser.ParseFile(fset, "test.go", strings.NewReader(exampleImports), parser.ParseComments)
+	if err != nil {
+		t.Fatal(err)
+	}
+	es := doc.Examples(file)
+	if len(es) != 1 {
+		t.Fatalf("wrong number of examples; got %d want 1", len(es))
+	}
+	e := es[0]
+	if e.Name != "" {
+		t.Errorf("got Name == %q, want %q", e.Name, "")
+	}
+	if g, w := formatFile(t, fset, e.Play), exampleImportsOutput; g != w {
+		t.Errorf("got Play ==\n%q, want\n%q", g, w)
+	}
+	if g, w := e.Output, ""; g != w {
+		t.Errorf("got Output == %q, want %q", g, w)
+	}
 }
 
 // This example illustrates how to use NewFromFiles
