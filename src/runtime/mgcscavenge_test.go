@@ -449,3 +449,13 @@ func TestPageAllocScavenge(t *testing.T) {
 		})
 	}
 }
+
+func TestScavenger(t *testing.T) {
+	// TODO(mknyszek): Add these tests now that we can.
+}
+
+/*
+func FuzzScavenger(f *testing.F) {
+	// TODO(mknyszek): Add a fuzz test that messes with timings.
+}
+*/
