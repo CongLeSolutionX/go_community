@@ -9,7 +9,6 @@ package net
 import (
 	"errors"
 	"fmt"
-	"internal/testenv"
 	"io"
 	"net/internal/socktest"
 	"os"
@@ -515,35 +514,41 @@ func TestCloseUnblocksRead(t *testing.T) {
 
 // Issue 24808: verify that ECONNRESET is not temporary for read.
 func TestNotTemporaryRead(t *testing.T) {
-	if runtime.GOOS == "freebsd" {
-		testenv.SkipFlaky(t, 25289)
-	}
-	if runtime.GOOS == "aix" {
-		testenv.SkipFlaky(t, 29685)
-	}
 	t.Parallel()
-	server := func(cs *TCPConn) error {
-		cs.SetLinger(0)
-		// Give the client time to get stuck in a Read.
-		time.Sleep(50 * time.Millisecond)
-		cs.Close()
-		return nil
-	}
-	client := func(ss *TCPConn) error {
-		_, err := ss.Read([]byte{0})
-		if err == nil {
-			return errors.New("Read succeeded unexpectedly")
-		} else if err == io.EOF {
-			// This happens on Plan 9.
-			return nil
-		} else if ne, ok := err.(Error); !ok {
-			return fmt.Errorf("unexpected error %v", err)
-		} else if ne.Temporary() {
-			return fmt.Errorf("unexpected temporary error %v", err)
+
+	ln := newLocalListener(t, "tcp")
+	serverDone := make(chan struct{})
+	dialed := make(chan struct{})
+	go func() {
+		defer close(serverDone)
+
+		cs, err := ln.Accept()
+		if err != nil {
+			return
 		}
-		return nil
+		<-dialed
+		cs.(*TCPConn).SetLinger(0)
+		cs.Close()
+
+		ln.Close()
+	}()
+	t.Cleanup(func() { <-serverDone })
+
+	ss, err := Dial("tcp", ln.Addr().String())
+	if err != nil {
+		t.Fatal(err)
 	}
-	withTCPConnPair(t, client, server)
+	close(dialed)
+	_, err = ss.Read([]byte{0})
+	if err == nil {
+		t.Error("Read succeeded unexpectedly")
+	} else if err == io.EOF {
+		// This happens on Plan 9.
+	} else if ne, ok := err.(Error); !ok {
+		t.Errorf("unexpected error %v", err)
+	} else if ne.Temporary() {
+		t.Errorf("unexpected temporary error %v", err)
+	}
 }
 
 // The various errors should implement the Error interface.
