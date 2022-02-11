@@ -452,32 +452,126 @@ done:
 
 // func addMulVVW(z, x []Word, y Word) (c Word)
 TEXT ·addMulVVW(SB), NOSPLIT, $0
-	MOVD z+0(FP), R10	// R10 = z[]
-	MOVD x+24(FP), R8	// R8 = x[]
-	MOVD y+48(FP), R9	// R9 = y
-	MOVD z_len+8(FP), R22	// R22 = z_len
+	MOVD z+0(FP), R10       // R10 = z[]
+        MOVD x+24(FP), R8       // R8 = x[]
+        MOVD y+48(FP), R9       // R9 = y
+        MOVD z_len+8(FP), R22   // R22 = z_len
 
-	MOVD R0, R3		// R3 will be the index register
-	CMP  R0, R22
-	MOVD R0, R4		// R4 = c = 0
-	MOVD R22, CTR		// Initialize loop counter
-	BEQ  done
+        CMP  R0, R22
+        MOVD R0, R4             // R4 = c = 0
+        BEQ  done
+	CMP	R22, $4		// If len(z)>=5 compute c using unrolling by 4 
+	BLT	tail	// else compute using a simple loop iterating for each i
+unroll4:
+	MOVD  0(R8), R20     // Load x[0]
+        MOVD  0(R10), R21    // Load z[0]
+        ADD	$-1, R22
+	MULLD  R9, R20, R6      // R6 = Low-order(x[0]*y)
+        MULHDU R9, R20, R7      // R7 = High-order(x[0]*y)
+        ADDC   R21, R6          // R6 = z0
+        ADDZE  R7               // R7 = z1
+        ADDC   R4, R6           // R6 = z0 + c + 0
+        ADDZE  R7, R4           // c += z1
+        MOVD   R6, 0(R10)    // Store z[0]
 
-loop:
-	MOVD  (R8)(R3), R20	// Load x[i]
-	MOVD  (R10)(R3), R21	// Load z[i]
-	MULLD  R9, R20, R6	// R6 = Low-order(x[i]*y)
-	MULHDU R9, R20, R7	// R7 = High-order(x[i]*y)
-	ADDC   R21, R6		// R6 = z0
-	ADDZE  R7		// R7 = z1
-	ADDC   R4, R6		// R6 = z0 + c + 0
-	ADDZE  R7, R4           // c += z1
-	MOVD   R6, (R10)(R3)	// Store z[i]
-	ADD    $8, R3
-	BC  16, 0, loop		// bdnz
+    	CMP 	R0, R22
+	BEQ	done
+	CMP	R22, $4		// atleast 4 elements left for unrolling 
+	ADD	$8, R8
+	ADD	$8, R10
+	BLT	tail		// <4 elements left, process tail end
 
-done:
-	MOVD R4, c+56(FP)
-	RET
+loop2:
+	MOVD 0(R8), R20	// load x[i]
+	MOVD	0(R10), R21	// load z[i]
+	MOVD 8(R8), R23	// load x[i+1]
+	MOVD	8(R10), R24	// load z[i+1]
+	MOVD 16(R8), R25	// load x[i+2]
+	MOVD	16(R10), R26	// load z[i+2]
+	MOVD 24(R8), R28	// load x[i+3]
+	MOVD	24(R10), R29	// load z[i+3]
+
+	MULLD	R9, R20, R19    // R19=low-order(x[i]*y)
+	MULHDU 	R9, R20, R20      	// R20=high-order(x[i]*y)
+	ADDC	R21, R19		// R19=z[i] 
+	ADDZE	R20			// R20=z[i+1]
+	ADDC 	R4, R19			// R19=z[i]+c
+	ADDZE 	R20			// c1+=z[i+1]
+
+	MULLD	R9, R23, R31	// R31=low-order(x[i+1]*y)
+	MULHDU	R9, R23, R23	// R23=high-order(x[i+1]*y)
+	ADDC	R24, R31		// R31=z[i+1]
+	ADDZE	R23		// R23=z[i+2]
+	ADDC	R20, R31		// R31=z[i+1]+c1
+	ADDZE	R23		// c2+=z[i+2]
+	
+	MULLD	R9, R25, R17	// R17=low-order(x[i+2]*y)
+	MULHDU	R9, R25, R25		// R25=high-order(x[i+2]*y)
+	ADDC	R26, R17		// R17=z[i+2]
+	ADDZE	R25		// R25=z[i+3]
+	ADDC	R23, R17		// R17=z[i+2]+c2
+	ADDZE	R25 		// c3+=z[i+3]
+
+	MULLD	R9, R28, R18	// R18=low-order(x[i+3]*y)
+	MULHDU	R9, R28, R28 		// R28=high-order(y[i+3]*y)
+	ADDC	R29, R18 		// R18=z[i+3]
+	ADDZE	R28		// R28=z[i+4]
+	ADDC	R25, R18		// R18=z[i+3]+c3
+	ADDZE	R28, R4 	// c+=c3
+
+	MOVD	R19, 0(R10)		// store z[i]
+	MOVD	R31, 8(R10)		// store z[i+1]
+
+	MOVD	R17, 16(R10)		// store z[i+2]
+	MOVD	R18, 24(R10)		// store z[i+3]
+	ADD	$-4, R22		// 4 values processed
+	ADD	$32, R8			// go to the next 4
+	ADD	$32, R10
+
+	CMP	R22, $4			// 4 more left?
+	BGE	loop2
+	CMP	R0, R22			// are we done?
+	BEQ	done	
+
+tail: 
+        MOVD  0(R8), R20     // Load x[i]
+        MOVD  0(R10), R21    // Load z[i]
+        ADD	$-1, R22
+	MULLD  R9, R20, R6      // R6 = Low-order(x[i]*y)
+        MULHDU R9, R20, R7      // R7 = High-order(x[i]*y)
+        ADDC   R21, R6          // R6 = z0
+        ADDZE  R7               // R7 = z1
+        ADDC   R4, R6           // R6 = z0 + c + 0
+        ADDZE  R7, R4           // c += z1
+        MOVD   R6, 0(R10)    // Store z[i]
+    	CMP 	  R0, R22
+	BEQ	done
+
+        MOVD  8(R8), R20     // Load x[i]
+        MOVD  8(R10), R21    // Load z[i]
+        ADD	$-1, R22
+	MULLD  R9, R20, R6      // R6 = Low-order(x[i]*y)
+        MULHDU R9, R20, R7      // R7 = High-order(x[i]*y)
+        ADDC   R21, R6          // R6 = z0
+        ADDZE  R7               // R7 = z1
+        ADDC   R4, R6           // R6 = z0 + c + 0
+        ADDZE  R7, R4           // c += z1
+        MOVD   R6, 8(R10)    // Store z[i]
+    	CMP 	  R0, R22
+	BEQ	done
+
+        MOVD  16(R8), R20     // Load x[i]
+        MOVD  16(R10), R21    // Load z[i]
+	MULLD  R9, R20, R6      // R6 = Low-order(x[i]*y)
+        MULHDU R9, R20, R7      // R7 = High-order(x[i]*y)
+        ADDC   R21, R6          // R6 = z0
+        ADDZE  R7               // R7 = z1
+        ADDC   R4, R6           // R6 = z0 + c + 0
+        ADDZE  R7, R4           // c += z1
+        MOVD   R6, 16(R10)    // Store z[i]
+
+done: 	
+	MOVD R4, c+56(FP)	// return c
+        RET
 
 
