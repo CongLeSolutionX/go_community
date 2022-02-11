@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ddb8b70e_4c8c4c6f",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 1535,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-02-11T16:27:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7b67a92_6c900b9f",
+      "revId": "f969f4c2d3700fbacb9106067189726d9c5e2ea6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "35b0157e_e11ca59d",
@@ -68,6 +86,24 @@
       "writtenOn": "2022-02-11T07:48:21Z",
       "side": 1,
       "message": "I don\u0027t think the word \"accordingly\" helps here.",
+      "revId": "f969f4c2d3700fbacb9106067189726d9c5e2ea6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86562931_4d3816ee",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 1544,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-02-11T16:27:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35b0157e_e11ca59d",
       "revId": "f969f4c2d3700fbacb9106067189726d9c5e2ea6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
