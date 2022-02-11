@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa8e86a9_4b70483b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-02-11T16:11:40Z",
+      "side": 1,
+      "message": "Thanks for finding this. I will incorporate it into one of my pending CLs instead (with attribution).",
+      "revId": "a7d9b6fb2846f7046edda142844f4f62e78edf85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
