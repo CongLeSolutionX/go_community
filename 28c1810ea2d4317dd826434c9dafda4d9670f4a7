@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bcb9f315_d4262b12",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-02-11T23:04:35Z",
+      "side": 1,
+      "message": "This adds quite a bit of complexity to the assembly implementation for modest gains. Lynn, what is the community stance here?",
+      "revId": "28c1810ea2d4317dd826434c9dafda4d9670f4a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72c75e30_35b18297",
+        "filename": "src/math/big/arith_ppc64x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-02-11T23:04:35Z",
+      "side": 1,
+      "message": "What impact does the cache touch have here? It seems like it could be harmful for small values of len(x).",
+      "range": {
+        "startLine": 500,
+        "startChar": 1,
+        "endLine": 500,
+        "endChar": 5
+      },
+      "revId": "28c1810ea2d4317dd826434c9dafda4d9670f4a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f8d4d91_d27469df",
+        "filename": "src/math/big/arith_ppc64x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-02-11T23:04:35Z",
+      "side": 1,
+      "message": "Can the R11/R15/R16 index load/store usage be replaced with d-form equivalents?",
+      "revId": "28c1810ea2d4317dd826434c9dafda4d9670f4a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a890f355_30181122",
+        "filename": "src/math/big/arith_ppc64x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-02-11T23:04:35Z",
+      "side": 1,
+      "message": "This isn\u0027t used.",
+      "range": {
+        "startLine": 591,
+        "startChar": 8,
+        "endLine": 591,
+        "endChar": 20
+      },
+      "revId": "28c1810ea2d4317dd826434c9dafda4d9670f4a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
