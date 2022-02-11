@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "701f52cb_b32615ef",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-02-11T22:22:07Z",
+      "side": 1,
+      "message": "PTAL\n\nIt turns out that that this [ensureSignalM](https://cs.opensource.google/go/go/+/master:src/runtime/signal_unix.go;l\u003d940;drc\u003d8cfcee1fffb9429e318549ad0a2cae2046798e48) goroutine blocks sigPreempt. Rather than attempt a special workaround, this patch set switches to using SIGSETXID, the same signal used by glibc.\n\nI want to be careful not to break glibc\u0027s handling by suppressing their signal, so I\u0027m careful to install a handler only in non-cgo binaries, but I\u0027d appreciate a closer look, particularly if I don\u0027t properly handle shared build modes or something like that.\n\nhttps://cs.opensource.google/go/go/+/master:misc/cgo/test/issue1435.go is happy, so I\u0027m fairly confident that standard cgo binaries are fine.",
+      "revId": "378f7b5af45cdad0418f1fcc77acd3a44c1ccaff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

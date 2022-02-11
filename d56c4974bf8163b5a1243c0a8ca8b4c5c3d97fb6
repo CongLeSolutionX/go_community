@@ -111,6 +111,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6411c1ea_ff0b5c2a",
+        "filename": "src/runtime/os_aix.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-02-11T22:22:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae36e7ea_183a3bd2",
+      "revId": "d56c4974bf8163b5a1243c0a8ca8b4c5c3d97fb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "111d3da4_75f0fb44",
@@ -260,6 +278,24 @@
       "side": 1,
       "message": "I think too many subsequent issues are getting confused here.\n\nTaking a look at the initial CL 277434 which added the initial sigqueue, the problem was that the M running signal_recv was blocked in notetsleepg, thus preventing the fixup from completely [1].\n\nThat CL kicked the note so that M could reach the fixup in exitsyscall -\u003e gcstopm.\n\nBut it needed to do something about the signal handler sigsend, which couldn\u0027t handle state sigFixup, so it added the osyield() loop waiting for sigIdle, which introduced the deadlock possibility.\n\nWithout sigFixup, this problem no longer applies.\n\nPut another way, let\u0027s look at what the signal handler does for each state:\n\nsigIdle: CAS to sigSending, then return\nsigSending: return\nsigReceiving: CAS to sigIdle, then return\n\nThere is no reason for any of those to ever block indefinitely. Yes, CAS is a loop and could fail in the event of a race, but there is no reason for it to fail continuously. If constantly racing with signal_recv or other threads\u0027 signal handler, it probabilistically should eventually win one of those races.\n\n[1] Note that notetsleepg is ironically just a blocking syscall, like we are fixing now: https://cs.opensource.google/go/go/+/master:src/runtime/lock_futex.go;l\u003d235-237;drc\u003df229e7031a6efb2f23241b5da000c3b3203081d6",
       "parentUuid": "6b127b12_23e9f692",
+      "revId": "d56c4974bf8163b5a1243c0a8ca8b4c5c3d97fb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5a5fc4a_584fe35a",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 796,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-02-11T22:22:07Z",
+      "side": 1,
+      "message": "Resolved.",
+      "parentUuid": "376c7652_a3d1845b",
       "revId": "d56c4974bf8163b5a1243c0a8ca8b4c5c3d97fb6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
