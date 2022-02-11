@@ -95,6 +95,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ae36e7ea_183a3bd2",
+        "filename": "src/runtime/os_aix.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-02-11T17:59:36Z",
+      "side": 1,
+      "message": "sighandler doesn\u0027t check GOARCH before calling this function, so it can\u0027t throw. Do you think that would be cleaner? I don\u0027t feel strongly either way.",
+      "parentUuid": "da86bf23_f562f002",
+      "revId": "d56c4974bf8163b5a1243c0a8ca8b4c5c3d97fb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "111d3da4_75f0fb44",
         "filename": "src/runtime/os_linux.go",
         "patchSetId": 6
@@ -106,6 +124,30 @@
       "writtenOn": "2022-02-10T15:03:09Z",
       "side": 1,
       "message": "Which mp? Or is this saying that this must be true for all mp?",
+      "range": {
+        "startLine": 690,
+        "startChar": 46,
+        "endLine": 690,
+        "endChar": 74
+      },
+      "revId": "d56c4974bf8163b5a1243c0a8ca8b4c5c3d97fb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0304b999_40a72b1b",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 690,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-02-11T17:59:36Z",
+      "side": 1,
+      "message": "Done. All Ms, because any M may read this from its signal handler if needPerThreadSyscall is set.",
+      "parentUuid": "111d3da4_75f0fb44",
       "range": {
         "startLine": 690,
         "startChar": 46,
@@ -129,6 +171,24 @@
       "writtenOn": "2022-02-10T15:03:09Z",
       "side": 1,
       "message": "Shouldn\u0027t syscall.Syscall just return 0 for this? Or is this something really annoying where *some* syscalls use r2 and others leave it unset and the ones we\u0027re interested in here leave it unset?",
+      "revId": "d56c4974bf8163b5a1243c0a8ca8b4c5c3d97fb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51da385a_6a163670",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 737,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-02-11T17:59:36Z",
+      "side": 1,
+      "message": "I need to look into this more. This is a holdover from the fix for https://go.dev/issue/42178. I agree it seems like the ppc64 syscall function should just return 0.",
+      "parentUuid": "6f06a802_44ff5d12",
       "revId": "d56c4974bf8163b5a1243c0a8ca8b4c5c3d97fb6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -239,6 +299,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "126eec98_3cb8ca19",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 803,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-02-11T17:59:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36dd0fb9_386ce6de",
+      "revId": "d56c4974bf8163b5a1243c0a8ca8b4c5c3d97fb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ef070571_a6c67973",
@@ -294,6 +372,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ee277d74_f101bbce",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 810,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-02-11T17:59:36Z",
+      "side": 1,
+      "message": "OK, I\u0027ve added STW back, I was just removing it opportunistically.\n\nThat said, I would strongly advise against anyone racing AllThreadsSyscall with code that depends on the changing thread state (e.g., UID). You happened to give an example that is OK, but it is really easy to mess up. e.g.,\n\n  if syscall.Getuid() !\u003d 0 {\n    create(\"/tmp/foo\")\n    // Don\u0027t need to chown!\n  } else {\n    // Change owner to the non-root user.\n    fd :\u003d create(\"/tmp/foo\")\n    fchown(fd, \"unpriv-user\")\n  }\n  \nEven with STW, this code is incorrect when racing with syscall.Setuid, as the UID may change to non-root after Getuid but before create(). Then it would even up missing the chown.\n\nIt could be fixed by moving Getuid after create (assuming Setuid is called only exactly once). But much better would be for applications that depend on changes to UID to add a lock serializing access to the state. If that was done, then whether or not we do STW wouldn\u0027t matter.",
+      "parentUuid": "d5401d8c_ca77ead1",
+      "revId": "d56c4974bf8163b5a1243c0a8ca8b4c5c3d97fb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "64bee0b1_3521b65d",
         "filename": "src/runtime/os_linux.go",
         "patchSetId": 6
@@ -305,6 +401,24 @@
       "writtenOn": "2022-02-10T15:03:09Z",
       "side": 1,
       "message": "This logic tripped both you and me up a while ago. :) Can we reverse the loop nesting so the outer loop goes over allm and the inner loop osyields until mp.needPerThreadSyscall is 0?",
+      "revId": "d56c4974bf8163b5a1243c0a8ca8b4c5c3d97fb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "16eda57e_9c1f56bf",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 820,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-02-11T17:59:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64bee0b1_3521b65d",
       "revId": "d56c4974bf8163b5a1243c0a8ca8b4c5c3d97fb6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -322,6 +436,30 @@
       "writtenOn": "2022-02-10T15:03:09Z",
       "side": 1,
       "message": "This isn\u0027t quite right. Since we acquire it in read mode for allocm, it doesn\u0027t serialize the *creation* of Ms. It\u0027s more like acquiring it in write mode blocks the creation of new Ms or something.",
+      "range": {
+        "startLine": 2023,
+        "startChar": 15,
+        "endLine": 2023,
+        "endChar": 45
+      },
+      "revId": "d56c4974bf8163b5a1243c0a8ca8b4c5c3d97fb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2274216_c7599a40",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 2023,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-02-11T17:59:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "454dbc9a_b3f5029a",
       "range": {
         "startLine": 2023,
         "startChar": 15,
@@ -378,6 +516,54 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0af93408_03326914",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 2061,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-02-11T17:59:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "369b59a6_826901aa",
+      "range": {
+        "startLine": 2061,
+        "startChar": 60,
+        "endLine": 2061,
+        "endChar": 72
+      },
+      "revId": "d56c4974bf8163b5a1243c0a8ca8b4c5c3d97fb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6350a4d1_ccd2c512",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 2061,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-02-11T17:59:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db7a2489_9b1c9531",
+      "range": {
+        "startLine": 2061,
+        "startChar": 16,
+        "endLine": 2061,
+        "endChar": 22
+      },
+      "revId": "d56c4974bf8163b5a1243c0a8ca8b4c5c3d97fb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0b59110b_aae01dc4",
@@ -391,6 +577,24 @@
       "writtenOn": "2022-02-10T15:03:09Z",
       "side": 1,
       "message": "I was really confused the first time I read this. I thought you were saying this acquirem would prevent the *new* thread from stopping until it started and became signal-able. Coming back here after reading your comment in doAllThreadsSyscall, I think you\u0027re just saying that newm itself needs to not be preempted between allocm and newm1, which makes a lot more sense.",
+      "revId": "d56c4974bf8163b5a1243c0a8ca8b4c5c3d97fb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81703371_ed66f9ef",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 2067,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-02-11T17:59:36Z",
+      "side": 1,
+      "message": "I\u0027ve changed this to try to state that most explicitly.",
+      "parentUuid": "0b59110b_aae01dc4",
       "revId": "d56c4974bf8163b5a1243c0a8ca8b4c5c3d97fb6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -412,6 +616,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c74e4c2e_620b2e02",
+        "filename": "src/runtime/signal_unix.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-02-11T17:59:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41835430_5bb99edf",
+      "revId": "d56c4974bf8163b5a1243c0a8ca8b4c5c3d97fb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3844035f_43bb0ef6",
@@ -425,6 +647,30 @@
       "writtenOn": "2022-02-10T15:03:09Z",
       "side": 1,
       "message": "No longer true",
+      "range": {
+        "startLine": 976,
+        "startChar": 65,
+        "endLine": 977,
+        "endChar": 8
+      },
+      "revId": "d56c4974bf8163b5a1243c0a8ca8b4c5c3d97fb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b747436_11bba6cb",
+        "filename": "src/syscall/syscall_linux.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 977,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-02-11T17:59:36Z",
+      "side": 1,
+      "message": "It is now (see agm@\u0027s comment)",
+      "parentUuid": "3844035f_43bb0ef6",
       "range": {
         "startLine": 976,
         "startChar": 65,

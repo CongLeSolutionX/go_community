@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e21fbbe_c23bca5d",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-02-11T17:59:36Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "d3d49b13_04c853bc",
+      "revId": "0132989d15b00ff8acb0e076cd54ec76250e936e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d93cd320_dbe8500d",
@@ -37,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a1e98f12_f08f497f",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1712,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-02-11T17:59:36Z",
+      "side": 0,
+      "message": "I see two parts to this question:\n\n1. Does allocm ever require acquirem?\n2. If so, is it only the newm case that requires acquirem? i.e., does oneNewExtraM -\u003e allocm require acquirem?\n\nTo be honest, I wasn\u0027t sure about either when I changed this.\n\nAfter more thought, I think I understand.\n\nallocm may borrow the passed P. Once it does acquirep, it could be preempted. This would be bad for several reasons.\n\n1. The caller owns `_p_` and expects to keep it. Preemption could steal it away and then we could have 2 Ms using the same P.\n2. `_p_` is usually (always?) in `_Pidle`. Stealing a `_p_` that is already in `_Pidle` may confuse the scheduler.\n3. The final `if _p_ \u003d\u003d _g_.m.p.ptr()` check would get confused if `_g_.m.p` changed.\n\nTo your question of whether the `newm` is sufficient, I think it is. The other caller, `oneNewExtraM` passes a nil `_p_`, so there won\u0027t be borrowing, and I think preemption would be OK. But I\u0027m adding a explanation here anyways to be clear.",
+      "parentUuid": "d93cd320_dbe8500d",
+      "revId": "0132989d15b00ff8acb0e076cd54ec76250e936e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f464559f_e62c8a80",
         "filename": "src/syscall/syscall_linux.go",
         "patchSetId": 6
@@ -48,6 +84,24 @@
       "writtenOn": "2022-02-10T15:03:09Z",
       "side": 0,
       "message": "Delete",
+      "revId": "0132989d15b00ff8acb0e076cd54ec76250e936e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b379ce0_ee9b6d09",
+        "filename": "src/syscall/syscall_linux.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 965,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-02-11T17:59:36Z",
+      "side": 0,
+      "message": "🎉",
+      "parentUuid": "f464559f_e62c8a80",
       "revId": "0132989d15b00ff8acb0e076cd54ec76250e936e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
