@@ -424,6 +424,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "28ece467_0cb56ebd",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 810,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-02-11T22:57:40Z",
+      "side": 1,
+      "message": "Resolving as there is nothing explicitly to be done here.",
+      "parentUuid": "ee277d74_f101bbce",
+      "revId": "d56c4974bf8163b5a1243c0a8ca8b4c5c3d97fb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "64bee0b1_3521b65d",

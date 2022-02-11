@@ -71,6 +71,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "07fc1162_a1d913c5",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1712,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-02-11T22:57:40Z",
+      "side": 0,
+      "message": "Resolving as there is nothing explicitly to be done here.\n\nPlease note if you feel I missed something.",
+      "parentUuid": "a1e98f12_f08f497f",
+      "revId": "0132989d15b00ff8acb0e076cd54ec76250e936e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f464559f_e62c8a80",
