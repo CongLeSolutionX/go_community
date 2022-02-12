@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92f70851_208897dd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-02-12T16:23:03Z",
+      "side": 1,
+      "message": "Thanks.  This isn\u0027t necessary but it doesn\u0027t hurt.  Please also rename the abi result parameter in the funcLayout function itself.  This will be for 1.19.",
+      "revId": "8db9e1cebf1a789053d0f4677b4a34fe63bc86b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
