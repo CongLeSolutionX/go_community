@@ -72,6 +72,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "01161f06_5edb6179",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2022-02-12T15:37:28Z",
+      "side": 1,
+      "message": "Thank you for this fix Bryan! I have added some suggestions, please take a look.",
+      "revId": "16bbd4bf619695588688fed46d2c278f16388024",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "34cbd859_dc7f0098",
@@ -85,6 +102,46 @@
       "writtenOn": "2022-02-12T06:13:39Z",
       "side": 1,
       "message": "I don\u0027t feel strongly about this, but we can just use defer here.  I feel like t.Cleanup is for cases where defer doesn\u0027t work well, as when a helper function needs to set up a cleanup.",
+      "revId": "16bbd4bf619695588688fed46d2c278f16388024",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56f0d0d7_1c7e9808",
+        "filename": "src/net/net_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2022-02-12T15:37:28Z",
+      "side": 1,
+      "message": "We also need to invoke: defer ss.Close() right there.",
+      "revId": "16bbd4bf619695588688fed46d2c278f16388024",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fdf3fd7a_6276990e",
+        "filename": "src/net/net_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 551,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2022-02-12T15:37:28Z",
+      "side": 1,
+      "message": "I feel like we can make an early return here using t.Fatal but we also need to check that an io.EOF only happens on \"plan9\" lest we shall not be detect when things fail with an io.EOF. Please take a look at:\n\n      _, err \u003d ss.Read([]byte{0})\n      if err \u003d\u003d nil {\n           t.Fatal(\"Read succeeded unexpectedly\")\n      }\n      \n      if err \u003d\u003d io.EOF {\n           if runtime.GOOS !\u003d \"plan9\" {\n                t.Fatal(\"Unexpectedly encountered io.EOF\")\n           }\n           return\n      }\n      \n      if ne, ok :\u003d err.(Error); !ok {\n           t.Errorf(\"err doesn\u0027t conform to net.Error: %v: %T\", err, err)\n      } else if ne.Temporary() {\n           t.Errorf(\"Unexpected temporary error: %v\", err)\n      }",
+      "range": {
+        "startLine": 542,
+        "startChar": 0,
+        "endLine": 551,
+        "endChar": 2
+      },
       "revId": "16bbd4bf619695588688fed46d2c278f16388024",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
