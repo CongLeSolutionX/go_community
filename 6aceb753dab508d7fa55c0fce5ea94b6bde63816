@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "410e422f_dcfc5795",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55613
+      },
+      "writtenOn": "2022-02-12T09:28:19Z",
+      "side": 1,
+      "message": "Please see if it is necessary to avoid variable name and package name conflicts, thanks",
+      "revId": "6aceb753dab508d7fa55c0fce5ea94b6bde63816",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
