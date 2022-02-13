@@ -163,11 +163,14 @@ func (t *fsTester) checkDir(dir string) {
 			continue
 		}
 		path := prefix + name
-		t.checkStat(path, info)
+		statInfo := t.checkStat(path, info)
 		t.checkOpen(path)
-		if info.IsDir() {
+		switch info.Type() {
+		case fs.ModeDir:
 			t.checkDir(path)
-		} else {
+		case fs.ModeSymlink:
+			t.checkSymlink(path, statInfo)
+		default:
 			t.checkFile(path)
 		}
 	}
@@ -388,17 +391,17 @@ func (t *fsTester) checkGlob(dir string, list []fs.DirEntry) {
 
 // checkStat checks that a direct stat of path matches entry,
 // which was found in the parent's directory listing.
-func (t *fsTester) checkStat(path string, entry fs.DirEntry) {
+func (t *fsTester) checkStat(path string, entry fs.DirEntry) fs.FileInfo {
 	file, err := t.fsys.Open(path)
 	if err != nil {
 		t.errorf("%s: Open: %v", path, err)
-		return
+		return nil
 	}
 	info, err := file.Stat()
 	file.Close()
 	if err != nil {
 		t.errorf("%s: Stat: %v", path, err)
-		return
+		return nil
 	}
 	fentry := formatEntry(entry)
 	fientry := formatInfoEntry(info)
@@ -410,7 +413,7 @@ func (t *fsTester) checkStat(path string, entry fs.DirEntry) {
 	einfo, err := entry.Info()
 	if err != nil {
 		t.errorf("%s: entry.Info: %v", path, err)
-		return
+		return info
 	}
 	finfo := formatInfo(info)
 	if entry.Type()&fs.ModeSymlink != 0 {
@@ -431,7 +434,7 @@ func (t *fsTester) checkStat(path string, entry fs.DirEntry) {
 	info2, err := fs.Stat(t.fsys, path)
 	if err != nil {
 		t.errorf("%s: fs.Stat: %v", path, err)
-		return
+		return info
 	}
 	finfo2 := formatInfo(info2)
 	if finfo2 != finfo {
@@ -442,13 +445,31 @@ func (t *fsTester) checkStat(path string, entry fs.DirEntry) {
 		info2, err := fsys.Stat(path)
 		if err != nil {
 			t.errorf("%s: fsys.Stat: %v", path, err)
-			return
+			return info
 		}
 		finfo2 := formatInfo(info2)
 		if finfo2 != finfo {
 			t.errorf("%s: fsys.Stat(...) = %s\n\twant %s", path, finfo2, finfo)
 		}
 	}
+
+	if fsys, ok := t.fsys.(fs.SymlinkFS); ok {
+		info2, err := fsys.Lstat(path)
+		if err != nil {
+			t.errorf("%s: fsys.Lstat: %v", path, err)
+			return info
+		}
+		fientry2 := formatInfoEntry(info2)
+		if fentry != fientry2 {
+			t.errorf("%s: mismatch:\n\tentry = %s\n\tfsys.Lstat(...) = %s", path, fentry, fientry2)
+		}
+		feinfo := formatInfo(einfo)
+		finfo2 := formatInfo(info2)
+		if feinfo != finfo2 {
+			t.errorf("%s: mismatch:\n\tentry.Info() = %s\n\tfsys.Lstat(...) = %s\n", path, feinfo, finfo2)
+		}
+	}
+	return info
 }
 
 // checkDirList checks that two directory lists contain the same files and file info.
@@ -588,6 +609,28 @@ func (t *fsTester) checkOpen(file string) {
 		}
 		return err
 	})
+}
+
+// checkSymlink checks that if ReadLink returns a value,
+// that it is a relative path inside the file system.
+func (t *fsTester) checkSymlink(file string, info fs.FileInfo) {
+	// Errors are fine: the filesystem may not support ReadLink
+	// or the link target may not follow the conventions.
+	if target, err := fs.ReadLink(t.fsys, file); err == nil {
+		if path.IsAbs(target) {
+			t.errorf("%s: ReadLink returned absolute path %s", file, target)
+		} else if strings.HasPrefix(path.Join(path.Dir(file), target), "../") {
+			t.errorf("%s: ReadLink returned path %s outside file system", file, target)
+		}
+	}
+
+	if info != nil {
+		if info.IsDir() {
+			t.checkDir(file)
+		} else {
+			t.checkFile(file)
+		}
+	}
 }
 
 // checkBadPath checks that various invalid forms of file's name cannot be opened using open.
