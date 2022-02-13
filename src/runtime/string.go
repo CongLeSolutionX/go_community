@@ -22,6 +22,7 @@ type tmpBuf [tmpStringBufSize]byte
 // If buf != nil, the compiler has determined that the result does not
 // escape the calling function, so the string data can be stored in buf
 // if small enough.
+// concatstring[2-5] below are specialized versions of this function.
 func concatstrings(buf *tmpBuf, a []string) string {
 	idx := 0
 	l := 0
@@ -41,12 +42,8 @@ func concatstrings(buf *tmpBuf, a []string) string {
 	if count == 0 {
 		return ""
 	}
-
-	// If there is just one string and either it is not on the stack
-	// or our result does not escape the calling frame (buf != nil),
-	// then we can return that string directly.
-	if count == 1 && (buf != nil || !stringDataOnStack(a[idx])) {
-		return a[idx]
+	if count == 1 {
+		return _concatstring1(buf, a[idx])
 	}
 	s, b := rawstringtmp(buf, l)
 	for _, x := range a {
@@ -56,20 +53,126 @@ func concatstrings(buf *tmpBuf, a []string) string {
 	return s
 }
 
+func _concatstring1(buf *tmpBuf, a0 string) string {
+	// If there is just one string and either it is not on the stack
+	// or our result does not escape the calling frame (buf != nil),
+	// or if the string is empty then we can return that string directly.
+	if len(a0) == 0 || buf != nil || !stringDataOnStack(a0) {
+		return a0
+	}
+	// Otherwise, allocate on the heap and clone the string.
+	// No need for rawstringtmp, as at this point buf must be nil.
+	s, b := rawstring(len(a0))
+	copy(b, a0)
+	return s
+}
+
+// concatstring[2-5] are specialized versions of concatstrings, known to
+// the compiler, for the common cases in which we are concatenating 2...5
+// strings. See concatstrings above for details about buf.
 func concatstring2(buf *tmpBuf, a0, a1 string) string {
-	return concatstrings(buf, []string{a0, a1})
+	if len(a0) == 0 {
+		return _concatstring1(buf, a1)
+	} else if len(a1) == 0 {
+		return _concatstring1(buf, a0)
+	} else if len(a1) > len(a0)+len(a1) {
+		throw("string concatenation too long")
+	}
+	s, b := rawstringtmp(buf, len(a0)+len(a1))
+	// no need for if len(a*) != 0: we know that both strings are non-empty
+	b = b[copy(b, a0):]
+	copy(b, a1)
+	return s
 }
 
 func concatstring3(buf *tmpBuf, a0, a1, a2 string) string {
-	return concatstrings(buf, []string{a0, a1, a2})
+	if len(a0) == 0 && len(a1) == 0 {
+		return _concatstring1(buf, a2)
+	} else if len(a0) == 0 && len(a2) == 0 {
+		return _concatstring1(buf, a1)
+	} else if len(a1) == 0 && len(a2) == 0 {
+		return _concatstring1(buf, a0)
+	} else if len(a1) > len(a0)+len(a1) ||
+		len(a2) > len(a0)+len(a1)+len(a2) {
+		throw("string concatenation too long")
+	}
+	s, b := rawstringtmp(buf, len(a0)+len(a1)+len(a2))
+	if len(a0) != 0 {
+		b = b[copy(b, a0):]
+	}
+	if len(a1) != 0 {
+		b = b[copy(b, a1):]
+	}
+	if len(a2) != 0 {
+		copy(b, a2)
+	}
+	return s
 }
 
 func concatstring4(buf *tmpBuf, a0, a1, a2, a3 string) string {
-	return concatstrings(buf, []string{a0, a1, a2, a3})
+	if len(a0) == 0 && len(a1) == 0 && len(a2) == 0 {
+		return _concatstring1(buf, a3)
+	} else if len(a0) == 0 && len(a1) == 0 && len(a3) == 0 {
+		return _concatstring1(buf, a2)
+	} else if len(a0) == 0 && len(a2) == 0 && len(a3) == 0 {
+		return _concatstring1(buf, a1)
+	} else if len(a1) == 0 && len(a2) == 0 && len(a3) == 0 {
+		return _concatstring1(buf, a0)
+	} else if len(a1) > len(a0)+len(a1) ||
+		len(a2) > len(a0)+len(a1)+len(a2) ||
+		len(a3) > len(a0)+len(a1)+len(a2)+len(a3) {
+		throw("string concatenation too long")
+	}
+	s, b := rawstringtmp(buf, len(a0)+len(a1)+len(a2)+len(a3))
+	if len(a0) != 0 {
+		b = b[copy(b, a0):]
+	}
+	if len(a1) != 0 {
+		b = b[copy(b, a1):]
+	}
+	if len(a2) != 0 {
+		b = b[copy(b, a2):]
+	}
+	if len(a3) != 0 {
+		copy(b, a3)
+	}
+	return s
 }
 
 func concatstring5(buf *tmpBuf, a0, a1, a2, a3, a4 string) string {
-	return concatstrings(buf, []string{a0, a1, a2, a3, a4})
+	if len(a0) == 0 && len(a1) == 0 && len(a2) == 0 && len(a3) == 0 {
+		return _concatstring1(buf, a4)
+	} else if len(a0) == 0 && len(a1) == 0 && len(a2) == 0 && len(a4) == 0 {
+		return _concatstring1(buf, a3)
+	} else if len(a0) == 0 && len(a1) == 0 && len(a3) == 0 && len(a4) == 0 {
+		return _concatstring1(buf, a2)
+	} else if len(a0) == 0 && len(a2) == 0 && len(a3) == 0 && len(a4) == 0 {
+		return _concatstring1(buf, a1)
+	} else if len(a1) == 0 && len(a2) == 0 && len(a3) == 0 && len(a4) == 0 {
+		return _concatstring1(buf, a0)
+	} else if len(a1) > len(a0)+len(a1) ||
+		len(a2) > len(a0)+len(a1)+len(a2) ||
+		len(a3) > len(a0)+len(a1)+len(a2)+len(a3) ||
+		len(a4) > len(a0)+len(a1)+len(a2)+len(a3)+len(a4) {
+		throw("string concatenation too long")
+	}
+	s, b := rawstringtmp(buf, len(a0)+len(a1)+len(a2)+len(a3)+len(a4))
+	if len(a0) != 0 {
+		b = b[copy(b, a0):]
+	}
+	if len(a1) != 0 {
+		b = b[copy(b, a1):]
+	}
+	if len(a2) != 0 {
+		b = b[copy(b, a2):]
+	}
+	if len(a3) != 0 {
+		b = b[copy(b, a3):]
+	}
+	if len(a4) != 0 {
+		copy(b, a4)
+	}
+	return s
 }
 
 // slicebytetostring converts a byte slice to a string.
