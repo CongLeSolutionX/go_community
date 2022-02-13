@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4f5a3c2_be9edfd4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 39454
+      },
+      "writtenOn": "2022-02-13T20:34:40Z",
+      "side": 1,
+      "message": "This CL is still WIP (notably, I haven\u0027t added support in archive/zip), but I wanted to send out what I have so far to validate the approach. In particular, I\u0027m not thrilled with splitting out part of path/filepath just for IsAbs, but I couldn\u0027t think of a clearer implementation and didn\u0027t want to straight-copy it. WDYT?",
+      "revId": "ce4ecb550ea6a098ecba2e5968a2d4875b69665e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
