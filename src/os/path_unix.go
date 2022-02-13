@@ -6,6 +6,8 @@
 
 package os
 
+import "strings"
+
 const (
 	PathSeparator     = '/' // OS-specific path separator
 	PathListSeparator = ':' // OS-specific path list separator
@@ -68,6 +70,10 @@ func splitPath(path string) (string, string) {
 	}
 
 	return dirname, basename
+}
+
+func isAbs(path string) bool {
+	return strings.HasPrefix(path, "/")
 }
 
 func volumeName(p string) string {

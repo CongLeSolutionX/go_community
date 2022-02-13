@@ -46,7 +46,9 @@ import (
 	"internal/testlog"
 	"io"
 	"io/fs"
+	"path"
 	"runtime"
+	"strings"
 	"syscall"
 	"time"
 	"unsafe"
@@ -677,6 +679,25 @@ func (dir dirFS) Stat(name string) (fs.FileInfo, error) {
 	return f, nil
 }
 
+func (dir dirFS) ReadLink(name string) (string, error) {
+	fullname, err := dir.join(name)
+	if err != nil {
+		return "", &PathError{Op: "readlink", Path: name, Err: err}
+	}
+	target, err := Readlink(fullname)
+	if err != nil {
+		return "", err
+	}
+	if isAbs(target) {
+		return "", &PathError{Op: "readlink", Path: name, Err: errors.New("target " + target + " is absolute")}
+	}
+	slashTarget := toSlash(target)
+	if strings.HasPrefix(path.Join(path.Dir(name), slashTarget), "../") {
+		return "", &PathError{Op: "readlink", Path: name, Err: errors.New("target " + target + " is outside the file system")}
+	}
+	return slashTarget, nil
+}
+
 // join returns the path for name in dir.
 func (dir dirFS) join(name string) (string, error) {
 	if dir == "" {
@@ -756,4 +777,11 @@ func WriteFile(name string, data []byte, perm FileMode) error {
 		err = err1
 	}
 	return err
+}
+
+func toSlash(path string) string {
+	if PathSeparator == '/' {
+		return path
+	}
+	return strings.ReplaceAll(path, string(PathSeparator), "/")
 }

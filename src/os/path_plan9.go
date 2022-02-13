@@ -14,6 +14,10 @@ func IsPathSeparator(c uint8) bool {
 	return PathSeparator == c
 }
 
+func isAbs(path string) bool {
+	return strings.HasPrefix(path, "/") || strings.HasPrefix(path, "#")
+}
+
 func volumeName(p string) string {
 	return ""
 }
