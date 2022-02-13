@@ -331,11 +331,6 @@ func Remove(name string) error {
 	return nil
 }
 
-// HasPrefix from the strings package.
-func hasPrefix(s, prefix string) bool {
-	return len(s) >= len(prefix) && s[0:len(prefix)] == prefix
-}
-
 func rename(oldname, newname string) error {
 	dirname := oldname[:lastIndex(oldname, '/')+1]
 	if hasPrefix(newname, dirname) {

@@ -13,6 +13,7 @@ package filepath
 
 import (
 	"errors"
+	"internal/filepath"
 	"io/fs"
 	"os"
 	"sort"
@@ -88,7 +89,7 @@ const (
 // https://9p.io/sys/doc/lexnames.html
 func Clean(path string) string {
 	originalPath := path
-	volLen := volumeNameLen(path)
+	volLen := filepath.VolumeNameLen(path)
 	path = path[volLen:]
 	if path == "" {
 		if volLen > 1 && originalPath[1] != ':' {
@@ -244,6 +245,11 @@ func Abs(path string) (string, error) {
 	return abs(path)
 }
 
+// IsAbs reports whether the path is absolute.
+func IsAbs(path string) bool {
+	return filepath.IsAbs(path)
+}
+
 func unixAbs(path string) (string, error) {
 	if IsAbs(path) {
 		return Clean(path), nil
@@ -275,7 +281,7 @@ func Rel(basepath, targpath string) (string, error) {
 	targ = targ[len(targVol):]
 	if base == "." {
 		base = ""
-	} else if base == "" && volumeNameLen(baseVol) > 2 /* isUNC */ {
+	} else if base == "" && filepath.VolumeNameLen(baseVol) > 2 /* isUNC */ {
 		// Treat any targetpath matching `\\host\share` basepath as absolute path.
 		base = string(Separator)
 	}
@@ -596,5 +602,5 @@ func Dir(path string) string {
 // Given "\\host\share\foo" it returns "\\host\share".
 // On other platforms it returns "".
 func VolumeName(path string) string {
-	return path[:volumeNameLen(path)]
+	return path[:filepath.VolumeNameLen(path)]
 }

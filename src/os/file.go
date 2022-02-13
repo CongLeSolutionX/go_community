@@ -42,12 +42,15 @@ package os
 
 import (
 	"errors"
+	"internal/filepath"
 	"internal/poll"
 	"internal/testlog"
 	"internal/unsafeheader"
 	"io"
 	"io/fs"
+	"path"
 	"runtime"
+	"strings"
 	"syscall"
 	"time"
 	"unsafe"
@@ -662,6 +665,24 @@ func (dir dirFS) Stat(name string) (fs.FileInfo, error) {
 	return f, nil
 }
 
+func (dir dirFS) ReadLink(name string) (string, error) {
+	if !fs.ValidPath(name) || runtime.GOOS == "windows" && containsAny(name, `\:`) {
+		return "", &PathError{Op: "readlink", Path: name, Err: ErrInvalid}
+	}
+	target, err := Readlink(string(dir) + "/" + name)
+	if err != nil {
+		return "", err
+	}
+	if filepath.IsAbs(target) {
+		return "", &PathError{Op: "readlink", Path: name, Err: errors.New("target " + target + " is absolute")}
+	}
+	slashTarget := toSlash(target)
+	if hasPrefix(path.Join(path.Dir(name), slashTarget), "../") {
+		return "", &PathError{Op: "readlink", Path: name, Err: errors.New("target " + target + " is outside the file system")}
+	}
+	return target, nil
+}
+
 // ReadFile reads the named file and returns the contents.
 // A successful call returns err == nil, not err == EOF.
 // Because ReadFile reads the whole file, it does not treat an EOF from Read
@@ -720,4 +741,16 @@ func WriteFile(name string, data []byte, perm FileMode) error {
 		err = err1
 	}
 	return err
+}
+
+// HasPrefix from the strings package.
+func hasPrefix(s, prefix string) bool {
+	return len(s) >= len(prefix) && s[0:len(prefix)] == prefix
+}
+
+func toSlash(path string) string {
+	if PathSeparator == '/' {
+		return path
+	}
+	return strings.ReplaceAll(path, string(PathSeparator), "/")
 }
