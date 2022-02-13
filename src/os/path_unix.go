@@ -69,3 +69,7 @@ func splitPath(path string) (string, string) {
 
 	return dirname, basename
 }
+
+func isAbs(path string) bool {
+	return stringsHasPrefix(path, "/")
+}
