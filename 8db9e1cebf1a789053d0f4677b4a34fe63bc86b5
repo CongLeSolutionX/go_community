@@ -16,6 +16,24 @@
       "message": "Thanks.  This isn\u0027t necessary but it doesn\u0027t hurt.  Please also rename the abi result parameter in the funcLayout function itself.  This will be for 1.19.",
       "revId": "8db9e1cebf1a789053d0f4677b4a34fe63bc86b5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "643b4cb0_ac037bbb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55613
+      },
+      "writtenOn": "2022-02-13T02:28:33Z",
+      "side": 1,
+      "message": "Thank you for your attention.\nI think modify the variable name to avoid conflict with the package name, which can prevent others from making mistakes unintentionally.",
+      "parentUuid": "92f70851_208897dd",
+      "revId": "8db9e1cebf1a789053d0f4677b4a34fe63bc86b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
