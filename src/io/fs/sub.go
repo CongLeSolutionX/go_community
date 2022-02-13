@@ -7,6 +7,7 @@ package fs
 import (
 	"errors"
 	"path"
+	"strings"
 )
 
 // A SubFS is a file system with a Sub method.
@@ -103,6 +104,21 @@ func (f *subFS) ReadFile(name string) ([]byte, error) {
 	}
 	data, err := ReadFile(f.fsys, full)
 	return data, f.fixErr(err)
+}
+
+func (f *subFS) ReadLink(name string) (string, error) {
+	full, err := f.fullName("readlink", name)
+	if err != nil {
+		return "", err
+	}
+	target, err := ReadLink(f.fsys, full)
+	if err != nil {
+		return "", f.fixErr(err)
+	}
+	if strings.HasPrefix(path.Join(path.Dir(name), target), "../") {
+		return "", &PathError{Op: "readlink", Path: name, Err: errors.New("target " + target + " is outside of file system")}
+	}
+	return target, nil
 }
 
 func (f *subFS) Glob(pattern string) ([]string, error) {

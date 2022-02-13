@@ -8,17 +8,6 @@ package filepath
 
 import "strings"
 
-// IsAbs reports whether the path is absolute.
-func IsAbs(path string) bool {
-	return strings.HasPrefix(path, "/")
-}
-
-// volumeNameLen returns length of the leading volume name on Windows.
-// It returns 0 elsewhere.
-func volumeNameLen(path string) int {
-	return 0
-}
-
 // HasPrefix exists for historical compatibility and should not be used.
 //
 // Deprecated: HasPrefix does not respect path boundaries and
