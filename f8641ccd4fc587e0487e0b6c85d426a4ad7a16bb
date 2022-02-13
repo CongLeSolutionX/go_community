@@ -57,6 +57,86 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f5cbeae_c1a70c62",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34636
+      },
+      "writtenOn": "2022-02-13T17:52:01Z",
+      "side": 1,
+      "message": "[-1 because of the failing test in legacy code.]",
+      "revId": "f8641ccd4fc587e0487e0b6c85d426a4ad7a16bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b03daaa3_d68e68f1",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 707,
+      "author": {
+        "id": 34636
+      },
+      "writtenOn": "2022-02-13T17:52:01Z",
+      "side": 1,
+      "message": "This change at present fails the unit test of some \"legacy\" code:\n\n  [ cd go/src ]\n  ../bin/go get kernel.org/pub/linux/libs/security/libcap/psx\n  CGO_ENABLED\u003d0 ../bin/go test -mod\u003dreadonly \\\n     kernel.org/pub/linux/libs/security/libcap/psx\n\nThe failure (`fatal error: schedule: holding locks`) seems to be somewhere in the generic test setup code and not in the unit tests themselves (https://git.kernel.org/pub/scm/libs/libcap/libcap.git/tree/psx/psx_test.go).\n\nFor reference, when the test is compiled with `CGO_ENABLED\u003d0` the `psx` package is a simple wrapper around this `syscall.AllThreadsSyscall()` mechanism:\n\nhttps://git.kernel.org/pub/scm/libs/libcap/libcap.git/tree/psx/psx.go",
+      "revId": "f8641ccd4fc587e0487e0b6c85d426a4ad7a16bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e56e0453_47cfff73",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 34636
+      },
+      "writtenOn": "2022-02-13T17:52:01Z",
+      "side": 1,
+      "message": "I find this comment a little chatty and somewhat vague. It seems to be watering down user expectations. The original implementation for this functionality (https://go-review.googlesource.com/c/go/+/210639) declared:\n\n...The wrappers serialize execution of the\nruntime to ensure no race conditions where any Go code observes\na non-atomic OS state change....\n\nIt was certainly my intent that this function not allow go code to ever see old -\u003e new -\u003e old -\u003e new sequences; just old -\u003e new.",
+      "range": {
+        "startLine": 713,
+        "startChar": 0,
+        "endLine": 719,
+        "endChar": 40
+      },
+      "revId": "f8641ccd4fc587e0487e0b6c85d426a4ad7a16bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ab8ecd4_40703239",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 814,
+      "author": {
+        "id": 34636
+      },
+      "writtenOn": "2022-02-13T17:52:01Z",
+      "side": 1,
+      "message": "Again this seems chatty. Could it read something like this(?):\n\nNot all system calls are idempotent, so we only execute the system call once on each thread.",
+      "range": {
+        "startLine": 811,
+        "startChar": 0,
+        "endLine": 814,
+        "endChar": 0
+      },
+      "revId": "f8641ccd4fc587e0487e0b6c85d426a4ad7a16bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "002fc834_3c1b7c9d",
