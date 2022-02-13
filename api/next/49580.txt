@@ -1,0 +1,4 @@
+pkg io/fs, func ReadLink(FS, string) (string, error) #49580
+pkg io/fs, type ReadLinkFS interface { Open, ReadLink } #49580
+pkg io/fs, type ReadLinkFS interface, Open(string) (File, error) #49580
+pkg io/fs, type ReadLinkFS interface, ReadLink(string) (string, error) #49580
