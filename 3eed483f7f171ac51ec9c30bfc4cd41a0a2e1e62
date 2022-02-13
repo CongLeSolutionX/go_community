@@ -142,6 +142,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f2f5f38_c92637c8",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 2278,
+      "author": {
+        "id": 34636
+      },
+      "writtenOn": "2022-02-13T20:19:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd9cac4c_8c8a71b5",
+      "revId": "3eed483f7f171ac51ec9c30bfc4cd41a0a2e1e62",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3f2625e5_554c98c7",
@@ -209,6 +227,24 @@
       "side": 1,
       "message": "I\u0027m still exploring ways to simplify the other part, but I\u0027ll plan to drop this part of the change if no reason surfaces to need to keep it.",
       "parentUuid": "a2b38a4e_4da941a9",
+      "revId": "3eed483f7f171ac51ec9c30bfc4cd41a0a2e1e62",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "87bcc892_6154bbba",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 3294,
+      "author": {
+        "id": 34636
+      },
+      "writtenOn": "2022-02-13T20:19:03Z",
+      "side": 1,
+      "message": "Done\n\nI\u0027ve backed up a little and become more specific when setting up the fixup which way I want it to be executed. This way, a (spurious) signal handler attempt can\u0027t accidentally run the fixup that the code was expecting to run from a parked location.",
+      "parentUuid": "f40252ba_bdab4437",
       "revId": "3eed483f7f171ac51ec9c30bfc4cd41a0a2e1e62",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
