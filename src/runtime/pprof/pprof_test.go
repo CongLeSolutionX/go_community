@@ -1451,6 +1451,63 @@ func TestLabelRace(t *testing.T) {
 	})
 }
 
+func TestGoroutineProfileLabelRace(t *testing.T) {
+	// Test the race detector annotations for synchronization
+	// between settings labels and consuming them from the
+	// goroutine profile. See issue #50292.
+
+	t.Run("reset", func(t *testing.T) {
+		ctx := context.Background()
+		ctx, cancel := context.WithCancel(ctx)
+		defer cancel()
+
+		go func() {
+			goroutineProf := Lookup("goroutine")
+			for ctx.Err() == nil {
+				var w bytes.Buffer
+				goroutineProf.WriteTo(&w, 1)
+				prof := w.String()
+				if strings.Contains(prof, "loop-i") {
+					cancel()
+				}
+			}
+		}()
+
+		for i := 0; ctx.Err() == nil; i++ {
+			Do(ctx, Labels("loop-i", fmt.Sprint(i)), func(ctx context.Context) {
+			})
+		}
+	})
+
+	t.Run("churn", func(t *testing.T) {
+		ctx := context.Background()
+		ctx, cancel := context.WithCancel(ctx)
+		defer cancel()
+
+		var ready sync.WaitGroup
+		ready.Add(1)
+		var churn func(i int)
+		churn = func(i int) {
+			SetGoroutineLabels(WithLabels(ctx, Labels("churn-i", fmt.Sprint(i))))
+			if i == 0 {
+				ready.Done()
+			}
+			if ctx.Err() == nil {
+				go churn(i + 1)
+			}
+		}
+		go func() {
+			churn(0)
+		}()
+		ready.Wait()
+
+		goroutineProf := Lookup("goroutine")
+		for i := 0; i < 10; i++ {
+			goroutineProf.WriteTo(io.Discard, 1)
+		}
+	})
+}
+
 // TestLabelSystemstack makes sure CPU profiler samples of goroutines running
 // on systemstack include the correct pprof labels. See issue #48577
 func TestLabelSystemstack(t *testing.T) {

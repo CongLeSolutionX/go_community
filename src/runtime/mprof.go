@@ -811,6 +811,9 @@ func goroutineProfileWithLabels(p []StackRecord, labels []unsafe.Pointer) (n int
 			// call into the schedular (see traceback.go:cgoContextPCs).
 			systemstack(func() { saveg(^uintptr(0), ^uintptr(0), gp1, &r[0]) })
 			if labels != nil {
+				if raceenabled {
+					raceacquire(unsafe.Pointer(&gp1.labels))
+				}
 				lbl[0] = gp1.labels
 				lbl = lbl[1:]
 			}

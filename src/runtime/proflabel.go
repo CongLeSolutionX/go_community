@@ -30,6 +30,9 @@ func runtime_setProfLabel(labels unsafe.Pointer) {
 	// ultimately carries forward to the acquire in profBuf.read.
 	if raceenabled {
 		racereleasemerge(unsafe.Pointer(&labelSync))
+		// For the reads that come from creating goroutine profiles, we can
+		// synchronize directly on &getg().labels.
+		racerelease(unsafe.Pointer(&getg().labels))
 	}
 	getg().labels = labels
 }

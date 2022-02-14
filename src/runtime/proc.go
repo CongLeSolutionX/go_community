@@ -4116,6 +4116,12 @@ func newproc1(fn *funcval, callergp *g, callerpc uintptr) *g {
 	} else {
 		// Only user goroutines inherit pprof labels.
 		if _g_.m.curg != nil {
+			if raceenabled {
+				// See note in proflabel.go on labelSync's role in synchronizing
+				// with the reads in the signal handler.
+				racereleasemergeg(_g_.m.curg, unsafe.Pointer(&labelSync))
+				racereleaseg(_g_.m.curg, unsafe.Pointer(&newg.labels))
+			}
 			newg.labels = _g_.m.curg.labels
 		}
 	}
