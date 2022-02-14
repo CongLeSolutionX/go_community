@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2cb5761f_485c179d",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-02-14T22:27:29Z",
+      "side": 1,
+      "message": "This should be `err \u003d\u003d nil`.\n\n(The idea is to overwrite `err` with `closeErr` only if `err` itself doesn\u0027t provide useful information. Generally the first error encountered by the program is the most informative.)",
+      "range": {
+        "startLine": 335,
+        "startChar": 28,
+        "endLine": 335,
+        "endChar": 39
+      },
+      "revId": "fd7cb80c330dd161e93a43ceae438e7de60f4b14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
