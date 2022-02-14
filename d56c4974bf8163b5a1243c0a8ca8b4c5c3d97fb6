@@ -231,6 +231,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "da5864b7_e4b4c57c",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 737,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-02-14T17:53:05Z",
+      "side": 1,
+      "message": "My read of man syscall (and https://github.com/golang/go/issues/42178#issuecomment-718353394) is that there simply is no second return register on ppc64. That is, it is consistently not set (maybe that\u0027s what you meant by \"not set consistently\" :)\n\nIn that case, we should just return 0 from Syscall and Syscall6 on ppc64.\n\nLooking at the kernel, system_call_exception only returns a single long (https://elixir.bootlin.com/linux/v5.16.9/source/arch/powerpc/kernel/interrupt.c#L78), but I haven\u0027t been able to make sense of the syscall return path (https://elixir.bootlin.com/linux/v5.16.9/source/arch/powerpc/kernel/interrupt_64.S#L115), which sure looks like it clobbers R3 (the return value). It\u0027s also possible that any syscall could set R4 (the second return word on ppc64) in the pt_regs.",
+      "parentUuid": "98073401_93aabb96",
+      "revId": "d56c4974bf8163b5a1243c0a8ca8b4c5c3d97fb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1232113d_575165e0",
         "filename": "src/runtime/os_linux.go",
         "patchSetId": 6
@@ -491,6 +509,23 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "64bee0b1_3521b65d",
+      "revId": "d56c4974bf8163b5a1243c0a8ca8b4c5c3d97fb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3479ff1d_e190bd72",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 848,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-02-14T17:53:05Z",
+      "side": 1,
+      "message": "Same comment about r2 on ppc64.",
       "revId": "d56c4974bf8163b5a1243c0a8ca8b4c5c3d97fb6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
