@@ -548,6 +548,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0da99d4_307a85df",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 848,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-02-14T20:13:17Z",
+      "side": 1,
+      "message": "Same comment. I think we should clean that up, but for 1.19, not 1.18.",
+      "parentUuid": "3479ff1d_e190bd72",
+      "revId": "d56c4974bf8163b5a1243c0a8ca8b4c5c3d97fb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "454dbc9a_b3f5029a",

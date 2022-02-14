@@ -91,6 +91,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e82d34b_d533be5f",
+        "filename": "src/runtime/os_aix.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-02-14T20:13:17Z",
+      "side": 1,
+      "message": "We check for this in sighandler in signal_unix.go, so unfortunately it is needed (or some alternative, like an unconditional function call defined everywhere).",
+      "parentUuid": "9ce1a612_195c7afc",
+      "revId": "f8641ccd4fc587e0487e0b6c85d426a4ad7a16bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b03daaa3_d68e68f1",
@@ -233,6 +251,30 @@
       "writtenOn": "2022-02-14T17:53:05Z",
       "side": 1,
       "message": "Maybe \"starting the new thread\"? \"Thread creation\" feels a bit ambiguous because it could either mean OS thread creation, or it could refer to everything newm is doing.",
+      "range": {
+        "startLine": 2075,
+        "startChar": 45,
+        "endLine": 2075,
+        "endChar": 60
+      },
+      "revId": "f8641ccd4fc587e0487e0b6c85d426a4ad7a16bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "008fea3d_3e26d509",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 2075,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-02-14T20:13:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85173934_56dad6f3",
       "range": {
         "startLine": 2075,
         "startChar": 45,
