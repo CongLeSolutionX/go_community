@@ -110,6 +110,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "48c52066_4ad15d15",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2660,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-02-14T21:54:16Z",
+      "side": 1,
+      "message": "I think this may need to be worded more carefully. For example *C|int and *struct{}|int are currently also ambiguous, and *C|~int fails to parse.\n\nMore details in #49482.",
+      "range": {
+        "startLine": 2657,
+        "startChar": 0,
+        "endLine": 2660,
+        "endChar": 34
+      },
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a4f3908b_c9f8aa14",
         "filename": "doc/go_spec.html",
         "patchSetId": 2
