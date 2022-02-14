@@ -74,6 +74,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2eeda00_ca960a48",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2022-02-14T14:02:47Z",
+      "side": 1,
+      "message": "I\u0027ve set it based on rlimit which Eric Lagergren suggested on the Github issue.\nBenchmark shows there is \u003c 10% improvment in speed by this CL but I don\u0027t know how to setup the result as your previous CL do 😞\n\nAs for testing is it ok to test without REALLY building the bin/gofmt but using newSequencer and setting limit while testing?",
+      "parentUuid": "58276e7c_16c5cccd",
+      "revId": "11c48d40d49d35d05a8087fdd1114ebf49b28d1b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "62f3f545_0d23d5bc",
@@ -91,6 +109,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f09df272_fcd7ac08",
+        "filename": "src/cmd/gofmt/gofmt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2022-02-14T14:02:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62f3f545_0d23d5bc",
+      "revId": "11c48d40d49d35d05a8087fdd1114ebf49b28d1b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0e333bac_2e59e519",
@@ -104,6 +140,24 @@
       "writtenOn": "2022-02-14T09:54:45Z",
       "side": 1,
       "message": "I\u0027d document why we\u0027re closing the file here. I assume it\u0027s because we don\u0027t need it anymore, and to avoid having two versions of the file open at the same time, as we may use WriteFile further down.",
+      "revId": "11c48d40d49d35d05a8087fdd1114ebf49b28d1b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f385ddf5_00a4ecb5",
+        "filename": "src/cmd/gofmt/gofmt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2022-02-14T14:02:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e333bac_2e59e519",
       "revId": "11c48d40d49d35d05a8087fdd1114ebf49b28d1b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
