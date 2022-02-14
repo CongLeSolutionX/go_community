@@ -108,6 +108,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9abed11_0e6c41f1",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 707,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-02-14T20:09:06Z",
+      "side": 1,
+      "message": "Thanks for this. I forgot to releasem and starttheworld in the errno case.\n\nI\u0027ve also added TestAllThreadsSyscallError to cover simply error returns like this.",
+      "parentUuid": "b03daaa3_d68e68f1",
+      "revId": "f8641ccd4fc587e0487e0b6c85d426a4ad7a16bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e56e0453_47cfff73",
@@ -131,6 +149,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e3817a5_c37d2b45",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-02-14T20:09:06Z",
+      "side": 1,
+      "message": "I want to explain the how and why and ensure the internal vs external requirements are clear to future runtime developers. Otherwise I expect myself to come back in a few years and think this doesn\u0027t need STW anymore.\n\nI\u0027ve reworded a bit to try to make the guarantee we provide to users more clear.",
+      "parentUuid": "e56e0453_47cfff73",
+      "range": {
+        "startLine": 713,
+        "startChar": 0,
+        "endLine": 719,
+        "endChar": 40
+      },
+      "revId": "f8641ccd4fc587e0487e0b6c85d426a4ad7a16bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3ab8ecd4_40703239",
@@ -144,6 +186,30 @@
       "writtenOn": "2022-02-13T17:52:01Z",
       "side": 1,
       "message": "Again this seems chatty. Could it read something like this(?):\n\nNot all system calls are idempotent, so we only execute the system call once on each thread.",
+      "range": {
+        "startLine": 811,
+        "startChar": 0,
+        "endLine": 814,
+        "endChar": 0
+      },
+      "revId": "f8641ccd4fc587e0487e0b6c85d426a4ad7a16bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b8bfe57_2c7e51ef",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 814,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-02-14T20:09:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ab8ecd4_40703239",
       "range": {
         "startLine": 811,
         "startChar": 0,
@@ -190,6 +256,24 @@
       "writtenOn": "2022-02-12T02:11:22Z",
       "side": 1,
       "message": "Is this comment still accurate?",
+      "revId": "f8641ccd4fc587e0487e0b6c85d426a4ad7a16bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "806d2d0a_d51de0f9",
+        "filename": "src/runtime/signal_unix.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-02-14T20:09:06Z",
+      "side": 1,
+      "message": "Nope, thanks.",
+      "parentUuid": "002fc834_3c1b7c9d",
       "revId": "f8641ccd4fc587e0487e0b6c85d426a4ad7a16bb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
