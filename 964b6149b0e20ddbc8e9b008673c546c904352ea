@@ -52,6 +52,23 @@
       "parentUuid": "2c7f1bcc_21caa34a",
       "revId": "964b6149b0e20ddbc8e9b008673c546c904352ea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4aae2682_1ff172c3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2022-02-14T11:20:46Z",
+      "side": 1,
+      "message": "I dont think the current implementation is lacking for the intention it was made. One reason to have these in the first place is such that the call sites are smaller. They do not require for a tmp slice to be build on the stack and for values to get copied in and then the concat function called. This also avoids needing to scan these slices. So I think the original intention was not to have them to have more specialised faster version. \n\nIt seems it would be good to find a general direction here how far we push unrolling of runtime functions where the compiler generates calls to more specialised variants. Both in how wide (different functions) as well as how deep (on what arguments).\n\ne.g. we could unroll these further to variants with or without a buffer and other criteria. Each of those is likely to show an improvement in mircrobenchmarks.",
+      "revId": "964b6149b0e20ddbc8e9b008673c546c904352ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
