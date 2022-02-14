@@ -123,6 +123,74 @@
       "message": "Just a bit above you mention that [P *C] is a potential ambiguity without the interface{}, it\u0027s not clear to me what the nuance is that makes this not an ambiguity.",
       "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b95d42f1_7ee4dbc2",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2909,
+      "author": {
+        "id": 52648
+      },
+      "writtenOn": "2022-02-14T18:48:09Z",
+      "side": 1,
+      "message": "Here too, don\u0027t use `constraints.Ordered`",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea33618b_76fca548",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2997,
+      "author": {
+        "id": 52648
+      },
+      "writtenOn": "2022-02-14T18:48:09Z",
+      "side": 1,
+      "message": "I find the \"except...\" part between the commas hard to parse.",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "220afb6b_58677a2c",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 4496,
+      "author": {
+        "id": 52648
+      },
+      "writtenOn": "2022-02-14T18:48:09Z",
+      "side": 1,
+      "message": "Maybe I\u0027m missing something, but doesn\u0027t this first sentence just repeat what was already said above?\n\n\"Function argument type inference infers type arguments from function arguments: if a function parameter is declared with a type T that uses type parameters, unifying the type of the corresponding function argument with T may infer type arguments for the type parameters used by T. \"",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa761f83_43f68041",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 4555,
+      "author": {
+        "id": 52648
+      },
+      "writtenOn": "2022-02-14T18:48:09Z",
+      "side": 1,
+      "message": "Another constraints.Ordered usage",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
