@@ -21,6 +21,7 @@ import (
 	"runtime"
 	"runtime/pprof"
 	"strings"
+	"syscall"
 
 	"cmd/internal/diff"
 
@@ -79,18 +80,20 @@ func isGoFile(f fs.DirEntry) bool {
 // output in a deterministic order.
 type sequencer struct {
 	maxWeight int64
+	minWeight int64
 	sem       *semaphore.Weighted   // weighted by input bytes (an approximate proxy for memory overhead)
 	prev      <-chan *reporterState // 1-buffered
 }
 
 // newSequencer returns a sequencer that allows concurrent tasks up to maxWeight
 // and writes tasks' output to out and err.
-func newSequencer(maxWeight int64, out, err io.Writer) *sequencer {
+func newSequencer(maxWeight, minWeight int64, out, err io.Writer) *sequencer {
 	sem := semaphore.NewWeighted(maxWeight)
 	prev := make(chan *reporterState, 1)
 	prev <- &reporterState{out: out, err: err}
 	return &sequencer{
 		maxWeight: maxWeight,
+		minWeight: minWeight,
 		sem:       sem,
 		prev:      prev,
 	}
@@ -119,6 +122,9 @@ const exclusive = -1
 func (s *sequencer) Add(weight int64, f func(*reporter) error) {
 	if weight < 0 || weight > s.maxWeight {
 		weight = s.maxWeight
+	}
+	if weight < s.minWeight {
+		weight = s.minWeight
 	}
 	if err := s.sem.Acquire(context.TODO(), weight); err != nil {
 		// Change the task from "execute f" to "report err".
@@ -213,12 +219,15 @@ func (r *reporter) ExitCode() int {
 // If info == nil, we are formatting stdin instead of a file.
 // If in == nil, the source is the contents of the file with the given filename.
 func processFile(filename string, info fs.FileInfo, in io.Reader, r *reporter) error {
+	var inf *os.File
 	if in == nil {
 		var err error
-		in, err = os.Open(filename)
+		inf, err = os.Open(filename)
 		if err != nil {
 			return err
 		}
+		defer inf.Close()
+		in = inf
 	}
 
 	// Compute the file's size and read its contents with minimal allocations.
@@ -258,6 +267,11 @@ func processFile(filename string, info fs.FileInfo, in io.Reader, r *reporter) e
 		if err != nil {
 			return err
 		}
+	}
+	if inf != nil {
+		// We don't need open file anymore
+		// and avoid having two versions of the file open at the same time.
+		inf.Close()
 	}
 
 	fileSet := token.NewFileSet()
@@ -333,6 +347,29 @@ func processFile(filename string, info fs.FileInfo, in io.Reader, r *reporter) e
 	return err
 }
 
+func getMinWeight(maxWeight int64) int64 {
+	// NOTE: max open file default 240 based on Darwin default 256
+	var nflimit = int64(240)
+	switch runtime.GOOS {
+	case "linux", "freebsd", "openbsd", "darwin",
+		"netbsd", "dragonfly", "aix", "solaris":
+		srl := &syscall.Rlimit{}
+		err := syscall.Getrlimit(syscall.RLIMIT_NOFILE, srl)
+		if err == nil {
+			switch {
+			case srl.Cur == 0: // unlimited open file
+				nflimit = maxWeight
+			case srl.Cur > 9:
+				nflimit = int64(srl.Cur) - 9
+			}
+		}
+	}
+	if nflimit > maxWeight {
+		nflimit = maxWeight
+	}
+	return maxWeight / nflimit
+}
+
 func main() {
 	// Arbitrarily limit in-flight work to 2MiB times the number of threads.
 	//
@@ -340,7 +377,8 @@ func main() {
 	// specifics of the file, but this at least keeps the footprint of the process
 	// roughly proportional to GOMAXPROCS.
 	maxWeight := (2 << 20) * int64(runtime.GOMAXPROCS(0))
-	s := newSequencer(maxWeight, os.Stdout, os.Stderr)
+	minWeight := getMinWeight(maxWeight)
+	s := newSequencer(maxWeight, minWeight, os.Stdout, os.Stderr)
 
 	// call gofmtMain in a separate function
 	// so that it can use defer and have them

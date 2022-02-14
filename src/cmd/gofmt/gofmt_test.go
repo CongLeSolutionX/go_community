@@ -90,7 +90,7 @@ func runTest(t *testing.T, in, out string) {
 
 	const maxWeight = 2 << 20
 	var buf, errBuf bytes.Buffer
-	s := newSequencer(maxWeight, &buf, &errBuf)
+	s := newSequencer(maxWeight, getMinWeight(maxWeight), &buf, &errBuf)
 	s.Add(fileWeight(in, info), func(r *reporter) error {
 		return processFile(in, info, nil, r)
 	})
