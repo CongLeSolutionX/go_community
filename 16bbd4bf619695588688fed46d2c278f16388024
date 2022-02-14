@@ -228,6 +228,30 @@
       },
       "revId": "16bbd4bf619695588688fed46d2c278f16388024",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a11d8ae_199fa30f",
+        "filename": "src/net/net_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 551,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-02-14T21:05:32Z",
+      "side": 1,
+      "message": "Oops, then I accidentally made it plan9-specific anyway. 😅\n(Fixed that it the latest patchset.)",
+      "parentUuid": "7c928b01_8e3b8c1d",
+      "range": {
+        "startLine": 542,
+        "startChar": 0,
+        "endLine": 551,
+        "endChar": 2
+      },
+      "revId": "16bbd4bf619695588688fed46d2c278f16388024",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
