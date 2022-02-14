@@ -93,6 +93,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9be85334_5883fa44",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2610,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-02-14T22:06:41Z",
+      "side": 1,
+      "message": "The type parameters in the receiver type of a method declaration do not have to have the same name as the type parameters in the declaration of the receiver type.  But you do have to have the same number.  The text is correct.  But it might be worth an example.",
+      "parentUuid": "cbda95b6_32e5df90",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b3e70647_7ce787c6",
         "filename": "doc/go_spec.html",
         "patchSetId": 2
@@ -144,6 +162,24 @@
       "writtenOn": "2022-02-14T14:50:51Z",
       "side": 1,
       "message": "Just a bit above you mention that [P *C] is a potential ambiguity without the interface{}, it\u0027s not clear to me what the nuance is that makes this not an ambiguity.",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4a203f4_288b0aac",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2706,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-02-14T22:06:41Z",
+      "side": 1,
+      "message": "Well, the ambiguity only arises for a generic type declaration, not for a generic function declaration.  But still might be better to use a different example here.",
+      "parentUuid": "a4f3908b_c9f8aa14",
       "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
