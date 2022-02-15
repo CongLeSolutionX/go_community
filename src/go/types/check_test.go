@@ -213,7 +213,7 @@ func testFiles(t *testing.T, sizes Sizes, filenames []string, srcs [][]byte, man
 		t.Fatal("no source files")
 	}
 
-	if buildcfg.Experiment.Unified {
+	if false && buildcfg.Experiment.Unified {
 		for _, f := range filenames {
 			if excludedForUnifiedBuild[filepath.Base(f)] {
 				t.Logf("%s cannot be tested with unified build - skipped", f)
