@@ -121,8 +121,14 @@ func TestImportTestdata(t *testing.T) {
 	testfiles := map[string][]string{
 		"exports.go": {"go/ast", "go/token"},
 	}
-	if !goexperiment.Unified {
+	if !(goexperiment.Unified && false) {
 		testfiles["generics.go"] = nil
+	}
+	if goexperiment.Unified {
+		// TODO(mdempsky): Fix test below to flatten the transitive
+		// Package.Imports graph. Unified IR is more precise about
+		// recreating the package import graph.
+		testfiles["exports.go"] = []string{"go/ast"}
 	}
 
 	for testfile, wantImports := range testfiles {
@@ -148,7 +154,7 @@ func TestImportTestdata(t *testing.T) {
 
 func TestImportTypeparamTests(t *testing.T) {
 	// This test doesn't yet work with the unified export format.
-	if goexperiment.Unified {
+	if goexperiment.Unified && false {
 		t.Skip("unified export data format is currently unsupported")
 	}
 
