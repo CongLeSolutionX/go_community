@@ -350,8 +350,10 @@ func hasPrefix(s, prefix string) bool {
 }
 
 const (
-	maxUint = ^uint(0)
-	maxInt  = int(maxUint >> 1)
+	maxUint   = ^uint(0)
+	maxUint64 = ^uint64(0)
+	maxInt    = int(maxUint >> 1)
+	maxInt64  = int64(maxUint64 >> 1)
 )
 
 // atoi parses an int from a string s.
@@ -409,6 +411,98 @@ func atoi32(s string) (int32, bool) {
 		return int32(n), ok
 	}
 	return 0, false
+}
+
+// parseByteCount parses a string that represents a count of bytes.
+//
+// s must match the following regular expression:
+//
+//     ^[0-9]+(([KMGT]i?)?B)?$
+//
+// In other words, an integer byte count with an optional unit
+// suffix. Acceptable suffixes include one of
+// - KiB, MiB, GiB, TiB which represent binary IEC/ISO 80000 units, or
+// - KB, MB, GB, TB which represent decimal SI units.
+// - B, which just represents bytes.
+func parseByteCount(s string) (int64, bool) {
+	// Parse numeric prefix.
+	un := uint64(0)
+	idx := 0
+	for i := 0; i < len(s); i++ {
+		c := s[i]
+		if c < '0' || c > '9' {
+			if i == 0 {
+				return 0, false
+			}
+			break
+		}
+		if un > maxUint64/10 {
+			// Overflow.
+			return 0, false
+		}
+		un *= 10
+		un1 := un + uint64(c) - '0'
+		if un1 < un {
+			// Overflow.
+			return 0, false
+		}
+		un = un1
+		idx++
+	}
+	if un > uint64(maxInt64) {
+		// Overflow.
+		return 0, false
+	}
+	if idx == len(s) || (idx == len(s)-1 && s[idx] == 'B') {
+		// No suffix or trivial 'B' suffix.
+		return int64(un), true
+	}
+	// Parse non-trivial suffix.
+	s = s[idx:]
+	if len(s) < 2 || len(s) > 3 {
+		// Invalid suffix.
+		return 0, false
+	}
+	power := 0
+	switch s[0] {
+	case 'K':
+		power = 1
+	case 'M':
+		power = 2
+	case 'G':
+		power = 3
+	case 'T':
+		power = 4
+	default:
+		// Invalid suffix.
+		return 0, false
+	}
+	base := uint64(1000)
+	if s[1] == 'i' {
+		if len(s) == 2 {
+			// Invalid suffix.
+			return 0, false
+		}
+		base = 1024
+	}
+	if s[len(s)-1] != 'B' {
+		// Invalid suffix.
+		return 0, false
+	}
+	m := uint64(1)
+	for i := 0; i < power; i++ {
+		m *= base
+	}
+	if un > maxUint64/m {
+		// Overflow.
+		return 0, false
+	}
+	un *= m
+	if un > uint64(maxInt64) {
+		// Overflow.
+		return 0, false
+	}
+	return int64(un), true
 }
 
 //go:nosplit
