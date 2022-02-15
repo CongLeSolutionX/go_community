@@ -11,6 +11,7 @@ import (
 	"go/build"
 	"go/token"
 	"go/types"
+	"internal/pkgbits"
 	"io"
 	"os"
 	"path/filepath"
@@ -146,14 +147,28 @@ func Import(fset *token.FileSet, packages map[string]*types.Package, path, srcDi
 
 	case "$$B\n":
 		var exportFormat byte
-		exportFormat, err = buf.ReadByte()
+		if exportFormat, err = buf.ReadByte(); err != nil {
+			return
+		}
 
 		// The indexed export format starts with an 'i'; the older
 		// binary export format starts with a 'c', 'd', or 'v'
 		// (from "version"). Select appropriate importer.
-		if err == nil && exportFormat == 'i' {
+		switch exportFormat {
+		case 'u':
+			// TODO(mdempsky): More efficient solution here.
+			var data []byte
+			if data, err = io.ReadAll(buf); err != nil {
+				return
+			}
+			s := string(data)
+			// TODO(mdempsky): This is gross and hacky.
+			s = s[:strings.Index(s, "\n$$\n")]
+			input := pkgbits.NewPkgDecoder(path, s)
+			pkg = readPackage2(fset, nil, packages, input)
+		case 'i':
 			pkg, err = iImportData(fset, packages, buf, id)
-		} else {
+		default:
 			err = fmt.Errorf("import %q: old binary export format no longer supported (recompile library)", path)
 		}
 
