@@ -454,6 +454,14 @@ func verifyInterfaceMethodRecvs(t *testing.T, named *types.Named, level int) {
 		return // not an interface
 	}
 
+	// The unified IR importer always sets interface method receiver
+	// parameters to point to the Interface type, rather than the Named.
+	// See #49906.
+	var want types.Type = named
+	if goexperiment.Unified {
+		want = iface
+	}
+
 	// check explicitly declared methods
 	for i := 0; i < iface.NumExplicitMethods(); i++ {
 		m := iface.ExplicitMethod(i)
@@ -462,8 +470,8 @@ func verifyInterfaceMethodRecvs(t *testing.T, named *types.Named, level int) {
 			t.Errorf("%s: missing receiver type", m)
 			continue
 		}
-		if recv.Type() != named {
-			t.Errorf("%s: got recv type %s; want %s", m, recv.Type(), named)
+		if recv.Type() != want {
+			t.Errorf("%s: got recv type %s; want %s", m, recv.Type(), want)
 		}
 	}
 
