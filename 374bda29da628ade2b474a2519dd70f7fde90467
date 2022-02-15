@@ -70,6 +70,24 @@
       "message": "Is this an ABI change? Could existing !cgo Go user code wire up this signal for its own use?",
       "revId": "374bda29da628ade2b474a2519dd70f7fde90467",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "baf6ac73_4adfd072",
+        "filename": "src/runtime/signal_unix.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 632,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-02-15T15:39:02Z",
+      "side": 1,
+      "message": "No, this signal is missing _SigNotify in https://cs.opensource.google/go/go/+/master:src/runtime/sigtab_linux_generic.go;l\u003d43, so users can\u0027t receive this signal via os/signal.",
+      "parentUuid": "14fd1eea_97be75f5",
+      "revId": "374bda29da628ade2b474a2519dd70f7fde90467",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
