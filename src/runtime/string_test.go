@@ -454,3 +454,71 @@ func TestAtoi32(t *testing.T) {
 		}
 	}
 }
+
+func TestParseByteCount(t *testing.T) {
+	for _, test := range []struct {
+		in  string
+		out int64
+		ok  bool
+	}{
+		// Good numeric inputs.
+		{"1", 1, true},
+		{"12345", 12345, true},
+		{"012345", 12345, true},
+		{"98765432100", 98765432100, true},
+		{"9223372036854775807", 1<<63 - 1, true},
+
+		// Good trivial suffix inputs.
+		{"1B", 1, true},
+		{"12345B", 12345, true},
+		{"012345B", 12345, true},
+		{"98765432100B", 98765432100, true},
+		{"9223372036854775807B", 1<<63 - 1, true},
+
+		// Good zero inputs.
+		{"0", 0, true},
+		{"0B", 0, true},
+		{"0KB", 0, true},
+		{"0KiB", 0, true},
+		{"0MB", 0, true},
+		{"0MiB", 0, true},
+		{"0GB", 0, true},
+		{"0GiB", 0, true},
+		{"0TB", 0, true},
+		{"0TiB", 0, true},
+
+		// Bad inputs.
+		{"", 0, false},
+		{"-0", 0, false},
+		{"-1", 0, false},
+		{"a12345", 0, false},
+		{"a12345B", 0, false},
+		{"12345x", 0, false},
+
+		// Bad numeric inputs.
+		{"9223372036854775808", 0, false},
+		{"9223372036854775809", 0, false},
+		{"18446744073709551615", 0, false},
+		{"20496382327982653440", 0, false},
+		{"18446744073709551616", 0, false},
+		{"18446744073709551617", 0, false},
+		{"9999999999999999999999", 0, false},
+
+		// Bad trivial suffix inputs.
+		{"9223372036854775808B", 0, false},
+		{"9223372036854775809B", 0, false},
+		{"18446744073709551615B", 0, false},
+		{"20496382327982653440B", 0, false},
+		{"18446744073709551616B", 0, false},
+		{"18446744073709551617B", 0, false},
+		{"9999999999999999999999B", 0, false},
+
+		// TODO(mknyszek): Write more tests.
+	} {
+		out, ok := runtime.ParseByteCount(test.in)
+		if test.out != out || test.ok != ok {
+			t.Errorf("parseByteCount(%q) = (%v, %v) want (%v, %v)",
+				test.in, out, ok, test.out, test.ok)
+		}
+	}
+}
