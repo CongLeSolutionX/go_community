@@ -50,17 +50,8 @@ const (
 	//
 	// This value is defined in go/printer specifically for go/format and cmd/gofmt.
 	printerNormalizeNumbers = 1 << 30
+	maxFileOpen             = 1<<16 - 1
 )
-
-// fdSem guards the number of concurrently-open file descriptors.
-//
-// For now, this is arbitrarily set to 200, based on the observation that many
-// platforms default to a kernel limit of 256. Ideally, perhaps we should derive
-// it from rlimit on platforms that support that system call.
-//
-// File descriptors opened from outside of this package are not tracked,
-// so this limit may be approximate.
-var fdSem = make(chan bool, 200)
 
 var (
 	rewrite    func(*token.FileSet, *ast.File) *ast.File
@@ -89,6 +80,7 @@ func isGoFile(f fs.DirEntry) bool {
 // output in a deterministic order.
 type sequencer struct {
 	maxWeight int64
+	fdSem     chan bool
 	sem       *semaphore.Weighted   // weighted by input bytes (an approximate proxy for memory overhead)
 	prev      <-chan *reporterState // 1-buffered
 }
@@ -97,10 +89,14 @@ type sequencer struct {
 // and writes tasks' output to out and err.
 func newSequencer(maxWeight int64, out, err io.Writer) *sequencer {
 	sem := semaphore.NewWeighted(maxWeight)
+	// fdSem guards the number of concurrently-open file descriptors.
+	fdSem := make(chan bool, openFilelimit())
+
 	prev := make(chan *reporterState, 1)
 	prev <- &reporterState{out: out, err: err}
 	return &sequencer{
 		maxWeight: maxWeight,
+		fdSem:     fdSem,
 		sem:       sem,
 		prev:      prev,
 	}
@@ -222,8 +218,8 @@ func (r *reporter) ExitCode() int {
 
 // If info == nil, we are formatting stdin instead of a file.
 // If in == nil, the source is the contents of the file with the given filename.
-func processFile(filename string, info fs.FileInfo, in io.Reader, r *reporter) error {
-	src, err := readFile(filename, info, in)
+func (s *sequencer) processFile(filename string, info fs.FileInfo, in io.Reader, r *reporter) error {
+	src, err := s.readFile(filename, info, in)
 	if err != nil {
 		return err
 	}
@@ -270,13 +266,13 @@ func processFile(filename string, info fs.FileInfo, in io.Reader, r *reporter) e
 			}
 			// make a temporary backup before overwriting original
 			perm := info.Mode().Perm()
-			bakname, err := backupFile(filename+".", src, perm)
+			bakname, err := s.backupFile(filename+".", src, perm)
 			if err != nil {
 				return err
 			}
-			fdSem <- true
+			s.fdSem <- true
 			err = os.WriteFile(filename, res, perm)
-			<-fdSem
+			<-s.fdSem
 			if err != nil {
 				os.Rename(bakname, filename)
 				return err
@@ -307,9 +303,9 @@ func processFile(filename string, info fs.FileInfo, in io.Reader, r *reporter) e
 // If in is non-nil, readFile reads directly from it.
 // Otherwise, readFile opens and reads the file itself,
 // with the number of concurrently-open files limited by fdSem.
-func readFile(filename string, info fs.FileInfo, in io.Reader) ([]byte, error) {
+func (s *sequencer) readFile(filename string, info fs.FileInfo, in io.Reader) ([]byte, error) {
 	if in == nil {
-		fdSem <- true
+		s.fdSem <- true
 		var err error
 		f, err := os.Open(filename)
 		if err != nil {
@@ -318,7 +314,7 @@ func readFile(filename string, info fs.FileInfo, in io.Reader) ([]byte, error) {
 		in = f
 		defer func() {
 			f.Close()
-			<-fdSem
+			<-s.fdSem
 		}()
 	}
 
@@ -383,7 +379,7 @@ func gofmtMain(s *sequencer) {
 	flag.Parse()
 
 	if *cpuprofile != "" {
-		fdSem <- true
+		s.fdSem <- true
 		f, err := os.Create(*cpuprofile)
 		if err != nil {
 			s.AddReport(fmt.Errorf("creating cpu profile: %s", err))
@@ -391,7 +387,7 @@ func gofmtMain(s *sequencer) {
 		}
 		defer func() {
 			f.Close()
-			<-fdSem
+			<-s.fdSem
 		}()
 		pprof.StartCPUProfile(f)
 		defer pprof.StopCPUProfile()
@@ -407,7 +403,7 @@ func gofmtMain(s *sequencer) {
 			return
 		}
 		s.Add(0, func(r *reporter) error {
-			return processFile("<standard input>", nil, os.Stdin, r)
+			return s.processFile("<standard input>", nil, os.Stdin, r)
 		})
 		return
 	}
@@ -420,7 +416,7 @@ func gofmtMain(s *sequencer) {
 			// Non-directory arguments are always formatted.
 			arg := arg
 			s.Add(fileWeight(arg, info), func(r *reporter) error {
-				return processFile(arg, info, nil, r)
+				return s.processFile(arg, info, nil, r)
 			})
 		default:
 			// Directories are walked, ignoring non-Go files.
@@ -434,7 +430,7 @@ func gofmtMain(s *sequencer) {
 					return nil
 				}
 				s.Add(fileWeight(path, info), func(r *reporter) error {
-					return processFile(path, info, nil, r)
+					return s.processFile(path, info, nil, r)
 				})
 				return nil
 			})
@@ -506,9 +502,9 @@ const chmodSupported = runtime.GOOS != "windows"
 // backupFile writes data to a new file named filename<number> with permissions perm,
 // with <number randomly chosen such that the file name is unique. backupFile returns
 // the chosen file name.
-func backupFile(filename string, data []byte, perm fs.FileMode) (string, error) {
-	fdSem <- true
-	defer func() { <-fdSem }()
+func (s *sequencer) backupFile(filename string, data []byte, perm fs.FileMode) (string, error) {
+	s.fdSem <- true
+	defer func() { <-s.fdSem }()
 
 	// create backup file
 	f, err := os.CreateTemp(filepath.Dir(filename), filepath.Base(filename))

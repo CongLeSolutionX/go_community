@@ -92,7 +92,7 @@ func runTest(t *testing.T, in, out string) {
 	var buf, errBuf bytes.Buffer
 	s := newSequencer(maxWeight, &buf, &errBuf)
 	s.Add(fileWeight(in, info), func(r *reporter) error {
-		return processFile(in, info, nil, r)
+		return s.processFile(in, info, nil, r)
 	})
 	if errBuf.Len() > 0 {
 		t.Logf("%q", errBuf.Bytes())
@@ -188,7 +188,8 @@ func TestBackupFile(t *testing.T) {
 		t.Fatal(err)
 	}
 	defer os.RemoveAll(dir)
-	name, err := backupFile(filepath.Join(dir, "foo.go"), []byte("  package main"), 0644)
+	s := newSequencer(1<<10, nil, nil)
+	name, err := s.backupFile(filepath.Join(dir, "foo.go"), []byte("  package main"), 0644)
 	if err != nil {
 		t.Fatal(err)
 	}
