@@ -16,7 +16,6 @@ import (
 	"sort"
 
 	"cmd/compile/internal/base"
-	"cmd/compile/internal/importer"
 	"cmd/compile/internal/inline"
 	"cmd/compile/internal/ir"
 	"cmd/compile/internal/typecheck"
@@ -75,15 +74,6 @@ func unified(noders []*noder) {
 	inline.NewInline = InlineCall
 
 	writeNewExportFunc = writeNewExport
-
-	newReadImportFunc = func(data string, pkg1 *types.Pkg, ctxt *types2.Context, packages map[string]*types2.Package) (pkg2 *types2.Package, err error) {
-		pr := pkgbits.NewPkgDecoder(pkg1.Path, data)
-
-		// Read package descriptors for both types2 and compiler backend.
-		readPackage(newPkgReader(pr), pkg1)
-		pkg2 = importer.ReadPackage(ctxt, packages, pr)
-		return
-	}
 
 	data := writePkgStub(noders)
 
