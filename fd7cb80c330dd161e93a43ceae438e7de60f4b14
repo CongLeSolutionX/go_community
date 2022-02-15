@@ -22,6 +22,30 @@
       },
       "revId": "fd7cb80c330dd161e93a43ceae438e7de60f4b14",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1875933_a5a54ba2",
+        "filename": "src/cmd/go/internal/modfetch/fetch.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 55919
+      },
+      "writtenOn": "2022-02-15T15:34:36Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2cb5761f_485c179d",
+      "range": {
+        "startLine": 335,
+        "startChar": 28,
+        "endLine": 335,
+        "endChar": 39
+      },
+      "revId": "fd7cb80c330dd161e93a43ceae438e7de60f4b14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
