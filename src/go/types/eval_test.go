@@ -12,6 +12,7 @@ import (
 	"go/importer"
 	"go/parser"
 	"go/token"
+	"internal/goexperiment"
 	"internal/testenv"
 	"strings"
 	"testing"
@@ -202,6 +203,10 @@ func split(s, sep string) (string, string) {
 }
 
 func TestCheckExpr(t *testing.T) {
+	if goexperiment.Unified {
+		t.Skip("disabled for unified IR; see #49906")
+	}
+
 	testenv.MustHaveGoBuild(t)
 
 	// Each comment has the form /* expr => object */:
