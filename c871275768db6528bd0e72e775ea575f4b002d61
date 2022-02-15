@@ -70,6 +70,24 @@
       "message": "Reposting from CL 383434:\n\nCurrently our thinking is to include CL 383434 in 1.18, but _not_ backport to 1.16 and 1.17, as most uses (i.e., Setuid and other indirect AllThreadsSyscall calls) can workaround the issue by building with cgo (CGO_ENABLED\u003d1). That keeps a risky change (either mine or yours) out of backport risk, but also a fully-fixed version will be released soon with 1.18.",
       "revId": "c871275768db6528bd0e72e775ea575f4b002d61",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd34bc8f_b92f7074",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34636
+      },
+      "writtenOn": "2022-02-15T01:05:19Z",
+      "side": 1,
+      "message": "Thanks for letting me know. I guess that gets me off the hook for future debugging 😊. I\u0027m obviously disappointed that this won\u0027t be fixed in earlier versions, but risk is clearly not my call to make.",
+      "parentUuid": "cbecb599_bd7ad7e6",
+      "revId": "c871275768db6528bd0e72e775ea575f4b002d61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
