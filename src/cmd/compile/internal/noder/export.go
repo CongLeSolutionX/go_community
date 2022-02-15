@@ -21,45 +21,21 @@ import (
 var writeNewExportFunc func(out io.Writer)
 
 func WriteExports(out *bio.Writer) {
-	// When unified IR exports are enable, we simply append it to the
-	// end of the normal export data (with compiler extensions
-	// disabled), and write an extra header giving its size.
-	//
-	// If the compiler sees this header, it knows to read the new data
-	// instead; meanwhile the go/types importers will silently ignore it
-	// and continue processing the old export instead.
-	//
-	// This allows us to experiment with changes to the new export data
-	// format without needing to update the go/internal/gcimporter or
-	// (worse) x/tools/go/gcexportdata.
+	var data bytes.Buffer
 
-	useNewExport := writeNewExportFunc != nil
-
-	var old, new bytes.Buffer
-
-	typecheck.WriteExports(&old, !useNewExport)
-
-	if useNewExport {
-		writeNewExportFunc(&new)
-	}
-
-	oldLen := old.Len()
-	newLen := new.Len()
-
-	if useNewExport {
-		fmt.Fprintf(out, "\nnewexportsize %v\n", newLen)
+	if writeNewExportFunc != nil {
+		data.WriteByte('u')
+		writeNewExportFunc(&data)
+	} else {
+		typecheck.WriteExports(&data, true)
 	}
 
 	// The linker also looks for the $$ marker - use char after $$ to distinguish format.
 	out.WriteString("\n$$B\n") // indicate binary export format
-	io.Copy(out, &old)
+	io.Copy(out, &data)
 	out.WriteString("\n$$\n")
-	io.Copy(out, &new)
 
 	if base.Debug.Export != 0 {
-		fmt.Printf("BenchmarkExportSize:%s 1 %d bytes\n", base.Ctxt.Pkgpath, oldLen)
-		if useNewExport {
-			fmt.Printf("BenchmarkNewExportSize:%s 1 %d bytes\n", base.Ctxt.Pkgpath, newLen)
-		}
+		fmt.Printf("BenchmarkExportSize:%s 1 %d bytes\n", base.Ctxt.Pkgpath, data.Len())
 	}
 }
