@@ -263,7 +263,7 @@ func readImportFile(path string, target *ir.Package, env *types2.Context, packag
 	}
 	defer f.Close()
 
-	r, end, newsize, err := findExportData(f)
+	r, end, err := findExportData(f)
 	if err != nil {
 		return
 	}
@@ -272,42 +272,32 @@ func readImportFile(path string, target *ir.Package, env *types2.Context, packag
 		fmt.Printf("importing %s (%s)\n", path, f.Name())
 	}
 
-	if newsize != 0 {
-		// We have unified IR data. Map it, and feed to the importers.
-		end -= newsize
-		var data string
-		data, err = base.MapFile(r.File(), end, newsize)
-		if err != nil {
-			return
-		}
+	c, err := r.ReadByte()
+	if err != nil {
+		return
+	}
+
+	pos := r.Offset()
+
+	// Map export data section into memory as a single large
+	// string. This reduces heap fragmentation and allows returning
+	// individual substrings very efficiently.
+	var data string
+	data, err = base.MapFile(r.File(), pos, end-pos)
+	if err != nil {
+		return
+	}
+
+	switch c {
+	case 'u':
+		// TODO(mdempsky): This seems a bit clunky.
+		data = strings.TrimSuffix(data, "\n$$\n")
 
 		pkg2, err = newReadImportFunc(data, pkg1, env, packages)
-	} else {
+
+	case 'i':
 		// We only have old data. Oh well, fall back to the legacy importers.
 		haveLegacyImports = true
-
-		var c byte
-		switch c, err = r.ReadByte(); {
-		case err != nil:
-			return
-
-		case c != 'i':
-			// Indexed format is distinguished by an 'i' byte,
-			// whereas previous export formats started with 'c', 'd', or 'v'.
-			err = fmt.Errorf("unexpected package format byte: %v", c)
-			return
-		}
-
-		pos := r.Offset()
-
-		// Map string (and data) section into memory as a single large
-		// string. This reduces heap fragmentation and allows
-		// returning individual substrings very efficiently.
-		var data string
-		data, err = base.MapFile(r.File(), pos, end-pos)
-		if err != nil {
-			return
-		}
 
 		typecheck.ReadImports(pkg1, data)
 
@@ -317,6 +307,12 @@ func readImportFile(path string, target *ir.Package, env *types2.Context, packag
 				return
 			}
 		}
+
+	default:
+		// Indexed format is distinguished by an 'i' byte,
+		// whereas previous export formats started with 'c', 'd', or 'v'.
+		err = fmt.Errorf("unexpected package format byte: %v", c)
+		return
 	}
 
 	err = addFingerprint(path, f, end)
@@ -326,7 +322,7 @@ func readImportFile(path string, target *ir.Package, env *types2.Context, packag
 // findExportData returns a *bio.Reader positioned at the start of the
 // binary export data section, and a file offset for where to stop
 // reading.
-func findExportData(f *os.File) (r *bio.Reader, end, newsize int64, err error) {
+func findExportData(f *os.File) (r *bio.Reader, end int64, err error) {
 	r = bio.NewReader(f)
 
 	// check object header
@@ -369,14 +365,6 @@ func findExportData(f *os.File) (r *bio.Reader, end, newsize int64, err error) {
 
 	// process header lines
 	for !strings.HasPrefix(line, "$$") {
-		if strings.HasPrefix(line, "newexportsize ") {
-			fields := strings.Fields(line)
-			newsize, err = strconv.ParseInt(fields[1], 10, 64)
-			if err != nil {
-				return
-			}
-		}
-
 		line, err = r.ReadString('\n')
 		if err != nil {
 			return
