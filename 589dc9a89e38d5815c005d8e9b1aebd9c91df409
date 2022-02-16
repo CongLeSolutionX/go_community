@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "590df317_27ccd1fa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34516
+      },
+      "writtenOn": "2022-02-16T21:07:16Z",
+      "side": 1,
+      "message": "Trivial fixes split out from https://go-review.googlesource.com/c/go/+/385256",
+      "revId": "589dc9a89e38d5815c005d8e9b1aebd9c91df409",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
