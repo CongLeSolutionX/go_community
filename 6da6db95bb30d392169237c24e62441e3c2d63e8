@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aed4f49e_dfdc38c6",
+        "filename": "doc/go_mem.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 56068
+      },
+      "writtenOn": "2022-02-16T20:44:11Z",
+      "side": 1,
+      "message": "This statement does not prevent \"out-of-thin-air\" or acausal results. See my prior comment for a counterexample. It is hard to define what \"out of thin air\" means and to disallow it. But if you disallow data races and there are no relaxed atomics, there is no need to.",
+      "range": {
+        "startLine": 172,
+        "startChar": 0,
+        "endLine": 172,
+        "endChar": 74
+      },
+      "revId": "6da6db95bb30d392169237c24e62441e3c2d63e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
