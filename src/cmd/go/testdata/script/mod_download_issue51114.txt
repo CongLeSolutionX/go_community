@@ -1,0 +1,19 @@
+[short] skip
+[!exec:git] skip
+[!net] skip
+
+mkdir $WORK/home
+env HOME=$WORK${/}home
+env GOPROXY=direct
+
+exec git config --global url.git@github.com:.insteadOf https://github.com
+
+! go mod download
+stderr '^go: github\.com/golang/notexist/subdir@v0.1.0: reading github\.com/golang/notexist/subdir/go\.mod at revision subdir/v0\.1\.0: '
+
+-- go.mod --
+module test
+
+go 1.18
+
+require github.com/golang/notexist/subdir v0.1.0
