@@ -34,6 +34,7 @@ func cmdtest() {
 	flag.BoolVar(&noRebuild, "no-rebuild", false, "overrides -rebuild (historical dreg)")
 	flag.BoolVar(&t.keepGoing, "k", false, "keep going even when error occurred")
 	flag.BoolVar(&t.race, "race", false, "run in race builder mode (different set of tests)")
+	flag.BoolVar(&t.cover, "cover", false, "run in coverage testing mode")
 	flag.BoolVar(&t.compileOnly, "compile-only", false, "compile tests, but don't run them. This is for some builders. Not all dist tests respect this flag, but most do.")
 	flag.StringVar(&t.banner, "banner", "##### ", "banner prefix; blank means no section banners")
 	flag.StringVar(&t.runRxStr, "run", os.Getenv("GOTESTONLY"),
@@ -55,6 +56,7 @@ type tester struct {
 	race        bool
 	msan        bool
 	asan        bool
+	cover       bool
 	listMode    bool
 	rebuild     bool
 	failed      bool
@@ -410,6 +412,9 @@ func (t *tester) registerStdTest(pkg string) {
 			if t.asan {
 				args = append(args, "-asan")
 			}
+			if t.cover {
+				args = append(args, "-cover", "-coverpkg=all")
+			}
 			if t.compileOnly {
 				args = append(args, "-run=^$")
 			}
@@ -531,7 +536,7 @@ func (t *tester) registerTests() {
 		})
 	}
 
-	if t.race {
+	if t.race || t.cover {
 		return
 	}
 
@@ -1679,7 +1684,7 @@ func (t *tester) shouldTestCmd() bool {
 // a single argument.
 // It returns an empty string if a pre-built binary should not be used.
 func (t *tester) prebuiltGoPackageTestBinary() string {
-	if len(stdMatches) != 1 || t.race || t.compileOnly || os.Getenv("GO_BUILDER_NAME") == "" {
+	if len(stdMatches) != 1 || t.race || t.cover || t.compileOnly || os.Getenv("GO_BUILDER_NAME") == "" {
 		return ""
 	}
 	pkg := stdMatches[0]
