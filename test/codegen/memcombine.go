@@ -24,6 +24,7 @@ func load_le64(b []byte) {
 	// s390x:`MOVDBR\s\(.*\),`
 	// arm64:`MOVD\s\(R[0-9]+\),`,-`MOV[BHW]`
 	// ppc64le:`MOVD\s`,-`MOV[BHW]Z`
+	// riscv64:`MOV\s`,-`MOV[BHW]`
 	sink64 = binary.LittleEndian.Uint64(b)
 }
 
@@ -32,6 +33,7 @@ func load_le64_idx(b []byte, idx int) {
 	// s390x:`MOVDBR\s\(.*\)\(.*\*1\),`
 	// arm64:`MOVD\s\(R[0-9]+\)\(R[0-9]+\),`,-`MOV[BHW]`
 	// ppc64le:`MOVD\s`,-`MOV[BHW]Z\s`
+	// riscv64:`MOV\s`,-`MOV[BHW]`
 	sink64 = binary.LittleEndian.Uint64(b[idx:])
 }
 
@@ -41,6 +43,7 @@ func load_le32(b []byte) {
 	// s390x:`MOVWBR\s\(.*\),`
 	// arm64:`MOVWU\s\(R[0-9]+\),`,-`MOV[BH]`
 	// ppc64le:`MOVWZ\s`,-`MOV[BH]Z\s`
+	// riscv64:`MOVW\s`,-`MOV[BH]\s`
 	sink32 = binary.LittleEndian.Uint32(b)
 }
 
@@ -50,6 +53,7 @@ func load_le32_idx(b []byte, idx int) {
 	// s390x:`MOVWBR\s\(.*\)\(.*\*1\),`
 	// arm64:`MOVWU\s\(R[0-9]+\)\(R[0-9]+\),`,-`MOV[BH]`
 	// ppc64le:`MOVWZ\s`,-`MOV[BH]Z\s`
+	// riscv64:`MOVW\s`,-`MOV[BH]\s`
 	sink32 = binary.LittleEndian.Uint32(b[idx:])
 }
 
@@ -58,6 +62,7 @@ func load_le16(b []byte) {
 	// ppc64le:`MOVHZ\s`,-`MOVBZ`
 	// arm64:`MOVHU\s\(R[0-9]+\),`,-`MOVB`
 	// s390x:`MOVHBR\s\(.*\),`
+	// riscv64:`MOVH\s`,-`MOVB\s`
 	sink16 = binary.LittleEndian.Uint16(b)
 }
 
@@ -66,6 +71,7 @@ func load_le16_idx(b []byte, idx int) {
 	// ppc64le:`MOVHZ\s`,-`MOVBZ`
 	// arm64:`MOVHU\s\(R[0-9]+\)\(R[0-9]+\),`,-`MOVB`
 	// s390x:`MOVHBR\s\(.*\)\(.*\*1\),`
+	// riscv64:`MOVH\s`,-`MOVB\s`
 	sink16 = binary.LittleEndian.Uint16(b[idx:])
 }
 
@@ -126,6 +132,7 @@ func load_le_byte2_uint16(s []byte) uint16 {
 	// 386:`MOVWLZX\s\([A-Z]+\)`,-`MOVB`,-`OR`
 	// amd64:`MOVWLZX\s\([A-Z]+\)`,-`MOVB`,-`OR`
 	// ppc64le:`MOVHZ\t\(R[0-9]+\)`,-`MOVBZ`
+	// riscv64:`MOVH\s`,-`MOVB\s`
 	return uint16(s[0]) | uint16(s[1])<<8
 }
 
@@ -142,6 +149,7 @@ func load_le_byte4_uint32(s []byte) uint32 {
 	// 386:`MOVL\s\([A-Z]+\)`,-`MOV[BW]`,-`OR`
 	// amd64:`MOVL\s\([A-Z]+\)`,-`MOV[BW]`,-`OR`
 	// ppc64le:`MOVWZ\t\(R[0-9]+\)`,-`MOV[BH]Z`
+	// riscv64:`MOVW\s`,-`MOV[BH]\s`
 	return uint32(s[0]) | uint32(s[1])<<8 | uint32(s[2])<<16 | uint32(s[3])<<24
 }
 
@@ -154,6 +162,7 @@ func load_le_byte8_uint64(s []byte) uint64 {
 	// arm64:`MOVD\t\(R[0-9]+\)`,-`ORR`,-`MOV[BHW]`
 	// amd64:`MOVQ\s\([A-Z]+\),\s[A-Z]+`,-`MOV[BWL]\t[^$]`,-`OR`
 	// ppc64le:`MOVD\t\(R[0-9]+\)`,-`MOV[BHW]Z`
+	// riscv64:`MOV\s`,-`MOV[BHW]`
 	return uint64(s[0]) | uint64(s[1])<<8 | uint64(s[2])<<16 | uint64(s[3])<<24 | uint64(s[4])<<32 | uint64(s[5])<<40 | uint64(s[6])<<48 | uint64(s[7])<<56
 }
 
