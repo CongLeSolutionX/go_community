@@ -4724,6 +4724,265 @@ func rewriteValueRISCV64_OpRISCV64NEGW(v *Value) bool {
 func rewriteValueRISCV64_OpRISCV64OR(v *Value) bool {
 	v_1 := v.Args[1]
 	v_0 := v.Args[0]
+	b := v.Block
+	// match: (OR <t> o0a:(MOVDnop x0:(MOVBUload [i0] {s} p mem)) o0b:(SLLI [8] n0:(MOVDnop x1:(MOVBUload [i1] {s} p mem))))
+	// cond: i1 == i0+1 && o0a.Uses == 1 && o0b.Uses == 1 && x0.Uses == 1 && x1.Uses == 1 && n0.Uses == 1 && mergePoint(b,x0,x1) != nil && clobber(x0,x1,o0a,o0b,n0)
+	// result: @mergePoint(b,x0,x1) (MOVHUload <t> {s} (OffPtr <p.Type> [int64(i0)] p) mem)
+	for {
+		t := v.Type
+		for _i0 := 0; _i0 <= 1; _i0, v_0, v_1 = _i0+1, v_1, v_0 {
+			o0a := v_0
+			if o0a.Op != OpRISCV64MOVDnop {
+				continue
+			}
+			x0 := o0a.Args[0]
+			if x0.Op != OpRISCV64MOVBUload {
+				continue
+			}
+			i0 := auxIntToInt32(x0.AuxInt)
+			s := auxToSym(x0.Aux)
+			mem := x0.Args[1]
+			p := x0.Args[0]
+			o0b := v_1
+			if o0b.Op != OpRISCV64SLLI || auxIntToInt64(o0b.AuxInt) != 8 {
+				continue
+			}
+			n0 := o0b.Args[0]
+			if n0.Op != OpRISCV64MOVDnop {
+				continue
+			}
+			x1 := n0.Args[0]
+			if x1.Op != OpRISCV64MOVBUload {
+				continue
+			}
+			i1 := auxIntToInt32(x1.AuxInt)
+			if auxToSym(x1.Aux) != s {
+				continue
+			}
+			_ = x1.Args[1]
+			if p != x1.Args[0] || mem != x1.Args[1] || !(i1 == i0+1 && o0a.Uses == 1 && o0b.Uses == 1 && x0.Uses == 1 && x1.Uses == 1 && n0.Uses == 1 && mergePoint(b, x0, x1) != nil && clobber(x0, x1, o0a, o0b, n0)) {
+				continue
+			}
+			b = mergePoint(b, x0, x1)
+			v0 := b.NewValue0(x1.Pos, OpRISCV64MOVHUload, t)
+			v.copyOf(v0)
+			v0.Aux = symToAux(s)
+			v1 := b.NewValue0(x1.Pos, OpOffPtr, p.Type)
+			v1.AuxInt = int64ToAuxInt(int64(i0))
+			v1.AddArg(p)
+			v0.AddArg2(v1, mem)
+			return true
+		}
+		break
+	}
+	// match: (OR <t> o3a:(SLLI [24] n3:(MOVDnop x3:(MOVBUload [i3] {s} p mem))) o3b:(OR o0a:(MOVHUload [i0] {s} p mem) o0b:(SLLI [16] n2:(MOVDnop x2:(MOVBUload [i2] {s} p mem)))))
+	// cond: i2 == i0+2 && i3 == i0+3 && x2.Uses == 1 && x3.Uses == 1 && n2.Uses == 1 && n3.Uses == 1 && o3a.Uses == 1 && o3b.Uses == 1 && o0a.Uses == 1 && o0b.Uses == 1 && mergePoint(b,o0a,x2,x3) != nil && clobber(o0a,x2,x3,o0b,o3a,o3b,n2,n3)
+	// result: @mergePoint(b,o0a,x2,x3) (MOVWUload <t> {s} (OffPtr <p.Type> [int64(i0)] p) mem)
+	for {
+		t := v.Type
+		for _i0 := 0; _i0 <= 1; _i0, v_0, v_1 = _i0+1, v_1, v_0 {
+			o3a := v_0
+			if o3a.Op != OpRISCV64SLLI || auxIntToInt64(o3a.AuxInt) != 24 {
+				continue
+			}
+			n3 := o3a.Args[0]
+			if n3.Op != OpRISCV64MOVDnop {
+				continue
+			}
+			x3 := n3.Args[0]
+			if x3.Op != OpRISCV64MOVBUload {
+				continue
+			}
+			i3 := auxIntToInt32(x3.AuxInt)
+			s := auxToSym(x3.Aux)
+			mem := x3.Args[1]
+			p := x3.Args[0]
+			o3b := v_1
+			if o3b.Op != OpRISCV64OR {
+				continue
+			}
+			_ = o3b.Args[1]
+			o3b_0 := o3b.Args[0]
+			o3b_1 := o3b.Args[1]
+			for _i1 := 0; _i1 <= 1; _i1, o3b_0, o3b_1 = _i1+1, o3b_1, o3b_0 {
+				o0a := o3b_0
+				if o0a.Op != OpRISCV64MOVHUload {
+					continue
+				}
+				i0 := auxIntToInt32(o0a.AuxInt)
+				if auxToSym(o0a.Aux) != s {
+					continue
+				}
+				_ = o0a.Args[1]
+				if p != o0a.Args[0] || mem != o0a.Args[1] {
+					continue
+				}
+				o0b := o3b_1
+				if o0b.Op != OpRISCV64SLLI || auxIntToInt64(o0b.AuxInt) != 16 {
+					continue
+				}
+				n2 := o0b.Args[0]
+				if n2.Op != OpRISCV64MOVDnop {
+					continue
+				}
+				x2 := n2.Args[0]
+				if x2.Op != OpRISCV64MOVBUload {
+					continue
+				}
+				i2 := auxIntToInt32(x2.AuxInt)
+				if auxToSym(x2.Aux) != s {
+					continue
+				}
+				_ = x2.Args[1]
+				if p != x2.Args[0] || mem != x2.Args[1] || !(i2 == i0+2 && i3 == i0+3 && x2.Uses == 1 && x3.Uses == 1 && n2.Uses == 1 && n3.Uses == 1 && o3a.Uses == 1 && o3b.Uses == 1 && o0a.Uses == 1 && o0b.Uses == 1 && mergePoint(b, o0a, x2, x3) != nil && clobber(o0a, x2, x3, o0b, o3a, o3b, n2, n3)) {
+					continue
+				}
+				b = mergePoint(b, o0a, x2, x3)
+				v0 := b.NewValue0(x2.Pos, OpRISCV64MOVWUload, t)
+				v.copyOf(v0)
+				v0.Aux = symToAux(s)
+				v1 := b.NewValue0(x2.Pos, OpOffPtr, p.Type)
+				v1.AuxInt = int64ToAuxInt(int64(i0))
+				v1.AddArg(p)
+				v0.AddArg2(v1, mem)
+				return true
+			}
+		}
+		break
+	}
+	// match: (OR <t> o7a:(SLLI [56] n7:(MOVDnop x7:(MOVBUload [i7] {s} p mem))) o7b:(OR o6a:(SLLI [48] n6:(MOVDnop x6:(MOVBUload [i6] {s} p mem))) o6b:(OR o5a:(SLLI [40] n5:(MOVDnop x5:(MOVBUload [i5] {s} p mem))) o5b:(OR o0a:(MOVWUload [i0] {s} p mem) o0b:(SLLI [32] n4:(MOVDnop x4:(MOVBUload [i4] {s} p mem)))))))
+	// cond: i7 == i0+7 && i6 == i0+6 && i5 == i0+5 && i4 == i0+4 && x4.Uses == 1 && x5.Uses == 1 && x6.Uses == 1 && x7.Uses == 1 && n4.Uses == 1 && n5.Uses == 1 && n6.Uses == 1 && n7.Uses == 1 && o0a.Uses == 1 && o0b.Uses == 1 && o5a.Uses == 1 && o5b.Uses == 1 && o6a.Uses == 1 && o6b.Uses == 1 && o7a.Uses == 1 && o7b.Uses == 1 && mergePoint(b,o0a,x4,x5,x6,x7) != nil && clobber(o0a,x4,x5,x6,x7,n4,n5,n6,n7,o0b,o5a,o5b,o6a,o6b,o7a,o7b)
+	// result: @mergePoint(b,o0a,x4,x5,x6,x7) (MOVDload <t> {s} (OffPtr <p.Type> [int64(i0)] p) mem)
+	for {
+		t := v.Type
+		for _i0 := 0; _i0 <= 1; _i0, v_0, v_1 = _i0+1, v_1, v_0 {
+			o7a := v_0
+			if o7a.Op != OpRISCV64SLLI || auxIntToInt64(o7a.AuxInt) != 56 {
+				continue
+			}
+			n7 := o7a.Args[0]
+			if n7.Op != OpRISCV64MOVDnop {
+				continue
+			}
+			x7 := n7.Args[0]
+			if x7.Op != OpRISCV64MOVBUload {
+				continue
+			}
+			i7 := auxIntToInt32(x7.AuxInt)
+			s := auxToSym(x7.Aux)
+			mem := x7.Args[1]
+			p := x7.Args[0]
+			o7b := v_1
+			if o7b.Op != OpRISCV64OR {
+				continue
+			}
+			_ = o7b.Args[1]
+			o7b_0 := o7b.Args[0]
+			o7b_1 := o7b.Args[1]
+			for _i1 := 0; _i1 <= 1; _i1, o7b_0, o7b_1 = _i1+1, o7b_1, o7b_0 {
+				o6a := o7b_0
+				if o6a.Op != OpRISCV64SLLI || auxIntToInt64(o6a.AuxInt) != 48 {
+					continue
+				}
+				n6 := o6a.Args[0]
+				if n6.Op != OpRISCV64MOVDnop {
+					continue
+				}
+				x6 := n6.Args[0]
+				if x6.Op != OpRISCV64MOVBUload {
+					continue
+				}
+				i6 := auxIntToInt32(x6.AuxInt)
+				if auxToSym(x6.Aux) != s {
+					continue
+				}
+				_ = x6.Args[1]
+				if p != x6.Args[0] || mem != x6.Args[1] {
+					continue
+				}
+				o6b := o7b_1
+				if o6b.Op != OpRISCV64OR {
+					continue
+				}
+				_ = o6b.Args[1]
+				o6b_0 := o6b.Args[0]
+				o6b_1 := o6b.Args[1]
+				for _i2 := 0; _i2 <= 1; _i2, o6b_0, o6b_1 = _i2+1, o6b_1, o6b_0 {
+					o5a := o6b_0
+					if o5a.Op != OpRISCV64SLLI || auxIntToInt64(o5a.AuxInt) != 40 {
+						continue
+					}
+					n5 := o5a.Args[0]
+					if n5.Op != OpRISCV64MOVDnop {
+						continue
+					}
+					x5 := n5.Args[0]
+					if x5.Op != OpRISCV64MOVBUload {
+						continue
+					}
+					i5 := auxIntToInt32(x5.AuxInt)
+					if auxToSym(x5.Aux) != s {
+						continue
+					}
+					_ = x5.Args[1]
+					if p != x5.Args[0] || mem != x5.Args[1] {
+						continue
+					}
+					o5b := o6b_1
+					if o5b.Op != OpRISCV64OR {
+						continue
+					}
+					_ = o5b.Args[1]
+					o5b_0 := o5b.Args[0]
+					o5b_1 := o5b.Args[1]
+					for _i3 := 0; _i3 <= 1; _i3, o5b_0, o5b_1 = _i3+1, o5b_1, o5b_0 {
+						o0a := o5b_0
+						if o0a.Op != OpRISCV64MOVWUload {
+							continue
+						}
+						i0 := auxIntToInt32(o0a.AuxInt)
+						if auxToSym(o0a.Aux) != s {
+							continue
+						}
+						_ = o0a.Args[1]
+						if p != o0a.Args[0] || mem != o0a.Args[1] {
+							continue
+						}
+						o0b := o5b_1
+						if o0b.Op != OpRISCV64SLLI || auxIntToInt64(o0b.AuxInt) != 32 {
+							continue
+						}
+						n4 := o0b.Args[0]
+						if n4.Op != OpRISCV64MOVDnop {
+							continue
+						}
+						x4 := n4.Args[0]
+						if x4.Op != OpRISCV64MOVBUload {
+							continue
+						}
+						i4 := auxIntToInt32(x4.AuxInt)
+						if auxToSym(x4.Aux) != s {
+							continue
+						}
+						_ = x4.Args[1]
+						if p != x4.Args[0] || mem != x4.Args[1] || !(i7 == i0+7 && i6 == i0+6 && i5 == i0+5 && i4 == i0+4 && x4.Uses == 1 && x5.Uses == 1 && x6.Uses == 1 && x7.Uses == 1 && n4.Uses == 1 && n5.Uses == 1 && n6.Uses == 1 && n7.Uses == 1 && o0a.Uses == 1 && o0b.Uses == 1 && o5a.Uses == 1 && o5b.Uses == 1 && o6a.Uses == 1 && o6b.Uses == 1 && o7a.Uses == 1 && o7b.Uses == 1 && mergePoint(b, o0a, x4, x5, x6, x7) != nil && clobber(o0a, x4, x5, x6, x7, n4, n5, n6, n7, o0b, o5a, o5b, o6a, o6b, o7a, o7b)) {
+							continue
+						}
+						b = mergePoint(b, o0a, x4, x5, x6, x7)
+						v0 := b.NewValue0(x4.Pos, OpRISCV64MOVDload, t)
+						v.copyOf(v0)
+						v0.Aux = symToAux(s)
+						v1 := b.NewValue0(x4.Pos, OpOffPtr, p.Type)
+						v1.AuxInt = int64ToAuxInt(int64(i0))
+						v1.AddArg(p)
+						v0.AddArg2(v1, mem)
+						return true
+					}
+				}
+			}
+		}
+		break
+	}
 	// match: (OR (MOVDconst [val]) x)
 	// cond: is32Bit(val)
 	// result: (ORI [val] x)

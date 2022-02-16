@@ -515,6 +515,45 @@
 		(ADDI <src.Type> [s-moveSize(t.Alignment(), config)] src)
 		mem)
 
+// little endian loads
+// b[0] | b[1]<<8 => load 16-bit
+(OR <t> o0a:(MOVDnop  x0:(MOVBUload [i0] {s} p mem))
+	o0b:(SLLI [8] n0:(MOVDnop x1:(MOVBUload [i1] {s} p mem))))
+		&& i1 == i0+1
+		&& o0a.Uses == 1 && o0b.Uses == 1
+		&& x0.Uses == 1 && x1.Uses == 1
+		&& n0.Uses == 1
+		&& mergePoint(b,x0,x1) != nil
+		&& clobber(x0,x1,o0a,o0b,n0)
+		=> @mergePoint(b,x0,x1) (MOVHUload <t> {s} (OffPtr <p.Type> [int64(i0)] p) mem)
+
+// b[0] | b[1]<<8 | b[2]<<16 | b[3]<<24 => load 32-bit
+(OR <t> o3a:(SLLI [24] n3:(MOVDnop x3:(MOVBUload [i3] {s} p mem)))
+	o3b:(OR o0a:(MOVHUload [i0] {s} p mem)
+		o0b:(SLLI [16] n2:(MOVDnop x2:(MOVBUload [i2] {s} p mem)))))
+	&& i2 == i0+2 && i3 == i0+3
+	&& x2.Uses == 1 && x3.Uses == 1
+	&& n2.Uses == 1 && n3.Uses == 1
+	&& o3a.Uses == 1 && o3b.Uses == 1 && o0a.Uses == 1 && o0b.Uses == 1
+	&& mergePoint(b,o0a,x2,x3) != nil
+	&& clobber(o0a,x2,x3,o0b,o3a,o3b,n2,n3)
+	=> @mergePoint(b,o0a,x2,x3) (MOVWUload <t> {s} (OffPtr <p.Type> [int64(i0)] p) mem)
+
+// b[0]|b[1]<<8|b[2]<<16|b[3]<<24|b[4]<<32|b[5]<<40|b[6]<<48|b[7]<<56 => load 64-bit
+(OR <t> o7a:(SLLI [56] n7:(MOVDnop x7:(MOVBUload [i7] {s} p mem)))
+	o7b:(OR o6a:(SLLI [48] n6:(MOVDnop x6:(MOVBUload [i6] {s} p mem)))
+		o6b:(OR o5a:(SLLI [40] n5:(MOVDnop x5:(MOVBUload [i5] {s} p mem)))
+			o5b:(OR o0a:(MOVWUload [i0] {s} p mem)
+				o0b:(SLLI [32] n4:(MOVDnop x4:(MOVBUload [i4] {s} p mem)))))))
+	&& i7 == i0+7 && i6 == i0+6 && i5 == i0+5 && i4 == i0+4
+	&& x4.Uses == 1 && x5.Uses == 1 && x6.Uses == 1 && x7.Uses == 1
+	&& n4.Uses == 1 && n5.Uses == 1 && n6.Uses == 1 && n7.Uses == 1
+	&& o0a.Uses == 1 && o0b.Uses == 1 && o5a.Uses == 1 && o5b.Uses == 1
+	&& o6a.Uses == 1 && o6b.Uses == 1 && o7a.Uses == 1 && o7b.Uses == 1
+	&& mergePoint(b,o0a,x4,x5,x6,x7) != nil
+	&& clobber(o0a,x4,x5,x6,x7,n4,n5,n6,n7,o0b,o5a,o5b,o6a,o6b,o7a,o7b)
+	=> @mergePoint(b,o0a,x4,x5,x6,x7) (MOVDload <t> {s} (OffPtr <p.Type> [int64(i0)] p) mem)
+
 // Boolean ops; 0=false, 1=true
 (AndB ...) => (AND ...)
 (OrB  ...) => (OR  ...)
