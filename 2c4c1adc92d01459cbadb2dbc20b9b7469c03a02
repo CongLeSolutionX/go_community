@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "516f1097_a0d39bee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-02-17T15:29:47Z",
+      "side": 1,
+      "message": "that",
+      "range": {
+        "startLine": 10,
+        "startChar": 45,
+        "endLine": 10,
+        "endChar": 48
+      },
+      "revId": "2c4c1adc92d01459cbadb2dbc20b9b7469c03a02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6a777d12_a67c913e",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -51,6 +74,52 @@
       "writtenOn": "2022-02-17T04:58:17Z",
       "side": 1,
       "message": "Hi Rob:  this CL isn\u0027t complete yet, since I haven\u0027t created a minimized test case yet, but could you take a look at the change for {importer, gcimporter}/iimport.go, where I have to defer the call to SetConstraint for types that are recursive through a type constraint.  Does it make sense and/or is there a better way?  We can chat in more detail if the problem/solution are not clear.\n\nIn this issue\u0027s test program, we actually have a recursive cycle on types that goes through about 9 different types, including two type constraints!  (Interaction - InteractionDataConstraint - UserCommandInteractionData - resolvedInteractionWithOptions - Resolved - ResolvedData - ResolvedDataConstraint - Message - Interaction)\n",
+      "revId": "2c4c1adc92d01459cbadb2dbc20b9b7469c03a02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9dfd58bb_45935ddd",
+        "filename": "src/go/internal/gcimporter/iimport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-02-17T15:29:47Z",
+      "side": 1,
+      "message": "Hmm, ideally we should be able to set the constraint even if its not fully set up, since it should be fully set up by the time the import exits, but that\u0027s not how it currently works :(\n\nI think what\u0027s going on here is that SetConstraint computes the type parameter type set, and due to recursive references does this improperly. Does that sound right?",
+      "range": {
+        "startLine": 407,
+        "startChar": 6,
+        "endLine": 410,
+        "endChar": 41
+      },
+      "revId": "2c4c1adc92d01459cbadb2dbc20b9b7469c03a02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "451d60f5_6173e370",
+        "filename": "src/go/internal/gcimporter/iimport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-02-17T15:29:47Z",
+      "side": 1,
+      "message": "s/completely/completely set up\n?",
+      "range": {
+        "startLine": 410,
+        "startChar": 6,
+        "endLine": 410,
+        "endChar": 40
+      },
       "revId": "2c4c1adc92d01459cbadb2dbc20b9b7469c03a02",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
