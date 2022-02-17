@@ -449,6 +449,12 @@ Do not send CLs removing the interior tags from such phrases.
   after each value that may be inaccurate.
 </p>
 
+<p><!-- CL 347917 -->
+  The built-in function <code>append</code> now uses a slightly different formula
+  when deciding how much to grow a slice when it must allocate a new underlying array.
+  The new formula is less prone to sudden transitions in allocation behavior.
+</p>
+
 <h2 id="compiler">Compiler</h2>
 
 <p><!-- https://golang.org/issue/40724 -->
