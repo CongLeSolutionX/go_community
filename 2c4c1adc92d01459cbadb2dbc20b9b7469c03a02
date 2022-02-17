@@ -122,6 +122,54 @@
       },
       "revId": "2c4c1adc92d01459cbadb2dbc20b9b7469c03a02",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bdd40f7e_1b8cf7d2",
+        "filename": "src/go/internal/gcimporter/iimport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2022-02-17T16:18:48Z",
+      "side": 1,
+      "message": "I\u0027ll try to make the comment clearer.  SetConstraint definitely panics if constraint (bound) is a named type with no underlying type set yet (t.iface() in SetConstraint calls under(bound), which fails with a \"nil underlying\" panic for Named types).  So we definitely have to defer the SetConstraint call unless the implementation of SetConstraint() is changed.\n\nGiven that, let me know if you think the way I\u0027ve deferred things seems reasonable.",
+      "parentUuid": "9dfd58bb_45935ddd",
+      "range": {
+        "startLine": 407,
+        "startChar": 6,
+        "endLine": 410,
+        "endChar": 41
+      },
+      "revId": "2c4c1adc92d01459cbadb2dbc20b9b7469c03a02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac62a08e_2732c782",
+        "filename": "src/go/internal/gcimporter/iimport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2022-02-17T16:18:48Z",
+      "side": 1,
+      "message": "I think I mean \"completed\", but \"completely set up\" works as well.",
+      "parentUuid": "451d60f5_6173e370",
+      "range": {
+        "startLine": 410,
+        "startChar": 6,
+        "endLine": 410,
+        "endChar": 40
+      },
+      "revId": "2c4c1adc92d01459cbadb2dbc20b9b7469c03a02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
