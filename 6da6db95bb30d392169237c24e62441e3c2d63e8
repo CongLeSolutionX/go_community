@@ -22,6 +22,52 @@
       },
       "revId": "6da6db95bb30d392169237c24e62441e3c2d63e8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5cec7183_d0b3ed9a",
+        "filename": "doc/go_mem.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 666,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-02-17T03:35:36Z",
+      "side": 1,
+      "message": "This description is too general, “Go programs\" here should not include those single-goroutine go programs.",
+      "range": {
+        "startLine": 666,
+        "startChar": 93,
+        "endLine": 666,
+        "endChar": 104
+      },
+      "revId": "6da6db95bb30d392169237c24e62441e3c2d63e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35bd9eb7_c42e22ec",
+        "filename": "doc/go_mem.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-02-17T03:35:36Z",
+      "side": 1,
+      "message": "Should we mention that p is accessable by multiple goroutines?",
+      "range": {
+        "startLine": 679,
+        "startChar": 1,
+        "endLine": 679,
+        "endChar": 2
+      },
+      "revId": "6da6db95bb30d392169237c24e62441e3c2d63e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
