@@ -51,6 +51,23 @@
       "message": "Keith/Matthew: Feel free to comment on any of this, but especiall the types1 importer (typecheck/iimport.go). RobF is covering/commenting on the types2 importer.\n\n",
       "revId": "3133b6c380c659d39b781a8739a9f7281a671f98",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3b11721_388a5cfb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-02-17T20:14:27Z",
+      "side": 1,
+      "message": "LGTM\n\nFWIW, unified IR\u0027s code for handling recursive type constraints is here: https://github.com/golang/go/blob/eaf040502b763a6f00dced35e4173c2ce90eb52f/src/cmd/compile/internal/noder/reader2.go#L466",
+      "revId": "3133b6c380c659d39b781a8739a9f7281a671f98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
