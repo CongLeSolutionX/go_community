@@ -180,6 +180,9 @@ func ImportData(imports map[string]*types2.Package, data, path string) (pkg *typ
 		p.doDecl(localpkg, name)
 	}
 
+	for _, d := range p.later {
+		d.t.SetConstraint(d.constraint)
+	}
 	// record all referenced packages as imports
 	list := append(([]*types2.Package)(nil), pkgList[1:]...)
 	sort.Sort(byPath(list))
@@ -189,6 +192,11 @@ func ImportData(imports map[string]*types2.Package, data, path string) (pkg *typ
 	localpkg.MarkComplete()
 
 	return localpkg, nil
+}
+
+type setConstraintArgs struct {
+	t          *types2.TypeParam
+	constraint types2.Type
 }
 
 type iimporter struct {
@@ -206,6 +214,9 @@ type iimporter struct {
 	tparamIndex map[ident]*types2.TypeParam
 
 	interfaceList []*types2.Interface
+
+	// Arguments for calls to SetConstraint that are deferred due to recursive types
+	later []setConstraintArgs
 }
 
 func (p *iimporter) doDecl(pkg *types2.Package, name string) {
@@ -401,7 +412,15 @@ func (r *importReader) obj(name string) {
 			}
 			iface.MarkImplicit()
 		}
-		t.SetConstraint(constraint)
+		if constraint.Underlying() == nil {
+			// The underlying type of constraint may not be set, if we
+			// are in the middle of a type recursion involving type
+			// constraints. If so, defer SetConstraint until we have
+			// completely all types in ImportData.
+			r.p.later = append(r.p.later, setConstraintArgs{t: t, constraint: constraint})
+		} else {
+			t.SetConstraint(constraint)
+		}
 
 	case 'V':
 		typ := r.typ()
