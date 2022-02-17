@@ -72,6 +72,24 @@
       "message": "LGTM but let\u0027s also document this somewhere.",
       "revId": "2518ab9e1a239eaeeecbf3beb2167969536520a8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f879ea9_3fe6519d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-02-17T22:32:17Z",
+      "side": 1,
+      "message": "Any thoughts on where? We don\u0027t currently document cancelation behavior, and it should just transparently work as expected when used as an http.Server handler.",
+      "parentUuid": "3f030364_13eef048",
+      "revId": "2518ab9e1a239eaeeecbf3beb2167969536520a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
