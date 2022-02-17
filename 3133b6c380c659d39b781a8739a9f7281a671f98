@@ -125,6 +125,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba9d77bc_28f00c64",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-02-17T21:20:32Z",
+      "side": 1,
+      "message": "LGTM -- If you could add a narrower example that would be good, but the importer changes LG.",
+      "revId": "3133b6c380c659d39b781a8739a9f7281a671f98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "52e0c118_7ffe99ca",
