@@ -59,6 +59,57 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6a2f48b3_26caa6ad",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 689,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-02-18T00:20:16Z",
+      "side": 1,
+      "message": "this sentence is very hard to parse and also hard to understand. the problem is likely to arise often because the word \u0027type\u0027 is part of \u0027type parameter\u0027.\n\nalso, what is a \"value of the type parameter\"? i mean, i know what you\u0027re trying to say, but why does that phrase mean that? we don\u0027t say \"value of the float64\". Try this:\n\nIf the type of the value is derived from a type parameter, the constant is converted into a non-constant value of that type.",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2122a2a_36aea312",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 721,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-02-18T00:20:16Z",
+      "side": 1,
+      "message": "unrelated to the recent changes but i wonder if it should also require an error due to underflow. no soft underflow is allowed, right? but does it go to zero or give an error?",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc45d7e6_53f887e8",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 992,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-02-18T00:20:16Z",
+      "side": 1,
+      "message": "maybe s/is/may be/\nit\u0027s not the only way.",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "784f0a95_05fd3fea",
         "filename": "doc/go_spec.html",
         "patchSetId": 2
