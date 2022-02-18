@@ -487,6 +487,10 @@ type g struct {
 	timer          *timer         // cached timer for time.Sleep
 	selectDone     uint32         // are we participating in a select and did someone win the race?
 
+	// goroutineProfiled indicates whether this goroutine appears in the current
+	// goroutine profile.
+	goroutineProfiled atomic.Uint32
+
 	// Per-G GC state
 
 	// gcAssistBytes is this G's GC assist credit in terms of
