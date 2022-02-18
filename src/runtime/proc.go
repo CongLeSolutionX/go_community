@@ -2490,6 +2490,13 @@ func gcstopm() {
 func execute(gp *g, inheritTime bool) {
 	_g_ := getg()
 
+	if goroutineProfile.active {
+		// Make sure that gp has had its stack written out to the goroutine
+		// profile, exactly as it was when the goroutine profiler first stopped
+		// the world.
+		tryRecordGoroutineProfile(gp)
+	}
+
 	// Assign gp.m before entering _Grunning so running Gs have an
 	// M.
 	_g_.m.curg = gp
@@ -4117,6 +4124,14 @@ func newproc1(fn *funcval, callergp *g, callerpc uintptr) *g {
 		// Only user goroutines inherit pprof labels.
 		if _g_.m.curg != nil {
 			newg.labels = _g_.m.curg.labels
+		}
+		if goroutineProfile.active {
+			// A concurrent goroutine profile is running. It should include
+			// exactly the set of goroutines that were alive when the goroutine
+			// profiler first stopped the world. That does not include newg, so
+			// mark it as not needing a profile before transitioning it from
+			// _Gdead.
+			atomic.Store(&newg.goroutineProfiled, 2)
 		}
 	}
 	// Track initial transition?
