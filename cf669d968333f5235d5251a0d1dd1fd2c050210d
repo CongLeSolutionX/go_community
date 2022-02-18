@@ -95,6 +95,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fb54d925_5ae71b40",
+        "filename": "src/cmd/compile/internal/noder/reader.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 975,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2022-02-18T23:35:50Z",
+      "side": 1,
+      "message": "For people who like to debug using -W\u003d3 option (printing our the noder IR for functions as they are created and go through the various passes), I think it would be useful to add here (or somewhere equivalent) something like this:\n\n\t\tif base.Flag.W \u003e 1 {\n\t\t\ts :\u003d fmt.Sprintf(\"\\nreader %v\", fn)\n\t\t\tir.Dump(s, fn)\n\t\t}\n\nNot sure if this will duplicate output, but the main goal is to at least show the creating all non-generic functions and the all instantiations of generic functions.",
+      "revId": "cf669d968333f5235d5251a0d1dd1fd2c050210d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ab560982_0baa4187",
         "filename": "src/internal/pkgbits/codes.go",
         "patchSetId": 5
