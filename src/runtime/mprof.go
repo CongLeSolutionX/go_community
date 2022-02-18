@@ -764,7 +764,34 @@ func goroutineProfileWithLabels(p []StackRecord, labels []unsafe.Pointer) (n int
 	if go119ConcurrentGoroutineProfile {
 		return goroutineProfileWithLabelsConcurrent(p, labels)
 	}
-	return goroutineProfileWithLabelsSync(p, labels)
+	stopTheWorld("profile")
+	n, ok = goroutineProfileWithLabelsSyncStopped(p, labels)
+	startTheWorld()
+	return n, ok
+}
+
+func hashStacks(seed uintptr, n int, stacks []StackRecord, labels []unsafe.Pointer) uintptr {
+	var hash uintptr
+	for i := 1; i < n; i++ {
+		// Skip record 0: this goroutine's stack will differ
+		var h uintptr
+		h = memhash(unsafe.Pointer(&stacks[i].Stack0[0]), seed,
+			uintptr(len(stacks[i].Stack()))*unsafe.Sizeof(stacks[i].Stack0[0]))
+		if labels != nil {
+			h = memhash(unsafe.Pointer(&labels[i]), h, unsafe.Sizeof(labels[i]))
+		}
+		hash ^= h
+
+		log := dlog().s("stack").i(i)
+		if labels != nil {
+			log = log.s("labels").p(labels[i])
+		}
+		for _, pc := range stacks[i].Stack() {
+			log = log.pc(pc)
+		}
+		log.end()
+	}
+	return hash
 }
 
 var goroutineProfile = struct {
@@ -828,6 +855,19 @@ func goroutineProfileWithLabelsConcurrent(p []StackRecord, labels []unsafe.Point
 		n++
 	}
 
+	var (
+		n0    int
+		seed  uintptr
+		hash0 uintptr
+	)
+	if debug.verifygoprof == 1 {
+		n0, _ = goroutineProfileWithLabelsSyncStopped(p, labels)
+		if n != n0 {
+			print("n=", n, " n0=", n0, "\n")
+			throw("goroutineProfileWithLabels implementations disagree on count")
+		}
+	}
+
 	if n > len(p) {
 		// There's not enough space in p to store the whole profile, so (per the
 		// contract of runtime.GoroutineProfile) we're not allowed to write to p
@@ -835,6 +875,11 @@ func goroutineProfileWithLabelsConcurrent(p []StackRecord, labels []unsafe.Point
 		startTheWorld()
 		semrelease(&goroutineProfile.sema)
 		return n, false
+	}
+
+	if debug.verifygoprof == 1 {
+		seed = uintptr(fastrand())
+		hash0 = hashStacks(seed, n0, p, labels)
 	}
 
 	// Save current goroutine.
@@ -900,6 +945,13 @@ func goroutineProfileWithLabelsConcurrent(p []StackRecord, labels []unsafe.Point
 	if n != int(endOffset) {
 		print("n=", n, " endOffset=", endOffset, "\n")
 		throw("goroutineProfileWithLabels count changed while running")
+	}
+
+	if debug.verifygoprof == 1 {
+		hash := hashStacks(seed, n, p, labels)
+		if hash != hash0 {
+			throw("goroutineProfileWithLabels implementations disagree on stacks")
+		}
 	}
 
 	semrelease(&goroutineProfile.sema)
@@ -1000,7 +1052,7 @@ func doRecordGoroutineProfile(gp1 *g) {
 	}
 }
 
-func goroutineProfileWithLabelsSync(p []StackRecord, labels []unsafe.Pointer) (n int, ok bool) {
+func goroutineProfileWithLabelsSyncStopped(p []StackRecord, labels []unsafe.Pointer) (n int, ok bool) {
 	gp := getg()
 
 	isOK := func(gp1 *g) bool {
@@ -1008,8 +1060,6 @@ func goroutineProfileWithLabelsSync(p []StackRecord, labels []unsafe.Pointer) (n
 		// consistent with both NumGoroutine and Stack.
 		return gp1 != gp && readgstatus(gp1) != _Gdead && !isSystemGoroutine(gp1, false)
 	}
-
-	stopTheWorld("profile")
 
 	// World is stopped, no locking required.
 	n = 1
@@ -1065,7 +1115,6 @@ func goroutineProfileWithLabelsSync(p []StackRecord, labels []unsafe.Pointer) (n
 		raceacquire(unsafe.Pointer(&labelSync))
 	}
 
-	startTheWorld()
 	return n, ok
 }
 
