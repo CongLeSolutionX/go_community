@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7de55612_f07c7c81",
+        "filename": "src/syscall/syscall_linux_386.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-02-18T18:53:53Z",
+      "side": 0,
+      "message": "I kind of think we should leave _ACCEPT here, or leave a comment, to avoid the unexpected gap in the numbers.",
+      "revId": "eaf040502b763a6f00dced35e4173c2ce90eb52f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1f539e6_28adf03a",
+        "filename": "src/syscall/syscall_linux_s390x.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-02-18T18:53:53Z",
+      "side": 0,
+      "message": "Same here--leave _ACCEPT or leave a comment.",
+      "revId": "eaf040502b763a6f00dced35e4173c2ce90eb52f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
