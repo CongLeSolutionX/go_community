@@ -8,8 +8,8 @@ import "unsafe"
 
 type T0 /* ERROR illegal cycle */ [P T0[P]] struct{}
 
-type T1 /* ERROR illegal cycle */ [P T2[P]] struct{}
-type T2[P T1[P]] struct{}
+type T1[P T2[P /* ERROR "does not implement" */ ]] struct{}
+type T2[P T1[P /* ERROR "does not implement" */ ]] struct{}
 
 type T3 /* ERROR illegal cycle */ [P interface{ ~struct{ f T3[int] } }] struct{}
 
