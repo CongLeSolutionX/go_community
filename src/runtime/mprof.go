@@ -753,8 +753,183 @@ func runtime_goroutineProfileWithLabels(p []StackRecord, labels []unsafe.Pointer
 	return goroutineProfileWithLabels(p, labels)
 }
 
+const go119ConcurrentGoroutineProfile = true
+
 // labels may be nil. If labels is non-nil, it must have the same length as p.
 func goroutineProfileWithLabels(p []StackRecord, labels []unsafe.Pointer) (n int, ok bool) {
+	if go119ConcurrentGoroutineProfile {
+		return goroutineProfileWithLabelsConcurrent(p, labels)
+	}
+	return goroutineProfileWithLabelsSync(p, labels)
+}
+
+var goroutineProfile = struct {
+	sema    uint32
+	active  bool
+	offset  int64 // accessed atomically
+	records []StackRecord
+	labels  []unsafe.Pointer
+}{
+	1, false, 0, nil, nil,
+}
+
+func goroutineProfileWithLabelsConcurrent(p []StackRecord, labels []unsafe.Pointer) (n int, ok bool) {
+	semacquire(&goroutineProfile.sema)
+
+	if labels != nil && len(labels) != len(p) {
+		labels = nil
+	}
+	ourg := getg()
+
+	stopTheWorld("profile")
+	// Using gcount while the world is stopped should give us a consistent view
+	// of the number of live goroutines, minus the number of goroutines that are
+	// alive and permanently marked as "system". But to make this count agree
+	// with what we'd get from isSystemGoroutine, we need special handling for
+	// goroutines that can vary between user and system to ensure that the count
+	// doesn't change during the collection. So, check the finalizer goroutine
+	// in particular.
+	n = int(gcount())
+	if fingRunning {
+		n++
+	}
+
+	if n > len(p) {
+		startTheWorld()
+		semrelease(&goroutineProfile.sema)
+		return n, false
+	}
+
+	// Save current goroutine.
+	sp := getcallersp()
+	pc := getcallerpc()
+	systemstack(func() {
+		saveg(pc, sp, ourg, &p[0])
+	})
+	atomic.Store(&ourg.goroutineProfiled, 2)
+	atomic.Storeint64(&goroutineProfile.offset, 1)
+
+	// Prepare for all other goroutines to enter the profile. Aside from ourg,
+	// every goroutine struct in the allgs list has its goroutineProfiled field
+	// set to 0. Any goroutine created from this point on (while
+	// goroutineProfile.active is set) will start with its goroutineProfiled
+	// field set to 2.
+	goroutineProfile.active = true
+	goroutineProfile.records = p
+	goroutineProfile.labels = labels
+	// The finializer goroutine needs special handling because it can vary over
+	// time between being a user goroutine (eligible for this profile) and a
+	// system goroutine (to be excluded). Pick one before restarting the world.
+	if fing != nil {
+		atomic.Store(&fing.goroutineProfiled, 2)
+	}
+	if readgstatus(fing) != _Gdead && !isSystemGoroutine(fing, false) {
+		doRecordGoroutineProfile(fing)
+	}
+	startTheWorld()
+
+	// Visit each goroutine that existed as of the startTheWorld call above.
+	//
+	// New goroutines may not be in this list, but we didn't want to know about
+	// them anyway. If they do appear in this list (via reusing a dead goroutine
+	// struct, or racing to launch between the world restarting and us getting
+	// the list), they will aleady have their goroutineProfiled field set to 2
+	// before their state transitions out of _Gdead.
+	//
+	// Any goroutine that the scheduler tries to execute concurrently with this
+	// call will start by adding itself to the profile (before the act of
+	// executing can cause any changes in its stack).
+	forEachGRace(tryRecordGoroutineProfile)
+
+	stopTheWorld("profile cleanup")
+	endOffset := atomic.Loadint64(&goroutineProfile.offset)
+	atomic.Storeint64(&goroutineProfile.offset, 0)
+	goroutineProfile.active = false
+	goroutineProfile.records = nil
+	goroutineProfile.labels = nil
+	startTheWorld()
+
+	// Restore the invariant that every goroutine struct in allgs has its
+	// goroutineProfiled field set to 0.
+	forEachGRace(func(gp1 *g) {
+		atomic.Store(&gp1.goroutineProfiled, 0)
+	})
+
+	if raceenabled {
+		// TODO: race annotations need work
+		for i := 0; i < n && i < len(labels); i++ {
+			raceacquire(unsafe.Pointer(&labels[i]))
+		}
+	}
+
+	if n != int(endOffset) {
+		print("n=", n, " endOffset=", endOffset, "\n")
+		throw("goroutineProfileWithLabels count changed while running")
+	}
+
+	semrelease(&goroutineProfile.sema)
+	return n, true
+}
+
+func tryRecordGoroutineProfile(gp1 *g) {
+	if readgstatus(gp1) == _Gdead {
+		// Dead goroutines should not appear in the profile. Goroutines that
+		// start while profile collection is active will get goroutineProfiled
+		// set to 2 before transitioning out of _Gdead, so here we check _Gdead
+		// first.
+		return
+	}
+	if isSystemGoroutine(gp1, true) {
+		// System goroutines should not appear in the profile. (The finializer
+		// is marked as "already profiled".)
+		return
+	}
+
+	for {
+		prev := atomic.Load(&gp1.goroutineProfiled)
+		if prev == 2 {
+			// This goroutine is already in the profile (or is new since the
+			// start of collection, so shouldn't appear in the profile).
+			return
+		}
+		if prev == 1 {
+			// Something else is adding gp1 to the goroutine profile right now.
+			// Give that a moment to finish.
+			osyield()
+			continue
+		}
+		if atomic.Cas(&gp1.goroutineProfiled, 0, 1) {
+			doRecordGoroutineProfile(gp1)
+			atomic.Store(&gp1.goroutineProfiled, 2)
+			return
+		}
+	}
+}
+
+func doRecordGoroutineProfile(gp1 *g) {
+	offset := int(atomic.Xaddint64(&goroutineProfile.offset, 1)) - 1
+	if offset < len(goroutineProfile.records) {
+		// Should be impossible to miss this case, but better to return a
+		// truncated profile than to crash the entire process.
+
+		// saveg calls gentraceback, which may call cgo traceback functions.
+		// This is called from the scheduler (right before running the
+		// goroutine, in runtime.execute), so use the system stack to avoid
+		// a call back into the scheduler (see traceback.go:cgoContextPCs).
+		// TODO: is systemstack necessary here?
+		systemstack(func() { saveg(^uintptr(0), ^uintptr(0), gp1, &goroutineProfile.records[offset]) })
+		if goroutineProfile.labels != nil {
+			goroutineProfile.labels[offset] = gp1.labels
+			if raceenabled {
+				// TODO: race annotations need work
+				raceacquireg(getg().m.curg, unsafe.Pointer(&gp1.labels))
+				racereleaseg(getg().m.curg, unsafe.Pointer(&goroutineProfile.labels[offset]))
+			}
+		}
+	}
+}
+
+func goroutineProfileWithLabelsSync(p []StackRecord, labels []unsafe.Pointer) (n int, ok bool) {
 	if labels != nil && len(labels) != len(p) {
 		labels = nil
 	}

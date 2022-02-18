@@ -2517,6 +2517,13 @@ func execute(gp *g, inheritTime bool) {
 		traceGoStart()
 	}
 
+	if goroutineProfile.active {
+		// Make sure that gp has had its stack written out to the goroutine
+		// profile, exactly as it was when the goroutine profiler first stopped
+		// the world.
+		tryRecordGoroutineProfile(gp)
+	}
+
 	gogo(&gp.sched)
 }
 
@@ -4123,6 +4130,14 @@ func newproc1(fn *funcval, callergp *g, callerpc uintptr) *g {
 				racereleaseg(_g_.m.curg, unsafe.Pointer(&newg.labels))
 			}
 			newg.labels = _g_.m.curg.labels
+		}
+		if goroutineProfile.active {
+			// A concurrent goroutine profile is running. It should include
+			// exactly the set of goroutines that were alive when the goroutine
+			// profiler first stopped the world. That does not include newg, so
+			// mark it as not needing a profile before transitioning it from
+			// _Gdead.
+			atomic.Store(&newg.goroutineProfiled, 2)
 		}
 	}
 	// Track initial transition?
