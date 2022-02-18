@@ -1,0 +1,20 @@
+// Copyright 2022 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+package p
+
+// Type checking the example from the issue in either order should yield no
+// errors.
+
+type T struct{}
+func (T) M(B[T]) {}
+
+type A interface{ M(B[T]) }
+type B[_ A] struct{}
+
+type T2 struct{}
+func (T2) M(B2[T2]) {}
+
+type B2[_ A2] struct{}
+type A2 interface{ M(B2[T2]) }

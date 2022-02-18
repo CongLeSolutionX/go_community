@@ -15,7 +15,7 @@ type (
 	T4c /* ERROR illegal cycle */ [P T4c[string]] interface{ ~int }
 
 	// mutually recursive constraints
-	T5 /* ERROR illegal cycle */ [P T6[P]] interface{ int }
+	T5[P T6[P]] interface{ int }
 	T6[P T5[P]] interface{ int }
 )
 
