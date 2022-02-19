@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e90f446_901ee374",
+        "filename": "src/syscall/syscall_linux_386.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2022-02-19T10:50:33Z",
+      "side": 0,
+      "message": "Agree, let\u0027s leave _ACCEPT here.",
+      "parentUuid": "7de55612_f07c7c81",
+      "revId": "eaf040502b763a6f00dced35e4173c2ce90eb52f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d1f539e6_28adf03a",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-02-18T18:53:53Z",
       "side": 0,
       "message": "Same here--leave _ACCEPT or leave a comment.",
+      "revId": "eaf040502b763a6f00dced35e4173c2ce90eb52f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7149445e_6da00e42",
+        "filename": "src/syscall/syscall_linux_s390x.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2022-02-19T10:50:33Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "d1f539e6_28adf03a",
       "revId": "eaf040502b763a6f00dced35e4173c2ce90eb52f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
