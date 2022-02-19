@@ -110,6 +110,176 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "19b0c6d9_cf2b6a16",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1427,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-02-19T01:19:21Z",
+      "side": 1,
+      "message": "s/which/that/",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5aa0c495_b3602745",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1460,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-02-19T01:19:21Z",
+      "side": 1,
+      "message": "why is this plural? s/Floats/Float/ here and on line 1463",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7eb6eea_9301cfe0",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1469,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-02-19T01:19:21Z",
+      "side": 1,
+      "message": "link to \"type parameter\"?\n\nbut i think this isn\u0027t the way to say this, or else you need to define what you mean when you use the term this way. what you\u0027re saying is that the term cannot be an identifier that is the name of a type parameter that is part of a surrounding declaration. (i think - do you also mean it can\u0027t be []T where T is a t.p.?) that\u0027s a mouthful, but you want to be precise.\n\nfor this particular example, i think you want something like this, absent other changes:\n\nA term in a union cannot contain a name denoting a type parameter of a surrounding declaration.\n\nsomewhere, i suggest you need to add a real definition of this term or, i would prefer, a new term to represent this concept, which comes up a lot but isn\u0027t really the same as a \"type parameter\", which is an element of a declaration.  you might be able get by with something like,\n\nThe term \"type parameter name\" refers to an identifier that denotes a type parameter of a surrounding declaration.",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d665af5_2f8a187c",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1471,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-02-19T01:19:21Z",
+      "side": 1,
+      "message": "again, this is not clear. given how? you want some improved terminology. i have to stop and think hard about how you could even write the upcoming example.",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3653998a_52179aa3",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1476,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-02-19T01:19:21Z",
+      "side": 1,
+      "message": "P is the name of a type parameter\n\netc.",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1059b166_3c567b65",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1479,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-02-19T01:19:21Z",
+      "side": 1,
+      "message": "s/Floats/Float/g",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e4de360_afdd883a",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1485,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-02-19T01:19:21Z",
+      "side": 1,
+      "message": "how can a union have only one term? just as \"x\" is not a sum, but \"x+y\" is.",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ba898eb_8a303f3c",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1499,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-02-19T01:19:21Z",
+      "side": 1,
+      "message": "s/Floats/Float/g\n\ndo this globally; i\u0027ll stop marking it",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06b9a380_a1255182",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1510,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-02-19T01:19:21Z",
+      "side": 1,
+      "message": "define \"contains\"\n\nis this legal?\n\ninterface Equaler { Equal() Equaler }",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fdb5e9a9_67599512",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1550,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-02-19T01:19:21Z",
+      "side": 1,
+      "message": "this is a little unsettling. i had to reread to see that it was not a repetition. you can do it in one easier go:\n\nA type T, or a value of type T, implements an interface I if",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "784f0a95_05fd3fea",
         "filename": "doc/go_spec.html",
         "patchSetId": 2
