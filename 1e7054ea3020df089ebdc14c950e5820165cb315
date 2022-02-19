@@ -441,6 +441,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d0e372ae_e3abce3b",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2998,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2022-02-19T13:27:25Z",
+      "side": 1,
+      "message": "and parameters may be blank, and it cannot be partial.",
+      "range": {
+        "startLine": 2998,
+        "startChar": 25,
+        "endLine": 2998,
+        "endChar": 26
+      },
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fc55b030_ec96cf34",
         "filename": "doc/go_spec.html",
         "patchSetId": 2
@@ -457,6 +480,29 @@
         "startChar": 21,
         "endLine": 4348,
         "endChar": 48
+      },
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "655307ff_5bc20b1e",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 4392,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2022-02-19T13:27:25Z",
+      "side": 1,
+      "message": "I don\u0027t understand how these qualifications work. Given\n\n   func f[T any](a, b T) {}\n   type myint int\n\nit is illegal to write\n\n   f(int(1), myint(2))\n\nyet int and myint are equivalent because their underlying types are.",
+      "range": {
+        "startLine": 4391,
+        "startChar": 0,
+        "endLine": 4392,
+        "endChar": 54
       },
       "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
@@ -492,6 +538,29 @@
       "writtenOn": "2022-02-14T18:48:09Z",
       "side": 1,
       "message": "Another constraints.Ordered usage",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6afa56fe_17648926",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 4640,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2022-02-19T13:27:25Z",
+      "side": 1,
+      "message": "Can there be a cycle? If not, why not?\n\nIn 1.18 beta2, it is not an error to write\n\n   func f[L []E, E []L](x L) {}\n   \nalthough I do get an error when I try to instantiate it.",
+      "range": {
+        "startLine": 4640,
+        "startChar": 45,
+        "endLine": 4640,
+        "endChar": 46
+      },
       "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
