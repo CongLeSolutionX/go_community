@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "de31ad58_61388c28",
+        "filename": "src/cmd/cgo/out.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1617,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2022-02-19T09:40:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b4f48bc_49b55d86",
+      "revId": "2d52ef6958a4ebaf7e3ed999e7c3b62208feedf5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e930b8bd_23f1afc9",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-02-18T19:45:16Z",
       "side": 1,
       "message": "Should this say \"explicit length l\" ?",
+      "revId": "2d52ef6958a4ebaf7e3ed999e7c3b62208feedf5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4fc15e4_86a6d7f8",
+        "filename": "src/cmd/cgo/out.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1627,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2022-02-19T09:40:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e930b8bd_23f1afc9",
       "revId": "2d52ef6958a4ebaf7e3ed999e7c3b62208feedf5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
