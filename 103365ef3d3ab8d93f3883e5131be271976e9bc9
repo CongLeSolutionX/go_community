@@ -16,7 +16,24 @@
       "message": "hi everyone, should I do something to continue a review process?",
       "revId": "103365ef3d3ab8d93f3883e5131be271976e9bc9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b41f64f6_15a494cd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55598
+      },
+      "writtenOn": "2022-02-19T07:09:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f4570cd0_a16be344",
+      "revId": "103365ef3d3ab8d93f3883e5131be271976e9bc9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
-  ],
-  "submitRequirementResults": []
+  ]
 }
