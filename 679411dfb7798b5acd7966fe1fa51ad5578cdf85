@@ -16,6 +16,40 @@
       "message": "ping",
       "revId": "679411dfb7798b5acd7966fe1fa51ad5578cdf85",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f84c7a89_f4cffcd7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2022-02-20T10:46:59Z",
+      "side": 1,
+      "message": "I\u0027m not an encoding/xml owner, but from the point of view of reflect.Value, this looks good. Just one nit.\n\nI\u0027ll leave it to Russ or Ian to decide if it\u0027s OK to merge for 1.18.",
+      "revId": "679411dfb7798b5acd7966fe1fa51ad5578cdf85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41970318_11433dea",
+        "filename": "src/encoding/xml/marshal.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2022-02-20T10:46:59Z",
+      "side": 1,
+      "message": "nit: invert the order, so that we check that the reflect.Value is valid before we check if it\u0027s empty. isEmptyValue happens to not panic on an invalid value, because the Kind method just returns Invalid, but it\u0027s a bit more consistent and safer to not rely on that edge case.",
+      "revId": "679411dfb7798b5acd7966fe1fa51ad5578cdf85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
