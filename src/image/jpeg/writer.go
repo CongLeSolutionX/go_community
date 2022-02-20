@@ -522,13 +522,13 @@ func (e *encoder) writeSOS(m image.Image) {
 		prevDCY, prevDCCb, prevDCCr int32
 	)
 	bounds := m.Bounds()
-	switch m := m.(type) {
-	// TODO(wathiede): switch on m.ColorModel() instead of type.
-	case *image.Gray:
+	switch m.ColorModel() {
+	case color.GrayModel:
+		gray, _ := m.(*image.Gray)
 		for y := bounds.Min.Y; y < bounds.Max.Y; y += 8 {
 			for x := bounds.Min.X; x < bounds.Max.X; x += 8 {
 				p := image.Pt(x, y)
-				grayToY(m, p, &b)
+				grayToY(gray, p, &b)
 				prevDCY = e.writeBlock(&b, 0, prevDCY)
 			}
 		}
@@ -615,9 +615,8 @@ func Encode(w io.Writer, m image.Image, o *Options) error {
 	}
 	// Compute number of components based on input image type.
 	nComponent := 3
-	switch m.(type) {
-	// TODO(wathiede): switch on m.ColorModel() instead of type.
-	case *image.Gray:
+	switch m.ColorModel() {
+	case color.GrayModel:
 		nComponent = 1
 	}
 	// Write the Start Of Image marker.
