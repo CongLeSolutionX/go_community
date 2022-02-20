@@ -280,6 +280,57 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ad72e6de_108cd1d5",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1707,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2022-02-20T17:57:22Z",
+      "side": 1,
+      "message": "Nit: I think it would be better to move \"The underlying type of a type parameter is the underlying type of its ...\" just before its preceding sentence (which begins with \"Otherwise\").  That way, the \"Otherwise\" really does apply to all remaining cases.",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "500364ce_8850cb93",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1800,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2022-02-20T17:57:22Z",
+      "side": 1,
+      "message": "whithout -\u003e without",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "113dd291_ea716bf5",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1978,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2022-02-20T17:57:22Z",
+      "side": 1,
+      "message": "I think it will be easier to read if you describe V here, rather than multiple times below.  Just say:\n\nA value x of type V is assignable to a variable of type T ...:\n\n - V and T are identical\n - V and T have identical underlying types and ...\n - V and T are channel types...",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "784f0a95_05fd3fea",
         "filename": "doc/go_spec.html",
         "patchSetId": 2
@@ -291,6 +342,23 @@
       "writtenOn": "2022-02-14T14:50:51Z",
       "side": 1,
       "message": "You probably dont want to mention the constraints package in the spec right now",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "691edad8_b49521cb",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2597,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2022-02-20T17:57:22Z",
+      "side": 1,
+      "message": "I think you just want to remove \"in a type definition\" here.  It sounds like you are specifically excluding type parameters from a generic function definition, but you do want to include those - that is your second example below.\n\nOr say \"The given type cannot be a type parameter from a type definition or generic function definition\".",
       "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -326,6 +394,24 @@
       "side": 1,
       "message": "The type parameters in the receiver type of a method declaration do not have to have the same name as the type parameters in the declaration of the receiver type.  But you do have to have the same number.  The text is correct.  But it might be worth an example.",
       "parentUuid": "cbda95b6_32e5df90",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2525c77b_9eaa42dd",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2610,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2022-02-20T17:57:22Z",
+      "side": 1,
+      "message": "There is an example of methods of generic types in the \"method declaration\" section.  Maybe just a link reference to that section would help.",
+      "parentUuid": "9be85334_5883fa44",
       "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -464,6 +550,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b9607ef6_0534bab5",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 3763,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2022-02-20T17:57:22Z",
+      "side": 1,
+      "message": "I think you want to add \"and a is not of type parameter type\"?\n\n(Since for type parameter type, x can possibly be a key for a map type)",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6416daa1_74330698",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 4047,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2022-02-20T17:57:22Z",
+      "side": 1,
+      "message": "Do you want to mention that T can be a type parameter or parameterized type (like cases in a type switch), and in that case, there are no compile-time checks/requirements?\n\nFor instance, typechecker doesn\u0027t complain with:\n\n```\ntype I interface {\n\tfoo()\n}\n\ntype myint int\ntype myint2 int\n\nfunc (myint) foo() {\n}\n\nfunc g[T any](x I) T {\n\treturn x.(T)\n}\n\nfunc main() {\n    var j I \u003d myint(3)\n\n    g[myint2](j)\n}\n```\n\neven though x of type I cannot be type-asserted to an arbitrary typeparam T (constraint of any).  And in particular, we get a run-time error, but not compile-time error from g[myint2](j), as expected.",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fc55b030_ec96cf34",
         "filename": "doc/go_spec.html",
         "patchSetId": 2
@@ -504,6 +624,47 @@
         "endLine": 4392,
         "endChar": 54
       },
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cdd616b4_1e7413e0",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 4392,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2022-02-20T17:57:22Z",
+      "side": 1,
+      "message": "Yes, here\u0027s another example that only requires one argument:\n\n```\ntype myint int\n\nfunc f[T any](a struct {\n\ta myint\n\tb T\n}) {\n\tfmt.Printf(\"%v\\n\", a)\n}\n\nfunc main() {\n\tvar x struct {\n\t\ta int\n\t\tb string\n\t}\n\n\tf(x)\n}\n```\n\nThe current rule would seem to say that we could infer that the type args of the f() call is string, but really there is no match.\n\nSo, I would think that you get rid of \"or if their underlying types are equivalent\" here, and just stay with the exception listed at 4435-4448 (which does somewhat involve underlying types).",
+      "parentUuid": "655307ff_5bc20b1e",
+      "range": {
+        "startLine": 4391,
+        "startChar": 0,
+        "endLine": 4392,
+        "endChar": 54
+      },
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d0e373a_f55c67fa",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 4448,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2022-02-20T17:57:22Z",
+      "side": 1,
+      "message": "Should this exception only apply when the type literal has a type param in it?\nOtherwise, wouldn\u0027t this exception again allow \u0027myint\u0027 to unify with \u0027int\u0027?",
       "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -561,6 +722,23 @@
         "endLine": 4640,
         "endChar": 46
       },
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a023008f_29787dea",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 6357,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2022-02-20T17:57:22Z",
+      "side": 1,
+      "message": "I think what you had before \"type-parameterized type\" is more correct.  Or maybe just \"type containing one or more type parameters\".\n\nIf you say generic type, it doesn\u0027t really express things like \"[]P\", but instead sounds like you mean an uninstantiated generic type (such as just \u0027Pair\u0027, a generic type you defined above).",
       "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
