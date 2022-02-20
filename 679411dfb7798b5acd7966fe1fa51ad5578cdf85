@@ -87,6 +87,24 @@
       "message": "nit: invert the order, so that we check that the reflect.Value is valid before we check if it\u0027s empty. isEmptyValue happens to not panic on an invalid value, because the Kind method just returns Invalid, but it\u0027s a bit more consistent and safer to not rely on that edge case.",
       "revId": "679411dfb7798b5acd7966fe1fa51ad5578cdf85",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ef6b63e_c0bd7b0b",
+        "filename": "src/encoding/xml/marshal.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 55613
+      },
+      "writtenOn": "2022-02-20T11:59:14Z",
+      "side": 1,
+      "message": "You are humble, I changed it, you see if it will be more consistent and reliable.",
+      "parentUuid": "41970318_11433dea",
+      "revId": "679411dfb7798b5acd7966fe1fa51ad5578cdf85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
