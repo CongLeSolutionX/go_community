@@ -70,7 +70,24 @@
       "parentUuid": "cd3e754f_dde9dbc3",
       "revId": "b5129ad06e2eb71299d2534f46d4d48325a5a927",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27de2cab_f90d6b61",
+        "filename": "src/image/jpeg/writer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 55613
+      },
+      "writtenOn": "2022-02-21T10:01:40Z",
+      "side": 1,
+      "message": "I understand what you mean, thank you for your kind reply.",
+      "parentUuid": "e57343fd_e00354bb",
+      "revId": "b5129ad06e2eb71299d2534f46d4d48325a5a927",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
-  ],
-  "submitRequirementResults": []
+  ]
 }
