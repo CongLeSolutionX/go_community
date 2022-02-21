@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c54890af_c1fc0b36",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2022-02-21T09:01:16Z",
+      "side": 1,
+      "message": "The tsan runtime is now finally merged into llvm and we\u0027ve successfully deployed it to our internal codebase and chromium (with significant performance improvements).\n\nI\u0027ve updated this change with re-built runtime and mentioned the revision in README. Re-run few benchmarks, the wins are there.",
+      "revId": "12a1b749bd530c65888b9454d40b48a5dc6efd3a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
