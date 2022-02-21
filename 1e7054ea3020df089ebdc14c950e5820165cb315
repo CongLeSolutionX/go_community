@@ -297,6 +297,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0803598b_10628273",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1733,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-02-21T22:45:23Z",
+      "side": 1,
+      "message": "so []B3 and []int are several steps apart. is there a way to relate them directly?\n\ni presume []~int works, but what does ~[]B1 match? does it match []int? i can\u0027t tell.",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e19ca54_00521f35",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1760,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-02-21T22:45:23Z",
+      "side": 1,
+      "message": "No other interface has a core type",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "500364ce_8850cb93",
         "filename": "doc/go_spec.html",
         "patchSetId": 2
@@ -314,6 +348,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "67e9ad26_eff23e84",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1810,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-02-21T22:45:23Z",
+      "side": 1,
+      "message": "i don\u0027t understand the purpose of this definition, and i don\u0027t understand what it means. i am confused.\n\ni\u0027m sure it will come up later, but on the face of it we have too many kinds of types to make this all clear: \n\ntypes\nunderlying types\ncore types\nspecific types\ntype sets\n...\n\n(not to mention the mess with untyped constants and default types. i have no idea how those are going to interoperate with this list.)\n\n\nit\u0027s overwhelming. do you really need all these definitions to explain the mechanism? i hope not, but if so perhaps you should provide an introductory paragraph explaining why and how these concepts interrelate.",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "113dd291_ea716bf5",
         "filename": "doc/go_spec.html",
         "patchSetId": 2
@@ -325,6 +376,40 @@
       "writtenOn": "2022-02-20T17:57:22Z",
       "side": 1,
       "message": "I think it will be easier to read if you describe V here, rather than multiple times below.  Just say:\n\nA value x of type V is assignable to a variable of type T ...:\n\n - V and T are identical\n - V and T have identical underlying types and ...\n - V and T are channel types...",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a032e099_bf2db3e8",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1997,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-02-21T22:45:23Z",
+      "side": 1,
+      "message": "here\u0027s that term \u0027type parameter\u0027 creeping in again",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d54c61e_70bdc975",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2003,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-02-21T22:45:23Z",
+      "side": 1,
+      "message": "ditto.\nthis remains troubling\n\ni\u0027ll stop mentioning it but please define better terminology and use it everywhere. grep for \u0027type parameter\u0027 and check every use.",
       "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
