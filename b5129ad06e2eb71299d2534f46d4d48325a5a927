@@ -52,6 +52,24 @@
       "parentUuid": "7353fdda_fdfeed5f",
       "revId": "b5129ad06e2eb71299d2534f46d4d48325a5a927",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e57343fd_e00354bb",
+        "filename": "src/image/jpeg/writer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2022-02-21T09:47:40Z",
+      "side": 1,
+      "message": "The TODO is correct: ideally we would like to encode any grayscale image (not just *image.Gray images) as 1-component JPEGs (instead of 3-component YCbCr JPEGs).\n\nIt\u0027s just not a 6 line change. If it was, we would have just done it instead of write the TODO comment.",
+      "parentUuid": "cd3e754f_dde9dbc3",
+      "revId": "b5129ad06e2eb71299d2534f46d4d48325a5a927",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
