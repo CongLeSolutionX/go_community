@@ -16,6 +16,42 @@
       "message": "It\u0027s not that simple. The program below works before and panics after this change.\n\n```\npackage main\n\nimport (\n\t\"image\"\n\t\"image/color\"\n\t\"image/jpeg\"\n\t\"os\"\n)\n\ntype circle struct{}\n\nfunc (c circle) ColorModel() color.Model { return color.GrayModel }\n\nfunc (c circle) Bounds() image.Rectangle { return image.Rect(0, 0, 100, 100) }\n\nfunc (c circle) At(x, y int) color.Color {\n\tif (x*x)+(y*y) \u003c 70*70 {\n\t\treturn color.Gray{0xFF}\n\t}\n\treturn color.Gray{0x00}\n}\n\nfunc main() {\n\tjpeg.Encode(os.Stdout, circle{}, nil)\n}\n```",
       "revId": "b5129ad06e2eb71299d2534f46d4d48325a5a927",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8158a6ba_f0aa7718",
+        "filename": "src/image/jpeg/writer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 55613
+      },
+      "writtenOn": "2022-02-21T07:37:24Z",
+      "side": 1,
+      "message": "Can we remove this TODO, add your test case, add comment description? Because this TODO is not as correct as it says.",
+      "parentUuid": "7353fdda_fdfeed5f",
+      "revId": "b5129ad06e2eb71299d2534f46d4d48325a5a927",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd3e754f_dde9dbc3",
+        "filename": "src/image/jpeg/writer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 55613
+      },
+      "writtenOn": "2022-02-21T07:37:24Z",
+      "side": 1,
+      "message": "Thanks for your patience.\nCan we remove this TODO and add your test case? Because this TODO is not as correct as it says.",
+      "parentUuid": "7353fdda_fdfeed5f",
+      "revId": "b5129ad06e2eb71299d2534f46d4d48325a5a927",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
