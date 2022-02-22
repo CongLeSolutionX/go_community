@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b3b96d1_95f6abb4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-02-22T17:25:02Z",
+      "side": 1,
+      "message": "The new version doesn\u0027t call toType, but having all the code go through toType is a good thing.  Also the new code is less clear.  Perhaps we should think instead if there is a way for the compiler to generate better code here.",
+      "revId": "bb11fc591e05cebbc781bb006e6aed3bbba31a30",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
