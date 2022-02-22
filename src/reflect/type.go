@@ -1422,8 +1422,10 @@ func (t *structType) FieldByName(name string) (f StructField, present bool) {
 // TypeOf returns the reflection Type that represents the dynamic type of i.
 // If i is a nil interface value, TypeOf returns nil.
 func TypeOf(i any) Type {
-	eface := *(*emptyInterface)(unsafe.Pointer(&i))
-	return toType(eface.typ)
+	if i == nil {
+		return nil
+	}
+	return (*emptyInterface)(unsafe.Pointer(&i)).typ
 }
 
 // ptrMap is the cache for PointerTo.
