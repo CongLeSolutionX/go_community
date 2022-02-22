@@ -416,6 +416,91 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a66d903a_9591eb92",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2184,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-02-22T02:31:53Z",
+      "side": 1,
+      "message": "here i would expect \"type parameter\" to appear",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6430d1b5_f4434e4b",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2225,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-02-22T02:31:53Z",
+      "side": 1,
+      "message": "s/generic //",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d141a529_d5b4608d",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2230,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-02-22T02:31:53Z",
+      "side": 1,
+      "message": "s/generic //",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d345172e_37132a83",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2231,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-02-22T02:31:53Z",
+      "side": 1,
+      "message": "s/generic //",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5960fa75_531839dd",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2331,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-02-22T02:31:53Z",
+      "side": 1,
+      "message": "what does being exported have to do with this? if they are in different packages, they are different identifiers, aren\u0027t they?",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "784f0a95_05fd3fea",
         "filename": "doc/go_spec.html",
         "patchSetId": 2
@@ -444,6 +529,23 @@
       "writtenOn": "2022-02-20T17:57:22Z",
       "side": 1,
       "message": "I think you just want to remove \"in a type definition\" here.  It sounds like you are specifically excluding type parameters from a generic function definition, but you do want to include those - that is your second example below.\n\nOr say \"The given type cannot be a type parameter from a type definition or generic function definition\".",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8fd63f2_6cccb065",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2597,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-02-22T02:31:53Z",
+      "side": 1,
+      "message": "what about\n\ntype T[P any] []P\n\ni believe it is, but the wording only implies it. be clear. \n\nagain, my complaint about terminology applies here. see how this opener would be clearer:\n\nThe given type cannot be a type parameter name.",
       "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -543,6 +645,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "76001364_ec2e09ee",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2660,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-02-22T02:31:53Z",
+      "side": 1,
+      "message": "yuck",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c637dc1_1caf98ad",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2692,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-02-22T02:31:53Z",
+      "side": 1,
+      "message": "value is probably the right word here, but it sure reads funny. again, the phrase \u0027type parameter\u0027 is carrying too much weight.\n\nperhaps something like\n\ncontrols the operations supported by values that implement the type parameter\u0027s interface\n\nthat\u0027s really what you mean, isn\u0027t it?",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a4f3908b_c9f8aa14",
         "filename": "doc/go_spec.html",
         "patchSetId": 2
@@ -578,6 +714,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "16a8cdcd_1638157e",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2905,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-02-22T02:31:53Z",
+      "side": 1,
+      "message": "\"used\"?\ni suppose \"called\" isn\u0027t good enough.\nmaybe \"referenced\"?\n\nperhaps rewrite\n\na generic function must be _instantiated_ before it can be called or used in an assignment.",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b95d42f1_7ee4dbc2",
         "filename": "doc/go_spec.html",
         "patchSetId": 2
@@ -589,6 +742,40 @@
       "writtenOn": "2022-02-14T18:48:09Z",
       "side": 1,
       "message": "Here too, don\u0027t use `constraints.Ordered`",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e3762d9_b082a10f",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2968,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-02-22T02:31:53Z",
+      "side": 1,
+      "message": "s/$/,/",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48fac0ad_a2a1bcc7",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2995,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-02-22T02:31:53Z",
+      "side": 1,
+      "message": "what does \"this\" refer to?\nmaybe\n\nIn the declaration,\n\ntype ...\n\nthe type parameter...",
       "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
