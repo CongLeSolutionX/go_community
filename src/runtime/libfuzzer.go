@@ -6,8 +6,9 @@
 
 package runtime
 
-import _ "unsafe" // for go:linkname
+import "unsafe" // for go:linkname
 
+func libfuzzerCallHookStrCmp(fn *byte, fakePC uintptr, s1, s2 unsafe.Pointer, result uintptr)
 func libfuzzerCall(fn *byte, arg0, arg1 uintptr)
 
 func libfuzzerTraceCmp1(arg0, arg1 uint8) {
@@ -42,6 +43,16 @@ func libfuzzerTraceConstCmp8(arg0, arg1 uint64) {
 	libfuzzerCall(&__sanitizer_cov_trace_const_cmp8, uintptr(arg0), uintptr(arg1))
 }
 
+func libfuzzerHookStrCmp(s1, s2 string, equal bool, fakePC int) {
+	if !equal {
+		libfuzzerCallHookStrCmp(&__sanitizer_weak_hook_strcmp, uintptr(fakePC), cstring(s1), cstring(s2), uintptr(1))
+	}
+}
+
+func libfuzzerHookEqualFold(s1, s2 string, fakePC int) {
+	libfuzzerCallHookStrCmp(&__sanitizer_weak_hook_strcmp, uintptr(fakePC), cstring(s1), cstring(s2), uintptr(1))
+}
+
 //go:linkname __sanitizer_cov_trace_cmp1 __sanitizer_cov_trace_cmp1
 //go:cgo_import_static __sanitizer_cov_trace_cmp1
 var __sanitizer_cov_trace_cmp1 byte
@@ -73,3 +84,7 @@ var __sanitizer_cov_trace_const_cmp4 byte
 //go:linkname __sanitizer_cov_trace_const_cmp8 __sanitizer_cov_trace_const_cmp8
 //go:cgo_import_static __sanitizer_cov_trace_const_cmp8
 var __sanitizer_cov_trace_const_cmp8 byte
+
+//go:linkname __sanitizer_weak_hook_strcmp __sanitizer_weak_hook_strcmp
+//go:cgo_import_static __sanitizer_weak_hook_strcmp
+var __sanitizer_weak_hook_strcmp byte
