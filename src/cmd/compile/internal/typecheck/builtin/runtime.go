@@ -265,6 +265,10 @@ func libfuzzerTraceConstCmp1(uint8, uint8)
 func libfuzzerTraceConstCmp2(uint16, uint16)
 func libfuzzerTraceConstCmp4(uint32, uint32)
 func libfuzzerTraceConstCmp8(uint64, uint64)
+func libfuzzerIncrementCounter(*uint8)
+
+// This function should be called by the fuzz target on start to register the 8bit counters with libfuzzer
+func LibfuzzerInitializeCounters()
 
 // architecture variants
 var x86HasPOPCNT bool
