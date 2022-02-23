@@ -38,6 +38,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e73eb3fe_3b3c1c31",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-02-23T16:11:58Z",
+      "side": 1,
+      "message": "Please review and comment.\nIf you\u0027re ok with this general approach I\u0027ll port to Go types.",
+      "revId": "9738de50f5207d13c513544914f28ef6fce5e474",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cbac2fa4_d977a415",
