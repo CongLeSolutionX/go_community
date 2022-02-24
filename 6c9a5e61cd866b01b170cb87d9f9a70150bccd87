@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "faf89220_8080a197",
+        "filename": "src/cmd/compile/internal/noder/expr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2022-02-24T17:19:40Z",
+      "side": 1,
+      "message": "Good suggestion, done.",
+      "parentUuid": "10d593fe_a9c207d3",
+      "revId": "6c9a5e61cd866b01b170cb87d9f9a70150bccd87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b227681c_f08512b4",
@@ -85,6 +103,24 @@
       "writtenOn": "2022-02-24T07:27:30Z",
       "side": 1,
       "message": "So this error occurs without even ever instantiating F?",
+      "revId": "6c9a5e61cd866b01b170cb87d9f9a70150bccd87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "23eb8e6f_53dad233",
+        "filename": "test/typeparam/issue51236.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2022-02-24T17:19:40Z",
+      "side": 1,
+      "message": "Yes, it happens during the noding of the generic function.  That\u0027s why we need to delay the call transform (in this case of the explodes() call).  This is somewhat unusual, of course, since this only happens when we able to pass a typeparam as an arg to a non-generic function, which can only happen if that typeparam only has exactly one type (in this case, []byte).  We were already delaying the call transform in calls to generic functions.",
+      "parentUuid": "b227681c_f08512b4",
       "revId": "6c9a5e61cd866b01b170cb87d9f9a70150bccd87",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
