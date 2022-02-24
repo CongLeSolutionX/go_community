@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "83e29fb0_736b6c75",
+        "filename": "src/cmd/go/internal/modfetch/coderepo.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-02-24T21:40:19Z",
+      "side": 0,
+      "message": "This is the bug-fix. The check against `module.CanonicalVersion` caused `Versions` to retain and report tags like `v2.0.0+incompatible`, but then `Stat` couldn\u0027t resolve them because it was looking for a tag like `v2.0.0` (without the suffix).\n\nOne possible fix would be to make `Stat` look for the literal tag, but that would be confusing because `go get …@v2.0.0+incompatible` could potentially refer to two different commits.\n\nSo the fix I\u0027ve chosen here is to instead strip those tags out of the version list.",
+      "range": {
+        "startLine": 162,
+        "startChar": 21,
+        "endLine": 162,
+        "endChar": 47
+      },
+      "revId": "036e7242897eeee5d2e7ddff0267eb55b547a595",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
