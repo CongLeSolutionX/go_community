@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cab4d455_facb641b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-02-24T22:16:34Z",
+      "side": 1,
+      "message": "I will adjust the prologue here to include go/types",
+      "revId": "e32eacbde9b2b1c7a57197e268928c5fa48958a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "49a70488_48b3da72",
