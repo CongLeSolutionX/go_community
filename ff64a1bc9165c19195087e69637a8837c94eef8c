@@ -76,6 +76,30 @@
       },
       "revId": "ff64a1bc9165c19195087e69637a8837c94eef8c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c2e925c_cf1d003c",
+        "filename": "src/cmd/compile/internal/types2/signature.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-02-24T19:29:50Z",
+      "side": 1,
+      "message": "We can always report an error. But that leads to additional (follow-on) errors which may be annoying; that is the only reason for the conditional.\n\nBackground:\n\nAs the code is implemented, type-checking a receiver parameter list looks no different from any other parameter list (that\u0027s been the case, historically).\nThus, a receiver parameter list of the form \"(this GenericType[P, Q])\" is treated as an _instantiation_ of the GenericType with type parameters P and Q. Instantiations do type inference and so in some cases constraint type inference actually resolved a missing type parameter. This shouldn\u0027t happen; the spec requires that the number of receiver type parameters must match the number of type parameters in the receiver base type. This is what len(tparams) \u003d\u003d len(recvTParams) ensures. If that is not the case, we report an error, but only if we don\u0027t have enough because that\u0027s the case where constraint type inference may kick in. If we have too many, or something else is wrong, we already get errors elsewhere.\n\nIt\u0027s not trivial to change this code (certainly not at this stage in the release). When we process the receiver parameter list (with collectParams, below) we don\u0027t know anything about the fact that this is a receiver. So we pre-declare the type parameters before and the rest then just works (well it should).\n\nIn retrospect, we may want to treat the receiver specially, and not simply re-use the existing code. It will require some code duplication but it may be a lot clearer and easier to understand. But it\u0027s somewhat of a change (planned for 1.19). Before generics, just re-using collectParams for the receiver was the perfect choice; now probably not so much.",
+      "parentUuid": "87049a8e_6f84e46b",
+      "range": {
+        "startLine": 149,
+        "startChar": 7,
+        "endLine": 150,
+        "endChar": 72
+      },
+      "revId": "ff64a1bc9165c19195087e69637a8837c94eef8c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
