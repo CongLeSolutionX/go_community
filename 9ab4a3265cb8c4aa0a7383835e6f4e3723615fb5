@@ -165,6 +165,24 @@
       "message": "LGTM for coderepo.go (however I don\u0027t know anything about mod_download_issue51114.txt and mod_download_private_vcs.txt)",
       "revId": "9ab4a3265cb8c4aa0a7383835e6f4e3723615fb5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58e7b377_de264a82",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-02-24T16:32:20Z",
+      "side": 1,
+      "message": "Rats. GIT_CONFIG_GLOBAL seems to be a very recent addition (2.32.0).",
+      "parentUuid": "d080ec13_d40ae055",
+      "revId": "9ab4a3265cb8c4aa0a7383835e6f4e3723615fb5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
