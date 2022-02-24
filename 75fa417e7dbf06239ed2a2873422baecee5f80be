@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dfa19d10_509aa3f1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2022-02-24T06:19:15Z",
+      "side": 1,
+      "message": "We refer issue in commit messages instead of title\nPlease take a look at https://go.dev/doc/contribute#commit_messages\n\nMaybe: cmd/go: strip refs/tag prefix for git",
+      "range": {
+        "startLine": 7,
+        "startChar": 12,
+        "endLine": 7,
+        "endChar": 71
+      },
+      "revId": "75fa417e7dbf06239ed2a2873422baecee5f80be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2196a2c_810f2bbd",
+        "filename": "src/cmd/go/internal/modfetch/codehost/git.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2022-02-24T06:19:15Z",
+      "side": 1,
+      "message": "please keep the orignal order.",
+      "range": {
+        "startLine": 9,
+        "startChar": 1,
+        "endLine": 11,
+        "endChar": 22
+      },
+      "revId": "75fa417e7dbf06239ed2a2873422baecee5f80be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd1aca24_331fd011",
+        "filename": "src/cmd/go/internal/modfetch/codehost/git_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 639,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2022-02-24T06:19:15Z",
+      "side": 1,
+      "message": "TestGitRepoPickTags",
+      "range": {
+        "startLine": 639,
+        "startChar": 5,
+        "endLine": 639,
+        "endChar": 26
+      },
+      "revId": "75fa417e7dbf06239ed2a2873422baecee5f80be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
