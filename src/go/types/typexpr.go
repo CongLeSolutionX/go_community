@@ -274,7 +274,7 @@ func (check *Checker) typInternal(e0 ast.Expr, def *Named) (T Type) {
 		if !check.allowVersion(check.pkg, 1, 18) {
 			check.softErrorf(inNode(e, ix.Lbrack), _UnsupportedFeature, "type instantiation requires go1.18 or later")
 		}
-		return check.instantiatedType(ix, def)
+		return check.typeInst(ix, def)
 
 	case *ast.ParenExpr:
 		// Generic types must be instantiated before they can be used in any form.
@@ -386,7 +386,7 @@ func (check *Checker) typInternal(e0 ast.Expr, def *Named) (T Type) {
 	return typ
 }
 
-func (check *Checker) instantiatedType(ix *typeparams.IndexExpr, def *Named) (res Type) {
+func (check *Checker) typeInst(ix *typeparams.IndexExpr, def *Named) (res Type) {
 	pos := ix.X.Pos()
 	if trace {
 		check.trace(pos, "-- instantiating %s with %s", ix.X, ix.Indices)
@@ -415,9 +415,14 @@ func (check *Checker) instantiatedType(ix *typeparams.IndexExpr, def *Named) (re
 	// evaluate arguments
 	targs := check.typeList(ix.Indices)
 	if targs == nil {
-		def.setUnderlying(Typ[Invalid]) // avoid later errors due to lazy instantiation
+		def.setUnderlying(Typ[Invalid]) // avoid errors later due to lazy instantiation
 		return Typ[Invalid]
 	}
+	assert(len(targs) == len(ix.Indices))
+
+	// enableTypeTypeInference controls whether we try to infer missing type
+	// arguments using constraint type inference.
+	const enableTypeTypeInference = false
 
 	// create the instance
 	ctxt := check.bestContext(nil)
@@ -438,19 +443,19 @@ func (check *Checker) instantiatedType(ix *typeparams.IndexExpr, def *Named) (re
 	def.setUnderlying(inst)
 
 	inst.resolver = func(ctxt *Context, n *Named) (*TypeParamList, Type, *methodList) {
-		tparams := orig.TypeParams().list()
+		tparams := n.orig.TypeParams().list()
 
-		inferred := targs
-		if len(targs) < len(tparams) {
+		targs := n.targs.list()
+		if len(targs) < len(tparams) && enableTypeTypeInference {
 			// If inference fails, len(inferred) will be 0, and inst.underlying will
 			// be set to Typ[Invalid] in expandNamed.
-			inferred = check.infer(ix.Orig, tparams, targs, nil, nil)
+			inferred := check.infer(ix.Orig, tparams, targs, nil, nil)
 			if len(inferred) > len(targs) {
-				inst.targs = newTypeList(inferred)
+				n.targs = newTypeList(inferred)
 			}
 		}
 
-		check.recordInstance(ix.Orig, inferred, inst)
+		check.recordInstance(ix.Orig, n.targs.list(), inst)
 		return expandNamed(ctxt, n, pos)
 	}
 
