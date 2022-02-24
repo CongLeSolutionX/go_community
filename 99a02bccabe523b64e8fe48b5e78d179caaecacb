@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "856bedf2_6512ea5b",
+        "filename": "src/cmd/go/internal/modfetch/codehost/git.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-02-24T16:44:24Z",
+      "side": 1,
+      "message": "Instead of parsing both formats of tags, I would rather we change the `git` invocation to output in a consistent format.\n\nWhat happens if we instead add the `--no-decorate` flag to the `git log` invocation at line 450?",
+      "revId": "99a02bccabe523b64e8fe48b5e78d179caaecacb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12847bd5_141bfdec",
+        "filename": "src/cmd/go/internal/modfetch/codehost/git_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 677,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-02-24T16:44:24Z",
+      "side": 1,
+      "message": "Since Go users interact with the `go` command itself (not its individual internal packages), in general we prefer end-to-end tests over unit tests, especially for things that involve interactions with other tools like `git`.\n\nSee [cmd/go/testdata/script/mod_download_private_vcs.txt](https://cs.opensource.google/go/go/+/master:src/cmd/go/testdata/script/mod_download_private_vcs.txt) for an example of how to test a `git` invocation with a custom configuration.\n\nThe test should set `env GOPROXY\u003ddirect`, and include a `.gitconfig` that looks something like:\n```\n-- $WORK/home/gopher/.gitconfig --\n[log]\n\tdecorate \u003d full\n```\n\nand then you should be able to reproduce the error by running `go list -m vcs-test.golang.org/git/gitrepo1.git@v1.2.3`",
+      "range": {
+        "startLine": 638,
+        "startChar": 0,
+        "endLine": 677,
+        "endChar": 1
+      },
+      "revId": "99a02bccabe523b64e8fe48b5e78d179caaecacb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
