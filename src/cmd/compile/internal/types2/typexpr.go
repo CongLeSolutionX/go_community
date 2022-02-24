@@ -168,7 +168,7 @@ func (check *Checker) varType(e syntax.Expr) Type {
 				}
 			}
 		}
-	})
+	}).describef(e, "check var type %s", typ)
 
 	return typ
 }
@@ -371,7 +371,7 @@ func (check *Checker) typInternal(e0 syntax.Expr, def *Named) (T Type) {
 				}
 				check.errorf(e.Key, "invalid map key type %s%s", typ.key, why)
 			}
-		})
+		}).describef(e.Key.Pos(), "check map key %s", typ.key)
 
 		return typ
 
@@ -408,7 +408,7 @@ func (check *Checker) typInternal(e0 syntax.Expr, def *Named) (T Type) {
 
 func (check *Checker) instantiatedType(x syntax.Expr, xlist []syntax.Expr, def *Named) (res Type) {
 	if check.conf.Trace {
-		check.trace(x.Pos(), "-- instantiating %s with %s", x, xlist)
+		check.trace(x.Pos(), "-- instantiating type %s with %s", x, xlist)
 		check.indent++
 		defer func() {
 			check.indent--
@@ -493,7 +493,7 @@ func (check *Checker) instantiatedType(x syntax.Expr, xlist []syntax.Expr, def *
 		}
 
 		check.validType(inst)
-	})
+	}).describef(x, "resolve instance %s", inst)
 
 	return inst
 }
