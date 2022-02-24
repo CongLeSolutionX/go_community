@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37dd6a21_1a8eb351",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2022-02-24T03:19:03Z",
+      "side": 1,
+      "message": "Rob:  here is a new test case that actually triggers the types2 import issue that my previous change https://go-review.googlesource.com/c/go/+/386335 fixed, in case you want to investigate further the types2 issue (I know you re-opened the issue to take another look).\n\nThe rename of b.go is not really a rename - it\u0027s a delete of the b.go file in the current test case, and the addition of a b.go file (along with other files) for the new test case.\n",
+      "revId": "7b33224deb708b86a076ba33af3b4ebe0ae6ea9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
