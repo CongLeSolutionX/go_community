@@ -1,0 +1,15 @@
+env GOPROXY=direct
+env GO111MODULE=on
+
+# Testing stderr for git ls-remote; turn off proxy.
+[!net] skip
+[!exec:git] skip
+
+# Test that Git log with user's global config '~/gitconfig' has log.decorate=full
+# go mod download has an error 'v1.x.y is not a tag'
+# See golang/go#51312.
+go list -m vcs-test.golang.org/git/gitrepo1.git@v1.2.3
+
+-- $WORK/home/gopher/.gitconfig --
+[log]
+	decorate = full

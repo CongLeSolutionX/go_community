@@ -447,7 +447,7 @@ func (r *gitRepo) fetchRefsLocked() error {
 // statLocal returns a RevInfo describing rev in the local git repository.
 // It uses version as info.Version.
 func (r *gitRepo) statLocal(version, rev string) (*RevInfo, error) {
-	out, err := Run(r.dir, "git", "-c", "log.showsignature=false", "log", "-n1", "--format=format:%H %ct %D", rev, "--")
+	out, err := Run(r.dir, "git", "-c", "log.showsignature=false", "log", "--no-decorate", "-n1", "--format=format:%H %ct %D", rev, "--")
 	if err != nil {
 		return nil, &UnknownRevisionError{Rev: rev}
 	}
@@ -472,7 +472,7 @@ func (r *gitRepo) statLocal(version, rev string) (*RevInfo, error) {
 	}
 
 	// Add tags. Output looks like:
-	//	ede458df7cd0fdca520df19a33158086a8a68e81 1523994202 HEAD -> master, tag: v1.2.4-annotated, tag: v1.2.3, origin/master, origin/HEAD
+	// 	ede458df7cd0fdca520df19a33158086a8a68e81 1523994202 HEAD -> master, tag: v1.2.4-annotated, tag: v1.2.3, origin/master, origin/HEAD
 	for i := 2; i < len(f); i++ {
 		if f[i] == "tag:" {
 			i++
