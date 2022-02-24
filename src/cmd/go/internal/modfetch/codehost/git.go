@@ -473,11 +473,14 @@ func (r *gitRepo) statLocal(version, rev string) (*RevInfo, error) {
 
 	// Add tags. Output looks like:
 	//	ede458df7cd0fdca520df19a33158086a8a68e81 1523994202 HEAD -> master, tag: v1.2.4-annotated, tag: v1.2.3, origin/master, origin/HEAD
+	// c5a5cd77b294b44c5b1321d8d4c24fa5406dc5e7 1645423068 grafted, tag: refs/tags/v1.23.14, tag: refs/tags/v1.23.13
 	for i := 2; i < len(f); i++ {
 		if f[i] == "tag:" {
 			i++
 			if i < len(f) {
-				info.Tags = append(info.Tags, strings.TrimSuffix(f[i], ","))
+				tag := strings.TrimSuffix(f[i], ",")
+				tag = strings.TrimPrefix(tag, "refs/tags/")
+				info.Tags = append(info.Tags, tag)
 			}
 		}
 	}
