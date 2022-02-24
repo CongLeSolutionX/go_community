@@ -635,3 +635,43 @@ func remap(name string, m map[string]string) string {
 	}
 	return name
 }
+
+func TestGitRepoPickTags(t *testing.T) {
+	type args struct {
+		pairs []string
+	}
+	tests := []struct {
+		name string
+		args args
+		want []string
+	}{
+		{
+			name: "common tags",
+			args: args{
+				pairs: strings.Fields("hash 1523994202 HEAD -> master, tag: v1.2.4-annotated, tag: v1.2.3, origin/master, origin/HEAD"),
+			},
+			want: []string{
+				"v1.2.4-annotated",
+				"v1.2.3",
+			},
+		},
+		{
+			name: "tag decorate full",
+			args: args{
+				pairs: strings.Fields("hash 1645423068 grafted, tag: refs/tags/v1.23.14, tag: refs/tags/v1.23.13"),
+			},
+			want: []string{
+				"v1.23.14",
+				"v1.23.13",
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			r := &gitRepo{}
+			if got := r.pickTags(tt.args.pairs); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("pickTags() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
