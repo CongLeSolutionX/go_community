@@ -136,22 +136,25 @@ func (check *Checker) funcType(sig *Signature, recvPar *syntax.Field, tparams []
 				}
 			}
 			// provide type parameter bounds
-			// - only do this if we have the right number (otherwise an error is reported elsewhere)
-			if sig.RecvTypeParams().Len() == len(recvTParams) {
-				// We have a list of *TypeNames but we need a list of Types.
-				list := make([]Type, sig.RecvTypeParams().Len())
-				for i, t := range sig.RecvTypeParams().list() {
-					list[i] = t
-					check.mono.recordCanon(t, recvTParams[i])
+			if len(tparams) == len(recvTParams) {
+				smap := makeRenameMap(recvTParams, tparams)
+				for i, tpar := range tparams {
+					recvTPar := recvTParams[i]
+					check.mono.recordCanon(tpar, recvTPar)
+					// recvTPar.bound is (possibly) parameterized in the context of the
+					// receiver type declaration. Substitute parameters for the current
+					// context.
+					tpar.bound = check.subst(tpar.obj.pos, recvTPar.bound, smap, nil)
 				}
-				smap := makeSubstMap(recvTParams, list)
-				for i, tpar := range sig.RecvTypeParams().list() {
-					bound := recvTParams[i].bound
-					// bound is (possibly) parameterized in the context of the
-					// receiver type declaration. Substitute parameters for the
-					// current context.
-					tpar.bound = check.subst(tpar.obj.pos, bound, smap, nil)
-				}
+			} else if recvTParams != nil {
+				// Reporting an error here is a stop-gap measure to avoid crashes in the
+				// compiler when a type parameter/argument cannot be inferred later. It
+				// may lead to follow-on errors. Avoid some of them by only reporting an
+				// error if the receiver base type is generic; i.e., recvTParams != nil.
+				// See issues #51339, #51343.
+				// TODO(gri) find a better solution
+				got := measure(len(tparams), "type parameter")
+				check.errorf(recvPar, "got %s, but receiver base type declares %d", got, len(recvTParams))
 			}
 		}
 	}
