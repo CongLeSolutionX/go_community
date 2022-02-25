@@ -36,6 +36,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae8c81b3_d5e0a7dc",
+        "filename": "src/cmd/go/internal/modfetch/codehost/git.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 56178
+      },
+      "writtenOn": "2022-02-25T15:01:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b25e35b1_307149d2",
+      "revId": "99a02bccabe523b64e8fe48b5e78d179caaecacb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "12847bd5_141bfdec",
@@ -73,6 +91,30 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "12847bd5_141bfdec",
+      "range": {
+        "startLine": 638,
+        "startChar": 0,
+        "endLine": 677,
+        "endChar": 1
+      },
+      "revId": "99a02bccabe523b64e8fe48b5e78d179caaecacb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d59c8662_e829753a",
+        "filename": "src/cmd/go/internal/modfetch/codehost/git_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 677,
+      "author": {
+        "id": 56178
+      },
+      "writtenOn": "2022-02-25T15:01:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a34cdd02_c4677e73",
       "range": {
         "startLine": 638,
         "startChar": 0,
