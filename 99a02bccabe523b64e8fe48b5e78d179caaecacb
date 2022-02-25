@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b25e35b1_307149d2",
+        "filename": "src/cmd/go/internal/modfetch/codehost/git.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 56178
+      },
+      "writtenOn": "2022-02-25T11:15:12Z",
+      "side": 1,
+      "message": "with  log.decorate \u003d full:\ngit  -c log.showsignature\u003dfalse log --no-decorate -n1 \u0027--format\u003dformat:%H %ct %D\u0027 c5a5cd77b294b44c5b1321d8d4c24fa5406dc5e7 --\n\nc5a5cd77b294b44c5b1321d8d4c24fa5406dc5e7 1645423068 grafted, tag: v1.23.14, tag: v1.23.13\n\nboth modify is a better way?",
+      "parentUuid": "856bedf2_6512ea5b",
+      "revId": "99a02bccabe523b64e8fe48b5e78d179caaecacb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "12847bd5_141bfdec",
         "filename": "src/cmd/go/internal/modfetch/codehost/git_test.go",
         "patchSetId": 3
@@ -31,6 +49,30 @@
       "writtenOn": "2022-02-24T16:44:24Z",
       "side": 1,
       "message": "Since Go users interact with the `go` command itself (not its individual internal packages), in general we prefer end-to-end tests over unit tests, especially for things that involve interactions with other tools like `git`.\n\nSee [cmd/go/testdata/script/mod_download_private_vcs.txt](https://cs.opensource.google/go/go/+/master:src/cmd/go/testdata/script/mod_download_private_vcs.txt) for an example of how to test a `git` invocation with a custom configuration.\n\nThe test should set `env GOPROXY\u003ddirect`, and include a `.gitconfig` that looks something like:\n```\n-- $WORK/home/gopher/.gitconfig --\n[log]\n\tdecorate \u003d full\n```\n\nand then you should be able to reproduce the error by running `go list -m vcs-test.golang.org/git/gitrepo1.git@v1.2.3`",
+      "range": {
+        "startLine": 638,
+        "startChar": 0,
+        "endLine": 677,
+        "endChar": 1
+      },
+      "revId": "99a02bccabe523b64e8fe48b5e78d179caaecacb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a34cdd02_c4677e73",
+        "filename": "src/cmd/go/internal/modfetch/codehost/git_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 677,
+      "author": {
+        "id": 56178
+      },
+      "writtenOn": "2022-02-25T11:15:12Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "12847bd5_141bfdec",
       "range": {
         "startLine": 638,
         "startChar": 0,
