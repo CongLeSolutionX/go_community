@@ -90,6 +90,23 @@
       "parentUuid": "3f030364_13eef048",
       "revId": "2518ab9e1a239eaeeecbf3beb2167969536520a8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0273bba1_e6bd79bb",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2022-02-25T17:11:43Z",
+      "side": 1,
+      "message": "Can you add more words here?\n\nExplain the history that old net/http\u0027s CloseNotifier predated context.Context and we don\u0027t want to spin up a goroutine here (for memory reasons) if we\u0027re in a new world. CloseNotifier is long deprecated. But we still support it if it looks like you\u0027re not using a context.",
+      "revId": "2518ab9e1a239eaeeecbf3beb2167969536520a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
