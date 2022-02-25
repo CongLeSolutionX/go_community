@@ -1432,7 +1432,7 @@ func genericTypeName(sym *types.Sym) string {
 // For now, we only consider two types to have the same shape, if they have exactly
 // the same underlying type or they are both pointer types.
 //
-//  tparam is the associated typeparam. If there is a structural type for
+//  tparam is the associated typeparam, nil if none. If there is a structural type for
 //  the associated type param (not common), then a pointer type t is mapped to its
 //  underlying type, rather than being merged with other pointers.
 //
@@ -1450,7 +1450,7 @@ func Shapify(t *types.Type, index int, tparam *types.Type) *types.Type {
 	// Note: pointers to arrays are special because of slice-to-array-pointer
 	// conversions. See issue 49295.
 	if u.Kind() == types.TPTR && u.Elem().Kind() != types.TARRAY &&
-		tparam.Bound().StructuralType() == nil {
+		(tparam == nil || tparam.Bound().StructuralType() == nil) {
 		u = types.Types[types.TUINT8].PtrTo()
 	}
 
