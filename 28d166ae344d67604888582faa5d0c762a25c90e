@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8cbdd20_c51facaa",
+        "filename": "src/cmd/compile/internal/noder/linker.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-02-25T16:30:49Z",
+      "side": 1,
+      "message": "aggregator, fabricator, conglomerator, ???",
+      "range": {
+        "startLine": 26,
+        "startChar": 11,
+        "endLine": 28,
+        "endChar": 37
+      },
+      "revId": "28d166ae344d67604888582faa5d0c762a25c90e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
