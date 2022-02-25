@@ -53,6 +53,24 @@
       "message": "The release notes are less formal, and I think we can omit \"or an interface embedded by the constraint.\"",
       "revId": "15ad3ceaf33caf5ad073e78913471c06c57b718f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e29264d_6bc208e6",
+        "filename": "doc/go1.18.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-02-25T00:26:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "154f7f53_1c38bc36",
+      "revId": "15ad3ceaf33caf5ad073e78913471c06c57b718f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
