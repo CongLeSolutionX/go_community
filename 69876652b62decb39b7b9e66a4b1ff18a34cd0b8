@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "adc9c973_8e7f911b",
+        "filename": "src/runtime/mprof.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 907,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2022-02-25T23:27:09Z",
+      "side": 1,
+      "message": "I think this describes a real problem, I think that disabling preemption is acceptable for this section of code, I\u0027m not sure which way of disabling preemption is the right one to use.",
+      "range": {
+        "startLine": 903,
+        "startChar": 0,
+        "endLine": 907,
+        "endChar": 39
+      },
+      "revId": "69876652b62decb39b7b9e66a4b1ff18a34cd0b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
