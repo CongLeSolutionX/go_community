@@ -82,6 +82,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f16dd7b_f1b25cba",
+        "filename": "src/math/big/arith_ppc64x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2022-02-25T14:52:41Z",
+      "side": 1,
+      "message": "Thanks for the suggestion, modified accordingly",
+      "parentUuid": "7f8d4d91_d27469df",
+      "revId": "28c1810ea2d4317dd826434c9dafda4d9670f4a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a890f355_30181122",
@@ -95,6 +113,30 @@
       "writtenOn": "2022-02-11T23:04:35Z",
       "side": 1,
       "message": "This isn\u0027t used.",
+      "range": {
+        "startLine": 591,
+        "startChar": 8,
+        "endLine": 591,
+        "endChar": 20
+      },
+      "revId": "28c1810ea2d4317dd826434c9dafda4d9670f4a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "881a6675_61bc6328",
+        "filename": "src/math/big/arith_ppc64x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2022-02-25T14:52:41Z",
+      "side": 1,
+      "message": "removed, thanks!",
+      "parentUuid": "a890f355_30181122",
       "range": {
         "startLine": 591,
         "startChar": 8,
