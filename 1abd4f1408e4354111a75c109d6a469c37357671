@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b7ab6a9_48663725",
+        "filename": "src/internal/bytealg/index_ppc64x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 685,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2022-02-25T15:42:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fdae4463_b42cb318",
+      "revId": "1abd4f1408e4354111a75c109d6a469c37357671",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "40606db6_224a9d25",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-02-22T17:47:00Z",
       "side": 1,
       "message": "eliminate the extra spaces here and in later lines.",
+      "revId": "1abd4f1408e4354111a75c109d6a469c37357671",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cae328bd_34d37086",
+        "filename": "src/internal/bytealg/index_ppc64x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 933,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2022-02-25T15:42:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "40606db6_224a9d25",
       "revId": "1abd4f1408e4354111a75c109d6a469c37357671",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
