@@ -172,6 +172,7 @@ func TestImportTypeparamTests(t *testing.T) {
 		"equal.go":      "inconsistent embedded sorting", // TODO(rfindley): investigate this.
 		"nested.go":     "fails to compile",              // TODO(rfindley): investigate this.
 		"issue50417.go": "inconsistent interface member sorting",
+		"issue23536.go": "to show failure in the real typeparam tests",
 	}
 
 	for _, entry := range list {

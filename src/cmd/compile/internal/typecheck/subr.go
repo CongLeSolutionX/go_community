@@ -1424,6 +1424,117 @@ func genericTypeName(sym *types.Sym) string {
 	return sym.Name[0:strings.Index(sym.Name, "[")]
 }
 
+func replaceStruct(t *types.Type, tmap map[*types.Type]bool) *types.Type {
+	var newfields []*types.Field
+	for i, f := range t.Fields().Slice() {
+		t2 := replaceShapes(f.Type, tmap)
+		if t2 != f.Type && newfields == nil {
+			newfields = make([]*types.Field, t.NumFields())
+			for j := 0; j < i; j++ {
+				newfields[j] = t.Field(j)
+			}
+		}
+		if newfields != nil {
+			newfields[i] = types.NewField(f.Pos, f.Sym, t2)
+			newfields[i].Embedded = f.Embedded
+			newfields[i].Note = f.Note
+			if f.IsDDD() {
+				newfields[i].SetIsDDD(true)
+			}
+			if f.Nointerface() {
+				newfields[i].SetNointerface(true)
+			}
+		}
+	}
+	if newfields != nil {
+		news := types.NewStruct(t.Pkg(), newfields)
+		news.StructType().Funarg = t.StructType().Funarg
+		return news
+	}
+	return t
+}
+
+func replaceShapes(t *types.Type, tmap map[*types.Type]bool) *types.Type {
+	if tmap[t] {
+		return t
+	}
+	tmap[t] = true
+	t = t.Underlying()
+
+	var newt *types.Type
+	switch t.Kind() {
+	case types.TARRAY:
+		elem := t.Elem()
+		newelem := replaceShapes(elem, tmap)
+		if newelem != elem {
+			newt = types.NewArray(elem, t.NumElem())
+		}
+	case types.TPTR:
+		//newt = types.Types[types.TUINT8].PtrTo()
+		elem := t.Elem()
+		newelem := replaceShapes(elem, tmap)
+		if newelem != elem {
+			newt = types.NewPtr(elem)
+		}
+	case types.TSLICE:
+		elem := t.Elem()
+		newelem := replaceShapes(elem, tmap)
+		if newelem != elem {
+			newt = types.NewSlice(newelem)
+		}
+	case types.TCHAN:
+		elem := t.Elem()
+		newelem := replaceShapes(elem, tmap)
+		if newelem != elem {
+			newt = types.NewChan(newelem, t.ChanDir())
+		}
+
+	case types.TSTRUCT:
+		return replaceStruct(t, tmap)
+
+	case types.TFUNC:
+		newrecvs := replaceStruct(t.Recvs(), tmap)
+		newparams := replaceStruct(t.Params(), tmap)
+		newresults := replaceStruct(t.Results(), tmap)
+		assert(t.TParams().NumFields() == 0)
+
+		var newrecv *types.Field
+		if newrecvs.NumFields() > 0 {
+			newrecv = newrecvs.Field(0)
+		}
+
+		return types.NewSignature(t.Pkg(), newrecv, nil,
+			newparams.FieldSlice(), newresults.FieldSlice())
+
+	case types.TINTER:
+		// issue50561.go
+		// newfields := make([]*types.Field, t.Methods().Len())
+		// for i, f := range t.Methods().Slice() {
+		// 	newfields[i] = types.NewField(f.Pos, f.Sym, replaceShapes(f.Type, tmap))
+		// }
+		// return types.NewInterface(t.Pkg(), newfields, t.IsImplicit())
+		return t
+
+	case types.TMAP:
+		newkey := replaceShapes(t.Key(), tmap)
+		newval := replaceShapes(t.Elem(), tmap)
+		if newkey != t.Key() || newval != t.Elem() {
+			newt = types.NewMap(newkey, newval)
+		}
+	case types.TINT, types.TINT8, types.TINT16, types.TINT32, types.TINT64,
+		types.TUINT, types.TUINT8, types.TUINT16, types.TUINT32, types.TUINT64,
+		types.TUINTPTR, types.TBOOL, types.TSTRING, types.TFLOAT32, types.TFLOAT64, types.TCOMPLEX64, types.TCOMPLEX128, types.TUNSAFEPTR:
+		return t
+
+	default:
+		panic(fmt.Sprintf("Bad type in getShapes: %v", t.Kind()))
+	}
+	if newt != nil {
+		return newt
+	}
+	return t
+}
+
 // Shapify takes a concrete type and a type param index, and returns a GCshape type that can
 // be used in place of the input type and still generate identical code.
 // No methods are added - all methods calls directly on a shape should
@@ -1452,6 +1563,8 @@ func Shapify(t *types.Type, index int, tparam *types.Type) *types.Type {
 	if u.Kind() == types.TPTR && u.Elem().Kind() != types.TARRAY &&
 		tparam.Bound().StructuralType() == nil {
 		u = types.Types[types.TUINT8].PtrTo()
+	} else {
+		u = replaceShapes(t, map[*types.Type]bool{})
 	}
 
 	if shapeMap == nil {

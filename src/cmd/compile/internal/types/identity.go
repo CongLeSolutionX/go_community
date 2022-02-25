@@ -7,6 +7,8 @@ package types
 const (
 	identIgnoreTags = 1 << iota
 	identStrict
+	identShape1
+	identShape2
 )
 
 // Identical reports whether t1 and t2 are identical types, following the spec rules.
@@ -42,13 +44,29 @@ func identical(t1, t2 *Type, flags int, assumedEqual map[typePair]struct{}) bool
 	if t1 == nil || t2 == nil || t1.kind != t2.kind || t1.Broke() || t2.Broke() {
 		return false
 	}
+	if flags&identShape1 != 0 && t1 == t2.Underlying() {
+		return true
+	}
+	if flags&identShape2 != 0 && t2 == t1.Underlying() {
+		return true
+	}
 	if t1.sym != nil || t2.sym != nil {
 		if flags&identStrict == 0 && (t1.HasShape() || t2.HasShape()) {
 			switch t1.kind {
 			case TINT8, TUINT8, TINT16, TUINT16, TINT32, TUINT32, TINT64, TUINT64, TINT, TUINT, TUINTPTR, TCOMPLEX64, TCOMPLEX128, TFLOAT32, TFLOAT64, TBOOL, TSTRING, TPTR, TUNSAFEPTR:
 				return true
 			}
+			if t1.IsShape() {
+				flags = flags | identShape1
+			}
+			if t2.IsShape() {
+				flags = flags | identShape2
+			}
 			// fall through to unnamed type comparison for complex types.
+			goto cont
+		}
+		if flags&identShape1 != 0 && t2.sym != nil ||
+			flags&identShape2 != 0 && t1.sym != nil {
 			goto cont
 		}
 		// Special case: we keep byte/uint8 and rune/int32
