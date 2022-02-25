@@ -29,13 +29,3 @@ err:
 	SUB	A0, ZERO, A0
 	MOV	A0, err+24(FP)	// errno
 	RET
-
-TEXT ·rawSyscallNoError(SB),NOSPLIT,$0-48
-	MOV	a1+8(FP), A0
-	MOV	a2+16(FP), A1
-	MOV	a3+24(FP), A2
-	MOV	trap+0(FP), A7	// syscall entry
-	ECALL
-	MOV	A0, r1+32(FP)
-	MOV	A1, r2+40(FP)
-	RET

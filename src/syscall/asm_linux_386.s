@@ -33,19 +33,6 @@ ok:
 	MOVL	$0, err+12(FP)
 	RET
 
-// func rawSyscallNoError(trap uintptr, a1, a2, a3 uintptr) (r1, r2 uintptr);
-TEXT ·rawSyscallNoError(SB),NOSPLIT,$0-24
-	MOVL	trap+0(FP), AX	// syscall entry
-	MOVL	a1+4(FP), BX
-	MOVL	a2+8(FP), CX
-	MOVL	a3+12(FP), DX
-	MOVL	$0, SI
-	MOVL	$0, DI
-	INVOKE_SYSCALL
-	MOVL	AX, r1+16(FP)
-	MOVL	DX, r2+20(FP)
-	RET
-
 #define SYS_SOCKETCALL 102	/* from zsysnum_linux_386.go */
 
 // func socketcall(call int, a0, a1, a2, a3, a4, a5 uintptr) (n int, err int)

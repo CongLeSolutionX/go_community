@@ -34,17 +34,6 @@ ok2:
 	MOVQ	$0, err+24(FP)
 	RET
 
-// func rawSyscallNoError(trap, a1, a2, a3 uintptr) (r1, r2 uintptr)
-TEXT ·rawSyscallNoError(SB),NOSPLIT,$0-48
-	MOVQ	a1+8(FP), DI
-	MOVQ	a2+16(FP), SI
-	MOVQ	a3+24(FP), DX
-	MOVQ	trap+0(FP), AX	// syscall entry
-	SYSCALL
-	MOVQ	AX, r1+32(FP)
-	MOVQ	DX, r2+40(FP)
-	RET
-
 // func gettimeofday(tv *Timeval) (err uintptr)
 TEXT ·gettimeofday(SB),NOSPLIT,$0-16
 	MOVQ	tv+0(FP), DI

@@ -60,13 +60,3 @@ ok:
 	MOVW	R2, r1+8(FP)	// r1
 	MOVW	R0, err+12(FP)	// errno
 	RET
-
-TEXT ·rawSyscallNoError(SB),NOSPLIT,$20-24
-	MOVW	a1+4(FP), R4
-	MOVW	a2+8(FP), R5
-	MOVW	a3+12(FP), R6
-	MOVW	trap+0(FP), R2	// syscall entry
-	SYSCALL
-	MOVW	R2, r1+16(FP)	// r1
-	MOVW	R3, r2+20(FP)	// r2
-	RET
