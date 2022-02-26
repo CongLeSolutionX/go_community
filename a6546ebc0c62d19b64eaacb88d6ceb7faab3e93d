@@ -38,6 +38,40 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "816105b1_0cbf9226",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2022-02-26T00:07:54Z",
+      "side": 1,
+      "message": "Looks good!\n\n",
+      "revId": "a6546ebc0c62d19b64eaacb88d6ceb7faab3e93d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18f2acc8_2669e2a2",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 775,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2022-02-26T00:07:54Z",
+      "side": 1,
+      "message": "Just checking, but I assume this is fine (dictionary is a PARAM, not an AUTO), because escape analysis only thinks it needs to do by reference if there is non-defining assignment (or a I guess a pointer-taken).  Dictionaries are never assigned to (unless a defining assignment), so we\u0027re fine.",
+      "revId": "a6546ebc0c62d19b64eaacb88d6ceb7faab3e93d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "595b9a15_5ed2f7c2",
@@ -51,6 +85,24 @@
       "writtenOn": "2022-02-25T23:36:51Z",
       "side": 1,
       "message": "We should use some kind of synchronization, instead of relying on time.Sleep, otherwise, the test may become flaky.",
+      "revId": "a6546ebc0c62d19b64eaacb88d6ceb7faab3e93d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5cb8801c_37539db8",
+        "filename": "test/typeparam/issue51355.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 28783
+      },
+      "writtenOn": "2022-02-26T00:07:54Z",
+      "side": 1,
+      "message": "Yes, it would be good to get rid of this, by producing any output that is to be depended on, putting in synchronization, or only doing a \"compile\" test rather than a \"run test\".",
+      "parentUuid": "595b9a15_5ed2f7c2",
       "revId": "a6546ebc0c62d19b64eaacb88d6ceb7faab3e93d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
