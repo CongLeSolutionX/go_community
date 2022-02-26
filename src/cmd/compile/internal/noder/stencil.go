@@ -114,11 +114,17 @@ func (g *genInst) scanForGenCalls(decl ir.Node) {
 		// These are all the various kinds of global assignments,
 		// whose right-hand-sides might contain a function
 		// instantiation.
-
+	case ir.ODCLCONST:
+		// If the type of the constant is an instantiated generic, we need to emit
+		// that type so the DWARF builder knows about it. See issue 51245.
+		t := decl.(*ir.Decl).X.Type()
+		if !t.IsUntyped() {
+			_ = reflectdata.TypeLinksym(t)
+		}
+		fallthrough
 	default:
-		// The other possible ops at the top level are ODCLCONST
-		// and ODCLTYPE, which don't have any function
-		// instantiations.
+		// The other possible op at the top level is ODCLTYPE,
+		// which don't have any function instantiations.
 		return
 	}
 
