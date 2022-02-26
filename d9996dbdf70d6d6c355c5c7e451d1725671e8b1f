@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d4e8f81_7352f3e0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 56178
+      },
+      "writtenOn": "2022-02-26T06:22:48Z",
+      "side": 1,
+      "message": "1. git add \u0027--no-decorate\u0027\n2. add testdata",
+      "revId": "d9996dbdf70d6d6c355c5c7e451d1725671e8b1f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
