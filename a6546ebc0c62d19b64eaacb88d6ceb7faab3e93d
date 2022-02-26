@@ -123,6 +123,24 @@
       "parentUuid": "5cb8801c_37539db8",
       "revId": "a6546ebc0c62d19b64eaacb88d6ceb7faab3e93d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad1c17fe_c6c299ad",
+        "filename": "test/typeparam/issue51355.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-02-26T01:22:15Z",
+      "side": 1,
+      "message": "Hmm, I think this code is only trigger when actually running the program, no?\n\nIn the original report, the program won’t crash if removing the channel creation before goroutine",
+      "parentUuid": "f5a26eb7_e611f25f",
+      "revId": "a6546ebc0c62d19b64eaacb88d6ceb7faab3e93d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
