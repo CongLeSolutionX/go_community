@@ -114,7 +114,6 @@ func (g *genInst) scanForGenCalls(decl ir.Node) {
 		// These are all the various kinds of global assignments,
 		// whose right-hand-sides might contain a function
 		// instantiation.
-
 	default:
 		// The other possible ops at the top level are ODCLCONST
 		// and ODCLTYPE, which don't have any function
