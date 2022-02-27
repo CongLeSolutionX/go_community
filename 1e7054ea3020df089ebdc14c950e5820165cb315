@@ -59,6 +59,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1be4e2f3_88ed111c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-02-27T23:34:37Z",
+      "side": 1,
+      "message": "there is a lot of algorithmics around the type inference and constraint matching stuff, uncharacteristic of the rest of the spec. i\u0027m not sure it\u0027s right, either, but i am far from the best person to judge. can this stuff be defined rather than explained, if you know what i mean? i am uncomfortable with the idea that we apply these steps to see if they succeed, rather than defining what actually can succeed.",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6a2f48b3_26caa6ad",
         "filename": "doc/go_spec.html",
         "patchSetId": 2
@@ -856,6 +873,74 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "99bb1889_e08da976",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 4122,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-02-27T23:34:37Z",
+      "side": 1,
+      "message": "should instantation of a function value be described in the function literal section? a function literal cannot declare type parameters, but can it use them?\n\nf :\u003d typeparameteredfunction[int] \n\n?",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46ac240e_cadd75c9",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 4267,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-02-27T23:34:37Z",
+      "side": 1,
+      "message": "i do not understand this example at all, unless there is a missing comma. what on earth does [int any] mean?",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7bc24978_0bd29031",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 4268,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-02-27T23:34:37Z",
+      "side": 1,
+      "message": "ditto.",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50d37c3f_b19f47d5",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 4303,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-02-27T23:34:37Z",
+      "side": 1,
+      "message": "probably poor to use constraints.Ordered here",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fc55b030_ec96cf34",
         "filename": "doc/go_spec.html",
         "patchSetId": 2
@@ -873,6 +958,23 @@
         "endLine": 4348,
         "endChar": 48
       },
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a3aae86_c9bed9ed",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 4372,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-02-27T23:34:37Z",
+      "side": 1,
+      "message": "is this section rigorous enough? i can\u0027t tell. the operational semantics gives me pause.",
       "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
