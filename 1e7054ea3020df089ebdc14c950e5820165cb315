@@ -518,6 +518,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4867808c_f01906ab",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2517,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-02-28T10:31:46Z",
+      "side": 1,
+      "message": "either this should be lower case or you should pick a less confusing example.",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "784f0a95_05fd3fea",
         "filename": "doc/go_spec.html",
         "patchSetId": 2
@@ -1096,6 +1113,23 @@
         "endLine": 4640,
         "endChar": 46
       },
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d7f10bb_e63e2620",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 5056,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-02-28T10:31:46Z",
+      "side": 1,
+      "message": "this term is also the name of a predefined constant that means something subtly different. probably worth clarifying here.\nsuggestion:\n\nThe term _comparable_ refers to operands that may be tested with the \u003d\u003d or !\u003d operator. (Such operands satisfy the \u003ccode\u003ecomparable\u003c/code\u003e type constraint.)\nThe term _ordered_ refers to operands that may be tested with the \u003c, ... or \u003e\u003d operator.",
       "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
