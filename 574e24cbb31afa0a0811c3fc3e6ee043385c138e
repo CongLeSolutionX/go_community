@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "afe5a2b8_bde84648",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2022-02-28T02:30:12Z",
+      "side": 1,
+      "message": "doc: fix broken links for 1.17",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 12
+      },
+      "revId": "574e24cbb31afa0a0811c3fc3e6ee043385c138e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c15274de_02c90f62",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2022-02-28T02:30:12Z",
+      "side": 1,
+      "message": "Please drop these lines.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 0
+      },
+      "revId": "574e24cbb31afa0a0811c3fc3e6ee043385c138e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
