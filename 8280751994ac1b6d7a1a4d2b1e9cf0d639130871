@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2c1dbc6_d1d7ad82",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-02-28T19:54:34Z",
+      "side": 1,
+      "message": "Remove this line.  Just leave the initial comment on the pull request empty.  See https://go.dev/wiki/CommitMessage.",
+      "revId": "8280751994ac1b6d7a1a4d2b1e9cf0d639130871",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
