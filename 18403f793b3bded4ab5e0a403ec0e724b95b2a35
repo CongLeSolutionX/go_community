@@ -53,6 +53,23 @@
       "message": "The unified IR importer needs a types2.Context, and this seemed like the proper way to thread it through for all the tests. But if this is too invasive, I can look for a minimal kludge until Go 1.18 cherry picks are done.",
       "revId": "18403f793b3bded4ab5e0a403ec0e724b95b2a35",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c58895c2_42ea7e97",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-03-01T16:17:39Z",
+      "side": 1,
+      "message": "There\u0027s currently at least on CL (pending review) that needs to be cherry-picked into the RC and which has files intersecting with this list (api_test.go).\n\nOnce that\u0027s done (hopefully today) we can move forward with this.",
+      "revId": "18403f793b3bded4ab5e0a403ec0e724b95b2a35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
