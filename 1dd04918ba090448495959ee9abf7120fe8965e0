@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f2e96f3_6dc4167a",
+        "filename": "src/cmd/compile/internal/walk/compare.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-03-01T23:50:45Z",
+      "side": 1,
+      "message": "Do you need Pkgpath here? It is not always available in the compiler.\nMaybe you could get away with package name instead.",
+      "range": {
+        "startLine": 27,
+        "startChar": 39,
+        "endLine": 27,
+        "endChar": 46
+      },
+      "revId": "1dd04918ba090448495959ee9abf7120fe8965e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6bd2acbc_519d33cb",
+        "filename": "src/cmd/compile/internal/walk/compare.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-03-01T23:50:45Z",
+      "side": 1,
+      "message": "File index seems problematic - two different compilations won\u0027t agree on the file index (say a exported function is used in two other packages, and that exported function is inlined into both. The hashes then won\u0027t agree).\nI think file name would be ok.",
+      "revId": "1dd04918ba090448495959ee9abf7120fe8965e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "226137d6_fa147f8e",
+        "filename": "src/runtime/libfuzzer_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-03-01T23:50:45Z",
+      "side": 1,
+      "message": "integer",
+      "range": {
+        "startLine": 27,
+        "startChar": 55,
+        "endLine": 27,
+        "endChar": 63
+      },
+      "revId": "1dd04918ba090448495959ee9abf7120fe8965e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b451018e_76d964ce",
+        "filename": "src/runtime/libfuzzer_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-03-01T23:50:45Z",
+      "side": 1,
+      "message": "This doesn\u0027t need to be RARG2, because it is not actually being passed to the C function. Just a fixed register would be fine.",
+      "range": {
+        "startLine": 56,
+        "startChar": 21,
+        "endLine": 56,
+        "endChar": 26
+      },
+      "revId": "1dd04918ba090448495959ee9abf7120fe8965e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c4a189f_910aa812",
+        "filename": "src/runtime/libfuzzer_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-03-01T23:50:45Z",
+      "side": 1,
+      "message": "\"Passed unchanged\" here doesn\u0027t make a lot of sense. The values are loaded into the correct registers in lines 54-55.",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 84,
+        "endChar": 0
+      },
+      "revId": "1dd04918ba090448495959ee9abf7120fe8965e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "746a43e4_2bd3b4ed",
+        "filename": "src/runtime/libfuzzer_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-03-01T23:50:45Z",
+      "side": 1,
+      "message": "This scheme is going to completely break the CPU ret branch predictor. Any idea what kind of slowdown that causes?",
+      "revId": "1dd04918ba090448495959ee9abf7120fe8965e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
