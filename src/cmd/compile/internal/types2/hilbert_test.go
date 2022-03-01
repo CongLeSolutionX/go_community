@@ -36,7 +36,7 @@ func TestHilbert(t *testing.T) {
 
 	// type-check file
 	DefPredeclaredTestFuncs() // define assert built-in
-	conf := Config{Importer: defaultImporter()}
+	conf := defaultConfig()
 	_, err = conf.Check(f.PkgName.Value, []*syntax.File{f}, nil)
 	if err != nil {
 		t.Fatal(err)

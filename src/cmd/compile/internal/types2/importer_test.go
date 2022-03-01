@@ -7,18 +7,28 @@
 package types2_test
 
 import (
-	gcimporter "cmd/compile/internal/importer"
+	"cmd/compile/internal/importer"
 	"cmd/compile/internal/types2"
 	"io"
 )
 
-func defaultImporter() types2.Importer {
+func defaultConfig() types2.Config {
+	ctxt := types2.NewContext()
+	return types2.Config{
+		Context:  ctxt,
+		Importer: defaultImporter(ctxt),
+	}
+}
+
+func defaultImporter(ctxt *types2.Context) types2.Importer {
 	return &gcimports{
+		ctxt:     ctxt,
 		packages: make(map[string]*types2.Package),
 	}
 }
 
 type gcimports struct {
+	ctxt     *types2.Context
 	packages map[string]*types2.Package
 	lookup   func(path string) (io.ReadCloser, error)
 }
@@ -31,5 +41,5 @@ func (m *gcimports) ImportFrom(path, srcDir string, mode types2.ImportMode) (*ty
 	if mode != 0 {
 		panic("mode must be 0")
 	}
-	return gcimporter.Import(m.packages, path, srcDir, m.lookup)
+	return importer.Import(m.ctxt, m.packages, path, srcDir, m.lookup)
 }

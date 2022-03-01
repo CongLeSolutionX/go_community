@@ -50,7 +50,7 @@ func compile(t *testing.T, dirname, filename, outdirname string) string {
 
 func testPath(t *testing.T, path, srcDir string) *types2.Package {
 	t0 := time.Now()
-	pkg, err := Import(make(map[string]*types2.Package), path, srcDir, nil)
+	pkg, err := Import(types2.NewContext(), make(map[string]*types2.Package), path, srcDir, nil)
 	if err != nil {
 		t.Errorf("testPath(%s): %s", path, err)
 		return nil
@@ -172,7 +172,7 @@ func TestVersionHandling(t *testing.T) {
 		}
 
 		// test that export data can be imported
-		_, err := Import(make(map[string]*types2.Package), pkgpath, dir, nil)
+		_, err := Import(types2.NewContext(), make(map[string]*types2.Package), pkgpath, dir, nil)
 		if err != nil {
 			// ok to fail if it fails with a no longer supported error for select files
 			if strings.Contains(err.Error(), "no longer supported") {
@@ -218,7 +218,7 @@ func TestVersionHandling(t *testing.T) {
 		os.WriteFile(filename, data, 0666)
 
 		// test that importing the corrupted file results in an error
-		_, err = Import(make(map[string]*types2.Package), pkgpath, corruptdir, nil)
+		_, err = Import(types2.NewContext(), make(map[string]*types2.Package), pkgpath, corruptdir, nil)
 		if err == nil {
 			t.Errorf("import corrupted %q succeeded", pkgpath)
 		} else if msg := err.Error(); !strings.Contains(msg, "version skew") {
@@ -283,7 +283,7 @@ func TestImportedTypes(t *testing.T) {
 		importPath := s[0]
 		objName := s[1]
 
-		pkg, err := Import(make(map[string]*types2.Package), importPath, ".", nil)
+		pkg, err := Import(types2.NewContext(), make(map[string]*types2.Package), importPath, ".", nil)
 		if err != nil {
 			t.Error(err)
 			continue
@@ -379,8 +379,9 @@ func TestCorrectMethodPackage(t *testing.T) {
 		t.Skipf("gc-built packages not available (compiler = %s)", runtime.Compiler)
 	}
 
+	ctxt := types2.NewContext()
 	imports := make(map[string]*types2.Package)
-	_, err := Import(imports, "net/http", ".", nil)
+	_, err := Import(ctxt, imports, "net/http", ".", nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -441,8 +442,9 @@ func TestIssue13898(t *testing.T) {
 	}
 
 	// import go/internal/gcimporter which imports go/types partially
+	ctxt := types2.NewContext()
 	imports := make(map[string]*types2.Package)
-	_, err := Import(imports, "go/internal/gcimporter", ".", nil)
+	_, err := Import(ctxt, imports, "go/internal/gcimporter", ".", nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -509,9 +511,10 @@ func TestIssue15517(t *testing.T) {
 	// wrong package as complete. By using an "unclean" package path, the
 	// file and package path are different, exposing the problem if present.
 	// The same issue occurs with vendoring.)
+	ctxt := types2.NewContext()
 	imports := make(map[string]*types2.Package)
 	for i := 0; i < 3; i++ {
-		if _, err := Import(imports, "./././testdata/p", tmpdir, nil); err != nil {
+		if _, err := Import(ctxt, imports, "./././testdata/p", tmpdir, nil); err != nil {
 			t.Fatal(err)
 		}
 	}
@@ -590,7 +593,7 @@ func TestIssue25596(t *testing.T) {
 }
 
 func importPkg(t *testing.T, path, srcDir string) *types2.Package {
-	pkg, err := Import(make(map[string]*types2.Package), path, srcDir, nil)
+	pkg, err := Import(types2.NewContext(), make(map[string]*types2.Package), path, srcDir, nil)
 	if err != nil {
 		t.Fatal(err)
 	}

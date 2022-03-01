@@ -21,7 +21,7 @@ func TestSelf(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	conf := Config{Importer: defaultImporter()}
+	conf := defaultConfig()
 	_, err = conf.Check("cmd/compile/internal/types2", files, nil)
 	if err != nil {
 		t.Fatal(err)
@@ -71,9 +71,11 @@ func runbench(b *testing.B, path string, ignoreFuncBodies, writeInfo bool) {
 	b.ResetTimer()
 	start := time.Now()
 	for i := 0; i < b.N; i++ {
+		ctxt := NewContext()
 		conf := Config{
+			Context:          ctxt,
 			IgnoreFuncBodies: ignoreFuncBodies,
-			Importer:         defaultImporter(),
+			Importer:         defaultImporter(ctxt),
 		}
 		var info *Info
 		if writeInfo {

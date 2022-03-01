@@ -6,6 +6,7 @@ package types2_test
 
 import (
 	"cmd/compile/internal/syntax"
+	"cmd/compile/internal/types2"
 	"fmt"
 	"internal/testenv"
 	"sort"
@@ -15,6 +16,7 @@ import (
 )
 
 type resolveTestImporter struct {
+	ctxt     *types2.Context
 	importer ImporterFrom
 	imported map[string]bool
 }
@@ -28,7 +30,7 @@ func (imp *resolveTestImporter) ImportFrom(path, srcDir string, mode ImportMode)
 		panic("mode must be 0")
 	}
 	if imp.importer == nil {
-		imp.importer = defaultImporter().(ImporterFrom)
+		imp.importer = defaultImporter(imp.ctxt).(ImporterFrom)
 		imp.imported = make(map[string]bool)
 	}
 	pkg, err := imp.importer.ImportFrom(path, srcDir, mode)
@@ -125,8 +127,9 @@ func TestResolveIdents(t *testing.T) {
 	}
 
 	// resolve and type-check package AST
-	importer := new(resolveTestImporter)
-	conf := Config{Importer: importer}
+	ctxt := NewContext()
+	importer := &resolveTestImporter{ctxt: ctxt}
+	conf := Config{Context: ctxt, Importer: importer}
 	uses := make(map[*syntax.Name]Object)
 	defs := make(map[*syntax.Name]Object)
 	_, err := conf.Check("testResolveIdents", files, &Info{Defs: defs, Uses: uses})

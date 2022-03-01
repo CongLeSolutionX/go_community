@@ -60,7 +60,7 @@ func Unused() { {}; {{ var x int; _ = x }} } // make sure empty block scopes get
 	// Type-check a package consisting of these files.
 	// Type information for the imported "fmt" package
 	// comes from $GOROOT/pkg/$GOOS_$GOOARCH/fmt.a.
-	conf := types2.Config{Importer: defaultImporter()}
+	conf := defaultConfig()
 	pkg, err := conf.Check("temperature", files, nil)
 	if err != nil {
 		log.Fatal(err)

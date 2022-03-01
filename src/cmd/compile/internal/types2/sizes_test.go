@@ -92,8 +92,10 @@ const _ = unsafe.Offsetof(struct{ x int64 }{}.x)
 		t.Fatal(err)
 	}
 	info := types2.Info{Types: make(map[syntax.Expr]types2.TypeAndValue)}
+	ctxt := types2.NewContext()
 	conf := types2.Config{
-		Importer: defaultImporter(),
+		Context:  ctxt,
+		Importer: defaultImporter(ctxt),
 		Sizes:    &types2.StdSizes{WordSize: 8, MaxAlign: 8},
 	}
 	_, err = conf.Check("x", []*syntax.File{f}, &info)

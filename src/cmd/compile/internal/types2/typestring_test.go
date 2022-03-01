@@ -20,7 +20,7 @@ func makePkg(src string) (*Package, error) {
 		return nil, err
 	}
 	// use the package name as package path
-	conf := Config{Importer: defaultImporter()}
+	conf := defaultConfig()
 	return conf.Check(file.PkgName.Value, []*syntax.File{file}, nil)
 }
 
