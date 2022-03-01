@@ -70,6 +70,24 @@
       "message": "Thanks, will review soon - do we have any idea as to the real world benefit of this (i.e. how many fewer instructions do we end up with)?",
       "revId": "08c990e06660aec5c77c502647b114d0f6fe15e3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3fed4f90_32a30284",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2022-03-01T07:45:18Z",
+      "side": 1,
+      "message": "\u003e Thanks, will review soon - do we have any idea as to the real world benefit of this (i.e. how many fewer instructions do we end up with)?\n\nFor 64bit little endian load it will save 8 MOVBUs.\nMost of benchmarks in binary/encoding using big endian however we have to wait for B extension merged to enable big endian loads.",
+      "parentUuid": "aeafdcb1_b0b8d793",
+      "revId": "08c990e06660aec5c77c502647b114d0f6fe15e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
