@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91d481cc_ddc56d58",
+        "filename": "test/fixedbugs/issue44432.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-03-01T17:36:11Z",
+      "side": 0,
+      "message": "-d\u003dpanic not needed?",
+      "range": {
+        "startLine": 1,
+        "startChar": 19,
+        "endLine": 1,
+        "endChar": 27
+      },
+      "revId": "5f1b087ba31aac07a6f1b528c5b2a911adcaa074",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
