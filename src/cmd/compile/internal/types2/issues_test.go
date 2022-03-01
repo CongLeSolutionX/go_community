@@ -251,7 +251,7 @@ func main() {
 `
 	f := func(test, src string) {
 		f := mustParse(t, src)
-		conf := Config{Importer: defaultImporter()}
+		conf := defaultConfig()
 		info := Info{Uses: make(map[*syntax.Name]Object)}
 		_, err := conf.Check("main", []*syntax.File{f}, &info)
 		if err != nil {
@@ -312,7 +312,8 @@ func TestIssue25627(t *testing.T) {
 	} {
 		f := mustParse(t, prefix+src)
 
-		conf := Config{Importer: defaultImporter(), Error: func(err error) {}}
+		ctxt := NewContext()
+		conf := Config{Context: ctxt, Importer: defaultImporter(ctxt), Error: func(err error) {}}
 		info := &Info{Types: make(map[syntax.Expr]TypeAndValue)}
 		_, err := conf.Check(f.PkgName.Value, []*syntax.File{f}, info)
 		if err != nil {
@@ -588,7 +589,8 @@ func TestIssue43124(t *testing.T) {
 	if err != nil {
 		t.Fatalf("package a failed to typecheck: %v", err)
 	}
-	conf := Config{Importer: importHelper{pkg: a, fallback: defaultImporter()}}
+	ctxt := NewContext()
+	conf := Config{Context: ctxt, Importer: importHelper{pkg: a, fallback: defaultImporter(ctxt)}}
 
 	// Packages should be fully qualified when there is ambiguity within the
 	// error string itself.

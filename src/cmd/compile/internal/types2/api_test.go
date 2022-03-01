@@ -34,7 +34,7 @@ func pkgFor(path, source string, info *Info) (*Package, error) {
 	if err != nil {
 		return nil, err
 	}
-	conf := Config{Importer: defaultImporter()}
+	conf := defaultConfig()
 	return conf.Check(f.PkgName.Value, []*syntax.File{f}, info)
 }
 
@@ -55,9 +55,11 @@ func mayTypecheck(t *testing.T, path, source string, info *Info) (string, error)
 	if f == nil { // ignore errors unless f is nil
 		t.Fatalf("%s: unable to parse: %s", path, err)
 	}
+	ctxt := NewContext()
 	conf := Config{
+		Context:  ctxt,
 		Error:    func(err error) {},
-		Importer: defaultImporter(),
+		Importer: defaultImporter(ctxt),
 	}
 	pkg, err := conf.Check(f.PkgName.Value, []*syntax.File{f}, info)
 	return pkg.Name(), err

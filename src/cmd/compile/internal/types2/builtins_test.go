@@ -170,7 +170,7 @@ func testBuiltinSignature(t *testing.T, name, src0, want string) {
 		return
 	}
 
-	conf := Config{Importer: defaultImporter()}
+	conf := defaultConfig()
 	uses := make(map[*syntax.Name]Object)
 	types := make(map[syntax.Expr]TypeAndValue)
 	_, err = conf.Check(f.PkgName.Value, []*syntax.File{f}, &Info{Uses: uses, Types: types})

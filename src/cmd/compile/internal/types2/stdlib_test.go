@@ -23,7 +23,10 @@ import (
 	. "cmd/compile/internal/types2"
 )
 
-var stdLibImporter = defaultImporter()
+var (
+	stdLibContext  = NewContext()
+	stdLibImporter = defaultImporter(stdLibContext)
+)
 
 func TestStdlib(t *testing.T) {
 	testenv.MustHaveGoBuild(t)
@@ -139,7 +142,7 @@ func testTestDir(t *testing.T, path string, ignore ...string) {
 		}
 		file, err := syntax.ParseFile(filename, nil, nil, 0)
 		if err == nil {
-			conf := Config{GoVersion: goVersion, Importer: stdLibImporter}
+			conf := Config{Context: stdLibContext, GoVersion: goVersion, Importer: stdLibImporter}
 			_, err = conf.Check(filename, []*syntax.File{file}, nil)
 		}
 
@@ -238,6 +241,7 @@ func typecheck(t *testing.T, path string, filenames []string) {
 
 	// typecheck package files
 	conf := Config{
+		Context:  stdLibContext,
 		Error:    func(err error) { t.Error(err) },
 		Importer: stdLibImporter,
 	}

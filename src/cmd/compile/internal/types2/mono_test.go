@@ -23,9 +23,11 @@ func checkMono(t *testing.T, body string) error {
 	files := []*syntax.File{file}
 
 	var buf bytes.Buffer
+	ctxt := types2.NewContext()
 	conf := types2.Config{
+		Context:  ctxt,
 		Error:    func(err error) { fmt.Fprintln(&buf, err) },
-		Importer: defaultImporter(),
+		Importer: defaultImporter(ctxt),
 	}
 	conf.Check("x", files, nil)
 	if buf.Len() == 0 {

@@ -150,7 +150,8 @@ func testFiles(t *testing.T, filenames []string, colDelta uint, manual bool) {
 		conf.FakeImportC = true
 	}
 	conf.Trace = manual && testing.Verbose()
-	conf.Importer = defaultImporter()
+	conf.Context = NewContext()
+	conf.Importer = defaultImporter(conf.Context)
 	conf.Error = func(err error) {
 		if *haltOnError {
 			defer panic(err)

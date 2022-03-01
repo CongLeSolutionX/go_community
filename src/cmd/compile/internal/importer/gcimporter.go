@@ -84,7 +84,7 @@ func FindPkg(path, srcDir string) (filename, id string) {
 // the corresponding package object to the packages map, and returns the object.
 // The packages map must contain all packages already imported.
 //
-func Import(packages map[string]*types2.Package, path, srcDir string, lookup func(path string) (io.ReadCloser, error)) (pkg *types2.Package, err error) {
+func Import(ctxt *types2.Context, packages map[string]*types2.Package, path, srcDir string, lookup func(path string) (io.ReadCloser, error)) (pkg *types2.Package, err error) {
 	var rc io.ReadCloser
 	var id string
 	if lookup != nil {
