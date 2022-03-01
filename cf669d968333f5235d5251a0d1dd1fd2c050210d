@@ -95,6 +95,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0d80e9db_8a0d33b1",
+        "filename": "src/cmd/compile/internal/noder/quirks.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-03-01T22:32:15Z",
+      "side": 1,
+      "message": "Do we have any particular reason to believe that the old or the new behavior is/will-be superior to the other, from the POV of either error-reporting or debugging?  Changing this might have funny little downstream effects in tools, or at least in their test cases.",
+      "range": {
+        "startLine": 17,
+        "startChar": 3,
+        "endLine": 18,
+        "endChar": 42
+      },
+      "revId": "cf669d968333f5235d5251a0d1dd1fd2c050210d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fb54d925_5ae71b40",
         "filename": "src/cmd/compile/internal/noder/reader.go",
         "patchSetId": 5
@@ -123,6 +146,52 @@
       "writtenOn": "2022-02-15T22:59:40Z",
       "side": 1,
       "message": "Might be good to have a comment here about stability of these values. Can we renumber them? Add a new one? I suspect that we can only add new ones to the end because other changes would constitute an export format change, but I\u0027m not sure.",
+      "revId": "cf669d968333f5235d5251a0d1dd1fd2c050210d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8697fd91_65be2997",
+        "filename": "src/internal/pkgbits/decoder.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-03-01T22:32:15Z",
+      "side": 1,
+      "message": "Use of a string here makes me a little nervous.  I can see the advantage from the POV of immutability, inability to reslice larger, but doesn\u0027t it also have the possibility of not being a well-formed (UTF-8) string?\n\nOTOH, this is not crucial to the design, could be replaced w/ a []byte later.\n\nWould it make sense to use a named type that is ~string, so that there is some hint that it is not a first-class string?",
+      "range": {
+        "startLine": 23,
+        "startChar": 1,
+        "endLine": 23,
+        "endChar": 20
+      },
+      "revId": "cf669d968333f5235d5251a0d1dd1fd2c050210d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c0c74a0_46c95127",
+        "filename": "src/internal/pkgbits/decoder.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-03-01T22:32:15Z",
+      "side": 1,
+      "message": "This needs a proper doc comment, because I spent a few minutes trying to figure out how it was legit to cast a \"length\" into a CodeVal.  I imagine something like\n\n// Code optionally checks the sync mark, and return the uint64 following in the import\n// stream.  That uint64 is expected to either be a type tag (a CodeVal) or a count.\n// It returns an int because that is the right type for allocating a slice.\n\nI wonder also if the name should be something more like Prefix since that includes both uses.",
+      "range": {
+        "startLine": 236,
+        "startChar": 18,
+        "endLine": 236,
+        "endChar": 22
+      },
       "revId": "cf669d968333f5235d5251a0d1dd1fd2c050210d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
