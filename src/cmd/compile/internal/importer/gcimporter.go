@@ -10,6 +10,7 @@ import (
 	"cmd/compile/internal/types2"
 	"fmt"
 	"go/build"
+	"internal/pkgbits"
 	"io"
 	"io/ioutil"
 	"os"
@@ -151,12 +152,24 @@ func Import(ctxt *types2.Context, packages map[string]*types2.Package, path, src
 			break
 		}
 
+		if len(data) == 0 {
+			panic("TODO: return an error instead")
+		}
+		exportFormat := data[0]
+		s := string(data[1:])
+
 		// The indexed export format starts with an 'i'; the older
 		// binary export format starts with a 'c', 'd', or 'v'
 		// (from "version"). Select appropriate importer.
-		if len(data) > 0 && data[0] == 'i' {
-			pkg, err = ImportData(packages, string(data[1:]), id)
-		} else {
+		switch exportFormat {
+		case 'u':
+			// TODO(mdempsky): This is gross and hacky.
+			s = s[:strings.Index(s, "\n$$\n")]
+			input := pkgbits.NewPkgDecoder(path, s)
+			pkg = ReadPackage(ctxt, packages, input)
+		case 'i':
+			pkg, err = ImportData(packages, s, id)
+		default:
 			err = fmt.Errorf("import %q: old binary export format no longer supported (recompile library)", path)
 		}
 
