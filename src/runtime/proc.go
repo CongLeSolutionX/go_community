@@ -73,7 +73,7 @@ var modinfo string
 // If there is at least one spinning thread (sched.nmspinning>1), we don't
 // unpark new threads when submitting work. To compensate for that, if the last
 // spinning thread finds work and stops spinning, it must unpark a new spinning
-// thread.  This approach smooths out unjustified spikes of thread unparking,
+// thread. This approach smooths out unjustified spikes of thread unparking,
 // but at the same time guarantees eventual maximal CPU parallelism
 // utilization.
 //
@@ -2238,8 +2238,8 @@ func mspinning() {
 // Schedules some M to run the p (creates an M if necessary).
 // If p==nil, tries to get an idle P, if no idle P's does nothing.
 // May run with m.p==nil, so write barriers are not allowed.
-// If spinning is set, the caller has incremented nmspinning and startm will
-// either decrement nmspinning or set m.spinning in the newly started M.
+// If spinning is set, the caller has incremented nmspinning and must provide a
+// P. startm will set m.spinning in the newly started M.
 //
 // Callers passing a non-nil P must call from a non-preemptible context. See
 // comment on acquirem below.
@@ -2266,16 +2266,14 @@ func startm(_p_ *p, spinning bool) {
 	mp := acquirem()
 	lock(&sched.lock)
 	if _p_ == nil {
+		if spinning {
+			// TODO(prattmic): All remaining _p_ == nil calls could
+			// be cleaned up to find a P before calling startm.
+			throw("startm: P required for spinning=true")
+		}
 		_p_ = pidleget()
 		if _p_ == nil {
 			unlock(&sched.lock)
-			if spinning {
-				// The caller incremented nmspinning, but there are no idle Ps,
-				// so it's okay to just undo the increment and give up.
-				if int32(atomic.Xadd(&sched.nmspinning, -1)) < 0 {
-					throw("startm: negative nmspinning")
-				}
-			}
 			releasem(mp)
 			return
 		}
@@ -2347,6 +2345,7 @@ func handoffp(_p_ *p) {
 	// no local work, check that there are no spinning/idle M's,
 	// otherwise our help is not required
 	if atomic.Load(&sched.nmspinning)+atomic.Load(&sched.npidle) == 0 && atomic.Cas(&sched.nmspinning, 0, 1) { // TODO: fast atomic
+		sched.needspinning.Store(0)
 		startm(_p_, true)
 		return
 	}
@@ -2393,15 +2392,59 @@ func handoffp(_p_ *p) {
 
 // Tries to add one more P to execute G's.
 // Called when a G is made runnable (newproc, ready).
+// Must be called with a P.
 func wakep() {
-	if atomic.Load(&sched.npidle) == 0 {
-		return
-	}
-	// be conservative about spinning threads
+	// Be conservative about spinning threads, only start one if none exist
+	// already.
 	if atomic.Load(&sched.nmspinning) != 0 || !atomic.Cas(&sched.nmspinning, 0, 1) {
 		return
 	}
-	startm(nil, true)
+
+	// See preemption comment in startm.
+	mp := acquirem()
+
+	var pp *p
+	lock(&sched.lock)
+	pp = pidleget()
+	if pp == nil {
+		// We need a spinning M, but there is no P available.
+		//
+		// Normally this is a non-issue. If all of the Ps are running
+		// then they will eventually enter the scheduler and find the
+		// work.
+		//
+		// But we could race with a P going idle. It is running in
+		// findrunnable and has already decided not to become spinning,
+		// found no work, and is preparing to go idle (but has not yet
+		// taken sched.lock).
+		//
+		// If we do nothing, that P will go idle and we will fail to
+		// start a new spinning M, resulting in a loss of work
+		// conservation (idle P while there is runnable work).
+		//
+		// We use sched.needspinning to synchronize with non-spinning
+		// Ms going idle. If needspinning is set when they are about to
+		// drop their P, they abort the drop and instead become a new
+		// spinning M on our behalf.
+		//
+		// See "Delicate dance" comment in findrunnable.
+		if int32(atomic.Xadd(&sched.nmspinning, -1)) < 0 {
+			throw("wakep: negative nmspinning")
+		}
+		sched.needspinning.Store(1)
+		unlock(&sched.lock)
+		releasem(mp)
+		return
+	}
+	// Since we always have a P, the race in the "No M is available"
+	// comment in startm doesn't apply during the small window between the
+	// unlock here and lock in startm. A checkdead in between will always
+	// see at least one running M (ours).
+	unlock(&sched.lock)
+
+	startm(pp, true)
+
+	releasem(mp)
 }
 
 // Stops execution of the current m that is locked to a g until the g is runnable again.
@@ -2594,6 +2637,7 @@ top:
 		if !_g_.m.spinning {
 			_g_.m.spinning = true
 			atomic.Xadd(&sched.nmspinning, 1)
+			sched.needspinning.Store(0)
 		}
 
 		gp, inheritTime, tnow, w, newWork := stealWork(now)
@@ -2668,6 +2712,14 @@ top:
 		unlock(&sched.lock)
 		return gp, false
 	}
+	if !_g_.m.spinning && sched.needspinning.Load() == 1 {
+		// See comment below.
+		atomic.Xadd(&sched.nmspinning, 1)
+		sched.needspinning.Store(0)
+		_g_.m.spinning = true
+		unlock(&sched.lock)
+		goto top
+	}
 	if releasep() != _p_ {
 		throw("findrunnable: wrong p")
 	}
@@ -2688,11 +2740,26 @@ top:
 	// * New/modified-earlier timers on a per-P timer heap.
 	// * Idle-priority GC work (barring golang.org/issue/19112).
 	//
-	// If we discover new work below, we need to restore m.spinning as a signal
-	// for resetspinning to unpark a new worker thread (because there can be more
-	// than one starving goroutine). However, if after discovering new work
-	// we also observe no idle Ps it is OK to skip unparking a new worker
-	// thread: the system is fully loaded so no spinning threads are required.
+	// If we discover new work below, we need to restore m.spinning as a
+	// signal for resetspinning to unpark a new worker thread (because
+	// there can be more than one starving goroutine).
+	//
+	// However, if after discovering new work we also observe no idle Ps
+	// (either here or in resetspinning), we have a problem. We may be
+	// racing with a non-spinning M in the block above, having found no
+	// work and preparing to release its P and park. Allowing that P to go
+	// idle will result in loss of work conservation (idle P while there is
+	// runnable work). This could result in complete deadlock in the
+	// unlikely event that we discover new work (from netpoll) right as we
+	// are racing with _all_ other Ps going idle.
+	//
+	// We use sched.needspinning to synchronize with non-spinning Ms going
+	// idle. If needspinning is set when they are about to drop their P,
+	// they abort the drop and instead become a new spinning M on our
+	// behalf. If we are not racing and the system is truly fully loaded
+	// then no spinning threads are required, and the next thread to
+	// naturally become spinning will clear the flag.
+	//
 	// Also see "Worker thread parking/unparking" comment at the top of the file.
 	wasSpinning := _g_.m.spinning
 	if _g_.m.spinning {
@@ -2703,9 +2770,12 @@ top:
 
 		// Note the for correctness, only the last M transitioning from
 		// spinning to non-spinning must perform these rechecks to
-		// ensure no missed work. We are performing it on every M that
-		// transitions as a conservative change to monitor effects on
-		// latency. See golang.org/issue/43997.
+		// ensure no missed work. However, the runtime has some cases
+		// of transient increments of nmspinning that are decremented
+		// without going through this path, so we must be conservative
+		// and perform the check on all spinning Ms.
+		//
+		// See https://go.dev/issue/43997.
 
 		// Check all runqueues once again.
 		_p_ = checkRunqsNoP(allpSnapshot, idlepMaskSnapshot)
@@ -2713,6 +2783,7 @@ top:
 			acquirep(_p_)
 			_g_.m.spinning = true
 			atomic.Xadd(&sched.nmspinning, 1)
+			sched.needspinning.Store(0)
 			goto top
 		}
 
@@ -2722,6 +2793,7 @@ top:
 			acquirep(_p_)
 			_g_.m.spinning = true
 			atomic.Xadd(&sched.nmspinning, 1)
+			sched.needspinning.Store(0)
 
 			// Run the idle worker.
 			_p_.gcMarkWorkerMode = gcMarkWorkerIdleMode
@@ -2792,6 +2864,7 @@ top:
 			if wasSpinning {
 				_g_.m.spinning = true
 				atomic.Xadd(&sched.nmspinning, 1)
+				sched.needspinning.Store(0)
 			}
 			goto top
 		}
@@ -2911,16 +2984,23 @@ func checkRunqsNoP(allpSnapshot []*p, idlepMaskSnapshot pMask) *p {
 		if !idlepMaskSnapshot.read(uint32(id)) && !runqempty(p2) {
 			lock(&sched.lock)
 			pp := pidleget()
-			unlock(&sched.lock)
-			if pp != nil {
-				return pp
+			if pp == nil {
+				// Can't get a P, don't bother checking remaining Ps.
+				//
+				// See "Delicate dance" comment in findrunnable. We
+				// found work that we cannot take, we must synchronize
+				// with non-spinning Ms that may be preparing to drop
+				// their P.
+				sched.needspinning.Store(1)
+				unlock(&sched.lock)
+				return nil
 			}
-
-			// Can't get a P, don't bother checking remaining Ps.
-			break
+			unlock(&sched.lock)
+			return pp
 		}
 	}
 
+	// No work available.
 	return nil
 }
 
@@ -2974,6 +3054,10 @@ func checkIdleGCNoP() (*p, *g) {
 	lock(&sched.lock)
 	pp := pidleget()
 	if pp == nil {
+		// See "Delicate dance" comment in findrunnable. We found work
+		// that we cannot take, we must synchronize with non-spinning
+		// Ms that may be preparing to drop their P.
+		sched.needspinning.Store(1)
 		unlock(&sched.lock)
 		return nil, nil
 	}
@@ -3072,8 +3156,25 @@ func injectglist(glist *gList) {
 	*glist = gList{}
 
 	startIdle := func(n int) {
-		for ; n != 0 && sched.npidle != 0; n-- {
-			startm(nil, false)
+		for i := 0; i < n; i++ {
+			mp := acquirem() // See comment in startm.
+			lock(&sched.lock)
+
+			pp := pidleget()
+			if pp == nil {
+				// See "Delicate dance" comment in findrunnable. We
+				// have work that we are not taking, we must
+				// synchronize with non-spinning Ms that may be
+				// preparing to drop their P.
+				sched.needspinning.Store(1)
+				unlock(&sched.lock)
+				releasem(mp)
+				break
+			}
+
+			unlock(&sched.lock)
+			startm(pp, false)
+			releasem(mp)
 		}
 	}
 
@@ -5334,7 +5435,7 @@ func schedtrace(detailed bool) {
 	}
 
 	lock(&sched.lock)
-	print("SCHED ", (now-starttime)/1e6, "ms: gomaxprocs=", gomaxprocs, " idleprocs=", sched.npidle, " threads=", mcount(), " spinningthreads=", sched.nmspinning, " idlethreads=", sched.nmidle, " runqueue=", sched.runqsize)
+	print("SCHED ", (now-starttime)/1e6, "ms: gomaxprocs=", gomaxprocs, " idleprocs=", sched.npidle, " threads=", mcount(), " spinningthreads=", sched.nmspinning, " needspinnig=", sched.needspinning.Load(), " idlethreads=", sched.nmidle, " runqueue=", sched.runqsize)
 	if detailed {
 		print(" gcwaiting=", sched.gcwaiting, " nmidlelocked=", sched.nmidlelocked, " stopwait=", sched.stopwait, " sysmonwait=", sched.sysmonwait, "\n")
 	}
