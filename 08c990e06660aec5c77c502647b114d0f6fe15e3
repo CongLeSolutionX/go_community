@@ -106,6 +106,24 @@
       "parentUuid": "3fed4f90_32a30284",
       "revId": "08c990e06660aec5c77c502647b114d0f6fe15e3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de29c7a0_3a4e4d8e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2022-03-01T07:55:50Z",
+      "side": 1,
+      "message": "Sure 😊\nI\u0027m curious about how to check binary size change.",
+      "parentUuid": "1f1063ec_5b1ff112",
+      "revId": "08c990e06660aec5c77c502647b114d0f6fe15e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
