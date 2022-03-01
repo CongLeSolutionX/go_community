@@ -53,6 +53,24 @@
       "message": "I think this file should be moved too.",
       "revId": "da3dcc081abb1ea3cf364098b31f417275981dc5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "adcbac06_980365a3",
+        "filename": "doc/go1.17_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2022-03-01T14:44:03Z",
+      "side": 1,
+      "message": "Correction, I think it should be considered, and maybe it\u0027s better for it to stay here until the end of Go 1.18 development. (I also realized I don\u0027t know its future plans-maybe it\u0027s planned to be deleted rather than existing forever.) I\u0027m only finding one link to it from go_spec.html which is also in this repo, so it staying here shouldn\u0027t cause broken links on go.dev.\n\nLeaving the decision to you and Rob. If unsure, just leave it, since it can be done in 2 separate CLs whenever needed.",
+      "parentUuid": "efd94002_f352c36b",
+      "revId": "da3dcc081abb1ea3cf364098b31f417275981dc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
