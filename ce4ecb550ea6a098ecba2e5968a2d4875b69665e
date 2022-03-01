@@ -33,6 +33,24 @@
       "message": "Why range rather than map index?",
       "revId": "ce4ecb550ea6a098ecba2e5968a2d4875b69665e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7cf3c45_ed905ef3",
+        "filename": "src/io/fs/readlink_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 39454
+      },
+      "writtenOn": "2022-03-01T19:15:29Z",
+      "side": 1,
+      "message": "That was an oversight; good spot. Fixed.",
+      "parentUuid": "427392e4_ed620a8d",
+      "revId": "ce4ecb550ea6a098ecba2e5968a2d4875b69665e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
