@@ -141,6 +141,24 @@
       "message": "Combined loads are more likely unaligned. Are unaligned loads very slow? At least on some machines, they are kernel emulated, right?\n",
       "revId": "08c990e06660aec5c77c502647b114d0f6fe15e3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "514aeb64_9f33388d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2022-03-01T17:01:28Z",
+      "side": 1,
+      "message": "Correct - there is no requirement to support unaligned accesses in hardware and most unaligned accesses will trap, requiring emulation at some level. We would only want to do this if the resulting load instruction is for a naturally aligned load.",
+      "parentUuid": "82dd919b_9da201b7",
+      "revId": "08c990e06660aec5c77c502647b114d0f6fe15e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
