@@ -72,6 +72,24 @@
       "message": "At what point can we remove all the error reporting code from internal/typecheck? My understanding is that users will never see those errors any more, they will all be reported by types2 and the typechecking done by internal/typecheck is guaranteed to succeed (modulo bugs in the compiler itself).\n",
       "revId": "d7d1f6b747d1b9b4fedab20d42193f0097b88408",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6ea0fdd_fc37cc85",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-03-01T19:30:48Z",
+      "side": 1,
+      "message": "I think there are still a couple non-standard errors that we report (e.g., channel element type size), so we probably can\u0027t just rip it all out wholesale. I think it\u0027s something we can incrementally tackle as we go (either ripping out error checking or replacing them with asserts/fatalfs).",
+      "parentUuid": "7691d4b7_4f018651",
+      "revId": "d7d1f6b747d1b9b4fedab20d42193f0097b88408",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
