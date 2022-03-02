@@ -1258,7 +1258,7 @@ func NewGCController(gcPercent int) *GCController {
 	// space.
 	g := escape(new(GCController)).(*GCController)
 	g.gcControllerState.test = true // Mark it as a test copy.
-	g.init(int32(gcPercent))
+	g.init(int32(gcPercent), maxInt64)
 	return g
 }
 
