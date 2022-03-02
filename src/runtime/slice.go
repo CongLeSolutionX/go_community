@@ -284,6 +284,8 @@ func growslice(et *_type, old slice, cap int) slice {
 		p = mallocgc(capmem, nil, false)
 		// The append() that calls growslice is going to overwrite from old.len to cap (which will be the new length).
 		// Only clear the part that will not be overwritten.
+		// The reflect_growslice() that calls growslice will manually clear
+		// the region not cleared here.
 		memclrNoHeapPointers(add(p, newlenmem), capmem-newlenmem)
 	} else {
 		// Note: can't use rawmem (which avoids zeroing of memory), because then GC can scan uninitialized memory.
@@ -297,6 +299,21 @@ func growslice(et *_type, old slice, cap int) slice {
 	memmove(p, old.array, lenmem)
 
 	return slice{p, old.len, newcap}
+}
+
+//go:linkname reflect_growslice reflect.growslice
+func reflect_growslice(et *_type, old slice, cap int) slice {
+	// growslice does not zero out new[old.len:cap] since it assumes that
+	// the memory will be overwritten by an append() that calls growslice.
+	// Since the caller of reflect_growslice is not append(),
+	// zero out this region before returning the slice to the reflect package.
+	new := growslice(et, old, cap)
+	if et.ptrdata == 0 {
+		oldlenmem := uintptr(old.len) * et.size
+		capmem := uintptr(cap) * et.size
+		memclrNoHeapPointers(add(new.array, oldlenmem), capmem-oldlenmem)
+	}
+	return new
 }
 
 func isPowerOfTwo(x uintptr) bool {
