@@ -16,6 +16,24 @@
       "message": "Same comment re tabs. \nI think we can remove the dev.go2go exception at this point if it would make this process easier.",
       "revId": "0e92aa99576e5ccead4ba9e374339bccea928d8b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7fedf47d_dec2c81f",
+        "filename": "project.config",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 13580
+      },
+      "writtenOn": "2022-03-02T18:18:25Z",
+      "side": 1,
+      "message": "Thanks, that allows us to drop this change since the go repo can then just follow the rules defined in All-Projects.",
+      "parentUuid": "516ec1d7_9138eda5",
+      "revId": "0e92aa99576e5ccead4ba9e374339bccea928d8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
