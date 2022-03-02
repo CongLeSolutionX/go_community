@@ -143,6 +143,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "de52b700_6a841afd",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2242,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-03-02T15:39:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c8cae99_18c02fec",
+      "revId": "692fcf65011051f1f8bb2e2d5eb7f2a754704c44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f8942d06_919d33de",
@@ -156,6 +174,30 @@
       "writtenOn": "2022-03-02T04:05:34Z",
       "side": 1,
       "message": "nit: checks?",
+      "range": {
+        "startLine": 2270,
+        "startChar": 47,
+        "endLine": 2270,
+        "endChar": 52
+      },
+      "revId": "692fcf65011051f1f8bb2e2d5eb7f2a754704c44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f64884d3_78a03a25",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2270,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-03-02T15:39:48Z",
+      "side": 1,
+      "message": "No, this is correct. I mean we could require callers to pass a non-nil P to startm.",
+      "parentUuid": "f8942d06_919d33de",
       "range": {
         "startLine": 2270,
         "startChar": 47,
@@ -183,6 +225,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2737e1f6_f8ec4218",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2413,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-03-02T15:39:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f5da6e6_a546fc6e",
+      "revId": "692fcf65011051f1f8bb2e2d5eb7f2a754704c44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "09a7f648_05ede637",
@@ -196,6 +256,24 @@
       "writtenOn": "2022-03-02T01:00:43Z",
       "side": 1,
       "message": "s/take/taken/",
+      "revId": "692fcf65011051f1f8bb2e2d5eb7f2a754704c44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0861928d_2d17837c",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2418,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-03-02T15:39:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09a7f648_05ede637",
       "revId": "692fcf65011051f1f8bb2e2d5eb7f2a754704c44",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -217,6 +295,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "01c82c3a_db140bc4",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2773,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-03-02T15:39:48Z",
+      "side": 1,
+      "message": "PTAL",
+      "parentUuid": "cc606dfc_b442087c",
+      "revId": "692fcf65011051f1f8bb2e2d5eb7f2a754704c44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cb245ccd_c62685e2",
@@ -234,6 +330,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c473d72_9a57427e",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2774,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-03-02T15:39:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb245ccd_c62685e2",
+      "revId": "692fcf65011051f1f8bb2e2d5eb7f2a754704c44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3aa6aaec_3115a593",
@@ -247,6 +361,30 @@
       "writtenOn": "2022-03-02T04:05:34Z",
       "side": 1,
       "message": "atomic.Uint32?",
+      "range": {
+        "startLine": 766,
+        "startChar": 14,
+        "endLine": 766,
+        "endChar": 20
+      },
+      "revId": "692fcf65011051f1f8bb2e2d5eb7f2a754704c44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ef4527b_d26b0e1e",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 766,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-03-02T15:39:48Z",
+      "side": 1,
+      "message": "I initially left this off to make the CL easier to backport. But given the complexity I\u0027m not sure I want to backport anymore.\n\nDone.",
+      "parentUuid": "3aa6aaec_3115a593",
       "range": {
         "startLine": 766,
         "startChar": 14,
