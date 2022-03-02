@@ -10,7 +10,10 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"net/http"
+	"net/http/httptest"
 	"os"
+	"strings"
 	"time"
 )
 
@@ -125,4 +128,69 @@ func ExampleReader_Multistream() {
 	// ModTime: 2007-03-02 04:05:06 +0000 UTC
 	//
 	// Hello Gophers - 2
+}
+
+func Example_compressingReader() {
+	// This is an example of writing a compressing reader.
+	// This can be useful for an HTTP client body, as shown.
+
+	const testdata = "the data to be compressed"
+
+	// This HTTP handler is just for testing purposes.
+	handler := http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
+		gr, err := gzip.NewReader(req.Body)
+		if err != nil {
+			log.Fatal(err)
+		}
+		data, err := io.ReadAll(gr)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		// This is the example output.
+		fmt.Printf("%s\n", data)
+	})
+	ts := httptest.NewServer(handler)
+	defer ts.Close()
+
+	// The remainder is the example code.
+
+	// The data we want to compress, as an io.Reader
+	dataReader := strings.NewReader(testdata)
+
+	// bodyReader is the body of the HTTP request, as an io.Reader.
+	// httpWriter is the body of the HTTP request, as an io.Writter.
+	bodyReader, httpWriter := io.Pipe()
+
+	// gzipWriter compresses data to httpWriter.
+	gzipWriter := gzip.NewWriter(httpWriter)
+
+	go func() {
+		// Copy our data to gzipWriter, which compresses it to
+		// gzipWriter, which feeds it to bodyReader.
+		_, err := io.Copy(gzipWriter, dataReader)
+		if err != nil && err != io.ErrClosedPipe {
+			log.Fatal(err)
+		}
+		if err := gzipWriter.Close(); err != nil {
+			log.Fatal(err)
+		}
+		if err := httpWriter.Close(); err != nil {
+			log.Fatal(err)
+		}
+	}()
+
+	// Send an HTTP request to the test server.
+	req, err := http.NewRequest("PUT", ts.URL, bodyReader)
+	if err != nil {
+		log.Fatal(err)
+	}
+	resp, err := ts.Client().Do(req)
+	if err != nil {
+		log.Fatal(err)
+	}
+	// For this example we don't care about the response.
+	resp.Body.Close()
+
+	// Output: the data to be compressed
 }
