@@ -96,7 +96,7 @@
 	limits the length of the input to be formatted (not the size of
 	the output), truncating if necessary. Normally it is measured in
 	runes, but for these types when formatted with the %x or %X format
-	it is measured in bytes.
+	it is measured in bytes. Strings are right-padded with spaces.
 
 	For floating-point values, width sets the minimum width of the field and
 	precision sets the number of places after the decimal, if appropriate,
