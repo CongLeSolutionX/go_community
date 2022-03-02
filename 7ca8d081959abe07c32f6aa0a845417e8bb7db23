@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "98a74780_888a6d0a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 56268
+      },
+      "writtenOn": "2022-03-02T01:53:17Z",
+      "side": 1,
+      "message": "done.",
+      "parentUuid": "8f44a019_8fa6ccd4",
+      "range": {
+        "startLine": 12,
+        "startChar": 10,
+        "endLine": 12,
+        "endChar": 12
+      },
+      "revId": "7ca8d081959abe07c32f6aa0a845417e8bb7db23",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "98629ea9_8a4fdb4a",
@@ -47,6 +71,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "888c3808_962b579c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 56268
+      },
+      "writtenOn": "2022-03-02T01:53:17Z",
+      "side": 1,
+      "message": "done.",
+      "parentUuid": "98629ea9_8a4fdb4a",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 14
+      },
+      "revId": "7ca8d081959abe07c32f6aa0a845417e8bb7db23",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d17ffdc1_2a001886",
@@ -60,6 +108,30 @@
       "writtenOn": "2022-03-02T01:23:06Z",
       "side": 1,
       "message": "Say:\n`Follow-up to CL 14832.`\n\nand put this before the \"Fixes #51417\" with a blank line in-between.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 52
+      },
+      "revId": "7ca8d081959abe07c32f6aa0a845417e8bb7db23",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3363219e_dba32940",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 56268
+      },
+      "writtenOn": "2022-03-02T01:53:17Z",
+      "side": 1,
+      "message": "done.",
+      "parentUuid": "d17ffdc1_2a001886",
       "range": {
         "startLine": 18,
         "startChar": 0,
