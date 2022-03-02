@@ -34,6 +34,23 @@
       "parentUuid": "99ada383_8069f5b9",
       "revId": "cb69219b75a04df1c8590a496deb22bcdc6ff6a5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cec99ab1_41b516ec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2022-03-02T03:19:29Z",
+      "side": 1,
+      "message": "Adding @mdempsky as the other owner of most compress packages.\n\nI think all we need is another +1 trust.",
+      "revId": "cb69219b75a04df1c8590a496deb22bcdc6ff6a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
