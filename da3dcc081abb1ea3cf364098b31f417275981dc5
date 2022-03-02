@@ -71,6 +71,24 @@
       "parentUuid": "efd94002_f352c36b",
       "revId": "da3dcc081abb1ea3cf364098b31f417275981dc5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "15077cac_d7e29dd2",
+        "filename": "doc/go1.17_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34411
+      },
+      "writtenOn": "2022-03-02T19:33:18Z",
+      "side": 1,
+      "message": "We\u0027ve discussed this and have decided that this change should not be blocked by the spec file. We can revisit the spec file move in the future.",
+      "parentUuid": "adcbac06_980365a3",
+      "revId": "da3dcc081abb1ea3cf364098b31f417275981dc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
