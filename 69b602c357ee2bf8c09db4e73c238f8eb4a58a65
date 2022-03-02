@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "242cf1c3_ce60cb26",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-03-02T17:30:51Z",
+      "side": 1,
+      "message": "Thanks, but we\u0027re in the middle of a spec overhaul for generics. If things like this need to be fixed we can look at it later. But this doesn\u0027t need to be changed.",
+      "revId": "69b602c357ee2bf8c09db4e73c238f8eb4a58a65",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bffe2d3b_631ab522",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 832,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-03-02T17:30:51Z",
+      "side": 1,
+      "message": "We already say that it\u0027s a predeclared type on the line before. The point is that it\u0027s also a defined type. Maybe it should be a named type now that we have the new definition but we\u0027re not going to touch this now.",
+      "revId": "69b602c357ee2bf8c09db4e73c238f8eb4a58a65",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
