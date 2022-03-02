@@ -287,6 +287,11 @@ func growslice(et *_type, old slice, cap int) slice {
 	return slice{p, old.len, newcap}
 }
 
+//go:linkname reflect_growslice reflect.growslice
+func reflect_growslice(et *_type, old slice, cap int) slice {
+	return growslice(et, old, cap)
+}
+
 func isPowerOfTwo(x uintptr) bool {
 	return x&(x-1) == 0
 }
