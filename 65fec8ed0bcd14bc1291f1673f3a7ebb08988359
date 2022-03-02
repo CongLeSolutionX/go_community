@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92174ef0_aca4cc8c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-03-02T00:13:16Z",
+      "side": 1,
+      "message": "The compiler changes in these CLs are mostly pretty good. I think I\u0027m maybe missing some bigger picture here, especially how libFuzzer might make use of the new info.\nIs there a link somewhere to docs about how this libFuzzer API is intended to be used?\n",
+      "revId": "65fec8ed0bcd14bc1291f1673f3a7ebb08988359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f111ae3e_42446b98",
+        "filename": "src/cmd/compile/internal/walk/compare.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-03-02T00:13:16Z",
+      "side": 1,
+      "message": "Same comments as your other CL.",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 65
+      },
+      "revId": "65fec8ed0bcd14bc1291f1673f3a7ebb08988359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fb4e749_c7d3c4d2",
+        "filename": "src/cmd/compile/internal/walk/expr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 605,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-03-02T00:13:16Z",
+      "side": 1,
+      "message": "You should probably panic if this isn\u0027t the case, not just skip the instrumentation. strings.EqualFold should always have exactly 2 arguments.",
+      "range": {
+        "startLine": 605,
+        "startChar": 66,
+        "endLine": 605,
+        "endChar": 94
+      },
+      "revId": "65fec8ed0bcd14bc1291f1673f3a7ebb08988359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e4b225a_e7f1e515",
+        "filename": "src/runtime/libfuzzer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-03-02T00:13:16Z",
+      "side": 1,
+      "message": "What is result for? You\u0027re passing 1 below, which makes me think 1 represents \"not equal\". Not sure if that is right or not. (And why never pass 0 then?)",
+      "range": {
+        "startLine": 11,
+        "startChar": 78,
+        "endLine": 11,
+        "endChar": 92
+      },
+      "revId": "65fec8ed0bcd14bc1291f1673f3a7ebb08988359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6db78f5_73ca505f",
+        "filename": "src/runtime/libfuzzer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-03-02T00:13:16Z",
+      "side": 1,
+      "message": "How does libFuzzer handle these strings? Go strings are not null-terminated, so how does it know how long the strings are?",
+      "range": {
+        "startLine": 11,
+        "startChar": 55,
+        "endLine": 11,
+        "endChar": 76
+      },
+      "revId": "65fec8ed0bcd14bc1291f1673f3a7ebb08988359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6d1f59d_025de7ed",
+        "filename": "src/runtime/libfuzzer_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-03-02T00:13:16Z",
+      "side": 1,
+      "message": "Again, this is just a generic 4-arg wrapper to call into libFuzzer. It\u0027s not specific to string compares.",
+      "revId": "65fec8ed0bcd14bc1291f1673f3a7ebb08988359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
