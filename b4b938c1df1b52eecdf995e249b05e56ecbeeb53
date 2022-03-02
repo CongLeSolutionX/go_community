@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be4f63f6_f9ea1ca8",
+        "filename": "src/cmd/compile/internal/typecheck/builtin/runtime.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-03-02T00:01:11Z",
+      "side": 1,
+      "message": "Is this something exported from package runtime? I don\u0027t think we want to expose that to random users. We need some sort of unexposed way of calling it, either an internal package or linkname tricks.",
+      "revId": "b4b938c1df1b52eecdf995e249b05e56ecbeeb53",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d2a88d9_0817d84e",
+        "filename": "src/cmd/compile/internal/walk/order.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-03-02T00:01:11Z",
+      "side": 1,
+      "message": "This is unnecessarily convoluted. There\u0027s exactly one entry in init here. You could just do:\n\no.append(mkcall(...))",
+      "revId": "b4b938c1df1b52eecdf995e249b05e56ecbeeb53",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff30a766_02d743d9",
+        "filename": "src/cmd/compile/internal/walk/order.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-03-02T00:01:11Z",
+      "side": 1,
+      "message": "This is another case of slowdown, replacing a single instruction with a function call. Do you know how expensive this will be?",
+      "revId": "b4b938c1df1b52eecdf995e249b05e56ecbeeb53",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9db9b194_1df77996",
+        "filename": "src/internal/fuzz/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-03-02T00:01:11Z",
+      "side": 1,
+      "message": "I think here is where you should also handle libfuzzerInitializeCounters so that it doesn\u0027t need to be exported from runtime.",
+      "revId": "b4b938c1df1b52eecdf995e249b05e56ecbeeb53",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b13a156_3ef73853",
+        "filename": "src/runtime/libfuzzer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-03-02T00:01:11Z",
+      "side": 1,
+      "message": "I\u0027m surprised this is wraparound-to-1 - I would have expected saturating at 0xff. Is there a short explanation you could put here, or does it require reading that paper?",
+      "revId": "b4b938c1df1b52eecdf995e249b05e56ecbeeb53",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7691a9c_fb138ffb",
+        "filename": "src/runtime/libfuzzer_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-03-02T00:01:11Z",
+      "side": 1,
+      "message": "There\u0027s nothing really \"init\" about this, it is just a generic 2-arg wrapper for calling into libFuzzer. A better name might be appropriate.",
+      "revId": "b4b938c1df1b52eecdf995e249b05e56ecbeeb53",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
