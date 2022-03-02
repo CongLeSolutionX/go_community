@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "516ec1d7_9138eda5",
+        "filename": "project.config",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-03-02T16:15:34Z",
+      "side": 1,
+      "message": "Same comment re tabs. \nI think we can remove the dev.go2go exception at this point if it would make this process easier.",
+      "revId": "0e92aa99576e5ccead4ba9e374339bccea928d8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
