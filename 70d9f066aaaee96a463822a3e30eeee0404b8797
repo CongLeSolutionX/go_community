@@ -87,66 +87,24 @@
       "message": "Submitting in order to unblock the release notes move in CL 388556.",
       "revId": "70d9f066aaaee96a463822a3e30eeee0404b8797",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
-    }
-  ],
-  "submitRequirementResults": [
-    {
-      "submitRequirement": {
-        "name": "Do-Not-Review",
-        "description": {
-          "value": "Changes that have DO NOT REVIEW in their commit message are not submittable."
-        },
-        "applicabilityExpression": {
-          "value": {
-            "expressionString": "message:\"^.*(D|d)(O|o) (N|n)(O|o)(T|t) (R|r)(E|e)(V|v)(I|i)(E|e)(W|w).*\""
-          }
-        },
-        "submittabilityExpression": {
-          "expressionString": "is:false"
-        },
-        "overrideExpression": {},
-        "allowOverrideInChildProjects": false
-      },
-      "applicabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"message:\"^.*(D|d)(O|o) (N|n)(O|o)(T|t) (R|r)(E|e)(V|v)(I|i)(E|e)(W|w).*\""},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["message:\"^.*(D|d)(O|o) (N|n)(O|o)(T|t) (R|r)(E|e)(V|v)(I|i)(E|e)(W|w).*\""]}
-      },
-      "submittabilityExpressionResult": {},
-      "overrideExpressionResult": {},
-      "patchSetCommitId": "70d9f066aaaee96a463822a3e30eeee0404b8797",
-      "legacy": {
-        "value": false
-      },
-      "forced": {},
-      "hidden": {}
     },
     {
-      "submitRequirement": {
-        "name": "Do-Not-Submit",
-        "description": {
-          "value": "Changes that have DO NOT SUBMIT in their commit message are not submittable."
-        },
-        "applicabilityExpression": {
-          "value": {
-            "expressionString": "message:\"^.*(D|d)(O|o) (N|n)(O|o)(T|t) (S|s)(U|u)(B|b)(M|m)(I|i)(T|t).*\""
-          }
-        },
-        "submittabilityExpression": {
-          "expressionString": "is:false"
-        },
-        "overrideExpression": {},
-        "allowOverrideInChildProjects": false
+      "unresolved": false,
+      "key": {
+        "uuid": "2366c32f_5b677ee1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
       },
-      "applicabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"message:\"^.*(D|d)(O|o) (N|n)(O|o)(T|t) (S|s)(U|u)(B|b)(M|m)(I|i)(T|t).*\""},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["message:\"^.*(D|d)(O|o) (N|n)(O|o)(T|t) (S|s)(U|u)(B|b)(M|m)(I|i)(T|t).*\""]}
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
       },
-      "submittabilityExpressionResult": {},
-      "overrideExpressionResult": {},
-      "patchSetCommitId": "70d9f066aaaee96a463822a3e30eeee0404b8797",
-      "legacy": {
-        "value": false
-      },
-      "forced": {},
-      "hidden": {}
+      "writtenOn": "2022-03-02T21:01:27Z",
+      "side": 1,
+      "message": "I was waiting for 388556 to be submitted so I could move this to x/website. I guess either way works 😊",
+      "parentUuid": "8a42d9bb_7f999aa3",
+      "revId": "70d9f066aaaee96a463822a3e30eeee0404b8797",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
