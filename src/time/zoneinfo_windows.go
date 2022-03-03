@@ -12,7 +12,7 @@ import (
 )
 
 var zoneSources = []string{
-	runtime.GOROOT() + "/lib/time/zoneinfo.zip",
+	runtime.GOROOT() + "/src/time/tzdata/zoneinfo.zip",
 }
 
 // TODO(rsc): Fall back to copy of zoneinfo files.
