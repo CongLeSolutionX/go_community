@@ -2,8 +2,6 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:generate go run generate_zipdata.go
-
 // Package tzdata provides an embedded copy of the timezone database.
 // If this package is imported anywhere in the program, then if
 // the time package cannot find tzdata files on the system,
@@ -23,6 +21,7 @@ package tzdata
 // The test for this package is time/tzdata_test.go.
 
 import (
+	_ "embed"
 	"errors"
 	"syscall"
 	_ "unsafe" // for go:linkname
@@ -51,6 +50,9 @@ func get2s(s string) int {
 	}
 	return int(s[0]) | int(s[1])<<8
 }
+
+//go:embed zoneinfo.zip
+var zipdata string
 
 // loadFromEmbeddedTZData returns the contents of the file with the given
 // name in an uncompressed zip file, where the contents of the file can
