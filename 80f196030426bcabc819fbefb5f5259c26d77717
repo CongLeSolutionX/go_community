@@ -107,6 +107,30 @@
       },
       "revId": "80f196030426bcabc819fbefb5f5259c26d77717",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52d0c1ae_a9907da6",
+        "filename": "src/compress/gzip/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2022-03-03T21:48:16Z",
+      "side": 1,
+      "message": "Yes, I would say that\u0027s WAI. gzip.Writer is not designed to be concurrency safe. That said, I don\u0027t understand the rationale for closing the gzip.Writer in a different goroutine as the one doing the writing.",
+      "parentUuid": "8af74554_2a49ea17",
+      "range": {
+        "startLine": 166,
+        "startChar": 0,
+        "endLine": 178,
+        "endChar": 4
+      },
+      "revId": "80f196030426bcabc819fbefb5f5259c26d77717",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
