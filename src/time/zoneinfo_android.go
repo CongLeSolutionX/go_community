@@ -17,7 +17,7 @@ import (
 var zoneSources = []string{
 	"/system/usr/share/zoneinfo/tzdata",
 	"/data/misc/zoneinfo/current/tzdata",
-	runtime.GOROOT() + "/lib/time/zoneinfo.zip",
+	runtime.GOROOT() + "/src/time/tzdata/zoneinfo.zip",
 }
 
 func initLocal() {
