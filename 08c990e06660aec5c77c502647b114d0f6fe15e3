@@ -159,6 +159,24 @@
       "parentUuid": "82dd919b_9da201b7",
       "revId": "08c990e06660aec5c77c502647b114d0f6fe15e3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "adb90bdb_7bdbae2f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2022-03-03T07:32:22Z",
+      "side": 1,
+      "message": "Yes, This CL has good improvment while aligned access, but great regression on unaligned access.\n\n@joel is it possible to set SSA for aligned access at compile-time?\n\nhttps://perf.golang.org/search?q\u003dupload:20220303.7\n\nLittleEndianPutUint16\t236MB/s ± 1%\t230MB/s ± 4%\t−2.78%\t(p\u003d0.000 n\u003d9+10)\nLittleEndianPutUint32\t336MB/s ± 1%\t338MB/s ± 0%\t+0.61%\t(p\u003d0.003 n\u003d9+10)\nLittleEndianPutUint64\t523MB/s ± 1%\t1189MB/s ± 0%\t+127.35%\t(p\u003d0.000 n\u003d10+9)\nLittleEndianUint16\t184MB/s ± 7%\t241MB/s ± 7%\t+31.09%\t(p\u003d0.000 n\u003d10+9)\nLittleEndianUint32\t289MB/s ± 6%\t406MB/s ± 7%\t+40.29%\t(p\u003d0.000 n\u003d10+10)\nLittleEndianUint64\t357MB/s ± 8%\t800MB/s ±12%\t+124.12%\t(p\u003d0.000 n\u003d10+9)\nLittleEndianUint16Unalign\t105MB/s ± 9%\t6MB/s ± 1%\t−94.40%\t(p\u003d0.000 n\u003d10+9)\nLittleEndianUint32Unaligned\t177MB/s ± 8%\t9MB/s ± 2%\t−94.63%\t(p\u003d0.000 n\u003d10+10)\nLittleEndianUint64Unaligned\t266MB/s ± 6%\t14MB/s ± 1%\t−94.76%\t(p\u003d0.000 n\u003d10+8)",
+      "parentUuid": "514aeb64_9f33388d",
+      "revId": "08c990e06660aec5c77c502647b114d0f6fe15e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
