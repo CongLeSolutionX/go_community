@@ -53,6 +53,23 @@
       "message": "Asking about the status of this CL. The related issue is labeled as a release blocker and we would like to issue a release soon.",
       "revId": "b69b1341889fa37bfd717eca392eeedf6526dbff",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "acb9af2e_c67c885a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2022-03-03T14:17:43Z",
+      "side": 1,
+      "message": "A clean backport and has tests, LGTM.",
+      "revId": "b69b1341889fa37bfd717eca392eeedf6526dbff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
