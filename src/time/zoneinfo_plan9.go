@@ -12,7 +12,7 @@ import (
 )
 
 var zoneSources = []string{
-	runtime.GOROOT() + "/lib/time/zoneinfo.zip",
+	runtime.GOROOT() + "/src/time/tzdata/zoneinfo.zip",
 }
 
 func isSpace(r rune) bool {
