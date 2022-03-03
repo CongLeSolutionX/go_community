@@ -135,6 +135,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1bf20b30_10f22b86",
+        "filename": "src/cmd/compile/internal/noder/unified.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-03-03T22:55:55Z",
+      "side": 1,
+      "message": "The compiler should not rely on non-guaranteed semantics.  Maybe we put this into a separate test, but the compiler should not fail in normal operation just because the host platform failed to obey Hyrum\u0027s law.",
+      "range": {
+        "startLine": 233,
+        "startChar": 1,
+        "endLine": 233,
+        "endChar": 39
+      },
+      "revId": "cf669d968333f5235d5251a0d1dd1fd2c050210d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ab560982_0baa4187",
         "filename": "src/internal/pkgbits/codes.go",
         "patchSetId": 5
