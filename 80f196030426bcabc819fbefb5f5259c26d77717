@@ -83,6 +83,30 @@
       },
       "revId": "80f196030426bcabc819fbefb5f5259c26d77717",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8af74554_2a49ea17",
+        "filename": "src/compress/gzip/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 29563
+      },
+      "writtenOn": "2022-03-03T21:46:07Z",
+      "side": 1,
+      "message": "See here: https://go.dev/play/p/xSyD9o5ZEI_R\n\nThis seems to be WAI based on https://github.com/golang/go/issues/18883",
+      "parentUuid": "ae7a3092_01933aed",
+      "range": {
+        "startLine": 166,
+        "startChar": 0,
+        "endLine": 178,
+        "endChar": 4
+      },
+      "revId": "80f196030426bcabc819fbefb5f5259c26d77717",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
