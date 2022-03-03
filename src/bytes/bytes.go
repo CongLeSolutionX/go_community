@@ -6,6 +6,8 @@
 // It is analogous to the facilities of the strings package.
 package bytes
 
+// Some change
+
 import (
 	"internal/bytealg"
 	"unicode"
