@@ -125,6 +125,24 @@
       "parentUuid": "46394489_c32585c7",
       "revId": "231e1bbb63f0e2e9845c62f06de911c84708c56d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce354256_a601aedb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2022-03-04T23:17:04Z",
+      "side": 1,
+      "message": "Ah yep I saw it but didn\u0027t comment. It sounds good to me, it\u0027s a minor platform anyway, and reseeding is not the most important property. (I would probably have insisted on key erasure.)",
+      "parentUuid": "3a8abe14_3264735f",
+      "revId": "231e1bbb63f0e2e9845c62f06de911c84708c56d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
