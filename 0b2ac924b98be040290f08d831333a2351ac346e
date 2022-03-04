@@ -90,6 +90,24 @@
       "parentUuid": "b4b15264_a146ba21",
       "revId": "0b2ac924b98be040290f08d831333a2351ac346e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0fb23d6_181f668b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2022-03-04T09:20:53Z",
+      "side": 1,
+      "message": "Moving this discussion to https://github.com/golang/go/issues/51463, as it feels like Gerrit is not the right place.",
+      "parentUuid": "bf16c228_c4a2c460",
+      "revId": "0b2ac924b98be040290f08d831333a2351ac346e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
