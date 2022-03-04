@@ -13,6 +13,11 @@ import (
 	"errors"
 )
 
+// For compatibility with cipher_asm.go
+type aesCipherGCM struct {
+	aesCipherAsm
+}
+
 // This file implements GCM using an optimized GHASH function.
 
 //go:noescape
