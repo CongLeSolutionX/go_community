@@ -234,6 +234,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c53a18b7_3fdc7ff9",
+        "filename": "src/runtime/arena.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 17576
+      },
+      "writtenOn": "2022-03-04T21:57:56Z",
+      "side": 1,
+      "message": "As discussed in the channel. This is redundant iif `sysFault` is implemented as a `mmap` with `MAP_FIXED` instead of `mprotect`, which it currently is.\n\nmpratt@ confirms that the former drops the pages automatically. Remapping it READ/WRITE gives back zeroed memory (which I\u0027ve confirmed experimentally).\n\nOf course, if somehow someone changes int the future to use `mprotect`, this won\u0027t work anymore [1].\n\n[1]: Then again, I bet the reason for using `mmap` over `mprotect` is exactly this, and on purpose.",
+      "range": {
+        "startLine": 297,
+        "startChar": 2,
+        "endLine": 297,
+        "endChar": 11
+      },
+      "revId": "4c734c46dae1a47f482f19e8fe03337c40eebd6d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cb794e48_2f1292a9",
         "filename": "src/runtime/mheap.go",
         "patchSetId": 2
