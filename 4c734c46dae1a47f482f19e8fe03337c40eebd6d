@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "5433e550_e625c1c5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 17576
+      },
+      "writtenOn": "2022-03-04T21:26:09Z",
+      "side": 1,
+      "message": "I was scratching my head about this change in isolation because this could create a large number of mappings, with perhaps deleterious effects on the performance of other mmap* operations for the process as well as running out of address spaces.\n\nBut then I saw the follow-up change. Might be good to mention that this is meant to be a temporary state :).",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 0
+      },
+      "revId": "4c734c46dae1a47f482f19e8fe03337c40eebd6d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "045e8774_6c0ef47b",
@@ -87,6 +110,98 @@
       "writtenOn": "2022-03-04T16:38:15Z",
       "side": 1,
       "message": "these two lines are the core of the CL. the rest is all just fixing up the fact that we\u0027re not actually unmapping anything anymore to be less misleading.",
+      "revId": "4c734c46dae1a47f482f19e8fe03337c40eebd6d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6282c0a1_b724b386",
+        "filename": "src/runtime/arena.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 17576
+      },
+      "writtenOn": "2022-03-04T21:26:09Z",
+      "side": 1,
+      "message": "I wonder what effect retaining the mapping has on kernel-side performance for other mapping operations the runtime does. The list could get pretty big (as evidenced by it overflowing from time to time). Any way, it seems like the follow-up CL handles that problem.",
+      "range": {
+        "startLine": 295,
+        "startChar": 2,
+        "endLine": 295,
+        "endChar": 10
+      },
+      "revId": "4c734c46dae1a47f482f19e8fe03337c40eebd6d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54d13197_af9fcc61",
+        "filename": "src/runtime/arena.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 17576
+      },
+      "writtenOn": "2022-03-04T21:26:09Z",
+      "side": 1,
+      "message": "In src/runtime/malloc.go it says sysFault is only used for debugging the runtime. I guess that\u0027s out of date with this patch.",
+      "range": {
+        "startLine": 295,
+        "startChar": 2,
+        "endLine": 295,
+        "endChar": 10
+      },
+      "revId": "4c734c46dae1a47f482f19e8fe03337c40eebd6d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb794e48_2f1292a9",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 17576
+      },
+      "writtenOn": "2022-03-04T21:26:09Z",
+      "side": 1,
+      "message": "Outdated comment?",
+      "range": {
+        "startLine": 302,
+        "startChar": 43,
+        "endLine": 302,
+        "endChar": 51
+      },
+      "revId": "4c734c46dae1a47f482f19e8fe03337c40eebd6d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7abd1c5b_b8906099",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 17576
+      },
+      "writtenOn": "2022-03-04T21:26:09Z",
+      "side": 1,
+      "message": "Outdated comment?",
+      "range": {
+        "startLine": 474,
+        "startChar": 75,
+        "endLine": 474,
+        "endChar": 83
+      },
       "revId": "4c734c46dae1a47f482f19e8fe03337c40eebd6d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
