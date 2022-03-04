@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "93f1fcbc_6568b978",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-03-04T21:56:39Z",
+      "side": 1,
+      "message": "this change is still useful in isolation.\n\nit creates a lot of mappings and linux keeps a frighteningly low default limit on mappings, but I think it also merges them under the hood, and chunks are kept contiguous in general. every other OS has a very high limit on mappings and it really does not matter.\n\nthe existing code also already might run out of address space, because it never reuses space.",
+      "parentUuid": "5433e550_e625c1c5",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 0
+      },
+      "revId": "4c734c46dae1a47f482f19e8fe03337c40eebd6d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "045e8774_6c0ef47b",
@@ -150,6 +174,54 @@
       "writtenOn": "2022-03-04T21:26:09Z",
       "side": 1,
       "message": "In src/runtime/malloc.go it says sysFault is only used for debugging the runtime. I guess that\u0027s out of date with this patch.",
+      "range": {
+        "startLine": 295,
+        "startChar": 2,
+        "endLine": 295,
+        "endChar": 10
+      },
+      "revId": "4c734c46dae1a47f482f19e8fe03337c40eebd6d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4636ca9e_fa07658c",
+        "filename": "src/runtime/arena.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-03-04T21:56:39Z",
+      "side": 1,
+      "message": "normally I\u0027d agree with you, but since the goal here is to update a patch, I\u0027m inclined to touch fewer files if that\u0027s OK with you.",
+      "parentUuid": "54d13197_af9fcc61",
+      "range": {
+        "startLine": 295,
+        "startChar": 2,
+        "endLine": 295,
+        "endChar": 10
+      },
+      "revId": "4c734c46dae1a47f482f19e8fe03337c40eebd6d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5eea862_562c4fe4",
+        "filename": "src/runtime/arena.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-03-04T21:56:39Z",
+      "side": 1,
+      "message": "commented on your commit message comment about this.",
+      "parentUuid": "6282c0a1_b724b386",
       "range": {
         "startLine": 295,
         "startChar": 2,
