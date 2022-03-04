@@ -788,12 +788,7 @@ mapped:
 			throw("arena already initialized")
 		}
 		var r *heapArena
-		if userArena {
-			r = h.reuseSetToFaultArena()
-		}
-		if r == nil {
-			r = (*heapArena)(h.heapArenaAlloc.alloc(unsafe.Sizeof(*r), goarch.PtrSize, &memstats.gcMiscSys))
-		}
+		r = (*heapArena)(h.heapArenaAlloc.alloc(unsafe.Sizeof(*r), goarch.PtrSize, &memstats.gcMiscSys))
 		if r == nil {
 			r = (*heapArena)(persistentalloc(unsafe.Sizeof(*r), goarch.PtrSize, &memstats.gcMiscSys))
 			if r == nil {

@@ -353,14 +353,6 @@ func sweepone() uintptr {
 			noMoreWork = sweep.active.markDrained()
 			break
 		}
-		if s.userArena && s.didSetToFault {
-			// Drop spans for user arena chunks from sweeping once
-			// they are unmapped. The spans will be recycles after the
-			// second sweep cycle. We must sweep user arena chunks
-			// before unmapping, because sweeping is required for
-			// continued scanning.
-			continue
-		}
 		if state := s.state.get(); state != mSpanInUse {
 			// This can happen if direct sweeping already
 			// swept this span, but in that case the sweep
@@ -664,6 +656,24 @@ func (sl *sweepLocked) sweep(preserve bool) bool {
 	// At this point the mark bits are cleared and allocation ready
 	// to go so release the span.
 	atomic.Store(&s.sweepgen, sweepgen)
+
+	if s.userArena && s.didSetToFault {
+		if nfreed == 0 {
+			// There still exist pointers into the span. Put it back on the
+			// full swept list for the next cycle.
+			mheap_.central[spc].mcentral.fullSwept(sweepgen).push(s)
+			return false
+		}
+		// The arena is ready to be recycled. Remove it from the evac list
+		// and place it on the ready list. Don't add it back to any sweep lists.
+		systemstack(func() {
+			lock(&mheap_.lock)
+			arenaEvacList.remove(s)
+			arenaReadyList.insert(s)
+			unlock(&mheap_.lock)
+		})
+		return true
+	}
 
 	if spc.sizeclass() != 0 {
 		// Handle spans for small objects.
