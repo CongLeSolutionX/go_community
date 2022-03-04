@@ -249,15 +249,6 @@ func reflect_unsafe_newUserArenaChunk(typ *_type) unsafe.Pointer {
 // so that it can't be reclaimed by the normal GC process before it is set to fault
 var tempChunkList *chunkHeader
 
-// These are heapArena structs (including large GC bitmap) that are available for
-// recycling -- those associated user arena chunk has already been set to fault.
-var heapArenaCheckList *heapArena
-
-// These are mSpan structs from user arena chunks that are waiting to get
-// recycled. We wait two GC cycles to make sure that the spans have been dropped
-// from the sweep lists.
-var spanReuseList *mspan
-
 var freeCost int64
 var freeCount int64
 var freeTime int64
@@ -287,9 +278,19 @@ func checkArenaSetToFault() {
 		if !ha.userArena || ha.didSetToFault || !s.userArena || s.didSetToFault || s.elemsize != heapArenaBytes {
 			throw("Bad chunk for checkArenaSetToFault")
 		}
-		// GC will now ignore pointers into this arena range.
-		// Atomic equivalent of: mheap_.arenas[l1][l2] = nil
-		atomic.StorepNoWB(unsafe.Pointer(&(mheap_.arenas[l1][l2])), nil)
+		// Update the span class to be noscan. What we want to happen is that
+		// any pointer into the span keeps it from getting recycled, so we want
+		// the mark bit to get set, but we're about to set the address space to fault,
+		// so we have to prevent the GC from scanning this memory.
+		//
+		// It's OK to set it here because (1) a GC isn't in progress, so the scanning code
+		// won't make a bad decision, (2) we're currently on the system stack, so a
+		// GC is blocked from starting, and (3) we might race with sweeping, which could
+		// put it on the "wrong" sweep list. We really don't care about that though, because
+		// it's treated as a large object span and there's no meaningful difference between
+		// scan and noscan large objects in the sweeper. The STW at the start of the GC acts
+		// as a barrier for this update.
+		s.spanclass = makeSpanClass(0, true)
 		// Actually set the arena chunk to fault, so we'll get dangling pointer errors.
 		start := nanotime()
 		sysFault(unsafe.Pointer(s.base()), s.npages*pageSize)
@@ -304,18 +305,10 @@ func checkArenaSetToFault() {
 		}
 		ha.didSetToFault = true
 		s.freecycle = cycles
-		// Prevent user arena chunk from being swept once we set it to fault
 		s.didSetToFault = true
-		ha.next = heapArenaCheckList
-		heapArenaCheckList = ha
-		if s.next != nil || s.prev != nil {
-			throw("Span for user arena chunk is already on a list")
-		}
-		s.next = spanReuseList
-		spanReuseList = s
-		// Not needed but just in case, to catch uses of span after the set-to-fault.
-		ha.spans[0] = nil
 
+		// Add the user arena to the evac list.
+		arenaEvacList.insert(s)
 	}
 	tempChunkList = nil
 }
@@ -376,12 +369,6 @@ func reflect_unsafe_setToFaultUserArenaChunk(ptr uintptr, size uintptr, bitsSize
 		for p := tempChunkList; p != nil; p = p.next {
 			tot++
 		}
-		for p := heapArenaCheckList; p != nil; p = p.next {
-			totAfterSetToFault++
-		}
-		for p := spanReuseList; p != nil; p = p.next {
-			totSpan++
-		}
 		// Put the arena on the check list.
 		if gcphase == _GCoff {
 			// We can only set the chunk to fault if we're in the _GCoff phase. Otherwise,
@@ -418,66 +405,41 @@ func reflect_unsafe_setToFaultUserArenaChunk(ptr uintptr, size uintptr, bitsSize
 	}
 }
 
-var reuseTime int64
-var reuseCount uint64
+var (
+	// The variables below are protected by mheap_.lock.
 
-// reuseSetToFaultArena checks if there is an existing heapArena struct from a freed
-// user arena chunk that is ready to be reused. A heapArena struct can't be reused
-// until the address range associated with its previous use has been set to fault.
+	// arenaEvacList is a set of user arena spans waiting for all pointers
+	// into them to be removed. Sweeping handles identifying when this is true,
+	// and moves the span to the ready list when the time comes.
+	arenaEvacList mSpanList
+
+	// arenaReadyList is a bunch of arenas, represented as spans, that are ready for
+	// reuse.
+	arenaReadyList mSpanList
+)
+
+// userArenaAlloc attempts to reuse a free user arena chunk represented
+// as a span.
 //
 // h.lock must be held.
-func (h *mheap) reuseSetToFaultArena() *heapArena {
+//
+// Must run on the system stack because it requires the heap lock to be held.
+//go:systemstack
+func (h *mheap) userArenaAlloc(npages uintptr) *mspan {
 	assertLockHeld(&h.lock)
 
-	var r *heapArena
-	if heapArenaCheckList != nil {
-		r = heapArenaCheckList
-		heapArenaCheckList = r.next
+	if arenaReadyList.isEmpty() {
+		return nil
 	}
-	if r != nil {
-		unlock(&h.lock)
-		// Reuse the arena and free the span.
-		reuseTime += nanotime() - r.freetime
-		reuseCount++
-		if reuseCount%10000 == 0 {
-			println("Reuse time", uint64(reuseTime)/reuseCount, reuseCount)
-		}
-		if r.bitsSize > 0 {
-			// Clear the GC bits now if they haven't already been cleared
-			memclrNoHeapPointers(unsafe.Pointer(&r.bitmap[0]), uintptr(r.bitsSize))
-		}
-		// Zero out the entire arena struct, except for the bitmap
-		// (already cleared) and spans (will be completely overwritten)
-		memclrNoHeapPointers(unsafe.Pointer(&r.pageInUse[0]), unsafe.Sizeof(*r)-unsafe.Offsetof(r.pageInUse))
-		r.userArena = true
-		lock(&h.lock)
-	}
-	var prev *mspan
-	var next *mspan
-	var cycles uint32
-	for s := spanReuseList; s != nil; s = next {
-		next = s.next
-		if cycles == 0 {
-			cycles = atomic.Load(&work.cycles) + 1
-		}
-		// Make sure we have finished the sweeping when the arena chunk
-		// was set to fault, and the next sweeping cycle. This will make sure
-		// that the span has been removed from the sweep list.
-		if cycles <= s.freecycle+1 {
-			prev = s
-		} else {
-			if prev == nil {
-				spanReuseList = s.next
-			} else {
-				prev.next = s.next
-			}
-			s.allocCount = 0
-			s.didSetToFault = false
-			// Free the span that was associated with last use of the heapArena
-			h.freeSpanLocked(s, spanAllocUserArena)
-		}
-	}
-	return r
+	s := arenaReadyList.first
+	arenaReadyList.remove(s)
+
+	// Map the arena chunk as read/write.
+	sysMap(unsafe.Pointer(s.base()), s.npages*pageSize, nil)
+
+	// No need to set up s, because our caller will handle it. Our caller
+	// really only cares about s.base, which it'll pull out on its own.
+	return s
 }
 
 // Allocate npages pages from address range for a large, set-faultable user arena.
