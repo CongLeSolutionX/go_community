@@ -14,6 +14,7 @@ import (
 	"go/token"
 	"internal/buildcfg"
 	exec "internal/execabs"
+	"internal/goos"
 	"internal/goroot"
 	"internal/goversion"
 	"io"
@@ -1897,6 +1898,9 @@ func (ctxt *Context) matchTag(name string, allTags map[string]bool) bool {
 		return true
 	}
 	if ctxt.GOOS == "ios" && name == "darwin" {
+		return true
+	}
+	if name == "unix" && goos.IsUnix(ctxt.GOOS) {
 		return true
 	}
 
