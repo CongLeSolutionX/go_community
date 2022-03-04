@@ -295,11 +295,10 @@ type heapArena struct {
 	//
 	// Read atomically and written with an atomic CAS.
 	zeroedBase    uintptr
-	next          *heapArena // Next arena in heapArenaCheckList
-	bitsSize      uint32     // Bytes of GC bits we need to clear before reusing arena
-	freetime      int64      // When this arena was freed in unsafe_unmapUserArenaChunk
-	userArena     bool       // True if this arena is a chunk of a user arena
-	didSetToFault bool       // True if we've unmapped the memory associated with this arena
+	bitsSize      uint32 // Bytes of GC bits we need to clear before reusing arena
+	freetime      int64  // When this arena was freed in unsafe_unmapUserArenaChunk
+	userArena     bool   // True if this arena is a chunk of a user arena
+	didSetToFault bool   // True if we've unmapped the memory associated with this arena
 }
 
 // arenaHint is a hint for where to grow the heap arenas. See
@@ -1176,26 +1175,37 @@ func (h *mheap) allocSpan(npages uintptr, typ spanAllocType, spanclass spanClass
 		npages += physPageSize / pageSize
 	}
 
+	if typ == spanAllocUserArena {
+		// Arenas are always considered fully scavenged.
+		scav = npages * pageSize
+
+		// Try to reuse an arena.
+		s = h.userArenaAlloc(npages)
+		if s != nil {
+			base = s.base()
+			goto HaveSpan
+		}
+		// Allocate from special address range, and don't bother
+		// allocating page info.
+		base = h.userArenaGrow(npages)
+		if base == 0 {
+			// Out of memory.
+			unlock(&h.lock)
+			return nil
+		}
+	}
+
 	if base == 0 {
 		// Try to acquire a base address.
-		if typ == spanAllocUserArena {
-			// Allocate from special address range, and don't bother
-			// allocating page info.
-			base = h.userArenaGrow(npages)
-			scav = npages * pageSize
-		} else {
+		base, scav = h.pages.alloc(npages)
+		if base == 0 {
+			var ok bool
+			growth, ok = h.grow(npages)
+			if !ok {
+			}
 			base, scav = h.pages.alloc(npages)
 			if base == 0 {
-				var ok bool
-				growth, ok = h.grow(npages)
-				if !ok {
-					unlock(&h.lock)
-					return nil
-				}
-				base, scav = h.pages.alloc(npages)
-				if base == 0 {
-					throw("grew heap, but no adequate free space found")
-				}
+				throw("grew heap, but no adequate free space found")
 			}
 		}
 	}
