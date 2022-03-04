@@ -294,12 +294,12 @@ type heapArena struct {
 	// address-ordered first-fit policy.
 	//
 	// Read atomically and written with an atomic CAS.
-	zeroedBase uintptr
-	next       *heapArena // Next arena in heapArenaCheckList
-	bitsSize   uint32     // Bytes of GC bits we need to clear before reusing arena
-	freetime   int64      // When this arena was freed in unsafe_unmapUserArenaChunk
-	userArena  bool       // True if this arena is a chunk of a user arena
-	didUnmap   bool       // True if we've unmapped the memory associated with this arena
+	zeroedBase    uintptr
+	next          *heapArena // Next arena in heapArenaCheckList
+	bitsSize      uint32     // Bytes of GC bits we need to clear before reusing arena
+	freetime      int64      // When this arena was freed in unsafe_unmapUserArenaChunk
+	userArena     bool       // True if this arena is a chunk of a user arena
+	didSetToFault bool       // True if we've unmapped the memory associated with this arena
 }
 
 // arenaHint is a hint for where to grow the heap arenas. See
@@ -459,19 +459,19 @@ type mspan struct {
 	// if sweepgen == h->sweepgen + 3, the span was swept and then cached and is still cached
 	// h->sweepgen is incremented by 2 after every GC
 
-	sweepgen    uint32
-	divMul      uint32        // for divide by elemsize
-	allocCount  uint16        // number of allocated objects
-	spanclass   spanClass     // size class and noscan (uint8)
-	state       mSpanStateBox // mSpanInUse etc; accessed atomically (get/set methods)
-	needzero    uint8         // needs to be zeroed before allocation
-	elemsize    uintptr       // computed from sizeclass or from npages
-	limit       uintptr       // end of data in span
-	speciallock mutex         // guards specials list
-	specials    *special      // linked list of special records sorted by offset.
-	freecycle   uint32        // GC cycle when arena was unmapped
-	userArena   bool          // span represents a user arena chunk and covers a full heap arena
-	didUnmap    bool          // address range of user arena chunk has been unmapped
+	sweepgen      uint32
+	divMul        uint32        // for divide by elemsize
+	allocCount    uint16        // number of allocated objects
+	spanclass     spanClass     // size class and noscan (uint8)
+	state         mSpanStateBox // mSpanInUse etc; accessed atomically (get/set methods)
+	needzero      uint8         // needs to be zeroed before allocation
+	elemsize      uintptr       // computed from sizeclass or from npages
+	limit         uintptr       // end of data in span
+	speciallock   mutex         // guards specials list
+	specials      *special      // linked list of special records sorted by offset.
+	freecycle     uint32        // GC cycle when arena was unmapped
+	userArena     bool          // span represents a user arena chunk and covers a full heap arena
+	didSetToFault bool          // address range of user arena chunk has been unmapped
 }
 
 func (s *mspan) base() uintptr {

@@ -789,7 +789,7 @@ mapped:
 		}
 		var r *heapArena
 		if userArena {
-			r = h.reuseUnmappedArena()
+			r = h.reuseSetToFaultArena()
 		}
 		if r == nil {
 			r = (*heapArena)(h.heapArenaAlloc.alloc(unsafe.Sizeof(*r), goarch.PtrSize, &memstats.gcMiscSys))
