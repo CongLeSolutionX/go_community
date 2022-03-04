@@ -976,8 +976,30 @@ func packagefile(pkg string) string {
 	return pathf("%s/pkg/%s_%s/%s.a", goroot, goos, goarch, pkg)
 }
 
+// unixOS is the set of GOOS values matched by the "unix" build tag.
+// This is the same list as in go/build/syslist.go.
+var unixOS = map[string]bool{
+	"aix":       true,
+	"android":   true,
+	"darwin":    true,
+	"dragonfly": true,
+	"freebsd":   true,
+	"hurd":      true,
+	"illumos":   true,
+	"ios":       true,
+	"linux":     true,
+	"nacl":      true,
+	"netbsd":    true,
+	"openbsd":   true,
+	"solaris":   true,
+}
+
 // matchtag reports whether the tag matches this build.
 func matchtag(tag string) bool {
+	if tag == "unix" {
+		return unixOS[goos]
+	}
+
 	return tag == "gc" || tag == goos || tag == goarch || tag == "cmd_go_bootstrap" || tag == "go1.1" ||
 		(goos == "android" && tag == "linux") ||
 		(goos == "illumos" && tag == "solaris") ||
