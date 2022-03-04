@@ -241,16 +241,16 @@ func reflect_unsafe_newUserArenaChunk(typ *_type) unsafe.Pointer {
 
 }
 
-// We keep the chunk on this list after unmapUserArenaChunk has been called if the
-// chunk can't immediately be unmapped because GC marking is happening. In this
+// We keep the chunk on this list after setToFaultUserArenaChunk has been called if the
+// chunk can't immediately be set to fault because GC marking is happening. In this
 // case, we want scanning of arena objects to continue normally, even though the
 // user program has said that they should not be used anymore. We don't want any
-// dangling pointers until we've been able to unmap. We put the chunk on this list
-// so that it can't be reclaimed by the normal GC process before it is unmapped
+// dangling pointers until we've been able to set to fault. We put the chunk on this list
+// so that it can't be reclaimed by the normal GC process before it is set to fault
 var tempChunkList *chunkHeader
 
 // These are heapArena structs (including large GC bitmap) that are available for
-// recycling -- those associated user arena chunk has already been unmapped.
+// recycling -- those associated user arena chunk has already been set to fault.
 var heapArenaCheckList *heapArena
 
 // These are mSpan structs from user arena chunks that are waiting to get
@@ -262,12 +262,12 @@ var freeCost int64
 var freeCount int64
 var freeTime int64
 
-// checkArenaUnmap iterates through tempChunkList and unmaps the heap arena region
-// associated with each user arena chunk. It also removes the arena from
+// checkArenaSetToFault iterates through tempChunkList and sets the heap arena region
+// associated with each user arena chunk to fault. It also removes the arena from
 // mheap_.arenas.
 //
 // mheap_.lock must be held.
-func checkArenaUnmap() {
+func checkArenaSetToFault() {
 	assertLockHeld(&mheap_.lock)
 
 	var next *chunkHeader
@@ -284,26 +284,28 @@ func checkArenaUnmap() {
 		l2 := ri.l2()
 		ha := mheap_.arenas[l1][l2]
 		s := ha.spans[0]
-		if !ha.userArena || ha.didUnmap || !s.userArena || s.didUnmap || s.elemsize != heapArenaBytes {
-			throw("Bad chunk for checkArenaUnmap")
+		if !ha.userArena || ha.didSetToFault || !s.userArena || s.didSetToFault || s.elemsize != heapArenaBytes {
+			throw("Bad chunk for checkArenaSetToFault")
 		}
 		// GC will now ignore pointers into this arena range.
 		// Atomic equivalent of: mheap_.arenas[l1][l2] = nil
 		atomic.StorepNoWB(unsafe.Pointer(&(mheap_.arenas[l1][l2])), nil)
-		// Actually unmap the arena, so we'll get dangling pointer errors.
+		// Actually set the arena chunk to fault, so we'll get dangling pointer errors.
 		start := nanotime()
-		sysFree(unsafe.Pointer(s.base()), s.elemsize, nil)
+		sysFault(unsafe.Pointer(s.base()), s.npages*pageSize, nil)
+		// Release the memory backing the arena chunk.
+		sysUnused(unsafe.Pointer(s.base()), s.npages*pageSize)
 		freeCost += nanotime() - start
 		freeCount++
 		freeTime += nanotime() - ha.freetime
 		if freeCount%10000 == 0 {
-			println("Unmap cost", freeCost/freeCount, freeCount)
-			println("Unmap time", freeTime/freeCount, freeCount)
+			println("SetToFault cost", freeCost/freeCount, freeCount)
+			println("SetToFault time", freeTime/freeCount, freeCount)
 		}
-		ha.didUnmap = true
+		ha.didSetToFault = true
 		s.freecycle = cycles
-		// Prevent user arena chunk from being swept once we unmap it
-		s.didUnmap = true
+		// Prevent user arena chunk from being swept once we set it to fault
+		s.didSetToFault = true
 		ha.next = heapArenaCheckList
 		heapArenaCheckList = ha
 		if s.next != nil || s.prev != nil {
@@ -311,7 +313,7 @@ func checkArenaUnmap() {
 		}
 		s.next = spanReuseList
 		spanReuseList = s
-		// Not needed but just in case, to catch uses of span after the unmap
+		// Not needed but just in case, to catch uses of span after the set-to-fault.
 		ha.spans[0] = nil
 
 	}
@@ -334,28 +336,28 @@ type chunkHeader struct {
 const gcByteRatio = wordsPerBitmapByte * goarch.PtrSize
 
 var listLen uint64
-var listLenAfterUnmap uint64
+var listLenAfterSetToFault uint64
 var spanListLen uint64
 var listLenCount uint64
 var delayCount uint64
 
-// unsafe_unmapUserArenaChunk unmaps the specified user arena chunk. bitsSize
+// unsafe_setToFaultUserArenaChunk sets up the specified user arena chunk to fault. bitsSize
 // specifies how many bytes at the start of the chunk has pointers, so the GC bits
-// must be cleared to this point. Unmapping must be delayed if the GC in the
+// must be cleared to this point. SetToFaultping must be delayed if the GC in the
 // marking phase (since GC may have remaining pointers on the mark queue that
-// point into the chunk. Once the chunk is unmapped, the arena meta-data and
+// point into the chunk. Once the chunk is set to fault, the arena meta-data and
 // associated span struct can immediately be reused.
-//go:linkname reflect_unsafe_unmapUserArenaChunk reflect.unsafe_unmapUserArenaChunk
-func reflect_unsafe_unmapUserArenaChunk(ptr uintptr, size uintptr, bitsSize uintptr) {
+//go:linkname reflect_unsafe_setToFaultUserArenaChunk reflect.unsafe_setToFaultUserArenaChunk
+func reflect_unsafe_setToFaultUserArenaChunk(ptr uintptr, size uintptr, bitsSize uintptr) {
 	hb := heapBitsForAddr(uintptr(ptr))
 	l1 := arenaIdx(hb.arena).l1()
 	l2 := arenaIdx(hb.arena).l2()
 	ha := mheap_.arenas[l1][l2]
 	s := spanOfHeap(ptr)
-	if !ha.userArena || hb.shift != 0 || size != heapArenaBytes || ha.didUnmap ||
+	if !ha.userArena || hb.shift != 0 || size != heapArenaBytes || ha.didSetToFault ||
 		s == nil || !s.userArena || s.elemsize != size ||
-		s.npages*pageSize != size || s.didUnmap {
-		panic("Bad chunk arg for unsafe_unmapUserArenaChunk")
+		s.npages*pageSize != size || s.didSetToFault {
+		panic("Bad chunk arg for unsafe_setToFaultUserArenaChunk")
 	}
 
 	ha.freetime = nanotime()
@@ -366,7 +368,7 @@ func reflect_unsafe_unmapUserArenaChunk(ptr uintptr, size uintptr, bitsSize uint
 	// Must run on systemstack, since we acquire mheap_.lock
 	systemstack(func() {
 		tot := uint64(0)
-		totAfterUnmap := uint64(0)
+		totAfterSetToFault := uint64(0)
 		totSpan := uint64(0)
 		lock(&mheap_.lock)
 		chunk.next = tempChunkList
@@ -375,23 +377,23 @@ func reflect_unsafe_unmapUserArenaChunk(ptr uintptr, size uintptr, bitsSize uint
 			tot++
 		}
 		for p := heapArenaCheckList; p != nil; p = p.next {
-			totAfterUnmap++
+			totAfterSetToFault++
 		}
 		for p := spanReuseList; p != nil; p = p.next {
 			totSpan++
 		}
 		// Put the arena on the check list.
 		if gcphase == _GCoff {
-			// We can only unmap if we're in the _GCoff phase. Otherwise,
-			// we'll keep checking each time we unmap or allocate a user arena
+			// We can only set the chunk to fault if we're in the _GCoff phase. Otherwise,
+			// we'll keep checking each time we set to fault or allocate a user arena
 			// chunk.
-			checkArenaUnmap()
+			checkArenaSetToFault()
 		} else {
 			delayCount++
 		}
 		unlock(&mheap_.lock)
 		listLen += tot
-		listLenAfterUnmap += totAfterUnmap
+		listLenAfterSetToFault += totAfterSetToFault
 		spanListLen += totSpan
 
 		// Important stats update, since this chunk memory is now not managed by GC
@@ -410,7 +412,7 @@ func reflect_unsafe_unmapUserArenaChunk(ptr uintptr, size uintptr, bitsSize uint
 	listLenCount++
 	if listLenCount%10000 == 0 {
 		println("listLen", listLen/listLenCount, listLenCount)
-		println("listLenAfterUnmap", listLenAfterUnmap/listLenCount, listLenCount)
+		println("listLenAfterSetToFault", listLenAfterSetToFault/listLenCount, listLenCount)
 		println("spanListLen", spanListLen/listLenCount, listLenCount)
 		println("delayFraction", 1000*delayCount/listLenCount)
 	}
@@ -419,12 +421,12 @@ func reflect_unsafe_unmapUserArenaChunk(ptr uintptr, size uintptr, bitsSize uint
 var reuseTime int64
 var reuseCount uint64
 
-// reuseUnmappedArena checks if there is an existing heapArena struct from a freed
+// reuseSetToFaultpedArena checks if there is an existing heapArena struct from a freed
 // user arena chunk that is ready to be reused. A heapArena struct can't be reused
-// until the address range associated with its previous use has been unmapped.
+// until the address range associated with its previous use has been set to fault.
 //
 // h.lock must be held.
-func (h *mheap) reuseUnmappedArena() *heapArena {
+func (h *mheap) reuseSetToFaultpedArena() *heapArena {
 	assertLockHeld(&h.lock)
 
 	var r *heapArena
@@ -459,7 +461,7 @@ func (h *mheap) reuseUnmappedArena() *heapArena {
 			cycles = atomic.Load(&work.cycles) + 1
 		}
 		// Make sure we have finished the sweeping when the arena chunk
-		// was unmapped, and the next sweeping cycle. This will make sure
+		// was set to fault, and the next sweeping cycle. This will make sure
 		// that the span has been removed from the sweep list.
 		if cycles <= s.freecycle+1 {
 			prev = s
@@ -470,7 +472,7 @@ func (h *mheap) reuseUnmappedArena() *heapArena {
 				prev.next = s.next
 			}
 			s.allocCount = 0
-			s.didUnmap = false
+			s.didSetToFault = false
 			// Free the span that was associated with last use of the heapArena
 			h.freeSpanLocked(s, spanAllocUserArena)
 		}
@@ -478,7 +480,7 @@ func (h *mheap) reuseUnmappedArena() *heapArena {
 	return r
 }
 
-// Allocate npages pages from address range for a large, unmappable user arena.
+// Allocate npages pages from address range for a large, set-faultable user arena.
 // Derived from (*mheap).grow.
 //
 // h.lock must be held.
