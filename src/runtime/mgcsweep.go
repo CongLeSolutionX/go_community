@@ -353,7 +353,7 @@ func sweepone() uintptr {
 			noMoreWork = sweep.active.markDrained()
 			break
 		}
-		if s.userArena && s.didUnmap {
+		if s.userArena && s.didSetToFault {
 			// Drop spans for user arena chunks from sweeping once
 			// they are unmapped. The spans will be recycles after the
 			// second sweep cycle. We must sweep user arena chunks

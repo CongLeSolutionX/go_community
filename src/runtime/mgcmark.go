@@ -1250,7 +1250,7 @@ func scanobject(b uintptr, gcw *gcWork) {
 		throw("scanobject n == 0")
 	}
 
-	if s.didUnmap {
+	if s.didSetToFault {
 		// This check is not strictly needed, since the GC will get a seg
 		// fault below when scanning the object in the unmapped arena.
 		println("scanning unmapped obj", unsafe.Pointer(b))
