@@ -98,6 +98,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "610da1fd_1b0ab85d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-03-04T23:50:15Z",
+      "side": 1,
+      "message": "I tried to clarify in the commit message.",
+      "parentUuid": "9afdcdd4_3be5c999",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 0
+      },
+      "revId": "4c734c46dae1a47f482f19e8fe03337c40eebd6d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "045e8774_6c0ef47b",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -317,6 +341,30 @@
       "writtenOn": "2022-03-04T21:57:56Z",
       "side": 1,
       "message": "As discussed in the channel. This is redundant iif `sysFault` is implemented as a `mmap` with `MAP_FIXED` instead of `mprotect`, which it currently is.\n\nmpratt@ confirms that the former drops the pages automatically. Remapping it READ/WRITE gives back zeroed memory (which I\u0027ve confirmed experimentally).\n\nOf course, if somehow someone changes int the future to use `mprotect`, this won\u0027t work anymore [1].\n\n[1]: Then again, I bet the reason for using `mmap` over `mprotect` is exactly this, and on purpose.",
+      "range": {
+        "startLine": 297,
+        "startChar": 2,
+        "endLine": 297,
+        "endChar": 11
+      },
+      "revId": "4c734c46dae1a47f482f19e8fe03337c40eebd6d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f936fa3e_e4f9c00d",
+        "filename": "src/runtime/arena.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-03-04T23:50:15Z",
+      "side": 1,
+      "message": "Done, and thank you so much for digging into this!",
+      "parentUuid": "c53a18b7_3fdc7ff9",
       "range": {
         "startLine": 297,
         "startChar": 2,
