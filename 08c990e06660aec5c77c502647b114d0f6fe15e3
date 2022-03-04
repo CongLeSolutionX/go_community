@@ -177,6 +177,24 @@
       "parentUuid": "514aeb64_9f33388d",
       "revId": "08c990e06660aec5c77c502647b114d0f6fe15e3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3857d2f2_1a194abc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2022-03-04T03:34:25Z",
+      "side": 1,
+      "message": "Hi Joel, Cherry, unaligned benchmarks (not in current go) shows arm64 also has 50% regression and unalgined loads shouldn\u0027t happen in real life.",
+      "parentUuid": "adb90bdb_7bdbae2f",
+      "revId": "08c990e06660aec5c77c502647b114d0f6fe15e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
