@@ -40,7 +40,7 @@ type arenaChunkHeader struct {
 }
 
 // Test option where we batch arenas, but arena chunks are reclaimed normally by
-// the GC, rather than being explicitly freed and unmapped.
+// the GC, rather than being explicitly freed and set up to fault.
 const nofree = false
 
 // Same size as the GC arena size, so fixed at 64 Mb
@@ -162,7 +162,7 @@ func freeArena(a *arena) {
 	a.chunkListHead.next = nil
 
 	if nofree {
-		// Instead of freeing/unmapping the full chunks, just drop a
+		// Instead of setting the full chunks to fault, just drop a
 		// pointer to them so they will get reclaimed by GC.
 		p = nil
 	}
@@ -170,12 +170,11 @@ func freeArena(a *arena) {
 	for p != nil {
 		next := p.next
 		p.next = nil
-		//println("Unmapping", p, siz-(p.off+p.size))
 		off := p.off
 		size := p.size
 		ap := uintptr(unsafe.Pointer(p))
 		p = nil
-		unsafe_unmapUserArenaChunk(ap, a.chunkSize, off+size)
+		unsafe_setToFaultUserArenaChunk(ap, a.chunkSize, off+size)
 		p = next
 	}
 
@@ -345,7 +344,7 @@ func memclrNoHeapPointers(ptr unsafe.Pointer, n uintptr)
 func unsafe_newUserArenaChunk(*rtype) unsafe.Pointer
 
 //go:noescape
-func unsafe_unmapUserArenaChunk(ap uintptr, siz uintptr, bitsSize uintptr)
+func unsafe_setToFaultUserArenaChunk(ap uintptr, siz uintptr, bitsSize uintptr)
 
 func unsafe_myP() int32
 
