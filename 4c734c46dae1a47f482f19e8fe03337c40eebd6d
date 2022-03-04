@@ -48,6 +48,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "c40049cd_05175f32",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 17576
+      },
+      "writtenOn": "2022-03-04T22:00:18Z",
+      "side": 1,
+      "message": "\u003e it creates a lot of mappings and linux keeps a frighteningly low default limit on mappings, but I think it also merges them under the hood, and chunks are kept contiguous in general. every other OS has a very high limit on mappings and it really does not matter.\n\nAlright, nice.\n\n\u003e the existing code also already might run out of address space, because it never reuses space.\n\nLikely a misunderstanding on my part, but the description says:\n\n\u003e However, a hard\nunmapping means that at any point the process could map something else into that region, breaking the safety guarantees.\n\nWhich seems contradictory with \"it never reuses space\".",
+      "parentUuid": "93f1fcbc_6568b978",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 0
+      },
+      "revId": "4c734c46dae1a47f482f19e8fe03337c40eebd6d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "045e8774_6c0ef47b",
@@ -222,6 +246,30 @@
       "side": 1,
       "message": "commented on your commit message comment about this.",
       "parentUuid": "6282c0a1_b724b386",
+      "range": {
+        "startLine": 295,
+        "startChar": 2,
+        "endLine": 295,
+        "endChar": 10
+      },
+      "revId": "4c734c46dae1a47f482f19e8fe03337c40eebd6d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5564e242_fbabaac1",
+        "filename": "src/runtime/arena.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 17576
+      },
+      "writtenOn": "2022-03-04T22:00:18Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4636ca9e_fa07658c",
       "range": {
         "startLine": 295,
         "startChar": 2,
