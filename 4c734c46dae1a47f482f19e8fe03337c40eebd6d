@@ -72,6 +72,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "9afdcdd4_3be5c999",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-03-04T22:07:47Z",
+      "side": 1,
+      "message": "ohhh, yeah sorry, I could be clearer on that front.\n\nwhat I meant was that the arena code keeps picking a higher and higher address because it wants to leave the old address space it used unmapped. so it *could* end up mapping things outside of, say, the race detector\u0027s allowable address space.\n\nbut because it totally unmaps the region, there\u0027s really nothing stopping anything else from mapping there. like, if someone did a syscall.Mmap, it might actually take over that region (if the OS chooses it without a hint, or if they provide that as the hint address), and code that erroneously dereferences pointers into that region wouldn\u0027t actually fail like it\u0027s supposed to.",
+      "parentUuid": "c40049cd_05175f32",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 0
+      },
+      "revId": "4c734c46dae1a47f482f19e8fe03337c40eebd6d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "045e8774_6c0ef47b",
