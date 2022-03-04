@@ -978,6 +978,16 @@ func packagefile(pkg string) string {
 
 // matchtag reports whether the tag matches this build.
 func matchtag(tag string) bool {
+	if tag == "unix" {
+		switch goos {
+		case "aix", "android", "darwin", "dragonfly", "freebsd", "hurd",
+			"illumos", "ios", "linux", "netbsd", "openbsd", "solaris":
+			return true
+		default:
+			return false
+		}
+	}
+
 	return tag == "gc" || tag == goos || tag == goarch || tag == "cmd_go_bootstrap" || tag == "go1.1" ||
 		(goos == "android" && tag == "linux") ||
 		(goos == "illumos" && tag == "solaris") ||
