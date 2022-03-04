@@ -2,6 +2,8 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+//go:build ppc64 || ppc64le
+
 package aes
 
 import (
@@ -42,7 +44,7 @@ func (x *cbc) BlockSize() int { return BlockSize }
 
 // cryptBlocksChain invokes the cipher message identifying encrypt or decrypt.
 //go:noescape
-func cryptBlocksChain(src, dst *byte, length int, key *uint32, iv *byte, enc int)
+func cryptBlocksChain(src, dst *byte, length int, key *uint32, keylen int, iv *byte, enc int)
 
 func (x *cbc) CryptBlocks(dst, src []byte) {
 	if len(src)%BlockSize != 0 {
@@ -56,9 +58,9 @@ func (x *cbc) CryptBlocks(dst, src []byte) {
 	}
 	if len(src) > 0 {
 		if x.enc == cbcEncrypt {
-			cryptBlocksChain(&src[0], &dst[0], len(src), &x.b.enc[0], &x.iv[0], x.enc)
+			cryptBlocksChain(&src[0], &dst[0], len(src), &x.b.enc[0], len(x.b.enc)/4-1, &x.iv[0], x.enc)
 		} else {
-			cryptBlocksChain(&src[0], &dst[0], len(src), &x.b.dec[0], &x.iv[0], x.enc)
+			cryptBlocksChain(&src[0], &dst[0], len(src), &x.b.dec[0], len(x.b.dec)/4-1, &x.iv[0], x.enc)
 		}
 	}
 }

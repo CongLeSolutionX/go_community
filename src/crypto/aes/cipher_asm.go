@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build amd64 || arm64
+//go:build amd64 || arm64 || ppc64 || ppc64le
 
 package aes
 
@@ -10,6 +10,7 @@ import (
 	"crypto/cipher"
 	"crypto/internal/subtle"
 	"internal/cpu"
+	"internal/goarch"
 )
 
 // defined in asm_*.s
@@ -27,7 +28,7 @@ type aesCipherAsm struct {
 	aesCipher
 }
 
-var supportsAES = cpu.X86.HasAES || cpu.ARM64.HasAES
+var supportsAES = cpu.X86.HasAES || cpu.ARM64.HasAES || (goarch.IsPpc64|goarch.IsPpc64le) == 1
 var supportsGFMUL = cpu.X86.HasPCLMULQDQ || cpu.ARM64.HasPMULL
 
 func newCipher(key []byte) (cipher.Block, error) {
