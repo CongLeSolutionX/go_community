@@ -131,6 +131,30 @@
       },
       "revId": "80f196030426bcabc819fbefb5f5259c26d77717",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "408edf15_2b17d250",
+        "filename": "src/compress/gzip/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-03-04T05:03:38Z",
+      "side": 1,
+      "message": "Thanks, I added a channel to pass errors out of the goroutine back to the mainline code.",
+      "parentUuid": "52d0c1ae_a9907da6",
+      "range": {
+        "startLine": 166,
+        "startChar": 0,
+        "endLine": 178,
+        "endChar": 4
+      },
+      "revId": "80f196030426bcabc819fbefb5f5259c26d77717",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
