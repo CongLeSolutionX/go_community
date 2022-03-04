@@ -978,8 +978,28 @@ func sync_throw(s string) {
 	throw(s)
 }
 
+//go:linkname sync_userThrow sync.userThrow
+func sync_userThrow(s string) {
+	userThrow(s)
+}
+
 //go:nosplit
 func throw(s string) {
+	throw1(s)
+}
+
+// userThrow is equivalent to throw, but is used when user code is expected to
+// be at fault for the failure, such as racing map writes.
+//go:nosplit
+func userThrow(s string) {
+	// Call throw1 rather than throw to ensure that stack traces contain
+	// exactly one of throw or userThrow, for simpler analysis of throw
+	// type based on the stack trace.
+	throw1(s)
+}
+
+//go:nosplit
+func throw1(s string) {
 	// Everything throw does should be recursively nosplit so it
 	// can be called even when it's unsafe to grow the stack.
 	systemstack(func() {
