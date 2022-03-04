@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5dd27470_cfc6535d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-03-04T02:23:00Z",
+      "side": 1,
+      "message": "It looks like the fix for the broken links in the spec is in the works (https://go-review.googlesource.com/c/website/+/388859). Once that is deployed (maybe tomorrow), we should check if this still an issue. If not, this CL can be abandoned.",
+      "revId": "f822ff8d7f3dce1c775f31a39696a14940c9495a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
