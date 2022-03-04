@@ -16,6 +16,29 @@
       "message": "1. git add \u0027--no-decorate\u0027\n2. add testdata",
       "revId": "d9996dbdf70d6d6c355c5c7e451d1725671e8b1f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6653fb67_be912bb4",
+        "filename": "src/cmd/go/testdata/script/mod_download_git_decorate_full.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-03-04T21:02:52Z",
+      "side": 1,
+      "message": "I don\u0027t seen an `env` declaration in the script above in order to actually use this:\n\n```\nenv HOME\u003d$WORK${/}home${/}gopher\n```",
+      "range": {
+        "startLine": 21,
+        "startChar": 3,
+        "endLine": 21,
+        "endChar": 21
+      },
+      "revId": "d9996dbdf70d6d6c355c5c7e451d1725671e8b1f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
