@@ -1,0 +1,14 @@
+// Copyright 2022 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+package p
+
+func f[T interface{comparable; []byte|string}](x T) {
+        _ = x == x
+}
+
+func _(s []byte) {
+	f( /* ERROR \[\]byte does not implement interface{comparable; \[\]byte\|string} */ s)
+        _ = f[[ /* ERROR does not implement */ ]byte]
+}

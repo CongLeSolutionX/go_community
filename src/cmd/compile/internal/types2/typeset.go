@@ -15,11 +15,16 @@ import (
 // API
 
 // A _TypeSet represents the type set of an interface.
+// Because of the existing language restrictions, methods can be "factored out"
+// from the terms. The actual type set is the intersection of the type set
+// implied by the methods and the type set described by the terms and the
+// comparable bit. To test whether a type is included in a type set
+// ("implements" relation), the type must implement all methods _and_ be
+// an element of the type set described by the terms and the comparable bit.
 type _TypeSet struct {
-	comparable bool // if set, the interface is or embeds comparable
-	// TODO(gri) consider using a set for the methods for faster lookup
-	methods []*Func  // all methods of the interface; sorted by unique ID
-	terms   termlist // type terms of the type set
+	methods    []*Func  // all methods of the interface; sorted by unique ID
+	terms      termlist // type terms of the type set
+	comparable bool     // invariant: !comparable || terms.isAll()
 }
 
 // IsEmpty reports whether type set s is the empty set.
@@ -35,11 +40,11 @@ func (s *_TypeSet) IsMethodSet() bool { return !s.comparable && s.terms.isAll() 
 
 // IsComparable reports whether each type in the set is comparable.
 func (s *_TypeSet) IsComparable(seen map[Type]bool) bool {
-	if s.terms.isAll() {
+	if !s.hasTerms() {
 		return s.comparable
 	}
 	return s.is(func(t *term) bool {
-		return t != nil && comparable(t.typ, false, seen, nil)
+		return comparable(t.typ, false, seen, nil)
 	})
 }
 
@@ -215,12 +220,12 @@ func computeInterfaceTypeSet(check *Checker, pos syntax.Pos, ityp *Interface) *_
 
 	var todo []*Func
 	var seen objset
-	var methods []*Func
+	var allMethods []*Func
 	mpos := make(map[*Func]syntax.Pos) // method specification or method embedding position, for good error messages
 	addMethod := func(pos syntax.Pos, m *Func, explicit bool) {
 		switch other := seen.insert(m); {
 		case other == nil:
-			methods = append(methods, m)
+			allMethods = append(allMethods, m)
 			mpos[m] = pos
 		case explicit:
 			if check == nil {
@@ -259,7 +264,8 @@ func computeInterfaceTypeSet(check *Checker, pos syntax.Pos, ityp *Interface) *_
 	}
 
 	// collect embedded elements
-	var allTerms = allTermlist
+	allTerms := allTermlist
+	allComparable := false
 	for i, typ := range ityp.embeddeds {
 		// The embedding position is nil for imported interfaces
 		// and also for interface copies after substitution (but
@@ -268,6 +274,7 @@ func computeInterfaceTypeSet(check *Checker, pos syntax.Pos, ityp *Interface) *_
 		if ityp.embedPos != nil {
 			pos = (*ityp.embedPos)[i]
 		}
+		var comparable bool
 		var terms termlist
 		switch u := under(typ).(type) {
 		case *Interface:
@@ -279,9 +286,7 @@ func computeInterfaceTypeSet(check *Checker, pos syntax.Pos, ityp *Interface) *_
 				check.versionErrorf(pos, "go1.18", "embedding constraint interface %s", typ)
 				continue
 			}
-			if tset.comparable {
-				ityp.tset.comparable = true
-			}
+			comparable = tset.comparable
 			for _, m := range tset.methods {
 				addMethod(pos, m, false) // use embedding position pos rather than m.pos
 			}
@@ -295,6 +300,8 @@ func computeInterfaceTypeSet(check *Checker, pos syntax.Pos, ityp *Interface) *_
 			if tset == &invalidTypeSet {
 				continue // ignore invalid unions
 			}
+			assert(!tset.comparable)
+			assert(len(tset.methods) == 0)
 			terms = tset.terms
 		default:
 			if u == Typ[Invalid] {
@@ -306,11 +313,11 @@ func computeInterfaceTypeSet(check *Checker, pos syntax.Pos, ityp *Interface) *_
 			}
 			terms = termlist{{false, typ}}
 		}
-		// The type set of an interface is the intersection
-		// of the type sets of all its elements.
-		// Intersection cannot produce longer termlists and
-		// thus cannot overflow.
-		allTerms = allTerms.intersect(terms)
+
+		// The type set of an interface is the intersection of the type sets of all its elements.
+		// Only embedded interfaces can add methods for now, they are handled separately for now.
+		// Here we need to intersect comparable and terms with allComparable and allTerms.
+		allTerms, allComparable = intersectTypeSets(allTerms, allComparable, terms, comparable)
 	}
 	ityp.embedPos = nil // not needed anymore (errors have been reported)
 
@@ -323,13 +330,39 @@ func computeInterfaceTypeSet(check *Checker, pos syntax.Pos, ityp *Interface) *_
 		}
 	}
 
-	if methods != nil {
-		sortMethods(methods)
-		ityp.tset.methods = methods
+	ityp.tset.comparable = allComparable
+	if len(allMethods) != 0 {
+		sortMethods(allMethods)
+		ityp.tset.methods = allMethods
 	}
 	ityp.tset.terms = allTerms
 
 	return ityp.tset
+}
+
+// TODO(gri) a better solution (for post-1.18) may be to represent "comparable" as a term
+func intersectTypeSets(xterms termlist, xcomp bool, yterms termlist, ycomp bool) (termlist, bool) {
+	assert(!xcomp || xterms.isAll())
+	assert(!ycomp || yterms.isAll())
+	terms := xterms.intersect(yterms)
+	comp := xcomp || ycomp
+	if comp && !terms.isAll() {
+		// only keep comparable terms
+		i := 0
+		for _, t := range terms {
+			assert(t.typ != nil)
+			if Comparable(t.typ) {
+				terms[i] = t
+				i++
+			}
+		}
+		terms = terms[:i]
+		if !terms.isAll() {
+			comp = false
+		}
+	}
+	assert(!comp || terms.isAll())
+	return terms, comp
 }
 
 func sortMethods(list []*Func) {
