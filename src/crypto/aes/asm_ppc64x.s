@@ -20,6 +20,8 @@
 // avoid arguments overwriting when setDecryptKeyAsm calls setEncryptKeyAsm.
 // There were other modifications as well but kept the same functionality.
 
+//go:build ppc64le
+
 #include "textflag.h"
 
 // For set{En,De}cryptKeyAsm
