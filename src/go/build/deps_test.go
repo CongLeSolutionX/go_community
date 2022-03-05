@@ -405,6 +405,7 @@ var depsRules = `
 	# CRYPTO is core crypto algorithms - no cgo, fmt, net.
 	# Unfortunately, stuck with reflect via encoding/binary.
 	encoding/binary, golang.org/x/sys/cpu, hash
+	< math/big # TODO: remove this
 	< crypto
 	< crypto/subtle
 	< crypto/internal/subtle
