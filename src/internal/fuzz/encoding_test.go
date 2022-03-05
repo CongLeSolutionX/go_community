@@ -114,7 +114,7 @@ float64(+Inf)
 float64(-Inf)
 float64(NaN)
 math.Float64frombits(9221120237041090560)
-math.Float32frombits(2143289343)`,
+math.Float32frombits(2141287343)`,
 			ok: true,
 		},
 	}
