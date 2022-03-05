@@ -5,6 +5,7 @@
 package nistec_test
 
 import (
+	"bytes"
 	"crypto/elliptic/internal/nistec"
 	"math/rand"
 	"os"
@@ -19,6 +20,21 @@ func TestAllocations(t *testing.T) {
 	t.Run("P224", func(t *testing.T) {
 		if allocs := testing.AllocsPerRun(100, func() {
 			p := nistec.NewP224Generator()
+			scalar := make([]byte, 66)
+			rand.Read(scalar)
+			p.ScalarMult(p, scalar)
+			out := p.Bytes()
+			if _, err := p.SetBytes(out); err != nil {
+				t.Fatal(err)
+			}
+		}); allocs > 0 {
+			t.Errorf("expected zero allocations, got %0.1f", allocs)
+		}
+	})
+	t.Run("P256", func(t *testing.T) {
+		t.Skip("will fail until the big.Int TODO is resolved")
+		if allocs := testing.AllocsPerRun(100, func() {
+			p := nistec.NewP256Generator()
 			scalar := make([]byte, 66)
 			rand.Read(scalar)
 			p.ScalarMult(p, scalar)
@@ -60,8 +76,56 @@ func TestAllocations(t *testing.T) {
 	})
 }
 
+type nistPoint[T any] interface {
+	Bytes() []byte
+	SetBytes([]byte) (T, error)
+	Add(T, T) T
+	Double(T) T
+	ScalarMult(T, []byte) T
+}
+
+func TestDoubleVsAddVsScalarMult(t *testing.T) {
+	t.Run("P224", func(t *testing.T) {
+		testDoubleVsAddVsScalarMult(t, nistec.NewP224Generator)
+	})
+	t.Run("P256", func(t *testing.T) {
+		testDoubleVsAddVsScalarMult(t, nistec.NewP256Generator)
+	})
+	t.Run("P384", func(t *testing.T) {
+		testDoubleVsAddVsScalarMult(t, nistec.NewP384Generator)
+	})
+	t.Run("P521", func(t *testing.T) {
+		testDoubleVsAddVsScalarMult(t, nistec.NewP521Generator)
+	})
+}
+
+func testDoubleVsAddVsScalarMult[P nistPoint[P]](t *testing.T, newGenerator func() P) {
+	p := newGenerator()
+
+	p1 := newGenerator().Double(p)
+	p2 := newGenerator().Add(p, p)
+	p3 := newGenerator().ScalarMult(p, []byte{2})
+
+	if !bytes.Equal(p1.Bytes(), p2.Bytes()) {
+		t.Error("P+P != 2*P")
+	}
+	if !bytes.Equal(p1.Bytes(), p3.Bytes()) {
+		t.Error("P+P != [2]P")
+	}
+}
+
 func BenchmarkScalarMult(b *testing.B) {
 	b.Run("P224", func(b *testing.B) {
+		scalar := make([]byte, 66)
+		rand.Read(scalar)
+		p := nistec.NewP224Generator()
+		b.ReportAllocs()
+		b.ResetTimer()
+		for i := 0; i < b.N; i++ {
+			p.ScalarMult(p, scalar)
+		}
+	})
+	b.Run("P256", func(b *testing.B) {
 		scalar := make([]byte, 66)
 		rand.Read(scalar)
 		p := nistec.NewP224Generator()
