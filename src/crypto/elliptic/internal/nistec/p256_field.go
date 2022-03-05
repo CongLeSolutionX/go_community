@@ -1,13 +1,13 @@
-// Copyright 2013 The Go Authors. All rights reserved.
+// Copyright 2022 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !amd64 && !arm64
-
-package elliptic
+package nistec
 
 import (
-	"math/big"
+	"crypto/subtle"
+	"encoding/binary"
+	"errors"
 	"math/bits"
 )
 
@@ -27,24 +27,39 @@ import (
 // Finally, the values stored in a field element are in Montgomery form. So the
 // value |y| is stored as (y*R) mod p, where p is the P-256 prime and R is
 // 2**257.
+type p256Element [9]uint32
 
-const (
-	p256Limbs    = 9
-	bottom29Bits = 0x1fffffff
-)
+const p256ElementLen = 32
 
-var (
-	// p256One is the number 1 as a field element.
-	p256One  = [p256Limbs]uint32{2, 0, 0, 0xffff800, 0x1fffffff, 0xfffffff, 0x1fbfffff, 0x1ffffff, 0}
-	p256Zero = [p256Limbs]uint32{0, 0, 0, 0, 0, 0, 0, 0, 0}
-	// p256P is the prime modulus as a field element.
-	p256P = [p256Limbs]uint32{0x1fffffff, 0xfffffff, 0x1fffffff, 0x3ff, 0, 0, 0x200000, 0xf000000, 0xfffffff}
-	// p2562P is the twice prime modulus as a field element.
-	p2562P = [p256Limbs]uint32{0x1ffffffe, 0xfffffff, 0x1fffffff, 0x7ff, 0, 0, 0x400000, 0xe000000, 0x1fffffff}
-)
+// One sets out = 1, and returns out.
+func (out *p256Element) One() *p256Element {
+	// 1 in Montgomery representation (1*R mod p).
+	*out = p256Element{2, 0, 0, 0xffff800, 0x1fffffff, 0xfffffff, 0x1fbfffff, 0x1ffffff, 0}
+	return out
+}
 
-// Field element operations:
+// Equal returns 1 if e == t, and zero otherwise.
+func (e *p256Element) Equal(t *p256Element) int {
+	eBytes := e.Bytes()
+	tBytes := t.Bytes()
+	return subtle.ConstantTimeCompare(eBytes, tBytes)
+}
 
+var p256ZeroEncoding = new(p256Element).Bytes()
+
+// IsZero returns 1 if e == 0, and zero otherwise.
+func (e *p256Element) IsZero() int {
+	eBytes := e.Bytes()
+	return subtle.ConstantTimeCompare(eBytes, p256ZeroEncoding)
+}
+
+// Set sets out = in, and returns out.
+func (out *p256Element) Set(in *p256Element) *p256Element {
+	*out = *in
+	return out
+}
+
+const bottom29Bits = 0x1fffffff
 const bottom28Bits = 0xfffffff
 
 // nonZeroToAllOnes returns:
@@ -59,7 +74,7 @@ func nonZeroToAllOnes(x uint32) uint32 {
 //
 // On entry: carry < 2**3, inout[0,2,...] < 2**29, inout[1,3,...] < 2**28.
 // On exit: inout[0,2,..] < 2**30, inout[1,3,...] < 2**29.
-func p256ReduceCarry(inout *[p256Limbs]uint32, carry uint32) {
+func p256ReduceCarry(inout *p256Element, carry uint32) {
 	carry_mask := nonZeroToAllOnes(carry)
 
 	inout[0] += carry << 1
@@ -81,7 +96,7 @@ func p256ReduceCarry(inout *[p256Limbs]uint32, carry uint32) {
 //
 // On entry, in[i]+in2[i] must not overflow a 32-bit word.
 // On exit: out[0,2,...] < 2**30, out[1,3,...] < 2**29
-func p256Sum(out, in, in2 *[p256Limbs]uint32) {
+func (out *p256Element) Add(in, in2 *p256Element) *p256Element {
 	carry := uint32(0)
 	for i := 0; ; i++ {
 		out[i] = in[i] + in2[i]
@@ -90,7 +105,7 @@ func p256Sum(out, in, in2 *[p256Limbs]uint32) {
 		out[i] &= bottom29Bits
 
 		i++
-		if i == p256Limbs {
+		if i == len(out) {
 			break
 		}
 
@@ -101,6 +116,8 @@ func p256Sum(out, in, in2 *[p256Limbs]uint32) {
 	}
 
 	p256ReduceCarry(out, carry)
+
+	return out
 }
 
 const (
@@ -113,16 +130,15 @@ const (
 )
 
 // p256Zero31 is 0 mod p.
-var p256Zero31 = [p256Limbs]uint32{two31m3, two30m2, two31m2, two30p13m2, two31m2, two30m2, two31p24m2, two30m27m2, two31m2}
+var p256Zero31 = p256Element{two31m3, two30m2, two31m2, two30p13m2, two31m2, two30m2, two31p24m2, two30m27m2, two31m2}
 
 // p256Diff sets out = in-in2.
 //
 // On entry: in[0,2,...] < 2**30, in[1,3,...] < 2**29 and
 //           in2[0,2,...] < 2**30, in2[1,3,...] < 2**29.
 // On exit: out[0,2,...] < 2**30, out[1,3,...] < 2**29.
-func p256Diff(out, in, in2 *[p256Limbs]uint32) {
-	var carry uint32
-
+func (out *p256Element) Sub(in, in2 *p256Element) *p256Element {
+	carry := uint32(0)
 	for i := 0; ; i++ {
 		out[i] = in[i] - in2[i]
 		out[i] += p256Zero31[i]
@@ -131,7 +147,7 @@ func p256Diff(out, in, in2 *[p256Limbs]uint32) {
 		out[i] &= bottom29Bits
 
 		i++
-		if i == p256Limbs {
+		if i == len(out) {
 			break
 		}
 
@@ -143,6 +159,7 @@ func p256Diff(out, in, in2 *[p256Limbs]uint32) {
 	}
 
 	p256ReduceCarry(out, carry)
+	return out
 }
 
 // p256ReduceDegree sets out = tmp/R mod p where tmp contains 64-bit words with
@@ -155,7 +172,7 @@ func p256Diff(out, in, in2 *[p256Limbs]uint32) {
 //
 // On entry: tmp[i] < 2**64
 // On exit: out[0,2,...] < 2**30, out[1,3,...] < 2**29
-func p256ReduceDegree(out *[p256Limbs]uint32, tmp [17]uint64) {
+func p256ReduceDegree(out *p256Element, tmp [17]uint64) {
 	// The following table may be helpful when reading this code:
 	//
 	// Limb number:   0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10...
@@ -281,7 +298,7 @@ func p256ReduceDegree(out *[p256Limbs]uint32, tmp [17]uint64) {
 		tmp2[i+8] += (x << 28) & bottom29Bits
 		tmp2[i+9] += ((x >> 1) - 1) & xMask
 
-		if i+1 == p256Limbs {
+		if i+1 == len(out) {
 			break
 		}
 		tmp2[i+2] += tmp2[i+1] >> 28
@@ -341,7 +358,7 @@ func p256ReduceDegree(out *[p256Limbs]uint32, tmp [17]uint64) {
 //
 // On entry: in[0,2,...] < 2**30, in[1,3,...] < 2**29.
 // On exit: out[0,2,...] < 2**30, out[1,3,...] < 2**29.
-func p256Square(out, in *[p256Limbs]uint32) {
+func (out *p256Element) Square(in *p256Element) *p256Element {
 	var tmp [17]uint64
 
 	tmp[0] = uint64(in[0]) * uint64(in[0])
@@ -393,6 +410,7 @@ func p256Square(out, in *[p256Limbs]uint32) {
 	tmp[16] = uint64(in[8]) * uint64(in[8])
 
 	p256ReduceDegree(out, tmp)
+	return out
 }
 
 // p256Mul sets out=in*in2.
@@ -400,7 +418,7 @@ func p256Square(out, in *[p256Limbs]uint32) {
 // On entry: in[0,2,...] < 2**30, in[1,3,...] < 2**29 and
 //           in2[0,2,...] < 2**30, in2[1,3,...] < 2**29.
 // On exit: out[0,2,...] < 2**30, out[1,3,...] < 2**29.
-func p256Mul(out, in, in2 *[p256Limbs]uint32) {
+func (out *p256Element) Mul(in, in2 *p256Element) *p256Element {
 	var tmp [17]uint64
 
 	tmp[0] = uint64(in[0]) * uint64(in2[0])
@@ -488,10 +506,7 @@ func p256Mul(out, in, in2 *[p256Limbs]uint32) {
 	tmp[16] = uint64(in[8]) * (uint64(in2[8]) << 0)
 
 	p256ReduceDegree(out, tmp)
-}
-
-func p256Assign(out, in *[p256Limbs]uint32) {
-	*out = *in
+	return out
 }
 
 // p256Invert calculates |out| = |in|^{-1}
@@ -500,223 +515,162 @@ func p256Assign(out, in *[p256Limbs]uint32) {
 //   a^p = a (mod p)
 //   a^{p-1} = 1 (mod p)
 //   a^{p-2} = a^{-1} (mod p)
-func p256Invert(out, in *[p256Limbs]uint32) {
-	var ftmp, ftmp2 [p256Limbs]uint32
+func (out *p256Element) Invert(in *p256Element) *p256Element {
+	var ftmp, ftmp2 p256Element
 
 	// each e_I will hold |in|^{2^I - 1}
-	var e2, e4, e8, e16, e32, e64 [p256Limbs]uint32
+	var e2, e4, e8, e16, e32, e64 p256Element
 
-	p256Square(&ftmp, in)     // 2^1
-	p256Mul(&ftmp, in, &ftmp) // 2^2 - 2^0
-	p256Assign(&e2, &ftmp)
-	p256Square(&ftmp, &ftmp)   // 2^3 - 2^1
-	p256Square(&ftmp, &ftmp)   // 2^4 - 2^2
-	p256Mul(&ftmp, &ftmp, &e2) // 2^4 - 2^0
-	p256Assign(&e4, &ftmp)
-	p256Square(&ftmp, &ftmp)   // 2^5 - 2^1
-	p256Square(&ftmp, &ftmp)   // 2^6 - 2^2
-	p256Square(&ftmp, &ftmp)   // 2^7 - 2^3
-	p256Square(&ftmp, &ftmp)   // 2^8 - 2^4
-	p256Mul(&ftmp, &ftmp, &e4) // 2^8 - 2^0
-	p256Assign(&e8, &ftmp)
+	ftmp.Square(in)     // 2^1
+	ftmp.Mul(in, &ftmp) // 2^2 - 2^0
+	e2.Set(&ftmp)
+	ftmp.Square(&ftmp)   // 2^3 - 2^1
+	ftmp.Square(&ftmp)   // 2^4 - 2^2
+	ftmp.Mul(&ftmp, &e2) // 2^4 - 2^0
+	e4.Set(&ftmp)
+	ftmp.Square(&ftmp)   // 2^5 - 2^1
+	ftmp.Square(&ftmp)   // 2^6 - 2^2
+	ftmp.Square(&ftmp)   // 2^7 - 2^3
+	ftmp.Square(&ftmp)   // 2^8 - 2^4
+	ftmp.Mul(&ftmp, &e4) // 2^8 - 2^0
+	e8.Set(&ftmp)
 	for i := 0; i < 8; i++ {
-		p256Square(&ftmp, &ftmp)
+		ftmp.Square(&ftmp)
 	} // 2^16 - 2^8
-	p256Mul(&ftmp, &ftmp, &e8) // 2^16 - 2^0
-	p256Assign(&e16, &ftmp)
+	ftmp.Mul(&ftmp, &e8) // 2^16 - 2^0
+	e16.Set(&ftmp)
 	for i := 0; i < 16; i++ {
-		p256Square(&ftmp, &ftmp)
+		ftmp.Square(&ftmp)
 	} // 2^32 - 2^16
-	p256Mul(&ftmp, &ftmp, &e16) // 2^32 - 2^0
-	p256Assign(&e32, &ftmp)
+	ftmp.Mul(&ftmp, &e16) // 2^32 - 2^0
+	e32.Set(&ftmp)
 	for i := 0; i < 32; i++ {
-		p256Square(&ftmp, &ftmp)
+		ftmp.Square(&ftmp)
 	} // 2^64 - 2^32
-	p256Assign(&e64, &ftmp)
-	p256Mul(&ftmp, &ftmp, in) // 2^64 - 2^32 + 2^0
+	e64.Set(&ftmp)
+	ftmp.Mul(&ftmp, in) // 2^64 - 2^32 + 2^0
 	for i := 0; i < 192; i++ {
-		p256Square(&ftmp, &ftmp)
+		ftmp.Square(&ftmp)
 	} // 2^256 - 2^224 + 2^192
 
-	p256Mul(&ftmp2, &e64, &e32) // 2^64 - 2^0
+	ftmp2.Mul(&e64, &e32) // 2^64 - 2^0
 	for i := 0; i < 16; i++ {
-		p256Square(&ftmp2, &ftmp2)
+		ftmp2.Square(&ftmp2)
 	} // 2^80 - 2^16
-	p256Mul(&ftmp2, &ftmp2, &e16) // 2^80 - 2^0
+	ftmp2.Mul(&ftmp2, &e16) // 2^80 - 2^0
 	for i := 0; i < 8; i++ {
-		p256Square(&ftmp2, &ftmp2)
+		ftmp2.Square(&ftmp2)
 	} // 2^88 - 2^8
-	p256Mul(&ftmp2, &ftmp2, &e8) // 2^88 - 2^0
+	ftmp2.Mul(&ftmp2, &e8) // 2^88 - 2^0
 	for i := 0; i < 4; i++ {
-		p256Square(&ftmp2, &ftmp2)
+		ftmp2.Square(&ftmp2)
 	} // 2^92 - 2^4
-	p256Mul(&ftmp2, &ftmp2, &e4) // 2^92 - 2^0
-	p256Square(&ftmp2, &ftmp2)   // 2^93 - 2^1
-	p256Square(&ftmp2, &ftmp2)   // 2^94 - 2^2
-	p256Mul(&ftmp2, &ftmp2, &e2) // 2^94 - 2^0
-	p256Square(&ftmp2, &ftmp2)   // 2^95 - 2^1
-	p256Square(&ftmp2, &ftmp2)   // 2^96 - 2^2
-	p256Mul(&ftmp2, &ftmp2, in)  // 2^96 - 3
+	ftmp2.Mul(&ftmp2, &e4) // 2^92 - 2^0
+	ftmp2.Square(&ftmp2)   // 2^93 - 2^1
+	ftmp2.Square(&ftmp2)   // 2^94 - 2^2
+	ftmp2.Mul(&ftmp2, &e2) // 2^94 - 2^0
+	ftmp2.Square(&ftmp2)   // 2^95 - 2^1
+	ftmp2.Square(&ftmp2)   // 2^96 - 2^2
+	ftmp2.Mul(&ftmp2, in)  // 2^96 - 3
 
-	p256Mul(out, &ftmp2, &ftmp) // 2^256 - 2^224 + 2^192 + 2^96 - 3
+	return out.Mul(&ftmp2, &ftmp) // 2^256 - 2^224 + 2^192 + 2^96 - 3
 }
 
-// p256Scalar3 sets out=3*out.
-//
-// On entry: out[0,2,...] < 2**30, out[1,3,...] < 2**29.
-// On exit: out[0,2,...] < 2**30, out[1,3,...] < 2**29.
-func p256Scalar3(out *[p256Limbs]uint32) {
-	var carry uint32
+// p256MinusOneEncoding is the encoding of -1 mod p, so p - 1, the
+// highest canonical encoding. It is used by SetBytes to check for non-canonical
+// encodings such as p + k, 2p + k, etc.
+var p256MinusOneEncoding = new(p256Element).Sub(
+	new(p256Element), new(p256Element).One()).Bytes()
 
-	for i := 0; ; i++ {
-		out[i] *= 3
-		out[i] += carry
-		carry = out[i] >> 29
-		out[i] &= bottom29Bits
-
-		i++
-		if i == p256Limbs {
+// SetBytes sets e = v, where v is a big-endian 32-byte encoding, and returns e.
+// If v is not 32 bytes or it encodes a value higher than 2^256 - 2^224 + 2^192 + 2^96 - 1,
+// SetBytes returns nil and an error, and e is unchanged.
+func (e *p256Element) SetBytes(v []byte) (*p256Element, error) {
+	if len(v) != p256ElementLen {
+		return nil, errors.New("invalid p256Element encoding")
+	}
+	for i := range v {
+		if v[i] < p256MinusOneEncoding[i] {
 			break
 		}
-
-		out[i] *= 3
-		out[i] += carry
-		carry = out[i] >> 28
-		out[i] &= bottom28Bits
-	}
-
-	p256ReduceCarry(out, carry)
-}
-
-// p256Scalar4 sets out=4*out.
-//
-// On entry: out[0,2,...] < 2**30, out[1,3,...] < 2**29.
-// On exit: out[0,2,...] < 2**30, out[1,3,...] < 2**29.
-func p256Scalar4(out *[p256Limbs]uint32) {
-	var carry, nextCarry uint32
-
-	for i := 0; ; i++ {
-		nextCarry = out[i] >> 27
-		out[i] <<= 2
-		out[i] &= bottom29Bits
-		out[i] += carry
-		carry = nextCarry + (out[i] >> 29)
-		out[i] &= bottom29Bits
-
-		i++
-		if i == p256Limbs {
-			break
+		if v[i] > p256MinusOneEncoding[i] {
+			return nil, errors.New("invalid p256Element encoding")
 		}
-		nextCarry = out[i] >> 26
-		out[i] <<= 2
-		out[i] &= bottom28Bits
-		out[i] += carry
-		carry = nextCarry + (out[i] >> 28)
-		out[i] &= bottom28Bits
 	}
 
-	p256ReduceCarry(out, carry)
-}
+	offset := 0
+	for i := range e {
+		byteOff := offset / 8
+		bitOff := offset % 8
 
-// p256Scalar8 sets out=8*out.
-//
-// On entry: out[0,2,...] < 2**30, out[1,3,...] < 2**29.
-// On exit: out[0,2,...] < 2**30, out[1,3,...] < 2**29.
-func p256Scalar8(out *[p256Limbs]uint32) {
-	var carry, nextCarry uint32
-
-	for i := 0; ; i++ {
-		nextCarry = out[i] >> 26
-		out[i] <<= 3
-		out[i] &= bottom29Bits
-		out[i] += carry
-		carry = nextCarry + (out[i] >> 29)
-		out[i] &= bottom29Bits
-
-		i++
-		if i == p256Limbs {
-			break
+		// Copy five bytes (we might need up to 29 + 7 = 36 bits = 4.5 bytes)
+		// into a big-endian uint64 buffer from the right offset.
+		buf := make([]byte, 8)
+		for i := 0; i < 5; i++ {
+			vIdx := len(v) - 1 - byteOff - i
+			bufIdx := len(buf) - 1 - i
+			if vIdx < 0 {
+				break
+			}
+			buf[bufIdx] = v[vIdx]
 		}
-		nextCarry = out[i] >> 25
-		out[i] <<= 3
-		out[i] &= bottom28Bits
-		out[i] += carry
-		carry = nextCarry + (out[i] >> 28)
-		out[i] &= bottom28Bits
-	}
 
-	p256ReduceCarry(out, carry)
-}
-
-// p256CopyConditional sets out=in if mask = 0xffffffff in constant time.
-//
-// On entry: mask is either 0 or 0xffffffff.
-func p256CopyConditional(out, in *[p256Limbs]uint32, mask uint32) {
-	for i := 0; i < p256Limbs; i++ {
-		tmp := mask & (in[i] ^ out[i])
-		out[i] ^= tmp
-	}
-}
-
-// p256FromBig sets out = R*in.
-func p256FromBig(out *[p256Limbs]uint32, in *big.Int) {
-	tmp := new(big.Int).Set(in)
-	for i := 0; i < p256Limbs; i++ {
-		if bits := tmp.Bits(); len(bits) > 0 {
-			out[i] = uint32(bits[0]) & bottom29Bits
+		e[i] = uint32(binary.BigEndian.Uint64(buf[:]) >> bitOff)
+		if i%2 == 0 {
+			e[i] &= bottom29Bits
+			offset += 29
 		} else {
-			out[i] = 0
+			e[i] &= bottom28Bits
+			offset += 28
 		}
-		tmp.Rsh(tmp, 29)
-
-		i++
-		if i == p256Limbs {
-			break
-		}
-
-		if bits := tmp.Bits(); len(bits) > 0 {
-			out[i] = uint32(bits[0]) & bottom28Bits
-		} else {
-			out[i] = 0
-		}
-		tmp.Rsh(tmp, 28)
 	}
 
-	// RR is R * R, or R in the Montgomery domain. To take out into the Montgomery
-	// domain, we need to multiply it by R, and p256Mul does a * b * 1/R. See also
-	// the comment in p256ToBig.
-	RR := &[p256Limbs]uint32{0xc, 0, 0x1ffffe00, 0x0fffbfff, 0x1ffeffff, 0x0fffffff, 0x1effffff, 0x03ffffff, 1}
-	p256Mul(out, out, RR)
+	// RR is R * R, or R in the Montgomery domain. To take e into the Montgomery
+	// domain, we need to multiply it by R, and Mul does a * b * 1/R. See also
+	// the comment in bytes() and on p256Element.
+	RR := &p256Element{0xc, 0, 0x1ffffe00, 0x0fffbfff, 0x1ffeffff, 0x0fffffff, 0x1effffff, 0x03ffffff, 1}
+	return e.Mul(e, RR), nil
 }
 
-// p256ToBig returns a *big.Int containing the value of in.
-func p256ToBig(e *[p256Limbs]uint32) *big.Int {
+// Bytes returns the 32-byte big-endian encoding of e.
+func (e *p256Element) Bytes() []byte {
+	// This function is outlined to make the allocations inline in the caller
+	// rather than happen on the heap.
+	var out [p256ElementLen]byte
+	return e.bytes(&out)
+}
+
+func (e *p256Element) bytes(out *[p256ElementLen]byte) []byte {
 	// We have e = a * R (an element in the Montgomery domain) and want a mod P.
 	// First, we do a Montgomery multiplication (that calculates a * b * 1/R) by
 	// 1 (not in the Montgomery domain), getting (a * R) * 1 * 1/R = a. Then, we
 	// need to carry the limb overflows, and reduce the result modulo P.
 
-	var t [p256Limbs]uint32
-	p256Mul(&t, e, &[p256Limbs]uint32{1, 0, 0, 0, 0, 0, 0, 0, 0})
-	p256TightReduce(&t)
+	t := new(p256Element).Mul(e, &p256Element{1, 0, 0, 0, 0, 0, 0, 0, 0})
+	p256TightReduce(t)
 
-	result, tmp := new(big.Int), new(big.Int)
-	result.SetInt64(int64(t[p256Limbs-1]))
-	for i := p256Limbs - 2; i >= 0; i-- {
-		if (i & 1) == 0 {
-			result.Lsh(result, 29)
-		} else {
-			result.Lsh(result, 28)
+	var window uint64
+	var consumedBits, nextLimb int
+	for i := range out {
+		if (i+1)*8 > consumedBits {
+			window |= uint64(t[nextLimb]) << (consumedBits - i*8)
+			if nextLimb%2 == 0 {
+				consumedBits += 29
+			} else {
+				consumedBits += 28
+			}
+			nextLimb += 1
 		}
-		tmp.SetInt64(int64(t[i]))
-		result.Add(result, tmp)
+		out[len(out)-1-i] = byte(window)
+		window >>= 8
 	}
-	return result
+
+	return out[:]
 }
 
 // On entry: in[0,2,..] < 2**30, in[1,3,...] < 2**29.
 // On exit: inout[0,2,4,6] < 2**29, inout[1,3,5,7,8] < 2**28, inout < p.
-func p256TightReduce(inout *[p256Limbs]uint32) {
+func p256TightReduce(inout *p256Element) {
 	// Start with a carry chain up to 256 bits (meaning the last limb is cut at
 	// 28 instead of 29 bits). At the end carry < 2³.
 	carry := uint32(0)
@@ -784,8 +738,8 @@ func p256TightReduce(inout *[p256Limbs]uint32) {
 	inout[7] &= bottom28Bits
 
 	// Finally, a conditional subtraction to bring the term from < 2p to < p.
-	var t [p256Limbs]uint32
-	p := &[p256Limbs]uint32{0x1fffffff, 0xfffffff, 0x1fffffff, 0x3ff, 0, 0, 0x200000, 0xf000000, 0xfffffff}
+	var t p256Element
+	p := p256Element{0x1fffffff, 0xfffffff, 0x1fffffff, 0x3ff, 0, 0, 0x200000, 0xf000000, 0xfffffff}
 	t[0], b = bits.Sub32(inout[0], p[0], b)
 	t[0] += b << 29
 	t[1], b = bits.Sub32(inout[1], p[1], b)
@@ -804,14 +758,14 @@ func p256TightReduce(inout *[p256Limbs]uint32) {
 	t[7] += b << 28
 	t[8], b = bits.Sub32(inout[8], p[8], b)
 	t[8] += b << 29
-	p256Select(inout, inout, &t, int(b))
+	inout.Select(inout, &t, int(b))
 }
 
 // mask32Bits returns 0xffffffff if cond is 1, and 0 otherwise.
 func mask32Bits(cond int) uint32 { return ^(uint32(cond) - 1) }
 
-// p256Select sets out to a if cond == 1, and to b if cond == 0.
-func p256Select(out, a, b *[p256Limbs]uint32, cond int) *[p256Limbs]uint32 {
+// Select sets out to a if cond == 1, and to b if cond == 0.
+func (out *p256Element) Select(a, b *p256Element, cond int) *p256Element {
 	m := mask32Bits(cond)
 	out[0] = (m & a[0]) | (^m & b[0])
 	out[1] = (m & a[1]) | (^m & b[1])
