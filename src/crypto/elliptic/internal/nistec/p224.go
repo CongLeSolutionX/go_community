@@ -257,19 +257,23 @@ func (p *P224Point) ScalarMult(q *P224Point, scalar []byte) *P224Point {
 		NewP224Point(), NewP224Point(), NewP224Point(), NewP224Point(),
 		NewP224Point(), NewP224Point(), NewP224Point(), NewP224Point(),
 	}
-	for i := 1; i < 16; i++ {
-		table[i].Add(table[i-1], q)
+	table[1].Set(q)
+	for i := 2; i < 16; i += 2 {
+		table[i].Double(table[i/2])
+		table[i+1].Add(table[i], q)
 	}
 
 	// Instead of doing the classic double-and-add chain, we do it with a
 	// four-bit window: we double four times, and then add [0-15]P.
 	t := NewP224Point()
 	p.Set(NewP224Point())
-	for _, byte := range scalar {
-		p.Double(p)
-		p.Double(p)
-		p.Double(p)
-		p.Double(p)
+	for i, byte := range scalar {
+		if i != 0 {
+			p.Double(p)
+			p.Double(p)
+			p.Double(p)
+			p.Double(p)
+		}
 
 		for i := uint8(0); i < 16; i++ {
 			cond := subtle.ConstantTimeByteEq(byte>>4, i)
@@ -290,4 +294,10 @@ func (p *P224Point) ScalarMult(q *P224Point, scalar []byte) *P224Point {
 	}
 
 	return p
+}
+
+// ScalarBaseMult sets p = scalar * B, where B is the canonical generator, and
+// returns p.
+func (p *P224Point) ScalarBaseMult(scalar []byte) *P224Point {
+	return p.ScalarMult(NewP224Generator(), scalar)
 }
