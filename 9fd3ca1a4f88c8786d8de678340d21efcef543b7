@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ccbb1e76_b25e5034",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-03-05T21:29:29Z",
+      "side": 1,
+      "message": "In general the change description should be written for people in the future, not people today.  People in the future don\u0027t care that this is the third patch version.  That can be a comment on the change, but shouldn\u0027t be part of the description.",
+      "revId": "9fd3ca1a4f88c8786d8de678340d21efcef543b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9fc52c14_80d586f9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-03-05T21:29:29Z",
+      "side": 1,
+      "message": "s/omited/omitted/",
+      "revId": "9fd3ca1a4f88c8786d8de678340d21efcef543b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e5506ee_c34a0335",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-03-05T21:29:29Z",
+      "side": 1,
+      "message": "s/need/needs/",
+      "revId": "9fd3ca1a4f88c8786d8de678340d21efcef543b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
