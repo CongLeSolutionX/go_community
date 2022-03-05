@@ -39,6 +39,30 @@
       },
       "revId": "d9996dbdf70d6d6c355c5c7e451d1725671e8b1f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "26f4876e_51c8c345",
+        "filename": "src/cmd/go/testdata/script/mod_download_git_decorate_full.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 56178
+      },
+      "writtenOn": "2022-03-05T04:40:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6653fb67_be912bb4",
+      "range": {
+        "startLine": 21,
+        "startChar": 3,
+        "endLine": 21,
+        "endChar": 21
+      },
+      "revId": "d9996dbdf70d6d6c355c5c7e451d1725671e8b1f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
