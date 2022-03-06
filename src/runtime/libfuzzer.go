@@ -6,8 +6,9 @@
 
 package runtime
 
-import _ "unsafe" // for go:linkname
+import "unsafe" // for go:linkname
 
+func libfuzzerCallWithFourArgs(fn *byte, fakePC uintptr, s1, s2 unsafe.Pointer, result uintptr)
 func libfuzzerCall(fn *byte, arg0, arg1 uintptr)
 
 func libfuzzerTraceCmp1(arg0, arg1 uint8) {
@@ -42,6 +43,28 @@ func libfuzzerTraceConstCmp8(arg0, arg1 uint64) {
 	libfuzzerCall(&__sanitizer_cov_trace_const_cmp8, uintptr(arg0), uintptr(arg1))
 }
 
+// We call libFuzzer's __sanitizer_weak_hook_strcmp function
+// which takes the following four arguments:
+//   1- caller_pc: location of string comparison call site
+//   2- s1: first string used in the comparison
+//   3- s2: second string used in the comparison
+//   4- result: an integer representing the comparison result (0 means strings are equal)
+// If the strings are not equal, libFuzzer stores both of them in its table of recent
+// compares (TORCW) and sets a bit in the value profile bitmap based on call site location and
+// the Hamming distance of the compared strings. One of the mutations that libFuzzer
+// performs is selecting a pair from TORCW and replacing the occurrence of one string from
+// the pair with the other string in the fuzzer input. This enables libFuzzer to easily handle
+// string comparisons in the system under test.
+func libfuzzerHookStrCmp(s1, s2 string, fakePC int) {
+	if s1 != s2 {
+		libfuzzerCallWithFourArgs(&__sanitizer_weak_hook_strcmp, uintptr(fakePC), cstring(s1), cstring(s2), uintptr(1))
+	}
+}
+
+func libfuzzerHookEqualFold(s1, s2 string, fakePC int) {
+	libfuzzerCallWithFourArgs(&__sanitizer_weak_hook_strcmp, uintptr(fakePC), cstring(s1), cstring(s2), uintptr(1))
+}
+
 //go:linkname __sanitizer_cov_trace_cmp1 __sanitizer_cov_trace_cmp1
 //go:cgo_import_static __sanitizer_cov_trace_cmp1
 var __sanitizer_cov_trace_cmp1 byte
@@ -73,3 +96,7 @@ var __sanitizer_cov_trace_const_cmp4 byte
 //go:linkname __sanitizer_cov_trace_const_cmp8 __sanitizer_cov_trace_const_cmp8
 //go:cgo_import_static __sanitizer_cov_trace_const_cmp8
 var __sanitizer_cov_trace_const_cmp8 byte
+
+//go:linkname __sanitizer_weak_hook_strcmp __sanitizer_weak_hook_strcmp
+//go:cgo_import_static __sanitizer_weak_hook_strcmp
+var __sanitizer_weak_hook_strcmp byte
