@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8af9b0d4_2691e9ce",
+        "filename": "src/cmd/compile/internal/walk/compare.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 56363
+      },
+      "writtenOn": "2022-03-06T16:30:37Z",
+      "side": 1,
+      "message": "How can I get the package name of an IR node?",
+      "parentUuid": "2f2e96f3_6dc4167a",
+      "range": {
+        "startLine": 27,
+        "startChar": 39,
+        "endLine": 27,
+        "endChar": 46
+      },
+      "revId": "1dd04918ba090448495959ee9abf7120fe8965e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6bd2acbc_519d33cb",
         "filename": "src/cmd/compile/internal/walk/compare.go",
         "patchSetId": 1
@@ -43,6 +67,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3ef5e4be_8b3685dd",
+        "filename": "src/cmd/compile/internal/walk/compare.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 56363
+      },
+      "writtenOn": "2022-03-06T16:30:37Z",
+      "side": 1,
+      "message": "How about adding fmt.Sprintf(\"%+v\", n) to the hash? This debug syntax add file name, line number, and column number.",
+      "parentUuid": "6bd2acbc_519d33cb",
+      "revId": "1dd04918ba090448495959ee9abf7120fe8965e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "226137d6_fa147f8e",
         "filename": "src/runtime/libfuzzer_amd64.s",
         "patchSetId": 1
@@ -54,6 +96,30 @@
       "writtenOn": "2022-03-01T23:50:45Z",
       "side": 1,
       "message": "integer",
+      "range": {
+        "startLine": 27,
+        "startChar": 55,
+        "endLine": 27,
+        "endChar": 63
+      },
+      "revId": "1dd04918ba090448495959ee9abf7120fe8965e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "711221d6_3ed03b87",
+        "filename": "src/runtime/libfuzzer_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 56363
+      },
+      "writtenOn": "2022-03-06T16:30:37Z",
+      "side": 1,
+      "message": "fixed",
+      "parentUuid": "226137d6_fa147f8e",
       "range": {
         "startLine": 27,
         "startChar": 55,
@@ -89,6 +155,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e9ff5c7c_28319a31",
+        "filename": "src/runtime/libfuzzer_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 56363
+      },
+      "writtenOn": "2022-03-06T16:30:37Z",
+      "side": 1,
+      "message": "Changed to use R8",
+      "parentUuid": "b451018e_76d964ce",
+      "range": {
+        "startLine": 56,
+        "startChar": 21,
+        "endLine": 56,
+        "endChar": 26
+      },
+      "revId": "1dd04918ba090448495959ee9abf7120fe8965e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4c4a189f_910aa812",
         "filename": "src/runtime/libfuzzer_amd64.s",
         "patchSetId": 1
@@ -112,6 +202,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "82ad62a9_427f4310",
+        "filename": "src/runtime/libfuzzer_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 56363
+      },
+      "writtenOn": "2022-03-06T16:30:37Z",
+      "side": 1,
+      "message": "Updated the comment",
+      "parentUuid": "4c4a189f_910aa812",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 84,
+        "endChar": 0
+      },
+      "revId": "1dd04918ba090448495959ee9abf7120fe8965e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "746a43e4_2bd3b4ed",
         "filename": "src/runtime/libfuzzer_amd64.s",
         "patchSetId": 1
@@ -123,6 +237,24 @@
       "writtenOn": "2022-03-01T23:50:45Z",
       "side": 1,
       "message": "This scheme is going to completely break the CPU ret branch predictor. Any idea what kind of slowdown that causes?",
+      "revId": "1dd04918ba090448495959ee9abf7120fe8965e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8cb38c66_dc8b2110",
+        "filename": "src/runtime/libfuzzer_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 56363
+      },
+      "writtenOn": "2022-03-06T16:30:37Z",
+      "side": 1,
+      "message": "We haven\u0027t performed any profiling to measure the slowdown. We\u0027ve used the same trick for jazzer to make value profiling work for Java. The gain of the effectiveness in fuzzing justifies the slowdown here. The root cause of that is that libfuzzer callbacks do not accept a PC argument for the functions that handle integer comparisons. We will try to get this patch into upstream libfuzzer since it is needed for many fuzzers using libfuzzer as a backend (jazzer, atheris, and Go)",
+      "parentUuid": "746a43e4_2bd3b4ed",
       "revId": "1dd04918ba090448495959ee9abf7120fe8965e0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
