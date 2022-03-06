@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9b4c5926_082c3d2a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 56363
+      },
+      "writtenOn": "2022-03-06T15:21:42Z",
+      "side": 1,
+      "message": "I\u0027ve added the following description to the libfuzzerCallHookStrCmp function\nlibfuzzerCallHookStrCmp calls libFuzzer\u0027s __sanitizer_weak_hook_strcmp function\nwhich takes the following four arguments:\n   1- caller_pc: location of string comparison call site\n   2- s1: first string used in the comparison\n   3- s2: second string used in the comparison\n   4- result: an integer representing the comparison result (0 means strings are equal)\nIf the strings are not equal, libFuzzer stores both of them in its table of recent\n compares (TORCW) and sets a bit in the value profile bitmap based on call-site location and the Hamming distance of the compared strings. One of the mutations that libFuzzer performs is selecting a pair from TORCW and replacing the occurrence of one string from the pair with the other string in the fuzzer input. This enables libFuzzer to easily handle string comparisons in the system under test.",
+      "parentUuid": "92174ef0_aca4cc8c",
+      "revId": "65fec8ed0bcd14bc1291f1673f3a7ebb08988359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f111ae3e_42446b98",
         "filename": "src/cmd/compile/internal/walk/compare.go",
         "patchSetId": 2
@@ -43,6 +61,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8f924ab1_db9a95b6",
+        "filename": "src/cmd/compile/internal/walk/compare.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 56363
+      },
+      "writtenOn": "2022-03-06T15:21:42Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "f111ae3e_42446b98",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 65
+      },
+      "revId": "65fec8ed0bcd14bc1291f1673f3a7ebb08988359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4fb4e749_c7d3c4d2",
         "filename": "src/cmd/compile/internal/walk/expr.go",
         "patchSetId": 2
@@ -54,6 +96,30 @@
       "writtenOn": "2022-03-02T00:13:16Z",
       "side": 1,
       "message": "You should probably panic if this isn\u0027t the case, not just skip the instrumentation. strings.EqualFold should always have exactly 2 arguments.",
+      "range": {
+        "startLine": 605,
+        "startChar": 66,
+        "endLine": 605,
+        "endChar": 94
+      },
+      "revId": "65fec8ed0bcd14bc1291f1673f3a7ebb08988359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61456730_fb513a9a",
+        "filename": "src/cmd/compile/internal/walk/expr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 605,
+      "author": {
+        "id": 56363
+      },
+      "writtenOn": "2022-03-06T15:21:42Z",
+      "side": 1,
+      "message": "Changed",
+      "parentUuid": "4fb4e749_c7d3c4d2",
       "range": {
         "startLine": 605,
         "startChar": 66,
@@ -112,6 +178,54 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8ebd00fb_1706802f",
+        "filename": "src/runtime/libfuzzer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 56363
+      },
+      "writtenOn": "2022-03-06T15:21:42Z",
+      "side": 1,
+      "message": "We transform Go strings into C strings before calling the hook using cstring. See below",
+      "parentUuid": "a6db78f5_73ca505f",
+      "range": {
+        "startLine": 11,
+        "startChar": 55,
+        "endLine": 11,
+        "endChar": 76
+      },
+      "revId": "65fec8ed0bcd14bc1291f1673f3a7ebb08988359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb2baf2c_84f70146",
+        "filename": "src/runtime/libfuzzer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 56363
+      },
+      "writtenOn": "2022-03-06T15:21:42Z",
+      "side": 1,
+      "message": "result represents the result of the original string comparison (0 means equal, otherwise not equal). If result is not 0, libfuzzer adds the two strigs to its table of recent compares. Otherwise, it ignores the comparison. Ideally, we can pass the result of the comparison to the hook, but I\u0027m not sure how to do this given that we intercept the function calls and not the statements in which they are used. I\u0027d be grateful for tips. Passing 1 might lead to some equal strings pairs to land in libFuzzer\u0027s table of recent compares but I believe we can live with that. I had the idea to call the string functions here but got an error that the strings package should not be imported in the runtime package",
+      "parentUuid": "1e4b225a_e7f1e515",
+      "range": {
+        "startLine": 11,
+        "startChar": 78,
+        "endLine": 11,
+        "endChar": 92
+      },
+      "revId": "65fec8ed0bcd14bc1291f1673f3a7ebb08988359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c6d1f59d_025de7ed",
         "filename": "src/runtime/libfuzzer_amd64.s",
         "patchSetId": 2
@@ -123,6 +237,24 @@
       "writtenOn": "2022-03-02T00:13:16Z",
       "side": 1,
       "message": "Again, this is just a generic 4-arg wrapper to call into libFuzzer. It\u0027s not specific to string compares.",
+      "revId": "65fec8ed0bcd14bc1291f1673f3a7ebb08988359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d6b77f4_a81afac4",
+        "filename": "src/runtime/libfuzzer_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 56363
+      },
+      "writtenOn": "2022-03-06T15:21:42Z",
+      "side": 1,
+      "message": "Changed to libfuzzerCallWithFourArgs",
+      "parentUuid": "c6d1f59d_025de7ed",
       "revId": "65fec8ed0bcd14bc1291f1673f3a7ebb08988359",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
