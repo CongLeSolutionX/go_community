@@ -38,6 +38,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "44e08694_d65f735e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2022-03-06T18:42:44Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b19b66cc_5ed18a90",
+      "revId": "9b5ab98ff09da8e05936c2770e2c271faafff813",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "80f9b487_d219d09e",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -124,6 +142,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "11c2978b_84ea7bd3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2022-03-06T18:42:44Z",
+      "side": 1,
+      "message": "Yup I believe so.",
+      "parentUuid": "172c371b_31f3d96a",
+      "revId": "9b5ab98ff09da8e05936c2770e2c271faafff813",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "65c2da13_a8676041",
@@ -143,6 +179,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ba74f53b_d7a54e0f",
+        "filename": "src/internal/fuzz/encoding_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2022-03-06T18:42:44Z",
+      "side": 1,
+      "message": "While I\u0027m not strictly opposed to doing this, I\u0027m not real big on the idea of changing this functionality now this late. I\u0027d rather just fix this test and be done this for 1.18.",
+      "parentUuid": "65c2da13_a8676041",
+      "revId": "9b5ab98ff09da8e05936c2770e2c271faafff813",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bf650eee_2d7bd4cd",
         "filename": "src/internal/fuzz/encoding_test.go",
         "patchSetId": 1
@@ -154,6 +208,30 @@
       "writtenOn": "2022-03-06T16:05:43Z",
       "side": 1,
       "message": "A comment on the test-case explaining the choice of constants here would be helpful.\n\n(Are these quiet NaNs, or signaling? What is their relationship to `math.NaN()`?)",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 117,
+        "endChar": 34
+      },
+      "revId": "9b5ab98ff09da8e05936c2770e2c271faafff813",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "beb45626_33e021f9",
+        "filename": "src/internal/fuzz/encoding_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2022-03-06T18:42:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf650eee_2d7bd4cd",
       "range": {
         "startLine": 117,
         "startChar": 0,
