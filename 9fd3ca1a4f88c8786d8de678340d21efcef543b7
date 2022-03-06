@@ -140,6 +140,24 @@
       "message": "Also, FYI, you do not need a new GitHub PR every time you want to push a new version. Just push new or amended commits to the PR to update the file changes. You can similarly update the commit message on Gerrit by changing the PR title and description. See https://github.com/golang/go/wiki/GerritBot",
       "revId": "9fd3ca1a4f88c8786d8de678340d21efcef543b7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8cffb93_087a285c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2022-03-06T13:34:06Z",
+      "side": 1,
+      "message": "Thx I did tried that once but that didn\u0027t worked, I guess I have to wait more since the bot is not fast.",
+      "parentUuid": "4fac7faf_d924d5bf",
+      "revId": "9fd3ca1a4f88c8786d8de678340d21efcef543b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
