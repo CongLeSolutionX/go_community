@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "debbf1d0_63d79677",
+        "filename": "src/cmd/compile/internal/typecheck/builtin/runtime.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 56363
+      },
+      "writtenOn": "2022-03-06T14:07:50Z",
+      "side": 1,
+      "message": "I\u0027ve made this function private and called in in an init function from the runtime library. This makes sure that is properly called when the libFuzzer mode is used. WDYT?",
+      "parentUuid": "be4f63f6_f9ea1ca8",
+      "revId": "b4b938c1df1b52eecdf995e249b05e56ecbeeb53",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5d2a88d9_0817d84e",
         "filename": "src/cmd/compile/internal/walk/order.go",
         "patchSetId": 1
@@ -31,6 +49,24 @@
       "writtenOn": "2022-03-02T00:01:11Z",
       "side": 1,
       "message": "This is unnecessarily convoluted. There\u0027s exactly one entry in init here. You could just do:\n\no.append(mkcall(...))",
+      "revId": "b4b938c1df1b52eecdf995e249b05e56ecbeeb53",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0dec7387_5069be7b",
+        "filename": "src/cmd/compile/internal/walk/order.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 56363
+      },
+      "writtenOn": "2022-03-06T14:07:50Z",
+      "side": 1,
+      "message": "Thanks for the tip. I changed that in a dedicated commit.",
+      "parentUuid": "5d2a88d9_0817d84e",
       "revId": "b4b938c1df1b52eecdf995e249b05e56ecbeeb53",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -54,6 +90,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "81429479_ce3d1048",
+        "filename": "src/cmd/compile/internal/walk/order.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 56363
+      },
+      "writtenOn": "2022-03-06T14:07:50Z",
+      "side": 1,
+      "message": "We haven\u0027t performed any profiling to check the slowdown. I\u0027ve replaced the function call with the actual logic. This means that the that function is not needed in the runtime",
+      "parentUuid": "ff30a766_02d743d9",
+      "revId": "b4b938c1df1b52eecdf995e249b05e56ecbeeb53",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9db9b194_1df77996",
         "filename": "src/internal/fuzz/trace.go",
         "patchSetId": 1
@@ -65,6 +119,24 @@
       "writtenOn": "2022-03-02T00:01:11Z",
       "side": 1,
       "message": "I think here is where you should also handle libfuzzerInitializeCounters so that it doesn\u0027t need to be exported from runtime.",
+      "revId": "b4b938c1df1b52eecdf995e249b05e56ecbeeb53",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18ea0b33_71fbad3e",
+        "filename": "src/internal/fuzz/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 56363
+      },
+      "writtenOn": "2022-03-06T14:07:50Z",
+      "side": 1,
+      "message": "This is fixed by making the function private and calling it in an init function from the runtime package",
+      "parentUuid": "9db9b194_1df77996",
       "revId": "b4b938c1df1b52eecdf995e249b05e56ecbeeb53",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -88,6 +160,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "493580ea_1c1e5c29",
+        "filename": "src/runtime/libfuzzer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 56363
+      },
+      "writtenOn": "2022-03-06T14:07:50Z",
+      "side": 1,
+      "message": "I\u0027ve added a comment in the code illustrates the choice.\n\nI\u0027ll post the relevant section from the paper here: \nNeverZero Orthogonally to the backend used for instrumentation, we developed an optimization to the hitcount mechanism of AFL. One problem of using a byte for the\nbitmap entries is, that the count of the edge executions can overflow. When this happens, we observed that if an edge is hit in multiples of 256 — overflowing the corresponding bitmap entry to 0 — the fuzzer is in an inconsistent state. We tried to solve this problem with two solutions, NeverZero, and Saturated Counters. The first avoids the overflow to 0 always adding the carry flag to the bitmap entry and so, if an edge is executed at least one time, the entry is never 0. The second freezes the counter when it reaches the value of 255. In a range of experiments, we observed that NeverZero is very effective and improves AFL in terms of coverage and\nspeed (the seed selection now takes into account edges that were hidden before). Saturated Counters, however, decreases AFL’s overall performance. We opted to make NeverZero the default for AFL++ on most of the available instrumentations. Saturated Counters are still available in a branch of the AFL++ repository for further research or reproduction.",
+      "parentUuid": "8b13a156_3ef73853",
+      "revId": "b4b938c1df1b52eecdf995e249b05e56ecbeeb53",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d7691a9c_fb138ffb",
         "filename": "src/runtime/libfuzzer_amd64.s",
         "patchSetId": 1
@@ -99,6 +189,24 @@
       "writtenOn": "2022-03-02T00:01:11Z",
       "side": 1,
       "message": "There\u0027s nothing really \"init\" about this, it is just a generic 2-arg wrapper for calling into libFuzzer. A better name might be appropriate.",
+      "revId": "b4b938c1df1b52eecdf995e249b05e56ecbeeb53",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67dcf51a_ace0067c",
+        "filename": "src/runtime/libfuzzer_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 56363
+      },
+      "writtenOn": "2022-03-06T14:07:50Z",
+      "side": 1,
+      "message": "I changed it to libfuzzerCallWithTwoByteBuffers. WDYT?",
+      "parentUuid": "d7691a9c_fb138ffb",
       "revId": "b4b938c1df1b52eecdf995e249b05e56ecbeeb53",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
