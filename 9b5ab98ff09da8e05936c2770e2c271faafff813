@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "b19b66cc_5ed18a90",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-03-06T16:05:43Z",
+      "side": 1,
+      "message": "#37455 is likely related.",
+      "parentUuid": "83334d33_4ddd7f2d",
+      "revId": "9b5ab98ff09da8e05936c2770e2c271faafff813",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "80f9b487_d219d09e",
@@ -85,6 +103,63 @@
       "writtenOn": "2022-03-06T04:17:58Z",
       "side": 1,
       "message": "This test fix is safe and worth including in 1.18, do you agree?",
+      "revId": "9b5ab98ff09da8e05936c2770e2c271faafff813",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df2db6e1_43329aae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-03-06T16:05:43Z",
+      "side": 1,
+      "message": "(Ok to follow up on test comments in a separate CL.)",
+      "revId": "9b5ab98ff09da8e05936c2770e2c271faafff813",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65c2da13_a8676041",
+        "filename": "src/internal/fuzz/encoding_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-03-06T16:05:43Z",
+      "side": 1,
+      "message": "Since we\u0027re treating these values as bit-patterns, I wonder if it would also be clearer to switch them from decimal to hex.",
+      "revId": "9b5ab98ff09da8e05936c2770e2c271faafff813",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf650eee_2d7bd4cd",
+        "filename": "src/internal/fuzz/encoding_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-03-06T16:05:43Z",
+      "side": 1,
+      "message": "A comment on the test-case explaining the choice of constants here would be helpful.\n\n(Are these quiet NaNs, or signaling? What is their relationship to `math.NaN()`?)",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 117,
+        "endChar": 34
+      },
       "revId": "9b5ab98ff09da8e05936c2770e2c271faafff813",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
