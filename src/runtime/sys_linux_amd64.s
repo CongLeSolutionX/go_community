@@ -344,13 +344,21 @@ TEXT runtime·sigtramp(SB),NOSPLIT,$0
 	PUSH_REGS_HOST_TO_ABI0()
 
 	// Call into the Go signal handler
+#ifdef GOEXPERIMENT_regabiargs
+	MOVQ	DI, AX	// sig
+	MOVQ	SI, BX	// info
+	MOVQ	DX, CX	// ctx
+#else
 	NOP	SP		// disable vet stack checking
-        ADJSP   $24
+	ADJSP   $24
 	MOVQ	DI, 0(SP)	// sig
 	MOVQ	SI, 8(SP)	// info
 	MOVQ	DX, 16(SP)	// ctx
-	CALL	·sigtrampgo(SB)
+#endif
+	CALL	·sigtrampgo<ABIInternal>(SB)
+#ifndef GOEXPERIMENT_regabiargs
 	ADJSP	$-24
+#endif
 
         POP_REGS_HOST_TO_ABI0()
 	RET
@@ -361,13 +369,21 @@ TEXT runtime·sigprofNonGoWrapper<>(SB),NOSPLIT,$0
 	PUSH_REGS_HOST_TO_ABI0()
 
 	// Call into the Go signal handler
+#ifdef GOEXPERIMENT_regabiargs
+	MOVQ	DI, AX	// sig
+	MOVQ	SI, BX	// info
+	MOVQ	DX, CX	// ctx
+#else
 	NOP	SP		// disable vet stack checking
-	ADJSP	$24
-	MOVL	DI, 0(SP)	// sig
+	ADJSP   $24
+	MOVQ	DI, 0(SP)	// sig
 	MOVQ	SI, 8(SP)	// info
 	MOVQ	DX, 16(SP)	// ctx
-	CALL	·sigprofNonGo(SB)
+#endif
+	CALL	·sigprofNonGo<ABIInternal>(SB)
+#ifndef GOEXPERIMENT_regabiargs
 	ADJSP	$-24
+#endif
 
 	POP_REGS_HOST_TO_ABI0()
 	RET
