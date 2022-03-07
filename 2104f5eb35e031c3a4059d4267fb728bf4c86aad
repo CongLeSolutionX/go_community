@@ -44,6 +44,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "80aa3682_6caecdc4",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 872,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-03-07T20:22:17Z",
+      "side": 1,
+      "message": "why is this a userThrow?",
+      "range": {
+        "startLine": 872,
+        "startChar": 2,
+        "endLine": 872,
+        "endChar": 11
+      },
+      "revId": "2104f5eb35e031c3a4059d4267fb728bf4c86aad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ffb2f9f1_30000d20",
         "filename": "src/runtime/panic.go",
         "patchSetId": 1
