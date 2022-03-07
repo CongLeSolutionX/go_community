@@ -16,6 +16,57 @@
       "message": "It looks like the fix for the broken links in the spec is in the works (https://go-review.googlesource.com/c/website/+/388859). Once that is deployed (maybe tomorrow), we should check if this still an issue. If not, this CL can be abandoned.",
       "revId": "f822ff8d7f3dce1c775f31a39696a14940c9495a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6d60423_ca342f75",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-03-07T21:50:26Z",
+      "side": 1,
+      "message": "These links work again for 1.18 as they used to. so this CL is now obsolete.\n\nThey may not work yet for the go1.17_spec but that again is a matter of the server (website) software, if we decide to link to the 1.17 spec.",
+      "revId": "f822ff8d7f3dce1c775f31a39696a14940c9495a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d181d084_fec84961",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 2130,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-03-07T21:50:26Z",
+      "side": 1,
+      "message": "https://tip.golang.org/ref/spec#MethodName works now",
+      "revId": "f822ff8d7f3dce1c775f31a39696a14940c9495a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bcd490fb_b736bae7",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 2316,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-03-07T21:50:26Z",
+      "side": 1,
+      "message": "This link (#MethodName) is now working again as it used to (see https://tip.golang.org/ref/spec#MethodName).",
+      "revId": "f822ff8d7f3dce1c775f31a39696a14940c9495a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
