@@ -112,9 +112,15 @@ TEXT runtime·sigtramp(SB),NOSPLIT,$192
 	MOVW	R0, 8(RSP)		// signum
 	BL	runtime·load_g(SB)
 
+#ifdef GOEXPERIMENT_regabiargs
+	// Restore signum to R0.
+	MOVW	8(RSP), R0
+	// R1 and R2 already contain info and ctx, respectively.
+#else
 	MOVD	R1, 16(RSP)
 	MOVD	R2, 24(RSP)
-	BL	runtime·sigtrampgo(SB)
+#endif
+	BL	runtime·sigtrampgo<ABIInternal>(SB)
 
 	// Restore callee-save registers.
 	MOVD	8*4(RSP), R19
