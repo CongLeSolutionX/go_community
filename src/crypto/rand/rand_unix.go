@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build aix || darwin || dragonfly || freebsd || linux || netbsd || openbsd || plan9 || solaris
+//go:build aix || darwin || dragonfly || freebsd || linux || netbsd || openbsd || solaris
 
 // Unix cryptographically secure pseudorandom number
 // generator.
@@ -11,14 +11,12 @@ package rand
 
 import (
 	"bufio"
-	"crypto/aes"
-	"crypto/cipher"
-	"encoding/binary"
+	"errors"
 	"io"
 	"os"
-	"runtime"
 	"sync"
 	"sync/atomic"
+	"syscall"
 	"time"
 )
 
@@ -26,10 +24,8 @@ import "crypto/internal/boring"
 
 const urandomDevice = "/dev/urandom"
 
-// Easy implementation: read from /dev/urandom.
-// This is sufficient on Linux, OS X, and FreeBSD.
-
 func init() {
+<<<<<<< HEAD   (768804 [dev.boringcrypto] misc/boring: add new releases to RELEASES)
 	if boring.Enabled {
 		Reader = boring.RandReader
 		return
@@ -39,14 +35,16 @@ func init() {
 	} else {
 		Reader = &devReader{name: urandomDevice}
 	}
+=======
+	Reader = &reader{}
+>>>>>>> BRANCH (c9b606 crypto/rand: separate out plan9 X9.31 /dev/random expander)
 }
 
-// A devReader satisfies reads by reading the file named name.
-type devReader struct {
-	name string
+// A reader satisfies reads by reading from urandomDevice
+type reader struct {
 	f    io.Reader
 	mu   sync.Mutex
-	used int32 // atomic; whether this devReader has been used
+	used int32 // atomic; whether this reader has been used
 }
 
 // altGetRandom if non-nil specifies an OS-specific function to get
@@ -57,34 +55,32 @@ func warnBlocked() {
 	println("crypto/rand: blocked for 60 seconds waiting to read random data from the kernel")
 }
 
+<<<<<<< HEAD   (768804 [dev.boringcrypto] misc/boring: add new releases to RELEASES)
 func (r *devReader) Read(b []byte) (n int, err error) {
 	boring.Unreachable()
+=======
+func (r *reader) Read(b []byte) (n int, err error) {
+>>>>>>> BRANCH (c9b606 crypto/rand: separate out plan9 X9.31 /dev/random expander)
 	if atomic.CompareAndSwapInt32(&r.used, 0, 1) {
 		// First use of randomness. Start timer to warn about
 		// being blocked on entropy not being available.
-		t := time.AfterFunc(60*time.Second, warnBlocked)
+		t := time.AfterFunc(time.Minute, warnBlocked)
 		defer t.Stop()
 	}
-	if altGetRandom != nil && r.name == urandomDevice && altGetRandom(b) {
+	if altGetRandom != nil && altGetRandom(b) {
 		return len(b), nil
 	}
 	r.mu.Lock()
 	defer r.mu.Unlock()
 	if r.f == nil {
-		f, err := os.Open(r.name)
-		if f == nil {
+		f, err := os.Open(urandomDevice)
+		if err != nil {
 			return 0, err
 		}
-		if runtime.GOOS == "plan9" {
-			r.f = f
-		} else {
-			r.f = bufio.NewReader(hideAgainReader{f})
-		}
+		r.f = bufio.NewReader(hideAgainReader{f})
 	}
 	return r.f.Read(b)
 }
-
-var isEAGAIN func(error) bool // set by eagain.go on unix systems
 
 // hideAgainReader masks EAGAIN reads from /dev/urandom.
 // See golang.org/issue/9205
@@ -94,11 +90,12 @@ type hideAgainReader struct {
 
 func (hr hideAgainReader) Read(p []byte) (n int, err error) {
 	n, err = hr.r.Read(p)
-	if err != nil && isEAGAIN != nil && isEAGAIN(err) {
+	if errors.Is(err, syscall.EAGAIN) {
 		err = nil
 	}
 	return
 }
+<<<<<<< HEAD   (768804 [dev.boringcrypto] misc/boring: add new releases to RELEASES)
 
 // Alternate pseudo-random implementation for use on
 // systems without a reliable /dev/urandom.
@@ -175,3 +172,5 @@ func (r *reader) Read(b []byte) (n int, err error) {
 
 	return n, nil
 }
+=======
+>>>>>>> BRANCH (c9b606 crypto/rand: separate out plan9 X9.31 /dev/random expander)
