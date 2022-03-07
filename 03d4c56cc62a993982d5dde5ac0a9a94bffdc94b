@@ -87,6 +87,24 @@
       "parentUuid": "f91f0611_58dc8445",
       "revId": "03d4c56cc62a993982d5dde5ac0a9a94bffdc94b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0fff1638_57d3c92a",
+        "filename": "src/io/multi_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-03-07T21:26:15Z",
+      "side": 1,
+      "message": "Sorry, I did mean strings.Builder.",
+      "parentUuid": "af955ad5_8405f5a0",
+      "revId": "03d4c56cc62a993982d5dde5ac0a9a94bffdc94b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
