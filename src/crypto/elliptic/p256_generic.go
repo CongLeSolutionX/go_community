@@ -8,7 +8,10 @@ package elliptic
 
 // This file contains a constant-time, 32-bit implementation of P256.
 
-import "math/big"
+import (
+	"math/big"
+	"math/bits"
+)
 
 type p256Curve struct {
 	*CurveParams
@@ -1123,9 +1126,7 @@ func p256ScalarMult(xOut, yOut, zOut, x, y *[p256Limbs]uint32, scalar *[32]uint8
 
 // p256FromBig sets out = R*in.
 func p256FromBig(out *[p256Limbs]uint32, in *big.Int) {
-	tmp := new(big.Int).Lsh(in, 257)
-	tmp.Mod(tmp, p256Params.P)
-
+	tmp := new(big.Int).Set(in)
 	for i := 0; i < p256Limbs; i++ {
 		if bits := tmp.Bits(); len(bits) > 0 {
 			out[i] = uint32(bits[0]) & bottom29Bits
@@ -1146,24 +1147,146 @@ func p256FromBig(out *[p256Limbs]uint32, in *big.Int) {
 		}
 		tmp.Rsh(tmp, 28)
 	}
+
+	// RR is R * R, or R in the Montgomery domain. To take out into the Montgomery
+	// domain, we need to multiply it by R, and p256Mul does a * b * 1/R. See also
+	// the comment in p256ToBig.
+	RR := &[p256Limbs]uint32{0xc, 0, 0x1ffffe00, 0x0fffbfff, 0x1ffeffff, 0x0fffffff, 0x1effffff, 0x03ffffff, 1}
+	p256Mul(out, out, RR)
 }
 
 // p256ToBig returns a *big.Int containing the value of in.
-func p256ToBig(in *[p256Limbs]uint32) *big.Int {
-	result, tmp := new(big.Int), new(big.Int)
+func p256ToBig(e *[p256Limbs]uint32) *big.Int {
+	// We have e = a * R (an element in the Montgomery domain) and want a mod P.
+	// First, we do a Montgomery multiplication (that calculates a * b * 1/R) by
+	// 1 (not in the Montgomery domain), getting (a * R) * 1 * 1/R = a. Then, we
+	// need to carry the limb overflows, and reduce the result modulo P.
 
-	result.SetInt64(int64(in[p256Limbs-1]))
+	var t [p256Limbs]uint32
+	p256Mul(&t, e, &[p256Limbs]uint32{1, 0, 0, 0, 0, 0, 0, 0, 0})
+	p256TightReduce(&t)
+
+	result, tmp := new(big.Int), new(big.Int)
+	result.SetInt64(int64(t[p256Limbs-1]))
 	for i := p256Limbs - 2; i >= 0; i-- {
 		if (i & 1) == 0 {
 			result.Lsh(result, 29)
 		} else {
 			result.Lsh(result, 28)
 		}
-		tmp.SetInt64(int64(in[i]))
+		tmp.SetInt64(int64(t[i]))
 		result.Add(result, tmp)
 	}
-
-	result.Mul(result, p256RInverse)
-	result.Mod(result, p256Params.P)
 	return result
+}
+
+// On entry: in[0,2,..] < 2**30, in[1,3,...] < 2**29.
+// On exit: inout[0,2,4,6] < 2**29, inout[1,3,5,7,8] < 2**28, inout < p.
+func p256TightReduce(inout *[p256Limbs]uint32) {
+	// Start with a carry chain up to 256 bits (meaning the last limb is cut at
+	// 28 instead of 29 bits). At the end carry < 2³.
+	carry := uint32(0)
+	for i := 0; i < len(inout)-1; i++ {
+		inout[i] += carry
+		carry = inout[i] >> 29
+		inout[i] &= bottom29Bits
+
+		i++
+
+		inout[i] += carry
+		carry = inout[i] >> 28
+		inout[i] &= bottom28Bits
+	}
+	inout[8] += carry
+	carry = inout[8] >> 28
+	inout[8] &= bottom28Bits
+
+	// Now use the reduction identity to add back the carry from 2²⁵⁶.
+	//
+	//   c * 2²⁵⁶ + a = c * 2²⁵⁶ + a - c * p = c * (2²⁵⁶ - p) + a  (mod p)
+	//   c * (2²⁵⁶ - p) + a = c * (2²²⁴ - 2¹⁹² - 2⁹⁶ + 1) + a      (mod p)
+	//
+	// Note that c * (2²²⁴ - 2¹⁹² - 2⁹⁶ + 1) + a < 2p because c < 2³ and a < 2²⁵⁶.
+	//
+	// The carry gets added/subtracted at the following offsets:
+	//
+	// 		+     1       [0] + 0 bits
+	//      -    2⁹⁶      [3] + 10 bits
+	//      -    2¹⁹²     [6] + 21 bits
+	//      +    2²²⁴     [7] + 24 bits
+	//
+	inout[0] += carry
+
+	inout[1] += inout[0] >> 29
+	inout[0] &= bottom29Bits
+
+	inout[2] += inout[1] >> 28
+	inout[1] &= bottom28Bits
+
+	inout[3] += inout[2] >> 29
+	inout[2] &= bottom29Bits
+
+	// If the addition above made [3] overflow, then it will go back with this
+	// subtraction. From here the addition carry chain turns into a subtraction
+	// borrow chain.
+	var b uint32
+	inout[3], b = bits.Sub32(inout[3], carry<<10, 0)
+	inout[3] += b << 28
+
+	inout[4], b = bits.Sub32(inout[4], 0, b)
+	inout[4] += b << 29
+
+	inout[5], b = bits.Sub32(inout[5], 0, 0)
+	inout[5] += b << 28
+
+	inout[6], b = bits.Sub32(inout[6], carry<<21, b)
+	inout[6] += b << 29
+
+	// Back to an addition chain. If b is one, then carry is not zero, so this
+	// can't underflow.
+	inout[7] = inout[7] + carry<<24 - b
+
+	inout[8] += inout[7] >> 28
+	inout[7] &= bottom28Bits
+
+	// Finally, a conditional subtraction to bring the term from < 2p to < p.
+	var t [p256Limbs]uint32
+	p := &[p256Limbs]uint32{0x1fffffff, 0xfffffff, 0x1fffffff, 0x3ff, 0, 0, 0x200000, 0xf000000, 0xfffffff}
+	t[0], b = bits.Sub32(inout[0], p[0], b)
+	t[0] += b << 29
+	t[1], b = bits.Sub32(inout[1], p[1], b)
+	t[1] += b << 28
+	t[2], b = bits.Sub32(inout[2], p[2], b)
+	t[2] += b << 29
+	t[3], b = bits.Sub32(inout[3], p[3], b)
+	t[3] += b << 28
+	t[4], b = bits.Sub32(inout[4], p[4], b)
+	t[4] += b << 29
+	t[5], b = bits.Sub32(inout[5], p[5], b)
+	t[5] += b << 28
+	t[6], b = bits.Sub32(inout[6], p[6], b)
+	t[6] += b << 29
+	t[7], b = bits.Sub32(inout[7], p[7], b)
+	t[7] += b << 28
+	t[8], b = bits.Sub32(inout[8], p[8], b)
+	t[8] += b << 29
+	p256Select(inout, inout, &t, int(b))
+}
+
+// mask32Bits returns 0xffffffff if cond is 1, and 0 otherwise.
+func mask32Bits(cond int) uint32 { return ^(uint32(cond) - 1) }
+
+// p256Select sets out to a if cond == 1, and to b if cond == 0.
+func p256Select(out, a, b *[p256Limbs]uint32, cond int) *[p256Limbs]uint32 {
+	m := mask32Bits(cond)
+	out[0] = (m & a[0]) | (^m & b[0])
+	out[1] = (m & a[1]) | (^m & b[1])
+	out[2] = (m & a[2]) | (^m & b[2])
+	out[3] = (m & a[3]) | (^m & b[3])
+	out[4] = (m & a[4]) | (^m & b[4])
+	out[5] = (m & a[5]) | (^m & b[5])
+	out[6] = (m & a[6]) | (^m & b[6])
+	out[7] = (m & a[7]) | (^m & b[7])
+	out[8] = (m & a[8]) | (^m & b[8])
+	return out
 }
