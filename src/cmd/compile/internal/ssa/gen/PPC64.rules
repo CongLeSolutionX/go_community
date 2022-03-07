@@ -1479,7 +1479,11 @@
         && clobber(call)
         => (Move [sz] dst src mem)
 
-// Prefetch instructions (aux is option: 0 - DCBT ; 8 - DCBT stream)
+// Prefetch instructions (https://openpower.foundation/specifications/isa/, described in section 4.3.2)
+// TH specified using aux field
+// PrefetchCache - DCBT with TH=0 : program will soon access block containing address 
+// PrefetchCacheStreamed - DCBT with TH=16 : 
+// program will access block containing address in a streaming manner, that is, for a short time  
 (PrefetchCache ptr mem)          => (DCBT ptr mem [0])
-(PrefetchCacheStreamed ptr mem)  => (DCBT ptr mem [8])
+(PrefetchCacheStreamed ptr mem)  => (DCBT ptr mem [16])
 
