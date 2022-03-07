@@ -41,6 +41,10 @@ func gotraceback() (level int32, all, crash bool) {
 	all = _g_.m.throwing >= throwTypeUser || t&tracebackAll != 0
 	if _g_.m.traceback != 0 {
 		level = int32(_g_.m.traceback)
+	} else if _g_.m.throwing >= throwTypeSystem {
+		// Always include runtime frames in system throws unless
+		// otherwise overridden by m.traceback.
+		level = 2
 	} else {
 		level = int32(t >> tracebackShift)
 	}
