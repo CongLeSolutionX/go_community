@@ -70,6 +70,24 @@
       "message": "There\u0027s currently at least on CL (pending review) that needs to be cherry-picked into the RC and which has files intersecting with this list (api_test.go).\n\nOnce that\u0027s done (hopefully today) we can move forward with this.",
       "revId": "18403f793b3bded4ab5e0a403ec0e724b95b2a35",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "312c5fdf_a59e0bd1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-03-07T14:52:04Z",
+      "side": 1,
+      "message": "Any update on outstanding CLs?",
+      "parentUuid": "c58895c2_42ea7e97",
+      "revId": "18403f793b3bded4ab5e0a403ec0e724b95b2a35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
