@@ -112,6 +112,8 @@ type CmdFlags struct {
 	MemProfileRate     int          "help:\"set runtime.MemProfileRate to `rate`\""
 	MutexProfile       string       "help:\"write mutex profile to `file`\""
 	NoLocalImports     bool         "help:\"reject local (relative) imports\""
+	CoverageCfg        func(string) "help:\"read coverage configuration from `file`\""
+	DisableCovHooks    bool         "help:\"disable normal coverage hooks for main packge (used only by 'go test -cover').\""
 	Pack               bool         "help:\"write to file.a instead of file.o\""
 	Race               bool         "help:\"enable race detector\""
 	Shared             *bool        "help:\"generate code that can be linked into a shared library\"" // &Ctxt.Flag_shared, set below
@@ -132,6 +134,7 @@ type CmdFlags struct {
 		ImportDirs   []string          // appended to by -I
 		ImportMap    map[string]string // set by -importmap OR -importcfg
 		PackageFile  map[string]string // set by -importcfg; nil means not in use
+		CoverageInfo map[string]string // set by -coveragecfg
 		SpectreIndex bool              // set by -spectre=index or -spectre=all
 		// Whether we are adding any sort of code instrumentation, such as
 		// when the race detector is enabled.
@@ -156,6 +159,7 @@ func ParseFlags() {
 	Flag.EmbedCfg = readEmbedCfg
 	Flag.GenDwarfInl = 2
 	Flag.ImportCfg = readImportCfg
+	Flag.CoverageCfg = readCoverageCfg
 	Flag.ImportMap = addImportMap
 	Flag.LinkShared = &Ctxt.Flag_linkshared
 	Flag.Shared = &Ctxt.Flag_shared
@@ -442,6 +446,39 @@ func readImportCfg(file string) {
 				log.Fatalf(`%s:%d: invalid packagefile: syntax is "packagefile path=filename"`, file, lineNum)
 			}
 			Flag.Cfg.PackageFile[before] = after
+		}
+	}
+}
+
+func readCoverageCfg(file string) {
+	if Flag.Cfg.CoverageInfo == nil {
+		Flag.Cfg.CoverageInfo = make(map[string]string)
+	}
+	data, err := ioutil.ReadFile(file)
+	if err != nil {
+		log.Fatalf("-coveragecfg: %v", err)
+	}
+
+	for lineNum, line := range strings.Split(string(data), "\n") {
+		lineNum++ // 1-based
+		line = strings.TrimSpace(line)
+		if line == "" || strings.HasPrefix(line, "#") {
+			continue
+		}
+
+		// Entries are of the form:
+		//
+		//   tag value
+		x := strings.Split(line, " ")
+		if len(x) != 2 {
+			log.Fatalf(`%s:%d: invalid coveragecfg: syntax is <tag> <value>`, file, lineNum)
+		}
+		tag := x[0]
+		value := x[1]
+		switch tag {
+		case "strategy", "metavar", "metalen", "metahash",
+			"counterprefix", "pkgidvar", "countermode":
+			Flag.Cfg.CoverageInfo[tag] = value
 		}
 	}
 }
