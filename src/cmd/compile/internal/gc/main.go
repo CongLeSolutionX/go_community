@@ -8,6 +8,7 @@ import (
 	"bufio"
 	"bytes"
 	"cmd/compile/internal/base"
+	"cmd/compile/internal/coverage"
 	"cmd/compile/internal/deadcode"
 	"cmd/compile/internal/devirtualize"
 	"cmd/compile/internal/dwarfgen"
@@ -206,6 +207,11 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 	// carried out in, and even mundane optimizations like dead code
 	// removal can skew the results (e.g., #43444).
 	pkginit.MakeInit()
+
+	// Fix up init routines if building for code coverage.
+	if base.Flag.Cfg.CoverageInfo != nil {
+		coverage.Fixup()
+	}
 
 	// Eliminate some obviously dead code.
 	// Must happen after typechecking.
