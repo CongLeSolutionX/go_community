@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3dbe457a_a96792e2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2022-03-07T17:08:55Z",
+      "side": 1,
+      "message": "Yes I was under the same impression till I was pointed to AMD and ARM s implementation of using prefetchNTA (non-temporal access and avoids polluting the cache) for PrefetchStreamed and the closest equivalent appears to be TH\u003d16 option.",
+      "parentUuid": "c04f50d4_d79c1541",
+      "revId": "f42f0b224bcae2f03d21cff2c843f22afe457e27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "961b8617_af709669",
@@ -41,6 +59,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7de07a04_db65e295",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 6
+      },
+      "lineNbr": 1483,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2022-03-07T17:08:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "961b8617_af709669",
+      "range": {
+        "startLine": 1483,
+        "startChar": 66,
+        "endLine": 1483,
+        "endChar": 79
+      },
+      "revId": "f42f0b224bcae2f03d21cff2c843f22afe457e27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "12503f43_743028c5",
@@ -54,6 +96,30 @@
       "writtenOn": "2022-03-07T16:37:58Z",
       "side": 1,
       "message": "Remove trailing space, also the following lines.",
+      "range": {
+        "startLine": 1484,
+        "startChar": 85,
+        "endLine": 1484,
+        "endChar": 86
+      },
+      "revId": "f42f0b224bcae2f03d21cff2c843f22afe457e27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45fc2ef0_1bcf12ca",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 6
+      },
+      "lineNbr": 1484,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2022-03-07T17:08:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12503f43_743028c5",
       "range": {
         "startLine": 1484,
         "startChar": 85,
