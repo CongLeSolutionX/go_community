@@ -16,6 +16,24 @@
       "message": "This needs more detail as to what these values mean.\nIt should mention that the constant will be used as the TH value.\nAdd information from the ISA and refer to its section on what it means.",
       "revId": "4bfec76b9ae9d0d8ddd7127ead9c8dd03f21714c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e8bb6bf_353387f1",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 1482,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2022-03-07T15:34:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74e2d3de_d938a1c5",
+      "revId": "4bfec76b9ae9d0d8ddd7127ead9c8dd03f21714c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

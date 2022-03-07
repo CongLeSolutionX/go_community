@@ -16,6 +16,24 @@
       "message": "Is the \u0027ie\u0027 a typo?\nI would add that this is described in Section 4.3.2 of the ISA since that detail is not found with the instruction\u0027s description.",
       "revId": "339a5f6a7a057da7137685532fabf51132861eb2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4851d934_833840ff",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 1485,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2022-03-07T15:34:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15f53d34_43721b9a",
+      "revId": "339a5f6a7a057da7137685532fabf51132861eb2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
