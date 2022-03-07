@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8b27582_48e06b59",
+        "filename": "src/cmd/compile/internal/types2/typexpr.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-03-07T20:28:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4338f921_29adcabc",
+      "revId": "9d2c3db36661abee88933403bca7cc252ad0aa50",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7a36d6b0_66ea7a33",
@@ -78,6 +96,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "114d41d6_57363b7c",
+        "filename": "src/cmd/compile/internal/types2/typexpr.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-03-07T20:28:40Z",
+      "side": 1,
+      "message": "Line 472 is now move into the closure below (because here we would only record the instance for which resolution ran).",
+      "parentUuid": "7a36d6b0_66ea7a33",
+      "range": {
+        "startLine": 468,
+        "startChar": 3,
+        "endLine": 468,
+        "endChar": 4
+      },
+      "revId": "9d2c3db36661abee88933403bca7cc252ad0aa50",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b9723885_fb14cfb6",
@@ -91,6 +133,30 @@
       "writtenOn": "2022-03-07T20:15:19Z",
       "side": 1,
       "message": "should inst be n here?",
+      "range": {
+        "startLine": 472,
+        "startChar": 42,
+        "endLine": 472,
+        "endChar": 46
+      },
+      "revId": "9d2c3db36661abee88933403bca7cc252ad0aa50",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35b7ce21_09f2705f",
+        "filename": "src/cmd/compile/internal/types2/typexpr.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-03-07T20:28:40Z",
+      "side": 1,
+      "message": "Yes, but this is moved as well.",
+      "parentUuid": "b9723885_fb14cfb6",
       "range": {
         "startLine": 472,
         "startChar": 42,
