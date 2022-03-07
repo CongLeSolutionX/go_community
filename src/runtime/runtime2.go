@@ -499,6 +499,26 @@ type g struct {
 	gcAssistBytes int64
 }
 
+// throwType indicates the current type of ongoing throw, which affects the
+// amount of detail printed to stderr. Higher values include more detail.
+type throwType uint32
+
+const (
+	// throwTypeOff means that we are not throwing.
+	throwTypeOff throwType = iota
+
+	// throwTypeUserQuiet is a throw due to a problem with the application,
+	// which does not print full stacks.
+	throwTypeUserQuiet
+
+	// throwTypeUser is a throw due to a problem with the application,
+	// which does print full stacks.
+	throwTypeUser
+
+	// throwTypeSystem is a throw due to a problem with Go itself.
+	throwTypeSystem
+)
+
 // gTrackingPeriod is the number of transitions out of _Grunning between
 // latency tracking runs.
 const gTrackingPeriod = 8
@@ -529,7 +549,7 @@ type m struct {
 	oldp          puintptr // the p that was attached before executing a syscall
 	id            int64
 	mallocing     int32
-	throwing      int32
+	throwing      throwType
 	preemptoff    string // if != "", keep curg running on this m
 	locks         int32
 	dying         int32

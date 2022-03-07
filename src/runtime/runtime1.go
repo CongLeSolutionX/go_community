@@ -38,7 +38,7 @@ func gotraceback() (level int32, all, crash bool) {
 	_g_ := getg()
 	t := atomic.Load(&traceback_cache)
 	crash = t&tracebackCrash != 0
-	all = _g_.m.throwing > 0 || t&tracebackAll != 0
+	all = _g_.m.throwing >= throwTypeUser || t&tracebackAll != 0
 	if _g_.m.traceback != 0 {
 		level = int32(_g_.m.traceback)
 	} else {

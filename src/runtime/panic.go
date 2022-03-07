@@ -980,34 +980,37 @@ func sync_throw(s string) {
 
 //go:linkname sync_userThrow sync.userThrow
 func sync_userThrow(s string) {
-	userThrow(s)
+	userThrow(true, s)
 }
 
 //go:nosplit
 func throw(s string) {
-	throw1(s)
+	throw1(throwTypeSystem, s)
 }
 
 // userThrow is equivalent to throw, but is used when user code is expected to
 // be at fault for the failure, such as racing map writes.
+//
+// Dumps full stacks if 'full' is true, otherwise only non-runtime stacks.
 //go:nosplit
-func userThrow(s string) {
-	// Call throw1 rather than throw to ensure that stack traces contain
-	// exactly one of throw or userThrow, for simpler analysis of throw
-	// type based on the stack trace.
-	throw1(s)
+func userThrow(full bool, s string) {
+	t := throwTypeUser
+	if !full {
+		t = throwTypeUserQuiet
+	}
+	throw1(t, s)
 }
 
 //go:nosplit
-func throw1(s string) {
+func throw1(t throwType, s string) {
 	// Everything throw does should be recursively nosplit so it
 	// can be called even when it's unsafe to grow the stack.
 	systemstack(func() {
 		print("fatal error: ", s, "\n")
 	})
 	gp := getg()
-	if gp.m.throwing == 0 {
-		gp.m.throwing = 1
+	if gp.m.throwing == throwTypeOff {
+		gp.m.throwing = t
 	}
 	fatalthrow()
 	*(*int)(nil) = 0 // not reached
@@ -1203,7 +1206,7 @@ func dopanic_m(gp *g, pc, sp uintptr) bool {
 			print("\n")
 			goroutineheader(gp)
 			traceback(pc, sp, 0, gp)
-		} else if level >= 2 || _g_.m.throwing > 0 {
+		} else if level >= 2 || _g_.m.throwing >= throwTypeUser {
 			print("\nruntime stack:\n")
 			traceback(pc, sp, 0, gp)
 		}
@@ -1245,7 +1248,7 @@ func canpanic(gp *g) bool {
 	if gp == nil || gp != mp.curg {
 		return false
 	}
-	if mp.locks != 0 || mp.mallocing != 0 || mp.throwing != 0 || mp.preemptoff != "" || mp.dying != 0 {
+	if mp.locks != 0 || mp.mallocing != 0 || mp.throwing != throwTypeOff || mp.preemptoff != "" || mp.dying != 0 {
 		return false
 	}
 	status := readgstatus(gp)
