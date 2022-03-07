@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "37607edb_a9d1cbf0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2022-03-07T12:44:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cae2c698_bdf9cc24",
+      "revId": "03d4c56cc62a993982d5dde5ac0a9a94bffdc94b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "615ec8f1_6e6c7317",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-03-07T06:01:47Z",
       "side": 1,
       "message": "Use a strings.Writer here.",
+      "revId": "03d4c56cc62a993982d5dde5ac0a9a94bffdc94b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f91f0611_58dc8445",
+        "filename": "src/io/multi_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2022-03-07T12:44:06Z",
+      "side": 1,
+      "message": "Did you meant strings.Builder ? Or is strings.Writer a new go1.18 thing ?",
+      "parentUuid": "615ec8f1_6e6c7317",
       "revId": "03d4c56cc62a993982d5dde5ac0a9a94bffdc94b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
