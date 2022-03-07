@@ -694,7 +694,7 @@ func sighandler(sig uint32, info *siginfo, ctxt unsafe.Pointer, gp *g) {
 		return
 	}
 
-	_g_.m.throwing = 1
+	_g_.m.throwing = throwTypeSystem
 	_g_.m.caughtsig.set(gp)
 
 	if crashing == 0 {

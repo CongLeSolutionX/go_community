@@ -4071,8 +4071,7 @@ func newproc1(fn *funcval, callergp *g, callerpc uintptr) *g {
 	_g_ := getg()
 
 	if fn == nil {
-		_g_.m.throwing = -1 // do not dump full stacks
-		fatal("go of nil func value")
+		fatal(false, "go of nil func value") // do not dump full stacks
 	}
 	acquirem() // disable preemption because it can be holding p in a local var
 
@@ -4992,7 +4991,7 @@ func checkdead() {
 	})
 	if grunning == 0 { // possible if main goroutine calls runtime·Goexit()
 		unlock(&sched.lock) // unlock so that GODEBUG=scheddetail=1 doesn't hang
-		fatal("no goroutines (main called runtime.Goexit) - deadlock!")
+		fatal(true, "no goroutines (main called runtime.Goexit) - deadlock!")
 	}
 
 	// Maybe jump time forward for playground.
@@ -5025,9 +5024,8 @@ func checkdead() {
 		}
 	}
 
-	getg().m.throwing = -1 // do not dump full stacks
 	unlock(&sched.lock)    // unlock so that GODEBUG=scheddetail=1 doesn't hang
-	fatal("all goroutines are asleep - deadlock!")
+	fatal(false, "all goroutines are asleep - deadlock!") // do not dump full stacks
 }
 
 // forcegcperiod is the maximum time in nanoseconds between garbage

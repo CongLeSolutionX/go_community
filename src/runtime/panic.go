@@ -11,6 +11,27 @@ import (
 	"unsafe"
 )
 
+// throwType indicates the current type of ongoing throw, which affects the
+// amount of detail printed to stderr. Higher values include more detail.
+type throwType uint32
+
+const (
+	// throwTypeOff means that we are not throwing.
+	throwTypeOff throwType = iota
+
+	// throwTypeUserQuiet is a throw due to a problem with the application,
+	// which does not include runtime frames or frame metadata (fp, sp,
+	// pc).
+	throwTypeUserQuiet
+
+	// throwTypeUser is a throw due to a problem with the application,
+	// which does print full stacks.
+	throwTypeUser
+
+	// throwTypeSystem is a throw due to a problem with Go itself.
+	throwTypeSystem
+)
+
 // We have two different ways of doing defers. The older way involves creating a
 // defer record at the time that a defer statement is executing and adding it to a
 // defer chain. This chain is inspected by the deferreturn call at all function
@@ -980,7 +1001,7 @@ func sync_throw(s string) {
 
 //go:linkname sync_fatal sync.fatal
 func sync_fatal(s string) {
-	fatal(s)
+	fatal(true, s)
 }
 
 //go:nosplit
@@ -991,22 +1012,28 @@ func throw(s string) {
 		print("fatal error: ", s, "\n")
 	})
 
-	fatalthrow()
+	fatalthrow(throwTypeSystem)
 }
 
 // fatal triggers a fatal error that dumps a stack trace and exits.
 //
 // fatal is equivalent to throw, but is used when user code is expected to be
 // at fault for the failure, such as racing map writes.
+//
+// Includes runtime frames and frame metadata (fp, sp, pc) is 'detail' is true.
 //go:nosplit
-func fatal(s string) {
+func fatal(detail bool, s string) {
 	// Everything fatal does should be recursively nosplit so it
 	// can be called even when it's unsafe to grow the stack.
 	systemstack(func() {
 		print("fatal error: ", s, "\n")
 	})
 
-	fatalthrow()
+	t := throwTypeUser
+	if !detail {
+		t = throwTypeUserQuiet
+	}
+	fatalthrow(t)
 }
 
 // runningPanicDefers is non-zero while running deferred functions for panic.
@@ -1051,13 +1078,13 @@ func recovery(gp *g) {
 // process.
 //
 //go:nosplit
-func fatalthrow() {
+func fatalthrow(t throwType) {
 	pc := getcallerpc()
 	sp := getcallersp()
 	gp := getg()
 
-	if gp.m.throwing == 0 {
-		gp.m.throwing = 1
+	if gp.m.throwing == throwTypeOff {
+		gp.m.throwing = t
 	}
 
 	// Switch to the system stack to avoid any stack growth, which may make
@@ -1204,7 +1231,7 @@ func dopanic_m(gp *g, pc, sp uintptr) bool {
 			print("\n")
 			goroutineheader(gp)
 			traceback(pc, sp, 0, gp)
-		} else if level >= 2 || _g_.m.throwing > 0 {
+		} else if level >= 2 || _g_.m.throwing >= throwTypeUser {
 			print("\nruntime stack:\n")
 			traceback(pc, sp, 0, gp)
 		}
@@ -1246,7 +1273,7 @@ func canpanic(gp *g) bool {
 	if gp == nil || gp != mp.curg {
 		return false
 	}
-	if mp.locks != 0 || mp.mallocing != 0 || mp.throwing != 0 || mp.preemptoff != "" || mp.dying != 0 {
+	if mp.locks != 0 || mp.mallocing != 0 || mp.throwing != throwTypeOff || mp.preemptoff != "" || mp.dying != 0 {
 		return false
 	}
 	status := readgstatus(gp)
