@@ -266,6 +266,9 @@ func libfuzzerTraceConstCmp2(uint16, uint16)
 func libfuzzerTraceConstCmp4(uint32, uint32)
 func libfuzzerTraceConstCmp8(uint64, uint64)
 
+func addcovmeta(p unsafe.Pointer, len uint32, hash [16]byte, pkpath string, pkgId int, cmode uint8) uint32
+func addExitHook(f func(), runOnNonZeroExit bool)
+
 // architecture variants
 var x86HasPOPCNT bool
 var x86HasSSE41 bool
