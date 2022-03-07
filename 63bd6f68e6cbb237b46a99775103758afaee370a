@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9e4181a_1a0ca0b3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-03-07T22:39:03Z",
+      "side": 1,
+      "message": "So, here\u0027s my understanding.\n\nConverting `math.NaN()` to a float32 seems to give us the constant `0x7FC00000` on AMD64.¹ However, on MIPS configured with pre-2008 semantics, the signal bit is reversed.² Converting `math.NaN()` can\u0027t yield `0x7FC00000`, because that is a signaling NaN. So perhaps it yields `0xFFBFFFF` instead — I\u0027m not sure, but it seems plausible. (Merely toggling the signal bit would give `0xFF800000`, which is `-Inf` rather than a `NaN`.)\n\nSo I think the difference on those particular MIPS builders is due to a difference in the value of `float32(math.NaN())`. (But I think the extra clarity in marshaling `math.NaN()` as the string `NaN` is probably worthwhile, even if it very occasionally results in a different bit-pattern on an odd architecture.)\n\n¹https://go.dev/play/p/PabhovKJaE0\n²https://sourceware.org/binutils/docs/as/MIPS-NaN-Encodings.html",
+      "range": {
+        "startLine": 9,
+        "startChar": 50,
+        "endLine": 9,
+        "endChar": 71
+      },
+      "revId": "63bd6f68e6cbb237b46a99775103758afaee370a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
