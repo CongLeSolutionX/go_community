@@ -71,6 +71,24 @@
       "parentUuid": "195b2271_c088b015",
       "revId": "9ca1f0094c0f1eadb42d02c111b9590a8ee2b806",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a333374e_bb59ee3b",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1699,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-03-08T04:24:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17026cc1_46644e53",
+      "revId": "9ca1f0094c0f1eadb42d02c111b9590a8ee2b806",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

@@ -213,6 +213,30 @@
       },
       "revId": "36652444156a7011a664e13d38f6db5d60ee97fb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "62ccb44f_48c8e1c0",
+        "filename": "src/cmd/internal/obj/arm64/obj7.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1089,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-03-08T04:24:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f5384c5_4a72845d",
+      "range": {
+        "startLine": 1089,
+        "startChar": 3,
+        "endLine": 1089,
+        "endChar": 8
+      },
+      "revId": "36652444156a7011a664e13d38f6db5d60ee97fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
