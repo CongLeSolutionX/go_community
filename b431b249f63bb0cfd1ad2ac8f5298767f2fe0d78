@@ -36,6 +36,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6f70ce7_5ab75c6d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-03-08T21:55:03Z",
+      "side": 1,
+      "message": "Fair enough (I was thinking of totally refactoring, but your suggestion is good).",
+      "parentUuid": "1b4d8bec_b8863786",
+      "revId": "b431b249f63bb0cfd1ad2ac8f5298767f2fe0d78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d518c701_296ad669",
@@ -53,6 +71,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9605fd68_9be58845",
+        "filename": "src/go/printer/nodes.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-03-08T21:55:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d518c701_296ad669",
+      "revId": "b431b249f63bb0cfd1ad2ac8f5298767f2fe0d78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6ef12b84_fe6c6d38",
@@ -66,6 +102,30 @@
       "writtenOn": "2022-03-08T21:51:50Z",
       "side": 1,
       "message": "mode paramMode",
+      "range": {
+        "startLine": 324,
+        "startChar": 52,
+        "endLine": 324,
+        "endChar": 80
+      },
+      "revId": "b431b249f63bb0cfd1ad2ac8f5298767f2fe0d78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8802395d_e2416823",
+        "filename": "src/go/printer/nodes.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-03-08T21:55:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ef12b84_fe6c6d38",
       "range": {
         "startLine": 324,
         "startChar": 52,
@@ -99,6 +159,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc7ca52e_a838f73b",
+        "filename": "src/go/printer/nodes.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-03-08T21:55:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e54ce0f0_4d6e05f3",
+      "range": {
+        "startLine": 326,
+        "startChar": 4,
+        "endLine": 326,
+        "endChar": 15
+      },
+      "revId": "b431b249f63bb0cfd1ad2ac8f5298767f2fe0d78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b86ce9dd_03969fc6",
@@ -112,6 +196,24 @@
       "writtenOn": "2022-03-08T21:51:50Z",
       "side": 1,
       "message": "} else if mode \u003d\u003d typeTParam {",
+      "revId": "b431b249f63bb0cfd1ad2ac8f5298767f2fe0d78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7cf31fe_b48029ab",
+        "filename": "src/go/printer/nodes.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-03-08T21:55:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b86ce9dd_03969fc6",
       "revId": "b431b249f63bb0cfd1ad2ac8f5298767f2fe0d78",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
