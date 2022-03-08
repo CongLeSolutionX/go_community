@@ -1001,7 +1001,7 @@ func sync_throw(s string) {
 
 //go:linkname sync_fatal sync.fatal
 func sync_fatal(s string) {
-	fatal(true, s)
+	fatal(s)
 }
 
 //go:nosplit
@@ -1020,20 +1020,30 @@ func throw(s string) {
 // fatal is equivalent to throw, but is used when user code is expected to be
 // at fault for the failure, such as racing map writes.
 //
-// Includes runtime frames and frame metadata (fp, sp, pc) is 'detail' is true.
+// fatal does not include runtime frames or frame metadata (fp, sp, pc) in the
+// stack trace unless GOTRACEBACK=system or higher.
 //go:nosplit
-func fatal(detail bool, s string) {
+func fatal(s string) {
 	// Everything fatal does should be recursively nosplit so it
 	// can be called even when it's unsafe to grow the stack.
 	systemstack(func() {
 		print("fatal error: ", s, "\n")
 	})
 
-	t := throwTypeUser
-	if !detail {
-		t = throwTypeUserQuiet
-	}
-	fatalthrow(t)
+	fatalthrow(throwTypeUserQuiet)
+}
+
+// fatalDetail is equivalent to fatal, but additionally includes runtime frames
+// and frame metadata (fp, sp, pc).
+//go:nosplit
+func fatalDetail(s string) {
+	// Everything fatalDetail does should be recursively nosplit so it
+	// can be called even when it's unsafe to grow the stack.
+	systemstack(func() {
+		print("fatal error: ", s, "\n")
+	})
+
+	fatalthrow(throwTypeUser)
 }
 
 // runningPanicDefers is non-zero while running deferred functions for panic.
