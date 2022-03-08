@@ -119,6 +119,30 @@
       },
       "revId": "4ccba55c108128328d58d4d798f3829317d992c1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee679f10_506c30e7",
+        "filename": "src/cmd/compile/abi-internal.md",
+        "patchSetId": 13
+      },
+      "lineNbr": 757,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2022-03-08T15:36:53Z",
+      "side": 1,
+      "message": "As an aside, anyone familiar with RISC-V will likely be familiar with Processor Specific ABI (psABI) - it is not strictly a C ABI (hence the psABI naming).",
+      "parentUuid": "cb04278b_0be38c9f",
+      "range": {
+        "startLine": 757,
+        "startChar": 30,
+        "endLine": 757,
+        "endChar": 65
+      },
+      "revId": "4ccba55c108128328d58d4d798f3829317d992c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

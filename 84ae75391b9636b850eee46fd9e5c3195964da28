@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb860e9a_d7b72458",
+        "filename": "src/cmd/compile/abi-internal.md",
+        "patchSetId": 14
+      },
+      "lineNbr": 748,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2022-03-08T15:36:53Z",
+      "side": 1,
+      "message": "X3 should also be added to this list now - this was reserved in https://go-review.googlesource.com/c/go/+/351859",
+      "range": {
+        "startLine": 748,
+        "startChar": 2,
+        "endLine": 748,
+        "endChar": 4
+      },
+      "revId": "84ae75391b9636b850eee46fd9e5c3195964da28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1cbb1ae_03de17a1",
+        "filename": "src/cmd/compile/abi-internal.md",
+        "patchSetId": 14
+      },
+      "lineNbr": 758,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2022-03-08T15:36:53Z",
+      "side": 1,
+      "message": "Inconsistency here - all others have spaces each side of the hyphen.",
+      "range": {
+        "startLine": 758,
+        "startChar": 65,
+        "endLine": 758,
+        "endChar": 66
+      },
+      "revId": "84ae75391b9636b850eee46fd9e5c3195964da28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
