@@ -84,7 +84,7 @@ func TestDotSlashImport(t *testing.T) {
 }
 
 func TestEmptyImport(t *testing.T) {
-	p, err := Import("", Default.GOROOT, FindOnly)
+	p, err := Import("", testenv.GOROOT(t), FindOnly)
 	if err == nil {
 		t.Fatal(`Import("") returned nil error.`)
 	}
@@ -502,6 +502,7 @@ func TestImportDirNotExist(t *testing.T) {
 
 	emptyDir := t.TempDir()
 
+	ctxt.GOROOT = testenv.GOROOT(t)
 	ctxt.GOPATH = emptyDir
 	ctxt.Dir = emptyDir
 
@@ -658,7 +659,7 @@ func TestImportDirTarget(t *testing.T) {
 	testenv.MustHaveGoBuild(t) // really must just have source
 	ctxt := Default
 	ctxt.GOPATH = ""
-	p, err := ctxt.ImportDir(filepath.Join(ctxt.GOROOT, "src/path"), 0)
+	p, err := ctxt.ImportDir(filepath.Join(testenv.GOROOT(t), "src/path"), 0)
 	if err != nil {
 		t.Fatal(err)
 	}

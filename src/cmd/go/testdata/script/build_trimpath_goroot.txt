@@ -21,13 +21,13 @@ go test -v .
 stdout '^GOROOT '$TESTGO_GOROOT'$'
 stdout '^runtime '$TESTGO_GOROOT${/}src${/}runtime'$'
 
-! go run -trimpath .
+go run -trimpath .
 stdout '^GOROOT $'
-stderr '^package runtime is not in GOROOT \(src'${/}'runtime\)$'
+stdout '^runtime '$TESTGO_GOROOT${/}src${/}runtime'$'
 
-! go test -trimpath -v .
+go test -trimpath -v .
 stdout '^GOROOT $'
-stdout '^package runtime is not in GOROOT \(src'${/}'runtime\)$'
+stdout '^runtime '$TESTGO_GOROOT${/}src${/}runtime'$'
 
 -- go.mod --
 module example
