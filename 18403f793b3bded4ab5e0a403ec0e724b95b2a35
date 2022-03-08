@@ -122,6 +122,24 @@
       "message": "types2 is already dot-imported below",
       "revId": "18403f793b3bded4ab5e0a403ec0e724b95b2a35",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "517f0b7e_8e7aa07e",
+        "filename": "src/cmd/compile/internal/types2/resolver_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-03-08T23:33:10Z",
+      "side": 1,
+      "message": "Thanks, fixed.",
+      "parentUuid": "2750321d_a7aa0a7a",
+      "revId": "18403f793b3bded4ab5e0a403ec0e724b95b2a35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
