@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa3bde81_b11253ef",
+        "filename": "src/runtime/sys_darwin_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-03-08T20:06:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d422323_7bd4b1a4",
+      "revId": "7608f3d89addf35b15a8412c9a74e42d3d482c71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cb1c75af_6e2f769b",
@@ -89,6 +107,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ab3c85b_9c170f15",
+        "filename": "src/runtime/sys_darwin_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-03-08T20:06:53Z",
+      "side": 1,
+      "message": "Ah, good call, thanks!",
+      "parentUuid": "cb1c75af_6e2f769b",
+      "revId": "7608f3d89addf35b15a8412c9a74e42d3d482c71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f65a8c21_d674ee29",
@@ -102,6 +138,24 @@
       "writtenOn": "2022-03-08T18:35:12Z",
       "side": 1,
       "message": "The wrapper would load the G register (R14) and zero X15, which the Go code needs. Since we can be any external context here, I think we need to do that manually.",
+      "revId": "7608f3d89addf35b15a8412c9a74e42d3d482c71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a81146b5_3f7a59e6",
+        "filename": "src/runtime/sys_darwin_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-03-08T20:06:53Z",
+      "side": 1,
+      "message": "Done. I don\u0027t believe anything needs to be done for arm64, since sigtrampgo needs to use sigFetchG to find the G anyways.",
+      "parentUuid": "f65a8c21_d674ee29",
       "revId": "7608f3d89addf35b15a8412c9a74e42d3d482c71",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }

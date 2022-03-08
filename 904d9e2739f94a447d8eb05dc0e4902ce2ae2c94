@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "092ea2e1_405afa55",
+        "filename": "src/runtime/sys_darwin_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-03-08T20:06:53Z",
+      "side": 1,
+      "message": "I wonder if this could be dropped since I don\u0027t actually use SP anywhere.",
+      "revId": "904d9e2739f94a447d8eb05dc0e4902ce2ae2c94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
