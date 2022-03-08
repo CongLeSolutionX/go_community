@@ -603,7 +603,7 @@ func TestDependencies(t *testing.T) {
 	policy := depsPolicy(t)
 
 	for _, pkg := range all {
-		imports, err := findImports(pkg)
+		imports, err := findImports(t, pkg)
 		if err != nil {
 			t.Error(err)
 			continue
@@ -642,12 +642,12 @@ func TestDependencies(t *testing.T) {
 
 var buildIgnore = []byte("\n//go:build ignore")
 
-func findImports(pkg string) ([]string, error) {
+func findImports(t testing.TB, pkg string) ([]string, error) {
 	vpkg := pkg
 	if strings.HasPrefix(pkg, "golang.org") {
 		vpkg = "vendor/" + pkg
 	}
-	dir := filepath.Join(Default.GOROOT, "src", vpkg)
+	dir := filepath.Join(testenv.GOROOT(t), "src", vpkg)
 	files, err := os.ReadDir(dir)
 	if err != nil {
 		return nil, err
@@ -901,7 +901,7 @@ func TestStdlibLowercase(t *testing.T) {
 
 // TestFindImports tests that findImports works.  See #43249.
 func TestFindImports(t *testing.T) {
-	imports, err := findImports("go/build")
+	imports, err := findImports(t, "go/build")
 	if err != nil {
 		t.Fatal(err)
 	}
