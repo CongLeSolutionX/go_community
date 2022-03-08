@@ -27,6 +27,8 @@ func Valid(data []byte) bool {
 
 // checkValid verifies that data is valid JSON-encoded data.
 // scan is passed in for use by checkValid to avoid an allocation.
+// checkValid returns a SyntaxError if the scanner detects such.
+// Otherwise it returns nil.
 func checkValid(data []byte, scan *scanner) error {
 	scan.reset()
 	for _, c := range data {
@@ -42,6 +44,8 @@ func checkValid(data []byte, scan *scanner) error {
 }
 
 // A SyntaxError is a description of a JSON syntax error.
+// It gets returned by Unmarshal if the given JSON data contain
+// a syntax error.
 type SyntaxError struct {
 	msg    string // description of error
 	Offset int64  // error occurred after reading Offset bytes

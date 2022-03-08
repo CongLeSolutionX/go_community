@@ -23,6 +23,8 @@ import (
 // in the value pointed to by v. If v is nil or not a pointer,
 // Unmarshal returns an InvalidUnmarshalError.
 //
+// If the JSON-encoded data contain a syntax error, Unmarshal returns a SyntaxError.
+//
 // Unmarshal uses the inverse of the encodings that
 // Marshal uses, allocating maps, slices, and pointers as necessary,
 // with the following additional rules:
