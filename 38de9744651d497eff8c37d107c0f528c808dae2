@@ -16,6 +16,24 @@
       "message": "Do we need some sort of \"max\" between m.traceback and m.throwing?",
       "revId": "38de9744651d497eff8c37d107c0f528c808dae2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e875645c_4249ce30",
+        "filename": "src/runtime/runtime1.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-03-08T18:03:45Z",
+      "side": 0,
+      "message": "To be honest, I don\u0027t fully understand the use of m.traceback. It seems to be used in stack scanning, but from afar (set in gcMarkTermination), so I can\u0027t really tell what it is for.\n\nI think taking the maximum would be reasonable, but I\u0027m not certain.",
+      "parentUuid": "37924052_bba73fcb",
+      "revId": "38de9744651d497eff8c37d107c0f528c808dae2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
