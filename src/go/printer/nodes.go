@@ -319,7 +319,9 @@ func (p *printer) exprList(prev0 token.Pos, list []ast.Expr, depth int, mode exp
 	}
 }
 
-func (p *printer) parameters(fields *ast.FieldList, isTypeParam bool) {
+// TODO(rfindley): refactor to simplify this function, and remove the overlap
+// between isTypeParam and isTypeSpec.
+func (p *printer) parameters(fields *ast.FieldList, isTypeParam, isTypeSpec bool) {
 	openTok, closeTok := token.LPAREN, token.RPAREN
 	if isTypeParam {
 		openTok, closeTok = token.LBRACK, token.RBRACK
@@ -373,7 +375,7 @@ func (p *printer) parameters(fields *ast.FieldList, isTypeParam bool) {
 		if closing := p.lineFor(fields.Closing); 0 < prevLine && prevLine < closing {
 			p.print(token.COMMA)
 			p.linebreak(closing, 0, ignore, true)
-		} else if isTypeParam && fields.NumFields() == 1 {
+		} else if isTypeParam && isTypeSpec && fields.NumFields() == 1 {
 			// Otherwise, if we are in a type parameter list that could be confused
 			// with the constant array length expression [P*C], print a comma so that
 			// parsing is unambiguous.
@@ -411,10 +413,10 @@ func isTypeLit(x ast.Expr) bool {
 
 func (p *printer) signature(sig *ast.FuncType) {
 	if sig.TypeParams != nil {
-		p.parameters(sig.TypeParams, true)
+		p.parameters(sig.TypeParams, true, false)
 	}
 	if sig.Params != nil {
-		p.parameters(sig.Params, false)
+		p.parameters(sig.Params, false, false)
 	} else {
 		p.print(token.LPAREN, token.RPAREN)
 	}
@@ -428,7 +430,7 @@ func (p *printer) signature(sig *ast.FuncType) {
 			p.expr(stripParensAlways(res.List[0].Type))
 			return
 		}
-		p.parameters(res, false)
+		p.parameters(res, false, false)
 	}
 }
 
@@ -1639,7 +1641,7 @@ func (p *printer) spec(spec ast.Spec, n int, doIndent bool) {
 		p.setComment(s.Doc)
 		p.expr(s.Name)
 		if s.TypeParams != nil {
-			p.parameters(s.TypeParams, true)
+			p.parameters(s.TypeParams, true, true)
 		}
 		if n == 1 {
 			p.print(blank)
@@ -1829,7 +1831,7 @@ func (p *printer) funcDecl(d *ast.FuncDecl) {
 	// FUNC is emitted).
 	startCol := p.out.Column - len("func ")
 	if d.Recv != nil {
-		p.parameters(d.Recv, false) // method: print receiver
+		p.parameters(d.Recv, false, false) // method: print receiver
 		p.print(blank)
 	}
 	p.expr(d.Name)
