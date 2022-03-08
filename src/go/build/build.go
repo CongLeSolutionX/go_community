@@ -14,7 +14,7 @@ import (
 	"go/token"
 	"internal/buildcfg"
 	exec "internal/execabs"
-	"internal/goroot"
+	gorootpkg "internal/goroot"
 	"internal/goversion"
 	"io"
 	"io/fs"
@@ -26,6 +26,7 @@ import (
 	"sort"
 	"strconv"
 	"strings"
+	"sync"
 	"unicode"
 	"unicode/utf8"
 )
@@ -34,8 +35,8 @@ import (
 type Context struct {
 	GOARCH string // target architecture
 	GOOS   string // target operating system
-	GOROOT string // Go root
-	GOPATH string // Go path
+	GOROOT string // absolute path to Go root, or the string "$GOROOT" to request 'go env GOROOT' (evaluated on demand)
+	GOPATH string // Go paths
 
 	// Dir is the caller's working directory, or the empty string to use
 	// the current directory of the running process. In module mode, this is used
@@ -224,7 +225,7 @@ func (ctxt *Context) isFile(path string) bool {
 func (ctxt *Context) gopath() []string {
 	var all []string
 	for _, p := range ctxt.splitPathList(ctxt.GOPATH) {
-		if p == "" || p == ctxt.GOROOT {
+		if p == "" || p == ctxt.goroot() {
 			// Empty paths are uninteresting.
 			// If the path is the GOROOT, ignore it.
 			// People sometimes set GOPATH=$GOROOT.
@@ -251,13 +252,48 @@ func (ctxt *Context) gopath() []string {
 	return all
 }
 
+var (
+	goGorootOnce sync.Once
+	goGorootPath string
+	goGorootErr  error
+)
+
+// goEnvGoroot returns the result of running 'go env GOROOT'.
+func goEnvGoroot() (string, error) {
+	goGorootOnce.Do(func() {
+		cmd := exec.Command("go", "env", "GOROOT")
+		var stdout strings.Builder
+		cmd.Stdout = &stdout
+		if err := cmd.Run(); err != nil {
+			goGorootErr = err
+			return
+		}
+		goGorootPath = strings.TrimSpace(stdout.String())
+	})
+
+	return goGorootPath, goGorootErr
+}
+
+func (ctxt *Context) goroot() string {
+	if ctxt.GOROOT != "$GOROOT" {
+		return ctxt.GOROOT
+	}
+	if ctxt.Compiler != "gccgo" {
+		goroot, err := goEnvGoroot()
+		if err == nil {
+			return goroot
+		}
+	}
+	return ""
+}
+
 // SrcDirs returns a list of package source root directories.
 // It draws from the current Go root and Go path but omits directories
 // that do not exist.
 func (ctxt *Context) SrcDirs() []string {
 	var all []string
-	if ctxt.GOROOT != "" && ctxt.Compiler != "gccgo" {
-		dir := ctxt.joinPath(ctxt.GOROOT, "src")
+	if goroot := ctxt.goroot(); goroot != "" && ctxt.Compiler != "gccgo" {
+		dir := ctxt.joinPath(goroot, "src")
 		if ctxt.isDir(dir) {
 			all = append(all, dir)
 		}
@@ -302,7 +338,11 @@ func defaultContext() Context {
 
 	c.GOARCH = buildcfg.GOARCH
 	c.GOOS = buildcfg.GOOS
-	c.GOROOT = pathpkg.Clean(runtime.GOROOT())
+	if goroot := runtime.GOROOT(); goroot == "" {
+		c.GOROOT = "$GOROOT"
+	} else {
+		c.GOROOT = filepath.Clean(runtime.GOROOT())
+	}
 	c.GOPATH = envOr("GOPATH", defaultGOPATH())
 	c.Compiler = runtime.Compiler
 
@@ -583,12 +623,13 @@ func (ctxt *Context) Import(path string, srcDir string, mode ImportMode) (*Packa
 		inTestdata := func(sub string) bool {
 			return strings.Contains(sub, "/testdata/") || strings.HasSuffix(sub, "/testdata") || strings.HasPrefix(sub, "testdata/") || sub == "testdata"
 		}
-		if ctxt.GOROOT != "" {
-			root := ctxt.joinPath(ctxt.GOROOT, "src")
+		goroot := ctxt.goroot()
+		if goroot != "" {
+			root := ctxt.joinPath(goroot, "src")
 			if sub, ok := ctxt.hasSubdir(root, p.Dir); ok && !inTestdata(sub) {
 				p.Goroot = true
 				p.ImportPath = sub
-				p.Root = ctxt.GOROOT
+				p.Root = goroot
 				setPkga() // p.ImportPath changed
 				goto Found
 			}
@@ -600,8 +641,8 @@ func (ctxt *Context) Import(path string, srcDir string, mode ImportMode) (*Packa
 				// We found a potential import path for dir,
 				// but check that using it wouldn't find something
 				// else first.
-				if ctxt.GOROOT != "" && ctxt.Compiler != "gccgo" {
-					if dir := ctxt.joinPath(ctxt.GOROOT, "src", sub); ctxt.isDir(dir) {
+				if goroot != "" && ctxt.Compiler != "gccgo" {
+					if dir := ctxt.joinPath(goroot, "src", sub); ctxt.isDir(dir) {
 						p.ConflictDir = dir
 						goto Found
 					}
@@ -672,7 +713,7 @@ func (ctxt *Context) Import(path string, srcDir string, mode ImportMode) (*Packa
 				}
 				return false
 			}
-			if ctxt.Compiler != "gccgo" && searchVendor(ctxt.GOROOT, true) {
+			if ctxt.Compiler != "gccgo" && searchVendor(ctxt.goroot(), true) {
 				goto Found
 			}
 			for _, root := range gopath {
@@ -683,34 +724,35 @@ func (ctxt *Context) Import(path string, srcDir string, mode ImportMode) (*Packa
 		}
 
 		// Determine directory from import path.
-		if ctxt.GOROOT != "" {
+		goroot := ctxt.goroot()
+		if goroot != "" {
 			// If the package path starts with "vendor/", only search GOROOT before
 			// GOPATH if the importer is also within GOROOT. That way, if the user has
 			// vendored in a package that is subsequently included in the standard
 			// distribution, they'll continue to pick up their own vendored copy.
 			gorootFirst := srcDir == "" || !strings.HasPrefix(path, "vendor/")
 			if !gorootFirst {
-				_, gorootFirst = ctxt.hasSubdir(ctxt.GOROOT, srcDir)
+				_, gorootFirst = ctxt.hasSubdir(goroot, srcDir)
 			}
 			if gorootFirst {
-				dir := ctxt.joinPath(ctxt.GOROOT, "src", path)
+				dir := ctxt.joinPath(goroot, "src", path)
 				if ctxt.Compiler != "gccgo" {
 					isDir := ctxt.isDir(dir)
-					binaryOnly = !isDir && mode&AllowBinary != 0 && pkga != "" && ctxt.isFile(ctxt.joinPath(ctxt.GOROOT, pkga))
+					binaryOnly = !isDir && mode&AllowBinary != 0 && pkga != "" && ctxt.isFile(ctxt.joinPath(goroot, pkga))
 					if isDir || binaryOnly {
 						p.Dir = dir
 						p.Goroot = true
-						p.Root = ctxt.GOROOT
+						p.Root = goroot
 						goto Found
 					}
 				}
 				tried.goroot = dir
 			}
 		}
-		if ctxt.Compiler == "gccgo" && goroot.IsStandardPackage(ctxt.GOROOT, ctxt.Compiler, path) {
-			p.Dir = ctxt.joinPath(ctxt.GOROOT, "src", path)
+		if ctxt.Compiler == "gccgo" && gorootpkg.IsStandardPackage(goroot, ctxt.Compiler, path) {
+			p.Dir = ctxt.joinPath(goroot, "src", path)
 			p.Goroot = true
-			p.Root = ctxt.GOROOT
+			p.Root = goroot
 			goto Found
 		}
 		for _, root := range gopath {
@@ -728,15 +770,15 @@ func (ctxt *Context) Import(path string, srcDir string, mode ImportMode) (*Packa
 		// If we tried GOPATH first due to a "vendor/" prefix, fall back to GOPATH.
 		// That way, the user can still get useful results from 'go list' for
 		// standard-vendored paths passed on the command line.
-		if ctxt.GOROOT != "" && tried.goroot == "" {
-			dir := ctxt.joinPath(ctxt.GOROOT, "src", path)
+		if goroot != "" && tried.goroot == "" {
+			dir := ctxt.joinPath(goroot, "src", path)
 			if ctxt.Compiler != "gccgo" {
 				isDir := ctxt.isDir(dir)
-				binaryOnly = !isDir && mode&AllowBinary != 0 && pkga != "" && ctxt.isFile(ctxt.joinPath(ctxt.GOROOT, pkga))
+				binaryOnly = !isDir && mode&AllowBinary != 0 && pkga != "" && ctxt.isFile(ctxt.joinPath(goroot, pkga))
 				if isDir || binaryOnly {
 					p.Dir = dir
 					p.Goroot = true
-					p.Root = ctxt.GOROOT
+					p.Root = goroot
 					goto Found
 				}
 			}
@@ -1113,14 +1155,15 @@ func (ctxt *Context) importGo(p *Package, path, srcDir string, mode ImportMode) 
 		// If the source directory is in GOROOT, then the in-process code works fine
 		// and we should keep using it. Moreover, the 'go list' approach below doesn't
 		// take standard-library vendoring into account and will fail.
-		if _, ok := ctxt.hasSubdir(filepath.Join(ctxt.GOROOT, "src"), absSrcDir); ok {
+		if _, ok := ctxt.hasSubdir(filepath.Join(ctxt.goroot(), "src"), absSrcDir); ok {
 			return errNoModules
 		}
 	}
 
 	// For efficiency, if path is a standard library package, let the usual lookup code handle it.
-	if ctxt.GOROOT != "" {
-		dir := ctxt.joinPath(ctxt.GOROOT, "src", path)
+	goroot := ctxt.goroot()
+	if goroot != "" {
+		dir := ctxt.joinPath(goroot, "src", path)
 		if ctxt.isDir(dir) {
 			return errNoModules
 		}
@@ -1165,7 +1208,11 @@ func (ctxt *Context) importGo(p *Package, path, srcDir string, mode ImportMode) 
 		}
 	}
 
-	cmd := exec.Command("go", "list", "-e", "-compiler="+ctxt.Compiler, "-tags="+strings.Join(ctxt.BuildTags, ","), "-installsuffix="+ctxt.InstallSuffix, "-f={{.Dir}}\n{{.ImportPath}}\n{{.Root}}\n{{.Goroot}}\n{{if .Error}}{{.Error}}{{end}}\n", "--", path)
+	goCmd := "go"
+	if goroot != "" {
+		goCmd = filepath.Join(goroot, "bin", "go")
+	}
+	cmd := exec.Command(goCmd, "list", "-e", "-compiler="+ctxt.Compiler, "-tags="+strings.Join(ctxt.BuildTags, ","), "-installsuffix="+ctxt.InstallSuffix, "-f={{.Dir}}\n{{.ImportPath}}\n{{.Root}}\n{{.Goroot}}\n{{if .Error}}{{.Error}}{{end}}\n", "--", path)
 
 	if ctxt.Dir != "" {
 		cmd.Dir = ctxt.Dir
@@ -1182,7 +1229,7 @@ func (ctxt *Context) importGo(p *Package, path, srcDir string, mode ImportMode) 
 	cmd.Env = append(os.Environ(),
 		"GOOS="+ctxt.GOOS,
 		"GOARCH="+ctxt.GOARCH,
-		"GOROOT="+ctxt.GOROOT,
+		"GOROOT="+goroot,
 		"GOPATH="+ctxt.GOPATH,
 		"CGO_ENABLED="+cgo,
 	)
