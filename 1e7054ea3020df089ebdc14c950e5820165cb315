@@ -76,6 +76,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "148b8621_39cc8c22",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-03-08T23:55:45Z",
+      "side": 1,
+      "message": "Agreed. In the meantime we have learned more about type inference as well and explaining what matches would be better (and perhaps easier) than detailing the algorithmic steps. (That said, we do have algorithmic descriptions even in the current spec, e.g., on package initialization. But it\u0027s comparatively small.)\n\nI won\u0027t get to this before the release but we\u0027ll keep working on it.",
+      "parentUuid": "1be4e2f3_88ed111c",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6a2f48b3_26caa6ad",
         "filename": "doc/go_spec.html",
         "patchSetId": 2
@@ -578,6 +596,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "853f10e8_cc49d8e0",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1810,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-03-08T23:55:45Z",
+      "side": 1,
+      "message": "I have a pending CL that removes the need for specific types again. This is really an implementation detail that should not be visible in the spec. With that the only new concepts are type sets and core types.\n\nCore types are only needed (for now) because some operations have restrictions on what type sets they accept. Maybe at some point those go away and then we don\u0027t need the notion of a core type anymore.",
+      "parentUuid": "67e9ad26_eff23e84",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "113dd291_ea716bf5",
@@ -660,6 +696,24 @@
       "writtenOn": "2022-02-22T02:31:53Z",
       "side": 1,
       "message": "here i would expect \"type parameter\" to appear",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "acb9bd1e_c46f0f11",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2184,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-03-08T23:55:45Z",
+      "side": 1,
+      "message": "Good point! Done.",
+      "parentUuid": "a66d903a_9591eb92",
       "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -910,6 +964,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ad11e451_0b256722",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2597,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-03-08T23:55:45Z",
+      "side": 1,
+      "message": "To answer the question:\n\ntype T[P any] []P\n\nis permitted: the given type is a slice.\n\nI\u0027m not sure \"type parameter name\" is quite correct: that name is not a type, it denotes a (type parameter) type.\n\nI think some of the confusion here (and elsewhere) may perhaps be due to it not being clear enough that a type parameter is a type in its own right, like a pointer or an array. When we consider a generic function, we don\u0027t think of a type parameter as a place holder for a \"real type\", the type parameter _is_ the real type. And the only way to denote a type parameter is by its name, there\u0027s no such thing as a literal type parameter.\n\nElsewhere we refer to other types in a similar way: we talk about arrays, slices, interfaces, etc. So here we talk about type parameters.",
+      "parentUuid": "b8fd63f2_6cccb065",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cbda95b6_32e5df90",
         "filename": "doc/go_spec.html",
         "patchSetId": 2
@@ -996,6 +1068,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7083151a_bf6dff87",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2645,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-03-08T23:55:45Z",
+      "side": 1,
+      "message": "All type parameters are in scope together, so there\u0027s no order relevance (except that it influences the order in which type arguments may be passed). This is clear from the scope rules.\n\nWe probably need some prose re: invalid cycles. Added a note (this doesn\u0027t need to be pinned down for the release).",
+      "parentUuid": "b3e70647_7ce787c6",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "48c52066_4ad15d15",
@@ -1054,6 +1144,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "68d953a9_d0745d9e",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2660,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-03-08T23:55:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48c52066_4ad15d15",
+      "range": {
+        "startLine": 2657,
+        "startChar": 0,
+        "endLine": 2660,
+        "endChar": 34
+      },
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6c637dc1_1caf98ad",
@@ -1102,6 +1216,24 @@
       "side": 1,
       "message": "Well, the ambiguity only arises for a generic type declaration, not for a generic function declaration.  But still might be better to use a different example here.",
       "parentUuid": "a4f3908b_c9f8aa14",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ed2edd9_84f90675",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2706,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-03-08T23:55:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4a203f4_288b0aac",
       "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -1228,6 +1360,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2dc55c8_28afb1dc",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2995,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-03-08T23:55:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48fac0ad_a2a1bcc7",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ea33618b_76fca548",
@@ -1241,6 +1391,24 @@
       "writtenOn": "2022-02-14T18:48:09Z",
       "side": 1,
       "message": "I find the \"except...\" part between the commas hard to parse.",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe38722d_539a12a2",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2997,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-03-08T23:55:45Z",
+      "side": 1,
+      "message": "adjusted",
+      "parentUuid": "ea33618b_76fca548",
       "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -1361,6 +1529,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4892c41_dcbbef24",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 4122,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-03-08T23:55:45Z",
+      "side": 1,
+      "message": "I think this is the best place for now: this is where we declare generic functions and so a sentence referring to the need for instantiation before use seems appropriate. Instantiation per se is described in its own section as it also applies to generic types.\n\nFunction literals cannot declare type parameters. They may refer to type parameters of the enclosing function; as type parameters are simply types.",
+      "parentUuid": "99bb1889_e08da976",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "46ac240e_cadd75c9",
@@ -1412,6 +1598,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "31c422af_9eded688",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 4303,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-03-08T23:55:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50d37c3f_b19f47d5",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fc55b030_ec96cf34",
@@ -1435,6 +1639,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3fbb77f9_56264127",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 4348,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-03-08T23:55:45Z",
+      "side": 1,
+      "message": "We don\u0027t do type inference for types anymore.",
+      "parentUuid": "fc55b030_ec96cf34",
+      "range": {
+        "startLine": 4348,
+        "startChar": 21,
+        "endLine": 4348,
+        "endChar": 48
+      },
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9a3aae86_c9bed9ed",
@@ -1448,6 +1676,24 @@
       "writtenOn": "2022-02-27T23:34:37Z",
       "side": 1,
       "message": "is this section rigorous enough? i can\u0027t tell. the operational semantics gives me pause.",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5707aef4_65a5e7da",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 4372,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-03-08T23:55:45Z",
+      "side": 1,
+      "message": "Per other feedback, I agree that this needs to be reworked.",
+      "parentUuid": "9a3aae86_c9bed9ed",
       "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -1529,6 +1775,24 @@
       "writtenOn": "2022-02-14T18:48:09Z",
       "side": 1,
       "message": "Maybe I\u0027m missing something, but doesn\u0027t this first sentence just repeat what was already said above?\n\n\"Function argument type inference infers type arguments from function arguments: if a function parameter is declared with a type T that uses type parameters, unifying the type of the corresponding function argument with T may infer type arguments for the type parameters used by T. \"",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "370c0fa9_e4548e06",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 4496,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-03-08T23:55:45Z",
+      "side": 1,
+      "message": "Indeed. Removed.",
+      "parentUuid": "220afb6b_58677a2c",
       "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
