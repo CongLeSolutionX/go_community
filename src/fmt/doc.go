@@ -110,6 +110,9 @@
 	components independently and the result is parenthesized, so %f applied
 	to 1.2+3.4i produces (1.200000+3.400000i).
 
+	Formatting UTF-8 text (string or []byte) or code points (rune) with %q formats
+	invalid UTF-8 code points using the Unicode replacement character, U+FFFD.
+
 	Other flags:
 		+	always print a sign for numeric values;
 			guarantee ASCII-only output for %q (%+q)
