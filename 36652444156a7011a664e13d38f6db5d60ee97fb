@@ -189,6 +189,30 @@
       },
       "revId": "36652444156a7011a664e13d38f6db5d60ee97fb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f5384c5_4a72845d",
+        "filename": "src/cmd/internal/obj/arm64/obj7.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1089,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-03-08T00:27:31Z",
+      "side": 1,
+      "message": "Not done. The code still uses 0 instead of named constant.",
+      "parentUuid": "2025919d_863b847c",
+      "range": {
+        "startLine": 1089,
+        "startChar": 3,
+        "endLine": 1089,
+        "endChar": 8
+      },
+      "revId": "36652444156a7011a664e13d38f6db5d60ee97fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
