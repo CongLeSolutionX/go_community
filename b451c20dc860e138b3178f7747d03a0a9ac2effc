@@ -129,6 +129,63 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "eac19511_4a970ef2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2022-03-08T01:27:37Z",
+      "side": 1,
+      "message": "(Just adding myself to CC; inline comments are trivial.)",
+      "revId": "b451c20dc860e138b3178f7747d03a0a9ac2effc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9218f65_17d3bf6d",
+        "filename": "src/internal/fuzz/encoding.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2022-03-08T01:27:37Z",
+      "side": 1,
+      "message": "Is this TODO resolved (fully or perhaps partially) via this CL?",
+      "range": {
+        "startLine": 28,
+        "startChar": 24,
+        "endLine": 29,
+        "endChar": 54
+      },
+      "revId": "b451c20dc860e138b3178f7747d03a0a9ac2effc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba926aa8_179dccbf",
+        "filename": "src/internal/fuzz/encoding_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2022-03-08T01:27:37Z",
+      "side": 1,
+      "message": "Optional drive-by comment, I wonder if it\u0027s meaningfully more clear to instead say:\n\n```\n// empty string means in\n```\n\n(No need to change it unless you deem it worthwhile.)",
+      "revId": "b451c20dc860e138b3178f7747d03a0a9ac2effc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "eec04caa_3087f064",
         "filename": "src/internal/fuzz/encoding_test.go",
         "patchSetId": 1
