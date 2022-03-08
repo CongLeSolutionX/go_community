@@ -74,6 +74,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf4a1b40_996d1d36",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-03-08T13:52:06Z",
+      "side": 1,
+      "message": "Yes, this entire stack is for 1.19. Thanks for taking a look.",
+      "parentUuid": "70e6af19_7ecf3fbb",
+      "revId": "d9a839c86010091d5afdbede2305ee11ced421b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f4681761_1a945005",
@@ -87,6 +105,24 @@
       "writtenOn": "2022-02-22T21:35:29Z",
       "side": 1,
       "message": "This no longer needs to be a function pointer. I believe it was a function pointer when transition from the old symbol table to the new linker\u0027s Loader so we could switch between them. Just call l.LookupOrCreateCgoExport directly.",
+      "revId": "d9a839c86010091d5afdbede2305ee11ced421b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "375f1a41_93d4796c",
+        "filename": "src/cmd/link/internal/loadpe/ldpe.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-03-08T13:52:06Z",
+      "side": 1,
+      "message": "Indeed. I\u0027ll fix that up.",
+      "parentUuid": "f4681761_1a945005",
       "revId": "d9a839c86010091d5afdbede2305ee11ced421b0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
