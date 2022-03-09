@@ -1600,6 +1600,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bb3d49d_4e075110",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 4267,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-03-09T00:53:13Z",
+      "side": 1,
+      "message": "clarified by rephrasing the \"after substitution\" column",
+      "parentUuid": "46ac240e_cadd75c9",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7bc24978_0bd29031",
@@ -1613,6 +1631,24 @@
       "writtenOn": "2022-02-27T23:34:37Z",
       "side": 1,
       "message": "ditto.",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cae712f2_a37c690d",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 4268,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-03-09T00:53:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7bc24978_0bd29031",
       "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
