@@ -422,6 +422,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a289197_3ce21cf5",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1510,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-03-09T00:31:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06b9a380_a1255182",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fdb5e9a9_67599512",
@@ -505,6 +523,24 @@
       "writtenOn": "2022-02-21T22:45:23Z",
       "side": 1,
       "message": "so []B3 and []int are several steps apart. is there a way to relate them directly?\n\ni presume []~int works, but what does ~[]B1 match? does it match []int? i can\u0027t tell.",
+      "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "07ea0fe4_4a9d8a6f",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1733,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-03-09T00:31:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0803598b_10628273",
       "revId": "1e7054ea3020df089ebdc14c950e5820165cb315",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
