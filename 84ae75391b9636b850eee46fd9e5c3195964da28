@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce538abb_30ac244b",
+        "filename": "src/cmd/compile/abi-internal.md",
+        "patchSetId": 14
+      },
+      "lineNbr": 748,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2022-03-09T02:31:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb860e9a_d7b72458",
+      "range": {
+        "startLine": 748,
+        "startChar": 2,
+        "endLine": 748,
+        "endChar": 4
+      },
+      "revId": "84ae75391b9636b850eee46fd9e5c3195964da28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d1cbb1ae_03de17a1",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-03-08T15:36:53Z",
       "side": 1,
       "message": "Inconsistency here - all others have spaces each side of the hyphen.",
+      "range": {
+        "startLine": 758,
+        "startChar": 65,
+        "endLine": 758,
+        "endChar": 66
+      },
+      "revId": "84ae75391b9636b850eee46fd9e5c3195964da28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "75b36891_9108a96c",
+        "filename": "src/cmd/compile/abi-internal.md",
+        "patchSetId": 14
+      },
+      "lineNbr": 758,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2022-03-09T02:31:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d1cbb1ae_03de17a1",
       "range": {
         "startLine": 758,
         "startChar": 65,
