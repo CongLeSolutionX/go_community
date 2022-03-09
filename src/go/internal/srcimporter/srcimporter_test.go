@@ -13,7 +13,6 @@ import (
 	"os"
 	"path"
 	"path/filepath"
-	"runtime"
 	"strings"
 	"testing"
 	"time"
@@ -58,7 +57,7 @@ func walkDir(t *testing.T, path string, endTime time.Time) (int, bool) {
 		return 0, false
 	}
 
-	list, err := os.ReadDir(filepath.Join(runtime.GOROOT(), "src", path))
+	list, err := os.ReadDir(filepath.Join(testenv.GOROOT(t), "src", path))
 	if err != nil {
 		t.Fatalf("walkDir %s failed (%v)", path, err)
 	}
@@ -247,7 +246,7 @@ func TestCgo(t *testing.T) {
 	testenv.MustHaveCGO(t)
 
 	importer := New(&build.Default, token.NewFileSet(), make(map[string]*types.Package))
-	_, err := importer.ImportFrom("./misc/cgo/test", runtime.GOROOT(), 0)
+	_, err := importer.ImportFrom("./misc/cgo/test", testenv.GOROOT(t), 0)
 	if err != nil {
 		t.Fatalf("Import failed: %v", err)
 	}
