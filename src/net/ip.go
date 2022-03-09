@@ -98,10 +98,10 @@ func CIDRMask(ones, bits int) IPMask {
 
 // Well-known IPv4 addresses
 var (
-	IPv4bcast     = IPv4(255, 255, 255, 255) // limited broadcast
-	IPv4allsys    = IPv4(224, 0, 0, 1)       // all systems
-	IPv4allrouter = IPv4(224, 0, 0, 2)       // all routers
-	IPv4zero      = IPv4(0, 0, 0, 0)         // all zeros
+	IPv4bcast     = IP{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xff, 0xff, 255, 255, 255, 255} // limited broadcast
+	IPv4allsys    = IP{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xff, 0xff, 224, 0, 0, 1}       // all systems
+	IPv4allrouter = IP{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xff, 0xff, 224, 0, 0, 2}       // all routers
+	IPv4zero      = IP{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xff, 0xff, 0, 0, 0, 0}         // all zeros
 )
 
 // Well-known IPv6 addresses
@@ -235,9 +235,9 @@ func (ip IP) To16() IP {
 
 // Default route masks for IPv4.
 var (
-	classAMask = IPv4Mask(0xff, 0, 0, 0)
-	classBMask = IPv4Mask(0xff, 0xff, 0, 0)
-	classCMask = IPv4Mask(0xff, 0xff, 0xff, 0)
+	classAMask = IPMask{0xff, 0, 0, 0}
+	classBMask = IPMask{0xff, 0xff, 0, 0}
+	classCMask = IPMask{0xff, 0xff, 0xff, 0}
 )
 
 // DefaultMask returns the default IP mask for the IP address ip.
