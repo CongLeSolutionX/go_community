@@ -15,6 +15,7 @@ import (
 	"go/ast"
 	"go/printer"
 	"go/token"
+	"internal/testenv"
 	"io"
 	"io/fs"
 	"os"
@@ -25,7 +26,7 @@ import (
 )
 
 var (
-	root    = flag.String("root", runtime.GOROOT(), "test root directory")
+	root    = flag.String("root", testenv.GOROOT(nil), "test root directory")
 	files   = flag.String("files", "", "comma-separated list of files to test")
 	ngo     = flag.Int("n", runtime.NumCPU(), "number of goroutines used")
 	verbose = flag.Bool("verbose", false, "verbose mode")
