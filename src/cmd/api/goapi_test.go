@@ -9,6 +9,7 @@ import (
 	"flag"
 	"fmt"
 	"go/build"
+	"internal/testenv"
 	"os"
 	"path/filepath"
 	"sort"
@@ -22,6 +23,7 @@ func TestMain(m *testing.M) {
 	for _, c := range contexts {
 		c.Compiler = build.Default.Compiler
 	}
+	build.Default.GOROOT = testenv.GOROOT(nil)
 
 	// Warm up the import cache in parallel.
 	var wg sync.WaitGroup
@@ -30,7 +32,7 @@ func TestMain(m *testing.M) {
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
-			_ = NewWalker(context, filepath.Join(build.Default.GOROOT, "src"))
+			_ = NewWalker(context, filepath.Join(testenv.GOROOT(nil), "src"))
 		}()
 	}
 	wg.Wait()
@@ -184,7 +186,7 @@ func TestSkipInternal(t *testing.T) {
 func BenchmarkAll(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		for _, context := range contexts {
-			w := NewWalker(context, filepath.Join(build.Default.GOROOT, "src"))
+			w := NewWalker(context, filepath.Join(testenv.GOROOT(b), "src"))
 			for _, name := range w.stdPackages {
 				pkg, _ := w.Import(name)
 				w.export(pkg)
@@ -219,7 +221,7 @@ func TestIssue29837(t *testing.T) {
 func TestIssue41358(t *testing.T) {
 	context := new(build.Context)
 	*context = build.Default
-	context.Dir = filepath.Join(context.GOROOT, "src")
+	context.Dir = filepath.Join(testenv.GOROOT(t), "src")
 
 	w := NewWalker(context, context.Dir)
 	for _, pkg := range w.stdPackages {
