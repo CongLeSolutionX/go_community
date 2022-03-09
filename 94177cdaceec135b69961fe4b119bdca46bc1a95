@@ -59,6 +59,30 @@
       },
       "revId": "94177cdaceec135b69961fe4b119bdca46bc1a95",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "049faecc_83605c1a",
+        "filename": "src/cmd/internal/obj/arm64/obj7.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1083,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-03-09T06:47:48Z",
+      "side": 1,
+      "message": "Since SHIFT_LL is always 0, so it\u0027s actually right. But offset \u0026 (3 \u003c\u003c 22) !\u003d SHIFT_LL looks more reasonable, done, thanks.",
+      "parentUuid": "bbddc807_a5d444bd",
+      "range": {
+        "startLine": 1082,
+        "startChar": 3,
+        "endLine": 1083,
+        "endChar": 22
+      },
+      "revId": "94177cdaceec135b69961fe4b119bdca46bc1a95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
