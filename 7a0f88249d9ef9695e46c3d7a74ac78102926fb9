@@ -97,6 +97,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fcaee6bc_52952341",
+        "filename": "src/cmd/compile/internal/types2/lookup.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-03-09T20:53:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8419a38_6acab893",
+      "range": {
+        "startLine": 73,
+        "startChar": 1,
+        "endLine": 73,
+        "endChar": 38
+      },
+      "revId": "7a0f88249d9ef9695e46c3d7a74ac78102926fb9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "40f5849a_c1c79f0c",
@@ -110,6 +134,30 @@
       "writtenOn": "2022-03-09T20:33:44Z",
       "side": 1,
       "message": "Would be good to reference #51576 in these test comments as well.",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 28
+      },
+      "revId": "7a0f88249d9ef9695e46c3d7a74ac78102926fb9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a932e79_1196c145",
+        "filename": "src/cmd/compile/internal/types2/testdata/fixedbugs/issue50417.go2",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-03-09T20:53:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "40f5849a_c1c79f0c",
       "range": {
         "startLine": 5,
         "startChar": 0,
