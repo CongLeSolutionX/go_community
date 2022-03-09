@@ -36,6 +36,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "90d04917_4a81a09a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-03-09T16:38:22Z",
+      "side": 1,
+      "message": "8 as used now is incorrect. The interpretation of RA+RB (the EA) differs depending on the value of TH. For the case of TH\u003d8, the lower 7 bits are used to share additional metadata about the stream. That is, they need to be explicitly set by the user.\n\nTH\u003d16 interprets RA+RB in a similar manner to TH\u003d0. That section of the ISA document is not as straightforward to follow as book i.",
+      "parentUuid": "3dbe457a_a96792e2",
+      "revId": "f42f0b224bcae2f03d21cff2c843f22afe457e27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "961b8617_af709669",
