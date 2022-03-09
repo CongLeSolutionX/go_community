@@ -97,6 +97,16 @@ case "$(uname)" in
 	;;
 esac
 
+# Test for bad bfd.ld
+if test "$(uname -m)" = "aarch64" && ld -v | grep -E "GNU ld.* 2\.([0-3]|40)"; then
+	echo 'ERROR: Your system uses bfd.LD 2.40 or older which has issues with dynamic linking on aarch64'
+	echo 'Consider upgrading or switching to binutils-gold.'
+	echo
+	echo 'See https://sourceware.org/bugzilla/show_bug.cgi?id=30437'
+
+	exit 1
+fi
+
 # Test for bad ld.
 if ld --version 2>&1 | grep 'gold.* 2\.20' >/dev/null; then
 	echo 'ERROR: Your system has gold 2.20 installed.'
