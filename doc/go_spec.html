@@ -1550,7 +1550,10 @@ implements the interface.
 A map is an unordered group of elements of one type, called the
 element type, indexed by a set of unique <i>keys</i> of another type,
 called the key type.
-The value of an uninitialized map is <code>nil</code>.
+
+A map value is a pointer-like reference to the data structure that holds the keys and values.
+
+The value of an uninitialized map is <code>nil</code>, which points to no data structure.
 </p>
 
 <pre class="ebnf">
@@ -1584,7 +1587,7 @@ using <a href="#Assignments">assignments</a> and retrieved with
 <a href="#Deletion_of_map_elements"><code>delete</code></a> built-in function.
 </p>
 <p>
-A new, empty map value is made using the built-in
+A new, empty map data structure is made using the built-in
 function <a href="#Making_slices_maps_and_channels"><code>make</code></a>,
 which takes the map type and an optional capacity hint as arguments:
 </p>
@@ -1596,10 +1599,10 @@ make(map[string]int, 100)
 
 <p>
 The initial capacity does not bound its size:
-maps grow to accommodate the number of items
-stored in them, with the exception of <code>nil</code> maps.
-A <code>nil</code> map is equivalent to an empty map except that no elements
-may be added.
+a map data structure grows to accommodate the number of items
+stored in it.
+A <code>nil</code> map is equivalent to a reference to
+an empty map data structure except that no elements may be added.
 
 <h3 id="Channel_types">Channel types</h3>
 
@@ -1610,7 +1613,10 @@ to communicate by
 <a href="#Send_statements">sending</a> and
 <a href="#Receive_operator">receiving</a>
 values of a specified element type.
-The value of an uninitialized channel is <code>nil</code>.
+
+A channel value is a pointer-like reference to the data structure that holds the elements.
+
+The value of an uninitialized channel is <code>nil</code>, which points to no data structure.
 </p>
 
 <pre class="ebnf">
@@ -1645,8 +1651,7 @@ chan (&lt;-chan int)
 </pre>
 
 <p>
-A new, initialized channel
-value can be made using the built-in function
+A new channel data structure is made using the built-in function
 <a href="#Making_slices_maps_and_channels"><code>make</code></a>,
 which takes the channel type and an optional <i>capacity</i> as arguments:
 </p>
@@ -4053,10 +4058,12 @@ or used as a function value.
 <p>
 In a function call, the function value and arguments are evaluated in
 <a href="#Order_of_evaluation">the usual order</a>.
-After they are evaluated, the parameters of the call are passed by value to the function
-and the called function begins execution.
-The return parameters of the function are passed by value
+After they are evaluated, the arguments of the call are assigned to
+the parameters of the function and the called function begins
+execution.
+The return parameters of the function are copied
 back to the caller when the function returns.
+Arguments and results are passed by value.
 </p>
 
 <p>
@@ -6036,6 +6043,33 @@ to the type of the operand to which it is assigned, with the following special c
 </li>
 </ol>
 
+<p>
+An assignment makes a copy of a value.
+
+If the value is a pointer, the copy and the original will point to the
+same variable: modifications made to the variable through one pointer
+will be observed by reads through the other pointer.
+
+The expression <code>*p</code> below is an <i>alias</o> for the variable
+<code>x</code>:
+</p>
+<pre>
+  v := 1
+  p = &v
+  *p = 2
+  print(v) // 2
+</pre>
+<p>
+Copying a struct or array value that contains a pointer also creates
+an alias for the variable to which it points.
+
+Copying other types of values also creates aliases: a slice behaves
+like a pointer to its underlying array; maps and channels behave like
+pointers to the data structure created by <code>make</code>; and a
+function closure behaves like a pointer to any variables it refers to
+from its surrounding function.
+</p>
+
 <h3 id="If_statements">If statements</h3>
 
 <p>
@@ -7948,6 +7982,12 @@ bits = *(*uint64)(ptr(&amp;f))
 
 var p ptr = nil
 </pre>
+
+<p>
+Map and channel values, which behave like pointers to the data
+structure created by <code>make</code>, may be converted to or from
+<code>unsafe.Pointer</code>.
+</p>
 
 <p>
 The functions <code>Alignof</code> and <code>Sizeof</code> take an expression <code>x</code>
