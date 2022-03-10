@@ -16,6 +16,24 @@
       "message": "Is there reason to believe that only version 2.25 is broken?\n\nIn any case binutils 2.25 is from 2014 so I don\u0027t think we need this check.",
       "revId": "9f373d0f0943af459d522a30e74018dd2ee579b8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "351303b4_92a92a4a",
+        "filename": "src/make.bash",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 56438
+      },
+      "writtenOn": "2022-03-10T19:00:33Z",
+      "side": 1,
+      "message": "I am not certain which version fixed it, also I was hoping for the review system to inform me on test failures on the test harness.\n\nIn the issue discussion it was pointed out that old debian versions were affected. according https://tracker.debian.org/pkg/binutils that should point at 2.28 or older being the issue. I have updated the regexp.\n\nI can not reproduce the original issue on any system that I have access to (2.32 and above)",
+      "parentUuid": "74088c86_ce3511f9",
+      "revId": "9f373d0f0943af459d522a30e74018dd2ee579b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
