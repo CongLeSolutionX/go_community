@@ -7,13 +7,10 @@ package time
 import (
 	"errors"
 	"internal/syscall/windows/registry"
-	"runtime"
 	"syscall"
 )
 
-var zoneSources = []string{
-	runtime.GOROOT() + "/lib/time/zoneinfo.zip",
-}
+var platformZoneSources []string = nil
 
 // TODO(rsc): Fall back to copy of zoneinfo files.
 

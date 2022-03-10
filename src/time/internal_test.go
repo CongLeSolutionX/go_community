@@ -5,12 +5,20 @@
 package time
 
 func init() {
-	// force US/Pacific for time zone tests
+	// Force US/Pacific for time zone tests.
 	ForceUSPacificForTesting()
 }
 
 func initTestingZone() {
-	z, err := loadLocation("America/Los_Angeles", zoneSources[len(zoneSources)-1:])
+	// For hermeticity, use only tzinfo source from the test's GOROOT,
+	// not the system sources and not whatever GOROOT may happen to be
+	// set in the process's environment (if any).
+	// This test runs in GOROOT/src/time, so GOROOT is "../..".
+	var sources []string
+	if gorootSource, ok := gorootZoneSource("../.."); ok {
+		sources = append(sources, gorootSource)
+	}
+	z, err := loadLocation("America/Los_Angeles", sources)
 	if err != nil {
 		panic("cannot load America/Los_Angeles for testing: " + err.Error() + "; you may want to use -tags=timetzdata")
 	}
@@ -18,13 +26,13 @@ func initTestingZone() {
 	localLoc = *z
 }
 
-var OrigZoneSources = zoneSources
+var origPlatformZoneSources []string = platformZoneSources
 
-func forceZipFileForTesting(zipOnly bool) {
-	zoneSources = make([]string, len(OrigZoneSources))
-	copy(zoneSources, OrigZoneSources)
-	if zipOnly {
-		zoneSources = zoneSources[len(zoneSources)-1:]
+func togglePlatformSources(includePlatform bool) {
+	if includePlatform {
+		platformZoneSources = origPlatformZoneSources
+	} else {
+		platformZoneSources = nil
 	}
 }
 
