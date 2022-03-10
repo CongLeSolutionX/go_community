@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc31ce5d_793c19b3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-03-10T20:53:56Z",
+      "side": 1,
+      "message": "Thanks for this. Can you please make this to separate CLs, one for go_mem.html (for @rsc) and one for go_spec.html. I don\u0027t think they need to be \"in sync\".",
+      "revId": "9057d97929dbf067848caf0650505cced15a5e17",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
