@@ -29,6 +29,7 @@ func ResetZoneinfoForTesting() {
 
 var (
 	ForceZipFileForTesting = forceZipFileForTesting
+	GorootZoneSource       = gorootZoneSource
 	ParseTimeZone          = parseTimeZone
 	SetMono                = (*Time).setMono
 	GetMono                = (*Time).mono
