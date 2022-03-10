@@ -16,7 +16,7 @@ func f[T comparable](t, u T) bool {
 
 func g[T comparable](t T, i interface{}) bool {
 	// Compare type parameter value to empty interface.
-	return t == i
+	return any(t) == i // issue #51522
 }
 
 type I interface {
@@ -30,7 +30,7 @@ type C interface {
 
 func h[T C](t T, i I) bool {
 	// Compare type parameter value to nonempty interface.
-	return t == i
+	return any(t) == i // issue #51522
 }
 
 type myint int

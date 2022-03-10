@@ -392,7 +392,7 @@ func checkList[T comparable](l *_List[T], es []interface{}) {
 	for e := l.Front(); e != nil; e = e.Next() {
 		le := e.Value
 		// Comparison between a generically-typed variable le and an interface.
-		if le != es[i] {
+		if any(le) != es[i] { // issue #51522
 			panic(fmt.Sprintf("elt[%d].Value = %v, want %v", i, le, es[i]))
 		}
 		i++

@@ -1,0 +1,29 @@
+// Copyright 2022 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+package p
+
+// test case from issue
+
+func f[T comparable](i any) {
+	var t T
+
+	if i /* ERROR cannot compare i != t \(type parameter vs interface comparison, see issue #51522\) */ != t {
+		println("FAIL: if i != t")
+	}
+
+	switch i {
+	case t /* ERROR cannot compare t == i .* #51522 */ :
+		// ok
+	default:
+		println("FAIL: switch i")
+	}
+
+	switch t {
+	case i /* ERROR cannot compare i == t .* #51522 */ :
+		// ok
+	default:
+		println("FAIL: switch t")
+	}
+}

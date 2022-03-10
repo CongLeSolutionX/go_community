@@ -820,6 +820,12 @@ func (check *Checker) comparison(x, y *operand, op token.Token, switchCase bool)
 		check.updateExprType(y.expr, Default(y.typ), true)
 	}
 
+	// temporary work-around for issue #51522
+	if isTypeParam(x.typ) && isTrueInterface(y.typ) || isTypeParam(y.typ) && isTrueInterface(x.typ) {
+		check.invalidOp(errOp, _MismatchedTypes, "cannot compare %s %s %s (type parameter vs interface comparison, see issue #51522)", x.expr, op, y.expr)
+		// ok to continue
+	}
+
 	// spec: "Comparison operators compare two operands and yield
 	//        an untyped boolean value."
 	x.typ = Typ[UntypedBool]
@@ -849,6 +855,11 @@ Error:
 	}
 	x.mode = invalid
 }
+
+// TODO(gri) Move this predicate (or an equivalenty named one) into predicates.go,
+//           and use it where we currently check explicitly by calling isTypeParam
+//           and isInterface.
+func isTrueInterface(typ Type) bool { return !isTypeParam(typ) && IsInterface(typ) }
 
 // incomparableCause returns a more specific cause why typ is not comparable.
 // If there is no more specific cause, the result is "".
