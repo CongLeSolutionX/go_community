@@ -66,8 +66,8 @@ func TestLoadLocationValidatesNames(t *testing.T) {
 }
 
 func TestVersion3(t *testing.T) {
-	time.ForceZipFileForTesting(true)
-	defer time.ForceZipFileForTesting(false)
+	time.TogglePlatformSources(false)
+	defer time.TogglePlatformSources(true)
 	_, err := time.LoadLocation("Asia/Jerusalem")
 	if err != nil {
 		t.Fatal(err)
@@ -78,8 +78,8 @@ func TestVersion3(t *testing.T) {
 // transition time. To do this we explicitly check early dates in a
 // couple of specific timezones.
 func TestFirstZone(t *testing.T) {
-	time.ForceZipFileForTesting(true)
-	defer time.ForceZipFileForTesting(false)
+	time.TogglePlatformSources(false)
+	defer time.TogglePlatformSources(true)
 
 	const format = "Mon, 02 Jan 2006 15:04:05 -0700 (MST)"
 	var tests = []struct {
@@ -128,8 +128,8 @@ func TestLocationNames(t *testing.T) {
 }
 
 func TestLoadLocationFromTZData(t *testing.T) {
-	time.ForceZipFileForTesting(true)
-	defer time.ForceZipFileForTesting(false)
+	time.TogglePlatformSources(false)
+	defer time.TogglePlatformSources(true)
 
 	const locationName = "Asia/Jerusalem"
 	reference, err := time.LoadLocation(locationName)
@@ -137,7 +137,11 @@ func TestLoadLocationFromTZData(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	tzinfo, err := time.LoadTzinfo(locationName, time.OrigZoneSources[len(time.OrigZoneSources)-1])
+	gorootSource, ok := time.GorootZoneSource("../..")
+	if !ok {
+		t.Fatal("Failed to locate tzinfo source in GOROOT.")
+	}
+	tzinfo, err := time.LoadTzinfo(locationName, gorootSource)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -153,8 +157,8 @@ func TestLoadLocationFromTZData(t *testing.T) {
 
 // Issue 30099.
 func TestEarlyLocation(t *testing.T) {
-	time.ForceZipFileForTesting(true)
-	defer time.ForceZipFileForTesting(false)
+	time.TogglePlatformSources(false)
+	defer time.TogglePlatformSources(true)
 
 	const locName = "America/New_York"
 	loc, err := time.LoadLocation(locName)
