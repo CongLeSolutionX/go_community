@@ -6,11 +6,18 @@ package time
 
 import (
 	"errors"
+	"runtime"
 	"sync"
 	"syscall"
 )
 
 //go:generate env ZONEINFO=$GOROOT/lib/time/zoneinfo.zip go run genzabbrs.go -output zoneinfo_abbrs_windows.go
+
+func init() {
+	if s, ok := gorootZoneSource(runtime.GOROOT()); ok {
+		zoneSources = append(zoneSources, s)
+	}
+}
 
 // A Location maps time instants to the zone in use at that time.
 // Typically, the Location represents the collection of time offsets

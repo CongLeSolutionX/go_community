@@ -10,14 +10,12 @@ package time
 
 import (
 	"errors"
-	"runtime"
 	"syscall"
 )
 
 var zoneSources = []string{
 	"/system/usr/share/zoneinfo/tzdata",
 	"/data/misc/zoneinfo/current/tzdata",
-	runtime.GOROOT() + "/lib/time/zoneinfo.zip",
 }
 
 func initLocal() {
