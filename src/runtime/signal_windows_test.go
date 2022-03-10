@@ -78,6 +78,8 @@ func sendCtrlBreak(pid int) error {
 // TestCtrlHandler tests that Go can gracefully handle closing the console window.
 // See https://golang.org/issues/41884.
 func TestCtrlHandler(t *testing.T) {
+	testenv.SkipFlaky(t, 51602)
+
 	testenv.MustHaveGoBuild(t)
 	t.Parallel()
 
@@ -121,8 +123,9 @@ func TestCtrlHandler(t *testing.T) {
 	}
 
 	// gracefully kill pid, this closes the command window
-	if err := exec.Command("taskkill.exe", "/pid", strconv.Itoa(cmd.Process.Pid)).Run(); err != nil {
-		t.Fatalf("failed to kill: %v", err)
+	killCmd := exec.Command("taskkill.exe", "/pid", strconv.Itoa(cmd.Process.Pid))
+	if out, err := killCmd.CombinedOutput(); err != nil {
+		t.Fatalf("%s: %v\n%s", killCmd, err, out)
 	}
 
 	// check child received, handled SIGTERM
