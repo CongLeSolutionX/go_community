@@ -15,7 +15,6 @@ var zoneSources = []string{
 	"/usr/share/zoneinfo/",
 	"/usr/share/lib/zoneinfo/",
 	"/usr/lib/locale/TZ/",
-	runtime.GOROOT() + "/lib/time/zoneinfo.zip",
 }
 
 func initLocal() {
