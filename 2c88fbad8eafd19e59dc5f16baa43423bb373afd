@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ff1b62f_9b145795",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-03-10T01:44:18Z",
+      "side": 1,
+      "message": "I\u0027m not crazy about this one.  It makes the code harder to read and more fragile.  Would it help to change IPv4 to just return a composite literal?",
+      "revId": "2c88fbad8eafd19e59dc5f16baa43423bb373afd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
