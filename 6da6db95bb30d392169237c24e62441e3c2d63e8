@@ -49,6 +49,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d3900ca9_921a6ba2",
+        "filename": "doc/go_mem.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 662,
+      "author": {
+        "id": 56068
+      },
+      "writtenOn": "2022-03-10T16:27:34Z",
+      "side": 1,
+      "message": "That was an admirable attempt to write down general rules early on. But I think it has become clear since then that things are actually more complicated. Some machine architectures, especially \"non-multicopy-atomic\" ones, really require a careful analysis of each specific architecture. It took years, and an incorrect \"theorem\" or two, to understand if and how it was possible to restore sequential consistency on Power/ARMv7. (I don\u0027t mean to pick on those; they\u0027re the better-known representatives of a larger class.)\n\nThese days, I would generally point at https://www.cl.cam.ac.uk/~pes20/cpp/cpp0xmappings.html instead. That looks at C++ primitives, but at least for atomics, I think we\u0027re talking about a subset of those here.\n\nEven that is an oversimplification, since there are often somewhat arbitrary choices (e.g. \"leading fence\" vs \"trailing fence\", where the SFENCEs for x86 nontemporal operations). These choices really need to be made consistently across languages in a platform ABI spec, but usually are not.",
+      "parentUuid": "97f88bd1_5c3e52b5",
+      "range": {
+        "startLine": 662,
+        "startChar": 21,
+        "endLine": 662,
+        "endChar": 42
+      },
+      "revId": "6da6db95bb30d392169237c24e62441e3c2d63e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5cec7183_d0b3ed9a",
         "filename": "doc/go_mem.html",
         "patchSetId": 4
