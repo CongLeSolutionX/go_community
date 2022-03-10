@@ -4,8 +4,22 @@
 
 package time
 
+import "runtime"
+
 func init() {
-	// force US/Pacific for time zone tests
+	if _, ok := gorootZoneSource(runtime.GOROOT()); !ok {
+		// We didn't find the goroot zone source during normal init, perhaps because
+		// runtime.GOROOT() was empty or invalid. However, since we are running as
+		// the test of the time package, the CWD should be GOROOT/src/time. Try
+		// again with that knowledge.
+		if s, ok := gorootZoneSource("../.."); ok {
+			zoneSources = append(zoneSources, s)
+		}
+	}
+
+	OrigZoneSources = zoneSources
+
+	// Force US/Pacific for time zone tests.
 	ForceUSPacificForTesting()
 }
 
@@ -18,7 +32,7 @@ func initTestingZone() {
 	localLoc = *z
 }
 
-var OrigZoneSources = zoneSources
+var OrigZoneSources []string
 
 func forceZipFileForTesting(zipOnly bool) {
 	zoneSources = make([]string, len(OrigZoneSources))
