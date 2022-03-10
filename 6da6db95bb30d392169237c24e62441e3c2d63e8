@@ -26,6 +26,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "97f88bd1_5c3e52b5",
+        "filename": "doc/go_mem.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 662,
+      "author": {
+        "id": 15922
+      },
+      "writtenOn": "2022-03-10T13:37:58Z",
+      "side": 1,
+      "message": "Can we have a table to describe whether we can reorder the different operations, like JSR-133 Cookbook? http://gee.cs.oswego.edu/dl/jmm/cookbook.html",
+      "range": {
+        "startLine": 662,
+        "startChar": 21,
+        "endLine": 662,
+        "endChar": 42
+      },
+      "revId": "6da6db95bb30d392169237c24e62441e3c2d63e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5cec7183_d0b3ed9a",
         "filename": "doc/go_mem.html",
         "patchSetId": 4
