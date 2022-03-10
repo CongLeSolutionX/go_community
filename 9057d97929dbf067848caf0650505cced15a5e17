@@ -34,6 +34,41 @@
       "parentUuid": "fc31ce5d_793c19b3",
       "revId": "9057d97929dbf067848caf0650505cced15a5e17",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1a06b4b_c362fe4e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2022-03-10T21:06:50Z",
+      "side": 1,
+      "message": "Done (see https://go-review.googlesource.com/c/go/+/391635)",
+      "parentUuid": "abd652b5_b3d1873a",
+      "revId": "9057d97929dbf067848caf0650505cced15a5e17",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbfa02a6_46c52ef9",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 6049,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2022-03-10T21:06:50Z",
+      "side": 1,
+      "message": "Does more need to be said about slice here, since it\u0027s not simply a reference?\n\nDoes the reference-ness of functions need explaining elsewhere in terms of stateful closures?",
+      "revId": "9057d97929dbf067848caf0650505cced15a5e17",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
