@@ -16,6 +16,24 @@
       "message": "I\u0027m not crazy about this one.  It makes the code harder to read and more fragile.  Would it help to change IPv4 to just return a composite literal?",
       "revId": "2c88fbad8eafd19e59dc5f16baa43423bb373afd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8923e2cd_75e94b51",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2022-03-10T22:18:24Z",
+      "side": 1,
+      "message": "I did try that, but it didn\u0027t help.\n\nI first thought that the problem was we weren\u0027t inlining, but we do. The problem is that the \"make\" still escapes anyway:\n\n```\n./ip.go:52:11: make(IP, IPv6len) escapes to heap:\n./ip.go:52:11:   flow: p \u003d \u0026{storage for make(IP, IPv6len)}:\n./ip.go:52:11:     from make(IP, IPv6len) (spill) at ./ip.go:52:11\n./ip.go:52:11:     from p :\u003d make(IP, IPv6len) (assign) at ./ip.go:52:4\n./ip.go:52:11:   flow: ~r0 \u003d p:\n./ip.go:52:11:     from return p (return) at ./ip.go:58:2\n./ip.go:52:11: make(IP, IPv6len) escapes to heap\n```\n\nThe []byte{} literal form escapes the same way:\n\n```\n./ip.go:52:15: []byte{...} escapes to heap:\n./ip.go:52:15:   flow: ~r0 \u003d \u0026{storage for []byte{...}}:\n./ip.go:52:15:     from []byte{...} (spill) at ./ip.go:52:15\n./ip.go:52:15:     from return []byte{...} (return) at ./ip.go:52:2\n./ip.go:52:15: []byte{...} escapes to heap\n```\n\nPerhaps it would be easier if the IP type wasn\u0027t a slice, but that ship has sailed. I\u0027m not sure to what degree we can improve escape analysis to see that an allocation isn\u0027t needed if the parent can inline the constructor call and allocate in the stack. I\u0027d be fine if we prefer to not merge this, but then I\u0027d ask that someone with a better understanding of this part of the compiler file a bug :)",
+      "parentUuid": "2ff1b62f_9b145795",
+      "revId": "2c88fbad8eafd19e59dc5f16baa43423bb373afd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
