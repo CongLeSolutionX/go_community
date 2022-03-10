@@ -4,9 +4,19 @@
 
 package time
 
-func ForceAndroidTzdataForTest(tzdata bool) {
-	forceZipFileForTesting(false)
-	if tzdata {
-		zoneSources = zoneSources[:len(zoneSources)-1]
+var origLoadFromEmbeddedTZData func(zipname string) (string, error)
+
+func ForceAndroidTzdataForTest(androidOnly bool) {
+	if androidOnly {
+		allowGorootSource = false
+		if loadFromEmbeddedTZData != nil {
+			origLoadFromEmbeddedTZData = loadFromEmbeddedTZData
+			loadFromEmbeddedTZData = nil
+		}
+	} else {
+		allowGorootSource = true
+		if origLoadFromEmbeddedTZData != nil {
+			loadFromEmbeddedTZData = origLoadFromEmbeddedTZData
+		}
 	}
 }
