@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30e05a5e_6762f90b",
+        "filename": "src/cmd/dist/build.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 983,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-03-10T23:06:52Z",
+      "side": 1,
+      "message": "it might be good to make this a variable so it\u0027s easy to update? not sure.\n\nedit: just found unixOS. why not use that?\n\nalso not sure if it should be externally settable by a flag so that porters don\u0027t have to modify the build tool first.",
+      "revId": "bd4d9e451433f96de33ebd0cf583fbfc9bc2d729",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34e50f8c_ddabb5b4",
+        "filename": "src/go/build/syslist.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-03-10T23:06:52Z",
+      "side": 1,
+      "message": "why not?",
+      "revId": "bd4d9e451433f96de33ebd0cf583fbfc9bc2d729",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
