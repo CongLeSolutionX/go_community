@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6acddb3e_f1089234",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 56423
+      },
+      "writtenOn": "2022-03-10T13:31:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c78e5ac2_cb6d4c9a",
+      "revId": "71e1311809277821eb74d36616fe9670edaca3ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4e65901d_54b365a0",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-03-10T01:52:51Z",
       "side": 1,
       "message": "This is not easy to read.  Can we write\n\nconst reverseHexTable \u003d\n    \"\\xff\\xff\\xff ... \" +\n    \"\\xff\\xff ... \" +\n    \"\\0x00\\x01 ... \"\n    ...",
+      "revId": "71e1311809277821eb74d36616fe9670edaca3ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8965e5b_d0ccb4bf",
+        "filename": "src/encoding/hex/hex.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 56423
+      },
+      "writtenOn": "2022-03-10T13:31:35Z",
+      "side": 1,
+      "message": "No problem, are you happy with the new format?",
+      "parentUuid": "4e65901d_54b365a0",
       "revId": "71e1311809277821eb74d36616fe9670edaca3ff",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
