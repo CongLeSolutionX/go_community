@@ -394,7 +394,7 @@ func readComments(f io.Reader) ([]byte, error) {
 //
 // It only returns an error if there are problems reading the file,
 // not for syntax errors in the file itself.
-func readGoInfo(f io.Reader, info *fileInfo) error {
+func readGoInfo(f io.Reader, info *fileInfo, isStd bool) error {
 	r := newImportReader(info.name, f)
 
 	r.readKeyword("package")
@@ -443,7 +443,7 @@ func readGoInfo(f io.Reader, info *fileInfo) error {
 		return nil
 	}
 
-	hasEmbed := false
+	hasEmbed := isStd
 	for _, decl := range info.parsed.Decls {
 		d, ok := decl.(*ast.GenDecl)
 		if !ok {

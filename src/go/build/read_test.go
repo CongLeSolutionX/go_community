@@ -153,7 +153,7 @@ func testRead(t *testing.T, tests []readTest, read func(io.Reader) ([]byte, erro
 func TestReadGoInfo(t *testing.T) {
 	testRead(t, readGoInfoTests, func(r io.Reader) ([]byte, error) {
 		var info fileInfo
-		err := readGoInfo(r, &info)
+		err := readGoInfo(r, &info, false)
 		return info.header, err
 	})
 }
@@ -243,7 +243,7 @@ func TestReadFailuresIgnored(t *testing.T) {
 	}
 	testRead(t, tests, func(r io.Reader) ([]byte, error) {
 		var info fileInfo
-		err := readGoInfo(r, &info)
+		err := readGoInfo(r, &info, false)
 		return info.header, err
 	})
 }
@@ -332,7 +332,7 @@ func TestReadEmbed(t *testing.T) {
 			name: "test",
 			fset: fset,
 		}
-		err := readGoInfo(strings.NewReader(tt.in), &info)
+		err := readGoInfo(strings.NewReader(tt.in), &info, false)
 		if err != nil {
 			t.Errorf("#%d: %v", i, err)
 			continue

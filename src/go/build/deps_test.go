@@ -672,7 +672,7 @@ func findImports(pkg string) ([]string, error) {
 		if err != nil {
 			return nil, err
 		}
-		err = readGoInfo(f, &info)
+		err = readGoInfo(f, &info, false)
 		f.Close()
 		if err != nil {
 			return nil, fmt.Errorf("reading %v: %v", name, err)

@@ -820,6 +820,7 @@ Found:
 			badFiles[name] = true
 		}
 	}
+	isStd := goroot.IsStandardPackage(ctxt.GOROOT, ctxt.Compiler, path)
 
 	var Sfiles []string // files with ".S"(capital S)/.sx(capital s equivalent for case insensitive filesystems)
 	var firstFile, firstCommentFile string
@@ -845,7 +846,7 @@ Found:
 		name := d.Name()
 		ext := nameExt(name)
 
-		info, err := ctxt.matchFile(p.Dir, name, allTags, &p.BinaryOnly, fset)
+		info, err := ctxt.matchFile(p.Dir, name, allTags, &p.BinaryOnly, fset, isStd)
 		if err != nil {
 			badFile(name, err)
 			continue
@@ -1359,7 +1360,7 @@ func parseWord(data []byte) (word, rest []byte) {
 // MatchFile considers the name of the file and may use ctxt.OpenFile to
 // read some or all of the file's content.
 func (ctxt *Context) MatchFile(dir, name string) (match bool, err error) {
-	info, err := ctxt.matchFile(dir, name, nil, nil, nil)
+	info, err := ctxt.matchFile(dir, name, nil, nil, nil, false)
 	return info != nil, err
 }
 
@@ -1400,7 +1401,7 @@ type fileEmbed struct {
 //
 // If allTags is non-nil, matchFile records any encountered build tag
 // by setting allTags[tag] = true.
-func (ctxt *Context) matchFile(dir, name string, allTags map[string]bool, binaryOnly *bool, fset *token.FileSet) (*fileInfo, error) {
+func (ctxt *Context) matchFile(dir, name string, allTags map[string]bool, binaryOnly *bool, fset *token.FileSet, isStd bool) (*fileInfo, error) {
 	if strings.HasPrefix(name, "_") ||
 		strings.HasPrefix(name, ".") {
 		return nil, nil
@@ -1433,7 +1434,7 @@ func (ctxt *Context) matchFile(dir, name string, allTags map[string]bool, binary
 	}
 
 	if strings.HasSuffix(name, ".go") {
-		err = readGoInfo(f, info)
+		err = readGoInfo(f, info, isStd)
 		if strings.HasSuffix(name, "_test.go") {
 			binaryOnly = nil // ignore //go:binary-only-package comments in _test.go files
 		}
