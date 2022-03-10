@@ -15,8 +15,8 @@ func _[P comparable](x, y P) {
 
 func _[P comparable](x P, y any) {
 	_ = x == x
-	_ = x == y
-	_ = y == x
+	_ = x /* ERROR issue #51522 */ == y
+	_ = y /* ERROR issue #51522 */ == x
 	_ = y == y
 
 	_ = x /* ERROR type parameter P is not comparable with < */ < y
