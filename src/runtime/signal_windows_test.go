@@ -14,6 +14,7 @@ import (
 	"strings"
 	"syscall"
 	"testing"
+	"time"
 )
 
 func TestVectoredHandlerDontCrashOnLibrary(t *testing.T) {
@@ -108,6 +109,14 @@ func TestCtrlHandler(t *testing.T) {
 	if err := cmd.Start(); err != nil {
 		t.Fatalf("Start failed: %v", err)
 	}
+	if deadline, ok := t.Deadline(); ok {
+		d := time.Until(deadline) * 19 / 20 // Allow 5% headroom for cleanup.
+		timeout := time.AfterFunc(d, func() {
+			t.Errorf("child process stuck; terminating")
+			cmd.Process.Kill()
+		})
+		defer timeout.Stop()
+	}
 	defer func() {
 		cmd.Process.Kill()
 		cmd.Wait()
@@ -120,9 +129,15 @@ func TestCtrlHandler(t *testing.T) {
 		t.Fatalf("unexpected message: %s", line)
 	}
 
-	// gracefully kill pid, this closes the command window
-	if err := exec.Command("taskkill.exe", "/pid", strconv.Itoa(cmd.Process.Pid)).Run(); err != nil {
-		t.Fatalf("failed to kill: %v", err)
+	// Attempt to gracefully kill pid by closing its command window.
+	// This may fail if no such window exists, such as if the parent
+	// process of this test is running in a pseudo-console session
+	// (https://docs.microsoft.com/en-us/windows/console/creating-a-pseudoconsole-session).
+	// See https://go.dev/issue/51602.
+	killCmd := exec.Command("taskkill.exe", "/pid", strconv.Itoa(cmd.Process.Pid))
+	if out, err := killCmd.CombinedOutput(); err != nil {
+		t.Logf("%s: %v\n%s", killCmd, err, out)
+		t.Skipf("Skipping: could not send CTRL_CLOSE_EVENT.")
 	}
 
 	// check child received, handled SIGTERM
