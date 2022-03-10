@@ -28,17 +28,18 @@ func ResetZoneinfoForTesting() {
 }
 
 var (
-	ForceZipFileForTesting = forceZipFileForTesting
-	ParseTimeZone          = parseTimeZone
-	SetMono                = (*Time).setMono
-	GetMono                = (*Time).mono
-	ErrLocation            = errLocation
-	ReadFile               = readFile
-	LoadTzinfo             = loadTzinfo
-	NextStdChunk           = nextStdChunk
-	Tzset                  = tzset
-	TzsetName              = tzsetName
-	TzsetOffset            = tzsetOffset
+	TogglePlatformSources = togglePlatformSources
+	GorootZoneSource      = gorootZoneSource
+	ParseTimeZone         = parseTimeZone
+	SetMono               = (*Time).setMono
+	GetMono               = (*Time).mono
+	ErrLocation           = errLocation
+	ReadFile              = readFile
+	LoadTzinfo            = loadTzinfo
+	NextStdChunk          = nextStdChunk
+	Tzset                 = tzset
+	TzsetName             = tzsetName
+	TzsetOffset           = tzsetOffset
 )
 
 func LoadFromEmbeddedTZData(zone string) (string, error) {
