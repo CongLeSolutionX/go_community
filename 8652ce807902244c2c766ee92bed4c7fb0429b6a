@@ -78,6 +78,30 @@
       },
       "revId": "8652ce807902244c2c766ee92bed4c7fb0429b6a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "75a937aa_348af596",
+        "filename": "src/cmd/go/testdata/script/test_fuzz_minimize_dirty_cov.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2022-03-10T22:37:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73afdfb7_c4e071c2",
+      "range": {
+        "startLine": 13,
+        "startChar": 71,
+        "endLine": 13,
+        "endChar": 72
+      },
+      "revId": "8652ce807902244c2c766ee92bed4c7fb0429b6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
