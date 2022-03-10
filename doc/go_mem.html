@@ -125,6 +125,14 @@ behave as multiple machine-word-sized operations in an
 unspecified order.
 </p>
 
+<p>
+In the memory model,
+a map value behaves like a pointer,
+the data structure it refers to behaves like a multi-word variable,
+read operations such as <code>m[k]</code> behave like reads, and
+update operations such as <code>m[k]=v</code> behave like writes.
+</p>
+
 <h2>Synchronization</h2>
 
 <h3>Initialization</h3>
