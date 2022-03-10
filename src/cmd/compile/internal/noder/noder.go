@@ -461,7 +461,7 @@ func varEmbed(makeXPos func(syntax.Pos) src.XPos, name *ir.Name, decl *syntax.Va
 
 func checkEmbed(decl *syntax.VarDecl, haveEmbed, withinFunc bool) error {
 	switch {
-	case !haveEmbed:
+	case !base.Flag.Std && !haveEmbed:
 		return errors.New("go:embed only allowed in Go files that import \"embed\"")
 	case len(decl.NameList) > 1:
 		return errors.New("go:embed cannot apply to multiple vars")
