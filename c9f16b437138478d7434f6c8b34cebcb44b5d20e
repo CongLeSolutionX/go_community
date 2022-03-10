@@ -53,6 +53,41 @@
       "message": "Hm, I was just thinking though, this approach of requiring importers to be constructed with the Context means that we\u0027ll need to update all go/types users to construct the importer appropriately.\n\nIs it better to define a new Importer extension API that allows setting or passing the Context through?\n\nOr is it even necessary for the Importer to use the same Context as the source package? Can an Importer just create its own Context?",
       "revId": "c9f16b437138478d7434f6c8b34cebcb44b5d20e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "82796718_21c6b0ec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-03-10T05:44:45Z",
+      "side": 1,
+      "message": "@rfindley can you comment on the question below when you have a chance? Thanks.",
+      "revId": "c9f16b437138478d7434f6c8b34cebcb44b5d20e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "098cdbfe_6c87a1e7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-03-10T05:44:45Z",
+      "side": 1,
+      "message": "Sorry for the delayed reply. I\u0027m so tied up with the last remaining 1.18 issues.\n\nI think ideally the importer shares the context with the source package so that instantiated types can be shared if possible. I think we shouldn\u0027t rely on pointer identity though (but for one place where we know we probably have a bug; issue #51580). But I\u0027m not 100% sure. Should bring in @findleyr who knows the API better than I now.",
+      "parentUuid": "e2e7be1c_77ac25a6",
+      "revId": "c9f16b437138478d7434f6c8b34cebcb44b5d20e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
