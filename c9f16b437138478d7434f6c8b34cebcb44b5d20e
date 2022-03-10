@@ -106,6 +106,24 @@
       "parentUuid": "098cdbfe_6c87a1e7",
       "revId": "c9f16b437138478d7434f6c8b34cebcb44b5d20e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71ae8334_18353c8c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-03-10T19:27:17Z",
+      "side": 1,
+      "message": "\u003e Let\u0027s start with creating a shared context in the importer, and then add a proposal for a new extension (ImportFromContext)?\n\nWhen you say \"creating a shared context in the importer,\" do you mean like CL 390958? Or something else?",
+      "parentUuid": "a3ed4e67_a512497f",
+      "revId": "c9f16b437138478d7434f6c8b34cebcb44b5d20e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
