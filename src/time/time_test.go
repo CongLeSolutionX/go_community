@@ -1557,8 +1557,8 @@ func TestConcurrentTimerResetStop(t *testing.T) {
 }
 
 func TestTimeIsDST(t *testing.T) {
-	ForceZipFileForTesting(true)
-	defer ForceZipFileForTesting(false)
+	TogglePlatformSources(false)
+	defer TogglePlatformSources(true)
 
 	tzWithDST, err := LoadLocation("Australia/Sydney")
 	if err != nil {
@@ -1619,8 +1619,8 @@ func TestTimeAddSecOverflow(t *testing.T) {
 
 // Issue 49284: time: ParseInLocation incorrectly because of Daylight Saving Time
 func TestTimeWithZoneTransition(t *testing.T) {
-	ForceZipFileForTesting(true)
-	defer ForceZipFileForTesting(false)
+	TogglePlatformSources(false)
+	defer TogglePlatformSources(true)
 
 	loc, err := LoadLocation("Asia/Shanghai")
 	if err != nil {
