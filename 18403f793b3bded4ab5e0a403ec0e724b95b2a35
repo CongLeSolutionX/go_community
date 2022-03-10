@@ -107,6 +107,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7329cdcb_72a8a005",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-03-10T12:16:43Z",
+      "side": 1,
+      "message": "Per other comment, I think Matthew is right that we should adjust this to be an importer extension. But yes this should be ported to go/internal/gcimporter.",
+      "parentUuid": "66db7b10_44f68d6d",
+      "revId": "18403f793b3bded4ab5e0a403ec0e724b95b2a35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2750321d_a7aa0a7a",

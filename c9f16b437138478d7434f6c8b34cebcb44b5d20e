@@ -88,6 +88,24 @@
       "parentUuid": "e2e7be1c_77ac25a6",
       "revId": "c9f16b437138478d7434f6c8b34cebcb44b5d20e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3ed4e67_a512497f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-03-10T12:16:43Z",
+      "side": 1,
+      "message": "Sorry also for my delayed response (I had draft comments... sigh)\n\nWe should not rely on pointer identity: Context should be considered purely an optimization. In that sense it\u0027s probably OK for importers to just create their own context.\n\n\u003e Is it better to define a new Importer extension API that allows setting or passing the Context through?\n\nYes, I think that is better: simply setting the Context on the types.Config should cause that Context to be used everywhere, including in Import. It is bound to be error prone if users have to pass the Context in both places.\n\nLet\u0027s start with creating a shared context in the importer, and then add a proposal for a new extension (ImportFromContext)?",
+      "parentUuid": "098cdbfe_6c87a1e7",
+      "revId": "c9f16b437138478d7434f6c8b34cebcb44b5d20e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
