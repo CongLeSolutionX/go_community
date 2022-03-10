@@ -6,15 +6,23 @@ package main
 
 import (
 	"bytes"
+	"crypto/md5"
+	"encoding/json"
 	"flag"
 	"fmt"
 	"go/ast"
 	"go/parser"
 	"go/token"
+	"internal/coverage"
+	"internal/coverage/encodemeta"
+	"internal/coverage/slicewriter"
 	"io"
+	"io/ioutil"
 	"log"
 	"os"
+	"path/filepath"
 	"sort"
+	"strings"
 
 	"cmd/internal/edit"
 	"cmd/internal/objabi"
@@ -35,8 +43,14 @@ Display coverage percentages to stdout for each function:
 	go tool cover -func=c.out
 
 Finally, to generate modified source code with coverage annotations
-(what go test -cover does):
-	go tool cover -mode=set -var=CoverageVariableName program.go
+for a package (what go test -cover does):
+	go tool cover -mode=set -var=CoverageVariableName \
+       -pkgcfg=<config> -o=<outputfiles> file1.go ... fileN.go
+
+where -pkgcfg points to a file containing the package path,
+package name, module path, and related info from "go build".
+See https://pkg.go.dev/internal/coverage#CoverPkgConfig for
+more on the package config.
 `
 
 func usage() {
@@ -50,10 +64,13 @@ func usage() {
 var (
 	mode    = flag.String("mode", "", "coverage mode: set, count, atomic")
 	varVar  = flag.String("var", "GoCover", "name of coverage variable to generate")
-	output  = flag.String("o", "", "file for output; default: stdout")
+	output  = flag.String("o", "", fmt.Sprintf("file(s) for output (if multiple inputs, this is a %q-separated list); defaults to stdout if omitted.", string(os.PathListSeparator)))
 	htmlOut = flag.String("html", "", "generate HTML representation of coverage profile")
 	funcOut = flag.String("func", "", "output coverage profile information for each function")
+	pkgcfg  = flag.String("pkgcfg", "", "enable full-package instrumentation mode using params from specified config file")
 )
+
+var pkgconfig coverage.CoverPkgConfig
 
 var profile string // The profile to read; the value of -html or -func
 
@@ -83,7 +100,7 @@ func main() {
 
 	// Generate coverage-annotated source.
 	if *mode != "" {
-		annotate(flag.Arg(0))
+		annotate(flag.Args())
 		return
 	}
 
@@ -132,14 +149,62 @@ func parseFlags() error {
 		}
 
 		if flag.NArg() == 0 {
-			return fmt.Errorf("missing source file")
-		} else if flag.NArg() == 1 {
-			return nil
+			return fmt.Errorf("missing source file(s)")
+		} else {
+			if *pkgcfg != "" {
+				if *output == "" {
+					return fmt.Errorf("supply output file(s) with -o")
+				}
+				numInputs := len(flag.Args())
+				numOutputs := len(strings.Split(*output, string(os.PathListSeparator)))
+				if numOutputs != numInputs {
+					return fmt.Errorf("number of output files (%d) not equal to number of input files (%d)", numOutputs, numInputs)
+				}
+				if err := readPackageConfig(*pkgcfg); err != nil {
+					return err
+				}
+				return nil
+			}
+			if flag.NArg() == 1 {
+				return nil
+			}
 		}
 	} else if flag.NArg() == 0 {
 		return nil
 	}
 	return fmt.Errorf("too many arguments")
+}
+
+func readPackageConfig(path string) error {
+	data, err := ioutil.ReadFile(path)
+	if err != nil {
+		return fmt.Errorf("error reading pkgconfig file %q: %v", path, err)
+	}
+	if err := json.Unmarshal(data, &pkgconfig); err != nil {
+		return fmt.Errorf("error reading pkgconfig file %q: %v", path, err)
+	}
+	if packageClassification(pkgconfig.PkgClassification) == coverage.PkgClassInvalid {
+		return fmt.Errorf(`%s invalid package classification %q`, path, pkgconfig.PkgClassification)
+	}
+	if pkgconfig.Granularity != "perblock" && pkgconfig.Granularity != "perfunc" {
+		return fmt.Errorf(`%s: pkg classificationrequires perblock/perfunc value`, path)
+	}
+	return nil
+}
+
+func packageClassification(value string) coverage.PkgClassification {
+	switch value {
+	case "none":
+		return coverage.PkgNonMod
+	case "depmod":
+		return coverage.PkgDepMod
+	case "mainmod":
+		return coverage.PkgMainMod
+	case "stdlib":
+		return coverage.PkgStdlib
+	default:
+		return coverage.PkgClassInvalid
+	}
 }
 
 // Block represents the information about a basic block to be recorded in the analysis.
@@ -151,6 +216,18 @@ type Block struct {
 	numStmt   int
 }
 
+// Package holds package-specific state.
+type Package struct {
+	mdb            *encodemeta.CoverageMetaDataBuilder
+	counterLengths []int
+}
+
+// Function holds func-specific state.
+type Func struct {
+	units      []coverage.CoverableUnit
+	counterVar string
+}
+
 // File is a wrapper for the state of a file used in the parser.
 // The basic parse tree walker is a method of this type.
 type File struct {
@@ -160,6 +237,9 @@ type File struct {
 	blocks  []Block
 	content []byte
 	edit    *edit.Buffer
+	mdb     *encodemeta.CoverageMetaDataBuilder
+	fn      Func
+	pkg     *Package
 }
 
 // findText finds text in the original source, starting at pos.
@@ -294,14 +374,174 @@ func (f *File) Visit(node ast.Node) ast.Visitor {
 		}
 	case *ast.FuncDecl:
 		// Don't annotate functions with blank names - they cannot be executed.
-		if n.Name.Name == "_" {
+		// Similarly for bodyless funcs.
+		if n.Name.Name == "_" || n.Body == nil {
 			return nil
 		}
+		// Determine proper function or method name.
+		fname := n.Name.Name
+		if r := n.Recv; r != nil && len(r.List) == 1 {
+			t := r.List[0].Type
+			star := ""
+			if p, _ := t.(*ast.StarExpr); p != nil {
+				t = p.X
+				star = "*"
+			}
+			if p, _ := t.(*ast.Ident); p != nil {
+				fname = star + p.Name + "." + fname
+			}
+		}
+		walkBody := true
+		if *pkgcfg != "" {
+			f.preFunc(n, fname)
+			if pkgconfig.Granularity == "perfunc" {
+				walkBody = false
+			}
+		}
+		if walkBody {
+			ast.Walk(f, n.Body)
+		}
+		if *pkgcfg != "" {
+			f.postFunc(n, fname, n.Body)
+		}
+		return nil
+	case *ast.FuncLit:
+		// For function literals enclosed in functions, just glom the
+		// code for the literal in with the enclosing function (for now).
+		if f.fn.counterVar != "" {
+			return f
+		}
+
+		// Hack: function literals aren't named in the go/ast representation,
+		// and we don't know what name the compiler will choose. For now,
+		// just make up a descriptive name.
+		pos := n.Pos()
+		p := f.fset.File(pos).Position(pos)
+		fname := fmt.Sprintf("func.L%d.C%d", p.Line, p.Column)
+		if *pkgcfg != "" {
+			f.preFunc(n, fname)
+		}
+		ast.Walk(f, n.Body)
+		if *pkgcfg != "" {
+			f.postFunc(n, fname, n.Body)
+		}
+		return nil
 	}
 	return f
 }
 
-func annotate(name string) {
+func mkCounterVarName(idx int) string {
+	return fmt.Sprintf("%s_%d", *varVar, idx)
+}
+
+func mkPackageIdVar() string {
+	return *varVar + "P"
+}
+
+func mkPackageIdExpression() string {
+	ppath := pkgconfig.PkgPath
+	if hcid := coverage.HardCodedPkgID(ppath); hcid != -1 {
+		return fmt.Sprintf("uint32(%d)", uint32(hcid))
+	}
+	return mkPackageIdVar()
+}
+
+func (f *File) preFunc(fn ast.Node, fname string) {
+	f.fn.units = f.fn.units[:0]
+
+	// create a new counter variable for this function.
+	cv := mkCounterVarName(len(f.pkg.counterLengths))
+	f.fn.counterVar = cv
+}
+
+func (f *File) postFunc(fn ast.Node, funcname string, body *ast.BlockStmt) {
+	// record the length of the counter var required.
+	nc := len(f.fn.units) + coverage.FirstCtrOffset
+	f.pkg.counterLengths = append(f.pkg.counterLengths, nc)
+
+	// FIXME: adjust function name to take into account receiver
+	// type and package path.
+
+	// FIXME: for windows, do we want "\" and not "/"? Need to test here.
+	// Currently filename is formed as packagepath + "/" + basename.
+	fnpos := f.fset.Position(fn.Pos())
+	ppath := pkgconfig.PkgPath
+	filename := ppath + "/" + filepath.Base(fnpos.Filename)
+
+	// Hand off function to meta-data builder.
+	fd := coverage.FuncDesc{
+		Funcname: funcname,
+		Srcfile:  filename,
+		Units:    f.fn.units,
+	}
+	funcId := f.mdb.AddFunc(fd)
+
+	// Generate the registration hook for the function, and insert it
+	// into the prolog.
+	cv := f.fn.counterVar
+	regHook := fmt.Sprintf("%s[0] = %d ; %s[1] = %s ; %s[2] = %d",
+		cv, len(f.fn.units), cv, mkPackageIdExpression(), cv, funcId)
+
+	// Insert a function registration sequence into the function.
+	boff := f.offset(body.Pos())
+	ipos := f.fset.File(body.Pos()).Pos(boff + 1)
+	f.edit.Insert(f.offset(ipos), regHook+" ; ")
+
+	f.fn.counterVar = ""
+}
+
+func annotate(names []string) {
+	var p *Package
+	if *pkgcfg != "" {
+		pc := packageClassification(pkgconfig.PkgClassification)
+		pp := pkgconfig.PkgPath
+		if pkgconfig.PkgName == "main" {
+			pp = "main"
+		}
+		mp := pkgconfig.ModulePath
+		mdb, err := encodemeta.NewCoverageMetaDataBuilder(pp, mp, pc)
+		if err != nil {
+			log.Fatalf("creating coverage meta-data builder: %v\n", err)
+		}
+		p = &Package{
+			mdb: mdb,
+		}
+	}
+	// TODO: process files in parallel here if it matters.
+	outfiles := strings.Split(*output, string(os.PathListSeparator))
+	for k, name := range names {
+		last := false
+		if k == len(names)-1 {
+			last = true
+		}
+
+		fd := os.Stdout
+		isStdout := true
+		if *pkgcfg != "" {
+			var err error
+			fd, err = os.Create(outfiles[k])
+			if err != nil {
+				log.Fatalf("cover: %s", err)
+			}
+			isStdout = false
+		} else if *output != "" {
+			var err error
+			fd, err = os.Create(*output)
+			if err != nil {
+				log.Fatalf("cover: %s", err)
+			}
+			isStdout = false
+		}
+		p.annotateFile(name, fd, last)
+		if !isStdout {
+			if err := fd.Close(); err != nil {
+				log.Fatalf("cover: %s", err)
+			}
+		}
+	}
+}
+
+func (p *Package) annotateFile(name string, fd io.Writer, last bool) {
 	fset := token.NewFileSet()
 	content, err := os.ReadFile(name)
 	if err != nil {
@@ -319,6 +559,11 @@ func annotate(name string) {
 		edit:    edit.NewBuffer(content),
 		astFile: parsedFile,
 	}
+	if p != nil {
+		file.mdb = p.mdb
+		file.pkg = p
+	}
+
 	if *mode == "atomic" {
 		// Add import of sync/atomic immediately after package clause.
 		// We do this even if there is an existing import, because the
@@ -328,25 +573,34 @@ func annotate(name string) {
 		file.edit.Insert(file.offset(file.astFile.Name.End()),
 			fmt.Sprintf("; import %s %q", atomicPackageName, atomicPackagePath))
 	}
-
-	ast.Walk(file, file.astFile)
-	newContent := file.edit.Bytes()
-
-	fd := os.Stdout
-	if *output != "" {
-		var err error
-		fd, err = os.Create(*output)
-		if err != nil {
-			log.Fatalf("cover: %s", err)
-		}
+	if pkgconfig.PkgName == "main" {
+		file.edit.Insert(file.offset(file.astFile.Name.End()),
+			fmt.Sprintf("; import _ \"runtime/coverage\""))
 	}
+
+	if pkgconfig.RegOnly != true {
+		ast.Walk(file, file.astFile)
+	}
+	newContent := file.edit.Bytes()
 
 	fmt.Fprintf(fd, "//line %s:1\n", name)
 	fd.Write(newContent)
 
-	// After printing the source tree, add some declarations for the counters etc.
-	// We could do this by adding to the tree, but it's easier just to print the text.
+	// After printing the source tree, add some declarations for the
+	// counters etc. We could do this by adding to the tree, but it's
+	// easier just to print the text.
 	file.addVariables(fd)
+
+	// Emit a reference to the atomic package to avoid
+	// import and not used error when there's no code in a file.
+	if *mode == "atomic" {
+		fmt.Fprintf(fd, "var _ = %s.LoadUint32\n", atomicPackageName)
+	}
+
+	// Last file? Emit meta-data and converage config.
+	if last {
+		p.emitMetaData(fd)
+	}
 }
 
 // setCounterStmt returns the expression: __count[23] = 1.
@@ -366,8 +620,30 @@ func atomicCounterStmt(f *File, counter string) string {
 
 // newCounter creates a new counter expression of the appropriate form.
 func (f *File) newCounter(start, end token.Pos, numStmt int) string {
-	stmt := counterStmt(f, fmt.Sprintf("%s.Count[%d]", *varVar, len(f.blocks)))
-	f.blocks = append(f.blocks, Block{start, end, numStmt})
+	var stmt string
+	if *pkgcfg != "" {
+		slot := len(f.fn.units) + coverage.FirstCtrOffset
+		if f.fn.counterVar == "" {
+			panic("internal error: counter var unset")
+		}
+		stmt = counterStmt(f, fmt.Sprintf("%s[%d]", f.fn.counterVar, slot))
+		stpos := f.fset.Position(start)
+		enpos := f.fset.Position(end)
+		stpos, enpos = dedup(stpos, enpos)
+		unit := coverage.CoverableUnit{
+			StLine:  uint32(stpos.Line),
+			StCol:   uint32(stpos.Column),
+			EnLine:  uint32(enpos.Line),
+			EnCol:   uint32(enpos.Column),
+			NxStmts: uint32(numStmt),
+		}
+		f.fn.units = append(f.fn.units, unit)
+
+	} else {
+		stmt = counterStmt(f, fmt.Sprintf("%s.Count[%d]", *varVar,
+			len(f.blocks)))
+		f.blocks = append(f.blocks, Block{start, end, numStmt})
+	}
 	return stmt
 }
 
@@ -621,6 +897,9 @@ func (f *File) offset(pos token.Pos) int {
 
 // addVariables adds to the end of the file the declarations to set up the counter and position variables.
 func (f *File) addVariables(w io.Writer) {
+	if *pkgcfg != "" {
+		return
+	}
 	// Self-check: Verify that the instrumented basic blocks are disjoint.
 	t := make([]block1, len(f.blocks))
 	for i := range f.blocks {
@@ -683,12 +962,6 @@ func (f *File) addVariables(w io.Writer) {
 
 	// Close the struct initialization.
 	fmt.Fprintf(w, "}\n")
-
-	// Emit a reference to the atomic package to avoid
-	// import and not used error when there's no code in a file.
-	if *mode == "atomic" {
-		fmt.Fprintf(w, "var _ = %s.LoadUint32\n", atomicPackageName)
-	}
 }
 
 // It is possible for positions to repeat when there is a line
@@ -726,4 +999,104 @@ func dedup(p1, p2 token.Position) (r1, r2 token.Position) {
 	seenPos2[key] = true
 
 	return key.p1, key.p2
+}
+
+type sliceWriteSeeker struct {
+	payload []byte
+	off     int64
+}
+
+func (d *sliceWriteSeeker) Write(p []byte) (n int, err error) {
+	amt := len(p)
+	towrite := d.payload[d.off:]
+	if len(towrite) < amt {
+		d.payload = append(d.payload, make([]byte, amt-len(towrite))...)
+		towrite = d.payload[d.off:]
+	}
+	copy(towrite, p)
+	d.off += int64(amt)
+	return amt, nil
+}
+
+func (d *sliceWriteSeeker) Seek(offset int64, whence int) (int64, error) {
+	if whence == os.SEEK_SET {
+		d.off = offset
+		return offset, nil
+	} else if whence == os.SEEK_CUR {
+		d.off += offset
+		return d.off, nil
+	}
+	// other modes not supported
+	panic("bad")
+}
+
+func (p *Package) emitMetaData(w io.Writer) {
+	if *pkgcfg == "" {
+		return
+	}
+	pkgpath := pkgconfig.PkgPath
+	pkgname := pkgconfig.PkgName
+
+	// Open coverage config file for writing.
+	outfile := pkgconfig.OutConfig
+	cf, err := os.Create(outfile)
+	if err != nil {
+		log.Fatalf("cover: creating %s: %s", outfile, err)
+	}
+
+	// Something went wrong if -regonly was set and we have instrumented
+	// functions.
+	if pkgconfig.RegOnly && len(p.counterLengths) != 0 {
+		panic("internal error: seen functions with regonly")
+	}
+
+	// Emit package ID var.
+	fmt.Fprintf(w, "\nvar %sP uint32\n", *varVar)
+
+	// Emit all of the counter variables.
+	for k := range p.counterLengths {
+		cvn := mkCounterVarName(k)
+		fmt.Fprintf(w, "var %s [%d]uint32\n", cvn, p.counterLengths[k])
+	}
+
+	// Emit encoded meta-data.
+	var sws slicewriter.WriteSeeker
+	p.mdb.Emit(&sws)
+	p.mdb = nil
+	fmt.Fprintf(w, "var %sM = [...]byte{\n", *varVar)
+	payload := sws.BytesWritten()
+	for k, b := range payload {
+		fmt.Fprintf(w, " 0x%x,", b)
+		if k != 0 && k%8 == 0 {
+			fmt.Fprintf(w, "\n")
+		}
+	}
+	fmt.Fprintf(w, "}\n")
+
+	// Meta-data hash should include the package path and name, the
+	// meta-data payload itself, and the counter mode.
+	h := md5.New()
+	h.Write(payload)
+	h.Write([]byte(pkgpath))
+	h.Write([]byte(pkgname))
+	h.Write([]byte(*mode))
+	hash := h.Sum(nil)
+
+	fmt.Fprintf(cf, "strategy normal\n")
+	fmt.Fprintf(cf, "%s %sM\n", coverage.MetaVarTag, *varVar)
+	fmt.Fprintf(cf, "%s %d\n", coverage.MetaLenTag, len(payload))
+	fmt.Fprintf(cf, "%s %x\n", coverage.MetaHashTag, hash)
+	fmt.Fprintf(cf, "%s %s\n", coverage.PkgIdVarTag, mkPackageIdVar())
+	fmt.Fprintf(cf, "%s %s_\n", coverage.CounterPrefixTag, *varVar)
+	cmode := *mode
+	if pkgconfig.RegOnly {
+		cmode = "regonly"
+	}
+	fmt.Fprintf(cf, "%s %s\n", coverage.CounterModeTag, cmode)
+	gran := pkgconfig.Granularity
+	fmt.Fprintf(cf, "%s %s\n", coverage.CounterGranularityTag, gran)
+
+	if err := cf.Close(); err != nil {
+		log.Fatalf("cover: %s", err)
+	}
 }
