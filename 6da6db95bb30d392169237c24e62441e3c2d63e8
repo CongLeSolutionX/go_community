@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e184263_f0d55b74",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55800
+      },
+      "writtenOn": "2022-03-11T15:18:58Z",
+      "side": 1,
+      "message": "I have a couple of comments on specific examples, but very broadly I like the shape of this.\n\nThanks,\nJames",
+      "revId": "6da6db95bb30d392169237c24e62441e3c2d63e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aed4f49e_dfdc38c6",
@@ -113,6 +130,74 @@
         "endLine": 679,
         "endChar": 2
       },
+      "revId": "6da6db95bb30d392169237c24e62441e3c2d63e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f508f643_8a62882b",
+        "filename": "doc/go_mem.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 713,
+      "author": {
+        "id": 55800
+      },
+      "writtenOn": "2022-03-11T15:18:58Z",
+      "side": 1,
+      "message": "Similar to the change made to the first example, I\u0027d expect hoisting (possibly transiently as in a mis-predicted branch) the access to *p to be OK from a concurrency perspective [assuming usual compiler rules of not hoisting a conditional access that could access an invalid memory location].",
+      "revId": "6da6db95bb30d392169237c24e62441e3c2d63e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9baa8934_4cd26c41",
+        "filename": "doc/go_mem.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 733,
+      "author": {
+        "id": 55800
+      },
+      "writtenOn": "2022-03-11T15:18:58Z",
+      "side": 1,
+      "message": "This one is a little confusing to me as a memory model example; I agree that the general case would outlaw this, and understand why synchronisation operations could create even more restrictions on moving past f than in a single-threaded program; but I think this just falls out of the base language definition *p could be modified. I\u0027d expect hardware (in absence of ordering in f) to sometimes create a read from *p here before all operations from f() complete. In my opinion this example could be dropped without losing any semantic content; but I\u0027d understand if it stayed!",
+      "revId": "6da6db95bb30d392169237c24e62441e3c2d63e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cfd68032_5358fef0",
+        "filename": "doc/go_mem.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 748,
+      "author": {
+        "id": 55800
+      },
+      "writtenOn": "2022-03-11T15:18:58Z",
+      "side": 1,
+      "message": "My gut reaction is \"spill\" is the wrong word here - I\u0027d use that for something destined for the stack. You want to outlaw rematerialisation through the pointer. I\u0027m not sure what word I\u0027d use for discarding something that is expected to be rematerialized; so can\u0027t offer an improvement!",
+      "revId": "6da6db95bb30d392169237c24e62441e3c2d63e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a542228b_10f85e23",
+        "filename": "doc/go_mem.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 768,
+      "author": {
+        "id": 55800
+      },
+      "writtenOn": "2022-03-11T15:18:58Z",
+      "side": 1,
+      "message": "Ah maybe this clarifies the above!",
       "revId": "6da6db95bb30d392169237c24e62441e3c2d63e8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
