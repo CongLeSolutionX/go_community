@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2258be39_5b106d46",
+        "filename": "src/encoding/hex/hex.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 6480
+      },
+      "writtenOn": "2022-03-11T08:48:19Z",
+      "side": 1,
+      "message": "Maybe put these in a single const block?",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 28
+      },
+      "revId": "5a53a9c5c82532c8775f84f0a9cd6488415e4cf8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
