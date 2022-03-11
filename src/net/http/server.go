@@ -1989,9 +1989,7 @@ func (c *conn) serve(ctx context.Context) {
 
 		if d := c.server.idleTimeout(); d != 0 {
 			c.rwc.SetReadDeadline(time.Now().Add(d))
-			if _, err := c.bufr.Peek(4); err != nil {
-				return
-			}
+			return
 		}
 		c.rwc.SetReadDeadline(time.Time{})
 	}
