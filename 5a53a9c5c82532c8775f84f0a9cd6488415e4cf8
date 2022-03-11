@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a12e10fc_3746b639",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2022-03-11T15:19:19Z",
+      "side": 1,
+      "message": "nit: you can use tab indentation for the blockquote in the commit message rather than triple backticks, which still renders the same in markdown, but looks nicer in plaintext for git.",
+      "revId": "5a53a9c5c82532c8775f84f0a9cd6488415e4cf8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2258be39_5b106d46",
