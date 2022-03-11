@@ -5,6 +5,9 @@
 package debug_test
 
 import (
+	"path"
+	"path/filepath"
+	"runtime"
 	. "runtime/debug"
 	"strings"
 	"testing"
@@ -43,23 +46,40 @@ func TestStack(t *testing.T) {
 	if len(lines) < 6 {
 		t.Fatal("too few lines")
 	}
+
+	// If built with -trimpath, file locations should start with package paths.
+	// Otherwise, file locations should start with a GOROOT/src prefix.
+	prefix := ""
+	if goroot := runtime.GOROOT(); goroot != "" {
+		prefix = filepath.ToSlash(path.Join(goroot, "src")) + "/"
+	}
+
 	n := 0
-	frame := func(line, code string) {
-		check(t, lines[n], code)
+	frame := func(file, code string) {
+		t.Helper()
+
+		line := lines[n]
+		if !strings.Contains(line, code) {
+			t.Errorf("expected %q in %q", code, line)
+		}
 		n++
-		check(t, lines[n], line)
+
+		line = lines[n]
+		if !strings.HasPrefix(line, "\t") {
+			t.Errorf("expected leading tab in %q", line)
+		} else {
+			loc := strings.TrimPrefix(line[1:], prefix)
+			if !strings.HasPrefix(loc, file) {
+				t.Errorf("expected %q in %q", file, line)
+			}
+		}
 		n++
 	}
 	n++
-	frame("src/runtime/debug/stack.go", "runtime/debug.Stack")
-	frame("src/runtime/debug/stack_test.go", "runtime/debug_test.(*T).ptrmethod")
-	frame("src/runtime/debug/stack_test.go", "runtime/debug_test.T.method")
-	frame("src/runtime/debug/stack_test.go", "runtime/debug_test.TestStack")
-	frame("src/testing/testing.go", "")
-}
 
-func check(t *testing.T, line, has string) {
-	if !strings.Contains(line, has) {
-		t.Errorf("expected %q in %q", has, line)
-	}
+	frame("runtime/debug/stack.go", "runtime/debug.Stack")
+	frame("runtime/debug/stack_test.go", "runtime/debug_test.(*T).ptrmethod")
+	frame("runtime/debug/stack_test.go", "runtime/debug_test.T.method")
+	frame("runtime/debug/stack_test.go", "runtime/debug_test.TestStack")
+	frame("testing/testing.go", "")
 }
