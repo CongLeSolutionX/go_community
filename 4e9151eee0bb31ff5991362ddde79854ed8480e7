@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8cf02b4_cfc8e40b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-03-11T22:14:26Z",
+      "side": 1,
+      "message": "Some initial feedback. I will have more time a couple of weeks after the 1.18 release.",
+      "revId": "4e9151eee0bb31ff5991362ddde79854ed8480e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4997ae1_07879cf8",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 1554,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-03-11T22:14:26Z",
+      "side": 1,
+      "message": "I am concerned about introducing new (and conflicting) terminology here \"just\" for these cases: \"reference\" is used elsewhere in the spec in a syntactic manner (a name references an object).\n\nCan we avoid this somehow? Could we say something along the lines of:\n\nA map value acts like a pointer to the underlying map data structure: assigning a map value to a variable copies the map value but the underlying data structure remains shared. \n\nor similar?\n\nmaybe: s/data structure/representation/",
+      "range": {
+        "startLine": 1554,
+        "startChar": 34,
+        "endLine": 1554,
+        "endChar": 38
+      },
+      "revId": "4e9151eee0bb31ff5991362ddde79854ed8480e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
