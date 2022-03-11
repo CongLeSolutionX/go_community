@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d2c8f97_b7f091e1",
+        "filename": "src/cmd/dist/build.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 983,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-03-11T05:11:53Z",
+      "side": 1,
+      "message": "cmd/dist has to build with the bootstrap toolchain, so it can\u0027t use unixOS, which won\u0027t be there.\n\nI moved it into a variable.\n\nSeems to be that porters are going to have to change code no matter what, and this is a pretty small piece of code to change.",
+      "parentUuid": "30e05a5e_6762f90b",
+      "revId": "bd4d9e451433f96de33ebd0cf583fbfc9bc2d729",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "34e50f8c_ddabb5b4",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-03-10T23:06:52Z",
       "side": 1,
       "message": "why not?",
+      "revId": "bd4d9e451433f96de33ebd0cf583fbfc9bc2d729",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "785d0a59_42faf296",
+        "filename": "src/go/build/syslist.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-03-11T05:11:53Z",
+      "side": 1,
+      "message": "See https://github.com/golang/go/issues/20322#issuecomment-1057682650 and https://go.dev/issue/51572.",
+      "parentUuid": "34e50f8c_ddabb5b4",
       "revId": "bd4d9e451433f96de33ebd0cf583fbfc9bc2d729",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
