@@ -70,14 +70,7 @@ func defaultContext() build.Context {
 	ctxt.JoinPath = filepath.Join // back door to say "do not use go command"
 
 	ctxt.GOROOT = findGOROOT()
-	if runtime.Compiler != "gccgo" {
-		// Note that we must use runtime.GOOS and runtime.GOARCH here,
-		// as the tool directory does not move based on environment
-		// variables. This matches the initialization of ToolDir in
-		// go/build, except for using ctxt.GOROOT rather than
-		// runtime.GOROOT.
-		build.ToolDir = filepath.Join(ctxt.GOROOT, "pkg/tool/"+runtime.GOOS+"_"+runtime.GOARCH)
-	}
+	SetToolDir(ctxt.GOROOT)
 
 	ctxt.GOPATH = envOr("GOPATH", gopath(ctxt))
 
@@ -135,6 +128,17 @@ func defaultContext() build.Context {
 func init() {
 	BuildToolchainCompiler = func() string { return "missing-compiler" }
 	BuildToolchainLinker = func() string { return "missing-linker" }
+}
+
+func SetToolDir(goroot string) {
+	if runtime.Compiler != "gccgo" && goroot != "" {
+		// Note that we must use runtime.GOOS and runtime.GOARCH here,
+		// as the tool directory does not move based on environment
+		// variables. This matches the initialization of ToolDir in
+		// go/build, except for using ctxt.GOROOT rather than
+		// runtime.GOROOT.
+		build.ToolDir = filepath.Join(goroot, "pkg/tool/"+runtime.GOOS+"_"+runtime.GOARCH)
+	}
 }
 
 // An EnvVar is an environment variable Name=Value.
