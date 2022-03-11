@@ -5,6 +5,8 @@
 package debug_test
 
 import (
+	"os"
+	"runtime"
 	. "runtime/debug"
 	"strings"
 	"testing"
@@ -43,23 +45,46 @@ func TestStack(t *testing.T) {
 	if len(lines) < 6 {
 		t.Fatal("too few lines")
 	}
+
+	// If built with -trimpath, file locations should start with package paths.
+	// Otherwise, file locations should start with a GOROOT/src prefix
+	// (for whatever value of GOROOT is baked into the binary, not the one
+	// that may be set in the environment).
+	fileGoroot := os.Getenv("GOROOT_FINAL")
+	if fileGoroot == "" {
+		fileGoroot = runtime.GOROOT()
+	}
+
 	n := 0
-	frame := func(line, code string) {
-		check(t, lines[n], code)
+	frame := func(file, code string) {
+		t.Helper()
+
+		line := lines[n]
+		if !strings.Contains(line, code) {
+			t.Errorf("expected %q in %q", code, line)
+		}
 		n++
-		check(t, lines[n], line)
+
+		line = lines[n]
+
+		wantTrimmed := "\t" + file
+		if !strings.HasPrefix(line, wantTrimmed) {
+			if fileGoroot == "" {
+				t.Errorf("in line %q, expected prefix %q", line, wantTrimmed)
+			} else {
+				wantPrefixed := "\t" + fileGoroot + "/src/" + file
+				if !strings.HasPrefix(line, wantPrefixed) {
+					t.Errorf("in line %q, expected prefix %q or %q", line, wantPrefixed, wantTrimmed)
+				}
+			}
+		}
 		n++
 	}
 	n++
-	frame("src/runtime/debug/stack.go", "runtime/debug.Stack")
-	frame("src/runtime/debug/stack_test.go", "runtime/debug_test.(*T).ptrmethod")
-	frame("src/runtime/debug/stack_test.go", "runtime/debug_test.T.method")
-	frame("src/runtime/debug/stack_test.go", "runtime/debug_test.TestStack")
-	frame("src/testing/testing.go", "")
-}
 
-func check(t *testing.T, line, has string) {
-	if !strings.Contains(line, has) {
-		t.Errorf("expected %q in %q", has, line)
-	}
+	frame("runtime/debug/stack.go", "runtime/debug.Stack")
+	frame("runtime/debug/stack_test.go", "runtime/debug_test.(*T).ptrmethod")
+	frame("runtime/debug/stack_test.go", "runtime/debug_test.T.method")
+	frame("runtime/debug/stack_test.go", "runtime/debug_test.TestStack")
+	frame("testing/testing.go", "")
 }
