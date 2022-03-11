@@ -16,6 +16,23 @@
       "message": "RELNOTES\u003dThe Go compiler now requires the -p\u003dimportpath flag, which is already supplied by the go command and by Bazel. Any other build systems that invoke the Go compiler directly will need to make sure they pass this flag as well in order to use Go 1.19.\n",
       "revId": "a987aaf5f7a5f64215ff75ac93a2c1b39967a8c9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd2976ed_17881eb1",
+        "filename": "src/cmd/compile/internal/base/flag.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 13437
+      },
+      "writtenOn": "2022-03-11T03:47:25Z",
+      "side": 1,
+      "message": "Consider linking to this CL from the error, or adding a comment linking to it?\n\nThe explanation in the commit message is really good, would hate to lose that context or make it difficult to find.",
+      "revId": "a987aaf5f7a5f64215ff75ac93a2c1b39967a8c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
