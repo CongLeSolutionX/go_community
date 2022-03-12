@@ -61,6 +61,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "64d117ea_e42780cf",
+        "filename": "src/cmd/dist/build.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 991,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-03-12T23:40:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e873974d_d099ce6c",
+      "range": {
+        "startLine": 991,
+        "startChar": 2,
+        "endLine": 991,
+        "endChar": 6
+      },
+      "revId": "5eb8b79503cd9b66792ea2a6b8bf7175985a6fd0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a2d26ff6_7355bd94",
@@ -74,6 +98,24 @@
       "writtenOn": "2022-03-12T02:10:59Z",
       "side": 1,
       "message": "would this would be easier to read rewritten as a switch?",
+      "revId": "5eb8b79503cd9b66792ea2a6b8bf7175985a6fd0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d611f577_7eadc1e8",
+        "filename": "src/cmd/dist/build.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1003,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-03-12T23:40:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a2d26ff6_7355bd94",
       "revId": "5eb8b79503cd9b66792ea2a6b8bf7175985a6fd0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
