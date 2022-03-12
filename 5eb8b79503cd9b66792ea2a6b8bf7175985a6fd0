@@ -40,6 +40,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e873974d_d099ce6c",
+        "filename": "src/cmd/dist/build.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 991,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-03-12T02:31:49Z",
+      "side": 1,
+      "message": "maybe remove this, since when we don’t support nacl anymore",
+      "range": {
+        "startLine": 991,
+        "startChar": 2,
+        "endLine": 991,
+        "endChar": 6
+      },
+      "revId": "5eb8b79503cd9b66792ea2a6b8bf7175985a6fd0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a2d26ff6_7355bd94",
         "filename": "src/cmd/dist/build.go",
         "patchSetId": 4
