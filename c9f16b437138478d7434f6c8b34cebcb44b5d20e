@@ -124,6 +124,24 @@
       "parentUuid": "a3ed4e67_a512497f",
       "revId": "c9f16b437138478d7434f6c8b34cebcb44b5d20e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca2434b1_eaa267a7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-03-14T15:02:04Z",
+      "side": 1,
+      "message": "Sorry, I guess I don\u0027t understand the problem with the status quo. In CL 390958, it looks like we\u0027re already using a shared context. Why would we _not_ want to do that? What is the problem that we\u0027re trying to solve?",
+      "parentUuid": "71ae8334_18353c8c",
+      "revId": "c9f16b437138478d7434f6c8b34cebcb44b5d20e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
