@@ -53,6 +53,24 @@
       "message": "Do we want to silently keep PWD unset if filepath.Abs fails?\n\nI also wonder if we could write a simple regression test.",
       "revId": "6c15004649232326b0ff33a8a6337c27d4b79281",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "873fe920_66167281",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-03-14T16:39:48Z",
+      "side": 1,
+      "message": "\u003e Do we want to silently keep PWD unset if filepath.Abs fails?\n\nYes: `PWD` is more-or-less purely advisory, so the only harm in leaving it unset is that `go list` doesn\u0027t have as much information about which name to prefer in error messages.\n\n\n\u003e I also wonder if we could write a simple regression test.\n\nPossible, but seems too fragile to be worth it given that this is unlikely to regress.\n\n(The test would have to run go/build with a symlinked `Dir`, provoke a `go list` error that is guaranteed to include the full file path, and then confirm that the error refers to the symlink path instead of the resolved path.)",
+      "parentUuid": "38256462_4c85dde9",
+      "revId": "6c15004649232326b0ff33a8a6337c27d4b79281",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
