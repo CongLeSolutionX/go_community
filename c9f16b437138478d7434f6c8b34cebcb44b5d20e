@@ -142,6 +142,24 @@
       "parentUuid": "71ae8334_18353c8c",
       "revId": "c9f16b437138478d7434f6c8b34cebcb44b5d20e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fa8a0a7_46f5fae5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-03-14T16:17:51Z",
+      "side": 1,
+      "message": "Sorry, I wasn\u0027t sure what you meant by \"a shared context in the importer\" is all.\n\nI would describe the status quo as \"a single context shared between the importer and type checker.\" So \"a shared context in the importer\" sounds like it could mean \"a single context that\u0027s shared across packages imported by a single importer instance, but is separate from the one used by the type checker.\" But I infer now you meant the status quo.\n\nAnd I don\u0027t think we want CL 390958 per se. But I think we do want go/types users that write `types.Config{Importer: importer.Default()}` to still work. And CL 390958 demonstrates the constraint of allowing that to work: it needs to be possible to construct the importer and types.Config separately without any explicit types.Context plumbing.\n\nIn particular, if CL 390958 is already safe, then this CL can be made much less invasive: we only need to touch the go/internal/gcimporter files instead. So I just wanted to make sure that option was considered, in case that would make 1.18 cherry picking easier.",
+      "parentUuid": "ca2434b1_eaa267a7",
+      "revId": "c9f16b437138478d7434f6c8b34cebcb44b5d20e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
