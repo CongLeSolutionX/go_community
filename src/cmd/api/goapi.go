@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Binary api computes the exported API of a set of Go packages.
+// Api computes the exported API of a set of Go packages.
 package main
 
 import (
@@ -24,6 +24,7 @@ import (
 	"regexp"
 	"runtime"
 	"sort"
+	"strconv"
 	"strings"
 	"sync"
 )
@@ -42,12 +43,13 @@ func goCmd() string {
 
 // Flags
 var (
-	checkFile  = flag.String("c", "", "optional comma-separated filename(s) to check API against")
-	allowNew   = flag.Bool("allow_new", true, "allow API additions")
-	exceptFile = flag.String("except", "", "optional filename of packages that are allowed to change without triggering a failure in the tool")
-	nextFile   = flag.String("next", "", "optional filename of tentative upcoming API features for the next release. This file can be lazily maintained. It only affects the delta warnings from the -c file printed on success.")
-	verbose    = flag.Bool("v", false, "verbose debugging")
-	forceCtx   = flag.String("contexts", "", "optional comma-separated list of <goos>-<goarch>[-cgo] to override default contexts.")
+	checkFile       = flag.String("c", "", "optional comma-separated filename(s) to check API against")
+	requireApproval = flag.String("approval", "", "require approvals in comma-separated list of `files`")
+	allowNew        = flag.Bool("allow_new", true, "allow API additions")
+	exceptFile      = flag.String("except", "", "optional filename of packages that are allowed to change without triggering a failure in the tool")
+	nextFile        = flag.String("next", "", "optional filename of tentative upcoming API features for the next release. This file can be lazily maintained. It only affects the delta warnings from the -c file printed on success.")
+	verbose         = flag.Bool("v", false, "verbose debugging")
+	forceCtx        = flag.String("contexts", "", "optional comma-separated list of <goos>-<goarch>[-cgo] to override default contexts.")
 )
 
 // contexts are the default contexts which are scanned, unless
@@ -340,6 +342,13 @@ func fileFeatures(filename string) []string {
 	if filename == "" {
 		return nil
 	}
+	needApproval := false
+	for _, name := range strings.Split(*requireApproval, ",") {
+		if filename == name {
+			needApproval = true
+			break
+		}
+	}
 	bs, err := os.ReadFile(filename)
 	if err != nil {
 		log.Fatalf("Error reading file %s: %v", filename, err)
@@ -348,9 +357,20 @@ func fileFeatures(filename string) []string {
 	s = aliasReplacer.Replace(s)
 	lines := strings.Split(s, "\n")
 	var nonblank []string
-	for _, line := range lines {
+	for i, line := range lines {
 		line = strings.TrimSpace(line)
-		if line != "" && !strings.HasPrefix(line, "#") {
+		if needApproval {
+			line, approval, ok := strings.Cut(line, "#")
+			if !ok {
+				log.Fatalf("%s:%d: missing proposal approval\n", filename, i+1)
+			}
+			_, err := strconv.Atoi(approval)
+			if err != nil {
+				log.Fatalf("%s:%d: malformed proposal approval #%s\n", filename, i+1, approval)
+			}
+			line = strings.TrimSpace(line)
+		}
+		if line != "" {
 			nonblank = append(nonblank, line)
 		}
 	}

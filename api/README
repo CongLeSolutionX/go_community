@@ -11,3 +11,9 @@ compatibility.
 next.txt is the only file intended to be mutated. It's a list of
 features that may be added to the next version. It only affects
 warning output from the go api tool.
+
+Starting with go1.19.txt, each API feature line must end in "#nnnnn"
+giving the GitHub issue number of the proposal issue that accepted
+the new API. This helps with our end-of-cycle audit of new APIs.
+The same requirement applies to next.txt, which will become a go1.XX.txt
+for XX >= 19.

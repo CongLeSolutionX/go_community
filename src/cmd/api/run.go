@@ -18,6 +18,7 @@ import (
 	"os"
 	"path/filepath"
 	"runtime"
+	"strconv"
 	"strings"
 )
 
@@ -43,10 +44,13 @@ func main() {
 	}
 
 	apiDir := filepath.Join(goroot, "api")
+	files := findAPIDirFiles(apiDir)
+	next := filepath.Join(apiDir, "next.txt")
 	out, err := exec.Command(goCmd(), "tool", "api",
-		"-c", findAPIDirFiles(apiDir),
+		"-c", strings.Join(files, ","),
+		"-approval", strings.Join(append(approvalNeeded(files), next), ","),
 		allowNew(apiDir),
-		"-next", filepath.Join(apiDir, "next.txt"),
+		"-next", next,
 		"-except", filepath.Join(apiDir, "except.txt")).CombinedOutput()
 	if err != nil {
 		log.Fatalf("Error running API checker: %v\n%s", err, out)
@@ -54,9 +58,28 @@ func main() {
 	fmt.Print(string(out))
 }
 
+func approvalNeeded(files []string) []string {
+	var out []string
+	for _, f := range files {
+		name := filepath.Base(f)
+		if name == "go1.txt" {
+			continue
+		}
+		minor := strings.TrimSuffix(strings.TrimPrefix(name, "go1."), ".txt")
+		n, err := strconv.Atoi(minor)
+		if err != nil {
+			log.Fatalf("unexpected api file: %v", f)
+		}
+		if n >= 19 { // approvals started being tracked in Go 1.19
+			out = append(out, f)
+		}
+	}
+	return out
+}
+
 // findAPIDirFiles returns a comma-separated list of Go API files
 // (go1.txt, go1.1.txt, etc.) located in apiDir.
-func findAPIDirFiles(apiDir string) string {
+func findAPIDirFiles(apiDir string) []string {
 	dir, err := os.Open(apiDir)
 	if err != nil {
 		log.Fatal(err)
@@ -72,7 +95,7 @@ func findAPIDirFiles(apiDir string) string {
 			apiFiles = append(apiFiles, filepath.Join(apiDir, fn))
 		}
 	}
-	return strings.Join(apiFiles, ",")
+	return apiFiles
 }
 
 // allowNew returns the -allow_new flag to use for the 'go tool api' invocation.
