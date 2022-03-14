@@ -746,6 +746,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b829e9f6_777bbf6c",
+        "filename": "src/cmd/internal/obj/mips/obj0.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-03-14T01:53:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef05820e_1d35d0e9",
+      "range": {
+        "startLine": 174,
+        "startChar": 90,
+        "endLine": 174,
+        "endChar": 101
+      },
+      "revId": "6cbb769b38a728a7929e57f1f3ea37b42c81d15d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dc1ffa51_dcd1203d",
@@ -907,6 +931,30 @@
       "side": 1,
       "message": "We use r28(gp) register save the GOT address globally.\nThe GOT address is calculated by the following instructions:\n\nlui     gp,0x0              // R_MIPS_GPREL16    foo\n                            // R_MIPS_SUB        *ABS*\n                            // R_MIPS_HI16       *ABS* \ndaddu   gp,gp,t9\ndaddiu  gp,gp,0            // R_MIPS_GPREL16    foo\n                           // R_MIPS_SUB        *ABS*\n                           // R_MIPS_LO16       *ABS*\nThat call a C function could change r28(gp) since the GOT address is different among modules, leading to some errors when call back Go function. So we should compute the GOT address again when call back to Go function,\nThese function are the edge that C function call Go function.",
       "parentUuid": "add125f8_8b15144a",
+      "range": {
+        "startLine": 423,
+        "startChar": 29,
+        "endLine": 427,
+        "endChar": 64
+      },
+      "revId": "6cbb769b38a728a7929e57f1f3ea37b42c81d15d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "06a31305_0ecff541",
+        "filename": "src/cmd/internal/obj/mips/obj0.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-03-14T01:53:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97001fce_8c3c3c4e",
       "range": {
         "startLine": 423,
         "startChar": 29,
