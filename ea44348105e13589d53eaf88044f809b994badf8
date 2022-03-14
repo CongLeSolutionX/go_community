@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e196201_c91d0fb0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-03-14T16:16:18Z",
+      "side": 1,
+      "message": "I need to think about this more, but I worry that this will introduce a lot of churn in the scheduler. In all likelyhood most netpoll calls will now be in sysmon. sysmon is not capable of running goroutines, so it must hand-off any work found to another M (potentially requiring a wakeup). In contrast, right now an M waiting in netpoll can run the work immediately.",
+      "revId": "ea44348105e13589d53eaf88044f809b994badf8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
