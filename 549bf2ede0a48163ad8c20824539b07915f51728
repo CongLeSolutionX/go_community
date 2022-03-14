@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf017c56_48d99dcf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-03-14T18:04:56Z",
+      "side": 1,
+      "message": "TRY\u003dlinux-amd64-noopt",
+      "revId": "549bf2ede0a48163ad8c20824539b07915f51728",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2afae746_a78eadf5",
+        "filename": "test/typeparam/mdempsky/13b.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-03-14T18:04:56Z",
+      "side": 1,
+      "message": "Note: 13b.go is just a copied of 13.go, with inlining disabled, so we can be sure that the code won\u0027t break existing test in go1.18 branch.",
+      "revId": "549bf2ede0a48163ad8c20824539b07915f51728",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
