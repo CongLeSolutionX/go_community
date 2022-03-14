@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fcc985a7_020662d3",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3175,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-03-14T16:30:02Z",
+      "side": 0,
+      "message": "An alternative approach to address this problem could be to occasionally perform a non-blocking netpoll here, much like we do for the global runq (assuming no Ms are already blocked in netpoll).\n\nNote that as-is, this CL is already depending on this periodic global runq check, as injectglist puts the Gs on the global runq.",
+      "revId": "8893175c3b5267f1eb70c518b5de6f03037c4d03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
