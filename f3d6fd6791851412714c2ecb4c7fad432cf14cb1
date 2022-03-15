@@ -90,6 +90,24 @@
       "parentUuid": "6879187b_928882c5",
       "revId": "f3d6fd6791851412714c2ecb4c7fad432cf14cb1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44aec756_6e133825",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-03-15T16:01:46Z",
+      "side": 1,
+      "message": "Sure. I was think perhaps somewhere in the runtime package to check the GOROOT and a file path (perhaps a single file path is enough). This is fine.\n\nWould it make sense to put the prefix-determining part to a helper function, perhaps in internal/testenv or somewhere? Would it be used by other tests?",
+      "parentUuid": "a24d9c63_65492d2c",
+      "revId": "f3d6fd6791851412714c2ecb4c7fad432cf14cb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
