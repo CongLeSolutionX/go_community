@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba6022ab_45900d67",
+        "filename": "src/cmd/compile/internal/typecheck/builtin.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2022-03-15T21:09:33Z",
+      "side": 1,
+      "message": "If this is not getting called by compiler-generated code any more, it can be removed.",
+      "revId": "d4ccea525d63bc90e390ec897bf95bbc4c830edb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb5a7b5f_489cd2ff",
+        "filename": "src/cmd/compile/internal/typecheck/builtin/runtime.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2022-03-15T21:09:33Z",
+      "side": 1,
+      "message": "Same here, if not compiler-called it doesn\u0027t need to be listed here.",
+      "revId": "d4ccea525d63bc90e390ec897bf95bbc4c830edb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2bc5570b_897dfaaa",
+        "filename": "src/cmd/compile/internal/walk/order.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2022-03-15T21:09:33Z",
+      "side": 1,
+      "message": "Isn\u0027t this backwards? You want\nif counter \u003d\u003d 0xff { counter \u003d 1 } else { counter +\u003d 1 }.\nThis code has the then and else branches reversed (or the condition reversed).",
+      "revId": "d4ccea525d63bc90e390ec897bf95bbc4c830edb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

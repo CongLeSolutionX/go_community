@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f51a95db_15a1f26d",
+        "filename": "src/cmd/compile/internal/typecheck/builtin/runtime.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2022-03-15T21:09:33Z",
+      "side": 1,
+      "message": "This will work, but I don\u0027t think it is quite what we want. Because it is in an init in the runtime, it will always be called even when we\u0027re not fuzzing. Or even testing. It will be in every Go binary, which I think we want to avoid.\n\nProbably this should be called from an init() in package testing, using linkname tricks to get around visibility. Then the referenced method will only be linked into and run in testing binaries.",
+      "parentUuid": "debbf1d0_63d79677",
+      "revId": "b4b938c1df1b52eecdf995e249b05e56ecbeeb53",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5d2a88d9_0817d84e",
         "filename": "src/cmd/compile/internal/walk/order.go",
         "patchSetId": 1
@@ -67,6 +85,24 @@
       "side": 1,
       "message": "Thanks for the tip. I changed that in a dedicated commit.",
       "parentUuid": "5d2a88d9_0817d84e",
+      "revId": "b4b938c1df1b52eecdf995e249b05e56ecbeeb53",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "70f75219_497ea0f8",
+        "filename": "src/cmd/compile/internal/walk/order.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2022-03-15T21:09:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0dec7387_5069be7b",
       "revId": "b4b938c1df1b52eecdf995e249b05e56ecbeeb53",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -102,6 +138,24 @@
       "side": 1,
       "message": "We haven\u0027t performed any profiling to check the slowdown. I\u0027ve replaced the function call with the actual logic. This means that the that function is not needed in the runtime",
       "parentUuid": "ff30a766_02d743d9",
+      "revId": "b4b938c1df1b52eecdf995e249b05e56ecbeeb53",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b251af57_1f808401",
+        "filename": "src/cmd/compile/internal/walk/order.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2022-03-15T21:09:33Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "81429479_ce3d1048",
       "revId": "b4b938c1df1b52eecdf995e249b05e56ecbeeb53",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -176,6 +230,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "91b39801_b5a35e9c",
+        "filename": "src/runtime/libfuzzer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2022-03-15T21:09:33Z",
+      "side": 1,
+      "message": "Good, thanks.",
+      "parentUuid": "493580ea_1c1e5c29",
+      "revId": "b4b938c1df1b52eecdf995e249b05e56ecbeeb53",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d7691a9c_fb138ffb",
@@ -207,6 +279,24 @@
       "side": 1,
       "message": "I changed it to libfuzzerCallWithTwoByteBuffers. WDYT?",
       "parentUuid": "d7691a9c_fb138ffb",
+      "revId": "b4b938c1df1b52eecdf995e249b05e56ecbeeb53",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "026a4f87_3f166b19",
+        "filename": "src/runtime/libfuzzer_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2022-03-15T21:09:33Z",
+      "side": 1,
+      "message": "Looks fine.",
+      "parentUuid": "67dcf51a_ace0067c",
       "revId": "b4b938c1df1b52eecdf995e249b05e56ecbeeb53",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
