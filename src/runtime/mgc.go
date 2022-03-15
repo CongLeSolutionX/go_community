@@ -981,6 +981,9 @@ func gcMarkTermination() {
 	gcPaceSweeper(gcController.trigger)
 	gcPaceScavenger(gcController.heapGoal, gcController.lastHeapGoal)
 
+	// Reset peakMappedReady for the next cycle.
+	memstats.peakMappedReady.Store(memstats.mappedReady.Load())
+
 	// Update timing memstats
 	now := nanotime()
 	sec, nsec, _ := time_now()

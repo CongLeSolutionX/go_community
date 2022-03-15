@@ -20,6 +20,12 @@ import (
 // Many of these fields are updated on the fly, while others are only
 // updated when updatememstats is called.
 type mstats struct {
+	// Total virtual memory in the Ready state (see mem.go).
+	mappedReady atomic.Uint64
+
+	// HWM of mappedReady over the last GC cycle.
+	peakMappedReady atomic.Uint64
+
 	// Statistics about malloc heap.
 
 	heapStats consistentHeapStats
@@ -875,4 +881,22 @@ func (m *consistentHeapStats) read(out *heapStatsDelta) {
 	*out = m.stats[currGen]
 
 	releasem(mp)
+}
+
+// addMappedReady updates mappedReady. Use this over mappedReady.Add
+// because it also updates the peak.
+func (m *mstats) addMappedReady(delta int64) {
+	mr := m.mappedReady.Add(delta)
+	if delta < 0 {
+		return
+	}
+	// Update the peak.
+	for {
+		if pmr := m.peakMappedReady.Load(); mr <= pmr {
+			break
+		}
+		if m.peakMappedReady.CompareAndSwap(pmr, mr) {
+			break
+		}
+	}
 }
