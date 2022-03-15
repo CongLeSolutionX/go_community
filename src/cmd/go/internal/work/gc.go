@@ -27,7 +27,12 @@ import (
 )
 
 // The 'path' used for GOROOT_FINAL when -trimpath is specified
-const trimPathGoRootFinal = "go"
+var trimPathGoRootFinal string = func() string {
+	if runtime.GOOS == "windows" {
+		return "%GOROOT%"
+	}
+	return "$GOROOT"
+}()
 
 var runtimePackages = map[string]struct{}{
 	"internal/abi":            struct{}{},
