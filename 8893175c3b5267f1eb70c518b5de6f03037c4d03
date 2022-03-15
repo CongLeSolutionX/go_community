@@ -16,6 +16,24 @@
       "message": "An alternative approach to address this problem could be to occasionally perform a non-blocking netpoll here, much like we do for the global runq (assuming no Ms are already blocked in netpoll).\n\nNote that as-is, this CL is already depending on this periodic global runq check, as injectglist puts the Gs on the global runq.",
       "revId": "8893175c3b5267f1eb70c518b5de6f03037c4d03",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42db665e_d2d19c09",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3175,
+      "author": {
+        "id": 49676
+      },
+      "writtenOn": "2022-03-15T12:21:52Z",
+      "side": 0,
+      "message": "Yes, this CL only puts IO-ready Gs on the global runq, hopefully the schedtick will increase quickly.\n\nThis CL focus on transforming IO-ready Gs to _Grunnable instead of _Grunning as soon as possible. If we want scheduler prefer running IO-ready Gs, or behave like the linux cfs/deadline policy, much more complex work needed to be done.\n\nIt\u0027s ok to occasionally perform a non-blocking netpoll here. However, This may waste cpu if we do this too often, because IO is likely not ready yet. If we do this too infrequently, IO-ready Gs may miss a wakeup. We can\u0027t predicate when will IO Gs get ready.",
+      "parentUuid": "fcc985a7_020662d3",
+      "revId": "8893175c3b5267f1eb70c518b5de6f03037c4d03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
