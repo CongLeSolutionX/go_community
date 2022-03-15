@@ -53,6 +53,24 @@
       "message": "this really does not describe what it does. see https://go.dev/play/p/2qyswkzgdGJ\n\nalso there is no such thing as an \"invalid UTF-8 code point\". utf-8 encodes integer values. there is invalid UTF-8 and there is UTF-8 that encodes invalid Unicode code points. they are treated differently, and not as you describe here, as the example shows.\n\nempirically, bytes in invalid encodes are presented with \\x, while invalid code points are replaced. probably worth verifying the code.\n\nfinally, shouldn\u0027t this be in strconv too? and should this just refer to that?",
       "revId": "52d424acdbecb613286c89ad9c978a80d7dcd02f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64642cc8_2f807b4d",
+        "filename": "src/fmt/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-03-15T15:47:24Z",
+      "side": 1,
+      "message": "Nice catch. Done.",
+      "parentUuid": "b1b2a5b5_d471ae48",
+      "revId": "52d424acdbecb613286c89ad9c978a80d7dcd02f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
