@@ -120,7 +120,16 @@ func Main(arch *sys.Arch, theArch Arch) {
 	}
 
 	final := gorootFinal()
-	addstrdata1(ctxt, "runtime.defaultGOROOT="+final)
+	switch final {
+	case "$GOROOT", "%GOROOT%":
+		// Dummy values injected by cmd/go when -trimpath is set
+		// on non-Windows or Windows, respectively.
+		// runtime.GOROOT() should return the empty string, not a bogus value.
+		// (See https://go.dev/issue/51461.)
+		addstrdata1(ctxt, "runtime.defaultGOROOT=")
+	default:
+		addstrdata1(ctxt, "runtime.defaultGOROOT="+final)
+	}
 
 	buildVersion := buildcfg.Version
 	if goexperiment := buildcfg.Experiment.String(); goexperiment != "" {
