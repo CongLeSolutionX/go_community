@@ -378,6 +378,7 @@ func tcCall(n *ir.CallExpr, top int) ir.Node {
 		return tcConv(n)
 	}
 
+	RewriteValueCall(n)
 	typecheckargs(n)
 	t := l.Type()
 	if t == nil {

@@ -927,6 +927,17 @@ func typecheckargs(n ir.InitNode) {
 	RewriteMultiValueCall(n, list[0])
 }
 
+//RewriteValueCall rewrites f()(...) to t0 := f(); t0(...).
+func RewriteValueCall(n *ir.CallExpr) {
+	if call, ok := n.X.(*ir.CallExpr); ok {
+		tmp := Temp(call.Type())
+		as := ir.NewAssignStmt(base.Pos, tmp, call)
+		as.Def = true
+		n.PtrInit().Append(Stmt(as))
+		n.X = tmp
+	}
+}
+
 // RewriteMultiValueCall rewrites multi-valued f() to use temporaries,
 // so the backend wouldn't need to worry about tuple-valued expressions.
 func RewriteMultiValueCall(n ir.InitNode, call ir.Node) {

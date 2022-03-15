@@ -163,6 +163,7 @@ func transformCall(n *ir.CallExpr) {
 	ir.SetPos(n)
 	// n.Type() can be nil for calls with no return value
 	assert(n.Typecheck() == 1)
+	typecheck.RewriteValueCall(n)
 	transformArgs(n)
 	l := n.X
 	t := l.Type()
