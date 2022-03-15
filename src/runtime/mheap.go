@@ -1277,7 +1277,7 @@ HaveSpan:
 	if scav != 0 {
 		// sysUsed all the pages that are actually available
 		// in the span since some of them might be scavenged.
-		sysUsed(unsafe.Pointer(base), nbytes)
+		sysUsed(unsafe.Pointer(base), nbytes, scav)
 		atomic.Xadd64(&memstats.heap_released, -int64(scav))
 	}
 	// Update stats.
