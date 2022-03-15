@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ccd88773_fc329fab",
+        "filename": "src/os/rlimit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-03-15T15:41:26Z",
+      "side": 1,
+      "message": "This appears to be missing an error check. (Is that intentional?)",
+      "revId": "b054c7dc1738c810e74756ae0ac4797ce5d31cf6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49a87563_eeafaec1",
+        "filename": "src/os/rlimit_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-03-15T15:41:26Z",
+      "side": 1,
+      "message": "This test is broken on at least some of the `darwin-amd64` builders:\nhttps://build.golang.org/log/443dfda98782d0f1d3bca1124993b4574834ba35\n```\n--- FAIL: TestOpenFileLimit (0.00s)\n    rlimit_test.go:23: open rlimit.go: too many open files\nFAIL\nFAIL\tos\t1.313s\n```\n\nAccording to https://developer.apple.com/library/archive/documentation/System/Conceptual/ManPages_iPhoneOS/man2/setrlimit.2.html:\n\u003e setrlimit() now returns with errno set to EINVAL in places that historically\n\u003e succeeded.  It no longer accepts \"rlim_cur \u003d RLIM_INFINITY\" for\n\u003e RLIM_NOFILE.  Use \"rlim_cur \u003d min(OPEN_MAX, rlim_max)\".\n\nhttps://go.dev/issue/40498#issuecomment-668755334 suggests that it is indeed RLIM_INFINITY in this case.",
+      "revId": "b054c7dc1738c810e74756ae0ac4797ce5d31cf6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
