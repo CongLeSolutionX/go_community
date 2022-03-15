@@ -867,6 +867,52 @@ func typecheckargs(n ir.InitNode) {
 	RewriteMultiValueCall(n, list[0])
 }
 
+func callOrChan(n ir.Node) bool {
+	switch n.Op() {
+	case ir.OCALL,
+		ir.OCALLFUNC,
+		ir.OCALLINTER,
+		ir.OCALLMETH,
+		ir.ORECV:
+		return true
+	}
+	return false
+}
+
+// RewriteNonNameCall replaces non-Name expressions call with temps,
+// rewriting f()(...) to t0 := f(); t0(...).
+func RewriteNonNameCall(n *ir.CallExpr) {
+	if n.X.Op() == ir.ONAME {
+		return
+	}
+
+	np := &n.X
+	if dot, ok := (*np).(*ir.SelectorExpr); ok && (dot.Op() == ir.ODOTMETH || dot.Op() == ir.ODOTINTER) {
+		np = &dot.X // peel away method selector
+	}
+	switch (*np).Op() {
+	case ir.OCALL, ir.OCALLFUNC, ir.OCALLINTER, ir.OCALLMETH, ir.ORECV:
+	default:
+		return // callee expression (or receiver argument) has no side effects
+	}
+
+	static := ir.CurFunc == nil
+	if static {
+		ir.CurFunc = InitTodoFunc
+	}
+
+	tmp := Temp((*np).Type())
+	as := ir.NewAssignStmt(base.Pos, tmp, *np)
+	as.Def = true
+	*np = tmp
+
+	if static {
+		ir.CurFunc = nil
+	}
+
+	n.PtrInit().Append(Stmt(as))
+}
+
 // RewriteMultiValueCall rewrites multi-valued f() to use temporaries,
 // so the backend wouldn't need to worry about tuple-valued expressions.
 func RewriteMultiValueCall(n ir.InitNode, call ir.Node) {
