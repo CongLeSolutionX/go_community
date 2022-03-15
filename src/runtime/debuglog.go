@@ -72,7 +72,7 @@ func dlog() *dlogger {
 
 	// If that failed, allocate a new logger.
 	if l == nil {
-		l = (*dlogger)(sysAlloc(unsafe.Sizeof(dlogger{}), nil))
+		l = (*dlogger)(sysAlloc(unsafe.Sizeof(dlogger{}), &memstats.other_sys))
 		if l == nil {
 			throw("failed to allocate debug log")
 		}
@@ -714,7 +714,7 @@ func printDebugLog() {
 		lost     uint64
 		nextTick uint64
 	}
-	state1 := sysAlloc(unsafe.Sizeof(readState{})*uintptr(n), nil)
+	state1 := sysAlloc(unsafe.Sizeof(readState{})*uintptr(n), &memstats.other_sys)
 	if state1 == nil {
 		println("failed to allocate read state for", n, "logs")
 		printunlock()
