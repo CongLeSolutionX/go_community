@@ -45,6 +45,7 @@ import "unsafe"
 //go:nosplit
 func sysAlloc(n uintptr, sysStat *sysMemStat) unsafe.Pointer {
 	sysStat.add(int64(n))
+	memstats.mappedReady.Add(int64(n))
 	return sysAllocOS(n, sysStat)
 }
 
@@ -54,6 +55,7 @@ func sysAlloc(n uintptr, sysStat *sysMemStat) unsafe.Pointer {
 // sysUnused memory region are considered forfeit and the region must not be
 // accessed again until sysUsed is called.
 func sysUnused(v unsafe.Pointer, n uintptr) {
+	memstats.mappedReady.Add(-int64(n))
 	sysUnusedOS(v, n)
 }
 
@@ -63,6 +65,7 @@ func sysUnused(v unsafe.Pointer, n uintptr) {
 // an explicit commit step and hard over-commit limits, but is critical on
 // Windows, for example.
 func sysUsed(v unsafe.Pointer, n uintptr) {
+	memstats.mappedReady.Add(int64(n))
 	sysUsedOS(v, n)
 }
 
@@ -80,18 +83,31 @@ func sysHugePage(v unsafe.Pointer, n uintptr) {
 // returns a memory region aligned to the heap allocator's alignment
 // restrictions.
 //
+// Because in general sysMemStats track Ready memory, sysFree will update
+// runtime accounting assuming that the freed memory was Ready.
+//
 // Don't split the stack as this function may be invoked without a valid G,
 // which prevents us from allocating more stack.
 //go:nosplit
 func sysFree(v unsafe.Pointer, n uintptr, sysStat *sysMemStat) {
-	sysStat.add(-int64(n))
+	if sysStat != nil {
+		sysStat.add(-int64(n))
+		memstats.mappedReady.Add(-int64(n))
+	}
 	sysFreeOS(v, n)
 }
 
-// sysFault transitions a memory region from Ready or Prepared to Reserved. It
+// sysFault transitions a memory region from Ready to Reserved. It
 // marks a region such that it will always fault if accessed. Used only for
 // debugging the runtime.
+//
+// TODO(mknyszek): Currently it's true that all uses of sysFault transition
+// memory from Ready to Reserved, but this may not be true in the future
+// since on every platform the operation is much more general than that.
+// If a transition from Prepared is ever introduced, create a new function
+// that elides the Ready state accounting.
 func sysFault(v unsafe.Pointer, n uintptr) {
+	memstats.mappedReady.Add(-int64(n))
 	sysFaultOS(v, n)
 }
 
