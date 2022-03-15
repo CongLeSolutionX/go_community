@@ -16,6 +16,23 @@
       "message": "The current code is doing what Microsoft recommends at\n\nhttps://docs.microsoft.com/en-us/previous-versions/ms880421(v\u003dmsdn.10)?redirectedfrom\u003dMSDN\n\nDo the tests pass after this change?",
       "revId": "5157191d2b67fc8e403166bd561abec2fd8ce89e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c12c15d6_249975ba",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 56513
+      },
+      "writtenOn": "2022-03-15T09:59:52Z",
+      "side": 1,
+      "message": "Yes, tests passed!\n\nif i want input paramstr `\"a b c\" d e`,  EscapeArg will change it to `\\\"a b c\\\" d e`\nso it is not necessary\n\n\n\nfollow is test code\n```\npackage main\n\nimport (\n\t\"fmt\"\n\t\"os/exec\"\n\t\"testing\"\n)\n\nfunc ExecCommond(param string)string{\n\tout, _ :\u003d exec.Command(\".\\\\test.exe\", param).Output()\n\treturn string(out)\n}\n\nfunc TestExecCommond(t *testing.T) {\n\ttests :\u003d []struct {\n\t\tname string\n\t\tparam string\n\t}{\n\t\t{\"test1\", \"\\\"a b c\\\" d e\"},\n\t\t{\"test2\", \"\\\"ab\\\\\\\"c\\\" \\\"\\\\\\\\\\\" d\"},\n\t\t{\"test3\", \"a\\\\\\\\\\\\b d\\\"e f\\\"g h\"},\n\t\t{\"test4\", \"a\\\\\\\\\\\\\\\"b c d\"},\n\t\t{\"test5\", \"a\\\\\\\\\\\\\\\\\\\"b c\\\" d e\"},\n\n\t\t{\"test11\", `\"a b c\" d e`},\n\t\t{\"test22\", `\"ab\\\"c\" \"\\\\\" d`},\n\t\t{\"test33\", `a\\\\\\b d\"e f\"g h`},\n\t\t{\"test44\", `a\\\\\\\"b c d`},\n\t\t{\"test55\", `a\\\\\\\\\"b c\" d e`},\n\t}\n\tfor _, tt :\u003d range tests {\n\t\tt.Run(tt.name, func(t *testing.T) {\n\t\t\tfmt.Printf(\"%v\\n\", ExecCommond(tt.param))\n\t\t})\n\t}\n}\n```\nfollow is test result\n```\n\u003d\u003d\u003d RUN   TestExecCommond\n--- PASS: TestExecCommond (0.77s)\n\u003d\u003d\u003d RUN   TestExecCommond/test1\n\nCommand-line arguments:\n  argv[0]   .\\test.exe\n  argv[1]   a b c\n  argv[2]   d\n  argv[3]   e\n\n    --- PASS: TestExecCommond/test1 (0.07s)\n\u003d\u003d\u003d RUN   TestExecCommond/test2\n\nCommand-line arguments:\n  argv[0]   .\\test.exe\n  argv[1]   ab\"c\n  argv[2]   \\\n  argv[3]   d\n\n    --- PASS: TestExecCommond/test2 (0.07s)\n\u003d\u003d\u003d RUN   TestExecCommond/test3\n\nCommand-line arguments:\n  argv[0]   .\\test.exe\n  argv[1]   a\\\\\\b\n  argv[2]   de fg\n  argv[3]   h\n\n    --- PASS: TestExecCommond/test3 (0.07s)\n\u003d\u003d\u003d RUN   TestExecCommond/test4\n\nCommand-line arguments:\n  argv[0]   .\\test.exe\n  argv[1]   a\\\"b\n  argv[2]   c\n  argv[3]   d\n\n    --- PASS: TestExecCommond/test4 (0.07s)\n\u003d\u003d\u003d RUN   TestExecCommond/test5\n\nCommand-line arguments:\n  argv[0]   .\\test.exe\n  argv[1]   a\\\\b c\n  argv[2]   d\n  argv[3]   e\n\n    --- PASS: TestExecCommond/test5 (0.09s)\n\u003d\u003d\u003d RUN   TestExecCommond/test11\n\nCommand-line arguments:\n  argv[0]   .\\test.exe\n  argv[1]   a b c\n  argv[2]   d\n  argv[3]   e\n\n    --- PASS: TestExecCommond/test11 (0.11s)\n\u003d\u003d\u003d RUN   TestExecCommond/test22\n\nCommand-line arguments:\n  argv[0]   .\\test.exe\n  argv[1]   ab\"c\n  argv[2]   \\\n  argv[3]   d\n\n    --- PASS: TestExecCommond/test22 (0.10s)\n\u003d\u003d\u003d RUN   TestExecCommond/test33\n\nCommand-line arguments:\n  argv[0]   .\\test.exe\n  argv[1]   a\\\\\\b\n  argv[2]   de fg\n  argv[3]   h\n\n    --- PASS: TestExecCommond/test33 (0.07s)\n\u003d\u003d\u003d RUN   TestExecCommond/test44\n\nCommand-line arguments:\n  argv[0]   .\\test.exe\n  argv[1]   a\\\"b\n  argv[2]   c\n  argv[3]   d\n\n    --- PASS: TestExecCommond/test44 (0.07s)\n\u003d\u003d\u003d RUN   TestExecCommond/test55\n\nCommand-line arguments:\n  argv[0]   .\\test.exe\n  argv[1]   a\\\\b c\n  argv[2]   d\n  argv[3]   e\n\n    --- PASS: TestExecCommond/test55 (0.07s)\nPASS\n````\nfolow is c code(copt from above url compile by gcc of mingw730_64)\n```\n#include \u003cstdio.h\u003e\n\nint main( int argc, /* Number of strings in array argv */\n char *argv[],       /* Array of command-line argument strings */\n char **envp )       /* Array of environment variable strings */\n{\n    int count;\n    /* Display each command-line argument. */\n    printf( \"\\nCommand-line arguments:\\n\" );\n    for( count \u003d 0; count \u003c argc; count++ )\n        printf( \"  argv[%d]   %s\\n\", count, argv[count] );\n}\n```\n",
+      "revId": "5157191d2b67fc8e403166bd561abec2fd8ce89e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
