@@ -632,7 +632,7 @@ const (
 
 // String returns the name of k.
 func (k Kind) String() string {
-	if int(k) < len(kindNames) {
+	if uint(k) < uint(len(kindNames)) {
 		return kindNames[k]
 	}
 	return "kind" + strconv.Itoa(int(k))
