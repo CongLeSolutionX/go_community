@@ -20,6 +20,9 @@ import (
 // Many of these fields are updated on the fly, while others are only
 // updated when updatememstats is called.
 type mstats struct {
+	// Total virtual memory in the Ready state (see mem.go).
+	mappedReady atomic.Uint64
+
 	// Statistics about malloc heap.
 	// Updated atomically, or with the world stopped.
 	//
