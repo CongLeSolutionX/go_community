@@ -1,6 +1,40 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "5dfdaa3c_f03b86a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-03-15T17:28:07Z",
+      "side": 1,
+      "message": "syscall: don\u0027t double escape quotes on Windows",
+      "revId": "911c1acacf364c05f4fd9bc74e87d5a997602fff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd9738ec_d0c510b0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-03-15T17:28:07Z",
+      "side": 1,
+      "message": "s/don\u0027t/doesn\u0027t/\nor just drop this line.",
+      "revId": "911c1acacf364c05f4fd9bc74e87d5a997602fff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "2e7110b5_ebe2e915",
@@ -31,6 +65,23 @@
       "writtenOn": "2022-03-15T13:56:56Z",
       "side": 1,
       "message": "I think both ways can be modified：\n1.delete appendEscapeArg, uesrs format it themselves like other os \n2.append `\"` when parameter have spical characters",
+      "revId": "911c1acacf364c05f4fd9bc74e87d5a997602fff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b223627_1f028bbc",
+        "filename": "src/syscall/exec_windows.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-03-15T17:28:07Z",
+      "side": 1,
+      "message": "After this change hasSpace is no longer a good name.  Perhaps rename to needsQuote.",
       "revId": "911c1acacf364c05f4fd9bc74e87d5a997602fff",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
