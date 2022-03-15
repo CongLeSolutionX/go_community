@@ -50,11 +50,17 @@ func appendEscapeArg(b []byte, s string) []byte {
 	needsBackslash := false
 	hasSpace := false
 	for i := 0; i < len(s); i++ {
-		switch s[i] {
-		case '"', '\\':
-			needsBackslash = true
-		case ' ', '\t':
-			hasSpace = true
+		if !needsBackslash{
+			switch s[i] {
+			case '"', '\\':
+				needsBackslash = true
+			}
+		}
+		if !hasSpace{
+			switch s[i] {
+			case ' ', '\t', '!','&', '(', ')', '[', ']', '{', '}', ';', '<', '>', '|':
+				hasSpace = true
+			}
 		}
 	}
 
