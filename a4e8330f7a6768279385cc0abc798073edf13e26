@@ -106,6 +106,24 @@
       "message": "invalid how?\n\ni\u0027d prefer something something like\n\nErrTooDeep ErrorCode \u003d \"expression nests too deeply\"",
       "revId": "a4e8330f7a6768279385cc0abc798073edf13e26",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4dc8eae_e6a6a0cc",
+        "filename": "src/regexp/syntax/parse.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-03-15T15:28:35Z",
+      "side": 1,
+      "message": "Filed #51684 for the API addition, specifically:\n\n\tErrNestingDepth          ErrorCode \u003d \"expression nests too deeply\"\n\nWill circle back to this CL once the proposal is accepted.",
+      "parentUuid": "1fad25bc_c94cf379",
+      "revId": "a4e8330f7a6768279385cc0abc798073edf13e26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
