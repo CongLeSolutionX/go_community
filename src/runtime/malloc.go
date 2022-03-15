@@ -664,6 +664,10 @@ mapped:
 		l2 := h.arenas[ri.l1()]
 		if l2 == nil {
 			// Allocate an L2 arena map.
+			// TODO(mknyszek): The sysStat here should really not be nil, but we don't have a good
+			// way for accounting the actual RSS impact of this memory, because we map it as R/W and
+			// rely on demand paging (on OSes that support it, on others we just have a smaller mapping)
+			// to keep the memory use much less than the actual size of the mapping.
 			l2 = (*[1 << arenaL2Bits]*heapArena)(persistentalloc(unsafe.Sizeof(*l2), goarch.PtrSize, nil))
 			if l2 == nil {
 				throw("out of memory allocating heap arena map")
@@ -1442,8 +1446,9 @@ func (l *linearAlloc) alloc(size, align uintptr, sysStat *sysMemStat) unsafe.Poi
 	if pEnd := alignUp(l.next-1, physPageSize); pEnd > l.mapped {
 		if l.mapMemory {
 			// Transition from Reserved to Prepared to Ready.
-			sysMap(unsafe.Pointer(l.mapped), pEnd-l.mapped, sysStat)
-			sysUsed(unsafe.Pointer(l.mapped), pEnd-l.mapped)
+			n := pEnd - l.mapped
+			sysMap(unsafe.Pointer(l.mapped), n, sysStat)
+			sysUsed(unsafe.Pointer(l.mapped), n, n)
 		}
 		l.mapped = pEnd
 	}
