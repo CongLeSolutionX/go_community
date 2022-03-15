@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9fc13882_476f1140",
+        "filename": "src/cmd/compile/internal/walk/compare.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2022-03-15T21:51:41Z",
+      "side": 1,
+      "message": "I don\u0027t think this is safe to do, as it may result in n.X being evaluated twice.\ncheapExpr evalutes its arg and returns a value that has no side effects. So its return value can be used in more than one place.\nIt may be as simple as doing \"n.X \u003d x\", so that code below here uses the result of cheapExpr so that the original n.X is not evaluated twice.\n\nMight want to move this above the constant-string thing above. There\u0027s also the danger of double-evaluating because the original n.X is cached in ncs in some cases.",
+      "revId": "618db88f5bfb4c460eb31f0c968c5b771b176308",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2d48066_562febca",
+        "filename": "src/runtime/libfuzzer.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2022-03-15T21:51:41Z",
+      "side": 1,
+      "message": "I don\u0027t think you need to describe the internals of libFuzzer here, just somehow describe why the result parameter (which libFuzzer would expect to be -1/0/1?) doesn\u0027t need to be computed exactly.",
+      "revId": "618db88f5bfb4c460eb31f0c968c5b771b176308",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12715fd7_b7ce6ad9",
+        "filename": "src/runtime/libfuzzer.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2022-03-15T21:51:41Z",
+      "side": 1,
+      "message": "Maybe just add a comment here that if s1 \u003d\u003d s2, you could call the hook with a last arg of 0, but since libFuzzer doesn\u0027t do anything in that case it isn\u0027t worth it.\nAlso that it isn\u0027t necessary to distinguish -1 vs 1.",
+      "revId": "618db88f5bfb4c460eb31f0c968c5b771b176308",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b26ffabb_30939dc4",
+        "filename": "src/runtime/libfuzzer.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2022-03-15T21:51:41Z",
+      "side": 1,
+      "message": "Same here, comment why the result is always 1 (especially that here you\u0027re always passing 1 even though the strings might be folded-equal).",
+      "revId": "618db88f5bfb4c460eb31f0c968c5b771b176308",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

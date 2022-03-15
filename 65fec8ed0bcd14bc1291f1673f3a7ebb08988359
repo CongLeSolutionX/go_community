@@ -85,6 +85,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "82ad8326_1dbccd65",
+        "filename": "src/cmd/compile/internal/walk/compare.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2022-03-15T21:51:41Z",
+      "side": 1,
+      "message": "Still need to substitute out FileIndex for something else.\n(Or maybe this is the same function used in your other CL, and will be fixed there? It might help to have these CLs in a stack so one CL can depend on the code in CLs below it in the stack. Or you\u0027ll just need to submit/rebase/submit/... when the time comes.)",
+      "parentUuid": "8f924ab1_db9a95b6",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 65
+      },
+      "revId": "65fec8ed0bcd14bc1291f1673f3a7ebb08988359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4fb4e749_c7d3c4d2",
         "filename": "src/cmd/compile/internal/walk/expr.go",
         "patchSetId": 2
@@ -120,6 +144,30 @@
       "side": 1,
       "message": "Changed",
       "parentUuid": "4fb4e749_c7d3c4d2",
+      "range": {
+        "startLine": 605,
+        "startChar": 66,
+        "endLine": 605,
+        "endChar": 94
+      },
+      "revId": "65fec8ed0bcd14bc1291f1673f3a7ebb08988359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bce2d595_689e1917",
+        "filename": "src/cmd/compile/internal/walk/expr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 605,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2022-03-15T21:51:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61456730_fb513a9a",
       "range": {
         "startLine": 605,
         "startChar": 66,
@@ -224,6 +272,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0540e34d_0d8212af",
+        "filename": "src/runtime/libfuzzer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2022-03-15T21:51:41Z",
+      "side": 1,
+      "message": "Ah, cstring copies. That could be slow, but will work.",
+      "parentUuid": "8ebd00fb_1706802f",
+      "range": {
+        "startLine": 11,
+        "startChar": 55,
+        "endLine": 11,
+        "endChar": 76
+      },
+      "revId": "65fec8ed0bcd14bc1291f1673f3a7ebb08988359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c6d1f59d_025de7ed",
@@ -255,6 +327,24 @@
       "side": 1,
       "message": "Changed to libfuzzerCallWithFourArgs",
       "parentUuid": "c6d1f59d_025de7ed",
+      "revId": "65fec8ed0bcd14bc1291f1673f3a7ebb08988359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f89664f8_da4ed130",
+        "filename": "src/runtime/libfuzzer_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2022-03-15T21:51:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d6b77f4_a81afac4",
       "revId": "65fec8ed0bcd14bc1291f1673f3a7ebb08988359",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
