@@ -72,6 +72,24 @@
       "message": "Do we really need to check for the GOROOT prefix in this test? Could we just check the part after (not including) src/? There are probably (or should be) tests elsewhere that checks the prefix.",
       "revId": "f3d6fd6791851412714c2ecb4c7fad432cf14cb1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a24d9c63_65492d2c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-03-15T15:23:17Z",
+      "side": 1,
+      "message": "IMO it\u0027s a good idea to check for the full GOROOT prefix here as an end-to-end test of the linker\u0027s `$GOROOT`-rewriting logic, especially for things like doubled (or omitted) slashes between the $GOROOT part and the `/src/` element.\n\nIt does make some parts of the test a bit more complicated (obtaining the correct GOROOT value), but it also makes some parts a lot more robust (the prefix check can now *just* check the prefix, instead of trying to parse out irrelevant parts of the middle of the line).",
+      "parentUuid": "6879187b_928882c5",
+      "revId": "f3d6fd6791851412714c2ecb4c7fad432cf14cb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
