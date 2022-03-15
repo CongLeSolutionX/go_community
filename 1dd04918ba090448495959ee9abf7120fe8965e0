@@ -48,6 +48,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "03aa3b84_10e19c30",
+        "filename": "src/cmd/compile/internal/walk/compare.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2022-03-15T21:30:11Z",
+      "side": 1,
+      "message": "Ignore this comment, we\u0027re going to require that Pkgpath is set from 1.19 onwards.\nhttps://go-review.googlesource.com/c/go/+/391014",
+      "parentUuid": "8af9b0d4_2691e9ce",
+      "range": {
+        "startLine": 27,
+        "startChar": 39,
+        "endLine": 27,
+        "endChar": 46
+      },
+      "revId": "1dd04918ba090448495959ee9abf7120fe8965e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6bd2acbc_519d33cb",
@@ -79,6 +103,24 @@
       "side": 1,
       "message": "How about adding fmt.Sprintf(\"%+v\", n) to the hash? This debug syntax add file name, line number, and column number.",
       "parentUuid": "6bd2acbc_519d33cb",
+      "revId": "1dd04918ba090448495959ee9abf7120fe8965e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e887c15_732cc99b",
+        "filename": "src/cmd/compile/internal/walk/compare.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2022-03-15T21:30:11Z",
+      "side": 1,
+      "message": "That seems fine. A bit slower, but that\u0027s ok in the compiler.\nMaybe better is to use cmd/compile/internal/base.Ctxt.PosTable.Pos(n.Pos()).Filename (or RelFilename or AbsFilename? Might not matter much which you use).",
+      "parentUuid": "3ef5e4be_8b3685dd",
       "revId": "1dd04918ba090448495959ee9abf7120fe8965e0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -120,6 +162,30 @@
       "side": 1,
       "message": "fixed",
       "parentUuid": "226137d6_fa147f8e",
+      "range": {
+        "startLine": 27,
+        "startChar": 55,
+        "endLine": 27,
+        "endChar": 63
+      },
+      "revId": "1dd04918ba090448495959ee9abf7120fe8965e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3ca06d5_cae028dd",
+        "filename": "src/runtime/libfuzzer_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2022-03-15T21:30:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "711221d6_3ed03b87",
       "range": {
         "startLine": 27,
         "startChar": 55,
@@ -177,6 +243,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "390d23db_5b65dd41",
+        "filename": "src/runtime/libfuzzer_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2022-03-15T21:30:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e9ff5c7c_28319a31",
+      "range": {
+        "startLine": 56,
+        "startChar": 21,
+        "endLine": 56,
+        "endChar": 26
+      },
+      "revId": "1dd04918ba090448495959ee9abf7120fe8965e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4c4a189f_910aa812",
@@ -224,6 +314,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9599072f_599da103",
+        "filename": "src/runtime/libfuzzer_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2022-03-15T21:30:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82ad62a9_427f4310",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 84,
+        "endChar": 0
+      },
+      "revId": "1dd04918ba090448495959ee9abf7120fe8965e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "746a43e4_2bd3b4ed",
@@ -255,6 +369,24 @@
       "side": 1,
       "message": "We haven\u0027t performed any profiling to measure the slowdown. We\u0027ve used the same trick for jazzer to make value profiling work for Java. The gain of the effectiveness in fuzzing justifies the slowdown here. The root cause of that is that libfuzzer callbacks do not accept a PC argument for the functions that handle integer comparisons. We will try to get this patch into upstream libfuzzer since it is needed for many fuzzers using libfuzzer as a backend (jazzer, atheris, and Go)",
       "parentUuid": "746a43e4_2bd3b4ed",
+      "revId": "1dd04918ba090448495959ee9abf7120fe8965e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f87369a_282a1810",
+        "filename": "src/runtime/libfuzzer_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2022-03-15T21:30:11Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "8cb38c66_dc8b2110",
       "revId": "1dd04918ba090448495959ee9abf7120fe8965e0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
