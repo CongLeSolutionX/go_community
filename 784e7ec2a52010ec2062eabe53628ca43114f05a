@@ -107,6 +107,29 @@
       },
       "revId": "784e7ec2a52010ec2062eabe53628ca43114f05a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "086272a5_5367ae34",
+        "filename": "src/go/types/validtype.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-03-16T22:59:29Z",
+      "side": 1,
+      "message": "I\u0027d say \"ensure that t.orig is fully resolved\", or just call t.orig.resolve() explicitly.\n\nThere may be other places where we assume that orig is resolved. We should do an audit.",
+      "range": {
+        "startLine": 65,
+        "startChar": 2,
+        "endLine": 65,
+        "endChar": 67
+      },
+      "revId": "784e7ec2a52010ec2062eabe53628ca43114f05a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
