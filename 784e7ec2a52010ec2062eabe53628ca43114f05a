@@ -83,6 +83,30 @@
       },
       "revId": "784e7ec2a52010ec2062eabe53628ca43114f05a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9978cf2c_4c8280c8",
+        "filename": "src/cmd/compile/internal/types2/validtype.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-03-16T22:04:52Z",
+      "side": 1,
+      "message": "Aha. So this is about the behavior w.r.t unified IR? Why would that affect t.orig.fromRHS below? Is the problem that t.orig is not fully resolved?\n\nLet\u0027s discuss in our meeting, as I want to understand this better.",
+      "parentUuid": "42766884_f1160205",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 70,
+        "endChar": 3
+      },
+      "revId": "784e7ec2a52010ec2062eabe53628ca43114f05a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
