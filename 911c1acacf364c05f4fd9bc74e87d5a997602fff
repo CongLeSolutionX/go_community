@@ -54,6 +54,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dcb63667_449f3484",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 56513
+      },
+      "writtenOn": "2022-03-16T09:49:59Z",
+      "side": 1,
+      "message": "i edit the title and initial comment of the GitHub pull request yet\nbut GerritBot has not Uploaded patch set 6. i don\u0027t down why.\nwhat should i make GerritBot Uploaded?",
+      "parentUuid": "6be0372d_adeda583",
+      "revId": "911c1acacf364c05f4fd9bc74e87d5a997602fff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dd9738ec_d0c510b0",
@@ -136,6 +154,23 @@
       "writtenOn": "2022-03-16T01:50:56Z",
       "side": 1,
       "message": "Is there anything else I need to modify?",
+      "revId": "911c1acacf364c05f4fd9bc74e87d5a997602fff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f765fe8f_46c10f6b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 56513
+      },
+      "writtenOn": "2022-03-16T09:49:59Z",
+      "side": 1,
+      "message": "I have already edit the title and initial comment of the GitHub pull request, and change `hasSpace` to `needsQuote`;\nbut GerritBot has not Uploaded patch set 6. I don\u0027t know why.\nwhat should i make GerritBot Uploaded?",
       "revId": "911c1acacf364c05f4fd9bc74e87d5a997602fff",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
