@@ -34,6 +34,24 @@
       "parentUuid": "656419a8_13632309",
       "revId": "7c2467750546fe47ab4cf77d31db6dae33ee850d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4bdd23f1_c7d82265",
+        "filename": "src/cmd/doc/dirs.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-03-16T20:15:42Z",
+      "side": 1,
+      "message": "Does not appear to be done.  Missing \"git add\" or something?",
+      "parentUuid": "5c4a883c_c7c7edb7",
+      "revId": "7c2467750546fe47ab4cf77d31db6dae33ee850d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
