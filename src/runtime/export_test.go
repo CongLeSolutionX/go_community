@@ -1266,7 +1266,7 @@ func (c *GCController) StartCycle(stackSize, globalsSize uint64, scannableFrac f
 	c.globalsScan = globalsSize
 	c.heapLive = c.trigger
 	c.heapScan += uint64(float64(c.trigger-c.heapMarked) * scannableFrac)
-	c.startCycle(0, gomaxprocs)
+	c.startCycle(0, gomaxprocs, gcTrigger{kind: gcTriggerHeap})
 }
 
 func (c *GCController) AssistWorkPerByte() float64 {
