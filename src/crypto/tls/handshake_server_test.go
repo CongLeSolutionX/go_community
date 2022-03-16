@@ -403,7 +403,7 @@ func TestVersion(t *testing.T) {
 
 	defer func(old bool) { debugEnableTLS10 = old }(debugEnableTLS10)
 	debugEnableTLS10 = true
-	_, _, err = testHandshake(t, clientConfig, serverConfig)
+	state, _, err = testHandshake(t, clientConfig, serverConfig)
 	if err != nil {
 		t.Fatalf("handshake failed: %s", err)
 	}
