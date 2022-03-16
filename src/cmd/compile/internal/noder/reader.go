@@ -1676,6 +1676,21 @@ func (r *reader) expr() (res ir.Node) {
 		typ := r.typ()
 		pos := r.pos()
 		x := r.expr()
+
+		if x.Op() == ir.ONIL {
+			return typed(typ, ir.NewNilExpr(pos))
+		}
+
+		if op, why := typecheck.Convertop(false, x.Type(), typ); op == ir.OXXX {
+			// types2 ensured that x is convertable to typ under standard Go
+			// semantics, but cmd/compile also disallows some conversions
+			// involving //go:notinheap.
+			//
+			// TODO(mdempsky): This can be removed after #46731 is implemented.
+			base.ErrorfAt(pos, "cannot convert %L to type %v%v", x, typ, why)
+			base.ErrorExit() // harsh, but prevents constructing invalid IR
+		}
+
 		return typecheck.Expr(ir.NewConvExpr(pos, ir.OCONV, typ, x))
 	}
 }
