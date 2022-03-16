@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee29d2d0_165c562b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2022-03-16T12:10:26Z",
+      "side": 1,
+      "message": "Sorry, I forgot to delete the internal information in commit message, so revert it. Thank you.",
+      "revId": "b85826713d34593e781cdd3e216463d93b9b2a6d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
