@@ -2815,9 +2815,13 @@ top:
 	// We have nothing to do.
 	//
 	// If we're in the GC mark phase, can safely scan and blacken objects,
-	// and have work to do, run idle-time marking rather than give up the
-	// P.
-	if gcBlackenEnabled != 0 && gcMarkWorkAvailable(_p_) {
+	// and have work to do, run idle-time marking rather than give up the P.
+	//
+	// However, only bother if we're not in a periodic GC cycle that was
+	// forced by too much time passing between GC cycles. In this case, the
+	// application is relatively idle with respect to the GC, and the extra
+	// effort spent on idle mark workers is not worth it. See #44163.
+	if gcBlackenEnabled != 0 && work.why.kind != gcTriggerTime && gcMarkWorkAvailable(_p_) {
 		node := (*gcBgMarkWorkerNode)(gcBgMarkWorkerPool.pop())
 		if node != nil {
 			_p_.gcMarkWorkerMode = gcMarkWorkerIdleMode
@@ -3145,7 +3149,11 @@ func checkTimersNoP(allpSnapshot []*p, timerpMaskSnapshot pMask, pollUntil int64
 // returned. The returned P has not been wired yet.
 func checkIdleGCNoP() (*p, *g) {
 	// N.B. Since we have no P, gcBlackenEnabled may change at any time; we
-	// must check again after acquiring a P.
+	// must check again after acquiring a P. We also don't check if we're in
+	// a periodic GC cycle until later because it's racy to do so without a P
+	// for the same reason. In the worst case, we grab an idle P and put it back,
+	// which should be relatively rare given that periodic GC cycles are relatively
+	// rare as well.
 	if atomic.Load(&gcBlackenEnabled) == 0 {
 		return nil, nil
 	}
@@ -3178,8 +3186,12 @@ func checkIdleGCNoP() (*p, *g) {
 	}
 
 	// Now that we own a P, gcBlackenEnabled can't change (as it requires
-	// STW).
-	if gcBlackenEnabled == 0 {
+	// STW). However, only bother if we're not in a periodic GC cycle
+	// that was forced by too much time passing between GC cycles. In this
+	// case, the application is relatively idle with respect to the GC,
+	// and the extra effort spent on idle mark workers is not worth it.
+	// See #44163.
+	if gcBlackenEnabled == 0 || work.why.kind == gcTriggerTime {
 		pidleput(pp)
 		unlock(&sched.lock)
 		return nil, nil
