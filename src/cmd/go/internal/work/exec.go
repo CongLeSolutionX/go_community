@@ -12,7 +12,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"internal/buildcfg"
 	exec "internal/execabs"
 	"internal/lazyregexp"
 	"io"
@@ -320,7 +319,7 @@ func (b *Builder) buildActionID(a *Action) cache.ActionID {
 		key, val := cfg.GetArchEnv()
 		fmt.Fprintf(h, "%s=%s\n", key, val)
 
-		if goexperiment := buildcfg.GOEXPERIMENT(); goexperiment != "" {
+		if goexperiment := cfg.CleanGOEXPERIMENT; goexperiment != "" {
 			fmt.Fprintf(h, "GOEXPERIMENT=%q\n", goexperiment)
 		}
 
@@ -1301,7 +1300,7 @@ func (b *Builder) printLinkerConfig(h io.Writer, p *load.Package) {
 		key, val := cfg.GetArchEnv()
 		fmt.Fprintf(h, "%s=%s\n", key, val)
 
-		if goexperiment := buildcfg.GOEXPERIMENT(); goexperiment != "" {
+		if goexperiment := cfg.RawGOEXPERIMENT; goexperiment != "" {
 			fmt.Fprintf(h, "GOEXPERIMENT=%q\n", goexperiment)
 		}
 
