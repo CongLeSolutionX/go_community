@@ -70,6 +70,24 @@
       "parentUuid": "4bdd23f1_c7d82265",
       "revId": "7c2467750546fe47ab4cf77d31db6dae33ee850d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "10534899_8be6107b",
+        "filename": "src/cmd/doc/dirs.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-03-16T20:26:04Z",
+      "side": 1,
+      "message": "Sounds like that song by the Clash.\n\nI got lost in a mega rebase.\nCan no longer code happily.",
+      "parentUuid": "254ad34e_a5a510de",
+      "revId": "7c2467750546fe47ab4cf77d31db6dae33ee850d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
