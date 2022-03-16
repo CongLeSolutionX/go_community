@@ -6,6 +6,12 @@ package syntax
 
 import "testing"
 
+const wordChars = "" +
+	"0123456789" +
+	"abcdefghijklmnopqrstuvwxyz" +
+	"_" +
+	"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
 var compileTests = []struct {
 	Regexp string
 	Prog   string
@@ -125,5 +131,47 @@ func BenchmarkEmptyOpContext(b *testing.B) {
 			r1 = r2
 		}
 		EmptyOpContext(r1, -1)
+	}
+}
+
+func TestWordCharTable(t *testing.T) {
+	numWordCharsInTable := 0
+	for _, r := range wordCharTable {
+		if r == 1 {
+			numWordCharsInTable++
+		}
+	}
+	if g, w := numWordCharsInTable, len(wordChars); g != w {
+		t.Errorf("got %d word characters in table; expected %d", g, w)
+	}
+
+	if g, w := len(wordCharTable), int('z')+1; g != w {
+		t.Errorf("word character table is length %d; expected %d", g, w)
+	}
+}
+
+func TestIsWordChar(t *testing.T) {
+	for _, r := range wordChars {
+		if !IsWordChar(r) {
+			t.Errorf("IsWordChar(%q) = false, want true", r)
+		}
+	}
+
+	invalidWordChars := []rune{-1 << 31, -1, 0, '&', '*', '0' - 1, 'z' + 1, 1<<31 - 1}
+	for _, r := range invalidWordChars {
+		if IsWordChar(r) {
+			t.Errorf("IsWordChar(%q) = true, want false", r)
+		}
+	}
+}
+
+var sink bool
+
+func BenchmarkIsWordChar(b *testing.B) {
+	const chars = "Don't communicate by sharing memory, share memory by communicating."
+	for i := 0; i < b.N; i++ {
+		for _, r := range chars {
+			sink = IsWordChar(r)
+		}
 	}
 }
