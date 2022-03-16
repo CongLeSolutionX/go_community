@@ -359,6 +359,11 @@ var work struct {
 	// mode is the concurrency mode of the current GC cycle.
 	mode gcMode
 
+	// why is the trigger that caused the GC to start.
+	// We store the full trigger here for debugging purposes, but
+	// only why.kind is used.
+	why gcTrigger
+
 	// userForced indicates the current GC cycle was forced by an
 	// explicit user call.
 	userForced bool
@@ -651,6 +656,7 @@ func gcStart(trigger gcTrigger) {
 	work.heap0 = atomic.Load64(&gcController.heapLive)
 	work.pauseNS = 0
 	work.mode = mode
+	work.why = trigger
 
 	now := nanotime()
 	work.tSweepTerm = now
