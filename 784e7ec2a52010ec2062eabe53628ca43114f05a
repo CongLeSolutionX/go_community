@@ -59,6 +59,30 @@
       },
       "revId": "784e7ec2a52010ec2062eabe53628ca43114f05a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42766884_f1160205",
+        "filename": "src/cmd/compile/internal/types2/validtype.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-03-16T21:38:05Z",
+      "side": 1,
+      "message": "No, we must ensure that we have a fully resolved type (as it may be an imported type). If it\u0027s not resolved yet, underlying will be nil (that\u0027s fine), but fromRHS will also be nil.\n\nThere\u0027s literally hundreds of types this affects when building the std lib.",
+      "parentUuid": "70b5860b_4f852a57",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 70,
+        "endChar": 3
+      },
+      "revId": "784e7ec2a52010ec2062eabe53628ca43114f05a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
