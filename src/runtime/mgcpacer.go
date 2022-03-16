@@ -280,6 +280,27 @@ type gcControllerState struct {
 	// dedicated mark workers get started.
 	dedicatedMarkWorkersNeeded int64
 
+	// idleMarkWorkers is the current number of idle mark workers executing.
+	idleMarkWorkers atomic.Int32
+
+	// maxIdleMarkWorkers is the maximum number of idle mark workers allowed to
+	// execute concurrently. Normally, this number is just gomaxprocs. However,
+	// during periodic GC cycles it is set to 1 because the system is idle
+	// anyway; there's no need to go full blast on all of GOMAXPROCS.
+	//
+	// Note that a value of zero is invalid because idle-priority mark workers
+	// are vital to GC progress. Consider a situation in which goroutines
+	// block on the GC (such as via runtime.GOMAXPROCS) and only fractional
+	// mark workers are scheduled (e.g. GOMAXPROCS=1). Without idle-priority
+	// mark workers, the last running M might skip scheduling a fractional
+	// mark worker if its utilization goal is met, such that once it goes to
+	// sleep (because there's nothing to do), there will be nothing else to
+	// spin up a new M for the fractional worker in the future, stalling GC
+	// progress and causing a deadlock. However, idle-priority workers will
+	// *always* run when there is nothing left to do, ensuring the GC makes
+	// progress.
+	maxIdleMarkWorkers atomic.Int32
+
 	// assistWorkPerByte is the ratio of scan work to allocated
 	// bytes that should be performed by mutator assists. This is
 	// computed at the beginning of each cycle and updated every
@@ -342,7 +363,7 @@ func (c *gcControllerState) init(gcPercent int32) {
 // startCycle resets the GC controller's state and computes estimates
 // for a new GC cycle. The caller must hold worldsema and the world
 // must be stopped.
-func (c *gcControllerState) startCycle(markStartTime int64, procs int) {
+func (c *gcControllerState) startCycle(markStartTime int64, procs int, trigger gcTrigger) {
 	c.heapScanWork.Store(0)
 	c.stackScanWork.Store(0)
 	c.globalsScanWork.Store(0)
@@ -398,6 +419,17 @@ func (c *gcControllerState) startCycle(markStartTime int64, procs int) {
 	for _, p := range allp {
 		p.gcAssistTime = 0
 		p.gcFractionalMarkTime = 0
+	}
+
+	if trigger.kind == gcTriggerTime {
+		// During a periodic GC cycle, avoid having more than
+		// one idle mark worker running at a time. We need to have
+		// at least one to ensure the GC makes progress, but more than
+		// one is unnecessary.
+		c.maxIdleMarkWorkers.Store(1)
+	} else {
+		// N.B. GOMAXPROCS is guarnateed not to change during a GC cycle.
+		c.maxIdleMarkWorkers.Store(int32(procs))
 	}
 
 	// Compute initial values for controls that are updated
@@ -781,11 +813,13 @@ func (c *gcControllerState) resetLive(bytesMarked uint64) {
 	}
 }
 
-// logWorkTime updates mark work accounting in the controller by a duration of
-// work in nanoseconds.
+// markWorkerStop must be called whenever a mark worker stops executing.
+//
+// It updates mark work accounting in the controller by a duration of
+// work in nanoseconds and other bookkeeping.
 //
 // Safe to execute at any time.
-func (c *gcControllerState) logWorkTime(mode gcMarkWorkerMode, duration int64) {
+func (c *gcControllerState) markWorkerStop(mode gcMarkWorkerMode, duration int64) {
 	switch mode {
 	case gcMarkWorkerDedicatedMode:
 		atomic.Xaddint64(&c.dedicatedMarkTime, duration)
@@ -794,8 +828,9 @@ func (c *gcControllerState) logWorkTime(mode gcMarkWorkerMode, duration int64) {
 		atomic.Xaddint64(&c.fractionalMarkTime, duration)
 	case gcMarkWorkerIdleMode:
 		atomic.Xaddint64(&c.idleMarkTime, duration)
+		c.removeIdleMarkWorker()
 	default:
-		throw("logWorkTime: unknown mark worker mode")
+		throw("markWorkerStop: unknown mark worker mode")
 	}
 }
 
@@ -1099,4 +1134,44 @@ func (c *piController) next(input, setpoint, period float64) (float64, bool) {
 // reset resets the controller state, except for controller error flags.
 func (c *piController) reset() {
 	c.errIntegral = 0
+}
+
+// addIdleMarkWorker attempts to add a new idle mark worker.
+//
+// If this returns true, the caller must become an idle mark worker.
+// If this returns false, the caller must NOT become an idle mark worker.
+//
+// nosplit because it may be called without a P.
+//go:nosplit
+func (c *gcControllerState) addIdleMarkWorker() bool {
+	workers := c.idleMarkWorkers.Load()
+	max := c.maxIdleMarkWorkers.Load()
+	if workers >= max {
+		return false
+	}
+	// At this point, max could have changed. That's fine. It's always
+	// safe to have extra idle mark workers, they'll get descheduled
+	// and the scheduler will notice the new maximum the next time.
+	c.idleMarkWorkers.Add(1)
+	return true
+}
+
+// needIdleMarkWorker is a hint as to whether another idle mark worker is needed.
+//
+// The caller must still call addIdleMarkWorker to become one. This is mainly
+// useful for a quick check before an expensive operation.
+//
+// nosplit because it may be called without a P.
+//go:nosplit
+func (c *gcControllerState) needIdleMarkWorker() bool {
+	return c.idleMarkWorkers.Load() < c.maxIdleMarkWorkers.Load()
+}
+
+// removeIdleMarkWorker must be called when an new idle mark worker stops executing.
+func (c *gcControllerState) removeIdleMarkWorker() {
+	workers := c.idleMarkWorkers.Add(-1)
+	if workers < 0 {
+		print("count =", workers, "max =", c.maxIdleMarkWorkers.Load(), "\n")
+		throw("negative idle mark worker count")
+	}
 }
