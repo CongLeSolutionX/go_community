@@ -74,7 +74,7 @@ func MkEnv() []cfg.EnvVar {
 		{Name: "GOCACHE", Value: cache.DefaultDir()},
 		{Name: "GOENV", Value: envFile},
 		{Name: "GOEXE", Value: cfg.ExeSuffix},
-		{Name: "GOEXPERIMENT", Value: buildcfg.GOEXPERIMENT()},
+		{Name: "GOEXPERIMENT", Value: goExperiment()},
 		{Name: "GOFLAGS", Value: cfg.Getenv("GOFLAGS")},
 		{Name: "GOHOSTARCH", Value: runtime.GOARCH},
 		{Name: "GOHOSTOS", Value: runtime.GOOS},
@@ -141,6 +141,30 @@ func findEnv(env []cfg.EnvVar, name string) string {
 		}
 	}
 	return ""
+}
+
+// goExperiment returns the minimal value of GOEXPERIMENT that the user would
+// need to set to reproduce the experiments currently in effect.
+func goExperiment() string {
+	if cfg.GOEXPERIMENT == "" && buildcfg.DefaultGOEXPERIMENT != "" && cfg.Experiment != nil {
+		// cfg.GOEXPERIMENT indicates that the active experiments match the
+		// baseline, but buildcg.DefaultGOEXPERIMENT indicates a nontrivial default.
+		// Check whether the default is a convoluted way to describe the baseline,
+		// or the user has explicitly overridden the default back to match the
+		// baseline.
+		def, err := buildcfg.ParseGOEXPERIMENT(cfg.Goos, cfg.Goarch, buildcfg.DefaultGOEXPERIMENT)
+		if err == nil && def.String() != "" {
+			// GOEXPERIMENT is equivalent to the baseline, but its default is not.
+			// In order for the user to obtain the baseline experiments, they would
+			// need to set GOEXPERIMENT to a non-empty string.
+			// GOEXPERIMENT is a comma-separated list and ignores empty elements,
+			// so use a bare comma (two empty elements) to represent the baseline
+			// as a non-empty string.
+			return ","
+		}
+	}
+
+	return cfg.GOEXPERIMENT
 }
 
 // ExtraEnvVars returns environment variables that should not leak into child processes.
@@ -222,6 +246,9 @@ func runEnv(ctx context.Context, cmd *base.Command, args []string) {
 	}
 
 	buildcfg.Check()
+	if cfg.ExperimentErr != nil {
+		base.Fatalf("go: %v", cfg.ExperimentErr)
+	}
 
 	env := cfg.CmdEnv
 	env = append(env, ExtraEnvVars()...)
@@ -374,9 +401,9 @@ func checkBuildConfig(add map[string]string, del map[string]bool) error {
 		}
 	}
 
-	goexperiment, okGOEXPERIMENT := get("GOEXPERIMENT", buildcfg.GOEXPERIMENT(), "")
+	goexperiment, okGOEXPERIMENT := get("GOEXPERIMENT", cfg.GOEXPERIMENT, buildcfg.DefaultGOEXPERIMENT)
 	if okGOEXPERIMENT {
-		if _, _, err := buildcfg.ParseGOEXPERIMENT(goos, goarch, goexperiment); err != nil {
+		if _, err := buildcfg.ParseGOEXPERIMENT(goos, goarch, goexperiment); err != nil {
 			return err
 		}
 	}
