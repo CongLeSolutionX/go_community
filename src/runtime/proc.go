@@ -2616,9 +2616,8 @@ top:
 	// We have nothing to do.
 	//
 	// If we're in the GC mark phase, can safely scan and blacken objects,
-	// and have work to do, run idle-time marking rather than give up the
-	// P.
-	if gcBlackenEnabled != 0 && gcMarkWorkAvailable(_p_) {
+	// and have work to do, run idle-time marking rather than give up the P.
+	if gcBlackenEnabled != 0 && gcMarkWorkAvailable(_p_) && gcController.addIdleMarkWorker() {
 		node := (*gcBgMarkWorkerNode)(gcBgMarkWorkerPool.pop())
 		if node != nil {
 			_p_.gcMarkWorkerMode = gcMarkWorkerIdleMode
@@ -2629,6 +2628,7 @@ top:
 			}
 			return gp, false
 		}
+		gcController.removeIdleMarkWorker()
 	}
 
 	// wasm only:
@@ -2946,8 +2946,12 @@ func checkTimersNoP(allpSnapshot []*p, timerpMaskSnapshot pMask, pollUntil int64
 // returned. The returned P has not been wired yet.
 func checkIdleGCNoP() (*p, *g) {
 	// N.B. Since we have no P, gcBlackenEnabled may change at any time; we
-	// must check again after acquiring a P.
-	if atomic.Load(&gcBlackenEnabled) == 0 {
+	// must check again after acquiring a P. As an optimization, we also check
+	// if an idle mark worker is needed at all. This is OK here, because if we
+	// observe that one isn't needed, at least one is currently running. Even if
+	// it stops running, its own journey into the scheduler should schedule it
+	// again, if need be (at which point, this check will pass, if relevant).
+	if atomic.Load(&gcBlackenEnabled) == 0 || !gcController.needIdleMarkWorker() {
 		return nil, nil
 	}
 	if !gcMarkWorkAvailable(nil) {
@@ -2978,9 +2982,8 @@ func checkIdleGCNoP() (*p, *g) {
 		return nil, nil
 	}
 
-	// Now that we own a P, gcBlackenEnabled can't change (as it requires
-	// STW).
-	if gcBlackenEnabled == 0 {
+	// Now that we own a P, gcBlackenEnabled can't change (as it requires STW).
+	if gcBlackenEnabled == 0 || !gcController.addIdleMarkWorker() {
 		pidleput(pp)
 		unlock(&sched.lock)
 		return nil, nil
@@ -2990,6 +2993,7 @@ func checkIdleGCNoP() (*p, *g) {
 	if node == nil {
 		pidleput(pp)
 		unlock(&sched.lock)
+		gcController.removeIdleMarkWorker()
 		return nil, nil
 	}
 
