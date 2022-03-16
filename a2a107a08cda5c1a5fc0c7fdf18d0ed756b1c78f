@@ -82,6 +82,30 @@
       },
       "revId": "a2a107a08cda5c1a5fc0c7fdf18d0ed756b1c78f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e9314b8_a7ff5e35",
+        "filename": "src/cmd/compile/internal/typecheck/typecheck.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 930,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-03-16T16:06:57Z",
+      "side": 1,
+      "message": "Ops, one problem is that for package level calls, like in:\n\n```\npackage main\n\nvar ok \u003d false\n\nfunc f() func(int, int) int {\n\tok \u003d true\n\treturn func(int, int) int { return 0 }\n}\n\nfunc g() (int, int) {\n\tif !ok {\n\t\tpanic(\"FAIL\")\n\t}\n\treturn 0, 0\n}\n\nvar _ \u003d f()(g())\n\nfunc main() {}\n```\n\n`MakeInit` isn\u0027t called yet, so we can\u0027t use temps, there\u0027s a TODO to move `MakeInit` to noder, though.",
+      "parentUuid": "869a8ef3_303dc0f2",
+      "range": {
+        "startLine": 930,
+        "startChar": 28,
+        "endLine": 930,
+        "endChar": 31
+      },
+      "revId": "a2a107a08cda5c1a5fc0c7fdf18d0ed756b1c78f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
