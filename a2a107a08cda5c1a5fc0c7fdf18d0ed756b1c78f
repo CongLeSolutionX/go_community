@@ -106,6 +106,30 @@
       },
       "revId": "a2a107a08cda5c1a5fc0c7fdf18d0ed756b1c78f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77332a9b_a503fca4",
+        "filename": "src/cmd/compile/internal/typecheck/typecheck.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 930,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-03-16T19:10:56Z",
+      "side": 1,
+      "message": "Ack. See typecheck.RewriteMultiValueCall and how it uses InitTodoFunc. I think you should be able to do the same thing here.",
+      "parentUuid": "0e9314b8_a7ff5e35",
+      "range": {
+        "startLine": 930,
+        "startChar": 28,
+        "endLine": 930,
+        "endChar": 31
+      },
+      "revId": "a2a107a08cda5c1a5fc0c7fdf18d0ed756b1c78f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
