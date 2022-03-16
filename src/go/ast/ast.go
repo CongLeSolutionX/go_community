@@ -517,7 +517,7 @@ func (x *Ellipsis) End() token.Pos {
 	if x.Elt != nil {
 		return x.Elt.End()
 	}
-	return x.Ellipsis + 3 // len("...")
+	return x.Ellipsis + token.Pos(len("..."))
 }
 func (x *BasicLit) End() token.Pos       { return token.Pos(int(x.ValuePos) + len(x.Value)) }
 func (x *FuncLit) End() token.Pos        { return x.Body.End() }
@@ -789,13 +789,13 @@ func (s *EmptyStmt) End() token.Pos {
 	if s.Implicit {
 		return s.Semicolon
 	}
-	return s.Semicolon + 1 /* len(";") */
+	return s.Semicolon + token.Pos(len(";"))
 }
 func (s *LabeledStmt) End() token.Pos { return s.Stmt.End() }
 func (s *ExprStmt) End() token.Pos    { return s.X.End() }
 func (s *SendStmt) End() token.Pos    { return s.Value.End() }
 func (s *IncDecStmt) End() token.Pos {
-	return s.TokPos + 2 /* len("++") */
+	return s.TokPos + token.Pos(len("++"))
 }
 func (s *AssignStmt) End() token.Pos { return s.Rhs[len(s.Rhs)-1].End() }
 func (s *GoStmt) End() token.Pos     { return s.Call.End() }
@@ -804,7 +804,7 @@ func (s *ReturnStmt) End() token.Pos {
 	if n := len(s.Results); n > 0 {
 		return s.Results[n-1].End()
 	}
-	return s.Return + 6 // len("return")
+	return s.Return + token.Pos(len("return"))
 }
 func (s *BranchStmt) End() token.Pos {
 	if s.Label != nil {
@@ -839,7 +839,7 @@ func (s *CommClause) End() token.Pos {
 	if n := len(s.Body); n > 0 {
 		return s.Body[n-1].End()
 	}
-	return s.Colon + 1
+	return s.Colon + token.Pos(len(":"))
 }
 func (s *SelectStmt) End() token.Pos { return s.Body.End() }
 func (s *ForStmt) End() token.Pos    { return s.Body.End() }
