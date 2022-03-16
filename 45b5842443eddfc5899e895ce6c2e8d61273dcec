@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "78fac54f_95ccd782",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 28
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2022-03-16T12:42:44Z",
+      "side": 1,
+      "message": "I will add some bad reads detecting cases.\n\nThe reason for adding asan_global5.go case is because I used -asan to test some go-related projects some time ago, and the global objects detection at that time would falsely report that this case is error memory access. The cause of the false positive was that the implementation at that time mishandled the symbol marked \"go:linkname\". \n\nThank you.",
+      "parentUuid": "f0de1518_6926da98",
+      "revId": "45b5842443eddfc5899e895ce6c2e8d61273dcec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "402b0fbf_09b40df5",
@@ -68,6 +86,30 @@
       "writtenOn": "2022-03-15T22:25:06Z",
       "side": 1,
       "message": "t-\u003elen ? That\u0027s more idomatic C, I think.",
+      "range": {
+        "startLine": 19,
+        "startChar": 1,
+        "endLine": 19,
+        "endChar": 6
+      },
+      "revId": "45b5842443eddfc5899e895ce6c2e8d61273dcec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45c8b8e0_1720d7da",
+        "filename": "misc/cgo/testsanitizers/testdata/asan_global2_fail.go",
+        "patchSetId": 28
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2022-03-16T12:42:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "402b0fbf_09b40df5",
       "range": {
         "startLine": 19,
         "startChar": 1,
@@ -103,6 +145,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c14d9714_c4f07f8c",
+        "filename": "misc/cgo/testsanitizers/testdata/asan_global4_fail.go",
+        "patchSetId": 28
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2022-03-16T12:42:44Z",
+      "side": 1,
+      "message": "Without any other consideration. If 2* is misleading then I\u0027ll delete it. Thank you.",
+      "parentUuid": "7c9ed19d_2721e7d9",
+      "range": {
+        "startLine": 20,
+        "startChar": 57,
+        "endLine": 20,
+        "endChar": 59
+      },
+      "revId": "45b5842443eddfc5899e895ce6c2e8d61273dcec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8a169ade_e8c34672",
         "filename": "misc/cgo/testsanitizers/testdata/asan_global4_fail.go",
         "patchSetId": 28
@@ -114,6 +180,30 @@
       "writtenOn": "2022-03-15T22:25:06Z",
       "side": 1,
       "message": "O",
+      "range": {
+        "startLine": 21,
+        "startChar": 14,
+        "endLine": 21,
+        "endChar": 15
+      },
+      "revId": "45b5842443eddfc5899e895ce6c2e8d61273dcec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7520baf2_708a909b",
+        "filename": "misc/cgo/testsanitizers/testdata/asan_global4_fail.go",
+        "patchSetId": 28
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2022-03-16T12:42:44Z",
+      "side": 1,
+      "message": "Good catch! Done. Thank you.",
+      "parentUuid": "8a169ade_e8c34672",
       "range": {
         "startLine": 21,
         "startChar": 14,
