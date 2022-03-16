@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6743bc3b_875813cf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2022-03-16T09:49:50Z",
+      "side": 1,
+      "message": "@Keith, Sorry, I forgot to remove this internal information. How to deal with this? Thank you.",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 23
+      },
+      "revId": "5fd0ed7aaf39f783ea6f505a3f2ac7d9da7cb03b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ae932b39_dba0cfb5",
         "filename": "misc/cgo/testsanitizers/testdata/asan_unsafe_fail1.go",
         "patchSetId": 18
