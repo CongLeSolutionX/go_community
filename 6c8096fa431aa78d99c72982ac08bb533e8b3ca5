@@ -33,6 +33,24 @@
       "message": "Sorry, but this is not making the code clearer. If we are going to do anything here, it should be to make the compiler smarter about how it compiles this code. (It could easily use two uint64 bitmasks and some shifts.)\nBut we shouldn\u0027t be manually applying optimizations like that.\nLet the code say what it means and let the compiler find the best generated code.\n",
       "revId": "6c8096fa431aa78d99c72982ac08bb533e8b3ca5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d90afc83_149318b5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16956
+      },
+      "writtenOn": "2022-03-17T03:23:08Z",
+      "side": 1,
+      "message": "I removed the optimization from the patch, leaving behind only the typo fix.",
+      "parentUuid": "35f53f6c_8567719d",
+      "revId": "6c8096fa431aa78d99c72982ac08bb533e8b3ca5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
