@@ -28,6 +28,7 @@ import (
 
 // replace all "". with pkg.
 func expandpkg(t0 string, pkg string) string {
+	// TODO(mdempsky): Make it an error for `"".` to appear in t0.
 	return strings.Replace(t0, `"".`, pkg+".", -1)
 }
 

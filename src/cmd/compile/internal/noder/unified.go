@@ -82,7 +82,6 @@ func unified(noders []*noder) {
 	base.Flag.Lang = fmt.Sprintf("go1.%d", goversion.Version)
 	types.ParseLangFlag()
 
-	assert(types.LocalPkg.Path == "")
 	types.LocalPkg.Height = 0 // reset so pkgReader.pkgIdx doesn't complain
 	target := typecheck.Target
 
@@ -232,7 +231,7 @@ func readPackage(pr *pkgReader, importpkg *types.Pkg) {
 	r := pr.newReader(pkgbits.RelocMeta, pkgbits.PublicRootIdx, pkgbits.SyncPublic)
 
 	pkg := r.pkg()
-	assert(pkg == importpkg)
+	base.Assertf(pkg == importpkg, "have package %q (%p), want package %q (%p)", pkg.Path, pkg, importpkg.Path, importpkg)
 
 	if r.Bool() {
 		sym := pkg.Lookup(".inittask")

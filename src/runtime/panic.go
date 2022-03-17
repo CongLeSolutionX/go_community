@@ -209,6 +209,7 @@ func panicSliceConvert(x int, y int)
 
 var shiftError = error(errorString("negative shift amount"))
 
+//go:yeswritebarrierrec
 func panicshift() {
 	panicCheck1(getcallerpc(), "negative shift amount")
 	panic(shiftError)
@@ -216,6 +217,7 @@ func panicshift() {
 
 var divideError = error(errorString("integer divide by zero"))
 
+//go:yeswritebarrierrec
 func panicdivide() {
 	panicCheck2("integer divide by zero")
 	panic(divideError)
