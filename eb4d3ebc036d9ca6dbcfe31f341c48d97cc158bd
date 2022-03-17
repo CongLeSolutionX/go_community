@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ab82fe0_195c5223",
+        "filename": "src/cmd/go/internal/workcmd/use.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 56559
+      },
+      "writtenOn": "2022-03-17T20:28:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45e0018b_1d048219",
+      "revId": "eb4d3ebc036d9ca6dbcfe31f341c48d97cc158bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3ee6cfe9_ef58a03f",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-03-17T18:00:22Z",
       "side": 1,
       "message": "This is still a potential panic here, I think — we\u0027re missing a `return` after the `base.Errorf` at line 94.\n\n(Actually, if we add that missing `return` then I don\u0027t think we need the new `Stat` in the  `useDir` loop.)",
+      "revId": "eb4d3ebc036d9ca6dbcfe31f341c48d97cc158bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a92b867_51504abf",
+        "filename": "src/cmd/go/internal/workcmd/use.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 56559
+      },
+      "writtenOn": "2022-03-17T20:28:56Z",
+      "side": 1,
+      "message": "I\u0027ve added the missing `return` in. Removing the `Stat` in `useDir` creates perhaps a less friendly error message but makes the change simpler.\n\nWith the `useDir` changes:\n`go: argument \"foo.txt\" is not a directory`\n\nWithout them:\n`go: stat $WORK/gopath/src/foo.txt/go.mod: not a directory`\n\nHappy to remove the `useDir` changes if you think that\u0027s preferable.",
+      "parentUuid": "3ee6cfe9_ef58a03f",
       "revId": "eb4d3ebc036d9ca6dbcfe31f341c48d97cc158bd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
