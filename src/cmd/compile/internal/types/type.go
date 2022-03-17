@@ -2133,9 +2133,6 @@ func IsRuntimePkg(p *Pkg) bool {
 
 // IsReflectPkg reports whether p is package reflect.
 func IsReflectPkg(p *Pkg) bool {
-	if p == LocalPkg {
-		return base.Ctxt.Pkgpath == "reflect"
-	}
 	return p.Path == "reflect"
 }
 

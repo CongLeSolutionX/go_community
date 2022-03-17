@@ -146,10 +146,6 @@ func symfmt(b *bytes.Buffer, s *Sym, verb rune, mode fmtMode) {
 		b.WriteString(q)
 		b.WriteByte('.')
 		switch mode {
-		case fmtTypeIDName:
-			// If name is a generic instantiation, it might have local package placeholders
-			// in it. Replace those placeholders with the package name. See issue 49547.
-			name = strings.Replace(name, LocalPkg.Prefix, q, -1)
 		case fmtTypeIDHash:
 			// If name is a generic instantiation, don't hash the instantiating types.
 			// This isn't great, but it is safe. If we hash the instantiating types, then
