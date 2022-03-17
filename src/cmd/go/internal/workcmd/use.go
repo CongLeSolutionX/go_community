@@ -109,7 +109,11 @@ func runUse(ctx context.Context, cmd *base.Command, args []string) {
 	}
 	for _, useDir := range args {
 		if !*useR {
-			lookDir(useDir)
+			if target, err := fsys.Stat(useDir); err == nil && !target.IsDir() {
+				base.Errorf(`go: argument "%s" is not a directory`, useDir)
+			} else {
+				lookDir(useDir)
+			}
 			continue
 		}
 

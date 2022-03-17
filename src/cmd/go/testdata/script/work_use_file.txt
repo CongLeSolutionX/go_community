@@ -1,0 +1,9 @@
+# If an argument to 'go work use' is a file, the error should be handled
+# gracefully.
+! go work use foo.txt
+stderr '^go: argument "foo.txt" is not a directory$'
+
+
+-- go.work --
+go 1.18
+-- foo.txt --
