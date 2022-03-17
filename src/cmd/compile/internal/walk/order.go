@@ -440,21 +440,32 @@ func (o *orderState) edge() {
 		return
 	}
 
-	// Create a new uint8 counter to be allocated in section
-	// __libfuzzer_extra_counters.
+	// Create a new uint8 counter to be allocated in section __sancov_cntrs
 	counter := staticinit.StaticName(types.Types[types.TUINT8])
-	counter.SetLibfuzzerExtraCounter(true)
-	// As well as setting SetLibfuzzerExtraCounter, we preemptively set the
-	// symbol type to SLIBFUZZER_EXTRA_COUNTER so that the race detector
+	counter.SetLibfuzzer8BitCounter(true)
+	// As well as setting SetLibfuzzer8BitCounter, we preemptively set the
+	// symbol type to SLIBFUZZER_8BIT_COUNTER so that the race detector
 	// instrumentation pass (which does not have access to the flags set by
-	// SetLibfuzzerExtraCounter) knows to ignore them. This information is
-	// lost by the time it reaches the compile step, so SetLibfuzzerExtraCounter
+	// SetLibfuzzer8BitCounter) knows to ignore them. This information is
+	// lost by the time it reaches the compile step, so SetLibfuzzer8BitCounter
 	// is still necessary.
-	counter.Linksym().Type = objabi.SLIBFUZZER_EXTRA_COUNTER
+	counter.Linksym().Type = objabi.SLIBFUZZER_8BIT_COUNTER
 
-	// counter += 1
-	incr := ir.NewAssignOpStmt(base.Pos, ir.OADD, counter, ir.NewInt(1))
-	o.append(incr)
+	// We guarantee that the counter never becomes zero again once it has been
+	// incremented once. This implementation follows the NeverZero optimization
+	// presented by the paper:
+	// "AFL++: Combining Incremental Steps of Fuzzing Research"
+	// The NeverZero policy avoids the overflow to 0 by always adding the carry flag
+	// to the counter and so, if an edge is executed at least one time, the entry is
+	// never 0. The Saturated Counters policy freezes the counter when it reaches
+	// the value of 255. In a range of experiments performed, it is observed that
+	// NeverZero is very effective and improves performance in terms of coverage and
+	// speed (the seed selection now takes into account edges that were hidden before).
+	// Saturated Counters, however, decreases the overall performance.
+	o.append(ir.NewIfStmt(base.Pos,
+		ir.NewBinaryExpr(base.Pos, ir.OEQ, counter, ir.NewInt(0xff)),
+		[]ir.Node{ir.NewAssignStmt(base.Pos, counter, ir.NewInt(1))},
+		[]ir.Node{ir.NewAssignOpStmt(base.Pos, ir.OADD, counter, ir.NewInt(1))}))
 }
 
 // orderBlock orders the block of statements in n into a new slice,
