@@ -25,6 +25,7 @@ package types2_test
 import (
 	"cmd/compile/internal/syntax"
 	"flag"
+	"fmt"
 	"internal/testenv"
 	"os"
 	"path/filepath"
@@ -79,18 +80,63 @@ func delta(x, y uint) uint {
 	}
 }
 
-// goVersionRx matches a Go version string using '_', e.g. "go1_12".
-var goVersionRx = regexp.MustCompile(`^go[1-9][0-9]*_(0|[1-9][0-9]*)$`)
-
-// asGoVersion returns a regular Go language version string
-// if s is a Go version string using '_' rather than '.' to
-// separate the major and minor version numbers (e.g. "go1_12").
-// Otherwise it returns the empty string.
-func asGoVersion(s string) string {
-	if goVersionRx.MatchString(s) {
-		return strings.Replace(s, "_", ".", 1)
+func readFlagValues(filename string, flags map[string]string) error {
+	f, err := os.Open(filename)
+	if err != nil {
+		return err
 	}
-	return ""
+
+	var buf [1024]byte
+	n, err := f.Read(buf[:])
+	if err != nil {
+		return err
+	}
+	orig := string(buf[:n])
+
+	const prefix = "//"
+	if !strings.HasPrefix(orig, prefix) {
+		return nil // first line is not a comment
+	}
+	end := strings.Index(orig, "\n")
+	if end < 0 {
+		return nil // first line is too long
+	}
+	orig = orig[:end]
+	line := orig[len(prefix):]
+
+	hasFlags := false
+	for {
+		i := strings.Index(line, "-")
+		if i < 0 {
+			if hasFlags && strings.TrimSpace(line) != "" {
+				return fmt.Errorf("non-whitespace after flags in %q", orig)
+			}
+			break // no (more) flags found
+		}
+		line = line[i+1:]
+		i = strings.Index(line, "=")
+		if i < 0 {
+			return fmt.Errorf("missing '=' in %q", orig)
+		}
+		key := strings.TrimSpace(line[:i])
+		if _, ok := flags[key]; !ok {
+			return fmt.Errorf("unknown flag %q in %q", "-"+key, orig)
+		}
+		line = line[i+1:]
+		var val string
+		i = strings.Index(line, ",")
+		if i < 0 {
+			val = line
+			line = ""
+		} else {
+			val = line[:i]
+			line = line[i+1:]
+		}
+		flags[key] = strings.TrimSpace(val)
+		hasFlags = true
+	}
+
+	return nil
 }
 
 func testFiles(t *testing.T, filenames []string, colDelta uint, manual bool) {
@@ -98,6 +144,14 @@ func testFiles(t *testing.T, filenames []string, colDelta uint, manual bool) {
 		t.Fatal("no source files")
 	}
 
+	flags := map[string]string{
+		"lang": *goVersion,
+	}
+	if err := readFlagValues(filenames[0], flags); err != nil {
+		t.Fatal(err)
+	}
+
+	// TODO(gri) remove this or use flag mechanism to set mode if still needed
 	var mode syntax.Mode
 	if strings.HasSuffix(filenames[0], ".go2") || manual {
 		mode |= syntax.AllowGenerics | syntax.AllowMethodTypeParams
@@ -110,12 +164,6 @@ func testFiles(t *testing.T, filenames []string, colDelta uint, manual bool) {
 		pkgName = files[0].PkgName.Value
 	}
 
-	// if no Go version is given, consider the package name
-	goVersion := *goVersion
-	if goVersion == "" {
-		goVersion = asGoVersion(pkgName)
-	}
-
 	listErrors := manual && !*verifyErrors
 	if listErrors && len(errlist) > 0 {
 		t.Errorf("--- %s:", pkgName)
@@ -126,7 +174,7 @@ func testFiles(t *testing.T, filenames []string, colDelta uint, manual bool) {
 
 	// typecheck and collect typechecker errors
 	var conf Config
-	conf.GoVersion = goVersion
+	conf.GoVersion = flags["lang"]
 	// special case for importC.src
 	if len(filenames) == 1 && strings.HasSuffix(filenames[0], "importC.src") {
 		conf.FakeImportC = true
