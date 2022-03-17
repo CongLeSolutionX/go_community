@@ -90,6 +90,24 @@
       "parentUuid": "282d3376_707e254e",
       "revId": "7696e215d4bd6a330800feadb0dd9830f3eb9c7a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "609b6610_7f6b2f3a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2022-03-17T15:09:16Z",
+      "side": 1,
+      "message": "Yeah, I guess it can\u0027t be a coincidence that I\u0027m running face-first into the data race detector if I\u0027m scanning more bytes for each Go file.\n\nI don\u0027t have a strong feeling in favor or against any alternative, though a `//go:stdembed` feels so close to `internal/embedlite` that we might as well just bite the bullet and go for the import :) the bonus being that it\u0027s going to be more obvious, and the code to find the import will be almost exactly the same as the code which already looks for the `embed` import.",
+      "parentUuid": "fee7526f_16862170",
+      "revId": "7696e215d4bd6a330800feadb0dd9830f3eb9c7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
