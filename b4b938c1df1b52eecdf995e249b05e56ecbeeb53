@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "168a05ce_186c70b4",
+        "filename": "src/cmd/compile/internal/typecheck/builtin/runtime.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 56363
+      },
+      "writtenOn": "2022-03-17T17:20:00Z",
+      "side": 1,
+      "message": "Would it be always called? If I see it correctly, the file `src/runtime/libfuzzer.go` where I put the `init` function has the libfuzzer build tag. This means that it will only be considered when we are in libfuzzer mode. Or have I missed something?",
+      "parentUuid": "f51a95db_15a1f26d",
+      "revId": "b4b938c1df1b52eecdf995e249b05e56ecbeeb53",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5d2a88d9_0817d84e",
         "filename": "src/cmd/compile/internal/walk/order.go",
         "patchSetId": 1
@@ -191,6 +209,24 @@
       "side": 1,
       "message": "This is fixed by making the function private and calling it in an init function from the runtime package",
       "parentUuid": "9db9b194_1df77996",
+      "revId": "b4b938c1df1b52eecdf995e249b05e56ecbeeb53",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e78a12d2_71f577e2",
+        "filename": "src/internal/fuzz/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 56363
+      },
+      "writtenOn": "2022-03-17T17:20:00Z",
+      "side": 1,
+      "message": "This function is now completely removed and replaced by inlining the code that increments the coverage counter.",
+      "parentUuid": "18ea0b33_71fbad3e",
       "revId": "b4b938c1df1b52eecdf995e249b05e56ecbeeb53",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },

@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "edf615da_146dd59f",
+        "filename": "src/cmd/compile/internal/typecheck/builtin.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 56363
+      },
+      "writtenOn": "2022-03-17T17:20:00Z",
+      "side": 1,
+      "message": "Done!",
+      "parentUuid": "ba6022ab_45900d67",
+      "revId": "d4ccea525d63bc90e390ec897bf95bbc4c830edb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fb5a7b5f_489cd2ff",
         "filename": "src/cmd/compile/internal/typecheck/builtin/runtime.go",
         "patchSetId": 4
@@ -37,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f1a57557_5b8532c1",
+        "filename": "src/cmd/compile/internal/typecheck/builtin/runtime.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 56363
+      },
+      "writtenOn": "2022-03-17T17:20:00Z",
+      "side": 1,
+      "message": "Done!",
+      "parentUuid": "fb5a7b5f_489cd2ff",
+      "revId": "d4ccea525d63bc90e390ec897bf95bbc4c830edb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2bc5570b_897dfaaa",
         "filename": "src/cmd/compile/internal/walk/order.go",
         "patchSetId": 4
@@ -48,6 +84,24 @@
       "writtenOn": "2022-03-15T21:09:33Z",
       "side": 1,
       "message": "Isn\u0027t this backwards? You want\nif counter \u003d\u003d 0xff { counter \u003d 1 } else { counter +\u003d 1 }.\nThis code has the then and else branches reversed (or the condition reversed).",
+      "revId": "d4ccea525d63bc90e390ec897bf95bbc4c830edb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "172214c7_9930045a",
+        "filename": "src/cmd/compile/internal/walk/order.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 56363
+      },
+      "writtenOn": "2022-03-17T17:20:00Z",
+      "side": 1,
+      "message": "Great catch. This would have rendered the whole instrumentation useless ;-)",
+      "parentUuid": "2bc5570b_897dfaaa",
       "revId": "d4ccea525d63bc90e390ec897bf95bbc4c830edb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
