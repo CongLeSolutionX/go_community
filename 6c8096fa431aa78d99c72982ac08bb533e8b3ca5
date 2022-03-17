@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c961878a_9043217d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-03-17T02:39:39Z",
+      "side": 1,
+      "message": "I dunno, we\u0027re making the code harder to read and understand to save a couple of nanoseconds in the perfect benchmark.  It\u0027s hard to imagine this making a measurable difference for a real program.",
+      "revId": "6c8096fa431aa78d99c72982ac08bb533e8b3ca5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
