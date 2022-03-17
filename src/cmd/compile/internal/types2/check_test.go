@@ -23,8 +23,10 @@
 package types2_test
 
 import (
+	"bytes"
 	"cmd/compile/internal/syntax"
 	"flag"
+	"fmt"
 	"internal/testenv"
 	"os"
 	"path/filepath"
@@ -79,18 +81,59 @@ func delta(x, y uint) uint {
 	}
 }
 
-// goVersionRx matches a Go version string using '_', e.g. "go1_12".
-var goVersionRx = regexp.MustCompile(`^go[1-9][0-9]*_(0|[1-9][0-9]*)$`)
+// Note: readFlagValues is identical to the version in go/types which is
+//       why it has a src argument even though here it is always nil.
 
-// asGoVersion returns a regular Go language version string
-// if s is a Go version string using '_' rather than '.' to
-// separate the major and minor version numbers (e.g. "go1_12").
-// Otherwise it returns the empty string.
-func asGoVersion(s string) string {
-	if goVersionRx.MatchString(s) {
-		return strings.Replace(s, "_", ".", 1)
+// readFlagValues reads the first line of the given source (from src if given,
+// or by reading the given file) and interprets the line as follows:
+// - If the line doesn't start with "// -" or doesn't end in a newline
+//   (or is too long), the line is ignored.
+// - Otherwise the line is interpreted as a space-separated sequence
+//   of (key, value) pairs of the form: -key1=val1 -key2=val2 ...
+// - There must be no extra spaces around the keys and values, they must
+//   not be empty, and each key must be present in the given flags map.
+// - For each -key=val pair, flags[key] is set to val.
+func readFlagValues(filename string, src []byte, flags map[string]string) error {
+	// If there is no src, read it from the file.
+	const maxLen = 256
+	if len(src) == 0 {
+		f, err := os.Open(filename)
+		if err != nil {
+			return err
+		}
+
+		var buf [maxLen]byte
+		n, err := f.Read(buf[:])
+		if err != nil {
+			return err
+		}
+		src = buf[:n]
 	}
-	return ""
+
+	// consider at most maxLen bytes
+	if len(src) > maxLen {
+		src = src[:maxLen]
+	}
+
+	const prefix = "// -"
+	if !bytes.HasPrefix(src, []byte(prefix)) {
+		return nil // first line is not a comment starting a flag
+	}
+	end := bytes.Index(src, []byte("\n"))
+	if end < 0 {
+		return nil // first line is too long
+	}
+
+	line := string(src[len(prefix)-1 : /* -1 to keep initial "-" */ end])
+	for _, field := range strings.Fields(line) {
+		s := strings.Split(field, "=")
+		if len(s) != 2 || s[0] == "" || s[1] == "" || s[0][0] != '-' {
+			return fmt.Errorf("invalid field %q", field)
+		}
+		flags[s[0][1:]] = s[1] // [1:] to remove "-" from key
+	}
+
+	return nil
 }
 
 func testFiles(t *testing.T, filenames []string, colDelta uint, manual bool) {
@@ -98,6 +141,14 @@ func testFiles(t *testing.T, filenames []string, colDelta uint, manual bool) {
 		t.Fatal("no source files")
 	}
 
+	flags := map[string]string{
+		"lang": *goVersion,
+	}
+	if err := readFlagValues(filenames[0], nil, flags); err != nil {
+		t.Fatal(err)
+	}
+
+	// TODO(gri) remove this or use flag mechanism to set mode if still needed
 	var mode syntax.Mode
 	if strings.HasSuffix(filenames[0], ".go2") || manual {
 		mode |= syntax.AllowGenerics | syntax.AllowMethodTypeParams
@@ -110,12 +161,6 @@ func testFiles(t *testing.T, filenames []string, colDelta uint, manual bool) {
 		pkgName = files[0].PkgName.Value
 	}
 
-	// if no Go version is given, consider the package name
-	goVersion := *goVersion
-	if goVersion == "" {
-		goVersion = asGoVersion(pkgName)
-	}
-
 	listErrors := manual && !*verifyErrors
 	if listErrors && len(errlist) > 0 {
 		t.Errorf("--- %s:", pkgName)
@@ -126,7 +171,7 @@ func testFiles(t *testing.T, filenames []string, colDelta uint, manual bool) {
 
 	// typecheck and collect typechecker errors
 	var conf Config
-	conf.GoVersion = goVersion
+	conf.GoVersion = flags["lang"]
 	// special case for importC.src
 	if len(filenames) == 1 && strings.HasSuffix(filenames[0], "importC.src") {
 		conf.FakeImportC = true
