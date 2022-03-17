@@ -57,6 +57,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6107178c_dc71cf0b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-03-17T18:15:19Z",
+      "side": 1,
+      "message": "PTAL",
+      "revId": "660b7cc08967c8c6d76763b1b730ec53ee57b97d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2dea6209_d2178b6a",
@@ -70,6 +87,30 @@
       "writtenOn": "2022-03-17T16:23:15Z",
       "side": 1,
       "message": "This seems unnecessarily complex.\n\nCan we just read the first line of the file (using e.g. bufio.Scanner), call strings.Fields, and pass to FlagSet.Parse? Why are we reimplementing this?\n\nIt looks fine, but has some inflexibility (in the form of over-long lines or extra padding) that may cause flags not to be read in surprising ways.",
+      "range": {
+        "startLine": 95,
+        "startChar": 5,
+        "endLine": 95,
+        "endChar": 19
+      },
+      "revId": "660b7cc08967c8c6d76763b1b730ec53ee57b97d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aef408fa_1c15c9ad",
+        "filename": "src/cmd/compile/internal/types2/check_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-03-17T18:15:19Z",
+      "side": 1,
+      "message": "Indeed. I always forget about strings.Field.",
+      "parentUuid": "2dea6209_d2178b6a",
       "range": {
         "startLine": 95,
         "startChar": 5,
