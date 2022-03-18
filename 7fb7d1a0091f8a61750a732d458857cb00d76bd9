@@ -72,6 +72,24 @@
       "message": "If GOROOT isn\u0027t set, it seems wrong to look in GOPATH for runtime.\nI expected the error to just say \u0027cannot find package \"runtime\" (GOROOT not set)\u0027",
       "revId": "7fb7d1a0091f8a61750a732d458857cb00d76bd9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5dbf3e9_1d3284c1",
+        "filename": "src/cmd/go/testdata/script/build_trimpath_goroot.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-03-18T21:46:30Z",
+      "side": 1,
+      "message": "If we don\u0027t have a GOROOT, then we also don\u0027t have a straightforward way for `go/build` to determine which packages it contains. (GOPATH can in general contain dotless packages in the same way as GOROOT.)\n\nMoreover, once CL 391811 lands this will only apply to third-party programs that use go/build and don\u0027t validate GOROOT themselves. (cmd/go and cmd/doc will both error out if GOROOT is unavailable — note that the error message in this test comes from the binary being executed by `go run`, not `go run` itself.)\n\nI\u0027d be open to improvements in this failure message, but I think this can wait for a followup CL (if ever).",
+      "parentUuid": "049931be_5a517a11",
+      "revId": "7fb7d1a0091f8a61750a732d458857cb00d76bd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
