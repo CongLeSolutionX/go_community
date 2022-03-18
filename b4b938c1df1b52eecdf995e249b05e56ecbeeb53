@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "69bd6df1_f365d61f",
+        "filename": "src/cmd/compile/internal/typecheck/builtin/runtime.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-03-18T16:04:53Z",
+      "side": 1,
+      "message": "Sorry, you\u0027re right, I didn\u0027t realize this was buildtag-enabled.",
+      "parentUuid": "168a05ce_186c70b4",
+      "revId": "b4b938c1df1b52eecdf995e249b05e56ecbeeb53",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d2a88d9_0817d84e",
