@@ -1,0 +1,28 @@
+[short] skip
+env GOPROXY=direct
+env GO111MODULE=on
+env GOPRIVATE=github.com
+
+go mod init x
+go get github.com/born2ngopi/hello
+go mod vendor
+
+go work use -r .
+cmp go.work go.work.want
+
+-- main.go --
+package main
+
+import "github.com/born2ngopi/hello"
+
+func main() {
+	hello.SayHello()
+}
+-- go.work --
+go 1.19
+
+use .
+-- go.work.want --
+go 1.19
+
+use .

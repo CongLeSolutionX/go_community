@@ -12,6 +12,7 @@ import (
 	"cmd/go/internal/modload"
 	"cmd/go/internal/str"
 	"context"
+	"errors"
 	"fmt"
 	"io/fs"
 	"os"
@@ -130,11 +131,14 @@ func runUse(ctx context.Context, cmd *base.Command, args []string) {
 		}
 
 		// Add or remove entries for any subdirectories that still exist.
-		fsys.Walk(useDir, func(path string, info fs.FileInfo, err error) error {
+		err = fsys.Walk(useDir, func(path string, info fs.FileInfo, err error) error {
 			if err != nil {
 				return err
 			}
 
+			if str.HasFilePathPrefix(path, "vendor") {
+				return filepath.SkipDir
+			}
 			if !info.IsDir() {
 				if info.Mode()&fs.ModeSymlink != 0 {
 					if target, err := fsys.Stat(path); err == nil && target.IsDir() {
@@ -146,6 +150,9 @@ func runUse(ctx context.Context, cmd *base.Command, args []string) {
 			lookDir(path)
 			return nil
 		})
+		if err != nil && !errors.Is(err, os.ErrNotExist) {
+			base.Errorf("go: %v", err)
+		}
 
 		// Remove entries for subdirectories that no longer exist.
 		// Because they don't exist, they will be skipped by Walk.
