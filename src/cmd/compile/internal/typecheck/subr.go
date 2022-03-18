@@ -291,7 +291,7 @@ var dotlist = make([]dlist, 10)
 
 // Convert node n for assignment to type t.
 func assignconvfn(n ir.Node, t *types.Type, context func() string) ir.Node {
-	if n == nil || n.Type() == nil || n.Type().Broke() {
+	if n == nil || n.Type() == nil {
 		return n
 	}
 
@@ -397,7 +397,7 @@ func Assignop1(src, dst *types.Type) (ir.Op, string) {
 		}
 
 		// we'll have complained about this method anyway, suppress spurious messages.
-		if have != nil && have.Sym == missing.Sym && (have.Type.Broke() || missing.Type.Broke()) {
+		if have != nil && have.Sym == missing.Sym && false {
 			return ir.OCONVIFACE, ""
 		}
 
