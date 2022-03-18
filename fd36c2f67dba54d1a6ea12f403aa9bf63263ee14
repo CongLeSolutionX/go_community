@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "274f63ab_e23c9be7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-03-18T14:10:19Z",
+      "side": 1,
+      "message": "(nit) Conventionally in Go commit messages we use complete sentences after the first line.",
+      "revId": "fd36c2f67dba54d1a6ea12f403aa9bf63263ee14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0dd04e75_8e73bee1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-03-18T14:10:19Z",
+      "side": 1,
+      "message": "Thanks for the fix, but this needs a test.\n\nSee the existing `go work use` integration tests in `src/cmd/go/testdata/script/work_use*.txt`.",
+      "revId": "fd36c2f67dba54d1a6ea12f403aa9bf63263ee14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b2e047f_6e3be6db",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-03-18T14:10:19Z",
+      "side": 1,
+      "message": "Th",
+      "revId": "fd36c2f67dba54d1a6ea12f403aa9bf63263ee14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6e08bb8_be4a4360",
+        "filename": "src/cmd/go/internal/workcmd/use.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-03-18T14:10:19Z",
+      "side": 1,
+      "message": "`strings.Split` seems needlessly expensive: we only care about the first element of the path here.\n\nInstead, how about `str.HasFilePathPrefix`¹? Perhaps:\n\n```\n\tif str.HasFilePathPrefix(path, \"vendor\") {\n```\n\n\n¹https://pkg.go.dev/cmd/go/internal/str#HasFilePathPrefix",
+      "range": {
+        "startLine": 119,
+        "startChar": 12,
+        "endLine": 119,
+        "endChar": 25
+      },
+      "revId": "fd36c2f67dba54d1a6ea12f403aa9bf63263ee14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
