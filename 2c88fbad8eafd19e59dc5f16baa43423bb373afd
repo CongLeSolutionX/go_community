@@ -69,6 +69,23 @@
       "parentUuid": "eff7898a_beefa279",
       "revId": "2c88fbad8eafd19e59dc5f16baa43423bb373afd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c4cc2cd_13e61fbf",
+        "filename": "src/net/ip.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2022-03-18T04:48:15Z",
+      "side": 1,
+      "message": "If we did this, I\u0027d rather write it like:\n\n```\nvar (\n     IPv4bcast \u003d ipv4bcast // 255.255.255.255\n)\n```\n\nAnd then put the ugly bit in its own var (..) block that won\u0027t show up in godoc.\n\nThere\u0027s some precedent for that in the unicode packages.",
+      "revId": "2c88fbad8eafd19e59dc5f16baa43423bb373afd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
