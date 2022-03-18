@@ -127,6 +127,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fcb5e643_492607e8",
+        "filename": "src/time/internal_test.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-03-18T20:36:09Z",
+      "side": 1,
+      "message": "Also applied to `ForceAndroidTzdataForTest`.",
+      "parentUuid": "3bec18a3_59945fdd",
+      "revId": "6b8c355b21adf3d0083700c1e915e39f4a35d61d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fb7c816e_3ad46c9f",
