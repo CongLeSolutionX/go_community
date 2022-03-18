@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "92b7826a_c7b551cc",
+        "filename": "src/cmd/compile/internal/walk/compare.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 56363
+      },
+      "writtenOn": "2022-03-18T14:32:06Z",
+      "side": 1,
+      "message": "Adjusted as proposed.",
+      "parentUuid": "9fc13882_476f1140",
+      "revId": "618db88f5bfb4c460eb31f0c968c5b771b176308",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e2d48066_562febca",
         "filename": "src/runtime/libfuzzer.go",
         "patchSetId": 3
@@ -31,6 +49,24 @@
       "writtenOn": "2022-03-15T21:51:41Z",
       "side": 1,
       "message": "I don\u0027t think you need to describe the internals of libFuzzer here, just somehow describe why the result parameter (which libFuzzer would expect to be -1/0/1?) doesn\u0027t need to be computed exactly.",
+      "revId": "618db88f5bfb4c460eb31f0c968c5b771b176308",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76e8fc9b_939c0ef0",
+        "filename": "src/runtime/libfuzzer.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 56363
+      },
+      "writtenOn": "2022-03-18T14:32:06Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "e2d48066_562febca",
       "revId": "618db88f5bfb4c460eb31f0c968c5b771b176308",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -54,6 +90,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8ebb5df2_3d320ff5",
+        "filename": "src/runtime/libfuzzer.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 56363
+      },
+      "writtenOn": "2022-03-18T14:32:06Z",
+      "side": 1,
+      "message": "Added",
+      "parentUuid": "12715fd7_b7ce6ad9",
+      "revId": "618db88f5bfb4c460eb31f0c968c5b771b176308",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b26ffabb_30939dc4",
         "filename": "src/runtime/libfuzzer.go",
         "patchSetId": 3
@@ -65,6 +119,24 @@
       "writtenOn": "2022-03-15T21:51:41Z",
       "side": 1,
       "message": "Same here, comment why the result is always 1 (especially that here you\u0027re always passing 1 even though the strings might be folded-equal).",
+      "revId": "618db88f5bfb4c460eb31f0c968c5b771b176308",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2295bd6_0edc97aa",
+        "filename": "src/runtime/libfuzzer.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 56363
+      },
+      "writtenOn": "2022-03-18T14:32:06Z",
+      "side": 1,
+      "message": "Updated the function to check for strict equality and only call the hook otherwise. I\u0027ve also added a comment describing why. Is there a way to check whether two strings are folded-equal inside the runtime package?",
+      "parentUuid": "b26ffabb_30939dc4",
       "revId": "618db88f5bfb4c460eb31f0c968c5b771b176308",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }

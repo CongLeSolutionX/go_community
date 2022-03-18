@@ -109,6 +109,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ec56aca0_25852514",
+        "filename": "src/cmd/compile/internal/walk/compare.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 56363
+      },
+      "writtenOn": "2022-03-18T14:32:06Z",
+      "side": 1,
+      "message": "For now, I added the implementation for the function from the other CL here. Would it be enough for stacking the CLs to rebase the GitHub branch for the PR on the one with the correct implementation of fakePC?",
+      "parentUuid": "82ad8326_1dbccd65",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 65
+      },
+      "revId": "65fec8ed0bcd14bc1291f1673f3a7ebb08988359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4fb4e749_c7d3c4d2",
         "filename": "src/cmd/compile/internal/walk/expr.go",
         "patchSetId": 2
