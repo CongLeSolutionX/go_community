@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56674891_96711cc4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-03-18T00:34:35Z",
+      "side": 1,
+      "message": "Lowercase, no period.  Also this just changes CONTRIBUTORS.  So:\n\nCONTRIBUTORS: update name",
+      "revId": "87fee2758945b8027ef8de64a29b4219dac3b091",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "adbed276_3aee0ed4",
+        "filename": "CONTRIBUTORS",
+        "patchSetId": 2
+      },
+      "lineNbr": 2012,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-03-18T00:34:35Z",
+      "side": 1,
+      "message": "We usually keep the existing e-mail address unless it is necessary to remove it.  The old e-mail address is in the git repo anyhow.  That is, list both addresses.",
+      "revId": "87fee2758945b8027ef8de64a29b4219dac3b091",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
