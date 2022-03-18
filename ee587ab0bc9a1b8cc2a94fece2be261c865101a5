@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eefb52b4_3dc084ed",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64Ops.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-03-18T21:43:51Z",
+      "side": 1,
+      "message": "Update comment. This is the last argument now. Also below.",
+      "range": {
+        "startLine": 244,
+        "startChar": 131,
+        "endLine": 244,
+        "endChar": 135
+      },
+      "revId": "ee587ab0bc9a1b8cc2a94fece2be261c865101a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
