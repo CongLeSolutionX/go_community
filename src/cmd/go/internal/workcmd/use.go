@@ -135,6 +135,9 @@ func runUse(ctx context.Context, cmd *base.Command, args []string) {
 				return err
 			}
 
+			if str.HasFilePathPrefix(path, "vendor") {
+				return filepath.SkipDir
+			}
 			if !info.IsDir() {
 				if info.Mode()&fs.ModeSymlink != 0 {
 					if target, err := fsys.Stat(path); err == nil && target.IsDir() {
