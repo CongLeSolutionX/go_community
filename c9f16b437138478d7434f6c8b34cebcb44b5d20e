@@ -160,6 +160,23 @@
       "parentUuid": "ca2434b1_eaa267a7",
       "revId": "c9f16b437138478d7434f6c8b34cebcb44b5d20e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ecd1e7e3_503a3ee4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-03-18T16:25:18Z",
+      "side": 1,
+      "message": "Per discussion, are you going to change this CL to instead add a new importer extension (and promote to this extension in go/types, types2)?",
+      "revId": "c9f16b437138478d7434f6c8b34cebcb44b5d20e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
