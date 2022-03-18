@@ -74,6 +74,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c690324_2438e640",
+        "filename": "src/time/internal_test.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-03-18T19:52:17Z",
+      "side": 1,
+      "message": "Ah, good point. I was going to say that we want to make sure the `gorootZoneSources` function is covered (especially on iOS), but it\u0027s definitely already covered by TestLoadLocationFromTZData.\n\nDone.",
+      "parentUuid": "84773d4b_c5c87261",
+      "revId": "6b8c355b21adf3d0083700c1e915e39f4a35d61d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dddf6bd9_f4a65bf5",
@@ -91,6 +109,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bec18a3_59945fdd",
+        "filename": "src/time/internal_test.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-03-18T19:52:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dddf6bd9_f4a65bf5",
+      "revId": "6b8c355b21adf3d0083700c1e915e39f4a35d61d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fb7c816e_3ad46c9f",
@@ -104,6 +140,24 @@
       "writtenOn": "2022-03-18T16:05:04Z",
       "side": 1,
       "message": "var platformZoneSources []string // none on Plan 9",
+      "revId": "6b8c355b21adf3d0083700c1e915e39f4a35d61d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "894cc758_0897fd00",
+        "filename": "src/time/zoneinfo_plan9.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-03-18T19:52:17Z",
+      "side": 1,
+      "message": "Done. Also updated the `windows` and `ios` variants in the same style.",
+      "parentUuid": "fb7c816e_3ad46c9f",
       "revId": "6b8c355b21adf3d0083700c1e915e39f4a35d61d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
