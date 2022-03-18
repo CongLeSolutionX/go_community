@@ -139,6 +139,24 @@
       "parentUuid": "b26ffabb_30939dc4",
       "revId": "618db88f5bfb4c460eb31f0c968c5b771b176308",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "acd49c30_96ceb179",
+        "filename": "src/runtime/libfuzzer.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-03-18T16:16:27Z",
+      "side": 1,
+      "message": "Unfortunately, no.",
+      "parentUuid": "f2295bd6_0edc97aa",
+      "revId": "618db88f5bfb4c460eb31f0c968c5b771b176308",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
