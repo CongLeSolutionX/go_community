@@ -177,6 +177,24 @@
       "message": "Per discussion, are you going to change this CL to instead add a new importer extension (and promote to this extension in go/types, types2)?",
       "revId": "c9f16b437138478d7434f6c8b34cebcb44b5d20e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4360e4b0_0ca265a3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-03-18T19:13:05Z",
+      "side": 1,
+      "message": "Yeah. Marking as -2 for now; will either abandon or repurpose the CL once I have a chance to reassess. (Focusing for a bit on paying down other cmd/compile technical debt.)",
+      "parentUuid": "ecd1e7e3_503a3ee4",
+      "revId": "c9f16b437138478d7434f6c8b34cebcb44b5d20e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
