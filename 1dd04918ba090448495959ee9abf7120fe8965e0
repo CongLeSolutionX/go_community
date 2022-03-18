@@ -127,6 +127,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0d44d02f_1df19057",
+        "filename": "src/cmd/compile/internal/walk/compare.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 56363
+      },
+      "writtenOn": "2022-03-18T12:56:33Z",
+      "side": 1,
+      "message": "Thanks for the tip. Done!",
+      "parentUuid": "2e887c15_732cc99b",
+      "revId": "1dd04918ba090448495959ee9abf7120fe8965e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "226137d6_fa147f8e",
         "filename": "src/runtime/libfuzzer_amd64.s",
         "patchSetId": 1
