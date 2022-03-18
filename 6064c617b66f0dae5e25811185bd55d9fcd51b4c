@@ -16,6 +16,24 @@
       "message": "You can just make this an init function directly.",
       "revId": "6064c617b66f0dae5e25811185bd55d9fcd51b4c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ec97862_59381ffd",
+        "filename": "src/runtime/libfuzzer.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 56363
+      },
+      "writtenOn": "2022-03-18T16:25:19Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "16c4b173_8d1eb1f9",
+      "revId": "6064c617b66f0dae5e25811185bd55d9fcd51b4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
