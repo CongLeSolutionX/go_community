@@ -34,6 +34,24 @@
       "parentUuid": "e11bac17_049e05f6",
       "revId": "122d5203986e00a9ba9b7f253ac6d64da70fd74a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2add1d82_291cd011",
+        "filename": "src/runtime/libfuzzer_amd64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-03-18T16:32:30Z",
+      "side": 1,
+      "message": "Yes, thanks.",
+      "parentUuid": "64b9a2eb_16748e5e",
+      "revId": "122d5203986e00a9ba9b7f253ac6d64da70fd74a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
