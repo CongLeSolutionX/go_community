@@ -74,6 +74,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f485171_39187117",
+        "filename": "src/cmd/link/internal/ld/main.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-03-18T19:52:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9783ad3_c667f609",
+      "revId": "8f8daedd9bb388afbba95ef41214dbf4aa458087",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3e6760ed_6e32be41",
@@ -87,6 +105,24 @@
       "writtenOn": "2022-03-18T16:10:16Z",
       "side": 1,
       "message": "I\u0027m not sure about where to expect to see %GOROOT% and where not.\nWhy not here?\n\nMaybe we should just use $GOROOT always. Windows users will probably understand if they see it.",
+      "revId": "8f8daedd9bb388afbba95ef41214dbf4aa458087",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8691b8cb_c0c72ef9",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 805,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-03-18T19:52:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e6760ed_6e32be41",
       "revId": "8f8daedd9bb388afbba95ef41214dbf4aa458087",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
