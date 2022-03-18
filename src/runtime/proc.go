@@ -2339,6 +2339,11 @@ func handoffp(_p_ *p) {
 		startm(_p_, false)
 		return
 	}
+	// if there's trace work to do, start it straight away
+	if (trace.enabled || trace.shutdown) && traceReaderAvailable() {
+		startm(_p_, false)
+		return
+	}
 	// if it has GC work, start it straight away
 	if gcBlackenEnabled != 0 && gcMarkWorkAvailable(_p_) {
 		startm(_p_, false)
@@ -2522,7 +2527,9 @@ func execute(gp *g, inheritTime bool) {
 
 // Finds a runnable goroutine to execute.
 // Tries to steal from other P's, get g from local or global queue, poll network.
-func findrunnable() (gp *g, inheritTime bool) {
+// tryWakeP indicates that the returned goroutine is not normal (GC worker, trace
+// reader) so the caller should try to wake a P.
+func findRunnable() (gp *g, inheritTime, tryWakeP bool) {
 	_g_ := getg()
 
 	// The conditions here and in handoffp must agree: if
@@ -2539,8 +2546,43 @@ top:
 		runSafePointFn()
 	}
 
+	// now and pollUntil are saved for work stealing later,
+	// which may steal timers. It's important that between now
+	// and then, nothing blocks, so these numbers remain mostly
+	// relevant.
 	now, pollUntil, _ := checkTimers(_p_, 0)
 
+	// Try to schedule the trace reader.
+	if trace.enabled || trace.shutdown {
+		gp = traceReader()
+		if gp != nil {
+			casgstatus(gp, _Gwaiting, _Grunnable)
+			traceGoUnpark(gp, 0)
+			return gp, false, true
+		}
+	}
+
+	// Try to schedule a GC worker.
+	if gcBlackenEnabled != 0 {
+		gp = gcController.findRunnableGCWorker(_p_)
+		if gp != nil {
+			return gp, false, true
+		}
+	}
+
+	// Check the global runnable queue once in a while to ensure fairness.
+	// Otherwise two goroutines can completely occupy the local runqueue
+	// by constantly respawning each other.
+	if _p_.schedtick%61 == 0 && sched.runqsize > 0 {
+		lock(&sched.lock)
+		gp = globrunqget(_p_, 1)
+		unlock(&sched.lock)
+		if gp != nil {
+			return gp, false, false
+		}
+	}
+
+	// Wake up the finalizer G.
 	if fingwait && fingwake {
 		if gp := wakefing(); gp != nil {
 			ready(gp, 0, true)
@@ -2552,7 +2594,7 @@ top:
 
 	// local runq
 	if gp, inheritTime := runqget(_p_); gp != nil {
-		return gp, inheritTime
+		return gp, inheritTime, false
 	}
 
 	// global runq
@@ -2561,7 +2603,7 @@ top:
 		gp := globrunqget(_p_, 0)
 		unlock(&sched.lock)
 		if gp != nil {
-			return gp, false
+			return gp, false, false
 		}
 	}
 
@@ -2580,7 +2622,7 @@ top:
 			if trace.enabled {
 				traceGoUnpark(gp, 0)
 			}
-			return gp, false
+			return gp, false, false
 		}
 	}
 
@@ -2600,7 +2642,7 @@ top:
 		now = tnow
 		if gp != nil {
 			// Successfully stole.
-			return gp, inheritTime
+			return gp, inheritTime, false
 		}
 		if newWork {
 			// There may be new timer or GC work; restart to
@@ -2626,7 +2668,7 @@ top:
 			if trace.enabled {
 				traceGoUnpark(gp, 0)
 			}
-			return gp, false
+			return gp, false, false
 		}
 		gcController.removeIdleMarkWorker()
 	}
@@ -2641,7 +2683,7 @@ top:
 		if trace.enabled {
 			traceGoUnpark(gp, 0)
 		}
-		return gp, false
+		return gp, false, false
 	}
 	if otherReady {
 		goto top
@@ -2666,7 +2708,7 @@ top:
 	if sched.runqsize != 0 {
 		gp := globrunqget(_p_, 0)
 		unlock(&sched.lock)
-		return gp, false
+		return gp, false, false
 	}
 	if releasep() != _p_ {
 		throw("findrunnable: wrong p")
@@ -2729,7 +2771,7 @@ top:
 			if trace.enabled {
 				traceGoUnpark(gp, 0)
 			}
-			return gp, false
+			return gp, false, false
 		}
 
 		// Finally, check for timer creation or expiry concurrently with
@@ -2787,7 +2829,7 @@ top:
 				if trace.enabled {
 					traceGoUnpark(gp, 0)
 				}
-				return gp, false
+				return gp, false, false
 			}
 			if wasSpinning {
 				_g_.m.spinning = true
@@ -3134,62 +3176,14 @@ top:
 	pp := _g_.m.p.ptr()
 	pp.preempt = false
 
-	if sched.gcwaiting != 0 {
-		gcstopm()
-		goto top
-	}
-	if pp.runSafePointFn != 0 {
-		runSafePointFn()
-	}
-
-	// Sanity check: if we are spinning, the run queue should be empty.
+	// Safety check: if we are spinning, the run queue should be empty.
 	// Check this before calling checkTimers, as that might call
 	// goready to put a ready goroutine on the local run queue.
 	if _g_.m.spinning && (pp.runnext != 0 || pp.runqhead != pp.runqtail) {
 		throw("schedule: spinning with local work")
 	}
 
-	checkTimers(pp, 0)
-
-	var gp *g
-	var inheritTime bool
-
-	// Normal goroutines will check for need to wakeP in ready,
-	// but GCworkers and tracereaders will not, so the check must
-	// be done here instead.
-	tryWakeP := false
-	if trace.enabled || trace.shutdown {
-		gp = traceReader()
-		if gp != nil {
-			casgstatus(gp, _Gwaiting, _Grunnable)
-			traceGoUnpark(gp, 0)
-			tryWakeP = true
-		}
-	}
-	if gp == nil && gcBlackenEnabled != 0 {
-		gp = gcController.findRunnableGCWorker(_g_.m.p.ptr())
-		if gp != nil {
-			tryWakeP = true
-		}
-	}
-	if gp == nil {
-		// Check the global runnable queue once in a while to ensure fairness.
-		// Otherwise two goroutines can completely occupy the local runqueue
-		// by constantly respawning each other.
-		if _g_.m.p.ptr().schedtick%61 == 0 && sched.runqsize > 0 {
-			lock(&sched.lock)
-			gp = globrunqget(_g_.m.p.ptr(), 1)
-			unlock(&sched.lock)
-		}
-	}
-	if gp == nil {
-		gp, inheritTime = runqget(_g_.m.p.ptr())
-		// We can see gp != nil here even if the M is spinning,
-		// if checkTimers added a local goroutine via goready.
-	}
-	if gp == nil {
-		gp, inheritTime = findrunnable() // blocks until work is available
-	}
+	gp, inheritTime, tryWakeP := findRunnable() // blocks until work is available
 
 	// This thread is going to run a goroutine and is not spinning anymore,
 	// so if it was marked as spinning we need to reset it now and potentially
