@@ -17,6 +17,7 @@ import (
 	"io/fs"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 var cmdUse = &base.Command{
@@ -115,6 +116,10 @@ func runUse(ctx context.Context, cmd *base.Command, args []string) {
 
 		// Add or remove entries for any subdirectories that still exist.
 		err := fsys.Walk(useDir, func(path string, info fs.FileInfo, err error) error {
+			paths := strings.Split(path, string(os.PathSeparator))
+			if paths[0] == "vendor" {
+				return filepath.SkipDir
+			}
 			if !info.IsDir() {
 				if info.Mode()&fs.ModeSymlink != 0 {
 					if target, err := fsys.Stat(path); err == nil && target.IsDir() {
