@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e11bac17_049e05f6",
+        "filename": "src/runtime/libfuzzer_amd64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-03-18T16:09:42Z",
+      "side": 1,
+      "message": "Is there a plan to add a PC argument to libfuzzer\u0027s int compare hooks? If so, maybe add a TODO and a link to that plan/issue/whatever here.",
+      "revId": "122d5203986e00a9ba9b7f253ac6d64da70fd74a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
