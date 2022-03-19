@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "47ac936b_e41971c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 52594
+      },
+      "writtenOn": "2022-03-19T08:02:23Z",
+      "side": 1,
+      "message": "how about now?",
+      "parentUuid": "274f63ab_e23c9be7",
+      "revId": "fd36c2f67dba54d1a6ea12f403aa9bf63263ee14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0dd04e75_8e73bee1",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-03-18T14:10:19Z",
       "side": 1,
       "message": "Thanks for the fix, but this needs a test.\n\nSee the existing `go work use` integration tests in `src/cmd/go/testdata/script/work_use*.txt`.",
+      "revId": "fd36c2f67dba54d1a6ea12f403aa9bf63263ee14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61031c93_15ba9ef3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 52594
+      },
+      "writtenOn": "2022-03-19T08:02:23Z",
+      "side": 1,
+      "message": "okay, I\u0027ve added integration tests, please check them",
+      "parentUuid": "0dd04e75_8e73bee1",
       "revId": "fd36c2f67dba54d1a6ea12f403aa9bf63263ee14",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -65,6 +101,30 @@
       "writtenOn": "2022-03-18T14:10:19Z",
       "side": 1,
       "message": "`strings.Split` seems needlessly expensive: we only care about the first element of the path here.\n\nInstead, how about `str.HasFilePathPrefix`¹? Perhaps:\n\n```\n\tif str.HasFilePathPrefix(path, \"vendor\") {\n```\n\n\n¹https://pkg.go.dev/cmd/go/internal/str#HasFilePathPrefix",
+      "range": {
+        "startLine": 119,
+        "startChar": 12,
+        "endLine": 119,
+        "endChar": 25
+      },
+      "revId": "fd36c2f67dba54d1a6ea12f403aa9bf63263ee14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ee1d5b5_f6b532d2",
+        "filename": "src/cmd/go/internal/workcmd/use.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 52594
+      },
+      "writtenOn": "2022-03-19T08:02:23Z",
+      "side": 1,
+      "message": "ah i see, sorry i don\u0027t check function `HasFilePathPrefix` on `str` package, thankyou for sugesting me",
+      "parentUuid": "f6e08bb8_be4a4360",
       "range": {
         "startLine": 119,
         "startChar": 12,
