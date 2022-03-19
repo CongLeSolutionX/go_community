@@ -76,6 +76,30 @@
       },
       "revId": "407c8754656e96885f974308b2d60b03356856e5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3519b0fe_1aaf8b6d",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64Ops.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2022-03-19T08:55:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ae1e202_b66c5130",
+      "range": {
+        "startLine": 480,
+        "startChar": 43,
+        "endLine": 480,
+        "endChar": 66
+      },
+      "revId": "407c8754656e96885f974308b2d60b03356856e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
