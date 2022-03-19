@@ -16,6 +16,24 @@
       "message": "Thanks.  A change like this should have a test.",
       "revId": "51ba00716c0b1a359bceeaa052ae85b5fa90ab69",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ece5f64_597e43cd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 53473
+      },
+      "writtenOn": "2022-03-19T18:18:44Z",
+      "side": 1,
+      "message": "The logic of it is same with Type in reflect, as you see in CL 372774. \nThe place use _type.name is only in dumptype of runtime/heapdump.go. It\u0027t a little hard to test. I need some time to find out how to test it. But I can fix it in reflectlite first: CL 393918.",
+      "parentUuid": "b407bb3b_66e64100",
+      "revId": "51ba00716c0b1a359bceeaa052ae85b5fa90ab69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
