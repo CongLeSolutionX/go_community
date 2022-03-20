@@ -59,6 +59,30 @@
       },
       "revId": "f337ba25f767c47630529272479e124c33d1251b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "348adf29_070fa6fa",
+        "filename": "src/crypto/tls/handshake_server_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1971,
+      "author": {
+        "id": 53779
+      },
+      "writtenOn": "2022-03-20T21:40:37Z",
+      "side": 1,
+      "message": "Updated the message too. As far as I understand, the need for the skip is due to fake networking in wasm codebase, which GopherJS reuses (through some build tag magic). Build tags in the net package use `wasm \u0026\u0026 js` as a constraint, so either way of skipping the test is valid, but GOOS\u003djs is more convenient for GopherJS :)",
+      "parentUuid": "bc023950_325d2719",
+      "range": {
+        "startLine": 1970,
+        "startChar": 1,
+        "endLine": 1971,
+        "endChar": 2
+      },
+      "revId": "f337ba25f767c47630529272479e124c33d1251b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
