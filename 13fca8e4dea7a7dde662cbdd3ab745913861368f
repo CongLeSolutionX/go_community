@@ -16,6 +16,24 @@
       "message": "I\u0027m sorry, but I don\u0027t understand this patch.\n\nTo open https://www.google.com/search?q\u003dabc\u0026hl\u003des on the default browser, I can:\n\nOpening a command prompt and run:\n  rundll32 url,OpenURL \"https://www.google.com/search?q\u003dabc\u0026hl\u003des\"\n\nOr run this Go code:\n  exec.Command(\"rundll32.exe\", \"url,OpenURL\", `https://www.google.com/search?q\u003dabc\u0026hl\u003des` ).Run()\n\nNo quoting necessary.\nSo I\u0027m at a loss at what exactly is currently broken.\nWhy are quotes required? Can you offer an example?",
       "revId": "13fca8e4dea7a7dde662cbdd3ab745913861368f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68064048_abe93b7c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 56513
+      },
+      "writtenOn": "2022-03-21T02:21:59Z",
+      "side": 1,
+      "message": "```\nexec.Command(\"rundll32.exe\", \"url,OpenURL\", `https://www.google.com/search?q\u003dabc\u0026hl\u003des` )\n```\nit will be not changed:\n`rundll32.exe url,OpenURL https://www.google.com/search?q\u003dabc\u0026hl\u003des`\n\nrundll32.exe will paser above ok, but most exe will parse it error like:\n  argv[0]   test.exe\n  argv[1]   url,OpenURL\n  argv[2]   https://www.google.com/search?q\u003dabc\n\u0027hl\u0027 will not be parser\n\neg: https://docs.microsoft.com/en-us/previous-versions/ms880421(v\u003dmsdn.10)?redirectedfrom\u003dMSDN\n\n\nthe right string should be:\n`rundll32.exe url,OpenURL \"https://www.google.com/search?q\u003dabc\u0026hl\u003des\"`",
+      "parentUuid": "45b495b9_1204e0f2",
+      "revId": "13fca8e4dea7a7dde662cbdd3ab745913861368f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
