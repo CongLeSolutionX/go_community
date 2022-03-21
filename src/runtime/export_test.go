@@ -1260,25 +1260,29 @@ const (
 	GCBackgroundUtilization = gcBackgroundUtilization
 	GCGoalUtilization       = gcGoalUtilization
 	DefaultHeapMinimum      = defaultHeapMinimum
+	MemoryLimitGoalHeadroom = memoryLimitGoalHeadroom
 )
 
 type GCController struct {
 	gcControllerState
 }
 
-func NewGCController(gcPercent int) *GCController {
+func NewGCController(gcPercent int, memoryLimit int64) *GCController {
 	// Force the controller to escape. We're going to
 	// do 64-bit atomics on it, and if it gets stack-allocated
 	// on a 32-bit architecture, it may get allocated unaligned
 	// space.
 	g := escape(new(GCController)).(*GCController)
 	g.gcControllerState.test = true // Mark it as a test copy.
-	g.init(int32(gcPercent), maxInt64)
+	g.init(int32(gcPercent), memoryLimit)
 	return g
 }
 
 func (c *GCController) StartCycle(stackSize, globalsSize uint64, scannableFrac float64, gomaxprocs int) {
 	trigger, _ := c.trigger()
+	if c.heapMarked > trigger {
+		trigger = c.heapMarked
+	}
 	c.scannableStackSize = stackSize
 	c.globalsScan = globalsSize
 	c.heapLive = trigger
