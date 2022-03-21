@@ -1311,7 +1311,9 @@ func (c *GCController) EndCycle(bytesMarked uint64, assistTime, elapsed int64, g
 	c.assistTime.Store(assistTime)
 	c.endCycle(elapsed, gomaxprocs, false)
 	c.resetLive(bytesMarked)
-	c.commit()
+	// Assume zero non-heap overheads.
+	// TODO(mknyszek): Actually simulate heapAllocs and peakMappedReady.
+	c.commit(0, 0)
 }
 
 var escapeSink any

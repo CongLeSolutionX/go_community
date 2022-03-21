@@ -976,10 +976,9 @@ func gcMarkTermination() {
 	// Record heap_inuse for scavenger.
 	memstats.last_heap_inuse = memstats.heap_inuse
 
-	// Update GC trigger and pacing for the next cycle.
-	gcController.commit()
-	gcPaceSweeper(gcController.trigger)
-	gcPaceScavenger(gcController.heapGoal, gcController.lastHeapGoal)
+	// Update GC trigger and pacing, as well as downstream consumers
+	// of this pacing information, for the next cycle.
+	gcControllerCommit()
 
 	// Reset peakMappedReady for the next cycle.
 	memstats.peakMappedReady.Store(memstats.mappedReady.Load())
