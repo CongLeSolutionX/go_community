@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5798c5b6_81129eb3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-03-21T20:21:31Z",
+      "side": 1,
+      "message": "Just a minor comment.",
+      "revId": "a88a072cb27b29c16cbed69fa5830400c7a09346",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "986406e2_0fc2f654",
+        "filename": "src/cmd/link/internal/loadpe/ldpe.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-03-21T20:21:31Z",
+      "side": 1,
+      "message": "This helper function is a bit weird in a few ways:\n- The name mentions CtorDtor, but the actual symbol names are provided from the caller. There is nothing special for CtorDtor within this function.\n- It seems nicer if a helper function just add one symbol a time, instead of taking a list of symbols and a list of bools.\n\nMaybe it is better just to fold this into the caller? Or this will have other uses in the future?",
+      "revId": "a88a072cb27b29c16cbed69fa5830400c7a09346",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
