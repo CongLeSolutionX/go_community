@@ -73,6 +73,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a32f37d6_679a8168",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2022-03-21T15:23:31Z",
+      "side": 1,
+      "message": "Thanks for the tip!\nI\u0027m digging how register ABI implement and scratching my head now.",
+      "parentUuid": "0ecb6c24_7d6549ad",
+      "revId": "028222a176ff218fae7b82514d9ea96696c32e82",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "235fe804_ab3c5157",
@@ -86,6 +104,30 @@
       "writtenOn": "2022-03-21T15:05:05Z",
       "side": 1,
       "message": "This one and next line as well.",
+      "range": {
+        "startLine": 246,
+        "startChar": 150,
+        "endLine": 246,
+        "endChar": 154
+      },
+      "revId": "028222a176ff218fae7b82514d9ea96696c32e82",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c8f919e_6fe6cf69",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64Ops.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2022-03-21T15:23:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "235fe804_ab3c5157",
       "range": {
         "startLine": 246,
         "startChar": 150,
