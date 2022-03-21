@@ -1169,7 +1169,10 @@ func traceHeapAlloc() {
 }
 
 func traceHeapGoal() {
-	heapGoal := gcController.heapGoal()
+	heapGoal := gcController.heapGoal(
+		memstats.totalAlloc.Load()-memstats.totalFree.Load(),
+		memstats.mappedReady.Load(),
+	)
 	if heapGoal == ^uint64(0) {
 		// Heap-based triggering is disabled.
 		traceEvent(traceEvHeapGoal, -1, 0)

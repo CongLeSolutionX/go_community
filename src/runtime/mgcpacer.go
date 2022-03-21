@@ -448,7 +448,10 @@ func (c *gcControllerState) startCycle(markStartTime int64, procs int, trigger g
 	c.revise()
 
 	if debug.gcpacertrace > 0 {
-		heapGoal := gcController.heapGoal()
+		heapGoal := gcController.heapGoal(
+			memstats.totalAlloc.Load()-memstats.totalFree.Load(),
+			memstats.mappedReady.Load(),
+		)
 		assistRatio := c.assistWorkPerByte.Load()
 		print("pacer: assist ratio=", assistRatio,
 			" (scan ", gcController.heapScan>>20, " MB in ",
@@ -494,7 +497,10 @@ func (c *gcControllerState) revise() {
 
 	// Assume we're under the soft goal. Pace GC to complete at
 	// heapGoal assuming the heap is in steady-state.
-	heapGoal := int64(gcController.heapGoal())
+	heapGoal := int64(gcController.heapGoal(
+		memstats.totalAlloc.Load()-memstats.totalFree.Load(),
+		memstats.mappedReady.Load(),
+	))
 
 	// The expected scan work is computed as the amount of bytes scanned last
 	// GC cycle, plus our estimate of stacks and globals work for this cycle.
@@ -678,7 +684,10 @@ func (c *gcControllerState) endCycle(now int64, procs int, userForced bool, heap
 	}
 
 	if debug.gcpacertrace > 0 {
-		heapGoal := gcController.heapGoal()
+		heapGoal := gcController.heapGoal(
+			memstats.totalAlloc.Load()-memstats.totalFree.Load(),
+			memstats.mappedReady.Load(),
+		)
 		printlock()
 		goal := gcGoalUtilization * 100
 		print("pacer: ", int(utilization*100), "% CPU (", int(goal), " exp.) for ")
@@ -894,9 +903,35 @@ func (c *gcControllerState) addGlobals(amount int64) {
 // (i.e. memstats.totalAlloc - memstats.totalFree).
 // mappedReady is the amount of memory currently mapped in the Ready
 // state, i.e. the current value of memstats.mappedReady.
-func (c *gcControllerState) heapGoal() uint64 {
+func (c *gcControllerState) heapGoal(heapAlloc, mappedReady uint64) uint64 {
 	// Start with the goal calculated for gcPercent.
 	goal := c.gcPercentGoal.Load()
+
+	// Next, decide whether we need to override that goal with a goal
+	// based on the memory limit if it's smaller.
+
+	// Be careful about overflow.
+	if heapAlloc > mappedReady {
+		// There's more mapped than live allocations. This should be
+		// impossible, because even untouched allocations have valid
+		// R/W memory mappings (though they may not be *actually* backed).
+		print("runtime: heapAlloc=", heapAlloc, " mappedReady=", mappedReady, "\n")
+		throw("more live allocations than peak R/W memory mappings")
+	}
+	memoryLimit := uint64(c.memoryLimit.Load())
+	if nonHeapMemory := mappedReady - heapAlloc; nonHeapMemory < memoryLimit {
+		// Compute the memory-limit-derived goal and set its smaller.
+		if newGoal := memoryLimit - nonHeapMemory; newGoal < goal {
+			goal = newGoal
+		}
+	} else {
+		// We're at a point where non-heap memory exceeds the memory limit on its own.
+		// There's honestly not much we can do here but just trigger GCs continuously
+		// and let the CPU limiter reign that in. Something has to give at this point.
+		// Set the goal to the minimum heap size for the below calculations. We'll get
+		// rounded up to the trigger.
+		goal = c.heapMinimum
+	}
 
 	// Ensure that the heap goal is at least a little larger than
 	// the point at which we triggered. This may not be the case if GC
@@ -1080,7 +1115,10 @@ func (c *gcControllerState) effectiveGrowthRatio() float64 {
 	if !c.test {
 		assertWorldStoppedOrLockHeld(&mheap_.lock)
 	}
-	heapGoal := gcController.heapGoal()
+	heapGoal := gcController.heapGoal(
+		memstats.totalAlloc.Load()-memstats.totalFree.Load(),
+		memstats.mappedReady.Load(),
+	)
 	egogc := float64(heapGoal-c.heapMarked) / float64(c.heapMarked)
 	if egogc < 0 {
 		// Shouldn't happen, but just in case.
@@ -1310,7 +1348,10 @@ func gcControllerCommit() {
 
 	gcController.commit()
 
-	heapGoal := gcController.heapGoal()
+	heapGoal := gcController.heapGoal(
+		memstats.totalAlloc.Load()-memstats.totalFree.Load(),
+		memstats.mappedReady.Load(),
+	)
 	gcPaceSweeper(gcController.trigger(heapGoal))
 	gcPaceScavenger(heapGoal, gcController.lastHeapGoal)
 }

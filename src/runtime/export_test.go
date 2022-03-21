@@ -1275,7 +1275,8 @@ func NewGCController(gcPercent int) *GCController {
 }
 
 func (c *GCController) StartCycle(stackSize, globalsSize uint64, scannableFrac float64, gomaxprocs int) {
-	goal := c.heapGoal()
+	// TODO(mknyszek): Simulate non-heap overheads.
+	goal := c.heapGoal(0, 0)
 	trigger := c.trigger(goal)
 
 	c.scannableStackSize = stackSize
@@ -1302,7 +1303,8 @@ func (c *GCController) HeapMarked() uint64 {
 }
 
 func (c *GCController) Trigger() uint64 {
-	goal := c.heapGoal()
+	// TODO(mknyszek): Simulate non-heap overheads.
+	goal := c.heapGoal(0, 0)
 	return c.trigger(goal)
 }
 
@@ -1325,7 +1327,8 @@ func (c *GCController) Revise(d GCControllerReviseDelta) {
 
 func (c *GCController) EndCycle(bytesMarked uint64, assistTime, elapsed int64, gomaxprocs int) {
 	c.assistTime.Store(assistTime)
-	c.endCycle(elapsed, gomaxprocs, false, c.heapGoal())
+	// TODO(mknyszek): Simulate non-heap overheads.
+	c.endCycle(elapsed, gomaxprocs, false, c.heapGoal(0, 0))
 	c.resetLive(bytesMarked)
 	// Assume zero non-heap overheads.
 	// TODO(mknyszek): Actually simulate heapAllocs and mappedReady.

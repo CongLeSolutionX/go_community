@@ -560,7 +560,12 @@ func (t gcTrigger) test() bool {
 		// we are going to trigger on this, this thread just
 		// atomically wrote gcController.heapLive anyway and we'll see our
 		// own write.
-		trigger := gcController.trigger(gcController.heapGoal())
+		trigger := gcController.trigger(
+			gcController.heapGoal(
+				memstats.totalAlloc.Load()-memstats.totalFree.Load(),
+				memstats.mappedReady.Load(),
+			),
+		)
 		return atomic.Load64(&gcController.heapLive) >= trigger
 	case gcTriggerTime:
 		if gcController.gcPercent.Load() < 0 {
@@ -921,7 +926,10 @@ top:
 		now,
 		int(gomaxprocs),
 		work.userForced,
-		gcController.heapGoal(),
+		gcController.heapGoal(
+			memstats.totalAlloc.Load()-memstats.totalFree.Load(),
+			memstats.mappedReady.Load(),
+		),
 	)
 
 	// Perform mark termination. This will restart the world.
@@ -1119,7 +1127,10 @@ func gcMarkTermination() {
 			}
 			print(string(fmtNSAsMS(sbuf[:], uint64(ns))))
 		}
-		heapGoal := gcController.heapGoal()
+		heapGoal := gcController.heapGoal(
+			memstats.totalAlloc.Load()-memstats.totalFree.Load(),
+			memstats.mappedReady.Load(),
+		)
 		print(" ms cpu, ",
 			work.heap0>>20, "->", work.heap1>>20, "->", work.heap2>>20, " MB, ",
 			heapGoal>>20, " MB goal, ",
