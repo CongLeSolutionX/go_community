@@ -373,7 +373,7 @@ func (c *gcControllerState) init(gcPercent int32, memoryLimit int64) {
 
 	c.setGCPercent(gcPercent)
 	c.setMemoryLimit(memoryLimit)
-	c.commit()
+	c.commit(0, memstats.peakMappedReady.Load())
 }
 
 // startCycle resets the GC controller's state and computes estimates
@@ -893,6 +893,11 @@ func (c *gcControllerState) addGlobals(amount int64) {
 // commit recomputes all pacing parameters from scratch, namely
 // absolute trigger, the heap goal, mark pacing, and sweep pacing.
 //
+// heapAlloc is the current number of object bytes allocated or unswept
+// (i.e. memstats.totalAlloc - memstats.totalFree).
+// peakMappedReady is the HWM of the amount of memory mapped ready over
+// the last GC cycle (i.e. memstats.peakMappedReady).
+//
 // This can be called any time. If GC is the in the middle of a
 // concurrent phase, it will adjust the pacing of that phase.
 //
@@ -900,7 +905,7 @@ func (c *gcControllerState) addGlobals(amount int64) {
 // gcController.heapLive. These must be up to date.
 //
 // mheap_.lock must be held or the world must be stopped.
-func (c *gcControllerState) commit() {
+func (c *gcControllerState) commit(heapAlloc, peakMappedReady uint64) {
 	if !c.test {
 		assertWorldStoppedOrLockHeld(&mheap_.lock)
 	}
@@ -911,6 +916,35 @@ func (c *gcControllerState) commit() {
 	goal := ^uint64(0)
 	if gcPercent := c.gcPercent.Load(); gcPercent >= 0 {
 		goal = c.heapMarked + (c.heapMarked+atomic.Load64(&c.stackScan)+atomic.Load64(&c.globalsScan))*uint64(gcPercent)/100
+	}
+
+	// Decide whether to override the next GC goal with one produced
+	// from the memory limit.
+	memoryLimit := c.memoryLimit.Load()
+	if memoryLimit < 0 {
+		throw("memory limit should always be non-negative")
+	}
+	// Be careful about overflow.
+	if heapAllocs > peakMappedReady {
+		// There's more mapped than live allocations. This should be
+		// impossible, because even untouched allocations have valid
+		// R/W memory mappings (though they may not be *actually* backed).
+		print("runtime: heapAlloc=", heapAlloc, " peakMappedReady=", peakMappedReady, "\n")
+		throw("more live allocations than peak R/W memory mappings")
+	}
+
+	if nonHeapMemory := peakMappedReady - heapAlloc; nonHeapMemory < memoryLimit {
+		// Compute the memory-limit-derived goal and set its smaller.
+		if newGoal := memoryLimit - nonHeapMemory; newGoal < goal {
+			goal = newGoal
+		}
+	} else {
+		// We're at a point where non-heap memory exceeds the memory limit on its own.
+		// There's honestly not much we can do here but just trigger GCs continuously
+		// and let the CPU limiter reign that in. Something has to give at this point.
+		// Set the goal to the minimum heap size for the below calculations. We'll get
+		// rounded up to the trigger.
+		goal = c.heapMinimum
 	}
 
 	// Don't trigger below the minimum heap size.
@@ -1059,9 +1093,7 @@ func setGCPercent(in int32) (out int32) {
 	systemstack(func() {
 		lock(&mheap_.lock)
 		out = gcController.setGCPercent(in)
-		gcController.commit()
-		gcPaceSweeper(gcController.trigger)
-		gcPaceScavenger(gcController.heapGoal, gcController.lastHeapGoal)
+		gcControllerCommit()
 		unlock(&mheap_.lock)
 	})
 
@@ -1116,9 +1148,7 @@ func setMemoryLimit(in int64) (out int64) {
 			unlock(&mheap_.lock)
 			return
 		}
-		gcController.commit()
-		gcPaceSweeper(gcController.trigger)
-		gcPaceScavenger(gcController.heapGoal, gcController.lastHeapGoal)
+		gcControllerCommit()
 		unlock(&mheap_.lock)
 	})
 	return out
@@ -1243,4 +1273,22 @@ func (c *gcControllerState) removeIdleMarkWorker() {
 		print("count =", workers, "max =", c.maxIdleMarkWorkers.Load(), "\n")
 		throw("negative idle mark worker count")
 	}
+}
+
+// gcControllerCommit is gcController.commit, but passes arguments from live
+// (non-test) data. It also updates any consumers of the GC pacing, such as
+// sweep pacing and the background scavenger.
+//
+// Calls gcController.commit.
+//
+// The heap lock must be held, so this must be executed on the system stack.
+//
+//go:systemstack
+func gcControllerCommit() {
+	assertWorldStoppedOrLockHeld(&mheap_.lock)
+
+	heapAlloc := memstats.totalAlloc.Load() - memstats.totalFree.Load()
+	gcController.commit(heapAlloc, memstats.peakMappedReady.Load())
+	gcPaceSweeper(gcController.trigger)
+	gcPaceScavenger(gcController.heapGoal, gcController.lastHeapGoal)
 }
