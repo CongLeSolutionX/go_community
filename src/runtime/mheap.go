@@ -936,7 +936,16 @@ func (h *mheap) allocManual(npages uintptr, typ spanAllocType) *mspan {
 	if !typ.manual() {
 		throw("manual span allocation called with non-manually-managed type")
 	}
-	return h.allocSpan(npages, typ, 0)
+	s := h.allocSpan(npages, typ, 0)
+
+	// Allocating manually-managed memory from the page heap could trigger
+	// a GC if we have a memory limit we're enforcing, since memstats.mappedReady
+	// likely moved. Add a trigger to the queue if necessary (we can't trigger a
+	// GC directly from here).
+	if t := (gcTrigger{kind: gcTriggerHeap}); t.test() {
+		asyncWork.gcStart(t)
+	}
+	return s
 }
 
 // setSpans modifies the span map so [spanOf(base), spanOf(base+npage*pageSize))
