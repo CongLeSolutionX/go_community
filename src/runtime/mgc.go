@@ -113,7 +113,7 @@
 // Next GC is after we've allocated an extra amount of memory proportional to
 // the amount already in use. The proportion is controlled by GOGC environment variable
 // (100 by default). If GOGC=100 and we're using 4M, we'll GC again when we get to 8M
-// (this mark is tracked in gcController.heapGoal variable). This keeps the GC cost in
+// (this mark is computed by the gcController.heapGoal method). This keeps the GC cost in
 // linear proportion to the allocation cost. Adjusting GOGC just changes the linear constant
 // (and also the amount of extra memory used).
 
@@ -401,7 +401,7 @@ var work struct {
 	pauseStart int64 // nanotime() of last STW
 
 	// debug.gctrace heap sizes for this cycle.
-	heap0, heap1, heap2, heapGoal uint64
+	heap0, heap1, heap2 uint64
 }
 
 // GC runs a garbage collection and blocks the caller until the
@@ -553,7 +553,8 @@ func (t gcTrigger) test() bool {
 		// we are going to trigger on this, this thread just
 		// atomically wrote gcController.heapLive anyway and we'll see our
 		// own write.
-		return gcController.heapLive >= gcController.trigger
+		trigger := gcController.trigger(gcController.heapGoal())
+		return atomic.Load64(&gcController.heapLive) >= trigger
 	case gcTriggerTime:
 		if gcController.gcPercent.Load() < 0 {
 			return false
@@ -674,7 +675,6 @@ func gcStart(trigger gcTrigger) {
 	// Assists and workers can start the moment we start
 	// the world.
 	gcController.startCycle(now, int(gomaxprocs), trigger)
-	work.heapGoal = gcController.heapGoal
 
 	// In STW mode, disable scheduling of user Gs. This may also
 	// disable scheduling of this goroutine, so it may block as
@@ -899,7 +899,12 @@ top:
 	// endCycle depends on all gcWork cache stats being flushed.
 	// The termination algorithm above ensured that up to
 	// allocations since the ragged barrier.
-	gcController.endCycle(now, int(gomaxprocs), work.userForced)
+	gcController.endCycle(
+		now,
+		int(gomaxprocs),
+		work.userForced,
+		gcController.heapGoal(),
+	)
 
 	// Perform mark termination. This will restart the world.
 	gcMarkTermination()
@@ -976,10 +981,9 @@ func gcMarkTermination() {
 	// Record heap_inuse for scavenger.
 	memstats.last_heap_inuse = memstats.heap_inuse
 
-	// Update GC trigger and pacing for the next cycle.
-	gcController.commit()
-	gcPaceSweeper(gcController.trigger)
-	gcPaceScavenger(gcController.heapGoal, gcController.lastHeapGoal)
+	// Update GC trigger and pacing, as well as downstream consumers
+	// of this pacing information, for the next cycle.
+	systemstack(gcControllerCommit)
 
 	// Update timing memstats
 	now := nanotime()
@@ -1097,9 +1101,10 @@ func gcMarkTermination() {
 			}
 			print(string(fmtNSAsMS(sbuf[:], uint64(ns))))
 		}
+		heapGoal := gcController.heapGoal()
 		print(" ms cpu, ",
 			work.heap0>>20, "->", work.heap1>>20, "->", work.heap2>>20, " MB, ",
-			work.heapGoal>>20, " MB goal, ",
+			heapGoal>>20, " MB goal, ",
 			gcController.stackScan>>20, " MB stacks, ",
 			gcController.globalsScan>>20, " MB globals, ",
 			work.maxprocs, " P")

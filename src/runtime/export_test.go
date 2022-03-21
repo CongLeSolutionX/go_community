@@ -1275,10 +1275,13 @@ func NewGCController(gcPercent int) *GCController {
 }
 
 func (c *GCController) StartCycle(stackSize, globalsSize uint64, scannableFrac float64, gomaxprocs int) {
+	goal := c.heapGoal()
+	trigger := c.trigger(goal)
+
 	c.scannableStackSize = stackSize
 	c.globalsScan = globalsSize
-	c.heapLive = c.trigger
-	c.heapScan += uint64(float64(c.trigger-c.heapMarked) * scannableFrac)
+	c.heapLive = trigger
+	c.heapScan += uint64(float64(trigger-c.heapMarked) * scannableFrac)
 	c.startCycle(0, gomaxprocs, gcTrigger{kind: gcTriggerHeap})
 }
 
@@ -1299,7 +1302,8 @@ func (c *GCController) HeapMarked() uint64 {
 }
 
 func (c *GCController) Trigger() uint64 {
-	return c.trigger
+	goal := c.heapGoal()
+	return c.trigger(goal)
 }
 
 type GCControllerReviseDelta struct {
@@ -1321,9 +1325,11 @@ func (c *GCController) Revise(d GCControllerReviseDelta) {
 
 func (c *GCController) EndCycle(bytesMarked uint64, assistTime, elapsed int64, gomaxprocs int) {
 	c.assistTime.Store(assistTime)
-	c.endCycle(elapsed, gomaxprocs, false)
+	c.endCycle(elapsed, gomaxprocs, false, c.heapGoal())
 	c.resetLive(bytesMarked)
-	c.commit()
+	// Assume zero non-heap overheads.
+	// TODO(mknyszek): Actually simulate heapAllocs and mappedReady.
+	c.commit(0, 0)
 }
 
 var escapeSink any
