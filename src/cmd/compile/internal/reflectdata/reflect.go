@@ -966,17 +966,15 @@ func writeType(t *types.Type) *obj.LSym {
 	}
 
 	if !NeedEmit(tbase) {
-		if i := typecheck.BaseTypeIndex(t); i >= 0 {
-			lsym.Pkg = tbase.Sym().Pkg.Prefix
-			lsym.SymIdx = int32(i)
-			lsym.Set(obj.AttrIndexed, true)
+		// TODO(mdempsky): Use symbol indexing for predeclared types.
+		if sym := tbase.Sym(); sym != nil && (sym.Pkg == types.BuiltinPkg || sym.Pkg == types.UnsafePkg) {
+			return lsym
 		}
 
-		// TODO(mdempsky): Investigate whether this still happens.
-		// If we know we don't need to emit code for a type,
-		// we should have a link-symbol index for it.
-		// See also TODO in NeedEmit.
-		return lsym
+		// For user declared types, if we know we don't need to emit a
+		// type descriptor, then we should have already initialized its
+		// linker symbol at import time.
+		base.Fatalf("type %v is !NeedEmit, but also !Siggen", tbase)
 	}
 
 	ot := 0

@@ -998,13 +998,11 @@ func (r *importReader) constExt(n *ir.Name) {
 }
 
 func (r *importReader) varExt(n *ir.Name) {
-	r.linkname(n.Sym())
-	r.symIdx(n.Sym())
+	r.linkname(n)
 }
 
 func (r *importReader) funcExt(n *ir.Name) {
-	r.linkname(n.Sym())
-	r.symIdx(n.Sym())
+	r.linkname(n)
 
 	n.Func.ABI = obj.ABI(r.uint64())
 
@@ -1036,8 +1034,10 @@ func (r *importReader) methExt(m *types.Field) {
 	r.funcExt(m.Nname.(*ir.Name))
 }
 
-func (r *importReader) linkname(s *types.Sym) {
+func (r *importReader) linkname(n *ir.Name) {
+	s := n.Sym()
 	s.Linkname = r.string()
+	r.symIdx(s)
 }
 
 func (r *importReader) symIdx(s *types.Sym) {
@@ -1058,32 +1058,21 @@ func (r *importReader) typeExt(t *types.Type) {
 }
 
 func SetBaseTypeIndex(t *types.Type, i, pi int64) {
-	if t.Obj() == nil {
-		base.Fatalf("SetBaseTypeIndex on non-defined type %v", t)
-	}
-	if i != -1 && pi != -1 {
-		typeSymIdx[t] = [2]int64{i, pi}
-	}
-}
+	n := t.Obj().(*ir.Name)
 
-// Map imported type T to the index of type descriptor symbols of T and *T,
-// so we can use index to reference the symbol.
-// TODO(mdempsky): Store this information directly in the Type's Name.
-var typeSymIdx = make(map[*types.Type][2]int64)
+	set := func(t *types.Type, idx int64) {
+		s := types.TypeSym(t)
+		base.Assertf(!s.Siggen(), "Siggen already set: %v", t)
+		s.SetSiggen(true)
 
-func BaseTypeIndex(t *types.Type) int64 {
-	tbase := t
-	if t.IsPtr() && t.Sym() == nil && t.Elem().Sym() != nil {
-		tbase = t.Elem()
+		lsym := s.Linksym()
+		lsym.Pkg = n.Sym().Pkg.Prefix
+		lsym.SymIdx = int32(idx)
+		lsym.Set(obj.AttrIndexed, true)
 	}
-	i, ok := typeSymIdx[tbase]
-	if !ok {
-		return -1
-	}
-	if t != tbase {
-		return i[1]
-	}
-	return i[0]
+
+	set(t, i)
+	set(types.NewPtr(t), pi)
 }
 
 func (r *importReader) doInline(fn *ir.Func) {

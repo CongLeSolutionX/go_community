@@ -1403,13 +1403,11 @@ func (w *exportWriter) constExt(n *ir.Name) {
 }
 
 func (w *exportWriter) varExt(n *ir.Name) {
-	w.linkname(n.Sym())
-	w.symIdx(n.Sym())
+	w.linkname(n)
 }
 
 func (w *exportWriter) funcExt(n *ir.Name) {
-	w.linkname(n.Sym())
-	w.symIdx(n.Sym())
+	w.linkname(n)
 
 	// Record definition ABI so cross-ABI calls can be direct.
 	// This is important for the performance of calling some
@@ -1454,8 +1452,10 @@ func (w *exportWriter) methExt(m *types.Field) {
 	w.funcExt(m.Nname.(*ir.Name))
 }
 
-func (w *exportWriter) linkname(s *types.Sym) {
+func (w *exportWriter) linkname(n *ir.Name) {
+	s := n.Sym()
 	w.string(s.Linkname)
+	w.symIdx(s)
 }
 
 func (w *exportWriter) symIdx(s *types.Sym) {
@@ -1475,12 +1475,8 @@ func (w *exportWriter) symIdx(s *types.Sym) {
 func (w *exportWriter) typeExt(t *types.Type) {
 	// Export whether this type is marked notinheap.
 	w.bool(t.NotInHeap())
+
 	// For type T, export the index of type descriptor symbols of T and *T.
-	if i, ok := typeSymIdx[t]; ok {
-		w.int64(i[0])
-		w.int64(i[1])
-		return
-	}
 	w.symIdx(types.TypeSym(t))
 	w.symIdx(types.TypeSym(t.PtrTo()))
 }
@@ -2091,6 +2087,7 @@ func (w *exportWriter) expr(n ir.Node) {
 		}
 
 	case ir.OLINKSYMOFFSET:
+		base.Fatalf("wait, why: %v", n)
 		n := n.(*ir.LinksymOffsetExpr)
 		w.op(ir.OLINKSYMOFFSET)
 		w.pos(n.Pos())
