@@ -1275,10 +1275,11 @@ func NewGCController(gcPercent int) *GCController {
 }
 
 func (c *GCController) StartCycle(stackSize, globalsSize uint64, scannableFrac float64, gomaxprocs int) {
+	trigger, _ := c.trigger()
 	c.scannableStackSize = stackSize
 	c.globalsScan = globalsSize
-	c.heapLive = c.trigger
-	c.heapScan += uint64(float64(c.trigger-c.heapMarked) * scannableFrac)
+	c.heapLive = trigger
+	c.heapScan += uint64(float64(trigger-c.heapMarked) * scannableFrac)
 	c.startCycle(0, gomaxprocs, gcTrigger{kind: gcTriggerHeap})
 }
 
@@ -1287,7 +1288,7 @@ func (c *GCController) AssistWorkPerByte() float64 {
 }
 
 func (c *GCController) HeapGoal() uint64 {
-	return c.heapGoal
+	return c.heapGoal()
 }
 
 func (c *GCController) HeapLive() uint64 {
@@ -1299,7 +1300,8 @@ func (c *GCController) HeapMarked() uint64 {
 }
 
 func (c *GCController) Trigger() uint64 {
-	return c.trigger
+	trigger, _ := c.trigger()
+	return trigger
 }
 
 type GCControllerReviseDelta struct {
@@ -1323,7 +1325,7 @@ func (c *GCController) EndCycle(bytesMarked uint64, assistTime, elapsed int64, g
 	c.assistTime.Store(assistTime)
 	c.endCycle(elapsed, gomaxprocs, false)
 	c.resetLive(bytesMarked)
-	c.commit()
+	c.commit(false)
 }
 
 var escapeSink any
