@@ -421,9 +421,10 @@ func (c *gcControllerState) init(gcPercent int32, memoryLimit int64) {
 	c.setGCPercent(gcPercent)
 	c.setMemoryLimit(memoryLimit)
 	c.commit(true) // No sweep phase in the first GC cycle.
-
 	// N.B. Don't bother calling traceHeapGoal. Tracing is never enabled at
 	// initialization time.
+	// N.B. No need to call revise; there's no GC enabled during
+	// initialization.
 }
 
 // startCycle resets the GC controller's state and computes estimates
@@ -963,6 +964,37 @@ func (c *gcControllerState) heapGoalInternal() (goal, minTrigger uint64) {
 		goal = minGoal
 	}
 
+	// Next, decide whether we need to override that goal with a goal
+	// based on the memory limit if it's smaller.
+
+	// Be careful about overflow.
+	heapFree := c.heapFree.load()
+	heapAlloc := c.totalAlloc.Load() - c.totalFree.Load()
+	mappedReady := c.mappedReady.Load()
+	if heapFree+heapAlloc > mappedReady {
+		// There's more mapped than live allocations. This should be
+		// impossible, because even untouched allocations have valid
+		// R/W memory mappings (though they may not be *actually* backed).
+		print("runtime: heapFree=", heapFree, " heapAlloc=", heapAlloc, " mappedReady=", mappedReady, "\n")
+		throw("more live allocations than peak R/W memory mappings")
+	}
+	memoryLimit := uint64(c.memoryLimit.Load())
+	if nonHeapMemory := mappedReady - heapFree - heapAlloc; nonHeapMemory < memoryLimit {
+		// Compute the memory-limit-derived goal and set its smaller.
+		if newGoal := memoryLimit - nonHeapMemory; newGoal < goal {
+			goal = newGoal
+		}
+	} else {
+		// We're at a point where non-heap memory exceeds the memory limit on its own.
+		// There's honestly not much we can do here but just trigger GCs continuously
+		// and let the CPU limiter reign that in. Something has to give at this point.
+		// Set it to heapMarked, the lowest possible goal.
+		goal = c.heapMarked
+		if goal < minGoal {
+			goal = minGoal
+		}
+	}
+
 	// Ensure that the heap goal is at least a little larger than
 	// the point at which we triggered. This may not be the case if GC
 	// start is delayed or if the allocation that pushed gcController.heapLive
@@ -1080,6 +1112,9 @@ func (c *gcControllerState) trigger() (uint64, uint64) {
 // This depends on gcPercent, gcController.heapMarked, and
 // gcController.heapLive. These must be up to date.
 //
+// Callers must call gcControllerState.revise after calling this
+// function if the GC is enabled.
+//
 // mheap_.lock must be held or the world must be stopped.
 func (c *gcControllerState) commit(isSweepDone bool) {
 	if !c.test {
@@ -1130,33 +1165,6 @@ func (c *gcControllerState) commit(isSweepDone bool) {
 	// this way, assuming that the cons/mark ratio is correct, we make that
 	// division a reality.
 	c.runway.Store(uint64((c.consMark * (1 - gcGoalUtilization) / (gcGoalUtilization)) * float64(c.lastHeapScan+c.stackScan+c.globalsScan)))
-
-	// Update mark pacing.
-	if gcphase != _GCoff {
-		c.revise()
-	}
-}
-
-// effectiveGrowthRatio returns the current effective heap growth
-// ratio (GOGC/100) based on heapMarked from the previous GC and
-// heapGoal for the current GC.
-//
-// This may differ from gcPercent/100 because of various upper and
-// lower bounds on gcPercent. For example, if the heap is smaller than
-// heapMinimum, this can be higher than gcPercent/100.
-//
-// mheap_.lock must be held or the world must be stopped.
-func (c *gcControllerState) effectiveGrowthRatio() float64 {
-	if !c.test {
-		assertWorldStoppedOrLockHeld(&mheap_.lock)
-	}
-	heapGoal := c.heapGoal()
-	egogc := float64(heapGoal-c.heapMarked) / float64(c.heapMarked)
-	if egogc < 0 {
-		// Shouldn't happen, but just in case.
-		egogc = 0
-	}
-	return egogc
 }
 
 // setGCPercent updates gcPercent. commit must be called after.
@@ -1417,6 +1425,11 @@ func gcControllerCommit() {
 	assertWorldStoppedOrLockHeld(&mheap_.lock)
 
 	gcController.commit(isSweepDone())
+
+	// Update mark pacing.
+	if gcphase != _GCoff {
+		gcController.revise()
+	}
 
 	// TODO(mknyszek): This isn't really accurate any longer because the heap
 	// goal is computed dynamically. Still useful to snapshot, but not as useful.
