@@ -1154,11 +1154,10 @@
 (FNEG (FNABS x)) => (FABS x)
 
 // floating-point fused multiply-add/sub
-(FADD (FMUL x y) z) => (FMADD x y z)
-(FSUB (FMUL x y) z) => (FMSUB x y z)
-(FADDS (FMULS x y) z) => (FMADDS x y z)
-(FSUBS (FMULS x y) z) => (FMSUBS x y z)
-
+(FADD (FMUL x y) z) && x.Block.Func.useFMA() => (FMADD x y z)
+(FSUB (FMUL x y) z) && x.Block.Func.useFMA() => (FMSUB x y z)
+(FADDS (FMULS x y) z) && x.Block.Func.useFMA() => (FMADDS x y z)
+(FSUBS (FMULS x y) z) && x.Block.Func.useFMA() => (FMSUBS x y z)
 
 // The following statements are found in encoding/binary functions UintXX (load) and PutUintXX (store)
 // and convert the statements in these functions from multiple single byte loads or stores to

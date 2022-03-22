@@ -110,6 +110,7 @@ type CmdFlags struct {
 	MemProfile         string       "help:\"write memory profile to `file`\""
 	MemProfileRate     int          "help:\"set runtime.MemProfileRate to `rate`\""
 	MutexProfile       string       "help:\"write mutex profile to `file`\""
+	NoFMA              bool         "help:\"disable use of fused multiply-add\""
 	NoLocalImports     bool         "help:\"reject local (relative) imports\""
 	Pack               bool         "help:\"write to file.a instead of file.o\""
 	Race               bool         "help:\"enable race detector\""

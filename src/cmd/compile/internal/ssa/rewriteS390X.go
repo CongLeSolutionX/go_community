@@ -15449,6 +15449,7 @@ func rewriteValueS390X_OpSelect0(v *Value) bool {
 		return true
 	}
 	// match: (Select0 (FADD (FMUL y z) x))
+	// cond: x.Block.Func.useFMA()
 	// result: (FMADD x y z)
 	for {
 		if v_0.Op != OpS390XFADD {
@@ -15464,6 +15465,9 @@ func rewriteValueS390X_OpSelect0(v *Value) bool {
 			z := v_0_0.Args[1]
 			y := v_0_0.Args[0]
 			x := v_0_1
+			if !(x.Block.Func.useFMA()) {
+				continue
+			}
 			v.reset(OpS390XFMADD)
 			v.AddArg3(x, y, z)
 			return true
@@ -15471,6 +15475,7 @@ func rewriteValueS390X_OpSelect0(v *Value) bool {
 		break
 	}
 	// match: (Select0 (FSUB (FMUL y z) x))
+	// cond: x.Block.Func.useFMA()
 	// result: (FMSUB x y z)
 	for {
 		if v_0.Op != OpS390XFSUB {
@@ -15483,11 +15488,15 @@ func rewriteValueS390X_OpSelect0(v *Value) bool {
 		}
 		z := v_0_0.Args[1]
 		y := v_0_0.Args[0]
+		if !(x.Block.Func.useFMA()) {
+			break
+		}
 		v.reset(OpS390XFMSUB)
 		v.AddArg3(x, y, z)
 		return true
 	}
 	// match: (Select0 (FADDS (FMULS y z) x))
+	// cond: x.Block.Func.useFMA()
 	// result: (FMADDS x y z)
 	for {
 		if v_0.Op != OpS390XFADDS {
@@ -15503,6 +15512,9 @@ func rewriteValueS390X_OpSelect0(v *Value) bool {
 			z := v_0_0.Args[1]
 			y := v_0_0.Args[0]
 			x := v_0_1
+			if !(x.Block.Func.useFMA()) {
+				continue
+			}
 			v.reset(OpS390XFMADDS)
 			v.AddArg3(x, y, z)
 			return true
@@ -15510,6 +15522,7 @@ func rewriteValueS390X_OpSelect0(v *Value) bool {
 		break
 	}
 	// match: (Select0 (FSUBS (FMULS y z) x))
+	// cond: x.Block.Func.useFMA()
 	// result: (FMSUBS x y z)
 	for {
 		if v_0.Op != OpS390XFSUBS {
@@ -15522,6 +15535,9 @@ func rewriteValueS390X_OpSelect0(v *Value) bool {
 		}
 		z := v_0_0.Args[1]
 		y := v_0_0.Args[0]
+		if !(x.Block.Func.useFMA()) {
+			break
+		}
 		v.reset(OpS390XFMSUBS)
 		v.AddArg3(x, y, z)
 		return true

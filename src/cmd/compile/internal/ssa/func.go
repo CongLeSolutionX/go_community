@@ -919,3 +919,15 @@ func (f *Func) spSb() (sp, sb *Value) {
 	}
 	return
 }
+
+func (f *Func) useFMA() bool {
+	if !f.Config.UseFMA {
+		return false
+	}
+	if !base.Flag.NoFMA {
+		return true
+	}
+	// This allows targeted debugging w/ GOSSAHASH
+	// If you have an architecture-dependent FP glitch, this will help you find it.
+	return f.DebugTest
+}
