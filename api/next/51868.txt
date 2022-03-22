@@ -1,0 +1,37 @@
+pkg debug/pe, const IMAGE_COMDAT_SELECT_ANY = 2
+pkg debug/pe, const IMAGE_COMDAT_SELECT_ANY ideal-int
+pkg debug/pe, const IMAGE_COMDAT_SELECT_ASSOCIATIVE = 5
+pkg debug/pe, const IMAGE_COMDAT_SELECT_ASSOCIATIVE ideal-int
+pkg debug/pe, const IMAGE_COMDAT_SELECT_EXACT_MATCH = 4
+pkg debug/pe, const IMAGE_COMDAT_SELECT_EXACT_MATCH ideal-int
+pkg debug/pe, const IMAGE_COMDAT_SELECT_LARGEST = 6
+pkg debug/pe, const IMAGE_COMDAT_SELECT_LARGEST ideal-int
+pkg debug/pe, const IMAGE_COMDAT_SELECT_NODUPLICATES = 1
+pkg debug/pe, const IMAGE_COMDAT_SELECT_NODUPLICATES ideal-int
+pkg debug/pe, const IMAGE_COMDAT_SELECT_SAME_SIZE = 3
+pkg debug/pe, const IMAGE_COMDAT_SELECT_SAME_SIZE ideal-int
+pkg debug/pe, const IMAGE_SCN_CNT_CODE = 32
+pkg debug/pe, const IMAGE_SCN_CNT_CODE ideal-int
+pkg debug/pe, const IMAGE_SCN_CNT_INITIALIZED_DATA = 64
+pkg debug/pe, const IMAGE_SCN_CNT_INITIALIZED_DATA ideal-int
+pkg debug/pe, const IMAGE_SCN_CNT_UNINITIALIZED_DATA = 128
+pkg debug/pe, const IMAGE_SCN_CNT_UNINITIALIZED_DATA ideal-int
+pkg debug/pe, const IMAGE_SCN_LNK_COMDAT = 4096
+pkg debug/pe, const IMAGE_SCN_LNK_COMDAT ideal-int
+pkg debug/pe, const IMAGE_SCN_MEM_DISCARDABLE = 33554432
+pkg debug/pe, const IMAGE_SCN_MEM_DISCARDABLE ideal-int
+pkg debug/pe, const IMAGE_SCN_MEM_EXECUTE = 536870912
+pkg debug/pe, const IMAGE_SCN_MEM_EXECUTE ideal-int
+pkg debug/pe, const IMAGE_SCN_MEM_READ = 1073741824
+pkg debug/pe, const IMAGE_SCN_MEM_READ ideal-int
+pkg debug/pe, const IMAGE_SCN_MEM_WRITE = 2147483648
+pkg debug/pe, const IMAGE_SCN_MEM_WRITE ideal-int
+pkg debug/pe, func COFFSymbolReadComdatInfo(int, []COFFSymbol) (*COFFSymbolAuxFormat5, error)
+pkg debug/pe, type COFFSymbolAuxFormat5 struct
+pkg debug/pe, type COFFSymbolAuxFormat5 struct, Checksum uint32
+pkg debug/pe, type COFFSymbolAuxFormat5 struct, NumLineNumbers uint16
+pkg debug/pe, type COFFSymbolAuxFormat5 struct, NumRelocs uint16
+pkg debug/pe, type COFFSymbolAuxFormat5 struct, Padding [3]uint8
+pkg debug/pe, type COFFSymbolAuxFormat5 struct, SecNum uint16
+pkg debug/pe, type COFFSymbolAuxFormat5 struct, Selection uint8
+pkg debug/pe, type COFFSymbolAuxFormat5 struct, Size uint32
