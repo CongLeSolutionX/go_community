@@ -75,6 +75,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "60ada7ef_7078b30b",
+        "filename": "src/cmd/compile/internal/gc/obj.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-03-22T20:04:51Z",
+      "side": 1,
+      "message": "Sorry, I\u0027m not entirely sure what I meant here.\n\nI think you could do name \u003d nam.Sym().Pkg.Prefix + s.Name. I don\u0027t think s.Name ever has \"\" in front of it.\nUsing Pkg.Prefix instead of Pkg.Name avoids possible package conflicts.\n\n(here and where ShouldInstrumentGlobals is initialized)",
+      "parentUuid": "01606e9f_8d61d549",
+      "revId": "27fc4cfaaa59feb2e5635802a06452986d9f720b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "87473d95_fc96747f",
         "filename": "src/cmd/compile/internal/pkginit/init.go",
         "patchSetId": 22
@@ -286,6 +304,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "85473f5c_f09eac14",
+        "filename": "src/cmd/compile/internal/pkginit/initAsanGlobals.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-03-22T20:04:51Z",
+      "side": 1,
+      "message": "Maybe just a comment saying // odrIndicator \u003d 0 is the default, no need to set it explicitly here\n\nSo it sounds like this data could live in a read-only section. Probably not worth making that happen at the moment, I was just curious.",
+      "parentUuid": "af64ce4a_f6a550e2",
+      "revId": "27fc4cfaaa59feb2e5635802a06452986d9f720b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bef0327c_8b5ca3d9",
         "filename": "src/cmd/compile/internal/pkginit/initAsanGlobals.go",
         "patchSetId": 22
@@ -315,6 +351,24 @@
       "side": 1,
       "message": "If we add it to the NoInstrumentPkgs list, then -race and -msan options will also not work on it. Is this behavior acceptable? Thank you.",
       "parentUuid": "bef0327c_8b5ca3d9",
+      "revId": "27fc4cfaaa59feb2e5635802a06452986d9f720b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c3b0c84_a9da4f64",
+        "filename": "src/cmd/compile/internal/pkginit/initAsanGlobals.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-03-22T20:04:51Z",
+      "side": 1,
+      "message": "Yes, that\u0027s fine. buildcfg is only used by tools, not end-user programs.",
+      "parentUuid": "afd2809a_2ac972dc",
       "revId": "27fc4cfaaa59feb2e5635802a06452986d9f720b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
