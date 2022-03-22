@@ -171,7 +171,7 @@ type Frontend interface {
 }
 
 // NewConfig returns a new configuration object for the given architecture.
-func NewConfig(arch string, types Types, ctxt *obj.Link, optimize, softfloat bool) *Config {
+func NewConfig(arch string, types Types, ctxt *obj.Link, optimize, softfloat, noFMA bool) *Config {
 	c := &Config{arch: arch, Types: types}
 	c.useAvg = true
 	c.useHmul = true
@@ -322,7 +322,7 @@ func NewConfig(arch string, types Types, ctxt *obj.Link, optimize, softfloat boo
 	c.ctxt = ctxt
 	c.optimize = optimize
 	c.useSSE = true
-	c.UseFMA = true
+	c.UseFMA = !noFMA
 	c.SoftFloat = softfloat
 	if softfloat {
 		c.floatParamRegs = nil // no FP registers in softfloat mode

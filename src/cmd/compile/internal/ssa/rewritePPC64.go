@@ -5255,18 +5255,27 @@ func rewriteValuePPC64_OpPPC64FADD(v *Value) bool {
 	v_1 := v.Args[1]
 	v_0 := v.Args[0]
 	// match: (FADD (FMUL x y) z)
+	// cond: x.Block.Func.useFMA()
 	// result: (FMADD x y z)
 	for {
 		for _i0 := 0; _i0 <= 1; _i0, v_0, v_1 = _i0+1, v_1, v_0 {
 			if v_0.Op != OpPPC64FMUL {
 				continue
 			}
-			y := v_0.Args[1]
-			x := v_0.Args[0]
-			z := v_1
-			v.reset(OpPPC64FMADD)
-			v.AddArg3(x, y, z)
-			return true
+			_ = v_0.Args[1]
+			v_0_0 := v_0.Args[0]
+			v_0_1 := v_0.Args[1]
+			for _i1 := 0; _i1 <= 1; _i1, v_0_0, v_0_1 = _i1+1, v_0_1, v_0_0 {
+				x := v_0_0
+				y := v_0_1
+				z := v_1
+				if !(x.Block.Func.useFMA()) {
+					continue
+				}
+				v.reset(OpPPC64FMADD)
+				v.AddArg3(x, y, z)
+				return true
+			}
 		}
 		break
 	}
@@ -5276,18 +5285,27 @@ func rewriteValuePPC64_OpPPC64FADDS(v *Value) bool {
 	v_1 := v.Args[1]
 	v_0 := v.Args[0]
 	// match: (FADDS (FMULS x y) z)
+	// cond: x.Block.Func.useFMA()
 	// result: (FMADDS x y z)
 	for {
 		for _i0 := 0; _i0 <= 1; _i0, v_0, v_1 = _i0+1, v_1, v_0 {
 			if v_0.Op != OpPPC64FMULS {
 				continue
 			}
-			y := v_0.Args[1]
-			x := v_0.Args[0]
-			z := v_1
-			v.reset(OpPPC64FMADDS)
-			v.AddArg3(x, y, z)
-			return true
+			_ = v_0.Args[1]
+			v_0_0 := v_0.Args[0]
+			v_0_1 := v_0.Args[1]
+			for _i1 := 0; _i1 <= 1; _i1, v_0_0, v_0_1 = _i1+1, v_0_1, v_0_0 {
+				x := v_0_0
+				y := v_0_1
+				z := v_1
+				if !(x.Block.Func.useFMA()) {
+					continue
+				}
+				v.reset(OpPPC64FMADDS)
+				v.AddArg3(x, y, z)
+				return true
+			}
 		}
 		break
 	}
@@ -5678,17 +5696,27 @@ func rewriteValuePPC64_OpPPC64FSUB(v *Value) bool {
 	v_1 := v.Args[1]
 	v_0 := v.Args[0]
 	// match: (FSUB (FMUL x y) z)
+	// cond: x.Block.Func.useFMA()
 	// result: (FMSUB x y z)
 	for {
 		if v_0.Op != OpPPC64FMUL {
 			break
 		}
-		y := v_0.Args[1]
-		x := v_0.Args[0]
-		z := v_1
-		v.reset(OpPPC64FMSUB)
-		v.AddArg3(x, y, z)
-		return true
+		_ = v_0.Args[1]
+		v_0_0 := v_0.Args[0]
+		v_0_1 := v_0.Args[1]
+		for _i0 := 0; _i0 <= 1; _i0, v_0_0, v_0_1 = _i0+1, v_0_1, v_0_0 {
+			x := v_0_0
+			y := v_0_1
+			z := v_1
+			if !(x.Block.Func.useFMA()) {
+				continue
+			}
+			v.reset(OpPPC64FMSUB)
+			v.AddArg3(x, y, z)
+			return true
+		}
+		break
 	}
 	return false
 }
@@ -5696,17 +5724,27 @@ func rewriteValuePPC64_OpPPC64FSUBS(v *Value) bool {
 	v_1 := v.Args[1]
 	v_0 := v.Args[0]
 	// match: (FSUBS (FMULS x y) z)
+	// cond: x.Block.Func.useFMA()
 	// result: (FMSUBS x y z)
 	for {
 		if v_0.Op != OpPPC64FMULS {
 			break
 		}
-		y := v_0.Args[1]
-		x := v_0.Args[0]
-		z := v_1
-		v.reset(OpPPC64FMSUBS)
-		v.AddArg3(x, y, z)
-		return true
+		_ = v_0.Args[1]
+		v_0_0 := v_0.Args[0]
+		v_0_1 := v_0.Args[1]
+		for _i0 := 0; _i0 <= 1; _i0, v_0_0, v_0_1 = _i0+1, v_0_1, v_0_0 {
+			x := v_0_0
+			y := v_0_1
+			z := v_1
+			if !(x.Block.Func.useFMA()) {
+				continue
+			}
+			v.reset(OpPPC64FMSUBS)
+			v.AddArg3(x, y, z)
+			return true
+		}
+		break
 	}
 	return false
 }

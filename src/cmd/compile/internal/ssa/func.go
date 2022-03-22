@@ -919,3 +919,7 @@ func (f *Func) spSb() (sp, sb *Value) {
 	}
 	return
 }
+
+func (f *Func) useFMA() bool {
+	return f.Config.UseFMA
+}
