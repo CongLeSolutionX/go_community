@@ -97,6 +97,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "777625af_ce0e6711",
+        "filename": "src/internal/abi/abi_riscv64.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2022-03-22T08:41:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25e09cb2_4a4fdb7d",
+      "range": {
+        "startLine": 5,
+        "startChar": 24,
+        "endLine": 5,
+        "endChar": 37
+      },
+      "revId": "7e5e392bea982460ee388c0e1e8aa57457d70ed1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "edb9bed9_b3ba6b02",
@@ -110,6 +134,24 @@
       "writtenOn": "2022-03-18T21:56:13Z",
       "side": 1,
       "message": "No need for the old style build tag now.",
+      "revId": "7e5e392bea982460ee388c0e1e8aa57457d70ed1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd452cf2_0df98728",
+        "filename": "src/internal/abi/abi_riscv64.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2022-03-22T08:41:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edb9bed9_b3ba6b02",
       "revId": "7e5e392bea982460ee388c0e1e8aa57457d70ed1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
