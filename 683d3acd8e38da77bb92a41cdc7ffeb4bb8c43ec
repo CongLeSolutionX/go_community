@@ -53,6 +53,24 @@
       "message": "Matthew, out of an abundance of caution could you confirm that (pkgpath, qualified identifier) is a suitable cache key? I believe it is, but would appreciate your expert opinion.",
       "revId": "683d3acd8e38da77bb92a41cdc7ffeb4bb8c43ec",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a70da9b3_28783506",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-03-22T17:49:06Z",
+      "side": 1,
+      "message": "I think it\u0027s safe, at least safer than what\u0027s there now.\n\nFWIW, I think `type ident { pkg *types.Package; name string }` would be more efficient (saves an `int` word of memory in each key, and just requires hashing the `pkg` pointer rather than the string contents).",
+      "parentUuid": "07cfce41_2e2d7b65",
+      "revId": "683d3acd8e38da77bb92a41cdc7ffeb4bb8c43ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
