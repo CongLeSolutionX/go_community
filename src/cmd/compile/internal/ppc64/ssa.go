@@ -715,7 +715,7 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 	case ssa.OpPPC64NEG, ssa.OpPPC64FNEG, ssa.OpPPC64FSQRT, ssa.OpPPC64FSQRTS, ssa.OpPPC64FFLOOR, ssa.OpPPC64FTRUNC, ssa.OpPPC64FCEIL,
 		ssa.OpPPC64FCTIDZ, ssa.OpPPC64FCTIWZ, ssa.OpPPC64FCFID, ssa.OpPPC64FCFIDS, ssa.OpPPC64FRSP, ssa.OpPPC64CNTLZD, ssa.OpPPC64CNTLZW,
 		ssa.OpPPC64POPCNTD, ssa.OpPPC64POPCNTW, ssa.OpPPC64POPCNTB, ssa.OpPPC64MFVSRD, ssa.OpPPC64MTVSRD, ssa.OpPPC64FABS, ssa.OpPPC64FNABS,
-		ssa.OpPPC64FROUND, ssa.OpPPC64CNTTZW, ssa.OpPPC64CNTTZD:
+		ssa.OpPPC64FROUND, ssa.OpPPC64CNTTZW, ssa.OpPPC64CNTTZD, ssa.OpPPC64ADDZE, ssa.OpPPC64SUBZE:
 		r := v.Reg()
 		p := s.Prog(v.Op.Asm())
 		p.To.Type = obj.TYPE_REG
@@ -732,6 +732,41 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		p.From.Offset = v.AuxInt
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = v.Reg()
+
+	case ssa.OpPPC64ADDC, ssa.OpPPC64ADDE, ssa.OpPPC64SUBC, ssa.OpPPC64SUBE:
+		r := v.Reg0() // CA is the first, implied argument.
+		r1 := v.Args[0].Reg()
+		r2 := v.Args[1].Reg()
+		p := s.Prog(v.Op.Asm())
+		p.From.Type = obj.TYPE_REG
+		p.From.Reg = r2
+		p.Reg = r1
+		p.To.Type = obj.TYPE_REG
+		p.To.Reg = r
+
+	case ssa.OpPPC64ADDZEzero, ssa.OpPPC64SUBZEzero:
+		p := s.Prog(v.Op.Asm())
+		p.From.Type = obj.TYPE_REG
+		p.From.Reg = ppc64.REG_R0
+		p.To.Type = obj.TYPE_REG
+		p.To.Reg = v.Reg()
+
+	case ssa.OpPPC64ADDCconst:
+		p := s.Prog(v.Op.Asm())
+		p.Reg = v.Args[0].Reg()
+		p.From.Type = obj.TYPE_CONST
+		p.From.Offset = v.AuxInt
+		p.To.Type = obj.TYPE_REG
+		// Output is a pair, the second is the CA, which is implied.
+		p.To.Reg = v.Reg0()
+
+	case ssa.OpPPC64SUBCconst:
+		p := s.Prog(v.Op.Asm())
+		p.SetFrom3Const(v.AuxInt)
+		p.From.Type = obj.TYPE_REG
+		p.From.Reg = v.Args[0].Reg()
+		p.To.Type = obj.TYPE_REG
+		p.To.Reg = v.Reg0()
 
 	case ssa.OpPPC64SUBFCconst:
 		p := s.Prog(v.Op.Asm())
