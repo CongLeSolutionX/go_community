@@ -16,6 +16,24 @@
       "message": "I think CL 366279 is a better solution. Thanks.",
       "revId": "25debf20fcbb21c880d58da1ba4f35afa0300329",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f6d98b7_e6a0dfd7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 56438
+      },
+      "writtenOn": "2022-03-23T16:17:21Z",
+      "side": 1,
+      "message": "I think CL 366279 is the more cautious approach indeed. My approach resolves the underlying issue once and for all. I think this code has already seen 3-4 iterations of fixes, it is time to let it die. The other solution also introduces subtle different behavior depending on particularities of the build environments without even logging an info message. I don\u0027t find that particularly useful behavior. I\u0027d personally prefer a hard failure over magic behavior that happens to work, sometimes.\n\nThat being said I don\u0027t care which variant gets merged as long as we move forward on this issue :)",
+      "parentUuid": "008f046b_29245a22",
+      "revId": "25debf20fcbb21c880d58da1ba4f35afa0300329",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
