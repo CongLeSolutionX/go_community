@@ -585,20 +585,26 @@ func BuildFuncDebug(ctxt *obj.Link, f *Func, loggingEnabled bool, stackOffset fu
 
 	state.slots = state.slots[:0]
 	state.vars = state.vars[:0]
-	for i, slot := range f.Names {
-		state.slots = append(state.slots, *slot)
+	var slotID SlotID
+	for _, slot := range f.Names {
 		if ir.IsSynthetic(slot.N) {
 			continue
 		}
+		state.slots = append(state.slots, *slot)
 
 		topSlot := slot
 		for topSlot.SplitOf != nil {
 			topSlot = topSlot.SplitOf
 		}
+		if ir.IsSynthetic(topSlot.N) {
+			panic(fmt.Sprintf("Unexpected synthetic topSlot %s from slot %s", topSlot.N, slot.N))
+		}
+
 		if _, ok := state.varParts[topSlot.N]; !ok {
 			state.vars = append(state.vars, topSlot.N)
 		}
-		state.varParts[topSlot.N] = append(state.varParts[topSlot.N], SlotID(i))
+		state.varParts[topSlot.N] = append(state.varParts[topSlot.N], slotID)
+		slotID++
 	}
 
 	// Recreate the LocalSlot for each stack-only variable.
@@ -651,13 +657,15 @@ func BuildFuncDebug(ctxt *obj.Link, f *Func, loggingEnabled bool, stackOffset fu
 
 	state.initializeCache(f, len(state.varParts), len(state.slots))
 
-	for i, slot := range f.Names {
+	slotID = 0
+	for _, slot := range f.Names {
 		if ir.IsSynthetic(slot.N) {
 			continue
 		}
 		for _, value := range f.NamedValues[*slot] {
-			state.valueNames[value.ID] = append(state.valueNames[value.ID], SlotID(i))
+			state.valueNames[value.ID] = append(state.valueNames[value.ID], slotID)
 		}
+		slotID++
 	}
 
 	blockLocs := state.liveness()
