@@ -93,6 +93,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "499f1e3f_8a10db37",
+        "filename": "src/cmd/compile/internal/base/link.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-03-23T18:12:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b437bda_a2c1139a",
+      "revId": "b67a1d8a636e789cd9a3e0a9253c28e94e46682f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "5202e202_47a2ac9c",
         "filename": "src/cmd/compile/internal/base/link.go",
         "patchSetId": 22
@@ -137,6 +155,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7aa48679_fc2fd642",
+        "filename": "src/cmd/compile/internal/gc/main.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-03-23T18:12:00Z",
+      "side": 1,
+      "message": "Ops, we do not escape `:` in `objapi.PathToPrefix` at all, so this comment can be removed.",
+      "parentUuid": "639f9b0c_ac7d44d8",
+      "range": {
+        "startLine": 83,
+        "startChar": 61,
+        "endLine": 83,
+        "endChar": 63
+      },
+      "revId": "b67a1d8a636e789cd9a3e0a9253c28e94e46682f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "167d6d2e_6417e0af",
@@ -154,6 +196,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1026fe12_4de51f70",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 1173,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-03-23T18:12:00Z",
+      "side": 1,
+      "message": "Yeah, sounds like resolving conflicts problem. Reverted.",
+      "parentUuid": "167d6d2e_6417e0af",
+      "revId": "b67a1d8a636e789cd9a3e0a9253c28e94e46682f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ae2e46d3_86e5a6f7",
@@ -167,6 +227,30 @@
       "writtenOn": "2022-03-23T17:37:33Z",
       "side": 1,
       "message": "1.19. Also below.",
+      "range": {
+        "startLine": 60,
+        "startChar": 10,
+        "endLine": 60,
+        "endChar": 16
+      },
+      "revId": "b67a1d8a636e789cd9a3e0a9253c28e94e46682f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f3ef763_2d01efd9",
+        "filename": "src/debug/gosym/symtab.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-03-23T18:12:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae2e46d3_86e5a6f7",
       "range": {
         "startLine": 60,
         "startChar": 10,
@@ -202,6 +286,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a95cb7f4_24e07b8f",
+        "filename": "src/debug/gosym/symtab_test.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-03-23T18:12:00Z",
+      "side": 1,
+      "message": "Ops, I think we also need to introduce `go119magic` so LineTable.parsePclnTab can set the right version right :thinking_face:",
+      "parentUuid": "d0f00d73_0b19c5be",
+      "range": {
+        "startLine": 69,
+        "startChar": 18,
+        "endLine": 69,
+        "endChar": 28
+      },
+      "revId": "b67a1d8a636e789cd9a3e0a9253c28e94e46682f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4c5e854c_77f82772",
         "filename": "src/debug/gosym/symtab_test.go",
         "patchSetId": 22
@@ -213,6 +321,30 @@
       "writtenOn": "2022-03-23T17:37:33Z",
       "side": 1,
       "message": "Doesn\u0027t seem to need a subtest for each symbol.",
+      "range": {
+        "startLine": 79,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 4
+      },
+      "revId": "b67a1d8a636e789cd9a3e0a9253c28e94e46682f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65f4cfe4_93533daf",
+        "filename": "src/debug/gosym/symtab_test.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-03-23T18:12:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c5e854c_77f82772",
       "range": {
         "startLine": 79,
         "startChar": 0,
@@ -236,6 +368,30 @@
       "writtenOn": "2022-03-23T17:37:33Z",
       "side": 1,
       "message": "Does : need escape?",
+      "range": {
+        "startLine": 18,
+        "startChar": 21,
+        "endLine": 18,
+        "endChar": 23
+      },
+      "revId": "b67a1d8a636e789cd9a3e0a9253c28e94e46682f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e147d7c0_c3d0beee",
+        "filename": "test/codegen/strings.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-03-23T18:12:00Z",
+      "side": 1,
+      "message": "Ah no.",
+      "parentUuid": "529507cb_798bd3ad",
       "range": {
         "startLine": 18,
         "startChar": 21,
