@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c04d59b6_405b2966",
+        "filename": "src/debug/pe/symbol.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-03-23T18:57:28Z",
+      "side": 1,
+      "message": "This is a fair point. I\u0027ll convert it to a File method.",
+      "parentUuid": "30760a7c_fe05532c",
+      "revId": "3b122509a1b8b70d84b3aa814d82ac944e141260",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "890da55b_62dcf6af",
@@ -31,6 +49,30 @@
       "writtenOn": "2022-03-23T18:02:18Z",
       "side": 1,
       "message": "Unsafe cast from a COFFSymbol to COFFSymbolAuxFormat5? This looks scary. The two types look completely different...",
+      "range": {
+        "startLine": 154,
+        "startChar": 0,
+        "endLine": 156,
+        "endChar": 33
+      },
+      "revId": "3b122509a1b8b70d84b3aa814d82ac944e141260",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56431d55_b7757310",
+        "filename": "src/debug/pe/symbol.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-03-23T18:57:28Z",
+      "side": 1,
+      "message": "They are completely different, and yes, it is scary, but I think in some sense the scariness has been there all along in the sense that we\u0027re reading in a big array of COFFSymbols when in fact the aux symbols within that array aren\u0027t COFFSymbols at all, they have completely different formats (but they are all guaranteed to be 18 bytes long, so we can maintain the fiction).\n\nIf I were designing debug/pe from scratch I think I would do things differently, probably avoid the big []COFFSymbol array and just have an API to request the Nth symbol, but I think we\u0027re stuck with what we\u0027ve got at this point.",
+      "parentUuid": "890da55b_62dcf6af",
       "range": {
         "startLine": 154,
         "startChar": 0,
@@ -77,6 +119,48 @@
         "endLine": 1,
         "endChar": 15
       },
+      "revId": "3b122509a1b8b70d84b3aa814d82ac944e141260",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d312bb6f_8d6ab7fb",
+        "filename": "src/debug/pe/symbols_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-03-23T18:57:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6851aa4_51b7125b",
+      "range": {
+        "startLine": 1,
+        "startChar": 8,
+        "endLine": 1,
+        "endChar": 15
+      },
+      "revId": "3b122509a1b8b70d84b3aa814d82ac944e141260",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3619fea8_3f86f9ac",
+        "filename": "src/debug/pe/symbols_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-03-23T18:57:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3fbfd73_7f4769c6",
       "revId": "3b122509a1b8b70d84b3aa814d82ac944e141260",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
