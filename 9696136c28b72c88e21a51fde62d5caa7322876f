@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb645efb_9092fe38",
+        "filename": "src/cmd/link/internal/loadpe/ldpe.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-03-23T20:41:01Z",
+      "side": 1,
+      "message": "How does this differ from the loader\u0027s DUPOK logic? This allows more fine-grained selection strategies?\n\nAnother question: what happens if one size is -1 (any) while the other is not? The code seems to require both be -1 to dedup?",
+      "range": {
+        "startLine": 466,
+        "startChar": 0,
+        "endLine": 474,
+        "endChar": 3
+      },
+      "revId": "9696136c28b72c88e21a51fde62d5caa7322876f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
