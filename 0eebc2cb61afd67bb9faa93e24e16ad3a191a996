@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "14127f41_89f141ae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-03-23T14:47:04Z",
+      "side": 1,
+      "message": "Base on my discussion with Alex Brainman, underscoring prefixing all symbols won\u0027t work, here\u0027s Alex\u0027s explanation https://go-review.googlesource.com/c/go/+/317917/comments/69dcd449_54d7d9fa",
+      "parentUuid": "1f5fed19_90920229",
+      "revId": "0eebc2cb61afd67bb9faa93e24e16ad3a191a996",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "203d53e0_8aab8e55",
         "filename": "/COMMIT_MSG",
         "patchSetId": 15
@@ -542,6 +560,24 @@
       "side": 1,
       "message": "Hmm, that\u0027s true. I don\u0027t think introducing a new method is a good solution because clients of this package aren\u0027t going to know any better which method to call, and most of them just won\u0027t get updated at all. I\u0027m not sure what the right answer here is. gosym does do some version sniffing. Maybe that could be applied here, too?",
       "parentUuid": "657e8917_4a351fb3",
+      "revId": "0eebc2cb61afd67bb9faa93e24e16ad3a191a996",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ec1c12a_aa9a9cd0",
+        "filename": "src/debug/gosym/symtab.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-03-23T14:47:04Z",
+      "side": 1,
+      "message": "Seems doable, PTAL!",
+      "parentUuid": "ee978d29_29a3be74",
       "revId": "0eebc2cb61afd67bb9faa93e24e16ad3a191a996",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
