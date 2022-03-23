@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30760a7c_fe05532c",
+        "filename": "src/debug/pe/symbol.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-03-23T18:02:18Z",
+      "side": 1,
+      "message": "The symbols parameter must be from pe.File.COFFSymbols, instead of an arbitrary array of COFFSymbol, right?\n\nPerhaps it is better to have this be a method of File. File.SectionDefAuxSymbol(i) or something. (Not sure what the name should be.)",
+      "revId": "3b122509a1b8b70d84b3aa814d82ac944e141260",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "890da55b_62dcf6af",
+        "filename": "src/debug/pe/symbol.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-03-23T18:02:18Z",
+      "side": 1,
+      "message": "Unsafe cast from a COFFSymbol to COFFSymbolAuxFormat5? This looks scary. The two types look completely different...",
+      "range": {
+        "startLine": 154,
+        "startChar": 0,
+        "endLine": 156,
+        "endChar": 33
+      },
+      "revId": "3b122509a1b8b70d84b3aa814d82ac944e141260",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3fbfd73_7f4769c6",
+        "filename": "src/debug/pe/symbols_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-03-23T18:02:18Z",
+      "side": 1,
+      "message": "Need copyright header.",
+      "revId": "3b122509a1b8b70d84b3aa814d82ac944e141260",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6851aa4_51b7125b",
+        "filename": "src/debug/pe/symbols_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-03-23T18:02:18Z",
+      "side": 1,
+      "message": "It seems fine to just be in the pe package, and drop the import \"debug/pe\".",
+      "range": {
+        "startLine": 1,
+        "startChar": 8,
+        "endLine": 1,
+        "endChar": 15
+      },
+      "revId": "3b122509a1b8b70d84b3aa814d82ac944e141260",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
