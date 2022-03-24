@@ -22,6 +22,30 @@
       },
       "revId": "9696136c28b72c88e21a51fde62d5caa7322876f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d215d69_4f67fd2e",
+        "filename": "src/cmd/link/internal/loadpe/ldpe.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-03-24T12:57:11Z",
+      "side": 1,
+      "message": "Details on the various flavors are at https://docs.microsoft.com/en-us/windows/win32/debug/pe-format#comdat-sections-object-only.\n\nThe loader\u0027s dupok scheme is basically to pick the dup symbol with the largest size. This is also similar to how ELF/linux linkers handle Fortran \"common\" blocks. In the PE world this strategy would be selected by setting the Selection field to IMAGE_COMDAT_SELECT_LARGEST.  So far I am not seeing clang generate this flavor of COMDAT however, only IMAGE_COMDAT_SELECT_SAME_SIZE and IMAGE_COMDAT_SELECT_ANY.\n\n\u003ewhat happens if one size is -1 (any) while the other is not? The code seems to require both be -1 to dedup?\n\nyes, that\u0027s the way I\u0027ve written it. The Microsoft docs don\u0027t really spell out in detail what\u0027s suppose to happen in this case (e.g. if you have duplicates where each dup has a different Selection value). \n\nWhat I am seeing from clang is that when the compiler does generate duplicates, the dups for a given symbol name all have the same IMAGE_COMDAT_SELECT_* value.\n\nWhat this means is that if clang starts mixing select values for some reason, we\u0027ll potentially wind up with duplicate defs at link time (at which point we can consider whether to we want to change the linker).",
+      "parentUuid": "eb645efb_9092fe38",
+      "range": {
+        "startLine": 466,
+        "startChar": 0,
+        "endLine": 474,
+        "endChar": 3
+      },
+      "revId": "9696136c28b72c88e21a51fde62d5caa7322876f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
