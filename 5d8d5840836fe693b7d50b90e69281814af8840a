@@ -59,6 +59,30 @@
       },
       "revId": "5d8d5840836fe693b7d50b90e69281814af8840a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54ce5025_3de86350",
+        "filename": "src/unicode/utf16/utf16.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-03-24T00:30:26Z",
+      "side": 1,
+      "message": "I don\u0027t think that\u0027s right.  \"Surrogates\" is the name used when a single Unicode rune is encoded using a pair of 16-bit words (as a surrogate pair).  But when only one 16-bit word is required, it\u0027s not a surrogate.\n\nThat said, I think this could be slightly improved.\n\n// RuneLen returns the number of 16-bit words in the UTF-16 encoding of the rune.",
+      "parentUuid": "accc1811_1dd1a118",
+      "range": {
+        "startLine": 34,
+        "startChar": 33,
+        "endLine": 34,
+        "endChar": 45
+      },
+      "revId": "5d8d5840836fe693b7d50b90e69281814af8840a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
