@@ -83,6 +83,30 @@
       },
       "revId": "5d8d5840836fe693b7d50b90e69281814af8840a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "04692d64_2be0a33e",
+        "filename": "src/unicode/utf16/utf16.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2022-03-24T07:41:59Z",
+      "side": 1,
+      "message": "Ah, indeed, sorry for the confusion. They call them \"16-bit code units\", and only when they are in pair they use \"surrogates\".",
+      "parentUuid": "54ce5025_3de86350",
+      "range": {
+        "startLine": 34,
+        "startChar": 33,
+        "endLine": 34,
+        "endChar": 45
+      },
+      "revId": "5d8d5840836fe693b7d50b90e69281814af8840a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
