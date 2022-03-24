@@ -16,6 +16,23 @@
       "message": "Trivial fixes split out from https://go-review.googlesource.com/c/go/+/385256",
       "revId": "589dc9a89e38d5815c005d8e9b1aebd9c91df409",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a46a297_bf7ffa12",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34516
+      },
+      "writtenOn": "2022-03-24T18:26:10Z",
+      "side": 1,
+      "message": "Hi! I\u0027m not familiar with the process here, so just to verify: is there something more I can do to nudge this change forward?",
+      "revId": "589dc9a89e38d5815c005d8e9b1aebd9c91df409",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
