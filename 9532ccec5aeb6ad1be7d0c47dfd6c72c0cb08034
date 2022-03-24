@@ -16,6 +16,23 @@
       "message": "Underlying proposal is now accepted. https://github.com/golang/go/issues/51414#issuecomment-1076662905",
       "revId": "9532ccec5aeb6ad1be7d0c47dfd6c72c0cb08034",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90c323e4_3b58bc1f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-03-24T00:31:11Z",
+      "side": 1,
+      "message": "We\u0027re going to need a new entry in api/next describing the new method with the associated proposal.  Thanks.",
+      "revId": "9532ccec5aeb6ad1be7d0c47dfd6c72c0cb08034",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
