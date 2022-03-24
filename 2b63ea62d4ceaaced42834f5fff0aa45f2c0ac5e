@@ -1,0 +1,331 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "747049fd_7346e379",
+        "filename": "src/cmd/internal/obj/mips/a.out.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-03-24T21:48:32Z",
+      "side": 1,
+      "message": "Can you handle it in rewriteToGot, expand it to multiple instructions, instead of in asmout?",
+      "revId": "2b63ea62d4ceaaced42834f5fff0aa45f2c0ac5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5cf50af3_140380eb",
+        "filename": "src/cmd/internal/obj/mips/a.out.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-03-24T21:48:32Z",
+      "side": 1,
+      "message": "I think this is just to ensure the target is in R25, right? I think we should either handle it in preprocess (inserting an instruction if it is not already R25), or we can change the compiler and assembly code to always use R25 (we should not rewrite if it is already R25). Then you don\u0027t need to add this class.",
+      "revId": "2b63ea62d4ceaaced42834f5fff0aa45f2c0ac5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ac46ae5_2068607e",
+        "filename": "src/cmd/internal/obj/mips/a.out.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-03-24T21:48:32Z",
+      "side": 1,
+      "message": "typo",
+      "range": {
+        "startLine": 323,
+        "startChar": 53,
+        "endLine": 323,
+        "endChar": 61
+      },
+      "revId": "2b63ea62d4ceaaced42834f5fff0aa45f2c0ac5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa4a8937_a6bcbfea",
+        "filename": "src/cmd/internal/obj/mips/a.out.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-03-24T21:48:32Z",
+      "side": 1,
+      "message": "Add a space before (.",
+      "range": {
+        "startLine": 324,
+        "startChar": 49,
+        "endLine": 324,
+        "endChar": 50
+      },
+      "revId": "2b63ea62d4ceaaced42834f5fff0aa45f2c0ac5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5f199cb_dc3f5304",
+        "filename": "src/cmd/internal/obj/mips/a.out.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-03-24T21:48:32Z",
+      "side": 1,
+      "message": "calling",
+      "range": {
+        "startLine": 324,
+        "startChar": 4,
+        "endLine": 324,
+        "endChar": 8
+      },
+      "revId": "2b63ea62d4ceaaced42834f5fff0aa45f2c0ac5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7a03c3d_8c032c9a",
+        "filename": "src/cmd/internal/obj/mips/asm0.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 921,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-03-24T21:48:32Z",
+      "side": 1,
+      "message": "I don\u0027t think the condition is necessary. We only generate SHZOREG when Flag_shared is true anyway. Also other places.",
+      "range": {
+        "startLine": 921,
+        "startChar": 38,
+        "endLine": 921,
+        "endChar": 54
+      },
+      "revId": "2b63ea62d4ceaaced42834f5fff0aa45f2c0ac5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d04196e6_cd1f3fb4",
+        "filename": "src/cmd/internal/obj/mips/asm0.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 1752,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-03-24T21:48:32Z",
+      "side": 1,
+      "message": "Could you include what the full instruction sequence is? Whey does it need three relocations? Why does it need an OR instruction?",
+      "range": {
+        "startLine": 1752,
+        "startChar": 41,
+        "endLine": 1752,
+        "endChar": 75
+      },
+      "revId": "2b63ea62d4ceaaced42834f5fff0aa45f2c0ac5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ef9179b_fa0897f7",
+        "filename": "src/cmd/internal/obj/mips/asm0.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 1813,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-03-24T21:48:32Z",
+      "side": 1,
+      "message": "The relocation only applies to the LUI, i.e. the high 16 bits of the low 32 bits? That is weird.",
+      "range": {
+        "startLine": 1807,
+        "startChar": 0,
+        "endLine": 1813,
+        "endChar": 35
+      },
+      "revId": "2b63ea62d4ceaaced42834f5fff0aa45f2c0ac5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "629c041f_375a995f",
+        "filename": "src/cmd/internal/obj/mips/asm0.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 1865,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-03-24T21:48:32Z",
+      "side": 1,
+      "message": "How is it going to work if we have large function with JMPs?",
+      "range": {
+        "startLine": 1863,
+        "startChar": 0,
+        "endLine": 1865,
+        "endChar": 3
+      },
+      "revId": "2b63ea62d4ceaaced42834f5fff0aa45f2c0ac5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b847ecb3_657ac7d2",
+        "filename": "src/cmd/internal/obj/mips/obj0.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-03-24T21:48:32Z",
+      "side": 1,
+      "message": "Why constants are special?\n\nName the variable isConst or constInMem or something.",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 19
+      },
+      "revId": "2b63ea62d4ceaaced42834f5fff0aa45f2c0ac5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24e2bec4_4bc4fc51",
+        "filename": "src/cmd/internal/obj/mips/obj0.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-03-24T21:48:32Z",
+      "side": 1,
+      "message": "No \"A\" in the symbol name.",
+      "range": {
+        "startLine": 151,
+        "startChar": 8,
+        "endLine": 151,
+        "endChar": 16
+      },
+      "revId": "2b63ea62d4ceaaced42834f5fff0aa45f2c0ac5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1787180_e1542b07",
+        "filename": "src/cmd/internal/obj/mips/obj0.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 772,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-03-24T21:48:32Z",
+      "side": 1,
+      "message": "These three functions need some comment. In particular what argument it takes. Looks like p must be a TEXT pseudo-instruction.",
+      "revId": "2b63ea62d4ceaaced42834f5fff0aa45f2c0ac5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b556ca89_8bf5a9d1",
+        "filename": "src/cmd/internal/obj/mips/obj0.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 785,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-03-24T21:48:32Z",
+      "side": 1,
+      "message": "Maybe rewrite to\n\nf :\u003d p.From.Sym.Name\nif strings.Contains(f, \"_rt0_mips64le_linux_lib\") || ...\n\nWhy strings.Contains, though? Should they be just equality?",
+      "range": {
+        "startLine": 777,
+        "startChar": 0,
+        "endLine": 785,
+        "endChar": 1
+      },
+      "revId": "2b63ea62d4ceaaced42834f5fff0aa45f2c0ac5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ffb8a5bd_c5352b3a",
+        "filename": "src/cmd/internal/objabi/reloctype.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-03-24T21:48:32Z",
+      "side": 1,
+      "message": "The comments are generally unclear. See the ARM64, Power, or RISCV ones below. In particular, I have no idea what \"advances function call that used jalr instruction\" means.",
+      "range": {
+        "startLine": 120,
+        "startChar": 16,
+        "endLine": 120,
+        "endChar": 66
+      },
+      "revId": "2b63ea62d4ceaaced42834f5fff0aa45f2c0ac5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c962ce18_88ff8d4f",
+        "filename": "src/cmd/internal/objabi/reloctype.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-03-24T21:48:32Z",
+      "side": 1,
+      "message": "Move them later, after other architecture specific ones. R_JMPMIPS are here because they already are. The new ones are added later.",
+      "range": {
+        "startLine": 116,
+        "startChar": 0,
+        "endLine": 129,
+        "endChar": 16
+      },
+      "revId": "2b63ea62d4ceaaced42834f5fff0aa45f2c0ac5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
