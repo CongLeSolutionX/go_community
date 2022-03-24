@@ -1,0 +1,2 @@
++pkg go/types, method (*Func) Origin() Object
++pkg go/types, method (*Var) Origin() Objec

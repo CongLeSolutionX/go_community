@@ -299,6 +299,7 @@ func (subst *subster) var_(v *Var) *Var {
 func substVar(v *Var, newType Type) *Var {
 	copy := *v
 	copy.typ = newType
+	copy.origin = v
 	return &copy
 }
 
@@ -334,6 +335,7 @@ func (subst *subster) func_(f *Func) *Func {
 		if typ := subst.typ(f.typ); typ != f.typ {
 			copy := *f
 			copy.typ = typ
+			copy.origin = f
 			return &copy
 		}
 	}
@@ -413,9 +415,11 @@ func replaceRecvType(in []*Func, old, new Type) (out []*Func, copied bool) {
 				copy(out, in)
 				copied = true
 			}
+
 			newsig := *sig
 			newsig.recv = substVar(sig.recv, new)
 			out[i] = NewFunc(method.pos, method.pkg, method.name, &newsig)
+			out[i].origin = method.origin
 		}
 	}
 	return
