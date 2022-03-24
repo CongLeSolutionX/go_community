@@ -731,6 +731,8 @@ func TestUsesInfo(t *testing.T) {
 			`m`,
 			`func (generic_m10.E[int]).m()`,
 		},
+		{`package generic_m11; type T[A any] interface{ m(); n() }; func _(t1 T[int], t2 T[string]) { t1.m(); t2.n() }`, `m`, `func (generic_m11.T[int]).m()`},
+		{`package generic_m12; type T[A any] interface{ m(); n() }; func _(t1 T[int], t2 T[string]) { t1.m(); t2.n() }`, `n`, `func (generic_m12.T[string]).n()`},
 	}
 
 	for _, test := range tests {
@@ -2348,7 +2350,10 @@ var (
 	lookup := func(name string) Type { return pkg.Scope().Lookup(name).Type() }
 	tests := []struct {
 		name string
-		obj  Object
+		obj  interface {
+			Object
+			Origin() Object
+		}
 	}{
 		{"field", lookup("t").Underlying().(*Struct).Field(0)},
 		{"concreteMethod", lookup("t").(*Named).Method(0)},
@@ -2399,6 +2404,9 @@ var (
 				t.Fatalf("Id() = %v, want %v", def.Id(), test.obj.Id())
 			}
 			// String and Type are expected to differ.
+			if orig := test.obj.Origin(); def != orig {
+				t.Fatalf("info.Defs[%s] does not match obj.Origin()", test.name)
+			}
 		})
 	}
 }
