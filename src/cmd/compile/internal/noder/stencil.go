@@ -1262,11 +1262,7 @@ func (g *genInst) dictPass(info *instInfo) {
 						// we do a type assert to the type bound.
 						mse.X = assertToBound(info, info.dictParam, m.Pos(), mse.X, dst)
 					} else {
-						mse.X = convertUsingDictionary(info, info.dictParam, m.Pos(), mse.X, m, dst, true)
-						// Note: we set nonEscaping==true, because we can assume the backing store for the
-						// interface conversion doesn't escape. The method call will immediately go to
-						// a wrapper function which copies all the data out of the interface value.
-						// (It only matters for non-pointer-shaped interface conversions. See issue 50182.)
+						mse.X = convertUsingDictionary(info, info.dictParam, m.Pos(), mse.X, m, dst)
 					}
 				}
 				transformDot(mse, false)
@@ -1294,7 +1290,7 @@ func (g *genInst) dictPass(info *instInfo) {
 			// m's argument now has an instantiated type.
 
 			if mce.X.Type().HasShape() || m.Type().HasShape() {
-				m = convertUsingDictionary(info, info.dictParam, m.Pos(), mce.X, m, m.Type(), false)
+				m = convertUsingDictionary(info, info.dictParam, m.Pos(), mce.X, m, m.Type())
 			}
 		case ir.ODOTTYPE, ir.ODOTTYPE2:
 			if !m.Type().HasShape() {
@@ -1387,9 +1383,7 @@ func findDictType(info *instInfo, t *types.Type) int {
 // type dst, by returning a new set of nodes that make use of a dictionary entry. in is the
 // instantiated node of the CONVIFACE node or XDOT node (for a bound method call) that is causing the
 // conversion.
-// If nonEscaping is true, the caller guarantees that the backing store needed for the interface data
-// word will not escape.
-func convertUsingDictionary(info *instInfo, dictParam *ir.Name, pos src.XPos, v ir.Node, in ir.Node, dst *types.Type, nonEscaping bool) ir.Node {
+func convertUsingDictionary(info *instInfo, dictParam *ir.Name, pos src.XPos, v ir.Node, in ir.Node, dst *types.Type) ir.Node {
 	assert(v.Type().HasShape() || in.Type().HasShape())
 	assert(dst.IsInterface())
 
@@ -1459,7 +1453,6 @@ func convertUsingDictionary(info *instInfo, dictParam *ir.Name, pos src.XPos, v 
 	// Figure out what the data field of the interface will be.
 	data := ir.NewConvExpr(pos, ir.OCONVIDATA, nil, v)
 	typed(types.Types[types.TUNSAFEPTR], data)
-	data.NonEscaping = nonEscaping
 
 	// Build an interface from the type and data parts.
 	var i ir.Node = ir.NewBinaryExpr(pos, ir.OEFACE, rt, data)
@@ -2204,7 +2197,7 @@ func (g *genInst) buildClosure2(info *instInfo, m ir.Node) ir.Node {
 		// the type bound.
 		rcvr = assertToBound(info, dictVar, pos, rcvr, dst)
 	} else {
-		rcvr = convertUsingDictionary(info, dictVar, pos, rcvr, m, dst, false)
+		rcvr = convertUsingDictionary(info, dictVar, pos, rcvr, m, dst)
 	}
 	dot := ir.NewSelectorExpr(pos, ir.ODOTINTER, rcvr, m.(*ir.SelectorExpr).Sel)
 	dot.Selection = typecheck.Lookdot1(dot, dot.Sel, dot.X.Type(), dot.X.Type().AllMethods(), 1)

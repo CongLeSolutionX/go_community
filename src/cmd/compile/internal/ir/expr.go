@@ -250,8 +250,7 @@ func (n *ConstExpr) Val() constant.Value { return n.val }
 // It may end up being a value or a type.
 type ConvExpr struct {
 	miniExpr
-	X           Node
-	NonEscaping bool // The allocation needed for the conversion to interface is known not to escape
+	X Node
 }
 
 func NewConvExpr(pos src.XPos, op Op, typ *types.Type, x Node) *ConvExpr {
@@ -958,11 +957,11 @@ var IsIntrinsicCall = func(*CallExpr) bool { return false }
 // instead of computing both. SameSafeExpr assumes that l and r are
 // used in the same statement or expression. In order for it to be
 // safe to reuse l or r, they must:
-// * be the same expression
-// * not have side-effects (no function calls, no channel ops);
-//   however, panics are ok
-// * not cause inappropriate aliasing; e.g. two string to []byte
-//   conversions, must result in two distinct slices
+//   - be the same expression
+//   - not have side-effects (no function calls, no channel ops);
+//     however, panics are ok
+//   - not cause inappropriate aliasing; e.g. two string to []byte
+//     conversions, must result in two distinct slices
 //
 // The handling of OINDEXMAP is subtle. OINDEXMAP can occur both
 // as an lvalue (map assignment) and an rvalue (map access). This is
