@@ -2349,11 +2349,11 @@ type T[P any] struct {
 	field P
 }
 
-func (recv *T[Q]) concreteMethod() {}
+func (recv *T[Q]) concreteMethod(mParam Q) (mResult Q) { return }
 
-type FT[P any] func(ftp P) (ftrp P)
+type FT[P any] func(ftParam P) (ftResult P)
 
-func F[P any](fp P) (frp P){ return }
+func F[P any](fParam P) (fResult P){ return }
 
 type I[P any] interface {
 	interfaceMethod(P)
@@ -2381,17 +2381,28 @@ var (
 
 	lookup := func(name string) Type { return pkg.Scope().Lookup(name).Type() }
 	tests := []struct {
-		ident string
-		obj   Object
+		name string
+		obj  Object
 	}{
+		// Struct fields
 		{"field", lookup("t").Underlying().(*Struct).Field(0)},
+
+		// Methods and method fields
 		{"concreteMethod", lookup("t").(*Named).Method(0)},
 		{"recv", lookup("t").(*Named).Method(0).Type().(*Signature).Recv()},
-		{"ftp", lookup("ft").Underlying().(*Signature).Params().At(0)},
-		{"ftrp", lookup("ft").Underlying().(*Signature).Results().At(0)},
-		{"fp", lookup("f").(*Signature).Params().At(0)},
-		{"frp", lookup("f").(*Signature).Results().At(0)},
+		{"mParam", lookup("t").(*Named).Method(0).Type().(*Signature).Params().At(0)},
+		{"mResult", lookup("t").(*Named).Method(0).Type().(*Signature).Results().At(0)},
+
+		// Interface methods
 		{"interfaceMethod", lookup("i").Underlying().(*Interface).Method(0)},
+
+		// Function type fields
+		{"ftParam", lookup("ft").Underlying().(*Signature).Params().At(0)},
+		{"ftResult", lookup("ft").Underlying().(*Signature).Results().At(0)},
+
+		// Function fields
+		{"fParam", lookup("f").(*Signature).Params().At(0)},
+		{"fResult", lookup("f").(*Signature).Results().At(0)},
 	}
 
 	// Collect all identifiers by name.
@@ -2405,14 +2416,17 @@ var (
 
 	for _, test := range tests {
 		test := test
-		t.Run(test.ident, func(t *testing.T) {
-			if got := len(idents[test.ident]); got != 1 {
-				t.Fatalf("found %d identifiers named %s, want 1", got, test.ident)
+		t.Run(test.name, func(t *testing.T) {
+			if got := len(idents[test.name]); got != 1 {
+				t.Fatalf("found %d identifiers named %s, want 1", got, test.name)
 			}
-			ident := idents[test.ident][0]
+			ident := idents[test.name][0]
 			def := info.Defs[ident]
 			if def == test.obj {
-				t.Fatalf("info.Defs[%s] contains the test object", test.ident)
+				t.Fatalf("info.Defs[%s] contains the test object", test.name)
+			}
+			if orig := originObject(test.obj); def != orig {
+				t.Errorf("info.Defs[%s] does not match obj.Origin()", test.name)
 			}
 			if def.Pkg() != test.obj.Pkg() {
 				t.Errorf("Pkg() = %v, want %v", def.Pkg(), test.obj.Pkg())
@@ -2435,6 +2449,16 @@ var (
 			// String and Type are expected to differ.
 		})
 	}
+}
+
+func originObject(obj Object) Object {
+	switch obj := obj.(type) {
+	case *Var:
+		return obj.Origin()
+	case *Func:
+		return obj.Origin()
+	}
+	return obj
 }
 
 func TestImplements(t *testing.T) {
