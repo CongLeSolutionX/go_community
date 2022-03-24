@@ -299,6 +299,12 @@ func (subst *subster) var_(v *Var) *Var {
 func substVar(v *Var, typ Type) *Var {
 	copy := *v
 	copy.typ = typ
+	// If v is already synthetic, forward its origin. Otherwise, v is canonical.
+	if v.origin != nil {
+		copy.origin = v.origin
+	} else {
+		copy.origin = v
+	}
 	return &copy
 }
 
@@ -332,12 +338,22 @@ func (subst *subster) varList(in []*Var) (out []*Var, copied bool) {
 func (subst *subster) func_(f *Func) *Func {
 	if f != nil {
 		if typ := subst.typ(f.typ); typ != f.typ {
-			copy := *f
-			copy.typ = typ
-			return &copy
+			return substFunc(f, typ)
 		}
 	}
 	return f
+}
+
+func substFunc(f *Func, typ Type) *Func {
+	copy := *f
+	copy.typ = typ
+	// If f is already synthetic, forward its origin. Otherwise, f is canonical.
+	if f.origin != nil {
+		copy.origin = f.origin
+	} else {
+		copy.origin = f
+	}
+	return &copy
 }
 
 func (subst *subster) funcList(in []*Func) (out []*Func, copied bool) {
@@ -415,7 +431,9 @@ func replaceRecvType(in []*Func, old, new Type) (out []*Func, copied bool) {
 			}
 			newsig := *sig
 			newsig.recv = substVar(sig.recv, new)
-			out[i] = NewFunc(method.pos, method.pkg, method.name, &newsig)
+			out[i] = substFunc(method, &newsig)
+			// method is already substituted, so preserve its origin.
+			out[i].origin = method.origin
 		}
 	}
 	return
