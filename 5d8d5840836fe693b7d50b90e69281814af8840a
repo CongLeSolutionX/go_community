@@ -131,6 +131,30 @@
       },
       "revId": "5d8d5840836fe693b7d50b90e69281814af8840a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b36f42ab_9fd41067",
+        "filename": "src/unicode/utf16/utf16.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-03-24T15:22:28Z",
+      "side": 1,
+      "message": "Understood.  I also think that that comment could be clearer.",
+      "parentUuid": "0dd5cf0e_c4968530",
+      "range": {
+        "startLine": 34,
+        "startChar": 33,
+        "endLine": 34,
+        "endChar": 45
+      },
+      "revId": "5d8d5840836fe693b7d50b90e69281814af8840a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
