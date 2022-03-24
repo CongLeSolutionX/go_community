@@ -193,8 +193,11 @@ func (t *Named) instantiateMethod(i int) *Func {
 		rtyp = t
 	}
 
-	sig.recv = NewParam(origSig.recv.pos, origSig.recv.pkg, origSig.recv.name, rtyp)
-	return NewFunc(origm.pos, origm.pkg, origm.name, sig)
+	sig.recv = substVar(origSig.recv, rtyp)
+
+	inst := NewFunc(origm.pos, origm.pkg, origm.name, sig)
+	inst.origin = origm
+	return inst
 }
 
 // SetUnderlying sets the underlying type and marks t as complete.

@@ -290,12 +290,16 @@ func (subst *subster) typOrNil(typ Type) Type {
 func (subst *subster) var_(v *Var) *Var {
 	if v != nil {
 		if typ := subst.typ(v.typ); typ != v.typ {
-			copy := *v
-			copy.typ = typ
-			return &copy
+			return substVar(v, typ)
 		}
 	}
 	return v
+}
+
+func substVar(v *Var, newType Type) *Var {
+	copy := *v
+	copy.typ = newType
+	return &copy
 }
 
 func (subst *subster) tuple(t *Tuple) *Tuple {
@@ -411,7 +415,7 @@ func replaceRecvType(in []*Func, old, new Type) (out []*Func, copied bool) {
 			}
 			newsig := *sig
 			sig = &newsig
-			sig.recv = NewVar(sig.recv.pos, sig.recv.pkg, "", new)
+			sig.recv = substVar(sig.recv, new)
 			out[i] = NewFunc(method.pos, method.pkg, method.name, sig)
 		}
 	}

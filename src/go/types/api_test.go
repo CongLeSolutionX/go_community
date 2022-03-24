@@ -731,6 +731,8 @@ func TestUsesInfo(t *testing.T) {
 			`m`,
 			`func (generic_m10.E[int]).m()`,
 		},
+		{`package generic_m11; type T[A any] interface{ m(); n() }; func _(t1 T[int], t2 T[string]) { t1.m(); t2.n() }`, `m`, `func (generic_m11.T[int]).m()`},
+		{`package generic_m12; type T[A any] interface{ m(); n() }; func _(t1 T[int], t2 T[string]) { t1.m(); t2.n() }`, `n`, `func (generic_m12.T[string]).n()`},
 	}
 
 	for _, test := range tests {
@@ -2302,6 +2304,101 @@ func TestInstanceIdentity(t *testing.T) {
 	b := imports["generic_b"].Scope().Lookup("B")
 	if !Identical(a.Type(), b.Type()) {
 		t.Errorf("mismatching types: a.A: %s, b.B: %s", a.Type(), b.Type())
+	}
+}
+
+func TestObjectOrigin(t *testing.T) {
+	const src = `
+package p
+
+type T[P any] struct {
+	field P
+}
+
+func (recv *T[Q]) concreteMethod() {}
+
+type FT[P any] func(ftp P) (ftrp P)
+
+func F[P any](fp P) (frp P){ return }
+
+type I[P any] interface {
+	interfaceMethod(P)
+}
+
+var (
+	t T[int]
+	ft FT[int]
+	f = F[int]
+	i I[int]
+)
+`
+	info := &Info{
+		Defs: make(map[*ast.Ident]Object),
+	}
+	fset := token.NewFileSet()
+	f, err := parser.ParseFile(fset, "p.go", src, 0)
+	if err != nil {
+		t.Fatal(err)
+	}
+	conf := Config{Importer: importer.Default()}
+	pkg, err := conf.Check(f.Name.Name, fset, []*ast.File{f}, info)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	tests := []struct {
+		ident string
+		obj   interface {
+			Object
+			Origin() Object
+		}
+	}{
+		{"field", pkg.Scope().Lookup("t").Type().Underlying().(*Struct).Field(0)},
+		{"concreteMethod", pkg.Scope().Lookup("t").Type().(*Named).Method(0)},
+		{"recv", pkg.Scope().Lookup("t").Type().(*Named).Method(0).Type().(*Signature).Recv()},
+		{"ftp", pkg.Scope().Lookup("ft").Type().Underlying().(*Signature).Params().At(0)},
+		{"ftrp", pkg.Scope().Lookup("ft").Type().Underlying().(*Signature).Results().At(0)},
+		{"fp", pkg.Scope().Lookup("f").Type().(*Signature).Params().At(0)},
+		{"frp", pkg.Scope().Lookup("f").Type().(*Signature).Results().At(0)},
+		{"interfaceMethod", pkg.Scope().Lookup("i").Type().Underlying().(*Interface).Method(0)},
+	}
+
+	// Collect identifiers for testing.
+	idents := make(map[string][]*ast.Ident)
+	ast.Inspect(f, func(n ast.Node) bool {
+		if id, ok := n.(*ast.Ident); ok {
+			idents[id.Name] = append(idents[id.Name], id)
+		}
+		return true
+	})
+
+	for _, test := range tests {
+		test := test
+		t.Run(test.ident, func(t *testing.T) {
+			if got := len(idents[test.ident]); got != 1 {
+				t.Fatalf("found %d identifiers named %s, want 1", got, test.ident)
+			}
+			ident := idents[test.ident][0]
+			def := info.Defs[ident]
+			if def == test.obj {
+				t.Fatalf("info.Defs[%s] contains the test object", test.ident)
+			}
+			if def.Pkg() != test.obj.Pkg() {
+				t.Errorf("Pkg() = %v, want %v", def.Pkg(), test.obj.Pkg())
+			}
+			if def.Name() != test.obj.Name() {
+				t.Errorf("Name() = %v, want %v", def.Name(), test.obj.Name())
+			}
+			if def.Pos() != test.obj.Pos() {
+				t.Errorf("Pos() = %v, want %v", def.Pos(), test.obj.Pos())
+			}
+			if def.Parent() != test.obj.Parent() {
+				t.Fatalf("Parent() = %v, want %v", def.Parent(), test.obj.Parent())
+			}
+			if orig := test.obj.Origin(); def != orig {
+				t.Fatalf("info.Defs[%s] does not match obj.Origin()", test.ident)
+			}
+		})
 	}
 }
 

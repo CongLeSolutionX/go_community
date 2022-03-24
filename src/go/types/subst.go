@@ -290,12 +290,17 @@ func (subst *subster) typOrNil(typ Type) Type {
 func (subst *subster) var_(v *Var) *Var {
 	if v != nil {
 		if typ := subst.typ(v.typ); typ != v.typ {
-			copy := *v
-			copy.typ = typ
-			return &copy
+			return substVar(v, typ)
 		}
 	}
 	return v
+}
+
+func substVar(v *Var, newType Type) *Var {
+	copy := *v
+	copy.typ = newType
+	copy.origin = v
+	return &copy
 }
 
 func (subst *subster) tuple(t *Tuple) *Tuple {
@@ -330,6 +335,7 @@ func (subst *subster) func_(f *Func) *Func {
 		if typ := subst.typ(f.typ); typ != f.typ {
 			copy := *f
 			copy.typ = typ
+			copy.origin = f
 			return &copy
 		}
 	}
@@ -409,10 +415,11 @@ func replaceRecvType(in []*Func, old, new Type) (out []*Func, copied bool) {
 				copy(out, in)
 				copied = true
 			}
+
 			newsig := *sig
-			sig = &newsig
-			sig.recv = NewVar(sig.recv.pos, sig.recv.pkg, "", new)
-			out[i] = NewFunc(method.pos, method.pkg, method.name, sig)
+			newsig.recv = substVar(sig.recv, new)
+			out[i] = NewFunc(method.pos, method.pkg, method.name, &newsig)
+			out[i].origin = method.origin
 		}
 	}
 	return
