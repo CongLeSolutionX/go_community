@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aec132d0_00ccca43",
+        "filename": "src/compress/zlib/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-03-25T00:12:11Z",
+      "side": 1,
+      "message": "nit: keep the CM\u003d\u003dzlibDeflate check first?\n\nI know it doesn\u0027t actually matter right now, but since CINFO is only conditionally defined based on CM, it seems appropriate to validate CM first.",
+      "range": {
+        "startLine": 149,
+        "startChar": 41,
+        "endLine": 149,
+        "endChar": 75
+      },
+      "revId": "cdc7025cea365461ae678efa6c810fc71647424d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
