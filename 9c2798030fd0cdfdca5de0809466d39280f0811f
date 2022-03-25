@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d8dda8c_6422d484",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-03-25T20:52:56Z",
+      "side": 1,
+      "message": "Curious if this one is supposed to work or not, so I\u0027m asking the trybots,",
+      "revId": "9c2798030fd0cdfdca5de0809466d39280f0811f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f364071_a8a69f8e",
+        "filename": "src/cmd/compile/internal/noder/reader.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-03-25T20:52:56Z",
+      "side": 1,
+      "message": "So many of our errors take the old form, this is much better.",
+      "range": {
+        "startLine": 300,
+        "startChar": 2,
+        "endLine": 300,
+        "endChar": 97
+      },
+      "revId": "9c2798030fd0cdfdca5de0809466d39280f0811f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
