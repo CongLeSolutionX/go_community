@@ -46,6 +46,30 @@
       },
       "revId": "9696136c28b72c88e21a51fde62d5caa7322876f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9e319c9_3754b69e",
+        "filename": "src/cmd/link/internal/loadpe/ldpe.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-03-25T21:28:22Z",
+      "side": 1,
+      "message": "Okay, thanks.",
+      "parentUuid": "4d215d69_4f67fd2e",
+      "range": {
+        "startLine": 466,
+        "startChar": 0,
+        "endLine": 474,
+        "endChar": 3
+      },
+      "revId": "9696136c28b72c88e21a51fde62d5caa7322876f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
