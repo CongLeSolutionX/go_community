@@ -2,6 +2,8 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+//go:build !amd64 && !arm64
+
 package nistec
 
 import (
@@ -84,10 +86,6 @@ func (p *P256Point) SetBytes(b []byte) (*P256Point, error) {
 		p.y.Set(y)
 		p.z.One()
 		return p, nil
-
-	// Compressed form
-	case len(b) == 1+p256ElementLength && b[0] == 0:
-		return nil, errors.New("unimplemented") // TODO(filippo)
 
 	default:
 		return nil, errors.New("invalid P256 point encoding")
@@ -249,7 +247,7 @@ func (q *P256Point) Select(p1, p2 *P256Point, cond int) *P256Point {
 }
 
 // ScalarMult sets p = scalar * q, and returns p.
-func (p *P256Point) ScalarMult(q *P256Point, scalar []byte) *P256Point {
+func (p *P256Point) ScalarMult(q *P256Point, scalar []byte) (*P256Point, error) {
 	// table holds the first 16 multiples of q. The explicit newP256Point calls
 	// get inlined, letting the allocations live on the stack.
 	var table = [16]*P256Point{
@@ -294,11 +292,11 @@ func (p *P256Point) ScalarMult(q *P256Point, scalar []byte) *P256Point {
 		p.Add(p, t)
 	}
 
-	return p
+	return p, nil
 }
 
 // ScalarBaseMult sets p = scalar * B, where B is the canonical generator, and
 // returns p.
-func (p *P256Point) ScalarBaseMult(scalar []byte) *P256Point {
+func (p *P256Point) ScalarBaseMult(scalar []byte) (*P256Point, error) {
 	return p.ScalarMult(NewP256Generator(), scalar)
 }

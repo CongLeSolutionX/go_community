@@ -84,10 +84,6 @@ func (p *P224Point) SetBytes(b []byte) (*P224Point, error) {
 		p.z.One()
 		return p, nil
 
-	// Compressed form
-	case len(b) == 1+p224ElementLength && b[0] == 0:
-		return nil, errors.New("unimplemented") // TODO(filippo)
-
 	default:
 		return nil, errors.New("invalid P224 point encoding")
 	}
@@ -248,7 +244,7 @@ func (q *P224Point) Select(p1, p2 *P224Point, cond int) *P224Point {
 }
 
 // ScalarMult sets p = scalar * q, and returns p.
-func (p *P224Point) ScalarMult(q *P224Point, scalar []byte) *P224Point {
+func (p *P224Point) ScalarMult(q *P224Point, scalar []byte) (*P224Point, error) {
 	// table holds the first 16 multiples of q. The explicit newP224Point calls
 	// get inlined, letting the allocations live on the stack.
 	var table = [16]*P224Point{
@@ -293,11 +289,11 @@ func (p *P224Point) ScalarMult(q *P224Point, scalar []byte) *P224Point {
 		p.Add(p, t)
 	}
 
-	return p
+	return p, nil
 }
 
 // ScalarBaseMult sets p = scalar * B, where B is the canonical generator, and
 // returns p.
-func (p *P224Point) ScalarBaseMult(scalar []byte) *P224Point {
+func (p *P224Point) ScalarBaseMult(scalar []byte) (*P224Point, error) {
 	return p.ScalarMult(NewP224Generator(), scalar)
 }
