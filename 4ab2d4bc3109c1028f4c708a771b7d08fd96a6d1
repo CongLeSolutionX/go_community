@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa84639e_e6e98a9f",
+        "filename": "misc/cgo/testsanitizers/testdata/asan_global1_fail.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-03-25T22:43:31Z",
+      "side": 1,
+      "message": "This would also fail on a[2] \u003d ... , right?",
+      "range": {
+        "startLine": 12,
+        "startChar": 1,
+        "endLine": 12,
+        "endChar": 5
+      },
+      "revId": "4ab2d4bc3109c1028f4c708a771b7d08fd96a6d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

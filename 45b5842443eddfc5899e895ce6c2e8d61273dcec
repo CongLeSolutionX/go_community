@@ -167,6 +167,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d9a4dd9_d98a6eca",
+        "filename": "misc/cgo/testsanitizers/testdata/asan_global4_fail.go",
+        "patchSetId": 28
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-03-25T22:43:31Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c14d9714_c4f07f8c",
+      "range": {
+        "startLine": 20,
+        "startChar": 57,
+        "endLine": 20,
+        "endChar": 59
+      },
+      "revId": "45b5842443eddfc5899e895ce6c2e8d61273dcec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8a169ade_e8c34672",
@@ -204,6 +228,30 @@
       "side": 1,
       "message": "Good catch! Done. Thank you.",
       "parentUuid": "8a169ade_e8c34672",
+      "range": {
+        "startLine": 21,
+        "startChar": 14,
+        "endLine": 21,
+        "endChar": 15
+      },
+      "revId": "45b5842443eddfc5899e895ce6c2e8d61273dcec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6522bb5_bbaaddb5",
+        "filename": "misc/cgo/testsanitizers/testdata/asan_global4_fail.go",
+        "patchSetId": 28
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-03-25T22:43:31Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7520baf2_708a909b",
       "range": {
         "startLine": 21,
         "startChar": 14,
