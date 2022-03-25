@@ -157,6 +157,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9140b892_360a1e12",
+        "filename": "src/debug/pe/symbol.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2022-03-25T06:58:28Z",
+      "side": 1,
+      "message": "It has been awhile since I wrote this code. Thanks for explaining.\n\nIt is fine to leave *COFFSymbolAuxFormat5 as return type.\n\nUp to you.",
+      "parentUuid": "5910e888_1b3dc01c",
+      "range": {
+        "startLine": 140,
+        "startChar": 53,
+        "endLine": 140,
+        "endChar": 74
+      },
+      "revId": "c752a755821bb5a49c23cfb269e86171872a94f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ccfa6ec5_8ad18d75",
@@ -204,6 +228,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "41405b10_993ce7e9",
+        "filename": "src/debug/pe/symbol.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2022-03-25T06:58:28Z",
+      "side": 1,
+      "message": "I think you are correct, that we are not using uintptr here. So it does not matter.",
+      "parentUuid": "366b840a_68d4d247",
+      "range": {
+        "startLine": 155,
+        "startChar": 0,
+        "endLine": 156,
+        "endChar": 33
+      },
+      "revId": "c752a755821bb5a49c23cfb269e86171872a94f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f11f9052_02d5c53e",
@@ -235,6 +283,24 @@
       "side": 1,
       "message": "I\u0027ll add some comments.",
       "parentUuid": "f11f9052_02d5c53e",
+      "revId": "c752a755821bb5a49c23cfb269e86171872a94f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ea3f11f_8d74571b",
+        "filename": "src/debug/pe/symbols_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2022-03-25T06:58:28Z",
+      "side": 1,
+      "message": "Thank you.",
+      "parentUuid": "6ffad540_5466221d",
       "revId": "c752a755821bb5a49c23cfb269e86171872a94f3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
