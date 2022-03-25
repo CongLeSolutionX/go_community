@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "063fb610_4e43f208",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-03-25T19:59:16Z",
+      "side": 1,
+      "message": "Looks like XER is already saved/restored.\nShould we remove F31 from asyncPreempt? My understanding is that asyncPreempt only needs to save/restore registers that may be live in compiler-generated Go code. (Not totally sure - Cherry would know for sure.)",
+      "revId": "b28cc105ad95ae1ae617bcb98f0f9cd563d69684",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
