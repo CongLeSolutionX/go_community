@@ -89,8 +89,8 @@ func (p *P384Point) SetBytes(b []byte) (*P384Point, error) {
 		p.z.One()
 		return p, nil
 
-	// Compressed form
-	case len(b) == 1+p384ElementLength && b[0] == 0:
+	// Compressed form.
+	case len(b) == 1+p384ElementLength && (b[0] == 2 || b[0] == 3):
 		return nil, errors.New("unimplemented") // TODO(filippo)
 
 	default:
@@ -253,7 +253,7 @@ func (q *P384Point) Select(p1, p2 *P384Point, cond int) *P384Point {
 }
 
 // ScalarMult sets p = scalar * q, and returns p.
-func (p *P384Point) ScalarMult(q *P384Point, scalar []byte) *P384Point {
+func (p *P384Point) ScalarMult(q *P384Point, scalar []byte) (*P384Point, error) {
 	// table holds the first 16 multiples of q. The explicit newP384Point calls
 	// get inlined, letting the allocations live on the stack.
 	var table = [16]*P384Point{
@@ -298,11 +298,11 @@ func (p *P384Point) ScalarMult(q *P384Point, scalar []byte) *P384Point {
 		p.Add(p, t)
 	}
 
-	return p
+	return p, nil
 }
 
 // ScalarBaseMult sets p = scalar * B, where B is the canonical generator, and
 // returns p.
-func (p *P384Point) ScalarBaseMult(scalar []byte) *P384Point {
+func (p *P384Point) ScalarBaseMult(scalar []byte) (*P384Point, error) {
 	return p.ScalarMult(NewP384Generator(), scalar)
 }
