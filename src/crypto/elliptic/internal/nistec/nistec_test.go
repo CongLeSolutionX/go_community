@@ -80,8 +80,8 @@ type nistPoint[T any] interface {
 	SetBytes([]byte) (T, error)
 	Add(T, T) T
 	Double(T) T
-	ScalarMult(T, []byte) T
-	ScalarBaseMult([]byte) T
+	ScalarMult(T, []byte) (T, error)
+	ScalarBaseMult([]byte) (T, error)
 }
 
 func TestEquivalents(t *testing.T) {
@@ -102,10 +102,22 @@ func TestEquivalents(t *testing.T) {
 func testEquivalents[P nistPoint[P]](t *testing.T, newPoint, newGenerator func() P) {
 	p := newGenerator()
 
+	// This assumes the base and scalar fields have the same byte size, which
+	// they do for these curves.
+	elementSize := len(p.Bytes()) / 2
+	two := make([]byte, elementSize)
+	two[len(two)-1] = 2
+
 	p1 := newPoint().Double(p)
 	p2 := newPoint().Add(p, p)
-	p3 := newPoint().ScalarMult(p, []byte{2})
-	p4 := newPoint().ScalarBaseMult([]byte{2})
+	p3, err := newPoint().ScalarMult(p, two)
+	if err != nil {
+		t.Fatal(err)
+	}
+	p4, err := newPoint().ScalarBaseMult(two)
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	if !bytes.Equal(p1.Bytes(), p2.Bytes()) {
 		t.Error("P+P != 2*P")
