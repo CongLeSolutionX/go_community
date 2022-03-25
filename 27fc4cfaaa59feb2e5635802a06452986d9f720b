@@ -93,6 +93,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6cf1410c_e8c42e8d",
+        "filename": "src/cmd/compile/internal/gc/obj.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2022-03-25T08:54:31Z",
+      "side": 1,
+      "message": "1. The `nam.Sym().Name` does have `\"\"` in front of it. The `S.Name` here is `nam.Linksym().Name`, it has `\"\".` in front of it. So change to `name.Sym().Name` here. \n2. Why use `Pkg.Name` instead of `Pkg.Prefix`, please refer to the comments on line 99 of init.go. Thank you.",
+      "parentUuid": "60ada7ef_7078b30b",
+      "revId": "27fc4cfaaa59feb2e5635802a06452986d9f720b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "87473d95_fc96747f",
         "filename": "src/cmd/compile/internal/pkginit/init.go",
         "patchSetId": 22
@@ -320,6 +338,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b90fb4c_160303fb",
+        "filename": "src/cmd/compile/internal/pkginit/initAsanGlobals.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2022-03-25T08:54:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85473f5c_f09eac14",
+      "revId": "27fc4cfaaa59feb2e5635802a06452986d9f720b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bef0327c_8b5ca3d9",
@@ -369,6 +405,24 @@
       "side": 1,
       "message": "Yes, that\u0027s fine. buildcfg is only used by tools, not end-user programs.",
       "parentUuid": "afd2809a_2ac972dc",
+      "revId": "27fc4cfaaa59feb2e5635802a06452986d9f720b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0641fc0c_55b51ee7",
+        "filename": "src/cmd/compile/internal/pkginit/initAsanGlobals.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2022-03-25T08:54:31Z",
+      "side": 1,
+      "message": "Got it. Done. Thank you.",
+      "parentUuid": "9c3b0c84_a9da4f64",
       "revId": "27fc4cfaaa59feb2e5635802a06452986d9f720b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
