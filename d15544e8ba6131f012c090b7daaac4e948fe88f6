@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "486ad954_7b39f685",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-03-26T23:17:53Z",
+      "side": 1,
+      "message": "Just write \"per issue 42026\" or \"per https://go.dev/issue/42026\".",
+      "revId": "d15544e8ba6131f012c090b7daaac4e948fe88f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8cb2d68_477c83ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-03-26T23:17:53Z",
+      "side": 1,
+      "message": "Write this as\n\nFor #42026\n\n(See https://go.dev/wiki/CommitMessage)",
+      "revId": "d15544e8ba6131f012c090b7daaac4e948fe88f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7645645b_0bd86b9e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-03-26T23:17:53Z",
+      "side": 1,
+      "message": "Write this as\n\nFixes #51927",
+      "revId": "d15544e8ba6131f012c090b7daaac4e948fe88f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
