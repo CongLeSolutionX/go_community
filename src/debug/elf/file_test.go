@@ -910,12 +910,12 @@ func TestNoSectionOverlaps(t *testing.T) {
 	}
 	for i, si := range f.Sections {
 		sih := si.SectionHeader
-		if sih.Type == SHT_NOBITS {
+		if sih.Type == SHT_NOBITS || sih.Flags&SHF_ALLOC == 0 {
 			continue
 		}
 		for j, sj := range f.Sections {
 			sjh := sj.SectionHeader
-			if i == j || sjh.Type == SHT_NOBITS || sih.Offset == sjh.Offset && sih.Size == 0 {
+			if i == j || sjh.Type == SHT_NOBITS || sih.Offset == sjh.Offset && sih.Size == 0 || sjh.Flags&SHF_ALLOC == 0 {
 				continue
 			}
 			if sih.Offset >= sjh.Offset && sih.Offset < sjh.Offset+sjh.Size {
