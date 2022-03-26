@@ -92,6 +92,7 @@ func runUse(ctx context.Context, cmd *base.Command, args []string) {
 				return
 			}
 			base.Errorf("go: %v", err)
+			return
 		}
 
 		if !fi.Mode().IsRegular() {
@@ -115,6 +116,10 @@ func runUse(ctx context.Context, cmd *base.Command, args []string) {
 
 		// Add or remove entries for any subdirectories that still exist.
 		err := fsys.Walk(useDir, func(path string, info fs.FileInfo, err error) error {
+			if err != nil {
+				return err // useDir doesn't exist, perm error, etc.
+			}
+
 			if !info.IsDir() {
 				if info.Mode()&fs.ModeSymlink != 0 {
 					if target, err := fsys.Stat(path); err == nil && target.IsDir() {
