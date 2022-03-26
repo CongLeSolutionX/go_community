@@ -92,6 +92,7 @@ func runUse(ctx context.Context, cmd *base.Command, args []string) {
 				return
 			}
 			base.Errorf("go: %v", err)
+			return
 		}
 
 		if !fi.Mode().IsRegular() {
