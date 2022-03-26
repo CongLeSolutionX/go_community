@@ -70,6 +70,24 @@
       "message": "I don\u0027t see how this comment applies to the instruction.",
       "revId": "e379d99e6042bdca24b0fad5501312d6e7759884",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2d84ac4_cb050f5d",
+        "filename": "src/internal/bytealg/index_ppc64x.s",
+        "patchSetId": 12
+      },
+      "lineNbr": 750,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2022-03-26T16:33:29Z",
+      "side": 1,
+      "message": "Hi Lynn have modified the comment hope it reads better now",
+      "parentUuid": "c6516859_509e491c",
+      "revId": "e379d99e6042bdca24b0fad5501312d6e7759884",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
