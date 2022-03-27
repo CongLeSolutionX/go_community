@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "daa2df7b_c0286711",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2022-03-27T18:32:17Z",
+      "side": 1,
+      "message": "We don’t use Markdown in Gerrit messages, please just use the package names or even better:\n\nAll the code in ioutil just forwards functionality to code\nin either the io or is packages, per issue 42026.",
+      "revId": "79f3112ab587dd6a2a7b8abe14a217d7356abed5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3bf31b01_5d1511bd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2022-03-27T18:32:17Z",
+      "side": 1,
+      "message": "This change adds the “Deprecated” marker to all the functions in\nthis package.",
+      "revId": "79f3112ab587dd6a2a7b8abe14a217d7356abed5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5855d96_5e4c3ed2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2022-03-27T18:32:17Z",
+      "side": 1,
+      "message": "Thank you for this change Jeff, it is great to see your contributions for Go1.18!\n\nI’ve added some suggestions to improve things, please take a look.",
+      "revId": "79f3112ab587dd6a2a7b8abe14a217d7356abed5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
