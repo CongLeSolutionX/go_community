@@ -53,6 +53,29 @@
       "message": "LGTM",
       "revId": "5f6816b3a3bb3a95e8842ff6547f9874bb35683e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6db1e08d_0c5a1452",
+        "filename": "src/cmd/link/elf_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-03-28T14:59:32Z",
+      "side": 1,
+      "message": "Remove \":\" after section and addr (just use space), and print address in hex.",
+      "range": {
+        "startLine": 497,
+        "startChar": 13,
+        "endLine": 497,
+        "endChar": 57
+      },
+      "revId": "5f6816b3a3bb3a95e8842ff6547f9874bb35683e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
