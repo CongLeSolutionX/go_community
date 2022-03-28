@@ -896,12 +896,6 @@ type lfnode struct {
 	pushcnt uintptr
 }
 
-type forcegcstate struct {
-	lock mutex
-	g    *g
-	idle uint32
-}
-
 // extendRandom extends the random numbers in r[:n] to the whole slice r.
 // Treats n<0 as n==0.
 func extendRandom(r []byte, n int) {
@@ -1028,7 +1022,7 @@ const (
 	waitReasonChanReceive                             // "chan receive"
 	waitReasonChanSend                                // "chan send"
 	waitReasonFinalizerWait                           // "finalizer wait"
-	waitReasonForceGCIdle                             // "force gc (idle)"
+	waitReasonAsyncWorkerWait                         // "runtime async worker wait"
 	waitReasonSemacquire                              // "semacquire"
 	waitReasonSleep                                   // "sleep"
 	waitReasonSyncCondWait                            // "sync.Cond.Wait"
@@ -1058,7 +1052,7 @@ var waitReasonStrings = [...]string{
 	waitReasonChanReceive:           "chan receive",
 	waitReasonChanSend:              "chan send",
 	waitReasonFinalizerWait:         "finalizer wait",
-	waitReasonForceGCIdle:           "force gc (idle)",
+	waitReasonAsyncWorkerWait:       "runtime async worker wait",
 	waitReasonSemacquire:            "semacquire",
 	waitReasonSleep:                 "sleep",
 	waitReasonSyncCondWait:          "sync.Cond.Wait",
@@ -1081,7 +1075,6 @@ var (
 	allm       *m
 	gomaxprocs int32
 	ncpu       int32
-	forcegc    forcegcstate
 	sched      schedt
 	newprocs   int32
 
