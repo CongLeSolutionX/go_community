@@ -588,7 +588,7 @@ func chooseNextCarryChain(carrychainTails []*Value, uses []int32) int {
 // Return whether op is an operation which produces a carry bit value, but does not consume it.
 func (op Op) isCarryCreator() bool {
 	switch op {
-	case OpPPC64SUBC, OpPPC64ADDC, OpPPC64SUBCconst, OpPPC64ADDCconst:
+	case OpPPC64SUBC, OpPPC64ADDC, OpPPC64SUBCconst, OpPPC64ADDCconst, OpAMD64SUBQborrow, OpAMD64SUBQconstborrow, OpAMD64ADDQcarry, OpAMD64ADDQconstcarry, OpAMD64NEGLflags:
 		return true
 	}
 	return false
@@ -597,7 +597,7 @@ func (op Op) isCarryCreator() bool {
 // Return whether op consumes or creates a carry a bit value.
 func (op Op) isCarry() bool {
 	switch op {
-	case OpPPC64SUBE, OpPPC64ADDE, OpPPC64SUBZEzero, OpPPC64ADDZEzero:
+	case OpPPC64SUBE, OpPPC64ADDE, OpPPC64SUBZEzero, OpPPC64ADDZEzero, OpAMD64SBBQ, OpAMD64SBBQconst, OpAMD64ADCQ, OpAMD64ADCQconst, OpAMD64SBBQcarryout:
 		return true
 	}
 	return op.isCarryCreator()
@@ -606,7 +606,7 @@ func (op Op) isCarry() bool {
 // Return the producing *Value of the carry bit of this op, or nil if none.
 func (v *Value) getCarryProducer() *Value {
 	if v.Op.isCarry() && !v.Op.isCarryCreator() {
-		// PPC64 carry dependencies are conveyed through their final argument.
+		// PPC64/AMD64 carry dependencies are conveyed through their final argument.
 		// Likewise, there is always an OpSelect1 between them.
 		return v.Args[len(v.Args)-1].Args[0]
 	}
