@@ -28,13 +28,13 @@
 (Div(32|64)F ...) => (DIVS(S|D) ...)
 
 (Select0 (Add64carry x y c)) =>
-	(Select0 <typ.UInt64> (ADCQ x y (Select1 <types.TypeFlags> (NEGLflags c))))
+	                                                   (Select0 <typ.UInt64> (ADCQ x y (Select1 <types.TypeFlags> (NEGLflags c))))
 (Select1 (Add64carry x y c)) =>
-	(NEGQ <typ.UInt64> (SBBQcarrymask <typ.UInt64> (Select1 <types.TypeFlags> (ADCQ x y (Select1 <types.TypeFlags> (NEGLflags c))))))
+	(NEGQ <typ.UInt64> (SBBQcarryout <typ.UInt64> (Select1 <types.TypeFlags> (ADCQ x y (Select1 <types.TypeFlags> (NEGLflags c))))))
 (Select0 (Sub64borrow x y c)) =>
-	(Select0 <typ.UInt64> (SBBQ x y (Select1 <types.TypeFlags> (NEGLflags c))))
+	                                                   (Select0 <typ.UInt64> (SBBQ x y (Select1 <types.TypeFlags> (NEGLflags c))))
 (Select1 (Sub64borrow x y c)) =>
-	(NEGQ <typ.UInt64> (SBBQcarrymask <typ.UInt64> (Select1 <types.TypeFlags> (SBBQ x y (Select1 <types.TypeFlags> (NEGLflags c))))))
+	(NEGQ <typ.UInt64> (SBBQcarryout <typ.UInt64> (Select1 <types.TypeFlags> (SBBQ x y (Select1 <types.TypeFlags> (NEGLflags c))))))
 
 // Optimize ADCQ and friends
 (ADCQ x (MOVQconst [c]) carry) && is32Bit(c) => (ADCQconst x [int32(c)] carry)
@@ -46,7 +46,16 @@
 (SBBQconst x [c] (FlagEQ)) => (SUBQconstborrow x [c])
 (SUBQborrow x (MOVQconst [c])) && is32Bit(c) => (SUBQconstborrow x [int32(c)])
 (Select1 (NEGLflags (MOVQconst [0]))) => (FlagEQ)
-(Select1 (NEGLflags (NEGQ (SBBQcarrymask x)))) => x
+
+// Don't fold every carry -> gpr -> carry operation. This may create overlapping carry dependencies in carry
+// chains which cannot be scheduled efficiently.
+// (Select1 (NEGLflags (NEGQ (SBBQcarryout x)))) => x
+
+// Fold chains carry -> gpr -> carry from chained ops.
+(SBBQ x y (Select1 (NEGLflags (NEGQ (SBBQcarryout z))))) => (SBBQ x y z)
+(SBBQconst x [c] (Select1 (NEGLflags (NEGQ (SBBQcarryout y))))) => (SBBQconst x [c] y)
+(ADCQ x y (Select1 (NEGLflags (NEGQ (SBBQcarryout z))))) => (ADCQ x y z)
+(ADCQconst x [c] (Select1 (NEGLflags (NEGQ (SBBQcarryout y))))) => (ADCQconst x [c] y)
 
 
 (Mul64uhilo ...) => (MULQU2 ...)

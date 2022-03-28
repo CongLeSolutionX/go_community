@@ -663,7 +663,7 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		p.From.Offset = v.AuxInt
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = v.Reg()
-	case ssa.OpAMD64SBBQcarrymask, ssa.OpAMD64SBBLcarrymask:
+	case ssa.OpAMD64SBBQcarrymask, ssa.OpAMD64SBBLcarrymask, ssa.OpAMD64SBBQcarryout:
 		r := v.Reg()
 		p := s.Prog(v.Op.Asm())
 		p.From.Type = obj.TYPE_REG
