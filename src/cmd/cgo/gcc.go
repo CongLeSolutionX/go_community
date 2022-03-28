@@ -189,11 +189,11 @@ func (p *Package) Translate(f *File) {
 				continue
 			}
 			n := &Name{
-				Go: info.typedef,
-				C:  info.typedef,
+				Pos: info.pos,
+				Go:  info.typedef,
+				C:   info.typedef,
 			}
 			f.Name[info.typedef] = n
-			f.NamePos[n] = info.pos
 		}
 		needType := p.guessKinds(f)
 		if len(needType) > 0 {
@@ -471,7 +471,7 @@ func (p *Package) guessKinds(f *File) []*Name {
 				// Don't report an error, and skip adding n to the needType array.
 				continue
 			}
-			error_(f.NamePos[n], "could not determine kind of name for C.%s", fixGo(n.Go))
+			error_(n.Pos, "could not determine kind of name for C.%s", fixGo(n.Go))
 		case notStrLiteral | notType:
 			n.Kind = "iconst"
 		case notIntConst | notStrLiteral | notType:
@@ -602,7 +602,7 @@ func (p *Package) loadDWARF(f *File, conv *typeConv, names []*Name) {
 				fatalf("malformed __cgo__ name: %s", name)
 			}
 			types[i] = t.Type
-			p.recordTypedefs(t.Type, f.NamePos[names[i]])
+			p.recordTypedefs(t.Type, names[i].Pos)
 		}
 		if e.Tag != dwarf.TagCompileUnit {
 			r.SkipChildren()
@@ -619,7 +619,7 @@ func (p *Package) loadDWARF(f *File, conv *typeConv, names []*Name) {
 		if types[i] == nil {
 			continue
 		}
-		pos := f.NamePos[n]
+		pos := n.Pos
 		f, fok := types[i].(*dwarf.FuncType)
 		if n.Kind != "type" && fok {
 			n.Kind = "func"

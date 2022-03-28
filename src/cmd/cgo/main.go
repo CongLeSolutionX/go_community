@@ -68,7 +68,6 @@ type File struct {
 	Calls    []*Call             // all calls to C.xxx in AST
 	ExpFunc  []*ExpFunc          // exported functions for this file
 	Name     map[string]*Name    // map from Go name to Name
-	NamePos  map[*Name]token.Pos // map from Name to position of the first reference
 	Edit     *edit.Buffer
 }
 
@@ -108,12 +107,13 @@ var nameKinds = []string{"iconst", "fconst", "sconst", "type", "var", "fpvar", "
 
 // A Name collects information about C.xxx.
 type Name struct {
-	Go       string // name used in Go referring to package C
-	Mangle   string // name used in generated Go
-	C        string // name used in C
-	Define   string // #define expansion
-	Kind     string // one of the nameKinds
-	Type     *Type  // the type of xxx
+	Pos      token.Pos // position of first reference
+	Go       string    // name used in Go referring to package C
+	Mangle   string    // name used in generated Go
+	C        string    // name used in C
+	Define   string    // #define expansion
+	Kind     string    // one of the nameKinds
+	Type     *Type     // the type of xxx
 	FuncType *FuncType
 	AddError bool
 	Const    string // constant definition
