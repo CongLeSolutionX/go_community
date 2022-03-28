@@ -87,6 +87,23 @@
       "message": "As Zhuo Meng told me, \u0027TRY\u003dlinux-riscv64\u0027 is needed to trigger rv64 build\u0026check, however this patch is only about assembler changes, the encoding tests can still be checked on other platforms like x86.\n\nThanks. @Zhuo Meng!",
       "revId": "234e9f30017eb65016b1dceaf484156bd0e70d0b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ac2d97a_fa19498b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16935
+      },
+      "writtenOn": "2022-03-28T09:39:23Z",
+      "side": 1,
+      "message": "ping ...",
+      "revId": "234e9f30017eb65016b1dceaf484156bd0e70d0b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
