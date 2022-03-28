@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f989def_bb4e4214",
+        "filename": "src/cmd/link/elf_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2022-03-28T01:24:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6528838a_c9172ee0",
+      "revId": "6168199f401c603128deb029b092d959f7566686",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "04a3156a_46d0e15c",
@@ -72,6 +90,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b66bd8dd_4a60fa78",
+        "filename": "src/cmd/link/elf_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2022-03-28T01:24:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04a3156a_46d0e15c",
+      "revId": "6168199f401c603128deb029b092d959f7566686",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a6a9c996_38a33d1f",
@@ -85,6 +121,24 @@
       "writtenOn": "2022-03-26T23:15:25Z",
       "side": 1,
       "message": "I\u0027m not sure about the comment.  It\u0027s true that debug sections should not alloc, but that is set by the sh.Flags value (which doesn\u0027t have SHF_ALLOC).  I don\u0027t think we need a comment here at all.",
+      "revId": "6168199f401c603128deb029b092d959f7566686",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41d638f0_bf12a0e5",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1109,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2022-03-28T01:24:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6a9c996_38a33d1f",
       "revId": "6168199f401c603128deb029b092d959f7566686",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
