@@ -284,28 +284,151 @@ func os_beforeExit() {
 	}
 }
 
-// start forcegc helper goroutine
-func init() {
-	go forcegchelper()
+// asyncWork represents a queue of specific tasks that the runtime cannot
+// execute synchronously at the point that their relevant because of restrictions
+// around their execution environment. The typical use-case is being able to
+// queue scheduler- or GC-related actions from within the memory allocator.
+// This work queue is checked by findRunnable and work is claimed by calling
+// acquireg to claim the worker
+var asyncWork asyncWorkQueue
+
+type asyncWorkQueue struct {
+	g    atomic.UnsafePointer // *g
+	work atomic.Uint32        // asyncWorkBits
+
+	// State for the "queue."
+	//
+	// lock protects this state and must be held across updates to work to ensure
+	// that the state and work are updated atomically, from the perspective of the
+	// worker.
+	lock    mutex
+	trigger gcTrigger // The trigger condition if asyncGCStart is set in work.
 }
 
-func forcegchelper() {
-	forcegc.g = getg()
-	lockInit(&forcegc.lock, lockRankForcegc)
-	for {
-		lock(&forcegc.lock)
-		if forcegc.idle != 0 {
-			throw("forcegc: phase error")
-		}
-		atomic.Store(&forcegc.idle, 1)
-		goparkunlock(&forcegc.lock, waitReasonForceGCIdle, traceEvGoBlock, 1)
-		// this goroutine is explicitly resumed by sysmon
-		if debug.gctrace > 0 {
-			println("GC forced")
-		}
-		// Time-triggered, fully concurrent.
-		gcStart(gcTrigger{kind: gcTriggerTime, now: nanotime()})
+// asyncWorkBits represents the different kinds of asynchronous work
+// that asyncWorkQueue handles via a bitmap. Each bit represents a unique
+// work item.
+type asyncWorkBits uint32
+
+const (
+	// asyncWakeScavenger represents a work item to wake the background scavenger
+	// goroutine.
+	asyncWakeScavenger asyncWorkBits = 1 << iota
+
+	// asyncGCStart represents a work item to call gcStart.
+	asyncGCStart
+)
+
+// empty returns true if the work queue has nothing enqueued.
+func (q *asyncWorkQueue) empty() bool {
+	return q.work.Load() == 0
+}
+
+// acquireWorker attempts to acquire the asynchronous worker G.
+//
+// This may fail and return nil.
+func (q *asyncWorkQueue) acquireWorker() *g {
+	gp := q.g.Load()
+	if gp == nil {
+		return nil
 	}
+	// N.B. Write barrier not needed for *g because it's
+	// kept live by allg.
+	if !q.g.CompareAndSwapNoWB(gp, nil) {
+		return nil
+	}
+	return (*g)(gp)
+}
+
+// worker is the asynchronous worker goroutine. It must always be executed
+// on a new goroutine via `go q.worker(c)`. c is a channel to synchronize
+// with the caller, as this goroutine is created during runtime initialization.
+//
+// worker assumes that for a given work queue q, only one worker exists. Therefore,
+// this routine must not be called more than once.
+func (q *asyncWorkQueue) worker(c chan int) {
+	lockInit(&q.lock, lockRankAsyncWork)
+
+	// The condition that allows gp to be readied is that q.g is populated.
+	// If we're running, we assume that q.g is not populated. As a result,
+	// populate q.g before we park, but after we've moved into Gwaiting.
+	unlockf := func(gp *g, qp unsafe.Pointer) bool {
+		q := (*asyncWorkQueue)(qp)
+		q.g.StoreNoWB(unsafe.Pointer(gp))
+		return true
+	}
+	c <- 1
+	gopark(unlockf, unsafe.Pointer(q), waitReasonAsyncWorkerWait, traceEvGoBlock, 1)
+
+	for {
+		// Check the queue for work items and grab state.
+		lock(&q.lock)
+		work := asyncWorkBits(q.work.Load())
+
+		var trigger gcTrigger
+		if work&asyncGCStart != 0 {
+			trigger = q.trigger
+			q.trigger = gcTrigger{}
+		}
+		// Clear the queue before we go and do the work, in case
+		// something new is potentially queued while we're doing it.
+		q.work.Store(0)
+		unlock(&q.lock)
+
+		if work&asyncWakeScavenger != 0 {
+			// Kick the scavenger awake if someone requested it.
+			scavenger.wake()
+		}
+		if work&asyncGCStart != 0 {
+			// Try to start a GC cyle if someone requested it.
+			if debug.gctrace > 0 && trigger.kind == gcTriggerTime {
+				println("GC forced")
+			}
+			if trigger.kind == gcTriggerBad {
+				throw("async work set without trigger")
+			}
+			gcStart(trigger)
+		}
+		gopark(unlockf, unsafe.Pointer(q), waitReasonAsyncWorkerWait, traceEvGoBlock, 1)
+	}
+}
+
+// wakeScavenger adds a task to the async work queue to wake the scavenger.
+func (q *asyncWorkQueue) wakeScavenger() {
+	q.tryEnqueue(asyncWakeScavenger, nil)
+}
+
+// gcStart enqueues an asynchronous trigger for the mark phase of a GC
+// cycle sometime in the near future by calling gcStart. trigger is the
+// trigger for the cycle, and should be tested before calling this function
+// to reduce churn.
+func (q *asyncWorkQueue) gcStart(trigger gcTrigger) {
+	q.tryEnqueue(asyncGCStart, func(q *asyncWorkQueue) {
+		q.trigger = trigger
+	})
+}
+
+// tryEnqueue attempts to enqueue work item bit, and calls fn with q.lock
+// held before setting work. It will not enqueue the work item if it has
+// already been enqueued.
+func (q *asyncWorkQueue) tryEnqueue(bit asyncWorkBits, fn func(*asyncWorkQueue)) {
+	if asyncWorkBits(q.work.Load())&bit != 0 {
+		// No need, it's queued up.
+		return
+	}
+	lock(&q.lock)
+	work := asyncWorkBits(q.work.Load())
+	// Check again, now locked.
+	if work&bit != 0 {
+		// No need, it's queued up.
+		unlock(&q.lock)
+		return
+	}
+	if fn != nil {
+		fn(q)
+	}
+	q.work.Store(uint32(work | bit))
+	unlock(&q.lock)
 }
 
 //go:nosplit
@@ -2544,6 +2667,16 @@ top:
 	}
 	if _p_.runSafePointFn != 0 {
 		runSafePointFn()
+	}
+
+	// Handle any asynchronous work queued by the runtime first.
+	if !asyncWork.empty() {
+		gp = asyncWork.acquireWorker()
+		if gp != nil {
+			casgstatus(gp, _Gwaiting, _Grunnable)
+			traceGoUnpark(gp, 0)
+			return gp, false, true
+		}
 	}
 
 	// now and pollUntil are saved for work stealing later,
@@ -5165,10 +5298,6 @@ func sysmon() {
 				startm(nil, false)
 			}
 		}
-		if scavenger.sysmonWake.Load() != 0 {
-			// Kick the scavenger awake if someone requested it.
-			scavenger.wake()
-		}
 		// retake P's blocked in syscalls
 		// and preempt long running G's
 		if retake(now) != 0 {
@@ -5176,14 +5305,13 @@ func sysmon() {
 		} else {
 			idle++
 		}
-		// check if we need to force a GC
-		if t := (gcTrigger{kind: gcTriggerTime, now: now}); t.test() && atomic.Load(&forcegc.idle) != 0 {
-			lock(&forcegc.lock)
-			forcegc.idle = 0
-			var list gList
-			list.push(forcegc.g)
-			injectglist(&list)
-			unlock(&forcegc.lock)
+		// Check if we need to force a GC.
+		if t := (gcTrigger{kind: gcTriggerTime, now: now}); t.test() {
+			asyncWork.gcStart(t)
+
+			// If we're completely idle except for sysmon, and it's time to trigger
+			// a GC, we should really wake something to run the asyncWork.
+			wakep()
 		}
 		if debug.schedtrace > 0 && lasttrace+int64(debug.schedtrace)*1000000 <= now {
 			lasttrace = now
