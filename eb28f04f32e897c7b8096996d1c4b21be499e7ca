@@ -70,6 +70,24 @@
       "message": "Sorry, I\u0027m still a bit confused as to what this is trying to fix.\n\ncanInstrumentGlobal(n) can\u0027t return true if n is not from the local package. So I don\u0027t really understand why it matters that the names match.\n\nFor normal, non-linkname\u0027d globals, the package they are declared in will emit their global declaration and add an entry for them in a asanregisterglobals call.\n\nFor linkname\u0027d globals, who does what? Which package is responsible? For example, we have:\n\n in reflect:\n\n//go:linkname zeroVal runtime.zeroVal\nvar zeroVal [maxZero]byte\n\nin runtime:\n\nvar zeroVal [maxZero]byte\n\nPresumably runtime must be the one responsible, because when we\u0027re compiling runtime we don\u0027t know that someone has a linkname pointing to it. The code in this CL makes me think that the reflect package is also trying to register this variable. But do we need it registered twice? Why don\u0027t we just skip globals that are linknamed, because their home package will do the work?\n\nBut there are other linkname scenarios, so-called push and pull ones, not sure if other ways of using it might introduce different complications. Can you point to a linkname\u0027d global that demonstrates why this code is needed?",
       "revId": "eb28f04f32e897c7b8096996d1c4b21be499e7ca",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "567d532e_179ec7f6",
+        "filename": "src/cmd/compile/internal/pkginit/init.go",
+        "patchSetId": 29
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2022-03-28T08:57:36Z",
+      "side": 1,
+      "message": "Why I added this code because I used -asan option to test some go-related projects, but it will report negative false.\n\nTake the above case as an example, the reason is that we instrument `zeroVal` variable whem compiling `runtime` package and set its symbol name `\"\".zerVal` as the `ShouldInstrumentGlobals` map\u0027s key. But when we write the linkname\u0027d variable `zeroVal` into object file when compiling `reflect` package, because its symbol name is `runtime.zeroVal`, we get the false when look into the `ShouldInstrumentGlobals` map, so we write the incorrect size that does not have the trailing red area into object file. Incorrect sizes cause some global variables to be allocated to poisoned memory segments.\n\nSo use the `pkg.name` instead of `n.Sym().Name` as the `ShouldInstrumentGlobals\u0027s` key to avoid the above issues.\n\n`But do we need it registered twice?`\n\nYes, you are right. We can skip instrument for globals that are linknamed. And set the `pkg.name` as the key. In the process of writing object file, for linkname\u0027d symbols, we can use their link name as the key to check if they are intrumented in their home package. \n\n`But there are other linkname scenarios, so-called push and pull ones, not sure if other ways of using it might introduce different complications.`\n\nI haven\u0027t seen any other link name scenarios so far.\n\nThank you.",
+      "parentUuid": "5d2b7f0c_a8439fdb",
+      "revId": "eb28f04f32e897c7b8096996d1c4b21be499e7ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
