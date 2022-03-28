@@ -403,7 +403,7 @@ func sweepone() uintptr {
 			mheap_.pages.scavengeStartGen()
 			unlock(&mheap_.lock)
 		})
-		scavenger.ready()
+		asyncWork.wakeScavenger()
 	}
 
 	gp.m.locks--

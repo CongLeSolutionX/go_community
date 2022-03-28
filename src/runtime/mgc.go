@@ -174,9 +174,11 @@ func gcinit() {
 // scavenger goroutine, and enables GC.
 func gcenable() {
 	// Kick off sweeping and scavenging.
-	c := make(chan int, 2)
+	c := make(chan int, 3)
 	go bgsweep(c)
 	go bgscavenge(c)
+	go asyncWork.worker(c)
+	<-c
 	<-c
 	<-c
 	memstats.enablegc = true // now that runtime is initialized, GC is okay
@@ -521,13 +523,18 @@ type gcTrigger struct {
 	n    uint32 // gcTriggerCycle: cycle number to start
 }
 
+// gcTriggerKind is an enumeration of the reasons a GC might trigger.
 type gcTriggerKind int
 
 const (
+	// gcTriggerBad indicates that this gcTrigger is not valid.
+	// It exists such that the zero value of the gcTrigger is invalid.
+	gcTriggerBad gcTriggerKind = iota
+
 	// gcTriggerHeap indicates that a cycle should be started when
 	// the heap size reaches the trigger heap size computed by the
 	// controller.
-	gcTriggerHeap gcTriggerKind = iota
+	gcTriggerHeap
 
 	// gcTriggerTime indicates that a cycle should be started when
 	// it's been more than forcegcperiod nanoseconds since the
@@ -565,7 +572,7 @@ func (t gcTrigger) test() bool {
 		// t.n > work.cycles, but accounting for wraparound.
 		return int32(t.n-work.cycles) > 0
 	}
-	return true
+	return false
 }
 
 // gcStart starts the GC. It transitions from _GCoff to _GCmark (if
@@ -715,6 +722,17 @@ func gcStart(trigger gcTrigger) {
 	// put back-pressure on fast allocating
 	// mutators.
 	atomic.Store(&gcBlackenEnabled, 1)
+
+	// We're just about to start a GC cycle, so clear any asynchronous work
+	// in asyncWork related to this. We do this defensively, because
+	// a stale GC trigger that never ran in time (for whatever reason) could
+	// potentially hang around until the next GC cycle and erroneously
+	// trigger the GC too early. We don't need to worry about a stale trigger
+	// being enqueued during the GC cycle, because all triggers must be tested
+	// before being enqueued, and while the GC is active, trigger tests always
+	// fail.
+	asyncWork.work.Store(asyncWork.work.Load() &^ uint32(asyncGCStart))
+	asyncWork.trigger = gcTrigger{}
 
 	// In STW mode, we could block the instant systemstack
 	// returns, so make sure we're not preemptible.
