@@ -191,9 +191,6 @@ type scavengerState struct {
 	// timer is the timer used for the scavenger to sleep.
 	timer *timer
 
-	// sysmonWake signals to sysmon that it should wake the scavenger.
-	sysmonWake atomic.Uint32
-
 	// targetCPUFraction is the target CPU overhead for the scavenger.
 	targetCPUFraction float64
 
@@ -292,20 +289,12 @@ func (s *scavengerState) park() {
 	goparkunlock(&s.lock, waitReasonGCScavengeWait, traceEvGoBlock, 2)
 }
 
-// ready signals to sysmon that the scavenger should be awoken.
-func (s *scavengerState) ready() {
-	s.sysmonWake.Store(1)
-}
-
 // wake immediately unparks the scavenger if necessary.
 //
 // Safe to run without a P.
 func (s *scavengerState) wake() {
 	lock(&s.lock)
 	if s.parked {
-		// Unset sysmonWake, since the scavenger is now being awoken.
-		s.sysmonWake.Store(0)
-
 		// s.parked is unset to prevent a double wake-up.
 		s.parked = false
 
