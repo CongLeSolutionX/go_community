@@ -110,6 +110,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "82c18fd0_02b352be",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-03-28T10:53:16Z",
+      "side": 1,
+      "message": "COFFSymbolReadSectionDefAux is kind of clunky-- happy to change it if you have something better. Likewise if you can suggest improvements to the comments I am happy to incorporate.",
+      "parentUuid": "1b07ad8c_7ac8bb10",
+      "revId": "3b1731ca3e1d38bc838f82d2557c00cd0ba7021e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "16458280_580f7a69",
@@ -123,6 +141,30 @@
       "writtenOn": "2022-03-25T21:25:15Z",
       "side": 1,
       "message": "Maybe just make it blank field?",
+      "range": {
+        "startLine": 116,
+        "startChar": 1,
+        "endLine": 116,
+        "endChar": 8
+      },
+      "revId": "3b1731ca3e1d38bc838f82d2557c00cd0ba7021e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1dc98192_3269d40f",
+        "filename": "src/debug/pe/symbol.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-03-28T10:53:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16458280_580f7a69",
       "range": {
         "startLine": 116,
         "startChar": 1,
