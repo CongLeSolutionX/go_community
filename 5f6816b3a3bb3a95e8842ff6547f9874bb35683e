@@ -57,6 +57,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c9292294_290c750f",
+        "filename": "src/cmd/link/elf_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-03-28T15:01:35Z",
+      "side": 1,
+      "message": "Same here, don\u0027t call TempDir again. In fact, there is no need to set cmd.Dir, as you already pass full file paths.",
+      "range": {
+        "startLine": 484,
+        "startChar": 1,
+        "endLine": 484,
+        "endChar": 22
+      },
+      "revId": "5f6816b3a3bb3a95e8842ff6547f9874bb35683e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6db1e08d_0c5a1452",
         "filename": "src/cmd/link/elf_test.go",
         "patchSetId": 2
