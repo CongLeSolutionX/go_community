@@ -617,6 +617,7 @@ const (
 	OpAMD64DIVLU
 	OpAMD64DIVWU
 	OpAMD64NEGLflags
+	OpAMD64SBBQcarryout
 	OpAMD64ADDQcarry
 	OpAMD64ADCQ
 	OpAMD64ADDQconstcarry
@@ -7461,6 +7462,16 @@ var opcodeTable = [...]opInfo{
 			},
 			outputs: []outputInfo{
 				{1, 0},
+				{0, 49135}, // AX CX DX BX BP SI DI R8 R9 R10 R11 R12 R13 R15
+			},
+		},
+	},
+	{
+		name:   "SBBQcarryout",
+		argLen: 1,
+		asm:    x86.ASBBQ,
+		reg: regInfo{
+			outputs: []outputInfo{
 				{0, 49135}, // AX CX DX BX BP SI DI R8 R9 R10 R11 R12 R13 R15
 			},
 		},
