@@ -164,7 +164,15 @@ func schedule(f *Func) {
 				// this value is already live. This also removes its
 				// false dependency on the other part of the tuple.
 				// Also ensures tuple is never spilled.
-				score[v.ID] = ScoreReadTuple
+				if (v.Op == OpSelect1 || v.Op == OpSelect0) && v.Args[0].Op.isCarryChainOp() {
+					// Score higher to ensure this doesn't create a priority inversion
+					// when scheduling the next op in a carry chain on targets use the
+					// flag variable. Many unrelated ops may clobber and cause an
+					// expensive flag regeneration.
+					score[v.ID] = ScoreFlags
+				} else {
+					score[v.ID] = ScoreReadTuple
+				}
 			case v.Op.isCarryChainOp():
 				if !v.Op.isCarryChainCreator() {
 					carrychainUses[v.getCarryProducer().ID]++
@@ -598,7 +606,7 @@ func chooseNextCarryChain(carrychainTails []*Value, uses []int32) int {
 // Return whether this is an operation which starts a carry chain.
 func (op Op) isCarryChainCreator() bool {
 	switch op {
-	case OpPPC64SUBC, OpPPC64ADDC, OpPPC64SUBCconst, OpPPC64ADDCconst:
+	case OpPPC64SUBC, OpPPC64ADDC, OpPPC64SUBCconst, OpPPC64ADDCconst, OpAMD64SUBQborrow, OpAMD64SUBQconstborrow, OpAMD64ADDQcarry, OpAMD64ADDQconstcarry, OpAMD64NEGLflags:
 		return true
 	}
 	return false
@@ -607,7 +615,7 @@ func (op Op) isCarryChainCreator() bool {
 // Return if op is a part of a chain of carrying arithmetic.
 func (op Op) isCarryChainOp() bool {
 	switch op {
-	case OpPPC64SUBE, OpPPC64ADDE, OpPPC64SUBZEzero, OpPPC64ADDZEzero:
+	case OpPPC64SUBE, OpPPC64ADDE, OpPPC64SUBZEzero, OpPPC64ADDZEzero, OpAMD64SBBQ, OpAMD64SBBQconst, OpAMD64ADCQ, OpAMD64ADCQconst, OpAMD64SBBQcarryout:
 		return true
 	}
 	return op.isCarryChainCreator()
@@ -615,7 +623,7 @@ func (op Op) isCarryChainOp() bool {
 
 // Return the producing *Value of the carry bit of this op.
 func (v *Value) getCarryProducer() *Value {
-	// PPC64 carry dependencies are conveyed through their final argument.
+	// PPC64/AMD64 carry dependencies are conveyed through their final argument.
 	// Likewise, there is always an OpSelect1 between them.
 	return v.Args[len(v.Args)-1].Args[0]
 }
