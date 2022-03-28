@@ -269,6 +269,7 @@ func init() {
 		{name: "DIVWU", argLength: 2, reg: gp11div, typ: "(UInt16,UInt16)", asm: "DIVW", clobberFlags: true}, // [arg0 / arg1, arg0 % arg1]
 
 		{name: "NEGLflags", argLength: 1, reg: gp11flags, typ: "(UInt32,Flags)", asm: "NEGL", resultInArg0: true}, // -arg0, flags set for 0-arg0.
+		{name: "SBBQcarryout", argLength: 1, reg: flagsgp, asm: "SBBQ"},                                           // (int64)(-1) if carry is set, 0 if carry is clear.
 		// The following 4 add opcodes return the low 64 bits of the sum in the first result and
 		// the carry (the 65th bit) in the carry flag.
 		{name: "ADDQcarry", argLength: 2, reg: gp21flags, typ: "(UInt64,Flags)", asm: "ADDQ", commutative: true, resultInArg0: true}, // r = arg0+arg1
