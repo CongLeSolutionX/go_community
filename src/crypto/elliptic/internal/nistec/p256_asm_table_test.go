@@ -8,25 +8,18 @@ package nistec
 
 import (
 	"encoding/binary"
-	"reflect"
 	"testing"
 )
 
 func TestP256PrecomputedTable(t *testing.T) {
+	basePoint := NewP256Generator()
+	t1 := NewP256Point()
+	t2 := NewP256Generator()
 
-	basePoint := []uint64{
-		0x79e730d418a9143c, 0x75ba95fc5fedb601, 0x79fb732b77622510, 0x18905f76a53755c6,
-		0xddf25357ce95560a, 0x8b4ab8e4ba19e45c, 0xd2e88688dd21f325, 0x8571ff1825885d85,
-		0x0000000000000001, 0xffffffff00000000, 0xffffffffffffffff, 0x00000000fffffffe,
-	}
-	t1 := make([]uint64, 12)
-	t2 := make([]uint64, 12)
-	copy(t2, basePoint)
-
-	zInv := make([]uint64, 4)
-	zInvSq := make([]uint64, 4)
+	zInv := new(p256Element)
+	zInvSq := new(p256Element)
 	for j := 0; j < 32; j++ {
-		copy(t1, t2)
+		t1.Set(t2)
 		for i := 0; i < 43; i++ {
 			// The window size is 6 so we need to double 6 times.
 			if i != 0 {
@@ -36,21 +29,24 @@ func TestP256PrecomputedTable(t *testing.T) {
 			}
 			// Convert the point to affine form. (Its values are
 			// still in Montgomery form however.)
-			p256Inverse(zInv, t1[8:12])
+			p256Inverse(zInv, &t1.z)
 			p256Sqr(zInvSq, zInv, 1)
 			p256Mul(zInv, zInv, zInvSq)
 
-			p256Mul(t1[:4], t1[:4], zInvSq)
-			p256Mul(t1[4:8], t1[4:8], zInv)
+			p256Mul(&t1.x, &t1.x, zInvSq)
+			p256Mul(&t1.y, &t1.y, zInv)
 
-			copy(t1[8:12], basePoint[8:12])
+			t1.z = basePoint.z
 
-			buf := make([]byte, 8*8)
-			for i, u := range t1[:8] {
-				binary.LittleEndian.PutUint64(buf[i*8:i*8+8], u)
+			buf := make([]byte, 0, 8*8)
+			for _, u := range t1.x {
+				buf = binary.LittleEndian.AppendUint64(buf, u)
+			}
+			for _, u := range t1.y {
+				buf = binary.LittleEndian.AppendUint64(buf, u)
 			}
 			start := i*32*8*8 + j*8*8
-			if got, want := p256Precomputed[start:start+64], string(buf); !reflect.DeepEqual(got, want) {
+			if got, want := p256Precomputed[start:start+64], string(buf); got != want {
 				t.Fatalf("Unexpected table entry at [%d][%d:%d]: got %v, want %v", i, j*8, (j*8)+8, got, want)
 			}
 		}
