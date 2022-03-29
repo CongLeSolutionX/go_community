@@ -6,6 +6,7 @@ package ssa
 
 import (
 	"cmd/compile/internal/abi"
+	"cmd/compile/internal/abt"
 	"cmd/compile/internal/ir"
 	"cmd/compile/internal/types"
 	"cmd/internal/dwarf"
@@ -43,19 +44,27 @@ type FuncDebug struct {
 }
 
 type BlockDebug struct {
+	// State at the start and end of the block.
+	// These are initialized, and updated from new information that flows on back edges.
+	startState, endState abt.T
+	poNum                int
+	// Use these to avoid excess work in the merge.
+	// If none of the predecessors has changed since the last check, the old answer is still good.
+	lastCheckedTime, lastChangedTime int32
 	// Whether the block had any changes to user variables at all.
 	relevant bool
-	// State at the end of the block if it's fully processed. Immutable once initialized.
-	endState []liveSlot
+	// false until the block has been processed at least once.
+	// This affects how the merge is done; the goal is to maximize sharing and avoid allocation.
+	everProcessed bool
 }
 
 // A liveSlot is a slot that's live in loc at entry/exit of a block.
 type liveSlot struct {
-	// An inlined VarLoc, so it packs into 16 bytes instead of 20.
-	Registers RegisterSet
-	StackOffset
+	VarLoc
+}
 
-	slot SlotID
+func (ls *liveSlot) String() string {
+	return fmt.Sprintf("0x%x.%d.%d", ls.Registers, ls.stackOffsetValue(), int32(ls.StackOffset)&1)
 }
 
 func (loc liveSlot) absent() bool {
@@ -83,7 +92,7 @@ type stateAtPC struct {
 }
 
 // reset fills state with the live variables from live.
-func (state *stateAtPC) reset(live []liveSlot) {
+func (state *stateAtPC) reset(live abt.T) {
 	slots, registers := state.slots, state.registers
 	for i := range slots {
 		slots[i] = VarLoc{}
@@ -91,13 +100,15 @@ func (state *stateAtPC) reset(live []liveSlot) {
 	for i := range registers {
 		registers[i] = registers[i][:0]
 	}
-	for _, live := range live {
-		slots[live.slot] = VarLoc{live.Registers, live.StackOffset}
-		if live.Registers == 0 {
+	for it := live.Iterator(); !it.IsEmpty(); {
+		k, d := it.Next()
+		live := d.(*liveSlot)
+		slots[k] = live.VarLoc
+		if live.VarLoc.Registers == 0 {
 			continue
 		}
 
-		mask := uint64(live.Registers)
+		mask := uint64(live.VarLoc.Registers)
 		for {
 			if mask == 0 {
 				break
@@ -105,7 +116,7 @@ func (state *stateAtPC) reset(live []liveSlot) {
 			reg := uint8(bits.TrailingZeros64(mask))
 			mask &^= 1 << reg
 
-			registers[reg] = append(registers[reg], live.slot)
+			registers[reg] = append(registers[reg], SlotID(k))
 		}
 	}
 	state.slots, state.registers = slots, registers
@@ -147,6 +158,14 @@ func (loc VarLoc) absent() bool {
 	return loc.Registers == 0 && !loc.onStack()
 }
 
+func (loc VarLoc) intersect(other VarLoc) VarLoc {
+	if !loc.onStack() || !other.onStack() || loc.StackOffset != other.StackOffset {
+		loc.StackOffset = 0
+	}
+	loc.Registers &= other.Registers
+	return loc
+}
+
 var BlockStart = &Value{
 	ID:  -10000,
 	Op:  OpInvalid,
@@ -186,29 +205,27 @@ type debugState struct {
 	// The user variable that each slot rolls up to, indexed by SlotID.
 	slotVars []VarID
 
-	f              *Func
-	loggingEnabled bool
-	registers      []Register
-	stackOffset    func(LocalSlot) int32
-	ctxt           *obj.Link
+	f            *Func
+	loggingLevel int
+	registers    []Register
+	stackOffset  func(LocalSlot) int32
+	ctxt         *obj.Link
 
 	// The names (slots) associated with each value, indexed by Value ID.
 	valueNames [][]SlotID
 
 	// The current state of whatever analysis is running.
 	currentState stateAtPC
-	liveCount    []int
 	changedVars  *sparseSet
+	changedSlots *sparseSet
 
 	// The pending location list entry for each user variable, indexed by VarID.
 	pendingEntries []pendingEntry
 
-	varParts           map[*ir.Name][]SlotID
-	blockDebug         []BlockDebug
-	pendingSlotLocs    []VarLoc
-	liveSlots          []liveSlot
-	liveSlotSliceBegin int
-	partsByVarOffset   sort.Interface
+	varParts         map[*ir.Name][]SlotID
+	blockDebug       []BlockDebug
+	pendingSlotLocs  []VarLoc
+	partsByVarOffset sort.Interface
 }
 
 func (state *debugState) initializeCache(f *Func, numVars, numSlots int) {
@@ -247,15 +264,9 @@ func (state *debugState) initializeCache(f *Func, numVars, numSlots int) {
 		state.currentState.registers = state.currentState.registers[:len(state.registers)]
 	}
 
-	// Used many times by mergePredecessors.
-	if cap(state.liveCount) < numSlots {
-		state.liveCount = make([]int, numSlots)
-	} else {
-		state.liveCount = state.liveCount[:numSlots]
-	}
-
 	// A relatively small slice, but used many times as the return from processValue.
 	state.changedVars = newSparseSet(numVars)
+	state.changedSlots = newSparseSet(numSlots)
 
 	// A pending entry per user variable, with space to track each of its pieces.
 	numPieces := 0
@@ -291,23 +302,10 @@ func (state *debugState) initializeCache(f *Func, numVars, numSlots int) {
 			state.lists[i] = nil
 		}
 	}
-
-	state.liveSlots = state.liveSlots[:0]
-	state.liveSlotSliceBegin = 0
 }
 
 func (state *debugState) allocBlock(b *Block) *BlockDebug {
 	return &state.blockDebug[b.ID]
-}
-
-func (state *debugState) appendLiveSlot(ls liveSlot) {
-	state.liveSlots = append(state.liveSlots, ls)
-}
-
-func (state *debugState) getLiveSlotSlice() []liveSlot {
-	s := state.liveSlots[state.liveSlotSliceBegin:]
-	state.liveSlotSliceBegin = len(state.liveSlots)
-	return s
 }
 
 func (s *debugState) blockEndStateString(b *BlockDebug) string {
@@ -553,12 +551,12 @@ func PopulateABIInRegArgOps(f *Func) {
 // BuildFuncDebug debug information for f, placing the results in "rval".
 // f must be fully processed, so that each Value is where it will be when
 // machine code is emitted.
-func BuildFuncDebug(ctxt *obj.Link, f *Func, loggingEnabled bool, stackOffset func(LocalSlot) int32, rval *FuncDebug) {
+func BuildFuncDebug(ctxt *obj.Link, f *Func, loggingLevel int, stackOffset func(LocalSlot) int32, rval *FuncDebug) {
 	if f.RegAlloc == nil {
 		f.Fatalf("BuildFuncDebug on func %v that has not been fully processed", f)
 	}
 	state := &f.Cache.debugState
-	state.loggingEnabled = loggingEnabled
+	state.loggingLevel = loggingLevel
 	state.f = f
 	state.registers = f.Config.registers
 	state.stackOffset = stackOffset
@@ -568,7 +566,7 @@ func BuildFuncDebug(ctxt *obj.Link, f *Func, loggingEnabled bool, stackOffset fu
 		PopulateABIInRegArgOps(f)
 	}
 
-	if state.loggingEnabled {
+	if state.loggingLevel > 0 {
 		state.logf("Generating location lists for function %q\n", f.Name)
 	}
 
@@ -668,8 +666,8 @@ func BuildFuncDebug(ctxt *obj.Link, f *Func, loggingEnabled bool, stackOffset fu
 		slotID++
 	}
 
-	blockLocs := state.liveness()
-	state.buildLocationLists(blockLocs)
+	blockLocs, hasABackEdge := state.liveness()
+	state.buildLocationLists(blockLocs, hasABackEdge)
 
 	// Populate "rval" with what we've computed.
 	rval.Slots = state.slots
@@ -680,96 +678,146 @@ func BuildFuncDebug(ctxt *obj.Link, f *Func, loggingEnabled bool, stackOffset fu
 
 // liveness walks the function in control flow order, calculating the start
 // and end state of each block.
-func (state *debugState) liveness() []*BlockDebug {
+func (state *debugState) liveness() ([]*BlockDebug, bool) {
 	blockLocs := make([]*BlockDebug, state.f.NumBlocks())
+	hasABackEdge := false
+	counterTime := int32(1)
 
 	// Reverse postorder: visit a block after as many as possible of its
 	// predecessors have been visited.
 	po := state.f.Postorder()
-	for i := len(po) - 1; i >= 0; i-- {
-		b := po[i]
+	for k := 0; k < 1; k++ {
+		for i := len(po) - 1; i >= 0; i-- {
+			b := po[i]
+			locs := state.allocBlock(b)
+			blockLocs[b.ID] = locs
+			locs.poNum = i
 
-		// Build the starting state for the block from the final
-		// state of its predecessors.
-		startState, startValid := state.mergePredecessors(b, blockLocs, nil)
-		changed := false
-		if state.loggingEnabled {
-			state.logf("Processing %v, initial state:\n%v", b, state.stateString(state.currentState))
-		}
+			// Build the starting state for the block from the final
+			// state of its predecessors.
+			startState, hasBE, blockChanged := state.mergePredecessors(b, blockLocs, nil, false, false)
+			locs.lastCheckedTime = counterTime
+			counterTime++
+			hasABackEdge = hasABackEdge || hasBE
+			if state.loggingLevel > 1 {
+				state.logf("Processing %v, block changed %v, initial state:\n%v", b, blockChanged, state.stateString(state.currentState))
+			}
 
-		// Update locs/registers with the effects of each Value.
-		for _, v := range b.Values {
-			slots := state.valueNames[v.ID]
+			if blockChanged {
+				// If the start did not change, then the old endState is good
+				changed := false
+				state.changedSlots.clear()
 
-			// Loads and stores inherit the names of their sources.
-			var source *Value
-			switch v.Op {
-			case OpStoreReg:
-				source = v.Args[0]
-			case OpLoadReg:
-				switch a := v.Args[0]; a.Op {
-				case OpArg, OpPhi:
-					source = a
-				case OpStoreReg:
-					source = a.Args[0]
-				default:
-					if state.loggingEnabled {
-						state.logf("at %v: load with unexpected source op: %v (%v)\n", v, a.Op, a)
+				// Update locs/registers with the effects of each Value.
+				for _, v := range b.Values {
+					slots := state.valueNames[v.ID]
+
+					// Loads and stores inherit the names of their sources.
+					var source *Value
+					switch v.Op {
+					case OpStoreReg:
+						source = v.Args[0]
+					case OpLoadReg:
+						switch a := v.Args[0]; a.Op {
+						case OpArg, OpPhi:
+							source = a
+						case OpStoreReg:
+							source = a.Args[0]
+						default:
+							if state.loggingLevel > 1 {
+								state.logf("at %v: load with unexpected source op: %v (%v)\n", v, a.Op, a)
+							}
+						}
 					}
+					// Update valueNames with the source so that later steps
+					// don't need special handling.
+					if source != nil {
+						slots = append(slots, state.valueNames[source.ID]...)
+						state.valueNames[v.ID] = slots
+					}
+
+					reg, _ := state.f.getHome(v.ID).(*Register)
+					c := state.processValue(v, slots, reg)
+					changed = changed || c
 				}
-			}
-			// Update valueNames with the source so that later steps
-			// don't need special handling.
-			if source != nil {
-				slots = append(slots, state.valueNames[source.ID]...)
-				state.valueNames[v.ID] = slots
-			}
 
-			reg, _ := state.f.getHome(v.ID).(*Register)
-			c := state.processValue(v, slots, reg)
-			changed = changed || c
-		}
-
-		if state.loggingEnabled {
-			state.f.Logf("Block %v done, locs:\n%v", b, state.stateString(state.currentState))
-		}
-
-		locs := state.allocBlock(b)
-		locs.relevant = changed
-		if !changed && startValid {
-			locs.endState = startState
-		} else {
-			for slotID, slotLoc := range state.currentState.slots {
-				if slotLoc.absent() {
-					continue
+				if state.loggingLevel > 1 {
+					state.logf("Block %v done, locs:\n%v", b, state.stateString(state.currentState))
 				}
-				state.appendLiveSlot(liveSlot{slot: SlotID(slotID), Registers: slotLoc.Registers, StackOffset: slotLoc.StackOffset})
+
+				locs.relevant = changed
+				if !changed {
+					locs.endState = startState
+				} else {
+					// TODO wish we had only deltas here....
+					// for slotID, slotLoc := range state.currentState.slots {
+					for _, id := range state.changedSlots.contents() {
+						slotID := SlotID(id)
+						slotLoc := state.currentState.slots[slotID]
+						if slotLoc.absent() {
+							startState.Delete(int32(slotID))
+							continue
+						}
+						old := startState.Find(int32(slotID)) // do NOT replace existing values
+						if oldLS, ok := old.(*liveSlot); !ok || oldLS.VarLoc != slotLoc {
+							startState.Insert(int32(slotID),
+								&liveSlot{VarLoc: slotLoc})
+						}
+					}
+					locs.endState = startState
+				}
+				locs.lastChangedTime = counterTime
 			}
-			locs.endState = state.getLiveSlotSlice()
+			counterTime++
 		}
-		blockLocs[b.ID] = locs
 	}
-	return blockLocs
+	return blockLocs, hasABackEdge
 }
 
 // mergePredecessors takes the end state of each of b's predecessors and
 // intersects them to form the starting state for b. It puts that state in
-// blockLocs, and fills state.currentState with it. If convenient, it returns
-// a reused []liveSlot, true that represents the starting state.
+// blockLocs, and fills state.currentState with it.  It returns the start
+// state and the presence/absence of backedges to this block.
+//
 // If previousBlock is non-nil, it registers changes vs. that block's end
 // state in state.changedVars. Note that previousBlock will often not be a
 // predecessor.
-func (state *debugState) mergePredecessors(b *Block, blockLocs []*BlockDebug, previousBlock *Block) ([]liveSlot, bool) {
+//
+// predecessorsUnchanged indicates that none of the predecessors have changed,
+// and that complicated merges can be skipped; startState is already correct.
+// A particular case of this is a function with no loops; a single pass computes
+// everything.
+//
+// Note that mergePredecessors behaves slightly differently between first and
+// subsequent calls for a block.  For the first call, the starting state is
+// approximated by taking the smallest starting state of all the predecessors
+// and removing any elements not in all the other predecessors; this makes the
+// smallest number of changes and shares the most state.  On subsequent calls
+// the old value of startState is adjusted with new information; this is judged
+// to do the least amount of extra work.
+func (state *debugState) mergePredecessors(b *Block, blockLocs []*BlockDebug, previousBlock *Block, predecessorsUnchanged, forLocationLists bool) (abt.T, bool, bool) {
 	// Filter out back branches.
 	var predsBuf [10]*Block
+	var backedgeTarget bool
+
 	preds := predsBuf[:0]
+	locs := blockLocs[b.ID]
+
+	blockChanged := !locs.everProcessed // the first time it always changes.
+
+	// For the first merge, exclude predecessors that have not been seen yet.
+	// I.e., backedges.
 	for _, pred := range b.Preds {
-		if blockLocs[pred.b.ID] != nil {
+		if bl := blockLocs[pred.b.ID]; bl != nil && bl.everProcessed {
+			// crucially, a self-edge has bl != nil, but bl.everProcessed is false the first time.
 			preds = append(preds, pred.b)
+			backedgeTarget = bl.poNum <= locs.poNum
+		} else {
+			backedgeTarget = true
 		}
 	}
 
-	if state.loggingEnabled {
+	if state.loggingLevel > 1 {
 		// The logf below would cause preds to be heap-allocated if
 		// it were passed directly.
 		preds2 := make([]*Block, len(preds))
@@ -777,126 +825,178 @@ func (state *debugState) mergePredecessors(b *Block, blockLocs []*BlockDebug, pr
 		state.logf("Merging %v into %v\n", preds2, b)
 	}
 
+	state.changedVars.clear()
+
 	// TODO all the calls to this are overkill; only need to do this for slots that are not present in the merge.
-	markChangedVars := func(slots []liveSlot) {
-		for _, live := range slots {
-			state.changedVars.add(ID(state.slotVars[live.slot]))
+	markChangedVars := func(slots abt.T) {
+		if forLocationLists {
+			return
+		}
+		for it := slots.Iterator(); !it.IsEmpty(); {
+			k, _ := it.Next()
+			state.changedVars.add(ID(state.slotVars[k]))
 		}
 	}
 
+	// Zero predecessors
 	if len(preds) == 0 {
 		if previousBlock != nil {
 			// Mark everything in previous block as changed because it is not a predecessor.
 			markChangedVars(blockLocs[previousBlock.ID].endState)
 		}
-		state.currentState.reset(nil)
-		return nil, true
+		// startState is empty
+		locs.everProcessed = true
+		state.currentState.reset(abt.T{})
+		return abt.T{}, false, blockChanged
 	}
 
-	p0 := blockLocs[preds[0].ID].endState
+	// One predecessor
+	l0 := blockLocs[preds[0].ID]
+	p0 := l0.endState
 	if len(preds) == 1 {
 		if previousBlock != nil && preds[0].ID != previousBlock.ID {
 			// Mark everything in previous block as changed because it is not a predecessor.
+			// TODO implement abt.MapDifference, markChanged everything in the difference set.
+			// i.e., if it is defined in prev but not defined in p0 (or defined differently),
+			// then it is changed.
 			markChangedVars(blockLocs[previousBlock.ID].endState)
 		}
+		locs.startState = p0
+		locs.everProcessed = true
 		state.currentState.reset(p0)
-		return p0, true
+
+		return p0, backedgeTarget, l0.lastChangedTime > locs.lastCheckedTime
 	}
 
-	baseID := preds[0].ID
-	baseState := p0
+	// More predecessors
 
 	// If previous block is not a predecessor, its location information changes at boundary with this block.
 	previousBlockIsNotPredecessor := previousBlock != nil // If it's nil, no info to change.
 
 	if previousBlock != nil {
-		// Try to use previousBlock as the base state
-		// if possible.
 		for _, pred := range preds[1:] {
 			if pred.ID == previousBlock.ID {
-				baseID = pred.ID
-				baseState = blockLocs[pred.ID].endState
 				previousBlockIsNotPredecessor = false
 				break
 			}
 		}
 	}
 
-	if state.loggingEnabled {
-		state.logf("Starting %v with state from b%v:\n%v", b, baseID, state.blockEndStateString(blockLocs[baseID]))
-	}
-
-	slotLocs := state.currentState.slots
-	for _, predSlot := range baseState {
-		slotLocs[predSlot.slot] = VarLoc{predSlot.Registers, predSlot.StackOffset}
-		state.liveCount[predSlot.slot] = 1
-	}
-	for _, pred := range preds {
-		if pred.ID == baseID {
-			continue
-		}
-		if state.loggingEnabled {
-			state.logf("Merging in state from %v:\n%v", pred, state.blockEndStateString(blockLocs[pred.ID]))
-		}
-		for _, predSlot := range blockLocs[pred.ID].endState {
-			state.liveCount[predSlot.slot]++
-			liveLoc := slotLocs[predSlot.slot]
-			if !liveLoc.onStack() || !predSlot.onStack() || liveLoc.StackOffset != predSlot.StackOffset {
-				liveLoc.StackOffset = 0
-			}
-			liveLoc.Registers &= predSlot.Registers
-			slotLocs[predSlot.slot] = liveLoc
-		}
-	}
-
-	// Check if the final state is the same as the first predecessor's
-	// final state, and reuse it if so. In principle it could match any,
-	// but it's probably not worth checking more than the first.
-	unchanged := true
-	for _, predSlot := range baseState {
-		if state.liveCount[predSlot.slot] != len(preds) ||
-			slotLocs[predSlot.slot].Registers != predSlot.Registers ||
-			slotLocs[predSlot.slot].StackOffset != predSlot.StackOffset {
-			unchanged = false
-			break
-		}
-	}
-	if unchanged {
-		if state.loggingEnabled {
-			state.logf("After merge, %v matches b%v exactly.\n", b, baseID)
-		}
+	// Check for an early out
+	if predecessorsUnchanged && locs.everProcessed {
+		// we're done!
 		if previousBlockIsNotPredecessor {
 			// Mark everything in previous block as changed because it is not a predecessor.
 			markChangedVars(blockLocs[previousBlock.ID].endState)
+
 		}
-		state.currentState.reset(baseState)
-		return baseState, true
+		state.currentState.reset(locs.startState)
+		locs.everProcessed = true
+		return locs.startState, backedgeTarget, blockChanged
 	}
 
-	for reg := range state.currentState.registers {
-		state.currentState.registers[reg] = state.currentState.registers[reg][:0]
+	updating := locs.everProcessed
+
+	if updating {
+		for i := len(preds) - 1; i >= 0; i-- {
+			pred := preds[i]
+			if blockLocs[pred.ID].lastChangedTime > locs.lastCheckedTime {
+				continue
+			}
+			preds[i] = preds[len(preds)-1]
+			preds = preds[:len(preds)-1]
+			if state.loggingLevel > 2 {
+				state.logf("Pruned b%d, lastChanged was %d but b%d lastChecked is %d\n", pred.ID, blockLocs[pred.ID].lastChangedTime, b.ID, locs.lastCheckedTime)
+			}
+		}
+		// Check for an early out; this should always hit if there are no cycles.
+		if len(preds) == 0 {
+			state.currentState.reset(locs.startState)
+			if state.loggingLevel > 2 {
+				state.logf("Early out, no predecessors changed since last check")
+			}
+			return locs.startState, backedgeTarget, false
+		}
 	}
 
-	// A slot is live if it was seen in all predecessors, and they all had
-	// some storage in common.
-	for _, predSlot := range baseState {
-		slotLoc := slotLocs[predSlot.slot]
+	baseID := preds[0].ID
+	baseState := p0
 
-		if state.liveCount[predSlot.slot] != len(preds) {
-			// Seen in only some predecessors. Clear it out.
-			slotLocs[predSlot.slot] = VarLoc{}
+	// Choose the predecessor with the smallest endState for intersection work
+	for _, pred := range preds[1:] {
+		if blockLocs[pred.ID].endState.Size() < baseState.Size() {
+			baseState = blockLocs[pred.ID].endState
+			baseID = pred.ID
+		}
+	}
+
+	if state.loggingLevel > 2 {
+		state.logf("Starting %v with state from b%v:\n%v", b, baseID, state.blockEndStateString(blockLocs[baseID]))
+		for _, pred := range preds {
+			if pred.ID == baseID {
+				continue
+			}
+			state.logf("Merging in state from %v:\n%v", pred, state.blockEndStateString(blockLocs[pred.ID]))
+		}
+	}
+
+	state.currentState.reset(abt.T{})
+	slotLocs := state.currentState.slots
+
+	// If this is the first call, do updates on the "baseState";
+	// if this is a subsequent call, tweak the startState instead.
+	newState := baseState
+	if updating {
+		newState = blockLocs[b.ID].startState
+	}
+
+	for it := newState.Iterator(); !it.IsEmpty(); {
+		k, d := it.Next()
+		thisSlot := d.(*liveSlot)
+		x := thisSlot.VarLoc
+		x0 := x // initial value in newState
+
+		// Intersect this slot with the slot in all the predecessors
+		for _, other := range preds {
+			if !updating && other.ID == baseID {
+				continue
+			}
+			otherSlot := blockLocs[other.ID].endState.Find(k)
+			if otherSlot == nil {
+				x = VarLoc{}
+				break
+			}
+			y := otherSlot.(*liveSlot).VarLoc
+			x = x.intersect(y)
+			if x.absent() {
+				x = VarLoc{}
+				break
+			}
+		}
+
+		// Delete if necessary, but not otherwise.
+		if x.absent() {
+			if !x0.absent() {
+				blockChanged = true
+				newState.Delete(k)
+			}
+			slotLocs[k] = VarLoc{}
 			continue
 		}
+		if x != x0 {
+			blockChanged = true
+			newState.Insert(k, &liveSlot{VarLoc: x})
+		}
 
-		// Present in all predecessors.
-		mask := uint64(slotLoc.Registers)
+		slotLocs[k] = x
+		mask := uint64(x.Registers)
 		for {
 			if mask == 0 {
 				break
 			}
 			reg := uint8(bits.TrailingZeros64(mask))
 			mask &^= 1 << reg
-			state.currentState.registers[reg] = append(state.currentState.registers[reg], predSlot.slot)
+			state.currentState.registers[reg] = append(state.currentState.registers[reg], SlotID(k))
 		}
 	}
 
@@ -905,7 +1005,9 @@ func (state *debugState) mergePredecessors(b *Block, blockLocs []*BlockDebug, pr
 		markChangedVars(blockLocs[previousBlock.ID].endState)
 
 	}
-	return nil, false
+	locs.everProcessed = true
+	locs.startState = newState
+	return newState, backedgeTarget, blockChanged
 }
 
 // processValue updates locs and state.registerContents to reflect v, a value with
@@ -918,6 +1020,7 @@ func (state *debugState) processValue(v *Value, vSlots []SlotID, vReg *Register)
 	setSlot := func(slot SlotID, loc VarLoc) {
 		changed = true
 		state.changedVars.add(ID(state.slotVars[slot]))
+		state.changedSlots.add(ID(slot))
 		state.currentState.slots[slot] = loc
 	}
 
@@ -933,7 +1036,7 @@ func (state *debugState) processValue(v *Value, vSlots []SlotID, vReg *Register)
 		clobbers &^= 1 << reg
 
 		for _, slot := range locs.registers[reg] {
-			if state.loggingEnabled {
+			if state.loggingLevel > 1 {
 				state.logf("at %v: %v clobbered out of %v\n", v, state.slots[slot], &state.registers[reg])
 			}
 
@@ -962,7 +1065,7 @@ func (state *debugState) processValue(v *Value, vSlots []SlotID, vReg *Register)
 			stackOffset = StackOffset(state.stackOffset(state.slots[slotID])<<1 | 1)
 		}
 		setSlot(slotID, VarLoc{0, stackOffset})
-		if state.loggingEnabled {
+		if state.loggingLevel > 1 {
 			if v.Op == OpVarDef {
 				state.logf("at %v: stack-only var %v now live\n", v, state.slots[slotID])
 			} else {
@@ -974,7 +1077,7 @@ func (state *debugState) processValue(v *Value, vSlots []SlotID, vReg *Register)
 		home := state.f.getHome(v.ID).(LocalSlot)
 		stackOffset := state.stackOffset(home)<<1 | 1
 		for _, slot := range vSlots {
-			if state.loggingEnabled {
+			if state.loggingLevel > 1 {
 				state.logf("at %v: arg %v now on stack in location %v\n", v, state.slots[slot], home)
 				if last := locs.slots[slot]; !last.absent() {
 					state.logf("at %v: unexpected arg op on already-live slot %v\n", v, state.slots[slot])
@@ -990,20 +1093,20 @@ func (state *debugState) processValue(v *Value, vSlots []SlotID, vReg *Register)
 		for _, slot := range vSlots {
 			last := locs.slots[slot]
 			if last.absent() {
-				if state.loggingEnabled {
+				if state.loggingLevel > 1 {
 					state.logf("at %v: unexpected spill of unnamed register %s\n", v, vReg)
 				}
 				break
 			}
 
 			setSlot(slot, VarLoc{last.Registers, StackOffset(stackOffset)})
-			if state.loggingEnabled {
+			if state.loggingLevel > 1 {
 				state.logf("at %v: %v spilled to stack location %v\n", v, state.slots[slot], home)
 			}
 		}
 
 	case vReg != nil:
-		if state.loggingEnabled {
+		if state.loggingLevel > 1 {
 			newSlots := make([]bool, len(state.slots))
 			for _, slot := range vSlots {
 				newSlots[slot] = true
@@ -1023,7 +1126,7 @@ func (state *debugState) processValue(v *Value, vSlots []SlotID, vReg *Register)
 		locs.registers[vReg.num] = locs.registers[vReg.num][:0]
 		locs.registers[vReg.num] = append(locs.registers[vReg.num], vSlots...)
 		for _, slot := range vSlots {
-			if state.loggingEnabled {
+			if state.loggingLevel > 1 {
 				state.logf("at %v: %v now in %s\n", v, state.slots[slot], vReg)
 			}
 
@@ -1108,13 +1211,13 @@ func firstReg(set RegisterSet) uint8 {
 // The returned location lists are not fully complete. They are in terms of
 // SSA values rather than PCs, and have no base address/end entries. They will
 // be finished by PutLocationList.
-func (state *debugState) buildLocationLists(blockLocs []*BlockDebug) {
+func (state *debugState) buildLocationLists(blockLocs []*BlockDebug, hasABackEdge bool) {
 	// Run through the function in program text order, building up location
 	// lists as we go. The heavy lifting has mostly already been done.
 
 	var prevBlock *Block
 	for _, b := range state.f.Blocks {
-		state.mergePredecessors(b, blockLocs, prevBlock)
+		state.mergePredecessors(b, blockLocs, prevBlock, !hasABackEdge, true)
 
 		if !blockLocs[b.ID].relevant {
 			// Handle any differences among predecessor blocks and previous block (perhaps not a predecessor)
@@ -1221,7 +1324,7 @@ func (state *debugState) buildLocationLists(blockLocs []*BlockDebug) {
 		prevBlock = b
 	}
 
-	if state.loggingEnabled {
+	if state.loggingLevel > 0 {
 		state.logf("location lists:\n")
 	}
 
@@ -1229,7 +1332,7 @@ func (state *debugState) buildLocationLists(blockLocs []*BlockDebug) {
 	for varID := range state.lists {
 		state.writePendingEntry(VarID(varID), state.f.Blocks[len(state.f.Blocks)-1].ID, FuncEnd.ID)
 		list := state.lists[varID]
-		if state.loggingEnabled {
+		if state.loggingLevel > 0 {
 			if len(list) == 0 {
 				state.logf("\t%v : empty list\n", state.vars[varID])
 			} else {
@@ -1300,9 +1403,10 @@ func (state *debugState) writePendingEntry(varID VarID, endBlock, endValue ID) {
 		return
 	}
 	if start == end {
-		if state.loggingEnabled {
+		if state.loggingLevel > 1 {
 			// Printf not logf so not gated by GOSSAFUNC; this should fire very rarely.
-			fmt.Printf("Skipping empty location list for %v in %s\n", state.vars[varID], state.f.Name)
+			// TODO this fires a lot, need to figure out why.
+			state.logf("Skipping empty location list for %v in %s\n", state.vars[varID], state.f.Name)
 		}
 		return
 	}
@@ -1315,7 +1419,7 @@ func (state *debugState) writePendingEntry(varID VarID, endBlock, endValue ID) {
 	sizeIdx := len(list)
 	list = list[:len(list)+2]
 
-	if state.loggingEnabled {
+	if state.loggingLevel > 1 {
 		var partStrs []string
 		for i, slot := range state.varSlots[varID] {
 			partStrs = append(partStrs, fmt.Sprintf("%v@%v", state.slots[slot], state.LocString(pending.pieces[i])))
