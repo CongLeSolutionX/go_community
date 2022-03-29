@@ -90,6 +90,24 @@
       "parentUuid": "2d91029b_15269398",
       "revId": "b8aba64c8f9156e9b09d88d5b05f471429621920",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7a4d05b_5d447180",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2022-03-29T02:10:43Z",
+      "side": 1,
+      "message": "Thanks! I didn\u0027t notice it.",
+      "parentUuid": "6d4b054f_1762532d",
+      "revId": "b8aba64c8f9156e9b09d88d5b05f471429621920",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
