@@ -74,6 +74,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "90a72375_1aa83420",
+        "filename": "src/go/internal/gcimporter/gcimporter.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-03-29T20:33:26Z",
+      "side": 1,
+      "message": "We can perhaps remove this now? The default case should handle this in the unlikely case such files still exist.\n\nAlso, maybe you just need an \u0027if\u0027 instead of a switch in that case.",
+      "revId": "f2bb978d02281e1cf44ec6efb9be0d26cd5f2387",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "49e564ba_763c9e30",
         "filename": "src/go/internal/gcimporter/gcimporter.go",
         "patchSetId": 7
