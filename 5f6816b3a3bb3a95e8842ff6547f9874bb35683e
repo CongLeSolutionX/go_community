@@ -78,6 +78,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "223a18df_4a822867",
+        "filename": "src/cmd/link/elf_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2022-03-29T01:23:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9292294_290c750f",
+      "range": {
+        "startLine": 484,
+        "startChar": 1,
+        "endLine": 484,
+        "endChar": 22
+      },
+      "revId": "5f6816b3a3bb3a95e8842ff6547f9874bb35683e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6db1e08d_0c5a1452",
@@ -91,6 +115,30 @@
       "writtenOn": "2022-03-28T14:59:32Z",
       "side": 1,
       "message": "Remove \":\" after section and addr (just use space), and print address in hex.",
+      "range": {
+        "startLine": 497,
+        "startChar": 13,
+        "endLine": 497,
+        "endChar": 57
+      },
+      "revId": "5f6816b3a3bb3a95e8842ff6547f9874bb35683e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7f25bc3_c6cd8120",
+        "filename": "src/cmd/link/elf_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2022-03-29T01:23:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6db1e08d_0c5a1452",
       "range": {
         "startLine": 497,
         "startChar": 13,
