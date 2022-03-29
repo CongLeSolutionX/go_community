@@ -741,3 +741,46 @@ func TestRedefinedFlags(t *testing.T) {
 		}
 	}
 }
+
+// flagNoZeroString if a flag whose String method fails on the zero value.
+type flagNoZeroString struct {
+	code int
+}
+
+var flagNoZeroCodeNames = []string{
+	"one",
+	"two",
+}
+
+func (f *flagNoZeroString) String() string {
+	return flagNoZeroCodeNames[f.code-1]
+}
+
+func (f *flagNoZeroString) Set(value string) error {
+	code, err := strconv.Atoi(value)
+	if err != nil {
+		return err
+	}
+	if code < 1 || code > len(flagNoZeroCodeNames) {
+		return fmt.Errorf("value %d out of range", code)
+	}
+	f.code = code
+	return nil
+}
+
+func (f *flagNoZeroString) Get() any {
+	return f.code
+}
+
+func TestZeroCrash(t *testing.T) {
+	var flags FlagSet
+
+	var sb strings.Builder
+	flags.SetOutput(&sb)
+
+	v := flagNoZeroString{code: 1}
+	flags.Var(&v, "v", "usage")
+	flags.PrintDefaults()
+
+	t.Log(sb.String())
+}

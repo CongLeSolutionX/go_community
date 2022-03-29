@@ -488,7 +488,7 @@ func Set(name, value string) error {
 
 // isZeroValue determines whether the string represents the zero
 // value for a flag.
-func isZeroValue(flag *Flag, value string) bool {
+func isZeroValue(flag *Flag, value string) (ret bool) {
 	// Build a zero value of the flag's Value type, and see if the
 	// result of calling its String method equals the value passed in.
 	// This works unless the Value type is itself an interface type.
@@ -499,6 +499,14 @@ func isZeroValue(flag *Flag, value string) bool {
 	} else {
 		z = reflect.Zero(typ)
 	}
+
+	// Catch a panic from the String method.
+	defer func() {
+		if recover() != nil {
+			ret = false
+		}
+	}()
+
 	return value == z.Interface().(Value).String()
 }
 
