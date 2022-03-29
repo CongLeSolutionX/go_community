@@ -73,6 +73,39 @@ func Search(n int, f func(int) bool) int {
 	return i
 }
 
+// Find uses binary search to find and return the smallest index i in [0, n)
+// at which cmp(i) returns <= 0, assuming that on the range [0, n), cmp(i) <= 0
+// implies cmp(i+1) <= 0. Find returns the first true index, along with a bool
+// saying whether cmp(i) == 0 at that index.
+//
+// A common use of Find is to find the index i for a value x in a sorted,
+// indexable data structure such as an array or slice.
+// In this case, the argument cmp, typically a closure, captures the value to
+// be searched for, and how the data structure is indexed and ordered.
+// cmp(i) is expected to return <0, 0 or >0 if x is less than, equal to or
+// greater than the element at position i.
+func Find(n int, cmp func(int) int) (int, bool) {
+	// The invariants here are similar to the ones in Search.
+	// Define cmp(-1) > 0 and cmp(n) <= 0
+	// Invariant: cmp(i-1) > 0, cmp(j) <= 0
+	i, j := 0, n
+	for i < j {
+		h := int(uint(i+j) >> 1) // avoid overflow when computing h
+		// i ≤ h < j
+		if cmp(h) > 0 {
+			i = h + 1 // preserves cmp(i-1) > 0
+		} else {
+			j = h // preserves cmp(j) <= 0
+		}
+	}
+	// i == j, cmp(i-1) > 0 and cmp(j) <= 0
+	if i >= n || cmp(i) != 0 {
+		return i, false
+	} else {
+		return i, true
+	}
+}
+
 // Convenience wrappers for common cases.
 
 // SearchInts searches for x in a sorted slice of ints and returns the index
