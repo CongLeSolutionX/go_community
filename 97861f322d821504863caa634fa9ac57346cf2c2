@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3ea605f_5fbec06f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-03-29T19:35:49Z",
+      "side": 1,
+      "message": "I\u0027m a little worried about the order in which these CLs need to be applied.  Ideally each one would not affect compilation on non-loong64 platforms, but I think I see references in earlier CLs to names defined in later ones.\n\nSo, I\u0027m running trybots, for a quick answer here.",
+      "revId": "97861f322d821504863caa634fa9ac57346cf2c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
