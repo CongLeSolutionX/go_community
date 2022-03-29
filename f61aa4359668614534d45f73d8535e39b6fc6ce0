@@ -125,6 +125,24 @@
       "message": "Why is that? Because of concurrent use? (If so, should perhaps says so.)",
       "revId": "f61aa4359668614534d45f73d8535e39b6fc6ce0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e80cbfa_5cb7c6a4",
+        "filename": "src/go/types/context.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-03-29T23:15:18Z",
+      "side": 1,
+      "message": "Mostly because it wasn\u0027t a design goal, IMO. Causes of failed deduplication could be concurrency or an imperfect hash function. I think it\u0027s probably best to leave the cause unspecified here. WDYT?",
+      "parentUuid": "500cb3e5_d1425e20",
+      "revId": "f61aa4359668614534d45f73d8535e39b6fc6ce0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
