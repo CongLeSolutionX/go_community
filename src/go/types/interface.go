@@ -154,7 +154,7 @@ func (t *Interface) cleanup() {
 	t.embedPos = nil
 }
 
-func (check *Checker) interfaceType(ityp *Interface, iface *ast.InterfaceType, def *Named) {
+func (check *Checker) interfaceType(ityp *Interface, iface *ast.InterfaceType) {
 	addEmbedded := func(pos token.Pos, typ Type) {
 		ityp.embeddeds = append(ityp.embeddeds, typ)
 		if ityp.embedPos == nil {
@@ -185,24 +185,7 @@ func (check *Checker) interfaceType(ityp *Interface, iface *ast.InterfaceType, d
 			}
 			continue // ignore
 		}
-
-		// Always type-check method type parameters but complain if they are not enabled.
-		// (This extra check is needed here because interface method signatures don't have
-		// a receiver specification.)
-		if sig.tparams != nil {
-			var at positioner = f.Type
-			if ftyp, _ := f.Type.(*ast.FuncType); ftyp != nil && ftyp.TypeParams != nil {
-				at = ftyp.TypeParams
-			}
-			check.errorf(at, _InvalidMethodTypeParams, "methods cannot have type parameters")
-		}
-
-		// use named receiver type if available (for better error messages)
-		var recvTyp Type = ityp
-		if def != nil {
-			recvTyp = def
-		}
-		sig.recv = NewVar(name.Pos(), check.pkg, "", recvTyp)
+		sig.recv = NewVar(name.Pos(), check.pkg, "", ityp)
 
 		m := NewFunc(name.Pos(), check.pkg, name.Name, sig)
 		check.recordDef(name, m)
