@@ -166,8 +166,8 @@ func verifyInterfaceMethodRecvs(t *testing.T, named *types.Named, level int) {
 			t.Errorf("%s: missing receiver type", m)
 			continue
 		}
-		if recv.Type() != named {
-			t.Errorf("%s: got recv type %s; want %s", m, recv.Type(), named)
+		if recv.Type() != iface {
+			t.Errorf("%s: got recv type %s; want %s", m, recv.Type(), iface)
 		}
 	}
 

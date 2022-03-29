@@ -578,10 +578,8 @@ func writeFuncName(buf *bytes.Buffer, f *Func, qf Qualifier) {
 		if recv := sig.Recv(); recv != nil {
 			buf.WriteByte('(')
 			if _, ok := recv.Type().(*Interface); ok {
-				// gcimporter creates abstract methods of
-				// named interfaces using the interface type
-				// (not the named type) as the receiver.
-				// Don't print it in full.
+				// For interface methods, don't print the
+				// receiver type (the interface) in full.
 				buf.WriteString("interface")
 			} else {
 				WriteType(buf, recv.Type(), qf)
