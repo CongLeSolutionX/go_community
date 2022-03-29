@@ -95,6 +95,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b348684_23cef56c",
+        "filename": "src/internal/bytealg/index_ppc64x.s",
+        "patchSetId": 13
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2022-03-29T15:57:52Z",
+      "side": 1,
+      "message": "Yes thanks for catching this! modified it accordingly",
+      "parentUuid": "5e1117c1_167b5b80",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 13
+      },
+      "revId": "5d5346edf893b86704d3691ad351cff1947986b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "62fabaa2_55d3f422",
@@ -108,6 +132,30 @@
       "writtenOn": "2022-03-28T20:15:49Z",
       "side": 1,
       "message": "Comment not aligned.",
+      "range": {
+        "startLine": 684,
+        "startChar": 19,
+        "endLine": 684,
+        "endChar": 44
+      },
+      "revId": "5d5346edf893b86704d3691ad351cff1947986b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff7e14ac_06bdda5d",
+        "filename": "src/internal/bytealg/index_ppc64x.s",
+        "patchSetId": 13
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2022-03-29T15:57:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62fabaa2_55d3f422",
       "range": {
         "startLine": 684,
         "startChar": 19,
@@ -141,6 +189,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf304a7d_dca044ee",
+        "filename": "src/internal/bytealg/index_ppc64x.s",
+        "patchSetId": 13
+      },
+      "lineNbr": 918,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2022-03-29T15:57:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a67378c0_061b1120",
+      "range": {
+        "startLine": 918,
+        "startChar": 0,
+        "endLine": 918,
+        "endChar": 2
+      },
+      "revId": "5d5346edf893b86704d3691ad351cff1947986b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "276056ea_e947974e",
@@ -154,6 +226,30 @@
       "writtenOn": "2022-03-28T20:15:49Z",
       "side": 1,
       "message": "Also here.",
+      "range": {
+        "startLine": 920,
+        "startChar": 0,
+        "endLine": 920,
+        "endChar": 2
+      },
+      "revId": "5d5346edf893b86704d3691ad351cff1947986b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b0c001d_ecfff1be",
+        "filename": "src/internal/bytealg/index_ppc64x.s",
+        "patchSetId": 13
+      },
+      "lineNbr": 920,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2022-03-29T15:57:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "276056ea_e947974e",
       "range": {
         "startLine": 920,
         "startChar": 0,
