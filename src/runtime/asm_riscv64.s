@@ -169,15 +169,15 @@ TEXT runtime·getcallerpc(SB),NOSPLIT|NOFRAME,$0-8
 // func morestack()
 TEXT runtime·morestack(SB),NOSPLIT|NOFRAME,$0-0
 	// Cannot grow scheduler stack (m->g0).
-	MOV	g_m(g), A0
-	MOV	m_g0(A0), A1
-	BNE	g, A1, 3(PC)
+	MOV	g_m(g), T2	// T2 = m
+	MOV	m_g0(T2), T1
+	BNE	g, T1, 3(PC)
 	CALL	runtime·badmorestackg0(SB)
 	CALL	runtime·abort(SB)
 
 	// Cannot grow signal stack (m->gsignal).
-	MOV	m_gsignal(A0), A1
-	BNE	g, A1, 3(PC)
+	MOV	m_gsignal(T2), T1
+	BNE	g, T1, 3(PC)
 	CALL	runtime·badmorestackgsignal(SB)
 	CALL	runtime·abort(SB)
 
@@ -190,12 +190,12 @@ TEXT runtime·morestack(SB),NOSPLIT|NOFRAME,$0-0
 
 	// Called from f.
 	// Set m->morebuf to f's caller.
-	MOV	RA, (m_morebuf+gobuf_pc)(A0)	// f's caller's PC
-	MOV	X2, (m_morebuf+gobuf_sp)(A0)	// f's caller's SP
-	MOV	g, (m_morebuf+gobuf_g)(A0)
+	MOV	RA, (m_morebuf+gobuf_pc)(T2)	// f's caller's PC
+	MOV	X2, (m_morebuf+gobuf_sp)(T2)	// f's caller's SP
+	MOV	g, (m_morebuf+gobuf_g)(T2)
 
 	// Call newstack on m->g0's stack.
-	MOV	m_g0(A0), g
+	MOV	m_g0(T2), g
 	CALL	runtime·save_g(SB)
 	MOV	(g_sched+gobuf_sp)(g), X2
 	// Create a stack frame on g0 to call newstack.
