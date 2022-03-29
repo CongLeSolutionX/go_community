@@ -69,6 +69,23 @@
       "parentUuid": "980726de_b8bc5ece",
       "revId": "d6a1ffd624bd0d6dbf3a15070e378749612b35c9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df0b4d79_d2fd1de9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28792
+      },
+      "writtenOn": "2022-03-29T16:48:36Z",
+      "side": 1,
+      "message": "This could be later or a follow-up CL (perhaps when it is clearer what platforms will be updated), but it would be nice to update the user-facing doc comment in the testing package that describes the 8128 goroutine limit:\n\n  The race detector kills the program if it exceeds 8128 concurrent goroutines,\n\nhttps://github.com/golang/go/blob/master/src/testing/testing.go#L288\nhttps://pkg.go.dev/testing",
+      "revId": "d6a1ffd624bd0d6dbf3a15070e378749612b35c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
