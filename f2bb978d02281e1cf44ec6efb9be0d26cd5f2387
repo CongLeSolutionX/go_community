@@ -53,6 +53,199 @@
       "message": "Just a heads-up: it will take me a couple days to review this CL.",
       "revId": "f2bb978d02281e1cf44ec6efb9be0d26cd5f2387",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "99afd70a_faadc34f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-03-29T20:31:28Z",
+      "side": 1,
+      "message": "LGTM assuming the UNREVIEWED label stays with ureader.go for now.",
+      "revId": "f2bb978d02281e1cf44ec6efb9be0d26cd5f2387",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49e564ba_763c9e30",
+        "filename": "src/go/internal/gcimporter/gcimporter.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-03-29T20:31:28Z",
+      "side": 1,
+      "message": "update this comment?",
+      "revId": "f2bb978d02281e1cf44ec6efb9be0d26cd5f2387",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba4af5b1_af74bdcb",
+        "filename": "src/go/internal/gcimporter/ureader.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-03-29T20:31:28Z",
+      "side": 1,
+      "message": "should probably review pkgbits soon",
+      "revId": "f2bb978d02281e1cf44ec6efb9be0d26cd5f2387",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f759fa79_18eafc73",
+        "filename": "src/go/internal/gcimporter/ureader.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-03-29T20:31:28Z",
+      "side": 1,
+      "message": "this could use some comments, especially because there are two file sets here",
+      "revId": "f2bb978d02281e1cf44ec6efb9be0d26cd5f2387",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a74ca8ad_30fe8ae3",
+        "filename": "src/go/internal/gcimporter/ureader.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-03-29T20:31:28Z",
+      "side": 1,
+      "message": "doc string?",
+      "revId": "f2bb978d02281e1cf44ec6efb9be0d26cd5f2387",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5875fc2_65782ede",
+        "filename": "src/go/internal/gcimporter/ureader.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-03-29T20:31:28Z",
+      "side": 1,
+      "message": "doc string?",
+      "revId": "f2bb978d02281e1cf44ec6efb9be0d26cd5f2387",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa0d16b0_12848693",
+        "filename": "src/go/internal/gcimporter/ureader.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-03-29T20:31:28Z",
+      "side": 1,
+      "message": "doc string?",
+      "range": {
+        "startLine": 94,
+        "startChar": 5,
+        "endLine": 94,
+        "endChar": 20
+      },
+      "revId": "f2bb978d02281e1cf44ec6efb9be0d26cd5f2387",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ebbb943e_77bb4e1e",
+        "filename": "src/go/internal/gcimporter/ureader.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-03-29T20:31:28Z",
+      "side": 1,
+      "message": "this could use a comment",
+      "revId": "f2bb978d02281e1cf44ec6efb9be0d26cd5f2387",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "afc257b1_3aa73982",
+        "filename": "src/go/internal/gcimporter/ureader.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-03-29T20:31:28Z",
+      "side": 1,
+      "message": "so there\u0027s always an empty string here for each non-built-in/unsafe package?",
+      "revId": "f2bb978d02281e1cf44ec6efb9be0d26cd5f2387",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78a02119_3f31ec1c",
+        "filename": "src/go/internal/gcimporter/ureader.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-03-29T20:31:28Z",
+      "side": 1,
+      "message": "left-over comment?",
+      "revId": "f2bb978d02281e1cf44ec6efb9be0d26cd5f2387",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8aceb4cf_4198fce3",
+        "filename": "src/go/internal/gcimporter/ureader.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-03-29T20:31:28Z",
+      "side": 1,
+      "message": "empty lines around this code (after r.Sync and before return) to match the other functions?",
+      "revId": "f2bb978d02281e1cf44ec6efb9be0d26cd5f2387",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
