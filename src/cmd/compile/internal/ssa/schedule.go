@@ -305,7 +305,7 @@ func schedule(f *Func) {
 			// If this is the tail of a carry chain (implied by the score),
 			// Collect all schedulable chain tails, and choose one which is
 			// ready to schedule, and return the rest to the heap.
-			if v.Op.isCarryChainOp() && score[v.ID] == ScoreCarryChainTail {
+			if score[v.ID] == ScoreCarryChainTail && v.Op.isCarryChainOp() {
 				schedulableChains := []*Value{v}
 				for priq.Len() > 0 {
 					v := heap.Pop(priq).(*Value)
