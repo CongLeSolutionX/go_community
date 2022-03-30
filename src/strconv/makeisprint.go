@@ -6,9 +6,7 @@
 // +build ignore
 
 //
-// usage:
-//
-// go run makeisprint.go -output isprint.go
+//go:generate go run makeisprint.go -output isprint.go
 //
 
 package main
