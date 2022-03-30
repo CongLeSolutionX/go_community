@@ -133,6 +133,8 @@ type (
 	Expr interface {
 		Node
 		aExpr()
+		SetInfo(interface{})
+		Info() interface{}
 	}
 
 	// Placeholder for an expression that failed to parse
@@ -308,9 +310,14 @@ type (
 	}
 )
 
-type expr struct{ node }
+type expr struct {
+	node
+	info interface{} // populated by type checker
+}
 
-func (*expr) aExpr() {}
+func (*expr) aExpr()                     {}
+func (e *expr) SetInfo(info interface{}) { e.info = info }
+func (e *expr) Info() interface{}        { return e.info }
 
 type ChanDir uint
 

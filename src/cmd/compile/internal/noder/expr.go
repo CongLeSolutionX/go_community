@@ -16,6 +16,19 @@ import (
 	"cmd/internal/src"
 )
 
+func (g *irgen) typeOf(expr syntax.Expr) (tv types2.TypeAndValue) {
+	var ok bool
+	if anotateAST {
+		tv, ok = expr.Info().(types2.TypeAndValue)
+	} else {
+		tv, ok = g.info.Types[expr]
+	}
+	if !ok {
+		base.FatalfAt(g.pos(expr), "missing type for %v (%T)", expr, expr)
+	}
+	return tv
+}
+
 func (g *irgen) expr(expr syntax.Expr) ir.Node {
 	expr = unparen(expr) // skip parens; unneeded after parse+typecheck
 
@@ -27,10 +40,7 @@ func (g *irgen) expr(expr syntax.Expr) ir.Node {
 		return ir.BlankNode
 	}
 
-	tv, ok := g.info.Types[expr]
-	if !ok {
-		base.FatalfAt(g.pos(expr), "missing type for %v (%T)", expr, expr)
-	}
+	tv := g.typeOf(expr)
 	switch {
 	case tv.IsBuiltin():
 		// Qualified builtins, such as unsafe.Add and unsafe.Slice.
@@ -119,8 +129,7 @@ func (g *irgen) expr0(typ types2.Type, expr syntax.Expr) ir.Node {
 	case *syntax.IndexExpr:
 		args := unpackListExpr(expr.Index)
 		if len(args) == 1 {
-			tv, ok := g.info.Types[args[0]]
-			assert(ok)
+			tv := g.typeOf(args[0])
 			if tv.IsValue() {
 				// This is just a normal index expression
 				n := Index(pos, g.typ(typ), g.expr(expr.X), g.expr(args[0]))

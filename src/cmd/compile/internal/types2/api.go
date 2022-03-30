@@ -116,6 +116,12 @@ type Config struct {
 	// panic.
 	GoVersion string
 
+	// If AnotateAST is set, the type checker anotates the syntax tree
+	// directly, rather than storing the respective information in maps.
+	// The respective maps must still be present to indicate what data
+	// is desired.
+	AnotateAST bool
+
 	// If IgnoreFuncBodies is set, function bodies are not
 	// type-checked.
 	IgnoreFuncBodies bool
