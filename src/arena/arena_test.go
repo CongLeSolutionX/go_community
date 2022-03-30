@@ -106,3 +106,25 @@ func TestHeapString(t *testing.T) {
 
 	a.Free()
 }
+
+func TestNilArena(t *testing.T) {
+	if runtime.GOOS != "linux" || runtime.GOARCH != "amd64" {
+		t.Skipf("Only supporting linux-amd64")
+	}
+	var a *arena.Arena
+
+	var tt *T
+	a.New(&tt)
+	//tt := a.NewReflectType(reflect.TypeOf(T{})).(*T)
+	tt.n = 1
+
+	var ts []T
+	a.Slice(&ts, 100)
+	if len(ts) != 100 {
+		t.Errorf("Slice() len = %d, want 100", len(ts))
+	}
+	if cap(ts) != 100 {
+		t.Errorf("Slice() cap = %d, want 100", cap(ts))
+	}
+	ts[1].n = 42
+}

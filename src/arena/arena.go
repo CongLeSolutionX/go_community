@@ -40,6 +40,10 @@ func (a *Arena) Free() {
 // be accessed after arena a is freed.
 func (a *Arena) New(objPtrPtr interface{}) {
 	ptrValue := reflect.ValueOf(objPtrPtr).Elem()
+	if a == nil {
+		ptrValue.Set(reflect.New(ptrValue.Type().Elem()))
+		return
+	}
 	ptrValue.Set(reflect.ValueOf(reflect_arenaNew(a.a, ptrValue.Type().Elem())))
 }
 
@@ -55,6 +59,11 @@ func (a *Arena) NewReflectType(typ reflect.Type) interface{} {
 // *slicePtr. The length of the slice is set to the capacity.  The slice must
 // not be accessed after arena a is freed.
 func (a *Arena) Slice(slicePtr interface{}, cap int) {
+	if a == nil {
+		v := reflect.ValueOf(slicePtr).Elem()
+		v.Set(reflect.MakeSlice(v.Type(), cap, cap))
+		return
+	}
 	reflect_arenaSlice(a.a, slicePtr, cap)
 }
 
