@@ -5,5 +5,5 @@
 package p
 
 type T[P any] interface{
-	P // ERROR cannot embed a type parameter
+	P // ERROR term type cannot be a type parameter
 }
