@@ -1353,5 +1353,5 @@ func gcControllerCommit() {
 		memstats.mappedReady.Load(),
 	)
 	gcPaceSweeper(gcController.trigger(heapGoal))
-	gcPaceScavenger(heapGoal, gcController.lastHeapGoal)
+	gcPaceScavenger(gcController.memoryLimit.Load(), heapGoal, gcController.lastHeapGoal)
 }
