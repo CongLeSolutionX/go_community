@@ -57,6 +57,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "241eba32_9b8a0295",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 35
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-03-30T02:50:35Z",
+      "side": 1,
+      "message": "OK, I\u0027ll do investigation and test.",
+      "parentUuid": "ac297b68_273fe4df",
+      "revId": "0db3a47c1b6d03d35d3dca59b6dd31582d14e3c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4c070af0_01bd89f3",
         "filename": "src/cmd/dist/main.go",
         "patchSetId": 35
@@ -68,6 +86,30 @@
       "writtenOn": "2022-03-29T18:59:53Z",
       "side": 1,
       "message": "loong64?",
+      "range": {
+        "startLine": 136,
+        "startChar": 30,
+        "endLine": 136,
+        "endChar": 41
+      },
+      "revId": "0db3a47c1b6d03d35d3dca59b6dd31582d14e3c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "db999a84_0f458e3a",
+        "filename": "src/cmd/dist/main.go",
+        "patchSetId": 35
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-03-30T02:50:35Z",
+      "side": 1,
+      "message": "Run \u0027uname -m\u0027 on loong64 builder, print \"loongarch64\".\n```\n$ uname -m\nloongarch64\n```\nIt might be OK here.",
+      "parentUuid": "4c070af0_01bd89f3",
       "range": {
         "startLine": 136,
         "startChar": 30,
@@ -103,6 +145,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "be61eb84_f76f356f",
+        "filename": "src/cmd/dist/main.go",
+        "patchSetId": 35
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-03-30T02:50:35Z",
+      "side": 1,
+      "message": "Is it right that the limit for slow builers is more than 30 minutes to run \u0027all.bash\u0027?\nI know it from here:\nhttps://github.com/golang/go/issues/49666#issue-1057776212\nIt is about 14 minutes on loong64 builder to run \u0027all.bash\u0027.",
+      "parentUuid": "96aea775_ae098a3c",
+      "range": {
+        "startLine": 155,
+        "startChar": 78,
+        "endLine": 155,
+        "endChar": 104
+      },
+      "revId": "0db3a47c1b6d03d35d3dca59b6dd31582d14e3c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1bf93dcb_46d10913",
         "filename": "src/cmd/dist/test.go",
         "patchSetId": 35
@@ -114,6 +180,30 @@
       "writtenOn": "2022-03-29T18:59:53Z",
       "side": 1,
       "message": "Same here. Do we need that, if the builder is not slow?",
+      "range": {
+        "startLine": 177,
+        "startChar": 6,
+        "endLine": 177,
+        "endChar": 15
+      },
+      "revId": "0db3a47c1b6d03d35d3dca59b6dd31582d14e3c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77ea345e_e3cefee7",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 35
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-03-30T02:50:35Z",
+      "side": 1,
+      "message": "It might depend on conclusion for the previous comments and test. I\u0027ll do a test.",
+      "parentUuid": "1bf93dcb_46d10913",
       "range": {
         "startLine": 177,
         "startChar": 6,
