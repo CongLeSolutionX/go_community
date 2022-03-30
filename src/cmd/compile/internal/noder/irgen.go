@@ -17,6 +17,9 @@ import (
 	"cmd/internal/src"
 )
 
+// If anotateAST is set, the type checker stores type info directly in the syntax tree.
+const anotateAST = true
+
 // checkFiles configures and runs the types2 checker on the given
 // parsed source files and then returns the result.
 func checkFiles(noders []*noder) (posMap, *types2.Package, *types2.Info) {
@@ -41,8 +44,9 @@ func checkFiles(noders []*noder) (posMap, *types2.Package, *types2.Info) {
 	conf := types2.Config{
 		Context:               ctxt,
 		GoVersion:             base.Flag.Lang,
-		IgnoreLabels:          true, // parser already checked via syntax.CheckBranches mode
-		CompilerErrorMessages: true, // use error strings matching existing compiler errors
+		AnotateAST:            anotateAST, // store type info directly in syntax tree
+		IgnoreLabels:          true,       // parser already checked via syntax.CheckBranches mode
+		CompilerErrorMessages: true,       // use error strings matching existing compiler errors
 		Error: func(err error) {
 			terr := err.(types2.Error)
 			base.ErrorfAt(m.makeXPos(terr.Pos), "%s", terr.Msg)
