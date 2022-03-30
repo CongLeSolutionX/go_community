@@ -16,6 +16,24 @@
       "message": "This CL is good by itself, but is out of order and refers to symbols that are not yet defined (in this case cmd/compile/internal/loong64.Init).  I know this is more work, but it would be good to figure out the order that results in the least build breakage, and then perhaps we/you need to combine or refactor the CLs that depend on each other.\n\nIdeally we are able to apply the CLs one at a time without breaking anything else.",
       "revId": "7c6187dd9d6b9a0d46d95b4eb115277d9629196e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d57400fe_3caaacf7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 26
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-03-30T01:54:19Z",
+      "side": 1,
+      "message": "Yes, you are right. I\u0027ll refactor the order of these CLs as soon as possible.\nThanks a lot for your comments.",
+      "parentUuid": "91d349bf_58c61a8a",
+      "revId": "7c6187dd9d6b9a0d46d95b4eb115277d9629196e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
