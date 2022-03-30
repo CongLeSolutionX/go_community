@@ -1038,8 +1038,11 @@ func ReplaceAll(s, old, new string) string {
 }
 
 // EqualFold reports whether s and t, interpreted as UTF-8 strings,
-// are equal under Unicode case-folding, which is a more general
-// form of case-insensitivity.
+// are equal under simple Unicode case-folding, which is a more
+// general form of case-insensitivity. For more information,
+// see https://www.unicode.org/Public/UNIDATA/CaseFolding.txt.
+//
+// In general, EqualFold(s, t) == (ToLower(s) == ToLower(t)).
 func EqualFold(s, t string) bool {
 	for s != "" && t != "" {
 		// Extract first rune from each string.
