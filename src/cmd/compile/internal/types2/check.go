@@ -452,7 +452,12 @@ func (check *Checker) recordTypeAndValue(x syntax.Expr, mode operandMode, typ Ty
 		assert(typ == Typ[Invalid] || allBasic(typ, IsConstType))
 	}
 	if m := check.Types; m != nil {
-		m[x] = TypeAndValue{mode, typ, val}
+		tv := TypeAndValue{mode, typ, val}
+		if check.conf.AnotateAST {
+			x.SetInfo(tv)
+		} else {
+			m[x] = tv
+		}
 	}
 }
 
@@ -482,14 +487,23 @@ func (check *Checker) recordCommaOkTypes(x syntax.Expr, a [2]Type) {
 	assert(isTyped(a[0]) && isTyped(a[1]) && (isBoolean(a[1]) || a[1] == universeError))
 	if m := check.Types; m != nil {
 		for {
-			tv := m[x]
+			var tv TypeAndValue
+			if check.conf.AnotateAST {
+				tv = x.Info().(TypeAndValue)
+			} else {
+				tv = m[x]
+			}
 			assert(tv.Type != nil) // should have been recorded already
 			pos := x.Pos()
 			tv.Type = NewTuple(
 				NewVar(pos, check.pkg, "", a[0]),
 				NewVar(pos, check.pkg, "", a[1]),
 			)
-			m[x] = tv
+			if check.conf.AnotateAST {
+				x.SetInfo(tv)
+			} else {
+				m[x] = tv
+			}
 			// if x is a parenthesized expression (p.X), update p.X
 			p, _ := x.(*syntax.ParenExpr)
 			if p == nil {
