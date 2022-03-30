@@ -73,6 +73,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b9f052b_b2e9ecde",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 35
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-03-30T13:38:15Z",
+      "side": 1,
+      "message": "Thanks! I added it.",
+      "parentUuid": "241eba32_9b8a0295",
+      "revId": "0db3a47c1b6d03d35d3dca59b6dd31582d14e3c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "087e1358_6806df39",
@@ -86,6 +104,24 @@
       "writtenOn": "2022-03-30T07:51:45Z",
       "side": 1,
       "message": "I\u0027d propose to add linux/loong64 to the incomplete map until the full series of CLs for linux/loong64 is merged.",
+      "revId": "0db3a47c1b6d03d35d3dca59b6dd31582d14e3c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d6b495b_751b246d",
+        "filename": "src/cmd/dist/build.go",
+        "patchSetId": 35
+      },
+      "lineNbr": 1599,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-03-30T13:38:15Z",
+      "side": 1,
+      "message": "That sounds good. I added it.",
+      "parentUuid": "087e1358_6806df39",
       "revId": "0db3a47c1b6d03d35d3dca59b6dd31582d14e3c7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
