@@ -5202,7 +5202,10 @@ func sysmon() {
 		// Update the CPU limiter. Don't bother re-updating now after this,
 		// this operation should be very fast.
 		now := nanotime()
-		gcCPULimiter.update(gcController.assistTime.Load(), now)
+		gcCPULimiter.update(
+			gcController.assistTime.Load()+mheap_.pages.scav.assistTime.Load(),
+			now,
+		)
 
 		// sysmon should not enter deep sleep if schedtrace is enabled so that
 		// it can print that information at the right time.
