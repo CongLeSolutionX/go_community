@@ -27,6 +27,10 @@ func TestAllocations(t *testing.T) {
 			if _, err := p.SetBytes(out); err != nil {
 				t.Fatal(err)
 			}
+			out = p.BytesCompressed()
+			if _, err := p.SetBytes(out); err != nil {
+				t.Fatal(err)
+			}
 		}); allocs > 0 {
 			t.Errorf("expected zero allocations, got %0.1f", allocs)
 		}
@@ -38,6 +42,10 @@ func TestAllocations(t *testing.T) {
 			rand.Read(scalar)
 			p.ScalarMult(p, scalar)
 			out := p.Bytes()
+			if _, err := p.SetBytes(out); err != nil {
+				t.Fatal(err)
+			}
+			out = p.BytesCompressed()
 			if _, err := p.SetBytes(out); err != nil {
 				t.Fatal(err)
 			}
@@ -55,6 +63,10 @@ func TestAllocations(t *testing.T) {
 			if _, err := p.SetBytes(out); err != nil {
 				t.Fatal(err)
 			}
+			out = p.BytesCompressed()
+			if _, err := p.SetBytes(out); err != nil {
+				t.Fatal(err)
+			}
 		}); allocs > 0 {
 			t.Errorf("expected zero allocations, got %0.1f", allocs)
 		}
@@ -66,6 +78,10 @@ func TestAllocations(t *testing.T) {
 			rand.Read(scalar)
 			p.ScalarMult(p, scalar)
 			out := p.Bytes()
+			if _, err := p.SetBytes(out); err != nil {
+				t.Fatal(err)
+			}
+			out = p.BytesCompressed()
 			if _, err := p.SetBytes(out); err != nil {
 				t.Fatal(err)
 			}
