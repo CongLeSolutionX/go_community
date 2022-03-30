@@ -1437,5 +1437,5 @@ func gcControllerCommit() {
 
 	heapGoal, trigger := gcController.trigger()
 	gcPaceSweeper(trigger)
-	gcPaceScavenger(heapGoal, gcController.lastHeapGoal)
+	gcPaceScavenger(gcController.memoryLimit.Load(), heapGoal, gcController.lastHeapGoal)
 }
