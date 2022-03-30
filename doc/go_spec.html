@@ -1,6 +1,6 @@
 <!--{
 	"Title": "The Go Programming Language Specification",
-	"Subtitle": "Version of March 10, 2022",
+	"Subtitle": "Version of March 30, 2022",
 	"Path": "/ref/spec"
 }-->
 
@@ -1454,7 +1454,7 @@ type Float interface {
 </pre>
 
 <p>
-In a union, a term cannot be a <a href="#Type_parameter_declarations">type parameter</a>, and the type sets of all
+The type of a term cannot be a <a href="#Type_parameter_declarations">type parameter</a>, and the type sets of all
 non-interface terms must be pairwise disjoint (the pairwise intersection of the type sets must be empty).
 Given a type parameter <code>P</code>:
 </p>
@@ -1462,7 +1462,7 @@ Given a type parameter <code>P</code>:
 <pre>
 interface {
 	P                // illegal: P is a type parameter
-	int | P          // illegal: P is a type parameter
+	int | ~P         // illegal: P is a type parameter
 	~int | MyInt     // illegal: the type sets for ~int and MyInt are not disjoint (~int includes MyInt)
 	float32 | Float  // overlapping type sets but Float is an interface
 }
