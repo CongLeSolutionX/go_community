@@ -148,7 +148,7 @@ func parseTilde(check *Checker, tx syntax.Expr) *Term {
 	// simply use its underlying type (like we do for other named, embedded interfaces),
 	// and since the underlying type is an interface the embedding is well defined.
 	if isTypeParam(typ) {
-		check.error(x, "cannot embed a type parameter")
+		check.error(x, "term type cannot be a type parameter")
 		typ = Typ[Invalid]
 	}
 	term := NewTerm(tilde, typ)
