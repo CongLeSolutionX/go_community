@@ -173,3 +173,36 @@ func WriteHeapDump(fd uintptr)
 // If SetTraceback is called with a level lower than that of the
 // environment variable, the call is ignored.
 func SetTraceback(level string)
+
+// SetMemoryLimit provides the runtime with a soft memory limit.
+//
+// The runtime undertakes several processes to try to respect this
+// memory limit, including adjustments to the frequency of garbage
+// collections and returning memory to the underlying system more
+// aggressively. This limit will be respected even if GOGC=off (or,
+// if SetGCPercent(-1) is executed).
+//
+// The input limit is provided as bytes, and is intended to include
+// all memory that the Go runtime has direct control over. In other
+// words, runtime.MemStats.Sys - runtime.MemStats.HeapReleased.
+//
+// This limit does not account for memory external to Go, such as
+// memory managed by the underlying system on behalf of the process,
+// or memory managed by non-Go code inside the same process.
+//
+// A zero limit or a limit that's lower than the amount of memory
+// used by the Go runtime may cause the garbage collector to run
+// nearly continuously. However, the application may still make
+// progress.
+//
+// See https://golang.org/doc/gc-ergonomics for a detailed guide
+// explaining the soft memory limit as well as a variety of common
+// use-cases and scenarios.
+//
+// SetMemoryLimit returns the previously set memory limit.
+// By default, the limit is math.MaxInt64.
+// A negative input does not adjust the limit, and allows for
+// retrieval of the currently set memory limit.
+func SetMemoryLimit(limit int64) int64 {
+	return setMemoryLimit(limit)
+}
