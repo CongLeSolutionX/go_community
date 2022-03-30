@@ -299,6 +299,11 @@ type pageAlloc struct {
 		//
 		// Protected by mheapLock.
 		freeHWM offAddr
+
+		// scavengeAssistTime is the time spent scavenging in the last GC cycle.
+		//
+		// This is reset once a GC cycle ends.
+		assistTime atomic.Int64
 	}
 
 	// mheap_.lock. This level of indirection makes it possible
