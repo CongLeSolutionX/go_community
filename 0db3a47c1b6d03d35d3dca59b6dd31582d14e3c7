@@ -75,6 +75,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "087e1358_6806df39",
+        "filename": "src/cmd/dist/build.go",
+        "patchSetId": 35
+      },
+      "lineNbr": 1599,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2022-03-30T07:51:45Z",
+      "side": 1,
+      "message": "I\u0027d propose to add linux/loong64 to the incomplete map until the full series of CLs for linux/loong64 is merged.",
+      "revId": "0db3a47c1b6d03d35d3dca59b6dd31582d14e3c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4c070af0_01bd89f3",
         "filename": "src/cmd/dist/main.go",
         "patchSetId": 35
