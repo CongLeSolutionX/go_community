@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c410c2b6_c1cd31ff",
+        "filename": "AUTHORS",
+        "patchSetId": 41
+      },
+      "lineNbr": 830,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-03-31T01:57:59Z",
+      "side": 1,
+      "message": "The entry I see in the list of CLA signers is\n\nLoongson Technology Corporation Limited\n\nCan we use that here?  Thanks.",
+      "revId": "f720f0432a8df29884bae4531005885076ffa27a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
