@@ -185,6 +185,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "66387425_5f914e27",
+        "filename": "src/internal/bytealg/index_ppc64x.s",
+        "patchSetId": 20
+      },
+      "lineNbr": 696,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-03-31T22:32:17Z",
+      "side": 1,
+      "message": "Nevermind, this is still OK. I was thinking it should possible to update this to allow both ADD\u0027s to dispatch in parallel, that\u0027s a slightly different change.",
+      "parentUuid": "da1af889_554afcf3",
+      "range": {
+        "startLine": 696,
+        "startChar": 1,
+        "endLine": 696,
+        "endChar": 23
+      },
+      "revId": "e0d60dcc370a47f623a7011ef52ed23e4dc4a720",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "b7f05a17_5ec7c61d",
         "filename": "src/internal/bytealg/index_ppc64x.s",
         "patchSetId": 20
