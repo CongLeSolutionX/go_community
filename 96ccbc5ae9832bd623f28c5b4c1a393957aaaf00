@@ -53,6 +53,24 @@
       "message": "Note the comment at the end of the file.  Is a go.work file a specific development environment?  Of course maybe it\u0027s common enough that we should add it anyhow.",
       "revId": "96ccbc5ae9832bd623f28c5b4c1a393957aaaf00",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef444623_7d7096f9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2022-03-31T00:30:49Z",
+      "side": 1,
+      "message": "The Go project contains multiple modules, so the current recommendation when working with any editors that rely on `gopls` is currently to use go.work. Since `go` tools (build/list/...) already have a lot of special handling for the go project itself, another option is to make `gopls` just work even without `go.work` which I think is the best but not I am not sure what it involves to achieve that.",
+      "parentUuid": "206c16ad_47ac037b",
+      "revId": "96ccbc5ae9832bd623f28c5b4c1a393957aaaf00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
