@@ -16,6 +16,24 @@
       "message": "I don\u0027t think that this link is particularly helpful.",
       "revId": "b7ed24280cec0da2aa549595ace7b4560a39be99",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cff339f2_7de402ee",
+        "filename": "src/strings/strings.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1043,
+      "author": {
+        "id": 55613
+      },
+      "writtenOn": "2022-03-31T06:16:58Z",
+      "side": 1,
+      "message": "I removed this link.",
+      "parentUuid": "faf8d28e_e3362a97",
+      "revId": "b7ed24280cec0da2aa549595ace7b4560a39be99",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
