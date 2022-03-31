@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2b01cf7_78265b3a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 38
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-03-31T20:12:47Z",
+      "side": 1,
+      "message": "We have to wait on this CL until the upstream changes have been committed.  We have to vendor in the current HEAD of the upstream repo, not a specific uncommitted change.",
+      "revId": "b9ac8d3a5da47141a8b695e6f92c2a9131f2f2d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
