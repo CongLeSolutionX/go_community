@@ -48,6 +48,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "009f207a_69a7efe2",
+        "filename": "src/syscall/asm_linux_loong64.s",
+        "patchSetId": 40
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-03-31T12:20:37Z",
+      "side": 1,
+      "message": "Done. I also updated it in other newly added files.\nThanks!",
+      "parentUuid": "16cdb6b7_2c93d00b",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "83e9bf91c212e572f5b7731046922f85684c7b1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f3383099_2eca934d",
@@ -85,6 +109,30 @@
       "side": 1,
       "message": "Thanks! we will delete it soon.",
       "parentUuid": "f3383099_2eca934d",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 17
+      },
+      "revId": "83e9bf91c212e572f5b7731046922f85684c7b1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a72065f3_2ac6c116",
+        "filename": "src/syscall/asm_linux_loong64.s",
+        "patchSetId": 40
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-03-31T12:20:37Z",
+      "side": 1,
+      "message": "Done. I also dropped it in other newly added files.\nThanks!",
+      "parentUuid": "59385cd6_2238ca7f",
       "range": {
         "startLine": 5,
         "startChar": 0,
@@ -142,6 +190,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e508e7c8_041300c9",
+        "filename": "src/syscall/mkall.sh",
+        "patchSetId": 40
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-03-31T12:20:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9ab4b74_0aba00b9",
+      "range": {
+        "startLine": 261,
+        "startChar": 0,
+        "endLine": 261,
+        "endChar": 13
+      },
+      "revId": "83e9bf91c212e572f5b7731046922f85684c7b1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ae87d7b3_cf2531f3",
@@ -179,6 +251,30 @@
       "side": 1,
       "message": "Thanks! we will fix it soon.",
       "parentUuid": "ae87d7b3_cf2531f3",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "83e9bf91c212e572f5b7731046922f85684c7b1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "304ec562_dcf8b41f",
+        "filename": "src/syscall/syscall_linux_loong64.go",
+        "patchSetId": 40
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-03-31T12:20:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86b55e9a_f506aabb",
       "range": {
         "startLine": 1,
         "startChar": 13,
