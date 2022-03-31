@@ -1,6 +1,24 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "657f7c1b_cef5df3d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-03-31T04:52:42Z",
+      "side": 1,
+      "message": "Should this be submitted?\n",
+      "revId": "9aada7ccfd042c11bd83ab690539a3f1ed8b9338",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "248777a1_3b2e0c3b",
         "filename": "src/cmd/go/internal/modload/init.go",
@@ -14,10 +32,10 @@
       "side": 1,
       "message": "Delete \"may be\": updates are definitely needed here.\n\nCould you also report the file and line number from modFile.Go.Syntax to make it clear where this is coming from?",
       "revId": "9aada7ccfd042c11bd83ab690539a3f1ed8b9338",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "73d4eb19_26847623",
         "filename": "src/cmd/go/testdata/script/mod_go_future_version.txt",
@@ -31,8 +49,7 @@
       "side": 1,
       "message": "Optional, but consider adding another test case that verifies that a required module may have a newer-than-supported Go version.",
       "revId": "9aada7ccfd042c11bd83ab690539a3f1ed8b9338",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
