@@ -1417,6 +1417,21 @@ func (p *Package) cgoType(e ast.Expr) *Type {
 			}
 		}
 		if def := typedef[t.Name]; def != nil {
+			// MSVC does not support the _Complex keyword
+			// nor the complex macro.
+			// Use GoComplex64 and GoComplex128 instead,
+			// which are typedef-ed to a compatible type.
+			// See go.dev/issues/36233.
+			switch def.C.Repr {
+			case "complex float":
+				rr := *def
+				rr.C = c("GoComplex64")
+				def = &rr
+			case "complex double":
+				rr := *def
+				rr.C = c("GoComplex128")
+				def = &rr
+			}
 			return def
 		}
 		if t.Name == "uintptr" {
@@ -1895,8 +1910,14 @@ typedef GoUintGOINTBITS GoUint;
 typedef size_t GoUintptr;
 typedef float GoFloat32;
 typedef double GoFloat64;
+#ifdef _MSC_VER
+#include <complex.h>
+typedef _Fcomplex GoComplex64;
+typedef _Dcomplex GoComplex128;
+#else
 typedef float _Complex GoComplex64;
 typedef double _Complex GoComplex128;
+#endif
 
 /*
   static assertion to make sure the file is being used on architecture
