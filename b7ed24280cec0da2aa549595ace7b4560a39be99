@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "faf8d28e_e3362a97",
+        "filename": "src/strings/strings.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1043,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-03-31T05:49:16Z",
+      "side": 1,
+      "message": "I don\u0027t think that this link is particularly helpful.",
+      "revId": "b7ed24280cec0da2aa549595ace7b4560a39be99",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
