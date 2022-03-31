@@ -89,6 +89,24 @@
       "message": "I don\u0027t know this code but: when would anything other than a type be stored here?  If nothing else would be stored here, why not use the appropriate type rather than interface{}?",
       "revId": "732dbefe0600533fc833c5f2198cf8acdc563819",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31723744_647de610",
+        "filename": "src/cmd/compile/internal/syntax/nodes.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-03-31T00:06:33Z",
+      "side": 1,
+      "message": "The syntax package is imported by types2 and currently types2 defines the relevant types. One would have to factor out virtually all types out of types2. This may be the correct approach (as it would also allow the use of the same types in go/types), but it requires more work.\n\nThis was a quick-and-dirty CL to see feasibility and get some initial feedback.",
+      "parentUuid": "0ec292de_79014d79",
+      "revId": "732dbefe0600533fc833c5f2198cf8acdc563819",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
