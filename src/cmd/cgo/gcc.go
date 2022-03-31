@@ -2391,13 +2391,19 @@ func (c *typeConv) loadType(dtype dwarf.Type, pos token.Pos, parent string) *Typ
 		}
 
 	case *dwarf.ComplexType:
+		// MSVC does not support the _Complex keyword.
+		// Use GoComplex64 and GoComplex128 instead,
+		// which are typedef-ed to a compatible type.
+		// See go.dev/issues/36233.
 		switch t.Size {
 		default:
 			fatalf("%s: unexpected: %d-byte complex type - %s", lineno(pos), t.Size, dtype)
 		case 8:
 			t.Go = c.complex64
+			t.C.Set("GoComplex64")
 		case 16:
 			t.Go = c.complex128
+			t.C.Set("GoComplex128")
 		}
 		if t.Align = t.Size / 2; t.Align >= c.ptrSize {
 			t.Align = c.ptrSize
