@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47e7b492_ce74805f",
+        "filename": "src/crypto/x509/parser.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1026,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-03-31T22:06:57Z",
+      "side": 1,
+      "message": "Optional: I\u0027d find this clearer by defining a constant, since \"v2\" is confusingly \"1\":\n\n  const x509v2 \u003d 1\n  if version !\u003d x509v2 { ... }",
+      "revId": "7f964bcc4890e2b8b8f530a9cf1155826b1685ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "646050de_b3eb106a",
+        "filename": "src/crypto/x509/parser.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1038,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-03-31T22:06:57Z",
+      "side": 1,
+      "message": "Optional: The parsing is jumping around between tbs and input. I\u0027d find this easier to follow if input was fully parsed before moving on to tbs.",
+      "revId": "7f964bcc4890e2b8b8f530a9cf1155826b1685ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
