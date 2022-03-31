@@ -90,6 +90,24 @@
       "parentUuid": "76b7a80e_76045074",
       "revId": "0612dfc7547448d82d1ae0f76755d543bcd0d3d7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f10e9844_380d3a49",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 37
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-03-31T01:56:23Z",
+      "side": 1,
+      "message": "For the new ELF constants, add entries to go/api/next.  See the existing files in that directory.  Thanks.",
+      "parentUuid": "578d940d_7a62467c",
+      "revId": "0612dfc7547448d82d1ae0f76755d543bcd0d3d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
