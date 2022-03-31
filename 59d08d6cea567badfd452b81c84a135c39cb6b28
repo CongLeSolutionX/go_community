@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d799376_a8c7ab7b",
+        "filename": "src/cmd/compile/internal/amd64/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 777,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-03-31T19:43:08Z",
+      "side": 1,
+      "message": "Not needed anymore? Not sure how this compiles.",
+      "range": {
+        "startLine": 777,
+        "startChar": 48,
+        "endLine": 777,
+        "endChar": 69
+      },
+      "revId": "59d08d6cea567badfd452b81c84a135c39cb6b28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
