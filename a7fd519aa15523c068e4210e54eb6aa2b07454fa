@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "14b8beca_08b750f7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 35363
+      },
+      "writtenOn": "2022-03-31T02:11:32Z",
+      "side": 1,
+      "message": "I note this is a dup of cl/393615 \u0026 cl/394154\n\nI\u0027m closing this.\n\n",
+      "revId": "a7fd519aa15523c068e4210e54eb6aa2b07454fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
