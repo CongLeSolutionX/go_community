@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "33658b47_fe0f9c1b",
+        "filename": "src/cmd/compile/internal/walk/compare.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-03-31T05:30:53Z",
+      "side": 1,
+      "message": "This _, _ is not the usual Go style.  Is there other code in the compiler that works this way?  I would expect simpliy\n\n    io.WriteString(hash, base.Ctxt.Pkgpath)\n    io.WriteString(hash, ...)\n    ...",
+      "revId": "122d5203986e00a9ba9b7f253ac6d64da70fd74a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e11bac17_049e05f6",
         "filename": "src/runtime/libfuzzer_amd64.s",
         "patchSetId": 3
