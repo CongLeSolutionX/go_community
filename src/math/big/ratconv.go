@@ -178,15 +178,15 @@ func (z *Rat) SetString(s string) (*Rat, bool) {
 		if n > 1e6 {
 			return nil, false // avoid excessively large exponents
 		}
-		pow5 := z.b.abs.expNN(natFive, nat(nil).setWord(Word(n)), nil) // use underlying array of z.b.abs
+		pow5 := z.b.abs.expNN(nil, natFive, nat(nil).setWord(nil, Word(n)), nil) // use underlying array of z.b.abs
 		if exp5 > 0 {
-			z.a.abs = z.a.abs.mul(z.a.abs, pow5)
-			z.b.abs = z.b.abs.setWord(1)
+			z.a.abs = z.a.abs.mul(nil, z.a.abs, pow5)
+			z.b.abs = z.b.abs.setWord(nil, 1)
 		} else {
 			z.b.abs = pow5
 		}
 	} else {
-		z.b.abs = z.b.abs.setWord(1)
+		z.b.abs = z.b.abs.setWord(nil, 1)
 	}
 
 	// apply exp2 contributions
@@ -194,9 +194,9 @@ func (z *Rat) SetString(s string) (*Rat, bool) {
 		return nil, false // avoid excessively large exponents
 	}
 	if exp2 > 0 {
-		z.a.abs = z.a.abs.shl(z.a.abs, uint(exp2))
+		z.a.abs = z.a.abs.shl(nil, z.a.abs, uint(exp2))
 	} else if exp2 < 0 {
-		z.b.abs = z.b.abs.shl(z.b.abs, uint(-exp2))
+		z.b.abs = z.b.abs.shl(nil, z.b.abs, uint(-exp2))
 	}
 
 	z.a.neg = neg && len(z.a.abs) > 0 // 0 has no sign
@@ -342,23 +342,23 @@ func (x *Rat) FloatString(prec int) string {
 	}
 	// x.b.abs != 0
 
-	q, r := nat(nil).div(nat(nil), x.a.abs, x.b.abs)
+	q, r := nat(nil).div(nil, nat(nil), x.a.abs, x.b.abs)
 
 	p := natOne
 	if prec > 0 {
-		p = nat(nil).expNN(natTen, nat(nil).setUint64(uint64(prec)), nil)
+		p = nat(nil).expNN(nil, natTen, nat(nil).setUint64(nil, uint64(prec)), nil)
 	}
 
-	r = r.mul(r, p)
-	r, r2 := r.div(nat(nil), r, x.b.abs)
+	r = r.mul(nil, r, p)
+	r, r2 := r.div(nil, nat(nil), r, x.b.abs)
 
 	// see if we need to round up
-	r2 = r2.add(r2, r2)
+	r2 = r2.add(nil, r2, r2)
 	if x.b.abs.cmp(r2) <= 0 {
-		r = r.add(r, natOne)
+		r = r.add(nil, r, natOne)
 		if r.cmp(p) >= 0 {
-			q = nat(nil).add(q, natOne)
-			r = nat(nil).sub(r, p)
+			q = nat(nil).add(nil, q, natOne)
+			r = nat(nil).sub(nil, r, p)
 		}
 	}
 

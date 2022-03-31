@@ -12,6 +12,7 @@
 package big
 
 import (
+	"arena"
 	"fmt"
 	"math"
 	"math/bits"
@@ -63,13 +64,14 @@ const debugFloat = false // enable for debugging
 // a new value using the Float.Set method; shallow copies
 // of Floats are not supported and may lead to errors.
 type Float struct {
-	prec uint32
-	mode RoundingMode
-	acc  Accuracy
-	form form
-	neg  bool
-	mant nat
-	exp  int32
+	arena *arena.Arena
+	prec  uint32
+	mode  RoundingMode
+	acc   Accuracy
+	form  form
+	neg   bool
+	mant  nat
+	exp   int32
 }
 
 // An ErrNaN panic is raised by a Float operation that would lead to
@@ -155,6 +157,17 @@ const (
 )
 
 //go:generate stringer -type=Accuracy
+
+// SetArena sets the arena used for allocations performed by z and returns z.
+// If an arena is set, z must not be used after it is freed.
+// Panics if there is already an arena set.
+func (z *Float) SetArena(a *arena.Arena) *Float {
+	if z.arena != nil {
+		panic("arena already set")
+	}
+	z.arena = a
+	return z
+}
 
 // SetPrec sets z's precision to prec and returns the (possibly) rounded
 // value of z. Rounding occurs according to z's rounding mode if the mantissa
@@ -512,7 +525,7 @@ func (z *Float) setBits64(neg bool, x uint64) *Float {
 	// x != 0
 	z.form = finite
 	s := bits.LeadingZeros64(x)
-	z.mant = z.mant.setUint64(x << uint(s))
+	z.mant = z.mant.setUint64(z.arena, x<<uint(s))
 	z.exp = int32(64 - s) // always fits
 	if z.prec < 64 {
 		z.round(0)
@@ -563,7 +576,7 @@ func (z *Float) SetFloat64(x float64) *Float {
 	// normalized x != 0
 	z.form = finite
 	fmant, exp := math.Frexp(x) // get normalized mantissa
-	z.mant = z.mant.setUint64(1<<63 | math.Float64bits(fmant)<<11)
+	z.mant = z.mant.setUint64(z.arena, 1<<63|math.Float64bits(fmant)<<11)
 	z.exp = int32(exp) // always fits
 	if z.prec < 53 {
 		z.round(0)
@@ -606,7 +619,7 @@ func (z *Float) SetInt(x *Int) *Float {
 		return z
 	}
 	// x != 0
-	z.mant = z.mant.set(x.abs)
+	z.mant = z.mant.set(z.arena, x.abs)
 	fnorm(z.mant)
 	z.setExpAndRound(int64(bits), 0)
 	return z
@@ -655,7 +668,7 @@ func (z *Float) Set(x *Float) *Float {
 		z.neg = x.neg
 		if x.form == finite {
 			z.exp = x.exp
-			z.mant = z.mant.set(x.mant)
+			z.mant = z.mant.set(z.arena, x.mant)
 		}
 		if z.prec == 0 {
 			z.prec = x.prec
@@ -680,7 +693,7 @@ func (z *Float) Copy(x *Float) *Float {
 		z.form = x.form
 		z.neg = x.neg
 		if z.form == finite {
-			z.mant = z.mant.set(x.mant)
+			z.mant = z.mant.set(z.arena, x.mant)
 			z.exp = x.exp
 		}
 	}
@@ -1106,11 +1119,11 @@ func (x *Float) Int(z *Int) (*Int, Accuracy) {
 		z.neg = x.neg
 		switch {
 		case exp > allBits:
-			z.abs = z.abs.shl(x.mant, exp-allBits)
+			z.abs = z.abs.shl(x.arena, x.mant, exp-allBits)
 		default:
-			z.abs = z.abs.set(x.mant)
+			z.abs = z.abs.set(x.arena, x.mant)
 		case exp < allBits:
-			z.abs = z.abs.shr(x.mant, allBits-exp)
+			z.abs = z.abs.shr(x.arena, x.mant, allBits-exp)
 		}
 		return z, acc
 
@@ -1146,17 +1159,17 @@ func (x *Float) Rat(z *Rat) (*Rat, Accuracy) {
 		z.a.neg = x.neg
 		switch {
 		case x.exp > allBits:
-			z.a.abs = z.a.abs.shl(x.mant, uint(x.exp-allBits))
+			z.a.abs = z.a.abs.shl(x.arena, x.mant, uint(x.exp-allBits))
 			z.b.abs = z.b.abs[:0] // == 1 (see Rat)
 			// z already in normal form
 		default:
-			z.a.abs = z.a.abs.set(x.mant)
+			z.a.abs = z.a.abs.set(x.arena, x.mant)
 			z.b.abs = z.b.abs[:0] // == 1 (see Rat)
 			// z already in normal form
 		case x.exp < allBits:
-			z.a.abs = z.a.abs.set(x.mant)
-			t := z.b.abs.setUint64(1)
-			z.b.abs = t.shl(t, uint(allBits-x.exp))
+			z.a.abs = z.a.abs.set(x.arena, x.mant)
+			t := z.b.abs.setUint64(x.arena, 1)
+			z.b.abs = t.shl(x.arena, t, uint(allBits-x.exp))
 			z.norm()
 		}
 		return z, Exact
@@ -1230,22 +1243,22 @@ func (z *Float) uadd(x, y *Float) {
 	switch {
 	case ex < ey:
 		if al {
-			t := nat(nil).shl(y.mant, uint(ey-ex))
-			z.mant = z.mant.add(x.mant, t)
+			t := nat(nil).shl(z.arena, y.mant, uint(ey-ex))
+			z.mant = z.mant.add(z.arena, x.mant, t)
 		} else {
-			z.mant = z.mant.shl(y.mant, uint(ey-ex))
-			z.mant = z.mant.add(x.mant, z.mant)
+			z.mant = z.mant.shl(z.arena, y.mant, uint(ey-ex))
+			z.mant = z.mant.add(z.arena, x.mant, z.mant)
 		}
 	default:
 		// ex == ey, no shift needed
-		z.mant = z.mant.add(x.mant, y.mant)
+		z.mant = z.mant.add(z.arena, x.mant, y.mant)
 	case ex > ey:
 		if al {
-			t := nat(nil).shl(x.mant, uint(ex-ey))
-			z.mant = z.mant.add(t, y.mant)
+			t := nat(nil).shl(z.arena, x.mant, uint(ex-ey))
+			z.mant = z.mant.add(z.arena, t, y.mant)
 		} else {
-			z.mant = z.mant.shl(x.mant, uint(ex-ey))
-			z.mant = z.mant.add(z.mant, y.mant)
+			z.mant = z.mant.shl(z.arena, x.mant, uint(ex-ey))
+			z.mant = z.mant.add(z.arena, z.mant, y.mant)
 		}
 		ex = ey
 	}
@@ -1275,22 +1288,22 @@ func (z *Float) usub(x, y *Float) {
 	switch {
 	case ex < ey:
 		if al {
-			t := nat(nil).shl(y.mant, uint(ey-ex))
-			z.mant = t.sub(x.mant, t)
+			t := nat(nil).shl(z.arena, y.mant, uint(ey-ex))
+			z.mant = t.sub(z.arena, x.mant, t)
 		} else {
-			z.mant = z.mant.shl(y.mant, uint(ey-ex))
-			z.mant = z.mant.sub(x.mant, z.mant)
+			z.mant = z.mant.shl(z.arena, y.mant, uint(ey-ex))
+			z.mant = z.mant.sub(z.arena, x.mant, z.mant)
 		}
 	default:
 		// ex == ey, no shift needed
-		z.mant = z.mant.sub(x.mant, y.mant)
+		z.mant = z.mant.sub(z.arena, x.mant, y.mant)
 	case ex > ey:
 		if al {
-			t := nat(nil).shl(x.mant, uint(ex-ey))
-			z.mant = t.sub(t, y.mant)
+			t := nat(nil).shl(z.arena, x.mant, uint(ex-ey))
+			z.mant = t.sub(z.arena, t, y.mant)
 		} else {
-			z.mant = z.mant.shl(x.mant, uint(ex-ey))
-			z.mant = z.mant.sub(z.mant, y.mant)
+			z.mant = z.mant.shl(z.arena, x.mant, uint(ex-ey))
+			z.mant = z.mant.sub(z.arena, z.mant, y.mant)
 		}
 		ex = ey
 	}
@@ -1323,9 +1336,9 @@ func (z *Float) umul(x, y *Float) {
 
 	e := int64(x.exp) + int64(y.exp)
 	if x == y {
-		z.mant = z.mant.sqr(x.mant)
+		z.mant = z.mant.sqr(z.arena, x.mant)
 	} else {
-		z.mant = z.mant.mul(x.mant, y.mant)
+		z.mant = z.mant.mul(z.arena, x.mant, y.mant)
 	}
 	z.setExpAndRound(e-fnorm(z.mant), 0)
 }
@@ -1360,7 +1373,7 @@ func (z *Float) uquo(x, y *Float) {
 
 	// divide
 	var r nat
-	z.mant, r = z.mant.div(nil, xadj, y.mant)
+	z.mant, r = z.mant.div(z.arena, nil, xadj, y.mant)
 	e := int64(x.exp) - int64(y.exp) - int64(d-len(z.mant))*_W
 
 	// The result is long enough to include (at least) the rounding bit.

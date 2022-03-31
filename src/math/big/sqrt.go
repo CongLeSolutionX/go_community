@@ -5,6 +5,7 @@
 package big
 
 import (
+	"arena"
 	"math"
 	"sync"
 )
@@ -91,8 +92,8 @@ func (z *Float) sqrtInverse(x *Float) {
 	//   g(t) = f(t)/f'(t) = -½t(1 - xt²)
 	// and the next guess is given by
 	//   t2 = t - g(t) = ½t(3 - xt²)
-	u := newFloat(z.prec)
-	v := newFloat(z.prec)
+	u := newFloat(z.arena, z.prec)
+	v := newFloat(z.arena, z.prec)
 	three := three()
 	ng := func(t *Float) *Float {
 		u.prec = t.prec
@@ -106,7 +107,7 @@ func (z *Float) sqrtInverse(x *Float) {
 	}
 
 	xf, _ := x.Float64()
-	sqi := newFloat(z.prec)
+	sqi := newFloat(z.arena, z.prec)
 	sqi.SetFloat64(1 / math.Sqrt(xf))
 	for prec := z.prec + 32; sqi.prec < prec; {
 		sqi.prec *= 2
@@ -120,9 +121,9 @@ func (z *Float) sqrtInverse(x *Float) {
 
 // newFloat returns a new *Float with space for twice the given
 // precision.
-func newFloat(prec2 uint32) *Float {
+func newFloat(a *arena.Arena, prec2 uint32) *Float {
 	z := new(Float)
 	// nat.make ensures the slice length is > 0
-	z.mant = z.mant.make(int(prec2/_W) * 2)
+	z.mant = z.mant.make(a, int(prec2/_W)*2)
 	return z
 }

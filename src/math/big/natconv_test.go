@@ -40,13 +40,13 @@ func itoa(x nat, base int) []byte {
 	s := make([]byte, i)
 
 	// don't destroy x
-	q := nat(nil).set(x)
+	q := nat(nil).set(nil, x)
 
 	// convert
 	for len(q) > 0 {
 		i--
 		var r Word
-		q, r = q.divW(q, Word(base))
+		q, r = q.divW(nil, q, Word(base))
 		s[i] = digits[r]
 	}
 

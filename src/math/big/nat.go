@@ -14,6 +14,7 @@
 package big
 
 import (
+	"arena"
 	"encoding/binary"
 	"math/bits"
 	"math/rand"
@@ -55,64 +56,66 @@ func (z nat) norm() nat {
 	return z[0:i]
 }
 
-func (z nat) make(n int) nat {
+func (z nat) make(a *arena.Arena, n int) nat {
 	if n <= cap(z) {
 		return z[:n] // reuse z
 	}
 	if n == 1 {
 		// Most nats start small and stay that way; don't over-allocate.
-		return make(nat, 1)
+		a.Slice(&z, 1)
+		return z
 	}
 	// Choosing a good value for e has significant performance impact
 	// because it increases the chance that a value can be reused.
 	const e = 4 // extra capacity
-	return make(nat, n, n+e)
+	a.Slice(&z, n+e)
+	return z[:n]
 }
 
-func (z nat) setWord(x Word) nat {
+func (z nat) setWord(a *arena.Arena, x Word) nat {
 	if x == 0 {
 		return z[:0]
 	}
-	z = z.make(1)
+	z = z.make(a, 1)
 	z[0] = x
 	return z
 }
 
-func (z nat) setUint64(x uint64) nat {
+func (z nat) setUint64(a *arena.Arena, x uint64) nat {
 	// single-word value
 	if w := Word(x); uint64(w) == x {
-		return z.setWord(w)
+		return z.setWord(a, w)
 	}
 	// 2-word value
-	z = z.make(2)
+	z = z.make(a, 2)
 	z[1] = Word(x >> 32)
 	z[0] = Word(x)
 	return z
 }
 
-func (z nat) set(x nat) nat {
-	z = z.make(len(x))
+func (z nat) set(a *arena.Arena, x nat) nat {
+	z = z.make(a, len(x))
 	copy(z, x)
 	return z
 }
 
-func (z nat) add(x, y nat) nat {
+func (z nat) add(a *arena.Arena, x, y nat) nat {
 	m := len(x)
 	n := len(y)
 
 	switch {
 	case m < n:
-		return z.add(y, x)
+		return z.add(a, y, x)
 	case m == 0:
 		// n == 0 because m >= n; result is 0
 		return z[:0]
 	case n == 0:
 		// result is x
-		return z.set(x)
+		return z.set(a, x)
 	}
 	// m > 0
 
-	z = z.make(m + 1)
+	z = z.make(a, m+1)
 	c := addVV(z[0:n], x, y)
 	if m > n {
 		c = addVW(z[n:m], x[n:], c)
@@ -122,7 +125,7 @@ func (z nat) add(x, y nat) nat {
 	return z.norm()
 }
 
-func (z nat) sub(x, y nat) nat {
+func (z nat) sub(a *arena.Arena, x, y nat) nat {
 	m := len(x)
 	n := len(y)
 
@@ -134,11 +137,11 @@ func (z nat) sub(x, y nat) nat {
 		return z[:0]
 	case n == 0:
 		// result is x
-		return z.set(x)
+		return z.set(a, x)
 	}
 	// m > 0
 
-	z = z.make(m)
+	z = z.make(a, m)
 	c := subVV(z[0:n], x, y)
 	if m > n {
 		c = subVW(z[n:], x[n:], c)
@@ -177,14 +180,14 @@ func (x nat) cmp(y nat) (r int) {
 	return
 }
 
-func (z nat) mulAddWW(x nat, y, r Word) nat {
+func (z nat) mulAddWW(a *arena.Arena, x nat, y, r Word) nat {
 	m := len(x)
 	if m == 0 || y == 0 {
-		return z.setWord(r) // result is r
+		return z.setWord(a, r) // result is r
 	}
 	// m > 0
 
-	z = z.make(m + 1)
+	z = z.make(a, m+1)
 	z[m] = mulAddVWW(z[0:m], x, y, r)
 
 	return z.norm()
@@ -210,7 +213,7 @@ func basicMul(z, x, y nat) {
 // In the terminology of that paper, this is an "Almost Montgomery Multiplication":
 // x and y are required to satisfy 0 <= z < 2**(n*_W) and then the result
 // z is guaranteed to satisfy 0 <= z < 2**(n*_W), but it may not be < m.
-func (z nat) montgomery(x, y, m nat, k Word, n int) nat {
+func (z nat) montgomery(a *arena.Arena, x, y, m nat, k Word, n int) nat {
 	// This code assumes x, y, m are all the same length, n.
 	// (required by addMulVVW and the for loop).
 	// It also assumes that x, y are already reduced mod m,
@@ -218,7 +221,7 @@ func (z nat) montgomery(x, y, m nat, k Word, n int) nat {
 	if len(x) != n || len(y) != n || len(m) != n {
 		panic("math/big: mismatched montgomery number lengths")
 	}
-	z = z.make(n * 2)
+	z = z.make(a, n*2)
 	z.clear()
 	var c Word
 	for i := 0; i < n; i++ {
@@ -405,17 +408,17 @@ func karatsubaLen(n, threshold int) int {
 	return n << i
 }
 
-func (z nat) mul(x, y nat) nat {
+func (z nat) mul(a *arena.Arena, x, y nat) nat {
 	m := len(x)
 	n := len(y)
 
 	switch {
 	case m < n:
-		return z.mul(y, x)
+		return z.mul(a, y, x)
 	case m == 0 || n == 0:
 		return z[:0]
 	case n == 1:
-		return z.mulAddWW(x, y[0], 0)
+		return z.mulAddWW(a, x, y[0], 0)
 	}
 	// m >= n > 1
 
@@ -426,7 +429,7 @@ func (z nat) mul(x, y nat) nat {
 
 	// use basic multiplication if the numbers are small
 	if n < karatsubaThreshold {
-		z = z.make(m + n)
+		z = z.make(a, m+n)
 		basicMul(z, x, y)
 		return z.norm()
 	}
@@ -442,9 +445,9 @@ func (z nat) mul(x, y nat) nat {
 	// k <= n
 
 	// multiply x0 and y0 via Karatsuba
-	x0 := x[0:k]              // x0 is not normalized
-	y0 := y[0:k]              // y0 is not normalized
-	z = z.make(max(6*k, m+n)) // enough space for karatsuba of x0*y0 and full result of x*y
+	x0 := x[0:k]                 // x0 is not normalized
+	y0 := y[0:k]                 // y0 is not normalized
+	z = z.make(a, max(6*k, m+n)) // enough space for karatsuba of x0*y0 and full result of x*y
 	karatsuba(z, x0, y0)
 	z = z[0 : m+n]  // z has final length but may be incomplete
 	z[2*k:].clear() // upper portion of z is garbage (and 2*k <= m+n since k <= n <= m)
@@ -463,13 +466,13 @@ func (z nat) mul(x, y nat) nat {
 	// be a larger valid threshold contradicting the assumption about k.
 	//
 	if k < n || m != n {
-		tp := getNat(3 * k)
+		tp := getNat(a, 3*k)
 		t := *tp
 
 		// add x0*y1*b
 		x0 := x0.norm()
-		y1 := y[k:]       // y1 is normalized because y is
-		t = t.mul(x0, y1) // update t so we don't lose t's underlying array
+		y1 := y[k:]          // y1 is normalized because y is
+		t = t.mul(a, x0, y1) // update t so we don't lose t's underlying array
 		addAt(z, t, k)
 
 		// add xi*y0<<i, xi*y1*b<<(i+k)
@@ -480,13 +483,13 @@ func (z nat) mul(x, y nat) nat {
 				xi = xi[:k]
 			}
 			xi = xi.norm()
-			t = t.mul(xi, y0)
+			t = t.mul(a, xi, y0)
 			addAt(z, t, i)
-			t = t.mul(xi, y1)
+			t = t.mul(a, xi, y1)
 			addAt(z, t, i+k)
 		}
 
-		putNat(tp)
+		putNat(a, tp)
 	}
 
 	return z.norm()
@@ -496,9 +499,9 @@ func (z nat) mul(x, y nat) nat {
 // by about a factor of 2, but slower for small arguments due to overhead.
 // Requirements: len(x) > 0, len(z) == 2*len(x)
 // The (non-normalized) result is placed in z.
-func basicSqr(z, x nat) {
+func basicSqr(a *arena.Arena, z, x nat) {
 	n := len(x)
-	tp := getNat(2 * n)
+	tp := getNat(a, 2*n)
 	t := *tp // temporary variable to hold the products
 	t.clear()
 	z[1], z[0] = mulWW(x[0], x[0]) // the initial square
@@ -511,7 +514,7 @@ func basicSqr(z, x nat) {
 	}
 	t[2*n-1] = shlVU(t[1:2*n-1], t[1:2*n-1], 1) // double the j < i products
 	addVV(z, z, t)                              // combine the result
-	putNat(tp)
+	putNat(a, tp)
 }
 
 // karatsubaSqr squares x and leaves the result in z.
@@ -519,19 +522,19 @@ func basicSqr(z, x nat) {
 // The (non-normalized) result is placed in z[0 : 2*len(x)].
 //
 // The algorithm and the layout of z are the same as for karatsuba.
-func karatsubaSqr(z, x nat) {
+func karatsubaSqr(a *arena.Arena, z, x nat) {
 	n := len(x)
 
 	if n&1 != 0 || n < karatsubaSqrThreshold || n < 2 {
-		basicSqr(z[:2*n], x)
+		basicSqr(a, z[:2*n], x)
 		return
 	}
 
 	n2 := n >> 1
 	x1, x0 := x[n2:], x[0:n2]
 
-	karatsubaSqr(z, x0)
-	karatsubaSqr(z[n:], x1)
+	karatsubaSqr(a, z, x0)
+	karatsubaSqr(a, z[n:], x1)
 
 	// s = sign(xd*yd) == -1 for xd != 0; s == 1 for xd == 0
 	xd := z[2*n : 2*n+n2]
@@ -540,7 +543,7 @@ func karatsubaSqr(z, x nat) {
 	}
 
 	p := z[n*3:]
-	karatsubaSqr(p, xd)
+	karatsubaSqr(a, p, xd)
 
 	r := z[n*4:]
 	copy(r, z[:n*2])
@@ -557,14 +560,14 @@ var basicSqrThreshold = 20      // computed by calibrate_test.go
 var karatsubaSqrThreshold = 260 // computed by calibrate_test.go
 
 // z = x*x
-func (z nat) sqr(x nat) nat {
+func (z nat) sqr(a *arena.Arena, x nat) nat {
 	n := len(x)
 	switch {
 	case n == 0:
 		return z[:0]
 	case n == 1:
 		d := x[0]
-		z = z.make(2)
+		z = z.make(a, 2)
 		z[1], z[0] = mulWW(d, d)
 		return z.norm()
 	}
@@ -574,13 +577,13 @@ func (z nat) sqr(x nat) nat {
 	}
 
 	if n < basicSqrThreshold {
-		z = z.make(2 * n)
+		z = z.make(a, 2*n)
 		basicMul(z, x, x)
 		return z.norm()
 	}
 	if n < karatsubaSqrThreshold {
-		z = z.make(2 * n)
-		basicSqr(z, x)
+		z = z.make(a, 2*n)
+		basicSqr(a, z, x)
 		return z.norm()
 	}
 
@@ -592,22 +595,22 @@ func (z nat) sqr(x nat) nat {
 	k := karatsubaLen(n, karatsubaSqrThreshold)
 
 	x0 := x[0:k]
-	z = z.make(max(6*k, 2*n))
-	karatsubaSqr(z, x0) // z = x0^2
+	z = z.make(a, max(6*k, 2*n))
+	karatsubaSqr(a, z, x0) // z = x0^2
 	z = z[0 : 2*n]
 	z[2*k:].clear()
 
 	if k < n {
-		tp := getNat(2 * k)
+		tp := getNat(a, 2*k)
 		t := *tp
 		x0 := x0.norm()
 		x1 := x[k:]
-		t = t.mul(x0, x1)
+		t = t.mul(a, x0, x1)
 		addAt(z, t, k)
 		addAt(z, t, k) // z = 2*x1*x0*b + x0^2
-		t = t.sqr(x1)
+		t = t.sqr(a, x1)
 		addAt(z, t, 2*k) // z = x1^2*b^2 + 2*x1*x0*b + x0^2
-		putNat(tp)
+		putNat(a, tp)
 	}
 
 	return z.norm()
@@ -615,37 +618,48 @@ func (z nat) sqr(x nat) nat {
 
 // mulRange computes the product of all the unsigned integers in the
 // range [a, b] inclusively. If a > b (empty range), the result is 1.
-func (z nat) mulRange(a, b uint64) nat {
+func (z nat) mulRange(arena *arena.Arena, a, b uint64) nat {
 	switch {
 	case a == 0:
 		// cut long ranges short (optimization)
-		return z.setUint64(0)
+		return z.setUint64(arena, 0)
 	case a > b:
-		return z.setUint64(1)
+		return z.setUint64(arena, 1)
 	case a == b:
-		return z.setUint64(a)
+		return z.setUint64(arena, a)
 	case a+1 == b:
-		return z.mul(nat(nil).setUint64(a), nat(nil).setUint64(b))
+		return z.mul(arena, nat(nil).setUint64(arena, a), nat(nil).setUint64(arena, b))
 	}
 	m := (a + b) / 2
-	return z.mul(nat(nil).mulRange(a, m), nat(nil).mulRange(m+1, b))
+	return z.mul(arena, nat(nil).mulRange(arena, a, m), nat(nil).mulRange(arena, m+1, b))
 }
 
 // getNat returns a *nat of len n. The contents may not be zero.
 // The pool holds *nat to avoid allocation when converting to interface{}.
-func getNat(n int) *nat {
+// If a is non-nil, getNat uses it instead of the pool.
+func getNat(a *arena.Arena, n int) *nat {
 	var z *nat
+	if a != nil {
+		a.New(&z)
+		*z = z.make(a, n)
+		return z
+	}
 	if v := natPool.Get(); v != nil {
 		z = v.(*nat)
 	}
 	if z == nil {
 		z = new(nat)
 	}
-	*z = z.make(n)
+	*z = z.make(nil, n)
 	return z
 }
 
-func putNat(x *nat) {
+// putNat returns x to the pool. If a is non-nil, this instead does nothing to
+// avoid aliasing a value which may be freed.
+func putNat(a *arena.Arena, x *nat) {
+	if a != nil {
+		return
+	}
 	natPool.Put(x)
 }
 
@@ -678,13 +692,13 @@ func same(x, y nat) bool {
 }
 
 // z = x << s
-func (z nat) shl(x nat, s uint) nat {
+func (z nat) shl(a *arena.Arena, x nat, s uint) nat {
 	if s == 0 {
 		if same(z, x) {
 			return z
 		}
 		if !alias(z, x) {
-			return z.set(x)
+			return z.set(a, x)
 		}
 	}
 
@@ -695,7 +709,7 @@ func (z nat) shl(x nat, s uint) nat {
 	// m > 0
 
 	n := m + int(s/_W)
-	z = z.make(n + 1)
+	z = z.make(a, n+1)
 	z[n] = shlVU(z[n-m:n], x, s%_W)
 	z[0 : n-m].clear()
 
@@ -703,13 +717,13 @@ func (z nat) shl(x nat, s uint) nat {
 }
 
 // z = x >> s
-func (z nat) shr(x nat, s uint) nat {
+func (z nat) shr(a *arena.Arena, x nat, s uint) nat {
 	if s == 0 {
 		if same(z, x) {
 			return z
 		}
 		if !alias(z, x) {
-			return z.set(x)
+			return z.set(a, x)
 		}
 	}
 
@@ -720,19 +734,19 @@ func (z nat) shr(x nat, s uint) nat {
 	}
 	// n > 0
 
-	z = z.make(n)
+	z = z.make(a, n)
 	shrVU(z, x[m-n:], s%_W)
 
 	return z.norm()
 }
 
-func (z nat) setBit(x nat, i uint, b uint) nat {
+func (z nat) setBit(a *arena.Arena, x nat, i uint, b uint) nat {
 	j := int(i / _W)
 	m := Word(1) << (i % _W)
 	n := len(x)
 	switch b {
 	case 0:
-		z = z.make(n)
+		z = z.make(a, n)
 		copy(z, x)
 		if j >= n {
 			// no need to grow
@@ -742,10 +756,10 @@ func (z nat) setBit(x nat, i uint, b uint) nat {
 		return z.norm()
 	case 1:
 		if j >= n {
-			z = z.make(j + 1)
+			z = z.make(a, j+1)
 			z[n:].clear()
 		} else {
-			z = z.make(n)
+			z = z.make(a, n)
 		}
 		copy(z, x)
 		z[j] |= m
@@ -787,7 +801,7 @@ func (x nat) sticky(i uint) uint {
 	return 0
 }
 
-func (z nat) and(x, y nat) nat {
+func (z nat) and(a *arena.Arena, x, y nat) nat {
 	m := len(x)
 	n := len(y)
 	if m > n {
@@ -795,7 +809,7 @@ func (z nat) and(x, y nat) nat {
 	}
 	// m <= n
 
-	z = z.make(m)
+	z = z.make(a, m)
 	for i := 0; i < m; i++ {
 		z[i] = x[i] & y[i]
 	}
@@ -803,7 +817,7 @@ func (z nat) and(x, y nat) nat {
 	return z.norm()
 }
 
-func (z nat) andNot(x, y nat) nat {
+func (z nat) andNot(a *arena.Arena, x, y nat) nat {
 	m := len(x)
 	n := len(y)
 	if n > m {
@@ -811,7 +825,7 @@ func (z nat) andNot(x, y nat) nat {
 	}
 	// m >= n
 
-	z = z.make(m)
+	z = z.make(a, m)
 	for i := 0; i < n; i++ {
 		z[i] = x[i] &^ y[i]
 	}
@@ -820,7 +834,7 @@ func (z nat) andNot(x, y nat) nat {
 	return z.norm()
 }
 
-func (z nat) or(x, y nat) nat {
+func (z nat) or(a *arena.Arena, x, y nat) nat {
 	m := len(x)
 	n := len(y)
 	s := x
@@ -830,7 +844,7 @@ func (z nat) or(x, y nat) nat {
 	}
 	// m >= n
 
-	z = z.make(m)
+	z = z.make(a, m)
 	for i := 0; i < n; i++ {
 		z[i] = x[i] | y[i]
 	}
@@ -839,7 +853,7 @@ func (z nat) or(x, y nat) nat {
 	return z.norm()
 }
 
-func (z nat) xor(x, y nat) nat {
+func (z nat) xor(a *arena.Arena, x, y nat) nat {
 	m := len(x)
 	n := len(y)
 	s := x
@@ -849,7 +863,7 @@ func (z nat) xor(x, y nat) nat {
 	}
 	// m >= n
 
-	z = z.make(m)
+	z = z.make(a, m)
 	for i := 0; i < n; i++ {
 		z[i] = x[i] ^ y[i]
 	}
@@ -860,11 +874,11 @@ func (z nat) xor(x, y nat) nat {
 
 // random creates a random integer in [0..limit), using the space in z if
 // possible. n is the bit length of limit.
-func (z nat) random(rand *rand.Rand, limit nat, n int) nat {
+func (z nat) random(a *arena.Arena, rand *rand.Rand, limit nat, n int) nat {
 	if alias(z, limit) {
 		z = nil // z is an alias for limit - cannot reuse
 	}
-	z = z.make(len(limit))
+	z = z.make(a, len(limit))
 
 	bitLengthOfMSW := uint(n % _W)
 	if bitLengthOfMSW == 0 {
@@ -896,7 +910,7 @@ func (z nat) random(rand *rand.Rand, limit nat, n int) nat {
 
 // If m != 0 (i.e., len(m) != 0), expNN sets z to x**y mod m;
 // otherwise it sets z to x**y. The result is the value of z.
-func (z nat) expNN(x, y, m nat) nat {
+func (z nat) expNN(a *arena.Arena, x, y, m nat) nat {
 	if alias(z, x) || alias(z, y) {
 		// We cannot allow in-place modification of x or y.
 		z = nil
@@ -904,28 +918,28 @@ func (z nat) expNN(x, y, m nat) nat {
 
 	// x**y mod 1 == 0
 	if len(m) == 1 && m[0] == 1 {
-		return z.setWord(0)
+		return z.setWord(a, 0)
 	}
 	// m == 0 || m > 1
 
 	// x**0 == 1
 	if len(y) == 0 {
-		return z.setWord(1)
+		return z.setWord(a, 1)
 	}
 	// y > 0
 
 	// x**1 mod m == x mod m
 	if len(y) == 1 && y[0] == 1 && len(m) != 0 {
-		_, z = nat(nil).div(z, x, m)
+		_, z = nat(nil).div(a, z, x, m)
 		return z
 	}
 	// y > 1
 
 	if len(m) != 0 {
 		// We likely end up being as long as the modulus.
-		z = z.make(len(m))
+		z = z.make(a, len(m))
 	}
-	z = z.set(x)
+	z = z.set(a, x)
 
 	// If the base is non-trivial and the exponent is large, we use
 	// 4-bit, windowed exponentiation. This involves precomputing 14 values
@@ -934,9 +948,9 @@ func (z nat) expNN(x, y, m nat) nat {
 	// operations. Uses Montgomery method for odd moduli.
 	if x.cmp(natOne) > 0 && len(y) > 1 && len(m) > 0 {
 		if m[0]&1 == 1 {
-			return z.expNNMontgomery(x, y, m)
+			return z.expNNMontgomery(a, x, y, m)
 		}
-		return z.expNNWindowed(x, y, m)
+		return z.expNNWindowed(a, x, y, m)
 	}
 
 	v := y[len(y)-1] // v > 0 because y is normalized and y > 0
@@ -955,16 +969,16 @@ func (z nat) expNN(x, y, m nat) nat {
 	// otherwise the arguments would alias.
 	var zz, r nat
 	for j := 0; j < w; j++ {
-		zz = zz.sqr(z)
+		zz = zz.sqr(a, z)
 		zz, z = z, zz
 
 		if v&mask != 0 {
-			zz = zz.mul(z, x)
+			zz = zz.mul(a, z, x)
 			zz, z = z, zz
 		}
 
 		if len(m) != 0 {
-			zz, r = zz.div(r, z, m)
+			zz, r = zz.div(a, r, z, m)
 			zz, r, q, z = q, z, zz, r
 		}
 
@@ -975,16 +989,16 @@ func (z nat) expNN(x, y, m nat) nat {
 		v = y[i]
 
 		for j := 0; j < _W; j++ {
-			zz = zz.sqr(z)
+			zz = zz.sqr(a, z)
 			zz, z = z, zz
 
 			if v&mask != 0 {
-				zz = zz.mul(z, x)
+				zz = zz.mul(a, z, x)
 				zz, z = z, zz
 			}
 
 			if len(m) != 0 {
-				zz, r = zz.div(r, z, m)
+				zz, r = zz.div(a, r, z, m)
 				zz, r, q, z = q, z, zz, r
 			}
 
@@ -996,7 +1010,7 @@ func (z nat) expNN(x, y, m nat) nat {
 }
 
 // expNNWindowed calculates x**y mod m using a fixed, 4-bit window.
-func (z nat) expNNWindowed(x, y, m nat) nat {
+func (z nat) expNNWindowed(a *arena.Arena, x, y, m nat) nat {
 	// zz and r are used to avoid allocating in mul and div as otherwise
 	// the arguments would alias.
 	var zz, r nat
@@ -1008,15 +1022,15 @@ func (z nat) expNNWindowed(x, y, m nat) nat {
 	powers[1] = x
 	for i := 2; i < 1<<n; i += 2 {
 		p2, p, p1 := &powers[i/2], &powers[i], &powers[i+1]
-		*p = p.sqr(*p2)
-		zz, r = zz.div(r, *p, m)
+		*p = p.sqr(a, *p2)
+		zz, r = zz.div(a, r, *p, m)
 		*p, r = r, *p
-		*p1 = p1.mul(*p, x)
-		zz, r = zz.div(r, *p1, m)
+		*p1 = p1.mul(a, *p, x)
+		zz, r = zz.div(a, r, *p1, m)
 		*p1, r = r, *p1
 	}
 
-	z = z.setWord(1)
+	z = z.setWord(a, 1)
 
 	for i := len(y) - 1; i >= 0; i-- {
 		yi := y[i]
@@ -1025,30 +1039,30 @@ func (z nat) expNNWindowed(x, y, m nat) nat {
 				// Unrolled loop for significant performance
 				// gain. Use go test -bench=".*" in crypto/rsa
 				// to check performance before making changes.
-				zz = zz.sqr(z)
+				zz = zz.sqr(a, z)
 				zz, z = z, zz
-				zz, r = zz.div(r, z, m)
+				zz, r = zz.div(a, r, z, m)
 				z, r = r, z
 
-				zz = zz.sqr(z)
+				zz = zz.sqr(a, z)
 				zz, z = z, zz
-				zz, r = zz.div(r, z, m)
+				zz, r = zz.div(a, r, z, m)
 				z, r = r, z
 
-				zz = zz.sqr(z)
+				zz = zz.sqr(a, z)
 				zz, z = z, zz
-				zz, r = zz.div(r, z, m)
+				zz, r = zz.div(a, r, z, m)
 				z, r = r, z
 
-				zz = zz.sqr(z)
+				zz = zz.sqr(a, z)
 				zz, z = z, zz
-				zz, r = zz.div(r, z, m)
+				zz, r = zz.div(a, r, z, m)
 				z, r = r, z
 			}
 
-			zz = zz.mul(z, powers[yi>>(_W-n)])
+			zz = zz.mul(a, z, powers[yi>>(_W-n)])
 			zz, z = z, zz
-			zz, r = zz.div(r, z, m)
+			zz, r = zz.div(a, r, z, m)
 			z, r = r, z
 
 			yi <<= n
@@ -1060,13 +1074,13 @@ func (z nat) expNNWindowed(x, y, m nat) nat {
 
 // expNNMontgomery calculates x**y mod m using a fixed, 4-bit window.
 // Uses Montgomery representation.
-func (z nat) expNNMontgomery(x, y, m nat) nat {
+func (z nat) expNNMontgomery(a *arena.Arena, x, y, m nat) nat {
 	numWords := len(m)
 
 	// We want the lengths of x and m to be equal.
 	// It is OK if x >= m as long as len(x) == len(m).
 	if len(x) > numWords {
-		_, x = nat(nil).div(nil, x, m)
+		_, x = nat(nil).div(a, nil, x, m)
 		// Note: now len(x) <= numWords, not guaranteed ==.
 	}
 	if len(x) < numWords {
@@ -1087,11 +1101,11 @@ func (z nat) expNNMontgomery(x, y, m nat) nat {
 	k0 = -k0
 
 	// RR = 2**(2*_W*len(m)) mod m
-	RR := nat(nil).setWord(1)
-	zz := nat(nil).shl(RR, uint(2*numWords*_W))
-	_, RR = nat(nil).div(RR, zz, m)
+	RR := nat(nil).setWord(a, 1)
+	zz := nat(nil).shl(a, RR, uint(2*numWords*_W))
+	_, RR = nat(nil).div(a, RR, zz, m)
 	if len(RR) < numWords {
-		zz = zz.make(numWords)
+		zz = zz.make(a, numWords)
 		copy(zz, RR)
 		RR = zz
 	}
@@ -1102,35 +1116,35 @@ func (z nat) expNNMontgomery(x, y, m nat) nat {
 	const n = 4
 	// powers[i] contains x^i
 	var powers [1 << n]nat
-	powers[0] = powers[0].montgomery(one, RR, m, k0, numWords)
-	powers[1] = powers[1].montgomery(x, RR, m, k0, numWords)
+	powers[0] = powers[0].montgomery(a, one, RR, m, k0, numWords)
+	powers[1] = powers[1].montgomery(a, x, RR, m, k0, numWords)
 	for i := 2; i < 1<<n; i++ {
-		powers[i] = powers[i].montgomery(powers[i-1], powers[1], m, k0, numWords)
+		powers[i] = powers[i].montgomery(a, powers[i-1], powers[1], m, k0, numWords)
 	}
 
 	// initialize z = 1 (Montgomery 1)
-	z = z.make(numWords)
+	z = z.make(a, numWords)
 	copy(z, powers[0])
 
-	zz = zz.make(numWords)
+	zz = zz.make(a, numWords)
 
 	// same windowed exponent, but with Montgomery multiplications
 	for i := len(y) - 1; i >= 0; i-- {
 		yi := y[i]
 		for j := 0; j < _W; j += n {
 			if i != len(y)-1 || j != 0 {
-				zz = zz.montgomery(z, z, m, k0, numWords)
-				z = z.montgomery(zz, zz, m, k0, numWords)
-				zz = zz.montgomery(z, z, m, k0, numWords)
-				z = z.montgomery(zz, zz, m, k0, numWords)
+				zz = zz.montgomery(a, z, z, m, k0, numWords)
+				z = z.montgomery(a, zz, zz, m, k0, numWords)
+				zz = zz.montgomery(a, z, z, m, k0, numWords)
+				z = z.montgomery(a, zz, zz, m, k0, numWords)
 			}
-			zz = zz.montgomery(z, powers[yi>>(_W-n)], m, k0, numWords)
+			zz = zz.montgomery(a, z, powers[yi>>(_W-n)], m, k0, numWords)
 			z, zz = zz, z
 			yi <<= n
 		}
 	}
 	// convert to regular number
-	zz = zz.montgomery(z, one, m, k0, numWords)
+	zz = zz.montgomery(a, z, one, m, k0, numWords)
 
 	// One last reduction, just in case.
 	// See golang.org/issue/13907.
@@ -1142,9 +1156,9 @@ func (z nat) expNNMontgomery(x, y, m nat) nat {
 		// so do that unconditionally, but double-check,
 		// in case our beliefs are wrong.
 		// The div is not expected to be reached.
-		zz = zz.sub(zz, m)
+		zz = zz.sub(a, zz, m)
 		if zz.cmp(m) >= 0 {
-			_, zz = nat(nil).div(nil, zz, m)
+			_, zz = nat(nil).div(a, nil, zz, m)
 		}
 	}
 
@@ -1189,8 +1203,8 @@ func bigEndianWord(buf []byte) Word {
 
 // setBytes interprets buf as the bytes of a big-endian unsigned
 // integer, sets z to that value, and returns z.
-func (z nat) setBytes(buf []byte) nat {
-	z = z.make((len(buf) + _S - 1) / _S)
+func (z nat) setBytes(a *arena.Arena, buf []byte) nat {
+	z = z.make(a, (len(buf)+_S-1)/_S)
 
 	i := len(buf)
 	for k := 0; i >= _S; k++ {
@@ -1210,9 +1224,9 @@ func (z nat) setBytes(buf []byte) nat {
 }
 
 // sqrt sets z = ⌊√x⌋
-func (z nat) sqrt(x nat) nat {
+func (z nat) sqrt(a *arena.Arena, x nat) nat {
 	if x.cmp(natOne) <= 0 {
-		return z.set(x)
+		return z.set(a, x)
 	}
 	if alias(z, x) {
 		z = nil
@@ -1225,19 +1239,19 @@ func (z nat) sqrt(x nat) nat {
 	// otherwise it converges to the correct z and stays there.
 	var z1, z2 nat
 	z1 = z
-	z1 = z1.setUint64(1)
-	z1 = z1.shl(z1, uint(x.bitLen()+1)/2) // must be ≥ √x
+	z1 = z1.setUint64(a, 1)
+	z1 = z1.shl(a, z1, uint(x.bitLen()+1)/2) // must be ≥ √x
 	for n := 0; ; n++ {
-		z2, _ = z2.div(nil, x, z1)
-		z2 = z2.add(z2, z1)
-		z2 = z2.shr(z2, 1)
+		z2, _ = z2.div(a, nil, x, z1)
+		z2 = z2.add(a, z2, z1)
+		z2 = z2.shr(a, z2, 1)
 		if z2.cmp(z1) >= 0 {
 			// z1 is answer.
 			// Figure out whether z1 or z2 is currently aliased to z by looking at loop count.
 			if n&1 == 0 {
 				return z1
 			}
-			return z.set(z1)
+			return z.set(a, z1)
 		}
 		z1, z2 = z2, z1
 	}

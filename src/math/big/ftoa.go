@@ -183,14 +183,15 @@ func roundShortest(d *decimal, x *Float) {
 	// 1) Compute normalized mantissa mant and exponent exp for x such
 	// that the lsb of mant corresponds to 1/2 ulp for the precision of
 	// x (i.e., for mant we want x.prec + 1 bits).
-	mant := nat(nil).set(x.mant)
+	// TODO(zephyrtronium): arena alloc instead of nat(nil)
+	mant := nat(nil).set(x.arena, x.mant)
 	exp := int(x.exp) - mant.bitLen()
 	s := mant.bitLen() - int(x.prec+1)
 	switch {
 	case s < 0:
-		mant = mant.shl(mant, uint(-s))
+		mant = mant.shl(x.arena, mant, uint(-s))
 	case s > 0:
-		mant = mant.shr(mant, uint(+s))
+		mant = mant.shr(x.arena, mant, uint(+s))
 	}
 	exp += s
 	// x = mant * 2**exp with lsb(mant) == 1/2 ulp of x.prec
@@ -198,11 +199,11 @@ func roundShortest(d *decimal, x *Float) {
 	// 2) Compute lower bound by subtracting 1/2 ulp.
 	var lower decimal
 	var tmp nat
-	lower.init(tmp.sub(mant, natOne), exp)
+	lower.init(tmp.sub(x.arena, mant, natOne), exp)
 
 	// 3) Compute upper bound by adding 1/2 ulp.
 	var upper decimal
-	upper.init(tmp.add(mant, natOne), exp)
+	upper.init(tmp.add(x.arena, mant, natOne), exp)
 
 	// The upper and lower bounds are possible outputs only if
 	// the original mantissa is even, so that ToNearestEven rounding
@@ -329,9 +330,10 @@ func (x *Float) fmtB(buf []byte) []byte {
 	m := x.mant
 	switch w := uint32(len(x.mant)) * _W; {
 	case w < x.prec:
-		m = nat(nil).shl(m, uint(x.prec-w))
+		// TODO(zephyrtronium): arena alloc instead of nat(nil)
+		m = nat(nil).shl(x.arena, m, uint(x.prec-w))
 	case w > x.prec:
-		m = nat(nil).shr(m, uint(w-x.prec))
+		m = nat(nil).shr(x.arena, m, uint(w-x.prec))
 	}
 
 	buf = append(buf, m.utoa(10)...)
@@ -380,9 +382,10 @@ func (x *Float) fmtX(buf []byte, prec int) []byte {
 	m := x.mant
 	switch w := uint(len(x.mant)) * _W; {
 	case w < n:
-		m = nat(nil).shl(m, n-w)
+		// TODO(zephyrtronium): arena alloc instead of nat(nil)
+		m = nat(nil).shl(x.arena, m, n-w)
 	case w > n:
-		m = nat(nil).shr(m, w-n)
+		m = nat(nil).shr(x.arena, m, w-n)
 	}
 	exp64 := int64(x.exp) - 1 // avoid wrap-around
 

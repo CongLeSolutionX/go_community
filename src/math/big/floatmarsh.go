@@ -84,7 +84,7 @@ func (z *Float) GobDecode(buf []byte) error {
 
 	if z.form == finite {
 		z.exp = int32(binary.BigEndian.Uint32(buf[6:]))
-		z.mant = z.mant.setBytes(buf[10:])
+		z.mant = z.mant.setBytes(z.arena, buf[10:])
 	}
 
 	if oldPrec != 0 {

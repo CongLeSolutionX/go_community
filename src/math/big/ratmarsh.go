@@ -52,8 +52,8 @@ func (z *Rat) GobDecode(buf []byte) error {
 	const j = 1 + 4
 	i := j + binary.BigEndian.Uint32(buf[j-4:j])
 	z.a.neg = b&1 != 0
-	z.a.abs = z.a.abs.setBytes(buf[j:i])
-	z.b.abs = z.b.abs.setBytes(buf[i:])
+	z.a.abs = z.a.abs.setBytes(nil, buf[j:i])
+	z.b.abs = z.b.abs.setBytes(nil, buf[i:])
 	return nil
 }
 

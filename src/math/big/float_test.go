@@ -5,6 +5,7 @@
 package big
 
 import (
+	"arena"
 	"flag"
 	"fmt"
 	"math"
@@ -1852,6 +1853,59 @@ func BenchmarkFloatSub(b *testing.B) {
 			b.ReportAllocs()
 			for i := 0; i < b.N; i++ {
 				z.Sub(x, y)
+			}
+		})
+	}
+}
+
+func BenchmarkFloatPiArena(b *testing.B) {
+	b.Skip("hangs with arena at more than 10 bits of precision")
+	f := func(arena *arena.Arena, prec uint) {
+		// Following R. P. Brent, Multiple-precision zero-finding
+		// methods and the complexity of elementary function evaluation,
+		// in Analytic Computational Complexity, Academic Press,
+		// New York, 1975, Section 8.
+		var half, two, a, b, t, x, y, lim *Float
+		arena.New(&half)
+		arena.New(&two)
+		arena.New(&a)
+		arena.New(&b)
+		arena.New(&t)
+		arena.New(&x)
+		arena.New(&y)
+		arena.New(&lim)
+		half.SetArena(arena).SetFloat64(0.5)
+		two.SetArena(arena).SetFloat64(2).SetPrec(prec + 64)
+		a.SetArena(arena).SetFloat64(1).SetPrec(prec + 64)
+		b.SetArena(arena)
+		b.Mul(b.Sqrt(b), half)
+		t.SetArena(arena).SetFloat64(0.25).SetPrec(prec + 64)
+		x.SetArena(arena).SetFloat64(1).SetPrec(prec + 64)
+		y.SetArena(arena)
+		lim.SetArena(arena).SetMantExp(x, -int(prec+1))
+		for y.Sub(a, b).Cmp(lim) != -1 {
+			y.Copy(a)
+			a.Add(a, b).Mul(a, half)
+			b.Sqrt(b.Mul(b, y))
+			y.Sub(a, y)
+			y.Mul(y, y).Mul(y, x)
+			t.Sub(t, y)
+			x.Mul(x, two)
+		}
+		a.Mul(a, a).Quo(a, t)
+		a.SetPrec(prec)
+	}
+	for _, prec := range []uint{10, 1e2, 1e3} {
+		b.Run(fmt.Sprintf("%v/off", prec), func(b *testing.B) {
+			for i := 0; i < b.N; i++ {
+				f(nil, prec)
+			}
+		})
+		b.Run(fmt.Sprintf("%v/on", prec), func(b *testing.B) {
+			a := arena.New()
+			defer a.Free()
+			for i := 0; i < b.N; i++ {
+				f(a, prec)
 			}
 		})
 	}

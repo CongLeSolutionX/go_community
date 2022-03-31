@@ -85,7 +85,7 @@ func TestDecimalRounding(t *testing.T) {
 		{12995000, 4, "12990000", "13000000", "13000000"},
 		{12999999, 4, "12990000", "13000000", "13000000"},
 	} {
-		x := nat(nil).setUint64(test.x)
+		x := nat(nil).setUint64(nil, test.x)
 
 		var d decimal
 		d.init(x, 0)

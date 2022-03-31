@@ -23,6 +23,7 @@ import (
 // a new value using the Int.Set method; shallow copies
 // of Ints are not supported and may lead to errors.
 type Int struct {
+	// TODO(zephyrtronium): arena
 	neg bool // sign
 	abs nat  // absolute value of the integer
 }
@@ -52,14 +53,14 @@ func (z *Int) SetInt64(x int64) *Int {
 		neg = true
 		x = -x
 	}
-	z.abs = z.abs.setUint64(uint64(x))
+	z.abs = z.abs.setUint64(nil, uint64(x))
 	z.neg = neg
 	return z
 }
 
 // SetUint64 sets z to x and returns z.
 func (z *Int) SetUint64(x uint64) *Int {
-	z.abs = z.abs.setUint64(x)
+	z.abs = z.abs.setUint64(nil, x)
 	z.neg = false
 	return z
 }
@@ -72,7 +73,7 @@ func NewInt(x int64) *Int {
 // Set sets z to x and returns z.
 func (z *Int) Set(x *Int) *Int {
 	if z != x {
-		z.abs = z.abs.set(x.abs)
+		z.abs = z.abs.set(nil, x.abs)
 		z.neg = x.neg
 	}
 	return z
@@ -118,15 +119,15 @@ func (z *Int) Add(x, y *Int) *Int {
 	if x.neg == y.neg {
 		// x + y == x + y
 		// (-x) + (-y) == -(x + y)
-		z.abs = z.abs.add(x.abs, y.abs)
+		z.abs = z.abs.add(nil, x.abs, y.abs)
 	} else {
 		// x + (-y) == x - y == -(y - x)
 		// (-x) + y == y - x == -(x - y)
 		if x.abs.cmp(y.abs) >= 0 {
-			z.abs = z.abs.sub(x.abs, y.abs)
+			z.abs = z.abs.sub(nil, x.abs, y.abs)
 		} else {
 			neg = !neg
-			z.abs = z.abs.sub(y.abs, x.abs)
+			z.abs = z.abs.sub(nil, y.abs, x.abs)
 		}
 	}
 	z.neg = len(z.abs) > 0 && neg // 0 has no sign
@@ -139,15 +140,15 @@ func (z *Int) Sub(x, y *Int) *Int {
 	if x.neg != y.neg {
 		// x - (-y) == x + y
 		// (-x) - y == -(x + y)
-		z.abs = z.abs.add(x.abs, y.abs)
+		z.abs = z.abs.add(nil, x.abs, y.abs)
 	} else {
 		// x - y == x - y == -(y - x)
 		// (-x) - (-y) == y - x == -(x - y)
 		if x.abs.cmp(y.abs) >= 0 {
-			z.abs = z.abs.sub(x.abs, y.abs)
+			z.abs = z.abs.sub(nil, x.abs, y.abs)
 		} else {
 			neg = !neg
-			z.abs = z.abs.sub(y.abs, x.abs)
+			z.abs = z.abs.sub(nil, y.abs, x.abs)
 		}
 	}
 	z.neg = len(z.abs) > 0 && neg // 0 has no sign
@@ -161,11 +162,11 @@ func (z *Int) Mul(x, y *Int) *Int {
 	// (-x) * y == -(x * y)
 	// (-x) * (-y) == x * y
 	if x == y {
-		z.abs = z.abs.sqr(x.abs)
+		z.abs = z.abs.sqr(nil, x.abs)
 		z.neg = false
 		return z
 	}
-	z.abs = z.abs.mul(x.abs, y.abs)
+	z.abs = z.abs.mul(nil, x.abs, y.abs)
 	z.neg = len(z.abs) > 0 && x.neg != y.neg // 0 has no sign
 	return z
 }
@@ -188,7 +189,7 @@ func (z *Int) MulRange(a, b int64) *Int {
 		a, b = -b, -a
 	}
 
-	z.abs = z.abs.mulRange(uint64(a), uint64(b))
+	z.abs = z.abs.mulRange(nil, uint64(a), uint64(b))
 	z.neg = neg
 	return z
 }
@@ -209,7 +210,7 @@ func (z *Int) Binomial(n, k int64) *Int {
 // If y == 0, a division-by-zero run-time panic occurs.
 // Quo implements truncated division (like Go); see QuoRem for more details.
 func (z *Int) Quo(x, y *Int) *Int {
-	z.abs, _ = z.abs.div(nil, x.abs, y.abs)
+	z.abs, _ = z.abs.div(nil, nil, x.abs, y.abs)
 	z.neg = len(z.abs) > 0 && x.neg != y.neg // 0 has no sign
 	return z
 }
@@ -218,7 +219,7 @@ func (z *Int) Quo(x, y *Int) *Int {
 // If y == 0, a division-by-zero run-time panic occurs.
 // Rem implements truncated modulus (like Go); see QuoRem for more details.
 func (z *Int) Rem(x, y *Int) *Int {
-	_, z.abs = nat(nil).div(z.abs, x.abs, y.abs)
+	_, z.abs = nat(nil).div(nil, z.abs, x.abs, y.abs)
 	z.neg = len(z.abs) > 0 && x.neg // 0 has no sign
 	return z
 }
@@ -236,7 +237,7 @@ func (z *Int) Rem(x, y *Int) *Int {
 // See DivMod for Euclidean division and modulus (unlike Go).
 //
 func (z *Int) QuoRem(x, y, r *Int) (*Int, *Int) {
-	z.abs, r.abs = z.abs.div(r.abs, x.abs, y.abs)
+	z.abs, r.abs = z.abs.div(nil, r.abs, x.abs, y.abs)
 	z.neg, r.neg = len(z.abs) > 0 && x.neg != y.neg, len(r.abs) > 0 && x.neg // 0 has no sign
 	return z, r
 }
@@ -441,7 +442,7 @@ func (z *Int) setFromScanner(r io.ByteScanner, base int) (*Int, bool) {
 // SetBytes interprets buf as the bytes of a big-endian unsigned
 // integer, sets z to that value, and returns z.
 func (z *Int) SetBytes(buf []byte) *Int {
-	z.abs = z.abs.setBytes(buf)
+	z.abs = z.abs.setBytes(nil, buf)
 	z.neg = false
 	return z
 }
@@ -506,11 +507,11 @@ func (z *Int) Exp(x, y, m *Int) *Int {
 		mWords = m.abs // m.abs may be nil for m == 0
 	}
 
-	z.abs = z.abs.expNN(xWords, yWords, mWords)
+	z.abs = z.abs.expNN(nil, xWords, yWords, mWords)
 	z.neg = len(z.abs) > 0 && x.neg && len(yWords) > 0 && yWords[0]&1 == 1 // 0 has no sign
 	if z.neg && len(mWords) > 0 {
 		// make modulus result positive
-		z.abs = z.abs.sub(mWords, z.abs) // z == x**y mod |m| && 0 <= z < |m|
+		z.abs = z.abs.sub(nil, mWords, z.abs) // z == x**y mod |m| && 0 <= z < |m|
 		z.neg = false
 	}
 
@@ -622,16 +623,16 @@ func lehmerSimulate(A, B *Int) (u0, u1, v0, v1 Word, even bool) {
 // q, r, s, t are temporary variables to avoid allocations in the multiplication
 func lehmerUpdate(A, B, q, r, s, t *Int, u0, u1, v0, v1 Word, even bool) {
 
-	t.abs = t.abs.setWord(u0)
-	s.abs = s.abs.setWord(v0)
+	t.abs = t.abs.setWord(nil, u0)
+	s.abs = s.abs.setWord(nil, v0)
 	t.neg = !even
 	s.neg = even
 
 	t.Mul(A, t)
 	s.Mul(B, s)
 
-	r.abs = r.abs.setWord(u1)
-	q.abs = q.abs.setWord(v1)
+	r.abs = r.abs.setWord(nil, u1)
+	q.abs = q.abs.setWord(nil, v1)
 	r.neg = even
 	q.neg = !even
 
@@ -741,8 +742,8 @@ func (z *Int) lehmerGCD(x, y, a, b *Int) *Int {
 					even = !even
 				}
 
-				t.abs = t.abs.setWord(ua)
-				s.abs = s.abs.setWord(va)
+				t.abs = t.abs.setWord(nil, ua)
+				s.abs = s.abs.setWord(nil, va)
 				t.neg = !even
 				s.neg = even
 
@@ -797,7 +798,7 @@ func (z *Int) Rand(rnd *rand.Rand, n *Int) *Int {
 		z.abs = nil
 		return z
 	}
-	z.abs = z.abs.random(rnd, n.abs, n.abs.bitLen())
+	z.abs = z.abs.random(nil, rnd, n.abs, n.abs.bitLen())
 	return z
 }
 
@@ -1006,7 +1007,7 @@ func (z *Int) ModSqrt(x, p *Int) *Int {
 
 // Lsh sets z = x << n and returns z.
 func (z *Int) Lsh(x *Int, n uint) *Int {
-	z.abs = z.abs.shl(x.abs, n)
+	z.abs = z.abs.shl(nil, x.abs, n)
 	z.neg = x.neg
 	return z
 }
@@ -1015,14 +1016,14 @@ func (z *Int) Lsh(x *Int, n uint) *Int {
 func (z *Int) Rsh(x *Int, n uint) *Int {
 	if x.neg {
 		// (-x) >> s == ^(x-1) >> s == ^((x-1) >> s) == -(((x-1) >> s) + 1)
-		t := z.abs.sub(x.abs, natOne) // no underflow because |x| > 0
-		t = t.shr(t, n)
-		z.abs = t.add(t, natOne)
+		t := z.abs.sub(nil, x.abs, natOne) // no underflow because |x| > 0
+		t = t.shr(nil, t, n)
+		z.abs = t.add(nil, t, natOne)
 		z.neg = true // z cannot be zero if x is negative
 		return z
 	}
 
-	z.abs = z.abs.shr(x.abs, n)
+	z.abs = z.abs.shr(nil, x.abs, n)
 	z.neg = false
 	return z
 }
@@ -1041,7 +1042,7 @@ func (x *Int) Bit(i int) uint {
 		panic("negative bit index")
 	}
 	if x.neg {
-		t := nat(nil).sub(x.abs, natOne)
+		t := nat(nil).sub(nil, x.abs, natOne)
 		return t.bit(uint(i)) ^ 1
 	}
 
@@ -1057,13 +1058,13 @@ func (z *Int) SetBit(x *Int, i int, b uint) *Int {
 		panic("negative bit index")
 	}
 	if x.neg {
-		t := z.abs.sub(x.abs, natOne)
-		t = t.setBit(t, uint(i), b^1)
-		z.abs = t.add(t, natOne)
+		t := z.abs.sub(nil, x.abs, natOne)
+		t = t.setBit(nil, t, uint(i), b^1)
+		z.abs = t.add(nil, t, natOne)
 		z.neg = len(z.abs) > 0
 		return z
 	}
-	z.abs = z.abs.setBit(x.abs, uint(i), b)
+	z.abs = z.abs.setBit(nil, x.abs, uint(i), b)
 	z.neg = false
 	return z
 }
@@ -1073,15 +1074,15 @@ func (z *Int) And(x, y *Int) *Int {
 	if x.neg == y.neg {
 		if x.neg {
 			// (-x) & (-y) == ^(x-1) & ^(y-1) == ^((x-1) | (y-1)) == -(((x-1) | (y-1)) + 1)
-			x1 := nat(nil).sub(x.abs, natOne)
-			y1 := nat(nil).sub(y.abs, natOne)
-			z.abs = z.abs.add(z.abs.or(x1, y1), natOne)
+			x1 := nat(nil).sub(nil, x.abs, natOne)
+			y1 := nat(nil).sub(nil, y.abs, natOne)
+			z.abs = z.abs.add(nil, z.abs.or(nil, x1, y1), natOne)
 			z.neg = true // z cannot be zero if x and y are negative
 			return z
 		}
 
 		// x & y == x & y
-		z.abs = z.abs.and(x.abs, y.abs)
+		z.abs = z.abs.and(nil, x.abs, y.abs)
 		z.neg = false
 		return z
 	}
@@ -1092,8 +1093,8 @@ func (z *Int) And(x, y *Int) *Int {
 	}
 
 	// x & (-y) == x & ^(y-1) == x &^ (y-1)
-	y1 := nat(nil).sub(y.abs, natOne)
-	z.abs = z.abs.andNot(x.abs, y1)
+	y1 := nat(nil).sub(nil, y.abs, natOne)
+	z.abs = z.abs.andNot(nil, x.abs, y1)
 	z.neg = false
 	return z
 }
@@ -1103,30 +1104,30 @@ func (z *Int) AndNot(x, y *Int) *Int {
 	if x.neg == y.neg {
 		if x.neg {
 			// (-x) &^ (-y) == ^(x-1) &^ ^(y-1) == ^(x-1) & (y-1) == (y-1) &^ (x-1)
-			x1 := nat(nil).sub(x.abs, natOne)
-			y1 := nat(nil).sub(y.abs, natOne)
-			z.abs = z.abs.andNot(y1, x1)
+			x1 := nat(nil).sub(nil, x.abs, natOne)
+			y1 := nat(nil).sub(nil, y.abs, natOne)
+			z.abs = z.abs.andNot(nil, y1, x1)
 			z.neg = false
 			return z
 		}
 
 		// x &^ y == x &^ y
-		z.abs = z.abs.andNot(x.abs, y.abs)
+		z.abs = z.abs.andNot(nil, x.abs, y.abs)
 		z.neg = false
 		return z
 	}
 
 	if x.neg {
 		// (-x) &^ y == ^(x-1) &^ y == ^(x-1) & ^y == ^((x-1) | y) == -(((x-1) | y) + 1)
-		x1 := nat(nil).sub(x.abs, natOne)
-		z.abs = z.abs.add(z.abs.or(x1, y.abs), natOne)
+		x1 := nat(nil).sub(nil, x.abs, natOne)
+		z.abs = z.abs.add(nil, z.abs.or(nil, x1, y.abs), natOne)
 		z.neg = true // z cannot be zero if x is negative and y is positive
 		return z
 	}
 
 	// x &^ (-y) == x &^ ^(y-1) == x & (y-1)
-	y1 := nat(nil).sub(y.abs, natOne)
-	z.abs = z.abs.and(x.abs, y1)
+	y1 := nat(nil).sub(nil, y.abs, natOne)
+	z.abs = z.abs.and(nil, x.abs, y1)
 	z.neg = false
 	return z
 }
@@ -1136,15 +1137,15 @@ func (z *Int) Or(x, y *Int) *Int {
 	if x.neg == y.neg {
 		if x.neg {
 			// (-x) | (-y) == ^(x-1) | ^(y-1) == ^((x-1) & (y-1)) == -(((x-1) & (y-1)) + 1)
-			x1 := nat(nil).sub(x.abs, natOne)
-			y1 := nat(nil).sub(y.abs, natOne)
-			z.abs = z.abs.add(z.abs.and(x1, y1), natOne)
+			x1 := nat(nil).sub(nil, x.abs, natOne)
+			y1 := nat(nil).sub(nil, y.abs, natOne)
+			z.abs = z.abs.add(nil, z.abs.and(nil, x1, y1), natOne)
 			z.neg = true // z cannot be zero if x and y are negative
 			return z
 		}
 
 		// x | y == x | y
-		z.abs = z.abs.or(x.abs, y.abs)
+		z.abs = z.abs.or(nil, x.abs, y.abs)
 		z.neg = false
 		return z
 	}
@@ -1155,8 +1156,8 @@ func (z *Int) Or(x, y *Int) *Int {
 	}
 
 	// x | (-y) == x | ^(y-1) == ^((y-1) &^ x) == -(^((y-1) &^ x) + 1)
-	y1 := nat(nil).sub(y.abs, natOne)
-	z.abs = z.abs.add(z.abs.andNot(y1, x.abs), natOne)
+	y1 := nat(nil).sub(nil, y.abs, natOne)
+	z.abs = z.abs.add(nil, z.abs.andNot(nil, y1, x.abs), natOne)
 	z.neg = true // z cannot be zero if one of x or y is negative
 	return z
 }
@@ -1166,15 +1167,15 @@ func (z *Int) Xor(x, y *Int) *Int {
 	if x.neg == y.neg {
 		if x.neg {
 			// (-x) ^ (-y) == ^(x-1) ^ ^(y-1) == (x-1) ^ (y-1)
-			x1 := nat(nil).sub(x.abs, natOne)
-			y1 := nat(nil).sub(y.abs, natOne)
-			z.abs = z.abs.xor(x1, y1)
+			x1 := nat(nil).sub(nil, x.abs, natOne)
+			y1 := nat(nil).sub(nil, y.abs, natOne)
+			z.abs = z.abs.xor(nil, x1, y1)
 			z.neg = false
 			return z
 		}
 
 		// x ^ y == x ^ y
-		z.abs = z.abs.xor(x.abs, y.abs)
+		z.abs = z.abs.xor(nil, x.abs, y.abs)
 		z.neg = false
 		return z
 	}
@@ -1185,8 +1186,8 @@ func (z *Int) Xor(x, y *Int) *Int {
 	}
 
 	// x ^ (-y) == x ^ ^(y-1) == ^(x ^ (y-1)) == -((x ^ (y-1)) + 1)
-	y1 := nat(nil).sub(y.abs, natOne)
-	z.abs = z.abs.add(z.abs.xor(x.abs, y1), natOne)
+	y1 := nat(nil).sub(nil, y.abs, natOne)
+	z.abs = z.abs.add(nil, z.abs.xor(nil, x.abs, y1), natOne)
 	z.neg = true // z cannot be zero if only one of x or y is negative
 	return z
 }
@@ -1195,13 +1196,13 @@ func (z *Int) Xor(x, y *Int) *Int {
 func (z *Int) Not(x *Int) *Int {
 	if x.neg {
 		// ^(-x) == ^(^(x-1)) == x-1
-		z.abs = z.abs.sub(x.abs, natOne)
+		z.abs = z.abs.sub(nil, x.abs, natOne)
 		z.neg = false
 		return z
 	}
 
 	// ^x == -x-1 == -(x+1)
-	z.abs = z.abs.add(x.abs, natOne)
+	z.abs = z.abs.add(nil, x.abs, natOne)
 	z.neg = true // z cannot be zero if x is positive
 	return z
 }
@@ -1213,6 +1214,6 @@ func (z *Int) Sqrt(x *Int) *Int {
 		panic("square root of negative number")
 	}
 	z.neg = false
-	z.abs = z.abs.sqrt(x.abs)
+	z.abs = z.abs.sqrt(nil, x.abs)
 	return z
 }

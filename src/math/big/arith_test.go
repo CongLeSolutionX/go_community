@@ -5,6 +5,7 @@
 package big
 
 import (
+	"arena"
 	"fmt"
 	"internal/testenv"
 	"math/bits"
@@ -370,8 +371,8 @@ func TestShiftOverlap(t *testing.T) {
 func TestIssue31084(t *testing.T) {
 	// compute 10^n via 5^n << n.
 	const n = 165
-	p := nat(nil).expNN(nat{5}, nat{n}, nil)
-	p = p.shl(p, n)
+	p := nat(nil).expNN(nil, nat{5}, nat{n}, nil)
+	p = p.shl(nil, p, n)
 	got := string(p.utoa(10))
 	want := "1" + strings.Repeat("0", n)
 	if got != want {
@@ -384,7 +385,7 @@ const issue42838Value = "1593091911132452277028880397767711805591104555192618786
 func TestIssue42838(t *testing.T) {
 	const s = 192
 	z, _, _, _ := nat(nil).scan(strings.NewReader(issue42838Value), 0, false)
-	z = z.shl(z, s)
+	z = z.shl(nil, z, s)
 	got := string(z.utoa(10))
 	want := "1" + strings.Repeat("0", s)
 	if got != want {
@@ -512,7 +513,7 @@ func testFunVWW(t *testing.T, msg string, f funVWW, a argVWW) {
 // TODO(gri) mulAddVWW and divWVW are symmetric operations but
 //           their signature is not symmetric. Try to unify.
 
-type funWVW func(z []Word, xn Word, x []Word, y Word) (r Word)
+type funWVW func(a *arena.Arena, z []Word, xn Word, x []Word, y Word) (r Word)
 type argWVW struct {
 	z  nat
 	xn Word
@@ -523,7 +524,7 @@ type argWVW struct {
 
 func testFunWVW(t *testing.T, msg string, f funWVW, a argWVW) {
 	z := make(nat, len(a.z))
-	r := f(z, a.xn, a.x, a.y)
+	r := f(nil, z, a.xn, a.x, a.y)
 	for i, zi := range z {
 		if zi != a.z[i] {
 			t.Errorf("%s%+v\n\tgot z[%d] = %#x; want %#x", msg, a, i, zi, a.z[i])
@@ -666,7 +667,26 @@ func BenchmarkDivWVW(b *testing.B) {
 		b.Run(fmt.Sprint(n), func(b *testing.B) {
 			b.SetBytes(int64(n * _W))
 			for i := 0; i < b.N; i++ {
-				divWVW(z, 0, x, y)
+				divWVW(nil, z, 0, x, y)
+			}
+		})
+	}
+}
+
+func BenchmarkDivWVWArena(b *testing.B) {
+	for _, n := range benchSizes {
+		if isRaceBuilder && n > 1e3 {
+			continue
+		}
+		x := rndV(n)
+		y := rndW()
+		z := make([]Word, n)
+		b.Run(fmt.Sprint(n), func(b *testing.B) {
+			a := arena.New()
+			defer a.Free()
+			b.SetBytes(int64(n * _W))
+			for i := 0; i < b.N; i++ {
+				divWVW(a, z, 0, x, y)
 			}
 		})
 	}

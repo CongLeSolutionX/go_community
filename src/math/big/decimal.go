@@ -69,13 +69,15 @@ func (x *decimal) init(m nat, shift int) {
 		if s >= ntz {
 			s = ntz // shift at most ntz bits
 		}
-		m = nat(nil).shr(m, s)
+		// TODO(zephyrtronium): arena
+		m = nat(nil).shr(nil, m, s)
 		shift += int(s)
 	}
 
 	// Do any shift left in binary representation.
 	if shift > 0 {
-		m = nat(nil).shl(m, uint(shift))
+		// TODO(zephyrtronium): arena
+		m = nat(nil).shl(nil, m, uint(shift))
 		shift = 0
 	}
 

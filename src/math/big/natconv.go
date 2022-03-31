@@ -211,7 +211,7 @@ func (z nat) scan(r io.ByteScanner, base int, fracOk bool) (res nat, b, count in
 
 			// if di is "full", add it to the result
 			if i == n {
-				z = z.mulAddWW(z, bn, di)
+				z = z.mulAddWW(nil, z, bn, di)
 				di = 0
 				i = 0
 			}
@@ -241,7 +241,7 @@ func (z nat) scan(r io.ByteScanner, base int, fracOk bool) (res nat, b, count in
 
 	// add remaining digits to result
 	if i > 0 {
-		z = z.mulAddWW(z, pow(b1, i), di)
+		z = z.mulAddWW(nil, z, pow(b1, i), di)
 	}
 	res = z.norm()
 
@@ -329,7 +329,7 @@ func (x nat) itoa(neg bool, base int) []byte {
 		table := divisors(len(x), b, ndigits, bb)
 
 		// preserve x, create local copy for use by convertWords
-		q := nat(nil).set(x)
+		q := nat(nil).set(nil, x)
 
 		// convert q to string s in base b
 		q.convertWords(s, b, ndigits, bb, table)
@@ -388,7 +388,7 @@ func (q nat) convertWords(s []byte, b Word, ndigits int, bb Word, table []diviso
 			}
 
 			// split q into the two digit number (q'*bbb + r) to form independent subblocks
-			q, r = q.div(r, q, table[index].bbb)
+			q, r = q.div(nil, r, q, table[index].bbb)
 
 			// convert subblocks and collect results in s[:h] and s[h:]
 			h := len(s) - table[index].ndigits
@@ -404,7 +404,7 @@ func (q nat) convertWords(s []byte, b Word, ndigits int, bb Word, table []diviso
 		// hard-coding for 10 here speeds this up by 1.25x (allows for / and % by constants)
 		for len(q) > 0 {
 			// extract least significant, base bb "digit"
-			q, r = q.divW(q, bb)
+			q, r = q.divW(nil, q, bb)
 			for j := 0; j < ndigits && i > 0; j++ {
 				i--
 				// avoid % computation since r%10 == r - int(r/10)*10;
@@ -418,7 +418,7 @@ func (q nat) convertWords(s []byte, b Word, ndigits int, bb Word, table []diviso
 	} else {
 		for len(q) > 0 {
 			// extract least significant, base bb "digit"
-			q, r = q.divW(q, bb)
+			q, r = q.divW(nil, q, bb)
 			for j := 0; j < ndigits && i > 0; j++ {
 				i--
 				s[i] = digits[r%b]
@@ -453,7 +453,7 @@ var cacheBase10 struct {
 
 // expWW computes x**y
 func (z nat) expWW(x, y Word) nat {
-	return z.expNN(nat(nil).setWord(x), nat(nil).setWord(y), nil)
+	return z.expNN(nil, nat(nil).setWord(nil, x), nat(nil).setWord(nil, y), nil)
 }
 
 // construct table of powers of bb*leafSize to use in subdivisions
@@ -488,14 +488,14 @@ func divisors(m int, b Word, ndigits int, bb Word) []divisor {
 					table[0].bbb = nat(nil).expWW(bb, Word(leafSize))
 					table[0].ndigits = ndigits * leafSize
 				} else {
-					table[i].bbb = nat(nil).sqr(table[i-1].bbb)
+					table[i].bbb = nat(nil).sqr(nil, table[i-1].bbb)
 					table[i].ndigits = 2 * table[i-1].ndigits
 				}
 
 				// optimization: exploit aggregated extra bits in macro blocks
-				larger = nat(nil).set(table[i].bbb)
+				larger = nat(nil).set(nil, table[i].bbb)
 				for mulAddVWW(larger, larger, b, 0) == 0 {
-					table[i].bbb = table[i].bbb.set(larger)
+					table[i].bbb = table[i].bbb.set(nil, larger)
 					table[i].ndigits++
 				}
 

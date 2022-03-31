@@ -109,19 +109,19 @@ func quotToFloat32(a, b nat) (f float32, exact bool) {
 	// - the low-order 1 will be used during rounding then discarded.
 	exp := alen - blen
 	var a2, b2 nat
-	a2 = a2.set(a)
-	b2 = b2.set(b)
+	a2 = a2.set(nil, a)
+	b2 = b2.set(nil, b)
 	if shift := Msize2 - exp; shift > 0 {
-		a2 = a2.shl(a2, uint(shift))
+		a2 = a2.shl(nil, a2, uint(shift))
 	} else if shift < 0 {
-		b2 = b2.shl(b2, uint(-shift))
+		b2 = b2.shl(nil, b2, uint(-shift))
 	}
 
 	// 2. Compute quotient and remainder (q, r).  NB: due to the
 	// extra shift, the low-order bit of q is logically the
 	// high-order bit of r.
 	var q nat
-	q, r := q.div(a2, a2, b2) // (recycle a2)
+	q, r := q.div(nil, a2, a2, b2) // (recycle a2)
 	mantissa := low32(q)
 	haveRem := len(r) > 0 // mantissa&1 && !haveRem => remainder is exactly half
 
@@ -207,19 +207,19 @@ func quotToFloat64(a, b nat) (f float64, exact bool) {
 	// - the low-order 1 will be used during rounding then discarded.
 	exp := alen - blen
 	var a2, b2 nat
-	a2 = a2.set(a)
-	b2 = b2.set(b)
+	a2 = a2.set(nil, a)
+	b2 = b2.set(nil, b)
 	if shift := Msize2 - exp; shift > 0 {
-		a2 = a2.shl(a2, uint(shift))
+		a2 = a2.shl(nil, a2, uint(shift))
 	} else if shift < 0 {
-		b2 = b2.shl(b2, uint(-shift))
+		b2 = b2.shl(nil, b2, uint(-shift))
 	}
 
 	// 2. Compute quotient and remainder (q, r).  NB: due to the
 	// extra shift, the low-order bit of q is logically the
 	// high-order bit of r.
 	var q nat
-	q, r := q.div(a2, a2, b2) // (recycle a2)
+	q, r := q.div(nil, a2, a2, b2) // (recycle a2)
 	mantissa := low64(q)
 	haveRem := len(r) > 0 // mantissa&1 && !haveRem => remainder is exactly half
 
@@ -307,10 +307,10 @@ func (z *Rat) SetFrac(a, b *Int) *Rat {
 		panic("division by zero")
 	}
 	if &z.a == b || alias(z.a.abs, babs) {
-		babs = nat(nil).set(babs) // make a copy
+		babs = nat(nil).set(nil, babs) // make a copy
 	}
-	z.a.abs = z.a.abs.set(a.abs)
-	z.b.abs = z.b.abs.set(babs)
+	z.a.abs = z.a.abs.set(nil, a.abs)
+	z.b.abs = z.b.abs.set(nil, babs)
 	return z.norm()
 }
 
@@ -325,28 +325,28 @@ func (z *Rat) SetFrac64(a, b int64) *Rat {
 		b = -b
 		z.a.neg = !z.a.neg
 	}
-	z.b.abs = z.b.abs.setUint64(uint64(b))
+	z.b.abs = z.b.abs.setUint64(nil, uint64(b))
 	return z.norm()
 }
 
 // SetInt sets z to x (by making a copy of x) and returns z.
 func (z *Rat) SetInt(x *Int) *Rat {
 	z.a.Set(x)
-	z.b.abs = z.b.abs.setWord(1)
+	z.b.abs = z.b.abs.setWord(nil, 1)
 	return z
 }
 
 // SetInt64 sets z to x and returns z.
 func (z *Rat) SetInt64(x int64) *Rat {
 	z.a.SetInt64(x)
-	z.b.abs = z.b.abs.setWord(1)
+	z.b.abs = z.b.abs.setWord(nil, 1)
 	return z
 }
 
 // SetUint64 sets z to x and returns z.
 func (z *Rat) SetUint64(x uint64) *Rat {
 	z.a.SetUint64(x)
-	z.b.abs = z.b.abs.setWord(1)
+	z.b.abs = z.b.abs.setWord(nil, 1)
 	return z
 }
 
@@ -357,7 +357,7 @@ func (z *Rat) Set(x *Rat) *Rat {
 		z.b.Set(&x.b)
 	}
 	if len(z.b.abs) == 0 {
-		z.b.abs = z.b.abs.setWord(1)
+		z.b.abs = z.b.abs.setWord(nil, 1)
 	}
 	return z
 }
@@ -436,15 +436,15 @@ func (z *Rat) norm() *Rat {
 		fallthrough
 	case len(z.b.abs) == 0:
 		// z is integer; normalize denominator
-		z.b.abs = z.b.abs.setWord(1)
+		z.b.abs = z.b.abs.setWord(nil, 1)
 	default:
 		// z is fraction; normalize numerator and denominator
 		neg := z.a.neg
 		z.a.neg = false
 		z.b.neg = false
 		if f := NewInt(0).lehmerGCD(nil, nil, &z.a, &z.b); f.Cmp(intOne) != 0 {
-			z.a.abs, _ = z.a.abs.div(nil, z.a.abs, f.abs)
-			z.b.abs, _ = z.b.abs.div(nil, z.b.abs, f.abs)
+			z.a.abs, _ = z.a.abs.div(nil, nil, z.a.abs, f.abs)
+			z.b.abs, _ = z.b.abs.div(nil, nil, z.b.abs, f.abs)
 		}
 		z.a.neg = neg
 	}
@@ -457,13 +457,13 @@ func (z *Rat) norm() *Rat {
 func mulDenom(z, x, y nat) nat {
 	switch {
 	case len(x) == 0 && len(y) == 0:
-		return z.setWord(1)
+		return z.setWord(nil, 1)
 	case len(x) == 0:
-		return z.set(y)
+		return z.set(nil, y)
 	case len(y) == 0:
-		return z.set(x)
+		return z.set(nil, x)
 	}
-	return z.mul(x, y)
+	return z.mul(nil, x, y)
 }
 
 // scaleDenom sets z to the product x*f.
@@ -473,7 +473,7 @@ func (z *Int) scaleDenom(x *Int, f nat) {
 		z.Set(x)
 		return
 	}
-	z.abs = z.abs.mul(x.abs, f)
+	z.abs = z.abs.mul(nil, x.abs, f)
 	z.neg = x.neg
 }
 
@@ -515,11 +515,11 @@ func (z *Rat) Mul(x, y *Rat) *Rat {
 	if x == y {
 		// a squared Rat is positive and can't be reduced (no need to call norm())
 		z.a.neg = false
-		z.a.abs = z.a.abs.sqr(x.a.abs)
+		z.a.abs = z.a.abs.sqr(nil, x.a.abs)
 		if len(x.b.abs) == 0 {
-			z.b.abs = z.b.abs.setWord(1)
+			z.b.abs = z.b.abs.setWord(nil, 1)
 		} else {
-			z.b.abs = z.b.abs.sqr(x.b.abs)
+			z.b.abs = z.b.abs.sqr(nil, x.b.abs)
 		}
 		return z
 	}

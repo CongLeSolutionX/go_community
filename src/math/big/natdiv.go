@@ -498,18 +498,21 @@ usual long division proofs apply essentially unaltered.
 
 package big
 
-import "math/bits"
+import (
+	"arena"
+	"math/bits"
+)
 
 // div returns q, r such that q = ⌊u/v⌋ and r = u%v = u - q·v.
 // It uses z and z2 as the storage for q and r.
-func (z nat) div(z2, u, v nat) (q, r nat) {
+func (z nat) div(a *arena.Arena, z2, u, v nat) (q, r nat) {
 	if len(v) == 0 {
 		panic("division by zero")
 	}
 
 	if u.cmp(v) < 0 {
 		q = z[:0]
-		r = z2.set(u)
+		r = z2.set(a, u)
 		return
 	}
 
@@ -517,48 +520,48 @@ func (z nat) div(z2, u, v nat) (q, r nat) {
 		// Short division: long optimized for a single-word divisor.
 		// In that case, the 2-by-1 guess is all we need at each step.
 		var r2 Word
-		q, r2 = z.divW(u, v[0])
-		r = z2.setWord(r2)
+		q, r2 = z.divW(a, u, v[0])
+		r = z2.setWord(a, r2)
 		return
 	}
 
-	q, r = z.divLarge(z2, u, v)
+	q, r = z.divLarge(a, z2, u, v)
 	return
 }
 
 // divW returns q, r such that q = ⌊x/y⌋ and r = x%y = x - q·y.
 // It uses z as the storage for q.
 // Note that y is a single digit (Word), not a big number.
-func (z nat) divW(x nat, y Word) (q nat, r Word) {
+func (z nat) divW(a *arena.Arena, x nat, y Word) (q nat, r Word) {
 	m := len(x)
 	switch {
 	case y == 0:
 		panic("division by zero")
 	case y == 1:
-		q = z.set(x) // result is x
+		q = z.set(a, x) // result is x
 		return
 	case m == 0:
 		q = z[:0] // result is 0
 		return
 	}
 	// m > 0
-	z = z.make(m)
-	r = divWVW(z, 0, x, y)
+	z = z.make(a, m)
+	r = divWVW(a, z, 0, x, y)
 	q = z.norm()
 	return
 }
 
 // modW returns x % d.
-func (x nat) modW(d Word) (r Word) {
+func (x nat) modW(a *arena.Arena, d Word) (r Word) {
 	// TODO(agl): we don't actually need to store the q value.
 	var q nat
-	q = q.make(len(x))
-	return divWVW(q, 0, x, d)
+	q = q.make(a, len(x))
+	return divWVW(a, q, 0, x, d)
 }
 
 // divWVW overwrites z with ⌊x/y⌋, returning the remainder r.
 // The caller must ensure that len(z) = len(x).
-func divWVW(z []Word, xn Word, x []Word, y Word) (r Word) {
+func divWVW(a *arena.Arena, z []Word, xn Word, x []Word, y Word) (r Word) {
 	r = xn
 	if len(x) == 1 {
 		qq, rr := bits.Div(uint(r), uint(x[0]), uint(y))
@@ -576,7 +579,7 @@ func divWVW(z []Word, xn Word, x []Word, y Word) (r Word) {
 // It uses z and u as the storage for q and r.
 // The caller must ensure that len(vIn) ≥ 2 (use divW otherwise)
 // and that len(uIn) ≥ len(vIn) (the answer is 0, uIn otherwise).
-func (z nat) divLarge(u, uIn, vIn nat) (q, r nat) {
+func (z nat) divLarge(a *arena.Arena, u, uIn, vIn nat) (q, r nat) {
 	n := len(vIn)
 	m := len(uIn) - n
 
@@ -585,10 +588,10 @@ func (z nat) divLarge(u, uIn, vIn nat) (q, r nat) {
 	// goroutine), so we must make a copy.
 	// uIn is copied to u.
 	shift := nlz(vIn[n-1])
-	vp := getNat(n)
+	vp := getNat(a, n)
 	v := *vp
 	shlVU(v, vIn, shift)
-	u = u.make(len(uIn) + 1)
+	u = u.make(a, len(uIn)+1)
 	u[len(uIn)] = shlVU(u[0:len(uIn)], uIn, shift)
 
 	// The caller should not pass aliased z and u, since those are
@@ -596,15 +599,15 @@ func (z nat) divLarge(u, uIn, vIn nat) (q, r nat) {
 	if alias(z, u) {
 		z = nil
 	}
-	q = z.make(m + 1)
+	q = z.make(a, m+1)
 
 	// Use basic or recursive long division depending on size.
 	if n < divRecursiveThreshold {
-		q.divBasic(u, v)
+		q.divBasic(a, u, v)
 	} else {
-		q.divRecursive(u, v)
+		q.divRecursive(a, u, v)
 	}
-	putNat(vp)
+	putNat(a, vp)
 
 	q = q.norm()
 
@@ -618,11 +621,11 @@ func (z nat) divLarge(u, uIn, vIn nat) (q, r nat) {
 // divBasic implements long division as described above.
 // It overwrites q with ⌊u/v⌋ and overwrites u with the remainder r.
 // q must be large enough to hold ⌊u/v⌋.
-func (q nat) divBasic(u, v nat) {
+func (q nat) divBasic(a *arena.Arena, u, v nat) {
 	n := len(v)
 	m := len(u) - n
 
-	qhatvp := getNat(n + 1)
+	qhatvp := getNat(a, n+1)
 	qhatv := *qhatvp
 
 	// Set up for divWW below, precomputing reciprocal argument.
@@ -694,7 +697,7 @@ func (q nat) divBasic(u, v nat) {
 		q[j] = qhat
 	}
 
-	putNat(qhatvp)
+	putNat(a, qhatvp)
 }
 
 // greaterThan reports whether the two digit numbers x1 x2 > y1 y2.
@@ -713,24 +716,24 @@ const divRecursiveThreshold = 100
 // z must be large enough to hold ⌊u/v⌋.
 // This function is just for allocating and freeing temporaries
 // around divRecursiveStep, the real implementation.
-func (z nat) divRecursive(u, v nat) {
+func (z nat) divRecursive(a *arena.Arena, u, v nat) {
 	// Recursion depth is (much) less than 2 log₂(len(v)).
 	// Allocate a slice of temporaries to be reused across recursion,
 	// plus one extra temporary not live across the recursion.
 	recDepth := 2 * bits.Len(uint(len(v)))
-	tmp := getNat(3 * len(v))
+	tmp := getNat(a, 3*len(v))
 	temps := make([]*nat, recDepth)
 
 	z.clear()
-	z.divRecursiveStep(u, v, 0, tmp, temps)
+	z.divRecursiveStep(a, u, v, 0, tmp, temps)
 
 	// Free temporaries.
 	for _, n := range temps {
 		if n != nil {
-			putNat(n)
+			putNat(a, n)
 		}
 	}
-	putNat(tmp)
+	putNat(a, tmp)
 }
 
 // divRecursiveStep is the actual implementation of recursive division.
@@ -738,7 +741,7 @@ func (z nat) divRecursive(u, v nat) {
 // z must be large enough to hold ⌊u/v⌋.
 // It uses temps[depth] (allocating if needed) as a temporary live across
 // the recursive call. It also uses tmp, but not live across the recursion.
-func (z nat) divRecursiveStep(u, v nat, depth int, tmp *nat, temps []*nat) {
+func (z nat) divRecursiveStep(a *arena.Arena, u, v nat, depth int, tmp *nat, temps []*nat) {
 	// u is a subsection of the original and may have leading zeros.
 	// TODO(rsc): The v = v.norm() is useless and should be removed.
 	// We know (and require) that v's top digit is ≥ B/2.
@@ -752,7 +755,7 @@ func (z nat) divRecursiveStep(u, v nat, depth int, tmp *nat, temps []*nat) {
 	// Fall back to basic division if the problem is now small enough.
 	n := len(v)
 	if n < divRecursiveThreshold {
-		z.divBasic(u, v)
+		z.divBasic(a, u, v)
 		return
 	}
 
@@ -772,9 +775,9 @@ func (z nat) divRecursiveStep(u, v nat, depth int, tmp *nat, temps []*nat) {
 
 	// Allocate a nat for qhat below.
 	if temps[depth] == nil {
-		temps[depth] = getNat(n) // TODO(rsc): Can be just B+1.
+		temps[depth] = getNat(a, n) // TODO(rsc): Can be just B+1.
 	} else {
-		*temps[depth] = temps[depth].make(B + 1)
+		*temps[depth] = temps[depth].make(a, B+1)
 	}
 
 	// Compute each wide digit of the quotient.
@@ -804,7 +807,7 @@ func (z nat) divRecursiveStep(u, v nat, depth int, tmp *nat, temps []*nat) {
 		// Compute the 2-by-1 guess q̂, leaving r̂ in uu[s:B+n].
 		qhat := *temps[depth]
 		qhat.clear()
-		qhat.divRecursiveStep(uu[s:B+n], v[s:], depth+1, tmp, temps)
+		qhat.divRecursiveStep(a, uu[s:B+n], v[s:], depth+1, tmp, temps)
 		qhat = qhat.norm()
 
 		// Extend to a 3-by-2 quotient and remainder.
@@ -819,9 +822,9 @@ func (z nat) divRecursiveStep(u, v nat, depth int, tmp *nat, temps []*nat) {
 		// q̂·vₙ₋₂ and decrementing q̂ until that product is ≤ u.
 		// But we can do the subtraction directly, as in the comment above
 		// and in long division, because we know that q̂ is wrong by at most one.
-		qhatv := tmp.make(3 * n)
+		qhatv := tmp.make(a, 3*n)
 		qhatv.clear()
-		qhatv = qhatv.mul(qhat, v[:s])
+		qhatv = qhatv.mul(a, qhat, v[:s])
 		for i := 0; i < 2; i++ {
 			e := qhatv.cmp(uu.norm())
 			if e <= 0 {
@@ -852,11 +855,11 @@ func (z nat) divRecursiveStep(u, v nat, depth int, tmp *nat, temps []*nat) {
 	s := B - 1
 	qhat := *temps[depth]
 	qhat.clear()
-	qhat.divRecursiveStep(u[s:].norm(), v[s:], depth+1, tmp, temps)
+	qhat.divRecursiveStep(a, u[s:].norm(), v[s:], depth+1, tmp, temps)
 	qhat = qhat.norm()
-	qhatv := tmp.make(3 * n)
+	qhatv := tmp.make(a, 3*n)
 	qhatv.clear()
-	qhatv = qhatv.mul(qhat, v[:s])
+	qhatv = qhatv.mul(a, qhat, v[:s])
 	// Set the correct remainder as before.
 	for i := 0; i < 2; i++ {
 		if e := qhatv.cmp(u.norm()); e > 0 {
