@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05e9832a_3601fdb4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-03-31T23:08:43Z",
+      "side": 1,
+      "message": "Unscientifically, this *reduces* the unstripped size of a trivial program using net/url on my amd64 Linux machine by 258 bytes, and increases the stripped size by 64 bytes.\n\nI don\u0027t have a strong opinion on whether the complexity of a generated table is worth the performance increase, but impact on binary size seems trivial-to-positive.",
+      "revId": "abee07839f69c50693174d229e61654db426c025",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4b92a66_9d47af53",
+        "filename": "src/net/url/gen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-03-31T23:08:43Z",
+      "side": 1,
+      "message": "\"numEncodings\" or some similar name that a) doesn\u0027t start with an _, and b) describes what\u0027s being counted.",
+      "revId": "abee07839f69c50693174d229e61654db426c025",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e8e12e8_d5ecaa48",
+        "filename": "src/net/url/table.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-03-31T23:08:43Z",
+      "side": 1,
+      "message": "The table contains several sections (presumably all packed into a single string for efficiency). This should document what the format of the table is.",
+      "revId": "abee07839f69c50693174d229e61654db426c025",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df3a978a_a808a100",
+        "filename": "src/net/url/table.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-03-31T23:08:43Z",
+      "side": 1,
+      "message": "Why the uint(c) conversion (here and below)?",
+      "revId": "abee07839f69c50693174d229e61654db426c025",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
