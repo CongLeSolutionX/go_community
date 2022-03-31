@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "16cdb6b7_2c93d00b",
+        "filename": "src/syscall/asm_linux_loong64.s",
+        "patchSetId": 40
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 54019
+      },
+      "writtenOn": "2022-03-31T01:21:41Z",
+      "side": 1,
+      "message": "Thanks! we will fix it soon.",
+      "parentUuid": "417735a2_9b2708ca",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "83e9bf91c212e572f5b7731046922f85684c7b1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f3383099_2eca934d",
         "filename": "src/syscall/asm_linux_loong64.s",
         "patchSetId": 40
@@ -37,6 +61,30 @@
       "writtenOn": "2022-03-30T18:09:47Z",
       "side": 1,
       "message": "This shouldn\u0027t be needed given the file name.",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 17
+      },
+      "revId": "83e9bf91c212e572f5b7731046922f85684c7b1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59385cd6_2238ca7f",
+        "filename": "src/syscall/asm_linux_loong64.s",
+        "patchSetId": 40
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 54019
+      },
+      "writtenOn": "2022-03-31T01:21:41Z",
+      "side": 1,
+      "message": "Thanks! we will delete it soon.",
+      "parentUuid": "f3383099_2eca934d",
       "range": {
         "startLine": 5,
         "startChar": 0,
@@ -72,6 +120,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d9ab4b74_0aba00b9",
+        "filename": "src/syscall/mkall.sh",
+        "patchSetId": 40
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 54019
+      },
+      "writtenOn": "2022-03-31T01:21:41Z",
+      "side": 1,
+      "message": "Thanks! we will fix it soon， and keep this list ordered.",
+      "parentUuid": "c2ba8fe4_32247966",
+      "range": {
+        "startLine": 261,
+        "startChar": 0,
+        "endLine": 261,
+        "endChar": 13
+      },
+      "revId": "83e9bf91c212e572f5b7731046922f85684c7b1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ae87d7b3_cf2531f3",
         "filename": "src/syscall/syscall_linux_loong64.go",
         "patchSetId": 40
@@ -83,6 +155,30 @@
       "writtenOn": "2022-03-30T18:09:47Z",
       "side": 1,
       "message": "Update the copyright year to 2022 for this newly added file.",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "83e9bf91c212e572f5b7731046922f85684c7b1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86b55e9a_f506aabb",
+        "filename": "src/syscall/syscall_linux_loong64.go",
+        "patchSetId": 40
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 54019
+      },
+      "writtenOn": "2022-03-31T01:21:41Z",
+      "side": 1,
+      "message": "Thanks! we will fix it soon.",
+      "parentUuid": "ae87d7b3_cf2531f3",
       "range": {
         "startLine": 1,
         "startChar": 13,
