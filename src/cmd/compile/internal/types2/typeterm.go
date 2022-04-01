@@ -12,7 +12,14 @@ package types2
 //  ~t:  &term{true, t}   == {t' | under(t') == t}  // set of types with underlying type t
 type term struct {
 	tilde bool // valid if typ != nil
-	typ   Type
+	typ   Type // must not be an interface
+}
+
+// newTerm returns a new term.
+// typ may be nil but must not be an interface.
+func newTerm(tilde bool, typ Type) *term {
+	assert(typ == nil || !IsInterface(typ))
+	return &term{tilde, typ}
 }
 
 func (x *term) String() string {

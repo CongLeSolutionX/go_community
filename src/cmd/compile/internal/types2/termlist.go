@@ -10,7 +10,8 @@ import "bytes"
 // t1 ∪ y2 ∪ ... tn of the type sets of the terms t1 to tn.
 // A termlist is in normal form if all terms are disjoint.
 // termlist operations don't require the operands to be in
-// normal form.
+// normal form. An (normalized) empty termlist corresponds
+// to an empty type set.
 type termlist []*term
 
 // allTermlist represents the set of all types.
@@ -37,6 +38,7 @@ func (xl termlist) isEmpty() bool {
 	// If there's a non-nil term, the entire list is not empty.
 	// If the termlist is in normal form, this requires at most
 	// one iteration.
+	// TODO(gri) ensure normalization and then this can be simplified
 	for _, x := range xl {
 		if x != nil {
 			return false
@@ -155,4 +157,18 @@ func (xl termlist) subsetOf(yl termlist) bool {
 		}
 	}
 	return true
+}
+
+// overlap reports the index of the term x in xl which is
+// overlapping (not disjoint) from y. The result is < 0 if
+// there is no such term.
+func (xl termlist) overlap(y *term) int {
+	if y != nil {
+		for i, x := range xl {
+			if x != nil && !x.disjoint(y) {
+				return i
+			}
+		}
+	}
+	return -1
 }
