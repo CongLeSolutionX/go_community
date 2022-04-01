@@ -55,6 +55,74 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dfdb661e_2e1b3012",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2022-04-01T19:01:14Z",
+      "side": 1,
+      "message": "Hey Rhys, finally found some time to look into this patch together with my colleague Nick Ripley. Here are some small comments.\n\nMost importantly we discovered a crash in `TestGoroutineProfile`. We can reproduce it fairly reliably on macOS like shown below. We haven\u0027t had a chance to test it on linux yet.\n\n```\n$ ../../bin/go test -run\u003dTestGoroutineProfile -count\u003d100\n```\n\nNick has written up some great details here: https://gist.github.com/nsrip-dd/9434f70737cab3efebef063be6cb0d4c\n\nThe summary is that we believe this to be a data race involving `_g_.syscallsp` which causes gentraceback to crash.\n\nI\u0027ll be on vacation (back on Apr 19th), but Nick might continue working on this to see if we can implement a fix. If our thinking on the data race is right, we think `gentraceback` needs to be modified.\n\nFeel free to ignore this message and wait for a follow-up from Nick and me. We\u0027re committed to trying to the best we can to help with getting this landed. However, we don\u0027t know yet how long its going to take us 🙈.",
+      "revId": "69876652b62decb39b7b9e66a4b1ff18a34cd0b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "578b1488_c66819b2",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2022-04-01T19:01:14Z",
+      "side": 1,
+      "message": "Q: Is this just a small optimization due to the fact that moving this code out of the loop doesn\u0027t change any behavior but reduces the amount of work done?",
+      "revId": "69876652b62decb39b7b9e66a4b1ff18a34cd0b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e96e4e6b_85d465a7",
+        "filename": "src/runtime/mprof.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 809,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2022-04-01T19:01:14Z",
+      "side": 1,
+      "message": "NIT: Might be nice to declare const definitions for the values goroutineProfiled can hold? E.g.\n\n```\nconst (\n  goroutineNeedsProfiling     \u003d 0\n  goroutineCurrentlyProfiling \u003d 1\n  goroutineNewOrDoneProfiling \u003d 2\n)\n```",
+      "revId": "69876652b62decb39b7b9e66a4b1ff18a34cd0b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f90ba4df_703502f2",
+        "filename": "src/runtime/mprof.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 819,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2022-04-01T19:01:14Z",
+      "side": 1,
+      "message": "Q: Is it okay to access these fields directly instead of atomically like \"goroutineProfile.offset\" above? Does the startTheWorld() call below guarantee a happens-before relationship regarding the resumption of all goroutines? If yes, it seems like no atomic access would be required during stop the world at all?",
+      "revId": "69876652b62decb39b7b9e66a4b1ff18a34cd0b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "adc9c973_8e7f911b",
