@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f615ba31_2c127cce",
+        "filename": "src/net/url/gen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 49673
+      },
+      "writtenOn": "2022-04-01T06:48:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d4b92a66_9d47af53",
+      "revId": "abee07839f69c50693174d229e61654db426c025",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2e8e12e8_d5ecaa48",
@@ -89,6 +107,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c24fd7f_c7a1fa90",
+        "filename": "src/net/url/table.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 49673
+      },
+      "writtenOn": "2022-04-01T06:48:17Z",
+      "side": 1,
+      "message": "Done. Add a simple comment.",
+      "parentUuid": "2e8e12e8_d5ecaa48",
+      "revId": "abee07839f69c50693174d229e61654db426c025",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "df3a978a_a808a100",
@@ -102,6 +138,24 @@
       "writtenOn": "2022-03-31T23:08:43Z",
       "side": 1,
       "message": "Why the uint(c) conversion (here and below)?",
+      "revId": "abee07839f69c50693174d229e61654db426c025",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "160c0981_619a3bab",
+        "filename": "src/net/url/table.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 49673
+      },
+      "writtenOn": "2022-04-01T06:48:17Z",
+      "side": 1,
+      "message": "It makes no sense, removed.",
+      "parentUuid": "df3a978a_a808a100",
       "revId": "abee07839f69c50693174d229e61654db426c025",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
