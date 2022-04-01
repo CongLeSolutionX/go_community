@@ -304,7 +304,7 @@ func computeInterfaceTypeSet(check *Checker, pos syntax.Pos, ityp *Interface) *_
 				check.versionErrorf(pos, "go1.18", "embedding non-interface type %s", typ)
 				continue
 			}
-			terms = termlist{{false, typ}}
+			terms = termlist{newTerm(false, typ)}
 		}
 
 		// The type set of an interface is the intersection of the type sets of all its elements.
@@ -412,9 +412,9 @@ func computeUnionTypeSet(check *Checker, unionSets map[*Union]*_TypeSet, pos syn
 			if t.tilde && !Identical(t.typ, u) {
 				// There is no underlying type which is t.typ.
 				// The corresponding type set is empty.
-				t = nil // ∅ term
+				continue
 			}
-			terms = termlist{(*term)(t)}
+			terms = termlist{newTerm(t.tilde, t.typ)}
 		}
 		// The type set of a union expression is the union
 		// of the type sets of each term.

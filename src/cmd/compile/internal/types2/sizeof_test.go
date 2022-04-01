@@ -33,6 +33,8 @@ func TestSizeof(t *testing.T) {
 		{Chan{}, 12, 24},
 		{Named{}, 56, 104},
 		{TypeParam{}, 28, 48},
+		{Union{}, 12, 24},
+		{Term{}, 12, 24},
 		{term{}, 12, 24},
 
 		// Objects
