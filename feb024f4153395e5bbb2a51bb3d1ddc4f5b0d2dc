@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "443e3b91_5b812bc5",
+        "filename": "src/crypto/x509/root_darwin.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 25449
+      },
+      "writtenOn": "2022-04-01T22:10:31Z",
+      "side": 1,
+      "message": "The commit message states the oldest supported version is macOS 10.12\n\nHowever according to https://developer.apple.com/documentation/security/2980705-sectrustevaluatewitherror?language\u003dobjc, the `SecTrustEvaluateWithError` function was only added in macOS 10.14?",
+      "revId": "feb024f4153395e5bbb2a51bb3d1ddc4f5b0d2dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
