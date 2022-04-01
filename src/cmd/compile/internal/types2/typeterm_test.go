@@ -16,12 +16,12 @@ var myInt = func() Type {
 
 var testTerms = map[string]*term{
 	"∅":       nil,
-	"𝓤":       {},
-	"int":     {false, Typ[Int]},
-	"~int":    {true, Typ[Int]},
-	"string":  {false, Typ[String]},
-	"~string": {true, Typ[String]},
-	"myInt":   {false, myInt},
+	"𝓤":       newTerm(false, nil),
+	"int":     newTerm(false, Typ[Int]),
+	"~int":    newTerm(true, Typ[Int]),
+	"string":  newTerm(false, Typ[String]),
+	"~string": newTerm(true, Typ[String]),
+	"myInt":   newTerm(false, myInt),
 }
 
 func TestTermString(t *testing.T) {

@@ -16,7 +16,7 @@ import (
 var nopos syntax.Pos
 
 // debugging/development support
-const debug = false // leave on during development
+const debug = true // leave on during development
 
 // exprInfo stores information about an untyped expression.
 type exprInfo struct {
