@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc6c7351_f171441f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-04-01T00:44:49Z",
+      "side": 1,
+      "message": "Does MSVC support \"float complex\" and \"double complex\" if \u003ccomplex.h\u003e is #include\u0027d?  If so that might be preferable to using an #ifdef and _Complex.",
+      "revId": "01a2b67ddcd72e2ccbb2523664abb17173c49868",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad847194_ac68247e",
+        "filename": "src/cmd/cgo/gcc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2395,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-04-01T00:44:49Z",
+      "side": 1,
+      "message": "Technically there is no keyword complex.  There is a keyword _Complex.  The header file \u003ccomplex.h\u003e #define\u0027s complex as a macro.",
+      "revId": "01a2b67ddcd72e2ccbb2523664abb17173c49868",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
