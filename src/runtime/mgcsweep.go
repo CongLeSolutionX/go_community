@@ -667,7 +667,7 @@ func (sl *sweepLocked) sweep(preserve bool) bool {
 			memstats.heapStats.release()
 
 			// Count the frees in the inconsistent, internal stats.
-			memstats.totalFree.Add(int64(nfreed) * int64(s.elemsize))
+			gcController.totalFree.Add(int64(nfreed) * int64(s.elemsize))
 		}
 		if !preserve {
 			// The caller may not have removed this span from whatever
@@ -720,7 +720,7 @@ func (sl *sweepLocked) sweep(preserve bool) bool {
 			memstats.heapStats.release()
 
 			// Count the free in the inconsistent, internal stats.
-			memstats.totalFree.Add(int64(size))
+			gcController.totalFree.Add(int64(size))
 
 			return true
 		}
