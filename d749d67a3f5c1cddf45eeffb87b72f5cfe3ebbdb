@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d20968f7_d15f0ae3",
+        "filename": "src/net/http/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-04-01T23:50:12Z",
+      "side": 1,
+      "message": "The client must close the response body to avoid resource leaks.\n\nThe client does not need to read the response body to EOF. However, if the body is not read to EOF, the transport may not be able to reuse the underlying TCP connection for future requests. (I believe HTTP/2 connections are still reusable, HTTP/1 connections may be depending on the response size, but I haven\u0027t checked either point and may be wrong.)\n\nSince this section is a high-level introduction to using the package, I think it\u0027s okay that it documents the requirements for correct behavior while leaving performance-oriented details for the more detailed docs below.",
+      "revId": "d749d67a3f5c1cddf45eeffb87b72f5cfe3ebbdb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
