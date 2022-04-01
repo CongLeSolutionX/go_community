@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "facaab69_c494f613",
+        "filename": "src/cmd/internal/obj/mips/a.out.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-04-01T09:01:03Z",
+      "side": 1,
+      "message": "I attempt to handle it in rewriteToGot, but there are some \u0027CALL Sym\u0027 instruction inserted after rewriteToGot, such as \"CALL\truntime.morestack_noctxt(SB)\". The patch is as following:\n```\ndiff --git a/src/cmd/internal/obj/mips/asm0.go b/src/cmd/internal/obj/mips/asm0.go\nindex 6b20624..6fd4cf0 100644\n--- a/src/cmd/internal/obj/mips/asm0.go\n+++ b/src/cmd/internal/obj/mips/asm0.go\n@@ -326,8 +326,8 @@ var optab \u003d []Optab{\n \n        {AJMP, C_NONE, C_NONE, C_LOBRA, 65, 8, REGZERO, 0, 0},\n \n-       {AJMP, C_NONE, C_NONE, C_SYMBRA, 62, 16, REGZERO, 0, 0},\n-       {AJAL, C_NONE, C_NONE, C_SYMBRA, 62, 16, REGLINK, 0, 0},\n+       //      {AJMP, C_NONE, C_NONE, C_SYMBRA, 62, 16, REGZERO, 0, 0},\n+       //      {AJAL, C_NONE, C_NONE, C_SYMBRA, 62, 16, REGLINK, 0, 0},\n \n        {AMOVW, C_SEXT, C_NONE, C_FREG, 27, 4, REGSB, sys.MIPS64, 0},\n        {AMOVF, C_SEXT, C_NONE, C_FREG, 27, 4, REGSB, sys.MIPS64, 0},\n@@ -781,11 +781,11 @@ func (c *ctxt0) aclass(a *obj.Addr) int {\n                if !c.ctxt.Flag_shared {\n                        return C_SBRA\n                } else {\n-                       if a.Sym !\u003d nil {\n-                               return C_SYMBRA\n-                       } else {\n-                               return C_LOBRA\n-                       }\n+                       //if a.Sym !\u003d nil {\n+                       //      return C_SYMBRA\n+                       //} else {\n+                       return C_LOBRA\n+                       //}\n                }\n        }\n        return C_GOK\ndiff --git a/src/cmd/internal/obj/mips/obj0.go b/src/cmd/internal/obj/mips/obj0.go\nindex dea4aa3..6cd7c15 100644\n--- a/src/cmd/internal/obj/mips/obj0.go\n+++ b/src/cmd/internal/obj/mips/obj0.go\n@@ -174,6 +174,29 @@ func (c *ctxt0) rewriteToUseGot(p *obj.Prog) {\n                obj.Nopout(p)\n        }\n \n+       if (p.As \u003d\u003d AJAL || p.As \u003d\u003d AJMP) \u0026\u0026 p.To.Type \u003d\u003d obj.TYPE_BRANCH \u0026\u0026 p.To.Sym !\u003d nil \u0026\u0026 !p.To.Sym.Local() {\n+               p1 :\u003d obj.Appendp(p, c.newprog)\n+               p2 :\u003d obj.Appendp(p1, c.newprog)\n+               // MOVV sym@GOT, R25\n+               p1.As \u003d mov\n+               p1.From.Type \u003d obj.TYPE_MEM\n+               p1.From.Name \u003d obj.NAME_GOTREF\n+               p1.From.Sym \u003d p.To.Sym\n+               p1.To.Type \u003d obj.TYPE_REG\n+               p1.To.Reg \u003d REG_R25\n+               // JAL/JMP R25\n+               p2.As \u003d p.As\n+               p2.From.Type \u003d obj.TYPE_NONE\n+               p2.To.Type \u003d obj.TYPE_MEM\n+               p2.To.Name \u003d obj.NAME_NONE\n+               p2.To.Reg \u003d REG_R25\n+               obj.Nopout(p)\n+       }\n+\n        // We only care about global data: NAME_EXTERN means a global\n        // symbol in the Go sense, and p.Sym.Local is true for a few\n        // internally defined symbols.\n```",
+      "parentUuid": "747049fd_7346e379",
+      "revId": "2b63ea62d4ceaaced42834f5fff0aa45f2c0ac5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5cf50af3_140380eb",
         "filename": "src/cmd/internal/obj/mips/a.out.go",
         "patchSetId": 21
@@ -31,6 +49,24 @@
       "writtenOn": "2022-03-24T21:48:32Z",
       "side": 1,
       "message": "I think this is just to ensure the target is in R25, right? I think we should either handle it in preprocess (inserting an instruction if it is not already R25), or we can change the compiler and assembly code to always use R25 (we should not rewrite if it is already R25). Then you don\u0027t need to add this class.",
+      "revId": "2b63ea62d4ceaaced42834f5fff0aa45f2c0ac5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "382c0bd0_ea33c3ba",
+        "filename": "src/cmd/internal/obj/mips/a.out.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-04-01T09:01:03Z",
+      "side": 1,
+      "message": "I rewrite JAL (Rx) to MOVV Rx,R25 + JAL R25 and I delete C_SHZOREG class.",
+      "parentUuid": "5cf50af3_140380eb",
       "revId": "2b63ea62d4ceaaced42834f5fff0aa45f2c0ac5e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -48,6 +84,30 @@
       "writtenOn": "2022-03-24T21:48:32Z",
       "side": 1,
       "message": "typo",
+      "range": {
+        "startLine": 323,
+        "startChar": 53,
+        "endLine": 323,
+        "endChar": 61
+      },
+      "revId": "2b63ea62d4ceaaced42834f5fff0aa45f2c0ac5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0445cd24_94328ada",
+        "filename": "src/cmd/internal/obj/mips/a.out.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-04-01T09:01:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ac46ae5_2068607e",
       "range": {
         "startLine": 323,
         "startChar": 53,
@@ -104,6 +164,54 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "59da7c14_32573ead",
+        "filename": "src/cmd/internal/obj/mips/a.out.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-04-01T09:01:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5f199cb_dc3f5304",
+      "range": {
+        "startLine": 324,
+        "startChar": 4,
+        "endLine": 324,
+        "endChar": 8
+      },
+      "revId": "2b63ea62d4ceaaced42834f5fff0aa45f2c0ac5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0039e37_3338db61",
+        "filename": "src/cmd/internal/obj/mips/a.out.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-04-01T09:01:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa4a8937_a6bcbfea",
+      "range": {
+        "startLine": 324,
+        "startChar": 49,
+        "endLine": 324,
+        "endChar": 50
+      },
+      "revId": "2b63ea62d4ceaaced42834f5fff0aa45f2c0ac5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a7a03c3d_8c032c9a",
@@ -117,6 +225,30 @@
       "writtenOn": "2022-03-24T21:48:32Z",
       "side": 1,
       "message": "I don\u0027t think the condition is necessary. We only generate SHZOREG when Flag_shared is true anyway. Also other places.",
+      "range": {
+        "startLine": 921,
+        "startChar": 38,
+        "endLine": 921,
+        "endChar": 54
+      },
+      "revId": "2b63ea62d4ceaaced42834f5fff0aa45f2c0ac5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0ff5b5c_73258a58",
+        "filename": "src/cmd/internal/obj/mips/asm0.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 921,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-04-01T09:01:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7a03c3d_8c032c9a",
       "range": {
         "startLine": 921,
         "startChar": 38,
@@ -152,6 +284,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6e6323fe_51388102",
+        "filename": "src/cmd/internal/obj/mips/asm0.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 1752,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-04-01T09:01:03Z",
+      "side": 1,
+      "message": "\u003e Could you include what the full instruction sequence is?\nThe full instruction sequence is as folowing:\n```\n                ld      r2,func16(sym@GOT)(r28)         // R_MIPS_CALL16\n                daddiu  r4,r28,GD_offset16(sym@GOT)     // R_MIPS_TLS_GD\n                move    r25,r2\n                jalr    r25                             // R_MIPS_JALR\n                nop\n                sw      r,0(r2)\n```\n\u003e Whey does it need three relocations? \nThere are three relocation:\nR_MIPS_CALL16 relocates __tls_get_addr function address.\nR_MIPS_TLS_GD relocates tls_index* type argument for __tls_get_addr function.\nR_MIPS_JALR  optimize jumps to __tls_get_addr.\n\u003e Why does it need an OR instruction?\nOR instruction is redundant, I delete it.",
+      "parentUuid": "d04196e6_cd1f3fb4",
+      "range": {
+        "startLine": 1752,
+        "startChar": 41,
+        "endLine": 1752,
+        "endChar": 75
+      },
+      "revId": "2b63ea62d4ceaaced42834f5fff0aa45f2c0ac5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8ef9179b_fa0897f7",
         "filename": "src/cmd/internal/obj/mips/asm0.go",
         "patchSetId": 21
@@ -163,6 +319,30 @@
       "writtenOn": "2022-03-24T21:48:32Z",
       "side": 1,
       "message": "The relocation only applies to the LUI, i.e. the high 16 bits of the low 32 bits? That is weird.",
+      "range": {
+        "startLine": 1807,
+        "startChar": 0,
+        "endLine": 1813,
+        "endChar": 35
+      },
+      "revId": "2b63ea62d4ceaaced42834f5fff0aa45f2c0ac5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "730facad_622c89e5",
+        "filename": "src/cmd/internal/obj/mips/asm0.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 1813,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-04-01T09:01:03Z",
+      "side": 1,
+      "message": "I implement R_MIPS_GOTPCREL in linker as following:\n```\nif r.Type \u003d\u003d objabi.R_MIPS_GOTPCREL {\n\t\tout.Write64(uint64(sectoff))  // \u003d\u003e o1\n\t\telfsym :\u003d ld.ElfSymForReloc(ctxt, r.Xsym)\n\t\tout.Write32(uint32(elfsym))\n\t\tout.Write8(0)\n\t\tout.Write8(uint8(elf.R_MIPS_HI16))\n\t\tout.Write8(uint8(elf.R_MIPS_SUB))\n\t\tout.Write8(uint8(elf.R_MIPS_GPREL16))\n\t\tout.Write64(uint64(r.Xadd))\n\n\t\tout.Write64(uint64(sectoff + 8)) // \u003d\u003e o3 \n\t\tout.Write32(uint32(elfsym))\n\t\tout.Write8(0)\n\t\tout.Write8(uint8(elf.R_MIPS_LO16))\n\t\tout.Write8(uint8(elf.R_MIPS_SUB))\n\t\tout.Write8(uint8(elf.R_MIPS_GPREL16))\n\t\tout.Write64(uint64(r.Xadd))\n\t\treturn true\n\t}\n```\t\nI split R_MIPS_GOTPCREL into R_MIPS_GPREL_HI16 and R_MIPS_GPREL_LO16 now.",
+      "parentUuid": "8ef9179b_fa0897f7",
       "range": {
         "startLine": 1807,
         "startChar": 0,
@@ -198,6 +378,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e2fd968e_84f7e0ea",
+        "filename": "src/cmd/internal/obj/mips/asm0.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 1865,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-04-01T09:01:03Z",
+      "side": 1,
+      "message": "There are some code to handle large function. If there is very large branch, the JMP instructions are inserted into plist and it will use case 11 (26 bit width) to do the jump, not case 6 (16 bit width). PIC code must be PC-relative, so we cannot use case 11 now. I have no idea for a better implementation by now. Could you give me some tips?",
+      "parentUuid": "629c041f_375a995f",
+      "range": {
+        "startLine": 1863,
+        "startChar": 0,
+        "endLine": 1865,
+        "endChar": 3
+      },
+      "revId": "2b63ea62d4ceaaced42834f5fff0aa45f2c0ac5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b847ecb3_657ac7d2",
         "filename": "src/cmd/internal/obj/mips/obj0.go",
         "patchSetId": 21
@@ -209,6 +413,30 @@
       "writtenOn": "2022-03-24T21:48:32Z",
       "side": 1,
       "message": "Why constants are special?\n\nName the variable isConst or constInMem or something.",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 19
+      },
+      "revId": "2b63ea62d4ceaaced42834f5fff0aa45f2c0ac5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ac8ed4b_2b19c69a",
+        "filename": "src/cmd/internal/obj/mips/obj0.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-04-01T09:01:03Z",
+      "side": 1,
+      "message": "There is no previous compilation error when I delete \"constflag\" code. So I delete it now.",
+      "parentUuid": "b847ecb3_657ac7d2",
       "range": {
         "startLine": 60,
         "startChar": 0,
@@ -242,6 +470,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "64c813ea_4b6e8b25",
+        "filename": "src/cmd/internal/obj/mips/obj0.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-04-01T09:01:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24e2bec4_4bc4fc51",
+      "range": {
+        "startLine": 151,
+        "startChar": 8,
+        "endLine": 151,
+        "endChar": 16
+      },
+      "revId": "2b63ea62d4ceaaced42834f5fff0aa45f2c0ac5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b1787180_e1542b07",
@@ -259,6 +511,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "14bea96b_a4a182e1",
+        "filename": "src/cmd/internal/obj/mips/obj0.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 772,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-04-01T09:01:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b1787180_e1542b07",
+      "revId": "2b63ea62d4ceaaced42834f5fff0aa45f2c0ac5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b556ca89_8bf5a9d1",
@@ -272,6 +542,30 @@
       "writtenOn": "2022-03-24T21:48:32Z",
       "side": 1,
       "message": "Maybe rewrite to\n\nf :\u003d p.From.Sym.Name\nif strings.Contains(f, \"_rt0_mips64le_linux_lib\") || ...\n\nWhy strings.Contains, though? Should they be just equality?",
+      "range": {
+        "startLine": 777,
+        "startChar": 0,
+        "endLine": 785,
+        "endChar": 1
+      },
+      "revId": "2b63ea62d4ceaaced42834f5fff0aa45f2c0ac5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e1b8d03_97006755",
+        "filename": "src/cmd/internal/obj/mips/obj0.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 785,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-04-01T09:01:03Z",
+      "side": 1,
+      "message": "\u003e Maybe rewrite to\n\n\u003e f :\u003d p.From.Sym.Name\n\u003e if strings.Contains(f, \"_rt0_mips64le_linux_lib\") || ...\n\nI rewrited it.\n\n\u003e Why strings.Contains, though? Should they be just equality?\nI printed p.From.Sym.Name corresponding to _rt0_mips64le_linux_lib as following:\n # runtime\n_rt0_mips64le_linux_lib\n\nSo I use strings.Contains.",
+      "parentUuid": "b556ca89_8bf5a9d1",
       "range": {
         "startLine": 777,
         "startChar": 0,
@@ -305,6 +599,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dfff2acf_dcc69174",
+        "filename": "src/cmd/internal/objabi/reloctype.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-04-01T09:01:03Z",
+      "side": 1,
+      "message": "I rewrited to \"R_MIPS_JALR is used to optimize jumps to protected symbols\".",
+      "parentUuid": "ffb8a5bd_c5352b3a",
+      "range": {
+        "startLine": 120,
+        "startChar": 16,
+        "endLine": 120,
+        "endChar": 66
+      },
+      "revId": "2b63ea62d4ceaaced42834f5fff0aa45f2c0ac5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c962ce18_88ff8d4f",
@@ -318,6 +636,30 @@
       "writtenOn": "2022-03-24T21:48:32Z",
       "side": 1,
       "message": "Move them later, after other architecture specific ones. R_JMPMIPS are here because they already are. The new ones are added later.",
+      "range": {
+        "startLine": 116,
+        "startChar": 0,
+        "endLine": 129,
+        "endChar": 16
+      },
+      "revId": "2b63ea62d4ceaaced42834f5fff0aa45f2c0ac5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65aa6299_91553bd7",
+        "filename": "src/cmd/internal/objabi/reloctype.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-04-01T09:01:03Z",
+      "side": 1,
+      "message": "I move R_MIPS_* to the behind of R_XCOFFREF. If I moved them to the back of R_WEAKADDROFF, R_MIPS_* can not be included in reloctype_string.go with stringer tool.",
+      "parentUuid": "c962ce18_88ff8d4f",
       "range": {
         "startLine": 116,
         "startChar": 0,
