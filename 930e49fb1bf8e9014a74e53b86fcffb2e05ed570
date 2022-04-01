@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "408ff700_f20ea7af",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-04-01T19:09:07Z",
+      "side": 1,
+      "message": "TRY\u003dppc64le,ppc64,aix-ppc64,ppc64lep9",
+      "revId": "930e49fb1bf8e9014a74e53b86fcffb2e05ed570",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "028907aa_c0106ae8",
+        "filename": "src/internal/bytealg/indexbyte_ppc64x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-04-01T19:09:07Z",
+      "side": 1,
+      "message": "I think similar performance can be achieved using the P8 ISA. This is equivalent to LXVD2X in BE mode, and in LE mode, the comparison still works (just need an XXPERDMI Vx, $3, Vx to put it into LE order).",
+      "range": {
+        "startLine": 67,
+        "startChar": 1,
+        "endLine": 67,
+        "endChar": 8
+      },
+      "revId": "930e49fb1bf8e9014a74e53b86fcffb2e05ed570",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9f7a648_f4492895",
+        "filename": "src/internal/bytealg/indexbyte_ppc64x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-04-01T19:09:07Z",
+      "side": 1,
+      "message": "does this work correctly on BE? LXVB16X loads into the VSR similarly in both endian modes.",
+      "range": {
+        "startLine": 122,
+        "startChar": 1,
+        "endLine": 122,
+        "endChar": 7
+      },
+      "revId": "930e49fb1bf8e9014a74e53b86fcffb2e05ed570",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
