@@ -180,6 +180,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "585ca476_59ab2171",
+        "filename": "src/internal/bytealg/index_ppc64x.s",
+        "patchSetId": 20
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2022-04-01T10:23:40Z",
+      "side": 1,
+      "message": "the overhead of VAND and VCMPEQUBCC will start taking over and tip the balance.",
+      "parentUuid": "9762620b_66731e69",
+      "range": {
+        "startLine": 677,
+        "startChar": 0,
+        "endLine": 679,
+        "endChar": 44
+      },
+      "revId": "e0d60dcc370a47f623a7011ef52ed23e4dc4a720",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "da1af889_554afcf3",
         "filename": "src/internal/bytealg/index_ppc64x.s",
         "patchSetId": 20
