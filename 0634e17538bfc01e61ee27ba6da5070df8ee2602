@@ -16,6 +16,24 @@
       "message": "We don\u0027t use markdown in commit messages, so use double quotes or no quotes at all rather than backquotes.  Thanks.",
       "revId": "0634e17538bfc01e61ee27ba6da5070df8ee2602",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de5c5b23_f38615d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 55613
+      },
+      "writtenOn": "2022-04-01T00:41:18Z",
+      "side": 1,
+      "message": "Thanks for pointing out. I hadn\u0027t been aware of this problem before.",
+      "parentUuid": "da4c53b6_cfec08a3",
+      "revId": "0634e17538bfc01e61ee27ba6da5070df8ee2602",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
