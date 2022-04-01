@@ -30,14 +30,29 @@ func (u *Union) Underlying() Type { return u }
 func (u *Union) String() string   { return TypeString(u, nil) }
 
 // A Term represents a term in a Union.
-type Term term
+// A Term's type must not be nil and may be an interface, in contrast to
+// a term's type which may be nil and which must never be an interface.
+type Term struct {
+	tilde bool
+	_     bool // dummy field to prevent direct conversion to term
+	typ   Type
+}
 
 // NewTerm returns a new union term.
-func NewTerm(tilde bool, typ Type) *Term { return &Term{tilde, typ} }
+func NewTerm(tilde bool, typ Type) *Term {
+	assert(typ != nil)
+	return &Term{tilde: tilde, typ: typ}
+}
 
-func (t *Term) Tilde() bool    { return t.tilde }
-func (t *Term) Type() Type     { return t.typ }
-func (t *Term) String() string { return (*term)(t).String() }
+func (t *Term) Tilde() bool { return t.tilde }
+func (t *Term) Type() Type  { return t.typ }
+func (t *Term) String() string {
+	s := t.typ.String()
+	if t.tilde {
+		s = "~" + s
+	}
+	return s
+}
 
 // ----------------------------------------------------------------------------
 // Implementation
@@ -85,6 +100,7 @@ func parseUnion(check *Checker, uexpr syntax.Expr) Type {
 	// Do this check later because it requires types to be set up.
 	// Note: This is a quadratic algorithm, but unions tend to be short.
 	check.later(func() {
+		var list termlist // list of non-interface terms in the union, for overlap test
 		for i, t := range terms {
 			if t.typ == Typ[Invalid] {
 				continue
@@ -109,7 +125,7 @@ func parseUnion(check *Checker, uexpr syntax.Expr) Type {
 			// here, we must have at least two terms in the syntactic term list (but not necessarily
 			// in the term list of the union's type set).
 			if f != nil {
-				tset := f.typeSet()
+				tset := computeInterfaceTypeSet(check, tlist[i].Pos(), f)
 				switch {
 				case tset.NumMethods() != 0:
 					check.errorf(tlist[i], "cannot use %s in union (%s contains methods)", t, t)
@@ -118,14 +134,18 @@ func parseUnion(check *Checker, uexpr syntax.Expr) Type {
 				case tset.comparable:
 					check.errorf(tlist[i], "cannot use %s in union (%s embeds comparable)", t, t)
 				}
-				continue // terms with interface types are not subject to the no-overlap rule
+				list = append(list, nil) // add empty term (nil) to keep list in sync with terms index
+				continue                 // interfaces are ignored when checking for overlapping terms
 			}
 
 			// Report overlapping (non-disjoint) terms such as
-			// a|a, a|~a, ~a|~a, and ~a|A (where under(A) == a).
-			if j := overlappingTerm(terms[:i], t); j >= 0 {
+			// a|a, a|~a, ~a|~a, and ~a|A (where under(A) == a),
+			// and where the term types are not interfaces.
+			tt := newTerm(t.tilde, t.typ)
+			if j := list.overlap(tt); j >= 0 {
 				check.softErrorf(tlist[i], "overlapping terms %s and %s", t, terms[j])
 			}
+			list = append(list, tt)
 		}
 	}).describef(uexpr, "check term validity %s", uexpr)
 
@@ -158,30 +178,6 @@ func parseTilde(check *Checker, tx syntax.Expr) *Term {
 		check.recordTypeAndValue(tx, typexpr, &Union{[]*Term{term}}, nil)
 	}
 	return term
-}
-
-// overlappingTerm reports the index of the term x in terms which is
-// overlapping (not disjoint) from y. The result is < 0 if there is no
-// such term. The type of term y must not be an interface, and terms
-// with an interface type are ignored in the terms list.
-func overlappingTerm(terms []*Term, y *Term) int {
-	assert(!IsInterface(y.typ))
-	for i, x := range terms {
-		if IsInterface(x.typ) {
-			continue
-		}
-		// disjoint requires non-nil, non-top arguments,
-		// and non-interface types as term types.
-		if debug {
-			if x == nil || x.typ == nil || y == nil || y.typ == nil {
-				panic("empty or top union term")
-			}
-		}
-		if !(*term)(x).disjoint((*term)(y)) {
-			return i
-		}
-	}
-	return -1
 }
 
 // flattenUnion walks a union type expression of the form A | B | C | ...,

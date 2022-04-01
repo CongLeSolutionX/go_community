@@ -688,7 +688,7 @@ func coreTerm(tpar *TypeParam) (*term, bool) {
 		// If any term of tpar has a tilde, we don't
 		// have a precise core type and we must return
 		// a tilde as well.
-		return &term{tilde, typ}, false
+		return newTerm(tilde, typ), false
 	}
 	return nil, false
 }
