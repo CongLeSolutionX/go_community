@@ -72,6 +72,46 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0bb195d_1cd2778c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-04-01T15:04:17Z",
+      "side": 1,
+      "message": "LGTM modulo the UNREVIEWED caveat remaining.\n\nIs there any specification of the new export data format? I have looked through internal/noder/reader.go, but a short document or comment specifying the format exactly would be very helpful. Similarly, I think pkgbits could use more commentary.",
+      "revId": "f2bb978d02281e1cf44ec6efb9be0d26cd5f2387",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06ec8b4a_19a5609e",
+        "filename": "src/go/internal/gcimporter/exportdata.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-04-01T15:04:17Z",
+      "side": 1,
+      "message": "This comment appears stale. Searching finds some commentary in cmd/link and gccgoimporter, but is there a canonical reference in GOROOT?",
+      "range": {
+        "startLine": 18,
+        "startChar": 1,
+        "endLine": 18,
+        "endChar": 29
+      },
+      "revId": "f2bb978d02281e1cf44ec6efb9be0d26cd5f2387",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "90a72375_1aa83420",
@@ -102,6 +142,29 @@
       "writtenOn": "2022-03-29T20:31:28Z",
       "side": 1,
       "message": "update this comment?",
+      "revId": "f2bb978d02281e1cf44ec6efb9be0d26cd5f2387",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b5c0c1c_fa9e5cba",
+        "filename": "src/go/internal/gcimporter/gcimporter.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-04-01T15:04:17Z",
+      "side": 1,
+      "message": "Aside, it would be helpful to add more documentation to pkgbits. For the naive reader (me), it is a bit opaque.",
+      "range": {
+        "startLine": 170,
+        "startChar": 12,
+        "endLine": 170,
+        "endChar": 19
+      },
       "revId": "f2bb978d02281e1cf44ec6efb9be0d26cd5f2387",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -261,6 +324,29 @@
       "writtenOn": "2022-03-29T20:31:28Z",
       "side": 1,
       "message": "empty lines around this code (after r.Sync and before return) to match the other functions?",
+      "revId": "f2bb978d02281e1cf44ec6efb9be0d26cd5f2387",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0238414_930fe2bd",
+        "filename": "src/go/internal/gcimporter/ureader.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 535,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-04-01T15:04:17Z",
+      "side": 1,
+      "message": "Unfortunately, this SetConstraint currently MUST run after SetUnderlying on the current type decl. It looks like they\u0027re both later\u0027ed, which seems a little fragile. Perhaps we should separate out tparams.\n\nWe should also alleviate this requirement in the API, but that is not yet done.\n\n(I filed https://go.dev/issue/52104 as a reminder)",
+      "range": {
+        "startLine": 533,
+        "startChar": 0,
+        "endLine": 535,
+        "endChar": 3
+      },
       "revId": "f2bb978d02281e1cf44ec6efb9be0d26cd5f2387",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
