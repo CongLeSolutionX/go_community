@@ -6,6 +6,7 @@ package noder
 
 import (
 	"fmt"
+	"go/constant"
 
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
@@ -62,6 +63,9 @@ func (g *irgen) expr(expr syntax.Expr) ir.Node {
 		case types2.UntypedNil:
 			// ok; can appear in type switch case clauses
 			// TODO(mdempsky): Handle as part of type switches instead?
+		case types2.UntypedInt, types2.UntypedFloat, types2.UntypedComplex:
+			assert(constant.Val(constant.ToInt(tv.Value)).(int64) >= 0)
+			typ = types2.Typ[types2.Uint] // untyped rhs of non-constant shift
 		case types2.UntypedBool:
 			typ = types2.Typ[types2.Bool] // expression in "if" or "for" condition
 		case types2.UntypedString:
