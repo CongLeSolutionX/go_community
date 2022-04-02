@@ -72,6 +72,41 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "008df65e_17e8ba7a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2022-04-02T00:02:35Z",
+      "side": 1,
+      "message": "Thanks, Felix and Nick. I\u0027ve got work to do (the enum suggestion, probably changing the preemptoff to acquirem, and the gentraceback/gp.syscallsp race), but expect that the general structure will stay the same.",
+      "revId": "69876652b62decb39b7b9e66a4b1ff18a34cd0b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4bf164b9_68bf06e7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2022-04-02T00:02:35Z",
+      "side": 1,
+      "message": "Thank you for sharing that writeup! I\u0027m able to reproduce it quickly on linux/amd64, and more slowly on darwin/arm64 (so, both with and without `usesLR`). I\u0027ll take a closer look next week. Yes, a race (against something like `exitsyscall`) seems likely.",
+      "parentUuid": "dfdb661e_2e1b3012",
+      "revId": "69876652b62decb39b7b9e66a4b1ff18a34cd0b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "578b1488_c66819b2",
@@ -85,6 +120,24 @@
       "writtenOn": "2022-04-01T19:01:14Z",
       "side": 1,
       "message": "Q: Is this just a small optimization due to the fact that moving this code out of the loop doesn\u0027t change any behavior but reduces the amount of work done?",
+      "revId": "69876652b62decb39b7b9e66a4b1ff18a34cd0b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7bcbf6cf_de5c3a3e",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2022-04-02T00:02:35Z",
+      "side": 1,
+      "message": "Without this change, it looked to me like the finalizer goroutine would be able to run without ever setting `fing`, if it (somehow) always found `finq !\u003d nil` at the top of the loop. I want to know that if the finalizer goroutine may be running, that it\u0027s guaranteed to have announced itself in `fing`. With this change, that\u0027s easy to verify locally.",
+      "parentUuid": "578b1488_c66819b2",
       "revId": "69876652b62decb39b7b9e66a4b1ff18a34cd0b8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -119,6 +172,24 @@
       "writtenOn": "2022-04-01T19:01:14Z",
       "side": 1,
       "message": "Q: Is it okay to access these fields directly instead of atomically like \"goroutineProfile.offset\" above? Does the startTheWorld() call below guarantee a happens-before relationship regarding the resumption of all goroutines? If yes, it seems like no atomic access would be required during stop the world at all?",
+      "revId": "69876652b62decb39b7b9e66a4b1ff18a34cd0b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38d639a3_a3ff030d",
+        "filename": "src/runtime/mprof.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 819,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2022-04-02T00:02:35Z",
+      "side": 1,
+      "message": "These three fields are only written during STW, and I believe that yes the stopTheWorld/startTheWorld calls create happens-before relationships.\n\nWith that in mind, I think that the memory model allows the write to `goroutineProfile.offset` on line 810 to be done without atomics. But the access to that field while the app is running need to use atomics, so I\u0027ve made all accesses of that field use atomics rather than reason about why it\u0027s safe to mix.",
+      "parentUuid": "f90ba4df_703502f2",
       "revId": "69876652b62decb39b7b9e66a4b1ff18a34cd0b8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
