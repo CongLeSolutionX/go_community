@@ -944,7 +944,7 @@ func (check *Checker) shift(x, y *operand, e syntax.Expr, op syntax.Operator) {
 	if allInteger(x.typ) || isUntyped(x.typ) && xval != nil && xval.Kind() == constant.Int {
 		// The lhs is of integer type or an untyped constant representable
 		// as an integer. Nothing to do.
-	} else {
+	} else if !isShiftExpr(x.expr) {
 		// shift has no chance
 		check.errorf(x, invalidOp+"shifted operand %s must be integer", x)
 		x.mode = invalid
@@ -1063,13 +1063,18 @@ func (check *Checker) shift(x, y *operand, e syntax.Expr, op syntax.Operator) {
 	}
 
 	// non-constant shift - lhs must be an integer
-	if !allInteger(x.typ) {
+	if !allInteger(x.typ) && !isShiftExpr(x.expr) {
 		check.errorf(x, invalidOp+"shifted operand %s must be integer", x)
 		x.mode = invalid
 		return
 	}
 
 	x.mode = value
+}
+
+func isShiftExpr(x syntax.Expr) bool {
+	op, _ := unparen(x).(*syntax.Operation)
+	return op != nil && isShift(op.Op)
 }
 
 var binaryOpPredicates opPredicates
