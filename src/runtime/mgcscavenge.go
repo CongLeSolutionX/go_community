@@ -853,15 +853,18 @@ func (p *pageAlloc) scavengeRangeLocked(ci chunkIdx, base, npages uint) uintptr 
 	unlock(&p.scav.lock)
 
 	if !p.test {
-		// Only perform the actual scavenging if we're not in a test.
-		// It's dangerous to do so otherwise.
-		sysUnused(unsafe.Pointer(addr), uintptr(npages)*pageSize)
-
 		// Update global accounting only when not in test, otherwise
 		// the runtime's accounting will be wrong.
+		//
+		// Note that it's important we update heapFree before calling
+		// sysUnused. See mgcpacer.go.
 		nbytes := int64(npages) * pageSize
 		gcController.heapReleased.add(nbytes)
 		gcController.heapFree.add(-nbytes)
+
+		// Only perform the actual scavenging if we're not in a test.
+		// It's dangerous to do so otherwise.
+		sysUnused(unsafe.Pointer(addr), uintptr(npages)*pageSize)
 
 		// Update consistent accounting too.
 		stats := memstats.heapStats.acquire()
