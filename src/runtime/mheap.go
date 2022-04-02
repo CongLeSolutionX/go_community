@@ -1277,6 +1277,9 @@ HaveSpan:
 	if scav != 0 {
 		// sysUsed all the pages that are actually available
 		// in the span since some of them might be scavenged.
+		//
+		// Note that it's important we call sysUsed before updating
+		// heapFree. See mgcpacer.go.
 		sysUsed(unsafe.Pointer(base), nbytes, scav)
 		gcController.heapReleased.add(-int64(scav))
 	}
