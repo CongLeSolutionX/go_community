@@ -62,6 +62,8 @@ func (g *irgen) expr(expr syntax.Expr) ir.Node {
 		case types2.UntypedNil:
 			// ok; can appear in type switch case clauses
 			// TODO(mdempsky): Handle as part of type switches instead?
+		case types2.UntypedInt:
+			typ = types2.Typ[types2.Int] // untyped rhs of non-constant shift
 		case types2.UntypedBool:
 			typ = types2.Typ[types2.Bool] // expression in "if" or "for" condition
 		case types2.UntypedString:

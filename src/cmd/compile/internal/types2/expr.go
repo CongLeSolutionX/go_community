@@ -954,32 +954,48 @@ func (check *Checker) shift(x, y *operand, e syntax.Expr, op syntax.Operator) {
 	// spec: "The right operand in a shift expression must have integer type
 	// or be an untyped constant representable by a value of type uint."
 
-	// Provide a good error message for negative shift counts.
+	// Check that constants are representable by uint, but do not convert them
+	// (see also issue #47243).
 	if y.mode == constant_ {
+		// Provide a good error message for negative shift counts.
 		yval := constant.ToInt(y.val) // consider -1, 1.0, but not -1.1
 		if yval.Kind() == constant.Int && constant.Sign(yval) < 0 {
-			check.errorf(y, invalidOp+"negative shift count %s", y)
+			check.errorf(x, invalidOp+"negative shift count %s", y)
 			x.mode = invalid
 			return
 		}
-	}
 
-	// Caution: Check for isUntyped first because isInteger includes untyped
-	//          integers (was bug #43697).
-	if isUntyped(y.typ) {
-		check.convertUntyped(y, Typ[Uint])
-		if y.mode == invalid {
+		if isUntyped(y.typ) {
+			// Caution: Check for representability here, rather than in the switch
+			// below, because isInteger includes untyped integers (was bug #43697).
+			check.representable(y, Typ[Uint])
+			if y.mode == invalid {
+				x.mode = invalid
+				return
+			}
+		}
+	} else {
+		// Check that RHS is otherwise at least of integer type.
+		switch {
+		case allInteger(y.typ):
+			if !allUnsigned(y.typ) && !check.allowVersion(check.pkg, 1, 13) {
+				check.errorf(x, invalidOp+"signed shift count %s requires go1.13 or later", y)
+				x.mode = invalid
+				return
+			}
+		case isUntyped(y.typ):
+			// This is incorrect, but preserves pre-existing behavior.
+			// See also bug #47410.
+			check.convertUntyped(y, Typ[Uint])
+			if y.mode == invalid {
+				x.mode = invalid
+				return
+			}
+		default:
+			check.errorf(x, invalidOp+"shift count %s must be integer", y)
 			x.mode = invalid
 			return
 		}
-	} else if !allInteger(y.typ) {
-		check.errorf(y, invalidOp+"shift count %s must be integer", y)
-		x.mode = invalid
-		return
-	} else if !allUnsigned(y.typ) && !check.allowVersion(check.pkg, 1, 13) {
-		check.versionErrorf(y, "go1.13", invalidOp+"signed shift count %s", y)
-		x.mode = invalid
-		return
 	}
 
 	if x.mode == constant_ {
@@ -997,7 +1013,7 @@ func (check *Checker) shift(x, y *operand, e syntax.Expr, op syntax.Operator) {
 			const shiftBound = 1023 - 1 + 52 // so we can express smallestFloat64 (see issue #44057)
 			s, ok := constant.Uint64Val(y.val)
 			if !ok || s > shiftBound {
-				check.errorf(y, invalidOp+"invalid shift count %s", y)
+				check.errorf(x, invalidOp+"invalid shift count %s", y)
 				x.mode = invalid
 				return
 			}
