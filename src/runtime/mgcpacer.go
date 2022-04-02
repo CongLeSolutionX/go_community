@@ -366,6 +366,20 @@ type gcControllerState struct {
 	// Because the runtime is responsible for managing a memory limit, it's
 	// useful to couple these stats more tightly to the gcController, which
 	// is intimately connected to how that memory limit is maintained.
+	//
+	// Note that while these stats are inconsistent, we still update them
+	// carefully. We're going to be computing
+	//
+	//     mappedReady - (heapFree + (totalAlloc - totalFree))
+	//
+	// so we need to make sure we don't overflow. In particular, we want to
+	// avoid double-counting. The invariants we wish to maintain are:
+	//  - Avoid double-counting between heapFree and totalAlloc by increasing
+	//    totalFree *before* heapFree (sweeping).
+	//  - Avoid double-counting between heapFree and mappedReady by decreasing
+	//    mappedReady *after* heapFree (scavenging).
+	//  - Avoid double-counting between totalAlloc and mappedReady by increasing
+	//    mappedReady *before* totalAlloc (span allocation, unscavenging).
 	heapInUse    sysMemStat    // bytes in mSpanInUse spans
 	heapReleased sysMemStat    // bytes released to the OS
 	heapFree     sysMemStat    // bytes not in any span, but not released to the OS
