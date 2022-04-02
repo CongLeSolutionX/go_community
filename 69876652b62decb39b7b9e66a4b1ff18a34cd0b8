@@ -107,6 +107,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bb8a050_f7f55d0c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2022-04-02T18:30:24Z",
+      "side": 1,
+      "message": "Done\n\nThe fast path out of syscalls grabs a P and immediately starts running, and neither gentraceback nor this code were supposed to read the stacks of moving targets. I put in an assertion to catch when the target goroutine is already running, and made the aftermath of exitsyscallfast do the same work that execute does to capture the stack before allowing the goroutine to resume. The other places I found that set _Grunning do so a few lines after moving the status _away_ from _Grunning, so are not really transitions out of an idle _Grunnable / _Gsyscall state.",
+      "parentUuid": "4bf164b9_68bf06e7",
+      "revId": "69876652b62decb39b7b9e66a4b1ff18a34cd0b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "578b1488_c66819b2",
@@ -155,6 +173,24 @@
       "writtenOn": "2022-04-01T19:01:14Z",
       "side": 1,
       "message": "NIT: Might be nice to declare const definitions for the values goroutineProfiled can hold? E.g.\n\n```\nconst (\n  goroutineNeedsProfiling     \u003d 0\n  goroutineCurrentlyProfiling \u003d 1\n  goroutineNewOrDoneProfiling \u003d 2\n)\n```",
+      "revId": "69876652b62decb39b7b9e66a4b1ff18a34cd0b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "453ca861_cda564e4",
+        "filename": "src/runtime/mprof.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 809,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2022-04-02T18:30:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e96e4e6b_85d465a7",
       "revId": "69876652b62decb39b7b9e66a4b1ff18a34cd0b8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
