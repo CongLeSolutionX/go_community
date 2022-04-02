@@ -667,6 +667,9 @@ func (sl *sweepLocked) sweep(preserve bool) bool {
 			memstats.heapStats.release()
 
 			// Count the frees in the inconsistent, internal stats.
+			//
+			// Note that it's important we update this before potentially
+			// calling freeSpan. See mgcpacer.go.
 			gcController.totalFree.Add(int64(nfreed) * int64(s.elemsize))
 		}
 		if !preserve {
@@ -691,6 +694,12 @@ func (sl *sweepLocked) sweep(preserve bool) bool {
 		// Handle spans for large objects.
 		if nfreed != 0 {
 			// Free large object span to heap.
+
+			// Count the free in the inconsistent, internal stats.
+			//
+			// Note that it's important we update this before potentially
+			// calling freeSpan. See mgcpacer.go.
+			gcController.totalFree.Add(int64(size))
 
 			// NOTE(rsc,dvyukov): The original implementation of efence
 			// in CL 22060046 used sysFree instead of sysFault, so that
@@ -718,9 +727,6 @@ func (sl *sweepLocked) sweep(preserve bool) bool {
 			atomic.Xadduintptr(&stats.largeFreeCount, 1)
 			atomic.Xadduintptr(&stats.largeFree, size)
 			memstats.heapStats.release()
-
-			// Count the free in the inconsistent, internal stats.
-			gcController.totalFree.Add(int64(size))
 
 			return true
 		}
