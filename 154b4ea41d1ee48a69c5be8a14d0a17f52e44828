@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b441780b_227116e6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2022-04-03T07:16:53Z",
+      "side": 1,
+      "message": "Thank you for this CL, Eli and great to catch you here. I’ve posted some code review comments, please take a look.",
+      "revId": "154b4ea41d1ee48a69c5be8a14d0a17f52e44828",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6203f62_97d5a20a",
+        "filename": "src/sort/search.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2022-04-03T07:16:53Z",
+      "side": 1,
+      "message": "I think we should use the value of cmp here directly, otherwise we have to call the comparator once again once the loop exits. I do understand the loop invariants that exist and this is an almost mirror of sort.Search, but this comparator is invoked once again and we could simply return on finding the first index. So perhaps:\n    res :\u003d cmp(h)\n    if res \u003d\u003d 0 {\n         return h, true\n    } else if res \u003e 0 { ... }\n    else {...}",
+      "revId": "154b4ea41d1ee48a69c5be8a14d0a17f52e44828",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8dee46f4_b3912852",
+        "filename": "src/sort/search_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2022-04-03T07:16:53Z",
+      "side": 1,
+      "message": "How come there is a need to use “stringspkg”? Couldn’t the import suffice as is? I don’t see any code that warrants the import rename.",
+      "revId": "154b4ea41d1ee48a69c5be8a14d0a17f52e44828",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
