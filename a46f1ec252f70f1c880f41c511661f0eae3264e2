@@ -70,6 +70,24 @@
       "message": "I\u0027m a little confused. Looking at `mcall(exitsyscall0)` it seems like it should never (!) return, so I don\u0027t understand why there is any code here. When is the scheduler expected to return?\n\nSince I don\u0027t understand the control flow, I\u0027m also not sure if it is safe to set `_g_.syscallsp \u003d 0` here while a goroutine profile is being taken. Are we guaranteed that a `execute(_g_)` has taken place before we reach this point? If not, we probably need another `tryRecordGoroutineProfileWB` call here similar to the one above?",
       "revId": "a46f1ec252f70f1c880f41c511661f0eae3264e2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7e0651b_22e0472e",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 3830,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2022-04-04T23:59:03Z",
+      "side": 1,
+      "message": "Although `mcall(exitsyscall0)` doesn\u0027t return, it does queue the calling goroutine to run later. At some point that goroutine will have its status changed from _Grunnable to _Grunning and will resume, as far as I can tell, at the PC after the call to `mcall`.\n\nThe code paths I see in `exitsyscall0` either end in `execute`, or put the goroutine on the global run queue (and then call `schedule`). So I think that yes, the path that goroutine takes to being _Grunning again is the same as any other in the program. Once it\u0027s in the _Grunnable state, it\u0027s done being a special case.\n\nOnce it\u0027s running again, it\u0027s fine for it to modify `_g_.syscallsp` because the goroutine profiler will have already looked.\n\nThis also now covers all (two) places that do `traceGoStart` and which also change status to _Grunning.",
+      "parentUuid": "70cfbb7e_53151c9d",
+      "revId": "a46f1ec252f70f1c880f41c511661f0eae3264e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
