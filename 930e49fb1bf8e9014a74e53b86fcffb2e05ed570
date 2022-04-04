@@ -57,6 +57,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9f30245e_abb661ee",
+        "filename": "src/internal/bytealg/indexbyte_ppc64x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-04-04T13:57:00Z",
+      "side": 1,
+      "message": "The endian changes, with respect to the vector operations, aren\u0027t needed. LXVB16X works the same regardless of the endian mode.\n\nThis change, and the one on line 115 shouldn\u0027t be needed. Also, the splat above this is only used if this macro evaluates true.",
+      "range": {
+        "startLine": 54,
+        "startChar": 7,
+        "endLine": 54,
+        "endChar": 21
+      },
+      "revId": "930e49fb1bf8e9014a74e53b86fcffb2e05ed570",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "028907aa_c0106ae8",
         "filename": "src/internal/bytealg/indexbyte_ppc64x.s",
         "patchSetId": 2
