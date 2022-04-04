@@ -12,9 +12,7 @@ import (
 // Syms holds known symbols.
 var Syms struct {
 	AssertE2I         *obj.LSym
-	AssertE2I2        *obj.LSym
 	AssertI2I         *obj.LSym
-	AssertI2I2        *obj.LSym
 	Asanread          *obj.LSym
 	Asanwrite         *obj.LSym
 	CheckPtrAlignment *obj.LSym
@@ -24,6 +22,7 @@ var Syms struct {
 	Duffcopy          *obj.LSym
 	Duffzero          *obj.LSym
 	GCWriteBarrier    *obj.LSym
+	Getitab           *obj.LSym
 	Goschedguarded    *obj.LSym
 	Growslice         *obj.LSym
 	Msanread          *obj.LSym

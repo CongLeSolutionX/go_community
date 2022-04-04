@@ -252,6 +252,17 @@ func ExampleIs() {
 	// file does not exist
 }
 
+func BenchmarkErrorIs(b *testing.B) {
+	if _, err := os.Open("non-existing"); err != nil {
+		b.ResetTimer()
+		for i := 0; i < b.N; i++ {
+			_ = errors.Is(err, fs.ErrNotExist)
+		}
+	} else {
+		b.Fatal("non-existing file exists")
+	}
+}
+
 func ExampleAs() {
 	if _, err := os.Open("non-existing"); err != nil {
 		var pathError *fs.PathError
@@ -266,6 +277,18 @@ func ExampleAs() {
 	// Failed at path: non-existing
 }
 
+func BenchmarkErrorAs(b *testing.B) {
+	if _, err := os.Open("non-existing"); err != nil {
+		var pathError *fs.PathError
+		b.ResetTimer()
+		for i := 0; i < b.N; i++ {
+			_ = errors.As(err, &pathError)
+		}
+	} else {
+		b.Fatal("non-existing file exists")
+	}
+}
+
 func ExampleUnwrap() {
 	err1 := errors.New("error1")
 	err2 := fmt.Errorf("error2: [%w]", err1)
@@ -274,4 +297,13 @@ func ExampleUnwrap() {
 	// Output
 	// error2: [error1]
 	// error1
+}
+
+func BenchmarkErrorUnwrap(b *testing.B) {
+	err1 := errors.New("error1")
+	err2 := fmt.Errorf("error2: [%w]", err1)
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_ = errors.Unwrap(err2)
+	}
 }

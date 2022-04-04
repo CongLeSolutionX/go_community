@@ -179,6 +179,13 @@ func BenchmarkAssertE2I(b *testing.B) {
 	}
 }
 
+func BenchmarkAssertE2I2(b *testing.B) {
+	e = tm
+	for i := 0; i < b.N; i++ {
+		i1, ok = e.(I1)
+	}
+}
+
 func BenchmarkAssertI2T(b *testing.B) {
 	i1 = tm
 	for i := 0; i < b.N; i++ {
@@ -190,6 +197,13 @@ func BenchmarkAssertI2I(b *testing.B) {
 	i1 = tm
 	for i := 0; i < b.N; i++ {
 		i2 = i1.(I2)
+	}
+}
+
+func BenchmarkAssertI2I2(b *testing.B) {
+	i1 = tm
+	for i := 0; i < b.N; i++ {
+		i2, ok = i1.(I2)
 	}
 }
 

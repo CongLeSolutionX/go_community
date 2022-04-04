@@ -93,9 +93,7 @@ func InitConfig() {
 
 	// Set up some runtime functions we'll need to call.
 	ir.Syms.AssertE2I = typecheck.LookupRuntimeFunc("assertE2I")
-	ir.Syms.AssertE2I2 = typecheck.LookupRuntimeFunc("assertE2I2")
 	ir.Syms.AssertI2I = typecheck.LookupRuntimeFunc("assertI2I")
-	ir.Syms.AssertI2I2 = typecheck.LookupRuntimeFunc("assertI2I2")
 	ir.Syms.CheckPtrAlignment = typecheck.LookupRuntimeFunc("checkptrAlignment")
 	ir.Syms.Deferproc = typecheck.LookupRuntimeFunc("deferproc")
 	ir.Syms.DeferprocStack = typecheck.LookupRuntimeFunc("deferprocStack")
@@ -103,6 +101,7 @@ func InitConfig() {
 	ir.Syms.Duffcopy = typecheck.LookupRuntimeFunc("duffcopy")
 	ir.Syms.Duffzero = typecheck.LookupRuntimeFunc("duffzero")
 	ir.Syms.GCWriteBarrier = typecheck.LookupRuntimeFunc("gcWriteBarrier")
+	ir.Syms.Getitab = typecheck.LookupRuntimeFunc("getitab")
 	ir.Syms.Goschedguarded = typecheck.LookupRuntimeFunc("goschedguarded")
 	ir.Syms.Growslice = typecheck.LookupRuntimeFunc("growslice")
 	ir.Syms.Msanread = typecheck.LookupRuntimeFunc("msanread")
@@ -6256,12 +6255,118 @@ func (s *state) dottype1(pos src.XPos, src, dst *types.Type, iface, target, targ
 			tab = s.rtcall(fn, true, []*types.Type{byteptr}, target, tab)[0]
 			return s.newValue2(ssa.OpIMake, dst, tab, data), nil
 		}
-		fn := ir.Syms.AssertI2I2
 		if src.IsEmptyInterface() {
-			fn = ir.Syms.AssertE2I2
+			bFail := s.f.NewBlock(ssa.BlockPlain)
+
+			data := s.newValue1(ssa.OpIData, types.Types[types.TUNSAFEPTR], iface)
+			typ := s.newValue1(ssa.OpITab, byteptr, iface)
+
+			isTypeNotNil := s.newValue2(ssa.OpNeqPtr, types.Types[types.TBOOL], typ, s.constNil(byteptr))
+			b := s.endBlock()
+			b.Kind = ssa.BlockIf
+			b.SetControl(isTypeNotNil)
+			b.Likely = ssa.BranchLikely
+			bTypeNotNil := s.f.NewBlock(ssa.BlockPlain)
+			b.AddEdgeTo(bTypeNotNil)
+			b.AddEdgeTo(bFail)
+
+			s.startBlock(bTypeNotNil)
+			tab := s.rtcall(ir.Syms.Getitab, true, []*types.Type{byteptr}, target, typ, s.constBool(true))[0]
+			cmpTab := s.newValue2(ssa.OpNeqPtr, types.Types[types.TBOOL], tab, s.constNil(byteptr))
+			b = s.endBlock()
+			b.Kind = ssa.BlockIf
+			b.SetControl(cmpTab)
+			b.Likely = ssa.BranchLikely
+			bOkTab := s.f.NewBlock(ssa.BlockPlain)
+			b.AddEdgeTo(bOkTab)
+			b.AddEdgeTo(bFail)
+
+			s.startBlock(bOkTab)
+			s.vars[typVar] = s.newValue2(ssa.OpIMake, dst, tab, data)
+			s.vars[okVar] = s.constBool(true)
+			s.endBlock()
+
+			s.startBlock(bFail)
+			s.vars[typVar] = s.zeroVal(dst)
+			s.vars[okVar] = s.constBool(false)
+			s.endBlock()
+
+			bEnd := s.f.NewBlock(ssa.BlockPlain)
+			bOkTab.AddEdgeTo(bEnd)
+			bFail.AddEdgeTo(bEnd)
+
+			s.startBlock(bEnd)
+			res = s.variable(typVar, dst)
+			resok = s.variable(okVar, types.Types[types.TBOOL])
+			delete(s.vars, typVar)
+			delete(s.vars, okVar)
+			return
 		}
-		res = s.rtcall(fn, true, []*types.Type{dst}, target, iface)[0]
-		resok = s.newValue2(ssa.OpNeqInter, types.Types[types.TBOOL], res, s.constInterface(dst))
+		bFail := s.f.NewBlock(ssa.BlockPlain)
+
+		data := s.newValue1(ssa.OpIData, types.Types[types.TUNSAFEPTR], iface)
+		tab := s.newValue1(ssa.OpITab, byteptr, iface)
+
+		isTabNotNil := s.newValue2(ssa.OpNeqPtr, types.Types[types.TBOOL], tab, s.constNil(byteptr))
+		b := s.endBlock()
+		b.Kind = ssa.BlockIf
+		b.SetControl(isTabNotNil)
+		b.Likely = ssa.BranchLikely
+		bTabNotNil := s.f.NewBlock(ssa.BlockPlain)
+		b.AddEdgeTo(bTabNotNil)
+		b.AddEdgeTo(bFail)
+
+		s.startBlock(bTabNotNil)
+		interoff := s.newValue1I(ssa.OpOffPtr, byteptr, 0, tab)
+		inter := s.load(byteptr, interoff)
+		cmpInter := s.newValue2(ssa.OpEqPtr, types.Types[types.TBOOL], inter, target)
+		b = s.endBlock()
+		b.Kind = ssa.BlockIf
+		b.SetControl(cmpInter)
+		b.Likely = ssa.BranchLikely
+		bInterEq := s.f.NewBlock(ssa.BlockPlain)
+		bInterNEq := s.f.NewBlock(ssa.BlockPlain)
+		b.AddEdgeTo(bInterEq)
+		b.AddEdgeTo(bInterNEq)
+
+		s.startBlock(bInterEq)
+		s.vars[typVar] = s.newValue2(ssa.OpIMake, dst, tab, data)
+		s.vars[okVar] = s.constBool(true)
+		s.endBlock()
+
+		s.startBlock(bInterNEq)
+		typeoff := s.newValue1I(ssa.OpOffPtr, byteptr, int64(types.PtrSize), tab)
+		typ := s.load(byteptr, typeoff)
+		tab = s.rtcall(ir.Syms.Getitab, true, []*types.Type{byteptr}, target, typ, s.constBool(true))[0]
+		isTabNotNil2 := s.newValue2(ssa.OpNeqPtr, types.Types[types.TBOOL], tab, s.constNil(byteptr))
+		b = s.endBlock()
+		b.Kind = ssa.BlockIf
+		b.SetControl(isTabNotNil2)
+		b.Likely = ssa.BranchLikely
+		bTabNotNil2 := s.f.NewBlock(ssa.BlockPlain)
+		b.AddEdgeTo(bTabNotNil2)
+		b.AddEdgeTo(bFail)
+
+		s.startBlock(bTabNotNil2)
+		s.vars[typVar] = s.newValue2(ssa.OpIMake, dst, tab, data)
+		s.vars[okVar] = s.constBool(true)
+		s.endBlock()
+
+		s.startBlock(bFail)
+		s.vars[typVar] = s.zeroVal(dst)
+		s.vars[okVar] = s.constBool(false)
+		s.endBlock()
+
+		bEnd := s.f.NewBlock(ssa.BlockPlain)
+		bTabNotNil2.AddEdgeTo(bEnd)
+		bFail.AddEdgeTo(bEnd)
+		bInterEq.AddEdgeTo(bEnd)
+
+		s.startBlock(bEnd)
+		res = s.variable(typVar, dst)
+		resok = s.variable(okVar, types.Types[types.TBOOL])
+		delete(s.vars, typVar)
+		delete(s.vars, okVar)
 		return
 	}
 
