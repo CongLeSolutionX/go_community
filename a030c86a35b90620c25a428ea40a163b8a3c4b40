@@ -33,6 +33,24 @@
       "message": "By the way, is it safe for the ir stage to have multiple nodes pointed to the same one (like it\u0027s done here) or we must allocate a new post node each time so the body would have unique copies of the same nodes?",
       "revId": "a030c86a35b90620c25a428ea40a163b8a3c4b40",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff32566c_b832f055",
+        "filename": "src/cmd/compile/internal/reflectdata/alg.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-04-04T19:33:32Z",
+      "side": 1,
+      "message": "Generally we want the AST to be a tree, not a DAG. So no, it isn\u0027t a good idea to alias children like that. (There are exceptions, like ir.Name nodes, but I don\u0027t think any apply here.)\nIt may work in specific cases, but I wouldn\u0027t rely on it. You can just make that increment statement each time through the loop.",
+      "parentUuid": "290c7a3e_71c92159",
+      "revId": "a030c86a35b90620c25a428ea40a163b8a3c4b40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
