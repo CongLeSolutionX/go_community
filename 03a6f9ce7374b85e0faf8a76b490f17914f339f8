@@ -80,6 +80,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "f808a6bb_dd2eb651",
+        "filename": "src/runtime/mgcpacer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-04-04T17:30:29Z",
+      "side": 1,
+      "message": "that\u0027s correct. once scheduled they run in a non-preemptible fashion until there\u0027s no more GC work.",
+      "parentUuid": "fdcc9f68_8995f916",
+      "range": {
+        "startLine": 431,
+        "startChar": 24,
+        "endLine": 431,
+        "endChar": 66
+      },
+      "revId": "03a6f9ce7374b85e0faf8a76b490f17914f339f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "9fd110d5_27201067",
         "filename": "src/runtime/mgcpacer.go",
         "patchSetId": 1
@@ -91,6 +115,24 @@
       "writtenOn": "2022-03-29T19:21:53Z",
       "side": 1,
       "message": "This still feels awkward to me. I\u0027d love to be able to just trust fractional workers to always make forward progress, even if there is nothing else going on.",
+      "revId": "03a6f9ce7374b85e0faf8a76b490f17914f339f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c2c4171_272ad2c0",
+        "filename": "src/runtime/mgcpacer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-04-04T17:30:29Z",
+      "side": 1,
+      "message": "I agree. to make that happen (without letting fractional workers exceed their budget) I think we need to ensure that *something* will wake up to run the fractional worker. one way to do this would be to integrate the fractional worker into netpoll, so that when its met its CPU quota for a particular window, at least one M stays live and blocks until its time for it to run again.\n\nI\u0027m going to add a TODO for now.",
+      "parentUuid": "9fd110d5_27201067",
       "revId": "03a6f9ce7374b85e0faf8a76b490f17914f339f8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
