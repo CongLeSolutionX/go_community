@@ -74,6 +74,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "04f3510f_1bc73960",
+        "filename": "src/cmd/compile/internal/noder/export.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-04-04T18:33:12Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "85010801_47f0f31e",
+      "revId": "db663710c2736e44ed33ef0239366fbe22dfa337",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2d570029_5989a20e",
@@ -87,6 +105,30 @@
       "writtenOn": "2022-04-01T15:07:48Z",
       "side": 1,
       "message": "Do we need to leave this TODO in? Seems worth updating this to something meaningful.\n\nBelow also.",
+      "range": {
+        "startLine": 235,
+        "startChar": 9,
+        "endLine": 235,
+        "endChar": 30
+      },
+      "revId": "db663710c2736e44ed33ef0239366fbe22dfa337",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c612e687_c012f86b",
+        "filename": "src/cmd/compile/internal/noder/import.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-04-04T18:33:12Z",
+      "side": 1,
+      "message": "Thanks, changed to base.Fatalf with marginally better error messages.",
+      "parentUuid": "2d570029_5989a20e",
       "range": {
         "startLine": 235,
         "startChar": 9,
