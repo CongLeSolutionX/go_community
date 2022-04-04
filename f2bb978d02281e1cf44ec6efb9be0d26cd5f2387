@@ -112,6 +112,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b024c8e5_358f7780",
+        "filename": "src/go/internal/gcimporter/exportdata.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-04-04T18:30:34Z",
+      "side": 1,
+      "message": "Ack. I\u0027ll look for a better reference.\n\nIt\u0027s just the standard UNIX ar file format (same .a file format used by GCC, etc).",
+      "parentUuid": "06ec8b4a_19a5609e",
+      "range": {
+        "startLine": 18,
+        "startChar": 1,
+        "endLine": 18,
+        "endChar": 29
+      },
+      "revId": "f2bb978d02281e1cf44ec6efb9be0d26cd5f2387",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "90a72375_1aa83420",
@@ -148,6 +172,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "2d6bee55_d525ccee",
+        "filename": "src/go/internal/gcimporter/gcimporter.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-04-04T18:30:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49e564ba_763c9e30",
+      "revId": "f2bb978d02281e1cf44ec6efb9be0d26cd5f2387",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "4b5c0c1c_fa9e5cba",
         "filename": "src/go/internal/gcimporter/gcimporter.go",
         "patchSetId": 7
@@ -159,6 +201,30 @@
       "writtenOn": "2022-04-01T15:04:17Z",
       "side": 1,
       "message": "Aside, it would be helpful to add more documentation to pkgbits. For the naive reader (me), it is a bit opaque.",
+      "range": {
+        "startLine": 170,
+        "startChar": 12,
+        "endLine": 170,
+        "endChar": 19
+      },
+      "revId": "f2bb978d02281e1cf44ec6efb9be0d26cd5f2387",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d1db1d7_32debe41",
+        "filename": "src/go/internal/gcimporter/gcimporter.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-04-04T18:30:34Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "4b5c0c1c_fa9e5cba",
       "range": {
         "startLine": 170,
         "startChar": 12,
@@ -186,6 +252,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a10a6e91_e67c2321",
+        "filename": "src/go/internal/gcimporter/ureader.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-04-04T18:30:34Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ba4af5b1_af74bdcb",
+      "revId": "f2bb978d02281e1cf44ec6efb9be0d26cd5f2387",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f759fa79_18eafc73",
@@ -199,6 +283,24 @@
       "writtenOn": "2022-03-29T20:31:28Z",
       "side": 1,
       "message": "this could use some comments, especially because there are two file sets here",
+      "revId": "f2bb978d02281e1cf44ec6efb9be0d26cd5f2387",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a17acb85_b757c46d",
+        "filename": "src/go/internal/gcimporter/ureader.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-04-04T18:30:34Z",
+      "side": 1,
+      "message": "Thanks, turns out the second one\u0027s unused.\n\nAlso added comments.",
+      "parentUuid": "f759fa79_18eafc73",
       "revId": "f2bb978d02281e1cf44ec6efb9be0d26cd5f2387",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -220,6 +322,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "568bc8a4_fcf8bde2",
+        "filename": "src/go/internal/gcimporter/ureader.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-04-04T18:30:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a74ca8ad_30fe8ae3",
+      "revId": "f2bb978d02281e1cf44ec6efb9be0d26cd5f2387",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d5875fc2_65782ede",
@@ -233,6 +353,24 @@
       "writtenOn": "2022-03-29T20:31:28Z",
       "side": 1,
       "message": "doc string?",
+      "revId": "f2bb978d02281e1cf44ec6efb9be0d26cd5f2387",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c15c5b5e_fb68fb4f",
+        "filename": "src/go/internal/gcimporter/ureader.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-04-04T18:30:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d5875fc2_65782ede",
       "revId": "f2bb978d02281e1cf44ec6efb9be0d26cd5f2387",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -260,6 +398,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6ad7cbe_d1c89f74",
+        "filename": "src/go/internal/gcimporter/ureader.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-04-04T18:30:34Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "aa0d16b0_12848693",
+      "range": {
+        "startLine": 94,
+        "startChar": 5,
+        "endLine": 94,
+        "endChar": 20
+      },
+      "revId": "f2bb978d02281e1cf44ec6efb9be0d26cd5f2387",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ebbb943e_77bb4e1e",
@@ -273,6 +435,24 @@
       "writtenOn": "2022-03-29T20:31:28Z",
       "side": 1,
       "message": "this could use a comment",
+      "revId": "f2bb978d02281e1cf44ec6efb9be0d26cd5f2387",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b74e1484_a69ac7ce",
+        "filename": "src/go/internal/gcimporter/ureader.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-04-04T18:30:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ebbb943e_77bb4e1e",
       "revId": "f2bb978d02281e1cf44ec6efb9be0d26cd5f2387",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -294,6 +474,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "83717e76_f891ca84",
+        "filename": "src/go/internal/gcimporter/ureader.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-04-04T18:30:34Z",
+      "side": 1,
+      "message": "The empty string is to denote the \"current\" package. It\u0027s an artifact from before the -p flag was required. I expect to remove this again before Go 1.19, but it\u0027s the current file format.",
+      "parentUuid": "afc257b1_3aa73982",
+      "revId": "f2bb978d02281e1cf44ec6efb9be0d26cd5f2387",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "78a02119_3f31ec1c",
@@ -307,6 +505,24 @@
       "writtenOn": "2022-03-29T20:31:28Z",
       "side": 1,
       "message": "left-over comment?",
+      "revId": "f2bb978d02281e1cf44ec6efb9be0d26cd5f2387",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e77e5dbe_eb95ff7f",
+        "filename": "src/go/internal/gcimporter/ureader.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-04-04T18:30:34Z",
+      "side": 1,
+      "message": "Intentionally kept to mention what the types2 API was, particularly because I was anticipating we might extent the go/types API with heights. But now height might just go away since -p is required.\n\nClarified the comment, but will revisit this.",
+      "parentUuid": "78a02119_3f31ec1c",
       "revId": "f2bb978d02281e1cf44ec6efb9be0d26cd5f2387",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -328,6 +544,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eebcc7e4_067e4cfb",
+        "filename": "src/go/internal/gcimporter/ureader.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-04-04T18:30:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8aceb4cf_4198fce3",
+      "revId": "f2bb978d02281e1cf44ec6efb9be0d26cd5f2387",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f0238414_930fe2bd",
@@ -341,6 +575,30 @@
       "writtenOn": "2022-04-01T15:04:17Z",
       "side": 1,
       "message": "Unfortunately, this SetConstraint currently MUST run after SetUnderlying on the current type decl. It looks like they\u0027re both later\u0027ed, which seems a little fragile. Perhaps we should separate out tparams.\n\nWe should also alleviate this requirement in the API, but that is not yet done.\n\n(I filed https://go.dev/issue/52104 as a reminder)",
+      "range": {
+        "startLine": 533,
+        "startChar": 0,
+        "endLine": 535,
+        "endChar": 3
+      },
+      "revId": "f2bb978d02281e1cf44ec6efb9be0d26cd5f2387",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3af532b0_92a57cb0",
+        "filename": "src/go/internal/gcimporter/ureader.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 535,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-04-04T18:30:34Z",
+      "side": 1,
+      "message": "Thanks. I\u0027m going to leave as-is for now, but I\u0027ve added comments pointing at this CL and that issue, and I\u0027ll revisit later.",
+      "parentUuid": "f0238414_930fe2bd",
       "range": {
         "startLine": 533,
         "startChar": 0,
