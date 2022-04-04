@@ -12,6 +12,7 @@ import (
 	"runtime"
 	"strconv"
 	"strings"
+	"sync"
 	"unicode"
 	"unicode/utf8"
 
@@ -30,19 +31,24 @@ func LoadPackage(filenames []string) {
 	mode := syntax.CheckBranches
 
 	// Limit the number of simultaneously open files.
+	var wg sync.WaitGroup
 	sem := make(chan struct{}, runtime.GOMAXPROCS(0)+10)
 
 	noders := make([]*noder, len(filenames))
 	for i, filename := range filenames {
 		p := noder{
-			err: make(chan syntax.Error),
+			err: make(chan syntax.Error, 1),
 		}
 		noders[i] = &p
 
 		filename := filename
+		wg.Add(1)
 		go func() {
 			sem <- struct{}{}
-			defer func() { <-sem }()
+			defer func() {
+				<-sem
+				wg.Done()
+			}()
 			defer close(p.err)
 			fbase := syntax.NewFileBase(filename)
 
@@ -56,6 +62,7 @@ func LoadPackage(filenames []string) {
 			p.file, _ = syntax.Parse(fbase, f, p.error, p.pragma, mode) // errors are tracked via p.error
 		}()
 	}
+	wg.Wait()
 
 	var lines uint
 	for _, p := range noders {
