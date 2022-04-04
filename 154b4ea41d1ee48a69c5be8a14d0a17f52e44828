@@ -37,6 +37,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "78741a7e_d8a92b01",
+        "filename": "src/sort/search.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-04-04T15:38:58Z",
+      "side": 1,
+      "message": "This comment is a bit too operational and needs an example to help \npeople understand how to use it. Here is a new version:\n\n\nFind uses binary search to find and return the smallest index i in [0, n)\nat which cmp(i) \u003c\u003d 0. If there is no such index i, Find returns i \u003d n.\nThe found result is true if i \u003c n and cmp(i) \u003d\u003d 0.\nFind calls cmp(i) only for i in the range [0, n).\n\nTo permit binary search, Find requires that cmp(i) \u003e 0 for a leading\nprefix of the range, cmp(i) \u003d\u003d 0 in the middle, and cmp(i) \u003c 0 for \nthe final suffix of the range. (Each subrange could be empty.)\nThe usual way to establish this condition is to interpret cmp(i)\nas a comparison of a desired target value t against entry i in an\nunderlying indexed data structure x, returning \u003c0, 0, and \u003e0\nwhen t \u003c x[i], t \u003d\u003d x[i], and t \u003e x[i], respectively.\n\nFor example, to look for a particular string in a sorted, random-access\nlist of strings:\n\n    i, found :\u003d sort.Find(x.Len(), func(i int) int {\n        return strings.Compare(target, x.At(i))\n    })\n    if found {\n        fmt.Printf(\"found %s at entry %d\\n\", target, i)\n    } else {\n        fmt.Printf(\"%s not found, would insert at %d\", target, i)\n    }",
+      "revId": "154b4ea41d1ee48a69c5be8a14d0a17f52e44828",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d55275d4_e2cfc5db",
+        "filename": "src/sort/search.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-04-04T15:38:58Z",
+      "side": 1,
+      "message": "Please name the results (i int, found bool)",
+      "revId": "154b4ea41d1ee48a69c5be8a14d0a17f52e44828",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b6203f62_97d5a20a",
         "filename": "src/sort/search.go",
         "patchSetId": 6
@@ -66,6 +100,23 @@
       "side": 1,
       "message": "Sorry, I don\u0027t understand the changed code you\u0027re proposing. Are you concerned with the performance here and want to optimize away the extra comparison at the end of the loop? I\u0027m thinking of two things:\n\n1. The condition in the loop might become more complicated, which may negate the performance benefit\n2. The loop will be less clear w.r.t. invariants and its equivalence to Search\n\nCan you show that the alternative you propose is a noticeable performance win that outweighs (2) ?",
       "parentUuid": "b6203f62_97d5a20a",
+      "revId": "154b4ea41d1ee48a69c5be8a14d0a17f52e44828",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "acaac923_32fcec4c",
+        "filename": "src/sort/search.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-04-04T15:38:58Z",
+      "side": 1,
+      "message": "return i, i \u003c n \u0026\u0026 cmp(i) \u003d\u003d 0",
       "revId": "154b4ea41d1ee48a69c5be8a14d0a17f52e44828",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
