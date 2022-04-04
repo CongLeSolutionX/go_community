@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b68fe22a_a70c2a4a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-04T16:29:22Z",
+      "side": 1,
+      "message": "LGTM. But wait for the whole port to be completed and reviewed before submission.",
+      "revId": "e7425f36c9e6c1a14d8151a019b13e171dbcd8c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
