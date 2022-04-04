@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3e543e9_5aee05aa",
+        "filename": "src/runtime/mgcpacer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 969,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-04-04T17:38:07Z",
+      "side": 0,
+      "message": "note to self: the original version of this code is just wrong. fix it up in a separate CL.",
+      "revId": "f42c98b4f52cca98a710fd1af619cb7242da3102",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
