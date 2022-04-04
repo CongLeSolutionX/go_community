@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b32d750c_1ba3987c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 53288
+      },
+      "writtenOn": "2022-04-04T12:37:01Z",
+      "side": 1,
+      "message": "Also, I decided to change the semantics a little bit. I removed a post statement for the unrolled loop and now append an incrementation operation after each checkIdx(i) check. This way in the compiler itself we do not allocate a new binary ADD expression for each statement inside an unrolled body generation, which is more effective.\n\nI compared generated code for this version with the previous one and there\u0027s no difference and thus no difference for benchmarks as well.\n\nPlease, take a look at this.",
+      "revId": "a030c86a35b90620c25a428ea40a163b8a3c4b40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
