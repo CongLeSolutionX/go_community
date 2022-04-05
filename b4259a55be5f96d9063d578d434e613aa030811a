@@ -76,6 +76,30 @@
       },
       "revId": "b4259a55be5f96d9063d578d434e613aa030811a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80e81b04_a2a8e00f",
+        "filename": "src/cmd/compile/internal/noder/expr.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-04-05T23:15:26Z",
+      "side": 1,
+      "message": "Indeed. And even UntypedComplex (0i).",
+      "parentUuid": "0363e32d_a623f547",
+      "range": {
+        "startLine": 65,
+        "startChar": 14,
+        "endLine": 65,
+        "endChar": 24
+      },
+      "revId": "b4259a55be5f96d9063d578d434e613aa030811a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
