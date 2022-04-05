@@ -204,6 +204,7 @@ func downloadZip(ctx context.Context, mod module.Version, zipfile string) (err e
 	// Double-check that the zipfile was not created while we were waiting for
 	// the lock in DownloadZip.
 	ziphashfile := zipfile + "hash"
+
 	var zipExists, ziphashExists bool
 	if _, err := os.Stat(zipfile); err == nil {
 		zipExists = true
