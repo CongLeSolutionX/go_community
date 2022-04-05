@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "34f2c930_488ca7d7",
+        "filename": "src/internal/bytealg/indexbyte_ppc64x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2022-04-05T06:43:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87746fbb_421aa359",
+      "range": {
+        "startLine": 14,
+        "startChar": 6,
+        "endLine": 14,
+        "endChar": 7
+      },
+      "revId": "ed1ab23126b36d1f73b2cb20c0222bd64b6dc73d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2ee916b4_19fce11c",
@@ -54,6 +78,30 @@
       "writtenOn": "2022-04-04T22:03:45Z",
       "side": 1,
       "message": "I don\u0027t think this comment is accurate (not your fault, but we should improve it since we are cleaning up the asm).\n\nMaybe \"Shift amount for mask, (R3\u00260x7)*8\"? I think that\u0027s a more approachable interpretation. Interpreting the raw RLWNM is usually difficult.",
+      "range": {
+        "startLine": 38,
+        "startChar": 51,
+        "endLine": 38,
+        "endChar": 73
+      },
+      "revId": "ed1ab23126b36d1f73b2cb20c0222bd64b6dc73d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5d9f217_fa9b225b",
+        "filename": "src/internal/bytealg/indexbyte_ppc64x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2022-04-05T06:43:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ee916b4_19fce11c",
       "range": {
         "startLine": 38,
         "startChar": 51,
@@ -87,6 +135,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "30da8e7f_661a1b67",
+        "filename": "src/internal/bytealg/indexbyte_ppc64x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2022-04-05T06:43:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0acefef_ba55a7b1",
+      "range": {
+        "startLine": 110,
+        "startChar": 4,
+        "endLine": 110,
+        "endChar": 45
+      },
+      "revId": "ed1ab23126b36d1f73b2cb20c0222bd64b6dc73d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "401be115_76f113e6",
@@ -100,6 +172,30 @@
       "writtenOn": "2022-04-04T22:03:45Z",
       "side": 1,
       "message": "This comment doesn\u0027t seem accurate (again, not a fault of your change).\n\nIf I understand it correctly, R10 is the pointer \u0026string[len(string)]. This computes the last valid index in the final doubleword comparison (since it is loading on aligned addresses).\n\nMaybe \"Offset of last index in final doubleword comparison\"?",
+      "range": {
+        "startLine": 328,
+        "startChar": 23,
+        "endLine": 328,
+        "endChar": 32
+      },
+      "revId": "ed1ab23126b36d1f73b2cb20c0222bd64b6dc73d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98768d33_8da4fa12",
+        "filename": "src/internal/bytealg/indexbyte_ppc64x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2022-04-05T06:43:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "401be115_76f113e6",
       "range": {
         "startLine": 328,
         "startChar": 23,
