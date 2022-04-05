@@ -12,7 +12,6 @@ import (
 	"go/build"
 	"go/build/constraint"
 	"go/token"
-	"os"
 	"path/filepath"
 	"reflect"
 	"sort"
@@ -72,15 +71,9 @@ type pkgInfo struct {
 	rawPkgData *RawPackage
 }
 
-// useindex is used to flag off the behavior of the module index on tip.
-// It will be removed before the release.
-// TODO(matloob): Remove useindex once we have more confidence on the
-// module index.
-var useindex = os.Getenv("GOINDEX") == "true"
-
 // Open opens a module index from disk.
 func Open(path string) (mi *ModuleIndex, err error) {
-	if !useindex {
+	if !Enabled {
 		panic("use of index")
 	}
 
