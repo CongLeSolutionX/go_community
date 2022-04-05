@@ -222,10 +222,10 @@ var shouldBuildTests = []struct {
 		name: "AfterPackage",
 		content: "// Copyright The Go Authors.\n\n" +
 			"package build\n\n" +
-			"// shouldBuild checks tags given by lines of the form\n" +
+			"// ShouldBuild checks tags given by lines of the form\n" +
 			"// +build tag\n" +
 			"//go:build tag\n" +
-			"func shouldBuild(content []byte)\n",
+			"func ShouldBuild(content []byte)\n",
 		tags:        map[string]bool{},
 		shouldBuild: true,
 	},
@@ -346,8 +346,8 @@ func TestShouldBuild(t *testing.T) {
 			shouldBuild, binaryOnly, err := ctx.shouldBuild([]byte(tt.content), tags)
 			if shouldBuild != tt.shouldBuild || binaryOnly != tt.binaryOnly || !reflect.DeepEqual(tags, tt.tags) || err != tt.err {
 				t.Errorf("mismatch:\n"+
-					"have shouldBuild=%v, binaryOnly=%v, tags=%v, err=%v\n"+
-					"want shouldBuild=%v, binaryOnly=%v, tags=%v, err=%v",
+					"have ShouldBuild=%v, binaryOnly=%v, tags=%v, err=%v\n"+
+					"want ShouldBuild=%v, binaryOnly=%v, tags=%v, err=%v",
 					shouldBuild, binaryOnly, tags, err,
 					tt.shouldBuild, tt.binaryOnly, tt.tags, tt.err)
 			}
@@ -360,10 +360,10 @@ func TestGoodOSArchFile(t *testing.T) {
 	m := map[string]bool{}
 	want := map[string]bool{"linux": true}
 	if !ctx.goodOSArchFile("hello_linux.go", m) {
-		t.Errorf("goodOSArchFile(hello_linux.go) = false, want true")
+		t.Errorf("GoodOSArchFile(hello_linux.go) = false, want true")
 	}
 	if !reflect.DeepEqual(m, want) {
-		t.Errorf("goodOSArchFile(hello_linux.go) tags = %v, want %v", m, want)
+		t.Errorf("GoodOSArchFile(hello_linux.go) tags = %v, want %v", m, want)
 	}
 }
 
@@ -416,7 +416,7 @@ func TestMatchFile(t *testing.T) {
 		}
 		match, err := ctxt.MatchFile("x", tt.name)
 		if match != tt.match || err != nil {
-			t.Fatalf("MatchFile(%q) = %v, %v, want %v, nil", tt.name, match, err, tt.match)
+			t.Fatalf("matchFile(%q) = %v, %v, want %v, nil", tt.name, match, err, tt.match)
 		}
 	}
 }
@@ -432,61 +432,6 @@ func TestImportCmd(t *testing.T) {
 	}
 	if !strings.HasSuffix(filepath.ToSlash(p.Dir), "src/cmd/internal/objfile") {
 		t.Fatalf("Import cmd/internal/objfile returned Dir=%q, want %q", filepath.ToSlash(p.Dir), ".../src/cmd/internal/objfile")
-	}
-}
-
-var (
-	expandSrcDirPath = filepath.Join(string(filepath.Separator)+"projects", "src", "add")
-)
-
-var expandSrcDirTests = []struct {
-	input, expected string
-}{
-	{"-L ${SRCDIR}/libs -ladd", "-L /projects/src/add/libs -ladd"},
-	{"${SRCDIR}/add_linux_386.a -pthread -lstdc++", "/projects/src/add/add_linux_386.a -pthread -lstdc++"},
-	{"Nothing to expand here!", "Nothing to expand here!"},
-	{"$", "$"},
-	{"$$", "$$"},
-	{"${", "${"},
-	{"$}", "$}"},
-	{"$FOO ${BAR}", "$FOO ${BAR}"},
-	{"Find me the $SRCDIRECTORY.", "Find me the $SRCDIRECTORY."},
-	{"$SRCDIR is missing braces", "$SRCDIR is missing braces"},
-}
-
-func TestExpandSrcDir(t *testing.T) {
-	for _, test := range expandSrcDirTests {
-		output, _ := expandSrcDir(test.input, expandSrcDirPath)
-		if output != test.expected {
-			t.Errorf("%q expands to %q with SRCDIR=%q when %q is expected", test.input, output, expandSrcDirPath, test.expected)
-		} else {
-			t.Logf("%q expands to %q with SRCDIR=%q", test.input, output, expandSrcDirPath)
-		}
-	}
-}
-
-func TestShellSafety(t *testing.T) {
-	tests := []struct {
-		input, srcdir, expected string
-		result                  bool
-	}{
-		{"-I${SRCDIR}/../include", "/projects/src/issue 11868", "-I/projects/src/issue 11868/../include", true},
-		{"-I${SRCDIR}", "~wtf$@%^", "-I~wtf$@%^", true},
-		{"-X${SRCDIR}/1,${SRCDIR}/2", "/projects/src/issue 11868", "-X/projects/src/issue 11868/1,/projects/src/issue 11868/2", true},
-		{"-I/tmp -I/tmp", "/tmp2", "-I/tmp -I/tmp", true},
-		{"-I/tmp", "/tmp/[0]", "-I/tmp", true},
-		{"-I${SRCDIR}/dir", "/tmp/[0]", "-I/tmp/[0]/dir", false},
-		{"-I${SRCDIR}/dir", "/tmp/go go", "-I/tmp/go go/dir", true},
-		{"-I${SRCDIR}/dir dir", "/tmp/go", "-I/tmp/go/dir dir", true},
-	}
-	for _, test := range tests {
-		output, ok := expandSrcDir(test.input, test.srcdir)
-		if ok != test.result {
-			t.Errorf("Expected %t while %q expands to %q with SRCDIR=%q; got %t", test.result, test.input, output, test.srcdir, ok)
-		}
-		if output != test.expected {
-			t.Errorf("Expected %q while %q expands with SRCDIR=%q; got %q", test.expected, test.input, test.srcdir, output)
-		}
 	}
 }
 
