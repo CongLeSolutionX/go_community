@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "76f8812f_4be7ac1b",
+        "filename": "src/crypto/x509/parser.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1026,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2022-04-05T02:21:10Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "47e7b492_ce74805f",
+      "revId": "7f964bcc4890e2b8b8f530a9cf1155826b1685ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "646050de_b3eb106a",
         "filename": "src/crypto/x509/parser.go",
         "patchSetId": 2
@@ -31,6 +49,24 @@
       "writtenOn": "2022-03-31T22:06:57Z",
       "side": 1,
       "message": "Optional: The parsing is jumping around between tbs and input. I\u0027d find this easier to follow if input was fully parsed before moving on to tbs.",
+      "revId": "7f964bcc4890e2b8b8f530a9cf1155826b1685ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb99f069_c1689f63",
+        "filename": "src/crypto/x509/parser.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1038,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2022-04-05T02:21:10Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "646050de_b3eb106a",
       "revId": "7f964bcc4890e2b8b8f530a9cf1155826b1685ce",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
