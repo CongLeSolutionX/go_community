@@ -63,6 +63,18 @@ func PackageModuleInfo(ctx context.Context, pkgpath string) *modinfo.ModulePubli
 	return moduleInfo(ctx, rs, m, 0)
 }
 
+// PackageModRoot returns the module root directory for the module that provides
+// a given package. If modules are not enabled or if the package is in the
+// standard library or if the package was not successfully loaded with
+// LoadPackages or ImportFromFiles, the empty string is returned.
+func PackageModRoot(ctx context.Context, pkgpath string) string {
+	mi := PackageModuleInfo(ctx, pkgpath)
+	if mi == nil {
+		return ""
+	}
+	return mi.Dir
+}
+
 func ModuleInfo(ctx context.Context, path string) *modinfo.ModulePublic {
 	if !Enabled() {
 		return nil
