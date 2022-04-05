@@ -5,6 +5,7 @@
 package modload
 
 import (
+	"cmd/go/internal/modindex"
 	"context"
 	"errors"
 	"fmt"
@@ -415,6 +416,7 @@ func importFromModules(ctx context.Context, path string, rs *Requirements, mg *M
 			if !HasModRoot() {
 				queryErr = ErrNoModRoot
 			}
+			fmt.Fprintln(os.Stderr, "import missing error")
 			return module.Version{}, "", nil, &ImportMissingError{Path: path, QueryErr: queryErr, isStd: pathIsStd}
 		}
 
@@ -650,6 +652,15 @@ func dirInModule(path, mpath, mdir string, isLocal bool) (dir string, haveGoFile
 	// We don't care about build tags, not even "+build ignore".
 	// We're just looking for a plausible directory.
 	res := haveGoFilesCache.Do(dir, func() any {
+		if modindex.Enabled {
+			if mi, ok := modindex.Get(dir); ok {
+				isDirWithGoFiles, err := mi.IsDirWithGoFiles(mi.RelPath(dir))
+				return goFilesEntry{isDirWithGoFiles, err}
+			}
+		}
+		if modindex.Enabled && strings.HasPrefix(dir, cfg.GOMODCACHE) {
+			panic("this should be handled by mi.ImportPackage" + dir)
+		}
 		ok, err := fsys.IsDirWithGoFiles(dir)
 		return goFilesEntry{haveGoFiles: ok, err: err}
 	}).(goFilesEntry)
