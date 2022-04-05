@@ -116,6 +116,7 @@ import (
 	"cmd/go/internal/fsys"
 	"cmd/go/internal/imports"
 	"cmd/go/internal/modfetch"
+	"cmd/go/internal/modindex"
 	"cmd/go/internal/mvs"
 	"cmd/go/internal/par"
 	"cmd/go/internal/search"
@@ -790,6 +791,9 @@ func PackageDir(path string) string {
 
 // PackageModule returns the module providing the package named by the import path.
 func PackageModule(path string) module.Version {
+	if loaded == nil || loaded.pkgCache == nil {
+		return module.Version{}
+	}
 	pkg, ok := loaded.pkgCache.Get(path).(*loadPkg)
 	if !ok {
 		return module.Version{}
@@ -2100,7 +2104,17 @@ func (ld *loader) checkTidyCompatibility(ctx context.Context, rs *Requirements) 
 // may see these legacy imports. We drop them so that the module
 // search does not look for modules to try to satisfy them.
 func scanDir(dir string, tags map[string]bool) (imports_, testImports []string, err error) {
+	if modindex.Enabled {
+		if mi, ok := modindex.Get(dir); ok {
+			imports_, testImports, err = mi.ScanDir(mi.RelPath(dir), tags)
+			goto Happy
+		}
+	}
+	if modindex.Enabled && strings.HasPrefix(dir, cfg.GOMODCACHE) {
+		panic("this should be handled by mi.ImportPackage" + dir)
+	}
 	imports_, testImports, err = imports.ScanDir(dir, tags)
+Happy:
 
 	filter := func(x []string) []string {
 		w := 0
