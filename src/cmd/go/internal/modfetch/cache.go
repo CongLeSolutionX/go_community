@@ -22,6 +22,7 @@ import (
 	"cmd/go/internal/cfg"
 	"cmd/go/internal/lockedfile"
 	"cmd/go/internal/modfetch/codehost"
+	"cmd/go/internal/modindex"
 	"cmd/go/internal/par"
 	"cmd/go/internal/robustio"
 
@@ -56,6 +57,40 @@ func CachePath(m module.Version, suffix string) (string, error) {
 		return "", err
 	}
 	return filepath.Join(dir, encVer+"."+suffix), nil
+}
+
+var fcache par.Cache
+
+func openIndex(indexPath string) *modindex.ModuleIndex {
+	return fcache.Do(indexPath, func() any {
+		mi, err := modindex.Open(indexPath) // TODO(matloob) is this the rightp ath
+		if err != nil {
+			base.Fatalf("index open %v", err)
+		}
+		return mi
+	}).(*modindex.ModuleIndex)
+}
+
+func GetIndex(dir string) (*modindex.ModuleIndex, bool) {
+	if !strings.HasPrefix(dir, cfg.GOMODCACHE+string(filepath.Separator)) {
+		return nil, false
+	}
+	dir = dir[len(cfg.GOMODCACHE+string(filepath.Separator)):]
+	at := strings.IndexRune(dir, '@')
+	if at < 0 {
+		return nil, false
+	}
+	modpathenc := dir[:at]
+	rest := dir[at+1:]
+	sepIndex := strings.IndexRune(rest, filepath.Separator)
+	if sepIndex < 0 {
+		// No separator means that the directory is at the top-level
+		sepIndex = len(rest)
+	}
+	encVer := rest[:sepIndex]
+	indexPath := filepath.Join(cfg.GOMODCACHE, "cache/download", modpathenc, "@v", encVer+".index")
+	// TODO(matloob): ok to assume index exists at this point?
+	return openIndex(indexPath), true
 }
 
 // DownloadDir returns the directory to which m should have been downloaded.
@@ -118,6 +153,21 @@ func DownloadDir(m module.Version) (string, error) {
 	} else if err != nil {
 		return dir, err
 	}
+
+	// Check if a .index file exists.
+	// We'll need to create it if it doesn't.
+	indexPath, err := CachePath(m, "index")
+	if err != nil {
+		return dir, err
+	}
+	if _, err := os.Stat(indexPath); os.IsNotExist(err) {
+		// TODO(matloob): should we create the file in the caller?
+		// TODO(matloob): locking
+		return dir, modindex.IndexModule(dir, indexPath)
+	} else if err != nil {
+		return dir, err
+	}
+
 	return dir, nil
 }
 
