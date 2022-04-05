@@ -22,6 +22,7 @@ import (
 	"cmd/go/internal/cfg"
 	"cmd/go/internal/lockedfile"
 	"cmd/go/internal/modfetch/codehost"
+	"cmd/go/internal/modindex"
 	"cmd/go/internal/par"
 	"cmd/go/internal/robustio"
 
@@ -118,6 +119,21 @@ func DownloadDir(m module.Version) (string, error) {
 	} else if err != nil {
 		return dir, err
 	}
+
+	// Check if a .index file exists.
+	// We'll need to create it if it doesn't.
+	indexPath, err := CachePath(m, "index")
+	if err != nil {
+		return dir, err
+	}
+	if _, err := os.Stat(indexPath); os.IsNotExist(err) {
+		// TODO(matloob): should we create the file in the caller?
+		// TODO(matloob): locking
+		return dir, modindex.IndexModule(dir, indexPath)
+	} else if err != nil {
+		return dir, err
+	}
+
 	return dir, nil
 }
 
