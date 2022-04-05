@@ -2105,7 +2105,7 @@ func (ld *loader) checkTidyCompatibility(ctx context.Context, rs *Requirements) 
 // during "go vendor", we look into "// +build appengine" files and
 // may see these legacy imports. We drop them so that the module
 // search does not look for modules to try to satisfy them.
-func scanDir(ctx context.Context, dir string, tags map[string]bool) (imports_, testImports []string, err error) {
+func scanDir(dir string, tags map[string]bool) (imports_, testImports []string, err error) {
 	if modindex.Enabled {
 		if rp := modindex.IndexedPackage(dir); rp != nil {
 			imports_, testImports, err = rp.ScanDir(tags)
@@ -2114,10 +2114,6 @@ func scanDir(ctx context.Context, dir string, tags map[string]bool) (imports_, t
 	}
 	if modindex.Enabled && strings.HasPrefix(dir, cfg.GOMODCACHE) {
 		panic("this should be handled by mi.ImportPackage" + dir)
-	}
-	{
-		_, span := trace.StartSpan(ctx, "scanDir (reg.)"+dir)
-		defer span.Done()
 	}
 	imports_, testImports, err = imports.ScanDir(dir, tags)
 Happy:
