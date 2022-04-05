@@ -35,6 +35,7 @@ import (
 	"cmd/go/internal/fsys"
 	"cmd/go/internal/imports"
 	"cmd/go/internal/modfetch"
+	"cmd/go/internal/modindex"
 	"cmd/go/internal/modinfo"
 	"cmd/go/internal/modload"
 	"cmd/go/internal/par"
@@ -791,6 +792,8 @@ func loadImport(ctx context.Context, opts PackageOpts, pre *preload, path, srcDi
 	return p
 }
 
+var useindex = os.Getenv("GOINDEX") == "true"
+
 // loadPackageData loads information needed to construct a *Package. The result
 // is cached, and later calls to loadPackageData for the same package will return
 // the same data.
@@ -871,7 +874,20 @@ func loadPackageData(ctx context.Context, path, parentPath, parentDir, parentRoo
 			if !cfg.ModulesEnabled {
 				buildMode = build.ImportComment
 			}
+			if useindex {
+				if mi, ok := modfetch.GetIndex(r.dir); ok {
+					data.p, data.err = mi.ImportPackage(cfg.BuildContext, r.dir, buildMode)
+					goto Happy
+				} else if rp := modindex.IndexedPackage(r.dir); rp != nil {
+					data.p, data.err = modindex.ImportPackage(cfg.BuildContext, rp, buildMode)
+					goto Happy
+				}
+			}
+			if useindex && strings.HasPrefix(r.dir, cfg.GOMODCACHE) {
+				panic("this should be handled by mi.ImportPackage" + r.dir)
+			}
 			data.p, data.err = cfg.BuildContext.ImportDir(r.dir, buildMode)
+		Happy:
 			if cfg.ModulesEnabled {
 				// Override data.p.Root, since ImportDir sets it to $GOPATH, if
 				// the module is inside $GOPATH/src.
