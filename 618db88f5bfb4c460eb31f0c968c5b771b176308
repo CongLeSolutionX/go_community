@@ -71,6 +71,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "378dae63_30e8b76b",
+        "filename": "src/runtime/libfuzzer.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2022-04-05T14:33:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76e8fc9b_939c0ef0",
+      "revId": "618db88f5bfb4c460eb31f0c968c5b771b176308",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "12715fd7_b7ce6ad9",
@@ -102,6 +120,24 @@
       "side": 1,
       "message": "Added",
       "parentUuid": "12715fd7_b7ce6ad9",
+      "revId": "618db88f5bfb4c460eb31f0c968c5b771b176308",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e912f1f_d8602896",
+        "filename": "src/runtime/libfuzzer.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2022-04-05T14:33:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ebb5df2_3d320ff5",
       "revId": "618db88f5bfb4c460eb31f0c968c5b771b176308",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
