@@ -53,6 +53,24 @@
       "message": "It\u0027s not clear to me where the \"complex float\" and \"complex double\" names come from.\n\nCan we add a test case to misc/cgo/test/test.go that fails today with MSVC and succeeds after this patch is applied?  It probably does\u0027t need a runtime test.",
       "revId": "101bc9a2ebf96b2e027502e8680c84bdea54d7be",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a474b592_29d1559f",
+        "filename": "src/cmd/cgo/out.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1426,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2022-04-05T06:56:22Z",
+      "side": 1,
+      "message": "They come from the [debug/dwarf](https://cs.opensource.google/go/go/+/refs/tags/go1.18:src/debug/dwarf/type.go;l\u003d578-590) package. I\u0027ll try to find a clearer way to identify these types, else I\u0027ll add a comment pointing to the source.\n\nI think windows builders have MSVC installer. If so, it won\u0027t be difficult to check that the exported headers compile successfully under MSVC.",
+      "parentUuid": "79cd9cfd_43310908",
+      "revId": "101bc9a2ebf96b2e027502e8680c84bdea54d7be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
