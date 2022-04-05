@@ -1,0 +1,2 @@
+pkg crypto/x509, method (*CertPool) Equal(*CertPool) bool #46057
+
