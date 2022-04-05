@@ -66,7 +66,6 @@ import (
 //
 // All-caps names are pseudo-names for specific points
 // in the dependency lattice.
-//
 var depsRules = `
 	# No dependencies allowed for any of these packages.
 	NONE
@@ -416,8 +415,14 @@ var depsRules = `
 	< crypto/internal/boring
 	< crypto/aes, crypto/des, crypto/hmac, crypto/md5, crypto/rc4,
 	  crypto/sha1, crypto/sha256, crypto/sha512
-	< crypto/rand
+	< CRYPTO;
+
+	CGO, fmt, net !< CRYPTO;
+
+	# CRYPTO-MATH is core bignum-based crypto - no cgo, net; fmt now ok.
+	CRYPTO, FMT, math/big, embed
 	< crypto/internal/randutil
+	< crypto/rand
 	< crypto/ed25519
 	< golang.org/x/crypto/cryptobyte/asn1
 	< golang.org/x/crypto/cryptobyte
