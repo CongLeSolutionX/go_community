@@ -25,6 +25,7 @@ import (
 	"cmd/go/internal/par"
 	"cmd/go/internal/robustio"
 
+	"github.com/matloob/index"
 	"golang.org/x/mod/module"
 	"golang.org/x/mod/semver"
 )
@@ -118,7 +119,36 @@ func DownloadDir(m module.Version) (string, error) {
 	} else if err != nil {
 		return dir, err
 	}
+
+	// Check if a .index file exists.
+	// We'll need to create it if it doesn't.
+	indexPath, err := CachePath(m, "index")
+	if err != nil {
+		return dir, err
+	}
+	if _, err := os.Stat(indexPath); os.IsNotExist(err) {
+		// TODO(matloob): should we create the file in the caller?
+		// TODO(matloob): locking
+		return dir, indexModule(dir, indexPath)
+	} else if err != nil {
+		return dir, err
+	}
+
 	return dir, nil
+}
+
+func indexModule(moddir string, indexfile string) error {
+	rm, err := index.IndexModule(moddir)
+	var packages []*index.RawPackage
+	for _, m := range rm.Dirs {
+		packages = append(packages, m)
+	}
+	b, err := index.EncodeModule(packages, moddir)
+	if err != nil {
+		return err
+	}
+
+	return os.WriteFile(indexfile, b, 0644)
 }
 
 // DownloadDirPartialError is returned by DownloadDir if a module directory
