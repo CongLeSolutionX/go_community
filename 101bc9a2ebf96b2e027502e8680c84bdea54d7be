@@ -71,6 +71,24 @@
       "parentUuid": "79cd9cfd_43310908",
       "revId": "101bc9a2ebf96b2e027502e8680c84bdea54d7be",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15078037_a9cb1f44",
+        "filename": "src/cmd/cgo/out.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1426,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2022-04-05T11:44:29Z",
+      "side": 1,
+      "message": "I\u0027ve found a way to generalize what I was trying to do. Instead of relying on the C.Repr value, which is muddy, I\u0027m now using the predeclared goTypes map, which was already mapping complex64/complex128 Go types to the appropriate C types.\n\nI\u0027ve removed the MSVC comment, as we are no longer special-caseing complex types.\n\nNote that as side effect, all `C.*` types that can directly be mapped to a Go type will be translated to the typedef defined in goTypes, not just complex types. For example, `func Add(_ C.ulonglong) {}` was previously translated to `void Add(unsigned long long _);`, and now it will be translated to `Add(GoUint64 _);`.\nBoth representations are compatible, so there should be any compatibility issue. Still take it into account when reviewing.",
+      "parentUuid": "a474b592_29d1559f",
+      "revId": "101bc9a2ebf96b2e027502e8680c84bdea54d7be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
