@@ -53,6 +53,24 @@
       "message": "Compare with CL 398237 which adds the missing API entry.",
       "revId": "d861222bad4b580b2af8e8ee4438215e4440c2cf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7369d451_c7dfaeb2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-04-05T14:13:56Z",
+      "side": 1,
+      "message": "Thanks, that\u0027s even better!",
+      "parentUuid": "8d43c161_692dbae7",
+      "revId": "d861222bad4b580b2af8e8ee4438215e4440c2cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ],
   "submitRequirementResults": [
