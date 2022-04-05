@@ -22,6 +22,30 @@
       },
       "revId": "5db378fe2203d300fcb73e2b949f1e07976c9911",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b753f404_02942e9e",
+        "filename": "src/go/build/deps_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 50193
+      },
+      "writtenOn": "2022-04-05T09:57:39Z",
+      "side": 1,
+      "message": "I think you should remove 418-423 as well.",
+      "parentUuid": "36667f41_22e90784",
+      "range": {
+        "startLine": 420,
+        "startChar": 0,
+        "endLine": 420,
+        "endChar": 25
+      },
+      "revId": "5db378fe2203d300fcb73e2b949f1e07976c9911",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
