@@ -116,6 +116,7 @@ import (
 	"cmd/go/internal/fsys"
 	"cmd/go/internal/imports"
 	"cmd/go/internal/modfetch"
+	"cmd/go/internal/modindex"
 	"cmd/go/internal/mvs"
 	"cmd/go/internal/par"
 	"cmd/go/internal/search"
@@ -2100,7 +2101,15 @@ func (ld *loader) checkTidyCompatibility(ctx context.Context, rs *Requirements) 
 // may see these legacy imports. We drop them so that the module
 // search does not look for modules to try to satisfy them.
 func scanDir(dir string, tags map[string]bool) (imports_, testImports []string, err error) {
+	if mi, err := modindex.Get(dir); err == nil {
+		imports_, testImports, err = mi.ScanDir(mi.RelPath(dir), tags)
+		goto Happy
+	} else if !errors.Is(err, modindex.ErrNotIndexed) {
+		base.Fatalf("go: %w", err)
+	}
+
 	imports_, testImports, err = imports.ScanDir(dir, tags)
+Happy:
 
 	filter := func(x []string) []string {
 		w := 0
