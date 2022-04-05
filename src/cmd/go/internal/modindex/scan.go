@@ -16,12 +16,6 @@ import (
 	"strings"
 )
 
-// Enabled is used to flag off the behavior of the module index on tip.
-// It will be removed before the release.
-// TODO(matloob): Remove Enabled once we have more confidence on the
-// module index.
-var Enabled = os.Getenv("GOINDEX") == "true"
-
 // indexModule creates and writes the module index file for the module at the given directory
 // into the file at the given path.
 func indexModule(modroot string) ([]byte, error) {

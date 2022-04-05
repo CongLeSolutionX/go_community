@@ -25,6 +25,12 @@ import (
 	"unsafe"
 )
 
+// enabled is used to flag off the behavior of the module index on tip.
+// It will be removed before the release.
+// TODO(matloob): Remove enabled once we have more confidence on the
+// module index.
+var enabled = os.Getenv("GOINDEX") == "true"
+
 // ModuleIndex represents and encoded module index file. It is used to
 // do the equivalent of build.Import of packages in the module and answer other
 // questions based on the index file's data.
@@ -116,8 +122,14 @@ func modroot(dir string) (modroot string, isModCache, ok bool) {
 
 // Get returns the ModuleIndex containing the directory dir in the module cache.
 func Get(dir string) (*ModuleIndex, bool) {
+	if !enabled {
+		return nil, false
+	}
 	modroot, isModCache, ok := modroot(dir)
 	if !ok {
+		if cfg.GOMODCACHE != "" && strings.HasPrefix(dir, cfg.GOMODCACHE) {
+			panic("this should be handled by mi.ImportPackage: " + dir)
+		}
 		return nil, false
 	}
 	index := openIndex(modroot, isModCache)
@@ -153,7 +165,7 @@ func openIndex(modPath string, isReadOnly bool) *ModuleIndex {
 
 // fromBytes returns a *ModuleIndex given the encoded representation.
 func fromBytes(moddir string, data []byte) (mi *ModuleIndex, err error) {
-	if !Enabled {
+	if !enabled {
 		panic("use of index")
 	}
 
