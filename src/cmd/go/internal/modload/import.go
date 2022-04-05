@@ -17,9 +17,11 @@ import (
 	"sort"
 	"strings"
 
+	"cmd/go/internal/base"
 	"cmd/go/internal/cfg"
 	"cmd/go/internal/fsys"
 	"cmd/go/internal/modfetch"
+	"cmd/go/internal/modindex"
 	"cmd/go/internal/par"
 	"cmd/go/internal/search"
 
@@ -650,6 +652,15 @@ func dirInModule(path, mpath, mdir string, isLocal bool) (dir string, haveGoFile
 	// We don't care about build tags, not even "+build ignore".
 	// We're just looking for a plausible directory.
 	res := haveGoFilesCache.Do(dir, func() any {
+		// modindex.Get will return ErrNotIndexed for any directories which
+		// are reached throuegh a symlink, so that they will be handled by
+		// fsys.IsDirWithGoFiles below.
+		if mi, err := modindex.Get(dir); err == nil {
+			isDirWithGoFiles, err := mi.IsDirWithGoFiles(mi.RelPath(dir))
+			return goFilesEntry{isDirWithGoFiles, err}
+		} else if !errors.Is(err, modindex.ErrNotIndexed) {
+			base.Fatalf("go: %w", err)
+		}
 		ok, err := fsys.IsDirWithGoFiles(dir)
 		return goFilesEntry{haveGoFiles: ok, err: err}
 	}).(goFilesEntry)

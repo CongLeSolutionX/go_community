@@ -176,7 +176,7 @@ func openIndex(modPath string, isReadOnly bool) (*ModuleIndex, error) {
 		if err != nil {
 			return result{nil, err}
 		}
-		return mi
+		return result{mi, nil}
 	}).(result)
 	return r.mi, r.err
 }
