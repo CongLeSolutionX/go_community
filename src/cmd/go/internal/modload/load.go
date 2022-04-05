@@ -116,6 +116,7 @@ import (
 	"cmd/go/internal/fsys"
 	"cmd/go/internal/imports"
 	"cmd/go/internal/modfetch"
+	"cmd/go/internal/modindex"
 	"cmd/go/internal/mvs"
 	"cmd/go/internal/par"
 	"cmd/go/internal/search"
@@ -791,6 +792,10 @@ func PackageDir(path string) string {
 
 // PackageModule returns the module providing the package named by the import path.
 func PackageModule(path string) module.Version {
+	if loaded == nil || loaded.pkgCache == nil {
+		panic("foo")
+		return module.Version{}
+	}
 	pkg, ok := loaded.pkgCache.Get(path).(*loadPkg)
 	if !ok {
 		return module.Version{}
@@ -2088,6 +2093,8 @@ func (ld *loader) checkTidyCompatibility(ctx context.Context, rs *Requirements) 
 	base.ExitIfErrors()
 }
 
+var useindex = os.Getenv("GOINDEX") == "true"
+
 // scanDir is like imports.ScanDir but elides known magic imports from the list,
 // so that we do not go looking for packages that don't really exist.
 //
@@ -2102,6 +2109,19 @@ func (ld *loader) checkTidyCompatibility(ctx context.Context, rs *Requirements) 
 // search does not look for modules to try to satisfy them.
 func scanDir(dir string, tags map[string]bool) (imports_, testImports []string, err error) {
 	imports_, testImports, err = imports.ScanDir(dir, tags)
+	if useindex {
+		if rp := modindex.IndexedPackage(dir); rp != nil {
+			_, span := trace.StartSpan(ctx, "scanDir (indexed)"+dir)
+			defer span.Done()
+			imports_, testImports, err = modindex.ScanDir(rp, tags)
+			goto Happy
+		}
+	}
+	if useindex && strings.HasPrefix(dir, cfg.GOMODCACHE) {
+		panic("this should be handled by mi.ImportPackage" + dir)
+	}
+	imports_, testImports, err = imports.ScanDir(dir, tags)
+Happy:
 
 	filter := func(x []string) []string {
 		w := 0
