@@ -1,8 +1,4 @@
-// Copyright 2012 The Go Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style
-// license that can be found in the LICENSE file.
-
-package build
+package buildinternal
 
 import (
 	"bufio"
@@ -375,9 +371,9 @@ func (r *importReader) readImport() {
 	r.readString()
 }
 
-// readComments is like io.ReadAll, except that it only reads the leading
+// ReadComments is like io.ReadAll, except that it only reads the leading
 // block of comments in the file.
-func readComments(f io.Reader) ([]byte, error) {
+func ReadComments(f io.Reader) ([]byte, error) {
 	r := newImportReader("", f)
 	r.peekByte(true)
 	if r.err == nil && !r.eof {
@@ -387,15 +383,15 @@ func readComments(f io.Reader) ([]byte, error) {
 	return r.buf, r.err
 }
 
-// readGoInfo expects a Go file as input and reads the file up to and including the import section.
+// ReadGoInfo expects a Go file as input and reads the file up to and including the import section.
 // It records what it learned in *info.
-// If info.fset is non-nil, readGoInfo parses the file and sets info.parsed, info.parseErr,
-// info.imports and info.embeds.
+// If info.Fset is non-nil, ReadGoInfo parses the file and sets info.Parsed, info.ParseErr,
+// info.Imports, info.Embeds, and info.EmbedErr.
 //
 // It only returns an error if there are problems reading the file,
 // not for syntax errors in the file itself.
-func readGoInfo(f io.Reader, info *fileInfo) error {
-	r := newImportReader(info.name, f)
+func ReadGoInfo(f io.Reader, info *FileInfo) error {
+	r := newImportReader(info.Name, f)
 
 	r.readKeyword("package")
 	r.readIdent()
@@ -412,12 +408,12 @@ func readGoInfo(f io.Reader, info *fileInfo) error {
 		}
 	}
 
-	info.header = r.buf
+	info.Header = r.buf
 
 	// If we stopped successfully before EOF, we read a byte that told us we were done.
 	// Return all but that last byte, which would cause a syntax error if we let it through.
 	if r.err == nil && !r.eof {
-		info.header = r.buf[:len(r.buf)-1]
+		info.Header = r.buf[:len(r.buf)-1]
 	}
 
 	// If we stopped for a syntax error, consume the whole file so that
@@ -427,24 +423,24 @@ func readGoInfo(f io.Reader, info *fileInfo) error {
 		for r.err == nil && !r.eof {
 			r.readByte()
 		}
-		info.header = r.buf
+		info.Header = r.buf
 	}
 	if r.err != nil {
 		return r.err
 	}
 
-	if info.fset == nil {
+	if info.Fset == nil {
 		return nil
 	}
 
-	// Parse file header & record imports.
-	info.parsed, info.parseErr = parser.ParseFile(info.fset, info.name, info.header, parser.ImportsOnly|parser.ParseComments)
-	if info.parseErr != nil {
+	// Parse file Header & record Imports.
+	info.Parsed, info.ParseErr = parser.ParseFile(info.Fset, info.Name, info.Header, parser.ImportsOnly|parser.ParseComments)
+	if info.ParseErr != nil {
 		return nil
 	}
 
 	hasEmbed := false
-	for _, decl := range info.parsed.Decls {
+	for _, decl := range info.Parsed.Decls {
 		d, ok := decl.(*ast.GenDecl)
 		if !ok {
 			continue
@@ -467,17 +463,17 @@ func readGoInfo(f io.Reader, info *fileInfo) error {
 			if doc == nil && len(d.Specs) == 1 {
 				doc = d.Doc
 			}
-			info.imports = append(info.imports, fileImport{path, spec.Pos(), doc})
+			info.Imports = append(info.Imports, FileImport{path, spec.Pos(), doc})
 		}
 	}
 
-	// If the file imports "embed",
+	// If the file Imports "embed",
 	// we have to look for //go:embed comments
 	// in the remainder of the file.
 	// The compiler will enforce the mapping of comments to
 	// declared variables. We just need to know the patterns.
 	// If there were //go:embed comments earlier in the file
-	// (near the package statement or imports), the compiler
+	// (near the package statement or Imports), the compiler
 	// will reject them. They can be (and have already been) ignored.
 	if hasEmbed {
 		var line []byte
@@ -494,9 +490,9 @@ func readGoInfo(f io.Reader, info *fileInfo) error {
 			// Add args if line is well-formed.
 			// Ignore badly-formed lines - the compiler will report them when it finds them,
 			// and we can pretend they are not there to help go list succeed with what it knows.
-			embs, err := parseGoEmbed(string(line), pos)
+			embs, err := ParseGoEmbed(string(line), pos)
 			if err == nil {
-				info.embeds = append(info.embeds, embs...)
+				info.Embeds = append(info.Embeds, embs...)
 			}
 		}
 	}
@@ -508,7 +504,7 @@ func readGoInfo(f io.Reader, info *fileInfo) error {
 // It accepts unquoted space-separated patterns as well as double-quoted and back-quoted Go strings.
 // This is based on a similar function in cmd/compile/internal/gc/noder.go;
 // this version calculates position information as well.
-func parseGoEmbed(args string, pos token.Position) ([]fileEmbed, error) {
+func ParseGoEmbed(args string, pos token.Position) ([]FileEmbed, error) {
 	trimBytes := func(n int) {
 		pos.Offset += n
 		pos.Column += utf8.RuneCountInString(args[:n])
@@ -519,7 +515,7 @@ func parseGoEmbed(args string, pos token.Position) ([]fileEmbed, error) {
 		trimBytes(len(args) - len(trim))
 	}
 
-	var list []fileEmbed
+	var list []FileEmbed
 	for trimSpace(); args != ""; trimSpace() {
 		var path string
 		pathPos := pos
@@ -572,7 +568,7 @@ func parseGoEmbed(args string, pos token.Position) ([]fileEmbed, error) {
 				return nil, fmt.Errorf("invalid quoted string in //go:embed: %s", args)
 			}
 		}
-		list = append(list, fileEmbed{path, pathPos})
+		list = append(list, FileEmbed{path, pathPos})
 	}
 	return list, nil
 }

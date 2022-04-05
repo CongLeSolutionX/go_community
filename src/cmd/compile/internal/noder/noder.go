@@ -377,7 +377,7 @@ func safeArg(name string) bool {
 
 // parseGoEmbed parses the text following "//go:embed" to extract the glob patterns.
 // It accepts unquoted space-separated patterns as well as double-quoted and back-quoted Go strings.
-// go/build/read.go also processes these strings and contains similar logic.
+// internal/buildinternal/read.go also processes these strings and contains similar logic.
 func parseGoEmbed(args string) ([]string, error) {
 	var list []string
 	for args = strings.TrimSpace(args); args != ""; args = strings.TrimSpace(args) {

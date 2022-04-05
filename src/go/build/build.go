@@ -13,6 +13,7 @@ import (
 	"go/doc"
 	"go/token"
 	"internal/buildcfg"
+	"internal/buildinternal"
 	exec "internal/execabs"
 	"internal/goroot"
 	"internal/goversion"
@@ -861,7 +862,7 @@ Found:
 			}
 			continue
 		}
-		data, filename := info.header, info.name
+		data, filename := info.Header, info.Name
 
 		// Going to save the file. For non-Go files, can stop here.
 		switch ext {
@@ -878,15 +879,15 @@ Found:
 			continue
 		}
 
-		if info.parseErr != nil {
-			badFile(name, info.parseErr)
+		if info.ParseErr != nil {
+			badFile(name, info.ParseErr)
 			// Fall through: we might still have a partial AST in info.parsed,
 			// and we want to list files with parse errors anyway.
 		}
 
 		var pkg string
-		if info.parsed != nil {
-			pkg = info.parsed.Name.Name
+		if info.Parsed != nil {
+			pkg = info.Parsed.Name.Name
 			if pkg == "documentation" {
 				p.IgnoredGoFiles = append(p.IgnoredGoFiles, name)
 				continue
@@ -914,12 +915,12 @@ Found:
 			})
 		}
 		// Grab the first package comment as docs, provided it is not from a test file.
-		if info.parsed != nil && info.parsed.Doc != nil && p.Doc == "" && !isTest && !isXTest {
-			p.Doc = doc.Synopsis(info.parsed.Doc.Text())
+		if info.Parsed != nil && info.Parsed.Doc != nil && p.Doc == "" && !isTest && !isXTest {
+			p.Doc = doc.Synopsis(info.Parsed.Doc.Text())
 		}
 
 		if mode&ImportComment != 0 {
-			qcom, line := findImportComment(data)
+			qcom, line := buildinternal.FindImportComment(data)
 			if line != 0 {
 				com, err := strconv.Unquote(qcom)
 				if err != nil {
@@ -935,15 +936,15 @@ Found:
 
 		// Record imports and information about cgo.
 		isCgo := false
-		for _, imp := range info.imports {
-			if imp.path == "C" {
+		for _, imp := range info.Imports {
+			if imp.Path == "C" {
 				if isTest {
 					badFile(name, fmt.Errorf("use of cgo in test %s not supported", filename))
 					continue
 				}
 				isCgo = true
-				if imp.doc != nil {
-					if err := ctxt.saveCgo(filename, p, imp.doc); err != nil {
+				if imp.Doc != nil {
+					if err := buildinternal.SaveCgo((*buildinternal.Context)(ctxt), filename, (*buildinternal.Package)(p), imp.Doc.Text()); err != nil {
 						badFile(name, err)
 					}
 				}
@@ -978,13 +979,13 @@ Found:
 		}
 		*fileList = append(*fileList, name)
 		if importMap != nil {
-			for _, imp := range info.imports {
-				importMap[imp.path] = append(importMap[imp.path], fset.Position(imp.pos))
+			for _, imp := range info.Imports {
+				importMap[imp.Path] = append(importMap[imp.Path], fset.Position(imp.Pos))
 			}
 		}
 		if embedMap != nil {
-			for _, emb := range info.embeds {
-				embedMap[emb.pattern] = append(embedMap[emb.pattern], emb.pos)
+			for _, emb := range info.Embeds {
+				embedMap[emb.Pattern] = append(embedMap[emb.Pattern], emb.Pos)
 			}
 		}
 	}
@@ -1245,49 +1246,6 @@ func hasGoFiles(ctxt *Context, dir string) bool {
 	return false
 }
 
-func findImportComment(data []byte) (s string, line int) {
-	// expect keyword package
-	word, data := parseWord(data)
-	if string(word) != "package" {
-		return "", 0
-	}
-
-	// expect package name
-	_, data = parseWord(data)
-
-	// now ready for import comment, a // or /* */ comment
-	// beginning and ending on the current line.
-	for len(data) > 0 && (data[0] == ' ' || data[0] == '\t' || data[0] == '\r') {
-		data = data[1:]
-	}
-
-	var comment []byte
-	switch {
-	case bytes.HasPrefix(data, slashSlash):
-		comment, _, _ = bytes.Cut(data[2:], newline)
-	case bytes.HasPrefix(data, slashStar):
-		var ok bool
-		comment, _, ok = bytes.Cut(data[2:], starSlash)
-		if !ok {
-			// malformed comment
-			return "", 0
-		}
-		if bytes.Contains(comment, newline) {
-			return "", 0
-		}
-	}
-	comment = bytes.TrimSpace(comment)
-
-	// split comment into `import`, `"pkg"`
-	word, arg := parseWord(comment)
-	if string(word) != "import" {
-		return "", 0
-	}
-
-	line = 1 + bytes.Count(data[:cap(data)-cap(arg)], newline)
-	return strings.TrimSpace(string(arg)), line
-}
-
 var (
 	slashSlash = []byte("//")
 	slashStar  = []byte("/*")
@@ -1355,7 +1313,7 @@ func parseWord(data []byte) (word, rest []byte) {
 // matches the context and would be included in a Package created by ImportDir
 // of that directory.
 //
-// MatchFile considers the name of the file and may use ctxt.OpenFile to
+// matchFile considers the name of the file and may use ctxt.OpenFile to
 // read some or all of the file's content.
 func (ctxt *Context) MatchFile(dir, name string) (match bool, err error) {
 	info, err := ctxt.matchFile(dir, name, nil, nil, nil)
@@ -1398,7 +1356,7 @@ type fileEmbed struct {
 //
 // If allTags is non-nil, matchFile records any encountered build tag
 // by setting allTags[tag] = true.
-func (ctxt *Context) matchFile(dir, name string, allTags map[string]bool, binaryOnly *bool, fset *token.FileSet) (*fileInfo, error) {
+func (ctxt *Context) matchFile(dir, name string, allTags map[string]bool, binaryOnly *bool, fset *token.FileSet) (*buildinternal.FileInfo, error) {
 	if strings.HasPrefix(name, "_") ||
 		strings.HasPrefix(name, ".") {
 		return nil, nil
@@ -1410,7 +1368,7 @@ func (ctxt *Context) matchFile(dir, name string, allTags map[string]bool, binary
 	}
 	ext := name[i:]
 
-	if !ctxt.goodOSArchFile(name, allTags) && !ctxt.UseAllFiles {
+	if !buildinternal.GoodOSArchFile((*buildinternal.Context)(ctxt), name, allTags) && !ctxt.UseAllFiles {
 		return nil, nil
 	}
 
@@ -1419,33 +1377,33 @@ func (ctxt *Context) matchFile(dir, name string, allTags map[string]bool, binary
 		return nil, nil
 	}
 
-	info := &fileInfo{name: ctxt.joinPath(dir, name), fset: fset}
+	info := &buildinternal.FileInfo{Name: ctxt.joinPath(dir, name), Fset: fset}
 	if ext == ".syso" {
 		// binary, no reading
 		return info, nil
 	}
 
-	f, err := ctxt.openFile(info.name)
+	f, err := ctxt.openFile(info.Name)
 	if err != nil {
 		return nil, err
 	}
 
 	if strings.HasSuffix(name, ".go") {
-		err = readGoInfo(f, info)
+		err = buildinternal.ReadGoInfo(f, info)
 		if strings.HasSuffix(name, "_test.go") {
 			binaryOnly = nil // ignore //go:binary-only-package comments in _test.go files
 		}
 	} else {
 		binaryOnly = nil // ignore //go:binary-only-package comments in non-Go sources
-		info.header, err = readComments(f)
+		info.Header, err = buildinternal.ReadComments(f)
 	}
 	f.Close()
 	if err != nil {
-		return nil, fmt.Errorf("read %s: %v", info.name, err)
+		return nil, fmt.Errorf("read %s: %v", info.Name, err)
 	}
 
 	// Look for +build comments to accept or reject the file.
-	ok, sawBinaryOnly, err := ctxt.shouldBuild(info.header, allTags)
+	ok, sawBinaryOnly, err := ctxt.shouldBuild(info.Header, allTags)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %v", name, err)
 	}
@@ -1526,7 +1484,7 @@ func (ctxt *Context) shouldBuild(content []byte, allTags map[string]bool) (shoul
 	// Identify leading run of // comments and blank lines,
 	// which must be followed by a blank line.
 	// Also identify any //go:build comments.
-	content, goBuild, sawBinaryOnly, err := parseFileHeader(content)
+	content, goBuild, sawBinaryOnly, err := buildinternal.ParseFileHeader(content)
 	if err != nil {
 		return false, false, err
 	}
@@ -1539,7 +1497,7 @@ func (ctxt *Context) shouldBuild(content []byte, allTags map[string]bool) (shoul
 		if err != nil {
 			return false, false, fmt.Errorf("parsing //go:build line: %v", err)
 		}
-		shouldBuild = ctxt.eval(x, allTags)
+		shouldBuild = buildinternal.Eval((*buildinternal.Context)(ctxt), x, allTags)
 
 	default:
 		shouldBuild = true
@@ -1560,7 +1518,7 @@ func (ctxt *Context) shouldBuild(content []byte, allTags map[string]bool) (shoul
 				continue
 			}
 			if x, err := constraint.Parse(text); err == nil {
-				if !ctxt.eval(x, allTags) {
+				if !buildinternal.Eval((*buildinternal.Context)(ctxt), x, allTags) {
 					shouldBuild = false
 				}
 			}
@@ -1568,412 +1526,6 @@ func (ctxt *Context) shouldBuild(content []byte, allTags map[string]bool) (shoul
 	}
 
 	return shouldBuild, sawBinaryOnly, nil
-}
-
-func parseFileHeader(content []byte) (trimmed, goBuild []byte, sawBinaryOnly bool, err error) {
-	end := 0
-	p := content
-	ended := false       // found non-blank, non-// line, so stopped accepting // +build lines
-	inSlashStar := false // in /* */ comment
-
-Lines:
-	for len(p) > 0 {
-		line := p
-		if i := bytes.IndexByte(line, '\n'); i >= 0 {
-			line, p = line[:i], p[i+1:]
-		} else {
-			p = p[len(p):]
-		}
-		line = bytes.TrimSpace(line)
-		if len(line) == 0 && !ended { // Blank line
-			// Remember position of most recent blank line.
-			// When we find the first non-blank, non-// line,
-			// this "end" position marks the latest file position
-			// where a // +build line can appear.
-			// (It must appear _before_ a blank line before the non-blank, non-// line.
-			// Yes, that's confusing, which is part of why we moved to //go:build lines.)
-			// Note that ended==false here means that inSlashStar==false,
-			// since seeing a /* would have set ended==true.
-			end = len(content) - len(p)
-			continue Lines
-		}
-		if !bytes.HasPrefix(line, slashSlash) { // Not comment line
-			ended = true
-		}
-
-		if !inSlashStar && isGoBuildComment(line) {
-			if goBuild != nil {
-				return nil, nil, false, errMultipleGoBuild
-			}
-			goBuild = line
-		}
-		if !inSlashStar && bytes.Equal(line, binaryOnlyComment) {
-			sawBinaryOnly = true
-		}
-
-	Comments:
-		for len(line) > 0 {
-			if inSlashStar {
-				if i := bytes.Index(line, starSlash); i >= 0 {
-					inSlashStar = false
-					line = bytes.TrimSpace(line[i+len(starSlash):])
-					continue Comments
-				}
-				continue Lines
-			}
-			if bytes.HasPrefix(line, bSlashSlash) {
-				continue Lines
-			}
-			if bytes.HasPrefix(line, bSlashStar) {
-				inSlashStar = true
-				line = bytes.TrimSpace(line[len(bSlashStar):])
-				continue Comments
-			}
-			// Found non-comment text.
-			break Lines
-		}
-	}
-
-	return content[:end], goBuild, sawBinaryOnly, nil
-}
-
-// saveCgo saves the information from the #cgo lines in the import "C" comment.
-// These lines set CFLAGS, CPPFLAGS, CXXFLAGS and LDFLAGS and pkg-config directives
-// that affect the way cgo's C code is built.
-func (ctxt *Context) saveCgo(filename string, di *Package, cg *ast.CommentGroup) error {
-	text := cg.Text()
-	for _, line := range strings.Split(text, "\n") {
-		orig := line
-
-		// Line is
-		//	#cgo [GOOS/GOARCH...] LDFLAGS: stuff
-		//
-		line = strings.TrimSpace(line)
-		if len(line) < 5 || line[:4] != "#cgo" || (line[4] != ' ' && line[4] != '\t') {
-			continue
-		}
-
-		// Split at colon.
-		line, argstr, ok := strings.Cut(strings.TrimSpace(line[4:]), ":")
-		if !ok {
-			return fmt.Errorf("%s: invalid #cgo line: %s", filename, orig)
-		}
-
-		// Parse GOOS/GOARCH stuff.
-		f := strings.Fields(line)
-		if len(f) < 1 {
-			return fmt.Errorf("%s: invalid #cgo line: %s", filename, orig)
-		}
-
-		cond, verb := f[:len(f)-1], f[len(f)-1]
-		if len(cond) > 0 {
-			ok := false
-			for _, c := range cond {
-				if ctxt.matchAuto(c, nil) {
-					ok = true
-					break
-				}
-			}
-			if !ok {
-				continue
-			}
-		}
-
-		args, err := splitQuoted(argstr)
-		if err != nil {
-			return fmt.Errorf("%s: invalid #cgo line: %s", filename, orig)
-		}
-		for i, arg := range args {
-			if arg, ok = expandSrcDir(arg, di.Dir); !ok {
-				return fmt.Errorf("%s: malformed #cgo argument: %s", filename, arg)
-			}
-			args[i] = arg
-		}
-
-		switch verb {
-		case "CFLAGS", "CPPFLAGS", "CXXFLAGS", "FFLAGS", "LDFLAGS":
-			// Change relative paths to absolute.
-			ctxt.makePathsAbsolute(args, di.Dir)
-		}
-
-		switch verb {
-		case "CFLAGS":
-			di.CgoCFLAGS = append(di.CgoCFLAGS, args...)
-		case "CPPFLAGS":
-			di.CgoCPPFLAGS = append(di.CgoCPPFLAGS, args...)
-		case "CXXFLAGS":
-			di.CgoCXXFLAGS = append(di.CgoCXXFLAGS, args...)
-		case "FFLAGS":
-			di.CgoFFLAGS = append(di.CgoFFLAGS, args...)
-		case "LDFLAGS":
-			di.CgoLDFLAGS = append(di.CgoLDFLAGS, args...)
-		case "pkg-config":
-			di.CgoPkgConfig = append(di.CgoPkgConfig, args...)
-		default:
-			return fmt.Errorf("%s: invalid #cgo verb: %s", filename, orig)
-		}
-	}
-	return nil
-}
-
-// expandSrcDir expands any occurrence of ${SRCDIR}, making sure
-// the result is safe for the shell.
-func expandSrcDir(str string, srcdir string) (string, bool) {
-	// "\" delimited paths cause safeCgoName to fail
-	// so convert native paths with a different delimiter
-	// to "/" before starting (eg: on windows).
-	srcdir = filepath.ToSlash(srcdir)
-
-	chunks := strings.Split(str, "${SRCDIR}")
-	if len(chunks) < 2 {
-		return str, safeCgoName(str)
-	}
-	ok := true
-	for _, chunk := range chunks {
-		ok = ok && (chunk == "" || safeCgoName(chunk))
-	}
-	ok = ok && (srcdir == "" || safeCgoName(srcdir))
-	res := strings.Join(chunks, srcdir)
-	return res, ok && res != ""
-}
-
-// makePathsAbsolute looks for compiler options that take paths and
-// makes them absolute. We do this because through the 1.8 release we
-// ran the compiler in the package directory, so any relative -I or -L
-// options would be relative to that directory. In 1.9 we changed to
-// running the compiler in the build directory, to get consistent
-// build results (issue #19964). To keep builds working, we change any
-// relative -I or -L options to be absolute.
-//
-// Using filepath.IsAbs and filepath.Join here means the results will be
-// different on different systems, but that's OK: -I and -L options are
-// inherently system-dependent.
-func (ctxt *Context) makePathsAbsolute(args []string, srcDir string) {
-	nextPath := false
-	for i, arg := range args {
-		if nextPath {
-			if !filepath.IsAbs(arg) {
-				args[i] = filepath.Join(srcDir, arg)
-			}
-			nextPath = false
-		} else if strings.HasPrefix(arg, "-I") || strings.HasPrefix(arg, "-L") {
-			if len(arg) == 2 {
-				nextPath = true
-			} else {
-				if !filepath.IsAbs(arg[2:]) {
-					args[i] = arg[:2] + filepath.Join(srcDir, arg[2:])
-				}
-			}
-		}
-	}
-}
-
-// NOTE: $ is not safe for the shell, but it is allowed here because of linker options like -Wl,$ORIGIN.
-// We never pass these arguments to a shell (just to programs we construct argv for), so this should be okay.
-// See golang.org/issue/6038.
-// The @ is for OS X. See golang.org/issue/13720.
-// The % is for Jenkins. See golang.org/issue/16959.
-// The ! is because module paths may use them. See golang.org/issue/26716.
-// The ~ and ^ are for sr.ht. See golang.org/issue/32260.
-const safeString = "+-.,/0123456789=ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz:$@%! ~^"
-
-func safeCgoName(s string) bool {
-	if s == "" {
-		return false
-	}
-	for i := 0; i < len(s); i++ {
-		if c := s[i]; c < utf8.RuneSelf && strings.IndexByte(safeString, c) < 0 {
-			return false
-		}
-	}
-	return true
-}
-
-// splitQuoted splits the string s around each instance of one or more consecutive
-// white space characters while taking into account quotes and escaping, and
-// returns an array of substrings of s or an empty list if s contains only white space.
-// Single quotes and double quotes are recognized to prevent splitting within the
-// quoted region, and are removed from the resulting substrings. If a quote in s
-// isn't closed err will be set and r will have the unclosed argument as the
-// last element. The backslash is used for escaping.
-//
-// For example, the following string:
-//
-//	a b:"c d" 'e''f'  "g\""
-//
-// Would be parsed as:
-//
-//	[]string{"a", "b:c d", "ef", `g"`}
-func splitQuoted(s string) (r []string, err error) {
-	var args []string
-	arg := make([]rune, len(s))
-	escaped := false
-	quoted := false
-	quote := '\x00'
-	i := 0
-	for _, rune := range s {
-		switch {
-		case escaped:
-			escaped = false
-		case rune == '\\':
-			escaped = true
-			continue
-		case quote != '\x00':
-			if rune == quote {
-				quote = '\x00'
-				continue
-			}
-		case rune == '"' || rune == '\'':
-			quoted = true
-			quote = rune
-			continue
-		case unicode.IsSpace(rune):
-			if quoted || i > 0 {
-				quoted = false
-				args = append(args, string(arg[:i]))
-				i = 0
-			}
-			continue
-		}
-		arg[i] = rune
-		i++
-	}
-	if quoted || i > 0 {
-		args = append(args, string(arg[:i]))
-	}
-	if quote != 0 {
-		err = errors.New("unclosed quote")
-	} else if escaped {
-		err = errors.New("unfinished escaping")
-	}
-	return args, err
-}
-
-// matchAuto interprets text as either a +build or //go:build expression (whichever works),
-// reporting whether the expression matches the build context.
-//
-// matchAuto is only used for testing of tag evaluation
-// and in #cgo lines, which accept either syntax.
-func (ctxt *Context) matchAuto(text string, allTags map[string]bool) bool {
-	if strings.ContainsAny(text, "&|()") {
-		text = "//go:build " + text
-	} else {
-		text = "// +build " + text
-	}
-	x, err := constraint.Parse(text)
-	if err != nil {
-		return false
-	}
-	return ctxt.eval(x, allTags)
-}
-
-func (ctxt *Context) eval(x constraint.Expr, allTags map[string]bool) bool {
-	return x.Eval(func(tag string) bool { return ctxt.matchTag(tag, allTags) })
-}
-
-// matchTag reports whether the name is one of:
-//
-//	cgo (if cgo is enabled)
-//	$GOOS
-//	$GOARCH
-//	ctxt.Compiler
-//	linux (if GOOS = android)
-//	solaris (if GOOS = illumos)
-//	tag (if tag is listed in ctxt.BuildTags or ctxt.ReleaseTags)
-//
-// It records all consulted tags in allTags.
-func (ctxt *Context) matchTag(name string, allTags map[string]bool) bool {
-	if allTags != nil {
-		allTags[name] = true
-	}
-
-	// special tags
-	if ctxt.CgoEnabled && name == "cgo" {
-		return true
-	}
-	if name == ctxt.GOOS || name == ctxt.GOARCH || name == ctxt.Compiler {
-		return true
-	}
-	if ctxt.GOOS == "android" && name == "linux" {
-		return true
-	}
-	if ctxt.GOOS == "illumos" && name == "solaris" {
-		return true
-	}
-	if ctxt.GOOS == "ios" && name == "darwin" {
-		return true
-	}
-	if name == "unix" && unixOS[ctxt.GOOS] {
-		return true
-	}
-
-	// other tags
-	for _, tag := range ctxt.BuildTags {
-		if tag == name {
-			return true
-		}
-	}
-	for _, tag := range ctxt.ToolTags {
-		if tag == name {
-			return true
-		}
-	}
-	for _, tag := range ctxt.ReleaseTags {
-		if tag == name {
-			return true
-		}
-	}
-
-	return false
-}
-
-// goodOSArchFile returns false if the name contains a $GOOS or $GOARCH
-// suffix which does not match the current system.
-// The recognized name formats are:
-//
-//	name_$(GOOS).*
-//	name_$(GOARCH).*
-//	name_$(GOOS)_$(GOARCH).*
-//	name_$(GOOS)_test.*
-//	name_$(GOARCH)_test.*
-//	name_$(GOOS)_$(GOARCH)_test.*
-//
-// Exceptions:
-// if GOOS=android, then files with GOOS=linux are also matched.
-// if GOOS=illumos, then files with GOOS=solaris are also matched.
-// if GOOS=ios, then files with GOOS=darwin are also matched.
-func (ctxt *Context) goodOSArchFile(name string, allTags map[string]bool) bool {
-	name, _, _ = strings.Cut(name, ".")
-
-	// Before Go 1.4, a file called "linux.go" would be equivalent to having a
-	// build tag "linux" in that file. For Go 1.4 and beyond, we require this
-	// auto-tagging to apply only to files with a non-empty prefix, so
-	// "foo_linux.go" is tagged but "linux.go" is not. This allows new operating
-	// systems, such as android, to arrive without breaking existing code with
-	// innocuous source code in "android.go". The easiest fix: cut everything
-	// in the name before the initial _.
-	i := strings.Index(name, "_")
-	if i < 0 {
-		return true
-	}
-	name = name[i:] // ignore everything before first _
-
-	l := strings.Split(name, "_")
-	if n := len(l); n > 0 && l[n-1] == "test" {
-		l = l[:n-1]
-	}
-	n := len(l)
-	if n >= 2 && knownOS[l[n-2]] && knownArch[l[n-1]] {
-		if allTags != nil {
-			// In case we short-circuit on l[n-1].
-			allTags[l[n-2]] = true
-		}
-		return ctxt.matchTag(l[n-1], allTags) && ctxt.matchTag(l[n-2], allTags)
-	}
-	if n >= 1 && (knownOS[l[n-1]] || knownArch[l[n-1]]) {
-		return ctxt.matchTag(l[n-1], allTags)
-	}
-	return true
 }
 
 // ToolDir is the directory containing build tools.
@@ -1984,13 +1536,4 @@ var ToolDir = getToolDir()
 func IsLocalImport(path string) bool {
 	return path == "." || path == ".." ||
 		strings.HasPrefix(path, "./") || strings.HasPrefix(path, "../")
-}
-
-// ArchChar returns "?" and an error.
-// In earlier versions of Go, the returned string was used to derive
-// the compiler and linker tool names, the default object file suffix,
-// and the default linker output name. As of Go 1.5, those strings
-// no longer vary by architecture; they are compile, link, .o, and a.out, respectively.
-func ArchChar(goarch string) (string, error) {
-	return "?", errors.New("architecture letter no longer used")
 }
