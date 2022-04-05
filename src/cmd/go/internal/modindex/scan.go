@@ -118,6 +118,9 @@ var pkgcache par.Cache // for packages not in modcache
 
 // IndexedPackage returns the RawPackage for the directory, caching its work.
 func IndexedPackage(dir string) *RawPackage {
+	if mi, ok := Get(dir); ok {
+		return mi.RawPackage(dir)
+	}
 	p := pkgcache.Do(dir, func() any {
 		if cfg.BuildContext.GOROOT != "" {
 			if _, ok := (*Context).hasSubdir((*Context)(&build.Default), cfg.BuildContext.GOROOT, dir); ok {
