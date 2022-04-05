@@ -5,6 +5,7 @@
 package modload
 
 import (
+	"cmd/go/internal/modindex"
 	"context"
 	"errors"
 	"fmt"
@@ -484,6 +485,7 @@ func queryImport(ctx context.Context, path string, rs *Requirements) (module.Ver
 			}
 			return module.Version{}, err
 		}
+		// XXX one of the places we should look in the index
 		if _, ok, err := dirInModule(path, m.Path, root, isLocal); err != nil {
 			return m, err
 		} else if ok {
@@ -650,6 +652,16 @@ func dirInModule(path, mpath, mdir string, isLocal bool) (dir string, haveGoFile
 	// We don't care about build tags, not even "+build ignore".
 	// We're just looking for a plausible directory.
 	res := haveGoFilesCache.Do(dir, func() any {
+		if modindex.Enabled {
+			if rp := modindex.IndexedPackage(dir); rp != nil {
+				isDirWithGoFiles, err := rp.IsDirWithGoFiles()
+				return goFilesEntry{isDirWithGoFiles, err}
+			}
+		}
+		if modindex.Enabled && strings.HasPrefix(dir, cfg.GOMODCACHE) {
+			panic("this should be handled by mi.ImportPackage" + dir)
+		}
+		// XXX use index if in module cache.
 		ok, err := fsys.IsDirWithGoFiles(dir)
 		return goFilesEntry{haveGoFiles: ok, err: err}
 	}).(goFilesEntry)
