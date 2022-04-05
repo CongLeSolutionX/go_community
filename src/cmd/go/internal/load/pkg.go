@@ -43,6 +43,7 @@ import (
 	"cmd/go/internal/vcs"
 	"cmd/internal/sys"
 
+	"github.com/matloob/index"
 	"golang.org/x/mod/modfile"
 	"golang.org/x/mod/module"
 )
@@ -842,6 +843,17 @@ func loadPackageData(ctx context.Context, path, parentPath, parentDir, parentRoo
 	// be resolved, r.path is set to path, the source import path.
 	// r.path is never empty.
 
+	inModuleCache := func(p string) bool {
+		if cfg.ModulesEnabled {
+			return false
+		} else if mod := modload.PackageModule(r.path); mod.Version == "" {
+			return false
+		} else if replacement := modload.Replacement(mod); (replacement == module.Version{}) || replacement.Version == "" {
+			return false
+		}
+		return true
+	}
+
 	// Load the package from its directory. If we already found the package's
 	// directory when resolving its import path, use that.
 	data := packageDataCache.Do(r.path, func() any {
@@ -852,7 +864,17 @@ func loadPackageData(ctx context.Context, path, parentPath, parentDir, parentRoo
 			if !cfg.ModulesEnabled {
 				buildMode = build.ImportComment
 			}
-			data.p, data.err = cfg.BuildContext.ImportDir(r.dir, buildMode)
+			if inModuleCache(r.path) {
+				data.p, data.err = index.Cook(cfg.BuildContext, index.ImportDirRaw(r.dir), buildMode)
+				p2, err2 := cfg.BuildContext.ImportDir(r.dir, buildMode)
+				base.Errorf("%s", data.err)
+				base.Errorf("%s", err2)
+				m1, _ := json.MarshalIndent(data.p, "\t", "\t")
+				m2, _ := json.MarshalIndent(p2, "\t", "\t")
+				base.Fatalf("%s, %s", m1, m2)
+			} else {
+				data.p, data.err = cfg.BuildContext.ImportDir(r.dir, buildMode)
+			}
 			if cfg.ModulesEnabled {
 				// Override data.p.Root, since ImportDir sets it to $GOPATH, if
 				// the module is inside $GOPATH/src.
