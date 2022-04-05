@@ -234,6 +234,10 @@ func eval(x constraint.Expr, tags map[string]bool, prefer bool) bool {
 	panic(fmt.Sprintf("unexpected constraint expression %T", x))
 }
 
+func Eval(x constraint.Expr, tags map[string]bool, prefer bool) bool {
+	return eval(x, tags, prefer)
+}
+
 // MatchFile returns false if the name contains a $GOOS or $GOARCH
 // suffix which does not match the current system.
 // The recognized name formats are:
