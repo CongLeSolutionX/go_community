@@ -9,6 +9,7 @@ package modindex
 
 import (
 	"bytes"
+	"cmd/go/internal/fsys"
 	"errors"
 	"fmt"
 	"go/ast"
@@ -16,7 +17,6 @@ import (
 	"go/token"
 	"io"
 	"io/fs"
-	"os"
 	"path/filepath"
 	"sort"
 	"strings"
@@ -132,7 +132,7 @@ func (ctxt *Context) isAbsPath(path string) bool {
 
 // isDir calls ctxt.IsDir (if not nil) or else uses os.Stat.
 func isDir(path string) bool {
-	fi, err := os.Stat(path)
+	fi, err := fsys.Stat(path)
 	return err == nil && fi.IsDir()
 }
 
@@ -476,7 +476,7 @@ func getFileInfo(dir, name string, fset *token.FileSet) (*fileInfo, error) {
 		return info, nil
 	}
 
-	f, err := os.Open(info.name)
+	f, err := fsys.Open(info.name)
 	if err != nil {
 		return nil, err
 	}
