@@ -185,7 +185,6 @@ func (b *Builder) Do(ctx context.Context, root *Action) {
 	for i := 0; i < par; i++ {
 		wg.Add(1)
 		go func() {
-			ctx := trace.StartGoroutine(ctx)
 			defer wg.Done()
 			for {
 				select {
