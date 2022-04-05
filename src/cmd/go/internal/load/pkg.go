@@ -871,7 +871,14 @@ func loadPackageData(ctx context.Context, path, parentPath, parentDir, parentRoo
 			if !cfg.ModulesEnabled {
 				buildMode = build.ImportComment
 			}
-			data.p, data.err = cfg.BuildContext.ImportDir(r.dir, buildMode)
+			if mi, ok := modfetch.GetIndex(r.dir); ok {
+				data.p, data.err = mi.ImportPackage(cfg.BuildContext, r.dir, buildMode)
+			} else {
+				if strings.HasPrefix(r.dir, cfg.GOMODCACHE) {
+					panic("this should be handled by mi.ImportPackage" + r.dir)
+				}
+				data.p, data.err = cfg.BuildContext.ImportDir(r.dir, buildMode)
+			}
 			if cfg.ModulesEnabled {
 				// Override data.p.Root, since ImportDir sets it to $GOPATH, if
 				// the module is inside $GOPATH/src.

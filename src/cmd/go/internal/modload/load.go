@@ -785,6 +785,10 @@ func PackageDir(path string) string {
 
 // PackageModule returns the module providing the package named by the import path.
 func PackageModule(path string) module.Version {
+	if loaded == nil || loaded.pkgCache == nil {
+		panic("foo")
+		return module.Version{}
+	}
 	pkg, ok := loaded.pkgCache.Get(path).(*loadPkg)
 	if !ok {
 		return module.Version{}
