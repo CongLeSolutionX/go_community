@@ -11,6 +11,7 @@ import (
 	"go/scanner"
 	"go/token"
 	"io/fs"
+	"os"
 	"path/filepath"
 	"strings"
 )
