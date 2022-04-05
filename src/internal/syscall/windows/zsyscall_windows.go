@@ -3,7 +3,6 @@
 package windows
 
 import (
-	"internal/syscall/windows/sysdll"
 	"syscall"
 	"unsafe"
 )
@@ -37,13 +36,13 @@ func errnoErr(e syscall.Errno) error {
 }
 
 var (
-	modadvapi32 = syscall.NewLazyDLL(sysdll.Add("advapi32.dll"))
-	modiphlpapi = syscall.NewLazyDLL(sysdll.Add("iphlpapi.dll"))
-	modkernel32 = syscall.NewLazyDLL(sysdll.Add("kernel32.dll"))
-	modnetapi32 = syscall.NewLazyDLL(sysdll.Add("netapi32.dll"))
-	modpsapi    = syscall.NewLazyDLL(sysdll.Add("psapi.dll"))
-	moduserenv  = syscall.NewLazyDLL(sysdll.Add("userenv.dll"))
-	modws2_32   = syscall.NewLazyDLL(sysdll.Add("ws2_32.dll"))
+	modadvapi32 = NewLazySystemDLL("advapi32.dll")
+	modiphlpapi = NewLazySystemDLL("iphlpapi.dll")
+	modkernel32 = NewLazySystemDLL("kernel32.dll")
+	modnetapi32 = NewLazySystemDLL("netapi32.dll")
+	modpsapi    = NewLazySystemDLL("psapi.dll")
+	moduserenv  = NewLazySystemDLL("userenv.dll")
+	modws2_32   = NewLazySystemDLL("ws2_32.dll")
 
 	procAdjustTokenPrivileges        = modadvapi32.NewProc("AdjustTokenPrivileges")
 	procDuplicateTokenEx             = modadvapi32.NewProc("DuplicateTokenEx")
@@ -66,6 +65,7 @@ var (
 	procMultiByteToWideChar          = modkernel32.NewProc("MultiByteToWideChar")
 	procSetFileInformationByHandle   = modkernel32.NewProc("SetFileInformationByHandle")
 	procUnlockFileEx                 = modkernel32.NewProc("UnlockFileEx")
+	procVirtualQuery                 = modkernel32.NewProc("VirtualQuery")
 	procNetShareAdd                  = modnetapi32.NewProc("NetShareAdd")
 	procNetShareDel                  = modnetapi32.NewProc("NetShareDel")
 	procNetUserGetLocalGroups        = modnetapi32.NewProc("NetUserGetLocalGroups")
@@ -251,6 +251,14 @@ func SetFileInformationByHandle(handle syscall.Handle, fileInformationClass uint
 
 func UnlockFileEx(file syscall.Handle, reserved uint32, bytesLow uint32, bytesHigh uint32, overlapped *syscall.Overlapped) (err error) {
 	r1, _, e1 := syscall.Syscall6(procUnlockFileEx.Addr(), 5, uintptr(file), uintptr(reserved), uintptr(bytesLow), uintptr(bytesHigh), uintptr(unsafe.Pointer(overlapped)), 0)
+	if r1 == 0 {
+		err = errnoErr(e1)
+	}
+	return
+}
+
+func VirtualQuery(address uintptr, buffer *MemoryBasicInformation, length uintptr) (err error) {
+	r1, _, e1 := syscall.Syscall(procVirtualQuery.Addr(), 3, uintptr(address), uintptr(unsafe.Pointer(buffer)), uintptr(length))
 	if r1 == 0 {
 		err = errnoErr(e1)
 	}
