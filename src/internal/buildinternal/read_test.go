@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package build
+package buildinternal
 
 import (
 	"fmt"
@@ -152,14 +152,14 @@ func testRead(t *testing.T, tests []readTest, read func(io.Reader) ([]byte, erro
 
 func TestReadGoInfo(t *testing.T) {
 	testRead(t, readGoInfoTests, func(r io.Reader) ([]byte, error) {
-		var info fileInfo
-		err := readGoInfo(r, &info)
-		return info.header, err
+		var info FileInfo
+		err := ReadGoInfo(r, &info)
+		return info.Header, err
 	})
 }
 
 func TestReadComments(t *testing.T) {
-	testRead(t, readCommentsTests, readComments)
+	testRead(t, readCommentsTests, ReadComments)
 }
 
 var readFailuresTests = []readTest{
@@ -242,9 +242,9 @@ func TestReadFailuresIgnored(t *testing.T) {
 		}
 	}
 	testRead(t, tests, func(r io.Reader) ([]byte, error) {
-		var info fileInfo
-		err := readGoInfo(r, &info)
-		return info.header, err
+		var info FileInfo
+		err := ReadGoInfo(r, &info)
+		return info.Header, err
 	})
 }
 
@@ -328,19 +328,19 @@ var readEmbedTests = []struct {
 func TestReadEmbed(t *testing.T) {
 	fset := token.NewFileSet()
 	for i, tt := range readEmbedTests {
-		info := fileInfo{
-			name: "test",
-			fset: fset,
+		info := FileInfo{
+			Name: "test",
+			Fset: fset,
 		}
-		err := readGoInfo(strings.NewReader(tt.in), &info)
+		err := ReadGoInfo(strings.NewReader(tt.in), &info)
 		if err != nil {
 			t.Errorf("#%d: %v", i, err)
 			continue
 		}
 		b := &strings.Builder{}
 		sep := ""
-		for _, emb := range info.embeds {
-			fmt.Fprintf(b, "%s%v:%s", sep, emb.pos, emb.pattern)
+		for _, emb := range info.Embeds {
+			fmt.Fprintf(b, "%s%v:%s", sep, emb.Pos, emb.Pattern)
 			sep = "\n"
 		}
 		got := b.String()
