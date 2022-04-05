@@ -44,6 +44,7 @@ import (
 	"cmd/go/internal/vcs"
 	"cmd/internal/sys"
 
+	"github.com/matloob/index"
 	"golang.org/x/mod/modfile"
 	"golang.org/x/mod/module"
 )
@@ -855,6 +856,24 @@ func loadPackageData(ctx context.Context, path, parentPath, parentDir, parentRoo
 	// be resolved, r.path is set to path, the source import path.
 	// r.path is never empty.
 
+	inModuleCache := func(p string) (module.Version, bool) {
+		var mod module.Version
+		if !cfg.ModulesEnabled {
+			return module.Version{}, false
+		}
+		mod = modload.PackageModule(r.path)
+		if mod.Version == "" {
+			return module.Version{}, false
+		}
+		if replacement := modload.Replacement(mod); replacement != (module.Version{}) {
+			if replacement.Version == "" {
+				return module.Version{}, false
+			}
+			mod = replacement
+		}
+		return mod, true
+	}
+
 	// Load the package from its directory. If we already found the package's
 	// directory when resolving its import path, use that.
 	data := packageDataCache.Do(r.path, func() any {
@@ -865,7 +884,36 @@ func loadPackageData(ctx context.Context, path, parentPath, parentDir, parentRoo
 			if !cfg.ModulesEnabled {
 				buildMode = build.ImportComment
 			}
-			data.p, data.err = cfg.BuildContext.ImportDir(r.dir, buildMode)
+			if mod, ok := inModuleCache(r.path); ok {
+				// This is really dumb for now.
+				indexPath, err := modfetch.CachePath(mod, "index")
+				if err != nil {
+					base.Fatalf("%v", err)
+				}
+				mi, err := indexOpen(indexPath) // TODO(matloob) is this the rightp ath
+				if err != nil {
+					base.Fatalf("%v", err)
+				}
+				fmt.Println(r.path, "in module cache")
+				// get relative dir for package
+				downloadDir, err := modfetch.DownloadDir(mod)
+				if err != nil {
+					base.Fatalf("%v", err)
+				}
+				rel, err := filepath.Rel(downloadDir, r.path)
+				if err != nil {
+					base.Fatalf("%v", err)
+				}
+				data.p, data.err = mi.ImportPackage(cfg.BuildContext, rel, buildMode)
+				p2, _ := cfg.BuildContext.ImportDir(r.dir, buildMode)
+				m1, _ := json.MarshalIndent(data.p, "\t", "\t")
+				m2, _ := json.MarshalIndent(p2, "\t", "\t")
+				if string(m1) != string(m2) {
+					base.Fatalf("%s, %s", m1, m2)
+				}
+			} else {
+				data.p, data.err = cfg.BuildContext.ImportDir(r.dir, buildMode)
+			}
 			if cfg.ModulesEnabled {
 				// Override data.p.Root, since ImportDir sets it to $GOPATH, if
 				// the module is inside $GOPATH/src.
@@ -929,6 +977,10 @@ func loadPackageData(ctx context.Context, path, parentPath, parentDir, parentRoo
 	}).(packageData)
 
 	return data.p, loaded, data.err
+}
+
+func indexOpen(path string) (*index.ModuleIndex, error) {
+	return index.Open(path, path)
 }
 
 // importSpec describes an import declaration in source code. It is used as a
