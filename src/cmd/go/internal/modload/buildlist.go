@@ -9,6 +9,7 @@ import (
 	"cmd/go/internal/cfg"
 	"cmd/go/internal/mvs"
 	"cmd/go/internal/par"
+	"cmd/go/internal/trace"
 	"context"
 	"fmt"
 	"os"
@@ -646,6 +647,8 @@ func tidyRoots(ctx context.Context, rs *Requirements, pkgs []*loadPkg) (*Require
 }
 
 func updateRoots(ctx context.Context, direct map[string]bool, rs *Requirements, pkgs []*loadPkg, add []module.Version, rootsImported bool) (*Requirements, error) {
+	ctx, span := trace.StartSpan(ctx, "updateRoots ")
+	defer span.Done()
 	switch rs.pruning {
 	case unpruned:
 		return updateUnprunedRoots(ctx, direct, rs, add)
