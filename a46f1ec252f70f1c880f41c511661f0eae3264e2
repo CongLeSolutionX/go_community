@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "314a251e_da8c9203",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2022-04-05T23:16:47Z",
+      "side": 1,
+      "message": "The main ways we see an increase in profile acquisition latency are 1/ stopping the world twice per profile instead of once, and 2/ the goroutine that\u0027s collecting the profile has the same priority as any other, so isn\u0027t guaranteed execution time like it would be with the world stopped.\n\nI\u0027ve added a benchmark (in CL 387414) that shows the first, and shows the second during a particular adversary workload (applyGCLoad). I don\u0027t know what (if anything) to do about the second: because it can run for a long time, claiming on-CPU time by disabling preemption doesn\u0027t seem right.",
+      "parentUuid": "07c33e25_7d3680a8",
+      "revId": "a46f1ec252f70f1c880f41c511661f0eae3264e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "907ffc5f_edb71c78",
@@ -112,6 +130,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6cd58e08_0bde2b34",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2022-04-05T23:16:47Z",
+      "side": 1,
+      "message": "Done\n\nIs it right that _any_ lock here would do, since the other access is during STW which gathers all the Ps and so guarantees that no other M is holding any locks? Thanks!",
+      "parentUuid": "34955264_2cc39430",
+      "range": {
+        "startLine": 169,
+        "startChar": 0,
+        "endLine": 170,
+        "endChar": 10
+      },
+      "revId": "a46f1ec252f70f1c880f41c511661f0eae3264e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "70cfbb7e_53151c9d",
@@ -160,6 +202,30 @@
       "writtenOn": "2022-04-05T00:17:36Z",
       "side": 1,
       "message": "please use runtime/internal/atomic.Uint32",
+      "range": {
+        "startLine": 492,
+        "startChar": 19,
+        "endLine": 492,
+        "endChar": 25
+      },
+      "revId": "a46f1ec252f70f1c880f41c511661f0eae3264e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d74c95a_751c3d29",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2022-04-05T23:16:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d5ad4fc_26ef8a11",
       "range": {
         "startLine": 492,
         "startChar": 19,
