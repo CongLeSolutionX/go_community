@@ -70,6 +70,24 @@
       "message": "Instead of the string comparison can we do \"errors.Is(err, syscall.ECONNRESET)\"?",
       "revId": "af969cc6e52ccb99a33e3f96c78c46dd7d4d0199",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01ec3fb5_3c4a2893",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2102,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-04-06T20:39:20Z",
+      "side": 1,
+      "message": "In theory yes, but it would need an extra file and a build constraint — the extra robustness didn\u0027t seem worth the overhead.\n\n(`syscall.ECONNRESET` is not defined on `plan9`, and AFAICT this test file is included on the plan9 builders.)",
+      "parentUuid": "3eb84d7b_ece85777",
+      "revId": "af969cc6e52ccb99a33e3f96c78c46dd7d4d0199",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
