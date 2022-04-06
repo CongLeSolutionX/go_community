@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe3cebf1_6c5598bf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-04-06T15:48:26Z",
+      "side": 1,
+      "message": "Sorry, this isn\u0027t the idea I had in mind. Please see https://go.dev/play/p/yKyrv7NiVB9\n\nAlso, FYI, I\u0027m on vacation today. I\u0027ll review further tomorrow. Thanks.",
+      "revId": "cb551c9fc8504e095646b780e41673c0060f46d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bef3bda0_7fdfbabe",
+        "filename": "src/cmd/compile/internal/noder/noder.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-04-06T15:48:26Z",
+      "side": 1,
+      "message": "This should stay `make(chan syntax.Error)`. Any fix that relies on changing this to a buffered queue of capacity N will still fail on files with N+1 syntax errors.",
+      "revId": "cb551c9fc8504e095646b780e41673c0060f46d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
