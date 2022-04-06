@@ -130,6 +130,30 @@
       },
       "revId": "90a8aca9960495a71b17d968e58710b21935b68f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91a06feb_ea23090f",
+        "filename": "src/cmd/compile/internal/noder/expr.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-04-06T21:00:52Z",
+      "side": 1,
+      "message": "Perhaps. But we don\u0027t really have a guarantee that we can\u0027t reach here on a different path than a shift. At least this provides some confidence that the values are correct.\n\nI have some ideas that allow us to get rid of this code altogether. Another CL.",
+      "parentUuid": "c139c739_9d3a62f3",
+      "range": {
+        "startLine": 69,
+        "startChar": 3,
+        "endLine": 69,
+        "endChar": 23
+      },
+      "revId": "90a8aca9960495a71b17d968e58710b21935b68f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
