@@ -148,7 +148,7 @@ package nistec
 
 import (
 {{ if .Fiat }}
-	"crypto/elliptic/internal/fiat"
+	"crypto/internal/nistec/fiat"
 {{ end -}}
 	"crypto/subtle"
 	"errors"
