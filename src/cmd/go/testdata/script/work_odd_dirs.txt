@@ -1,0 +1,37 @@
+cd $WORK/src
+
+env GOROOT=$WORK
+go env GOWORK
+stdout $WORK${/}go.work
+
+# If we are in a subdirectory of $TMPDIR,
+# the search for a go.work file should stop there
+# The search for go.work should stop at $TMPDIR
+# $TMPDIR/go.work should be ignored,
+# in the same way that we ignore $TMPDIR/go.mod.
+
+[plan9] stop  # Plan 9 has no $TMPDIR variable to set.
+
+env GOROOT=$TESTGO_GOROOT
+env TMP=$WORK
+env TMPDIR=$WORK
+go env GOWORK
+! stdout .
+stderr '^go: warning: ignoring go.work in system temp root '$WORK'$'
+
+
+-- $WORK/go.work --
+go 1.18
+
+use (
+	./src
+	./src/cmd
+)
+-- $WORK/src/go.mod --
+module std
+
+go 1.18
+-- $WORK/src/cmd/go.mod --
+module cmd
+
+go 1.18

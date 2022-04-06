@@ -298,6 +298,10 @@ func InitWorkfile() {
 		workFilePath = ""
 	case "", "auto":
 		workFilePath = findWorkspaceFile(base.Cwd())
+		if workFilePath != "" && search.InDir(filepath.Dir(workFilePath), os.TempDir()) == "." {
+			fmt.Fprintf(os.Stderr, "go: warning: ignoring go.work in system temp root %v\n", os.TempDir())
+			workFilePath = ""
+		}
 	default:
 		if !filepath.IsAbs(gowork) {
 			base.Fatalf("the path provided to GOWORK must be an absolute path")
@@ -1294,7 +1298,7 @@ func findWorkspaceFile(dir string) (root string) {
 	}
 	dir = filepath.Clean(dir)
 
-	// Look for enclosing go.mod.
+	// Look for enclosing go.work.
 	for {
 		f := filepath.Join(dir, "go.work")
 		if fi, err := fsys.Stat(f); err == nil && !fi.IsDir() {
@@ -1303,12 +1307,6 @@ func findWorkspaceFile(dir string) (root string) {
 		d := filepath.Dir(dir)
 		if d == dir {
 			break
-		}
-		if d == cfg.GOROOT {
-			// As a special case, don't cross GOROOT to find a go.work file.
-			// The standard library and commands built in go always use the vendored
-			// dependencies, so avoid using a most likely irrelevant go.work file.
-			return ""
 		}
 		dir = d
 	}
