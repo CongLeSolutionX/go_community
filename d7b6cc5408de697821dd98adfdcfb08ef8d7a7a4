@@ -89,6 +89,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "87312aa1_5b16b747",
+        "filename": "src/internal/bytealg/indexbyte_ppc64x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2022-04-06T07:46:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de598c56_c478da78",
+      "revId": "d7b6cc5408de697821dd98adfdcfb08ef8d7a7a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "64b78a75_b5ed074e",
@@ -102,6 +120,24 @@
       "writtenOn": "2022-04-05T20:17:59Z",
       "side": 1,
       "message": "Could you add a comment here so it is clear this loop handles strings \u003c 32 bytes.",
+      "revId": "d7b6cc5408de697821dd98adfdcfb08ef8d7a7a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "615421b4_ea4b2bb2",
+        "filename": "src/internal/bytealg/indexbyte_ppc64x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2022-04-06T07:46:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64b78a75_b5ed074e",
       "revId": "d7b6cc5408de697821dd98adfdcfb08ef8d7a7a4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
