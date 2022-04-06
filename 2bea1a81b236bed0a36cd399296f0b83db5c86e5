@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24f36c92_410d116c",
+        "filename": "src/cmd/internal/objabi/reloctype.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-06T15:05:56Z",
+      "side": 1,
+      "message": "Since they are together under a Loong64 comment now, you can remove this part.",
+      "range": {
+        "startLine": 255,
+        "startChar": 18,
+        "endLine": 255,
+        "endChar": 40
+      },
+      "revId": "2bea1a81b236bed0a36cd399296f0b83db5c86e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
