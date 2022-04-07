@@ -178,6 +178,30 @@
       },
       "revId": "90a8aca9960495a71b17d968e58710b21935b68f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9650b1f_9c6057dc",
+        "filename": "src/cmd/compile/internal/noder/expr.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-04-07T19:34:33Z",
+      "side": 1,
+      "message": "Actually, I misread your earlier comment. We can have situations where tv.Value is nil in this case: For shifts of the form x \u003c\u003c (1 \u003c\u003c s) the RHS is untyped because there\u0027s no need to give it a type, yet it\u0027s not a constant. This actually failed in an earlier patchset, which is why I changed this code in the first place.\n\nI think maybe we can use a flag with types2, indicating that the output is used by the compiler, and then ensure that all expressions are not untyped. In some future CL.",
+      "parentUuid": "256a6e30_79bb1b2f",
+      "range": {
+        "startLine": 69,
+        "startChar": 3,
+        "endLine": 69,
+        "endChar": 23
+      },
+      "revId": "90a8aca9960495a71b17d968e58710b21935b68f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
