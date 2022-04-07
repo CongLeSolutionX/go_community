@@ -106,6 +106,24 @@
       "parentUuid": "4e0eb476_58e0b26f",
       "revId": "551cbeb9ddfc57f1fef34191d09c820c11400865",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4257748c_1c14556c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-04-07T23:35:53Z",
+      "side": 1,
+      "message": "Add a file $GOROOT/test/fixedbugs/issue52127.go with contents like:\n\n```\n// run\n\n// copyright blah blah\n\npackage main\n\nimport (\n\t\"fmt\"\n\t\"os\"\n\t\"os/exec\"\n\t\"path/filepath\"\n)\n\nfunc main() {\n\tdir, err :\u003d os.MkdirTemp(\"\", \"issue52127\")\n\tif err !\u003d nil {\n\t\tpanic(err)\n\t}\n\tdefer os.RemoveAll(dir)\n\n\targs :\u003d []string{\"go\", \"build\"}\n\twrite :\u003d func(prefix string, i int, data string) {\n\t\tfilename :\u003d filepath.Join(dir, fmt.Sprintf(\"%s%d.go\", prefix, i))\n\t\tif err :\u003d os.WriteFile(filename, []byte(data), 0o644); err !\u003d nil {\n\t\t\tpanic(err)\n\t\t}\n\t\targs \u003d append(args, filename)\n\t}\n\n\tfor i :\u003d 0; i \u003c 100; i++ {\n\t\twrite(\"a\", i, \"package p\\n\")\n\t}\n\tfor i :\u003d 0; i \u003c 100; i++ {\n\t\twrite(\"b\", i, \"package p\\nvar\\nvar\\nvar\\nvar\\nvar\\n\")\n\t}\n\n\tcmd :\u003d exec.Command(args[0], args[1:]...)\n\tif err :\u003d cmd.Run(); err !\u003d nil {\n\t\tpanic(err)\n\t}\n}\n```\n\nYou might need to make additional tweaks to disable the test on some targets. Try to look through the other $GOROOT/test/.../*.go files to look for other examples of tests that manually invoke \"go build\".",
+      "parentUuid": "bee25a41_1e7e74bc",
+      "revId": "551cbeb9ddfc57f1fef34191d09c820c11400865",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ],
   "submitRequirementResults": [
