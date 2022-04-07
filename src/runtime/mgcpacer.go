@@ -978,11 +978,10 @@ func (c *gcControllerState) commit() {
 	// to reflect the costs of a GC with no work to do. With a large heap but
 	// very little scan work to perform, this gives us exactly as much runway
 	// as we would need, in the worst case.
-	maxRunway := uint64(0.95 * float64(goal-c.heapMarked))
-	if largeHeapMaxRunway := goal - c.heapMinimum; goal > c.heapMinimum && maxRunway < largeHeapMaxRunway {
-		maxRunway = largeHeapMaxRunway
+	maxTrigger := uint64(0.95*float64(goal-c.heapMarked)) + c.heapMarked
+	if goal > defaultHeapMinimum && goal-defaultHeapMinimum > maxTrigger {
+		maxTrigger = goal - defaultHeapMinimum
 	}
-	maxTrigger := maxRunway + c.heapMarked
 	if maxTrigger < minTrigger {
 		maxTrigger = minTrigger
 	}
