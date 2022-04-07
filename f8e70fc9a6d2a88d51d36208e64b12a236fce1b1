@@ -70,6 +70,24 @@
       "parentUuid": "3d7cbc58_7926d645",
       "revId": "f8e70fc9a6d2a88d51d36208e64b12a236fce1b1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f458209_5cc35089",
+        "filename": "src/strings/strings.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1047,
+      "author": {
+        "id": 55613
+      },
+      "writtenOn": "2022-04-07T16:28:35Z",
+      "side": 1,
+      "message": "I submitted a new CL: https://go-review.googlesource.com/c/go/+/398736",
+      "parentUuid": "5256534b_93fd8386",
+      "revId": "f8e70fc9a6d2a88d51d36208e64b12a236fce1b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
