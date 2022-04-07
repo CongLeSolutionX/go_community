@@ -126,6 +126,7 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 	}
 
 	if base.Flag.Dwarf {
+		base.Ctxt.Flag_dwarfTypes = true
 		base.Ctxt.DebugInfo = dwarfgen.Info
 		base.Ctxt.GenAbstractFunc = dwarfgen.AbstractFunc
 		base.Ctxt.DwFixups = obj.NewDwarfFixupTable(base.Ctxt)
@@ -185,6 +186,10 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 
 	typecheck.InitUniverse()
 	typecheck.InitRuntime()
+
+	if base.Ctxt.Flag_dwarfTypes {
+		reflectdata.PrepareDwarfTypes()
+	}
 
 	// Parse and typecheck input.
 	noder.LoadPackage(flag.Args())
@@ -317,6 +322,10 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 	// Write object data to disk.
 	base.Timer.Start("be", "dumpobj")
 	dumpdata()
+	if base.Ctxt.Flag_dwarfTypes {
+		obj.SyntheSizeTypes()
+		obj.DwarfGenerateDebugSyms(base.Ctxt)
+	}
 	base.Ctxt.NumberSyms()
 	dumpobj()
 	if base.Flag.AsmHdr != "" {

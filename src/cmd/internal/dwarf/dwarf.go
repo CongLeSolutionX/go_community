@@ -45,6 +45,29 @@ type Sym interface {
 }
 
 // A Var represents a local variable or a function parameter.
+type Type interface {
+	Name() string
+	Size() int64
+	Kind() objabi.SymKind
+	RuntimeType() Sym
+	Key() Type
+	Elem() Type
+	NumElem() int64
+	Params() []Field
+	Results() []Field
+	Fields() []Field
+	IsEface() bool
+	FieldOff(i int) int64
+}
+
+type Field interface {
+	Name() string
+	Type() Type
+	IsDDD() bool
+	IsEmbed() bool
+}
+
+// A Var represents a local variable or a function parameter.
 type Var struct {
 	Name          string
 	Abbrev        int // Either DW_ABRV_AUTO[_LOCLIST] or DW_ABRV_PARAM[_LOCLIST]

@@ -194,6 +194,9 @@ func dumpGlobal(n *ir.Name) {
 	}
 	types.CalcSize(n.Type())
 	ggloblnod(n)
+	if base.Ctxt.Flag_dwarfTypes {
+		obj.Defgotype(reflectdata.DwarfType{Type: n.Type()})
+	}
 	base.Ctxt.DwarfGlobal(base.Ctxt.Pkgpath, types.TypeSymName(n.Type()), n.Linksym())
 }
 
@@ -221,6 +224,9 @@ func dumpGlobalConst(n ir.Node) {
 		// If the type of the constant is an instantiated generic, we need to emit
 		// that type so the linker knows about it. See issue 51245.
 		_ = reflectdata.TypeLinksym(t)
+	}
+	if base.Ctxt.Flag_dwarfTypes {
+		obj.Defgotype(reflectdata.DwarfType{Type: t})
 	}
 	base.Ctxt.DwarfIntConst(base.Ctxt.Pkgpath, n.Sym().Name, types.TypeSymName(t), ir.IntVal(t, v))
 }

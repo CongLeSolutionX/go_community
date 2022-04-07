@@ -197,6 +197,9 @@ func createDwarfVars(fnsym *obj.LSym, complexOK bool, fn *ir.Func, apDecls []*ir
 			decls = append(decls, n)
 			continue
 		}
+		if base.Ctxt.Flag_dwarfTypes {
+			obj.Defgotype(reflectdata.DwarfType{Type: n.Type()})
+		}
 		typename := dwarf.InfoPrefix + types.TypeSymName(n.Type())
 		decls = append(decls, n)
 		abbrev := dwarf.DW_ABRV_AUTO_LOCLIST
@@ -363,7 +366,9 @@ func createSimpleVar(fnsym *obj.LSym, n *ir.Name) *dwarf.Var {
 	default:
 		base.Fatalf("createSimpleVar unexpected class %v for node %v", n.Class, n)
 	}
-
+	if base.Ctxt.Flag_dwarfTypes {
+		obj.Defgotype(reflectdata.DwarfType{Type: n.Type()})
+	}
 	typename := dwarf.InfoPrefix + types.TypeSymName(n.Type())
 	delete(fnsym.Func().Autot, reflectdata.TypeLinksym(n.Type()))
 	inlIndex := 0
@@ -466,6 +471,9 @@ func createComplexVar(fnsym *obj.LSym, fn *ir.Func, varID ssa.VarID) *dwarf.Var 
 
 	gotype := reflectdata.TypeLinksym(n.Type())
 	delete(fnsym.Func().Autot, gotype)
+	if base.Ctxt.Flag_dwarfTypes {
+		obj.Defgotype(reflectdata.DwarfType{Type: n.Type()})
+	}
 	typename := dwarf.InfoPrefix + gotype.Name[len("type."):]
 	inlIndex := 0
 	if base.Flag.GenDwarfInl > 1 {

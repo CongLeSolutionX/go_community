@@ -941,6 +941,9 @@ func formalType(t *types.Type) *types.Type {
 }
 
 func writeType(t *types.Type) *obj.LSym {
+	if base.Ctxt.Flag_dwarfTypes {
+		obj.Defgotype(DwarfType{Type: t})
+	}
 	t = formalType(t)
 	if t.IsUntyped() || t.HasTParam() {
 		base.Fatalf("writeType %v", t)

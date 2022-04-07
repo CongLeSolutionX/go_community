@@ -243,7 +243,16 @@ func (c dwCtxt) AddCURelativeAddress(s dwarf.Sym, data interface{}, value int64)
 	ls.WriteCURelativeAddr(c.Link, ls.Size, rsym, value)
 }
 func (c dwCtxt) AddSectionOffset(s dwarf.Sym, size int, t interface{}, ofs int64) {
-	panic("should be used only in the linker")
+	ds := s.(*LSym)
+	tds := t.(*LSym)
+	switch size {
+	default:
+		c.Diag("invalid size %d in adddwarfref\n", size)
+	case c.PtrSize(), 4:
+	}
+	ds.WriteAddr(c.Link, ds.Size, size, tds, ofs)
+	r := &ds.R[len(ds.R)-1]
+	r.Type = objabi.R_WEAKADDROFF
 }
 func (c dwCtxt) AddDWARFAddrSectionOffset(s dwarf.Sym, t interface{}, ofs int64) {
 	size := 4

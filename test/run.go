@@ -338,7 +338,7 @@ func (t *test) initExpectFail() {
 	} else {
 		failureSets = append(failureSets, go118Failures)
 	}
-
+	failureSets = append(failureSets, dwarfFailures)
 	filename := strings.Replace(t.goFileName(), "\\", "/", -1) // goFileName() uses \ on Windows
 
 	for _, set := range failureSets {
@@ -1989,6 +1989,8 @@ var go118Failures = setOf(
 	"typeparam/nested.go",     // 1.18 compiler doesn't support function-local types with generics
 	"typeparam/issue51521.go", // 1.18 compiler produces bad panic message and link error
 )
+
+var dwarfFailures = setOf("fixedbugs/issue30908.go")
 
 // In all of these cases, the 1.17 compiler reports reasonable errors, but either the
 // 1.17 or 1.18 compiler report extra errors, so we can't match correctly on both. We
