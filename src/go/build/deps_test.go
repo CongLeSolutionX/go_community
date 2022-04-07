@@ -405,8 +405,8 @@ var depsRules = `
 	< crypto/internal/subtle
 	< crypto/internal/nistec/fiat
 	< crypto/internal/nistec
-	< crypto/ed25519/internal/edwards25519/field, golang.org/x/crypto/curve25519/internal/field
-	< crypto/ed25519/internal/edwards25519
+	< crypto/internal/edwards25519/field, golang.org/x/crypto/curve25519/internal/field
+	< crypto/internal/edwards25519
 	< crypto/cipher
 	< crypto/aes, crypto/des, crypto/hmac, crypto/md5, crypto/rc4,
 	  crypto/sha1, crypto/sha256, crypto/sha512
