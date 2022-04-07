@@ -130,17 +130,16 @@ type gcControllerState struct {
 	// allocated (cons) per unit of scan work completed (mark) in a GC
 	// cycle, divided by the CPU time spent on each activity.
 	//
+	// This result is then smoothed based on past data. See prevConsMark.
+	//
 	// Updated at the end of each GC cycle, in endCycle.
 	consMark float64
 
-	// consMarkController holds the state for the mark-cons ratio
-	// estimation over time.
+	// prevConsMark is the last 3 values of cons/mark computed.
 	//
-	// Its purpose is to smooth out noisiness in the computation of
-	// consMark; see consMark for details.
-	consMarkController piController
-
-	_ uint32 // Padding for atomics on 32-bit platforms.
+	// consMark is computed as the median of these three values in order
+	// to smooth the computed value in the face of noise.
+	prevConsMark [3]float64
 
 	// gcPercentGoal is the goal heapLive for when next GC ends derived
 	// from gcPercent.
@@ -396,28 +395,6 @@ type gcControllerState struct {
 func (c *gcControllerState) init(gcPercent int32, memoryLimit int64) {
 	c.heapMinimum = defaultHeapMinimum
 	c.triggered = ^uint64(0)
-
-	c.consMarkController = piController{
-		// Tuned first via the Ziegler-Nichols process in simulation,
-		// then the integral time was manually tuned against real-world
-		// applications to deal with noisiness in the measured cons/mark
-		// ratio.
-		kp: 0.9,
-		ti: 4.0,
-
-		// Set a high reset time in GC cycles.
-		// This is inversely proportional to the rate at which we
-		// accumulate error from clipping. By making this very high
-		// we make the accumulation slow. In general, clipping is
-		// OK in our situation, hence the choice.
-		//
-		// Tune this if we get unintended effects from clipping for
-		// a long time.
-		tt:  1000,
-		min: -1000,
-		max: 1000,
-	}
-
 	c.setGCPercent(gcPercent)
 	c.setMemoryLimit(memoryLimit)
 	c.commit(true) // No sweep phase in the first GC cycle.
@@ -704,9 +681,7 @@ func (c *gcControllerState) endCycle(now int64, procs int, userForced bool) {
 	currentConsMark := (float64(c.heapLive-c.triggered) * (utilization + idleUtilization)) /
 		(float64(scanWork) * (1 - utilization))
 
-	// Update cons/mark controller. The time period for this is 1 GC cycle.
-	//
-	// This use of a PI controller might seem strange. So, here's an explanation:
+	// Update cons/mark.
 	//
 	// currentConsMark represents the consMark we *should've* had to be perfectly
 	// on-target for this cycle. Given that we assume the next GC will be like this
@@ -714,20 +689,36 @@ func (c *gcControllerState) endCycle(now int64, procs int, userForced bool) {
 	// as our next consMark. In practice, however, currentConsMark is too noisy:
 	// we're going to be wildly off-target in each GC cycle if we do that.
 	//
-	// What we do instead is make a long-term assumption: there is some steady-state
-	// consMark value, but it's obscured by noise. By constantly shooting for this
-	// noisy-but-perfect consMark value, the controller will bounce around a bit,
-	// but its average behavior, in aggregate, should be less noisy and closer to
-	// the true long-term consMark value, provided its tuned to be slightly overdamped.
-	var ok bool
-	oldConsMark := c.consMark
-	c.consMark, ok = c.consMarkController.next(c.consMark, currentConsMark, 1.0)
-	if !ok {
-		// The error spiraled out of control. This is incredibly unlikely seeing
-		// as this controller is essentially just a smoothing function, but it might
-		// mean that something went very wrong with how currentConsMark was calculated.
-		// Just reset consMark and keep going.
-		c.consMark = 0
+	// Instead, let's use a simple, conservative heuristic. Of the last three currentConsMark
+	// we computed, pick the median. The intuition behind this choice is that in the steady-state
+	// the cons/mark ratio tends to stay relatively stable. However, some amount of the time,
+	// there's an anomalous cons/mark, due to factors beyond the pacer's control. From a
+	// smoothing perspective, we can consider these anomalies as 'speckles', so by taking the
+	// median we apply median filtering to the stream of cons/mark values.
+	//
+	// A consequence of this heuristic is that an actual program phase change, a real
+	// change to the steady-state, will lag by at most 2 GC cycle.
+	c.prevConsMark[2] = c.prevConsMark[1]
+	c.prevConsMark[1] = c.prevConsMark[0]
+	c.prevConsMark[0] = currentConsMark
+	consMarkForThisCycle := c.consMark
+	// Find the median manually.
+	if c.prevConsMark[0] > c.prevConsMark[1] {
+		if c.prevConsMark[1] > c.prevConsMark[2] {
+			c.consMark = c.prevConsMark[1]
+		} else if c.prevConsMark[2] > c.prevConsMark[0] {
+			c.consMark = c.prevConsMark[0]
+		} else {
+			c.consMark = c.prevConsMark[2]
+		}
+	} else { // prevConsMark[1] > prevConsMark[0]
+		if c.prevConsMark[2] > c.prevConsMark[1] {
+			c.consMark = c.prevConsMark[1]
+		} else if c.prevConsMark[0] > c.prevConsMark[2] {
+			c.consMark = c.prevConsMark[0]
+		} else {
+			c.consMark = c.prevConsMark[2]
+		}
 	}
 
 	if debug.gcpacertrace > 0 {
@@ -736,10 +727,7 @@ func (c *gcControllerState) endCycle(now int64, procs int, userForced bool) {
 		goal := gcGoalUtilization * 100
 		print("pacer: ", int(utilization*100), "% CPU (", int(goal), " exp.) for ")
 		print(c.heapScanWork.Load(), "+", c.stackScanWork.Load(), "+", c.globalsScanWork.Load(), " B work (", c.lastHeapScan+c.stackScan+c.globalsScan, " B exp.) ")
-		print("in ", c.triggered, " B -> ", c.heapLive, " B (∆goal ", int64(c.heapLive)-int64(heapGoal), ", cons/mark ", oldConsMark, ")")
-		if !ok {
-			print("[controller reset]")
-		}
+		print("in ", c.triggered, " B -> ", c.heapLive, " B (∆goal ", int64(c.heapLive)-int64(heapGoal), ", cons/mark ", consMarkForThisCycle, ")")
 		println()
 		printunlock()
 	}
