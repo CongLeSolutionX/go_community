@@ -124,6 +124,24 @@
       "parentUuid": "bee25a41_1e7e74bc",
       "revId": "551cbeb9ddfc57f1fef34191d09c820c11400865",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23ec248a_578eac71",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55613
+      },
+      "writtenOn": "2022-04-07T23:39:12Z",
+      "side": 1,
+      "message": "Sorry, I chose `Resolved` by mistake, which resulted in a merge.\n\nI will submit a new CL if there are suitable test cases.",
+      "parentUuid": "bee25a41_1e7e74bc",
+      "revId": "551cbeb9ddfc57f1fef34191d09c820c11400865",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ],
   "submitRequirementResults": [
