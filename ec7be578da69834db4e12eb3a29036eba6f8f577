@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28c67a93_b163709b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-04-07T00:26:05Z",
+      "side": 1,
+      "message": "hash/maphash: use correct method name in comment",
+      "revId": "ec7be578da69834db4e12eb3a29036eba6f8f577",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58e0be6c_57753c98",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-04-07T00:26:05Z",
+      "side": 1,
+      "message": "Omit this line, it doesn\u0027t add anything to the topic line.",
+      "revId": "ec7be578da69834db4e12eb3a29036eba6f8f577",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
