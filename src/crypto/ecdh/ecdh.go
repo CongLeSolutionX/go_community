@@ -1,0 +1,120 @@
+// Copyright 2022 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+// Package ecdh implements Elliptic Curve Diffie-Hellman over
+// NIST curves and Curve25519.
+package ecdh
+
+import (
+	"crypto"
+	"crypto/subtle"
+	"io"
+)
+
+type Curve interface {
+	// ECDH performs a ECDH exchange and returns the shared secret.
+	//
+	// For NIST curves, this performs ECDH as specified in SEC 1, Version 2.0,
+	// Section 3.3.1, and returns the x-coordinate encoded according to SEC 1,
+	// Version 2.0, Section 2.3.5. In particular, if the result is the point at
+	// infinity, ECDH returns an error. (Note that for NIST curves, that's only
+	// possible if the private key is the all-zero value.)
+	//
+	// For X25519, this performs ECDH as specified in RFC 7748, Section 6.1. If
+	// the result is the all-zero value, ECDH returns an error.
+	ECDH(local *PrivateKey, remote *PublicKey) ([]byte, error)
+
+	// GenerateKey generates a new PrivateKey from rand.
+	GenerateKey(rand io.Reader) (*PrivateKey, error)
+
+	// NewPrivateKey checks that key is valid and returns a PrivateKey.
+	//
+	// For NIST curves, this follows SEC 1, Version 2.0, Section 2.3.6, which
+	// amounts to decoding the bytes as a fixed length big endian integer and
+	// checking that the result is lower than the order of the curve.
+	//
+	// For X25519, this only checks the scalar length. Adversarially selected
+	// private keys can cause ECDH to return an error.
+	NewPrivateKey(key []byte) (*PrivateKey, error)
+
+	// NewPublicKey checks that key is valid and returns a PublicKey.
+	//
+	// For NIST curves, this decodes an uncompressed point according to SEC 1,
+	// Version 2.0, Section 2.3.4. Compressed encodings and the point at
+	// infinity are rejected.
+	//
+	// For X25519, this only checks the u-coordinate length. Adversarially
+	// selected public keys can cause ECDH to return an error.
+	NewPublicKey(key []byte) (*PublicKey, error)
+
+	// private is a private method to allow us to expand the ECDH interface with
+	// more methods in the future without breaking backwards compatibility.
+	private()
+}
+
+// PublicKey is an ECDH public key, usually a peer's ECDH share sent over the wire.
+type PublicKey struct {
+	curve     Curve
+	publicKey []byte
+
+	// buf is the backing array of publicKey, to prevent extra heap allocations.
+	// Its size is sufficient to hold any public key supported by this package.
+	buf [133]byte
+}
+
+// Bytes returns a copy of the encoding of the public key.
+func (k *PublicKey) Bytes() []byte {
+	// Copy the public key to a fixed size buffer that can get allocated on the
+	// caller's stack after inlining.
+	var buf [133]byte
+	return append(buf[:0], k.publicKey...)
+}
+
+func (k *PublicKey) Equal(x crypto.PublicKey) bool {
+	xx, ok := x.(*PublicKey)
+	if !ok {
+		return false
+	}
+	if k.curve != xx.curve {
+		return false
+	}
+	return subtle.ConstantTimeCompare(k.publicKey, xx.publicKey) == 1
+}
+
+func (k *PublicKey) Curve() Curve {
+	return k.curve
+}
+
+// PrivateKey is an ECDH private key, usually kept secret.
+type PrivateKey struct {
+	PublicKey
+	privateKey []byte
+
+	// buf is the backing array of privateKey, to prevent extra heap allocations.
+	// Its size is sufficient to hold any private key supported by this package.
+	buf [66]byte
+}
+
+// Bytes returns a copy of the encoding of the private key.
+func (k *PrivateKey) Bytes() []byte {
+	// Copy the private key to a fixed size buffer that can get allocated on the
+	// caller's stack after inlining.
+	var buf [66]byte
+	return append(buf[:0], k.privateKey...)
+}
+
+func (k *PrivateKey) Equal(x crypto.PrivateKey) bool {
+	xx, ok := x.(*PrivateKey)
+	if !ok {
+		return false
+	}
+	if !k.PublicKey.Equal(&xx.PublicKey) {
+		return false
+	}
+	return subtle.ConstantTimeCompare(k.privateKey, xx.privateKey) == 1
+}
+
+func (k *PrivateKey) Public() crypto.PublicKey {
+	return &k.PublicKey
+}
