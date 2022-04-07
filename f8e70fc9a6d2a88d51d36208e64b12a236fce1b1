@@ -16,6 +16,24 @@
       "message": "I don\u0027t believe this is true: https://go.dev/play/p/pFqpaxzocoL",
       "revId": "f8e70fc9a6d2a88d51d36208e64b12a236fce1b1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4299796f_0dd28164",
+        "filename": "src/strings/strings.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1047,
+      "author": {
+        "id": 55613
+      },
+      "writtenOn": "2022-04-07T13:48:01Z",
+      "side": 1,
+      "message": "Thanks a lot.\nMaybe I should add back the description \"in general\".",
+      "parentUuid": "efa62023_ca82398b",
+      "revId": "f8e70fc9a6d2a88d51d36208e64b12a236fce1b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
