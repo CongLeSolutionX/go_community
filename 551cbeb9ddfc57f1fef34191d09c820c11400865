@@ -160,6 +160,24 @@
       "parentUuid": "23ec248a_578eac71",
       "revId": "551cbeb9ddfc57f1fef34191d09c820c11400865",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2a40088_d1078410",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-04-07T23:43:37Z",
+      "side": 1,
+      "message": "\u003e Sorry, I chose  Resolved  by mistake, which resulted in a merge.\n\nNo problem. I marked as Auto-Submit, because I didn\u0027t think a test was important/practical here; but Cherry was right to ask for one, and it seems reasonable to add one.",
+      "parentUuid": "b09b2654_4ed8a565",
+      "revId": "551cbeb9ddfc57f1fef34191d09c820c11400865",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ],
   "submitRequirementResults": [
