@@ -202,6 +202,30 @@
       },
       "revId": "90a8aca9960495a71b17d968e58710b21935b68f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce9849b8_cff65f72",
+        "filename": "src/cmd/compile/internal/noder/expr.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-04-07T22:23:07Z",
+      "side": 1,
+      "message": "Ah, right.\n\nType checker mode for forcing concretely typed expressions SGTM.",
+      "parentUuid": "f9650b1f_9c6057dc",
+      "range": {
+        "startLine": 69,
+        "startChar": 3,
+        "endLine": 69,
+        "endChar": 23
+      },
+      "revId": "90a8aca9960495a71b17d968e58710b21935b68f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
