@@ -8,6 +8,7 @@ import (
 	"bytes"
 	"context"
 	"crypto"
+	"crypto/ecdh"
 	"crypto/ecdsa"
 	"crypto/ed25519"
 	"crypto/rsa"
@@ -34,7 +35,7 @@ type clientHandshakeState struct {
 	session      *ClientSessionState
 }
 
-func (c *Conn) makeClientHello() (*clientHelloMsg, ecdheParameters, error) {
+func (c *Conn) makeClientHello() (*clientHelloMsg, *ecdh.PrivateKey, error) {
 	config := c.config
 	if len(config.ServerName) == 0 && !config.InsecureSkipVerify {
 		return nil, nil, errors.New("tls: either ServerName or InsecureSkipVerify must be specified in the tls.Config")
@@ -120,7 +121,7 @@ func (c *Conn) makeClientHello() (*clientHelloMsg, ecdheParameters, error) {
 		hello.supportedSignatureAlgorithms = supportedSignatureAlgorithms
 	}
 
-	var params ecdheParameters
+	var key *ecdh.PrivateKey
 	if hello.supportedVersions[0] == VersionTLS13 {
 		if hasAESGCMHardwareSupport {
 			hello.cipherSuites = append(hello.cipherSuites, defaultCipherSuitesTLS13...)
@@ -129,17 +130,17 @@ func (c *Conn) makeClientHello() (*clientHelloMsg, ecdheParameters, error) {
 		}
 
 		curveID := config.curvePreferences()[0]
-		if _, ok := curveForCurveID(curveID); curveID != X25519 && !ok {
+		if _, ok := curveForCurveID(curveID); !ok {
 			return nil, nil, errors.New("tls: CurvePreferences includes unsupported curve")
 		}
-		params, err = generateECDHEParameters(config.rand(), curveID)
+		key, err = generateECDHEKey(config.rand(), curveID)
 		if err != nil {
 			return nil, nil, err
 		}
-		hello.keyShares = []keyShare{{group: curveID, data: params.PublicKey()}}
+		hello.keyShares = []keyShare{{group: curveID, data: key.PublicKey.Bytes()}}
 	}
 
-	return hello, params, nil
+	return hello, key, nil
 }
 
 func (c *Conn) clientHandshake(ctx context.Context) (err error) {
@@ -151,7 +152,7 @@ func (c *Conn) clientHandshake(ctx context.Context) (err error) {
 	// need to be reset.
 	c.didResume = false
 
-	hello, ecdheParams, err := c.makeClientHello()
+	hello, ecdheKey, err := c.makeClientHello()
 	if err != nil {
 		return err
 	}
@@ -209,7 +210,7 @@ func (c *Conn) clientHandshake(ctx context.Context) (err error) {
 			ctx:         ctx,
 			serverHello: serverHello,
 			hello:       hello,
-			ecdheParams: ecdheParams,
+			ecdheKey:    ecdheKey,
 			session:     session,
 			earlySecret: earlySecret,
 			binderKey:   binderKey,
