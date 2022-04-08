@@ -1,0 +1,172 @@
+pkg hash/maphash, func Bytes(Seed, []uint8) uint64 #42710
+pkg hash/maphash, func String(Seed, string) uint64 #42710
+pkg encoding/xml, method (*Decoder) InputPos() (int, int) #45628
+pkg flag, func TextVar(encoding.TextUnmarshaler, string, encoding.TextMarshaler, string) #45754
+pkg flag, method (*FlagSet) TextVar(encoding.TextUnmarshaler, string, encoding.TextMarshaler, string) #45754
+pkg crypto/x509, method (*CertPool) Equal(*CertPool) bool #46057
+pkg net/url, type URL struct, OmitHost bool #46059
+
+pkg html/template, method (*Template) Funcs(template.FuncMap) *Template #46121
+pkg html/template, type FuncMap = template.FuncMap #46121
+pkg debug/elf, const EM_LOONGARCH = 258 #46229
+pkg debug/elf, const EM_LOONGARCH Machine #46229
+pkg debug/elf, const R_LARCH_32 = 1 #46229
+pkg debug/elf, const R_LARCH_32 R_LARCH #46229
+pkg debug/elf, const R_LARCH_64 = 2 #46229
+pkg debug/elf, const R_LARCH_64 R_LARCH #46229
+pkg debug/elf, const R_LARCH_ADD16 = 48 #46229
+pkg debug/elf, const R_LARCH_ADD16 R_LARCH #46229
+pkg debug/elf, const R_LARCH_ADD24 = 49 #46229
+pkg debug/elf, const R_LARCH_ADD24 R_LARCH #46229
+pkg debug/elf, const R_LARCH_ADD32 = 50 #46229
+pkg debug/elf, const R_LARCH_ADD32 R_LARCH #46229
+pkg debug/elf, const R_LARCH_ADD64 = 51 #46229
+pkg debug/elf, const R_LARCH_ADD64 R_LARCH #46229
+pkg debug/elf, const R_LARCH_ADD8 = 47 #46229
+pkg debug/elf, const R_LARCH_ADD8 R_LARCH #46229
+pkg debug/elf, const R_LARCH_COPY = 4 #46229
+pkg debug/elf, const R_LARCH_COPY R_LARCH #46229
+pkg debug/elf, const R_LARCH_IRELATIVE = 12 #46229
+pkg debug/elf, const R_LARCH_IRELATIVE R_LARCH #46229
+pkg debug/elf, const R_LARCH_JUMP_SLOT = 5 #46229
+pkg debug/elf, const R_LARCH_JUMP_SLOT R_LARCH #46229
+pkg debug/elf, const R_LARCH_MARK_LA = 20 #46229
+pkg debug/elf, const R_LARCH_MARK_LA R_LARCH #46229
+pkg debug/elf, const R_LARCH_MARK_PCREL = 21 #46229
+pkg debug/elf, const R_LARCH_MARK_PCREL R_LARCH #46229
+pkg debug/elf, const R_LARCH_NONE = 0 #46229
+pkg debug/elf, const R_LARCH_NONE R_LARCH #46229
+pkg debug/elf, const R_LARCH_RELATIVE = 3 #46229
+pkg debug/elf, const R_LARCH_RELATIVE R_LARCH #46229
+pkg debug/elf, const R_LARCH_SOP_ADD = 35 #46229
+pkg debug/elf, const R_LARCH_SOP_ADD R_LARCH #46229
+pkg debug/elf, const R_LARCH_SOP_AND = 36 #46229
+pkg debug/elf, const R_LARCH_SOP_AND R_LARCH #46229
+pkg debug/elf, const R_LARCH_SOP_ASSERT = 30 #46229
+pkg debug/elf, const R_LARCH_SOP_ASSERT R_LARCH #46229
+pkg debug/elf, const R_LARCH_SOP_IF_ELSE = 37 #46229
+pkg debug/elf, const R_LARCH_SOP_IF_ELSE R_LARCH #46229
+pkg debug/elf, const R_LARCH_SOP_NOT = 31 #46229
+pkg debug/elf, const R_LARCH_SOP_NOT R_LARCH #46229
+pkg debug/elf, const R_LARCH_SOP_POP_32_S_0_10_10_16_S2 = 45 #46229
+pkg debug/elf, const R_LARCH_SOP_POP_32_S_0_10_10_16_S2 R_LARCH #46229
+pkg debug/elf, const R_LARCH_SOP_POP_32_S_0_5_10_16_S2 = 44 #46229
+pkg debug/elf, const R_LARCH_SOP_POP_32_S_0_5_10_16_S2 R_LARCH #46229
+pkg debug/elf, const R_LARCH_SOP_POP_32_S_10_12 = 40 #46229
+pkg debug/elf, const R_LARCH_SOP_POP_32_S_10_12 R_LARCH #46229
+pkg debug/elf, const R_LARCH_SOP_POP_32_S_10_16 = 41 #46229
+pkg debug/elf, const R_LARCH_SOP_POP_32_S_10_16 R_LARCH #46229
+pkg debug/elf, const R_LARCH_SOP_POP_32_S_10_16_S2 = 42 #46229
+pkg debug/elf, const R_LARCH_SOP_POP_32_S_10_16_S2 R_LARCH #46229
+pkg debug/elf, const R_LARCH_SOP_POP_32_S_10_5 = 38 #46229
+pkg debug/elf, const R_LARCH_SOP_POP_32_S_10_5 R_LARCH #46229
+pkg debug/elf, const R_LARCH_SOP_POP_32_S_5_20 = 43 #46229
+pkg debug/elf, const R_LARCH_SOP_POP_32_S_5_20 R_LARCH #46229
+pkg debug/elf, const R_LARCH_SOP_POP_32_U = 46 #46229
+pkg debug/elf, const R_LARCH_SOP_POP_32_U R_LARCH #46229
+pkg debug/elf, const R_LARCH_SOP_POP_32_U_10_12 = 39 #46229
+pkg debug/elf, const R_LARCH_SOP_POP_32_U_10_12 R_LARCH #46229
+pkg debug/elf, const R_LARCH_SOP_PUSH_ABSOLUTE = 23 #46229
+pkg debug/elf, const R_LARCH_SOP_PUSH_ABSOLUTE R_LARCH #46229
+pkg debug/elf, const R_LARCH_SOP_PUSH_DUP = 24 #46229
+pkg debug/elf, const R_LARCH_SOP_PUSH_DUP R_LARCH #46229
+pkg debug/elf, const R_LARCH_SOP_PUSH_GPREL = 25 #46229
+pkg debug/elf, const R_LARCH_SOP_PUSH_GPREL R_LARCH #46229
+pkg debug/elf, const R_LARCH_SOP_PUSH_PCREL = 22 #46229
+pkg debug/elf, const R_LARCH_SOP_PUSH_PCREL R_LARCH #46229
+pkg debug/elf, const R_LARCH_SOP_PUSH_PLT_PCREL = 29 #46229
+pkg debug/elf, const R_LARCH_SOP_PUSH_PLT_PCREL R_LARCH #46229
+pkg debug/elf, const R_LARCH_SOP_PUSH_TLS_GD = 28 #46229
+pkg debug/elf, const R_LARCH_SOP_PUSH_TLS_GD R_LARCH #46229
+pkg debug/elf, const R_LARCH_SOP_PUSH_TLS_GOT = 27 #46229
+pkg debug/elf, const R_LARCH_SOP_PUSH_TLS_GOT R_LARCH #46229
+pkg debug/elf, const R_LARCH_SOP_PUSH_TLS_TPREL = 26 #46229
+pkg debug/elf, const R_LARCH_SOP_PUSH_TLS_TPREL R_LARCH #46229
+pkg debug/elf, const R_LARCH_SOP_SL = 33 #46229
+pkg debug/elf, const R_LARCH_SOP_SL R_LARCH #46229
+pkg debug/elf, const R_LARCH_SOP_SR = 34 #46229
+pkg debug/elf, const R_LARCH_SOP_SR R_LARCH #46229
+pkg debug/elf, const R_LARCH_SOP_SUB = 32 #46229
+pkg debug/elf, const R_LARCH_SOP_SUB R_LARCH #46229
+pkg debug/elf, const R_LARCH_SUB16 = 53 #46229
+pkg debug/elf, const R_LARCH_SUB16 R_LARCH #46229
+pkg debug/elf, const R_LARCH_SUB24 = 54 #46229
+pkg debug/elf, const R_LARCH_SUB24 R_LARCH #46229
+pkg debug/elf, const R_LARCH_SUB32 = 55 #46229
+pkg debug/elf, const R_LARCH_SUB32 R_LARCH #46229
+pkg debug/elf, const R_LARCH_SUB64 = 56 #46229
+pkg debug/elf, const R_LARCH_SUB64 R_LARCH #46229
+pkg debug/elf, const R_LARCH_SUB8 = 52 #46229
+pkg debug/elf, const R_LARCH_SUB8 R_LARCH #46229
+pkg debug/elf, const R_LARCH_TLS_DTPMOD32 = 6 #46229
+pkg debug/elf, const R_LARCH_TLS_DTPMOD32 R_LARCH #46229
+pkg debug/elf, const R_LARCH_TLS_DTPMOD64 = 7 #46229
+pkg debug/elf, const R_LARCH_TLS_DTPMOD64 R_LARCH #46229
+pkg debug/elf, const R_LARCH_TLS_DTPREL32 = 8 #46229
+pkg debug/elf, const R_LARCH_TLS_DTPREL32 R_LARCH #46229
+pkg debug/elf, const R_LARCH_TLS_DTPREL64 = 9 #46229
+pkg debug/elf, const R_LARCH_TLS_DTPREL64 R_LARCH #46229
+pkg debug/elf, const R_LARCH_TLS_TPREL32 = 10 #46229
+pkg debug/elf, const R_LARCH_TLS_TPREL32 R_LARCH #46229
+pkg debug/elf, const R_LARCH_TLS_TPREL64 = 11 #46229
+pkg debug/elf, const R_LARCH_TLS_TPREL64 R_LARCH #46229
+pkg debug/elf, method (R_LARCH) GoString() string #46229
+pkg debug/elf, method (R_LARCH) String() string #46229
+pkg debug/elf, type R_LARCH int #46229
+pkg net/url, func JoinPath(string, ...string) (string, error) #47005
+pkg net/url, method (*URL) JoinPath(...string) *URL #47005
+pkg sort, func Find(int, func(int) int) (int, bool) #50340
+pkg encoding/binary, type AppendByteOrder interface { AppendUint16, AppendUint32, AppendUint64, String } #50601
+pkg encoding/binary, type AppendByteOrder interface, AppendUint16([]uint8, uint16) []uint8 #50601
+pkg encoding/binary, type AppendByteOrder interface, AppendUint32([]uint8, uint32) []uint8 #50601
+pkg encoding/binary, type AppendByteOrder interface, AppendUint64([]uint8, uint64) []uint8 #50601
+pkg encoding/binary, type AppendByteOrder interface, String() string #50601
+pkg crypto/x509, func ParseRevocationList([]uint8) (*RevocationList, error) #50674
+pkg crypto/x509, method (*RevocationList) CheckSignatureFrom(*Certificate) error #50674
+pkg crypto/x509, type RevocationList struct, AuthorityKeyId []uint8 #50674
+pkg crypto/x509, type RevocationList struct, Extensions []pkix.Extension #50674
+pkg crypto/x509, type RevocationList struct, Issuer pkix.Name #50674
+pkg crypto/x509, type RevocationList struct, Raw []uint8 #50674
+pkg crypto/x509, type RevocationList struct, RawIssuer []uint8 #50674
+pkg crypto/x509, type RevocationList struct, RawTBSRevocationList []uint8 #50674
+pkg crypto/x509, type RevocationList struct, Signature []uint8 #50674
+pkg time, method (Duration) Abs() Duration #51414
+pkg debug/pe, const IMAGE_COMDAT_SELECT_ANY = 2 #51686
+pkg debug/pe, const IMAGE_COMDAT_SELECT_ANY ideal-int #51686
+pkg debug/pe, const IMAGE_COMDAT_SELECT_ASSOCIATIVE = 5 #51686
+pkg debug/pe, const IMAGE_COMDAT_SELECT_ASSOCIATIVE ideal-int #51686
+pkg debug/pe, const IMAGE_COMDAT_SELECT_EXACT_MATCH = 4 #51686
+pkg debug/pe, const IMAGE_COMDAT_SELECT_EXACT_MATCH ideal-int #51686
+pkg debug/pe, const IMAGE_COMDAT_SELECT_LARGEST = 6 #51686
+pkg debug/pe, const IMAGE_COMDAT_SELECT_LARGEST ideal-int #51686
+pkg debug/pe, const IMAGE_COMDAT_SELECT_NODUPLICATES = 1 #51686
+pkg debug/pe, const IMAGE_COMDAT_SELECT_NODUPLICATES ideal-int #51686
+pkg debug/pe, const IMAGE_COMDAT_SELECT_SAME_SIZE = 3 #51686
+pkg debug/pe, const IMAGE_COMDAT_SELECT_SAME_SIZE ideal-int #51686
+pkg debug/pe, const IMAGE_SCN_CNT_CODE = 32 #51686
+pkg debug/pe, const IMAGE_SCN_CNT_CODE ideal-int #51686
+pkg debug/pe, const IMAGE_SCN_CNT_INITIALIZED_DATA = 64 #51686
+pkg debug/pe, const IMAGE_SCN_CNT_INITIALIZED_DATA ideal-int #51686
+pkg debug/pe, const IMAGE_SCN_CNT_UNINITIALIZED_DATA = 128 #51686
+pkg debug/pe, const IMAGE_SCN_CNT_UNINITIALIZED_DATA ideal-int #51686
+pkg debug/pe, const IMAGE_SCN_LNK_COMDAT = 4096 #51686
+pkg debug/pe, const IMAGE_SCN_LNK_COMDAT ideal-int #51686
+pkg debug/pe, const IMAGE_SCN_MEM_DISCARDABLE = 33554432 #51686
+pkg debug/pe, const IMAGE_SCN_MEM_DISCARDABLE ideal-int #51686
+pkg debug/pe, const IMAGE_SCN_MEM_EXECUTE = 536870912 #51686
+pkg debug/pe, const IMAGE_SCN_MEM_EXECUTE ideal-int #51686
+pkg debug/pe, const IMAGE_SCN_MEM_READ = 1073741824 #51686
+pkg debug/pe, const IMAGE_SCN_MEM_READ ideal-int #51686
+pkg debug/pe, const IMAGE_SCN_MEM_WRITE = 2147483648 #51686
+pkg debug/pe, const IMAGE_SCN_MEM_WRITE ideal-int #51686
+pkg debug/pe, method (*File) COFFSymbolReadSectionDefAux(int) (*COFFSymbolAuxFormat5, error) #51686
+pkg debug/pe, type COFFSymbolAuxFormat5 struct #51686
+pkg debug/pe, type COFFSymbolAuxFormat5 struct, Checksum uint32 #51686
+pkg debug/pe, type COFFSymbolAuxFormat5 struct, NumLineNumbers uint16 #51686
+pkg debug/pe, type COFFSymbolAuxFormat5 struct, NumRelocs uint16 #51686
+pkg debug/pe, type COFFSymbolAuxFormat5 struct, SecNum uint16 #51686
+pkg debug/pe, type COFFSymbolAuxFormat5 struct, Selection uint8 #51686
+pkg debug/pe, type COFFSymbolAuxFormat5 struct, Size uint32 #51686
+pkg regexp/syntax, const ErrInvalidDepth = "invalid nesting depth" #0
+pkg regexp/syntax, const ErrInvalidDepth ErrorCode #0
+
