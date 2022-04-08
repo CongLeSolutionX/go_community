@@ -3,6 +3,29 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "d3483a8a_e7435d29",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2022-04-08T16:57:29Z",
+      "side": 1,
+      "message": "For reference, the spelling policy is available at https://go.dev/wiki/Spelling.",
+      "range": {
+        "startLine": 10,
+        "startChar": 31,
+        "endLine": 10,
+        "endChar": 71
+      },
+      "revId": "3e7ffb862f550c38ce0611b970a4dce10a01226e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "c7fc9961_b66f7ff0",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -14,6 +37,41 @@
       "writtenOn": "2022-04-08T15:09:33Z",
       "side": 1,
       "message": "This CL broke the longtest builders: https://build.golang.org/log/3f04ea467a69b08ab9c67f4a297c61f91d7a6385",
+      "revId": "3e7ffb862f550c38ce0611b970a4dce10a01226e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2edafbb_68a4c46a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2022-04-08T16:57:29Z",
+      "side": 1,
+      "message": "Posted an inline comment about that.",
+      "parentUuid": "c7fc9961_b66f7ff0",
+      "revId": "3e7ffb862f550c38ce0611b970a4dce10a01226e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc4db1dd_88258743",
+        "filename": "src/cmd/vendor/golang.org/x/arch/ppc64/ppc64asm/tables.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 4042,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2022-04-08T16:57:29Z",
+      "side": 1,
+      "message": "This vendored file should not be modified directly as the change will be undone the next time someone runs \u0027go mod vendor\u0027.\nIt needs to be applied to the upstream copy first and then the vendored copy can/will be updated.",
       "revId": "3e7ffb862f550c38ce0611b970a4dce10a01226e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
