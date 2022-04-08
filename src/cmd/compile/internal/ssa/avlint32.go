@@ -2,10 +2,9 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package abt
+package ssa
 
 import (
-	"fmt"
 	"strconv"
 )
 
@@ -15,7 +14,7 @@ const (
 	NOT_KEY32   = int32(-0x80000000)
 )
 
-type T struct {
+type abtree struct {
 	root *node32
 	size int
 }
@@ -23,7 +22,7 @@ type T struct {
 type node32 struct {
 	// Standard conventions hold for left = smaller, right = larger
 	left, right *node32
-	data        fmt.Stringer
+	data        *liveSlot
 	key         int32
 	height_     int8
 }
@@ -33,32 +32,32 @@ func makeNode(key int32) *node32 {
 }
 
 // IsSingle returns true iff t is empty.
-func (t *T) IsEmpty() bool {
+func (t *abtree) IsEmpty() bool {
 	return t.root == nil
 }
 
 // IsSingle returns true iff t is a singleton (leaf).
-func (t *T) IsSingle() bool {
+func (t *abtree) IsSingle() bool {
 	return t.root != nil && t.root.isLeaf()
 }
 
 // VisitInOrder applies f to the key and data pairs in t,
 // with keys ordered from smallest to largest.
-func (t *T) VisitInOrder(f func(int32, fmt.Stringer)) {
+func (t *abtree) VisitInOrder(f func(int32, *liveSlot)) {
 	if t.root == nil {
 		return
 	}
 	t.root.visitInOrder(f)
 }
 
-func (n *node32) nilOrData() fmt.Stringer {
+func (n *node32) nilOrData() *liveSlot {
 	if n == nil {
 		return nil
 	}
 	return n.data
 }
 
-func (n *node32) nilOrKeyAndData() (k int32, d fmt.Stringer) {
+func (n *node32) nilOrKeyAndData() (k int32, d *liveSlot) {
 	if n == nil {
 		k = NOT_KEY32
 		d = nil
@@ -78,7 +77,7 @@ func (n *node32) height() int8 {
 
 // Find returns the data associated with x in the tree, or
 // nil if x is not in the tree.
-func (t *T) Find(x int32) fmt.Stringer {
+func (t *abtree) Find(x int32) *liveSlot {
 	return t.root.find(x).nilOrData()
 }
 
@@ -87,7 +86,7 @@ func (t *T) Find(x int32) fmt.Stringer {
 // x was already a key in the tree.  The previous data associated
 // with x is returned, and is nil if x was not previously a
 // key in the tree.
-func (t *T) Insert(x int32, data fmt.Stringer) fmt.Stringer {
+func (t *abtree) Insert(x int32, data *liveSlot) *liveSlot {
 	n := t.root
 	var newroot *node32
 	var o *node32
@@ -97,7 +96,7 @@ func (t *T) Insert(x int32, data fmt.Stringer) fmt.Stringer {
 	} else {
 		newroot, n, o = n.aInsert(x)
 	}
-	var r fmt.Stringer
+	var r *liveSlot
 	if o != nil {
 		r = o.data
 	} else {
@@ -108,12 +107,12 @@ func (t *T) Insert(x int32, data fmt.Stringer) fmt.Stringer {
 	return r
 }
 
-func (t *T) Copy() *T {
+func (t *abtree) Copy() *abtree {
 	u := *t
 	return &u
 }
 
-func (t *T) Delete(x int32) fmt.Stringer {
+func (t *abtree) Delete(x int32) *liveSlot {
 	n := t.root
 	if n == nil {
 		return nil
@@ -127,7 +126,7 @@ func (t *T) Delete(x int32) fmt.Stringer {
 	return d.data
 }
 
-func (t *T) DeleteMin() (int32, fmt.Stringer) {
+func (t *abtree) DeleteMin() (int32, *liveSlot) {
 	n := t.root
 	if n == nil {
 		return NOT_KEY32, nil
@@ -141,7 +140,7 @@ func (t *T) DeleteMin() (int32, fmt.Stringer) {
 	return d.key, d.data
 }
 
-func (t *T) DeleteMax() (int32, fmt.Stringer) {
+func (t *abtree) DeleteMax() (int32, *liveSlot) {
 	n := t.root
 	if n == nil {
 		return NOT_KEY32, nil
@@ -155,13 +154,13 @@ func (t *T) DeleteMax() (int32, fmt.Stringer) {
 	return d.key, d.data
 }
 
-func (t *T) Size() int {
+func (t *abtree) Size() int {
 	return t.size
 }
 
-func (t *T) Intersection(u *T, f func(x, y fmt.Stringer) fmt.Stringer) *T {
+func (t *abtree) Intersection(u *abtree, f func(x, y *liveSlot) *liveSlot) *abtree {
 	if t.Size() == 0 || u.Size() == 0 {
-		return &T{}
+		return &abtree{}
 	}
 
 	// For faster execution and less allocation, prefer t smaller, iterate over t.
@@ -209,7 +208,7 @@ func (t *T) Intersection(u *T, f func(x, y fmt.Stringer) fmt.Stringer) *T {
 // then the key and data are not added to the result.  To minimize reallocation of
 // common tree structure, if t's data and u's data are regarded as identical, then
 // f should return t's data.
-func (t *T) Union(u *T, f func(x, y fmt.Stringer) fmt.Stringer) *T {
+func (t *abtree) Union(u *abtree, f func(x, y *liveSlot) *liveSlot) *abtree {
 	if t.Size() == 0 {
 		return u
 	}
@@ -252,16 +251,16 @@ func (t *T) Union(u *T, f func(x, y fmt.Stringer) fmt.Stringer) *T {
 	return v
 }
 
-func (t *T) Difference(u *T, f func(x, y fmt.Stringer) fmt.Stringer) *T {
+func (t *abtree) Difference(u *abtree, f func(x, y *liveSlot) *liveSlot) *abtree {
 	if t.Size() == 0 {
-		return &T{}
+		return &abtree{}
 	}
 	if u.Size() == 0 {
 		return t
 	}
 	if t.Size() > u.Size() {
 		t, u = u, t
-		f = func(x, y fmt.Stringer) fmt.Stringer { return f(y, x) }
+		f = func(x, y *liveSlot) *liveSlot { return f(y, x) }
 	}
 	v := t.Copy()
 	for it := t.Iterator(); !it.IsEmpty(); {
@@ -274,11 +273,11 @@ func (t *T) Difference(u *T, f func(x, y fmt.Stringer) fmt.Stringer) *T {
 	return v
 }
 
-func (t *T) Iterator() Iterator {
+func (t *abtree) Iterator() Iterator {
 	return Iterator{it: t.root.iterator()}
 }
 
-func (t *T) Equals(u *T) bool {
+func (t *abtree) Equals(u *abtree) bool {
 	if t == u {
 		return true
 	}
@@ -306,7 +305,7 @@ func (t *T) Equals(u *T) bool {
 // 	return b.String()
 // }
 
-func (t *T) String() string {
+func (t *abtree) String() string {
 	var b string
 	first := true
 	for it := t.Iterator(); !it.IsEmpty(); {
@@ -344,7 +343,7 @@ func (t *node32) equals(u *node32) bool {
 	return it.isEmpty() == iu.isEmpty()
 }
 
-func (t *T) Equiv(u *T, eqv func(x, y fmt.Stringer) bool) bool {
+func (t *abtree) Equiv(u *abtree, eqv func(x, y *liveSlot) bool) bool {
 	if t == u {
 		return true
 	}
@@ -354,7 +353,7 @@ func (t *T) Equiv(u *T, eqv func(x, y fmt.Stringer) bool) bool {
 	return t.root.equiv(u.root, eqv)
 }
 
-func (t *node32) equiv(u *node32, eqv func(x, y fmt.Stringer) bool) bool {
+func (t *node32) equiv(u *node32, eqv func(x, y *liveSlot) bool) bool {
 	if t == u {
 		return true
 	}
@@ -383,7 +382,7 @@ type Iterator struct {
 	it iterator
 }
 
-func (it *Iterator) Next() (int32, fmt.Stringer) {
+func (it *Iterator) Next() (int32, *liveSlot) {
 	x := it.it.next()
 	if x == nil {
 		return NOT_KEY32, nil
@@ -440,37 +439,37 @@ func (it *iterator) next() *node32 {
 
 // Min returns the minimum element of t.
 // If t is empty, then (NOT_KEY32, nil) is returned.
-func (t *T) Min() (k int32, d fmt.Stringer) {
+func (t *abtree) Min() (k int32, d *liveSlot) {
 	return t.root.min().nilOrKeyAndData()
 }
 
 // Max returns the maximum element of t.
 // If t is empty, then (NOT_KEY32, nil) is returned.
-func (t *T) Max() (k int32, d fmt.Stringer) {
+func (t *abtree) Max() (k int32, d *liveSlot) {
 	return t.root.max().nilOrKeyAndData()
 }
 
 // Glb returns the greatest-lower-bound-exclusive of x and the associated
 // data.  If x has no glb in the tree, then (NOT_KEY32, nil) is returned.
-func (t *T) Glb(x int32) (k int32, d fmt.Stringer) {
+func (t *abtree) Glb(x int32) (k int32, d *liveSlot) {
 	return t.root.glb(x, false).nilOrKeyAndData()
 }
 
 // GlbEq returns the greatest-lower-bound-inclusive of x and the associated
 // data.  If x has no glbEQ in the tree, then (NOT_KEY32, nil) is returned.
-func (t *T) GlbEq(x int32) (k int32, d fmt.Stringer) {
+func (t *abtree) GlbEq(x int32) (k int32, d *liveSlot) {
 	return t.root.glb(x, true).nilOrKeyAndData()
 }
 
 // Lub returns the least-upper-bound-exclusive of x and the associated
 // data.  If x has no lub in the tree, then (NOT_KEY32, nil) is returned.
-func (t *T) Lub(x int32) (k int32, d fmt.Stringer) {
+func (t *abtree) Lub(x int32) (k int32, d *liveSlot) {
 	return t.root.lub(x, false).nilOrKeyAndData()
 }
 
 // LubEq returns the least-upper-bound-inclusive of x and the associated
 // data.  If x has no lubEq in the tree, then (NOT_KEY32, nil) is returned.
-func (t *T) LubEq(x int32) (k int32, d fmt.Stringer) {
+func (t *abtree) LubEq(x int32) (k int32, d *liveSlot) {
 	return t.root.lub(x, true).nilOrKeyAndData()
 }
 
@@ -478,7 +477,7 @@ func (t *node32) isLeaf() bool {
 	return t.left == nil && t.right == nil && t.height_ == LEAF_HEIGHT
 }
 
-func (t *node32) visitInOrder(f func(int32, fmt.Stringer)) {
+func (t *node32) visitInOrder(f func(int32, *liveSlot)) {
 	if t.left != nil {
 		t.left.visitInOrder(f)
 	}
