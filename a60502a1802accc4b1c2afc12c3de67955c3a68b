@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "22a5a301_cc09f649",
+        "filename": "src/internal/bytealg/indexbyte_ppc64x.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2022-04-08T11:06:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a97fa570_64952ba7",
+      "revId": "a60502a1802accc4b1c2afc12c3de67955c3a68b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "74e3c1fb_6be79d82",
@@ -132,6 +150,30 @@
       "writtenOn": "2022-04-07T22:57:00Z",
       "side": 1,
       "message": "It is probably more readable to include the value of V10 in the comment.",
+      "range": {
+        "startLine": 53,
+        "startChar": 21,
+        "endLine": 53,
+        "endChar": 84
+      },
+      "revId": "a60502a1802accc4b1c2afc12c3de67955c3a68b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdf66123_24707653",
+        "filename": "src/internal/bytealg/indexbyte_ppc64x.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2022-04-08T11:06:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b7ec03f_58bcc1fb",
       "range": {
         "startLine": 53,
         "startChar": 21,
@@ -220,6 +262,24 @@
       "side": 1,
       "message": "this alignment was added to ensure performance on POWER10 does not degrade. On POWER9 it makes no difference. When we adapt this code for POWER10 we will clean this up",
       "parentUuid": "0846c432_37d133a2",
+      "revId": "a60502a1802accc4b1c2afc12c3de67955c3a68b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "16393f35_5c3b46c6",
+        "filename": "src/internal/bytealg/indexbyte_ppc64x.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2022-04-08T11:06:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "565c374b_4e2bd1bf",
       "revId": "a60502a1802accc4b1c2afc12c3de67955c3a68b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
