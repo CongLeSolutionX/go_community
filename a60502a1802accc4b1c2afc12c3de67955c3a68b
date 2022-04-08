@@ -95,6 +95,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "800eb858_e3db947c",
+        "filename": "src/internal/bytealg/indexbyte_ppc64x.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2022-04-08T10:57:57Z",
+      "side": 1,
+      "message": "Thanks for catching this! updated.",
+      "parentUuid": "74e3c1fb_6be79d82",
+      "range": {
+        "startLine": 47,
+        "startChar": 59,
+        "endLine": 47,
+        "endChar": 62
+      },
+      "revId": "a60502a1802accc4b1c2afc12c3de67955c3a68b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2b7ec03f_58bcc1fb",
@@ -141,6 +165,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "755b74ab_a7f6fb36",
+        "filename": "src/internal/bytealg/indexbyte_ppc64x.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2022-04-08T10:57:57Z",
+      "side": 1,
+      "message": "we compute index by working on the bit for every match in a 16 byte set (16 bits) however cntlzw works on a granularity of 32 bits, so inorder to get the correct index we need to adjust it to 16 bits. I hope the updated comment is clearer.",
+      "parentUuid": "4031fda5_fda7a0d4",
+      "range": {
+        "startLine": 110,
+        "startChar": 0,
+        "endLine": 113,
+        "endChar": 13
+      },
+      "revId": "a60502a1802accc4b1c2afc12c3de67955c3a68b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0846c432_37d133a2",
@@ -154,6 +202,24 @@
       "writtenOn": "2022-04-07T22:57:00Z",
       "side": 1,
       "message": "Why do we want PC alignment here? This isn\u0027t a loop header.",
+      "revId": "a60502a1802accc4b1c2afc12c3de67955c3a68b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "565c374b_4e2bd1bf",
+        "filename": "src/internal/bytealg/indexbyte_ppc64x.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2022-04-08T10:57:57Z",
+      "side": 1,
+      "message": "this alignment was added to ensure performance on POWER10 does not degrade. On POWER9 it makes no difference. When we adapt this code for POWER10 we will clean this up",
+      "parentUuid": "0846c432_37d133a2",
       "revId": "a60502a1802accc4b1c2afc12c3de67955c3a68b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
