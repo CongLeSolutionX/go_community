@@ -235,6 +235,9 @@ type Context interface {
 	AddFileRef(s Sym, f interface{})
 	Logf(format string, args ...interface{})
 	LookupOrCreateSym(die *DWDie, name string, st objabi.SymKind) Sym
+	CreateSymForTypedef(def *DWDie) Sym
+	DefGoType(t Type) Sym
+	DefPtrTo(s Sym) Sym
 }
 
 // AppendUleb128 appends v to b using DWARF's unsigned LEB128 encoding.
@@ -1968,4 +1971,40 @@ func SubstituteType(structdie *DWDie, field string, dwtype Sym) error {
 		NewRefAttr(child, DW_AT_type, dwtype)
 	}
 	return nil
+}
+
+func Dotypedef(parent *DWDie, name string, def *DWDie, d Context) (*DWDie, error) {
+	// Only emit typedefs for real names.
+	if strings.HasPrefix(name, "map[") {
+		return nil, nil
+	}
+	if strings.HasPrefix(name, "struct {") {
+		return nil, nil
+	}
+	// cmd/compile uses "noalg.struct {...}" as type name when hash and eq algorithm generation of
+	// this struct type is suppressed.
+	if strings.HasPrefix(name, "noalg.struct {") {
+		return nil, nil
+	}
+	if strings.HasPrefix(name, "chan ") {
+		return nil, nil
+	}
+	if name[0] == '[' || name[0] == '*' {
+		return nil, nil
+	}
+	if def == nil {
+		return nil, errors.New("dwarf: bad def in dotypedef")
+	}
+
+	ds := d.CreateSymForTypedef(def)
+
+	// The typedef entry must be created after the def,
+	// so that future lookups will find the typedef instead
+	// of the real definition. This hooks the typedef into any
+	// circular definition loops, so that gdb can understand them.
+	die := NewDie(parent, DW_ABRV_TYPEDECL, name, d)
+
+	NewRefAttr(die, DW_AT_type, ds)
+
+	return die, nil
 }
