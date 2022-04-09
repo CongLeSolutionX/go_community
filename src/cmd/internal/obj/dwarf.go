@@ -738,3 +738,21 @@ type BySymName []*LSym
 func (s BySymName) Len() int           { return len(s) }
 func (s BySymName) Less(i, j int) bool { return s[i].Name < s[j].Name }
 func (s BySymName) Swap(i, j int)      { s[i], s[j] = s[j], s[i] }
+
+var uintptrOnce sync.Once
+var fixTypes = dwarf.FixTypes{
+	Eface: stubType{name: "eface"},
+	Iface: stubType{name: "iface"},
+}
+
+type stubType struct {
+	dwarf.Type
+	name string
+}
+
+func (s stubType) Name(dwctxt interface{}) string {
+	if dwctxt.(dwCtxt).Pkgpath == "runtime" {
+		return `"".` + s.name
+	}
+	return `runtime.` + s.name
+}
