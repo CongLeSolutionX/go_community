@@ -45,7 +45,7 @@ type Sym interface {
 	Invalid() bool
 }
 
-//Type represents a type info will be used in generating dwarf type info.
+// Type represents a type info will be used in generating dwarf type info.
 type Type interface {
 	DwarfName(ctxt Context) string
 	Name(ctxt Context) string
@@ -1973,27 +1973,27 @@ func SubstituteType(structdie *DWDie, field string, dwtype Sym) error {
 	return nil
 }
 
-func Dotypedef(parent *DWDie, name string, def *DWDie, d Context) (*DWDie, error) {
+func Dotypedef(parent *DWDie, name string, def *DWDie, d Context) *DWDie {
 	// Only emit typedefs for real names.
 	if strings.HasPrefix(name, "map[") {
-		return nil, nil
+		return nil
 	}
 	if strings.HasPrefix(name, "struct {") {
-		return nil, nil
+		return nil
 	}
 	// cmd/compile uses "noalg.struct {...}" as type name when hash and eq algorithm generation of
 	// this struct type is suppressed.
 	if strings.HasPrefix(name, "noalg.struct {") {
-		return nil, nil
+		return nil
 	}
 	if strings.HasPrefix(name, "chan ") {
-		return nil, nil
+		return nil
 	}
 	if name[0] == '[' || name[0] == '*' {
-		return nil, nil
+		return nil
 	}
 	if def == nil {
-		return nil, errors.New("dwarf: bad def in dotypedef")
+		// todo: can't return error now, add error handle next
 	}
 
 	ds := d.CreateSymForTypedef(def)
@@ -2006,5 +2006,11 @@ func Dotypedef(parent *DWDie, name string, def *DWDie, d Context) (*DWDie, error
 
 	NewRefAttr(die, DW_AT_type, ds)
 
-	return die, nil
+	return die
+}
+
+type FixTypes struct {
+	Uintptr Sym
+	Eface   Type
+	Iface   Type
 }
