@@ -42,6 +42,7 @@ var logDwarf bool
 // Sym represents a symbol.
 type Sym interface {
 	Length(dwarfContext interface{}) int64
+	Invalid() bool
 }
 
 // A Var represents a local variable or a function parameter.
@@ -206,6 +207,7 @@ type Context interface {
 	AddString(s Sym, v string)
 	AddFileRef(s Sym, f interface{})
 	Logf(format string, args ...interface{})
+	LookupOrCreateSym(die *DWDie, name string, st objabi.SymKind) Sym
 }
 
 // AppendUleb128 appends v to b using DWARF's unsigned LEB128 encoding.
@@ -1758,4 +1760,185 @@ func IsDWARFEnabledOnAIXLd(extld []string) (bool, error) {
 		return false, nil
 	}
 	return true, nil
+}
+
+// newattr attaches a new attribute to the specified DIE.
+//
+// FIXME: at the moment attributes are stored in a linked list in a
+// fairly space-inefficient way -- it might be better to instead look
+// up all attrs in a single large table, then store indices into the
+// table in the DIE. This would allow us to common up storage for
+// attributes that are shared by many DIEs (ex: byte size of N).
+func NewAttr(die *DWDie, attr uint16, cls int, value int64, data interface{}) {
+	a := new(DWAttr)
+	a.Link = die.Attr
+	die.Attr = a
+	a.Atr = attr
+	a.Cls = uint8(cls)
+	a.Value = value
+	a.Data = data
+}
+
+// Each DIE (except the root ones) has at least 1 attribute: its
+// name. getattr moves the desired one to the front so
+// frequently searched ones are found faster.
+func GetAttr(die *DWDie, attr uint16) *DWAttr {
+	if die.Attr.Atr == attr {
+		return die.Attr
+	}
+	a := die.Attr
+	b := a.Link
+	for b != nil {
+		if b.Atr == attr {
+			a.Link = b.Link
+			b.Link = die.Attr
+			die.Attr = b
+			return b
+		}
+
+		a = b
+		b = b.Link
+	}
+	return nil
+}
+
+// Every DIE manufactured by the linker has at least an AT_name
+// attribute (but it will only be written out if it is listed in the abbrev).
+// The compiler does create nameless DWARF DIEs (ex: concrete subprogram
+// instance).
+// FIXME: it would be more efficient to bulk-allocate DIEs.
+func NewDie(parent *DWDie, abbrev int, name string, ctx Context) *DWDie {
+	die := new(DWDie)
+	die.Abbrev = abbrev
+	die.Link = parent.Child
+	parent.Child = die
+
+	NewAttr(die, DW_AT_name, DW_CLS_STRING, int64(len(name)), name)
+
+	// Sanity check: all DIEs created in the linker should be named.
+	if name == "" {
+		panic("nameless DWARF DIE")
+	}
+
+	var st objabi.SymKind
+	switch abbrev {
+	case DW_ABRV_FUNCTYPEPARAM, DW_ABRV_DOTDOTDOT, DW_ABRV_STRUCTFIELD, DW_ABRV_ARRAYRANGE:
+		// There are no relocations against these dies, and their names
+		// are not unique, so don't create a symbol.
+		return die
+	case DW_ABRV_COMPUNIT, DW_ABRV_COMPUNIT_TEXTLESS:
+		st = objabi.SDWARFCUINFO
+	case DW_ABRV_VARIABLE:
+		st = objabi.SDWARFVAR
+	default:
+		// Everything else is assigned a type of SDWARFTYPE. that
+		// this also includes loose ends such as STRUCT_FIELD.
+		st = objabi.SDWARFTYPE
+	}
+	ds := ctx.LookupOrCreateSym(die, name, st)
+	die.Sym = ds
+	return die
+}
+
+// Find child by AT_name using hashtable if available or linear scan
+// if not.
+func (die *DWDie) FindChild(name string) *DWDie {
+	var prev *DWDie
+	for ; die != prev; prev, die = die, die.Walktypedef() {
+		for a := die.Child; a != nil; a = a.Link {
+			if name == GetAttr(a, DW_AT_name).Data {
+				return a
+			}
+		}
+		continue
+	}
+	return nil
+}
+
+func (die *DWDie) Walktypedef() *DWDie {
+	if die == nil {
+		return nil
+	}
+	// Resolve typedef if present.
+	if die.Abbrev == DW_ABRV_TYPEDECL {
+		for attr := die.Attr; attr != nil; attr = attr.Link {
+			if attr.Atr == DW_AT_type && attr.Cls == DW_CLS_REFERENCE && attr.Data != nil {
+				return attr.Data.(*DWDie)
+			}
+		}
+	}
+
+	return die
+}
+
+// Copies src's children into dst. Copies attributes by value.
+// DWAttr.data is copied as pointer only. If except is one of
+// the top-level children, it will not be copied.
+func Copychildrenexcept(d Context, dst *DWDie, src *DWDie, except *DWDie) {
+	for src = src.Child; src != nil; src = src.Link {
+		if src == except {
+			continue
+		}
+		c := NewDie(dst, src.Abbrev, GetAttr(src, DW_AT_name).Data.(string), d)
+		for a := src.Attr; a != nil; a = a.Link {
+			NewAttr(c, a.Atr, int(a.Cls), a.Value, a.Data)
+		}
+		Copychildrenexcept(d, c, src, nil)
+	}
+
+	reverselist(&dst.Child)
+}
+
+func reverselist(list **DWDie) {
+	curr := *list
+	var prev *DWDie
+	for curr != nil {
+		next := curr.Link
+		curr.Link = prev
+		prev = curr
+		curr = next
+	}
+
+	*list = prev
+}
+
+func Reversetree(list **DWDie) {
+	reverselist(list)
+	for die := *list; die != nil; die = die.Link {
+		if HasChildren(die) {
+			Reversetree(&die.Child)
+		}
+	}
+}
+
+func CopyChildren(d Context, dst *DWDie, src *DWDie) {
+	Copychildrenexcept(d, dst, src, nil)
+}
+
+func NewRefAttr(die *DWDie, attr uint16, ref Sym) {
+	if ref.Invalid() {
+		return
+	}
+	NewAttr(die, attr, DW_CLS_REFERENCE, 0, ref)
+}
+
+func NewMemberOffsetAttr(die *DWDie, offs int32) {
+	NewAttr(die, DW_AT_data_member_location, DW_CLS_CONSTANT, int64(offs), nil)
+}
+
+// Search children (assumed to have TAG_member) for the one named
+// field and set its AT_type to dwtype
+func SubstituteType(structdie *DWDie, field string, dwtype Sym) error {
+	child := structdie.FindChild(field)
+	if child == nil {
+		return fmt.Errorf("dwarf substitutetype: %s does not have member %s", GetAttr(structdie, DW_AT_name).Data, field)
+	}
+
+	a := GetAttr(child, DW_AT_type)
+	if a != nil {
+		a.Data = dwtype
+	} else {
+		NewRefAttr(child, DW_AT_type, dwtype)
+	}
+	return nil
 }

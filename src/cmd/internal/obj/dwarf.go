@@ -273,6 +273,10 @@ func (c dwCtxt) CurrentOffset(s dwarf.Sym) int64 {
 	return ls.Size
 }
 
+func (c dwCtxt) LookupOrCreateSym(die *dwarf.DWDie, name string, st objabi.SymKind) dwarf.Sym {
+	panic("should be used only in the linker")
+}
+
 // Here "from" is a symbol corresponding to an inlined or concrete
 // function, "to" is the symbol for the corresponding abstract
 // function, and "dclIdx" is the index of the symbol of interest with
@@ -327,6 +331,10 @@ func (ctxt *Link) dwarfSym(s *LSym) (dwarfInfoSym, dwarfLocSym, dwarfRangesSym, 
 
 func (s *LSym) Length(dwarfContext interface{}) int64 {
 	return s.Size
+}
+
+func (s *LSym) Invalid() bool {
+	panic("should be used only in the linker")
 }
 
 // fileSymbol returns a symbol corresponding to the source file of the
