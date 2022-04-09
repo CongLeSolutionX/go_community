@@ -45,6 +45,33 @@ type Sym interface {
 	Invalid() bool
 }
 
+//Type represents a type info will be used in generating dwarf type info.
+type Type interface {
+	DwarfName(ctxt Context) string
+	Name(ctxt Context) string
+	Size(ctxt Context) int64
+	Kind(ctxt Context) objabi.SymKind
+	RuntimeType(ctxt Context) Sym
+	Key(ctxt Context) Type
+	Elem(ctxt Context) Type
+	NumElem(ctxt Context) int64
+	NumResult(ctxt Context) int64
+	IsDDD(ctxt Context) bool
+	FieldName(ctxt Context, g FieldsGroup, i int) string
+	FieldType(ctxt Context, g FieldsGroup, i int) Type
+	FieldIsEmbed(ctxt Context, i int) bool
+	FieldOffset(ctxt Context, i int) int64
+	IsEface(ctxt Context) bool
+}
+
+type FieldsGroup int
+
+const (
+	GroupFields FieldsGroup = iota
+	GroupParams
+	GroupResults
+)
+
 // A Var represents a local variable or a function parameter.
 type Var struct {
 	Name          string
