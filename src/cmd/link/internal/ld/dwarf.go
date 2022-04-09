@@ -503,7 +503,7 @@ func (d *dwctxt) newtype(gotype loader.Sym) *dwarf.DWDie {
 	die, typedefdie, err := dwarf.NewType(dwSym(gotype), d, d.FixTypes, &dwtypes)
 	if err != nil {
 		d.linkctxt.Errorf(gotype, err.Error())
-		die = dwarf.NewDie(&dwtypes, dwarf.DW_ABRV_TYPEDECL, dwSym(gotype).Name(d), d)
+		die = dwarf.NewDie(&dwtypes, dwarf.DW_ABRV_TYPEDECL, dwSym(gotype).Name(d), "", d)
 		dwarf.NewRefAttr(die, dwarf.DW_AT_type, dwSym(d.mustFind("<unspecified>")))
 	}
 	sn := d.ldr.SymName(gotype)
@@ -551,7 +551,7 @@ func (d *dwctxt) defptrto(dwtype loader.Sym) loader.Sym {
 		return die
 	}
 
-	pdie := dwarf.NewDie(&dwtypes, dwarf.DW_ABRV_PTRTYPE, ptrname, d)
+	pdie := dwarf.NewDie(&dwtypes, dwarf.DW_ABRV_PTRTYPE, ptrname, "", d)
 	dwarf.NewRefAttr(pdie, dwarf.DW_AT_type, dwSym(dwtype))
 
 	// The DWARF info synthesizes pointer types that don't exist at the
@@ -643,7 +643,7 @@ func (d *dwctxt) mkinternaltype(ctxt *Link, abbrev int, typename, keyname, valna
 	if s != 0 && d.ldr.SymType(s) == sym.SDWARFTYPE {
 		return s
 	}
-	die := dwarf.NewDie(&dwtypes, abbrev, name, d)
+	die := dwarf.NewDie(&dwtypes, abbrev, name, "", d)
 	f(die)
 	return d.dtolsym(die.Sym)
 }
@@ -688,7 +688,7 @@ func (d *dwctxt) synthesizemaptypes(ctxt *Link, die *dwarf.DWDie) {
 				t = d.defptrto(keytype)
 			}
 			dwarf.NewRefAttr(dwhk, dwarf.DW_AT_type, dwSym(t))
-			fld := dwarf.NewDie(dwhk, dwarf.DW_ABRV_ARRAYRANGE, "size", d)
+			fld := dwarf.NewDie(dwhk, dwarf.DW_ABRV_ARRAYRANGE, "size", "", d)
 			dwarf.NewAttr(fld, dwarf.DW_AT_count, dwarf.DW_CLS_CONSTANT, BucketSize, 0)
 			dwarf.NewRefAttr(fld, dwarf.DW_AT_type, d.Uintptr)
 		})
@@ -702,7 +702,7 @@ func (d *dwctxt) synthesizemaptypes(ctxt *Link, die *dwarf.DWDie) {
 				t = d.defptrto(valtype)
 			}
 			dwarf.NewRefAttr(dwhv, dwarf.DW_AT_type, dwSym(t))
-			fld := dwarf.NewDie(dwhv, dwarf.DW_ABRV_ARRAYRANGE, "size", d)
+			fld := dwarf.NewDie(dwhv, dwarf.DW_ABRV_ARRAYRANGE, "size", "", d)
 			dwarf.NewAttr(fld, dwarf.DW_AT_count, dwarf.DW_CLS_CONSTANT, BucketSize, 0)
 			dwarf.NewRefAttr(fld, dwarf.DW_AT_type, d.Uintptr)
 		})
@@ -713,17 +713,17 @@ func (d *dwctxt) synthesizemaptypes(ctxt *Link, die *dwarf.DWDie) {
 			// bucket. "data" will be replaced with keys/values below.
 			dwarf.Copychildrenexcept(d, dwhb, bucket, bucket.FindChild("data"))
 
-			fld := dwarf.NewDie(dwhb, dwarf.DW_ABRV_STRUCTFIELD, "keys", d)
+			fld := dwarf.NewDie(dwhb, dwarf.DW_ABRV_STRUCTFIELD, "keys", "", d)
 			dwarf.NewRefAttr(fld, dwarf.DW_AT_type, dwSym(dwhks))
 			dwarf.NewMemberOffsetAttr(fld, BucketSize)
-			fld = dwarf.NewDie(dwhb, dwarf.DW_ABRV_STRUCTFIELD, "values", d)
+			fld = dwarf.NewDie(dwhb, dwarf.DW_ABRV_STRUCTFIELD, "values", "", d)
 			dwarf.NewRefAttr(fld, dwarf.DW_AT_type, dwSym(dwhvs))
 			dwarf.NewMemberOffsetAttr(fld, BucketSize+BucketSize*int32(keysize))
-			fld = dwarf.NewDie(dwhb, dwarf.DW_ABRV_STRUCTFIELD, "overflow", d)
+			fld = dwarf.NewDie(dwhb, dwarf.DW_ABRV_STRUCTFIELD, "overflow", "", d)
 			dwarf.NewRefAttr(fld, dwarf.DW_AT_type, dwSym(d.defptrto(d.dtolsym(dwhb.Sym))))
 			dwarf.NewMemberOffsetAttr(fld, BucketSize+BucketSize*(int32(keysize)+int32(valsize)))
 			if d.arch.RegSize > d.arch.PtrSize {
-				fld = dwarf.NewDie(dwhb, dwarf.DW_ABRV_STRUCTFIELD, "pad", d)
+				fld = dwarf.NewDie(dwhb, dwarf.DW_ABRV_STRUCTFIELD, "pad", "", d)
 				dwarf.NewRefAttr(fld, dwarf.DW_AT_type, d.Uintptr)
 				dwarf.NewMemberOffsetAttr(fld, BucketSize+BucketSize*(int32(keysize)+int32(valsize))+int32(d.arch.PtrSize))
 			}
@@ -1438,7 +1438,7 @@ func dwarfEnabled(ctxt *Link) bool {
 // newly created builtin type DIE 'typeDie'.
 func (d *dwctxt) mkBuiltinType(ctxt *Link, abrv int, tname string) *dwarf.DWDie {
 	// create type DIE
-	die := dwarf.NewDie(&dwtypes, abrv, tname, d)
+	die := dwarf.NewDie(&dwtypes, abrv, tname, "", d)
 
 	// Look up type symbol.
 	gotype := d.lookupOrDiag("type." + tname)
@@ -1551,7 +1551,7 @@ func dwarfGenerateDebugInfo(ctxt *Link) {
 	dwarf.NewAttr(&dwtypes, dwarf.DW_AT_name, dwarf.DW_CLS_STRING, int64(len("dwtypes")), "dwtypes")
 
 	// Unspecified type. There are no references to this in the symbol table.
-	dwarf.NewDie(&dwtypes, dwarf.DW_ABRV_NULLTYPE, "<unspecified>", d)
+	dwarf.NewDie(&dwtypes, dwarf.DW_ABRV_NULLTYPE, "<unspecified>", "", d)
 
 	// Some types that must exist to define other ones (uintptr in particular
 	// is needed for array size)
@@ -1616,7 +1616,7 @@ func dwarfGenerateDebugInfo(ctxt *Link) {
 			if len(unit.Textp) == 0 {
 				cuabrv = dwarf.DW_ABRV_COMPUNIT_TEXTLESS
 			}
-			unit.DWInfo = dwarf.NewDie(&dwroot, cuabrv, unit.Lib.Pkg, d)
+			unit.DWInfo = dwarf.NewDie(&dwroot, cuabrv, unit.Lib.Pkg, "", d)
 			dwarf.NewAttr(unit.DWInfo, dwarf.DW_AT_language, dwarf.DW_CLS_CONSTANT, int64(dwarf.DW_LANG_Go), 0)
 			// OS X linker requires compilation dir or absolute path in comp unit name to output debug info.
 			compDir := getCompilationDir()
