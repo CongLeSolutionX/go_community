@@ -88,6 +88,24 @@
       "parentUuid": "d6e3ef02_3b19b413",
       "revId": "5a90270d7f5b384de31399133c7336d007fbd93d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe6a3515_8e178fd5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55613
+      },
+      "writtenOn": "2022-04-09T09:50:51Z",
+      "side": 1,
+      "message": "Hi, Daniel Martí. \nI wrote a draft, because my native language is not English, so it is a bit difficult. When I finish it, I will see how to submit CL is more appropriate.\n\n\u003e What\u0027s going on here?\n\nCL 57751 introduced a channel \"sem\" to limit the number of simultaneously opened files, but accidentally buried the possibility of deadlock. \n\n\n\u003e Why was the code deadlocking? \n\nThis hidden deadlock can be triggered when the number of goroutines exceeds the open file limit.\n\nGoroutines that exceed the open file limit will block on \"sem\", and since concurrency is unordered, sequential iterations of noders err channels may rely on blocked goroutines for writing rather than executing goroutines.\n\nSince the noder err channel has no buffer, and the iteration of this noder has not yet occurred,\nthe executing goroutine cannot write to it. So the \"sem\" cannot be released, and the goroutine blocked on the \"sem\" will never execute, forming a circular wait, that is, a deadlock.\n\n\n\u003e How is the change fixing that?\n\nThe reason for this deadlock is that the iteration of noder err is ordered, so the number of goroutines should be equal to the number of files opened by the concurrency limit, queued in batches to ensure that the noder err channel in each iteration has a corresponding goroutine responsible for writing.\n\nThe first change is to move \"sem \u003c- struct{}{}\" out of goroutines and let goroutines queue in batches based on the number of files opened by the concurrency limit.\n\nSecond, because the goroutine needs to be queued now, the whole logic needs to start a goroutine separately to avoid blocking on the producer side.\n\nIn addition, although the goroutine is executed concurrently, the final output error message to the noder err channel will still be forced to output in order because of the sequential iteration.",
+      "parentUuid": "a8f139cc_24563c62",
+      "revId": "5a90270d7f5b384de31399133c7336d007fbd93d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
