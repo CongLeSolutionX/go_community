@@ -34,6 +34,24 @@
       "parentUuid": "bcfdfb4a_43765c48",
       "revId": "5a90270d7f5b384de31399133c7336d007fbd93d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9cb4ca33_b9ee5008",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55613
+      },
+      "writtenOn": "2022-04-09T07:04:51Z",
+      "side": 1,
+      "message": "I found that the commit message cannot be edited at present, where should I write it? Thanks.",
+      "parentUuid": "6e437be8_7fe7927d",
+      "revId": "5a90270d7f5b384de31399133c7336d007fbd93d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
