@@ -2014,3 +2014,162 @@ type FixTypes struct {
 	Eface   Type
 	Iface   Type
 }
+
+func NewType(gotype Type, dc Context, fix FixTypes, parent *DWDie) (*DWDie, *DWDie, error) {
+	name := gotype.Name(dc)
+	//todo distinguish dwarf name and name
+	kind := gotype.Kind(dc)
+	bytesize := gotype.Size(dc)
+
+	var die, typedefdie *DWDie
+	switch kind {
+	case objabi.KindBool:
+		die = NewDie(parent, DW_ABRV_BASETYPE, name, dc)
+		NewAttr(die, DW_AT_encoding, DW_CLS_CONSTANT, DW_ATE_boolean, 0)
+		NewAttr(die, DW_AT_byte_size, DW_CLS_CONSTANT, bytesize, 0)
+
+	case objabi.KindInt,
+		objabi.KindInt8,
+		objabi.KindInt16,
+		objabi.KindInt32,
+		objabi.KindInt64:
+		die = NewDie(parent, DW_ABRV_BASETYPE, name, dc)
+		NewAttr(die, DW_AT_encoding, DW_CLS_CONSTANT, DW_ATE_signed, 0)
+		NewAttr(die, DW_AT_byte_size, DW_CLS_CONSTANT, bytesize, 0)
+
+	case objabi.KindUint,
+		objabi.KindUint8,
+		objabi.KindUint16,
+		objabi.KindUint32,
+		objabi.KindUint64,
+		objabi.KindUintptr:
+		die = NewDie(parent, DW_ABRV_BASETYPE, name, dc)
+		NewAttr(die, DW_AT_encoding, DW_CLS_CONSTANT, DW_ATE_unsigned, 0)
+		NewAttr(die, DW_AT_byte_size, DW_CLS_CONSTANT, bytesize, 0)
+
+	case objabi.KindFloat32,
+		objabi.KindFloat64:
+		die = NewDie(parent, DW_ABRV_BASETYPE, name, dc)
+		NewAttr(die, DW_AT_encoding, DW_CLS_CONSTANT, DW_ATE_float, 0)
+		NewAttr(die, DW_AT_byte_size, DW_CLS_CONSTANT, bytesize, 0)
+
+	case objabi.KindComplex64,
+		objabi.KindComplex128:
+		die = NewDie(parent, DW_ABRV_BASETYPE, name, dc)
+		NewAttr(die, DW_AT_encoding, DW_CLS_CONSTANT, DW_ATE_complex_float, 0)
+		NewAttr(die, DW_AT_byte_size, DW_CLS_CONSTANT, bytesize, 0)
+
+	case objabi.KindArray:
+		die = NewDie(parent, DW_ABRV_ARRAYTYPE, name, dc)
+		typedefdie = Dotypedef(parent, name, die, dc)
+		NewAttr(die, DW_AT_byte_size, DW_CLS_CONSTANT, bytesize, 0)
+		s := gotype.Elem(dc)
+		NewRefAttr(die, DW_AT_type, dc.DefGoType(s))
+		fld := NewDie(die, DW_ABRV_ARRAYRANGE, "range", dc)
+
+		// use actual length not upper bound; correct for 0-length arrays.
+		NewAttr(fld, DW_AT_count, DW_CLS_CONSTANT, gotype.NumElem(dc), 0)
+
+		NewRefAttr(fld, DW_AT_type, fix.Uintptr)
+
+	case objabi.KindChan:
+		die = NewDie(parent, DW_ABRV_CHANTYPE, name, dc)
+		s := gotype.Elem(dc)
+		NewRefAttr(die, DW_AT_go_elem, dc.DefGoType(s))
+		// Save elem type for synthesizechantypes. We could synthesize here
+		// but that would change the order of DIEs we output.
+		NewAttr(die, DW_AT_type, DW_CLS_REFERENCE, 0, s)
+
+	case objabi.KindFunc:
+		die = NewDie(parent, DW_ABRV_FUNCTYPE, name, dc)
+		NewAttr(die, DW_AT_byte_size, DW_CLS_CONSTANT, bytesize, 0)
+		typedefdie = Dotypedef(parent, name, die, dc)
+
+		nfields := gotype.NumElem(dc)
+		for i := 0; i < int(nfields); i++ {
+			s := gotype.FieldName(dc, GroupParams, i)
+			fld := NewDie(die, DW_ABRV_FUNCTYPEPARAM, s, dc)
+			t := gotype.FieldType(dc, GroupParams, i)
+			NewRefAttr(fld, DW_AT_type, dc.DefGoType(t))
+		}
+
+		if gotype.IsDDD(dc) {
+			NewDie(die, DW_ABRV_DOTDOTDOT, "...", dc)
+		}
+		nfields = gotype.NumResult(dc)
+		for i := 0; i < int(nfields); i++ {
+			s := gotype.FieldName(dc, GroupResults, i)
+			fld := NewDie(die, DW_ABRV_FUNCTYPEPARAM, s, dc)
+			t := gotype.FieldType(dc, GroupResults, i)
+			NewRefAttr(fld, DW_AT_type, dc.DefPtrTo(dc.DefGoType(t)))
+		}
+
+	case objabi.KindInterface:
+		die = NewDie(parent, DW_ABRV_IFACETYPE, name, dc)
+		typedefdie = Dotypedef(parent, name, die, dc)
+		var s Type
+		if gotype.IsEface(dc) {
+			s = fix.Eface
+		} else {
+			s = fix.Iface
+		}
+		NewRefAttr(die, DW_AT_type, dc.DefGoType(s))
+
+	case objabi.KindMap:
+		die = NewDie(parent, DW_ABRV_MAPTYPE, name, dc)
+		s := gotype.Key(dc)
+		NewRefAttr(die, DW_AT_go_key, dc.DefGoType(s))
+		s = gotype.Elem(dc)
+		NewRefAttr(die, DW_AT_go_elem, dc.DefGoType(s))
+		// Save gotype for use in synthesizemaptypes. We could synthesize here,
+		// but that would change the order of the DIEs.
+		NewAttr(die, DW_AT_type, DW_CLS_REFERENCE, 0, gotype)
+
+	case objabi.KindPtr:
+		die = NewDie(parent, DW_ABRV_PTRTYPE, name, dc)
+		typedefdie = Dotypedef(parent, name, die, dc)
+		s := gotype.Elem(dc)
+		NewRefAttr(die, DW_AT_type, dc.DefGoType(s))
+
+	case objabi.KindSlice:
+		die = NewDie(parent, DW_ABRV_SLICETYPE, name, dc)
+		typedefdie = Dotypedef(parent, name, die, dc)
+		NewAttr(die, DW_AT_byte_size, DW_CLS_CONSTANT, bytesize, 0)
+		s := gotype.Elem(dc)
+		elem := dc.DefGoType(s)
+		NewRefAttr(die, DW_AT_go_elem, elem)
+
+	case objabi.KindString:
+		die = NewDie(parent, DW_ABRV_STRINGTYPE, name, dc)
+		NewAttr(die, DW_AT_byte_size, DW_CLS_CONSTANT, bytesize, 0)
+
+	case objabi.KindStruct:
+		die = NewDie(parent, DW_ABRV_STRUCTTYPE, name, dc)
+		typedefdie = Dotypedef(parent, name, die, dc)
+		NewAttr(die, DW_AT_byte_size, DW_CLS_CONSTANT, bytesize, 0)
+		nfields := gotype.NumElem(dc)
+		for i := 0; i < int(nfields); i++ {
+			f := gotype.FieldName(dc, GroupFields, i)
+			s := gotype.FieldType(dc, GroupFields, i)
+			if f == "" {
+				f = s.Name(dc)
+			}
+			fld := NewDie(die, DW_ABRV_STRUCTFIELD, f, dc)
+			NewRefAttr(fld, DW_AT_type, dc.DefGoType(s))
+			offset := gotype.FieldOffset(dc, i)
+			NewMemberOffsetAttr(fld, int32(offset))
+			if gotype.FieldIsEmbed(dc, i) {
+				NewAttr(fld, DW_AT_go_embedded_field, DW_CLS_FLAG, 1, 0)
+			}
+		}
+
+	case objabi.KindUnsafePointer:
+		die = NewDie(parent, DW_ABRV_BARE_PTRTYPE, name, dc)
+
+	default:
+		return nil, nil, fmt.Errorf("dwarf: definition of unknown kind %d", kind)
+	}
+
+	NewAttr(die, DW_AT_go_kind, DW_CLS_CONSTANT, int64(kind), 0)
+	return die, typedefdie, nil
+}
