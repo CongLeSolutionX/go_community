@@ -1837,13 +1837,16 @@ func GetAttr(die *DWDie, attr uint16) *DWAttr {
 // The compiler does create nameless DWARF DIEs (ex: concrete subprogram
 // instance).
 // FIXME: it would be more efficient to bulk-allocate DIEs.
-func NewDie(parent *DWDie, abbrev int, name string, ctx Context) *DWDie {
+func NewDie(parent *DWDie, abbrev int, name string, dwarfname string, ctx Context) *DWDie {
+	if len(dwarfname) == 0 {
+		dwarfname = name
+	}
 	die := new(DWDie)
 	die.Abbrev = abbrev
 	die.Link = parent.Child
 	parent.Child = die
 
-	NewAttr(die, DW_AT_name, DW_CLS_STRING, int64(len(name)), name)
+	NewAttr(die, DW_AT_name, DW_CLS_STRING, int64(len(dwarfname)), dwarfname)
 
 	// Sanity check: all DIEs created in the linker should be named.
 	if name == "" {
@@ -1909,7 +1912,7 @@ func Copychildrenexcept(d Context, dst *DWDie, src *DWDie, except *DWDie) {
 		if src == except {
 			continue
 		}
-		c := NewDie(dst, src.Abbrev, GetAttr(src, DW_AT_name).Data.(string), d)
+		c := NewDie(dst, src.Abbrev, GetAttr(src, DW_AT_name).Data.(string), "", d)
 		for a := src.Attr; a != nil; a = a.Link {
 			NewAttr(c, a.Atr, int(a.Cls), a.Value, a.Data)
 		}
@@ -1973,7 +1976,7 @@ func SubstituteType(structdie *DWDie, field string, dwtype Sym) error {
 	return nil
 }
 
-func Dotypedef(parent *DWDie, name string, def *DWDie, d Context) *DWDie {
+func Dotypedef(parent *DWDie, name string, dwname string, def *DWDie, d Context) *DWDie {
 	// Only emit typedefs for real names.
 	if strings.HasPrefix(name, "map[") {
 		return nil
@@ -2002,7 +2005,7 @@ func Dotypedef(parent *DWDie, name string, def *DWDie, d Context) *DWDie {
 	// so that future lookups will find the typedef instead
 	// of the real definition. This hooks the typedef into any
 	// circular definition loops, so that gdb can understand them.
-	die := NewDie(parent, DW_ABRV_TYPEDECL, name, d)
+	die := NewDie(parent, DW_ABRV_TYPEDECL, name, dwname, d)
 
 	NewRefAttr(die, DW_AT_type, ds)
 
@@ -2017,14 +2020,14 @@ type FixTypes struct {
 
 func NewType(gotype Type, dc Context, fix FixTypes, parent *DWDie) (*DWDie, *DWDie, error) {
 	name := gotype.Name(dc)
-	//todo distinguish dwarf name and name
+	dwname := gotype.DwarfName(dc)
 	kind := gotype.Kind(dc)
 	bytesize := gotype.Size(dc)
 
 	var die, typedefdie *DWDie
 	switch kind {
 	case objabi.KindBool:
-		die = NewDie(parent, DW_ABRV_BASETYPE, name, dc)
+		die = NewDie(parent, DW_ABRV_BASETYPE, name, dwname, dc)
 		NewAttr(die, DW_AT_encoding, DW_CLS_CONSTANT, DW_ATE_boolean, 0)
 		NewAttr(die, DW_AT_byte_size, DW_CLS_CONSTANT, bytesize, 0)
 
@@ -2033,7 +2036,7 @@ func NewType(gotype Type, dc Context, fix FixTypes, parent *DWDie) (*DWDie, *DWD
 		objabi.KindInt16,
 		objabi.KindInt32,
 		objabi.KindInt64:
-		die = NewDie(parent, DW_ABRV_BASETYPE, name, dc)
+		die = NewDie(parent, DW_ABRV_BASETYPE, name, dwname, dc)
 		NewAttr(die, DW_AT_encoding, DW_CLS_CONSTANT, DW_ATE_signed, 0)
 		NewAttr(die, DW_AT_byte_size, DW_CLS_CONSTANT, bytesize, 0)
 
@@ -2043,29 +2046,29 @@ func NewType(gotype Type, dc Context, fix FixTypes, parent *DWDie) (*DWDie, *DWD
 		objabi.KindUint32,
 		objabi.KindUint64,
 		objabi.KindUintptr:
-		die = NewDie(parent, DW_ABRV_BASETYPE, name, dc)
+		die = NewDie(parent, DW_ABRV_BASETYPE, name, dwname, dc)
 		NewAttr(die, DW_AT_encoding, DW_CLS_CONSTANT, DW_ATE_unsigned, 0)
 		NewAttr(die, DW_AT_byte_size, DW_CLS_CONSTANT, bytesize, 0)
 
 	case objabi.KindFloat32,
 		objabi.KindFloat64:
-		die = NewDie(parent, DW_ABRV_BASETYPE, name, dc)
+		die = NewDie(parent, DW_ABRV_BASETYPE, name, dwname, dc)
 		NewAttr(die, DW_AT_encoding, DW_CLS_CONSTANT, DW_ATE_float, 0)
 		NewAttr(die, DW_AT_byte_size, DW_CLS_CONSTANT, bytesize, 0)
 
 	case objabi.KindComplex64,
 		objabi.KindComplex128:
-		die = NewDie(parent, DW_ABRV_BASETYPE, name, dc)
+		die = NewDie(parent, DW_ABRV_BASETYPE, name, dwname, dc)
 		NewAttr(die, DW_AT_encoding, DW_CLS_CONSTANT, DW_ATE_complex_float, 0)
 		NewAttr(die, DW_AT_byte_size, DW_CLS_CONSTANT, bytesize, 0)
 
 	case objabi.KindArray:
-		die = NewDie(parent, DW_ABRV_ARRAYTYPE, name, dc)
-		typedefdie = Dotypedef(parent, name, die, dc)
+		die = NewDie(parent, DW_ABRV_ARRAYTYPE, name, dwname, dc)
+		typedefdie = Dotypedef(parent, name, dwname, die, dc)
 		NewAttr(die, DW_AT_byte_size, DW_CLS_CONSTANT, bytesize, 0)
 		s := gotype.Elem(dc)
 		NewRefAttr(die, DW_AT_type, dc.DefGoType(s))
-		fld := NewDie(die, DW_ABRV_ARRAYRANGE, "range", dc)
+		fld := NewDie(die, DW_ABRV_ARRAYRANGE, "range", "", dc)
 
 		// use actual length not upper bound; correct for 0-length arrays.
 		NewAttr(fld, DW_AT_count, DW_CLS_CONSTANT, gotype.NumElem(dc), 0)
@@ -2073,7 +2076,7 @@ func NewType(gotype Type, dc Context, fix FixTypes, parent *DWDie) (*DWDie, *DWD
 		NewRefAttr(fld, DW_AT_type, fix.Uintptr)
 
 	case objabi.KindChan:
-		die = NewDie(parent, DW_ABRV_CHANTYPE, name, dc)
+		die = NewDie(parent, DW_ABRV_CHANTYPE, name, dwname, dc)
 		s := gotype.Elem(dc)
 		NewRefAttr(die, DW_AT_go_elem, dc.DefGoType(s))
 		// Save elem type for synthesizechantypes. We could synthesize here
@@ -2081,32 +2084,32 @@ func NewType(gotype Type, dc Context, fix FixTypes, parent *DWDie) (*DWDie, *DWD
 		NewRefAttr(die, DW_AT_type, s.RuntimeType(dc))
 
 	case objabi.KindFunc:
-		die = NewDie(parent, DW_ABRV_FUNCTYPE, name, dc)
+		die = NewDie(parent, DW_ABRV_FUNCTYPE, name, dwname, dc)
 		NewAttr(die, DW_AT_byte_size, DW_CLS_CONSTANT, bytesize, 0)
-		typedefdie = Dotypedef(parent, name, die, dc)
+		typedefdie = Dotypedef(parent, name, dwname, die, dc)
 
 		nfields := gotype.NumElem(dc)
 		for i := 0; i < int(nfields); i++ {
 			s := gotype.FieldName(dc, GroupParams, i)
-			fld := NewDie(die, DW_ABRV_FUNCTYPEPARAM, s, dc)
+			fld := NewDie(die, DW_ABRV_FUNCTYPEPARAM, s, "", dc)
 			t := gotype.FieldType(dc, GroupParams, i)
 			NewRefAttr(fld, DW_AT_type, dc.DefGoType(t))
 		}
 
 		if gotype.IsDDD(dc) {
-			NewDie(die, DW_ABRV_DOTDOTDOT, "...", dc)
+			NewDie(die, DW_ABRV_DOTDOTDOT, "...", "", dc)
 		}
 		nfields = gotype.NumResult(dc)
 		for i := 0; i < int(nfields); i++ {
 			s := gotype.FieldName(dc, GroupResults, i)
-			fld := NewDie(die, DW_ABRV_FUNCTYPEPARAM, s, dc)
+			fld := NewDie(die, DW_ABRV_FUNCTYPEPARAM, s, "", dc)
 			t := gotype.FieldType(dc, GroupResults, i)
 			NewRefAttr(fld, DW_AT_type, dc.DefPtrTo(dc.DefGoType(t)))
 		}
 
 	case objabi.KindInterface:
-		die = NewDie(parent, DW_ABRV_IFACETYPE, name, dc)
-		typedefdie = Dotypedef(parent, name, die, dc)
+		die = NewDie(parent, DW_ABRV_IFACETYPE, name, dwname, dc)
+		typedefdie = Dotypedef(parent, name, dwname, die, dc)
 		var s Type
 		if gotype.IsEface(dc) {
 			s = fix.Eface
@@ -2116,7 +2119,7 @@ func NewType(gotype Type, dc Context, fix FixTypes, parent *DWDie) (*DWDie, *DWD
 		NewRefAttr(die, DW_AT_type, dc.DefGoType(s))
 
 	case objabi.KindMap:
-		die = NewDie(parent, DW_ABRV_MAPTYPE, name, dc)
+		die = NewDie(parent, DW_ABRV_MAPTYPE, name, dwname, dc)
 		s := gotype.Key(dc)
 		NewRefAttr(die, DW_AT_go_key, dc.DefGoType(s))
 		s = gotype.Elem(dc)
@@ -2126,26 +2129,26 @@ func NewType(gotype Type, dc Context, fix FixTypes, parent *DWDie) (*DWDie, *DWD
 		NewRefAttr(die, DW_AT_type, gotype.RuntimeType(dc))
 
 	case objabi.KindPtr:
-		die = NewDie(parent, DW_ABRV_PTRTYPE, name, dc)
-		typedefdie = Dotypedef(parent, name, die, dc)
+		die = NewDie(parent, DW_ABRV_PTRTYPE, name, dwname, dc)
+		typedefdie = Dotypedef(parent, name, dwname, die, dc)
 		s := gotype.Elem(dc)
 		NewRefAttr(die, DW_AT_type, dc.DefGoType(s))
 
 	case objabi.KindSlice:
-		die = NewDie(parent, DW_ABRV_SLICETYPE, name, dc)
-		typedefdie = Dotypedef(parent, name, die, dc)
+		die = NewDie(parent, DW_ABRV_SLICETYPE, name, dwname, dc)
+		typedefdie = Dotypedef(parent, name, dwname, die, dc)
 		NewAttr(die, DW_AT_byte_size, DW_CLS_CONSTANT, bytesize, 0)
 		s := gotype.Elem(dc)
 		elem := dc.DefGoType(s)
 		NewRefAttr(die, DW_AT_go_elem, elem)
 
 	case objabi.KindString:
-		die = NewDie(parent, DW_ABRV_STRINGTYPE, name, dc)
+		die = NewDie(parent, DW_ABRV_STRINGTYPE, name, dwname, dc)
 		NewAttr(die, DW_AT_byte_size, DW_CLS_CONSTANT, bytesize, 0)
 
 	case objabi.KindStruct:
-		die = NewDie(parent, DW_ABRV_STRUCTTYPE, name, dc)
-		typedefdie = Dotypedef(parent, name, die, dc)
+		die = NewDie(parent, DW_ABRV_STRUCTTYPE, name, dwname, dc)
+		typedefdie = Dotypedef(parent, name, dwname, die, dc)
 		NewAttr(die, DW_AT_byte_size, DW_CLS_CONSTANT, bytesize, 0)
 		nfields := gotype.NumElem(dc)
 		for i := 0; i < int(nfields); i++ {
@@ -2154,7 +2157,7 @@ func NewType(gotype Type, dc Context, fix FixTypes, parent *DWDie) (*DWDie, *DWD
 			if f == "" {
 				f = s.Name(dc)
 			}
-			fld := NewDie(die, DW_ABRV_STRUCTFIELD, f, dc)
+			fld := NewDie(die, DW_ABRV_STRUCTFIELD, f, "", dc)
 			NewRefAttr(fld, DW_AT_type, dc.DefGoType(s))
 			offset := gotype.FieldOffset(dc, i)
 			NewMemberOffsetAttr(fld, int32(offset))
@@ -2164,7 +2167,7 @@ func NewType(gotype Type, dc Context, fix FixTypes, parent *DWDie) (*DWDie, *DWD
 		}
 
 	case objabi.KindUnsafePointer:
-		die = NewDie(parent, DW_ABRV_BARE_PTRTYPE, name, dc)
+		die = NewDie(parent, DW_ABRV_BARE_PTRTYPE, name, dwname, dc)
 
 	default:
 		return nil, nil, fmt.Errorf("dwarf: definition of unknown kind %d", kind)
