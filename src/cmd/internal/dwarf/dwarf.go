@@ -45,6 +45,32 @@ type Sym interface {
 	Invalid() bool
 }
 
+//Type represents a type info will be used in generating dwarf type info.
+type Type interface {
+	DwarfName(dwctxt interface{}) string
+	Name(dwctxt interface{}) string
+	Size(dwctxt interface{}) int64
+	Kind(dwctxt interface{}) objabi.SymKind
+	RuntimeType(dwctxt interface{}) Sym
+	Key(dwctxt interface{}) Type
+	Elem(dwctxt interface{}) Type
+	NumElem(dwctxt interface{}) int64
+	NumResult(dwctxt interface{}) int64
+	IsDDD(dwctxt interface{}) bool
+	FieldName(dwctxt interface{}, g FieldsGroup, i int) string
+	FieldType(dwctxt interface{}, g FieldsGroup, i int) Type
+	FieldIsEmbed(dwctxt interface{}, i int) bool
+	FieldOffset(dwctxt interface{}, i int) int64
+}
+
+type FieldsGroup int
+
+const (
+	GroupFields FieldsGroup = iota
+	GroupParams
+	GroupResults
+)
+
 // A Var represents a local variable or a function parameter.
 type Var struct {
 	Name          string
