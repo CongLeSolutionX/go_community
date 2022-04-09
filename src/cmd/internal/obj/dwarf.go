@@ -277,6 +277,21 @@ func (c dwCtxt) LookupOrCreateSym(die *dwarf.DWDie, name string, st objabi.SymKi
 	panic("should be used only in the linker")
 }
 
+func (c dwCtxt) CreateSymForTypedef(def *dwarf.DWDie) dwarf.Sym {
+	panic("should be used only in the linker")
+
+}
+
+func (c dwCtxt) DefGoType(t dwarf.Type) dwarf.Sym {
+	panic("should be used only in the linker")
+
+}
+
+func (c dwCtxt) DefPtrTo(t dwarf.Sym) dwarf.Sym {
+	panic("should be used only in the linker")
+
+}
+
 // Here "from" is a symbol corresponding to an inlined or concrete
 // function, "to" is the symbol for the corresponding abstract
 // function, and "dclIdx" is the index of the symbol of interest with
