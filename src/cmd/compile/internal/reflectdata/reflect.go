@@ -979,6 +979,10 @@ func writeType(t *types.Type) *obj.LSym {
 		return lsym
 	}
 
+	if base.Flag.DwarfType {
+		base.Ctxt.PopulateDWARFType(dwarfType{t})
+	}
+
 	ot := 0
 	switch t.Kind() {
 	default:
