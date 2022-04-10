@@ -370,7 +370,7 @@ func (s *LSym) Length(dwarfContext interface{}) int64 {
 }
 
 func (s *LSym) Invalid() bool {
-	panic("should be used only in the linker")
+	return s == nil
 }
 
 // fileSymbol returns a symbol corresponding to the source file of the
@@ -776,4 +776,74 @@ func (s stubType) Name(dwctxt interface{}) string {
 		return `"".` + s.name
 	}
 	return `runtime.` + s.name
+}
+
+var prototypedies = map[string]*dwarf.DWDie{
+	"runtime.stringStructDWARF": nil,
+	"runtime.slice":             nil,
+	"runtime.hmap":              nil,
+	"runtime.bmap":              nil,
+	"runtime.sudog":             nil,
+	"runtime.waitq":             nil,
+	"runtime.hchan":             nil,
+}
+
+func (ctxt *Link) PopulateDWARFType(typ dwarf.Type, dupok bool) {
+	kind := typ.Kind(nil)
+	if kind == objabi.KindMap || kind == objabi.KindChan || kind == objabi.KindSlice || kind == objabi.KindString {
+		// can't synthesize types now. So still generate them in linker.
+		return
+	}
+	if _, ok := prototypedies[typ.DwarfName(ctxt)]; ok {
+		return
+	}
+	uintptrOnce.Do(func() {
+		fixTypes.Uintptr = ctxt.Lookup(dwarf.InfoPrefix + "uintptr")
+	})
+
+	dwsym := ctxt.Lookup(dwarf.InfoPrefix + typ.Name(ctxt))
+	if dwsym.Type == objabi.SDWARFTYPE {
+		// todo: Already define, How does this happen?
+		return
+	}
+	if dupok {
+		dwsym.Set(AttrDuplicateOK, true)
+	}
+
+	dwctxt := dwCtxt{ctxt}
+	die, _, err := dwarf.NewType(typ, dwctxt, fixTypes, &ctxt.dwtypes)
+	if err != nil {
+		ctxt.Diag(err.Error())
+		return
+	}
+	dwarf.NewAttr(die, dwarf.DW_AT_go_runtime_type, dwarf.DW_CLS_GO_TYPEREF, 0, typ.RuntimeType(dwctxt))
+}
+
+// todo: synthesize types here.
+func (ctxt *Link) DumpDwarfTypes() {
+	dwarf.Reversetree(&ctxt.dwtypes.Child)
+	for die := ctxt.dwtypes.Child; die != nil; die = die.Link {
+		ctxt.Data = ctxt.putdie(ctxt.Data, die)
+	}
+}
+
+// todo: unify putdie with linker
+func (ctxt *Link) putdie(syms []*LSym, die *dwarf.DWDie) []*LSym {
+	dwctxt := dwCtxt{ctxt}
+	s := die.Sym
+	if s == nil {
+		s = syms[len(syms)-1]
+	} else {
+		syms = append(syms, s.(*LSym))
+	}
+	dwarf.Uleb128put(dwctxt, s, int64(die.Abbrev))
+	dwarf.PutAttrs(dwctxt, s, die.Abbrev, die.Attr)
+	if dwarf.HasChildren(die) {
+		for die := die.Child; die != nil; die = die.Link {
+			syms = dwctxt.putdie(syms, die)
+		}
+		lastsym := syms[len(syms)-1]
+		lastsym.WriteInt(ctxt, lastsym.Size, 1, 0)
+	}
+	return syms
 }
