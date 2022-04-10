@@ -57,6 +57,30 @@
       },
       "revId": "de17342e266f3d4199764545543f04fa549e8767",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ccc38d2e_5fcf6181",
+        "filename": "src/runtime/extern.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 31249
+      },
+      "writtenOn": "2022-04-10T15:40:16Z",
+      "side": 1,
+      "message": "Yeah, Done. Thanks!",
+      "parentUuid": "907a262f_23bd8c03",
+      "range": {
+        "startLine": 73,
+        "startChar": 15,
+        "endLine": 73,
+        "endChar": 24
+      },
+      "revId": "de17342e266f3d4199764545543f04fa549e8767",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
