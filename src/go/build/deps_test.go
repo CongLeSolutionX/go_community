@@ -94,6 +94,7 @@ var depsRules = `
 	< sync/atomic
 	< internal/race
 	< sync
+	< internal/embedlite
 	< internal/reflectlite
 	< errors
 	< internal/oserror, math/bits

@@ -1526,7 +1526,7 @@ func (c *declCollector) Visit(n syntax.Node) syntax.Visitor {
 		pw.checkPragmas(n.Pragma, 0, false)
 
 		switch pkgNameOf(pw.info, n).Imported().Path() {
-		case "embed":
+		case "embed", "internal/embedlite":
 			c.file.importedEmbed = true
 		case "unsafe":
 			c.file.importedUnsafe = true
