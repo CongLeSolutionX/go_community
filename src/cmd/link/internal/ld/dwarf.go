@@ -467,7 +467,11 @@ func (d *dwctxt) CreateSymForTypedef(def *dwarf.DWDie) dwarf.Sym {
 	return dwSym(tds)
 }
 
-func (d *dwctxt) DefGoType(t dwarf.Type) dwarf.Sym {
+func (d *dwctxt) DefGoType(t dwarf.Type, ptr bool) dwarf.Sym {
+	if ptr {
+		ptrto := d.DefGoType(t, false)
+		return dwSym(d.defptrto(loader.Sym(ptrto.(dwSym))))
+	}
 	return dwSym(d.defgotype(loader.Sym(t.(dwSym))))
 }
 
@@ -537,9 +541,6 @@ func (d *dwctxt) nameFromDIESym(dwtypeDIESym loader.Sym) string {
 	return sn[len(dwarf.InfoPrefix):]
 }
 
-func (d *dwctxt) DefPtrTo(dwtype dwarf.Sym) dwarf.Sym {
-	return dwSym(d.defptrto(loader.Sym(dwtype.(dwSym))))
-}
 func (d *dwctxt) defptrto(dwtype loader.Sym) loader.Sym {
 
 	// FIXME: it would be nice if the compiler attached an aux symbol

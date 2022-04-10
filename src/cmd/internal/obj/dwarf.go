@@ -282,14 +282,8 @@ func (c dwCtxt) CreateSymForTypedef(def *dwarf.DWDie) dwarf.Sym {
 
 }
 
-func (c dwCtxt) DefGoType(t dwarf.Type) dwarf.Sym {
+func (c dwCtxt) DefGoType(t dwarf.Type, ptr bool) dwarf.Sym {
 	panic("should be used only in the linker")
-
-}
-
-func (c dwCtxt) DefPtrTo(t dwarf.Sym) dwarf.Sym {
-	panic("should be used only in the linker")
-
 }
 
 // Here "from" is a symbol corresponding to an inlined or concrete
