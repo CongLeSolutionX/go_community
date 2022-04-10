@@ -1562,22 +1562,12 @@ func (h *mheap) scavengeAll() {
 	gp := getg()
 	gp.m.mallocing++
 
-	lock(&h.lock)
-	// Start a new scavenge generation so we have a chance to walk
-	// over the whole heap.
-	h.pages.scavengeStartGen()
-	unlock(&h.lock)
-
 	released := h.pages.scavenge(^uintptr(0))
-
-	lock(&h.pages.scav.lock)
-	gen := h.pages.scav.gen
-	unlock(&h.pages.scav.lock)
 
 	gp.m.mallocing--
 
 	if debug.scavtrace > 0 {
-		printScavTrace(gen, released, true)
+		printScavTrace(released, true)
 	}
 }
 

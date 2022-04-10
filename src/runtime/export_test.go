@@ -1003,6 +1003,18 @@ func NewPageAlloc(chunks, scav map[ChunkIdx][]BitRange) *PageAlloc {
 			}
 		}
 
+		// Make sure the scavenge index is updated.
+		//
+		// This is an inefficient way to do it, but it's also the simplest way.
+		minPages := physPageSize / pageSize
+		if minPages < 1 {
+			minPages = 1
+		}
+		_, npages := chunk.findScavengeCandidate(pallocChunkPages-1, minPages, ^uintptr(0))
+		if npages != 0 {
+			p.scav.index.mark(addr, addr+pallocChunkBytes)
+		}
+
 		// Update heap metadata for the allocRange calls above.
 		systemstack(func() {
 			lock(p.mheapLock)
@@ -1010,12 +1022,6 @@ func NewPageAlloc(chunks, scav map[ChunkIdx][]BitRange) *PageAlloc {
 			unlock(p.mheapLock)
 		})
 	}
-
-	systemstack(func() {
-		lock(p.mheapLock)
-		p.scavengeStartGen()
-		unlock(p.mheapLock)
-	})
 
 	return (*PageAlloc)(p)
 }
@@ -1038,6 +1044,8 @@ func FreePageAlloc(pp *PageAlloc) {
 		}
 		sysFreeOS(unsafe.Pointer(&p.summary[0][0]), alignUp(resSize, physPageSize))
 	}
+	sysFreeOS(unsafe.Pointer(&p.scav.index.chunks[0]), uintptr(cap(p.scav.index.chunks)))
+
 	// Subtract back out whatever we mapped for the summaries.
 	// sysUsed adds to p.sysStat and memstats.mappedReady no matter what
 	// (and in anger should actually be accounted for), and there's no other
@@ -1516,4 +1524,29 @@ func (s *Scavenger) Stop() {
 	close(s.stop)
 	s.Wake()
 	<-s.done
+}
+
+type ScavengeIndex struct {
+	i scavengeIndex
+}
+
+func NewScavengeIndex(min, max ChunkIdx) *ScavengeIndex {
+	s := new(ScavengeIndex)
+	s.i.chunks = make([]atomic.Uint8, uintptr(1<<heapAddrBits)/pallocChunkBytes/8)
+	s.i.min.Store(int32(min / 8))
+	s.i.max.Store(int32(max / 8))
+	return s
+}
+
+func (s *ScavengeIndex) Find() (ChunkIdx, uint) {
+	ci, off := s.i.find()
+	return ChunkIdx(ci), off
+}
+
+func (s *ScavengeIndex) Mark(base, limit uintptr) {
+	s.i.mark(base, limit)
+}
+
+func (s *ScavengeIndex) Clear(ci ChunkIdx) {
+	s.i.clear(chunkIdx(ci))
 }

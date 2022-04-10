@@ -53,6 +53,10 @@ var levelLogPages = [summaryLevels]uint{
 	logPallocChunkPages,
 }
 
+// scavengeIndexArray is the backing store for p.scav.index.chunks.
+// On 32-bit platforms, it's small enough to just be a global.
+var scavengeIndexArray [((1 << heapAddrBits) / pallocChunkBytes) / 8]atomic.Uint8
+
 // See mpagealloc_64bit.go for details.
 func (p *pageAlloc) sysInit() {
 	// Calculate how much memory all our entries will take up.
@@ -87,6 +91,9 @@ func (p *pageAlloc) sysInit() {
 
 		reservation = add(reservation, uintptr(entries)*pallocSumBytes)
 	}
+
+	// Set up the scavenge index.
+	s.scav.index.chunks = scavengeIndexArray[:]
 }
 
 // See mpagealloc_64bit.go for details.
