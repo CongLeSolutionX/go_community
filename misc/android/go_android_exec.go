@@ -308,7 +308,7 @@ func adbCopyGoroot() error {
 	if err := adb("push", tmpGo.Name(), deviceGo); err != nil {
 		return err
 	}
-	for _, dir := range []string{"src", "test", "lib", "api"} {
+	for _, dir := range []string{"src", "test", "api"} {
 		if err := adb("push", filepath.Join(goroot, dir), filepath.Join(deviceGoroot)); err != nil {
 			return err
 		}
