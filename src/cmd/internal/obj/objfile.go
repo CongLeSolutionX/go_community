@@ -31,7 +31,7 @@ func WriteObjFile(ctxt *Link, b *bio.Writer) {
 	debugAsmEmit(ctxt)
 
 	genFuncInfoSyms(ctxt)
-
+	genTypeInfoSyms(ctxt)
 	w := writer{
 		Writer:  goobj.NewWriter(b),
 		ctxt:    ctxt,
@@ -591,6 +591,14 @@ func (w *writer) Aux(s *LSym) {
 		}
 
 	}
+	if typ := s.TypeInfo(); typ != nil {
+		if typ.dwarfInfo != nil && typ.dwarfInfo.Size != 0 {
+			w.aux1(goobj.AuxDwarfInfo, typ.dwarfInfo)
+		}
+		if typ.dwarfTypeDef != nil && typ.dwarfTypeDef.Size != 0 {
+			w.aux1(goobj.AuxDwarfTypeDef, typ.dwarfTypeDef)
+		}
+	}
 }
 
 // Emits flags of referenced indexed symbols.
@@ -685,7 +693,39 @@ func nAuxSym(s *LSym) int {
 		}
 		n += len(fn.Pcln.Pcdata)
 	}
+	if typ := s.TypeInfo(); typ != nil {
+		if typ.dwarfInfo != nil && typ.dwarfInfo.Size != 0 {
+			n++
+		}
+		if typ.dwarfTypeDef != nil && typ.dwarfTypeDef.Size != 0 {
+			n++
+		}
+	}
 	return n
+}
+
+func genTypeInfoSyms(ctxt *Link) {
+	infosyms := make([]*LSym, 0, len(ctxt.Text))
+	symidx := int32(len(ctxt.defs))
+	for _, s := range ctxt.Data {
+		typ := s.TypeInfo()
+		if typ == nil {
+			continue
+		}
+
+		dwsyms := []*LSym{typ.dwarfInfo, typ.dwarfTypeDef}
+		for _, s := range dwsyms {
+			if s == nil || s.Size == 0 {
+				continue
+			}
+			s.PkgIdx = goobj.PkgIdxSelf
+			s.SymIdx = symidx
+			s.Set(AttrIndexed, true)
+			symidx++
+			infosyms = append(infosyms, s)
+		}
+	}
+	ctxt.defs = append(ctxt.defs, infosyms...)
 }
 
 // generate symbols for FuncInfo.
@@ -761,7 +801,8 @@ func writeAuxSymDebug(ctxt *Link, par *LSym, aux *LSym) {
 		aux.Type != objabi.SDWARFFCN &&
 		aux.Type != objabi.SDWARFABSFCN &&
 		aux.Type != objabi.SDWARFLINES &&
-		aux.Type != objabi.SDWARFRANGE {
+		aux.Type != objabi.SDWARFRANGE &&
+		aux.Type != objabi.SDWARFTYPE {
 		return
 	}
 	ctxt.writeSymDebugNamed(aux, "aux for "+par.Name)
@@ -791,6 +832,9 @@ func (ctxt *Link) writeSymDebugNamed(s *LSym, name string) {
 	fmt.Fprintf(ctxt.Bso, "%s%s ", name, ver)
 	if s.Type != 0 {
 		fmt.Fprintf(ctxt.Bso, "%v ", s.Type)
+	}
+	if len(s.Name) != 0 {
+		fmt.Fprintf(ctxt.Bso, "%v ", s.Name)
 	}
 	if s.Static() {
 		fmt.Fprint(ctxt.Bso, "static ")

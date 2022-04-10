@@ -951,6 +951,9 @@ func writeType(t *types.Type) *obj.LSym {
 	if s.Siggen() {
 		return lsym
 	}
+	if base.Flag.DwarfType {
+		base.Ctxt.PopulateDWARFType(dwarfType{t}, fixTypes)
+	}
 	s.SetSiggen(true)
 
 	// special case (look for runtime below):
