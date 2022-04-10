@@ -47,7 +47,6 @@ type Sym interface {
 
 //Type represents a type info will be used in generating dwarf type info.
 type Type interface {
-	Sym
 	DwarfName(dwctxt interface{}) string
 	Name(dwctxt interface{}) string
 	Size(dwctxt interface{}) int64
@@ -2071,7 +2070,7 @@ func NewType(gotype Type, dc Context, fix FixTypes, parent *DWDie) (*DWDie, *DWD
 		// use actual length not upper bound; correct for 0-length arrays.
 		NewAttr(fld, DW_AT_count, DW_CLS_CONSTANT, gotype.NumElem(dc), 0)
 
-		NewRefAttr(fld, DW_AT_type, fix.Uintptr)
+		NewRefAttr(fld, DW_AT_type, fix.Uintptr.RuntimeType(dc))
 
 	case objabi.KindChan:
 		die = NewDie(parent, DW_ABRV_CHANTYPE, name, dc)
@@ -2079,7 +2078,7 @@ func NewType(gotype Type, dc Context, fix FixTypes, parent *DWDie) (*DWDie, *DWD
 		NewRefAttr(die, DW_AT_go_elem, dc.DefGoType(s))
 		// Save elem type for synthesizechantypes. We could synthesize here
 		// but that would change the order of DIEs we output.
-		NewRefAttr(die, DW_AT_type, s)
+		NewRefAttr(die, DW_AT_type, s.RuntimeType(dc))
 
 	case objabi.KindFunc:
 		die = NewDie(parent, DW_ABRV_FUNCTYPE, name, dc)
@@ -2124,7 +2123,7 @@ func NewType(gotype Type, dc Context, fix FixTypes, parent *DWDie) (*DWDie, *DWD
 		NewRefAttr(die, DW_AT_go_elem, dc.DefGoType(s))
 		// Save gotype for use in synthesizemaptypes. We could synthesize here,
 		// but that would change the order of the DIEs.
-		NewRefAttr(die, DW_AT_type, gotype)
+		NewRefAttr(die, DW_AT_type, gotype.RuntimeType(dc))
 
 	case objabi.KindPtr:
 		die = NewDie(parent, DW_ABRV_PTRTYPE, name, dc)

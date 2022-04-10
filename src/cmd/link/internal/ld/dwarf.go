@@ -690,7 +690,7 @@ func (d *dwctxt) synthesizemaptypes(ctxt *Link, die *dwarf.DWDie) {
 			dwarf.NewRefAttr(dwhk, dwarf.DW_AT_type, dwSym(t))
 			fld := dwarf.NewDie(dwhk, dwarf.DW_ABRV_ARRAYRANGE, "size", d)
 			dwarf.NewAttr(fld, dwarf.DW_AT_count, dwarf.DW_CLS_CONSTANT, BucketSize, 0)
-			dwarf.NewRefAttr(fld, dwarf.DW_AT_type, d.Uintptr)
+			dwarf.NewRefAttr(fld, dwarf.DW_AT_type, d.Uintptr.RuntimeType(d))
 		})
 
 		// Construct type to represent an array of BucketSize values
@@ -704,7 +704,7 @@ func (d *dwctxt) synthesizemaptypes(ctxt *Link, die *dwarf.DWDie) {
 			dwarf.NewRefAttr(dwhv, dwarf.DW_AT_type, dwSym(t))
 			fld := dwarf.NewDie(dwhv, dwarf.DW_ABRV_ARRAYRANGE, "size", d)
 			dwarf.NewAttr(fld, dwarf.DW_AT_count, dwarf.DW_CLS_CONSTANT, BucketSize, 0)
-			dwarf.NewRefAttr(fld, dwarf.DW_AT_type, d.Uintptr)
+			dwarf.NewRefAttr(fld, dwarf.DW_AT_type, d.Uintptr.RuntimeType(d))
 		})
 
 		// Construct bucket<K,V>
@@ -724,7 +724,7 @@ func (d *dwctxt) synthesizemaptypes(ctxt *Link, die *dwarf.DWDie) {
 			dwarf.NewMemberOffsetAttr(fld, BucketSize+BucketSize*(int32(keysize)+int32(valsize)))
 			if d.arch.RegSize > d.arch.PtrSize {
 				fld = dwarf.NewDie(dwhb, dwarf.DW_ABRV_STRUCTFIELD, "pad", d)
-				dwarf.NewRefAttr(fld, dwarf.DW_AT_type, d.Uintptr)
+				dwarf.NewRefAttr(fld, dwarf.DW_AT_type, d.Uintptr.RuntimeType(d))
 				dwarf.NewMemberOffsetAttr(fld, BucketSize+BucketSize*(int32(keysize)+int32(valsize))+int32(d.arch.PtrSize))
 			}
 
