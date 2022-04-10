@@ -243,7 +243,16 @@ func (c dwCtxt) AddCURelativeAddress(s dwarf.Sym, data interface{}, value int64)
 	ls.WriteCURelativeAddr(c.Link, ls.Size, rsym, value)
 }
 func (c dwCtxt) AddSectionOffset(s dwarf.Sym, size int, t interface{}, ofs int64) {
-	panic("should be used only in the linker")
+	ds := s.(*LSym)
+	tds := t.(*LSym)
+	switch size {
+	default:
+		c.Diag("invalid size %d in adddwarfref\n", size)
+	case c.PtrSize(), 4:
+	}
+	ds.WriteAddr(c.Link, ds.Size, size, tds, ofs)
+	r := &ds.R[len(ds.R)-1]
+	r.Type = objabi.R_WEAKADDROFF
 }
 func (c dwCtxt) AddDWARFAddrSectionOffset(s dwarf.Sym, t interface{}, ofs int64) {
 	size := 4
@@ -274,22 +283,34 @@ func (c dwCtxt) CurrentOffset(s dwarf.Sym) int64 {
 }
 
 func (c dwCtxt) LookupOrCreateSym(die *dwarf.DWDie, name string, st objabi.SymKind) dwarf.Sym {
-	panic("should be used only in the linker")
+	if die.Abbrev == dwarf.DW_ABRV_COMPUNIT || die.Abbrev == dwarf.DW_ABRV_COMPUNIT_TEXTLESS {
+		panic("not support now")
+	}
+
+	ds := c.Link.Lookup(dwarf.InfoPrefix + name)
+	ds.Type = st
+	return ds
 }
 
 func (c dwCtxt) CreateSymForTypedef(def *dwarf.DWDie) dwarf.Sym {
-	panic("should be used only in the linker")
-
+	ds := &LSym{
+		Type: objabi.SDWARFTYPE,
+	}
+	def.Sym = ds
+	return ds
 }
 
+// DefGoType not really generate a dwarf type info now,
+// it generates a sym for reloc. Only dwarf info of the type defined in
+// current compile unit will be generated.
+// TODO: it can be extended to support generating entire type info for dynlink.
 func (c dwCtxt) DefGoType(t dwarf.Type) dwarf.Sym {
-	panic("should be used only in the linker")
+	return c.Link.Lookup(dwarf.InfoPrefix + t.Name(c))
 
 }
 
 func (c dwCtxt) DefPtrTo(t dwarf.Sym) dwarf.Sym {
-	panic("should be used only in the linker")
-
+	return c.Link.Lookup(dwarf.InfoPrefix + "*" + t.(*LSym).Name[len(dwarf.InfoPrefix):])
 }
 
 // Here "from" is a symbol corresponding to an inlined or concrete
@@ -750,8 +771,8 @@ type stubType struct {
 	name string
 }
 
-func (s stubType) Name(dwctxt interface{}) string {
-	if dwctxt.(dwCtxt).Pkgpath == "runtime" {
+func (s stubType) Name(ctxt dwarf.Context) string {
+	if ctxt.(dwCtxt).Pkgpath == "runtime" {
 		return `"".` + s.name
 	}
 	return `runtime.` + s.name
