@@ -236,8 +236,7 @@ type Context interface {
 	Logf(format string, args ...interface{})
 	LookupOrCreateSym(die *DWDie, name string, st objabi.SymKind) Sym
 	CreateSymForTypedef(def *DWDie) Sym
-	DefGoType(t Type) Sym
-	DefPtrTo(t Sym) Sym // todo: modify the arg to Type?
+	DefGoType(t Type, ptr bool) Sym
 }
 
 // AppendUleb128 appends v to b using DWARF's unsigned LEB128 encoding.
@@ -2067,7 +2066,7 @@ func NewType(gotype Type, dc Context, fix FixTypes, parent *DWDie) (*DWDie, *DWD
 		typedefdie = Dotypedef(parent, name, die, dc)
 		NewAttr(die, DW_AT_byte_size, DW_CLS_CONSTANT, bytesize, 0)
 		s := gotype.Elem(dc)
-		NewRefAttr(die, DW_AT_type, dc.DefGoType(s))
+		NewRefAttr(die, DW_AT_type, dc.DefGoType(s, false))
 		fld := NewDie(die, DW_ABRV_ARRAYRANGE, "range", "", dc)
 
 		// use actual length not upper bound; correct for 0-length arrays.
@@ -2078,7 +2077,7 @@ func NewType(gotype Type, dc Context, fix FixTypes, parent *DWDie) (*DWDie, *DWD
 	case objabi.KindChan:
 		die = NewDie(parent, DW_ABRV_CHANTYPE, name, dwname, dc)
 		s := gotype.Elem(dc)
-		NewRefAttr(die, DW_AT_go_elem, dc.DefGoType(s))
+		NewRefAttr(die, DW_AT_go_elem, dc.DefGoType(s, false))
 		// Save elem type for synthesizechantypes. We could synthesize here
 		// but that would change the order of DIEs we output.
 		NewRefAttr(die, DW_AT_type, s.RuntimeType(dc))
@@ -2093,7 +2092,7 @@ func NewType(gotype Type, dc Context, fix FixTypes, parent *DWDie) (*DWDie, *DWD
 			s := gotype.FieldName(dc, GroupParams, i)
 			fld := NewDie(die, DW_ABRV_FUNCTYPEPARAM, s, "", dc)
 			t := gotype.FieldType(dc, GroupParams, i)
-			NewRefAttr(fld, DW_AT_type, dc.DefGoType(t))
+			NewRefAttr(fld, DW_AT_type, dc.DefGoType(t, false))
 		}
 
 		if gotype.IsDDD(dc) {
@@ -2104,7 +2103,7 @@ func NewType(gotype Type, dc Context, fix FixTypes, parent *DWDie) (*DWDie, *DWD
 			s := gotype.FieldName(dc, GroupResults, i)
 			fld := NewDie(die, DW_ABRV_FUNCTYPEPARAM, s, "", dc)
 			t := gotype.FieldType(dc, GroupResults, i)
-			NewRefAttr(fld, DW_AT_type, dc.DefPtrTo(dc.DefGoType(t)))
+			NewRefAttr(fld, DW_AT_type, dc.DefGoType(t, true))
 		}
 
 	case objabi.KindInterface:
@@ -2116,14 +2115,14 @@ func NewType(gotype Type, dc Context, fix FixTypes, parent *DWDie) (*DWDie, *DWD
 		} else {
 			s = fix.Iface
 		}
-		NewRefAttr(die, DW_AT_type, dc.DefGoType(s))
+		NewRefAttr(die, DW_AT_type, dc.DefGoType(s, false))
 
 	case objabi.KindMap:
 		die = NewDie(parent, DW_ABRV_MAPTYPE, name, dwname, dc)
 		s := gotype.Key(dc)
-		NewRefAttr(die, DW_AT_go_key, dc.DefGoType(s))
+		NewRefAttr(die, DW_AT_go_key, dc.DefGoType(s, false))
 		s = gotype.Elem(dc)
-		NewRefAttr(die, DW_AT_go_elem, dc.DefGoType(s))
+		NewRefAttr(die, DW_AT_go_elem, dc.DefGoType(s, false))
 		// Save gotype for use in synthesizemaptypes. We could synthesize here,
 		// but that would change the order of the DIEs.
 		NewRefAttr(die, DW_AT_type, gotype.RuntimeType(dc))
@@ -2132,14 +2131,14 @@ func NewType(gotype Type, dc Context, fix FixTypes, parent *DWDie) (*DWDie, *DWD
 		die = NewDie(parent, DW_ABRV_PTRTYPE, name, dwname, dc)
 		typedefdie = Dotypedef(parent, name, die, dc)
 		s := gotype.Elem(dc)
-		NewRefAttr(die, DW_AT_type, dc.DefGoType(s))
+		NewRefAttr(die, DW_AT_type, dc.DefGoType(s, false))
 
 	case objabi.KindSlice:
 		die = NewDie(parent, DW_ABRV_SLICETYPE, name, dwname, dc)
 		typedefdie = Dotypedef(parent, name, die, dc)
 		NewAttr(die, DW_AT_byte_size, DW_CLS_CONSTANT, bytesize, 0)
 		s := gotype.Elem(dc)
-		elem := dc.DefGoType(s)
+		elem := dc.DefGoType(s, false)
 		NewRefAttr(die, DW_AT_go_elem, elem)
 
 	case objabi.KindString:
@@ -2158,7 +2157,7 @@ func NewType(gotype Type, dc Context, fix FixTypes, parent *DWDie) (*DWDie, *DWD
 				f = s.Name(dc)
 			}
 			fld := NewDie(die, DW_ABRV_STRUCTFIELD, f, "", dc)
-			NewRefAttr(fld, DW_AT_type, dc.DefGoType(s))
+			NewRefAttr(fld, DW_AT_type, dc.DefGoType(s, false))
 			offset := gotype.FieldOffset(dc, i)
 			NewMemberOffsetAttr(fld, int32(offset))
 			if gotype.FieldIsEmbed(dc, i) {
