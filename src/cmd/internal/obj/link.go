@@ -469,6 +469,33 @@ type LSym struct {
 	SymIdx int32
 }
 
+type TypeInfo struct {
+	// 0: symbol with name for reference, for lookup by name, it will be typedef
+	// sym if there is a typedef for this type.
+	// 1: a specific dwarf type symbol if there is a typedef for this type, or empty.
+	dwarfInfo [2]*LSym
+}
+
+// NewTypeInfo allocates and returns a TypeInfo for LSym.
+func (s *LSym) NewTypeInfo() *TypeInfo {
+	if s.Extra != nil {
+		panic(fmt.Sprintf("invalid use of LSym - NewTypeInfo with Extra of type %T", *s.Extra))
+	}
+	f := new(TypeInfo)
+	s.Extra = new(interface{})
+	*s.Extra = f
+	return f
+}
+
+// TypeInfo returns the *TypeInfo associated with s, or else nil.
+func (s *LSym) TypeInfo() *TypeInfo {
+	if s.Extra == nil {
+		return nil
+	}
+	f, _ := (*s.Extra).(*TypeInfo)
+	return f
+}
+
 // A FuncInfo contains extra fields for STEXT symbols.
 type FuncInfo struct {
 	Args     int32

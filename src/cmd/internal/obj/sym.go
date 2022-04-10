@@ -375,6 +375,28 @@ func (ctxt *Link) traverseSyms(flag traverseFlag, fn func(*LSym)) {
 					fnNoNil(d)
 				}
 			}
+			if s.TypeInfo() != nil {
+				ctxt.traverseTypeInfo(flag, s, fn)
+			}
+		}
+	}
+}
+
+func (ctxt *Link) traverseTypeInfo(flag traverseFlag, tsym *LSym, fn func(s *LSym)) {
+	typinfo := tsym.TypeInfo()
+	for _, dws := range typinfo.dwarfInfo {
+		if dws == nil {
+			continue
+		}
+		if flag&traverseDefs != 0 {
+			fn(dws)
+		}
+		if flag&traverseRefs != 0 {
+			for _, r := range dws.R {
+				if r.Sym != nil {
+					fn(r.Sym)
+				}
+			}
 		}
 	}
 }
