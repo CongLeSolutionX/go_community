@@ -953,6 +953,10 @@ func writeType(t *types.Type) *obj.LSym {
 	}
 	s.SetSiggen(true)
 
+	if base.Flag.DwarfType {
+		base.Ctxt.PopulateDWARFType(dwarfType{t})
+	}
+	
 	// special case (look for runtime below):
 	// when compiling package runtime,
 	// emit the type structures for int, float, etc.
