@@ -31,7 +31,6 @@ func WriteObjFile(ctxt *Link, b *bio.Writer) {
 	debugAsmEmit(ctxt)
 
 	genFuncInfoSyms(ctxt)
-
 	w := writer{
 		Writer:  goobj.NewWriter(b),
 		ctxt:    ctxt,
@@ -761,7 +760,8 @@ func writeAuxSymDebug(ctxt *Link, par *LSym, aux *LSym) {
 		aux.Type != objabi.SDWARFFCN &&
 		aux.Type != objabi.SDWARFABSFCN &&
 		aux.Type != objabi.SDWARFLINES &&
-		aux.Type != objabi.SDWARFRANGE {
+		aux.Type != objabi.SDWARFRANGE &&
+		aux.Type != objabi.SDWARFTYPE {
 		return
 	}
 	ctxt.writeSymDebugNamed(aux, "aux for "+par.Name)
@@ -791,6 +791,9 @@ func (ctxt *Link) writeSymDebugNamed(s *LSym, name string) {
 	fmt.Fprintf(ctxt.Bso, "%s%s ", name, ver)
 	if s.Type != 0 {
 		fmt.Fprintf(ctxt.Bso, "%v ", s.Type)
+	}
+	if len(s.Name) != 0 {
+		fmt.Fprintf(ctxt.Bso, "%v ", s.Name)
 	}
 	if s.Static() {
 		fmt.Fprint(ctxt.Bso, "static ")
