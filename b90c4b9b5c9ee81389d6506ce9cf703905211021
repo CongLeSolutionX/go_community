@@ -34,6 +34,24 @@
       "parentUuid": "b66158ae_11035a7d",
       "revId": "b90c4b9b5c9ee81389d6506ce9cf703905211021",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd065485_6e7ecb1b",
+        "filename": "src/runtime/libfuzzer_amd64.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-04-10T23:17:53Z",
+      "side": 1,
+      "message": "ret_sled also needs this treatment.",
+      "parentUuid": "47e7c21b_498ca412",
+      "revId": "b90c4b9b5c9ee81389d6506ce9cf703905211021",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
