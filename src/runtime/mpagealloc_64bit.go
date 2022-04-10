@@ -6,7 +6,10 @@
 
 package runtime
 
-import "unsafe"
+import (
+	"runtime/internal/atomic"
+	"unsafe"
+)
 
 const (
 	// The number of levels in the radix tree.
@@ -83,6 +86,12 @@ func (p *pageAlloc) sysInit() {
 		sl := notInHeapSlice{(*notInHeap)(r), 0, entries}
 		p.summary[l] = *(*[]pallocSum)(unsafe.Pointer(&sl))
 	}
+
+	// Set up the scavenge index.
+	nbytes := uintptr(1<<heapAddrBits) / pallocChunkBytes / 8
+	r := sysReserve(nil, nbytes)
+	sl := notInHeapSlice{(*notInHeap)(r), int(nbytes), int(nbytes)}
+	p.scav.index.chunks = *(*[]atomic.Uint8)(unsafe.Pointer(&sl))
 }
 
 // sysGrow performs architecture-dependent operations on heap
@@ -177,4 +186,54 @@ func (p *pageAlloc) sysGrow(base, limit uintptr) {
 		sysUsed(unsafe.Pointer(need.base.addr()), need.size(), need.size())
 		p.summaryMappedReady += need.size()
 	}
+
+	// Update the scavenge index.
+	p.summaryMappedReady += p.scav.index.grow(base, limit, p.sysStat)
+}
+
+// grow increases the index's backing store in response to a heap growth.
+//
+// Returns the amount of memory added to sysStat.
+func (s *scavengeIndex) grow(base, limit uintptr, sysStat *sysMemStat) uintptr {
+	if base%pallocChunkBytes != 0 || limit%pallocChunkBytes != 0 {
+		print("runtime: base = ", hex(base), ", limit = ", hex(limit), "\n")
+		throw("sysGrow bounds not aligned to pallocChunkBytes")
+	}
+	// Map and commit the pieces of chunks that we need.
+	//
+	// We always map the full range of the minimum heap address to the
+	// maximum heap address. We don't do this for the summary structure
+	// because it's quite large and a discontiguous heap could cause a
+	// lot of memory to be used. In this situation, the worst case overhead
+	// is in the single-digit MiB if we map the whole thing.
+	//
+	// The base address of the backing store is always page-aligned,
+	// because it comes from the OS, so it's sufficient to align the
+	// index.
+	haveMin := s.min.Load()
+	haveMax := s.max.Load()
+	have := makeAddrRange(
+		uintptr(unsafe.Pointer(&s.chunks[haveMin])),
+		uintptr(unsafe.Pointer(&s.chunks[haveMax])),
+	)
+	needMin := int32(alignDown(uintptr(chunkIndex(base)/8), physPageSize))
+	needMax := int32(alignUp(uintptr((chunkIndex(limit)+7)/8), physPageSize))
+	need := makeAddrRange(
+		uintptr(unsafe.Pointer(&s.chunks[needMin])),
+		uintptr(unsafe.Pointer(&s.chunks[needMax])),
+	)
+	need = need.subtract(have)
+	if need.size() == 0 {
+		return 0
+	}
+	sysMap(unsafe.Pointer(need.base.addr()), need.size(), sysStat)
+	sysUsed(unsafe.Pointer(need.base.addr()), need.size(), need.size())
+	// Update the indices only after the new memory is valid.
+	if haveMin == 0 || needMin < haveMin {
+		s.min.Store(needMin)
+	}
+	if haveMax == 0 || needMax > haveMax {
+		s.max.Store(needMax)
+	}
+	return need.size()
 }
