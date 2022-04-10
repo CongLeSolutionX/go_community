@@ -459,7 +459,8 @@ func readGoInfo(f io.Reader, info *fileInfo) error {
 			if err != nil {
 				return fmt.Errorf("parser returned invalid quoted string: <%s>", quoted)
 			}
-			if path == "embed" {
+			switch path {
+			case "embed", "internal/embedlite":
 				hasEmbed = true
 			}
 

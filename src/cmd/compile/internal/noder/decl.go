@@ -47,7 +47,7 @@ func (g *irgen) importDecl(p *noder, decl *syntax.ImportDecl) {
 	switch pkgNameOf(g.info, decl).Imported().Path() {
 	case "unsafe":
 		p.importedUnsafe = true
-	case "embed":
+	case "embed", "internal/embedlite":
 		p.importedEmbed = true
 	}
 }
