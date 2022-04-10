@@ -47,7 +47,6 @@ type Sym interface {
 
 //Type represents a type info will be used in generating dwarf type info.
 type Type interface {
-	Sym
 	DwarfName(dwctxt interface{}) string
 	Name(dwctxt interface{}) string
 	Size(dwctxt interface{}) int64
@@ -2011,7 +2010,7 @@ func Dotypedef(parent *DWDie, name string, def *DWDie, d Context) *DWDie {
 }
 
 type FixTypes struct {
-	Uintptr Type
+	Uintptr Sym
 	Eface   Type
 	Iface   Type
 }
@@ -2079,7 +2078,7 @@ func NewType(gotype Type, dc Context, fix FixTypes, parent *DWDie) (*DWDie, *DWD
 		NewRefAttr(die, DW_AT_go_elem, dc.DefGoType(s))
 		// Save elem type for synthesizechantypes. We could synthesize here
 		// but that would change the order of DIEs we output.
-		NewRefAttr(die, DW_AT_type, s)
+		NewRefAttr(die, DW_AT_type, s.RuntimeType(dc))
 
 	case objabi.KindFunc:
 		die = NewDie(parent, DW_ABRV_FUNCTYPE, name, dc)
@@ -2124,7 +2123,7 @@ func NewType(gotype Type, dc Context, fix FixTypes, parent *DWDie) (*DWDie, *DWD
 		NewRefAttr(die, DW_AT_go_elem, dc.DefGoType(s))
 		// Save gotype for use in synthesizemaptypes. We could synthesize here,
 		// but that would change the order of the DIEs.
-		NewRefAttr(die, DW_AT_type, gotype)
+		NewRefAttr(die, DW_AT_type, gotype.RuntimeType(dc))
 
 	case objabi.KindPtr:
 		die = NewDie(parent, DW_ABRV_PTRTYPE, name, dc)
