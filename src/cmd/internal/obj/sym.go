@@ -364,6 +364,13 @@ func (ctxt *Link) traverseSyms(flag traverseFlag, fn func(*LSym)) {
 					}
 					ctxt.traverseFuncAux(flag, s, f)
 				}
+				if s.TypeInfo() != nil {
+					f := func(parent *LSym, aux *LSym) {
+						fn(aux)
+					}
+					ctxt.traverseTypeAux(flag, s, f)
+					continue
+				}
 			}
 			if flag&traversePcdata != 0 && s.Type == objabi.STEXT {
 				fi := s.Func().Pcln
@@ -373,6 +380,30 @@ func (ctxt *Link) traverseSyms(flag traverseFlag, fn func(*LSym)) {
 				fnNoNil(fi.Pcinline)
 				for _, d := range fi.Pcdata {
 					fnNoNil(d)
+				}
+			}
+		}
+	}
+}
+
+func (ctxt *Link) traverseTypeAux(flag traverseFlag, tsym *LSym, fn func(parent *LSym, aux *LSym)) {
+	typinfo := tsym.TypeInfo()
+	if flag&traverseAux == 0 {
+		// NB: should it become necessary to walk aux sym reloc references
+		// without walking the aux syms themselves, this can be changed.
+		panic("should not be here")
+	}
+
+	dwsyms := []*LSym{typinfo.TypeDieSym, typinfo.TypeDieSym}
+	for _, dws := range dwsyms {
+		if dws == nil || dws.Size == 0 {
+			continue
+		}
+		fn(tsym, dws)
+		if flag&traverseRefs != 0 {
+			for _, r := range dws.R {
+				if r.Sym != nil {
+					fn(dws, r.Sym)
 				}
 			}
 		}
@@ -439,10 +470,14 @@ func (ctxt *Link) traverseAuxSyms(flag traverseFlag, fn func(parent *LSym, aux *
 					fn(s, s.Gotype)
 				}
 			}
-			if s.Type != objabi.STEXT {
+			if s.Type == objabi.STEXT {
+				ctxt.traverseFuncAux(flag, s, fn)
 				continue
 			}
-			ctxt.traverseFuncAux(flag, s, fn)
+			if s.TypeInfo() != nil {
+				ctxt.traverseTypeAux(flag, s, fn)
+				continue
+			}
 		}
 	}
 }
