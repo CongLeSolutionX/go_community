@@ -931,6 +931,8 @@ type Link struct {
 	nonpkgdefs   []*LSym // list of defined non-package symbols
 	nonpkgrefs   []*LSym // list of referenced non-package symbols
 
+	dwtypes dwarf.DWDie
+
 	Fingerprint goobj.FingerprintType // fingerprint of symbol indices, to catch index mismatch
 }
 
