@@ -63,10 +63,7 @@ func (d dwarfType) NumResult(interface{}) int64 {
 }
 
 func (d dwarfType) IsDDD(interface{}) bool {
-	if d.typ.NumParams() > 0 {
-		return d.typ.Params().Field(d.typ.NumParams() - 1).IsDDD()
-	}
-	return false
+	return d.typ.IsVariadic()
 }
 
 func (d dwarfType) FieldName(dwctxt interface{}, g dwarf.FieldsGroup, i int) string {
@@ -74,19 +71,11 @@ func (d dwarfType) FieldName(dwctxt interface{}, g dwarf.FieldsGroup, i int) str
 	case dwarf.GroupFields:
 		return d.typ.FieldName(i)
 	case dwarf.GroupParams:
-		field := d.typ.Params().Field(i)
-		if field.Sym == nil || len(field.Sym.Name) == 0 {
-			return types.TypeSymName(field.Type)
-		}
-		return field.Sym.Name
+		return dwarfType{d.typ.Params().FieldType(i)}.DwarfName(d)
 	case dwarf.GroupResults:
-		field := d.typ.Results().Field(i)
-		if field.Sym == nil || len(field.Sym.Name) == 0 {
-			return types.TypeSymName(field.Type)
-		}
-		return field.Sym.Name
+		return dwarfType{d.typ.Results().FieldType(i)}.DwarfName(d)
 	}
-	panic("implement me")
+	panic("unreachable")
 }
 
 func (d dwarfType) FieldType(dwctxt interface{}, g dwarf.FieldsGroup, i int) dwarf.Type {
@@ -98,7 +87,7 @@ func (d dwarfType) FieldType(dwctxt interface{}, g dwarf.FieldsGroup, i int) dwa
 	case dwarf.GroupResults:
 		return dwarfType{d.typ.Results().FieldType(i)}
 	}
-	panic("implement me")
+	panic("unreachable")
 }
 
 func (d dwarfType) FieldIsEmbed(dwctxt interface{}, i int) bool {
