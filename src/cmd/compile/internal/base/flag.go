@@ -150,6 +150,7 @@ func ParseFlags() {
 	Flag.LowerV = &Ctxt.Debugvlog
 
 	Flag.Dwarf = buildcfg.GOARCH != "wasm"
+	Flag.DwarfType = true
 	Flag.DwarfBASEntries = &Ctxt.UseBASEntries
 	Flag.DwarfLocationLists = &Ctxt.Flag_locationlists
 	*Flag.DwarfLocationLists = true
