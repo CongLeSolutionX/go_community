@@ -1495,6 +1495,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "22cf97ac_abdb913c",
+        "filename": "src/cmd/internal/obj/x86/asm6.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2235,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-11T21:23:21Z",
+      "side": 1,
+      "message": "I\u0027m fine with starting here. But would it be better to use relative PCs if possible? That would reduce dynamic relocations for PIE binaries.",
+      "parentUuid": "65a1dea7_30f3725c",
+      "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "923879e7_77a4109c",
         "filename": "src/cmd/internal/obj/x86/asm6.go",
         "patchSetId": 2
