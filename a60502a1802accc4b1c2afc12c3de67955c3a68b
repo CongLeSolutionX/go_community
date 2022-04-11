@@ -92,6 +92,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b5a299da_4b5a8360",
+        "filename": "src/internal/bytealg/indexbyte_ppc64x.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-11T16:03:17Z",
+      "side": 1,
+      "message": "I think it\u0027s better to mention it here. Line 26-28 (as of PS7) has inputs R3-R5. Maybe add \"R16 \u003d 1 if ...\" here.",
+      "parentUuid": "22a5a301_cc09f649",
+      "revId": "a60502a1802accc4b1c2afc12c3de67955c3a68b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "74e3c1fb_6be79d82",
         "filename": "src/internal/bytealg/indexbyte_ppc64x.s",
         "patchSetId": 5
@@ -231,6 +249,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd91a710_c66b89c0",
+        "filename": "src/internal/bytealg/indexbyte_ppc64x.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-11T16:03:17Z",
+      "side": 1,
+      "message": "Thanks. Maybe mention in the comment that the low 16 bits of R3 are the equal/unequal results, in (which?) endian order.",
+      "parentUuid": "755b74ab_a7f6fb36",
+      "range": {
+        "startLine": 110,
+        "startChar": 0,
+        "endLine": 113,
+        "endChar": 13
+      },
+      "revId": "a60502a1802accc4b1c2afc12c3de67955c3a68b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0846c432_37d133a2",
@@ -280,6 +322,24 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "565c374b_4e2bd1bf",
+      "revId": "a60502a1802accc4b1c2afc12c3de67955c3a68b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0323a9b9_ba89b82b",
+        "filename": "src/internal/bytealg/indexbyte_ppc64x.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-11T16:03:17Z",
+      "side": 1,
+      "message": "If it actually makes a difference, that is fine to add. I just don\u0027t understand why we need to align the PC as this is not a loop. Do you know why it matters?",
+      "parentUuid": "16393f35_5c3b46c6",
       "revId": "a60502a1802accc4b1c2afc12c3de67955c3a68b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
