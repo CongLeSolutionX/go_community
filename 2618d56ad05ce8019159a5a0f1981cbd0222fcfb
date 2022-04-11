@@ -72,6 +72,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac86864b_02739373",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-04-11T23:33:40Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "2618d56ad05ce8019159a5a0f1981cbd0222fcfb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9845450a_102dde3c",
@@ -89,6 +106,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "66bc20d7_1180bc34",
+        "filename": "src/os/stat_solaris.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-04-11T23:33:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9845450a_102dde3c",
+      "revId": "2618d56ad05ce8019159a5a0f1981cbd0222fcfb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "734d1666_482a6f2e",
@@ -102,6 +137,24 @@
       "writtenOn": "2022-04-10T15:48:45Z",
       "side": 1,
       "message": "Without “the”, this sentence sounds grammatically awkward. We can perhaps even make it much shorter and succinct by removing “package” so\n\n// Values taken from golang.org/x/sys/unix.",
+      "revId": "2618d56ad05ce8019159a5a0f1981cbd0222fcfb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34c343f2_1c310512",
+        "filename": "src/os/stat_solaris.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-04-11T23:33:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "734d1666_482a6f2e",
       "revId": "2618d56ad05ce8019159a5a0f1981cbd0222fcfb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
