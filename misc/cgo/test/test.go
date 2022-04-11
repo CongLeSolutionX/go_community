@@ -921,6 +921,26 @@ void issue40494(enum Enum40494 e, union Union40494* up) {}
 // Issue 45451, bad handling of go:notinheap types.
 typedef struct issue45451Undefined issue45451;
 
+// Issue 46675, misaligned size of struct fields and array elements
+typedef struct {
+	uint64_t u;
+	uint8_t v;
+} __attribute__((__packed__)) issue46675_misaligned_size;
+
+typedef struct {
+	uint64_t a;
+	issue46675_misaligned_size m;
+	uint32_t b;
+	issue46675_misaligned_size m_arr[8];
+	uint32_t c;
+} issue46675_st_misaligned;
+
+issue46675_misaligned_size issue46675_arr[3];
+
+uint64_t issue46675_get_a(issue46675_st_misaligned *sm) { return sm->a; }
+uint32_t issue46675_get_b(issue46675_st_misaligned *sm) { return sm->b; }
+uint32_t issue46675_get_c(issue46675_st_misaligned *sm) { return sm->c; }
+
 // Issue 49633, example of cgo.Handle with void*.
 extern void GoFunc49633(void*);
 void cfunc49633(void *context) { GoFunc49633(context); }
@@ -2294,4 +2314,79 @@ func test45451(t *testing.T) {
 
 	_ = reflect.New(typ)
 	t.Errorf("reflect.New(%v) should have panicked", typ)
+}
+
+// issue 46675
+
+func test46675(t *testing.T) {
+	t.Run("type", func(t *testing.T) {
+		// Test type of issue46675_st_misaligned
+		typ := reflect.TypeOf(C.issue46675_st_misaligned{})
+		if typ.Kind() != reflect.Struct {
+			t.Fatalf("issue46675_st_misaligned is of kind %s, expected struct", typ.Kind())
+		}
+
+		if _, ok := typ.FieldByName("m"); ok {
+			t.Errorf("issue46675_st_misaligned.m should be dropped")
+		}
+
+		// m_arr should be dropped (array size and element size are misaligned)
+		// or converted to an array of opaque elements (array size is aligned
+		// but element size is misaligned)
+		if f, ok := typ.FieldByName("m_arr"); ok {
+			if f.Type.Kind() != reflect.Array || f.Type.Elem().Kind() != reflect.Array || f.Type.Elem().Elem().Kind() != reflect.Uint8 {
+				t.Errorf("issue46675_st_misaligned.m_arr should be converted to an array of opaque elements")
+			}
+		}
+
+		// Test type of issue46675_arr
+		// issue46675_arr should be converted to an array of opaque elements (i.e. elements should be byte arrays)
+		// In particular, issue46675_arr should not be an array of issue46675_misaligned_size.
+		typ = reflect.TypeOf(C.issue46675_arr)
+		if typ.Kind() != reflect.Array || typ.Elem().Kind() != reflect.Array || typ.Elem().Elem().Kind() != reflect.Uint8 {
+			t.Errorf("issue46675_arr should be converted to an array of opaque elements")
+		}
+	})
+
+	t.Run("value", func(t *testing.T) {
+		// Test write and read of issue46675_st_misaligned
+		sm := C.issue46675_st_misaligned{
+			a: math.MaxUint64,
+			b: math.MaxUint32,
+			c: math.MaxUint32 - 1,
+		}
+
+		gotA := C.issue46675_get_a(&sm)
+		if gotA != sm.a {
+			t.Errorf("issue46675_st_misaligned.a: got %d, expected %d", gotA, sm.a)
+		}
+
+		gotB := C.issue46675_get_b(&sm)
+		if gotB != sm.b {
+			t.Errorf("issue46675_st_misaligned.b: got %d, expected %d", gotB, sm.b)
+		}
+
+		gotC := C.issue46675_get_c(&sm)
+		if gotC != sm.c {
+			t.Errorf("issue46675_st_misaligned.c: got %d, expected %d", gotC, sm.c)
+		}
+	})
+
+	t.Run("size", func(t *testing.T) {
+		testcases := []struct {
+			name   string
+			cSize  uintptr
+			goSize uintptr
+		}{
+			{"issue46675_st_misaligned", C.sizeof_issue46675_st_misaligned, unsafe.Sizeof(C.issue46675_st_misaligned{})},
+			{"issue46675_arr", C.sizeof_issue46675_arr, unsafe.Sizeof(C.issue46675_arr)},
+			{"element of issue46675_arr", C.sizeof_issue46675_misaligned_size, unsafe.Sizeof(C.issue46675_arr[0])},
+		}
+
+		for _, tc := range testcases {
+			if tc.cSize != tc.goSize {
+				t.Errorf("%s: C size=%d, Go size=%d", tc.name, tc.cSize, tc.goSize)
+			}
+		}
+	})
 }

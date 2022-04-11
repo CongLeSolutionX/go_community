@@ -2323,6 +2323,11 @@ func (c *typeConv) loadType(dtype dwarf.Type, pos token.Pos, parent string) *Typ
 			count = 0
 		}
 		sub := c.Type(dt.Type, pos)
+		if sub.Size%sub.Align != 0 {
+			// Cannot represent elements of misaligned size (e.g. packed structs) in Go.
+			// Convert into opaque elements of same size.
+			sub.Go = c.Opaque(sub.Size)
+		}
 		t.Align = sub.Align
 		t.Go = &ast.ArrayType{
 			Len: c.intExpr(count),
@@ -2935,8 +2940,9 @@ func (c *typeConv) Struct(dt *dwarf.StructType, pos token.Pos) (expr *ast.Struct
 			continue
 		}
 
-		if talign > 0 && f.ByteOffset%talign != 0 {
+		if talign > 0 && (f.ByteOffset%talign != 0 || size%talign != 0) {
 			// Drop misaligned fields, the same way we drop integer bit fields.
+			// Also drop fields whose size is misaligned, e.g. a packed struct.
 			// The goal is to make available what can be made available.
 			// Otherwise one bad and unneeded field in an otherwise okay struct
 			// makes the whole program not compile. Much of the time these
