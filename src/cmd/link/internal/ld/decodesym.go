@@ -292,3 +292,8 @@ func findShlibSection(ctxt *Link, path string, addr uint64) *elf.Section {
 func decodetypeGcprogShlib(ctxt *Link, data []byte) uint64 {
 	return decodeInuxi(ctxt.Arch, data[2*int32(ctxt.Arch.PtrSize)+8+1*int32(ctxt.Arch.PtrSize):], ctxt.Arch.PtrSize)
 }
+
+func decodeDwarfAbrv(ldr *loader.Loader, symIdx loader.Sym) int8 {
+	data := ldr.Data(symIdx)
+	return int8(data[0])
+}
