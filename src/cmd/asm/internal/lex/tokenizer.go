@@ -14,6 +14,7 @@ import (
 	"cmd/asm/internal/flags"
 	"cmd/internal/objabi"
 	"cmd/internal/src"
+	"go/build/constraint"
 )
 
 // A Tokenizer is a simple wrapping of text/scanner.Scanner, configured
@@ -109,8 +110,7 @@ func (t *Tokenizer) Next() ScanToken {
 		}
 		text := s.TokenText()
 		t.line += strings.Count(text, "\n")
-		// TODO: Use constraint.IsGoBuild once it exists.
-		if strings.HasPrefix(text, "//go:build") {
+		if constraint.IsGoBuild(text) {
 			t.tok = BuildComment
 			break
 		}
