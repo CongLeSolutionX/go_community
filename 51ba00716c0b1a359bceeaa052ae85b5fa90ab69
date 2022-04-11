@@ -34,6 +34,23 @@
       "parentUuid": "b407bb3b_66e64100",
       "revId": "51ba00716c0b1a359bceeaa052ae85b5fa90ab69",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5e62322_7cfc308d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-04-11T00:56:46Z",
+      "side": 1,
+      "message": "It might be enough to just add some generic globals (which are referenced) to runtime/debug/heapdump_test.go, so that this code is at least exercised, even if we\u0027re not checking that the results are correct. The only really dangerous thing about this code is if it has a bug that causes a bounds exception or an infinite loop.\n",
+      "revId": "51ba00716c0b1a359bceeaa052ae85b5fa90ab69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
