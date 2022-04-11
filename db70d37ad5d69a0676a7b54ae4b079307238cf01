@@ -16,6 +16,24 @@
       "message": "Currently we use Go1.4 as bootstrap toolchain which does not have package `go/build/constraint`. Maybe we should wait #44505 get fixed.",
       "revId": "db70d37ad5d69a0676a7b54ae4b079307238cf01",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c81ce5fa_b2177c00",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55613
+      },
+      "writtenOn": "2022-04-11T12:15:44Z",
+      "side": 1,
+      "message": "Thanks for the info, if so I can wait.",
+      "parentUuid": "99e6966c_ab9190f8",
+      "revId": "db70d37ad5d69a0676a7b54ae4b079307238cf01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
