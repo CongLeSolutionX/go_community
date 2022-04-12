@@ -78,6 +78,8 @@ func InitRuntime() {
 			importfunc(src.NoXPos, sym, typ)
 		case varTag:
 			importvar(src.NoXPos, sym, typ)
+		case typeTag:
+			// handled in func runtimeTypes.
 		default:
 			base.Fatalf("unhandled declaration tag %v", d.tag)
 		}
