@@ -3,6 +3,7 @@
 package typecheck
 
 import (
+	"cmd/compile/internal/ir"
 	"cmd/compile/internal/types"
 	"cmd/internal/src"
 )
@@ -212,6 +213,23 @@ var runtimeDecls = [...]struct {
 	{"x86HasFMA", varTag, 6},
 	{"armHasVFPv4", varTag, 6},
 	{"arm64HasATOMICS", varTag, 6},
+	{"stringStructDWARF", typeTag, 150},
+	{"slice", typeTag, 151},
+	{"hmap", typeTag, 154},
+	{"bmap", typeTag, 156},
+	{"sudog", typeTag, 170},
+	{"waitq", typeTag, 161},
+	{"mutex", typeTag, 165},
+	{"hchan", typeTag, 167},
+	{"eface", typeTag, 171},
+	{"iface", typeTag, 174},
+	{"itab", typeTag, 0},
+	{"mapextra", typeTag, 0},
+	{"_type", typeTag, 0},
+	{"g", typeTag, 0},
+	{"lockRankStruct", typeTag, 163},
+	{"lockRankStruct_on", typeTag, 176},
+	{"lockRank", typeTag, 15},
 }
 
 // Not inlining this function removes a significant chunk of init code.
@@ -219,6 +237,13 @@ var runtimeDecls = [...]struct {
 //go:noinline
 func newSig(params, results []*types.Field) *types.Type {
 	return types.NewSignature(types.NoPkg, nil, nil, params, results)
+}
+
+func newNamed(name string, typ *types.Type) *types.Type {
+	n := importtype(src.NoXPos, ir.Pkgs.Runtime.Lookup(name))
+	n.Type().SetUnderlying(typ)
+	types.CalcSize(n.Type())
+	return n.Type()
 }
 
 func params(tlist ...*types.Type) []*types.Field {
@@ -230,7 +255,7 @@ func params(tlist ...*types.Type) []*types.Field {
 }
 
 func runtimeTypes() []*types.Type {
-	var typs [150]*types.Type
+	var typs [177]*types.Type
 	typs[0] = types.ByteType
 	typs[1] = types.NewPtr(typs[0])
 	typs[2] = types.Types[types.TANY]
@@ -381,5 +406,32 @@ func runtimeTypes() []*types.Type {
 	typs[147] = newSig(params(typs[62], typs[62], typs[15]), nil)
 	typs[148] = newSig(params(typs[24], typs[24], typs[15]), nil)
 	typs[149] = newSig(params(typs[28], typs[28], typs[15]), nil)
+	typs[150] = types.NewStruct(types.NoPkg, []*types.Field{types.NewField(src.NoXPos, Lookup("str"), typs[1]), types.NewField(src.NoXPos, Lookup("len"), typs[15])})
+	typs[151] = types.NewStruct(types.NoPkg, []*types.Field{types.NewField(src.NoXPos, Lookup("array"), typs[7]), types.NewField(src.NoXPos, Lookup("len"), typs[15]), types.NewField(src.NoXPos, Lookup("cap"), typs[15])})
+	typs[152] = newNamed("mapextra", typs[0])
+	typs[153] = types.NewPtr(typs[152])
+	typs[154] = types.NewStruct(types.NoPkg, []*types.Field{types.NewField(src.NoXPos, Lookup("count"), typs[15]), types.NewField(src.NoXPos, Lookup("flags"), typs[66]), types.NewField(src.NoXPos, Lookup("B"), typs[66]), types.NewField(src.NoXPos, Lookup("noverflow"), typs[60]), types.NewField(src.NoXPos, Lookup("hash0"), typs[62]), types.NewField(src.NoXPos, Lookup("buckets"), typs[7]), types.NewField(src.NoXPos, Lookup("oldbuckets"), typs[7]), types.NewField(src.NoXPos, Lookup("nevacuate"), typs[5]), types.NewField(src.NoXPos, Lookup("extra"), typs[153])})
+	typs[155] = types.NewArray(typs[66], 8)
+	typs[156] = types.NewStruct(types.NoPkg, []*types.Field{types.NewField(src.NoXPos, Lookup("tophash"), typs[155])})
+	typs[157] = newNamed("g", typs[0])
+	typs[158] = types.NewPtr(typs[157])
+	typs[159] = newNamed("_type", typs[0])
+	typs[160] = types.NewPtr(typs[159])
+	typs[161] = types.NewStruct(types.NoPkg, []*types.Field{types.NewField(src.NoXPos, Lookup("first"), typs[1]), types.NewField(src.NoXPos, Lookup("last"), typs[1])})
+	typs[162] = newNamed("waitq", typs[161])
+	typs[163] = types.NewStruct(types.NoPkg, nil)
+	typs[164] = newNamed("lockRankStruct", typs[163])
+	typs[165] = types.NewStruct(types.NoPkg, []*types.Field{types.NewField(src.NoXPos, Lookup("lockRankStruct"), typs[164]), types.NewField(src.NoXPos, Lookup("key"), typs[5])})
+	typs[166] = newNamed("mutex", typs[165])
+	typs[167] = types.NewStruct(types.NoPkg, []*types.Field{types.NewField(src.NoXPos, Lookup("qcount"), typs[17]), types.NewField(src.NoXPos, Lookup("dataqsiz"), typs[17]), types.NewField(src.NoXPos, Lookup("buf"), typs[7]), types.NewField(src.NoXPos, Lookup("elemsize"), typs[60]), types.NewField(src.NoXPos, Lookup("closed"), typs[62]), types.NewField(src.NoXPos, Lookup("elemtype"), typs[160]), types.NewField(src.NoXPos, Lookup("sendx"), typs[17]), types.NewField(src.NoXPos, Lookup("recvx"), typs[17]), types.NewField(src.NoXPos, Lookup("recvq"), typs[162]), types.NewField(src.NoXPos, Lookup("sendq"), typs[162]), types.NewField(src.NoXPos, Lookup("lock"), typs[166])})
+	typs[168] = newNamed("hchan", typs[167])
+	typs[169] = types.NewPtr(typs[168])
+	typs[170] = types.NewStruct(types.NoPkg, []*types.Field{types.NewField(src.NoXPos, Lookup("g"), typs[158]), types.NewField(src.NoXPos, Lookup("next"), typs[1]), types.NewField(src.NoXPos, Lookup("prev"), typs[1]), types.NewField(src.NoXPos, Lookup("elem"), typs[7]), types.NewField(src.NoXPos, Lookup("acquiretime"), typs[22]), types.NewField(src.NoXPos, Lookup("releasetime"), typs[22]), types.NewField(src.NoXPos, Lookup("ticket"), typs[62]), types.NewField(src.NoXPos, Lookup("isSelect"), typs[6]), types.NewField(src.NoXPos, Lookup("success"), typs[6]), types.NewField(src.NoXPos, Lookup("parent"), typs[1]), types.NewField(src.NoXPos, Lookup("waitlink"), typs[1]), types.NewField(src.NoXPos, Lookup("waittail"), typs[1]), types.NewField(src.NoXPos, Lookup("c"), typs[169])})
+	typs[171] = types.NewStruct(types.NoPkg, []*types.Field{types.NewField(src.NoXPos, Lookup("_type"), typs[160]), types.NewField(src.NoXPos, Lookup("data"), typs[7])})
+	typs[172] = newNamed("itab", typs[0])
+	typs[173] = types.NewPtr(typs[172])
+	typs[174] = types.NewStruct(types.NoPkg, []*types.Field{types.NewField(src.NoXPos, Lookup("tab"), typs[173]), types.NewField(src.NoXPos, Lookup("data"), typs[7])})
+	typs[175] = newNamed("lockRank", typs[15])
+	typs[176] = types.NewStruct(types.NoPkg, []*types.Field{types.NewField(src.NoXPos, Lookup("rank"), typs[175]), types.NewField(src.NoXPos, Lookup("pad"), typs[15])})
 	return typs[:]
 }
