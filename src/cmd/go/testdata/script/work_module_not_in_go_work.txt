@@ -7,7 +7,7 @@
 stderr 'pattern ./...: directory prefix . does not contain modules listed in go.work or their selected dependencies'
 
 ! go list ./a
-stderr 'directory a outside modules listed in go.work'
+stderr 'directory a is contained in a module that is not one of the workspace modules listed in go.work. You can add the module to the workspace using go work use a'
 
 -- go.work --
 go 1.18
