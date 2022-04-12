@@ -3,6 +3,7 @@
 package typecheck
 
 import (
+	"cmd/compile/internal/ir"
 	"cmd/compile/internal/types"
 	"cmd/internal/src"
 )
@@ -20,6 +21,12 @@ func params(tlist ...*types.Type) []*types.Field {
 		flist[i] = types.NewField(src.NoXPos, nil, typ)
 	}
 	return flist
+}
+
+func newEmbedFiled(pos src.XPos, sym *types.Sym, typ *types.Type) *types.Field {
+	f := types.NewField(pos, sym, typ)
+	f.Embedded = 1
+	return f
 }
 
 var runtimeDecls = [...]struct {
@@ -231,10 +238,44 @@ var runtimeDecls = [...]struct {
 	{"x86HasFMA", varTag, 6},
 	{"armHasVFPv4", varTag, 6},
 	{"arm64HasATOMICS", varTag, 6},
+	{"stringStructDWARF", typeTag, 154},
+	{"slice", typeTag, 155},
+	{"hmap", typeTag, 158},
+	{"bmap", typeTag, 160},
+	{"sudog", typeTag, 167},
+	{"waitq", typeTag, 168},
+	{"mutex", typeTag, 170},
+	{"hchan", typeTag, 175},
+	{"eface", typeTag, 176},
+	{"iface", typeTag, 179},
+	{"itab", typeTag, 0},
+	{"mapextra", typeTag, 0},
+	{"_type", typeTag, 0},
+	{"g", typeTag, 0},
+	{"lockRankStruct", typeTag, 180},
+	{"lockRankStruct_on", typeTag, 182},
+	{"lockRank", typeTag, 15},
 }
 
 func runtimeTypes() []*types.Type {
-	var typs [154]*types.Type
+	var stringStructDWARFType = importtype(src.NoXPos, ir.Pkgs.Runtime.Lookup("stringStructDWARF")).Type()
+	var sliceType = importtype(src.NoXPos, ir.Pkgs.Runtime.Lookup("slice")).Type()
+	var hmapType = importtype(src.NoXPos, ir.Pkgs.Runtime.Lookup("hmap")).Type()
+	var bmapType = importtype(src.NoXPos, ir.Pkgs.Runtime.Lookup("bmap")).Type()
+	var sudogType = importtype(src.NoXPos, ir.Pkgs.Runtime.Lookup("sudog")).Type()
+	var waitqType = importtype(src.NoXPos, ir.Pkgs.Runtime.Lookup("waitq")).Type()
+	var mutexType = importtype(src.NoXPos, ir.Pkgs.Runtime.Lookup("mutex")).Type()
+	var hchanType = importtype(src.NoXPos, ir.Pkgs.Runtime.Lookup("hchan")).Type()
+	var efaceType = importtype(src.NoXPos, ir.Pkgs.Runtime.Lookup("eface")).Type()
+	var ifaceType = importtype(src.NoXPos, ir.Pkgs.Runtime.Lookup("iface")).Type()
+	var itabType = importtype(src.NoXPos, ir.Pkgs.Runtime.Lookup("itab")).Type()
+	var mapextraType = importtype(src.NoXPos, ir.Pkgs.Runtime.Lookup("mapextra")).Type()
+	var _typeType = importtype(src.NoXPos, ir.Pkgs.Runtime.Lookup("_type")).Type()
+	var gType = importtype(src.NoXPos, ir.Pkgs.Runtime.Lookup("g")).Type()
+	var lockRankStructType = importtype(src.NoXPos, ir.Pkgs.Runtime.Lookup("lockRankStruct")).Type()
+	var lockRankStruct_onType = importtype(src.NoXPos, ir.Pkgs.Runtime.Lookup("lockRankStruct_on")).Type()
+	var lockRankType = importtype(src.NoXPos, ir.Pkgs.Runtime.Lookup("lockRank")).Type()
+	var typs [183]*types.Type
 	typs[0] = types.ByteType
 	typs[1] = types.NewPtr(typs[0])
 	typs[2] = types.Types[types.TANY]
@@ -389,6 +430,52 @@ func runtimeTypes() []*types.Type {
 	typs[151] = newSig(params(typs[28], typs[28], typs[17]), nil)
 	typs[152] = types.NewArray(typs[0], 16)
 	typs[153] = newSig(params(typs[7], typs[62], typs[152], typs[28], typs[15], typs[66], typs[66]), params(typs[62]))
+	typs[154] = types.NewStruct([]*types.Field{types.NewField(src.NoXPos, Lookup("str"), typs[1]), types.NewField(src.NoXPos, Lookup("len"), typs[15])})
+	typs[155] = types.NewStruct([]*types.Field{types.NewField(src.NoXPos, Lookup("array"), typs[7]), types.NewField(src.NoXPos, Lookup("len"), typs[15]), types.NewField(src.NoXPos, Lookup("cap"), typs[15])})
+	typs[156] = mapextraType
+	typs[157] = types.NewPtr(typs[156])
+	typs[158] = types.NewStruct([]*types.Field{types.NewField(src.NoXPos, Lookup("count"), typs[15]), types.NewField(src.NoXPos, Lookup("flags"), typs[66]), types.NewField(src.NoXPos, Lookup("B"), typs[66]), types.NewField(src.NoXPos, Lookup("noverflow"), typs[60]), types.NewField(src.NoXPos, Lookup("hash0"), typs[62]), types.NewField(src.NoXPos, Lookup("buckets"), typs[7]), types.NewField(src.NoXPos, Lookup("oldbuckets"), typs[7]), types.NewField(src.NoXPos, Lookup("nevacuate"), typs[5]), types.NewField(src.NoXPos, Lookup("extra"), typs[157])})
+	typs[159] = types.NewArray(typs[66], 8)
+	typs[160] = types.NewStruct([]*types.Field{types.NewField(src.NoXPos, Lookup("tophash"), typs[159])})
+	typs[161] = gType
+	typs[162] = types.NewPtr(typs[161])
+	typs[163] = sudogType
+	typs[164] = types.NewPtr(typs[163])
+	typs[165] = hchanType
+	typs[166] = types.NewPtr(typs[165])
+	typs[167] = types.NewStruct([]*types.Field{types.NewField(src.NoXPos, Lookup("g"), typs[162]), types.NewField(src.NoXPos, Lookup("next"), typs[164]), types.NewField(src.NoXPos, Lookup("prev"), typs[164]), types.NewField(src.NoXPos, Lookup("elem"), typs[7]), types.NewField(src.NoXPos, Lookup("acquiretime"), typs[22]), types.NewField(src.NoXPos, Lookup("releasetime"), typs[22]), types.NewField(src.NoXPos, Lookup("ticket"), typs[62]), types.NewField(src.NoXPos, Lookup("isSelect"), typs[6]), types.NewField(src.NoXPos, Lookup("success"), typs[6]), types.NewField(src.NoXPos, Lookup("parent"), typs[164]), types.NewField(src.NoXPos, Lookup("waitlink"), typs[164]), types.NewField(src.NoXPos, Lookup("waittail"), typs[164]), types.NewField(src.NoXPos, Lookup("c"), typs[166])})
+	typs[168] = types.NewStruct([]*types.Field{types.NewField(src.NoXPos, Lookup("first"), typs[164]), types.NewField(src.NoXPos, Lookup("last"), typs[164])})
+	typs[169] = lockRankStructType
+	typs[170] = types.NewStruct([]*types.Field{newEmbedFiled(src.NoXPos, Lookup("lockRankStruct"), typs[169]), types.NewField(src.NoXPos, Lookup("key"), typs[5])})
+	typs[171] = _typeType
+	typs[172] = types.NewPtr(typs[171])
+	typs[173] = waitqType
+	typs[174] = mutexType
+	typs[175] = types.NewStruct([]*types.Field{types.NewField(src.NoXPos, Lookup("qcount"), typs[17]), types.NewField(src.NoXPos, Lookup("dataqsiz"), typs[17]), types.NewField(src.NoXPos, Lookup("buf"), typs[7]), types.NewField(src.NoXPos, Lookup("elemsize"), typs[60]), types.NewField(src.NoXPos, Lookup("closed"), typs[62]), types.NewField(src.NoXPos, Lookup("elemtype"), typs[172]), types.NewField(src.NoXPos, Lookup("sendx"), typs[17]), types.NewField(src.NoXPos, Lookup("recvx"), typs[17]), types.NewField(src.NoXPos, Lookup("recvq"), typs[173]), types.NewField(src.NoXPos, Lookup("sendq"), typs[173]), types.NewField(src.NoXPos, Lookup("lock"), typs[174])})
+	typs[176] = types.NewStruct([]*types.Field{types.NewField(src.NoXPos, Lookup("_type"), typs[172]), types.NewField(src.NoXPos, Lookup("data"), typs[7])})
+	typs[177] = itabType
+	typs[178] = types.NewPtr(typs[177])
+	typs[179] = types.NewStruct([]*types.Field{types.NewField(src.NoXPos, Lookup("tab"), typs[178]), types.NewField(src.NoXPos, Lookup("data"), typs[7])})
+	typs[180] = types.NewStruct(nil)
+	typs[181] = lockRankType
+	typs[182] = types.NewStruct([]*types.Field{types.NewField(src.NoXPos, Lookup("rank"), typs[181]), types.NewField(src.NoXPos, Lookup("pad"), typs[15])})
+	stringStructDWARFType.SetUnderlying(typs[154])
+	sliceType.SetUnderlying(typs[155])
+	hmapType.SetUnderlying(typs[158])
+	bmapType.SetUnderlying(typs[160])
+	sudogType.SetUnderlying(typs[167])
+	waitqType.SetUnderlying(typs[168])
+	mutexType.SetUnderlying(typs[170])
+	hchanType.SetUnderlying(typs[175])
+	efaceType.SetUnderlying(typs[176])
+	ifaceType.SetUnderlying(typs[179])
+	itabType.SetUnderlying(typs[0])
+	mapextraType.SetUnderlying(typs[0])
+	_typeType.SetUnderlying(typs[0])
+	gType.SetUnderlying(typs[0])
+	lockRankStructType.SetUnderlying(typs[180])
+	lockRankStruct_onType.SetUnderlying(typs[182])
+	lockRankType.SetUnderlying(typs[15])
 	return typs[:]
 }
 
