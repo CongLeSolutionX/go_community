@@ -53,6 +53,24 @@
       "message": "Can we have a link for these build settings to point people to more information?  Maybe to something in pkg.go.dev/cmd/go?",
       "revId": "278d9a773e54fa2d0434065a2d3a8a250c2e6a1e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1484244_27c37138",
+        "filename": "doc/go1.19.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-04-12T02:15:52Z",
+      "side": 1,
+      "message": "Hmm. Seems like https://pkg.go.dev/cmd/go#hdr-Print_Go_version is the logical place to put that information, but it doesn\u0027t currently contain a list of the stamped settings.\n\nPerhaps we should add such a list at some point, but for the moment I\u0027ve instead linked to two ways to empirically examine the stamped metadata.",
+      "parentUuid": "15669426_2e0a9fd5",
+      "revId": "278d9a773e54fa2d0434065a2d3a8a250c2e6a1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
