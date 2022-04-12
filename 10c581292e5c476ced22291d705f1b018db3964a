@@ -16,6 +16,24 @@
       "message": "Can we move this code into test.go?  We\u0027re trying to minimize the number of times that cgo is invoked in this directory to speed up testing the standard library.\n\nAs part of that the types should be given names like\n\n    issue46675_misaligned_size\n\nso that there is no possibility of conflict.",
       "revId": "10c581292e5c476ced22291d705f1b018db3964a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa3d0aa2_52229315",
+        "filename": "misc/cgo/test/issue46675.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 34615
+      },
+      "writtenOn": "2022-04-12T06:02:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d541421_7f3854ec",
+      "revId": "10c581292e5c476ced22291d705f1b018db3964a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
