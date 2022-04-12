@@ -78,6 +78,14 @@ func InitRuntime() {
 			importfunc(src.NoXPos, sym, typ)
 		case varTag:
 			importvar(src.NoXPos, sym, typ)
+		case typeTag:
+			if sym.PkgDef() != nil {
+				// already imported in runtimeTypes()
+				continue
+			}
+			n := importtype(src.NoXPos, sym)
+			n.Type().SetUnderlying(typ)
+			types.CalcSize(n.Type())
 		default:
 			base.Fatalf("unhandled declaration tag %v", d.tag)
 		}
