@@ -276,3 +276,100 @@ var x86HasSSE41 bool
 var x86HasFMA bool
 var armHasVFPv4 bool
 var arm64HasATOMICS bool
+
+// the type below is for dwarf type info generation in compiler.
+type stringStructDWARF struct {
+	str *byte
+	len int
+}
+
+type slice struct {
+	array unsafe.Pointer
+	len   int
+	cap   int
+}
+
+type hmap struct {
+	count     int
+	flags     uint8
+	B         uint8
+	noverflow uint16
+	hash0     uint32
+
+	buckets    unsafe.Pointer
+	oldbuckets unsafe.Pointer
+	nevacuate  uintptr
+
+	extra *mapextra
+}
+
+type bmap struct {
+	tophash [8]uint8
+}
+
+type sudog struct {
+	g           *g
+	next        *sudog
+	prev        *sudog
+	elem        unsafe.Pointer
+	acquiretime int64
+	releasetime int64
+	ticket      uint32
+	isSelect    bool
+	success     bool
+	parent      *sudog
+	waitlink    *sudog
+	waittail    *sudog
+	c           *hchan
+}
+
+type waitq struct {
+	first *sudog
+	last  *sudog
+}
+
+type mutex struct {
+	lockRankStruct
+	key uintptr
+}
+
+type hchan struct {
+	qcount   uint
+	dataqsiz uint
+	buf      unsafe.Pointer
+	elemsize uint16
+	closed   uint32
+	elemtype *_type
+	sendx    uint
+	recvx    uint
+	recvq    waitq
+	sendq    waitq
+	lock     mutex
+}
+
+type eface struct {
+	_type *_type
+	data  unsafe.Pointer
+}
+
+type iface struct {
+	tab  *itab
+	data unsafe.Pointer
+}
+
+type itab byte
+
+type mapextra byte
+
+type _type byte
+
+type g byte
+
+type lockRankStruct struct{}
+
+type lockRankStruct_on struct {
+	rank lockRank
+	pad  int
+}
+
+type lockRank int
