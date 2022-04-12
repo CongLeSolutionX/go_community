@@ -53,6 +53,155 @@
       "message": "I am not 100% sure of this CL, because though it does nicely solve the storage consumption problem (95% reduction in heap size for the example buggy program), it slows down compilation about 2% on average, but as much as 35% for one outlier benchmark program (CommonMark Markdown).\n\nSee https://perf.golang.org/search?q\u003dupload:20220411.12\n\nThe debugging quality seems to be about the same; I hand-verified a few examples, and fixed one particularly in-your-face error that I cam across.  The differences come from a minor change to \"canMerge\" (I think the old one allowed a merge when registers did not overlap properly) and in buildLocationLists I moved processing of changedVars out from under a conditional, because otherwise there was a risk of those changes getting processed at an endpoint that was not BlockStart.  These should be improvements, but they are also changes.\n\nI have ideas for further work, but I\u0027ve already put a lot of time into this and wonder if this should go in to deal with the space problem solved, and then deal with the time spent as a separate problem.\n\nI\u0027ve looked into the extra cost, and it appears to come from tree iterators.  It does not come from the use of an interface for the \"value\" field in the tree; I\u0027ve done that experiment already.  I have three ideas for cutting the time used\n\n(1) hack on the tree iterator.\n\n(2) currently there is linear-sized transformation out of the shared data structure coming into either the liveness analysis or the location list generation.  Add register sets to the begin/end block state information and merge those, modify the other code to use the shared (applicative tree) data structures, and eliminate the transformations.  This is the most tempting thing to try.\n\n(3) the whole thing still does linear work to obtain the \"changed\" set at the beginning of each block, hence it is potentially quadratic.  I think we could do something propagating deltas up and down dominator trees -- the difference between a block and its textual predecessor can be formulated as the difference in deltas from their common dominator.  There\u0027s issues of path compression and hand waving that need to be figured out.",
       "revId": "204e9cc3dd78870379b5ca660e5ad055db8d7970",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f715913_d1cc4d27",
+        "filename": "src/cmd/compile/internal/abt/avlint32.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-04-12T14:08:53Z",
+      "side": 1,
+      "message": "Some general comments on this file.\n\nIt looks (at least superficially) as if this is a revived/modified copy of https://go.googlesource.com/go/+/0551247ca30c574aec0252c27476e218002f6bbc/src/cmd/compile/internal/ssa/redblack32.go ?  If that is the case, it would be nice to port some of the comments from the previous version (including where the algorithm comes from, etc).\n\nThe filename choice also strikes me as peculiar. The name suggests that it\u0027s really an AVL tree and not a red-black tree with exlpicit rank, which I don\u0027t think is the case?",
+      "revId": "204e9cc3dd78870379b5ca660e5ad055db8d7970",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e0c9ef8_7ebde3a0",
+        "filename": "src/cmd/compile/internal/abt/avlint32.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-04-12T14:08:53Z",
+      "side": 1,
+      "message": "Needs a comment.\n\n\"T\" doesn\u0027t seem like a great name for the top level type exported by this package. Maybe \"Tree\" or \"BalancedTree\"?",
+      "revId": "204e9cc3dd78870379b5ca660e5ad055db8d7970",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd50c831_ece523d6",
+        "filename": "src/cmd/compile/internal/abt/avlint32.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-04-12T14:08:53Z",
+      "side": 1,
+      "message": "Requiring the data payload for tree nodes to be a \"fmt.Stringer\" seems slightly weird, especially given that the String() calls are being made in the context of the Equal() method, which is used only in the unit test. Seems to me it would be better to just use interface{} and then if Equal() is invoked on a tree whose payload isn\u0027t a fmt.Stringer it can just panic, or something like that.",
+      "range": {
+        "startLine": 26,
+        "startChar": 13,
+        "endLine": 26,
+        "endChar": 25
+      },
+      "revId": "204e9cc3dd78870379b5ca660e5ad055db8d7970",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e066be12_67bb422e",
+        "filename": "src/cmd/compile/internal/abt/avlint32.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-04-12T14:08:53Z",
+      "side": 1,
+      "message": "Why \"height_\" and not \"height\" (or \"rank\" as in the previous version)?",
+      "range": {
+        "startLine": 28,
+        "startChar": 1,
+        "endLine": 28,
+        "endChar": 8
+      },
+      "revId": "204e9cc3dd78870379b5ca660e5ad055db8d7970",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48c8a101_58af3a08",
+        "filename": "src/cmd/compile/internal/abt/avlint32.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-04-12T14:08:53Z",
+      "side": 1,
+      "message": "This seems like a peculiar naming choice for a method that tells you whether the iteration is done. How about \"Done()\" or \"End()\"?",
+      "range": {
+        "startLine": 438,
+        "startChar": 20,
+        "endLine": 438,
+        "endChar": 27
+      },
+      "revId": "204e9cc3dd78870379b5ca660e5ad055db8d7970",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4a564fb_7c039332",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-04-12T14:08:53Z",
+      "side": 1,
+      "message": "Here and elsewhere in the file, comment lines are a bit long (reformat to break at 72 chars or equiv).",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 95
+      },
+      "revId": "204e9cc3dd78870379b5ca660e5ad055db8d7970",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c081441_02f7881b",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1233,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-04-12T14:08:53Z",
+      "side": 1,
+      "message": "Suppose pending.onStack() is false but new.onStack() is true. Does it make sense in this case to look at pending.StackOffset (e.g. is it even meaningful)?  [Note that this same question applies to the code before you made any changes I guess]",
+      "range": {
+        "startLine": 1233,
+        "startChar": 25,
+        "endLine": 1233,
+        "endChar": 63
+      },
+      "revId": "204e9cc3dd78870379b5ca660e5ad055db8d7970",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
