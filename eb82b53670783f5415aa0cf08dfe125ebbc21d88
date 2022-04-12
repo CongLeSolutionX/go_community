@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "efc93cb8_eaa5f6d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2022-04-12T02:01:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d7963e9_b91badcf",
+      "revId": "eb82b53670783f5415aa0cf08dfe125ebbc21d88",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3c5f01cf_38405bcf",
@@ -122,6 +140,30 @@
       "writtenOn": "2022-04-12T01:22:24Z",
       "side": 1,
       "message": "Will this cause the test to spuriously pass if the file is for some reason missing the expected `byte(…)` line?",
+      "range": {
+        "startLine": 151,
+        "startChar": 0,
+        "endLine": 154,
+        "endChar": 4
+      },
+      "revId": "eb82b53670783f5415aa0cf08dfe125ebbc21d88",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb7fe4a4_91b98234",
+        "filename": "src/cmd/go/testdata/script/test_fuzz_minimize_interesting.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2022-04-12T02:01:01Z",
+      "side": 1,
+      "message": "Ah good point, fixed.",
+      "parentUuid": "f1c66222_16433e11",
       "range": {
         "startLine": 151,
         "startChar": 0,
