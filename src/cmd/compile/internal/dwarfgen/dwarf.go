@@ -578,3 +578,74 @@ func RecordPackageName() {
 	base.Ctxt.Data = append(base.Ctxt.Data, s)
 	s.P = []byte(types.LocalPkg.Name)
 }
+
+type prototype struct {
+	name      string
+	size      int64
+	elem      dwarf.Type
+	numElem   int64
+	fieldName []string
+	fieldOff  []int64
+	fieldType []dwarf.Type
+	kind      objabi.SymKind
+}
+
+func (p prototype) DwarfName(dwctxt interface{}) string {
+	return p.name
+}
+
+func (p prototype) Name(dwctxt interface{}) string {
+	return p.name
+}
+
+func (p prototype) Size(dwctxt interface{}) int64 {
+	return p.size
+}
+
+func (p prototype) Kind(dwctxt interface{}) objabi.SymKind {
+	return p.kind
+}
+
+func (p prototype) RuntimeType(dwctxt interface{}) dwarf.Sym {
+	return reflectdata.TypeLinksymLookup(p.name)
+}
+
+func (p prototype) Key(dwctxt interface{}) dwarf.Type {
+	panic("top level types are all struct, not support  Key")
+}
+
+func (p prototype) Elem(dwctxt interface{}) dwarf.Type {
+	return p.elem
+}
+
+func (p prototype) NumElem(dwctxt interface{}) int64 {
+	return p.numElem
+}
+
+func (p prototype) NumResult(dwctxt interface{}) int64 {
+	panic("top level types are all struct, not support NumResult")
+}
+
+func (p prototype) IsDDD(dwctxt interface{}) bool {
+	panic("top level types are all struct, not support IsDDD")
+}
+
+func (p prototype) FieldName(dwctxt interface{}, g dwarf.FieldsGroup, i int) string {
+	return p.fieldName[i]
+}
+
+func (p prototype) FieldType(dwctxt interface{}, g dwarf.FieldsGroup, i int) dwarf.Type {
+	return p.fieldType[i]
+}
+
+func (p prototype) FieldIsEmbed(dwctxt interface{}, i int) bool {
+	return len(p.fieldName[i]) == 0
+}
+
+func (p prototype) FieldOffset(dwctxt interface{}, i int) int64 {
+	return p.fieldOff[i]
+}
+
+func (p prototype) IsEface(dwctxt interface{}) bool {
+	panic("top level types are all struct, not support IsDDD")
+}
