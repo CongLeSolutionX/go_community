@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ef2e1aa_d6cc0f17",
+        "filename": "src/cmd/compile/internal/abt/avlint32.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-04-12T16:20:47Z",
+      "side": 1,
+      "message": "It is really an AVL tree; the invariants were easier to get right, and the balance is better.  Because applicative trees reallocate spines even when no rebalance is needed, this seemed slightly more storage efficient.",
+      "parentUuid": "0f715913_d1cc4d27",
+      "revId": "204e9cc3dd78870379b5ca660e5ad055db8d7970",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2e0c9ef8_7ebde3a0",
@@ -89,6 +107,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a86ba256_504cdbac",
+        "filename": "src/cmd/compile/internal/abt/avlint32.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-04-12T16:20:47Z",
+      "side": 1,
+      "message": "I was aiming for a single-purpose package, therefore, there\u0027s a main type, T, same as (say) testing.T.\n\nAdded a comment.",
+      "parentUuid": "2e0c9ef8_7ebde3a0",
+      "revId": "204e9cc3dd78870379b5ca660e5ad055db8d7970",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cd50c831_ece523d6",
@@ -102,6 +138,30 @@
       "writtenOn": "2022-04-12T14:08:53Z",
       "side": 1,
       "message": "Requiring the data payload for tree nodes to be a \"fmt.Stringer\" seems slightly weird, especially given that the String() calls are being made in the context of the Equal() method, which is used only in the unit test. Seems to me it would be better to just use interface{} and then if Equal() is invoked on a tree whose payload isn\u0027t a fmt.Stringer it can just panic, or something like that.",
+      "range": {
+        "startLine": 26,
+        "startChar": 13,
+        "endLine": 26,
+        "endChar": 25
+      },
+      "revId": "204e9cc3dd78870379b5ca660e5ad055db8d7970",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37f3b854_28301d43",
+        "filename": "src/cmd/compile/internal/abt/avlint32.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-04-12T16:20:47Z",
+      "side": 1,
+      "message": "bcmills had some ideas about this also for the generic case, will look into that.",
+      "parentUuid": "cd50c831_ece523d6",
       "range": {
         "startLine": 26,
         "startChar": 13,
@@ -135,6 +195,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d75857d_c88d4fe3",
+        "filename": "src/cmd/compile/internal/abt/avlint32.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-04-12T16:20:47Z",
+      "side": 1,
+      "message": "There is a height() method that hides the nil pointer check (those have height zero).",
+      "parentUuid": "e066be12_67bb422e",
+      "range": {
+        "startLine": 28,
+        "startChar": 1,
+        "endLine": 28,
+        "endChar": 8
+      },
+      "revId": "204e9cc3dd78870379b5ca660e5ad055db8d7970",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "48c8a101_58af3a08",
@@ -148,6 +232,30 @@
       "writtenOn": "2022-04-12T14:08:53Z",
       "side": 1,
       "message": "This seems like a peculiar naming choice for a method that tells you whether the iteration is done. How about \"Done()\" or \"End()\"?",
+      "range": {
+        "startLine": 438,
+        "startChar": 20,
+        "endLine": 438,
+        "endChar": 27
+      },
+      "revId": "204e9cc3dd78870379b5ca660e5ad055db8d7970",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1d55451_529371d9",
+        "filename": "src/cmd/compile/internal/abt/avlint32.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-04-12T16:20:47Z",
+      "side": 1,
+      "message": "Done() works for me, will fix.",
+      "parentUuid": "48c8a101_58af3a08",
       "range": {
         "startLine": 438,
         "startChar": 20,
@@ -181,6 +289,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bd16fc0_409340c1",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-04-12T16:20:47Z",
+      "side": 1,
+      "message": "Will fix.",
+      "parentUuid": "e4a564fb_7c039332",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 95
+      },
+      "revId": "204e9cc3dd78870379b5ca660e5ad055db8d7970",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9c081441_02f7881b",
@@ -194,6 +326,30 @@
       "writtenOn": "2022-04-12T14:08:53Z",
       "side": 1,
       "message": "Suppose pending.onStack() is false but new.onStack() is true. Does it make sense in this case to look at pending.StackOffset (e.g. is it even meaningful)?  [Note that this same question applies to the code before you made any changes I guess]",
+      "range": {
+        "startLine": 1233,
+        "startChar": 25,
+        "endLine": 1233,
+        "endChar": 63
+      },
+      "revId": "204e9cc3dd78870379b5ca660e5ad055db8d7970",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1280eb36_73521051",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1233,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-04-12T16:20:47Z",
+      "side": 1,
+      "message": "Pending only needs to be a subset; the goal is to avoid creating a new locationlist if the existing one contains some valid location for a variable.  So if pending has no onStack location, the offsets don\u0027t matter, nothing is a subset of something (and we know that pending must have at least one register because it is not absent).",
+      "parentUuid": "9c081441_02f7881b",
       "range": {
         "startLine": 1233,
         "startChar": 25,
