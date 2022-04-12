@@ -39,6 +39,7 @@ func main() {
 	fmt.Fprintln(&b, `import (`)
 	fmt.Fprintln(&b, `      "cmd/compile/internal/types"`)
 	fmt.Fprintln(&b, `      "cmd/internal/src"`)
+	fmt.Fprintln(&b, `      "cmd/compile/internal/ir"`)
 	fmt.Fprintln(&b, `)`)
 
 	mkbuiltin(&b, "runtime")
@@ -64,7 +65,10 @@ func mkbuiltin(w io.Writer, name string) {
 		log.Fatal(err)
 	}
 
-	var interner typeInterner
+	interner := typeInterner{
+		hash:         make(map[string]int),
+		definedTypes: make(map[string]int),
+	}
 
 	fmt.Fprintf(w, "var %sDecls = [...]struct { name string; tag int; typ int }{\n", name)
 	for _, decl := range f.Decls {
@@ -84,17 +88,31 @@ func mkbuiltin(w io.Writer, name string) {
 				}
 				continue
 			}
-			if decl.Tok != token.VAR {
-				log.Fatal("unhandled declaration kind", decl.Tok)
+			if decl.Tok != token.VAR && decl.Tok != token.TYPE {
+				log.Fatal("unhandled declaration kind ", decl.Tok)
 			}
 			for _, spec := range decl.Specs {
-				spec := spec.(*ast.ValueSpec)
-				if len(spec.Values) != 0 {
-					log.Fatal("unexpected values")
+				if spec, ok := spec.(*ast.TypeSpec); ok {
+					interner.definedTypeNames = append(interner.definedTypeNames, spec.Name.Name)
+					interner.definedTypes[spec.Name.Name] = 0
 				}
-				typ := interner.intern(spec.Type)
-				for _, name := range spec.Names {
-					fmt.Fprintf(w, "{%q, varTag, %d},\n", name.Name, typ)
+			}
+			for _, spec := range decl.Specs {
+				switch spec := spec.(type) {
+				case *ast.ValueSpec:
+					if len(spec.Values) != 0 {
+						log.Fatal("unexpected values")
+					}
+					idx := interner.intern(spec.Type)
+					for _, name := range spec.Names {
+						fmt.Fprintf(w, "{%q,varTag, %d},\n", name.Name, idx)
+					}
+				case *ast.TypeSpec:
+					typ := interner.intern(spec.Type)
+					fmt.Fprintf(w, "{%q, typeTag, %d},\n", spec.Name.Name, typ)
+					interner.definedTypes[spec.Name.Name] = typ
+				default:
+					log.Fatal("unhandled decl type", decl)
 				}
 			}
 		default:
@@ -117,13 +135,25 @@ func params(tlist ...*types.Type) []*types.Field {
 		flist[i] = types.NewField(src.NoXPos, nil, typ)
 	}
 	return flist
+}
+
+func newEmbedFiled(pos src.XPos, sym *types.Sym, typ *types.Type) *types.Field {
+	f := types.NewField(pos, sym, typ)
+	f.Embedded = 1
+	return f
 }`)
 
 	fmt.Fprintln(w)
 	fmt.Fprintf(w, "func %sTypes() []*types.Type {\n", name)
+	for _, typ := range interner.definedTypeNames {
+		fmt.Fprintf(w, "var %sType = importtype(src.NoXPos, ir.Pkgs.Runtime.Lookup(\"%s\")).Type()\n", typ, typ)
+	}
 	fmt.Fprintf(w, "var typs [%d]*types.Type\n", len(interner.typs))
 	for i, typ := range interner.typs {
 		fmt.Fprintf(w, "typs[%d] = %s\n", i, typ)
+	}
+	for _, typ := range interner.definedTypeNames {
+		fmt.Fprintf(w, "%sType.SetUnderlying(typs[%d])\n", typ, interner.definedTypes[typ])
 	}
 	fmt.Fprintln(w, "return typs[:]")
 	fmt.Fprintln(w, "}")
@@ -133,8 +163,10 @@ func params(tlist ...*types.Type) []*types.Field {
 // constructs the denoted type. It recognizes and reuses common
 // subtype expressions.
 type typeInterner struct {
-	typs []string
-	hash map[string]int
+	typs             []string
+	hash             map[string]int
+	definedTypeNames []string
+	definedTypes     map[string]int
 }
 
 func (i *typeInterner) intern(t ast.Expr) int {
@@ -142,9 +174,6 @@ func (i *typeInterner) intern(t ast.Expr) int {
 	v, ok := i.hash[x]
 	if !ok {
 		v = len(i.typs)
-		if i.hash == nil {
-			i.hash = make(map[string]int)
-		}
 		i.hash[x] = v
 		i.typs = append(i.typs, x)
 	}
@@ -163,6 +192,9 @@ func (i *typeInterner) mktype(t ast.Expr) string {
 			return "types.ByteType"
 		case "rune":
 			return "types.RuneType"
+		}
+		if t.Obj != nil {
+			return t.Name + "Type"
 		}
 		return fmt.Sprintf("types.Types[types.T%s]", strings.ToUpper(t.Name))
 	case *ast.SelectorExpr:
@@ -214,7 +246,11 @@ func (i *typeInterner) fields(fl *ast.FieldList, keepNames bool) string {
 	for _, f := range fl.List {
 		typ := i.subtype(f.Type)
 		if len(f.Names) == 0 {
-			res = append(res, typ)
+			if keepNames {
+				res = append(res, fmt.Sprintf("newEmbedFiled(src.NoXPos, Lookup(%q), %s)", f.Type, typ))
+			} else {
+				res = append(res, typ)
+			}
 		} else {
 			for _, name := range f.Names {
 				if keepNames {
