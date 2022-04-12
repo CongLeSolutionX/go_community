@@ -108,6 +108,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "62326e66_6bb75c8b",
+        "filename": "src/internal/bytealg/indexbyte_ppc64x.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2022-04-12T06:05:25Z",
+      "side": 1,
+      "message": "have moved the line here thanks!",
+      "parentUuid": "b5a299da_4b5a8360",
+      "revId": "a60502a1802accc4b1c2afc12c3de67955c3a68b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "74e3c1fb_6be79d82",
@@ -340,6 +358,24 @@
       "side": 1,
       "message": "If it actually makes a difference, that is fine to add. I just don\u0027t understand why we need to align the PC as this is not a loop. Do you know why it matters?",
       "parentUuid": "16393f35_5c3b46c6",
+      "revId": "a60502a1802accc4b1c2afc12c3de67955c3a68b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1311bf80_df748a8b",
+        "filename": "src/internal/bytealg/indexbyte_ppc64x.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2022-04-12T06:05:25Z",
+      "side": 1,
+      "message": "we suspect it is related to branch alignment",
+      "parentUuid": "0323a9b9_ba89b82b",
       "revId": "a60502a1802accc4b1c2afc12c3de67955c3a68b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
