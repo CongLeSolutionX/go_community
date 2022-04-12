@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "943a6b76_4fafab01",
+        "filename": "src/runtime/string.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-04-12T00:54:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8704b9e_852465dc",
+      "range": {
+        "startLine": 424,
+        "startChar": 0,
+        "endLine": 425,
+        "endChar": 53
+      },
+      "revId": "cb2b63a426eb072ef344803ea94c8e8a23591432",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "5df72749_7d00d7b7",
         "filename": "src/runtime/string.go",
         "patchSetId": 18
@@ -37,6 +61,24 @@
       "writtenOn": "2022-04-11T22:06:34Z",
       "side": 1,
       "message": "Perhaps this is too complex to be worth it, but could we make atoi return int64 and the remainder of the string (or remainder start index), to share a bit of this?",
+      "revId": "cb2b63a426eb072ef344803ea94c8e8a23591432",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7ff2af4_ff6c0a93",
+        "filename": "src/runtime/string.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-04-12T00:54:10Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "5df72749_7d00d7b7",
       "revId": "cb2b63a426eb072ef344803ea94c8e8a23591432",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -77,6 +119,24 @@
       "writtenOn": "2022-04-11T22:06:34Z",
       "side": 1,
       "message": "0x12345",
+      "revId": "cb2b63a426eb072ef344803ea94c8e8a23591432",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5000c8a_3a84204c",
+        "filename": "src/runtime/string_test.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-04-12T00:54:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b2c12be_d3ea3b54",
       "revId": "cb2b63a426eb072ef344803ea94c8e8a23591432",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
