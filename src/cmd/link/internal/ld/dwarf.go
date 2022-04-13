@@ -592,7 +592,6 @@ func (d *dwctxt) newtype(gotype loader.Sym) loader.Sym {
 		die = dwarf.NewDie(&dwtypes, dwarf.DW_ABRV_TYPEDECL, dwSym(gotype).Name(d), "", d)
 		dwarf.NewRefAttr(die, dwarf.DW_AT_type, dwSym(d.mustFind("<unspecified>")))
 	}
-	sn := d.ldr.SymName(gotype)
 	if d.ldr.AttrReachable(gotype) {
 		dwarf.NewAttr(die, dwarf.DW_AT_go_runtime_type, dwarf.DW_CLS_GO_TYPEREF, 0, dwSym(gotype))
 	}
@@ -608,8 +607,8 @@ func (d *dwctxt) newtype(gotype loader.Sym) loader.Sym {
 	}
 	d.rtmap[ds] = gotype
 
-	if _, ok := prototypedies[sn]; ok {
-		prototypedies[sn] = die
+	if _, ok := prototypedies[dwSym(gotype).Name(d)]; ok {
+		prototypedies[dwSym(gotype).Name(d)] = die
 	}
 
 	if typedefdie != nil {
@@ -663,18 +662,6 @@ func (d *dwctxt) DefPtrTo(dwtype dwarf.Sym) dwarf.Sym {
 	}
 
 	return pdie.Sym
-}
-
-func (d *dwctxt) findprotodie(ctxt *Link, name string) *dwarf.DWDie {
-	die, ok := prototypedies[name]
-	if ok && die == nil {
-		d.defgotype(d.lookupOrDiag(name))
-		die = prototypedies[name]
-	}
-	if die == nil {
-		log.Fatalf("internal error: DIE generation failed for %s\n", name)
-	}
-	return die
 }
 
 // createUnitLength creates the initial length field with value v and update
@@ -1460,13 +1447,13 @@ func dwarfGenerateDebugInfo(ctxt *Link) {
 
 	// Prototypes needed for type synthesis.
 	prototypedies = map[string]*dwarf.DWDie{
-		"type.runtime.stringStructDWARF": nil,
-		"type.runtime.slice":             nil,
-		"type.runtime.hmap":              nil,
-		"type.runtime.bmap":              nil,
-		"type.runtime.sudog":             nil,
-		"type.runtime.waitq":             nil,
-		"type.runtime.hchan":             nil,
+		"runtime.stringStructDWARF": nil,
+		"runtime.slice":             nil,
+		"runtime.hmap":              nil,
+		"runtime.bmap":              nil,
+		"runtime.sudog":             nil,
+		"runtime.waitq":             nil,
+		"runtime.hchan":             nil,
 	}
 
 	// Needed by the prettyprinter code for interface inspection.
@@ -1629,7 +1616,12 @@ func dwarfGenerateDebugInfo(ctxt *Link) {
 
 	for name, die := range prototypedies {
 		if die == nil {
-			prototypedies[name] = d.findprotodie(ctxt, name).Walktypedef()
+			d.defgotype(d.lookupOrDiag("type." + name))
+			die = prototypedies[name]
+			if die == nil {
+				log.Fatalf("internal error: DIE generation failed for %s\n", name)
+			}
+			prototypedies[name] = die.Walktypedef()
 		}
 	}
 
