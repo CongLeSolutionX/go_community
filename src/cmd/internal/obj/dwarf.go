@@ -12,6 +12,7 @@ import (
 	"cmd/internal/src"
 	"fmt"
 	"sort"
+	"strings"
 	"sync"
 )
 
@@ -318,8 +319,19 @@ func (c dwCtxt) DefGoType(t dwarf.Type) dwarf.Sym {
 
 }
 
-func (c dwCtxt) DefPtrTo(t dwarf.Sym) dwarf.Sym {
-	return c.Link.Lookup(dwarf.InfoPrefix + "*" + t.(*LSym).Name[len(dwarf.InfoPrefix):])
+func (c dwCtxt) DefPtrTo(dwtype dwarf.Sym) dwarf.Sym {
+	ptrname := "*" + dwtype.(*LSym).Name[len(dwarf.InfoPrefix):]
+	sym := c.Link.Lookup(dwarf.InfoPrefix + ptrname)
+	if sym.Type == objabi.SDWARFTYPE {
+		return sym
+	}
+	dwarfname := strings.Replace(ptrname, `"".`, objabi.PathToPrefix(c.Pkgpath)+".", -1)
+	pdie := dwarf.NewDie(&c.dwtypes, dwarf.DW_ABRV_PTRTYPE, ptrname, dwarfname, c)
+	dwarf.NewRefAttr(pdie, dwarf.DW_AT_type, dwtype)
+	// not a good way to lookup by type name.
+	dwarf.NewAttr(pdie, dwarf.DW_AT_go_runtime_type, dwarf.DW_CLS_GO_TYPEREF, 0, c.Link.Lookup("type."+ptrname))
+
+	return sym
 }
 
 // Here "from" is a symbol corresponding to an inlined or concrete
