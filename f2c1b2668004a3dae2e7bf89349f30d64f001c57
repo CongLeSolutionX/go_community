@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff30e097_96360008",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-04-13T21:04:50Z",
+      "side": 1,
+      "message": "This once again makes me interested in benchmarks.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 60
+      },
+      "revId": "f2c1b2668004a3dae2e7bf89349f30d64f001c57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e79b0fae_744956f9",
+        "filename": "src/runtime/mgcpacer.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 984,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-04-13T21:04:50Z",
+      "side": 1,
+      "message": "Would it be more clear to define these like `int(0.7 * triggerRatioDen)`? I\u0027m torn.",
+      "range": {
+        "startLine": 984,
+        "startChar": 28,
+        "endLine": 984,
+        "endChar": 32
+      },
+      "revId": "f2c1b2668004a3dae2e7bf89349f30d64f001c57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
