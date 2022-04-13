@@ -282,7 +282,17 @@ func (c dwCtxt) CurrentOffset(s dwarf.Sym) int64 {
 	return ls.Size
 }
 
-func (c dwCtxt) LookupOrCreateSym(die *dwarf.DWDie, name string, st objabi.SymKind) dwarf.Sym {
+func (c dwCtxt) LookupOrCreateDwarfSym(die *dwarf.DWDie, name string, st objabi.SymKind, internal bool) dwarf.Sym {
+	if internal {
+		s := c.Link.Lookup(dwarf.InfoPrefix + name)
+		if s.Type == st {
+			return s
+		}
+		// when mkinternal, the symbol is always for unnamed pseudo type, mark them dupok.
+		s.Set(AttrDuplicateOK, true)
+		return nil
+	}
+
 	if die.Abbrev == dwarf.DW_ABRV_COMPUNIT || die.Abbrev == dwarf.DW_ABRV_COMPUNIT_TEXTLESS {
 		panic("not support now")
 	}
