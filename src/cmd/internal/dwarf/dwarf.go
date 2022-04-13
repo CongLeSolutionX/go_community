@@ -2202,7 +2202,7 @@ func Synthesizestringtypes(ctxt Context, root *DWDie, prototypes map[string]*DWD
 		if die.Abbrev != DW_ABRV_STRINGTYPE {
 			continue
 		}
-		CopyChildren(ctxt, die, prototypes["type.runtime.stringStructDWARF"])
+		CopyChildren(ctxt, die, prototypes["runtime.stringStructDWARF"])
 	}
 }
 
@@ -2212,16 +2212,16 @@ func Synthesizeslicetypes(ctxt Context, root *DWDie, prototypes map[string]*DWDi
 		if die.Abbrev != DW_ABRV_SLICETYPE {
 			continue
 		}
-		CopyChildren(ctxt, die, prototypes["type.runtime.slice"])
+		CopyChildren(ctxt, die, prototypes["runtime.slice"])
 		elem := GetAttr(die, DW_AT_go_elem).Data.(Sym)
 		SubstituteType(die, "array", ctxt.DefPtrTo(elem))
 	}
 }
 
 func Synthesizechantypes(ctxt Context, root *DWDie, prototypes map[string]*DWDie) {
-	sudog := prototypes["type.runtime.sudog"]
-	waitq := prototypes["type.runtime.waitq"]
-	hchan := prototypes["type.runtime.hchan"]
+	sudog := prototypes["runtime.sudog"]
+	waitq := prototypes["runtime.waitq"]
+	hchan := prototypes["runtime.hchan"]
 	if sudog == nil || waitq == nil || hchan == nil {
 		return
 	}
@@ -2274,8 +2274,8 @@ const (
 )
 
 func Synthesizemaptypes(ctxt Context, root *DWDie, prototypes map[string]*DWDie, uintptr Sym, arch *sys.Arch) {
-	hash := prototypes["type.runtime.hmap"]
-	bucket := prototypes["type.runtime.bmap"]
+	hash := prototypes["runtime.hmap"]
+	bucket := prototypes["runtime.bmap"]
 
 	if hash == nil {
 		return
