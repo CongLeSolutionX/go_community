@@ -905,6 +905,7 @@ type Link struct {
 	DiagFlush          func()
 	DebugInfo          func(fn *LSym, info *LSym, curfn interface{}) ([]dwarf.Scope, dwarf.InlCalls) // if non-nil, curfn is a *gc.Node
 	GenAbstractFunc    func(fn *LSym)
+	LookupDwPredefined func(name string) dwarf.Type
 	Errors             int
 
 	InParallel    bool // parallel backend phase in effect

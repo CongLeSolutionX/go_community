@@ -46,7 +46,7 @@ type Sym interface {
 	Invalid() bool
 }
 
-//Type represents a type info will be used in generating dwarf type info.
+// Type represents a type info will be used in generating dwarf type info.
 type Type interface {
 	DwarfName(dwctxt interface{}) string
 	Name(dwctxt interface{}) string
@@ -2188,7 +2188,7 @@ func mkinternaltypename(base string, arg1 string, arg2 string) string {
 func MkInternalType(parent *DWDie, ctx Context, abbrev int, typename, keyname, valname string, f func(*DWDie)) Sym {
 	name := mkinternaltypename(typename, keyname, valname)
 	s := ctx.LookupOrCreateDwarfSym(nil, name, objabi.SDWARFTYPE, true)
-	if !s.Invalid() {
+	if s != nil {
 		return s
 	}
 	die := NewDie(parent, abbrev, name, "", ctx)
@@ -2241,12 +2241,16 @@ func Synthesizechantypes(ctxt Context, root *DWDie, prototypes map[string]*DWDie
 		dwss := MkInternalType(root, ctxt, DW_ABRV_STRUCTTYPE, "sudog", elemname, "", func(dws *DWDie) {
 			CopyChildren(ctxt, dws, sudog)
 			SubstituteType(dws, "elem", ctxt.DefPtrTo(elemtype))
+			SubstituteType(dws, "next", ctxt.DefPtrTo(dws.Sym))
+			SubstituteType(dws, "prev", ctxt.DefPtrTo(dws.Sym))
+			SubstituteType(dws, "parent", ctxt.DefPtrTo(dws.Sym))
+			SubstituteType(dws, "waitlink", ctxt.DefPtrTo(dws.Sym))
+			SubstituteType(dws, "waittail", ctxt.DefPtrTo(dws.Sym))
 			NewAttr(dws, DW_AT_byte_size, DW_CLS_CONSTANT, int64(sudogsize), nil)
 		})
 
 		// waitq<T>
 		dwws := MkInternalType(root, ctxt, DW_ABRV_STRUCTTYPE, "waitq", elemname, "", func(dww *DWDie) {
-
 			CopyChildren(ctxt, dww, waitq)
 			SubstituteType(dww, "first", ctxt.DefPtrTo(dwss))
 			SubstituteType(dww, "last", ctxt.DefPtrTo(dwss))
