@@ -55,6 +55,41 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "325877de_2c259d7a",
+        "filename": "misc/cgo/test/test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2322,
+      "author": {
+        "id": 34615
+      },
+      "writtenOn": "2022-04-13T06:03:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c64a124_18afe242",
+      "revId": "227690bf9c9e9a69258df8c737d3cc3ad66ece5d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d88df2e_b9a170e7",
+        "filename": "misc/cgo/test/test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2343,
+      "author": {
+        "id": 34615
+      },
+      "writtenOn": "2022-04-13T06:03:55Z",
+      "side": 1,
+      "message": "Removed the visibility checks for \"st_misaligned.a\", \"b\" and \"c\". We test these fields below in the \"value\" subtest as well.",
+      "revId": "227690bf9c9e9a69258df8c737d3cc3ad66ece5d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d6027968_ca7849db",
@@ -68,6 +103,24 @@
       "writtenOn": "2022-04-12T22:17:25Z",
       "side": 1,
       "message": "Perhaps in place of or in addition to the negative test here, there should be a positive test of what the type of \"m\" actually is, not in the sense of the name of the type but the Kind and any elements.  Similarly for \"m_arr\".",
+      "revId": "227690bf9c9e9a69258df8c737d3cc3ad66ece5d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0881f306_daa110b4",
+        "filename": "misc/cgo/test/test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2345,
+      "author": {
+        "id": 34615
+      },
+      "writtenOn": "2022-04-13T06:03:55Z",
+      "side": 1,
+      "message": "Done. Now checking for what \"m\" and \"m_arr\" actually are.",
+      "parentUuid": "d6027968_ca7849db",
       "revId": "227690bf9c9e9a69258df8c737d3cc3ad66ece5d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
