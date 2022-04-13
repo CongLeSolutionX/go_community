@@ -665,15 +665,6 @@ func (d *dwctxt) DefPtrTo(dwtype dwarf.Sym) dwarf.Sym {
 	return pdie.Sym
 }
 
-// Search children (assumed to have TAG_member) for the one named
-// field and set its AT_type to dwtype
-func (d *dwctxt) substitutetype(structdie *dwarf.DWDie, field string, dwtype dwarf.Sym) {
-	if err := dwarf.SubstituteType(structdie, field, dwtype); err != nil {
-		Exitf("%v", err)
-		return
-	}
-}
-
 func (d *dwctxt) findprotodie(ctxt *Link, name string) *dwarf.DWDie {
 	die, ok := prototypedies[name]
 	if ok && die == nil {
@@ -686,33 +677,25 @@ func (d *dwctxt) findprotodie(ctxt *Link, name string) *dwarf.DWDie {
 	return die
 }
 
-func (d *dwctxt) synthesizestringtypes(ctxt *Link, die *dwarf.DWDie) {
-	prototype := d.findprotodie(ctxt, "type.runtime.stringStructDWARF").Walktypedef()
-	if prototype == nil {
-		return
-	}
-
+func synthesizestringtypes(ctxt dwarf.Context, root *dwarf.DWDie, prototypes map[string]*dwarf.DWDie) {
+	die := root.Child
 	for ; die != nil; die = die.Link {
 		if die.Abbrev != dwarf.DW_ABRV_STRINGTYPE {
 			continue
 		}
-		dwarf.CopyChildren(d, die, prototype)
+		dwarf.CopyChildren(ctxt, die, prototypes["type.runtime.stringStructDWARF"])
 	}
 }
 
-func (d *dwctxt) synthesizeslicetypes(ctxt *Link, die *dwarf.DWDie) {
-	prototype := d.findprotodie(ctxt, "type.runtime.slice").Walktypedef()
-	if prototype == nil {
-		return
-	}
-
+func synthesizeslicetypes(ctxt dwarf.Context, root *dwarf.DWDie, prototypes map[string]*dwarf.DWDie) {
+	die := root.Child
 	for ; die != nil; die = die.Link {
 		if die.Abbrev != dwarf.DW_ABRV_SLICETYPE {
 			continue
 		}
-		dwarf.CopyChildren(d, die, prototype)
+		dwarf.CopyChildren(ctxt, die, prototypes["type.runtime.slice"])
 		elem := dwarf.GetAttr(die, dwarf.DW_AT_go_elem).Data.(dwarf.Sym)
-		d.substitutetype(die, "array", d.DefPtrTo(elem))
+		dwarf.SubstituteType(die, "array", ctxt.DefPtrTo(elem))
 	}
 }
 
@@ -723,147 +706,147 @@ const (
 	BucketSize = 8
 )
 
-func (d *dwctxt) synthesizemaptypes(ctxt *Link, die *dwarf.DWDie) {
-	hash := d.findprotodie(ctxt, "type.runtime.hmap").Walktypedef()
-	bucket := d.findprotodie(ctxt, "type.runtime.bmap").Walktypedef()
+func synthesizemaptypes(ctxt dwarf.Context, root *dwarf.DWDie, prototypes map[string]*dwarf.DWDie, uintptr dwarf.Sym, arch *sys.Arch) {
+	hash := prototypes["type.runtime.hmap"]
+	bucket := prototypes["type.runtime.bmap"]
 
 	if hash == nil {
 		return
 	}
-
+	die := root.Child
 	for ; die != nil; die = die.Link {
 		if die.Abbrev != dwarf.DW_ABRV_MAPTYPE {
 			continue
 		}
-		gotype := loader.Sym(dwarf.GetAttr(die, dwarf.DW_AT_type).Data.(dwSym))
-		keytype := decodetypeMapKey(d.ldr, d.arch, gotype)
-		valtype := decodetypeMapValue(d.ldr, d.arch, gotype)
-		keydata := d.ldr.Data(keytype)
-		valdata := d.ldr.Data(valtype)
-		keysize, valsize := decodetypeSize(d.arch, keydata), decodetypeSize(d.arch, valdata)
-		keytype, valtype = d.walksymtypedef(d.defgotype(keytype)), d.walksymtypedef(d.defgotype(valtype))
+		gotype := dwarf.GetAttr(die, dwarf.DW_AT_type).Data.(dwarf.Type)
+		key := gotype.Key(ctxt)
+		val := gotype.Elem(ctxt)
+		keysize, valsize := key.Size(ctxt), val.Size(ctxt)
+		keytype, valtype := ctxt.DefGoType(key), ctxt.DefGoType(val)
 
 		// compute size info like hashmap.c does.
 		indirectKey, indirectVal := false, false
 		if keysize > MaxKeySize {
-			keysize = int64(d.arch.PtrSize)
+			keysize = int64(ctxt.PtrSize())
 			indirectKey = true
 		}
 		if valsize > MaxValSize {
-			valsize = int64(d.arch.PtrSize)
+			valsize = int64(ctxt.PtrSize())
 			indirectVal = true
 		}
 
 		// Construct type to represent an array of BucketSize keys
-		keyname := d.nameFromDIESym(keytype)
-		dwhks := dwarf.MkInternalType(&dwtypes, d, dwarf.DW_ABRV_ARRAYTYPE, "[]key", keyname, "", func(dwhk *dwarf.DWDie) {
+		keyname := key.DwarfName(ctxt)
+		dwhks := dwarf.MkInternalType(root, ctxt, dwarf.DW_ABRV_ARRAYTYPE, "[]key", keyname, "", func(dwhk *dwarf.DWDie) {
 			dwarf.NewAttr(dwhk, dwarf.DW_AT_byte_size, dwarf.DW_CLS_CONSTANT, BucketSize*keysize, 0)
 			t := keytype
 			if indirectKey {
-				t = loader.Sym(d.DefPtrTo(dwSym(keytype)).(dwSym))
+				t = ctxt.DefPtrTo(keytype)
 			}
-			dwarf.NewRefAttr(dwhk, dwarf.DW_AT_type, dwSym(t))
-			fld := dwarf.NewDie(dwhk, dwarf.DW_ABRV_ARRAYRANGE, "size", "", d)
+			dwarf.NewRefAttr(dwhk, dwarf.DW_AT_type, t)
+			fld := dwarf.NewDie(dwhk, dwarf.DW_ABRV_ARRAYRANGE, "size", "", ctxt)
 			dwarf.NewAttr(fld, dwarf.DW_AT_count, dwarf.DW_CLS_CONSTANT, BucketSize, 0)
-			dwarf.NewRefAttr(fld, dwarf.DW_AT_type, d.Uintptr)
+			dwarf.NewRefAttr(fld, dwarf.DW_AT_type, uintptr)
 		})
 
 		// Construct type to represent an array of BucketSize values
-		valname := d.nameFromDIESym(valtype)
-		dwhvs := dwarf.MkInternalType(&dwtypes, d, dwarf.DW_ABRV_ARRAYTYPE, "[]val", valname, "", func(dwhv *dwarf.DWDie) {
+		valname := val.DwarfName(ctxt)
+		dwhvs := dwarf.MkInternalType(root, ctxt, dwarf.DW_ABRV_ARRAYTYPE, "[]val", valname, "", func(dwhv *dwarf.DWDie) {
 			dwarf.NewAttr(dwhv, dwarf.DW_AT_byte_size, dwarf.DW_CLS_CONSTANT, BucketSize*valsize, 0)
 			t := valtype
 			if indirectVal {
-				t = loader.Sym(d.DefPtrTo(dwSym(valtype)).(dwSym))
+				t = ctxt.DefPtrTo(valtype)
 			}
-			dwarf.NewRefAttr(dwhv, dwarf.DW_AT_type, dwSym(t))
-			fld := dwarf.NewDie(dwhv, dwarf.DW_ABRV_ARRAYRANGE, "size", "", d)
+			dwarf.NewRefAttr(dwhv, dwarf.DW_AT_type, t)
+			fld := dwarf.NewDie(dwhv, dwarf.DW_ABRV_ARRAYRANGE, "size", "", ctxt)
 			dwarf.NewAttr(fld, dwarf.DW_AT_count, dwarf.DW_CLS_CONSTANT, BucketSize, 0)
-			dwarf.NewRefAttr(fld, dwarf.DW_AT_type, d.Uintptr)
+			dwarf.NewRefAttr(fld, dwarf.DW_AT_type, uintptr)
 		})
 
 		// Construct bucket<K,V>
-		dwhbs := dwarf.MkInternalType(&dwtypes, d, dwarf.DW_ABRV_STRUCTTYPE, "bucket", keyname, valname, func(dwhb *dwarf.DWDie) {
+		dwhbs := dwarf.MkInternalType(root, ctxt, dwarf.DW_ABRV_STRUCTTYPE, "bucket", keyname, valname, func(dwhb *dwarf.DWDie) {
 			// Copy over all fields except the field "data" from the generic
 			// bucket. "data" will be replaced with keys/values below.
-			dwarf.Copychildrenexcept(d, dwhb, bucket, bucket.FindChild("data"))
+			dwarf.Copychildrenexcept(ctxt, dwhb, bucket, bucket.FindChild("data"))
 
-			fld := dwarf.NewDie(dwhb, dwarf.DW_ABRV_STRUCTFIELD, "keys", "", d)
+			fld := dwarf.NewDie(dwhb, dwarf.DW_ABRV_STRUCTFIELD, "keys", "", ctxt)
 			dwarf.NewRefAttr(fld, dwarf.DW_AT_type, dwhks)
 			dwarf.NewMemberOffsetAttr(fld, BucketSize)
-			fld = dwarf.NewDie(dwhb, dwarf.DW_ABRV_STRUCTFIELD, "values", "", d)
+			fld = dwarf.NewDie(dwhb, dwarf.DW_ABRV_STRUCTFIELD, "values", "", ctxt)
 			dwarf.NewRefAttr(fld, dwarf.DW_AT_type, dwhvs)
 			dwarf.NewMemberOffsetAttr(fld, BucketSize+BucketSize*int32(keysize))
-			fld = dwarf.NewDie(dwhb, dwarf.DW_ABRV_STRUCTFIELD, "overflow", "", d)
-			dwarf.NewRefAttr(fld, dwarf.DW_AT_type, d.DefPtrTo(dwhb.Sym))
+			fld = dwarf.NewDie(dwhb, dwarf.DW_ABRV_STRUCTFIELD, "overflow", "", ctxt)
+			dwarf.NewRefAttr(fld, dwarf.DW_AT_type, ctxt.DefPtrTo(dwhb.Sym))
 			dwarf.NewMemberOffsetAttr(fld, BucketSize+BucketSize*(int32(keysize)+int32(valsize)))
-			if d.arch.RegSize > d.arch.PtrSize {
-				fld = dwarf.NewDie(dwhb, dwarf.DW_ABRV_STRUCTFIELD, "pad", "", d)
-				dwarf.NewRefAttr(fld, dwarf.DW_AT_type, d.Uintptr)
-				dwarf.NewMemberOffsetAttr(fld, BucketSize+BucketSize*(int32(keysize)+int32(valsize))+int32(d.arch.PtrSize))
+			if arch.RegSize > arch.PtrSize {
+				fld = dwarf.NewDie(dwhb, dwarf.DW_ABRV_STRUCTFIELD, "pad", "", ctxt)
+				dwarf.NewRefAttr(fld, dwarf.DW_AT_type, uintptr)
+				dwarf.NewMemberOffsetAttr(fld, BucketSize+BucketSize*(int32(keysize)+int32(valsize))+int32(arch.PtrSize))
 			}
 
-			dwarf.NewAttr(dwhb, dwarf.DW_AT_byte_size, dwarf.DW_CLS_CONSTANT, BucketSize+BucketSize*keysize+BucketSize*valsize+int64(d.arch.RegSize), 0)
+			dwarf.NewAttr(dwhb, dwarf.DW_AT_byte_size, dwarf.DW_CLS_CONSTANT, BucketSize+BucketSize*keysize+BucketSize*valsize+int64(arch.RegSize), 0)
 		})
 
 		// Construct hash<K,V>
-		dwhs := dwarf.MkInternalType(&dwtypes, d, dwarf.DW_ABRV_STRUCTTYPE, "hash", keyname, valname, func(dwh *dwarf.DWDie) {
-			dwarf.CopyChildren(d, dwh, hash)
-			d.substitutetype(dwh, "buckets", d.DefPtrTo(dwhbs))
-			d.substitutetype(dwh, "oldbuckets", d.DefPtrTo(dwhbs))
+		dwhs := dwarf.MkInternalType(root, ctxt, dwarf.DW_ABRV_STRUCTTYPE, "hash", keyname, valname, func(dwh *dwarf.DWDie) {
+			dwarf.CopyChildren(ctxt, dwh, hash)
+			dwarf.SubstituteType(dwh, "buckets", ctxt.DefPtrTo(dwhbs))
+			dwarf.SubstituteType(dwh, "oldbuckets", ctxt.DefPtrTo(dwhbs))
 			dwarf.NewAttr(dwh, dwarf.DW_AT_byte_size, dwarf.DW_CLS_CONSTANT, dwarf.GetAttr(hash, dwarf.DW_AT_byte_size).Value, nil)
 		})
 
 		// make map type a pointer to hash<K,V>
-		dwarf.NewRefAttr(die, dwarf.DW_AT_type, d.DefPtrTo(dwhs))
+		dwarf.NewRefAttr(die, dwarf.DW_AT_type, ctxt.DefPtrTo(dwhs))
 	}
+	return
 }
 
-func (d *dwctxt) synthesizechantypes(ctxt *Link, die *dwarf.DWDie) {
-	sudog := d.findprotodie(ctxt, "type.runtime.sudog").Walktypedef()
-	waitq := d.findprotodie(ctxt, "type.runtime.waitq").Walktypedef()
-	hchan := d.findprotodie(ctxt, "type.runtime.hchan").Walktypedef()
+func synthesizechantypes(ctxt dwarf.Context, root *dwarf.DWDie, prototypes map[string]*dwarf.DWDie) {
+	sudog := prototypes["type.runtime.sudog"]
+	waitq := prototypes["type.runtime.waitq"]
+	hchan := prototypes["type.runtime.hchan"]
 	if sudog == nil || waitq == nil || hchan == nil {
 		return
 	}
 
 	sudogsize := int(dwarf.GetAttr(sudog, dwarf.DW_AT_byte_size).Value)
 
+	die := root.Child
 	for ; die != nil; die = die.Link {
 		if die.Abbrev != dwarf.DW_ABRV_CHANTYPE {
 			continue
 		}
-		elemgotype := loader.Sym(dwarf.GetAttr(die, dwarf.DW_AT_type).Data.(dwSym))
-		tname := d.ldr.SymName(elemgotype)
-		elemname := tname[5:]
-		elemtype := d.walksymtypedef(d.defgotype(d.lookupOrDiag(tname)))
+		elemgotype := dwarf.GetAttr(die, dwarf.DW_AT_type).Data.(dwarf.Type)
+		elemname := elemgotype.DwarfName(ctxt)
+		elemtype := ctxt.DefGoType(elemgotype)
 
 		// sudog<T>
-		dwss := dwarf.MkInternalType(&dwtypes, d, dwarf.DW_ABRV_STRUCTTYPE, "sudog", elemname, "", func(dws *dwarf.DWDie) {
-			dwarf.CopyChildren(d, dws, sudog)
-			d.substitutetype(dws, "elem", d.DefPtrTo(dwSym(elemtype)))
+		dwss := dwarf.MkInternalType(root, ctxt, dwarf.DW_ABRV_STRUCTTYPE, "sudog", elemname, "", func(dws *dwarf.DWDie) {
+			dwarf.CopyChildren(ctxt, dws, sudog)
+			dwarf.SubstituteType(dws, "elem", ctxt.DefPtrTo(elemtype))
 			dwarf.NewAttr(dws, dwarf.DW_AT_byte_size, dwarf.DW_CLS_CONSTANT, int64(sudogsize), nil)
 		})
 
 		// waitq<T>
-		dwws := dwarf.MkInternalType(&dwtypes, d, dwarf.DW_ABRV_STRUCTTYPE, "waitq", elemname, "", func(dww *dwarf.DWDie) {
+		dwws := dwarf.MkInternalType(root, ctxt, dwarf.DW_ABRV_STRUCTTYPE, "waitq", elemname, "", func(dww *dwarf.DWDie) {
 
-			dwarf.CopyChildren(d, dww, waitq)
-			d.substitutetype(dww, "first", d.DefPtrTo(dwss))
-			d.substitutetype(dww, "last", d.DefPtrTo(dwss))
+			dwarf.CopyChildren(ctxt, dww, waitq)
+			dwarf.SubstituteType(dww, "first", ctxt.DefPtrTo(dwss))
+			dwarf.SubstituteType(dww, "last", ctxt.DefPtrTo(dwss))
 			dwarf.NewAttr(dww, dwarf.DW_AT_byte_size, dwarf.DW_CLS_CONSTANT, dwarf.GetAttr(waitq, dwarf.DW_AT_byte_size).Value, nil)
 		})
 
 		// hchan<T>
-		dwhs := dwarf.MkInternalType(&dwtypes, d, dwarf.DW_ABRV_STRUCTTYPE, "hchan", elemname, "", func(dwh *dwarf.DWDie) {
-			dwarf.CopyChildren(d, dwh, hchan)
-			d.substitutetype(dwh, "recvq", dwws)
-			d.substitutetype(dwh, "sendq", dwws)
+		dwhs := dwarf.MkInternalType(root, ctxt, dwarf.DW_ABRV_STRUCTTYPE, "hchan", elemname, "", func(dwh *dwarf.DWDie) {
+			dwarf.CopyChildren(ctxt, dwh, hchan)
+			dwarf.SubstituteType(dwh, "recvq", dwws)
+			dwarf.SubstituteType(dwh, "sendq", dwws)
 			dwarf.NewAttr(dwh, dwarf.DW_AT_byte_size, dwarf.DW_CLS_CONSTANT, dwarf.GetAttr(hchan, dwarf.DW_AT_byte_size).Value, nil)
 		})
 
-		dwarf.NewRefAttr(die, dwarf.DW_AT_type, d.DefPtrTo(dwhs))
+		dwarf.NewRefAttr(die, dwarf.DW_AT_type, ctxt.DefPtrTo(dwhs))
 	}
+	return
 }
 
 // createUnitLength creates the initial length field with value v and update
@@ -1816,10 +1799,16 @@ func dwarfGenerateDebugInfo(ctxt *Link) {
 		}
 	}
 
-	d.synthesizestringtypes(ctxt, dwtypes.Child)
-	d.synthesizeslicetypes(ctxt, dwtypes.Child)
-	d.synthesizemaptypes(ctxt, dwtypes.Child)
-	d.synthesizechantypes(ctxt, dwtypes.Child)
+	for name, die := range prototypedies {
+		if die == nil {
+			prototypedies[name] = d.findprotodie(ctxt, name).Walktypedef()
+		}
+	}
+
+	synthesizestringtypes(d, &dwtypes, prototypedies)
+	synthesizeslicetypes(d, &dwtypes, prototypedies)
+	synthesizemaptypes(d, &dwtypes, prototypedies, d.Uintptr, d.arch)
+	synthesizechantypes(d, &dwtypes, prototypedies)
 
 	for !d.typeinfo.empty() {
 		dwinfo := d.typeinfo.pop()
