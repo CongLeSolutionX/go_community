@@ -2188,7 +2188,7 @@ func mkinternaltypename(base string, arg1 string, arg2 string) string {
 func MkInternalType(parent *DWDie, ctx Context, abbrev int, typename, keyname, valname string, f func(*DWDie)) Sym {
 	name := mkinternaltypename(typename, keyname, valname)
 	s := ctx.LookupOrCreateDwarfSym(nil, name, objabi.SDWARFTYPE, true)
-	if !s.Invalid() {
+	if s != nil {
 		return s
 	}
 	die := NewDie(parent, abbrev, name, "", ctx)
@@ -2196,8 +2196,8 @@ func MkInternalType(parent *DWDie, ctx Context, abbrev int, typename, keyname, v
 	return die.Sym
 }
 
-func Synthesizestringtypes(ctxt Context, root *DWDie, prototypes map[string]*DWDie) {
-	die := root.Child
+func Synthesizestringtypes(ctxt Context, parent *DWDie, prototypes map[string]*DWDie) {
+	die := parent.Child
 	for ; die != nil; die = die.Link {
 		if die.Abbrev != DW_ABRV_STRINGTYPE {
 			continue
@@ -2206,8 +2206,8 @@ func Synthesizestringtypes(ctxt Context, root *DWDie, prototypes map[string]*DWD
 	}
 }
 
-func Synthesizeslicetypes(ctxt Context, root *DWDie, prototypes map[string]*DWDie) {
-	die := root.Child
+func Synthesizeslicetypes(ctxt Context, parent *DWDie, prototypes map[string]*DWDie) {
+	die := parent.Child
 	for ; die != nil; die = die.Link {
 		if die.Abbrev != DW_ABRV_SLICETYPE {
 			continue
@@ -2218,7 +2218,7 @@ func Synthesizeslicetypes(ctxt Context, root *DWDie, prototypes map[string]*DWDi
 	}
 }
 
-func Synthesizechantypes(ctxt Context, root *DWDie, prototypes map[string]*DWDie) {
+func Synthesizechantypes(ctxt Context, parent *DWDie, prototypes map[string]*DWDie) {
 	sudog := prototypes["runtime.sudog"]
 	waitq := prototypes["runtime.waitq"]
 	hchan := prototypes["runtime.hchan"]
@@ -2228,7 +2228,7 @@ func Synthesizechantypes(ctxt Context, root *DWDie, prototypes map[string]*DWDie
 
 	sudogsize := int(GetAttr(sudog, DW_AT_byte_size).Value)
 
-	die := root.Child
+	die := parent.Child
 	for ; die != nil; die = die.Link {
 		if die.Abbrev != DW_ABRV_CHANTYPE {
 			continue
@@ -2238,15 +2238,19 @@ func Synthesizechantypes(ctxt Context, root *DWDie, prototypes map[string]*DWDie
 		elemtype := ctxt.DefGoType(elemgotype)
 
 		// sudog<T>
-		dwss := MkInternalType(root, ctxt, DW_ABRV_STRUCTTYPE, "sudog", elemname, "", func(dws *DWDie) {
+		dwss := MkInternalType(parent, ctxt, DW_ABRV_STRUCTTYPE, "sudog", elemname, "", func(dws *DWDie) {
 			CopyChildren(ctxt, dws, sudog)
 			SubstituteType(dws, "elem", ctxt.DefPtrTo(elemtype))
+			SubstituteType(dws, "next", ctxt.DefPtrTo(dws.Sym))
+			SubstituteType(dws, "prev", ctxt.DefPtrTo(dws.Sym))
+			SubstituteType(dws, "parent", ctxt.DefPtrTo(dws.Sym))
+			SubstituteType(dws, "waitlink", ctxt.DefPtrTo(dws.Sym))
+			SubstituteType(dws, "waittail", ctxt.DefPtrTo(dws.Sym))
 			NewAttr(dws, DW_AT_byte_size, DW_CLS_CONSTANT, int64(sudogsize), nil)
 		})
 
 		// waitq<T>
-		dwws := MkInternalType(root, ctxt, DW_ABRV_STRUCTTYPE, "waitq", elemname, "", func(dww *DWDie) {
-
+		dwws := MkInternalType(parent, ctxt, DW_ABRV_STRUCTTYPE, "waitq", elemname, "", func(dww *DWDie) {
 			CopyChildren(ctxt, dww, waitq)
 			SubstituteType(dww, "first", ctxt.DefPtrTo(dwss))
 			SubstituteType(dww, "last", ctxt.DefPtrTo(dwss))
@@ -2254,7 +2258,7 @@ func Synthesizechantypes(ctxt Context, root *DWDie, prototypes map[string]*DWDie
 		})
 
 		// hchan<T>
-		dwhs := MkInternalType(root, ctxt, DW_ABRV_STRUCTTYPE, "hchan", elemname, "", func(dwh *DWDie) {
+		dwhs := MkInternalType(parent, ctxt, DW_ABRV_STRUCTTYPE, "hchan", elemname, "", func(dwh *DWDie) {
 			CopyChildren(ctxt, dwh, hchan)
 			SubstituteType(dwh, "recvq", dwws)
 			SubstituteType(dwh, "sendq", dwws)
@@ -2273,14 +2277,14 @@ const (
 	bucketSize = 8
 )
 
-func Synthesizemaptypes(ctxt Context, root *DWDie, prototypes map[string]*DWDie, uintptr Sym, arch *sys.Arch) {
+func Synthesizemaptypes(ctxt Context, parent *DWDie, prototypes map[string]*DWDie, uintptr Sym, arch *sys.Arch) {
 	hash := prototypes["runtime.hmap"]
 	bucket := prototypes["runtime.bmap"]
 
 	if hash == nil {
 		return
 	}
-	die := root.Child
+	die := parent.Child
 	for ; die != nil; die = die.Link {
 		if die.Abbrev != DW_ABRV_MAPTYPE {
 			continue
@@ -2304,7 +2308,7 @@ func Synthesizemaptypes(ctxt Context, root *DWDie, prototypes map[string]*DWDie,
 
 		// Construct type to represent an array of bucketSize keys
 		keyname := key.DwarfName(ctxt)
-		dwhks := MkInternalType(root, ctxt, DW_ABRV_ARRAYTYPE, "[]key", keyname, "", func(dwhk *DWDie) {
+		dwhks := MkInternalType(parent, ctxt, DW_ABRV_ARRAYTYPE, "[]key", keyname, "", func(dwhk *DWDie) {
 			NewAttr(dwhk, DW_AT_byte_size, DW_CLS_CONSTANT, bucketSize*keysize, 0)
 			t := keytype
 			if indirectKey {
@@ -2318,7 +2322,7 @@ func Synthesizemaptypes(ctxt Context, root *DWDie, prototypes map[string]*DWDie,
 
 		// Construct type to represent an array of bucketSize values
 		valname := val.DwarfName(ctxt)
-		dwhvs := MkInternalType(root, ctxt, DW_ABRV_ARRAYTYPE, "[]val", valname, "", func(dwhv *DWDie) {
+		dwhvs := MkInternalType(parent, ctxt, DW_ABRV_ARRAYTYPE, "[]val", valname, "", func(dwhv *DWDie) {
 			NewAttr(dwhv, DW_AT_byte_size, DW_CLS_CONSTANT, bucketSize*valsize, 0)
 			t := valtype
 			if indirectVal {
@@ -2331,7 +2335,7 @@ func Synthesizemaptypes(ctxt Context, root *DWDie, prototypes map[string]*DWDie,
 		})
 
 		// Construct bucket<K,V>
-		dwhbs := MkInternalType(root, ctxt, DW_ABRV_STRUCTTYPE, "bucket", keyname, valname, func(dwhb *DWDie) {
+		dwhbs := MkInternalType(parent, ctxt, DW_ABRV_STRUCTTYPE, "bucket", keyname, valname, func(dwhb *DWDie) {
 			// Copy over all fields except the field "data" from the generic
 			// bucket. "data" will be replaced with keys/values below.
 			Copychildrenexcept(ctxt, dwhb, bucket, bucket.FindChild("data"))
@@ -2355,7 +2359,7 @@ func Synthesizemaptypes(ctxt Context, root *DWDie, prototypes map[string]*DWDie,
 		})
 
 		// Construct hash<K,V>
-		dwhs := MkInternalType(root, ctxt, DW_ABRV_STRUCTTYPE, "hash", keyname, valname, func(dwh *DWDie) {
+		dwhs := MkInternalType(parent, ctxt, DW_ABRV_STRUCTTYPE, "hash", keyname, valname, func(dwh *DWDie) {
 			CopyChildren(ctxt, dwh, hash)
 			SubstituteType(dwh, "buckets", ctxt.DefPtrTo(dwhbs))
 			SubstituteType(dwh, "oldbuckets", ctxt.DefPtrTo(dwhbs))

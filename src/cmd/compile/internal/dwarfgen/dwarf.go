@@ -578,3 +578,9 @@ func RecordPackageName() {
 	base.Ctxt.Data = append(base.Ctxt.Data, s)
 	s.P = []byte(types.LocalPkg.Name)
 }
+
+func PredefinedDwarfType() {
+	obj.PredefinedTypes.Uintptr = base.Ctxt.Lookup(dwarf.InfoPrefix + types.TypeSymName(types.Types[types.TUINTPTR]))
+	obj.PredefinedTypes.Eface = base.Ctxt.LookupDwPredefined("runtime.eface")
+	obj.PredefinedTypes.Iface = base.Ctxt.LookupDwPredefined("runtime.iface")
+}
