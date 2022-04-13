@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b27a1ed6_9852b95b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-04-13T20:32:43Z",
+      "side": 1,
+      "message": "Do we have any allocation benchmarks (I imagine lots of microbenchmarks are effectively allocator benchmarks 😅)? It sounds like there should be no noticeable impact?",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 62
+      },
+      "revId": "891612ab23954e06cb60e4214468e8f2bd32eeaf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4422ee9f_9ff61e3e",
+        "filename": "src/runtime/mgcpacer.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-04-13T20:32:43Z",
+      "side": 1,
+      "message": "Why isn\u0027t this called heapLiveGoal?",
+      "range": {
+        "startLine": 145,
+        "startChar": 4,
+        "endLine": 145,
+        "endChar": 17
+      },
+      "revId": "891612ab23954e06cb60e4214468e8f2bd32eeaf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36b02b2b_f0da7cf5",
+        "filename": "src/runtime/mgcpacer.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-04-13T20:32:43Z",
+      "side": 1,
+      "message": "heapGoal can now change over time now, right? (I\u0027m a bit unclear on exactly when it can change). Thus this is the heap goal at the moment the previous GC ended.",
+      "revId": "891612ab23954e06cb60e4214468e8f2bd32eeaf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d4df259_d6b24cbc",
+        "filename": "src/runtime/mgcpacer.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 932,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-04-13T20:32:43Z",
+      "side": 1,
+      "message": "This parameter doesn\u0027t exist here.",
+      "range": {
+        "startLine": 931,
+        "startChar": 43,
+        "endLine": 932,
+        "endChar": 68
+      },
+      "revId": "891612ab23954e06cb60e4214468e8f2bd32eeaf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42acd2c1_c3082ec6",
+        "filename": "src/runtime/mgcpacer.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 965,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-04-13T20:32:43Z",
+      "side": 1,
+      "message": "Make this a constant?",
+      "range": {
+        "startLine": 965,
+        "startChar": 23,
+        "endLine": 965,
+        "endChar": 29
+      },
+      "revId": "891612ab23954e06cb60e4214468e8f2bd32eeaf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
