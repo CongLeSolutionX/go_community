@@ -186,6 +186,11 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 	typecheck.InitUniverse()
 	typecheck.InitRuntime()
 
+	if base.Flag.DwarfType {
+		base.Ctxt.LookupDwPredefined = reflectdata.LookupDwPredefined
+		base.Ctxt.PredefinedDwarfType()
+	}
+
 	// Parse and typecheck input.
 	noder.LoadPackage(flag.Args())
 	if base.Ctxt.Pkgpath == obj.UnlinkablePkg && types.LocalPkg.Name == "main" {
