@@ -1239,7 +1239,7 @@ func SetIntArgRegs(a int) int {
 
 func FinalizerGAsleep() bool {
 	lock(&finlock)
-	result := fingwait
+	result := fingStatus&fingWait != 0
 	unlock(&finlock)
 	return result
 }

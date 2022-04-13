@@ -29,13 +29,23 @@ type finblock struct {
 	fin     [(_FinBlockSize - 2*goarch.PtrSize - 2*4) / unsafe.Sizeof(finalizer{})]finalizer
 }
 
+var fingStatus = fingUninitialized
+
+// finalizer goroutine status.
+const (
+	fingUninitialized uint32 = iota
+	fingCreated              = 1 << (iota - 1)
+	fingRunningFinalizer
+	fingWait
+	fingWake
+)
+
 var finlock mutex  // protects the following variables
 var fing *g        // goroutine that runs finalizers
 var finq *finblock // list of finalizers that are to be executed
 var finc *finblock // cache of free blocks
 var finptrmask [_FinBlockSize / goarch.PtrSize / 8]byte
-var fingwait bool
-var fingwake bool
+
 var allfin *finblock // list of all blocks
 
 // NOTE: Layout known to queuefinalizer.
@@ -120,7 +130,10 @@ func queuefinalizer(p unsafe.Pointer, fn *funcval, nret uintptr, fint *_type, ot
 	f.fint = fint
 	f.ot = ot
 	f.arg = p
-	fingwake = true
+	// Because both queuefinalizer and runfinq take finlock, it isn't possible to miss a wakeup when eliding fingWake.
+	if fingStatus&fingWait != 0 {
+		fingStatus |= fingWake
+	}
 	unlock(&finlock)
 }
 
@@ -137,23 +150,17 @@ func iterate_finq(callback func(*funcval, unsafe.Pointer, uintptr, *_type, *ptrt
 func wakefing() *g {
 	var res *g
 	lock(&finlock)
-	if fingwait && fingwake {
-		fingwait = false
-		fingwake = false
+	if fingStatus&(fingWait|fingWake) == fingWait|fingWake {
+		fingStatus &^= fingWait | fingWake
 		res = fing
 	}
 	unlock(&finlock)
 	return res
 }
 
-var (
-	fingCreate  uint32
-	fingRunning bool
-)
-
 func createfing() {
 	// start the finalizer goroutine exactly once
-	if fingCreate == 0 && atomic.Cas(&fingCreate, 0, 1) {
+	if fingStatus == fingUninitialized && atomic.Cas(&fingStatus, fingUninitialized, fingCreated) {
 		go runfinq()
 	}
 }
@@ -176,7 +183,7 @@ func runfinq() {
 		fb := finq
 		finq = nil
 		if fb == nil {
-			fingwait = true
+			fingStatus |= fingWait
 			goparkunlock(&finlock, waitReasonFinalizerWait, traceEvGoBlock, 1)
 			continue
 		}
@@ -238,9 +245,9 @@ func runfinq() {
 				default:
 					throw("bad kind in runfinq")
 				}
-				fingRunning = true
+				fingStatus |= fingRunningFinalizer
 				reflectcall(nil, unsafe.Pointer(f.fn), frame, uint32(framesz), uint32(framesz), uint32(framesz), &regs)
-				fingRunning = false
+				fingStatus &^= fingRunningFinalizer
 
 				// Drop finalizer queue heap references
 				// before hiding them from markroot.

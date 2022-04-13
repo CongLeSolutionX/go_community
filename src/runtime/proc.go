@@ -2603,7 +2603,7 @@ top:
 	}
 
 	// Wake up the finalizer G.
-	if fingwait && fingwake {
+	if fingStatus&(fingWait|fingWake) == fingWait|fingWake {
 		if gp := wakefing(); gp != nil {
 			ready(gp, 0, true)
 		}
