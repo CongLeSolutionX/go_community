@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d60483e_1aaaafba",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 888,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-13T23:39:55Z",
+      "side": 0,
+      "message": "This may still be beneficial for reducing relocations when building a static executable. I think you can add a condition ctxt.IsExe().",
+      "range": {
+        "startLine": 881,
+        "startChar": 0,
+        "endLine": 888,
+        "endChar": 46
+      },
+      "revId": "6f5590edf6883583a801ceb9309f074c0cd7c1cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

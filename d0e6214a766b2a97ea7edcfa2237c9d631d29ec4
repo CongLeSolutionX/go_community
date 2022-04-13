@@ -76,6 +76,30 @@
       },
       "revId": "d0e6214a766b2a97ea7edcfa2237c9d631d29ec4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4f46bf6_39b33bd0",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 830,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-13T23:39:55Z",
+      "side": 1,
+      "message": "Symbol updater probably should keep the attributes that are coded in the object file. I think loader.cloneToExternal should do that.\n\nOn the other hand, I\u0027m not sure we should check the shared attribute on symbols at all. I think the shared attribute should be set either for all Go objects (in PIE and a few other build modes) or none. Do we need to handle the case that some symbol has shared attribute but some others don\u0027t?",
+      "parentUuid": "029d511a_20241278",
+      "range": {
+        "startLine": 826,
+        "startChar": 3,
+        "endLine": 830,
+        "endChar": 58
+      },
+      "revId": "d0e6214a766b2a97ea7edcfa2237c9d631d29ec4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
