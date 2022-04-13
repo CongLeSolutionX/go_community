@@ -51,6 +51,24 @@
       "parentUuid": "d43b6a9f_4ffa5da4",
       "revId": "973388188e71c9b7e817ac9162ece647708630e4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "677c573b_cc893feb",
+        "filename": "src/runtime/debug/garbage.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 11500
+      },
+      "writtenOn": "2022-04-13T09:17:53Z",
+      "side": 1,
+      "message": "\u003e there\u0027s no clear distinction between it being \"enabled\" or \"disabled.\n\nI agree, but that\u0027s because I somewhat know how this is implemented. I don\u0027t think we should expect users to be intimately familiar with how the runtime works, hence my suggestion of documenting how users can \"undo\" setting a memory limit.",
+      "parentUuid": "f48fe2ee_4aa1d32d",
+      "revId": "973388188e71c9b7e817ac9162ece647708630e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
