@@ -33,6 +33,24 @@
       "message": "Why is the unit optional?\n\nsuch a design usually lead to the error that users need to assume an unit (bytes) and might get it wrong (OS pages) or assume it is some factor (e.g. percentage like in GOGC). \n\nAnother problem is that one can accidentally assume this will always be numeric only and then suddenly someone is using GiB on it.\n\nSo can that part be re-considered?",
       "revId": "141e9fda6fbfa1c057ec4a74b3649a2315ba15ab",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6cbfc2d8_81aba156",
+        "filename": "src/runtime/string.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-04-13T16:31:30Z",
+      "side": 1,
+      "message": "if you have concerns about the design, please comment on the GitHub issue (https://github.com/golang/go/issues/48409) and not in code review. that being said, I\u0027ll provide a response here, but I\u0027m marking this as resolved. if you have further questions or comments please raise them on the issue, it\u0027s far more visible there. (in hindsight I should\u0027ve asked Michael to post there too. I\u0027ll add an update later.)\n\n\u003e such a design usually lead to the error that users need to assume an unit (bytes) and might get it wrong (OS pages) or assume it is some factor (e.g. percentage like in GOGC).\n\nwithout a unit, I\u0027m not sure why anything other than bytes would be assumed. there isn\u0027t a single standard library Go API that accepts an amount of memory as anything other than bytes.\n\n\u003e Another problem is that one can accidentally assume this will always be numeric only and then suddenly someone is using GiB on it.\n\nI don\u0027t understand this concern. if someone is used to seeing it without a unit, and then they see it with a unit, the unit coupled with the environment variable (GOMEMLIMIT) provide enough context to identify what\u0027s going on.",
+      "parentUuid": "0be870e4_ccb54248",
+      "revId": "141e9fda6fbfa1c057ec4a74b3649a2315ba15ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
