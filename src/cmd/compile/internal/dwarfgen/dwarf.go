@@ -649,3 +649,19 @@ func (p prototype) FieldOffset(dwctxt interface{}, i int) int64 {
 func (p prototype) IsEface(dwctxt interface{}) bool {
 	panic("top level types are all struct, not support IsDDD")
 }
+
+func Type() {
+	var allMockTypes []prototype
+	if gen, ok := archPrototypeGen[base.Ctxt.Arch.Name]; !ok {
+		//todo: leave a flag somewhere for linker generating?
+		return
+	} else {
+		allMockTypes = gen()
+	}
+	mockPrototypes := make(map[string]dwarf.Type)
+	for name, idx := range DwarfPrototypes {
+		mockPrototypes[name] = allMockTypes[idx]
+	}
+
+	base.Ctxt.DumpDwarfTypes(mockPrototypes)
+}
