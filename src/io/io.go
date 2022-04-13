@@ -621,8 +621,16 @@ func (discard) ReadFrom(r Reader) (n int64, err error) {
 
 // NopCloser returns a ReadCloser with a no-op Close method wrapping
 // the provided Reader r.
+// If r implements WriterTo, the returned ReadCloser will also and forward calls.
 func NopCloser(r Reader) ReadCloser {
-	return nopCloser{r}
+	c := nopCloser{r}
+	if to, ok := r.(WriterTo); ok {
+		return struct {
+			nopCloser
+			WriterTo
+		}{c, to}
+	}
+	return c
 }
 
 type nopCloser struct {
