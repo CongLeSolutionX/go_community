@@ -1238,10 +1238,7 @@ func SetIntArgRegs(a int) int {
 }
 
 func FinalizerGAsleep() bool {
-	lock(&finlock)
-	result := fingwait
-	unlock(&finlock)
-	return result
+	return fingStatus.Load()&fingWait != 0
 }
 
 // For GCTestMoveStackOnNextCall, it's important not to introduce an
