@@ -234,7 +234,7 @@ type Context interface {
 	AddString(s Sym, v string)
 	AddFileRef(s Sym, f interface{})
 	Logf(format string, args ...interface{})
-	LookupOrCreateSym(die *DWDie, name string, st objabi.SymKind) Sym
+	LookupOrCreateDwarfSym(die *DWDie, name string, st objabi.SymKind, create bool) Sym
 	CreateSymForTypedef(def *DWDie) Sym
 	DefGoType(t Type) Sym
 	DefPtrTo(s Sym) Sym
@@ -1868,7 +1868,7 @@ func NewDie(parent *DWDie, abbrev int, name string, dwarfname string, ctx Contex
 		// this also includes loose ends such as STRUCT_FIELD.
 		st = objabi.SDWARFTYPE
 	}
-	ds := ctx.LookupOrCreateSym(die, name, st)
+	ds := ctx.LookupOrCreateDwarfSym(die, name, st, true)
 	die.Sym = ds
 	return die
 }
@@ -2175,4 +2175,22 @@ func NewType(gotype Type, dc Context, fix FixTypes, parent *DWDie) (*DWDie, *DWD
 
 	NewAttr(die, DW_AT_go_kind, DW_CLS_CONSTANT, int64(kind), 0)
 	return die, typedefdie, nil
+}
+
+func mkinternaltypename(base string, arg1 string, arg2 string) string {
+	if arg2 == "" {
+		return fmt.Sprintf("%s<%s>", base, arg1)
+	}
+	return fmt.Sprintf("%s<%s,%s>", base, arg1, arg2)
+}
+
+func MkInternalType(parent *DWDie, ctx Context, abbrev int, typename, keyname, valname string, f func(*DWDie)) Sym {
+	name := mkinternaltypename(typename, keyname, valname)
+	s := ctx.LookupOrCreateDwarfSym(nil, name, objabi.SDWARFTYPE, false)
+	if !s.Invalid() {
+		return s
+	}
+	die := NewDie(parent, abbrev, name, "", ctx)
+	f(die)
+	return die.Sym
 }
