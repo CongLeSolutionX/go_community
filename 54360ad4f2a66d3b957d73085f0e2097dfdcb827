@@ -1511,6 +1511,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8912f2b5_2646b931",
+        "filename": "src/cmd/internal/obj/x86/asm6.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2235,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-04-13T21:17:29Z",
+      "side": 1,
+      "message": "We could do relative PCs, but it might take an extra instruction or 2. Relative PCs might let us use 4-byte instead of 8-byte entries, which would be good.\nI\u0027m going to leave it as is for now.",
+      "parentUuid": "22cf97ac_abdb913c",
+      "revId": "54360ad4f2a66d3b957d73085f0e2097dfdcb827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "923879e7_77a4109c",

@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc39bf63_6362f1c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-04-13T21:17:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d938d14_f8648d3b",
+      "range": {
+        "startLine": 31,
+        "startChar": 36,
+        "endLine": 31,
+        "endChar": 46
+      },
+      "revId": "655241ad67b76936eaf7c7410c4564053a57cfca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f002a750_ff066619",
@@ -78,6 +102,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7473e4d8_bd87635a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-04-13T21:17:29Z",
+      "side": 1,
+      "message": "-spectre\u003dret is really targeted at disabling the return address predictor, not the indirect jump (or call) predictor. For instance, every interface call is also an indirect jump.\nI think there is a spectre issue here, but it\u0027s no worse than other indirect jumps we use.\n\nThat said, if we do add spectre mitigation for indirect jumps, if jump tables are a problem it is easy to just disable them.",
+      "parentUuid": "6f8a0605_aa26ba61",
+      "revId": "655241ad67b76936eaf7c7410c4564053a57cfca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "65e11672_808f9b00",
@@ -95,6 +137,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d596580a_d2a65630",
+        "filename": "src/cmd/compile/internal/ssa/block.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-04-13T21:17:29Z",
+      "side": 1,
+      "message": "Not really. Removed and used b.Controls[n].",
+      "parentUuid": "65e11672_808f9b00",
+      "revId": "655241ad67b76936eaf7c7410c4564053a57cfca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7f4b8656_c18ab421",
@@ -108,6 +168,24 @@
       "writtenOn": "2022-04-11T21:23:21Z",
       "side": 1,
       "message": "Will this ensure uniqueness if the function being compiled isn\u0027t actually in the current package? (E.g. generated functions? Instantiation?)",
+      "revId": "655241ad67b76936eaf7c7410c4564053a57cfca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7361fd43_c7674144",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1955,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-04-13T21:17:29Z",
+      "side": 1,
+      "message": "Maybe I should use the function\u0027s LSym, which is what we use for, e.g., arginfo symbols.",
+      "parentUuid": "7f4b8656_c18ab421",
       "revId": "655241ad67b76936eaf7c7410c4564053a57cfca",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -135,6 +213,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb73eda5_0cd8f426",
+        "filename": "src/cmd/compile/internal/walk/switch.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-04-13T21:17:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71b171cd_ada0378b",
+      "range": {
+        "startLine": 244,
+        "startChar": 39,
+        "endLine": 244,
+        "endChar": 53
+      },
+      "revId": "655241ad67b76936eaf7c7410c4564053a57cfca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "63e63f57_14956c3a",
@@ -148,6 +250,30 @@
       "writtenOn": "2022-04-11T21:23:21Z",
       "side": 1,
       "message": "We could directly do len(cc)*minDensity here. Or we want to avoid overflow here? If it overflows, we probably shouldn\u0027t use jump table anyway.",
+      "range": {
+        "startLine": 262,
+        "startChar": 10,
+        "endLine": 262,
+        "endChar": 106
+      },
+      "revId": "655241ad67b76936eaf7c7410c4564053a57cfca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ca68feb_033eafb0",
+        "filename": "src/cmd/compile/internal/walk/switch.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-04-13T21:17:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63e63f57_14956c3a",
       "range": {
         "startLine": 262,
         "startChar": 10,
