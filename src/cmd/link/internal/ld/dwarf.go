@@ -362,7 +362,15 @@ func (d *dwctxt) writeabbrev() dwarfSecInfo {
 
 var dwtypes dwarf.DWDie
 
-func (d *dwctxt) LookupOrCreateSym(die *dwarf.DWDie, name string, st objabi.SymKind) dwarf.Sym {
+func (d *dwctxt) LookupOrCreateDwarfSym(die *dwarf.DWDie, name string, st objabi.SymKind, internal bool) dwarf.Sym {
+	if internal {
+		s := d.ldr.Lookup(dwarf.InfoPrefix+name, 0)
+		if s != 0 && d.ldr.SymType(s) == sym.AbiSymKindToSymKind[st] {
+			return dwSym(s)
+		}
+		return dwSym(0)
+	}
+
 	if die.Abbrev == dwarf.DW_ABRV_COMPUNIT || die.Abbrev == dwarf.DW_ABRV_COMPUNIT_TEXTLESS {
 		name = fmt.Sprintf(".pkg.%s.%d", name, len(d.linkctxt.compUnits))
 	}
@@ -613,17 +621,13 @@ func (d *dwctxt) nameFromDIESym(dwtypeDIESym loader.Sym) string {
 }
 
 func (d *dwctxt) DefPtrTo(dwtype dwarf.Sym) dwarf.Sym {
-	return dwSym(d.defptrto(loader.Sym(dwtype.(dwSym))))
-}
-func (d *dwctxt) defptrto(dwtype loader.Sym) loader.Sym {
-
 	// FIXME: it would be nice if the compiler attached an aux symbol
 	// ref from the element type to the pointer type -- it would be
 	// more efficient to do it this way as opposed to via name lookups.
 
-	ptrname := "*" + d.nameFromDIESym(dwtype)
+	ptrname := "*" + d.nameFromDIESym(loader.Sym(dwtype.(dwSym)))
 	if die := d.find(ptrname); die != 0 {
-		return die
+		return dwSym(die)
 	}
 	// The DWARF info synthesizes pointer types that don't exist at the
 	// language level, like *hash<...> and *bucket<...>, and the data
@@ -638,12 +642,12 @@ func (d *dwctxt) defptrto(dwtype loader.Sym) loader.Sym {
 			}
 			d.rtmap[s] = gts
 			d.tdmap[gts] = s
-			return s
+			return dwSym(s)
 		}
 
 	}
 	pdie := dwarf.NewDie(&dwtypes, dwarf.DW_ABRV_PTRTYPE, ptrname, "", d)
-	dwarf.NewRefAttr(pdie, dwarf.DW_AT_type, dwSym(dwtype))
+	dwarf.NewRefAttr(pdie, dwarf.DW_AT_type, dwtype)
 
 	if gts != 0 && d.ldr.AttrReachable(gts) {
 		dwarf.NewAttr(pdie, dwarf.DW_AT_go_runtime_type, dwarf.DW_CLS_GO_TYPEREF, 0, dwSym(gts))
@@ -655,13 +659,13 @@ func (d *dwctxt) defptrto(dwtype loader.Sym) loader.Sym {
 		d.tdmap[gts] = ds
 	}
 
-	return d.dtolsym(pdie.Sym)
+	return pdie.Sym
 }
 
 // Search children (assumed to have TAG_member) for the one named
 // field and set its AT_type to dwtype
-func (d *dwctxt) substitutetype(structdie *dwarf.DWDie, field string, dwtype loader.Sym) {
-	if err := dwarf.SubstituteType(structdie, field, dwSym(dwtype)); err != nil {
+func (d *dwctxt) substitutetype(structdie *dwarf.DWDie, field string, dwtype dwarf.Sym) {
+	if err := dwarf.SubstituteType(structdie, field, dwtype); err != nil {
 		Exitf("%v", err)
 		return
 	}
@@ -704,16 +708,9 @@ func (d *dwctxt) synthesizeslicetypes(ctxt *Link, die *dwarf.DWDie) {
 			continue
 		}
 		dwarf.CopyChildren(d, die, prototype)
-		elem := loader.Sym(dwarf.GetAttr(die, dwarf.DW_AT_go_elem).Data.(dwSym))
-		d.substitutetype(die, "array", d.defptrto(elem))
+		elem := dwarf.GetAttr(die, dwarf.DW_AT_go_elem).Data.(dwarf.Sym)
+		d.substitutetype(die, "array", d.DefPtrTo(elem))
 	}
-}
-
-func mkinternaltypename(base string, arg1 string, arg2 string) string {
-	if arg2 == "" {
-		return fmt.Sprintf("%s<%s>", base, arg1)
-	}
-	return fmt.Sprintf("%s<%s,%s>", base, arg1, arg2)
 }
 
 // synthesizemaptypes is way too closely married to runtime/hashmap.c
@@ -722,18 +719,6 @@ const (
 	MaxValSize = 128
 	BucketSize = 8
 )
-
-func (d *dwctxt) mkinternaltype(ctxt *Link, abbrev int, typename, keyname, valname string, f func(*dwarf.DWDie)) loader.Sym {
-	name := mkinternaltypename(typename, keyname, valname)
-	symname := dwarf.InfoPrefix + name
-	s := d.ldr.Lookup(symname, 0)
-	if s != 0 && d.ldr.SymType(s) == sym.SDWARFTYPE {
-		return s
-	}
-	die := dwarf.NewDie(&dwtypes, abbrev, name, "", d)
-	f(die)
-	return d.dtolsym(die.Sym)
-}
 
 func (d *dwctxt) synthesizemaptypes(ctxt *Link, die *dwarf.DWDie) {
 	hash := d.findprotodie(ctxt, "type.runtime.hmap").Walktypedef()
@@ -768,11 +753,11 @@ func (d *dwctxt) synthesizemaptypes(ctxt *Link, die *dwarf.DWDie) {
 
 		// Construct type to represent an array of BucketSize keys
 		keyname := d.nameFromDIESym(keytype)
-		dwhks := d.mkinternaltype(ctxt, dwarf.DW_ABRV_ARRAYTYPE, "[]key", keyname, "", func(dwhk *dwarf.DWDie) {
+		dwhks := dwarf.MkInternalType(&dwtypes, d, dwarf.DW_ABRV_ARRAYTYPE, "[]key", keyname, "", func(dwhk *dwarf.DWDie) {
 			dwarf.NewAttr(dwhk, dwarf.DW_AT_byte_size, dwarf.DW_CLS_CONSTANT, BucketSize*keysize, 0)
 			t := keytype
 			if indirectKey {
-				t = d.defptrto(keytype)
+				t = loader.Sym(d.DefPtrTo(dwSym(keytype)).(dwSym))
 			}
 			dwarf.NewRefAttr(dwhk, dwarf.DW_AT_type, dwSym(t))
 			fld := dwarf.NewDie(dwhk, dwarf.DW_ABRV_ARRAYRANGE, "size", "", d)
@@ -782,11 +767,11 @@ func (d *dwctxt) synthesizemaptypes(ctxt *Link, die *dwarf.DWDie) {
 
 		// Construct type to represent an array of BucketSize values
 		valname := d.nameFromDIESym(valtype)
-		dwhvs := d.mkinternaltype(ctxt, dwarf.DW_ABRV_ARRAYTYPE, "[]val", valname, "", func(dwhv *dwarf.DWDie) {
+		dwhvs := dwarf.MkInternalType(&dwtypes, d, dwarf.DW_ABRV_ARRAYTYPE, "[]val", valname, "", func(dwhv *dwarf.DWDie) {
 			dwarf.NewAttr(dwhv, dwarf.DW_AT_byte_size, dwarf.DW_CLS_CONSTANT, BucketSize*valsize, 0)
 			t := valtype
 			if indirectVal {
-				t = d.defptrto(valtype)
+				t = loader.Sym(d.DefPtrTo(dwSym(valtype)).(dwSym))
 			}
 			dwarf.NewRefAttr(dwhv, dwarf.DW_AT_type, dwSym(t))
 			fld := dwarf.NewDie(dwhv, dwarf.DW_ABRV_ARRAYRANGE, "size", "", d)
@@ -795,19 +780,19 @@ func (d *dwctxt) synthesizemaptypes(ctxt *Link, die *dwarf.DWDie) {
 		})
 
 		// Construct bucket<K,V>
-		dwhbs := d.mkinternaltype(ctxt, dwarf.DW_ABRV_STRUCTTYPE, "bucket", keyname, valname, func(dwhb *dwarf.DWDie) {
+		dwhbs := dwarf.MkInternalType(&dwtypes, d, dwarf.DW_ABRV_STRUCTTYPE, "bucket", keyname, valname, func(dwhb *dwarf.DWDie) {
 			// Copy over all fields except the field "data" from the generic
 			// bucket. "data" will be replaced with keys/values below.
 			dwarf.Copychildrenexcept(d, dwhb, bucket, bucket.FindChild("data"))
 
 			fld := dwarf.NewDie(dwhb, dwarf.DW_ABRV_STRUCTFIELD, "keys", "", d)
-			dwarf.NewRefAttr(fld, dwarf.DW_AT_type, dwSym(dwhks))
+			dwarf.NewRefAttr(fld, dwarf.DW_AT_type, dwhks)
 			dwarf.NewMemberOffsetAttr(fld, BucketSize)
 			fld = dwarf.NewDie(dwhb, dwarf.DW_ABRV_STRUCTFIELD, "values", "", d)
-			dwarf.NewRefAttr(fld, dwarf.DW_AT_type, dwSym(dwhvs))
+			dwarf.NewRefAttr(fld, dwarf.DW_AT_type, dwhvs)
 			dwarf.NewMemberOffsetAttr(fld, BucketSize+BucketSize*int32(keysize))
 			fld = dwarf.NewDie(dwhb, dwarf.DW_ABRV_STRUCTFIELD, "overflow", "", d)
-			dwarf.NewRefAttr(fld, dwarf.DW_AT_type, dwSym(d.defptrto(d.dtolsym(dwhb.Sym))))
+			dwarf.NewRefAttr(fld, dwarf.DW_AT_type, d.DefPtrTo(dwhb.Sym))
 			dwarf.NewMemberOffsetAttr(fld, BucketSize+BucketSize*(int32(keysize)+int32(valsize)))
 			if d.arch.RegSize > d.arch.PtrSize {
 				fld = dwarf.NewDie(dwhb, dwarf.DW_ABRV_STRUCTFIELD, "pad", "", d)
@@ -819,15 +804,15 @@ func (d *dwctxt) synthesizemaptypes(ctxt *Link, die *dwarf.DWDie) {
 		})
 
 		// Construct hash<K,V>
-		dwhs := d.mkinternaltype(ctxt, dwarf.DW_ABRV_STRUCTTYPE, "hash", keyname, valname, func(dwh *dwarf.DWDie) {
+		dwhs := dwarf.MkInternalType(&dwtypes, d, dwarf.DW_ABRV_STRUCTTYPE, "hash", keyname, valname, func(dwh *dwarf.DWDie) {
 			dwarf.CopyChildren(d, dwh, hash)
-			d.substitutetype(dwh, "buckets", d.defptrto(dwhbs))
-			d.substitutetype(dwh, "oldbuckets", d.defptrto(dwhbs))
+			d.substitutetype(dwh, "buckets", d.DefPtrTo(dwhbs))
+			d.substitutetype(dwh, "oldbuckets", d.DefPtrTo(dwhbs))
 			dwarf.NewAttr(dwh, dwarf.DW_AT_byte_size, dwarf.DW_CLS_CONSTANT, dwarf.GetAttr(hash, dwarf.DW_AT_byte_size).Value, nil)
 		})
 
 		// make map type a pointer to hash<K,V>
-		dwarf.NewRefAttr(die, dwarf.DW_AT_type, dwSym(d.defptrto(dwhs)))
+		dwarf.NewRefAttr(die, dwarf.DW_AT_type, d.DefPtrTo(dwhs))
 	}
 }
 
@@ -851,30 +836,30 @@ func (d *dwctxt) synthesizechantypes(ctxt *Link, die *dwarf.DWDie) {
 		elemtype := d.walksymtypedef(d.defgotype(d.lookupOrDiag(tname)))
 
 		// sudog<T>
-		dwss := d.mkinternaltype(ctxt, dwarf.DW_ABRV_STRUCTTYPE, "sudog", elemname, "", func(dws *dwarf.DWDie) {
+		dwss := dwarf.MkInternalType(&dwtypes, d, dwarf.DW_ABRV_STRUCTTYPE, "sudog", elemname, "", func(dws *dwarf.DWDie) {
 			dwarf.CopyChildren(d, dws, sudog)
-			d.substitutetype(dws, "elem", d.defptrto(elemtype))
+			d.substitutetype(dws, "elem", d.DefPtrTo(dwSym(elemtype)))
 			dwarf.NewAttr(dws, dwarf.DW_AT_byte_size, dwarf.DW_CLS_CONSTANT, int64(sudogsize), nil)
 		})
 
 		// waitq<T>
-		dwws := d.mkinternaltype(ctxt, dwarf.DW_ABRV_STRUCTTYPE, "waitq", elemname, "", func(dww *dwarf.DWDie) {
+		dwws := dwarf.MkInternalType(&dwtypes, d, dwarf.DW_ABRV_STRUCTTYPE, "waitq", elemname, "", func(dww *dwarf.DWDie) {
 
 			dwarf.CopyChildren(d, dww, waitq)
-			d.substitutetype(dww, "first", d.defptrto(dwss))
-			d.substitutetype(dww, "last", d.defptrto(dwss))
+			d.substitutetype(dww, "first", d.DefPtrTo(dwss))
+			d.substitutetype(dww, "last", d.DefPtrTo(dwss))
 			dwarf.NewAttr(dww, dwarf.DW_AT_byte_size, dwarf.DW_CLS_CONSTANT, dwarf.GetAttr(waitq, dwarf.DW_AT_byte_size).Value, nil)
 		})
 
 		// hchan<T>
-		dwhs := d.mkinternaltype(ctxt, dwarf.DW_ABRV_STRUCTTYPE, "hchan", elemname, "", func(dwh *dwarf.DWDie) {
+		dwhs := dwarf.MkInternalType(&dwtypes, d, dwarf.DW_ABRV_STRUCTTYPE, "hchan", elemname, "", func(dwh *dwarf.DWDie) {
 			dwarf.CopyChildren(d, dwh, hchan)
 			d.substitutetype(dwh, "recvq", dwws)
 			d.substitutetype(dwh, "sendq", dwws)
 			dwarf.NewAttr(dwh, dwarf.DW_AT_byte_size, dwarf.DW_CLS_CONSTANT, dwarf.GetAttr(hchan, dwarf.DW_AT_byte_size).Value, nil)
 		})
 
-		dwarf.NewRefAttr(die, dwarf.DW_AT_type, dwSym(d.defptrto(dwhs)))
+		dwarf.NewRefAttr(die, dwarf.DW_AT_type, d.DefPtrTo(dwhs))
 	}
 }
 
