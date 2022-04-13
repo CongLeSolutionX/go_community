@@ -120,6 +120,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb2b3a74_8309c10d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-13T23:02:05Z",
+      "side": 1,
+      "message": "I think -spectre\u003dret turns indirect jumps to retpolines. The code at https://cs.opensource.google/go/go/+/master:src/cmd/internal/obj/x86/asm6.go;l\u003d2075 doesn\u0027t seem to handle indexed jump.",
+      "parentUuid": "7473e4d8_bd87635a",
+      "revId": "655241ad67b76936eaf7c7410c4564053a57cfca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "65e11672_808f9b00",
@@ -186,6 +204,24 @@
       "side": 1,
       "message": "Maybe I should use the function\u0027s LSym, which is what we use for, e.g., arginfo symbols.",
       "parentUuid": "7f4b8656_c18ab421",
+      "revId": "655241ad67b76936eaf7c7410c4564053a57cfca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c371bafd_7b3ede92",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1955,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-13T23:02:05Z",
+      "side": 1,
+      "message": "If the function being compiled is DUPOK, the table also needs to be DUPOK, right?",
+      "parentUuid": "7361fd43_c7674144",
       "revId": "655241ad67b76936eaf7c7410c4564053a57cfca",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
