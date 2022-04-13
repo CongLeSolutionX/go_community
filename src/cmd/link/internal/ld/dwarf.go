@@ -369,7 +369,7 @@ func (d *dwctxt) LookupOrCreateDwarfSym(die *dwarf.DWDie, name string, st objabi
 		if s != 0 && d.ldr.SymType(s) == sym.AbiSymKindToSymKind[st] {
 			return dwSym(s)
 		}
-		return dwSym(0)
+		return nil
 	}
 
 	if die.Abbrev == dwarf.DW_ABRV_COMPUNIT || die.Abbrev == dwarf.DW_ABRV_COMPUNIT_TEXTLESS {
@@ -513,55 +513,6 @@ func (d *dwctxt) defgotype(gotype loader.Sym) loader.Sym {
 	return gtdwSym
 }
 
-// subType can define the type reference by gotype, but not define dwinfo for gotype.
-// This is a transitional function, when we generate all the dwarf type info in compile,
-// this can be removed.
-func subType(gotype dwarf.Type, dc dwarf.Context, fix dwarf.FixTypes) error {
-	kind := gotype.Kind(dc)
-	switch kind {
-	case objabi.KindBool, objabi.KindInt, objabi.KindInt8,
-		objabi.KindInt16, objabi.KindInt32, objabi.KindInt64,
-		objabi.KindUint, objabi.KindUint8, objabi.KindUint16,
-		objabi.KindUint32, objabi.KindUint64, objabi.KindUintptr,
-		objabi.KindFloat32, objabi.KindFloat64, objabi.KindComplex64,
-		objabi.KindComplex128, objabi.KindUnsafePointer:
-	case objabi.KindArray:
-		s := gotype.Elem(dc)
-		dc.DefGoType(s)
-	case objabi.KindFunc:
-		nfields := gotype.NumElem(dc)
-		for i := 0; i < int(nfields); i++ {
-			t := gotype.FieldType(dc, dwarf.GroupParams, i)
-			dc.DefGoType(t)
-		}
-		nfields = gotype.NumResult(dc)
-		for i := 0; i < int(nfields); i++ {
-			t := gotype.FieldType(dc, dwarf.GroupResults, i)
-			dc.DefPtrTo(dc.DefGoType(t))
-		}
-	case objabi.KindInterface:
-		var s dwarf.Type
-		if gotype.IsEface(dc) {
-			s = fix.Eface
-		} else {
-			s = fix.Iface
-		}
-		dc.DefGoType(s)
-	case objabi.KindPtr:
-		s := gotype.Elem(dc)
-		dc.DefGoType(s)
-	case objabi.KindStruct:
-		nfields := gotype.NumElem(dc)
-		for i := 0; i < int(nfields); i++ {
-			s := gotype.FieldType(dc, dwarf.GroupFields, i)
-			dc.DefGoType(s)
-		}
-	default:
-		return fmt.Errorf("dwarf: subType for unsupport kind %d", kind)
-	}
-	return nil
-}
-
 func (d *dwctxt) UseTypeInfo(gotype loader.Sym) loader.Sym {
 	dwinfo := d.ldr.Lookup(dwarf.InfoPrefix+dwSym(gotype).Name(d), 0)
 	if dwinfo == 0 || len(d.ldr.Data(dwinfo)) == 0 {
@@ -578,10 +529,6 @@ func (d *dwctxt) UseTypeInfo(gotype loader.Sym) loader.Sym {
 func (d *dwctxt) newtype(gotype loader.Sym) loader.Sym {
 	s := d.UseTypeInfo(gotype)
 	if s != 0 {
-		err := subType(dwSym(gotype), d, d.FixTypes)
-		if err != nil {
-			Exitf(err.Error())
-		}
 		d.rtmap[s] = gotype
 		return s
 	}
@@ -638,10 +585,6 @@ func (d *dwctxt) DefPtrTo(dwtype dwarf.Sym) dwarf.Sym {
 	if gts != 0 {
 		s := d.UseTypeInfo(gts)
 		if s != 0 {
-			err := subType(dwSym(gts), d, d.FixTypes)
-			if err != nil {
-				Exitf(err.Error())
-			}
 			d.rtmap[s] = gts
 			d.tdmap[gts] = s
 			return dwSym(s)
@@ -1614,21 +1557,21 @@ func dwarfGenerateDebugInfo(ctxt *Link) {
 		}
 	}
 
-	for name, die := range prototypedies {
-		if die == nil {
-			d.defgotype(d.lookupOrDiag("type." + name))
-			die = prototypedies[name]
-			if die == nil {
-				log.Fatalf("internal error: DIE generation failed for %s\n", name)
-			}
-			prototypedies[name] = die.Walktypedef()
-		}
-	}
-
-	dwarf.Synthesizestringtypes(d, &dwtypes, prototypedies)
-	dwarf.Synthesizeslicetypes(d, &dwtypes, prototypedies)
-	dwarf.Synthesizemaptypes(d, &dwtypes, prototypedies, d.Uintptr, d.arch)
-	dwarf.Synthesizechantypes(d, &dwtypes, prototypedies)
+	//for name, die := range prototypedies {
+	//	if die == nil {
+	//		d.defgotype(d.lookupOrDiag("type." + name))
+	//		die = prototypedies[name]
+	//		if die == nil {
+	//			log.Fatalf("internal error: DIE generation failed for %s\n", name)
+	//		}
+	//		prototypedies[name] = die.Walktypedef()
+	//	}
+	//}
+	//
+	//dwarf.Synthesizestringtypes(d, &dwtypes, prototypedies)
+	//dwarf.Synthesizeslicetypes(d, &dwtypes, prototypedies)
+	//dwarf.Synthesizemaptypes(d, &dwtypes, prototypedies, d.Uintptr, d.arch)
+	//dwarf.Synthesizechantypes(d, &dwtypes, prototypedies)
 
 	for !d.typeinfo.empty() {
 		dwinfo := d.typeinfo.pop()

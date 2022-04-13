@@ -12,6 +12,7 @@ import (
 	"cmd/internal/src"
 	"fmt"
 	"sort"
+	"strings"
 	"sync"
 )
 
@@ -319,8 +320,24 @@ func (c dwCtxt) DefGoType(t dwarf.Type) dwarf.Sym {
 
 }
 
-func (c dwCtxt) DefPtrTo(t dwarf.Sym) dwarf.Sym {
-	return c.Link.Lookup(dwarf.InfoPrefix + "*" + t.(*LSym).Name[len(dwarf.InfoPrefix):])
+func (c dwCtxt) DefPtrTo(dwtype dwarf.Sym) dwarf.Sym {
+	ptrname := "*" + dwtype.(*LSym).Name[len(dwarf.InfoPrefix):]
+	sym := c.Link.Lookup(dwarf.InfoPrefix + ptrname)
+
+	// The named ptr type is always defined by PopulateDWARFType.
+	// It is always unnamed ptr type here.
+	sym.Set(AttrDuplicateOK, true)
+
+	if sym.Type == objabi.SDWARFTYPE {
+		return sym
+	}
+	dwarfname := strings.Replace(ptrname, `"".`, objabi.PathToPrefix(c.Pkgpath)+".", -1)
+	pdie := dwarf.NewDie(&c.dwtypes, dwarf.DW_ABRV_PTRTYPE, ptrname, dwarfname, c)
+	dwarf.NewRefAttr(pdie, dwarf.DW_AT_type, dwtype)
+	// not a good way to lookup by type name.
+	dwarf.NewAttr(pdie, dwarf.DW_AT_go_runtime_type, dwarf.DW_CLS_GO_TYPEREF, 0, c.Link.Lookup("type."+ptrname))
+	dwarf.NewAttr(pdie, dwarf.DW_AT_go_kind, dwarf.DW_CLS_CONSTANT, objabi.KindPtr, 0)
+	return sym
 }
 
 // Here "from" is a symbol corresponding to an inlined or concrete
@@ -770,22 +787,22 @@ func (s BySymName) Len() int           { return len(s) }
 func (s BySymName) Less(i, j int) bool { return s[i].Name < s[j].Name }
 func (s BySymName) Swap(i, j int)      { s[i], s[j] = s[j], s[i] }
 
-var uintptrOnce sync.Once
-var fixTypes = dwarf.FixTypes{
-	Eface: stubType{name: "eface"},
-	Iface: stubType{name: "iface"},
+var fixTypes dwarf.FixTypes
+
+func (ctxt *Link) PredefinedDwarfType() {
+	fixTypes.Uintptr = ctxt.Lookup(dwarf.InfoPrefix + "uintptr")
+	fixTypes.Eface = ctxt.LookupDwPredefined("runtime.eface")
+	fixTypes.Iface = ctxt.LookupDwPredefined("runtime.iface")
 }
 
-type stubType struct {
-	dwarf.Type
-	name string
-}
-
-func (s stubType) Name(ctxt dwarf.Context) string {
-	if ctxt.(dwCtxt).Pkgpath == "runtime" {
-		return `"".` + s.name
-	}
-	return `runtime.` + s.name
+var prototypelist = []string{
+	"runtime.stringStructDWARF",
+	"runtime.slice",
+	"runtime.hmap",
+	"runtime.bmap",
+	"runtime.sudog",
+	"runtime.waitq",
+	"runtime.hchan",
 }
 
 var prototypedies = map[string]*dwarf.DWDie{
@@ -799,18 +816,6 @@ var prototypedies = map[string]*dwarf.DWDie{
 }
 
 func (ctxt *Link) PopulateDWARFType(typ dwarf.Type, dupok bool) {
-	kind := typ.Kind(nil)
-	if kind == objabi.KindMap || kind == objabi.KindChan || kind == objabi.KindSlice || kind == objabi.KindString {
-		// can't synthesize types now. So still generate them in linker.
-		return
-	}
-	if _, ok := prototypedies[typ.DwarfName(dwCtxt{ctxt})]; ok {
-		return
-	}
-	uintptrOnce.Do(func() {
-		fixTypes.Uintptr = ctxt.Lookup(dwarf.InfoPrefix + "uintptr")
-	})
-
 	dwsym := ctxt.Lookup(dwarf.InfoPrefix + typ.Name(dwCtxt{ctxt}))
 	if dwsym.Type == objabi.SDWARFTYPE {
 		// todo: Already define, How does this happen?
@@ -821,16 +826,39 @@ func (ctxt *Link) PopulateDWARFType(typ dwarf.Type, dupok bool) {
 	}
 
 	dwctxt := dwCtxt{ctxt}
-	die, _, err := dwarf.NewType(typ, dwctxt, fixTypes, &ctxt.dwtypes)
+	def, _, err := dwarf.NewType(typ, dwctxt, fixTypes, &ctxt.dwtypes)
 	if err != nil {
 		ctxt.Diag(err.Error())
 		return
 	}
-	dwarf.NewAttr(die, dwarf.DW_AT_go_runtime_type, dwarf.DW_CLS_GO_TYPEREF, 0, typ.RuntimeType(dwctxt))
+	dwarf.NewAttr(def, dwarf.DW_AT_go_runtime_type, dwarf.DW_CLS_GO_TYPEREF, 0, typ.RuntimeType(dwctxt))
+	if _, ok := prototypedies[typ.DwarfName(dwCtxt{ctxt})]; ok {
+		prototypedies[typ.DwarfName(dwCtxt{ctxt})] = def
+	}
 }
 
-// todo: synthesize types here.
 func (ctxt *Link) DumpDwarfTypes() {
+	// We don't expect this type in the package out of runtime.
+	// So use another temp root, we can avoid dumping them when dwtypes is traversed.
+	prototypeRoot := new(dwarf.DWDie)
+	for _, name := range prototypelist {
+		if prototypedies[name] != nil {
+			continue
+		}
+
+		t := ctxt.LookupDwPredefined(name)
+		def, _, err := dwarf.NewType(t, dwCtxt{ctxt}, fixTypes, prototypeRoot)
+		if err != nil {
+			ctxt.Diag(err.Error())
+			return
+		}
+		prototypedies[name] = def
+	}
+
+	dwarf.Synthesizestringtypes(dwCtxt{ctxt}, &ctxt.dwtypes, prototypedies)
+	dwarf.Synthesizeslicetypes(dwCtxt{ctxt}, &ctxt.dwtypes, prototypedies)
+	dwarf.Synthesizemaptypes(dwCtxt{ctxt}, &ctxt.dwtypes, prototypedies, fixTypes.Uintptr, ctxt.Arch.Arch)
+	dwarf.Synthesizechantypes(dwCtxt{ctxt}, &ctxt.dwtypes, prototypedies)
 	dwarf.Reversetree(&ctxt.dwtypes.Child)
 	for die := ctxt.dwtypes.Child; die != nil; die = die.Link {
 		ctxt.Data = ctxt.putdie(ctxt.Data, die)
