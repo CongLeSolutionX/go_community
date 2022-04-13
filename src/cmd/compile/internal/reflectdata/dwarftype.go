@@ -6,6 +6,7 @@ package reflectdata
 
 import (
 	"cmd/compile/internal/base"
+	"cmd/compile/internal/typecheck"
 	"cmd/compile/internal/types"
 	"cmd/internal/dwarf"
 	"cmd/internal/objabi"
@@ -100,4 +101,9 @@ func (d dwarfType) FieldOffset(dwctxt interface{}, i int) int64 {
 
 func (d dwarfType) IsEface(interface{}) bool {
 	return d.typ.IsEmptyInterface()
+}
+
+func LookupDwPredefined(name string) dwarf.Type {
+	t := typecheck.LookupRuntime(name[len("runtime."):])
+	return dwarfType{typ: t.Type()}
 }
