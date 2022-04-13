@@ -1961,11 +1961,10 @@ func NewMemberOffsetAttr(die *DWDie, offs int32) {
 
 // Search children (assumed to have TAG_member) for the one named
 // field and set its AT_type to dwtype
-func SubstituteType(structdie *DWDie, field string, dwtype Sym) error {
+func SubstituteType(structdie *DWDie, field string, dwtype Sym) {
 	child := structdie.FindChild(field)
-	if child == nil {
-		return fmt.Errorf("dwarf substitutetype: %s does not have member %s", GetAttr(structdie, DW_AT_name).Data, field)
-	}
+	// It is hard to nil check here, this function is called in a function literal.
+	// Let it crash.
 
 	a := GetAttr(child, DW_AT_type)
 	if a != nil {
@@ -1973,7 +1972,6 @@ func SubstituteType(structdie *DWDie, field string, dwtype Sym) error {
 	} else {
 		NewRefAttr(child, DW_AT_type, dwtype)
 	}
-	return nil
 }
 
 func Dotypedef(parent *DWDie, name string, dwname string, def *DWDie, d Context) *DWDie {
@@ -2081,7 +2079,8 @@ func NewType(gotype Type, dc Context, fix FixTypes, parent *DWDie) (*DWDie, *DWD
 		NewRefAttr(die, DW_AT_go_elem, dc.DefGoType(s))
 		// Save elem type for synthesizechantypes. We could synthesize here
 		// but that would change the order of DIEs we output.
-		NewRefAttr(die, DW_AT_type, s.RuntimeType(dc))
+		// exactly, what we need is an abstract Type description here.
+		NewAttr(die, DW_AT_type, DW_CLS_REFERENCE, 0, s)
 
 	case objabi.KindFunc:
 		die = NewDie(parent, DW_ABRV_FUNCTYPE, name, dwname, dc)
@@ -2126,7 +2125,8 @@ func NewType(gotype Type, dc Context, fix FixTypes, parent *DWDie) (*DWDie, *DWD
 		NewRefAttr(die, DW_AT_go_elem, dc.DefGoType(s))
 		// Save gotype for use in synthesizemaptypes. We could synthesize here,
 		// but that would change the order of the DIEs.
-		NewRefAttr(die, DW_AT_type, gotype.RuntimeType(dc))
+		// exactly, what we need is an abstract Type description here.
+		NewAttr(die, DW_AT_type, DW_CLS_REFERENCE, 0, gotype)
 
 	case objabi.KindPtr:
 		die = NewDie(parent, DW_ABRV_PTRTYPE, name, dwname, dc)
