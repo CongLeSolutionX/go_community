@@ -2188,7 +2188,7 @@ func mkinternaltypename(base string, arg1 string, arg2 string) string {
 func MkInternalType(parent *DWDie, ctx Context, abbrev int, typename, keyname, valname string, f func(*DWDie)) Sym {
 	name := mkinternaltypename(typename, keyname, valname)
 	s := ctx.LookupOrCreateDwarfSym(nil, name, objabi.SDWARFTYPE, true)
-	if !s.Invalid() {
+	if s != nil {
 		return s
 	}
 	die := NewDie(parent, abbrev, name, "", ctx)
