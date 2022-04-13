@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f9d274d_768e57cb",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-04-13T18:29:39Z",
+      "side": 1,
+      "message": "Why would we expose a testing only field? Or you mean tests consume it via runtime/metrics?",
+      "revId": "2d6896eaa6cc32de1a40efd1efbcec857b714d57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
