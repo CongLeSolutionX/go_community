@@ -108,6 +108,24 @@
       "parentUuid": "193796d9_13725c49",
       "revId": "79de1590941365af1bf9e4141c825ba81eee1683",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "caaaa631_55150f42",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 769,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-04-14T22:40:43Z",
+      "side": 1,
+      "message": "Ok",
+      "parentUuid": "5a24ebf3_06b6c0de",
+      "revId": "79de1590941365af1bf9e4141c825ba81eee1683",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
