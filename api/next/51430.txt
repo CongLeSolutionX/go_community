@@ -2,4 +2,7 @@ pkg testing, func RegisterCover2(Cover2) #51430
 pkg testing, type Cover2 struct #51430
 pkg testing, type Cover2 struct, Mode string #51430
 pkg testing, type Cover2 struct, TearDown func(string, string) (string, error) #51430
-pkg testing, func RegisterCover2(Cover) (**string, **string) #51430
+pkg runtime/coverage, func EmitMetaDataToDir(string) error #51430
+pkg runtime/coverage, func EmitMetaDataToWriter(io.Writer) error #51430
+pkg runtime/coverage, func EmitCounterDataToDir(string) error #51430
+pkg runtime/coverage, func EmitCounterDataToWriter(io.Writer) error #51430
