@@ -186,7 +186,8 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 	typecheck.InitUniverse()
 	typecheck.InitRuntime()
 
-	if base.Flag.DwarfType {
+	if base.Flag.Dwarf {
+		base.Ctxt.DwarfCtxt = obj.NewDwarfTypeCtxt(base.Ctxt)
 		base.Ctxt.LookupDwPredefined = reflectdata.LookupDwPredefined
 		dwarfgen.PredefinedDwarfType()
 	}
@@ -322,7 +323,7 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 	// Write object data to disk.
 	base.Timer.Start("be", "dumpobj")
 	dumpdata()
-	if base.Flag.DwarfType {
+	if base.Flag.Dwarf {
 		base.Ctxt.DumpDwarfTypes()
 	}
 	base.Ctxt.NumberSyms()

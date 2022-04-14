@@ -580,7 +580,8 @@ func RecordPackageName() {
 }
 
 func PredefinedDwarfType() {
-	obj.PredefinedTypes.Uintptr = base.Ctxt.Lookup(dwarf.InfoPrefix + types.TypeSymName(types.Types[types.TUINTPTR]))
-	obj.PredefinedTypes.Eface = base.Ctxt.LookupDwPredefined("runtime.eface")
-	obj.PredefinedTypes.Iface = base.Ctxt.LookupDwPredefined("runtime.iface")
+	dwctxt := base.Ctxt.DwarfCtxt
+	dwctxt.PredefinedTypes.Uintptr = base.Ctxt.Lookup(dwarf.InfoPrefix + types.TypeSymName(types.Types[types.TUINTPTR]))
+	dwctxt.PredefinedTypes.Eface = dwctxt.LookupDwPredefined("runtime.eface")
+	dwctxt.PredefinedTypes.Iface = dwctxt.LookupDwPredefined("runtime.iface")
 }
