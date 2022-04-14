@@ -849,11 +849,11 @@ func (ctxt *Link) DumpDwarfTypes() {
 		prototypedies[name] = def
 	}
 
-	dwarf.Synthesizestringtypes(dwCtxt{ctxt}, &ctxt.dwtypes, prototypedies)
-	dwarf.Synthesizeslicetypes(dwCtxt{ctxt}, &ctxt.dwtypes, prototypedies)
-	dwarf.Synthesizemaptypes(dwCtxt{ctxt}, &ctxt.dwtypes, prototypedies, PredefinedTypes.Uintptr, ctxt.Arch.Arch)
-	dwarf.Synthesizechantypes(dwCtxt{ctxt}, &ctxt.dwtypes, prototypedies)
-	dwarf.Reversetree(&ctxt.dwtypes.Child)
+	dwarf.SynthesizeStringTypes(dwCtxt{ctxt}, &ctxt.dwtypes, prototypedies)
+	dwarf.SynthesizeSliceTypes(dwCtxt{ctxt}, &ctxt.dwtypes, prototypedies)
+	dwarf.SynthesizeMapTypes(dwCtxt{ctxt}, &ctxt.dwtypes, prototypedies, PredefinedTypes.Uintptr, ctxt.Arch.Arch)
+	dwarf.SynthesizeChanTypes(dwCtxt{ctxt}, &ctxt.dwtypes, prototypedies)
+	dwarf.ReverseTree(&ctxt.dwtypes.Child)
 	for die := ctxt.dwtypes.Child; die != nil; die = die.Link {
 		ctxt.Data = ctxt.putdie(ctxt.Data, die)
 	}
