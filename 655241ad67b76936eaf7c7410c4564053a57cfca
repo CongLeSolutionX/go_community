@@ -228,6 +228,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "47ed844f_ca0f28ea",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1955,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-04-14T16:54:31Z",
+      "side": 1,
+      "message": "Yes, good catch.",
+      "parentUuid": "c371bafd_7b3ede92",
+      "revId": "655241ad67b76936eaf7c7410c4564053a57cfca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "71b171cd_ada0378b",
         "filename": "src/cmd/compile/internal/walk/switch.go",
         "patchSetId": 5
