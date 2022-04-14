@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b395805f_a512fddd",
+        "filename": "src/io/io.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2022-04-14T01:17:03Z",
+      "side": 1,
+      "message": "NVM it turns out that even tho I runtime.KeepAlive it this code got eliminated. MB",
+      "parentUuid": "49719ea7_1c23ddac",
+      "revId": "c8a619930001fd8dccc3bbe1293ac6144e30c738",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c9508920_7942bf10",
         "filename": "src/io/io_test.go",
         "patchSetId": 1
