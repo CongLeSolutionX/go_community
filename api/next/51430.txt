@@ -1,1 +1,5 @@
+pkg runtime/coverage, func CoverageCounterDataEmitToDir(string) error #51430
+pkg runtime/coverage, func CoverageCounterDataEmitToWriter(io.Writer) error #51430
+pkg runtime/coverage, func CoverageMetaDataEmitToDir(string) error #51430
+pkg runtime/coverage, func CoverageMetaDataEmitToWriter(io.Writer) error #51430
 pkg testing, func RegisterCover2(Cover) (**string, **string) #51430
