@@ -70,6 +70,24 @@
       "parentUuid": "44d0d893_adcf13fd",
       "revId": "1c8f9d2c97db7390a7ed2cd4663571b544147f4d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48bc8bce_a3f7ab60",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 822,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-14T20:13:23Z",
+      "side": 0,
+      "message": "We could consider adding (restoring) a check that fails if r2Valid and external linking.",
+      "parentUuid": "4f93f346_6378c593",
+      "revId": "1c8f9d2c97db7390a7ed2cd4663571b544147f4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
