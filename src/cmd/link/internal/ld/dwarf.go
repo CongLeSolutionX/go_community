@@ -61,10 +61,6 @@ func (s dwSym) Length(dwarfContext interface{}) int64 {
 	return int64(len(l.Data(loader.Sym(s))))
 }
 
-func (s dwSym) Invalid() bool {
-	return s == 0
-}
-
 func (c dwctxt) PtrSize() int {
 	return c.arch.PtrSize
 }
@@ -1263,7 +1259,7 @@ func (d *dwctxt) dwarfGenerateDebugSyms() {
 	// Now that we're done creating DIEs, reverse the trees so DIEs
 	// appear in the order they were created.
 	for _, u := range d.linkctxt.compUnits {
-		dwarf.Reversetree(&u.DWInfo.Child)
+		dwarf.ReverseTree(&u.DWInfo.Child)
 	}
 
 	d.linkctxt.runtimeCU.TypeDIES = keeptypeinfo
