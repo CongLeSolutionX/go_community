@@ -35,6 +35,8 @@ func (d DwarfType) Kind(ctxt dwarf.Context) objabi.SymKind {
 }
 
 func (d DwarfType) RuntimeType(ctxt dwarf.Context) dwarf.Sym {
+	// don't use TypeLinksym, we don't expect dump
+	// a runtime type because of dwarf generation.
 	return types.TypeSym(d.Type).Linksym()
 }
 
