@@ -143,6 +143,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d7ba276_cc9fc09f",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1021,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-04-14T20:18:01Z",
+      "side": 1,
+      "message": "Hm, something about doing that makes the compiler barf on test/switch.go.",
+      "parentUuid": "0d4b8d83_b026c2c7",
+      "revId": "6a74553e07edb68925051c2c5b8e3ce88d4656b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bc0fd035_0beeec7c",
