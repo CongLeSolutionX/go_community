@@ -196,6 +196,30 @@
       },
       "revId": "d0e6214a766b2a97ea7edcfa2237c9d631d29ec4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13eed7b8_dc79770b",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 830,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-14T20:39:20Z",
+      "side": 1,
+      "message": "Thanks. Then could we do a check on build mode instead? (Probably special-casing Duff\u0027s devices.)\n\nYes, the go command always build things with consistent flags. Directly invoking the linker with a bunch of .o\u0027s with mixed flags is unsupported.",
+      "parentUuid": "eed01537_6edf015f",
+      "range": {
+        "startLine": 826,
+        "startChar": 3,
+        "endLine": 830,
+        "endChar": 58
+      },
+      "revId": "d0e6214a766b2a97ea7edcfa2237c9d631d29ec4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
