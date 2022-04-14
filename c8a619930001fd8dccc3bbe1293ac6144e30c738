@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "49719ea7_1c23ddac",
+        "filename": "src/io/io.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2022-04-14T01:06:32Z",
+      "side": 1,
+      "message": "With incomplete knowlege of golang\u0027s virtual types system, I don\u0027t see why that would have an impact, AFAIK a more complex type would only change which types pointers are shuffled arround.\n\nHere is a test using a *bytes.Reader instead that have 0 allocations:\n  goos: linux\n  goarch: amd64\n  cpu: AMD Ryzen 5 3600 6-Core Processor              \n  BenchmarkNotWriterTo-12    \t181507446\t         6.651 ns/op\t       0 B/op\t       0 allocs/op\n  BenchmarkWriterTo-12       \t175321104\t         7.157 ns/op\t       0 B/op\t       0 allocs/op\n \n  type onlyReader struct {\n    io.Reader\n  }\n\n  var data \u003d []byte{1, 2, 3}\n\n  func BenchmarkNotWriterTo(b *testing.B) {\n    b.ReportAllocs()\n    for i :\u003d 0; i \u003c b.N; i++ {\n      runtime.KeepAlive(io.NopCloser(onlyReader{bytes.NewReader(data)}))\n    }\n  }\n\n  func BenchmarkWriterTo(b *testing.B) {\n    b.ReportAllocs()\n    for i :\u003d 0; i \u003c b.N; i++ {\n      r :\u003d bytes.NewReader(data)\n      runtime.KeepAlive(onlyReader{r}) // Do to match NotWriterTo in case the onlyReader{r} cast allocates (this is at 0 anyway so doesn\u0027t matter)\n      runtime.KeepAlive(io.NopCloser(r))\n    }\n  }",
+      "parentUuid": "36222d38_d6562b57",
+      "revId": "c8a619930001fd8dccc3bbe1293ac6144e30c738",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c9508920_7942bf10",
         "filename": "src/io/io_test.go",
         "patchSetId": 1
