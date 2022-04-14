@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11f5de9c_7f45eeeb",
+        "filename": "src/io/io.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 631,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-04-14T16:04:29Z",
+      "side": 1,
+      "message": "For the sake of debugging, I think it would be better for this to return a named nopWriteToCloser type:\n\n  if to, ok :\u003d r.(WriterTo); ok {\n    return nopCloserWriterTo{to}\n  }\n  return nopCloser{r}\n\n(With the obvious implementation of nopCloserWriterTo below.)\n\nThis way, if someone prints the type of the returned io.ReadCloser they see a descriptive type name rather than an anonymous struct type.",
+      "revId": "8155b94f4d1359e711ca15ae4f8a01a53c3ede72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
