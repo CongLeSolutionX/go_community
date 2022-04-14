@@ -306,6 +306,14 @@ func emitCounterDataToDirectory(outdir string) error {
 	return nil
 }
 
+// emitMetaData emits counter data for this coverage run to an io.Writer.
+func (s *emitState) emitCounterDataToWriter(w io.Writer) error {
+	if err := s.emitCounterDataFile(finalHash, w); err != nil {
+		return err
+	}
+	return nil
+}
+
 // openMetaFile determines whether we need to emit a meta-data output
 // file, or whether we can reuse the existing file in the coverage out
 // dir. It updates mfname/mftmp/mf fields in 's', returning an error
