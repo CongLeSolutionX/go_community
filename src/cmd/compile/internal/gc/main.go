@@ -124,7 +124,7 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 		ir.MaxStackVarSize = 128 * 1024
 		ir.MaxImplicitStackVarSize = 16 * 1024
 	}
-
+	base.Ctxt.DwarfCtxt = obj.NewDwarfTypeCtxt(base.Ctxt)
 	if base.Flag.Dwarf {
 		base.Ctxt.DebugInfo = dwarfgen.Info
 		base.Ctxt.GenAbstractFunc = dwarfgen.AbstractFunc
@@ -186,7 +186,7 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 	typecheck.InitUniverse()
 	typecheck.InitRuntime()
 
-	if base.Flag.DwarfType {
+	if base.Flag.Dwarf {
 		base.Ctxt.LookupDwPredefined = reflectdata.LookupDwPredefined
 		base.Ctxt.PredefinedDwarfType()
 	}
@@ -322,7 +322,7 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 	// Write object data to disk.
 	base.Timer.Start("be", "dumpobj")
 	dumpdata()
-	if base.Flag.DwarfType {
+	if base.Flag.Dwarf {
 		base.Ctxt.DumpDwarfTypes()
 	}
 	base.Ctxt.NumberSyms()
