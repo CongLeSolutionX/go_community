@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d8d3d17_0ba10d8e",
+        "filename": "src/io/io.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-04-14T00:18:46Z",
+      "side": 1,
+      "message": "I think it\u0027s probably worth working a little harder to avoid what I think is an unnecessary allocation here.  I think we can use\n\n    type nopCloserWriterTo struct {\n        Reader\n    }\n    \n    func (nopCloserWriterTo) Close() error { return nil }\n    func (c nopCloserWriterTo) WriteTo(w Writer) (n int64, err error) {\n        return c.Reader.(WriterTo).WriteTo(w)\n    }\n    \n    func NopCloser(r Reader) ReadCloser {\n        if _, ok :\u003d r.(WriterTo); ok {\n            return nopCloserWriterTo{r}\n        }\n        return nopCloser{r}\n    }",
+      "revId": "c8a619930001fd8dccc3bbe1293ac6144e30c738",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9508920_7942bf10",
+        "filename": "src/io/io_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-04-14T00:18:46Z",
+      "side": 1,
+      "message": "We usually write \"got %t want %t\", as above.",
+      "range": {
+        "startLine": 491,
+        "startChar": 61,
+        "endLine": 491,
+        "endChar": 82
+      },
+      "revId": "c8a619930001fd8dccc3bbe1293ac6144e30c738",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
