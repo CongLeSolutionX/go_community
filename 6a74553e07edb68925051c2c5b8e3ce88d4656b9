@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9e2b2c5_cd4f885f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-04-14T20:01:01Z",
+      "side": 1,
+      "message": "Not really. cmd/go is 0.04% bigger. Probably less code but more rodata.",
+      "parentUuid": "f6381879_b28d19c6",
+      "revId": "6a74553e07edb68925051c2c5b8e3ce88d4656b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f5f198ef_275a6e92",
@@ -72,6 +90,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c59626e8_fb8ad056",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-04-14T20:01:01Z",
+      "side": 1,
+      "message": "I will make another CL with some codegen tests.",
+      "parentUuid": "0f752973_0da38053",
+      "revId": "6a74553e07edb68925051c2c5b8e3ce88d4656b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cd0ad0c9_8ee2ebd5",
@@ -89,6 +125,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d4b8d83_b026c2c7",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1021,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-04-14T20:01:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd0ad0c9_8ee2ebd5",
+      "revId": "6a74553e07edb68925051c2c5b8e3ce88d4656b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bc0fd035_0beeec7c",
@@ -102,6 +156,30 @@
       "writtenOn": "2022-04-13T22:45:14Z",
       "side": 1,
       "message": "Label name fallThrough seems a bit confusing with the fallthrough statement. Perhaps endLabel?",
+      "range": {
+        "startLine": 211,
+        "startChar": 5,
+        "endLine": 211,
+        "endChar": 16
+      },
+      "revId": "6a74553e07edb68925051c2c5b8e3ce88d4656b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44fce832_f53324ee",
+        "filename": "src/cmd/compile/internal/walk/switch.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-04-14T20:01:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc0fd035_0beeec7c",
       "range": {
         "startLine": 211,
         "startChar": 5,
