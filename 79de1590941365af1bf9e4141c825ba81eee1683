@@ -72,6 +72,24 @@
       "message": "I don\u0027t think changing this comment is correct. The linker cannot insert a trampoline if we are in code where r2 is not valid, because the linker stubs expect r2 to be valid.",
       "revId": "79de1590941365af1bf9e4141c825ba81eee1683",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "193796d9_13725c49",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 769,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-04-14T19:34:21Z",
+      "side": 1,
+      "message": "The existing comment is wrong. Trampolines are still needed irrespective of the presence of a TOC pointer. This is deferring their creation to the external linker.\n\nld (as used) always generates TOC-relative trampolines, so in the case where the TOC is not valid, go needs to insert them.",
+      "parentUuid": "8935d2f3_b6d73b19",
+      "revId": "79de1590941365af1bf9e4141c825ba81eee1683",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

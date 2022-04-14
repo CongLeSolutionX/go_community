@@ -16,6 +16,24 @@
       "message": "This check was added due to a specific problem that was very hard to debug. Why is it being removed?",
       "revId": "1c8f9d2c97db7390a7ed2cd4663571b544147f4d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44d0d893_adcf13fd",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 822,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-04-14T19:34:21Z",
+      "side": 0,
+      "message": "We are generating TOC-relative trampolines when building a PIE with the internal linker.",
+      "parentUuid": "d4d18b1f_1918222b",
+      "revId": "1c8f9d2c97db7390a7ed2cd4663571b544147f4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
