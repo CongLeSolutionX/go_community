@@ -148,6 +148,30 @@
       },
       "revId": "d0e6214a766b2a97ea7edcfa2237c9d631d29ec4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38f95ca2_16ae970f",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 830,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-14T19:20:01Z",
+      "side": 1,
+      "message": "Yeah, we could definitely add an attribute if this is necessary (and of course not in this CL). My question is, do we need a per-symbol attribute? Or it is all or nothing?\n\nI can look into fixing the symbol updater to preserve attributes.",
+      "parentUuid": "079438b0_0c59ef35",
+      "range": {
+        "startLine": 826,
+        "startChar": 3,
+        "endLine": 830,
+        "endChar": 58
+      },
+      "revId": "d0e6214a766b2a97ea7edcfa2237c9d631d29ec4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
