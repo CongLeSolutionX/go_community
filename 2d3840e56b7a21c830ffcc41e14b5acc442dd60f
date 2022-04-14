@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d577f489_edea12d9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-04-14T06:40:45Z",
+      "side": 1,
+      "message": "The original CL is https://go-review.googlesource.com/c/go/+/367043. Once merged, but reverted later.",
+      "revId": "2d3840e56b7a21c830ffcc41e14b5acc442dd60f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
