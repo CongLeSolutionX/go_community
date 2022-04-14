@@ -100,6 +100,30 @@
       },
       "revId": "d0e6214a766b2a97ea7edcfa2237c9d631d29ec4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85a7e567_5b8bd441",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 830,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-04-14T13:40:44Z",
+      "side": 1,
+      "message": "It happens that trampolines aren\u0027t marked as shared, so R_CALLPOWER is correctly resolved as not having a local-entry.\n\nIt would be nicer to support a symbol attribute like ELF\u0027s local entry on PPC64 so we don\u0027t need to use heuristics. It seemed like a fairly invasive change to encode such an attribute at the time, maybe it is time to revisit that (ISA3.1 PC-rel addressing will further complicate those heuristics).\n\nMaybe checking for TOC regeneration at the start of the target text symbol is a more reliable mechanism.",
+      "parentUuid": "c4f46bf6_39b33bd0",
+      "range": {
+        "startLine": 826,
+        "startChar": 3,
+        "endLine": 830,
+        "endChar": 58
+      },
+      "revId": "d0e6214a766b2a97ea7edcfa2237c9d631d29ec4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
