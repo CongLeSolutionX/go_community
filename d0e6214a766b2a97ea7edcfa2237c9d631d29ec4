@@ -172,6 +172,30 @@
       },
       "revId": "d0e6214a766b2a97ea7edcfa2237c9d631d29ec4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eed01537_6edf015f",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 830,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-04-14T20:28:41Z",
+      "side": 1,
+      "message": "It is essentially all-or-nothing (the duff machines being the only exceptions). per-symbol seems like substantial overhead to catch the few exceptions in go objects.\n\nI assume the go tooling prohibits mixing of go object compiled with different buildmodes and GOPPC64 flags too?",
+      "parentUuid": "38f95ca2_16ae970f",
+      "range": {
+        "startLine": 826,
+        "startChar": 3,
+        "endLine": 830,
+        "endChar": 58
+      },
+      "revId": "d0e6214a766b2a97ea7edcfa2237c9d631d29ec4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
