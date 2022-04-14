@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "36222d38_d6562b57",
+        "filename": "src/io/io.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-04-14T00:54:44Z",
+      "side": 1,
+      "message": "That\u0027s not a realistic benchmark, though, because nobody actually uses the type \"struct{io.Reader; io.WriterTo}\".  The benchmark to test is a comparison of calling NopCloser with a type that only implements io.Reader and calling NopCloser with a type that implements both io.Reader and io.WriterTo.",
+      "parentUuid": "041e9949_6cbae87a",
+      "revId": "c8a619930001fd8dccc3bbe1293ac6144e30c738",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c9508920_7942bf10",
         "filename": "src/io/io_test.go",
         "patchSetId": 1
