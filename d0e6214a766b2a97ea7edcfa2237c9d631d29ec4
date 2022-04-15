@@ -268,6 +268,30 @@
       },
       "revId": "d0e6214a766b2a97ea7edcfa2237c9d631d29ec4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e80114d_cb209b4a",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 830,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-04-15T19:01:44Z",
+      "side": 1,
+      "message": "None of the current linker generated functions from the ppc64 code need them. It seems there is some plumbing already for using a localentry (for external objects), maybe that can be expanded.\n\nCL 400574 resolves the need for explicitly preserving the Shared attribute here.",
+      "parentUuid": "a6944e4a_5a6d2294",
+      "range": {
+        "startLine": 826,
+        "startChar": 3,
+        "endLine": 830,
+        "endChar": 58
+      },
+      "revId": "d0e6214a766b2a97ea7edcfa2237c9d631d29ec4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
