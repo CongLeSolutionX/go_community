@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e2f5b25_49698338",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 30696
+      },
+      "writtenOn": "2022-04-15T12:46:30Z",
+      "side": 1,
+      "message": "Not sure if you intended this change to be ready for review yet, but you\u0027d want to regenerate the actual z* packages too with this CL. It would also be good to add a comment explaining the difference, as well as a test exercising this particular case.",
+      "revId": "daa5c8a1a832600ee0552dac4e6c1f09abe3ff72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
