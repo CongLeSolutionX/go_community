@@ -244,6 +244,30 @@
       },
       "revId": "d0e6214a766b2a97ea7edcfa2237c9d631d29ec4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6944e4a_5a6d2294",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 830,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-15T17:10:29Z",
+      "side": 1,
+      "message": "Interesting. Do those functions need different entires? They are either always called locally or always non-locally, right? We can keep using the shared flag in this CL and think of better solution.\n\nDoes CL 400574 help preserve the flag? Thanks.",
+      "parentUuid": "a27bebfb_8979df27",
+      "range": {
+        "startLine": 826,
+        "startChar": 3,
+        "endLine": 830,
+        "endChar": 58
+      },
+      "revId": "d0e6214a766b2a97ea7edcfa2237c9d631d29ec4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
