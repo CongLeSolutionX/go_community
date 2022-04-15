@@ -107,6 +107,47 @@
       "message": "Thanks! I\u0027ve tested this CL with GOEXPERIMENT\u003dregabi and passed.\nPlease take a look.",
       "revId": "40fd9f86d361e5ec67691e6dded38d4f034d5ad0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce2aff5d_bbba65ae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-15T14:59:24Z",
+      "side": 1,
+      "message": "Congratulations!",
+      "parentUuid": "0a4f3966_35204030",
+      "revId": "40fd9f86d361e5ec67691e6dded38d4f034d5ad0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "553660a1_23189223",
+        "filename": "src/internal/bytealg/compare_riscv64.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-15T14:59:24Z",
+      "side": 1,
+      "message": "It is better to add comments about all incoming registers, not just why the moves are there. It will read better once the non-regabi code is deleted. See https://cs.opensource.google/go/go/+/master:src/internal/bytealg/compare_amd64.s for example.\n\nAlso other files.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 21
+      },
+      "revId": "40fd9f86d361e5ec67691e6dded38d4f034d5ad0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
