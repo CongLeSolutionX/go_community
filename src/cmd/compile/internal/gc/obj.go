@@ -194,6 +194,7 @@ func dumpGlobal(n *ir.Name) {
 	}
 	types.CalcSize(n.Type())
 	ggloblnod(n)
+	base.Ctxt.DwarfCtxt.DefGoType(reflectdata.DwarfType{Typ: n.Type()})
 	base.Ctxt.DwarfGlobal(base.Ctxt.Pkgpath, types.TypeSymName(n.Type()), n.Linksym())
 }
 
@@ -222,6 +223,7 @@ func dumpGlobalConst(n ir.Node) {
 		// that type so the linker knows about it. See issue 51245.
 		_ = reflectdata.TypeLinksym(t)
 	}
+	base.Ctxt.DwarfCtxt.DefGoType(reflectdata.DwarfType{Typ: t})
 	base.Ctxt.DwarfIntConst(base.Ctxt.Pkgpath, n.Sym().Name, types.TypeSymName(t), ir.IntVal(t, v))
 }
 

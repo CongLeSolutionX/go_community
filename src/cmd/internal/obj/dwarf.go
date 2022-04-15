@@ -320,6 +320,9 @@ func (c *dwCtxt) CreateSymForTypedef(def *dwarf.DWDie) dwarf.Sym {
 // current compile unit will be generated.
 // TODO: it can be extended to support generating entire type info for dynlink.
 func (c *dwCtxt) DefGoType(t dwarf.Type) dwarf.Sym {
+	if c.Flag_linkshared {
+		c.PopulateDWARFType(t, true)
+	}
 	return c.Link.Lookup(dwarf.InfoPrefix + t.Name(c))
 
 }
@@ -789,7 +792,7 @@ func (s BySymName) Swap(i, j int)      { s[i], s[j] = s[j], s[i] }
 
 func NewDwarfTypeCtxt(link *Link) *dwCtxt {
 	return &dwCtxt{Link: link,
-		fixTypes: dwarf.FixTypes{},
+		fixTypes:    dwarf.FixTypes{},
 		dwTypesRoot: new(dwarf.DWDie),
 		prototypeList: []string{
 			"runtime.stringStructDWARF",
@@ -812,15 +815,11 @@ func NewDwarfTypeCtxt(link *Link) *dwCtxt {
 	}
 }
 
-
-
 func (ctxt *Link) PredefinedDwarfType() {
 	ctxt.DwarfCtxt.fixTypes.Uintptr = ctxt.Lookup(dwarf.InfoPrefix + "uintptr")
 	ctxt.DwarfCtxt.fixTypes.Eface = ctxt.LookupDwPredefined("runtime.eface")
 	ctxt.DwarfCtxt.fixTypes.Iface = ctxt.LookupDwPredefined("runtime.iface")
 }
-
-
 
 func (ctxt *Link) PopulateDWARFType(typ dwarf.Type, dupok bool) {
 	dwctxt := ctxt.DwarfCtxt
