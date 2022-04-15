@@ -106,6 +106,24 @@
       "parentUuid": "48bc8bce_a3f7ab60",
       "revId": "1c8f9d2c97db7390a7ed2cd4663571b544147f4d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b16c1194_66e5a10d",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 822,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2022-04-15T15:15:56Z",
+      "side": 0,
+      "message": "OK if internal linking with shared or dynamic is not possible, then it can be removed.",
+      "parentUuid": "ba08b2a1_d95f9f29",
+      "revId": "1c8f9d2c97db7390a7ed2cd4663571b544147f4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
