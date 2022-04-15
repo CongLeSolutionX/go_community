@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1eddacc_60b9db63",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2022-04-15T00:49:03Z",
+      "side": 1,
+      "message": "This CL seems to result in an ICE during ./make.bash when GO_GCFLAGS\u003d\u0027-N -l\u0027 is used to disable optimizations and inlining. This problem is detected by the linux-amd64-noopt builder (https://build.golang.org/log/f48227f2d7e082bb160424c9daeaf7e27dadd340).",
+      "revId": "1ba96d8c0909eca59e28c048150c3834982f79fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
