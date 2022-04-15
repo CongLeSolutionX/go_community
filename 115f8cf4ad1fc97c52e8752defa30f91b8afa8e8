@@ -70,6 +70,24 @@
       "message": "we should probably pick a name that makes it clear that this is only about \"OPTIONS *\" to refer to the whole server\n\nDisableOptionsStarHandler?\n\nDisableOptionsServerHandler? (the \"*\" means \"the entire server\" for OPTIONS, but could be confusing since we\u0027re defining this on the Go \"Server\" type)",
       "revId": "115f8cf4ad1fc97c52e8752defa30f91b8afa8e8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b94c89cd_11fef31e",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2573,
+      "author": {
+        "id": 32637
+      },
+      "writtenOn": "2022-04-15T21:45:55Z",
+      "side": 1,
+      "message": "The rfc https://datatracker.ietf.org/doc/html/rfc7231#section-4.3.7 uses \"asterisk\" term:\n\u003e An OPTIONS request with an asterisk (\"*\") as the request-target (Section 5.3 of [RFC7230]) applies to the server in general rather than to a specific resource.\n\nDisableOptionsAsteriskHandler?\n\nThe current proposal implies there is some kind of handler to disable, maybe the flag could be just\n\n// HandleOptionsAsterisk, if true, passes \"OPTIONS *\" requests to the Handler,\n// otherwise responds with 200 OK and Content-Length: 0.\nHandleOptionsAsterisk bool",
+      "parentUuid": "0ad546f4_c7dd1d87",
+      "revId": "115f8cf4ad1fc97c52e8752defa30f91b8afa8e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
