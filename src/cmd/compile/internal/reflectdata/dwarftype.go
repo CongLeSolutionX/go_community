@@ -13,99 +13,99 @@ import (
 	"strings"
 )
 
-type dwarfType struct {
-	typ *types.Type
+type DwarfType struct {
+	Typ *types.Type
 }
 
-func (d dwarfType) DwarfName(ctxt dwarf.Context) string {
-	name := types.TypeSymName(d.typ)
+func (d DwarfType) DwarfName(ctxt dwarf.Context) string {
+	name := types.TypeSymName(d.Typ)
 	return strings.Replace(name, `"".`, objabi.PathToPrefix(base.Ctxt.Pkgpath)+".", -1)
 }
 
-func (d dwarfType) Name(ctxt dwarf.Context) string {
-	return types.TypeSymName(d.typ)
+func (d DwarfType) Name(ctxt dwarf.Context) string {
+	return types.TypeSymName(d.Typ)
 }
 
-func (d dwarfType) Size(ctxt dwarf.Context) int64 {
-	return d.typ.Size()
+func (d DwarfType) Size(ctxt dwarf.Context) int64 {
+	return d.Typ.Size()
 }
 
-func (d dwarfType) Kind(ctxt dwarf.Context) objabi.SymKind {
-	return objabi.SymKind(kinds[d.typ.Kind()])
+func (d DwarfType) Kind(ctxt dwarf.Context) objabi.SymKind {
+	return objabi.SymKind(kinds[d.Typ.Kind()])
 }
 
-func (d dwarfType) RuntimeType(ctxt dwarf.Context) dwarf.Sym {
+func (d DwarfType) RuntimeType(ctxt dwarf.Context) dwarf.Sym {
 	// don't use TypeLinksym, we don't expect dump
 	// a runtime type because of dwarf generation.
-	return types.TypeSym(d.typ).Linksym()
+	return types.TypeSym(d.Typ).Linksym()
 }
 
-func (d dwarfType) Key(ctxt dwarf.Context) dwarf.Type {
-	return dwarfType{typ: d.typ.Key()}
+func (d DwarfType) Key(ctxt dwarf.Context) dwarf.Type {
+	return DwarfType{Typ: d.Typ.Key()}
 }
 
-func (d dwarfType) Elem(ctxt dwarf.Context) dwarf.Type {
-	return dwarfType{d.typ.Elem()}
+func (d DwarfType) Elem(ctxt dwarf.Context) dwarf.Type {
+	return DwarfType{d.Typ.Elem()}
 }
 
-func (d dwarfType) NumElem(ctxt dwarf.Context) int64 {
-	if d.typ.IsArray() {
-		return d.typ.NumElem()
+func (d DwarfType) NumElem(ctxt dwarf.Context) int64 {
+	if d.Typ.IsArray() {
+		return d.Typ.NumElem()
 	}
-	if d.typ.IsStruct() {
-		return int64(d.typ.NumFields())
+	if d.Typ.IsStruct() {
+		return int64(d.Typ.NumFields())
 	}
-	if d.typ.Kind() == types.TFUNC {
-		return int64(d.typ.NumParams())
+	if d.Typ.Kind() == types.TFUNC {
+		return int64(d.Typ.NumParams())
 	}
 	panic("unreachable")
 }
 
-func (d dwarfType) NumResult(ctxt dwarf.Context) int64 {
-	return int64(d.typ.NumResults())
+func (d DwarfType) NumResult(ctxt dwarf.Context) int64 {
+	return int64(d.Typ.NumResults())
 }
 
-func (d dwarfType) IsDDD(ctxt dwarf.Context) bool {
-	return d.typ.IsVariadic()
+func (d DwarfType) IsDDD(ctxt dwarf.Context) bool {
+	return d.Typ.IsVariadic()
 }
 
-func (d dwarfType) FieldName(ctxt dwarf.Context, g dwarf.FieldsGroup, i int) string {
+func (d DwarfType) FieldName(ctxt dwarf.Context, g dwarf.FieldsGroup, i int) string {
 	switch g {
 	case dwarf.GroupFields:
-		return d.typ.FieldName(i)
+		return d.Typ.FieldName(i)
 	case dwarf.GroupParams:
-		return dwarfType{d.typ.Params().FieldType(i)}.DwarfName(ctxt)
+		return DwarfType{d.Typ.Params().FieldType(i)}.DwarfName(ctxt)
 	case dwarf.GroupResults:
-		return dwarfType{d.typ.Results().FieldType(i)}.DwarfName(ctxt)
+		return DwarfType{d.Typ.Results().FieldType(i)}.DwarfName(ctxt)
 	}
 	panic("unreachable")
 }
 
-func (d dwarfType) FieldType(ctxt dwarf.Context, g dwarf.FieldsGroup, i int) dwarf.Type {
+func (d DwarfType) FieldType(ctxt dwarf.Context, g dwarf.FieldsGroup, i int) dwarf.Type {
 	switch g {
 	case dwarf.GroupFields:
-		return dwarfType{d.typ.FieldType(i)}
+		return DwarfType{d.Typ.FieldType(i)}
 	case dwarf.GroupParams:
-		return dwarfType{d.typ.Params().FieldType(i)}
+		return DwarfType{d.Typ.Params().FieldType(i)}
 	case dwarf.GroupResults:
-		return dwarfType{d.typ.Results().FieldType(i)}
+		return DwarfType{d.Typ.Results().FieldType(i)}
 	}
 	panic("unreachable")
 }
 
-func (d dwarfType) FieldIsEmbed(ctxt dwarf.Context, i int) bool {
-	return d.typ.Field(i).Embedded != 0
+func (d DwarfType) FieldIsEmbed(ctxt dwarf.Context, i int) bool {
+	return d.Typ.Field(i).Embedded != 0
 }
 
-func (d dwarfType) FieldOffset(ctxt dwarf.Context, i int) int64 {
-	return d.typ.Field(i).Offset
+func (d DwarfType) FieldOffset(ctxt dwarf.Context, i int) int64 {
+	return d.Typ.Field(i).Offset
 }
 
-func (d dwarfType) IsEface(ctxt dwarf.Context) bool {
-	return d.typ.IsEmptyInterface()
+func (d DwarfType) IsEface(ctxt dwarf.Context) bool {
+	return d.Typ.IsEmptyInterface()
 }
 
 func LookupDwPredefined(name string) dwarf.Type {
 	t := typecheck.LookupRuntime(name[len("runtime."):])
-	return dwarfType{typ: t.Type()}
+	return DwarfType{Typ: t.Type()}
 }
