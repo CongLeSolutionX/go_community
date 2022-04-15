@@ -260,8 +260,8 @@ type Context interface {
 	Logf(format string, args ...interface{})
 	LookupOrCreateDwarfSym(die *DWDie, name string, st objabi.SymKind, internal bool) Sym
 	CreateSymForTypedef(def *DWDie) Sym
-	DefGoType(t Type) Sym
-	DefPtrTo(s Sym) Sym
+	DefGoType(parent *DWDie, t Type) Sym
+	DefPtrTo(parent *DWDie, dwtype Sym) Sym
 }
 
 // AppendUleb128 appends v to b using DWARF's unsigned LEB128 encoding.
@@ -2089,7 +2089,7 @@ func NewType(gotype Type, dc Context, fix FixTypes, parent *DWDie) (*DWDie, *DWD
 		typedefdie = doTypeDef(parent, name, dwname, die, dc)
 		NewAttr(die, DW_AT_byte_size, DW_CLS_CONSTANT, bytesize, 0)
 		s := gotype.Elem(dc)
-		NewRefAttr(die, DW_AT_type, dc.DefGoType(s))
+		NewRefAttr(die, DW_AT_type, dc.DefGoType(parent, s))
 		fld := NewDie(die, DW_ABRV_ARRAYRANGE, "range", "", dc)
 
 		// use actual length not upper bound; correct for 0-length arrays.
@@ -2100,7 +2100,7 @@ func NewType(gotype Type, dc Context, fix FixTypes, parent *DWDie) (*DWDie, *DWD
 	case objabi.KindChan:
 		die = NewDie(parent, DW_ABRV_CHANTYPE, name, dwname, dc)
 		s := gotype.Elem(dc)
-		NewRefAttr(die, DW_AT_go_elem, dc.DefGoType(s))
+		NewRefAttr(die, DW_AT_go_elem, dc.DefGoType(parent, s))
 		// Save elem type for synthesizechantypes. We could synthesize here
 		// but that would change the order of DIEs we output.
 		// exactly, what we need is an abstract Type description here.
@@ -2116,7 +2116,7 @@ func NewType(gotype Type, dc Context, fix FixTypes, parent *DWDie) (*DWDie, *DWD
 			s := gotype.FieldName(dc, GroupParams, i)
 			fld := NewDie(die, DW_ABRV_FUNCTYPEPARAM, s, "", dc)
 			t := gotype.FieldType(dc, GroupParams, i)
-			NewRefAttr(fld, DW_AT_type, dc.DefGoType(t))
+			NewRefAttr(fld, DW_AT_type, dc.DefGoType(parent, t))
 		}
 
 		if gotype.IsDDD(dc) {
@@ -2127,7 +2127,7 @@ func NewType(gotype Type, dc Context, fix FixTypes, parent *DWDie) (*DWDie, *DWD
 			s := gotype.FieldName(dc, GroupResults, i)
 			fld := NewDie(die, DW_ABRV_FUNCTYPEPARAM, s, "", dc)
 			t := gotype.FieldType(dc, GroupResults, i)
-			NewRefAttr(fld, DW_AT_type, dc.DefPtrTo(dc.DefGoType(t)))
+			NewRefAttr(fld, DW_AT_type, dc.DefPtrTo(parent, dc.DefGoType(parent, t)))
 		}
 
 	case objabi.KindInterface:
@@ -2139,14 +2139,14 @@ func NewType(gotype Type, dc Context, fix FixTypes, parent *DWDie) (*DWDie, *DWD
 		} else {
 			s = fix.Iface
 		}
-		NewRefAttr(die, DW_AT_type, dc.DefGoType(s))
+		NewRefAttr(die, DW_AT_type, dc.DefGoType(parent, s))
 
 	case objabi.KindMap:
 		die = NewDie(parent, DW_ABRV_MAPTYPE, name, dwname, dc)
 		s := gotype.Key(dc)
-		NewRefAttr(die, DW_AT_go_key, dc.DefGoType(s))
+		NewRefAttr(die, DW_AT_go_key, dc.DefGoType(parent, s))
 		s = gotype.Elem(dc)
-		NewRefAttr(die, DW_AT_go_elem, dc.DefGoType(s))
+		NewRefAttr(die, DW_AT_go_elem, dc.DefGoType(parent, s))
 		// Save gotype for use in synthesizemaptypes. We could synthesize here,
 		// but that would change the order of the DIEs.
 		// exactly, what we need is an abstract Type description here.
@@ -2156,14 +2156,14 @@ func NewType(gotype Type, dc Context, fix FixTypes, parent *DWDie) (*DWDie, *DWD
 		die = NewDie(parent, DW_ABRV_PTRTYPE, name, dwname, dc)
 		typedefdie = doTypeDef(parent, name, dwname, die, dc)
 		s := gotype.Elem(dc)
-		NewRefAttr(die, DW_AT_type, dc.DefGoType(s))
+		NewRefAttr(die, DW_AT_type, dc.DefGoType(parent, s))
 
 	case objabi.KindSlice:
 		die = NewDie(parent, DW_ABRV_SLICETYPE, name, dwname, dc)
 		typedefdie = doTypeDef(parent, name, dwname, die, dc)
 		NewAttr(die, DW_AT_byte_size, DW_CLS_CONSTANT, bytesize, 0)
 		s := gotype.Elem(dc)
-		elem := dc.DefGoType(s)
+		elem := dc.DefGoType(parent, s)
 		NewRefAttr(die, DW_AT_go_elem, elem)
 
 	case objabi.KindString:
@@ -2182,7 +2182,7 @@ func NewType(gotype Type, dc Context, fix FixTypes, parent *DWDie) (*DWDie, *DWD
 				f = s.Name(dc)
 			}
 			fld := NewDie(die, DW_ABRV_STRUCTFIELD, f, "", dc)
-			NewRefAttr(fld, DW_AT_type, dc.DefGoType(s))
+			NewRefAttr(fld, DW_AT_type, dc.DefGoType(parent, s))
 			offset := gotype.FieldOffset(dc, i)
 			newMemberOffsetAttr(fld, int32(offset))
 			if gotype.FieldIsEmbed(dc, i) {
@@ -2249,7 +2249,7 @@ func SynthesizeSliceTypes(ctxt Context, parent *DWDie, lookupPrototype func(name
 		}
 		copyChildren(ctxt, die, slice)
 		elem := getAttr(die, DW_AT_go_elem).Data.(Sym)
-		substituteType(die, "array", ctxt.DefPtrTo(elem))
+		substituteType(die, "array", ctxt.DefPtrTo(parent, elem))
 	}
 }
 
@@ -2274,25 +2274,25 @@ func SynthesizeChanTypes(ctxt Context, parent *DWDie, lookupPrototype func(name 
 		}
 		elemgotype := getAttr(die, DW_AT_type).Data.(Type)
 		elemname := elemgotype.DwarfName(ctxt)
-		elemtype := ctxt.DefGoType(elemgotype)
+		elemtype := ctxt.DefGoType(parent, elemgotype)
 
 		// sudog<T>
 		dwss := mkInternalType(parent, ctxt, DW_ABRV_STRUCTTYPE, "sudog", elemname, "", func(dws *DWDie) {
 			copyChildren(ctxt, dws, sudog)
-			substituteType(dws, "elem", ctxt.DefPtrTo(elemtype))
-			substituteType(dws, "next", ctxt.DefPtrTo(dws.Sym))
-			substituteType(dws, "prev", ctxt.DefPtrTo(dws.Sym))
-			substituteType(dws, "parent", ctxt.DefPtrTo(dws.Sym))
-			substituteType(dws, "waitlink", ctxt.DefPtrTo(dws.Sym))
-			substituteType(dws, "waittail", ctxt.DefPtrTo(dws.Sym))
+			substituteType(dws, "elem", ctxt.DefPtrTo(parent, elemtype))
+			substituteType(dws, "next", ctxt.DefPtrTo(parent, dws.Sym))
+			substituteType(dws, "prev", ctxt.DefPtrTo(parent, dws.Sym))
+			substituteType(dws, "parent", ctxt.DefPtrTo(parent, dws.Sym))
+			substituteType(dws, "waitlink", ctxt.DefPtrTo(parent, dws.Sym))
+			substituteType(dws, "waittail", ctxt.DefPtrTo(parent, dws.Sym))
 			NewAttr(dws, DW_AT_byte_size, DW_CLS_CONSTANT, int64(sudogsize), nil)
 		})
 
 		// waitq<T>
 		dwws := mkInternalType(parent, ctxt, DW_ABRV_STRUCTTYPE, "waitq", elemname, "", func(dww *DWDie) {
 			copyChildren(ctxt, dww, waitq)
-			substituteType(dww, "first", ctxt.DefPtrTo(dwss))
-			substituteType(dww, "last", ctxt.DefPtrTo(dwss))
+			substituteType(dww, "first", ctxt.DefPtrTo(parent, dwss))
+			substituteType(dww, "last", ctxt.DefPtrTo(parent, dwss))
 			NewAttr(dww, DW_AT_byte_size, DW_CLS_CONSTANT, getAttr(waitq, DW_AT_byte_size).Value, nil)
 		})
 
@@ -2304,7 +2304,7 @@ func SynthesizeChanTypes(ctxt Context, parent *DWDie, lookupPrototype func(name 
 			NewAttr(dwh, DW_AT_byte_size, DW_CLS_CONSTANT, getAttr(hchan, DW_AT_byte_size).Value, nil)
 		})
 
-		NewRefAttr(die, DW_AT_type, ctxt.DefPtrTo(dwhs))
+		NewRefAttr(die, DW_AT_type, ctxt.DefPtrTo(parent, dwhs))
 	}
 	return
 }
@@ -2334,7 +2334,7 @@ func SynthesizeMapTypes(ctxt Context, parent *DWDie, lookupPrototype func(name s
 		key := gotype.Key(ctxt)
 		val := gotype.Elem(ctxt)
 		keysize, valsize := key.Size(ctxt), val.Size(ctxt)
-		keytype, valtype := ctxt.DefGoType(key), ctxt.DefGoType(val)
+		keytype, valtype := ctxt.DefGoType(parent, key), ctxt.DefGoType(parent, val)
 
 		// compute size info like hashmap.c does.
 		indirectKey, indirectVal := false, false
@@ -2353,7 +2353,7 @@ func SynthesizeMapTypes(ctxt Context, parent *DWDie, lookupPrototype func(name s
 			NewAttr(dwhk, DW_AT_byte_size, DW_CLS_CONSTANT, bucketSize*keysize, 0)
 			t := keytype
 			if indirectKey {
-				t = ctxt.DefPtrTo(keytype)
+				t = ctxt.DefPtrTo(parent, keytype)
 			}
 			NewRefAttr(dwhk, DW_AT_type, t)
 			fld := NewDie(dwhk, DW_ABRV_ARRAYRANGE, "size", "", ctxt)
@@ -2367,7 +2367,7 @@ func SynthesizeMapTypes(ctxt Context, parent *DWDie, lookupPrototype func(name s
 			NewAttr(dwhv, DW_AT_byte_size, DW_CLS_CONSTANT, bucketSize*valsize, 0)
 			t := valtype
 			if indirectVal {
-				t = ctxt.DefPtrTo(valtype)
+				t = ctxt.DefPtrTo(parent, valtype)
 			}
 			NewRefAttr(dwhv, DW_AT_type, t)
 			fld := NewDie(dwhv, DW_ABRV_ARRAYRANGE, "size", "", ctxt)
@@ -2388,7 +2388,7 @@ func SynthesizeMapTypes(ctxt Context, parent *DWDie, lookupPrototype func(name s
 			NewRefAttr(fld, DW_AT_type, dwhvs)
 			newMemberOffsetAttr(fld, bucketSize+bucketSize*int32(keysize))
 			fld = NewDie(dwhb, DW_ABRV_STRUCTFIELD, "overflow", "", ctxt)
-			NewRefAttr(fld, DW_AT_type, ctxt.DefPtrTo(dwhb.Sym))
+			NewRefAttr(fld, DW_AT_type, ctxt.DefPtrTo(parent, dwhb.Sym))
 			newMemberOffsetAttr(fld, bucketSize+bucketSize*(int32(keysize)+int32(valsize)))
 			if arch.RegSize > arch.PtrSize {
 				fld = NewDie(dwhb, DW_ABRV_STRUCTFIELD, "pad", "", ctxt)
@@ -2402,13 +2402,13 @@ func SynthesizeMapTypes(ctxt Context, parent *DWDie, lookupPrototype func(name s
 		// Construct hash<K,V>
 		dwhs := mkInternalType(parent, ctxt, DW_ABRV_STRUCTTYPE, "hash", keyname, valname, func(dwh *DWDie) {
 			copyChildren(ctxt, dwh, hash)
-			substituteType(dwh, "buckets", ctxt.DefPtrTo(dwhbs))
-			substituteType(dwh, "oldbuckets", ctxt.DefPtrTo(dwhbs))
+			substituteType(dwh, "buckets", ctxt.DefPtrTo(parent, dwhbs))
+			substituteType(dwh, "oldbuckets", ctxt.DefPtrTo(parent, dwhbs))
 			NewAttr(dwh, DW_AT_byte_size, DW_CLS_CONSTANT, getAttr(hash, DW_AT_byte_size).Value, nil)
 		})
 
 		// make map type a pointer to hash<K,V>
-		NewRefAttr(die, DW_AT_type, ctxt.DefPtrTo(dwhs))
+		NewRefAttr(die, DW_AT_type, ctxt.DefPtrTo(parent, dwhs))
 	}
 	return
 }
