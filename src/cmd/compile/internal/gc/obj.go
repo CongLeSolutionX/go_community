@@ -6,6 +6,7 @@ package gc
 
 import (
 	"cmd/compile/internal/base"
+	"cmd/compile/internal/dwarfgen"
 	"cmd/compile/internal/ir"
 	"cmd/compile/internal/noder"
 	"cmd/compile/internal/objw"
@@ -194,7 +195,7 @@ func dumpGlobal(n *ir.Name) {
 	}
 	types.CalcSize(n.Type())
 	ggloblnod(n)
-	base.Ctxt.DwarfGlobal(base.Ctxt.Pkgpath, types.TypeSymName(n.Type()), n.Linksym())
+	base.Ctxt.DwarfGlobal(base.Ctxt.Pkgpath, dwarfgen.CreateDwarfType(n.Type()), n.Linksym())
 }
 
 func dumpGlobalConst(n ir.Node) {
@@ -222,7 +223,7 @@ func dumpGlobalConst(n ir.Node) {
 		// that type so the linker knows about it. See issue 51245.
 		_ = reflectdata.TypeLinksym(t)
 	}
-	base.Ctxt.DwarfIntConst(base.Ctxt.Pkgpath, n.Sym().Name, types.TypeSymName(t), ir.IntVal(t, v))
+	base.Ctxt.DwarfIntConst(base.Ctxt.Pkgpath, n.Sym().Name, dwarfgen.CreateDwarfType(t), ir.IntVal(t, v))
 }
 
 func dumpglobls(externs []ir.Node) {

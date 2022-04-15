@@ -206,10 +206,7 @@ func putpclcdelta(linkctxt *Link, dctxt *dwCtxt, s *LSym, deltaPC uint64, deltaL
 type dwCtxt struct {
 	*Link
 	PredefinedTypes dwarf.FixTypes
-	//For fix order
-	prototypeList []string
-	prototypeDies map[string]*dwarf.DWDie
-	dwTypesRoot   *dwarf.DWDie
+	dwTypesRoot     *dwarf.DWDie
 }
 
 func (c *dwCtxt) PtrSize() int {
@@ -317,13 +314,14 @@ func (c *dwCtxt) CreateSymForTypedef(def *dwarf.DWDie) dwarf.Sym {
 // DefGoType not really generate a dwarf type info now,
 // it generates a sym for reloc. Only dwarf info of the type defined in
 // current compile unit will be generated.
-// TODO: it can be extended to support generating entire type info for dynlink.
-func (c *dwCtxt) DefGoType(t dwarf.Type) dwarf.Sym {
+func (c *dwCtxt) DefGoType(parent *dwarf.DWDie, t dwarf.Type) dwarf.Sym {
+	if c.Flag_linkshared {
+		c.populateDwarfTypeWithParent(parent, t, true)
+	}
 	return c.Link.Lookup(dwarf.InfoPrefix + t.Name(c))
-
 }
 
-func (c *dwCtxt) DefPtrTo(dwtype dwarf.Sym) dwarf.Sym {
+func (c *dwCtxt) DefPtrTo(parent *dwarf.DWDie, dwtype dwarf.Sym) dwarf.Sym {
 	ptrname := "*" + dwtype.(*LSym).Name[len(dwarf.InfoPrefix):]
 	sym := c.Link.Lookup(dwarf.InfoPrefix + ptrname)
 
@@ -335,7 +333,7 @@ func (c *dwCtxt) DefPtrTo(dwtype dwarf.Sym) dwarf.Sym {
 		return sym
 	}
 	dwarfname := strings.Replace(ptrname, `"".`, objabi.PathToPrefix(c.Pkgpath)+".", -1)
-	pdie := dwarf.NewDie(c.DwarfCtxt.dwTypesRoot, dwarf.DW_ABRV_PTRTYPE, ptrname, dwarfname, c)
+	pdie := dwarf.NewDie(parent, dwarf.DW_ABRV_PTRTYPE, ptrname, dwarfname, c)
 	dwarf.NewRefAttr(pdie, dwarf.DW_AT_type, dwtype)
 	// not a good way to lookup by type name.
 	dwarf.NewAttr(pdie, dwarf.DW_AT_go_runtime_type, dwarf.DW_CLS_GO_TYPEREF, 0, c.Link.Lookup("type."+ptrname))
@@ -461,7 +459,7 @@ func (ctxt *Link) populateDWARF(curfn interface{}, s *LSym, myimportpath string)
 
 // DwarfIntConst creates a link symbol for an integer constant with the
 // given name, type and value.
-func (ctxt *Link) DwarfIntConst(myimportpath, name, typename string, val int64) {
+func (ctxt *Link) DwarfIntConst(myimportpath, name string, typeSym *LSym, val int64) {
 	if myimportpath == "" {
 		return
 	}
@@ -469,12 +467,12 @@ func (ctxt *Link) DwarfIntConst(myimportpath, name, typename string, val int64) 
 		s.Type = objabi.SDWARFCONST
 		ctxt.Data = append(ctxt.Data, s)
 	})
-	dwarf.PutIntConst(ctxt.DwarfCtxt, s, ctxt.Lookup(dwarf.InfoPrefix+typename), myimportpath+"."+name, val)
+	dwarf.PutIntConst(ctxt.DwarfCtxt, s, typeSym, myimportpath+"."+name, val)
 }
 
 // DwarfGlobal creates a link symbol containing a DWARF entry for
 // a global variable.
-func (ctxt *Link) DwarfGlobal(myimportpath, typename string, varSym *LSym) {
+func (ctxt *Link) DwarfGlobal(myimportpath string, typeSym, varSym *LSym) {
 	if myimportpath == "" || varSym.Local() {
 		return
 	}
@@ -493,7 +491,6 @@ func (ctxt *Link) DwarfGlobal(myimportpath, typename string, varSym *LSym) {
 		s.Set(AttrDuplicateOK, true) // needed for shared linkage
 		ctxt.Data = append(ctxt.Data, s)
 	})
-	typeSym := ctxt.Lookup(dwarf.InfoPrefix + typename)
 	dwarf.PutGlobal(ctxt.DwarfCtxt, dieSym, typeSym, varSym, varname)
 }
 
@@ -788,12 +785,16 @@ func (s BySymName) Swap(i, j int)      { s[i], s[j] = s[j], s[i] }
 
 func NewDwarfTypeCtxt(link *Link) *dwCtxt {
 	return &dwCtxt{
-		Link: link,
+		Link:        link,
 		dwTypesRoot: new(dwarf.DWDie),
 	}
 }
 
 func (ctxt *Link) PopulateDWARFType(typ dwarf.Type, dupok bool) {
+	ctxt.populateDwarfTypeWithParent(ctxt.DwarfCtxt.dwTypesRoot, typ, dupok)
+}
+
+func (ctxt *Link) populateDwarfTypeWithParent(parent *dwarf.DWDie, typ dwarf.Type, dupok bool) {
 	dwctxt := ctxt.DwarfCtxt
 	dwsym := ctxt.Lookup(dwarf.InfoPrefix + typ.Name(dwctxt))
 	if dwsym.Type == objabi.SDWARFTYPE {
@@ -804,7 +805,7 @@ func (ctxt *Link) PopulateDWARFType(typ dwarf.Type, dupok bool) {
 		dwsym.Set(AttrDuplicateOK, true)
 	}
 
-	def, _, err := dwarf.NewType(typ, dwctxt, dwctxt.PredefinedTypes, ctxt.DwarfCtxt.dwTypesRoot)
+	def, _, err := dwarf.NewType(typ, dwctxt, dwctxt.PredefinedTypes, parent)
 	if err != nil {
 		ctxt.Diag(err.Error())
 		return
@@ -821,6 +822,8 @@ func (ctxt *Link) DumpDwarfTypes() {
 	prototypeRoot := new(dwarf.DWDie)
 	lookupPrototype := func(name string) *dwarf.DWDie {
 		t := ctxt.LookupDwPredefined(name)
+		dwsym := ctxt.Lookup(dwarf.InfoPrefix + t.Name(dwctxt))
+		dwsym.Set(AttrDuplicateOK, true)
 		die, _, err := dwarf.NewType(t, dwctxt, dwctxt.PredefinedTypes, prototypeRoot)
 		if err != nil {
 			ctxt.Diag(err.Error())
@@ -835,6 +838,12 @@ func (ctxt *Link) DumpDwarfTypes() {
 	dwarf.ReverseTree(&dwctxt.dwTypesRoot.Child)
 	for die := dwctxt.dwTypesRoot.Child; die != nil; die = die.Link {
 		ctxt.Data = ctxt.putdie(ctxt.Data, die)
+	}
+	if ctxt.Flag_linkshared && prototypeRoot != nil {
+		dwarf.ReverseTree(&prototypeRoot.Child)
+		for die := prototypeRoot.Child; die != nil; die = die.Link {
+			ctxt.Data = ctxt.putdie(ctxt.Data, die)
+		}
 	}
 }
 
