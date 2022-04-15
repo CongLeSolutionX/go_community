@@ -606,7 +606,7 @@ func symMerge{{.FuncSuffix}}{{.TypeParam}}(data {{.DataType}}, a, m, b int {{.Ex
 		j := m
 		for i < j {
 			h := int(uint(i+j) >> 1)
-			if {{GreaterOrEqual "data" "m" "h"}} {
+			if !{{Less "data" "m" "h"}} {
 				i = h + 1
 			} else {
 				j = h
@@ -633,7 +633,7 @@ func symMerge{{.FuncSuffix}}{{.TypeParam}}(data {{.DataType}}, a, m, b int {{.Ex
 
 	for start < r {
 		c := int(uint(start+r) >> 1)
-		if {{GreaterOrEqual "data" "p-c" "c"}} {
+		if !{{Less "data" "p-c" "c"}} {
 			start = c + 1
 		} else {
 			r = c
