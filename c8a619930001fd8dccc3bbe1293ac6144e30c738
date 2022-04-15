@@ -110,6 +110,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3b17a83e_3418a25f",
+        "filename": "src/io/io.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2022-04-15T06:46:19Z",
+      "side": 1,
+      "message": "Done\n\nHowever:\nI failed to find any case where my original solution (embeding io.WriterTo) would do multiple allocations. All I can find is it allocates 2 uintptr more bytes in the single allocation.\n\nAs far as I know the question here is:\n  Does saving 2 uintptr on all NopCloser worth one more call and WriterTo cast in nopCloserWriterTo.WriteTo function ?\n\nOn my machine that overhead is ~5ns.",
+      "parentUuid": "48d5203b_48361357",
+      "revId": "c8a619930001fd8dccc3bbe1293ac6144e30c738",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c9508920_7942bf10",
         "filename": "src/io/io_test.go",
         "patchSetId": 1
