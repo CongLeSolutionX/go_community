@@ -59,6 +59,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "419346b5_9981dfb0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2022-04-15T17:35:56Z",
+      "side": 1,
+      "message": "Rebased to master.",
+      "parentUuid": "c2083361_4b1487f9",
+      "revId": "0fb5c922698468033f829ddae4382a49351ac6c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "480798a0_f0727da4",
         "filename": "src/io/io.go",
         "patchSetId": 3
@@ -70,6 +88,24 @@
       "writtenOn": "2022-04-15T17:13:12Z",
       "side": 1,
       "message": "This sentence is a bit confusing.\n\nIf r implements WriterTo, the returned ReadCloser will implement WriterTo by forwarding calls to r.",
+      "revId": "0fb5c922698468033f829ddae4382a49351ac6c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "719bf648_010048e7",
+        "filename": "src/io/io.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 624,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2022-04-15T17:35:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "480798a0_f0727da4",
       "revId": "0fb5c922698468033f829ddae4382a49351ac6c2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
