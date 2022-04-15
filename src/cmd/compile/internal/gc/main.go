@@ -188,7 +188,7 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 
 	if base.Flag.Dwarf {
 		base.Ctxt.LookupDwPredefined = reflectdata.LookupDwPredefined
-		base.Ctxt.PredefinedDwarfType()
+		dwarfgen.PredefinedDwarfType()
 	}
 
 	// Parse and typecheck input.

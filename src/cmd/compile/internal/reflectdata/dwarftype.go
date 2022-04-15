@@ -106,6 +106,10 @@ func (d DwarfType) IsEface(ctxt dwarf.Context) bool {
 }
 
 func LookupDwPredefined(name string) dwarf.Type {
+	// todo: refactor this function
+	if name == "uintptr" {
+		return DwarfType{types.Types[types.TUINTPTR]}
+	}
 	t := typecheck.LookupRuntime(name[len("runtime."):])
 	return DwarfType{Type: t.Type()}
 }
