@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "852fb0a1_5bdd6dae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-04-15T15:53:06Z",
+      "side": 1,
+      "message": "I think this is a reasonable approach to addressing #22821, but as a new API addition it needs to go through the proposal process.",
+      "revId": "f417c4b7a31331f1e142e8a9b67068751df2fbb3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
