@@ -320,6 +320,9 @@ func (c *dwCtxt) CreateSymForTypedef(def *dwarf.DWDie) dwarf.Sym {
 // current compile unit will be generated.
 // TODO: it can be extended to support generating entire type info for dynlink.
 func (c *dwCtxt) DefGoType(t dwarf.Type) dwarf.Sym {
+	if c.Flag_linkshared {
+		c.PopulateDWARFType(t, true)
+	}
 	return c.Link.Lookup(dwarf.InfoPrefix + t.Name(c))
 
 }
