@@ -73,6 +73,24 @@
       "parentUuid": "0e0abadd_5135c914",
       "revId": "12a15070c547e887815fb74054afa0fd50d825cd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ffb982e_cfa5dab6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-04-15T23:23:23Z",
+      "side": 1,
+      "message": "It doesn\u0027t look flaky to me.  It looks directly related to this change.  bytes.Reader.WriteTo does not permit concurrent calls.  It may be that something has to change in the test, but it doesn\u0027t look flaky.  You should be able to recreate the problem by running\n\n    go test -race -test.run\u003dTestServerEmptyBodyRace net/http",
+      "parentUuid": "2284d566_8e4d8090",
+      "revId": "12a15070c547e887815fb74054afa0fd50d825cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
