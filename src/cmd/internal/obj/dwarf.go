@@ -315,16 +315,24 @@ func (c *dwCtxt) CreateSymForTypedef(def *dwarf.DWDie) dwarf.Sym {
 	return &LSym{Type: objabi.SDWARFTYPE}
 }
 
+func (c *dwCtxt) DefGoTypeDefault(t dwarf.Type) dwarf.Sym {
+	if c.Flag_linkshared {
+		c.populateDwarfTypeWithParent(c.dwTypesRoot, t, true)
+	}
+	return c.Link.Lookup(dwarf.InfoPrefix + t.Name(c))
+}
+
 // DefGoType not really generate a dwarf type info now,
 // it generates a sym for reloc. Only dwarf info of the type defined in
 // current compile unit will be generated.
-// TODO: it can be extended to support generating entire type info for dynlink.
-func (c *dwCtxt) DefGoType(t dwarf.Type) dwarf.Sym {
+func (c *dwCtxt) DefGoType(parent *dwarf.DWDie, t dwarf.Type) dwarf.Sym {
+	if c.Flag_linkshared {
+		c.populateDwarfTypeWithParent(parent, t, true)
+	}
 	return c.Link.Lookup(dwarf.InfoPrefix + t.Name(c))
-
 }
 
-func (c *dwCtxt) DefPtrTo(dwtype dwarf.Sym) dwarf.Sym {
+func (c *dwCtxt) DefPtrTo(parent *dwarf.DWDie, dwtype dwarf.Sym) dwarf.Sym {
 	ptrname := "*" + dwtype.(*LSym).Name[len(dwarf.InfoPrefix):]
 	sym := c.Link.Lookup(dwarf.InfoPrefix + ptrname)
 
@@ -336,7 +344,7 @@ func (c *dwCtxt) DefPtrTo(dwtype dwarf.Sym) dwarf.Sym {
 		return sym
 	}
 	dwarfname := strings.Replace(ptrname, `"".`, objabi.PathToPrefix(c.Pkgpath)+".", -1)
-	pdie := dwarf.NewDie(c.DwarfCtxt.dwTypesRoot, dwarf.DW_ABRV_PTRTYPE, ptrname, dwarfname, c)
+	pdie := dwarf.NewDie(parent, dwarf.DW_ABRV_PTRTYPE, ptrname, dwarfname, c)
 	dwarf.NewRefAttr(pdie, dwarf.DW_AT_type, dwtype)
 	// not a good way to lookup by type name.
 	dwarf.NewAttr(pdie, dwarf.DW_AT_go_runtime_type, dwarf.DW_CLS_GO_TYPEREF, 0, c.Link.Lookup("type."+ptrname))
@@ -819,6 +827,10 @@ func (ctxt *Link) PredefinedDwarfType() {
 }
 
 func (ctxt *Link) PopulateDWARFType(typ dwarf.Type, dupok bool) {
+	ctxt.populateDwarfTypeWithParent(ctxt.DwarfCtxt.dwTypesRoot, typ, dupok)
+}
+
+func (ctxt *Link) populateDwarfTypeWithParent(parent *dwarf.DWDie, typ dwarf.Type, dupok bool) {
 	dwctxt := ctxt.DwarfCtxt
 	dwsym := ctxt.Lookup(dwarf.InfoPrefix + typ.Name(dwctxt))
 	if dwsym.Type == objabi.SDWARFTYPE {
@@ -829,7 +841,7 @@ func (ctxt *Link) PopulateDWARFType(typ dwarf.Type, dupok bool) {
 		dwsym.Set(AttrDuplicateOK, true)
 	}
 
-	def, _, err := dwarf.NewType(typ, dwctxt, dwctxt.fixTypes, ctxt.DwarfCtxt.dwTypesRoot)
+	def, _, err := dwarf.NewType(typ, dwctxt, dwctxt.fixTypes, parent)
 	if err != nil {
 		ctxt.Diag(err.Error())
 		return
