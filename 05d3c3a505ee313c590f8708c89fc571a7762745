@@ -55,6 +55,47 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d1bd26b_3db2df58",
+        "filename": "misc/cgo/testsanitizers/asan_test.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2022-04-16T05:31:38Z",
+      "side": 1,
+      "message": "Done. Thank you.",
+      "parentUuid": "7dca642e_1a7b947b",
+      "revId": "05d3c3a505ee313c590f8708c89fc571a7762745",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c479cf19_b11e328d",
+        "filename": "src/cmd/compile/internal/pkginit/initAsanGlobals.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2022-04-16T05:31:38Z",
+      "side": 1,
+      "message": "@Keith, I found a to avoid range over maps here. That is, create two variables InstrumentGlobalsMap and InstrumentGlobalsSlice, the map is used for membership and the slice is used for iteration. But I do not know which implemetation is better. Could you help to review the patchset 38 again? Thank you.",
+      "range": {
+        "startLine": 70,
+        "startChar": 1,
+        "endLine": 70,
+        "endChar": 44
+      },
+      "revId": "05d3c3a505ee313c590f8708c89fc571a7762745",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fc9ef3cc_f28a0551",
@@ -68,6 +109,24 @@
       "writtenOn": "2022-04-15T21:03:25Z",
       "side": 1,
       "message": "At this documentation level we can shorten this.\n\nSupported only on linux/amd64 or linux/arm64 and only with GCC 7 and higher or Clang/LLVM 4 and higher.",
+      "revId": "05d3c3a505ee313c590f8708c89fc571a7762745",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "843f1619_8f920646",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2022-04-16T05:31:38Z",
+      "side": 1,
+      "message": "Done. Thank you.",
+      "parentUuid": "fc9ef3cc_f28a0551",
       "revId": "05d3c3a505ee313c590f8708c89fc571a7762745",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
