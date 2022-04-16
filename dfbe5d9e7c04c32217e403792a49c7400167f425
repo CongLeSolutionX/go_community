@@ -69,6 +69,24 @@
       "parentUuid": "bdfbd964_f4b45ddb",
       "revId": "dfbe5d9e7c04c32217e403792a49c7400167f425",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da27fdef_64b37ccc",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1619,
+      "author": {
+        "id": 6480
+      },
+      "writtenOn": "2022-04-16T23:07:37Z",
+      "side": 1,
+      "message": "Additional complexity can be less\n```\nif (tt.key \u003d\u003d stringType || key.kind() \u003d\u003d String) \u0026\u0026 tt.key \u003d\u003d key.typ \u0026\u0026 tt.elem.size \u003c\u003d maxValSize {\n```\nGiving good improvements in the user-defined string types.\n```\nname                              old time/op    new time/op    delta\nMap/StringKeys/MapIndex-8           2.70µs ± 3%    2.84µs ± 4%   +5.33%  (p\u003d0.000 n\u003d10+10)\nMap/StringKeys/SetMapIndex-8        5.41µs ± 2%    5.60µs ± 4%   +3.66%  (p\u003d0.000 n\u003d10+10)\nMap/Uint64Keys/MapIndex-8           3.77µs ± 3%    3.98µs ± 5%   +5.67%  (p\u003d0.000 n\u003d10+10)\nMap/Uint64Keys/SetMapIndex-8        6.39µs ± 3%    6.13µs ± 1%   -4.15%  (p\u003d0.000 n\u003d9+8)\nMap/UserStringKeys/MapIndex-8       4.72µs ± 4%    2.92µs ± 4%  -38.14%  (p\u003d0.000 n\u003d9+9)\nMap/UserStringKeys/SetMapIndex-8    7.62µs ± 4%    5.81µs ±10%  -23.83%  (p\u003d0.000 n\u003d10+9)\nMapIterNext-8                        121ns ± 2%     127ns ± 3%   +4.52%  (p\u003d0.000 n\u003d9+10)\n```\n\nIs this worth adding?",
+      "parentUuid": "5f03f6c5_5c860a54",
+      "revId": "dfbe5d9e7c04c32217e403792a49c7400167f425",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
