@@ -1616,7 +1616,7 @@ func (v Value) MapIndex(key Value) Value {
 	// of unexported fields.
 
 	var e unsafe.Pointer
-	if key.kind() == String && tt.key.Kind() == String && tt.elem.size <= maxValSize {
+	if key.kind() == String && directlyAssignable(key.typ, tt.key) && tt.elem.size <= maxValSize {
 		k := *(*string)(key.ptr)
 		e = mapaccess_faststr(v.typ, v.pointer(), k)
 	} else {
@@ -2232,7 +2232,7 @@ func (v Value) SetMapIndex(key, elem Value) {
 	key.mustBeExported()
 	tt := (*mapType)(unsafe.Pointer(v.typ))
 
-	if key.kind() == String && tt.key.Kind() == String && tt.elem.size <= maxValSize {
+	if key.kind() == String && directlyAssignable(key.typ, tt.key) && tt.elem.size <= maxValSize {
 		k := *(*string)(key.ptr)
 		if elem.typ == nil {
 			mapdelete_faststr(v.typ, v.pointer(), k)

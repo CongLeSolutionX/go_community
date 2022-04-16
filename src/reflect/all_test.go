@@ -1496,6 +1496,10 @@ func TestMap(t *testing.T) {
 	if m != nil {
 		t.Errorf("mv.Set(nil) failed")
 	}
+
+	type S string
+	shouldPanic("not assignable", func() { mv.MapIndex(ValueOf(S("key"))) })
+	shouldPanic("not assignable", func() { mv.SetMapIndex(ValueOf(S("key")), ValueOf(0)) })
 }
 
 func TestNilMap(t *testing.T) {
