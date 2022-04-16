@@ -30,7 +30,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"math"
 	mathrand "math/rand"
@@ -7877,7 +7876,7 @@ func (cc *http2ClientConn) RoundTrip(req *Request) (*Response, error) {
 		}
 		res.Request = req
 		res.TLS = cc.tlsState
-		if res.Body == http2noBody && http2actualContentLength(req) == 0 {
+		if _, ishttp2NoBody := res.Body.(http2noBody); ishttp2NoBody && http2actualContentLength(req) == 0 {
 			// If there isn't a request or response body still being
 			// written, then wait for the stream to be closed before
 			// RoundTrip returns.
@@ -9050,7 +9049,7 @@ func (rl *http2clientConnReadLoop) handleResponse(cs *http2clientStream, f *http
 	}
 
 	if cs.isHead {
-		res.Body = http2noBody
+		res.Body = http2noBody{}
 		return res, nil
 	}
 
@@ -9058,7 +9057,7 @@ func (rl *http2clientConnReadLoop) handleResponse(cs *http2clientStream, f *http
 		if res.ContentLength > 0 {
 			res.Body = http2missingBody{}
 		} else {
-			res.Body = http2noBody
+			res.Body = http2noBody{}
 		}
 		return res, nil
 	}
@@ -9618,7 +9617,11 @@ func (t *http2Transport) logf(format string, args ...interface{}) {
 	log.Printf(format, args...)
 }
 
-var http2noBody io.ReadCloser = ioutil.NopCloser(bytes.NewReader(nil))
+type http2noBody struct {}
+
+func (http2noBody) Close() error { return nil }
+
+func (http2noBody) Read([]byte) (int,error) { return 0, io.EOF }
 
 type http2missingBody struct{}
 
