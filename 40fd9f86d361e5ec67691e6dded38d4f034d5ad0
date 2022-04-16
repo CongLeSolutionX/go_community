@@ -148,6 +148,30 @@
       },
       "revId": "40fd9f86d361e5ec67691e6dded38d4f034d5ad0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34c85b09_98a49d07",
+        "filename": "src/internal/bytealg/compare_riscv64.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2022-04-16T13:42:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "553660a1_23189223",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 21
+      },
+      "revId": "40fd9f86d361e5ec67691e6dded38d4f034d5ad0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
