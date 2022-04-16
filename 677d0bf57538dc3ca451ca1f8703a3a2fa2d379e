@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31a2f21f_208b4f7e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2022-04-16T07:52:54Z",
+      "side": 1,
+      "message": "Nit: this might make users of Set think that they need to check *both* CanSet and CanAddr, when in reality they just need to check CanSet.",
+      "revId": "677d0bf57538dc3ca451ca1f8703a3a2fa2d379e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
