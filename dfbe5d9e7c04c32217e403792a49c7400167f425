@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "efa36f7e_68c54896",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2022-04-16T21:23:56Z",
+      "side": 1,
+      "message": "Nice find.",
+      "revId": "dfbe5d9e7c04c32217e403792a49c7400167f425",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c66e7c3_80673cb6",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1619,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2022-04-16T21:23:56Z",
+      "side": 1,
+      "message": "Given that a vast majority of Go maps are keys on the \"string\" type rather than a named string type, let\u0027s keep the fast path fast by doing something like:\n\n    if tt.key \u003d\u003d stringType \u0026\u0026 tt.key \u003d\u003d key.typ \u0026\u0026 ...",
+      "revId": "dfbe5d9e7c04c32217e403792a49c7400167f425",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
