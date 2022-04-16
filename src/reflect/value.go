@@ -325,7 +325,7 @@ func (v Value) runes() []rune {
 // Such values are called addressable. A value is addressable if it is
 // an element of a slice, an element of an addressable array,
 // a field of an addressable struct, or the result of dereferencing a pointer.
-// If CanAddr returns false, calling Addr will panic.
+// If CanAddr returns false, calling Addr or Set will panic.
 func (v Value) CanAddr() bool {
 	return v.flag&flagAddr != 0
 }
@@ -2090,7 +2090,7 @@ func (v Value) send(x Value, nb bool) (selected bool) {
 }
 
 // Set assigns x to the value v.
-// It panics if CanSet returns false.
+// It panics if CanSet or CanAddr returns false.
 // As in Go, x's value must be assignable to v's type.
 func (v Value) Set(x Value) {
 	v.mustBeAssignable()
