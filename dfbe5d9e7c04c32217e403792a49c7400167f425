@@ -33,6 +33,24 @@
       "message": "Given that a vast majority of Go maps are keys on the \"string\" type rather than a named string type, let\u0027s keep the fast path fast by doing something like:\n\n    if tt.key \u003d\u003d stringType \u0026\u0026 tt.key \u003d\u003d key.typ \u0026\u0026 ...",
       "revId": "dfbe5d9e7c04c32217e403792a49c7400167f425",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bdfbd964_f4b45ddb",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1619,
+      "author": {
+        "id": 6480
+      },
+      "writtenOn": "2022-04-16T22:21:28Z",
+      "side": 1,
+      "message": "That gives extra wins (see new benchmarks).\n\nCould also do something like\n```\n\tsameStringType :\u003d (tt.key \u003d\u003d stringType \u0026\u0026 tt.key \u003d\u003d key.typ) ||\n\t\t(key.kind() \u003d\u003d String \u0026\u0026 directlyAssignable(key.typ, tt.key))\n\tif sameStringType \u0026\u0026 tt.elem.size \u003c\u003d maxValSize {\n```\nto keep the faster (but not fastest) path for user-named string types at the cost of some unpleasant complexity. This has the same performance for the commonest case as the simpler version.",
+      "parentUuid": "9c66e7c3_80673cb6",
+      "revId": "dfbe5d9e7c04c32217e403792a49c7400167f425",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
