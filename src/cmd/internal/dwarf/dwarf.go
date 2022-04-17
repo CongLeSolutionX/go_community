@@ -2219,42 +2219,58 @@ func mkInternalType(parent *DWDie, ctx Context, abbrev int, typename, keyname, v
 	return die.Sym
 }
 
-func SynthesizeStringTypes(ctxt Context, parent *DWDie, prototypes map[string]*DWDie) {
+func SynthesizeStringTypes(ctxt Context, parent *DWDie, lookupPrototype func(name string) *DWDie) {
+	var stringStructDWARF *DWDie
+	var init bool
 	die := parent.Child
 	for ; die != nil; die = die.Link {
 		if die.Abbrev != DW_ABRV_STRINGTYPE {
 			continue
 		}
-		copyChildren(ctxt, die, prototypes["runtime.stringStructDWARF"])
+		if !init {
+			stringStructDWARF = lookupPrototype("runtime.stringStructDWARF")
+			init = true
+		}
+		copyChildren(ctxt, die, stringStructDWARF)
 	}
 }
 
-func SynthesizeSliceTypes(ctxt Context, parent *DWDie, prototypes map[string]*DWDie) {
+func SynthesizeSliceTypes(ctxt Context, parent *DWDie, lookupPrototype func(name string) *DWDie) {
+	var slice *DWDie
+	var init bool
 	die := parent.Child
 	for ; die != nil; die = die.Link {
 		if die.Abbrev != DW_ABRV_SLICETYPE {
 			continue
 		}
-		copyChildren(ctxt, die, prototypes["runtime.slice"])
+		if !init {
+			slice = lookupPrototype("runtime.slice")
+			init = true
+		}
+		copyChildren(ctxt, die, slice)
 		elem := getAttr(die, DW_AT_go_elem).Data.(Sym)
 		substituteType(die, "array", ctxt.DefPtrTo(elem))
 	}
 }
 
-func SynthesizeChanTypes(ctxt Context, parent *DWDie, prototypes map[string]*DWDie) {
-	sudog := prototypes["runtime.sudog"]
-	waitq := prototypes["runtime.waitq"]
-	hchan := prototypes["runtime.hchan"]
-	if sudog == nil || waitq == nil || hchan == nil {
-		return
-	}
-
-	sudogsize := int(getAttr(sudog, DW_AT_byte_size).Value)
+func SynthesizeChanTypes(ctxt Context, parent *DWDie, lookupPrototype func(name string) *DWDie) {
+	var sudog *DWDie
+	var waitq *DWDie
+	var hchan *DWDie
+	var sudogsize int
+	var init bool
 
 	die := parent.Child
 	for ; die != nil; die = die.Link {
 		if die.Abbrev != DW_ABRV_CHANTYPE {
 			continue
+		}
+		if !init {
+			sudog = lookupPrototype("runtime.sudog")
+			waitq = lookupPrototype("runtime.waitq")
+			hchan = lookupPrototype("runtime.hchan")
+			sudogsize = int(getAttr(sudog, DW_AT_byte_size).Value)
+			init = true
 		}
 		elemgotype := getAttr(die, DW_AT_type).Data.(Type)
 		elemname := elemgotype.DwarfName(ctxt)
@@ -2299,17 +2315,20 @@ const (
 	bucketSize = 8
 )
 
-func SynthesizeMapTypes(ctxt Context, parent *DWDie, prototypes map[string]*DWDie, uintptr Sym, arch *sys.Arch) {
-	hash := prototypes["runtime.hmap"]
-	bucket := prototypes["runtime.bmap"]
+func SynthesizeMapTypes(ctxt Context, parent *DWDie, lookupPrototype func(name string) *DWDie, uintptr Sym, arch *sys.Arch) {
 
-	if hash == nil {
-		return
-	}
+	var hash *DWDie
+	var bucket *DWDie
+	var init bool
 	die := parent.Child
 	for ; die != nil; die = die.Link {
 		if die.Abbrev != DW_ABRV_MAPTYPE {
 			continue
+		}
+		if !init {
+			hash = lookupPrototype("runtime.hmap")
+			bucket = lookupPrototype("runtime.bmap")
+			init = true
 		}
 		gotype := getAttr(die, DW_AT_type).Data.(Type)
 		key := gotype.Key(ctxt)

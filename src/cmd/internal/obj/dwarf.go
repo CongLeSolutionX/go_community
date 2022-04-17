@@ -789,26 +789,6 @@ func (s BySymName) Swap(i, j int)      { s[i], s[j] = s[j], s[i] }
 
 var PredefinedTypes dwarf.FixTypes
 
-var prototypelist = []string{
-	"runtime.stringStructDWARF",
-	"runtime.slice",
-	"runtime.hmap",
-	"runtime.bmap",
-	"runtime.sudog",
-	"runtime.waitq",
-	"runtime.hchan",
-}
-
-var prototypedies = map[string]*dwarf.DWDie{
-	"runtime.stringStructDWARF": nil,
-	"runtime.slice":             nil,
-	"runtime.hmap":              nil,
-	"runtime.bmap":              nil,
-	"runtime.sudog":             nil,
-	"runtime.waitq":             nil,
-	"runtime.hchan":             nil,
-}
-
 func (ctxt *Link) PopulateDWARFType(typ dwarf.Type, dupok bool) {
 	dwsym := ctxt.Lookup(dwarf.InfoPrefix + typ.Name(dwCtxt{ctxt}))
 	if dwsym.Type == objabi.SDWARFTYPE {
@@ -826,35 +806,29 @@ func (ctxt *Link) PopulateDWARFType(typ dwarf.Type, dupok bool) {
 		return
 	}
 	dwarf.NewAttr(def, dwarf.DW_AT_go_runtime_type, dwarf.DW_CLS_GO_TYPEREF, 0, typ.RuntimeType(dwctxt))
-	if _, ok := prototypedies[typ.DwarfName(dwCtxt{ctxt})]; ok {
-		prototypedies[typ.DwarfName(dwCtxt{ctxt})] = def
-	}
 }
 
 func (ctxt *Link) DumpDwarfTypes() {
+	dwctxt := dwCtxt{ctxt}
 	// We don't expect this type in the package out of runtime.
 	// So use another temp root, we can avoid dumping them when dwtypes is traversed.
+	// when compiling runtime, they can be dumped by the real runtime package.
 	prototypeRoot := new(dwarf.DWDie)
-	for _, name := range prototypelist {
-		if prototypedies[name] != nil {
-			continue
-		}
-
+	lookupPrototype := func(name string) *dwarf.DWDie {
 		t := ctxt.LookupDwPredefined(name)
-		def, _, err := dwarf.NewType(t, dwCtxt{ctxt}, PredefinedTypes, prototypeRoot)
+		die, _, err := dwarf.NewType(t, dwctxt, PredefinedTypes, prototypeRoot)
 		if err != nil {
 			ctxt.Diag(err.Error())
-			return
+			return nil
 		}
-		prototypedies[name] = def
+		return die
 	}
-
-	dwarf.SynthesizeStringTypes(dwCtxt{ctxt}, &ctxt.dwtypes, prototypedies)
-	dwarf.SynthesizeSliceTypes(dwCtxt{ctxt}, &ctxt.dwtypes, prototypedies)
-	dwarf.SynthesizeMapTypes(dwCtxt{ctxt}, &ctxt.dwtypes, prototypedies, PredefinedTypes.Uintptr, ctxt.Arch.Arch)
-	dwarf.SynthesizeChanTypes(dwCtxt{ctxt}, &ctxt.dwtypes, prototypedies)
-	dwarf.ReverseTree(&ctxt.dwtypes.Child)
-	for die := ctxt.dwtypes.Child; die != nil; die = die.Link {
+	dwarf.SynthesizeStringTypes(dwctxt, &dwctxt.dwtypes, lookupPrototype)
+	dwarf.SynthesizeSliceTypes(dwctxt, &dwctxt.dwtypes, lookupPrototype)
+	dwarf.SynthesizeMapTypes(dwctxt, &dwctxt.dwtypes, lookupPrototype, PredefinedTypes.Uintptr, ctxt.Arch.Arch)
+	dwarf.SynthesizeChanTypes(dwctxt, &dwctxt.dwtypes, lookupPrototype)
+	dwarf.ReverseTree(&dwctxt.dwtypes.Child)
+	for die := dwctxt.dwtypes.Child; die != nil; die = die.Link {
 		ctxt.Data = ctxt.putdie(ctxt.Data, die)
 	}
 }
