@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ebbec0a0_be46ac37",
+        "filename": "src/net/http/h2_bundle.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-04-17T01:32:12Z",
+      "side": 0,
+      "message": "This is a generated file.  Changes to this file must be made in the golang.org/x/net repo and then copied in here.  Thanks, and sorry for the busywork.",
+      "revId": "df08c9a82152fd6f2b2811db03b40fea8b6e5e9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
