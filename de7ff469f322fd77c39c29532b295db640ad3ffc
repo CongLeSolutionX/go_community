@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd0e05ff_ba521b9a",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-04-18T15:59:54Z",
+      "side": 1,
+      "message": "To double check: we don\u0027t need the scavenger to run during STW, right? (asyncWork check comes after gcstopm)",
+      "revId": "de7ff469f322fd77c39c29532b295db640ad3ffc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

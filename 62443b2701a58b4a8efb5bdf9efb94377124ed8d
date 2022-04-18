@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6b7ecb1_14bc1a06",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-04-18T15:59:54Z",
+      "side": 1,
+      "message": "Overall, I\u0027m not thrilled by this hard-wired mechanism, but I don\u0027t think there is a nice clean solution given the really restrictive places we need to use this, so that is OK.\n\nThe part that concerns me the most is general lack of use of wakep() when queuing work. I don\u0027t think anythng in this CL is broken as a result (i.e., we can\u0027t miss work entirely), but:\n\n* There is generally no guarantee of when the work will be detected (despite the fact that a large purpose of this CL is to trigger GC \"promptly\"). This is a problem with wakep too (no-op if all Ps are running), but exasperated without wakep. I suspect we\u0027ll be fielding bugs in the future where GC takes far too long to trigger.\n\n* If in the future work is inadvertently queued from the wrong place (e.g., on the way to stopm), there may not be _any_ P to detect the work and we\u0027ll miss it entirely.\n\nI\u0027m not sure what we should do about these beyond document expectations and requirements for callers.",
+      "revId": "62443b2701a58b4a8efb5bdf9efb94377124ed8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a5f840a_df1a3798",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-04-18T15:59:54Z",
+      "side": 1,
+      "message": "throw()?",
+      "revId": "62443b2701a58b4a8efb5bdf9efb94377124ed8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd3af3c5_a6c4a638",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 738,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-04-18T15:59:54Z",
+      "side": 1,
+      "message": "Why are these racy reads/writes OK given that sysmon could concurrently call asyncWork.gcStart()?",
+      "range": {
+        "startLine": 737,
+        "startChar": 0,
+        "endLine": 738,
+        "endChar": 32
+      },
+      "revId": "62443b2701a58b4a8efb5bdf9efb94377124ed8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51d9bb9f_a4786bab",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-04-18T15:59:54Z",
+      "side": 1,
+      "message": "I guess it doesn\u0027t really matter, but it seems cleaner for this to be inside gcStart.",
+      "revId": "62443b2701a58b4a8efb5bdf9efb94377124ed8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ccca6dcb_82b63680",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-04-18T15:59:54Z",
+      "side": 1,
+      "message": "There are multiple trigger types, but tryEnqueue only accepts the first.\n\ngcStart re-tests the trigger before actually starting the GC. Doesn\u0027t that mean there is a risk that the first trigger is no longer true [1], so GC doesn\u0027t start, but the later triggers are still true, yet will never be evaluated and we\u0027ll miss the GC until a trigger queues again?\n\n[1] Especially now that gcController.trigger is variable.",
+      "revId": "62443b2701a58b4a8efb5bdf9efb94377124ed8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c6dbde8_2888ece1",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 2699,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-04-18T15:59:54Z",
+      "side": 1,
+      "message": "Just thinking out loud, should the asyncWork check go after checkTimers? It feels a bit odd that that is the only thing prior to checkTimers.",
+      "revId": "62443b2701a58b4a8efb5bdf9efb94377124ed8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
