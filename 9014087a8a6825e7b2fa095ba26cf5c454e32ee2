@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7610b36c_4737fa26",
+        "filename": "src/runtime/mgcscavenge.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-04-18T19:53:35Z",
+      "side": 1,
+      "message": "It feels a bit odd to have such a binary world. The comments here and the design doc discuss using the memory limit to set the scavenge goal, but only in the context of getting more aggressive as we get near the limit.\n\nI don\u0027t see much discussion of the opposite: when usage is far below the limit. e.g., what is the impact of setting memory limit \u003d maxInt64-1? It seems in that case we effectively just don\u0027t return memory to the OS. Is that intentional? IIRC from the design it is, but none of the docs here or on SetMemoryLimit itself discuss this much.",
+      "revId": "9014087a8a6825e7b2fa095ba26cf5c454e32ee2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "14b8cee1_d703ee08",
+        "filename": "src/runtime/mgcscavenge.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-04-18T19:53:35Z",
+      "side": 1,
+      "message": "Make this a constant?",
+      "range": {
+        "startLine": 169,
+        "startChar": 43,
+        "endLine": 169,
+        "endChar": 44
+      },
+      "revId": "9014087a8a6825e7b2fa095ba26cf5c454e32ee2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77b33ce0_b989d517",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-04-18T19:53:35Z",
+      "side": 1,
+      "message": "No longer accurate.",
+      "range": {
+        "startLine": 111,
+        "startChar": 34,
+        "endLine": 112,
+        "endChar": 17
+      },
+      "revId": "9014087a8a6825e7b2fa095ba26cf5c454e32ee2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
