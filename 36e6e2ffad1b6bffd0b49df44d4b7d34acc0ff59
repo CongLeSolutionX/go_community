@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "140b2a31_68ae0c7a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44188
+      },
+      "writtenOn": "2022-04-18T07:46:06Z",
+      "side": 1,
+      "message": "Another reason is we need 64-bit PRNG to support the multiple-cores system scalable at ByteDance, the built-in package rand is unscalable(wrapped by a sync.Mutex). We built a lot of infrastructures based on fastrand(via go:linkname, although it\u0027s dangerous), in some cases, we also need a 64-bit PRNG instead 32-bit.\n\nAnd because runtime.fastrand is a pre-M data structure, we can\u0027t modify it outside the Go runtime, it would be nice if we could add this new API.\n\nI\u0027m also wondering if we could use a 64-bit XORSHIFT as a fallback algorithm(replace 32-bit XORSHIFT)? Like `xˆ\u003d(x\u003c\u003c13); xˆ\u003d(x\u003e\u003e7); return (xˆ\u003d(x\u003c\u003c17))`, but it is not tested on 32-bit system, and might be slower. ",
+      "revId": "36e6e2ffad1b6bffd0b49df44d4b7d34acc0ff59",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
