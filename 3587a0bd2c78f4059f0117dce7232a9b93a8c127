@@ -96,6 +96,40 @@
       "message": "If we remove the R_CALLIND relocation in asm0.go, maybe we want to add it here?",
       "revId": "3587a0bd2c78f4059f0117dce7232a9b93a8c127",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72205632_412f6174",
+        "filename": "src/cmd/internal/objabi/reloctype.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-18T20:09:19Z",
+      "side": 1,
+      "message": "Maybe \"R_MIPS_GPREL_HI16 resolves to the high 16-bit of the GOT address in PIC mode\"?\n\nAlso others.",
+      "revId": "3587a0bd2c78f4059f0117dce7232a9b93a8c127",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e8d7cfd_217f2fd1",
+        "filename": "src/cmd/internal/objabi/reloctype.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-18T20:09:19Z",
+      "side": 1,
+      "message": "I\u0027m not sure this is clear. What is \"that pointer\", and what is gp?",
+      "revId": "3587a0bd2c78f4059f0117dce7232a9b93a8c127",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
