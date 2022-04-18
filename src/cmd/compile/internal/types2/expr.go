@@ -89,11 +89,17 @@ func (check *Checker) op(m opPredicates, x *operand, op syntax.Operator) bool {
 func (check *Checker) overflow(x *operand) {
 	assert(x.mode == constant_)
 
+	pos := x.Pos()
+	// If the expression is not an assignment operation,
+	// use its position as error position.
+	if x.expr != nil {
+		pos = syntax.StartPos(x.expr)
+	}
+
+	what := "" // operator description, if any
 	// If the corresponding expression is an operation, use the
 	// operator position rather than the start of the expression
 	// as error position.
-	pos := syntax.StartPos(x.expr)
-	what := "" // operator description, if any
 	if op, _ := x.expr.(*syntax.Operation); op != nil {
 		pos = op.Pos()
 		what = opName(op)
