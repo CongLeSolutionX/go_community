@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "5fd0105c_9853aa35",
+        "filename": "src/runtime/mgcscavenge.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-04-18T20:00:13Z",
+      "side": 1,
+      "message": "you\u0027re right. that is a drawback of the way it\u0027s implemented now and it doesn\u0027t reflect the document. I think these two worlds are easily mergable, I just need to consider more *how*. it\u0027s somewhat unfortunate that the goal we currently use is so divorced from the goal we want for memory limits. I think with some additional math and adjustments that\u0027s fixable, though.",
+      "parentUuid": "7610b36c_4737fa26",
+      "revId": "9014087a8a6825e7b2fa095ba26cf5c454e32ee2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "14b8cee1_d703ee08",
