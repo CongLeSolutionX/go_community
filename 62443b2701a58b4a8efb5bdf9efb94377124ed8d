@@ -58,6 +58,29 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9555913_76479c30",
+        "filename": "src/runtime/mgcscavenge.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-04-18T16:07:20Z",
+      "side": 1,
+      "message": "I believe this part is not relevant anymore, as this will always have a P.",
+      "range": {
+        "startLine": 336,
+        "startChar": 42,
+        "endLine": 338,
+        "endChar": 17
+      },
+      "revId": "62443b2701a58b4a8efb5bdf9efb94377124ed8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "51d9bb9f_a4786bab",
