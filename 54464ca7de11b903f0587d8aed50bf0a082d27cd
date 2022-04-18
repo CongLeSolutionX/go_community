@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78ded31c_cff94557",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-04-18T15:55:29Z",
+      "side": 1,
+      "message": "These rules all look fine.\n\nI\u0027m confused as to why you\u0027re seeing the assembly differences. What architecture are you looking at? Both amd64 and arm64 do the x+(-y)\u003d\u003ex-y rewrite in the architecture-dependent rules. So also doing that in the generic rules (which is a good idea, thanks) shouldn\u0027t make a difference.\n",
+      "revId": "54464ca7de11b903f0587d8aed50bf0a082d27cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
