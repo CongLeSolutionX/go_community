@@ -69,6 +69,24 @@
       "parentUuid": "f48fe2ee_4aa1d32d",
       "revId": "973388188e71c9b7e817ac9162ece647708630e4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d28e83ac_6253bca6",
+        "filename": "src/runtime/debug/garbage.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-04-18T20:22:45Z",
+      "side": 1,
+      "message": "The scavenger does have an explicit difference in goal when the memory limit \u003d\u003d MaxInt64 vs not. That seems worth mentioning.",
+      "parentUuid": "677c573b_cc893feb",
+      "revId": "973388188e71c9b7e817ac9162ece647708630e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
