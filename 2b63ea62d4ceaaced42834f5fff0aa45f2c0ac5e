@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "db5d068c_4ec07651",
+        "filename": "src/cmd/internal/obj/mips/a.out.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-18T19:29:15Z",
+      "side": 1,
+      "message": "Yeah, this seems better.\n\n\u003e but there are some \u0027CALL Sym\u0027 instruction inserted after rewriteToGot, such as \"CALL\truntime.morestack_noctxt(SB)\".\n\nCan you run rewriteToGot later, after all these code are generated?",
+      "parentUuid": "facaab69_c494f613",
+      "revId": "2b63ea62d4ceaaced42834f5fff0aa45f2c0ac5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5cf50af3_140380eb",
         "filename": "src/cmd/internal/obj/mips/a.out.go",
         "patchSetId": 21
@@ -308,6 +326,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "77c23d46_f82749c5",
+        "filename": "src/cmd/internal/obj/mips/asm0.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 1752,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-18T19:29:15Z",
+      "side": 1,
+      "message": "Add the full instructions in the comment. The expansion isn\u0027t obvious. Thanks. (Also to cases below.)\n\nAlso, does it have to use R2 and R4? Do they have any special meaning? Could we use, say, R3 and REGTMP?",
+      "parentUuid": "6e6323fe_51388102",
+      "range": {
+        "startLine": 1752,
+        "startChar": 41,
+        "endLine": 1752,
+        "endChar": 75
+      },
+      "revId": "2b63ea62d4ceaaced42834f5fff0aa45f2c0ac5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8ef9179b_fa0897f7",
         "filename": "src/cmd/internal/obj/mips/asm0.go",
         "patchSetId": 21
@@ -343,6 +385,30 @@
       "side": 1,
       "message": "I implement R_MIPS_GOTPCREL in linker as following:\n```\nif r.Type \u003d\u003d objabi.R_MIPS_GOTPCREL {\n\t\tout.Write64(uint64(sectoff))  // \u003d\u003e o1\n\t\telfsym :\u003d ld.ElfSymForReloc(ctxt, r.Xsym)\n\t\tout.Write32(uint32(elfsym))\n\t\tout.Write8(0)\n\t\tout.Write8(uint8(elf.R_MIPS_HI16))\n\t\tout.Write8(uint8(elf.R_MIPS_SUB))\n\t\tout.Write8(uint8(elf.R_MIPS_GPREL16))\n\t\tout.Write64(uint64(r.Xadd))\n\n\t\tout.Write64(uint64(sectoff + 8)) // \u003d\u003e o3 \n\t\tout.Write32(uint32(elfsym))\n\t\tout.Write8(0)\n\t\tout.Write8(uint8(elf.R_MIPS_LO16))\n\t\tout.Write8(uint8(elf.R_MIPS_SUB))\n\t\tout.Write8(uint8(elf.R_MIPS_GPREL16))\n\t\tout.Write64(uint64(r.Xadd))\n\t\treturn true\n\t}\n```\t\nI split R_MIPS_GOTPCREL into R_MIPS_GPREL_HI16 and R_MIPS_GPREL_LO16 now.",
       "parentUuid": "8ef9179b_fa0897f7",
+      "range": {
+        "startLine": 1807,
+        "startChar": 0,
+        "endLine": 1813,
+        "endChar": 35
+      },
+      "revId": "2b63ea62d4ceaaced42834f5fff0aa45f2c0ac5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6a575b6_2ac63235",
+        "filename": "src/cmd/internal/obj/mips/asm0.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 1813,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-18T19:29:15Z",
+      "side": 1,
+      "message": "It is okay to have one instruction that applies to multiple machine instructions. I think that is simpler. But the rel.Siz should not be 4, then.",
+      "parentUuid": "730facad_622c89e5",
       "range": {
         "startLine": 1807,
         "startChar": 0,
@@ -390,6 +456,30 @@
       "side": 1,
       "message": "There are some code to handle large function. If there is very large branch, the JMP instructions are inserted into plist and it will use case 11 (26 bit width) to do the jump, not case 6 (16 bit width). PIC code must be PC-relative, so we cannot use case 11 now. I have no idea for a better implementation by now. Could you give me some tips?",
       "parentUuid": "629c041f_375a995f",
+      "range": {
+        "startLine": 1863,
+        "startChar": 0,
+        "endLine": 1865,
+        "endChar": 3
+      },
+      "revId": "2b63ea62d4ceaaced42834f5fff0aa45f2c0ac5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a58daa7d_6d0a2be1",
+        "filename": "src/cmd/internal/obj/mips/asm0.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 1865,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-18T19:29:15Z",
+      "side": 1,
+      "message": "Yeah, the code handling large jumps wouldn\u0027t work in this case. I think it should rewrite to JMP sym+offset where sym is the current function, which in turn probably rewrites to MOV $sym+offset, R25; JMP (R25), with the proper relocation resolving to the current function + offset.",
+      "parentUuid": "e2fd968e_84f7e0ea",
       "range": {
         "startLine": 1863,
         "startChar": 0,
@@ -625,6 +715,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c0796070_6709f70e",
+        "filename": "src/cmd/internal/objabi/reloctype.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-18T19:29:15Z",
+      "side": 1,
+      "message": "I don\u0027t think this is clear. What is \"protected symbols\"? Does the linker resolve it to anything?",
+      "parentUuid": "dfff2acf_dcc69174",
+      "range": {
+        "startLine": 120,
+        "startChar": 16,
+        "endLine": 120,
+        "endChar": 66
+      },
+      "revId": "2b63ea62d4ceaaced42834f5fff0aa45f2c0ac5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c962ce18_88ff8d4f",
         "filename": "src/cmd/internal/objabi/reloctype.go",
         "patchSetId": 21
@@ -660,6 +774,30 @@
       "side": 1,
       "message": "I move R_MIPS_* to the behind of R_XCOFFREF. If I moved them to the back of R_WEAKADDROFF, R_MIPS_* can not be included in reloctype_string.go with stringer tool.",
       "parentUuid": "c962ce18_88ff8d4f",
+      "range": {
+        "startLine": 116,
+        "startChar": 0,
+        "endLine": 129,
+        "endChar": 16
+      },
+      "revId": "2b63ea62d4ceaaced42834f5fff0aa45f2c0ac5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33fdb2ee_211b44bc",
+        "filename": "src/cmd/internal/objabi/reloctype.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-18T19:29:15Z",
+      "side": 1,
+      "message": "Yeah, don\u0027t move them after R_WEAK. This is good.",
+      "parentUuid": "65aa6299_91553bd7",
       "range": {
         "startLine": 116,
         "startChar": 0,

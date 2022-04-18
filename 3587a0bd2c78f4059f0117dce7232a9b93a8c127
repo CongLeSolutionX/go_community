@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1d7fad7_ac960ab6",
+        "filename": "src/cmd/internal/obj/mips/asm0.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-18T19:29:15Z",
+      "side": 1,
+      "message": "This doesn\u0027t look right. I think a GOTADDR should only be an input to an ADD instruction, not the output.",
+      "revId": "3587a0bd2c78f4059f0117dce7232a9b93a8c127",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ba2486b_2fc7a108",
+        "filename": "src/cmd/internal/obj/mips/asm0.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 1429,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-18T19:29:15Z",
+      "side": 1,
+      "message": "Why? Is this necessary?",
+      "range": {
+        "startLine": 1429,
+        "startChar": 5,
+        "endLine": 1429,
+        "endChar": 24
+      },
+      "revId": "3587a0bd2c78f4059f0117dce7232a9b93a8c127",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f13dc3bc_ae951f62",
+        "filename": "src/cmd/internal/obj/mips/asm0.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 1828,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-18T19:29:15Z",
+      "side": 1,
+      "message": "Can we directly targeting R25 (instead of using REGTMP first) and remove the OR instruction?",
+      "revId": "3587a0bd2c78f4059f0117dce7232a9b93a8c127",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7c93857_5562f870",
+        "filename": "src/cmd/internal/obj/mips/asm0.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 1831,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-18T19:29:15Z",
+      "side": 1,
+      "message": "I think it is better to say $addr@GOT, so it looks like an address in Go assembly. Otherwise it looks like a memory load.",
+      "range": {
+        "startLine": 1831,
+        "startChar": 18,
+        "endLine": 1831,
+        "endChar": 26
+      },
+      "revId": "3587a0bd2c78f4059f0117dce7232a9b93a8c127",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "216c87f5_078a8932",
+        "filename": "src/cmd/internal/obj/mips/obj0.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-18T19:29:15Z",
+      "side": 1,
+      "message": "If we remove the R_CALLIND relocation in asm0.go, maybe we want to add it here?",
+      "revId": "3587a0bd2c78f4059f0117dce7232a9b93a8c127",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
