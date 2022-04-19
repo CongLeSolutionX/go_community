@@ -97,6 +97,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7e16ab07_8a971e56",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1621,
+      "author": {
+        "id": 6480
+      },
+      "writtenOn": "2022-04-19T22:19:03Z",
+      "side": 1,
+      "message": "Yes. I have that in a stash, though with `(tt.key \u003d\u003d stringType || key.kind() \u003d\u003d String) \u0026\u0026 tt.key \u003d\u003d key.typ` since I found that the kind() call was noticeably slower (I\u0027ll check this).\n\nAre you OK with the additional complexity given a performance impact?",
+      "parentUuid": "af58e2cb_d13a2704",
+      "range": {
+        "startLine": 1621,
+        "startChar": 4,
+        "endLine": 1621,
+        "endChar": 24
+      },
+      "revId": "76b6de286af1185c6754e910616c8efe2d0c18ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "29dd5f51_438a4811",
         "filename": "src/reflect/value.go",
         "patchSetId": 2
