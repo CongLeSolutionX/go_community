@@ -53,6 +53,63 @@
       "message": "Thanks.",
       "revId": "76b6de286af1185c6754e910616c8efe2d0c18ed",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21bcd190_690d8bcd",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1504,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-04-19T21:28:48Z",
+      "side": 1,
+      "message": "Would be interesting to also test a m[S]int map with a string key.",
+      "revId": "76b6de286af1185c6754e910616c8efe2d0c18ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af58e2cb_d13a2704",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1621,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-04-19T21:28:48Z",
+      "side": 1,
+      "message": "I think this condition is too strict. It should be ok to use mapaccess_faststr for\n\ntype S string\nvar k S\nvar m map[S]int\n_ \u003d m[k]\n\nI think we want\n\nkey.kind() \u003d\u003d String \u0026\u0026 tt.key \u003d\u003d key.typ\n\nThe second half of that is the part that we need to enforce to fix the bug.",
+      "range": {
+        "startLine": 1621,
+        "startChar": 4,
+        "endLine": 1621,
+        "endChar": 24
+      },
+      "revId": "76b6de286af1185c6754e910616c8efe2d0c18ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29dd5f51_438a4811",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2237,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-04-19T21:28:48Z",
+      "side": 1,
+      "message": "Same here.",
+      "revId": "76b6de286af1185c6754e910616c8efe2d0c18ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
