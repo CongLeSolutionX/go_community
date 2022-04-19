@@ -235,7 +235,7 @@ func (st *relocSymState) relocsym(s loader.Sym, P []byte) {
 				// TOC symbol doesn't have a type but we do assign a value
 				// (see the address pass) and we can resolve it.
 				// TODO: give it a type.
-			} else if ldr.SymType(s) == sym.SDWARFTYPE && strings.HasPrefix(ldr.SymName(rs), "type.*") {
+			} else if ldr.SymType(s) == sym.SDWARFTYPE && strings.HasPrefix(ldr.SymName(rs), "type:*") {
 
 			} else {
 				st.err.errorUnresolved(ldr, s, rs)
@@ -451,6 +451,13 @@ func (st *relocSymState) relocsym(s loader.Sym, P []byte) {
 			if weak && !ldr.AttrReachable(rs) {
 				continue
 			}
+
+			if ldr.SymType(s) == sym.SDWARFTYPE && strings.HasPrefix(ldr.SymName(rs), "type:") && rst == sym.SDYNIMPORT {
+				// For attr DW_AT_go_runtime_type in DWARF type die. If the type description is an import symbol,
+				// it can't be referenced by offset, so skip it.
+				continue
+			}
+
 			sect := ldr.SymSect(rs)
 			if sect == nil {
 				if rst == sym.SDYNIMPORT {
@@ -665,6 +672,7 @@ func extreloc(ctxt *Link, ldr *loader.Loader, s loader.Sym, r loader.Reloc) (loa
 		if target.IsDarwin() {
 			return rr, false
 		}
+
 		rs := r.Sym()
 		rr.Xsym = loader.Sym(ldr.SymSect(rs).Sym)
 		rr.Xadd = r.Add() + ldr.SymValue(rs) - int64(ldr.SymSect(rs).Vaddr)
