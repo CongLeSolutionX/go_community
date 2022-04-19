@@ -935,6 +935,9 @@ type Link struct {
 
 	dwtypes dwarf.DWDie
 
+	//dwarf.Type --> dupok
+	delayTypes map[dwarf.Type]bool
+
 	// pkgIdx maps package path to index. The index is used for
 	// symbol reference in the object file.
 	pkgIdx map[string]int32
