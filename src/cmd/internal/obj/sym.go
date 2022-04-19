@@ -32,6 +32,7 @@
 package obj
 
 import (
+	"cmd/internal/dwarf"
 	"cmd/internal/goobj"
 	"cmd/internal/notsha256"
 	"cmd/internal/objabi"
@@ -48,6 +49,7 @@ func Linknew(arch *LinkArch) *Link {
 	ctxt.hash = make(map[string]*LSym)
 	ctxt.funchash = make(map[string]*LSym)
 	ctxt.statichash = make(map[string]*LSym)
+	ctxt.delayTypes = make(map[dwarf.Type]bool)
 	ctxt.Arch = arch
 	ctxt.Pathname = objabi.WorkingDir()
 

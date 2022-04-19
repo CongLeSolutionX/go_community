@@ -97,6 +97,7 @@ func Info(fnsym *obj.LSym, infosym *obj.LSym, curfn interface{}) ([]dwarf.Scope,
 				// spill locations, so not a huge deal.
 				continue
 			}
+			CreateDwarfType(n.Type())
 			fnsym.Func().RecordAutoType(reflectdata.TypeLinksym(n.Type()))
 		}
 	}
@@ -203,7 +204,7 @@ func createDwarfVars(fnsym *obj.LSym, complexOK bool, fn *ir.Func, apDecls []*ir
 			decls = append(decls, n)
 			continue
 		}
-		typename := dwarf.InfoPrefix + types.TypeSymName(n.Type())
+
 		decls = append(decls, n)
 		abbrev := dwarf.DW_ABRV_AUTO_LOCLIST
 		isReturnValue := (n.Class == ir.PPARAMOUT)
@@ -224,13 +225,14 @@ func createDwarfVars(fnsym *obj.LSym, complexOK bool, fn *ir.Func, apDecls []*ir
 				}
 			}
 		}
+
 		declpos := base.Ctxt.InnermostPos(n.Pos())
 		vars = append(vars, &dwarf.Var{
 			Name:          n.Sym().Name,
 			IsReturnValue: isReturnValue,
 			Abbrev:        abbrev,
 			StackOffset:   int32(n.FrameOffset()),
-			Type:          base.Ctxt.Lookup(typename),
+			Type:          CreateDwarfType(n.Type()),
 			DeclFile:      declpos.RelFilename(),
 			DeclLine:      declpos.RelLine(),
 			DeclCol:       declpos.RelCol(),
@@ -370,7 +372,6 @@ func createSimpleVar(fnsym *obj.LSym, n *ir.Name) *dwarf.Var {
 		base.Fatalf("createSimpleVar unexpected class %v for node %v", n.Class, n)
 	}
 
-	typename := dwarf.InfoPrefix + types.TypeSymName(n.Type())
 	delete(fnsym.Func().Autot, reflectdata.TypeLinksym(n.Type()))
 	inlIndex := 0
 	if base.Flag.GenDwarfInl > 1 {
@@ -388,7 +389,7 @@ func createSimpleVar(fnsym *obj.LSym, n *ir.Name) *dwarf.Var {
 		IsInlFormal:   n.InlFormal(),
 		Abbrev:        abbrev,
 		StackOffset:   int32(offs),
-		Type:          base.Ctxt.Lookup(typename),
+		Type:          CreateDwarfType(n.Type()),
 		DeclFile:      declpos.RelFilename(),
 		DeclLine:      declpos.RelLine(),
 		DeclCol:       declpos.RelCol(),
@@ -472,7 +473,7 @@ func createComplexVar(fnsym *obj.LSym, fn *ir.Func, varID ssa.VarID) *dwarf.Var 
 
 	gotype := reflectdata.TypeLinksym(n.Type())
 	delete(fnsym.Func().Autot, gotype)
-	typename := dwarf.InfoPrefix + gotype.Name[len("type:"):]
+
 	inlIndex := 0
 	if base.Flag.GenDwarfInl > 1 {
 		if n.InlFormal() || n.InlLocal() {
@@ -488,7 +489,7 @@ func createComplexVar(fnsym *obj.LSym, fn *ir.Func, varID ssa.VarID) *dwarf.Var 
 		IsReturnValue: n.Class == ir.PPARAMOUT,
 		IsInlFormal:   n.InlFormal(),
 		Abbrev:        abbrev,
-		Type:          base.Ctxt.Lookup(typename),
+		Type:          CreateDwarfType(n.Type()),
 		// The stack offset is used as a sorting key, so for decomposed
 		// variables just give it the first one. It's not used otherwise.
 		// This won't work well if the first slot hasn't been assigned a stack
@@ -588,6 +589,13 @@ func RecordPackageName() {
 func lookupRuntime(name string) dwarf.Type {
 	t := typecheck.LookupRuntime(name[len("runtime."):])
 	return reflectdata.DwarfType{Type: t.Type()}
+}
+
+func CreateDwarfType(t *types.Type) *obj.LSym {
+	if base.Ctxt.Flag_linkshared && base.Flag.Dwarf {
+		base.Ctxt.DelayPopulateDWARFType(reflectdata.DwarfType{Type: t}, true)
+	}
+	return base.Ctxt.Lookup(dwarf.InfoPrefix + types.TypeSymName(t))
 }
 
 func DumpDwarfTypes() {
