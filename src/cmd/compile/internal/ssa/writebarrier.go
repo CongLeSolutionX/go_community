@@ -11,6 +11,7 @@ import (
 	"cmd/internal/objabi"
 	"cmd/internal/src"
 	"fmt"
+	"os"
 )
 
 // A ZeroRegion records parts of an object which are known to be zero.
@@ -650,7 +651,11 @@ func IsSanitizerSafeAddr(v *Value) bool {
 		// read-only once initialized.
 		return true
 	case OpAddr:
-		return v.Aux.(*obj.LSym).Type == objabi.SRODATA || v.Aux.(*obj.LSym).Type == objabi.SLIBFUZZER_EXTRA_COUNTER
+		vt := v.Aux.(*obj.LSym).Type
+		if os.Getenv("THANM_DEBUG") != "" {
+			fmt.Fprintf(os.Stderr, "=-= val %s iscounter=%v\n", v.LongString(), vt == objabi.SCOVERAGE_COUNTER || vt == objabi.SCOVERAGE_AUXVAR)
+		}
+		return vt == objabi.SRODATA || vt == objabi.SLIBFUZZER_EXTRA_COUNTER || vt == objabi.SCOVERAGE_COUNTER || vt == objabi.SCOVERAGE_AUXVAR
 	}
 	return false
 }
