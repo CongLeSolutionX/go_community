@@ -1235,7 +1235,7 @@ func writeType(t *types.Type) *obj.LSym {
 	}
 	lsym.Set(obj.AttrMakeTypelink, keep)
 
-	if base.Flag.DwarfType {
+	if base.Flag.Dwarf {
 		base.Ctxt.PopulateDWARFType(DwarfType{t}, dupok == obj.DUPOK)
 	}
 
