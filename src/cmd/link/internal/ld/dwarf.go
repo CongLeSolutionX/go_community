@@ -62,10 +62,15 @@ type dwctxt struct {
 	typeRuntimeIface loader.Sym
 	uintptrInfoSym   loader.Sym
 
+	dedup    map[loader.Sym]struct{}
+	typeinfo heap
+
 	// Used at various points in that parallel portion of DWARF gen to
 	// protect against conflicting updates to globals (such as "gdbscript")
 	dwmu *sync.Mutex
 }
+
+var keeptypeinfo []sym.LoaderSym
 
 // dwSym wraps a loader.Sym; this type is meant to obey the interface
 // rules for dwarf.Sym from the cmd/internal/dwarf package. DwDie and
@@ -1136,7 +1141,7 @@ func (d *dwctxt) importInfoSymbol(dsym loader.Sym) {
 		sn := d.ldr.SymName(rsym)
 		tn := sn[len(dwarf.InfoPrefix):]
 		ts := d.ldr.Lookup("type."+tn, 0)
-		d.defgotype(ts)
+		d.useTypeInfo(ts)
 	}
 }
 
@@ -1525,7 +1530,7 @@ func appendSyms(syms []loader.Sym, src []sym.LoaderSym) []loader.Sym {
 
 func (d *dwctxt) writeUnitInfo(u *sym.CompilationUnit, abbrevsym loader.Sym, infoEpilog loader.Sym) []loader.Sym {
 	syms := []loader.Sym{}
-	if len(u.Textp) == 0 && u.DWInfo.Child == nil && len(u.VarDIEs) == 0 {
+	if len(u.Textp) == 0 && u.DWInfo.Child == nil && len(u.VarDIEs) == 0 && len(u.TypeDIES) == 0 {
 		return syms
 	}
 
@@ -1557,6 +1562,7 @@ func (d *dwctxt) writeUnitInfo(u *sym.CompilationUnit, abbrevsym loader.Sym, inf
 		cu = append(cu, loader.Sym(u.Consts))
 	}
 	cu = appendSyms(cu, u.VarDIEs)
+	cu = appendSyms(cu, u.TypeDIES)
 	var cusize int64
 	for _, child := range cu {
 		cusize += int64(len(d.ldr.Data(child)))
@@ -1703,7 +1709,7 @@ func (d *dwctxt) dwarfVisitFunction(fnSym loader.Sym, unit *sym.CompilationUnit)
 		r := drelocs.At(ri)
 		// Look for "use type" relocs.
 		if r.Type() == objabi.R_USETYPE {
-			d.defgotype(r.Sym())
+			d.useTypeInfo(r.Sym())
 			continue
 		}
 		if r.Type() != objabi.R_DWARFSECREF {
@@ -1736,8 +1742,19 @@ func (d *dwctxt) dwarfVisitFunction(fnSym loader.Sym, unit *sym.CompilationUnit)
 		rsn := d.ldr.SymName(rsym)
 		tn := rsn[len(dwarf.InfoPrefix):]
 		ts := d.ldr.Lookup("type."+tn, 0)
-		d.defgotype(ts)
+		d.useTypeInfo(ts)
 	}
+}
+
+func (d *dwctxt) useTypeInfo(gotype loader.Sym) loader.Sym {
+	sn := d.ldr.SymName(gotype)
+	name := sn[5:] // could also decode from Type.string
+	dwinfo := d.ldr.Lookup(dwarf.InfoPrefix+name, 0)
+	if _, ok := d.dedup[dwinfo]; !ok {
+		d.dedup[dwinfo] = struct{}{}
+		d.typeinfo.push(dwinfo)
+	}
+	return dwinfo
 }
 
 // dwarfGenerateDebugInfo generated debug info entries for all types,
@@ -1760,8 +1777,6 @@ func dwarfGenerateDebugInfo(ctxt *Link) {
 		tdmap:    make(map[loader.Sym]loader.Sym),
 		rtmap:    make(map[loader.Sym]loader.Sym),
 	}
-	d.typeRuntimeEface = d.lookupOrDiag("type.runtime.eface")
-	d.typeRuntimeIface = d.lookupOrDiag("type.runtime.iface")
 
 	if ctxt.HeadType == objabi.Haix {
 		// Initial map used to store package size for each DWARF section.
@@ -1770,20 +1785,6 @@ func dwarfGenerateDebugInfo(ctxt *Link) {
 
 	// For ctxt.Diagnostic messages.
 	newattr(&dwtypes, dwarf.DW_AT_name, dwarf.DW_CLS_STRING, int64(len("dwtypes")), "dwtypes")
-
-	// Unspecified type. There are no references to this in the symbol table.
-	d.newdie(&dwtypes, dwarf.DW_ABRV_NULLTYPE, "<unspecified>")
-
-	// Some types that must exist to define other ones (uintptr in particular
-	// is needed for array size)
-	d.mkBuiltinType(ctxt, dwarf.DW_ABRV_BARE_PTRTYPE, "unsafe.Pointer")
-	die := d.mkBuiltinType(ctxt, dwarf.DW_ABRV_BASETYPE, "uintptr")
-	newattr(die, dwarf.DW_AT_encoding, dwarf.DW_CLS_CONSTANT, dwarf.DW_ATE_unsigned, 0)
-	newattr(die, dwarf.DW_AT_byte_size, dwarf.DW_CLS_CONSTANT, int64(d.arch.PtrSize), 0)
-	newattr(die, dwarf.DW_AT_go_kind, dwarf.DW_CLS_CONSTANT, objabi.KindUintptr, 0)
-	newattr(die, dwarf.DW_AT_go_runtime_type, dwarf.DW_CLS_ADDRESS, 0, dwSym(d.lookupOrDiag("type.uintptr")))
-
-	d.uintptrInfoSym = d.mustFind("uintptr")
 
 	// Prototypes needed for type synthesis.
 	prototypedies = map[string]*dwarf.DWDie{
@@ -1809,7 +1810,7 @@ func dwarfGenerateDebugInfo(ctxt *Link) {
 		"type.runtime.interfacetype",
 		"type.runtime.itab",
 		"type.runtime.imethod"} {
-		d.defgotype(d.lookupOrDiag(typ))
+		d.useTypeInfo(d.lookupOrDiag(typ))
 	}
 
 	// fake root DIE for compile unit DIEs
@@ -1920,7 +1921,7 @@ func dwarfGenerateDebugInfo(ctxt *Link) {
 					for i := 0; i < relocs.Count(); i++ {
 						reloc := relocs.At(i)
 						if reloc.Type() == objabi.R_USEIFACE {
-							d.defgotype(reloc.Sym())
+							d.useTypeInfo(reloc.Sym())
 						}
 					}
 				}
@@ -1949,15 +1950,26 @@ func dwarfGenerateDebugInfo(ctxt *Link) {
 		varDIE := d.ldr.Lookup(dwarf.InfoPrefix+sn, 0)
 		if varDIE != 0 {
 			unit := d.ldr.SymUnit(idx)
-			d.defgotype(gt)
+			d.useTypeInfo(gt)
 			unit.VarDIEs = append(unit.VarDIEs, sym.LoaderSym(varDIE))
 		}
 	}
 
-	d.synthesizestringtypes(ctxt, dwtypes.Child)
-	d.synthesizeslicetypes(ctxt, dwtypes.Child)
-	d.synthesizemaptypes(ctxt, dwtypes.Child)
-	d.synthesizechantypes(ctxt, dwtypes.Child)
+	for !d.typeinfo.empty() {
+		dwinfo := d.typeinfo.pop()
+		keeptypeinfo = append(keeptypeinfo, sym.LoaderSym(dwinfo))
+		relocs := d.ldr.Relocs(dwinfo)
+		for i := 0; i < relocs.Count(); i++ {
+			rs := relocs.At(i).Sym()
+			if len(d.ldr.Data(rs)) == 0 || d.ldr.SymType(rs) != sym.SDWARFTYPE {
+				continue
+			}
+			if _, ok := d.dedup[rs]; !ok {
+				d.dedup[rs] = struct{}{}
+				d.typeinfo.push(rs)
+			}
+		}
+	}
 }
 
 // dwarfGenerateDebugSyms constructs debug_line, debug_frame, and
@@ -2020,7 +2032,7 @@ func (d *dwctxt) dwarfGenerateDebugSyms() {
 	}
 	reversetree(&dwtypes.Child)
 	movetomodule(d.linkctxt, &dwtypes)
-
+	d.linkctxt.runtimeCU.TypeDIES = keeptypeinfo
 	mkSecSym := func(name string) loader.Sym {
 		s := d.ldr.CreateSymForUpdate(name, 0)
 		s.SetType(sym.SDWARFSECT)
