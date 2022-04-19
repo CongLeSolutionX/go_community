@@ -300,6 +300,16 @@ func (c dwCtxt) LookupDwarfSym(name string) (s dwarf.Sym, exist bool) {
 }
 
 func (c dwCtxt) Reference(t dwarf.Type) dwarf.Sym {
+	if c.Flag_linkshared {
+		if c.Pkgpath != "runtime" {
+			name := t.DwarfName()
+			if name == "*runtime.g" || name == "*runtime._type" ||
+				name == "*runtime.mapextra" || name == "*runtime.itab" {
+				return c.Link.Lookup(dwarf.InfoPrefix + "uintptr")
+			}
+		}
+		return c.PopulateDWARFType(t, true)
+	}
 	return c.Link.Lookup(dwarf.InfoPrefix + t.Name())
 }
 
@@ -445,7 +455,7 @@ func (ctxt *Link) populateDWARF(curfn interface{}, s *LSym, myimportpath string)
 
 // DwarfIntConst creates a link symbol for an integer constant with the
 // given name, type and value.
-func (ctxt *Link) DwarfIntConst(myimportpath, name, typename string, val int64) {
+func (ctxt *Link) DwarfIntConst(myimportpath, name string, typeSym *LSym, val int64) {
 	if myimportpath == "" {
 		return
 	}
@@ -453,12 +463,12 @@ func (ctxt *Link) DwarfIntConst(myimportpath, name, typename string, val int64) 
 		s.Type = objabi.SDWARFCONST
 		ctxt.Data = append(ctxt.Data, s)
 	})
-	dwarf.PutIntConst(dwCtxt{ctxt}, s, ctxt.Lookup(dwarf.InfoPrefix+typename), myimportpath+"."+name, val)
+	dwarf.PutIntConst(dwCtxt{ctxt}, s, typeSym, myimportpath+"."+name, val)
 }
 
 // DwarfGlobal creates a link symbol containing a DWARF entry for
 // a global variable.
-func (ctxt *Link) DwarfGlobal(myimportpath, typename string, varSym *LSym) {
+func (ctxt *Link) DwarfGlobal(myimportpath string, typeSym, varSym *LSym) {
 	if myimportpath == "" || varSym.Local() {
 		return
 	}
@@ -477,7 +487,6 @@ func (ctxt *Link) DwarfGlobal(myimportpath, typename string, varSym *LSym) {
 		s.Set(AttrDuplicateOK, true) // needed for shared linkage
 		ctxt.Data = append(ctxt.Data, s)
 	})
-	typeSym := ctxt.Lookup(dwarf.InfoPrefix + typename)
 	dwarf.PutGlobal(dwCtxt{ctxt}, dieSym, typeSym, varSym, varname)
 }
 
@@ -811,7 +820,14 @@ func (ctxt *Link) DumpDwarfTypes(lookupRuntime func(name string) dwarf.Type, Uin
 
 	// We don't expect this type in the package out of runtime.
 	// So use another temp root, we can avoid dumping them when dwtypes is traversed.
-	prototypeRoot := new(dwarf.DWDie)
+	var prototypeRoot *dwarf.DWDie
+	if ctxt.Flag_linkshared {
+		ctxt.PopulateDWARFType(Uintptr, true)
+		prototypeRoot = &ctxt.dwtypes
+	} else {
+		prototypeRoot = new(dwarf.DWDie)
+	}
+
 	lookupPrototype := func(name string) *dwarf.DWDie {
 		die := prototypes[name]
 		if die != nil {
@@ -837,7 +853,8 @@ func (ctxt *Link) DumpDwarfTypes(lookupRuntime func(name string) dwarf.Type, Uin
 		case dwarf.DW_ABRV_CHANTYPE:
 			dwarf.SynthesizeChanTypes(dwCtxt{ctxt}, die, &ctxt.dwtypes, lookupPrototype)
 		case dwarf.DW_ABRV_IFACETYPE:
-			// runtime must dump iface and eface, do anything
+			lookupPrototype("runtime.eface")
+			lookupPrototype("runtime.iface")
 		}
 	}
 
