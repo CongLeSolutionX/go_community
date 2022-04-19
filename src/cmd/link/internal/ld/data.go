@@ -442,6 +442,13 @@ func (st *relocSymState) relocsym(s loader.Sym, P []byte) {
 			if weak && !ldr.AttrReachable(rs) {
 				continue
 			}
+
+			if ldr.SymType(s) == sym.SDWARFTYPE && strings.HasPrefix(ldr.SymName(rs), "type.") && rst == sym.SDYNIMPORT {
+				// For attr DW_AT_go_runtime_type in DWARF type die. If the type description is an import symbol,
+				// it can't be referenced by offset, so skip it.
+				continue
+			}
+
 			if ldr.SymSect(rs) == nil {
 				st.err.Errorf(s, "unreachable sym in relocation: %s", ldr.SymName(rs))
 				continue
@@ -649,6 +656,7 @@ func extreloc(ctxt *Link, ldr *loader.Loader, s loader.Sym, r loader.Reloc) (loa
 		if target.IsDarwin() {
 			return rr, false
 		}
+
 		rs := r.Sym()
 		rr.Xsym = loader.Sym(ldr.SymSect(rs).Sym)
 		rr.Xadd = r.Add() + ldr.SymValue(rs) - int64(ldr.SymSect(rs).Vaddr)

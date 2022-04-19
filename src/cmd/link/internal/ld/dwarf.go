@@ -1019,22 +1019,6 @@ func dwarfGenerateDebugInfo(ctxt *Link) {
 		dwsectCUSize = make(map[string]uint64)
 	}
 
-	// Needed by the prettyprinter code for interface inspection.
-	for _, typ := range []string{
-		"type.runtime._type",
-		"type.runtime.arraytype",
-		"type.runtime.chantype",
-		"type.runtime.functype",
-		"type.runtime.maptype",
-		"type.runtime.ptrtype",
-		"type.runtime.slicetype",
-		"type.runtime.structtype",
-		"type.runtime.interfacetype",
-		"type.runtime.itab",
-		"type.runtime.imethod"} {
-		d.markTypeDieFromGoType(d.lookupOrDiag(typ))
-	}
-
 	// fake root DIE for compile unit DIEs
 	var dwroot dwarf.DWDie
 	flagVariants := make(map[string]bool)
@@ -1103,6 +1087,24 @@ func dwarfGenerateDebugInfo(ctxt *Link) {
 			for _, s := range unit.Textp {
 				d.dwarfVisitFunction(loader.Sym(s), unit)
 			}
+		}
+	}
+
+	if !ctxt.IsSharedGoLink() || ctxt.runtimeCU != nil {
+		// Needed by the prettyprinter code for interface inspection.
+		for _, typ := range []string{
+			"type.runtime._type",
+			"type.runtime.arraytype",
+			"type.runtime.chantype",
+			"type.runtime.functype",
+			"type.runtime.maptype",
+			"type.runtime.ptrtype",
+			"type.runtime.slicetype",
+			"type.runtime.structtype",
+			"type.runtime.interfacetype",
+			"type.runtime.itab",
+			"type.runtime.imethod"} {
+			d.markTypeDieFromGoType(d.lookupOrDiag(typ))
 		}
 	}
 
@@ -1177,9 +1179,19 @@ func dwarfGenerateDebugInfo(ctxt *Link) {
 		}
 	}
 
+	var typedies *[]sym.LoaderSym
+	// When use -linkshared, runtime compile unit can be in other dynamic library.
+	// there is no runtime compile unit sometimes in current context.
+	// So we can only put all the type dies to the first compile unit.
+	if d.linkctxt.IsSharedGoLink() && d.linkctxt.runtimeCU == nil {
+		typedies = &d.linkctxt.compUnits[0].TypeDIES
+	} else {
+		typedies = &d.linkctxt.runtimeCU.TypeDIES
+	}
+
 	for !d.workqueue.empty() {
 		dwinfo := d.workqueue.pop()
-		d.linkctxt.runtimeCU.TypeDIES = append(d.linkctxt.runtimeCU.TypeDIES, sym.LoaderSym(dwinfo))
+		*typedies = append(*typedies, sym.LoaderSym(dwinfo))
 		relocs := d.ldr.Relocs(dwinfo)
 		for i := 0; i < relocs.Count(); i++ {
 			rs := relocs.At(i).Sym()
