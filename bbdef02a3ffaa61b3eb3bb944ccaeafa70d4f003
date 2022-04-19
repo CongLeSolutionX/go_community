@@ -564,6 +564,30 @@
       },
       "revId": "bbdef02a3ffaa61b3eb3bb944ccaeafa70d4f003",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1113d562_3b0e2c39",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2022-04-19T20:43:48Z",
+      "side": 1,
+      "message": "If atomic.Uint8 is what it appears (mergeable Or operations, and a Load that considers all \"previous\" Or ops ... I\u0027m not familiar with the underlying instructions), then I may be able to make that work. There are only two possible readers/writers: the profile coordinator, and the goroutine itself. And it\u0027s clear which one should win if they both indicate they\u0027d like to own the work (the goroutine should collect its own stack, and the coordinator should do something else), so we don\u0027t really need a direct CAS.\n\nI do see room for a free byte in runtime.g (two of them, in fact). I\u0027ll give it a shot. Are there well-known state machines for this (I don\u0027t know where to start looking) or is this the week I learn TLA+? Thank you!",
+      "parentUuid": "1b20d9e2_5b42296c",
+      "range": {
+        "startLine": 490,
+        "startChar": 1,
+        "endLine": 493,
+        "endChar": 0
+      },
+      "revId": "bbdef02a3ffaa61b3eb3bb944ccaeafa70d4f003",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
