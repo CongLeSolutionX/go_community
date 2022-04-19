@@ -34,6 +34,24 @@
       "parentUuid": "ebbec0a0_be46ac37",
       "revId": "df08c9a82152fd6f2b2811db03b40fea8b6e5e9e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d5cb4a5_d9a0137c",
+        "filename": "src/net/http/h2_bundle.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-04-19T16:59:57Z",
+      "side": 0,
+      "message": "After the x/net CL is committed you should run \"go generate net/http\".  You\u0027ll need to \"go install golang.org/x/tools/cmd/bundle\" first.",
+      "parentUuid": "771637ee_0954f48d",
+      "revId": "df08c9a82152fd6f2b2811db03b40fea8b6e5e9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
