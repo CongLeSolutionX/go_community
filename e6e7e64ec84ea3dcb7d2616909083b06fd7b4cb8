@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0494359_033d7e6b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44188
+      },
+      "writtenOn": "2022-04-19T08:42:32Z",
+      "side": 1,
+      "message": "Found a test problem, but it looks like not related to this CL, because it is also found in the latest master.\n\nCreate an issue on GitHub: https://github.com/golang/go/issues/52421",
+      "revId": "e6e7e64ec84ea3dcb7d2616909083b06fd7b4cb8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
