@@ -124,6 +124,24 @@
       "parentUuid": "ba08b2a1_d95f9f29",
       "revId": "1c8f9d2c97db7390a7ed2cd4663571b544147f4d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "111cfb32_450574e4",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 822,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-04-19T15:08:00Z",
+      "side": 0,
+      "message": "Yes, internal linking is only possible with a very small subset of allowed cgo libraries, and with the PIE buildmode..",
+      "parentUuid": "b16c1194_66e5a10d",
+      "revId": "1c8f9d2c97db7390a7ed2cd4663571b544147f4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
