@@ -28,7 +28,7 @@ import "C"
 var mainThread C.pthread_t
 
 func init() {
-	registerInit("LockOSThreadMain", func() {
+	registerInit("LockOmSThreadMain", func() {
 		// init is guaranteed to run on the main thread.
 		mainThread = C.pthread_self()
 	})
