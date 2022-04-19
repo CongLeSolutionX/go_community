@@ -540,6 +540,30 @@
       },
       "revId": "bbdef02a3ffaa61b3eb3bb944ccaeafa70d4f003",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b20d9e2_5b42296c",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-04-19T19:55:33Z",
+      "side": 1,
+      "message": "thanks for checking. yeah I certainly don\u0027t expect you to reorder the struct. :) some of it is not easily reordered anyway because the offsets are hard-coded in runtime assembly.\n\nif this were an atomic.Uint8 would there be any space for it in some padding? sorry to focus on this so much, just want to make sure we explored every avenue to keep the g struct as small as possible, to keep the base goroutine overhead small.",
+      "parentUuid": "6c93c19b_042d5a6a",
+      "range": {
+        "startLine": 490,
+        "startChar": 1,
+        "endLine": 493,
+        "endChar": 0
+      },
+      "revId": "bbdef02a3ffaa61b3eb3bb944ccaeafa70d4f003",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
