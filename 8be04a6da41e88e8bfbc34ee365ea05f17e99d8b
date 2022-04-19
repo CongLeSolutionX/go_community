@@ -70,6 +70,172 @@
       "message": "Sorry to remind again, can you help review this patch? Thanks~",
       "revId": "8be04a6da41e88e8bfbc34ee365ea05f17e99d8b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48b37720_f740a6de",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-19T19:35:08Z",
+      "side": 1,
+      "message": "Could you organize the files so it is easier to review?\n- args.go and inst.go seems clear. argsEnc.go seems mostly containing encoding functions but there are some other things? Can you move them out to a separate file? asmFuncs.go seems to contain a bunch of helper functions? Can we organize them better into separate files? I think it may be good to organize code by pass, e.g. the encoding part in one (or more) files, the instruction expansion part in one (or more) files, another file for handling pool, branch fixup, etc.\n- There are a few functions that are just moved around. To make the diff smaller let\u0027s not move them now. We can move them later if it helps.",
+      "revId": "8be04a6da41e88e8bfbc34ee365ea05f17e99d8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7244f58_19d7113a",
+        "filename": "src/cmd/asm/internal/asm/testdata/arm64error.s",
+        "patchSetId": 6
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-19T19:35:08Z",
+      "side": 1,
+      "message": "This error seems worse than before. It doesn\u0027t tell the source or destination. The added words, \"general register or ZR RSP\", doesn\u0027t seem to tell much more information than just \"register\". Can we restore the original?",
+      "range": {
+        "startLine": 6,
+        "startChar": 63,
+        "endLine": 6,
+        "endChar": 97
+      },
+      "revId": "8be04a6da41e88e8bfbc34ee365ea05f17e99d8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e977fddc_98dce0fc",
+        "filename": "src/cmd/internal/obj/arm64/a.out.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-19T19:35:08Z",
+      "side": 1,
+      "message": "Do we ever need 64-bit offset?",
+      "range": {
+        "startLine": 403,
+        "startChar": 15,
+        "endLine": 403,
+        "endChar": 28
+      },
+      "revId": "8be04a6da41e88e8bfbc34ee365ea05f17e99d8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11eb9267_30ef33cc",
+        "filename": "src/cmd/internal/obj/arm64/a.out.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-19T19:35:08Z",
+      "side": 1,
+      "message": "Use Go syntax. Is it something like (Rm)(Rn), (Rm)(Rn\u003c\u003c8) ?",
+      "range": {
+        "startLine": 412,
+        "startChar": 60,
+        "endLine": 412,
+        "endChar": 106
+      },
+      "revId": "8be04a6da41e88e8bfbc34ee365ea05f17e99d8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72bb8f6b_10d19a22",
+        "filename": "src/cmd/internal/obj/arm64/args.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-19T19:35:08Z",
+      "side": 1,
+      "message": "Is it possible to publish the tool that generates this?",
+      "revId": "8be04a6da41e88e8bfbc34ee365ea05f17e99d8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e011d2e_e6dace23",
+        "filename": "src/cmd/internal/obj/arm64/argsEnc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-19T19:35:08Z",
+      "side": 1,
+      "message": "What is CReg?",
+      "range": {
+        "startLine": 15,
+        "startChar": 18,
+        "endLine": 15,
+        "endChar": 22
+      },
+      "revId": "8be04a6da41e88e8bfbc34ee365ea05f17e99d8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8944cd70_f98484a7",
+        "filename": "src/cmd/internal/obj/arm64/argsEnc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 771,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-19T19:35:08Z",
+      "side": 1,
+      "message": "Is this function all handwritten or generated somehow?",
+      "revId": "8be04a6da41e88e8bfbc34ee365ea05f17e99d8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec99a5fa_67ae7d46",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-19T19:35:08Z",
+      "side": 1,
+      "message": "return atomicLDADD[as] || atomicSWP[as]",
+      "range": {
+        "startLine": 163,
+        "startChar": 0,
+        "endLine": 166,
+        "endChar": 13
+      },
+      "revId": "8be04a6da41e88e8bfbc34ee365ea05f17e99d8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
