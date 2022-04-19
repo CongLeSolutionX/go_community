@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cab60f55_ca001571",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-04-19T22:39:14Z",
+      "side": 1,
+      "message": "I agree with every point you make. I\u0027m not sure what to do either about wakep.\n\nat least with the current work items things are OK:\n- gcStart for the periodic GC can be somewhat loose on timing.\n- gcStart for an increase in stack memory use can be loose provided the application isn\u0027t allocating too much. and if it is, the allocator will trigger the GC anyway. it\u0027s really just trying to make sure something notices.\n- waking the scavenger doesn\u0027t need to be prompt, necessarily, it just needs to happen by some means.\n\nwith all that listed out, I think I need to change the commit message and the expectations of this API, and then it\u0027ll be OK. perhaps the word \"prompt\" just shouldn\u0027t be a part of that.\n\nor... maybe there\u0027s really no point to this extra GC trigger. if we\u0027re really in dire straits, the next allocation, whatever it may be, will notice. and heap allocations are exactly the thing that we\u0027re worried about going too far.",
+      "parentUuid": "a6b7ecb1_14bc1a06",
+      "revId": "62443b2701a58b4a8efb5bdf9efb94377124ed8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7a5f840a_df1a3798",
         "filename": "src/runtime/mgc.go",
         "patchSetId": 14
@@ -48,6 +66,30 @@
       "writtenOn": "2022-04-18T15:59:54Z",
       "side": 1,
       "message": "Why are these racy reads/writes OK given that sysmon could concurrently call asyncWork.gcStart()?",
+      "range": {
+        "startLine": 737,
+        "startChar": 0,
+        "endLine": 738,
+        "endChar": 32
+      },
+      "revId": "62443b2701a58b4a8efb5bdf9efb94377124ed8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4cb3e9b6_6a827d71",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 738,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-04-19T22:39:14Z",
+      "side": 1,
+      "message": "oof, you\u0027re right. they are not safe.",
+      "parentUuid": "dd3af3c5_a6c4a638",
       "range": {
         "startLine": 737,
         "startChar": 0,
@@ -98,6 +140,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d73b8a7_2a33a2ae",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-04-19T22:39:14Z",
+      "side": 1,
+      "message": "I agree, I can do that.",
+      "parentUuid": "51d9bb9f_a4786bab",
+      "revId": "62443b2701a58b4a8efb5bdf9efb94377124ed8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ccca6dcb_82b63680",
@@ -117,6 +177,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "75c7211e_df3010f6",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-04-19T22:39:14Z",
+      "side": 1,
+      "message": "yeah. I think I justified this to myself by saying that it\u0027s already technically (?) possible for a GC trigger to flap but I don\u0027t remember how. looking back I don\u0027t think that\u0027s true.\n\nthere are a few things we can do. for one, this could literally be a queue, but we have to be careful because we can\u0027t allocate (at some point, something needs to be dropped). or, we could have space for one of each type of trigger, and always pick the latest one. or, pick a priority order (gcTriggerCycle \u003e gcTriggerTime \u003e gcTriggerHeap is my guess).\n\nI think my preference might be for the last one?",
+      "parentUuid": "ccca6dcb_82b63680",
+      "revId": "62443b2701a58b4a8efb5bdf9efb94377124ed8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1c6dbde8_2888ece1",
         "filename": "src/runtime/proc.go",
         "patchSetId": 14
@@ -128,6 +206,24 @@
       "writtenOn": "2022-04-18T15:59:54Z",
       "side": 1,
       "message": "Just thinking out loud, should the asyncWork check go after checkTimers? It feels a bit odd that that is the only thing prior to checkTimers.",
+      "revId": "62443b2701a58b4a8efb5bdf9efb94377124ed8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6555113e_f7c2f7da",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 2699,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-04-19T22:39:14Z",
+      "side": 1,
+      "message": "yeah perhaps. in my mind this required higher priority, but I\u0027m not really sure.",
+      "parentUuid": "1c6dbde8_2888ece1",
       "revId": "62443b2701a58b4a8efb5bdf9efb94377124ed8d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
