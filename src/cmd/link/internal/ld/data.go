@@ -227,10 +227,12 @@ func (st *relocSymState) relocsym(s loader.Sym, P []byte) {
 					// DWARF info between the compiler and linker.
 					continue
 				}
-			} else if target.IsPPC64() && ldr.SymName(rs) == ".TOC." {
+			} else if target.IsPPC64() && target.IsPIE() && ldr.SymName(rs) == ".TOC." {
 				// TOC symbol doesn't have a type but we do assign a value
 				// (see the address pass) and we can resolve it.
 				// TODO: give it a type.
+			} else if ldr.SymType(s) == sym.SDWARFTYPE && strings.HasPrefix(ldr.SymName(rs), "type.*") {
+
 			} else {
 				st.err.errorUnresolved(ldr, s, rs)
 				continue
