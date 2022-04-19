@@ -121,6 +121,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5a4069d1_54e724c3",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1621,
+      "author": {
+        "id": 6480
+      },
+      "writtenOn": "2022-04-19T22:50:45Z",
+      "side": 1,
+      "message": "This is the trade-off (old is the single test for `key.kind() \u003d\u003d String` and new is `(tt.key \u003d\u003d stringType || key.kind() \u003d\u003d String)`)\n\n```\nname                              old time/op    new time/op    delta\nMap/StringKeys/MapIndex-8           2.39µs ± 5%    2.55µs ±11%  +6.90%  (p\u003d0.013 n\u003d10+9)\nMap/StringKeys/SetMapIndex-8        4.67µs ± 4%    4.77µs ± 1%  +2.09%  (p\u003d0.018 n\u003d10+9)\nMap/StringKindKeys/MapIndex-8       2.33µs ± 3%    2.28µs ± 4%    ~     (p\u003d0.109 n\u003d10+10)\nMap/StringKindKeys/SetMapIndex-8    4.95µs ± 4%    4.61µs ± 1%  -6.83%  (p\u003d0.000 n\u003d10+10)\nMap/Uint64Keys/MapIndex-8           3.39µs ± 5%    3.11µs ± 2%  -8.30%  (p\u003d0.000 n\u003d10+9)\nMap/Uint64Keys/SetMapIndex-8        5.54µs ± 2%    5.00µs ± 1%  -9.72%  (p\u003d0.000 n\u003d9+10)\n```\n\n`string` loses some, but non-`string` types gain. Which would you prefer?",
+      "parentUuid": "7e16ab07_8a971e56",
+      "range": {
+        "startLine": 1621,
+        "startChar": 4,
+        "endLine": 1621,
+        "endChar": 24
+      },
+      "revId": "76b6de286af1185c6754e910616c8efe2d0c18ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "29dd5f51_438a4811",
         "filename": "src/reflect/value.go",
         "patchSetId": 2
