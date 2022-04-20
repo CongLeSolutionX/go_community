@@ -199,7 +199,7 @@ func walkFor(n *ir.ForStmt) ir.Node {
 // a go or defer statement; that is, whether it's a regular function
 // call without arguments or results.
 func validGoDeferCall(call ir.Node) bool {
-	if call, ok := call.(*ir.CallExpr); ok && call.Op() == ir.OCALLFUNC && len(call.KeepAlive) == 0 {
+	if call, ok := call.(*ir.CallExpr); ok && call.Op() == ir.OCALLFUNC && len(call.KeepAlive()) == 0 {
 		sig := call.X.Type()
 		return sig.NumParams()+sig.NumResults() == 0
 	}

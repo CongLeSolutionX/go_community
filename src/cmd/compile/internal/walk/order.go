@@ -681,6 +681,11 @@ func (o *orderState) stmt(n ir.Node) {
 			n.Rhs = ic.ReturnVars
 
 			o.exprList(n.Rhs)
+
+			for _, name := range ic.KeepAlive() {
+				o.stmt(ir.NewUnaryExpr(ic.Pos(), ir.OVARLIVE, name))
+			}
+
 			o.out = append(o.out, n)
 		} else {
 			o.call(call)
@@ -752,6 +757,10 @@ func (o *orderState) stmt(n ir.Node) {
 	case ir.OINLCALL:
 		n := n.(*ir.InlinedCallExpr)
 		o.stmtList(n.Body)
+
+		for _, name := range n.KeepAlive() {
+			o.stmt(ir.NewUnaryExpr(n.Pos(), ir.OVARLIVE, name))
+		}
 
 		// discard results; double-check for no side effects
 		for _, result := range n.ReturnVars {
@@ -1294,6 +1303,9 @@ func (o *orderState) expr1(n, lhs ir.Node) ir.Node {
 	case ir.OINLCALL:
 		n := n.(*ir.InlinedCallExpr)
 		o.stmtList(n.Body)
+		for _, name := range n.KeepAlive() {
+			o.stmt(ir.NewUnaryExpr(n.Pos(), ir.OVARLIVE, name))
+		}
 		return n.SingleResult()
 
 	case ir.OAPPEND:

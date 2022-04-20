@@ -19,7 +19,7 @@ func (e *escape) call(ks []hole, call ir.Node) {
 	var init ir.Nodes
 	e.callCommon(ks, call, &init, nil)
 	if len(init) != 0 {
-		call.(*ir.CallExpr).PtrInit().Append(init...)
+		call.(ir.InitNode).PtrInit().Append(init...)
 	}
 }
 
@@ -120,6 +120,16 @@ func (e *escape) callCommon(ks []hole, call ir.Node, init *ir.Nodes, wrapper *ir
 	case ir.OINLCALL:
 		call := call.(*ir.InlinedCallExpr)
 		e.stmts(call.Body)
+
+		args := call.Args
+		for i := range args {
+			// Apply uintptr rewrites.
+			//
+			// N.B. We don't use argumentFunc as we don't need call
+			// parameter escapes.
+			e.rewriteArgument(&args[i], init, call, call.Orig.Nname, wrapper)
+		}
+
 		for i, result := range call.ReturnVars {
 			k := e.discardHole()
 			if ks != nil {
@@ -301,7 +311,7 @@ func (e *escape) rewriteArgument(argp *ir.Node, init *ir.Nodes, call ir.Node, fn
 		}
 
 		if pragma&ir.UintptrKeepAlive != 0 {
-			call := call.(*ir.CallExpr)
+			call := call.(ir.InitNode)
 
 			// SSA implements CallExpr.KeepAlive using OpVarLive, which
 			// doesn't support PAUTOHEAP variables. I tried changing it to
@@ -314,7 +324,7 @@ func (e *escape) rewriteArgument(argp *ir.Node, init *ir.Nodes, call ir.Node, fn
 			}
 
 			keep.SetAddrtaken(true) // ensure SSA keeps the tmp variable
-			call.KeepAlive = append(call.KeepAlive, keep)
+			call.SetKeepAlive(append(call.KeepAlive(), keep))
 		}
 
 		return true

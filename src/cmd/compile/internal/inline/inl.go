@@ -126,10 +126,10 @@ func CanInline(fn *ir.Func) {
 	// TODO(prattmic): This is handled on calls during escape analysis,
 	// which is after inlining. Move prior to inlining so the keep-alive is
 	// maintained after inlining.
-	if fn.Pragma&ir.UintptrKeepAlive != 0 {
-		reason = "marked as having a keep-alive uintptr argument"
-		return
-	}
+	//if fn.Pragma&ir.UintptrKeepAlive != 0 {
+	//	reason = "marked as having a keep-alive uintptr argument"
+	//	return
+	//}
 
 	// If marked as "go:uintptrescapes", don't inline, since the
 	// escape information is lost during inlining.
@@ -796,6 +796,10 @@ func CalleeEffects(init *ir.Nodes, callee ir.Node) {
 			ic := callee.(*ir.InlinedCallExpr)
 			init.Append(ir.TakeInit(ic)...)
 			init.Append(ic.Body.Take()...)
+			// XXX: What do to about KeepAlive?
+			// for _, name := range ic.KeepAlive() {
+			// 	init.Append(ir.NewUnaryExpr(ic.Pos(), ir.OVARLIVE, name))
+			// }
 			callee = ic.SingleResult()
 
 		default:
@@ -946,7 +950,7 @@ func oldInline(call *ir.CallExpr, fn *ir.Func, inlIndex int) *ir.InlinedCallExpr
 
 	//dumplist("ninit post", ninit);
 
-	res := ir.NewInlinedCallExpr(base.Pos, body, retvars)
+	res := ir.NewInlinedCallExpr(base.Pos, fn, body, call.Args, retvars)
 	res.SetInit(ninit)
 	res.SetType(call.Type())
 	res.SetTypecheck(1)

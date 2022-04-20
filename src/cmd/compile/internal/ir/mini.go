@@ -82,5 +82,7 @@ func (n *miniNode) Name() *Name             { return nil }
 func (n *miniNode) Sym() *types.Sym         { return nil }
 func (n *miniNode) Val() constant.Value     { panic(n.no("Val")) }
 func (n *miniNode) SetVal(v constant.Value) { panic(n.no("SetVal")) }
+func (n *miniNode) KeepAlive() []*Name      { panic(n.no("KeepAlive")) }
+func (n *miniNode) SetKeepAlive([]*Name)    { panic(n.no("SetKeepAlive")) }
 func (n *miniNode) NonNil() bool            { return false }
 func (n *miniNode) MarkNonNil()             { panic(n.no("MarkNonNil")) }

@@ -5179,7 +5179,9 @@ func (s *state) call(n *ir.CallExpr, k callKind, returnResultAddr bool) *ssa.Val
 	s.prevCall = call
 	s.vars[memVar] = s.newValue1I(ssa.OpSelectN, types.TypeMem, int64(len(ACResults)), call)
 	// Insert OVARLIVE nodes
-	for _, name := range n.KeepAlive {
+	// XXX: InlinedCallExpr doesn't seem to make it all the way to ssagen,
+	// so we can't simply do this for those too.
+	for _, name := range n.KeepAlive() {
 		s.stmt(ir.NewUnaryExpr(n.Pos(), ir.OVARLIVE, name))
 	}
 

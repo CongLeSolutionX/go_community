@@ -42,6 +42,8 @@ type Node interface {
 	Sym() *types.Sym
 	Val() constant.Value
 	SetVal(v constant.Value)
+	KeepAlive() []*Name
+	SetKeepAlive([]*Name)
 
 	// Storage for analysis passes.
 	Esc() uint16

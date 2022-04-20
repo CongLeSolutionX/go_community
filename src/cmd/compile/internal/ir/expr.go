@@ -148,9 +148,9 @@ type CallExpr struct {
 	origNode
 	X         Node
 	Args      Nodes
-	KeepAlive []*Name // vars to be kept alive until call returns
 	IsDDD     bool
 	NoInline  bool
+	keepAlive []*Name
 }
 
 func NewCallExpr(pos src.XPos, op Op, fun Node, args []Node) *CallExpr {
@@ -176,6 +176,16 @@ func (n *CallExpr) SetOp(op Op) {
 		ORECOVER, ORECOVERFP:
 		n.op = op
 	}
+}
+
+// KeepAlive returns vars to be kept alive until the call returns.
+func (n *CallExpr) KeepAlive() []*Name {
+	return n.keepAlive
+}
+
+// SetKeepAlive sets vars to be kept alive until the call returns.
+func (n *CallExpr) SetKeepAlive(k []*Name) {
+	n.keepAlive = k
 }
 
 // A ClosureExpr is a function literal expression.
@@ -326,15 +336,20 @@ func (n *StructKeyExpr) Sym() *types.Sym { return n.Field.Sym }
 // An InlinedCallExpr is an inlined function call.
 type InlinedCallExpr struct {
 	miniExpr
+	Orig       *Func // original function before inlining
 	Body       Nodes
+	Args       Nodes
 	ReturnVars Nodes // must be side-effect free
+	keepAlive  []*Name
 }
 
-func NewInlinedCallExpr(pos src.XPos, body, retvars []Node) *InlinedCallExpr {
+func NewInlinedCallExpr(pos src.XPos, fn *Func, body, args []Node, retvars []Node) *InlinedCallExpr {
 	n := &InlinedCallExpr{}
 	n.pos = pos
 	n.op = OINLCALL
+	n.Orig = fn
 	n.Body = body
+	n.Args = args
 	n.ReturnVars = retvars
 	return n
 }
@@ -352,6 +367,16 @@ func (n *InlinedCallExpr) SingleResult() Node {
 		return r
 	}
 	return n.ReturnVars[0]
+}
+
+// KeepAlive returns vars to be kept alive until the call returns.
+func (n *InlinedCallExpr) KeepAlive() []*Name {
+	return n.keepAlive
+}
+
+// SetKeepAlive sets vars to be kept alive until the call returns.
+func (n *InlinedCallExpr) SetKeepAlive(k []*Name) {
+	n.keepAlive = k
 }
 
 // A LogicalExpr is a expression X Op Y where Op is && or ||.
@@ -831,6 +856,7 @@ func StaticValue(n Node) Node {
 
 		if n.Op() == OINLCALL {
 			n = n.(*InlinedCallExpr).SingleResult()
+			// XXX: what to do about KeepAlive?
 			continue
 		}
 

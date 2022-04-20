@@ -227,7 +227,7 @@ func (n *CallExpr) copy() Node {
 	c := *n
 	c.init = copyNodes(c.init)
 	c.Args = copyNodes(c.Args)
-	c.KeepAlive = copyNames(c.KeepAlive)
+	c.keepAlive = copyNames(c.keepAlive)
 	return &c
 }
 func (n *CallExpr) doChildren(do func(Node) bool) bool {
@@ -240,7 +240,7 @@ func (n *CallExpr) doChildren(do func(Node) bool) bool {
 	if doNodes(n.Args, do) {
 		return true
 	}
-	if doNames(n.KeepAlive, do) {
+	if doNames(n.keepAlive, do) {
 		return true
 	}
 	return false
@@ -251,7 +251,7 @@ func (n *CallExpr) editChildren(edit func(Node) Node) {
 		n.X = edit(n.X).(Node)
 	}
 	editNodes(n.Args, edit)
-	editNames(n.KeepAlive, edit)
+	editNames(n.keepAlive, edit)
 }
 
 func (n *CaseClause) Format(s fmt.State, verb rune) { fmtNode(n, s, verb) }

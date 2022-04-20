@@ -2111,7 +2111,7 @@ func InlineCall(call *ir.CallExpr, fn *ir.Func, inlIndex int) *ir.InlinedCallExp
 
 	body.Append(ir.NewLabelStmt(call.Pos(), r.retlabel))
 
-	res := ir.NewInlinedCallExpr(call.Pos(), body, append([]ir.Node(nil), r.retvars...))
+	res := ir.NewInlinedCallExpr(call.Pos(), fn, body, args, append([]ir.Node(nil), r.retvars...))
 	res.SetInit(init)
 	res.SetType(call.Type())
 	res.SetTypecheck(1)
