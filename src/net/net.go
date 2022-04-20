@@ -36,7 +36,7 @@ The Listen function creates servers:
 		go handleConnection(conn)
 	}
 
-Name Resolution
+# Name Resolution
 
 The method for resolving domain names, whether indirectly with functions like Dial
 or directly with functions like LookupHost and LookupAddr, varies by operating system.
@@ -74,7 +74,6 @@ join the two settings by a plus sign, as in GODEBUG=netdns=go+1.
 On Plan 9, the resolver always accesses /net/cs and /net/dns.
 
 On Windows, the resolver always uses C library functions, such as GetAddrInfo and DnsQuery.
-
 */
 package net
 
@@ -589,7 +588,9 @@ func (e InvalidAddrError) Temporary() bool { return false }
 //
 // TODO(iant): We could consider changing this to os.ErrDeadlineExceeded
 // in the future, if we make
-//   errors.Is(os.ErrDeadlineExceeded, context.DeadlineExceeded)
+//
+//	errors.Is(os.ErrDeadlineExceeded, context.DeadlineExceeded)
+//
 // return true.
 var errTimeout error = &timeoutError{}
 
