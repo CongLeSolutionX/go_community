@@ -22,6 +22,30 @@
       },
       "revId": "886bc430f1d4c189b7fffe94a228f7f3d7eb555c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1f5473f_11252853",
+        "filename": "src/crypto/rand/rand_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2022-04-20T14:34:30Z",
+      "side": 1,
+      "message": "For the purpose of dev.boringcrypto merge CLs, it is generally better not to introduce new gofmt\u0027ing (beyond what is there in the master commit being merged) since that can lead to a bigger BoringCrypto patch size. The pre-commit gofmt check can be skipped via GIT_GOFMT_HOOK\u003doff during \u0027git commit\u0027. (There\u0027s past discussion at https://go-review.googlesource.com/c/go/+/395679/1..4/src/io/multi.go#b45.)",
+      "parentUuid": "684326ed_ef0a179c",
+      "range": {
+        "startLine": 14,
+        "startChar": 1,
+        "endLine": 14,
+        "endChar": 25
+      },
+      "revId": "886bc430f1d4c189b7fffe94a228f7f3d7eb555c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
