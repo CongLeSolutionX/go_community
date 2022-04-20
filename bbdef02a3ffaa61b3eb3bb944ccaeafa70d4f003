@@ -612,6 +612,30 @@
       },
       "revId": "bbdef02a3ffaa61b3eb3bb944ccaeafa70d4f003",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3883c327_5cd786ab",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2022-04-20T17:53:02Z",
+      "side": 1,
+      "message": "I tried anyway, in CL 401336. Maybe there\u0027s a way to improve that code, but I don\u0027t like it as-is. I\u0027ll keep the uint32 with CAS.",
+      "parentUuid": "d8f4789a_fdd855b1",
+      "range": {
+        "startLine": 490,
+        "startChar": 1,
+        "endLine": 493,
+        "endChar": 0
+      },
+      "revId": "bbdef02a3ffaa61b3eb3bb944ccaeafa70d4f003",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
