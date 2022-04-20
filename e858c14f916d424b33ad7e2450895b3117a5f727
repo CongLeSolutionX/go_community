@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb467870_bbb17576",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2022-04-20T13:35:49Z",
+      "side": 1,
+      "message": "Is it not customary to include codegen tests with rules? Otherwise it\u0027s hard to say whether the rule makes any difference today, let alone in a few years :) ",
+      "revId": "e858c14f916d424b33ad7e2450895b3117a5f727",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
