@@ -47,6 +47,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6355fa97_882703d8",
+        "filename": "src/runtime/mgcpacer.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-04-20T14:25:15Z",
+      "side": 1,
+      "message": "it\u0027s because any heap goal is technically a goal for heap live. this is to differentiate it from the actually chosen heap goal in latter changes.",
+      "parentUuid": "4422ee9f_9ff61e3e",
+      "range": {
+        "startLine": 145,
+        "startChar": 4,
+        "endLine": 145,
+        "endChar": 17
+      },
+      "revId": "891612ab23954e06cb60e4214468e8f2bd32eeaf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "36b02b2b_f0da7cf5",
@@ -60,6 +84,24 @@
       "writtenOn": "2022-04-13T20:32:43Z",
       "side": 1,
       "message": "heapGoal can now change over time now, right? (I\u0027m a bit unclear on exactly when it can change). Thus this is the heap goal at the moment the previous GC ended.",
+      "revId": "891612ab23954e06cb60e4214468e8f2bd32eeaf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f228c1f_8a39998a",
+        "filename": "src/runtime/mgcpacer.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-04-20T14:25:15Z",
+      "side": 1,
+      "message": "in this CL it can only change as before: when something calls commit. later, it could potentially return a different value on every call.\n\nupdated the comment.",
+      "parentUuid": "36b02b2b_f0da7cf5",
       "revId": "891612ab23954e06cb60e4214468e8f2bd32eeaf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -87,6 +129,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c92dcf74_00c75116",
+        "filename": "src/runtime/mgcpacer.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 932,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-04-20T14:25:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d4df259_d6b24cbc",
+      "range": {
+        "startLine": 931,
+        "startChar": 43,
+        "endLine": 932,
+        "endChar": 68
+      },
+      "revId": "891612ab23954e06cb60e4214468e8f2bd32eeaf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "42acd2c1_c3082ec6",
@@ -100,6 +166,30 @@
       "writtenOn": "2022-04-13T20:32:43Z",
       "side": 1,
       "message": "Make this a constant?",
+      "range": {
+        "startLine": 965,
+        "startChar": 23,
+        "endLine": 965,
+        "endChar": 29
+      },
+      "revId": "891612ab23954e06cb60e4214468e8f2bd32eeaf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9399773a_281c868f",
+        "filename": "src/runtime/mgcpacer.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 965,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-04-20T14:25:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42acd2c1_c3082ec6",
       "range": {
         "startLine": 965,
         "startChar": 23,
