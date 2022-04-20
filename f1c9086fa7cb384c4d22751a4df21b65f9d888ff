@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "42e93e10_43b76d9e",
+        "filename": "src/cmd/asm/internal/asm/endtoend_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-04-20T11:31:21Z",
+      "side": 1,
+      "message": "Yeah, because there are some checks in the process of expanding and encoding, our error check mechanism does not return immediately when a check fails, but records the error and the program continues to execute, so that we may record multiple failures.\n\nThis is not a problem previously because we tried to report only one error in the span7-\u003easmout process, but now it is difficult to do such coordination after we divide it into multiple stages.",
+      "parentUuid": "883c66af_8227521c",
+      "revId": "f1c9086fa7cb384c4d22751a4df21b65f9d888ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7800a6e3_d0e61e6d",
         "filename": "src/cmd/internal/obj/link.go",
         "patchSetId": 4
@@ -85,6 +103,30 @@
       "writtenOn": "2022-04-19T19:35:08Z",
       "side": 1,
       "message": "I\u0027m leaning toward not defining these in the common/portable package, but in the arm64 package, and also not to add fields into common data structures like Prog. Can we use side tables to track Prog \u003c-\u003e machine instruction mappings? Or, taking a step back, do you really need to store the machine instructions? The old code does the expansion on the fly, one Prog a time, and never needs to store the machine instruction format anywhere. The RISCV64 assembler has a data type for machine instruction and encoding functions, but it doesn\u0027t need to store instructions either. I think we should do that in the new code as well.\n\nI think you can do this by breaking the unfold pass to two parts: the first part validates the instruction, computes the sizes, and marks branch/pool/etc.. The second part actually creates the machine instruction data structure and encodes them.",
+      "range": {
+        "startLine": 322,
+        "startChar": 0,
+        "endLine": 353,
+        "endChar": 1
+      },
+      "revId": "f1c9086fa7cb384c4d22751a4df21b65f9d888ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b61a0d42_0c7c3635",
+        "filename": "src/cmd/internal/obj/link.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-04-20T11:31:21Z",
+      "side": 1,
+      "message": "Through the side table, we\u0027re able to keep from adding new fields in Prog, but we can\u0027t encode a Prog like riscv, because the instructions of arm64 are too complicated and have no set format, such as the MOVD instruction, it can translated to more than ten different formats of machine instructions, we can\u0027t record so much information through the markup, we need analysis to determine what sequence of machine instructions a Prog corresponds to, unless we do another analysis while coding, which I believe we won\u0027t do.\nIn addition, we want to keep the process of machine instruction encoding as pure as possible, and less involved in the process of unfolding the Prog (in fact, we can treat the unfolding process of prog is a part of code-gen rather than assembly instruction encoding), and reduce the coupling between prog processing and encoding.",
+      "parentUuid": "7800a6e3_d0e61e6d",
       "range": {
         "startLine": 322,
         "startChar": 0,
