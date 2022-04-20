@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a77c365_86523c1f",
+        "filename": "src/internal/cpu/cpu.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 52933
+      },
+      "writtenOn": "2022-04-20T09:33:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b14c2ea_6316885e",
+      "revId": "71fef2a862a8bfc979f537e4d35ab3556b54945c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "facbbbde_d71f59a5",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-12-14T17:35:57Z",
       "side": 1,
       "message": "This field needs a comment describing what it is.",
+      "revId": "71fef2a862a8bfc979f537e4d35ab3556b54945c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1430ebd_fd35d7d6",
+        "filename": "src/internal/cpu/cpu.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 52933
+      },
+      "writtenOn": "2022-04-20T09:33:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "facbbbde_d71f59a5",
       "revId": "71fef2a862a8bfc979f537e4d35ab3556b54945c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -52,6 +88,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c09daf01_89ccf730",
+        "filename": "src/internal/cpu/cpu_x86.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 52933
+      },
+      "writtenOn": "2022-04-20T09:33:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a359b72_1caa7c8c",
+      "revId": "71fef2a862a8bfc979f537e4d35ab3556b54945c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8add7299_523e593e",
@@ -65,6 +119,24 @@
       "writtenOn": "2021-12-14T17:35:57Z",
       "side": 1,
       "message": "You don\u0027t need to declare this here. Just use cacheType :\u003d below.",
+      "revId": "71fef2a862a8bfc979f537e4d35ab3556b54945c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e93417f_f33075f2",
+        "filename": "src/internal/cpu/cpu_x86.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 52933
+      },
+      "writtenOn": "2022-04-20T09:33:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8add7299_523e593e",
       "revId": "71fef2a862a8bfc979f537e4d35ab3556b54945c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -201,6 +273,54 @@
       "side": 1,
       "message": "Implemented a simple benchmark trying to confuse a branch predictor and simulate more realistic scenarios (see CL 373362).\n\nTesting memclr on sizes 2-8Kb there is a benefit of ~4% when using rep stos. It is close to what intel mentioned.\n\nResults: https://gist.github.com/nimelehin/82956a11f1a9aea4642da6b10abb4cac",
       "parentUuid": "e3c22c68_d0592ca9",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 53
+      },
+      "revId": "71fef2a862a8bfc979f537e4d35ab3556b54945c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d84f294a_397bb083",
+        "filename": "src/runtime/memclr_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 52933
+      },
+      "writtenOn": "2022-04-20T09:33:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "496b461b_0a4ae229",
+      "range": {
+        "startLine": 73,
+        "startChar": 1,
+        "endLine": 73,
+        "endChar": 5
+      },
+      "revId": "71fef2a862a8bfc979f537e4d35ab3556b54945c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25b6baa6_22e97fc0",
+        "filename": "src/runtime/memclr_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 52933
+      },
+      "writtenOn": "2022-04-20T09:33:10Z",
+      "side": 1,
+      "message": "There is a separate patch to enable ERMS (CL 374396) in memclr(). To be short REP STOS and NT Stores use a bit different mechanisms (https://community.intel.com/t5/Software-Tuning-Performance/What-is-the-ItoM-IDI-opcode-in-the-performance-monitoring-events/m-p/1253627#M7797) and ERMS could show the same or slower performance comparing to Non-Temporal Stores when the size is bigger than LLC depending on hardware.",
+      "parentUuid": "b8675b5f_6e7685b0",
       "range": {
         "startLine": 73,
         "startChar": 0,
