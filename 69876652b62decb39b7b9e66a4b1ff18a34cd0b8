@@ -287,6 +287,30 @@
       },
       "revId": "69876652b62decb39b7b9e66a4b1ff18a34cd0b8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5de7a3cf_9f841aac",
+        "filename": "src/runtime/mprof.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 907,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-04-20T23:17:20Z",
+      "side": 1,
+      "message": "acquirem/releasem as you already did is preferred (to me anyway).",
+      "parentUuid": "adc9c973_8e7f911b",
+      "range": {
+        "startLine": 903,
+        "startChar": 0,
+        "endLine": 907,
+        "endChar": 39
+      },
+      "revId": "69876652b62decb39b7b9e66a4b1ff18a34cd0b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
