@@ -823,18 +823,126 @@ const (
 	goroutineProfileSatisfied
 )
 
-type goroutineProfileStateHolder atomic.Uint32
+// goroutineProfileStateHolder holds the state to coordinate capturing a
+// goroutine's stack in a goroutine profile.
+//
+// The two possible stack-capturers (the goroutine itself as "primary", and the
+// coordinator of the goroutine profile as "secondary") each use two bits to
+// propose and commit that they do the capture. Each side is free to propose if
+// the other has not. Each must see their own proposal and a lack of proposal
+// from the other side before moving forward to commit.
+//
+// Using the Or and And methods allows each side's operations to merge without
+// unintentional overwrites. That lets us use Gray-coding to count 0b00 (no
+// proposal), 0b01 (propose), and 0b11 (commit).
+//
+// The primary side uses two bits at offset 0, the secondary side uses offset 2.
+// Bit 7 holds a "done" flag. In total, bits 7......0 hold "d000sspp".
+type goroutineProfileStateHolder atomic.Uint8
 
-func (p *goroutineProfileStateHolder) Load() goroutineProfileState {
-	return goroutineProfileState((*atomic.Uint32)(p).Load())
+func (p *goroutineProfileStateHolder) Reset() {
+	(*atomic.Uint8)(p).Store(0x00)
 }
 
-func (p *goroutineProfileStateHolder) Store(value goroutineProfileState) {
-	(*atomic.Uint32)(p).Store(uint32(value))
+func (p *goroutineProfileStateHolder) MarkSatisfied() {
+	(*atomic.Uint8)(p).Or(0x80)
 }
 
-func (p *goroutineProfileStateHolder) CompareAndSwap(old, new goroutineProfileState) bool {
-	return (*atomic.Uint32)(p).CompareAndSwap(uint32(old), uint32(new))
+func (p *goroutineProfileStateHolder) Satisfied() bool {
+	return (*atomic.Uint8)(p).Load()&0x80 != 0
+}
+
+func (p *goroutineProfileStateHolder) Claim(primary bool) bool {
+	// Each side uses Gray coding to count 0b00, 0b01, 0b11. We'll write those
+	// as 0, 1, and 3. Reaching step 3 means the side has won. There will be
+	// exactly one winner.
+	//
+	// If the other side is at 0, we may advance ours from 0 to 1, or from 1 to
+	// 3. When we get to 3, we've won. (And if the other side is at 3, we know
+	// we've lost.)
+	//
+	// If we see the other side at 1 and we are also at 1, our behavior is
+	// different depending on whether we're the primary or secondary side. The
+	// secondary will move themselves back to step 0. The primary will also move
+	// themselves back to 0, but if it finds this process has repeated a few
+	// times it will instead wait for the secondary side to back off to avoid
+	// continued live-lock.
+
+	ourShift := 0
+	if !primary {
+		ourShift = 2
+	}
+	theirShift := 2 - ourShift
+	backoffs := 0
+	const (
+		maxPrimaryBackoffs = 3
+		backoffSleep       = 30
+	)
+
+	u := (*atomic.Uint8)(p)
+	for {
+		prev := u.Load()
+		if prev&0x80 != 0 {
+			// satisfied
+			return false
+		}
+		ours := (prev >> uint8(ourShift)) & 0x03
+		theirs := (prev >> theirShift) & 0x03
+		switch pair := ours<<4 + theirs; pair {
+		case 0x03, 0x13:
+			return false
+		case 0x30, 0x31:
+			return true
+		case 0x00:
+			u.Or(0x01 << ourShift)
+		case 0x10:
+			u.Or(0x03 << ourShift)
+		case 0x01:
+			// We observe a proposal from the other side and none from ours. But
+			// we might have been coming from the 0x11 state, so the other side
+			// could still be backing off. Forfeit and allow them, in time, to
+			// discover that they've won. (From their side, they might see a
+			// jump from 0x11 to 0x00, which they'd follow with 0x10 and 0x30.)
+			// Our caller will have to wait for the other side to do the work,
+			// but it will use relatively efficient sleeps to do so.
+			return false
+		case 0x11:
+			// Go back to the start of the loop as soon as possible. We want to
+			// spend as little time as possible in this function, even if it
+			// means letting the secondary side win, so we can move on to more
+			// efficient sleeps.
+			//
+			// The good news here is that both sides are ready to act.
+			//
+			// The next state we see could be 0x01, if our bit-clear goes
+			// through before the other side's. That's a fine outcome, we'll
+			// forfeit.
+			//
+			// The next state we see could be 0x03, if the other side didn't
+			// observe our proposal before committing their own. That's also a
+			// good outcome.
+			//
+			// But the final state we see next could be 0x00, meaning that the
+			// other side is also trying to back out. If that happens too many
+			// times, slow down the loop a bit and have the primary keep their
+			// proposal active.
+			backoffs++
+			livelock := backoffs > maxPrimaryBackoffs
+			if !(primary && livelock) {
+				u.And(^uint8(0x03 << ourShift))
+			}
+			if livelock {
+				procyield(backoffSleep)
+			}
+		case 0x33:
+			// Both sides declared themselves winner.
+			print("state=", hex(prev), " pair=", hex(pair), "\n")
+			throw("illegal goroutine profile state")
+		default:
+			print("state=", hex(prev), " pair=", hex(pair), "\n")
+			throw("unexpected goroutine profile state")
+		}
+	}
 }
 
 func goroutineProfileWithLabelsConcurrent(p []StackRecord, labels []unsafe.Pointer) (n int, ok bool) {
@@ -888,7 +996,7 @@ func goroutineProfileWithLabelsConcurrent(p []StackRecord, labels []unsafe.Point
 	systemstack(func() {
 		saveg(pc, sp, ourg, &p[0])
 	})
-	ourg.goroutineProfiled.Store(goroutineProfileSatisfied)
+	ourg.goroutineProfiled.MarkSatisfied()
 	goroutineProfile.offset.Store(1)
 
 	// Prepare for all other goroutines to enter the profile. Aside from ourg,
@@ -903,7 +1011,7 @@ func goroutineProfileWithLabelsConcurrent(p []StackRecord, labels []unsafe.Point
 	// time between being a user goroutine (eligible for this profile) and a
 	// system goroutine (to be excluded). Pick one before restarting the world.
 	if fing != nil {
-		fing.goroutineProfiled.Store(goroutineProfileSatisfied)
+		fing.goroutineProfiled.MarkSatisfied()
 	}
 	if readgstatus(fing) != _Gdead && !isSystemGoroutine(fing, false) {
 		doRecordGoroutineProfile(fing)
@@ -922,7 +1030,7 @@ func goroutineProfileWithLabelsConcurrent(p []StackRecord, labels []unsafe.Point
 	// call will start by adding itself to the profile (before the act of
 	// executing can cause any changes in its stack).
 	forEachGRace(func(gp1 *g) {
-		tryRecordGoroutineProfile(gp1, Gosched)
+		tryRecordGoroutineProfile(gp1, false)
 	})
 
 	stopTheWorld("profile cleanup")
@@ -935,7 +1043,7 @@ func goroutineProfileWithLabelsConcurrent(p []StackRecord, labels []unsafe.Point
 	// Restore the invariant that every goroutine struct in allgs has its
 	// goroutineProfiled field cleared.
 	forEachGRace(func(gp1 *g) {
-		gp1.goroutineProfiled.Store(goroutineProfileAbsent)
+		gp1.goroutineProfiled.Reset()
 	})
 
 	if raceenabled {
@@ -973,13 +1081,15 @@ func tryRecordGoroutineProfileWB(gp1 *g) {
 	if getg().m.p.ptr() == nil {
 		throw("no P available, write barriers are forbidden")
 	}
-	tryRecordGoroutineProfile(gp1, osyield)
+	tryRecordGoroutineProfile(gp1, true)
 }
 
 // tryRecordGoroutineProfile ensures that gp1 has the appropriate representation
 // in the current goroutine profile: either that it should not be profiled, or
-// that a snapshot of its call stack and labels are now in the profile.
-func tryRecordGoroutineProfile(gp1 *g, yield func()) {
+// that a snapshot of its call stack and labels are now in the profile. Setting
+// the self argument indicates the goroutine is attempting to add itself to the
+// profile.
+func tryRecordGoroutineProfile(gp1 *g, self bool) {
 	if readgstatus(gp1) == _Gdead {
 		// Dead goroutines should not appear in the profile. Goroutines that
 		// start while profile collection is active will get goroutineProfiled
@@ -993,31 +1103,31 @@ func tryRecordGoroutineProfile(gp1 *g, yield func()) {
 		return
 	}
 
+	// While we have gp1.goroutineProfiled set to "InProgress", gp1 may appear
+	// _Grunnable but will not actually be able to run. Disable preemption for
+	// ourselves, to make sure we finish profiling gp1 right away instead of
+	// leaving it stuck in this limbo.
+	mp := acquirem()
+	if gp1.goroutineProfiled.Claim(self) {
+		doRecordGoroutineProfile(gp1)
+		gp1.goroutineProfiled.MarkSatisfied()
+	}
+	releasem(mp)
+
 	for {
-		prev := gp1.goroutineProfiled.Load()
-		if prev == goroutineProfileSatisfied {
+		if gp1.goroutineProfiled.Satisfied() {
 			// This goroutine is already in the profile (or is new since the
 			// start of collection, so shouldn't appear in the profile).
 			break
 		}
-		if prev == goroutineProfileInProgress {
-			// Something else is adding gp1 to the goroutine profile right now.
-			// Give that a moment to finish.
-			yield()
-			continue
-		}
 
-		// While we have gp1.goroutineProfiled set to
-		// goroutineProfileInProgress, gp1 may appear _Grunnable but will not
-		// actually be able to run. Disable preemption for ourselves, to make
-		// sure we finish profiling gp1 right away instead of leaving it stuck
-		// in this limbo.
-		mp := acquirem()
-		if gp1.goroutineProfiled.CompareAndSwap(goroutineProfileAbsent, goroutineProfileInProgress) {
-			doRecordGoroutineProfile(gp1)
-			gp1.goroutineProfiled.Store(goroutineProfileSatisfied)
+		// Something else is adding gp1 to the goroutine profile right now. Give
+		// that a moment to finish.
+		if self {
+			osyield()
+		} else {
+			Gosched()
 		}
-		releasem(mp)
 	}
 }
 

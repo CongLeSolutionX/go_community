@@ -2494,7 +2494,7 @@ func execute(gp *g, inheritTime bool) {
 		// Make sure that gp has had its stack written out to the goroutine
 		// profile, exactly as it was when the goroutine profiler first stopped
 		// the world.
-		tryRecordGoroutineProfile(gp, osyield)
+		tryRecordGoroutineProfile(gp, true)
 	}
 
 	// Assign gp.m before entering _Grunning so running Gs have an
@@ -4141,7 +4141,7 @@ func newproc1(fn *funcval, callergp *g, callerpc uintptr) *g {
 			// profiler first stopped the world. That does not include newg, so
 			// mark it as not needing a profile before transitioning it from
 			// _Gdead.
-			newg.goroutineProfiled.Store(goroutineProfileSatisfied)
+			newg.goroutineProfiled.MarkSatisfied()
 		}
 	}
 	// Track initial transition?

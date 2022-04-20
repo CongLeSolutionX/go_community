@@ -462,6 +462,10 @@ type g struct {
 	// for stack shrinking. It's a boolean value, but is updated atomically.
 	parkingOnChan uint8
 
+	// goroutineProfiled indicates the status of this goroutine's stack for the
+	// current in-progress goroutine profile
+	goroutineProfiled goroutineProfileStateHolder
+
 	raceignore     int8     // ignore race detection events
 	sysblocktraced bool     // StartTrace has emitted EvGoInSyscall about this goroutine
 	tracking       bool     // whether we're tracking this G for sched latency statistics
@@ -486,10 +490,6 @@ type g struct {
 	labels         unsafe.Pointer // profiler labels
 	timer          *timer         // cached timer for time.Sleep
 	selectDone     uint32         // are we participating in a select and did someone win the race?
-
-	// goroutineProfiled indicates the status of this goroutine's stack for the
-	// current in-progress goroutine profile
-	goroutineProfiled goroutineProfileStateHolder
 
 	// Per-G GC state
 
