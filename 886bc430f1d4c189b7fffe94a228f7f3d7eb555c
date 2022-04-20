@@ -46,6 +46,30 @@
       },
       "revId": "886bc430f1d4c189b7fffe94a228f7f3d7eb555c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb28711b_f9fae1d3",
+        "filename": "src/crypto/rand/rand_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 50193
+      },
+      "writtenOn": "2022-04-20T14:59:05Z",
+      "side": 1,
+      "message": "Ah thank you! I forgot about that. I updated the patch. Looks cleaner now.",
+      "parentUuid": "c1f5473f_11252853",
+      "range": {
+        "startLine": 14,
+        "startChar": 1,
+        "endLine": 14,
+        "endChar": 25
+      },
+      "revId": "886bc430f1d4c189b7fffe94a228f7f3d7eb555c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
