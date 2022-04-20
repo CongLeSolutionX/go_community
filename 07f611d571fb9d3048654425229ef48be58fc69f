@@ -78,6 +78,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "90ab320f_12732263",
+        "filename": "src/internal/bytealg/index_ppc64x.s",
+        "patchSetId": 22
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2022-04-20T10:13:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ec1a3962_a53cf956",
+      "range": {
+        "startLine": 10,
+        "startChar": 13,
+        "endLine": 10,
+        "endChar": 61
+      },
+      "revId": "07f611d571fb9d3048654425229ef48be58fc69f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "607fbf78_9a8b2e0a",
@@ -91,6 +115,30 @@
       "writtenOn": "2022-04-19T16:03:22Z",
       "side": 1,
       "message": "at least",
+      "range": {
+        "startLine": 664,
+        "startChar": 62,
+        "endLine": 664,
+        "endChar": 69
+      },
+      "revId": "07f611d571fb9d3048654425229ef48be58fc69f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb704467_1c2140e6",
+        "filename": "src/internal/bytealg/index_ppc64x.s",
+        "patchSetId": 22
+      },
+      "lineNbr": 664,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2022-04-20T10:13:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "607fbf78_9a8b2e0a",
       "range": {
         "startLine": 664,
         "startChar": 62,
@@ -124,6 +172,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "15c06f73_6608ddcf",
+        "filename": "src/internal/bytealg/index_ppc64x.s",
+        "patchSetId": 22
+      },
+      "lineNbr": 685,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2022-04-20T10:13:21Z",
+      "side": 1,
+      "message": "Hi Cherry if all elements match we take the jump. in case of index function, BLT followed by VCMPEQUBCC will branch if all elements do match as vcmpequb. sets the LT bit if the result is all 1s",
+      "parentUuid": "ebcb7efd_32bafb34",
+      "range": {
+        "startLine": 685,
+        "startChar": 31,
+        "endLine": 685,
+        "endChar": 66
+      },
+      "revId": "07f611d571fb9d3048654425229ef48be58fc69f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "47f53ea2_7d1f1729",
@@ -141,6 +213,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b94dbaa_248fdfbc",
+        "filename": "src/internal/bytealg/index_ppc64x.s",
+        "patchSetId": 22
+      },
+      "lineNbr": 696,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2022-04-20T10:13:21Z",
+      "side": 1,
+      "message": "Yes 4 is added to R7, but 19+R7 is only checked to see if there is enough room to continue unrolled loop execution.",
+      "parentUuid": "47f53ea2_7d1f1729",
+      "revId": "07f611d571fb9d3048654425229ef48be58fc69f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8acec60f_9d5d98f4",
@@ -154,6 +244,30 @@
       "writtenOn": "2022-04-19T16:03:22Z",
       "side": 1,
       "message": "at least?",
+      "range": {
+        "startLine": 697,
+        "startChar": 48,
+        "endLine": 697,
+        "endChar": 53
+      },
+      "revId": "07f611d571fb9d3048654425229ef48be58fc69f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc874bd0_f859fe5d",
+        "filename": "src/internal/bytealg/index_ppc64x.s",
+        "patchSetId": 22
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2022-04-20T10:13:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8acec60f_9d5d98f4",
       "range": {
         "startLine": 697,
         "startChar": 48,
