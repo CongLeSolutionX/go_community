@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "684326ed_ef0a179c",
+        "filename": "src/crypto/rand/rand_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 50193
+      },
+      "writtenOn": "2022-04-20T11:04:49Z",
+      "side": 1,
+      "message": "This and the comment diffs come from a \u0027git codereview gofmt\u0027, which \u0027git commit\u0027 instructed me to run. Should i revert these and ignore the error message about running gofmt?",
+      "range": {
+        "startLine": 14,
+        "startChar": 1,
+        "endLine": 14,
+        "endChar": 25
+      },
+      "revId": "886bc430f1d4c189b7fffe94a228f7f3d7eb555c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
