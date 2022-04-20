@@ -72,6 +72,24 @@
       "message": "I\u0027m not super used to CL chains; does a CR+1 here also apply to https://go-review.googlesource.com/c/go/+/391455/4? I assume not, but I\u0027m also not entirely sure how much a review here matters without also reviewing the parent CL :) ",
       "revId": "f883d20d80afc652653183994e5b2c51277a6c90",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "616e3bbd_f411acb5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-04-20T22:40:09Z",
+      "side": 1,
+      "message": "A +1 on this CL does not affect any other CLs in the chain.",
+      "parentUuid": "5bf4732e_2fe9b5ec",
+      "revId": "f883d20d80afc652653183994e5b2c51277a6c90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
