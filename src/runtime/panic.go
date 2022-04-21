@@ -946,6 +946,7 @@ func gopanic(e any) {
 
 // getargp returns the location where the caller
 // writes outgoing function call arguments.
+//
 //go:nosplit
 //go:noinline
 func getargp() uintptr {
@@ -958,6 +959,7 @@ func getargp() uintptr {
 //
 // TODO(rsc): Once we commit to CopyStackAlways,
 // this doesn't need to be nosplit.
+//
 //go:nosplit
 func gorecover(argp uintptr) any {
 	// Must be in a function running as part of a deferred call during the panic.

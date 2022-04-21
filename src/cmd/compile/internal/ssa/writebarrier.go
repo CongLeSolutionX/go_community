@@ -81,9 +81,13 @@ func needwb(v *Value, zeroes map[ID]ZeroRegion) bool {
 // and runtime calls, like
 //
 // if writeBarrier.enabled {
-//   gcWriteBarrier(ptr, val)	// Not a regular Go call
+//
+//	gcWriteBarrier(ptr, val)	// Not a regular Go call
+//
 // } else {
-//   *ptr = val
+//
+//	*ptr = val
+//
 // }
 //
 // A sequence of WB stores for many pointer fields of a single type will
