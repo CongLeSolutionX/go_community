@@ -103,6 +103,7 @@ import (
 	"strings"
 	"sync"
 	"syscall"
+	"time"
 )
 
 // Error is returned by LookPath when it fails to classify a file as an
@@ -119,6 +120,11 @@ func (e *Error) Error() string {
 }
 
 func (e *Error) Unwrap() error { return e.Err }
+
+// ErrWaitDelay is returned by (*Cmd).Wait if the process exits with a
+// successful status code but its output pipes are not closed before the
+// command's WaitDelay expires.
+var ErrWaitDelay = errors.New("exec: WaitDelay expired before I/O complete")
 
 // wrappedError wraps an error without relying on fmt.Errorf.
 type wrappedError struct {
@@ -217,8 +223,39 @@ type Cmd struct {
 	// available after a call to Wait or Run.
 	ProcessState *os.ProcessState
 
-	ctx context.Context // nil means none
-	Err error           // LookPath error, if any.
+	// ctx is the context passed to CommandContext, if any.
+	ctx context.Context
+
+	Err error // LookPath error, if any.
+
+	// If Interrupt is non-nil, the command must have been created with
+	// CommandContext and Interrupt will be sent to the child process when its
+	// Context is done.
+	//
+	// If the command exits with a success code after the Interrupt signal has
+	// been sent, Wait and similar methods will return the error from the Context
+	// instead of nil.
+	//
+	// If the Interrupt signal is not supported on the current platform
+	// (for example, if it is os.Interrupt on Windows), Start may fail
+	// (and return a non-nil error).
+	Interrupt os.Signal
+
+	// If WaitDelay is non-zero, the command's I/O pipes will be closed after
+	// WaitDelay has elapsed after either the command's process has exited or (if
+	// the command was created with CommandContext) the command's Context is done,
+	// whichever occurs first. If the command's process is still running after
+	// WaitDelay has elapsed, it will be terminated with os.Kill before the pipes
+	// are closed.
+	//
+	// If the command exits with a success code after pipes are closed due to
+	// WaitDelay and no Interrupt signal has been sent, Wait and similar methods
+	// will return ErrWaitDelay instead of nil.
+	//
+	// If WaitDelay is zero (the default), I/O pipes will be read until EOF,
+	// which might not occur until orphaned subprocesses of the command have
+	// also closed their descriptors for the pipes.
+	WaitDelay time.Duration
 
 	// childIOFiles holds closers for any of the child process's
 	// stdin, stdout, and/or stderr files that were opened by the Cmd itself
@@ -228,8 +265,10 @@ type Cmd struct {
 
 	// goroutinePipes holds closers for the parent's end of any pipes
 	// connected to the child's stdin, stdout, and/or stderr streams
-	// that are pumped (and ultimately closed) by goroutines controlled by
-	// the Cmd itself (not supplied by or returned to the caller).
+	// that are pumped by goroutines controlled by
+	// the Cmd itself (not supplied by or returned to the caller),
+	// and should be closed either by their respective goroutines
+	// or after WaitDelay has expired.
 	goroutinePipes []io.Closer
 
 	// userPipes holds closers for the parent's end of any pipes
@@ -238,9 +277,17 @@ type Cmd struct {
 	// These should be closed when Wait completes.
 	userPipes []io.Closer
 
-	goroutine     []func() error
-	goroutineErrs <-chan error // one receive per goroutine
-	ctxErr        <-chan error // if non nil, receives the error from watchCtx exactly once
+	// goroutine holds a set of closures to execute to copy data
+	// to and/or from the command's I/O pipes.
+	goroutine []func() error
+
+	// If goroutineErr is non-nil, it receives the first error from a copying
+	// goroutine once all such goroutines have completed.
+	// goroutineErr is set to nil once its error has been received.
+	goroutineErr <-chan error
+
+	// If ctxResult is non-nil, it receives the result of watchCtx exactly once.
+	ctxResult <-chan ctxResult
 
 	// For a security release long ago, we created x/sys/execabs,
 	// which manipulated the unexported lookPathErr error field
@@ -260,6 +307,20 @@ type Cmd struct {
 	// See https://go.dev/blog/path-security
 	// and https://go.dev/issue/43724 for more context.
 	lookPathErr error
+}
+
+// A ctxResult reports the result of watching the Context associated with a
+// running command (and sending corresponding signals if needed).
+type ctxResult struct {
+	err error
+
+	// If timer is non-nil, it expires after WaitDelay has elapsed after
+	// the Context is done.
+	//
+	// (If timer is nil, either the Context was not done before the command
+	// completed, or the WaitDelay already expired and its effect already
+	// applied.)
+	timer *time.Timer
 }
 
 // Command returns the Cmd struct to execute the named program with
@@ -315,6 +376,7 @@ func CommandContext(ctx context.Context, name string, arg ...string) *Cmd {
 	}
 	cmd := Command(name, arg...)
 	cmd.ctx = ctx
+	cmd.Interrupt = os.Kill
 	return cmd
 }
 
@@ -522,6 +584,17 @@ func (c *Cmd) Start() error {
 	if c.Process != nil {
 		return errors.New("exec: already started")
 	}
+	if c.Interrupt != nil {
+		if c.ctx == nil {
+			return errors.New("exec: Interrupt requires a non-nil Context")
+		}
+		if runtime.GOOS == "windows" && c.Interrupt != os.Kill {
+			return wrappedError{
+				prefix: "exec: signal " + c.Interrupt.String(),
+				err:    errWindows,
+			}
+		}
+	}
 	if c.ctx != nil {
 		select {
 		case <-c.ctx.Done():
@@ -564,20 +637,133 @@ func (c *Cmd) Start() error {
 	}
 	started = true
 
-	// Don't allocate the goroutineErrs channel unless there are goroutines to fire.
+	// Don't allocate the goroutinesDone channel unless there are goroutines to start.
 	if len(c.goroutine) > 0 {
-		errc := make(chan error, len(c.goroutine))
-		c.goroutineErrs = errc
+		goroutineErr := make(chan error, 1)
+		c.goroutineErr = goroutineErr
+
+		type goroutineStatus struct {
+			running  int
+			firstErr error
+		}
+		statusc := make(chan goroutineStatus, 1)
+		statusc <- goroutineStatus{running: len(c.goroutine)}
 		for _, fn := range c.goroutine {
 			go func(fn func() error) {
-				errc <- fn()
+				err := fn()
+
+				status := <-statusc
+				if status.firstErr == nil {
+					status.firstErr = err
+				}
+				status.running--
+				if status.running == 0 {
+					goroutineErr <- status.firstErr
+				} else {
+					statusc <- status
+				}
 			}(fn)
+		}
+		c.goroutine = nil // Allow the goroutines' closures to be GC'd when they complete.
+	}
+
+	if (c.Interrupt != nil || c.WaitDelay != 0) && c.ctx != nil && c.ctx.Done() != nil {
+		waitc := make(chan ctxResult)
+		c.ctxResult = waitc
+		go c.watchCtx(waitc)
+	}
+
+	return nil
+}
+
+// watchCtx watches c.ctx until it is able to send a result to resultc.
+//
+// If c.ctx is done before a result can be sent, watchCtx sends c.Interrupt to
+// the command and/or kills it after c.WaitDelay has elapsed.
+//
+// watchCtx manipulates c.goroutineErr, so its result must be received before
+// c.awaitGoroutines is called.
+func (c *Cmd) watchCtx(resultc chan<- ctxResult) {
+	select {
+	case resultc <- ctxResult{}:
+		return
+	case <-c.ctx.Done():
+	}
+
+	var err error
+	if c.Interrupt != nil {
+		if signalErr := c.Process.Signal(c.Interrupt); signalErr == nil {
+			// We appear to have successfully delivered c.Interrupt, so any
+			// program behavior from this point may be due to ctx even if the
+			// program exits with code 0.
+			err = c.ctx.Err()
+		} else if errors.Is(signalErr, os.ErrProcessDone) {
+			// The process already finished: we just didn't notice it yet.
+			// (Perhaps c.Wait hadn't been called, or perhaps it happened to race with
+			// c.ctx being cancelled.) Don't inject a needless error.
+		} else {
+			err = wrappedError{
+				prefix: "exec: error sending signal to Cmd",
+				err:    err,
+			}
+		}
+	}
+	if c.WaitDelay == 0 {
+		resultc <- ctxResult{err: err}
+		return
+	}
+
+	timer := time.NewTimer(c.WaitDelay)
+	select {
+	case resultc <- ctxResult{err: err, timer: timer}:
+		// c.Process.Wait returned and we've handed the timer off to c.Wait.
+		// It will take care of goroutine shutdown from here.
+		return
+	case <-timer.C:
+	}
+
+	if killErr := c.Process.Kill(); killErr == nil {
+		// We appear to have killed the process. c.Process.Wait should return a
+		// non-nil error to c.Wait unless the Kill signal races with a successful
+		// exit, and if that does happen we shouldn't report a spurious error,
+		// so don't set err to anything here.
+	} else if !errors.Is(killErr, os.ErrProcessDone) {
+		err = wrappedError{
+			prefix: "exec: error killing Cmd",
+			err:    killErr,
 		}
 	}
 
-	c.ctxErr = c.watchCtx()
+	if c.goroutineErr != nil {
+		select {
+		case goroutineErr := <-c.goroutineErr:
+			// Forward goroutineErr only if we don't have reason to believe it was
+			// caused by a signal sent above.
+			if err == nil {
+				err = goroutineErr
+			}
+		default:
+			// Close the child process's I/O pipes, in case it abandoned some
+			// subprocess that inherited them and is still holding them open
+			// (see https://go.dev/issue/23019).
+			//
+			// We close the goroutine pipes only after we have sent any signals we're
+			// going to send to the process (via Signal or Kill above): if we send
+			// SIGKILL to the process, we would prefer for it to die of SIGKILL, not
+			// SIGPIPE. (However, this may still cause any orphaned subprocesses to
+			// terminate with SIGPIPE.)
+			c.closeDescriptors(c.goroutinePipes)
+			// Wait for the copying goroutines to finish, but ignore any error
+			// (since it was probably caused by closing the pipes).
+			_ = <-c.goroutineErr
+			if err == nil {
+				err = ErrWaitDelay
+			}
+		}
+		c.goroutineErr = nil
+	}
 
-	return nil
+	resultc <- ctxResult{err: err}
 }
 
 // An ExitError reports an unsuccessful exit by a command.
@@ -625,36 +811,32 @@ func (c *Cmd) Wait() error {
 	if c.ProcessState != nil {
 		return errors.New("exec: Wait was already called")
 	}
+
 	state, err := c.Process.Wait()
 	if err == nil && !state.Success() {
 		err = &ExitError{ProcessState: state}
 	}
 	c.ProcessState = state
 
-	// Wait for the pipe-copying goroutines to complete.
-	var copyError error
-	for range c.goroutine {
-		if err := <-c.goroutineErrs; err != nil && copyError == nil {
-			copyError = err
-		}
-	}
-	c.goroutine = nil      // Allow the goroutines' closures to be GC'd.
-	c.goroutinePipes = nil // Already closed by their respective goroutines.
-
-	if c.ctxErr != nil {
-		interruptErr := <-c.ctxErr
+	var timer *time.Timer
+	if c.ctxResult != nil {
+		wait := <-c.ctxResult
+		timer = wait.timer
 		// If c.Process.Wait returned an error, prefer that.
-		// Otherwise, report any error from the interrupt goroutine.
-		if interruptErr != nil && err == nil {
-			err = interruptErr
+		// Otherwise, report any error from the watchCtx goroutine,
+		// such as a Context cancellation or a WaitDelay overrun.
+		if err == nil && wait.err != nil {
+			err = wait.err
 		}
 	}
-	// Report errors from the copying goroutines only if the program otherwise
-	// exited normally on its own. Otherwise, the copying error may be due to the
-	// abnormal termination.
-	if err == nil {
-		err = copyError
+
+	if goroutineErr := c.awaitGoroutines(timer); err == nil {
+		// Report an error from the copying goroutines only if the program otherwise
+		// exited normally on its own. Otherwise, the copying error may be due to the
+		// abnormal termination.
+		err = goroutineErr
 	}
+	c.goroutinePipes = nil
 
 	c.closeDescriptors(c.userPipes)
 	c.userPipes = nil
@@ -662,40 +844,53 @@ func (c *Cmd) Wait() error {
 	return err
 }
 
-// watchCtx conditionally starts a goroutine that waits until either c.ctx is
-// done or c.Process.Wait has completed (called from Wait).
-// If c.ctx is done first, the goroutine terminates c.Process.
+// awaitGoroutines waits for the results of the goroutines copying data to or
+// from the command's I/O pipes.
 //
-// If a goroutine was started, watchCtx returns a channel on which its result
-// must be received.
-func (c *Cmd) watchCtx() <-chan error {
-	if c.ctx == nil {
-		return nil
-	}
-
-	errc := make(chan error)
-	go func() {
-		select {
-		case errc <- nil:
-			return
-		case <-c.ctx.Done():
+// If c.WaitDelay elapses before the goroutines complete, awaitGoroutines
+// forcibly closes their pipes and returns ErrWaitDelay.
+//
+// If timer is non-nil, it must send to timer.C at the end of c.WaitDelay.
+func (c *Cmd) awaitGoroutines(timer *time.Timer) error {
+	defer func() {
+		if timer != nil {
+			timer.Stop()
 		}
-
-		var err error
-		if killErr := c.Process.Kill(); killErr == nil {
-			// We appear to have successfully delivered a kill signal, so any
-			// program behavior from this point may be due to ctx.
-			err = c.ctx.Err()
-		} else if !errors.Is(killErr, os.ErrProcessDone) {
-			err = wrappedError{
-				prefix: "exec: error sending signal to Cmd",
-				err:    killErr,
-			}
-		}
-		errc <- err
+		c.goroutineErr = nil
 	}()
 
-	return errc
+	if c.goroutineErr == nil {
+		return nil // No running goroutines to await.
+	}
+
+	if timer == nil {
+		if c.WaitDelay == 0 {
+			return <-c.goroutineErr
+		}
+
+		select {
+		case err := <-c.goroutineErr:
+			// Avoid the overhead of starting a timer.
+			return err
+		default:
+		}
+
+		// No existing timer was started: either there is no Context associated with
+		// the command, or c.Process.Wait completed before the Context was done.
+		timer = time.NewTimer(c.WaitDelay)
+	}
+
+	select {
+	case <-timer.C:
+		c.closeDescriptors(c.goroutinePipes)
+		// Wait for the copying goroutines to finish, but ignore any error
+		// (since it was probably caused by closing the pipes).
+		_ = <-c.goroutineErr
+		return ErrWaitDelay
+
+	case err := <-c.goroutineErr:
+		return err
+	}
 }
 
 // Output runs the command and returns its standard output.
