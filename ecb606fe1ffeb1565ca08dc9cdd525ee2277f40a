@@ -87,6 +87,57 @@
       "message": "@Ian, could you please help to review this patch again? Thank you.",
       "revId": "ecb606fe1ffeb1565ca08dc9cdd525ee2277f40a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be1bdcb7_4c359d06",
+        "filename": "misc/cgo/testsanitizers/cc_test.go",
+        "patchSetId": 40
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-04-21T02:38:58Z",
+      "side": 1,
+      "message": "This is the version required for the asan tests, but this test is used for tsan and msan as well.  So this function should be something like compilerIsRequiredAsanVersion.",
+      "revId": "ecb606fe1ffeb1565ca08dc9cdd525ee2277f40a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e8e8090_6f448b0b",
+        "filename": "src/cmd/go/internal/work/init.go",
+        "patchSetId": 40
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-04-21T02:38:58Z",
+      "side": 1,
+      "message": "Our users have no control over the version of the ASan library,  Better would be\n\n-asan is not supported with gcc %d.%d; requires gcc 7 or later",
+      "revId": "ecb606fe1ffeb1565ca08dc9cdd525ee2277f40a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c6c0c0c_d7ddc343",
+        "filename": "src/cmd/go/internal/work/init.go",
+        "patchSetId": 40
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-04-21T02:38:58Z",
+      "side": 1,
+      "message": "-asan is not supported with clang %d.%d; requires clang 4 or later",
+      "revId": "ecb606fe1ffeb1565ca08dc9cdd525ee2277f40a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

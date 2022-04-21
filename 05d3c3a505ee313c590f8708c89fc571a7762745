@@ -96,6 +96,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d099c5a3_ca0e017d",
+        "filename": "src/cmd/compile/internal/pkginit/initAsanGlobals.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-04-21T02:38:58Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c479cf19_b11e328d",
+      "range": {
+        "startLine": 70,
+        "startChar": 1,
+        "endLine": 70,
+        "endChar": 44
+      },
+      "revId": "05d3c3a505ee313c590f8708c89fc571a7762745",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fc9ef3cc_f28a0551",
