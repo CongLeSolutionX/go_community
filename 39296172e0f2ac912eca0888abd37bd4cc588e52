@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec41800e_1e9577ad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2022-04-21T17:48:09Z",
+      "side": 1,
+      "message": "Not sure whether this part is still up to date or relevant?",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 32
+      },
+      "revId": "39296172e0f2ac912eca0888abd37bd4cc588e52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a080134f_34431a19",
+        "filename": "src/internal/syscall/unix/sysnum_linux_generic.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2022-04-21T17:48:09Z",
+      "side": 1,
+      "message": "Nit: maybe keep the list in the same order as the //go:build tag and add a comma? i.e.\n\n  means only arm64, loong64 and risccv64 use the standard numbers.",
+      "revId": "39296172e0f2ac912eca0888abd37bd4cc588e52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
