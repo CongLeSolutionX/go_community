@@ -7,12 +7,19 @@
 package exec_test
 
 import (
+	"context"
+	"errors"
 	"io"
 	"os"
 	"os/exec"
 	"strconv"
 	"syscall"
 	"testing"
+)
+
+var (
+	quitSignal os.Signal = nil
+	pipeSignal           = syscall.SIGPIPE
 )
 
 func TestPipePassing(t *testing.T) {
@@ -52,5 +59,30 @@ func TestNoInheritHandles(t *testing.T) {
 	}
 	if exitError.ExitCode() != 88 {
 		t.Fatalf("got exit code %d; want 88", exitError.ExitCode())
+	}
+}
+
+func TestStartRejectsUnsupportedInterrupt(t *testing.T) {
+	for _, sig := range []os.Signal{
+		os.Interrupt, // explicitly not implemented
+
+		// “invented values” as described by the syscall package.
+		syscall.SIGHUP,
+		syscall.SIGQUIT,
+
+		// Note that os.Kill actually is supported, and is tested separately.
+	} {
+		t.Run(sig.String(), func(t *testing.T) {
+			cmd := exec.CommandContext(context.Background(), exePath(), "-sleep=1ms")
+			cmd.Interrupt = sig
+			err := cmd.Start()
+
+			if err == nil {
+				t.Errorf("Start succeeded unexpectedly")
+				cmd.Wait()
+			} else if !errors.Is(err, syscall.EWINDOWS) {
+				t.Errorf("Start: %v\nwant %v", err, syscall.EWINDOWS)
+			}
+		})
 	}
 }

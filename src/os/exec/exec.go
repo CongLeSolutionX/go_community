@@ -34,6 +34,7 @@ import (
 	"strings"
 	"sync"
 	"syscall"
+	"time"
 )
 
 // Error is returned by LookPath when it fails to classify a file as an
@@ -50,6 +51,8 @@ func (e *Error) Error() string {
 }
 
 func (e *Error) Unwrap() error { return e.Err }
+
+var ErrWaitDelay = errors.New("exec: WaitDelay expired before I/O complete")
 
 // Cmd represents an external command being prepared or run.
 //
@@ -138,11 +141,38 @@ type Cmd struct {
 	// (typically the one passed to CommandContext).
 	Context context.Context
 
+	// If Interrupt is non-nil, Context must also be non-nil and Interrupt will be
+	// sent to the child process when Context is done.
+	//
+	// If the command exits with a success code after the Interrupt signal has
+	// been sent, Wait and similar methods will return Context.Err()
+	// instead of nil.
+	//
+	// If the Interrupt signal is not supported on the current platform
+	// (for example, if it is os.Interrupt on Windows), Start may fail
+	// (and return a non-nil error).
+	Interrupt os.Signal
+
+	// If WaitDelay is non-zero, the command's I/O pipes will be closed after
+	// WaitDelay has elapsed after either the command's process has exited or
+	// (if Context is non-nil) Context is done, whichever occurs first.
+	// If the command's process is still running after WaitDelay has elapsed,
+	// it will be terminated with os.Kill before the pipes are closed.
+	//
+	// If the command exits with a success code after pipes are closed due to
+	// WaitDelay and no Interrupt signal has been sent, Wait and similar methods
+	// will return ErrWaitDelay instead of nil.
+	//
+	// If WaitDelay is zero (the default), I/O pipes will be read until EOF,
+	// which might not occur until orphaned subprocesses of the command have
+	// also closed their descriptors for the pipes.
+	WaitDelay time.Duration
+
 	lookPathErr    error // LookPath error, if any.
 	childFiles     []*os.File
 	remotePipes    []io.Closer
-	userPipes      []io.Closer // closed only when Wait completes
-	goroutinePipes []io.Closer // closed by their respective goroutines, if started
+	userPipes      []io.Closer // closed only when Wait completes (not subject to WaitDelay)
+	goroutinePipes []io.Closer // closed by their respective goroutines, or after WaitDelay has expired
 	goroutine      []func() error
 	goroutineErrs  chan error              // one send per goroutine
 	statec         <-chan *os.ProcessState // receives the final state once, then closed
@@ -197,6 +227,7 @@ func CommandContext(ctx context.Context, name string, arg ...string) *Cmd {
 	}
 	cmd := Command(name, arg...)
 	cmd.Context = ctx
+	cmd.Interrupt = os.Kill
 	return cmd
 }
 
@@ -394,6 +425,14 @@ func (c *Cmd) Start() error {
 	if c.Process != nil {
 		return errors.New("exec: already started")
 	}
+	if c.Interrupt != nil {
+		if c.Context == nil {
+			return errors.New("exec: Interrupt requires a non-nil Context")
+		}
+		if runtime.GOOS == "windows" && c.Interrupt != os.Kill {
+			return fmt.Errorf("exec: signal %q: %w", c.Interrupt, errWindows)
+		}
+	}
 	if c.Context != nil {
 		select {
 		case <-c.Context.Done():
@@ -508,9 +547,18 @@ func (c *Cmd) Wait() error {
 }
 
 func (c *Cmd) wait(statec chan<- *os.ProcessState) {
-	var errc chan error
-	if c.Context != nil {
+	var (
+		cancel context.CancelFunc
+		errc   chan error
+	)
+	if c.Interrupt != nil || c.WaitDelay != 0 {
 		ctx := c.Context
+		if ctx == nil {
+			ctx = context.Background()
+		}
+		if c.WaitDelay != 0 {
+			ctx, cancel = context.WithCancel(ctx)
+		}
 
 		errc = make(chan error)
 		go func() {
@@ -521,18 +569,52 @@ func (c *Cmd) wait(statec chan<- *os.ProcessState) {
 			}
 
 			var err error
-			if killErr := c.Process.Kill(); killErr == nil {
-				// We appear to have successfully delivered a kill signal, so any
-				// program behavior from this point may be due to ctx.
-				err = ctx.Err()
-			} else if !errors.Is(killErr, os.ErrProcessDone) {
-				err = fmt.Errorf("exec: error sending kill signal to Cmd: %w", killErr)
+			if c.Interrupt != nil {
+				if signalErr := c.Process.Signal(c.Interrupt); signalErr == nil {
+					// We appear to have successfully delivered c.Interrupt, so any
+					// program behavior from this point may be due to ctx.
+					err = ctx.Err()
+				} else if !errors.Is(signalErr, os.ErrProcessDone) {
+					err = fmt.Errorf("moreexec: error sending signal to Cmd: %w", signalErr)
+				}
 			}
+
+			if c.WaitDelay != 0 {
+				timer := time.NewTimer(c.WaitDelay)
+				select {
+				case errc <- err:
+					timer.Stop()
+					return
+				case <-timer.C:
+				}
+
+				// Either Wait still hasn't returned or the I/O goroutines are still running.
+				//
+				// Kill the process to make sure that it exits.
+				// Ignore any error from Kill: if cmd.Process has already terminated, we
+				// still want to send ctx.Err() (or the error from Signal) to inform the
+				// caller that we needed to terminate the output pipes.
+				if err == nil {
+					err = ErrWaitDelay
+				}
+				_ = c.Process.Kill()
+
+				// Close the pipes to which the process writes, in case the process
+				// abandoned any subprocesses that are still running. Terminate the
+				// pipes after the process itself: we would prefer for the process to
+				// die of SIGKILL, not SIGPIPE. (However, this may cause any orphaned
+				// subprocessed to terminate with SIGPIPE.)
+				c.closeDescriptors(c.goroutinePipes)
+			}
+
 			errc <- err
 		}()
 	}
 
 	state, err := c.Process.Wait()
+	if cancel != nil {
+		cancel() // Start the WaitDelay timer, if applicable.
+	}
 	if err != nil {
 		c.err = err
 	} else if !state.Success() {
@@ -551,12 +633,12 @@ func (c *Cmd) wait(statec chan<- *os.ProcessState) {
 		}
 	}
 	c.goroutine = nil
-	c.goroutinePipes = nil // Already closed by their respective goroutines.
 
 	if errc != nil {
 		interruptErr := <-errc
 		// If c.Process.Wait returned an error, prefer that.
-		// Otherwise, report any error from the interrupt goroutine.
+		// Otherwise, report any error from the interrupt goroutine,
+		// such as a Context cancellation or a WaitDelay overrun.
 		if interruptErr != nil && c.err == nil {
 			c.err = interruptErr
 		}
@@ -564,6 +646,9 @@ func (c *Cmd) wait(statec chan<- *os.ProcessState) {
 	if c.err == nil {
 		c.err = copyError
 	}
+	// The goroutine pipes have already been closed by their respective goroutines,
+	// and the interrupt goroutine has finished (so can no longer access them).
+	c.goroutinePipes = nil
 
 	statec <- state
 	close(statec)
