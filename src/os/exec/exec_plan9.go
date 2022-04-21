@@ -6,6 +6,8 @@ package exec
 
 import "io/fs"
 
+var errWindows error = nil
+
 func init() {
 	skipStdinCopyError = func(err error) bool {
 		// Ignore hungup errors copying to stdin if the program
