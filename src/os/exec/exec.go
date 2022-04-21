@@ -133,15 +133,15 @@ type Cmd struct {
 	// available after a call to Wait or Run.
 	ProcessState *os.ProcessState
 
-	ctx             context.Context // nil means none
-	lookPathErr     error           // LookPath error, if any.
-	finished        bool            // when Wait was called
-	childFiles      []*os.File
-	closeAfterStart []io.Closer
-	closeAfterWait  []io.Closer
-	goroutine       []func() error
-	errch           chan error // one send per goroutine
-	waitDone        chan struct{}
+	ctx         context.Context // nil means none
+	lookPathErr error           // LookPath error, if any.
+	finished    bool            // when Wait was called
+	childFiles  []*os.File
+	remotePipes []io.Closer
+	localPipes  []io.Closer
+	goroutine   []func() error
+	errch       chan error // one send per goroutine
+	waitDone    chan struct{}
 }
 
 // Command returns the Cmd struct to execute the named program with
@@ -236,7 +236,7 @@ func (c *Cmd) stdin() (f *os.File, err error) {
 		if err != nil {
 			return
 		}
-		c.closeAfterStart = append(c.closeAfterStart, f)
+		c.remotePipes = append(c.remotePipes, f)
 		return
 	}
 
@@ -249,8 +249,8 @@ func (c *Cmd) stdin() (f *os.File, err error) {
 		return
 	}
 
-	c.closeAfterStart = append(c.closeAfterStart, pr)
-	c.closeAfterWait = append(c.closeAfterWait, pw)
+	c.remotePipes = append(c.remotePipes, pr)
+	c.localPipes = append(c.localPipes, pw)
 	c.goroutine = append(c.goroutine, func() error {
 		_, err := io.Copy(pw, c.Stdin)
 		if skipStdinCopyError(err) {
@@ -281,7 +281,7 @@ func (c *Cmd) writerDescriptor(w io.Writer) (f *os.File, err error) {
 		if err != nil {
 			return
 		}
-		c.closeAfterStart = append(c.closeAfterStart, f)
+		c.remotePipes = append(c.remotePipes, f)
 		return
 	}
 
@@ -294,8 +294,8 @@ func (c *Cmd) writerDescriptor(w io.Writer) (f *os.File, err error) {
 		return
 	}
 
-	c.closeAfterStart = append(c.closeAfterStart, pw)
-	c.closeAfterWait = append(c.closeAfterWait, pr)
+	c.remotePipes = append(c.remotePipes, pw)
+	c.localPipes = append(c.localPipes, pr)
 	c.goroutine = append(c.goroutine, func() error {
 		_, err := io.Copy(w, pr)
 		pr.Close() // in case io.Copy stopped due to write error
@@ -363,16 +363,23 @@ func lookExtensions(path, dir string) (string, error) {
 // The Wait method will return the exit code and release associated resources
 // once the command exits.
 func (c *Cmd) Start() error {
+	started := false
+	defer func() {
+		c.closeDescriptors(c.remotePipes)
+		c.remotePipes = nil
+
+		if !started {
+			c.closeDescriptors(c.localPipes)
+			c.localPipes = nil
+		}
+	}()
+
 	if c.lookPathErr != nil {
-		c.closeDescriptors(c.closeAfterStart)
-		c.closeDescriptors(c.closeAfterWait)
 		return c.lookPathErr
 	}
 	if runtime.GOOS == "windows" {
 		lp, err := lookExtensions(c.Path, c.Dir)
 		if err != nil {
-			c.closeDescriptors(c.closeAfterStart)
-			c.closeDescriptors(c.closeAfterWait)
 			return err
 		}
 		c.Path = lp
@@ -383,8 +390,6 @@ func (c *Cmd) Start() error {
 	if c.ctx != nil {
 		select {
 		case <-c.ctx.Done():
-			c.closeDescriptors(c.closeAfterStart)
-			c.closeDescriptors(c.closeAfterWait)
 			return c.ctx.Err()
 		default:
 		}
@@ -395,8 +400,6 @@ func (c *Cmd) Start() error {
 	for _, setupFd := range []F{(*Cmd).stdin, (*Cmd).stdout, (*Cmd).stderr} {
 		fd, err := setupFd(c)
 		if err != nil {
-			c.closeDescriptors(c.closeAfterStart)
-			c.closeDescriptors(c.closeAfterWait)
 			return err
 		}
 		c.childFiles = append(c.childFiles, fd)
@@ -415,12 +418,9 @@ func (c *Cmd) Start() error {
 		Sys:   c.SysProcAttr,
 	})
 	if err != nil {
-		c.closeDescriptors(c.closeAfterStart)
-		c.closeDescriptors(c.closeAfterWait)
 		return err
 	}
-
-	c.closeDescriptors(c.closeAfterStart)
+	started = true
 
 	// Don't allocate the channel unless there are goroutines to fire.
 	if len(c.goroutine) > 0 {
@@ -506,7 +506,8 @@ func (c *Cmd) Wait() error {
 		}
 	}
 
-	c.closeDescriptors(c.closeAfterWait)
+	c.closeDescriptors(c.localPipes)
+	c.localPipes = nil
 
 	if err != nil {
 		return err
@@ -575,9 +576,9 @@ func (c *Cmd) StdinPipe() (io.WriteCloser, error) {
 		return nil, err
 	}
 	c.Stdin = pr
-	c.closeAfterStart = append(c.closeAfterStart, pr)
+	c.remotePipes = append(c.remotePipes, pr)
 	wc := &closeOnce{File: pw}
-	c.closeAfterWait = append(c.closeAfterWait, wc)
+	c.localPipes = append(c.localPipes, wc)
 	return wc, nil
 }
 
@@ -617,8 +618,8 @@ func (c *Cmd) StdoutPipe() (io.ReadCloser, error) {
 		return nil, err
 	}
 	c.Stdout = pw
-	c.closeAfterStart = append(c.closeAfterStart, pw)
-	c.closeAfterWait = append(c.closeAfterWait, pr)
+	c.remotePipes = append(c.remotePipes, pw)
+	c.localPipes = append(c.localPipes, pr)
 	return pr, nil
 }
 
@@ -642,8 +643,8 @@ func (c *Cmd) StderrPipe() (io.ReadCloser, error) {
 		return nil, err
 	}
 	c.Stderr = pw
-	c.closeAfterStart = append(c.closeAfterStart, pw)
-	c.closeAfterWait = append(c.closeAfterWait, pr)
+	c.remotePipes = append(c.remotePipes, pw)
+	c.localPipes = append(c.localPipes, pr)
 	return pr, nil
 }
 
