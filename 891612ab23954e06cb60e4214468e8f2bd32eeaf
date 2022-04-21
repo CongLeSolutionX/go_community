@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "2ac8f74d_6266cd4f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-04-21T00:36:29Z",
+      "side": 1,
+      "message": "see my comment in the next CL, but basically it doesn\u0027t matter at all. in an allocation-only microbenchmark with a size that was intended to exercise this trigger check as often as possible, it was ~0.1% of all CPU cycles, absolutely dwarfed by zeroing.",
+      "parentUuid": "b27a1ed6_9852b95b",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 62
+      },
+      "revId": "891612ab23954e06cb60e4214468e8f2bd32eeaf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "4422ee9f_9ff61e3e",
         "filename": "src/runtime/mgcpacer.go",
         "patchSetId": 11
