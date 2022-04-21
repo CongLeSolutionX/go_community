@@ -34,6 +34,24 @@
       "message": "This was apparently already discussed/declined in https://github.com/golang/go/issues/52382",
       "revId": "d6724dbb9117f04badfe079c96031b22618f4452",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "968651a0_e97c8d2b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2022-04-21T13:14:18Z",
+      "side": 1,
+      "message": "It wasn\u0027t declined, it havn\u0027t gone through the proposal process, I (the original poster), realised that this isn\u0027t the behaviour I want.\n\nWhat I really want is ReaderAt and Read to be concurrent unsafe (by invalidating the previously red rune) so -race would pickup thoses cases too (just like it do for WriteTo).\n\nIf you want you can reopen #52382 if you think this should be done.",
+      "parentUuid": "3717f5fa_37d90a0d",
+      "revId": "d6724dbb9117f04badfe079c96031b22618f4452",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
