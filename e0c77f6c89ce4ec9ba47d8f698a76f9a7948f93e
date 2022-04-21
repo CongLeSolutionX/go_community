@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b56123e9_7e3eef73",
+        "filename": "src/cmd/internal/obj/mips/asm0.go",
+        "patchSetId": 25
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-21T16:31:02Z",
+      "side": 1,
+      "message": "Add a comment about what type 6 and 64 are, to make it easier to read.",
+      "range": {
+        "startLine": 488,
+        "startChar": 7,
+        "endLine": 488,
+        "endChar": 37
+      },
+      "revId": "e0c77f6c89ce4ec9ba47d8f698a76f9a7948f93e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0cc7e34e_ce3a644d",
+        "filename": "src/cmd/internal/obj/mips/asm0.go",
+        "patchSetId": 25
+      },
+      "lineNbr": 1774,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-21T16:31:02Z",
+      "side": 1,
+      "message": "Reuse rel.Sym ?",
+      "range": {
+        "startLine": 1774,
+        "startChar": 13,
+        "endLine": 1774,
+        "endChar": 44
+      },
+      "revId": "e0c77f6c89ce4ec9ba47d8f698a76f9a7948f93e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "edcc0910_8dcacf20",
+        "filename": "src/cmd/internal/obj/mips/asm0.go",
+        "patchSetId": 25
+      },
+      "lineNbr": 1805,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-21T16:31:02Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 1805,
+        "startChar": 13,
+        "endLine": 1805,
+        "endChar": 44
+      },
+      "revId": "e0c77f6c89ce4ec9ba47d8f698a76f9a7948f93e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75dd404c_d59b0a2e",
+        "filename": "src/cmd/internal/obj/mips/obj0.go",
+        "patchSetId": 25
+      },
+      "lineNbr": 831,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-21T16:31:02Z",
+      "side": 1,
+      "message": "I\u0027m very confused with this. From the comment it looks like it computes an address and store it to REGSB? There is no store, right? So To.Type should be TYPE_REG instead of TYPE_MEM, and To.Name should be nil. From should not be a register  R25 either.",
+      "range": {
+        "startLine": 821,
+        "startChar": 0,
+        "endLine": 831,
+        "endChar": 18
+      },
+      "revId": "e0c77f6c89ce4ec9ba47d8f698a76f9a7948f93e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5e7f6ed_bdfe5e74",
+        "filename": "src/cmd/internal/objabi/reloctype.go",
+        "patchSetId": 25
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-21T16:31:02Z",
+      "side": 1,
+      "message": "I\u0027m still not sure I understand this. Does it apply to a CALL instruction or some other instruction? Why a function symbol is different from a data symbol?",
+      "range": {
+        "startLine": 276,
+        "startChar": 0,
+        "endLine": 277,
+        "endChar": 14
+      },
+      "revId": "e0c77f6c89ce4ec9ba47d8f698a76f9a7948f93e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0c72b43_1318ece9",
+        "filename": "src/cmd/internal/objabi/reloctype.go",
+        "patchSetId": 25
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-21T16:31:02Z",
+      "side": 1,
+      "message": "I think this is still not clear. What does \"preempted\" mean here? It certainly is not goroutine preemption. What does it optimize to? Does the linker rewrite a \"CALL (R25)\" instruction back to a concrete \"CALL symbol\" instruction? Maybe\n\n// R_MIPS_JALR tells the linker the concrete call target of a \"CALL (R25)\" instruction in PIC mode, so the linker can optimize it back to a concrete call when \u003ccondition\u003e (with the proper condition. \"not preempted\" doesn\u0027t sound clear.)",
+      "range": {
+        "startLine": 278,
+        "startChar": 0,
+        "endLine": 280,
+        "endChar": 12
+      },
+      "revId": "e0c77f6c89ce4ec9ba47d8f698a76f9a7948f93e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
