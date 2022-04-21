@@ -11,6 +11,8 @@ import (
 	"syscall"
 )
 
+var errWindows error = nil
+
 // skipStdinCopyError optionally specifies a function which reports
 // whether the provided stdin copy error should be ignored.
 func skipStdinCopyError(err error) bool {
