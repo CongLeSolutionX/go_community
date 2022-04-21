@@ -135,7 +135,9 @@ func (r *Reader) Seek(offset int64, whence int) (int64, error) {
 
 // WriteTo implements the io.WriterTo interface.
 func (r *Reader) WriteTo(w io.Writer) (n int64, err error) {
-	r.prevRune = -1
+	if r.prevRune != -1 { // see TestWriterToConcurrent
+		r.prevRune = -1
+	}
 	if r.i >= int64(len(r.s)) {
 		return 0, nil
 	}
