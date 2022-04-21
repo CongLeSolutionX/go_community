@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eef000cb_7b38cbd5",
+        "filename": "src/cmd/internal/obj/mips/asm0.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-04-21T14:29:25Z",
+      "side": 1,
+      "message": "Yes, you are right. I renamed AADDV to AMOVV.",
+      "parentUuid": "f1d7fad7_ac960ab6",
+      "revId": "3587a0bd2c78f4059f0117dce7232a9b93a8c127",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0ba2486b_2fc7a108",
@@ -31,6 +49,30 @@
       "writtenOn": "2022-04-18T19:29:15Z",
       "side": 1,
       "message": "Why? Is this necessary?",
+      "range": {
+        "startLine": 1429,
+        "startChar": 5,
+        "endLine": 1429,
+        "endChar": 24
+      },
+      "revId": "3587a0bd2c78f4059f0117dce7232a9b93a8c127",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "84b88f53_bd761bb2",
+        "filename": "src/cmd/internal/obj/mips/asm0.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 1429,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-04-21T14:29:25Z",
+      "side": 1,
+      "message": "No, it is not necessary. I deleted it.",
+      "parentUuid": "0ba2486b_2fc7a108",
       "range": {
         "startLine": 1429,
         "startChar": 5,
@@ -58,6 +100,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3424952f_f32a0793",
+        "filename": "src/cmd/internal/obj/mips/asm0.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 1828,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-04-21T14:29:25Z",
+      "side": 1,
+      "message": "OK, I deleted OR instruction.",
+      "parentUuid": "f13dc3bc_ae951f62",
+      "revId": "3587a0bd2c78f4059f0117dce7232a9b93a8c127",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b7c93857_5562f870",
@@ -71,6 +131,30 @@
       "writtenOn": "2022-04-18T19:29:15Z",
       "side": 1,
       "message": "I think it is better to say $addr@GOT, so it looks like an address in Go assembly. Otherwise it looks like a memory load.",
+      "range": {
+        "startLine": 1831,
+        "startChar": 18,
+        "endLine": 1831,
+        "endChar": 26
+      },
+      "revId": "3587a0bd2c78f4059f0117dce7232a9b93a8c127",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b02653c5_7fbab47c",
+        "filename": "src/cmd/internal/obj/mips/asm0.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 1831,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-04-21T14:29:25Z",
+      "side": 1,
+      "message": "OK, I fixed it.",
+      "parentUuid": "b7c93857_5562f870",
       "range": {
         "startLine": 1831,
         "startChar": 18,
@@ -98,6 +182,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6f2feda_581c63dc",
+        "filename": "src/cmd/internal/obj/mips/obj0.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-04-21T14:29:25Z",
+      "side": 1,
+      "message": "Sorry, it is not necessary to remove the R_CALLIND relocation. We don\u0027t have to do it.",
+      "parentUuid": "216c87f5_078a8932",
+      "revId": "3587a0bd2c78f4059f0117dce7232a9b93a8c127",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "72205632_412f6174",
@@ -115,6 +217,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1129a390_2e68b619",
+        "filename": "src/cmd/internal/objabi/reloctype.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-04-21T14:29:25Z",
+      "side": 1,
+      "message": "OK, I fixed them.",
+      "parentUuid": "72205632_412f6174",
+      "revId": "3587a0bd2c78f4059f0117dce7232a9b93a8c127",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6e8d7cfd_217f2fd1",
@@ -128,6 +248,24 @@
       "writtenOn": "2022-04-18T20:09:19Z",
       "side": 1,
       "message": "I\u0027m not sure this is clear. What is \"that pointer\", and what is gp?",
+      "revId": "3587a0bd2c78f4059f0117dce7232a9b93a8c127",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0183076b_d47544e7",
+        "filename": "src/cmd/internal/objabi/reloctype.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-04-21T14:29:25Z",
+      "side": 1,
+      "message": "The \"that point\" is a symbol\u0027 GOT entry address, gp is GOT address.\nIt was introduced at the beginning of development and is useless now. So I deleted it.",
+      "parentUuid": "6e8d7cfd_217f2fd1",
       "revId": "3587a0bd2c78f4059f0117dce7232a9b93a8c127",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
