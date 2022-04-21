@@ -11,6 +11,8 @@ import (
 	"bufio"
 	"bytes"
 	"context"
+	"errors"
+	"flag"
 	"fmt"
 	"internal/poll"
 	"internal/testenv"
@@ -22,11 +24,13 @@ import (
 	"os"
 	"os/exec"
 	"os/exec/internal/fdtest"
+	"os/signal"
 	"path/filepath"
 	"reflect"
 	"runtime"
 	"strconv"
 	"strings"
+	"sync"
 	"testing"
 	"time"
 )
@@ -1096,4 +1100,338 @@ func TestChildCriticalEnv(t *testing.T) {
 	if strings.TrimSpace(string(out)) == "" {
 		t.Error("no SYSTEMROOT found")
 	}
+}
+
+var (
+	// QuitSignal is syscall.SIGQUIT if it is defined and supported, or nil otherwise.
+	QuitSignal os.Signal = quitSignal
+
+	// PipeSignal is syscall.SIGPIPE if it is defined, or nil otherwise.
+	PipeSignal os.Signal = pipeSignal
+)
+
+var (
+	sleep           = flag.Duration("sleep", 0, "amount of time to sleep instead of running tests")
+	exitOnInterrupt = flag.Bool("interrupt", false, "if true, exit 0 on os.Interrupt")
+	subsleep        = flag.Duration("subsleep", 0, "amount of time to leave an orphaned subprocess sleeping with stderr open")
+	probe           = flag.Duration("probe", 0, "if nonzero, write to stderr at this interval while sleeping, and exit nonzero if a write fails")
+	read            = flag.Bool("read", false, "if true, read stdin to completion before sleeping")
+)
+
+var exeOnce struct {
+	path string
+	sync.Once
+}
+
+// exePath returns the path to the running executable.
+func exePath() string {
+	exeOnce.Do(func() {
+		var err error
+		exeOnce.path, err = os.Executable()
+		if err != nil {
+			exeOnce.path = os.Args[0]
+		}
+	})
+
+	return exeOnce.path
+}
+
+func TestMain(m *testing.M) {
+	pid := os.Getpid()
+
+	if os.Getenv("GO_EXEC_TEST_PID") == "" {
+		os.Setenv("GO_EXEC_TEST_PID", fmt.Sprint(pid))
+		os.Exit(m.Run())
+	}
+
+	flag.Parse()
+
+	if *subsleep != 0 {
+		cmd := exec.Command(exePath(), "-sleep="+subsleep.String(), "-read=true", "-probe="+probe.String())
+		cmd.Stdin = os.Stdin
+		cmd.Stderr = os.Stderr
+		out, err := cmd.StdoutPipe()
+		if err != nil {
+			fmt.Fprintln(os.Stderr, err)
+			os.Exit(1)
+		}
+		cmd.Start()
+
+		buf := new(strings.Builder)
+		if _, err := io.Copy(buf, out); err != nil {
+			fmt.Fprintln(os.Stderr, err)
+			cmd.Process.Kill()
+			cmd.Wait()
+			os.Exit(1)
+		}
+		fmt.Fprintf(os.Stderr, "%d: started %d: %v\n", pid, cmd.Process.Pid, cmd)
+	}
+
+	if *read || *probe != 0 || *subsleep != 0 || *sleep != 0 {
+		if *exitOnInterrupt {
+			c := make(chan os.Signal, 1)
+			signal.Notify(c, os.Interrupt)
+			go func() {
+				sig := <-c
+				fmt.Fprintf(os.Stderr, "%d: received %v\n", pid, sig)
+				os.Exit(0)
+			}()
+		} else {
+			signal.Ignore(os.Interrupt)
+		}
+
+		// Signal that the process is set up by closing stdout.
+		os.Stdout.Close()
+	}
+
+	if *read {
+		if PipeSignal != nil {
+			signal.Ignore(PipeSignal)
+		}
+		r := bufio.NewReader(os.Stdin)
+		for {
+			line, err := r.ReadBytes('\n')
+			if len(line) > 0 {
+				// Ignore write errors: we want to keep reading even if stderr is closed.
+				fmt.Fprintf(os.Stderr, "%d: read %s", pid, line)
+			}
+			if err != nil {
+				fmt.Fprintf(os.Stderr, "%d: finished read: %v", pid, err)
+				break
+			}
+		}
+	}
+
+	if *probe != 0 {
+		ticker := time.NewTicker(*probe)
+		go func() {
+			for range ticker.C {
+				if _, err := fmt.Fprintf(os.Stderr, "%d: ok\n", pid); err != nil {
+					os.Exit(1)
+				}
+			}
+		}()
+	}
+
+	if *sleep != 0 {
+		time.Sleep(*sleep)
+		fmt.Fprintf(os.Stderr, "%d: slept %v\n", pid, *sleep)
+	}
+
+	os.Exit(0)
+}
+
+// A tickReader reads an unbounded sequence of timestamps at no more than a
+// fixed interval.
+type tickReader struct {
+	interval time.Duration
+	lastTick time.Time
+	s        string
+}
+
+func newTickReader(interval time.Duration) *tickReader {
+	return &tickReader{interval: interval}
+}
+
+func (r *tickReader) Read(p []byte) (n int, err error) {
+	if len(r.s) == 0 {
+		if d := r.interval - time.Since(r.lastTick); d > 0 {
+			time.Sleep(d)
+		}
+		r.lastTick = time.Now()
+		r.s = r.lastTick.Format(time.RFC3339Nano + "\n")
+	}
+
+	n = copy(p, r.s)
+	r.s = r.s[n:]
+	return n, nil
+}
+
+func start(t *testing.T, ctx context.Context, interrupt os.Signal, killDelay time.Duration, args ...string) *exec.Cmd {
+	t.Helper()
+
+	cmd := exec.CommandContext(ctx, exePath(), args...)
+	cmd.Stdin = newTickReader(1 * time.Millisecond)
+	cmd.Stderr = new(strings.Builder)
+	cmd.Interrupt = interrupt
+	cmd.WaitDelay = killDelay
+	out, err := cmd.StdoutPipe()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	t.Log(cmd)
+	if err := cmd.Start(); err != nil {
+		t.Fatal(err)
+	}
+
+	// Wait for cmd to close stdout to signal that its handlers are installed.
+	buf := new(strings.Builder)
+	if _, err := io.Copy(buf, out); err != nil {
+		t.Error(err)
+		cmd.Process.Kill()
+		cmd.Wait()
+		t.FailNow()
+	}
+	if buf.Len() > 0 {
+		t.Logf("stdout %v:\n%s", cmd.Args, buf)
+	}
+
+	return cmd
+}
+
+func TestWaitInterrupt(t *testing.T) {
+	t.Run("Wait", func(t *testing.T) {
+		cmd := start(t, context.Background(), os.Kill, 0, "-sleep=1ms")
+		err := cmd.Wait()
+		t.Logf("stderr:\n%s", cmd.Stderr)
+		t.Logf("[%d] %v", cmd.Process.Pid, err)
+
+		if err != nil {
+			t.Errorf("Wait: %v; want <nil>", err)
+		}
+		if ps := cmd.ProcessState; !ps.Exited() {
+			t.Errorf("cmd did not exit: %v", ps)
+		} else if code := ps.ExitCode(); code != 0 {
+			t.Errorf("cmd.ProcessState.ExitCode() = %v; want 0", code)
+		}
+	})
+
+	t.Run("WaitDelay", func(t *testing.T) {
+		if runtime.GOOS == "windows" {
+			t.Skipf("skipping: os.Interrupt is not implemented on Windows")
+		}
+
+		ctx, cancel := context.WithCancel(context.Background())
+		cmd := start(t, ctx, nil, 10*time.Minute, "-sleep=10m", "-interrupt=true")
+		cancel()
+
+		time.Sleep(1 * time.Millisecond)
+		cmd.Process.Signal(os.Interrupt)
+
+		err := cmd.Wait()
+		t.Logf("stderr:\n%s", cmd.Stderr)
+		t.Logf("[%d] %v", cmd.Process.Pid, err)
+
+		// This program exits with status 0,
+		// but pretty much always does so during the wait delay.
+		// Since the Cmd itself didn't do anything to stop the process when the
+		// context expired, a successful exit is valid (even if late) and does
+		// not merit a non-nil error.
+		if err != nil {
+			t.Errorf("Wait: %v; want %v", err, ctx.Err())
+		}
+		if ps := cmd.ProcessState; !ps.Exited() {
+			t.Errorf("cmd did not exit: %v", ps)
+		} else if code := ps.ExitCode(); code != 0 {
+			t.Errorf("cmd.ProcessState.ExitCode() = %v; want 0", code)
+		}
+	})
+
+	t.Run("SIGKILL-hang", func(t *testing.T) {
+		ctx, cancel := context.WithCancel(context.Background())
+		cmd := start(t, ctx, os.Kill, 10*time.Millisecond, "-sleep=10m", "-subsleep=10m", "-probe=1ms")
+		cancel()
+		err := cmd.Wait()
+		t.Logf("stderr:\n%s", cmd.Stderr)
+		t.Logf("[%d] %v", cmd.Process.Pid, err)
+
+		// This test should kill the child process after 10ms,
+		// leaving a grandchild process writing probes in a loop.
+		// The child process should be reported as failed,
+		// and the grandchild will exit (or die by SIGPIPE) once the
+		// stderr pipe is closed.
+		if ee := new(*exec.ExitError); !errors.As(err, ee) {
+			t.Errorf("Wait error = %v; want %T", err, *ee)
+		}
+	})
+
+	t.Run("Exit-hang", func(t *testing.T) {
+		ctx, cancel := context.WithCancel(context.Background())
+		cmd := start(t, ctx, nil, 10*time.Millisecond, "-subsleep=10m", "-probe=1ms")
+		cancel()
+		err := cmd.Wait()
+		t.Logf("stderr:\n%s", cmd.Stderr)
+		t.Logf("[%d] %v", cmd.Process.Pid, err)
+
+		// This child process should exit immediately,
+		// leaving a grandchild process writing probes in a loop.
+		// Since the child has no ExitError to report but we did not
+		// read all of its output, Wait should return ErrWaitDelay.
+		if !errors.Is(err, exec.ErrWaitDelay) {
+			t.Errorf("Wait error = %v; want %T", err, exec.ErrWaitDelay)
+		}
+	})
+
+	t.Run("SIGINT-ignored", func(t *testing.T) {
+		if runtime.GOOS == "windows" {
+			t.Skipf("skipping: os.Interrupt is not implemented on Windows")
+		}
+
+		ctx, cancel := context.WithCancel(context.Background())
+		cmd := start(t, ctx, os.Interrupt, 10*time.Millisecond, "-sleep=10m", "-interrupt=false")
+		cancel()
+		err := cmd.Wait()
+		t.Logf("stderr:\n%s", cmd.Stderr)
+		t.Logf("[%d] %v", cmd.Process.Pid, err)
+
+		// This command ignores SIGINT, sleeping until it is killed.
+		// Wait should return the usual error for a killed process.
+		if ee := new(*exec.ExitError); !errors.As(err, ee) {
+			t.Errorf("Wait error = %v; want %T", err, *ee)
+		}
+		if ps := cmd.ProcessState; ps.Exited() {
+			t.Errorf("cmd unexpectedly exited: %v", ps)
+		}
+	})
+
+	t.Run("SIGINT-handled", func(t *testing.T) {
+		if runtime.GOOS == "windows" {
+			t.Skipf("skipping: os.Interrupt is not implemented on Windows")
+		}
+
+		ctx, cancel := context.WithCancel(context.Background())
+		cmd := start(t, ctx, os.Interrupt, 0, "-sleep=10m", "-interrupt=true")
+		cancel()
+		err := cmd.Wait()
+		t.Logf("stderr:\n%s", cmd.Stderr)
+		t.Logf("[%d] %v", cmd.Process.Pid, err)
+
+		if !errors.Is(err, ctx.Err()) {
+			t.Errorf("Wait error = %v; want %v", err, ctx.Err())
+		}
+		if ps := cmd.ProcessState; !ps.Exited() {
+			t.Errorf("cmd did not exit: %v", ps)
+		} else if code := ps.ExitCode(); code != 0 {
+			t.Errorf("cmd.ProcessState.ExitCode() = %v; want 0", code)
+		}
+	})
+
+	t.Run("SIGQUIT", func(t *testing.T) {
+		if QuitSignal == nil {
+			t.Skipf("skipping: SIGQUIT is not supported on %v", runtime.GOOS)
+		}
+
+		ctx, cancel := context.WithCancel(context.Background())
+		cmd := start(t, ctx, QuitSignal, 0, "-sleep=10m")
+		cancel()
+		err := cmd.Wait()
+		t.Logf("stderr:\n%s", cmd.Stderr)
+		t.Logf("[%d] %v", cmd.Process.Pid, err)
+
+		if ee := new(*exec.ExitError); !errors.As(err, ee) {
+			t.Errorf("Wait error = %v; want %v", err, ctx.Err())
+		}
+
+		if ps := cmd.ProcessState; !ps.Exited() {
+			t.Errorf("cmd did not exit: %v", ps)
+		} else if code := ps.ExitCode(); code != 2 {
+			// The default os/signal handler exits with code 2.
+			t.Errorf("cmd.ProcessState.ExitCode() = %v; want 2", code)
+		}
+
+		if !strings.Contains(fmt.Sprint(cmd.Stderr), "\n\ngoroutine ") {
+			t.Errorf("cmd.Stderr does not contain a goroutine dump")
+		}
+	})
 }

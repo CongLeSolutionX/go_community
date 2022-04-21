@@ -11,6 +11,8 @@ import (
 	"syscall"
 )
 
+var errWindows error = nil
+
 func init() {
 	skipStdinCopyError = func(err error) bool {
 		// Ignore EPIPE errors copying to stdin if the program
