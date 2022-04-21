@@ -11,6 +11,8 @@ import (
 	"io"
 	"os"
 	"reflect"
+	"runtime"
+	"unsafe"
 )
 
 func ExampleKind() {
@@ -193,4 +195,81 @@ func ExampleValue_FieldByIndex() {
 
 	// Output:
 	// embedded last name: Embedded Doe
+}
+
+func ExampleStringHeader() {
+	src := "Hello World!"
+	var dst string
+
+	// The code in this example shows the correct way of using StringHeader by
+	// obtaining a pointer to the string's header and then using the pointer to
+	// read/write the header fields.
+	//
+	// On the contrary, all of the following are NOT correct and must NOT be used:
+	//
+	//   var s string
+	//   *(*reflect.StringHeader)(unsafe.Pointer(&s)) = reflect.StringHeader{
+	//	   Data: /* ... */, Len: /* ... */,
+	//   }
+	//
+	//   s := *(*string)(unsafe.Pointer(&reflect.StringHeader{
+	//     Data: /* ... */, Len: /* ... */,
+	//   }))
+	//
+	//   var sh reflect.StringHeader
+	//   sh.Data, sh.Len = /* ... */
+	//   s := *(*string)(unsafe.Pointer(&sh))
+	//
+	// go vet attempts to identify and report suspicious uses of reflect.StringHeader.
+	// See https://github.com/golang/go/issues/40701 for more details.
+	srcHdr := (*reflect.StringHeader)(unsafe.Pointer(&src))
+	dstHdr := (*reflect.StringHeader)(unsafe.Pointer(&dst))
+	// Equivalent to dst = src[6:6+5], but without bounds checks!
+	dstHdr.Data = srcHdr.Data + 6
+	dstHdr.Len = 5
+	runtime.KeepAlive(src) // Ensure src is not GCed prematurely.
+
+	fmt.Println(dst)
+
+	// Output:
+	// World
+}
+
+func ExampleSliceHeader() {
+	src := []byte("Hello World!")
+	var dst []byte
+
+	// The code in this example shows the correct way of using SliceHeader by
+	// obtaining a pointer to the slice's header and then using the pointer to
+	// read/write the header fields.
+	//
+	// On the contrary, all of the following are NOT correct and must NOT be used:
+	//
+	//   var s []byte
+	//   *(*reflect.SliceHeader)(unsafe.Pointer(&s)) = reflect.SliceHeader{
+	//	   Data: /* ... */, Len: /* ... */, Cap: /* ... */,
+	//   }
+	//
+	//   s := *(*[]byte)(unsafe.Pointer(&reflect.SliceHeader{
+	//     Data: /* ... */, Len: /* ... */, Cap: /* ... */,
+	//   }))
+	//
+	//   var sh reflect.SliceHeader
+	//   sh.Data, sh.Len, sh.Cap = /* ... */
+	//   s := *(*[]byte)(unsafe.Pointer(&sh))
+	//
+	// go vet attempts to identify and report suspicious uses of reflect.SliceHeader.
+	// See https://github.com/golang/go/issues/40701 for more details.
+	srcHdr := (*reflect.SliceHeader)(unsafe.Pointer(&src))
+	dstHdr := (*reflect.SliceHeader)(unsafe.Pointer(&dst))
+	// Equivalent to dst = src[6:6+5:6+5], but without bounds checks!
+	dstHdr.Data = srcHdr.Data + 6
+	dstHdr.Len = 5
+	dstHdr.Cap = 5
+	runtime.KeepAlive(src) // Ensure src is not GCed prematurely.
+
+	fmt.Println(string(dst))
+
+	// Output:
+	// World
 }
