@@ -9,6 +9,8 @@ import (
 	"syscall"
 )
 
+var errWindows error = syscall.EWINDOWS
+
 func init() {
 	skipStdinCopyError = func(err error) bool {
 		// Ignore ERROR_BROKEN_PIPE and ERROR_NO_DATA errors copying
