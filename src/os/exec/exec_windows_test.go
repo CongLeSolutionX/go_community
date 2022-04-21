@@ -17,6 +17,11 @@ import (
 	"testing"
 )
 
+var (
+	quitSignal os.Signal = nil
+	pipeSignal           = syscall.SIGPIPE
+)
+
 func init() {
 	registerHelperCommand("pipehandle", cmdPipeHandle)
 }
