@@ -84,38 +84,54 @@ func panicCheck2(err string) {
 // a space-minimal register calling convention.
 
 // failures in the comparisons for s[x], 0 <= x < y (y == len(s))
+//
+//go:yeswritebarrierrec
 func goPanicIndex(x int, y int) {
 	panicCheck1(getcallerpc(), "index out of range")
 	panic(boundsError{x: int64(x), signed: true, y: y, code: boundsIndex})
 }
+
+//go:yeswritebarrierrec
 func goPanicIndexU(x uint, y int) {
 	panicCheck1(getcallerpc(), "index out of range")
 	panic(boundsError{x: int64(x), signed: false, y: y, code: boundsIndex})
 }
 
 // failures in the comparisons for s[:x], 0 <= x <= y (y == len(s) or cap(s))
+//
+//go:yeswritebarrierrec
 func goPanicSliceAlen(x int, y int) {
 	panicCheck1(getcallerpc(), "slice bounds out of range")
 	panic(boundsError{x: int64(x), signed: true, y: y, code: boundsSliceAlen})
 }
+
+//go:yeswritebarrierrec
 func goPanicSliceAlenU(x uint, y int) {
 	panicCheck1(getcallerpc(), "slice bounds out of range")
 	panic(boundsError{x: int64(x), signed: false, y: y, code: boundsSliceAlen})
 }
+
+//go:yeswritebarrierrec
 func goPanicSliceAcap(x int, y int) {
 	panicCheck1(getcallerpc(), "slice bounds out of range")
 	panic(boundsError{x: int64(x), signed: true, y: y, code: boundsSliceAcap})
 }
+
+//go:yeswritebarrierrec
 func goPanicSliceAcapU(x uint, y int) {
 	panicCheck1(getcallerpc(), "slice bounds out of range")
 	panic(boundsError{x: int64(x), signed: false, y: y, code: boundsSliceAcap})
 }
 
 // failures in the comparisons for s[x:y], 0 <= x <= y
+//
+//go:yeswritebarrierrec
 func goPanicSliceB(x int, y int) {
 	panicCheck1(getcallerpc(), "slice bounds out of range")
 	panic(boundsError{x: int64(x), signed: true, y: y, code: boundsSliceB})
 }
+
+//go:yeswritebarrierrec
 func goPanicSliceBU(x uint, y int) {
 	panicCheck1(getcallerpc(), "slice bounds out of range")
 	panic(boundsError{x: int64(x), signed: false, y: y, code: boundsSliceB})
@@ -946,6 +962,7 @@ func gopanic(e any) {
 
 // getargp returns the location where the caller
 // writes outgoing function call arguments.
+//
 //go:nosplit
 //go:noinline
 func getargp() uintptr {
@@ -958,6 +975,7 @@ func getargp() uintptr {
 //
 // TODO(rsc): Once we commit to CopyStackAlways,
 // this doesn't need to be nosplit.
+//
 //go:nosplit
 func gorecover(argp uintptr) any {
 	// Must be in a function running as part of a deferred call during the panic.

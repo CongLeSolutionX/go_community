@@ -48,7 +48,8 @@ var localPkgReader *pkgReader
 // + Handles re-exporting any transitive dependencies.
 //
 // + Prunes out any unnecessary details (e.g., non-inlineable functions, because any
-//   downstream importers only care about inlinable functions).
+//
+//	downstream importers only care about inlinable functions).
 //
 // The source files are typechecked twice, once before writing export data
 // using types2 checker, once after read export data using gc/typecheck.
@@ -56,16 +57,19 @@ var localPkgReader *pkgReader
 // we can remove the gc/typecheck pass. The reason it is still here:
 //
 // + It reduces engineering costs in maintaining a fork of typecheck
-//   (e.g., no need to backport fixes like CL 327651).
+//
+//	(e.g., no need to backport fixes like CL 327651).
 //
 // + It makes it easier to pass toolstash -cmp.
 //
 // + Historically, we would always re-run the typechecker after import, even though
-//   we know the imported data is valid. It's not ideal, but also not causing any
-//   problem either.
+//
+//	we know the imported data is valid. It's not ideal, but also not causing any
+//	problem either.
 //
 // + There's still transformation that being done during gc/typecheck, like rewriting
-//   multi-valued function call, or transform ir.OINDEX -> ir.OINDEXMAP.
+//
+//	multi-valued function call, or transform ir.OINDEX -> ir.OINDEXMAP.
 //
 // Using syntax+types2 tree, which already has a complete representation of generics,
 // the unified IR has the full typed AST for doing introspection during step (1).
