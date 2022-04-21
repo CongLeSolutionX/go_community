@@ -2650,6 +2650,9 @@ func (v Value) UnsafePointer() unsafe.Pointer {
 // Moreover, the Data field is not sufficient to guarantee the data
 // it references will not be garbage collected, so programs must keep
 // a separate, correctly typed pointer to the underlying data.
+//
+// Deprecated: this type should not be used, it exists only for
+// backward compatibility.
 type StringHeader struct {
 	Data uintptr
 	Len  int
@@ -2661,6 +2664,9 @@ type StringHeader struct {
 // Moreover, the Data field is not sufficient to guarantee the data
 // it references will not be garbage collected, so programs must keep
 // a separate, correctly typed pointer to the underlying data.
+//
+// Deprecated: this type should not be used, it exists only for
+// backward compatibility.
 type SliceHeader struct {
 	Data uintptr
 	Len  int
