@@ -114,6 +114,21 @@ func TestReaderAtConcurrent(t *testing.T) {
 	wg.Wait()
 }
 
+// Like TestReaderAtConcurrent, but for WriteTo, motivated by
+// https://golang.org/cl/401014.
+func TestWriterToConcurrent(t *testing.T) {
+	r := NewReader(nil)
+	var wg sync.WaitGroup
+	for i := 0; i < 5; i++ {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			r.WriteTo(io.Discard)
+		}()
+	}
+	wg.Wait()
+}
+
 func TestEmptyReaderConcurrent(t *testing.T) {
 	// Test for the race detector, to verify a Read that doesn't yield any bytes
 	// is okay to use from multiple goroutines. This was our historic behavior.
