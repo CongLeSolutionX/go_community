@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5be597f4_7bb57016",
+        "filename": "src/runtime/mgcpacer.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 969,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-04-21T00:29:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf38ed08_8ce731ea",
+      "range": {
+        "startLine": 969,
+        "startChar": 4,
+        "endLine": 969,
+        "endChar": 45
+      },
+      "revId": "dfe7b0da5467c0297acefd4a2ee7c5be22fe5c75",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bc6bc137_cf30c390",
@@ -41,6 +65,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "57bd8e2f_387fc14f",
+        "filename": "src/runtime/mgcpacer.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 1013,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-04-21T00:29:44Z",
+      "side": 1,
+      "message": "this is gone, and also no longer relevant. heapGoalInternal loops until there\u0027s no overflow condition.",
+      "parentUuid": "bc6bc137_cf30c390",
+      "revId": "dfe7b0da5467c0297acefd4a2ee7c5be22fe5c75",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "373a6527_63b0d7c1",
@@ -54,6 +96,30 @@
       "writtenOn": "2022-04-18T19:28:07Z",
       "side": 1,
       "message": "This is still a a bit vague, given the many different types of OS-level memory accounting. (The SetMemoryLimit function doc has the same vague-ness). Perhaps the sublties of OS accounting are left to the GC ergonomics doc?",
+      "range": {
+        "startLine": 1027,
+        "startChar": 7,
+        "endLine": 1027,
+        "endChar": 28
+      },
+      "revId": "dfe7b0da5467c0297acefd4a2ee7c5be22fe5c75",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a3712a9_41eb3c08",
+        "filename": "src/runtime/mgcpacer.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 1027,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-04-21T00:29:44Z",
+      "side": 1,
+      "message": "I\u0027ve made this more precise.",
+      "parentUuid": "373a6527_63b0d7c1",
       "range": {
         "startLine": 1027,
         "startChar": 7,
@@ -89,6 +155,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "2f1e2c3a_ec1dffba",
+        "filename": "src/runtime/mgcpacer.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 1041,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-04-21T00:29:44Z",
+      "side": 1,
+      "message": "it\u0027s more precise so that should be clear, but I\u0027ll also call this out explicitly in the SetMemoryLimit documentation.",
+      "parentUuid": "aadad080_edc3e131",
+      "range": {
+        "startLine": 1040,
+        "startChar": 33,
+        "endLine": 1041,
+        "endChar": 35
+      },
+      "revId": "dfe7b0da5467c0297acefd4a2ee7c5be22fe5c75",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "6eaeadd6_3d7195e7",
         "filename": "src/runtime/mgcpacer.go",
         "patchSetId": 20
@@ -100,6 +190,30 @@
       "writtenOn": "2022-04-18T19:28:07Z",
       "side": 1,
       "message": "Another way to say/add to this is that heapFree is memory that is intended for use in future heap allocations. We shouldn\u0027t need to include it in the limit because making new allocations isn\u0027t increasing the total memory usage, it is just converting memory from heapFree to heapAlloc. (In the steady state).",
+      "range": {
+        "startLine": 1059,
+        "startChar": 4,
+        "endLine": 1060,
+        "endChar": 10
+      },
+      "revId": "dfe7b0da5467c0297acefd4a2ee7c5be22fe5c75",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c818d5c_df194cb4",
+        "filename": "src/runtime/mgcpacer.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 1060,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-04-21T00:29:44Z",
+      "side": 1,
+      "message": "I like that. I updated the comment to discuss this in terms of the steady-state (in which what you describe is correct) and transient states (in which actively managing the size of this pool is important, as I write).",
+      "parentUuid": "6eaeadd6_3d7195e7",
       "range": {
         "startLine": 1059,
         "startChar": 4,
@@ -135,6 +249,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "2d33ed98_f0f057eb",
+        "filename": "src/runtime/mgcpacer.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 1066,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-04-21T00:29:44Z",
+      "side": 1,
+      "message": "yeah, I rewrote this paragraph a little. basically, it\u0027s a recovery mechanism. if we\u0027re over the limit by X, we make X bytes of additional room in the heap goal, causing an earlier GC trigger and less memory used for the heap. X bytes reduced from the heap goal is also conservative, because taking away X bytes from the heap goal likely reduces heapInUse by more than that (due to fragmentation).",
+      "parentUuid": "3c4cd1ce_458f41e9",
+      "range": {
+        "startLine": 1066,
+        "startChar": 22,
+        "endLine": 1066,
+        "endChar": 88
+      },
+      "revId": "dfe7b0da5467c0297acefd4a2ee7c5be22fe5c75",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "b529134c_2498bd23",
         "filename": "src/runtime/mgcpacer.go",
         "patchSetId": 20
@@ -146,6 +284,30 @@
       "writtenOn": "2022-04-18T19:28:07Z",
       "side": 1,
       "message": "Why not just show it?",
+      "range": {
+        "startLine": 1068,
+        "startChar": 4,
+        "endLine": 1068,
+        "endChar": 58
+      },
+      "revId": "dfe7b0da5467c0297acefd4a2ee7c5be22fe5c75",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f03ebf94_24f33824",
+        "filename": "src/runtime/mgcpacer.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 1068,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-04-21T00:29:44Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "b529134c_2498bd23",
       "range": {
         "startLine": 1068,
         "startChar": 4,
@@ -169,6 +331,24 @@
       "writtenOn": "2022-04-18T19:28:07Z",
       "side": 1,
       "message": "Why is this the lowest possible goal? It seems like memoryLimitGoalHeadroom used below could be below heapMarked.\n\nEdit: based on what I see in trigger(), this is the highest continuous trigger value (i.e., lower values are fine, but don\u0027t change behavior?).",
+      "revId": "dfe7b0da5467c0297acefd4a2ee7c5be22fe5c75",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5cd12521_e8fa1455",
+        "filename": "src/runtime/mgcpacer.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 1091,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-04-21T00:29:44Z",
+      "side": 1,
+      "message": "you\u0027re right, I added a condition at the end to check if the final goal is less than c.heapMarked and it round it up to that. a heap goal lower than the live heap doesn\u0027t make any sense, because that\u0027s what the heap starts at in a GC cycle. setting it to heapMarked is equivalent to GOGC\u003d0.\n\nI updated the comment in trigger to explain that picking goal is just being defensive, and that it really shouldn\u0027t be less than c.heapMarked.",
+      "parentUuid": "26122c88_efda4d5a",
       "revId": "dfe7b0da5467c0297acefd4a2ee7c5be22fe5c75",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
