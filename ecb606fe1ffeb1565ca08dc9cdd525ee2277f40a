@@ -106,6 +106,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8871263_5f48ba80",
+        "filename": "misc/cgo/testsanitizers/cc_test.go",
+        "patchSetId": 40
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2022-04-21T06:15:33Z",
+      "side": 1,
+      "message": "Make sense. Done. Thank you.",
+      "parentUuid": "be1bdcb7_4c359d06",
+      "revId": "ecb606fe1ffeb1565ca08dc9cdd525ee2277f40a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5e8e8090_6f448b0b",
@@ -123,6 +141,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "195e463a_f7c5f005",
+        "filename": "src/cmd/go/internal/work/init.go",
+        "patchSetId": 40
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2022-04-21T06:15:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5e8e8090_6f448b0b",
+      "revId": "ecb606fe1ffeb1565ca08dc9cdd525ee2277f40a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9c6c0c0c_d7ddc343",
@@ -136,6 +172,24 @@
       "writtenOn": "2022-04-21T02:38:58Z",
       "side": 1,
       "message": "-asan is not supported with clang %d.%d; requires clang 4 or later",
+      "revId": "ecb606fe1ffeb1565ca08dc9cdd525ee2277f40a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "421d5356_2b2dff50",
+        "filename": "src/cmd/go/internal/work/init.go",
+        "patchSetId": 40
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2022-04-21T06:15:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c6c0c0c_d7ddc343",
       "revId": "ecb606fe1ffeb1565ca08dc9cdd525ee2277f40a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
