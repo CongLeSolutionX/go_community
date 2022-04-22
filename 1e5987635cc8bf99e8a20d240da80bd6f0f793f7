@@ -16,6 +16,23 @@
       "message": "Thanks.",
       "revId": "1e5987635cc8bf99e8a20d240da80bd6f0f793f7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6dc8dc5_bce0d73e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 44
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2022-04-22T07:53:27Z",
+      "side": 1,
+      "message": "FYI This CL breaks some builders at TestScript/install_msan_and_race_require_cgo.\n\nhttps://build.golang.org/log/4c63629b59f4ba8673d2193b936d32a0b371d812\nhttps://build.golang.org/log/c85d3b42d0e8ea96a6db087195dafe0d2e0b7ac7",
+      "revId": "1e5987635cc8bf99e8a20d240da80bd6f0f793f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
