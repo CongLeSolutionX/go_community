@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa6d75f1_1b2fdc13",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2883,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-04-22T21:18:21Z",
+      "side": 1,
+      "message": "You are saying that (polluntil \u003d\u003d 0 || w \u003c polluntil) always evaluates to true?  It won\u0027t evaluate to true if polluntil \u003d\u003d 2 and w \u003d\u003d 3.  And as far as I can tell those values are possible here.",
+      "revId": "5268ab5070c11eb3464b0cbc5e0d0d5333d81b10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
