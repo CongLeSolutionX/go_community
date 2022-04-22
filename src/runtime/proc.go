@@ -2880,7 +2880,7 @@ func stealWork(now int64) (gp *g, inheritTime bool, rnow, pollUntil int64, newWo
 			if stealTimersOrRunNextG && timerpMask.read(enum.position()) {
 				tnow, w, ran := checkTimers(p2, now)
 				now = tnow
-				if w != 0 && (pollUntil == 0 || w < pollUntil) {
+				if w != 0 {
 					pollUntil = w
 				}
 				if ran {
