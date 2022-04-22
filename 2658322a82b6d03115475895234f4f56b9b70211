@@ -16,6 +16,24 @@
       "message": "I tend to think that nobody should use these types ever.  I\u0027m concerned that writing examples will encourage people to use them, which is not what we want.\n\nI\u0027d rather see this kind of thing in a blog rather than in the package docs.  The package docs already say \"It cannot be used safely or portably and its representation may change in a later release\" which sounds right to me.",
       "revId": "2658322a82b6d03115475895234f4f56b9b70211",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac36eb58_1e402eb0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11500
+      },
+      "writtenOn": "2022-04-22T02:38:37Z",
+      "side": 1,
+      "message": "Just my 2c on this: while I understand the desire to prevent unneeded uses due to the many sharp edges, I don\u0027t think that not documenting the way a non-deprecated mechanism is supposed to be used (and in which cases it\u0027s unsafe to) will help with achieving the goal of minimizing the number of people that get hurt by this.\n\nBeside the evidence in #40701, a quick search (https://sourcegraph.com/search?q\u003dcontext:global+%28%26%7C%5C*%5C%28%5C*%7C%5Cs%29reflect%5C.%28Slice%7CString%29Header+lang:go+count:all+-file:%28%5E%7C/%29vendor/+\u0026patternType\u003dregexp, even though not all of these may be actual issues) seem to confirm that these are atill misused fairly frequently, and I would argue that part of it is due to missing documentation.\n\nA better approach in my mind would be to, either:\n\n- mark them as deprecated, and change their docs to clarify unambiguously that they should not be used, ever\n- document when they can be used, and when they can\u0027t (at least as of today, underlining as already done that these are unstable APIs) and, for the cases in which they can be used, how they should be used (whether this should be in the docs or in an authoritative article somewhere are both fine, although I would expect it to be in the docs as - I would argue - that\u0027s where users normally go looking for guidance for the stdlib).",
+      "parentUuid": "8153f759_50f6efc5",
+      "revId": "2658322a82b6d03115475895234f4f56b9b70211",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
