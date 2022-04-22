@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea891e13_0db495f4",
+        "filename": "src/cmd/internal/obj/mips/asm0.go",
+        "patchSetId": 25
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-04-22T13:08:53Z",
+      "side": 1,
+      "message": "OK, I added a comment.",
+      "parentUuid": "b56123e9_7e3eef73",
+      "range": {
+        "startLine": 488,
+        "startChar": 7,
+        "endLine": 488,
+        "endChar": 37
+      },
+      "revId": "e0c77f6c89ce4ec9ba47d8f698a76f9a7948f93e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0cc7e34e_ce3a644d",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-04-21T16:31:02Z",
       "side": 1,
       "message": "Reuse rel.Sym ?",
+      "range": {
+        "startLine": 1774,
+        "startChar": 13,
+        "endLine": 1774,
+        "endChar": 44
+      },
+      "revId": "e0c77f6c89ce4ec9ba47d8f698a76f9a7948f93e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13b118a5_2f97282d",
+        "filename": "src/cmd/internal/obj/mips/asm0.go",
+        "patchSetId": 25
+      },
+      "lineNbr": 1774,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-04-22T13:08:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0cc7e34e_ce3a644d",
       "range": {
         "startLine": 1774,
         "startChar": 13,
@@ -70,6 +118,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fbc9f67e_e7350c57",
+        "filename": "src/cmd/internal/obj/mips/asm0.go",
+        "patchSetId": 25
+      },
+      "lineNbr": 1805,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-04-22T13:08:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edcc0910_8dcacf20",
+      "range": {
+        "startLine": 1805,
+        "startChar": 13,
+        "endLine": 1805,
+        "endChar": 44
+      },
+      "revId": "e0c77f6c89ce4ec9ba47d8f698a76f9a7948f93e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "75dd404c_d59b0a2e",
@@ -83,6 +155,30 @@
       "writtenOn": "2022-04-21T16:31:02Z",
       "side": 1,
       "message": "I\u0027m very confused with this. From the comment it looks like it computes an address and store it to REGSB? There is no store, right? So To.Type should be TYPE_REG instead of TYPE_MEM, and To.Name should be nil. From should not be a register  R25 either.",
+      "range": {
+        "startLine": 821,
+        "startChar": 0,
+        "endLine": 831,
+        "endChar": 18
+      },
+      "revId": "e0c77f6c89ce4ec9ba47d8f698a76f9a7948f93e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41a6c72b_abd402a6",
+        "filename": "src/cmd/internal/obj/mips/obj0.go",
+        "patchSetId": 25
+      },
+      "lineNbr": 831,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-04-22T13:08:53Z",
+      "side": 1,
+      "message": "Yes, I reversed them. I deleted the From register R25.\nThanks!",
+      "parentUuid": "75dd404c_d59b0a2e",
       "range": {
         "startLine": 821,
         "startChar": 0,
@@ -118,6 +214,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2f2598cc_63adcb00",
+        "filename": "src/cmd/internal/objabi/reloctype.go",
+        "patchSetId": 25
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-04-22T13:08:53Z",
+      "side": 1,
+      "message": "Sorry for this oversight.\nThe MIPS ELF manual says:\n The difference between the R_MIPS_CALL* operators and the corresponding R_MIPS_GOT* operators is that the former allow initial resolution by rld to a lazy evaluation stub, whereas the latter must be resolved to the ultimate address at initialization.\n\nSo I rewrite the commend to \"R_MIPS_CALL16 resolves to the lazy evaluation stub of the function in PIC mode\".",
+      "parentUuid": "f5e7f6ed_bdfe5e74",
+      "range": {
+        "startLine": 276,
+        "startChar": 0,
+        "endLine": 277,
+        "endChar": 14
+      },
+      "revId": "e0c77f6c89ce4ec9ba47d8f698a76f9a7948f93e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a0c72b43_1318ece9",
         "filename": "src/cmd/internal/objabi/reloctype.go",
         "patchSetId": 25
@@ -129,6 +249,30 @@
       "writtenOn": "2022-04-21T16:31:02Z",
       "side": 1,
       "message": "I think this is still not clear. What does \"preempted\" mean here? It certainly is not goroutine preemption. What does it optimize to? Does the linker rewrite a \"CALL (R25)\" instruction back to a concrete \"CALL symbol\" instruction? Maybe\n\n// R_MIPS_JALR tells the linker the concrete call target of a \"CALL (R25)\" instruction in PIC mode, so the linker can optimize it back to a concrete call when \u003ccondition\u003e (with the proper condition. \"not preempted\" doesn\u0027t sound clear.)",
+      "range": {
+        "startLine": 278,
+        "startChar": 0,
+        "endLine": 280,
+        "endChar": 12
+      },
+      "revId": "e0c77f6c89ce4ec9ba47d8f698a76f9a7948f93e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8a9a53e_fdef5c9c",
+        "filename": "src/cmd/internal/objabi/reloctype.go",
+        "patchSetId": 25
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-04-22T13:08:53Z",
+      "side": 1,
+      "message": "The R_MIPS_JALR is for GNU linker to optimize instruction here. It doesn\u0027t matter to delete it. Could we delete it?",
+      "parentUuid": "a0c72b43_1318ece9",
       "range": {
         "startLine": 278,
         "startChar": 0,
