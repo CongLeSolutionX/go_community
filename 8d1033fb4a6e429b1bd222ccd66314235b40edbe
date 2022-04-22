@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "610c05a4_1cb9ab32",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2022-04-22T02:14:06Z",
+      "side": 1,
+      "message": "I refreshed the benchmark results to reflect PS 7. The numbers for PingPongHog aren\u0027t very consistent, and this set of benchmark results shows it as slowing down rather than \"too close to call\". The latency of GoroutineProfile when competing with a garbage-heavy workload is a bit higher than the previous results.\n\nI think this is ready to submit, following review of CL 387414 (new stress tests for GoroutineProfile) and a second signoff of CL 385660 (race annotations). Thanks, all!",
+      "revId": "8d1033fb4a6e429b1bd222ccd66314235b40edbe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
