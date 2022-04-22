@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "26ad9b8d_0e2b9003",
+        "filename": "src/runtime/debug/garbage.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-04-22T16:19:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d65362dc_2ab278f6",
+      "revId": "973388188e71c9b7e817ac9162ece647708630e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d43b6a9f_4ffa5da4",
@@ -103,6 +121,24 @@
       "side": 1,
       "message": "re: the scavenger that\u0027s true right now, but I intend to fix that.\n\nthe fact that the memory limit *always* applies and that its default setting is just very high is not a property of the implementation, it is the definition of the parameter as currently proposed. more concretely, I think there should be no practical difference between setting the limit at MaxInt64 or MaxInt64-1, and that\u0027s part of the API (practical here meaning both of these values are basically unreachable by today\u0027s supported platforms). by making these two have different behaviors I\u0027d be adding more corner cases than I intend here.\n\nall that being said, I get your point Carlo. I can add a line to the documentation about setting the memory limit high enough such that it\u0027s effectively never used and that MaxInt64 is the canonical value for an \"ignored\" memory limit.",
       "parentUuid": "d28e83ac_6253bca6",
+      "revId": "973388188e71c9b7e817ac9162ece647708630e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5724fb43_090455d6",
+        "filename": "src/runtime/debug/garbage.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-04-22T16:19:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f9a0793_876fa079",
       "revId": "973388188e71c9b7e817ac9162ece647708630e4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
