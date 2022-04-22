@@ -48,6 +48,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe9a6097_88291f85",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-04-22T20:44:54Z",
+      "side": 1,
+      "message": "I think the CL is OK to keep (it isn\u0027t very complicated), but could you add this information to the commit message so it is easier to find in the future if we are wondering about the significance of the change?",
+      "parentUuid": "7f16026b_cdc174d1",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 60
+      },
+      "revId": "f2c1b2668004a3dae2e7bf89349f30d64f001c57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "e79b0fae_744956f9",
