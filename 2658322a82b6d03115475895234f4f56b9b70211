@@ -70,6 +70,24 @@
       "parentUuid": "ed1b1f15_0042527f",
       "revId": "2658322a82b6d03115475895234f4f56b9b70211",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4ba43c9_f487c0e4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-04-22T21:55:12Z",
+      "side": 1,
+      "message": "Want to update this patch?",
+      "parentUuid": "a77475e2_22f48af3",
+      "revId": "2658322a82b6d03115475895234f4f56b9b70211",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
