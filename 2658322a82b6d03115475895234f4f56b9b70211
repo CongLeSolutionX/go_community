@@ -34,6 +34,24 @@
       "parentUuid": "8153f759_50f6efc5",
       "revId": "2658322a82b6d03115475895234f4f56b9b70211",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed1b1f15_0042527f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-04-22T04:31:16Z",
+      "side": 1,
+      "message": "The docs already say \"cannot be used safely or portably.\"\n\nI feel like the more we say here the worse it hurts.\n\nHow do you feel about\n\nDeprecated: this type exists for backward compatibility but should not be used by new code.",
+      "parentUuid": "ac36eb58_1e402eb0",
+      "revId": "2658322a82b6d03115475895234f4f56b9b70211",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
