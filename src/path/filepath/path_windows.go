@@ -202,3 +202,9 @@ func isUNC(path string) bool {
 func sameWord(a, b string) bool {
 	return strings.EqualFold(a, b)
 }
+
+// validElemInPath return false if part of the path is not valid. do not use
+// this function not for the Clean() since this is not designed generically.
+func validElemInPath(path string) bool {
+	return len(VolumeName(path)) == 0
+}
