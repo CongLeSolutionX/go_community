@@ -386,6 +386,24 @@
       "message": "Where did this go?",
       "revId": "dfe7b0da5467c0297acefd4a2ee7c5be22fe5c75",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1036324_012c52f3",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 947,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-04-22T23:12:26Z",
+      "side": 1,
+      "message": "ah, I left a comment on the asyncWork CL: I dropped it.\n\nI\u0027m not certain it actually adds any value, after thinking about it. sure, we can queue a GC to trigger here, but if it\u0027s really that important for us to be prompt, it probably means we\u0027re allocating a lot anyway, which means an allocation is going to notice fairly soon that a GC needs to start.",
+      "parentUuid": "a3ca7b02_a9fc8f47",
+      "revId": "dfe7b0da5467c0297acefd4a2ee7c5be22fe5c75",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
