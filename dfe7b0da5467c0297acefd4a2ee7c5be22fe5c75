@@ -83,6 +83,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3c3abed_365f4763",
+        "filename": "src/runtime/mgcpacer.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 1013,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-04-22T20:58:43Z",
+      "side": 1,
+      "message": "Clever!",
+      "parentUuid": "57bd8e2f_387fc14f",
+      "revId": "dfe7b0da5467c0297acefd4a2ee7c5be22fe5c75",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "373a6527_63b0d7c1",
@@ -349,6 +367,23 @@
       "side": 1,
       "message": "you\u0027re right, I added a condition at the end to check if the final goal is less than c.heapMarked and it round it up to that. a heap goal lower than the live heap doesn\u0027t make any sense, because that\u0027s what the heap starts at in a GC cycle. setting it to heapMarked is equivalent to GOGC\u003d0.\n\nI updated the comment in trigger to explain that picking goal is just being defensive, and that it really shouldn\u0027t be less than c.heapMarked.",
       "parentUuid": "26122c88_efda4d5a",
+      "revId": "dfe7b0da5467c0297acefd4a2ee7c5be22fe5c75",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3ca7b02_a9fc8f47",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 947,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-04-22T20:58:43Z",
+      "side": 1,
+      "message": "Where did this go?",
       "revId": "dfe7b0da5467c0297acefd4a2ee7c5be22fe5c75",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
