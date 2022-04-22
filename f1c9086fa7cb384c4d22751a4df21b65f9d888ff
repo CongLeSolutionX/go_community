@@ -153,6 +153,30 @@
       },
       "revId": "f1c9086fa7cb384c4d22751a4df21b65f9d888ff",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d7ec7b6_075ec6eb",
+        "filename": "src/cmd/internal/obj/link.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-04-22T13:00:05Z",
+      "side": 1,
+      "message": "Move these two fields into the ctxt7 structure. Regarding relocation type, we can\u0027t use Prog.Mark to indicate the reloc information required by a Prog like riscv, because arm64 has many reloc types, and Prog.Mark has only 16 bits. In addition, arm64 The reloc may appear in a Prog.From or Prog.To, so we have to record the location information of a reloc, it\u0027s difficult to record so much information in a bit mask. So I turned to create the reloc when unfolding, and stored its subscript of the reloc in ctxt7.",
+      "parentUuid": "b61a0d42_0c7c3635",
+      "range": {
+        "startLine": 322,
+        "startChar": 0,
+        "endLine": 353,
+        "endChar": 1
+      },
+      "revId": "f1c9086fa7cb384c4d22751a4df21b65f9d888ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
