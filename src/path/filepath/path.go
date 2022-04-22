@@ -117,9 +117,24 @@ func Clean(path string) string {
 		case os.IsPathSeparator(path[r]):
 			// empty path element
 			r++
-		case path[r] == '.' && (r+1 == n || os.IsPathSeparator(path[r+1])):
+		case path[r] == '.' && r+1 == n:
 			// . element
 			r++
+		case path[r] == '.' && os.IsPathSeparator(path[r+1]):
+			// ./ element
+			r++
+
+			rv := r
+			for rv < len(path) && os.IsPathSeparator(path[rv]) {
+				rv++
+			}
+			if out.w == 0 && !validElemInPath(path[rv:]) {
+				// When joining prefix "." and an absolute path on Windows,
+				// the prefix should not be removed.
+				for i := 0; i < r; i++ {
+					out.append(path[i])
+				}
+			}
 		case path[r] == '.' && path[r+1] == '.' && (r+2 == n || os.IsPathSeparator(path[r+2])):
 			// .. element: remove to last separator
 			r += 2

@@ -52,3 +52,7 @@ func join(elem []string) string {
 func sameWord(a, b string) bool {
 	return a == b
 }
+
+func validElemInPath(path string) bool {
+	return true
+}
