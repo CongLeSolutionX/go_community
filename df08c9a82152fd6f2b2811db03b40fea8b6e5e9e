@@ -52,6 +52,24 @@
       "parentUuid": "771637ee_0954f48d",
       "revId": "df08c9a82152fd6f2b2811db03b40fea8b6e5e9e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9776531f_5975b7e9",
+        "filename": "src/net/http/h2_bundle.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2022-04-22T01:19:52Z",
+      "side": 0,
+      "message": "Done\n\nHowever I had an issue with bundle where it would import \"net/http\" and add \"http.\" for all type from the net package. (as if h2_bundle.go was an external package importing net/http)\nWhich obviously failed:\n  package expvar\n  \timports net/http\n  \timports net/http: import cycle not allowed\n\nSo FYI, I had to\n  sed -i \"s/http\\.//g\" h2_bundle.go\n\nTo fix it, which seems a hack to me.\nI also did a manual review of the diff to add back \"http.\" in comments (because whatever was used previously left them in).",
+      "parentUuid": "6d5cb4a5_d9a0137c",
+      "revId": "df08c9a82152fd6f2b2811db03b40fea8b6e5e9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
