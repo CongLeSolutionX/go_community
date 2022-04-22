@@ -95,6 +95,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "39cea8f1_dfe4042d",
+        "filename": "src/runtime/mgcpacer.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-04-22T20:42:25Z",
+      "side": 1,
+      "message": "I\u0027d still have a slight preference for calling this something like gcPercentHeapGoal. IMO this looks a bit too much like it is a goal for gcPercent itself.",
+      "parentUuid": "6355fa97_882703d8",
+      "range": {
+        "startLine": 145,
+        "startChar": 4,
+        "endLine": 145,
+        "endChar": 17
+      },
+      "revId": "891612ab23954e06cb60e4214468e8f2bd32eeaf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "36b02b2b_f0da7cf5",
