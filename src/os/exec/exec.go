@@ -212,15 +212,16 @@ type Cmd struct {
 	// available after a call to Wait or Run.
 	ProcessState *os.ProcessState
 
-	ctx           context.Context // nil means none
-	Err           error           // LookPath error, if any.
-	finished      bool            // when Wait was called
-	childFiles    []*os.File
-	remotePipes   []io.Closer
-	localPipes    []io.Closer
-	goroutine     []func() error
-	goroutineErrs <-chan error // one receive per goroutine
-	ctxErr        <-chan error // if non nil, receives the error from watchCtx exactly once
+	ctx            context.Context // nil means none
+	Err            error           // LookPath error, if any.
+	finished       bool            // when Wait was called
+	childFiles     []*os.File
+	remotePipes    []io.Closer
+	userPipes      []io.Closer // closed when Wait completes
+	goroutinePipes []io.Closer // closed by their respective goroutines, if started
+	goroutine      []func() error
+	goroutineErrs  <-chan error // one receive per goroutine
+	ctxErr         <-chan error // if non nil, receives the error from watchCtx exactly once
 
 	// For a security release long ago, we created x/sys/execabs,
 	// which manipulated the unexported lookPathErr error field
@@ -353,7 +354,7 @@ func (c *Cmd) stdin() (f *os.File, err error) {
 	}
 
 	c.remotePipes = append(c.remotePipes, pr)
-	c.localPipes = append(c.localPipes, pw)
+	c.goroutinePipes = append(c.goroutinePipes, pw)
 	c.goroutine = append(c.goroutine, func() error {
 		_, err := io.Copy(pw, c.Stdin)
 		if skipStdinCopyError(err) {
@@ -398,7 +399,7 @@ func (c *Cmd) writerDescriptor(w io.Writer) (f *os.File, err error) {
 	}
 
 	c.remotePipes = append(c.remotePipes, pw)
-	c.localPipes = append(c.localPipes, pr)
+	c.goroutinePipes = append(c.goroutinePipes, pr)
 	c.goroutine = append(c.goroutine, func() error {
 		_, err := io.Copy(w, pr)
 		pr.Close() // in case io.Copy stopped due to write error
@@ -472,8 +473,10 @@ func (c *Cmd) Start() error {
 		c.remotePipes = nil
 
 		if !started {
-			c.closeDescriptors(c.localPipes)
-			c.localPipes = nil
+			c.closeDescriptors(c.goroutinePipes)
+			c.goroutinePipes = nil
+			c.closeDescriptors(c.userPipes)
+			c.userPipes = nil
 		}
 	}()
 
@@ -602,6 +605,8 @@ func (c *Cmd) Wait() error {
 			copyError = err
 		}
 	}
+	c.goroutine = nil
+	c.goroutinePipes = nil // Already closed by their respective goroutines.
 
 	if c.ctxErr != nil {
 		interruptErr := <-c.ctxErr
@@ -618,8 +623,8 @@ func (c *Cmd) Wait() error {
 		err = copyError
 	}
 
-	c.closeDescriptors(c.localPipes)
-	c.localPipes = nil
+	c.closeDescriptors(c.userPipes)
+	c.userPipes = nil
 
 	return err
 }
@@ -720,7 +725,7 @@ func (c *Cmd) StdinPipe() (io.WriteCloser, error) {
 	c.Stdin = pr
 	c.remotePipes = append(c.remotePipes, pr)
 	wc := &closeOnce{File: pw}
-	c.localPipes = append(c.localPipes, wc)
+	c.userPipes = append(c.userPipes, wc)
 	return wc, nil
 }
 
@@ -761,7 +766,7 @@ func (c *Cmd) StdoutPipe() (io.ReadCloser, error) {
 	}
 	c.Stdout = pw
 	c.remotePipes = append(c.remotePipes, pw)
-	c.localPipes = append(c.localPipes, pr)
+	c.userPipes = append(c.userPipes, pr)
 	return pr, nil
 }
 
@@ -786,7 +791,7 @@ func (c *Cmd) StderrPipe() (io.ReadCloser, error) {
 	}
 	c.Stderr = pw
 	c.remotePipes = append(c.remotePipes, pw)
-	c.localPipes = append(c.localPipes, pr)
+	c.userPipes = append(c.userPipes, pr)
 	return pr, nil
 }
 
