@@ -24,6 +24,7 @@ import (
 	"bytes"
 	"context"
 	"errors"
+	"fmt"
 	"internal/syscall/execenv"
 	"io"
 	"os"
@@ -138,14 +139,14 @@ type Cmd struct {
 	Context context.Context
 
 	lookPathErr    error // LookPath error, if any.
-	finished       bool  // when Wait was called
 	childFiles     []*os.File
 	remotePipes    []io.Closer
-	userPipes      []io.Closer // closed when Wait completes
+	userPipes      []io.Closer // closed only when Wait completes
 	goroutinePipes []io.Closer // closed by their respective goroutines, if started
 	goroutine      []func() error
-	goroutineErrs  chan error // one send per goroutine
-	waitDone       chan struct{}
+	goroutineErrs  chan error              // one send per goroutine
+	statec         <-chan *os.ProcessState // receives the final state once, then closed
+	err            error                   // set before the process state is sent on statec
 }
 
 // Command returns the Cmd struct to execute the named program with
@@ -438,16 +439,9 @@ func (c *Cmd) Start() error {
 		}
 	}
 
-	if c.Context != nil {
-		c.waitDone = make(chan struct{})
-		go func() {
-			select {
-			case <-c.Context.Done():
-				c.Process.Kill()
-			case <-c.waitDone:
-			}
-		}()
-	}
+	statec := make(chan *os.ProcessState, 1)
+	c.statec = statec
+	go c.wait(statec)
 
 	return nil
 }
@@ -491,20 +485,65 @@ func (e *ExitError) Error() string {
 //
 // Wait releases any resources associated with the Cmd.
 func (c *Cmd) Wait() error {
-	if c.Process == nil {
+	if c.statec == nil {
 		return errors.New("exec: not started")
 	}
-	if c.finished {
-		return errors.New("exec: Wait was already called")
-	}
-	c.finished = true
 
-	state, err := c.Process.Wait()
-	if c.waitDone != nil {
-		close(c.waitDone)
+	state, ok := <-c.statec
+	if !ok {
+		return errors.New("exec: Wait was already called")
 	}
 	c.ProcessState = state
 
+	// The documentation for StdinPipe, StdoutPipe, and StderrPipe promises that
+	// the pipes will be closed “after Wait sees the command exit”, but Wait is no
+	// longer what sees the command exit. To preserve the legacy behavior,
+	// we close the pipes here even if WaitDelay expires after the process exits.
+	//
+	// TODO(bcmills): should we also close the user pipes if WaitDelay expires?
+	c.closeDescriptors(c.userPipes)
+	c.userPipes = nil
+
+	return c.err
+}
+
+func (c *Cmd) wait(statec chan<- *os.ProcessState) {
+	var errc chan error
+	if c.Context != nil {
+		ctx := c.Context
+
+		errc = make(chan error)
+		go func() {
+			select {
+			case errc <- nil:
+				return
+			case <-ctx.Done():
+			}
+
+			var err error
+			if killErr := c.Process.Kill(); killErr == nil {
+				// We appear to have successfully delivered a kill signal, so any
+				// program behavior from this point may be due to ctx.
+				err = ctx.Err()
+			} else if !errors.Is(killErr, os.ErrProcessDone) {
+				err = fmt.Errorf("exec: error sending kill signal to Cmd: %w", killErr)
+			}
+			errc <- err
+		}()
+	}
+
+	state, err := c.Process.Wait()
+	if err != nil {
+		c.err = err
+	} else if !state.Success() {
+		c.err = &ExitError{ProcessState: state}
+	}
+
+	// Wait for the pipe-copying goroutines to complete. If this step overruns
+	// WaitDelay, the goroutine above will close the local ends of the pipes,
+	// which will cause the goroutines to exit (probably with errors). However,
+	// the goroutine will also send a non-nil error on errc, which will override
+	// those individual copying errors.
 	var copyError error
 	for range c.goroutine {
 		if err := <-c.goroutineErrs; err != nil && copyError == nil {
@@ -514,16 +553,20 @@ func (c *Cmd) Wait() error {
 	c.goroutine = nil
 	c.goroutinePipes = nil // Already closed by their respective goroutines.
 
-	c.closeDescriptors(c.userPipes)
-	c.userPipes = nil
-
-	if err != nil {
-		return err
-	} else if !state.Success() {
-		return &ExitError{ProcessState: state}
+	if errc != nil {
+		interruptErr := <-errc
+		// If c.Process.Wait returned an error, prefer that.
+		// Otherwise, report any error from the interrupt goroutine.
+		if interruptErr != nil && c.err == nil {
+			c.err = interruptErr
+		}
+	}
+	if c.err == nil {
+		c.err = copyError
 	}
 
-	return copyError
+	statec <- state
+	close(statec)
 }
 
 // Output runs the command and returns its standard output.
