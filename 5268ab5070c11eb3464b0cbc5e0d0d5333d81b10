@@ -34,6 +34,24 @@
       "parentUuid": "fa6d75f1_1b2fdc13",
       "revId": "5268ab5070c11eb3464b0cbc5e0d0d5333d81b10",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a59e978_93d1e365",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2883,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2022-04-23T14:30:44Z",
+      "side": 1,
+      "message": "Sorry, I misread the code and now I see the point here, abandoning this CL.",
+      "parentUuid": "c06d3a87_d2831335",
+      "revId": "5268ab5070c11eb3464b0cbc5e0d0d5333d81b10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
