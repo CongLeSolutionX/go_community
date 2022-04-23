@@ -147,9 +147,11 @@ type Cmd struct {
 	// available after a call to Wait or Run.
 	ProcessState *os.ProcessState
 
-	ctx            context.Context // nil means none
-	lookPathErr    error           // LookPath error, if any.
-	finished       bool            // when Wait was called
+	// Context is the context that controls the lifetime of the command
+	// (typically the one passed to CommandContext).
+	Context context.Context
+
+	lookPathErr    error // LookPath error, if any.
 	childFiles     []*os.File
 	remotePipes    []io.Closer
 	userPipes      []io.Closer // closed when Wait completes
@@ -206,7 +208,7 @@ func CommandContext(ctx context.Context, name string, arg ...string) *Cmd {
 		panic("nil Context")
 	}
 	cmd := Command(name, arg...)
-	cmd.ctx = ctx
+	cmd.Context = ctx
 	return cmd
 }
 
@@ -404,10 +406,10 @@ func (c *Cmd) Start() error {
 	if c.Process != nil {
 		return errors.New("exec: already started")
 	}
-	if c.ctx != nil {
+	if c.Context != nil {
 		select {
-		case <-c.ctx.Done():
-			return c.ctx.Err()
+		case <-c.Context.Done():
+			return c.Context.Err()
 		default:
 		}
 	}
@@ -538,7 +540,7 @@ func (c *Cmd) Wait() error {
 }
 
 func (c *Cmd) watchCtx() <-chan error {
-	if c.ctx == nil {
+	if c.Context == nil {
 		return nil
 	}
 
@@ -547,14 +549,14 @@ func (c *Cmd) watchCtx() <-chan error {
 		select {
 		case errc <- nil:
 			return
-		case <-c.ctx.Done():
+		case <-c.Context.Done():
 		}
 
 		var err error
 		if killErr := c.Process.Kill(); killErr == nil {
 			// We appear to have successfully delivered a kill signal, so any
 			// program behavior from this point may be due to ctx.
-			err = c.ctx.Err()
+			err = c.Context.Err()
 		} else if !errors.Is(killErr, os.ErrProcessDone) {
 			err = wrappedError{
 				prefix: "exec: error sending signal to Cmd",
