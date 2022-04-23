@@ -133,9 +133,12 @@ type Cmd struct {
 	// available after a call to Wait or Run.
 	ProcessState *os.ProcessState
 
-	ctx            context.Context // nil means none
-	lookPathErr    error           // LookPath error, if any.
-	finished       bool            // when Wait was called
+	// Context is the context that controls the lifetime of the command
+	// (typically the one passed to CommandContext).
+	Context context.Context
+
+	lookPathErr    error // LookPath error, if any.
+	finished       bool  // when Wait was called
 	childFiles     []*os.File
 	remotePipes    []io.Closer
 	userPipes      []io.Closer // closed when Wait completes
@@ -192,7 +195,7 @@ func CommandContext(ctx context.Context, name string, arg ...string) *Cmd {
 		panic("nil Context")
 	}
 	cmd := Command(name, arg...)
-	cmd.ctx = ctx
+	cmd.Context = ctx
 	return cmd
 }
 
@@ -394,10 +397,10 @@ func (c *Cmd) Start() error {
 	if c.Process != nil {
 		return errors.New("exec: already started")
 	}
-	if c.ctx != nil {
+	if c.Context != nil {
 		select {
-		case <-c.ctx.Done():
-			return c.ctx.Err()
+		case <-c.Context.Done():
+			return c.Context.Err()
 		default:
 		}
 	}
@@ -439,11 +442,11 @@ func (c *Cmd) Start() error {
 		}
 	}
 
-	if c.ctx != nil {
+	if c.Context != nil {
 		c.waitDone = make(chan struct{})
 		go func() {
 			select {
-			case <-c.ctx.Done():
+			case <-c.Context.Done():
 				c.Process.Kill()
 			case <-c.waitDone:
 			}
