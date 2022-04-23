@@ -24,6 +24,7 @@ import (
 	"bytes"
 	"context"
 	"errors"
+	"fmt"
 	"internal/syscall/execenv"
 	"io"
 	"os"
@@ -138,14 +139,13 @@ type Cmd struct {
 	Context context.Context
 
 	lookPathErr    error // LookPath error, if any.
-	finished       bool  // when Wait was called
 	childFiles     []*os.File
 	remotePipes    []io.Closer
-	userPipes      []io.Closer // closed when Wait completes
+	userPipes      []io.Closer // closed only when Wait completes
 	goroutinePipes []io.Closer // closed by their respective goroutines, if started
 	goroutine      []func() error
-	goroutineErrs  chan error // one send per goroutine
-	waitDone       chan struct{}
+	goroutineErrs  chan error   // one send per goroutine
+	ctxErr         <-chan error // receives the error from Context-initiated termination
 }
 
 // Command returns the Cmd struct to execute the named program with
@@ -428,7 +428,7 @@ func (c *Cmd) Start() error {
 	}
 	started = true
 
-	// Don't allocate the channel unless there are goroutines to fire.
+	// Don't allocate the goroutineErrs channel unless there are goroutines to fire.
 	if len(c.goroutine) > 0 {
 		c.goroutineErrs = make(chan error, len(c.goroutine))
 		for _, fn := range c.goroutine {
@@ -438,16 +438,7 @@ func (c *Cmd) Start() error {
 		}
 	}
 
-	if c.Context != nil {
-		c.waitDone = make(chan struct{})
-		go func() {
-			select {
-			case <-c.Context.Done():
-				c.Process.Kill()
-			case <-c.waitDone:
-			}
-		}()
-	}
+	c.ctxErr = c.watchCtx()
 
 	return nil
 }
@@ -494,17 +485,16 @@ func (c *Cmd) Wait() error {
 	if c.Process == nil {
 		return errors.New("exec: not started")
 	}
-	if c.finished {
+	if c.ProcessState != nil {
 		return errors.New("exec: Wait was already called")
 	}
-	c.finished = true
-
 	state, err := c.Process.Wait()
-	if c.waitDone != nil {
-		close(c.waitDone)
+	if err == nil && !state.Success() {
+		err = &ExitError{ProcessState: state}
 	}
 	c.ProcessState = state
 
+	// Wait for the pipe-copying goroutines to complete.
 	var copyError error
 	for range c.goroutine {
 		if err := <-c.goroutineErrs; err != nil && copyError == nil {
@@ -514,16 +504,53 @@ func (c *Cmd) Wait() error {
 	c.goroutine = nil
 	c.goroutinePipes = nil // Already closed by their respective goroutines.
 
+	if c.ctxErr != nil {
+		interruptErr := <-c.ctxErr
+		// If c.Process.Wait returned an error, prefer that.
+		// Otherwise, report any error from the interrupt goroutine.
+		if interruptErr != nil && err == nil {
+			err = interruptErr
+		}
+	}
+	if err == nil {
+		err = copyError
+	}
+
 	c.closeDescriptors(c.userPipes)
 	c.userPipes = nil
 
-	if err != nil {
-		return err
-	} else if !state.Success() {
-		return &ExitError{ProcessState: state}
+	return err
+}
+
+func (c *Cmd) watchCtx() <-chan error {
+	if c.Context == nil {
+		return nil
 	}
 
-	return copyError
+	errc := make(chan error)
+	ctx := c.Context
+	p := c.Process
+	go func() {
+		defer close(errc)
+
+		select {
+		case errc <- nil:
+			return
+		case <-ctx.Done():
+		}
+
+		var err error
+		if killErr := p.Kill(); killErr == nil {
+			// We appear to have successfully delivered a kill signal, so any
+			// program behavior from this point may be due to ctx.
+			err = ctx.Err()
+		} else if !errors.Is(killErr, os.ErrProcessDone) {
+			err = fmt.Errorf("exec: error sending kill signal to Cmd: %w", killErr)
+		}
+		errc <- err
+	}()
+
+	return errc
 }
 
 // Output runs the command and returns its standard output.
