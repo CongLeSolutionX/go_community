@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f769eb6e_79df4c4a",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 6480
+      },
+      "writtenOn": "2022-04-24T03:50:46Z",
+      "side": 1,
+      "message": "I don\u0027t believe this is incorrect: one of (the integer part|the fractional part).",
+      "range": {
+        "startLine": 336,
+        "startChar": 0,
+        "endLine": 336,
+        "endChar": 47
+      },
+      "revId": "a284ff5cace91d3b96e350f5179d688cf8ce4fe4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "021c4014_97112762",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 6480
+      },
+      "writtenOn": "2022-04-24T03:50:46Z",
+      "side": 1,
+      "message": "Same here.",
+      "revId": "a284ff5cace91d3b96e350f5179d688cf8ce4fe4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "855a9250_213fff08",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 6480
+      },
+      "writtenOn": "2022-04-24T03:50:46Z",
+      "side": 1,
+      "message": "This has a similar structure: any character except (^J|\u0027).",
+      "revId": "a284ff5cace91d3b96e350f5179d688cf8ce4fe4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
