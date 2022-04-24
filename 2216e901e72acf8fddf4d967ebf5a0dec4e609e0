@@ -33,6 +33,24 @@
       "message": "I\u0027m still confused as to what the problem is that this change and/or the changes in CL 371574 are trying to address. Do you have an example or issue number describing the problem?\n\nIn any case, I think we want the corresponding sorts in sort and exp/slices (both unstable and stable, generic and via interface) to generate the same results. e.g. for x of type []float64\n\nsort.Slice(x, func(i, j int) bool { return x[i] \u003c x[j] }\nexp/slices.Sort[float64](x)\n\nshould do the same thing. Which makes we think the generic sort should use !(a \u003c b), not a \u003e\u003d b. But maybe I\u0027m missing something.\n",
       "revId": "2216e901e72acf8fddf4d967ebf5a0dec4e609e0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6fd51913_b2c2f7e3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 49673
+      },
+      "writtenOn": "2022-04-24T08:31:48Z",
+      "side": 1,
+      "message": "Opened an issue to explain the issue in detail(https://github.com/golang/go/issues/52518), look forward to your feedback!",
+      "parentUuid": "75f97e4e_e24cbb24",
+      "revId": "2216e901e72acf8fddf4d967ebf5a0dec4e609e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
