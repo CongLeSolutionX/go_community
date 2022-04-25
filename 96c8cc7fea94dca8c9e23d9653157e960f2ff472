@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba2e5c9e_b1c6e2e3",
+        "filename": "src/go/scanner/scanner.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2022-04-25T14:23:16Z",
+      "side": 0,
+      "message": "this is not a typo; \"iff\" is short for \"if an only if\".",
+      "revId": "96c8cc7fea94dca8c9e23d9653157e960f2ff472",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
