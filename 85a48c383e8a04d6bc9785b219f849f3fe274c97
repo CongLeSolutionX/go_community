@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "604c08e9_b61066ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2022-04-25T18:17:12Z",
+      "side": 1,
+      "message": "typo nit: meaningless\n\nbut also, perhaps to sound less judgemental of the existing route, how about...\n\ngo/ast: use len with constant strings to avoid hard-coding integer constants",
+      "revId": "85a48c383e8a04d6bc9785b219f849f3fe274c97",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "0a08e376_c0a16359",
