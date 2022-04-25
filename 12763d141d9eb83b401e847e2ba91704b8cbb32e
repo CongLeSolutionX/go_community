@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b337c40c_1b88afd6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-04-25T23:16:22Z",
+      "side": 1,
+      "message": "For future reference, we don\u0027t use Signed-off-by lines.  Please omit them from future patch descriptions.  Thanks.",
+      "revId": "12763d141d9eb83b401e847e2ba91704b8cbb32e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
