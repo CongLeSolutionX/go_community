@@ -16,6 +16,24 @@
       "message": "Leaving to mvdan to decide what he prefers.\n\nThe reason for not using the token.Pos conversion originally was that we are not adding two positions, we are adding a distance to a position. In any case, we want to ensure that what we\u0027re adding remains constant (which would be still the case with this change). But there\u0027s pros and cons to either side.\n\n(The problem would go away if \"len\" would return an untyped integer...)",
       "revId": "85a48c383e8a04d6bc9785b219f849f3fe274c97",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f4e79e6_92e09ea2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2022-04-25T18:15:54Z",
+      "side": 1,
+      "message": "I lean in favor of this change, though I agree that converting a length integer to a token.Pos feels off - it\u0027s not a position. Though, if we\u0027re being pedantic, constants like `3` already do get implicitly converted to a `token.Pos` when using the operator, so this is just a matter of what looks most maintainable IMO. And on that angle I do prefer the new version given that it doesn\u0027t duplicate the number.\n\nCC Joe as I\u0027ve seen him do this `len(\"string constant\")` bit elsewhere too.",
+      "parentUuid": "0a08e376_c0a16359",
+      "revId": "85a48c383e8a04d6bc9785b219f849f3fe274c97",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
