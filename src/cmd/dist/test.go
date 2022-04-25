@@ -8,6 +8,7 @@ import (
 	"bytes"
 	"flag"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"log"
 	"os"
@@ -402,6 +403,7 @@ func (t *tester) registerStdTest(pkg string) {
 			}
 			args := []string{
 				"test",
+				"-json",
 				"-short=" + short(),
 				t.tags(),
 				t.timeout(timeoutSec),
@@ -423,9 +425,18 @@ func (t *tester) registerStdTest(pkg string) {
 			}
 			args = append(args, stdMatches...)
 			cmd := exec.Command(gorootBinGo, args...)
-			cmd.Stdout = os.Stdout
+			var out io.Reader
+			out, cmd.Stdout = io.Pipe()
+			errCh := make(chan error)
+			go func() {
+				errCh <- unjson(out, os.Stdout, stdMatches)
+			}()
 			cmd.Stderr = os.Stderr
-			return cmd.Run()
+			err := cmd.Run()
+			if jsonErr := <-errCh; err == nil {
+				err = jsonErr
+			}
+			return err
 		},
 	})
 }
