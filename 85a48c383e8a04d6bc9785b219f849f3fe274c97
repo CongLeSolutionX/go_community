@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a08e376_c0a16359",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-04-25T15:35:17Z",
+      "side": 1,
+      "message": "Leaving to mvdan to decide what he prefers.\n\nThe reason for not using the token.Pos conversion originally was that we are not adding two positions, we are adding a distance to a position. In any case, we want to ensure that what we\u0027re adding remains constant (which would be still the case with this change). But there\u0027s pros and cons to either side.\n\n(The problem would go away if \"len\" would return an untyped integer...)",
+      "revId": "85a48c383e8a04d6bc9785b219f849f3fe274c97",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
