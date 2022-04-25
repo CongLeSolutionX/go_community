@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1d9c919d_be34fa3e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-04-25T05:49:40Z",
+      "side": 1,
+      "message": "Please edit this commit message as described by the comments below.  Please see https://go.dev/wiki/CommitMessage.  Thanks.",
+      "revId": "a284ff5cace91d3b96e350f5179d688cf8ce4fe4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f769eb6e_79df4c4a",
         "filename": "doc/go_spec.html",
         "patchSetId": 1
