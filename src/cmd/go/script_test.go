@@ -14,6 +14,7 @@ import (
 	"flag"
 	"fmt"
 	"go/build"
+	"internal/buildcfg"
 	"internal/testenv"
 	"internal/txtar"
 	"io/fs"
@@ -224,6 +225,24 @@ func goVersion(ts *testScript) string {
 
 var execCache par.Cache
 
+func goExperimentIsValid(expname string) bool {
+	for _, exp := range buildcfg.Experiment.All() {
+		if expname == exp || expname == "no"+exp || "no"+expname == exp {
+			return true
+		}
+	}
+	return false
+}
+
+func goExperimentIsEnabled(expname string) bool {
+	for _, exp := range buildcfg.Experiment.Enabled() {
+		if exp == expname {
+			return true
+		}
+	}
+	return false
+}
+
 // run runs the test script.
 func (ts *testScript) run() {
 	// Truncate log at end of last phase marker,
@@ -415,6 +434,15 @@ Script:
 				if strings.HasPrefix(cond.tag, "buildmode:") {
 					value := strings.TrimPrefix(cond.tag, "buildmode:")
 					ok = sys.BuildModeSupported(runtime.Compiler, value, runtime.GOOS, runtime.GOARCH)
+					break
+				}
+				if strings.HasPrefix(cond.tag, "GOEXPERIMENT:") {
+					rawval := strings.TrimPrefix(cond.tag, "GOEXPERIMENT:")
+					value := strings.TrimSpace(rawval)
+					if !goExperimentIsValid(value) {
+						ts.fatalf("unknown/unrecognized GOEXPERIMENT %q", value)
+					}
+					ok = goExperimentIsEnabled(value)
 					break
 				}
 				if !imports.KnownArch[cond.tag] && !imports.KnownOS[cond.tag] && cond.tag != "gc" && cond.tag != "gccgo" {
