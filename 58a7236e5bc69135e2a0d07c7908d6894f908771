@@ -126,6 +126,24 @@
       "message": "Blocking until I get a chance to debug linux-386",
       "revId": "58a7236e5bc69135e2a0d07c7908d6894f908771",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44bb8e9f_dd4452de",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-04-25T18:05:28Z",
+      "side": 1,
+      "message": "Fixed by https://go.dev/cl/402157",
+      "parentUuid": "4d60e362_beeeeb5c",
+      "revId": "58a7236e5bc69135e2a0d07c7908d6894f908771",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
