@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad0c65a8_a45c3cd2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-04-25T15:48:55Z",
+      "side": 1,
+      "message": "CL descriptions must start with the package they are addressing. So:\n\ngo/token: ...\n\nAlso, this appears to fix a bug, not just improve the readability. This should say something like:\n\ngo/token: fix pre-condition test in AddLineColumnInfo",
+      "range": {
+        "startLine": 7,
+        "startChar": 10,
+        "endLine": 7,
+        "endChar": 14
+      },
+      "revId": "5b176c5659490b6e927512ddd67e67a921c0ab14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "475f96c0_62cb9369",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-04-25T15:48:55Z",
+      "side": 1,
+      "message": "This looks like a bug fix. Please add a test case. Thanks.",
+      "revId": "5b176c5659490b6e927512ddd67e67a921c0ab14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
