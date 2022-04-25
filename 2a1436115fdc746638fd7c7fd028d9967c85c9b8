@@ -16,6 +16,23 @@
       "message": "This code is different; if output happened to be a nil *tabwriter.Writer, then you could panic.\n\nWhat Robert did is equivalent to `ok \u0026\u0026 tw !\u003d nil`; it\u0027s just shorter. So I think the existing code is fine.",
       "revId": "2a1436115fdc746638fd7c7fd028d9967c85c9b8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7800a21_6c312ce1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-04-25T14:41:54Z",
+      "side": 1,
+      "message": "Please see https://go.dev/cl/402119 for additional context. I don\u0027t think we should change this style arbitrarily. As Daniel points out, the resulting code here behaves differently than the code it replaces.",
+      "revId": "2a1436115fdc746638fd7c7fd028d9967c85c9b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
