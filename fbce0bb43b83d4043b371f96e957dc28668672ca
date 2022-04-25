@@ -163,6 +163,24 @@
       "parentUuid": "911ab9bf_00e94c1f",
       "revId": "fbce0bb43b83d4043b371f96e957dc28668672ca",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6f5db33_68fb6975",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 1305,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-04-25T18:13:32Z",
+      "side": 1,
+      "message": "OK, I\u0027ve ditched the special .covctrs section (coverage counters are now just a region in .noptrbss). PTAL.",
+      "parentUuid": "3059db5a_6ee09337",
+      "revId": "fbce0bb43b83d4043b371f96e957dc28668672ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
