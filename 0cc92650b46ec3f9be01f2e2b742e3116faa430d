@@ -73,6 +73,69 @@
       "parentUuid": "a0bb24e8_2dbf2b28",
       "revId": "0cc92650b46ec3f9be01f2e2b742e3116faa430d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9638b3c_ce9b1850",
+        "filename": "src/cmd/asm/internal/asm/testdata/arm64.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-25T22:27:34Z",
+      "side": 1,
+      "message": "How difficult it is to make this CL generate identical encodings as before? We can be much more confident about the correctness if the output is byte-to-byte identical as before.",
+      "revId": "0cc92650b46ec3f9be01f2e2b742e3116faa430d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4bc7683a_8c417c36",
+        "filename": "src/cmd/internal/obj/arm64/argsEnc.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1835,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-25T22:27:34Z",
+      "side": 1,
+      "message": "Is this useful for anything?",
+      "range": {
+        "startLine": 1828,
+        "startChar": 0,
+        "endLine": 1835,
+        "endChar": 0
+      },
+      "revId": "0cc92650b46ec3f9be01f2e2b742e3116faa430d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe3b5728_04402ef3",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-25T22:27:34Z",
+      "side": 1,
+      "message": "In this CL, do operands and arguments mean the same thing? Maybe name it \"arg\"?",
+      "range": {
+        "startLine": 74,
+        "startChar": 5,
+        "endLine": 74,
+        "endChar": 9
+      },
+      "revId": "0cc92650b46ec3f9be01f2e2b742e3116faa430d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

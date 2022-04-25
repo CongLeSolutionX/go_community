@@ -126,6 +126,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3ba5db6e_997d5c1c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-25T22:27:34Z",
+      "side": 1,
+      "message": "argsEnc.go seems mostly okay. Maybe name it encoding.go.\n\nFor asmFuncs.go, the file name doesn\u0027t provide any information (we already know this is the assembler and it contains functions). If they are about unfold, name it unfold.go. As you mentioned, they are mainly about unfolding. Are there anything else? If so, move them to another file. At beginning there are small helper functions. Should they be there?\n\n\u003e They are moved around based on the above rules\n\nLet\u0027s move them later in a separate CL to make the diff smaller and review easier. Thanks.",
+      "parentUuid": "cc308be5_1a1c6f16",
+      "revId": "8be04a6da41e88e8bfbc34ee365ea05f17e99d8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c7244f58_19d7113a",
         "filename": "src/cmd/asm/internal/asm/testdata/arm64error.s",
         "patchSetId": 6
@@ -463,6 +481,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fa087091_d1d7f6ac",
+        "filename": "src/cmd/internal/obj/arm64/argsEnc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-25T22:27:34Z",
+      "side": 1,
+      "message": "Just say Reg. The C in C_REG is for \"Class\". No need to include \"C\".",
+      "parentUuid": "6b4eeef7_4af9d5d7",
+      "range": {
+        "startLine": 15,
+        "startChar": 18,
+        "endLine": 15,
+        "endChar": 22
+      },
+      "revId": "8be04a6da41e88e8bfbc34ee365ea05f17e99d8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8944cd70_f98484a7",
         "filename": "src/cmd/internal/obj/arm64/argsEnc.go",
         "patchSetId": 6
@@ -510,6 +552,24 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "67e5b910_bca5898a",
+      "revId": "8be04a6da41e88e8bfbc34ee365ea05f17e99d8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba1763d0_2057a12b",
+        "filename": "src/cmd/internal/obj/arm64/argsEnc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 771,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-25T22:27:34Z",
+      "side": 1,
+      "message": "What is your plan for maintaining this package? In the current state, there are non-human-readable identifiers like imm5___B_1__H_2__S_4__D_8_index__imm5_imm4__imm4lt30gt_1__imm4lt31gt_2__imm4lt32gt_4__imm4lt3gt_8_1. It would be okay if it is generated and will almost never be touched by human. But it seems not. Are you saying that part of this file is code that should never be touched?",
+      "parentUuid": "145bb3e4_4968f78f",
       "revId": "8be04a6da41e88e8bfbc34ee365ea05f17e99d8b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },

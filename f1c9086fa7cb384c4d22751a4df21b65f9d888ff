@@ -110,6 +110,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4681e0cb_3d73e4e1",
+        "filename": "src/cmd/asm/internal/asm/endtoend_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-25T22:27:34Z",
+      "side": 1,
+      "message": "I think we should emit an error in one place. We can have multiple stages but do they all need to emit error?\n\nIf an error is emitted for an instruction, you can put a marker on the instruction (or even rewrite  it) so it won\u0027t emit an error on the same instruction again.",
+      "parentUuid": "73feacf0_69c96c6e",
+      "revId": "f1c9086fa7cb384c4d22751a4df21b65f9d888ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7800a6e3_d0e61e6d",
         "filename": "src/cmd/internal/obj/link.go",
         "patchSetId": 4
@@ -169,6 +187,30 @@
       "side": 1,
       "message": "Move these two fields into the ctxt7 structure. Regarding relocation type, we can\u0027t use Prog.Mark to indicate the reloc information required by a Prog like riscv, because arm64 has many reloc types, and Prog.Mark has only 16 bits. In addition, arm64 The reloc may appear in a Prog.From or Prog.To, so we have to record the location information of a reloc, it\u0027s difficult to record so much information in a bit mask. So I turned to create the reloc when unfolding, and stored its subscript of the reloc in ctxt7.",
       "parentUuid": "b61a0d42_0c7c3635",
+      "range": {
+        "startLine": 322,
+        "startChar": 0,
+        "endLine": 353,
+        "endChar": 1
+      },
+      "revId": "f1c9086fa7cb384c4d22751a4df21b65f9d888ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c115ddf1_316c4faa",
+        "filename": "src/cmd/internal/obj/link.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-25T22:27:34Z",
+      "side": 1,
+      "message": "Yeah, this is better, thanks.\n\nI still wonder why we need to do the expansion early. I think the expansion is not needed until right before encoding. For handling constant pools and branches, etc., all we need is the size of the instruction and some markers (does it use pool, is it a branch and how many bits, etc.). Can we do that later?\n\nAs for relocations, can we generate the relocations at the encoding stage instead of the expansion stage?\n\n\u003e The reloc may appear in a Prog.From or Prog.To\n\nI don\u0027t understand this. A relocation should always apply to an instruction, not part of it.",
+      "parentUuid": "8d7ec7b6_075ec6eb",
       "range": {
         "startLine": 322,
         "startChar": 0,
