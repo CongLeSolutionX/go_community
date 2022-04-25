@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a90912c9_e3c30caa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-04-25T13:23:53Z",
+      "side": 1,
+      "message": "Thank you for this CL, however the go/types package does this style of assertion in a lot of places. As a matter of style, it does not differentiate between a typed nil and an unknown type, effectively removing typed nils from the \u0027Type\u0027 union, which simplifies the code conceptually. Admittedly it takes some getting used to.\n\nUnless there is a reason for breaking this style, I don\u0027t think we should make this change, so I am going to -2 (this is a matter of procedure: out of context this change is reasonable, so I am using this to make sure it isn\u0027t accidentally approved and merged).\n\nWe should perhaps add some commentary about the go/types internal style.",
+      "revId": "64f8c7c56429583c81d422c6c98ef79de6373234",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
