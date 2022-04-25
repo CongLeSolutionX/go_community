@@ -70,8 +70,9 @@ func ParseGOEXPERIMENT(goos, goarch, goexp string) (*ExperimentFlags, error) {
 	}
 
 	baseline := goexperiment.Flags{
-		RegabiWrappers: regabiSupported,
-		RegabiArgs:     regabiSupported,
+		RegabiWrappers:   regabiSupported,
+		RegabiArgs:       regabiSupported,
+		CoverageRedesign: true,
 	}
 
 	// Start with the statically enabled set of experiments.
