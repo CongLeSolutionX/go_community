@@ -110,6 +110,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0b1f8110_48c3e4de",
+        "filename": "src/cmd/internal/obj/mips/a.out.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-25T15:34:25Z",
+      "side": 1,
+      "message": "The error message mentions a number of instructions, but doesn\u0027t say what is the problem they have. Could you include the first a few line of the error message?",
+      "parentUuid": "39193501_7ffbae51",
+      "revId": "2b63ea62d4ceaaced42834f5fff0aa45f2c0ac5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5cf50af3_140380eb",
         "filename": "src/cmd/internal/obj/mips/a.out.go",
         "patchSetId": 21
@@ -782,6 +800,30 @@
       "side": 1,
       "message": "\u003e Maybe rewrite to\n\n\u003e f :\u003d p.From.Sym.Name\n\u003e if strings.Contains(f, \"_rt0_mips64le_linux_lib\") || ...\n\nI rewrited it.\n\n\u003e Why strings.Contains, though? Should they be just equality?\nI printed p.From.Sym.Name corresponding to _rt0_mips64le_linux_lib as following:\n # runtime\n_rt0_mips64le_linux_lib\n\nSo I use strings.Contains.",
       "parentUuid": "b556ca89_8bf5a9d1",
+      "range": {
+        "startLine": 777,
+        "startChar": 0,
+        "endLine": 785,
+        "endChar": 1
+      },
+      "revId": "2b63ea62d4ceaaced42834f5fff0aa45f2c0ac5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59e9d714_ecaa7f03",
+        "filename": "src/cmd/internal/obj/mips/obj0.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 785,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-25T15:34:25Z",
+      "side": 1,
+      "message": "\u003e I printed p.From.Sym.Name corresponding to _rt0_mips64le_linux_lib as following:\n\u003e  # runtime\n\u003e _rt0_mips64le_linux_lib\n\nThat seems wrong. The \"# runtime\" part shouldn\u0027t be part of the symbol name, but rather added by cmd/go for annotation. \"Contains\" doesn\u0027t look right. This should be equality.",
+      "parentUuid": "6e1b8d03_97006755",
       "range": {
         "startLine": 777,
         "startChar": 0,
