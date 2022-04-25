@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b3f29b1_af60e39a",
+        "filename": "src/cmd/compile/internal/ssa/writebarrier.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 657,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-04-25T16:57:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6d59d29_4378c30e",
+      "range": {
+        "startLine": 655,
+        "startChar": 2,
+        "endLine": 657,
+        "endChar": 3
+      },
+      "revId": "fbce0bb43b83d4043b371f96e957dc28668672ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "26cf3d9c_a70fcedc",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-04-25T15:57:52Z",
       "side": 1,
       "message": "Remove?",
+      "range": {
+        "startLine": 1464,
+        "startChar": 0,
+        "endLine": 1466,
+        "endChar": 20
+      },
+      "revId": "fbce0bb43b83d4043b371f96e957dc28668672ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "70f7ab59_12f57cf6",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 1466,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-04-25T16:57:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26cf3d9c_a70fcedc",
       "range": {
         "startLine": 1464,
         "startChar": 0,
@@ -64,6 +112,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6837232_afe545ff",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 1784,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-04-25T16:57:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3bc17b04_46ccb658",
+      "revId": "fbce0bb43b83d4043b371f96e957dc28668672ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "911ab9bf_00e94c1f",
@@ -77,6 +143,24 @@
       "writtenOn": "2022-04-25T15:57:52Z",
       "side": 1,
       "message": "Any reason this needs a special section? What about non-ELF platforms?",
+      "revId": "fbce0bb43b83d4043b371f96e957dc28668672ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3059db5a_6ee09337",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 1305,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-04-25T16:57:20Z",
+      "side": 1,
+      "message": "Good point. I had modeled this after __libfuzzer_extra_counters, but in fact that symbol also appears to be elf only. \n\nHaving a separate section makes things a lot easier in dodata(), but I agree that we don\u0027t really need to expose it to the ELF section table. I\u0027ll see what I can do.",
+      "parentUuid": "911ab9bf_00e94c1f",
       "revId": "fbce0bb43b83d4043b371f96e957dc28668672ca",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
