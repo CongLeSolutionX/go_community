@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "72f2029c_14b1cb0d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-04-26T19:59:44Z",
+      "side": 1,
+      "message": "I think we can get rid of it. Prior to CL 402190, throw/fatal in the signal handler didn\u0027t work properly at all. With that CL, the AllThreadsSyscall crash is fine as a fatal().",
+      "parentUuid": "e5d8eb3b_86927f05",
+      "revId": "8e222f7b3aa418ea59b4071d6f43960e8d5f5dc9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "f9ff2131_4cb5ea7a",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
