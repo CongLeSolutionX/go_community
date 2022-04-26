@@ -34,6 +34,24 @@
       "parentUuid": "16c4b173_8d1eb1f9",
       "revId": "6064c617b66f0dae5e25811185bd55d9fcd51b4c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de42718b_2cf1f600",
+        "filename": "src/runtime/libfuzzer.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 34895
+      },
+      "writtenOn": "2022-04-26T01:34:20Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2ec97862_59381ffd",
+      "revId": "6064c617b66f0dae5e25811185bd55d9fcd51b4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
