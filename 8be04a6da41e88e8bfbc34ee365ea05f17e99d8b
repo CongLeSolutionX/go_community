@@ -576,6 +576,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5b39c124_a0054fa6",
+        "filename": "src/cmd/internal/obj/arm64/argsEnc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 771,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-04-26T03:57:48Z",
+      "side": 1,
+      "message": "This function is similar to https://github.com/golang/arch/blob/fc48f9fe4c157e3ed95b38adbda9b9fe5a31cf03/arm64/arm64asm/decode.go#L82, but the effect is just the opposite. Actually it is very easy to maintain because the logic is easy simple, except that the identifier for this parameter type might not be very readable, but being hard to read doesn\u0027t lead to much complexity.\n\nWhile these argument type identifiers are modifiable, I don\u0027t think we\u0027re going to touch them at all. As long as an identifier is unique, it\u0027s legal, so there\u0027s basically no reason for us to change it. If we\u0027ll going to add a new instruction, we can reuse the argument types or define some new items if there\u0027s no existing same type, as long as the identifier is unique, it\u0027s ok. By the way, most of the armv8 instructions are included in the inst.go table, if we\u0027ll going to add a lot of new instructions, such as SVE instructions, we\u0027ll write a script to automatically generate it.\n\n\u003e Are you saying that part of this file is code that should never be touched?\nThis file is about argument encoding, we\u0027ll deal with it often. but the logic of this file is very simple, similar like:\n  switch argument_type {\n  case type_1:\n    encoding_type_1()\n  case type_2:\n    encoding_type_2()\n  ...\n  }\n\nFor some relatively complex types, there are some helper functions whose names are basically the same as the type names, for example:\ntype:\n arg_Vn_arrangement_imm5___B_1__H_2__S_4__D_8_index__imm5_imm4__imm4lt30gt_1__imm4lt31gt_2__imm4lt32gt_4__imm4lt3gt_8_1\n\nhelp function:\n func (c *ctxt7) imm5___B_1__H_2__S_4__D_8_index__imm5_imm4__imm4lt30gt_1__imm4lt31gt_2__imm4lt32gt_4__imm4lt3gt_8_1(p *obj.Prog, arg *oprd) (uint32, uint32)\n\nFor most types, its encoding is very simple, which also reduces the probability of errors when we write the code, so I think in addition to adding encoding support for unsupported types, usually we\u0027ll not going to touch this file. Even if one of our encoding implementations is wrong, it is very easy to locate the problem and fix it.",
+      "parentUuid": "ba1763d0_2057a12b",
+      "revId": "8be04a6da41e88e8bfbc34ee365ea05f17e99d8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ec99a5fa_67ae7d46",
         "filename": "src/cmd/internal/obj/arm64/asm7.go",
         "patchSetId": 6

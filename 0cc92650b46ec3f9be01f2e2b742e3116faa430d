@@ -75,6 +75,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c92bd11f_76636541",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-04-26T03:57:48Z",
+      "side": 1,
+      "message": "Some answers, and I will reply to the rest of the questions when I modify the code. Thanks for you review ~",
+      "revId": "0cc92650b46ec3f9be01f2e2b742e3116faa430d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b9638b3c_ce9b1850",
@@ -105,6 +122,30 @@
       "writtenOn": "2022-04-25T22:27:34Z",
       "side": 1,
       "message": "Is this useful for anything?",
+      "range": {
+        "startLine": 1828,
+        "startChar": 0,
+        "endLine": 1835,
+        "endChar": 0
+      },
+      "revId": "0cc92650b46ec3f9be01f2e2b742e3116faa430d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42f1e851_1e58fe14",
+        "filename": "src/cmd/internal/obj/arm64/argsEnc.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1835,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-04-26T03:57:48Z",
+      "side": 1,
+      "message": "Yes, please refer to this example: https://go-review.googlesource.com/c/go/+/348510/1/src/cmd/internal/obj/arm64/argsEnc.go",
+      "parentUuid": "4bc7683a_8c417c36",
       "range": {
         "startLine": 1828,
         "startChar": 0,
