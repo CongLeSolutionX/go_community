@@ -36,6 +36,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0517f888_83bf8471",
+        "filename": "src/cmd/compile/internal/walk/compare.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-04-26T01:50:50Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "6662a13d_d699997f",
+      "revId": "122d5203986e00a9ba9b7f253ac6d64da70fd74a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e11bac17_049e05f6",
