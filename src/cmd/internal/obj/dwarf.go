@@ -284,6 +284,16 @@ func (c dwCtxt) CurrentOffset(s dwarf.Sym) int64 {
 	return ls.Size
 }
 
+func (c dwCtxt) LookupDwarfSymDupOk(name string) (s dwarf.Sym, exist bool) {
+	ds := c.Link.Lookup(dwarf.InfoPrefix + name)
+	if ds.Type == objabi.SDWARFTYPE {
+		return ds, true
+	}
+	ds.Set(AttrDuplicateOK, true)
+	ds.Type = objabi.SDWARFTYPE
+	return ds, false
+}
+
 func (c dwCtxt) LookupDwarfSym(name string) (s dwarf.Sym, exist bool) {
 	if len(name) != 0 {
 		ds := c.Link.Lookup(dwarf.InfoPrefix + name)
