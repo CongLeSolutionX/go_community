@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8212b150_fde27d53",
+        "filename": "src/cmd/asm/internal/asm/testdata/arm64.s",
+        "patchSetId": 8
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-04-26T12:25:46Z",
+      "side": 0,
+      "message": "Previously this is encoded as:\n ADD $(1\u003c\u003c12), RSP, R1\n ADD $2, R1, R1\n\nNow it\u0027s:\n ADD $2, RSP, R1\n ADD $(1\u003c\u003c12), R1, R1\n\nI forgot to modify these cases, I\u0027ll do it in the next patch set.",
+      "range": {
+        "startLine": 395,
+        "startChar": 1,
+        "endLine": 395,
+        "endChar": 23
+      },
+      "revId": "96c8cc7fea94dca8c9e23d9653157e960f2ff472",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
