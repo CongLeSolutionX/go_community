@@ -20,8 +20,8 @@ func TestBatched(t *testing.T) {
 	}, 5)
 
 	p := make([]byte, 13)
-	if !fillBatched(p) {
-		t.Fatal("batched function returned false")
+	if err := fillBatched(p); err != nil {
+		t.Fatalf("batched function returned error: %s", err)
 	}
 	expected := []byte{0, 1, 2, 3, 4, 0, 1, 2, 3, 4, 0, 1, 2}
 	if !bytes.Equal(expected, p) {
@@ -29,16 +29,64 @@ func TestBatched(t *testing.T) {
 	}
 }
 
+<<<<<<< HEAD   (8ed0e5 [release-branch.go1.18] go1.18.2)
+=======
+func TestBatchedBuffering(t *testing.T) {
+	var prandSeed [8]byte
+	Read(prandSeed[:])
+	prand.Seed(int64(binary.LittleEndian.Uint64(prandSeed[:])))
+
+	backingStore := make([]byte, 1<<23)
+	prand.Read(backingStore)
+	backingMarker := backingStore[:]
+	output := make([]byte, len(backingStore))
+	outputMarker := output[:]
+
+	fillBatched := batched(func(p []byte) error {
+		n := copy(p, backingMarker)
+		backingMarker = backingMarker[n:]
+		return nil
+	}, 731)
+
+	for len(outputMarker) > 0 {
+		max := 9200
+		if max > len(outputMarker) {
+			max = len(outputMarker)
+		}
+		howMuch := prand.Intn(max + 1)
+		if err := fillBatched(outputMarker[:howMuch]); err != nil {
+			t.Fatalf("batched function returned error: %s", err)
+		}
+		outputMarker = outputMarker[howMuch:]
+	}
+	if !bytes.Equal(backingStore, output) {
+		t.Error("incorrect batch result")
+	}
+}
+
+>>>>>>> CHANGE (bb1f44 crypto/rand: properly handle large Read on windows)
 func TestBatchedError(t *testing.T) {
+<<<<<<< HEAD   (8ed0e5 [release-branch.go1.18] go1.18.2)
 	b := batched(func(p []byte) bool { return false }, 5)
 	if b(make([]byte, 13)) {
 		t.Fatal("batched function should have returned false")
+=======
+	b := batched(func(p []byte) error { return errors.New("failure") }, 5)
+	if b(make([]byte, 13)) == nil {
+		t.Fatal("batched function should have returned an error")
+>>>>>>> CHANGE (bb1f44 crypto/rand: properly handle large Read on windows)
 	}
 }
 
 func TestBatchedEmpty(t *testing.T) {
+<<<<<<< HEAD   (8ed0e5 [release-branch.go1.18] go1.18.2)
 	b := batched(func(p []byte) bool { return false }, 5)
 	if !b(make([]byte, 0)) {
 		t.Fatal("empty slice should always return true")
+=======
+	b := batched(func(p []byte) error { return errors.New("failure") }, 5)
+	if b(make([]byte, 0)) != nil {
+		t.Fatal("empty slice should always return successful")
+>>>>>>> CHANGE (bb1f44 crypto/rand: properly handle large Read on windows)
 	}
 }
