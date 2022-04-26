@@ -469,7 +469,7 @@ sigtrampnog:
 // https://sourceware.org/git/?p=glibc.git;a=blob;f=sysdeps/unix/sysv/linux/x86_64/sigaction.c
 // The code that cares about the precise instructions used is:
 // https://gcc.gnu.org/viewcvs/gcc/trunk/libgcc/config/i386/linux-unwind.h?revision=219188&view=markup
-TEXT runtime·sigreturn(SB),NOSPLIT,$0
+TEXT runtime·sigreturn(SB),NOSPLIT|TOPFRAME,$0
 	MOVQ	$SYS_rt_sigreturn, AX
 	SYSCALL
 	INT $3	// not reached

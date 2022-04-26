@@ -459,7 +459,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT,$28
 TEXT runtime·cgoSigtramp(SB),NOSPLIT,$0
 	JMP	runtime·sigtramp(SB)
 
-TEXT runtime·sigreturn(SB),NOSPLIT,$0
+TEXT runtime·sigreturn(SB),NOSPLIT|TOPFRAME,$0
 	MOVL	$SYS_rt_sigreturn, AX
 	// Sigreturn expects same SP as signal handler,
 	// so cannot CALL 0x10(GS) here.

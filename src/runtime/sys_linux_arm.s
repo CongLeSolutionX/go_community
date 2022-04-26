@@ -748,5 +748,5 @@ TEXT runtime·sbrk0(SB),NOSPLIT,$0-4
 	MOVW	R0, ret+0(FP)
 	RET
 
-TEXT runtime·sigreturn(SB),NOSPLIT,$0-0
+TEXT runtime·sigreturn(SB),NOSPLIT|TOPFRAME,$0-0
 	RET

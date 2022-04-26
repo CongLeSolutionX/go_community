@@ -269,7 +269,7 @@ TEXT runtime·sigfwd(SB),NOSPLIT,$0-32
 	BL	R5
 	RET
 
-TEXT runtime·sigreturn(SB),NOSPLIT,$0-0
+TEXT runtime·sigreturn(SB),NOSPLIT|TOPFRAME,$0-0
 	RET
 
 TEXT runtime·sigtramp(SB),NOSPLIT,$64

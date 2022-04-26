@@ -445,7 +445,7 @@ TEXT runtime·sigfwd(SB),NOSPLIT,$0-32
 	MOVD	24(R1), R2
 	RET
 
-TEXT runtime·sigreturn(SB),NOSPLIT,$0-0
+TEXT runtime·sigreturn(SB),NOSPLIT|TOPFRAME,$0-0
 	RET
 
 #ifdef GOARCH_ppc64le
