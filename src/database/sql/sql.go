@@ -1161,6 +1161,7 @@ func (db *DB) connectionCleanerRunLocked(d time.Duration) (time.Duration, []*dri
 // DBStats contains database statistics.
 type DBStats struct {
 	MaxOpenConnections int // Maximum number of open connections to the database.
+	MaxIdleConnections int // Maximum number of idle connections to the database.
 
 	// Pool Status
 	OpenConnections int // The number of established connections both in use and idle.
@@ -1184,6 +1185,7 @@ func (db *DB) Stats() DBStats {
 
 	stats := DBStats{
 		MaxOpenConnections: db.maxOpen,
+		MaxIdleConnections: db.maxIdleConnsLocked(),
 
 		Idle:            len(db.freeConn),
 		OpenConnections: db.numOpen,

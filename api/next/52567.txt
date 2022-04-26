@@ -1,0 +1,1 @@
+pkg database/sql, type DBStats struct, MaxIdleConnections int #52567
