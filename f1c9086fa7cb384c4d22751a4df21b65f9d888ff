@@ -146,6 +146,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ac1b45c9_c28bbf4b",
+        "filename": "src/cmd/asm/internal/asm/endtoend_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-04-26T12:17:19Z",
+      "side": 1,
+      "message": "At present, I still keep the current practice, because this way we can check more freely instead of checking whether an error has been reported before reporting an check error. If we really need to modify it, I will modify it later.",
+      "parentUuid": "c5d1d342_196bb1a8",
+      "revId": "f1c9086fa7cb384c4d22751a4df21b65f9d888ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7800a6e3_d0e61e6d",
         "filename": "src/cmd/internal/obj/link.go",
         "patchSetId": 4
@@ -253,6 +271,30 @@
       "side": 1,
       "message": "\u003e I still wonder why we need to do the expansion early, all we need is the size of the instruction\nThis is the root cause why we need to do the expansion early, because we don\u0027t know how many machine instructions a Prog corresponding to. If we don\u0027t know the size, we can\u0027t determine the PC of each instruction, then we can\u0027t handle branches, alignments. I know if we do the unfolding work just before encoding, then we don\u0027t need to save anything.\n\n\u003e I don\u0027t understand this. A relocation should always apply to an instruction, not part of it.\nYeah, my statement is wrong. I mean the relocation symbol may be Prog.From.Sym or Prog.To.Sym, so apart from the relocation type, we also need to record the symbol.",
       "parentUuid": "c115ddf1_316c4faa",
+      "range": {
+        "startLine": 322,
+        "startChar": 0,
+        "endLine": 353,
+        "endChar": 1
+      },
+      "revId": "f1c9086fa7cb384c4d22751a4df21b65f9d888ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3d05324_1afb9a4b",
+        "filename": "src/cmd/internal/obj/link.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-04-26T12:17:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1332a0e_c037b067",
       "range": {
         "startLine": 322,
         "startChar": 0,
