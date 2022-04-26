@@ -144,6 +144,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "781bd283_c2d4ed9f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-04-26T12:08:40Z",
+      "side": 1,
+      "message": "\u003e At beginning there are small helper functions. Should they be there?\nYes, they are helper function for unfolding.\n\u003e Let\u0027s move them later in a separate CL to make the diff smaller and review easier. \nDone",
+      "parentUuid": "3ba5db6e_997d5c1c",
+      "revId": "8be04a6da41e88e8bfbc34ee365ea05f17e99d8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c7244f58_19d7113a",
         "filename": "src/cmd/asm/internal/asm/testdata/arm64error.s",
         "patchSetId": 6
@@ -493,6 +511,30 @@
       "side": 1,
       "message": "Just say Reg. The C in C_REG is for \"Class\". No need to include \"C\".",
       "parentUuid": "6b4eeef7_4af9d5d7",
+      "range": {
+        "startLine": 15,
+        "startChar": 18,
+        "endLine": 15,
+        "endChar": 22
+      },
+      "revId": "8be04a6da41e88e8bfbc34ee365ea05f17e99d8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8421ef9e_6474456d",
+        "filename": "src/cmd/internal/obj/arm64/argsEnc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-04-26T12:08:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa087091_d1d7f6ac",
       "range": {
         "startLine": 15,
         "startChar": 18,
