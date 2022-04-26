@@ -16,6 +16,24 @@
       "message": "Thanks.  This kind of API change needs to go through the proposal process.  See https://go.dev/s/proposal-process.",
       "revId": "44833150071284727410419eeb36ef76807654b1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4817497c_547c5010",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-04-26T20:57:08Z",
+      "side": 1,
+      "message": "Oh, sorry, I see that you did file a proposal, never mind.",
+      "parentUuid": "8c20bff2_af2d34bd",
+      "revId": "44833150071284727410419eeb36ef76807654b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
