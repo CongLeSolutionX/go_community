@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab2c3251_63b2ae47",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6480
+      },
+      "writtenOn": "2022-04-26T07:35:02Z",
+      "side": 1,
+      "message": "Sorry. I got interrupted during my review. There are additional concerns.\n\nI agree with the last change to make the grammatical number agree and the change of \u0027place holder\u0027 to \u0027placeholder\u0027.",
+      "revId": "e875e68d12f55b8c01fcf8a3996906372fe107f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba59c75a_a4461452",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 6480
+      },
+      "writtenOn": "2022-04-26T07:35:02Z",
+      "side": 1,
+      "message": "I don\u0027t think this is necessary.",
+      "range": {
+        "startLine": 549,
+        "startChar": 0,
+        "endLine": 549,
+        "endChar": 3
+      },
+      "revId": "e875e68d12f55b8c01fcf8a3996906372fe107f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d1265d4_78d840c5",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 6480
+      },
+      "writtenOn": "2022-04-26T07:35:02Z",
+      "side": 1,
+      "message": "I don\u0027t believe this is correct with this change.",
+      "range": {
+        "startLine": 561,
+        "startChar": 80,
+        "endLine": 561,
+        "endChar": 86
+      },
+      "revId": "e875e68d12f55b8c01fcf8a3996906372fe107f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6edf7be1_f5f5bca3",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 5785,
+      "author": {
+        "id": 6480
+      },
+      "writtenOn": "2022-04-26T07:35:02Z",
+      "side": 1,
+      "message": "This incorrectly changes the semantics of the sentence. The sentence is describing the effect of the statements on the program flow. The new sentence describes an intrinsic property of the statement.",
+      "range": {
+        "startLine": 5785,
+        "startChar": 29,
+        "endLine": 5785,
+        "endChar": 39
+      },
+      "revId": "e875e68d12f55b8c01fcf8a3996906372fe107f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
