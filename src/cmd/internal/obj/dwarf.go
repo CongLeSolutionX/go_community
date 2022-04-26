@@ -287,6 +287,18 @@ func (c dwCtxt) CurrentOffset(s dwarf.Sym) int64 {
 	return ls.Size
 }
 
+// LookupDwarfSymDupOk creates a SDWARFTYPE sym, and report if it is already exist.
+// And the sym is marked dupok. It is used for "internal" types like "sudog<T>", "hash<K,V>"
+func (c dwCtxt) LookupDwarfSymDupOk(name string) (s dwarf.Sym, exist bool) {
+	ds := c.Link.Lookup(dwarf.InfoPrefix + name)
+	if ds.Type == objabi.SDWARFTYPE {
+		return ds, true
+	}
+	ds.Set(AttrDuplicateOK, true)
+	ds.Type = objabi.SDWARFTYPE
+	return ds, false
+}
+
 // LookupDwarfSym creates a SDWARFTYPE sym, and report if it is already exist.
 // For a nameless sym, it is only referenced by a typedef sym.
 func (c dwCtxt) LookupDwarfSym(name string) (s dwarf.Sym, exist bool) {
