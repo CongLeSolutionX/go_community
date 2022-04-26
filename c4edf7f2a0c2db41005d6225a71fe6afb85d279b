@@ -80,6 +80,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8203cfca_281f5c31",
+        "filename": "src/os/exec/exec_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-04-26T13:52:39Z",
+      "side": 1,
+      "message": "Turns out that `os.Getpid` returns an `int`, so just `strconv.Itoa` suffices.",
+      "parentUuid": "3d9913ed_7e859f6e",
+      "range": {
+        "startLine": 68,
+        "startChar": 32,
+        "endLine": 68,
+        "endChar": 48
+      },
+      "revId": "c4edf7f2a0c2db41005d6225a71fe6afb85d279b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "22b77fcc_12594f37",
@@ -97,6 +121,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ebbec7d_3543a812",
+        "filename": "src/os/exec/exec_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-04-26T13:52:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "22b77fcc_12594f37",
+      "revId": "c4edf7f2a0c2db41005d6225a71fe6afb85d279b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "01aad367_b834123f",
@@ -110,6 +152,24 @@
       "writtenOn": "2022-04-25T22:56:05Z",
       "side": 1,
       "message": "Should have doc comment.",
+      "revId": "c4edf7f2a0c2db41005d6225a71fe6afb85d279b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0b704b1_397e6853",
+        "filename": "src/os/exec/exec_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-04-26T13:52:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01aad367_b834123f",
       "revId": "c4edf7f2a0c2db41005d6225a71fe6afb85d279b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
