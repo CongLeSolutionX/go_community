@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "fdc10936_9d6a89be",
+        "filename": "src/runtime/mgcscavenge_test.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-04-26T01:01:09Z",
+      "side": 1,
+      "message": "nope, made them variables.",
+      "parentUuid": "ee9a3b53_2d308bc3",
+      "revId": "f42ceadb408143fb3d1223fa8853ae167f17cc5f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "a1cfb65e_77a1a26f",
         "filename": "src/runtime/mgcscavenge_test.go",
         "patchSetId": 23
@@ -31,6 +49,30 @@
       "writtenOn": "2022-04-22T20:30:20Z",
       "side": 1,
       "message": "nit: want",
+      "range": {
+        "startLine": 504,
+        "startChar": 13,
+        "endLine": 504,
+        "endChar": 21
+      },
+      "revId": "f42ceadb408143fb3d1223fa8853ae167f17cc5f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ddf3e2ce_a310d95d",
+        "filename": "src/runtime/mgcscavenge_test.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-04-26T01:01:09Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "a1cfb65e_77a1a26f",
       "range": {
         "startLine": 504,
         "startChar": 13,
@@ -54,6 +96,30 @@
       "writtenOn": "2022-04-22T20:30:20Z",
       "side": 1,
       "message": "certain",
+      "range": {
+        "startLine": 545,
+        "startChar": 34,
+        "endLine": 545,
+        "endChar": 41
+      },
+      "revId": "f42ceadb408143fb3d1223fa8853ae167f17cc5f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0ad7b29_b570228e",
+        "filename": "src/runtime/mgcscavenge_test.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-04-26T01:01:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a272b62_92f7700b",
       "range": {
         "startLine": 545,
         "startChar": 34,
