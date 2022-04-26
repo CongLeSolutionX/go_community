@@ -34,6 +34,24 @@
       "parentUuid": "992cd24e_6b788ca5",
       "revId": "96c8cc7fea94dca8c9e23d9653157e960f2ff472",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4d9d198_9cfdbfa4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-26T15:04:08Z",
+      "side": 1,
+      "message": "SGTM. Please be aware that the 1.19 freeze is May 7. It would be nice if we can get the CLs in before that and turn on regabi by default in 1.19. Thanks!",
+      "parentUuid": "1dd9b744_1e93c9ac",
+      "revId": "96c8cc7fea94dca8c9e23d9653157e960f2ff472",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
