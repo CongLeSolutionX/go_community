@@ -16,6 +16,24 @@
       "message": "This CL has been squashed into CL 390421 to reduce churn.",
       "revId": "33223a1a0294e51c70cd8fdd588b575f049b2332",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0600de53_7e56b32c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-04-27T16:44:09Z",
+      "side": 1,
+      "message": "Abandon this CL?",
+      "parentUuid": "145fc560_6b19cf4d",
+      "revId": "33223a1a0294e51c70cd8fdd588b575f049b2332",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
