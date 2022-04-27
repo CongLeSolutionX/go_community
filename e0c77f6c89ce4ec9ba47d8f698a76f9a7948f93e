@@ -305,6 +305,30 @@
       },
       "revId": "e0c77f6c89ce4ec9ba47d8f698a76f9a7948f93e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3722cf7c_5c2a3fdb",
+        "filename": "src/cmd/internal/objabi/reloctype.go",
+        "patchSetId": 25
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-04-27T04:07:14Z",
+      "side": 1,
+      "message": "It might be OK. Per the notes of the IsDirectCall function and JALR instruction takes the target address in register, so it is an indirect call. When r is R_MIPS_JALR, IsDirectCall should return false.\n```\n// IsDirectCall reports whether r is a relocation for a direct call.\n// A direct call is a CALL instruction that takes the target address\n// as an immediate. The address is embedded into the instruction, possibly\n// with limited width. An indirect call is a CALL instruction that takes\n// the target address in register or memory.\n```\n\u003e What does \"preempted\" mean here? \nThe preemted symbol is a concept at load time. There are some words to explain it:\nhttp://rsusu1.rnd.runnet.ru/linux/doc/c_ug/lin1004.htm\nI think it is similar as IsDirectCall.",
+      "parentUuid": "b7c5f278_fa3169a6",
+      "range": {
+        "startLine": 278,
+        "startChar": 0,
+        "endLine": 280,
+        "endChar": 12
+      },
+      "revId": "e0c77f6c89ce4ec9ba47d8f698a76f9a7948f93e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
