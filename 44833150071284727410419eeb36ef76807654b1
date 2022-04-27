@@ -34,6 +34,46 @@
       "parentUuid": "8c20bff2_af2d34bd",
       "revId": "44833150071284727410419eeb36ef76807654b1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5c2c690_dd99c49e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2022-04-27T12:05:50Z",
+      "side": 1,
+      "message": "I commented on the proposal as well.",
+      "revId": "44833150071284727410419eeb36ef76807654b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "139c1dc9_975dcc6e",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1188,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2022-04-27T12:05:50Z",
+      "side": 1,
+      "message": "I think it would be better to call: db.maxIdleConnsLocked()\n\nThere are situations where maxIdleCount can be set negative but the actual count is returned from this function.",
+      "range": {
+        "startLine": 1188,
+        "startChar": 22,
+        "endLine": 1188,
+        "endChar": 37
+      },
+      "revId": "44833150071284727410419eeb36ef76807654b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
