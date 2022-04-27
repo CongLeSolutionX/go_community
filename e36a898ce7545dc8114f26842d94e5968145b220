@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f16de0e_53323e1c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-04-27T20:05:15Z",
+      "side": 1,
+      "message": "Do we want to add tests for these to https://cs.opensource.google/go/go/+/master:src/cmd/compile/internal/test/inl_test.go? It would be unfortunate to regress on inlining these.",
+      "revId": "e36a898ce7545dc8114f26842d94e5968145b220",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0ffac4c0_e794c62a",
@@ -51,6 +68,131 @@
       "writtenOn": "2022-04-27T16:01:28Z",
       "side": 1,
       "message": "I am really failing at modifying the To and CC lines. Sorry for the noise!\n",
+      "revId": "e36a898ce7545dc8114f26842d94e5968145b220",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "361b9522_ce26a1a6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-04-27T20:05:15Z",
+      "side": 1,
+      "message": "LGTM, mainly test comments.\n\nI\u0027m not very familiar with that part of the compiler, so I suggest having Matthew review that as well.",
+      "revId": "e36a898ce7545dc8114f26842d94e5968145b220",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "941fedd7_ef56a590",
+        "filename": "src/sync/atomic/atomic_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-04-27T20:05:15Z",
+      "side": 1,
+      "message": "Can\u0027t this panic if x happens to be unaligned on the stack?\n\nPerhaps switch this to use Int64 so it isn\u0027t sensitive to alignment? Though TestStoreInt64 et. al don\u0027t do anything in particular to ensure alignment, so they will still need some kind of skip [1].\n\nOr can this go away entirely? Are there platforms that just flat out don\u0027t support 64-bit atomics at all? All the ones I\u0027m aware of (old arm) we still provide AddInt64, but implement it with locks internally.\n\n[1] I must be missing even more because I don\u0027t see why this function couldn\u0027t succeed because x happens to be aligned, but the test functions below fail because they happen to be unaligned.",
+      "revId": "e36a898ce7545dc8114f26842d94e5968145b220",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "853cf735_5cf29fb7",
+        "filename": "src/sync/atomic/atomic_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 1175,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-04-27T20:05:15Z",
+      "side": 1,
+      "message": "This should be TestLoadPointerMethod. We need to keep the test for LoadPointer itself.",
+      "revId": "e36a898ce7545dc8114f26842d94e5968145b220",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "38ab84e9_36386ca3",
+        "filename": "src/sync/atomic/atomic_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 2493,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-04-27T20:05:15Z",
+      "side": 1,
+      "message": "This technically doesn\u0027t check that the address of the field is actually 8-byte aligned. Perhaps also do a check on the address of the field itself?",
+      "revId": "e36a898ce7545dc8114f26842d94e5968145b220",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ce22af8_15c36cc8",
+        "filename": "src/sync/atomic/type.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-04-27T20:05:15Z",
+      "side": 1,
+      "message": "nit: this file is inconsistent about whether noCopy and align64 fields are named or note. We should be consistent.",
+      "range": {
+        "startLine": 60,
+        "startChar": 1,
+        "endLine": 60,
+        "endChar": 2
+      },
+      "revId": "e36a898ce7545dc8114f26842d94e5968145b220",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c4271cb_2000aac7",
+        "filename": "src/sync/atomic/type.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-04-27T20:05:15Z",
+      "side": 1,
+      "message": "Nothing to do here, but I\u0027ve realized that since we don\u0027t provide an official mechanism to request 64-bit alignment, use of these atomic types will likely become a preferred workaround for other types that need 64-bit alignment. e.g.,\n\n  type foo struct {\n    _ atomic.Uint64 // force 64-bit alignment\n    fieldsICareAbout int32\n    ...\n  }\n  \nNot to say this is bad: it is a significant improvement over the existing workaround I\u0027ve seen of allocating a larger byte slice, finding an aligned offset, and unsafe casting to the desired type.",
+      "revId": "e36a898ce7545dc8114f26842d94e5968145b220",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c860f44_c3684fdc",
+        "filename": "src/sync/atomic/type.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-04-27T20:05:15Z",
+      "side": 1,
+      "message": "Add a note that this works via a special case in the compiler?\n\nIn particular, perhaps note that this will _not_ work if this file is copied to another package (unlike the rest of this file, modulo converting LoadInt32 -\u003e atomic.LoadInt32 etc).",
       "revId": "e36a898ce7545dc8114f26842d94e5968145b220",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
