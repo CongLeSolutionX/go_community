@@ -16,6 +16,7 @@ import (
 	"cmd/go/internal/fsys"
 	"cmd/go/internal/imports"
 	"cmd/go/internal/search"
+	"cmd/go/internal/trace"
 
 	"golang.org/x/mod/module"
 )
@@ -31,6 +32,9 @@ const (
 // a global) for tags, can include or exclude packages in the standard library,
 // and is restricted to the given list of modules.
 func matchPackages(ctx context.Context, m *search.Match, tags map[string]bool, filter stdFilter, modules []module.Version) {
+	ctx, span := trace.StartSpan(ctx, "modload.matchPackages")
+	defer span.Done()
+
 	m.Pkgs = []string{}
 
 	isMatch := func(string) bool { return true }
@@ -54,6 +58,9 @@ func matchPackages(ctx context.Context, m *search.Match, tags map[string]bool, f
 	)
 
 	walkPkgs := func(root, importPathRoot string, prune pruning) {
+		ctx, span := trace.StartSpan(ctx, "walkPkgs "+root)
+		defer span.Done()
+
 		root = filepath.Clean(root)
 		err := fsys.Walk(root, func(path string, fi fs.FileInfo, err error) error {
 			if err != nil {
@@ -107,7 +114,7 @@ func matchPackages(ctx context.Context, m *search.Match, tags map[string]bool, f
 			if !have[name] {
 				have[name] = true
 				if isMatch(name) {
-					if _, _, err := scanDir(path, tags); err != imports.ErrNoGo {
+					if _, _, err := scanDir(ctx, path, tags); err != imports.ErrNoGo {
 						m.Pkgs = append(m.Pkgs, name)
 					}
 				}
@@ -208,7 +215,7 @@ func MatchInModule(ctx context.Context, pattern string, m module.Version, tags m
 		return match
 	}
 	if haveGoFiles {
-		if _, _, err := scanDir(dir, tags); err != imports.ErrNoGo {
+		if _, _, err := scanDir(ctx, dir, tags); err != imports.ErrNoGo {
 			// ErrNoGo indicates that the directory is not actually a Go package,
 			// perhaps due to the tags in use. Any other non-nil error indicates a
 			// problem with one or more of the Go source files, but such an error does
