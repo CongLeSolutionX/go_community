@@ -110,6 +110,7 @@ import (
 	"strings"
 	"sync"
 	"sync/atomic"
+	"time"
 
 	"cmd/go/internal/base"
 	"cmd/go/internal/cfg"
@@ -121,6 +122,7 @@ import (
 	"cmd/go/internal/par"
 	"cmd/go/internal/search"
 	"cmd/go/internal/str"
+	"cmd/go/internal/trace"
 
 	"golang.org/x/mod/module"
 	"golang.org/x/mod/semver"
@@ -240,6 +242,9 @@ type PackageOpts struct {
 // LoadPackages identifies the set of packages matching the given patterns and
 // loads the packages in the import graph rooted at that set.
 func LoadPackages(ctx context.Context, opts PackageOpts, patterns ...string) (matches []*search.Match, loadedPackages []string) {
+	ctx, span := trace.StartSpan(ctx, "loadPackages "+strings.Join(patterns, " "))
+	defer span.Done()
+
 	if opts.Tags == nil {
 		opts.Tags = imports.Tags()
 	}
@@ -255,9 +260,12 @@ func LoadPackages(ctx context.Context, opts PackageOpts, patterns ...string) (ma
 	}
 
 	updateMatches := func(rs *Requirements, ld *loader) {
+		ctx, span := trace.StartSpan(ctx, "updateMatches "+strings.Join(patterns, " "))
+		defer span.Done()
 		for _, m := range matches {
 			switch {
 			case m.IsLocal():
+				ctx, span := trace.StartSpan(ctx, "islocal "+strings.Join(patterns, " "))
 				// Evaluate list of file system directories on first iteration.
 				if m.Dirs == nil {
 					matchModRoots := modRoots
@@ -294,6 +302,7 @@ func LoadPackages(ctx context.Context, opts PackageOpts, patterns ...string) (ma
 					}
 					m.Pkgs = append(m.Pkgs, pkg)
 				}
+				span.Done()
 
 			case m.IsLiteral():
 				m.Pkgs = []string{m.Pattern()}
@@ -321,11 +330,15 @@ func LoadPackages(ctx context.Context, opts PackageOpts, patterns ...string) (ma
 					if opts.MainModule != (module.Version{}) {
 						matchModules = []module.Version{opts.MainModule}
 					}
+					ctx, span := trace.StartSpan(ctx, "matchpackages")
 					matchPackages(ctx, m, opts.Tags, omitStd, matchModules)
+					span.Done()
 				} else {
 					// Starting with the packages in the main module,
 					// enumerate the full list of "all".
+					ctx, span = trace.StartSpan(ctx, "computepatternall")
 					m.Pkgs = ld.computePatternAll()
+					span.Done()
 				}
 
 			case m.Pattern() == "std" || m.Pattern() == "cmd":
@@ -1004,6 +1017,8 @@ var errMissing = errors.New("cannot find package")
 // expanded to the full set of packages by tracing imports (and possibly tests)
 // as needed.
 func loadFromRoots(ctx context.Context, params loaderParams) *loader {
+	ctx, span := trace.StartSpan(ctx, "loadFromRoots")
+	defer span.Done()
 	ld := &loader{
 		loaderParams: params,
 		work:         par.NewQueue(runtime.GOMAXPROCS(0)),
@@ -1062,6 +1077,7 @@ func loadFromRoots(ctx context.Context, params loaderParams) *loader {
 	}
 
 	for {
+
 		ld.reset()
 
 		// Load the root packages and their imports.
@@ -1088,6 +1104,8 @@ func loadFromRoots(ctx context.Context, params loaderParams) *loader {
 			}
 		}
 
+		_, span2 := trace.StartSpan(ctx, "load the root packages")
+
 		inRoots := map[*loadPkg]bool{}
 		for _, path := range rootPkgs {
 			root := ld.pkg(ctx, path, pkgIsRoot)
@@ -1103,6 +1121,7 @@ func loadFromRoots(ctx context.Context, params loaderParams) *loader {
 		// When all of the work in the queue has completed, we'll know that the
 		// transitive closure of dependencies has been loaded.
 		<-ld.work.Idle()
+		span2.Done()
 
 		ld.buildStacks()
 
@@ -1170,7 +1189,11 @@ func loadFromRoots(ctx context.Context, params loaderParams) *loader {
 			panic(fmt.Sprintf("internal error: adding %v to module graph had no effect on root requirements (%v)", toAdd, rs.rootModules))
 		}
 		ld.requirements = rs
+		span.Done()
 	}
+	ctx, span2 := trace.StartSpan(ctx, "loadfromrootsE")
+	defer span2.Done()
+
 	base.ExitIfErrors() // TODO(bcmills): Is this actually needed?
 
 	// Tidy the build list, if applicable, before we report errors.
@@ -1426,6 +1449,9 @@ func (ld *loader) updateRequirements(ctx context.Context) (changed bool, err err
 // resolveMissingImports returns a map from each new module version to
 // the first missing package that module would resolve.
 func (ld *loader) resolveMissingImports(ctx context.Context) (modAddedBy map[module.Version]*loadPkg) {
+	ctx, span := trace.StartSpan(ctx, "resolveMissingImports"+time.Now().String())
+	defer span.Done()
+
 	type pkgMod struct {
 		pkg *loadPkg
 		mod *module.Version
@@ -1608,6 +1634,9 @@ func (ld *loader) applyPkgFlags(ctx context.Context, pkg *loadPkg, flags loadPkg
 // selected version of each module providing a package in rootPkgs,
 // adding new root modules to the module graph if needed.
 func (ld *loader) preloadRootModules(ctx context.Context, rootPkgs []string) (changedBuildList bool) {
+	ctx, span := trace.StartSpan(ctx, "preloadrootmodules "+strings.Join(rootPkgs, " "))
+	defer span.Done()
+
 	needc := make(chan map[module.Version]bool, 1)
 	needc <- map[module.Version]bool{}
 	for _, path := range rootPkgs {
@@ -1735,7 +1764,7 @@ func (ld *loader) load(ctx context.Context, pkg *loadPkg) {
 		// We can't scan standard packages for gccgo.
 	} else {
 		var err error
-		imports, testImports, err = scanDir(pkg.dir, ld.Tags)
+		imports, testImports, err = scanDir(ctx, pkg.dir, ld.Tags)
 		if err != nil {
 			pkg.err = err
 			return
@@ -2107,10 +2136,11 @@ var useindex = os.Getenv("GOINDEX") == "true"
 // during "go vendor", we look into "// +build appengine" files and
 // may see these legacy imports. We drop them so that the module
 // search does not look for modules to try to satisfy them.
-func scanDir(dir string, tags map[string]bool) (imports_, testImports []string, err error) {
-	imports_, testImports, err = imports.ScanDir(dir, tags)
+func scanDir(ctx context.Context, dir string, tags map[string]bool) (imports_, testImports []string, err error) {
 	if useindex {
 		if mi, ok := modfetch.GetIndex(dir); ok {
+			_, span := trace.StartSpan(ctx, "scanDir (indexed)"+dir)
+			defer span.Done()
 			imports_, testImports, err = mi.ScanDir(dir, tags)
 			goto Happy
 		} else if rp := modindex.IndexedPackage(dir); rp != nil {
@@ -2120,6 +2150,10 @@ func scanDir(dir string, tags map[string]bool) (imports_, testImports []string, 
 	}
 	if useindex && strings.HasPrefix(dir, cfg.GOMODCACHE) {
 		panic("this should be handled by mi.ImportPackage" + dir)
+	}
+	{
+		_, span := trace.StartSpan(ctx, "scanDir (reg.)"+dir)
+		defer span.Done()
 	}
 	imports_, testImports, err = imports.ScanDir(dir, tags)
 Happy:
