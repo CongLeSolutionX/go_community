@@ -2682,11 +2682,15 @@ type PackageOpts struct {
 	// LoadVCS controls whether we also load version-control metadata for main packages.
 	LoadVCS bool
 
-	// NeedDepsFields is true if the caller does not need Deps and DepsErrors to be populated
+	// SuppressDeps is true if the caller does not need Deps and DepsErrors to be populated
 	// on the package. TestPackagesAndErrors examines the  Deps field to determine if the test
 	// variant has an import cycle, so SuppressDeps should not be set if TestPackagesAndErrors
 	// will be called on the package.
 	SuppressDeps bool
+
+	// SuppressBuildInfo is true if the caller does p.Stale, p.StaleReason, or p.Internal.BuildInfo
+	// to be populated on the package.
+	SuppressBuildInfo bool
 }
 
 // PackagesAndErrors returns the packages named by the command line arguments
