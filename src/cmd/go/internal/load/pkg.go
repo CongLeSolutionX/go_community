@@ -687,6 +687,9 @@ func LoadImport(ctx context.Context, opts PackageOpts, path, srcDir string, pare
 }
 
 func loadImport(ctx context.Context, opts PackageOpts, pre *preload, path, srcDir string, parent *Package, stk *ImportStack, importPos []token.Position, mode int) *Package {
+	ctx, span := trace.StartSpan(ctx, "loadImport "+path)
+	defer span.Done()
+
 	if path == "" {
 		panic("LoadImport called with empty package path")
 	}
@@ -804,6 +807,9 @@ var useindex = os.Getenv("GOINDEX") == "true"
 // loadPackageData returns a boolean, loaded, which is true if this is the
 // first time the package was loaded. Callers may preload imports in this case.
 func loadPackageData(ctx context.Context, path, parentPath, parentDir, parentRoot string, parentIsStd bool, mode int) (bp *build.Package, loaded bool, err error) {
+	ctx, span := trace.StartSpan(ctx, "loadPkgData "+path)
+	defer span.Done()
+
 	if path == "" {
 		panic("loadPackageData called with empty package path")
 	}
@@ -1027,6 +1033,10 @@ func newPreload() *preload {
 // When preloadMatches returns, some packages may not be loaded yet, but
 // loadPackageData and loadImport are always safe to call.
 func (pre *preload) preloadMatches(ctx context.Context, opts PackageOpts, matches []*search.Match) {
+	ctx, span := trace.StartSpan(ctx, "preloadMatches")
+	defer span.Done()
+
+	ctx = trace.StartGoroutine(ctx)
 	for _, m := range matches {
 		for _, pkg := range m.Pkgs {
 			select {
@@ -1038,7 +1048,7 @@ func (pre *preload) preloadMatches(ctx context.Context, opts PackageOpts, matche
 					bp, loaded, err := loadPackageData(ctx, pkg, "", base.Cwd(), "", false, mode)
 					<-pre.sema
 					if bp != nil && loaded && err == nil && !opts.IgnoreImports {
-						pre.preloadImports(ctx, opts, bp.Imports, bp)
+						pre.preloadImports(context.Background(), opts, bp.Imports, bp)
 					}
 				}(pkg)
 			}
@@ -1050,6 +1060,9 @@ func (pre *preload) preloadMatches(ctx context.Context, opts PackageOpts, matche
 // When preloadImports returns, some packages may not be loaded yet,
 // but loadPackageData and loadImport are always safe to call.
 func (pre *preload) preloadImports(ctx context.Context, opts PackageOpts, imports []string, parent *build.Package) {
+	ctx, span := trace.StartSpan(ctx, "preloadImports "+fmt.Sprint(imports))
+	defer span.Done()
+
 	parentIsStd := parent.Goroot && parent.ImportPath != "" && search.IsStandardImportPath(parent.ImportPath)
 	for _, path := range imports {
 		if path == "C" || path == "unsafe" {
@@ -1716,6 +1729,8 @@ func (p *Package) DefaultExecName() string {
 // be the result of calling build.Context.Import.
 // stk contains the import stack, not including path itself.
 func (p *Package) load(ctx context.Context, opts PackageOpts, path string, stk *ImportStack, importPos []token.Position, bp *build.Package, err error) {
+	ctx, span := trace.StartSpan(ctx, "p.load "+path)
+	defer span.Done()
 	p.copyBuild(opts, bp)
 
 	// The localPrefix is the path we interpret ./ imports relative to,
@@ -1963,6 +1978,7 @@ func (p *Package) load(ctx context.Context, opts PackageOpts, path string, stk *
 	if !opts.SuppressDeps {
 		p.collectDeps()
 	}
+
 	if p.Error == nil && p.Name == "main" && !p.Internal.ForceLibrary && len(p.DepsErrors) == 0 && !opts.SuppressBuildInfo {
 		// TODO(bcmills): loading VCS metadata can be fairly slow.
 		// Consider starting this as a background goroutine and retrieving the result
@@ -2764,6 +2780,8 @@ func PackagesAndErrors(ctx context.Context, opts PackageOpts, patterns []string)
 	pre.preloadMatches(ctx, opts, matches)
 
 	for _, m := range matches {
+		ctx, span2 := trace.StartSpan(ctx, "match "+m.Pattern())
+
 		for _, pkg := range m.Pkgs {
 			if pkg == "" {
 				panic(fmt.Sprintf("ImportPaths returned empty package for pattern %s", m.Pattern()))
@@ -2802,6 +2820,7 @@ func PackagesAndErrors(ctx context.Context, opts PackageOpts, patterns []string)
 			}
 			pkgs = append(pkgs, p)
 		}
+		span2.Done()
 	}
 
 	if opts.MainOnly {
