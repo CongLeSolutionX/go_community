@@ -11,7 +11,6 @@ import (
 	"cmd/compile/internal/ir"
 	"cmd/compile/internal/typecheck"
 	"cmd/compile/internal/types"
-	"fmt"
 	"math/bits"
 	"sort"
 )
@@ -130,16 +129,48 @@ func EqStruct(t *types.Type, np, nq ir.Node) []ir.Node {
 
 		// Find maximal length run of memory-only fields.
 		size, next := Memrun(t, i)
+		// Do not call runtime functions for short blocks of memory.
+		// At first, check if a platform supports unaligned loads.
+		// If so, we can merge short memory fields and compare them inline.
+		if base.Ctxt.Arch.Alignment == 1 && size <= 16 {
+			// TODO(rsc): All the calls to newname are wrong for
+			// cross-package unexported fields.
+			nx := ir.NewSelectorExpr(base.Pos, ir.OXDOT, np, fields[i].Sym)
+			ny := ir.NewSelectorExpr(base.Pos, ir.OXDOT, nq, fields[i].Sym)
 
-		// TODO(rsc): All the calls to newname are wrong for
-		// cross-package unexported fields.
-		if s := fields[i:next]; len(s) <= 2 {
-			// Two or fewer fields: use plain field equality.
+			for offset := int64(0); offset < size; {
+				offsetptrx := ir.NewBinaryExpr(base.Pos, ir.OUNSAFEADD, nodePtr(nx), ir.NewInt(offset))
+				offsetptry := ir.NewBinaryExpr(base.Pos, ir.OUNSAFEADD, nodePtr(ny), ir.NewInt(offset))
+
+				left := size - offset
+				var typ types.Kind
+				if types.PtrSize >= 8 && left >= 8 {
+					typ = types.TUINT64
+					offset += 8
+				} else if left >= 4 {
+					typ = types.TUINT32
+					offset += 4
+				} else if left >= 2 {
+					typ = types.TUINT16
+					offset += 2
+				} else if left >= 1 {
+					typ = types.TUINT8
+					offset += 1
+				}
+
+				xptr := typecheck.ConvNop(offsetptrx, types.NewPtr(types.Types[typ]))
+				yptr := typecheck.ConvNop(offsetptry, types.NewPtr(types.Types[typ]))
+
+				and(ir.NewBinaryExpr(base.Pos, ir.OEQ, ir.NewStarExpr(base.Pos, xptr), ir.NewStarExpr(base.Pos, yptr)))
+			}
+		} else if s := fields[i:next]; len(s) <= 2 {
+			// If a platform does not support unaligned loads and
+			// there are two or fewer fields: use plain field equality.
 			for _, f := range s {
 				and(eqfield(np, nq, ir.OEQ, f.Sym))
 			}
 		} else {
-			// More than two fields: use memequal.
+			// Can not perform comparison inline: use memequal.
 			cc := eqmem(np, nq, f.Sym, size)
 			and(cc)
 		}
@@ -241,32 +272,20 @@ func eqfield(p ir.Node, q ir.Node, op ir.Op, field *types.Sym) ir.Node {
 
 // eqmem returns the node
 //
-//	memequal(&p.field, &q.field, size])
+//	memequal(&p.field, &q.field, size)
 func eqmem(p ir.Node, q ir.Node, field *types.Sym, size int64) ir.Node {
 	nx := typecheck.Expr(typecheck.NodAddr(ir.NewSelectorExpr(base.Pos, ir.OXDOT, p, field)))
 	ny := typecheck.Expr(typecheck.NodAddr(ir.NewSelectorExpr(base.Pos, ir.OXDOT, q, field)))
 
-	fn, needsize := eqmemfunc(size, nx.Type().Elem())
+	fn := typecheck.SubstArgTypes(typecheck.LookupRuntime("memequal"), nx.Type().Elem(), ny.Type().Elem())
 	call := ir.NewCallExpr(base.Pos, ir.OCALL, fn, nil)
 	call.Args.Append(nx)
 	call.Args.Append(ny)
-	if needsize {
-		call.Args.Append(ir.NewInt(size))
-	}
+	call.Args.Append(ir.NewInt(size))
 
 	return call
 }
 
-func eqmemfunc(size int64, t *types.Type) (fn *ir.Name, needsize bool) {
-	switch size {
-	default:
-		fn = typecheck.LookupRuntime("memequal")
-		needsize = true
-	case 1, 2, 4, 8, 16:
-		buf := fmt.Sprintf("memequal%d", int(size)*8)
-		fn = typecheck.LookupRuntime(buf)
-	}
-
-	fn = typecheck.SubstArgTypes(fn, t, t)
-	return fn, needsize
+func nodePtr(n ir.Node) ir.Node {
+	return typecheck.ConvNop(typecheck.NodAddr(n), types.Types[types.TUNSAFEPTR])
 }
