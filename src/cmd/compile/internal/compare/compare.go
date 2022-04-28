@@ -84,72 +84,107 @@ func EqCanPanic(t *types.Type) bool {
 // Conditions must be evaluated in the returned order and
 // properly short circuited by the caller.
 func EqStruct(t *types.Type, np, nq ir.Node) []ir.Node {
+	// Do recursive extraction only for short enough structs so the
+	// overall amount of conditions will not get large.
+	recursive := t.NumComponents(types.IgnoreBlankFields) <= 8
 	// The conditions are a list-of-lists. Conditions are reorderable
 	// within each inner list. The outer lists must be evaluated in order.
-	var conds [][]ir.Node
-	conds = append(conds, []ir.Node{})
-	and := func(n ir.Node) {
-		i := len(conds) - 1
-		conds[i] = append(conds[i], n)
+	var getListOfConditions func(t *types.Type, np ir.Node, nq ir.Node) [][]ir.Node
+	getListOfConditions = func(t *types.Type, np ir.Node, nq ir.Node) [][]ir.Node {
+		var conds [][]ir.Node
+		conds = append(conds, []ir.Node{})
+		and := func(n ir.Node) {
+			i := len(conds) - 1
+			conds[i] = append(conds[i], n)
+		}
+		// Merges conds list with another conds list.
+		merge := func(mergeConds [][]ir.Node) {
+			// Skip structures that consists only of blank fields.
+			if len(mergeConds) == 0 {
+				return
+			}
+			// Here we can append the first list of conditions of a structure
+			// that is being merged to the current list of the current structure.
+			i := len(conds) - 1
+			conds[i] = append(conds[i], mergeConds[0]...)
+			// Append the rest of condition lists separetely to keep the correct ordering.
+			conds = append(conds, mergeConds[1:]...)
+		}
+
+		// Walk the struct using memequal for runs of AMEM
+		// and calling specific equality tests for the others.
+		for i, fields := 0, t.FieldSlice(); i < len(fields); {
+			f := fields[i]
+
+			// Skip blank-named fields.
+			if f.Sym.IsBlank() {
+				i++
+				continue
+			}
+
+			// Compare non-memory fields with field equality.
+			if !IsRegularMemory(f.Type) {
+				needEnforceOrdering := true
+				// For structs that are going to be expanded recursively
+				// we do not start a new list of reordarable conditions since
+				// the ordering will be already maintained by a recursive call.
+				if f.Type.Kind() == types.TSTRUCT && recursive {
+					needEnforceOrdering = false
+				}
+				if needEnforceOrdering && EqCanPanic(f.Type) {
+					// Enforce ordering by starting a new set of reorderable conditions.
+					conds = append(conds, []ir.Node{})
+				}
+				p := ir.NewSelectorExpr(base.Pos, ir.OXDOT, np, f.Sym)
+				q := ir.NewSelectorExpr(base.Pos, ir.OXDOT, nq, f.Sym)
+				switch {
+				case f.Type.IsStruct():
+					if recursive {
+						// Recursively extract conditions from nested structures.
+						nestedConds := getListOfConditions(f.Type, p, q)
+						// Merge result condition list of a nested structure with the
+						// current structure condition list.
+						merge(nestedConds)
+					} else {
+						and(ir.NewBinaryExpr(base.Pos, ir.OEQ, p, q))
+					}
+				case f.Type.IsString():
+					eqlen, eqmem := EqString(p, q)
+					and(eqlen)
+					and(eqmem)
+				default:
+					and(ir.NewBinaryExpr(base.Pos, ir.OEQ, p, q))
+				}
+				if needEnforceOrdering && EqCanPanic(f.Type) {
+					// Also enforce ordering after something that can panic.
+					conds = append(conds, []ir.Node{})
+				}
+				i++
+				continue
+			}
+
+			// Find maximal length run of memory-only fields.
+			size, next := Memrun(t, i)
+
+			// TODO(rsc): All the calls to newname are wrong for
+			// cross-package unexported fields.
+			if s := fields[i:next]; len(s) <= 2 {
+				// Two or fewer fields: use plain field equality.
+				for _, f := range s {
+					and(eqfield(np, nq, ir.OEQ, f.Sym))
+				}
+			} else {
+				// More than two fields: use memequal.
+				and(eqmem(np, nq, f.Sym, size))
+			}
+			i = next
+		}
+		return conds
 	}
-
-	// Walk the struct using memequal for runs of AMEM
-	// and calling specific equality tests for the others.
-	for i, fields := 0, t.FieldSlice(); i < len(fields); {
-		f := fields[i]
-
-		// Skip blank-named fields.
-		if f.Sym.IsBlank() {
-			i++
-			continue
-		}
-
-		// Compare non-memory fields with field equality.
-		if !IsRegularMemory(f.Type) {
-			if EqCanPanic(f.Type) {
-				// Enforce ordering by starting a new set of reorderable conditions.
-				conds = append(conds, []ir.Node{})
-			}
-			p := ir.NewSelectorExpr(base.Pos, ir.OXDOT, np, f.Sym)
-			q := ir.NewSelectorExpr(base.Pos, ir.OXDOT, nq, f.Sym)
-			switch {
-			case f.Type.IsString():
-				eqlen, eqmem := EqString(p, q)
-				and(eqlen)
-				and(eqmem)
-			default:
-				and(ir.NewBinaryExpr(base.Pos, ir.OEQ, p, q))
-			}
-			if EqCanPanic(f.Type) {
-				// Also enforce ordering after something that can panic.
-				conds = append(conds, []ir.Node{})
-			}
-			i++
-			continue
-		}
-
-		// Find maximal length run of memory-only fields.
-		size, next := Memrun(t, i)
-
-		// TODO(rsc): All the calls to newname are wrong for
-		// cross-package unexported fields.
-		if s := fields[i:next]; len(s) <= 2 {
-			// Two or fewer fields: use plain field equality.
-			for _, f := range s {
-				and(eqfield(np, nq, ir.OEQ, f.Sym))
-			}
-		} else {
-			// More than two fields: use memequal.
-			cc := eqmem(np, nq, f.Sym, size)
-			and(cc)
-		}
-		i = next
-	}
-
 	// Sort conditions to put runtime calls last.
 	// Preserve the rest of the ordering.
 	var flatConds []ir.Node
-	for _, c := range conds {
+	for _, c := range getListOfConditions(t, np, nq) {
 		isCall := func(n ir.Node) bool {
 			return n.Op() == ir.OCALL || n.Op() == ir.OCALLFUNC
 		}
