@@ -84,6 +84,54 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b201db6e_f72da8d8",
+        "filename": "src/internal/coverage/pkid.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-04-28T14:11:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a1ff7af_d4f03968",
+      "range": {
+        "startLine": 18,
+        "startChar": 3,
+        "endLine": 18,
+        "endChar": 14
+      },
+      "revId": "2abdf89118d1901260936161255e06ce088d44cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "83f781db_877f7cdf",
+        "filename": "src/internal/coverage/pkid.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-04-28T14:11:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c413e21_2308e8b4",
+      "range": {
+        "startLine": 18,
+        "startChar": 19,
+        "endLine": 18,
+        "endChar": 27
+      },
+      "revId": "2abdf89118d1901260936161255e06ce088d44cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "935e4f58_791d0615",
@@ -97,6 +145,30 @@
       "writtenOn": "2022-04-28T01:03:03Z",
       "side": 1,
       "message": "this might need package documentation?\n\nalso, are these exported but internal-only? if so, please document that.",
+      "range": {
+        "startLine": 61,
+        "startChar": 6,
+        "endLine": 61,
+        "endChar": 18
+      },
+      "revId": "2abdf89118d1901260936161255e06ce088d44cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f2b2237_778b7d0e",
+        "filename": "src/internal/coverage/pkid.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-04-28T14:11:40Z",
+      "side": 1,
+      "message": "Yes, exported but internal only for now.  I\u0027ll add a blurb to this effect.",
+      "parentUuid": "935e4f58_791d0615",
       "range": {
         "startLine": 61,
         "startChar": 6,
@@ -130,6 +202,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2228718_bda81a89",
+        "filename": "src/internal/coverage/pkid.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-04-28T14:11:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e995369_174d3571",
+      "range": {
+        "startLine": 63,
+        "startChar": 2,
+        "endLine": 63,
+        "endChar": 4
+      },
+      "revId": "2abdf89118d1901260936161255e06ce088d44cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "81a8991a_80326306",
@@ -143,6 +239,30 @@
       "writtenOn": "2022-04-28T01:12:55Z",
       "side": 1,
       "message": "nit: p",
+      "range": {
+        "startLine": 10,
+        "startChar": 58,
+        "endLine": 10,
+        "endChar": 59
+      },
+      "revId": "2abdf89118d1901260936161255e06ce088d44cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d0f9d47_83976c2d",
+        "filename": "src/runtime/covermeta.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-04-28T14:11:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81a8991a_80326306",
       "range": {
         "startLine": 10,
         "startChar": 58,
@@ -176,6 +296,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2048f84_eb32e9cd",
+        "filename": "src/runtime/covermeta.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-04-28T14:11:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4187bae5_4b9601a4",
+      "range": {
+        "startLine": 11,
+        "startChar": 23,
+        "endLine": 11,
+        "endChar": 26
+      },
+      "revId": "2abdf89118d1901260936161255e06ce088d44cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b8bf126c_22ee5d32",
@@ -189,6 +333,30 @@
       "writtenOn": "2022-04-28T01:12:55Z",
       "side": 1,
       "message": "nit: hash",
+      "range": {
+        "startLine": 12,
+        "startChar": 4,
+        "endLine": 12,
+        "endChar": 8
+      },
+      "revId": "2abdf89118d1901260936161255e06ce088d44cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9e642f4_ae730560",
+        "filename": "src/runtime/covermeta.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-04-28T14:11:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8bf126c_22ee5d32",
       "range": {
         "startLine": 12,
         "startChar": 4,
@@ -222,6 +390,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "839009ed_20bc102a",
+        "filename": "src/runtime/covermeta.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-04-28T14:11:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d480fd36_ba31750b",
+      "range": {
+        "startLine": 13,
+        "startChar": 5,
+        "endLine": 13,
+        "endChar": 16
+      },
+      "revId": "2abdf89118d1901260936161255e06ce088d44cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "39b3541c_6689b216",
@@ -235,6 +427,30 @@
       "writtenOn": "2022-04-28T01:03:03Z",
       "side": 1,
       "message": "nit: covMetaList",
+      "range": {
+        "startLine": 24,
+        "startChar": 4,
+        "endLine": 24,
+        "endChar": 15
+      },
+      "revId": "2abdf89118d1901260936161255e06ce088d44cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbd7907b_28579d52",
+        "filename": "src/runtime/covermeta.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-04-28T14:11:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39b3541c_6689b216",
       "range": {
         "startLine": 24,
         "startChar": 4,
@@ -268,6 +484,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "94621feb_3f359961",
+        "filename": "src/runtime/covermeta.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-04-28T14:11:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5720e18_97882c61",
+      "range": {
+        "startLine": 28,
+        "startChar": 4,
+        "endLine": 28,
+        "endChar": 13
+      },
+      "revId": "2abdf89118d1901260936161255e06ce088d44cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8ddb9d0a_4c6e61ce",
@@ -281,6 +521,30 @@
       "writtenOn": "2022-04-28T01:03:03Z",
       "side": 1,
       "message": "nit: covHardcodedListNeedsUpdated?\n\nmaybe just to namespace it a little bit better.\n\nalternatively, maybe these top-level variables can go into a struct? like:\n\n```\nvar coverage struct{\n    metaList                  []covmetablob\n    pkgMap                    map[int]int\n    hardcodedListNeedsUpdated bool\n}\n```",
+      "range": {
+        "startLine": 30,
+        "startChar": 4,
+        "endLine": 30,
+        "endChar": 30
+      },
+      "revId": "2abdf89118d1901260936161255e06ce088d44cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1caa1ac7_1ed08d2a",
+        "filename": "src/runtime/covermeta.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-04-28T14:11:40Z",
+      "side": 1,
+      "message": "I\u0027ll collect the variables into a struct, that seems like a good idea.",
+      "parentUuid": "8ddb9d0a_4c6e61ce",
       "range": {
         "startLine": 30,
         "startChar": 4,
@@ -314,6 +578,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a90b18c_9b790005",
+        "filename": "src/runtime/covermeta.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-04-28T14:11:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a55c197_ace8a1e2",
+      "range": {
+        "startLine": 32,
+        "startChar": 11,
+        "endLine": 32,
+        "endChar": 19
+      },
+      "revId": "2abdf89118d1901260936161255e06ce088d44cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2daedcde_c37ea7bb",
@@ -337,6 +625,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f0a26a9_10f43077",
+        "filename": "src/runtime/covermeta.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-04-28T14:11:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2daedcde_c37ea7bb",
+      "range": {
+        "startLine": 56,
+        "startChar": 5,
+        "endLine": 56,
+        "endChar": 15
+      },
+      "revId": "2abdf89118d1901260936161255e06ce088d44cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0763d23e_294d2120",
@@ -350,6 +662,30 @@
       "writtenOn": "2022-04-28T01:03:03Z",
       "side": 1,
       "message": "I think this \"fatal error\" bit might be redundant as it\u0027s automatically prefixed (if I remember correctly, maybe I was just imagining it)",
+      "range": {
+        "startLine": 72,
+        "startChar": 30,
+        "endLine": 72,
+        "endChar": 42
+      },
+      "revId": "2abdf89118d1901260936161255e06ce088d44cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2fa8f3ea_637ef59f",
+        "filename": "src/runtime/covermeta.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-04-28T14:11:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0763d23e_294d2120",
       "range": {
         "startLine": 72,
         "startChar": 30,
