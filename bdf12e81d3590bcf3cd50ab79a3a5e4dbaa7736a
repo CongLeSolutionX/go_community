@@ -70,6 +70,24 @@
       "message": "Maybe mention that this actually has an effect at the call site, if there\u0027s an immediate conversion of a pointer to uintptr.",
       "revId": "bdf12e81d3590bcf3cd50ab79a3a5e4dbaa7736a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd354c2d_e951a034",
+        "filename": "src/runtime/HACKING.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-04-28T16:15:45Z",
+      "side": 1,
+      "message": "This is unrelated to this CL. I think you meant CL 388095?\n\nI can send a follow-up CL. Do you mean something like \"Thus this extends lifetime at the call site if there is a conversion from pointer to uintptr.\"?",
+      "parentUuid": "fd057766_3769671f",
+      "revId": "bdf12e81d3590bcf3cd50ab79a3a5e4dbaa7736a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
