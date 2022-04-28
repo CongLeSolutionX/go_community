@@ -329,6 +329,30 @@
       },
       "revId": "e0c77f6c89ce4ec9ba47d8f698a76f9a7948f93e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00a251b1_fd089c38",
+        "filename": "src/cmd/internal/objabi/reloctype.go",
+        "patchSetId": 25
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-28T15:22:02Z",
+      "side": 1,
+      "message": "I understand that strictly speaking it is not a direct call in the hardware\u0027s perspective. IsDirectCall is used for the Go linker to build the call graph. Since we know the concrete call target, the Go linker can treat it as a direct call for that purpose. It doesn\u0027t actually matter how the call is made in hardware. I suggest you add it to IsDirectCall, with a comment explaining that it is not a hardware direct call but we know the call target and the linker can treat it as a direct call.\n\nThanks for the link. I think it mostly doesn\u0027t matter in the situation here (e.g. C code should never override a Go symbol). I think you can just remove \"which is not preempted\" in the comment.",
+      "parentUuid": "3722cf7c_5c2a3fdb",
+      "range": {
+        "startLine": 278,
+        "startChar": 0,
+        "endLine": 280,
+        "endChar": 12
+      },
+      "revId": "e0c77f6c89ce4ec9ba47d8f698a76f9a7948f93e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

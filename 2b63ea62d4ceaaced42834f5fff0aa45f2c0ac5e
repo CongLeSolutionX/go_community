@@ -146,6 +146,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4b7887d3_f151e0fd",
+        "filename": "src/cmd/internal/obj/mips/a.out.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-28T15:22:02Z",
+      "side": 1,
+      "message": "I was saying that let rewriteToUseGot handle \"CALL Sym\", rewrite it to use R25, also move the call to rewriteToUseGot later. Are you doing both?\n\nAnyway, the current approach of SYMBRA is okay. It is fine if you want to do it this way.",
+      "parentUuid": "b11bbcf7_d6f6ebc8",
+      "revId": "2b63ea62d4ceaaced42834f5fff0aa45f2c0ac5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5cf50af3_140380eb",
         "filename": "src/cmd/internal/obj/mips/a.out.go",
         "patchSetId": 21
