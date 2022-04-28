@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "404a1286_f11b067c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-04-28T16:10:28Z",
+      "side": 1,
+      "message": "Thanks for taking this on!\n",
+      "revId": "6fd50a026007ae3ea162118614b1b502833b4e69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1882d72a_e6030558",
+        "filename": "src/cmd/compile/internal/ssa/boundcheckelim.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-04-28T16:10:28Z",
+      "side": 1,
+      "message": "Most of our other bounds-check elimination happens in the prove pass. I get the feeling that this may be easier if integrated into that pass somehow.\n\nI\u0027m a bit confused as to the optimization you\u0027re attempting. When I write code like:\n\nfunc f(x [4]int) int {\n\treturn x[len(x)-2]\n}\n\nor\n\nfunc f(x []int) int {\n\tif len(x)\u003e4 {\n\t\treturn x[2]\n\t}\n\treturn 0\n}\n\nThe compiler already removes the bounds check. Only this one still has a bounds check in it:\n\nfunc f(x []int) int {\n\tif len(x)\u003e4 {\n\t\treturn x[len(x)-2]\n\t}\n\treturn 0\n}",
+      "revId": "6fd50a026007ae3ea162118614b1b502833b4e69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9c83be2_0be3e1b6",
+        "filename": "src/cmd/compile/internal/ssa/boundcheckelim.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-04-28T16:10:28Z",
+      "side": 1,
+      "message": "Normally our optimizations just change If blocks to First blocks, then deadcode removal will take it from there.",
+      "revId": "6fd50a026007ae3ea162118614b1b502833b4e69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72df0282_aa9c530b",
+        "filename": "src/cmd/compile/internal/ssa/boundcheckelim_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-04-28T16:10:28Z",
+      "side": 1,
+      "message": "There are tests in test/bounds.go that actually check whether the bounds check was removed or not, with a stylized comment scheme that checks against the compiler\u0027s report about what bounds checks it removed.\n\nThese tests here require manual checking of the assembly output, don\u0027t they?",
+      "revId": "6fd50a026007ae3ea162118614b1b502833b4e69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91b2632e_1e9d9734",
+        "filename": "src/cmd/compile/internal/ssa/boundcheckelim_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-04-28T16:10:28Z",
+      "side": 1,
+      "message": "You can use something like mustPanic in src/flag/flag_test.go to make sure that bounds failures that actually should happen, still happen.",
+      "revId": "6fd50a026007ae3ea162118614b1b502833b4e69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
