@@ -793,7 +793,7 @@ func unrollUpExcl(a []int) int {
 func unrollUpIncl(a []int) int {
 	var i, x int
 	for i = 0; i <= len(a)-2; i += 2 { // ERROR "Induction variable: limits \[0,\?\], increment 2$"
-		x += a[i]
+		x += a[i] // ERROR "Proved IsInBounds$"
 		x += a[i+1]
 	}
 	if i == len(a)-1 {

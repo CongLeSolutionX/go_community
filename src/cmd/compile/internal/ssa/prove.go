@@ -834,6 +834,26 @@ func prove(f *Func) {
 			case OpAnd64, OpAnd32, OpAnd16, OpAnd8:
 				ft.update(b, v, v.Args[1], unsigned, lt|eq)
 				ft.update(b, v, v.Args[0], unsigned, lt|eq)
+			case OpAdd8, OpAdd16, OpAdd32, OpAdd64:
+				arg1 := v.Args[0]
+				arg2 := v.Args[1]
+				if arg1.isGenericIntConst() && arg2.Op == OpSliceLen {
+					if arg1.AuxInt < 0 {
+						ft.update(b, v, arg2, signed, lt)
+					}
+				} else if arg2.isGenericIntConst() && arg1.Op == OpSliceLen {
+					if arg2.AuxInt < 0 {
+						ft.update(b, v, arg1, signed, lt)
+					}
+				}
+			case OpSub8, OpSub16, OpSub32, OpSub64:
+				arg1 := v.Args[0]
+				arg2 := v.Args[1]
+				if arg2.isGenericIntConst() && arg1.Op == OpSliceLen {
+					if arg2.AuxInt > 0 {
+						ft.update(b, v, arg1, signed, lt)
+					}
+				}
 			}
 		}
 	}
