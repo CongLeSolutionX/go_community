@@ -74,3 +74,54 @@ func BenchmarkEqArrayOfFloats1024(b *testing.B) {
 		_ = a == c
 	}
 }
+
+type StructMem7 struct {
+	A uint16
+	B uint16
+	C uint16
+	D uint8
+	E float32
+}
+
+func BenchmarkEqStructMem7(b *testing.B) {
+	var a StructMem7
+	var c StructMem7
+
+	for i := 0; i < b.N; i++ {
+		_ = a == c
+	}
+}
+
+type StructMem8 struct {
+	A uint16
+	B uint16
+	C uint16
+	D uint16
+	E float32
+}
+
+func BenchmarkEqStructMem8(b *testing.B) {
+	var a StructMem8
+	var c StructMem8
+
+	for i := 0; i < b.N; i++ {
+		_ = a == c
+	}
+}
+
+type StructMem16 struct {
+	B uint32
+	C uint32
+	D uint32
+	E uint32
+	F float32
+}
+
+func BenchmarkEqStructMem16(b *testing.B) {
+	var a StructMem16
+	var c StructMem16
+
+	for i := 0; i < b.N; i++ {
+		_ = a == c
+	}
+}
