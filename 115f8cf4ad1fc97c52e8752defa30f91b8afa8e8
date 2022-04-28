@@ -88,6 +88,24 @@
       "parentUuid": "0ad546f4_c7dd1d87",
       "revId": "115f8cf4ad1fc97c52e8752defa30f91b8afa8e8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "725ebb03_a3f43b47",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2573,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-04-28T23:16:43Z",
+      "side": 1,
+      "message": "I vote for \"Server\" over Star/Asterisk, since it describes the semantics of the operation (options applying to the whole server) rather than the syntax (OPTIONS *).\n\nDisableDefaultServerOptionsHandler? (Long, but fairly clear.)\nHandleServerOptions?\nHandlerHandlesServerOptions? (...handily.)",
+      "parentUuid": "b94c89cd_11fef31e",
+      "revId": "115f8cf4ad1fc97c52e8752defa30f91b8afa8e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
