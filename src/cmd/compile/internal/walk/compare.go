@@ -197,7 +197,7 @@ func walkCompare(n *ir.BinaryExpr, init *ir.Nodes) ir.Node {
 	cmpl = safeExpr(cmpl, init)
 	cmpr = safeExpr(cmpr, init)
 	if t.IsStruct() {
-		conds := compare.EqStruct(t, cmpl, cmpr)
+		conds := compare.EqStruct(t, cmpl, cmpr, true)
 		if n.Op() == ir.OEQ {
 			for _, cond := range conds {
 				and(cond)
