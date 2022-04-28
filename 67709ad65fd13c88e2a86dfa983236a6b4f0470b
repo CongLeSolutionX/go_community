@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "116dfe36_7d29323d",
+        "filename": "src/internal/coverage/decodecounter/decodecounterfile.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-04-28T18:15:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "59befe02_77cb0821",
+      "revId": "67709ad65fd13c88e2a86dfa983236a6b4f0470b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "39250309_4ff8717b",
@@ -68,6 +86,24 @@
       "writtenOn": "2022-04-28T15:16:46Z",
       "side": 1,
       "message": "I\u0027m a little curious what this is for.  I know, I know, just skip to the end to see how it all turns out.",
+      "revId": "67709ad65fd13c88e2a86dfa983236a6b4f0470b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ef99605_2d1c5cb7",
+        "filename": "src/internal/coverage/encodecounter/encodecounterfile.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-04-28T18:15:01Z",
+      "side": 1,
+      "message": "Having multiple segments in a counter data file is intended to lay the groundwork for supporting this feature:\n\nhttps://go.googlesource.com/proposal/+/master/design/51430-revamp-code-coverage.md#tagging-coverage-profiles-to-support-test-origin-queries\n\nFor example, let\u0027s suppose that I want to be able to answer queries of the form \"which test(s) in my package unit test code causes line XYZ to be executed?\". One way to do that would be to modify the Go testing package to:\n \n   - build test with coverage\n   - for each test T in the package:\n     + run the testpoint \n     + append coverage counters to the counter file being emitted \n       into a new segment (where the segment is labeled with testpoint name)\n     + clear all coverage counters\n     \nThe resulting counter data file could then be used to answer the queries.\n\nThis is future work (none of this is implemented), but it seemed like a good idea to support the feature in the code that emits coverage counter data files (via the segments concept) right from the get go, so that we don\u0027t have to worry about versioning or whatever when the new feature rolls out.\n\nHTH.",
+      "parentUuid": "39250309_4ff8717b",
       "revId": "67709ad65fd13c88e2a86dfa983236a6b4f0470b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -95,6 +131,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "136d7e5b_a9411547",
+        "filename": "src/internal/coverage/encodecounter/encodecounterfile.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-04-28T18:15:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54b788c6_d41d98a7",
+      "range": {
+        "startLine": 220,
+        "startChar": 22,
+        "endLine": 220,
+        "endChar": 23
+      },
+      "revId": "67709ad65fd13c88e2a86dfa983236a6b4f0470b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "35e0d9ae_0cbaccb8",
@@ -108,6 +168,24 @@
       "writtenOn": "2022-04-28T15:16:46Z",
       "side": 1,
       "message": "It would be out of character for this file, but a comment explaining what this does is GoodSpeak.",
+      "revId": "67709ad65fd13c88e2a86dfa983236a6b4f0470b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "888391e4_fee0bdd8",
+        "filename": "src/internal/coverage/stringtab/stringtab.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-04-28T18:15:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35e0d9ae_0cbaccb8",
       "revId": "67709ad65fd13c88e2a86dfa983236a6b4f0470b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
