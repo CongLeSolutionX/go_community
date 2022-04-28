@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "19814792_4a87f2f8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 53288
+      },
+      "writtenOn": "2022-04-28T12:36:18Z",
+      "side": 1,
+      "message": "For structure comparisons that are inlined by walk/compare.go, there is a performance improvement for cases where the size isn’t a power of 2. Previously it called a runtime.memequal function which is a way slower than using 2-3 cmp instructions inline.\n\n\nFor structure comparison functions that are generated with reflectdata/alg.go we can notice a performance improvement even for cases where simplified versions of memequal are used (memequal{1/2/4/8/16}), since the geneq function is called after the inlining stage, memequal{1/2/4/8/16}, were not inlined so there were extra calls.",
+      "revId": "0cde21309b2ed811d4a832921b872bec1ccbd6c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
