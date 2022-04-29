@@ -162,6 +162,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "75a514ec_4bcc7af8",
+        "filename": "src/cmd/internal/obj/mips/a.out.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-04-29T09:22:32Z",
+      "side": 1,
+      "message": "\u003e I was saying that let rewriteToUseGot handle \"CALL Sym\", rewrite it to use R25, also move the call to rewriteToUseGot later. Are you doing both?\n\nYes，I do both. The patch is following:\n```\ndiff --git a/src/cmd/internal/obj/mips/asm0.go b/src/cmd/internal/obj/mips/asm0.go\nindex 3507943183..bf8c9f46d0 100644\n--- a/src/cmd/internal/obj/mips/asm0.go\n+++ b/src/cmd/internal/obj/mips/asm0.go\n@@ -327,8 +327,8 @@ var optab \u003d []Optab{\n \t{AJMP, C_NONE, C_NONE, C_SSBRA, 64, 4, REGZERO, 0, 0},\n \t{AJMP, C_NONE, C_NONE, C_SLBRA, 65, 20, REGZERO, 0, 0},\n \n-\t{AJMP, C_NONE, C_NONE, C_SYMBRA, 62, 12, REGZERO, 0, 0},\n-\t{AJAL, C_NONE, C_NONE, C_SYMBRA, 62, 12, REGLINK, 0, 0},\n+//\t{AJMP, C_NONE, C_NONE, C_SYMBRA, 62, 12, REGZERO, 0, 0},\n+//\t{AJAL, C_NONE, C_NONE, C_SYMBRA, 62, 12, REGLINK, 0, 0},\n \n \t{AMOVW, C_SEXT, C_NONE, C_FREG, 27, 4, REGSB, sys.MIPS64, 0},\n \t{AMOVF, C_SEXT, C_NONE, C_FREG, 27, 4, REGSB, sys.MIPS64, 0},\n@@ -788,11 +788,11 @@ func (c *ctxt0) aclass(a *obj.Addr) int {\n \t\t\tif a.Class \u003d\u003d C_SLBRA {\n \t\t\t\treturn C_SLBRA\n \t\t\t}\n-\t\t\tif a.Sym !\u003d nil {\n-\t\t\t\treturn C_SYMBRA\n-\t\t\t} else {\n+\t//\t\tif a.Sym !\u003d nil {\n+\t//\t\t\treturn C_SYMBRA\n+\t//\t\t} else {\n \t\t\t\treturn C_SSBRA\n-\t\t\t}\n+\t//\t\t}\n \t\t}\n \t}\n \treturn C_GOK\n@@ -1810,7 +1810,7 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {\n \t\to4 \u003d uint32(0)\n \t\to5 \u003d OP_IRR(c.opirr(-p.As), uint32(0), uint32(REG_R2), uint32(p.To.Reg))\n \n-\tcase 61: /* calculate GOT addr, mov $addr@GOT,r28  \u003d\u003d\u003e lui + daddu + daddiu */\n+\tcase 61: /* calculate GOT addr, add $addr@GOT,r28  \u003d\u003d\u003e lui + daddu + daddiu */\n \t\t// lui     r28,hi16(sym@GOT)             // R_MIPS_GPREL_HI16\n \t\t// daddu   r28,r28,r25\n \t\t// daddiu  r28,r28,lo16(sym@GOT)         // R_MIPS_GPREL_LO16\ndiff --git a/src/cmd/internal/obj/mips/obj0.go b/src/cmd/internal/obj/mips/obj0.go\nindex 3f42a2112d..aa44ada4b0 100644\n--- a/src/cmd/internal/obj/mips/obj0.go\n+++ b/src/cmd/internal/obj/mips/obj0.go\n@@ -127,9 +127,9 @@ func progedit(ctxt *obj.Link, p *obj.Prog, newprog obj.ProgAlloc) {\n \t\t}\n \t}\n \n-\tif c.ctxt.Flag_shared {\n-\t\tc.rewriteToUseGot(p)\n-\t}\n+\t//\tif c.ctxt.Flag_shared {\n+\t//\t\tc.rewriteToUseGot(p)\n+\t//\t}\n }\n \n // Rewrite p, if necessary, to access global data via the global offset table.\n@@ -175,6 +175,25 @@ func (c *ctxt0) rewriteToUseGot(p *obj.Prog) {\n \t\tobj.Nopout(p)\n \t}\n \n+\tif (p.As \u003d\u003d AJAL || p.As \u003d\u003d AJMP) \u0026\u0026 p.To.Type \u003d\u003d obj.TYPE_BRANCH \u0026\u0026 p.To.Sym !\u003d nil \u0026\u0026 !p.To.Sym.Local() {\n+\t\tp1 :\u003d obj.Appendp(p, c.newprog)\n+\t\tp2 :\u003d obj.Appendp(p1, c.newprog)\n+\t\t// MOVV sym@GOT, R25\n+\t\tp1.As \u003d mov\n+\t\tp1.From.Type \u003d obj.TYPE_MEM\n+\t\tp1.From.Name \u003d obj.NAME_GOTREF\n+\t\tp1.From.Sym \u003d p.To.Sym\n+\t\tp1.To.Type \u003d obj.TYPE_REG\n+\t\tp1.To.Reg \u003d REG_R25\n+\t\t// JAL/JMP R25\n+\t\tp2.As \u003d p.As\n+\t\tp2.From.Type \u003d obj.TYPE_NONE\n+\t\tp2.To.Type \u003d obj.TYPE_MEM\n+\t\tp2.To.Name \u003d obj.NAME_NONE\n+\t\tp2.To.Reg \u003d REG_R25\n+\t\tobj.Nopout(p)\n+\t}\n+\n \t// We only care about global data: NAME_EXTERN means a global\n \t// symbol in the Go sense, and p.Sym.Local is true for a few\n \t// internally defined symbols.\n@@ -727,6 +746,10 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {\n \t\t}\n \t}\n \n+\tif c.ctxt.Flag_shared {\n+\t\tc.rewriteToUseGot(p)\n+\t}\n+\n \tif nosched {\n \t\t// if we don\u0027t do instruction scheduling, simply add\n \t\t// NOP after each branch instruction.\n```\n\n\u003e Anyway, the current approach of SYMBRA is okay. It is fine if you want to do it this way.\n\nThank you for your approval.",
+      "parentUuid": "4b7887d3_f151e0fd",
+      "revId": "2b63ea62d4ceaaced42834f5fff0aa45f2c0ac5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5cf50af3_140380eb",
