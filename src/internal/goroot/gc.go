@@ -4,6 +4,8 @@
 
 //go:build gc
 
+//go:generate go run mkstdpkgs.go
+
 package goroot
 
 import (
@@ -14,11 +16,40 @@ import (
 	"sync"
 )
 
+var stdMap = func() map[string]bool {
+	m := map[string]bool{}
+	for _, k := range std {
+		m[k] = true
+	}
+	return m
+}()
+
+// find the goroot for this go binary. stdMap is only
+// valid for that goroot. Don't use runtime.GOROOT() because
+// respects the GOROOT environment variable.
+var binarygoroot = func() string {
+	e, err := os.Executable()
+	if err != nil {
+		return ""
+	}
+	goroot := strings.TrimSuffix(e, filepath.FromSlash("/bin/go"))
+	if goroot == e {
+		return ""
+	}
+	return goroot
+}()
+
 // IsStandardPackage reports whether path is a standard package,
 // given goroot and compiler.
 func IsStandardPackage(goroot, compiler, path string) bool {
 	switch compiler {
 	case "gc":
+		// stdMap is only valid for true stdlib packages (that is, not packages
+		// contained in testdata directories like runtime/testdata/testprog)
+		// that belong to the same GOROOT as this binary.
+		if goroot == binarygoroot && !strings.Contains(path, "testdata") {
+			return stdMap[path]
+		}
 		dir := filepath.Join(goroot, "src", path)
 		_, err := os.Stat(dir)
 		return err == nil
