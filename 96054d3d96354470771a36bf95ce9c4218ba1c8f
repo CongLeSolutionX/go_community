@@ -99,6 +99,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "432c8fdd_bc7f4dfd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2022-04-29T00:01:01Z",
+      "side": 1,
+      "message": "The failure in x/tools is #52613, unrelated to this change.",
+      "parentUuid": "45eb293c_b722475a",
+      "revId": "96054d3d96354470771a36bf95ce9c4218ba1c8f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "58577fb8_c8a29efd",
         "filename": "src/crypto/ed25519/internal/edwards25519/scalarmult_test.go",
         "patchSetId": 1
