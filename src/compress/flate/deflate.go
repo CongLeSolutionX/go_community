@@ -5,6 +5,7 @@
 package flate
 
 import (
+	"errors"
 	"fmt"
 	"io"
 	"math"
@@ -115,6 +116,7 @@ type compressor struct {
 	hash           uint32
 	maxInsertIndex int
 	err            error
+	closed         bool
 
 	// hashMatch must be able to contain hashes for the maximum match length.
 	hashMatch [maxMatchLength - 1]uint32
@@ -546,6 +548,9 @@ func (d *compressor) storeHuff() {
 }
 
 func (d *compressor) write(b []byte) (n int, err error) {
+	if d.closed {
+		return 0, errors.New("flate: write on closed stream")
+	}
 	if d.err != nil {
 		return 0, d.err
 	}
@@ -563,6 +568,9 @@ func (d *compressor) write(b []byte) (n int, err error) {
 func (d *compressor) syncFlush() error {
 	if d.err != nil {
 		return d.err
+	}
+	if d.closed {
+		return nil
 	}
 	d.sync = true
 	d.step(d)
@@ -642,6 +650,10 @@ func (d *compressor) close() error {
 	if d.err != nil {
 		return d.err
 	}
+	if d.closed {
+		return nil
+	}
+	d.closed = true
 	d.sync = true
 	d.step(d)
 	if d.err != nil {

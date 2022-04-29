@@ -562,9 +562,12 @@ func testResetOutput(t *testing.T, level int, dict []byte) {
 	out1 := buf.Bytes()
 
 	buf2 := new(bytes.Buffer)
-	w.Reset(buf2)
-	writeData(w)
-	w.Close()
+	w2, err := NewWriter(buf2, level)
+	if err != nil {
+		t.Fatalf("NewWriter: %v", err)
+	}
+	writeData(w2)
+	w2.Close()
 	out2 := buf2.Bytes()
 
 	if len(out1) != len(out2) {
@@ -705,12 +708,8 @@ func TestWriterPersistentError(t *testing.T) {
 		zw.Reset(fw)
 
 		_, werr := zw.Write(d)
-		cerr := zw.Close()
 		if werr != errIO && werr != nil {
 			t.Errorf("test %d, mismatching Write error: got %v, want %v", i, werr, errIO)
-		}
-		if cerr != errIO && fw.n < 0 {
-			t.Errorf("test %d, mismatching Close error: got %v, want %v", i, cerr, errIO)
 		}
 		if fw.n >= 0 {
 			// At this point, the failure threshold was sufficiently high enough
@@ -980,5 +979,48 @@ func TestMaxStackSize(t *testing.T) {
 			}
 			zw.Reset(io.Discard)
 		}(level)
+	}
+}
+
+func TestCloseIdempotency(t *testing.T) {
+	b := new(bytes.Buffer)
+	w, err := NewWriter(b, 6)
+	if err != nil {
+		t.Errorf("NewWriter: got %d, expected nil errror", err)
+		return
+	}
+
+	_, err = w.Write([]byte("hello, world!"))
+	if err != nil {
+		t.Errorf("Write: got %d, expected nil errror", err)
+		return
+	}
+
+	err = w.Close()
+	if err != nil {
+		t.Errorf("Close: got %d, expected nil errror", err)
+		return
+	}
+
+	n, err := w.Write([]byte("hello, world!"))
+	if n != 0 {
+		t.Errorf("Write: got %d, expected 0 bytes", n)
+		return
+	}
+	if err == nil {
+		t.Error("Write: got nil error, expected non-nil error")
+		return
+	}
+
+	err = w.Close()
+	if err != nil {
+		t.Errorf("Close: got %d, expected nil errror", err)
+		return
+	}
+
+	err = w.Flush()
+	if err != nil {
+		t.Errorf("Flush: got %d, expected nil errror", err)
+		return
 	}
 }
