@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6308bf0f_a019730b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 32
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-04-29T00:46:26Z",
+      "side": 1,
+      "message": "This CL used to have a Code-Review-2. \nAdding an equivalent Hold+1 now that Code-Review-2 is gone.\n",
+      "revId": "8511cf4e2ddbf5a4dd94a4c483460bd1acbd4a88",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
