@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de4daf03_d14b2840",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-04-29T18:52:15Z",
+      "side": 1,
+      "message": "Please write this line as\n\nvendor, net/http: update golang.org/x/net to tip",
+      "revId": "21256b0373e6b61febf707d78ace67cde4a14b5c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
