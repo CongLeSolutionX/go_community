@@ -14,14 +14,20 @@ import (
 	"sync"
 )
 
+var stdMap = func() map[string]bool {
+	m := map[string]bool{}
+	for _, k := range std {
+		m[k] = true
+	}
+	return m
+}()
+
 // IsStandardPackage reports whether path is a standard package,
 // given goroot and compiler.
 func IsStandardPackage(goroot, compiler, path string) bool {
 	switch compiler {
 	case "gc":
-		dir := filepath.Join(goroot, "src", path)
-		_, err := os.Stat(dir)
-		return err == nil
+		return stdMap[path]
 	case "gccgo":
 		return gccgoSearch.isStandard(path)
 	default:
