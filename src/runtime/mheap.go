@@ -221,9 +221,22 @@ var mheap_ mheap
 //go:notinheap
 type heapArena struct {
 	// bitmap stores the pointer/scalar bitmap for the words in
-	// this arena. See mbitmap.go for a description. Use the
-	// heapBits type to access this.
-	bitmap [heapArenaBitmapBytes]byte
+	// this arena. See mbitmap.go for a description.
+	// This array uses 1 bit per word of heap, or 1.6% of the heap size (for 64-bit).
+	bitmap [heapArenaBitmapWords]uintptr
+
+	// If the ith bit of noMorePtrs is true, then there are no more
+	// pointers after those described in bitmap[i] in the object
+	// which contains the word described by the high bit of bitmap[i].
+	// Note that the actual entries in bitmap[i+1], ..., might have junk
+	// in them for the object described. (TODO)
+	// We never operate on these entries using bit-parallel techniques,
+	// so it is ok if they are small. Also, they can't be bigger than
+	// uint16 because at that size a single noMorePtrs entry
+	// represents 8K of memory, the minimum size of a span. Any larger
+	// and we'd have to worry about concurrent updates.
+	// This array uses 1 bit per word of bitmap, or .024% of the heap size (for 64-bit).
+	noMorePtrs [heapArenaBitmapWords / 8]uint8
 
 	// spans maps from virtual address page ID within this arena to *mspan.
 	// For allocated spans, their pages map to the span itself.
