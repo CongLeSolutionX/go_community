@@ -106,6 +106,24 @@
       "parentUuid": "b94c89cd_11fef31e",
       "revId": "115f8cf4ad1fc97c52e8752defa30f91b8afa8e8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a1041cd_2bdf8b74",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2573,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-04-29T16:35:13Z",
+      "side": 1,
+      "message": "Brad and I chatted offline, and came up with DisableGeneralOptionsHandler. \"General\" matches the RFC language. How about that?",
+      "parentUuid": "725ebb03_a3f43b47",
+      "revId": "115f8cf4ad1fc97c52e8752defa30f91b8afa8e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
