@@ -89,6 +89,24 @@
       "message": "V1_ not needed, here and in other places.",
       "revId": "92d12afe0dc35be6dcedcc435aaf2d8a34596f12",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58b2e83b_4c78a24a",
+        "filename": "src/internal/bytealg/index_ppc64x.s",
+        "patchSetId": 25
+      },
+      "lineNbr": 709,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2022-04-29T16:49:58Z",
+      "side": 1,
+      "message": "Hi Lynn I need to change it to V1 as it is used a few instructions after, I guess I can change all other places where we are using _",
+      "parentUuid": "2e10f431_b96de1a9",
+      "revId": "92d12afe0dc35be6dcedcc435aaf2d8a34596f12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
