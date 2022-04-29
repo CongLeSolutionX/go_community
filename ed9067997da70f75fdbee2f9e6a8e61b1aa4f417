@@ -46,6 +46,30 @@
       },
       "revId": "ed9067997da70f75fdbee2f9e6a8e61b1aa4f417",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1757306_d94eefeb",
+        "filename": "src/cmd/link/internal/mips64/asm.go",
+        "patchSetId": 28
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-29T16:01:45Z",
+      "side": 1,
+      "message": "I mean, move to the code below, at the second out.Write8(0). The function would look like\n\n// old code\n\taddend :\u003d r.Xadd\n\n\tout.Write64(uint64(sectoff))\n\n\telfsym :\u003d ld.ElfSymForReloc(ctxt, r.Xsym)\n\tout.Write32(uint32(elfsym))\n\tout.Write8(0)\n\n// new code\n\t// type3 and type2\n\tswitch r.Type {\n\tcase objabi.R_MIPS_GPREL_HI16:\n\t\tout.Write8(uint8(elf.R_MIPS_HI16))\n\t\tout.Write8(uint8(elf.R_MIPS_SUB))\n\tcase objabi.R_MIPS_GPREL_LO16:\n\t\t...\n\tdefault:\n\t\tout.Write8(0)\n\t\tout.Write8(0)\n\t}\n\n// old code\n\tswitch r.Type {\n\tdefault:\n\t\treturn false\n\tcase objabi.R_ADDR, objabi.R_DWARFSECREF:\n\t...",
+      "parentUuid": "8bedaaad_c2d04341",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 15
+      },
+      "revId": "ed9067997da70f75fdbee2f9e6a8e61b1aa4f417",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
