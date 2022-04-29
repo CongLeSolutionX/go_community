@@ -33,6 +33,24 @@
       "message": "Hi and welcome! Any change that introduces new APIs needs to go through the proposal process. (We will be maintaining those APIs for as long as Go 1 exists, so we are very careful about what we add!) https://github.com/golang/proposal#the-proposal-process\n\nJust to set expectations, a proposal getting kicked off now won\u0027t make it for the Go 1.19 code freeze that\u0027s happening in a week, but can comfortably make it for Go 1.20.",
       "revId": "b7be82720491cd4965a061929e43213a26dabee4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac28b872_e230a681",
+        "filename": "api/next/52110.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 56718
+      },
+      "writtenOn": "2022-04-29T10:59:35Z",
+      "side": 1,
+      "message": "Thank you for the quick review and response! I completely understand about the API process and thought we would have to do that. I realize that this is a fairly big hammer to pound what is, admittedly, a very small nail. However, I have spent a long time thinking about the best solution and, looking long term, this approach seems like it is the best. \n\nThat said, I am going to continue looking for ways that I could patch x/net/http2 without having to make an API change. \n\nI\u0027d love your thoughts!\n\nThanks again for the review!",
+      "parentUuid": "63b06374_3b213439",
+      "revId": "b7be82720491cd4965a061929e43213a26dabee4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
