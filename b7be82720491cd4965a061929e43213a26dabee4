@@ -16,6 +16,23 @@
       "message": "Hello everyone! First-time contributor here. I hope that I am following the proper protocol. The fix (along with a future one in x/net/http2) are meant to solve a particular pain point for me. I can\u0027t wait to hear your feedback and begin the path to becoming a community member!\n\nThanks!",
       "revId": "b7be82720491cd4965a061929e43213a26dabee4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63b06374_3b213439",
+        "filename": "api/next/52110.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2022-04-29T10:36:03Z",
+      "side": 1,
+      "message": "Hi and welcome! Any change that introduces new APIs needs to go through the proposal process. (We will be maintaining those APIs for as long as Go 1 exists, so we are very careful about what we add!) https://github.com/golang/proposal#the-proposal-process\n\nJust to set expectations, a proposal getting kicked off now won\u0027t make it for the Go 1.19 code freeze that\u0027s happening in a week, but can comfortably make it for Go 1.20.",
+      "revId": "b7be82720491cd4965a061929e43213a26dabee4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
