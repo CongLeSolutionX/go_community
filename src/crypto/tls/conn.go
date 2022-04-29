@@ -1450,6 +1450,10 @@ func (c *Conn) handshakeContext(ctx context.Context) (ret error) {
 
 	c.in.Lock()
 	defer c.in.Unlock()
+	trace := ContextTlsTrace(ctx)
+	if trace != nil && trace.TLSHandshakeStart != nil {
+		trace.TLSHandshakeStart()
+	}
 
 	c.handshakeErr = c.handshakeFn(handshakeCtx)
 	if c.handshakeErr == nil {
@@ -1459,7 +1463,9 @@ func (c *Conn) handshakeContext(ctx context.Context) (ret error) {
 		// alert that might be left in the buffer.
 		c.flush()
 	}
-
+	if trace != nil && trace.TLSHandshakeDone != nil {
+		trace.TLSHandshakeDone(c.connectionStateLocked(), c.handshakeErr)
+	}
 	if c.handshakeErr == nil && !c.handshakeComplete() {
 		c.handshakeErr = errors.New("tls: internal error: handshake should have had a result")
 	}

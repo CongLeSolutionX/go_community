@@ -1531,9 +1531,6 @@ func (pconn *persistConn) addTLS(ctx context.Context, name string, trace *httptr
 		})
 	}
 	go func() {
-		if trace != nil && trace.TLSHandshakeStart != nil {
-			trace.TLSHandshakeStart()
-		}
 		err := tlsConn.HandshakeContext(ctx)
 		if timer != nil {
 			timer.Stop()
@@ -1542,15 +1539,9 @@ func (pconn *persistConn) addTLS(ctx context.Context, name string, trace *httptr
 	}()
 	if err := <-errc; err != nil {
 		plainConn.Close()
-		if trace != nil && trace.TLSHandshakeDone != nil {
-			trace.TLSHandshakeDone(tls.ConnectionState{}, err)
-		}
 		return err
 	}
 	cs := tlsConn.ConnectionState()
-	if trace != nil && trace.TLSHandshakeDone != nil {
-		trace.TLSHandshakeDone(cs, nil)
-	}
 	pconn.tlsState = &cs
 	pconn.conn = tlsConn
 	return nil
@@ -1571,6 +1562,14 @@ func (t *Transport) dialConn(ctx context.Context, cm connectMethod) (pconn *pers
 		writeLoopDone: make(chan struct{}),
 	}
 	trace := httptrace.ContextClientTrace(ctx)
+	if trace != nil && (trace.TLSHandshakeStart != nil || trace.TLSHandshakeDone != nil) {
+		tlsTrace := &tls.TlsTrace{
+			TLSHandshakeStart: trace.TLSHandshakeStart,
+			TLSHandshakeDone:  trace.TLSHandshakeDone,
+		}
+		ctx = tls.WithTlsTrace(ctx, tlsTrace)
+	}
+
 	wrapErr := func(err error) error {
 		if cm.proxyURL != nil {
 			// Return a typed error, per Issue 16997
@@ -1587,20 +1586,11 @@ func (t *Transport) dialConn(ctx context.Context, cm connectMethod) (pconn *pers
 		if tc, ok := pconn.conn.(*tls.Conn); ok {
 			// Handshake here, in case DialTLS didn't. TLSNextProto below
 			// depends on it for knowing the connection state.
-			if trace != nil && trace.TLSHandshakeStart != nil {
-				trace.TLSHandshakeStart()
-			}
 			if err := tc.HandshakeContext(ctx); err != nil {
 				go pconn.conn.Close()
-				if trace != nil && trace.TLSHandshakeDone != nil {
-					trace.TLSHandshakeDone(tls.ConnectionState{}, err)
-				}
 				return nil, err
 			}
 			cs := tc.ConnectionState()
-			if trace != nil && trace.TLSHandshakeDone != nil {
-				trace.TLSHandshakeDone(cs, nil)
-			}
 			pconn.tlsState = &cs
 		}
 	} else {

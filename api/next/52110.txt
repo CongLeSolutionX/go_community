@@ -1,0 +1,6 @@
+pkg crypto/tls, func ContextTlsTrace(context.Context) *TlsTrace #52110
+pkg crypto/tls, func WithTlsTrace(context.Context, *TlsTrace) context.Context #52110
+pkg crypto/tls, type TlsTrace struct #52110
+pkg crypto/tls, type TlsTrace struct, TLSHandshakeDone func(ConnectionState, error) #52110
+pkg crypto/tls, type TlsTrace struct, TLSHandshakeStart func() #52110
+
