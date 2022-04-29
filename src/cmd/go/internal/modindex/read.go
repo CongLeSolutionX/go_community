@@ -86,6 +86,14 @@ func Open(path string) (mi *ModuleIndex, err error) {
 	}, nil
 }
 
+func (mi *ModuleIndex) Packages() []string {
+	var pkgs []string
+	for p := range mi.packages {
+		pkgs = append(pkgs, p)
+	}
+	return pkgs
+}
+
 // ImportPackage is the equivalent of build.Import of the package at the given directory
 // on the given module.
 // TODO(matloob): Currently dir is the full absolute path of the package directory.
