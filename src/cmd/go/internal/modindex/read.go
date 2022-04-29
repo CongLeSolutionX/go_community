@@ -78,6 +78,14 @@ func Open(path string) (mi *ModuleIndex, err error) {
 	return mi, nil
 }
 
+func (mi *ModuleIndex) Packages() []string {
+	var pkgs []string
+	for p := range mi.packages {
+		pkgs = append(pkgs, p)
+	}
+	return pkgs
+}
+
 func (mi *ModuleIndex) ImportPackage(ctxt build.Context, dir string, mode build.ImportMode) (p *build.Package, err error) {
 	defer func() {
 		if e := recover(); e != nil {
