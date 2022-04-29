@@ -238,6 +238,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "126811cb_5af5db22",
+        "filename": "src/cmd/internal/objabi/reloctype.go",
+        "patchSetId": 25
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-29T15:55:32Z",
+      "side": 1,
+      "message": "Maybe\n\n// R_MIPS_CALL16 resolves to (low 16 bits of) the address of the lazy evaluation stub of the function in PIC mode.\n\nAdd \"the address of\". Does it only resolve to the low 16 bits? What happens if 16 bits are not enough?",
+      "parentUuid": "2f2598cc_63adcb00",
+      "range": {
+        "startLine": 276,
+        "startChar": 0,
+        "endLine": 277,
+        "endChar": 14
+      },
+      "revId": "e0c77f6c89ce4ec9ba47d8f698a76f9a7948f93e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a0c72b43_1318ece9",
         "filename": "src/cmd/internal/objabi/reloctype.go",
         "patchSetId": 25
@@ -369,6 +393,30 @@
       "side": 1,
       "message": "\u003e I understand that strictly speaking it is not a direct call in the hardware\u0027s perspective. IsDirectCall is used for the Go linker to build the call graph. Since we know the concrete call target, the Go linker can treat it as a direct call for that purpose. It doesn\u0027t actually matter how the call is made in hardware. I suggest you add it to IsDirectCall, with a comment explaining that it is not a hardware direct call but we know the call target and the linker can treat it as a direct call.\n\nOK，I added it.\n\n\u003e Thanks for the link. I think it mostly doesn\u0027t matter in the situation here (e.g. C code should never override a Go symbol). I think you can just remove \"which is not preempted\" in the comment.\n\nOK, I deleted it.",
       "parentUuid": "00a251b1_fd089c38",
+      "range": {
+        "startLine": 278,
+        "startChar": 0,
+        "endLine": 280,
+        "endChar": 12
+      },
+      "revId": "e0c77f6c89ce4ec9ba47d8f698a76f9a7948f93e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6555e135_bbd06db1",
+        "filename": "src/cmd/internal/objabi/reloctype.go",
+        "patchSetId": 25
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-04-29T15:55:32Z",
+      "side": 1,
+      "message": "How about (I mentioned in an earlier comment)\n\n// R_MIPS_JALR tells the linker the concrete call target of a \"CALL (R25)\" instruction in PIC mode, so the linker can optimize it back to a concrete call.",
+      "parentUuid": "ea1ef594_4095496f",
       "range": {
         "startLine": 278,
         "startChar": 0,
