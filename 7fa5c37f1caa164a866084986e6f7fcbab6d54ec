@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7532f827_fba7e346",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-04-29T20:21:11Z",
+      "side": 1,
+      "message": "Thanks.  We already have an open submission for this problem at https://go.dev/cl/136475 which seems to have a couple of advantages over this approach.  I\u0027ll try to revive that change.",
+      "revId": "7fa5c37f1caa164a866084986e6f7fcbab6d54ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
