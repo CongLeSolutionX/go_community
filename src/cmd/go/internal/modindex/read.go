@@ -1,20 +1,18 @@
+// Copyright 2022 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
 package modindex
 
 import (
 	"bytes"
-	"cmd/go/internal/base"
-	"cmd/go/internal/cache"
-	"cmd/go/internal/cfg"
-	"cmd/go/internal/fsys"
-	"cmd/go/internal/imports"
-	"cmd/go/internal/par"
-	"cmd/go/internal/str"
 	"encoding/binary"
 	"errors"
 	"fmt"
 	"go/build"
 	"go/build/constraint"
 	"go/token"
+	"internal/goroot"
 	"internal/unsafeheader"
 	"io/fs"
 	"math"
@@ -26,6 +24,14 @@ import (
 	"strings"
 	"sync"
 	"unsafe"
+
+	"cmd/go/internal/base"
+	"cmd/go/internal/cache"
+	"cmd/go/internal/cfg"
+	"cmd/go/internal/fsys"
+	"cmd/go/internal/imports"
+	"cmd/go/internal/par"
+	"cmd/go/internal/str"
 )
 
 // enabled is used to flag off the behavior of the module index on tip.
@@ -488,6 +494,33 @@ func (mi *ModuleIndex) Import(bctxt build.Context, relpath string, mode build.Im
 		return p, &build.NoGoError{Dir: p.Dir}
 	}
 	return p, pkgerr
+}
+
+// IsStandardPackage reports whether path is a standard package
+// for the goroot and compiler using the module index if possible,
+// and otherwise falling back to internal/goroot.IsStandardPackage
+func IsStandardPackage(goroot_, compiler, path string) bool {
+	if !enabled || goroot_ != "gc" {
+		return goroot.IsStandardPackage(goroot_, compiler, path)
+	}
+
+	reldir := filepath.FromSlash(path) // relative dir path in module index for package
+	modroot := filepath.Join(goroot_, "src")
+	if str.HasFilePathPrefix(reldir, "cmd") {
+		reldir = str.TrimFilePathPrefix(reldir, "cmd")
+		modroot = filepath.Join(modroot, "cmd")
+	}
+	mod, err := Get(modroot)
+	if err != nil {
+		return goroot.IsStandardPackage(goroot_, compiler, path)
+	}
+
+	for _, p := range mod.Packages() {
+		if reldir == p {
+			return true
+		}
+	}
+	return false
 }
 
 // IsDirWithGoFiles is the equivalent of fsys.IsDirWithGoFiles using the information in the
