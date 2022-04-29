@@ -4,9 +4,12 @@
 
 //go:build gc
 
+//go:generate go run mkstdpkgs.go
+
 package goroot
 
 import (
+	"fmt"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -14,11 +17,38 @@ import (
 	"sync"
 )
 
+var stdMap = func() map[string]bool {
+	m := map[string]bool{}
+	for _, k := range std {
+		m[k] = true
+	}
+	return m
+}()
+
+// find the goroot for this go binary. stdMap is only
+// valid for that goroot. Don't use runtime.GOROOT() because
+// respects the GOROOT environment variable.
+var binarygoroot = func() string {
+	e, err := os.Executable()
+	if err != nil {
+		return ""
+	}
+	goroot := strings.TrimSuffix(e, filepath.FromSlash("/bin/go"))
+	if goroot == e {
+		return ""
+	}
+	return goroot
+}()
+
 // IsStandardPackage reports whether path is a standard package,
 // given goroot and compiler.
 func IsStandardPackage(goroot, compiler, path string) bool {
 	switch compiler {
 	case "gc":
+		fmt.Fprintln(os.Stderr, goroot, binarygoroot)
+		if goroot == binarygoroot {
+			return stdMap[path]
+		}
 		dir := filepath.Join(goroot, "src", path)
 		_, err := os.Stat(dir)
 		return err == nil
