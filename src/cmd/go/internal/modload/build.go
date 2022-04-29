@@ -19,6 +19,7 @@ import (
 	"cmd/go/internal/cfg"
 	"cmd/go/internal/modfetch"
 	"cmd/go/internal/modinfo"
+	"cmd/go/internal/par"
 	"cmd/go/internal/search"
 
 	"golang.org/x/mod/module"
@@ -207,10 +208,24 @@ func addDeprecation(ctx context.Context, m *modinfo.ModulePublic) {
 	m.Deprecated = deprecation
 }
 
+var moduleInfoCache par.Cache
+
+type micKey struct {
+	rs   *Requirements
+	m    module.Version
+	mode ListMode
+}
+
+func moduleInfo(ctx context.Context, rs *Requirements, m module.Version, mode ListMode) *modinfo.ModulePublic {
+	return moduleInfoCache.Do(micKey{rs, m, mode}, func() any {
+		return realModuleInfo(ctx, rs, m, mode)
+	}).(*modinfo.ModulePublic)
+}
+
 // moduleInfo returns information about module m, loaded from the requirements
 // in rs (which may be nil to indicate that m was not loaded from a requirement
 // graph).
-func moduleInfo(ctx context.Context, rs *Requirements, m module.Version, mode ListMode) *modinfo.ModulePublic {
+func realModuleInfo(ctx context.Context, rs *Requirements, m module.Version, mode ListMode) *modinfo.ModulePublic {
 	if m.Version == "" && MainModules.Contains(m.Path) {
 		info := &modinfo.ModulePublic{
 			Path:    m.Path,
