@@ -1232,11 +1232,40 @@ func writeType(t *types.Type) *obj.LSym {
 	}
 	lsym.Set(obj.AttrMakeTypelink, keep)
 
-	if base.Flag.Dwarf {
+	if base.Flag.Dwarf && needEmitDwarf(t) {
 		base.Ctxt.PopulateDWARFType(DwarfType{t}, dupok == obj.DUPOK)
 	}
 
 	return lsym
+}
+func needEmitDwarf(t *types.Type) bool {
+	if base.Ctxt.Pkgpath == "runtime" {
+		return true
+	}
+	if base.Ctxt.Flag_linkshared {
+		return true
+	}
+
+	if t == types.AnyType {
+		return false
+	}
+	if t.IsPtr() && t.Sym() == nil && t.Elem().Sym() != nil {
+		elem := t.Elem()
+		kind := elem.Kind()
+		if kind >= types.Kind(1) && kind <= types.TBOOL && elem == types.Types[kind] {
+			return false
+		}
+		if elem == types.Types[types.TSTRING] || elem == types.Types[types.TUNSAFEPTR] || elem == types.ErrorType {
+			return false
+		}
+	}
+	// func(error) string is emitted when compiling runtime.
+	if t.Kind() == types.TFUNC && t.Sym() == nil && !t.HasTParam() && t.Recv() == nil &&
+		t.NumParams() == 1 && t.Params().FieldType(0) == types.ErrorType &&
+		t.NumResults() == 1 && t.Results().FieldType(0) == types.Types[types.TSTRING] {
+		return false
+	}
+	return true
 }
 
 // InterfaceMethodOffset returns the offset of the i-th method in the interface

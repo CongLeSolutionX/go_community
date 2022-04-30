@@ -330,6 +330,13 @@ func (c dwCtxt) ReferencePtr(dwtype dwarf.Sym) dwarf.Sym {
 	if sym.Type == objabi.SDWARFTYPE {
 		return sym
 	}
+
+	if c.Pkgpath != "runtime" && !c.Flag_linkshared {
+		if _, ok := emittedByRuntime[ptrname]; ok {
+			return sym
+		}
+	}
+
 	dwarfname := strings.Replace(ptrname, `"".`, objabi.PathToPrefix(c.Pkgpath)+".", -1)
 	pdie := dwarf.NewTypeDie(&c.dwtypes, dwarf.DW_ABRV_PTRTYPE, ptrname, dwarfname, c)
 	dwarf.NewRefAttr(pdie, dwarf.DW_AT_type, dwtype)
@@ -342,6 +349,28 @@ func (c dwCtxt) ReferencePtr(dwtype dwarf.Sym) dwarf.Sym {
 	sym.Set(AttrDuplicateOK, true)
 
 	return sym
+}
+
+var emittedByRuntime = map[string]struct{}{
+	"*int8":           {},
+	"*uint8":          {},
+	"*int16":          {},
+	"*uint16":         {},
+	"*int32":          {},
+	"*uint32":         {},
+	"*int64":          {},
+	"*uint64":         {},
+	"*int":            {},
+	"*uint":           {},
+	"*uintptr":        {},
+	"*complex64":      {},
+	"*complex128":     {},
+	"*float32":        {},
+	"*float64":        {},
+	"*bool":           {},
+	"*string":         {},
+	"*unsafe.Pointer": {},
+	"*error":          {},
 }
 
 func (c dwCtxt) DiagLog(info string) {
