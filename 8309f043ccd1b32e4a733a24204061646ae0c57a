@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86ede9a8_889a4cb8",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3100,
+      "author": {
+        "id": 6480
+      },
+      "writtenOn": "2022-04-30T12:16:05Z",
+      "side": 1,
+      "message": "`npidle` is a field name in `runtime.schedt`, so this is not a typo.",
+      "range": {
+        "startLine": 3100,
+        "startChar": 27,
+        "endLine": 3100,
+        "endChar": 35
+      },
+      "revId": "8309f043ccd1b32e4a733a24204061646ae0c57a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
