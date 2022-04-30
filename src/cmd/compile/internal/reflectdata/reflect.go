@@ -1202,7 +1202,7 @@ func writeType(t *types.Type) *obj.LSym {
 	// can be defined in multiple packages, that is, unnamed types and
 	// instantiated types.
 	dupok := 0
-	if tbase.Sym() == nil || tbase.IsFullyInstantiated() {
+	if tbase.Sym() == nil || tbase.IsFullyInstantiated() || tbase.IsShape() {
 		dupok = obj.DUPOK
 	}
 
