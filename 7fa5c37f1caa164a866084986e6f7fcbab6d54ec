@@ -16,6 +16,41 @@
       "message": "Thanks.  We already have an open submission for this problem at https://go.dev/cl/136475 which seems to have a couple of advantages over this approach.  I\u0027ll try to revive that change.",
       "revId": "7fa5c37f1caa164a866084986e6f7fcbab6d54ec",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "445900ee_352c6a7c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 51986
+      },
+      "writtenOn": "2022-04-30T09:38:48Z",
+      "side": 1,
+      "message": "Oh alright, I can close my PR then, my bad. Just something to mention regarding the other approach, it seems that it calling `Flush` after a `Close` kind of reopen the stream which doesn\u0027t seem to be the case with other `compress` implementation (e.g., `compress/gzip`). Perhaps something to check to make sure the behaviors are consistent?",
+      "revId": "7fa5c37f1caa164a866084986e6f7fcbab6d54ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d033bfaf_627c34e2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 51986
+      },
+      "writtenOn": "2022-04-30T09:38:48Z",
+      "side": 1,
+      "message": "\u003e Thanks.  We already have an open submission for this problem at https://go.dev/cl/136475 which seems to have a couple of advantages over this approach.  I\u0027ll try to revive that change.\n\nOh alright, I can close my PR then, my bad. Just something to mention regarding the other approach, it seems that it calling `Flush` after a `Close` kind of reopen the stream which doesn\u0027t seem to be the case with other `compress` implementation (e.g., `compress/gzip`). Perhaps something to check to make sure the behaviors are consistent?",
+      "parentUuid": "7532f827_fba7e346",
+      "revId": "7fa5c37f1caa164a866084986e6f7fcbab6d54ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
