@@ -403,8 +403,12 @@ func arrayClear(loop *ir.RangeStmt, v1, v2, a ir.Node) ir.Node {
 		return nil
 	}
 	lhs := stmt.X.(*ir.IndexExpr)
+	x := lhs.X
+	if a.Type() != typecheck.RangeExprType(a.Type()) {
+		x = lhs.X.(*ir.StarExpr).X
+	}
 
-	if !ir.SameSafeExpr(lhs.X, a) || !ir.SameSafeExpr(lhs.Index, v1) {
+	if !ir.SameSafeExpr(x, a) || !ir.SameSafeExpr(lhs.Index, v1) {
 		return nil
 	}
 
