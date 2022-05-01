@@ -107,6 +107,24 @@
       "parentUuid": "2e10f431_b96de1a9",
       "revId": "92d12afe0dc35be6dcedcc435aaf2d8a34596f12",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d87db66_d2d7dbe8",
+        "filename": "src/internal/bytealg/index_ppc64x.s",
+        "patchSetId": 25
+      },
+      "lineNbr": 709,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2022-05-01T15:49:59Z",
+      "side": 1,
+      "message": "Replaced all instances of vector registers containing _ by plain values now that they are uniformly supported",
+      "parentUuid": "58b2e83b_4c78a24a",
+      "revId": "92d12afe0dc35be6dcedcc435aaf2d8a34596f12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
