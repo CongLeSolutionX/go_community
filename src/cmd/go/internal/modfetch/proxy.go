@@ -187,6 +187,14 @@ type proxyRepo struct {
 	url         *url.URL
 	path        string
 	redactedURL string
+
+	versionsOnce  sync.Once
+	latestRevInfo *cacheRevInfo
+}
+
+type cacheRevInfo struct {
+	rev *RevInfo
+	err error
 }
 
 func newProxyRepo(baseURL, path string) (Repo, error) {
@@ -214,7 +222,7 @@ func newProxyRepo(baseURL, path string) (Repo, error) {
 	redactedURL := base.Redacted()
 	base.Path = strings.TrimSuffix(base.Path, "/") + "/" + enc
 	base.RawPath = strings.TrimSuffix(base.RawPath, "/") + "/" + pathEscape(enc)
-	return &proxyRepo{base, path, redactedURL}, nil
+	return &proxyRepo{base, path, redactedURL, sync.Once{}, nil}, nil
 }
 
 func (p *proxyRepo) ModulePath() string {
@@ -271,33 +279,22 @@ func (p *proxyRepo) getBody(path string) (io.ReadCloser, error) {
 func (p *proxyRepo) Versions(prefix string) ([]string, error) {
 	data, err := p.getBytes("@v/list")
 	if err != nil {
+		p.latestRevInfo = &cacheRevInfo{nil, err}
 		return nil, p.versionError("", err)
 	}
-	var list []string
+
+	var (
+		list                 []string
+		bestTime             time.Time
+		bestTimeIsFromPseudo bool
+		bestVersion          string
+	)
 	for _, line := range strings.Split(string(data), "\n") {
 		f := strings.Fields(line)
 		if len(f) >= 1 && semver.IsValid(f[0]) && strings.HasPrefix(f[0], prefix) && !module.IsPseudoVersion(f[0]) {
 			list = append(list, f[0])
 		}
-	}
-	semver.Sort(list)
-	return list, nil
-}
-
-func (p *proxyRepo) latest() (*RevInfo, error) {
-	data, err := p.getBytes("@v/list")
-	if err != nil {
-		return nil, p.versionError("", err)
-	}
-
-	var (
-		bestTime             time.Time
-		bestTimeIsFromPseudo bool
-		bestVersion          string
-	)
-
-	for _, line := range strings.Split(string(data), "\n") {
-		f := strings.Fields(line)
+		// go ahead compute and store the (singular) version needed by Latest
 		if len(f) >= 1 && semver.IsValid(f[0]) {
 			// If the proxy includes timestamps, prefer the timestamp it reports.
 			// Otherwise, derive the timestamp from the pseudo-version.
@@ -323,26 +320,31 @@ func (p *proxyRepo) latest() (*RevInfo, error) {
 			}
 		}
 	}
-	if bestVersion == "" {
-		return nil, p.versionError("", codehost.ErrNoCommits)
-	}
 
-	if bestTimeIsFromPseudo {
+	if bestVersion == "" {
+		p.latestRevInfo = &cacheRevInfo{nil, codehost.ErrNoCommits}
+	} else if bestTimeIsFromPseudo {
 		// We parsed bestTime from the pseudo-version, but that's in UTC and we're
 		// supposed to report the timestamp as reported by the VCS.
 		// Stat the selected version to canonicalize the timestamp.
 		//
 		// TODO(bcmills): Should we also stat other versions to ensure that we
 		// report the correct Name and Short for the revision?
-		return p.Stat(bestVersion)
+		rev, err := p.Stat(bestVersion)
+		p.latestRevInfo = &cacheRevInfo{rev, err}
+	} else {
+		p.latestRevInfo = &cacheRevInfo{
+			rev: &RevInfo{
+				Version: bestVersion,
+				Name:    bestVersion,
+				Short:   bestVersion,
+				Time:    bestTime,
+			},
+			err: nil,
+		}
 	}
-
-	return &RevInfo{
-		Version: bestVersion,
-		Name:    bestVersion,
-		Short:   bestVersion,
-		Time:    bestTime,
-	}, nil
+	semver.Sort(list)
+	return list, nil
 }
 
 func (p *proxyRepo) Stat(rev string) (*RevInfo, error) {
@@ -373,7 +375,15 @@ func (p *proxyRepo) Latest() (*RevInfo, error) {
 		if !errors.Is(err, fs.ErrNotExist) {
 			return nil, p.versionError("", err)
 		}
-		return p.latest()
+		if p.latestRevInfo == nil {
+			p.versionsOnce.Do(func() {
+				p.Versions("")
+			})
+		}
+		if p.latestRevInfo.err != nil {
+			return nil, p.versionError("", p.latestRevInfo.err)
+		}
+		return p.latestRevInfo.rev, nil
 	}
 	info := new(RevInfo)
 	if err := json.Unmarshal(data, info); err != nil {
