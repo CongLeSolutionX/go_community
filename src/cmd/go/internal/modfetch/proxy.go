@@ -21,6 +21,7 @@ import (
 	"cmd/go/internal/base"
 	"cmd/go/internal/cfg"
 	"cmd/go/internal/modfetch/codehost"
+	"cmd/go/internal/par"
 	"cmd/go/internal/web"
 
 	"golang.org/x/mod/module"
@@ -187,6 +188,7 @@ type proxyRepo struct {
 	url         *url.URL
 	path        string
 	redactedURL string
+	cache       par.Cache
 }
 
 func newProxyRepo(baseURL, path string) (Repo, error) {
@@ -214,7 +216,7 @@ func newProxyRepo(baseURL, path string) (Repo, error) {
 	redactedURL := base.Redacted()
 	base.Path = strings.TrimSuffix(base.Path, "/") + "/" + enc
 	base.RawPath = strings.TrimSuffix(base.RawPath, "/") + "/" + pathEscape(enc)
-	return &proxyRepo{base, path, redactedURL}, nil
+	return &proxyRepo{base, path, redactedURL, par.Cache{}}, nil
 }
 
 func (p *proxyRepo) ModulePath() string {
@@ -242,12 +244,25 @@ func (p *proxyRepo) versionError(version string, err error) error {
 }
 
 func (p *proxyRepo) getBytes(path string) ([]byte, error) {
-	body, err := p.getBody(path)
-	if err != nil {
-		return nil, err
+	// The par.Cache here avoids duplicate work.
+	type cached struct {
+		body []byte
+		err  error
 	}
-	defer body.Close()
-	return io.ReadAll(body)
+
+	c := p.cache.Do(path, func() any {
+		body, err := p.getBody(path)
+		if err != nil {
+			return cached{nil, err}
+		}
+		defer body.Close()
+		b, err := io.ReadAll(body)
+		return cached{b, err}
+	}).(cached)
+	if c.err != nil {
+		return nil, c.err
+	}
+	return c.body, nil
 }
 
 func (p *proxyRepo) getBody(path string) (io.ReadCloser, error) {
