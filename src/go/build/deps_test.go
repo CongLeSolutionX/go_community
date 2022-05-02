@@ -145,7 +145,7 @@ var depsRules = `
 	MATH
 	< math/rand;
 
-	MATH
+	MATH, TIME
 	< runtime/metrics;
 
 	MATH, unicode/utf8
