@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc0607f3_a4fedee6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 51986
+      },
+      "writtenOn": "2022-05-02T22:13:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0abb024b_cd10fbaf",
+      "revId": "fedbc16cfa1c4bfa1db1fb03e46ba4ebb32d6621",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4bcd30eb_283ea3b9",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-05-02T21:46:17Z",
       "side": 1,
       "message": "Please add line breaks at column 76 or so.\n\nPlease don\u0027t use Markdown syntax in the change description.  Here you can just refer to the function name, omit the link.",
+      "revId": "fedbc16cfa1c4bfa1db1fb03e46ba4ebb32d6621",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4dadb78_11c65d1d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 51986
+      },
+      "writtenOn": "2022-05-02T22:13:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4bcd30eb_283ea3b9",
       "revId": "fedbc16cfa1c4bfa1db1fb03e46ba4ebb32d6621",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -52,6 +88,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "13dd7af3_3a8a1ec4",
+        "filename": "src/encoding/base32/base32.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 51986
+      },
+      "writtenOn": "2022-05-02T22:13:19Z",
+      "side": 1,
+      "message": "It doesn\u0027t include padding characters (only the else clause): https://github.com/teivah/go/blob/ea8673cc32b0b75cc90f2205d78e7552b62459dd/src/encoding/base32/base32.go#L326. So, I rather think it\u0027s only a count of padding characters. Don\u0027t you share? \nI tried renaming it to `nonPadCount`.",
+      "parentUuid": "a347683f_ed6d7c68",
+      "revId": "fedbc16cfa1c4bfa1db1fb03e46ba4ebb32d6621",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d3422dc6_7ee72368",
@@ -69,6 +123,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0a4f1cd_bf95c685",
+        "filename": "src/encoding/base32/base32.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 51986
+      },
+      "writtenOn": "2022-05-02T22:13:19Z",
+      "side": 1,
+      "message": "I went with `padIdx`. Please let me know if OK.",
+      "parentUuid": "d3422dc6_7ee72368",
+      "revId": "fedbc16cfa1c4bfa1db1fb03e46ba4ebb32d6621",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "66ecb7e5_99ceec48",
@@ -82,6 +154,24 @@
       "writtenOn": "2022-05-02T21:46:17Z",
       "side": 1,
       "message": "We usually use got/want in our test error messages.  That is, \"got nil error, want %q\".  And put the \"case %+v\" first, but use %q.\n\ngot/want a couple of lines down, too.",
+      "revId": "fedbc16cfa1c4bfa1db1fb03e46ba4ebb32d6621",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a705d6e_5133dcd5",
+        "filename": "src/encoding/base32/base32_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 51986
+      },
+      "writtenOn": "2022-05-02T22:13:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "66ecb7e5_99ceec48",
       "revId": "fedbc16cfa1c4bfa1db1fb03e46ba4ebb32d6621",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }

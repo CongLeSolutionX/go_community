@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63387528_79720e9e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 51986
+      },
+      "writtenOn": "2022-05-02T22:13:19Z",
+      "side": 1,
+      "message": "Thanks Lance, I tried tackling your comments. Hopefully, it\u0027ll suit you.",
+      "revId": "d974e7b6455b8c36d88ebb5a8b55aad64399e4c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
