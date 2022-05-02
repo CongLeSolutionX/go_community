@@ -235,6 +235,14 @@ func initMetrics() {
 				out.scalar = uint64(in.heapStats.tinyAllocCount)
 			},
 		},
+		"/gc/limiter/last-enabled:timestamp": {
+			compute: func(_ *statAggregate, out *metricValue) {
+				out.kind = metricKindTime
+				// TODO(mknyszek): Do we have to worry about a clock being set
+				// before 1970?
+				out.scalar = uint64(gcCPULimiter.lastEnabledUnix.Load())
+			},
+		},
 		"/gc/pauses:seconds": {
 			compute: func(_ *statAggregate, out *metricValue) {
 				hist := out.float64HistOrInit(timeHistBuckets)

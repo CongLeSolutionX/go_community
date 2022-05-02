@@ -6,6 +6,7 @@ package metrics
 
 import (
 	"math"
+	"time"
 	"unsafe"
 )
 
@@ -24,6 +25,9 @@ const (
 
 	// KindFloat64Histogram indicates that the type of the Value is a *Float64Histogram.
 	KindFloat64Histogram
+
+	// KindTime indicates that the type of the Value is a time.Time.
+	KindTime
 )
 
 // Value represents a metric value returned by the runtime.
@@ -66,4 +70,21 @@ func (v Value) Float64Histogram() *Float64Histogram {
 		panic("called Float64Histogram on non-Float64Histogram metric value")
 	}
 	return (*Float64Histogram)(v.pointer)
+}
+
+// Time returns the internal time.Time value for the metric. May return the
+// zero value of time.Time if this value was sampled from some metric that
+// represents an event in time.
+//
+// If v.Kind() != KindTime, this method panics.
+func (v Value) Time() time.Time {
+	if v.kind != KindTime {
+		panic("called Time on non-time.Time metric value")
+	}
+	// Use zero as our sentinel value. We can safely assume we're not running
+	// in the year 1970 (right?).
+	if v.scalar == 0 {
+		return time.Time{}
+	}
+	return time.Unix(0, int64(v.scalar))
 }
