@@ -654,6 +654,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dd037489_94db561a",
+        "filename": "src/cmd/internal/obj/arm64/argsEnc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 771,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-05-02T19:59:10Z",
+      "side": 1,
+      "message": "\u003e   switch argument_type {\n  case type_1:\n    encoding_type_1()\n  case type_2:\n    encoding_type_2()\n  ...\n  }\n\n\nIt looks like this is a good use case for code generation. Can this switch statement be machine generated?\n\n\u003e arg_Vn_arrangement_imm5___B_1__H_2__S_4__D_8_index__imm5_imm4__imm4lt30gt_1__imm4lt31gt_2__imm4lt32gt_4__imm4lt3gt_8_1\n\nWhy it needs to contain multiple imm4ltXXgtX? Can this be simplified?\n\nCL 348510 is actually an example showing that this code could use a fair amount of modification in the future, not only adding new cases, but touching existing cases. How much effort one needs to have? (Imagine for a new person, not you or me.)",
+      "parentUuid": "5b39c124_a0054fa6",
+      "revId": "8be04a6da41e88e8bfbc34ee365ea05f17e99d8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ec99a5fa_67ae7d46",
         "filename": "src/cmd/internal/obj/arm64/asm7.go",
         "patchSetId": 6

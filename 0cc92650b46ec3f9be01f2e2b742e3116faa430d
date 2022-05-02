@@ -200,6 +200,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "69b176d5_c9688795",
+        "filename": "src/cmd/internal/obj/arm64/argsEnc.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1835,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-05-02T19:59:10Z",
+      "side": 1,
+      "message": "The comment needs to be clearer. If this is a placeholder for future work, add a TODO (or, remove it and add it in the future when it actually needed).\n\n\"encodes an opcode\" sounds very generally, which would apply to (almost) every instruction, as all instruction should have an opcode. But in face it is all 0? If it is only for specific instructions, name it more specifically.",
+      "parentUuid": "073468ec_769124f9",
+      "range": {
+        "startLine": 1828,
+        "startChar": 0,
+        "endLine": 1835,
+        "endChar": 0
+      },
+      "revId": "0cc92650b46ec3f9be01f2e2b742e3116faa430d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fe3b5728_04402ef3",
         "filename": "src/cmd/internal/obj/arm64/asm7.go",
         "patchSetId": 7

@@ -164,6 +164,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9cb18764_17e6679e",
+        "filename": "src/cmd/asm/internal/asm/endtoend_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-05-02T19:59:10Z",
+      "side": 1,
+      "message": "What is the error actually reported on the command line? We can make the the test to do whatever makes sense, but the actual error printed on the command line is what matters to users. We probably don\u0027t want to print multiple error for one bad instruction.",
+      "parentUuid": "ac1b45c9_c28bbf4b",
+      "revId": "f1c9086fa7cb384c4d22751a4df21b65f9d888ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7800a6e3_d0e61e6d",
         "filename": "src/cmd/internal/obj/link.go",
         "patchSetId": 4
@@ -295,6 +313,30 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "a1332a0e_c037b067",
+      "range": {
+        "startLine": 322,
+        "startChar": 0,
+        "endLine": 353,
+        "endChar": 1
+      },
+      "revId": "f1c9086fa7cb384c4d22751a4df21b65f9d888ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52aed47b_59359a36",
+        "filename": "src/cmd/internal/obj/link.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-05-02T19:59:10Z",
+      "side": 1,
+      "message": "Yeah, we need to know the number of instructions. But we can compute the number of instructions without actually doing the expansion. Why not do that?\n\n\u003e Yeah, my statement is wrong. I mean the relocation symbol may be Prog.From.Sym or Prog.To.Sym, so apart from the relocation type, we also need to record the symbol.\n\nSo the problem is that the Oprd type (now \"arg\") doesn\u0027t contain a Sym? What about adding it?",
+      "parentUuid": "d3d05324_1afb9a4b",
       "range": {
         "startLine": 322,
         "startChar": 0,
