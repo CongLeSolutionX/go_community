@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0abb024b_cd10fbaf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-05-02T21:46:17Z",
+      "side": 1,
+      "message": "Please put this down at the bottom of the description, and write it as\n\nFixes #38657\n\n(For our preferred format of change descriptions, see https://go.dev/wiki/CommitMessage)",
+      "revId": "fedbc16cfa1c4bfa1db1fb03e46ba4ebb32d6621",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4bcd30eb_283ea3b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-05-02T21:46:17Z",
+      "side": 1,
+      "message": "Please add line breaks at column 76 or so.\n\nPlease don\u0027t use Markdown syntax in the change description.  Here you can just refer to the function name, omit the link.",
+      "revId": "fedbc16cfa1c4bfa1db1fb03e46ba4ebb32d6621",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a347683f_ed6d7c68",
+        "filename": "src/encoding/base32/base32.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-05-02T21:46:17Z",
+      "side": 1,
+      "message": "Please update the method doc comment to explain the new result parameter.\n\nI\u0027m not sure nonPadding is a good name.  If I\u0027m reading the code correctly it\u0027s intended to be an actual byte count including padding characters.  OR something, I\u0027m not really sure.",
+      "revId": "fedbc16cfa1c4bfa1db1fb03e46ba4ebb32d6621",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3422dc6_7ee72368",
+        "filename": "src/encoding/base32/base32.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-05-02T21:46:17Z",
+      "side": 1,
+      "message": "Can we use a shorter field name here?",
+      "revId": "fedbc16cfa1c4bfa1db1fb03e46ba4ebb32d6621",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66ecb7e5_99ceec48",
+        "filename": "src/encoding/base32/base32_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-05-02T21:46:17Z",
+      "side": 1,
+      "message": "We usually use got/want in our test error messages.  That is, \"got nil error, want %q\".  And put the \"case %+v\" first, but use %q.\n\ngot/want a couple of lines down, too.",
+      "revId": "fedbc16cfa1c4bfa1db1fb03e46ba4ebb32d6621",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
