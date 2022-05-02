@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b627d41a_793e8557",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-05-02T17:15:10Z",
+      "side": 1,
+      "message": "What parts make you confused, though?\n\nThe problem make the optimization fails for pointers to array is that there\u0027s an implicit deref in the loop body in case of pointer to array. So to make `ir.SameSafeExpr` works, we need to remove that implicit deref.",
+      "parentUuid": "4ed976ce_8268e8b6",
+      "revId": "e8a04907e055efc644bcf57923fd04282dcb60b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "117f8b20_4f3f176f",
@@ -68,6 +86,30 @@
       "writtenOn": "2022-05-02T16:55:56Z",
       "side": 1,
       "message": "I think `a.Type().IsPtr() \u0026\u0026 a.Type().Elem().IsArray()` would be clearer.",
+      "range": {
+        "startLine": 407,
+        "startChar": 3,
+        "endLine": 407,
+        "endChar": 49
+      },
+      "revId": "e8a04907e055efc644bcf57923fd04282dcb60b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "12c888cc_583651a3",
+        "filename": "src/cmd/compile/internal/walk/range.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-05-02T17:15:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "117f8b20_4f3f176f",
       "range": {
         "startLine": 407,
         "startChar": 3,
@@ -101,6 +143,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b997012f_93ed9096",
+        "filename": "src/cmd/compile/internal/walk/range.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-05-02T17:15:10Z",
+      "side": 1,
+      "message": "Yeah, right, we must check `x` is StarExpr here.",
+      "parentUuid": "19e74892_02fe965e",
+      "range": {
+        "startLine": 408,
+        "startChar": 6,
+        "endLine": 408,
+        "endChar": 11
+      },
+      "revId": "e8a04907e055efc644bcf57923fd04282dcb60b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "98bd499b_6d424592",
@@ -114,6 +180,30 @@
       "writtenOn": "2022-05-02T17:03:18Z",
       "side": 1,
       "message": "Can we add 3 more variations here:\n\n```\nfor i :\u003d range *t.a { t.a[i] \u003d 0 }\nfor i :\u003d range t.a { (*t.a)[i] \u003d 0 }\nfor i :\u003d range *t.a { (*t.a)[i] \u003d 0 }\n```\n\nand make sure they\u0027re all optimized?",
+      "range": {
+        "startLine": 18,
+        "startChar": 1,
+        "endLine": 20,
+        "endChar": 2
+      },
+      "revId": "e8a04907e055efc644bcf57923fd04282dcb60b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74d42d69_f469c438",
+        "filename": "test/codegen/issue52635.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-05-02T17:15:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98bd499b_6d424592",
       "range": {
         "startLine": 18,
         "startChar": 1,
