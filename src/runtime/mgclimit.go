@@ -40,9 +40,9 @@ type gcCPULimiterState struct {
 		// - fill <= capacity
 		fill, capacity uint64
 	}
-	// TODO(mknyszek): Export this as a runtime/metric to provide an estimate of
-	// how much GC work is being dropped on the floor.
-	overflow uint64
+	// overflow is the cumulative amount of GC CPU time that we tried to fill the
+	// bucket with but exceeded its capacity.
+	overflow atomic.Uint64
 
 	// gcEnabled is an internal copy of gcBlackenEnabled that determines
 	// whether the limiter tracks total assist time.
@@ -201,7 +201,7 @@ func (l *gcCPULimiterState) accumulate(mutatorTime, gcTime int64) {
 
 	// Handle limiting case.
 	if change > 0 && headroom <= uint64(change) {
-		l.overflow += uint64(change) - headroom
+		l.overflow.Add(uint64(change) - headroom)
 		l.bucket.fill = l.bucket.capacity
 		if !enabled {
 			l.enabled.Store(true)
