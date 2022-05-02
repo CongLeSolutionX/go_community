@@ -141,6 +141,12 @@ func initMetrics() {
 				out.scalar = float64bits(nsToSec(in.cpuStats.totalTime))
 			},
 		},
+		"/gc/cpu/limiter-overflow:cpu-seconds": {
+			compute: func(_ *statAggregate, out *metricValue) {
+				out.kind = metricKindUint64
+				out.scalar = gcCPULimiter.overflow.Load()
+			},
+		},
 		"/gc/cycles/automatic:gc-cycles": {
 			deps: makeStatDepSet(sysStatsDep),
 			compute: func(in *statAggregate, out *metricValue) {
