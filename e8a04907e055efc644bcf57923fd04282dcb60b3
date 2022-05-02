@@ -73,6 +73,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eceae389_772c1cd6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-05-02T23:27:03Z",
+      "side": 1,
+      "message": "I think just the overall code wasn\u0027t very obvious. But I\u0027ve been staring at it long enough now that it seems to make sense.",
+      "parentUuid": "b627d41a_793e8557",
+      "revId": "e8a04907e055efc644bcf57923fd04282dcb60b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "117f8b20_4f3f176f",
