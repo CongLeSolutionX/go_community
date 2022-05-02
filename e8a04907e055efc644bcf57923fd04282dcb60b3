@@ -99,6 +99,29 @@
       },
       "revId": "e8a04907e055efc644bcf57923fd04282dcb60b3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98bd499b_6d424592",
+        "filename": "test/codegen/issue52635.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-05-02T17:03:18Z",
+      "side": 1,
+      "message": "Can we add 3 more variations here:\n\n```\nfor i :\u003d range *t.a { t.a[i] \u003d 0 }\nfor i :\u003d range t.a { (*t.a)[i] \u003d 0 }\nfor i :\u003d range *t.a { (*t.a)[i] \u003d 0 }\n```\n\nand make sure they\u0027re all optimized?",
+      "range": {
+        "startLine": 18,
+        "startChar": 1,
+        "endLine": 20,
+        "endChar": 2
+      },
+      "revId": "e8a04907e055efc644bcf57923fd04282dcb60b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
