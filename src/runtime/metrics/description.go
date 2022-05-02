@@ -244,6 +244,15 @@ var allDesc = []Description{
 		Cumulative: true,
 	},
 	{
+		Name: "/gc/limiter/last-enabled:timestamp",
+		Description: "Timestamp of the last time the GC CPU limiter was enabled. " +
+			"This metric is useful for diagnosing the root cause of an out-of-memory " +
+			"error, because the limiter trades memory for CPU time when the GC's CPU " +
+			"time gets too high, leading to a death spiral. This is most likely to " +
+			"occur with use of SetMemoryLimit.",
+		Kind: KindTime,
+	},
+	{
 		Name:        "/gc/pauses:seconds",
 		Description: "Distribution individual GC-related stop-the-world pause latencies.",
 		Kind:        KindFloat64Histogram,
