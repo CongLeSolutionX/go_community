@@ -38,6 +38,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "737deb43_724a8043",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-05-03T18:01:52Z",
+      "side": 1,
+      "message": "LGTM, thanks.",
+      "revId": "c7081855102ab561412fe84f72f40e2a61f0b13e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0c35e74f_ce025b21",
@@ -128,6 +145,30 @@
       "side": 1,
       "message": "LZCNTW is weird because I think it only writes 16 bits of the output register. We need a full register width on output.\n(Whereas I think LZCNTL does extend its result from 32 to 64 bits.)\n\nI should retest all that though. I have a hazy recollection that\u0027s why we didn\u0027t include LZCNTW.",
       "parentUuid": "7eb8a13e_a0839fb6",
+      "range": {
+        "startLine": 109,
+        "startChar": 73,
+        "endLine": 109,
+        "endChar": 79
+      },
+      "revId": "c7081855102ab561412fe84f72f40e2a61f0b13e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "500813d7_4e741e6c",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-05-03T18:01:52Z",
+      "side": 1,
+      "message": "SGTM, thanks. (A comment may be a good idea, so one won\u0027t try to change it to LZCNTW)",
+      "parentUuid": "2543d023_46a17b01",
       "range": {
         "startLine": 109,
         "startChar": 73,
