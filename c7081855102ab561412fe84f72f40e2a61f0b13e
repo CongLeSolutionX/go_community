@@ -34,6 +34,46 @@
       "message": "I think this should be a MOVZX.",
       "revId": "c7081855102ab561412fe84f72f40e2a61f0b13e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7eb8a13e_a0839fb6",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-05-03T17:51:09Z",
+      "side": 1,
+      "message": "There is a LZCNTW instruction. Maybe use that to save an instruction? (Seems there is no LZCNTB, though)",
+      "range": {
+        "startLine": 109,
+        "startChar": 73,
+        "endLine": 109,
+        "endChar": 79
+      },
+      "revId": "c7081855102ab561412fe84f72f40e2a61f0b13e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d8c0682_5ae9c2a1",
+        "filename": "src/cmd/compile/internal/test/intrinsics_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-05-03T17:51:09Z",
+      "side": 1,
+      "message": "Does the test fail without the CL? Maybe we need to intentionally make some input that has high bits not 0?",
+      "revId": "c7081855102ab561412fe84f72f40e2a61f0b13e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
