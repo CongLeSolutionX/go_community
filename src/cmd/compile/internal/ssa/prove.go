@@ -1330,6 +1330,44 @@ func simplifyBlock(sdom SparseTree, ft *factsTable, b *Block) {
 					b.Func.Warnl(v.Pos, "Proved %v does not need fix-up", v.Op)
 				}
 			}
+		default:
+			// Fold provable constant results
+			// Helps in cases where we reuse a value after branching on it's equality.
+			for i, arg := range v.Args {
+				switch arg.Op {
+				case OpConst64, OpConst32, OpConst16, OpConst8:
+					continue
+				}
+				lim, ok := ft.limits[arg.ID]
+				if !ok {
+					continue
+				}
+
+				min := lim.min
+				if min != lim.max {
+					continue
+				}
+				var c *Value
+				f := b.Func
+				typ := arg.Type
+				bits := 8 * typ.Size()
+				switch bits {
+				case 64:
+					c = f.ConstInt64(typ, min)
+				case 32:
+					c = f.ConstInt32(typ, int32(min))
+				case 16:
+					c = f.ConstInt16(typ, int16(min))
+				case 8:
+					c = f.ConstInt8(typ, int8(min))
+				default:
+					panic("unexpected integer size")
+				}
+				v.SetArg(i, c)
+				if b.Func.pass.debug > 1 {
+					b.Func.Warnl(v.Pos, "Proved %v's arg %d (%v) is constant %d", v, i, arg, min)
+				}
+			}
 		}
 	}
 
