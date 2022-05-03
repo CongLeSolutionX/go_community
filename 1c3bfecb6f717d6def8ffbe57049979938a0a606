@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a6eff2b_cc798377",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 51986
+      },
+      "writtenOn": "2022-05-03T07:16:09Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a012b749_487d48ab",
+      "revId": "1c3bfecb6f717d6def8ffbe57049979938a0a606",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "17d15a64_162d68f8",
@@ -35,6 +53,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1d8fcde_d64a4e84",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 51986
+      },
+      "writtenOn": "2022-05-03T07:16:09Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "17d15a64_162d68f8",
+      "revId": "1c3bfecb6f717d6def8ffbe57049979938a0a606",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e70a981d_dce9a35e",
@@ -48,6 +84,24 @@
       "writtenOn": "2022-05-02T22:38:20Z",
       "side": 1,
       "message": "OK, there is something I don\u0027t understand here.  For other CorruptInputError cases we always use a value based on olen.  So I think that that offset is going to be an offset into the bytes returned by this call to Read.  (Although that may not be true if len(d.out) \u003e 0, not sure what to do about that.)\n\nAnyhow, the CorruptInputError number that we are returning here doesn\u0027t have anything to do with the bytes being returned from Read.  In fact, we aren\u0027t returning any bytes from Read.  So it seems to me that for this case we may as well always just return CorruptInputError(0), indicating that the problem was in bytes returned earlier.  That will simply this code.  Happy to hear other opinions.",
+      "revId": "1c3bfecb6f717d6def8ffbe57049979938a0a606",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5862ef2d_9199a1b4",
+        "filename": "src/encoding/base32/base32.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 51986
+      },
+      "writtenOn": "2022-05-03T07:16:09Z",
+      "side": 1,
+      "message": "The only drawback with this approach is that it makes the error message inconsistent depending on whether we use streaming or not.\nThat being said, if it\u0027s an accepted tradeoff, I\u0027m also much more comfortable with this approach as it removes the introduced complexity and extra variables and field \"just\" for an error message. I reverted to the strict minimum.",
+      "parentUuid": "e70a981d_dce9a35e",
       "revId": "1c3bfecb6f717d6def8ffbe57049979938a0a606",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
