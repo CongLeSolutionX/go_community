@@ -18,8 +18,5 @@ const P = 2 // declare P to avoid noisy 'undeclared name' errors below.
 type _[P *int /* ERROR "int \(type\) is not an expression" */ ] int
 type _[P /* ERROR non-function P */ (*int)] int
 
-// The following should be parsed as a generic type, but is instead parsed as an array type.
-type _[P *struct /* ERROR "expected expression" */ {}| int /* ERROR "not an expression" */ ] struct{}
-
-// The following fails to parse, due to the '~'
-type _[P *struct /* ERROR "expected expression" */ {}|~int /* ERROR "not an expression" */ ] struct{}
+type _[P *struct{}| int] struct{}
+type _[P *struct{}|~int] struct{}

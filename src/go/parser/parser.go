@@ -2596,6 +2596,8 @@ func (p *parser) parseTypeSpec(doc *ast.CommentGroup, _ token.Pos, _ token.Token
 	spec := &ast.TypeSpec{Doc: doc, Name: ident}
 
 	if p.tok == token.LBRACK && p.allowGenerics() {
+		// d.Name "[" ...
+		// array/slice type or type parameter list
 		lbrack := p.pos
 		p.next()
 		if p.tok == token.IDENT {
@@ -2608,14 +2610,12 @@ func (p *parser) parseTypeSpec(doc *ast.CommentGroup, _ token.Pos, _ token.Token
 			// with a "[" as in: P []E. In that case, simply parsing
 			// an expression would lead to an error: P[] is invalid.
 			// But since index or slice expressions are never constant
-			// and thus invalid array length expressions, if we see a
-			// "[" following a name it must be the start of an array
-			// or slice constraint. Only if we don't see a "[" do we
-			// need to parse a full expression.
-
-			// Index or slice expressions are never constant and thus invalid
-			// array length expressions. Thus, if we see a "[" following name
-			// we can safely assume that "[" name starts a type parameter list.
+			// and thus invalid array length expressions, if the name
+			// is followed by "[" it must be the start of an array or
+			// slice constraint. Only if we don't see a "[" do we
+			// need to parse a full expression. Notably, name <- x
+			// is not a concern because name <- x is a statement and
+			// not an expression.
 			var x ast.Expr = p.parseIdent()
 			if p.tok != token.LBRACK {
 				// To parse the expression starting with name, expand
@@ -2626,57 +2626,20 @@ func (p *parser) parseTypeSpec(doc *ast.CommentGroup, _ token.Pos, _ token.Token
 				x = p.parseBinaryExpr(lhs, token.LowestPrec+1, false)
 				p.exprLev--
 			}
-
-			// analyze the cases
-			var pname *ast.Ident // pname != nil means pname is the type parameter name
-			var ptype ast.Expr   // ptype != nil means ptype is the type parameter type; pname != nil in this case
-
-			switch t := x.(type) {
-			case *ast.Ident:
-				// Unless we see a "]", we are at the start of a type parameter list.
-				if p.tok != token.RBRACK {
-					// d.Name "[" name ...
-					pname = t
-					// no ptype
-				}
-			case *ast.BinaryExpr:
-				// If we have an expression of the form name*T, and T is a (possibly
-				// parenthesized) type literal or the next token is a comma, we are
-				// at the start of a type parameter list.
-				if name, _ := t.X.(*ast.Ident); name != nil {
-					if t.Op == token.MUL && (isTypeLit(t.Y) || p.tok == token.COMMA) {
-						// d.Name "[" name "*" t.Y
-						// d.Name "[" name "*" t.Y ","
-						// convert t into unary *t.Y
-						pname = name
-						ptype = &ast.StarExpr{Star: t.OpPos, X: t.Y}
-					}
-				}
-				if pname == nil {
-					// A normal binary expression. Since we passed check=false, we must
-					// now check its operands.
-					p.checkBinaryExpr(t)
-				}
-			case *ast.CallExpr:
-				// If we have an expression of the form name(T), and T is a (possibly
-				// parenthesized) type literal or the next token is a comma, we are
-				// at the start of a type parameter list.
-				if name, _ := t.Fun.(*ast.Ident); name != nil {
-					if len(t.Args) == 1 && !t.Ellipsis.IsValid() && (isTypeLit(t.Args[0]) || p.tok == token.COMMA) {
-						// d.Name "[" name "(" t.ArgList[0] ")"
-						// d.Name "[" name "(" t.ArgList[0] ")" ","
-						pname = name
-						ptype = t.Args[0]
-					}
-				}
-			}
-
-			if pname != nil {
+			// Analyze expression x. If we can split x into a type parameter
+			// name, possibly followed by a type parameter type, we consider
+			// this the start of a type parameter list, with some caveats:
+			// a single name followed by "]" tilts the decision towards an
+			// array declaration; a type parameter type that could also be
+			// an ordinary expression but which is followed by a comma tilts
+			// the decision towards a type parameter list.
+			if pname, ptype := extractName(x, p.tok == token.COMMA); pname != nil && (ptype != nil || p.tok != token.RBRACK) {
 				// d.Name "[" pname ...
 				// d.Name "[" pname ptype ...
 				// d.Name "[" pname ptype "," ...
-				p.parseGenericType(spec, lbrack, pname, ptype)
+				p.parseGenericType(spec, lbrack, pname, ptype) // ptype may be nil
 			} else {
+				// d.Name "[" pname "]" ...
 				// d.Name "[" x ...
 				spec.Type = p.parseArrayType(lbrack, x)
 			}
@@ -2700,17 +2663,48 @@ func (p *parser) parseTypeSpec(doc *ast.CommentGroup, _ token.Pos, _ token.Token
 	return spec
 }
 
-// isTypeLit reports whether x is a (possibly parenthesized) type literal.
-func isTypeLit(x ast.Expr) bool {
+func extractName(x ast.Expr, force bool) (*ast.Ident, ast.Expr) {
+	switch x := x.(type) {
+	case *ast.Ident:
+		return x, nil
+	case *ast.BinaryExpr:
+		switch x.Op {
+		case token.MUL:
+			if name, _ := x.X.(*ast.Ident); name != nil && (isTypeElem(x.Y) || force) {
+				// x = name *x.Y
+				return name, &ast.StarExpr{Star: x.OpPos, X: x.Y}
+			}
+		case token.OR:
+			if name, lhs := extractName(x.X, isTypeElem(x.Y) || force); name != nil && lhs != nil { // note: lhs should never be nil
+				// x = name lhs|x.Y
+				op := *x
+				op.X = lhs
+				return name, &op
+			}
+		}
+	case *ast.CallExpr:
+		if name, _ := x.Fun.(*ast.Ident); name != nil {
+			if len(x.Args) == 1 && x.Ellipsis == token.NoPos && (isTypeElem(x.Args[0]) || force) {
+				// x = name "(" x.ArgList[0] ")"
+				return name, x.Args[0]
+			}
+		}
+	}
+	return nil, x
+}
+
+// isTypeElem reports whether x is a (possibly parenthesized) type element expression.
+// The result is false if x could be a type element OR an ordinary (value) expression.
+func isTypeElem(x ast.Expr) bool {
 	switch x := x.(type) {
 	case *ast.ArrayType, *ast.StructType, *ast.FuncType, *ast.InterfaceType, *ast.MapType, *ast.ChanType:
 		return true
-	case *ast.StarExpr:
-		// *T may be a pointer dereferenciation.
-		// Only consider *T as type literal if T is a type literal.
-		return isTypeLit(x.X)
+	case *ast.BinaryExpr:
+		return isTypeElem(x.X) || isTypeElem(x.Y)
+	case *ast.UnaryExpr:
+		return x.Op == token.TILDE
 	case *ast.ParenExpr:
-		return isTypeLit(x.X)
+		return isTypeElem(x.X)
 	}
 	return false
 }
