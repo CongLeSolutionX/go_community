@@ -15,6 +15,7 @@ import (
 	"cmd/go/internal/cfg"
 	"cmd/go/internal/fsys"
 	"cmd/go/internal/imports"
+	"cmd/go/internal/modindex"
 	"cmd/go/internal/search"
 	"cmd/go/internal/trace"
 
@@ -171,6 +172,10 @@ func matchPackages(ctx context.Context, m *search.Match, tags map[string]bool, f
 				continue
 			}
 			modPrefix = mod.Path
+			if index, ok := modindex.Get(root); ok {
+				walkFromIndex(ctx, m, tags, index, have, root, modPrefix)
+				continue
+			}
 		}
 
 		prune := pruneVendor
@@ -181,6 +186,41 @@ func matchPackages(ctx context.Context, m *search.Match, tags map[string]bool, f
 	}
 
 	return
+}
+
+func walkFromIndex(ctx context.Context, m *search.Match, tags map[string]bool, index *modindex.ModuleIndex, have map[string]bool, root, importPathRoot string) {
+	isMatch := func(string) bool { return true }
+	treeCanMatch := func(string) bool { return true }
+	if !m.IsMeta() {
+		isMatch = search.MatchPattern(m.Pattern())
+		treeCanMatch = search.TreeCanMatchPattern(m.Pattern())
+	}
+	for _, path := range index.Packages() {
+		elem := ""
+
+		// Avoid .foo, _foo, and testdata subdirectory trees.
+		_, elem = filepath.Split(path)
+		if strings.HasPrefix(elem, ".") || strings.HasPrefix(elem, "_") || elem == "testdata" {
+			return
+		}
+
+		name := importPathRoot + filepath.ToSlash(path[len(root):])
+		if importPathRoot == "" {
+			name = name[1:] // cut leading slash
+		}
+		if !treeCanMatch(name) {
+			return
+		}
+
+		if !have[name] {
+			have[name] = true
+			if isMatch(name) {
+				if _, _, err := scanDir(ctx, path, tags); err != imports.ErrNoGo {
+					m.Pkgs = append(m.Pkgs, name)
+				}
+			}
+		}
+	}
 }
 
 // MatchInModule identifies the packages matching the given pattern within the
