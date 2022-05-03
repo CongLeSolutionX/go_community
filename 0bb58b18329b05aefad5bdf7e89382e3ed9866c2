@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "29db2362_22b6a543",
+        "filename": "src/crypto/elliptic/internal/nistec/p224.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2022-05-03T16:43:29Z",
+      "side": 1,
+      "message": "p224Polynomial feels consistent with p224SqrtCandidate, p224Add, etc.",
+      "parentUuid": "c120d9b8_622f3de7",
+      "range": {
+        "startLine": 113,
+        "startChar": 5,
+        "endLine": 113,
+        "endChar": 19
+      },
+      "revId": "0bb58b18329b05aefad5bdf7e89382e3ed9866c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "328896ee_47ebc115",
         "filename": "src/crypto/elliptic/internal/nistec/p224.go",
         "patchSetId": 6
@@ -49,6 +73,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "da7d9f47_a6e66fad",
+        "filename": "src/crypto/elliptic/internal/nistec/p224.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2022-05-03T16:43:29Z",
+      "side": 1,
+      "message": "Done!",
+      "parentUuid": "328896ee_47ebc115",
+      "range": {
+        "startLine": 178,
+        "startChar": 1,
+        "endLine": 179,
+        "endChar": 45
+      },
+      "revId": "0bb58b18329b05aefad5bdf7e89382e3ed9866c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "490aadc8_7f21605e",
         "filename": "src/crypto/elliptic/internal/nistec/p256_asm.go",
         "patchSetId": 6
@@ -60,6 +108,30 @@
       "writtenOn": "2022-05-03T13:44:33Z",
       "side": 1,
       "message": "Since the function before this allocates the buffer on the stack, the value will be zero, but should the function explicitly set this, just in case?",
+      "range": {
+        "startLine": 578,
+        "startChar": 2,
+        "endLine": 578,
+        "endChar": 16
+      },
+      "revId": "0bb58b18329b05aefad5bdf7e89382e3ed9866c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b807e4b9_6c316956",
+        "filename": "src/crypto/elliptic/internal/nistec/p256_asm.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 578,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2022-05-03T16:43:29Z",
+      "side": 1,
+      "message": "Replaced with the append pattern the other files already use.",
+      "parentUuid": "490aadc8_7f21605e",
       "range": {
         "startLine": 578,
         "startChar": 2,
