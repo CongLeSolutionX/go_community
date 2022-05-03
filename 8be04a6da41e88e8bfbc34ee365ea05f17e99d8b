@@ -690,6 +690,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a72f0bef_231eba75",
+        "filename": "src/cmd/internal/obj/arm64/argsEnc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 771,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-05-03T05:43:23Z",
+      "side": 1,
+      "message": "\u003e Why it needs to contain multiple imm4ltXXgtX? Can this be simplified?\nThis is for argument \u003cVn\u003e.\u003cTs\u003e[\u003cindex2\u003e]\nThe index2 field is influenced by both imm5 and imm4, imm5 affects Ts, and imm4 affects the value range of index2, so we need to specify the field.\nOf course I said it\u0027s just a type name, as long as it\u0027s unique, we can name it anything legal, like t1, tt1, etc., but the naming here contains more information.",
+      "parentUuid": "f96103ec_192de853",
+      "revId": "8be04a6da41e88e8bfbc34ee365ea05f17e99d8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ec99a5fa_67ae7d46",
         "filename": "src/cmd/internal/obj/arm64/asm7.go",
         "patchSetId": 6
