@@ -15,6 +15,8 @@ import (
 	"cmd/go/internal/cfg"
 	"cmd/go/internal/fsys"
 	"cmd/go/internal/imports"
+	"cmd/go/internal/modfetch"
+	"cmd/go/internal/modindex"
 	"cmd/go/internal/search"
 	"cmd/go/internal/trace"
 
@@ -171,6 +173,10 @@ func matchPackages(ctx context.Context, m *search.Match, tags map[string]bool, f
 				continue
 			}
 			modPrefix = mod.Path
+			if index, ok := modfetch.GetIndex(root); ok {
+				walkFromIndex(ctx, m, tags, index, have, root, modPrefix)
+				continue
+			}
 		}
 
 		prune := pruneVendor
@@ -181,6 +187,53 @@ func matchPackages(ctx context.Context, m *search.Match, tags map[string]bool, f
 	}
 
 	return
+}
+
+func walkFromIndex(ctx context.Context, m *search.Match, tags map[string]bool, index *modindex.ModuleIndex, have map[string]bool, root, importPathRoot string) {
+	isMatch := func(string) bool { return true }
+	treeCanMatch := func(string) bool { return true }
+	if !m.IsMeta() {
+		isMatch = search.MatchPattern(m.Pattern())
+		treeCanMatch = search.TreeCanMatchPattern(m.Pattern())
+	}
+	for _, path := range index.Packages() {
+		want := true
+		elem := ""
+
+		// Don't use GOROOT/src but do walk down into it.
+		if path == root {
+			if importPathRoot == "" {
+				return
+			}
+		} else {
+			// Avoid .foo, _foo, and testdata subdirectory trees. This is already done by the path walking?
+			_, elem = filepath.Split(path)
+			if strings.HasPrefix(elem, ".") || strings.HasPrefix(elem, "_") || elem == "testdata" {
+				want = false
+			}
+		}
+
+		name := importPathRoot + filepath.ToSlash(path[len(root):])
+		if importPathRoot == "" {
+			name = name[1:] // cut leading slash
+		}
+		if !treeCanMatch(name) {
+			want = false
+		}
+
+		if !want {
+			return
+		}
+
+		if !have[name] {
+			have[name] = true
+			if isMatch(name) {
+				if _, _, err := scanDir(ctx, path, tags); err != imports.ErrNoGo {
+					m.Pkgs = append(m.Pkgs, name)
+				}
+			}
+		}
+	}
 }
 
 // MatchInModule identifies the packages matching the given pattern within the
