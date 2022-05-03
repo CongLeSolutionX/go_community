@@ -130,6 +130,30 @@
       },
       "revId": "a9ad55fe8541c0b460390bbea88c057d40622e48",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80c6220c_d75119e7",
+        "filename": "test/codegen/issue52635.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-05-03T02:10:35Z",
+      "side": 1,
+      "message": "Thanks, that makes sense.",
+      "parentUuid": "d629d30b_026f8161",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 2
+      },
+      "revId": "a9ad55fe8541c0b460390bbea88c057d40622e48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
