@@ -672,6 +672,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f96103ec_192de853",
+        "filename": "src/cmd/internal/obj/arm64/argsEnc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 771,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-05-03T05:25:09Z",
+      "side": 1,
+      "message": "\u003e Can this switch statement be machine generated?\nIt\u0027s a bit complicated, we have hundreds of argument types, and each type is different, which means we need to write code that generates encoding code for these hundreds of types. Rather than modifying the code that generates the encoded code, I prefer to modify the encoding code directly, which is more straightforward.\n\n\u003e CL 348510 is actually an example showing that this code could use a fair amount of modification\nI did some code refining work in this CL, if you look closely at the changes in the argsEnc.go file, you will find that a lot of changes before line 948 are not necessary for this CL, and there are some unnecessary code moves after line 948. In fact, this patch adds only 6 argument type encoding cases. And that\u0027s pretty much the worst case, that almost all argument types encoding have not been implemented before.\n\n\u003e How much effort one needs to have?\nThis is hard to measure because everyone\u0027s knowledge of Go code and ability to learn is different. I can only take myself as an example. If I\u0027m going to add some complex instructions, especially those involve the processing of constants of different ranges, it would have taken me an afternoon on the old codebase, but now I add the most complex instructions , such as CL 348510, the time can be shortened to about 2 hours. And for CL 347532 which added 10 instructions, I spent about an hour.\n\nThis is mainly due to two points:\n1, we simplified the logic\n2. The number of our instructions is about three times the number of argument types, and a large number of argument type encoding codes can be reused.",
+      "parentUuid": "dd037489_94db561a",
+      "revId": "8be04a6da41e88e8bfbc34ee365ea05f17e99d8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ec99a5fa_67ae7d46",
         "filename": "src/cmd/internal/obj/arm64/asm7.go",
         "patchSetId": 6

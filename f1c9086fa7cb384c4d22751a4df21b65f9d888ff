@@ -182,6 +182,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ce55ee2a_71e92211",
+        "filename": "src/cmd/asm/internal/asm/endtoend_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-05-03T05:25:09Z",
+      "side": 1,
+      "message": "\u003e What is the error actually reported on the command line?\nThis depends on the case, two examples:\n\n    endtoend_test.go:327: multiple errors on testdata/arm64error.s:65:\n                constrained unpredictable behavior: 00061 (testdata/arm64error.s:65)    LDP.P   8(R2), (R2, R3)\n                illegal combination: 00312 (testdata/arm64error.s:65)   LDP.P   8(R2), (R2, R3)\n\n    endtoend_test.go:327: multiple errors on testdata/arm64error.s:81:\n                illegal register F2: 00336 (testdata/arm64error.s:81)   STP     (F2, F3), (R0)\n                illegal register F3: 00336 (testdata/arm64error.s:81)   STP     (F2, F3), (R0)\n\nIn the first example, we first checked out the first error. Due to the first error, we did not generate legal machine instruction information for the Prog, and the second error was then reported when encoding later. As can be seen from this example, the second error is actually unnecessary and does not give very useful hints.\n\nIn the second example, because we check whether F2 and F3 are legal one by one, two errors will be reported, and both errors are suggestive.\n\nSo I feel that usually the first error is the most valuable, so I choose to use the first error as the expected error.\n\n\u003e We probably don\u0027t want to print multiple error for one bad instruction.\nOkay, I hadn\u0027t thought of this before, we\u0027d be presenting multiple errors to the user and it would really be a little confusing. I\u0027m wondering if there is a way to just report an error without restricting the check code.",
+      "parentUuid": "9cb18764_17e6679e",
+      "revId": "f1c9086fa7cb384c4d22751a4df21b65f9d888ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7800a6e3_d0e61e6d",
         "filename": "src/cmd/internal/obj/link.go",
         "patchSetId": 4
@@ -337,6 +355,30 @@
       "side": 1,
       "message": "Yeah, we need to know the number of instructions. But we can compute the number of instructions without actually doing the expansion. Why not do that?\n\n\u003e Yeah, my statement is wrong. I mean the relocation symbol may be Prog.From.Sym or Prog.To.Sym, so apart from the relocation type, we also need to record the symbol.\n\nSo the problem is that the Oprd type (now \"arg\") doesn\u0027t contain a Sym? What about adding it?",
       "parentUuid": "d3d05324_1afb9a4b",
+      "range": {
+        "startLine": 322,
+        "startChar": 0,
+        "endLine": 353,
+        "endChar": 1
+      },
+      "revId": "f1c9086fa7cb384c4d22751a4df21b65f9d888ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16ca8b66_28a641d0",
+        "filename": "src/cmd/internal/obj/link.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-05-03T05:25:09Z",
+      "side": 1,
+      "message": "\u003e But we can compute the number of instructions without actually doing the expansion\nSorry I don\u0027t know how to do this, can you elaborate on this, thanks~\n\nRISCV calls the instructionsForProg function three times, once in preprocess, once in setPCs and once in assemble. I didn\u0027t delve into it, but this seems to do some repetitive work because the machine instructions corresponding to a Prog are analyzed three times. \n\nMaybe RISCV does this because their instructions are more regular? I\u0027m not sure， but I don\u0027t lean to repeat this process on arm64, that is, unfolding analysis, because this process does not seem to be very simple, although it may not take too much time. Why not apply a little space to cache the machine instructions obtained by the unfolding process? It doesn\u0027t take much space.\n\n\u003e So the problem is that the Oprd type (now \"arg\") doesn\u0027t contain a Sym? What about adding it?\nI mean we can\u0027t make a bit mark on the reloc type like RISCV, and then process it. We can\u0027t use a bit mark to record all information needed by a relocation here, because we need to record not only the reloc type but also the symbol information. And the Prog.Mark is only 16 bits, it records up to 16 combinations, and we obviously have more than that, so we can\u0027t do it like RISCV. So we record the reloc information of a Prog in a map.",
+      "parentUuid": "52aed47b_59359a36",
       "range": {
         "startLine": 322,
         "startChar": 0,
