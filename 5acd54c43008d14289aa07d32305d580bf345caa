@@ -166,6 +166,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "574d8797_575c2252",
+        "filename": "src/crypto/ecdh/nist.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2022-05-03T16:43:29Z",
+      "side": 1,
+      "message": "Using a fixed size makes it possible to allocate on the stack, however NewPrivateKey doesn\u0027t get devirtualized because it\u0027s a method of a generic function, so key escapes anyway. Dropped the trick. Can always put it back if the generics optimizations get better.",
+      "parentUuid": "8007b182_dcd46b59",
+      "range": {
+        "startLine": 34,
+        "startChar": 8,
+        "endLine": 34,
+        "endChar": 45
+      },
+      "revId": "5acd54c43008d14289aa07d32305d580bf345caa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ada89faa_7abf5463",
@@ -179,6 +203,30 @@
       "writtenOn": "2022-05-03T15:36:27Z",
       "side": 1,
       "message": "(nit): this could be before GenerateKey function.",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 73
+      },
+      "revId": "5acd54c43008d14289aa07d32305d580bf345caa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "718b3d67_e2a18a0d",
+        "filename": "src/crypto/ecdh/nist.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2022-05-03T16:43:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ada89faa_7abf5463",
       "range": {
         "startLine": 62,
         "startChar": 0,
@@ -212,6 +260,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c50c190_1cfc60cb",
+        "filename": "src/crypto/ecdh/x25519.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2022-05-03T16:43:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f784786_1f0bfca1",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 31
+      },
+      "revId": "5acd54c43008d14289aa07d32305d580bf345caa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "53d260a7_4466b212",
@@ -225,6 +297,24 @@
       "writtenOn": "2022-05-03T15:36:27Z",
       "side": 1,
       "message": "(nit): remove newline",
+      "revId": "5acd54c43008d14289aa07d32305d580bf345caa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "463c1cad_aec6f9b8",
+        "filename": "src/crypto/ecdh/x25519.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2022-05-03T16:43:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53d260a7_4466b212",
       "revId": "5acd54c43008d14289aa07d32305d580bf345caa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
