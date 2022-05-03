@@ -30988,7 +30988,7 @@ func rewriteValueAMD64_OpBitLen16(v *Value) bool {
 	}
 	// match: (BitLen16 <t> x)
 	// cond: buildcfg.GOAMD64 >= 3
-	// result: (NEGQ (ADDQconst <t> [-32] (LZCNTL x)))
+	// result: (NEGQ (ADDQconst <t> [-32] (LZCNTL (ANDLconst <x.Type> [0xffff] x))))
 	for {
 		t := v.Type
 		x := v_0
@@ -30999,7 +30999,10 @@ func rewriteValueAMD64_OpBitLen16(v *Value) bool {
 		v0 := b.NewValue0(v.Pos, OpAMD64ADDQconst, t)
 		v0.AuxInt = int32ToAuxInt(-32)
 		v1 := b.NewValue0(v.Pos, OpAMD64LZCNTL, typ.UInt32)
-		v1.AddArg(x)
+		v2 := b.NewValue0(v.Pos, OpAMD64ANDLconst, x.Type)
+		v2.AuxInt = int32ToAuxInt(0xffff)
+		v2.AddArg(x)
+		v1.AddArg(v2)
 		v0.AddArg(v1)
 		v.AddArg(v0)
 		return true
@@ -31120,7 +31123,7 @@ func rewriteValueAMD64_OpBitLen8(v *Value) bool {
 	}
 	// match: (BitLen8 <t> x)
 	// cond: buildcfg.GOAMD64 >= 3
-	// result: (NEGQ (ADDQconst <t> [-32] (LZCNTL x)))
+	// result: (NEGQ (ADDQconst <t> [-32] (LZCNTL (ANDLconst <x.Type> [0xff] x))))
 	for {
 		t := v.Type
 		x := v_0
@@ -31131,7 +31134,10 @@ func rewriteValueAMD64_OpBitLen8(v *Value) bool {
 		v0 := b.NewValue0(v.Pos, OpAMD64ADDQconst, t)
 		v0.AuxInt = int32ToAuxInt(-32)
 		v1 := b.NewValue0(v.Pos, OpAMD64LZCNTL, typ.UInt32)
-		v1.AddArg(x)
+		v2 := b.NewValue0(v.Pos, OpAMD64ANDLconst, x.Type)
+		v2.AuxInt = int32ToAuxInt(0xff)
+		v2.AddArg(x)
+		v1.AddArg(v2)
 		v0.AddArg(v1)
 		v.AddArg(v0)
 		return true
