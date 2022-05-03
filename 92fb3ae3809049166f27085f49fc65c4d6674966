@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "7de99f42_79cb4858",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-05-03T19:41:02Z",
+      "side": 1,
+      "message": "XXLOR is unusable in go1.8. We can generate the same machine code using XXLORQ. It wasn\u0027t added to the oprrr lookup function. Using XXLOR will give the error \"bad r/r, r/r/r or r/r/r/r opcode\".",
+      "parentUuid": "21939c5f_481215b2",
+      "revId": "92fb3ae3809049166f27085f49fc65c4d6674966",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "fd7375cb_ce0993a4",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
