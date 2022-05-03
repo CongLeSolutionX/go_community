@@ -61,6 +61,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b39b78c_c4fe7b58",
+        "filename": "src/cmd/compile/internal/walk/range.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-05-03T01:54:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "08657beb_f7debce3",
+      "range": {
+        "startLine": 408,
+        "startChar": 32,
+        "endLine": 408,
+        "endChar": 34
+      },
+      "revId": "a9ad55fe8541c0b460390bbea88c057d40622e48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3d07b24a_35f103e0",
@@ -74,6 +98,30 @@
       "writtenOn": "2022-05-02T23:27:03Z",
       "side": 1,
       "message": "Do you know how/why this test is passing?\n\nI\u0027d expect it to fail actually with the current code. I\u0027d expect at L413, we\u0027d have `x` referring to `t.a`, but `a` referring to `*t.a` still. Shouldn\u0027t that cause the `ir.SameSafeExpr(x, a)` call to report false? Am I missing something?",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 2
+      },
+      "revId": "a9ad55fe8541c0b460390bbea88c057d40622e48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d629d30b_026f8161",
+        "filename": "test/codegen/issue52635.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-05-03T01:54:14Z",
+      "side": 1,
+      "message": "But `a` is not a pointer to array in this case (`*t.a`), thus the implicit deref is not removed, so the `t.a[i]` is actually `(*t.a)[i]` because of the implicit deref.",
+      "parentUuid": "3d07b24a_35f103e0",
       "range": {
         "startLine": 21,
         "startChar": 0,
