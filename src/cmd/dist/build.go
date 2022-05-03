@@ -207,6 +207,13 @@ func xinit() {
 	goexperiment = os.Getenv("GOEXPERIMENT")
 	// TODO(mdempsky): Validate known experiments?
 
+	if !strings.Contains(goexperiment, "boringcrypto") {
+		if goexperiment != "" {
+			goexperiment += ","
+		}
+		goexperiment += "boringcrypto"
+	}
+
 	gogcflags = os.Getenv("BOOT_GO_GCFLAGS")
 	goldflags = os.Getenv("BOOT_GO_LDFLAGS")
 
