@@ -6,15 +6,19 @@ package modload
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"io/fs"
 	"os"
+	"path"
 	"path/filepath"
 	"strings"
 
+	"cmd/go/internal/base"
 	"cmd/go/internal/cfg"
 	"cmd/go/internal/fsys"
 	"cmd/go/internal/imports"
+	"cmd/go/internal/modindex"
 	"cmd/go/internal/search"
 
 	"golang.org/x/mod/module"
@@ -165,6 +169,12 @@ func matchPackages(ctx context.Context, m *search.Match, tags map[string]bool, f
 			}
 			modPrefix = mod.Path
 		}
+		if mi, err := modindex.Get(root); err == nil {
+			walkFromIndex(ctx, m, tags, root, mi, have, modPrefix)
+			continue
+		} else if !errors.Is(err, modindex.ErrNotIndexed) {
+			base.Fatalf("go: %w", err)
+		}
 
 		prune := pruneVendor
 		if isLocal {
@@ -174,6 +184,47 @@ func matchPackages(ctx context.Context, m *search.Match, tags map[string]bool, f
 	}
 
 	return
+}
+
+// walkFromIndex matches packages in a module using the module index. modroot
+// is the module's root directory on disk, index is the ModuleIndex for the
+// module, and importPathRoot is the module's path prefix.
+func walkFromIndex(ctx context.Context, m *search.Match, tags map[string]bool, modroot string, index *modindex.ModuleIndex, have map[string]bool, importPathRoot string) {
+	isMatch := func(string) bool { return true }
+	treeCanMatch := func(string) bool { return true }
+	if !m.IsMeta() {
+		isMatch = search.MatchPattern(m.Pattern())
+		treeCanMatch = search.TreeCanMatchPattern(m.Pattern())
+	}
+loopPackages:
+	for _, reldir := range index.Packages() {
+		// TODO: handle goroot once we add it.
+
+		// Avoid .foo, _foo, and testdata subdirectory trees.
+		elems := strings.Split(reldir, string(filepath.Separator))
+		for i, elem := range elems {
+			if strings.HasPrefix(elem, ".") || strings.HasPrefix(elem, "_") || elem == "testdata" {
+				continue loopPackages
+			}
+			if i != len(elems)-1 && elem == "vendor" {
+				continue loopPackages
+			}
+		}
+
+		name := path.Join(importPathRoot, filepath.ToSlash(reldir))
+		if !treeCanMatch(name) {
+			continue
+		}
+
+		if !have[name] {
+			have[name] = true
+			if isMatch(name) {
+				if _, _, err := scanDir(modroot, filepath.Join(modroot, reldir), tags); err != imports.ErrNoGo {
+					m.Pkgs = append(m.Pkgs, name)
+				}
+			}
+		}
+	}
 }
 
 // MatchInModule identifies the packages matching the given pattern within the
