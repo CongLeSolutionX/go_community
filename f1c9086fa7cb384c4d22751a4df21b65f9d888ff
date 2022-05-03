@@ -387,6 +387,30 @@
       },
       "revId": "f1c9086fa7cb384c4d22751a4df21b65f9d888ff",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68158e8f_e4648453",
+        "filename": "src/cmd/internal/obj/link.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-05-03T15:03:52Z",
+      "side": 1,
+      "message": "I didn\u0027t mean that this needs to follow the RISCV code closely. RISCV code does something is not a justification that we should or should not do that.\n\nI don\u0027t understand why you have to put the relocation information intoProg.Mask. You can use a field in \"arg\" type, or \"inst\" type, whatever fits for this code.\n\nSimilarly, the RISCV code calls instructionsForProg multiple times doesn\u0027t mean this code needs to do. All I said is to have a separate function that simply returns the number of inst needed for a Prog. I don\u0027t understand why this is hard to do. For example, you can have something similar to the unfoldTab but each entry is func(*Prog) int.",
+      "parentUuid": "16ca8b66_28a641d0",
+      "range": {
+        "startLine": 322,
+        "startChar": 0,
+        "endLine": 353,
+        "endChar": 1
+      },
+      "revId": "f1c9086fa7cb384c4d22751a4df21b65f9d888ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
