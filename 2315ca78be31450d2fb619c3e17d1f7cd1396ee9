@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e974a8b_7c1b9336",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-05-04T01:42:31Z",
+      "side": 1,
+      "message": "I\u0027m curious - would this remove the need for the prove changes in CL 395714?\n",
+      "revId": "2315ca78be31450d2fb619c3e17d1f7cd1396ee9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c9d7d94_8e37271f",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1347,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-05-04T01:42:31Z",
+      "side": 1,
+      "message": "Should we also check if umin \u003d\u003d umax? Or is an invariant that if min\u003d\u003dmax if and only if umin\u003d\u003dumax?",
+      "revId": "2315ca78be31450d2fb619c3e17d1f7cd1396ee9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
