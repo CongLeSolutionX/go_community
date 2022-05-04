@@ -179,6 +179,24 @@
       "parentUuid": "935ac67f_aef229a5",
       "revId": "2315ca78be31450d2fb619c3e17d1f7cd1396ee9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0468385a_f1cfea45",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1347,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2022-05-04T15:33:10Z",
+      "side": 1,
+      "message": "Oh ok.\n\nI was thinking it should be\n  lim.min \u003d\u003d lim.max \u0026\u0026\n  lim.umin \u003d\u003d lim.umax \u0026\u0026\n  lim.min \u003d\u003d convertWithSize(lim.umin, arg.Type().Size() * 8)\n\nI don\u0027t know enough about prove to see why lim.min\u003d\u003dlim.max is enough.\n\nSo here, if I understand correctly, I leave it as-is ?",
+      "parentUuid": "78aa8ad1_e28f4576",
+      "revId": "2315ca78be31450d2fb619c3e17d1f7cd1396ee9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
