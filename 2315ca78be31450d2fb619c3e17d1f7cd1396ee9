@@ -92,6 +92,41 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b33882d_a0b1fe51",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2022-05-04T16:37:42Z",
+      "side": 1,
+      "message": "Fixed.",
+      "parentUuid": "a5862665_467e7456",
+      "revId": "2315ca78be31450d2fb619c3e17d1f7cd1396ee9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "97dbf694_315b02f7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2022-05-04T16:37:42Z",
+      "side": 1,
+      "message": "RFM",
+      "revId": "2315ca78be31450d2fb619c3e17d1f7cd1396ee9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7c9d7d94_8e37271f",
