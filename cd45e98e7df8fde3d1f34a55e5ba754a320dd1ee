@@ -83,6 +83,30 @@
       },
       "revId": "cd45e98e7df8fde3d1f34a55e5ba754a320dd1ee",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44fa7d53_788fcbad",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 775,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2022-05-04T17:35:31Z",
+      "side": 1,
+      "message": "I\u0027m fine with this if it\u0027s working. You want to at least lock it in with a new alloc test, making sure it\u0027s at most 1 alloc?",
+      "parentUuid": "6986c9ac_cad66c88",
+      "range": {
+        "startLine": 771,
+        "startChar": 0,
+        "endLine": 775,
+        "endChar": 0
+      },
+      "revId": "cd45e98e7df8fde3d1f34a55e5ba754a320dd1ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
