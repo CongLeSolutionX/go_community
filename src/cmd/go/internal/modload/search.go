@@ -10,12 +10,15 @@ import (
 	"io/fs"
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
+	"sync"
 
 	"cmd/go/internal/cfg"
 	"cmd/go/internal/fsys"
 	"cmd/go/internal/imports"
 	"cmd/go/internal/modindex"
+	"cmd/go/internal/par"
 	"cmd/go/internal/search"
 	"cmd/go/internal/trace"
 
@@ -45,6 +48,7 @@ func matchPackages(ctx context.Context, m *search.Match, tags map[string]bool, f
 		treeCanMatch = search.TreeCanMatchPattern(m.Pattern())
 	}
 
+	var mu sync.Mutex
 	have := map[string]bool{
 		"builtin": true, // ignore pseudo-package that exists only for documentation
 	}
@@ -57,6 +61,8 @@ func matchPackages(ctx context.Context, m *search.Match, tags map[string]bool, f
 		pruneVendor = pruning(1 << iota)
 		pruneGoMod
 	)
+
+	q := par.NewQueue(runtime.GOMAXPROCS(0))
 
 	walkPkgs := func(root, importPathRoot string, prune pruning) {
 		_, span := trace.StartSpan(ctx, "walkPkgs "+root)
@@ -112,14 +118,23 @@ func matchPackages(ctx context.Context, m *search.Match, tags map[string]bool, f
 				}
 			}
 
-			if !have[name] {
-				have[name] = true
-				if isMatch(name) {
-					if _, _, err := scanDir(path, tags); err != imports.ErrNoGo {
-						m.Pkgs = append(m.Pkgs, name)
+			q.Add(func() {
+				mu.Lock()
+				h := have[name]
+				if !h {
+					have[name] = true
+				}
+				mu.Unlock()
+				if !h {
+					if isMatch(name) {
+						if _, _, err := scanDir(path, tags); err != imports.ErrNoGo {
+							mu.Lock()
+							m.Pkgs = append(m.Pkgs, name)
+							mu.Unlock()
+						}
 					}
 				}
-			}
+			})
 
 			if elem == "vendor" && (prune&pruneVendor != 0) {
 				return filepath.SkipDir
@@ -184,6 +199,8 @@ func matchPackages(ctx context.Context, m *search.Match, tags map[string]bool, f
 		}
 		walkPkgs(root, modPrefix, prune)
 	}
+
+	<-q.Idle()
 
 	return
 }
