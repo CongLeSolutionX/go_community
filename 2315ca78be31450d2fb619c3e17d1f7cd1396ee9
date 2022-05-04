@@ -125,6 +125,24 @@
       "parentUuid": "7c9d7d94_8e37271f",
       "revId": "2315ca78be31450d2fb619c3e17d1f7cd1396ee9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "524fa695_9b3108c5",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1347,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-05-04T14:48:50Z",
+      "side": 1,
+      "message": "Looks like it isn\u0027t quite an invariant. This code has min\u003d\u003dmax\u003d\u003d-3 but has no info for umin/umax.\n\nfunc f(x int64) int64 {\n\tif x \u003c -3 {\n\t\tpanic(\"foo\")\n\t}\n\tif x \u003e -3 {\n\t\tpanic(\"foo\")\n\t}\n\treturn x + 3\n}",
+      "parentUuid": "c71e87cf_c9b4ad6f",
+      "revId": "2315ca78be31450d2fb619c3e17d1f7cd1396ee9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
