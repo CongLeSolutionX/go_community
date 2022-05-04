@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed9c3b17_798c651d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-05-04T14:07:16Z",
+      "side": 1,
+      "message": "Thanks, added. That test is new to me.\nI couldn\u0027t make Pointer[T] get checked though.\nMaybe that test needs an update for generics?",
+      "parentUuid": "3f16de0e_53323e1c",
+      "revId": "e36a898ce7545dc8114f26842d94e5968145b220",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0ffac4c0_e794c62a",
@@ -106,6 +124,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1faad2d7_dca12439",
+        "filename": "src/sync/atomic/atomic_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-05-04T14:07:16Z",
+      "side": 1,
+      "message": "Looks like I added this for running arm tests under qemu in 2011. https://codereview.appspot.com/4313051/\n\nI will try deleting this code in a follow-up CL for easier rollback.",
+      "parentUuid": "941fedd7_ef56a590",
+      "revId": "e36a898ce7545dc8114f26842d94e5968145b220",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "853cf735_5cf29fb7",
@@ -125,6 +161,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "32af7d12_427fd50b",
+        "filename": "src/sync/atomic/atomic_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 1175,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-05-04T14:07:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "853cf735_5cf29fb7",
+      "revId": "e36a898ce7545dc8114f26842d94e5968145b220",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "38ab84e9_36386ca3",
         "filename": "src/sync/atomic/atomic_test.go",
         "patchSetId": 12
@@ -136,6 +190,24 @@
       "writtenOn": "2022-04-27T20:05:15Z",
       "side": 1,
       "message": "This technically doesn\u0027t check that the address of the field is actually 8-byte aligned. Perhaps also do a check on the address of the field itself?",
+      "revId": "e36a898ce7545dc8114f26842d94e5968145b220",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63484202_2b3b4171",
+        "filename": "src/sync/atomic/atomic_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 2493,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-05-04T14:07:16Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "38ab84e9_36386ca3",
       "revId": "e36a898ce7545dc8114f26842d94e5968145b220",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -165,6 +237,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "b2719e39_1094ac5a",
+        "filename": "src/sync/atomic/type.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-05-04T14:07:16Z",
+      "side": 1,
+      "message": "Done. Made them all unnamed.",
+      "parentUuid": "3ce22af8_15c36cc8",
+      "range": {
+        "startLine": 60,
+        "startChar": 1,
+        "endLine": 60,
+        "endChar": 2
+      },
+      "revId": "e36a898ce7545dc8114f26842d94e5968145b220",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "6c4271cb_2000aac7",
         "filename": "src/sync/atomic/type.go",
         "patchSetId": 12
@@ -176,6 +272,24 @@
       "writtenOn": "2022-04-27T20:05:15Z",
       "side": 1,
       "message": "Nothing to do here, but I\u0027ve realized that since we don\u0027t provide an official mechanism to request 64-bit alignment, use of these atomic types will likely become a preferred workaround for other types that need 64-bit alignment. e.g.,\n\n  type foo struct {\n    _ atomic.Uint64 // force 64-bit alignment\n    fieldsICareAbout int32\n    ...\n  }\n  \nNot to say this is bad: it is a significant improvement over the existing workaround I\u0027ve seen of allocating a larger byte slice, finding an aligned offset, and unsafe casting to the desired type.",
+      "revId": "e36a898ce7545dc8114f26842d94e5968145b220",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c155496f_49dc5f19",
+        "filename": "src/sync/atomic/type.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-05-04T14:07:16Z",
+      "side": 1,
+      "message": "Maybe we should return to that proposal for Go 1.20.",
+      "parentUuid": "6c4271cb_2000aac7",
       "revId": "e36a898ce7545dc8114f26842d94e5968145b220",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -193,6 +307,24 @@
       "writtenOn": "2022-04-27T20:05:15Z",
       "side": 1,
       "message": "Add a note that this works via a special case in the compiler?\n\nIn particular, perhaps note that this will _not_ work if this file is copied to another package (unlike the rest of this file, modulo converting LoadInt32 -\u003e atomic.LoadInt32 etc).",
+      "revId": "e36a898ce7545dc8114f26842d94e5968145b220",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47e4a677_18d9ff9f",
+        "filename": "src/sync/atomic/type.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-05-04T14:07:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c860f44_c3684fdc",
       "revId": "e36a898ce7545dc8114f26842d94e5968145b220",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
