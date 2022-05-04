@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce86f715_1c8fc6fd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 37
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 34360
+      },
+      "writtenOn": "2022-05-04T04:26:30Z",
+      "side": 1,
+      "message": "Actually yes, only the registers and encodings are in line with the manual -- a significant portion of *mnemonics* are in fact inherited from MIPS. You may want to document this somewhere.",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 48
+      },
+      "revId": "49dd3369ea544e0ac9f9d8693c513c8c4ecdbabc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7966c1f3_bed577ea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 37
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34360
+      },
+      "writtenOn": "2022-05-04T04:26:30Z",
+      "side": 1,
+      "message": "While I no longer want to block your whole work because it seems you didn\u0027t action on my suggestions several months ago, and the unavailability of Go has started to be felt by the community, I hope we can clear the codebase of MIPS legacy after the initial port gets merged. Just a reminder to people: LoongArch is not MIPS (user-space-wise it\u0027s much closer to RISC-V), and it\u0027s better not treat it as such.",
+      "revId": "49dd3369ea544e0ac9f9d8693c513c8c4ecdbabc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbf1ad85_50dfb73a",
+        "filename": "src/cmd/internal/obj/link.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 34360
+      },
+      "writtenOn": "2022-05-04T04:26:30Z",
+      "side": 1,
+      "message": "I still think this should be placed last to not disrupt existing values, although the values are not public API. (And preferably be called \"ABaseLoong64\", as I\u0027ve repeatedly pointed out that \"Loong\" is not an acronym.)",
+      "range": {
+        "startLine": 445,
+        "startChar": 1,
+        "endLine": 445,
+        "endChar": 13
+      },
+      "revId": "49dd3369ea544e0ac9f9d8693c513c8c4ecdbabc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
