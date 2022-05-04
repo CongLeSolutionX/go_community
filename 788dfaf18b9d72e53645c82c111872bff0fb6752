@@ -76,6 +76,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "c02575ab_65a43d35",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-05-04T18:52:23Z",
+      "side": 1,
+      "message": "See CL description. This will be a separate CL as it\u0027s really a separate package.",
+      "parentUuid": "303f0cb9_4f53f513",
+      "revId": "788dfaf18b9d72e53645c82c111872bff0fb6752",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "86936873_9f8bbdf3",
         "filename": "src/go/parser/parser.go",
         "patchSetId": 3
@@ -87,6 +105,30 @@
       "writtenOn": "2022-05-04T18:19:13Z",
       "side": 1,
       "message": "optional nit: reverse these terms for efficiency? (force || isTypeElem(x.Y))\n\nThroughout.",
+      "range": {
+        "startLine": 2691,
+        "startChar": 51,
+        "endLine": 2691,
+        "endChar": 75
+      },
+      "revId": "788dfaf18b9d72e53645c82c111872bff0fb6752",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "efae2395_bb4645eb",
+        "filename": "src/go/parser/parser.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2691,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-05-04T18:52:23Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "86936873_9f8bbdf3",
       "range": {
         "startLine": 2691,
         "startChar": 51,
@@ -110,6 +152,30 @@
       "writtenOn": "2022-05-04T18:19:13Z",
       "side": 1,
       "message": "Why should lhs never be nil? What about x \u003d\u003d A | struct{}?",
+      "range": {
+        "startLine": 2696,
+        "startChar": 91,
+        "endLine": 2696,
+        "endChar": 123
+      },
+      "revId": "788dfaf18b9d72e53645c82c111872bff0fb6752",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3387c1a4_422b9896",
+        "filename": "src/go/parser/parser.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2696,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-05-04T18:52:23Z",
+      "side": 1,
+      "message": "good point - removed",
+      "parentUuid": "187c4837_74e56e1d",
       "range": {
         "startLine": 2696,
         "startChar": 91,
