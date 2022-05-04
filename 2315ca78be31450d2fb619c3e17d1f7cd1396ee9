@@ -197,6 +197,24 @@
       "parentUuid": "78aa8ad1_e28f4576",
       "revId": "2315ca78be31450d2fb619c3e17d1f7cd1396ee9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "82de03b7_13255a63",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1347,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-05-04T15:41:41Z",
+      "side": 1,
+      "message": "Yes, you can leave it. The limits record known restrictions on the input value. Those restrictions are cumulative, so knowing lim.min\u003d\u003dlim.max means there\u0027s only one possible value the described Value could be, regardless of what umin says. If, e.g., lim.min\u003d\u003dlim.max\u003d\u003d3 and lim.umin\u003d\u003dlim.umax\u003d\u003d4, then that\u0027s a contradiction (unreachable code).\n\nYou will need to resolve the trybot failures - they look related. It\u0027s possible this optimization just confuses the failing tests.",
+      "parentUuid": "0468385a_f1cfea45",
+      "revId": "2315ca78be31450d2fb619c3e17d1f7cd1396ee9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
