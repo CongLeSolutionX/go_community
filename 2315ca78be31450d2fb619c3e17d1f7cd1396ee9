@@ -215,6 +215,24 @@
       "parentUuid": "0468385a_f1cfea45",
       "revId": "2315ca78be31450d2fb619c3e17d1f7cd1396ee9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "814acde5_60f6ff00",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1347,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2022-05-04T16:07:41Z",
+      "side": 1,
+      "message": "I\u0027ve checked and there do is cases like that.\nI\u0027ve added a lim.umin \u003d\u003d lim.umax check, and that found ~300 more cases (over the ~70k that not a lot, but I guess it\u0027s just that in the go codebase int is far more popular than uint).",
+      "parentUuid": "82de03b7_13255a63",
+      "revId": "2315ca78be31450d2fb619c3e17d1f7cd1396ee9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
