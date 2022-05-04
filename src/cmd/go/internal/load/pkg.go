@@ -21,7 +21,6 @@ import (
 	"path"
 	pathpkg "path"
 	"path/filepath"
-	"runtime"
 	"runtime/debug"
 	"sort"
 	"strconv"
@@ -683,10 +682,10 @@ const (
 // this package, as part of a bigger load operation, and by GOPATH-based "go get".
 // TODO(rsc): When GOPATH-based "go get" is removed, unexport this function.
 func LoadImport(ctx context.Context, opts PackageOpts, path, srcDir string, parent *Package, stk *ImportStack, importPos []token.Position, mode int) *Package {
-	return loadImport(ctx, opts, nil, path, srcDir, parent, stk, importPos, mode)
+	return loadImport(ctx, opts, path, srcDir, parent, stk, importPos, mode)
 }
 
-func loadImport(ctx context.Context, opts PackageOpts, pre *preload, path, srcDir string, parent *Package, stk *ImportStack, importPos []token.Position, mode int) *Package {
+func loadImport(ctx context.Context, opts PackageOpts, path, srcDir string, parent *Package, stk *ImportStack, importPos []token.Position, mode int) *Package {
 	ctx, span := trace.StartSpan(ctx, "loadImport "+path)
 	defer span.Done()
 
@@ -701,10 +700,7 @@ func loadImport(ctx context.Context, opts PackageOpts, pre *preload, path, srcDi
 		parentRoot = parent.Root
 		parentIsStd = parent.Standard
 	}
-	bp, loaded, err := loadPackageData(ctx, path, parentPath, srcDir, parentRoot, parentIsStd, mode)
-	if loaded && pre != nil && !opts.IgnoreImports {
-		pre.preloadImports(ctx, opts, bp.Imports, bp)
-	}
+	bp, _, err := loadPackageData(ctx, path, parentPath, srcDir, parentRoot, parentIsStd, mode)
 	if bp == nil {
 		p := &Package{
 			PackagePublic: PackagePublic{
@@ -987,114 +983,6 @@ var resolvedImportCache par.Cache
 // packageDataCache maps canonical package names (string) to package metadata
 // (packageData).
 var packageDataCache par.Cache
-
-// preloadWorkerCount is the number of concurrent goroutines that can load
-// packages. Experimentally, there are diminishing returns with more than
-// 4 workers. This was measured on the following machines.
-//
-// * MacBookPro with a 4-core Intel Core i7 CPU
-// * Linux workstation with 6-core Intel Xeon CPU
-// * Linux workstation with 24-core Intel Xeon CPU
-//
-// It is very likely (though not confirmed) that this workload is limited
-// by memory bandwidth. We don't have a good way to determine the number of
-// workers that would saturate the bus though, so runtime.GOMAXPROCS
-// seems like a reasonable default.
-var preloadWorkerCount = runtime.GOMAXPROCS(0)
-
-// preload holds state for managing concurrent preloading of package data.
-//
-// A preload should be created with newPreload before loading a large
-// package graph. flush must be called when package loading is complete
-// to ensure preload goroutines are no longer active. This is necessary
-// because of global mutable state that cannot safely be read and written
-// concurrently. In particular, packageDataCache may be cleared by "go get"
-// in GOPATH mode, and modload.loaded (accessed via modload.Lookup) may be
-// modified by modload.LoadPackages.
-type preload struct {
-	cancel chan struct{}
-	sema   chan struct{}
-}
-
-// newPreload creates a new preloader. flush must be called later to avoid
-// accessing global state while it is being modified.
-func newPreload() *preload {
-	pre := &preload{
-		cancel: make(chan struct{}),
-		sema:   make(chan struct{}, preloadWorkerCount),
-	}
-	return pre
-}
-
-// preloadMatches loads data for package paths matched by patterns.
-// When preloadMatches returns, some packages may not be loaded yet, but
-// loadPackageData and loadImport are always safe to call.
-func (pre *preload) preloadMatches(ctx context.Context, opts PackageOpts, matches []*search.Match) {
-	ctx, span := trace.StartSpan(ctx, "preloadMatches")
-	defer span.Done()
-
-	ctx = trace.StartGoroutine(ctx)
-	for _, m := range matches {
-		for _, pkg := range m.Pkgs {
-			select {
-			case <-pre.cancel:
-				return
-			case pre.sema <- struct{}{}:
-				go func(pkg string) {
-					mode := 0 // don't use vendoring or module import resolution
-					bp, loaded, err := loadPackageData(ctx, pkg, "", base.Cwd(), "", false, mode)
-					<-pre.sema
-					if bp != nil && loaded && err == nil && !opts.IgnoreImports {
-						pre.preloadImports(context.Background(), opts, bp.Imports, bp)
-					}
-				}(pkg)
-			}
-		}
-	}
-}
-
-// preloadImports queues a list of imports for preloading.
-// When preloadImports returns, some packages may not be loaded yet,
-// but loadPackageData and loadImport are always safe to call.
-func (pre *preload) preloadImports(ctx context.Context, opts PackageOpts, imports []string, parent *build.Package) {
-	ctx, span := trace.StartSpan(ctx, "preloadImports "+fmt.Sprint(imports))
-	defer span.Done()
-
-	parentIsStd := parent.Goroot && parent.ImportPath != "" && search.IsStandardImportPath(parent.ImportPath)
-	for _, path := range imports {
-		if path == "C" || path == "unsafe" {
-			continue
-		}
-		select {
-		case <-pre.cancel:
-			return
-		case pre.sema <- struct{}{}:
-			go func(path string) {
-				bp, loaded, err := loadPackageData(ctx, path, parent.ImportPath, parent.Dir, parent.Root, parentIsStd, ResolveImport)
-				<-pre.sema
-				if bp != nil && loaded && err == nil && !opts.IgnoreImports {
-					pre.preloadImports(ctx, opts, bp.Imports, bp)
-				}
-			}(path)
-		}
-	}
-}
-
-// flush stops pending preload operations. flush blocks until preload calls to
-// loadPackageData have completed. The preloader will not make any new calls
-// to loadPackageData.
-func (pre *preload) flush() {
-	// flush is usually deferred.
-	// Don't hang program waiting for workers on panic.
-	if v := recover(); v != nil {
-		panic(v)
-	}
-
-	close(pre.cancel)
-	for i := 0; i < preloadWorkerCount; i++ {
-		pre.sema <- struct{}{}
-	}
-}
 
 func cleanImport(path string) string {
 	orig := path
@@ -2772,10 +2660,6 @@ func PackagesAndErrors(ctx context.Context, opts PackageOpts, patterns []string)
 		seenPkg = make(map[*Package]bool)
 	)
 
-	pre := newPreload()
-	defer pre.flush()
-	pre.preloadMatches(ctx, opts, matches)
-
 	for _, m := range matches {
 		ctx, span2 := trace.StartSpan(ctx, "match "+m.Pattern())
 
@@ -2783,7 +2667,7 @@ func PackagesAndErrors(ctx context.Context, opts PackageOpts, patterns []string)
 			if pkg == "" {
 				panic(fmt.Sprintf("ImportPaths returned empty package for pattern %s", m.Pattern()))
 			}
-			p := loadImport(ctx, opts, pre, pkg, base.Cwd(), nil, &stk, nil, 0)
+			p := loadImport(ctx, opts, pkg, base.Cwd(), nil, &stk, nil, 0)
 			p.Match = append(p.Match, m.Pattern())
 			p.Internal.CmdlinePkg = true
 			if m.IsLiteral() {
