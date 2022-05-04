@@ -59,6 +59,30 @@
       },
       "revId": "8d2d68edfea08389b7bb0e8477c44579dfa7b5a2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2e695d8_6a4a0404",
+        "filename": "src/crypto/elliptic/internal/nistec/p224.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 57264
+      },
+      "writtenOn": "2022-05-04T20:33:30Z",
+      "side": 1,
+      "message": "Sorry, I misread this, it\u0027s also times 4 not 5.",
+      "parentUuid": "43aa4a7b_b66d230f",
+      "range": {
+        "startLine": 265,
+        "startChar": 1,
+        "endLine": 271,
+        "endChar": 3
+      },
+      "revId": "8d2d68edfea08389b7bb0e8477c44579dfa7b5a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
