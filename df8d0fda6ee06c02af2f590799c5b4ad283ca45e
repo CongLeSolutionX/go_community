@@ -90,6 +90,24 @@
       "parentUuid": "cd8bc386_d9392738",
       "revId": "df8d0fda6ee06c02af2f590799c5b4ad283ca45e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c551e35e_4d7749e1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2022-05-04T17:39:08Z",
+      "side": 1,
+      "message": "See https://go-review.googlesource.com/c/go/+/391795/1/test/typeparam/issue51522b.go#1 as one such past example. For the \"run\" verb, the exact comment might be `// run -gcflags\u003d-G\u003d3`.\n\n(Marking this thread unresolved since this change is needed to make tests pass.)",
+      "parentUuid": "2caaa5d0_ef4293ca",
+      "revId": "df8d0fda6ee06c02af2f590799c5b4ad283ca45e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
