@@ -59,6 +59,30 @@
       },
       "revId": "cd45e98e7df8fde3d1f34a55e5ba754a320dd1ee",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6986c9ac_cad66c88",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 775,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2022-05-04T17:05:13Z",
+      "side": 1,
+      "message": "\u003e Isn\u0027t this still two allocs? One for the string4() and then another for the final result with the \":ffff:\" prefix etc?\n\nLooks like it\u0027s only one alloc, unless I\u0027m missing something:\n\n  IPString/v6_v4-4              2.00 ± 0%      1.00 ± 0%  -50.00%  (p\u003d0.000 n\u003d10+10)\n\n\u003e My TODO meant to used a byte buffer and then append \":fffff:\" and then append the string4 and then append the zone and string([]byte) that result, which the compiler could keep on the stack, bringing it down to just 1 alloc.\n\nHappy to change to that approach if that\u0027s less brittle and not relying on the compiler doing the right thing.\n\n\u003e Or does the compiler inline string4 and do the right thing?\n\nI assume the compiler is inlining string4 here and does the same thing as described in the comment for string6: https://cs.opensource.google/go/go/+/refs/tags/go1.18.1:src/net/netip/netip.go;l\u003d869-875\n\nOr am I misreading this?",
+      "parentUuid": "34e5a0bf_91e0aeaf",
+      "range": {
+        "startLine": 771,
+        "startChar": 0,
+        "endLine": 775,
+        "endChar": 0
+      },
+      "revId": "cd45e98e7df8fde3d1f34a55e5ba754a320dd1ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
