@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd845ea0_8a84ab47",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-05-04T23:03:30Z",
+      "side": 1,
+      "message": "Please prefix this with \"[release-branch.go1.18] \" to make it match the expected form, thanks (I lack permission to do it myself, I tried).",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 67
+      },
+      "revId": "1c8d87b6c82b4b0ebb44efab8cfaf4cadbd66075",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "53e9aa0b_3b449d61",
