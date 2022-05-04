@@ -127,3 +127,14 @@ func BenchmarkEmptyOpContext(b *testing.B) {
 		EmptyOpContext(r1, -1)
 	}
 }
+
+var sink bool
+
+func BenchmarkIsWordChar(b *testing.B) {
+	const chars = "Don't communicate by sharing memory, share memory by communicating."
+	for i := 0; i < b.N; i++ {
+		for _, r := range chars {
+			sink = IsWordChar(r)
+		}
+	}
+}
