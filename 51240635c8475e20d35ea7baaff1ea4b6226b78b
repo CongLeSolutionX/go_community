@@ -89,6 +89,24 @@
       "parentUuid": "9c9982cb_121af3fb",
       "revId": "51240635c8475e20d35ea7baaff1ea4b6226b78b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8df291e_615b1e35",
+        "filename": "src/crypto/tls/conn.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1408,
+      "author": {
+        "id": 34999
+      },
+      "writtenOn": "2022-05-04T23:34:23Z",
+      "side": 1,
+      "message": "Checked that handshakeComplete only gets set on a successful handshake, and added a line in the docs and a panic in Handshake to enforce it.",
+      "parentUuid": "c2f425cf_384bb186",
+      "revId": "51240635c8475e20d35ea7baaff1ea4b6226b78b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
