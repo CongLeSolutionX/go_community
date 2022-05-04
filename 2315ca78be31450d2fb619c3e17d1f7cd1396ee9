@@ -74,6 +74,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "658c8d86_283ef025",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2022-05-04T06:42:24Z",
+      "side": 1,
+      "message": "It seems CL 395714 allows prove to propagate through jump tables\nWhich is a good thing that this patch reuse.",
+      "parentUuid": "9e974a8b_7c1b9336",
+      "revId": "2315ca78be31450d2fb619c3e17d1f7cd1396ee9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7c9d7d94_8e37271f",
@@ -87,6 +105,24 @@
       "writtenOn": "2022-05-04T01:42:31Z",
       "side": 1,
       "message": "Should we also check if umin \u003d\u003d umax? Or is an invariant that if min\u003d\u003dmax if and only if umin\u003d\u003dumax?",
+      "revId": "2315ca78be31450d2fb619c3e17d1f7cd1396ee9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c71e87cf_c9b4ad6f",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1347,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2022-05-04T06:42:24Z",
+      "side": 1,
+      "message": "This is only important in comparisions no ? but here we are just loading constants. With twos complement\u0027s magic should ne fine.\n\nI\u0027ll add a panicking assert for that.",
+      "parentUuid": "7c9d7d94_8e37271f",
       "revId": "2315ca78be31450d2fb619c3e17d1f7cd1396ee9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
