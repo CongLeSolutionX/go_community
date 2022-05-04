@@ -143,6 +143,24 @@
       "parentUuid": "c71e87cf_c9b4ad6f",
       "revId": "2315ca78be31450d2fb619c3e17d1f7cd1396ee9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "935ac67f_aef229a5",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1347,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2022-05-04T15:23:46Z",
+      "side": 1,
+      "message": "\u003e Looks like it isn\u0027t quite an invariant\nYes, forgot to publish my draft sorry.\n\nI think for now the best is to check for everything and open a new issue about making prove smarter in thoses cases (it\u0027s rare, there is ~25 cases in the ~70k founds running ./make.bash).\n\nAlso, in your example and the ones I could find, the generated code would be correct just taking the value from the int64 one. But that a very shaky assumption.",
+      "parentUuid": "c71e87cf_c9b4ad6f",
+      "revId": "2315ca78be31450d2fb619c3e17d1f7cd1396ee9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
