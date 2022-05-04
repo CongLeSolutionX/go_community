@@ -88,6 +88,23 @@
       "message": "Sorry about the premature ping before. I was just trying to close out my open PRs and forgot that the proposal hadn\u0027t been accepted yet. The proposal is now accepted. Is there still time to add this in before the freeze?",
       "revId": "e91dba2c9d340107f21c203a4c4d7663bafac0b9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43765339_5e7bafeb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34895
+      },
+      "writtenOn": "2022-05-04T18:30:22Z",
+      "side": 1,
+      "message": "Thanks.\n\nRELNOTE\u003dyes",
+      "revId": "e91dba2c9d340107f21c203a4c4d7663bafac0b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
