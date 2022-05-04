@@ -298,6 +298,78 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "983438d2_4a9b2068",
+        "filename": "doc/go_mem.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 30903
+      },
+      "writtenOn": "2022-05-04T06:19:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "435763fe_031eb881",
+      "range": {
+        "startLine": 68,
+        "startChar": 32,
+        "endLine": 68,
+        "endChar": 35
+      },
+      "revId": "51a3530fe5ae863c14be1c7b73b29ee567f58c68",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f58b3c6a_dacfd951",
+        "filename": "doc/go_mem.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 30903
+      },
+      "writtenOn": "2022-05-04T06:19:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6bca933_e55b21ff",
+      "range": {
+        "startLine": 68,
+        "startChar": 26,
+        "endLine": 68,
+        "endChar": 27
+      },
+      "revId": "51a3530fe5ae863c14be1c7b73b29ee567f58c68",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05f0620e_71a4157c",
+        "filename": "doc/go_mem.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 30903
+      },
+      "writtenOn": "2022-05-04T06:19:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af4060be_adab4a8e",
+      "range": {
+        "startLine": 68,
+        "startChar": 74,
+        "endLine": 68,
+        "endChar": 81
+      },
+      "revId": "51a3530fe5ae863c14be1c7b73b29ee567f58c68",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "524069a9_5fd08123",
@@ -311,6 +383,30 @@
       "writtenOn": "2022-01-27T17:55:43Z",
       "side": 1,
       "message": "Multiple citations needed",
+      "range": {
+        "startLine": 69,
+        "startChar": 11,
+        "endLine": 69,
+        "endChar": 56
+      },
+      "revId": "51a3530fe5ae863c14be1c7b73b29ee567f58c68",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "06da0baf_acddadd3",
+        "filename": "doc/go_mem.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 30903
+      },
+      "writtenOn": "2022-05-04T06:19:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "524069a9_5fd08123",
       "range": {
         "startLine": 69,
         "startChar": 11,
@@ -357,6 +453,54 @@
       "writtenOn": "2022-01-27T17:55:43Z",
       "side": 1,
       "message": "Citation needed",
+      "range": {
+        "startLine": 72,
+        "startChar": 5,
+        "endLine": 72,
+        "endChar": 13
+      },
+      "revId": "51a3530fe5ae863c14be1c7b73b29ee567f58c68",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da4e35b4_734a39b5",
+        "filename": "doc/go_mem.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 30903
+      },
+      "writtenOn": "2022-05-04T06:19:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a8d1098_21faf637",
+      "range": {
+        "startLine": 72,
+        "startChar": 18,
+        "endLine": 72,
+        "endChar": 33
+      },
+      "revId": "51a3530fe5ae863c14be1c7b73b29ee567f58c68",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63ab1247_aed2bc50",
+        "filename": "doc/go_mem.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 30903
+      },
+      "writtenOn": "2022-05-04T06:19:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ffa1509c_608cc3e1",
       "range": {
         "startLine": 72,
         "startChar": 5,
@@ -426,6 +570,30 @@
       "writtenOn": "2022-01-27T17:55:43Z",
       "side": 1,
       "message": "This advice has been discussed over the past decade quite often on its actual meaning. I think it should be more clearly addressed by the end of the document concerning, for example:\n\n- Is the advice suggesting users not to overthink if possible? (most likely this?)\n- Is the advice suggesting users not to rigorize everything that has been said in this document, as it is an open question even in the research?\n\nThe advice is sage, but it might not be an excellent fit to repeat at the end of the document for the conclusion. I think a reader that reads until the end would expect a few more concrete conclusions other than an abstract one.",
+      "range": {
+        "startLine": 809,
+        "startChar": 30,
+        "endLine": 809,
+        "endChar": 45
+      },
+      "revId": "51a3530fe5ae863c14be1c7b73b29ee567f58c68",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48c504dd_0dfba46d",
+        "filename": "doc/go_mem.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 809,
+      "author": {
+        "id": 30903
+      },
+      "writtenOn": "2022-05-04T06:19:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15b6e5ee_ffa364bd",
       "range": {
         "startLine": 809,
         "startChar": 30,
