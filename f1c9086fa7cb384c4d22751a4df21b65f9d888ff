@@ -411,6 +411,30 @@
       },
       "revId": "f1c9086fa7cb384c4d22751a4df21b65f9d888ff",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2e9abd0_8b9550e8",
+        "filename": "src/cmd/internal/obj/link.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-05-04T03:54:11Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t understand why you have to put the relocation information intoProg.Mask.\nSorry I misunderstood your previous comment and thought you suggested the RISCV approach.\n\u003e You can use a field in \"arg\" type, or \"inst\" type, whatever fits for this code.\nYes, that\u0027s fine.\n\u003e All I said is to have a separate function that simply returns the number of inst needed for a Prog. I don\u0027t understand why this is hard to do.\nNot very hard, it\u0027s feasible, but that function will be quite similar with the unfolding function. Because we need to analyze the arguments and the opcode and then we can determine the number of inst, this is basically what unfolding process does. For example:\n Prog p: MOVD $0xabcde001, R0\n\nTo determine the number of inst corresponding to p, do:\n 1, Check the type of p.From, namely a constant.\n 2, Check the type of p.To, a general register type.\n 3, Based on the value of this constant， determine how many instructions we need to \n    move it into register R0 , maybe 1, 2, 3, or 4.\n\nNow we get the number of inst, and at this time, we basically know which machine instructions this Prog should be translated into. It\u0027s just that we also do some legality checks in the unfolding process, as well as some work involving literal pool, branch and reloc.\n\nSo my point is whether we should do a process with greater redundancy with the unfolding process in order to get the inst number of Prog.\n\nI don\u0027t know if there is an easier way to get the inst count of the Prog, if there is, please let me know, thanks.",
+      "parentUuid": "68158e8f_e4648453",
+      "range": {
+        "startLine": 322,
+        "startChar": 0,
+        "endLine": 353,
+        "endChar": 1
+      },
+      "revId": "f1c9086fa7cb384c4d22751a4df21b65f9d888ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
