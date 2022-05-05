@@ -89,6 +89,24 @@
       "message": "@Bryan, It\u0027s strange that the master branch seems to already contain the code of CL 401775， and the conflicting code of init.go is fixed. Does that mean I don\u0027t need to do anything? 😂 Thank you.",
       "revId": "4706cf7f4d532df319fb46352aca48e606056214",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d7fa855_dd09a8f7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2022-05-05T03:27:55Z",
+      "side": 1,
+      "message": "I just saw this patch CL 403851. Thank you for doing this. 😊",
+      "parentUuid": "413cd311_dfdd4eeb",
+      "revId": "4706cf7f4d532df319fb46352aca48e606056214",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
