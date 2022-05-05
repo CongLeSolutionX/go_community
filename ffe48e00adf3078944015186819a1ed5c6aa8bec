@@ -34,6 +34,23 @@
       "parentUuid": "9e6cbff7_f73d46d6",
       "revId": "ffe48e00adf3078944015186819a1ed5c6aa8bec",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3f57b94_f0dfb191",
+        "filename": "src/sync/atomic/atomic_test.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 1996,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-05-05T14:34:41Z",
+      "side": 1,
+      "message": "Curiously, this test is consistently failing on the linux-mips-rtrk builder since this CL. Filed as #52723.",
+      "revId": "ffe48e00adf3078944015186819a1ed5c6aa8bec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
