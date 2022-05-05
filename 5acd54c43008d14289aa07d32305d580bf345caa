@@ -99,6 +99,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "9758bf6b_77188f2f",
+        "filename": "src/crypto/ecdh/ecdh.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2022-05-05T17:45:27Z",
+      "side": 1,
+      "message": "The clamping is defined as part of the ECDH operation, not as part of loading the key. The comment on the ECDH method references RFC 7748, Section 6.1.",
+      "parentUuid": "480b0e51_b009dc55",
+      "range": {
+        "startLine": 37,
+        "startChar": 7,
+        "endLine": 37,
+        "endChar": 50
+      },
+      "revId": "5acd54c43008d14289aa07d32305d580bf345caa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "e6fca379_714d411e",
         "filename": "src/crypto/ecdh/ecdh.go",
         "patchSetId": 9
@@ -110,6 +134,30 @@
       "writtenOn": "2022-05-03T15:36:27Z",
       "side": 1,
       "message": "Since compressed encodings are supported further down the chain, is the plan to support this eventually?",
+      "range": {
+        "startLine": 44,
+        "startChar": 32,
+        "endLine": 44,
+        "endChar": 43
+      },
+      "revId": "5acd54c43008d14289aa07d32305d580bf345caa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8160237_a53e5305",
+        "filename": "src/crypto/ecdh/ecdh.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2022-05-05T17:45:27Z",
+      "side": 1,
+      "message": "Yeah! I will add this proposed API https://github.com/golang/go/issues/52221#issuecomment-1111153164 in a follow-up CL.",
+      "parentUuid": "e6fca379_714d411e",
       "range": {
         "startLine": 44,
         "startChar": 32,
