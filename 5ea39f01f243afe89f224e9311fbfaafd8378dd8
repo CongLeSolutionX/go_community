@@ -78,6 +78,30 @@
       },
       "revId": "5ea39f01f243afe89f224e9311fbfaafd8378dd8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa229616_f1dd6db3",
+        "filename": "src/crypto/elliptic/nistec.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2022-05-05T18:47:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5738aa2_89e0184c",
+      "range": {
+        "startLine": 119,
+        "startChar": 1,
+        "endLine": 119,
+        "endChar": 25
+      },
+      "revId": "5ea39f01f243afe89f224e9311fbfaafd8378dd8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

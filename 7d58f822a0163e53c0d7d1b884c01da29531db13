@@ -16,6 +16,24 @@
       "message": "Maybe worth documenting that this now requires addchain?",
       "revId": "7d58f822a0163e53c0d7d1b884c01da29531db13",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71f5b353_8af507fe",
+        "filename": "src/crypto/elliptic/internal/nistec/generate.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2022-05-05T18:47:15Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "7ed30fa4_b7dfe446",
+      "revId": "7d58f822a0163e53c0d7d1b884c01da29531db13",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
