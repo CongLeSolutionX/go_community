@@ -14,3 +14,8 @@
 # See golang.org/issue/9281.
 
 * -text
+
+# Do not try to display diffs for zipdata.go.
+# It is a Go string encoding of a binary zipfile, and not meant for human consumption.
+# To review changes to that file, regenerate it independently and check for diffs.
+src/time/tzdata/zipdata.go -diff

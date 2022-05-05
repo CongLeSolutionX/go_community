@@ -51,17 +51,8 @@ func main() {
 
 	buf := bufio.NewWriter(of)
 	buf.WriteString(header)
-
-	ds := string(data)
-	i := 0
-	const chunk = 60
-	for ; i+chunk < len(data); i += chunk {
-		if i > 0 {
-			buf.WriteRune('\t')
-		}
-		fmt.Fprintf(buf, "%s +\n", strconv.Quote(ds[i:i+chunk]))
-	}
-	fmt.Fprintf(buf, "\t%s\n", strconv.Quote(ds[i:]))
+	buf.WriteString(strconv.Quote(string(data)))
+	buf.WriteString("\n")
 
 	if err := buf.Flush(); err != nil {
 		die("error writing to zipdata.go: %v", err)
