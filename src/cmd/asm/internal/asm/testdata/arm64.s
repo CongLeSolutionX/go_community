@@ -392,10 +392,10 @@ TEXT	foo(SB), DUPOK|NOSPLIT, $-8
 	VMOVQ	$0x8040201008040202, $0x7040201008040201, V20         // VMOVQ	$-9205322385119247870, $8088500183983456769, V20
 
 // mov(to/from sp)
-	MOVD	$0x1002(RSP), R1              // MOVD	$4098(RSP), R1              // e107409121080091
-	MOVD	$0x1708(RSP), RSP             // MOVD	$5896(RSP), RSP             // ff074091ff231c91
-	MOVD	$0x2001(R7), R1               // MOVD	$8193(R7), R1               // e108409121040091
-	MOVD	$0xffffff(R7), R1             // MOVD	$16777215(R7), R1           // e1fc7f9121fc3f91
+	MOVD	$0x1002(RSP), R1              // MOVD	$4098(RSP), R1              // e10b009121044091
+	MOVD	$0x1708(RSP), RSP             // MOVD	$5896(RSP), RSP             // ff231c91ff074091
+	MOVD	$0x2001(R7), R1               // MOVD	$8193(R7), R1               // e104009121084091
+	MOVD	$0xffffff(R7), R1             // MOVD	$16777215(R7), R1           // e1fc3f9121fc7f91
 	MOVD	$-0x1(R7), R1                 // MOVD	$-1(R7), R1                 // e10400d1
 	MOVD	$-0x30(R7), R1                // MOVD	$-48(R7), R1                // e1c000d1
 	MOVD	$-0x708(R7), R1               // MOVD	$-1800(R7), R1              // e1201cd1

@@ -3412,8 +3412,8 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		if int(o.size) == 8 {
 			// NOTE: this case does not use REGTMP. If it ever does,
 			// remove the NOTUSETMP flag in optab.
-			o1 = c.oaddi(p, op, v&0xfff000, r, rt)
-			o2 = c.oaddi(p, op, v&0x000fff, rt, rt)
+			o1 = c.oaddi(p, op, v&0xfff, r, rt)
+			o2 = c.oaddi(p, op, v&0xfff000, rt, rt)
 			break
 		}
 
