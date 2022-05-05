@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c11e7b7f_b5c1c9c2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2022-05-05T01:37:15Z",
+      "side": 1,
+      "message": "linux-amd64-clang\nlinux-amd64-longtest\nwindows-amd64-longtest",
+      "revId": "3f7ed6bb7dce8e39df2b3ac55e3ae8fa254ebbfd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
