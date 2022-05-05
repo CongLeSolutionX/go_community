@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "345f2339_271b7e10",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2022-05-05T04:16:57Z",
+      "side": 1,
+      "message": "@Cherry, Is it possible for this patch to be merged to go1.19? Thank you.",
+      "revId": "6195b574a718dcc8d7a72fc6b2902f261f6e7864",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
