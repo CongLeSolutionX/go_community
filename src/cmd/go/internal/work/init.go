@@ -15,6 +15,7 @@ import (
 	"cmd/internal/quoted"
 	"cmd/internal/sys"
 	"fmt"
+	exec "internal/execabs"
 	"os"
 	"os/exec"
 	"path/filepath"
