@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "88addda2_f7ddef25",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 37
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-05-05T09:25:57Z",
+      "side": 1,
+      "message": "I think the \"mnemonics\" are for Go assembly format，they are not just for MIPS. It might be OK to reuse these mnemonics without changing their original meaning.",
+      "parentUuid": "ce86f715_1c8fc6fd",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 48
+      },
+      "revId": "49dd3369ea544e0ac9f9d8693c513c8c4ecdbabc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "7966c1f3_bed577ea",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 37
@@ -37,6 +61,24 @@
       "writtenOn": "2022-05-04T04:26:30Z",
       "side": 1,
       "message": "While I no longer want to block your whole work because it seems you didn\u0027t action on my suggestions several months ago, and the unavailability of Go has started to be felt by the community, I hope we can clear the codebase of MIPS legacy after the initial port gets merged. Just a reminder to people: LoongArch is not MIPS (user-space-wise it\u0027s much closer to RISC-V), and it\u0027s better not treat it as such.",
+      "revId": "49dd3369ea544e0ac9f9d8693c513c8c4ecdbabc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65f56828_5a58a4c6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 37
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-05-05T09:25:57Z",
+      "side": 1,
+      "message": "\u003e While I no longer want to block your whole work because it seems you didn\u0027t action on my suggestions several months ago,\nNo one think you blocked the whole work. Your original suggestions were a little bit radical to implement. Thank you all the same.\n\u003e I hope we can clear the codebase of MIPS legacy after the initial port gets merged.\nIMO, there is no MIPS legacy now. Actually the inspiration to port to loong64 is from MIPS. Maybe some similarities were preserved. If I understand correctly, a new yet similar port might be useful to reduce upkeep costs for community. There are some words from https://github.com/golang/go/wiki/PortingPolicy:\n```\nIn general, each new port carries an upkeep cost separate from the direct maintenance. That cost varies by port, depending on how similar a new port is to existing ones.\n```",
+      "parentUuid": "7966c1f3_bed577ea",
       "revId": "49dd3369ea544e0ac9f9d8693c513c8c4ecdbabc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -54,6 +96,30 @@
       "writtenOn": "2022-05-04T04:26:30Z",
       "side": 1,
       "message": "I still think this should be placed last to not disrupt existing values, although the values are not public API. (And preferably be called \"ABaseLoong64\", as I\u0027ve repeatedly pointed out that \"Loong\" is not an acronym.)",
+      "range": {
+        "startLine": 445,
+        "startChar": 1,
+        "endLine": 445,
+        "endChar": 13
+      },
+      "revId": "49dd3369ea544e0ac9f9d8693c513c8c4ecdbabc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eabb1c51_b339e702",
+        "filename": "src/cmd/internal/obj/link.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-05-05T09:25:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dbf1ad85_50dfb73a",
       "range": {
         "startLine": 445,
         "startChar": 1,

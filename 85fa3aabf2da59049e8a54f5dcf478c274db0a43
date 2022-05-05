@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d27ca0b_e771d59f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 38
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-05-05T09:25:57Z",
+      "side": 1,
+      "message": "A gentle ping cherryyz, drchase.\nThanks!",
+      "revId": "85fa3aabf2da59049e8a54f5dcf478c274db0a43",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
