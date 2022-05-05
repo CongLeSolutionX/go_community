@@ -87,6 +87,24 @@
       "message": "I didn\u0027t do it this way because I couldn\u0027t easily open the resulting file in emacs.  It\u0027s unfortunate to have an ordinary source file in the tree that an editor won\u0027t open, even if it is a generated file.\n\nWhat if we just change chunk from 60 to, say, 240?  What is the problem we are trying to solve?",
       "revId": "f09065a0228c8421c1ca6123bdfba5fcc4d634fa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "078d73f1_8c9c4576",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-05-05T20:18:37Z",
+      "side": 1,
+      "message": "\u003e I didn\u0027t do it this way because I couldn\u0027t easily open the resulting file in emacs.  It\u0027s unfortunate to have an ordinary source file in the tree that an editor won\u0027t open, even if it is a generated file.\n\nFWIW, I can open the resulting file in `emacs` without crashing `gopls` or `eglot` or my workstation, and `xref-find-references` (using `gopls` and `eglot`) can still show me the location of the definition in that file.\n\nBeyond that, it\u0027s not not particularly meaningful or useful for me to be able to open the file in `emacs`, any more than it would be useful for me to open a raw zipfile in a hex editor.\n\n\n\u003e What if we just change chunk from 60 to, say, 240?\n\nWe could, but why? The AST would still contain a lot of extraneous `+` operators for tools to deal with, and the file would still not be meaningful for humans to read or hand-edit.\n\n\n\u003e What is the problem we are trying to solve?\n\nI see three problems mentioned in #43350:\n1. redundant bytes included in the `go` distribution,\n2. an extra `go generate` step when updating the tzdata,\n3. extra processing overhead for tools like `compile` and `gopls` and `gofmt` and `staticcheck` to produce an AST for the file.\n\nThis change would address only problem (3).",
+      "parentUuid": "06bfba59_ef3128f5",
+      "revId": "f09065a0228c8421c1ca6123bdfba5fcc4d634fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
