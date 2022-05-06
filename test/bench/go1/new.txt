@@ -1,0 +1,414 @@
+goos: windows
+goarch: amd64
+pkg: test/bench/go1
+cpu: Intel(R) Core(TM) i5-9300H CPU @ 2.40GHz
+BenchmarkBinaryTree17-8            	       1	1790215300 ns/op
+BenchmarkFannkuch11-8              	       1	2072498900 ns/op
+BenchmarkFmtFprintfEmpty-8         	52320181	        24.19 ns/op
+BenchmarkFmtFprintfString-8        	26155586	        45.80 ns/op
+BenchmarkFmtFprintfInt-8           	24555141	        51.46 ns/op
+BenchmarkFmtFprintfIntInt-8        	14488518	        83.44 ns/op
+BenchmarkFmtFprintfPrefixedInt-8   	13822352	        84.71 ns/op
+BenchmarkFmtFprintfFloat-8         	 9184866	       131.6 ns/op
+BenchmarkFmtManyArgs-8             	 3398571	       354.8 ns/op
+BenchmarkGobDecode-8               	     336	   3508375 ns/op	 218.77 MB/s
+BenchmarkGobEncode-8               	     488	   2516331 ns/op	 305.02 MB/s
+BenchmarkGzip-8                    	       7	 152887957 ns/op	 126.92 MB/s
+BenchmarkGunzip-8                  	      49	  22351108 ns/op	 868.18 MB/s
+BenchmarkHTTPClientServer-8        	   16369	     74043 ns/op
+BenchmarkJSONEncode-8              	     198	   6069857 ns/op	 319.69 MB/s
+BenchmarkJSONDecode-8              	      44	  29196386 ns/op	  66.46 MB/s
+BenchmarkMandelbrot200-8           	     367	   3272516 ns/op
+BenchmarkGoParse-8                 	     531	   2262530 ns/op	  25.60 MB/s
+BenchmarkRegexpMatchEasy0_32-8     	25065954	        42.42 ns/op	 754.36 MB/s
+BenchmarkRegexpMatchEasy0_1K-8     	 9184731	       133.5 ns/op	7672.95 MB/s
+BenchmarkRegexpMatchEasy1_32-8     	27957364	        40.17 ns/op	 796.65 MB/s
+BenchmarkRegexpMatchEasy1_1K-8     	 5648898	       212.8 ns/op	4813.08 MB/s
+BenchmarkRegexpMatchMedium_32-8    	 1574415	       667.1 ns/op	  47.97 MB/s
+BenchmarkRegexpMatchMedium_1K-8    	   59398	     23143 ns/op	  44.25 MB/s
+BenchmarkRegexpMatchHard_32-8      	 1000000	      1006 ns/op	  31.80 MB/s
+BenchmarkRegexpMatchHard_1K-8      	   33891	     31958 ns/op	  32.04 MB/s
+BenchmarkRevcomp-8                 	       4	 282993925 ns/op	 898.13 MB/s
+BenchmarkTemplate-8                	      32	  38837100 ns/op	  49.96 MB/s
+BenchmarkTimeParse-8               	 7425121	       163.4 ns/op
+BenchmarkTimeFormat-8              	 6540926	       183.5 ns/op
+PASS
+ok  	test/bench/go1	45.573s
+goos: windows
+goarch: amd64
+pkg: test/bench/go1
+cpu: Intel(R) Core(TM) i5-9300H CPU @ 2.40GHz
+BenchmarkBinaryTree17-8            	       1	1814911500 ns/op
+BenchmarkFannkuch11-8              	       1	2096491800 ns/op
+BenchmarkFmtFprintfEmpty-8         	54577704	        23.65 ns/op
+BenchmarkFmtFprintfString-8        	26156896	        45.11 ns/op
+BenchmarkFmtFprintfInt-8           	24555895	        52.60 ns/op
+BenchmarkFmtFprintfIntInt-8        	13990628	        82.34 ns/op
+BenchmarkFmtFprintfPrefixedInt-8   	13672860	        85.93 ns/op
+BenchmarkFmtFprintfFloat-8         	 9397759	       132.3 ns/op
+BenchmarkFmtManyArgs-8             	 3379789	       360.6 ns/op
+BenchmarkGobDecode-8               	     331	   3730207 ns/op	 205.76 MB/s
+BenchmarkGobEncode-8               	     502	   2415850 ns/op	 317.71 MB/s
+BenchmarkGzip-8                    	       7	 157008886 ns/op	 123.59 MB/s
+BenchmarkGunzip-8                  	      56	  22618118 ns/op	 857.93 MB/s
+BenchmarkHTTPClientServer-8        	   16414	     74797 ns/op
+BenchmarkJSONEncode-8              	     192	   6051785 ns/op	 320.64 MB/s
+BenchmarkJSONDecode-8              	      44	  28810111 ns/op	  67.35 MB/s
+BenchmarkMandelbrot200-8           	     367	   3239616 ns/op
+BenchmarkGoParse-8                 	     534	   2312171 ns/op	  25.05 MB/s
+BenchmarkRegexpMatchEasy0_32-8     	27325701	        45.15 ns/op	 708.78 MB/s
+BenchmarkRegexpMatchEasy0_1K-8     	 9625711	       129.5 ns/op	7909.07 MB/s
+BenchmarkRegexpMatchEasy1_32-8     	31171016	        40.35 ns/op	 793.05 MB/s
+BenchmarkRegexpMatchEasy1_1K-8     	 5868312	       206.3 ns/op	4962.79 MB/s
+BenchmarkRegexpMatchMedium_32-8    	 1814793	       674.9 ns/op	  47.42 MB/s
+BenchmarkRegexpMatchMedium_1K-8    	   53467	     21321 ns/op	  48.03 MB/s
+BenchmarkRegexpMatchHard_32-8      	 1239146	      1007 ns/op	  31.79 MB/s
+BenchmarkRegexpMatchHard_1K-8      	   39280	     31409 ns/op	  32.60 MB/s
+BenchmarkRevcomp-8                 	       4	 286733525 ns/op	 886.42 MB/s
+BenchmarkTemplate-8                	      31	  39796813 ns/op	  48.76 MB/s
+BenchmarkTimeParse-8               	 7471137	       164.6 ns/op
+BenchmarkTimeFormat-8              	 6370576	       190.8 ns/op
+PASS
+ok  	test/bench/go1	47.393s
+goos: windows
+goarch: amd64
+pkg: test/bench/go1
+cpu: Intel(R) Core(TM) i5-9300H CPU @ 2.40GHz
+BenchmarkBinaryTree17-8            	       1	1803790600 ns/op
+BenchmarkFannkuch11-8              	       1	2097405400 ns/op
+BenchmarkFmtFprintfEmpty-8         	48041506	        25.43 ns/op
+BenchmarkFmtFprintfString-8        	26711065	        44.70 ns/op
+BenchmarkFmtFprintfInt-8           	24040291	        51.69 ns/op
+BenchmarkFmtFprintfIntInt-8        	14850823	        83.95 ns/op
+BenchmarkFmtFprintfPrefixedInt-8   	14317160	        84.16 ns/op
+BenchmarkFmtFprintfFloat-8         	 8238583	       134.4 ns/op
+BenchmarkFmtManyArgs-8             	 3395000	       349.3 ns/op
+BenchmarkGobDecode-8               	     333	   3554927 ns/op	 215.91 MB/s
+BenchmarkGobEncode-8               	     482	   2379688 ns/op	 322.54 MB/s
+BenchmarkGzip-8                    	       7	 151041100 ns/op	 128.47 MB/s
+BenchmarkGunzip-8                  	      54	  22238261 ns/op	 872.58 MB/s
+BenchmarkHTTPClientServer-8        	   16171	     75432 ns/op
+BenchmarkJSONEncode-8              	     194	   6107824 ns/op	 317.70 MB/s
+BenchmarkJSONDecode-8              	      42	  29612119 ns/op	  65.53 MB/s
+BenchmarkMandelbrot200-8           	     368	   3263430 ns/op
+BenchmarkGoParse-8                 	     531	   2314023 ns/op	  25.03 MB/s
+BenchmarkRegexpMatchEasy0_32-8     	25066425	        45.95 ns/op	 696.34 MB/s
+BenchmarkRegexpMatchEasy0_1K-8     	 9397554	       128.1 ns/op	7993.82 MB/s
+BenchmarkRegexpMatchEasy1_32-8     	30826219	        39.67 ns/op	 806.72 MB/s
+BenchmarkRegexpMatchEasy1_1K-8     	 5926162	       214.7 ns/op	4768.59 MB/s
+BenchmarkRegexpMatchMedium_32-8    	 1645899	       727.2 ns/op	  44.01 MB/s
+BenchmarkRegexpMatchMedium_1K-8    	   58116	     21091 ns/op	  48.55 MB/s
+BenchmarkRegexpMatchHard_32-8      	 1228786	       991.9 ns/op	  32.26 MB/s
+BenchmarkRegexpMatchHard_1K-8      	   38071	     30811 ns/op	  33.24 MB/s
+BenchmarkRevcomp-8                 	       4	 281248425 ns/op	 903.71 MB/s
+BenchmarkTemplate-8                	      32	  39706359 ns/op	  48.87 MB/s
+BenchmarkTimeParse-8               	 6398467	       164.0 ns/op
+BenchmarkTimeFormat-8              	 6816595	       178.8 ns/op
+PASS
+ok  	test/bench/go1	46.798s
+goos: windows
+goarch: amd64
+pkg: test/bench/go1
+cpu: Intel(R) Core(TM) i5-9300H CPU @ 2.40GHz
+BenchmarkBinaryTree17-8            	       1	1783389400 ns/op
+BenchmarkFannkuch11-8              	       1	2090957100 ns/op
+BenchmarkFmtFprintfEmpty-8         	53409055	        23.56 ns/op
+BenchmarkFmtFprintfString-8        	27958406	        44.97 ns/op
+BenchmarkFmtFprintfInt-8           	23118536	        50.99 ns/op
+BenchmarkFmtFprintfIntInt-8        	14673441	        84.49 ns/op
+BenchmarkFmtFprintfPrefixedInt-8   	14673531	        85.98 ns/op
+BenchmarkFmtFprintfFloat-8         	 9474099	       135.9 ns/op
+BenchmarkFmtManyArgs-8             	 3437377	       345.8 ns/op
+BenchmarkGobDecode-8               	     354	   3518882 ns/op	 218.12 MB/s
+BenchmarkGobEncode-8               	     492	   2412319 ns/op	 318.17 MB/s
+BenchmarkGzip-8                    	       7	 153166900 ns/op	 126.69 MB/s
+BenchmarkGunzip-8                  	      54	  22459067 ns/op	 864.00 MB/s
+BenchmarkHTTPClientServer-8        	   16414	     73035 ns/op
+BenchmarkJSONEncode-8              	     196	   6065590 ns/op	 319.91 MB/s
+BenchmarkJSONDecode-8              	      40	  34109698 ns/op	  56.89 MB/s
+BenchmarkMandelbrot200-8           	     368	   3252265 ns/op
+BenchmarkGoParse-8                 	     536	   2307329 ns/op	  25.10 MB/s
+BenchmarkRegexpMatchEasy0_32-8     	26711541	        44.77 ns/op	 714.79 MB/s
+BenchmarkRegexpMatchEasy0_1K-8     	 8718952	       129.9 ns/op	7880.11 MB/s
+BenchmarkRegexpMatchEasy1_32-8     	30079484	        38.70 ns/op	 826.87 MB/s
+BenchmarkRegexpMatchEasy1_1K-8     	 5812575	       208.1 ns/op	4920.05 MB/s
+BenchmarkRegexpMatchMedium_32-8    	 1672584	       673.2 ns/op	  47.53 MB/s
+BenchmarkRegexpMatchMedium_1K-8    	   54189	     20632 ns/op	  49.63 MB/s
+BenchmarkRegexpMatchHard_32-8      	 1000000	      1014 ns/op	  31.55 MB/s
+BenchmarkRegexpMatchHard_1K-8      	   39060	     31254 ns/op	  32.76 MB/s
+BenchmarkRevcomp-8                 	       4	 276273250 ns/op	 919.98 MB/s
+BenchmarkTemplate-8                	      27	  38889422 ns/op	  49.90 MB/s
+BenchmarkTimeParse-8               	 7075762	       167.9 ns/op
+BenchmarkTimeFormat-8              	 6789932	       186.1 ns/op
+PASS
+ok  	test/bench/go1	46.269s
+goos: windows
+goarch: amd64
+pkg: test/bench/go1
+cpu: Intel(R) Core(TM) i5-9300H CPU @ 2.40GHz
+BenchmarkBinaryTree17-8            	       1	1756241200 ns/op
+BenchmarkFannkuch11-8              	       1	2015790300 ns/op
+BenchmarkFmtFprintfEmpty-8         	52311970	        24.96 ns/op
+BenchmarkFmtFprintfString-8        	27323336	        46.32 ns/op
+BenchmarkFmtFprintfInt-8           	23138551	        50.34 ns/op
+BenchmarkFmtFprintfIntInt-8        	14673405	        84.76 ns/op
+BenchmarkFmtFprintfPrefixedInt-8   	14323876	        87.17 ns/op
+BenchmarkFmtFprintfFloat-8         	 9396751	       135.7 ns/op
+BenchmarkFmtManyArgs-8             	 3477481	       353.1 ns/op
+BenchmarkGobDecode-8               	     339	   3472167 ns/op	 221.05 MB/s
+BenchmarkGobEncode-8               	     506	   2400991 ns/op	 319.67 MB/s
+BenchmarkGzip-8                    	       7	 152890886 ns/op	 126.92 MB/s
+BenchmarkGunzip-8                  	      51	  22645980 ns/op	 856.87 MB/s
+BenchmarkHTTPClientServer-8        	   16572	     72579 ns/op
+BenchmarkJSONEncode-8              	     195	   6004690 ns/op	 323.16 MB/s
+BenchmarkJSONDecode-8              	      44	  29538307 ns/op	  65.69 MB/s
+BenchmarkMandelbrot200-8           	     369	   3251629 ns/op
+BenchmarkGoParse-8                 	     532	   2303994 ns/op	  25.14 MB/s
+BenchmarkRegexpMatchEasy0_32-8     	28616055	        42.49 ns/op	 753.08 MB/s
+BenchmarkRegexpMatchEasy0_1K-8     	 9397413	       131.7 ns/op	7774.69 MB/s
+BenchmarkRegexpMatchEasy1_32-8     	31626553	        38.69 ns/op	 827.00 MB/s
+BenchmarkRegexpMatchEasy1_1K-8     	 5648868	       211.0 ns/op	4853.34 MB/s
+BenchmarkRegexpMatchMedium_32-8    	 1619392	       750.9 ns/op	  42.61 MB/s
+BenchmarkRegexpMatchMedium_1K-8    	   57836	     22953 ns/op	  44.61 MB/s
+BenchmarkRegexpMatchHard_32-8      	 1209110	      1007 ns/op	  31.77 MB/s
+BenchmarkRegexpMatchHard_1K-8      	   39187	     30416 ns/op	  33.67 MB/s
+BenchmarkRevcomp-8                 	       4	 278766600 ns/op	 911.75 MB/s
+BenchmarkTemplate-8                	      31	  39092413 ns/op	  49.64 MB/s
+BenchmarkTimeParse-8               	 7425090	       166.5 ns/op
+BenchmarkTimeFormat-8              	 6372849	       188.7 ns/op
+PASS
+ok  	test/bench/go1	47.287s
+goos: windows
+goarch: amd64
+pkg: test/bench/go1
+cpu: Intel(R) Core(TM) i5-9300H CPU @ 2.40GHz
+BenchmarkBinaryTree17-8            	       1	1829230100 ns/op
+BenchmarkFannkuch11-8              	       1	2098486900 ns/op
+BenchmarkFmtFprintfEmpty-8         	52239097	        23.74 ns/op
+BenchmarkFmtFprintfString-8        	27305182	        44.77 ns/op
+BenchmarkFmtFprintfInt-8           	23124728	        51.80 ns/op
+BenchmarkFmtFprintfIntInt-8        	14487818	        82.40 ns/op
+BenchmarkFmtFprintfPrefixedInt-8   	13824645	        87.08 ns/op
+BenchmarkFmtFprintfFloat-8         	 9181682	       137.7 ns/op
+BenchmarkFmtManyArgs-8             	 3418191	       357.4 ns/op
+BenchmarkGobDecode-8               	     345	   3544013 ns/op	 216.57 MB/s
+BenchmarkGobEncode-8               	     494	   2459022 ns/op	 312.13 MB/s
+BenchmarkGzip-8                    	       7	 152591886 ns/op	 127.17 MB/s
+BenchmarkGunzip-8                  	      54	  23143900 ns/op	 838.44 MB/s
+BenchmarkHTTPClientServer-8        	   16041	     71687 ns/op
+BenchmarkJSONEncode-8              	     198	   6488076 ns/op	 299.08 MB/s
+BenchmarkJSONDecode-8              	      42	  29706281 ns/op	  65.32 MB/s
+BenchmarkMandelbrot200-8           	     372	   3260415 ns/op
+BenchmarkGoParse-8                 	     534	   2272889 ns/op	  25.48 MB/s
+BenchmarkRegexpMatchEasy0_32-8     	29346094	        43.30 ns/op	 739.05 MB/s
+BenchmarkRegexpMatchEasy0_1K-8     	 9324559	       135.2 ns/op	7574.08 MB/s
+BenchmarkRegexpMatchEasy1_32-8     	30691635	        38.77 ns/op	 825.39 MB/s
+BenchmarkRegexpMatchEasy1_1K-8     	 6015079	       210.9 ns/op	4855.15 MB/s
+BenchmarkRegexpMatchMedium_32-8    	 1617108	       643.9 ns/op	  49.69 MB/s
+BenchmarkRegexpMatchMedium_1K-8    	   57014	     23493 ns/op	  43.59 MB/s
+BenchmarkRegexpMatchHard_32-8      	 1228960	       995.9 ns/op	  32.13 MB/s
+BenchmarkRegexpMatchHard_1K-8      	   40236	     30934 ns/op	  33.10 MB/s
+BenchmarkRevcomp-8                 	       4	 281758525 ns/op	 902.07 MB/s
+BenchmarkTemplate-8                	      31	  38835123 ns/op	  49.97 MB/s
+BenchmarkTimeParse-8               	 7335190	       165.3 ns/op
+BenchmarkTimeFormat-8              	 6554540	       189.0 ns/op
+PASS
+ok  	test/bench/go1	47.402s
+goos: windows
+goarch: amd64
+pkg: test/bench/go1
+cpu: Intel(R) Core(TM) i5-9300H CPU @ 2.40GHz
+BenchmarkBinaryTree17-8            	       1	1756092500 ns/op
+BenchmarkFannkuch11-8              	       1	2089946300 ns/op
+BenchmarkFmtFprintfEmpty-8         	50134317	        24.49 ns/op
+BenchmarkFmtFprintfString-8        	27345752	        46.57 ns/op
+BenchmarkFmtFprintfInt-8           	24532602	        51.96 ns/op
+BenchmarkFmtFprintfIntInt-8        	14667362	        83.30 ns/op
+BenchmarkFmtFprintfPrefixedInt-8   	13665464	        85.25 ns/op
+BenchmarkFmtFprintfFloat-8         	 9462520	       133.2 ns/op
+BenchmarkFmtManyArgs-8             	 3388891	       355.8 ns/op
+BenchmarkGobDecode-8               	     344	   3508162 ns/op	 218.79 MB/s
+BenchmarkGobEncode-8               	     513	   2492428 ns/op	 307.95 MB/s
+BenchmarkGzip-8                    	       7	 152026914 ns/op	 127.64 MB/s
+BenchmarkGunzip-8                  	      54	  22847470 ns/op	 849.32 MB/s
+BenchmarkHTTPClientServer-8        	   16436	     72330 ns/op
+BenchmarkJSONEncode-8              	     200	   5929314 ns/op	 327.27 MB/s
+BenchmarkJSONDecode-8              	      44	  28473882 ns/op	  68.15 MB/s
+BenchmarkMandelbrot200-8           	     366	   3251059 ns/op
+BenchmarkGoParse-8                 	     534	   2325247 ns/op	  24.91 MB/s
+BenchmarkRegexpMatchEasy0_32-8     	28649326	        43.34 ns/op	 738.33 MB/s
+BenchmarkRegexpMatchEasy0_1K-8     	 9397531	       128.3 ns/op	7980.59 MB/s
+BenchmarkRegexpMatchEasy1_32-8     	32514597	        39.48 ns/op	 810.54 MB/s
+BenchmarkRegexpMatchEasy1_1K-8     	 5570373	       204.3 ns/op	5012.41 MB/s
+BenchmarkRegexpMatchMedium_32-8    	 1682799	       739.1 ns/op	  43.30 MB/s
+BenchmarkRegexpMatchMedium_1K-8    	   56215	     21166 ns/op	  48.38 MB/s
+BenchmarkRegexpMatchHard_32-8      	 1000000	      1003 ns/op	  31.89 MB/s
+BenchmarkRegexpMatchHard_1K-8      	   40920	     30295 ns/op	  33.80 MB/s
+BenchmarkRevcomp-8                 	       4	 276261700 ns/op	 920.02 MB/s
+BenchmarkTemplate-8                	      32	  38428544 ns/op	  50.50 MB/s
+BenchmarkTimeParse-8               	 7471216	       166.3 ns/op
+BenchmarkTimeFormat-8              	 6864872	       188.0 ns/op
+PASS
+ok  	test/bench/go1	46.113s
+goos: windows
+goarch: amd64
+pkg: test/bench/go1
+cpu: Intel(R) Core(TM) i5-9300H CPU @ 2.40GHz
+BenchmarkBinaryTree17-8            	       1	1766673300 ns/op
+BenchmarkFannkuch11-8              	       1	2056572500 ns/op
+BenchmarkFmtFprintfEmpty-8         	48045162	        24.06 ns/op
+BenchmarkFmtFprintfString-8        	27325639	        45.30 ns/op
+BenchmarkFmtFprintfInt-8           	23576980	        51.36 ns/op
+BenchmarkFmtFprintfIntInt-8        	14667380	        81.60 ns/op
+BenchmarkFmtFprintfPrefixedInt-8   	13665495	        86.70 ns/op
+BenchmarkFmtFprintfFloat-8         	 8718902	       137.0 ns/op
+BenchmarkFmtManyArgs-8             	 3426501	       356.1 ns/op
+BenchmarkGobDecode-8               	     339	   3498137 ns/op	 219.41 MB/s
+BenchmarkGobEncode-8               	     508	   2475666 ns/op	 310.03 MB/s
+BenchmarkGzip-8                    	       7	 152892514 ns/op	 126.92 MB/s
+BenchmarkGunzip-8                  	      54	  22847406 ns/op	 849.32 MB/s
+BenchmarkHTTPClientServer-8        	   16664	     73914 ns/op
+BenchmarkJSONEncode-8              	     190	   5968255 ns/op	 325.13 MB/s
+BenchmarkJSONDecode-8              	      44	  29217248 ns/op	  66.42 MB/s
+BenchmarkMandelbrot200-8           	     367	   3253242 ns/op
+BenchmarkGoParse-8                 	     541	   2228938 ns/op	  25.99 MB/s
+BenchmarkRegexpMatchEasy0_32-8     	27960621	        44.02 ns/op	 726.98 MB/s
+BenchmarkRegexpMatchEasy0_1K-8     	 9400100	       131.7 ns/op	7776.91 MB/s
+BenchmarkRegexpMatchEasy1_32-8     	31662937	        39.22 ns/op	 815.91 MB/s
+BenchmarkRegexpMatchEasy1_1K-8     	 5810548	       212.7 ns/op	4814.97 MB/s
+BenchmarkRegexpMatchMedium_32-8    	 1839229	       672.4 ns/op	  47.59 MB/s
+BenchmarkRegexpMatchMedium_1K-8    	   58129	     21037 ns/op	  48.68 MB/s
+BenchmarkRegexpMatchHard_32-8      	 1000000	      1009 ns/op	  31.71 MB/s
+BenchmarkRegexpMatchHard_1K-8      	   38934	     31047 ns/op	  32.98 MB/s
+BenchmarkRevcomp-8                 	       4	 284501025 ns/op	 893.38 MB/s
+BenchmarkTemplate-8                	      32	  38585406 ns/op	  50.29 MB/s
+BenchmarkTimeParse-8               	 7471338	       158.9 ns/op
+BenchmarkTimeFormat-8              	 6771492	       182.0 ns/op
+PASS
+ok  	test/bench/go1	45.815s
+goos: windows
+goarch: amd64
+pkg: test/bench/go1
+cpu: Intel(R) Core(TM) i5-9300H CPU @ 2.40GHz
+BenchmarkBinaryTree17-8            	       1	1763332200 ns/op
+BenchmarkFannkuch11-8              	       1	2068552500 ns/op
+BenchmarkFmtFprintfEmpty-8         	50032102	        23.72 ns/op
+BenchmarkFmtFprintfString-8        	27876052	        46.15 ns/op
+BenchmarkFmtFprintfInt-8           	23138462	        52.50 ns/op
+BenchmarkFmtFprintfIntInt-8        	13829743	        82.79 ns/op
+BenchmarkFmtFprintfPrefixedInt-8   	14315878	        87.16 ns/op
+BenchmarkFmtFprintfFloat-8         	 8976264	       136.1 ns/op
+BenchmarkFmtManyArgs-8             	 3485407	       344.8 ns/op
+BenchmarkGobDecode-8               	     348	   3487902 ns/op	 220.06 MB/s
+BenchmarkGobEncode-8               	     496	   2398891 ns/op	 319.95 MB/s
+BenchmarkGzip-8                    	       7	 151879629 ns/op	 127.76 MB/s
+BenchmarkGunzip-8                  	      54	  22250028 ns/op	 872.12 MB/s
+BenchmarkHTTPClientServer-8        	   16641	     73416 ns/op
+BenchmarkJSONEncode-8              	     202	   6216055 ns/op	 312.17 MB/s
+BenchmarkJSONDecode-8              	      42	  31630448 ns/op	  61.35 MB/s
+BenchmarkMandelbrot200-8           	     370	   3255258 ns/op
+BenchmarkGoParse-8                 	     547	   2335343 ns/op	  24.80 MB/s
+BenchmarkRegexpMatchEasy0_32-8     	28617488	        44.54 ns/op	 718.45 MB/s
+BenchmarkRegexpMatchEasy0_1K-8     	 9471639	       128.5 ns/op	7971.00 MB/s
+BenchmarkRegexpMatchEasy1_32-8     	30081068	        39.23 ns/op	 815.77 MB/s
+BenchmarkRegexpMatchEasy1_1K-8     	 5371438	       205.7 ns/op	4977.38 MB/s
+BenchmarkRegexpMatchMedium_32-8    	 1803909	       655.2 ns/op	  48.84 MB/s
+BenchmarkRegexpMatchMedium_1K-8    	   53004	     21225 ns/op	  48.24 MB/s
+BenchmarkRegexpMatchHard_32-8      	 1232736	      1112 ns/op	  28.79 MB/s
+BenchmarkRegexpMatchHard_1K-8      	   37250	     31861 ns/op	  32.14 MB/s
+BenchmarkRevcomp-8                 	       4	 278505950 ns/op	 912.61 MB/s
+BenchmarkTemplate-8                	      32	  37652838 ns/op	  51.54 MB/s
+BenchmarkTimeParse-8               	 7379546	       159.5 ns/op
+BenchmarkTimeFormat-8              	 6554367	       185.3 ns/op
+PASS
+ok  	test/bench/go1	47.008s
+goos: windows
+goarch: amd64
+pkg: test/bench/go1
+cpu: Intel(R) Core(TM) i5-9300H CPU @ 2.40GHz
+BenchmarkBinaryTree17-8            	       1	1751452200 ns/op
+BenchmarkFannkuch11-8              	       1	2081483700 ns/op
+BenchmarkFmtFprintfEmpty-8         	52236596	        23.64 ns/op
+BenchmarkFmtFprintfString-8        	27345315	        44.83 ns/op
+BenchmarkFmtFprintfInt-8           	24042362	        51.28 ns/op
+BenchmarkFmtFprintfIntInt-8        	14498514	        83.38 ns/op
+BenchmarkFmtFprintfPrefixedInt-8   	14666322	        86.85 ns/op
+BenchmarkFmtFprintfFloat-8         	 9400041	       130.0 ns/op
+BenchmarkFmtManyArgs-8             	 3370333	       361.9 ns/op
+BenchmarkGobDecode-8               	     345	   3477666 ns/op	 220.70 MB/s
+BenchmarkGobEncode-8               	     488	   2413630 ns/op	 318.00 MB/s
+BenchmarkGzip-8                    	       7	 151315471 ns/op	 128.24 MB/s
+BenchmarkGunzip-8                  	      56	  22638057 ns/op	 857.17 MB/s
+BenchmarkHTTPClientServer-8        	   16874	     71930 ns/op
+BenchmarkJSONEncode-8              	     199	   5939138 ns/op	 326.73 MB/s
+BenchmarkJSONDecode-8              	      45	  28901220 ns/op	  67.14 MB/s
+BenchmarkMandelbrot200-8           	     368	   3260433 ns/op
+BenchmarkGoParse-8                 	     536	   2329592 ns/op	  24.86 MB/s
+BenchmarkRegexpMatchEasy0_32-8     	29323148	        43.03 ns/op	 743.73 MB/s
+BenchmarkRegexpMatchEasy0_1K-8     	 9400137	       128.3 ns/op	7982.80 MB/s
+BenchmarkRegexpMatchEasy1_32-8     	32519532	        39.91 ns/op	 801.87 MB/s
+BenchmarkRegexpMatchEasy1_1K-8     	 5324768	       206.6 ns/op	4955.98 MB/s
+BenchmarkRegexpMatchMedium_32-8    	 1654924	       680.4 ns/op	  47.03 MB/s
+BenchmarkRegexpMatchMedium_1K-8    	   57848	     23689 ns/op	  43.23 MB/s
+BenchmarkRegexpMatchHard_32-8      	 1253280	       981.3 ns/op	  32.61 MB/s
+BenchmarkRegexpMatchHard_1K-8      	   38436	     31103 ns/op	  32.92 MB/s
+BenchmarkRevcomp-8                 	       4	 279265975 ns/op	 910.12 MB/s
+BenchmarkTemplate-8                	      32	  38212641 ns/op	  50.78 MB/s
+BenchmarkTimeParse-8               	 7379773	       162.9 ns/op
+BenchmarkTimeFormat-8              	 6471583	       180.5 ns/op
+PASS
+ok  	test/bench/go1	47.204s
+goos: windows
+goarch: amd64
+pkg: test/bench/go1
+cpu: Intel(R) Core(TM) i5-9300H CPU @ 2.40GHz
+BenchmarkBinaryTree17-8            	       1	1770316500 ns/op
+BenchmarkFannkuch11-8              	       1	2090421400 ns/op
+BenchmarkFmtFprintfEmpty-8         	52311514	        23.93 ns/op
+BenchmarkFmtFprintfString-8        	26138152	        44.73 ns/op
+BenchmarkFmtFprintfInt-8           	24532201	        51.10 ns/op
+BenchmarkFmtFprintfIntInt-8        	13828102	        83.81 ns/op
+BenchmarkFmtFprintfPrefixedInt-8   	14488344	        87.22 ns/op
+BenchmarkFmtFprintfFloat-8         	 8779644	       135.1 ns/op
+BenchmarkFmtManyArgs-8             	 3418201	       356.9 ns/op
+BenchmarkGobDecode-8               	     357	   3480856 ns/op	 220.50 MB/s
+BenchmarkGobEncode-8               	     508	   2399096 ns/op	 319.93 MB/s
+BenchmarkGzip-8                    	       7	 154748200 ns/op	 125.40 MB/s
+BenchmarkGunzip-8                  	      54	  22569944 ns/op	 859.76 MB/s
+BenchmarkHTTPClientServer-8        	   16392	     75139 ns/op
+BenchmarkJSONEncode-8              	     198	   6180629 ns/op	 313.96 MB/s
+BenchmarkJSONDecode-8              	      44	  31076020 ns/op	  62.44 MB/s
+BenchmarkMandelbrot200-8           	     367	   3222989 ns/op
+BenchmarkGoParse-8                 	     538	   2322307 ns/op	  24.94 MB/s
+BenchmarkRegexpMatchEasy0_32-8     	24999270	        44.77 ns/op	 714.70 MB/s
+BenchmarkRegexpMatchEasy0_1K-8     	 9224198	       130.8 ns/op	7827.49 MB/s
+BenchmarkRegexpMatchEasy1_32-8     	30046797	        40.83 ns/op	 783.77 MB/s
+BenchmarkRegexpMatchEasy1_1K-8     	 5468300	       205.2 ns/op	4990.28 MB/s
+BenchmarkRegexpMatchMedium_32-8    	 1771906	       730.6 ns/op	  43.80 MB/s
+BenchmarkRegexpMatchMedium_1K-8    	   58407	     21447 ns/op	  47.74 MB/s
+BenchmarkRegexpMatchHard_32-8      	 1000000	      1015 ns/op	  31.52 MB/s
+BenchmarkRegexpMatchHard_1K-8      	   38563	     31450 ns/op	  32.56 MB/s
+BenchmarkRevcomp-8                 	       4	 279515425 ns/op	 909.31 MB/s
+BenchmarkTemplate-8                	      33	  38551261 ns/op	  50.33 MB/s
+BenchmarkTimeParse-8               	 7334676	       168.7 ns/op
+BenchmarkTimeFormat-8              	 6430863	       188.7 ns/op
+PASS
+ok  	test/bench/go1	46.130s
+goos: windows
+goarch: amd64
+pkg: test/bench/go1
+cpu: Intel(R) Core(TM) i5-9300H CPU @ 2.40GHz
+BenchmarkBinaryTree17-8            	       1	1765013600 ns/op
+BenchmarkFannkuch11-8              	       1	2070423200 ns/op
+BenchmarkFmtFprintfEmpty-8         	51818392	        24.55 ns/op
+BenchmarkFmtFprintfString-8        	27981876	        44.45 ns/op
+BenchmarkFmtFprintfInt-8           	23577027	        52.45 ns/op
+BenchmarkFmtFprintfIntInt-8        	14221075	        84.79 ns/op
+BenchmarkFmtFprintfPrefixedInt-8   	12937879	        92.28 ns/op
+BenchmarkFmtFprintfFloat-8         	 8779546	       132.9 ns/op
+BenchmarkFmtManyArgs-8             	 3398450	       358.6 ns/op
+BenchmarkGobDecode-8               	     352	   3711673 ns/op	 206.79 MB/s
+BenchmarkGobEncode-8               	     499	   2542302 ns/op	 301.91 MB/s
+BenchmarkGzip-8                    	       7	 151594586 ns/op	 128.00 MB/s
+BenchmarkGunzip-8                  	exit status 0xc000013a
+FAIL	test/bench/go1	19.556s

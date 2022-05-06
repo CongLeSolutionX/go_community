@@ -1,0 +1,56 @@
+goos: windows
+goarch: amd64
+pkg: math/bits
+cpu: Intel(R) Core(TM) i5-9300H CPU @ 2.40GHz
+BenchmarkLeadingZeros-8     	1000000000	         0.9542 ns/op
+BenchmarkLeadingZeros-8     	1000000000	         0.9199 ns/op
+BenchmarkLeadingZeros-8     	1000000000	         0.9272 ns/op
+BenchmarkLeadingZeros-8     	1000000000	         0.9405 ns/op
+BenchmarkLeadingZeros-8     	1000000000	         0.9709 ns/op
+BenchmarkLeadingZeros-8     	1000000000	         0.9458 ns/op
+BenchmarkLeadingZeros-8     	1000000000	         0.9106 ns/op
+BenchmarkLeadingZeros-8     	1000000000	         0.9400 ns/op
+BenchmarkLeadingZeros-8     	1000000000	         0.9660 ns/op
+BenchmarkLeadingZeros-8     	1000000000	         0.8993 ns/op
+BenchmarkLeadingZeros8-8    	1000000000	         1.089 ns/op
+BenchmarkLeadingZeros8-8    	950495048	         1.074 ns/op
+BenchmarkLeadingZeros8-8    	1000000000	         1.109 ns/op
+BenchmarkLeadingZeros8-8    	1000000000	         1.058 ns/op
+BenchmarkLeadingZeros8-8    	1000000000	         1.104 ns/op
+BenchmarkLeadingZeros8-8    	1000000000	         1.284 ns/op
+BenchmarkLeadingZeros8-8    	1000000000	         1.147 ns/op
+BenchmarkLeadingZeros8-8    	1000000000	         1.164 ns/op
+BenchmarkLeadingZeros8-8    	1000000000	         1.053 ns/op
+BenchmarkLeadingZeros8-8    	1000000000	         1.127 ns/op
+BenchmarkLeadingZeros16-8   	1000000000	         1.059 ns/op
+BenchmarkLeadingZeros16-8   	1000000000	         1.083 ns/op
+BenchmarkLeadingZeros16-8   	1000000000	         1.030 ns/op
+BenchmarkLeadingZeros16-8   	1000000000	         1.124 ns/op
+BenchmarkLeadingZeros16-8   	1000000000	         1.077 ns/op
+BenchmarkLeadingZeros16-8   	1000000000	         1.234 ns/op
+BenchmarkLeadingZeros16-8   	1000000000	         1.123 ns/op
+BenchmarkLeadingZeros16-8   	1000000000	         1.082 ns/op
+BenchmarkLeadingZeros16-8   	1000000000	         1.072 ns/op
+BenchmarkLeadingZeros16-8   	1000000000	         1.090 ns/op
+BenchmarkLeadingZeros32-8   	1000000000	         1.023 ns/op
+BenchmarkLeadingZeros32-8   	1000000000	         0.9454 ns/op
+BenchmarkLeadingZeros32-8   	1000000000	         0.8910 ns/op
+BenchmarkLeadingZeros32-8   	1000000000	         0.8942 ns/op
+BenchmarkLeadingZeros32-8   	1000000000	         0.9016 ns/op
+BenchmarkLeadingZeros32-8   	1000000000	         0.9168 ns/op
+BenchmarkLeadingZeros32-8   	1000000000	         0.9090 ns/op
+BenchmarkLeadingZeros32-8   	1000000000	         0.9251 ns/op
+BenchmarkLeadingZeros32-8   	1000000000	         0.9252 ns/op
+BenchmarkLeadingZeros32-8   	1000000000	         0.9115 ns/op
+BenchmarkLeadingZeros64-8   	1000000000	         0.8859 ns/op
+BenchmarkLeadingZeros64-8   	1000000000	         0.8973 ns/op
+BenchmarkLeadingZeros64-8   	1000000000	         0.9160 ns/op
+BenchmarkLeadingZeros64-8   	1000000000	         0.8916 ns/op
+BenchmarkLeadingZeros64-8   	1000000000	         0.8883 ns/op
+BenchmarkLeadingZeros64-8   	1000000000	         0.9033 ns/op
+BenchmarkLeadingZeros64-8   	1000000000	         0.9148 ns/op
+BenchmarkLeadingZeros64-8   	1000000000	         0.9031 ns/op
+BenchmarkLeadingZeros64-8   	1000000000	         0.9026 ns/op
+BenchmarkLeadingZeros64-8   	1000000000	         0.9144 ns/op
+PASS
+ok  	math/bits	58.108s
