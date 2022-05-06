@@ -364,10 +364,6 @@ var work struct {
 	// explicit user call.
 	userForced bool
 
-	// totaltime is the CPU nanoseconds spent in GC since the
-	// program started if debug.gctrace > 0.
-	totaltime int64
-
 	// initialHeapLive is the value of gcController.heapLive at the
 	// beginning of this GC cycle.
 	initialHeapLive uint64
@@ -402,6 +398,9 @@ var work struct {
 
 	// debug.gctrace heap sizes for this cycle.
 	heap0, heap1, heap2 uint64
+
+	// Cumulative estimated CPU usage.
+	cpuStats
 }
 
 // GC runs a garbage collection and blocks the caller until the
@@ -1004,24 +1003,38 @@ func gcMarkTermination() {
 	memstats.pause_end[memstats.numgc%uint32(len(memstats.pause_end))] = uint64(unixNow)
 	memstats.pause_total_ns += uint64(work.pauseNS)
 
-	// Update work.totaltime.
 	sweepTermCpu := int64(work.stwprocs) * (work.tMark - work.tSweepTerm)
-	// We report idle marking time below, but omit it from the
-	// overall utilization here since it's "free".
-	markCpu := gcController.assistTime.Load() + gcController.dedicatedMarkTime + gcController.fractionalMarkTime
+	markCpu := gcController.assistTime.Load() + gcController.dedicatedMarkTime + gcController.fractionalMarkTime + gcController.idleMarkTime
 	markTermCpu := int64(work.stwprocs) * (work.tEnd - work.tMarkTerm)
-	cycleCpu := sweepTermCpu + markCpu + markTermCpu
-	work.totaltime += cycleCpu
+	scavAssistCpu := scavenge.assistTime.Load()
+	scavBgCpu := scavenge.backgroundTime.Load()
+
+	// Update cumulative GC CPU stats.
+	work.cpuStats.gcAssistTime += gcController.assistTime.Load()
+	work.cpuStats.gcDedicatedTime += gcController.dedicatedMarkTime + gcController.fractionalMarkTime
+	work.cpuStats.gcIdleTime += gcController.idleMarkTime
+	work.cpuStats.gcPauseTime += sweepTermCpu + markTermCpu
+	work.cpuStats.gcTotalTime += sweepTermCpu + markTermCpu + markCpu
+
+	// Update cumulative scavenge CPU stats.
+	work.cpuStats.scavengeAssistTime += scavAssistCpu
+	work.cpuStats.scavengeBgTime += scavBgCpu
+	work.cpuStats.scavengeTotalTime += scavAssistCpu + scavBgCpu
+
+	// Update total CPU.
+	work.cpuStats.totalTime = sched.totaltime + (now-sched.procresizetime)*int64(gomaxprocs)
+	work.cpuStats.otherTime = work.cpuStats.totalTime - work.cpuStats.gcTotalTime - work.cpuStats.scavengeTotalTime
 
 	// Compute overall GC CPU utilization.
-	totalCpu := sched.totaltime + (now-sched.procresizetime)*int64(gomaxprocs)
-	memstats.gc_cpu_fraction = float64(work.totaltime) / float64(totalCpu)
+	// Omit idle marking time from the overall utilization here since it's "free".
+	memstats.gc_cpu_fraction = float64(work.cpuStats.gcTotalTime-work.cpuStats.gcIdleTime) / float64(work.cpuStats.totalTime)
 
-	// Reset assist time stat.
+	// Reset assist time and background time stats.
 	//
 	// Do this now, instead of at the start of the next GC cycle, because
 	// these two may keep accumulating even if the GC is not active.
-	mheap_.pages.scav.assistTime.Store(0)
+	scavenge.assistTime.Store(0)
+	scavenge.backgroundTime.Store(0)
 
 	// Reset sweep state.
 	sweep.nbgsweep = 0
