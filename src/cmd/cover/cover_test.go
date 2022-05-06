@@ -28,10 +28,9 @@ const (
 
 var (
 	// Input files.
-	testMain       = filepath.Join(testdata, "main.go")
-	testTest       = filepath.Join(testdata, "test.go")
-	coverProfile   = filepath.Join(testdata, "profile.cov")
-	toolexecSource = filepath.Join(testdata, "toolexec.go")
+	testMain     = filepath.Join(testdata, "main.go")
+	testTest     = filepath.Join(testdata, "test.go")
+	coverProfile = filepath.Join(testdata, "profile.cov")
 
 	// The HTML test files are in a separate directory
 	// so they are a complete package.
@@ -71,7 +70,7 @@ var (
 	toolexecArg string
 )
 
-const debugTempDir = true
+const debugTempDir = false
 
 func TestCover(t *testing.T) {
 	var dir string
@@ -144,10 +143,17 @@ func buildCover(t *testing.T) {
 
 	var err1, err2 error
 	go func() {
-		defer wg.Done()
+		// If the top-level "go test" invocation that triggered
+		// execution of this function was passed "-cover", then we
+		// stand to lose a lot of coverage data if we just build a
+		// regular copy of cover.exe here, so detect when "-cover" is
+		// in effect and alter the build in that case.
 		testcover = filepath.Join(testTempDir, "cover.exe")
-		t.Logf("running [go build -o %s]", testcover)
-		out, err := exec.Command(testenv.GoToolPath(t), "build", "-o", testcover).CombinedOutput()
+		args := []string{"build", "-o", testcover}
+		args = testenv.AugmentToolBuildForCoverage(args, "cmd/cover")
+		defer wg.Done()
+		t.Logf("running [go %+v]", args)
+		out, err := exec.Command(testenv.GoToolPath(t), args...).CombinedOutput()
 		if len(out) > 0 {
 			t.Logf("%s", out)
 		}
@@ -156,13 +162,7 @@ func buildCover(t *testing.T) {
 
 	go func() {
 		defer wg.Done()
-		toolexec = filepath.Join(testTempDir, "toolexec.exe")
-		t.Logf("running [go -build -o %s %s]", toolexec, toolexecSource)
-		out, err := exec.Command(testenv.GoToolPath(t), "build", "-o", toolexec, toolexecSource).CombinedOutput()
-		if len(out) > 0 {
-			t.Logf("%s", out)
-		}
-		err2 = err
+		toolexec, err2 = testenv.BuildToolExec(t, "cover")
 	}()
 
 	wg.Wait()
@@ -396,6 +396,12 @@ func testCoverFunc(t *testing.T) {
 // Issue #25767.
 func testCoverHTML(t *testing.T) {
 	testenv.MustHaveGoRun(t)
+
+	{
+		c := exec.Command("/bin/ls", "-l", toolexec)
+		run(c, t)
+		fmt.Fprintf(os.Stderr, "=-= toolexecarg is %s\n", toolexecArg)
+	}
 
 	// go test -coverprofile testdata/html/html.cov cmd/cover/testdata/html
 	cmd := exec.Command(testenv.GoToolPath(t), "test", toolexecArg, "-coverprofile", htmlProfile, "cmd/cover/testdata/html")
