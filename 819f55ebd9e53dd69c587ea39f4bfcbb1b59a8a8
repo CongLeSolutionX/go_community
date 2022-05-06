@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "10291ab6_e4996b6d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-05-06T16:15:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ebc53d9_5a5c1b66",
+      "revId": "819f55ebd9e53dd69c587ea39f4bfcbb1b59a8a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e632cf68_6717ac80",
@@ -95,6 +113,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5d24716_491ffb5c",
+        "filename": "src/cmd/compile/internal/walk/builtin.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 664,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-05-06T16:15:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b5f69fd_8955888c",
+      "range": {
+        "startLine": 664,
+        "startChar": 10,
+        "endLine": 664,
+        "endChar": 21
+      },
+      "revId": "819f55ebd9e53dd69c587ea39f4bfcbb1b59a8a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "05deb75b_515db126",
@@ -108,6 +150,30 @@
       "writtenOn": "2022-05-05T22:57:30Z",
       "side": 1,
       "message": "I don\u0027t think this matters in practice, but this is subtlely wrong: if mkcall emits any init statements, they should be added to nif.Body, not init, so they\u0027re only executed if nif.Cond is true.\n\nI think `nif.Body.Append(mkcall(..., \u0026nif.Body))` should be okay though.\n\nSame issue applies to other panic mkcalls below.",
+      "range": {
+        "startLine": 675,
+        "startChar": 58,
+        "endLine": 675,
+        "endChar": 62
+      },
+      "revId": "819f55ebd9e53dd69c587ea39f4bfcbb1b59a8a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "046c56e1_69a407a4",
+        "filename": "src/cmd/compile/internal/walk/builtin.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-05-06T16:15:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "05deb75b_515db126",
       "range": {
         "startLine": 675,
         "startChar": 58,
@@ -135,6 +201,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "113638ad_0dbc08fa",
+        "filename": "src/cmd/compile/internal/walk/builtin.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-05-06T16:15:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a85f43dc_98dd5674",
+      "revId": "819f55ebd9e53dd69c587ea39f4bfcbb1b59a8a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1669a7f1_35472963",
@@ -148,6 +232,24 @@
       "writtenOn": "2022-05-05T22:57:30Z",
       "side": 1,
       "message": "ssagen recognizes runtime/internal/math.MulUintptr as an intrinsic, but I think this will cause a real function call, right?\n\nWe might need to extend mkbuiltin.go to also generate stubs for runtime/internal/math (just MulUintptr is fine). Open to other ideas though.",
+      "revId": "819f55ebd9e53dd69c587ea39f4bfcbb1b59a8a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03a82908_0e32e0a3",
+        "filename": "src/cmd/compile/internal/walk/builtin.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 688,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-05-06T16:15:51Z",
+      "side": 1,
+      "message": "\u003e ssagen recognizes runtime/internal/math.MulUintptr as an intrinsic, but I think this will cause a real function call, right?\n\nYes, but I thought the overhead will be lesser, but still 1-2% when I re-run the benchmark at this moment.\n\n\u003e We might need to extend mkbuiltin.go to also generate stubs for runtime/internal/math (just MulUintptr is fine). Open to other ideas though.\n\nI don\u0027t know we can do that for other packages but runtime, would you mind elaborating more?",
+      "parentUuid": "1669a7f1_35472963",
       "revId": "819f55ebd9e53dd69c587ea39f4bfcbb1b59a8a8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -175,6 +277,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "55427ac5_3a23a3c6",
+        "filename": "src/cmd/compile/internal/walk/builtin.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 689,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-05-06T16:15:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "14dd15ec_525ada22",
+      "range": {
+        "startLine": 689,
+        "startChar": 25,
+        "endLine": 689,
+        "endChar": 65
+      },
+      "revId": "819f55ebd9e53dd69c587ea39f4bfcbb1b59a8a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "88799fc7_65021a21",
@@ -188,6 +314,30 @@
       "writtenOn": "2022-05-05T22:57:30Z",
       "side": 1,
       "message": "nit: I think \"nilptr\" (i.e., \u0027nil\u0027 as an adjective modifying \u0027ptr\u0027) reads a bit more naturally than \"ptrnil\".",
+      "range": {
+        "startLine": 160,
+        "startChar": 21,
+        "endLine": 160,
+        "endChar": 27
+      },
+      "revId": "819f55ebd9e53dd69c587ea39f4bfcbb1b59a8a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a18f872_232877ad",
+        "filename": "src/runtime/slice.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-05-06T16:15:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88799fc7_65021a21",
       "range": {
         "startLine": 160,
         "startChar": 21,
