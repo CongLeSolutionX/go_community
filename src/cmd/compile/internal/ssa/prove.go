@@ -831,6 +831,15 @@ func prove(f *Func) {
 			case OpCtz64, OpCtz32, OpCtz16, OpCtz8, OpBitLen64, OpBitLen32, OpBitLen16, OpBitLen8:
 				ft.update(b, v, ft.zero, signed, gt|eq)
 				// TODO: we could also do <= 64/32/16/8, if that helped.
+			case OpAnd64, OpAnd32, OpAnd16, OpAnd8:
+				ft.update(b, v, v.Args[0], unsigned, lt|eq)
+				ft.update(b, v, v.Args[1], unsigned, lt|eq)
+				if isNonNegative(v.Args[0]) {
+					ft.update(b, v, v.Args[0], signed, lt|eq)
+				}
+				if isNonNegative(v.Args[1]) {
+					ft.update(b, v, v.Args[1], signed, lt|eq)
+				}
 			}
 		}
 	}
@@ -1301,7 +1310,9 @@ func simplifyBlock(sdom SparseTree, ft *factsTable, b *Block) {
 			}
 			bits := 8 * v.Args[0].Type.Size()
 			if lim.umax < uint64(bits) || (lim.max < bits && ft.isNonNegative(by)) {
-				v.AuxInt = 1 // see shiftIsBounded
+				if b.Func.Config.arch != "ppc64" && b.Func.Config.arch != "ppc64le" {
+					v.AuxInt = 1 // see shiftIsBounded
+				}
 				if b.Func.pass.debug > 0 {
 					b.Func.Warnl(v.Pos, "Proved %v bounded", v.Op)
 				}
