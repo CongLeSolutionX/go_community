@@ -358,9 +358,6 @@ func (l *Loader) addObj(pkg string, r *oReader) Sym {
 	i := Sym(len(l.objSyms))
 	l.start[r] = i
 	l.objs = append(l.objs, objIdx{r, i})
-	if r.NeedNameExpansion() && !r.FromAssembly() {
-		panic("object compiled without -p")
-	}
 	return i
 }
 
@@ -769,11 +766,7 @@ func (l *Loader) SymName(i Sym) string {
 	if r == nil {
 		return "?"
 	}
-	name := r.Sym(li).Name(r.Reader)
-	if !r.NeedNameExpansion() {
-		return name
-	}
-	return strings.Replace(name, "\"\".", r.pkgprefix, -1)
+	return r.Sym(li).Name(r.Reader)
 }
 
 // Returns the version of the i-th symbol.
@@ -2131,7 +2124,6 @@ func (st *loadState) preloadSyms(r *oReader, kind int) {
 		panic("preloadSyms: bad kind")
 	}
 	l.growAttrBitmaps(len(l.objSyms) + int(end-start))
-	needNameExpansion := r.NeedNameExpansion()
 	loadingRuntimePkg := r.unit.Lib.Pkg == "runtime"
 	for i := start; i < end; i++ {
 		osym := r.Sym(i)
@@ -2139,9 +2131,6 @@ func (st *loadState) preloadSyms(r *oReader, kind int) {
 		var v int
 		if kind != hashed64Def && kind != hashedDef { // we don't need the name, etc. for hashed symbols
 			name = osym.Name(r.Reader)
-			if needNameExpansion {
-				name = strings.Replace(name, "\"\".", r.pkgprefix, -1)
-			}
 			v = abiToVer(osym.ABI(), r.version)
 		}
 		gi := st.addSym(name, v, r, i, kind, osym)
@@ -2205,13 +2194,9 @@ func (l *Loader) LoadSyms(arch *sys.Arch) {
 func loadObjRefs(l *Loader, r *oReader, arch *sys.Arch) {
 	// load non-package refs
 	ndef := uint32(r.NAlldef())
-	needNameExpansion := r.NeedNameExpansion()
 	for i, n := uint32(0), uint32(r.NNonpkgref()); i < n; i++ {
 		osym := r.Sym(ndef + i)
 		name := osym.Name(r.Reader)
-		if needNameExpansion {
-			name = strings.Replace(name, "\"\".", r.pkgprefix, -1)
-		}
 		v := abiToVer(osym.ABI(), r.version)
 		r.syms[ndef+i] = l.LookupOrCreateSym(name, v)
 		gi := r.syms[ndef+i]
@@ -2299,9 +2284,6 @@ func (l *Loader) cloneToExternal(symIdx Sym) {
 	r, li := l.toLocal(symIdx)
 	osym := r.Sym(li)
 	sname := osym.Name(r.Reader)
-	if r.NeedNameExpansion() {
-		sname = strings.Replace(sname, "\"\".", r.pkgprefix, -1)
-	}
 	sver := abiToVer(osym.ABI(), r.version)
 	skind := sym.AbiSymKindToSymKind[objabi.SymKind(osym.Type())]
 
