@@ -16,6 +16,24 @@
       "message": "This doesn\u0027t seem to accurately reflect the patch.  We already enable RELRO by default where appropriate when linking externally.  What this patch does is add \"-z now\" which is \"Mark object for immediate function binding.\"  We shouldn\u0027t call this option -relro, because do relro regardless of how this option is set.  Perhaps\n\n-bindnow When linking externally and marking variables read-only after relocation, also require immediate function binding (default true)",
       "revId": "6c74d0aa680b926e8a0be3039f245c49d7c2495e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e16709f_3c56b8c9",
+        "filename": "src/cmd/link/doc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 51768
+      },
+      "writtenOn": "2022-05-06T09:33:19Z",
+      "side": 1,
+      "message": "Did the suggestion and also fixed up the flag description.",
+      "parentUuid": "e6df9d84_59b6f724",
+      "revId": "6c74d0aa680b926e8a0be3039f245c49d7c2495e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
