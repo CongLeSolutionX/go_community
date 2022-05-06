@@ -165,6 +165,24 @@
       "parentUuid": "9cf8701f_0d46b62a",
       "revId": "d25bafc6f423ce1fde5f6a711366792a28a36ea2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c4efe48_62d281c9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55628
+      },
+      "writtenOn": "2022-05-06T17:12:50Z",
+      "side": 1,
+      "message": "do the trybots re-run automatically after a rebase?",
+      "parentUuid": "9435710a_20e320a4",
+      "revId": "d25bafc6f423ce1fde5f6a711366792a28a36ea2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
