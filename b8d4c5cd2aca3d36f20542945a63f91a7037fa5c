@@ -55,6 +55,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "51337a01_2ddb6e6e",
+        "filename": "src/cmd/compile/internal/typecheck/typecheck.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 914,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-05-06T21:49:40Z",
+      "side": 1,
+      "message": "BTW, this assignment to `n` doesn\u0027t actually have any effect. I think you\u0027d need to use `ir.EditChildren` instead of `ir.Visit` here.",
+      "revId": "b8d4c5cd2aca3d36f20542945a63f91a7037fa5c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6422a7e6_f167247a",
@@ -92,6 +109,30 @@
       "side": 1,
       "message": "Hmm, it seems to me we must handle the case that `n.X` is a `CallExpr` or `UnaryExpr` with ORECV, see `var _ \u003d f()(g())` test case for an example.\n\nI think just dropping the `ir.Visit` call is enough.",
       "parentUuid": "6422a7e6_f167247a",
+      "range": {
+        "startLine": 900,
+        "startChar": 0,
+        "endLine": 917,
+        "endChar": 3
+      },
+      "revId": "b8d4c5cd2aca3d36f20542945a63f91a7037fa5c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e915fa8b_e33d4ee6",
+        "filename": "src/cmd/compile/internal/typecheck/typecheck.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 917,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-05-06T21:49:40Z",
+      "side": 1,
+      "message": "I think the code I suggested will still rewrite calls and receives correctly?\n\nGiven something like:\n\n```\nvar c chan [2]func(...any)\n...\n(\u003c-c)[0](g())\n```\n\nit\u0027s okay to rewrite it into:\n\n```\ntmp :\u003d (\u003c-c)[0]\ntmp(g())\n```\n\nIt would *also* be correct to rewrite to `tmp :\u003d \u003c-c; tmp[0](g())` (which I think is what your CL currently aims to do?). But side-effects in the callee expression are uncommon, so I think we should just do whatever\u0027s simplest while staying correct.",
+      "parentUuid": "13f3d5b5_991b37b4",
       "range": {
         "startLine": 900,
         "startChar": 0,
