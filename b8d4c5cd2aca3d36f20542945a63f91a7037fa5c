@@ -76,6 +76,30 @@
       },
       "revId": "b8d4c5cd2aca3d36f20542945a63f91a7037fa5c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13f3d5b5_991b37b4",
+        "filename": "src/cmd/compile/internal/typecheck/typecheck.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 917,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-05-06T15:01:22Z",
+      "side": 1,
+      "message": "Hmm, it seems to me we must handle the case that `n.X` is a `CallExpr` or `UnaryExpr` with ORECV, see `var _ \u003d f()(g())` test case for an example.\n\nI think just dropping the `ir.Visit` call is enough.",
+      "parentUuid": "6422a7e6_f167247a",
+      "range": {
+        "startLine": 900,
+        "startChar": 0,
+        "endLine": 917,
+        "endChar": 3
+      },
+      "revId": "b8d4c5cd2aca3d36f20542945a63f91a7037fa5c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
