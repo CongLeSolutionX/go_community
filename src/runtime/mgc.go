@@ -1015,6 +1015,12 @@ func gcMarkTermination() {
 	totalCpu := sched.totaltime + (now-sched.procresizetime)*int64(gomaxprocs)
 	memstats.gc_cpu_fraction = float64(work.totaltime) / float64(totalCpu)
 
+	// Reset assist time stat.
+	//
+	// Do this now, instead of at the start of the next GC cycle, because
+	// these two may keep accumulating even if the GC is not active.
+	mheap_.pages.scav.assistTime.Store(0)
+
 	// Reset sweep state.
 	sweep.nbgsweep = 0
 	sweep.npausesweep = 0
