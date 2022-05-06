@@ -833,35 +833,24 @@ func loadPackageData(ctx context.Context, path, parentPath, parentDir, parentRoo
 	// canonicalized by modload.LoadPackages before now. However, if there's an
 	// error resolving a local path, it will be returned untransformed
 	// so that 'go list -e' reports something useful.
-	importKey := importSpec{
-		path:        path,
-		parentPath:  parentPath,
-		parentDir:   parentDir,
-		parentRoot:  parentRoot,
-		parentIsStd: parentIsStd,
-		mode:        mode,
+	var r resolvedImport
+	if cfg.ModulesEnabled {
+		r.dir, r.path, r.err = modload.Lookup(parentPath, parentIsStd, path)
+	} else if build.IsLocalImport(path) {
+		r.dir = filepath.Join(parentDir, path)
+		r.path = dirToImportPath(r.dir)
+	} else if mode&ResolveImport != 0 {
+		// We do our own path resolution, because we want to
+		// find out the key to use in packageCache without the
+		// overhead of repeated calls to buildContext.Import.
+		// The code is also needed in a few other places anyway.
+		r.path = resolveImportPath(path, parentPath, parentDir, parentRoot, parentIsStd)
+	} else if mode&ResolveModule != 0 {
+		r.path = moduleImportPath(path, parentPath, parentDir, parentRoot)
 	}
-	r := resolvedImportCache.Do(importKey, func() any {
-		var r resolvedImport
-		if cfg.ModulesEnabled {
-			r.dir, r.path, r.err = modload.Lookup(parentPath, parentIsStd, path)
-		} else if build.IsLocalImport(path) {
-			r.dir = filepath.Join(parentDir, path)
-			r.path = dirToImportPath(r.dir)
-		} else if mode&ResolveImport != 0 {
-			// We do our own path resolution, because we want to
-			// find out the key to use in packageCache without the
-			// overhead of repeated calls to buildContext.Import.
-			// The code is also needed in a few other places anyway.
-			r.path = resolveImportPath(path, parentPath, parentDir, parentRoot, parentIsStd)
-		} else if mode&ResolveModule != 0 {
-			r.path = moduleImportPath(path, parentPath, parentDir, parentRoot)
-		}
-		if r.path == "" {
-			r.path = path
-		}
-		return r
-	}).(resolvedImport)
+	if r.path == "" {
+		r.path = path
+	}
 	// Invariant: r.path is set to the resolved import path. If the path cannot
 	// be resolved, r.path is set to path, the source import path.
 	// r.path is never empty.
