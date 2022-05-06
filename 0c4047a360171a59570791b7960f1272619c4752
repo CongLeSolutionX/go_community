@@ -142,6 +142,24 @@
       "message": "Test vectors for ECDH for each of the curves would be nice.",
       "revId": "0c4047a360171a59570791b7960f1272619c4752",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "14d51904_221e2cd0",
+        "filename": "src/crypto/ecdh/ecdh_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 34999
+      },
+      "writtenOn": "2022-05-06T02:13:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2404ce5_3453865a",
+      "revId": "0c4047a360171a59570791b7960f1272619c4752",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
