@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6a4294d_a966e78f",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 25
+      },
+      "lineNbr": 1782,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-05-06T20:25:45Z",
+      "side": 1,
+      "message": "This looks like an editing/debugging artifact.",
+      "range": {
+        "startLine": 1782,
+        "startChar": 1,
+        "endLine": 1782,
+        "endChar": 5
+      },
+      "revId": "d6dcb87afbcc40f50f2ee80bb6e2a3a82ab7636d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
