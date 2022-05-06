@@ -181,6 +181,21 @@ func TestReadMetricsConsistency(t *testing.T) {
 		numGC  uint64
 		pauses uint64
 	}
+	var cpu struct {
+		gcAssist    float64
+		gcDedicated float64
+		gcIdle      float64
+		gcPause     float64
+		gcTotal     float64
+
+		other float64
+
+		scavengeAssist float64
+		scavengeBg     float64
+		scavengeTotal  float64
+
+		total float64
+	}
 	for i := range samples {
 		kind := samples[i].Value.Kind()
 		if want := descs[samples[i].Name].Kind; kind != want {
@@ -199,6 +214,26 @@ func TestReadMetricsConsistency(t *testing.T) {
 			}
 		}
 		switch samples[i].Name {
+		case "/cpu/classes/gc/assist:cpu-seconds":
+			cpu.gcAssist = samples[i].Value.Float64()
+		case "/cpu/classes/gc/dedicated:cpu-seconds":
+			cpu.gcDedicated = samples[i].Value.Float64()
+		case "/cpu/classes/gc/idle:cpu-seconds":
+			cpu.gcIdle = samples[i].Value.Float64()
+		case "/cpu/classes/gc/pause:cpu-seconds":
+			cpu.gcPause = samples[i].Value.Float64()
+		case "/cpu/classes/gc/total:cpu-seconds":
+			cpu.gcTotal = samples[i].Value.Float64()
+		case "/cpu/classes/other:cpu-seconds":
+			cpu.other = samples[i].Value.Float64()
+		case "/cpu/classes/scavenge/assist:cpu-seconds":
+			cpu.scavengeAssist = samples[i].Value.Float64()
+		case "/cpu/classes/scavenge/background:cpu-seconds":
+			cpu.scavengeBg = samples[i].Value.Float64()
+		case "/cpu/classes/scavenge/total:cpu-seconds":
+			cpu.scavengeTotal = samples[i].Value.Float64()
+		case "/cpu/classes/total:cpu-seconds":
+			cpu.total = samples[i].Value.Float64()
 		case "/memory/classes/total:bytes":
 			totalVirtual.got = samples[i].Value.Uint64()
 		case "/memory/classes/heap/objects:bytes":
@@ -233,6 +268,27 @@ func TestReadMetricsConsistency(t *testing.T) {
 			if samples[i].Value.Uint64() < 1 {
 				t.Error("number of goroutines is less than one")
 			}
+		}
+	}
+	// Ignore this on Windows because timer granularity is very high.
+	if runtime.GOOS != "windows" {
+		if cpu.gcDedicated == 0 && cpu.gcAssist == 0 && cpu.gcIdle == 0 {
+			t.Errorf("found no time spent on GC work: %#v", cpu)
+		}
+		if cpu.gcPause == 0 {
+			t.Errorf("found no GC pauses: %f", cpu.gcPause)
+		}
+		if total := cpu.gcDedicated + cpu.gcAssist + cpu.gcIdle + cpu.gcPause; !withinEpsilon(cpu.gcTotal, total, 0.01) {
+			t.Errorf("calculated total GC CPU not within 1%% of sampled total: %f vs. %f", total, cpu.gcTotal)
+		}
+		if total := cpu.scavengeAssist + cpu.scavengeBg; !withinEpsilon(cpu.scavengeTotal, total, 0.01) {
+			t.Errorf("calculated total scavenge CPU not within 1%% of sampled total: %f vs. %f", total, cpu.scavengeTotal)
+		}
+		if cpu.total == 0 {
+			t.Errorf("found no total CPU time passed")
+		}
+		if total := cpu.gcTotal + cpu.scavengeTotal + cpu.other; !withinEpsilon(cpu.total, total, 0.02) {
+			t.Errorf("calculated total CPU not within 2%% of sampled total: %f vs. %f", total, cpu.total)
 		}
 	}
 	if totalVirtual.got != totalVirtual.want {
@@ -410,4 +466,8 @@ func TestReadMetricsCumulative(t *testing.T) {
 	close(done)
 
 	wg.Wait()
+}
+
+func withinEpsilon(v1, v2, e float64) bool {
+	return v1 >= v2-v2*e && v1 <= v2+v2*e
 }
