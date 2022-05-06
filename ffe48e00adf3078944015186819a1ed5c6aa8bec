@@ -51,6 +51,24 @@
       "message": "Curiously, this test is consistently failing on the linux-mips-rtrk builder since this CL. Filed as #52723.",
       "revId": "ffe48e00adf3078944015186819a1ed5c6aa8bec",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a3b1e69_8093f980",
+        "filename": "src/sync/atomic/atomic_test.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 1996,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-05-06T00:08:59Z",
+      "side": 1,
+      "message": "Sent CL 404495 to fix this (tests would fail on a 32-bit big-endian systems, but there aren\u0027t many.)",
+      "parentUuid": "a3f57b94_f0dfb191",
+      "revId": "ffe48e00adf3078944015186819a1ed5c6aa8bec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
