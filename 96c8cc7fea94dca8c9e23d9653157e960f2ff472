@@ -22,6 +22,30 @@
       },
       "revId": "96c8cc7fea94dca8c9e23d9653157e960f2ff472",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4e79bfb_00ca0481",
+        "filename": "src/cmd/asm/internal/asm/testdata/arm64.s",
+        "patchSetId": 8
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-05-06T10:32:03Z",
+      "side": 0,
+      "message": "The key here is whether to add the lower 12 bits first or the higher 12 bits first. In the old assembler, for the ADD instruction, we add the lower 12 bits first, and for the MOVD instruction, we add the upper 12 bits first. In this CL, we put this processing in a helper function, adding the lower 12 bits first. So I wrote a patch to unify the order in the old code, please see CL 404317, thanks.",
+      "parentUuid": "8212b150_fde27d53",
+      "range": {
+        "startLine": 395,
+        "startChar": 1,
+        "endLine": 395,
+        "endChar": 23
+      },
+      "revId": "96c8cc7fea94dca8c9e23d9653157e960f2ff472",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

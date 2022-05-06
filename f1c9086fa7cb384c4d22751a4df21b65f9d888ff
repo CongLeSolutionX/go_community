@@ -200,6 +200,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "632ab1c4_94420b80",
+        "filename": "src/cmd/asm/internal/asm/endtoend_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-05-06T10:32:03Z",
+      "side": 1,
+      "message": "\u003e We probably don\u0027t want to print multiple error for one bad instruction\nAt first I thought it was not good to do this, but I found that is what we do now for some cases, for example:\n VMOV    V1.D2, V2.B8\n\ngo tool asm foo.s\n asm: invalid arrangement: 00000 (foo.s:4)       VMOV    V1.D2, V2.B8\n asm: invalid arrangement: 00000 (foo.s:4)       VMOV    V1.D2, V2.B8\n asm: invalid arrangement: 00000 (foo.s:4)       VMOV    V1.D2, V2.B8\n\nAnother example VTBL    V1.D2, [V2.B8], V3.B16, maybe there\u0027s more cases.\nThe existing code didn\u0027t report an error because we didn\u0027t add such cases to the negative test.\n\nI have tried to report only one error during assembling process, but that\u0027s a bit weird, we need to track if we have reported an error previously for the current instruction. This greatly limits our freedom to write check code.\n\nIt doesn\u0027t seem to make sense that we allow multiple errors in the actual assembly process and only one error in the test. So let\u0027s keep this change? This is the easiest way to do it.",
+      "parentUuid": "ce55ee2a_71e92211",
+      "revId": "f1c9086fa7cb384c4d22751a4df21b65f9d888ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7800a6e3_d0e61e6d",
         "filename": "src/cmd/internal/obj/link.go",
         "patchSetId": 4

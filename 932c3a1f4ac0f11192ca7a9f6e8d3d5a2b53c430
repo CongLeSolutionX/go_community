@@ -111,6 +111,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "910ffe69_0a7c1a0c",
+        "filename": "src/cmd/asm/internal/asm/testdata/arm64.s",
+        "patchSetId": 8
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-05-06T10:32:03Z",
+      "side": 1,
+      "message": "I write a CL to remove the conversion from $0 to ZR, the biggest problem is compatibility, please check CL 404316.",
+      "parentUuid": "14f26c56_8f734c72",
+      "range": {
+        "startLine": 374,
+        "startChar": 39,
+        "endLine": 374,
+        "endChar": 47
+      },
+      "revId": "932c3a1f4ac0f11192ca7a9f6e8d3d5a2b53c430",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d78ed5bb_5b80e974",
         "filename": "src/cmd/internal/obj/arm64/unfolding.go",
         "patchSetId": 8
@@ -122,6 +146,30 @@
       "writtenOn": "2022-05-03T15:03:52Z",
       "side": 1,
       "message": "Maybe unfoldFunc",
+      "range": {
+        "startLine": 4186,
+        "startChar": 18,
+        "endLine": 4186,
+        "endChar": 25
+      },
+      "revId": "932c3a1f4ac0f11192ca7a9f6e8d3d5a2b53c430",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c4ec3f0_aa008063",
+        "filename": "src/cmd/internal/obj/arm64/unfolding.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 4186,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-05-06T10:32:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d78ed5bb_5b80e974",
       "range": {
         "startLine": 4186,
         "startChar": 18,
