@@ -1345,12 +1345,18 @@ func (c *runCache) builderRunTest(b *work.Builder, ctx context.Context, a *work.
 		fuzzArg = []string{"-test.fuzzcachedir=" + fuzzCacheDir}
 	}
 	coverdirArg := []string{}
+	addToEnv := ""
 	if cfg.BuildCover {
 		gcd := filepath.Join(a.Objdir, "gocoverdir")
 		if err := b.Mkdir(gcd); err != nil {
 			base.Fatalf("failed to created temporary dir: %v", err)
 		}
 		coverdirArg = append(coverdirArg, "-test.gocoverdir="+gcd)
+		// Even though we are passing the -test.gocoverdir option to
+		// the test binary, also set GOCOVERDIR as well. This is
+		// intended to help with tests that run "go build" to build
+		// fresh copies of tools to test as part of the testing.
+		addToEnv = "GOCOVERDIR=" + gcd
 	}
 	args := str.StringList(execCmd, a.Deps[0].BuiltTarget(), testlogArg, panicArg, fuzzArg, coverdirArg, testArgs)
 
@@ -1373,6 +1379,9 @@ func (c *runCache) builderRunTest(b *work.Builder, ctx context.Context, a *work.
 	cmd := exec.Command(args[0], args[1:]...)
 	cmd.Dir = a.Package.Dir
 	cmd.Env = base.AppendPWD(cfg.OrigEnv[:len(cfg.OrigEnv):len(cfg.OrigEnv)], cmd.Dir)
+	if addToEnv != "" {
+		cmd.Env = append(cmd.Env, addToEnv)
+	}
 	cmd.Stdout = stdout
 	cmd.Stderr = stdout
 

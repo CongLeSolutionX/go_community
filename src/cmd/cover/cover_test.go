@@ -124,10 +124,17 @@ func buildCover(t *testing.T) {
 
 		var err1, err2 error
 		go func() {
-			defer wg.Done()
+			// If the top-level "go test" invocation that triggered
+			// execution of this function was passed "-cover", then we
+			// stand to lose a lot of coverage data if we just build a
+			// regular copy of cover.exe here, so detect when "-cover" is
+			// in effect and alter the build in that case.
 			testcover = filepath.Join(testTempDir, "cover.exe")
-			t.Logf("running [go build -o %s]", testcover)
-			out, err := exec.Command(testenv.GoToolPath(t), "build", "-o", testcover).CombinedOutput()
+			args := []string{"build", "-o", testcover}
+			args = testenv.AugmentToolBuildForCoverage(args, "cmd/cover")
+			defer wg.Done()
+			t.Logf("running [go %+v]", args)
+			out, err := exec.Command(testenv.GoToolPath(t), args...).CombinedOutput()
 			if len(out) > 0 {
 				t.Logf("%s", out)
 			}

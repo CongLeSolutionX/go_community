@@ -16,6 +16,7 @@ import (
 	"flag"
 	"fmt"
 	"internal/cfg"
+	"internal/goexperiment"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -462,4 +463,41 @@ func RunWithTimeout(t testing.TB, cmd *exec.Cmd) ([]byte, error) {
 	close(done)
 
 	return b.Bytes(), err
+}
+
+// AugmentToolBuildForCoverage accepts a list of arguments for "go
+// build" and augments them (if appropriate) with options to enable
+// code coverage. This helper is intended to be used by tests running
+// in the Go "cmd" source tree where the test builds a copy of itself
+// to run tests with, as opposed to using the tool installed in
+// $GOROOT/bin. Here 'gobuildargs' are the arguments that will be
+// passed to "go" to do the tool build, and 'ppath' is a package
+// pattern selecting the tool itself. Here is what things might look
+// like for in the test code for "cmd/cover", which builds a copy of
+// itself to test:
+//
+//	args := []string{"-o", toolpath, "cmd/cover"}
+//	args = AugmentToolBuildForCoverage(args, "cmd/cover")
+//	out, err := exec.Command(testenv.GoToolPath(t), args...).CombinedOutput()
+//	...
+//
+// AugmentToolBuildForCoverage asks the testing package whether
+// coverage is enabled, and if so, adds coverage testing options to
+// the build for the tool.
+func AugmentToolBuildForCoverage(gobuildargs []string, ppath string) []string {
+	// First argument expected to be "build"
+	if len(gobuildargs) < 1 || gobuildargs[0] != "build" {
+		panic(fmt.Sprintf("invalid go build args passed to testenv.AugmentToolBuildForCoverage: %+v", gobuildargs))
+	}
+	// Funtionality requires redesigned coverage.
+	if !goexperiment.CoverageRedesign {
+		return gobuildargs
+	}
+	// No need to do anything if "go test -cover" is not in effect.
+	if testing.CoverMode() == "" {
+		return gobuildargs
+	}
+	// Return augmented args list.
+
+	return append([]string{"build", "-cover", "-covermode", testing.CoverMode(), "-coverpkg", ppath}, gobuildargs[1:]...)
 }
