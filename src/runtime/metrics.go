@@ -71,6 +71,76 @@ func initMetrics() {
 				out.scalar = uint64(NumCgoCall())
 			},
 		},
+		"/cpu/classes/gc/assist:cpu-seconds": {
+			deps: makeStatDepSet(cpuStatsDep),
+			compute: func(in *statAggregate, out *metricValue) {
+				out.kind = metricKindFloat64
+				out.scalar = float64bits(nsToSec(in.cpuStats.gcAssistTime))
+			},
+		},
+		"/cpu/classes/gc/dedicated:cpu-seconds": {
+			deps: makeStatDepSet(cpuStatsDep),
+			compute: func(in *statAggregate, out *metricValue) {
+				out.kind = metricKindFloat64
+				out.scalar = float64bits(nsToSec(in.cpuStats.gcDedicatedTime))
+			},
+		},
+		"/cpu/classes/gc/idle:cpu-seconds": {
+			deps: makeStatDepSet(cpuStatsDep),
+			compute: func(in *statAggregate, out *metricValue) {
+				out.kind = metricKindFloat64
+				out.scalar = float64bits(nsToSec(in.cpuStats.gcIdleTime))
+			},
+		},
+		"/cpu/classes/gc/pause:cpu-seconds": {
+			deps: makeStatDepSet(cpuStatsDep),
+			compute: func(in *statAggregate, out *metricValue) {
+				out.kind = metricKindFloat64
+				out.scalar = float64bits(nsToSec(in.cpuStats.gcPauseTime))
+			},
+		},
+		"/cpu/classes/gc/total:cpu-seconds": {
+			deps: makeStatDepSet(cpuStatsDep),
+			compute: func(in *statAggregate, out *metricValue) {
+				out.kind = metricKindFloat64
+				out.scalar = float64bits(nsToSec(in.cpuStats.gcTotalTime))
+			},
+		},
+		"/cpu/classes/other:cpu-seconds": {
+			deps: makeStatDepSet(cpuStatsDep),
+			compute: func(in *statAggregate, out *metricValue) {
+				out.kind = metricKindFloat64
+				out.scalar = float64bits(nsToSec(in.cpuStats.otherTime))
+			},
+		},
+		"/cpu/classes/scavenge/assist:cpu-seconds": {
+			deps: makeStatDepSet(cpuStatsDep),
+			compute: func(in *statAggregate, out *metricValue) {
+				out.kind = metricKindFloat64
+				out.scalar = float64bits(nsToSec(in.cpuStats.scavengeAssistTime))
+			},
+		},
+		"/cpu/classes/scavenge/background:cpu-seconds": {
+			deps: makeStatDepSet(cpuStatsDep),
+			compute: func(in *statAggregate, out *metricValue) {
+				out.kind = metricKindFloat64
+				out.scalar = float64bits(nsToSec(in.cpuStats.scavengeBgTime))
+			},
+		},
+		"/cpu/classes/scavenge/total:cpu-seconds": {
+			deps: makeStatDepSet(cpuStatsDep),
+			compute: func(in *statAggregate, out *metricValue) {
+				out.kind = metricKindFloat64
+				out.scalar = float64bits(nsToSec(in.cpuStats.scavengeTotalTime))
+			},
+		},
+		"/cpu/classes/total:cpu-seconds": {
+			deps: makeStatDepSet(cpuStatsDep),
+			compute: func(in *statAggregate, out *metricValue) {
+				out.kind = metricKindFloat64
+				out.scalar = float64bits(nsToSec(in.cpuStats.totalTime))
+			},
+		},
 		"/gc/cycles/automatic:gc-cycles": {
 			deps: makeStatDepSet(sysStatsDep),
 			compute: func(in *statAggregate, out *metricValue) {
@@ -318,6 +388,7 @@ type statDep uint
 const (
 	heapStatsDep statDep = iota // corresponds to heapStatsAggregate
 	sysStatsDep                 // corresponds to sysStatsAggregate
+	cpuStatsDep                 // corresponds to cpuStatsAggregate
 	numStatsDeps
 )
 
@@ -463,6 +534,23 @@ func (a *sysStatsAggregate) compute() {
 	})
 }
 
+// cpuStatsAggregate represents CPU stats obtained from the runtime
+// acquired together to avoid skew and inconsistencies.
+type cpuStatsAggregate struct {
+	cpuStats
+}
+
+// compute populates the cpuStatsAggregate with values from the runtime.
+func (a *cpuStatsAggregate) compute() {
+	a.cpuStats = work.cpuStats
+}
+
+// nsToSec takes a duration in nanoseconds and converts it to seconds as
+// a float64.
+func nsToSec(ns int64) float64 {
+	return float64(ns) / 1e9
+}
+
 // statAggregate is the main driver of the metrics implementation.
 //
 // It contains multiple aggregates of runtime statistics, as well
@@ -472,6 +560,7 @@ type statAggregate struct {
 	ensured   statDepSet
 	heapStats heapStatsAggregate
 	sysStats  sysStatsAggregate
+	cpuStats  cpuStatsAggregate
 }
 
 // ensure populates statistics aggregates determined by deps if they
@@ -490,6 +579,8 @@ func (a *statAggregate) ensure(deps *statDepSet) {
 			a.heapStats.compute()
 		case sysStatsDep:
 			a.sysStats.compute()
+		case cpuStatsDep:
+			a.cpuStats.compute()
 		}
 	}
 	a.ensured = a.ensured.union(missing)

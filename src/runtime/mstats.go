@@ -886,3 +886,24 @@ func (m *consistentHeapStats) read(out *heapStatsDelta) {
 
 	releasem(mp)
 }
+
+type cpuStats struct {
+	// All fields are CPU time in nanoseconds computed by comparing
+	// calls of nanotime. This means they're all overestimates, because
+	// they don't accurately compute on-CPU time (so some of the time
+	// could be spent scheduled away by the OS).
+
+	gcAssistTime    int64 // GC assists
+	gcDedicatedTime int64 // GC dedicated mark workers + pauses
+	gcIdleTime      int64 // GC idle mark workers
+	gcPauseTime     int64 // GC pauses (all GOMAXPROCS, even if just 1 is running)
+	gcTotalTime     int64
+
+	scavengeAssistTime int64 // background scavenger
+	scavengeBgTime     int64 // scavenge assists
+	scavengeTotalTime  int64
+
+	otherTime int64 // Time not spent on any of the above.
+
+	totalTime int64 // GOMAXPROCS * (monotonic wall clock time elapsed)
+}
