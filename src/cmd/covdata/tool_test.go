@@ -125,6 +125,7 @@ func TestCovTool(t *testing.T) {
 	// Build the tool.
 	s.tool = filepath.Join(dir, "tool.exe")
 	args := []string{"build", "-o", s.tool, "."}
+	args = testenv.AugmentToolBuildForCoverage(args, "cmd/covdata")
 	gobuild(t, "", args)
 
 	// Create a few coverage output dirs.
