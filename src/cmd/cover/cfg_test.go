@@ -66,7 +66,7 @@ func runPkgCover(t *testing.T, outdir string, tag string, incfg string, mode str
 // Note that this functionality does not work on windows.
 const debugWorkDir = false
 
-func testCoverWithCfg(t *testing.T) {
+func testCoverWithCfg(t *testing.T, toolexecArg string) {
 	testenv.MustHaveGoRun(t)
 
 	t.Parallel()
@@ -90,7 +90,7 @@ func testCoverWithCfg(t *testing.T) {
 		return paths
 	}
 
-	dir := t.TempDir()
+	dir := tempDir(t)
 	if debugWorkDir {
 		dir = "/tmp/qqq"
 		os.RemoveAll(dir)
