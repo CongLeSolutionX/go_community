@@ -361,6 +361,7 @@ func (s *scavengerState) init() {
 			if start >= end {
 				return r, 0
 			}
+			mheap_.pages.scav.bgTime.Add(end - start)
 			return r, end - start
 		}
 	}
