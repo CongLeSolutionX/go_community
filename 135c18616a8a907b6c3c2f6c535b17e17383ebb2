@@ -76,6 +76,30 @@
       },
       "revId": "135c18616a8a907b6c3c2f6c535b17e17383ebb2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "694f3e7e_ccf5b7c8",
+        "filename": "src/internal/bytealg/index_ppc64x.s",
+        "patchSetId": 27
+      },
+      "lineNbr": 732,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-05-06T16:33:06Z",
+      "side": 1,
+      "message": "That looks like a subtle bug in the previous versions. Archana, do the existing and newly added tests give full coverage of 2-16B needle code paths here?\n\nSimilarly, I think V10 already holds a zero constant at any point leading into index2to16next. Could we remove the various V25 splats to 0, and update index2to16next to use V10 in place of V25?",
+      "parentUuid": "afda5c79_01b46a41",
+      "range": {
+        "startLine": 732,
+        "startChar": 1,
+        "endLine": 732,
+        "endChar": 24
+      },
+      "revId": "135c18616a8a907b6c3c2f6c535b17e17383ebb2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
