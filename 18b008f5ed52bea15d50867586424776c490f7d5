@@ -72,6 +72,57 @@
       "message": "Clear out some of my outdated comments (hope not causing much mailing chaos..)",
       "revId": "18b008f5ed52bea15d50867586424776c490f7d5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd9fc696_c34c6b39",
+        "filename": "doc/go_mem.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-05-06T18:10:33Z",
+      "side": 1,
+      "message": "Putting the \"or else\" here makes this sentence too long and somewhat confusing.\n\nAnd I\u0027m not sure what it means.  This sentence seems to be the only place where the word \"label\" is used, so what is a label? And why is the label a location in the program?  Don\u0027t we care more about a location in memory, the addresses where the read or write occurs?",
+      "revId": "18b008f5ed52bea15d50867586424776c490f7d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3352f1a_88081ed0",
+        "filename": "doc/go_mem.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-05-06T18:10:33Z",
+      "side": 1,
+      "message": "Should we say clearly that W can be different for a different execution of the program? (Assuming I\u0027m correct in thinking that, of course.)",
+      "revId": "18b008f5ed52bea15d50867586424776c490f7d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c0ef6bb_7224f4f7",
+        "filename": "doc/go_mem.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-05-06T18:10:33Z",
+      "side": 1,
+      "message": "OK, now I\u0027m confused, because the previous sentence said that W must correspond to a total order of synchronizing operations, but this sentence says that \"synchronized before\" is derived from W.  Which comes first?",
+      "revId": "18b008f5ed52bea15d50867586424776c490f7d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
