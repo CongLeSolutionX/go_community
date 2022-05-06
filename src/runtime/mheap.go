@@ -1301,7 +1301,7 @@ HaveSpan:
 		start := nanotime()
 		h.pages.scavenge(bytesToScavenge)
 		now := nanotime()
-		h.pages.scav.assistTime.Add(now - start)
+		scavenge.assistTime.Add(now - start)
 		gcCPULimiter.addAssistTime(now - start)
 		gcCPULimiter.update(now)
 	}
