@@ -223,13 +223,19 @@ var runtimeDecls = [...]struct {
 	{"hchan", typeTag, 171},
 	{"eface", typeTag, 172},
 	{"iface", typeTag, 175},
-	{"itab", typeTag, 0},
 	{"mapextra", typeTag, 0},
-	{"_type", typeTag, 0},
 	{"g", typeTag, 0},
 	{"lockRankStruct", typeTag, 176},
 	{"lockRankStruct_on", typeTag, 178},
 	{"lockRank", typeTag, 15},
+	{"itab", typeTag, 182},
+	{"interfacetype", typeTag, 186},
+	{"name", typeTag, 187},
+	{"imethod", typeTag, 190},
+	{"_type", typeTag, 192},
+	{"nameOff", typeTag, 12},
+	{"typeOff", typeTag, 12},
+	{"tflag", typeTag, 66},
 }
 
 // Not inlining this function removes a significant chunk of init code.
@@ -264,14 +270,20 @@ func runtimeTypes() []*types.Type {
 	var hchanType = importtype(src.NoXPos, ir.Pkgs.Runtime.Lookup("hchan")).Type()
 	var efaceType = importtype(src.NoXPos, ir.Pkgs.Runtime.Lookup("eface")).Type()
 	var ifaceType = importtype(src.NoXPos, ir.Pkgs.Runtime.Lookup("iface")).Type()
-	var itabType = importtype(src.NoXPos, ir.Pkgs.Runtime.Lookup("itab")).Type()
 	var mapextraType = importtype(src.NoXPos, ir.Pkgs.Runtime.Lookup("mapextra")).Type()
-	var _typeType = importtype(src.NoXPos, ir.Pkgs.Runtime.Lookup("_type")).Type()
 	var gType = importtype(src.NoXPos, ir.Pkgs.Runtime.Lookup("g")).Type()
 	var lockRankStructType = importtype(src.NoXPos, ir.Pkgs.Runtime.Lookup("lockRankStruct")).Type()
 	var lockRankStruct_onType = importtype(src.NoXPos, ir.Pkgs.Runtime.Lookup("lockRankStruct_on")).Type()
 	var lockRankType = importtype(src.NoXPos, ir.Pkgs.Runtime.Lookup("lockRank")).Type()
-	var typs [179]*types.Type
+	var itabType = importtype(src.NoXPos, ir.Pkgs.Runtime.Lookup("itab")).Type()
+	var interfacetypeType = importtype(src.NoXPos, ir.Pkgs.Runtime.Lookup("interfacetype")).Type()
+	var nameType = importtype(src.NoXPos, ir.Pkgs.Runtime.Lookup("name")).Type()
+	var imethodType = importtype(src.NoXPos, ir.Pkgs.Runtime.Lookup("imethod")).Type()
+	var _typeType = importtype(src.NoXPos, ir.Pkgs.Runtime.Lookup("_type")).Type()
+	var nameOffType = importtype(src.NoXPos, ir.Pkgs.Runtime.Lookup("nameOff")).Type()
+	var typeOffType = importtype(src.NoXPos, ir.Pkgs.Runtime.Lookup("typeOff")).Type()
+	var tflagType = importtype(src.NoXPos, ir.Pkgs.Runtime.Lookup("tflag")).Type()
+	var typs [193]*types.Type
 	typs[0] = types.ByteType
 	typs[1] = types.NewPtr(typs[0])
 	typs[2] = types.Types[types.TANY]
@@ -451,6 +463,20 @@ func runtimeTypes() []*types.Type {
 	typs[176] = types.NewStruct(types.NoPkg, nil)
 	typs[177] = lockRankType
 	typs[178] = types.NewStruct(types.NoPkg, []*types.Field{types.NewField(src.NoXPos, Lookup("rank"), typs[177]), types.NewField(src.NoXPos, Lookup("pad"), typs[15])})
+	typs[179] = interfacetypeType
+	typs[180] = types.NewPtr(typs[179])
+	typs[181] = types.NewArray(typs[5], 1)
+	typs[182] = types.NewStruct(types.NoPkg, []*types.Field{types.NewField(src.NoXPos, Lookup("inter"), typs[180]), types.NewField(src.NoXPos, Lookup("_type"), typs[168]), types.NewField(src.NoXPos, Lookup("hash"), typs[62]), types.NewField(src.NoXPos, Lookup("_"), typs[41]), types.NewField(src.NoXPos, Lookup("fun"), typs[181])})
+	typs[183] = nameType
+	typs[184] = imethodType
+	typs[185] = types.NewSlice(typs[184])
+	typs[186] = types.NewStruct(types.NoPkg, []*types.Field{types.NewField(src.NoXPos, Lookup("typ"), typs[167]), types.NewField(src.NoXPos, Lookup("pkgpath"), typs[183]), types.NewField(src.NoXPos, Lookup("mhdr"), typs[185])})
+	typs[187] = types.NewStruct(types.NoPkg, []*types.Field{types.NewField(src.NoXPos, Lookup("bytes"), typs[1])})
+	typs[188] = nameOffType
+	typs[189] = typeOffType
+	typs[190] = types.NewStruct(types.NoPkg, []*types.Field{types.NewField(src.NoXPos, Lookup("name"), typs[188]), types.NewField(src.NoXPos, Lookup("ityp"), typs[189])})
+	typs[191] = tflagType
+	typs[192] = types.NewStruct(types.NoPkg, []*types.Field{types.NewField(src.NoXPos, Lookup("size"), typs[5]), types.NewField(src.NoXPos, Lookup("ptrdata"), typs[5]), types.NewField(src.NoXPos, Lookup("hash"), typs[62]), types.NewField(src.NoXPos, Lookup("tflag"), typs[191]), types.NewField(src.NoXPos, Lookup("align"), typs[66]), types.NewField(src.NoXPos, Lookup("fieldAlign"), typs[66]), types.NewField(src.NoXPos, Lookup("kind"), typs[66]), types.NewField(src.NoXPos, Lookup("equal"), typs[124]), types.NewField(src.NoXPos, Lookup("gcdata"), typs[1]), types.NewField(src.NoXPos, Lookup("str"), typs[188]), types.NewField(src.NoXPos, Lookup("ptrToThis"), typs[189])})
 	stringStructDWARFType.SetUnderlying(typs[150])
 	sliceType.SetUnderlying(typs[151])
 	hmapType.SetUnderlying(typs[154])
@@ -461,12 +487,18 @@ func runtimeTypes() []*types.Type {
 	hchanType.SetUnderlying(typs[171])
 	efaceType.SetUnderlying(typs[172])
 	ifaceType.SetUnderlying(typs[175])
-	itabType.SetUnderlying(typs[0])
 	mapextraType.SetUnderlying(typs[0])
-	_typeType.SetUnderlying(typs[0])
 	gType.SetUnderlying(typs[0])
 	lockRankStructType.SetUnderlying(typs[176])
 	lockRankStruct_onType.SetUnderlying(typs[178])
 	lockRankType.SetUnderlying(typs[15])
+	itabType.SetUnderlying(typs[182])
+	interfacetypeType.SetUnderlying(typs[186])
+	nameType.SetUnderlying(typs[187])
+	imethodType.SetUnderlying(typs[190])
+	_typeType.SetUnderlying(typs[192])
+	nameOffType.SetUnderlying(typs[12])
+	typeOffType.SetUnderlying(typs[12])
+	tflagType.SetUnderlying(typs[66])
 	return typs[:]
 }
