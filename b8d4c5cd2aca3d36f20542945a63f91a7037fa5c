@@ -141,6 +141,30 @@
       },
       "revId": "b8d4c5cd2aca3d36f20542945a63f91a7037fa5c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c180dc9f_f719fad5",
+        "filename": "src/cmd/compile/internal/typecheck/typecheck.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 917,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-05-07T16:18:01Z",
+      "side": 1,
+      "message": "\u003e I think the code I suggested will still rewrite calls and receives correctly?\n\nYeah, you\u0027re right. I was stuck because the `!callOrChan(*np)` cause the function return earlier without reset ir.Curfn, causing some strange failures.",
+      "parentUuid": "e915fa8b_e33d4ee6",
+      "range": {
+        "startLine": 900,
+        "startChar": 0,
+        "endLine": 917,
+        "endChar": 3
+      },
+      "revId": "b8d4c5cd2aca3d36f20542945a63f91a7037fa5c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
