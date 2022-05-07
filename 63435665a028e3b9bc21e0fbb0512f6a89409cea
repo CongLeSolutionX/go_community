@@ -16,6 +16,23 @@
       "message": "Here is another suggestion to handle the removal of the list of ports in cmd/api tool. Letters refer to the separate comments.\n\n(b) Invariant seems fit.\n\nThat a port is first class or not would be irrelevant after this CL.\n\nAdding a platform after this CL will follow the ordinary process of next/go1.x.txt.\nA new port cad add ~6000 lines.\n\nWhen a port is going out of support, an entry must be added to portRemoved() helper only if any entry was added for that port, i.e. containing (port-removed). This is somehow inconsistent as\nnothing must be added for removed ports like nacl as nothing was added.\nIt also requires to list ports which is a bit against the purpose of the CL.\nRemoving the helper would add ~7000 lines starting with \u0027-pkg\u0027.\n\n(c) Most of the logic where \u0027go tool dist test -run api\u0027 runs, seems in \u0027x/build\u0027 repo in \u0027dashboard/builders_test.go\u0027.\n\nGood to know:\n- \u0027api check\u0027 is not using the reflect package or the exported tags of the linker. \nIt is reading the source code.\n- The platform where \u0027api check\u0027 is run is irrelevant. \nEvery run is testing all ports as listed.\n- When testing an added commit, running one check is enough whatever platform is updated.\n\nIn the build.golang.org, clicking on any \u0027ok\u0027 icon and searching for \u0027API check\u0027 gives a hint on the variations\u0027. Generally speaking, there is one check for each of the main platforms of the existing list that this CL would remove. Considering that the commit is tested on all builders, it\ndoes not seem to add value.\n\nThe api check command does not allow to pass the documented flags to the goapi tool. I did not spend time testing the behavior.\n\n(d) For instance, there is currently no check for \u0027ios\u0027 and \u0027android\u0027.\nThere is a check for \u0027illumos\u0027 and \u0027solaris\u0027 on the builder but it does no check that port as it is not in the existing list.\n\n\nI tested the idea and landed all the files for each port. Going through all the release notes, some ports went missing. For instance, linux/ppc64 is not reported by \u0027go tool dist list -json\u0027 as having cgo support but the relevant is required. I guess that the port is seen as existing.\n\nWhen cgo was not mentioned in the release notes, the related file is placed in the same cycle as the non-cgo file.\n\nMost files contain syscall features. In all +175000 lines are added.\n",
       "revId": "63435665a028e3b9bc21e0fbb0512f6a89409cea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c8405ac_a4d6eeb7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-05-07T00:04:53Z",
+      "side": 1,
+      "message": "Adding all of these large files doesn\u0027t seem useful to me.  There has to be a better way.  Maybe we could just ignore the syscall package.",
+      "revId": "63435665a028e3b9bc21e0fbb0512f6a89409cea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
