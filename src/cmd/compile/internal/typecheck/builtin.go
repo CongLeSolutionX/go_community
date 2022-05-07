@@ -214,19 +214,25 @@ var runtimeDecls = [...]struct {
 	{"slice", typeTag, 150},
 	{"hmap", typeTag, 153},
 	{"bmap", typeTag, 155},
-	{"sudog", typeTag, 169},
-	{"waitq", typeTag, 160},
-	{"mutex", typeTag, 164},
-	{"hchan", typeTag, 166},
-	{"eface", typeTag, 170},
-	{"iface", typeTag, 173},
-	{"itab", typeTag, 0},
+	{"sudog", typeTag, 173},
+	{"waitq", typeTag, 164},
+	{"mutex", typeTag, 168},
+	{"hchan", typeTag, 170},
+	{"eface", typeTag, 174},
+	{"iface", typeTag, 187},
 	{"mapextra", typeTag, 0},
-	{"_type", typeTag, 0},
 	{"g", typeTag, 0},
-	{"lockRankStruct", typeTag, 162},
-	{"lockRankStruct_on", typeTag, 175},
+	{"lockRankStruct", typeTag, 166},
+	{"lockRankStruct_on", typeTag, 189},
 	{"lockRank", typeTag, 15},
+	{"itab", typeTag, 184},
+	{"interfacetype", typeTag, 180},
+	{"name", typeTag, 175},
+	{"imethod", typeTag, 177},
+	{"_type", typeTag, 161},
+	{"nameOff", typeTag, 12},
+	{"typeOff", typeTag, 12},
+	{"tflag", typeTag, 66},
 }
 
 // Not inlining this function removes a significant chunk of init code.
@@ -252,7 +258,7 @@ func params(tlist ...*types.Type) []*types.Field {
 }
 
 func runtimeTypes() []*types.Type {
-	var typs [176]*types.Type
+	var typs [190]*types.Type
 	typs[0] = types.ByteType
 	typs[1] = types.NewPtr(typs[0])
 	typs[2] = types.Types[types.TANY]
@@ -411,23 +417,37 @@ func runtimeTypes() []*types.Type {
 	typs[155] = types.NewStruct(types.NoPkg, []*types.Field{types.NewField(src.NoXPos, Lookup("tophash"), typs[154])})
 	typs[156] = newNamed("g", typs[0])
 	typs[157] = types.NewPtr(typs[156])
-	typs[158] = newNamed("_type", typs[0])
-	typs[159] = types.NewPtr(typs[158])
-	typs[160] = types.NewStruct(types.NoPkg, []*types.Field{types.NewField(src.NoXPos, Lookup("first"), typs[1]), types.NewField(src.NoXPos, Lookup("last"), typs[1])})
-	typs[161] = newNamed("waitq", typs[160])
-	typs[162] = types.NewStruct(types.NoPkg, nil)
-	typs[163] = newNamed("lockRankStruct", typs[162])
-	typs[164] = types.NewStruct(types.NoPkg, []*types.Field{types.NewField(src.NoXPos, Lookup("lockRankStruct"), typs[163]), types.NewField(src.NoXPos, Lookup("key"), typs[5])})
-	typs[165] = newNamed("mutex", typs[164])
-	typs[166] = types.NewStruct(types.NoPkg, []*types.Field{types.NewField(src.NoXPos, Lookup("qcount"), typs[17]), types.NewField(src.NoXPos, Lookup("dataqsiz"), typs[17]), types.NewField(src.NoXPos, Lookup("buf"), typs[7]), types.NewField(src.NoXPos, Lookup("elemsize"), typs[60]), types.NewField(src.NoXPos, Lookup("closed"), typs[62]), types.NewField(src.NoXPos, Lookup("elemtype"), typs[159]), types.NewField(src.NoXPos, Lookup("sendx"), typs[17]), types.NewField(src.NoXPos, Lookup("recvx"), typs[17]), types.NewField(src.NoXPos, Lookup("recvq"), typs[161]), types.NewField(src.NoXPos, Lookup("sendq"), typs[161]), types.NewField(src.NoXPos, Lookup("lock"), typs[165])})
-	typs[167] = newNamed("hchan", typs[166])
-	typs[168] = types.NewPtr(typs[167])
-	typs[169] = types.NewStruct(types.NoPkg, []*types.Field{types.NewField(src.NoXPos, Lookup("g"), typs[157]), types.NewField(src.NoXPos, Lookup("next"), typs[1]), types.NewField(src.NoXPos, Lookup("prev"), typs[1]), types.NewField(src.NoXPos, Lookup("elem"), typs[7]), types.NewField(src.NoXPos, Lookup("acquiretime"), typs[22]), types.NewField(src.NoXPos, Lookup("releasetime"), typs[22]), types.NewField(src.NoXPos, Lookup("ticket"), typs[62]), types.NewField(src.NoXPos, Lookup("isSelect"), typs[6]), types.NewField(src.NoXPos, Lookup("success"), typs[6]), types.NewField(src.NoXPos, Lookup("parent"), typs[1]), types.NewField(src.NoXPos, Lookup("waitlink"), typs[1]), types.NewField(src.NoXPos, Lookup("waittail"), typs[1]), types.NewField(src.NoXPos, Lookup("c"), typs[168])})
-	typs[170] = types.NewStruct(types.NoPkg, []*types.Field{types.NewField(src.NoXPos, Lookup("_type"), typs[159]), types.NewField(src.NoXPos, Lookup("data"), typs[7])})
-	typs[171] = newNamed("itab", typs[0])
+	typs[158] = newNamed("tflag", typs[66])
+	typs[159] = newNamed("nameOff", typs[12])
+	typs[160] = newNamed("typeOff", typs[12])
+	typs[161] = types.NewStruct(types.NoPkg, []*types.Field{types.NewField(src.NoXPos, Lookup("size"), typs[5]), types.NewField(src.NoXPos, Lookup("ptrdata"), typs[5]), types.NewField(src.NoXPos, Lookup("hash"), typs[62]), types.NewField(src.NoXPos, Lookup("tflag"), typs[158]), types.NewField(src.NoXPos, Lookup("align"), typs[66]), types.NewField(src.NoXPos, Lookup("fieldAlign"), typs[66]), types.NewField(src.NoXPos, Lookup("kind"), typs[66]), types.NewField(src.NoXPos, Lookup("equal"), typs[124]), types.NewField(src.NoXPos, Lookup("gcdata"), typs[1]), types.NewField(src.NoXPos, Lookup("str"), typs[159]), types.NewField(src.NoXPos, Lookup("ptrToThis"), typs[160])})
+	typs[162] = newNamed("_type", typs[161])
+	typs[163] = types.NewPtr(typs[162])
+	typs[164] = types.NewStruct(types.NoPkg, []*types.Field{types.NewField(src.NoXPos, Lookup("first"), typs[1]), types.NewField(src.NoXPos, Lookup("last"), typs[1])})
+	typs[165] = newNamed("waitq", typs[164])
+	typs[166] = types.NewStruct(types.NoPkg, nil)
+	typs[167] = newNamed("lockRankStruct", typs[166])
+	typs[168] = types.NewStruct(types.NoPkg, []*types.Field{types.NewField(src.NoXPos, Lookup("lockRankStruct"), typs[167]), types.NewField(src.NoXPos, Lookup("key"), typs[5])})
+	typs[169] = newNamed("mutex", typs[168])
+	typs[170] = types.NewStruct(types.NoPkg, []*types.Field{types.NewField(src.NoXPos, Lookup("qcount"), typs[17]), types.NewField(src.NoXPos, Lookup("dataqsiz"), typs[17]), types.NewField(src.NoXPos, Lookup("buf"), typs[7]), types.NewField(src.NoXPos, Lookup("elemsize"), typs[60]), types.NewField(src.NoXPos, Lookup("closed"), typs[62]), types.NewField(src.NoXPos, Lookup("elemtype"), typs[163]), types.NewField(src.NoXPos, Lookup("sendx"), typs[17]), types.NewField(src.NoXPos, Lookup("recvx"), typs[17]), types.NewField(src.NoXPos, Lookup("recvq"), typs[165]), types.NewField(src.NoXPos, Lookup("sendq"), typs[165]), types.NewField(src.NoXPos, Lookup("lock"), typs[169])})
+	typs[171] = newNamed("hchan", typs[170])
 	typs[172] = types.NewPtr(typs[171])
-	typs[173] = types.NewStruct(types.NoPkg, []*types.Field{types.NewField(src.NoXPos, Lookup("tab"), typs[172]), types.NewField(src.NoXPos, Lookup("data"), typs[7])})
-	typs[174] = newNamed("lockRank", typs[15])
-	typs[175] = types.NewStruct(types.NoPkg, []*types.Field{types.NewField(src.NoXPos, Lookup("rank"), typs[174]), types.NewField(src.NoXPos, Lookup("pad"), typs[15])})
+	typs[173] = types.NewStruct(types.NoPkg, []*types.Field{types.NewField(src.NoXPos, Lookup("g"), typs[157]), types.NewField(src.NoXPos, Lookup("next"), typs[1]), types.NewField(src.NoXPos, Lookup("prev"), typs[1]), types.NewField(src.NoXPos, Lookup("elem"), typs[7]), types.NewField(src.NoXPos, Lookup("acquiretime"), typs[22]), types.NewField(src.NoXPos, Lookup("releasetime"), typs[22]), types.NewField(src.NoXPos, Lookup("ticket"), typs[62]), types.NewField(src.NoXPos, Lookup("isSelect"), typs[6]), types.NewField(src.NoXPos, Lookup("success"), typs[6]), types.NewField(src.NoXPos, Lookup("parent"), typs[1]), types.NewField(src.NoXPos, Lookup("waitlink"), typs[1]), types.NewField(src.NoXPos, Lookup("waittail"), typs[1]), types.NewField(src.NoXPos, Lookup("c"), typs[172])})
+	typs[174] = types.NewStruct(types.NoPkg, []*types.Field{types.NewField(src.NoXPos, Lookup("_type"), typs[163]), types.NewField(src.NoXPos, Lookup("data"), typs[7])})
+	typs[175] = types.NewStruct(types.NoPkg, []*types.Field{types.NewField(src.NoXPos, Lookup("bytes"), typs[1])})
+	typs[176] = newNamed("name", typs[175])
+	typs[177] = types.NewStruct(types.NoPkg, []*types.Field{types.NewField(src.NoXPos, Lookup("name"), typs[159]), types.NewField(src.NoXPos, Lookup("ityp"), typs[160])})
+	typs[178] = newNamed("imethod", typs[177])
+	typs[179] = types.NewSlice(typs[178])
+	typs[180] = types.NewStruct(types.NoPkg, []*types.Field{types.NewField(src.NoXPos, Lookup("typ"), typs[162]), types.NewField(src.NoXPos, Lookup("pkgpath"), typs[176]), types.NewField(src.NoXPos, Lookup("mhdr"), typs[179])})
+	typs[181] = newNamed("interfacetype", typs[180])
+	typs[182] = types.NewPtr(typs[181])
+	typs[183] = types.NewArray(typs[5], 1)
+	typs[184] = types.NewStruct(types.NoPkg, []*types.Field{types.NewField(src.NoXPos, Lookup("inter"), typs[182]), types.NewField(src.NoXPos, Lookup("_type"), typs[163]), types.NewField(src.NoXPos, Lookup("hash"), typs[62]), types.NewField(src.NoXPos, Lookup("_"), typs[41]), types.NewField(src.NoXPos, Lookup("fun"), typs[183])})
+	typs[185] = newNamed("itab", typs[184])
+	typs[186] = types.NewPtr(typs[185])
+	typs[187] = types.NewStruct(types.NoPkg, []*types.Field{types.NewField(src.NoXPos, Lookup("tab"), typs[186]), types.NewField(src.NoXPos, Lookup("data"), typs[7])})
+	typs[188] = newNamed("lockRank", typs[15])
+	typs[189] = types.NewStruct(types.NoPkg, []*types.Field{types.NewField(src.NoXPos, Lookup("rank"), typs[188]), types.NewField(src.NoXPos, Lookup("pad"), typs[15])})
 	return typs[:]
 }
