@@ -323,8 +323,7 @@ func (c dwCtxt) Reference(t dwarf.Type) dwarf.Sym {
 			// When building a non-runtime package for dynamic link, these types are fake.
 			// They are simply defined as type byte. If they are dumped to the current compile unit,
 			// they will be conflicted with the real types in the library contains runtime.
-			if name == "*runtime.g" || name == "*runtime._type" ||
-				name == "*runtime.mapextra" || name == "*runtime.itab" {
+			if name == "*runtime.g" || name == "*runtime.mapextra" {
 				return c.Link.Lookup(dwarf.InfoPrefix + "uintptr")
 			}
 		}
