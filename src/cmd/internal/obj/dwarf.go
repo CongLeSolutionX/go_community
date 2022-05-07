@@ -313,8 +313,7 @@ func (c dwCtxt) Reference(t dwarf.Type) dwarf.Sym {
 	if c.Flag_linkshared {
 		if c.Pkgpath != "runtime" {
 			name := t.DwarfName()
-			if name == "*runtime.g" || name == "*runtime._type" ||
-				name == "*runtime.mapextra" || name == "*runtime.itab" {
+			if name == "*runtime.g" || name == "*runtime.mapextra" {
 				return c.Link.Lookup(dwarf.InfoPrefix + "uintptr")
 			}
 		}

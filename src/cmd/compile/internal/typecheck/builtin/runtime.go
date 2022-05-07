@@ -354,12 +354,7 @@ type iface struct {
 	data unsafe.Pointer
 }
 
-type itab byte
-
 type mapextra byte
-
-type _type byte
-
 type g byte
 
 type lockRankStruct struct{}
@@ -370,3 +365,45 @@ type lockRankStruct_on struct {
 }
 
 type lockRank int
+
+// the type below is for dwarf type info generation for dynamic link in compiler.
+type itab struct {
+	inter *interfacetype
+	_type *_type
+	hash  uint32
+	_     [4]byte
+	fun   [1]uintptr
+}
+
+type interfacetype struct {
+	typ     _type
+	pkgpath name
+	mhdr    []imethod
+}
+
+type name struct {
+	bytes *byte
+}
+
+type imethod struct {
+	name nameOff
+	ityp typeOff
+}
+
+type _type struct {
+	size       uintptr
+	ptrdata    uintptr
+	hash       uint32
+	tflag      tflag
+	align      uint8
+	fieldAlign uint8
+	kind       uint8
+	equal      func(unsafe.Pointer, unsafe.Pointer) bool
+	gcdata     *byte
+	str        nameOff
+	ptrToThis  typeOff
+}
+
+type nameOff int32
+type typeOff int32
+type tflag uint8
