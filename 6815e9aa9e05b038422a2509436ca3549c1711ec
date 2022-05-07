@@ -72,6 +72,23 @@
       "message": "Ping mdempsky (I guess?).  Do we want this for 1.19?",
       "revId": "6815e9aa9e05b038422a2509436ca3549c1711ec",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f3cc31e_e6d0f8be",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 26
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-05-07T00:33:47Z",
+      "side": 1,
+      "message": "By the way, this has picked up a merge conflict.",
+      "revId": "6815e9aa9e05b038422a2509436ca3549c1711ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
