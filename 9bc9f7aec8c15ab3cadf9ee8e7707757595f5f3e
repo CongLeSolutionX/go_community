@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "35f1fa30_567e370f",
         "filename": "src/cmd/go/internal/modcmd/vendor.go",
@@ -20,8 +21,31 @@
         "endChar": 83
       },
       "revId": "9bc9f7aec8c15ab3cadf9ee8e7707757595f5f3e",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21dfeb21_c12c88c9",
+        "filename": "src/cmd/go/internal/modcmd/vendor.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-05-07T00:00:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35f1fa30_567e370f",
+      "range": {
+        "startLine": 66,
+        "startChar": 33,
+        "endLine": 66,
+        "endChar": 83
+      },
+      "revId": "9bc9f7aec8c15ab3cadf9ee8e7707757595f5f3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
