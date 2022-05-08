@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad2610c0_5f3ccf89",
+        "filename": "src/cmd/compile/internal/compare/compare.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-05-08T20:39:45Z",
+      "side": 1,
+      "message": "Comment what \"recursive\" boolean means.",
+      "revId": "87eba801dce027e9d367715b9cfff243c7d972cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78e54408_64a79a52",
+        "filename": "src/cmd/compile/internal/compare/compare.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-05-08T20:39:45Z",
+      "side": 1,
+      "message": "This now gets a bit weird, because things like\nstruct {\n   x int\n   y interface{}\n   z int\n}\nhave EqCanPanic set to true. But we\u0027d really like to add x to the current condition list, have y in its own list, and have z part of the subsequent condition list.",
+      "revId": "87eba801dce027e9d367715b9cfff243c7d972cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d00cba7c_df200e6b",
+        "filename": "src/cmd/compile/internal/compare/compare.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-05-08T20:39:45Z",
+      "side": 1,
+      "message": "If we\u0027re recursively expanding struct fields, these lists could get very large. I think we might want to have some condition under which we give up and call the type comparison method instead of inlining the comparison of all its fields.",
+      "revId": "87eba801dce027e9d367715b9cfff243c7d972cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fbcdcd5a_38017e20",
+        "filename": "src/cmd/compile/internal/compare/compare.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-05-08T20:39:45Z",
+      "side": 1,
+      "message": "Similar trickiness here, what if the recursive struct has an interface{} as its first field? We don\u0027t want to append in that case, we want to start a new case list. (Which I guess happens above currently, but it is confusing.)",
+      "revId": "87eba801dce027e9d367715b9cfff243c7d972cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8958121_7ef2537c",
+        "filename": "src/cmd/compile/internal/walk/compare.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-05-08T20:39:45Z",
+      "side": 1,
+      "message": "Why pass \"true\" here? I\u0027m a bit confused as to when recursive is ok and when it isn\u0027t.",
+      "revId": "87eba801dce027e9d367715b9cfff243c7d972cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
