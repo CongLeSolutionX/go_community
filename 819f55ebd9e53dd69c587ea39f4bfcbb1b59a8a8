@@ -256,6 +256,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "db9f63e4_c6eeeb5a",
+        "filename": "src/cmd/compile/internal/walk/builtin.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 688,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-05-08T16:23:08Z",
+      "side": 1,
+      "message": "Yay, I think we can make the compiler recognize runtime.mulUintptr and treat it as an intrinsic.",
+      "parentUuid": "03a82908_0e32e0a3",
+      "revId": "819f55ebd9e53dd69c587ea39f4bfcbb1b59a8a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "14dd15ec_525ada22",
         "filename": "src/cmd/compile/internal/walk/builtin.go",
         "patchSetId": 8
