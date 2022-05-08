@@ -124,6 +124,30 @@
       },
       "revId": "135c18616a8a907b6c3c2f6c535b17e17383ebb2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eed2054e_ae7a333f",
+        "filename": "src/internal/bytealg/index_ppc64x.s",
+        "patchSetId": 27
+      },
+      "lineNbr": 732,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2022-05-08T12:20:46Z",
+      "side": 1,
+      "message": "Yes the bug was found after adding the test which captured a corner.case condition exercised when the string was of a certain length and the substring was at the end of the string. Have addressed both comments now- removing splat of V25 and using V10 and adding new tests to cover all separator lengths that exercise the changed code.",
+      "parentUuid": "9c27dc49_0a7823f5",
+      "range": {
+        "startLine": 732,
+        "startChar": 1,
+        "endLine": 732,
+        "endChar": 24
+      },
+      "revId": "135c18616a8a907b6c3c2f6c535b17e17383ebb2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

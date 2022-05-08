@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bee2fedc_066f32b1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 28
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2022-05-08T12:20:46Z",
+      "side": 1,
+      "message": "Here is the rationale for the added tests. \nIn order to verify changed code, the tests fall into two categories. \na) upto separator length 5. For these inputs, the control does not enter the unrolled loop but the periphery code that is modified. Added test inputs for separator lengths 2, 3, 4, 5. (For length 3, some of the inputs is already covered in the beginning of the test array, added only the remaining) \nb)  separator len\u003d6 to 16: added test cases that enter the unrolled loop covering for cases where both substring is found at the end of the string and somewhere middle of the string. \nFor cases where substrings are not found in the main string(index\u003d-1), TestNearIndexBoundary is found to  exercise the loop comprehensively.  \n",
+      "revId": "f4611ec8f3d0de1bff50d37b72c3b00a0b229ee7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
