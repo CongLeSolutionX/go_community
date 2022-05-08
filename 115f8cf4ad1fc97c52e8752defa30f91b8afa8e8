@@ -142,6 +142,24 @@
       "parentUuid": "725ebb03_a3f43b47",
       "revId": "115f8cf4ad1fc97c52e8752defa30f91b8afa8e8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9509da0_eec16f41",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2573,
+      "author": {
+        "id": 32637
+      },
+      "writtenOn": "2022-05-08T16:39:19Z",
+      "side": 1,
+      "message": "Tough choice...\nI am not sure about Disable*Handler anymore - it implies there is an internal handler and also user disables something while their handler would actually get OPTIONS * requests.\n\nShould it be HandleGlobalOptions or EnableGlobalOptions maybe?\n\nI am fine to change to `DisableGeneralOptionsHandler` if it has strong preference though.",
+      "parentUuid": "f0529df0_536e80bd",
+      "revId": "115f8cf4ad1fc97c52e8752defa30f91b8afa8e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
