@@ -189,6 +189,24 @@
       "parentUuid": "1506b24f_58693ae1",
       "revId": "6afbf42dae3824b114da0882a5814102f120a2ca",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0e88884_c05a5880",
+        "filename": "src/cmd/compile/internal/typecheck/typecheck.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 884,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-05-09T20:11:42Z",
+      "side": 1,
+      "message": "Thanks, new code looks good, but I think I\u0027m not following the issue with OFUNCINST. Why do we need to explicitly check OFUNCINST? It\u0027s not currently matched by callOrChan, and I can\u0027t think of any cases where a function instantiation would include a call or receive expression. I would expect lines L874-L876 to be redundant with L886-L888.\n\nCan you show me the IR dump for the function in question that\u0027s causing problems and fixed by adding L874-L876?\n\n(I want to make sure if the check is needed, that we have a sufficiently clear comment explaining why.)\n\n\u003e Or maybe we can do nothing if call had zero args.\n\nThat sounds okay. But I think if we\u0027re going to do it conditionally, we might as well only rewrite the callee expression when we\u0027re rewriting multi-value calls too (i.e., when RewriteMultiValueCall needs to rewrite the IR).",
+      "parentUuid": "274c4fc8_1ef84122",
+      "revId": "6afbf42dae3824b114da0882a5814102f120a2ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
