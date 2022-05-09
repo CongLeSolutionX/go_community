@@ -135,6 +135,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "516d0b40_109541f0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-05-09T22:05:51Z",
+      "side": 1,
+      "message": "Yes, I think you\u0027re right that if we add this new flag then we should also honor it when doing internal linking and generating a dynamically linked executable.",
+      "parentUuid": "9f168896_35200732",
+      "revId": "02f4f4d061a3aac90b0155cebfa8dc666bdf7720",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "91da3b2e_280b8bcd",
         "filename": "src/cmd/link/internal/ld/lib.go",
         "patchSetId": 4
