@@ -72,6 +72,24 @@
       "message": "I think we need to wait on these until next development cycle.\n",
       "revId": "dba44cf1f9d0799644fad754adf7899c696689be",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c41a4ddf_8899edf6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 26
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-05-09T10:11:13Z",
+      "side": 1,
+      "message": "Yes, I haven\u0027t have time to re-check this, since when 1.18 and 1.19 are focused to generic.",
+      "parentUuid": "a6cab4ae_4af18407",
+      "revId": "dba44cf1f9d0799644fad754adf7899c696689be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
