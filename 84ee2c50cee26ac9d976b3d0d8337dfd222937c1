@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "084363b1_a39bbbcc",
+        "filename": "src/cmd/compile/internal/reflectdata/reflect.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1249,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-05-09T17:02:19Z",
+      "side": 1,
+      "message": "The Go spec defines \"any\" this way:\n\n  \u003e\u003eFor convenience, the predeclared type any is an alias for the empty interface.\n\nand the current semantics for type aliases are that they get expanded away early in the game and don\u0027t make it to the linker.\n\nI guess I would have expected this to be handled by the NeedEmit() function as opposed to here. With that said, I guess it is ok.",
+      "parentUuid": "c6a4d968_1c2a0af3",
+      "revId": "84ee2c50cee26ac9d976b3d0d8337dfd222937c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d8d35aec_bbedc733",
         "filename": "src/cmd/compile/internal/reflectdata/reflect.go",
         "patchSetId": 3
