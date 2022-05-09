@@ -53,6 +53,24 @@
       "message": "It would be nice if we had a way to do this in general (e.g., in internal/testenv). This CL is fine for now though.\n",
       "revId": "cd86d042313e63fb4af907142d8cc753c25a02c4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac397d04_1c755388",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-05-09T12:17:43Z",
+      "side": 1,
+      "message": "On second thought, it seems to me we don\u0027t really need the explicit \"PASS\" check in any case ... looking at https://go.googlesource.com/go/+/7ca1e2aa56f23b1766e8f5f65c431d18abd58985/src/testing/testing.go#1756 , the test is not going to print PASS unless it\u0027s about to pass zero to os.Exit(). I\u0027ll rewrite the code to just check for an error from os.Exec.",
+      "parentUuid": "fd7cf4ad_6434144a",
+      "revId": "cd86d042313e63fb4af907142d8cc753c25a02c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
