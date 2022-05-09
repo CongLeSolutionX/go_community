@@ -583,7 +583,7 @@
 (AtomicOr32  ...) => (LoweredAtomicOr32  ...)
 
 // Conditional branches
-(If cond yes no) => (BNEZ cond yes no)
+(If cond yes no) => (BNEZ (MOVBUreg <typ.UInt64> cond) yes no)
 
 // Optimizations
 
