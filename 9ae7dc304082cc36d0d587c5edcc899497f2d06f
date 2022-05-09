@@ -34,6 +34,24 @@
       "parentUuid": "32ea871c_ee8815b7",
       "revId": "9ae7dc304082cc36d0d587c5edcc899497f2d06f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1ee8671_ddfdd3a7",
+        "filename": "test/fixedbugs/issue52788.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-05-09T18:52:41Z",
+      "side": 1,
+      "message": "Yes, they have same bug. Working on it.",
+      "parentUuid": "c975abb1_5c86c5ed",
+      "revId": "9ae7dc304082cc36d0d587c5edcc899497f2d06f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
