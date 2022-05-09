@@ -87,6 +87,23 @@
       "message": "Reverse engineering hostname.exe, it looks to me like the program always exits 1 if a problem occurs, or 0 if it doesn\u0027t.\n\n  WCHAR name[264];\n  FILE *stdout \u003d _acrt_iob_func(1), *stderr \u003d _acrt_iob_func(2);\n  HeapSetInformation(0, HeapEnableTerminationOnCorruption, 0, 0);\n  SetThreadUILanguage(0);\n  NlsFPutBom(stdout);\n  NlsFPutBom(stderr);\n  if (WSAStartup(0x101, \u0026wsadata))\n    NlsPerror(0x2713);\n  if (argc \u003e 1) {\n    // some error handling message stuff\n    NlsFPutMsgW(stderr, ...);\n    exit(1);\n  }\n  if (GetHostNameW(name, 257) \u003c 0) {\n    GetLastError();\n    NlsPerror(0x2712);\n    exit(1);\n  }\n  NlsFPutStringW(stdout, name);\n  NlsFPutStringW(stdout, L\"\\n\");\n  exit(0);\n  \nSo basically the only weird thing would be if NlsFPutStringW itself errors, as that return value isn\u0027t being checked. But then the rest of the test should probably fail anyway if we avoid the possibility of truncation and unlikely things like that.\n\nSo LGTM.",
       "revId": "c2ba6606da9b8da60a63c1f6eba5e3709ee4fec2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "402aba89_2048b9f8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2022-05-09T18:06:18Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "c2ba6606da9b8da60a63c1f6eba5e3709ee4fec2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
