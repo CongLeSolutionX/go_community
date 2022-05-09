@@ -165,6 +165,29 @@
       "message": "Should this also apply to exe mode when external linking?",
       "revId": "02f4f4d061a3aac90b0155cebfa8dc666bdf7720",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24864c97_bba08fa9",
+        "filename": "src/cmd/link/internal/ld/main.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-05-09T21:40:18Z",
+      "side": 1,
+      "message": "Mention \"on ELF\".\n\n(What do we want to do on other platforms? Mach-O has -bind_at_load. Haven\u0027t looked at PE or XCOFF.)",
+      "range": {
+        "startLine": 98,
+        "startChar": 49,
+        "endLine": 98,
+        "endChar": 92
+      },
+      "revId": "02f4f4d061a3aac90b0155cebfa8dc666bdf7720",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
