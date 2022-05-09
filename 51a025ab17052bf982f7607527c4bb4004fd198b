@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "338d7a7c_5b920c68",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-05-09T13:02:04Z",
+      "side": 1,
+      "message": "when making a reference to it.",
+      "range": {
+        "startLine": 9,
+        "startChar": 100,
+        "endLine": 9,
+        "endChar": 117
+      },
+      "revId": "51a025ab17052bf982f7607527c4bb4004fd198b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80b6906a_99c64e2f",
+        "filename": "src/cmd/internal/obj/dwarf.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-05-09T13:02:04Z",
+      "side": 1,
+      "message": "It would be good to have a comment that explains why this is a weak relocation and not a strong relocation.",
+      "revId": "51a025ab17052bf982f7607527c4bb4004fd198b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a6504d8_ffeb660e",
+        "filename": "src/cmd/internal/obj/dwarf.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-05-09T13:02:04Z",
+      "side": 1,
+      "message": "Needs a header comment.",
+      "revId": "51a025ab17052bf982f7607527c4bb4004fd198b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
