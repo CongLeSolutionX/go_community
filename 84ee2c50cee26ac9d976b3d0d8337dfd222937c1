@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c6a4d968_1c2a0af3",
+        "filename": "src/cmd/compile/internal/reflectdata/reflect.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1249,
+      "author": {
+        "id": 53473
+      },
+      "writtenOn": "2022-05-09T16:47:14Z",
+      "side": 1,
+      "message": "In https://github.com/golang/go/issues/52209#issuecomment-1098315784. You said \"For type descriptor symbols, the compiler has a hard-coded set of very basic.......\"\n\nMy understanding is the type in WriteBasieTypes should not be dumped in non-runtime package.So I implement it by this way, it is exactly ugly, but I don\u0027t find other way to implement this.",
+      "parentUuid": "45bd290f_e6d4d5b8",
+      "revId": "84ee2c50cee26ac9d976b3d0d8337dfd222937c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d8d35aec_bbedc733",
         "filename": "src/cmd/compile/internal/reflectdata/reflect.go",
         "patchSetId": 3
