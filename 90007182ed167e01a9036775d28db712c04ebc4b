@@ -34,6 +34,24 @@
       "message": "LGTM.  I worry a bit about whether we are consistent on how much of a register is valid, for the different types, across all the different architectures.",
       "revId": "90007182ed167e01a9036775d28db712c04ebc4b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6363b2c7_e842a48f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-05-09T15:45:39Z",
+      "side": 1,
+      "message": "We (should) have comments in each \u003cARCH\u003eOps.go like https://cs.opensource.google/go/go/+/master:src/cmd/compile/internal/ssa/gen/ARM64Ops.go;l\u003d13 . I think most of them follow the same convention, only low bytes up to the Value width is meaningful.",
+      "parentUuid": "8fd7ba1d_36f39959",
+      "revId": "90007182ed167e01a9036775d28db712c04ebc4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
