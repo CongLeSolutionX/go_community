@@ -99,6 +99,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "669d7c89_6a99277d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-05-09T21:18:49Z",
+      "side": 1,
+      "message": "This has two effects on the C linker:\n\nFirst, it marks the executable as requiring that all dynamic relocations be processed at program startup.  There are three ways to mark this in an ELF dynamic executable, all equivalent:\n- add a DT_BIND_NOW dynamic tag\n- set DF_BIND_NOW in the DT_FLAGS dynamic tag\n- set DF_1_NOW in the DT_FLAGS_1 dynamic tag\n\nSecond,for most targets, .got.plt becomes a relro section, as it no longer changes after dynamic relocations are applied.",
+      "parentUuid": "2ca43641_3c6db871",
+      "revId": "02f4f4d061a3aac90b0155cebfa8dc666bdf7720",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "91da3b2e_280b8bcd",
         "filename": "src/cmd/link/internal/ld/lib.go",
         "patchSetId": 4
