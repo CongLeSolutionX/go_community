@@ -171,6 +171,24 @@
       "parentUuid": "22648967_f3ce2e1b",
       "revId": "6afbf42dae3824b114da0882a5814102f120a2ca",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "274c4fc8_1ef84122",
+        "filename": "src/cmd/compile/internal/typecheck/typecheck.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 884,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-05-09T19:42:18Z",
+      "side": 1,
+      "message": "SGTM!\n\nThe only problem left is with your proposed change above, fixedbugs/issue49143.go is currently failing. Seems that we need to exclude `OFUNCINST`, too?\n\nOr maybe we can do nothing if call had zero args.",
+      "parentUuid": "1506b24f_58693ae1",
+      "revId": "6afbf42dae3824b114da0882a5814102f120a2ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
