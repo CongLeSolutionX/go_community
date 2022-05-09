@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6fb4d5b5_6d7bc55c",
+        "filename": "src/cmd/internal/obj/dwarf.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 53473
+      },
+      "writtenOn": "2022-05-09T16:36:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b7729701_f43dd24e",
+      "revId": "e7210041b822c619f48c0da3410829ca1f6b6f4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ddf0d925_ac25eaca",
@@ -43,6 +61,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "721bd170_c40001f0",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 53473
+      },
+      "writtenOn": "2022-05-09T16:36:49Z",
+      "side": 1,
+      "message": "I rewrote the comment, maybe a little more clearly. If it is still confusing, I will explain it in the issue.",
+      "parentUuid": "ddf0d925_ac25eaca",
+      "range": {
+        "startLine": 445,
+        "startChar": 7,
+        "endLine": 446,
+        "endChar": 69
+      },
+      "revId": "e7210041b822c619f48c0da3410829ca1f6b6f4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3c7f60d6_fd9a6c45",
         "filename": "src/cmd/link/internal/ld/dwarf.go",
         "patchSetId": 22
@@ -54,6 +96,24 @@
       "writtenOn": "2022-05-09T13:55:53Z",
       "side": 1,
       "message": "comment needed here",
+      "revId": "e7210041b822c619f48c0da3410829ca1f6b6f4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9bab753_12d68df8",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 1262,
+      "author": {
+        "id": 53473
+      },
+      "writtenOn": "2022-05-09T16:36:49Z",
+      "side": 1,
+      "message": "Refactored it to line 1182. And added some comment.",
+      "parentUuid": "3c7f60d6_fd9a6c45",
       "revId": "e7210041b822c619f48c0da3410829ca1f6b6f4e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
