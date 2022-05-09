@@ -71,6 +71,40 @@
       "message": "Alan, would you mind reviewing this cherry-pick? I can go over it with you.",
       "revId": "6ebf4e08fe1c2956cb5c8f27a1bc2abff6d66819",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9bec1e09_0e1c5343",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2022-05-09T21:42:32Z",
+      "side": 1,
+      "message": "Code LGTM. My two comment nitpicks needn\u0027t be addressed in this already-reviewed cherrypick.",
+      "revId": "6ebf4e08fe1c2956cb5c8f27a1bc2abff6d66819",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9ce5d2d_22a64227",
+        "filename": "src/go/types/lookup.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2022-05-09T21:42:32Z",
+      "side": 1,
+      "message": "\"a lookup on identity\" is slightly ambiguous: *Named pointer identity or types.Identical?\n\nPerhaps delete this sentence, and further down document like so:\n\n// An instanceLookup is a set of *Named types that uses Identical\n// (not pointer equality) as the equivalence relation, because\n// each instantiation results in a new Named type.\ntype instanceLookup struct {",
+      "revId": "6ebf4e08fe1c2956cb5c8f27a1bc2abff6d66819",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
