@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7729701_f43dd24e",
+        "filename": "src/cmd/internal/obj/dwarf.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-05-09T13:55:53Z",
+      "side": 1,
+      "message": "comment would be helpful as to why this is needed",
+      "revId": "e7210041b822c619f48c0da3410829ca1f6b6f4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ddf0d925_ac25eaca",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-05-09T13:55:53Z",
+      "side": 1,
+      "message": "Not sure I completely understand this comment (maybe I am just misreading). Could you please give an example of a situation where this comes up? E.g. Go code?",
+      "range": {
+        "startLine": 445,
+        "startChar": 7,
+        "endLine": 446,
+        "endChar": 69
+      },
+      "revId": "e7210041b822c619f48c0da3410829ca1f6b6f4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c7f60d6_fd9a6c45",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 1262,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-05-09T13:55:53Z",
+      "side": 1,
+      "message": "comment needed here",
+      "revId": "e7210041b822c619f48c0da3410829ca1f6b6f4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
