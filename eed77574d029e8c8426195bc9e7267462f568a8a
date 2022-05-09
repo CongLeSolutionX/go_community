@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7881e3c1_efd14920",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-05-09T14:37:16Z",
+      "side": 1,
+      "message": "Maybe print something like \"cannot linkname a method\" if we know it is linkname\u0027d? (makeABIWrapper is internal detail that user probably doesn\u0027t understand.)",
+      "revId": "eed77574d029e8c8426195bc9e7267462f568a8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
