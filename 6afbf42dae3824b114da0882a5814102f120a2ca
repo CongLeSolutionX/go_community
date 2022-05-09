@@ -93,6 +93,24 @@
       "message": "This switch only checks that the top-level callee expression has no ordered side effects, but we care if any subexpression have ordered side effects too. E.g., `f()[0](g())` needs to be rewritten into `tmp0 :\u003d f()[0]; tmp1, tmp2 :\u003d g(); tmp0(tmp1, tmp2)` even though `x[0]` has no side-effects by itself, because the `f()` call needs to still happen before `g()`. (I recommend adding a test case like this too.)\n\nThis is why I suggested `if !anyCallOrChan(*np)` previously. I still suggest that.",
       "revId": "6afbf42dae3824b114da0882a5814102f120a2ca",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82c0d319_3ee648a8",
+        "filename": "src/cmd/compile/internal/typecheck/typecheck.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 884,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-05-09T18:54:29Z",
+      "side": 1,
+      "message": "Ah, I see.\n\nThe problem with `anyCallOrChan` is that it also return true for something like `new(int)`, so the expression will be rewritten to `tmp :\u003d new; tmp(int)`, and causing more allocation: https://storage.googleapis.com/go-build-log/5af862d2/linux-amd64_6a0fd87c.log",
+      "parentUuid": "ee299660_10fec569",
+      "revId": "6afbf42dae3824b114da0882a5814102f120a2ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
