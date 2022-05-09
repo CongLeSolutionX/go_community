@@ -6483,6 +6483,7 @@ func rewriteValueRISCV64_OpZero(v *Value) bool {
 	}
 }
 func rewriteBlockRISCV64(b *Block) bool {
+	typ := &b.Func.Config.Types
 	switch b.Kind {
 	case BlockRISCV64BEQ:
 		// match: (BEQ (MOVDconst [0]) cond yes no)
@@ -6690,10 +6691,12 @@ func rewriteBlockRISCV64(b *Block) bool {
 		}
 	case BlockIf:
 		// match: (If cond yes no)
-		// result: (BNEZ cond yes no)
+		// result: (BNEZ (MOVBUreg <typ.UInt64> cond) yes no)
 		for {
 			cond := b.Controls[0]
-			b.resetWithControl(BlockRISCV64BNEZ, cond)
+			v0 := b.NewValue0(cond.Pos, OpRISCV64MOVBUreg, typ.UInt64)
+			v0.AddArg(cond)
+			b.resetWithControl(BlockRISCV64BNEZ, v0)
 			return true
 		}
 	}
