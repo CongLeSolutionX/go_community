@@ -972,10 +972,14 @@ func (t *test) run() {
 			return
 		}
 
-		modFile := fmt.Sprintf("module %s\ngo 1.14\n", modName)
-		if err := ioutil.WriteFile(filepath.Join(gopathSrcDir, "go.mod"), []byte(modFile), 0666); err != nil {
-			t.err = err
-			return
+		// Avoid creating go.mod if there is one already.
+		modFileName := filepath.Join(gopathSrcDir, "go.mod")
+		if _, err = os.Stat(modFileName); err != nil && errors.Is(err, os.ErrNotExist) {
+			modFile := fmt.Sprintf("module %s\ngo 1.14\n", modName)
+			if err := ioutil.WriteFile(modFileName, []byte(modFile), 0666); err != nil {
+				t.err = err
+				return
+			}
 		}
 
 		cmd := []string{goTool(), "run", t.goGcflags()}
