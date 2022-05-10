@@ -72,6 +72,23 @@
       "message": "This looks reasonable, but I don\u0027t have much context on the compiler frontend, so I\u0027ll defer to Matthew for this review. Please feel free to add be back in a pinch, it will just take me longer.",
       "revId": "42ded2189e605142ff1cf082cc2a22cce42cc4ef",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08ae5f76_50ed6581",
+        "filename": "test/run.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 975,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-05-10T12:49:52Z",
+      "side": 1,
+      "message": "I don\u0027t think we should do this in this CL, if you want a change for run.go, we should make the change in other CL.\n\nIn the mean time, you can do:\n\n - Change issue52279.dir/lib/lib.go to issue52279.dir/a.go, change \"package lib\" to \"package a\"\n - In main.go, use \"import ./a\" instead",
+      "revId": "42ded2189e605142ff1cf082cc2a22cce42cc4ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
