@@ -70,6 +70,30 @@
       },
       "revId": "b4f50dfbc9302ccce8063056a21c59637df8a701",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e0031cd_e6dc4a50",
+        "filename": "src/runtime/libfuzzer.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 56363
+      },
+      "writtenOn": "2022-05-10T11:18:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "008f7f40_738d6680",
+      "range": {
+        "startLine": 11,
+        "startChar": 5,
+        "endLine": 11,
+        "endChar": 30
+      },
+      "revId": "b4f50dfbc9302ccce8063056a21c59637df8a701",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

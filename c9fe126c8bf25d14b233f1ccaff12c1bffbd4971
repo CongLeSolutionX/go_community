@@ -16,6 +16,24 @@
       "message": "Extraneous whitespace change.",
       "revId": "c9fe126c8bf25d14b233f1ccaff12c1bffbd4971",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2fc80f1_18d74762",
+        "filename": "src/cmd/compile/internal/walk/compare.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 56363
+      },
+      "writtenOn": "2022-05-10T11:18:00Z",
+      "side": 0,
+      "message": "Readded",
+      "parentUuid": "e2267787_62522c62",
+      "revId": "c9fe126c8bf25d14b233f1ccaff12c1bffbd4971",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

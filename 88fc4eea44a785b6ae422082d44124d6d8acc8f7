@@ -57,6 +57,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5a7c3772_ffc9f7c7",
+        "filename": "src/cmd/compile/internal/walk/compare.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 56363
+      },
+      "writtenOn": "2022-05-10T11:18:00Z",
+      "side": 1,
+      "message": "Removed",
+      "parentUuid": "93ab9d80_9669626a",
+      "revId": "88fc4eea44a785b6ae422082d44124d6d8acc8f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "015ab54f_48a32dcf",
         "filename": "src/runtime/libfuzzer_amd64.s",
         "patchSetId": 7
@@ -68,6 +86,24 @@
       "writtenOn": "2022-04-26T01:39:47Z",
       "side": 1,
       "message": "I think we also need a version in libfuzzer_arm64.s.",
+      "revId": "88fc4eea44a785b6ae422082d44124d6d8acc8f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e2df3dc_da197917",
+        "filename": "src/runtime/libfuzzer_amd64.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 56363
+      },
+      "writtenOn": "2022-05-10T11:18:00Z",
+      "side": 1,
+      "message": "Added.",
+      "parentUuid": "015ab54f_48a32dcf",
       "revId": "88fc4eea44a785b6ae422082d44124d6d8acc8f7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
