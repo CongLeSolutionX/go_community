@@ -201,6 +201,30 @@
       },
       "revId": "85e622a3cf5c71728b3de37202bea15fdbe8e48e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d8526d2_8f91430c",
+        "filename": "src/go/doc/example_internal_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2022-05-10T14:21:50Z",
+      "side": 1,
+      "message": "OK, I added an example with named imports to the CL above this one. Not sure how extensively that needs to be tested. I guess I don\u0027t really understand your concern.\n\nBlank imports are another story. They are handled weirdly in this code--why are they collected in a separate list that\u0027s concatenated at the end of the imports? I think getting them to be in the right place should be left until after this stack lands, since it will involve significant changes to `playExampleFile`.",
+      "parentUuid": "72392da3_54312ebb",
+      "range": {
+        "startLine": 15,
+        "startChar": 5,
+        "endLine": 15,
+        "endChar": 26
+      },
+      "revId": "85e622a3cf5c71728b3de37202bea15fdbe8e48e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
