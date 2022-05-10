@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a736f98_cafc837f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-05-10T15:38:11Z",
+      "side": 1,
+      "message": "This should have a regression test, even if the builders don\u0027t run it yet.\n\nAre there existing `cmd/go` tests that fail when run with\n```\nCGO_ENABLED\u003d1 CC\u003d\"zig cc\" go test cmd/go\n```\n?\n\nIf so, please mention one or more of those tests here. (If not, please add one that fails locally before this change and passes after it.)",
+      "range": {
+        "startLine": 20,
+        "startChar": 5,
+        "endLine": 20,
+        "endChar": 47
+      },
+      "revId": "12336990a7bfb53c2adbd120e90a2df21b29f66c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "958592c7_fbb6ac36",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-05-10T15:38:11Z",
+      "side": 1,
+      "message": "TRY\u003dlinux-amd64-clang,longtest",
+      "revId": "12336990a7bfb53c2adbd120e90a2df21b29f66c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
