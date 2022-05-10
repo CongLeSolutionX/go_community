@@ -2528,6 +2528,13 @@ func (b *Builder) compilerCmd(compiler []string, incdir, workdir string) []strin
 		a = append(a, "-Qunused-arguments")
 	}
 
+	// zig cc passes --gc-sections to the underlying linker, which then causes
+	// undefined symbol errors when compiling with cgo but without C code.
+	// https://github.com/golang/go/issues/52690
+	if b.gccSupportsFlag(compiler, "-Wl,--no-gc-sections") {
+		a = append(a, "-Wl,--no-gc-sections")
+	}
+
 	// disable word wrapping in error messages
 	a = append(a, "-fmessage-length=0")
 
