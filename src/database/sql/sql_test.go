@@ -2660,6 +2660,9 @@ func TestManyErrBadConn(t *testing.T) {
 			f(db)
 		}
 
+		var maxBadConnRetries = 2
+		db.SetMaxBadConnRetries(maxBadConnRetries)
+
 		nconn := maxBadConnRetries + 1
 		db.SetMaxIdleConns(nconn)
 		db.SetMaxOpenConns(nconn)
@@ -2785,6 +2788,14 @@ func TestManyErrBadConn(t *testing.T) {
 	defer closeDB(t, db)
 	err = db.PingContext(ctx)
 	if err != nil {
+		t.Fatal(err)
+	}
+
+	// set maxBadConnRetries to 0 should raise error
+	db = manyErrBadConnSetup()
+	db.SetMaxBadConnRetries(0)
+	rows, err = db.Query("SELECT|people|age,name|")
+	if !errors.Is(err, driver.ErrBadConn) {
 		t.Fatal(err)
 	}
 }
