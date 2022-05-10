@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "18091490_ccf42e0c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2022-05-10T12:25:47Z",
+      "side": 1,
+      "message": "I think you could simplify this by changing the second sentence to something like \"Permutes are not needed on little endian if keys are stored using stxvd2x and loaded using lxvd2x.\"\n\nAnd then the next paragraph is not needed.",
+      "revId": "f5948cdfd57c065d659e8e9b97221069eda8071e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "b19dc3be_518df0be",
