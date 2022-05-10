@@ -125,6 +125,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ede1618_3cb31412",
+        "filename": "test/fixedbugs/issue52279.dir/go.mod",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-05-10T19:14:58Z",
+      "side": 1,
+      "message": "Got it, thanks.",
+      "parentUuid": "a0f64f91_ef591c05",
+      "revId": "b5a9bfe9b9aec42d6a3114952a827ce30c1d4ae1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ed4890a3_c96b1e8f",
