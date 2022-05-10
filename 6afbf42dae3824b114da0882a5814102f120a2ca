@@ -225,6 +225,24 @@
       "parentUuid": "e0e88884_c05a5880",
       "revId": "6afbf42dae3824b114da0882a5814102f120a2ca",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1610c33e_803e071f",
+        "filename": "src/cmd/compile/internal/typecheck/typecheck.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 884,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-05-10T18:34:41Z",
+      "side": 1,
+      "message": "Hmm, okay, I see. I didn\u0027t realize OFUNCINST works like that for method calls, but I suppose that makes sense. Thanks for the IR dump.\n\nIn that case, I think we need to peal away the OFUNCINST first, like with ODOTMETH/ODOTINTER.\n\nCan you add a test case for `f().m(g())` where `m` is a generic method, and make sure `f()` is evaluated before `g()`? I\u0027d expect that\u0027s currently failing.\n\nI think something like:\n\n```\nnp :\u003d \u0026n.X\nif inst, ok :\u003d (*np).(*ir.InstExpr); ok \u0026\u0026 inst.Op() \u003d\u003d ir.OFUNCINST {\n  np \u003d \u0026inst.X\n}\nif dot, ok :\u003d (*np).(*ir.SelectorExpr); ok \u0026\u0026 (dot.Op() \u003d\u003d ir.ODOTMETH || dot.Op() \u003d\u003d ir.ODOTINTER || dot.Op() \u003d\u003d ir.OMETHVALUE) {\n  np \u003d \u0026dot.X\n}\n```\n\nshould work. (Note the addition of ir.OMETHVALUE to the second `if`.)",
+      "parentUuid": "86eb3027_9255f54d",
+      "revId": "6afbf42dae3824b114da0882a5814102f120a2ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
