@@ -16,6 +16,24 @@
       "message": "I think this was not the correct fix.\nThe change closes accepted connection also in graceful shutdown which\nbreaks the fix for #33313 (and apparent duplicate #36819).\n\nThe proper fix should close accepted connection only if server is closed\nbut not in graceful shutdown.",
       "revId": "1ce7fcf139417d618c2730010ede2afb41664211",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3dd18a7d_9a1336a7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 32637
+      },
+      "writtenOn": "2022-05-10T14:23:39Z",
+      "side": 1,
+      "message": "I am not sure of the correct way to revert the change, please provide a guidance. In the meantime I\u0027ve created https://go.dev/cl/405454",
+      "parentUuid": "eb09aad2_e5ec82ee",
+      "revId": "1ce7fcf139417d618c2730010ede2afb41664211",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
