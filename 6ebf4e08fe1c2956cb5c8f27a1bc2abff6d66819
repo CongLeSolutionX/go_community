@@ -105,6 +105,24 @@
       "message": "\"a lookup on identity\" is slightly ambiguous: *Named pointer identity or types.Identical?\n\nPerhaps delete this sentence, and further down document like so:\n\n// An instanceLookup is a set of *Named types that uses Identical\n// (not pointer equality) as the equivalence relation, because\n// each instantiation results in a new Named type.\ntype instanceLookup struct {",
       "revId": "6ebf4e08fe1c2956cb5c8f27a1bc2abff6d66819",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "26ddcbae_10598db0",
+        "filename": "src/go/types/lookup.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-05-10T14:57:48Z",
+      "side": 1,
+      "message": "Ack. As discussed, let\u0027s fix in master, to preserve the fidelity of this cherry-pick.",
+      "parentUuid": "a9ce5d2d_22a64227",
+      "revId": "6ebf4e08fe1c2956cb5c8f27a1bc2abff6d66819",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

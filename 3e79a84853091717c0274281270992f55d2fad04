@@ -16,6 +16,24 @@
       "message": "This deleted sentence is still correct and relevant, I think.",
       "revId": "3e79a84853091717c0274281270992f55d2fad04",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9227392d_1a4b5850",
+        "filename": "src/go/types/lookup.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-05-10T14:57:48Z",
+      "side": 0,
+      "message": "Ack",
+      "parentUuid": "076e4f07_053f5963",
+      "revId": "3e79a84853091717c0274281270992f55d2fad04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
