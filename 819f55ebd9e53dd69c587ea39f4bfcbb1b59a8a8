@@ -272,6 +272,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d482ab7c_9eced51f",
+        "filename": "src/cmd/compile/internal/walk/builtin.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 688,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-05-10T19:45:08Z",
+      "side": 1,
+      "message": "Thanks, that seems like a reasonable workaround for this CL.",
+      "parentUuid": "db9f63e4_c6eeeb5a",
+      "revId": "819f55ebd9e53dd69c587ea39f4bfcbb1b59a8a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "14dd15ec_525ada22",
