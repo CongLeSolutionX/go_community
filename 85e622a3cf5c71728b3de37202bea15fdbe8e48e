@@ -61,6 +61,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ce324d1_62125259",
+        "filename": "src/go/doc/example.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2022-05-10T12:58:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9163b1d0_58be0047",
+      "range": {
+        "startLine": 362,
+        "startChar": 1,
+        "endLine": 367,
+        "endChar": 61
+      },
+      "revId": "85e622a3cf5c71728b3de37202bea15fdbe8e48e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5474c9fc_d200757e",
@@ -74,6 +98,30 @@
       "writtenOn": "2022-05-06T13:38:08Z",
       "side": 1,
       "message": "We should avoid all mutation, so create a copy of this slice, IMO.",
+      "range": {
+        "startLine": 401,
+        "startChar": 1,
+        "endLine": 401,
+        "endChar": 11
+      },
+      "revId": "85e622a3cf5c71728b3de37202bea15fdbe8e48e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2efbc08_e98ffa3d",
+        "filename": "src/go/doc/example.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2022-05-10T12:58:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5474c9fc_d200757e",
       "range": {
         "startLine": 401,
         "startChar": 1,
