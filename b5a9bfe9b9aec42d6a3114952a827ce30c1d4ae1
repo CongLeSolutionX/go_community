@@ -89,6 +89,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad3aa0d3_df5bc79e",
+        "filename": "test/fixedbugs/issue52279.dir/go.mod",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-05-10T18:28:22Z",
+      "side": 1,
+      "message": "I have not been able to make this work.  I have tried various keywords in issue52279.go, and I was able to obtain the expected failure with go-1.18 using \"rundir\", but go-1.19 fails with \n\n# go run run.go -G\u003d3 fixedbugs/issue52279.go\nexit status 1\n2022/05/10 14:14:53 link: unlinkable object (from package lib) - compiler requires -p flag\n\nI like the previous CL, because it is already proven to work.",
+      "parentUuid": "37d3a5ce_90570cb0",
+      "revId": "b5a9bfe9b9aec42d6a3114952a827ce30c1d4ae1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ed4890a3_c96b1e8f",
@@ -106,6 +124,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ab5c934_6dfad9d5",
+        "filename": "test/fixedbugs/issue52279.dir/lib/lib.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-05-10T18:28:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed4890a3_c96b1e8f",
+      "revId": "b5a9bfe9b9aec42d6a3114952a827ce30c1d4ae1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1ee34789_279ee129",
@@ -119,6 +155,24 @@
       "writtenOn": "2022-05-10T17:28:54Z",
       "side": 1,
       "message": "nit: copyright",
+      "revId": "b5a9bfe9b9aec42d6a3114952a827ce30c1d4ae1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a8fbe47_a58b90ef",
+        "filename": "test/fixedbugs/issue52279.dir/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-05-10T18:28:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ee34789_279ee129",
       "revId": "b5a9bfe9b9aec42d6a3114952a827ce30c1d4ae1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
