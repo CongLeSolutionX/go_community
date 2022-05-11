@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d44ac70_45304542",
+        "filename": "src/cmd/compile/internal/typecheck/typecheck.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 913,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-05-11T04:04:12Z",
+      "side": 1,
+      "message": "Yes, so I can refer to this comment at L888",
+      "parentUuid": "85db02c2_e935412b",
+      "revId": "5a805a1c5eab02ddff07b813defb41b6255134cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "75aea235_25a10379",
