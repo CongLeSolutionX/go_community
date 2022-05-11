@@ -16,6 +16,24 @@
       "message": "This seems awfully complicated just to adjust cutover values between different zeroing strategies. The performance numbers are decent, but remember that zeroing is probably a small portion of the overall cost of (re-)using some memory.\n",
       "revId": "a24df697f9a40c1ae486e32e1dc7756b1e43acb0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e361ab8b_9f8b2193",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 52933
+      },
+      "writtenOn": "2022-05-11T14:40:42Z",
+      "side": 1,
+      "message": "I have updated the patch and amended part of parsing legacy Intel Descs. This makes code a lot less complicated. Amending this part should work fine on modern CPUs but if the LEAF EAX\u003d4 of CPUID is not available, the standard sizes will be used.",
+      "parentUuid": "a7819bea_c0d5c249",
+      "revId": "a24df697f9a40c1ae486e32e1dc7756b1e43acb0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
