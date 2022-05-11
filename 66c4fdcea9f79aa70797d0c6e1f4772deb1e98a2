@@ -71,6 +71,24 @@
       "parentUuid": "7bf0e4a3_f9db0ac6",
       "revId": "66c4fdcea9f79aa70797d0c6e1f4772deb1e98a2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f38cf32b_61862a8e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5615
+      },
+      "writtenOn": "2022-05-11T00:42:13Z",
+      "side": 1,
+      "message": "OK, that sounds good to me.\n\nActually, fs.WalkDir calls path.Join which does a Clean as well. The bit about the root being a prefix isn\u0027t strictly true (in a textual sense) independent of whether we\u0027re using filepath.WalkDir or fs.WalkDir. That can be addressed (or not) separately.",
+      "parentUuid": "7c473a60_7efedd78",
+      "revId": "66c4fdcea9f79aa70797d0c6e1f4772deb1e98a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
