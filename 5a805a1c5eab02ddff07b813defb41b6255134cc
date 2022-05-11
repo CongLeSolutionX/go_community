@@ -78,6 +78,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "722b1d81_b161cc08",
+        "filename": "src/cmd/compile/internal/typecheck/typecheck.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 870,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-05-11T07:51:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8f2d383_34ff7316",
+      "range": {
+        "startLine": 870,
+        "startChar": 40,
+        "endLine": 870,
+        "endChar": 56
+      },
+      "revId": "5a805a1c5eab02ddff07b813defb41b6255134cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "85db02c2_e935412b",
