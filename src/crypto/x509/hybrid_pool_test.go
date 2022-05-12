@@ -13,6 +13,7 @@ import (
 	"crypto/x509/pkix"
 	"internal/testenv"
 	"math/big"
+	"net/http"
 	"runtime"
 	"testing"
 	"time"
@@ -24,6 +25,26 @@ func TestHybridPool(t *testing.T) {
 	}
 	if !testenv.HasExternalNetwork() {
 		t.Skip()
+	}
+	if runtime.GOOS == "windows" {
+		// NOTE(#51599): on Windows we sometimes see that the state of the root
+		// pool is not fully initialized, causing an expected platform
+		// verification to fail. In part this is because Windows dynamically
+		// populates roots into its local trust store at time of use. We can
+		// attempt to prime the pool by attempting TLS connections to google.com
+		// until it works, suggesting the pool has been properly updated. If
+		// after five attempts, the pool has _still_ not been populated with the
+		// expected root, it's unlikely we are ever going to get into a good
+		// state, and so we just fail, with a slightly more informative method.
+		// #52108 suggests a better possible long term solution.
+		for i := 0; i < 5; i++ {
+			_, err := http.Get("https://google.com")
+			if err == nil {
+				break
+			}
+			time.Sleep(time.Millisecond * 250)
+		}
+		t.Fatal("windows root pool appears to be in an uninitialized state (missing root that chains to google.com)")
 	}
 
 	// Get the google.com chain, which should be valid on all platforms we
@@ -63,7 +84,7 @@ func TestHybridPool(t *testing.T) {
 
 	_, err = googChain[0].Verify(opts)
 	if err != nil {
-		t.Fatalf("verification failed for google.com chain (empty pool): %s", err)
+		t.Fatalf("verification failed for google.com chain (system only pool): %s", err)
 	}
 
 	pool.AddCert(root)
