@@ -16,6 +16,29 @@
       "message": "It is difficult to test this on Windows.",
       "revId": "afe0b48e9c5c196457b69a5348f56c9dbdef522b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f8e8d02_f7cccfce",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 550,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-05-12T18:31:10Z",
+      "side": 1,
+      "message": "Hmm, this suggests a connection to[`str.HasFilePathPrefix`](https://pkg.go.dev/cmd/go/internal/str@master#HasPathPrefix). That function attempts to check for path prefixes in a way that is robust to volume names and trailing separators.\n\nCould we use it here and avoid the need to call `strings.TrimSuffix`?",
+      "range": {
+        "startLine": 550,
+        "startChar": 22,
+        "endLine": 550,
+        "endChar": 78
+      },
+      "revId": "afe0b48e9c5c196457b69a5348f56c9dbdef522b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
