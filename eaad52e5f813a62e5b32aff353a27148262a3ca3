@@ -16,6 +16,24 @@
       "message": "I\u0027m not sure I understand how the return address works here.\nWhere is the return address of runtime.libfuzzerCallTraceIntCmp stored and restored?\nThe return address starts in R30, but you end up clobbering that register with an address in the sled. The sled needs to know where it should return to somehow.\n\nThe x86 code puts the return address on the stack, so the return address to the sled doesn\u0027t overwrite the overall return address. It just requires some push/pop to use a different stack slot.",
       "revId": "eaad52e5f813a62e5b32aff353a27148262a3ca3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8e6bf8d_18818e85",
+        "filename": "src/runtime/libfuzzer_arm64.s",
+        "patchSetId": 9
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 56363
+      },
+      "writtenOn": "2022-05-12T11:00:19Z",
+      "side": 1,
+      "message": "You are right. The original return address is not stored before manipulating R30. This is based on the maybe-wrong assumption about how the RET instruction in Go assembly works for ARM. The existing implementation of runtime·libfuzzerCall calls the original libFuzzer function with a brach with link instruction (BL R9) which also overwrites the R30 with the address of the next instruction. That is why I assumed that the RET instruction takes care of restoring R30 from a value that is pushed on the stack. However, based on your comment and investigating the resulting ARM64 code with objdump, this does not seem the case. Does the existing implementation work? is it tested somehow? Or, have I overseen something?\n\nI\u0027ve updated the implementation to store R30 into a local variable and restore it before returning.",
+      "parentUuid": "76629c44_b66c54c0",
+      "revId": "eaad52e5f813a62e5b32aff353a27148262a3ca3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
