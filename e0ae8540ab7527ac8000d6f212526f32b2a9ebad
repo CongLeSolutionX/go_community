@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df6d1811_0d24ab31",
+        "filename": "doc/go1.19.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-05-12T19:04:54Z",
+      "side": 1,
+      "message": "(Sorry, too late to comment...) Maybe mention 20% faster for the switch statement (not the program)?",
+      "range": {
+        "startLine": 79,
+        "startChar": 59,
+        "endLine": 79,
+        "endChar": 69
+      },
+      "revId": "e0ae8540ab7527ac8000d6f212526f32b2a9ebad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
