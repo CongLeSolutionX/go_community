@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f519e604_7b276c6c",
+        "filename": "src/cmd/compile/internal/compare/compare.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 53288
+      },
+      "writtenOn": "2022-05-12T12:33:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad2610c0_5f3ccf89",
+      "revId": "87eba801dce027e9d367715b9cfff243c7d972cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "78e54408_64a79a52",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-05-08T20:39:45Z",
       "side": 1,
       "message": "This now gets a bit weird, because things like\nstruct {\n   x int\n   y interface{}\n   z int\n}\nhave EqCanPanic set to true. But we\u0027d really like to add x to the current condition list, have y in its own list, and have z part of the subsequent condition list.",
+      "revId": "87eba801dce027e9d367715b9cfff243c7d972cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe1d8cf6_78381b46",
+        "filename": "src/cmd/compile/internal/compare/compare.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 53288
+      },
+      "writtenOn": "2022-05-12T12:33:29Z",
+      "side": 1,
+      "message": "Thanks, we didn\u0027t need to check for EqCanPanic and enforce ordering if we wanted to merge the current list of conditions with the result from the nested structure without unnecessary gap.",
+      "parentUuid": "78e54408_64a79a52",
       "revId": "87eba801dce027e9d367715b9cfff243c7d972cf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -52,6 +88,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ece35b6_d6f2a934",
+        "filename": "src/cmd/compile/internal/compare/compare.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 53288
+      },
+      "writtenOn": "2022-05-12T12:33:29Z",
+      "side": 1,
+      "message": "Added:\nrecursive :\u003d t.NumComponents(types.IgnoreBlankFields) \u003c\u003d 8",
+      "parentUuid": "d00cba7c_df200e6b",
+      "revId": "87eba801dce027e9d367715b9cfff243c7d972cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fbcdcd5a_38017e20",
@@ -69,6 +123,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e89ea879_d80f2e28",
+        "filename": "src/cmd/compile/internal/compare/compare.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 53288
+      },
+      "writtenOn": "2022-05-12T12:33:29Z",
+      "side": 1,
+      "message": "Yes, if the recursive struct has an interface{}, getListOfConditions will return the first list being empty so we will not append.",
+      "parentUuid": "fbcdcd5a_38017e20",
+      "revId": "87eba801dce027e9d367715b9cfff243c7d972cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a8958121_7ef2537c",
@@ -82,6 +154,24 @@
       "writtenOn": "2022-05-08T20:39:45Z",
       "side": 1,
       "message": "Why pass \"true\" here? I\u0027m a bit confused as to when recursive is ok and when it isn\u0027t.",
+      "revId": "87eba801dce027e9d367715b9cfff243c7d972cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f89b059_62b517cd",
+        "filename": "src/cmd/compile/internal/walk/compare.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 53288
+      },
+      "writtenOn": "2022-05-12T12:33:29Z",
+      "side": 1,
+      "message": "Changed true/false logic to:\nrecursive :\u003d t.NumComponents(types.IgnoreBlankFields) \u003c\u003d 8",
+      "parentUuid": "a8958121_7ef2537c",
       "revId": "87eba801dce027e9d367715b9cfff243c7d972cf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
