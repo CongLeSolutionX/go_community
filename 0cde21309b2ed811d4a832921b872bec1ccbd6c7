@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e255291_bc1106ca",
+        "filename": "src/cmd/compile/internal/compare/compare.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 53288
+      },
+      "writtenOn": "2022-05-12T15:20:12Z",
+      "side": 1,
+      "message": "Thanks, now we don\u0027t use uintptr anymore, instead we convert to TUNSAFEPTR and do  OUNSAFEADD arithmetic.",
+      "parentUuid": "f08c429e_973ea796",
+      "revId": "0cde21309b2ed811d4a832921b872bec1ccbd6c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c960fad9_70bccd71",
@@ -48,6 +66,24 @@
       "writtenOn": "2022-04-28T16:49:59Z",
       "side": 1,
       "message": "We have to worry about alignment here. Some platforms can\u0027t do unaligned loads. e.g.  if this is 3 uint32 fields, we can\u0027t necessarily start with a uint64 comparison. I think you can condition on required alignment using base.Ctxt.Arch.Alignment (see cmd/internal/sys/arch.go).\n\nAnother option here is to just compare field-by-field as before (with len\u003c\u003d16 instead of len(s)\u003c\u003d2), and figure out how to combine comparisons in the optimizer somehow. That would help both this code and maybe user code as well.",
+      "revId": "0cde21309b2ed811d4a832921b872bec1ccbd6c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7460b83_693d0120",
+        "filename": "src/cmd/compile/internal/compare/compare.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 53288
+      },
+      "writtenOn": "2022-05-12T15:20:12Z",
+      "side": 1,
+      "message": "Decided to check alignment at first and fallback on using plain field equality if a platform does not support unaligned loads.\n\nAbout the second point: I was thinking maybe we can detect memequal calls with a short constant size argument and rewrite that call into a number of compare conditions? If this is a good idea, maybe we can implement it in another one CL? I see that generic.rules file already has some rules about runtime.memequal calls but for some reason they are applied only to read only symbols, and I don\u0027t exactly know why.",
+      "parentUuid": "c960fad9_70bccd71",
       "revId": "0cde21309b2ed811d4a832921b872bec1ccbd6c7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
