@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4353dddd_0710ee7b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-05-12T20:16:32Z",
+      "side": 1,
+      "message": "+1-ing to mark that (offline discussion) we think that the assist metric is a problem, but otherwise, this is fine.",
+      "revId": "4f5d7c2d1e04a71fa7c091decbe866ac467e4ad6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "771bcf52_8831bebe",
+        "filename": "src/runtime/metrics/description.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-05-12T20:16:32Z",
+      "side": 1,
+      "message": "mark assist, sweep assist, or total?",
+      "revId": "4f5d7c2d1e04a71fa7c091decbe866ac467e4ad6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
