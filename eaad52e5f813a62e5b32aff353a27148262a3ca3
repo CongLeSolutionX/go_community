@@ -34,6 +34,24 @@
       "parentUuid": "76629c44_b66c54c0",
       "revId": "eaad52e5f813a62e5b32aff353a27148262a3ca3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e5743d8_e65dd6f8",
+        "filename": "src/runtime/libfuzzer_arm64.s",
+        "patchSetId": 9
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-05-12T21:25:54Z",
+      "side": 1,
+      "message": "The RET instruction works differently depending on whether the function is leaf (contains a call instruction). For non-leaf functions, the assembler inserts prologue to store the LR on stack, and the RET instruction loads it. This is how the old code works. With the new code, end_of_function is no longer a leaf function (the assembler doesn\u0027t know the new control flow) so RET is just JMP (LR). You could probably write it as loading LR from stack then jump to it, something like\n\nMOVD.P 16(SP), R30 // offset is the frame size, check it with the prologue\nJMP (R30)",
+      "parentUuid": "f8e6bf8d_18818e85",
+      "revId": "eaad52e5f813a62e5b32aff353a27148262a3ca3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
