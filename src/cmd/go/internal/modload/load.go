@@ -546,8 +546,9 @@ func resolveLocalPackage(ctx context.Context, dir string, rs *Requirements) (str
 	pkgNotFoundLongestPrefix := ""
 	for _, mainModule := range MainModules.Versions() {
 		modRoot := MainModules.ModRoot(mainModule)
-		if modRoot != "" && strings.HasPrefix(absDir, modRoot+string(filepath.Separator)) && !strings.Contains(absDir[len(modRoot):], "@") {
-			suffix := filepath.ToSlash(absDir[len(modRoot):])
+		mr := strings.TrimSuffix(modRoot, string(filepath.Separator))
+		if modRoot != "" && strings.HasPrefix(absDir, mr+string(filepath.Separator)) && !strings.Contains(absDir[len(mr):], "@") {
+			suffix := filepath.ToSlash(absDir[len(mr):])
 			if strings.HasPrefix(suffix, "/vendor/") {
 				if cfg.BuildMod != "vendor" {
 					return "", fmt.Errorf("without -mod=vendor, directory %s has no package path", absDir)
