@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34f5cff0_f762012a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-05-12T18:49:08Z",
+      "side": 1,
+      "message": "LGTM",
+      "revId": "fd7b0ee0161b11d5ef689b44952d95b597a5b4cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "713b6f90_1865f128",
+        "filename": "src/runtime/mgclimit.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-05-12T18:49:08Z",
+      "side": 1,
+      "message": "What if gomaxprocs changes?  Do we correct this copy sometime after a change?",
+      "range": {
+        "startLine": 68,
+        "startChar": 17,
+        "endLine": 68,
+        "endChar": 44
+      },
+      "revId": "fd7b0ee0161b11d5ef689b44952d95b597a5b4cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d97d6ce_00b2bbcd",
+        "filename": "src/runtime/mgclimit.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-05-12T18:49:08Z",
+      "side": 1,
+      "message": "is this constant-ish across update attempts (i.e., is it the same factor for a current + deferred update?",
+      "range": {
+        "startLine": 180,
+        "startChar": 51,
+        "endLine": 180,
+        "endChar": 74
+      },
+      "revId": "fd7b0ee0161b11d5ef689b44952d95b597a5b4cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
