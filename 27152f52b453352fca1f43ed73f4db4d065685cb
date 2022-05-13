@@ -78,6 +78,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbf0face_573335a0",
+        "filename": "src/runtime/lock_js.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-05-13T19:28:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12862015_8b225fce",
+      "range": {
+        "startLine": 147,
+        "startChar": 3,
+        "endLine": 147,
+        "endChar": 7
+      },
+      "revId": "27152f52b453352fca1f43ed73f4db4d065685cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "465e684a_b17f7fa9",
@@ -91,6 +115,30 @@
       "writtenOn": "2022-05-13T18:30:07Z",
       "side": 1,
       "message": "nit: please add a colon after TODO here",
+      "range": {
+        "startLine": 152,
+        "startChar": 4,
+        "endLine": 152,
+        "endChar": 8
+      },
+      "revId": "27152f52b453352fca1f43ed73f4db4d065685cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f3fba60_67c09b06",
+        "filename": "src/runtime/lock_js.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-05-13T19:28:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "465e684a_b17f7fa9",
       "range": {
         "startLine": 152,
         "startChar": 4,
