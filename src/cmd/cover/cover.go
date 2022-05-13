@@ -632,6 +632,9 @@ func (p *Package) annotateFile(name string, fd io.Writer, last bool) {
 
 // setCounterStmt returns the expression: __count[23] = 1.
 func setCounterStmt(f *File, counter string) string {
+	if *pkgcfg != "" && cfgMap["pkgpath"] == "runtime" {
+		return fmt.Sprintf("if %s == 0 { %s = 1 }", counter, counter)
+	}
 	return fmt.Sprintf("%s = 1", counter)
 }
 
