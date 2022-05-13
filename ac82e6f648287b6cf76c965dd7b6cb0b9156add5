@@ -72,6 +72,24 @@
       "message": "Does this really need to go in? It\u0027s really not that hard to type \"go tool compile -p main hello.go\" IMHO ... just a few more keystrokes. ",
       "revId": "ac82e6f648287b6cf76c965dd7b6cb0b9156add5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "805b520f_12222bba",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-05-13T20:00:17Z",
+      "side": 1,
+      "message": "This is apparently a feature that was specifically added to the compiler already; this tweak is to preserve the behavior after mdempsky\u0027s internal package naming change, which otherwise breaks it.  There\u0027s an existing test to check for this, that fails w/o this change.",
+      "parentUuid": "71de4abe_bc73e5d0",
+      "revId": "ac82e6f648287b6cf76c965dd7b6cb0b9156add5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
