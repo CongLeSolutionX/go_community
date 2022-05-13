@@ -53,6 +53,52 @@
       "message": "Seems okay, but I\u0027d like a runtime maintainer to double check.",
       "revId": "27152f52b453352fca1f43ed73f4db4d065685cb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12862015_8b225fce",
+        "filename": "src/runtime/lock_js.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-05-13T18:30:07Z",
+      "side": 1,
+      "message": "nit: please mark TODOs with either an issue number or a username of some kind (e.g. drchase)",
+      "range": {
+        "startLine": 147,
+        "startChar": 3,
+        "endLine": 147,
+        "endChar": 7
+      },
+      "revId": "27152f52b453352fca1f43ed73f4db4d065685cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "465e684a_b17f7fa9",
+        "filename": "src/runtime/lock_js.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-05-13T18:30:07Z",
+      "side": 1,
+      "message": "nit: please add a colon after TODO here",
+      "range": {
+        "startLine": 152,
+        "startChar": 4,
+        "endLine": 152,
+        "endChar": 8
+      },
+      "revId": "27152f52b453352fca1f43ed73f4db4d065685cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
