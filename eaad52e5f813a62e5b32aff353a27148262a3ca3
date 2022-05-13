@@ -70,6 +70,24 @@
       "parentUuid": "1e5743d8_e65dd6f8",
       "revId": "eaad52e5f813a62e5b32aff353a27148262a3ca3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e05f264_033ef49f",
+        "filename": "src/runtime/libfuzzer_arm64.s",
+        "patchSetId": 9
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 56363
+      },
+      "writtenOn": "2022-05-13T15:48:15Z",
+      "side": 1,
+      "message": "Thanks for the clarification. I\u0027ve updated the code so that the original return address is saved into a local variable that is used to restore the original value of R30 before returning. Could you have a look?",
+      "parentUuid": "acc13324_f9c5e929",
+      "revId": "eaad52e5f813a62e5b32aff353a27148262a3ca3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
