@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "240805b5_43458b33",
+        "filename": "src/runtime/libfuzzer_arm64.s",
+        "patchSetId": 11
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-05-13T18:23:56Z",
+      "side": 1,
+      "message": "Minor: use tab between instruction name and operands. Thanks.",
+      "revId": "4bd5b05530b60c07db20109ac5870a00091fdf65",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7acba5df_b07a197d",
+        "filename": "src/runtime/libfuzzer_arm64.s",
+        "patchSetId": 11
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-05-13T18:23:56Z",
+      "side": 1,
+      "message": "I think ADR takes a label instead of an offset. However the assembler is buggy. I have a CL to fix that.",
+      "revId": "4bd5b05530b60c07db20109ac5870a00091fdf65",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

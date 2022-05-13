@@ -88,6 +88,24 @@
       "parentUuid": "acc13324_f9c5e929",
       "revId": "eaad52e5f813a62e5b32aff353a27148262a3ca3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b42ebeaf_d50d6f9b",
+        "filename": "src/runtime/libfuzzer_arm64.s",
+        "patchSetId": 9
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-05-13T18:23:56Z",
+      "side": 1,
+      "message": "This probably will work. But I feel that it is clearer if we use a list of calls, instead of a list of return addresses. I think manually computing the entry address  is easier to follow than computing the return address. Maybe something like\n\nTEXT calls\u003c\u003e(SB),NOSPLIT,$0-0\n  CALL (R9)\n  JMP end\n  CALL (R9)\n  JMP end\n  ... // repeat\nend:\n  RET\n\n\nIn the main function you can just do\n\nMOVD $calls\u003c\u003e(SB), R20 // R20 is an arbitrary scratch register\nADD R8\u003c\u003c3, R20         // add offset*8 (CALL+JMP is 8 bytes)\nCALL (R20)\n\n// old code continues here\nMOVD R19, RSP\nRET",
+      "parentUuid": "7e05f264_033ef49f",
+      "revId": "eaad52e5f813a62e5b32aff353a27148262a3ca3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
