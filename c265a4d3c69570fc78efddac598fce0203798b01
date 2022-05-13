@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1a044dd_2fb64ee8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-05-13T19:50:28Z",
+      "side": 1,
+      "message": "it seems like there\u0027s something missing here.  This is for comparison, generally, to other estimated cpu times in the metrics package, yes?  Not just the total?",
+      "range": {
+        "startLine": 12,
+        "startChar": 16,
+        "endLine": 12,
+        "endChar": 30
+      },
+      "revId": "c265a4d3c69570fc78efddac598fce0203798b01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81a73a5f_4dbe9fdc",
+        "filename": "src/runtime/metrics_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-05-13T19:50:28Z",
+      "side": 1,
+      "message": "I might flip the comparison to make the range limits more obvious, but, eh.\nv2-v2*e \u003c\u003d v1 \u0026\u0026 v1 \u003c\u003d v2+v2*e\n(Go should just support chain comparisons, as if that would ever happen).",
+      "range": {
+        "startLine": 472,
+        "startChar": 8,
+        "endLine": 472,
+        "endChar": 21
+      },
+      "revId": "c265a4d3c69570fc78efddac598fce0203798b01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
