@@ -16,6 +16,24 @@
       "message": "This is new exported API, and as such should go through the proposal process.  See https://go.dev/s/proposal-process.  Thanks.",
       "revId": "d842672559c6a672b1360f954eb8f79c4720b11b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3dfecceb_182d8eb2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 38208
+      },
+      "writtenOn": "2022-05-13T10:00:10Z",
+      "side": 1,
+      "message": "Hi Ian, thank you for your feedback, just submitted one. https://github.com/golang/go/issues/52886",
+      "parentUuid": "dcf043bd_2a22a2b2",
+      "revId": "d842672559c6a672b1360f954eb8f79c4720b11b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
