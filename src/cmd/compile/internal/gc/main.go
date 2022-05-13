@@ -188,7 +188,12 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 	// Parse and typecheck input.
 	noder.LoadPackage(flag.Args())
 	if base.Ctxt.Pkgpath == obj.UnlinkablePkg && types.LocalPkg.Name == "main" {
+		// This is intended to support (only, exactly) the specific use case
+		//   go tool compile hello.go
+		//   go tool link hello.o
 		base.Ctxt.Pkgpath = "main"
+		types.LocalPkg.Path = "main"
+		types.LocalPkg.Prefix = "main"
 	}
 
 	dwarfgen.RecordPackageName()
