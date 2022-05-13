@@ -106,6 +106,24 @@
       "parentUuid": "7e05f264_033ef49f",
       "revId": "eaad52e5f813a62e5b32aff353a27148262a3ca3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78363f8b_f8774d75",
+        "filename": "src/runtime/libfuzzer_arm64.s",
+        "patchSetId": 9
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 56363
+      },
+      "writtenOn": "2022-05-13T21:01:38Z",
+      "side": 1,
+      "message": "This was one of the ideas I thought about, and it would have a negative impact on the fuzzing performance. With the proposed approach, the return addresses would then have a granularity of 8 bytes (each of the call+jump pairs takes 8 bytes). This means that the three least significant bits would be fixed for all of them. With the JUMP approach, the return addresses have a granularity of 4 bytes. This gives us one more bit that we can we influence with fakePC, and as a result, the value profiling mode of libFuzzer would be more effective.",
+      "parentUuid": "b42ebeaf_d50d6f9b",
+      "revId": "eaad52e5f813a62e5b32aff353a27148262a3ca3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
