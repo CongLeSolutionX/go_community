@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74479b0c_4ff4dc87",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-05-13T00:20:19Z",
+      "side": 1,
+      "message": "I don\u0027t think we need this new comment.  I think it\u0027s implied by the field name.  Thanks.",
+      "revId": "915c2f2f9dd0b8dc3439b10ab9b9478a1c5754ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7372fe2f_1c80b7d6",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-05-13T00:20:19Z",
+      "side": 1,
+      "message": "I think it\u0027s fine to call errors.New rather than using a variable.  The variable will take up space in the data section that will rarely be used.  For this case it doesn\u0027t seem worth introducing a variable here or below.  Thanks.",
+      "revId": "915c2f2f9dd0b8dc3439b10ab9b9478a1c5754ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
