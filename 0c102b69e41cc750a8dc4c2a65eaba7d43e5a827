@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91fcf927_d3f69748",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2696,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-05-13T19:46:19Z",
+      "side": 1,
+      "message": "Just use errors.New below, no need for a variable.  Thanks.",
+      "revId": "0c102b69e41cc750a8dc4c2a65eaba7d43e5a827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
