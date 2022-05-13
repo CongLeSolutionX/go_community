@@ -287,7 +287,7 @@ func ggloblnod(nam *ir.Name) {
 	// .inittask symbol. The real symbol was already written out in
 	// pkginit.Task, so we need to avoid writing them out a second time
 	// here, otherwise base.Ctxt.Globl will fail.
-	if strings.HasSuffix(s.Name, "..inittask") {
+	if strings.HasSuffix(s.Name, "..inittask") && s.OnList() {
 		return
 	}
 

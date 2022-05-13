@@ -1019,6 +1019,7 @@ func sync_fatal(s string) {
 //
 // throw should be used for runtime-internal fatal errors where Go itself,
 // rather than user code, may be at fault for the failure.
+//
 //go:nosplit
 func throw(s string) {
 	// Everything throw does should be recursively nosplit so it
@@ -1037,6 +1038,7 @@ func throw(s string) {
 //
 // fatal does not include runtime frames, system goroutines, or frame metadata
 // (fp, sp, pc) in the stack trace unless GOTRACEBACK=system or higher.
+//
 //go:nosplit
 func fatal(s string) {
 	// Everything fatal does should be recursively nosplit so it
