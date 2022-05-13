@@ -23,6 +23,8 @@ func Fixup() {
 	metavar, pkgIdVar, initfn, covermode, covergran :=
 		fixupMetaAndCounterVariables()
 	hashv, len := metaHashAndLen()
+	// Not working reliably yet, commented out.
+	//possiblyStripInstrumentation()
 	registerMeta(metavar, initfn, hashv, len, pkgIdVar, covermode, covergran)
 }
 
