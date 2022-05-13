@@ -79,7 +79,7 @@ func Drivers() []string {
 // For a more concise way to create NamedArg values, see
 // the Named function.
 type NamedArg struct {
-	_Named_Fields_Required struct{}
+	_NamedFieldsRequired struct{}
 
 	// Name is the name of the parameter placeholder.
 	//
@@ -423,7 +423,7 @@ type Scanner interface {
 //	var outArg string
 //	_, err := db.ExecContext(ctx, "ProcName", sql.Named("Arg1", sql.Out{Dest: &outArg}))
 type Out struct {
-	_Named_Fields_Required struct{}
+	_NamedFieldsRequired struct{}
 
 	// Dest is a pointer to the value that will be set to the result of the
 	// stored procedure's OUTPUT parameter.
@@ -721,7 +721,6 @@ func (db *DB) removeDep(x finalCloser, dep any) error {
 }
 
 func (db *DB) removeDepLocked(x finalCloser, dep any) func() error {
-
 	xdep, ok := db.dep[x]
 	if !ok {
 		panic(fmt.Sprintf("unpaired removeDep: no deps for %T", x))
@@ -2694,6 +2693,8 @@ func (s *Stmt) removeClosedStmtLocked() {
 	s.lastNumClosed = dbClosed
 }
 
+var errStatementClosed = errors.New("sql: statement is closed")
+
 // connStmt returns a free driver connection on which to execute the
 // statement, a function to call to release the connection, and a
 // statement bound to that connection.
@@ -2704,7 +2705,7 @@ func (s *Stmt) connStmt(ctx context.Context, strategy connReuseStrategy) (dc *dr
 	s.mu.Lock()
 	if s.closed {
 		s.mu.Unlock()
-		err = errors.New("sql: statement is closed")
+		err = errStatementClosed
 		return
 	}
 
