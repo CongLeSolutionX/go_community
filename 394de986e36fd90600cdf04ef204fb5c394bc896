@@ -16,6 +16,24 @@
       "message": "What does this TODO comment refer to?  Please expand or remove the comment.  Thanks.",
       "revId": "394de986e36fd90600cdf04ef204fb5c394bc896",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee67faa5_6719ca2a",
+        "filename": "src/cmd/asm/internal/asm/testdata/loong64.s",
+        "patchSetId": 37
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-05-14T09:15:58Z",
+      "side": 1,
+      "message": "I expanded it. Thanks.",
+      "parentUuid": "e0f75cc9_281a434b",
+      "revId": "394de986e36fd90600cdf04ef204fb5c394bc896",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
