@@ -61,6 +61,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4a3273a_ec891fe4",
+        "filename": "src/cmd/link/internal/loong64/asm.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-05-14T09:16:41Z",
+      "side": 1,
+      "message": "Yes, I renamed it and added some comments.",
+      "parentUuid": "dfebda63_2722f9f8",
+      "range": {
+        "startLine": 27,
+        "startChar": 5,
+        "endLine": 27,
+        "endChar": 18
+      },
+      "revId": "2778aefdbfff1b9b5e253306f93cc8517ab9863b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "faec8c21_6b5af414",
@@ -84,6 +108,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "acfed568_282fe89c",
+        "filename": "src/cmd/link/internal/loong64/asm.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-05-14T09:16:41Z",
+      "side": 1,
+      "message": "OK, I added some comments.",
+      "parentUuid": "faec8c21_6b5af414",
+      "range": {
+        "startLine": 97,
+        "startChar": 30,
+        "endLine": 97,
+        "endChar": 35
+      },
+      "revId": "2778aefdbfff1b9b5e253306f93cc8517ab9863b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1aa0d240_6602f556",
@@ -97,6 +145,30 @@
       "writtenOn": "2022-05-13T18:41:40Z",
       "side": 1,
       "message": "eight?",
+      "range": {
+        "startLine": 166,
+        "startChar": 25,
+        "endLine": 166,
+        "endChar": 28
+      },
+      "revId": "2778aefdbfff1b9b5e253306f93cc8517ab9863b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8aaa270_88cf1394",
+        "filename": "src/cmd/link/internal/loong64/asm.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-05-14T09:16:41Z",
+      "side": 1,
+      "message": "Sorry, I fixed the comment. Thanks.",
+      "parentUuid": "1aa0d240_6602f556",
       "range": {
         "startLine": 166,
         "startChar": 25,
