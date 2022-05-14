@@ -91,6 +91,24 @@
       "message": "The unified failure is the last one I saw; I wasn\u0027t able to get to the bottom of it with all the other CLs in flight, but I figured you would be able to work on it faster than anyone else.",
       "revId": "5d359b3ab0348b7d8ab24cac2da2c02117495fd0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c50607f_2a8ae934",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-05-14T04:08:59Z",
+      "side": 1,
+      "message": "It seems to me that unified IR needs to relax the assertion to allow `\u003cunlinkable\u003e` when reading imported package.",
+      "parentUuid": "338e450d_f0fe7a38",
+      "revId": "5d359b3ab0348b7d8ab24cac2da2c02117495fd0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
