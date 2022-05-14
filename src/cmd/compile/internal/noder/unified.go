@@ -88,7 +88,10 @@ func unified(noders []*noder) {
 
 	typecheck.TypecheckAllowed = true
 
-	localPkgReader = newPkgReader(pkgbits.NewPkgDecoder(types.LocalPkg.Path, data))
+	// TODO(mdempsky): Replace "" with types.LocalPkg.Path. Currently,
+	// this would break go/importer.TestForCompiler/LookupCustom, but
+	// that test seems suspect anyway.
+	localPkgReader = newPkgReader(pkgbits.NewPkgDecoder("", data))
 	readPackage(localPkgReader, types.LocalPkg)
 
 	r := localPkgReader.newReader(pkgbits.RelocMeta, pkgbits.PrivateRootIdx, pkgbits.SyncPrivate)
