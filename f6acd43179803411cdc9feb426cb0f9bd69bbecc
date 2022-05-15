@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed8193cb_10bcf043",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-05-15T16:23:51Z",
+      "side": 1,
+      "message": "We can\u0027t do that replacement in those packages because we need to be able to bootstrap with earlier Go versions.\n",
+      "revId": "f6acd43179803411cdc9feb426cb0f9bd69bbecc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
