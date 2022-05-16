@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af7445ff_089d74b7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2022-05-16T09:32:01Z",
+      "side": 1,
+      "message": "While at it, this should be\n\ncrypto/internal/nistec: re-enable s390x asm for P-256",
+      "revId": "e7fe5096f13b10956281c0a11e2c5a72ca489dc2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97d37ce2_0337ab94",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2022-05-16T09:32:01Z",
+      "side": 1,
+      "message": "If you change this line to\n\nChange-Id: Ie96a8ee52f09821d5ac53115185cbc1ad8f954d2\n\nthen Gerrit will upload it to CL 404058, so Lynn\u0027s and my comments there are not lost.",
+      "revId": "e7fe5096f13b10956281c0a11e2c5a72ca489dc2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
