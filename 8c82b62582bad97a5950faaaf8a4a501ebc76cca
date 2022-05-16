@@ -142,6 +142,30 @@
       },
       "revId": "8c82b62582bad97a5950faaaf8a4a501ebc76cca",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d94e0192_1039b426",
+        "filename": "src/cmd/compile/internal/ssa/writebarrier.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-05-16T18:19:33Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "41c68568_4e445c59",
+      "range": {
+        "startLine": 397,
+        "startChar": 53,
+        "endLine": 397,
+        "endChar": 60
+      },
+      "revId": "8c82b62582bad97a5950faaaf8a4a501ebc76cca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
