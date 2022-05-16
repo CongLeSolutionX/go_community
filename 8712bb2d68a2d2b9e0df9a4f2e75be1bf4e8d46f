@@ -33,6 +33,24 @@
       "message": "Why was this changed to \u003c\u003e? The others are internal functions but I don\u0027t think this one is.",
       "revId": "8712bb2d68a2d2b9e0df9a4f2e75be1bf4e8d46f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4cb32d5c_66f5e7e5",
+        "filename": "src/crypto/internal/nistec/p256_asm_s390x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 57278
+      },
+      "writtenOn": "2022-05-16T22:12:15Z",
+      "side": 1,
+      "message": "This function isn\u0027t used anywhere. Didn\u0027t want to remove the implementation entirely in case we require it at a future point in time. Marked it internal so the compiler doesn\u0027t complain about a corresponding definition in p256_asm.go.",
+      "parentUuid": "1fd0aaf6_75fd465b",
+      "revId": "8712bb2d68a2d2b9e0df9a4f2e75be1bf4e8d46f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
