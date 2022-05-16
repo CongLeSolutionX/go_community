@@ -1013,6 +1013,8 @@ type Tsubster struct {
 	Vars map[*ir.Name]*ir.Name
 	// If non-nil, function to substitute an incomplete (TFORW) type.
 	SubstForwFunc func(*types.Type) *types.Type
+	// Prevent endless recursion on functions. See #51832.
+	Funcs map[*types.Type]bool
 }
 
 // Typ computes the type obtained by substituting any type parameter or shape in t
@@ -1064,9 +1066,13 @@ func (ts *Tsubster) typ1(t *types.Type) *types.Type {
 		assert(t.Sym() != nil)
 	}
 
+	if ts.Funcs[t] {
+		return t
+	}
+
 	var newsym *types.Sym
 	var neededTargs []*types.Type
-	var targsChanged bool
+	var targsChanged bool // == are there any substitutions from this
 	var forw *types.Type
 
 	if t.Sym() != nil && (t.HasTParam() || t.HasShape()) {
@@ -1144,6 +1150,11 @@ func (ts *Tsubster) typ1(t *types.Type) *types.Type {
 		}
 
 	case types.TFUNC:
+		if ts.Funcs == nil {
+			// allocate lazily
+			ts.Funcs = make(map[*types.Type]bool)
+		}
+		ts.Funcs[t] = !targsChanged
 		newrecvs := ts.tstruct(t.Recvs(), false)
 		newparams := ts.tstruct(t.Params(), false)
 		newresults := ts.tstruct(t.Results(), false)
@@ -1179,6 +1190,7 @@ func (ts *Tsubster) typ1(t *types.Type) *types.Type {
 			newt = types.NewSignature(t.Pkg(), newrecv, tparamfields,
 				newparams.FieldSlice(), newresults.FieldSlice())
 		}
+		delete(ts.Funcs, t)
 
 	case types.TINTER:
 		newt = ts.tinter(t, targsChanged)
