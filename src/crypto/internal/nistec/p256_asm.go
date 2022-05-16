@@ -10,14 +10,16 @@
 // https://link.springer.com/article/10.1007%2Fs13389-014-0090-x
 // https://eprint.iacr.org/2013/816.pdf
 
-//go:build amd64 || arm64 || ppc64le
+//go:build amd64 || arm64 || ppc64le || s390x
 
 package nistec
 
 import (
 	_ "embed"
+	"encoding/binary"
 	"errors"
 	"math/bits"
+	"runtime"
 	"unsafe"
 )
 
@@ -324,6 +326,45 @@ var p256PrecomputedEmbed string
 func init() {
 	p256PrecomputedPtr := (*unsafe.Pointer)(unsafe.Pointer(&p256PrecomputedEmbed))
 	p256Precomputed = (*[43]p256AffineTable)(*p256PrecomputedPtr)
+	if runtime.GOARCH == "s390x" {
+		var newP256Precomputed [43]p256AffineTable
+		for i := 0; i < 43; i++ {
+			table := &p256Precomputed[i]
+			newTable := &newP256Precomputed[i]
+			for j := 0; j < 32; j++ {
+				res := new(p256Element)
+				var p256x = table[j].x
+				var p256y = table[j].y
+				a := make([]byte, 8)
+				b := make([]byte, 8)
+				c := make([]byte, 8)
+				d := make([]byte, 8)
+				//load in normal order
+				binary.LittleEndian.PutUint64(a, uint64(p256x[0]))
+				binary.LittleEndian.PutUint64(b, uint64(p256x[1]))
+				binary.LittleEndian.PutUint64(c, uint64(p256x[2]))
+				binary.LittleEndian.PutUint64(d, uint64(p256x[3]))
+				//store in reverse order
+				res[0] = binary.BigEndian.Uint64(a)
+				res[1] = binary.BigEndian.Uint64(b)
+				res[2] = binary.BigEndian.Uint64(c)
+				res[3] = binary.BigEndian.Uint64(d)
+				basePoint := new(p256AffinePoint)
+				basePoint.x = *res
+				binary.LittleEndian.PutUint64(a, uint64(p256y[0]))
+				binary.LittleEndian.PutUint64(b, uint64(p256y[1]))
+				binary.LittleEndian.PutUint64(c, uint64(p256y[2]))
+				binary.LittleEndian.PutUint64(d, uint64(p256y[3]))
+				res[0] = binary.BigEndian.Uint64(a)
+				res[1] = binary.BigEndian.Uint64(b)
+				res[2] = binary.BigEndian.Uint64(c)
+				res[3] = binary.BigEndian.Uint64(d)
+				basePoint.y = *res
+				(*newTable)[j] = *basePoint
+			}
+		}
+		p256Precomputed = &newP256Precomputed
+	}
 }
 
 // p256SelectAffine sets res to the point at index idx in the table.
