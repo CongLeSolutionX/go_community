@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d86167b_674f7657",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 57278
+      },
+      "writtenOn": "2022-05-16T15:08:23Z",
+      "side": 1,
+      "message": "Thanks, I changed the message.",
+      "parentUuid": "af7445ff_089d74b7",
+      "revId": "e7fe5096f13b10956281c0a11e2c5a72ca489dc2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "97d37ce2_0337ab94",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-05-16T09:32:01Z",
       "side": 1,
       "message": "If you change this line to\n\nChange-Id: Ie96a8ee52f09821d5ac53115185cbc1ad8f954d2\n\nthen Gerrit will upload it to CL 404058, so Lynn\u0027s and my comments there are not lost.",
+      "revId": "e7fe5096f13b10956281c0a11e2c5a72ca489dc2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f9ed53c_ecf71173",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 57278
+      },
+      "writtenOn": "2022-05-16T15:08:23Z",
+      "side": 1,
+      "message": "It seems to give me this error when I try to change it:\nError 409: wrong Change-Id footer\nEndpoint: /changes/*~*/message\n\n(I was going to add a link to the previous CL and mention that the comments were resolved in this one with the rebase and merge conflicts\u0027 resolutions but this seems like a better way.)",
+      "parentUuid": "97d37ce2_0337ab94",
       "revId": "e7fe5096f13b10956281c0a11e2c5a72ca489dc2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
