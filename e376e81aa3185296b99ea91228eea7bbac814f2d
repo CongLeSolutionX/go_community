@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cee5027c_6947e771",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-05-16T18:04:00Z",
+      "side": 1,
+      "message": "Thanks for the change! If this matches the common behavior of browsers, this looks reasonable to me.",
+      "revId": "e376e81aa3185296b99ea91228eea7bbac814f2d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
