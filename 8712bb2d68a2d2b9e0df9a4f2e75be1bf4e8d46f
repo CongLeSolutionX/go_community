@@ -16,6 +16,23 @@
       "message": "I\u0027ve reviewed and run this code -- it looks solid.",
       "revId": "8712bb2d68a2d2b9e0df9a4f2e75be1bf4e8d46f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1fd0aaf6_75fd465b",
+        "filename": "src/crypto/internal/nistec/p256_asm_s390x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2022-05-16T20:30:19Z",
+      "side": 1,
+      "message": "Why was this changed to \u003c\u003e? The others are internal functions but I don\u0027t think this one is.",
+      "revId": "8712bb2d68a2d2b9e0df9a4f2e75be1bf4e8d46f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

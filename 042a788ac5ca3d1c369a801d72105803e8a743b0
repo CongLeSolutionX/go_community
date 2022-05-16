@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7820f84c_fb15b4f7",
+        "filename": "src/crypto/internal/nistec/p256_asm_s390x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 1643,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2022-05-16T20:30:19Z",
+      "side": 1,
+      "message": "Minor: You have some extra spaces before your comments on several lines.",
+      "revId": "042a788ac5ca3d1c369a801d72105803e8a743b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
