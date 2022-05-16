@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76e6ed30_06db12e4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-05-16T18:46:06Z",
+      "side": 1,
+      "message": "Seems to have broken linux-amd64-noopt. I\u0027ll send a fix (and wait for other builders to catch up too) before submitting the followup CLs.",
+      "revId": "ab8d7dd75ea4918cde5e71b4482ff5b4f0f69273",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
