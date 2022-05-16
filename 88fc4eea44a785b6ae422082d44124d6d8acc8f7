@@ -73,6 +73,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9aff5460_14abd57f",
+        "filename": "src/cmd/compile/internal/walk/compare.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-05-16T17:08:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a7c3772_ffc9f7c7",
+      "revId": "88fc4eea44a785b6ae422082d44124d6d8acc8f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "015ab54f_48a32dcf",
@@ -104,6 +122,24 @@
       "side": 1,
       "message": "Added.",
       "parentUuid": "015ab54f_48a32dcf",
+      "revId": "88fc4eea44a785b6ae422082d44124d6d8acc8f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8e9297c_9f753f2a",
+        "filename": "src/runtime/libfuzzer_amd64.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-05-16T17:08:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5e2df3dc_da197917",
       "revId": "88fc4eea44a785b6ae422082d44124d6d8acc8f7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
