@@ -95,6 +95,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a8ef67b_8ae3d5eb",
+        "filename": "src/cmd/compile/internal/types2/object.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-05-17T03:20:54Z",
+      "side": 1,
+      "message": "Thanks, done (though s/of/for, to be consistent with phrasing elsewhere).",
+      "parentUuid": "28b160f5_cf52cd8a",
+      "range": {
+        "startLine": 410,
+        "startChar": 32,
+        "endLine": 410,
+        "endChar": 36
+      },
+      "revId": "d12799afb66a6d2d30e1f461f910b6190708b4c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "793796fe_a0ed0836",
@@ -108,6 +132,24 @@
       "writtenOn": "2022-05-17T02:37:35Z",
       "side": 1,
       "message": "Can be simplified to:\n\ncopy.origin \u003d v.Origin()\n\nor:\n\nif copy.origin \u003d\u003d nil { copy.origin \u003d v }",
+      "revId": "d12799afb66a6d2d30e1f461f910b6190708b4c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "db4440f9_be8c0fa2",
+        "filename": "src/cmd/compile/internal/types2/subst.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-05-17T03:20:54Z",
+      "side": 1,
+      "message": "Derp.\n\nAh, copy.origin \u003d v.Origin() is a nice suggestion, thanks.",
+      "parentUuid": "793796fe_a0ed0836",
       "revId": "d12799afb66a6d2d30e1f461f910b6190708b4c7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -129,6 +171,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc7a5cae_0c8adf22",
+        "filename": "src/cmd/compile/internal/types2/subst.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-05-17T03:20:54Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4d1003f0_5a59a00c",
+      "revId": "d12799afb66a6d2d30e1f461f910b6190708b4c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9b46739a_402f44f7",
@@ -142,6 +202,24 @@
       "writtenOn": "2022-05-17T02:37:35Z",
       "side": 1,
       "message": "ditto",
+      "revId": "d12799afb66a6d2d30e1f461f910b6190708b4c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5d4ebcc_97a5828b",
+        "filename": "src/cmd/compile/internal/types2/subst.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-05-17T03:20:54Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "9b46739a_402f44f7",
       "revId": "d12799afb66a6d2d30e1f461f910b6190708b4c7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
