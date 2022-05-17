@@ -106,6 +106,24 @@
       "parentUuid": "1a42f346_e4ecc8c1",
       "revId": "011d96ac488b15a2443f5cb44afdf944b313e722",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "57ce0c1b_70090926",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 56363
+      },
+      "writtenOn": "2022-05-17T22:16:56Z",
+      "side": 1,
+      "message": "Should I rebase https://go-review.googlesource.com/c/go/+/387335 on this CL, and https://go-review.googlesource.com/c/go/+/387336 on the result of the first rebase?\n\nI\u0027ve done that in the local version and resolved the merge conflict. This would simplify the merge process on your side. Please let me know if this is OK for you",
+      "parentUuid": "e3299f89_bb20f239",
+      "revId": "011d96ac488b15a2443f5cb44afdf944b313e722",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
