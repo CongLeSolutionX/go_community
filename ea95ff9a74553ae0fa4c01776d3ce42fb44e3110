@@ -90,6 +90,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "73a6b17d_0eaffdf3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-05-17T16:05:11Z",
+      "side": 1,
+      "message": "I think I\u0027ve narrowed down the likely problem case:\n\nIf the function type is a named generic, then it ends up in the forwarding type path already.\n\nIf the type is top-level, then it is not capturing any type parameters from its environment.\n\nA named local, non-generic type within a generic function can capture type parameters into its own type.\n\nbut: \"type declarations inside generic functions are not currently supported\".\n\nI\u0027ll think about this some more.",
+      "parentUuid": "083131c7_68cca836",
+      "revId": "ea95ff9a74553ae0fa4c01776d3ce42fb44e3110",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "548d2b36_a11d41e8",
