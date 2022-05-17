@@ -71,6 +71,29 @@
       "parentUuid": "da04a604_6eafc268",
       "revId": "12a8858556882b88faad66de9d064b4b941c5e48",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4532666_1e5ff119",
+        "filename": "src/go/types/subst.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-05-17T20:26:10Z",
+      "side": 1,
+      "message": "While self-reviewing, I noticed that this special-case support for forwarding the origin is no longer needed, since we always forward the origin. Going to fix in this CL for completeness.",
+      "range": {
+        "startLine": 426,
+        "startChar": 0,
+        "endLine": 427,
+        "endChar": 32
+      },
+      "revId": "12a8858556882b88faad66de9d064b4b941c5e48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
