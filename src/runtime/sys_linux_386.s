@@ -627,7 +627,7 @@ TEXT runtime·sigaltstack(SB),NOSPLIT,$-8
 //	unsigned int  read_exec_only:1;
 //	unsigned int  limit_in_pages:1;
 //	unsigned int  seg_not_present:1;
-//	unsigned int  useable:1;
+//	unsigned int  usable:1;
 // };
 #define SEG_32BIT 0x01
 // contents are the 2 bits 0x02 and 0x04.
@@ -637,7 +637,7 @@ TEXT runtime·sigaltstack(SB),NOSPLIT,$-8
 #define READ_EXEC_ONLY 0x08
 #define LIMIT_IN_PAGES 0x10
 #define SEG_NOT_PRESENT 0x20
-#define USEABLE 0x40
+#define USABLE 0x40
 
 // `-1` means the kernel will pick a TLS entry on the first setldt call,
 // which happens during runtime init, and that we'll store back the saved
@@ -683,7 +683,7 @@ TEXT runtime·setldt(SB),NOSPLIT,$32
 	MOVL	CX, 0(AX)	// unsigned int entry_number
 	MOVL	DX, 4(AX)	// unsigned long base_addr
 	MOVL	$0xfffff, 8(AX)	// unsigned int limit
-	MOVL	$(SEG_32BIT|LIMIT_IN_PAGES|USEABLE|CONTENTS_DATA), 12(AX)	// flag bits
+	MOVL	$(SEG_32BIT|LIMIT_IN_PAGES|USABLE|CONTENTS_DATA), 12(AX)	// flag bits
 
 	// call set_thread_area
 	MOVL	AX, BX	// user_desc
