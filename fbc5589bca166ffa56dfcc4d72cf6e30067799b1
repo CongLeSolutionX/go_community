@@ -59,6 +59,30 @@
       },
       "revId": "fbc5589bca166ffa56dfcc4d72cf6e30067799b1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "049c1864_27f6898f",
+        "filename": "src/cmd/link/internal/loong64/asm.go",
+        "patchSetId": 43
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-05-17T09:57:41Z",
+      "side": 1,
+      "message": "\u003e I\u0027m not really sure what it means by concatenating the address. Do you mean that the bits need to be concatenated?\nSorry, I think deeply，the \"concatenated\" words is not right.\n\u003e Is this similar to LUI+ADD on MIPS?\n`pccaddiu : PC + SignExtend({si20,12\u0027b0}, GRLEN).`\nAs PC is added, the low 12-bit might not be 0. It is not similar to LUI+ADD on MIPS.\n\u003e Maybe just say sign extension from 12 bits?\nI think sign extension from 12 bits is good.\nI changed the comments. Thanks!",
+      "parentUuid": "c8615869_1be425af",
+      "range": {
+        "startLine": 90,
+        "startChar": 52,
+        "endLine": 90,
+        "endChar": 64
+      },
+      "revId": "fbc5589bca166ffa56dfcc4d72cf6e30067799b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
