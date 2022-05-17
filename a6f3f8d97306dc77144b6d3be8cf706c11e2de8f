@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40368f27_f5a46d8d",
+        "filename": "src/cmd/vendor/github.com/ianlancetaylor/demangle/demangle.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1718,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2022-05-17T20:38:58Z",
+      "side": 1,
+      "message": "This part of the change affects vendored code. It looks like this broke the longtest builders:\n\nhttps://build.golang.org/log/561be2025403d6352c89b0969535c8be6b59a9ba\nhttps://build.golang.org/log/edb815e71f7f266544067cf14bb24475956e6775\n\nThis should probably be fixed in the upstream repo and then vendored back in.",
+      "range": {
+        "startLine": 1718,
+        "startChar": 30,
+        "endLine": 1718,
+        "endChar": 39
+      },
+      "revId": "a6f3f8d97306dc77144b6d3be8cf706c11e2de8f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
