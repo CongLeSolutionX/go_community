@@ -70,6 +70,24 @@
       "message": "You will need to rebase so we can submit this.\n\nWhat order should your 3 CLs go in?\n",
       "revId": "011d96ac488b15a2443f5cb44afdf944b313e722",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a42f346_e4ecc8c1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 56363
+      },
+      "writtenOn": "2022-05-17T07:43:48Z",
+      "side": 1,
+      "message": "I suggest the following order of merging:\n1- libFuzzer 8-bit instead of extra counters (this CL)\n2- intercepting string compares (https://go-review.googlesource.com/c/go/+/387335)\n3- support libFuzzer value profiling mode for integer compares (https://go-review.googlesource.com/c/go/+/387336)\n\nI will rebase in that order so that the CLs can be easily merged.",
+      "parentUuid": "5a2754d4_8ca6919e",
+      "revId": "011d96ac488b15a2443f5cb44afdf944b313e722",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
