@@ -59,6 +59,10 @@ func (out *OutBuf) munmap() {
 	if err != nil {
 		Exitf("FlushViewOfFile failed: %v", err)
 	}
+	err = syscall.FlushFileBuffers(syscall.Handle(out.f.Fd()))
+	if err != nil {
+		Exitf("FlushFileBuffers failed: %v", err)
+	}
 	err = syscall.UnmapViewOfFile(uintptr(unsafe.Pointer(&out.buf[0])))
 	out.buf = nil
 	if err != nil {
