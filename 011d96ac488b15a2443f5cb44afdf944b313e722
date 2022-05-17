@@ -88,6 +88,24 @@
       "parentUuid": "5a2754d4_8ca6919e",
       "revId": "011d96ac488b15a2443f5cb44afdf944b313e722",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3299f89_bb20f239",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 56363
+      },
+      "writtenOn": "2022-05-17T08:04:37Z",
+      "side": 1,
+      "message": "I\u0027ve rebased this CL on master and it can be merged now",
+      "parentUuid": "1a42f346_e4ecc8c1",
+      "revId": "011d96ac488b15a2443f5cb44afdf944b313e722",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
