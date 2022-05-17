@@ -5,10 +5,15 @@
 package ld
 
 import (
+	"fmt"
 	"reflect"
+	"sync"
 	"syscall"
 	"unsafe"
 )
+
+var addrToHandleLock sync.Mutex
+var addrToHandle = map[uintptr]syscall.Handle{}
 
 // Mmap maps the output file with the given size. It unmaps the old mapping
 // if it is already mapped. It also flushes any in-heap data to the new
@@ -29,12 +34,20 @@ func (out *OutBuf) Mmap(filesize uint64) error {
 	if err != nil {
 		return err
 	}
-	defer syscall.CloseHandle(fmap)
-
 	ptr, err := syscall.MapViewOfFile(fmap, syscall.FILE_MAP_READ|syscall.FILE_MAP_WRITE, 0, 0, uintptr(filesize))
 	if err != nil {
 		return err
 	}
+
+	var addr uintptr
+	addr = ptr
+	addrToHandleLock.Lock()
+	if _, ok := addrToHandle[addr]; ok {
+		return fmt.Errorf("unexpected existing mapping %x in Mmap", addr)
+	}
+	addrToHandle[addr] = fmap
+	addrToHandleLock.Unlock()
+
 	bufHdr := (*reflect.SliceHeader)(unsafe.Pointer(&out.buf))
 	bufHdr.Data = ptr
 	bufHdr.Len = int(filesize)
@@ -55,11 +68,30 @@ func (out *OutBuf) munmap() {
 	}
 	// Apparently unmapping without flush may cause ACCESS_DENIED error
 	// (see issue 38440).
-	err := syscall.FlushViewOfFile(uintptr(unsafe.Pointer(&out.buf[0])), 0)
+	addr := uintptr(unsafe.Pointer(&out.buf[0]))
+	err := syscall.FlushViewOfFile(addr, 0)
 	if err != nil {
 		Exitf("FlushViewOfFile failed: %v", err)
 	}
-	err = syscall.UnmapViewOfFile(uintptr(unsafe.Pointer(&out.buf[0])))
+
+	addrToHandleLock.Lock()
+	defer addrToHandleLock.Unlock()
+	handle, ok := addrToHandle[addr]
+	if !ok {
+		Exitf("no record of mapping in addrToHandle")
+	}
+	delete(addrToHandle, addr)
+	err = syscall.FlushFileBuffers(handle)
+	if err != nil {
+		Exitf("FlushFileBuffers failed: %v", err)
+	}
+
+	err = syscall.CloseHandle(syscall.Handle(handle))
+	if err != nil {
+		Exitf("CloseHandle: %v", err)
+	}
+
+	err = syscall.UnmapViewOfFile(addr)
 	out.buf = nil
 	if err != nil {
 		Exitf("UnmapViewOfFile failed: %v", err)
