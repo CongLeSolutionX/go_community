@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "083131c7_68cca836",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-05-17T14:34:26Z",
+      "side": 1,
+      "message": "That was my worry, a nagging suspicion that it could not be this simple, and that a substitution would get missed -- i.e., that F[T] would get rewritten, but that there was also an internal reference to F[T] that would need to be rewritten.  Seems like the forwarding types were made for this, let me see about that.",
+      "parentUuid": "31908643_a90e84aa",
+      "revId": "ea95ff9a74553ae0fa4c01776d3ce42fb44e3110",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "548d2b36_a11d41e8",
@@ -85,6 +103,30 @@
       "writtenOn": "2022-05-16T23:39:39Z",
       "side": 1,
       "message": "nit: you can remove this; lookups into a nil map always return the zero value",
+      "range": {
+        "startLine": 1069,
+        "startChar": 4,
+        "endLine": 1069,
+        "endChar": 19
+      },
+      "revId": "ea95ff9a74553ae0fa4c01776d3ce42fb44e3110",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "10bad4a9_9d3fa3d7",
+        "filename": "src/cmd/compile/internal/typecheck/subr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1069,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-05-17T14:34:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "548d2b36_a11d41e8",
       "range": {
         "startLine": 1069,
         "startChar": 4,
