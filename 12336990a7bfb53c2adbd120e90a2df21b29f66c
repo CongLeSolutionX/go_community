@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3a1722f_d5e5aa75",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 53565
+      },
+      "writtenOn": "2022-05-17T14:19:57Z",
+      "side": 1,
+      "message": "Good suggestion. src/runtime/testprognet fails to build:\n\n```\nmotiejus ~/code/go/src/runtime/testdata/testprognet $ CC\u003d\"zig cc\" go build .\n# std/runtime/testdata/testprognet\nnet(.text): relocation target __errno_location not defined\nnet(.text): relocation target getaddrinfo not defined\nnet(.text): relocation target freeaddrinfo not defined\nnet(.text): relocation target gai_strerror not defined\nruntime/cgo(.text): relocation target stderr not defined\nruntime/cgo(.text): relocation target fwrite not defined\nruntime/cgo(.text): relocation target vfprintf not defined\nruntime/cgo(.text): relocation target fputc not defined\nruntime/cgo(.text): relocation target abort not defined\nruntime/cgo(.text): relocation target pthread_create not defined\nruntime/cgo(.text): relocation target nanosleep not defined\nruntime/cgo(.text): relocation target pthread_detach not defined\nruntime/cgo(.text): relocation target stderr not defined\nruntime/cgo(.text): relocation target strerror not defined\nruntime/cgo(.text): relocation target fprintf not defined\nruntime/cgo(.text): relocation target abort not defined\nruntime/cgo(.text): relocation target pthread_mutex_lock not defined\nruntime/cgo(.text): relocation target pthread_cond_wait not defined\nruntime/cgo(.text): relocation target pthread_mutex_unlock not defined\nruntime/cgo(.text): relocation target pthread_cond_broadcast not defined\nruntime/cgo(.text): relocation target malloc not defined\n/usr/local/go/pkg/tool/linux_amd64/link: too many errors\nmotiejus ~/code/go/src/runtime/testdata/testprognet $ CC\u003d\"zig cc -Wl,--no-gc-sections\" go build .\nmotiejus ~/code/go/src/runtime/testdata/testprognet $ ./testprognet \nusage: ./testprognet name-of-test\nmotiejus ~/code/go/src/runtime/testdata/testprognet $ \n```\n\nHowever, the builders can\u0027t run it yet, unless we install zig (should we?).\n\nI guess I\u0027ll update the commit message for now. If you decide we should install zig to the builders and run it as a regression test, I can look into it, but as a separate diff.",
+      "parentUuid": "6a736f98_cafc837f",
+      "range": {
+        "startLine": 20,
+        "startChar": 5,
+        "endLine": 20,
+        "endChar": 47
+      },
+      "revId": "12336990a7bfb53c2adbd120e90a2df21b29f66c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "958592c7_fbb6ac36",
@@ -331,6 +355,24 @@
       "writtenOn": "2022-05-10T21:51:23Z",
       "side": 1,
       "message": "Unfortunately, this won\u0027t work.  The gccSupportsFlag method just does a compilation using -c, so the -Wl option does nothing.",
+      "revId": "12336990a7bfb53c2adbd120e90a2df21b29f66c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1f0737e_a2edb7ff",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2534,
+      "author": {
+        "id": 53565
+      },
+      "writtenOn": "2022-05-17T14:19:57Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "94ad2850_50e0bfaf",
       "revId": "12336990a7bfb53c2adbd120e90a2df21b29f66c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
