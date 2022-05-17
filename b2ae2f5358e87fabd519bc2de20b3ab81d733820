@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6cc46c35_27186ccf",
+        "filename": "src/go.sum",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2022-05-17T23:11:34Z",
+      "side": 1,
+      "message": "Mailed CL 406897 to remove these now-unused entries.",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 106
+      },
+      "revId": "b2ae2f5358e87fabd519bc2de20b3ab81d733820",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
