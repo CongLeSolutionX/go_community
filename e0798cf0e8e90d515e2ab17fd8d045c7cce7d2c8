@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0206e544_af6c901a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-05-17T19:31:30Z",
+      "side": 1,
+      "message": "Thanks, but I don\u0027t think we should take this approach.  Local configuration should always override defaults.  I suggest https://go.dev/cl/406894 instead.",
+      "revId": "e0798cf0e8e90d515e2ab17fd8d045c7cce7d2c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
