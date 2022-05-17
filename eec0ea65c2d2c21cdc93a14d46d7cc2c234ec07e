@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "54256db0_d03de677",
+        "filename": "src/net/http/socks_bundle.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-05-17T21:13:19Z",
+      "side": 1,
+      "message": "This is a generated file. This change has to be made upsream in golang.org/x/net.",
+      "revId": "eec0ea65c2d2c21cdc93a14d46d7cc2c234ec07e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4bbc693a_0bda2796",
         "filename": "src/runtime/sys_linux_386.s",
         "patchSetId": 1
@@ -31,6 +48,40 @@
       "writtenOn": "2022-05-17T21:11:31Z",
       "side": 1,
       "message": "Undo this one. This is copied from the C header file.",
+      "revId": "eec0ea65c2d2c21cdc93a14d46d7cc2c234ec07e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "771cfacd_2fa2d886",
+        "filename": "src/runtime/sys_linux_386.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 630,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-05-17T21:13:19Z",
+      "side": 1,
+      "message": "This is a copy of code in the Linux header \u003casm/ldt.h\u003e, which says \"useable\".  We should not change this.",
+      "revId": "eec0ea65c2d2c21cdc93a14d46d7cc2c234ec07e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a918c6b_50a51f24",
+        "filename": "src/runtime/sys_linux_386.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-05-17T21:13:19Z",
+      "side": 1,
+      "message": "Don\u0027t change this one either.",
       "revId": "eec0ea65c2d2c21cdc93a14d46d7cc2c234ec07e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
