@@ -35,6 +35,42 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0c256d3_86ead244",
+        "filename": "src/net/http/socks_bundle.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 35210
+      },
+      "writtenOn": "2022-05-17T21:31:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54256db0_d03de677",
+      "revId": "eec0ea65c2d2c21cdc93a14d46d7cc2c234ec07e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2daf6da1_545eb8d5",
+        "filename": "src/net/http/socks_bundle.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 35210
+      },
+      "writtenOn": "2022-05-17T21:31:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d86ead9_c1bdc427",
+      "revId": "eec0ea65c2d2c21cdc93a14d46d7cc2c234ec07e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4bbc693a_0bda2796",
@@ -69,6 +105,42 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2e2994c_bdac9a35",
+        "filename": "src/runtime/sys_linux_386.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 630,
+      "author": {
+        "id": 35210
+      },
+      "writtenOn": "2022-05-17T21:31:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "771cfacd_2fa2d886",
+      "revId": "eec0ea65c2d2c21cdc93a14d46d7cc2c234ec07e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ff2f0c0_23212d0d",
+        "filename": "src/runtime/sys_linux_386.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 630,
+      "author": {
+        "id": 35210
+      },
+      "writtenOn": "2022-05-17T21:31:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4bbc693a_0bda2796",
+      "revId": "eec0ea65c2d2c21cdc93a14d46d7cc2c234ec07e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7a918c6b_50a51f24",
@@ -82,6 +154,24 @@
       "writtenOn": "2022-05-17T21:13:19Z",
       "side": 1,
       "message": "Don\u0027t change this one either.",
+      "revId": "eec0ea65c2d2c21cdc93a14d46d7cc2c234ec07e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a98f1749_ca9d0b17",
+        "filename": "src/runtime/sys_linux_386.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 35210
+      },
+      "writtenOn": "2022-05-17T21:31:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a918c6b_50a51f24",
       "revId": "eec0ea65c2d2c21cdc93a14d46d7cc2c234ec07e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
