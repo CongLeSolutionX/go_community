@@ -1,6 +1,40 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "567726f5_69766487",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-05-18T19:16:24Z",
+      "side": 1,
+      "message": "This line duplicates the topic line.  Please remove (by editing the first comment in the GitHub pull request).",
+      "revId": "2551b3ed6dd04a358ac7b312f67cf21f40034922",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e03bf86_b30b495c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-05-18T19:16:24Z",
+      "side": 1,
+      "message": "I think we can remove this sentence also.",
+      "revId": "2551b3ed6dd04a358ac7b312f67cf21f40034922",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "fedd4079_c2db8eff",
@@ -14,6 +48,58 @@
       "writtenOn": "2022-05-18T11:20:33Z",
       "side": 1,
       "message": "Added patchset 2, resolving Ian\u0027s concern: we will now have two functions to test compiler/linker flags, respectively.\n\nI made two commits (one renaming `gccSupportsFlag`) and one fixing the original issue, but Gerrit doesn\u0027t seem to like it. At least I can\u0027t find the first commit that only does the rename.",
+      "revId": "2551b3ed6dd04a358ac7b312f67cf21f40034922",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dfb63ae5_93713e76",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-05-18T19:16:24Z",
+      "side": 1,
+      "message": "A stack of commits in a GitHub pull request will be squashed when it is imported into Gerrit.  If you want to use a stack of CLs in Gerrit, then I think you have to start in Gerrit.  This change is fine as a squashed commit, though.",
+      "parentUuid": "fedd4079_c2db8eff",
+      "revId": "2551b3ed6dd04a358ac7b312f67cf21f40034922",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4c64057_d3887d1f",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2584,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-05-18T19:16:24Z",
+      "side": 1,
+      "message": "base.Fatalf would be better than panic here.  Similarly below.",
+      "revId": "2551b3ed6dd04a358ac7b312f67cf21f40034922",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6c8e4ba_0fd6a342",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2631,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-05-18T19:16:24Z",
+      "side": 1,
+      "message": "I\u0027m not following this.  We already pass -c.  Passing -c is not going to cause a link.",
       "revId": "2551b3ed6dd04a358ac7b312f67cf21f40034922",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
