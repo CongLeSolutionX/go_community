@@ -24,14 +24,14 @@ type PkgEncoder struct {
 
 	// stringsIdx maps previously encoded strings to their index within
 	// the RelocString section, to allow deduplication.
-	stringsIdx map[string]int
+	stringsIdx map[string]Index
 
 	syncFrames int
 }
 
 func NewPkgEncoder(syncFrames int) PkgEncoder {
 	return PkgEncoder{
-		stringsIdx: make(map[string]int),
+		stringsIdx: make(map[string]Index),
 		syncFrames: syncFrames,
 	}
 }
@@ -80,13 +80,13 @@ func (pw *PkgEncoder) DumpTo(out0 io.Writer) (fingerprint [8]byte) {
 	return
 }
 
-func (pw *PkgEncoder) StringIdx(s string) int {
+func (pw *PkgEncoder) StringIdx(s string) Index {
 	if idx, ok := pw.stringsIdx[s]; ok {
 		assert(pw.elems[RelocString][idx] == s)
 		return idx
 	}
 
-	idx := len(pw.elems[RelocString])
+	idx := Index(len(pw.elems[RelocString]))
 	pw.elems[RelocString] = append(pw.elems[RelocString], s)
 	pw.stringsIdx[s] = idx
 	return idx
@@ -99,7 +99,7 @@ func (pw *PkgEncoder) NewEncoder(k RelocKind, marker SyncMarker) Encoder {
 }
 
 func (pw *PkgEncoder) NewEncoderRaw(k RelocKind) Encoder {
-	idx := len(pw.elems[k])
+	idx := Index(len(pw.elems[k]))
 	pw.elems[k] = append(pw.elems[k], "") // placeholder
 
 	return Encoder{
@@ -120,11 +120,11 @@ type Encoder struct {
 	encodingRelocHeader bool
 
 	k   RelocKind
-	Idx int
+	Idx Index
 }
 
 // Flush finalizes the element's bitstream and returns its Index.
-func (w *Encoder) Flush() int {
+func (w *Encoder) Flush() Index {
 	var sb bytes.Buffer // TODO(mdempsky): strings.Builder after #44505 is resolved
 
 	// Backup the data so we write the relocations at the front.
@@ -143,7 +143,7 @@ func (w *Encoder) Flush() int {
 	for _, rent := range w.Relocs {
 		w.Sync(SyncReloc)
 		w.Len(int(rent.Kind))
-		w.Len(rent.Idx)
+		w.Len(int(rent.Idx))
 	}
 
 	io.Copy(&sb, &w.Data)
@@ -176,7 +176,7 @@ func (w *Encoder) rawVarint(x int64) {
 	w.rawUvarint(ux)
 }
 
-func (w *Encoder) rawReloc(r RelocKind, idx int) int {
+func (w *Encoder) rawReloc(r RelocKind, idx Index) int {
 	// TODO(mdempsky): Use map for lookup.
 	for i, rent := range w.Relocs {
 		if rent.Kind == r && rent.Idx == idx {
@@ -239,7 +239,7 @@ func (w *Encoder) Len(x int)   { assert(x >= 0); w.Uint64(uint64(x)) }
 func (w *Encoder) Int(x int)   { w.Int64(int64(x)) }
 func (w *Encoder) Uint(x uint) { w.Uint64(uint64(x)) }
 
-func (w *Encoder) Reloc(r RelocKind, idx int) {
+func (w *Encoder) Reloc(r RelocKind, idx Index) {
 	w.Sync(SyncUseReloc)
 	w.Len(w.rawReloc(r, idx))
 }
