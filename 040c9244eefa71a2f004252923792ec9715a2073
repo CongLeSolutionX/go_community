@@ -59,6 +59,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "06c4c067_60572bee",
+        "filename": "src/runtime/align_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-05-18T18:29:16Z",
+      "side": 1,
+      "message": "If we moved this before the tests, we could keep track of the actual line number and text at offset i, and give a better error message.\n\ne.g., \"offset is 4, line 20 of align_runtime_test.go, field \u0027schedt{}.goidgen\u0027\"",
+      "range": {
+        "startLine": 40,
+        "startChar": 4,
+        "endLine": 41,
+        "endChar": 40
+      },
+      "revId": "040c9244eefa71a2f004252923792ec9715a2073",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d8e6039f_8a091f39",
         "filename": "src/runtime/align_test.go",
         "patchSetId": 1
@@ -121,6 +144,52 @@
       "writtenOn": "2022-05-18T16:54:03Z",
       "side": 1,
       "message": "t.Fatal",
+      "revId": "040c9244eefa71a2f004252923792ec9715a2073",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ba786bb_7e4d6ea4",
+        "filename": "src/runtime/align_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-05-18T18:29:16Z",
+      "side": 1,
+      "message": "it would be so nice if we could write \n\np, ok :\u003d n.(*ast.CallExpr).Fun.(*ast.SelectorExpr).X.(*ast.Ident)\n\nand have it nope out at the first error with ok\u003dfalse.\nBut that is not this CL.",
+      "range": {
+        "startLine": 101,
+        "startChar": 10,
+        "endLine": 101,
+        "endChar": 27
+      },
+      "revId": "040c9244eefa71a2f004252923792ec9715a2073",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20a4e702_f803c310",
+        "filename": "src/runtime/align_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-05-18T18:29:16Z",
+      "side": 1,
+      "message": "Should this be uncommented and .Logf (\"WARNING: ...\") so we can see it with -v?\nPeople will rarely be motivated to edit the file.\n\n(Not this CL, but)\nPerhaps also we can keep a white-list of hand-checked operations.",
+      "range": {
+        "startLine": 133,
+        "startChar": 7,
+        "endLine": 133,
+        "endChar": 13
+      },
       "revId": "040c9244eefa71a2f004252923792ec9715a2073",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
