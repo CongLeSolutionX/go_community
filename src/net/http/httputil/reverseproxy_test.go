@@ -369,6 +369,46 @@ func TestXForwardedFor_Omit(t *testing.T) {
 	res.Body.Close()
 }
 
+func TestReverseProxyRewriteStripsForwarded(t *testing.T) {
+	headers := []string{
+		"Forwarded",
+		"X-Forwarded-For",
+		"X-Forwarded-Host",
+		"X-Forwarded-Proto",
+	}
+	backend := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		for _, h := range headers {
+			if v := r.Header.Get(h); v != "" {
+				t.Errorf("got %v header: %q", h, v)
+			}
+		}
+	}))
+	defer backend.Close()
+	backendURL, err := url.Parse(backend.URL)
+	if err != nil {
+		t.Fatal(err)
+	}
+	proxyHandler := &ReverseProxy{
+		Rewrite: func(r *ProxyRequest) {
+			r.SetURL(backendURL)
+		},
+	}
+	frontend := httptest.NewServer(proxyHandler)
+	defer frontend.Close()
+
+	getReq, _ := http.NewRequest("GET", frontend.URL, nil)
+	getReq.Host = "some-name"
+	getReq.Close = true
+	for _, h := range headers {
+		getReq.Header.Set(h, "x")
+	}
+	res, err := frontend.Client().Do(getReq)
+	if err != nil {
+		t.Fatalf("Get: %v", err)
+	}
+	res.Body.Close()
+}
+
 var proxyQueryTests = []struct {
 	baseSuffix string // suffix to add to backend URL
 	reqSuffix  string // suffix to add to frontend's request URL
@@ -1486,6 +1526,40 @@ func TestUnannouncedTrailer(t *testing.T) {
 		t.Errorf("Trailer(X-Unannounced-Trailer) = %q; want %q", g, w)
 	}
 
+}
+
+func TestSetURL(t *testing.T) {
+	backend := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte(r.Host))
+	}))
+	defer backend.Close()
+	backendURL, err := url.Parse(backend.URL)
+	if err != nil {
+		t.Fatal(err)
+	}
+	proxyHandler := &ReverseProxy{
+		Rewrite: func(r *ProxyRequest) {
+			r.SetURL(backendURL)
+		},
+	}
+	frontend := httptest.NewServer(proxyHandler)
+	defer frontend.Close()
+	frontendClient := frontend.Client()
+
+	res, err := frontendClient.Get(frontend.URL)
+	if err != nil {
+		t.Fatalf("Get: %v", err)
+	}
+	defer res.Body.Close()
+
+	body, err := io.ReadAll(res.Body)
+	if err != nil {
+		t.Fatalf("Reading body: %v", err)
+	}
+
+	if got, want := string(body), backendURL.Host; got != want {
+		t.Errorf("backend got Host %q, want %q", got, want)
+	}
 }
 
 func TestSingleJoinSlash(t *testing.T) {
