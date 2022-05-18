@@ -67,10 +67,10 @@ func runPkgCover(t *testing.T, outdir string, tag string, incfg string, mode str
 // Note that this functionality does not work on windows.
 const debugWorkDir = false
 
-func TestCoverWithCfg(t *testing.T) {
-	t.Parallel()
+func testCoverWithCfg(t *testing.T) {
 	testenv.MustHaveGoRun(t)
-	buildCover(t)
+
+	t.Parallel()
 
 	// Subdir in testdata that has our input files of interest.
 	tpath := filepath.Join("testdata", "pkgcfg")
