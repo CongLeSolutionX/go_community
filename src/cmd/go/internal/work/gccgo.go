@@ -80,7 +80,7 @@ func (tools gccgoToolchain) gc(b *Builder, a *Action, archive string, importcfg,
 
 	args := str.StringList(tools.compiler(), "-c", gcargs, "-o", ofile, forcedGccgoflags)
 	if importcfg != nil {
-		if b.gccSupportsFlag(args[:1], "-fgo-importcfg=/dev/null") {
+		if b.gccSupportsCompilerFlag(args[:1], "-fgo-importcfg=/dev/null") {
 			if err := b.writeFile(objdir+"importcfg", importcfg); err != nil {
 				return "", nil, err
 			}
@@ -93,14 +93,14 @@ func (tools gccgoToolchain) gc(b *Builder, a *Action, archive string, importcfg,
 			args = append(args, "-I", root)
 		}
 	}
-	if embedcfg != nil && b.gccSupportsFlag(args[:1], "-fgo-embedcfg=/dev/null") {
+	if embedcfg != nil && b.gccSupportsCompilerFlag(args[:1], "-fgo-embedcfg=/dev/null") {
 		if err := b.writeFile(objdir+"embedcfg", embedcfg); err != nil {
 			return "", nil, err
 		}
 		args = append(args, "-fgo-embedcfg="+objdir+"embedcfg")
 	}
 
-	if b.gccSupportsFlag(args[:1], "-ffile-prefix-map=a=b") {
+	if b.gccSupportsCompilerFlag(args[:1], "-ffile-prefix-map=a=b") {
 		if cfg.BuildTrimpath {
 			args = append(args, "-ffile-prefix-map="+base.Cwd()+"=.")
 			args = append(args, "-ffile-prefix-map="+b.WorkDir+"=/tmp/go-build")
@@ -567,17 +567,17 @@ func (tools gccgoToolchain) cc(b *Builder, a *Action, ofile, cfile string) error
 		defs = append(defs, `-D`, `GOPKGPATH="`+pkgpath+`"`)
 	}
 	compiler := envList("CC", cfg.DefaultCC(cfg.Goos, cfg.Goarch))
-	if b.gccSupportsFlag(compiler, "-fsplit-stack") {
+	if b.gccSupportsCompilerFlag(compiler, "-fsplit-stack") {
 		defs = append(defs, "-fsplit-stack")
 	}
 	defs = tools.maybePIC(defs)
-	if b.gccSupportsFlag(compiler, "-ffile-prefix-map=a=b") {
+	if b.gccSupportsCompilerFlag(compiler, "-ffile-prefix-map=a=b") {
 		defs = append(defs, "-ffile-prefix-map="+base.Cwd()+"=.")
 		defs = append(defs, "-ffile-prefix-map="+b.WorkDir+"=/tmp/go-build")
-	} else if b.gccSupportsFlag(compiler, "-fdebug-prefix-map=a=b") {
+	} else if b.gccSupportsCompilerFlag(compiler, "-fdebug-prefix-map=a=b") {
 		defs = append(defs, "-fdebug-prefix-map="+b.WorkDir+"=/tmp/go-build")
 	}
-	if b.gccSupportsFlag(compiler, "-gno-record-gcc-switches") {
+	if b.gccSupportsCompilerFlag(compiler, "-gno-record-gcc-switches") {
 		defs = append(defs, "-gno-record-gcc-switches")
 	}
 	return b.run(a, p.Dir, p.ImportPath, nil, compiler, "-Wall", "-g",
