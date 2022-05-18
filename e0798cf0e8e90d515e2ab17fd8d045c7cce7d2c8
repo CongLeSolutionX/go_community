@@ -16,6 +16,24 @@
       "message": "Thanks, but I don\u0027t think we should take this approach.  Local configuration should always override defaults.  I suggest https://go.dev/cl/406894 instead.",
       "revId": "e0798cf0e8e90d515e2ab17fd8d045c7cce7d2c8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f62e176_219927c4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2022-05-18T05:59:35Z",
+      "side": 1,
+      "message": "As an application distributor, they would want their application to behave the same way, independent of your personal settings. Computer administrators will want to be able to customize their applications. This is a difference of opinion depending on their position. I think. Anyway, I don\u0027t have strong opinion, please decide best. 😎",
+      "parentUuid": "0206e544_af6c901a",
+      "revId": "e0798cf0e8e90d515e2ab17fd8d045c7cce7d2c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
