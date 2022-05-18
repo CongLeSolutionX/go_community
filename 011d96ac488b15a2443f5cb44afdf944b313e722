@@ -142,6 +142,24 @@
       "parentUuid": "57ce0c1b_70090926",
       "revId": "011d96ac488b15a2443f5cb44afdf944b313e722",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86edfc42_0d8287bf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 56363
+      },
+      "writtenOn": "2022-05-18T09:02:49Z",
+      "side": 1,
+      "message": "Done! Also rebased on master. The three CLs can now be merged in the order proposed in this discussion.",
+      "parentUuid": "8ed38549_a5f2f9fc",
+      "revId": "011d96ac488b15a2443f5cb44afdf944b313e722",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
