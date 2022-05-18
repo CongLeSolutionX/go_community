@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fedd4079_c2db8eff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 53565
+      },
+      "writtenOn": "2022-05-18T11:20:33Z",
+      "side": 1,
+      "message": "Added patchset 2, resolving Ian\u0027s concern: we will now have two functions to test compiler/linker flags, respectively.\n\nI made two commits (one renaming `gccSupportsFlag`) and one fixing the original issue, but Gerrit doesn\u0027t seem to like it. At least I can\u0027t find the first commit that only does the rename.",
+      "revId": "2551b3ed6dd04a358ac7b312f67cf21f40034922",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
