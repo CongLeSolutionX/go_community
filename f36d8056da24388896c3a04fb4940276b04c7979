@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "5bd83696_bb68e80c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-05-19T22:56:54Z",
+      "side": 1,
+      "message": "Instead of he git revision please write \"CL 334732\".  Please also break this long line around 76 characters or so.  Thanks.",
+      "revId": "f36d8056da24388896c3a04fb4940276b04c7979",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "bc102dfb_ff2880e1",
