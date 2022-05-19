@@ -16,6 +16,24 @@
       "message": "There\u0027s some previous discussion at https://go-review.googlesource.com/c/go/+/293959",
       "revId": "f81c428c8c328ca3adac70f02e302183f5cdc70b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e1bdb9a_01b06ffb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-05-19T15:33:55Z",
+      "side": 1,
+      "message": "If the xor is still needed to fool escape analysis we should add a comment to that effect. Otherwise this question will come up again and again.",
+      "parentUuid": "3bf7fcdc_53b02861",
+      "revId": "f81c428c8c328ca3adac70f02e302183f5cdc70b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
