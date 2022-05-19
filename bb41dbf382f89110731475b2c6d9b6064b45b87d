@@ -51,6 +51,24 @@
       "message": "Sorry to bother\nCan someone review this cl? \nOur products rely heavily on the accuracy of timers, this CL is very import to us.\nThanks.",
       "revId": "bb41dbf382f89110731475b2c6d9b6064b45b87d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfd81c06_8ebad847",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-05-19T20:12:45Z",
+      "side": 1,
+      "message": "I agree with Ian that it would be nice to try to steal from stopped Ps occasionally rather than just trying to fixup the situation once it is already very broken.\n\nThinking out loud, we already occasionally consult the global runq at a higher priority than local work. Perhaps we could occasionally prefer to steal from stopped Ps over local work as well?",
+      "parentUuid": "4216eb86_2aae4380",
+      "revId": "bb41dbf382f89110731475b2c6d9b6064b45b87d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
