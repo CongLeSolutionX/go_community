@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ab3f47d_f14807c3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57483
+      },
+      "writtenOn": "2022-05-19T17:26:53Z",
+      "side": 1,
+      "message": "For some reference, this is breaking Fuchsia\u0027s clang canary build which builds clang at HEAD to build Fuchsia. https://bugs.fuchsia.dev/p/fuchsia/issues/detail?id\u003d100717 see https://luci-milo.appspot.com/ui/p/fuchsia/builders/ci/clang_toolchain.ci.core.arm64-debug/b8813791771110373825/overview for an example failure.\n\nThe change in LLVM is emitting DW_TAG_variables for constant strings for better symbolization on sanitizers. These don\u0027t have an associated name, which is not required per the DWARF standard. I haven\u0027t found anything that explicitly says anything about DW_AT_name either way, but there are examples in the standard where DW_TAG_variable doesn\u0027t have a DW_AT_name.",
+      "revId": "8329156499540068f68ac07d3033a995ab84bcb8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
