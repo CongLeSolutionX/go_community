@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1bea504_7ad8f80b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-05-19T15:22:45Z",
+      "side": 1,
+      "message": "TRY\u003ddarwin-arm64-12\n\nSince there isn\u0027t an active failure on the go1.18 branch, this doesn\u0027t strictly have to be backported — but it seems awkward to have it fixed at head (because we always fix at head) and on 1.17 (for the builder failure there) but not at 1.18 in the middle.",
+      "revId": "ddf935499014fea61eeae1bf1a3a4a32d5fc9042",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
