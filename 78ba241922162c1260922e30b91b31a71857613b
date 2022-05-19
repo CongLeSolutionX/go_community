@@ -72,6 +72,24 @@
       "message": "we should probably just replace everything in this list with atomic types, which (even for runtime/internal/atomic) should be aligned correctly. maybe a TODO or something to check each of them?\n\n(not for this CL of course, this is still a significant improvement)",
       "revId": "78ba241922162c1260922e30b91b31a71857613b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9045468d_149c85be",
+        "filename": "src/runtime/align_runtime_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-05-19T20:10:24Z",
+      "side": 1,
+      "message": "Yes, I view that as a longer-term solution, at which point we could drop this test.",
+      "parentUuid": "346eecf1_4d450552",
+      "revId": "78ba241922162c1260922e30b91b31a71857613b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
