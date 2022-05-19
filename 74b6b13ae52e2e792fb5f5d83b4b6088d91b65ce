@@ -68,6 +68,29 @@
       "message": "(Moving myself to CC since this has active reviewers.)",
       "revId": "74b6b13ae52e2e792fb5f5d83b4b6088d91b65ce",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d02456bc_1380c662",
+        "filename": "src/cmd/cgo/gcc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 578,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-05-19T19:04:44Z",
+      "side": 1,
+      "message": "Would it make more sense to just skip variables that have no name here instead?\nE.g. \n\nif name \u003d\u003d \"\" { break }\n\nIf a C variable has no name, there\u0027s no way to refer to it from Go code.",
+      "range": {
+        "startLine": 578,
+        "startChar": 0,
+        "endLine": 578,
+        "endChar": 44
+      },
+      "revId": "74b6b13ae52e2e792fb5f5d83b4b6088d91b65ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
