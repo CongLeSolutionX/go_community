@@ -38,6 +38,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "55807516_39247713",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 57483
+      },
+      "writtenOn": "2022-05-19T19:49:15Z",
+      "side": 1,
+      "message": "\u003e Fixes #53000\n\nI saw a lot of commits with `For 53000.` so went with that. Is there any requirement on a specific format?\n\n\u003e A bit more context would be nice here, not everyone will immediately connect up https://reviews.llvm.org/D123534 with clang. Thanks.\n\nSure I\u0027ve added some more context to the commit message",
+      "parentUuid": "29a10c20_0680079f",
+      "revId": "74b6b13ae52e2e792fb5f5d83b4b6088d91b65ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "b5d23d5e_643263fe",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -66,6 +84,24 @@
       "writtenOn": "2022-05-19T19:04:11Z",
       "side": 1,
       "message": "(Moving myself to CC since this has active reviewers.)",
+      "revId": "74b6b13ae52e2e792fb5f5d83b4b6088d91b65ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fac371db_a15626d5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57483
+      },
+      "writtenOn": "2022-05-19T19:49:15Z",
+      "side": 1,
+      "message": "What kind of test would be useful here? It\u0027s hard to test this specific behavior most are not using a ToT llvm. Is just any test with a string literal good enough?",
+      "parentUuid": "b5d23d5e_643263fe",
       "revId": "74b6b13ae52e2e792fb5f5d83b4b6088d91b65ce",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -107,6 +143,30 @@
       "side": 1,
       "message": "We\u0027re going to break a few lines down anyhow, because the empty string won\u0027t start with \"__cgo__\".",
       "parentUuid": "d02456bc_1380c662",
+      "range": {
+        "startLine": 578,
+        "startChar": 0,
+        "endLine": 578,
+        "endChar": 44
+      },
+      "revId": "74b6b13ae52e2e792fb5f5d83b4b6088d91b65ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "02360e6d_d144c1f5",
+        "filename": "src/cmd/cgo/gcc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 578,
+      "author": {
+        "id": 57483
+      },
+      "writtenOn": "2022-05-19T19:49:15Z",
+      "side": 1,
+      "message": "\u003e We\u0027re going to break a few lines down anyhow, because the empty string won\u0027t start with \"__cgo__\".\n\nThat was initially why I didn\u0027t have any explicit check for `name \u003d\u003d \"\"`, but now with the comment I think it makes sense to have it so the comment can be easily attributed to some behavior.",
+      "parentUuid": "a08b5b7d_2bc22489",
       "range": {
         "startLine": 578,
         "startChar": 0,
