@@ -16,6 +16,41 @@
       "message": "Please add\n\nFixes #53000",
       "revId": "74b6b13ae52e2e792fb5f5d83b4b6088d91b65ce",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29a10c20_0680079f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-05-19T18:59:30Z",
+      "side": 1,
+      "message": "A bit more context would be nice here, not everyone will immediately connect up https://reviews.llvm.org/D123534 with clang. Thanks.",
+      "parentUuid": "8aca6900_22fe58a0",
+      "revId": "74b6b13ae52e2e792fb5f5d83b4b6088d91b65ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5d23d5e_643263fe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-05-19T18:59:30Z",
+      "side": 1,
+      "message": "Thanks for the patch. \n\nIt would be helpful to add a regression test as well.\n\n",
+      "revId": "74b6b13ae52e2e792fb5f5d83b4b6088d91b65ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

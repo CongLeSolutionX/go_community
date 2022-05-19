@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6eef657_de04678e",
+        "filename": "src/cmd/cgo/gcc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-05-19T18:59:30Z",
+      "side": 0,
+      "message": "Please add some context information here. Maybe something like\n\n\t\t\t\t// As of https://reviews.llvm.org/D123534, clang\n\t\t\t\t// now emits DW_TAG_variable DIEs that have\n\t\t\t\t// no name (so as to be able to describe the\n\t\t\t\t// type and source locations of constant strings\n\t\t\t\t// like the second arg in the call below:\n\t\t\t\t//\n\t\t\t\t//     myfunction(42, \"foo\")\n\t\t\t\t//\n\t\t\t\t// If a var has no name we won\u0027t see attempts to\n\t\t\t\t// refer to it via \"C.\u003cname\u003e\", so skip these vars for now.\n\t\t\t\t// See issue 53000 for more context.",
+      "revId": "946b4baaf6521d521928500b2b57429c149854e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
