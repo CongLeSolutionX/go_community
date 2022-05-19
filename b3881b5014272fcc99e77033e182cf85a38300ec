@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50cccd90_a33c514d",
+        "filename": "misc/cgo/test/testdata/issue9400/asm_loong64.s",
+        "patchSetId": 57
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 34895
+      },
+      "writtenOn": "2022-05-19T21:14:53Z",
+      "side": 1,
+      "message": "I don\u0027t think you need this #define.",
+      "revId": "b3881b5014272fcc99e77033e182cf85a38300ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
