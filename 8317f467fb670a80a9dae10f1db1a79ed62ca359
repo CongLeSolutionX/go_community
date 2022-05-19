@@ -40,6 +40,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "69fa2c1c_31c988cf",
+        "filename": "src/cmd/go/internal/modindex/index_format.txt",
+        "patchSetId": 31
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-05-19T04:17:58Z",
+      "side": 1,
+      "message": "Sorted lexicographically by path element, or by raw string?\n\n(It matters if the path elements contain any bytes less than `\u0027/\u0027`, which is plausible: https://go.dev/play/p/usDi8VzfVff.)\n\nPersonally, I find \"lexically by path element\" more intuitive (and `WalkDir` produces that order naturally), but it may be that \"by raw string\" is a bit faster to search..?",
+      "range": {
+        "startLine": 13,
+        "startChar": 65,
+        "endLine": 13,
+        "endChar": 77
+      },
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9f761437_5e817c82",
         "filename": "src/cmd/go/internal/modindex/index_format.txt",
         "patchSetId": 31
@@ -366,6 +389,149 @@
         "endLine": 174,
         "endChar": 16
       },
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7c672c8_f447ecd4",
+        "filename": "src/cmd/go/internal/modindex/write.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-05-19T04:17:58Z",
+      "side": 1,
+      "message": "This comment should mention that the slice may be modified, or else `EncodeModule` should copy the slice before sorting it (and avoid modifying the `RawPackage`s it contains).",
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6912c286_3f676495",
+        "filename": "src/cmd/go/internal/modindex/write.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-05-19T04:17:58Z",
+      "side": 1,
+      "message": "Ah, I think I finally grok what\u0027s going on with `srcDir` and `dir` here.\n\nConceptually, we can think of `go/build`\u0027s `srcDir` arguments as being basically analogous to `moddir`, and then `dir` is always relative to that.",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 23
+      },
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec1a43d2_0f8b39b3",
+        "filename": "src/cmd/go/internal/modindex/write.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-05-19T04:17:58Z",
+      "side": 1,
+      "message": "Just to check my understanding: `packagesOffsetPos[i]` is always `packagesOffsetPos[0] + 4*i`?",
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3466fe57_b2c001ba",
+        "filename": "src/cmd/go/internal/modindex/write.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-05-19T04:17:58Z",
+      "side": 1,
+      "message": "Same here — `sourceFileOffsetPos[i] \u003d\u003d sourceFileOffsetPos[0] + 4*i`?",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 2
+      },
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4d78149_9e4af84b",
+        "filename": "src/cmd/go/internal/modindex/write.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-05-19T04:17:58Z",
+      "side": 1,
+      "message": "Throughout, only call the slice-returning functions once each, in case they\u0027re allocating the slices under the hood?\n\n(Or else comment in the interface that those methods should return the same slice for each call?)",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 75,
+        "endChar": 45
+      },
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "816509f5_0bb63d84",
+        "filename": "src/cmd/go/internal/modindex/write.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-05-19T04:17:58Z",
+      "side": 1,
+      "message": "Which slice?",
+      "range": {
+        "startLine": 85,
+        "startChar": 26,
+        "endLine": 85,
+        "endChar": 35
+      },
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91d1a1ef_0333e2a9",
+        "filename": "src/cmd/go/internal/modindex/write.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-05-19T04:17:58Z",
+      "side": 1,
+      "message": "(nit) extra newline",
       "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
