@@ -16,6 +16,24 @@
       "message": "Please remove this memset as is done for the other targets in https://go.dev/cl/404275.  It shouldn\u0027t be necessary.  Thanks.",
       "revId": "faa91894d81fa797c781783425319834410e4f93",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7abd02c1_498986f4",
+        "filename": "src/runtime/cgo/gcc_linux_loong64.c",
+        "patchSetId": 57
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-05-19T13:00:03Z",
+      "side": 1,
+      "message": "Yes, it is not necessary. I delete it. Thanks!",
+      "parentUuid": "c0f797a7_c36613ca",
+      "revId": "faa91894d81fa797c781783425319834410e4f93",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
