@@ -71,6 +71,24 @@
       "parentUuid": "0658f818_902a089d",
       "revId": "4c400a4c4d00ecf19fdf5157dd53c32080fcd930",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9494bacb_367ca106",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-05-19T15:28:49Z",
+      "side": 1,
+      "message": "Oh, but there is a clue in the failure!\n\nThe fully-qualified path is `/private/tmp/buildlet/go/bin/go`, but the builder ran `make.bash` with `PWD\u003d/tmp/buildlet/go/src` (meaning `GOROOT` is `/tmp/buildlet/go`).\n\nSo this is (somehow!) another `PWD` issue, maybe.",
+      "parentUuid": "897757c6_7352a21b",
+      "revId": "4c400a4c4d00ecf19fdf5157dd53c32080fcd930",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
