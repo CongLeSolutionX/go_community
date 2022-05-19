@@ -53,6 +53,29 @@
       "message": "First pass at adding some better documentation to internal/pkgbits to explain the lower-level concepts. Happy to elaborate further if anything\u0027s unclear.",
       "revId": "64a112048f38a0e21fcfa973a005078a270aa0b4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd87d71c_727757f6",
+        "filename": "src/internal/pkgbits/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-05-19T22:55:32Z",
+      "side": 1,
+      "message": "2022",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "64a112048f38a0e21fcfa973a005078a270aa0b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
