@@ -577,7 +577,7 @@ func (p *Package) loadDWARF(f *File, conv *typeConv, names []*Name) {
 		case dwarf.TagVariable:
 			name, _ := e.Val(dwarf.AttrName).(string)
 			typOff, _ := e.Val(dwarf.AttrType).(dwarf.Offset)
-			if name == "" || typOff == 0 {
+			if typOff == 0 {
 				if e.Val(dwarf.AttrSpecification) != nil {
 					// Since we are reading all the DWARF,
 					// assume we will see the variable elsewhere.
