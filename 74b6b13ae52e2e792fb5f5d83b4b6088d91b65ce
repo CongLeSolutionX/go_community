@@ -91,6 +91,30 @@
       },
       "revId": "74b6b13ae52e2e792fb5f5d83b4b6088d91b65ce",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a08b5b7d_2bc22489",
+        "filename": "src/cmd/cgo/gcc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 578,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-05-19T19:19:21Z",
+      "side": 1,
+      "message": "We\u0027re going to break a few lines down anyhow, because the empty string won\u0027t start with \"__cgo__\".",
+      "parentUuid": "d02456bc_1380c662",
+      "range": {
+        "startLine": 578,
+        "startChar": 0,
+        "endLine": 578,
+        "endChar": 44
+      },
+      "revId": "74b6b13ae52e2e792fb5f5d83b4b6088d91b65ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
