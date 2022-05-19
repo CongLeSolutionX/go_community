@@ -2342,7 +2342,7 @@ func (b *Builder) ccompile(a *Action, p *load.Package, outfile string, flags []s
 	// TODO(golang.org/issue/36072): cgo also generates files with #line
 	// directives pointing to the source directory. It should not generate those
 	// when -trimpath is enabled.
-	if b.gccSupportsFlag(compiler, "-fdebug-prefix-map=a=b") {
+	if b.gccSupportsCompilerFlag(compiler, "-fdebug-prefix-map=a=b") {
 		if cfg.BuildTrimpath || p.Goroot {
 			// Keep in sync with Action.trimpath.
 			// The trimmed paths are a little different, but we need to trim in the
@@ -2520,19 +2520,26 @@ func (b *Builder) compilerCmd(compiler []string, incdir, workdir string) []strin
 	}
 
 	// disable ASCII art in clang errors, if possible
-	if b.gccSupportsFlag(compiler, "-fno-caret-diagnostics") {
+	if b.gccSupportsCompilerFlag(compiler, "-fno-caret-diagnostics") {
 		a = append(a, "-fno-caret-diagnostics")
 	}
 	// clang is too smart about command-line arguments
-	if b.gccSupportsFlag(compiler, "-Qunused-arguments") {
+	if b.gccSupportsCompilerFlag(compiler, "-Qunused-arguments") {
 		a = append(a, "-Qunused-arguments")
+	}
+
+	// zig cc passes --gc-sections to the underlying linker, which then causes
+	// undefined symbol errors when compiling with cgo but without C code.
+	// https://github.com/golang/go/issues/52690
+	if b.gccSupportsLinkerFlag(compiler, "-Wl,--no-gc-sections") {
+		a = append(a, "-Wl,--no-gc-sections")
 	}
 
 	// disable word wrapping in error messages
 	a = append(a, "-fmessage-length=0")
 
 	// Tell gcc not to include the work directory in object files.
-	if b.gccSupportsFlag(compiler, "-fdebug-prefix-map=a=b") {
+	if b.gccSupportsCompilerFlag(compiler, "-fdebug-prefix-map=a=b") {
 		if workdir == "" {
 			workdir = b.WorkDir
 		}
@@ -2542,7 +2549,7 @@ func (b *Builder) compilerCmd(compiler []string, incdir, workdir string) []strin
 
 	// Tell gcc not to include flags in object files, which defeats the
 	// point of -fdebug-prefix-map above.
-	if b.gccSupportsFlag(compiler, "-gno-record-gcc-switches") {
+	if b.gccSupportsCompilerFlag(compiler, "-gno-record-gcc-switches") {
 		a = append(a, "-gno-record-gcc-switches")
 	}
 
@@ -2561,17 +2568,36 @@ func (b *Builder) compilerCmd(compiler []string, incdir, workdir string) []strin
 // -no-pie must be passed when doing a partial link with -Wl,-r.
 // But -no-pie is not supported by all compilers, and clang spells it -nopie.
 func (b *Builder) gccNoPie(linker []string) string {
-	if b.gccSupportsFlag(linker, "-no-pie") {
+	if b.gccSupportsCompilerFlag(linker, "-no-pie") {
 		return "-no-pie"
 	}
-	if b.gccSupportsFlag(linker, "-nopie") {
+	if b.gccSupportsCompilerFlag(linker, "-nopie") {
 		return "-nopie"
 	}
 	return ""
 }
 
-// gccSupportsFlag checks to see if the compiler supports a flag.
-func (b *Builder) gccSupportsFlag(compiler []string, flag string) bool {
+// gccSupportsCompilerFlag checks to see if the compiler supports a flag.
+// Does not apply to linker settings (-Wl,...)
+func (b *Builder) gccSupportsCompilerFlag(compiler []string, flag string) bool {
+	if strings.HasPrefix(flag, "-Wl,") {
+		base.Fatalf("use gccSupportsLinkerFlag for %q", flag)
+	}
+	return b.gccSupportsFlag(compiler, false, flag)
+}
+
+// gccSupportsLinkerFlag checks to see if compiler's linker supports a flag.
+// Flags need to be prefixed with `-Wl,<...>`.
+func (b *Builder) gccSupportsLinkerFlag(compiler []string, flag string) bool {
+	if !strings.HasPrefix(flag, "-Wl,") {
+		base.Fatalf("use gccSupportsCompilerFlag for %q", flag)
+	}
+	return b.gccSupportsFlag(compiler, true, flag)
+}
+
+// gccSupportsFlag should not be used; use gccSupportsCompilerFlag or
+// gccSupportsLinkerFlag
+func (b *Builder) gccSupportsFlag(compiler []string, link bool, flag string) bool {
 	key := [2]string{compiler[0], flag}
 
 	b.exec.Lock()
@@ -2600,7 +2626,12 @@ func (b *Builder) gccSupportsFlag(compiler []string, flag string) bool {
 	// version of GCC, so some systems have frozen on it.
 	// Now we pass an empty file on stdin, which should work at least for
 	// GCC and clang.
-	cmdArgs := str.StringList(compiler, flag, "-c", "-x", "c", "-", "-o", tmp)
+	cmdArgs := str.StringList(compiler, flag)
+	if !link {
+		cmdArgs = append(cmdArgs, "-c")
+	}
+	cmdArgs = append(cmdArgs, "-x", "c", "-", "-o", tmp)
+
 	if cfg.BuildN || cfg.BuildX {
 		b.Showcmd(b.WorkDir, "%s || true", joinUnambiguously(cmdArgs))
 		if cfg.BuildN {
@@ -2792,7 +2823,7 @@ func (b *Builder) cgo(a *Action, cgoExe, objdir string, pcCFLAGS, pcLDFLAGS, cgo
 	}
 
 	if cfg.BuildToolchainName == "gccgo" {
-		if b.gccSupportsFlag([]string{BuildToolchain.compiler()}, "-fsplit-stack") {
+		if b.gccSupportsCompilerFlag([]string{BuildToolchain.compiler()}, "-fsplit-stack") {
 			cgoCFLAGS = append(cgoCFLAGS, "-fsplit-stack")
 		}
 		cgoflags = append(cgoflags, "-gccgo")
