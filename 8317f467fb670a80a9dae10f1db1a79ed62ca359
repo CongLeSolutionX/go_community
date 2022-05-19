@@ -115,6 +115,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "68f86648_46d1f065",
+        "filename": "src/cmd/go/internal/modindex/index_format.txt",
+        "patchSetId": 31
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-05-19T18:07:11Z",
+      "side": 1,
+      "message": "Is this redundant with the `name` field?\n(Are there “should otherwise be ignored” cases that aren\u0027t due to the build constraints that we save and apply separately?)",
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "73982e65_4660d004",
         "filename": "src/cmd/go/internal/modindex/index_format.txt",
         "patchSetId": 31
