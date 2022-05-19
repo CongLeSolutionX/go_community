@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "00cb24cc_28a23382",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-05-19T19:59:09Z",
+      "side": 1,
+      "message": "This is \"fixed\" by CL 393402, which makes persistentalloc require a non-nil stat, but also switches this allocation to no longer use persistentalloc since we don\u0027t want to count it.",
+      "revId": "85fdc9178968234a29b502a9f9e86905930f3f4a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0e11c79e_a41e072b",
         "filename": "src/runtime/malloc.go",
         "patchSetId": 1
