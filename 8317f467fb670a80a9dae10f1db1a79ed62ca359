@@ -75,6 +75,63 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "342646fc_12b0bd22",
+        "filename": "src/cmd/go/internal/modindex/index_format.txt",
+        "patchSetId": 31
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-05-19T03:31:44Z",
+      "side": 1,
+      "message": "Which path is this? (The import path? Filesystem path? Something else?)",
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73982e65_4660d004",
+        "filename": "src/cmd/go/internal/modindex/index_format.txt",
+        "patchSetId": 31
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-05-19T03:31:44Z",
+      "side": 1,
+      "message": "Do we need to index the import comments at all? I don\u0027t think we currently use them in module mode.",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 33
+      },
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41940fac_14463e50",
+        "filename": "src/cmd/go/internal/modindex/scan.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-05-19T03:31:44Z",
+      "side": 1,
+      "message": "If `path` might be within the build cache, we need to avoid `WriteFile` because it always truncates to 0 before writing, which can cause write/write races for unsynchronized files (see CL 188157).\n\n(Note that writes through the `cmd/go/internal/cache` package already write more robustly.)",
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d41d5ac0_7b2a831f",
         "filename": "src/cmd/go/internal/modindex/scan.go",
         "patchSetId": 31
@@ -86,6 +143,229 @@
       "writtenOn": "2022-05-16T21:42:54Z",
       "side": 1,
       "message": "Since this kind of accessor-method interface is unusual in Go, more detail in this comment would be helpful.\n\nFrom the implementation of this interface in CL 403975, I gather that its purpose is to avoid faulting in mmap\u0027d pages for files that aren\u0027t used, or perhaps to allow them to be faulted in parallel (resulting in parallel disk reads)? But I\u0027m not sure how many faults this actually saves — the `string` fields are just headers giving the memory offsets and lengths. I guess the `imports` and `embeds` methods may be more significant?",
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5e14b5e_3a756c3b",
+        "filename": "src/cmd/go/internal/modindex/scan.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-05-19T03:31:44Z",
+      "side": 1,
+      "message": "I\u0027m a little surprised that we need this metadata at all — don\u0027t we ignore \"//import\" comments in module mode?",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 30
+      },
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a8aa38a_7fe72302",
+        "filename": "src/cmd/go/internal/modindex/scan.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-05-19T03:31:44Z",
+      "side": 1,
+      "message": "Is `quotedImportCommentLine` always the same line as the `package` directive? (Maybe call it `packageLine` instead, or do we only even compute it if there is an import comment?)",
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "248791b4_82b47afe",
+        "filename": "src/cmd/go/internal/modindex/scan.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-05-19T03:31:44Z",
+      "side": 1,
+      "message": "(nit) I think these comments would be more helpful on the interface methods — I suspect they would be more likely to result in useful IDE hover-text and CodeSearch xrefs at the point of use.",
+      "range": {
+        "startLine": 66,
+        "startChar": 32,
+        "endLine": 66,
+        "endChar": 103
+      },
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "667711f7_6e520b43",
+        "filename": "src/cmd/go/internal/modindex/scan.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-05-19T03:31:44Z",
+      "side": 1,
+      "message": "Is this the comment after the individual import line, like\n```\nimport (\n\tpathpkg \"path\" // renamed because \"path\" is a common variable name\n)\n```\n?",
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2db948a5_750d842b",
+        "filename": "src/cmd/go/internal/modindex/scan.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-05-19T03:31:44Z",
+      "side": 1,
+      "message": "A comment for this field would be helpful. (Is this the import path, or something else?)\n\nI guess it can\u0027t be the import path because at this point we haven\u0027t read the `module` directive from the `go.mod` file (if any), and a module without a `go.mod` file could be used as a replacement for an arbitrary other import path. 🤔",
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a59b2b67_d4dcecd9",
+        "filename": "src/cmd/go/internal/modindex/scan.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-05-19T03:31:44Z",
+      "side": 1,
+      "message": "If `srcDir` is still around for this CL, a comment explaining the difference between `srcDir` and `dir` would be helpful.",
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e44f3cf_125d438d",
+        "filename": "src/cmd/go/internal/modindex/scan.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-05-19T03:31:44Z",
+      "side": 1,
+      "message": "caching its work to disk, or in RAM, or both?",
+      "range": {
+        "startLine": 119,
+        "startChar": 60,
+        "endLine": 119,
+        "endChar": 77
+      },
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d199ae0c_53210bc4",
+        "filename": "src/cmd/go/internal/modindex/scan.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-05-19T03:31:44Z",
+      "side": 1,
+      "message": "`path` is the constant string `\".\"` at this point, I think?\n\nIf so, a lot of the start of this function could be constant-propagated and removed.",
+      "range": {
+        "startLine": 142,
+        "startChar": 0,
+        "endLine": 153,
+        "endChar": 2
+      },
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3003c634_d196c790",
+        "filename": "src/cmd/go/internal/modindex/scan.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-05-19T03:31:44Z",
+      "side": 1,
+      "message": "I\u0027m very confused by this line. We\u0027re importing the package in `srcDir`, right?\n\nShould the argument to `ImportRaw` just be `dir` itself?\n\n(Within `go/build`, the `srcDir` argument usually refers to the directory from which the package is imported, not the directory containing the imported package, although sometimes IIRC we conflate the two by passing a directory for `srcDir` and `\".\"` for `dir`.)",
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2fe50e47_0fa9590a",
+        "filename": "src/cmd/go/internal/modindex/scan.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-05-19T03:31:44Z",
+      "side": 1,
+      "message": "(nit) The name `dirs` to me connotes directories, but here it contains a slice of `fs.DirEntry`. Maybe rename to `dirEnts` or `entries` or similar?",
+      "range": {
+        "startLine": 174,
+        "startChar": 1,
+        "endLine": 174,
+        "endChar": 5
+      },
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8cf1cdb_397d3607",
+        "filename": "src/cmd/go/internal/modindex/scan.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-05-19T03:31:44Z",
+      "side": 1,
+      "message": "Should we use `fsys` in this function so that `ImportRaw` works with overlays?\n\n(Or, if not, should `ImportRaw` verify that `srcDir` doesn\u0027t have any overlaid files?",
+      "range": {
+        "startLine": 174,
+        "startChar": 14,
+        "endLine": 174,
+        "endChar": 16
+      },
       "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
