@@ -74,6 +74,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "12db3faf_00fd0fe1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 57483
+      },
+      "writtenOn": "2022-05-19T22:13:23Z",
+      "side": 1,
+      "message": "Thanks.\n\nWe have something similar but we used \"Fixed\". The tense of \"Fixes\" makes way more sense to me :)",
+      "parentUuid": "0ecead4d_4e79b9a3",
+      "revId": "74b6b13ae52e2e792fb5f5d83b4b6088d91b65ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "b5d23d5e_643263fe",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -138,6 +156,24 @@
       "side": 1,
       "message": "I would imagine that the current tests will already break for anybody using tip clang.  It might be nice to check whether that is true.",
       "parentUuid": "fac371db_a15626d5",
+      "revId": "74b6b13ae52e2e792fb5f5d83b4b6088d91b65ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9322ace8_0f7c2035",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57483
+      },
+      "writtenOn": "2022-05-19T22:13:23Z",
+      "side": 1,
+      "message": "They certainly do. With `CC_FOR_TARGET\u003d\u003cpath_to_new_clang\u003e ./all.bash` basically all of the cgo tests fail.",
+      "parentUuid": "792720cc_0fbecabe",
       "revId": "74b6b13ae52e2e792fb5f5d83b4b6088d91b65ce",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
