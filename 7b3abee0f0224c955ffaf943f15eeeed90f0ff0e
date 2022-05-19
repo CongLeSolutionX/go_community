@@ -16,6 +16,23 @@
       "message": "Thank you for your findings.\n\n- Squashed\n- Updated the description in both github and commit.\n- Fixed the `link` param to `gccSupportsFlag`.",
       "revId": "7b3abee0f0224c955ffaf943f15eeeed90f0ff0e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ddeee1f8_46125790",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 2592,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-05-19T23:09:51Z",
+      "side": 1,
+      "message": "Sorry for just noticing this, but with this implementation any option that starts with -Wl must use supportsCompilerFlag and any option that doesn\u0027t start with -Wl must use supportsLinkerFlag.  It will be simpler to just let gccSupportsFlag decide whether to invoke the linker by examining flag, rather than adding two new functions.",
+      "revId": "7b3abee0f0224c955ffaf943f15eeeed90f0ff0e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
