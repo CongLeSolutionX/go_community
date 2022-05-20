@@ -71,6 +71,24 @@
       "parentUuid": "c5e1a837_63cde1ef",
       "revId": "962743cf7c288327fdeccdd93b769118331971e6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d191be70_03d7e016",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-05-20T20:49:39Z",
+      "side": 1,
+      "message": "I just meant that I went and looked at the package o tip to see what it was about and did not see any package comment.  If you\u0027ve just added one just now, then, great.  Thanks.",
+      "parentUuid": "0adfc4a4_d5e4c917",
+      "revId": "962743cf7c288327fdeccdd93b769118331971e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
