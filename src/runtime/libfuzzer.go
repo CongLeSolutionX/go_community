@@ -9,38 +9,50 @@ package runtime
 import "unsafe"
 
 func libfuzzerCallWithTwoByteBuffers(fn, start, end *byte)
-func libfuzzerCall(fn *byte, arg0, arg1 uintptr)
+func libfuzzerCallTraceIntCmp(fn *byte, arg0, arg1, fakePC uintptr)
+func libfuzzerCall4(fn *byte, fakePC uintptr, s1, s2 unsafe.Pointer, result uintptr)
+// Keep in sync with the definition of ret_sled in src/runtime/libfuzzer_amd64.s
+const retSledSize = 512
 
-func libfuzzerTraceCmp1(arg0, arg1 uint8) {
-	libfuzzerCall(&__sanitizer_cov_trace_cmp1, uintptr(arg0), uintptr(arg1))
+
+func libfuzzerTraceCmp1(arg0, arg1 uint8, fakePC int) {
+	fakePC = fakePC % retSledSize
+	libfuzzerCallTraceIntCmp(&__sanitizer_cov_trace_cmp1, uintptr(arg0), uintptr(arg1), uintptr(fakePC))
 }
 
-func libfuzzerTraceCmp2(arg0, arg1 uint16) {
-	libfuzzerCall(&__sanitizer_cov_trace_cmp2, uintptr(arg0), uintptr(arg1))
+func libfuzzerTraceCmp2(arg0, arg1 uint16, fakePC int) {
+	fakePC = fakePC % retSledSize
+	libfuzzerCallTraceIntCmp(&__sanitizer_cov_trace_cmp2, uintptr(arg0), uintptr(arg1), uintptr(fakePC))
 }
 
-func libfuzzerTraceCmp4(arg0, arg1 uint32) {
-	libfuzzerCall(&__sanitizer_cov_trace_cmp4, uintptr(arg0), uintptr(arg1))
+func libfuzzerTraceCmp4(arg0, arg1 uint32, fakePC int) {
+	fakePC = fakePC % retSledSize
+	libfuzzerCallTraceIntCmp(&__sanitizer_cov_trace_cmp4, uintptr(arg0), uintptr(arg1), uintptr(fakePC))
 }
 
-func libfuzzerTraceCmp8(arg0, arg1 uint64) {
-	libfuzzerCall(&__sanitizer_cov_trace_cmp8, uintptr(arg0), uintptr(arg1))
+func libfuzzerTraceCmp8(arg0, arg1 uint64, fakePC int) {
+	fakePC = fakePC % retSledSize
+	libfuzzerCallTraceIntCmp(&__sanitizer_cov_trace_cmp8, uintptr(arg0), uintptr(arg1), uintptr(fakePC))
 }
 
-func libfuzzerTraceConstCmp1(arg0, arg1 uint8) {
-	libfuzzerCall(&__sanitizer_cov_trace_const_cmp1, uintptr(arg0), uintptr(arg1))
+func libfuzzerTraceConstCmp1(arg0, arg1 uint8, fakePC int) {
+	fakePC = fakePC % retSledSize
+	libfuzzerCallTraceIntCmp(&__sanitizer_cov_trace_const_cmp1, uintptr(arg0), uintptr(arg1), uintptr(fakePC))
 }
 
-func libfuzzerTraceConstCmp2(arg0, arg1 uint16) {
-	libfuzzerCall(&__sanitizer_cov_trace_const_cmp2, uintptr(arg0), uintptr(arg1))
+func libfuzzerTraceConstCmp2(arg0, arg1 uint16, fakePC int) {
+	fakePC = fakePC % retSledSize
+	libfuzzerCallTraceIntCmp(&__sanitizer_cov_trace_const_cmp2, uintptr(arg0), uintptr(arg1), uintptr(fakePC))
 }
 
-func libfuzzerTraceConstCmp4(arg0, arg1 uint32) {
-	libfuzzerCall(&__sanitizer_cov_trace_const_cmp4, uintptr(arg0), uintptr(arg1))
+func libfuzzerTraceConstCmp4(arg0, arg1 uint32, fakePC int) {
+	fakePC = fakePC % retSledSize
+	libfuzzerCallTraceIntCmp(&__sanitizer_cov_trace_const_cmp4, uintptr(arg0), uintptr(arg1), uintptr(fakePC))
 }
 
-func libfuzzerTraceConstCmp8(arg0, arg1 uint64) {
-	libfuzzerCall(&__sanitizer_cov_trace_const_cmp8, uintptr(arg0), uintptr(arg1))
+func libfuzzerTraceConstCmp8(arg0, arg1 uint64, fakePC int) {
+	fakePC = fakePC % retSledSize
+	libfuzzerCallTraceIntCmp(&__sanitizer_cov_trace_const_cmp8, uintptr(arg0), uintptr(arg1), uintptr(fakePC))
 }
 
 var pcTables []byte
@@ -57,6 +69,31 @@ func init() {
 	size := (uintptr(end)-uintptr(start))*unsafe.Sizeof(uintptr(0))*2 + 1
 	pcTables = make([]byte, size)
 	libfuzzerCallWithTwoByteBuffers(&__sanitizer_cov_pcs_init, &pcTables[0], &pcTables[size-1])
+}
+
+// We call libFuzzer's __sanitizer_weak_hook_strcmp function
+// which takes the following four arguments:
+//   1- caller_pc: location of string comparison call site
+//   2- s1: first string used in the comparison
+//   3- s2: second string used in the comparison
+//   4- result: an integer representing the comparison result. Libfuzzer only distinguishes between two cases:
+//      - 0 means that the strings are equal and the comparison will be ignored by libfuzzer.
+//      - Any other value means that strings are not equal and libfuzzer takes the comparison into consideration.
+//      Here, we pass 1 when the strings are not equal.
+func libfuzzerHookStrCmp(s1, s2 string, fakePC int) {
+	if s1 != s2 {
+		libfuzzerCall4(&__sanitizer_weak_hook_strcmp, uintptr(fakePC), cstring(s1), cstring(s2), uintptr(1))
+	}
+	// if s1 == s2 we could call the hook with a last argument of 0 but this is unnecessary since this case will be then
+	// ignored by libfuzzer
+}
+
+// This function has now the same implementation as libfuzzerHookStrCmp because we lack better checks
+// for case-insensitive string equality in the runtime package.
+func libfuzzerHookEqualFold(s1, s2 string, fakePC int) {
+	if s1 != s2 {
+		libfuzzerCall4(&__sanitizer_weak_hook_strcmp, uintptr(fakePC), cstring(s1), cstring(s2), uintptr(1))
+	}
 }
 
 //go:linkname __sanitizer_cov_trace_cmp1 __sanitizer_cov_trace_cmp1
@@ -106,3 +143,7 @@ var __stop___sancov_cntrs byte
 //go:linkname __sanitizer_cov_pcs_init __sanitizer_cov_pcs_init
 //go:cgo_import_static __sanitizer_cov_pcs_init
 var __sanitizer_cov_pcs_init byte
+
+//go:linkname __sanitizer_weak_hook_strcmp __sanitizer_weak_hook_strcmp
+//go:cgo_import_static __sanitizer_weak_hook_strcmp
+var __sanitizer_weak_hook_strcmp byte
