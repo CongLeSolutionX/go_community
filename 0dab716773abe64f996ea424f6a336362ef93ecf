@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d17771d0_59b818fa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-05-20T14:48:37Z",
+      "side": 1,
+      "message": "Thanks for sending this! This finalizer code could definitely use a lot of cleanup. Your CL looks good, but I\u0027ve left some comments of additional clean up I think we should do.",
+      "revId": "0dab716773abe64f996ea424f6a336362ef93ecf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08a9c803_29469e54",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-05-20T14:48:37Z",
+      "side": 1,
+      "message": "If we are going to clean this up, then in my opinion we should apply more reasonable synchronization requirements to fingStatus.\n\nThe current status quo [1] seems to be \"fingStatus is protected by finlock, except for a bunch of cases that use unsynchronized reads (and one atomic write) with no particular justification.\"\n\nI think we should just make fingStatus an atomic.Uint32 and always use atomics.\n\n[1] To be very clear, you haven\u0027t changed these semantics, they applied the same to the old variables.",
+      "revId": "0dab716773abe64f996ea424f6a336362ef93ecf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c845884_960f7160",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-05-20T14:48:37Z",
+      "side": 1,
+      "message": "nit: I think this would be clearer as `fingCreated`",
+      "range": {
+        "startLine": 37,
+        "startChar": 1,
+        "endLine": 37,
+        "endChar": 11
+      },
+      "revId": "0dab716773abe64f996ea424f6a336362ef93ecf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7e726d5_28694966",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-05-20T14:48:37Z",
+      "side": 1,
+      "message": "nit: perhaps make this `fingRunningFinalizer`. (That is to differentiate from the finalizer g running from the Go scheduler perspective)",
+      "range": {
+        "startLine": 38,
+        "startChar": 1,
+        "endLine": 38,
+        "endChar": 12
+      },
+      "revId": "0dab716773abe64f996ea424f6a336362ef93ecf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d9970ae_29ad6de1",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-05-20T14:48:37Z",
+      "side": 1,
+      "message": "Please add a comment noting that because both this and runfinq take finlock, it isn\u0027t possible to miss a wakeup when eliding fingWake. (runfinq guarantees that the queue is empty before setting fingWait).",
+      "revId": "0dab716773abe64f996ea424f6a336362ef93ecf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4bff6b9c_af817401",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-05-20T14:48:37Z",
+      "side": 1,
+      "message": "If we make fingStatus atomic, then this function can drop finlock entirely and become a CAS of fingStatus `fingCreated|fingWait|fingWake` -\u003e `fingCreated`.\n\nWithout the lock, I think it would also be acceptable for the caller in findRunnable to unconditionally call wakefing (we could put a load prior to CAS if the CAS is too expensive).",
+      "revId": "0dab716773abe64f996ea424f6a336362ef93ecf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
