@@ -2575,7 +2575,7 @@ top:
 
 	// Try to schedule the trace reader.
 	if trace.enabled || trace.shutdown {
-		gp = traceReader()
+		gp := traceReader()
 		if gp != nil {
 			casgstatus(gp, _Gwaiting, _Grunnable)
 			traceGoUnpark(gp, 0)
@@ -2585,10 +2585,11 @@ top:
 
 	// Try to schedule a GC worker.
 	if gcBlackenEnabled != 0 {
-		gp, now = gcController.findRunnableGCWorker(_p_, now)
+		gp, tnow := gcController.findRunnableGCWorker(_p_, now)
 		if gp != nil {
 			return gp, false, true
 		}
+		now = tnow
 	}
 
 	// Check the global runnable queue once in a while to ensure fairness.
@@ -2596,7 +2597,7 @@ top:
 	// by constantly respawning each other.
 	if _p_.schedtick%61 == 0 && sched.runqsize > 0 {
 		lock(&sched.lock)
-		gp = globrunqget(_p_, 1)
+		gp := globrunqget(_p_, 1)
 		unlock(&sched.lock)
 		if gp != nil {
 			return gp, false, false
@@ -2660,7 +2661,6 @@ top:
 		}
 
 		gp, inheritTime, tnow, w, newWork := stealWork(now)
-		now = tnow
 		if gp != nil {
 			// Successfully stole.
 			return gp, inheritTime, false
@@ -2670,6 +2670,8 @@ top:
 			// discover.
 			goto top
 		}
+
+		now = tnow
 		if w != 0 && (pollUntil == 0 || w < pollUntil) {
 			// Earlier timer to wait for.
 			pollUntil = w
@@ -2780,7 +2782,7 @@ top:
 		}
 
 		// Check for idle-priority GC work again.
-		_p_, gp = checkIdleGCNoP()
+		_p_, gp := checkIdleGCNoP()
 		if _p_ != nil {
 			acquirep(_p_)
 			_g_.m.spinning = true
@@ -4254,7 +4256,7 @@ func gfput(_p_ *p, gp *g) {
 			noStackQ gQueue
 		)
 		for _p_.gFree.n >= 32 {
-			gp = _p_.gFree.pop()
+			gp := _p_.gFree.pop()
 			_p_.gFree.n--
 			if gp.stack.lo == 0 {
 				noStackQ.push(gp)
