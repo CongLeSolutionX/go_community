@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76171996_1a7e0400",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-05-20T18:15:07Z",
+      "side": 1,
+      "message": "change to:\n\ngo/scanner: use constant name rather than its value (cleanup)",
+      "range": {
+        "startLine": 7,
+        "startChar": 2,
+        "endLine": 7,
+        "endChar": 3
+      },
+      "revId": "6d3710aa30dfe631b0b290879efec62d079c9ee2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec1abda5_34931beb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-05-20T18:15:07Z",
+      "side": 1,
+      "message": "leave away this sentence - not needed",
+      "range": {
+        "startLine": 9,
+        "startChar": 8,
+        "endLine": 9,
+        "endChar": 12
+      },
+      "revId": "6d3710aa30dfe631b0b290879efec62d079c9ee2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
