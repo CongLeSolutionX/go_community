@@ -16,6 +16,24 @@
       "message": "Could you rebase again? It doesn\u0027t look like they were correctly rebased on top of each other. Or something else went wrong that caused a merge conflict after the 1st one was submitted.\n",
       "revId": "abbee38d07172687a33a0f540efa43d8191b4e2a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63a524e4_28259f15",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 56363
+      },
+      "writtenOn": "2022-05-20T22:10:57Z",
+      "side": 1,
+      "message": "I\u0027ve just rebased the remaining two CLs on master. They can be merged now in the proposed order.",
+      "parentUuid": "5f0aa7bd_4abfe8ee",
+      "revId": "abbee38d07172687a33a0f540efa43d8191b4e2a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
