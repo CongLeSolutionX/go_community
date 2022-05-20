@@ -3121,7 +3121,8 @@ func godefsFields(fld []*ast.Field) {
 // package syscall's data structures, we drop a common prefix
 // (so sec, usec, which will get turned into Sec, Usec for exporting).
 func fieldPrefix(fld []*ast.Field) string {
-	prefix := ""
+	prefixMap := make(map[string]int)
+	prefixSum := 0
 	for _, f := range fld {
 		for _, n := range f.Names {
 			// Ignore field names that don't have the prefix we're
@@ -3139,14 +3140,17 @@ func fieldPrefix(fld []*ast.Field) string {
 			if i < 0 {
 				continue
 			}
-			if prefix == "" {
-				prefix = n.Name[:i+1]
-			} else if prefix != n.Name[:i+1] {
-				return ""
-			}
+			prefixMap[n.Name[:i+1]] += 1
+			prefixSum += 1
 		}
 	}
-	return prefix
+	prefixSum /= 2
+	for i := range prefixMap {
+		if prefixMap[i] > prefixSum {
+			return i
+		}
+	}
+	return ""
 }
 
 // anonymousStructTypedef reports whether dt is a C typedef for an anonymous
