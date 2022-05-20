@@ -499,11 +499,10 @@ func (v Value) call(op string, in []Value) []Value {
 		switch st := abid.call.steps[0]; st.kind {
 		case abiStepStack:
 			storeRcvr(rcvr, stackArgs)
-		case abiStepIntReg, abiStepPointer:
-			// Even pointers can go into the uintptr slot because
-			// they'll be kept alive by the Values referenced by
-			// this frame. Reflection forces these to be heap-allocated,
-			// so we don't need to worry about stack copying.
+		case abiStepPointer:
+			storeRcvr(rcvr, unsafe.Pointer(&regArgs.Ptrs[st.ireg]))
+			fallthrough
+		case abiStepIntReg:
 			storeRcvr(rcvr, unsafe.Pointer(&regArgs.Ints[st.ireg]))
 		case abiStepFloatReg:
 			storeRcvr(rcvr, unsafe.Pointer(&regArgs.Floats[st.freg]))
