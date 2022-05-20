@@ -16,6 +16,24 @@
       "message": "I don\u0027t think you need this #define.",
       "revId": "b3881b5014272fcc99e77033e182cf85a38300ec",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "26dd429d_fd08d867",
+        "filename": "misc/cgo/test/testdata/issue9400/asm_loong64.s",
+        "patchSetId": 57
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-05-20T01:35:13Z",
+      "side": 1,
+      "message": "OK, I delete it. Thanks!",
+      "parentUuid": "50cccd90_a33c514d",
+      "revId": "b3881b5014272fcc99e77033e182cf85a38300ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
