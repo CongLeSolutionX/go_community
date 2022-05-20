@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6962a9e_8c4eb3f8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-05-20T17:58:23Z",
+      "side": 1,
+      "message": "Thanks, but I have a feeling that if we make this change it will cause the builds in golang.org/x/sys/unix to change.  That would be bad.  So I don\u0027t think we can do this.  But please feel free to see what happens in x/sys/unix.  See x/sys/unix/README.md.",
+      "revId": "7ac43f888c3f7c5f8f482ddab288a094f28360b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
