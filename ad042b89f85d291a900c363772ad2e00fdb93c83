@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58bfba5b_6853bdf2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-05-20T17:41:13Z",
+      "side": 1,
+      "message": "Thanks.  We\u0027re in the 1.19 release freeze now, so these kinds of cleanups will wait for 1.20.",
+      "revId": "ad042b89f85d291a900c363772ad2e00fdb93c83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
