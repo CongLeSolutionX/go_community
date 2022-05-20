@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "06e87b40_e78850f5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 30
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-05-20T15:15:36Z",
+      "side": 1,
+      "message": "I\u0027ll review once the earlier CLs (348733, 348734) on the stack are done. Thanks.",
+      "revId": "8888387c2792e21a6297d07065ad260ece076f7e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
