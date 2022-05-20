@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1a6afce_abcff1c2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-05-20T16:02:10Z",
+      "side": 1,
+      "message": "Well, so far I haven\u0027t actually been able to reproduce with goswarm over the last couple of days. This seems like an especially fleeting bug. I\u0027ll do some more swarming this coming week to see if I can trigger it.",
+      "parentUuid": "da0f9d4a_c59f7ccd",
+      "revId": "de8a1f61f7e7e20f3c2026a17e65b677461ad2cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ef14fb8c_cecc709d",
@@ -85,6 +103,24 @@
       "writtenOn": "2022-05-18T18:17:48Z",
       "side": 1,
       "message": "Maybe add a comment like the one above (or update that one)?",
+      "revId": "de8a1f61f7e7e20f3c2026a17e65b677461ad2cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "77eac77e_50d954da",
+        "filename": "src/cmd/link/internal/ld/outbuf_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-05-20T16:02:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef14fb8c_cecc709d",
       "revId": "de8a1f61f7e7e20f3c2026a17e65b677461ad2cd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
