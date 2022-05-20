@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "644a22b4_1d70f031",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-05-20T17:19:32Z",
+      "side": 1,
+      "message": "An example use of BuildToolExec can be found a bit up the stack in https://go-review.googlesource.com/c/go/+/404299 . The linker unit tests also use -toolexec,\nbut I haven\u0027t gotten around (yet) to removing that code and use BuildToolExec instead.",
+      "revId": "80014e7db4fdd0ec7ac261e075ade02ebe4fa496",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
