@@ -342,4 +342,24 @@ func printClasses(w io.Writer, classes []class) {
 		fmt.Fprintf(w, "%d,", v)
 	}
 	fmt.Fprintln(w, "}")
+
+	fmt.Fprint(w, "var class_to_wordlen32 = [_NumSizeClasses]uint16 {")
+	for _, c := range classes {
+		if c.size == 0 {
+			fmt.Fprintf(w, "0,")
+			continue
+		}
+		fmt.Fprintf(w, "%d,", (c.size*(c.npages*pageSize/c.size))/4)
+	}
+	fmt.Fprintln(w, "}")
+
+	fmt.Fprint(w, "var class_to_wordlen64 = [_NumSizeClasses]uint16 {")
+	for _, c := range classes {
+		if c.size == 0 {
+			fmt.Fprintf(w, "0,")
+			continue
+		}
+		fmt.Fprintf(w, "%d,", (c.size*(c.npages*pageSize/c.size))/8)
+	}
+	fmt.Fprintln(w, "}")
 }
