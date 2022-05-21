@@ -52,6 +52,24 @@
       "parentUuid": "d72dde5e_c9e2815f",
       "revId": "7ec6ef432a85a390365f2daed788f0d14c830c73",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5e7a4d7_ec27a59b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 56363
+      },
+      "writtenOn": "2022-05-21T10:46:47Z",
+      "side": 1,
+      "message": "I\u0027ve pushed a fix here: https://go-review.googlesource.com/c/go/+/407674",
+      "parentUuid": "db4f4ed1_f0faca8f",
+      "revId": "7ec6ef432a85a390365f2daed788f0d14c830c73",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
