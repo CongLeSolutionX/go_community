@@ -406,9 +406,9 @@ func sigFetchG(c *sigctxt) *g {
 			// TODO: in efence mode, stack is sysAlloc'd, so this wouldn't
 			// work.
 			sp := getcallersp()
-			s := spanOf(sp)
-			if s != nil && s.state.get() == mSpanManual && s.base() < sp && sp < s.limit {
-				gp := *(**g)(unsafe.Pointer(s.base()))
+			spanCache, spanBase := spanOf(sp)
+			if spanCache.valid() && spanCache.state == mSpanManual && spanBase < sp && sp < spanBase+spanCache.used() {
+				gp := *(**g)(unsafe.Pointer(spanBase))
 				return gp
 			}
 			return nil
