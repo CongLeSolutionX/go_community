@@ -236,7 +236,7 @@ type heapArena struct {
 	// known to contain in-use or stack spans. This means there
 	// must not be a safe-point between establishing that an
 	// address is live and looking it up in the spans array.
-	spans [pagesPerArena]*mspan
+	spans [pagesPerArena]mSpanCache
 
 	// pageInUse is a bitmap that indicates which spans are in
 	// state mSpanInUse. This bitmap is indexed by page number,
@@ -444,9 +444,13 @@ type mspan struct {
 	// if sweepgen == h->sweepgen + 1, the span was cached before sweep began and is still cached, and needs sweeping
 	// if sweepgen == h->sweepgen + 3, the span was swept and then cached and is still cached
 	// h->sweepgen is incremented by 2 after every GC
+	sweepgen uint32
 
-	sweepgen              uint32
-	divMul                uint32        // for divide by elemsize
+	// divMul is divide-by-multiplication magic for elemsize.
+	//
+	// If the span is for a large object, the first two bytes of divMul
+	// are repurposed as the bitmap for allocBits and gcmarkBits.
+	divMul                uint32
 	allocCount            uint16        // number of allocated objects
 	spanclass             spanClass     // size class and noscan (uint8)
 	state                 mSpanStateBox // mSpanInUse etc; accessed atomically (get/set methods)
@@ -469,6 +473,111 @@ func (s *mspan) layout() (size, n, total uintptr) {
 		n = total / size
 	}
 	return
+}
+
+type mSpanCacheData uint64
+
+const (
+	mSpanCacheIsCanonical    mSpanCacheData = 0b00000000_00000000_00000000_00000000_00000000_00000000_00000000_00000001
+	mSpanCacheBaseAddress                   = 0b11111111_11111111_11111111_11111111_11111111_11111111_11111111_11111110
+	mSpanCacheIsLarge                       = 0b00000000_00000000_00000000_00000000_00000000_00000000_00000000_00000010
+	mSpanCacheState                         = 0b00000000_00000000_00000000_00000000_00000000_00000000_00000000_00001100
+	mSpanCacheNPagesSmall                   = 0b00000000_00000000_00000000_00000000_00000000_00000000_00000000_11110000
+	mSpanCacheIsNoScan                      = 0b00000000_00000000_00000000_00000000_00000000_00000000_00000001_00000000
+	mSpanCacheTailWasteSmall                = 0b00000000_00000000_00000000_00000000_00000000_00000000_11111110_00000000
+	mSpanCacheElemSizeSmall                 = 0b00000000_00000000_00000000_00000000_11111111_11111111_00000000_00000000
+	mSpanCacheDivMulSmall                   = 0b11111111_11111111_11111111_11111111_00000000_00000000_00000000_00000000
+	mSpanCacheNPagesLarge                   = 0b11111111_11111111_11111111_11111111_11111111_11111111_11110000_00000000
+)
+
+// mSpanCache is a wrapper around an mspan that caches fields that are very
+// commonly used by the GC. This avoids an additional cache miss to access
+// these fields on extremely hot paths, like findObject.
+//
+// mSpanCache is used when storing spans in the span map, so there's one
+// mSpanCache per mspan slot in the map.
+type mSpanCache struct {
+	data  mSpanCacheData
+	ptr   uintptr
+	mspan atomic.UnsafePointer
+}
+
+func (s *mSpanCache) isCanonical() bool {
+	return s.data&mSpanCacheIsCanonical != 0
+}
+
+// For non-canonical mSpanCaches.
+
+func (s *mSpanCache) base() uintptr {
+	return uintptr(s.data & mSpanCacheBaseAddress)
+}
+
+func (s *mSpanCache) canonical() *mSpanCache {
+	return (*mSpanCache)(unsafe.Pointer(s.ptr))
+}
+
+// For canonical mSpanCaches.
+
+func (s *mSpanCache) isLarge() bool {
+	return s.data&mSpanCacheIsLarge != 0
+}
+
+func (s *mSpanCache) state() mSpanState {
+	return mSpanState((s.data & mSpanCacheState) >> 2)
+}
+
+func (s *mSpanCache) npages() uintptr {
+	if s.isLarge() {
+		return uintptr((s.data & mSpanCacheNPagesLarge) >> 12)
+	}
+	return uintptr((s.data & mSpanCacheNPagesSmall) >> 4)
+}
+
+func (s *mSpanCache) isNoScan() bool {
+	return s.data&mSpanCacheIsNoScan != 0
+}
+
+func (s *mSpanCache) tailWaste() uintptr {
+	if s.isLarge() {
+		return 0
+	}
+	return uintptr((s.data&mSpanCacheTailWasteSmall)>>9) * 8
+}
+
+func (s *mSpanCache) elemSize() uintptr {
+	if s.isLarge() {
+		return s.npages() * pageSize
+	}
+	return uintptr((s.data & mSpanCacheElemSizeSmall) >> 16)
+}
+
+func (s *mSpanCache) divMul() uint32 {
+	if s.isLarge() {
+		return 0
+	}
+	return uint32((s.data & mSpanCacheDivMulSmall) >> 32)
+}
+
+func (s *mSpanCache) gcmarkBits() *gcBits {
+	return (*gcBits)(unsafe.Pointer(s.ptr))
+}
+
+func (s *mSpanCache) len() uintptr {
+	return s.npages()*pageSize - s.tailWaste()
+}
+
+// For all mSpanCaches.
+
+// valid returns true if the cache and the underlying span are non-nil.
+//
+// This must always be checked before using the cache.
+func (s *mSpanCache) valid() bool {
+	return s != nil && s.isCanonical() && s.mspan.Load() != nil
+}
+
+// span returns the underlying span whose values we've cached.
+func (s *mSpanCache) span() *mspan {
+	return (*mspan)(s.mspan.Load())
 }
 
 // recordspan adds a newly allocated span to h.allspans.
@@ -590,7 +699,8 @@ func (i arenaIdx) l2() uint {
 //go:nowritebarrier
 //go:nosplit
 func inheap(b uintptr) bool {
-	return spanOfHeap(b) != nil
+	spanCache, _ := spanOfHeap(b)
+	return spanCache.valid()
 }
 
 // inHeapOrStack is a variant of inheap that returns true for pointers
@@ -599,20 +709,21 @@ func inheap(b uintptr) bool {
 //go:nowritebarrier
 //go:nosplit
 func inHeapOrStack(b uintptr) bool {
-	s := spanOf(b)
-	if s == nil || b < s.base() {
+	spanCache, spanBase := spanOf(b)
+	if !spanCache.valid() || b < spanBase {
 		return false
 	}
-	switch s.state.get() {
+	switch spanCache.state() {
 	case mSpanInUse, mSpanManual:
-		return b < s.limit
+		return b < spanBase+spanCache.len()
 	default:
 		return false
 	}
 }
 
-// spanOf returns the span of p. If p does not point into the heap
-// arena or no span has ever contained p, spanOf returns nil.
+// spanOf returns the span of p and the span's base address. If p
+// does not point into the heap arena or no span has ever contained p,
+// spanOf returns nil.
 //
 // If p does not point to allocated memory, this may return a non-nil
 // span that does *not* contain p. If this is a possibility, the
@@ -622,7 +733,7 @@ func inHeapOrStack(b uintptr) bool {
 // Must be nosplit because it has callers that are nosplit.
 //
 //go:nosplit
-func spanOf(p uintptr) *mspan {
+func spanOf(p uintptr) (*mSpanCache, uintptr) {
 	// This function looks big, but we use a lot of constant
 	// folding around arenaL1Bits to get it under the inlining
 	// budget. Also, many of the checks here are safety checks
@@ -632,23 +743,30 @@ func spanOf(p uintptr) *mspan {
 	if arenaL1Bits == 0 {
 		// If there's no L1, then ri.l1() can't be out of bounds but ri.l2() can.
 		if ri.l2() >= uint(len(mheap_.arenas[0])) {
-			return nil
+			return nil, 0
 		}
 	} else {
 		// If there's an L1, then ri.l1() can be out of bounds but ri.l2() can't.
 		if ri.l1() >= uint(len(mheap_.arenas)) {
-			return nil
+			return nil, 0
 		}
 	}
 	l2 := mheap_.arenas[ri.l1()]
 	if arenaL1Bits != 0 && l2 == nil { // Should never happen if there's no L1.
-		return nil
+		return nil, 0
 	}
 	ha := l2[ri.l2()]
 	if ha == nil {
-		return nil
+		return nil, 0
 	}
-	return ha.spans[(p/pageSize)%pagesPerArena]
+	pageIdx := (p / pageSize) % pagesPerArena
+	spanCache := &ha.spans[pageIdx]
+	if spanCache.isCanonical() {
+		return spanCache, arenaBase(ri) + pageIdx*pageSize
+	}
+	spanBase := spanCache.base()
+	spanCache = spanCache.canonical()
+	return spanCache, spanBase
 }
 
 // spanOfUnchecked is equivalent to spanOf, but the caller must ensure
@@ -657,9 +775,16 @@ func spanOf(p uintptr) *mspan {
 // Must be nosplit because it has callers that are nosplit.
 //
 //go:nosplit
-func spanOfUnchecked(p uintptr) *mspan {
+func spanOfUnchecked(p uintptr) (*mSpanCache, uintptr) {
 	ai := arenaIndex(p)
-	return mheap_.arenas[ai.l1()][ai.l2()].spans[(p/pageSize)%pagesPerArena]
+	pageIdx := (p / pageSize) % pagesPerArena
+	spanCache := &mheap_.arenas[ai.l1()][ai.l2()].spans[pageIdx]
+	if spanCache.isCanonical() {
+		return spanCache, arenaBase(ai) + pageIdx*pageSize
+	}
+	spanBase := spanCache.base()
+	spanCache = spanCache.canonical()
+	return spanCache, spanBase
 }
 
 // spanOfHeap is like spanOf, but returns nil if p does not point to a
@@ -668,17 +793,20 @@ func spanOfUnchecked(p uintptr) *mspan {
 // Must be nosplit because it has callers that are nosplit.
 //
 //go:nosplit
-func spanOfHeap(p uintptr) *mspan {
-	s := spanOf(p)
+func spanOfHeap(p uintptr) (*mSpanCache, uintptr) {
+	spanCache, spanBase := spanOf(p)
+	if !spanCache.valid() {
+		return nil, 0
+	}
 	// s is nil if it's never been allocated. Otherwise, we check
 	// its state first because we don't trust this pointer, so we
 	// have to synchronize with span initialization. Then, it's
 	// still possible we picked up a stale span pointer, so we
 	// have to check the span's bounds.
-	if s == nil || s.state.get() != mSpanInUse || p < s.base() || p >= s.limit {
-		return nil
+	if spanCache.state() != mSpanInUse || p < spanBase || p >= spanBase+spanCache.len() {
+		return nil, 0
 	}
-	return s
+	return spanCache, spanBase
 }
 
 // pageIndexOf returns the arena, page index, and page mask for pointer p.
@@ -840,7 +968,7 @@ func (h *mheap) reclaimChunk(arenas []arenaIdx, pageIdx, n uintptr) uintptr {
 
 			for j := uint(0); j < 8; j++ {
 				if inUseUnmarked&(1<<j) != 0 {
-					s := ha.spans[arenaPage+uint(i)*8+j]
+					s := ha.spans[arenaPage+uint(i)*8+j].span()
 					if s, ok := sl.tryAcquire(s); ok {
 						npages := s.npages
 						unlock(&h.lock)
@@ -936,9 +1064,9 @@ func (h *mheap) allocManual(npages uintptr, typ spanAllocType) *mspan {
 	return h.allocSpan(npages, typ, 0)
 }
 
-// setSpans modifies the span map so [spanOf(base), spanOf(base+npage*pageSize))
-// is s.
+// setSpans modifies the span map so [spanOf(base), spanOf(base+npage*pageSize)) is s.
 func (h *mheap) setSpans(base, npage uintptr, s *mspan) {
+	var canonical *mSpanCache
 	p := base / pageSize
 	ai := arenaIndex(base)
 	ha := h.arenas[ai.l1()][ai.l2()]
@@ -948,8 +1076,45 @@ func (h *mheap) setSpans(base, npage uintptr, s *mspan) {
 			ai = arenaIndex(base + n*pageSize)
 			ha = h.arenas[ai.l1()][ai.l2()]
 		}
-		ha.spans[i] = s
+		if n == 0 {
+			data := mSpanCacheData(mSpanCacheIsCanonical)
+			data |= mSpanCacheData(s.state.get()) << 2
+			if s.spanclass.noscan() {
+				data |= mSpanCacheData(mSpanCacheIsNoScan)
+			}
+			if s.spanclass.sizeclass() == 0 {
+				data |= mSpanCacheData(mSpanCacheIsLarge)
+				data |= mSpanCacheData(s.npages) << 12
+			} else {
+				data |= mSpanCacheData(s.npages) << 4
+				data |= mSpanCacheData(class_to_tailwaste[s.spanclass.sizeclass()]/8) << 9
+				data |= mSpanCacheData(s.elemsize) << 16
+				data |= mSpanCacheData(s.divMul) << 32
+			}
+			ha.spans[i].data = data
+			ha.spans[i].ptr = uintptr(unsafe.Pointer(s.gcmarkBits))
+			ha.spans[i].mspan.StoreNoWB(unsafe.Pointer(s))
+			canonical = &ha.spans[i]
+			continue
+		}
+		ha.spans[i].data = mSpanCacheData(base)
+		ha.spans[i].ptr = uintptr(unsafe.Pointer(canonical))
+		ha.spans[i].mspan.StoreNoWB(unsafe.Pointer(s))
 	}
+}
+
+// setSpanMarkBits modifies the span map so [spanOf(base), spanOf(base+npage*pageSize))
+// has its mark bits set.
+func (h *mheap) setSpanMarkBits(base, npage uintptr, gcmarkBits *gcBits) {
+	spanCache, _ := spanOfUnchecked(base)
+	spanCache.ptr = uintptr(unsafe.Pointer(gcmarkBits))
+}
+
+// clearSpans invalidates the given range in the span map.
+func (h *mheap) clearSpans(base, npage uintptr) {
+	spanCache, _ := spanOfUnchecked(base)
+	spanCache.data &^= mSpanCacheIsCanonical
+	spanCache.mspan.StoreNoWB(nil)
 }
 
 // allocNeedsZero checks if the region of address space [base, base+npage*pageSize),
@@ -1221,17 +1386,19 @@ HaveSpan:
 			s.elemsize = nbytes
 			s.nelems = 1
 			s.divMul = 0
+			s.gcmarkBits = (*gcBits)(unsafe.Pointer(&s.divMul))
+			s.allocBits = (*gcBits)(unsafe.Add(unsafe.Pointer(&s.divMul), 1))
 		} else {
 			s.elemsize = uintptr(class_to_size[sizeclass])
 			s.nelems = nbytes / s.elemsize
 			s.divMul = class_to_divmagic[sizeclass]
+			s.gcmarkBits = newMarkBits(s.nelems)
+			s.allocBits = newAllocBits(s.nelems)
 		}
 
 		// Initialize mark and allocation structures.
 		s.freeindex = 0
 		s.allocCache = ^uint64(0) // all 1s indicating all free.
-		s.gcmarkBits = newMarkBits(s.nelems)
-		s.allocBits = newAllocBits(s.nelems)
 
 		// It's safe to access h.sweepgen without the heap lock because it's
 		// only ever updated with the world stopped and we run on the
@@ -1248,6 +1415,11 @@ HaveSpan:
 		// setting the state after the span is fully
 		// initialized, and atomically checking the state in
 		// any situation where a pointer is suspect.
+		//
+		// TODO(mknyszek): The span's state likely doesn't need to
+		// be atomically accessed anymore because the span's presence
+		// in the span map is managed atomically (and cleared), so that
+		// acts as the (very explicit) publication barrier.
 		s.state.set(mSpanInUse)
 	}
 
@@ -1534,6 +1706,9 @@ func (h *mheap) freeSpanLocked(s *mspan, typ spanAllocType) {
 	}
 	memstats.heapStats.release()
 
+	// Un-publish the span.
+	h.clearSpans(s.base(), s.npages)
+
 	// Mark the space as free.
 	h.pages.free(s.base(), s.npages, false)
 
@@ -1725,10 +1900,11 @@ func spanHasNoSpecials(s *mspan) {
 // (The add will fail only if a record with the same p and s->kind
 // already exists.)
 func addspecial(p unsafe.Pointer, s *special) bool {
-	span := spanOfHeap(uintptr(p))
-	if span == nil {
+	spanCache, _ := spanOfHeap(uintptr(p))
+	if !spanCache.valid() {
 		throw("addspecial on invalid pointer")
 	}
+	span := spanCache.span()
 
 	// Ensure that the span is swept.
 	// Sweeping accesses the specials list w/o locks, so we have
@@ -1774,10 +1950,11 @@ func addspecial(p unsafe.Pointer, s *special) bool {
 // Returns the record if the record existed, nil otherwise.
 // The caller must FixAlloc_Free the result.
 func removespecial(p unsafe.Pointer, kind uint8) *special {
-	span := spanOfHeap(uintptr(p))
-	if span == nil {
+	spanCache, _ := spanOfHeap(uintptr(p))
+	if !spanCache.valid() {
 		throw("removespecial on invalid pointer")
 	}
+	span := spanCache.span()
 
 	// Ensure that the span is swept.
 	// Sweeping accesses the specials list w/o locks, so we have
@@ -1842,7 +2019,7 @@ func addfinalizer(p unsafe.Pointer, f *funcval, nret uintptr, fint *_type, ot *p
 		// situation where it's possible that markrootSpans
 		// has already run but mark termination hasn't yet.
 		if gcphase != _GCoff {
-			base, _, _ := findObject(uintptr(p), 0, 0)
+			base, _, _, _ := findObject(uintptr(p), 0, 0)
 			mp := acquirem()
 			gcw := &mp.p.ptr().gcw
 			// Mark everything reachable from the object

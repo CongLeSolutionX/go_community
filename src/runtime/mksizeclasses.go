@@ -342,4 +342,14 @@ func printClasses(w io.Writer, classes []class) {
 		fmt.Fprintf(w, "%d,", v)
 	}
 	fmt.Fprintln(w, "}")
+
+	fmt.Fprint(w, "var class_to_tailwaste = [_NumSizeClasses]uint16 {")
+	for _, c := range classes {
+		if c.size == 0 {
+			fmt.Fprintf(w, "0,")
+			continue
+		}
+		fmt.Fprintf(w, "%d,", c.npages*pageSize-c.size*(c.npages*pageSize/c.size))
+	}
+	fmt.Fprintln(w, "}")
 }

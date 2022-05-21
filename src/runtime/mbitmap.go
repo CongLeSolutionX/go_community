@@ -252,14 +252,38 @@ func (s *mspan) objIndex(p uintptr) uintptr {
 	return s.divideByElemSize(p - s.base())
 }
 
+// objIndex returns the object index for p in the span represented by s.
+func (s *mSpanCache) objIndex(p, spanBase uintptr) uintptr {
+	const doubleCheck = false
+
+	if s.isLarge() {
+		return 0
+	}
+	n := p - spanBase
+
+	// See explanation in mksizeclasses.go's computeDivMagic.
+	q := uintptr((uint64(n) * uint64(s.divMul())) >> 32)
+
+	if doubleCheck && q != n/s.elemSize() {
+		println(n, "/", s.elemSize(), "should be", n/s.elemSize(), "but got", q)
+		throw("bad magic division")
+	}
+	return q
+}
+
 func markBitsForAddr(p uintptr) markBits {
-	s := spanOf(p)
-	objIndex := s.objIndex(p)
-	return s.markBitsForIndex(objIndex)
+	spanCache, spanBase := spanOf(p)
+	objIndex := spanCache.objIndex(p, spanBase)
+	return spanCache.markBitsForIndex(objIndex)
 }
 
 func (s *mspan) markBitsForIndex(objIndex uintptr) markBits {
 	bytep, mask := s.gcmarkBits.bitp(objIndex)
+	return markBits{bytep, mask, objIndex}
+}
+
+func (s *mSpanCache) markBitsForIndex(objIndex uintptr) markBits {
+	bytep, mask := s.gcmarkBits().bitp(objIndex)
 	return markBits{bytep, mask, objIndex}
 }
 
@@ -388,16 +412,16 @@ func badPointer(s *mspan, p, refBase, refOff uintptr) {
 // Since p is a uintptr, it would not be adjusted if the stack were to move.
 //
 //go:nosplit
-func findObject(p, refBase, refOff uintptr) (base uintptr, s *mspan, objIndex uintptr) {
-	s = spanOf(p)
-	// If s is nil, the virtual address has never been part of the heap.
+func findObject(p, refBase, refOff uintptr) (base, spanBase uintptr, spanCache *mSpanCache, objIndex uintptr) {
+	spanCache, spanBase = spanOf(p)
+	// If sc or sc.span are nil, the virtual address has never been part of the heap.
 	// This pointer may be to some mmap'd region, so we allow it.
-	if s == nil {
+	if !spanCache.valid() {
 		if (GOARCH == "amd64" || GOARCH == "arm64") && p == clobberdeadPtr && debug.invalidptr != 0 {
 			// Crash if clobberdeadPtr is seen. Only on AMD64 and ARM64 for now,
 			// as they are the only platform where compiler's clobberdead mode is
 			// implemented. On these platforms clobberdeadPtr cannot be a valid address.
-			badPointer(s, p, refBase, refOff)
+			badPointer(spanCache.span(), p, refBase, refOff)
 		}
 		return
 	}
@@ -405,7 +429,7 @@ func findObject(p, refBase, refOff uintptr) (base uintptr, s *mspan, objIndex ui
 	//
 	// Check s.state to synchronize with span initialization
 	// before checking other fields. See also spanOfHeap.
-	if state := s.state.get(); state != mSpanInUse || p < s.base() || p >= s.limit {
+	if state := spanCache.state(); state != mSpanInUse || p < spanBase || p >= spanBase+spanCache.len() {
 		// Pointers into stacks are also ok, the runtime manages these explicitly.
 		if state == mSpanManual {
 			return
@@ -413,13 +437,12 @@ func findObject(p, refBase, refOff uintptr) (base uintptr, s *mspan, objIndex ui
 		// The following ensures that we are rigorous about what data
 		// structures hold valid pointers.
 		if debug.invalidptr != 0 {
-			badPointer(s, p, refBase, refOff)
+			badPointer(spanCache.span(), p, refBase, refOff)
 		}
 		return
 	}
-
-	objIndex = s.objIndex(p)
-	base = s.base() + objIndex*s.elemsize
+	objIndex = spanCache.objIndex(p, spanBase)
+	base = spanBase + objIndex*spanCache.elemSize()
 	return
 }
 
@@ -430,7 +453,8 @@ func reflect_verifyNotInHeapPtr(p uintptr) bool {
 	// Conversion to a pointer is ok as long as findObject above does not call badPointer.
 	// Since we're already promised that p doesn't point into the heap, just disallow heap
 	// pointers and the special clobbered pointer.
-	return spanOf(p) == nil && p != clobberdeadPtr
+	sc, _ := spanOf(p)
+	return !sc.valid() && p != clobberdeadPtr
 }
 
 // next returns the heapBits describing the next pointer-sized word in memory.
@@ -584,7 +608,7 @@ func bulkBarrierPreWrite(dst, src, size uintptr) {
 	if !writeBarrier.needed {
 		return
 	}
-	if s := spanOf(dst); s == nil {
+	if spanCache, spanBase := spanOf(dst); !spanCache.valid() {
 		// If dst is a global, use the data or BSS bitmaps to
 		// execute write barriers.
 		for _, datap := range activeModules() {
@@ -600,7 +624,7 @@ func bulkBarrierPreWrite(dst, src, size uintptr) {
 			}
 		}
 		return
-	} else if s.state.get() != mSpanInUse || dst < s.base() || s.limit <= dst {
+	} else if spanCache.state() != mSpanInUse || dst < spanBase || spanBase+spanCache.len() <= dst {
 		// dst was heap memory at some point, but isn't now.
 		// It can't be a global. It must be either our stack,
 		// or in the case of direct channel sends, it could be
@@ -801,6 +825,9 @@ func (h heapBits) initSpan(s *mspan) {
 // countAlloc returns the number of objects allocated in span s by
 // scanning the allocation bitmap.
 func (s *mspan) countAlloc() int {
+	if s.spanclass.sizeclass() == 0 {
+		return int(*s.gcmarkBits.bytep(0))
+	}
 	count := 0
 	bytes := divRoundUp(s.nelems, 8)
 	// Iterate over each 8-byte chunk and count allocations
@@ -2010,9 +2037,9 @@ func getgcmask(ep any) (mask []byte) {
 	}
 
 	// heap
-	if base, s, _ := findObject(uintptr(p), 0, 0); base != 0 {
+	if base, _, spanCache, _ := findObject(uintptr(p), 0, 0); base != 0 {
 		hbits := heapBitsForAddr(base)
-		n := s.elemsize
+		n := uintptr(spanCache.elemSize())
 		mask = make([]byte, n/goarch.PtrSize)
 		for i := uintptr(0); i < n; i += goarch.PtrSize {
 			if hbits.isPointer() {
