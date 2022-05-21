@@ -356,7 +356,7 @@ func markrootSpans(gcw *gcWork, shard int) {
 			// specials implies that the span is in-use, and since we're
 			// currently marking we can be sure that we don't have to worry
 			// about the span being freed and re-used.
-			s := ha.spans[arenaPage+uint(i)*8+j]
+			s := ha.spans[arenaPage+uint(i)*8+j].span()
 
 			// The state must be mSpanInUse if the specials bit is set, so
 			// sanity check that.
@@ -1226,8 +1226,8 @@ func scanblock(b0, n0 uintptr, ptrmask *uint8, gcw *gcWork, stk *stackScanState)
 				// Same work as in scanobject; see comments there.
 				p := *(*uintptr)(unsafe.Pointer(b + i))
 				if p != 0 {
-					if obj, span, objIndex := findObject(p, b, i); obj != 0 {
-						greyobject(obj, b, i, span, gcw, objIndex)
+					if obj, spanBase, spanCache, objIndex := findObject(p, b, i); obj != 0 {
+						greyobject(obj, b, i, spanBase, spanCache, gcw, objIndex)
 					} else if stk != nil && p >= stk.stack.lo && p < stk.stack.hi {
 						stk.putPtr(p, false)
 					}
@@ -1258,22 +1258,19 @@ func scanobject(b uintptr, gcw *gcWork) {
 	// is the size of the object to scan, or it points to an
 	// oblet, in which case we compute the size to scan below.
 	hbits := heapBitsForAddr(b)
-	s := spanOfUnchecked(b)
-	n := s.elemsize
-	if n == 0 {
-		throw("scanobject n == 0")
-	}
+	spanCache, spanBase := spanOfUnchecked(b)
+	n := spanCache.elemsize
 
 	if n > maxObletBytes {
 		// Large object. Break into oblets for better
 		// parallelism and lower latency.
-		if b == s.base() {
+		if b == spanBase {
 			// It's possible this is a noscan object (not
 			// from greyobject, but from other code
 			// paths), in which case we must *not* enqueue
 			// oblets since their bitmaps will be
 			// uninitialized.
-			if s.spanclass.noscan() {
+			if spanCache.spanclass.noscan() {
 				// Bypass the whole scan.
 				gcw.bytesMarked += uint64(n)
 				return
@@ -1284,7 +1281,7 @@ func scanobject(b uintptr, gcw *gcWork) {
 			// these will be marked as "no more pointers",
 			// so we'll drop out immediately when we go to
 			// scan those.
-			for oblet := b + maxObletBytes; oblet < s.base()+s.elemsize; oblet += maxObletBytes {
+			for oblet := b + maxObletBytes; oblet < spanBase+spanCache.elemsize; oblet += maxObletBytes {
 				if !gcw.putFast(oblet) {
 					gcw.put(oblet)
 				}
@@ -1294,7 +1291,7 @@ func scanobject(b uintptr, gcw *gcWork) {
 		// Compute the size of the oblet. Since this object
 		// must be a large object, s.base() is the beginning
 		// of the object.
-		n = s.base() + s.elemsize - b
+		n = spanBase + spanCache.elemsize - b
 		if n > maxObletBytes {
 			n = maxObletBytes
 		}
@@ -1327,8 +1324,8 @@ func scanobject(b uintptr, gcw *gcWork) {
 			// heap. In this case, we know the object was
 			// just allocated and hence will be marked by
 			// allocation itself.
-			if obj, span, objIndex := findObject(obj, b, i); obj != 0 {
-				greyobject(obj, b, i, span, gcw, objIndex)
+			if obj, spanBase, spanCache, objIndex := findObject(obj, b, i); obj != 0 {
+				greyobject(obj, b, i, spanBase, spanCache, gcw, objIndex)
 			}
 		}
 	}
@@ -1362,10 +1359,11 @@ func scanConservative(b, n uintptr, ptrmask *uint8, gcw *gcWork, state *stackSca
 				return '@'
 			}
 
-			span := spanOfHeap(val)
-			if span == nil {
+			spanCache, _ := spanOfHeap(val)
+			if !spanCache.valid() {
 				return ' '
 			}
+			span := spanCache.span()
 			idx := span.objIndex(val)
 			if span.isFree(idx) {
 				return ' '
@@ -1414,10 +1412,11 @@ func scanConservative(b, n uintptr, ptrmask *uint8, gcw *gcWork, state *stackSca
 		}
 
 		// Check if val points to a heap span.
-		span := spanOfHeap(val)
-		if span == nil {
+		spanCache, spanBase := spanOfHeap(val)
+		if !spanCache.valid() {
 			continue
 		}
+		span := spanCache.span()
 
 		// Check if val points to an allocated object.
 		idx := span.objIndex(val)
@@ -1427,7 +1426,7 @@ func scanConservative(b, n uintptr, ptrmask *uint8, gcw *gcWork, state *stackSca
 
 		// val points to an allocated object. Mark it.
 		obj := span.base() + idx*span.elemsize
-		greyobject(obj, b, i, span, gcw, idx)
+		greyobject(obj, b, i, spanBase, spanCache, gcw, idx)
 	}
 }
 
@@ -1437,9 +1436,9 @@ func scanConservative(b, n uintptr, ptrmask *uint8, gcw *gcWork, state *stackSca
 //
 //go:nowritebarrier
 func shade(b uintptr) {
-	if obj, span, objIndex := findObject(b, 0, 0); obj != 0 {
+	if obj, spanBase, spanCache, objIndex := findObject(b, 0, 0); obj != 0 {
 		gcw := &getg().m.p.ptr().gcw
-		greyobject(obj, 0, 0, span, gcw, objIndex)
+		greyobject(obj, 0, 0, spanBase, spanCache, gcw, objIndex)
 	}
 }
 
@@ -1450,12 +1449,12 @@ func shade(b uintptr) {
 // See also wbBufFlush1, which partially duplicates this logic.
 //
 //go:nowritebarrierrec
-func greyobject(obj, base, off uintptr, span *mspan, gcw *gcWork, objIndex uintptr) {
+func greyobject(obj, base, off, spanBase uintptr, spanCache *mSpanCache, gcw *gcWork, objIndex uintptr) {
 	// obj should be start of allocation, and so must be at least pointer-aligned.
 	if obj&(goarch.PtrSize-1) != 0 {
 		throw("greyobject: obj not pointer-aligned")
 	}
-	mbits := span.markBitsForIndex(objIndex)
+	mbits := spanCache.markBitsForIndex(objIndex)
 
 	if useCheckmark {
 		if setCheckmark(obj, base, off, mbits) {
@@ -1463,7 +1462,7 @@ func greyobject(obj, base, off uintptr, span *mspan, gcw *gcWork, objIndex uintp
 			return
 		}
 	} else {
-		if debug.gccheckmark > 0 && span.isFree(objIndex) {
+		if debug.gccheckmark > 0 && spanCache.span().isFree(objIndex) {
 			print("runtime: marking free object ", hex(obj), " found at *(", hex(base), "+", hex(off), ")\n")
 			gcDumpObject("base", base, off)
 			gcDumpObject("obj", obj, ^uintptr(0))
@@ -1478,15 +1477,15 @@ func greyobject(obj, base, off uintptr, span *mspan, gcw *gcWork, objIndex uintp
 		mbits.setMarked()
 
 		// Mark span.
-		arena, pageIdx, pageMask := pageIndexOf(span.base())
+		arena, pageIdx, pageMask := pageIndexOf(spanBase)
 		if arena.pageMarks[pageIdx]&pageMask == 0 {
 			atomic.Or8(&arena.pageMarks[pageIdx], pageMask)
 		}
 
 		// If this is a noscan object, fast-track it to black
 		// instead of greying it.
-		if span.spanclass.noscan() {
-			gcw.bytesMarked += uint64(span.elemsize)
+		if spanCache.spanclass.noscan() {
+			gcw.bytesMarked += uint64(spanCache.elemsize)
 			return
 		}
 	}
@@ -1505,12 +1504,13 @@ func greyobject(obj, base, off uintptr, span *mspan, gcw *gcWork, objIndex uintp
 // gcDumpObject dumps the contents of obj for debugging and marks the
 // field at byte offset off in obj.
 func gcDumpObject(label string, obj, off uintptr) {
-	s := spanOf(obj)
+	spanCache, _ := spanOf(obj)
 	print(label, "=", hex(obj))
-	if s == nil {
+	if !spanCache.valid() {
 		print(" s=nil\n")
 		return
 	}
+	s := spanCache.span()
 	print(" s.base()=", hex(s.base()), " s.limit=", hex(s.limit), " s.spanclass=", s.spanclass, " s.elemsize=", s.elemsize, " s.state=")
 	if state := s.state.get(); 0 <= state && int(state) < len(mSpanStateNames) {
 		print(mSpanStateNames[state], "\n")
@@ -1586,8 +1586,8 @@ func gcMarkTinyAllocs() {
 		if c == nil || c.tiny == 0 {
 			continue
 		}
-		_, span, objIndex := findObject(c.tiny, 0, 0)
+		_, spanBase, spanCache, objIndex := findObject(c.tiny, 0, 0)
 		gcw := &p.gcw
-		greyobject(c.tiny, 0, 0, span, gcw, objIndex)
+		greyobject(c.tiny, 0, 0, spanBase, spanCache, gcw, objIndex)
 	}
 }

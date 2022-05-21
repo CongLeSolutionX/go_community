@@ -346,7 +346,7 @@ func SetFinalizer(obj any, finalizer any) {
 	}
 
 	// find the containing object
-	base, _, _ := findObject(uintptr(e.data), 0, 0)
+	base, spanBase, spanCache, _ := findObject(uintptr(e.data), 0, 0)
 
 	if base == 0 {
 		// 0-length objects are okay.
