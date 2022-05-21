@@ -630,9 +630,17 @@ func (sl *sweepLocked) sweep(preserve bool) bool {
 	}
 
 	// gcmarkBits becomes the allocBits.
-	// get a fresh cleared gcmarkBits in preparation for next GC
-	s.allocBits = s.gcmarkBits
-	s.gcmarkBits = newMarkBits(s.nelems)
+	if spc.sizeclass() != 0 {
+		// Get a fresh cleared gcmarkBits in preparation for next GC
+		s.allocBits = s.gcmarkBits
+		s.gcmarkBits = newMarkBits(s.nelems)
+		mheap_.setSpanMarkBits(s.base(), s.npages, s.gcmarkBits)
+	} else {
+		// Large objects maintain static pointers for mark bits and alloc bits,
+		// but there's just one bit to set. Manually copy the value over.
+		*s.allocBits.bytep(0) = *s.gcmarkBits.bytep(0)
+		*s.gcmarkBits.bytep(0) = 0
+	}
 
 	// Initialize alloc bits cache.
 	s.refillAllocCache(0)
