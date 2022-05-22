@@ -1226,8 +1226,8 @@ func scanblock(b0, n0 uintptr, ptrmask *uint8, gcw *gcWork, stk *stackScanState)
 				// Same work as in scanobject; see comments there.
 				p := *(*uintptr)(unsafe.Pointer(b + i))
 				if p != 0 {
-					if obj, spanCache, objIndex := findObject(p, b, i); obj != 0 {
-						greyobject(obj, b, i, spanCache, gcw, objIndex)
+					if obj, spanCache, arena, objIndex := findObject(p, b, i); obj != 0 {
+						greyobject(obj, b, i, spanCache, arena, gcw, objIndex)
 					} else if stk != nil && p >= stk.stack.lo && p < stk.stack.hi {
 						stk.putPtr(p, false)
 					}
@@ -1325,8 +1325,8 @@ func scanobject(b uintptr, gcw *gcWork) {
 			// heap. In this case, we know the object was
 			// just allocated and hence will be marked by
 			// allocation itself.
-			if obj, spanCache, objIndex := findObject(obj, b, i); obj != 0 {
-				greyobject(obj, b, i, spanCache, gcw, objIndex)
+			if obj, spanCache, arena, objIndex := findObject(obj, b, i); obj != 0 {
+				greyobject(obj, b, i, spanCache, arena, gcw, objIndex)
 			}
 		}
 	}
@@ -1413,8 +1413,8 @@ func scanConservative(b, n uintptr, ptrmask *uint8, gcw *gcWork, state *stackSca
 		}
 
 		// Check if val points to a heap span.
-		spanCache := spanOfHeap(val)
-		if !spanCache.valid() {
+		spanCache, arena := spanAndArenaOfHeap(val)
+		if spanCache == nil {
 			continue
 		}
 		span := spanCache.span()
@@ -1427,7 +1427,7 @@ func scanConservative(b, n uintptr, ptrmask *uint8, gcw *gcWork, state *stackSca
 
 		// val points to an allocated object. Mark it.
 		obj := span.base() + idx*span.elemsize
-		greyobject(obj, b, i, spanCache, gcw, idx)
+		greyobject(obj, b, i, spanCache, arena, gcw, idx)
 	}
 }
 
@@ -1437,9 +1437,9 @@ func scanConservative(b, n uintptr, ptrmask *uint8, gcw *gcWork, state *stackSca
 //
 //go:nowritebarrier
 func shade(b uintptr) {
-	if obj, spanCache, objIndex := findObject(b, 0, 0); obj != 0 {
+	if obj, spanCache, arena, objIndex := findObject(b, 0, 0); obj != 0 {
 		gcw := &getg().m.p.ptr().gcw
-		greyobject(obj, 0, 0, spanCache, gcw, objIndex)
+		greyobject(obj, 0, 0, spanCache, arena, gcw, objIndex)
 	}
 }
 
@@ -1450,7 +1450,7 @@ func shade(b uintptr) {
 // See also wbBufFlush1, which partially duplicates this logic.
 //
 //go:nowritebarrierrec
-func greyobject(obj, base, off uintptr, spanCache *mSpanCache, gcw *gcWork, objIndex uintptr) {
+func greyobject(obj, base, off uintptr, spanCache *mSpanCache, arena *heapArena, gcw *gcWork, objIndex uintptr) {
 	// obj should be start of allocation, and so must be at least pointer-aligned.
 	if obj&(goarch.PtrSize-1) != 0 {
 		throw("greyobject: obj not pointer-aligned")
@@ -1477,8 +1477,9 @@ func greyobject(obj, base, off uintptr, spanCache *mSpanCache, gcw *gcWork, objI
 		}
 		mbits.setMarked()
 
-		// Mark span.
-		arena, pageIdx, pageMask := pageIndexOf(spanCache.base())
+		// Mark one of the span's pages.
+		pageIdx := ((obj / pageSize) / 8) % uintptr(len(arena.pageMarks))
+		pageMask := byte(1 << ((obj / pageSize) % 8))
 		if arena.pageMarks[pageIdx]&pageMask == 0 {
 			atomic.Or8(&arena.pageMarks[pageIdx], pageMask)
 		}
@@ -1587,8 +1588,8 @@ func gcMarkTinyAllocs() {
 		if c == nil || c.tiny == 0 {
 			continue
 		}
-		_, spanCache, objIndex := findObject(c.tiny, 0, 0)
+		_, spanCache, arena, objIndex := findObject(c.tiny, 0, 0)
 		gcw := &p.gcw
-		greyobject(c.tiny, 0, 0, spanCache, gcw, objIndex)
+		greyobject(c.tiny, 0, 0, spanCache, arena, gcw, objIndex)
 	}
 }

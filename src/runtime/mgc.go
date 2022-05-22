@@ -1742,7 +1742,7 @@ func gcTestPointerClass(p unsafe.Pointer) string {
 	if gp.stack.lo <= p2 && p2 < gp.stack.hi {
 		return "stack"
 	}
-	if base, _, _ := findObject(p2, 0, 0); base != 0 {
+	if base, _, _, _ := findObject(p2, 0, 0); base != 0 {
 		return "heap"
 	}
 	for _, datap := range activeModules() {
