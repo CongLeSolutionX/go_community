@@ -409,8 +409,8 @@ func badPointer(s *mspan, p, refBase, refOff uintptr) {
 // Since p is a uintptr, it would not be adjusted if the stack were to move.
 //
 //go:nosplit
-func findObject(p, refBase, refOff uintptr) (base uintptr, spanCache *mSpanCache, objIndex uintptr) {
-	spanCache = spanOf(p)
+func findObject(p, refBase, refOff uintptr) (base uintptr, spanCache *mSpanCache, arena *heapArena, objIndex uintptr) {
+	spanCache, arena = spanAndArenaOf(p)
 	// If sc or sc.span are nil, the virtual address has never been part of the heap.
 	// This pointer may be to some mmap'd region, so we allow it.
 	if !spanCache.valid() {
@@ -2042,7 +2042,7 @@ func getgcmask(ep any) (mask []byte) {
 	}
 
 	// heap
-	if base, spanCache, _ := findObject(uintptr(p), 0, 0); base != 0 {
+	if base, spanCache, _, _ := findObject(uintptr(p), 0, 0); base != 0 {
 		hbits := heapBitsForAddr(base)
 		n := uintptr(spanCache.elemSize())
 		mask = make([]byte, n/goarch.PtrSize)
