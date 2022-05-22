@@ -34,6 +34,41 @@
       "parentUuid": "78db8997_55a33f87",
       "revId": "131d2a0110cea9f26f196ce58e760223deadaac0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c08edb1e_43f16659",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2022-05-22T05:04:13Z",
+      "side": 1,
+      "message": "LGTM.\n\nI agree, we need this change if we read Microsoft documentation.\n\nAnd regardless I don\u0027t see how this can hurt anywhere.\n\nI also found this similar issue\n\nhttps://github.com/edsrzf/mmap-go/issues/5\n\nAlex",
+      "revId": "131d2a0110cea9f26f196ce58e760223deadaac0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd489c87_3363c229",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2022-05-22T05:04:13Z",
+      "side": 1,
+      "message": "If you refer to\n\n```\nTo flush all open files on a volume, call FlushFileBuffers with a handle to the volume. The caller must have administrative privileges.\n```\n\nat\n\nhttps://docs.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-flushfilebuffers\n\nthen your situation is different. They are talking about case where they write to the disk directly. See\n\n```\nWhen opening a volume with CreateFile, the lpFileName string should be the following form: \\.\\x: or \\?\\Volume{GUID}. Do not use a trailing backslash in the volume name, because that indicates the root directory of a drive.\n```\n\nat the same help web page.",
+      "parentUuid": "ac9de797_c0a7444e",
+      "revId": "131d2a0110cea9f26f196ce58e760223deadaac0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
