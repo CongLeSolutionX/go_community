@@ -24,7 +24,6 @@ package runtime
 
 import (
 	"internal/goarch"
-	"runtime/internal/atomic"
 	"unsafe"
 )
 
@@ -270,10 +269,7 @@ func wbBufFlush1(_p_ *p) {
 		mbits.setMarked()
 
 		// Mark span.
-		arena, pageIdx, pageMask := pageIndexOf(spanCache.base())
-		if arena.pageMarks[pageIdx]&pageMask == 0 {
-			atomic.Or8(&arena.pageMarks[pageIdx], pageMask)
-		}
+		spanCache.setMarked(uint8(1) << (1 - (mheap_.sweepgen/2)%2))
 
 		if spanCache.isNoScan() {
 			gcw.bytesMarked += uint64(spanCache.elemSize())

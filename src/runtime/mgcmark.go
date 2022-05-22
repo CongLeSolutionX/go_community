@@ -1478,10 +1478,7 @@ func greyobject(obj, base, off uintptr, spanCache *mSpanCache, gcw *gcWork, objI
 		mbits.setMarked()
 
 		// Mark span.
-		arena, pageIdx, pageMask := pageIndexOf(spanCache.base())
-		if arena.pageMarks[pageIdx]&pageMask == 0 {
-			atomic.Or8(&arena.pageMarks[pageIdx], pageMask)
-		}
+		spanCache.setMarked(uint8(1) << (1 - (mheap_.sweepgen/2)%2))
 
 		// If this is a noscan object, fast-track it to black
 		// instead of greying it.
@@ -1567,10 +1564,7 @@ func gcmarknewobject(span *mspan, obj, size, scanSize uintptr) {
 	span.markBitsForIndex(objIndex).setMarked()
 
 	// Mark span.
-	arena, pageIdx, pageMask := pageIndexOf(span.base())
-	if arena.pageMarks[pageIdx]&pageMask == 0 {
-		atomic.Or8(&arena.pageMarks[pageIdx], pageMask)
-	}
+	spanOf(obj).setMarked(uint8(1) << (1 - (mheap_.sweepgen/2)%2))
 
 	gcw := &getg().m.p.ptr().gcw
 	gcw.bytesMarked += uint64(size)
