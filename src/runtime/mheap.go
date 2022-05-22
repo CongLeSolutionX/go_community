@@ -848,11 +848,6 @@ func (h *mheap) init() {
 //
 // h.lock must NOT be held.
 func (h *mheap) reclaim(npage uintptr) {
-	// TODO(austin): Half of the time spent freeing spans is in
-	// locking/unlocking the heap (even with low contention). We
-	// could make the slow path here several times faster by
-	// batching heap frees.
-
 	// Bail early if there's no more reclaim work.
 	if h.reclaimIndex.Load() >= 1<<63 {
 		return
@@ -868,7 +863,6 @@ func (h *mheap) reclaim(npage uintptr) {
 	}
 
 	arenas := h.sweepArenas
-	locked := false
 	for npage > 0 {
 		// Pull from accumulated credit first.
 		if credit := h.reclaimCredit.Load(); credit > 0 {
@@ -891,12 +885,6 @@ func (h *mheap) reclaim(npage uintptr) {
 			break
 		}
 
-		if !locked {
-			// Lock the heap for reclaimChunk.
-			lock(&h.lock)
-			locked = true
-		}
-
 		// Scan this chunk.
 		nfound := h.reclaimChunk(arenas, idx, pagesPerReclaimerChunk)
 		if nfound <= npage {
@@ -906,9 +894,6 @@ func (h *mheap) reclaim(npage uintptr) {
 			h.reclaimCredit.Add(nfound - npage)
 			npage = 0
 		}
-	}
-	if locked {
-		unlock(&h.lock)
 	}
 
 	if trace.enabled {
@@ -920,17 +905,8 @@ func (h *mheap) reclaim(npage uintptr) {
 // reclaimChunk sweeps unmarked spans that start at page indexes [pageIdx, pageIdx+n).
 // It returns the number of pages returned to the heap.
 //
-// h.lock must be held and the caller must be non-preemptible. Note: h.lock may be
-// temporarily unlocked and re-locked in order to do sweeping or if tracing is
-// enabled.
+// The caller must be non-preemptible.
 func (h *mheap) reclaimChunk(arenas []arenaIdx, pageIdx, n uintptr) uintptr {
-	// The heap lock must be held because this accesses the
-	// heapArena.spans arrays using potentially non-live pointers.
-	// In particular, if a span were freed and merged concurrently
-	// with this probing heapArena.spans, it would be possible to
-	// observe arbitrary, stale span pointers.
-	assertLockHeld(&h.lock)
-
 	n0 := n
 	var nFreed uintptr
 	sl := sweep.active.begin()
@@ -1016,13 +992,48 @@ func (h *mheap) reclaimChunk(arenas []arenaIdx, pageIdx, n uintptr) uintptr {
 				if nextInUse < 0 || lastInUseMarked == 0 {
 					spanCache := &ha.spans[arenaPage+uint(lastInUse)]
 					if s := spanCache.span(); s != nil {
-						if s, ok := sl.tryAcquire(s); ok {
-							npages := s.npages
-							unlock(&h.lock)
-							if s.sweep(false) {
-								nFreed += npages
+						// This span pointer is potentially stale because we're
+						// not holding the heap lock, and a concurrent span free
+						// and subsequent reuse could cause us to observe a span
+						// that shouldn't be swept, but has a stale sweepgen.
+						//
+						// Check the state before going any further. There are
+						// five cases here:
+						// (1) The span has not been swept yet, so it must be
+						//     mSpanInUse if we saw the pageInUse bit set. We'll
+						//     successfully acquire it, so long as nothing is
+						//     concurrently sweeping it (otherwise we'll skip).
+						// (2) The span has already been swept, but it hasn't been
+						//     reused. Its state will be mSpanDead.
+						// (3) The span is actively being freed. In this case we
+						//     may observe mSpanInUse, but whoever swept the span
+						//     will have updated sweepgen, so we'll fail to acquire
+						//     it.
+						// (4) The span has been freed and reused for non-heap
+						//     memory, in which case its state will no longer be
+						//     mSpanInUse.
+						// (5) The span has been freed and reused for the heap, in
+						//     which case the state is the *last* field updated in
+						//     span initialization, publishing the rest of the fields.
+						//     This is always a transition from mSpanDead. That means
+						//     if we continue to try to acquire it, we'll always
+						//     observe a valid sweepgen that indicates we shouldn't
+						//     acquire it for sweeping.
+						//
+						// Furthermore, the span cannot transition back to free, because
+						// that would require a new GC cycle. We're non-preemptible, so
+						// we prevent that from happening.
+						//
+						// Also, it's very important that we look at the actual span and
+						// not any cached details; the cached details aren't updated
+						// quite as rigorously as the span state itself.
+						if s.state.get() == mSpanInUse {
+							if s, ok := sl.tryAcquire(s); ok {
+								npages := s.npages
+								if s.sweep(false) {
+									nFreed += npages
+								}
 							}
-							lock(&h.lock)
 						}
 					}
 				}
@@ -1039,13 +1050,10 @@ func (h *mheap) reclaimChunk(arenas []arenaIdx, pageIdx, n uintptr) uintptr {
 	}
 	sweep.active.end(sl)
 	if trace.enabled {
-		unlock(&h.lock)
 		// Account for pages scanned but not reclaimed.
 		traceGCSweepSpan((n0 - nFreed) * pageSize)
-		lock(&h.lock)
 	}
 
-	assertLockHeld(&h.lock) // Must be locked on return.
 	return nFreed
 }
 
