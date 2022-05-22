@@ -224,7 +224,7 @@ type symbolizeDataContext struct {
 }
 
 func raceSymbolizeData(ctx *symbolizeDataContext) {
-	if base, spanCache, _ := findObject(ctx.addr, 0, 0); base != 0 {
+	if base, spanCache, _, _ := findObject(ctx.addr, 0, 0); base != 0 {
 		ctx.heap = 1
 		ctx.start = base
 		ctx.size = spanCache.elemSize()

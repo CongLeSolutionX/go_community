@@ -274,7 +274,7 @@ func (s *mSpanCache) objIndex(p uintptr) uintptr {
 }
 
 func markBitsForAddr(p uintptr) markBits {
-	spanCache := spanOf(p)
+	spanCache, _ := spanOf(p)
 	objIndex := spanCache.objIndex(p)
 	return spanCache.markBitsForIndex(objIndex)
 }
@@ -400,8 +400,8 @@ func badPointer(s *mspan, p, refBase, refOff uintptr) {
 }
 
 // findObject returns the base address for the heap object containing
-// the address p, the object's span, and the index of the object in s.
-// If p does not point into a heap object, it returns base == 0.
+// the address p, the object's span, the span's arena, and the index of
+// the object in s. If p does not point into a heap object, it returns base == 0.
 //
 // If p points is an invalid heap pointer and debug.invalidptr != 0,
 // findObject panics.
@@ -414,8 +414,8 @@ func badPointer(s *mspan, p, refBase, refOff uintptr) {
 // Since p is a uintptr, it would not be adjusted if the stack were to move.
 //
 //go:nosplit
-func findObject(p, refBase, refOff uintptr) (base uintptr, spanCache *mSpanCache, objIndex uintptr) {
-	spanCache = spanOf(p)
+func findObject(p, refBase, refOff uintptr) (base uintptr, spanCache *mSpanCache, arena *heapArena, objIndex uintptr) {
+	spanCache, arena = spanOf(p)
 	// If the spanCache is invalid, the virtual address may have never been part of the heap.
 	// This pointer may be to some mmap'd region, so we allow it.
 	span, ok := spanCache.valid()
@@ -470,7 +470,7 @@ func reflect_verifyNotInHeapPtr(p uintptr) bool {
 	// Conversion to a pointer is ok as long as findObject above does not call badPointer.
 	// Since we're already promised that p doesn't point into the heap, just disallow heap
 	// pointers and the special clobbered pointer.
-	spanCache := spanOf(p)
+	spanCache, _ := spanOf(p)
 	_, ok := spanCache.valid()
 	return !ok && p != clobberdeadPtr
 }
@@ -626,7 +626,7 @@ func bulkBarrierPreWrite(dst, src, size uintptr) {
 	if !writeBarrier.needed {
 		return
 	}
-	spanCache := spanOf(dst)
+	spanCache, _ := spanOf(dst)
 	if _, ok := spanCache.valid(); !ok {
 		// If dst is a global, use the data or BSS bitmaps to
 		// execute write barriers.
@@ -2056,7 +2056,7 @@ func getgcmask(ep any) (mask []byte) {
 	}
 
 	// heap
-	if base, spanCache, _ := findObject(uintptr(p), 0, 0); base != 0 {
+	if base, spanCache, _, _ := findObject(uintptr(p), 0, 0); base != 0 {
 		hbits := heapBitsForAddr(base)
 		n := uintptr(spanCache.elemSize())
 		mask = make([]byte, n/goarch.PtrSize)

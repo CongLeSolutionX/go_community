@@ -563,7 +563,7 @@ func cgoCheckArg(t *_type, p unsafe.Pointer, indir, top bool, msg string) {
 // The return values are unused but useful to see in panic tracebacks.
 func cgoCheckUnknownPointer(p unsafe.Pointer, msg string) (base, i uintptr) {
 	if inheap(uintptr(p)) {
-		b, spanCache, _ := findObject(uintptr(p), 0, 0)
+		b, spanCache, _, _ := findObject(uintptr(p), 0, 0)
 		base = b
 		if base == 0 {
 			return
