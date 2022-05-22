@@ -274,7 +274,7 @@ func (s *mSpanCache) objIndex(p uintptr) uintptr {
 }
 
 func markBitsForAddr(p uintptr) markBits {
-	spanCache := spanOf(p)
+	spanCache, _ := spanOf(p)
 	objIndex := spanCache.objIndex(p)
 	return spanCache.markBitsForIndex(objIndex)
 }
@@ -414,8 +414,8 @@ func badPointer(s *mspan, p, refBase, refOff uintptr) {
 // Since p is a uintptr, it would not be adjusted if the stack were to move.
 //
 //go:nosplit
-func findObject(p, refBase, refOff uintptr) (base uintptr, spanCache *mSpanCache, objIndex uintptr) {
-	spanCache = spanOf(p)
+func findObject(p, refBase, refOff uintptr) (base uintptr, spanCache *mSpanCache, arena *heapArena, objIndex uintptr) {
+	spanCache, arena = spanOf(p)
 	// If sc or sc.span are nil, the virtual address has never been part of the heap.
 	// This pointer may be to some mmap'd region, so we allow it.
 	if !spanCache.valid() {
@@ -463,7 +463,7 @@ func reflect_verifyNotInHeapPtr(p uintptr) bool {
 	// Conversion to a pointer is ok as long as findObject above does not call badPointer.
 	// Since we're already promised that p doesn't point into the heap, just disallow heap
 	// pointers and the special clobbered pointer.
-	spanCache := spanOf(p)
+	spanCache, _ := spanOf(p)
 	return !spanCache.valid() && p != clobberdeadPtr
 }
 
@@ -618,7 +618,7 @@ func bulkBarrierPreWrite(dst, src, size uintptr) {
 	if !writeBarrier.needed {
 		return
 	}
-	if spanCache := spanOf(dst); !spanCache.valid() {
+	if spanCache, _ := spanOf(dst); !spanCache.valid() {
 		// If dst is a global, use the data or BSS bitmaps to
 		// execute write barriers.
 		for _, datap := range activeModules() {
@@ -2047,7 +2047,7 @@ func getgcmask(ep any) (mask []byte) {
 	}
 
 	// heap
-	if base, spanCache, _ := findObject(uintptr(p), 0, 0); base != 0 {
+	if base, spanCache, _, _ := findObject(uintptr(p), 0, 0); base != 0 {
 		hbits := heapBitsForAddr(base)
 		n := uintptr(spanCache.elemSize())
 		mask = make([]byte, n/goarch.PtrSize)

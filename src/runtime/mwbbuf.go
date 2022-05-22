@@ -257,7 +257,7 @@ func wbBufFlush1(_p_ *p) {
 			// path to reduce the rate of flushes?
 			continue
 		}
-		obj, spanCache, objIndex := findObject(ptr, 0, 0)
+		obj, spanCache, arena, objIndex := findObject(ptr, 0, 0)
 		if obj == 0 {
 			continue
 		}
@@ -269,8 +269,9 @@ func wbBufFlush1(_p_ *p) {
 		}
 		mbits.setMarked()
 
-		// Mark span.
-		arena, pageIdx, pageMask := pageIndexOf(spanCache.base())
+		// Mark one of the span's pages.
+		pageIdx := ((obj / pageSize) / 8) % uintptr(len(arena.pageMarks))
+		pageMask := byte(1 << ((obj / pageSize) % 8))
 		if arena.pageMarks[pageIdx]&pageMask == 0 {
 			atomic.Or8(&arena.pageMarks[pageIdx], pageMask)
 		}
