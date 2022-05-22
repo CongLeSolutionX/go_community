@@ -12,6 +12,7 @@ import (
 	"internal/cpu"
 	"internal/goarch"
 	"runtime/internal/atomic"
+	"runtime/internal/sys"
 	"unsafe"
 )
 
@@ -247,8 +248,9 @@ type heapArena struct {
 	pageInUse [pagesPerArena / 8]uint8
 
 	// pageMarks is a bitmap that indicates which spans have any
-	// marked objects on them. Like pageInUse, only the bit
-	// corresponding to the first page in each span is used.
+	// marked objects on them. Unlike pageInUse, any bit that is
+	// set on a page indicates that the corresponding span has
+	// an object that was marked.
 	//
 	// Writes are done atomically during marking. Reads are
 	// non-atomic and lock-free since they only occur during
@@ -732,6 +734,36 @@ func spanOf(p uintptr) *mSpanCache {
 	return &ha.spans[(p/pageSize)%pagesPerArena]
 }
 
+//go:nosplit
+func spanAndArenaOf(p uintptr) (*mSpanCache, *heapArena) {
+	// This function looks big, but we use a lot of constant
+	// folding around arenaL1Bits to get it under the inlining
+	// budget. Also, many of the checks here are safety checks
+	// that Go needs to do anyway, so the generated code is quite
+	// short.
+	ri := arenaIndex(p)
+	if arenaL1Bits == 0 {
+		// If there's no L1, then ri.l1() can't be out of bounds but ri.l2() can.
+		if ri.l2() >= uint(len(mheap_.arenas[0])) {
+			return nil, nil
+		}
+	} else {
+		// If there's an L1, then ri.l1() can be out of bounds but ri.l2() can't.
+		if ri.l1() >= uint(len(mheap_.arenas)) {
+			return nil, nil
+		}
+	}
+	l2 := mheap_.arenas[ri.l1()]
+	if arenaL1Bits != 0 && l2 == nil { // Should never happen if there's no L1.
+		return nil, nil
+	}
+	ha := l2[ri.l2()]
+	if ha == nil {
+		return nil, nil
+	}
+	return &ha.spans[(p/pageSize)%pagesPerArena], ha
+}
+
 // spanOfUnchecked is equivalent to spanOf, but the caller must ensure
 // that p points into an allocated heap arena.
 //
@@ -766,12 +798,30 @@ func spanOfHeap(p uintptr) *mSpanCache {
 	return spanCache
 }
 
+//go:nosplit
+func spanAndArenaOfHeap(p uintptr) (*mSpanCache, *heapArena) {
+	spanCache, arena := spanAndArenaOf(p)
+	if !spanCache.valid() {
+		return nil, nil
+	}
+	// s is nil if it's never been allocated. Otherwise, we check
+	// its state first because we don't trust this pointer, so we
+	// have to synchronize with span initialization. Then, it's
+	// still possible we picked up a stale span pointer, so we
+	// have to check the span's bounds.
+	spanBase := spanCache.base()
+	if spanCache.state() != mSpanInUse || p < spanBase || p >= spanBase+spanCache.len() {
+		return nil, nil
+	}
+	return spanCache, arena
+}
+
 // pageIndexOf returns the arena, page index, and page mask for pointer p.
 // The caller must ensure p is in the heap.
 func pageIndexOf(p uintptr) (arena *heapArena, pageIdx uintptr, pageMask uint8) {
 	ai := arenaIndex(p)
 	arena = mheap_.arenas[ai.l1()][ai.l2()]
-	pageIdx = ((p / pageSize) / 8) % uintptr(len(arena.pageInUse))
+	pageIdx = ((p / pageSize) / 8) % uintptr(len(arena.pageMarks))
 	pageMask = byte(1 << ((p / pageSize) % 8))
 	return
 }
@@ -917,29 +967,84 @@ func (h *mheap) reclaimChunk(arenas []arenaIdx, pageIdx, n uintptr) uintptr {
 
 		// Scan this bitmap chunk for spans that are in-use
 		// but have no marked objects on them.
+
+		// Scan state.
+		lastInUse := -1            // The page index of the start of the last in-use span.
+		lastInUseByte := uint8(0)  // The last byte read from inUse.
+		lastMarkedByte := uint8(0) // The last byte read from marked.
+
+		// Find the first inUse bit.
 		for i := range inUse {
-			inUseUnmarked := atomic.Load8(&inUse[i]) &^ marked[i]
-			if inUseUnmarked == 0 {
+			lastInUseByte = atomic.Load8(&inUse[i])
+			if lastInUseByte == 0 {
 				continue
 			}
+			j := sys.TrailingZeros8(lastInUseByte)
+			lastInUse = i*8 + j
+			lastInUseByte >>= j
+			lastMarkedByte = marked[lastInUse/8] >> j
+			break
+		}
+		if lastInUse >= 0 {
+			// Loop: find the next in-use bit while checking to see if anything was
+			// marked. Once we find the next bit or finish iterating entirely, try
+			// to sweep the last in-use span if we found that none of its pages were marked.
+			for {
+				// Find next inUse bit while watching to see if anything is marked.
 
-			for j := uint(0); j < 8; j++ {
-				if inUseUnmarked&(1<<j) != 0 {
-					s := ha.spans[arenaPage+uint(i)*8+j].span()
-					if s, ok := sl.tryAcquire(s); ok {
-						npages := s.npages
-						unlock(&h.lock)
-						if s.sweep(false) {
-							nFreed += npages
+				lastInUseMarked := uint8(0)
+				nextInUse := -1
+
+				// Find the next in-use bit in the same byte.
+				if d := sys.TrailingZeros8(lastInUseByte >> 1); d != 8 {
+					nextInUse = lastInUse + d + 1
+					lastInUseMarked |= lastMarkedByte & uint8((uintptr(1)<<(d+1))-1)
+					lastInUseByte >>= d + 1
+					lastMarkedByte >>= d + 1
+				}
+				if nextInUse < 0 {
+					// Failing to find something in the first byte, start iterating over subsequent bytes.
+					for i := lastInUse/8 + 1; i < len(inUse); i++ {
+						// Iterate over whole bytes. Fast path: if we're jumping
+						// over large swathes of not-in-use memory, then just check
+						// quickly whether any of the pages are marked.
+						lastInUseByte = atomic.Load8(&inUse[i])
+						lastMarkedByte = marked[i]
+						if lastInUseByte == 0 {
+							lastInUseMarked |= lastMarkedByte
+							continue
 						}
-						lock(&h.lock)
-						// Reload inUse. It's possible nearby
-						// spans were freed when we dropped the
-						// lock and we don't want to get stale
-						// pointers from the spans array.
-						inUseUnmarked = atomic.Load8(&inUse[i]) &^ marked[i]
+						d := sys.TrailingZeros8(lastInUseByte)
+						nextInUse = i*8 + d
+						lastInUseMarked |= lastMarkedByte & uint8((uintptr(1)<<d)-1)
+						lastInUseByte >>= d
+						lastMarkedByte >>= d
+						break
 					}
 				}
+
+				// Check lastInUse if not marked or we're at the end of our
+				// iteration. The reason we check at the end of our iteration
+				// is that whoever iterates over the next bitmap chunk won't
+				// be aware of an in-use span that started before the chunk,
+				// so we pessimistically always check the last in-use span.
+				if nextInUse < 0 || lastInUseMarked == 0 {
+					spanCache := &ha.spans[arenaPage+uint(lastInUse)]
+					if s := spanCache.span(); s != nil {
+						if s, ok := sl.tryAcquire(s); ok {
+							npages := s.npages
+							unlock(&h.lock)
+							if s.sweep(false) {
+								nFreed += npages
+							}
+							lock(&h.lock)
+						}
+					}
+				}
+				if nextInUse < 0 {
+					break
+				}
+				lastInUse = nextInUse
 			}
 		}
 
@@ -1986,7 +2091,7 @@ func addfinalizer(p unsafe.Pointer, f *funcval, nret uintptr, fint *_type, ot *p
 		// situation where it's possible that markrootSpans
 		// has already run but mark termination hasn't yet.
 		if gcphase != _GCoff {
-			base, _, _ := findObject(uintptr(p), 0, 0)
+			base, _, _, _ := findObject(uintptr(p), 0, 0)
 			mp := acquirem()
 			gcw := &mp.p.ptr().gcw
 			// Mark everything reachable from the object

@@ -91,7 +91,7 @@ func checkptrBase(p unsafe.Pointer) uintptr {
 	}
 
 	// heap (must check after stack because of #35068)
-	if base, _, _ := findObject(uintptr(p), 0, 0); base != 0 {
+	if base, _, _, _ := findObject(uintptr(p), 0, 0); base != 0 {
 		return base
 	}
 
