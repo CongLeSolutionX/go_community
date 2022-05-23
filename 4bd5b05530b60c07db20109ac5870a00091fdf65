@@ -159,6 +159,24 @@
       "parentUuid": "fa28a478_c96b892c",
       "revId": "4bd5b05530b60c07db20109ac5870a00091fdf65",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "044ea722_2ee421ee",
+        "filename": "src/runtime/libfuzzer_arm64.s",
+        "patchSetId": 11
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 56363
+      },
+      "writtenOn": "2022-05-23T22:55:52Z",
+      "side": 1,
+      "message": "Thanks for the assembler bug fix. I\u0027ve changed it as suggested and it seems to work now. You can have a look at the CL https://go-review.googlesource.com/c/go/+/407895",
+      "parentUuid": "4a59f662_437cdb25",
+      "revId": "4bd5b05530b60c07db20109ac5870a00091fdf65",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
