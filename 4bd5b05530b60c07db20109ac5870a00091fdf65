@@ -141,6 +141,24 @@
       "parentUuid": "0203d505_0cafb046",
       "revId": "4bd5b05530b60c07db20109ac5870a00091fdf65",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a59f662_437cdb25",
+        "filename": "src/runtime/libfuzzer_arm64.s",
+        "patchSetId": 11
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-05-23T22:05:39Z",
+      "side": 1,
+      "message": "R15 is not the PC on ARM64 (it is on ARM32, but not ARM64).\nTry\n\n  ADR ret_sled, R30\n  ...  other instructions ...\n\nret_sled:\n  REPEAT_128(RET_SLED)\n\n\nYou\u0027ll need to rebase (a bug fix to the assembler just went in). Thanks.",
+      "parentUuid": "fa28a478_c96b892c",
+      "revId": "4bd5b05530b60c07db20109ac5870a00091fdf65",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

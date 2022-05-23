@@ -178,6 +178,24 @@
       "parentUuid": "5db9526f_a66e4af2",
       "revId": "eaad52e5f813a62e5b32aff353a27148262a3ca3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8e05a2c_de8cd730",
+        "filename": "src/runtime/libfuzzer_arm64.s",
+        "patchSetId": 9
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-05-23T22:05:39Z",
+      "side": 1,
+      "message": "If it only uses the lowest 9 bits, which means on platforms with fixed-length instructions like ARM64 it only has 7 bits as discriminator. I don\u0027t think there is anything we could do. Thanks.",
+      "parentUuid": "148cf429_9ebe1c89",
+      "revId": "eaad52e5f813a62e5b32aff353a27148262a3ca3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
