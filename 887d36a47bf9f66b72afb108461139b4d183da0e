@@ -16,6 +16,24 @@
       "message": "Thanks for the CL. However, I don\u0027t think plugins work on the RISCV port currently without more work. It may be okay to make a plugin build, but I don\u0027t think it will run correctly. To see if it works, we need to enable the tests at https://cs.opensource.google/go/go/+/master:src/cmd/dist/test.go;l\u003d1116 . Thanks.",
       "revId": "887d36a47bf9f66b72afb108461139b4d183da0e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "347addc4_a0967c9a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-05-23T14:26:57Z",
+      "side": 1,
+      "message": "(mark as unresolved)",
+      "parentUuid": "b5ece057_0413632a",
+      "revId": "887d36a47bf9f66b72afb108461139b4d183da0e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
