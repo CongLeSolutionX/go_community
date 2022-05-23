@@ -88,6 +88,24 @@
       "parentUuid": "02ed4d55_7f2ec93a",
       "revId": "24e3b0e240f8f150bf3a05ad5696c98f7d448736",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13ee8700_3b04556c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-05-23T18:33:53Z",
+      "side": 1,
+      "message": "Ops, I did reviewed it but forgot to give +2.\n\n(Though, the new gerrit rule make me feels less involvement to the code review, since when my +2 is just like notify others that I have seen the CL 😂)",
+      "parentUuid": "60df6d8b_95b49651",
+      "revId": "24e3b0e240f8f150bf3a05ad5696c98f7d448736",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
