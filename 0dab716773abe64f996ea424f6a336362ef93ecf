@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "01312a49_4fb01b47",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-05-23T17:19:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "08a9c803_29469e54",
+      "revId": "0dab716773abe64f996ea424f6a336362ef93ecf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3c845884_960f7160",
@@ -146,6 +164,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4f44552_acfde8fe",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-05-23T17:19:12Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2d9970ae_29ad6de1",
+      "revId": "0dab716773abe64f996ea424f6a336362ef93ecf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4bff6b9c_af817401",
@@ -159,6 +195,24 @@
       "writtenOn": "2022-05-20T14:48:37Z",
       "side": 1,
       "message": "If we make fingStatus atomic, then this function can drop finlock entirely and become a CAS of fingStatus `fingCreated|fingWait|fingWake` -\u003e `fingCreated`.\n\nWithout the lock, I think it would also be acceptable for the caller in findRunnable to unconditionally call wakefing (we could put a load prior to CAS if the CAS is too expensive).",
+      "revId": "0dab716773abe64f996ea424f6a336362ef93ecf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a00a34b3_5b1512c3",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-05-23T17:19:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4bff6b9c_af817401",
       "revId": "0dab716773abe64f996ea424f6a336362ef93ecf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
