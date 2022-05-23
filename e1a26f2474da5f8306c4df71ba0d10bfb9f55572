@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b7018c0_a1d78eb0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31249
+      },
+      "writtenOn": "2022-05-23T16:38:56Z",
+      "side": 1,
+      "message": "thanks for code reviewing.  \nI fixed in patch 3 except atomic.Uint32.  \nAnd tried using atomic.Uint32 in patch 4.  \nBut there may be a problem. In runfinq, we need to update fingStatus on g0. to avoid goready a goroutine that is still running. \nPlease check again if the concurrent operation of fingStatus is correct, thank you！ ",
+      "revId": "e1a26f2474da5f8306c4df71ba0d10bfb9f55572",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

@@ -58,6 +58,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d58a01db_b7a7634d",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 31249
+      },
+      "writtenOn": "2022-05-23T16:38:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c845884_960f7160",
+      "range": {
+        "startLine": 37,
+        "startChar": 1,
+        "endLine": 37,
+        "endChar": 11
+      },
+      "revId": "0dab716773abe64f996ea424f6a336362ef93ecf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d7e726d5_28694966",
@@ -71,6 +95,30 @@
       "writtenOn": "2022-05-20T14:48:37Z",
       "side": 1,
       "message": "nit: perhaps make this `fingRunningFinalizer`. (That is to differentiate from the finalizer g running from the Go scheduler perspective)",
+      "range": {
+        "startLine": 38,
+        "startChar": 1,
+        "endLine": 38,
+        "endChar": 12
+      },
+      "revId": "0dab716773abe64f996ea424f6a336362ef93ecf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5c66848_bb945b86",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 31249
+      },
+      "writtenOn": "2022-05-23T16:38:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7e726d5_28694966",
       "range": {
         "startLine": 38,
         "startChar": 1,
