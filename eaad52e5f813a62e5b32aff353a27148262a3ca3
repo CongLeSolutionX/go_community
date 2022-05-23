@@ -142,6 +142,24 @@
       "parentUuid": "78363f8b_f8774d75",
       "revId": "eaad52e5f813a62e5b32aff353a27148262a3ca3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5db9526f_a66e4af2",
+        "filename": "src/runtime/libfuzzer_arm64.s",
+        "patchSetId": 9
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-05-23T19:14:08Z",
+      "side": 1,
+      "message": "How many bits of the return PC does libfuzzer use as discriminator? Would it be possible to multiply the fake PC by 4 (or 8) as the offset, instead of just losing the lowest bits?\n\n(As it is already submitted, I think we don\u0027t need to rewrite it to CALL+JMP. But if it works it might be a good idea to multiply the fake PC by 4 and have 512 return addresses as AMD64 does.)",
+      "parentUuid": "34123b47_ba4c7fd7",
+      "revId": "eaad52e5f813a62e5b32aff353a27148262a3ca3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

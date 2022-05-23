@@ -105,6 +105,24 @@
       "parentUuid": "c8afd398_3cb90a57",
       "revId": "4bd5b05530b60c07db20109ac5870a00091fdf65",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0203d505_0cafb046",
+        "filename": "src/runtime/libfuzzer_arm64.s",
+        "patchSetId": 11
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-05-23T19:14:08Z",
+      "side": 1,
+      "message": "Yes, you\u0027d need to change it to a label. In the current form it doesn\u0027t build. \"GOARCH\u003darm64 GOOS\u003dlinux go build -tags libfuzzer runtime\" fails.",
+      "parentUuid": "b122e2a0_5b95d3b9",
+      "revId": "4bd5b05530b60c07db20109ac5870a00091fdf65",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
