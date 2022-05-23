@@ -18,6 +18,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d3add21_395e37d2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 53565
+      },
+      "writtenOn": "2022-05-23T08:58:07Z",
+      "side": 1,
+      "message": "See CL 407814",
+      "revId": "4dd9458162a08efeb3f3da9a9f3ab4f13113d4b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0013362a_337a49ab",
@@ -31,6 +48,24 @@
       "writtenOn": "2022-05-20T21:47:50Z",
       "side": 1,
       "message": "Maybe we also need to match \"not recognized\" and \"unknown option\".",
+      "revId": "4dd9458162a08efeb3f3da9a9f3ab4f13113d4b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88b21cbf_6d673a6c",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 2636,
+      "author": {
+        "id": 53565
+      },
+      "writtenOn": "2022-05-23T08:58:07Z",
+      "side": 1,
+      "message": "Done. Opened https://github.com/golang/go/pull/53028",
+      "parentUuid": "0013362a_337a49ab",
       "revId": "4dd9458162a08efeb3f3da9a9f3ab4f13113d4b9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
