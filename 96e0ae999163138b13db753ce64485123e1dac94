@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9243aaef_fe7338d7",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 984,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-05-23T15:50:26Z",
+      "side": 1,
+      "message": "The old code uses \u0026Ints, which is effectively \u0026Ints[0]. I think st.ireg should always be 0 here. If you \u0026Ints or \u0026Ints[0] is preferred, I can change it back.",
+      "range": {
+        "startLine": 984,
+        "startChar": 34,
+        "endLine": 984,
+        "endChar": 58
+      },
+      "revId": "96e0ae999163138b13db753ce64485123e1dac94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
