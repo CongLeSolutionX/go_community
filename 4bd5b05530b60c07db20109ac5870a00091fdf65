@@ -123,6 +123,24 @@
       "parentUuid": "b122e2a0_5b95d3b9",
       "revId": "4bd5b05530b60c07db20109ac5870a00091fdf65",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa28a478_c96b892c",
+        "filename": "src/runtime/libfuzzer_arm64.s",
+        "patchSetId": 11
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 56363
+      },
+      "writtenOn": "2022-05-23T21:56:18Z",
+      "side": 1,
+      "message": "I\u0027ve pushed a fix in this CL https://go-review.googlesource.com/c/go/+/407895\n\nThe fix now computes the start address of the ret sled based on the program counter (R15). I couldn\u0027t find a way to move the address representing a label into a register. Could you have a look there?",
+      "parentUuid": "0203d505_0cafb046",
+      "revId": "4bd5b05530b60c07db20109ac5870a00091fdf65",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

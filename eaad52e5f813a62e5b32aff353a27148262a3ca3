@@ -160,6 +160,24 @@
       "parentUuid": "34123b47_ba4c7fd7",
       "revId": "eaad52e5f813a62e5b32aff353a27148262a3ca3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "148cf429_9ebe1c89",
+        "filename": "src/runtime/libfuzzer_arm64.s",
+        "patchSetId": 9
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 56363
+      },
+      "writtenOn": "2022-05-23T21:56:18Z",
+      "side": 1,
+      "message": "libfuzzer\u0027s value profiling mode only uses the lowest 9 bits of the return address. Could you clarify how multiplying the fakePC by 4 would be better? Isn\u0027t this just shifting the value by two to the left, which also results in the lowest two bits set to zero? The issue I see is that we cannot have return addresses on ARM64 where the lowest two bits are zero.",
+      "parentUuid": "5db9526f_a66e4af2",
+      "revId": "eaad52e5f813a62e5b32aff353a27148262a3ca3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
