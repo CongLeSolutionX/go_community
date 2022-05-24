@@ -125,6 +125,41 @@
       "parentUuid": "8ad19497_a57f49d1",
       "revId": "33bad8089ce3d3d658d125298da38d951641bef3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e8a127e_55306849",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 53565
+      },
+      "writtenOn": "2022-05-24T08:09:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9fcdae35_9844061b",
+      "revId": "33bad8089ce3d3d658d125298da38d951641bef3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "226f2d38_aa68d376",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 53565
+      },
+      "writtenOn": "2022-05-24T08:09:08Z",
+      "side": 1,
+      "message": "Thanks for the suggestion, applied.\n\nUnfortunately, I don\u0027t have access to an iOS build(device|farm), thus flying blind from here.",
+      "revId": "33bad8089ce3d3d658d125298da38d951641bef3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
