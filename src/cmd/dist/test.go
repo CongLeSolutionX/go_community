@@ -813,7 +813,7 @@ func (t *tester) registerTests() {
 		t.registerTest("testso", "../misc/cgo/testso", t.goTest(), t.timeout(600), ".")
 		t.registerTest("testsovar", "../misc/cgo/testsovar", t.goTest(), t.timeout(600), ".")
 		if t.supportedBuildmode("c-archive") {
-			t.registerHostTest("testcarchive", "../misc/cgo/testcarchive", "misc/cgo/testcarchive", ".")
+			//t.registerHostTest("testcarchive", "../misc/cgo/testcarchive", "misc/cgo/testcarchive", ".")
 		}
 		if t.supportedBuildmode("c-shared") {
 			t.registerHostTest("testcshared", "../misc/cgo/testcshared", "misc/cgo/testcshared", ".")

@@ -22,6 +22,7 @@ package cgo
 #cgo aix LDFLAGS: -Wl,-berok
 #cgo solaris LDFLAGS: -lxnet
 #cgo solaris LDFLAGS: -lsocket
+#cgo windows LDFLAGS: -lpsapi
 
 #cgo CFLAGS: -Wall -Werror
 
