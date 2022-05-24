@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4099a6e_a9a53d27",
+        "filename": "src/cmd/compile/internal/typecheck/subr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1069,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-05-24T20:19:33Z",
+      "side": 1,
+      "message": "Ugh.  I failed at git and didn\u0027t include the changes intended; the code I meant to mail (Patchset 3) has all your suggestions in it.  (moved the condition, moved more stuff under the if).",
+      "parentUuid": "761123ce_9e1ad1a1",
+      "revId": "164169f93adbc124fb0df97f3ca48ec20bc9783e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d4cc67cb_480eeb88",
@@ -85,6 +103,24 @@
       "writtenOn": "2022-05-24T19:42:13Z",
       "side": 1,
       "message": "No point in inserting if targsChanged \u003d\u003d true. Instead, do\n\nif !targsChanged {\n    if ts.Funcs \u003d\u003d nil { ts.Funcs \u003d make... }\n    ts.Funcs[t] \u003d true\n}\n\nAnd the !targsChanged wrapper also around the delete below.",
+      "revId": "164169f93adbc124fb0df97f3ca48ec20bc9783e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb9dfbb6_6fd17baa",
+        "filename": "src/cmd/compile/internal/typecheck/subr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1153,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-05-24T20:19:33Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d4cc67cb_480eeb88",
       "revId": "164169f93adbc124fb0df97f3ca48ec20bc9783e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
