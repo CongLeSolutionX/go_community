@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a30a58ef_8a4d6a79",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 53565
+      },
+      "writtenOn": "2022-05-24T08:19:09Z",
+      "side": 1,
+      "message": "Reverted src/debug/... to master, as suggested by Cherry Mui.",
+      "revId": "9aa08ad72afe1107489bb397bdc72e62c35d9a02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
