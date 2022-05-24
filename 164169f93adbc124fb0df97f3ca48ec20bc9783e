@@ -53,6 +53,40 @@
       "message": "PTAL, I narrowed the scope of the fix as much as possible; it only does the recursion check when the function type has no shape or type parameters.\n",
       "revId": "164169f93adbc124fb0df97f3ca48ec20bc9783e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "761123ce_9e1ad1a1",
+        "filename": "src/cmd/compile/internal/typecheck/subr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1069,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2022-05-24T19:42:13Z",
+      "side": 1,
+      "message": "Maybe you could move this below the \"if\" just below here, so that targsChanged is already known. Then you can do\n\nif !targsChanged \u0026\u0026 t.Kind() \u003d\u003d types.TFUNC {\n // check, and update, ts.Funcs\n}",
+      "revId": "164169f93adbc124fb0df97f3ca48ec20bc9783e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4cc67cb_480eeb88",
+        "filename": "src/cmd/compile/internal/typecheck/subr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1153,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2022-05-24T19:42:13Z",
+      "side": 1,
+      "message": "No point in inserting if targsChanged \u003d\u003d true. Instead, do\n\nif !targsChanged {\n    if ts.Funcs \u003d\u003d nil { ts.Funcs \u003d make... }\n    ts.Funcs[t] \u003d true\n}\n\nAnd the !targsChanged wrapper also around the delete below.",
+      "revId": "164169f93adbc124fb0df97f3ca48ec20bc9783e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
