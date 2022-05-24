@@ -168,6 +168,24 @@
       "parentUuid": "454da799_86594f9c",
       "revId": "e1a26f2474da5f8306c4df71ba0d10bfb9f55572",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e670dd3_2f552c93",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-05-24T13:57:35Z",
+      "side": 1,
+      "message": "Eh, kind of. By using Store here you are effectively partially implementing my optional comment above to prevent spurious wakeups, as this Store may clear a fingWake set in queuefinalizer outside the lock.\n\nHowever, this is a very round-about, non-obvious way to implement that, so we shouldn\u0027t do it that way. Let\u0027s keep this as an And.\n\nYou can fix the build error by making `fingCreated` uint32 (which will be copied to the other constants). Given that `fingUninitialized` is already uint32, I assume it was a mistake that the others are untyped anyways.\n\nSee https://go.dev/play/p/53Cg-y1Q1R7",
+      "parentUuid": "f1f31a6b_8c667d08",
+      "revId": "e1a26f2474da5f8306c4df71ba0d10bfb9f55572",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
