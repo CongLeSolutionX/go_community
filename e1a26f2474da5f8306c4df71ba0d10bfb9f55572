@@ -70,6 +70,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6245a54_6ecb379a",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 31249
+      },
+      "writtenOn": "2022-05-24T00:37:53Z",
+      "side": 1,
+      "message": "yeah, good idea, done.",
+      "parentUuid": "e20e28d0_994d941c",
+      "revId": "e1a26f2474da5f8306c4df71ba0d10bfb9f55572",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d53b8413_a9312ef4",
@@ -93,6 +111,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c721700_5517c493",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 31249
+      },
+      "writtenOn": "2022-05-24T00:37:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d53b8413_a9312ef4",
+      "range": {
+        "startLine": 169,
+        "startChar": 34,
+        "endLine": 169,
+        "endChar": 39
+      },
+      "revId": "e1a26f2474da5f8306c4df71ba0d10bfb9f55572",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "454da799_86594f9c",
@@ -106,6 +148,24 @@
       "writtenOn": "2022-05-23T17:19:12Z",
       "side": 1,
       "message": "Could this just be `fingStatus.And(^fingRunningFinalizer)`? Why do we need CAS?",
+      "revId": "e1a26f2474da5f8306c4df71ba0d10bfb9f55572",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1f31a6b_8c667d08",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 31249
+      },
+      "writtenOn": "2022-05-24T00:37:53Z",
+      "side": 1,
+      "message": "I try `fingStatus.And(^fingRunningFinalizer)`, it will report \n\"cannot use ^fingRunningFinalizer (untyped int constant -3) as uint32 value in argument to fingStatus.And (overflows)\"  \nI directly modified it to `fingStatus.Store(fingCreated)`  \nI think it\u0027s safe, right?",
+      "parentUuid": "454da799_86594f9c",
       "revId": "e1a26f2474da5f8306c4df71ba0d10bfb9f55572",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
