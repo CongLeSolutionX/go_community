@@ -93,6 +93,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fba3ca4c_d3920f8f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-05-24T18:21:52Z",
+      "side": 1,
+      "message": "Incorporated the internal/pkgbits stuff into CL 407614.",
+      "revId": "cf669d968333f5235d5251a0d1dd1fd2c050210d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0d80e9db_8a0d33b1",
@@ -106,6 +123,30 @@
       "writtenOn": "2022-03-01T22:32:15Z",
       "side": 1,
       "message": "Do we have any particular reason to believe that the old or the new behavior is/will-be superior to the other, from the POV of either error-reporting or debugging?  Changing this might have funny little downstream effects in tools, or at least in their test cases.",
+      "range": {
+        "startLine": 17,
+        "startChar": 3,
+        "endLine": 18,
+        "endChar": 42
+      },
+      "revId": "cf669d968333f5235d5251a0d1dd1fd2c050210d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "acaefe67_64223ac6",
+        "filename": "src/cmd/compile/internal/noder/quirks.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-05-24T18:21:52Z",
+      "side": 1,
+      "message": "FWIW, this logic exactly matches how we computed position information for implicit type switch variables in Go 1.17.",
+      "parentUuid": "0d80e9db_8a0d33b1",
       "range": {
         "startLine": 17,
         "startChar": 3,
@@ -158,6 +199,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "48f1c46b_d8feb2ff",
+        "filename": "src/cmd/compile/internal/noder/unified.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-05-24T18:21:52Z",
+      "side": 1,
+      "message": "That\u0027s correct. There was still code that used base.Flag.Lang for -G\u003d0 mode, but I think we\u0027ve ripped that all out.\n\nI\u0027ll double check whether this is still needed.",
+      "parentUuid": "60f1d24b_5a851a2f",
+      "range": {
+        "startLine": 91,
+        "startChar": 1,
+        "endLine": 91,
+        "endChar": 15
+      },
+      "revId": "cf669d968333f5235d5251a0d1dd1fd2c050210d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1bf20b30_10f22b86",
         "filename": "src/cmd/compile/internal/noder/unified.go",
         "patchSetId": 5
@@ -196,6 +261,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8e0dc0b_83b8eced",
+        "filename": "src/internal/pkgbits/codes.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-05-24T18:21:52Z",
+      "side": 1,
+      "message": "Added a comment. Correct, these values are in internal/pkgbits rather than cmd/compile because the go/types importers rely on them. We can add new enums, but not change existing ones (at least without version bumping).",
+      "parentUuid": "ab560982_0baa4187",
+      "revId": "cf669d968333f5235d5251a0d1dd1fd2c050210d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8697fd91_65be2997",
@@ -209,6 +292,30 @@
       "writtenOn": "2022-03-01T22:32:15Z",
       "side": 1,
       "message": "Use of a string here makes me a little nervous.  I can see the advantage from the POV of immutability, inability to reslice larger, but doesn\u0027t it also have the possibility of not being a well-formed (UTF-8) string?\n\nOTOH, this is not crucial to the design, could be replaced w/ a []byte later.\n\nWould it make sense to use a named type that is ~string, so that there is some hint that it is not a first-class string?",
+      "range": {
+        "startLine": 23,
+        "startChar": 1,
+        "endLine": 23,
+        "endChar": 20
+      },
+      "revId": "cf669d968333f5235d5251a0d1dd1fd2c050210d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ab515e8_54a722e2",
+        "filename": "src/internal/pkgbits/decoder.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-05-24T18:21:52Z",
+      "side": 1,
+      "message": "\u003e doesn\u0027t it also have the possibility of not being a well-formed (UTF-8) string?\n\nGo strings aren\u0027t required to be UTF-8. It\u0027s just an internal field, so I\u0027m not personally concerned. We use strings elsewhere in the compiler to represent arbitrary, read-only byte strings.",
+      "parentUuid": "8697fd91_65be2997",
       "range": {
         "startLine": 23,
         "startChar": 1,
@@ -244,6 +351,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d4d3b32d_083dea26",
+        "filename": "src/internal/pkgbits/decoder.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-05-24T18:21:52Z",
+      "side": 1,
+      "message": "\"Len\" is just used here because it\u0027s the convention I use for non-negative ints.",
+      "parentUuid": "7c0c74a0_46c95127",
+      "range": {
+        "startLine": 236,
+        "startChar": 18,
+        "endLine": 236,
+        "endChar": 22
+      },
+      "revId": "cf669d968333f5235d5251a0d1dd1fd2c050210d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f9031198_88a8760d",
         "filename": "src/internal/pkgbits/encoder.go",
         "patchSetId": 5
@@ -255,6 +386,24 @@
       "writtenOn": "2022-02-15T22:59:40Z",
       "side": 1,
       "message": "Comment that stringsIdx is just a performance optimization, all the data is in elems[RelocString]. elems[RelocString][stringsIdx[s]] \u003d\u003d s (if s is present).",
+      "revId": "cf669d968333f5235d5251a0d1dd1fd2c050210d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eced00ab_213207e2",
+        "filename": "src/internal/pkgbits/encoder.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-05-24T18:21:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9031198_88a8760d",
       "revId": "cf669d968333f5235d5251a0d1dd1fd2c050210d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -282,6 +431,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "65fca44d_34a52950",
+        "filename": "src/internal/pkgbits/encoder.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-05-24T18:21:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "22299bef_cfd8ff8c",
+      "range": {
+        "startLine": 117,
+        "startChar": 8,
+        "endLine": 117,
+        "endChar": 12
+      },
+      "revId": "cf669d968333f5235d5251a0d1dd1fd2c050210d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "384a944e_ef7138f0",
@@ -299,6 +472,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "92798810_2174a7a8",
+        "filename": "src/internal/pkgbits/encoder.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-05-24T18:21:52Z",
+      "side": 1,
+      "message": "Ack. Updated the TODO to mention quadratic time.",
+      "parentUuid": "384a944e_ef7138f0",
+      "revId": "cf669d968333f5235d5251a0d1dd1fd2c050210d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "81bd2cb6_c70cf90d",
@@ -312,6 +503,24 @@
       "writtenOn": "2022-02-15T22:59:40Z",
       "side": 1,
       "message": "This seems overly fancy, that (*Encoder).Bool is the only method that returns its argument, so that we can use it in an if statement for both its side effect and to branch on its arg.\nI think it would be clearer to just do:\ncplx :\u003d val.Kind() \u003d\u003d constant.Complex\nw.Bool(cplx)\nif cplx { ... } else { ... }\n\nMore verbose, but more obvious.",
+      "revId": "cf669d968333f5235d5251a0d1dd1fd2c050210d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a4fa35d_2643f932",
+        "filename": "src/internal/pkgbits/encoder.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-05-24T18:21:52Z",
+      "side": 1,
+      "message": "This is the same pattern we use in iimport/iexport. I find it helps prevent mistakes, because then the corresponding code is generally `if w.Bool(...) { ... }` and `if r.Bool() { ... }`.\n\nAck that it\u0027s a bit fancy and looks odd at first, but I think the benefit is worthwhile.",
+      "parentUuid": "81bd2cb6_c70cf90d",
       "revId": "cf669d968333f5235d5251a0d1dd1fd2c050210d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
