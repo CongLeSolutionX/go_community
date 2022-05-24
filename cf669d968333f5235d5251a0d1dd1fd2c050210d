@@ -523,6 +523,24 @@
       "parentUuid": "81bd2cb6_c70cf90d",
       "revId": "cf669d968333f5235d5251a0d1dd1fd2c050210d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd4b84ef_ed876e0c",
+        "filename": "src/internal/pkgbits/encoder.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2022-05-24T19:49:08Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "9a4fa35d_2643f932",
+      "revId": "cf669d968333f5235d5251a0d1dd1fd2c050210d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
