@@ -166,12 +166,8 @@ func (t *trieNode) add(key, val string, priority int, r *genericReplacer) {
 
 	if t.prefix != "" {
 		// Need to split the prefix among multiple nodes.
-		var n int // length of the longest common prefix
-		for ; n < len(t.prefix) && n < len(key); n++ {
-			if t.prefix[n] != key[n] {
-				break
-			}
-		}
+		n := CommonPrefixLen(t.prefix, key)
+
 		if n == len(t.prefix) {
 			t.next.add(key[n:], val, priority, r)
 		} else if n == 0 {
