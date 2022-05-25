@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "edafc9f9_6809eff5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-05-25T23:23:28Z",
+      "side": 1,
+      "message": "Please see https://go.dev/wiki/CommitMessage.  This might be something like\n\ndebug/buildinfo: support buildinfo section in readonly segments\n\nor something like that.  Thanks.",
+      "revId": "0990c59530dbc7c22fd0ec557ec5e8af520b3637",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6eff79a8_3187a14d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-05-25T23:23:28Z",
+      "side": 1,
+      "message": "Is it possible to write a test for this?  Perhaps \"go build\" an executable and then strip it?  Thanks.",
+      "revId": "0990c59530dbc7c22fd0ec557ec5e8af520b3637",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "faac9d23_d0b4bf58",
+        "filename": "src/debug/buildinfo/buildinfo.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-05-25T23:23:28Z",
+      "side": 1,
+      "message": "The explicit conversion to ProgFlag is not needed here.",
+      "revId": "0990c59530dbc7c22fd0ec557ec5e8af520b3637",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96234f46_869b8ff8",
+        "filename": "src/debug/buildinfo/buildinfo.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-05-25T23:23:28Z",
+      "side": 1,
+      "message": "This no longer implements the documentation for the DataStart method, as documented in the exe interface.",
+      "revId": "0990c59530dbc7c22fd0ec557ec5e8af520b3637",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b28dec8_c13bef7c",
+        "filename": "src/debug/buildinfo/buildinfo.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-05-25T23:23:28Z",
+      "side": 1,
+      "message": "Seems like sect.Size !\u003d 0 is still appropriate.",
+      "revId": "0990c59530dbc7c22fd0ec557ec5e8af520b3637",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
