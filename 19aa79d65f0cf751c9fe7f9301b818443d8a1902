@@ -16,6 +16,24 @@
       "message": "New exported API requires an accepted proposal; see https://go.dev/s/proposal-process.",
       "revId": "19aa79d65f0cf751c9fe7f9301b818443d8a1902",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ec0a62e_105632ea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2022-05-25T13:08:58Z",
+      "side": 1,
+      "message": "Of course; I just wanted a URL for this work in progress that I could share at this stage. I\u0027ll mark it DO NOT REVIEW for now.",
+      "parentUuid": "a79992f0_dc20a5f6",
+      "revId": "19aa79d65f0cf751c9fe7f9301b818443d8a1902",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
