@@ -89,6 +89,24 @@
       "parentUuid": "6dfb548d_de0348c0",
       "revId": "cecb341dc6b57b349a35dbf76e7083fce5875569",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "682b9ee7_1266a0ff",
+        "filename": "src/runtime/signal_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 623,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-05-25T22:33:09Z",
+      "side": 1,
+      "message": "For what it\u0027s worth I don\u0027t see any evidence that the Go race detector intercepts sigaction.  There is no sigaction definition in the .syso files in runtime/race.  In the source code looking at buildgo.sh it doesn\u0027t seem to refer to any of the syscall interceptor files.  I don\u0027t see any reason for the Go race detector to intercept sigaction, or any other system call, as the relevant synchronization is done in Go code in the runtime and syscall packages.\n\nAs you observed, when using cgo we use the C sigaction function, to support TSAN and MSAN, but not the Go race detector.",
+      "parentUuid": "278f54ad_012976da",
+      "revId": "cecb341dc6b57b349a35dbf76e7083fce5875569",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
