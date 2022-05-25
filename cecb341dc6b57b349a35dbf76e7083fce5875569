@@ -71,6 +71,24 @@
       "parentUuid": "0e845f83_70d91900",
       "revId": "cecb341dc6b57b349a35dbf76e7083fce5875569",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "278f54ad_012976da",
+        "filename": "src/runtime/signal_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 623,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-05-25T20:58:58Z",
+      "side": 1,
+      "message": "Ah, I didn\u0027t realize that this only affects C TSAN, not Go race mode. Do you know why that is? My best understanding:\n\nTSAN seems to install its signal handler when it intercepts calls to sigaction. With cgo, we use the C sigaction, with a specific mention of TSAN: https://cs.opensource.google/go/go/+/master:src/runtime/cgo/sigaction.go\n\nBut without cgo, we directly make an rt_sigaction syscall, presumably bypassing the TSAN interceptor.\n\nMy further question would be: is that correct? Does TSAN not need to intercept our signal handlers for some reason? Perhaps because we never run user code, or any race-instrumented code, in our signal handlers?",
+      "parentUuid": "6dfb548d_de0348c0",
+      "revId": "cecb341dc6b57b349a35dbf76e7083fce5875569",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
