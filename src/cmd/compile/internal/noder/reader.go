@@ -605,6 +605,7 @@ func (pr *pkgReader) objIdx(idx int, implicits, explicits []*types.Type) ir.Node
 
 	do := func(op ir.Op, hasTParams bool) *ir.Name {
 		pos := r.pos()
+		setBasePos(pos)
 		if hasTParams {
 			r.typeParamNames()
 		}
@@ -1807,6 +1808,7 @@ func (r *reader) exprType(nilOK bool) ir.Node {
 	}
 
 	pos := r.pos()
+	setBasePos(pos)
 
 	lsymPtr := func(lsym *obj.LSym) ir.Node {
 		return typecheck.Expr(typecheck.NodAddr(ir.NewLinksymExpr(pos, lsym, types.Types[types.TUINT8])))
@@ -2515,4 +2517,9 @@ func addTailCall(pos src.XPos, fn *ir.Func, recv ir.Node, method *types.Field) {
 	ret := ir.NewReturnStmt(pos, nil)
 	ret.Results = []ir.Node{call}
 	fn.Body.Append(ret)
+}
+
+func setBasePos(pos src.XPos) {
+	// Set the position for any error messages we might print (e.g. too large types).
+	base.Pos = pos
 }
