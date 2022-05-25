@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3cc14871_810fbafc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 10420
+      },
+      "writtenOn": "2022-05-25T14:13:27Z",
+      "side": 1,
+      "message": "add SetIsTest for global variable. done.",
+      "revId": "82e2ce80066f01073289f7946fec23edd3d2fbdd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
