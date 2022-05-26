@@ -107,6 +107,24 @@
       "parentUuid": "278f54ad_012976da",
       "revId": "cecb341dc6b57b349a35dbf76e7083fce5875569",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4feaf4a1_986ee3ec",
+        "filename": "src/runtime/signal_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 623,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-05-26T15:29:22Z",
+      "side": 1,
+      "message": "Yeah, for the Go race build we don\u0027t use the intercepted sigaction syscall. And as Ian said, the interceptors are not included in the build of the syso.\n\n\u003e Perhaps because we never run user code, or any race-instrumented code, in our signal handlers?\n\nI think so. The runtime is not instrumented.",
+      "parentUuid": "682b9ee7_1266a0ff",
+      "revId": "cecb341dc6b57b349a35dbf76e7083fce5875569",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
