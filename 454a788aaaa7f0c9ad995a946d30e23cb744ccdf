@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "66f8e58f_37e1525b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-05-26T02:11:40Z",
+      "side": 1,
+      "message": "TRY\u003dlongtest,windows-amd64-longtest",
+      "revId": "454a788aaaa7f0c9ad995a946d30e23cb744ccdf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "064aaa0d_54bcf52f",
@@ -14,6 +31,24 @@
       "writtenOn": "2022-05-04T16:20:38Z",
       "side": 1,
       "message": "I suspect that this will fail on Windows. I\u0027ll have to do some manual testing, since the Windows builders lack a `git` executable (#46693).",
+      "revId": "454a788aaaa7f0c9ad995a946d30e23cb744ccdf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29473f13_1fea566d",
+        "filename": "src/cmd/go/testdata/script/mod_download_git_decorate_full.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-05-26T02:11:40Z",
+      "side": 1,
+      "message": "To my surprise, this test does pass on Windows with Git installed!",
+      "parentUuid": "064aaa0d_54bcf52f",
       "revId": "454a788aaaa7f0c9ad995a946d30e23cb744ccdf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
