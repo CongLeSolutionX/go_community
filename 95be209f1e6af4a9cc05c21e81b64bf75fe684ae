@@ -73,6 +73,132 @@
       "parentUuid": "77ae6aa0_c28c5339",
       "revId": "95be209f1e6af4a9cc05c21e81b64bf75fe684ae",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbc43890_fab7bee0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-05-26T21:28:21Z",
+      "side": 1,
+      "message": "Still trying to fully understand the fix but it does appear to fix the issue; thanks!\n\nPlease make the same change in go/types (almost 100% symmetric code), and add the test case there as well.",
+      "revId": "95be209f1e6af4a9cc05c21e81b64bf75fe684ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d296c3bc_85417ebf",
+        "filename": "src/cmd/compile/internal/types2/validtype.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-05-26T21:28:21Z",
+      "side": 1,
+      "message": "I think this can be like before:\n\nfor i, tn :\u003d range path {\n   if tn \u003d\u003d t.obj { ...",
+      "range": {
+        "startLine": 76,
+        "startChar": 12,
+        "endLine": 76,
+        "endChar": 15
+      },
+      "revId": "95be209f1e6af4a9cc05c21e81b64bf75fe684ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5741367_0230d4ec",
+        "filename": "src/cmd/compile/internal/types2/validtype.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-05-26T21:28:21Z",
+      "side": 1,
+      "message": "extra empty line",
+      "revId": "95be209f1e6af4a9cc05c21e81b64bf75fe684ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d4ed8a4_d3fbda08",
+        "filename": "test/typeparam/issue52698.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-05-26T21:28:21Z",
+      "side": 1,
+      "message": "Rather than have this in the test directory, please move this file into\n\nsrc/cmd/compile/internal/types2/testdata/fixedbugs\n\n(and remove the // compile comment).\n\nThen this test will be run always as part of the (short) type checker tests.",
+      "range": {
+        "startLine": 1,
+        "startChar": 3,
+        "endLine": 1,
+        "endChar": 10
+      },
+      "revId": "95be209f1e6af4a9cc05c21e81b64bf75fe684ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "812b9ce2_b2285b08",
+        "filename": "test/typeparam/issue52698.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-05-26T21:28:21Z",
+      "side": 1,
+      "message": "Can you please also add this simplified test case:\n\n```\ntype A struct {\n\t_ B[C]\n}\n\ntype D[P1 any] struct {\n\t_ P1\n}\n\ntype B[P2 any] struct {\n\t_ D[P2]\n}\n\ntype C struct {\n\t_ B[string]\n}\n```\nand then add a comment:\n\n```\n// test case from issue\n```\n\nfollowed by the test that\u0027s already here.\n(this matches the style we have elsewhere for type checker tests.)",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 0
+      },
+      "revId": "95be209f1e6af4a9cc05c21e81b64bf75fe684ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9222591e_074b3fd8",
+        "filename": "test/typeparam/issue52698.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-05-26T21:28:21Z",
+      "side": 1,
+      "message": "This comment is not needed and somewhat confusing (details are in the issue). Leave away.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 96
+      },
+      "revId": "95be209f1e6af4a9cc05c21e81b64bf75fe684ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
