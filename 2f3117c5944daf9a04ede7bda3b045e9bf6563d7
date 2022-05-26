@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2389a120_a2f392e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 52385
+      },
+      "writtenOn": "2022-05-26T14:26:17Z",
+      "side": 1,
+      "message": "The \"Fixes\" line should be in plain text (no mark down).",
+      "revId": "2f3117c5944daf9a04ede7bda3b045e9bf6563d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
