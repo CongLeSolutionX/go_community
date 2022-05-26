@@ -1330,7 +1330,7 @@ func gcBgMarkWorker() {
 		duration := now - startTime
 		gcController.markWorkerStop(pp.gcMarkWorkerMode, duration)
 		if pp.gcMarkWorkerMode == gcMarkWorkerIdleMode {
-			gcCPULimiter.addIdleMarkTime(duration)
+			gcCPULimiter.addIdleTime(duration)
 			gcCPULimiter.update(now)
 		}
 		if pp.gcMarkWorkerMode == gcMarkWorkerFractionalMode {
