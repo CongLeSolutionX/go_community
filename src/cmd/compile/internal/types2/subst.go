@@ -258,7 +258,6 @@ func (subst *subster) typ(typ Type) Type {
 		// recursion. The position used here is irrelevant because validation only
 		// occurs on t (we don't call validType on named), but we use subst.pos to
 		// help with debugging.
-		t.orig.resolve(subst.ctxt)
 		return subst.check.instance(subst.pos, t.orig, newTArgs, subst.ctxt)
 
 		// Note that if we were to expose substitution more generally (not just in
@@ -299,6 +298,7 @@ func (subst *subster) var_(v *Var) *Var {
 func substVar(v *Var, typ Type) *Var {
 	copy := *v
 	copy.typ = typ
+	copy.origin = v.Origin()
 	return &copy
 }
 
@@ -332,12 +332,17 @@ func (subst *subster) varList(in []*Var) (out []*Var, copied bool) {
 func (subst *subster) func_(f *Func) *Func {
 	if f != nil {
 		if typ := subst.typ(f.typ); typ != f.typ {
-			copy := *f
-			copy.typ = typ
-			return &copy
+			return substFunc(f, typ)
 		}
 	}
 	return f
+}
+
+func substFunc(f *Func, typ Type) *Func {
+	copy := *f
+	copy.typ = typ
+	copy.origin = f.Origin()
+	return &copy
 }
 
 func (subst *subster) funcList(in []*Func) (out []*Func, copied bool) {
@@ -415,7 +420,7 @@ func replaceRecvType(in []*Func, old, new Type) (out []*Func, copied bool) {
 			}
 			newsig := *sig
 			newsig.recv = substVar(sig.recv, new)
-			out[i] = NewFunc(method.pos, method.pkg, method.name, &newsig)
+			out[i] = substFunc(method, &newsig)
 		}
 	}
 	return

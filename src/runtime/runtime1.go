@@ -38,9 +38,13 @@ func gotraceback() (level int32, all, crash bool) {
 	_g_ := getg()
 	t := atomic.Load(&traceback_cache)
 	crash = t&tracebackCrash != 0
-	all = _g_.m.throwing > 0 || t&tracebackAll != 0
+	all = _g_.m.throwing >= throwTypeUser || t&tracebackAll != 0
 	if _g_.m.traceback != 0 {
 		level = int32(_g_.m.traceback)
+	} else if _g_.m.throwing >= throwTypeRuntime {
+		// Always include runtime frames in runtime throws unless
+		// otherwise overridden by m.traceback.
+		level = 2
 	} else {
 		level = int32(t >> tracebackShift)
 	}
@@ -317,6 +321,7 @@ var debug struct {
 	tracebackancestors int32
 	asyncpreemptoff    int32
 	harddecommit       int32
+	adaptivestackstart int32
 
 	// debug.malloc is used as a combined debug check
 	// in the malloc function and should be set
@@ -347,12 +352,14 @@ var dbgvars = []dbgVar{
 	{"asyncpreemptoff", &debug.asyncpreemptoff},
 	{"inittrace", &debug.inittrace},
 	{"harddecommit", &debug.harddecommit},
+	{"adaptivestackstart", &debug.adaptivestackstart},
 }
 
 func parsedebugvars() {
 	// defaults
 	debug.cgocheck = 1
 	debug.invalidptr = 1
+	debug.adaptivestackstart = 1 // go119 - set this to 0 to turn larger initial goroutine stacks off
 	if GOOS == "linux" {
 		// On Linux, MADV_FREE is faster than MADV_DONTNEED,
 		// but doesn't affect many of the statistics that

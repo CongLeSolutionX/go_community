@@ -21,12 +21,6 @@ type Object interface {
 	Type() *Type
 }
 
-// A TypeObject is an Object representing a named type.
-type TypeObject interface {
-	Object
-	TypeDefn() *Type // for "type T Defn", returns Defn
-}
-
 //go:generate stringer -type Kind -trimprefix T type.go
 
 // Kind describes a kind of type.
@@ -174,7 +168,7 @@ type Type struct {
 	allMethods Fields
 
 	// canonical OTYPE node for a named type (should be an ir.Name node with same sym)
-	nod Object
+	obj Object
 	// the underlying type (type literal or predeclared type) for a defined type
 	underlying *Type
 
@@ -184,7 +178,6 @@ type Type struct {
 		slice *Type // []T, or nil
 	}
 
-	sym    *Sym  // symbol containing name, for named types
 	vargen int32 // unique name for OTYPE/ONAME
 
 	kind  Kind  // kind of type
@@ -244,8 +237,12 @@ func (t *Type) SetHasShape(b bool) { t.flags.set(typeHasShape, b) }
 func (t *Type) Kind() Kind { return t.kind }
 
 // Sym returns the name of type t.
-func (t *Type) Sym() *Sym       { return t.sym }
-func (t *Type) SetSym(sym *Sym) { t.sym = sym }
+func (t *Type) Sym() *Sym {
+	if t.obj != nil {
+		return t.obj.Sym()
+	}
+	return nil
+}
 
 // OrigType returns the original generic type that t is an
 // instantiation of, if any.
@@ -255,20 +252,11 @@ func (t *Type) SetOrigType(orig *Type) { t.origType = orig }
 // Underlying returns the underlying type of type t.
 func (t *Type) Underlying() *Type { return t.underlying }
 
-// SetNod associates t with syntax node n.
-func (t *Type) SetNod(n Object) {
-	// t.nod can be non-nil already
-	// in the case of shared *Types, like []byte or interface{}.
-	if t.nod == nil {
-		t.nod = n
-	}
-}
-
 // Pos returns a position associated with t, if any.
 // This should only be used for diagnostics.
 func (t *Type) Pos() src.XPos {
-	if t.nod != nil {
-		return t.nod.Pos()
+	if t.obj != nil {
+		return t.obj.Pos()
 	}
 	return src.NoXPos
 }
@@ -1206,7 +1194,7 @@ func (t *Type) cmp(x *Type) Cmp {
 		return cmpForNe(t.kind < x.kind)
 	}
 
-	if t.sym != nil || x.sym != nil {
+	if t.obj != nil || x.obj != nil {
 		// Special case: we keep byte and uint8 separate
 		// for error messages. Treat them as equal.
 		switch t.kind {
@@ -1228,11 +1216,11 @@ func (t *Type) cmp(x *Type) Cmp {
 		}
 	}
 
-	if c := t.sym.cmpsym(x.sym); c != CMPeq {
+	if c := t.Sym().cmpsym(x.Sym()); c != CMPeq {
 		return c
 	}
 
-	if x.sym != nil {
+	if x.obj != nil {
 		// Syms non-nil, if vargens match then equal.
 		if t.vargen != x.vargen {
 			return cmpForNe(t.vargen < x.vargen)
@@ -1722,11 +1710,10 @@ var (
 // type should be set later via SetUnderlying(). References to the type are
 // maintained until the type is filled in, so those references can be updated when
 // the type is complete.
-func NewNamed(obj TypeObject) *Type {
+func NewNamed(obj Object) *Type {
 	t := newType(TFORW)
-	t.sym = obj.Sym()
-	t.nod = obj
-	if t.sym.Pkg == ShapePkg {
+	t.obj = obj
+	if obj.Sym().Pkg == ShapePkg {
 		t.SetIsShape(true)
 		t.SetHasShape(true)
 	}
@@ -1735,10 +1722,7 @@ func NewNamed(obj TypeObject) *Type {
 
 // Obj returns the canonical type name node for a named type t, nil for an unnamed type.
 func (t *Type) Obj() Object {
-	if t.sym != nil {
-		return t.nod
-	}
-	return nil
+	return t.obj
 }
 
 // typeGen tracks the number of function-scoped defined types that
@@ -1831,8 +1815,7 @@ func fieldsHasShape(fields []*Field) bool {
 // NewBasic returns a new basic type of the given kind.
 func newBasic(kind Kind, obj Object) *Type {
 	t := newType(kind)
-	t.sym = obj.Sym()
-	t.nod = obj
+	t.obj = obj
 	return t
 }
 
@@ -1859,9 +1842,9 @@ func NewInterface(pkg *Pkg, methods []*Field, implicit bool) *Type {
 
 // NewTypeParam returns a new type param with the specified sym (package and name)
 // and specified index within the typeparam list.
-func NewTypeParam(sym *Sym, index int) *Type {
+func NewTypeParam(obj Object, index int) *Type {
 	t := newType(TTYPEPARAM)
-	t.sym = sym
+	t.obj = obj
 	t.extra.(*Typeparam).index = index
 	t.SetHasTParam(true)
 	return t
@@ -2105,9 +2088,6 @@ func IsRuntimePkg(p *Pkg) bool {
 
 // IsReflectPkg reports whether p is package reflect.
 func IsReflectPkg(p *Pkg) bool {
-	if p == LocalPkg {
-		return base.Ctxt.Pkgpath == "reflect"
-	}
 	return p.Path == "reflect"
 }
 

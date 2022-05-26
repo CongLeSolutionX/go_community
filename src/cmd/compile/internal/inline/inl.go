@@ -483,10 +483,6 @@ func inlcopy(n ir.Node) ir.Node {
 			newfn.Nname = ir.NewNameAt(oldfn.Nname.Pos(), oldfn.Nname.Sym())
 			// XXX OK to share fn.Type() ??
 			newfn.Nname.SetType(oldfn.Nname.Type())
-			// Ntype can be nil for -G=3 mode.
-			if oldfn.Nname.Ntype != nil {
-				newfn.Nname.Ntype = inlcopy(oldfn.Nname.Ntype).(ir.Ntype)
-			}
 			newfn.Body = inlcopylist(oldfn.Body)
 			// Make shallow copy of the Dcl and ClosureVar slices
 			newfn.Dcl = append([]*ir.Name(nil), oldfn.Dcl...)
@@ -705,16 +701,35 @@ func mkinlcall(n *ir.CallExpr, fn *ir.Func, maxCost int32, inlMap map[*ir.Func]b
 	// apparent when we first created the instantiation of the generic function.
 	// We can't handle this if we actually do the inlining, since we want to know
 	// all interface conversions immediately after stenciling. So, we avoid
-	// inlining in this case. See #49309.
-	if !fn.Type().HasShape() {
+	// inlining in this case, see issue #49309. (1)
+	//
+	// See discussion on go.dev/cl/406475 for more background.
+	if !fn.Type().Params().HasShape() {
 		for _, arg := range n.Args {
 			if arg.Type().HasShape() {
 				if logopt.Enabled() {
 					logopt.LogOpt(n.Pos(), "cannotInlineCall", "inline", ir.FuncName(ir.CurFunc),
-						fmt.Sprintf("inlining non-shape function %v with shape args", ir.FuncName(fn)))
+						fmt.Sprintf("inlining function %v has no-shape params with shape args", ir.FuncName(fn)))
 				}
 				return n
 			}
+		}
+	} else {
+		// Don't inline a function fn that has shape parameters, but is passed no shape arg.
+		// See comments (1) above, and issue #51909.
+		inlineable := len(n.Args) == 0 // Function has shape in type, with no arguments can always be inlined.
+		for _, arg := range n.Args {
+			if arg.Type().HasShape() {
+				inlineable = true
+				break
+			}
+		}
+		if !inlineable {
+			if logopt.Enabled() {
+				logopt.LogOpt(n.Pos(), "cannotInlineCall", "inline", ir.FuncName(ir.CurFunc),
+					fmt.Sprintf("inlining function %v has shape params with no-shape args", ir.FuncName(fn)))
+			}
+			return n
 		}
 	}
 
@@ -934,10 +949,6 @@ func oldInline(call *ir.CallExpr, fn *ir.Func, inlIndex int) *ir.InlinedCallExpr
 	lab := ir.NewLabelStmt(base.Pos, retlabel)
 	body = append(body, lab)
 
-	if !typecheck.Go117ExportTypes {
-		typecheck.Stmts(body)
-	}
-
 	if base.Flag.GenDwarfInl > 0 {
 		for _, v := range inlfvars {
 			v.SetPos(subst.updatedPos(v.Pos()))
@@ -1136,11 +1147,6 @@ func (subst *inlsubst) closure(n *ir.ClosureExpr) ir.Node {
 
 	oldfn := n.Func
 	newfn := ir.NewClosureFunc(oldfn.Pos(), true)
-
-	// Ntype can be nil for -G=3 mode.
-	if oldfn.Nname.Ntype != nil {
-		newfn.Nname.Ntype = subst.node(oldfn.Nname.Ntype).(ir.Ntype)
-	}
 
 	if subst.newclofn != nil {
 		//fmt.Printf("Inlining a closure with a nested closure\n")

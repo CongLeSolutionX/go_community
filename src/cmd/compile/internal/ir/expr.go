@@ -191,7 +191,6 @@ type ClosureExpr struct {
 type CompLitExpr struct {
 	miniExpr
 	origNode
-	Ntype    Ntype
 	List     Nodes // initialized values
 	Prealloc *Name
 	// For OSLICELIT, Len is the backing array length.
@@ -200,11 +199,13 @@ type CompLitExpr struct {
 	Len int64
 }
 
-func NewCompLitExpr(pos src.XPos, op Op, typ Ntype, list []Node) *CompLitExpr {
-	n := &CompLitExpr{Ntype: typ}
+func NewCompLitExpr(pos src.XPos, op Op, typ *types.Type, list []Node) *CompLitExpr {
+	n := &CompLitExpr{List: list}
 	n.pos = pos
 	n.SetOp(op)
-	n.List = list
+	if typ != nil {
+		n.SetType(typ)
+	}
 	n.orig = n
 	return n
 }
@@ -408,7 +409,6 @@ func (n *MakeExpr) SetOp(op Op) {
 // (It may be copied and assigned a type, though.)
 type NilExpr struct {
 	miniExpr
-	Sym_ *types.Sym // TODO: Remove
 }
 
 func NewNilExpr(pos src.XPos) *NilExpr {
@@ -417,9 +417,6 @@ func NewNilExpr(pos src.XPos) *NilExpr {
 	n.op = ONIL
 	return n
 }
-
-func (n *NilExpr) Sym() *types.Sym     { return n.Sym_ }
-func (n *NilExpr) SetSym(x *types.Sym) { n.Sym_ = x }
 
 // A ParenExpr is a parenthesized expression (X).
 // It may end up being a value or a type.
@@ -437,16 +434,6 @@ func NewParenExpr(pos src.XPos, x Node) *ParenExpr {
 
 func (n *ParenExpr) Implicit() bool     { return n.flags&miniExprImplicit != 0 }
 func (n *ParenExpr) SetImplicit(b bool) { n.flags.set(miniExprImplicit, b) }
-
-func (*ParenExpr) CanBeNtype() {}
-
-// SetOTYPE changes n to be an OTYPE node returning t,
-// like all the type nodes in type.go.
-func (n *ParenExpr) SetOTYPE(t *types.Type) {
-	n.op = OTYPE
-	n.typ = t
-	t.SetNod(n)
-}
 
 // A RawOrigExpr represents an arbitrary Go expression as a string value.
 // When printed in diagnostics, the string value is written out exactly as-is.
@@ -557,10 +544,6 @@ func (n *SelectorExpr) FuncName() *Name {
 	return fn
 }
 
-// Before type-checking, bytes.Buffer is a SelectorExpr.
-// After type-checking it becomes a Name.
-func (*SelectorExpr) CanBeNtype() {}
-
 // A SliceExpr is a slice expression X[Low:High] or X[Low:High:Max].
 type SliceExpr struct {
 	miniExpr
@@ -632,33 +615,24 @@ func NewStarExpr(pos src.XPos, x Node) *StarExpr {
 func (n *StarExpr) Implicit() bool     { return n.flags&miniExprImplicit != 0 }
 func (n *StarExpr) SetImplicit(b bool) { n.flags.set(miniExprImplicit, b) }
 
-func (*StarExpr) CanBeNtype() {}
-
-// SetOTYPE changes n to be an OTYPE node returning t,
-// like all the type nodes in type.go.
-func (n *StarExpr) SetOTYPE(t *types.Type) {
-	n.op = OTYPE
-	n.X = nil
-	n.typ = t
-	t.SetNod(n)
-}
-
 // A TypeAssertionExpr is a selector expression X.(Type).
 // Before type-checking, the type is Ntype.
 type TypeAssertExpr struct {
 	miniExpr
-	X     Node
-	Ntype Ntype
+	X Node
 
 	// Runtime type information provided by walkDotType for
 	// assertions from non-empty interface to concrete type.
-	Itab *AddrExpr `mknode:"-"` // *runtime.itab for Type implementing X's type
+	ITab *AddrExpr `mknode:"-"` // *runtime.itab for Type implementing X's type
 }
 
-func NewTypeAssertExpr(pos src.XPos, x Node, typ Ntype) *TypeAssertExpr {
-	n := &TypeAssertExpr{X: x, Ntype: typ}
+func NewTypeAssertExpr(pos src.XPos, x Node, typ *types.Type) *TypeAssertExpr {
+	n := &TypeAssertExpr{X: x}
 	n.pos = pos
 	n.op = ODOTTYPE
+	if typ != nil {
+		n.SetType(typ)
+	}
 	return n
 }
 
@@ -671,24 +645,29 @@ func (n *TypeAssertExpr) SetOp(op Op) {
 	}
 }
 
-// A DynamicTypeAssertExpr asserts that X is of dynamic type T.
+// A DynamicTypeAssertExpr asserts that X is of dynamic type RType.
 type DynamicTypeAssertExpr struct {
 	miniExpr
 	X Node
-	// N = not an interface
-	// E = empty interface
-	// I = nonempty interface
-	// For E->N, T is a *runtime.type for N
-	// For I->N, T is a *runtime.itab for N+I
-	// For E->I, T is a *runtime.type for I
-	// For I->I, ditto
-	// For I->E, T is a *runtime.type for interface{} (unnecessary, but just to fill in the slot)
-	// For E->E, ditto
-	T Node
+
+	// RType is an expression that yields a *runtime._type value
+	// representing the asserted type.
+	//
+	// BUG(mdempsky): If ITab is non-nil, RType may be nil.
+	RType Node
+
+	// ITab is an expression that yields a *runtime.itab value
+	// representing the asserted type within the assertee expression's
+	// original interface type.
+	//
+	// ITab is only used for assertions from non-empty interface type to
+	// a concrete (i.e., non-interface) type. For all other assertions,
+	// ITab is nil.
+	ITab Node
 }
 
-func NewDynamicTypeAssertExpr(pos src.XPos, op Op, x, t Node) *DynamicTypeAssertExpr {
-	n := &DynamicTypeAssertExpr{X: x, T: t}
+func NewDynamicTypeAssertExpr(pos src.XPos, op Op, x, rtype Node) *DynamicTypeAssertExpr {
+	n := &DynamicTypeAssertExpr{X: x, RType: rtype}
 	n.pos = pos
 	n.op = op
 	return n
@@ -738,10 +717,10 @@ func (n *InstExpr) SetImplicit(b bool) { n.flags.set(miniExprImplicit, b) }
 type InstExpr struct {
 	miniExpr
 	X     Node
-	Targs []Node
+	Targs []Ntype
 }
 
-func NewInstExpr(pos src.XPos, op Op, x Node, targs []Node) *InstExpr {
+func NewInstExpr(pos src.XPos, op Op, x Node, targs []Ntype) *InstExpr {
 	n := &InstExpr{X: x, Targs: targs}
 	n.pos = pos
 	n.op = op

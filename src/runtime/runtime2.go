@@ -489,6 +489,10 @@ type g struct {
 	timer          *timer         // cached timer for time.Sleep
 	selectDone     uint32         // are we participating in a select and did someone win the race?
 
+	// goroutineProfiled indicates the status of this goroutine's stack for the
+	// current in-progress goroutine profile
+	goroutineProfiled goroutineProfileStateHolder
+
 	// Per-G GC state
 
 	// gcAssistBytes is this G's GC assist credit in terms of
@@ -532,7 +536,7 @@ type m struct {
 	oldp          puintptr // the p that was attached before executing a syscall
 	id            int64
 	mallocing     int32
-	throwing      int32
+	throwing      throwType
 	preemptoff    string // if != "", keep curg running on this m
 	locks         int32
 	dying         int32
@@ -728,11 +732,19 @@ type p struct {
 	// Race context used while executing timer functions.
 	timerRaceCtx uintptr
 
-	// scannableStackSizeDelta accumulates the amount of stack space held by
+	// maxStackScanDelta accumulates the amount of stack space held by
 	// live goroutines (i.e. those eligible for stack scanning).
-	// Flushed to gcController.scannableStackSize once scannableStackSizeSlack
-	// or -scannableStackSizeSlack is reached.
-	scannableStackSizeDelta int64
+	// Flushed to gcController.maxStackScan once maxStackScanSlack
+	// or -maxStackScanSlack is reached.
+	maxStackScanDelta int64
+
+	// gc-time statistics about current goroutines
+	// Note that this differs from maxStackScan in that this
+	// accumulates the actual stack observed to be used at GC time (hi - sp),
+	// not an instantaneous measure of the total stack size that might need
+	// to be scanned (hi - lo).
+	scannedStackSize uint64 // stack size of goroutines scanned by this P
+	scannedStacks    uint64 // number of goroutines scanned by this P
 
 	// preempt is set to indicate that this P should be enter the
 	// scheduler ASAP (regardless of what G is running on it).

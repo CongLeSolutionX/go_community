@@ -5,11 +5,11 @@
 package ld
 
 import (
+	"cmd/internal/notsha256"
 	"cmd/internal/objabi"
 	"cmd/internal/sys"
 	"cmd/link/internal/loader"
 	"cmd/link/internal/sym"
-	"crypto/sha1"
 	"debug/elf"
 	"encoding/binary"
 	"encoding/hex"
@@ -208,7 +208,7 @@ we write section and prog headers.
 func Elfinit(ctxt *Link) {
 	ctxt.IsELF = true
 
-	if ctxt.Arch.InFamily(sys.AMD64, sys.ARM64, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X) {
+	if ctxt.Arch.InFamily(sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS64, sys.PPC64, sys.RISCV64, sys.S390X) {
 		elfRelType = ".rela"
 	} else {
 		elfRelType = ".rel"
@@ -223,9 +223,12 @@ func Elfinit(ctxt *Link) {
 			ehdr.Flags = 2 /* Version 2 ABI */
 		}
 		fallthrough
-	case sys.AMD64, sys.ARM64, sys.MIPS64, sys.RISCV64:
+	case sys.AMD64, sys.ARM64, sys.Loong64, sys.MIPS64, sys.RISCV64:
 		if ctxt.Arch.Family == sys.MIPS64 {
 			ehdr.Flags = 0x20000004 /* MIPS 3 CPIC */
+		}
+		if ctxt.Arch.Family == sys.Loong64 {
+			ehdr.Flags = 0x3 /* LoongArch lp64d */
 		}
 		if ctxt.Arch.Family == sys.RISCV64 {
 			ehdr.Flags = 0x4 /* RISCV Float ABI Double */
@@ -1301,7 +1304,7 @@ func (ctxt *Link) doelf() {
 	shstrtab.Addstring(".data")
 	shstrtab.Addstring(".bss")
 	shstrtab.Addstring(".noptrbss")
-	shstrtab.Addstring("__libfuzzer_extra_counters")
+	shstrtab.Addstring("__sancov_cntrs")
 	shstrtab.Addstring(".go.buildinfo")
 	if ctxt.IsMIPS() {
 		shstrtab.Addstring(".MIPS.abiflags")
@@ -1533,10 +1536,10 @@ func (ctxt *Link) doelf() {
 		sb.SetType(sym.SRODATA)
 		ldr.SetAttrSpecial(s, true)
 		sb.SetReachable(true)
-		sb.SetSize(sha1.Size)
+		sb.SetSize(notsha256.Size)
 
 		sort.Sort(byPkg(ctxt.Library))
-		h := sha1.New()
+		h := notsha256.New()
 		for _, l := range ctxt.Library {
 			h.Write(l.Fingerprint[:])
 		}
@@ -1655,6 +1658,8 @@ func asmbElf(ctxt *Link) {
 		Exitf("unknown architecture in asmbelf: %v", ctxt.Arch.Family)
 	case sys.MIPS, sys.MIPS64:
 		eh.Machine = uint16(elf.EM_MIPS)
+	case sys.Loong64:
+		eh.Machine = uint16(elf.EM_LOONGARCH)
 	case sys.ARM:
 		eh.Machine = uint16(elf.EM_ARM)
 	case sys.AMD64:

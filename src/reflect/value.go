@@ -170,26 +170,24 @@ func (e *ValueError) Error() string {
 	return "reflect: call of " + e.Method + " on " + e.Kind.String() + " Value"
 }
 
-// methodName returns the name of the calling method,
-// assumed to be two stack frames above.
-func methodName() string {
-	pc, _, _, _ := runtime.Caller(2)
-	f := runtime.FuncForPC(pc)
-	if f == nil {
-		return "unknown method"
+// valueMethodName returns the name of the exported calling method on Value.
+func valueMethodName() string {
+	var pc [5]uintptr
+	n := runtime.Callers(1, pc[:])
+	frames := runtime.CallersFrames(pc[:n])
+	var frame runtime.Frame
+	for more := true; more; {
+		const prefix = "reflect.Value."
+		frame, more = frames.Next()
+		name := frame.Function
+		if len(name) > len(prefix) && name[:len(prefix)] == prefix {
+			methodName := name[len(prefix):]
+			if len(methodName) > 0 && 'A' <= methodName[0] && methodName[0] <= 'Z' {
+				return name
+			}
+		}
 	}
-	return f.Name()
-}
-
-// methodNameSkip is like methodName, but skips another stack frame.
-// This is a separate function so that reflect.flag.mustBe will be inlined.
-func methodNameSkip() string {
-	pc, _, _, _ := runtime.Caller(3)
-	f := runtime.FuncForPC(pc)
-	if f == nil {
-		return "unknown method"
-	}
-	return f.Name()
+	return "unknown method"
 }
 
 // emptyInterface is the header for an interface{} value.
@@ -220,7 +218,7 @@ type nonEmptyInterface struct {
 func (f flag) mustBe(expected Kind) {
 	// TODO(mvdan): use f.kind() again once mid-stack inlining gets better
 	if Kind(f&flagKindMask) != expected {
-		panic(&ValueError{methodName(), f.kind()})
+		panic(&ValueError{valueMethodName(), f.kind()})
 	}
 }
 
@@ -234,10 +232,10 @@ func (f flag) mustBeExported() {
 
 func (f flag) mustBeExportedSlow() {
 	if f == 0 {
-		panic(&ValueError{methodNameSkip(), Invalid})
+		panic(&ValueError{valueMethodName(), Invalid})
 	}
 	if f&flagRO != 0 {
-		panic("reflect: " + methodNameSkip() + " using value obtained using unexported field")
+		panic("reflect: " + valueMethodName() + " using value obtained using unexported field")
 	}
 }
 
@@ -252,14 +250,14 @@ func (f flag) mustBeAssignable() {
 
 func (f flag) mustBeAssignableSlow() {
 	if f == 0 {
-		panic(&ValueError{methodNameSkip(), Invalid})
+		panic(&ValueError{valueMethodName(), Invalid})
 	}
 	// Assignable if addressable and not read-only.
 	if f&flagRO != 0 {
-		panic("reflect: " + methodNameSkip() + " using value obtained using unexported field")
+		panic("reflect: " + valueMethodName() + " using value obtained using unexported field")
 	}
 	if f&flagAddr == 0 {
-		panic("reflect: " + methodNameSkip() + " using unaddressable value")
+		panic("reflect: " + valueMethodName() + " using unaddressable value")
 	}
 }
 
@@ -501,11 +499,10 @@ func (v Value) call(op string, in []Value) []Value {
 		switch st := abid.call.steps[0]; st.kind {
 		case abiStepStack:
 			storeRcvr(rcvr, stackArgs)
-		case abiStepIntReg, abiStepPointer:
-			// Even pointers can go into the uintptr slot because
-			// they'll be kept alive by the Values referenced by
-			// this frame. Reflection forces these to be heap-allocated,
-			// so we don't need to worry about stack copying.
+		case abiStepPointer:
+			storeRcvr(rcvr, unsafe.Pointer(&regArgs.Ptrs[st.ireg]))
+			fallthrough
+		case abiStepIntReg:
 			storeRcvr(rcvr, unsafe.Pointer(&regArgs.Ints[st.ireg]))
 		case abiStepFloatReg:
 			storeRcvr(rcvr, unsafe.Pointer(&regArgs.Floats[st.freg]))
@@ -974,13 +971,21 @@ func callMethod(ctxt *methodValue, frame unsafe.Pointer, retValid *bool, regs *a
 	var methodRegs abi.RegArgs
 
 	// Deal with the receiver. It's guaranteed to only be one word in size.
-	if st := methodABI.call.steps[0]; st.kind == abiStepStack {
+	switch st := methodABI.call.steps[0]; st.kind {
+	case abiStepStack:
 		// Only copy the receiver to the stack if the ABI says so.
 		// Otherwise, it'll be in a register already.
 		storeRcvr(rcvr, methodFrame)
-	} else {
+	case abiStepPointer:
 		// Put the receiver in a register.
-		storeRcvr(rcvr, unsafe.Pointer(&methodRegs.Ints))
+		storeRcvr(rcvr, unsafe.Pointer(&methodRegs.Ptrs[st.ireg]))
+		fallthrough
+	case abiStepIntReg:
+		storeRcvr(rcvr, unsafe.Pointer(&methodRegs.Ints[st.ireg]))
+	case abiStepFloatReg:
+		storeRcvr(rcvr, unsafe.Pointer(&methodRegs.Floats[st.freg]))
+	default:
+		panic("unknown ABI parameter kind")
 	}
 
 	// Translate the rest of the arguments.
@@ -1635,6 +1640,8 @@ func (v Value) lenNonSlice() int {
 	panic(&ValueError{"reflect.Value.Len", v.kind()})
 }
 
+var stringType = TypeOf("").(*rtype)
+
 // MapIndex returns the value associated with key in the map v.
 // It panics if v's Kind is not Map.
 // It returns the zero Value if key is not found in the map or if v represents a nil map.
@@ -1652,7 +1659,7 @@ func (v Value) MapIndex(key Value) Value {
 	// of unexported fields.
 
 	var e unsafe.Pointer
-	if key.kind() == String && tt.key.Kind() == String && tt.elem.size <= maxValSize {
+	if (tt.key == stringType || key.kind() == String) && tt.key == key.typ && tt.elem.size <= maxValSize {
 		k := *(*string)(key.ptr)
 		e = mapaccess_faststr(v.typ, v.pointer(), k)
 	} else {
@@ -2278,7 +2285,7 @@ func (v Value) SetMapIndex(key, elem Value) {
 	key.mustBeExported()
 	tt := (*mapType)(unsafe.Pointer(v.typ))
 
-	if key.kind() == String && tt.key.Kind() == String && tt.elem.size <= maxValSize {
+	if (tt.key == stringType || key.kind() == String) && tt.key == key.typ && tt.elem.size <= maxValSize {
 		k := *(*string)(key.ptr)
 		if elem.typ == nil {
 			mapdelete_faststr(v.typ, v.pointer(), k)
@@ -2660,6 +2667,9 @@ func (v Value) UnsafePointer() unsafe.Pointer {
 // Moreover, the Data field is not sufficient to guarantee the data
 // it references will not be garbage collected, so programs must keep
 // a separate, correctly typed pointer to the underlying data.
+//
+// Deprecated: this type should not be used, it exists only for
+// backward compatibility.
 type StringHeader struct {
 	Data uintptr
 	Len  int
@@ -2671,6 +2681,9 @@ type StringHeader struct {
 // Moreover, the Data field is not sufficient to guarantee the data
 // it references will not be garbage collected, so programs must keep
 // a separate, correctly typed pointer to the underlying data.
+//
+// Deprecated: this type should not be used, it exists only for
+// backward compatibility.
 type SliceHeader struct {
 	Data uintptr
 	Len  int

@@ -993,7 +993,10 @@ func (t *test) run() {
 
 	case "build":
 		// Build Go file.
-		_, err := runcmd(goTool(), "build", t.goGcflags(), "-o", "a.exe", long)
+		cmd := []string{goTool(), "build", t.goGcflags()}
+		cmd = append(cmd, flags...)
+		cmd = append(cmd, "-o", "a.exe", long)
+		_, err := runcmd(cmd...)
 		if err != nil {
 			t.err = err
 		}
@@ -1024,7 +1027,7 @@ func (t *test) run() {
 				t.err = fmt.Errorf("write empty go_asm.h: %s", err)
 				return
 			}
-			cmd := []string{goTool(), "tool", "asm", "-gensymabis", "-o", "symabis"}
+			cmd := []string{goTool(), "tool", "asm", "-p=main", "-gensymabis", "-o", "symabis"}
 			cmd = append(cmd, asms...)
 			_, err = runcmd(cmd...)
 			if err != nil {
@@ -1045,7 +1048,7 @@ func (t *test) run() {
 		}
 		objs = append(objs, "go.o")
 		if len(asms) > 0 {
-			cmd = []string{goTool(), "tool", "asm", "-e", "-I", ".", "-o", "asm.o"}
+			cmd = []string{goTool(), "tool", "asm", "-p=main", "-e", "-I", ".", "-o", "asm.o"}
 			cmd = append(cmd, asms...)
 			_, err = runcmd(cmd...)
 			if err != nil {
@@ -1582,6 +1585,7 @@ var (
 		"amd64":   {"GOAMD64", "v1", "v2", "v3", "v4"},
 		"arm":     {"GOARM", "5", "6", "7"},
 		"arm64":   {},
+		"loong64": {},
 		"mips":    {"GOMIPS", "hardfloat", "softfloat"},
 		"mips64":  {"GOMIPS64", "hardfloat", "softfloat"},
 		"ppc64":   {"GOPPC64", "power8", "power9"},
@@ -1950,7 +1954,6 @@ var types2Failures = setOf(
 	"fixedbugs/issue18419.go", // types2 reports no field or method member, but should say unexported
 	"fixedbugs/issue20233.go", // types2 reports two instead of one error (preference: 1.17 compiler)
 	"fixedbugs/issue20245.go", // types2 reports two instead of one error (preference: 1.17 compiler)
-	"fixedbugs/issue28268.go", // types2 reports follow-on errors (preference: 1.17 compiler)
 	"fixedbugs/issue31053.go", // types2 reports "unknown field" instead of "cannot refer to unexported field"
 )
 
@@ -2022,11 +2025,11 @@ func setOf(keys ...string) map[string]bool {
 //
 // For example, the following string:
 //
-//     a b:"c d" 'e''f'  "g\""
+//	a b:"c d" 'e''f'  "g\""
 //
 // Would be parsed as:
 //
-//     []string{"a", "b:c d", "ef", `g"`}
+//	[]string{"a", "b:c d", "ef", `g"`}
 //
 // [copied from src/go/build/build.go]
 func splitQuoted(s string) (r []string, err error) {

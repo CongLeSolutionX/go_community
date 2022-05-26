@@ -187,7 +187,8 @@ a non-nil Error field; other information may or may not be missing
 (zeroed).
 
 The -export flag causes list to set the Export field to the name of a
-file containing up-to-date export information for the given package.
+file containing up-to-date export information for the given package,
+and the BuildID field to the build ID of the compiled package.
 
 The -find flag causes list to identify the named packages but not
 resolve their dependencies: the Imports and Deps lists will be empty.
@@ -574,7 +575,8 @@ func runList(ctx context.Context, cmd *base.Command, args []string) {
 		// for test variants of packages and users who have been providing format strings
 		// might not expect those errors to stop showing up.
 		// See issue #52443.
-		SuppressDeps: !listJsonFields.needAny("Deps", "DepsErrors"),
+		SuppressDeps:      !listJsonFields.needAny("Deps", "DepsErrors"),
+		SuppressBuildInfo: !listJsonFields.needAny("Stale", "StaleReason"),
 	}
 	pkgs := load.PackagesAndErrors(ctx, pkgOpts, args)
 	if !*listE {

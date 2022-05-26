@@ -413,6 +413,14 @@ func gcAssistAlloc(gp *g) {
 
 	traced := false
 retry:
+	if go119MemoryLimitSupport && gcCPULimiter.limiting() {
+		// If the CPU limiter is enabled, intentionally don't
+		// assist to reduce the amount of CPU time spent in the GC.
+		if traced {
+			traceGCMarkAssistDone()
+		}
+		return
+	}
 	// Compute the amount of scan work we need to do to make the
 	// balance positive. When the required amount of work is low,
 	// we over-assist to build up credit for future allocations
@@ -581,11 +589,14 @@ func gcAssistAlloc1(gp *g, scanWork int64) {
 		// a valid pointer).
 		gp.param = unsafe.Pointer(gp)
 	}
-	duration := nanotime() - startTime
+	now := nanotime()
+	duration := now - startTime
 	_p_ := gp.m.p.ptr()
 	_p_.gcAssistTime += duration
 	if _p_.gcAssistTime > gcAssistTimeSlack {
-		atomic.Xaddint64(&gcController.assistTime, _p_.gcAssistTime)
+		gcController.assistTime.Add(_p_.gcAssistTime)
+		gcCPULimiter.addAssistTime(_p_.gcAssistTime)
+		gcCPULimiter.update(now)
 		_p_.gcAssistTime = 0
 	}
 }
@@ -736,14 +747,22 @@ func scanstack(gp *g, gcw *gcWork) int64 {
 		throw("can't scan our own stack")
 	}
 
-	// stackSize is the amount of work we'll be reporting.
+	// scannedSize is the amount of work we'll be reporting.
 	//
-	// We report the total stack size, more than we scan,
-	// because this number needs to line up with gcControllerState's
-	// stackScan and scannableStackSize fields.
-	//
-	// See the documentation on those fields for more information.
-	stackSize := gp.stack.hi - gp.stack.lo
+	// It is less than the allocated size (which is hi-lo).
+	var sp uintptr
+	if gp.syscallsp != 0 {
+		sp = gp.syscallsp // If in a system call this is the stack pointer (gp.sched.sp can be 0 in this case on Windows).
+	} else {
+		sp = gp.sched.sp
+	}
+	scannedSize := gp.stack.hi - sp
+
+	// Keep statistics for initial stack size calculation.
+	// Note that this accumulates the scanned size, not the allocated size.
+	p := getg().m.p.ptr()
+	p.scannedStackSize += uint64(scannedSize)
+	p.scannedStacks++
 
 	if isShrinkStackSafe(gp) {
 		// Shrink the stack if not much of it is being used.
@@ -884,7 +903,7 @@ func scanstack(gp *g, gcw *gcWork) int64 {
 	if state.buf != nil || state.cbuf != nil || state.freeBuf != nil {
 		throw("remaining pointer buffers")
 	}
-	return int64(stackSize)
+	return int64(scannedSize)
 }
 
 // Scan a stack frame: local variables and function arguments/results.

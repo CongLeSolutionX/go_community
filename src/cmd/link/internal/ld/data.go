@@ -215,7 +215,7 @@ func (st *relocSymState) relocsym(s loader.Sym, P []byte) {
 			rst = ldr.SymType(rs)
 		}
 
-		if rs != 0 && ((rst == sym.Sxxx && !ldr.AttrVisibilityHidden(rs)) || rst == sym.SXREF) {
+		if rs != 0 && (rst == sym.Sxxx || rst == sym.SXREF) {
 			// When putting the runtime but not main into a shared library
 			// these symbols are undefined and that's OK.
 			if target.IsShared() || target.IsPlugin() {
@@ -227,8 +227,10 @@ func (st *relocSymState) relocsym(s loader.Sym, P []byte) {
 					// DWARF info between the compiler and linker.
 					continue
 				}
-			} else if target.IsPPC64() && target.IsPIE() && ldr.SymName(rs) == ".TOC." {
-				// This is a TOC relative relocation generated from a go object. It is safe to resolve.
+			} else if target.IsPPC64() && ldr.SymName(rs) == ".TOC." {
+				// TOC symbol doesn't have a type but we do assign a value
+				// (see the address pass) and we can resolve it.
+				// TODO: give it a type.
 			} else {
 				st.err.errorUnresolved(ldr, s, rs)
 				continue
@@ -936,7 +938,7 @@ func writeBlocks(ctxt *Link, out *OutBuf, sem chan int, ldr *loader.Loader, syms
 		length := int64(0)
 		if idx+1 < len(syms) {
 			// Find the next top-level symbol.
-			// Skip over sub symbols so we won't split a containter symbol
+			// Skip over sub symbols so we won't split a container symbol
 			// into two blocks.
 			next := syms[idx+1]
 			for ldr.AttrSubSymbol(next) {
@@ -1780,8 +1782,10 @@ func (state *dodataState) allocateDataSections(ctxt *Link) {
 	ldr.SetSymSect(ldr.LookupOrCreateSym("runtime.end", 0), sect)
 
 	// Coverage instrumentation counters for libfuzzer.
-	if len(state.data[sym.SLIBFUZZER_EXTRA_COUNTER]) > 0 {
-		sect := state.allocateNamedSectionAndAssignSyms(&Segdata, "__libfuzzer_extra_counters", sym.SLIBFUZZER_EXTRA_COUNTER, sym.Sxxx, 06)
+	if len(state.data[sym.SLIBFUZZER_8BIT_COUNTER]) > 0 {
+		sect := state.allocateNamedSectionAndAssignSyms(&Segdata, "__sancov_cntrs", sym.SLIBFUZZER_8BIT_COUNTER, sym.Sxxx, 06)
+		ldr.SetSymSect(ldr.LookupOrCreateSym("__start___sancov_cntrs", 0), sect)
+		ldr.SetSymSect(ldr.LookupOrCreateSym("__stop___sancov_cntrs", 0), sect)
 		ldr.SetSymSect(ldr.LookupOrCreateSym("internal/fuzz._counters", 0), sect)
 		ldr.SetSymSect(ldr.LookupOrCreateSym("internal/fuzz._ecounters", 0), sect)
 	}
@@ -2556,7 +2560,7 @@ func (ctxt *Link) address() []*sym.Segment {
 			bss = s
 		case ".noptrbss":
 			noptrbss = s
-		case "__libfuzzer_extra_counters":
+		case "__sancov_cntrs":
 			fuzzCounters = s
 		}
 	}
@@ -2675,8 +2679,10 @@ func (ctxt *Link) address() []*sym.Segment {
 	ctxt.xdefine("runtime.end", sym.SBSS, int64(Segdata.Vaddr+Segdata.Length))
 
 	if fuzzCounters != nil {
-		ctxt.xdefine("internal/fuzz._counters", sym.SLIBFUZZER_EXTRA_COUNTER, int64(fuzzCounters.Vaddr))
-		ctxt.xdefine("internal/fuzz._ecounters", sym.SLIBFUZZER_EXTRA_COUNTER, int64(fuzzCounters.Vaddr+fuzzCounters.Length))
+		ctxt.xdefine("__start___sancov_cntrs", sym.SLIBFUZZER_8BIT_COUNTER, int64(fuzzCounters.Vaddr))
+		ctxt.xdefine("__stop___sancov_cntrs", sym.SLIBFUZZER_8BIT_COUNTER, int64(fuzzCounters.Vaddr+fuzzCounters.Length))
+		ctxt.xdefine("internal/fuzz._counters", sym.SLIBFUZZER_8BIT_COUNTER, int64(fuzzCounters.Vaddr))
+		ctxt.xdefine("internal/fuzz._ecounters", sym.SLIBFUZZER_8BIT_COUNTER, int64(fuzzCounters.Vaddr+fuzzCounters.Length))
 	}
 
 	if ctxt.IsSolaris() {

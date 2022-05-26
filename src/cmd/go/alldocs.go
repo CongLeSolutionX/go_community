@@ -123,6 +123,8 @@
 //	-asan
 //		enable interoperation with address sanitizer.
 //		Supported only on linux/arm64, linux/amd64.
+//		Supported only on linux/amd64 or linux/arm64 and only with GCC 7 and higher
+//		or Clang/LLVM 9 and higher.
 //	-v
 //		print the names of packages as they are compiled.
 //	-work
@@ -893,7 +895,8 @@
 // (zeroed).
 //
 // The -export flag causes list to set the Export field to the name of a
-// file containing up-to-date export information for the given package.
+// file containing up-to-date export information for the given package,
+// and the BuildID field to the build ID of the compiled package.
 //
 // The -find flag causes list to identify the named packages but not
 // resolve their dependencies: the Imports and Deps lists will be empty.
