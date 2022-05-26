@@ -70,25 +70,30 @@ func (check *Checker) validType0(typ Type, env *tparamEnv, path []Object) typeIn
 		}
 
 		switch check.infoMap[t] {
-		case unknown:
-			check.infoMap[t] = marked
-			check.infoMap[t] = check.validType0(t.orig.fromRHS, env.push(t), append(path, t.obj))
 		case marked:
-			// We have seen type t before and thus must have a cycle.
-			check.infoMap[t] = invalid
-			// t cannot be in an imported package otherwise that package
-			// would have reported a type cycle and couldn't have been
-			// imported in the first place.
-			assert(t.obj.pkg == check.pkg)
-			t.underlying = Typ[Invalid] // t is in the current package (no race possibility)
-			// Find the starting point of the cycle and report it.
-			for i, tn := range path {
-				if tn == t.obj {
+			// We have seen type t before.  IF t.obj is also in path,
+			// then there is a cycle. (Usually t.obj is on path, but not quite always.)
+			for i := len(path); i > 0; {
+				i--
+				if path[i] == t.obj {
+					check.infoMap[t] = invalid
+					// t cannot be in an imported package otherwise that package
+					// would have reported a type cycle and couldn't have been
+					// imported in the first place.
+					assert(t.obj.pkg == check.pkg)
+					t.underlying = Typ[Invalid] // t is in the current package (no race possibility)
+					// Find the starting point of the cycle and report it.
+
 					check.cycleError(path[i:])
 					return invalid
 				}
 			}
-			panic("cycle start not found")
+			// False alarm.
+			fallthrough
+
+		case unknown:
+			check.infoMap[t] = marked
+			check.infoMap[t] = check.validType0(t.orig.fromRHS, env.push(t), append(path, t.obj))
 		}
 		return check.infoMap[t]
 
@@ -98,8 +103,13 @@ func (check *Checker) validType0(typ Type, env *tparamEnv, path []Object) typeIn
 		if env != nil {
 			if targ := env.tmap[t]; targ != nil {
 				// Type arguments found in targ must be looked
-				// up in the enclosing environment env.link.
-				return check.validType0(targ, env.link, path)
+				// up in the enclosing environment env.link,
+				// and path must also be popped.
+				l := len(path)
+				s := path[l-1]
+				rval := check.validType0(targ, env.link, path[:l-1])
+				path[l-1] = s
+				return rval
 			}
 		}
 	}
