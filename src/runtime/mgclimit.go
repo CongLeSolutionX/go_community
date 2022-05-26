@@ -71,6 +71,12 @@ type gcCPULimiterState struct {
 	// lastEnabledCycle is the GC cycle that last had the limiter enabled.
 	lastEnabledCycle atomic.Uint32
 
+	// idleTime is the total idle time tracked elswhere in the runtime.
+	idleTime *atomicCPUTime
+
+	// lastTotalIdleTime is the result of the last successful read from idleTime.
+	lastTotalIdleTime int64
+
 	// nprocs is an internal copy of gomaxprocs, used to determine total available
 	// CPU time.
 	//
@@ -192,31 +198,46 @@ func (l *gcCPULimiterState) updateLocked(now int64) {
 		l.idleMarkTimePool.Add(-idleMarkTime)
 	}
 
+	// Pull the latest idle time.
+	//
+	// Check for nil first in case we try to update the limiter
+	// early during init time.
+	var idleTime int64
+	if l.idleTime != nil {
+		if t, ok := l.idleTime.tryRead(8, now); ok {
+			idleTime = t - l.lastTotalIdleTime
+			l.lastTotalIdleTime = t
+		}
+	}
+
 	// Compute total GC time.
 	windowGCTime := assistTime
 	if l.gcEnabled {
 		windowGCTime += int64(float64(windowTotalTime) * gcBackgroundUtilization)
 	}
 
-	// Subtract out idle mark time from the total time. Do this after computing
+	// Subtract out all idle time from the total time. Do this after computing
 	// GC time, because the background utilization is dependent on the *real*
 	// total time, not the total time after idle time is subtracted.
 	//
-	// Idle mark workers soak up time that the application spends idle. Any
-	// additional idle time can skew GC CPU utilization, because the GC might
-	// be executing continuously and thrashing, but the CPU utilization with
-	// respect to GOMAXPROCS will be quite low, so the limiter will otherwise
-	// never kick in. By subtracting idle mark time, we're removing time that
+	// Idle time is counted as any time that a P is on the P idle list plus idle mark
+	// time. Idle mark workers soak up time that the application spends idle.
+	//
+	// On a heavily undersubscribed system, any additional idle time can skew GC CPU
+	// utilization, because the GC might be executing continuously and thrashing,
+	// yet the CPU utilization with respect to GOMAXPROCS will be quite low, so
+	// the limiter fails to turn on. By subtracting idle time, we're removing time that
 	// we know the application was idle giving a more accurate picture of whether
 	// the GC is thrashing.
 	//
-	// TODO(mknyszek): Figure out if it's necessary to also track non-GC idle time.
-	//
-	// There is a corner case here where if the idle mark workers are disabled, such
-	// as when the periodic GC is executing, then we definitely won't be accounting
-	// for this correctly. However, if the periodic GC is running, the limiter is likely
-	// totally irrelevant because GC CPU utilization is extremely low anyway.
-	windowTotalTime -= idleMarkTime
+	// Note that this can cause the limiter to turn on even if it's not needed. For
+	// instance, on a system with 32 Ps but only 1 running goroutine, each GC will have
+	// 8 dedicated GC workers. Assuming the GC cycle is half mark phase and half sweep
+	// phase, then the GC CPU utilization over that cycle, with idle time removed, will
+	// be 8/(8+2) = 80%. Even though the limiter turns on, though, assist should be
+	// unnecessary, as the GC has way more CPU time to outpace the 1 goroutine that's
+	// running.
+	windowTotalTime -= idleMarkTime + idleTime
 
 	l.accumulate(windowTotalTime-windowGCTime, windowGCTime)
 }
