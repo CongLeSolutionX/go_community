@@ -656,6 +656,9 @@ type p struct {
 		buf [128]*mspan
 	}
 
+	// idleStamp is the nanotime timestamp of when the P last went on the idle list.
+	idleStamp int64
+
 	tracebuf traceBufPtr
 
 	// traceSweep indicates the sweep events should be traced.
