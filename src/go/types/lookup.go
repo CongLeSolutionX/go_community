@@ -281,6 +281,20 @@ func (l *instanceLookup) add(inst *Named) {
 	l.m[inst.Origin()] = append(insts, inst)
 }
 
+func (l *instanceLookup) canon(inst *Named) *Named {
+	for _, t := range l.m[inst.Origin()] {
+		if Identical(inst, t) {
+			return t
+		}
+	}
+	if l.m == nil {
+		l.m = make(map[*Named][]*Named)
+	}
+	insts := l.m[inst.Origin()]
+	l.m[inst.Origin()] = append(insts, inst)
+	return inst
+}
+
 // MissingMethod returns (nil, false) if V implements T, otherwise it
 // returns a missing method required by T and whether it is missing or
 // just has the wrong type.
