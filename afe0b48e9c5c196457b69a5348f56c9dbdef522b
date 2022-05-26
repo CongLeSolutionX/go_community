@@ -63,6 +63,30 @@
       },
       "revId": "afe0b48e9c5c196457b69a5348f56c9dbdef522b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d8727b9_0dfbd92b",
+        "filename": "src/cmd/go/internal/modload/load.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 550,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-05-26T02:54:02Z",
+      "side": 1,
+      "message": "I don\u0027t understand. Wouldn\u0027t you get the suffix using `str.TrimFilePathPrefix`?",
+      "parentUuid": "aaafa65f_83fe079d",
+      "range": {
+        "startLine": 550,
+        "startChar": 22,
+        "endLine": 550,
+        "endChar": 78
+      },
+      "revId": "afe0b48e9c5c196457b69a5348f56c9dbdef522b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
