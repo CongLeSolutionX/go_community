@@ -143,6 +143,24 @@
       "parentUuid": "4feaf4a1_986ee3ec",
       "revId": "cecb341dc6b57b349a35dbf76e7083fce5875569",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cfafedcf_9d0100c3",
+        "filename": "src/runtime/signal_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 623,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-05-26T20:34:26Z",
+      "side": 1,
+      "message": "Done. Updated the comment.",
+      "parentUuid": "c2c8f81e_646f2c70",
+      "revId": "cecb341dc6b57b349a35dbf76e7083fce5875569",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
