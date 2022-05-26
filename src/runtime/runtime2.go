@@ -832,6 +832,10 @@ type schedt struct {
 	procresizetime int64 // nanotime() of last change to gomaxprocs
 	totaltime      int64 // ∫gomaxprocs dt up to procresizetime
 
+	_ uint32
+
+	idleTime atomicCPUTime // tracks total idle time, including idle GC mark time
+
 	// sysmonlock protects sysmon's actions on the runtime.
 	//
 	// Acquire and hold this mutex to block sysmon from interacting
@@ -844,6 +848,54 @@ type schedt struct {
 	//
 	// timeToRun is protected by sched.lock.
 	timeToRun timeHistogram
+}
+
+// atomicCPUTime integrates over CPU time. It must be updated each time
+// the number of CPUs involved in the measurement changes.
+type atomicCPUTime struct {
+	seq   atomic.Uint32 // seqlock
+	procs atomic.Uint32 // number of procs to accumulate
+	stamp atomic.Int64  // timestamp
+	total atomic.Int64  // total CPU time
+}
+
+// update updates the atomic CPU time tracking.
+//
+// update may execute concurrently with reads, but not with itself.
+func (t *atomicCPUTime) update(procs uint32, now int64) {
+	if t.seq.Add(1)%2 != 1 {
+		throw("detected concurrent update of atomicCPUTime")
+	}
+	oldStamp := t.stamp.Load()
+	if oldProcs := t.procs.Load(); oldProcs != procs {
+		t.total.Add((now - oldStamp) * int64(oldProcs))
+		t.procs.Store(procs)
+	}
+	t.stamp.Store(now)
+	if t.seq.Add(1)%2 != 0 {
+		throw("detected concurrent update of atomicCPUTime")
+	}
+}
+
+// tryRead attempts to read the CPU time. It will try at most
+// tries times to perform the read before giving up. now must be
+// a relatively recent clal to nanotime. Returns the integrated
+// CPU time and whether the read was successful.
+func (t *atomicCPUTime) tryRead(tries int, now int64) (int64, bool) {
+	for i := 0; i < tries; i++ {
+		seq := t.seq.Load()
+		if seq%2 != 0 {
+			continue
+		}
+		procs := t.procs.Load()
+		stamp := t.stamp.Load()
+		total := t.total.Load()
+		if seq != t.seq.Load() {
+			continue
+		}
+		return total + (now-stamp)*int64(procs), true
+	}
+	return 0, false
 }
 
 // Values for the flags field of a sigTabT.
