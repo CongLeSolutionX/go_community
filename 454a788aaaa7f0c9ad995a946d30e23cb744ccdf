@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "444fd3e8_3a37fbef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-05-26T02:21:38Z",
+      "side": 1,
+      "message": "(nit) This change is no longer stripping the prefix.\n\nPerhaps:\n\n```\ncmd/go: pass --no-decorate when listing git tags for a commit\n\nThis avoids a parse error when the user\u0027s global .gitconfig sets\nlog.decorate to true.\n\nFixes #51312\n```",
+      "revId": "454a788aaaa7f0c9ad995a946d30e23cb744ccdf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "66f8e58f_37e1525b",
