@@ -10,7 +10,7 @@ package types
 // (Cycles involving alias types, as in "type A = [10]A" are detected
 // earlier, via the objDecl cycle detection mechanism.)
 func (check *Checker) validType(typ *Named) {
-	check.validType0(typ, nil, nil)
+	check.validType0(typ, nil, nil, nil)
 }
 
 type typeInfo uint
@@ -20,7 +20,11 @@ type typeInfo uint
 // nil if typ is not part of (the RHS of) an instantiated type, in that case
 // any type parameter encountered must be from an enclosing function and can
 // be ignored. The path is the list of type names that lead to the current typ.
-func (check *Checker) validType0(typ Type, env *tparamEnv, path []Object) typeInfo {
+// reallyMarked is a slice containing exactly the set of types that are currently
+// "marked"; infoMap is an overapproximation, because type parameters are checked
+// in their instantiation context, not where they ultimately appear in the (transitive)
+// RHS.
+func (check *Checker) validType0(typ Type, env *tparamEnv, reallyMarked []*Named, path []Object) typeInfo {
 	const (
 		unknown typeInfo = iota
 		marked
@@ -37,31 +41,32 @@ func (check *Checker) validType0(typ Type, env *tparamEnv, path []Object) typeIn
 		}
 
 	case *Array:
-		return check.validType0(t.elem, env, path)
+		return check.validType0(t.elem, env, reallyMarked, path)
 
 	case *Struct:
 		for _, f := range t.fields {
-			if check.validType0(f.typ, env, path) == invalid {
+			if check.validType0(f.typ, env, reallyMarked, path) == invalid {
 				return invalid
 			}
 		}
 
 	case *Union:
 		for _, t := range t.terms {
-			if check.validType0(t.typ, env, path) == invalid {
+			if check.validType0(t.typ, env, reallyMarked, path) == invalid {
 				return invalid
 			}
 		}
 
 	case *Interface:
 		for _, etyp := range t.embeddeds {
-			if check.validType0(etyp, env, path) == invalid {
+			if check.validType0(etyp, env, reallyMarked, path) == invalid {
 				return invalid
 			}
 		}
 
 	case *Named:
 		// Don't report a 2nd error if we already know the type is invalid
+		// (e.g., if a cycle was detected earlier, via under).
 		// Note: ensure that t.orig is fully resolved by calling Underlying().
 		if t.Underlying() == Typ[Invalid] {
 			check.infoMap[t] = invalid
@@ -69,25 +74,28 @@ func (check *Checker) validType0(typ Type, env *tparamEnv, path []Object) typeIn
 		}
 
 		switch check.infoMap[t] {
-		case unknown:
-			check.infoMap[t] = marked
-			check.infoMap[t] = check.validType0(t.orig.fromRHS, env.push(t), append(path, t.obj))
 		case marked:
-			// We have seen type t before and thus must have a cycle.
-			check.infoMap[t] = invalid
-			// t cannot be in an imported package otherwise that package
-			// would have reported a type cycle and couldn't have been
-			// imported in the first place.
-			assert(t.obj.pkg == check.pkg)
-			t.underlying = Typ[Invalid] // t is in the current package (no race possibility)
-			// Find the starting point of the cycle and report it.
-			for i, tn := range path {
-				if tn == t.obj {
+			// We have seen type t before.  IF t.obj is also in path,
+			// then there is a cycle. (Usually t.obj is on path, but not quite always.)
+			for i, tn := range reallyMarked {
+				if tn == t {
+					check.infoMap[t] = invalid
+					// t cannot be in an imported package otherwise that package
+					// would have reported a type cycle and couldn't have been
+					// imported in the first place.
+					assert(t.obj.pkg == check.pkg)
+					t.underlying = Typ[Invalid] // t is in the current package (no race possibility)
+
 					check.cycleError(path[i:])
 					return invalid
 				}
 			}
-			panic("cycle start not found")
+			// False alarm.
+			fallthrough
+
+		case unknown:
+			check.infoMap[t] = marked
+			check.infoMap[t] = check.validType0(t.orig.fromRHS, env.push(t), append(reallyMarked, t), append(path, t.obj))
 		}
 		return check.infoMap[t]
 
@@ -97,8 +105,13 @@ func (check *Checker) validType0(typ Type, env *tparamEnv, path []Object) typeIn
 		if env != nil {
 			if targ := env.tmap[t]; targ != nil {
 				// Type arguments found in targ must be looked
-				// up in the enclosing environment env.link.
-				return check.validType0(targ, env.link, path)
+				// up in the enclosing environment env.link,
+				// and "real" mark information reset.
+				l := len(reallyMarked)
+				s := reallyMarked[l-1]
+				rval := check.validType0(targ, env.link, reallyMarked[:l-1], path)
+				reallyMarked[l-1] = s
+				return rval
 			}
 		}
 	}
