@@ -1230,8 +1230,13 @@ func scanblock(b0, n0 uintptr, ptrmask *uint8, gcw *gcWork, stk *stackScanState)
 				if p != 0 {
 					if obj, span, objIndex := findObject(p, b, i); obj != 0 {
 						greyobject(obj, b, i, span, gcw, objIndex)
-					} else if stk != nil && p >= stk.stack.lo && p < stk.stack.hi {
-						stk.putPtr(p, false)
+					} else if stk != nil {
+						if p >= stk.stack.lo && p < stk.stack.hi {
+							stk.putPtr(p, false)
+						}
+					} else if span != nil && span.state.get() == mSpanManual {
+						println("runtime: heap pointer at", hex(b), "points to stack", hex(p))
+						throw("heap to stack pointer")
 					}
 				}
 			}
@@ -1315,11 +1320,11 @@ func scanobject(b uintptr, gcw *gcWork) {
 
 		// Work here is duplicated in scanblock and above.
 		// If you make changes here, make changes there too.
-		obj := *(*uintptr)(unsafe.Pointer(b + i))
+		p := *(*uintptr)(unsafe.Pointer(b + i))
 
 		// At this point we have extracted the next potential pointer.
 		// Quickly filter out nil and pointers back to the current object.
-		if obj != 0 && obj-b >= n {
+		if p != 0 && p-b >= n {
 			// Test if obj points into the Go heap and, if so,
 			// mark the object.
 			//
@@ -1329,8 +1334,13 @@ func scanobject(b uintptr, gcw *gcWork) {
 			// heap. In this case, we know the object was
 			// just allocated and hence will be marked by
 			// allocation itself.
-			if obj, span, objIndex := findObject(obj, b, i); obj != 0 {
+			if obj, span, objIndex := findObject(p, b, i); obj != 0 {
 				greyobject(obj, b, i, span, gcw, objIndex)
+			} else if span != nil && span.state.get() == mSpanManual {
+				if n != deferSize && n != gSize && n != sudogSize { // _defer, g, sudog may contain stack pointers
+					println("runtime: heap pointer at", hex(b), "points to stack", hex(p), "elemsize", n)
+					throw("heap to stack pointer")
+				}
 			}
 		}
 	}
