@@ -126,6 +126,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a81c628_dc0b7fc5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-05-27T15:28:25Z",
+      "side": 1,
+      "message": "I\u0027m going to go ahead and get this into a properly arranged (and fixed) state even though you/we have doubts about the approach; I think this now does what it claims to do, though I am not 100% clear on whether the claimed purpose is actually what we want.  I.e., a bird in the hand.",
+      "revId": "95be209f1e6af4a9cc05c21e81b64bf75fe684ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "efdb9ecb_438915be",
@@ -139,6 +156,24 @@
       "writtenOn": "2022-05-27T04:21:51Z",
       "side": 1,
       "message": "I think the infoMap model is fundamentally incorrect. This code works also without it, except that it gets super slow for esoteric cases (testdata/fixedbugs/issue6977.go).",
+      "revId": "95be209f1e6af4a9cc05c21e81b64bf75fe684ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "227710a4_b61038cf",
+        "filename": "src/cmd/compile/internal/types2/validtype.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-05-27T15:28:25Z",
+      "side": 1,
+      "message": "I don\u0027t think it\u0027s fundamentally incorrect, only that it has false positives that are actually rare (since the only one we found was via fuzzing).  If we add the slower check on the (correctly popped) path before reporting an error, then we get usually fast and no false positives.",
+      "parentUuid": "efdb9ecb_438915be",
       "revId": "95be209f1e6af4a9cc05c21e81b64bf75fe684ae",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -166,6 +201,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ee7558f_74c74360",
+        "filename": "src/cmd/compile/internal/types2/validtype.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-05-27T15:28:25Z",
+      "side": 1,
+      "message": "yup, there should only be one.",
+      "parentUuid": "d296c3bc_85417ebf",
+      "range": {
+        "startLine": 76,
+        "startChar": 12,
+        "endLine": 76,
+        "endChar": 15
+      },
+      "revId": "95be209f1e6af4a9cc05c21e81b64bf75fe684ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b5741367_0230d4ec",
@@ -183,6 +242,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8cfa3d0e_590f5688",
+        "filename": "src/cmd/compile/internal/types2/validtype.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-05-27T15:28:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b5741367_0230d4ec",
+      "revId": "95be209f1e6af4a9cc05c21e81b64bf75fe684ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d1e73f7b_4f73e8fb",
@@ -196,6 +273,30 @@
       "writtenOn": "2022-05-27T04:21:51Z",
       "side": 1,
       "message": "I don\u0027t believe that is needed. For one it will remove valuable information when reporting the error",
+      "range": {
+        "startLine": 107,
+        "startChar": 20,
+        "endLine": 107,
+        "endChar": 21
+      },
+      "revId": "95be209f1e6af4a9cc05c21e81b64bf75fe684ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "722c12c7_2f771f75",
+        "filename": "src/cmd/compile/internal/types2/validtype.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-05-27T15:28:25Z",
+      "side": 1,
+      "message": "This is the bug fix; if path is not popped, infomap and checking path are the same.\nIf we want to keep a second path for error reporting, that might work, but figuring out how it maps to the other path is tricky.",
+      "parentUuid": "d1e73f7b_4f73e8fb",
       "range": {
         "startLine": 107,
         "startChar": 20,
