@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5302e325_c63cacb5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2022-05-27T01:23:36Z",
+      "side": 1,
+      "message": "The referenced CL includes the magic comment to trigger the release note script (as an accident). That CL includes another magic comment intended to un-trigger the release note script, but that seems to have not had any effect.",
+      "revId": "6e24ef8541166160bdfe75140011b0e49fa83f27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
