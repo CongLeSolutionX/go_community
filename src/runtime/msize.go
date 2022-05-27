@@ -9,6 +9,8 @@
 
 package runtime
 
+import "unsafe"
+
 // Returns size of the memory block that mallocgc will allocate if you ask for the size.
 func roundupsize(size uintptr) uintptr {
 	if size < _MaxSmallSize {
@@ -23,3 +25,7 @@ func roundupsize(size uintptr) uintptr {
 	}
 	return alignUp(size, _PageSize)
 }
+
+var deferSize = roundupsize(unsafe.Sizeof(_defer{}))
+var gSize = roundupsize(unsafe.Sizeof(g{}))
+var sudogSize = roundupsize(unsafe.Sizeof(sudog{}))
