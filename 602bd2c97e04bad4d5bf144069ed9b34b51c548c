@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04aed9d7_15126594",
+        "filename": "src/runtime/asan_ppc64le.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-05-27T15:21:52Z",
+      "side": 1,
+      "message": "Since you are using a branch+link instruction, the assembler will insert a prologue to save LR and create a stack frame. Explicitly saving and restoring LR is not needed. You can verify with objdump).",
+      "range": {
+        "startLine": 64,
+        "startChar": 1,
+        "endLine": 64,
+        "endChar": 5
+      },
+      "revId": "602bd2c97e04bad4d5bf144069ed9b34b51c548c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19b861d3_2ede10b0",
+        "filename": "src/runtime/asan_ppc64le.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-05-27T15:21:52Z",
+      "side": 1,
+      "message": "I think MOVD $0, R0 should work now (in the past it assembled wrongly to `mr r0, r0`), and maybe more preferable on new PPC cores.",
+      "range": {
+        "startLine": 83,
+        "startChar": 1,
+        "endLine": 83,
+        "endChar": 11
+      },
+      "revId": "602bd2c97e04bad4d5bf144069ed9b34b51c548c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

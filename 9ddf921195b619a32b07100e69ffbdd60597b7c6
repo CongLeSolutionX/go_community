@@ -57,6 +57,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7dfb570b_244e0400",
+        "filename": "src/runtime/asan_ppc64le.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-05-27T15:21:52Z",
+      "side": 1,
+      "message": "Why not make this R12? It avoids needing to copy to R12.",
+      "revId": "9ddf921195b619a32b07100e69ffbdd60597b7c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7c818bdd_9f611032",
         "filename": "src/runtime/asan_ppc64le.s",
         "patchSetId": 1
