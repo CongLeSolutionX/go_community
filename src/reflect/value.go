@@ -2046,6 +2046,9 @@ func (v Value) OverflowUint(x uint64) bool {
 //
 // It's preferred to use uintptr(Value.UnsafePointer()) to get the equivalent result.
 func (v Value) Pointer() uintptr {
+	// The compiler loses track as it converts to uintptr. Force escape.
+	escapes(v.ptr)
+
 	k := v.kind()
 	switch k {
 	case Pointer:
@@ -2607,6 +2610,8 @@ func (v Value) UnsafeAddr() uintptr {
 	if v.flag&flagAddr == 0 {
 		panic("reflect.Value.UnsafeAddr of unaddressable value")
 	}
+	// The compiler loses track as it converts to uintptr. Force escape.
+	escapes(v.ptr)
 	return uintptr(v.ptr)
 }
 
@@ -2928,6 +2933,7 @@ func Select(cases []SelectCase) (chosen int, recv Value, recvOK bool) {
 			} else {
 				rc.val = unsafe.Pointer(&v.ptr)
 			}
+			escapes(rc.val)
 
 		case SelectRecv:
 			if c.Send.IsValid() {
@@ -3040,12 +3046,6 @@ func ValueOf(i any) Value {
 	if i == nil {
 		return Value{}
 	}
-
-	// TODO: Maybe allow contents of a Value to live on the stack.
-	// For now we make the contents always escape to the heap. It
-	// makes life easier in a few places (see chanrecv/mapassign
-	// comment below).
-	escapes(i)
 
 	return unpackEface(i)
 }
@@ -3488,18 +3488,22 @@ func chanclose(ch unsafe.Pointer)
 func chanlen(ch unsafe.Pointer) int
 
 // Note: some of the noescape annotations below are technically a lie,
-// but safe in the context of this package. Functions like chansend
-// and mapassign don't escape the referent, but may escape anything
+// but safe in the context of this package. Functions like chansend0
+// and mapassign0 don't escape the referent, but may escape anything
 // the referent points to (they do shallow copies of the referent).
-// It is safe in this package because the referent may only point
-// to something a Value may point to, and that is always in the heap
-// (due to the escapes() call in ValueOf).
+// We add a 0 to their names and wrap them in functions with the
+// proper escape behavior.
 
 //go:noescape
 func chanrecv(ch unsafe.Pointer, nb bool, val unsafe.Pointer) (selected, received bool)
 
 //go:noescape
-func chansend(ch unsafe.Pointer, val unsafe.Pointer, nb bool) bool
+func chansend0(ch unsafe.Pointer, val unsafe.Pointer, nb bool) bool
+
+func chansend(ch unsafe.Pointer, val unsafe.Pointer, nb bool) bool {
+	contentEscapes(val)
+	return chansend0(ch, val, nb)
+}
 
 func makechan(typ *rtype, size int) (ch unsafe.Pointer)
 func makemap(t *rtype, cap int) (m unsafe.Pointer)
@@ -3511,10 +3515,22 @@ func mapaccess(t *rtype, m unsafe.Pointer, key unsafe.Pointer) (val unsafe.Point
 func mapaccess_faststr(t *rtype, m unsafe.Pointer, key string) (val unsafe.Pointer)
 
 //go:noescape
-func mapassign(t *rtype, m unsafe.Pointer, key, val unsafe.Pointer)
+func mapassign0(t *rtype, m unsafe.Pointer, key, val unsafe.Pointer)
+
+func mapassign(t *rtype, m unsafe.Pointer, key, val unsafe.Pointer) {
+	contentEscapes(key)
+	contentEscapes(val)
+	mapassign0(t, m, key, val)
+}
 
 //go:noescape
-func mapassign_faststr(t *rtype, m unsafe.Pointer, key string, val unsafe.Pointer)
+func mapassign_faststr0(t *rtype, m unsafe.Pointer, key string, val unsafe.Pointer)
+
+func mapassign_faststr(t *rtype, m unsafe.Pointer, key string, val unsafe.Pointer) {
+	contentEscapes((*unsafeheader.String)(unsafe.Pointer(&key)).Data)
+	contentEscapes(val)
+	mapassign_faststr0(t, m, key, val)
+}
 
 //go:noescape
 func mapdelete(t *rtype, m unsafe.Pointer, key unsafe.Pointer)
@@ -3617,4 +3633,8 @@ func escapes(x any) {
 var dummy struct {
 	b bool
 	x any
+}
+
+func contentEscapes(x unsafe.Pointer) {
+	escapes(*(*any)(x)) // XXX
 }
