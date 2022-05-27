@@ -109,6 +109,40 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d74c9479_e6dc5678",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-05-27T04:21:51Z",
+      "side": 1,
+      "message": "Let\u0027s chat about this fix. I do think you uncovered a serious flaw (thanks!) but I think we can do better than what we have now.",
+      "revId": "95be209f1e6af4a9cc05c21e81b64bf75fe684ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efdb9ecb_438915be",
+        "filename": "src/cmd/compile/internal/types2/validtype.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-05-27T04:21:51Z",
+      "side": 1,
+      "message": "I think the infoMap model is fundamentally incorrect. This code works also without it, except that it gets super slow for esoteric cases (testdata/fixedbugs/issue6977.go).",
+      "revId": "95be209f1e6af4a9cc05c21e81b64bf75fe684ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d296c3bc_85417ebf",
@@ -145,6 +179,29 @@
       "writtenOn": "2022-05-26T21:28:21Z",
       "side": 1,
       "message": "extra empty line",
+      "revId": "95be209f1e6af4a9cc05c21e81b64bf75fe684ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1e73f7b_4f73e8fb",
+        "filename": "src/cmd/compile/internal/types2/validtype.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-05-27T04:21:51Z",
+      "side": 1,
+      "message": "I don\u0027t believe that is needed. For one it will remove valuable information when reporting the error",
+      "range": {
+        "startLine": 107,
+        "startChar": 20,
+        "endLine": 107,
+        "endChar": 21
+      },
       "revId": "95be209f1e6af4a9cc05c21e81b64bf75fe684ae",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
