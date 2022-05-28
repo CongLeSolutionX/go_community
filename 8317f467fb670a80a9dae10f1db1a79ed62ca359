@@ -63,6 +63,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e3fe0154_6dca9f51",
+        "filename": "src/cmd/go/internal/modindex/index_format.txt",
+        "patchSetId": 31
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-05-28T00:44:07Z",
+      "side": 1,
+      "message": "Currently sorted by raw string just because it\u0027s easier.",
+      "parentUuid": "69fa2c1c_31c988cf",
+      "range": {
+        "startLine": 13,
+        "startChar": 65,
+        "endLine": 13,
+        "endChar": 77
+      },
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9f761437_5e817c82",
         "filename": "src/cmd/go/internal/modindex/index_format.txt",
         "patchSetId": 31
@@ -113,6 +137,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "99a84a6a_ffaaf8b3",
+        "filename": "src/cmd/go/internal/modindex/index_format.txt",
+        "patchSetId": 31
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-05-28T00:44:07Z",
+      "side": 1,
+      "message": "removed",
+      "parentUuid": "342646fc_12b0bd22",
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "68f86648_46d1f065",
@@ -126,6 +168,24 @@
       "writtenOn": "2022-05-19T18:07:11Z",
       "side": 1,
       "message": "Is this redundant with the `name` field?\n(Are there “should otherwise be ignored” cases that aren\u0027t due to the build constraints that we save and apply separately?)",
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7bfc85b9_950df8fe",
+        "filename": "src/cmd/go/internal/modindex/index_format.txt",
+        "patchSetId": 31
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-05-28T00:44:07Z",
+      "side": 1,
+      "message": "Dropped the _ and . files from the index completely.\nThe only other cases I see are if there were errors reading or writing the files, or parsing the constraint lines.",
+      "parentUuid": "68f86648_46d1f065",
       "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -153,6 +213,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5aed76cd_5112b79d",
+        "filename": "src/cmd/go/internal/modindex/index_format.txt",
+        "patchSetId": 31
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-05-28T00:44:07Z",
+      "side": 1,
+      "message": "We don\u0027t need them. Removed.",
+      "parentUuid": "73982e65_4660d004",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 33
+      },
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "41940fac_14463e50",
@@ -170,6 +254,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "83d23d18_16e04502",
+        "filename": "src/cmd/go/internal/modindex/scan.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-05-28T00:44:07Z",
+      "side": 1,
+      "message": "We now do our writes through the build cache.",
+      "parentUuid": "41940fac_14463e50",
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d41d5ac0_7b2a831f",
@@ -183,6 +285,24 @@
       "writtenOn": "2022-05-16T21:42:54Z",
       "side": 1,
       "message": "Since this kind of accessor-method interface is unusual in Go, more detail in this comment would be helpful.\n\nFrom the implementation of this interface in CL 403975, I gather that its purpose is to avoid faulting in mmap\u0027d pages for files that aren\u0027t used, or perhaps to allow them to be faulted in parallel (resulting in parallel disk reads)? But I\u0027m not sure how many faults this actually saves — the `string` fields are just headers giving the memory offsets and lengths. I guess the `imports` and `embeds` methods may be more significant?",
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3271070_628d29ef",
+        "filename": "src/cmd/go/internal/modindex/scan.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-05-28T00:44:07Z",
+      "side": 1,
+      "message": "Removed the interface. It\u0027s not used anymore.",
+      "parentUuid": "d41d5ac0_7b2a831f",
       "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -227,6 +347,48 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e99a2b4_933a9606",
+        "filename": "src/cmd/go/internal/modindex/scan.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-05-28T00:44:07Z",
+      "side": 1,
+      "message": "Removed these.",
+      "parentUuid": "2a8aa38a_7fe72302",
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ad8eccc_21a3f7c4",
+        "filename": "src/cmd/go/internal/modindex/scan.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-05-28T00:44:07Z",
+      "side": 1,
+      "message": "We do. Removed.",
+      "parentUuid": "c5e14b5e_3a756c3b",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 30
+      },
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "248791b4_82b47afe",
@@ -240,6 +402,30 @@
       "writtenOn": "2022-05-19T03:31:44Z",
       "side": 1,
       "message": "(nit) I think these comments would be more helpful on the interface methods — I suspect they would be more likely to result in useful IDE hover-text and CodeSearch xrefs at the point of use.",
+      "range": {
+        "startLine": 66,
+        "startChar": 32,
+        "endLine": 66,
+        "endChar": 103
+      },
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61554ab5_9366411b",
+        "filename": "src/cmd/go/internal/modindex/scan.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-05-28T00:44:07Z",
+      "side": 1,
+      "message": "I removed the interface.",
+      "parentUuid": "248791b4_82b47afe",
       "range": {
         "startLine": 66,
         "startChar": 32,
@@ -269,6 +455,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7e81e37f_94ba3705",
+        "filename": "src/cmd/go/internal/modindex/scan.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-05-28T00:44:07Z",
+      "side": 1,
+      "message": "Or the comment before: \n\n  // #include \u003cstdio.h\u003e\n  import \"C\"\n  \nWe only use this for cgo. Updated to only save it for cgo.",
+      "parentUuid": "667711f7_6e520b43",
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2db948a5_750d842b",
         "filename": "src/cmd/go/internal/modindex/scan.go",
         "patchSetId": 31
@@ -280,6 +484,24 @@
       "writtenOn": "2022-05-19T03:31:44Z",
       "side": 1,
       "message": "A comment for this field would be helpful. (Is this the import path, or something else?)\n\nI guess it can\u0027t be the import path because at this point we haven\u0027t read the `module` directive from the `go.mod` file (if any), and a module without a `go.mod` file could be used as a replacement for an arbitrary other import path. 🤔",
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a167aa6f_52666b59",
+        "filename": "src/cmd/go/internal/modindex/scan.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-05-28T00:44:07Z",
+      "side": 1,
+      "message": "we only save dir now, and I added a comment.",
+      "parentUuid": "2db948a5_750d842b",
       "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -301,6 +523,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3785794_34a273dd",
+        "filename": "src/cmd/go/internal/modindex/scan.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-05-28T00:44:07Z",
+      "side": 1,
+      "message": "it\u0027s gone!",
+      "parentUuid": "a59b2b67_d4dcecd9",
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6e44f3cf_125d438d",
@@ -314,6 +554,30 @@
       "writtenOn": "2022-05-19T03:31:44Z",
       "side": 1,
       "message": "caching its work to disk, or in RAM, or both?",
+      "range": {
+        "startLine": 119,
+        "startChar": 60,
+        "endLine": 119,
+        "endChar": 77
+      },
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "492be8e5_ce1e4b94",
+        "filename": "src/cmd/go/internal/modindex/scan.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-05-28T00:44:07Z",
+      "side": 1,
+      "message": "I removed this function. the individual package logic is gone.",
+      "parentUuid": "6e44f3cf_125d438d",
       "range": {
         "startLine": 119,
         "startChar": 60,
@@ -347,6 +611,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5f57f3e_7658b589",
+        "filename": "src/cmd/go/internal/modindex/scan.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-05-28T00:44:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d199ae0c_53210bc4",
+      "range": {
+        "startLine": 142,
+        "startChar": 0,
+        "endLine": 153,
+        "endChar": 2
+      },
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3003c634_d196c790",
@@ -360,6 +648,24 @@
       "writtenOn": "2022-05-19T03:31:44Z",
       "side": 1,
       "message": "I\u0027m very confused by this line. We\u0027re importing the package in `srcDir`, right?\n\nShould the argument to `ImportRaw` just be `dir` itself?\n\n(Within `go/build`, the `srcDir` argument usually refers to the directory from which the package is imported, not the directory containing the imported package, although sometimes IIRC we conflate the two by passing a directory for `srcDir` and `\".\"` for `dir`.)",
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92920824_ffcf4e62",
+        "filename": "src/cmd/go/internal/modindex/scan.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-05-28T00:44:07Z",
+      "side": 1,
+      "message": "The arguments are now the separate components modroot and dir relative to module.",
+      "parentUuid": "3003c634_d196c790",
       "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -410,6 +716,54 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6dd300e_a358826e",
+        "filename": "src/cmd/go/internal/modindex/scan.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-05-28T00:44:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2fe50e47_0fa9590a",
+      "range": {
+        "startLine": 174,
+        "startChar": 1,
+        "endLine": 174,
+        "endChar": 5
+      },
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee6e32cb_2680ea2e",
+        "filename": "src/cmd/go/internal/modindex/scan.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-05-28T00:44:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8cf1cdb_397d3607",
+      "range": {
+        "startLine": 174,
+        "startChar": 14,
+        "endLine": 174,
+        "endChar": 16
+      },
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e7c672c8_f447ecd4",
@@ -423,6 +777,24 @@
       "writtenOn": "2022-05-19T04:17:58Z",
       "side": 1,
       "message": "This comment should mention that the slice may be modified, or else `EncodeModule` should copy the slice before sorting it (and avoid modifying the `RawPackage`s it contains).",
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "08fc6b31_db2b1bd2",
+        "filename": "src/cmd/go/internal/modindex/write.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-05-28T00:44:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7c672c8_f447ecd4",
       "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -452,6 +824,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "79b60107_d4857d2f",
+        "filename": "src/cmd/go/internal/modindex/write.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-05-28T00:44:07Z",
+      "side": 1,
+      "message": "I\u0027ve simplified the code to only save dir, and we make it relative before.",
+      "parentUuid": "6912c286_3f676495",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 23
+      },
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ec1a43d2_0f8b39b3",
         "filename": "src/cmd/go/internal/modindex/write.go",
         "patchSetId": 31
@@ -469,6 +865,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "89ada158_6d2dd393",
+        "filename": "src/cmd/go/internal/modindex/write.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-05-28T00:44:07Z",
+      "side": 1,
+      "message": "Yes. It\u0027s easier for me to follow this way.\n\nDo you think we should just calculate it using the above instead of saving them?",
+      "parentUuid": "ec1a43d2_0f8b39b3",
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3466fe57_b2c001ba",
         "filename": "src/cmd/go/internal/modindex/write.go",
         "patchSetId": 31
@@ -480,6 +894,30 @@
       "writtenOn": "2022-05-19T04:17:58Z",
       "side": 1,
       "message": "Same here — `sourceFileOffsetPos[i] \u003d\u003d sourceFileOffsetPos[0] + 4*i`?",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 2
+      },
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "456f0255_711fa7c2",
+        "filename": "src/cmd/go/internal/modindex/write.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-05-28T00:44:07Z",
+      "side": 1,
+      "message": "Yes.",
+      "parentUuid": "3466fe57_b2c001ba",
       "range": {
         "startLine": 51,
         "startChar": 0,
@@ -515,6 +953,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c26d010c_243ce394",
+        "filename": "src/cmd/go/internal/modindex/write.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-05-28T00:44:07Z",
+      "side": 1,
+      "message": "interface is gone",
+      "parentUuid": "a4d78149_9e4af84b",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 75,
+        "endChar": 45
+      },
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "816509f5_0bb63d84",
         "filename": "src/cmd/go/internal/modindex/write.go",
         "patchSetId": 31
@@ -538,6 +1000,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2fd02a1a_3b025c1e",
+        "filename": "src/cmd/go/internal/modindex/write.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-05-28T00:44:07Z",
+      "side": 1,
+      "message": "I think this was a stray comment from since deleted code.",
+      "parentUuid": "816509f5_0bb63d84",
+      "range": {
+        "startLine": 85,
+        "startChar": 26,
+        "endLine": 85,
+        "endChar": 35
+      },
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "91d1a1ef_0333e2a9",
         "filename": "src/cmd/go/internal/modindex/write.go",
         "patchSetId": 31
@@ -549,6 +1035,24 @@
       "writtenOn": "2022-05-19T04:17:58Z",
       "side": 1,
       "message": "(nit) extra newline",
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "babb8b93_8afbbe51",
+        "filename": "src/cmd/go/internal/modindex/write.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-05-28T00:44:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91d1a1ef_0333e2a9",
       "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }

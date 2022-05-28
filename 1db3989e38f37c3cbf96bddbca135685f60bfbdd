@@ -53,6 +53,24 @@
       "message": "I\u0027d ideally like to encode this as Go struct definitions for the headers, and perhaps use `encoding/binary` to read and write those headers.\n\n(But we can do that in a separate followup change.)",
       "revId": "1db3989e38f37c3cbf96bddbca135685f60bfbdd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c509ca0f_eb55138b",
+        "filename": "src/cmd/go/internal/modindex/index_format.txt",
+        "patchSetId": 28
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-05-28T00:44:07Z",
+      "side": 1,
+      "message": "Ok, let\u0027s do that in a followup change.",
+      "parentUuid": "1bea90d5_e8a0e6fc",
+      "revId": "1db3989e38f37c3cbf96bddbca135685f60bfbdd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

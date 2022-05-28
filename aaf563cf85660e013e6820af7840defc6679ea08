@@ -61,6 +61,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "85ae1fea_8df7c382",
+        "filename": "src/cmd/go/internal/modindex/index_format.txt",
+        "patchSetId": 30
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-05-28T00:44:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6de284b2_f321ed14",
+      "range": {
+        "startLine": 12,
+        "startChar": 21,
+        "endLine": 12,
+        "endChar": 32
+      },
+      "revId": "aaf563cf85660e013e6820af7840defc6679ea08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "853663e5_5c88291f",
@@ -84,6 +108,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0bc49f4_70308e3f",
+        "filename": "src/cmd/go/internal/modindex/index_format.txt",
+        "patchSetId": 30
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-05-28T00:44:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "853663e5_5c88291f",
+      "range": {
+        "startLine": 18,
+        "startChar": 35,
+        "endLine": 18,
+        "endChar": 77
+      },
+      "revId": "aaf563cf85660e013e6820af7840defc6679ea08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c5c0d7b6_92695294",
@@ -97,6 +145,30 @@
       "writtenOn": "2022-05-13T22:01:20Z",
       "side": 1,
       "message": "(nit) weird mix of tabs and spaces in this file",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 3
+      },
+      "revId": "aaf563cf85660e013e6820af7840defc6679ea08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6eaf3f0f_263d1b81",
+        "filename": "src/cmd/go/internal/modindex/index_format.txt",
+        "patchSetId": 30
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-05-28T00:44:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5c0d7b6_92695294",
       "range": {
         "startLine": 18,
         "startChar": 0,
@@ -132,6 +204,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e5315144_a977a978",
+        "filename": "src/cmd/go/internal/modindex/index_format.txt",
+        "patchSetId": 30
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-05-28T00:44:07Z",
+      "side": 1,
+      "message": "I\u0027m not sure, to be honest. I assume for uniformity, but Russ might have had other reasons too?",
+      "parentUuid": "f53bb9ed_4f1b7a77",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 24
+      },
+      "revId": "aaf563cf85660e013e6820af7840defc6679ea08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6de18bae_1199c1cc",
         "filename": "src/cmd/go/internal/modindex/write.go",
         "patchSetId": 30
@@ -143,6 +239,24 @@
       "writtenOn": "2022-05-13T22:01:20Z",
       "side": 1,
       "message": "On 64-bit platforms there is a possibility that some of these `uint32` conversions could overflow, which could bury a problem that surfaces much later as some really weird behavior that looks like data corruption.\n\nI\u0027d be more comfortable with a conversion function that either returns an explicit error or calls base.Fatalf on overflow.",
+      "revId": "aaf563cf85660e013e6820af7840defc6679ea08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45212c8e_5634f7af",
+        "filename": "src/cmd/go/internal/modindex/write.go",
+        "patchSetId": 30
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-05-28T00:44:07Z",
+      "side": 1,
+      "message": "Added an Int() function that does this. (analagous to the bool function)",
+      "parentUuid": "6de18bae_1199c1cc",
       "revId": "aaf563cf85660e013e6820af7840defc6679ea08",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -160,6 +274,30 @@
       "writtenOn": "2022-05-13T22:01:20Z",
       "side": 1,
       "message": "Should we verify that `s` doesn\u0027t contain any NUL-bytes?\n\n(The compiler “may disallow the NUL character”, but not every package that `cmd/go` processes will necessarily compile successfully, and we probably don\u0027t want corrupted behavior when we\u0027re processing a package would otherwise fail with a clear error message later.)",
+      "range": {
+        "startLine": 135,
+        "startChar": 39,
+        "endLine": 135,
+        "endChar": 40
+      },
+      "revId": "aaf563cf85660e013e6820af7840defc6679ea08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d076c47_a0fda8c5",
+        "filename": "src/cmd/go/internal/modindex/write.go",
+        "patchSetId": 30
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-05-28T00:44:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "485565ee_d7989a66",
       "range": {
         "startLine": 135,
         "startChar": 39,
