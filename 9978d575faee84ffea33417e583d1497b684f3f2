@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68d94a2d_e8aca7fb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2022-05-28T21:13:41Z",
+      "side": 1,
+      "message": "TRY\u003ddarwin-amd64-nocgo,plan9\n",
+      "revId": "9978d575faee84ffea33417e583d1497b684f3f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
