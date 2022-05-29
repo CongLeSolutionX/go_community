@@ -349,6 +349,7 @@ var genericOps = []opData{
 
 	{name: "SP", zeroWidth: true},                 // stack pointer
 	{name: "SB", typ: "Uintptr", zeroWidth: true}, // static base pointer (a.k.a. globals pointer)
+	{name: "HardwiredZero", zeroWidth: true},      // hardwired zero register
 	{name: "Invalid"},                             // unused value
 
 	// Memory operations

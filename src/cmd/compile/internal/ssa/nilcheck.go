@@ -306,9 +306,12 @@ func nilcheckelim2(f *Func) {
 				default:
 					v.Fatalf("can't handle aux %s (type %d) yet\n", v.auxString(), int(opcodeTable[v.Op].auxType))
 				}
-				// This instruction is guaranteed to fault if ptr is nil.
-				// Any previous nil check op is unnecessary.
-				unnecessary.set(ptr.ID, int32(i), src.NoXPos)
+				// TODO: hardwired zero pass will make all nil pointer get csed. It causes test/nilptr3.go failed(remove more nil check).
+				if ptr.Op != OpHardwiredZero {
+					// This instruction is guaranteed to fault if ptr is nil.
+					// Any previous nil check op is unnecessary.
+					unnecessary.set(ptr.ID, int32(i), src.NoXPos)
+				}
 			}
 		}
 		// Remove values we've clobbered with OpUnknown.

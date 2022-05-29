@@ -244,7 +244,7 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		v.Block.Func.RegArgs = nil
 
 		ssagen.CheckArgReg(v)
-	case ssa.OpSP, ssa.OpSB, ssa.OpGetG:
+	case ssa.OpSP, ssa.OpSB, ssa.OpGetG, ssa.OpHardwiredZero:
 		// nothing to do
 	case ssa.OpRISCV64MOVBreg, ssa.OpRISCV64MOVHreg, ssa.OpRISCV64MOVWreg,
 		ssa.OpRISCV64MOVBUreg, ssa.OpRISCV64MOVHUreg, ssa.OpRISCV64MOVWUreg:

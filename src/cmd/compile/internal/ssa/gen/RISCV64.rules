@@ -4,7 +4,6 @@
 
 // Optimizations TODO:
 // * Use SLTI and SLTIU for comparisons to constants, instead of SLT/SLTU with constants in registers
-// * Use the zero register instead of moving 0 into a register.
 // * Add rules to avoid generating a temp bool value for (If (SLT[U] ...) ...).
 // * Arrange for non-trivial Zero and Move lowerings to use aligned loads and stores.
 // * Avoid using Neq32 for writeBarrier.enabled checks.

@@ -38,6 +38,8 @@ type Config struct {
 	FPReg          int8        // register number of frame pointer, -1 if not used
 	LinkReg        int8        // register number of link register if it is a general purpose register, -1 if not used
 	hasGReg        bool        // has hardware g register
+	hasZeroReg     bool        // has hardwired zero register
+	zeroRegName    string      // hardwired zero register name
 	ctxt           *obj.Link   // Generic arch information
 	optimize       bool        // Do optimization
 	noDuffDevice   bool        // Don't use Duff's device
@@ -315,6 +317,8 @@ func NewConfig(arch string, types Types, ctxt *obj.Link, optimize, softfloat boo
 		c.floatParamRegs = paramFloatRegRISCV64
 		c.FPReg = framepointerRegRISCV64
 		c.hasGReg = true
+		c.hasZeroReg = true
+		c.zeroRegName = "X0"
 	case "wasm":
 		c.PtrSize = 8
 		c.RegSize = 8

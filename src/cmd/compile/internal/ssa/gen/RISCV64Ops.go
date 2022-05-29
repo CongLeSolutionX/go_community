@@ -117,32 +117,33 @@ func init() {
 
 	regCtxt := regNamed["X26"]
 	callerSave := gpMask | fpMask | regNamed["g"]
+	regZero := regNamed["X0"]
 
 	var (
-		gpstore  = regInfo{inputs: []regMask{gpspsbMask, gpspMask, 0}} // SB in first input so we can load from a global, but not in second to avoid using SB as a temporary register
-		gpstore0 = regInfo{inputs: []regMask{gpspsbMask}}
+		gpstore  = regInfo{inputs: []regMask{gpspsbMask | regZero, gpspMask | regZero, 0}} // SB in first input so we can load from a global, but not in second to avoid using SB as a temporary register
+		gpstore0 = regInfo{inputs: []regMask{gpspsbMask | regZero}}
 		gp01     = regInfo{outputs: []regMask{gpMask}}
-		gp11     = regInfo{inputs: []regMask{gpMask}, outputs: []regMask{gpMask}}
-		gp21     = regInfo{inputs: []regMask{gpMask, gpMask}, outputs: []regMask{gpMask}}
-		gp22     = regInfo{inputs: []regMask{gpMask, gpMask}, outputs: []regMask{gpMask, gpMask}}
-		gpload   = regInfo{inputs: []regMask{gpspsbMask, 0}, outputs: []regMask{gpMask}}
-		gp11sb   = regInfo{inputs: []regMask{gpspsbMask}, outputs: []regMask{gpMask}}
-		gpxchg   = regInfo{inputs: []regMask{gpspsbgMask, gpgMask}, outputs: []regMask{gpMask}}
-		gpcas    = regInfo{inputs: []regMask{gpspsbgMask, gpgMask, gpgMask}, outputs: []regMask{gpMask}}
-		gpatomic = regInfo{inputs: []regMask{gpspsbgMask, gpgMask}}
+		gp11     = regInfo{inputs: []regMask{gpMask | regZero}, outputs: []regMask{gpMask}}
+		gp21     = regInfo{inputs: []regMask{gpMask | regZero, gpMask | regZero}, outputs: []regMask{gpMask}}
+		gp22     = regInfo{inputs: []regMask{gpMask | regZero, gpMask | regZero}, outputs: []regMask{gpMask, gpMask}}
+		gpload   = regInfo{inputs: []regMask{gpspsbMask | regZero, 0}, outputs: []regMask{gpMask}}
+		gp11sb   = regInfo{inputs: []regMask{gpspsbMask | regZero}, outputs: []regMask{gpMask}}
+		gpxchg   = regInfo{inputs: []regMask{gpspsbgMask | regZero, gpgMask | regZero}, outputs: []regMask{gpMask}}
+		gpcas    = regInfo{inputs: []regMask{gpspsbgMask | regZero, gpgMask | regZero, gpgMask | regZero}, outputs: []regMask{gpMask}}
+		gpatomic = regInfo{inputs: []regMask{gpspsbgMask | regZero, gpgMask | regZero}}
 
 		fp11    = regInfo{inputs: []regMask{fpMask}, outputs: []regMask{fpMask}}
 		fp21    = regInfo{inputs: []regMask{fpMask, fpMask}, outputs: []regMask{fpMask}}
 		fp31    = regInfo{inputs: []regMask{fpMask, fpMask, fpMask}, outputs: []regMask{fpMask}}
-		gpfp    = regInfo{inputs: []regMask{gpMask}, outputs: []regMask{fpMask}}
+		gpfp    = regInfo{inputs: []regMask{gpMask | regZero}, outputs: []regMask{fpMask}}
 		fpgp    = regInfo{inputs: []regMask{fpMask}, outputs: []regMask{gpMask}}
-		fpstore = regInfo{inputs: []regMask{gpspsbMask, fpMask, 0}}
-		fpload  = regInfo{inputs: []regMask{gpspsbMask, 0}, outputs: []regMask{fpMask}}
+		fpstore = regInfo{inputs: []regMask{gpspsbMask | regZero, fpMask, 0}}
+		fpload  = regInfo{inputs: []regMask{gpspsbMask | regZero, 0}, outputs: []regMask{fpMask}}
 		fp2gp   = regInfo{inputs: []regMask{fpMask, fpMask}, outputs: []regMask{gpMask}}
 
 		call        = regInfo{clobbers: callerSave}
-		callClosure = regInfo{inputs: []regMask{gpspMask, regCtxt, 0}, clobbers: callerSave}
-		callInter   = regInfo{inputs: []regMask{gpMask}, clobbers: callerSave}
+		callClosure = regInfo{inputs: []regMask{gpspMask | regZero, regCtxt, 0}, clobbers: callerSave}
+		callInter   = regInfo{inputs: []regMask{gpMask | regZero}, clobbers: callerSave}
 	)
 
 	RISCV64ops := []opData{
@@ -379,8 +380,8 @@ func init() {
 		{name: "LoweredAtomicOr32", argLength: 3, reg: gpatomic, asm: "AMOORW", faultOnNilArg0: true, hasSideEffects: true},
 
 		// Lowering pass-throughs
-		{name: "LoweredNilCheck", argLength: 2, faultOnNilArg0: true, nilCheck: true, reg: regInfo{inputs: []regMask{gpspMask}}}, // arg0=ptr,arg1=mem, returns void.  Faults if ptr is nil.
-		{name: "LoweredGetClosurePtr", reg: regInfo{outputs: []regMask{regCtxt}}},                                                // scheduler ensures only at beginning of entry block
+		{name: "LoweredNilCheck", argLength: 2, faultOnNilArg0: true, nilCheck: true, reg: regInfo{inputs: []regMask{gpspMask | regZero}}}, // arg0=ptr,arg1=mem, returns void.  Faults if ptr is nil.
+		{name: "LoweredGetClosurePtr", reg: regInfo{outputs: []regMask{regCtxt}}},                                                          // scheduler ensures only at beginning of entry block
 
 		// LoweredGetCallerSP returns the SP of the caller of the current function.
 		{name: "LoweredGetCallerSP", reg: gp01, rematerializeable: true},

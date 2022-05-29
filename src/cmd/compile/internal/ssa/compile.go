@@ -490,6 +490,7 @@ var passes = [...]pass{
 	{name: "addressing modes", fn: addressingModes, required: false},
 	{name: "lowered deadcode for cse", fn: deadcode}, // deadcode immediately before CSE avoids CSE making dead values live again
 	{name: "lowered cse", fn: cse},
+	{name: "hardwired zero", fn: hardwiredZero},
 	{name: "elim unread autos", fn: elimUnreadAutos},
 	{name: "tighten tuple selectors", fn: tightenTupleSelectors, required: true},
 	{name: "lowered deadcode", fn: deadcode, required: true},

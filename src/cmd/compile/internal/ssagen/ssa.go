@@ -6925,7 +6925,7 @@ func genssa(f *ssa.Func, pp *objw.Progs) {
 				// memory arg needs no code
 			case ssa.OpArg:
 				// input args need no code
-			case ssa.OpSP, ssa.OpSB:
+			case ssa.OpSP, ssa.OpSB, ssa.OpHardwiredZero:
 				// nothing to do
 			case ssa.OpSelect0, ssa.OpSelect1, ssa.OpSelectN, ssa.OpMakeResult:
 				// nothing to do
