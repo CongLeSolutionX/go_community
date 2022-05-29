@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "6aaedc0d_18070e43",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-05-29T00:24:22Z",
+      "side": 1,
+      "message": "I\u0027d rather see a normal CL description rather than a revert of a revert.  The description can say it\u0027s a revert of a revert but we don\u0027t need that in the topic.  Thanks.",
+      "revId": "9978d575faee84ffea33417e583d1497b684f3f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "68d94a2d_e8aca7fb",
