@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdcc5c7d_ec1ab67f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2022-05-30T07:09:15Z",
+      "side": 1,
+      "message": "\u003e // Dummy test function so that godoc does not use the entire file as example.\n\nPerhaps this is the source of the problem. The move from godoc.org to pkg.go.dev might have broken the example.\n\nWhy is that dummy test func no longer doing its job, presumably? The rendered example now shows an entire file with two funcs.",
+      "revId": "c2472529a12621bd362baabad234ed7eb8b1e683",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
