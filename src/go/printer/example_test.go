@@ -31,11 +31,11 @@ func parseFunc(filename, functionname string) (fun *ast.FuncDecl, fset *token.Fi
 	panic("function not found")
 }
 
-func ExampleFprint() {
+func exampleFprint() {
 	// Parse source file and extract the AST without comments for
 	// this function, with position information referring to the
 	// file set fset.
-	funcAST, fset := parseFunc("example_test.go", "ExampleFprint")
+	funcAST, fset := parseFunc("example_test.go", "exampleFprint")
 
 	// Print the function body into buffer buf.
 	// The file set is provided to the printer so that it knows
@@ -64,4 +64,8 @@ func ExampleFprint() {
 	// s = strings.TrimSpace(strings.ReplaceAll(s, "\n\t", "\n"))
 	//
 	// fmt.Println(s)
+}
+
+func ExampleFprint() {
+	exampleFprint()
 }
