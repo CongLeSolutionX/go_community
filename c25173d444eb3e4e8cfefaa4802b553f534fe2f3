@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "deb0971c_dd6ac891",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2022-05-31T18:43:54Z",
+      "side": 1,
+      "message": "Hi Kévin. I\u0027m not the decider on this package, but I\u0027ve given the change a once-over. It also, IIUC, needs to contend with the release freeze and proposal process; I\u0027ll update #51914 too.",
+      "revId": "c25173d444eb3e4e8cfefaa4802b553f534fe2f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3fb63541_6fef1294",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2022-05-31T18:43:54Z",
+      "side": 1,
+      "message": "I think this would be better as `delete(h, k)`. It doesn\u0027t depend on canonical header keys, and the compiler recognizes it as a map-clearing idiom.",
+      "revId": "c25173d444eb3e4e8cfefaa4802b553f534fe2f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82978870_96918424",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2022-05-31T18:43:54Z",
+      "side": 1,
+      "message": "It looks like headerSet is always false. Is this dead code?",
+      "revId": "c25173d444eb3e4e8cfefaa4802b553f534fe2f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e658f677_2926908b",
+        "filename": "src/net/http/httputil/reverseproxy_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1574,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2022-05-31T18:43:54Z",
+      "side": 1,
+      "message": "This will panic if `got` is too short. (The length check above doesn\u0027t bail completely.)",
+      "revId": "c25173d444eb3e4e8cfefaa4802b553f534fe2f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
