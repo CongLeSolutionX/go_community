@@ -212,6 +212,30 @@
       },
       "revId": "9dc09e2af6898655c146b78eb5bac5b0de930ba6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23912697_fc8c3f2a",
+        "filename": "src/cmd/compile/internal/types2/validtype.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-05-31T20:08:03Z",
+      "side": 1,
+      "message": "Yes. That said, I think we still don\u0027t fully understand this.",
+      "parentUuid": "594a1456_27d55534",
+      "range": {
+        "startLine": 68,
+        "startChar": 18,
+        "endLine": 68,
+        "endChar": 23
+      },
+      "revId": "9dc09e2af6898655c146b78eb5bac5b0de930ba6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
