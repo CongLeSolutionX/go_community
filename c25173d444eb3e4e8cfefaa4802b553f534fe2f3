@@ -57,6 +57,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7db12204_61c95f73",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-05-31T22:36:31Z",
+      "side": 1,
+      "message": "I wonder if this should be conditionalized on a config option.\n\n  // Forward1xxResponses specifies that 1xx responses should be forwarded\n  // to the client. This requires that the underlying transport support\n  // ClientTrace.Got1xxResponse.\n  Forward1xxResponses bool\n  \nWhat do you think, Brad?",
+      "revId": "c25173d444eb3e4e8cfefaa4802b553f534fe2f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3fb63541_6fef1294",
         "filename": "src/net/http/httputil/reverseproxy.go",
         "patchSetId": 2
