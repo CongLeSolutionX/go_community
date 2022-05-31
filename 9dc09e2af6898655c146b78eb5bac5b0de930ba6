@@ -98,6 +98,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a13ee892_448d3a90",
+        "filename": "src/cmd/compile/internal/types2/lookup.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-05-31T20:04:43Z",
+      "side": 1,
+      "message": "I should, I think I was just copy-pasting in a hurry.",
+      "parentUuid": "9df7e2e0_19047a00",
+      "range": {
+        "startLine": 285,
+        "startChar": 16,
+        "endLine": 289,
+        "endChar": 2
+      },
+      "revId": "9dc09e2af6898655c146b78eb5bac5b0de930ba6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c51e9393_83c10ba3",
         "filename": "src/cmd/compile/internal/types2/lookup.go",
         "patchSetId": 5
@@ -109,6 +133,30 @@
       "writtenOn": "2022-05-31T19:47:49Z",
       "side": 1,
       "message": "this is the same code as add - why not call add?",
+      "range": {
+        "startLine": 290,
+        "startChar": 5,
+        "endLine": 294,
+        "endChar": 9
+      },
+      "revId": "9dc09e2af6898655c146b78eb5bac5b0de930ba6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0cb82ef4_d37d4fc8",
+        "filename": "src/cmd/compile/internal/types2/lookup.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-05-31T20:04:43Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c51e9393_83c10ba3",
       "range": {
         "startLine": 290,
         "startChar": 5,
@@ -132,6 +180,30 @@
       "writtenOn": "2022-05-31T19:47:49Z",
       "side": 1,
       "message": "If we have two _different_ instances T1[int] and T1[int] they have different objects associated with them because they must have been instantiated in different places. These different objects will have different positions.\n\nAfter canonicalization, both of these will use the same object and thus the same position. This seems incorrect.\n\nMaybe such cases can\u0027t happen when we have a true cycle. But I don\u0027t think I understand this yet, fully.",
+      "range": {
+        "startLine": 68,
+        "startChar": 18,
+        "endLine": 68,
+        "endChar": 23
+      },
+      "revId": "9dc09e2af6898655c146b78eb5bac5b0de930ba6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "594a1456_27d55534",
+        "filename": "src/cmd/compile/internal/types2/validtype.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-05-31T20:04:43Z",
+      "side": 1,
+      "message": "Just to be clear, for error reporting (which is \"path\"), we would want the original location but for correct cycle detection, we want to canonicalize?",
+      "parentUuid": "58a593b9_23d63341",
       "range": {
         "startLine": 68,
         "startChar": 18,
