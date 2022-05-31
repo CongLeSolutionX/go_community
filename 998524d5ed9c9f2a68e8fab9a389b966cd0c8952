@@ -74,6 +74,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "790885b2_5df84969",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2788,
+      "author": {
+        "id": 32637
+      },
+      "writtenOn": "2022-05-31T22:54:34Z",
+      "side": 1,
+      "message": "This apparently allows to undo the https://golang.org/cl/213442",
+      "revId": "998524d5ed9c9f2a68e8fab9a389b966cd0c8952",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5b14e855_ea80376e",
         "filename": "src/net/http/server.go",
         "patchSetId": 1
