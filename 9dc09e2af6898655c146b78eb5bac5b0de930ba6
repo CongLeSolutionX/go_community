@@ -236,6 +236,30 @@
       },
       "revId": "9dc09e2af6898655c146b78eb5bac5b0de930ba6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b163e2f_ccc75c95",
+        "filename": "src/cmd/compile/internal/types2/validtype.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-05-31T20:13:24Z",
+      "side": 1,
+      "message": "I don\u0027t quite understand the puzzling bit here, which either means I haven\u0027t explained the code well enough, or else there is something subtle I\u0027ve missed.\n\ninfoMap contains correct values of valid and invalid, and perhaps too many cases of \"marked\", but never too few.  It\u0027s usually right, else we\u0027d have seen this bug earlier.  Check a claimed-by-infoMap marked node against reallyMarked removes the false positives.\n\nI\u0027m a little worried about the index correspondence between \"path\" and \"reallyMarked\", so rather than worry, since it is about to report an error, I will do it more carefully.",
+      "parentUuid": "23912697_fc8c3f2a",
+      "range": {
+        "startLine": 68,
+        "startChar": 18,
+        "endLine": 68,
+        "endChar": 23
+      },
+      "revId": "9dc09e2af6898655c146b78eb5bac5b0de930ba6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
