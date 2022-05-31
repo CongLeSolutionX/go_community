@@ -70,6 +70,24 @@
       "message": "Is this call not in race with two calls above to wait? `srv.listenerGroup.Wait()`?",
       "revId": "998524d5ed9c9f2a68e8fab9a389b966cd0c8952",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df10c31f_7316d30a",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3168,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-05-31T22:11:37Z",
+      "side": 1,
+      "message": "Add is only called if srv.inShutdown is not set, and srv.mu synchronizes access to srv.inShutdown between the Add and Wait calls.",
+      "parentUuid": "5b14e855_ea80376e",
+      "revId": "998524d5ed9c9f2a68e8fab9a389b966cd0c8952",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
