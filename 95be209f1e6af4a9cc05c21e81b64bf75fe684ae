@@ -143,6 +143,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7af3c59e_6f096cfb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-05-31T18:39:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d947796e_cd143aff",
+      "revId": "95be209f1e6af4a9cc05c21e81b64bf75fe684ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "efdb9ecb_438915be",
@@ -297,6 +315,30 @@
       "side": 1,
       "message": "This is the bug fix; if path is not popped, infomap and checking path are the same.\nIf we want to keep a second path for error reporting, that might work, but figuring out how it maps to the other path is tricky.",
       "parentUuid": "d1e73f7b_4f73e8fb",
+      "range": {
+        "startLine": 107,
+        "startChar": 20,
+        "endLine": 107,
+        "endChar": 21
+      },
+      "revId": "95be209f1e6af4a9cc05c21e81b64bf75fe684ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9301ab65_3f073cca",
+        "filename": "src/cmd/compile/internal/types2/validtype.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-05-31T18:39:02Z",
+      "side": 1,
+      "message": "So, in later patches, I keep the unmodified path for error reporting, and use a second slice to contain the \"really marked\" information.",
+      "parentUuid": "722c12c7_2f771f75",
       "range": {
         "startLine": 107,
         "startChar": 20,
