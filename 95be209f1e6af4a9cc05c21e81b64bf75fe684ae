@@ -330,6 +330,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1b43fd9_4c9e7cfb",
+        "filename": "test/typeparam/issue52698.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-05-31T15:35:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d4ed8a4_d3fbda08",
+      "range": {
+        "startLine": 1,
+        "startChar": 3,
+        "endLine": 1,
+        "endChar": 10
+      },
+      "revId": "95be209f1e6af4a9cc05c21e81b64bf75fe684ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "812b9ce2_b2285b08",
@@ -353,6 +377,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "261b2436_9f223f12",
+        "filename": "test/typeparam/issue52698.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-05-31T15:35:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "812b9ce2_b2285b08",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 0
+      },
+      "revId": "95be209f1e6af4a9cc05c21e81b64bf75fe684ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9222591e_074b3fd8",
@@ -366,6 +414,30 @@
       "writtenOn": "2022-05-26T21:28:21Z",
       "side": 1,
       "message": "This comment is not needed and somewhat confusing (details are in the issue). Leave away.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 96
+      },
+      "revId": "95be209f1e6af4a9cc05c21e81b64bf75fe684ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd3dc927_f0015da1",
+        "filename": "test/typeparam/issue52698.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-05-31T15:35:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9222591e_074b3fd8",
       "range": {
         "startLine": 9,
         "startChar": 0,
