@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2abaa658_99c37c4b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-06-01T01:25:08Z",
+      "side": 1,
+      "message": "\"fix\" is a rather generic term.  It\u0027s better to say what changed.  Perhaps something like\n\ncmd/buildid: reject old build IDs created by Go before 1.7",
+      "revId": "804c71e9ec5290a008124010d5ceaa358b11708a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c794f0d_ccd4b58e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-06-01T01:25:08Z",
+      "side": 1,
+      "message": "Please break the long line around 76 columns.\n\nIt\u0027s not necessary for the description to mention the old pull request.  That could be helpful as a comment, but future readers of the change history aren\u0027t going to care about that detail of how this change was created.",
+      "revId": "804c71e9ec5290a008124010d5ceaa358b11708a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f89acd13_34699ce2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-06-01T01:25:08Z",
+      "side": 1,
+      "message": "Write this as\n\nFixes #50809",
+      "revId": "804c71e9ec5290a008124010d5ceaa358b11708a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
