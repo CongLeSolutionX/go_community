@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d14e37fa_22e955f4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-06-01T01:29:56Z",
+      "side": 1,
+      "message": "Is it possible to write a test for this?  Perhaps \"go build\" an executable and then strip it?  Thanks.\n",
+      "revId": "22f356d0a4d2d9a4e149c323d279e314fb4049f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
