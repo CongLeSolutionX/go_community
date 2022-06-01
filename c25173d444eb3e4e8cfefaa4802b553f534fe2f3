@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "360d4305_9c75f5e1",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 34852
+      },
+      "writtenOn": "2022-06-01T15:43:27Z",
+      "side": 1,
+      "message": "I initially added a similar knob (https://github.com/golang/go/pull/42597/commits/65898a944fd134d63234b3b2c9acd08e54e169be#diff-68c9730880d7fc61d8b5fb9fd186ec76e59404f34b53fa48b98e414542eb66e4R102), but then removed it because by the spec 1xx responses MUST be forwarded by proxies, and also IIUC we don\u0027t like knobs 😊\n\nLet me know if I must add it back.",
+      "parentUuid": "7db12204_61c95f73",
+      "revId": "c25173d444eb3e4e8cfefaa4802b553f534fe2f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3fb63541_6fef1294",
         "filename": "src/net/http/httputil/reverseproxy.go",
         "patchSetId": 2
@@ -85,6 +103,24 @@
       "writtenOn": "2022-05-31T18:43:54Z",
       "side": 1,
       "message": "I think this would be better as `delete(h, k)`. It doesn\u0027t depend on canonical header keys, and the compiler recognizes it as a map-clearing idiom.",
+      "revId": "c25173d444eb3e4e8cfefaa4802b553f534fe2f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8530a63_3c33272e",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 34852
+      },
+      "writtenOn": "2022-06-01T15:43:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fb63541_6fef1294",
       "revId": "c25173d444eb3e4e8cfefaa4802b553f534fe2f3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -106,6 +142,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "66050834_13502275",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 34852
+      },
+      "writtenOn": "2022-06-01T15:43:27Z",
+      "side": 1,
+      "message": "Done, yes it was dead code, sorry about that!",
+      "parentUuid": "82978870_96918424",
+      "revId": "c25173d444eb3e4e8cfefaa4802b553f534fe2f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e658f677_2926908b",
@@ -119,6 +173,24 @@
       "writtenOn": "2022-05-31T18:43:54Z",
       "side": 1,
       "message": "This will panic if `got` is too short. (The length check above doesn\u0027t bail completely.)",
+      "revId": "c25173d444eb3e4e8cfefaa4802b553f534fe2f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0946b70e_fc52691c",
+        "filename": "src/net/http/httputil/reverseproxy_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1574,
+      "author": {
+        "id": 34852
+      },
+      "writtenOn": "2022-06-01T15:43:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e658f677_2926908b",
       "revId": "c25173d444eb3e4e8cfefaa4802b553f534fe2f3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
