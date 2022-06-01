@@ -85,6 +85,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8fadccfd_3f99d83a",
+        "filename": "src/cmd/go/internal/modindex/index_format.txt",
+        "patchSetId": 31
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-06-01T04:06:23Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e3fe0154_6dca9f51",
+      "range": {
+        "startLine": 13,
+        "startChar": 65,
+        "endLine": 13,
+        "endChar": 77
+      },
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9f761437_5e817c82",
@@ -186,6 +210,24 @@
       "side": 1,
       "message": "Dropped the _ and . files from the index completely.\nThe only other cases I see are if there were errors reading or writing the files, or parsing the constraint lines.",
       "parentUuid": "68f86648_46d1f065",
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8075ff3_ef95f669",
+        "filename": "src/cmd/go/internal/modindex/index_format.txt",
+        "patchSetId": 31
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-06-01T04:06:23Z",
+      "side": 1,
+      "message": "\u003e Dropped the _ and . files from the index completely.\n\nThat probably makes sense, but note that it\u0027s actually possible to import those packages explicitly — we should be sure to add a test that the slow path still works for them, at least.",
+      "parentUuid": "7bfc85b9_950df8fe",
       "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -471,6 +513,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "927e3cca_82c4a61c",
+        "filename": "src/cmd/go/internal/modindex/scan.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-06-01T04:06:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e81e37f_94ba3705",
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2db948a5_750d842b",
@@ -502,6 +562,24 @@
       "side": 1,
       "message": "we only save dir now, and I added a comment.",
       "parentUuid": "2db948a5_750d842b",
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b827080_28ae3caf",
+        "filename": "src/cmd/go/internal/modindex/scan.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-06-01T04:06:23Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a167aa6f_52666b59",
       "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -578,6 +656,30 @@
       "side": 1,
       "message": "I removed this function. the individual package logic is gone.",
       "parentUuid": "6e44f3cf_125d438d",
+      "range": {
+        "startLine": 119,
+        "startChar": 60,
+        "endLine": 119,
+        "endChar": 77
+      },
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb69000c_6aa8551d",
+        "filename": "src/cmd/go/internal/modindex/scan.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-06-01T04:06:23Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "492be8e5_ce1e4b94",
       "range": {
         "startLine": 119,
         "startChar": 60,
@@ -666,6 +768,24 @@
       "side": 1,
       "message": "The arguments are now the separate components modroot and dir relative to module.",
       "parentUuid": "3003c634_d196c790",
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "84786e06_762904a4",
+        "filename": "src/cmd/go/internal/modindex/scan.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-06-01T04:06:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92920824_ffcf4e62",
       "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -846,6 +966,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d64fbc51_bd863f7d",
+        "filename": "src/cmd/go/internal/modindex/write.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-06-01T04:06:23Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "79b60107_d4857d2f",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 23
+      },
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ec1a43d2_0f8b39b3",
@@ -877,6 +1021,24 @@
       "side": 1,
       "message": "Yes. It\u0027s easier for me to follow this way.\n\nDo you think we should just calculate it using the above instead of saving them?",
       "parentUuid": "ec1a43d2_0f8b39b3",
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42834e04_1a32968d",
+        "filename": "src/cmd/go/internal/modindex/write.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-06-01T04:06:23Z",
+      "side": 1,
+      "message": "I think it\u0027s about equally complicated either way, and calculating it as `4*i` does avoid some allocation overhead, so I do have a mild preference for that approach.\n\n(Then `packagesOffsetPos` can become a single `int` instead of a slice.)",
+      "parentUuid": "89ada158_6d2dd393",
       "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -975,6 +1137,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e80ba639_9727f449",
+        "filename": "src/cmd/go/internal/modindex/write.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-06-01T04:06:23Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c26d010c_243ce394",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 75,
+        "endChar": 45
+      },
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "816509f5_0bb63d84",
@@ -1012,6 +1198,30 @@
       "side": 1,
       "message": "I think this was a stray comment from since deleted code.",
       "parentUuid": "816509f5_0bb63d84",
+      "range": {
+        "startLine": 85,
+        "startChar": 26,
+        "endLine": 85,
+        "endChar": 35
+      },
+      "revId": "8317f467fb670a80a9dae10f1db1a79ed62ca359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11bf237f_9cfffebe",
+        "filename": "src/cmd/go/internal/modindex/write.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-06-01T04:06:23Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2fd02a1a_3b025c1e",
       "range": {
         "startLine": 85,
         "startChar": 26,
