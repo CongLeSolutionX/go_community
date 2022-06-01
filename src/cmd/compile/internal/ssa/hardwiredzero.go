@@ -14,7 +14,13 @@ func hardwiredZero(f *Func) {
 	var zero *Value
 	for _, b := range f.Blocks {
 		for _, v := range b.Values {
-			if v.Op == OpRISCV64MOVDconst && v.AuxInt == 0 {
+			switch v.Op {
+			case OpRISCV64MOVDconst, OpLOONG64MOVVconst:
+				// ok
+			default:
+				continue
+			}
+			if v.AuxInt == 0 {
 				if zero == nil {
 					zero = f.Entry.NewValue0(src.NoXPos, OpHardwiredZero, f.Config.Types.Int)
 				}

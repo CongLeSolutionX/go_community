@@ -138,25 +138,26 @@ func init() {
 		r2         = buildReg("R18")
 		r3         = buildReg("R17")
 		r4         = buildReg("R4")
+		r0         = buildReg("R0")
 	)
 	// Common regInfo
 	var (
 		gp01      = regInfo{inputs: nil, outputs: []regMask{gp}}
-		gp11      = regInfo{inputs: []regMask{gpg}, outputs: []regMask{gp}}
-		gp11sp    = regInfo{inputs: []regMask{gpspg}, outputs: []regMask{gp}}
-		gp21      = regInfo{inputs: []regMask{gpg, gpg}, outputs: []regMask{gp}}
-		gpmuldiv  = regInfo{inputs: []regMask{gps, gps}, outputs: []regMask{buildReg("R17"), buildReg("R18")}}
-		gpload    = regInfo{inputs: []regMask{gpspsbg}, outputs: []regMask{gp}}
-		gpstore   = regInfo{inputs: []regMask{gpspsbg, gpg}}
-		gpstore0  = regInfo{inputs: []regMask{gpspsbg}}
-		gpxchg    = regInfo{inputs: []regMask{gpspsbg, gpg}, outputs: []regMask{gp}}
-		gpcas     = regInfo{inputs: []regMask{gpspsbg, gpg, gpg}, outputs: []regMask{gp}}
+		gp11      = regInfo{inputs: []regMask{gpg | r0}, outputs: []regMask{gp}}
+		gp11sp    = regInfo{inputs: []regMask{gpspg | r0}, outputs: []regMask{gp}}
+		gp21      = regInfo{inputs: []regMask{gpg | r0, gpg | r0}, outputs: []regMask{gp}}
+		gpmuldiv  = regInfo{inputs: []regMask{gps | r0, gps | r0}, outputs: []regMask{buildReg("R17"), buildReg("R18")}}
+		gpload    = regInfo{inputs: []regMask{gpspsbg | r0}, outputs: []regMask{gp}}
+		gpstore   = regInfo{inputs: []regMask{gpspsbg | r0, gpg | r0}}
+		gpstore0  = regInfo{inputs: []regMask{gpspsbg | r0}}
+		gpxchg    = regInfo{inputs: []regMask{gpspsbg | r0, gpg | r0}, outputs: []regMask{gp}}
+		gpcas     = regInfo{inputs: []regMask{gpspsbg | r0, gpg | r0, gpg | r0}, outputs: []regMask{gp}}
 		fp01      = regInfo{inputs: nil, outputs: []regMask{fp}}
 		fp11      = regInfo{inputs: []regMask{fp}, outputs: []regMask{fp}}
 		fp21      = regInfo{inputs: []regMask{fp, fp}, outputs: []regMask{fp}}
 		fp2flags  = regInfo{inputs: []regMask{fp, fp}}
-		fpload    = regInfo{inputs: []regMask{gpspsbg}, outputs: []regMask{fp}}
-		fpstore   = regInfo{inputs: []regMask{gpspsbg, fp}}
+		fpload    = regInfo{inputs: []regMask{gpspsbg | r0}, outputs: []regMask{fp}}
+		fpstore   = regInfo{inputs: []regMask{gpspsbg | r0, fp}}
 		readflags = regInfo{inputs: nil, outputs: []regMask{gp}}
 	)
 	ops := []opData{
