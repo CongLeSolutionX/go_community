@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54429e47_c270ba32",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2738,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2022-06-01T00:55:04Z",
+      "side": 1,
+      "message": "This looks like a mistake at first glance. Might be worth a comment so reader knows that the unlock-and-re-lock is intentional.",
+      "revId": "43932697c519e36c91a50f1ba5ab8307dee553a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eda124af_79ebc538",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2738,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2022-06-01T00:55:04Z",
+      "side": 1,
+      "message": "Actually what\u0027s this letting happen? What\u0027s the Unlock for? For trackListener to able to run I guess? Leave a comment about that?",
+      "revId": "43932697c519e36c91a50f1ba5ab8307dee553a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16eedd54_ed7c3033",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3158,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2022-06-01T00:55:04Z",
+      "side": 1,
+      "message": "And I guess this is the bit that prevents the Add(1) a few lines below from panicking on concurrent WaitGroup.Wait?",
+      "revId": "43932697c519e36c91a50f1ba5ab8307dee553a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
