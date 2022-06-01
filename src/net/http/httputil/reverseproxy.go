@@ -14,6 +14,7 @@ import (
 	"mime"
 	"net"
 	"net/http"
+	"net/http/httptrace"
 	"net/http/internal/ascii"
 	"net/textproto"
 	"net/url"
@@ -40,6 +41,9 @@ import (
 // To prevent IP spoofing, be sure to delete any pre-existing
 // X-Forwarded-For header coming from the client or
 // an untrusted proxy.
+//
+// 1xx responses are forwarded to the client if the underlying
+// transport supports ClientTrace.Got1xxResponse.
 type ReverseProxy struct {
 	// Director must be a function which modifies
 	// the request into a new request to be sent
@@ -307,6 +311,22 @@ func (p *ReverseProxy) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 		}
 	}
 
+	trace := &httptrace.ClientTrace{
+		Got1xxResponse: func(code int, header textproto.MIMEHeader) error {
+			h := rw.Header()
+			copyHeader(h, http.Header(header))
+			rw.WriteHeader(code)
+
+			// Clear headers, it's not automatically done by ResponseWriter.WriteHeader() for 1xx responses
+			for k, _ := range h {
+				delete(h, k)
+			}
+
+			return nil
+		},
+	}
+	outreq = outreq.WithContext(httptrace.WithClientTrace(outreq.Context(), trace))
+
 	res, err := transport.RoundTrip(outreq)
 	if err != nil {
 		p.getErrorHandler()(rw, outreq, err)
@@ -331,7 +351,6 @@ func (p *ReverseProxy) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	if !p.modifyResponse(rw, res, outreq) {
 		return
 	}
-
 	copyHeader(rw.Header(), res.Header)
 
 	// The "Trailer" header isn't included in the Transport's response,
