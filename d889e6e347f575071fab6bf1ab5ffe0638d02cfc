@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b17b978_4a2a22ff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 52329
+      },
+      "writtenOn": "2022-06-01T11:32:45Z",
+      "side": 1,
+      "message": "TRY\u003dlinux-loong64",
+      "revId": "d889e6e347f575071fab6bf1ab5ffe0638d02cfc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
