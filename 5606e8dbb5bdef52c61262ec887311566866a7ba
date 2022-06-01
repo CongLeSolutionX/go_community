@@ -186,6 +186,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8865021a_61c45a7d",
+        "filename": "src/cmd/go/internal/modindex/scan.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-06-01T20:00:50Z",
+      "side": 1,
+      "message": "SGTM.",
+      "parentUuid": "b764d13e_efd6be84",
+      "revId": "5606e8dbb5bdef52c61262ec887311566866a7ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "152136f5_dbb723db",
