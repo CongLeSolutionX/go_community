@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bb84311_0bf1319e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-06-02T16:15:41Z",
+      "side": 1,
+      "message": "Seems like a reasonable API, but will require a proposal.",
+      "revId": "b17d84fb3804716d0c447b17ad1d63a8f49ca82d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1f70793_fe2e4983",
+        "filename": "src/go/token/position.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-06-02T16:15:41Z",
+      "side": 1,
+      "message": "This should use searchFiles.",
+      "range": {
+        "startLine": 444,
+        "startChar": 1,
+        "endLine": 444,
+        "endChar": 26
+      },
+      "revId": "b17d84fb3804716d0c447b17ad1d63a8f49ca82d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
