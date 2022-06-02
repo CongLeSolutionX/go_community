@@ -546,6 +546,7 @@ func gcAssistAlloc1(gp *g, scanWork int64) {
 	// system stack, this is non-preemptible, so we can
 	// just measure start and end time.
 	startTime := nanotime()
+	trackLimiterEvent := gp.m.p.ptr().limiterEvent.start(limiterEventMarkAssist, startTime)
 
 	decnwait := atomic.Xadd(&work.nwait, -1)
 	if decnwait == work.nproc {
@@ -593,9 +594,11 @@ func gcAssistAlloc1(gp *g, scanWork int64) {
 	duration := now - startTime
 	_p_ := gp.m.p.ptr()
 	_p_.gcAssistTime += duration
+	if trackLimiterEvent {
+		_p_.limiterEvent.stop(now)
+	}
 	if _p_.gcAssistTime > gcAssistTimeSlack {
 		gcController.assistTime.Add(_p_.gcAssistTime)
-		gcCPULimiter.addAssistTime(_p_.gcAssistTime)
 		gcCPULimiter.update(now)
 		_p_.gcAssistTime = 0
 	}

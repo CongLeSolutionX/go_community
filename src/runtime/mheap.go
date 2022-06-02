@@ -1301,17 +1301,30 @@ HaveSpan:
 			}
 		}
 	}
-	if bytesToScavenge > 0 {
+	// There are a few very limited cirumstances where we won't have a P here.
+	// It's OK to simply skip scavenging in these cases. Something else will notice
+	// and pick up the tab.
+	if pp != nil && bytesToScavenge > 0 {
 		// Measure how long we spent scavenging and add that measurement to the assist
 		// time so we can track it for the GC CPU limiter.
+		//
+		// Don't write down a limiter event if we're an idle mark worker because we're
+		// already using that slot. Plus, this assist should be counted against idle
+		// mark work instead of assists; it's spare CPU time.
 		start := nanotime()
+		track := pp.limiterEvent.start(limiterEventScavengeAssist, start)
+
+		// Scavenge, but back out if the limiter turns on.
 		h.pages.scavenge(bytesToScavenge, func() bool {
 			return gcCPULimiter.limiting()
 		})
+
+		// Finish up accounting.
 		now := nanotime()
+		if track {
+			pp.limiterEvent.stop(now)
+		}
 		h.pages.scav.assistTime.Add(now - start)
-		gcCPULimiter.addAssistTime(now - start)
-		gcCPULimiter.update(now)
 	}
 
 	// Commit and account for any scavenged memory that the span now owns.
