@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "42692112_231072a2",
+        "filename": "src/io/io.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-06-02T18:17:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e8a2623_c872d4f9",
+      "revId": "d03b59752ac23e0d1b68db06e913ba01608e4503",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "99ba9a66_2a6a7e8a",
@@ -68,6 +86,24 @@
       "writtenOn": "2022-06-02T16:47:13Z",
       "side": 1,
       "message": "(nit) In theory, this call makes an unnecessary slice allocation that could be avoided.\n(The `io.Reader` interface allows `Read` to use the entirely of `p` as scratch space, so in theory we could avoid the allocation by invoking `l.R.Read(p[:1])` instead.)\n\nThe approach currently taken here is correct, and also avoids the need to handle `len(p) \u003d\u003d 0` explicitly, but at the cost of that extra allocation.\n\nThat seems like a reasonable tradeoff to make, but a comment here would help to clarify that it is intentional.",
+      "revId": "d03b59752ac23e0d1b68db06e913ba01608e4503",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76ffd95e_b308d1d3",
+        "filename": "src/io/io.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-06-02T18:17:54Z",
+      "side": 1,
+      "message": "Thanks, I skipped the allocation when possible.",
+      "parentUuid": "99ba9a66_2a6a7e8a",
       "revId": "d03b59752ac23e0d1b68db06e913ba01608e4503",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -89,6 +125,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1d2f47c_bbd297fd",
+        "filename": "src/io/io.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-06-02T18:17:54Z",
+      "side": 1,
+      "message": "We do in fact only record the error is isSentinel is true, because we only set extraByte if isSentinel is true.",
+      "parentUuid": "0058cbef_484c90ad",
+      "revId": "d03b59752ac23e0d1b68db06e913ba01608e4503",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f6c3a19b_a19ab337",
@@ -102,6 +156,24 @@
       "writtenOn": "2022-06-02T16:47:13Z",
       "side": 1,
       "message": "Hmm, why `nil` instead of `io.EOF`? (`io.Reader` allows us to return either, and `io.EOF` is arguably more efficient since we\u0027ve already detected it.)",
+      "revId": "d03b59752ac23e0d1b68db06e913ba01608e4503",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a5798c2_4ea7f67c",
+        "filename": "src/io/io.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-06-02T18:17:54Z",
+      "side": 1,
+      "message": "I was thinking about preserving the existing behavior, but that doesn\u0027t apply here since this only happens when l.Err !\u003d nil.  So, done.",
+      "parentUuid": "f6c3a19b_a19ab337",
       "revId": "d03b59752ac23e0d1b68db06e913ba01608e4503",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
