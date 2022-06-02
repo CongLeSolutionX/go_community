@@ -492,3 +492,58 @@ func TestNopCloserWriterToForwarding(t *testing.T) {
 		}
 	}
 }
+
+type countReader struct {
+	r     Reader
+	total int
+}
+
+func (cr *countReader) Read(p []byte) (int, error) {
+	n, err := cr.r.Read(p)
+	cr.total += n
+	return n, err
+}
+
+func TestLimitFull(t *testing.T) {
+	const count = 10
+	sentinel := errors.New("sentinel")
+
+	wants := []struct {
+		n     int64
+		err   error
+		total int
+	}{
+		{count, nil, count},          // exact EOF
+		{count, nil, count},          // exact sentinel
+		{count, nil, count},          // extra EOF
+		{count, sentinel, count + 1}, // extra sentinel
+	}
+
+	for i, x := range []string{"exact", "extra"} {
+		for j, e := range []string{"EOF", "sentinel"} {
+			t.Run(x+"/"+e, func(t *testing.T) {
+				var data []byte
+				data = bytes.Repeat([]byte{'a'}, count)
+				if i > 0 {
+					data = append(data, 'a')
+				}
+				cr := &countReader{r: bytes.NewReader(data)}
+
+				lr := &LimitedReader{
+					R: cr,
+					N: count,
+				}
+				if j > 0 {
+					lr.Err = sentinel
+				}
+
+				n, err := Copy(Discard, lr)
+
+				want := wants[i*2+j]
+				if n != want.n || err != want.err || cr.total != want.total {
+					t.Errorf("got bytes %d, error %v, total %d, want %d, %v, %d", n, err, cr.total, want.n, want.err, want.total)
+				}
+			})
+		}
+	}
+}

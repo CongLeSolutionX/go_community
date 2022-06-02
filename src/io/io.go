@@ -462,6 +462,7 @@ func LimitReader(r Reader, n int64) Reader { return &LimitedReader{r, n, nil} }
 // updates N to reflect the new amount remaining.
 // Read returns Err when N <= 0.
 // If Err is nil, it returns EOF instead.
+// If Err is not nil, LimitedReader will sometimes read N+1 bytes from R.
 type LimitedReader struct {
 	R   Reader // underlying reader
 	N   int64  // max bytes remaining
@@ -469,6 +470,17 @@ type LimitedReader struct {
 }
 
 func (l *LimitedReader) Read(p []byte) (n int, err error) {
+	if l.N == 0 && l.Err != nil && l.Err != EOF {
+		// If we have no bytes left to read, and we are returning
+		// an error other than EOF, read one more byte to check
+		// whether we should return EOF or the designated error.
+		en, ee := l.R.Read(make([]byte, 1))
+		if en == 0 && ee == EOF {
+			return 0, EOF
+		}
+		return 0, l.Err
+	}
+
 	if l.N <= 0 {
 		err := l.Err
 		if err == nil {
