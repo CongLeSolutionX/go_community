@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96a3570e_1e7dcaa3",
+        "filename": "src/archive/zip/reader.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2022-06-02T16:28:10Z",
+      "side": 1,
+      "message": "buf.Reset(rs)?",
+      "revId": "f70b93a6e9ab6ef6ec4a9f1748f852e1601c0905",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
