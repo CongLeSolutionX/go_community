@@ -70,8 +70,13 @@ Do not send CLs removing the interior tags from such phrases.
 </p>
 
 <h2 id="runtime">Runtime</h2>
-<p>
-  TODO: complete this section, or delete if not needed
+
+<p><!-- https://go.dev/issue/48409 -->
+  TODO: soft memory limit
+</p>
+
+<p><!-- https://go.dev/issue/44163 -->
+  TODO: idle mark workers
 </p>
 
 <p><!-- https://go.dev/issue/18138 --><!-- CL 345889 -->
@@ -144,6 +149,10 @@ Do not send CLs removing the interior tags from such phrases.
   <a href="/pkg/sync/atomic/#Pointer"><code>Pointer</code></a> also avoids
   the need to convert to
   <a href="/pkg/unsafe/#Pointer"><code>unsafe.Pointer</code></a> at call sites.
+</p>
+
+<p>
+  TODO: <a href="https://go.dev/issue/51940">https://go.dev/issue/51940</a>: all: move dev.boringcrypto into main branch behind GOEXPERIMENT
 </p>
 
 <p>
