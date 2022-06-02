@@ -455,31 +455,87 @@ func copyBuffer(dst Writer, src Reader, buf []byte) (written int64, err error) {
 // LimitReader returns a Reader that reads from r
 // but stops with EOF after n bytes.
 // The underlying implementation is a *LimitedReader.
-func LimitReader(r Reader, n int64) Reader { return &LimitedReader{r, n, nil} }
+func LimitReader(r Reader, n int64) Reader { return &LimitedReader{r, n, nil, nil} }
 
 // A LimitedReader reads from R but limits the amount of
 // data returned to just N bytes. Each call to Read
 // updates N to reflect the new amount remaining.
 // Read returns Err when N <= 0.
 // If Err is nil, it returns EOF instead.
+// If Err is not nil, LimitedReader will sometimes read N+1 bytes from R.
 type LimitedReader struct {
 	R   Reader // underlying reader
 	N   int64  // max bytes remaining
 	Err error  // error to return on reaching the limit
+
+	// If Err is set, we read an extra byte at the limit to see
+	// whether we are at EOF. The limitErr fields holds the error
+	// returned for that extra byte.
+	limitErr error
 }
 
 func (l *LimitedReader) Read(p []byte) (n int, err error) {
+	isSentinel := l.Err != nil && l.Err != EOF
+
 	if l.N <= 0 {
-		err := l.Err
-		if err == nil {
-			err = EOF
+		if !isSentinel {
+			return 0, EOF
 		}
-		return 0, err
+
+		if l.limitErr == nil {
+			// Read one extra byte to check whether we
+			// should return EOF or the sentinel error.
+			en, ee := l.R.Read(make([]byte, 1))
+			if en == 0 && ee == EOF {
+				l.limitErr = EOF
+			} else {
+				l.limitErr = l.Err
+			}
+		}
+
+		return 0, l.limitErr
 	}
-	if int64(len(p)) > l.N {
-		p = p[0:l.N]
+
+	extraByte := false
+	if isSentinel && int64(len(p)) > l.N {
+		p = p[:l.N+1]
+		extraByte = true
+	} else if int64(len(p)) > l.N {
+		p = p[:l.N]
 	}
 	n, err = l.R.Read(p)
+
+	// Cases when reading an extra byte:
+	//   n < l.N:
+	//     just return n and err
+	//   n == l.N, err == nil:
+	//     return n and err; may or may not be at EOF; do one more read
+	//   n == l.N, err != nil:
+	//     return n and err, return err again if called again
+	//   n > l.N, err == nil:
+	//     return n and nil, return sentinel if called again
+	//   n > l.N, err != nil:
+	//     return n and nil, return err if called again
+	if extraByte {
+		if int64(n) == l.N {
+			if err != nil {
+				l.limitErr = err
+			}
+		} else if int64(n) > l.N {
+			n--
+			if err != nil {
+				l.limitErr = err
+			} else {
+				l.limitErr = l.Err
+			}
+			err = nil
+		}
+	} else if int64(n) == l.N && isSentinel && err != nil {
+		// We didn't have space to read an extra byte,
+		// but we got an error, so save it.
+		l.limitErr = err
+	}
+
 	l.N -= int64(n)
 	return
 }
