@@ -78,6 +78,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1d276c5_9a890878",
+        "filename": "src/runtime/asan_ppc64le.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2022-06-02T07:19:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6fa0d4d_29cae8d1",
+      "range": {
+        "startLine": 18,
+        "startChar": 29,
+        "endLine": 18,
+        "endChar": 36
+      },
+      "revId": "55493a62287083f4ce9fc2974ac548b169f3105d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "84934f85_f9b82fd7",
@@ -91,6 +115,30 @@
       "writtenOn": "2022-05-31T15:49:36Z",
       "side": 1,
       "message": "Is this needed? LR is saved in the same location by the implicit prologue (as noted, it is always created if the assembler finds a branch+link type instruction). I would keep a note saying LR is saved in the assembler generated prologue.",
+      "range": {
+        "startLine": 64,
+        "startChar": 16,
+        "endLine": 64,
+        "endChar": 25
+      },
+      "revId": "55493a62287083f4ce9fc2974ac548b169f3105d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "08ad1bd6_049ece67",
+        "filename": "src/runtime/asan_ppc64le.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2022-06-02T07:19:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84934f85_f9b82fd7",
       "range": {
         "startLine": 64,
         "startChar": 16,
