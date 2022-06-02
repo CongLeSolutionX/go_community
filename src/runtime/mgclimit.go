@@ -76,6 +76,9 @@ type gcCPULimiterState struct {
 	//
 	// gomaxprocs isn't used directly so as to keep this structure unit-testable.
 	nprocs int32
+
+	// test indicates whether this instance of the struct was made for testing purposes.
+	test bool
 }
 
 // limiting returns true if the CPU limiter is currently enabled, meaning the Go GC
@@ -192,6 +195,33 @@ func (l *gcCPULimiterState) updateLocked(now int64) {
 		l.idleMarkTimePool.Add(-idleMarkTime)
 	}
 
+	if !l.test {
+		// Consume time from in-flight events. Make sure we're not preemptible so allp can't change.
+		//
+		// The reason we do this instead of just waiting for those events to finish and push updates
+		// is to ensure that all the time we're accounting for happened sometime between lastUpdate
+		// and now. This dramatically simplifies reasoning about the limiter because we're not at
+		// risk of extra time being accounted for in this window than actually happened in this window,
+		// leading to all sorts of weird transient behavior.
+		mp := acquirem()
+		for _, pp := range allp {
+			typ, duration := pp.limiterEvent.consume(now)
+			switch typ {
+			case limiterEventIdleMarkWork:
+				idleMarkTime += duration
+			case limiterEventMarkAssist:
+				fallthrough
+			case limiterEventScavengeAssist:
+				assistTime += duration
+			case limiterEventNone:
+				break
+			default:
+				throw("invalid limiter event type found")
+			}
+		}
+		releasem(mp)
+	}
+
 	// Compute total GC time.
 	windowGCTime := assistTime
 	if l.gcEnabled {
@@ -299,4 +329,145 @@ func (l *gcCPULimiterState) resetCapacity(now int64, nprocs int32) {
 		l.enabled.Store(false)
 	}
 	l.unlock()
+}
+
+// limiterEventType indicates the type of an event occuring on some P.
+//
+// These events represent the full set of events that the GC CPU limiter tracks
+// to execute its function.
+type limiterEventType uint8
+
+const (
+	limiterEventNone           limiterEventType = iota // None of the following events.
+	limiterEventIdleMarkWork                           // Refers to an idle mark worker (see gcMarkWorkerMode).
+	limiterEventMarkAssist                             // Refers to mark assist (see gcAssistAlloc).
+	limiterEventScavengeAssist                         // Refers to a scavenge assist (see allocSpan).
+)
+
+// limiterEventTypeMask is a mask for the bits in p.limiterEventStart that represent
+// the event type. The rest of the bits of that field represent a 56-bit timestamp.
+// The rest of the timestamp's bits are derived from the current time when computing
+// a duration.
+const (
+	limiterEventTypeMask  = uint64(uint64(^uint8(0)) << 56)
+	limiterEventStampNone = limiterEventStamp(0)
+)
+
+// limiterEventStamp is a 56-bit nanotime timestamp coupled coupled with a limiterEventType.
+type limiterEventStamp uint64
+
+// makeLimiterEventStamp creates a new stamp from the event type and the current timestamp.
+func makeLimiterEventStamp(typ limiterEventType, now int64) limiterEventStamp {
+	return limiterEventStamp(uint64(typ)<<56 | (uint64(now) &^ limiterEventTypeMask))
+}
+
+// duration computes the difference between now and the start time stored in the stamp.
+//
+// Returns 0 if the difference is negative, which may happen if now is stale, or if
+// the real duration is greater than 2^56 nanoseconds.
+func (s limiterEventStamp) duration(now int64) int64 {
+	// Construct the start time from the bottom 56 bits of s, and top 8 bits of now.
+	// By assuming the top 8 bits are the same, we're assuming that less than 2^56 nanoseconds
+	// have passed.
+	start := int64((uint64(now) & limiterEventTypeMask) | (uint64(s) &^ limiterEventTypeMask))
+	if now < start {
+		return 0
+	}
+	return now - start
+}
+
+// type extracts the event type from the stamp.
+func (s limiterEventStamp) typ() limiterEventType {
+	return limiterEventType(s >> 56)
+}
+
+// limiterEvent represents tracking state for an event tracked by the GC CPU limiter.
+type limiterEvent struct {
+	stamp atomic.Uint64 // Stores a limiterEventStamp.
+}
+
+// start begins tracking a new limiter event of the current type. If an event
+// is already in flight, then a new event cannot begin because the current time is
+// already being attributed to that event. In this case, this function returns false.
+// Otherwise, it returns true.
+//
+// The caller must be non-preemptible until at least stopLimiterEvent is called
+// or this function returns false.
+func (e *limiterEvent) start(typ limiterEventType, now int64) bool {
+	if limiterEventStamp(e.stamp.Load()).typ() != limiterEventNone {
+		return false
+	}
+	e.stamp.Store(uint64(makeLimiterEventStamp(typ, now)))
+	return true
+}
+
+// consume acquires the partial event CPU time from any in-flight event.
+// It achieves this by storing the current time as the new event time.
+//
+// Returns the type of the in-flight event, as well as how long it's currently been
+// executing for. Returns limiterEventNone if no event is active.
+func (e *limiterEvent) consume(now int64) (typ limiterEventType, duration int64) {
+	// Read the limiter event timestamp and update it to now.
+	for {
+		old := limiterEventStamp(e.stamp.Load())
+		typ = old.typ()
+		if typ == limiterEventNone {
+			// There's no in-flight event, so just push that up.
+			return
+		}
+		duration = old.duration(now)
+		if duration == 0 {
+			// We might have a stale now value, or this event might have been going
+			// on for more than 2^56 nanoseconds. Just ignore it.
+			return limiterEventNone, 0
+		}
+		new := makeLimiterEventStamp(typ, now)
+		if e.stamp.CompareAndSwap(uint64(old), uint64(new)) {
+			break
+		}
+	}
+	return
+}
+
+// stop stops the active limiter event. Throws if no event has been started.
+//
+// The caller must be non-preemptible across the event.
+func (e *limiterEvent) stop(now int64) {
+	var combo uint64
+	var stamp limiterEventStamp
+	for {
+		stamp = limiterEventStamp(e.stamp.Load())
+		if stamp.typ() == limiterEventNone {
+			throw("stopLimiterEvent: found no event in p's limiter event timestamp slot")
+		}
+		if e.stamp.CompareAndSwap(uint64(stamp), uint64(limiterEventStampNone)) {
+			break
+		}
+	}
+	typ := stamp.typ()
+	duration := stamp.duration(now)
+	if duration == 0 {
+		// Because start and stop should happen on the same P and be otherwise
+		// non-preemptible, if now < start, then that means the top 8 bits we
+		// assumed were likely incorrect, so this duration exceeds the 56 bits
+		// that we assumed. 2^56 nanoseconds is about 2.3 years, so it's a
+		// *really* long time. If this happens, just ignore it. In the worst
+		// case we'll trigger the limiter (or fail to) due to lack of accounting.
+		// Neither of these scenarios are particularly bad.
+		return
+	}
+	// Account for the event.
+	switch typ {
+	case limiterEventIdleMarkWork:
+		gcCPULimiter.addIdleMarkTime(duration)
+	case limiterEventMarkAssist:
+		fallthrough
+	case limiterEventScavengeAssist:
+		gcCPULimiter.addAssistTime(duration)
+	case limiterEventNone:
+		print("runtime: combo = ", hex(combo), "\n")
+		throw("stopLimiterEvent: found no event in p's limiter event timestamp slot")
+	default:
+		throw("stopLimiterEvent: invalid limiter event type found")
+	}
 }
