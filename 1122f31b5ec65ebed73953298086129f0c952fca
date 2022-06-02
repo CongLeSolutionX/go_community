@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a63d74c3_e47bb3bf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-06-02T16:24:23Z",
+      "side": 1,
+      "message": "No, the problem was reported internally to Google.\n\nThanks for the review!",
+      "parentUuid": "1e9d22b9_7cee65e7",
+      "revId": "1122f31b5ec65ebed73953298086129f0c952fca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e17d1470_1aa8d548",
