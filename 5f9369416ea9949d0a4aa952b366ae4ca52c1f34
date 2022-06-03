@@ -22,6 +22,30 @@
       },
       "revId": "5f9369416ea9949d0a4aa952b366ae4ca52c1f34",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff79dcac_95e8a41e",
+        "filename": "src/runtime/libfuzzer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 56363
+      },
+      "writtenOn": "2022-06-03T14:07:45Z",
+      "side": 1,
+      "message": "I\u0027ve added a comment explaining why these functions must be nosplit.",
+      "parentUuid": "b9e779d1_a19d329b",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 12
+      },
+      "revId": "5f9369416ea9949d0a4aa952b366ae4ca52c1f34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
