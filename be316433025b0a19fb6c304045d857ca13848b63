@@ -80,6 +80,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6265ae94_0f325a65",
+        "filename": "doc/go1.19.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-06-03T17:56:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f686864c_b5a28a72",
+      "range": {
+        "startLine": 80,
+        "startChar": 2,
+        "endLine": 80,
+        "endChar": 3
+      },
+      "revId": "be316433025b0a19fb6c304045d857ca13848b63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8fb5e36c_a7623fdd",
@@ -93,6 +117,30 @@
       "writtenOn": "2022-06-02T21:38:07Z",
       "side": 1,
       "message": "maybe a small note that this should waste at most 2x space?",
+      "range": {
+        "startLine": 81,
+        "startChar": 26,
+        "endLine": 81,
+        "endChar": 27
+      },
+      "revId": "be316433025b0a19fb6c304045d857ca13848b63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "644a84ca_8d13f3fc",
+        "filename": "doc/go1.19.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-06-03T17:56:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8fb5e36c_a7623fdd",
       "range": {
         "startLine": 81,
         "startChar": 26,
@@ -128,6 +176,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cd9a2a5e_09dbc429",
+        "filename": "doc/go1.19.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-06-03T17:56:32Z",
+      "side": 1,
+      "message": "What I was trying to say here is that this CL enables debuggers to add support for injected calls on ARM64, but that it will not automatically work without changes to the debugger.\n\nAs as user, I think your phrasing implies that it will automatically start working. I\u0027ve added a qualification to your phrasing. WDYT?",
+      "parentUuid": "4eb0b4d9_2ba8e709",
+      "range": {
+        "startLine": 102,
+        "startChar": 2,
+        "endLine": 103,
+        "endChar": 65
+      },
+      "revId": "be316433025b0a19fb6c304045d857ca13848b63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e2c69f0a_968843b3",
         "filename": "doc/go1.19.html",
         "patchSetId": 2
@@ -139,6 +211,30 @@
       "writtenOn": "2022-06-02T21:38:07Z",
       "side": 1,
       "message": "maybe also \"This metric is identical to the NumCgoCall function in the runtime package.\"?",
+      "range": {
+        "startLine": 389,
+        "startChar": 37,
+        "endLine": 389,
+        "endChar": 38
+      },
+      "revId": "be316433025b0a19fb6c304045d857ca13848b63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff259573_886d107a",
+        "filename": "doc/go1.19.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-06-03T17:56:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e2c69f0a_968843b3",
       "range": {
         "startLine": 389,
         "startChar": 37,
@@ -162,6 +258,30 @@
       "writtenOn": "2022-06-02T21:38:07Z",
       "side": 1,
       "message": "collecting",
+      "range": {
+        "startLine": 402,
+        "startChar": 70,
+        "endLine": 402,
+        "endChar": 77
+      },
+      "revId": "be316433025b0a19fb6c304045d857ca13848b63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "70bc6e0c_7e81b153",
+        "filename": "doc/go1.19.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-06-03T17:56:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "863b5968_fbf9bf23",
       "range": {
         "startLine": 402,
         "startChar": 70,
