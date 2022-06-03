@@ -42,6 +42,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "13a498ea_0d6d0442",
+        "filename": "src/cmd/go/internal/modindex/read.go",
+        "patchSetId": 48
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-06-03T20:46:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ef55552_d8843cf3",
+      "range": {
+        "startLine": 58,
+        "startChar": 35,
+        "endLine": 58,
+        "endChar": 36
+      },
+      "revId": "9ddfb93c80bae5bfaa7250d4381424db42c69828",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2c091f41_34480104",
@@ -55,6 +79,24 @@
       "writtenOn": "2022-06-03T20:30:13Z",
       "side": 1,
       "message": "I think we should also bypass the `Walk` call if the modroot is in `GOROOT`, and instead add a line for `runtime.Version()` to the cache key.",
+      "revId": "9ddfb93c80bae5bfaa7250d4381424db42c69828",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d78f6c8_5015b5e2",
+        "filename": "src/cmd/go/internal/modindex/read.go",
+        "patchSetId": 48
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-06-03T20:46:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c091f41_34480104",
       "revId": "9ddfb93c80bae5bfaa7250d4381424db42c69828",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -82,6 +124,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f702e16_e634c209",
+        "filename": "src/cmd/go/internal/modindex/read.go",
+        "patchSetId": 48
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-06-03T20:46:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fefaf9e0_7805414d",
+      "range": {
+        "startLine": 246,
+        "startChar": 87,
+        "endLine": 246,
+        "endChar": 143
+      },
+      "revId": "9ddfb93c80bae5bfaa7250d4381424db42c69828",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4ebb9919_a3e929f3",
@@ -95,6 +161,24 @@
       "writtenOn": "2022-06-03T20:27:55Z",
       "side": 1,
       "message": "use `cfg.GOROOTsrc` instead?",
+      "revId": "9ddfb93c80bae5bfaa7250d4381424db42c69828",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "957f389a_25d05bb5",
+        "filename": "src/cmd/go/internal/modindex/read.go",
+        "patchSetId": 48
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-06-03T20:46:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ebb9919_a3e929f3",
       "revId": "9ddfb93c80bae5bfaa7250d4381424db42c69828",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -116,6 +200,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4c9d58e_90c0646e",
+        "filename": "src/cmd/go/internal/modindex/read.go",
+        "patchSetId": 48
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-06-03T20:46:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c0c9257_bc0bc04d",
+      "revId": "9ddfb93c80bae5bfaa7250d4381424db42c69828",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a062f189_6b97aac7",
@@ -129,6 +231,24 @@
       "writtenOn": "2022-06-03T20:27:55Z",
       "side": 1,
       "message": "Hmm, I think these do normally get set in `go/build` for non-GOROOT packages:\nhttps://cs.opensource.google/go/go/+/master:src/go/build/build.go;l\u003d1224;drc\u003d7846e25418a087ca15122b88fc179405e26bf768\nhttps://cs.opensource.google/go/go/+/master:src/go/build/build.go;l\u003d778-786;drc\u003d536282763f7357edd81d85993c12fd977fecd378q\n\nIt may be that they\u0027re unused otherwise, though. More commentary would be helpful. 🙂",
+      "revId": "9ddfb93c80bae5bfaa7250d4381424db42c69828",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "beacc219_da6e2bbc",
+        "filename": "src/cmd/go/internal/modindex/read.go",
+        "patchSetId": 48
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-06-03T20:46:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a062f189_6b97aac7",
       "revId": "9ddfb93c80bae5bfaa7250d4381424db42c69828",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -156,6 +276,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b45a2952_dda76089",
+        "filename": "src/cmd/go/internal/modindex/read.go",
+        "patchSetId": 48
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-06-03T20:46:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13f8d76e_43a49e16",
+      "range": {
+        "startLine": 497,
+        "startChar": 16,
+        "endLine": 497,
+        "endChar": 23
+      },
+      "revId": "9ddfb93c80bae5bfaa7250d4381424db42c69828",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "27ad86d2_3e4c3254",
@@ -169,6 +313,30 @@
       "writtenOn": "2022-06-03T20:27:55Z",
       "side": 1,
       "message": "Is the `mod.Packages()` slice sorted?\n(If so, is it worth using binary search instead of a linear scan?)\n\nMaybe:\n```\npkgs :\u003d mod.Packages()\ni :\u003d sort.SearchStrings(pkgs, p)\nreturn i !\u003d len(p) \u0026\u0026 pkgs[i] \u003d\u003d p\n```",
+      "range": {
+        "startLine": 511,
+        "startChar": 0,
+        "endLine": 516,
+        "endChar": 2
+      },
+      "revId": "9ddfb93c80bae5bfaa7250d4381424db42c69828",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5ddc7db_95c802fd",
+        "filename": "src/cmd/go/internal/modindex/read.go",
+        "patchSetId": 48
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-06-03T20:46:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27ad86d2_3e4c3254",
       "range": {
         "startLine": 511,
         "startChar": 0,
