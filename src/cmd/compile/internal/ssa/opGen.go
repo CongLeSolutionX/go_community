@@ -131,6 +131,7 @@ const (
 	BlockPPC64FLE
 	BlockPPC64FGT
 	BlockPPC64FGE
+	BlockPPC64JUMPTABLE
 
 	BlockRISCV64BEQ
 	BlockRISCV64BNE
@@ -271,16 +272,17 @@ var blockString = [...]string{
 	BlockMIPS64FPT: "FPT",
 	BlockMIPS64FPF: "FPF",
 
-	BlockPPC64EQ:  "EQ",
-	BlockPPC64NE:  "NE",
-	BlockPPC64LT:  "LT",
-	BlockPPC64LE:  "LE",
-	BlockPPC64GT:  "GT",
-	BlockPPC64GE:  "GE",
-	BlockPPC64FLT: "FLT",
-	BlockPPC64FLE: "FLE",
-	BlockPPC64FGT: "FGT",
-	BlockPPC64FGE: "FGE",
+	BlockPPC64EQ:        "EQ",
+	BlockPPC64NE:        "NE",
+	BlockPPC64LT:        "LT",
+	BlockPPC64LE:        "LE",
+	BlockPPC64GT:        "GT",
+	BlockPPC64GE:        "GE",
+	BlockPPC64FLT:       "FLT",
+	BlockPPC64FLE:       "FLE",
+	BlockPPC64FGT:       "FGT",
+	BlockPPC64FGE:       "FGE",
+	BlockPPC64JUMPTABLE: "JUMPTABLE",
 
 	BlockRISCV64BEQ:  "BEQ",
 	BlockRISCV64BNE:  "BNE",
