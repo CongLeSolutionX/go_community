@@ -39,7 +39,6 @@ func (c codeExpr) Value() int                 { return int(c) }
 // TODO(mdempsky): Split expr into addr, for lvalues.
 const (
 	exprConst  codeExpr = iota
-	exprType            // type expression
 	exprLocal           // local variable
 	exprGlobal          // global variable or function
 	exprCompLit

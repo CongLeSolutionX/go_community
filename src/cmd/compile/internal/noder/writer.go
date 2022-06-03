@@ -619,6 +619,8 @@ func (w *writer) doObj(wext *writer, obj types2.Object) pkgbits.CodeObj {
 }
 
 // typExpr writes the type represented by the given expression.
+//
+// TODO(mdempsky): Document how this differs from exprType.
 func (w *writer) typExpr(expr syntax.Expr) {
 	tv, ok := w.p.info.Types[expr]
 	assert(ok)
@@ -1228,9 +1230,7 @@ func (w *writer) expr(expr syntax.Expr) {
 		}
 
 		if tv.IsType() {
-			w.Code(exprType)
-			w.exprType(nil, expr, false)
-			return
+			w.p.fatalf(expr, "unexpected type expression %v", syntax.String(expr))
 		}
 
 		if tv.Value != nil {
@@ -1280,7 +1280,11 @@ func (w *writer) expr(expr syntax.Expr) {
 		assert(ok)
 
 		w.Code(exprSelector)
-		w.expr(expr.X)
+		if w.Bool(sel.Kind() == types2.MethodExpr) {
+			w.exprType(nil, expr.X, false)
+		} else {
+			w.expr(expr.X)
+		}
 		w.pos(expr)
 		w.selector(sel.Obj())
 
@@ -1357,7 +1361,25 @@ func (w *writer) expr(expr syntax.Expr) {
 		w.Code(exprCall)
 		writeFunExpr()
 		w.pos(expr)
-		w.exprs(expr.ArgList)
+
+		args := expr.ArgList
+		var typeArg syntax.Expr
+		if len(args) > 0 {
+			if tv, ok := w.p.info.Types[args[0]]; ok && tv.IsType() {
+				typeArg, args = args[0], args[1:]
+
+				// Satisfy consistency check in writer.exprs below.
+				// TODO(mdempsky): Maybe just get rid of that check instead?
+				if len(args) == 0 {
+					args = nil
+				}
+			}
+		}
+		if w.Bool(typeArg != nil) {
+			w.exprType(nil, typeArg, false)
+		}
+		w.exprs(args)
+
 		w.Bool(expr.HasDots)
 	}
 }

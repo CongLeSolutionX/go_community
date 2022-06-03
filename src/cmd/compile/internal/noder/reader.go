@@ -1575,9 +1575,6 @@ func (r *reader) expr() (res ir.Node) {
 		// TODO(mdempsky): Handle builtins directly in exprCall, like method calls?
 		return typecheck.Callee(r.obj())
 
-	case exprType:
-		return r.exprType(false)
-
 	case exprConst:
 		pos := r.pos()
 		typ := r.typ()
@@ -1593,17 +1590,22 @@ func (r *reader) expr() (res ir.Node) {
 		return r.funcLit()
 
 	case exprSelector:
-		x := r.expr()
+		var x ir.Node
+		if r.Bool() { // MethodExpr
+			x = r.exprType(false)
+
+			// Method expression with derived receiver type.
+			if x.Op() == ir.ODYNAMICTYPE {
+				// TODO(mdempsky): Handle with runtime dictionary lookup.
+				n := ir.TypeNode(x.Type())
+				n.SetTypecheck(1)
+				x = n
+			}
+		} else { // FieldVal, MethodVal
+			x = r.expr()
+		}
 		pos := r.pos()
 		_, sym := r.selector()
-
-		// Method expression with derived receiver type.
-		if x.Op() == ir.ODYNAMICTYPE {
-			// TODO(mdempsky): Handle with runtime dictionary lookup.
-			n := ir.TypeNode(x.Type())
-			n.SetTypecheck(1)
-			x = n
-		}
 
 		n := typecheck.Expr(ir.NewSelectorExpr(pos, ir.OXDOT, x, sym)).(*ir.SelectorExpr)
 		if n.Op() == ir.OMETHVALUE {
@@ -1683,8 +1685,15 @@ func (r *reader) expr() (res ir.Node) {
 			fun = typecheck.Callee(ir.NewSelectorExpr(pos, ir.OXDOT, fun, sym))
 		}
 		pos := r.pos()
+		var typArg ir.Node
+		if r.Bool() {
+			typArg = r.exprType(false)
+		}
 		args := r.exprs()
 		dots := r.Bool()
+		if typArg != nil {
+			args = append([]ir.Node{typArg}, args...)
+		}
 		return typecheck.Call(pos, fun, args, dots)
 
 	case exprConvert:
