@@ -209,6 +209,7 @@ var ArchPPC64 = &Arch{
 	MinLC:         4,
 	Alignment:     1,
 	CanMergeLoads: false,
+	CanJumpTable:  true,
 	HasLR:         true,
 	// PIC code on ppc64le requires 32 bytes of stack, and it's
 	// easier to just use that much stack always.
@@ -224,6 +225,7 @@ var ArchPPC64LE = &Arch{
 	MinLC:          4,
 	Alignment:      1,
 	CanMergeLoads:  true,
+	CanJumpTable:   true,
 	HasLR:          true,
 	FixedFrameSize: 4 * 8,
 }
