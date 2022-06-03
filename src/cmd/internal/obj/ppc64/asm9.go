@@ -828,6 +828,15 @@ func span9(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 			}
 		}
 	}
+
+	// Compute jump table entries locations
+	for _, jt := range c.cursym.Func().JumpTables {
+		for i, p := range jt.Targets {
+			// Entry i points to the p.Pc'th
+			// byte in function symbol s
+			jt.Sym.WriteAddr(ctxt, int64(i)*8, 8, cursym, p.Pc)
+		}
+	}
 }
 
 func isint32(v int64) bool {

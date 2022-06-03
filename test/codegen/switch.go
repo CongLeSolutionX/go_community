@@ -25,6 +25,8 @@ func f(x string) int {
 func square(x int) int {
 	// amd64:`JMP\s\(.*\)\(.*\)$`
 	// arm64:`MOVD\s\(R.*\)\(R.*<<3\)`,`JMP\s\(R.*\)$`
+	// ppc64:`SLD\s\$3,\sR.*,\sR31`,`MOVD\s\(R.*\)\(R31\),\sR31`,`MOVD\sR31,\sCTR`,`JMP\sCTR$`
+	// ppc64le:`SLD\s\$3,\sR.*,\sR31`,`MOVD\s\(R.*\)\(R31\),\sR31`,`MOVD\sR31,\sCTR`,`JMP\sCTR$`
 	switch x {
 	case 1:
 		return 1
@@ -51,6 +53,8 @@ func square(x int) int {
 func length(x string) int {
 	// amd64:`JMP\s\(.*\)\(.*\)$`
 	// arm64:`MOVD\s\(R.*\)\(R.*<<3\)`,`JMP\s\(R.*\)$`
+	// ppc64:`SLD\s\$3,\sR.*,\sR31`,`MOVD\s\(R.*\)\(R31\),\sR31`,`MOVD\sR31,\sCTR`,`JMP\sCTR$`
+	// ppc64le:`SLD\s\$3,\sR.*,\sR31`,`MOVD\s\(R.*\)\(R31\),\sR31`,`MOVD\sR31,\sCTR`,`JMP\sCTR$`
 	switch x {
 	case "a":
 		return 1

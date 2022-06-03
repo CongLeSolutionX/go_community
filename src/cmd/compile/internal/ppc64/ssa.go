@@ -14,6 +14,7 @@ import (
 	"cmd/compile/internal/types"
 	"cmd/internal/obj"
 	"cmd/internal/obj/ppc64"
+	"cmd/internal/objabi"
 	"internal/buildcfg"
 	"math"
 	"strings"
@@ -2062,6 +2063,42 @@ func ssaGenBlock(s *ssagen.State, b, next *ssa.Block) {
 				s.Br(obj.AJMP, b.Succs[0].Block())
 			}
 		}
+	case ssa.BlockPPC64JUMPTABLE:
+		// Table Ptr is arg1
+		// Idx is arg0
+
+		// SLD $3, IDX, RTMP
+		p := s.Prog(ppc64.ASLD)
+		p.From = obj.Addr{Type: obj.TYPE_CONST, Offset: 3}
+		p.Reg = b.Controls[0].Reg()
+		p.To = obj.Addr{Type: obj.TYPE_REG, Reg: ppc64.REGTMP}
+
+		// MOVD (arg1+RTMP),RTMP
+		p = s.Prog(ppc64.AMOVD)
+		p.From = obj.Addr{Type: obj.TYPE_MEM, Name: obj.NAME_NONE, Reg: b.Controls[1].Reg(), Index: ppc64.REGTMP}
+		p.To = obj.Addr{Type: obj.TYPE_REG, Reg: ppc64.REGTMP}
+
+		// Mark the sequence async unsafe. CTR is not preserved during async.
+		p = s.Prog(obj.APCDATA)
+		p.From = obj.Addr{Type: obj.TYPE_CONST, Offset: objabi.PCDATA_UnsafePoint}
+		p.To = obj.Addr{Type: obj.TYPE_CONST, Offset: objabi.PCDATA_UnsafePointUnsafe}
+
+		// MOVD RTMP, CTR
+		p = s.Prog(ppc64.AMOVD)
+		p.From = obj.Addr{Type: obj.TYPE_REG, Reg: ppc64.REGTMP}
+		p.To = obj.Addr{Type: obj.TYPE_REG, Reg: ppc64.REG_CTR}
+
+		// JMP (CTR)
+		p = s.Prog(obj.AJMP)
+		p.To = obj.Addr{Type: obj.TYPE_REG, Reg: ppc64.REG_CTR}
+
+		p = s.Prog(obj.APCDATA)
+		p.From = obj.Addr{Type: obj.TYPE_CONST, Offset: objabi.PCDATA_UnsafePoint}
+		p.To = obj.Addr{Type: obj.TYPE_CONST, Offset: -1}
+
+		// Save jump tables for later resolution of the target blocks.
+		s.JumpTables = append(s.JumpTables, b)
+
 	default:
 		b.Fatalf("branch not implemented: %s", b.LongString())
 	}

@@ -18002,6 +18002,19 @@ func rewriteBlockPPC64(b *Block) bool {
 			b.resetWithControl(BlockPPC64NE, v0)
 			return true
 		}
+	case BlockJumpTable:
+		// match: (JumpTable idx)
+		// result: (JUMPTABLE {makeJumpTableSym(b)} idx (MOVDaddr <typ.Uintptr> {makeJumpTableSym(b)} (SB)))
+		for {
+			idx := b.Controls[0]
+			v0 := b.NewValue0(b.Pos, OpPPC64MOVDaddr, typ.Uintptr)
+			v0.Aux = symToAux(makeJumpTableSym(b))
+			v1 := b.NewValue0(b.Pos, OpSB, typ.Uintptr)
+			v0.AddArg(v1)
+			b.resetWithControl2(BlockPPC64JUMPTABLE, idx, v0)
+			b.Aux = symToAux(makeJumpTableSym(b))
+			return true
+		}
 	case BlockPPC64LE:
 		// match: (LE (FlagEQ) yes no)
 		// result: (First yes no)
