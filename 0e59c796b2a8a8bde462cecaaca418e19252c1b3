@@ -172,6 +172,30 @@
       },
       "revId": "0e59c796b2a8a8bde462cecaaca418e19252c1b3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fcd73df4_c7b0b71b",
+        "filename": "src/cmd/go/internal/modindex/read.go",
+        "patchSetId": 52
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-06-03T21:18:16Z",
+      "side": 1,
+      "message": "Ok, I think I understand the “non-local-import” comment now.\n\n`setPkga` sets these fields, but we don\u0027t call `setPkga` if we don\u0027t find the directory in `GOPATH/src`. But what guarantees that we don\u0027t find the directory in `GOPATH/src`?\n\nI think we just found the root cause for #37015! 🤯",
+      "parentUuid": "8d97b70c_a8332f90",
+      "range": {
+        "startLine": 263,
+        "startChar": 0,
+        "endLine": 266,
+        "endChar": 35
+      },
+      "revId": "0e59c796b2a8a8bde462cecaaca418e19252c1b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
