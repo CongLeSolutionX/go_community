@@ -99,6 +99,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7fd55efe_e9609793",
+        "filename": "src/runtime/mgclimit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-06-03T19:05:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10c01369_90bff3e2",
+      "range": {
+        "startLine": 352,
+        "startChar": 25,
+        "endLine": 352,
+        "endChar": 31
+      },
+      "revId": "9760e68f3a73add0329d230a6e21398800af8aa4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f01f686c_234789bd",
@@ -122,6 +146,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd8c3f33_f2f13f07",
+        "filename": "src/runtime/mgclimit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-06-03T19:05:19Z",
+      "side": 1,
+      "message": "you\u0027re totally right. I called it at 3 bits. it\u0027s easy to increase if we need it, but I doubt it in the short term. I updated all the comments.",
+      "parentUuid": "f01f686c_234789bd",
+      "range": {
+        "startLine": 366,
+        "startChar": 81,
+        "endLine": 367,
+        "endChar": 54
+      },
+      "revId": "9760e68f3a73add0329d230a6e21398800af8aa4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6beade55_6f883513",
@@ -135,6 +183,30 @@
       "writtenOn": "2022-06-03T16:34:31Z",
       "side": 1,
       "message": "\"we\u0027re assuming that less than 2^56 nanoseconds have passed **since the monotonic clock started**\" is the core part missing here.",
+      "range": {
+        "startLine": 370,
+        "startChar": 45,
+        "endLine": 371,
+        "endChar": 16
+      },
+      "revId": "9760e68f3a73add0329d230a6e21398800af8aa4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "00e099e5_f18b4bce",
+        "filename": "src/runtime/mgclimit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-06-03T19:05:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6beade55_6f883513",
       "range": {
         "startLine": 370,
         "startChar": 45,
@@ -208,6 +280,48 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1505fdce_3783edda",
+        "filename": "src/runtime/mgclimit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-06-03T19:05:19Z",
+      "side": 1,
+      "message": "yeah basically. I want the user of this API to be very aware that because of how these events are measured, getting scheduled away could really skew things.\n\ncleared this up in the comment.",
+      "parentUuid": "a25aa9aa_26cd291b",
+      "revId": "9760e68f3a73add0329d230a6e21398800af8aa4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aea30a42_68d9ae83",
+        "filename": "src/runtime/mgclimit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-06-03T19:05:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a2c1266b_f04dc669",
+      "range": {
+        "startLine": 394,
+        "startChar": 53,
+        "endLine": 394,
+        "endChar": 69
+      },
+      "revId": "9760e68f3a73add0329d230a6e21398800af8aa4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0ddcf488_560e4f3f",
@@ -221,6 +335,30 @@
       "writtenOn": "2022-06-03T16:34:31Z",
       "side": 1,
       "message": "See above.",
+      "range": {
+        "startLine": 420,
+        "startChar": 42,
+        "endLine": 421,
+        "endChar": 39
+      },
+      "revId": "9760e68f3a73add0329d230a6e21398800af8aa4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27d5f5aa_30e815b6",
+        "filename": "src/runtime/mgclimit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-06-03T19:05:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ddcf488_560e4f3f",
       "range": {
         "startLine": 420,
         "startChar": 42,
@@ -254,6 +392,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7834b9bc_3b9d6827",
+        "filename": "src/runtime/mgclimit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-06-03T19:05:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6df69567_dd37700d",
+      "range": {
+        "startLine": 432,
+        "startChar": 40,
+        "endLine": 432,
+        "endChar": 76
+      },
+      "revId": "9760e68f3a73add0329d230a6e21398800af8aa4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8282734c_c5c00774",
@@ -277,6 +439,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f7b8bcd_ffaaba81",
+        "filename": "src/runtime/mgclimit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-06-03T19:05:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8282734c_c5c00774",
+      "range": {
+        "startLine": 441,
+        "startChar": 10,
+        "endLine": 441,
+        "endChar": 26
+      },
+      "revId": "9760e68f3a73add0329d230a6e21398800af8aa4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8eb5afa9_296d9caa",
@@ -290,6 +476,24 @@
       "writtenOn": "2022-06-03T16:34:31Z",
       "side": 1,
       "message": "This should be unreachable due to the throw above, right?",
+      "revId": "9760e68f3a73add0329d230a6e21398800af8aa4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5054cbc2_0cca994a",
+        "filename": "src/runtime/mgclimit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-06-03T19:05:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8eb5afa9_296d9caa",
       "revId": "9760e68f3a73add0329d230a6e21398800af8aa4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -319,6 +523,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "84981e8b_5f93e70b",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-06-03T19:05:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d34c5919_4751ff30",
+      "range": {
+        "startLine": 549,
+        "startChar": 1,
+        "endLine": 549,
+        "endChar": 18
+      },
+      "revId": "9760e68f3a73add0329d230a6e21398800af8aa4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "70a50a11_f17a30e3",
         "filename": "src/runtime/mgcmark.go",
         "patchSetId": 2
@@ -330,6 +558,24 @@
       "writtenOn": "2022-06-03T16:34:31Z",
       "side": 1,
       "message": "Should stop() call update?",
+      "revId": "9760e68f3a73add0329d230a6e21398800af8aa4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "84a9c3a6_f5645cb2",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 602,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-06-03T19:05:19Z",
+      "side": 1,
+      "message": "I intentionally tried to reduce the update rate, but I left this one in because at most it occurs every time the assist time slack gets high enough (which is precisely when the limiter might want to be aware of it).",
+      "parentUuid": "70a50a11_f17a30e3",
       "revId": "9760e68f3a73add0329d230a6e21398800af8aa4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
