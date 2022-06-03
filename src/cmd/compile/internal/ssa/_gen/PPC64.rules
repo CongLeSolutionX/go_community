@@ -323,6 +323,8 @@
 
 (If cond yes no) => (NE (CMPWconst [0] (Select0 <typ.UInt32> (ANDCCconst [1] cond))) yes no)
 
+(JumpTable idx) => (JUMPTABLE {makeJumpTableSym(b)} idx (MOVDaddr <typ.Uintptr> {makeJumpTableSym(b)} (SB)))
+
 // Absorb boolean tests into block
 (NE (CMPWconst [0] (Select0 (ANDCCconst [1] ((Equal|NotEqual|LessThan|LessEqual|GreaterThan|GreaterEqual) cc)))) yes no) => ((EQ|NE|LT|LE|GT|GE) cc yes no)
 (NE (CMPWconst [0] (Select0 (ANDCCconst [1] ((FLessThan|FLessEqual|FGreaterThan|FGreaterEqual) cc)))) yes no) => ((FLT|FLE|FGT|FGE) cc yes no)
