@@ -151,6 +151,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4900da6c_8be4b390",
+        "filename": "src/cmd/go/internal/modindex/read.go",
+        "patchSetId": 52
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-06-03T21:26:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57a47982_e50e188f",
+      "range": {
+        "startLine": 256,
+        "startChar": 61,
+        "endLine": 256,
+        "endChar": 65
+      },
+      "revId": "0e59c796b2a8a8bde462cecaaca418e19252c1b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8d97b70c_a8332f90",
