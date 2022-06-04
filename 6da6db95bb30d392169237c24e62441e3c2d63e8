@@ -159,6 +159,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bef6f138_05af3780",
+        "filename": "doc/go_mem.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 666,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-06-04T16:41:45Z",
+      "side": 1,
+      "message": "Changed \"Go programs\" to \"all Go programs\".",
+      "parentUuid": "5cec7183_d0b3ed9a",
+      "range": {
+        "startLine": 666,
+        "startChar": 93,
+        "endLine": 666,
+        "endChar": 104
+      },
+      "revId": "6da6db95bb30d392169237c24e62441e3c2d63e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "35bd9eb7_c42e22ec",
@@ -172,6 +196,30 @@
       "writtenOn": "2022-02-17T03:35:36Z",
       "side": 1,
       "message": "Should we mention that p is accessable by multiple goroutines?",
+      "range": {
+        "startLine": 679,
+        "startChar": 1,
+        "endLine": 679,
+        "endChar": 2
+      },
+      "revId": "6da6db95bb30d392169237c24e62441e3c2d63e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b15211eb_dc3c04c9",
+        "filename": "doc/go_mem.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-06-04T16:41:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35bd9eb7_c42e22ec",
       "range": {
         "startLine": 679,
         "startChar": 1,
@@ -199,6 +247,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2c56bff_7762ca77",
+        "filename": "doc/go_mem.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 713,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-06-04T16:41:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f508f643_8a62882b",
+      "revId": "6da6db95bb30d392169237c24e62441e3c2d63e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9baa8934_4cd26c41",
@@ -212,6 +278,24 @@
       "writtenOn": "2022-03-11T15:18:58Z",
       "side": 1,
       "message": "This one is a little confusing to me as a memory model example; I agree that the general case would outlaw this, and understand why synchronisation operations could create even more restrictions on moving past f than in a single-threaded program; but I think this just falls out of the base language definition *p could be modified. I\u0027d expect hardware (in absence of ordering in f) to sometimes create a read from *p here before all operations from f() complete. In my opinion this example could be dropped without losing any semantic content; but I\u0027d understand if it stayed!",
+      "revId": "6da6db95bb30d392169237c24e62441e3c2d63e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "873f1d12_bc79adba",
+        "filename": "doc/go_mem.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 733,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-06-04T16:41:45Z",
+      "side": 1,
+      "message": "Hardware has its own memory model and simply has to behave according to those semantics, regardless of how that\u0027s implemented. The situation is easier in hardware since speculative loads and such can be (mostly) rolled back if things go wrong. This section is only trying to make a statement about compilers.\n\nThis doesn\u0027t fall out of the single-threaded case, though. If f is known and does not contain any references to *p, the compiler still can\u0027t reorder it if f instead contains any read-like synchronizing operations.",
+      "parentUuid": "9baa8934_4cd26c41",
       "revId": "6da6db95bb30d392169237c24e62441e3c2d63e8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -233,6 +317,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf1e3c4a_a898e63b",
+        "filename": "doc/go_mem.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 748,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-06-04T16:41:45Z",
+      "side": 1,
+      "message": "Changed spill to discard.",
+      "parentUuid": "cfd68032_5358fef0",
+      "revId": "6da6db95bb30d392169237c24e62441e3c2d63e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a542228b_10f85e23",
@@ -246,6 +348,24 @@
       "writtenOn": "2022-03-11T15:18:58Z",
       "side": 1,
       "message": "Ah maybe this clarifies the above!",
+      "revId": "6da6db95bb30d392169237c24e62441e3c2d63e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71361487_712c6d17",
+        "filename": "doc/go_mem.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 768,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-06-04T16:41:45Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a542228b_10f85e23",
       "revId": "6da6db95bb30d392169237c24e62441e3c2d63e8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }

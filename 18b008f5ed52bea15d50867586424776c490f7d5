@@ -91,6 +91,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "25e4fdbb_8c04ed55",
+        "filename": "doc/go_mem.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-06-04T16:41:45Z",
+      "side": 1,
+      "message": "I agree that the location in memory matters. I\u0027ve added that to the list, and I reformatted it as a bullet list to try to make the text clearer.\n\nThis list is taken from https://www.hpl.hp.com/techreports/2008/HPL-2008-56.pdf, which also omitted the memory location. But I think it was meant to be included implicitly, and I think it is clearly fine to add explicitly instead.",
+      "parentUuid": "bd9fc696_c34c6b39",
+      "revId": "18b008f5ed52bea15d50867586424776c490f7d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d3352f1a_88081ed0",
@@ -108,6 +126,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "345d30ac_950b3637",
+        "filename": "doc/go_mem.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-06-04T16:41:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3352f1a_88081ed0",
+      "revId": "18b008f5ed52bea15d50867586424776c490f7d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3c0ef6bb_7224f4f7",
@@ -121,6 +157,24 @@
       "writtenOn": "2022-05-06T18:10:33Z",
       "side": 1,
       "message": "OK, now I\u0027m confused, because the previous sentence said that W must correspond to a total order of synchronizing operations, but this sentence says that \"synchronized before\" is derived from W.  Which comes first?",
+      "revId": "18b008f5ed52bea15d50867586424776c490f7d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "240dd143_3c2cd517",
+        "filename": "doc/go_mem.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-06-04T16:41:45Z",
+      "side": 1,
+      "message": "This is definitely a subtle point but it matches the other languages. \nI reworded it slightly to try to make it clearer.\n\nThe synchronization operations collectively have to be explainable by some underlying total order, but that total order only ends up in \"synchronized before\" when it is observed by the actual memory operations.\n\nFor example consider:\n\ngoroutine 1:\n1 normal write V\n2 atomic read X (observes 0)\n\ngoroutine 2:\n3 atomic write X \u003d 1\n4 normal read V\n\nIf this program executes as indicated, with W saying that the atomic read of X observed 0, then the implicit total order justifying W must be that goroutine 1 executed entirely before goroutine 2. That implicit total order also has the atomic read (line 2) ordered before the atomic write (line 3).\n\nIn contrast, synchronized before does NOT expose this fact about the total order: there is no synchronized-before connecting lines 2 and 3, and therefore lines 1 and 4 are not ordered in this example.",
+      "parentUuid": "3c0ef6bb_7224f4f7",
       "revId": "18b008f5ed52bea15d50867586424776c490f7d5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
