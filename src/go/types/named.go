@@ -237,11 +237,14 @@ func (check *Checker) newNamed(obj *TypeName, underlying Type, methods []*Func) 
 	return typ
 }
 
-func (check *Checker) newNamedInstance(pos token.Pos, orig *Named, targs []Type, local *Context) *Named {
+func (check *Checker) newNamedInstance(pos token.Pos, orig *Named, targs []Type, expanding *Named) *Named {
 	assert(len(targs) > 0)
 
 	obj := NewTypeName(pos, orig.obj.pkg, orig.obj.name, nil)
-	inst := &instance{orig: orig, targs: newTypeList(targs), ctxt: local}
+	inst := &instance{orig: orig, targs: newTypeList(targs)}
+	if expanding != nil && expanding.Obj().pkg == obj.pkg {
+		inst.ctxt = expanding.inst.ctxt
+	}
 	typ := &Named{check: check, obj: obj, inst: inst}
 	obj.typ = typ
 	// Ensure that typ is always expanded and sanity-checked.
@@ -390,11 +393,11 @@ func (t *Named) expandMethod(i int) *Func {
 	// code.
 	if origSig.RecvTypeParams().Len() == t.inst.targs.Len() {
 		smap := makeSubstMap(origSig.RecvTypeParams().list(), t.inst.targs.list())
-		var global *Context
+		var ctxt *Context
 		if check != nil {
-			global = check.context()
+			ctxt = check.context()
 		}
-		sig = check.subst(origm.pos, origSig, smap, t.inst.ctxt, global).(*Signature)
+		sig = check.subst(origm.pos, origSig, smap, t, ctxt).(*Signature)
 	}
 
 	if sig == origSig {
@@ -605,11 +608,11 @@ func (n *Named) expandUnderlying() Type {
 	assert(n == n2)
 
 	smap := makeSubstMap(orig.tparams.list(), targs.list())
-	var global *Context
+	var ctxt *Context
 	if check != nil {
-		global = check.context()
+		ctxt = check.context()
 	}
-	underlying := n.check.subst(n.obj.pos, orig.underlying, smap, n.inst.ctxt, global)
+	underlying := n.check.subst(n.obj.pos, orig.underlying, smap, n, ctxt)
 	// If the underlying type of n is an interface, we need to set the receiver of
 	// its methods accurately -- we set the receiver of interface methods on
 	// the RHS of a type declaration to the defined type.
