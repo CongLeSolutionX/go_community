@@ -49,8 +49,10 @@ import (
 // On ARM, 386, and 32-bit MIPS, it is the caller's responsibility to arrange
 // for 64-bit alignment of 64-bit words accessed atomically via the primitive
 // atomic functions (types Int64 and Uint64 are automatically aligned).
-// The first word in a variable or in an allocated struct, array, or slice can
-// be relied upon to be 64-bit aligned.
+// However, because all variables used in atomic operations escape to the heap,
+// the first word in such variables can be relied upon to be 64-bit aligned.
+// Further, the first word in an allocated struct, array, or slice can be
+// relied upon to be 64-bit aligned.
 
 // SwapInt32 atomically stores new into *addr and returns the previous *addr value.
 func SwapInt32(addr *int32, new int32) (old int32)
