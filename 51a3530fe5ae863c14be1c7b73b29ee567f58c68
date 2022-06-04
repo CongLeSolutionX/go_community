@@ -325,6 +325,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c14a90d_b066f4bb",
+        "filename": "doc/go_mem.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-06-04T15:37:09Z",
+      "side": 1,
+      "message": "Fixed in later patch set.",
+      "parentUuid": "a7325090_bb8eac68",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 48
+      },
+      "revId": "51a3530fe5ae863c14be1c7b73b29ee567f58c68",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "af4060be_adab4a8e",
@@ -630,6 +654,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9af7d040_9a64013c",
+        "filename": "doc/go_mem.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-06-04T15:37:09Z",
+      "side": 1,
+      "message": "Fixed in later patch set.",
+      "parentUuid": "ddf76224_49dd8f7d",
+      "range": {
+        "startLine": 487,
+        "startChar": 57,
+        "endLine": 487,
+        "endChar": 88
+      },
+      "revId": "51a3530fe5ae863c14be1c7b73b29ee567f58c68",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fd5a7d84_f560ac8e",
@@ -643,6 +691,30 @@
       "writtenOn": "2022-01-27T17:55:43Z",
       "side": 1,
       "message": "Citation needed",
+      "range": {
+        "startLine": 488,
+        "startChar": 11,
+        "endLine": 488,
+        "endChar": 42
+      },
+      "revId": "51a3530fe5ae863c14be1c7b73b29ee567f58c68",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef0707b3_4558ff07",
+        "filename": "doc/go_mem.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-06-04T15:37:09Z",
+      "side": 1,
+      "message": "Fixed in later patch set.",
+      "parentUuid": "fd5a7d84_f560ac8e",
       "range": {
         "startLine": 488,
         "startChar": 11,
