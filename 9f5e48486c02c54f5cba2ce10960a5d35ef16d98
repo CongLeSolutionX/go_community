@@ -16,6 +16,24 @@
       "message": "Might be better to use scare quotes around \"happens before\", because while the statement is true by the definition of the Go memory model it\u0027s not true by the ordinary casual meaning of \"happens before.\"\n\nIn fact I think this paragraph is going to raise more questions than it answers for people reading this documentation.  It might need an example.",
       "revId": "9f5e48486c02c54f5cba2ce10960a5d35ef16d98",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0560ab89_d5153c08",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-06-06T19:57:57Z",
+      "side": 1,
+      "message": "Done. And I\u0027ve updated this CL to say \"synchronizes before\".",
+      "parentUuid": "b5ef3172_21a6c616",
+      "revId": "9f5e48486c02c54f5cba2ce10960a5d35ef16d98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
