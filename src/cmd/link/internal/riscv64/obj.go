@@ -35,9 +35,9 @@ func Init() (*sys.Arch, ld.Arch) {
 		TrampLimit: 1,
 		Trampoline: trampoline,
 
-		Gentext:     gentext,
-		GenSymsLate: genSymsLate,
-		Machoreloc1: machoreloc1,
+		Gentext:      gentext,
+		GenSymsLate2: genSymsLate,
+		Machoreloc1:  machoreloc1,
 
 		Linuxdynld: "/lib/ld.so.1",
 

@@ -49,6 +49,7 @@ func Init() (*sys.Arch, ld.Arch) {
 		Minalign:         minAlign,
 		Dwarfregsp:       dwarfRegSP,
 		Dwarfreglr:       dwarfRegLR,
+		Adddynrel:        adddynrel,
 		Archinit:         archinit,
 		Archreloc:        archreloc,
 		Archrelocvariant: archrelocvariant,
@@ -57,6 +58,7 @@ func Init() (*sys.Arch, ld.Arch) {
 		ElfrelocSize:     24,
 		Elfsetupplt:      elfsetupplt,
 		Gentext:          gentext,
+		GenSymsLate:      genSymsLate,
 		Machoreloc1:      machoreloc1,
 
 		Linuxdynld:     "/lib64/ld64.so.1",
@@ -96,4 +98,9 @@ func archinit(ctxt *ld.Link) {
 			*ld.FlagRound = 0x10000
 		}
 	}
+
+	// .dynsym always has one NULL entry prior to any symbols being added.
+	mipsDynSymCount = 1
+	mipsGOTLocalCount = 0
+	mipsGOTSymIndex = 0
 }
