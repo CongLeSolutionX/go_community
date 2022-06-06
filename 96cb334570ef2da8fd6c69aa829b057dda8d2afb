@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5d549e8_0f0ac27d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-06-06T02:07:48Z",
+      "side": 1,
+      "message": "A word like \"fix\" doesn\u0027t tell the reader much.\n\nos: don\u0027t check for IsExist in MkdirAll example",
+      "revId": "96cb334570ef2da8fd6c69aa829b057dda8d2afb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
