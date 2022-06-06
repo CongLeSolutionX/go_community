@@ -49,3 +49,4 @@ echo All tests passed.
 
 :end
 if x%GOBUILDEXIT%==x1 exit %GOBUILDFAIL%
+blah
