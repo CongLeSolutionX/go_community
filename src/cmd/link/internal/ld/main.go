@@ -344,6 +344,12 @@ func Main(arch *sys.Arch, theArch Arch) {
 	bench.Start("layout")
 	filesize := ctxt.layout(order)
 
+	// Fix up symbols just prior to output.
+	bench.Start("FixUpSyms")
+	if thearch.FixUpSyms != nil {
+		thearch.FixUpSyms(ctxt, ctxt.loader)
+	}
+
 	// Write out the output file.
 	// It is split into two parts (Asmb and Asmb2). The first
 	// part writes most of the content (sections and segments),

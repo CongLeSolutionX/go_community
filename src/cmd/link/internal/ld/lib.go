@@ -241,8 +241,11 @@ type Arch struct {
 	PEreloc1       func(*sys.Arch, *OutBuf, *loader.Loader, loader.Sym, loader.ExtReloc, int64) bool
 	Xcoffreloc1    func(*sys.Arch, *OutBuf, *loader.Loader, loader.Sym, loader.ExtReloc, int64) bool
 
+	// Fix up symbols just prior to output (before asmb).
+	FixUpSyms func(*Link, *loader.Loader)
+
 	// Generate additional symbols for the native symbol table just prior to
-	// code generation.
+	// code generation (before asmb2).
 	GenSymsLate func(*Link, *loader.Loader)
 
 	// TLSIEtoLE converts a TLS Initial Executable relocation to
