@@ -16,6 +16,29 @@
       "message": "Mr. Pratt, \n\nSorry to bother you with this review, but I had significant difficulty squaring statements in `abi-internal.md` and the BUGS sections of sync/atomic and thought that this documentation change may help others who were confused like me. If you think that something like this fix is useful, please let me know and I will gladly modify the language however you think is best!\n\nThank you!\nWill",
       "revId": "7ec9d9c66e17f7394cba9d5370d6260bc7f2902a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86ae5449_ddeaada4",
+        "filename": "src/sync/atomic/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-06-06T17:42:13Z",
+      "side": 1,
+      "message": "This is accurate, but I feel that the long explanation here is distracting from the more important part of the this comment which explains how to use to properly use these APIs (regardless of why). As an alternative, perhaps we could say something like:\n\n\"The first word in an allocated struct, array, or slice, in a global variable, or in a local variable (because atomic ops will cause an escape to the heap) can be relied upon to be 64-bit aligned.\"",
+      "range": {
+        "startLine": 52,
+        "startChar": 2,
+        "endLine": 53,
+        "endChar": 76
+      },
+      "revId": "7ec9d9c66e17f7394cba9d5370d6260bc7f2902a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
