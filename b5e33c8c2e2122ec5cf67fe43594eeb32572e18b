@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ff7ce2b_6042f80a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 53565
+      },
+      "writtenOn": "2022-06-07T06:42:24Z",
+      "side": 1,
+      "message": "Rebased and updated the commit message following Cherry\u0027s guidance.\n\nAlso, gentle ping.",
+      "revId": "b5e33c8c2e2122ec5cf67fe43594eeb32572e18b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
