@@ -64,9 +64,8 @@ func PackageModuleInfo(ctx context.Context, pkgpath string) *modinfo.ModulePubli
 }
 
 // PackageModRoot returns the module root directory for the module that provides
-// a given package. If modules are not enabled or if the package is in the
-// standard library or if the package was not successfully loaded with
-// LoadPackages or ImportFromFiles, the empty string is returned.
+// a given package. If modules are not enabled or if the package was not successfully
+// loaded with LoadPackages or ImportFromFiles, the empty string is returned.
 func PackageModRoot(ctx context.Context, pkgpath string) string {
 	if isStandardImportPath(pkgpath) || !Enabled() || cfg.BuildMod == "vendor" {
 		return ""
