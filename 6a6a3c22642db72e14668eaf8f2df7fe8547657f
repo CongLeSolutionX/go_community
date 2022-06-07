@@ -70,6 +70,24 @@
       "message": "Austin, is there time pressure on this? (recall I just returned from vacation).\nI.e., should I submit now, and correct later if Loongson has issues w/ how they are referred to, or should I wait at least until Wednesday morning for their yes/no?",
       "revId": "6a6a3c22642db72e14668eaf8f2df7fe8547657f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee8fc7eb_fb9d8d41",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-06-07T17:58:38Z",
+      "side": 1,
+      "message": "Go ahead and submit it, mostly because it\u0027s easy to just edit this later, but also because there is time pressure (we want to have complete release notes for beta 1, which is going out Soon)",
+      "parentUuid": "962a1d99_c41e7a56",
+      "revId": "6a6a3c22642db72e14668eaf8f2df7fe8547657f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
