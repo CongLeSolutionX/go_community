@@ -39,6 +39,30 @@
       },
       "revId": "7ec9d9c66e17f7394cba9d5370d6260bc7f2902a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f19750d_ec0692be",
+        "filename": "src/sync/atomic/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 56718
+      },
+      "writtenOn": "2022-06-07T04:47:39Z",
+      "side": 1,
+      "message": "Hello!\n\nFirst, I apologize for my delay! \n\nSecond, thank you for so seriously engaging with me about this minor change. The discrepancy between what is started in the `sync/atomic` documentation and what is said in the `abi-internal.md` caused me no end of heartburn on Friday. I just could not reconcile the conflicting statements until I dug back through the commit log and realized the hidden assumption I was missing.\n\nThat said, you are *absolutely* correct and I thought the same thing as soon as I clicked submit. I think that your proposal is a great compromise. I will resubmit with that language and then you can let me know what you think.\n\nThank you again for the honest, sincere feedback and engagement!\nWill",
+      "parentUuid": "86ae5449_ddeaada4",
+      "range": {
+        "startLine": 52,
+        "startChar": 2,
+        "endLine": 53,
+        "endChar": 76
+      },
+      "revId": "7ec9d9c66e17f7394cba9d5370d6260bc7f2902a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
