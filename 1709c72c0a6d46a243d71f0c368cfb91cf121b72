@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ccea703_9b04f6de",
+        "filename": "src/cmd/compile/internal/compare/compare.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-06-07T20:48:53Z",
+      "side": 1,
+      "message": "You could do the nodePtr calls once outside of this loop.",
+      "range": {
+        "startLine": 142,
+        "startChar": 60,
+        "endLine": 142,
+        "endChar": 70
+      },
+      "revId": "1709c72c0a6d46a243d71f0c368cfb91cf121b72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9074d5b6_1f89ec9a",
+        "filename": "src/cmd/compile/internal/compare/compare.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-06-07T20:48:53Z",
+      "side": 1,
+      "message": "We prefer types.Types[typ].PtrTo()\n(they do the same thing)",
+      "range": {
+        "startLine": 161,
+        "startChar": 42,
+        "endLine": 161,
+        "endChar": 72
+      },
+      "revId": "1709c72c0a6d46a243d71f0c368cfb91cf121b72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
