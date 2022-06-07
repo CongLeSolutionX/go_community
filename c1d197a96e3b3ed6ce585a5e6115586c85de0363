@@ -33,6 +33,24 @@
       "message": "Should this have a release note in doc/go1.19.html?",
       "revId": "c1d197a96e3b3ed6ce585a5e6115586c85de0363",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6eefbef1_031a0e5d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 56363
+      },
+      "writtenOn": "2022-06-07T06:42:35Z",
+      "side": 1,
+      "message": "Good idea! I\u0027ll submit a CL to explain the fuzzing improvements in 1.19",
+      "parentUuid": "58050b9d_795db7eb",
+      "revId": "c1d197a96e3b3ed6ce585a5e6115586c85de0363",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
