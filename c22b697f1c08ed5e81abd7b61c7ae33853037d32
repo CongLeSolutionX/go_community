@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c996d623_3275bc1e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 56718
+      },
+      "writtenOn": "2022-06-07T04:59:32Z",
+      "side": 1,
+      "message": "Again, thank you for engaging with me on this minor tweak. I have submitted an updated patch!",
+      "revId": "c22b697f1c08ed5e81abd7b61c7ae33853037d32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
