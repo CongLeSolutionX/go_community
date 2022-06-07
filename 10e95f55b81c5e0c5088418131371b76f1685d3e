@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d918523_85df1a53",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2022-06-07T13:15:42Z",
+      "side": 1,
+      "message": "New changes integrated. Benchmark updated compared to current master.",
+      "revId": "10e95f55b81c5e0c5088418131371b76f1685d3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

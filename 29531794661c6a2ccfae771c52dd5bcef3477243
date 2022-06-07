@@ -34,6 +34,24 @@
       "parentUuid": "6562e4e2_0fc98c1f",
       "revId": "29531794661c6a2ccfae771c52dd5bcef3477243",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0955c017_1dc1434b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6545
+      },
+      "writtenOn": "2022-06-07T13:15:42Z",
+      "side": 1,
+      "message": "I updated the PR with the latest version as well as resolving the conflict. This matches https://github.com/klauspost/compress/tree/master/flate\n\nBenchmark numbers updated.",
+      "parentUuid": "608be02f_6100a709",
+      "revId": "29531794661c6a2ccfae771c52dd5bcef3477243",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
