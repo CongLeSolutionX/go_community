@@ -74,6 +74,40 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d605e68_781af2c5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-06-07T02:06:41Z",
+      "side": 1,
+      "message": "Thanks!\n",
+      "revId": "2c7a36df240665215f05dab1d45079e3bcf0bb0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "568497c9_8a8bb894",
+        "filename": "doc/go1.19.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-06-07T02:06:41Z",
+      "side": 1,
+      "message": "It is usually better just to link to the official details than to repeat them in the release notes.",
+      "revId": "2c7a36df240665215f05dab1d45079e3bcf0bb0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "64b8a94c_1c92e314",
@@ -104,6 +138,57 @@
       "writtenOn": "2022-06-06T23:03:55Z",
       "side": 1,
       "message": "\"mappings of _the_ binary itself\"",
+      "revId": "2c7a36df240665215f05dab1d45079e3bcf0bb0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a103b13e_48718b9d",
+        "filename": "doc/go1.19.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-06-07T02:06:41Z",
+      "side": 1,
+      "message": "s/adhered to/respected/",
+      "revId": "2c7a36df240665215f05dab1d45079e3bcf0bb0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11264b40_84a0f296",
+        "filename": "doc/go1.19.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-06-07T02:06:41Z",
+      "side": 1,
+      "message": "s;/metrics;;",
+      "revId": "2c7a36df240665215f05dab1d45079e3bcf0bb0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5324852a_c3da4a2c",
+        "filename": "doc/go1.19.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-06-07T02:06:41Z",
+      "side": 1,
+      "message": "s;\"Runtime\" section above;\u003ca href\u003d\"#runtime\"\u003eruntime notes\u003c/a\u003e;",
       "revId": "2c7a36df240665215f05dab1d45079e3bcf0bb0c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
