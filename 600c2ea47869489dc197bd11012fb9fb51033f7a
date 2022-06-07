@@ -108,6 +108,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "74eeea4f_e07021cf",
+        "filename": "src/runtime/extern.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-06-07T17:06:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a0cd8ff5_137529a8",
+      "revId": "600c2ea47869489dc197bd11012fb9fb51033f7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b84c8b20_a90babae",
@@ -121,6 +139,24 @@
       "writtenOn": "2022-06-06T23:00:48Z",
       "side": 1,
       "message": "\"... all other _memory_ managed by ...\"",
+      "revId": "600c2ea47869489dc197bd11012fb9fb51033f7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8213766e_ad41a272",
+        "filename": "src/runtime/extern.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-06-07T17:06:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b84c8b20_a90babae",
       "revId": "600c2ea47869489dc197bd11012fb9fb51033f7a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -142,6 +178,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e6bfe8c_54162dfe",
+        "filename": "src/runtime/extern.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-06-07T17:06:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35cb90ec_d29ba965",
+      "revId": "600c2ea47869489dc197bd11012fb9fb51033f7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "56a6ba8f_adbe9c22",
@@ -155,6 +209,24 @@
       "writtenOn": "2022-06-06T23:00:48Z",
       "side": 1,
       "message": "Should this link and the one above for SetGCPercent use the new doc comment link syntax, or will they get updated in a separate CL?",
+      "revId": "600c2ea47869489dc197bd11012fb9fb51033f7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4535c44f_134a96af",
+        "filename": "src/runtime/extern.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-06-07T17:06:18Z",
+      "side": 1,
+      "message": "Good call, done.",
+      "parentUuid": "56a6ba8f_adbe9c22",
       "revId": "600c2ea47869489dc197bd11012fb9fb51033f7a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
