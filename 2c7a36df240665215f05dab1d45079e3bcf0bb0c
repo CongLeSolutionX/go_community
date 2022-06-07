@@ -110,6 +110,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "221de3cb_7b08c2d9",
+        "filename": "doc/go1.19.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-06-07T17:06:29Z",
+      "side": 1,
+      "message": "How much detail do you think should be included here? e.g., just the first three sentences here?",
+      "parentUuid": "568497c9_8a8bb894",
+      "revId": "2c7a36df240665215f05dab1d45079e3bcf0bb0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "64b8a94c_1c92e314",
         "filename": "doc/go1.19.html",
         "patchSetId": 2
@@ -121,6 +139,24 @@
       "writtenOn": "2022-06-06T23:03:55Z",
       "side": 1,
       "message": "\"all other _memory_ managed\"",
+      "revId": "2c7a36df240665215f05dab1d45079e3bcf0bb0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "430115b3_bc0c4a1c",
+        "filename": "doc/go1.19.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-06-07T17:06:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64b8a94c_1c92e314",
       "revId": "2c7a36df240665215f05dab1d45079e3bcf0bb0c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -142,6 +178,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6eeed6b7_3f725a68",
+        "filename": "doc/go1.19.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-06-07T17:06:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0076264_13bda28d",
+      "revId": "2c7a36df240665215f05dab1d45079e3bcf0bb0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a103b13e_48718b9d",
@@ -155,6 +209,24 @@
       "writtenOn": "2022-06-07T02:06:41Z",
       "side": 1,
       "message": "s/adhered to/respected/",
+      "revId": "2c7a36df240665215f05dab1d45079e3bcf0bb0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a29e0d7b_a712440b",
+        "filename": "doc/go1.19.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-06-07T17:06:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a103b13e_48718b9d",
       "revId": "2c7a36df240665215f05dab1d45079e3bcf0bb0c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -176,6 +248,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "97199d9a_5f8c427f",
+        "filename": "doc/go1.19.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-06-07T17:06:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11264b40_84a0f296",
+      "revId": "2c7a36df240665215f05dab1d45079e3bcf0bb0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5324852a_c3da4a2c",
@@ -189,6 +279,24 @@
       "writtenOn": "2022-06-07T02:06:41Z",
       "side": 1,
       "message": "s;\"Runtime\" section above;\u003ca href\u003d\"#runtime\"\u003eruntime notes\u003c/a\u003e;",
+      "revId": "2c7a36df240665215f05dab1d45079e3bcf0bb0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0682018_532e8737",
+        "filename": "doc/go1.19.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-06-07T17:06:29Z",
+      "side": 1,
+      "message": "Awesome, thanks. For some reason I thought these weren\u0027t linkable.",
+      "parentUuid": "5324852a_c3da4a2c",
       "revId": "2c7a36df240665215f05dab1d45079e3bcf0bb0c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
