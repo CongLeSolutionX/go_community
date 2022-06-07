@@ -20,6 +20,7 @@ import (
 	"cmd/go/internal/modindex"
 	"cmd/go/internal/modinfo"
 	"cmd/go/internal/search"
+	"cmd/go/internal/str"
 
 	"golang.org/x/mod/module"
 	"golang.org/x/mod/semver"
@@ -64,12 +65,17 @@ func PackageModuleInfo(ctx context.Context, pkgpath string) *modinfo.ModulePubli
 }
 
 // PackageModRoot returns the module root directory for the module that provides
-// a given package. If modules are not enabled or if the package is in the
-// standard library or if the package was not successfully loaded with
-// LoadPackages or ImportFromFiles, the empty string is returned.
+// a given package. If modules are not enabled or if the package was not successfully
+// loaded with LoadPackages or ImportFromFiles, the empty string is returned.
 func PackageModRoot(ctx context.Context, pkgpath string) string {
-	if isStandardImportPath(pkgpath) || !Enabled() || cfg.BuildMod == "vendor" {
+	if !Enabled() || cfg.BuildMod == "vendor" {
 		return ""
+	}
+	if isStandardImportPath(pkgpath) {
+		if str.HasFilePathPrefix(pkgpath, "cmd") {
+			return filepath.Join(cfg.GOROOTsrc, "cmd")
+		}
+		return cfg.GOROOTsrc
 	}
 	m, ok := findModule(loaded, pkgpath)
 	if !ok {
