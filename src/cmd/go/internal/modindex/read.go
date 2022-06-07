@@ -38,9 +38,14 @@ import (
 
 // enabled is used to flag off the behavior of the module index on tip.
 // It will be removed before the release.
-// TODO(matloob): Remove enabled once we have more confidence on the
-// module index.
-var enabled, _ = strconv.ParseBool(os.Getenv("GOINDEX"))
+var enabled = func() bool {
+	goindex := os.Getenv("GOINDEX")
+	if goindex == "" {
+		return true
+	}
+	ok, _ := strconv.ParseBool(os.Getenv("GOINDEX"))
+	return ok
+}()
 
 // ModuleIndex represents and encoded module index file. It is used to
 // do the equivalent of build.Import of packages in the module and answer other
@@ -125,7 +130,7 @@ func openIndex(modroot string, ismodcache bool) (*ModuleIndex, error) {
 		data, _, err := cache.Default().GetMmap(id)
 		if err != nil {
 			// Couldn't read from modindex. Assume we couldn't read from
-			// the index because the module has't been indexed yet.
+			// the index because the module hasn't been indexed yet.
 			data, err = indexModule(modroot)
 			if err != nil {
 				return result{nil, err}
