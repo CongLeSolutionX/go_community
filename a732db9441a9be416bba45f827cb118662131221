@@ -95,6 +95,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0cce6c74_e9d26ae8",
+        "filename": "doc/go1.19.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-06-07T16:22:31Z",
+      "side": 1,
+      "message": "Good suggestion. Done.",
+      "parentUuid": "b8ecf62a_002b4702",
+      "range": {
+        "startLine": 392,
+        "startChar": 78,
+        "endLine": 392,
+        "endChar": 79
+      },
+      "revId": "a732db9441a9be416bba45f827cb118662131221",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b4b58ba5_9c82308e",
@@ -108,6 +132,24 @@
       "writtenOn": "2022-06-07T15:28:00Z",
       "side": 1,
       "message": "spaces instead of tabs please",
+      "revId": "a732db9441a9be416bba45f827cb118662131221",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c45bde3_e1d7dd36",
+        "filename": "doc/go1.19.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-06-07T16:22:31Z",
+      "side": 1,
+      "message": "Whoops! Thanks, done.",
+      "parentUuid": "b4b58ba5_9c82308e",
       "revId": "a732db9441a9be416bba45f827cb118662131221",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
