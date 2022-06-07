@@ -73,6 +73,40 @@
       "parentUuid": "325e4d16_1ddb9d23",
       "revId": "2bd0e691a1bd8ab47e3dd4a84b803b66a18d627b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f09f9f5f_d6c3b57a",
+        "filename": "doc/go1.19.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 597,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-06-07T16:33:00Z",
+      "side": 1,
+      "message": "Oh, I didn\u0027t notice this TODO here and put this in the \"Runtime\" section above. We probably want to merge them.\n\n(I used the runtime section instead of package os because although this behavior in technically in the os package, in practice it likely affects ~every Go program and I felt if I had an issue with rlimits that is where I would look. But I don\u0027t feel strongly).",
+      "revId": "2bd0e691a1bd8ab47e3dd4a84b803b66a18d627b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "26582c10_1d7cde24",
+        "filename": "doc/go1.19.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 715,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-06-07T16:33:00Z",
+      "side": 1,
+      "message": "FWIW, Austin is also editing this in CL 410674.",
+      "revId": "2bd0e691a1bd8ab47e3dd4a84b803b66a18d627b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
