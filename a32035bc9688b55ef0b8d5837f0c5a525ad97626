@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8af8fd6_3c00cc65",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 34693
+      },
+      "writtenOn": "2022-06-08T20:17:07Z",
+      "side": 1,
+      "message": "Ya, right.\n\nLooks good to me:\n\"\"\"\nnet/netip: add missing ) in ParsePrefix errors\n\"\"\"",
+      "parentUuid": "b242380e_cffb5a48",
+      "revId": "a32035bc9688b55ef0b8d5837f0c5a525ad97626",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fcbd3826_7d70d161",
@@ -35,6 +53,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ba3aea6_3b1245b8",
+        "filename": "src/net/netip/inlining_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 34693
+      },
+      "writtenOn": "2022-06-08T20:17:07Z",
+      "side": 1,
+      "message": "Sure.",
+      "parentUuid": "fcbd3826_7d70d161",
+      "revId": "a32035bc9688b55ef0b8d5837f0c5a525ad97626",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bd416069_1f5e228b",
@@ -48,6 +84,24 @@
       "writtenOn": "2022-06-08T19:20:35Z",
       "side": 1,
       "message": "\"zeros\" is correct in American English, I don\u0027t see a reason to change anything here.",
+      "revId": "a32035bc9688b55ef0b8d5837f0c5a525ad97626",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2db2047_0e444452",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 34693
+      },
+      "writtenOn": "2022-06-08T20:17:07Z",
+      "side": 1,
+      "message": "In the same file, you\u0027d find both — \"zeros\" and \"zeroes\"; so chose the latter and replaced \"zeros\" with \"zeroes\".",
+      "parentUuid": "bd416069_1f5e228b",
       "revId": "a32035bc9688b55ef0b8d5837f0c5a525ad97626",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
