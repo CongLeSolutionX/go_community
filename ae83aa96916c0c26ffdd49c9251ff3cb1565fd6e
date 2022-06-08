@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2412944_c3f56974",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34693
+      },
+      "writtenOn": "2022-06-08T18:13:55Z",
+      "side": 1,
+      "message": "Please update the commit message as per: https://go.dev/doc/contribute#commit_messages\n\nCurrent format for the commit message is not accepted in golang/go.\n\nFor example, you can think of something like the following:\n\"\"\"\nencoding/asn1: fix doc for BitString.At\u0027s return value\n\nFixes #53287\n\n[...]\n\"\"\"\n",
+      "revId": "ae83aa96916c0c26ffdd49c9251ff3cb1565fd6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
