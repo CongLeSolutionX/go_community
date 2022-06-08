@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "caac8203_60d0f482",
+        "filename": "doc/go1.19.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-06-08T15:30:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9896ff9_c5f21fb0",
+      "revId": "d789d611b9b2e65fa1a9233982b845e6fe437176",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "158ca125_28208b43",
@@ -68,6 +86,30 @@
       "writtenOn": "2022-06-07T19:11:04Z",
       "side": 1,
       "message": "I haven\u0027t fully grokked these CLs, but this seems to contradict the above note: \"Command and LookPath no longer allow results from a PATH search to be found relative to the current directory.\"\n\nIn the current code, it appears that Command/LookPath _do_ still return relative results in the current directory, unless NoDefaultCurrentDirectoryInExePath is set.\n\nPerhaps the confusion here is that the LookPath change above only applies to paths that are _explicitly_ in PATH, while here . is searched _in addition_ to what is in PATH?\n\nI think this could be made more clear (perhaps by clarifying above that . is still included on windows?).",
+      "range": {
+        "startLine": 266,
+        "startChar": 24,
+        "endLine": 267,
+        "endChar": 32
+      },
+      "revId": "d789d611b9b2e65fa1a9233982b845e6fe437176",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d96caba4_3e37c9cb",
+        "filename": "doc/go1.19.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-06-08T15:30:57Z",
+      "side": 1,
+      "message": "I changed \u0027inclusion\u0027 to \u0027search\u0027. I think you misunderstand what the previous paragraph is saying. I hope https://pkg.go.dev/os/exec@master makes things clearer - that text is more important.\n\nThe rule is that you run the usual PATH search but then if the result would have succeeded using an entry from the PATH that is a relative directory (most commonly .) then the result is a failure instead. So for example if you have an \"ls\" in the current directory and your PATH\u003d.:/bin, then LookPath(\"ls\") fails with ErrDot. On the other hand if PATH\u003d/bin only, then LookPath(\"ls\") finds /bin/ls. \n\nThe NoDefaultCurrentDirectoryInExePath variable controls which of these two cases you land in on Windows.\n\nI\u0027m going to submit the CL to help unblock the beta but I\u0027m happy to try to clarify the text in followups.",
+      "parentUuid": "158ca125_28208b43",
       "range": {
         "startLine": 266,
         "startChar": 24,
