@@ -599,6 +599,22 @@ func extend32Fto64F(f float32) float64 {
 	return math.Float64frombits(r)
 }
 
+func floorF(f float64) float64 {
+	return math.Floor(f)
+}
+
+func ceilF(f float64) float64 {
+	return math.Ceil(f)
+}
+
+func truncF(f float64) float64 {
+	return math.Trunc(f)
+}
+
+func roundToEvenF(f float64) float64 {
+	return math.RoundToEven(f)
+}
+
 // DivisionNeedsFixUp reports whether the division needs fix-up code.
 func DivisionNeedsFixUp(v *Value) bool {
 	return v.AuxInt == 0

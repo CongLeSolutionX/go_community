@@ -56,6 +56,11 @@
 (Cvt64Fto64  (Const64F [c])) => (Const64  [int64(c)])
 (Round32F x:(Const32F)) => x
 (Round64F x:(Const64F)) => x
+(Floor       (Const64F [c])) && floorF(c) == floorF(c) => (Const64F [floorF(c)])
+(Ceil        (Const64F [c])) && ceilF(c)  == ceilF(c)  => (Const64F [ceilF(c)])
+(Trunc       (Const64F [c])) && truncF(c) == truncF(c) => (Const64F [truncF(c)])
+(RoundToEven (Const64F [c])) && roundToEvenF(c) == roundToEvenF(c)
+  => (Const64F [roundToEvenF(c)])
 (CvtBoolToUint8 (ConstBool [false])) => (Const8 [0])
 (CvtBoolToUint8 (ConstBool [true])) => (Const8 [1])
 

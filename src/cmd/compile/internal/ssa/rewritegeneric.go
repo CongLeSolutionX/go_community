@@ -34,6 +34,8 @@ func rewriteValuegeneric(v *Value) bool {
 		return rewriteValuegeneric_OpAndB(v)
 	case OpArraySelect:
 		return rewriteValuegeneric_OpArraySelect(v)
+	case OpCeil:
+		return rewriteValuegeneric_OpCeil(v)
 	case OpCom16:
 		return rewriteValuegeneric_OpCom16(v)
 	case OpCom32:
@@ -120,6 +122,8 @@ func rewriteValuegeneric(v *Value) bool {
 		return rewriteValuegeneric_OpEqPtr(v)
 	case OpEqSlice:
 		return rewriteValuegeneric_OpEqSlice(v)
+	case OpFloor:
+		return rewriteValuegeneric_OpFloor(v)
 	case OpIMake:
 		return rewriteValuegeneric_OpIMake(v)
 	case OpInterLECall:
@@ -298,6 +302,8 @@ func rewriteValuegeneric(v *Value) bool {
 		return rewriteValuegeneric_OpRound32F(v)
 	case OpRound64F:
 		return rewriteValuegeneric_OpRound64F(v)
+	case OpRoundToEven:
+		return rewriteValuegeneric_OpRoundToEven(v)
 	case OpRsh16Ux16:
 		return rewriteValuegeneric_OpRsh16Ux16(v)
 	case OpRsh16Ux32:
@@ -412,6 +418,8 @@ func rewriteValuegeneric(v *Value) bool {
 		return rewriteValuegeneric_OpSub64F(v)
 	case OpSub8:
 		return rewriteValuegeneric_OpSub8(v)
+	case OpTrunc:
+		return rewriteValuegeneric_OpTrunc(v)
 	case OpTrunc16to8:
 		return rewriteValuegeneric_OpTrunc16to8(v)
 	case OpTrunc32to16:
@@ -3845,6 +3853,25 @@ func rewriteValuegeneric_OpArraySelect(v *Value) bool {
 		x := v_0.Args[0]
 		v.reset(OpIData)
 		v.AddArg(x)
+		return true
+	}
+	return false
+}
+func rewriteValuegeneric_OpCeil(v *Value) bool {
+	v_0 := v.Args[0]
+	// match: (Ceil (Const64F [c]))
+	// cond: ceilF(c) == ceilF(c)
+	// result: (Const64F [ceilF(c)])
+	for {
+		if v_0.Op != OpConst64F {
+			break
+		}
+		c := auxIntToFloat64(v_0.AuxInt)
+		if !(ceilF(c) == ceilF(c)) {
+			break
+		}
+		v.reset(OpConst64F)
+		v.AuxInt = float64ToAuxInt(ceilF(c))
 		return true
 	}
 	return false
@@ -8908,6 +8935,25 @@ func rewriteValuegeneric_OpEqSlice(v *Value) bool {
 		v.AddArg2(v0, v1)
 		return true
 	}
+}
+func rewriteValuegeneric_OpFloor(v *Value) bool {
+	v_0 := v.Args[0]
+	// match: (Floor (Const64F [c]))
+	// cond: floorF(c) == floorF(c)
+	// result: (Const64F [floorF(c)])
+	for {
+		if v_0.Op != OpConst64F {
+			break
+		}
+		c := auxIntToFloat64(v_0.AuxInt)
+		if !(floorF(c) == floorF(c)) {
+			break
+		}
+		v.reset(OpConst64F)
+		v.AuxInt = float64ToAuxInt(floorF(c))
+		return true
+	}
+	return false
 }
 func rewriteValuegeneric_OpIMake(v *Value) bool {
 	v_1 := v.Args[1]
@@ -19435,6 +19481,25 @@ func rewriteValuegeneric_OpRound64F(v *Value) bool {
 	}
 	return false
 }
+func rewriteValuegeneric_OpRoundToEven(v *Value) bool {
+	v_0 := v.Args[0]
+	// match: (RoundToEven (Const64F [c]))
+	// cond: roundToEvenF(c) == roundToEvenF(c)
+	// result: (Const64F [roundToEvenF(c)])
+	for {
+		if v_0.Op != OpConst64F {
+			break
+		}
+		c := auxIntToFloat64(v_0.AuxInt)
+		if !(roundToEvenF(c) == roundToEvenF(c)) {
+			break
+		}
+		v.reset(OpConst64F)
+		v.AuxInt = float64ToAuxInt(roundToEvenF(c))
+		return true
+	}
+	return false
+}
 func rewriteValuegeneric_OpRsh16Ux16(v *Value) bool {
 	v_1 := v.Args[1]
 	v_0 := v.Args[0]
@@ -24593,6 +24658,25 @@ func rewriteValuegeneric_OpSub8(v *Value) bool {
 			return true
 		}
 		break
+	}
+	return false
+}
+func rewriteValuegeneric_OpTrunc(v *Value) bool {
+	v_0 := v.Args[0]
+	// match: (Trunc (Const64F [c]))
+	// cond: truncF(c) == truncF(c)
+	// result: (Const64F [truncF(c)])
+	for {
+		if v_0.Op != OpConst64F {
+			break
+		}
+		c := auxIntToFloat64(v_0.AuxInt)
+		if !(truncF(c) == truncF(c)) {
+			break
+		}
+		v.reset(OpConst64F)
+		v.AuxInt = float64ToAuxInt(truncF(c))
+		return true
 	}
 	return false
 }
