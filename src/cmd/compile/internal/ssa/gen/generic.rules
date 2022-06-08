@@ -160,7 +160,10 @@
 (Div64F (Const64F [c]) (Const64F [d])) && c/d == c/d => (Const64F [c/d])
 (Select0 (Div128u (Const64 [0]) lo y)) => (Div64u lo y)
 (Select1 (Div128u (Const64 [0]) lo y)) => (Mod64u lo y)
-
+(Floor       (Const64F [c])) => (Const64F [math.Floor(c)])
+(Ceil        (Const64F [c])) => (Const64F [math.Ceil(c)])
+(Trunc       (Const64F [c])) => (Const64F [math.Trunc(c)])
+(RoundToEven (Const64F [c])) => (Const64F [math.RoundToEven(c)])
 (Not (ConstBool [c])) => (ConstBool [!c])
 
 // Convert x * 1 to x.
