@@ -91,7 +91,7 @@ func AddrFrom4(addr [4]byte) Addr {
 
 // AddrFrom16 returns the IPv6 address given by the bytes in addr.
 // An IPv4-mapped IPv6 address is left as an IPv6 address.
-// (Use Unmap to convert them if needed.)
+// (Use Addr.Unmap to convert them if needed.)
 func AddrFrom16(addr [16]byte) Addr {
 	return Addr{
 		addr: uint128{
@@ -334,7 +334,7 @@ func parseIPv6(in string) (Addr, error) {
 		}
 	} else if ellipsis >= 0 {
 		// Ellipsis must represent at least one 0 group.
-		return Addr{}, parseAddrError{in: in, msg: "the :: must expand to at least one field of zeros"}
+		return Addr{}, parseAddrError{in: in, msg: "the :: must expand to at least one field of zeroes"}
 	}
 	return AddrFrom16(ip).WithZone(zone), nil
 }
@@ -722,7 +722,7 @@ func (ip Addr) Next() Addr {
 	ip.addr = ip.addr.addOne()
 	if ip.Is4() {
 		if uint32(ip.addr.lo) == 0 {
-			// Overflowed.
+			// Overflowed
 			return Addr{}
 		}
 	} else {
@@ -862,7 +862,7 @@ func (ip Addr) appendTo4(ret []byte) []byte {
 // string6 formats ip in IPv6 textual representation. It follows the
 // guidelines in section 4 of RFC 5952
 // (https://tools.ietf.org/html/rfc5952#section-4): no unnecessary
-// zeros, use :: to elide the longest run of zeros, and don't use ::
+// zeroes, use :: to elide the longest run of zeroes, and don't use ::
 // to compact a single zero field.
 func (ip Addr) string6() string {
 	// Use a zone with a "plausibly long" name, so that most zone-ful
@@ -964,7 +964,6 @@ func (ip Addr) MarshalText() ([]byte, error) {
 		}
 		return ip.appendTo6(b), nil
 	}
-
 }
 
 // UnmarshalText implements the encoding.TextUnmarshaler interface.
@@ -1292,7 +1291,7 @@ func (p Prefix) IsSingleIP() bool { return p.bits != 0 && int(p.bits) == p.ip.Bi
 // IPv6 zones are not permitted in prefixes, and an error will be returned if a
 // zone is present.
 //
-// Note that masked address bits are not zeroed. Use Masked for that.
+// Note that masked address bits are not zeroed. Use Prefix.Masked for that.
 func ParsePrefix(s string) (Prefix, error) {
 	i := stringsLastIndexByte(s, '/')
 	if i < 0 {
@@ -1310,14 +1309,14 @@ func ParsePrefix(s string) (Prefix, error) {
 	bitsStr := s[i+1:]
 	bits, err := strconv.Atoi(bitsStr)
 	if err != nil {
-		return Prefix{}, errors.New("netip.ParsePrefix(" + strconv.Quote(s) + ": bad bits after slash: " + strconv.Quote(bitsStr))
+		return Prefix{}, errors.New("netip.ParsePrefix(" + strconv.Quote(s) + "): bad bits after slash: " + strconv.Quote(bitsStr))
 	}
 	maxBits := 32
 	if ip.Is6() {
 		maxBits = 128
 	}
 	if bits < 0 || bits > maxBits {
-		return Prefix{}, errors.New("netip.ParsePrefix(" + strconv.Quote(s) + ": prefix length out of range")
+		return Prefix{}, errors.New("netip.ParsePrefix(" + strconv.Quote(s) + "): prefix length out of range")
 	}
 	return PrefixFrom(ip, bits), nil
 }
