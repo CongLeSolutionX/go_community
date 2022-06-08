@@ -16,6 +16,23 @@
       "message": "Sorry, this CL didn\u0027t mention issue 53299 and I didn\u0027t see it before I sent the somewhat simpler CL 411334.  I don\u0027t care which one we use.",
       "revId": "f2ff2fd900f8b9203146444760041a2608827f48",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e35f4aee_9b31dd8d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-06-08T23:39:01Z",
+      "side": 1,
+      "message": "Note that internal/goarch needs the same changes.",
+      "revId": "f2ff2fd900f8b9203146444760041a2608827f48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
