@@ -47,6 +47,7 @@ func moduleWalkErr(modroot string, path string, info fs.FileInfo, err error) err
 // be indexed because it contains symlinks.
 func indexModule(modroot string) ([]byte, error) {
 	var packages []*rawPackage
+	modroot = filepath.Clean(modroot) // make sure we're comparing with a clean modroot in HasFilePathPrefix below
 	err := fsys.Walk(modroot, func(path string, info fs.FileInfo, err error) error {
 		if err := moduleWalkErr(modroot, path, info, err); err != nil {
 			return err
