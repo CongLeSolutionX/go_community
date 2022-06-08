@@ -16,6 +16,24 @@
       "message": "\u003e // Dummy test function so that godoc does not use the entire file as example.\n\nPerhaps this is the source of the problem. The move from godoc.org to pkg.go.dev might have broken the example.\n\nWhy is that dummy test func no longer doing its job, presumably? The rendered example now shows an entire file with two funcs.",
       "revId": "c2472529a12621bd362baabad234ed7eb8b1e683",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8016f833_810d5ed0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55679
+      },
+      "writtenOn": "2022-06-08T06:51:09Z",
+      "side": 1,
+      "message": "According to pkgsite\u0027s docs:\n\n\u003e  // Playable Examples must be in a package whose name ends in \"_test\".\n\u003e  // An Example is \"playable\" (the Play field is non-nil) in either of these\n\u003e  // circumstances:\n\u003e  //   - The example function is self-contained: the function references only\n\u003e  //     identifiers from other packages (or predeclared identifiers, such as\n\u003e  //     \"int\") and the test file does not include a dot import.\n\u003e  //   - The entire test file is the example: the file contains exactly one\n\u003e  //     example function, zero test, fuzz test, or benchmark function, and at\n\u003e  //     least one top-level function, type, variable, or constant declaration\n\u003e  //     other than the example function.\n\nhttps://pkg.go.dev/golang.org/x/pkgsite@v0.0.0-20220601145352-547164e9bb45/internal/godoc/internal/doc#Examples2\n\nThis dummy test func excludes the example from the 2nd circumstance, but it is still a playable example because it match the 1st circumstance, so it is shown on pkg.dev.go site.\n\nI think this dummpy func never works, use a dot import should work。 But do we really need to hide this example? What do you think?",
+      "parentUuid": "fdcc5c7d_ec1ab67f",
+      "revId": "c2472529a12621bd362baabad234ed7eb8b1e683",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
