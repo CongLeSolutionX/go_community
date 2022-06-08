@@ -9,14 +9,15 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"internal/intern"
-	"internal/testenv"
 	"net"
 	. "net/netip"
 	"reflect"
 	"sort"
 	"strings"
 	"testing"
+
+	"internal/intern"
+	"internal/testenv"
 )
 
 var long = flag.Bool("long", false, "run long tests")
@@ -30,7 +31,7 @@ var (
 )
 
 func TestParseAddr(t *testing.T) {
-	var validIPs = []struct {
+	validIPs := []struct {
 		in      string
 		ip      Addr   // output of ParseAddr()
 		str     string // output of String(). If "", use in.
@@ -210,7 +211,7 @@ func TestParseAddr(t *testing.T) {
 		})
 	}
 
-	var invalidIPs = []string{
+	invalidIPs := []string{
 		// Empty string
 		"",
 		// Garbage non-IP
@@ -828,7 +829,7 @@ func TestLessCompare(t *testing.T) {
 	values := []Addr{
 		mustIP("::1"),
 		mustIP("::2"),
-		Addr{},
+		{},
 		mustIP("1.2.3.4"),
 		mustIP("8.8.8.8"),
 		mustIP("::1%foo"),

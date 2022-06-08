@@ -5,12 +5,13 @@
 package netip
 
 import (
-	"internal/testenv"
 	"os/exec"
 	"regexp"
 	"runtime"
 	"strings"
 	"testing"
+
+	"internal/testenv"
 )
 
 func TestInlining(t *testing.T) {
