@@ -40,6 +40,23 @@
       },
       "revId": "d2451b4192b52915018c4e4daf029327bdfa49b1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1db80cbb_627c1ddc",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5090,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-06-08T20:38:19Z",
+      "side": 1,
+      "message": "I initially proactively incremented nmspinning and set mp.spinning here since this M will need to be spinning to be able to steal. But I\u0027ve dropped it because being the only running M will make it automatically set itself to spinning. I\u0027m curious if either of you have thoughts on whether keeping that or omitting it is more clear.",
+      "revId": "d2451b4192b52915018c4e4daf029327bdfa49b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
