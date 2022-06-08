@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b242380e_cffb5a48",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-06-08T19:20:35Z",
+      "side": 1,
+      "message": "\"fix\" doesn\u0027t really say what changed.  Better to write\n\nnet/netip: add missing ) in ParsePrefix errors",
+      "revId": "a32035bc9688b55ef0b8d5837f0c5a525ad97626",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fcbd3826_7d70d161",
+        "filename": "src/net/netip/inlining_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-06-08T19:20:35Z",
+      "side": 1,
+      "message": "This seems like an unrelated change.  Please do not combine functional changes and cleanup changes in a single patch.  Please send two separate patches.  Thanks.",
+      "revId": "a32035bc9688b55ef0b8d5837f0c5a525ad97626",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd416069_1f5e228b",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-06-08T19:20:35Z",
+      "side": 1,
+      "message": "\"zeros\" is correct in American English, I don\u0027t see a reason to change anything here.",
+      "revId": "a32035bc9688b55ef0b8d5837f0c5a525ad97626",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
