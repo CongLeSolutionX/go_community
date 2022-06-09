@@ -139,6 +139,14 @@ func decomposeBuiltInPhi(v *Value) {
 	}
 }
 
+func isDecomposableValue(v *Value) bool {
+	return (v.Type.IsInteger() && v.Type.Size() > v.Block.Func.Config.RegSize) ||
+		v.Type.IsComplex() ||
+		v.Type.IsString() ||
+		v.Type.IsSlice() ||
+		v.Type.IsInterface()
+}
+
 func decomposeStringPhi(v *Value) {
 	types := &v.Block.Func.Config.Types
 	ptrType := types.BytePtr

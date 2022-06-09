@@ -468,6 +468,7 @@ var passes = [...]pass{
 	{name: "zero arg cse", fn: zcse, required: true},     // required to merge OpSB values
 	{name: "opt deadcode", fn: deadcode, required: true}, // remove any blocks orphaned during opt
 	{name: "generic cse", fn: cse},
+	{name: "generic csedown", fn: csedown},
 	{name: "phiopt", fn: phiopt},
 	{name: "gcse deadcode", fn: deadcode, required: true}, // clean out after cse and phiopt
 	{name: "nilcheckelim", fn: nilcheckelim},
@@ -490,6 +491,7 @@ var passes = [...]pass{
 	{name: "addressing modes", fn: addressingModes, required: false},
 	{name: "lowered deadcode for cse", fn: deadcode}, // deadcode immediately before CSE avoids CSE making dead values live again
 	{name: "lowered cse", fn: cse},
+	{name: "lowered csedown", fn: csedown},
 	{name: "elim unread autos", fn: elimUnreadAutos},
 	{name: "tighten tuple selectors", fn: tightenTupleSelectors, required: true},
 	{name: "lowered deadcode", fn: deadcode, required: true},
@@ -526,6 +528,9 @@ var passOrder = [...]constraint{
 	{"insert resched checks", "lower"},
 	{"insert resched checks", "tighten"},
 
+	// csedown relies on cse putting uses in order first
+	{"generic cse", "generic csedown"},
+	{"lowered cse", "lowered csedown"},
 	// prove relies on common-subexpression elimination for maximum benefits.
 	{"generic cse", "prove"},
 	// deadcode after prove to eliminate all new dead blocks.
