@@ -70,6 +70,24 @@
       "message": "Could you add a comment explaining why this is ignored?",
       "revId": "04f9795db6547ccb6183b26cff2292e418a5fe4d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11f9cbe4_6518ae77",
+        "filename": "src/cmd/internal/metadata/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-06-09T22:12:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2159be7_55075879",
+      "revId": "04f9795db6547ccb6183b26cff2292e418a5fe4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
