@@ -1911,10 +1911,16 @@ func oneNewExtraM() {
 	mp.curg = gp
 	mp.lockedInt++
 	mp.lockedg.set(gp)
+	mp.isextra = true
 	gp.lockedm.set(mp)
 	gp.goid = int64(atomic.Xadd64(&sched.goidgen, 1))
 	if raceenabled {
 		gp.racectx = racegostart(abi.FuncPCABIInternal(newextram) + sys.PCQuantum)
+	}
+	if trace.enabled {
+		traceGoCreate(gp, gp.startpc)
+		gp.traceseq++
+		traceEvent(traceEvGoInSyscall, -1, uint64(gp.goid))
 	}
 	// put on allg for garbage collector
 	allgadd(gp)
