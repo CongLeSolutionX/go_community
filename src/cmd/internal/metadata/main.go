@@ -5,6 +5,9 @@
 // Metadata prints basic system metadata to include in test logs. This is
 // separate from cmd/dist so it does not need to build with the bootstrap
 // toolchain.
+
+//go:build ignore
+
 package main
 
 import (
