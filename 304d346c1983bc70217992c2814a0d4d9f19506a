@@ -78,6 +78,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d3ae811_fbfb67f4",
+        "filename": "src/cmd/compile/internal/types2/instantiate.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-06-09T00:02:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f973a82e_9dd8ff4f",
+      "range": {
+        "startLine": 66,
+        "startChar": 31,
+        "endLine": 66,
+        "endChar": 39
+      },
+      "revId": "304d346c1983bc70217992c2814a0d4d9f19506a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d45b16b_1500f223",
@@ -91,6 +115,30 @@
       "writtenOn": "2022-06-08T22:48:43Z",
       "side": 1,
       "message": "this function could use a doc string at this point",
+      "range": {
+        "startLine": 240,
+        "startChar": 6,
+        "endLine": 240,
+        "endChar": 11
+      },
+      "revId": "304d346c1983bc70217992c2814a0d4d9f19506a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b55c6755_9574889c",
+        "filename": "src/cmd/compile/internal/types2/named.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-06-09T00:02:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d45b16b_1500f223",
       "range": {
         "startLine": 240,
         "startChar": 6,
@@ -124,6 +172,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "36374160_861d8378",
+        "filename": "src/cmd/compile/internal/types2/named.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-06-09T00:02:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "091f8485_754368a2",
+      "range": {
+        "startLine": 245,
+        "startChar": 24,
+        "endLine": 245,
+        "endChar": 33
+      },
+      "revId": "304d346c1983bc70217992c2814a0d4d9f19506a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "56acb7c6_29b6869d",
@@ -147,6 +219,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8063dde5_579d63d0",
+        "filename": "src/cmd/compile/internal/types2/subst.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-06-09T00:02:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56acb7c6_29b6869d",
+      "range": {
+        "startLine": 83,
+        "startChar": 47,
+        "endLine": 83,
+        "endChar": 48
+      },
+      "revId": "304d346c1983bc70217992c2814a0d4d9f19506a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eacd70f6_d37ad583",
@@ -160,6 +256,24 @@
       "writtenOn": "2022-06-08T22:48:43Z",
       "side": 1,
       "message": "types2/subst.go has a line comment here",
+      "revId": "304d346c1983bc70217992c2814a0d4d9f19506a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "07df2c6d_86f7fbb4",
+        "filename": "src/go/types/subst.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-06-09T00:02:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eacd70f6_d37ad583",
       "revId": "304d346c1983bc70217992c2814a0d4d9f19506a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
