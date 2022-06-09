@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cbdbd853_ef1aa547",
+        "filename": "src/runtime/asan_ppc64le.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2022-06-09T12:19:06Z",
+      "side": 1,
+      "message": "I think this still needs to set the LR in the spot where the C code expects it. So maybe it could avoid setting it at 0(R1) but I believe it still needs to set it at 16(R1). And you are correct, no need to restore it explicitly in the asm code, that should be done by the epilog code that gets automatically added. This was taken from the tsan code so this has me wondering if that should be changed as well.",
+      "parentUuid": "04aed9d7_15126594",
+      "range": {
+        "startLine": 64,
+        "startChar": 1,
+        "endLine": 64,
+        "endChar": 5
+      },
+      "revId": "602bd2c97e04bad4d5bf144069ed9b34b51c548c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "19b861d3_2ede10b0",
         "filename": "src/runtime/asan_ppc64le.s",
         "patchSetId": 2
