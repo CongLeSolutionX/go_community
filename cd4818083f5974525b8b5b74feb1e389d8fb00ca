@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa0f050f_76eb7dd7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2022-06-10T21:09:11Z",
+      "side": 1,
+      "message": "I\u0027ll push docs and name rename later (I didn\u0027t expected to have a review, I just pushed it to show I\u0027m working on it on the corresponding github issue).",
+      "revId": "cd4818083f5974525b8b5b74feb1e389d8fb00ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c332939b_555fa01b",
@@ -18,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "018afe31_43bd8487",
+        "filename": "src/cmd/compile/internal/ssa/csedown.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2022-06-10T21:09:11Z",
+      "side": 1,
+      "message": "Yes exactly.\n\nThere are (many) odd cases that it needs to be handled:\n- Init* must not be handled.\nOther passes expect init in the entry block of the function.\n\n- All of the phi arguments uses must be equal to 1.\nElse you would handle values that are being used in the predecessor block or an other one of it\u0027s descendent.\n\n- Select{0,1,N} can be handled only if all uses (other selects) of their first argument (the op that created the struct) are also handlable.\nThe compiler doesn\u0027t support moving value struct through phis so it\u0027s all or nothing, we can\u0027t move the select without also moving select\u0027s first arg which for obvious reasons require all select users (of the struct producer) to also move with it.\n\n- Memory stores can only be moved if they are the first (according to dependency analysis) memory value used in the current block (or first block to use memory in descending domination order).\nThat to avoid doubling stores in flight in block. Following that rule, a store that is being moved is the first memory dependency of the current block.\n\n- Memory loads must use the same memory that the first store (according to dependency analysis) uses in the current block (or first block to use memory in descending domination order).\nThat avoids illegal reordering of loads and stores. For example:\n  B1:\n    v1 \u003d Load a1 m1\n    m2 \u003d Store a2 m1\n  B1 -\u003e B2\n  B2:\n    v2 \u003d phi v1 ...\n    m3 \u003d phi m2 ...\nWithout that rule would wrongly be turned into:\n  B1:\n    m2 \u003d Store a2 m1\n  B1 -\u003e B2\n  B2:\n    v2 \u003d phi a1 ...\n    v1 \u003d Load a2 m1 // bad load after store, since go doesn\u0027t have a C restrict like contract, a1 and a2 might point to the same data\n    m3 \u003d phi m2 ...\n\nI\u0027ll add more documentation about what is expected from this pass.",
+      "parentUuid": "c332939b_555fa01b",
+      "revId": "cd4818083f5974525b8b5b74feb1e389d8fb00ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "77bea4ce_fe6ad10f",
@@ -31,6 +66,24 @@
       "writtenOn": "2022-06-09T18:13:59Z",
       "side": 1,
       "message": "This is only builtin-decomposable (not structs or arrays), so maybe the name should reflect that.",
+      "revId": "cd4818083f5974525b8b5b74feb1e389d8fb00ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bcdc32eb_be6c7acd",
+        "filename": "src/cmd/compile/internal/ssa/decompose.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2022-06-10T21:09:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77bea4ce_fe6ad10f",
       "revId": "cd4818083f5974525b8b5b74feb1e389d8fb00ca",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
