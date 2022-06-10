@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7cf670b_a98302a5",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 2659,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2022-06-10T17:23:00Z",
+      "side": 1,
+      "message": "\u003e I think we need a safer wrapper in the runtime for reflect to use.\n\nI decided to take this approach.\n\nI think we should always clear the memory between `new[len(old):requestedCap]` because it is possible that Append and AppendSlice panic due to mismatching types. If so, the uninitialized memory is still observable.\n\nI added a test to check that the memory is always zero initialized.",
+      "parentUuid": "c07bbd01_82f2657c",
+      "revId": "b516593168de56c785feeea65fb09c5bb8241006",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "139a2f1c_d1f4f3f4",
