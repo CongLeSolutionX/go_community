@@ -22,6 +22,30 @@
       },
       "revId": "cb117c3918350a52ad6cb4692819b2b208a95d8d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89f47fbd_abe6cfbf",
+        "filename": "src/cmd/internal/obj/mips/asm0.go",
+        "patchSetId": 28
+      },
+      "lineNbr": 1891,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-06-10T13:00:47Z",
+      "side": 1,
+      "message": "\u003e For a branch within a function, I don\u0027t think we need to use the \"lazy evaluation stub\". Can we just get the actual function entry?\n\nYes, we don\u0027t need use the \"lazy evaluation stub\". I changed that.\n\n\u003e Also this doesn\u0027t need to use R25, as we are not jumping to the function prologue. In fact, I\u0027m not sure it is safe to clobber R25.\n\nYes, I use REGTMP to jump instead. R25 must be used to get the address of the current function. And I think R25 should not be used in regalloc in PIC code. Should I delete it from register set for regalloc?",
+      "parentUuid": "fc331849_15a89fe0",
+      "range": {
+        "startLine": 1887,
+        "startChar": 0,
+        "endLine": 1891,
+        "endChar": 15
+      },
+      "revId": "cb117c3918350a52ad6cb4692819b2b208a95d8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

@@ -260,6 +260,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "791e7258_04726e35",
+        "filename": "src/cmd/internal/objabi/reloctype.go",
+        "patchSetId": 25
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-06-10T13:00:47Z",
+      "side": 1,
+      "message": "\u003e // R_MIPS_CALL16 resolves to (low 16 bits of) the address of the lazy evaluation stub of the function in PIC mode.\n\nOK, I fixed it.\n\n\u003e Add \"the address of\". Does it only resolve to the low 16 bits? What happens if 16 bits are not enough?\n\nIn lld, it will report an error: relocation R_MIPS_CALL16 out of range.\ncode: lld/test/ELF/mips-out-of-bounds-call16-reloc.s (in llvm-project)",
+      "parentUuid": "126811cb_5af5db22",
+      "range": {
+        "startLine": 276,
+        "startChar": 0,
+        "endLine": 277,
+        "endChar": 14
+      },
+      "revId": "e0c77f6c89ce4ec9ba47d8f698a76f9a7948f93e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a0c72b43_1318ece9",
@@ -417,6 +441,30 @@
       "side": 1,
       "message": "How about (I mentioned in an earlier comment)\n\n// R_MIPS_JALR tells the linker the concrete call target of a \"CALL (R25)\" instruction in PIC mode, so the linker can optimize it back to a concrete call.",
       "parentUuid": "ea1ef594_4095496f",
+      "range": {
+        "startLine": 278,
+        "startChar": 0,
+        "endLine": 280,
+        "endChar": 12
+      },
+      "revId": "e0c77f6c89ce4ec9ba47d8f698a76f9a7948f93e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d5c5060_1121475a",
+        "filename": "src/cmd/internal/objabi/reloctype.go",
+        "patchSetId": 25
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-06-10T13:00:47Z",
+      "side": 1,
+      "message": "OK, I changed that.",
+      "parentUuid": "6555e135_bbd06db1",
       "range": {
         "startLine": 278,
         "startChar": 0,

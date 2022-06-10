@@ -522,6 +522,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4cde32d1_992ae27d",
+        "filename": "src/cmd/internal/obj/mips/asm0.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 1752,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-06-10T13:00:47Z",
+      "side": 1,
+      "message": "OK, I added it.",
+      "parentUuid": "16297a80_88fa1cdf",
+      "range": {
+        "startLine": 1752,
+        "startChar": 41,
+        "endLine": 1752,
+        "endChar": 75
+      },
+      "revId": "2b63ea62d4ceaaced42834f5fff0aa45f2c0ac5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8ef9179b_fa0897f7",
