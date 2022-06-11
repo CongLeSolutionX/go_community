@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5bfb4b3_3d56e3fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 54019
+      },
+      "writtenOn": "2022-06-11T03:39:51Z",
+      "side": 1,
+      "message": "Thanks!",
+      "parentUuid": "78ece355_a26d1c03",
+      "range": {
+        "startLine": 7,
+        "startChar": 54,
+        "endLine": 7,
+        "endChar": 56
+      },
+      "revId": "9bdb0c61574d5cf101b65562165ed373d1132f69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e0607d93_cbd4226c",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-06-11T00:35:28Z",
       "side": 1,
       "message": "All loong64 syscalls return values only via R4/A0, and R5/A1 may contain unrelated content. Always zero the second return value.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 78
+      },
+      "revId": "9bdb0c61574d5cf101b65562165ed373d1132f69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ebecb62_40a423f7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 54019
+      },
+      "writtenOn": "2022-06-11T03:39:51Z",
+      "side": 1,
+      "message": "Thanks!",
+      "parentUuid": "e0607d93_cbd4226c",
       "range": {
         "startLine": 9,
         "startChar": 0,
@@ -124,6 +172,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6ca0a13_7d1cb010",
+        "filename": "src/cmd/vendor/golang.org/x/sys/unix/asm_linux_loong64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 54019
+      },
+      "writtenOn": "2022-06-11T03:39:51Z",
+      "side": 1,
+      "message": "Thanks!  I have modified it to tab.",
+      "parentUuid": "18d1dd75_0c461cb0",
+      "range": {
+        "startLine": 53,
+        "startChar": 19,
+        "endLine": 53,
+        "endChar": 21
+      },
+      "revId": "9bdb0c61574d5cf101b65562165ed373d1132f69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f90edd69_393d53e1",
@@ -137,6 +209,30 @@
       "writtenOn": "2022-06-11T00:35:28Z",
       "side": 1,
       "message": "similarly here",
+      "range": {
+        "startLine": 27,
+        "startChar": 19,
+        "endLine": 27,
+        "endChar": 21
+      },
+      "revId": "9bdb0c61574d5cf101b65562165ed373d1132f69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78ba1286_4c7bf774",
+        "filename": "src/runtime/internal/syscall/asm_linux_loong64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 54019
+      },
+      "writtenOn": "2022-06-11T03:39:51Z",
+      "side": 1,
+      "message": "Thanks!  I have modified it to tab.",
+      "parentUuid": "f90edd69_393d53e1",
       "range": {
         "startLine": 27,
         "startChar": 19,
