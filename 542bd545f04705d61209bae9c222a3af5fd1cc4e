@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "741d1064_3bb0db71",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-06-11T05:01:50Z",
+      "side": 1,
+      "message": "I leave some comments in CLs https://go-review.googlesource.com/c/sys/+/411634. PTAL.",
+      "revId": "542bd545f04705d61209bae9c222a3af5fd1cc4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

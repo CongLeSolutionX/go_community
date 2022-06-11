@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e93e8875_aba04aa9",
+        "filename": "src/cmd/vendor/golang.org/x/sys/unix/asm_linux_loong64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-06-11T05:01:50Z",
+      "side": 0,
+      "message": "The changes must vendor back from sys repo.",
+      "revId": "55590f3a2b89f001bcadf0df6eb2dde62618302b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
