@@ -16,6 +16,7 @@ import (
 	"cmd/compile/internal/inline"
 	"cmd/compile/internal/ir"
 	"cmd/compile/internal/logopt"
+	"cmd/compile/internal/loopvar"
 	"cmd/compile/internal/noder"
 	"cmd/compile/internal/pgo"
 	"cmd/compile/internal/pkginit"
@@ -265,10 +266,12 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 	}
 	noder.MakeWrappers(typecheck.Target) // must happen after inlining
 
-	// Devirtualize.
+	// Devirtualize and get variable capture right in for loops
+	var transformed []loopvar.NameFn
 	for _, n := range typecheck.Target.Decls {
 		if n.Op() == ir.ODCLFUNC {
 			devirtualize.Func(n.(*ir.Func))
+			transformed = append(transformed, loopvar.ForCapture(n.(*ir.Func))...)
 		}
 	}
 	ir.CurFunc = nil
@@ -292,6 +295,46 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 	// because large values may contain pointers, it must happen early.
 	base.Timer.Start("fe", "escapes")
 	escape.Funcs(typecheck.Target.Decls)
+
+	if 2 <= base.Debug.LoopVar && base.Debug.LoopVar != 11 || logopt.Enabled() { // 11 is do them all, quietly, 12 includes debugging.
+		fileToPosBase := make(map[string]*src.PosBase) // used to remove inline context for innermost reporting.
+		for _, t := range transformed {
+			n := t.Name
+			pos := n.Pos()
+			if logopt.Enabled() {
+				if n.Esc() == ir.EscHeap {
+					logopt.LogOpt(pos, "transform-escape", "loopvar", ir.FuncName(t.Fn))
+				} else {
+					logopt.LogOpt(pos, "transform-noescape", "loopvar", ir.FuncName(t.Fn))
+				}
+			}
+			inner := base.Ctxt.InnermostPos(pos)
+			outer := base.Ctxt.OutermostPos(pos)
+			if inner == outer {
+				if n.Esc() == ir.EscHeap {
+					base.WarnfAt(pos, "transformed loop variable %v escapes", n)
+				} else {
+					base.WarnfAt(pos, "transformed loop variable %v does not escape", n)
+				}
+			} else {
+				// Report the problem at the line where it actually occurred.
+				afn := inner.AbsFilename()
+				pb, ok := fileToPosBase[afn]
+				if !ok {
+					pb = src.NewFileBase(inner.Filename(), afn)
+					fileToPosBase[afn] = pb
+				}
+				inner.SetBase(pb) // rebasing w/o inline context makes it print correctly in WarnfAt
+				innerXPos := base.Ctxt.PosTable.XPos(inner)
+
+				if n.Esc() == ir.EscHeap {
+					base.WarnfAt(innerXPos, "transformed loop variable %v escapes (loop inlined into %s:%d)", n, outer.Filename(), outer.Line())
+				} else {
+					base.WarnfAt(innerXPos, "transformed loop variable %v does not escape (loop inlined into %s:%d)", n, outer.Filename(), outer.Line())
+				}
+			}
+		}
+	}
 
 	// TODO(mdempsky): This is a hack. We need a proper, global work
 	// queue for scheduling function compilation so components don't
