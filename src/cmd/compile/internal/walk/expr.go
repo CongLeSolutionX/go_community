@@ -741,12 +741,12 @@ func walkIndex(n *ir.IndexExpr, init *ir.Nodes) ir.Node {
 	}
 	if t.IsArray() {
 		n.SetBounded(bounded(r, t.NumElem()))
-		if base.Flag.LowerM != 0 && n.Bounded() && !ir.IsConst(n.Index, constant.Int) {
+		if base.Flag.LowerM > 0 && n.Bounded() && !ir.IsConst(n.Index, constant.Int) {
 			base.Warn("index bounds check elided")
 		}
 	} else if ir.IsConst(n.X, constant.String) {
 		n.SetBounded(bounded(r, int64(len(ir.StringVal(n.X)))))
-		if base.Flag.LowerM != 0 && n.Bounded() && !ir.IsConst(n.Index, constant.Int) {
+		if base.Flag.LowerM > 0 && n.Bounded() && !ir.IsConst(n.Index, constant.Int) {
 			base.Warn("index bounds check elided")
 		}
 	}

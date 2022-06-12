@@ -305,11 +305,11 @@ func (b *batch) finish(fns []*ir.Func) {
 				if base.Flag.CompilingRuntime {
 					base.ErrorfAt(n.Pos(), "%v escapes to heap, not allowed in runtime", n)
 				}
-				if base.Flag.LowerM != 0 {
+				if base.Flag.LowerM > 0 {
 					base.WarnfAt(n.Pos(), "moved to heap: %v", n)
 				}
 			} else {
-				if base.Flag.LowerM != 0 && !goDeferWrapper {
+				if base.Flag.LowerM > 0 && !goDeferWrapper {
 					base.WarnfAt(n.Pos(), "%v escapes to heap", n)
 				}
 				if logopt.Enabled() {
@@ -319,7 +319,7 @@ func (b *batch) finish(fns []*ir.Func) {
 			}
 			n.SetEsc(ir.EscHeap)
 		} else {
-			if base.Flag.LowerM != 0 && n.Op() != ir.ONAME && !goDeferWrapper {
+			if base.Flag.LowerM > 0 && n.Op() != ir.ONAME && !goDeferWrapper {
 				base.WarnfAt(n.Pos(), "%v does not escape", n)
 			}
 			n.SetEsc(ir.EscNone)
@@ -381,7 +381,7 @@ func (b *batch) paramTag(fn *ir.Func, narg int, f *types.Field) string {
 	// Only report diagnostics for user code;
 	// not for wrappers generated around them.
 	// TODO(mdempsky): Generalize this.
-	diagnose := base.Flag.LowerM != 0 && !(fn.Wrapper() || fn.Dupok())
+	diagnose := base.Flag.LowerM > 0 && !(fn.Wrapper() || fn.Dupok())
 
 	if len(fn.Body) == 0 {
 		// Assume that uintptr arguments must be held live across the call.
