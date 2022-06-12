@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "296c3ab9_67972236",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-06-12T21:21:38Z",
+      "side": 1,
+      "message": "Thanks, we can review this cleanup for the 1.20 release.",
+      "revId": "b984f45a4868ca0cc559dbb62a9a545efac42e06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
