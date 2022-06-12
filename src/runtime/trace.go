@@ -240,7 +240,7 @@ func StartTrace() error {
 		if status == _Gsyscall {
 			gp.traceseq++
 			traceEvent(traceEvGoInSyscall, -1, uint64(gp.goid))
-		} else {
+		} else if gp.m == nil || !gp.m.isextra {
 			gp.sysblocktraced = false
 		}
 	})
@@ -1250,7 +1250,7 @@ func trace_userLog(id uint64, category, message string) {
 func startPCforTrace(pc uintptr) uintptr {
 	f := findfunc(pc)
 	if !f.valid() {
-		return pc // should not happen, but don't care
+		return pc // may happen for locked g in extra M since its pc is 0.
 	}
 	w := funcdata(f, _FUNCDATA_WrapInfo)
 	if w == nil {
