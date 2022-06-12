@@ -245,9 +245,11 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 	noder.MakeWrappers(typecheck.Target) // must happen after inlining
 
 	// Devirtualize.
+	var transformed []*ir.Name
 	for _, n := range typecheck.Target.Decls {
 		if n.Op() == ir.ODCLFUNC {
 			devirtualize.Func(n.(*ir.Func))
+			transformed = append(transformed, devirtualize.ForCapture(n.(*ir.Func))...)
 		}
 	}
 	ir.CurFunc = nil
@@ -271,6 +273,16 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 	// because large values may contain pointers, it must happen early.
 	base.Timer.Start("fe", "escapes")
 	escape.Funcs(typecheck.Target.Decls)
+
+	if base.Flag.LowerM < 0 {
+		for _, t := range transformed {
+			if t.Esc() == ir.EscHeap {
+				base.WarnfAt(t.Pos(), "Transformed loop variable %v ESCAPES", t)
+			} else if base.Flag.LowerM < -1 {
+				base.WarnfAt(t.Pos(), "Transformed loop variable %v does not escape", t)
+			}
+		}
+	}
 
 	// TODO(mdempsky): This is a hack. We need a proper, global work
 	// queue for scheduling function compilation so components don't

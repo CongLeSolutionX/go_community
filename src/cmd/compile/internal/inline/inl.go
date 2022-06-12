@@ -196,7 +196,7 @@ func CanInline(fn *ir.Func) {
 
 	if base.Flag.LowerM > 1 {
 		fmt.Printf("%v: can inline %v with cost %d as: %v { %v }\n", ir.Line(fn), n, inlineMaxBudget-visitor.budget, fn.Type(), ir.Nodes(n.Func.Inl.Body))
-	} else if base.Flag.LowerM != 0 {
+	} else if base.Flag.LowerM > 0 {
 		fmt.Printf("%v: can inline %v\n", ir.Line(fn), n)
 	}
 	if logopt.Enabled() {
@@ -768,7 +768,7 @@ func mkinlcall(n *ir.CallExpr, fn *ir.Func, maxCost int32, inlMap map[*ir.Func]b
 		}
 	}
 
-	if base.Flag.LowerM != 0 {
+	if base.Flag.LowerM > 0 {
 		fmt.Printf("%v: inlining call to %v\n", ir.Line(n), fn)
 	}
 	if base.Flag.LowerM > 2 {
