@@ -83,7 +83,7 @@ func (e *escape) assignList(dsts, srcs []ir.Node, why string, where ir.Node) {
 
 			// Filter out some no-op assignments for escape analysis.
 			if src != nil && isSelfAssign(dst, src) {
-				if base.Flag.LowerM != 0 {
+				if base.Flag.LowerM > 0 {
 					base.WarnfAt(where.Pos(), "%v ignoring self-assignment in %v", e.curfn, where)
 				}
 				k = e.discardHole()
