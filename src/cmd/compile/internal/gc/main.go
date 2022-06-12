@@ -16,6 +16,7 @@ import (
 	"cmd/compile/internal/inline"
 	"cmd/compile/internal/ir"
 	"cmd/compile/internal/logopt"
+	"cmd/compile/internal/loopvar"
 	"cmd/compile/internal/noder"
 	"cmd/compile/internal/pgo"
 	"cmd/compile/internal/pkginit"
@@ -270,10 +271,12 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 	}
 	noder.MakeWrappers(typecheck.Target) // must happen after inlining
 
-	// Devirtualize.
+	// Devirtualize and get variable capture right in for loops
+	var transformed []*ir.Name
 	for _, n := range typecheck.Target.Decls {
 		if n.Op() == ir.ODCLFUNC {
 			devirtualize.Func(n.(*ir.Func))
+			transformed = append(transformed, loopvar.ForCapture(n.(*ir.Func))...)
 		}
 	}
 	ir.CurFunc = nil
@@ -297,6 +300,16 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 	// because large values may contain pointers, it must happen early.
 	base.Timer.Start("fe", "escapes")
 	escape.Funcs(typecheck.Target.Decls)
+
+	if base.Debug.LoopVar >= 2 {
+		for _, t := range transformed {
+			if t.Esc() == ir.EscHeap {
+				base.WarnfAt(t.Pos(), "transformed loop variable %v escapes", t)
+			} else {
+				base.WarnfAt(t.Pos(), "transformed loop variable %v does not escape", t)
+			}
+		}
+	}
 
 	// TODO(mdempsky): This is a hack. We need a proper, global work
 	// queue for scheduling function compilation so components don't
