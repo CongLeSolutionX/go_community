@@ -43,7 +43,9 @@ type HashDebug struct {
 
 // The default compiler-debugging HashDebug, for "-d=gossahash=..."
 var hashDebug *HashDebug
-var FmaHash *HashDebug
+
+var FmaHash *HashDebug     // for debugging fused-multiply-add floating point changes
+var LoopVarHash *HashDebug // for debugging shared/private loop variable changes
 
 // DebugHashMatch reports whether debug variable Gossahash
 //
