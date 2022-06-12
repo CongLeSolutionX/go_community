@@ -96,4 +96,8 @@ type Flags struct {
 	// this compels the Go runtime to write to some arbitrary file, which
 	// may be exploited.
 	PageTrace bool
+
+	// LoopVar changes loop semantics so that each iteration gets its own
+	// copy of the iteration variable.
+	LoopVar bool
 }
