@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "020a1b9a_b6f9e5d6",
+        "filename": "src/runtime/cgocall.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 54979
+      },
+      "writtenOn": "2022-06-12T15:53:50Z",
+      "side": 1,
+      "message": "note: this field may also be useful in this CL: https://go-review.googlesource.com/c/go/+/392854/13/src/runtime/cgocall.go",
+      "revId": "61b509525aa45c4f13f6f1806a14a3916f9e3fb5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
