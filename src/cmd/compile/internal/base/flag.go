@@ -187,7 +187,34 @@ func ParseFlags() {
 	}
 
 	if Debug.Gossahash != "" {
-		hashDebug = NewHashDebug("gosshash", Debug.Gossahash, nil)
+		hashDebug = NewHashDebug("gossahash", Debug.Gossahash, nil)
+	}
+
+	// Three inputs govern loop variable rewriting, hash, experiment, flag.
+	// The loop variable rewriting is:
+	// IF non-empty hash, then hash determines behavior (function+line match)
+	// ELSE IF experiment and flag is zero, then experiment (set flag=1)
+	// ELSE flag, with behaviors:
+	//  -2 => no change, log opportunities
+	//  -1 => no change
+	//   0 => no change (unless non-empty hash, see above)
+	//   1 => apply change
+	//   2 => apply change, log results
+	//
+	// The expected uses of the these inputs are, in believed most-likely to least likely:
+	//  GOEXPERIMENT=loopvar -- apply change to entire application
+	//  -gcflags=some_package=-d=loopvar=1 -- apply change to some_package (*)
+	//  -gcflags=some_package=-d=loopvar=2 -- apply change to some_package, log it
+	//  GOEXPERIMENT=loopvar -gcflags=some_package=-d=loopvar=-1 -- apply change to all but one package
+	//  GOCOMPILEDEBUG=loopvarhash=... -- search for failure cause
+	//
+	//  (*) Currently this applies to all code in the compilation of some_package, including
+	//     inlines from other packages that may have been compiled w/o the change.
+	if Debug.LoopVarHash != "" {
+		LoopVarHash = NewHashDebug("loopvarhash", Debug.LoopVarHash, nil)
+		Debug.LoopVar = 0
+	} else if buildcfg.Experiment.LoopVar && Debug.LoopVar == 0 {
+		Debug.LoopVar = 1
 	}
 
 	if Debug.Fmahash != "" {
