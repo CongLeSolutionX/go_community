@@ -331,7 +331,8 @@ func TestRaceRange(t *testing.T) {
 	var x, y int
 	_ = x + y
 	done := make(chan bool, N)
-	for i, v := range a {
+	var i, v int
+	for i, v = range a {
 		go func(i int) {
 			// we don't want a write-vs-write race
 			// so there is no array b here
