@@ -972,6 +972,13 @@ func relSize(arch *sys.Arch, pn string, elftype uint32) (uint8, uint8, error) {
 	default:
 		return 0, 0, fmt.Errorf("%s: unknown relocation type %d; compiled without -fpic?", pn, elftype)
 
+	// PPC64 plt sequence hint relocations (-fno-plt).
+	case PPC64 | uint32(elf.R_PPC64_PLTSEQ)<<16,
+		PPC64 | uint32(elf.R_PPC64_PLTCALL)<<16,
+		PPC64 | uint32(elf.R_PPC64_PLTCALL_NOTOC)<<16,
+		PPC64 | uint32(elf.R_PPC64_PLTSEQ_NOTOC)<<16:
+		return 0, 0, nil
+
 	case MIPS | uint32(elf.R_MIPS_HI16)<<16,
 		MIPS | uint32(elf.R_MIPS_LO16)<<16,
 		MIPS | uint32(elf.R_MIPS_GOT16)<<16,
@@ -1107,7 +1114,9 @@ func relSize(arch *sys.Arch, pn string, elftype uint32) (uint8, uint8, error) {
 		PPC64 | uint32(elf.R_PPC64_TOC16_LO_DS)<<16,
 		PPC64 | uint32(elf.R_PPC64_REL16_LO)<<16,
 		PPC64 | uint32(elf.R_PPC64_REL16_HI)<<16,
-		PPC64 | uint32(elf.R_PPC64_REL16_HA)<<16:
+		PPC64 | uint32(elf.R_PPC64_REL16_HA)<<16,
+		PPC64 | uint32(elf.R_PPC64_PLT16_HA)<<16,
+		PPC64 | uint32(elf.R_PPC64_PLT16_LO_DS)<<16:
 		return 2, 4, nil
 	}
 }
