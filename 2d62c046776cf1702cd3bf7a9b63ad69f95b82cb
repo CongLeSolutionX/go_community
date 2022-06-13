@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b813e5b6_737b89a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-06-13T16:38:44Z",
+      "side": 1,
+      "message": "This change is missing needed context.\n\nWhat concrete problem(s) does it solve? (Ideally the changed error behaviors should be shown in a new regression test in `src/cmd/go/testdata/script`, which should fail prior to the code changes and pass after the code changes are applied.)\n\nWhat classes of errors are important to wrap (or to avoid wrapping) at these call sites?",
+      "revId": "2d62c046776cf1702cd3bf7a9b63ad69f95b82cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1633db9_ef6e5010",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-06-13T16:38:44Z",
+      "side": 1,
+      "message": "Please read and perform the steps in this list.",
+      "revId": "2d62c046776cf1702cd3bf7a9b63ad69f95b82cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
