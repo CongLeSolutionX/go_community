@@ -154,6 +154,30 @@
       },
       "revId": "1d0a474c0e9e02e1ba2676e2afd9b204efde447a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6f09e70_d36e799f",
+        "filename": "src/cmd/compile/internal/noder/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-06-13T18:04:59Z",
+      "side": 1,
+      "message": "We want to keep nounified working on dev.unified too, and up through Go 1.20. There\u0027s the linux-amd64-nounified builder to make sure this works, even if/when we switch unified to on by default.\n\nI haven\u0027t looked into the test/inline.go failure, but I think it\u0027s just a line number change in the -m diagnostics? I\u0027m not too worried about that, as long as the line numbers are reasonable in all cases.\n\nIf we want to just codify the existing behavior, what might be easiest is to just split the failing test case out into separate test/inline_unified.go and test/inline_nounified.go tests (and use `-goexperiment unified` and `-goexperiment nounified`) so we can put the `// ERROR` expectations on different lines.",
+      "parentUuid": "7df48407_98b85e35",
+      "range": {
+        "startLine": 263,
+        "startChar": 17,
+        "endLine": 263,
+        "endChar": 24
+      },
+      "revId": "1d0a474c0e9e02e1ba2676e2afd9b204efde447a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
