@@ -357,7 +357,7 @@ func buildssa(fn *ir.Func, worker int) *ssa.Func {
 	s.f.Cache = &ssaCaches[worker]
 	s.f.Cache.Reset()
 	s.f.Name = name
-	s.f.DebugTest = s.f.DebugHashMatch("GOSSAHASH")
+	s.f.DebugTest = s.f.DebugHashMatch()
 	s.f.PrintOrHtmlSSA = printssa
 	if fn.Pragma&ir.Nosplit != 0 {
 		s.f.NoSplit = true
