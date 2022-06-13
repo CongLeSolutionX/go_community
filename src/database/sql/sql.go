@@ -429,7 +429,7 @@ type Out struct {
 	// stored procedure's OUTPUT parameter.
 	Dest any
 
-	// In is whether the parameter is an INOUT parameter. If so, the input value to the stored
+	// In is whether the parameter is an INPUT parameter. If so, the input value to the stored
 	// procedure is the dereferenced value of Dest's pointer, which is then replaced with
 	// the output value.
 	In bool
