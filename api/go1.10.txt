@@ -355,7 +355,7 @@ pkg debug/elf, const R_PPC64_REL24_NOTOC = 116
 pkg debug/elf, const R_PPC64_REL24_NOTOC R_PPC64
 pkg debug/elf, const R_PPC64_SECTOFF_DS = 61
 pkg debug/elf, const R_PPC64_SECTOFF_DS R_PPC64
-pkg debug/elf, const R_PPC64_SECTOFF_LO_DS = 61
+pkg debug/elf, const R_PPC64_SECTOFF_LO_DS = 62
 pkg debug/elf, const R_PPC64_SECTOFF_LO_DS R_PPC64
 pkg debug/elf, const R_PPC64_TOCSAVE = 109
 pkg debug/elf, const R_PPC64_TOCSAVE R_PPC64
