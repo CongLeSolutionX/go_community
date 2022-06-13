@@ -111,6 +111,7 @@ pkg debug/elf, const R_LARCH_TLS_TPREL32 = 10 #46229
 pkg debug/elf, const R_LARCH_TLS_TPREL32 R_LARCH #46229
 pkg debug/elf, const R_LARCH_TLS_TPREL64 = 11 #46229
 pkg debug/elf, const R_LARCH_TLS_TPREL64 R_LARCH #46229
+pkg debug/elf, const R_PPC64_SECTOFF_LO_DS = 62 #53356
 pkg debug/elf, method (R_LARCH) GoString() string #46229
 pkg debug/elf, method (R_LARCH) String() string #46229
 pkg debug/elf, type R_LARCH int #46229
