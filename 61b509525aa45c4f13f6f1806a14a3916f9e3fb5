@@ -3,6 +3,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "3f63446b_96009b19",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 54979
+      },
+      "writtenOn": "2022-06-13T15:55:39Z",
+      "side": 1,
+      "message": "Seems it\u0027s complicated to emit `GoEnd` event for locked g in extra M, in `reentersyscall`.\nI\u0027m still working on it. Suggestions are also welcome, Thanks!",
+      "revId": "61b509525aa45c4f13f6f1806a14a3916f9e3fb5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "020a1b9a_b6f9e5d6",
         "filename": "src/runtime/cgocall.go",
         "patchSetId": 4
@@ -14,6 +31,23 @@
       "writtenOn": "2022-06-12T15:53:50Z",
       "side": 1,
       "message": "note: this field may also be useful in this CL: https://go-review.googlesource.com/c/go/+/392854/13/src/runtime/cgocall.go",
+      "revId": "61b509525aa45c4f13f6f1806a14a3916f9e3fb5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43bddb29_90acadb4",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 3619,
+      "author": {
+        "id": 54979
+      },
+      "writtenOn": "2022-06-13T15:55:39Z",
+      "side": 1,
+      "message": "Sorry, I found another failed case. We can not emit `GoEnd` here, since the `GoEnd` event does not have a goroutine id argument, and there may emit other goroutine events before here.",
       "revId": "61b509525aa45c4f13f6f1806a14a3916f9e3fb5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
