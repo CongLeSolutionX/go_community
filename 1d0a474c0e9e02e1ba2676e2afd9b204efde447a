@@ -61,6 +61,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0708d23_63b0b3d4",
+        "filename": "src/cmd/compile/internal/noder/codes.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-06-13T17:38:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4f1deb2_c7a74eab",
+      "range": {
+        "startLine": 33,
+        "startChar": 34,
+        "endLine": 33,
+        "endChar": 43
+      },
+      "revId": "1d0a474c0e9e02e1ba2676e2afd9b204efde447a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c5e8739c_8b0021c2",
@@ -74,6 +98,30 @@
       "writtenOn": "2022-06-13T17:18:55Z",
       "side": 1,
       "message": "Heh, this is what actually I found when trying to fix inline.go in #53058. This function is unused since we remove quirks mode.",
+      "range": {
+        "startLine": 263,
+        "startChar": 17,
+        "endLine": 263,
+        "endChar": 24
+      },
+      "revId": "1d0a474c0e9e02e1ba2676e2afd9b204efde447a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4acd1d12_70ed3174",
+        "filename": "src/cmd/compile/internal/noder/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-06-13T17:38:17Z",
+      "side": 1,
+      "message": "Done, removed.",
+      "parentUuid": "c5e8739c_8b0021c2",
       "range": {
         "startLine": 263,
         "startChar": 17,
