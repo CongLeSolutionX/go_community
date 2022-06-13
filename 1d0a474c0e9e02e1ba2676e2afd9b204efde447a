@@ -130,6 +130,30 @@
       },
       "revId": "1d0a474c0e9e02e1ba2676e2afd9b204efde447a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7df48407_98b85e35",
+        "filename": "src/cmd/compile/internal/noder/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-06-13T17:42:48Z",
+      "side": 1,
+      "message": "Hmm, sorry to hijack you here, but should we update inline.go to reflect new diagnostic message line number?\n\nIf we\u0027re going to keep 2 modes: unified and non-unified IR, when we merge dev.unified to master, then keeping the tests happy in 2 modes can be tricky.",
+      "parentUuid": "4acd1d12_70ed3174",
+      "range": {
+        "startLine": 263,
+        "startChar": 17,
+        "endLine": 263,
+        "endChar": 24
+      },
+      "revId": "1d0a474c0e9e02e1ba2676e2afd9b204efde447a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
