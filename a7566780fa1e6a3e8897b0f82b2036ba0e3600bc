@@ -95,6 +95,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7b63abd_0dda8d62",
+        "filename": "src/cmd/compile/internal/noder/reader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2301,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-06-13T23:26:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b205a51_55316eb5",
+      "range": {
+        "startLine": 2301,
+        "startChar": 49,
+        "endLine": 2301,
+        "endChar": 50
+      },
+      "revId": "a7566780fa1e6a3e8897b0f82b2036ba0e3600bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0e3793f0_389e7713",
@@ -120,6 +144,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6e04c1bc_23dd7849",
+        "filename": "src/cmd/compile/internal/noder/unified.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-06-13T23:26:45Z",
+      "side": 1,
+      "message": "Sorry, I\u0027m not sure what your question is. Does it help if I point out that \"out\" here refers to the io.Writer-typed parameter?",
+      "parentUuid": "0e3793f0_389e7713",
+      "range": {
+        "startLine": 255,
+        "startChar": 22,
+        "endLine": 255,
+        "endChar": 39
+      },
+      "revId": "a7566780fa1e6a3e8897b0f82b2036ba0e3600bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "76da7bb1_48f781b1",
         "filename": "src/cmd/compile/internal/noder/writer.go",
         "patchSetId": 2
@@ -131,6 +179,24 @@
       "writtenOn": "2022-06-13T22:28:29Z",
       "side": 1,
       "message": "Can these be something other than a *types2.Var?\n(given that I\u0027m puzzled, if the answer is \"yes\", it might be worth a mention)",
+      "revId": "a7566780fa1e6a3e8897b0f82b2036ba0e3600bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a218e5ca_6da84602",
+        "filename": "src/cmd/compile/internal/noder/writer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-06-13T23:26:45Z",
+      "side": 1,
+      "message": "No, closure variables are always represented as *types2.Var.",
+      "parentUuid": "76da7bb1_48f781b1",
       "revId": "a7566780fa1e6a3e8897b0f82b2036ba0e3600bc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
