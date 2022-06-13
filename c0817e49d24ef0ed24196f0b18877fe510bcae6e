@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f5d85f1_dbbc4dc8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57809
+      },
+      "writtenOn": "2022-06-13T16:57:12Z",
+      "side": 1,
+      "message": "Hi, just a simple typo fix, please take a look.",
+      "revId": "c0817e49d24ef0ed24196f0b18877fe510bcae6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
