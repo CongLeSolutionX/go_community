@@ -16,6 +16,23 @@
       "message": "Sorry, just ping.",
       "revId": "63def1611aac3e8c063284eb64deaec619a046dc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05bf6d4f_34df0b0b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34895
+      },
+      "writtenOn": "2022-06-13T19:26:44Z",
+      "side": 1,
+      "message": "Thanks, not sure why this didn\u0027t move forward.",
+      "revId": "63def1611aac3e8c063284eb64deaec619a046dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
