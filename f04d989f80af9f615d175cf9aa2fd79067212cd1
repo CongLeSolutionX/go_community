@@ -109,6 +109,24 @@
       "parentUuid": "8e09a37a_98f590d4",
       "revId": "f04d989f80af9f615d175cf9aa2fd79067212cd1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4531dde_eac620c4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-06-13T19:22:38Z",
+      "side": 1,
+      "message": "The new value should go into api/except.txt.  You shouldn\u0027t change api/go1.10.txt.  Thanks.",
+      "parentUuid": "ce85f2d7_9f44ae61",
+      "revId": "f04d989f80af9f615d175cf9aa2fd79067212cd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
