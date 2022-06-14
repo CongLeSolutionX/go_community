@@ -190,6 +190,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "91347f16_50d371a5",
+        "filename": "src/cmd/compile/internal/noder/unified.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-06-14T22:18:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "224c2c55_a8abf895",
+      "range": {
+        "startLine": 255,
+        "startChar": 22,
+        "endLine": 255,
+        "endChar": 39
+      },
+      "revId": "a7566780fa1e6a3e8897b0f82b2036ba0e3600bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "76da7bb1_48f781b1",
@@ -239,6 +263,24 @@
       "side": 1,
       "message": "in that case I\u0027d narrow the type, so that future us doesn\u0027t even need to think about this and is type-checker-prevented from doing the wrong thing.",
       "parentUuid": "a218e5ca_6da84602",
+      "revId": "a7566780fa1e6a3e8897b0f82b2036ba0e3600bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4452d199_e6d37905",
+        "filename": "src/cmd/compile/internal/noder/writer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-06-14T22:18:31Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "0ae34216_f4b4e372",
       "revId": "a7566780fa1e6a3e8897b0f82b2036ba0e3600bc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
