@@ -8,6 +8,8 @@ import (
 	"fmt"
 	"sort"
 	"sync"
+	"sync/atomic"
+	"unsafe"
 )
 
 // -----------------------------------------------------------------------------
@@ -367,10 +369,10 @@ func (f *File) Position(p Pos) (pos Position) {
 // interval later, using the FileSet.Base should be used as argument
 // for FileSet.AddFile.
 type FileSet struct {
-	mutex sync.RWMutex // protects the file set
-	base  int          // base offset for the next file
-	files []*File      // list of files in the order added to the set
-	last  *File        // cache of last file looked up
+	mutex sync.RWMutex   // protects the file set
+	base  int            // base offset for the next file
+	files []*File        // list of files in the order added to the set
+	last  unsafe.Pointer // cache of last *File looked up
 }
 
 // NewFileSet creates a new file set.
@@ -426,7 +428,7 @@ func (s *FileSet) AddFile(filename string, base, size int) *File {
 	// add the file to the file set
 	s.base = base
 	s.files = append(s.files, f)
-	s.last = f
+	atomic.StorePointer(&s.last, unsafe.Pointer(f)) // s.last = f
 	return f
 }
 
@@ -451,25 +453,25 @@ func searchFiles(a []*File, x int) int {
 }
 
 func (s *FileSet) file(p Pos) *File {
-	s.mutex.RLock()
-	// common case: p is in last file
-	if f := s.last; f != nil && f.base <= int(p) && int(p) <= f.base+f.size {
-		s.mutex.RUnlock()
+	// common case: p is in last file.
+	if f := (*File)(atomic.LoadPointer(&s.last)); f != nil && f.base <= int(p) && int(p) <= f.base+f.size {
 		return f
 	}
+
+	s.mutex.RLock()
+	defer s.mutex.RUnlock()
+
 	// p is not in last file - search all files
 	if i := searchFiles(s.files, int(p)); i >= 0 {
 		f := s.files[i]
 		// f.base <= int(p) by definition of searchFiles
 		if int(p) <= f.base+f.size {
-			s.mutex.RUnlock()
-			s.mutex.Lock()
-			s.last = f // race is ok - s.last is only a cache
-			s.mutex.Unlock()
+			// Update cache of last file. A race is ok,
+			// but an exclusive lock causes heavy contention.
+			atomic.StorePointer(&s.last, unsafe.Pointer(f)) // s.last = f
 			return f
 		}
 	}
-	s.mutex.RUnlock()
 	return nil
 }
 
