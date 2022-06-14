@@ -17,6 +17,8 @@ package codegen
 
 func SliceClear(s []int) []int {
 	// amd64:`.*memclrNoHeapPointers`
+	// ppc64le:`.*memclrNoHeapPointers`
+	// ppc64:`.*memclrNoHeapPointers`
 	for i := range s {
 		s[i] = 0
 	}
@@ -25,6 +27,8 @@ func SliceClear(s []int) []int {
 
 func SliceClearPointers(s []*int) []*int {
 	// amd64:`.*memclrHasPointers`
+	// ppc64le:`.*memclrHasPointers`
+	// ppc64:`.*memclrHasPointers`
 	for i := range s {
 		s[i] = nil
 	}
@@ -41,6 +45,12 @@ func SliceExtensionConst(s []int) []int {
 	// amd64:`.*runtime\.memclrNoHeapPointers`
 	// amd64:-`.*runtime\.makeslice`
 	// amd64:-`.*runtime\.panicmakeslicelen`
+	// ppc64le:`.*runtime\.memclrNoHeapPointers`
+	// ppc64le:-`.*runtime\.makeslice`
+	// ppc64le:-`.*runtime\.panicmakeslicelen`
+	// ppc64:`.*runtime\.memclrNoHeapPointers`
+	// ppc64:-`.*runtime\.makeslice`
+	// ppc64:-`.*runtime\.panicmakeslicelen`
 	return append(s, make([]int, 1<<2)...)
 }
 
@@ -48,6 +58,12 @@ func SliceExtensionConstInt64(s []int) []int {
 	// amd64:`.*runtime\.memclrNoHeapPointers`
 	// amd64:-`.*runtime\.makeslice`
 	// amd64:-`.*runtime\.panicmakeslicelen`
+	// ppc64le:`.*runtime\.memclrNoHeapPointers`
+	// ppc64le:-`.*runtime\.makeslice`
+	// ppc64le:-`.*runtime\.panicmakeslicelen`
+	// ppc64:`.*runtime\.memclrNoHeapPointers`
+	// ppc64:-`.*runtime\.makeslice`
+	// ppc64:-`.*runtime\.panicmakeslicelen`
 	return append(s, make([]int, int64(1<<2))...)
 }
 
@@ -55,6 +71,12 @@ func SliceExtensionConstUint64(s []int) []int {
 	// amd64:`.*runtime\.memclrNoHeapPointers`
 	// amd64:-`.*runtime\.makeslice`
 	// amd64:-`.*runtime\.panicmakeslicelen`
+	// ppc64le:`.*runtime\.memclrNoHeapPointers`
+	// ppc64le:-`.*runtime\.makeslice`
+	// ppc64le:-`.*runtime\.panicmakeslicelen`
+	// ppc64:`.*runtime\.memclrNoHeapPointers`
+	// ppc64:-`.*runtime\.makeslice`
+	// ppc64:-`.*runtime\.panicmakeslicelen`
 	return append(s, make([]int, uint64(1<<2))...)
 }
 
@@ -62,18 +84,32 @@ func SliceExtensionConstUint(s []int) []int {
 	// amd64:`.*runtime\.memclrNoHeapPointers`
 	// amd64:-`.*runtime\.makeslice`
 	// amd64:-`.*runtime\.panicmakeslicelen`
+	// ppc64le:`.*runtime\.memclrNoHeapPointers`
+	// ppc64le:-`.*runtime\.makeslice`
+	// ppc64le:-`.*runtime\.panicmakeslicelen`
+	// ppc64:`.*runtime\.memclrNoHeapPointers`
+	// ppc64:-`.*runtime\.makeslice`
+	// ppc64:-`.*runtime\.panicmakeslicelen`
 	return append(s, make([]int, uint(1<<2))...)
 }
 
 func SliceExtensionPointer(s []*int, l int) []*int {
 	// amd64:`.*runtime\.memclrHasPointers`
 	// amd64:-`.*runtime\.makeslice`
+	// ppc64le:`.*runtime\.memclrHasPointers`
+	// ppc64le:-`.*runtime\.makeslice`
+	// ppc64:`.*runtime\.memclrHasPointers`
+	// ppc64:-`.*runtime\.makeslice`
 	return append(s, make([]*int, l)...)
 }
 
 func SliceExtensionVar(s []byte, l int) []byte {
 	// amd64:`.*runtime\.memclrNoHeapPointers`
 	// amd64:-`.*runtime\.makeslice`
+	// ppc64le:`.*runtime\.memclrNoHeapPointers`
+	// ppc64le:-`.*runtime\.makeslice`
+	// ppc64:`.*runtime\.memclrNoHeapPointers`
+	// ppc64:-`.*runtime\.makeslice`
 	return append(s, make([]byte, l)...)
 }
 
@@ -114,6 +150,12 @@ func SliceMakeCopyLen(s []int) []int {
 	// amd64:`.*runtime\.mallocgc`
 	// amd64:`.*runtime\.memmove`
 	// amd64:-`.*runtime\.makeslice`
+	// ppc64le:`.*runtime\.mallocgc`
+	// ppc64le:`.*runtime\.memmove`
+	// ppc64le:-`.*runtime\.makeslice`
+	// ppc64:`.*runtime\.mallocgc`
+	// ppc64:`.*runtime\.memmove`
+	// ppc64:-`.*runtime\.makeslice`
 	a := make([]int, len(s))
 	copy(a, s)
 	return a
@@ -123,6 +165,12 @@ func SliceMakeCopyLenPtr(s []*int) []*int {
 	// amd64:`.*runtime\.makeslicecopy`
 	// amd64:-`.*runtime\.makeslice\(`
 	// amd64:-`.*runtime\.typedslicecopy
+	// ppc64le:`.*runtime\.makeslicecopy`
+	// ppc64le:-`.*runtime\.makeslice\(`
+	// ppc64le:-`.*runtime\.typedslicecopy
+	// ppc64:`.*runtime\.makeslicecopy`
+	// ppc64:-`.*runtime\.makeslice\(`
+	// ppc64:-`.*runtime\.typedslicecopy
 	a := make([]*int, len(s))
 	copy(a, s)
 	return a
