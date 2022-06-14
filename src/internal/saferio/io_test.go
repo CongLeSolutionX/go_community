@@ -37,3 +37,32 @@ func TestReadData(t *testing.T) {
 		}
 	})
 }
+
+func TestReadDataAt(t *testing.T) {
+	const count = 100
+	input := bytes.Repeat([]byte{'a'}, count)
+
+	t.Run("Small", func(t *testing.T) {
+		got, err := ReadDataAt(bytes.NewReader(input), count, 0)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if !bytes.Equal(got, input) {
+			t.Errorf("got %v, want %v", got, input)
+		}
+	})
+
+	t.Run("large", func(t *testing.T) {
+		_, err := ReadDataAt(bytes.NewReader(input), 10<<30, 0)
+		if err == nil {
+			t.Error("large read succeeded unexpectedly")
+		}
+	})
+
+	t.Run("maxint", func(t *testing.T) {
+		_, err := ReadDataAt(bytes.NewReader(input), 1<<62, 0)
+		if err == nil {
+			t.Error("large read succeeded unexpectedly")
+		}
+	})
+}

@@ -50,3 +50,40 @@ func ReadData(r io.Reader, n uint64) ([]byte, error) {
 	}
 	return buf, nil
 }
+
+// ReadDataAt reads n bytes from the input stream at off, but avoids
+// allocating all n bytes if n is large. This avoids crashing the program
+// by allocating all n bytes in cases where n is incorrect.
+func ReadDataAt(r io.ReaderAt, n uint64, off int64) ([]byte, error) {
+	if int64(n) < 0 || n != uint64(int(n)) {
+		// n is too large to fit in int, so we can't allocate
+		// a buffer large enough. Treat this as a read failure.
+		return nil, io.ErrUnexpectedEOF
+	}
+
+	if n < chunk {
+		buf := make([]byte, n)
+		_, err := r.ReadAt(buf, off)
+		if err != nil {
+			return nil, err
+		}
+		return buf, nil
+	}
+
+	var buf []byte
+	for n > 0 {
+		next := n
+		if next > chunk {
+			next = chunk
+		}
+		buf1 := make([]byte, next)
+		_, err := r.ReadAt(buf1, off)
+		if err != nil {
+			return nil, err
+		}
+		buf = append(buf, buf1...)
+		n -= next
+		off += int64(next)
+	}
+	return buf, nil
+}
