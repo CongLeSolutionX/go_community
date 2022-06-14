@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb114e97_3b6fd8be",
+        "filename": "src/net/lookup_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-06-14T18:50:16Z",
+      "side": 1,
+      "message": "This turns out to be an infinite recursion.  Sounds like we need a new test.",
+      "revId": "af88fb6502ceee973aaa118471c9d953a10a68e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
