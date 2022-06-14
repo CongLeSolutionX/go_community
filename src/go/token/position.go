@@ -8,6 +8,8 @@ import (
 	"fmt"
 	"sort"
 	"sync"
+	"sync/atomic"
+	"unsafe"
 )
 
 // -----------------------------------------------------------------------------
@@ -406,6 +408,9 @@ func (s *FileSet) Base() int {
 // For convenience, File.Pos may be used to create file-specific position
 // values from a file offset.
 func (s *FileSet) AddFile(filename string, base, size int) *File {
+	// Allocate f outside the critical section.
+	f := &File{set: s, name: filename, size: size, lines: []int{0}}
+
 	s.mutex.Lock()
 	defer s.mutex.Unlock()
 	if base < 0 {
@@ -414,11 +419,11 @@ func (s *FileSet) AddFile(filename string, base, size int) *File {
 	if base < s.base {
 		panic(fmt.Sprintf("invalid base %d (should be >= %d)", base, s.base))
 	}
+	f.base = base
 	if size < 0 {
 		panic(fmt.Sprintf("invalid size %d (should be >= 0)", size))
 	}
 	// base >= s.base && size >= 0
-	f := &File{set: s, name: filename, base: base, size: size, lines: []int{0}}
 	base += size + 1 // +1 because EOF also has a position
 	if base < 0 {
 		panic("token.Pos offset overflow (> 2G of source code in file set)")
@@ -426,7 +431,7 @@ func (s *FileSet) AddFile(filename string, base, size int) *File {
 	// add the file to the file set
 	s.base = base
 	s.files = append(s.files, f)
-	s.last = f
+	s.setLast(f)
 	return f
 }
 
@@ -451,27 +456,32 @@ func searchFiles(a []*File, x int) int {
 }
 
 func (s *FileSet) file(p Pos) *File {
-	s.mutex.RLock()
-	// common case: p is in last file
-	if f := s.last; f != nil && f.base <= int(p) && int(p) <= f.base+f.size {
-		s.mutex.RUnlock()
+	// common case: p is in last file.
+	if f := s.getLast(); f != nil && f.base <= int(p) && int(p) <= f.base+f.size {
 		return f
 	}
+
+	s.mutex.RLock()
+	defer s.mutex.RUnlock()
+
 	// p is not in last file - search all files
 	if i := searchFiles(s.files, int(p)); i >= 0 {
 		f := s.files[i]
 		// f.base <= int(p) by definition of searchFiles
 		if int(p) <= f.base+f.size {
-			s.mutex.RUnlock()
-			s.mutex.Lock()
-			s.last = f // race is ok - s.last is only a cache
-			s.mutex.Unlock()
+			// Update cache of last file. A race is ok,
+			// but an exclusive lock causes heavy contention.
+			s.setLast(f)
 			return f
 		}
 	}
-	s.mutex.RUnlock()
 	return nil
 }
+
+type uP = unsafe.Pointer
+
+func (s *FileSet) getLast() *File     { return (*File)(atomic.LoadPointer((*uP)(uP(&s.last)))) }
+func (s *FileSet) setLast(last *File) { atomic.StorePointer((*uP)(uP(&s.last)), uP(last)) }
 
 // File returns the file that contains the position p.
 // If no such file is found (for instance for p == NoPos),
