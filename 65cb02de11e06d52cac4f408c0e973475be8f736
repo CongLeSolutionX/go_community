@@ -97,6 +97,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "03929321_b77779f5",
+        "filename": "src/internal/saferio/io_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-06-14T21:08:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6243b13_93280045",
+      "range": {
+        "startLine": 16,
+        "startChar": 8,
+        "endLine": 16,
+        "endChar": 13
+      },
+      "revId": "65cb02de11e06d52cac4f408c0e973475be8f736",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ac0b4732_ba473bea",
@@ -110,6 +134,30 @@
       "writtenOn": "2022-06-14T08:14:51Z",
       "side": 1,
       "message": "s/Small/small/\n\nAs above.",
+      "range": {
+        "startLine": 45,
+        "startChar": 8,
+        "endLine": 45,
+        "endChar": 13
+      },
+      "revId": "65cb02de11e06d52cac4f408c0e973475be8f736",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "03f22be2_088d3590",
+        "filename": "src/internal/saferio/io_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-06-14T21:08:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ac0b4732_ba473bea",
       "range": {
         "startLine": 45,
         "startChar": 8,
