@@ -70,6 +70,24 @@
       "message": "I think \"assembler generated prologue\" is unclear. This prologue sequence is automatically generated for all functions, Go and assembler. I would just drop the word \"assembler\".",
       "revId": "c4c332841df6caa5a8ff7c61f6b61704275b8dc6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1885ac19_b9505209",
+        "filename": "src/runtime/asan_ppc64le.s",
+        "patchSetId": 8
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2022-06-14T13:38:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31f3d0be_7d9c15f9",
+      "revId": "c4c332841df6caa5a8ff7c61f6b61704275b8dc6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
