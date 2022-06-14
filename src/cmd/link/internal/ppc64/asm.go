@@ -140,7 +140,9 @@ func genstubs(ctxt *ld.Link, ldr *loader.Loader) {
 	for _, s := range ctxt.Textp {
 		relocs := ldr.Relocs(s)
 		for i := 0; i < relocs.Count(); i++ {
-			if r := relocs.At(i); r.Type() == objabi.ElfRelocOffset+objabi.RelocType(elf.R_PPC64_REL24) {
+			r := relocs.At(i)
+			switch r.Type() {
+			case objabi.ElfRelocOffset + objabi.RelocType(elf.R_PPC64_REL24):
 				switch ldr.SymType(r.Sym()) {
 				case sym.SDYNIMPORT:
 					// This call goes throught the PLT, generate and call through a PLT stub.
@@ -158,6 +160,31 @@ func genstubs(ctxt *ld.Link, ldr *loader.Loader) {
 							abifuncs = append(abifuncs, sym)
 						}
 					}
+				}
+
+			// Handle objects compiled with -fno-plt. Rewrite local calls to avoid indirect calling.
+			// These are 0 sized relocs. They mark the mtctr r12, or bctrl + ld r2,24(r1).
+			case objabi.ElfRelocOffset + objabi.RelocType(elf.R_PPC64_PLTSEQ):
+				if ldr.SymType(r.Sym()) == sym.STEXT {
+					// This should be an mtctr instruction. Turn it into a nop.
+					su := ldr.MakeSymbolUpdater(s)
+					const mtctrOpcode = 31<<26 | 0x9<<16 | 467<<1
+					const mtctrOpmask = 63<<26 | 0x3FF<<11 | 0x1FF<<1
+					rewritetonop(ldr, su, int64(r.Off()), mtctrOpmask, mtctrOpcode)
+				}
+			case objabi.ElfRelocOffset + objabi.RelocType(elf.R_PPC64_PLTCALL):
+				if ldr.SymType(r.Sym()) == sym.STEXT {
+					// This should be a bctrl + ld r2, 24(41)
+					su := ldr.MakeSymbolUpdater(s)
+					const blOp = 0x48000001 // bl 0
+					binary.LittleEndian.PutUint32(su.Data()[r.Off():], blOp)
+					// Turn this reloc into an R_CALLPOWER with local entry fixup.
+					su.SetRelocType(i, objabi.R_CALLPOWER)
+					su.SetRelocAdd(i, r.Add()+int64(ldr.SymLocalentry(r.Sym()))*4)
+					r.SetSiz(4)
+
+					const tocRestoreOp = 0xe8410018 // ld r2,24(r1)
+					rewritetonop(ldr, su, int64(r.Off()+4), 0xFFFFFFFF, tocRestoreOp)
 				}
 			}
 		}
@@ -347,6 +374,17 @@ func gencallstub(ctxt *ld.Link, ldr *loader.Loader, abicase int, stub *loader.Sy
 	stub.AddUint32(ctxt.Arch, 0x4e800420) // bctr
 }
 
+// Rewrite an offset in a symbol into a hardware nop instruction
+func rewritetonop(ldr *loader.Loader, su *loader.SymbolBuilder, offset int64, mask, check uint32) {
+	// TODO: this is ppc64le only.
+	su.MakeWritable()
+	op := binary.LittleEndian.Uint32(su.Data()[offset:])
+	if op&mask != check {
+		ldr.Errorf(su.Sym(), "Rewrite offset 0x%x to nop failed check (0x%08X&0x%08X != 0x%08X", offset, op, mask, check)
+	}
+	binary.LittleEndian.PutUint32(su.Data()[offset:], 0x60000000)
+}
+
 func adddynrel(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loader.Sym, r loader.Reloc, rIdx int) bool {
 	if target.IsElf() {
 		return addelfdynrel(target, ldr, syms, s, r, rIdx)
@@ -502,21 +540,19 @@ func addelfdynrel(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s lo
 			su.SetRelocSym(rIdx, syms.GOT)
 			su.SetRelocAdd(rIdx, r.Add()+int64(ldr.SymGot(targ)))
 		} else if targType == sym.STEXT {
-			// This is the half-way solution to transforming a PLT sequence into nops + bl targ
-			// We turn it into an indirect call by transforming step 2 into an addi.
-			// Fixing up the whole sequence is a bit more involved.
 			if isPLT16_LO_DS {
+				// Expect an ld opcode to nop
 				const ldOpmask = 63<<26 | 0x3
 				const ldOpcode = 58 << 26
-				// TODO: this is ppc64le only.
-				op := binary.LittleEndian.Uint32(su.Data()[r.Off():])
-				if op&ldOpmask != ldOpcode {
-					ldr.Errorf(s, "R_PPC64_PLT16_LO_DS does not relocation ld instruction (%08X)", op)
-				}
-				op = (op &^ ldOpmask) | 14<<26
-				su.MakeWritable()
-				binary.LittleEndian.PutUint32(su.Data()[r.Off():], op)
+				rewritetonop(ldr, su, int64(r.Off()), ldOpmask, ldOpcode)
+			} else {
+				// Expect an addis opcode to nop
+				const addisOpmask = 63 << 26
+				const addisOpcode = 15 << 26
+				rewritetonop(ldr, su, int64(r.Off()), addisOpmask, addisOpcode)
 			}
+			// And we can ignore this reloc now.
+			su.SetRelocType(rIdx, objabi.ElfRelocOffset)
 		} else {
 			ldr.Errorf(s, "Unexpected PLT relocation target symbol type %s", targType.String())
 		}
