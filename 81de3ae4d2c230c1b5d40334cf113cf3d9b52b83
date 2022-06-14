@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3aae32d_b38cbe5f",
+        "filename": "src/syscall/exec_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-06-14T22:07:04Z",
+      "side": 1,
+      "message": "When we break the comment out like this to a separate line, it should start with Pdeathsig, as in\n\nPdeathsig, if non-zero, is a signal ...\n\nNote that this documentation is only for Linux (the file is exec_linux.go) so the comment need not mention FreeBSD.\n\nAnd in general this comment is too long.  We don\u0027t need to explain how the runtime works, or a workaround (and it\u0027s not clear to me why the workaround works in the general case).  That is for an article on the web, not the docs here.  I think it would be OK to say\n\nPdeathsig, if non-zero, is a signal that the kernel will send to the child process when the creating thread dies. Note that the signal is sent on thread termination, which may happen before process termination.  There are more details at https://go.dev/issue/27505.",
+      "revId": "81de3ae4d2c230c1b5d40334cf113cf3d9b52b83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
