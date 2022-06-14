@@ -168,6 +168,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "224c2c55_a8abf895",
+        "filename": "src/cmd/compile/internal/noder/unified.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-06-14T14:24:07Z",
+      "side": 1,
+      "message": "That was exactly my confusion, and yes that would help.",
+      "parentUuid": "6e04c1bc_23dd7849",
+      "range": {
+        "startLine": 255,
+        "startChar": 22,
+        "endLine": 255,
+        "endChar": 39
+      },
+      "revId": "a7566780fa1e6a3e8897b0f82b2036ba0e3600bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "76da7bb1_48f781b1",
         "filename": "src/cmd/compile/internal/noder/writer.go",
         "patchSetId": 2
@@ -197,6 +221,24 @@
       "side": 1,
       "message": "No, closure variables are always represented as *types2.Var.",
       "parentUuid": "76da7bb1_48f781b1",
+      "revId": "a7566780fa1e6a3e8897b0f82b2036ba0e3600bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ae34216_f4b4e372",
+        "filename": "src/cmd/compile/internal/noder/writer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-06-14T14:24:07Z",
+      "side": 1,
+      "message": "in that case I\u0027d narrow the type, so that future us doesn\u0027t even need to think about this and is type-checker-prevented from doing the wrong thing.",
+      "parentUuid": "a218e5ca_6da84602",
       "revId": "a7566780fa1e6a3e8897b0f82b2036ba0e3600bc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
