@@ -45,7 +45,14 @@ type SysProcAttr struct {
 	// number in the parent process.
 	Foreground   bool
 	Pgid         int            // Child's process group ID if Setpgid.
-	Pdeathsig    Signal         // Signal that the process will get when its parent dies (Linux and FreeBSD only)
+	// Signal that the process will get when its parent dies (Linux and FreeBSD only)
+	// On Linux, the 'parent' means the parent thread, not process, which may cause
+	// unexpected signals sent when runtime decides to destroy a thread.
+	// This currently happens only when a goroutine calls runtime.LockOSThread
+	// and finishes without a matching runtime.UnlockOSThread call.
+	// A workaround is to call LockOSThread just before starting the new process
+	// and UnlockOSThread after it finishes.
+	Pdeathsig    Signal
 	Cloneflags   uintptr        // Flags for clone calls (Linux only)
 	Unshareflags uintptr        // Flags for unshare calls (Linux only)
 	UidMappings  []SysProcIDMap // User ID mappings for user namespaces.
