@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3fc8fb07_dace8620",
+        "filename": "test/codegen/mathbits.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2022-06-15T13:28:51Z",
+      "side": 1,
+      "message": "the function parameter size for these functions are shortened so it is implicitly assumed that we have only 16 bits. and so is the case with the rest of the functions such as LeadingZeros8, Len16 and Len8.",
+      "parentUuid": "f714b638_f8b1eff2",
+      "revId": "a5ac72766e75ce63fa587737a718fd49208f8550",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f1cd6a38_5468b080",
@@ -85,6 +103,24 @@
       "writtenOn": "2022-06-14T16:54:05Z",
       "side": 1,
       "message": "Same comment as in the 16 bit case.",
+      "revId": "a5ac72766e75ce63fa587737a718fd49208f8550",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f2e4a67_1fd8f5aa",
+        "filename": "test/codegen/mathbits.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2022-06-15T13:28:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1cd6a38_5468b080",
       "revId": "a5ac72766e75ce63fa587737a718fd49208f8550",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -106,6 +142,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a86f57d_28e81430",
+        "filename": "test/codegen/mathbits.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2022-06-15T13:28:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e2fdd516_7b19b43f",
+      "revId": "a5ac72766e75ce63fa587737a718fd49208f8550",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5da36817_6bd2a410",
@@ -119,6 +173,24 @@
       "writtenOn": "2022-06-14T16:54:05Z",
       "side": 1,
       "message": "Same comment as in LeadingZeros8.",
+      "revId": "a5ac72766e75ce63fa587737a718fd49208f8550",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "611e5641_83eb2080",
+        "filename": "test/codegen/mathbits.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2022-06-15T13:28:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5da36817_6bd2a410",
       "revId": "a5ac72766e75ce63fa587737a718fd49208f8550",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
