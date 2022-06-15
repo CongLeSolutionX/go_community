@@ -178,6 +178,24 @@
       "parentUuid": "f9509da0_eec16f41",
       "revId": "115f8cf4ad1fc97c52e8752defa30f91b8afa8e8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2561fd8_f466da43",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2573,
+      "author": {
+        "id": 32637
+      },
+      "writtenOn": "2022-06-15T23:46:04Z",
+      "side": 1,
+      "message": "I\u0027ve renamed the flag to `DisableGeneralOptionsHandler`.",
+      "parentUuid": "20e8c428_d3d2acf3",
+      "revId": "115f8cf4ad1fc97c52e8752defa30f91b8afa8e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
