@@ -53,6 +53,24 @@
       "message": "SGTM! I was not aware that a program elsewhere in GOROOT consumed this file; there were no comments pointing in that direction, and none of the tests seemingly failed. Perhaps we should change that.",
       "revId": "436021819d302d909f3b3f429eb16b2d2b4b209c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2330a70c_368655b5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-06-15T21:02:22Z",
+      "side": 1,
+      "message": "Good point, added a comment.",
+      "parentUuid": "d4a3abf2_ad892d8f",
+      "revId": "436021819d302d909f3b3f429eb16b2d2b4b209c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
