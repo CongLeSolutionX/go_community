@@ -33,6 +33,24 @@
       "message": "I\u0027m reluctant for the docs to say things like \"This is difficult to use correctly.\"  Condition variables are available in the standard library of a number of languages, so while they are more complicated than channels there is a lot of literature of how to use them correctly.\n\nI think it would be fine to say that for most use cases people should use channels.\n\nNormally when a condition variable is used every function that acquires the associated mutex does something with the condition variable.  So the comment about waiting goroutines, while true, seems a bit misplaced.",
       "revId": "eb6a151a156f1e642c5d1de99e67a870897ac49a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1d865cc_6f42278a",
+        "filename": "src/sync/cond.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-06-15T21:24:35Z",
+      "side": 1,
+      "message": "Instead of just “difficult to use correctly”, I would be inclined to give more specifics. Perhaps something like:\n\n“Uses of Cond are prone to deadlocks if Signal or Broadcast is not called often enough, such as if a goroutine consumes a signal but skips processing data, or returns some unprocessed data without signaling.\n\nUses of Cond are prone to performance issues if Signal or Broadcast is called too often, such as if Broadcast is used when only a single waiter will be able to proceed.”\n\nThat not only gives a more accurate warning, but also guides the reader toward specific issues to look for (and specific solutions to try to find in the literature) when they do encounter a bug.",
+      "parentUuid": "f8add11d_27b0ba3a",
+      "revId": "eb6a151a156f1e642c5d1de99e67a870897ac49a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
