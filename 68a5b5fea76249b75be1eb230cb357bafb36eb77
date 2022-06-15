@@ -38,6 +38,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "be795b9b_6f997be1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2022-06-15T21:28:44Z",
+      "side": 1,
+      "message": "Presumably since this is not a bug with an issue number I can\u0027t submit it yet.  (Is it considered cheating to create an issue just for that purpose?)",
+      "revId": "68a5b5fea76249b75be1eb230cb357bafb36eb77",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "83b36fba_a96b16f3",
@@ -51,6 +68,24 @@
       "writtenOn": "2022-06-14T23:00:44Z",
       "side": 1,
       "message": "Can we leave this as *File and do the conversion with the atomic operation?",
+      "revId": "68a5b5fea76249b75be1eb230cb357bafb36eb77",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de2486c6_73576470",
+        "filename": "src/go/token/position.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2022-06-15T21:28:44Z",
+      "side": 1,
+      "message": "Unfortunately no: the Atomic operations want a pointer to a variable of type unsafe.Pointer.\n\nOne day we\u0027ll have a nice generic wrapper around this.",
+      "parentUuid": "83b36fba_a96b16f3",
       "revId": "68a5b5fea76249b75be1eb230cb357bafb36eb77",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
