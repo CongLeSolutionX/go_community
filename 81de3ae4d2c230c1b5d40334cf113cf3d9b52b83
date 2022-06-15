@@ -16,6 +16,24 @@
       "message": "When we break the comment out like this to a separate line, it should start with Pdeathsig, as in\n\nPdeathsig, if non-zero, is a signal ...\n\nNote that this documentation is only for Linux (the file is exec_linux.go) so the comment need not mention FreeBSD.\n\nAnd in general this comment is too long.  We don\u0027t need to explain how the runtime works, or a workaround (and it\u0027s not clear to me why the workaround works in the general case).  That is for an article on the web, not the docs here.  I think it would be OK to say\n\nPdeathsig, if non-zero, is a signal that the kernel will send to the child process when the creating thread dies. Note that the signal is sent on thread termination, which may happen before process termination.  There are more details at https://go.dev/issue/27505.",
       "revId": "81de3ae4d2c230c1b5d40334cf113cf3d9b52b83",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce7d328b_06a401f3",
+        "filename": "src/syscall/exec_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 12385
+      },
+      "writtenOn": "2022-06-15T09:35:27Z",
+      "side": 1,
+      "message": "Thanks for the feedback, I updated it to your version.\n\nI was wondering about the FreeBSD because I\u0027d update also exec_freebsd.go, but I can\u0027t tell if it also is on thread termination on FreeBSD or not.",
+      "parentUuid": "c3aae32d_b38cbe5f",
+      "revId": "81de3ae4d2c230c1b5d40334cf113cf3d9b52b83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
