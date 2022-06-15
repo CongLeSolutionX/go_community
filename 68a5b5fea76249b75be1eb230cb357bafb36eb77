@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ecb1e622_ac73042e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-06-15T21:37:43Z",
+      "side": 1,
+      "message": "If this fixes a bug, you can submit it during the release freeze.  You don\u0027t need to open an issue in order to do that, just be honest about whether it is a bug or not.\n\nIf this is a performance issue (which it appears to be), then if you want to submit it during the release you should open an issue requesting a freeze exception; see https://go.dev/wiki/Go-Release-Cycle#freeze-exceptions.",
+      "parentUuid": "be795b9b_6f997be1",
+      "revId": "68a5b5fea76249b75be1eb230cb357bafb36eb77",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "83b36fba_a96b16f3",
