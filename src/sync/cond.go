@@ -22,6 +22,24 @@ import (
 // In the terminology of the Go memory model, Cond arranges that
 // a call to Broadcast or Signal “synchronizes before” any Wait call
 // that it unblocks.
+//
+// For many simple use cases, users will be better off using channels than
+// a Cond (Broadcast corresponds to calling close on a channel, and Signal
+// corresponds to sending on a channel).
+//
+// It is common for uses of Cond to lead to missed signals (a goroutine returns
+// unprocessed data without signaling) or extraneous signals (a goroutine
+// consumes a signal but does not process data). While Broadcast and Signal
+// allow waiting goroutines to continue, there are no guarantees that waiting
+// goroutines will continue before any other threads waiting to take the lock on
+// L, which can lead to unexpected program behavior.
+//
+// For more on replacements for sync.Cond, see [Roberto Clapis's series on
+// advanced concurrency patterns], as well as [Bryan Mills's talk on concurrency
+// patterns].
+//
+// [Roberto Clapis's series on advanced concurrency patterns]: https://blogtitle.github.io/categories/concurrency/
+// [Bryan Mills's talk on concurrency patterns]: https://drive.google.com/file/d/1nPdvhB0PutEJzdCq5ms6UI58dp50fcAN/view
 type Cond struct {
 	noCopy noCopy
 
@@ -64,6 +82,9 @@ func (c *Cond) Wait() {
 //
 // It is allowed but not required for the caller to hold c.L
 // during the call.
+//
+// Signal() does not affect goroutine scheduling priority; if other goroutines
+// are attempting to lock c.L, they may be awoken before a "waiting" goroutine.
 func (c *Cond) Signal() {
 	c.checker.check()
 	runtime_notifyListNotifyOne(&c.notify)
