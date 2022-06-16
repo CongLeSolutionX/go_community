@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "91cc940a_23a19754",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2022-06-16T13:23:40Z",
+      "side": 1,
+      "message": "FYI you need to edit the PR title anb body to update the commit message here. The commit message(s) on the PR are ignored. See https://github.com/golang/go/wiki/GerritBot.\n\nOr you can send a CL directly, which can be simpler for you.",
+      "revId": "0452ca2c333e7f54c345e5ab651eb9556a6966ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
