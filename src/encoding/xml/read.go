@@ -139,6 +139,13 @@ func (d *Decoder) Decode(v any) error {
 	return d.DecodeElement(v, nil)
 }
 
+// the following error indicate that the argument v passed to DecodeElement
+// is not a pointer value or is a nil pointer.
+var (
+	errNilPointer = errors.New("nil pointer passed to Unmarshal")
+	errNotPointer = errors.New("non-pointer passed to Unmarshal")
+)
+
 // DecodeElement works like Unmarshal except that it takes
 // a pointer to the start XML element to decode into v.
 // It is useful when a client reads some raw XML tokens itself
@@ -146,7 +153,11 @@ func (d *Decoder) Decode(v any) error {
 func (d *Decoder) DecodeElement(v any, start *StartElement) error {
 	val := reflect.ValueOf(v)
 	if val.Kind() != reflect.Pointer {
-		return errors.New("non-pointer passed to Unmarshal")
+		return errNotPointer
+	}
+
+	if val.IsNil() {
+		return errNilPointer
 	}
 	return d.unmarshal(val.Elem(), start)
 }

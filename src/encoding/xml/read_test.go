@@ -5,6 +5,7 @@
 package xml
 
 import (
+	"errors"
 	"io"
 	"reflect"
 	"strings"
@@ -1078,4 +1079,20 @@ func TestUnmarshalWhitespaceAttrs(t *testing.T) {
 	if v != want {
 		t.Fatalf("whitespace attrs: Unmarshal:\nhave: %#+v\nwant: %#+v", v, want)
 	}
+}
+
+// golang.org/issues/53350
+func TestUnmarshalIntoNil(t *testing.T) {
+	type T struct {
+		A int
+	}
+
+	var nilPointer *T
+	err := Unmarshal([]byte("<T><A>1<A/></T>"), nilPointer)
+	wantErr := errNilPointer
+
+	if errors.Is(err, wantErr) {
+		t.Fatalf("unmarshal into nil pointer:\nhave:%v\nwant: %v", err, wantErr)
+	}
+
 }
