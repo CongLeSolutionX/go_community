@@ -466,8 +466,7 @@ func (f *fmt) fmtC(c uint64) {
 		r = utf8.RuneError
 	}
 	buf := f.intbuf[:0]
-	w := utf8.EncodeRune(buf[:utf8.UTFMax], r)
-	f.pad(buf[:w])
+	f.pad(utf8.AppendRune(buf, r))
 }
 
 // fmtQc formats an integer as a single-quoted, escaped Go character constant.
