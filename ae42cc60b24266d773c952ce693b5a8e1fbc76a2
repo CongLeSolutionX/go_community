@@ -16,6 +16,57 @@
       "message": "Hi all. I sent this during the 1.18 release freeze and it may have fallen out of view. I just wanted to note that I\u0027m still active to maintain this CL and respond to feedback. I hope this can be included in 1.19. Please let me know if there\u0027s anything else I can do to help move this forward. Thanks!",
       "revId": "ae42cc60b24266d773c952ce693b5a8e1fbc76a2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0f4cc3c_d7027dfa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-06-16T12:28:36Z",
+      "side": 1,
+      "message": "Seems OK to me overall (disclaimer: I am not a \"go\" command expert)",
+      "revId": "ae42cc60b24266d773c952ce693b5a8e1fbc76a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1fff5e53_18106c79",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1424,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-06-16T12:28:36Z",
+      "side": 1,
+      "message": "This issues the error, but doesn\u0027t seem to cause the test to fail. If this WAI?",
+      "revId": "ae42cc60b24266d773c952ce693b5a8e1fbc76a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa8a417f_1f6e12c3",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1860,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-06-16T12:28:36Z",
+      "side": 1,
+      "message": "Unless I am missing something it seems as though it would be better to avoid using defer here and to an explicit close after the cache put, so that you can check for errors.",
+      "revId": "ae42cc60b24266d773c952ce693b5a8e1fbc76a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
