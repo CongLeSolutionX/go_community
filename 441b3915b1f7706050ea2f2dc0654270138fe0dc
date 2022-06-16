@@ -72,6 +72,24 @@
       "message": "nut: you can replace reflect.DeepEqual with a func literal, so we dont have to import reflect.",
       "revId": "441b3915b1f7706050ea2f2dc0654270138fe0dc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ed6b80e_b7dfadf0",
+        "filename": "test/typeparam/issue53390.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-06-16T18:04:38Z",
+      "side": 1,
+      "message": "Ack, thanks.",
+      "parentUuid": "366996ce_f0cab0f0",
+      "revId": "441b3915b1f7706050ea2f2dc0654270138fe0dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ],
   "submitRequirementResults": [
