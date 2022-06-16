@@ -203,10 +203,12 @@ var depsRules = `
 
 	log !< FMT;
 
+	golang.org/x/sys/cpu, FMT
+	< html;
+
 	# Misc packages needing only FMT.
 	FMT
-	< html,
-	  internal/goroot,
+	< internal/goroot,
 	  mime/quotedprintable,
 	  net/internal/socktest,
 	  net/url,

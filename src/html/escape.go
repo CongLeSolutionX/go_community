@@ -6,9 +6,19 @@
 package html
 
 import (
+	"os"
 	"strings"
 	"unicode/utf8"
+
+	"golang.org/x/sys/cpu"
 )
+
+//go:noescape
+func escapeStringGetLenAVX512(s string) int32
+func escapeStringAVX512(src string, dst []byte) string
+
+func unescapeScanAVX512(s string) int64
+func unescapeStringAVX512(s []byte) string
 
 // These replacements permit compatibility with old numeric entities that
 // assumed Windows-1252 encoding.
@@ -163,6 +173,22 @@ func unescapeEntity(b []byte, dst, src int) (dst1, src1 int) {
 	return dst1, src1
 }
 
+var disableHtmlAVX512, _ = os.LookupEnv("GO_DISABLE_HTML_AVX512")
+
+var supportsHtmlAVX512 = cpu.X86.HasAVX512 && cpu.X86.HasAVX512BW &&
+	cpu.X86.HasAVX512VBMI && cpu.X86.HasAVX512F &&
+	cpu.X86.HasAVX512DQ && cpu.X86.HasAVX512VL
+
+func htmlEscaperAVX512(str string) string {
+	escLen := escapeStringGetLenAVX512(str)
+	if int(escLen) != len(str) {
+		dst := make([]byte, escLen, escLen)
+		return escapeStringAVX512(str, dst)
+	} else {
+		return str
+	}
+}
+
 var htmlEscaper = strings.NewReplacer(
 	`&`, "&amp;",
 	`'`, "&#39;", // "&#39;" is shorter than "&apos;" and apos was not in HTML until HTML5.
@@ -176,7 +202,11 @@ var htmlEscaper = strings.NewReplacer(
 // UnescapeString(EscapeString(s)) == s always holds, but the converse isn't
 // always true.
 func EscapeString(s string) string {
-	return htmlEscaper.Replace(s)
+	if supportsHtmlAVX512 && !(disableHtmlAVX512 == "1") {
+		return htmlEscaperAVX512(s)
+	} else {
+		return htmlEscaper.Replace(s)
+	}
 }
 
 // UnescapeString unescapes entities like "&lt;" to become "<". It unescapes a
@@ -185,6 +215,21 @@ func EscapeString(s string) string {
 // UnescapeString(EscapeString(s)) == s always holds, but the converse isn't
 // always true.
 func UnescapeString(s string) string {
+	if supportsHtmlAVX512 && !(disableHtmlAVX512 == "1") {
+		i := unescapeScanAVX512(s)
+		if i < 0 {
+			return s
+		} else {
+			b := []byte(s)
+			x := unescapeStringAVX512(b)
+			return x
+		}
+	} else {
+		return unescapeString(s)
+	}
+}
+
+func unescapeString(s string) string {
 	populateMapsOnce.Do(populateMaps)
 	i := strings.IndexByte(s, '&')
 

@@ -10,7 +10,40 @@ import (
 )
 
 func init() {
-	UnescapeString("") // force load of entity maps
+	// force load of entity maps
+	if supportsHtmlAVX512 && !(disableHtmlAVX512 == "1") {
+		populateMapsOnce.Do(populateMaps) // force load of entity maps
+	} else {
+		UnescapeString("")
+	}
+}
+
+func TestEntitiesAvx(t *testing.T) {
+	if supportsHtmlAVX512 && !(disableHtmlAVX512 == "1") {
+		// validate avx-optimized entities == reference entities
+		// first for the entity map
+		for k, v := range entity {
+			r0 := make([]byte, 4)
+			len := utf8.EncodeRune(r0, v)
+			ref := string(r0[:len])
+			test := string([]byte(UnescapeString(EscapeString(UnescapeString("&" + k)))))
+			if test != ref {
+				t.Errorf("optimized unescape(%s) entity error, got %x expected %x", k, []byte(test), []byte(ref))
+			}
+		}
+		// then for the entity2 map
+		for k, v := range entity2 {
+			r0 := make([]byte, 4)
+			r1 := make([]byte, 4)
+			l0 := utf8.EncodeRune(r0, v[0])
+			l1 := utf8.EncodeRune(r1, v[1])
+			ref := string(append(r0[:l0], string(r1[:l1])...))
+			test := string([]byte(UnescapeString(EscapeString(UnescapeString("&" + k)))))
+			if test != ref {
+				t.Errorf("optimized unescape(%s) entity2 error, got %x expected %x", k, []byte(test), []byte(ref))
+			}
+		}
+	}
 }
 
 func TestEntityLength(t *testing.T) {
