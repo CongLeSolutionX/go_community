@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "723ae5e2_18fcf4f8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2022-06-16T20:22:27Z",
+      "side": 1,
+      "message": "What about using https://pkg.go.dev/sync/atomic#Pointer for storing the File?\nThat might also solve any lingering alignment issues.\n\nSince all this happens within the Go stdlib using modern API should be fine",
+      "revId": "c3c0fbaeb4ed63d2f376f8b20dd5337e73e5f3b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
