@@ -124,6 +124,24 @@
       "parentUuid": "83b36fba_a96b16f3",
       "revId": "68a5b5fea76249b75be1eb230cb357bafb36eb77",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53389de1_51204ed6",
+        "filename": "src/go/token/position.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2022-06-16T20:15:25Z",
+      "side": 1,
+      "message": "Excuse my fevered brain. The answer is yes, it just requires an extra unsafe conversion. PTAL.",
+      "parentUuid": "de2486c6_73576470",
+      "revId": "68a5b5fea76249b75be1eb230cb357bafb36eb77",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
