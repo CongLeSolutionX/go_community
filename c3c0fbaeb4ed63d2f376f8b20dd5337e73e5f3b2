@@ -34,6 +34,69 @@
       "parentUuid": "723ae5e2_18fcf4f8",
       "revId": "c3c0fbaeb4ed63d2f376f8b20dd5337e73e5f3b2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78d119c9_09c4a1fd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-06-16T20:40:12Z",
+      "side": 1,
+      "message": "LGTM. One nit.",
+      "revId": "c3c0fbaeb4ed63d2f376f8b20dd5337e73e5f3b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03577a19_68d31b0f",
+        "filename": "src/go/token/position.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-06-16T20:40:12Z",
+      "side": 1,
+      "message": "this comment is now redundant",
+      "range": {
+        "startLine": 474,
+        "startChar": 21,
+        "endLine": 474,
+        "endChar": 25
+      },
+      "revId": "c3c0fbaeb4ed63d2f376f8b20dd5337e73e5f3b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae071b2b_2838c093",
+        "filename": "src/go/token/position.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-06-16T20:40:12Z",
+      "side": 1,
+      "message": "and voila: the code is perfectly safe now... :-)",
+      "range": {
+        "startLine": 481,
+        "startChar": 10,
+        "endLine": 481,
+        "endChar": 16
+      },
+      "revId": "c3c0fbaeb4ed63d2f376f8b20dd5337e73e5f3b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
