@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fcaef992_256df6e1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-06-16T18:17:28Z",
+      "side": 1,
+      "message": "\"fix\" is rarely helpful in a topic sentence, as it doesn\u0027t describe the change in way that stands by itself for future readers.  I suggest\n\nencoding/xml: check for nil pointer in DecodeElement",
+      "revId": "d789e7bd3298dadd7aefdcaf461cf1cdd1acf8be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b496c95e_e7ac98d8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-06-16T18:17:28Z",
+      "side": 1,
+      "message": "If you update the topic line, then I don\u0027t think you need this paragraph at all.",
+      "revId": "d789e7bd3298dadd7aefdcaf461cf1cdd1acf8be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e9fc014_c640d0ac",
+        "filename": "src/encoding/xml/read.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-06-16T18:17:28Z",
+      "side": 1,
+      "message": "I don\u0027t see a reason to pull these out into variables that will have to be initialized at program startup time.  These errors are unlikely.  It\u0027s fine to just call errors.New in the code itself.",
+      "revId": "d789e7bd3298dadd7aefdcaf461cf1cdd1acf8be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96d902e5_5836b700",
+        "filename": "src/encoding/xml/read_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1092,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-06-16T18:17:28Z",
+      "side": 1,
+      "message": "In a test it\u0027s rarely useful to check for a specific error.  Just check that some error occurred.",
+      "revId": "d789e7bd3298dadd7aefdcaf461cf1cdd1acf8be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
