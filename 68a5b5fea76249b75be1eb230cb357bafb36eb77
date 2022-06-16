@@ -73,6 +73,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "752a542e_3f0c0bf4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2022-06-16T20:05:28Z",
+      "side": 1,
+      "message": "Thanks for clarifying. It is just a performance issue, and it\u0027s only one of dozens affecting us, so I can be patient. :)",
+      "parentUuid": "ecb1e622_ac73042e",
+      "revId": "68a5b5fea76249b75be1eb230cb357bafb36eb77",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "83b36fba_a96b16f3",
