@@ -53,6 +53,24 @@
       "message": "Thanks for the fix! This will need to wait until after the 1.19 release to be submitted.",
       "revId": "02351b2a1d5b3a5e04c8703945b52fb37757f872",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb844566_d1d0e267",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55613
+      },
+      "writtenOn": "2022-06-16T00:16:12Z",
+      "side": 1,
+      "message": "Thanks for the review.",
+      "parentUuid": "db82a413_db2c2ecc",
+      "revId": "02351b2a1d5b3a5e04c8703945b52fb37757f872",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
