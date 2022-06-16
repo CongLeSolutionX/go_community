@@ -51,6 +51,24 @@
       "parentUuid": "f8add11d_27b0ba3a",
       "revId": "eb6a151a156f1e642c5d1de99e67a870897ac49a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b13cad7f_ec308244",
+        "filename": "src/sync/cond.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 13437
+      },
+      "writtenOn": "2022-06-16T23:13:22Z",
+      "side": 1,
+      "message": "I\u0027ve tried my best to address your two comments and keep the doc short.\n\n\u003e So the comment about waiting goroutines, while true, seems a bit misplaced.\n\nIn my case we were using Cond to control writes to a shared buffer. The person who wrote the code expected the goroutine waiting on Signal() to run every time it was called, and flush the buffer. In practice, other goroutines would take the lock first and write even more data, leading to buffer overruns.",
+      "parentUuid": "d1d865cc_6f42278a",
+      "revId": "eb6a151a156f1e642c5d1de99e67a870897ac49a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
