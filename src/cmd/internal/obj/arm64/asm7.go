@@ -506,6 +506,7 @@ var optab = []Optab{
 	{AVFMLA, C_ARNG, C_ARNG, C_NONE, C_ARNG, 72, 4, 0, 0, 0},
 	{AVEXT, C_VCON, C_ARNG, C_ARNG, C_ARNG, 94, 4, 0, 0, 0},
 	{AVTBL, C_ARNG, C_NONE, C_LIST, C_ARNG, 100, 4, 0, 0, 0},
+	{AVTBX, C_ARNG, C_NONE, C_LIST, C_ARNG, 100, 4, 0, 0, 0},
 	{AVUSHR, C_VCON, C_ARNG, C_NONE, C_ARNG, 95, 4, 0, 0, 0},
 	{AVZIP1, C_ARNG, C_ARNG, C_NONE, C_ARNG, 72, 4, 0, 0, 0},
 	{AVUSHLL, C_VCON, C_ARNG, C_NONE, C_ARNG, 102, 4, 0, 0, 0},
@@ -3152,6 +3153,7 @@ func buildop(ctxt *obj.Link) {
 			AVST3,
 			AVST4,
 			AVTBL,
+			AVTBX,
 			AVDUP,
 			AVMOVI,
 			APRFM,
@@ -5468,7 +5470,7 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		rf := int(p.From.Reg)
 		o1 |= uint32(rf & 31)
 
-	case 100: /* VTBL Vn.<T>, [Vt1.<T>, Vt2.<T>, ...], Vd.<T> */
+	case 100: /* VTBL/VTBX Vn.<T>, [Vt1.<T>, Vt2.<T>, ...], Vd.<T> */
 		af := int((p.From.Reg >> 5) & 15)
 		at := int((p.To.Reg >> 5) & 15)
 		if af != at {
@@ -5499,7 +5501,14 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		default:
 			c.ctxt.Diag("invalid register numbers in ARM64 register list: %v", p)
 		}
-		o1 = q<<30 | 0xe<<24 | len<<13
+		var op uint32
+		switch p.As {
+		case AVTBL:
+			op = 0
+		case AVTBX:
+			op = 1
+		}
+		o1 = q<<30 | 0xe<<24 | len<<13 | op<<12
 		o1 |= (uint32(rf&31) << 16) | uint32(offset&31)<<5 | uint32(rt&31)
 
 	case 101: // VMOVQ $vcon1, $vcon2, Vd or VMOVD|VMOVS $vcon, Vd -> FMOVQ/FMOVD/FMOVS pool(PC), Vd: load from constant pool.
