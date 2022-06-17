@@ -16,6 +16,24 @@
       "message": "Honestly I would just leave out this entire paragraph.  I wouldn\u0027t describe any of these cases as \"common\".  They are bugs to watch out for, but this documentation here does not seem to me to be the place to point these out.  There are similar bugs with code that uses channels, after all.",
       "revId": "2f49a3f8715972c8ff611d5dd85bd98bf4cf1a30",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "780c9ae6_a74777fb",
+        "filename": "src/sync/cond.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 13437
+      },
+      "writtenOn": "2022-06-17T17:00:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "734ca757_b9934667",
+      "revId": "2f49a3f8715972c8ff611d5dd85bd98bf4cf1a30",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
