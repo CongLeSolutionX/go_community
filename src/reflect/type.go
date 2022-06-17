@@ -636,21 +636,29 @@ func (t *uncommonType) exportedMethods() []method {
 // resolveNameOff resolves a name offset from a base pointer.
 // The (*rtype).nameOff method is a convenience wrapper for this function.
 // Implemented in the runtime package.
+//
+//go:noescape
 func resolveNameOff(ptrInModule unsafe.Pointer, off int32) unsafe.Pointer
 
 // resolveTypeOff resolves an *rtype offset from a base type.
 // The (*rtype).typeOff method is a convenience wrapper for this function.
 // Implemented in the runtime package.
+//
+//go:noescape
 func resolveTypeOff(rtype unsafe.Pointer, off int32) unsafe.Pointer
 
 // resolveTextOff resolves a function pointer offset from a base type.
 // The (*rtype).textOff method is a convenience wrapper for this function.
 // Implemented in the runtime package.
+//
+//go:noescape
 func resolveTextOff(rtype unsafe.Pointer, off int32) unsafe.Pointer
 
 // addReflectOff adds a pointer to the reflection lookup map in the runtime.
 // It returns a new ID that can be used as a typeOff or textOff, and will
 // be resolved correctly. Implemented in the runtime package.
+//
+//go:noescape
 func addReflectOff(ptr unsafe.Pointer) int32
 
 // resolveReflectName adds a name to the reflection lookup map in the runtime.
@@ -1383,7 +1391,7 @@ func (t *structType) FieldByName(name string) (f StructField, present bool) {
 // TypeOf returns the reflection Type that represents the dynamic type of i.
 // If i is a nil interface value, TypeOf returns nil.
 func TypeOf(i any) Type {
-	eface := *(*emptyInterface)(unsafe.Pointer(&i))
+	eface := *(*emptyInterface)(noescape(unsafe.Pointer(&i)))
 	return toType(eface.typ)
 }
 
