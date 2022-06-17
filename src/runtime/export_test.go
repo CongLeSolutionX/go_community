@@ -229,6 +229,7 @@ func SetEnvs(e []string) { envs = e }
 // For benchmarking.
 
 func BenchSetType(n int, x any) {
+	Escape(x)
 	e := *efaceOf(&x)
 	t := e._type
 	var size uintptr
