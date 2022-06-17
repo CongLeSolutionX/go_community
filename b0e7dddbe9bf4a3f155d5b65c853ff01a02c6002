@@ -53,6 +53,24 @@
       "message": "This test case appears to demonstrate the same ICE and seems simpler IMO:\n\n```\nfunc main() {\n\tf[int]()\n}\n\nfunc f[T1 any]() {\n\tvar x Outer[T1, int]\n\tx.M()\n}\n\ntype Outer[T1, T2 any] struct{ Inner[T2] }\n\ntype Inner[_ any] int\n\nfunc (Inner[_]) M() {}\n```",
       "revId": "b0e7dddbe9bf4a3f155d5b65c853ff01a02c6002",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "631013ff_43c00f59",
+        "filename": "test/typeparam/issue53406.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 52329
+      },
+      "writtenOn": "2022-06-17T05:10:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6924e554_0f74d28c",
+      "revId": "b0e7dddbe9bf4a3f155d5b65c853ff01a02c6002",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
