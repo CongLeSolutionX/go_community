@@ -508,6 +508,7 @@ func (v *hairyVisitor) doNode(n ir.Node) bool {
 		// because getcaller{pc,sp} expect a pointer to the caller's first argument.
 		//
 		// runtime.throw is a "cheap call" like panic in normal code.
+		var cheap bool
 		if n.X.Op() == ir.ONAME {
 			name := n.X.(*ir.Name)
 			if name.Class == ir.PFUNC && types.IsRuntimePkg(name.Sym().Pkg) {
@@ -519,6 +520,14 @@ func (v *hairyVisitor) doNode(n ir.Node) bool {
 				if fn == "throw" {
 					v.budget -= inlineExtraThrowCost
 					break
+				}
+			}
+			// Special case for reflect.noescpae. It does just type
+			// conversions to appease the escape analysis, and doesn't
+			// generate code.
+			if name.Class == ir.PFUNC && types.IsReflectPkg(name.Sym().Pkg) {
+				if name.Sym().Name == "noescape" {
+					cheap = true
 				}
 			}
 			// Special case for coverage counter updates; although
@@ -539,7 +548,6 @@ func (v *hairyVisitor) doNode(n ir.Node) bool {
 			if meth := ir.MethodExprName(n.X); meth != nil {
 				if fn := meth.Func; fn != nil {
 					s := fn.Sym()
-					var cheap bool
 					if types.IsRuntimePkg(s.Pkg) && s.Name == "heapBits.nextArena" {
 						// Special case: explicitly allow mid-stack inlining of
 						// runtime.heapBits.next even though it calls slow-path
@@ -561,11 +569,11 @@ func (v *hairyVisitor) doNode(n ir.Node) bool {
 							cheap = true
 						}
 					}
-					if cheap {
-						break // treat like any other node, that is, cost of 1
-					}
 				}
 			}
+		}
+		if cheap {
+			break // treat like any other node, that is, cost of 1
 		}
 
 		// Determine if the callee edge is for an inlinable hot callee or not.
@@ -667,7 +675,7 @@ func (v *hairyVisitor) doNode(n ir.Node) bool {
 		// This doesn't produce code, but the children might.
 		v.budget++ // undo default cost
 
-	case ir.ODCLCONST, ir.OFALL:
+	case ir.ODCLCONST, ir.OFALL, ir.OTYPE:
 		// These nodes don't produce code; omit from inlining budget.
 		return false
 
