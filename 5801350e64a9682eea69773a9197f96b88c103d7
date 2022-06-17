@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9e9e4ca_711038b8",
+        "filename": "src/runtime/cgo/abi_mips64x.h",
+        "patchSetId": 31
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-06-17T21:20:42Z",
+      "side": 1,
+      "message": "You may need to define empty macros for softfloat mode?",
+      "revId": "5801350e64a9682eea69773a9197f96b88c103d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7fa243a_75a3cfb7",
+        "filename": "src/runtime/cgo/gcc_mips64x.S",
+        "patchSetId": 31
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-06-17T21:20:42Z",
+      "side": 1,
+      "message": "Just say R25.",
+      "range": {
+        "startLine": 52,
+        "startChar": 60,
+        "endLine": 52,
+        "endChar": 72
+      },
+      "revId": "5801350e64a9682eea69773a9197f96b88c103d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80533aad_cf537424",
+        "filename": "src/runtime/cgo/gcc_mips64x.S",
+        "patchSetId": 31
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-06-17T21:20:42Z",
+      "side": 1,
+      "message": "Why do you need to save R25? This function doesn\u0027t seem necessary to preserve R25.",
+      "range": {
+        "startLine": 53,
+        "startChar": 7,
+        "endLine": 53,
+        "endChar": 16
+      },
+      "revId": "5801350e64a9682eea69773a9197f96b88c103d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db75f739_9e984085",
+        "filename": "src/runtime/rt0_linux_mips64x.s",
+        "patchSetId": 31
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-06-17T21:20:42Z",
+      "side": 1,
+      "message": "Add a space after \",\".",
+      "revId": "5801350e64a9682eea69773a9197f96b88c103d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7a815ad_34ba9945",
+        "filename": "src/runtime/sys_linux_mips64x.s",
+        "patchSetId": 31
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-06-17T21:20:42Z",
+      "side": 1,
+      "message": "Instead of checking the instruction, I think we should check the build mode statically. Maybe define a macro like https://cs.opensource.google/go/go/+/master:src/cmd/go/internal/work/gc.go;l\u003d372  and check it with #ifdef.",
+      "range": {
+        "startLine": 412,
+        "startChar": 0,
+        "endLine": 415,
+        "endChar": 77
+      },
+      "revId": "5801350e64a9682eea69773a9197f96b88c103d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17028b57_21da6a92",
+        "filename": "src/runtime/tls_mips64x.s",
+        "patchSetId": 31
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-06-17T21:20:42Z",
+      "side": 1,
+      "message": "I don\u0027t think you need to preserve these registers. Just update the comment above and change the callers to not use them.\n\nAlso below.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 18
+      },
+      "revId": "5801350e64a9682eea69773a9197f96b88c103d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
