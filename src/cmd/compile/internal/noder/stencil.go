@@ -982,13 +982,15 @@ func (subst *subster) node(n ir.Node) ir.Node {
 		old := subst.skipClosure
 		// For unsafe.{Alignof,Offsetof,Sizeof}, subster will transform them to OLITERAL nodes,
 		// and discard their arguments. However, their children nodes were already process before,
-		// thus if they contain any closure, the closure was still be added to package declarations
-		// queue for processing later. Thus, genInst will fail to generate instantiation for the
-		// closure because of lacking dictionary information, see issue #53390.
+		// thus if any generic function body contain any closure, the closure was still be added
+		// to package declarations queue for processing later. Thus, genInst will fail to generate
+		// instantiation for the closure because of lacking dictionary information, see issue #53390
+		// and issue #53439.
 		if call, ok := m.(*ir.CallExpr); ok && call.X.Op() == ir.ONAME {
 			switch call.X.Name().BuiltinOp {
 			case ir.OALIGNOF, ir.OOFFSETOF, ir.OSIZEOF:
-				subst.skipClosure = true
+				_, skipClosure := call.Args[0].(*ir.CallExpr)
+				subst.skipClosure = skipClosure
 			}
 		}
 		ir.EditChildren(m, edit)
