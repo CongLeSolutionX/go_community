@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "59c21ff2_9681cf96",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-06-20T18:06:39Z",
+      "side": 1,
+      "message": "Thanks.  This will be for after the 1.19 release freeze.",
+      "revId": "35ac849631724f9737a3c443afc0f86ac3fadb4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
