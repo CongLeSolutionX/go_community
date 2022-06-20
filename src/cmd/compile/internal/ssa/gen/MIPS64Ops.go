@@ -57,7 +57,7 @@ var regNamesMIPS64 = []string{
 	"R22",
 	// R23 = REGTMP not used in regalloc
 	"R24",
-	"R25",
+	// R25 reserved for PIC code
 	// R26 reserved by kernel
 	// R27 reserved by kernel
 	// R28 = REGSB not used in regalloc
@@ -130,7 +130,7 @@ func init() {
 
 	// Common individual register masks
 	var (
-		gp         = buildReg("R1 R2 R3 R4 R5 R6 R7 R8 R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R24 R25 R31")
+		gp         = buildReg("R1 R2 R3 R4 R5 R6 R7 R8 R9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 R20 R21 R22 R24 R31")
 		gpg        = gp | buildReg("g")
 		gpsp       = gp | buildReg("SP")
 		gpspg      = gpg | buildReg("SP")
