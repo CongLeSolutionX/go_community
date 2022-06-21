@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfbbd362_7e43cd94",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-06-21T19:31:41Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "3ca196be_e6bf086e",
+      "range": {
+        "startLine": 10,
+        "startChar": 6,
+        "endLine": 10,
+        "endChar": 12
+      },
+      "revId": "ea49be64d414414a378136335b3f7289c574b0a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a5ed84c2_0f13ab9e",
@@ -91,6 +115,24 @@
       "writtenOn": "2022-06-21T14:37:00Z",
       "side": 1,
       "message": "The original intention of this link appears to be to point to the \"New atomic types\" section of these release notes (https://tip.golang.org/doc/go1.19#atomic_types), since it enumerates the new types. If you prefer to preserve that, then this link needs to become \"#atomic_types\" instead of \"#sync/atomic\".\n\nPointing to the package documentation for sync/atomic is okay too.",
+      "revId": "ea49be64d414414a378136335b3f7289c574b0a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "603a2330_aba834db",
+        "filename": "doc/go1.19.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-06-21T19:31:41Z",
+      "side": 1,
+      "message": "Makes sense.  Changed to #atomic_types.  Thanks.",
+      "parentUuid": "1a6b3c23_3b05abc5",
       "revId": "ea49be64d414414a378136335b3f7289c574b0a8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
