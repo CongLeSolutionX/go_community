@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "df56b5c7_6266c31a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55498
+      },
+      "writtenOn": "2022-06-21T01:47:44Z",
+      "side": 1,
+      "message": "Thank you for your feedback!",
+      "parentUuid": "c0f4cc3c_d7027dfa",
+      "revId": "ae42cc60b24266d773c952ce693b5a8e1fbc76a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1fff5e53_18106c79",
@@ -54,6 +72,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ca91bef2_f91151c2",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1424,
+      "author": {
+        "id": 55498
+      },
+      "writtenOn": "2022-06-21T01:47:44Z",
+      "side": 1,
+      "message": "I\u0027m not sure what the intended behavior is here. I can say that this should be maintaining the previous behavior.\n\nThis was a great point to call out and I hadn\u0027t considered it before. However, I don\u0027t think I\u0027m in a good position to make the decision to change the behavior in this CL. I generally agree that failures to write coverage profile data should fail the test run though.\n\nI\u0027ll wait for one of the \"go\" command experts to weigh in. If others agree with a change to fail tests here, I can dig a little deeper and file a new issue to correct the behavior. I think this can be changed independently of caching coverage profiles.",
+      "parentUuid": "1fff5e53_18106c79",
+      "revId": "ae42cc60b24266d773c952ce693b5a8e1fbc76a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fa8a417f_1f6e12c3",
         "filename": "src/cmd/go/internal/test/test.go",
         "patchSetId": 1
@@ -65,6 +101,24 @@
       "writtenOn": "2022-06-16T12:28:36Z",
       "side": 1,
       "message": "Unless I am missing something it seems as though it would be better to avoid using defer here and to an explicit close after the cache put, so that you can check for errors.",
+      "revId": "ae42cc60b24266d773c952ce693b5a8e1fbc76a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee1659c5_040a3cd9",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1860,
+      "author": {
+        "id": 55498
+      },
+      "writtenOn": "2022-06-21T01:47:44Z",
+      "side": 1,
+      "message": "I don\u0027t think you\u0027re missing anything. This was my mistake.\n\nI\u0027ve updated the code to log to os.Stderr , following the previous existing behavior. I\u0027m not completely certain that this is the correct decision, so I\u0027ll leave the comment unresolved for another reviewer to confirm.",
+      "parentUuid": "fa8a417f_1f6e12c3",
       "revId": "ae42cc60b24266d773c952ce693b5a8e1fbc76a2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
