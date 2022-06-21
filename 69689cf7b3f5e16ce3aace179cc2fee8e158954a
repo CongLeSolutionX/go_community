@@ -16,6 +16,24 @@
       "message": "Code looks OK but we are in the feature freeze:\nhttps://github.com/golang/go/wiki/Go-Release-Cycle\nhttps://groups.google.com/g/golang-dev/c/HzfjCwV_k5E",
       "revId": "69689cf7b3f5e16ce3aace179cc2fee8e158954a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bfffa25_99e0eee2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25135
+      },
+      "writtenOn": "2022-06-21T20:58:36Z",
+      "side": 1,
+      "message": "Is it possible to review this now? Unsure if we are in another freeze at this point?",
+      "parentUuid": "9d8cf0a0_f73c2b0a",
+      "revId": "69689cf7b3f5e16ce3aace179cc2fee8e158954a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
