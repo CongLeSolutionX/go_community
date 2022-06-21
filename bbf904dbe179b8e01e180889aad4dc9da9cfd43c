@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7bd574f2_77119201",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-06-21T15:09:22Z",
+      "side": 1,
+      "message": "Thanks for the CL. We\u0027re currently in the freeze for Go 1.19 release. We\u0027ll wait for the tree opens for Go 1.20. Thanks.\n\nR\u003dgo1.20\n",
+      "revId": "bbf904dbe179b8e01e180889aad4dc9da9cfd43c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f66ddd2_c81a6308",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3156,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-06-21T15:09:22Z",
+      "side": 1,
+      "message": "Instead of adding a separate entry to the optab, the convention is to add a case\n\ncase AVTBL: oprangeset(AVTBX, t)\n\nin this switch, and remove the optab entry above.",
+      "range": {
+        "startLine": 3155,
+        "startChar": 0,
+        "endLine": 3156,
+        "endChar": 9
+      },
+      "revId": "bbf904dbe179b8e01e180889aad4dc9da9cfd43c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
