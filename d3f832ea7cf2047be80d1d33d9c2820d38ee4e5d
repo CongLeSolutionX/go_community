@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "91da1abd_69d7c3cd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-06-21T16:56:19Z",
+      "side": 1,
+      "message": "LGTM. Gri may want to re-review given the change to use atomic.Pointer.",
+      "revId": "d3f832ea7cf2047be80d1d33d9c2820d38ee4e5d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
