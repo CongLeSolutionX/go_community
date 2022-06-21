@@ -168,9 +168,10 @@ func (n *BranchStmt) Sym() *types.Sym { return n.Label }
 // A CaseClause is a case statement in a switch or select: case List: Body.
 type CaseClause struct {
 	miniStmt
-	Var  *Name // declared variable for this case in type switch
-	List Nodes // list of expressions for switch, early select
-	Body Nodes
+	Var    *Name // declared variable for this case in type switch
+	List   Nodes // list of expressions for switch, early select
+	RTypes Nodes // list of RType expressions for emitted OEQ nodes; len(RTypes) <= len(List)
+	Body   Nodes
 }
 
 func NewCaseStmt(pos src.XPos, list, body []Node) *CaseClause {
