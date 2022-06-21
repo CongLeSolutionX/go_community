@@ -33,6 +33,24 @@
       "message": "This seems kind of awkward.  Could we instead define something like \"A stringish type is one for which the set of underlying types of all types in the type set is the two types []byte and string.\"  And then below say \"the core type is ... or the type is stringish.\"",
       "revId": "bb14b6158f91f98843d1851b3f31b92b22698135",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f3fd953_22910dd2",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1812,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-06-21T22:38:05Z",
+      "side": 1,
+      "message": "Rewritten using the term \"bytestring\" per discussion.",
+      "parentUuid": "6f6c547b_dee7ed65",
+      "revId": "bb14b6158f91f98843d1851b3f31b92b22698135",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
