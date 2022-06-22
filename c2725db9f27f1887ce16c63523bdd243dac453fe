@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "955aad98_6a128e8e",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 5961,
+      "author": {
+        "id": 34895
+      },
+      "writtenOn": "2022-06-22T19:32:05Z",
+      "side": 1,
+      "message": "A case like\n\nv, ok \u003d x.(T)\n\nisn\u0027t quite \"multiple values to a matching number of variables.\"  It\u0027s mentioned in the \"Type Assertions\" section with a reference to this section.   I wonder if this section should say something about that and the other comma-ok cases.",
+      "revId": "c2725db9f27f1887ce16c63523bdd243dac453fe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
