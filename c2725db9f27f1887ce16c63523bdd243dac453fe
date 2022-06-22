@@ -16,6 +16,24 @@
       "message": "A case like\n\nv, ok \u003d x.(T)\n\nisn\u0027t quite \"multiple values to a matching number of variables.\"  It\u0027s mentioned in the \"Type Assertions\" section with a reference to this section.   I wonder if this section should say something about that and the other comma-ok cases.",
       "revId": "c2725db9f27f1887ce16c63523bdd243dac453fe",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04f6ff5c_4547d167",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 5961,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-06-22T23:44:27Z",
+      "side": 1,
+      "message": "I wrote \"values\" rather than \"expressions\" exactly for this reason. For instance\n\na, b, c :\u003d f()\n\nis ok if f() is a multi-valued function. We have the notion of \"multi-value\" multi-ple times in the spec.\n\nWhat do you think?",
+      "parentUuid": "955aad98_6a128e8e",
+      "revId": "c2725db9f27f1887ce16c63523bdd243dac453fe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
