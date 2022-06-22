@@ -952,6 +952,7 @@ provides access to a numbered sequence of elements from that array.
 A slice type denotes the set of all slices of arrays of its element type.
 The number of elements is called the length of the slice and is never negative.
 The value of an uninitialized slice is <code>nil</code>.
+Slice types are <a href="#Reference_types">reference types</a>.
 </p>
 
 <pre class="ebnf">
@@ -1563,6 +1564,7 @@ A map is an unordered group of elements of one type, called the
 element type, indexed by a set of unique <i>keys</i> of another type,
 called the key type.
 The value of an uninitialized map is <code>nil</code>.
+Map types are <a href="#Reference_types">reference types</a>.
 </p>
 
 <pre class="ebnf">
@@ -1623,6 +1625,7 @@ to communicate by
 <a href="#Receive_operator">receiving</a>
 values of a specified element type.
 The value of an uninitialized channel is <code>nil</code>.
+Channel types are <a href="#Reference_types">reference types</a>.
 </p>
 
 <pre class="ebnf">
@@ -1700,6 +1703,31 @@ received in the order sent.
 </p>
 
 <h2 id="Properties_of_types_and_values">Properties of types and values</h2>
+
+<h3 id="Reference_types">Reference types</h3>
+
+<p>
+Slice, map, and channel types are <i>reference types</i>.
+The values stored in variables of these types are implementation-specific
+references (typically pointers) to the data structures that hold the slice,
+map, or channel elements; the values are not those elements themselves.
+</p>
+
+<p>
+In an <a href="#Assignment_statements">assignment</a> to a variable of
+reference type, only the references (pointers) are copied, not the
+data structures referred to by the references.
+Consequently, multiple variables may store the same reference
+(the same pointer) and thus share the types' elements.
+</p>
+
+<pre>
+type M map[string]int
+var m1, m2 M                     // maps are reference types
+m1, m2 = M{"foo":1}, M{"bar":2}  // m1 and m2 refer to two different map data structures
+m1 = m2                          // m1 and m2 refer to the same map data structure
+m2["bar"] = 3                    // m1["bar"] == 3 (m1 and m2 share the same map data structure)
+</pre>
 
 <h3 id="Underlying_types">Underlying types</h3>
 
@@ -4093,9 +4121,9 @@ or used as a function value.
 <p>
 In a function call, the function value and arguments are evaluated in
 <a href="#Order_of_evaluation">the usual order</a>.
-After they are evaluated, the parameters of the call are passed by value to the function
-and the called function begins execution.
-The return parameters of the function are passed by value
+After they are evaluated, the arguments of the call are assigned to the
+parameters of the function and the called function begins execution.
+The return parameters of the function are assigned
 back to the caller when the function returns.
 </p>
 
@@ -5957,7 +5985,7 @@ x--                 x -= 1
 
 <p>
 An <i>assignment</i> replaces the current value stored in a <a href="#Variables">variable</a>
-with a new value specified by an <a href="#Expressions">expression</a>.
+with a copy of a value specified by an <a href="#Expressions">expression</a>.
 An assignment statement may assign a single value to a single variable, or multiple values to a
 matching number of variables.
 </p>
