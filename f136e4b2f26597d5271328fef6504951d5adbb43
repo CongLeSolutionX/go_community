@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f56852d_6e7305d8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-06-22T20:38:21Z",
+      "side": 1,
+      "message": "TRY\u003dlinux-mips,linux-mips64le,linux-s390x,linux-riscv64\n",
+      "revId": "f136e4b2f26597d5271328fef6504951d5adbb43",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
