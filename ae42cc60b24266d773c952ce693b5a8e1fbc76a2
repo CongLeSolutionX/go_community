@@ -53,6 +53,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4cf0f4e6_c70d6825",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-06-22T20:47:25Z",
+      "side": 1,
+      "message": "Sorry we missed this during the 1.19 cycle. Unfortunately I think at this point it probably needs to wait for 1.20 — test caching in `cmd/go` is already somewhat buggy (see, for example, #49267) and I\u0027d prefer to avoid the risk of exposing additional bugs (or further exposing that bug), especially at this point in the cycle.\n\nIdeally we should probably fix #49267 (and hopefully simplify the test-caching logic) before adding more test-caching complexity...",
+      "parentUuid": "4a637346_909bd3cc",
+      "revId": "ae42cc60b24266d773c952ce693b5a8e1fbc76a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1fff5e53_18106c79",
@@ -84,6 +102,24 @@
       "side": 1,
       "message": "I\u0027m not sure what the intended behavior is here. I can say that this should be maintaining the previous behavior.\n\nThis was a great point to call out and I hadn\u0027t considered it before. However, I don\u0027t think I\u0027m in a good position to make the decision to change the behavior in this CL. I generally agree that failures to write coverage profile data should fail the test run though.\n\nI\u0027ll wait for one of the \"go\" command experts to weigh in. If others agree with a change to fail tests here, I can dig a little deeper and file a new issue to correct the behavior. I think this can be changed independently of caching coverage profiles.",
       "parentUuid": "1fff5e53_18106c79",
+      "revId": "ae42cc60b24266d773c952ce693b5a8e1fbc76a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea665123_8c34556f",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1424,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-06-22T20:47:25Z",
+      "side": 1,
+      "message": "I agree that this looks suspicious and I also agree that it can be fixed independently — but at least a TODO (and/or a fix in a CL prior to this one) would help clarify what\u0027s going on.",
+      "parentUuid": "ca91bef2_f91151c2",
       "revId": "ae42cc60b24266d773c952ce693b5a8e1fbc76a2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },

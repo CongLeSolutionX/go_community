@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6fa5b75f_20a06344",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1664,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-06-22T20:47:25Z",
+      "side": 1,
+      "message": "I\u0027m having some trouble interpreting this comment — could you add a bit more detail?\n\n(Which test data above? Which entry can be ignored?)",
+      "range": {
+        "startLine": 1663,
+        "startChar": 0,
+        "endLine": 1664,
+        "endChar": 30
+      },
+      "revId": "6405012a9730172f875f96eb80b4a2acc011a3f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce342698_0565cf9b",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1677,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-06-22T20:47:25Z",
+      "side": 1,
+      "message": "If `mergeCoverProfile` fails partway through a merge operation, does it back out the incremental writes?\n\nIf not, I think there is some risk of producing an invalid coverage profile if (for example) part of the coverage profile is merged before a read error occurs. (Probably a failure here needs to do more than just avoid the cached result.)\n\nI wonder — would it make sense to move the call to `mergeCoverProfile` to somewhere on the caller side, so that we are completely committed to using the cached result before we determine whether there is an error in merging?",
+      "range": {
+        "startLine": 1672,
+        "startChar": 0,
+        "endLine": 1677,
+        "endChar": 3
+      },
+      "revId": "6405012a9730172f875f96eb80b4a2acc011a3f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "329f90d9_8e4ca00a",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1873,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-06-22T20:47:25Z",
+      "side": 1,
+      "message": "(nit) It seems like we could simplify this a bit by consolidating the failure logic into the `saveCoverProfile` variable:\n\n\n```\nsaveCoverProfile :\u003d func(testID cache.ActionID) {}\nif coverprofileFile !\u003d \"\" {\n\tcoverprof, err \u003d os.Open(coverprofileFile)\n\tif err \u003d\u003d nil {\n\t\tsaveCoverProfile \u003d func(testID cache.ActionID) {\n\t\t\tcache.Default().Put(…)\n\t\t}\n\t\tdefer func() {\n\t\t\t…\n\t\t}()\n\t} else if cache.DebugTest {\n\t\tfmt.Fprintf(os.Stderr, \"testcache: %s: failed to open temporary coverprofile: %s\", a.Package.ImportPath, err)\n\t}\n}\n```",
+      "range": {
+        "startLine": 1861,
+        "startChar": 0,
+        "endLine": 1873,
+        "endChar": 2
+      },
+      "revId": "6405012a9730172f875f96eb80b4a2acc011a3f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
