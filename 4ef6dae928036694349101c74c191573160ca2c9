@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d992902_e0edd8a8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-06-22T23:54:10Z",
+      "side": 1,
+      "message": "Here\u0027s a first attempt at clarifying the distinction between value and reference types.\n\nThings are complicated in Go, with slices being some sort of hybrid, and strings which might behave like reference types when it comes to memory consumption. Interfaces (method calls) may show reference-like behavior depending on the dynamic type (I have ignored this).\n\nPerhaps its better to only define \"reference-like\" behavior instead, and concentrate on the important cases (slices, maps, channels)?\n\nLet me know what you think.\n",
+      "revId": "4ef6dae928036694349101c74c191573160ca2c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
