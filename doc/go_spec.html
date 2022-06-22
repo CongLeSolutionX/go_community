@@ -952,6 +952,7 @@ provides access to a numbered sequence of elements from that array.
 A slice type denotes the set of all slices of arrays of its element type.
 The number of elements is called the length of the slice and is never negative.
 The value of an uninitialized slice is <code>nil</code>.
+Slice types are <a href="#Value_vs_reference_types">reference types</a>.
 </p>
 
 <pre class="ebnf">
@@ -1563,6 +1564,7 @@ A map is an unordered group of elements of one type, called the
 element type, indexed by a set of unique <i>keys</i> of another type,
 called the key type.
 The value of an uninitialized map is <code>nil</code>.
+Map types are <a href="#Value_vs_reference_types">reference types</a>.
 </p>
 
 <pre class="ebnf">
@@ -1623,6 +1625,7 @@ to communicate by
 <a href="#Receive_operator">receiving</a>
 values of a specified element type.
 The value of an uninitialized channel is <code>nil</code>.
+Channel types are <a href="#Value_vs_reference_types">reference types</a>.
 </p>
 
 <pre class="ebnf">
@@ -1700,6 +1703,83 @@ received in the order sent.
 </p>
 
 <h2 id="Properties_of_types_and_values">Properties of types and values</h2>
+
+<h3 id="Value_vs_reference_types">Value vs reference types</h3>
+
+<p>
+A type may be a <i>value</i> or a <i>reference</i> type
+which determines how variables of that type store their values
+and what happens upon assignment.
+</p>
+
+<p>
+A <a href="#Variables">variable</a> of value type stores a unique copy of the value it holds.
+Multiple variables may store the same values but they are all independent of each other.
+The predeclared boolean, numeric, and string types, as well as array, struct,
+pointer, function, and interface types are value types.
+</p>
+
+<!-- TBD Should we consider pointer types as reference types? -->
+
+<pre>
+var v1, v2 int  // numeric types are value types
+v1, v2 = 1, 2   // v1 == 1, v2 == 2
+v1 = v2         // v1 == 2, v2 == 2; each variable holds a separate copy of 2
+v2 = 3          // v1 == 2, v2 == 3; assignment to v2 doesn't change v1
+</pre>
+
+<p>
+A variable of reference type stores a reference (a pointer to an underlying variable)
+for the value it holds.
+Multiple variables may store the same reference (the same pointer) and thus share the
+data stored in the underlying variable.
+If the shared data changes, all variables that share the reference see the same change.
+Slice, map, and channel types are reference types.
+</p>
+
+<pre>
+type M map[string]int
+var m1, m2 M                     // maps are reference types
+m1, m2 = M{"foo":1}, M{"bar":2}  // m1 == M{"foo":1}, m2 == M{"bar":2}
+m1 = m2                          // m1, m2 == M{"bar":2}; both variables refer to the same map
+m2["bar"] = 3                    // m1, m2 == M{"bar":3}; both variables refer to the same map
+</pre>
+
+<p>
+As a special case, a slice type is a hybrid of value and reference type:
+the <a href="#Slice_types">descriptor portion</a> of a slice behaves like a value type (a struct).
+But the underlying array holding the slice values behaves like a reference type because it remains
+shared among slices <a href="#Slice_expressions">created from other slices</a>.
+</p>
+
+<p>
+As a consequence of the sharing behavior, if a value of reference type is passed to
+a function, updates to the respective function parameter (such as slice element or
+map updates, or channel sends and receives) made inside the function will be visible
+in the caller.
+</p>
+
+<pre>
+func zero(s []int) {
+	for i := range s {
+		s[i] = 0
+	}
+}
+
+var s1 = []int{0, 1, 2, 3, 4, 5, 7}  // s1 == [0 1 2 3 4 5 7]
+var s2 = s1[2:5]                     // s2 == [2 3 4]
+zero(s2)                             // s1 == [0 1 0 0 0 5 7]
+                                     // s2 == [0 0 0]
+</pre>
+
+<!-- TBD Should we have this next paragraph in the spec? -->
+<p>
+Implementation restriction: Strings may be implemented similar to slices, with
+a descriptor holding the string length, and a pointer to the string bytes.
+Because strings are immutable, the observable behavior is that of a value type.
+But substrings may refer to the string bytes of the original string, and thus
+involuntarily hold on to possibly large amounts of memory.
+</p>
 
 <h3 id="Underlying_types">Underlying types</h3>
 
