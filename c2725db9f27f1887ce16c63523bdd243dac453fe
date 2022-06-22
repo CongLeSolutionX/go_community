@@ -34,6 +34,24 @@
       "parentUuid": "955aad98_6a128e8e",
       "revId": "c2725db9f27f1887ce16c63523bdd243dac453fe",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1b66ef9_128ddd4f",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 5961,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-06-22T23:53:57Z",
+      "side": 1,
+      "message": "I\u0027m OK with the test as is.  But at the same time I think that it is confusing.  I don\u0027t think there is any confusion about\n\na, b, c \u003d f()\n\nBut I think there is confusion about\n\nv1 \u003d x.(t)\nv2, ok \u003d x.(t)\n\nHere x.(t) doesn\u0027t seem like a multi-value expression.  x.(t) is a single value (whereas f(), above, is always a tuple of three values).  It\u0027s just that there is this special exception that applies only in an assignment statement in which x.(t) can produce two values.",
+      "parentUuid": "04f6ff5c_4547d167",
+      "revId": "c2725db9f27f1887ce16c63523bdd243dac453fe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
