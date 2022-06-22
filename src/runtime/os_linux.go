@@ -390,6 +390,10 @@ func gettid() uint32
 // Called to initialize a new m (including the bootstrap m).
 // Called on the new thread, cannot allocate memory.
 func minit() {
+	for i := 0; i < 1000; i++ {
+		dummy()
+	}
+
 	minitSignals()
 
 	// Cgo-created threads and the bootstrap m are missing a
@@ -397,6 +401,12 @@ func minit() {
 	// useful in debuggers.
 	getg().m.procid = uint64(gettid())
 }
+
+//go:noinline
+func dummy() { dummy2() }
+
+//go:noinline
+func dummy2() {}
 
 // Called from dropm to undo the effect of an minit.
 //
