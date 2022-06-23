@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e0a791e_1dba4de8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 34411
+      },
+      "writtenOn": "2022-06-23T21:45:29Z",
+      "side": 1,
+      "message": "Please add a reference to the associated issue:\n\nFixes #53507",
+      "revId": "d3f832ea7cf2047be80d1d33d9c2820d38ee4e5d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "91da1abd_69d7c3cd",
