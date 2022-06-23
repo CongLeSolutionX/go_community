@@ -37,6 +37,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "2831a483_0ae9db38",
+        "filename": "src/runtime/cgocall.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 54979
+      },
+      "writtenOn": "2022-06-23T03:20:44Z",
+      "side": 1,
+      "message": "yeah, delay emit trace events in `cgocallback` looks simpler.",
+      "parentUuid": "12afb5c1_102d912a",
+      "revId": "61b509525aa45c4f13f6f1806a14a3916f9e3fb5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "020a1b9a_b6f9e5d6",
         "filename": "src/runtime/cgocall.go",
         "patchSetId": 4
@@ -92,6 +110,48 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7be7edd9_eca58256",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2513,
+      "author": {
+        "id": 54979
+      },
+      "writtenOn": "2022-06-23T03:20:44Z",
+      "side": 1,
+      "message": "In my opinion, we can not reuse the `ncgo` field, `ncgo` is used for `go \u003d\u003e c` direction, while `cgolevel` is used for `c \u003d\u003e go` direction.\nWe need a way to know if it\u0027s the first level call to go from a c thread.",
+      "parentUuid": "bad6e705_2e81a359",
+      "range": {
+        "startLine": 2513,
+        "startChar": 26,
+        "endLine": 2513,
+        "endChar": 34
+      },
+      "revId": "61b509525aa45c4f13f6f1806a14a3916f9e3fb5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a439f6a_6a1bd748",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2513,
+      "author": {
+        "id": 54979
+      },
+      "writtenOn": "2022-06-23T03:20:44Z",
+      "side": 1,
+      "message": "After change to delay emit trace events in `cgocallbackg`, I think there won\u0027t be race, since we always skip emit trace events before `cgolevel++` in `cgocallbackg`.",
+      "parentUuid": "4336a06d_351a12a2",
+      "revId": "61b509525aa45c4f13f6f1806a14a3916f9e3fb5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "43bddb29_90acadb4",
@@ -111,6 +171,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "2ee379a8_90f2a9bd",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 3619,
+      "author": {
+        "id": 54979
+      },
+      "writtenOn": "2022-06-23T03:20:44Z",
+      "side": 1,
+      "message": "Done, we need to create a new goid.",
+      "parentUuid": "43bddb29_90acadb4",
+      "revId": "61b509525aa45c4f13f6f1806a14a3916f9e3fb5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "2e695aeb_564bf473",
         "filename": "src/runtime/proc.go",
         "patchSetId": 4
@@ -122,6 +200,24 @@
       "writtenOn": "2022-06-13T16:37:19Z",
       "side": 1,
       "message": "Hm, this has potential performance implications (positive or negative). I need to think more.",
+      "revId": "61b509525aa45c4f13f6f1806a14a3916f9e3fb5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b02c7ddc_14d88b3e",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 3652,
+      "author": {
+        "id": 54979
+      },
+      "writtenOn": "2022-06-23T03:20:44Z",
+      "side": 1,
+      "message": "I think it is positive in most cases, since the next call from c to go may be a long time, which means wasting P.\nI also added some comments for this change in the source code.\n\nFor the scene that calls go from c thread frequency, my colleague is working on another CL:\nchanged to put the g in `P.runnext` instead of putting it into the global run queue,\nto reduce the negative impact of this change, and more latency optimization in other scenes.",
+      "parentUuid": "2e695aeb_564bf473",
       "revId": "61b509525aa45c4f13f6f1806a14a3916f9e3fb5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
