@@ -180,6 +180,23 @@
       "parentUuid": "d4fb0a84_725311f4",
       "revId": "615b0c31a7781767df4810f54b91e570227a1e15",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1afb22d_974bfe2e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 35155
+      },
+      "writtenOn": "2022-06-23T16:36:22Z",
+      "side": 1,
+      "message": "(Removed Auto-Submit+1 because Matthew is currently added as a reviewer and this CL is in his attention set. Feel free to submit if waiting for Matthew isn\u0027t needed, I just wanted to give that option.)",
+      "revId": "615b0c31a7781767df4810f54b91e570227a1e15",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
