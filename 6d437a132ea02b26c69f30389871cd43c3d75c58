@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "254e51c0_5838e823",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1707,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-06-23T04:05:25Z",
+      "side": 1,
+      "message": "\"Pass by value\" is specific to functions and describes the behavior of assignments of function arguments to function parameters. Typically the argument passing style is controlled by how the function parameters are declared (e.g. VAR parameters in Pascal, or reference parameters in C++); irrespective of the types involved. For instance, one can pass a pointer \"by reference\".\n\nThat is, the \"argument passing style\" is orthogonal to the reference-like property of certain types.\n\nThe reference-like property is also observed in ordinary assignment, with no functions involved.\n\nSo I think we need to distinguish this at the type level. Or at least at the assignment level. Maybe \"assigned by value\" (which becomes \"passed by value\" when function arguments are involved).\n\nBut I hear you. Completely rewrote the section.",
+      "parentUuid": "823aaa8b_fbd4900d",
+      "revId": "6d437a132ea02b26c69f30389871cd43c3d75c58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "437de026_f4e27e55",
         "filename": "doc/go_spec.html",
         "patchSetId": 2
@@ -71,6 +89,42 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0800db74_680f7542",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1710,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-06-23T04:05:25Z",
+      "side": 1,
+      "message": "My apologies; I completely forgot about your CL.\n\nI agree that there are fewer moving parts.",
+      "parentUuid": "d55b3f05_c5d78788",
+      "revId": "6d437a132ea02b26c69f30389871cd43c3d75c58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4700320_9bf97017",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1710,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-06-23T04:05:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "437de026_f4e27e55",
+      "revId": "6d437a132ea02b26c69f30389871cd43c3d75c58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1ce1fee7_dbe6a643",
         "filename": "doc/go_spec.html",
         "patchSetId": 2
@@ -82,6 +136,24 @@
       "writtenOn": "2022-06-23T00:02:07Z",
       "side": 1,
       "message": "I think that pointer types are value types but I think you need a paragraph explaining that.",
+      "revId": "6d437a132ea02b26c69f30389871cd43c3d75c58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "69b1e421_1de220e3",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1722,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-06-23T04:05:25Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "1ce1fee7_dbe6a643",
       "revId": "6d437a132ea02b26c69f30389871cd43c3d75c58",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -103,6 +175,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bebf1efc_afa2e2e0",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1750,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-06-23T04:05:25Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "92607968_25cbf863",
+      "revId": "6d437a132ea02b26c69f30389871cd43c3d75c58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "11be9ecf_eee124f2",
@@ -116,6 +206,24 @@
       "writtenOn": "2022-06-23T00:02:07Z",
       "side": 1,
       "message": "I\u0027m inclined to say that we don\u0027t need this paragraph in the spec.",
+      "revId": "6d437a132ea02b26c69f30389871cd43c3d75c58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bedb607c_ae73760b",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1775,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-06-23T04:05:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11be9ecf_eee124f2",
       "revId": "6d437a132ea02b26c69f30389871cd43c3d75c58",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
