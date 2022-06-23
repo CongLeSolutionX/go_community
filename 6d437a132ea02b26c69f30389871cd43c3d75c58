@@ -125,6 +125,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b6212b85_0da4bc1f",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1710,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2022-06-23T18:02:42Z",
+      "side": 1,
+      "message": "If we\u0027re going to define the term \"reference types\", we should define it to cover all cases in which a value refers indirectly to mutable state. It seems wrong for the category to include slices (a hybrid) but not pointers, the most fundamental of references.\n\nYou mentioned in your review of my other CL that \"references\" has another meaning (the static relationship between an identifier and its declaration) and that it would be best to avoid giving it a second meaning. In that case I think you can use the term \"pointer-like\", if you describe the situation for pointers and then relate all the other types to them:\n\n- map and chan values act like pointers to the \"variable\" allocated by make().\n- aggregates (arrays and structs) may contain pointer-like types.\n- a slice value acts like a struct containing a pointer to an array.\n- a func value acts like a pointer to the function\u0027s free variables.\n- an interface value may contain values of any of the above types.\n\nIn all cases, an assignment (broadly defined) that copies any of these pointer-like values leads to aliasing.",
+      "parentUuid": "0800db74_680f7542",
+      "revId": "6d437a132ea02b26c69f30389871cd43c3d75c58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1ce1fee7_dbe6a643",
         "filename": "doc/go_spec.html",
         "patchSetId": 2
