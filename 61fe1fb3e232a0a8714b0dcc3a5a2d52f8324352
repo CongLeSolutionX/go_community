@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bdf9d43a_88e75a61",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 1712,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-06-23T17:32:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ad53a27_b3243715",
+      "revId": "61fe1fb3e232a0a8714b0dcc3a5a2d52f8324352",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ed0bf578_a1d51add",
@@ -48,6 +66,24 @@
       "writtenOn": "2022-06-23T11:06:48Z",
       "side": 1,
       "message": "s/(pointers) //\nsince they\u0027re only \"typically\" pointers. in fact they\u0027re usually structs.",
+      "revId": "61fe1fb3e232a0a8714b0dcc3a5a2d52f8324352",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca2df5ba_6ab9b4f7",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 1718,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-06-23T17:32:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed0bf578_a1d51add",
       "revId": "61fe1fb3e232a0a8714b0dcc3a5a2d52f8324352",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
