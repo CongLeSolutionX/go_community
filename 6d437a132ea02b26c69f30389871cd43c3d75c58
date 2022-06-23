@@ -1,6 +1,40 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "32820365_07f46080",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-06-23T01:02:30Z",
+      "side": 1,
+      "message": "n",
+      "revId": "6d437a132ea02b26c69f30389871cd43c3d75c58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "823aaa8b_fbd4900d",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1707,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-06-23T01:02:30Z",
+      "side": 1,
+      "message": "This is much more explanation than should be necessary.\n\nI suggest a different approach: The phrase \"pass by value\" does not appear in the spec. Put that in, and say that the term \"value\" in function call is the actual value for scalars and pointers, and the compound object for arrays and structs. For slices, maps, and channels, the value is of an implementation-specific object that includes the information (typically a pointer) to access its components, but not the components themselves.",
+      "revId": "6d437a132ea02b26c69f30389871cd43c3d75c58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "437de026_f4e27e55",
