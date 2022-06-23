@@ -54,6 +54,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d55b3f05_c5d78788",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1710,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2022-06-23T02:48:26Z",
+      "side": 1,
+      "message": "I don\u0027t think the value vs reference type distinction is rigorous enough to belong in the spec. Slices and many structs contain a mix of values and references, which really muddies the waters.\n\nA few months back I sent https://go-review.googlesource.com/c/go/+/391634 to update the spec wording on this topic, and the approach it takes is to let pointers do most of the heavy lifting, to state that assignments make copies of pointers, leading to aliasing (effects through one copy of a pointer are observed through another), and to define that maps and channels are pointer-like references to the data structures created by \"make\".\n\nEven if you don\u0027t like the wording of that CL, you might find its approach has fewer moving parts.",
+      "revId": "6d437a132ea02b26c69f30389871cd43c3d75c58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1ce1fee7_dbe6a643",
         "filename": "doc/go_spec.html",
         "patchSetId": 2
