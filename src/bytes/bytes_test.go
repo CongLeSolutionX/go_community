@@ -303,16 +303,17 @@ func TestIndexByte(t *testing.T) {
 	}
 }
 
+var lastIndexByteTests = []BinOpTest{
+	{"", "q", -1},
+	{"abcdef", "q", -1},
+	{"abcdefabcdef", "a", len("abcdef")},      // something in the middle
+	{"abcdefabcdef", "f", len("abcdefabcde")}, // last byte
+	{"zabcdefabcdef", "z", 0},                 // first byte
+	{"a☺b☻c☹d", "b", len("a☺")},               // non-ascii
+}
+
 func TestLastIndexByte(t *testing.T) {
-	testCases := []BinOpTest{
-		{"", "q", -1},
-		{"abcdef", "q", -1},
-		{"abcdefabcdef", "a", len("abcdef")},      // something in the middle
-		{"abcdefabcdef", "f", len("abcdefabcde")}, // last byte
-		{"zabcdefabcdef", "z", 0},                 // first byte
-		{"a☺b☻c☹d", "b", len("a☺")},               // non-ascii
-	}
-	for _, test := range testCases {
+	for _, test := range lastIndexByteTests {
 		actual := LastIndexByte([]byte(test.a), test.b[0])
 		if actual != test.i {
 			t.Errorf("LastIndexByte(%q,%c) = %v; want %v", test.a, test.b[0], actual, test.i)
@@ -408,37 +409,38 @@ func TestIndexByteSmall(t *testing.T) {
 	}
 }
 
+var indexRuneTests = []struct {
+	in   string
+	rune rune
+	want int
+}{
+	{"", 'a', -1},
+	{"", '☺', -1},
+	{"foo", '☹', -1},
+	{"foo", 'o', 1},
+	{"foo☺bar", '☺', 3},
+	{"foo☺☻☹bar", '☹', 9},
+	{"a A x", 'A', 2},
+	{"some_text=some_value", '=', 9},
+	{"☺a", 'a', 3},
+	{"a☻☺b", '☺', 4},
+
+	// RuneError should match any invalid UTF-8 byte sequence.
+	{"�", '�', 0},
+	{"\xff", '�', 0},
+	{"☻x�", '�', len("☻x")},
+	{"☻x\xe2\x98", '�', len("☻x")},
+	{"☻x\xe2\x98�", '�', len("☻x")},
+	{"☻x\xe2\x98x", '�', len("☻x")},
+
+	// Invalid rune values should never match.
+	{"a☺b☻c☹d\xe2\x98�\xff�\xed\xa0\x80", -1, -1},
+	{"a☺b☻c☹d\xe2\x98�\xff�\xed\xa0\x80", 0xD800, -1}, // Surrogate pair
+	{"a☺b☻c☹d\xe2\x98�\xff�\xed\xa0\x80", utf8.MaxRune + 1, -1},
+}
+
 func TestIndexRune(t *testing.T) {
-	tests := []struct {
-		in   string
-		rune rune
-		want int
-	}{
-		{"", 'a', -1},
-		{"", '☺', -1},
-		{"foo", '☹', -1},
-		{"foo", 'o', 1},
-		{"foo☺bar", '☺', 3},
-		{"foo☺☻☹bar", '☹', 9},
-		{"a A x", 'A', 2},
-		{"some_text=some_value", '=', 9},
-		{"☺a", 'a', 3},
-		{"a☻☺b", '☺', 4},
-
-		// RuneError should match any invalid UTF-8 byte sequence.
-		{"�", '�', 0},
-		{"\xff", '�', 0},
-		{"☻x�", '�', len("☻x")},
-		{"☻x\xe2\x98", '�', len("☻x")},
-		{"☻x\xe2\x98�", '�', len("☻x")},
-		{"☻x\xe2\x98x", '�', len("☻x")},
-
-		// Invalid rune values should never match.
-		{"a☺b☻c☹d\xe2\x98�\xff�\xed\xa0\x80", -1, -1},
-		{"a☺b☻c☹d\xe2\x98�\xff�\xed\xa0\x80", 0xD800, -1}, // Surrogate pair
-		{"a☺b☻c☹d\xe2\x98�\xff�\xed\xa0\x80", utf8.MaxRune + 1, -1},
-	}
-	for _, tt := range tests {
+	for _, tt := range indexRuneTests {
 		if got := IndexRune([]byte(tt.in), tt.rune); got != tt.want {
 			t.Errorf("IndexRune(%q, %d) = %v; want %v", tt.in, tt.rune, got, tt.want)
 		}
@@ -738,7 +740,7 @@ type SplitTest struct {
 	a   []string
 }
 
-var splittests = []SplitTest{
+var splitTests = []SplitTest{
 	{"", "", -1, []string{}},
 	{abcd, "a", 0, nil},
 	{abcd, "", 2, []string{"a", "bcd"}},
@@ -758,7 +760,7 @@ var splittests = []SplitTest{
 }
 
 func TestSplit(t *testing.T) {
-	for _, tt := range splittests {
+	for _, tt := range splitTests {
 		a := SplitN([]byte(tt.s), []byte(tt.sep), tt.n)
 
 		// Appending to the results should not change future results.
@@ -799,7 +801,7 @@ func TestSplit(t *testing.T) {
 	}
 }
 
-var splitaftertests = []SplitTest{
+var splitAfterTests = []SplitTest{
 	{abcd, "a", -1, []string{"a", "bcd"}},
 	{abcd, "z", -1, []string{"abcd"}},
 	{abcd, "", -1, []string{"a", "b", "c", "d"}},
@@ -816,7 +818,7 @@ var splitaftertests = []SplitTest{
 }
 
 func TestSplitAfter(t *testing.T) {
-	for _, tt := range splitaftertests {
+	for _, tt := range splitAfterTests {
 		a := SplitAfterN([]byte(tt.s), []byte(tt.sep), tt.n)
 
 		// Appending to the results should not change future results.
@@ -853,7 +855,7 @@ type FieldsTest struct {
 	a []string
 }
 
-var fieldstests = []FieldsTest{
+var fieldsTests = []FieldsTest{
 	{"", []string{}},
 	{" ", []string{}},
 	{" \t ", []string{}},
@@ -868,7 +870,7 @@ var fieldstests = []FieldsTest{
 }
 
 func TestFields(t *testing.T) {
-	for _, tt := range fieldstests {
+	for _, tt := range fieldsTests {
 		b := []byte(tt.s)
 		a := Fields(b)
 
@@ -896,7 +898,7 @@ func TestFields(t *testing.T) {
 }
 
 func TestFieldsFunc(t *testing.T) {
-	for _, tt := range fieldstests {
+	for _, tt := range fieldsTests {
 		a := FieldsFunc([]byte(tt.s), unicode.IsSpace)
 		result := sliceOfString(a)
 		if !eq(result, tt.a) {
@@ -1156,7 +1158,7 @@ type RepeatTest struct {
 	count   int
 }
 
-var RepeatTests = []RepeatTest{
+var repeatTests = []RepeatTest{
 	{"", "", 0},
 	{"", "", 1},
 	{"", "", 2},
@@ -1167,7 +1169,7 @@ var RepeatTests = []RepeatTest{
 }
 
 func TestRepeat(t *testing.T) {
-	for _, tt := range RepeatTests {
+	for _, tt := range repeatTests {
 		tin := []byte(tt.in)
 		tout := []byte(tt.out)
 		a := Repeat(tin, tt.count)
@@ -1244,7 +1246,7 @@ type RunesTest struct {
 	lossy bool
 }
 
-var RunesTests = []RunesTest{
+var runesTests = []RunesTest{
 	{"", []rune{}, false},
 	{" ", []rune{32}, false},
 	{"ABC", []rune{65, 66, 67}, false},
@@ -1255,7 +1257,7 @@ var RunesTests = []RunesTest{
 }
 
 func TestRunes(t *testing.T) {
-	for _, tt := range RunesTests {
+	for _, tt := range runesTests {
 		tin := []byte(tt.in)
 		a := Runes(tin)
 		if !runesEqual(a, tt.out) {
@@ -1562,7 +1564,7 @@ type ReplaceTest struct {
 	out      string
 }
 
-var ReplaceTests = []ReplaceTest{
+var replaceTests = []ReplaceTest{
 	{"hello", "l", "L", 0, "hello"},
 	{"hello", "l", "L", -1, "heLLo"},
 	{"hello", "x", "X", -1, "hello"},
@@ -1585,7 +1587,7 @@ var ReplaceTests = []ReplaceTest{
 }
 
 func TestReplace(t *testing.T) {
-	for _, tt := range ReplaceTests {
+	for _, tt := range replaceTests {
 		in := append([]byte(tt.in), "<spare>"...)
 		in = in[:len(tt.in)]
 		out := Replace(in, []byte(tt.old), []byte(tt.new), tt.n)
@@ -1608,7 +1610,7 @@ type TitleTest struct {
 	in, out string
 }
 
-var TitleTests = []TitleTest{
+var titleTests = []TitleTest{
 	{"", ""},
 	{"a", "A"},
 	{" aaa aaa aaa ", " Aaa Aaa Aaa "},
@@ -1621,14 +1623,14 @@ var TitleTests = []TitleTest{
 }
 
 func TestTitle(t *testing.T) {
-	for _, tt := range TitleTests {
+	for _, tt := range titleTests {
 		if s := string(Title([]byte(tt.in))); s != tt.out {
 			t.Errorf("Title(%q) = %q, want %q", tt.in, s, tt.out)
 		}
 	}
 }
 
-var ToTitleTests = []TitleTest{
+var toTitleTests = []TitleTest{
 	{"", ""},
 	{"a", "A"},
 	{" aaa aaa aaa ", " AAA AAA AAA "},
@@ -1639,14 +1641,14 @@ var ToTitleTests = []TitleTest{
 }
 
 func TestToTitle(t *testing.T) {
-	for _, tt := range ToTitleTests {
+	for _, tt := range toTitleTests {
 		if s := string(ToTitle([]byte(tt.in))); s != tt.out {
 			t.Errorf("ToTitle(%q) = %q, want %q", tt.in, s, tt.out)
 		}
 	}
 }
 
-var EqualFoldTests = []struct {
+var equalFoldTests = []struct {
 	s, t string
 	out  bool
 }{
@@ -1664,7 +1666,7 @@ var EqualFoldTests = []struct {
 }
 
 func TestEqualFold(t *testing.T) {
-	for _, tt := range EqualFoldTests {
+	for _, tt := range equalFoldTests {
 		if out := EqualFold([]byte(tt.s), []byte(tt.t)); out != tt.out {
 			t.Errorf("EqualFold(%#q, %#q) = %v, want %v", tt.s, tt.t, out, tt.out)
 		}
@@ -1746,7 +1748,7 @@ func TestContains(t *testing.T) {
 	}
 }
 
-var ContainsAnyTests = []struct {
+var containsAnyTests = []struct {
 	b        []byte
 	substr   string
 	expected bool
@@ -1765,7 +1767,7 @@ var ContainsAnyTests = []struct {
 }
 
 func TestContainsAny(t *testing.T) {
-	for _, ct := range ContainsAnyTests {
+	for _, ct := range containsAnyTests {
 		if ContainsAny(ct.b, ct.substr) != ct.expected {
 			t.Errorf("ContainsAny(%s, %s) = %v, want %v",
 				ct.b, ct.substr, !ct.expected, ct.expected)
@@ -1773,7 +1775,7 @@ func TestContainsAny(t *testing.T) {
 	}
 }
 
-var ContainsRuneTests = []struct {
+var containsRuneTests = []struct {
 	b        []byte
 	r        rune
 	expected bool
@@ -1789,7 +1791,7 @@ var ContainsRuneTests = []struct {
 }
 
 func TestContainsRune(t *testing.T) {
-	for _, ct := range ContainsRuneTests {
+	for _, ct := range containsRuneTests {
 		if ContainsRune(ct.b, ct.r) != ct.expected {
 			t.Errorf("ContainsRune(%q, %q) = %v, want %v",
 				ct.b, ct.r, !ct.expected, ct.expected)
