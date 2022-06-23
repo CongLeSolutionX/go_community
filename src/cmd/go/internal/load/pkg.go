@@ -878,8 +878,8 @@ func loadPackageData(ctx context.Context, path, parentPath, parentDir, parentRoo
 				buildMode = build.ImportComment
 			}
 			if modroot := modload.PackageModRoot(ctx, r.path); modroot != "" {
-				if mi, err := modindex.Get(modroot); err == nil {
-					data.p, data.err = mi.Import(cfg.BuildContext, mi.RelPath(r.dir), buildMode)
+				if ip, err := modindex.Get(modroot, r.dir); err == nil {
+					data.p, data.err = modindex.Import(cfg.BuildContext, modroot, ip, buildMode)
 					goto Happy
 				} else if !errors.Is(err, modindex.ErrNotIndexed) {
 					base.Fatalf("go: %v", err)

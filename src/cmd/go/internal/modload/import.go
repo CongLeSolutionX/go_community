@@ -660,8 +660,8 @@ func dirInModule(path, mpath, mdir string, isLocal bool) (dir string, haveGoFile
 		// modindex.Get will return ErrNotIndexed for any directories which
 		// are reached through a symlink, so that they will be handled by
 		// fsys.IsDirWithGoFiles below.
-		if mi, err := modindex.Get(mdir); err == nil {
-			isDirWithGoFiles, err := mi.IsDirWithGoFiles(mi.RelPath(dir))
+		if ip, err := modindex.Get(mdir, dir); err == nil {
+			isDirWithGoFiles, err := modindex.IsDirWithGoFiles(ip)
 			return goFilesEntry{isDirWithGoFiles, err}
 		} else if !errors.Is(err, modindex.ErrNotIndexed) {
 			return goFilesEntry{err: err}

@@ -195,7 +195,7 @@ func matchPackages(ctx context.Context, m *search.Match, tags map[string]bool, f
 			}
 			modPrefix = mod.Path
 		}
-		if mi, err := modindex.Get(root); err == nil {
+		if mi, err := modindex.GetIndex(root); err == nil {
 			walkFromIndex(mi, modPrefix, isMatch, treeCanMatch, tags, have, addPkg)
 			continue
 		} else if !errors.Is(err, modindex.ErrNotIndexed) {
@@ -252,7 +252,7 @@ loopPackages:
 		if !have[name] {
 			have[name] = true
 			if isMatch(name) {
-				if _, _, err := index.ScanDir(reldir, tags); err != imports.ErrNoGo {
+				if _, _, err := modindex.ScanDir(index.Package(reldir), tags); err != imports.ErrNoGo {
 					addPkg(name)
 				}
 			}
