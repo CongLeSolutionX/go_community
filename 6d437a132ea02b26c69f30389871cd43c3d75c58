@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "437de026_f4e27e55",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1710,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-06-23T00:02:07Z",
+      "side": 1,
+      "message": "Run-on sentence.  Perhaps period at end of line and on the next line s/which/This/",
+      "revId": "6d437a132ea02b26c69f30389871cd43c3d75c58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ce1fee7_dbe6a643",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1722,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-06-23T00:02:07Z",
+      "side": 1,
+      "message": "I think that pointer types are value types but I think you need a paragraph explaining that.",
+      "revId": "6d437a132ea02b26c69f30389871cd43c3d75c58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92607968_25cbf863",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1750,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-06-23T00:02:07Z",
+      "side": 1,
+      "message": "The link does use the word \"descriptor\" but I don\u0027t see a clear explanation as to what is the \"descriptor portion\" and what is not.",
+      "revId": "6d437a132ea02b26c69f30389871cd43c3d75c58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11be9ecf_eee124f2",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1775,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-06-23T00:02:07Z",
+      "side": 1,
+      "message": "I\u0027m inclined to say that we don\u0027t need this paragraph in the spec.",
+      "revId": "6d437a132ea02b26c69f30389871cd43c3d75c58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
