@@ -16,6 +16,40 @@
       "message": "PTAL.\n\nI missed a much earlier CL by Alan Donovan which attempts the same thing - perhaps we should continue with that one?\n\nFor now I completely rewrote what I had before: I simplified significantly and borrowed ideas and prose from Alan\u0027s CL.\n\nI also adjusted the explanation of passing function arguments (borrowing from Alan\u0027s CL); I don\u0027t think we need any notion of \"passing by value\"; it is all defined in terms of assignments in Go.\n",
       "revId": "61fe1fb3e232a0a8714b0dcc3a5a2d52f8324352",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ad53a27_b3243715",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 1712,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-06-23T11:06:48Z",
+      "side": 1,
+      "message": "i know what you\u0027re trying to say here, but it\u0027s not quite right: a slice is not a pointer, and the slice data structure does not contain the elements; it points to them. a map *is* a pointer, a slice *is not* a pointer. capturing that is tricky.\n\nhow about something like\n\nThe values stored in variables of these types do not contain the elements\nthemselves, but instead contain\ninformation to access and manage them.\nThey are typically implementation-defined\ndescriptors (or pointers to descriptors) that hold the location of elements, along\nwith any ancillary data such as slice length and capacity.",
+      "revId": "61fe1fb3e232a0a8714b0dcc3a5a2d52f8324352",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed0bf578_a1d51add",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 1718,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-06-23T11:06:48Z",
+      "side": 1,
+      "message": "s/(pointers) //\nsince they\u0027re only \"typically\" pointers. in fact they\u0027re usually structs.",
+      "revId": "61fe1fb3e232a0a8714b0dcc3a5a2d52f8324352",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
