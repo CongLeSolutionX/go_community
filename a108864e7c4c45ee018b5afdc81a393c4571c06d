@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "72172182_988148ac",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 6054,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2022-06-23T14:10:40Z",
+      "side": 1,
+      "message": "typo: v",
+      "range": {
+        "startLine": 6054,
+        "startChar": 6,
+        "endLine": 6054,
+        "endChar": 7
+      },
+      "revId": "a108864e7c4c45ee018b5afdc81a393c4571c06d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fdf1a8bb_d350bb02",
         "filename": "doc/go_spec.html",
         "patchSetId": 8
