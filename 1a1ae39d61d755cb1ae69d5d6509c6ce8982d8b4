@@ -53,6 +53,24 @@
       "message": "It seems that this might give us a different set of problems for tests that decide to call t.Log(\"\u003d\u003d\u003d Run\").  Am I wrong about that?  Do we not care?",
       "revId": "1a1ae39d61d755cb1ae69d5d6509c6ce8982d8b4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b1caf2a_f46952e1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57938
+      },
+      "writtenOn": "2022-06-23T22:18:08Z",
+      "side": 1,
+      "message": "Technically I think we already had problems with that log specifically -- any log line starting with an update string would be parsed as that update, even if it was just a random log. But, we are introducing a new set of problems for tests that log the update string in the middle of a message (i.e. t.Log(\"some info \u003d\u003d\u003d Run\")).\n\nI think this is a worthy tradeoff -- I can\u0027t think of a good use case where you\u0027d need a log with one of these magic strings, but I can think of lots of situations where logging happens async/contains newlines/otherwise garbles the output format, breaking the current update parsing.",
+      "parentUuid": "6eb4c43a_948fba05",
+      "revId": "1a1ae39d61d755cb1ae69d5d6509c6ce8982d8b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
