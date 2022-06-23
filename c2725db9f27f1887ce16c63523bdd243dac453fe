@@ -52,6 +52,24 @@
       "parentUuid": "04f6ff5c_4547d167",
       "revId": "c2725db9f27f1887ce16c63523bdd243dac453fe",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a06e784b_1b4bf302",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 5961,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-06-23T01:01:14Z",
+      "side": 1,
+      "message": "Looking at all the places where this is possible: type assertions, channel receives, and map index expressions. All places explicitly state that the expression (on the RHS of the assignment) yields an additional value. In these cases the RHS clearly produces multiple (as in: two) values.\n\nLeaving this open for a bit, in case a better formulation pops up. But I think the prose as is correct: such assignments do assign multiple values. (It doesn\u0027t refer to the RHS as a multi-valued expression.)",
+      "parentUuid": "d1b66ef9_128ddd4f",
+      "revId": "c2725db9f27f1887ce16c63523bdd243dac453fe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
