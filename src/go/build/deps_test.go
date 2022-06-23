@@ -153,9 +153,6 @@ var depsRules = `
 
 	unicode !< strconv;
 
-	io
-	< internal/saferio;
-
 	# STR is basic string and buffer manipulation.
 	RUNTIME, io, unicode/utf8, unicode/utf16, unicode
 	< bytes, strings
@@ -268,6 +265,9 @@ var depsRules = `
 	# suffix array
 	encoding/binary, regexp
 	< index/suffixarray;
+
+	io, reflect
+	< internal/saferio;
 
 	# executable parsing
 	FMT, encoding/binary, compress/zlib, internal/saferio
