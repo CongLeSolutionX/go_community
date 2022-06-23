@@ -143,6 +143,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3da41314_05dcd112",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1710,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-06-23T18:29:00Z",
+      "side": 1,
+      "message": "The goal of this section is to point out the \"reference-like\" behavior of slices, maps, and channels because it is not self-evident: there\u0027s is no explicit pointer and no visible dereferencing.\n\nThis is in contrast to pointer types where the value of the type (the pointer) is clearly copied (not shared).\n\nI agree the distinction is somewhat fragile: For pointers we separate between the pointer type and the pointer base type, both of which are under user-control. For maps (and channels and slices) we consider the pair of descriptor (pointer) and data structure as \"the map\", a single unit. We don\u0027t look at the map (reference) and its elements separately, like we do for pointers.\n\nOr putting it differently: we know that pointers can cause aliasing. We need to make that clear for slices, maps, and channels. Since they are not pointers (in general) we call them references. And we say reference types can cause aliasing.\n\nWe want to say enough so that programmers know what to expect, but we want to say as little as possible so not to imply specific implementations, or to become overly operational in the spec.\n\nI agree that your definition is more precise, but it comes at the cost of being prescriptive. I think we want to avoid that.\n\n(As an aside, in the early days of Go, it was necessary to write those pointers. For instance, a function type needed to be written as *func(...); it may also have been the case for channels, I don\u0027t remember. Maps may have come later. That notation made the pointer behavior explicit. But it (the \"*\") had to always be written, w/o any \"obvious\" benefit, so we decided to not require it.)",
+      "parentUuid": "b6212b85_0da4bc1f",
+      "revId": "6d437a132ea02b26c69f30389871cd43c3d75c58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1ce1fee7_dbe6a643",
         "filename": "doc/go_spec.html",
         "patchSetId": 2
