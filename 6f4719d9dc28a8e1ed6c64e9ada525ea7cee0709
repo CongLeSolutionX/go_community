@@ -38,6 +38,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6d2d4e8_67690d7d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-06-24T20:35:00Z",
+      "side": 1,
+      "message": "Baokun, there are some comments here that are awaiting an updated patch.  Thanks.",
+      "revId": "6f4719d9dc28a8e1ed6c64e9ada525ea7cee0709",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b33c1a0f_55722357",
