@@ -57,6 +57,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2ed02846_75b15b9a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-06-24T20:15:40Z",
+      "side": 1,
+      "message": "\u003eIs this library always available on the system?\n\nI think it\u0027s been there since windows 8, so I assume so? In any case if the library isn\u0027t there hostArchive() will just skip it.\n\nRegarding the external linker, yeah I suppose it makes sense to add it in there as well. I\u0027ll see about incorporating that.",
+      "parentUuid": "d1178359_7e6a56fc",
+      "revId": "99b45a2c4e99524477cac4b166940bd9d847ecb7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "29b3de08_44fbbfe3",
         "filename": "src/cmd/link/internal/ld/lib.go",
         "patchSetId": 1
@@ -68,6 +86,24 @@
       "writtenOn": "2022-06-24T20:02:48Z",
       "side": 1,
       "message": "Should we only include this in race mode?",
+      "revId": "99b45a2c4e99524477cac4b166940bd9d847ecb7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a481612_ccf070d7",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 655,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-06-24T20:15:40Z",
+      "side": 1,
+      "message": "Probably a good idea. Done.",
+      "parentUuid": "29b3de08_44fbbfe3",
       "revId": "99b45a2c4e99524477cac4b166940bd9d847ecb7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
