@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "17178b97_597eaa63",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-06-24T19:07:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b8544c8_68d468c6",
+      "revId": "6be8d30424551905c5cecc408a3fbc468c14a15e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3327e31f_a4adba93",
@@ -68,6 +86,30 @@
       "writtenOn": "2022-06-24T18:51:10Z",
       "side": 1,
       "message": "s/packageFromBytes/pkgFromBytes/ ?\n\n(Or else rename the function to match the comment. 😅)",
+      "range": {
+        "startLine": 291,
+        "startChar": 3,
+        "endLine": 291,
+        "endChar": 19
+      },
+      "revId": "6be8d30424551905c5cecc408a3fbc468c14a15e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca656b72_448a8394",
+        "filename": "src/cmd/go/internal/modindex/read.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-06-24T19:07:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2df46447_b359f721",
       "range": {
         "startLine": 291,
         "startChar": 3,
