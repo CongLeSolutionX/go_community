@@ -16,6 +16,40 @@
       "message": "Sorry for the late reply.\nPlease help to take another review, another run-trybot could also be better, thanks.",
       "revId": "d3b5eb47823ff8dddb7e2dd109686654505729fa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "853f50d2_02159c11",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 54979
+      },
+      "writtenOn": "2022-06-24T04:51:12Z",
+      "side": 1,
+      "message": "We found another issue, after changed to emit `GoCreate` trace event.\nSuggestions are welcome, thanks.",
+      "revId": "d3b5eb47823ff8dddb7e2dd109686654505729fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8cc62941_43e8ebb8",
+        "filename": "src/runtime/cgocall.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 54979
+      },
+      "writtenOn": "2022-06-24T04:51:12Z",
+      "side": 1,
+      "message": "We found another issue:\nWe lost the `GoExitSys` event now, after we changed to emit `GoCreate` here.\nThat means when the c thread `exitsyscallfast` failed, it will be blocked to wait for an available P, we won\u0027t know how long the c thread waited then.\n\nAlso, I tried to emit the `GoExitSys` event here, by:\n```\ngp.traceseq++\ntraceEvent(traceEvGoInSyscall, -1, uint64(gp.goid))\ntraceGoSysExit(gp.sysexitticks)\n```\n\nBut, it will break the timestamp order of the goroutine, and `traceparser` will throw an error.\nSince events happen in the following order(logically):\n```\nProcStart \u003d\u003e GoCreate \u003d\u003e GoInSyscall \u003d\u003e GoExitSys\n```\nBut, `GoExitSys` really happens before `ProcStart` and `GoCreate` in the timestamp.\n\nSo, maybe we should reconsider the first solution of this CL? not emit the `GoCreate` event, only emit extra events in `StartTrace`?\nAny advice is welcome, thanks!",
+      "revId": "d3b5eb47823ff8dddb7e2dd109686654505729fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
