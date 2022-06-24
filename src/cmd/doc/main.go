@@ -211,6 +211,11 @@ func parseArgs(args []string) (pkg *build.Package, path, symbol string, more boo
 	if isDotSlash(arg) {
 		arg = filepath.Join(wd, arg)
 	}
+	if arg == "std" {
+		// Special case: If we have std as argument return with nil otherwise
+		// only the first package in the standard library is considered
+		return nil, arg, "", false
+	}
 	switch len(args) {
 	default:
 		usage()
