@@ -211,6 +211,13 @@ func parseArgs(args []string) (pkg *build.Package, path, symbol string, more boo
 	if isDotSlash(arg) {
 		arg = filepath.Join(wd, arg)
 	}
+	if arg == "std" {
+		// If the argument is "std", we would just print the documents for the
+		// lexically first package in the standard library, which is never the
+		// right answer. This behavior is because package lookup for "std"
+		// returns a list of all standard packages, and we show only the first.
+		return nil, arg, "", false
+	}
 	switch len(args) {
 	default:
 		usage()
@@ -289,14 +296,22 @@ func parseArgs(args []string) (pkg *build.Package, path, symbol string, more boo
 		// See if we have the basename or tail of a package, as in json for encoding/json
 		// or ivy/value for robpike.io/ivy/value.
 		pkgName := arg[:period]
+		var nextPkg *build.Package
 		for {
 			path, ok := findNextPackage(pkgName)
 			if !ok {
 				break
 			}
 			if pkg, err = build.ImportDir(path, build.ImportComment); err == nil {
-				return pkg, arg[0:period], symbol, true
+				if nextPkg == nil {
+					nextPkg = pkg
+					continue
+				}
+				return nil, arg, "", false
 			}
+		}
+		if nextPkg != nil {
+			return pkg, arg[0:period], symbol, true
 		}
 		dirs.Reset() // Next iteration of for loop must scan all the directories again.
 	}
