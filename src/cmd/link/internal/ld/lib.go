@@ -652,6 +652,9 @@ func loadWindowsHostArchives(ctxt *Link) {
 				hostObject(ctxt, "crt2", p)
 			}
 		}
+		if p := ctxt.findLibPath("libsynchronization.a"); p != "none" {
+			hostArchive(ctxt, p)
+		}
 		if p := ctxt.findLibPath("libmingwex.a"); p != "none" {
 			hostArchive(ctxt, p)
 		}
