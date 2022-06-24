@@ -53,6 +53,24 @@
       "message": "@ianlancetaylor will this make into go1.19?",
       "revId": "3b3dad9efe645126aa972b5a989df2c4f080817e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65df809d_a7306a8f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-06-24T18:42:51Z",
+      "side": 1,
+      "message": "It\u0027s up to Russ.  He is out of the office but should be back next week.",
+      "parentUuid": "c69f3de6_03738839",
+      "revId": "3b3dad9efe645126aa972b5a989df2c4f080817e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
