@@ -211,6 +211,13 @@ func parseArgs(args []string) (pkg *build.Package, path, symbol string, more boo
 	if isDotSlash(arg) {
 		arg = filepath.Join(wd, arg)
 	}
+	if arg == "std" {
+		// If the argument is "std", we would just print the documents for the
+		// lexically first package in the standard library, which is never the
+		// right answer. This behavior is because package lookup for "std"
+		// returns a list of all standard packages, and we show only the first.
+		return nil, arg, "", false
+	}
 	switch len(args) {
 	default:
 		usage()
