@@ -233,6 +233,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b2c9556_b4ee6b07",
+        "filename": "src/cmd/go/internal/modindex/read.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-06-24T18:51:10Z",
+      "side": 1,
+      "message": "Ah, yep! Or just `Add(-modTimeCutoff)`.",
+      "parentUuid": "45f14b14_6bea6952",
+      "range": {
+        "startLine": 110,
+        "startChar": 5,
+        "endLine": 110,
+        "endChar": 15
+      },
+      "revId": "bdc195c318329fac28b54c3e73c9649a7f745c24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "91883e20_d4588389",
@@ -657,6 +681,30 @@
       "side": 1,
       "message": "That\u0027s true, but IndexPackage is named because it gets inflated into a build.Package. I feel like naming it Dir or Directory doesn\u0027t convey how closely they\u0027re related.",
       "parentUuid": "c922abd1_014c5a42",
+      "range": {
+        "startLine": 667,
+        "startChar": 26,
+        "endLine": 667,
+        "endChar": 38
+      },
+      "revId": "bdc195c318329fac28b54c3e73c9649a7f745c24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3463e2b5_8f7e8f0e",
+        "filename": "src/cmd/go/internal/modindex/read.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 667,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-06-24T18:51:10Z",
+      "side": 1,
+      "message": "That\u0027s fair. Maybe make the `IndexPackage` doc a bit more precise then?\n\nPerhaps:\n\n```\n// IndexPackage holds the information needed to access information in the\n// index needed to load a package in a specific directory.\n``\n?",
+      "parentUuid": "0c038957_bb140a85",
       "range": {
         "startLine": 667,
         "startChar": 26,
