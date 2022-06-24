@@ -1964,10 +1964,17 @@ var types2Failures32Bit = setOf(
 )
 
 var go118Failures = setOf(
+<<<<<<< HEAD   (09a838 [dev.unified] cmd/compile: rename haveRType and implicitExpr)
 	"typeparam/nested.go",      // 1.18 compiler doesn't support function-local types with generics
 	"typeparam/issue51521.go",  // 1.18 compiler produces bad panic message and link error
 	"typeparam/mdempsky/16.go", // 1.18 compiler uses interface shape type in failed type assertions
 	"typeparam/mdempsky/17.go", // 1.18 compiler mishandles implicit conversions from range loops
+=======
+	"typeparam/nested.go",     // 1.18 compiler doesn't support function-local types with generics
+	"typeparam/issue51521.go", // 1.18 compiler produces bad panic message and link error
+	"typeparam/issue53419.go", // 1.18 compiler mishandles generic selector resolution
+	"typeparam/issue53477.go", // 1.18 compiler mishandles generic interface-interface comparisons from value switch statements
+>>>>>>> BRANCH (5a1c5b cmd/go: add per-package indexing for modules outside mod cac)
 )
 
 // In all of these cases, the 1.17 compiler reports reasonable errors, but either the
