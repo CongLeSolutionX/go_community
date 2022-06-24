@@ -115,6 +115,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d62645c7_30d3bdaa",
+        "filename": "src/cmd/go/internal/modindex/read.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-06-24T18:17:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d777e160_5b70a110",
+      "range": {
+        "startLine": 78,
+        "startChar": 33,
+        "endLine": 78,
+        "endChar": 34
+      },
+      "revId": "bdc195c318329fac28b54c3e73c9649a7f745c24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eda77588_cf1db1b7",
@@ -128,6 +152,30 @@
       "writtenOn": "2022-06-24T16:52:17Z",
       "side": 1,
       "message": "(doubled spaces)",
+      "range": {
+        "startLine": 88,
+        "startChar": 27,
+        "endLine": 88,
+        "endChar": 29
+      },
+      "revId": "bdc195c318329fac28b54c3e73c9649a7f745c24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5287975_749555b6",
+        "filename": "src/cmd/go/internal/modindex/read.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-06-24T18:17:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eda77588_cf1db1b7",
       "range": {
         "startLine": 88,
         "startChar": 27,
@@ -163,6 +211,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "45f14b14_6bea6952",
+        "filename": "src/cmd/go/internal/modindex/read.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-06-24T18:17:22Z",
+      "side": 1,
+      "message": "Sub seems to get the difference between two durations. So I think I have to add -1 * the duration.",
+      "parentUuid": "b0929081_1ec32834",
+      "range": {
+        "startLine": 110,
+        "startChar": 5,
+        "endLine": 110,
+        "endChar": 15
+      },
+      "revId": "bdc195c318329fac28b54c3e73c9649a7f745c24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "91883e20_d4588389",
         "filename": "src/cmd/go/internal/modindex/read.go",
         "patchSetId": 1
@@ -174,6 +246,24 @@
       "writtenOn": "2022-06-24T16:52:17Z",
       "side": 1,
       "message": "Since `GetIndex` and `Get` seem to share some logic, I wonder if it would be clearer to keep this check in `GetIndex` and explicitly write `Get` in terms of that.\n\nSince we use `errors.Is` to check for `ErrNotIndexed` elsewhere, we could use distinct errors wrapping that for the different reasons for not indexing.\n\nPerhaps something like:\n```\n\nvar (\n\terrDisabled \u003d fmt.Errorf(\"%w: module indexing disabled\", ErrNotIndexed)\n\terrNotFromModuleCache \u003d fmt.Errorf(\"%w: not from module cache\", ErrNotIndexed)\n)\n\n\nfunc Get(modroot, pkgdir string) (*IndexPackage, error) {\n\tmi, err :\u003d GetIndex(modroot)\n\tif err \u003d\u003d nil {\n\t\treturn mi.Package(relPath(pkgdir, modroot)), nil\n\t}\n\tif !errors.Is(err, errNotFromModuleCache) {\n\t\treturn nil, err\n\t}\n\treturn openIndexPackage(modroot, pkgdir)\n}\n\n// Get returns the ModuleIndex for the given modroot.\n// It will return ErrNotIndexed if the directory should be read without\n// using the index, for instance because the index is disabled, or the packgae\n// is not in a module.\nfunc GetIndex(modroot string) (*ModuleIndex, error) {\n\tif !enabled || cache.DefaultDir() \u003d\u003d \"off\" {\n\t\treturn nil, errDisabled\n\t}\n\tif modroot \u003d\u003d \"\" {\n\t\tpanic(\"modindex.Get called with empty modroot\")\n\t}\n\tif cfg.BuildMod \u003d\u003d \"vendor\" {\n\t\t// Even if the main module is in the module cache,\n\t\t// its vendored dependencies are not loaded from their\n\t\t// usual cached locations.\n\t\treturn nil, errNotFromModuleCache\n\t}\n\tmodroot \u003d filepath.Clean(modroot)\n\tif !str.HasFilePathPrefix(modroot, cfg.GOMODCACHE) {\n\t\treturn nil, errNotFromModuleCache\n\t}\n\treturn openIndex(modroot, isModCache)\n}\n```",
+      "revId": "bdc195c318329fac28b54c3e73c9649a7f745c24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86e37a81_8359b69f",
+        "filename": "src/cmd/go/internal/modindex/read.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-06-24T18:17:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91883e20_d4588389",
       "revId": "bdc195c318329fac28b54c3e73c9649a7f745c24",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -191,6 +281,30 @@
       "writtenOn": "2022-06-24T16:52:17Z",
       "side": 1,
       "message": "With the switch to per-package indexing, I think we should now be able to index vendored packages as well.",
+      "range": {
+        "startLine": 124,
+        "startChar": 47,
+        "endLine": 124,
+        "endChar": 71
+      },
+      "revId": "bdc195c318329fac28b54c3e73c9649a7f745c24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "420262fb_000eb4e4",
+        "filename": "src/cmd/go/internal/modindex/read.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-06-24T18:17:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31fc3c2e_78f43a40",
       "range": {
         "startLine": 124,
         "startChar": 47,
@@ -226,6 +340,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ffa35dd2_9c8547e6",
+        "filename": "src/cmd/go/internal/modindex/read.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-06-24T18:17:22Z",
+      "side": 1,
+      "message": "Done, except for Package (since our copy of build.Package has the same name).",
+      "parentUuid": "dde1599a_2140c987",
+      "range": {
+        "startLine": 135,
+        "startChar": 0,
+        "endLine": 166,
+        "endChar": 1
+      },
+      "revId": "bdc195c318329fac28b54c3e73c9649a7f745c24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f5062576_aacb8f3c",
         "filename": "src/cmd/go/internal/modindex/read.go",
         "patchSetId": 1
@@ -237,6 +375,30 @@
       "writtenOn": "2022-06-24T16:52:17Z",
       "side": 1,
       "message": "The `modroot` passed to `openIndex` and `pkgdir` here both have type `string`, and packages frequently exist at the root of modules.\n\nIn theory we should never attempt a package-index lookup for an indexable module path, but if that were to happen as of this patchset we would panic with a fairly cryptic type-assertion failure at line 226.\n\nPerhaps we could use a separate `par.Cache` for modules and for indices, or explicitly check for collisions and fail with a more informative `internal error` message of some sort?",
+      "range": {
+        "startLine": 207,
+        "startChar": 16,
+        "endLine": 207,
+        "endChar": 22
+      },
+      "revId": "bdc195c318329fac28b54c3e73c9649a7f745c24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "461aabc6_ccf21c3f",
+        "filename": "src/cmd/go/internal/modindex/read.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-06-24T18:17:22Z",
+      "side": 1,
+      "message": "Switched to using separate `par.Cache`s.",
+      "parentUuid": "f5062576_aacb8f3c",
       "range": {
         "startLine": 207,
         "startChar": 16,
@@ -270,6 +432,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ca298d3_8cedf65d",
+        "filename": "src/cmd/go/internal/modindex/read.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-06-24T18:17:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "221a03b8_4ee862ea",
+      "range": {
+        "startLine": 289,
+        "startChar": 24,
+        "endLine": 289,
+        "endChar": 35
+      },
+      "revId": "bdc195c318329fac28b54c3e73c9649a7f745c24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3eaf057a_0cf26f38",
@@ -283,6 +469,24 @@
       "writtenOn": "2022-06-24T16:52:17Z",
       "side": 1,
       "message": "Maybe expand this panic message a bit?\n(`\"use of package index when not enabled\"`?)",
+      "revId": "bdc195c318329fac28b54c3e73c9649a7f745c24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bb1ac6d_cba32bad",
+        "filename": "src/cmd/go/internal/modindex/read.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-06-24T18:17:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3eaf057a_0cf26f38",
       "revId": "bdc195c318329fac28b54c3e73c9649a7f745c24",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -333,6 +537,54 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a8ea644_de7073c9",
+        "filename": "src/cmd/go/internal/modindex/read.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-06-24T18:17:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b991e16b_990262fa",
+      "range": {
+        "startLine": 341,
+        "startChar": 49,
+        "endLine": 341,
+        "endChar": 68
+      },
+      "revId": "bdc195c318329fac28b54c3e73c9649a7f745c24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b489fd98_66c0b595",
+        "filename": "src/cmd/go/internal/modindex/read.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-06-24T18:17:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a5705c4e_7f51f06b",
+      "range": {
+        "startLine": 341,
+        "startChar": 33,
+        "endLine": 341,
+        "endChar": 40
+      },
+      "revId": "bdc195c318329fac28b54c3e73c9649a7f745c24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "02007f3e_a6474bf3",
@@ -350,6 +602,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "acf4a9d0_7b4c1efd",
+        "filename": "src/cmd/go/internal/modindex/read.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 657,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-06-24T18:17:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02007f3e_a6474bf3",
+      "revId": "bdc195c318329fac28b54c3e73c9649a7f745c24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c922abd1_014c5a42",
@@ -363,6 +633,30 @@
       "writtenOn": "2022-06-24T16:52:17Z",
       "side": 1,
       "message": "Hmm... If `rp` might represent a directory without Go files, then perhaps we should name the type `Dir` or `Directory` instead of `Package`.\n\n(A directory that does not contain any Go files is not really a Go package per se.)",
+      "range": {
+        "startLine": 667,
+        "startChar": 26,
+        "endLine": 667,
+        "endChar": 38
+      },
+      "revId": "bdc195c318329fac28b54c3e73c9649a7f745c24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c038957_bb140a85",
+        "filename": "src/cmd/go/internal/modindex/read.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 667,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-06-24T18:17:22Z",
+      "side": 1,
+      "message": "That\u0027s true, but IndexPackage is named because it gets inflated into a build.Package. I feel like naming it Dir or Directory doesn\u0027t convey how closely they\u0027re related.",
+      "parentUuid": "c922abd1_014c5a42",
       "range": {
         "startLine": 667,
         "startChar": 26,
@@ -396,6 +690,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7520e9d3_5a28a234",
+        "filename": "src/cmd/go/internal/modindex/read.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 682,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-06-24T18:17:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db90649b_2db2c258",
+      "range": {
+        "startLine": 666,
+        "startChar": 0,
+        "endLine": 682,
+        "endChar": 31
+      },
+      "revId": "bdc195c318329fac28b54c3e73c9649a7f745c24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6195bae5_9250d080",
@@ -409,6 +727,24 @@
       "writtenOn": "2022-06-24T16:52:17Z",
       "side": 1,
       "message": "Briefly describe this variant in `index_format.txt`?\n\n(It looks like it\u0027s the same as the module format but without the `n`, `dirnames`, and `packages` fields?)",
+      "revId": "bdc195c318329fac28b54c3e73c9649a7f745c24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45b0b73e_5d9840f2",
+        "filename": "src/cmd/go/internal/modindex/write.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-06-24T18:17:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6195bae5_9250d080",
       "revId": "bdc195c318329fac28b54c3e73c9649a7f745c24",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
