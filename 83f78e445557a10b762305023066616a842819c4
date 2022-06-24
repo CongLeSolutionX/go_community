@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40b66649_749b3043",
+        "filename": "src/cmd/doc/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-06-24T08:32:02Z",
+      "side": 1,
+      "message": "// If the argument is \"std\", we would just print the documents for the\n// lexically first package in the standard library, which is never the\n// right answer. This behavior is because package lookup for \"std\"\n// returns a list of all standard packages, and we show only the first.",
+      "revId": "83f78e445557a10b762305023066616a842819c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
