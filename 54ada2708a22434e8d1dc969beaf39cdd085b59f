@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7acd8177_a63c09ce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 38260
+      },
+      "writtenOn": "2022-06-25T06:05:37Z",
+      "side": 1,
+      "message": "Created new CL to update golang.org/x/crypto/curve25519. \nPlease review. ",
+      "revId": "54ada2708a22434e8d1dc969beaf39cdd085b59f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
