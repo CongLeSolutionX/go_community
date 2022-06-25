@@ -16,6 +16,23 @@
       "message": "This version is simpler.\nCurrent test run on recent version fails only the case reported in the issue.\n(https://go.dev/play/p/ntc_dbPzLt-)\n",
       "revId": "ac2d75e5ce3024712f92e1dbf37afd7194b1ce05",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a64a1dcc_1f449097",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-06-25T20:59:44Z",
+      "side": 1,
+      "message": "Thanks, we can review for 1.20.",
+      "revId": "ac2d75e5ce3024712f92e1dbf37afd7194b1ce05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
