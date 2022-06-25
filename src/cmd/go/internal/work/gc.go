@@ -366,11 +366,14 @@ func asmArgs(a *Action, p *load.Package) []any {
 	inc := filepath.Join(cfg.GOROOT, "pkg", "include")
 	pkgpath := pkgPath(a)
 	args := []any{cfg.BuildToolexec, base.Tool("asm"), "-p", pkgpath, "-trimpath", a.trimpath(), "-I", a.Objdir, "-I", inc, "-D", "GOOS_" + cfg.Goos, "-D", "GOARCH_" + cfg.Goarch, forcedAsmflags, p.Internal.Asmflags}
-	if p.ImportPath == "runtime" && cfg.Goarch == "386" {
-		for _, arg := range forcedAsmflags {
-			if arg == "-dynlink" {
-				args = append(args, "-D=GOBUILDMODE_shared=1")
-			}
+	for _, arg := range forcedAsmflags {
+		if arg == "-dynlink" && p.ImportPath == "runtime" && cfg.Goarch == "386" {
+			args = append(args, "-D=GOBUILDMODE_shared=1")
+			break
+		}
+		if arg == "-shared" && (p.ImportPath == "runtime" || p.ImportPath == "runtime/cgo") && (cfg.Goarch == "mips64" || cfg.Goarch == "mips64le") {
+			args = append(args, "-D", "GOBUILDMODE_shared")
+			break
 		}
 	}
 	if objabi.IsRuntimePackagePath(pkgpath) {
