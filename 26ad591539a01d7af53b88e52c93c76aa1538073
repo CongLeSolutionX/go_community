@@ -16,6 +16,24 @@
       "message": "This should probably also include `\"cmd\"` and `\"all\"`, which are also literals that expand to multiple packages.\n\nBut I wonder if we need a more general fix for multi-package patterns: if I run `go doc ...template` today, it looks like I get documentation for `html/template` but not `text/template. 🤔",
       "revId": "26ad591539a01d7af53b88e52c93c76aa1538073",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5b6f1d7_e97e9745",
+        "filename": "src/cmd/doc/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 57963
+      },
+      "writtenOn": "2022-06-25T13:34:26Z",
+      "side": 1,
+      "message": "Do you have an idea about a more genreal fix? I think we have to touch src/go/build/build.go for this which can have a huge effect on other parts of the project",
+      "parentUuid": "d905828e_2e355484",
+      "revId": "26ad591539a01d7af53b88e52c93c76aa1538073",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
