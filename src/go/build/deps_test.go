@@ -214,6 +214,9 @@ var depsRules = `
 	  text/scanner,
 	  text/tabwriter;
 
+	io, reflect
+	< internal/saferio;
+
 	# encodings
 	# core ones do not use fmt.
 	io, strconv
@@ -227,7 +230,7 @@ var depsRules = `
 
 	fmt !< encoding/base32, encoding/base64;
 
-	FMT, encoding/base32, encoding/base64
+	FMT, encoding/base32, encoding/base64, internal/saferio
 	< encoding/ascii85, encoding/csv, encoding/gob, encoding/hex,
 	  encoding/json, encoding/pem, encoding/xml, mime;
 
@@ -265,9 +268,6 @@ var depsRules = `
 	# suffix array
 	encoding/binary, regexp
 	< index/suffixarray;
-
-	io, reflect
-	< internal/saferio;
 
 	# executable parsing
 	FMT, encoding/binary, compress/zlib, internal/saferio
