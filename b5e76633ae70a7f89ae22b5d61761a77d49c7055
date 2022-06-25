@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2a7a75e7_ecf06a95",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 35155
+      },
+      "writtenOn": "2022-06-25T19:15:09Z",
+      "side": 1,
+      "message": "Nit: utf8.",
+      "range": {
+        "startLine": 10,
+        "startChar": 22,
+        "endLine": 10,
+        "endChar": 25
+      },
+      "revId": "b5e76633ae70a7f89ae22b5d61761a77d49c7055",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3b6c869d_8837f758",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 4
