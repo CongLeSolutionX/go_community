@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa4c792e_2405e4c6",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-06-25T21:47:19Z",
+      "side": 1,
+      "message": "I don\u0027t think this will work if mcentral is bigger than 1 cache line, as the subtraction goes negative and that isn\u0027t allowed for unsigned ideal constants.\n\nYou could go big and do (1\u003c\u003c30 - unsafe.Sizeof(...)) % cpu.CacheLinePadSize\nOr do -x in a tricky way: (1 + ^unsafe.Sizeof(...)) % cpu.CacheLinePadSize",
+      "revId": "1280e7a2ecb3e0ed99cf38fbac88dc2f871642a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
