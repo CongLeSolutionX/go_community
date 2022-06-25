@@ -9,6 +9,7 @@ import (
 	"encoding/binary"
 	"errors"
 	"fmt"
+	"internal/saferio"
 	"io"
 	"os"
 )
@@ -55,12 +56,11 @@ type Section struct {
 
 // Data reads and returns the contents of the Plan 9 a.out section.
 func (s *Section) Data() ([]byte, error) {
-	dat := make([]byte, s.sr.Size())
-	n, err := s.sr.ReadAt(dat, 0)
-	if n == len(dat) {
-		err = nil
+	dat, err := saferio.ReadDataAt(s.sr, uint64(s.Size), 0)
+	if err != nil {
+		return nil, err
 	}
-	return dat[0:n], err
+	return dat, nil
 }
 
 // Open returns a new ReadSeeker reading the Plan 9 a.out section.
