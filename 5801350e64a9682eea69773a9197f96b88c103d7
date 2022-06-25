@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b45db3a9_9389d544",
+        "filename": "src/runtime/cgo/abi_mips64x.h",
+        "patchSetId": 31
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-06-25T08:17:04Z",
+      "side": 1,
+      "message": "Yes, I fixed it.",
+      "parentUuid": "a9e9e4ca_711038b8",
+      "revId": "5801350e64a9682eea69773a9197f96b88c103d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b7fa243a_75a3cfb7",
@@ -31,6 +49,30 @@
       "writtenOn": "2022-06-17T21:20:42Z",
       "side": 1,
       "message": "Just say R25.",
+      "range": {
+        "startLine": 52,
+        "startChar": 60,
+        "endLine": 52,
+        "endChar": 72
+      },
+      "revId": "5801350e64a9682eea69773a9197f96b88c103d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "954c90a8_a3a9483b",
+        "filename": "src/runtime/cgo/gcc_mips64x.S",
+        "patchSetId": 31
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-06-25T08:17:04Z",
+      "side": 1,
+      "message": "Yes, I fixed it.",
+      "parentUuid": "b7fa243a_75a3cfb7",
       "range": {
         "startLine": 52,
         "startChar": 60,
@@ -64,6 +106,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a10fdf0_417bb674",
+        "filename": "src/runtime/cgo/gcc_mips64x.S",
+        "patchSetId": 31
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-06-25T08:17:04Z",
+      "side": 1,
+      "message": "Yes, we reserved R25 in register allocator, it is not necessary to preserve R25 here.",
+      "parentUuid": "80533aad_cf537424",
+      "range": {
+        "startLine": 53,
+        "startChar": 7,
+        "endLine": 53,
+        "endChar": 16
+      },
+      "revId": "5801350e64a9682eea69773a9197f96b88c103d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "db75f739_9e984085",
@@ -77,6 +143,24 @@
       "writtenOn": "2022-06-17T21:20:42Z",
       "side": 1,
       "message": "Add a space after \",\".",
+      "revId": "5801350e64a9682eea69773a9197f96b88c103d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90bd7a73_b69168d1",
+        "filename": "src/runtime/rt0_linux_mips64x.s",
+        "patchSetId": 31
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-06-25T08:17:04Z",
+      "side": 1,
+      "message": "Yes, I fixed it.",
+      "parentUuid": "db75f739_9e984085",
       "revId": "5801350e64a9682eea69773a9197f96b88c103d7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -104,6 +188,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff33f099_880ee48b",
+        "filename": "src/runtime/sys_linux_mips64x.s",
+        "patchSetId": 31
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-06-25T08:17:04Z",
+      "side": 1,
+      "message": "OK, I added \"GOBUILDMODE_shared\" macro in CL https://go-review.googlesource.com/c/go/+/414137/ and the number of instructions was reduced. Thanks!",
+      "parentUuid": "c7a815ad_34ba9945",
+      "range": {
+        "startLine": 412,
+        "startChar": 0,
+        "endLine": 415,
+        "endChar": 77
+      },
+      "revId": "5801350e64a9682eea69773a9197f96b88c103d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "17028b57_21da6a92",
@@ -117,6 +225,30 @@
       "writtenOn": "2022-06-17T21:20:42Z",
       "side": 1,
       "message": "I don\u0027t think you need to preserve these registers. Just update the comment above and change the callers to not use them.\n\nAlso below.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 18
+      },
+      "revId": "5801350e64a9682eea69773a9197f96b88c103d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90655ff5_2ba2d9c2",
+        "filename": "src/runtime/tls_mips64x.s",
+        "patchSetId": 31
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-06-25T08:17:04Z",
+      "side": 1,
+      "message": "Thanks very much. But I think we need to preserve these registers since load/store a TLS variable might clobber these registers under c-shared buildmode.\n\u003e Just update the comment above and change the callers to not use them.\nSince the callers\u0027 code might be changed, I think it is hard to maintain and change that the callers to not use these registers. I prefer that we can save and restore these registers here.\nIn addition, I use \"GOBUILDMODE_shared\" macro to load/store these registers on c-shared buildmode only.",
+      "parentUuid": "17028b57_21da6a92",
       "range": {
         "startLine": 21,
         "startChar": 0,
