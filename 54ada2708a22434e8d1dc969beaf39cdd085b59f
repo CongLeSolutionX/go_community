@@ -3,6 +3,29 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "e763e489_69453642",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2022-06-25T14:26:44Z",
+      "side": 1,
+      "message": "It doesn’t make a difference in this case, but note in general we don’t need to include the -u flag when using go get in module mode. Using the selected dependency versions of the module we’re updating to tends to be sufficient.",
+      "range": {
+        "startLine": 11,
+        "startChar": 11,
+        "endLine": 11,
+        "endChar": 13
+      },
+      "revId": "54ada2708a22434e8d1dc969beaf39cdd085b59f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "7acd8177_a63c09ce",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -14,6 +37,23 @@
       "writtenOn": "2022-06-25T06:05:37Z",
       "side": 1,
       "message": "Created new CL to update golang.org/x/crypto/curve25519. \nPlease review. ",
+      "revId": "54ada2708a22434e8d1dc969beaf39cdd085b59f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "107a031d_f3064f7d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2022-06-25T14:26:44Z",
+      "side": 1,
+      "message": "TRY\u003dlongtest",
       "revId": "54ada2708a22434e8d1dc969beaf39cdd085b59f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
