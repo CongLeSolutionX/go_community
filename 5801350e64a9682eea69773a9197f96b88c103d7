@@ -130,6 +130,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e052a66c_761f8f3f",
+        "filename": "src/runtime/cgo/gcc_mips64x.S",
+        "patchSetId": 31
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-06-27T14:57:48Z",
+      "side": 1,
+      "message": "This function is called from C, so the Go register allocator shouldn\u0027t matter. (The code is fine, just FYI.)",
+      "parentUuid": "6a10fdf0_417bb674",
+      "range": {
+        "startLine": 53,
+        "startChar": 7,
+        "endLine": 53,
+        "endChar": 16
+      },
+      "revId": "5801350e64a9682eea69773a9197f96b88c103d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "db75f739_9e984085",
@@ -249,6 +273,30 @@
       "side": 1,
       "message": "Thanks very much. But I think we need to preserve these registers since load/store a TLS variable might clobber these registers under c-shared buildmode.\n\u003e Just update the comment above and change the callers to not use them.\nSince the callers\u0027 code might be changed, I think it is hard to maintain and change that the callers to not use these registers. I prefer that we can save and restore these registers here.\nIn addition, I use \"GOBUILDMODE_shared\" macro to load/store these registers on c-shared buildmode only.",
       "parentUuid": "17028b57_21da6a92",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 18
+      },
+      "revId": "5801350e64a9682eea69773a9197f96b88c103d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "438f7c89_b6085e99",
+        "filename": "src/runtime/tls_mips64x.s",
+        "patchSetId": 31
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-06-27T14:57:48Z",
+      "side": 1,
+      "message": "This function and the next one are only called in specific places in the runtime, which don\u0027t change very often, and usually don\u0027t need to use many registers. So I think it\u0027s better to change the caller.\nAlso I think it is better for this function to not use the stack.",
+      "parentUuid": "90655ff5_2ba2d9c2",
       "range": {
         "startLine": 21,
         "startChar": 0,
