@@ -34,6 +34,24 @@
       "parentUuid": "d905828e_2e355484",
       "revId": "26ad591539a01d7af53b88e52c93c76aa1538073",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f9899e9_99426cb3",
+        "filename": "src/cmd/doc/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-06-27T20:58:20Z",
+      "side": 1,
+      "message": "I do not know what the general fix is, but it looks like all of the code paths here end up in either `go/build.Import` or `go/build.ImportDir`.\n\nBoth of those functions should be returning a non-nil error if the `path`, `dir`, and/or `srcDir` argument is a multi-package pattern instead of a proper package path or directory. If that isn\u0027t happening, that does seem like the right place to look for a fix.\n\n(Having a huge effect on other parts of the project is not necessarily a bad thing! That just means you have the opportunity to fix lots of related bugs across the project at the same time. 😅)",
+      "parentUuid": "a5b6f1d7_e97e9745",
+      "revId": "26ad591539a01d7af53b88e52c93c76aa1538073",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
