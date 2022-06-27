@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "225a5380_c3a790de",
+        "filename": "src/cmd/go/internal/work/gc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-06-27T15:22:07Z",
+      "side": 1,
+      "message": "(https://cs.opensource.google/search?q\u003dGOBUILDMODE\u0026sq\u003d\u0026ss\u003dgo%2Fgo)",
+      "parentUuid": "e7be1af0_9f6ac79c",
+      "revId": "e38f21344f3e3841e078912b8205a221f03b1595",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e419f0d7_d0dfc431",
         "filename": "src/cmd/go/internal/work/gc.go",
         "patchSetId": 1
