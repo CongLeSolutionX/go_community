@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e7be1af0_9f6ac79c",
+        "filename": "src/cmd/go/internal/work/gc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-06-27T15:21:50Z",
+      "side": 1,
+      "message": "It isn\u0027t obvious to me what effect these variables have or why they are only set for certain `runtime` packages on certain architectures.\n\nEven worse, a search for `GOBUILDMODE` in the Go repo doesn\u0027t turn up anything outside of `cmd/go/internal/work` — so I can\u0027t find the code this seems to be trying to affect!\n\nCould you add a comment to the code explaining what this does and under what conditions it needs to be set?",
+      "revId": "e38f21344f3e3841e078912b8205a221f03b1595",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e419f0d7_d0dfc431",
         "filename": "src/cmd/go/internal/work/gc.go",
         "patchSetId": 1
