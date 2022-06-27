@@ -179,6 +179,7 @@ func TestLookupPTR(t *testing.T) {
 		expected, err := lookupPTR(addr)
 		if err != nil {
 			t.Logf("skipping failed lookup %s test: %s", addr, err)
+			continue
 		}
 		sort.Strings(expected)
 		sort.Strings(names)
