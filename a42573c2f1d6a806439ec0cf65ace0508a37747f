@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ad65fbd_ec049769",
+        "filename": "src/net/lookup_windows_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2022-06-27T21:43:44Z",
+      "side": 0,
+      "message": "Maybe out of scope of this CL, but pointing out in case it\u0027s helpful: this test can benefit from a similar improvement by using t.Skipf.",
+      "revId": "a42573c2f1d6a806439ec0cf65ace0508a37747f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
