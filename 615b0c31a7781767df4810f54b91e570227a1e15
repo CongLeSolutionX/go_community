@@ -215,6 +215,23 @@
       "parentUuid": "033b961d_f3755905",
       "revId": "615b0c31a7781767df4810f54b91e570227a1e15",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8cbd710e_c326b2d1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-06-28T18:56:18Z",
+      "side": 1,
+      "message": "Hi Matthew, a gentle ping",
+      "revId": "615b0c31a7781767df4810f54b91e570227a1e15",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
