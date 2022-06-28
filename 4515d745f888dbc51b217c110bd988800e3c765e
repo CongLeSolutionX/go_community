@@ -76,6 +76,30 @@
       },
       "revId": "4515d745f888dbc51b217c110bd988800e3c765e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6fcaad54_544be6c6",
+        "filename": "test/typeparam/issue53477.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-06-28T18:54:29Z",
+      "side": 1,
+      "message": "Not sure why unified-IR slowbot is related. In go1.18, we have builders to test both -G\u003d0 and -G\u003d3, so for generic tests, we still need to guard with -gcflags\u003d-G\u003d3 to prevent upsetting -G\u003d0 builders.",
+      "parentUuid": "b84f541f_23020b29",
+      "range": {
+        "startLine": 1,
+        "startChar": 7,
+        "endLine": 1,
+        "endChar": 20
+      },
+      "revId": "4515d745f888dbc51b217c110bd988800e3c765e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
