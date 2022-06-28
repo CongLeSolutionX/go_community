@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c4cda62_5823b7fa",
+        "filename": "src/cmd/go/internal/modfetch/proxy.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 9646
+      },
+      "writtenOn": "2022-06-28T02:12:44Z",
+      "side": 1,
+      "message": "Yes",
+      "parentUuid": "4d39b1f5_ba018ffe",
+      "revId": "373a442d5a099e4c63790c64848f7e321bd1dce3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "92da465b_a7677cec",
@@ -85,6 +103,24 @@
       "writtenOn": "2022-06-27T21:16:53Z",
       "side": 1,
       "message": "This seems like it will perform an unnecessary allocation: we already have the slice of all lines from the call to `strings.Split` above.\n\nMaybe:\n\n```\n\tvar list []string\n\tallLine :\u003d strings.Split(string(data), \"\\n\")\n\tfor _, line :\u003d range allLine {\n\t\t…\n\t}\n```",
+      "revId": "373a442d5a099e4c63790c64848f7e321bd1dce3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e19c1d34_a3af3632",
+        "filename": "src/cmd/go/internal/modfetch/proxy.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 9646
+      },
+      "writtenOn": "2022-06-28T02:12:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92da465b_a7677cec",
       "revId": "373a442d5a099e4c63790c64848f7e321bd1dce3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
