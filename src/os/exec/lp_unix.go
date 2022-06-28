@@ -12,12 +12,17 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"syscall"
 )
 
 // ErrNotFound is the error resulting if a path search failed to find an executable file.
 var ErrNotFound = errors.New("executable file not found in $PATH")
 
 func findExecutable(file string) error {
+	const X_OK = 1
+	if err := syscall.Access(file, X_OK); err != nil {
+		return err
+	}
 	d, err := os.Stat(file)
 	if err != nil {
 		return err
