@@ -9,6 +9,7 @@ package unix
 //go:cgo_import_dynamic libc_unlinkat unlinkat "libc.a/shr_64.o"
 
 const (
+	AT_FDCWD            = -0x2
 	AT_REMOVEDIR        = 0x1
 	AT_SYMLINK_NOFOLLOW = 0x1
 )

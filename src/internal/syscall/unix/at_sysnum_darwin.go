@@ -4,5 +4,9 @@
 
 package unix
 
-const AT_REMOVEDIR = 0x80
-const AT_SYMLINK_NOFOLLOW = 0x0020
+const (
+	AT_FDCWD            = -2
+	AT_EACCESS          = 0x0010
+	AT_REMOVEDIR        = 0x80
+	AT_SYMLINK_NOFOLLOW = 0x0020
+)
