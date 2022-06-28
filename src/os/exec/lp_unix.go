@@ -8,24 +8,18 @@ package exec
 
 import (
 	"errors"
-	"io/fs"
 	"os"
 	"path/filepath"
 	"strings"
+	"syscall"
 )
 
 // ErrNotFound is the error resulting if a path search failed to find an executable file.
 var ErrNotFound = errors.New("executable file not found in $PATH")
 
 func findExecutable(file string) error {
-	d, err := os.Stat(file)
-	if err != nil {
-		return err
-	}
-	if m := d.Mode(); !m.IsDir() && m&0111 != 0 {
-		return nil
-	}
-	return fs.ErrPermission
+	const X_OK = 1
+	return syscall.Access(file, X_OK)
 }
 
 // LookPath searches for an executable named file in the
