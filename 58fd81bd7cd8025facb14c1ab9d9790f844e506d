@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "347cd4b8_fe1cd181",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57963
+      },
+      "writtenOn": "2022-06-28T00:27:46Z",
+      "side": 1,
+      "message": "Patchset 4 was added by mistake. Is it possible to revert to patchset 3?",
+      "revId": "58fd81bd7cd8025facb14c1ab9d9790f844e506d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
