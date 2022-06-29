@@ -88,6 +88,24 @@
       "parentUuid": "c01a293f_53b71f35",
       "revId": "86937d424d39d74032f65b7cd7e27969bf7588d3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "841b7dc8_fe8f8a63",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-06-29T22:46:51Z",
+      "side": 1,
+      "message": "As the syscall package is frozen, we prefer to add new requirements of this sort to internal/syscall/unix.",
+      "parentUuid": "4e2ee5c6_23d4fda7",
+      "revId": "86937d424d39d74032f65b7cd7e27969bf7588d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
