@@ -34,6 +34,24 @@
       "parentUuid": "ad4085ef_efbc5f05",
       "revId": "3562977b6fe944b2c3da0455bdd6e9294c47c931",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74cde8a4_97064265",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-06-29T17:44:36Z",
+      "side": 1,
+      "message": "No, no need to roll it back. The only action item was some change of the CL description. But that is fine.",
+      "parentUuid": "21534ef0_f07ee99e",
+      "revId": "3562977b6fe944b2c3da0455bdd6e9294c47c931",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
