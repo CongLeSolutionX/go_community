@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e21c33e_25b2839b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-06-29T00:10:01Z",
+      "side": 1,
+      "message": "Using the access system call is also going to change the behavior if called by a setuid program.  I\u0027m not sure this is the right approach.  Does the shell actually use access, rather than stat, when deciding which program to choose from PATH?",
+      "revId": "86937d424d39d74032f65b7cd7e27969bf7588d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
