@@ -34,6 +34,24 @@
       "parentUuid": "2e21c33e_25b2839b",
       "revId": "86937d424d39d74032f65b7cd7e27969bf7588d3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "494972ed_9e31c563",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26451
+      },
+      "writtenOn": "2022-06-29T16:45:03Z",
+      "side": 1,
+      "message": "Apparently at least bash and which are using eaccess(3). What it does it uses access(2) in case getuid() \u003d\u003d geteuid() \u0026\u0026 getgid \u003d\u003d getegid() (IOW the current process is not setuid/setgid), and falls back to checking the mode bit from stat(2) for a setuid/setgid process.\n\nPerhaps we should do the same thing.",
+      "parentUuid": "a24177c2_c0b2ddea",
+      "revId": "86937d424d39d74032f65b7cd7e27969bf7588d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
