@@ -16,6 +16,24 @@
       "message": "This doesn\u0027t seem like the right check to me — consider what happens if, say, the current working directory is `GOPATH/src`, and there is a `vendor` directory located at (say) `GOPATH/src/github.com/bcmills/example/vendor`.\n\nInstead, could we check `if info.Name() \u003d\u003d \"vendor\"`?\n\n(And please also update the test to include a `vendor` subdirectory more than one level out from the current working directory.)",
       "revId": "546eb8b5965ee3b9739ebffd81385efb889874bc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a54a7ab_0b5dd66a",
+        "filename": "src/cmd/go/internal/workcmd/use.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 52594
+      },
+      "writtenOn": "2022-06-29T05:02:18Z",
+      "side": 1,
+      "message": "ah, i see, oke wait",
+      "parentUuid": "a79722da_6add4311",
+      "revId": "546eb8b5965ee3b9739ebffd81385efb889874bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
