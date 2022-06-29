@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2c117b5_c0d204f6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2022-06-29T15:20:13Z",
+      "side": 1,
+      "message": "Thanks - please see https://github.com/golang/go/wiki/CommitMessage",
+      "revId": "2d4aed8af9e3c61704dcb5eed0e44921b685c5a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
