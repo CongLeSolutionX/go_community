@@ -1721,6 +1721,7 @@ func (p *Package) load(ctx context.Context, opts PackageOpts, path string, stk *
 	// if we support them at all (not in module mode!).
 	// Synthesized main packages sometimes override this.
 	if p.Internal.Local && !cfg.ModulesEnabled {
+		panic("does this happen?")
 		p.Internal.LocalPrefix = dirToImportPath(p.Dir)
 	}
 
@@ -3021,6 +3022,7 @@ func GoFilesPackage(ctx context.Context, opts PackageOpts, gofiles []string) *Pa
 	pkg.Internal.CmdlineFiles = true
 	pkg.load(ctx, opts, "command-line-arguments", &stk, nil, bp, err)
 	if !cfg.ModulesEnabled {
+		panic("what about this?")
 		pkg.Internal.LocalPrefix = dirToImportPath(dir)
 	}
 	pkg.ImportPath = "command-line-arguments"
