@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce187546_2a9a7abc",
+        "filename": "src/os/exec/lp_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 26451
+      },
+      "writtenOn": "2022-06-29T00:00:22Z",
+      "side": 1,
+      "message": "Ah, we still need stat() to filter out directories... fixed in v2.",
+      "revId": "8eee05aaca4079b81dda1c54c2cfdcd3a5619539",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
