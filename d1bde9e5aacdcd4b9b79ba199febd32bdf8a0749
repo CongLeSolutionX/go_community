@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "43e6d698_774d28ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-06-29T21:23:28Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "54cff298_d720c293",
+      "revId": "d1bde9e5aacdcd4b9b79ba199febd32bdf8a0749",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cdbd6029_65904df5",
@@ -53,6 +71,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "46b46f01_f058f87d",
+        "filename": "src/cmd/compile/internal/ssa/loopbce.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-06-29T21:23:28Z",
+      "side": 1,
+      "message": "Yes, I did. We later check that min%step \u003d\u003d max%step, which guarantees that with a \u003c operator var+step never overflows.",
+      "parentUuid": "6b216df4_46467301",
+      "revId": "d1bde9e5aacdcd4b9b79ba199febd32bdf8a0749",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6ccdbcde_cc9a56d0",
@@ -66,6 +102,24 @@
       "writtenOn": "2022-06-29T21:18:22Z",
       "side": 1,
       "message": "Is it worth writing the 32-bit version of this code for 32-bit systems?",
+      "revId": "d1bde9e5aacdcd4b9b79ba199febd32bdf8a0749",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e489900a_f0881168",
+        "filename": "test/fixedbugs/issue53600.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-06-29T21:23:28Z",
+      "side": 1,
+      "message": "Probably not. Our loop induction variable pass cannot currently handle 32-bit induction variables. (It is a todo.)",
+      "parentUuid": "6ccdbcde_cc9a56d0",
       "revId": "d1bde9e5aacdcd4b9b79ba199febd32bdf8a0749",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
