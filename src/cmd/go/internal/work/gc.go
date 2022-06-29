@@ -128,9 +128,6 @@ func (gcToolchain) gc(b *Builder, a *Action, archive string, importcfg, embedcfg
 	if extFiles == 0 {
 		defaultGcFlags = append(defaultGcFlags, "-complete")
 	}
-	if cfg.BuildContext.InstallSuffix != "" {
-		defaultGcFlags = append(defaultGcFlags, "-installsuffix", cfg.BuildContext.InstallSuffix)
-	}
 	if a.buildID != "" {
 		defaultGcFlags = append(defaultGcFlags, "-buildid", a.buildID)
 	}
@@ -619,9 +616,6 @@ func (gcToolchain) ld(b *Builder, root *Action, out, importcfg, mainpkg string) 
 		}
 	}
 	var ldflags []string
-	if cfg.BuildContext.InstallSuffix != "" {
-		ldflags = append(ldflags, "-installsuffix", cfg.BuildContext.InstallSuffix)
-	}
 	if root.Package.Internal.OmitDebug {
 		ldflags = append(ldflags, "-s", "-w")
 	}
@@ -684,8 +678,7 @@ func (gcToolchain) ld(b *Builder, root *Action, out, importcfg, mainpkg string) 
 }
 
 func (gcToolchain) ldShared(b *Builder, root *Action, toplevelactions []*Action, out, importcfg string, allactions []*Action) error {
-	ldflags := []string{"-installsuffix", cfg.BuildContext.InstallSuffix}
-	ldflags = append(ldflags, "-buildmode=shared")
+	ldflags := []string{"-buildmode=shared"}
 	ldflags = append(ldflags, forcedLdflags...)
 	ldflags = append(ldflags, root.Package.Internal.Ldflags...)
 	cxx := false

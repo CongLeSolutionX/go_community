@@ -378,24 +378,16 @@ func libinit(ctxt *Link) {
 
 	// add goroot to the end of the libdir list.
 	suffix := ""
-
-	suffixsep := ""
-	if *flagInstallSuffix != "" {
-		suffixsep = "_"
-		suffix = *flagInstallSuffix
-	} else if *flagRace {
-		suffixsep = "_"
-		suffix = "race"
+	if *flagRace {
+		suffix = "_race"
 	} else if *flagMsan {
-		suffixsep = "_"
-		suffix = "msan"
+		suffix = "_msan"
 	} else if *flagAsan {
-		suffixsep = "_"
-		suffix = "asan"
+		suffix = "_asan"
 	}
 
 	if buildcfg.GOROOT != "" {
-		Lflag(ctxt, filepath.Join(buildcfg.GOROOT, "pkg", fmt.Sprintf("%s_%s%s%s", buildcfg.GOOS, buildcfg.GOARCH, suffixsep, suffix)))
+		Lflag(ctxt, filepath.Join(buildcfg.GOROOT, "pkg", fmt.Sprintf("%s_%s%s", buildcfg.GOOS, buildcfg.GOARCH, suffix)))
 	}
 
 	mayberemoveoutfile()
