@@ -65,12 +65,11 @@ var (
 	flagOutfile    = flag.String("o", "", "write output to `file`")
 	flagPluginPath = flag.String("pluginpath", "", "full path name for plugin")
 
-	flagInstallSuffix = flag.String("installsuffix", "", "set package directory `suffix`")
-	flagDumpDep       = flag.Bool("dumpdep", false, "dump symbol dependency graph")
-	flagRace          = flag.Bool("race", false, "enable race detector")
-	flagMsan          = flag.Bool("msan", false, "enable MSan interface")
-	flagAsan          = flag.Bool("asan", false, "enable ASan interface")
-	flagAslr          = flag.Bool("aslr", true, "enable ASLR for buildmode=c-shared on windows")
+	flagDumpDep = flag.Bool("dumpdep", false, "dump symbol dependency graph")
+	flagRace    = flag.Bool("race", false, "enable race detector")
+	flagMsan    = flag.Bool("msan", false, "enable MSan interface")
+	flagAsan    = flag.Bool("asan", false, "enable ASan interface")
+	flagAslr    = flag.Bool("aslr", true, "enable ASLR for buildmode=c-shared on windows")
 
 	flagFieldTrack = flag.String("k", "", "set field tracking `symbol`")
 	flagLibGCC     = flag.String("libgcc", "", "compiler support lib for internal linking; use \"none\" to disable")
