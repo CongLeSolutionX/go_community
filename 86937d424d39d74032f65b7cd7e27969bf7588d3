@@ -124,6 +124,24 @@
       "parentUuid": "841b7dc8_fe8f8a63",
       "revId": "86937d424d39d74032f65b7cd7e27969bf7588d3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2254d16_e5e1085f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-06-30T18:10:45Z",
+      "side": 1,
+      "message": "We don\u0027t want to introduce new API in the syscall package if we can reasonably avoid it.\n\nIt\u0027s fine to change syscall.Faccessat to call the faccessat2 system call if that seems useful.",
+      "parentUuid": "b390ae2a_5d3d9fc0",
+      "revId": "86937d424d39d74032f65b7cd7e27969bf7588d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
