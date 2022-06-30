@@ -35,6 +35,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "23c2dc97_4296f8f8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 54979
+      },
+      "writtenOn": "2022-06-30T06:51:21Z",
+      "side": 1,
+      "message": "Gentle ping on this CL.\nI\u0027m not sure about the proper way to fix this bug, hope we can get on the same page earlier, if you have time, though this CL is wait-release.",
+      "revId": "d3b5eb47823ff8dddb7e2dd109686654505729fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8cc62941_43e8ebb8",
