@@ -18,7 +18,6 @@ package parser
 import (
 	"fmt"
 	"go/ast"
-	"go/internal/typeparams"
 	"go/scanner"
 	"go/token"
 )
@@ -35,9 +34,10 @@ type parser struct {
 	indent int  // indentation used for tracing output
 
 	// Comments
-	comments    []*ast.CommentGroup
-	leadComment *ast.CommentGroup // last lead comment
-	lineComment *ast.CommentGroup // last line comment
+	fileComments []*ast.CommentGroup
+	nprecise     int               // number of fileComments converted to PreciseComments
+	leadComment  *ast.CommentGroup // last lead comment
+	lineComment  *ast.CommentGroup // last line comment
 
 	// Next token
 	pos token.Pos   // token position
@@ -66,6 +66,7 @@ func (p *parser) init(fset *token.FileSet, filename string, src []byte, mode Mod
 	p.file = fset.AddFile(filename, -1, len(src))
 	var m scanner.Mode
 	if mode&ParseComments != 0 {
+		mode |= PreciseComments // FIXME always on
 		m = scanner.ScanComments
 	}
 	eh := func(pos token.Position, msg string) { p.errors.Add(pos, msg) }
@@ -180,7 +181,7 @@ func (p *parser) consumeCommentGroup(n int) (comments *ast.CommentGroup, endline
 
 	// add comment group to the comments list
 	comments = &ast.CommentGroup{List: list}
-	p.comments = append(p.comments, comments)
+	p.fileComments = append(p.fileComments, comments)
 
 	return
 }
@@ -448,6 +449,9 @@ func (p *parser) safePos(pos token.Pos) (res token.Pos) {
 // Identifiers
 
 func (p *parser) parseIdent() *ast.Ident {
+	var pcs *ast.PreciseComments
+	p.preciseComments(&pcs, ast.PointStart)
+
 	pos := p.pos
 	name := "_"
 	if p.tok == token.IDENT {
@@ -456,7 +460,10 @@ func (p *parser) parseIdent() *ast.Ident {
 	} else {
 		p.expect(token.IDENT) // use expect() error handling
 	}
-	return &ast.Ident{NamePos: pos, Name: name}
+
+	p.preciseComments(&pcs, ast.PointEnd)
+
+	return &ast.Ident{NamePos: pos, Name: name, PreciseComments: pcs}
 }
 
 func (p *parser) parseIdentList() (list []*ast.Ident) {
@@ -552,9 +559,10 @@ func (p *parser) parseTypeName(ident *ast.Ident) ast.Expr {
 	return ident
 }
 
-// "[" has already been consumed, and lbrack is its position.
+// "[" has already been consumed, lbrack is its position,
+// and pcs contains any PointStart comments before it.
 // If len != nil it is the already consumed array length.
-func (p *parser) parseArrayType(lbrack token.Pos, len ast.Expr) *ast.ArrayType {
+func (p *parser) parseArrayType(lbrack token.Pos, pcs *ast.PreciseComments, len ast.Expr) *ast.ArrayType {
 	if p.trace {
 		defer un(trace(p, "ArrayType"))
 	}
@@ -563,8 +571,12 @@ func (p *parser) parseArrayType(lbrack token.Pos, len ast.Expr) *ast.ArrayType {
 		p.exprLev++
 		// always permit ellipsis for more fault-tolerant parsing
 		if p.tok == token.ELLIPSIS {
-			len = &ast.Ellipsis{Ellipsis: p.pos}
+			var pcs *ast.PreciseComments
+			p.preciseComments(&pcs, ast.PointStart)
+			ellipsis := p.pos
 			p.next()
+			p.preciseComments(&pcs, ast.PointEnd)
+			len = &ast.Ellipsis{Ellipsis: ellipsis, PreciseComments: pcs}
 		} else if p.tok != token.RBRACK {
 			len = p.parseRhs()
 		}
@@ -577,15 +589,19 @@ func (p *parser) parseArrayType(lbrack token.Pos, len ast.Expr) *ast.ArrayType {
 		p.error(p.pos, "unexpected comma; expecting ]")
 		p.next()
 	}
+	p.preciseComments(&pcs, ast.PointBeforeCloseBracket)
 	p.expect(token.RBRACK)
 	elt := p.parseType()
-	return &ast.ArrayType{Lbrack: lbrack, Len: len, Elt: elt}
+	return &ast.ArrayType{Lbrack: lbrack, Len: len, Elt: elt, PreciseComments: pcs}
 }
 
 func (p *parser) parseArrayFieldOrTypeInstance(x *ast.Ident) (*ast.Ident, ast.Expr) {
 	if p.trace {
 		defer un(trace(p, "ArrayFieldOrTypeInstance"))
 	}
+
+	var pcs *ast.PreciseComments
+	p.preciseComments(&pcs, ast.PointStart)
 
 	// TODO(gri) Should we allow a trailing comma in a type argument
 	//           list such as T[P,]? (We do in parseTypeInstance).
@@ -600,12 +616,14 @@ func (p *parser) parseArrayFieldOrTypeInstance(x *ast.Ident) (*ast.Ident, ast.Ex
 		}
 		p.exprLev--
 	}
+	p.preciseComments(&pcs, ast.PointBeforeCloseBracket)
 	rbrack := p.expect(token.RBRACK)
 
 	if len(args) == 0 {
 		// x []E
 		elt := p.parseType()
-		return x, &ast.ArrayType{Lbrack: lbrack, Elt: elt}
+		// (PreciseComments at x◆[]E will belong to x.)
+		return x, &ast.ArrayType{Lbrack: lbrack, Elt: elt, PreciseComments: pcs}
 	}
 
 	// x [P]E or x[P]
@@ -613,12 +631,39 @@ func (p *parser) parseArrayFieldOrTypeInstance(x *ast.Ident) (*ast.Ident, ast.Ex
 		elt := p.tryIdentOrType()
 		if elt != nil {
 			// x [P]E
+			// (PreciseComments at x◆[P]E will belong to x.)
 			return x, &ast.ArrayType{Lbrack: lbrack, Len: args[0], Elt: elt}
 		}
 	}
 
 	// x[P], x[P1, P2], ...
-	return nil, typeparams.PackIndexExpr(x, lbrack, args, rbrack)
+	var after *ast.PreciseComments
+	p.preciseComments(&after, ast.PointEnd)
+	return nil, packIndexExpr(x, lbrack, args, rbrack, after)
+}
+
+// packIndexExpr returns syntax for x[e] or x[e1, ..., en].
+func packIndexExpr(x ast.Expr, lbrack token.Pos, exprs []ast.Expr, rbrack token.Pos, pcs *ast.PreciseComments) ast.Expr {
+	switch len(exprs) {
+	case 0:
+		panic("internal error: PackIndexExpr with empty expr slice")
+	case 1:
+		return &ast.IndexExpr{
+			X:               x,
+			Lbrack:          lbrack,
+			Index:           exprs[0],
+			Rbrack:          rbrack,
+			PreciseComments: pcs,
+		}
+	default:
+		return &ast.IndexListExpr{
+			X:               x,
+			Lbrack:          lbrack,
+			Indices:         exprs,
+			Rbrack:          rbrack,
+			PreciseComments: pcs,
+		}
+	}
 }
 
 func (p *parser) parseFieldDecl() *ast.Field {
@@ -660,6 +705,8 @@ func (p *parser) parseFieldDecl() *ast.Field {
 		}
 	case token.MUL:
 		star := p.pos
+		var before *ast.PreciseComments
+		p.preciseComments(&before, ast.PointStart)
 		p.next()
 		if p.tok == token.LPAREN {
 			// *(T)
@@ -674,7 +721,7 @@ func (p *parser) parseFieldDecl() *ast.Field {
 			// *T
 			typ = p.parseQualifiedIdent(nil)
 		}
-		typ = &ast.StarExpr{Star: star, X: typ}
+		typ = &ast.StarExpr{Star: star, X: typ, PreciseComments: before}
 
 	case token.LPAREN:
 		p.error(p.pos, "cannot parenthesize embedded type")
@@ -703,7 +750,9 @@ func (p *parser) parseFieldDecl() *ast.Field {
 	var tag *ast.BasicLit
 	if p.tok == token.STRING {
 		tag = &ast.BasicLit{ValuePos: p.pos, Kind: p.tok, Value: p.lit}
+		p.preciseComments(&tag.PreciseComments, ast.PointStart)
 		p.next()
+		p.preciseComments(&tag.PreciseComments, ast.PointEnd)
 	}
 
 	comment := p.expectSemi()
@@ -717,7 +766,10 @@ func (p *parser) parseStructType() *ast.StructType {
 		defer un(trace(p, "StructType"))
 	}
 
+	var pcs, fieldPCs *ast.PreciseComments
+	p.preciseComments(&pcs, ast.PointStart)
 	pos := p.expect(token.STRUCT)
+	p.preciseComments(&pcs, ast.PointAfterInitialToken)
 	lbrace := p.expect(token.LBRACE)
 	var list []*ast.Field
 	for p.tok == token.IDENT || p.tok == token.MUL || p.tok == token.LPAREN {
@@ -726,15 +778,19 @@ func (p *parser) parseStructType() *ast.StructType {
 		// (parseFieldDecl will check and complain if necessary)
 		list = append(list, p.parseFieldDecl())
 	}
+	p.preciseComments(&fieldPCs, ast.PointBeforeCloseBracket)
 	rbrace := p.expect(token.RBRACE)
+	p.preciseComments(&fieldPCs, ast.PointEnd)
 
 	return &ast.StructType{
 		Struct: pos,
 		Fields: &ast.FieldList{
-			Opening: lbrace,
-			List:    list,
-			Closing: rbrace,
+			Opening:         lbrace,
+			List:            list,
+			Closing:         rbrace,
+			PreciseComments: fieldPCs,
 		},
+		PreciseComments: pcs,
 	}
 }
 
@@ -743,10 +799,11 @@ func (p *parser) parsePointerType() *ast.StarExpr {
 		defer un(trace(p, "PointerType"))
 	}
 
+	var pcs *ast.PreciseComments
+	p.preciseComments(&pcs, ast.PointStart)
 	star := p.expect(token.MUL)
 	base := p.parseType()
-
-	return &ast.StarExpr{Star: star, X: base}
+	return &ast.StarExpr{Star: star, X: base, PreciseComments: pcs}
 }
 
 func (p *parser) parseDotsType() *ast.Ellipsis {
@@ -754,10 +811,11 @@ func (p *parser) parseDotsType() *ast.Ellipsis {
 		defer un(trace(p, "DotsType"))
 	}
 
+	var pcs *ast.PreciseComments
+	p.preciseComments(&pcs, ast.PointStart)
 	pos := p.expect(token.ELLIPSIS)
 	elt := p.parseType()
-
-	return &ast.Ellipsis{Ellipsis: pos, Elt: elt}
+	return &ast.Ellipsis{Ellipsis: pos, Elt: elt, PreciseComments: pcs}
 }
 
 type field struct {
@@ -984,11 +1042,14 @@ func (p *parser) parseParameters(acceptTParams bool) (tparams, params *ast.Field
 
 	if acceptTParams && p.tok == token.LBRACK {
 		opening := p.pos
+		var pcs *ast.PreciseComments
+		p.preciseComments(&pcs, ast.PointStart)
 		p.next()
 		// [T any](params) syntax
 		list := p.parseParameterList(nil, nil, token.RBRACK)
 		rbrack := p.expect(token.RBRACK)
-		tparams = &ast.FieldList{Opening: opening, List: list, Closing: rbrack}
+		p.preciseComments(&pcs, ast.PointEnd)
+		tparams = &ast.FieldList{Opening: opening, List: list, Closing: rbrack, PreciseComments: pcs}
 		// Type parameter lists must not be empty.
 		if tparams.NumFields() == 0 {
 			p.error(tparams.Closing, "empty type parameter list")
@@ -996,15 +1057,18 @@ func (p *parser) parseParameters(acceptTParams bool) (tparams, params *ast.Field
 		}
 	}
 
+	var pcs *ast.PreciseComments
+	p.preciseComments(&pcs, ast.PointStart)
 	opening := p.expect(token.LPAREN)
 
 	var fields []*ast.Field
 	if p.tok != token.RPAREN {
 		fields = p.parseParameterList(nil, nil, token.RPAREN)
 	}
-
+	p.preciseComments(&pcs, ast.PointBeforeCloseBracket)
 	rparen := p.expect(token.RPAREN)
-	params = &ast.FieldList{Opening: opening, List: fields, Closing: rparen}
+	p.preciseComments(&pcs, ast.PointEnd)
+	params = &ast.FieldList{Opening: opening, List: fields, Closing: rparen, PreciseComments: pcs}
 
 	return
 }
@@ -1034,14 +1098,17 @@ func (p *parser) parseFuncType() *ast.FuncType {
 		defer un(trace(p, "FuncType"))
 	}
 
+	var pcs *ast.PreciseComments
+	p.preciseComments(&pcs, ast.PointStart)
 	pos := p.expect(token.FUNC)
+	p.preciseComments(&pcs, ast.PointAfterInitialToken)
 	tparams, params := p.parseParameters(true)
 	if tparams != nil {
 		p.error(tparams.Pos(), "function type must have no type parameters")
 	}
 	results := p.parseResult()
 
-	return &ast.FuncType{Func: pos, Params: params, Results: results}
+	return &ast.FuncType{Func: pos, Params: params, Results: results, PreciseComments: pcs}
 }
 
 func (p *parser) parseMethodSpec() *ast.Field {
@@ -1096,8 +1163,11 @@ func (p *parser) parseMethodSpec() *ast.Field {
 					}
 					p.exprLev--
 				}
+				var after *ast.PreciseComments
+				p.preciseComments(&after, ast.PointBeforeCloseBracket)
 				rbrack := p.expectClosing(token.RBRACK, "type argument list")
-				typ = typeparams.PackIndexExpr(ident, lbrack, list, rbrack)
+				p.preciseComments(&after, ast.PointEnd)
+				typ = packIndexExpr(ident, lbrack, list, rbrack, after)
 			}
 		case p.tok == token.LPAREN:
 			// ordinary method
@@ -1151,6 +1221,7 @@ func (p *parser) embeddedTerm() ast.Expr {
 	}
 	if p.tok == token.TILDE {
 		t := new(ast.UnaryExpr)
+		p.preciseComments(&t.PreciseComments, ast.PointStart)
 		t.OpPos = p.pos
 		t.Op = token.TILDE
 		p.next()
@@ -1174,7 +1245,10 @@ func (p *parser) parseInterfaceType() *ast.InterfaceType {
 		defer un(trace(p, "InterfaceType"))
 	}
 
+	var pcs *ast.PreciseComments
+	p.preciseComments(&pcs, ast.PointStart)
 	pos := p.expect(token.INTERFACE)
+	p.preciseComments(&pcs, ast.PointAfterInitialToken)
 	lbrace := p.expect(token.LBRACE)
 
 	var list []*ast.Field
@@ -1206,15 +1280,20 @@ parseElements:
 
 	// TODO(rfindley): the error produced here could be improved, since we could
 	// accept a identifier, 'type', or a '}' at this point.
+	var fieldPCs *ast.PreciseComments
+	p.preciseComments(&fieldPCs, ast.PointBeforeCloseBracket)
 	rbrace := p.expect(token.RBRACE)
+	p.preciseComments(&fieldPCs, ast.PointEnd)
 
 	return &ast.InterfaceType{
 		Interface: pos,
 		Methods: &ast.FieldList{
-			Opening: lbrace,
-			List:    list,
-			Closing: rbrace,
+			Opening:         lbrace,
+			List:            list,
+			Closing:         rbrace,
+			PreciseComments: fieldPCs,
 		},
+		PreciseComments: pcs,
 	}
 }
 
@@ -1223,13 +1302,16 @@ func (p *parser) parseMapType() *ast.MapType {
 		defer un(trace(p, "MapType"))
 	}
 
+	var pcs *ast.PreciseComments
+	p.preciseComments(&pcs, ast.PointStart)
 	pos := p.expect(token.MAP)
+	p.preciseComments(&pcs, ast.PointAfterInitialToken)
 	p.expect(token.LBRACK)
 	key := p.parseType()
 	p.expect(token.RBRACK)
 	value := p.parseType()
 
-	return &ast.MapType{Map: pos, Key: key, Value: value}
+	return &ast.MapType{Map: pos, Key: key, Value: value, PreciseComments: pcs}
 }
 
 func (p *parser) parseChanType() *ast.ChanType {
@@ -1237,11 +1319,14 @@ func (p *parser) parseChanType() *ast.ChanType {
 		defer un(trace(p, "ChanType"))
 	}
 
+	var pcs *ast.PreciseComments
 	pos := p.pos
 	dir := ast.SEND | ast.RECV
 	var arrow token.Pos
+	p.preciseComments(&pcs, ast.PointStart)
 	if p.tok == token.CHAN {
 		p.next()
+		p.preciseComments(&pcs, ast.PointAfterInitialToken)
 		if p.tok == token.ARROW {
 			arrow = p.pos
 			p.next()
@@ -1249,12 +1334,13 @@ func (p *parser) parseChanType() *ast.ChanType {
 		}
 	} else {
 		arrow = p.expect(token.ARROW)
+		p.preciseComments(&pcs, ast.PointAfterInitialToken)
 		p.expect(token.CHAN)
 		dir = ast.RECV
 	}
 	value := p.parseType()
 
-	return &ast.ChanType{Begin: pos, Arrow: arrow, Dir: dir, Value: value}
+	return &ast.ChanType{Begin: pos, Arrow: arrow, Dir: dir, Value: value, PreciseComments: pcs}
 }
 
 func (p *parser) parseTypeInstance(typ ast.Expr) ast.Expr {
@@ -1262,7 +1348,7 @@ func (p *parser) parseTypeInstance(typ ast.Expr) ast.Expr {
 		defer un(trace(p, "TypeInstance"))
 	}
 
-	opening := p.expect(token.LBRACK)
+	lbrack := p.expect(token.LBRACK)
 	p.exprLev++
 	var list []ast.Expr
 	for p.tok != token.RBRACK && p.tok != token.EOF {
@@ -1274,19 +1360,23 @@ func (p *parser) parseTypeInstance(typ ast.Expr) ast.Expr {
 	}
 	p.exprLev--
 
-	closing := p.expectClosing(token.RBRACK, "type argument list")
+	var pcs *ast.PreciseComments
+	p.preciseComments(&pcs, ast.PointBeforeCloseBracket)
+	rbrack := p.expectClosing(token.RBRACK, "type argument list")
+	p.preciseComments(&pcs, ast.PointEnd)
 
 	if len(list) == 0 {
-		p.errorExpected(closing, "type argument list")
+		p.errorExpected(rbrack, "type argument list")
 		return &ast.IndexExpr{
-			X:      typ,
-			Lbrack: opening,
-			Index:  &ast.BadExpr{From: opening + 1, To: closing},
-			Rbrack: closing,
+			X:               typ,
+			Lbrack:          lbrack,
+			Index:           &ast.BadExpr{From: lbrack + 1, To: rbrack},
+			Rbrack:          rbrack,
+			PreciseComments: pcs,
 		}
 	}
 
-	return typeparams.PackIndexExpr(typ, opening, list, closing)
+	return packIndexExpr(typ, lbrack, list, rbrack, pcs)
 }
 
 func (p *parser) tryIdentOrType() ast.Expr {
@@ -1300,8 +1390,10 @@ func (p *parser) tryIdentOrType() ast.Expr {
 		}
 		return typ
 	case token.LBRACK:
+		var pcs *ast.PreciseComments
+		p.preciseComments(&pcs, ast.PointStart)
 		lbrack := p.expect(token.LBRACK)
-		return p.parseArrayType(lbrack, nil)
+		return p.parseArrayType(lbrack, pcs, nil)
 	case token.STRUCT:
 		return p.parseStructType()
 	case token.MUL:
@@ -1317,10 +1409,13 @@ func (p *parser) tryIdentOrType() ast.Expr {
 		return p.parseChanType()
 	case token.LPAREN:
 		lparen := p.pos
+		var pcs *ast.PreciseComments
+		p.preciseComments(&pcs, ast.PointStart)
 		p.next()
 		typ := p.parseType()
 		rparen := p.expect(token.RPAREN)
-		return &ast.ParenExpr{Lparen: lparen, X: typ, Rparen: rparen}
+		p.preciseComments(&pcs, ast.PointEnd)
+		return &ast.ParenExpr{Lparen: lparen, X: typ, Rparen: rparen, PreciseComments: pcs}
 	}
 
 	// no type found
@@ -1346,24 +1441,26 @@ func (p *parser) parseBody() *ast.BlockStmt {
 	if p.trace {
 		defer un(trace(p, "Body"))
 	}
-
-	lbrace := p.expect(token.LBRACE)
-	list := p.parseStmtList()
-	rbrace := p.expect2(token.RBRACE)
-
-	return &ast.BlockStmt{Lbrace: lbrace, List: list, Rbrace: rbrace}
+	return p.parseBodyOrBlockStmt()
 }
 
 func (p *parser) parseBlockStmt() *ast.BlockStmt {
 	if p.trace {
 		defer un(trace(p, "BlockStmt"))
 	}
+	return p.parseBodyOrBlockStmt()
+}
 
+func (p *parser) parseBodyOrBlockStmt() *ast.BlockStmt {
+	var pcs *ast.PreciseComments
+	p.preciseComments(&pcs, ast.PointStart)
 	lbrace := p.expect(token.LBRACE)
 	list := p.parseStmtList()
+	p.preciseComments(&pcs, ast.PointBeforeCloseBracket)
 	rbrace := p.expect2(token.RBRACE)
+	p.preciseComments(&pcs, ast.PointEnd)
 
-	return &ast.BlockStmt{Lbrace: lbrace, List: list, Rbrace: rbrace}
+	return &ast.BlockStmt{Lbrace: lbrace, List: list, Rbrace: rbrace, PreciseComments: pcs}
 }
 
 // ----------------------------------------------------------------------------
@@ -1401,17 +1498,22 @@ func (p *parser) parseOperand() ast.Expr {
 
 	case token.INT, token.FLOAT, token.IMAG, token.CHAR, token.STRING:
 		x := &ast.BasicLit{ValuePos: p.pos, Kind: p.tok, Value: p.lit}
+		p.preciseComments(&x.PreciseComments, ast.PointStart)
 		p.next()
+		p.preciseComments(&x.PreciseComments, ast.PointEnd)
 		return x
 
 	case token.LPAREN:
 		lparen := p.pos
+		var pcs *ast.PreciseComments
+		p.preciseComments(&pcs, ast.PointStart)
 		p.next()
 		p.exprLev++
 		x := p.parseRhs() // types may be parenthesized: (some type)
 		p.exprLev--
 		rparen := p.expect(token.RPAREN)
-		return &ast.ParenExpr{Lparen: lparen, X: x, Rparen: rparen}
+		p.preciseComments(&pcs, ast.PointEnd)
+		return &ast.ParenExpr{Lparen: lparen, X: x, Rparen: rparen, PreciseComments: pcs}
 
 	case token.FUNC:
 		return p.parseFuncTypeOrLit()
@@ -1446,7 +1548,10 @@ func (p *parser) parseTypeAssertion(x ast.Expr) ast.Expr {
 		defer un(trace(p, "TypeAssertion"))
 	}
 
+	var pcs *ast.PreciseComments
+	p.preciseComments(&pcs, ast.PointBeforeOpenBracket)
 	lparen := p.expect(token.LPAREN)
+	p.preciseComments(&pcs, ast.PointAfterOpenBracket)
 	var typ ast.Expr
 	if p.tok == token.TYPE {
 		// type switch: typ == nil
@@ -1454,9 +1559,11 @@ func (p *parser) parseTypeAssertion(x ast.Expr) ast.Expr {
 	} else {
 		typ = p.parseType()
 	}
+	p.preciseComments(&pcs, ast.PointBeforeCloseBracket)
 	rparen := p.expect(token.RPAREN)
+	p.preciseComments(&pcs, ast.PointAfterCloseBracket)
 
-	return &ast.TypeAssertExpr{X: x, Type: typ, Lparen: lparen, Rparen: rparen}
+	return &ast.TypeAssertExpr{X: x, Type: typ, Lparen: lparen, Rparen: rparen, PreciseComments: pcs}
 }
 
 func (p *parser) parseIndexOrSliceOrInstance(x ast.Expr) ast.Expr {
@@ -1490,19 +1597,26 @@ func (p *parser) parseIndexOrSliceOrInstance(x ast.Expr) ast.Expr {
 		index[0] = p.parseRhs()
 	}
 	ncolons := 0
+	var pcs *ast.PreciseComments
 	switch p.tok {
 	case token.COLON:
-		// slice expression
+		// slice expression E[E:]
 		for p.tok == token.COLON && ncolons < len(colons) {
 			colons[ncolons] = p.pos
+			if ncolons == 0 {
+				p.preciseComments(&pcs, ast.PointBeforeColon) // x[◆:]
+			}
 			ncolons++
 			p.next()
+			if ncolons == 1 {
+				p.preciseComments(&pcs, ast.PointAfterColon) // x[:◆]
+			}
 			if p.tok != token.COLON && p.tok != token.RBRACK && p.tok != token.EOF {
 				index[ncolons] = p.parseRhs()
 			}
 		}
 	case token.COMMA:
-		// instance expression
+		// instance expression T[T,T]
 		args = append(args, index[0])
 		for p.tok == token.COMMA {
 			p.next()
@@ -1510,13 +1624,15 @@ func (p *parser) parseIndexOrSliceOrInstance(x ast.Expr) ast.Expr {
 				args = append(args, p.parseType())
 			}
 		}
+		p.preciseComments(&pcs, ast.PointBeforeCloseBracket) // T[T,◆]
 	}
 
 	p.exprLev--
 	rbrack := p.expect(token.RBRACK)
+	p.preciseComments(&pcs, ast.PointEnd)
 
 	if ncolons > 0 {
-		// slice expression
+		// slice expression a[i:j] or a[i:j:k]
 		slice3 := false
 		if ncolons == 2 {
 			slice3 = true
@@ -1531,16 +1647,16 @@ func (p *parser) parseIndexOrSliceOrInstance(x ast.Expr) ast.Expr {
 				index[2] = &ast.BadExpr{From: colons[1] + 1, To: rbrack}
 			}
 		}
-		return &ast.SliceExpr{X: x, Lbrack: lbrack, Low: index[0], High: index[1], Max: index[2], Slice3: slice3, Rbrack: rbrack}
+		return &ast.SliceExpr{X: x, Lbrack: lbrack, Low: index[0], High: index[1], Max: index[2], Slice3: slice3, Rbrack: rbrack, PreciseComments: pcs}
 	}
 
 	if len(args) == 0 {
-		// index expression
-		return &ast.IndexExpr{X: x, Lbrack: lbrack, Index: index[0], Rbrack: rbrack}
+		// index expression a[i] or T[T]
+		return &ast.IndexExpr{X: x, Lbrack: lbrack, Index: index[0], Rbrack: rbrack, PreciseComments: pcs}
 	}
 
-	// instance expression
-	return typeparams.PackIndexExpr(x, lbrack, args, rbrack)
+	// instance expression T[T,] or T[T, T]
+	return packIndexExpr(x, lbrack, args, rbrack, pcs)
 }
 
 func (p *parser) parseCallOrConversion(fun ast.Expr) *ast.CallExpr {
@@ -1564,9 +1680,45 @@ func (p *parser) parseCallOrConversion(fun ast.Expr) *ast.CallExpr {
 		p.next()
 	}
 	p.exprLev--
-	rparen := p.expectClosing(token.RPAREN, "argument list")
 
-	return &ast.CallExpr{Fun: fun, Lparen: lparen, Args: list, Ellipsis: ellipsis, Rparen: rparen}
+	var pcs *ast.PreciseComments
+	p.preciseComments(&pcs, ast.PointBeforeCloseBracket)
+	rparen := p.expectClosing(token.RPAREN, "argument list")
+	p.preciseComments(&pcs, ast.PointEnd)
+
+	return &ast.CallExpr{Fun: fun, Lparen: lparen, Args: list, Ellipsis: ellipsis, Rparen: rparen, PreciseComments: pcs}
+}
+
+func (p *parser) preciseComments(ptr **ast.PreciseComments, point ast.Point) {
+	if p.mode&PreciseComments == 0 {
+		return // disabled (saves only about 1.2%)
+	}
+
+	comments := p.fileComments[p.nprecise:]
+	if len(comments) == 0 {
+		return // no new comments
+	}
+	p.nprecise = len(p.fileComments)
+
+	pcs := *ptr
+	if pcs == nil {
+		pcs = new(ast.PreciseComments)
+		*ptr = pcs
+	}
+
+	// Opt: allocate List array exactly: 99% of PreciseComments are
+	// populated from a single call to preciseComments.
+	if newcap := len(pcs.List) + len(comments); newcap > cap(pcs.List) {
+		pcs.List = append(make([]ast.PreciseComment, 0, newcap), pcs.List...)
+	}
+
+	for _, comment := range comments {
+		pcs.List = append(pcs.List, ast.PreciseComment{
+			Point:   point,
+			Space:   0, // TODO(adonovan): implement Space
+			Comment: comment,
+		})
+	}
 }
 
 func (p *parser) parseValue() ast.Expr {
@@ -1619,6 +1771,10 @@ func (p *parser) parseLiteralValue(typ ast.Expr) ast.Expr {
 		defer un(trace(p, "LiteralValue"))
 	}
 
+	var pcs *ast.PreciseComments
+	if typ == nil {
+		p.preciseComments(&pcs, ast.PointStart)
+	}
 	lbrace := p.expect(token.LBRACE)
 	var elts []ast.Expr
 	p.exprLev++
@@ -1626,8 +1782,10 @@ func (p *parser) parseLiteralValue(typ ast.Expr) ast.Expr {
 		elts = p.parseElementList()
 	}
 	p.exprLev--
+	p.preciseComments(&pcs, ast.PointBeforeCloseBracket)
 	rbrace := p.expectClosing(token.RBRACE, "composite literal")
-	return &ast.CompositeLit{Type: typ, Lbrace: lbrace, Elts: elts, Rbrace: rbrace}
+	p.preciseComments(&pcs, ast.PointEnd)
+	return &ast.CompositeLit{Type: typ, Lbrace: lbrace, Elts: elts, Rbrace: rbrace, PreciseComments: pcs}
 }
 
 // If x is of the form (T), unparen returns unparen(T), otherwise it returns x.
@@ -1718,16 +1876,20 @@ func (p *parser) parseUnaryExpr() ast.Expr {
 		defer un(trace(p, "UnaryExpr"))
 	}
 
+	var pcs *ast.PreciseComments
+
 	switch p.tok {
 	case token.ADD, token.SUB, token.NOT, token.XOR, token.AND, token.TILDE:
 		pos, op := p.pos, p.tok
+		p.preciseComments(&pcs, ast.PointStart)
 		p.next()
 		x := p.parseUnaryExpr()
-		return &ast.UnaryExpr{OpPos: pos, Op: op, X: x}
+		return &ast.UnaryExpr{OpPos: pos, Op: op, X: x, PreciseComments: pcs}
 
 	case token.ARROW:
 		// channel type or receive expression
 		arrow := p.pos
+		p.preciseComments(&pcs, ast.PointStart)
 		p.next()
 
 		// If the next token is token.CHAN we still don't know if it
@@ -1769,14 +1931,15 @@ func (p *parser) parseUnaryExpr() ast.Expr {
 		}
 
 		// <-(expr)
-		return &ast.UnaryExpr{OpPos: arrow, Op: token.ARROW, X: x}
+		return &ast.UnaryExpr{OpPos: arrow, Op: token.ARROW, X: x, PreciseComments: pcs}
 
 	case token.MUL:
 		// pointer type or unary "*" expression
 		pos := p.pos
+		p.preciseComments(&pcs, ast.PointStart)
 		p.next()
 		x := p.parseUnaryExpr()
-		return &ast.StarExpr{Star: pos, X: x}
+		return &ast.StarExpr{Star: pos, X: x, PreciseComments: pcs}
 	}
 
 	return p.parsePrimaryExpr(nil)
@@ -1790,10 +1953,12 @@ func (p *parser) tokPrec() (token.Token, int) {
 	return tok, tok.Precedence()
 }
 
-// parseBinaryExpr parses a (possibly) binary expression.
-// If x is non-nil, it is used as the left operand.
+// parseBinaryExpr parses a binary expression, or one of higher
+// precedence, using the technique of "precedence climbing"; see
+// https://en.wikipedia.org/wiki/Operator-precedence_parser.
 //
-// TODO(rfindley): parseBinaryExpr has become overloaded. Consider refactoring.
+// If x is non-nil, it is used as the left operand.
+// If check is true, operands are checked to be valid expressions.
 func (p *parser) parseBinaryExpr(x ast.Expr, prec1 int) ast.Expr {
 	if p.trace {
 		defer un(trace(p, "BinaryExpr"))
@@ -1870,8 +2035,10 @@ func (p *parser) parseSimpleStmt(mode int) (ast.Stmt, bool) {
 		isRange := false
 		if mode == rangeOk && p.tok == token.RANGE && (tok == token.DEFINE || tok == token.ASSIGN) {
 			pos := p.pos
+			var pcs *ast.PreciseComments
+			p.preciseComments(&pcs, ast.PointBeforeRange)
 			p.next()
-			y = []ast.Expr{&ast.UnaryExpr{OpPos: pos, Op: token.RANGE, X: p.parseRhs()}}
+			y = []ast.Expr{&ast.UnaryExpr{OpPos: pos, Op: token.RANGE, X: p.parseRhs(), PreciseComments: pcs}}
 			isRange = true
 		} else {
 			y = p.parseList(true)
@@ -1916,6 +2083,7 @@ func (p *parser) parseSimpleStmt(mode int) (ast.Stmt, bool) {
 		// increment or decrement
 		s := &ast.IncDecStmt{X: x[0], TokPos: p.pos, Tok: p.tok}
 		p.next()
+		p.preciseComments(&s.PreciseComments, ast.PointEnd)
 		return s, false
 	}
 
@@ -1944,6 +2112,8 @@ func (p *parser) parseGoStmt() ast.Stmt {
 		defer un(trace(p, "GoStmt"))
 	}
 
+	var before *ast.PreciseComments
+	p.preciseComments(&before, ast.PointStart)
 	pos := p.expect(token.GO)
 	call := p.parseCallExpr("go")
 	p.expectSemi()
@@ -1951,7 +2121,7 @@ func (p *parser) parseGoStmt() ast.Stmt {
 		return &ast.BadStmt{From: pos, To: pos + 2} // len("go")
 	}
 
-	return &ast.GoStmt{Go: pos, Call: call}
+	return &ast.GoStmt{Go: pos, Call: call, PreciseComments: before}
 }
 
 func (p *parser) parseDeferStmt() ast.Stmt {
@@ -1959,6 +2129,8 @@ func (p *parser) parseDeferStmt() ast.Stmt {
 		defer un(trace(p, "DeferStmt"))
 	}
 
+	var before *ast.PreciseComments
+	p.preciseComments(&before, ast.PointStart)
 	pos := p.expect(token.DEFER)
 	call := p.parseCallExpr("defer")
 	p.expectSemi()
@@ -1966,7 +2138,7 @@ func (p *parser) parseDeferStmt() ast.Stmt {
 		return &ast.BadStmt{From: pos, To: pos + 5} // len("defer")
 	}
 
-	return &ast.DeferStmt{Defer: pos, Call: call}
+	return &ast.DeferStmt{Defer: pos, Call: call, PreciseComments: before}
 }
 
 func (p *parser) parseReturnStmt() *ast.ReturnStmt {
@@ -1974,6 +2146,8 @@ func (p *parser) parseReturnStmt() *ast.ReturnStmt {
 		defer un(trace(p, "ReturnStmt"))
 	}
 
+	var pcs *ast.PreciseComments
+	p.preciseComments(&pcs, ast.PointStart)
 	pos := p.pos
 	p.expect(token.RETURN)
 	var x []ast.Expr
@@ -1981,8 +2155,11 @@ func (p *parser) parseReturnStmt() *ast.ReturnStmt {
 		x = p.parseList(true)
 	}
 	p.expectSemi()
+	if x == nil {
+		p.preciseComments(&pcs, ast.PointEnd)
+	}
 
-	return &ast.ReturnStmt{Return: pos, Results: x}
+	return &ast.ReturnStmt{Return: pos, Results: x, PreciseComments: pcs}
 }
 
 func (p *parser) parseBranchStmt(tok token.Token) *ast.BranchStmt {
@@ -1990,14 +2167,18 @@ func (p *parser) parseBranchStmt(tok token.Token) *ast.BranchStmt {
 		defer un(trace(p, "BranchStmt"))
 	}
 
+	var pcs *ast.PreciseComments
+	p.preciseComments(&pcs, ast.PointStart)
 	pos := p.expect(tok)
 	var label *ast.Ident
 	if tok != token.FALLTHROUGH && p.tok == token.IDENT {
 		label = p.parseIdent()
+	} else {
+		p.preciseComments(&pcs, ast.PointEnd)
 	}
 	p.expectSemi()
 
-	return &ast.BranchStmt{TokPos: pos, Tok: tok, Label: label}
+	return &ast.BranchStmt{TokPos: pos, Tok: tok, Label: label, PreciseComments: pcs}
 }
 
 func (p *parser) makeExpr(s ast.Stmt, want string) ast.Expr {
@@ -2085,6 +2266,8 @@ func (p *parser) parseIfStmt() *ast.IfStmt {
 		defer un(trace(p, "IfStmt"))
 	}
 
+	var pcs *ast.PreciseComments
+	p.preciseComments(&pcs, ast.PointStart)
 	pos := p.expect(token.IF)
 
 	init, cond := p.parseIfHeader()
@@ -2105,9 +2288,10 @@ func (p *parser) parseIfStmt() *ast.IfStmt {
 		}
 	} else {
 		p.expectSemi()
+		p.preciseComments(&pcs, ast.PointEnd)
 	}
 
-	return &ast.IfStmt{If: pos, Init: init, Cond: cond, Body: body, Else: else_}
+	return &ast.IfStmt{If: pos, Init: init, Cond: cond, Body: body, Else: else_, PreciseComments: pcs}
 }
 
 func (p *parser) parseCaseClause() *ast.CaseClause {
@@ -2115,19 +2299,24 @@ func (p *parser) parseCaseClause() *ast.CaseClause {
 		defer un(trace(p, "CaseClause"))
 	}
 
+	var pcs *ast.PreciseComments
+	p.preciseComments(&pcs, ast.PointStart)
 	pos := p.pos
 	var list []ast.Expr
 	if p.tok == token.CASE {
 		p.next()
+		p.preciseComments(&pcs, ast.PointAfterInitialToken)
 		list = p.parseList(true)
 	} else {
 		p.expect(token.DEFAULT)
+		p.preciseComments(&pcs, ast.PointAfterInitialToken)
 	}
 
 	colon := p.expect(token.COLON)
+	p.preciseComments(&pcs, ast.PointAfterColon)
 	body := p.parseStmtList()
 
-	return &ast.CaseClause{Case: pos, List: list, Colon: colon, Body: body}
+	return &ast.CaseClause{Case: pos, List: list, Colon: colon, Body: body, PreciseComments: pcs}
 }
 
 func isTypeSwitchAssert(x ast.Expr) bool {
@@ -2161,6 +2350,8 @@ func (p *parser) parseSwitchStmt() ast.Stmt {
 		defer un(trace(p, "SwitchStmt"))
 	}
 
+	var pcs *ast.PreciseComments
+	p.preciseComments(&pcs, ast.PointStart)
 	pos := p.expect(token.SWITCH)
 
 	var s1, s2 ast.Stmt
@@ -2194,20 +2385,25 @@ func (p *parser) parseSwitchStmt() ast.Stmt {
 	}
 
 	typeSwitch := p.isTypeSwitchGuard(s2)
+	var blockPCs *ast.PreciseComments
+	p.preciseComments(&blockPCs, ast.PointStart)
 	lbrace := p.expect(token.LBRACE)
 	var list []ast.Stmt
 	for p.tok == token.CASE || p.tok == token.DEFAULT {
 		list = append(list, p.parseCaseClause())
 	}
+	p.preciseComments(&blockPCs, ast.PointBeforeCloseBracket)
 	rbrace := p.expect(token.RBRACE)
+	p.preciseComments(&blockPCs, ast.PointEnd)
 	p.expectSemi()
-	body := &ast.BlockStmt{Lbrace: lbrace, List: list, Rbrace: rbrace}
+	p.preciseComments(&pcs, ast.PointEnd)
+	body := &ast.BlockStmt{Lbrace: lbrace, List: list, Rbrace: rbrace, PreciseComments: blockPCs}
 
 	if typeSwitch {
-		return &ast.TypeSwitchStmt{Switch: pos, Init: s1, Assign: s2, Body: body}
+		return &ast.TypeSwitchStmt{Switch: pos, Init: s1, Assign: s2, Body: body, PreciseComments: pcs}
 	}
 
-	return &ast.SwitchStmt{Switch: pos, Init: s1, Tag: p.makeExpr(s2, "switch expression"), Body: body}
+	return &ast.SwitchStmt{Switch: pos, Init: s1, Tag: p.makeExpr(s2, "switch expression"), Body: body, PreciseComments: pcs}
 }
 
 func (p *parser) parseCommClause() *ast.CommClause {
@@ -2216,6 +2412,8 @@ func (p *parser) parseCommClause() *ast.CommClause {
 	}
 
 	pos := p.pos
+	var pcs *ast.PreciseComments
+	p.preciseComments(&pcs, ast.PointStart)
 	var comm ast.Stmt
 	if p.tok == token.CASE {
 		p.next()
@@ -2254,12 +2452,13 @@ func (p *parser) parseCommClause() *ast.CommClause {
 		}
 	} else {
 		p.expect(token.DEFAULT)
+		p.preciseComments(&pcs, ast.PointAfterInitialToken)
 	}
-
 	colon := p.expect(token.COLON)
+	p.preciseComments(&pcs, ast.PointAfterColon)
 	body := p.parseStmtList()
 
-	return &ast.CommClause{Case: pos, Comm: comm, Colon: colon, Body: body}
+	return &ast.CommClause{Case: pos, Comm: comm, Colon: colon, Body: body, PreciseComments: pcs}
 }
 
 func (p *parser) parseSelectStmt() *ast.SelectStmt {
@@ -2267,17 +2466,23 @@ func (p *parser) parseSelectStmt() *ast.SelectStmt {
 		defer un(trace(p, "SelectStmt"))
 	}
 
+	var pcs, blockPCs *ast.PreciseComments
+	p.preciseComments(&pcs, ast.PointStart)
 	pos := p.expect(token.SELECT)
+	p.preciseComments(&blockPCs, ast.PointStart)
 	lbrace := p.expect(token.LBRACE)
 	var list []ast.Stmt
 	for p.tok == token.CASE || p.tok == token.DEFAULT {
 		list = append(list, p.parseCommClause())
 	}
+	p.preciseComments(&blockPCs, ast.PointBeforeCloseBracket)
 	rbrace := p.expect(token.RBRACE)
+	p.preciseComments(&blockPCs, ast.PointEnd)
 	p.expectSemi()
-	body := &ast.BlockStmt{Lbrace: lbrace, List: list, Rbrace: rbrace}
+	p.preciseComments(&pcs, ast.PointEnd)
+	body := &ast.BlockStmt{Lbrace: lbrace, List: list, Rbrace: rbrace, PreciseComments: blockPCs}
 
-	return &ast.SelectStmt{Select: pos, Body: body}
+	return &ast.SelectStmt{Select: pos, Body: body, PreciseComments: pcs}
 }
 
 func (p *parser) parseForStmt() ast.Stmt {
@@ -2285,6 +2490,8 @@ func (p *parser) parseForStmt() ast.Stmt {
 		defer un(trace(p, "ForStmt"))
 	}
 
+	var pcs *ast.PreciseComments
+	p.preciseComments(&pcs, ast.PointStart)
 	pos := p.expect(token.FOR)
 
 	var s1, s2, s3 ast.Stmt
@@ -2295,6 +2502,7 @@ func (p *parser) parseForStmt() ast.Stmt {
 		if p.tok != token.SEMICOLON {
 			if p.tok == token.RANGE {
 				// "for range x" (nil lhs in assignment)
+				p.preciseComments(&pcs, ast.PointBeforeRange)
 				pos := p.pos
 				p.next()
 				y := []ast.Expr{&ast.UnaryExpr{OpPos: pos, Op: token.RANGE, X: p.parseRhs()}}
@@ -2303,13 +2511,18 @@ func (p *parser) parseForStmt() ast.Stmt {
 			} else {
 				s2, isRange = p.parseSimpleStmt(rangeOk)
 			}
+		} else {
+			p.preciseComments(&pcs, ast.PointAfterInitialToken)
 		}
+
 		if !isRange && p.tok == token.SEMICOLON {
 			p.next()
 			s1 = s2
 			s2 = nil
 			if p.tok != token.SEMICOLON {
 				s2, _ = p.parseSimpleStmt(basic)
+			} else {
+				p.preciseComments(&pcs, ast.PointAfterFirstSemicolon)
 			}
 			p.expectSemi()
 			if p.tok != token.LBRACE {
@@ -2338,27 +2551,44 @@ func (p *parser) parseForStmt() ast.Stmt {
 			return &ast.BadStmt{From: pos, To: p.safePos(body.End())}
 		}
 		// parseSimpleStmt returned a right-hand side that
-		// is a single unary expression of the form "range x"
-		x := as.Rhs[0].(*ast.UnaryExpr).X
+		// is a single unary expression of the form "/*...*/ range x".
+		unary := as.Rhs[0].(*ast.UnaryExpr)
+		copyPoints(&pcs, unary.PreciseComments, ast.PointBeforeRange)
 		return &ast.RangeStmt{
-			For:    pos,
-			Key:    key,
-			Value:  value,
-			TokPos: as.TokPos,
-			Tok:    as.Tok,
-			Range:  as.Rhs[0].Pos(),
-			X:      x,
-			Body:   body,
+			For:             pos,
+			Key:             key,
+			Value:           value,
+			TokPos:          as.TokPos,
+			Tok:             as.Tok,
+			Range:           unary.Pos(),
+			X:               unary.X,
+			Body:            body,
+			PreciseComments: pcs,
 		}
 	}
 
 	// regular for statement
 	return &ast.ForStmt{
-		For:  pos,
-		Init: s1,
-		Cond: p.makeExpr(s2, "boolean or range expression"),
-		Post: s3,
-		Body: body,
+		For:             pos,
+		Init:            s1,
+		Cond:            p.makeExpr(s2, "boolean or range expression"),
+		Post:            s3,
+		Body:            body,
+		PreciseComments: pcs,
+	}
+}
+
+// copyPoints copies precise comments from src to *pdest if they match point.
+func copyPoints(pdest **ast.PreciseComments, src *ast.PreciseComments, point ast.Point) {
+	if src != nil {
+		for _, pc := range src.List {
+			if pc.Point == point {
+				if *pdest == nil {
+					*pdest = new(ast.PreciseComments)
+				}
+				(*pdest).List = append((*pdest).List, pc)
+			}
+		}
 	}
 }
 
@@ -2407,11 +2637,15 @@ func (p *parser) parseStmt() (s ast.Stmt) {
 		// Is it ever possible to have an implicit semicolon
 		// producing an empty statement in a valid program?
 		// (handle correctly anyway)
-		s = &ast.EmptyStmt{Semicolon: p.pos, Implicit: p.lit == "\n"}
+		empty := &ast.EmptyStmt{Semicolon: p.pos, Implicit: p.lit == "\n"}
+		p.preciseComments(&empty.PreciseComments, ast.PointStart)
 		p.next()
+		s = empty
 	case token.RBRACE:
 		// a semicolon may be omitted before a closing "}"
-		s = &ast.EmptyStmt{Semicolon: p.pos, Implicit: true}
+		empty := &ast.EmptyStmt{Semicolon: p.pos, Implicit: true}
+		p.preciseComments(&empty.PreciseComments, ast.PointStart)
+		s = empty
 	default:
 		// no statement found
 		pos := p.pos
@@ -2439,9 +2673,13 @@ func (p *parser) parseImportSpec(doc *ast.CommentGroup, _ token.Token, _ int) as
 		ident = p.parseIdent()
 	case token.PERIOD:
 		ident = &ast.Ident{NamePos: p.pos, Name: "."}
+		p.preciseComments(&ident.PreciseComments, ast.PointStart)
 		p.next()
+		p.preciseComments(&ident.PreciseComments, ast.PointEnd)
 	}
 
+	var pcs *ast.PreciseComments
+	p.preciseComments(&pcs, ast.PointStart)
 	pos := p.pos
 	var path string
 	if p.tok == token.STRING {
@@ -2454,13 +2692,14 @@ func (p *parser) parseImportSpec(doc *ast.CommentGroup, _ token.Token, _ int) as
 		p.error(pos, "missing import path")
 		p.advance(exprEnd)
 	}
+	p.preciseComments(&pcs, ast.PointEnd)
 	comment := p.expectSemi()
 
 	// collect imports
 	spec := &ast.ImportSpec{
 		Doc:     doc,
 		Name:    ident,
-		Path:    &ast.BasicLit{ValuePos: pos, Kind: token.STRING, Value: path},
+		Path:    &ast.BasicLit{ValuePos: pos, Kind: token.STRING, Value: path, PreciseComments: pcs},
 		Comment: comment,
 	}
 	p.imports = append(p.imports, spec)
@@ -2509,14 +2748,17 @@ func (p *parser) parseValueSpec(doc *ast.CommentGroup, keyword token.Token, iota
 	return spec
 }
 
-func (p *parser) parseGenericType(spec *ast.TypeSpec, openPos token.Pos, name0 *ast.Ident, typ0 ast.Expr) {
+// pcs contains any PointStart comments.
+func (p *parser) parseGenericType(spec *ast.TypeSpec, openPos token.Pos, pcs *ast.PreciseComments, name0 *ast.Ident, typ0 ast.Expr) {
 	if p.trace {
 		defer un(trace(p, "parseGenericType"))
 	}
 
 	list := p.parseParameterList(name0, typ0, token.RBRACK)
 	closePos := p.expect(token.RBRACK)
-	spec.TypeParams = &ast.FieldList{Opening: openPos, List: list, Closing: closePos}
+	p.preciseComments(&pcs, ast.PointEnd)
+
+	spec.TypeParams = &ast.FieldList{Opening: openPos, List: list, Closing: closePos, PreciseComments: pcs}
 	// Let the type checker decide whether to accept type parameters on aliases:
 	// see issue #46477.
 	if p.tok == token.ASSIGN {
@@ -2538,6 +2780,8 @@ func (p *parser) parseTypeSpec(doc *ast.CommentGroup, _ token.Token, _ int) ast.
 	if p.tok == token.LBRACK {
 		// spec.Name "[" ...
 		// array/slice type or type parameter list
+		var pcs *ast.PreciseComments
+		p.preciseComments(&pcs, ast.PointStart)
 		lbrack := p.pos
 		p.next()
 		if p.tok == token.IDENT {
@@ -2577,15 +2821,15 @@ func (p *parser) parseTypeSpec(doc *ast.CommentGroup, _ token.Token, _ int) ast.
 				// spec.Name "[" pname ...
 				// spec.Name "[" pname ptype ...
 				// spec.Name "[" pname ptype "," ...
-				p.parseGenericType(spec, lbrack, pname, ptype) // ptype may be nil
+				p.parseGenericType(spec, lbrack, pcs, pname, ptype) // ptype may be nil
 			} else {
 				// spec.Name "[" pname "]" ...
 				// spec.Name "[" x ...
-				spec.Type = p.parseArrayType(lbrack, x)
+				spec.Type = p.parseArrayType(lbrack, pcs, x)
 			}
 		} else {
 			// array type
-			spec.Type = p.parseArrayType(lbrack, nil)
+			spec.Type = p.parseArrayType(lbrack, pcs, nil)
 		}
 	} else {
 		// no type parameters
@@ -2672,28 +2916,34 @@ func (p *parser) parseGenDecl(keyword token.Token, f parseSpecFunction) *ast.Gen
 	}
 
 	doc := p.leadComment
+	var pcs *ast.PreciseComments
+	p.preciseComments(&pcs, ast.PointStart)
 	pos := p.expect(keyword)
 	var lparen, rparen token.Pos
 	var list []ast.Spec
 	if p.tok == token.LPAREN {
 		lparen = p.pos
+		p.preciseComments(&pcs, ast.PointBeforeOpenBracket)
 		p.next()
 		for iota := 0; p.tok != token.RPAREN && p.tok != token.EOF; iota++ {
 			list = append(list, f(p.leadComment, keyword, iota))
 		}
+		p.preciseComments(&pcs, ast.PointBeforeCloseBracket)
 		rparen = p.expect(token.RPAREN)
+		p.preciseComments(&pcs, ast.PointAfterCloseBracket)
 		p.expectSemi()
 	} else {
 		list = append(list, f(nil, keyword, 0))
 	}
 
 	return &ast.GenDecl{
-		Doc:    doc,
-		TokPos: pos,
-		Tok:    keyword,
-		Lparen: lparen,
-		Specs:  list,
-		Rparen: rparen,
+		Doc:             doc,
+		TokPos:          pos,
+		Tok:             keyword,
+		Lparen:          lparen,
+		Specs:           list,
+		Rparen:          rparen,
+		PreciseComments: pcs,
 	}
 }
 
@@ -2702,8 +2952,11 @@ func (p *parser) parseFuncDecl() *ast.FuncDecl {
 		defer un(trace(p, "FunctionDecl"))
 	}
 
+	var typePCs *ast.PreciseComments
 	doc := p.leadComment
+	p.preciseComments(&typePCs, ast.PointStart)
 	pos := p.expect(token.FUNC)
+	p.preciseComments(&typePCs, ast.PointAfterInitialToken)
 
 	var recv *ast.FieldList
 	if p.tok == token.LPAREN {
@@ -2743,10 +2996,11 @@ func (p *parser) parseFuncDecl() *ast.FuncDecl {
 		Recv: recv,
 		Name: ident,
 		Type: &ast.FuncType{
-			Func:       pos,
-			TypeParams: tparams,
-			Params:     params,
-			Results:    results,
+			Func:            pos,
+			TypeParams:      tparams,
+			Params:          params,
+			Results:         results,
+			PreciseComments: typePCs,
 		},
 		Body: body,
 	}
@@ -2796,6 +3050,9 @@ func (p *parser) parseFile() *ast.File {
 		return nil
 	}
 
+	var pcs *ast.PreciseComments
+	p.preciseComments(&pcs, ast.PointStart)
+
 	// package clause
 	doc := p.leadComment
 	pos := p.expect(token.PACKAGE)
@@ -2832,18 +3089,20 @@ func (p *parser) parseFile() *ast.File {
 
 				decls = append(decls, p.parseDecl(declStart))
 			}
+			p.preciseComments(&pcs, ast.PointEnd)
 		}
 	}
 
 	f := &ast.File{
-		Doc:       doc,
-		Package:   pos,
-		Name:      ident,
-		Decls:     decls,
-		FileStart: token.Pos(p.file.Base()),
-		FileEnd:   token.Pos(p.file.Base() + p.file.Size()),
-		Imports:   p.imports,
-		Comments:  p.comments,
+		Doc:             doc,
+		Package:         pos,
+		Name:            ident,
+		Decls:           decls,
+		FileStart:       token.Pos(p.file.Base()),
+		FileEnd:         token.Pos(p.file.Base() + p.file.Size()),
+		Imports:         p.imports,
+		Comments:        p.fileComments,
+		PreciseComments: pcs,
 	}
 	var declErr func(token.Pos, string)
 	if p.mode&DeclarationErrors != 0 {

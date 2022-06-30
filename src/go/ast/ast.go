@@ -231,6 +231,9 @@ type FieldList struct {
 	Opening token.Pos // position of opening parenthesis/brace/bracket, if any
 	List    []*Field  // field list; or nil
 	Closing token.Pos // position of closing parenthesis/brace/bracket, if any
+
+	PreciseComments *PreciseComments // points⊆{Start, BeforeCloseBracket, End}  ◆ { x, y int ◆ } ◆
+	// - BeforeCloseBracket is only used when List is absent.
 }
 
 func (f *FieldList) Pos() token.Pos {
@@ -281,6 +284,8 @@ type (
 	//
 	BadExpr struct {
 		From, To token.Pos // position range of bad expression
+
+		PreciseComments *PreciseComments // points⊆{Start, End}  ◆ ??? ◆
 	}
 
 	// An Ident node represents an identifier.
@@ -288,6 +293,8 @@ type (
 		NamePos token.Pos // identifier position
 		Name    string    // identifier name
 		Obj     *Object   // denoted object; or nil
+
+		PreciseComments *PreciseComments // points⊆{Start, End}  ◆ name ◆
 	}
 
 	// An Ellipsis node stands for the "..." type in a
@@ -296,6 +303,9 @@ type (
 	Ellipsis struct {
 		Ellipsis token.Pos // position of "..."
 		Elt      Expr      // ellipsis element type (parameter lists only); or nil
+
+		PreciseComments *PreciseComments // points⊆{Start, End}  ◆ ... elt ◆
+		// - End is redundant when Elt is present.
 	}
 
 	// A BasicLit node represents a literal of basic type.
@@ -303,6 +313,8 @@ type (
 		ValuePos token.Pos   // literal position
 		Kind     token.Token // token.INT, token.FLOAT, token.IMAG, token.CHAR, or token.STRING
 		Value    string      // literal string; e.g. 42, 0x7f, 3.14, 1e-9, 2.4i, 'a', '\x7f', "foo" or `\m\n\o`
+
+		PreciseComments *PreciseComments // points⊆{Start, End}  ◆ value ◆
 	}
 
 	// A FuncLit node represents a function literal.
@@ -318,6 +330,10 @@ type (
 		Elts       []Expr    // list of composite elements; or nil
 		Rbrace     token.Pos // position of "}"
 		Incomplete bool      // true if (source) expressions are missing in the Elts list
+
+		PreciseComments *PreciseComments // points⊆{Start, BeforeCloseBracket, End} ◆ type { elts, ◆ } ◆
+		// - Start is redundant when Type is present
+		// - BeforeCloseBracket may be redundant with last elt (if comma is absent)
 	}
 
 	// A ParenExpr node represents a parenthesized expression.
@@ -325,6 +341,8 @@ type (
 		Lparen token.Pos // position of "("
 		X      Expr      // parenthesized expression
 		Rparen token.Pos // position of ")"
+
+		PreciseComments *PreciseComments // points⊆{Start, End}  ◆ ( expr ) ◆
 	}
 
 	// A SelectorExpr node represents an expression followed by a selector.
@@ -339,6 +357,8 @@ type (
 		Lbrack token.Pos // position of "["
 		Index  Expr      // index expression
 		Rbrack token.Pos // position of "]"
+
+		PreciseComments *PreciseComments // points⊆{PointBeforeCloseBracket, End}  x [ index , ◆ ] ◆
 	}
 
 	// An IndexListExpr node represents an expression followed by multiple
@@ -348,6 +368,8 @@ type (
 		Lbrack  token.Pos // position of "["
 		Indices []Expr    // index expressions
 		Rbrack  token.Pos // position of "]"
+
+		PreciseComments *PreciseComments // points⊆{PointBeforeCloseBracket, End}  x [ indices ◆ ] ◆
 	}
 
 	// A SliceExpr node represents an expression followed by slice indices.
@@ -359,6 +381,10 @@ type (
 		Max    Expr      // maximum capacity of slice; or nil
 		Slice3 bool      // true if 3-index slice (2 colons present)
 		Rbrack token.Pos // position of "]"
+
+		PreciseComments *PreciseComments // points⊆{BeforeColon, AfterColon, End}  x [ low ◆ : high ◆ : max ] ◆
+		// - BeforeColon is redundant when Low is present
+		// - AfterColon is redundant when High is present
 	}
 
 	// A TypeAssertExpr node represents an expression followed by a
@@ -369,6 +395,9 @@ type (
 		Lparen token.Pos // position of "("
 		Type   Expr      // asserted type; nil means type switch X.(type)
 		Rparen token.Pos // position of ")"
+
+		PreciseComments *PreciseComments // points⊆{{Before,After}{Open,Close}Bracket}  x . ◆ ( ◆ type ◆ ) ◆
+		// - {Before,After}CloseBracket are redundant when Type is present
 	}
 
 	// A CallExpr node represents an expression followed by an argument list.
@@ -378,6 +407,9 @@ type (
 		Args     []Expr    // function arguments; or nil
 		Ellipsis token.Pos // position of "..." (token.NoPos if there is no "...")
 		Rparen   token.Pos // position of ")"
+
+		PreciseComments *PreciseComments // points⊆{BeforeCloseBracket, End}  fun ( args ◆ ) ◆
+		// - BeforeCloseBracket is redundant when Args is present
 	}
 
 	// A StarExpr node represents an expression of the form "*" Expression.
@@ -386,6 +418,8 @@ type (
 	StarExpr struct {
 		Star token.Pos // position of "*"
 		X    Expr      // operand
+
+		PreciseComments *PreciseComments // points⊆{Start}  ◆ * x
 	}
 
 	// A UnaryExpr node represents a unary expression.
@@ -395,6 +429,8 @@ type (
 		OpPos token.Pos   // position of Op
 		Op    token.Token // operator
 		X     Expr        // operand
+
+		PreciseComments *PreciseComments // points⊆{Start}  ◆ op x
 	}
 
 	// A BinaryExpr node represents a binary expression.
@@ -433,6 +469,8 @@ type (
 		Lbrack token.Pos // position of "["
 		Len    Expr      // Ellipsis node for [...]T array types, nil for slice types
 		Elt    Expr      // element type
+
+		PreciseComments *PreciseComments // points⊆{Start, BeforeCloseBracket}  ◆ [ len ◆ ] T
 	}
 
 	// A StructType node represents a struct type.
@@ -440,6 +478,8 @@ type (
 		Struct     token.Pos  // position of "struct" keyword
 		Fields     *FieldList // list of field declarations
 		Incomplete bool       // true if (source) fields are missing in the Fields list
+
+		PreciseComments *PreciseComments // points⊆{Start, AfterInitialToken}  ◆ struct ◆ fieldlist
 	}
 
 	// Pointer types are represented via StarExpr nodes.
@@ -450,6 +490,9 @@ type (
 		TypeParams *FieldList // type parameters; or nil
 		Params     *FieldList // (incoming) parameters; non-nil
 		Results    *FieldList // (outgoing) results; or nil
+
+		PreciseComments *PreciseComments // points⊆{Start, AfterInitialToken}  ◆ func ◆ [typeparams] (params) (results)
+		// - AfterInitialToken is redundant with BeforeFunc if func token is absent
 	}
 
 	// An InterfaceType node represents an interface type.
@@ -457,6 +500,8 @@ type (
 		Interface  token.Pos  // position of "interface" keyword
 		Methods    *FieldList // list of embedded interfaces, methods, or types
 		Incomplete bool       // true if (source) methods or types are missing in the Methods list
+
+		PreciseComments *PreciseComments // points⊆{Start, AfterInitialToken}  ◆ interface ◆ methods
 	}
 
 	// A MapType node represents a map type.
@@ -464,6 +509,8 @@ type (
 		Map   token.Pos // position of "map" keyword
 		Key   Expr
 		Value Expr
+
+		PreciseComments *PreciseComments // points⊆{Start, AfterInitialToken} ◆ map ◆ [ K ] V
 	}
 
 	// A ChanType node represents a channel type.
@@ -472,6 +519,9 @@ type (
 		Arrow token.Pos // position of "<-" (token.NoPos if there is no "<-")
 		Dir   ChanDir   // channel direction
 		Value Expr      // value type
+
+		PreciseComments *PreciseComments // points⊆{Start, AfterInitialToken}  ◆ <- ◆ chan T  or  ◆ chan ◆ <- T  or  ◆ chan T
+		// - AfterInitialToken is redundant if Dir is absent
 	}
 )
 
@@ -577,7 +627,7 @@ func (*ChanType) exprNode()      {}
 
 // NewIdent creates a new Ident without position.
 // Useful for ASTs generated by code other than the Go parser.
-func NewIdent(name string) *Ident { return &Ident{token.NoPos, name, nil} }
+func NewIdent(name string) *Ident { return &Ident{token.NoPos, name, nil, nil} }
 
 // IsExported reports whether name starts with an upper-case letter.
 func IsExported(name string) bool { return token.IsExported(name) }
@@ -604,6 +654,8 @@ type (
 	//
 	BadStmt struct {
 		From, To token.Pos // position range of bad statement
+
+		PreciseComments *PreciseComments // points⊆{Start, End}  ◆ ??? ◆
 	}
 
 	// A DeclStmt node represents a declaration in a statement list.
@@ -618,6 +670,8 @@ type (
 	EmptyStmt struct {
 		Semicolon token.Pos // position of following ";"
 		Implicit  bool      // if set, ";" was omitted in the source
+
+		PreciseComments *PreciseComments // points⊆{Start}  ◆
 	}
 
 	// A LabeledStmt node represents a labeled statement.
@@ -646,6 +700,8 @@ type (
 		X      Expr
 		TokPos token.Pos   // position of Tok
 		Tok    token.Token // INC or DEC
+
+		PreciseComments *PreciseComments // points⊆{End}  x ++ ◆
 	}
 
 	// An AssignStmt node represents an assignment or
@@ -662,18 +718,25 @@ type (
 	GoStmt struct {
 		Go   token.Pos // position of "go" keyword
 		Call *CallExpr
+
+		PreciseComments *PreciseComments // points⊆{Start}  ◆ go call
 	}
 
 	// A DeferStmt node represents a defer statement.
 	DeferStmt struct {
 		Defer token.Pos // position of "defer" keyword
 		Call  *CallExpr
+
+		PreciseComments *PreciseComments // points⊆{Start}  ◆ defer call
 	}
 
 	// A ReturnStmt node represents a return statement.
 	ReturnStmt struct {
 		Return  token.Pos // position of "return" keyword
 		Results []Expr    // result expressions; or nil
+
+		PreciseComments *PreciseComments // points⊆{Start, End}  ◆ return results ◆
+		// - End is redundant if Results is present.
 	}
 
 	// A BranchStmt node represents a break, continue, goto,
@@ -683,6 +746,9 @@ type (
 		TokPos token.Pos   // position of Tok
 		Tok    token.Token // keyword token (BREAK, CONTINUE, GOTO, FALLTHROUGH)
 		Label  *Ident      // label name; or nil
+
+		PreciseComments *PreciseComments // points⊆{Start, End}  ◆ break label ◆
+		// - End is redundant if Label is present.
 	}
 
 	// A BlockStmt node represents a braced statement list.
@@ -690,6 +756,9 @@ type (
 		Lbrace token.Pos // position of "{"
 		List   []Stmt
 		Rbrace token.Pos // position of "}", if any (may be absent due to syntax error)
+
+		PreciseComments *PreciseComments // points⊆{Start, BeforeCloseBracket, End}  ◆ { stmts ◆ } ◆
+		// - BeforeCloseBracket is redundant if List stmts are present
 	}
 
 	// An IfStmt node represents an if statement.
@@ -699,6 +768,8 @@ type (
 		Cond Expr      // condition
 		Body *BlockStmt
 		Else Stmt // else branch; or nil
+
+		PreciseComments *PreciseComments // points⊆{Start}  ◆ if cond body else
 	}
 
 	// A CaseClause represents a case of an expression or type switch statement.
@@ -707,6 +778,10 @@ type (
 		List  []Expr    // list of expressions or types; nil means default case
 		Colon token.Pos // position of ":"
 		Body  []Stmt    // statement list; or nil
+
+		PreciseComments *PreciseComments // points⊆{Start, AfterInitialToken, AfterColon}  ◆ case ◆ exprs : ◆ stmts  or  ◆ default ◆ : ◆ stmts
+		// - AfterInitialToken is redundant if List exprs are present.
+		// - AfterColon is redundant if Body stmts are present.
 	}
 
 	// A SwitchStmt node represents an expression switch statement.
@@ -715,6 +790,8 @@ type (
 		Init   Stmt       // initialization statement; or nil
 		Tag    Expr       // tag expression; or nil
 		Body   *BlockStmt // CaseClauses only
+
+		PreciseComments *PreciseComments // points⊆{Start}  ◆ switch body  or  ◆ switch tag body  or  ◆ switch init ; tag body
 	}
 
 	// A TypeSwitchStmt node represents a type switch statement.
@@ -723,6 +800,8 @@ type (
 		Init   Stmt       // initialization statement; or nil
 		Assign Stmt       // x := y.(type) or y.(type)
 		Body   *BlockStmt // CaseClauses only
+
+		PreciseComments *PreciseComments // points⊆{Start}  ◆ switch tag body  or  ◆ switch init ; tag body
 	}
 
 	// A CommClause node represents a case of a select statement.
@@ -731,12 +810,18 @@ type (
 		Comm  Stmt      // send or receive statement; nil means default case
 		Colon token.Pos // position of ":"
 		Body  []Stmt    // statement list; or nil
+
+		PreciseComments *PreciseComments // points⊆{Start, AfterInitialToken, AfterColon}  ◆ case comm : ◆ stmts  or  ◆ default ◆ : ◆ stmts
+		// - AfterInitialToken is redundant if Comm is present.
+		// - AfterColon is redundant if Body is present.
 	}
 
 	// A SelectStmt node represents a select statement.
 	SelectStmt struct {
 		Select token.Pos  // position of "select" keyword
 		Body   *BlockStmt // CommClauses only
+
+		PreciseComments *PreciseComments // points⊆{Start}  ◆ select body
 	}
 
 	// A ForStmt represents a for statement.
@@ -746,6 +831,10 @@ type (
 		Cond Expr      // condition; or nil
 		Post Stmt      // post iteration statement; or nil
 		Body *BlockStmt
+
+		PreciseComments *PreciseComments // points⊆{Start, AfterInitialToken, AfterFirstSemicolon}  ◆ for ◆ init ; ◆ cond ; post body
+		// - AfterInitialToken is redundant if init is present
+		// - AfterFirstSemicolon is redundant if cond is present
 	}
 
 	// A RangeStmt represents a for statement with a range clause.
@@ -757,6 +846,8 @@ type (
 		Range      token.Pos   // position of "range" keyword
 		X          Expr        // value to range over
 		Body       *BlockStmt
+
+		PreciseComments *PreciseComments // points⊆{Start, BeforeRange}  ◆ for x, y = ◆ range seq {body}
 	}
 )
 
@@ -956,6 +1047,8 @@ type (
 	//
 	BadDecl struct {
 		From, To token.Pos // position range of bad declaration
+
+		PreciseComments *PreciseComments // points⊆{Start, End}
 	}
 
 	// A GenDecl node (generic declaration node) represents an import,
@@ -976,6 +1069,9 @@ type (
 		Lparen token.Pos     // position of '(', if any
 		Specs  []Spec
 		Rparen token.Pos // position of ')', if any
+
+		PreciseComments *PreciseComments // points⊆{Start, BeforeOpenBracket, BeforeCloseBracket, AfterCloseBracket} // ◆ var ◆ ( specs ◆ ) ◆  or  ◆ var spec
+		// - The three Bracket points are redundant if the (...) are absent.
 	}
 
 	// A FuncDecl node represents a function declaration.
@@ -1046,6 +1142,9 @@ type File struct {
 	Imports            []*ImportSpec   // imports in this file
 	Unresolved         []*Ident        // unresolved identifiers in this file
 	Comments           []*CommentGroup // list of all comments in the source file
+
+	PreciseComments *PreciseComments // points⊆{Start, End}  ◆ package name decls ◆
+	// - End is redundant if Decls are present.
 }
 
 // Pos returns the position of the package declaration.

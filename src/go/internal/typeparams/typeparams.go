@@ -6,29 +6,7 @@ package typeparams
 
 import (
 	"go/ast"
-	"go/token"
 )
-
-func PackIndexExpr(x ast.Expr, lbrack token.Pos, exprs []ast.Expr, rbrack token.Pos) ast.Expr {
-	switch len(exprs) {
-	case 0:
-		panic("internal error: PackIndexExpr with empty expr slice")
-	case 1:
-		return &ast.IndexExpr{
-			X:      x,
-			Lbrack: lbrack,
-			Index:  exprs[0],
-			Rbrack: rbrack,
-		}
-	default:
-		return &ast.IndexListExpr{
-			X:       x,
-			Lbrack:  lbrack,
-			Indices: exprs,
-			Rbrack:  rbrack,
-		}
-	}
-}
 
 // IndexExpr wraps an ast.IndexExpr or ast.IndexListExpr.
 //
