@@ -617,23 +617,53 @@ func TestIssue50646(t *testing.T) {
 	comparableType := Universe.Lookup("comparable").Type()
 
 	if !Comparable(anyType) {
-		t.Errorf("any is not a comparable type")
+		t.Error("any is not a comparable type")
 	}
 	if !Comparable(comparableType) {
-		t.Errorf("comparable is not a comparable type")
+		t.Error("comparable is not a comparable type")
 	}
 
 	if Implements(anyType, comparableType.Underlying().(*Interface)) {
-		t.Errorf("any implements comparable")
+		t.Error("any implements comparable")
 	}
 	if !Implements(comparableType, anyType.(*Interface)) {
-		t.Errorf("comparable does not implement any")
+		t.Error("comparable does not implement any")
 	}
 
 	if AssignableTo(anyType, comparableType) {
-		t.Errorf("any assignable to comparable")
+		t.Error("any assignable to comparable")
 	}
 	if !AssignableTo(comparableType, anyType) {
-		t.Errorf("comparable not assignable to any")
+		t.Error("comparable not assignable to any")
+	}
+}
+
+func TestIssue53595(t *testing.T) {
+	invalid := Typ[Invalid]
+	intType := Universe.Lookup("int").Type()
+	anyType := Universe.Lookup("any").Type().(*Interface)
+
+	for _, T := range [...]Type{invalid, intType, anyType} {
+		if AssignableTo(invalid, T) {
+			t.Errorf("%s assignable to %s", invalid, T)
+		}
+		if AssignableTo(T, invalid) {
+			t.Errorf("%s assignable to %s", T, invalid)
+		}
+
+		if ConvertibleTo(invalid, T) {
+			t.Errorf("%s convertible to %s", invalid, T)
+		}
+		if ConvertibleTo(T, invalid) {
+			t.Errorf("%s convertible to %s", T, invalid)
+		}
+	}
+
+	if AssertableTo(anyType, invalid) {
+		t.Errorf("%s assertable to %s", anyType, invalid)
+	}
+
+	if Implements(invalid, anyType) {
+		t.Errorf("%s implements %s", invalid, anyType)
 	}
 }
