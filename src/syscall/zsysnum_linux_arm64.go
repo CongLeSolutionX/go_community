@@ -274,4 +274,5 @@ const (
 	SYS_MEMFD_CREATE           = 279
 	SYS_BPF                    = 280
 	SYS_EXECVEAT               = 281
+	SYS_FACCESSAT2             = 439
 )

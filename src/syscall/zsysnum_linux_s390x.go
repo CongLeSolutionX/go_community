@@ -323,4 +323,5 @@ const (
 	SYS_SETFSUID               = 215
 	SYS_SETFSGID               = 216
 	SYS_NEWFSTATAT             = 293
+	SYS_FACCESSAT2             = 439
 )

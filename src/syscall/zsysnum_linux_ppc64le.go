@@ -350,4 +350,5 @@ const (
 	SYS_PROCESS_VM_WRITEV      = 352
 	SYS_FINIT_MODULE           = 353
 	SYS_KCMP                   = 354
+	SYS_FACCESSAT2             = 439
 )

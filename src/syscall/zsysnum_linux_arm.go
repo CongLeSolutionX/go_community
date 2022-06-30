@@ -353,4 +353,5 @@ const (
 	SYS_SETNS                  = 375
 	SYS_PROCESS_VM_READV       = 376
 	SYS_PROCESS_VM_WRITEV      = 377
+	SYS_FACCESSAT2             = 439
 )

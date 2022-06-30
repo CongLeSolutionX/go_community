@@ -320,4 +320,5 @@ const (
 	SYS_MEMFD_CREATE           = 5314
 	SYS_BPF                    = 5315
 	SYS_EXECVEAT               = 5316
+	SYS_FACCESSAT2             = 5439
 )

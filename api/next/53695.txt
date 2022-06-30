@@ -1,0 +1,12 @@
+pkg syscall (linux-386), const SYS_FACCESSAT2 = 439 #53695
+pkg syscall (linux-386), const SYS_FACCESSAT2 ideal-int #53695
+pkg syscall (linux-386-cgo), const SYS_FACCESSAT2 = 439 #53695
+pkg syscall (linux-386-cgo), const SYS_FACCESSAT2 ideal-int #53695
+pkg syscall (linux-amd64), const SYS_FACCESSAT2 = 439 #53695
+pkg syscall (linux-amd64), const SYS_FACCESSAT2 ideal-int #53695
+pkg syscall (linux-amd64-cgo), const SYS_FACCESSAT2 = 439 #53695
+pkg syscall (linux-amd64-cgo), const SYS_FACCESSAT2 ideal-int #53695
+pkg syscall (linux-arm), const SYS_FACCESSAT2 = 439 #53695
+pkg syscall (linux-arm), const SYS_FACCESSAT2 ideal-int #53695
+pkg syscall (linux-arm-cgo), const SYS_FACCESSAT2 = 439 #53695
+pkg syscall (linux-arm-cgo), const SYS_FACCESSAT2 ideal-int #53695

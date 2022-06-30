@@ -344,4 +344,5 @@ const (
 	SYS_FANOTIFY_INIT          = 338
 	SYS_FANOTIFY_MARK          = 339
 	SYS_PRLIMIT64              = 340
+	SYS_FACCESSAT2             = 439
 )
