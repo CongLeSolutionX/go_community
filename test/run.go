@@ -1964,6 +1964,7 @@ var types2Failures32Bit = setOf(
 )
 
 var go118Failures = setOf(
+<<<<<<< HEAD   (0a503c [dev.unified] cmd/compile: refactor `range` desugaring)
 	"typeparam/nested.go",      // 1.18 compiler doesn't support function-local types with generics
 	"typeparam/issue51521.go",  // 1.18 compiler produces bad panic message and link error
 	"typeparam/issue53419.go",  // 1.18 compiler mishandles generic selector resolution
@@ -1971,6 +1972,11 @@ var go118Failures = setOf(
 	"typeparam/mdempsky/16.go", // 1.18 compiler uses interface shape type in failed type assertions
 	"typeparam/mdempsky/17.go", // 1.18 compiler mishandles implicit conversions from range loops
 	"typeparam/mdempsky/18.go", // 1.18 compiler mishandles implicit conversions in select statements
+=======
+	"typeparam/nested.go",     // 1.18 compiler doesn't support function-local types with generics
+	"typeparam/issue51521.go", // 1.18 compiler produces bad panic message and link error
+	"typeparam/issue53419.go", // 1.18 compiler mishandles generic selector resolution
+>>>>>>> BRANCH (993c38 os: simplify deadline fluctuation tests)
 )
 
 // In all of these cases, the 1.17 compiler reports reasonable errors, but either the
