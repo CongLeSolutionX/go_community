@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3fb4085_eaec12cb",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 955,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-06-30T19:46:46Z",
+      "side": 1,
+      "message": "We\u0027ve always called these \"reference types\", but I do tend to agree with Alan that it\u0027s weird that a pointer is not a reference type.  I understand the distinction you want to draw, but perhaps \"reference type\" is not the best term for it, despite our history of using it.\n\nFor example, the third sentence in https://en.wikipedia.org/wiki/Pointer_(computer_programming) starts with \"A pointer references a location in memory.\"\n\nReferral type?  Handle type?  Hidden-pointer type?  Descriptor type?",
+      "revId": "d99d9b756fd7fbb346d165ffc9557390daae0a43",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e0911f4_f30f7f7d",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 1711,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-06-30T19:46:46Z",
+      "side": 1,
+      "message": "\"their elements\" reads strangely here, because how could a value not contain its elements?  Perhaps\n\nThe value stored in variables of these types do not directly contain the elements of the slice, map, or channel.  Instead they refer to elements contained elsewhere.\n\nIn an assignment to a variable of reference type, only the references are copied, not the elements referred to by the references.\nConsequently ....",
+      "revId": "d99d9b756fd7fbb346d165ffc9557390daae0a43",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
