@@ -434,6 +434,7 @@ func (conf *Config) Check(path string, files []*syntax.File, info *Info) (*Packa
 }
 
 // AssertableTo reports whether a value of type V can be asserted to have type T.
+// If the underlying type of T is Typ[Invalid], the result is always false.
 //
 // The behavior of AssertableTo is unspecified in three cases:
 //   - if T is Typ[Invalid]
@@ -441,8 +442,6 @@ func (conf *Config) Check(path string, files []*syntax.File, info *Info) (*Packa
 //     as a type constraint in Go code
 //   - if T is an uninstantiated generic type
 func AssertableTo(V *Interface, T Type) bool {
-	// Checker.newAssertableTo suppresses errors for invalid types, so we need special
-	// handling here.
 	if T.Underlying() == Typ[Invalid] {
 		return false
 	}
@@ -450,37 +449,40 @@ func AssertableTo(V *Interface, T Type) bool {
 }
 
 // AssignableTo reports whether a value of type V is assignable to a variable
-// of type T.
+// of type T. If the underlying type of V or T is Typ[Invalid], the result is
+// always false.
 //
 // The behavior of AssignableTo is unspecified if V or T is Typ[Invalid] or an
 // uninstantiated generic type.
 func AssignableTo(V, T Type) bool {
+	if V.Underlying() == Typ[Invalid] || T.Underlying() == Typ[Invalid] {
+		return false
+	}
 	x := operand{mode: value, typ: V}
 	ok, _ := x.assignableTo(nil, T, nil) // check not needed for non-constant x
 	return ok
 }
 
 // ConvertibleTo reports whether a value of type V is convertible to a value of
-// type T.
+// type T. If the underlying type of V or T is Typ[Invalid], the result is always
+// false.
 //
 // The behavior of ConvertibleTo is unspecified if V or T is Typ[Invalid] or an
 // uninstantiated generic type.
 func ConvertibleTo(V, T Type) bool {
+	if V.Underlying() == Typ[Invalid] || T.Underlying() == Typ[Invalid] {
+		return false
+	}
 	x := operand{mode: value, typ: V}
 	return x.convertibleTo(nil, T, nil) // check not needed for non-constant x
 }
 
 // Implements reports whether type V implements interface T.
+// If the underlying type of V is Typ[Invalid], the result is always false.
 //
 // The behavior of Implements is unspecified if V is Typ[Invalid] or an uninstantiated
 // generic type.
 func Implements(V Type, T *Interface) bool {
-	if T.Empty() {
-		// All types (even Typ[Invalid]) implement the empty interface.
-		return true
-	}
-	// Checker.implements suppresses errors for invalid types, so we need special
-	// handling here.
 	if V.Underlying() == Typ[Invalid] {
 		return false
 	}

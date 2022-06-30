@@ -2492,7 +2492,7 @@ type Bad Bad // invalid type
 		{N4, CI, false},
 		{Bad, II, false},
 		{Bad, CI, false},
-		{Bad, EmptyIface, true},
+		{Bad, EmptyIface, false},
 	}
 
 	for _, test := range tests {
