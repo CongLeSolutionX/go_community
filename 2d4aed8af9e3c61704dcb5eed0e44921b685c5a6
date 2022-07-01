@@ -16,6 +16,24 @@
       "message": "Thanks - please see https://github.com/golang/go/wiki/CommitMessage",
       "revId": "2d4aed8af9e3c61704dcb5eed0e44921b685c5a6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b80d715_196c40d2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57853
+      },
+      "writtenOn": "2022-07-01T14:19:40Z",
+      "side": 1,
+      "message": "Thanks! I\u0027ve squashed my git history into a single commit that has a valid message. Let me know if that looks better. I\u0027ll be sure to follow these guidelines in the future the first time around. (:",
+      "parentUuid": "f2c117b5_c0d204f6",
+      "revId": "2d4aed8af9e3c61704dcb5eed0e44921b685c5a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
