@@ -643,6 +643,14 @@ func (s *regAllocState) init(f *Func) {
 			s.f.fe.Fatalf(src.NoXPos, "arch %s not implemented", s.f.Config.arch)
 		}
 	}
+	if s.f.Config.ctxt.Flag_shared {
+		switch s.f.Config.arch {
+		case "mips64", "mips64le":
+			s.allocatable &^= 1 << 25 // R25
+		default:
+			s.f.fe.Fatalf(src.NoXPos, "arch %s not implemented", s.f.Config.arch)
+		}
+	}
 
 	// Linear scan register allocation can be influenced by the order in which blocks appear.
 	// Decouple the register allocation order from the generated block order.
