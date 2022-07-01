@@ -160,6 +160,24 @@
       "parentUuid": "b390ae2a_5d3d9fc0",
       "revId": "86937d424d39d74032f65b7cd7e27969bf7588d3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29e28611_5d4908c4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26451
+      },
+      "writtenOn": "2022-07-01T00:47:40Z",
+      "side": 1,
+      "message": "OTOH if I implement faccessat2 in internal/syscall/linux, I need a copy of errnoErr in there.\n\nSo not entirely sure which way to go.",
+      "parentUuid": "e8ac5a96_157e52a0",
+      "revId": "86937d424d39d74032f65b7cd7e27969bf7588d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
