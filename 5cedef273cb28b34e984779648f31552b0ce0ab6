@@ -94,6 +94,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c64e0471_4da481bc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-07-01T01:37:55Z",
+      "side": 1,
+      "message": "Reconsider this CL for 1.20. Putting in hold for now.",
+      "revId": "5cedef273cb28b34e984779648f31552b0ce0ab6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cb214821_93839aa2",
