@@ -88,6 +88,24 @@
       "message": "from github:\n\n    We have two unlikely scenarios; which is less likely?\n\nI would argue that consumers intentionally logging a magic string is much, much less likely (and much more easily fixed) than loggers outputting trailing newlines or logging things concurrently with the test logger. Based on the linked github issue, several similar issues (https://github.com/golang/go/issues/38063, https://github.com/golang/go/issues/33419), and conversations with the gotestsum maintainers (https://github.com/gotestyourself/gotestsum/issues/141, https://github.com/gotestyourself/gotestsum/pull/253), I felt confident that folks were fairly aligned on this being a clear solution to this problem. Is there anything I can do to lend further confidence here?\n\n    We are currently in a release freeze for the 1.19 release.\n\nSounds good. When should I check back for a review? ",
       "revId": "1a1ae39d61d755cb1ae69d5d6509c6ce8982d8b4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39118037_66e1f20e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-07-01T04:37:43Z",
+      "side": 1,
+      "message": "\u003e Sounds good. When should I check back for a review?\n\nAfter 1.19 is released.  Thanks.",
+      "parentUuid": "1267c971_8131ce6c",
+      "revId": "1a1ae39d61d755cb1ae69d5d6509c6ce8982d8b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
