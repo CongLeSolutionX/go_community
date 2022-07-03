@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd69bc25_d3800a5d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2022-07-03T14:14:13Z",
+      "side": 1,
+      "message": "TRY\u003dopenbsd-mips64,linux-mips64",
+      "revId": "ea8955a43563af9f7907499e50f49827aad92fc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
