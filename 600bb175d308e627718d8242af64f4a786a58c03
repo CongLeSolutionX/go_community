@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9d379a4_c3c068c4",
+        "filename": "src/net/sendfile_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-07-03T00:07:25Z",
+      "side": 1,
+      "message": "This will do the wrong thing if there are cases where poll.Sendfile can write a non-zero number of bytes and also return an error.  That appears to be possible.  Fixing this makes sense, but this doesn\u0027t look like the right approach.  Perhaps poll.SendFile should itself also return a \"handled\" result.",
+      "revId": "600bb175d308e627718d8242af64f4a786a58c03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
