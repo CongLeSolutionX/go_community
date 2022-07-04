@@ -122,7 +122,6 @@ TEXT runtime·mcall(SB), NOSPLIT|NOFRAME, $0-8
 	MOVV	R3, (g_sched+gobuf_sp)(g)
 	MOVV	R1, (g_sched+gobuf_pc)(g)
 	MOVV	R0, (g_sched+gobuf_lr)(g)
-	MOVV	g, (g_sched+gobuf_g)(g)
 
 	// Switch to m->g0 & its stack, call fn.
 	MOVV	g, R19
@@ -180,10 +179,6 @@ switch:
 	MOVV	R5, g
 	JAL	runtime·save_g(SB)
 	MOVV	(g_sched+gobuf_sp)(g), R19
-	// make it look like mstart called systemstack on g0, to stop traceback
-	ADDV	$-8, R19
-	MOVV	$runtime·mstart(SB), R6
-	MOVV	R6, 0(R19)
 	MOVV	R19, R3
 
 	// call target function
