@@ -16,6 +16,23 @@
       "message": "Addressed the comment, PTAL",
       "revId": "c6dac309ff16f1af983057fcb059675e91f834d7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f33e682_65e0f439",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-07-06T22:42:44Z",
+      "side": 1,
+      "message": "Thanks, will review for the 1.20 release.",
+      "revId": "c6dac309ff16f1af983057fcb059675e91f834d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
