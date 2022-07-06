@@ -26,7 +26,6 @@ type (
 	b  bool
 	bs []byte
 	s  string
-	t  time.Time
 	is []int
 )
 
