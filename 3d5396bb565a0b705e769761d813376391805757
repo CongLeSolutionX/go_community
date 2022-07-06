@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be9bd6ff_c0bfa66c",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1485,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-07-06T19:38:13Z",
+      "side": 1,
+      "message": "I\u0027m not really sure I understand this. What are the bad things? It shouldn\u0027t be marked read-only or it shouldn\u0027t be updated? Or, does it make sense to add a DT_MIPS_RLD_MAP entry?",
+      "range": {
+        "startLine": 1478,
+        "startChar": 0,
+        "endLine": 1485,
+        "endChar": 3
+      },
+      "revId": "3d5396bb565a0b705e769761d813376391805757",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "becc8cbd_6657cbfe",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-07-06T19:38:13Z",
+      "side": 1,
+      "message": "The new function doesn\u0027t generate any symbol. Maybe call it Elffixup, or FixupSyms, or something like.",
+      "revId": "3d5396bb565a0b705e769761d813376391805757",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56c47774_4f0d06a4",
+        "filename": "src/cmd/link/internal/mips64/asm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-07-06T19:38:13Z",
+      "side": 1,
+      "message": "Add some comments about the variables? Also, this is already the mips64 package. We probably can drop the mips prefix.",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 1
+      },
+      "revId": "3d5396bb565a0b705e769761d813376391805757",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc1389cf_87ec86ab",
+        "filename": "src/cmd/link/internal/mips64/asm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-07-06T19:38:13Z",
+      "side": 1,
+      "message": "This and mipsGOTSymIndex seem pretty fixed. It seems fine to just hardcode. For mipsGOTSymIndex we can just compute here.",
+      "revId": "3d5396bb565a0b705e769761d813376391805757",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11a74987_f7a6cceb",
+        "filename": "src/cmd/link/internal/mips64/asm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-07-06T19:38:13Z",
+      "side": 1,
+      "message": "Align the operand like other lines.",
+      "range": {
+        "startLine": 195,
+        "startChar": 55,
+        "endLine": 195,
+        "endChar": 63
+      },
+      "revId": "3d5396bb565a0b705e769761d813376391805757",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3165e19c_4d2e8009",
+        "filename": "src/cmd/link/internal/mips64/asm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-07-06T19:38:13Z",
+      "side": 1,
+      "message": "What do these instruction do? It takes R24 as input? What about R14 and R15?",
+      "range": {
+        "startLine": 191,
+        "startChar": 0,
+        "endLine": 196,
+        "endChar": 72
+      },
+      "revId": "3d5396bb565a0b705e769761d813376391805757",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c771de5_5ef95515",
+        "filename": "src/cmd/link/internal/mips64/obj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-07-06T19:38:13Z",
+      "side": 1,
+      "message": "Just set them at the definitions of the variables?",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 105,
+        "endChar": 20
+      },
+      "revId": "3d5396bb565a0b705e769761d813376391805757",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
