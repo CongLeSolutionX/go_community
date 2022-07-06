@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "470b9b04_20d9da82",
+        "filename": "src/internal/syscall/unix/eaccess.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-07-06T00:44:25Z",
+      "side": 1,
+      "message": "syscall.Faccessat is not defined on all unix systems.",
+      "revId": "ba89142f738d3a122fa706f3ee998c3c34e7a8a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8de32259_4f6b5bb5",
+        "filename": "src/os/exec/lp_linux_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-07-06T00:44:25Z",
+      "side": 1,
+      "message": "Missing copyright notice for new file.",
+      "revId": "ba89142f738d3a122fa706f3ee998c3c34e7a8a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
