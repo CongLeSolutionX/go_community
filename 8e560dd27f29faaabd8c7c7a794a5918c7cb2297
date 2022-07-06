@@ -53,6 +53,24 @@
       "message": "It looks like the new constant has been added to other targets as well.",
       "revId": "8e560dd27f29faaabd8c7c7a794a5918c7cb2297",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bfaba790_4353cef6",
+        "filename": "api/next/53695.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 26451
+      },
+      "writtenOn": "2022-07-06T22:45:16Z",
+      "side": 1,
+      "message": "Right; yet, other syscall constants are only listed for the above architectures, and also the api/* files only have constants for the above architectures.\n\nE.g.\n```console\n[kir@kir-rhat go]$ git grep SYS_UNAME src/syscall/zsysnum_linux\\*\nsrc/syscall/zsysnum_linux_386.go:       SYS_UNAME                  \u003d 122\nsrc/syscall/zsysnum_linux_amd64.go:     SYS_UNAME                  \u003d 63\nsrc/syscall/zsysnum_linux_arm.go:       SYS_UNAME                  \u003d 122\nsrc/syscall/zsysnum_linux_arm64.go:     SYS_UNAME                  \u003d 160\nsrc/syscall/zsysnum_linux_loong64.go:   SYS_UNAME                  \u003d 160\nsrc/syscall/zsysnum_linux_mips.go:      SYS_UNAME                  \u003d 4122\nsrc/syscall/zsysnum_linux_mips64.go:    SYS_UNAME                  \u003d 5061\nsrc/syscall/zsysnum_linux_mips64le.go:  SYS_UNAME                  \u003d 5061\nsrc/syscall/zsysnum_linux_mipsle.go:    SYS_UNAME                  \u003d 4122\nsrc/syscall/zsysnum_linux_ppc64.go:     SYS_UNAME                  \u003d 122\nsrc/syscall/zsysnum_linux_ppc64le.go:   SYS_UNAME                  \u003d 122\nsrc/syscall/zsysnum_linux_riscv64.go:   SYS_UNAME                  \u003d 160\nsrc/syscall/zsysnum_linux_s390x.go:     SYS_UNAME                  \u003d 122\n```\n(13 various GOARCHes) and yet\n\n```console\n[kir@kir-rhat go]$ git grep SYS_UNAME api/ | grep linux-\napi/go1.1.txt:pkg syscall (linux-386), const SYS_UNAME \u003d 122\napi/go1.1.txt:pkg syscall (linux-386-cgo), const SYS_UNAME \u003d 122\napi/go1.1.txt:pkg syscall (linux-amd64), const SYS_UNAME \u003d 63\napi/go1.1.txt:pkg syscall (linux-amd64-cgo), const SYS_UNAME \u003d 63\napi/go1.1.txt:pkg syscall (linux-arm), const SYS_UNAME \u003d 122\napi/go1.1.txt:pkg syscall (linux-arm-cgo), const SYS_UNAME \u003d 122\napi/go1.2.txt:pkg syscall (linux-arm-cgo), const SYS_UNAME ideal-int\napi/go1.txt:pkg syscall (linux-386), const SYS_UNAME ideal-int\napi/go1.txt:pkg syscall (linux-386-cgo), const SYS_UNAME ideal-int\napi/go1.txt:pkg syscall (linux-amd64), const SYS_UNAME ideal-int\napi/go1.txt:pkg syscall (linux-amd64-cgo), const SYS_UNAME ideal-int\napi/go1.txt:pkg syscall (linux-arm), const SYS_UNAME ideal-int\n```\n(only 3 GOARCHes, with and without `cgo`).\n\nSo, 10 architectures (arm64, loong64, mips*, ppc*, riscv64, and s390x) are not listed in the api/ for `GOOS\u003dlinux`.\n\nIt seems that the reason why is `src/cmd/api/goapi.go` lacks those other `GOARCH` values for `GOOS\u003dlinux`.\n\nNot sure what to do here -- fixing api/* and src/cmd/api to add other architectures is way out of scope for this.",
+      "parentUuid": "be42b73e_3ae64de7",
+      "revId": "8e560dd27f29faaabd8c7c7a794a5918c7cb2297",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
