@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ecba5580_e122ee94",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-07-06T20:59:14Z",
+      "side": 1,
+      "message": "Thanks for the CL. This needs to wait for the next (Go 1.20) release.\n\nIf we do this, we should also change gcc_darwin_arm64.c to do the same on ARM64.\n\nR\u003dgo1.20\n",
+      "revId": "6a870790dab42fa13e040101d70400f7f11db3b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5737470_a6077344",
+        "filename": "src/runtime/cgo/gcc_darwin_amd64.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-07-06T20:59:14Z",
+      "side": 1,
+      "message": "Is there a documentation of this function? I couldn\u0027t find one.\n\nHere we are actually getting our stack size, so it seems we want to use this line to replace the line above, instead of keeping both?",
+      "range": {
+        "startLine": 24,
+        "startChar": 7,
+        "endLine": 24,
+        "endChar": 31
+      },
+      "revId": "6a870790dab42fa13e040101d70400f7f11db3b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab183c75_5e25f7cc",
+        "filename": "src/runtime/cgo/gcc_darwin_amd64.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-07-06T20:59:14Z",
+      "side": 1,
+      "message": "Maybe cursize.",
+      "revId": "6a870790dab42fa13e040101d70400f7f11db3b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
