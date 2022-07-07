@@ -53,6 +53,24 @@
       "message": "nit: missing paren in name?",
       "revId": "3f8e363a30c2da42728947fdb17e60ef23815da1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44f71297_8c576fe0",
+        "filename": "src/crypto/x509/x509_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2499,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2022-07-07T19:27:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "341992f7_af4bfc2b",
+      "revId": "3f8e363a30c2da42728947fdb17e60ef23815da1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
