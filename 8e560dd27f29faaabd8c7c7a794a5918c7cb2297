@@ -89,6 +89,24 @@
       "parentUuid": "bfaba790_4353cef6",
       "revId": "8e560dd27f29faaabd8c7c7a794a5918c7cb2297",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "849503b5_4e786124",
+        "filename": "api/next/53695.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 26451
+      },
+      "writtenOn": "2022-07-07T23:38:14Z",
+      "side": 1,
+      "message": "\u003e Why not define it as e.g. _SYS_FACCESSAT2 and change the //sys line to\n\u003e \n\u003e   //sys\tfaccessat2(dirfd int, path string, mode uint32, flags int) (err error) \u003d _SYS_FACCESSAT2\n\nRight, I missed that way. Implemented.",
+      "parentUuid": "f8a8f515_84d4d8d2",
+      "revId": "8e560dd27f29faaabd8c7c7a794a5918c7cb2297",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
