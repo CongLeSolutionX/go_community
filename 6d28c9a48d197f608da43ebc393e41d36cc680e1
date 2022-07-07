@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3d1b2d1_0807e856",
+        "filename": "src/database/sql/driver/types_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 52385
+      },
+      "writtenOn": "2022-07-07T03:12:25Z",
+      "side": 1,
+      "message": "Maybe we should add a test after this one to test it instead?\n\n    {DefaultParameterConverter, t(now), now, \"unsupported type driver.t, a struct\"},",
+      "revId": "6d28c9a48d197f608da43ebc393e41d36cc680e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
