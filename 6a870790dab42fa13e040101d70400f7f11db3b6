@@ -57,6 +57,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "15bdccc5_bf8c507d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 58123
+      },
+      "writtenOn": "2022-07-07T13:46:35Z",
+      "side": 1,
+      "message": "OK.",
+      "parentUuid": "ecba5580_e122ee94",
+      "revId": "6a870790dab42fa13e040101d70400f7f11db3b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c5737470_a6077344",
         "filename": "src/runtime/cgo/gcc_darwin_amd64.c",
         "patchSetId": 1
@@ -80,6 +98,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7a67c95f_8f325010",
+        "filename": "src/runtime/cgo/gcc_darwin_amd64.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 58123
+      },
+      "writtenOn": "2022-07-07T13:46:35Z",
+      "side": 1,
+      "message": "The pthread_get_stacksize_np is a non-portable function specific to darwin, I found it on stackoverflow.com, its source code can be found here: https://opensource.apple.com/source/libpthread/libpthread-218.1.3/src/pthread.c.auto.html. According to its code, it should not fail when we pass the return value of pthread_self() to it. Yes, so I think we can remove the above line.\n\nChrome uses both pthread_attr_getstacksize and getrlimit and chooses the larger one of the results: https://chromium.googlesource.com/chromium/src/base/+/80a465fc953a6dd6985fe00110589f9a64292e54/threading/platform_thread_mac.mm#387. This also seems to be a good practice, or better?",
+      "parentUuid": "c5737470_a6077344",
+      "range": {
+        "startLine": 24,
+        "startChar": 7,
+        "endLine": 24,
+        "endChar": 31
+      },
+      "revId": "6a870790dab42fa13e040101d70400f7f11db3b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ab183c75_5e25f7cc",
         "filename": "src/runtime/cgo/gcc_darwin_amd64.c",
         "patchSetId": 1
@@ -91,6 +133,24 @@
       "writtenOn": "2022-07-06T20:59:14Z",
       "side": 1,
       "message": "Maybe cursize.",
+      "revId": "6a870790dab42fa13e040101d70400f7f11db3b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5620a58e_82381b6c",
+        "filename": "src/runtime/cgo/gcc_darwin_amd64.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 58123
+      },
+      "writtenOn": "2022-07-07T13:46:35Z",
+      "side": 1,
+      "message": "OK.",
+      "parentUuid": "ab183c75_5e25f7cc",
       "revId": "6a870790dab42fa13e040101d70400f7f11db3b6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
