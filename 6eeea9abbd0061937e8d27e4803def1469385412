@@ -107,6 +107,24 @@
       "message": "Do we need to register a `base.AtExit` hook to flush and/or close this file?\n(If not, a comment here to explain would be helpful.)",
       "revId": "6eeea9abbd0061937e8d27e4803def1469385412",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b903b2c5_c5ec7e4b",
+        "filename": "src/cmd/go/internal/fsys/fsys.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-07-07T18:55:11Z",
+      "side": 1,
+      "message": "There\u0027s no buffering, so no. Added a comment.",
+      "parentUuid": "eb1d90d1_9231c30b",
+      "revId": "6eeea9abbd0061937e8d27e4803def1469385412",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
