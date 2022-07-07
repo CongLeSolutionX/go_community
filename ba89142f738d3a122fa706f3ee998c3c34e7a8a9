@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "919e3065_aeaa4df8",
+        "filename": "src/internal/syscall/unix/eaccess.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 26451
+      },
+      "writtenOn": "2022-07-07T02:22:06Z",
+      "side": 1,
+      "message": "I believe I\u0027ve checked it before implementing this. Now I see I was (mistakenly) looking into x/sys/unix.\n\nWe can add syscall.Faccessat to some platforms that already have it implemented in x/sys/unix (*bsd, solaris/illumos, and darwin), but then again this is a modification to src/syscall which we\u0027d like to avoid.\n\nMade it linux specific for now. I could have easily added AIX as well (AIX 7.x has faccessat with AT_EACCESS support, and syscall pkg has Faccessat wired for AIX, but for the life of me I can\u0027t find the value of `AT_EACCESS` on AIX). Others (*BSD/Dragonfly, Solaris/Illumos, Darwin) also has faccessat(2) as well as AT_EACCESS, but Faccessat is not currently wired in syscall pkg for these platforms.",
+      "parentUuid": "470b9b04_20d9da82",
+      "revId": "ba89142f738d3a122fa706f3ee998c3c34e7a8a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8de32259_4f6b5bb5",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-07-06T00:44:25Z",
       "side": 1,
       "message": "Missing copyright notice for new file.",
+      "revId": "ba89142f738d3a122fa706f3ee998c3c34e7a8a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b912c65_55b2a6e4",
+        "filename": "src/os/exec/lp_linux_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 26451
+      },
+      "writtenOn": "2022-07-07T02:22:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8de32259_4f6b5bb5",
       "revId": "ba89142f738d3a122fa706f3ee998c3c34e7a8a9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }

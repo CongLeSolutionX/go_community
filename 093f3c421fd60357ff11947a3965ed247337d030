@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f85b0da_3f657ef0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26451
+      },
+      "writtenOn": "2022-07-07T02:22:06Z",
+      "side": 1,
+      "message": "Made it Linux-specific for now; most other *nix platforms are easy to add once we wire faccessat for those.",
+      "revId": "093f3c421fd60357ff11947a3965ed247337d030",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
