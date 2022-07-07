@@ -72,6 +72,24 @@
       "message": "Thanks, Cuong.",
       "revId": "57e1a54623a43cdc33151c8a7a7f84753b031f38",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f6912a0_8b57f3af",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-07-07T15:48:03Z",
+      "side": 1,
+      "message": "Hi Matthew, when should we land this CL, for 1.18, 1.19 or 1.20 (like you tagged the issue)?\n\nPut it on hold so it won\u0027t be accident submitted.",
+      "parentUuid": "187d7e4a_155cfa69",
+      "revId": "57e1a54623a43cdc33151c8a7a7f84753b031f38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
