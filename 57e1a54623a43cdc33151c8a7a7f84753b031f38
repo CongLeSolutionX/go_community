@@ -90,6 +90,23 @@
       "parentUuid": "187d7e4a_155cfa69",
       "revId": "57e1a54623a43cdc33151c8a7a7f84753b031f38",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0cb0f2ad_2ab4ac31",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-07-07T19:19:02Z",
+      "side": 1,
+      "message": "I think this is fine for 1.19, and backport to 1.18 if you want to prepare a CL for it.\n\nI only marked it for 1.20 because I thought fixing it would be more involved; but your fix is simple and elegant.",
+      "revId": "57e1a54623a43cdc33151c8a7a7f84753b031f38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
