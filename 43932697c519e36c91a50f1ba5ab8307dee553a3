@@ -35,6 +35,42 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0df0f791_4ff25513",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2738,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-07-08T16:13:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54429e47_c270ba32",
+      "revId": "43932697c519e36c91a50f1ba5ab8307dee553a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4913f06b_e09e8ac4",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2738,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-07-08T16:13:50Z",
+      "side": 1,
+      "message": "Added some more comments here.",
+      "parentUuid": "eda124af_79ebc538",
+      "revId": "43932697c519e36c91a50f1ba5ab8307dee553a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "16eedd54_ed7c3033",
@@ -48,6 +84,24 @@
       "writtenOn": "2022-06-01T00:55:04Z",
       "side": 1,
       "message": "And I guess this is the bit that prevents the Add(1) a few lines below from panicking on concurrent WaitGroup.Wait?",
+      "revId": "43932697c519e36c91a50f1ba5ab8307dee553a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44edf5ff_207891df",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3158,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-07-08T16:13:50Z",
+      "side": 1,
+      "message": "Yes, exactly.",
+      "parentUuid": "16eedd54_ed7c3033",
       "revId": "43932697c519e36c91a50f1ba5ab8307dee553a3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
