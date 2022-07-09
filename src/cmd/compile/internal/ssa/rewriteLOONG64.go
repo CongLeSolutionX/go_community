@@ -100,6 +100,8 @@ func rewriteValueLOONG64(v *Value) bool {
 		return rewriteValueLOONG64_OpCom64(v)
 	case OpCom8:
 		return rewriteValueLOONG64_OpCom8(v)
+	case OpCondSelect:
+		return rewriteValueLOONG64_OpCondSelect(v)
 	case OpConst16:
 		return rewriteValueLOONG64_OpConst16(v)
 	case OpConst32:
@@ -774,6 +776,36 @@ func rewriteValueLOONG64_OpCom8(v *Value) bool {
 		v.AddArg2(v0, x)
 		return true
 	}
+}
+func rewriteValueLOONG64_OpCondSelect(v *Value) bool {
+	v_2 := v.Args[2]
+	v_1 := v.Args[1]
+	v_0 := v.Args[0]
+	// match: (CondSelect (MOVVconst [0]) x cond)
+	// result: (MASKNEZ x cond)
+	for {
+		if v_0.Op != OpLOONG64MOVVconst || auxIntToInt64(v_0.AuxInt) != 0 {
+			break
+		}
+		x := v_1
+		cond := v_2
+		v.reset(OpLOONG64MASKNEZ)
+		v.AddArg2(x, cond)
+		return true
+	}
+	// match: (CondSelect x (MOVVconst [0]) cond)
+	// result: (MASKEQZ x cond)
+	for {
+		x := v_0
+		if v_1.Op != OpLOONG64MOVVconst || auxIntToInt64(v_1.AuxInt) != 0 {
+			break
+		}
+		cond := v_2
+		v.reset(OpLOONG64MASKEQZ)
+		v.AddArg2(x, cond)
+		return true
+	}
+	return false
 }
 func rewriteValueLOONG64_OpConst16(v *Value) bool {
 	// match: (Const16 [val])

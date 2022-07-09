@@ -414,6 +414,9 @@
 (PanicBounds [kind] x y mem) && boundsABI(kind) == 1 => (LoweredPanicBoundsB [kind] x y mem)
 (PanicBounds [kind] x y mem) && boundsABI(kind) == 2 => (LoweredPanicBoundsC [kind] x y mem)
 
+(CondSelect (MOVVconst [0]) x cond) => (MASKNEZ x cond)
+(CondSelect x (MOVVconst [0]) cond) => (MASKEQZ x cond)
+
 // Optimizations
 
 // Absorb boolean tests into block
