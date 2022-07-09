@@ -13,6 +13,7 @@ func cmovint(c int) int {
 	}
 	// amd64:"CMOVQLT"
 	// arm64:"CSEL\tLT"
+	// loong64: "MASKEQZ", "MASKNEZ"
 	// wasm:"Select"
 	return x
 }
@@ -23,6 +24,7 @@ func cmovchan(x, y chan int) chan int {
 	}
 	// amd64:"CMOVQNE"
 	// arm64:"CSEL\tNE"
+	// loong64: "MASKEQZ", "MASKNEZ"
 	// wasm:"Select"
 	return x
 }
@@ -33,6 +35,7 @@ func cmovuintptr(x, y uintptr) uintptr {
 	}
 	// amd64:"CMOVQ(HI|CS)"
 	// arm64:"CSNEG\tLS"
+	// loong64: "MASKEQZ", "MASKNEZ"
 	// wasm:"Select"
 	return x
 }
@@ -43,6 +46,7 @@ func cmov32bit(x, y uint32) uint32 {
 	}
 	// amd64:"CMOVL(HI|CS)"
 	// arm64:"CSNEG\t(LS|HS)"
+	// loong64: "MASKEQZ", "MASKNEZ"
 	// wasm:"Select"
 	return x
 }
@@ -53,6 +57,7 @@ func cmov16bit(x, y uint16) uint16 {
 	}
 	// amd64:"CMOVW(HI|CS)"
 	// arm64:"CSNEG\t(LS|HS)"
+	// loong64: "MASKEQZ", "MASKNEZ"
 	// wasm:"Select"
 	return x
 }
@@ -66,6 +71,7 @@ func cmovfloateq(x, y float64) int {
 	}
 	// amd64:"CMOVQNE","CMOVQPC"
 	// arm64:"CSEL\tEQ"
+	// loong64: "MASKEQZ", "MASKNEZ"
 	// wasm:"Select"
 	return a
 }
@@ -77,6 +83,7 @@ func cmovfloatne(x, y float64) int {
 	}
 	// amd64:"CMOVQNE","CMOVQPS"
 	// arm64:"CSEL\tNE"
+	// loong64: "MASKEQZ", "MASKNEZ"
 	// wasm:"Select"
 	return a
 }
@@ -103,6 +110,7 @@ func cmovfloatint2(x, y float64) float64 {
 		}
 		// amd64:"CMOVQHI"
 		// arm64:"CSEL\tMI"
+		// loong64: "MASKEQZ", "MASKNEZ"
 		// wasm:"Select"
 		r = r - ldexp(y, rexp-yexp)
 	}
@@ -117,6 +125,7 @@ func cmovloaded(x [4]int, y int) int {
 	}
 	// amd64:"CMOVQNE"
 	// arm64:"CSEL\tNE"
+	// loong64: "MASKEQZ", "MASKNEZ"
 	// wasm:"Select"
 	return y
 }
@@ -128,6 +137,7 @@ func cmovuintptr2(x, y uintptr) uintptr {
 	}
 	// amd64:"CMOVQEQ"
 	// arm64:"CSEL\tEQ"
+	// loong64: "MASKEQZ", "MASKNEZ"
 	// wasm:"Select"
 	return a
 }
@@ -140,6 +150,7 @@ func cmovfloatmove(x, y int) float64 {
 	}
 	// amd64:-"CMOV"
 	// arm64:-"CSEL"
+	// loong64: -"MASKEQZ", -"MASKNEZ"
 	// wasm:-"Select"
 	return a
 }
@@ -399,4 +410,22 @@ func cmovFcmp1(s, t float64, a, b int) {
 	}
 	// arm64:"CSINC\tEQ", -"CSEL"
 	r5 = x5
+}
+
+func cmovzero1(c bool) int {
+	var x int
+	if c {
+		x = 182
+	}
+	// loong64:"MASKEQZ", -"MASKNEZ"
+	return x
+}
+
+func cmovzero2(c bool) int {
+	var x int
+	if !c {
+		x = 182
+	}
+	// loong64:"MASKNEZ", -"MASKEQZ"
+	return x
 }
