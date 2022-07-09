@@ -81,7 +81,7 @@ func TestBranchElimIf(t *testing.T) {
 
 // Test that a trivial if/else is eliminated
 func TestBranchElimIfElse(t *testing.T) {
-	for _, arch := range []string{"arm64", "amd64"} {
+	for _, arch := range []string{"arm64", "amd64", "loong64"} {
 		t.Run(arch, func(t *testing.T) {
 			c := testConfigArch(t, arch)
 			boolType := c.config.Types.Bool
@@ -129,7 +129,7 @@ func TestBranchElimIfElse(t *testing.T) {
 // Test that an if/else CFG that loops back
 // into itself does *not* get eliminated.
 func TestNoBranchElimLoop(t *testing.T) {
-	for _, arch := range []string{"arm64", "amd64"} {
+	for _, arch := range []string{"arm64", "amd64", "loong64"} {
 		t.Run(arch, func(t *testing.T) {
 			c := testConfigArch(t, arch)
 			boolType := c.config.Types.Bool
