@@ -789,6 +789,8 @@ func (c *gcControllerState) enlistWorker() {
 
 // findRunnableGCWorker returns a background mark worker for _p_ if it
 // should be run. This must only be called when gcBlackenEnabled != 0.
+//
+// now optionally provides the current time. If zero, nanotime is called.
 func (c *gcControllerState) findRunnableGCWorker(_p_ *p, now int64) (*g, int64) {
 	if gcBlackenEnabled == 0 {
 		throw("gcControllerState.findRunnable: blackening not enabled")

@@ -183,6 +183,9 @@ var idleID int32
 //
 //go:yeswritebarrierrec
 func beforeIdle(now, pollUntil int64) (gp *g, otherReady bool) {
+	if now == 0 {
+		now = nanotime()
+	}
 	delay := int64(-1)
 	if pollUntil != 0 {
 		delay = pollUntil - now

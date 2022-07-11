@@ -2892,8 +2892,9 @@ func pollWork() bool {
 //
 // If newWork is true, new work may have been readied.
 //
-// If now is not 0 it is the current time. stealWork returns the passed time or
-// the current time if now was passed as 0.
+// If now is not 0 it is the current time. stealWork returns either
+// the passed now time (if non-zero) or the time from nanotime (if
+// needed) or zero.
 func stealWork(now int64) (gp *g, inheritTime bool, rnow, pollUntil int64, newWork bool) {
 	pp := getg().m.p.ptr()
 
@@ -3259,13 +3260,17 @@ func dropg() {
 }
 
 // checkTimers runs any timers for the P that are ready.
-// If now is not 0 it is the current time.
-// It returns the passed time or the current time if now was passed as 0.
-// and the time when the next timer should run or 0 if there is no next timer,
-// and reports whether it ran any timers.
+//
+// If now is not 0 it is the current time. It's optional to avoid
+// extra calls of nanotime.
+//
+// It returns: rnow, either the provided now time (if non-zero) or the
+// current time (if nanotime was called) or zero; pollUntil, the time
+// when the next timer should run or 0 if there is no next timer; and
+// ran, whether any timers were ran.
+//
 // If the time when the next timer should run is not 0,
 // it is always larger than the returned time.
-// We pass now in and out to avoid extra calls of nanotime.
 //
 //go:yeswritebarrierrec
 func checkTimers(pp *p, now int64) (rnow, pollUntil int64, ran bool) {
