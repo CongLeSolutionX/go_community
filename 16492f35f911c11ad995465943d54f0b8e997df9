@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "472b6f0d_0a7fe09b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-07-11T15:03:27Z",
+      "side": 1,
+      "message": "friendly ping! the next minor release is coming up, and this is marked as a release-blocker.",
+      "revId": "16492f35f911c11ad995465943d54f0b8e997df9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
