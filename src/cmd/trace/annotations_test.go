@@ -17,6 +17,7 @@ import (
 	"runtime/debug"
 	"runtime/trace"
 	"sort"
+	"strings"
 	"sync"
 	"testing"
 	"time"
@@ -105,6 +106,13 @@ func TestAnalyzeAnnotations(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to analyzeAnnotations: %v", err)
 	}
+	tasks := res.tasks
+
+	// TODO(go.dev/issue/53784): if the first GC occurs during a region,
+	// the GC worker goroutines appear as regions in the task, which breaks
+	// the test. For now, strip them from tasks. In the future, they should
+	// be excluded by analyzeAnnotations altogether.
+	stripSystemGoroutines(tasks)
 
 	// For prog0, we expect
 	//   - task with name = "task0", with three regions.
@@ -125,7 +133,7 @@ func TestAnalyzeAnnotations(t *testing.T) {
 		},
 	}
 
-	for _, task := range res.tasks {
+	for _, task := range tasks {
 		want, ok := wantTasks[task.name]
 		if !ok {
 			t.Errorf("unexpected task: %s", task)
@@ -188,6 +196,12 @@ func TestAnalyzeAnnotationTaskTree(t *testing.T) {
 		t.Fatalf("failed to analyzeAnnotations: %v", err)
 	}
 	tasks := res.tasks
+
+	// TODO(go.dev/issue/53784): if the first GC occurs during a region,
+	// the GC worker goroutines appear as regions in the task, which breaks
+	// the test. For now, strip them from tasks. In the future, they should
+	// be excluded by analyzeAnnotations altogether.
+	stripSystemGoroutines(tasks)
 
 	// For prog0, we expect
 	//   - task with name = "", with taskless.region in regions.
@@ -368,6 +382,27 @@ func childrenNames(task *taskDesc) (ret []string) {
 		ret = append(ret, s.name)
 	}
 	return ret
+}
+
+func isSystemGoroutine(entryFn string) bool {
+	// This mimics runtime.isSystemGoroutine as closely as
+	// possible.
+	return entryFn != "runtime.main" && strings.HasPrefix(entryFn, "runtime.")
+}
+
+func stripSystemGoroutines(tasks map[uint64]*taskDesc) {
+	for _, t := range tasks {
+		regions := make([]regionDesc, 0, len(t.regions))
+		for _, r := range t.regions {
+			if isSystemGoroutine(gs[r.G].Name) {
+				// Exclude from regions and drop from goroutines.
+				delete(t.goroutines, r.G)
+				continue
+			}
+			regions = append(regions, r)
+		}
+		t.regions = regions
+	}
 }
 
 func swapLoaderData(res traceparser.ParseResult, err error) {
