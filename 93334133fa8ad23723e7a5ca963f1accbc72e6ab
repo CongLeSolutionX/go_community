@@ -16,6 +16,24 @@
       "message": "Hey Bryan! It\u0027s been a while! I hope things are going all right.\n\nI ran across this when preparing a demo, figured I\u0027d send a fix.",
       "revId": "93334133fa8ad23723e7a5ca963f1accbc72e6ab",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "147f8e5e_bc530012",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-07-11T16:37:04Z",
+      "side": 1,
+      "message": "Thanks! And congrats on starting at EngFlow — I hope we don\u0027t give you too much Bazel trouble on the Go side. 😅",
+      "parentUuid": "951c7b90_40296fec",
+      "revId": "93334133fa8ad23723e7a5ca963f1accbc72e6ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
