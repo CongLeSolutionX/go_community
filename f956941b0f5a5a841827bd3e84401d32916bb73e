@@ -34,6 +34,24 @@
       "parentUuid": "04e10060_274c1cef",
       "revId": "f956941b0f5a5a841827bd3e84401d32916bb73e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "539e2481_d6479e0b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-07-12T14:53:18Z",
+      "side": 1,
+      "message": "Mailed a fix in CL 417094.",
+      "parentUuid": "a38591e4_9ca4338b",
+      "revId": "f956941b0f5a5a841827bd3e84401d32916bb73e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
