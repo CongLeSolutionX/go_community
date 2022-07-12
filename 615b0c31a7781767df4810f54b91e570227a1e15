@@ -266,6 +266,24 @@
       "message": "Hi Matthew, could you please taking a look?",
       "revId": "615b0c31a7781767df4810f54b91e570227a1e15",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d560c3d0_561721da",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-07-12T19:04:50Z",
+      "side": 1,
+      "message": "Sorry, I missed that this still needed my attention.\n\nAt this point in the release cycle, I\u0027d lean towards simply adding the test case as a known failure for the non-unified frontend, and we can address it in 1.20 by switching to unified IR.\n\nI get the appeal of fixing function literals appearing in unsafe.{Align,Size,Offset}of call arguments, because ideally it should Just Work without too much trouble. But there\u0027s also really no need for users to write code like that at all, and I\u0027m happy to push back if any users complain that it doesn\u0027t work in 1.18/1.19.",
+      "parentUuid": "fff42674_c3becec4",
+      "revId": "615b0c31a7781767df4810f54b91e570227a1e15",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
