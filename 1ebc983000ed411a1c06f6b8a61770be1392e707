@@ -16,6 +16,24 @@
       "message": "Hi, when I rebase CL 410798, I found through bisect that this CL will cause a significant drop in the accuracy of CPU profiling. I have a test case, the expected test result is like this:\n$ go tool pprof -top prof\n      flat  flat%   sum%        cum   cum%\n1714000000 10.00% 10.00% 1714000000 10.00%  main.f4\n1714000000 10.00% 20.00% 1714000000 10.00%  main.f7\n1713000000  9.99% 29.99% 1714000000 10.00%  main.f1\n1712000000  9.99% 39.97% 1713000000  9.99%  main.f10\n1712000000  9.99% 49.96% 1712000000  9.99%  main.f3\n1712000000  9.99% 59.95% 1713000000  9.99%  main.f9\n1711000000  9.98% 69.93% 1712000000  9.99%  main.f2\n1711000000  9.98% 79.91% 1712000000  9.99%  main.f5\n1711000000  9.98% 89.89% 1712000000  9.99%  main.f6\n1711000000  9.98% 99.87% 1711000000  9.98%  main.f8\n\nand with this CL the test result is like this:\n$ go tool pprof -top prof\n      flat  flat%   sum%        cum   cum%\n6906000000 23.56% 23.56% 6906000000 23.56%  runtime.futex\n3197000000 10.90% 34.46% 3198000000 10.91%  main.f3\n2335000000  7.96% 42.43% 2335000000  7.96%  runtime.epollwait\n2079000000  7.09% 49.52% 2083000000  7.11%  main.f8\n1787000000  6.10% 55.61% 1788000000  6.10%  main.f1\n1786000000  6.09% 61.70% 1788000000  6.10%  main.f2\n1786000000  6.09% 67.80% 1788000000  6.10%  main.f7\n1784000000  6.09% 73.88% 1785000000  6.09%  main.f9\n1780000000  6.07% 79.95% 1783000000  6.08%  main.f4\n1774000000  6.05% 86.00% 1775000000  6.05%  main.f5\n1774000000  6.05% 92.06% 1775000000  6.05%  main.f6\n1740000000  5.94% 97.99% 1743000000  5.95%  main.f10\n 264000000   0.9% 98.89%  452000000  1.54%  runtime.stealWork\n   8000000 0.027% 98.92% 9758000000 33.28%  runtime.findRunnable\n   3000000  0.01% 98.93% 2338000000  7.97%  runtime.netpoll\n         0     0% 98.93% 6898000000 23.53%  runtime.futexsleep\n         0     0% 98.93% 6897000000 23.53%  runtime.mPark (inline)\n         0     0% 98.93% 9762000000 33.30%  runtime.mcall\n         0     0% 98.93% 6897000000 23.53%  runtime.notesleep\n         0     0% 98.93% 9681000000 33.02%  runtime.park_m\n         0     0% 98.93% 9759000000 33.29%  runtime.schedule\n         0     0% 98.93% 6897000000 23.53%  runtime.stopm\n\nIt seems a considerable amount of cpu time is spent on non-test functions. Of course, this may be a problem with CL 410798, I am also looking at it, just for your reference.",
       "revId": "1ebc983000ed411a1c06f6b8a61770be1392e707",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dcb49b22_4053e353",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-07-12T14:46:34Z",
+      "side": 1,
+      "message": "Does that happen every time you run? Does your test use timers? That profile looks suspiciously similar to #51654.",
+      "parentUuid": "7b737709_0e492379",
+      "revId": "1ebc983000ed411a1c06f6b8a61770be1392e707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
