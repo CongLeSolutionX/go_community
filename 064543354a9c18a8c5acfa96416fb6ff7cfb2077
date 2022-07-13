@@ -16,6 +16,23 @@
       "message": "Do we want this?  It seems to contradict the comment that was added in CL 168257.",
       "revId": "064543354a9c18a8c5acfa96416fb6ff7cfb2077",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "754b351a_b391ca58",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-07-13T19:32:45Z",
+      "side": 1,
+      "message": "Sorry for not getting this into 1.19!\n\nIf you\u0027d like to update the CL to resolve the merge conflict (removing the line from https://go.dev/cl/168257 that documents the panic-on-n\u003d\u003d0 behavior), we should be able to get this in when the tree opens for 1.20.",
+      "revId": "064543354a9c18a8c5acfa96416fb6ff7cfb2077",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
