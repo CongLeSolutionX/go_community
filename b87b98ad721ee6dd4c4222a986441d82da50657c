@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6b762425_c91b910a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26898
+      },
+      "writtenOn": "2022-07-13T14:05:45Z",
+      "side": 1,
+      "message": "Yep understood. I mean that I lost interest in contributing due to the long delay here -- opening the PR in Jul 2018 and receiving reviews in Nob 2019. I was reminded of this PR in May of last year when the wait-author tag was added, and decided to finally come back and officially \"Abandon\" this.\n\nI don\u0027t think I\u0027ll revisit this PR. Maybe somebody can take it up, maybe someday I\u0027ll revisit. For now, I have no interest. The bug still exists but I don\u0027t reuse request bodies often and I know how to work around it if I do.",
+      "parentUuid": "ccaac55d_ffcec002",
+      "revId": "b87b98ad721ee6dd4c4222a986441d82da50657c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1b99f452_94e3f4fd",
         "filename": "src/net/http/request.go",
         "patchSetId": 6
