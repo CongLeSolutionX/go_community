@@ -53,6 +53,41 @@
       "message": "Maybe not for 1.19 because we are late in the release cycle.",
       "revId": "c26d03dff1738e16c3d20fe9b6ed2b35ec0303d4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18e69c13_e823f17d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-07-13T07:24:55Z",
+      "side": 1,
+      "message": "Thanks!",
+      "revId": "c26d03dff1738e16c3d20fe9b6ed2b35ec0303d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a63c164_58569840",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-07-13T07:24:55Z",
+      "side": 1,
+      "message": "I agree.",
+      "parentUuid": "920de970_6dc7eac6",
+      "revId": "c26d03dff1738e16c3d20fe9b6ed2b35ec0303d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
