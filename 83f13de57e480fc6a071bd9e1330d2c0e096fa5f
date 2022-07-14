@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "15f00183_d75edc52",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2022-07-14T22:39:55Z",
+      "side": 1,
+      "message": "Consider rewording this commit message slightly based on https://go.dev/wiki/MinorReleases#making-cherry-pick-cls and https://go.dev/wiki/CommitMessage#reverts, for example:\n\n\u003e [release-branch.go1.18] cmd/compile: revert \"fix missing dict pass for type assertions\"\n\u003e \n\u003e This reverts CL 411934 (commit 460a93b54af4a0305f6007e44e41e6160a6469d8).\n\u003e \n\u003e Fixes #53852.\n\u003e Updates #53357.",
+      "revId": "83f13de57e480fc6a071bd9e1330d2c0e096fa5f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d4fe6d21_a6de08ba",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
