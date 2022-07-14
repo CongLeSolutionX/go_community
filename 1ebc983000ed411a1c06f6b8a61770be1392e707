@@ -70,6 +70,24 @@
       "parentUuid": "419c6a59_a8a9fb61",
       "revId": "1ebc983000ed411a1c06f6b8a61770be1392e707",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68b5b17d_6ff7de30",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-07-14T02:21:45Z",
+      "side": 1,
+      "message": "The problem is still there, but by changing some settings of my code, the problem is gone too. I don\u0027t know which one is causing this problem. I\u0027ll take a closer look, thanks.",
+      "parentUuid": "389ce8f0_897415b3",
+      "revId": "1ebc983000ed411a1c06f6b8a61770be1392e707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
