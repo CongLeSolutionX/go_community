@@ -72,6 +72,24 @@
       "message": "I guess this is ok -- how long has the change being reverted been in use?  I would wonder which does more good, for this one.",
       "revId": "9cd79a65cc27e75e4110524562f7338e500225b0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "990d8c98_fd1826f6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-07-14T18:55:33Z",
+      "side": 1,
+      "message": "It was first included in Go 1.18.3, and then also in 1.18.4.\n\nThe issue it fixed was an ICE, which I think is less severe than a miscompilation.",
+      "parentUuid": "099e051c_190fd69d",
+      "revId": "9cd79a65cc27e75e4110524562f7338e500225b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
