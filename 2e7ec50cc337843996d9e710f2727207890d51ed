@@ -53,6 +53,41 @@
       "message": "Not sure if this makes it in to 1.19, we\u0027re pretty late in that cycle.",
       "revId": "2e7ec50cc337843996d9e710f2727207890d51ed",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9de70975_d682d4fe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-07-14T06:10:50Z",
+      "side": 1,
+      "message": "Maybe add loong64 in src/cmd/compile/internal/ssa/branchelim_test.go",
+      "revId": "2e7ec50cc337843996d9e710f2727207890d51ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "83fb0ee4_b6c5a21d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-07-14T06:10:50Z",
+      "side": 1,
+      "message": "I agree.",
+      "parentUuid": "ba1aec9f_52deec8d",
+      "revId": "2e7ec50cc337843996d9e710f2727207890d51ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
