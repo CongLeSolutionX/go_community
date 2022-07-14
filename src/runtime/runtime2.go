@@ -270,6 +270,11 @@ func (gp *guintptr) cas(old, new guintptr) bool {
 	return atomic.Casuintptr((*uintptr)(unsafe.Pointer(gp)), uintptr(old), uintptr(new))
 }
 
+//go:nosplit
+func (gp *g) guintptr() guintptr {
+	return guintptr(unsafe.Pointer(gp))
+}
+
 // setGNoWB performs *gp = new without a write barrier.
 // For times when it's impractical to use a guintptr.
 //
