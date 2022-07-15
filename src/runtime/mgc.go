@@ -1010,7 +1010,7 @@ func gcMarkTermination() {
 	sweepTermCpu := int64(work.stwprocs) * (work.tMark - work.tSweepTerm)
 	// We report idle marking time below, but omit it from the
 	// overall utilization here since it's "free".
-	markCpu := gcController.assistTime.Load() + gcController.dedicatedMarkTime.Load() + gcController.fractionalMarkTime
+	markCpu := gcController.assistTime.Load() + gcController.dedicatedMarkTime.Load() + gcController.fractionalMarkTime.Load()
 	markTermCpu := int64(work.stwprocs) * (work.tEnd - work.tMarkTerm)
 	cycleCpu := sweepTermCpu + markCpu + markTermCpu
 	work.totaltime += cycleCpu
@@ -1106,7 +1106,7 @@ func gcMarkTermination() {
 		for i, ns := range []int64{
 			sweepTermCpu,
 			gcController.assistTime.Load(),
-			gcController.dedicatedMarkTime.Load() + gcController.fractionalMarkTime,
+			gcController.dedicatedMarkTime.Load() + gcController.fractionalMarkTime.Load(),
 			gcController.idleMarkTime,
 			markTermCpu,
 		} {
