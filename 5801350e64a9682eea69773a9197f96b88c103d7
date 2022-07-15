@@ -154,6 +154,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2cce550b_1a226590",
+        "filename": "src/runtime/cgo/gcc_mips64x.S",
+        "patchSetId": 31
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-07-15T09:23:36Z",
+      "side": 1,
+      "message": "Thanks!",
+      "parentUuid": "e052a66c_761f8f3f",
+      "range": {
+        "startLine": 53,
+        "startChar": 7,
+        "endLine": 53,
+        "endChar": 16
+      },
+      "revId": "5801350e64a9682eea69773a9197f96b88c103d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "db75f739_9e984085",
@@ -297,6 +321,30 @@
       "side": 1,
       "message": "This function and the next one are only called in specific places in the runtime, which don\u0027t change very often, and usually don\u0027t need to use many registers. So I think it\u0027s better to change the caller.\nAlso I think it is better for this function to not use the stack.",
       "parentUuid": "90655ff5_2ba2d9c2",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 18
+      },
+      "revId": "5801350e64a9682eea69773a9197f96b88c103d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f837765_b349b86f",
+        "filename": "src/runtime/tls_mips64x.s",
+        "patchSetId": 31
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-07-15T09:23:36Z",
+      "side": 1,
+      "message": "When I debug the \"runtime.load_g\" function, I find that call C function directly from this:\n`MOVV\truntime·tls_g(SB), g  // in GD mode, get TLS address through ___tls_get_addr`\nI think it is not right, \"___tls_get_addr\" function should be wrapped. Then call the C funtion by cgo. And I want to hear your thoughts.",
+      "parentUuid": "438f7c89_b6085e99",
       "range": {
         "startLine": 21,
         "startChar": 0,

@@ -16,6 +16,24 @@
       "message": "Maybe you can undo this change now?",
       "revId": "a165066a4193a53fa775aad1ecf0d52f1b418d0c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce6f57b8_ed8d1c20",
+        "filename": "src/runtime/cgo/gcc_mips64x.S",
+        "patchSetId": 32
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-07-15T09:23:36Z",
+      "side": 1,
+      "message": "Yes, Done.",
+      "parentUuid": "b342272b_e7f0b82f",
+      "revId": "a165066a4193a53fa775aad1ecf0d52f1b418d0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
