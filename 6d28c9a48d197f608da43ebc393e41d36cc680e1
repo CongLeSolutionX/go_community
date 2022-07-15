@@ -16,6 +16,24 @@
       "message": "Maybe we should add a test after this one to test it instead?\n\n    {DefaultParameterConverter, t(now), now, \"unsupported type driver.t, a struct\"},",
       "revId": "6d28c9a48d197f608da43ebc393e41d36cc680e1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4e5f621_3326c432",
+        "filename": "src/database/sql/driver/types_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 50284
+      },
+      "writtenOn": "2022-07-15T13:02:55Z",
+      "side": 1,
+      "message": "You are totally right, so I added a new test case of `t`.",
+      "parentUuid": "a3d1b2d1_0807e856",
+      "revId": "6d28c9a48d197f608da43ebc393e41d36cc680e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
