@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9fb0b7f_e378da94",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-07-15T14:20:00Z",
+      "side": 1,
+      "message": "Thanks.  This cleanup code can be for the 1.20 release.",
+      "revId": "8dbf88a3ba8f34759942859a9ee842208bdf7a40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
