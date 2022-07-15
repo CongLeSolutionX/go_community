@@ -36,6 +36,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b290b9e9_2ffb4d2b",
+        "filename": "src/cmd/go/internal/work/gc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-07-15T08:36:36Z",
+      "side": 1,
+      "message": "OK, I added some comments. Thanks!",
+      "parentUuid": "225a5380_c3a790de",
+      "revId": "e38f21344f3e3841e078912b8205a221f03b1595",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e419f0d7_d0dfc431",
@@ -49,6 +67,30 @@
       "writtenOn": "2022-06-27T14:50:10Z",
       "side": 1,
       "message": "This is not exactly GOBUILDMODE_shared, which is for \"go build -buildmode\u003dshared\". This is for -buildmode\u003dcshared. Maybe GOBUILDMODE_cshared ? (But technically the -shared flag is used in a few more cases other than -buildmode\u003dcshared). Or maybe GOASM_shared ?",
+      "range": {
+        "startLine": 375,
+        "startChar": 30,
+        "endLine": 375,
+        "endChar": 48
+      },
+      "revId": "e38f21344f3e3841e078912b8205a221f03b1595",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "00d39d82_0153e5c4",
+        "filename": "src/cmd/go/internal/work/gc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-07-15T08:36:36Z",
+      "side": 1,
+      "message": "Thanks! I used GOASM_shared as macro name.",
+      "parentUuid": "e419f0d7_d0dfc431",
       "range": {
         "startLine": 375,
         "startChar": 30,
