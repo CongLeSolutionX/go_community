@@ -44,10 +44,20 @@ Do not send CLs removing the interior tags from such phrases.
 
 <h2 id="ports">Ports</h2>
 
-<h3 id="loong64">Loongson 64-bit</h3>
+<h3 id="loong64">LoongArch 64-bit</h3>
 <p><!-- https://go.dev/issue/46229 -->
-  Go 1.19 adds support for the Loongson 64-bit architecture LoongArch
+  Go 1.19 adds support for the Loongson 64-bit architecture
+  <a href="https://loongson.github.io/LoongArch-Documentation">LoongArch</a>
   on Linux (<code>GOOS=linux</code>, <code>GOARCH=loong64</code>).
+  The implemented ABI is LP64D.
+</p>
+<p>
+  Note that the port only supports <i>upstream</i> Linux kernels, with versions
+  &gt;= 5.19. Most existing commercial Linux distributions for LoongArch, such
+  as Kylin, Loongnix and UOS, come with older Linux kernels with a historical
+  incompatible kernel ABI; compiled binaries will <i>not</i> work on these
+  systems, even if statically linked. Users on such unsupported systems are
+  limited to the distribution-provided Go package.
 </p>
 
 <h3 id="riscv64">RISC-V</h3>
