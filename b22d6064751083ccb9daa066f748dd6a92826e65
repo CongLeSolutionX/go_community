@@ -57,6 +57,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "08cc29a3_eb60e266",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-07-18T06:26:14Z",
+      "side": 1,
+      "message": "not resolved, actually",
+      "parentUuid": "6f477446_08c8afa6",
+      "revId": "b22d6064751083ccb9daa066f748dd6a92826e65",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "20f510cc_107b3ac7",
         "filename": "src/unsafe/unsafe.go",
         "patchSetId": 1
