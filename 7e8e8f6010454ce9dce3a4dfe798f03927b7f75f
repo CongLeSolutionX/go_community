@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "401e146a_a7bd8c4f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-07-18T13:59:29Z",
+      "side": 1,
+      "message": "s/test output/\u0027go help test\u0027/\n\n(I interpreted “in test output” to mean that it\u0027s the output of a test of the `cmd/go` package, but that turns out to be mistaken. 😅)",
+      "range": {
+        "startLine": 7,
+        "startChar": 33,
+        "endLine": 7,
+        "endChar": 44
+      },
+      "revId": "7e8e8f6010454ce9dce3a4dfe798f03927b7f75f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a47a1236_1a0af06a",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-07-18T13:59:29Z",
+      "side": 1,
+      "message": "Thanks. This string is used as an input to the generate that produces `alldocs.go`, so you will also need to run `go generate cmd/go` to sync that file.",
+      "revId": "7e8e8f6010454ce9dce3a4dfe798f03927b7f75f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
