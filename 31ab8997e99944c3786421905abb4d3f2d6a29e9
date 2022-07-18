@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a284537c_0e1d7634",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 857,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-07-18T16:32:54Z",
+      "side": 1,
+      "message": "Thanks for the submission.\n\nAPI changes to the standard library need to follow the Go proposal process:\nhttps://github.com/golang/proposal\n\nHowever, this particular API isn\u0027t going to work. Type asserting from the Handler interface to a concrete type is far too indirect and error prone.",
+      "revId": "31ab8997e99944c3786421905abb4d3f2d6a29e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
