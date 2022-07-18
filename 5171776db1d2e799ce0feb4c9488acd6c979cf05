@@ -38,6 +38,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9db7d0c_69feb761",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-07-18T23:57:54Z",
+      "side": 1,
+      "message": "If I understand right, you can\u0027t have a non-constant size/offset/alignment unless a type parameter is involved. That probably means there\u0027s a tidier and clearer way to write this, assuming my questions from before are answered as I expect:\n\nThe size will be a constant if neither the type nor any of its elements is a type parameter.\n\nBut then we have this question: Does a slice of type parameters have a constant size?",
+      "revId": "5171776db1d2e799ce0feb4c9488acd6c979cf05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b8df89ed_b64dc9f0",
