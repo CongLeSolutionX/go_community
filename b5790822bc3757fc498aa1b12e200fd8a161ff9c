@@ -16,6 +16,24 @@
       "message": "Use errors.New here; no formatting is required.",
       "revId": "b5790822bc3757fc498aa1b12e200fd8a161ff9c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "494255c7_081789d2",
+        "filename": "src/debug/buildinfo/buildinfo.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-07-19T04:12:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0747dd51_ad3082db",
+      "revId": "b5790822bc3757fc498aa1b12e200fd8a161ff9c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
