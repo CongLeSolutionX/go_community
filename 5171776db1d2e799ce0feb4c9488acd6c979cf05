@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c56c2618_9809df84",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-07-19T03:55:48Z",
+      "side": 1,
+      "message": "A slice of type parameters has a constant size, because for any slice s \"unsafe.Sizeof(s) \u003d\u003d unsafe.Sizeof(uintptr) + 2*unsafe.Sizeof(int)\".  The element type doesn\u0027t affect that.",
+      "parentUuid": "a9db7d0c_69feb761",
+      "revId": "5171776db1d2e799ce0feb4c9488acd6c979cf05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b8df89ed_b64dc9f0",
@@ -68,6 +86,24 @@
       "writtenOn": "2022-07-18T23:52:36Z",
       "side": 1,
       "message": "The wording seems clear now, but is it correct? If I have a type constraint\n  uint8 | int8\ndoes that yield a non-constant size? Similarly, if I have a type\n  struct { a, b int; c typeparameter; d int }\nis OffsetOf(a) (so to speak) constant?\n\nAs with so much about type parameters, the knock-on effects are hard to divine.",
+      "revId": "5171776db1d2e799ce0feb4c9488acd6c979cf05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4f17c65_c63c83de",
+        "filename": "src/unsafe/unsafe.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-07-19T03:55:48Z",
+      "side": 1,
+      "message": "Yes, using \"uint8 | int8\" yields a non-constant size.  And your example Offsetof example will not be a constant either.  That is, of course the values will always be the same.  But they will not be treated as a Go constant: you can\u0027t use them as an array length or in general as part of a constant expression.\n\nWe wrote the rule that way (it\u0027s in the spec at https://tip.golang.org/ref/spec#Package_unsafe) so that code like \"uintptr | int64\" would not have different behavior on different systems.",
+      "parentUuid": "b8df89ed_b64dc9f0",
       "revId": "5171776db1d2e799ce0feb4c9488acd6c979cf05",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
