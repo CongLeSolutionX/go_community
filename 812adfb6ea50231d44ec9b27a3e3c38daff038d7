@@ -132,6 +132,30 @@
       },
       "revId": "812adfb6ea50231d44ec9b27a3e3c38daff038d7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "838e5cca_a478342c",
+        "filename": "src/cmd/go/testdata/script/get_issue22125.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-07-19T16:21:39Z",
+      "side": 1,
+      "message": "Made the regexp less suspicious; will wait for the Go 1.20 tree to open to merge, since there is some chance this test could be broken on certain (especially case-insensitive) platforms.",
+      "parentUuid": "803c718f_17a5b303",
+      "range": {
+        "startLine": 14,
+        "startChar": 30,
+        "endLine": 14,
+        "endChar": 35
+      },
+      "revId": "812adfb6ea50231d44ec9b27a3e3c38daff038d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
