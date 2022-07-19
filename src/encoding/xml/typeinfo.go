@@ -76,6 +76,9 @@ func getTypeInfo(typ reflect.Type) (*typeInfo, error) {
 						return nil, err
 					}
 					if tinfo.xmlname == nil {
+						if inner.xmlname != nil && len(inner.fields) != 0 {
+							inner.xmlname.idx = append([]int{i}, inner.xmlname.idx...)
+						}
 						tinfo.xmlname = inner.xmlname
 					}
 					for _, finfo := range inner.fields {
