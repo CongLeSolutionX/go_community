@@ -76,6 +76,10 @@ func getTypeInfo(typ reflect.Type) (*typeInfo, error) {
 						return nil, err
 					}
 					if tinfo.xmlname == nil {
+						// Recursive call added which xmlname did not know
+						if inner.xmlname != nil && len(inner.xmlname.idx) <= len(inner.fields) {
+							inner.xmlname.idx = append([]int{i}, inner.xmlname.idx...)
+						}
 						tinfo.xmlname = inner.xmlname
 					}
 					for _, finfo := range inner.fields {

@@ -1254,7 +1254,7 @@ var marshalTests = []struct {
 	},
 	{
 		ExpectXML: `<outer xmlns="testns" int="10"></outer>`,
-		Value:     &OuterStruct{IntAttr: 10},
+		Value:     &OuterStruct{InnerStruct: InnerStruct{XMLName: Name{Space: "testns", Local: "outer"}}, IntAttr: 10},
 	},
 	{
 		ExpectXML: `<test xmlns="outerns" int="10"></test>`,
@@ -2433,6 +2433,126 @@ func TestIsValidDirective(t *testing.T) {
 			t.Errorf("Directive %q is expected to be invalid", s)
 		}
 	}
+}
+
+func TestIssue10538(t *testing.T) {
+	type element struct {
+		XMLName  Name
+		Children []interface{}
+	}
+
+	type svgstr struct {
+		element
+		Height string `xml:"height,attr,omitempty"`
+		Width  string `xml:"width,attr,omitempty"`
+	}
+
+	type svgstr2 struct {
+		XMLName  Name
+		Children []interface{}
+		Height   string `xml:"height,attr,omitempty"`
+		Width    string `xml:"width,attr,omitempty"`
+	}
+
+	s := svgstr{
+		element: element{XMLName: Name{Local: "svg", Space: "www.etc"}},
+		Width:   "400",
+		Height:  "200",
+	}
+
+	got, err := MarshalIndent(s, "", " ")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	s2 := svgstr2{
+		XMLName: Name{Local: "svg", Space: "www.etc"},
+		Width:   "400",
+		Height:  "200",
+	}
+
+	want, err := MarshalIndent(s2, "", " ")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if !bytes.Equal(got, want) {
+		t.Errorf("got '%s', want '%s'", got, want)
+	}
+}
+
+// Field IQ is a struct with variable name.
+func TestIssue16497_varname(t *testing.T) {
+
+	type IQ struct {
+		Type    string `xml:"type,attr"`
+		XMLName Name   `xml:"iq"`
+	}
+
+	type embedIQ struct {
+		IQ IQ
+	}
+	var respEmbed embedIQ
+
+	// Anonymous struct
+	resp := struct {
+		IQ IQ
+	}{}
+
+	var err error
+	err = Unmarshal([]byte(`<iq/>`), &respEmbed)
+	if err != nil {
+		t.Fatalf("unmarshal anonymous struct failed with %s", err)
+	}
+	err = Unmarshal([]byte(`<iq/>`), &resp)
+	if err != nil {
+		t.Fatalf("unmarshal anonymous struct failed with %s", err)
+	}
+	if respEmbed.IQ.Type != resp.IQ.Type {
+		t.Errorf("%s %s", respEmbed.IQ.Type, resp.IQ.Type)
+	}
+	if respEmbed.IQ.XMLName != resp.IQ.XMLName {
+		t.Errorf("%s %s", respEmbed.IQ.XMLName, resp.IQ.XMLName)
+	}
+	// No namespace
+	t.Logf("%s %s", respEmbed.IQ.XMLName, resp.IQ.XMLName)
+}
+
+// Field IQ is a struct without variable name
+func TestIssue16497_novarname(t *testing.T) {
+
+	type IQ struct {
+		Type    string `xml:"type,attr"`
+		XMLName Name   `xml:"iq"`
+	}
+
+	type embedIQ struct {
+		IQ
+	}
+	var respEmbed embedIQ
+
+	// Anonymous struct
+	resp := struct {
+		IQ
+	}{}
+
+	var err error
+	err = Unmarshal([]byte(`<iq/>`), &respEmbed)
+	if err != nil {
+		t.Fatalf("unmarshal anonymous struct failed with %s", err)
+	}
+	err = Unmarshal([]byte(`<iq/>`), &resp)
+	if err != nil {
+		t.Fatalf("unmarshal anonymous struct failed with %s", err)
+	}
+	if respEmbed.IQ.Type != resp.Type {
+		t.Errorf("%s %s", respEmbed.IQ.Type, resp.IQ.Type)
+	}
+	if respEmbed.IQ.XMLName != resp.XMLName {
+		t.Errorf("%s %s", respEmbed.IQ.XMLName, resp.IQ.XMLName)
+	}
+	// Namespace is `IQ`
+	t.Logf("%s %s", resp.XMLName, respEmbed.IQ.XMLName)
 }
 
 // Issue 11719. EncodeToken used to silently eat tokens with an invalid type.
