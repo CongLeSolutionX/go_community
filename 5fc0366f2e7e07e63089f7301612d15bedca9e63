@@ -89,6 +89,23 @@
       "message": "Thanks!",
       "revId": "5fc0366f2e7e07e63089f7301612d15bedca9e63",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "027df10f_e9412726",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-07-19T16:07:23Z",
+      "side": 1,
+      "message": "This will be obsolete if CL 417814 is submitted.",
+      "revId": "5fc0366f2e7e07e63089f7301612d15bedca9e63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
