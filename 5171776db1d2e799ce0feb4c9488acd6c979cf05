@@ -73,6 +73,40 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b01d274e_6e6ce1d4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-07-20T07:32:18Z",
+      "side": 1,
+      "message": "I\u0027m OK with the wording here, if not with what\u0027s going on. It\u0027s creepy to have an expression that is sometimes constant. But them\u0027s the breaks, I guess.\n\n",
+      "revId": "5171776db1d2e799ce0feb4c9488acd6c979cf05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ae1cd9e_431005fd",
+        "filename": "src/unsafe/unsafe.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-07-20T07:32:18Z",
+      "side": 1,
+      "message": "Stop the sentence at \"size\" and make the parenthetical a standalone sentence, but keep the parens. Makes it a little easier to read.\n\nI\u0027d like to find a cleaner definition but can\u0027t come up with one. I think you can drop \"or fields\", though.\n\nOptional but recommended: Put the definition of variable sized types in one place and just refer to it in the others:\nSee the description of Sizeof for a definition of variable sized types.",
+      "revId": "5171776db1d2e799ce0feb4c9488acd6c979cf05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b8df89ed_b64dc9f0",
