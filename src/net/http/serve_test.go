@@ -6855,3 +6855,61 @@ func testParseFormCleanup(t *testing.T, h2 bool) {
 		t.Errorf("file %q exists after HTTP handler returned", string(fname))
 	}
 }
+
+func TestHeadBody(t *testing.T) {
+	const identityMode = false
+	const chunkedMode = true
+	t.Run("h1", func(t *testing.T) {
+		t.Run("identity", func(t *testing.T) { testHeadBody(t, h1Mode, identityMode) })
+		t.Run("chunked", func(t *testing.T) { testHeadBody(t, h1Mode, chunkedMode) })
+	})
+	t.Run("h2", func(t *testing.T) {
+		t.Skip("https://go.dev/issue/53960: disabled until HTTP/2 fix imported from x/net")
+		t.Run("identity", func(t *testing.T) { testHeadBody(t, h2Mode, identityMode) })
+		t.Run("chunked", func(t *testing.T) { testHeadBody(t, h2Mode, chunkedMode) })
+	})
+}
+
+func testHeadBody(t *testing.T, h2, chunked bool) {
+	setParallel(t)
+	defer afterTest(t)
+	cst := newClientServerTest(t, h2, HandlerFunc(func(w ResponseWriter, r *Request) {
+		b, err := io.ReadAll(r.Body)
+		if err != nil {
+			t.Errorf("server reading body: %v", err)
+			return
+		}
+		w.Header().Set("X-Request-Body", string(b))
+		w.Header().Set("Content-Length", "0")
+	}))
+	defer cst.close()
+	for _, reqBody := range []string{
+		"",
+		"",
+		"request_body",
+		"",
+	} {
+		var bodyReader io.Reader
+		if reqBody != "" {
+			bodyReader = strings.NewReader(reqBody)
+			if chunked {
+				bodyReader = bufio.NewReader(bodyReader)
+			}
+		}
+		req, err := NewRequest("HEAD", cst.ts.URL, bodyReader)
+		if err != nil {
+			t.Fatal(err)
+		}
+		res, err := cst.c.Do(req)
+		if err != nil {
+			t.Fatal(err)
+		}
+		res.Body.Close()
+		if got, want := res.StatusCode, 200; got != want {
+			t.Errorf("head request with %d-byte body: StatusCode = %v, want %v", len(reqBody), got, want)
+		}
+		if got, want := res.Header.Get("X-Request-Body"), reqBody; got != want {
+			t.Errorf("head request with %d-byte body: handler read body %q, want %q", len(reqBody), got, want)
+		}
+	}
+}
