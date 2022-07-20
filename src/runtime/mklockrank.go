@@ -155,6 +155,7 @@ mheap, mheapSpecial < globalAlloc;
 
 # Execution tracer events (with a P)
 hchan,
+  mheap,
   root,
   sched,
   traceStrings,
