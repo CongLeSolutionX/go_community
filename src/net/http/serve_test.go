@@ -6855,3 +6855,47 @@ func testParseFormCleanup(t *testing.T, h2 bool) {
 		t.Errorf("file %q exists after HTTP handler returned", string(fname))
 	}
 }
+
+func TestHeadBody(t *testing.T) {
+	const identityMode = false
+	const chunkedMode = true
+	t.Run("h1", func(t *testing.T) {
+		t.Run("identity", func(t *testing.T) { testHeadBody(t, h1Mode, identityMode) })
+		t.Run("chunked", func(t *testing.T) { testHeadBody(t, h1Mode, chunkedMode) })
+	})
+	t.Run("h2", func(t *testing.T) {
+		t.Skip("https://go.dev/issue/53960: disabled until HTTP/2 fix imported from x/net")
+		t.Run("identity", func(t *testing.T) { testHeadBody(t, h2Mode, identityMode) })
+		t.Run("chunked", func(t *testing.T) { testHeadBody(t, h2Mode, chunkedMode) })
+	})
+}
+
+func testHeadBody(t *testing.T, h2, chunked bool) {
+	setParallel(t)
+	defer afterTest(t)
+	const reqBody = "request_body"
+	cst := newClientServerTest(t, h2, HandlerFunc(func(w ResponseWriter, r *Request) {
+		b, err := io.ReadAll(r.Body)
+		if err != nil {
+			t.Errorf("server reading body: %v", err)
+			return
+		}
+		if got, want := string(b), reqBody; got != want {
+			t.Errorf("server got request body %q, want %q", got, want)
+		}
+	}))
+	defer cst.close()
+	var body io.Reader = strings.NewReader(reqBody)
+	if chunked {
+		body = bufio.NewReader(body)
+	}
+	req, err := NewRequest("HEAD", cst.ts.URL, body)
+	if err != nil {
+		t.Fatal(err)
+	}
+	res, err := cst.c.Do(req)
+	if err != nil {
+		t.Error(err)
+	}
+	res.Body.Close()
+}
