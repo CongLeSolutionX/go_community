@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "419274cb_67481152",
+        "filename": "src/debug/buildinfo/buildinfo.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 34895
+      },
+      "writtenOn": "2022-07-20T16:16:32Z",
+      "side": 1,
+      "message": "Just noticed: s/aoutExe/plan9objExe/",
+      "revId": "af272e80426d9742157e355ce5c7f5a6fefd6551",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
