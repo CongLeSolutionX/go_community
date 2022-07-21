@@ -108,7 +108,13 @@ DATA	runtime·mainPC+0(SB)/8,$runtime·main<ABIInternal>(SB)
 GLOBL	runtime·mainPC(SB),RODATA,$8
 
 TEXT runtime·breakpoint(SB),NOSPLIT|NOFRAME,$0-0
+#ifdef GOOS_windows
+	// Windows ARM64 needs an inmediate 0xf000 argument.
+	// See go.dev/issues/53837.
+	BRK	$0xf000
+#else
 	BRK
+#endif
 	RET
 
 TEXT runtime·asminit(SB),NOSPLIT|NOFRAME,$0-0
@@ -1325,7 +1331,7 @@ TEXT runtime·debugCallV2<ABIInternal>(SB),NOSPLIT|NOFRAME,$0-0
 	// Set R20 to 8 and invoke BRK. The debugger should get the
 	// reason a call can't be injected from SP+8 and resume execution.
 	MOVD	$8, R20
-	BRK
+	BL	runtime·breakpoint(SB)
 	JMP	restore
 
 good:
@@ -1374,7 +1380,7 @@ good:
 	MOVD	$20, R0
 	MOVD	R0, 16(RSP) // length of debugCallFrameTooLarge string
 	MOVD	$8, R20
-	BRK
+	BL	runtime·breakpoint(SB)
 	JMP	restore
 
 restore:
@@ -1383,7 +1389,7 @@ restore:
 	// Set R20 to 16 and invoke BRK. The debugger should restore
 	// all registers except for PC and RSP and resume execution.
 	MOVD	$16, R20
-	BRK
+	BL	runtime·breakpoint(SB)
 	// We must not modify flags after this point.
 
 	// Restore pointer-containing registers, which may have been
@@ -1412,11 +1418,11 @@ restore:
 // DEBUG_CALL_FN macro are safe points to inject calls.
 #define DEBUG_CALL_FN(NAME,MAXSIZE)		\
 TEXT NAME(SB),WRAPPER,$MAXSIZE-0;		\
-	NO_LOCAL_POINTERS;		\
-	MOVD	$0, R20;		\
-	BRK;		\
-	MOVD	$1, R20;		\
-	BRK;		\
+	NO_LOCAL_POINTERS;			\
+	MOVD	$0, R20;			\
+	BL	runtime·breakpoint(SB);		\
+	MOVD	$1, R20;			\
+	BL	runtime·breakpoint(SB);		\
 	RET
 DEBUG_CALL_FN(debugCall32<>, 32)
 DEBUG_CALL_FN(debugCall64<>, 64)
@@ -1439,7 +1445,7 @@ TEXT runtime·debugCallPanicked(SB),NOSPLIT,$16-16
 	MOVD	val_data+8(FP), R0
 	MOVD	R0, 16(RSP)
 	MOVD	$2, R20
-	BRK
+	BL	runtime·breakpoint(SB)
 	RET
 
 // Note: these functions use a special calling convention to save generated code space.
