@@ -108,7 +108,13 @@ DATA	runtime·mainPC+0(SB)/8,$runtime·main<ABIInternal>(SB)
 GLOBL	runtime·mainPC(SB),RODATA,$8
 
 TEXT runtime·breakpoint(SB),NOSPLIT|NOFRAME,$0-0
+#ifdef GOOS_windows
+	// Windows ARM64 needs an inmediate 0xf000 argument.
+	// See go.dev/issues/53837.
+	BRK	$0xf000
+#else
 	BRK
+#endif
 	RET
 
 TEXT runtime·asminit(SB),NOSPLIT|NOFRAME,$0-0
