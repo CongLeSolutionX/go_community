@@ -116,6 +116,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "1e4d28a5_36a777b7",
+        "filename": "src/runtime/mklockrank.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-07-21T21:47:42Z",
+      "side": 1,
+      "message": "Done in CL 418718.",
+      "parentUuid": "fedf2d1e_c589f8e6",
+      "revId": "50b9a6ddb2cef6d186dc721909c86b798414957a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "cb134a41_9432ab1f",
         "filename": "src/runtime/mklockrank.go",
         "patchSetId": 2
@@ -127,6 +145,24 @@
       "writtenOn": "2022-07-21T21:38:44Z",
       "side": 1,
       "message": "nit: I wonder if some of these should be split for readability.\n\nI\u0027d find this easier to think about:\n\n```\nrwmutexW \u003c rwmutexR;\nsysmon \u003c rwmutexR;\n```",
+      "revId": "50b9a6ddb2cef6d186dc721909c86b798414957a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f3afffc_d26e4aca",
+        "filename": "src/runtime/mklockrank.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-07-21T21:47:42Z",
+      "side": 1,
+      "message": "I\u0027ll comment on CL 418718 if this needs more work.",
+      "parentUuid": "cb134a41_9432ab1f",
       "revId": "50b9a6ddb2cef6d186dc721909c86b798414957a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
