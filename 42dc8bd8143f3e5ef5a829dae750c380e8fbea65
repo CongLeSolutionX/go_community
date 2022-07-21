@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cded41ea_3ec01d70",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-07-21T19:06:20Z",
+      "side": 1,
+      "message": "LGTM, thanks.",
+      "revId": "42dc8bd8143f3e5ef5a829dae750c380e8fbea65",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3162974d_64abf61c",
+        "filename": "src/runtime/asm_arm64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-07-21T19:06:20Z",
+      "side": 1,
+      "message": "Minor: use tab between instruction name and operand.",
+      "range": {
+        "startLine": 112,
+        "startChar": 4,
+        "endLine": 112,
+        "endChar": 5
+      },
+      "revId": "42dc8bd8143f3e5ef5a829dae750c380e8fbea65",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "031b3686_21e75195",
+        "filename": "src/runtime/asm_arm64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-07-21T19:06:20Z",
+      "side": 1,
+      "message": "Maybe add a comment, possibly link to the Windows document you mentioned.",
+      "revId": "42dc8bd8143f3e5ef5a829dae750c380e8fbea65",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
