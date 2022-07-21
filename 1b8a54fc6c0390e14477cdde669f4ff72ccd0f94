@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0d6d854_99214b40",
+        "filename": "src/runtime/lockrank_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-07-21T21:38:44Z",
+      "side": 0,
+      "message": "Could we add a test that fails if the graph is changed without running mklockrank?",
+      "revId": "1b8a54fc6c0390e14477cdde669f4ff72ccd0f94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
