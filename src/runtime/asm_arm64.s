@@ -108,7 +108,11 @@ DATA	runtime·mainPC+0(SB)/8,$runtime·main<ABIInternal>(SB)
 GLOBL	runtime·mainPC(SB),RODATA,$8
 
 TEXT runtime·breakpoint(SB),NOSPLIT|NOFRAME,$0-0
+#ifdef GOOS_windows
+	BRK $0xf000
+#else
 	BRK
+#endif
 	RET
 
 TEXT runtime·asminit(SB),NOSPLIT|NOFRAME,$0-0
