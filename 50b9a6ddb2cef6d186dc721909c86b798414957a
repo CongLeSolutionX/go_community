@@ -74,6 +74,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e0a4920_bd7af1c2",
+        "filename": "src/internal/dag/alg.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-07-22T19:46:05Z",
+      "side": 1,
+      "message": "I added some parsing smoke tests to CL 418593 and added a few algorithm tests to this CL.",
+      "parentUuid": "a746b349_1abc55d7",
+      "revId": "50b9a6ddb2cef6d186dc721909c86b798414957a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c676444b_1df983c0",
@@ -87,6 +105,30 @@
       "writtenOn": "2022-07-21T21:38:44Z",
       "side": 1,
       "message": "lockWithRank",
+      "range": {
+        "startLine": 29,
+        "startChar": 45,
+        "endLine": 29,
+        "endChar": 57
+      },
+      "revId": "50b9a6ddb2cef6d186dc721909c86b798414957a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b67dfc41_7173b400",
+        "filename": "src/runtime/lockrank_on.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-07-22T19:46:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c676444b_1df983c0",
       "range": {
         "startLine": 29,
         "startChar": 45,

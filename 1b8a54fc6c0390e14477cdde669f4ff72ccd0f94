@@ -16,6 +16,24 @@
       "message": "Could we add a test that fails if the graph is changed without running mklockrank?",
       "revId": "1b8a54fc6c0390e14477cdde669f4ff72ccd0f94",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f15041a8_cd02a6da",
+        "filename": "src/runtime/lockrank_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-07-22T19:46:05Z",
+      "side": 0,
+      "message": "You mean like if you change mklockrank but forget to run go generate? Did you have something better in mind than running mklockrank from a test and checking that the generated source file is right?",
+      "parentUuid": "f0d6d854_99214b40",
+      "revId": "1b8a54fc6c0390e14477cdde669f4ff72ccd0f94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
