@@ -16,6 +16,24 @@
       "message": "It can\u0027t be a function call, it would change the protocol. It could be a macro.",
       "revId": "2b166dc46d9b4af9a9cbe9410a1627961d3054a9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77285464_9187ab4e",
+        "filename": "src/runtime/asm_arm64.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 1334,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2022-07-22T15:18:55Z",
+      "side": 1,
+      "message": "I\u0027m a newbie in this area. What do you need by change the protocol? Will use a macro anyway.",
+      "parentUuid": "b0fcc807_fd9f7208",
+      "revId": "2b166dc46d9b4af9a9cbe9410a1627961d3054a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
