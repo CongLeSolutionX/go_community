@@ -3089,7 +3089,6 @@ const (
 	OpFwdRef
 	OpUnknown
 	OpVarDef
-	OpVarKill
 	OpVarLive
 	OpKeepAlive
 	OpInlMark
@@ -39153,13 +39152,6 @@ var opcodeTable = [...]opInfo{
 		auxType:   auxSym,
 		argLen:    1,
 		zeroWidth: true,
-		symEffect: SymNone,
-		generic:   true,
-	},
-	{
-		name:      "VarKill",
-		auxType:   auxSym,
-		argLen:    1,
 		symEffect: SymNone,
 		generic:   true,
 	},
