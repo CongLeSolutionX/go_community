@@ -63,51 +63,6 @@ struct sockaddr_any {
 	struct sockaddr addr;
 	char pad[sizeof(union sockaddr_all) - sizeof(struct sockaddr)];
 };
-
-// This structure is a duplicate of if_data on FreeBSD 8-STABLE.
-// See /usr/include/net/if.h.
-struct if_data8 {
-	u_char  ifi_type;
-	u_char  ifi_physical;
-	u_char  ifi_addrlen;
-	u_char  ifi_hdrlen;
-	u_char  ifi_link_state;
-	u_char  ifi_spare_char1;
-	u_char  ifi_spare_char2;
-	u_char  ifi_datalen;
-	u_long  ifi_mtu;
-	u_long  ifi_metric;
-	u_long  ifi_baudrate;
-	u_long  ifi_ipackets;
-	u_long  ifi_ierrors;
-	u_long  ifi_opackets;
-	u_long  ifi_oerrors;
-	u_long  ifi_collisions;
-	u_long  ifi_ibytes;
-	u_long  ifi_obytes;
-	u_long  ifi_imcasts;
-	u_long  ifi_omcasts;
-	u_long  ifi_iqdrops;
-	u_long  ifi_noproto;
-	u_long  ifi_hwassist;
-// FIXME: these are now unions, so maybe need to change definitions?
-#undef ifi_epoch
-	time_t  ifi_epoch;
-#undef ifi_lastchange
-	struct  timeval ifi_lastchange;
-};
-
-// This structure is a duplicate of if_msghdr on FreeBSD 8-STABLE.
-// See /usr/include/net/if.h.
-struct if_msghdr8 {
-	u_short ifm_msglen;
-	u_char  ifm_version;
-	u_char  ifm_type;
-	int     ifm_addrs;
-	int     ifm_flags;
-	u_short ifm_index;
-	struct  if_data8 ifm_data;
-};
 */
 import "C"
 
@@ -264,10 +219,8 @@ type FdSet C.fd_set
 // Routing and interface messages
 
 const (
-	sizeofIfMsghdr         = C.sizeof_struct_if_msghdr
-	SizeofIfMsghdr         = C.sizeof_struct_if_msghdr8
-	sizeofIfData           = C.sizeof_struct_if_data
-	SizeofIfData           = C.sizeof_struct_if_data8
+	SizeofIfMsghdr         = C.sizeof_struct_if_msghdr
+	SizeofIfData           = C.sizeof_struct_if_data
 	SizeofIfaMsghdr        = C.sizeof_struct_ifa_msghdr
 	SizeofIfmaMsghdr       = C.sizeof_struct_ifma_msghdr
 	SizeofIfAnnounceMsghdr = C.sizeof_struct_if_announcemsghdr
@@ -275,13 +228,9 @@ const (
 	SizeofRtMetrics        = C.sizeof_struct_rt_metrics
 )
 
-type ifMsghdr C.struct_if_msghdr
+type IfMsghdr C.struct_if_msghdr
 
-type IfMsghdr C.struct_if_msghdr8
-
-type ifData C.struct_if_data
-
-type IfData C.struct_if_data8
+type IfData C.struct_if_data
 
 type IfaMsghdr C.struct_ifa_msghdr
 

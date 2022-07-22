@@ -285,10 +285,8 @@ type IPv6Mreq struct {
 type Msghdr struct {
 	Name       *byte
 	Namelen    uint32
-	Pad_cgo_0  [4]byte
 	Iov        *Iovec
 	Iovlen     int32
-	Pad_cgo_1  [4]byte
 	Control    *byte
 	Controllen uint32
 	Flags      int32
@@ -351,9 +349,7 @@ type FdSet struct {
 }
 
 const (
-	sizeofIfMsghdr         = 0xa8
 	SizeofIfMsghdr         = 0xa8
-	sizeofIfData           = 0x98
 	SizeofIfData           = 0x98
 	SizeofIfaMsghdr        = 0x14
 	SizeofIfmaMsghdr       = 0x10
@@ -362,103 +358,64 @@ const (
 	SizeofRtMetrics        = 0x70
 )
 
-type ifMsghdr struct {
-	Msglen    uint16
-	Version   uint8
-	Type      uint8
-	Addrs     int32
-	Flags     int32
-	Index     uint16
-	Pad_cgo_0 [2]byte
-	Data      ifData
-}
-
 type IfMsghdr struct {
-	Msglen    uint16
-	Version   uint8
-	Type      uint8
-	Addrs     int32
-	Flags     int32
-	Index     uint16
-	Pad_cgo_0 [2]byte
-	Data      IfData
-}
-
-type ifData struct {
-	Type        uint8
-	Physical    uint8
-	Addrlen     uint8
-	Hdrlen      uint8
-	Link_state  uint8
-	Vhid        uint8
-	Baudrate_pf uint8
-	Datalen     uint8
-	Mtu         uint64
-	Metric      uint64
-	Baudrate    uint64
-	Ipackets    uint64
-	Ierrors     uint64
-	Opackets    uint64
-	Oerrors     uint64
-	Collisions  uint64
-	Ibytes      uint64
-	Obytes      uint64
-	Imcasts     uint64
-	Omcasts     uint64
-	Iqdrops     uint64
-	Noproto     uint64
-	Hwassist    uint64
-	Epoch       int64
-	Lastchange  Timeval
+	Msglen       uint16
+	Version      uint8
+	Type         uint8
+	Addrs        int32
+	Flags        int32
+	Index        uint16
+	X_ifm_spare1 uint16
+	Data         IfData
 }
 
 type IfData struct {
-	Type        uint8
-	Physical    uint8
-	Addrlen     uint8
-	Hdrlen      uint8
-	Link_state  uint8
-	Spare_char1 uint8
-	Spare_char2 uint8
-	Datalen     uint8
-	Mtu         uint64
-	Metric      uint64
-	Baudrate    uint64
-	Ipackets    uint64
-	Ierrors     uint64
-	Opackets    uint64
-	Oerrors     uint64
-	Collisions  uint64
-	Ibytes      uint64
-	Obytes      uint64
-	Imcasts     uint64
-	Omcasts     uint64
-	Iqdrops     uint64
-	Noproto     uint64
-	Hwassist    uint64
-	Epoch       int64
-	Lastchange  Timeval
+	Type              uint8
+	Physical          uint8
+	Addrlen           uint8
+	Hdrlen            uint8
+	Link_state        uint8
+	Vhid              uint8
+	Datalen           uint16
+	Mtu               uint32
+	Metric            uint32
+	Baudrate          uint64
+	Ipackets          uint64
+	Ierrors           uint64
+	Opackets          uint64
+	Oerrors           uint64
+	Collisions        uint64
+	Ibytes            uint64
+	Obytes            uint64
+	Imcasts           uint64
+	Omcasts           uint64
+	Iqdrops           uint64
+	Oqdrops           uint64
+	Noproto           uint64
+	Hwassist          uint64
+	X__ifi_epoch      [8]byte
+	X__ifi_lastchange [16]byte
 }
 
 type IfaMsghdr struct {
-	Msglen    uint16
-	Version   uint8
-	Type      uint8
-	Addrs     int32
-	Flags     int32
-	Index     uint16
-	Pad_cgo_0 [2]byte
-	Metric    int32
+	Msglen        uint16
+	Version       uint8
+	Type          uint8
+	Addrs         int32
+	Flags         int32
+	Index         uint16
+	X_ifam_spare1 uint16
+	Metric        int32
 }
 
 type IfmaMsghdr struct {
-	Msglen    uint16
-	Version   uint8
-	Type      uint8
-	Addrs     int32
-	Flags     int32
-	Index     uint16
-	Pad_cgo_0 [2]byte
+	Msglen         uint16
+	Version        uint8
+	Type           uint8
+	Addrs          int32
+	Flags          int32
+	Index          uint16
+	X_ifmam_spare1 uint16
 }
 
 type IfAnnounceMsghdr struct {
@@ -471,19 +428,19 @@ type IfAnnounceMsghdr struct {
 }
 
 type RtMsghdr struct {
-	Msglen    uint16
-	Version   uint8
-	Type      uint8
-	Index     uint16
-	Pad_cgo_0 [2]byte
-	Flags     int32
-	Addrs     int32
-	Pid       int32
-	Seq       int32
-	Errno     int32
-	Fmask     int32
-	Inits     uint64
-	Rmx       RtMetrics
+	Msglen       uint16
+	Version      uint8
+	Type         uint8
+	Index        uint16
+	X_rtm_spare1 uint16
+	Flags        int32
+	Addrs        int32
+	Pid          int32
+	Seq          int32
+	Errno        int32
+	Fmask        int32
+	Inits        uint64
+	Rmx          RtMetrics
 }
 
 type RtMetrics struct {
@@ -498,7 +455,8 @@ type RtMetrics struct {
 	Rttvar   uint64
 	Pksent   uint64
 	Weight   uint64
-	Filler   [3]uint64
+	Nhidx    uint64
+	Filler   [2]uint64
 }
 
 const (
@@ -528,9 +486,8 @@ type BpfZbuf struct {
 }
 
 type BpfProgram struct {
-	Len       uint32
-	Pad_cgo_0 [4]byte
-	Insns     *BpfInsn
+	Len   uint32
+	Insns *BpfInsn
 }
 
 type BpfInsn struct {

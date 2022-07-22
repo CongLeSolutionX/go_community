@@ -47,6 +47,11 @@ func (any *anyMessage) toRoutingMessage(b []byte) RoutingMessage {
 	return nil
 }
 
+func (any *anyMessage) parseInterfaceMessage(b []byte) *InterfaceMessage {
+	p := (*InterfaceMessage)(unsafe.Pointer(any))
+	return &InterfaceMessage{Header: p.Header, Data: b[int(unsafe.Offsetof(p.Header.Data))+int(p.Header.Data.Datalen) : any.Msglen]}
+}
+
 // InterfaceAnnounceMessage represents a routing message containing
 // network interface arrival and departure information.
 //
