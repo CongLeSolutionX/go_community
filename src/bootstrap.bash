@@ -81,7 +81,7 @@ fi
 
 if [ "$BOOTSTRAP_FORMAT" = "mintgz" ]; then
 	# Fetch git revision before rm -rf .git.
-	GITREV=$(git rev-parse --short HEAD)
+	GITREV=$(git describe --tags HEAD)
 fi
 
 rm -rf pkg/bootstrap pkg/obj .git
