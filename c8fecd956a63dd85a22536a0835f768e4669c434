@@ -16,6 +16,24 @@
       "message": "Thanks, but I think this makes the code harder to understand.  In particular the change of n is somewhat hidden.\n\nAs a general guideline we prefer to leave existing, working, code alone.  Any changes are far more likely to break the code than improve it.  We only want to change working code when the new code is significantly better.  Thanks.",
       "revId": "c8fecd956a63dd85a22536a0835f768e4669c434",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c48b5c61_b2135995",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 58280
+      },
+      "writtenOn": "2022-07-23T07:52:37Z",
+      "side": 1,
+      "message": "I understand. Thank you for your reply.",
+      "parentUuid": "de39eae6_260df40a",
+      "revId": "c8fecd956a63dd85a22536a0835f768e4669c434",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
