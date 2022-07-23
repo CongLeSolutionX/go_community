@@ -88,6 +88,24 @@
       "parentUuid": "972d8c3b_457db035",
       "revId": "8af842e88939883fc215e9655ec6243f4a23d6ac",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fca517e4_cd39d842",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5781
+      },
+      "writtenOn": "2022-07-23T12:09:56Z",
+      "side": 1,
+      "message": "It\u0027s not just about freebsd/riscv64. These are stale left-over cruft even on all currently supported freebsd GOARCHes.\nBut I think it\u0027s enough to create empty structs and counterpart 0 value *Size consts just for it to compile.\nNobody is supposed to be using syscall.IfmaMsghdr for eg. anyway. IMHO it\u0027d be better getting a panic instead.",
+      "parentUuid": "d9eb8df3_cb906ea7",
+      "revId": "8af842e88939883fc215e9655ec6243f4a23d6ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
