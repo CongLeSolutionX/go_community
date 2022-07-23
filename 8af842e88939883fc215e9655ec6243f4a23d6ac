@@ -70,6 +70,24 @@
       "message": "I explicitly left those in because syscall is frozen. The 64-bit inodes change was special-cased because the code is/was also used by the runtime and had to be modified.\nBut these structs are different, similar to the now incompatible Kevent struct (runtime had always used a private type for it).",
       "revId": "8af842e88939883fc215e9655ec6243f4a23d6ac",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9eb8df3_cb906ea7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31976
+      },
+      "writtenOn": "2022-07-23T11:46:52Z",
+      "side": 1,
+      "message": "The upcoming freebsd/riscv64 port doesn\u0027t support anything earlier than FreeBSD 12 (there\u0027s no pre-12 compat code in the kernel) so these definitions do not make sense on freebsd/riscv64. We can remove these only in riscv64 code, but then the API surface would be different between archs.",
+      "parentUuid": "972d8c3b_457db035",
+      "revId": "8af842e88939883fc215e9655ec6243f4a23d6ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
