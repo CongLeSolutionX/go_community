@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11050b55_5424d953",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-07-25T17:05:55Z",
+      "side": 0,
+      "message": "Any sense of how much stack this takes now? Are we worried about blowing out the stack if we\u0027re already up against the limit?",
+      "revId": "0a171cc0750a2dbb22d90afb5757ebd980e954e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb82b8cd_41fa8b30",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-07-25T17:05:55Z",
+      "side": 0,
+      "message": "For consistency, could we instead clear SPWRITE and _TraceBadStack up here?",
+      "revId": "0a171cc0750a2dbb22d90afb5757ebd980e954e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
