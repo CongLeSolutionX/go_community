@@ -16,6 +16,24 @@
       "message": "Comment needs updating? Is is just a cached version of DebugHashMatch at this point.",
       "revId": "774fa58d1d3c9926709e108afdf83af7010bde72",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0cf21df_3f07abbe",
+        "filename": "src/cmd/compile/internal/ssa/func.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-07-25T21:01:17Z",
+      "side": 0,
+      "message": "I decided to delete it, just use (*ssa.Func).DebugHashMatch() instead.",
+      "parentUuid": "4747e0c3_8eacb966",
+      "revId": "774fa58d1d3c9926709e108afdf83af7010bde72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

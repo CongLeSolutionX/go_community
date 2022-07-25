@@ -61,6 +61,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3500555_e4317115",
+        "filename": "src/cmd/compile/internal/base/hashdebug.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-07-25T21:01:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3fa1eae_0c22a230",
+      "range": {
+        "startLine": 74,
+        "startChar": 31,
+        "endLine": 74,
+        "endChar": 46
+      },
+      "revId": "0d19960f637f42f692b0c8f5fa52668a5caf0d77",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "12310518_120ed0bc",
@@ -78,6 +102,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "98a18b64_4a532dec",
+        "filename": "src/cmd/compile/internal/base/hashdebug.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-07-25T21:01:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12310518_120ed0bc",
+      "revId": "0d19960f637f42f692b0c8f5fa52668a5caf0d77",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "38393cf3_d4ba5a43",
@@ -91,6 +133,24 @@
       "writtenOn": "2022-07-22T20:34:04Z",
       "side": 1,
       "message": "I think this doc comment needs updating / removing. Just a pointer to the base version, maybe?",
+      "revId": "0d19960f637f42f692b0c8f5fa52668a5caf0d77",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b2f979a_13ba4973",
+        "filename": "src/cmd/compile/internal/ssa/func.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 812,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-07-25T21:01:17Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "38393cf3_d4ba5a43",
       "revId": "0d19960f637f42f692b0c8f5fa52668a5caf0d77",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
