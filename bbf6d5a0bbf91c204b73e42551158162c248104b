@@ -16,6 +16,23 @@
       "message": "Would you mind telling me more about why needsSniff will be removed?",
       "revId": "bbf6d5a0bbf91c204b73e42551158162c248104b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fbbaa25a_47aae3e6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 56538
+      },
+      "writtenOn": "2022-07-25T06:47:02Z",
+      "side": 1,
+      "message": "I noticed that this is an unexported method, and a grep search revealed that it is not being used anywhere else.",
+      "revId": "bbf6d5a0bbf91c204b73e42551158162c248104b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
