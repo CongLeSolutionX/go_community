@@ -78,6 +78,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b04c1b11_7133e4d4",
+        "filename": "misc/cgo/testcarchive/carchive_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 621,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-07-25T21:29:34Z",
+      "side": 1,
+      "message": "I think the runtime is doing something that is at least plausible, and in any case we don\u0027t want to change its behavior for 1.19.  Expanded the comment.",
+      "parentUuid": "cb61b07b_6d55dcdd",
+      "range": {
+        "startLine": 619,
+        "startChar": 0,
+        "endLine": 621,
+        "endChar": 45
+      },
+      "revId": "718ce5ad137341763aa911c38f19d59d643d46c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d5d551bb_e959ff35",
@@ -91,6 +115,30 @@
       "writtenOn": "2022-07-25T15:21:40Z",
       "side": 1,
       "message": "(typo) `Block function`",
+      "range": {
+        "startLine": 666,
+        "startChar": 39,
+        "endLine": 666,
+        "endChar": 52
+      },
+      "revId": "718ce5ad137341763aa911c38f19d59d643d46c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec6e5641_2a89b7c3",
+        "filename": "misc/cgo/testcarchive/carchive_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 666,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-07-25T21:29:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d5d551bb_e959ff35",
       "range": {
         "startLine": 666,
         "startChar": 39,
@@ -131,6 +179,48 @@
       "writtenOn": "2022-07-25T15:21:40Z",
       "side": 1,
       "message": "Building and linking a C binary can be expensive on some builders, and it looks like we\u0027re now building this one three times.\n\n`testMain` already creates a temporary CWD and defers its cleanup — would it make sense for this function to use a `sync.Once` to build the binary only once overall?\n\nWould that also allow the three signal-forwarding tests to be run in parallel?\n(I guess there are currently some filename collisions with `TestOsSignal` and `TestSigaltstack`. 🤔)",
+      "range": {
+        "startLine": 703,
+        "startChar": 0,
+        "endLine": 705,
+        "endChar": 46
+      },
+      "revId": "718ce5ad137341763aa911c38f19d59d643d46c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb43b060_722a2783",
+        "filename": "misc/cgo/testcarchive/carchive_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 705,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-07-25T21:29:34Z",
+      "side": 1,
+      "message": "Probably but leaving that for later.",
+      "parentUuid": "25e5e448_0425e46c",
+      "revId": "718ce5ad137341763aa911c38f19d59d643d46c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "772e4926_22c3ab2e",
+        "filename": "misc/cgo/testcarchive/carchive_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 705,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-07-25T21:29:34Z",
+      "side": 1,
+      "message": "Leaving this one for later also.  I\u0027m also puzzled by the fact that the tests remove $GOROOT/pkg.",
+      "parentUuid": "d15802a8_24967ba9",
       "range": {
         "startLine": 703,
         "startChar": 0,
