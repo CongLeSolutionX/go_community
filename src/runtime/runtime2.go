@@ -1019,6 +1019,7 @@ const (
 	_TraceRuntimeFrames = 1 << iota // include frames for internal runtime functions.
 	_TraceTrap                      // the initial PC, SP are from a trap, not a return PC from a call
 	_TraceJumpStack                 // if traceback is on a systemstack, resume trace at g that called into it
+	_TraceBadStack                  // traceback bad morestack or systemstack call, once
 )
 
 // The maximum number of frames we print for a traceback

@@ -199,7 +199,7 @@ func gentraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max in
 			// This function marks the top of the stack. Stop the traceback.
 			frame.lr = 0
 			flr = funcInfo{}
-		} else if flag&funcFlag_SPWRITE != 0 && (callback == nil || n > 0) {
+		} else if flag&funcFlag_SPWRITE != 0 && (callback == nil || n > 0) && flags&_TraceBadStack == 0 {
 			// The function we are in does a write to SP that we don't know
 			// how to encode in the spdelta table. Examples include context
 			// switch routines like runtime.gogo but also any code that switches
@@ -224,6 +224,9 @@ func gentraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max in
 			frame.lr = 0
 			flr = funcInfo{}
 		} else {
+			if flag&funcFlag_SPWRITE != 0 && flags&_TraceBadStack != 0 {
+				flags &^= _TraceBadStack // traceback through bad stack switch only once
+			}
 			var lrPtr uintptr
 			if usesLR {
 				if n == 0 && frame.sp < frame.fp || frame.lr == 0 {

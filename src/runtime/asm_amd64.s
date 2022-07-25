@@ -515,6 +515,28 @@ bad:
 	CALL	AX
 	INT	$3
 
+// func switchToCrashStack0(fn func())
+TEXT runtime·switchToCrashStack0<ABIInternal>(SB), NOSPLIT, $0-8
+	MOVQ	g_m(R14), BX // curm
+
+	// set g to gcrash
+	LEAQ	runtime·gcrash(SB), R14 // g = &gcrash
+	MOVQ	BX,	g_m(R14)            // g.m = curm
+	MOVQ	R14, m_g0(BX)           // curm.g0 = g
+	get_tls(CX)
+	MOVQ	R14, g(CX)
+
+	// switch to crashstack
+	LEAQ	runtime·crashstack+(16384-16)(SB), BX // g = &gcrash
+	MOVQ	BX, SP
+
+	// call target function
+	MOVQ	AX, DX
+	MOVQ	0(AX), AX
+	CALL	AX
+
+	// should never return
+	CALL	runtime·abort(SB)
 
 /*
  * support for morestack
