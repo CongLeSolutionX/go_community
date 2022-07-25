@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66d0ee60_2adba32f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-07-25T14:05:52Z",
+      "side": 1,
+      "message": "This change description needs more detail. We generally add a lock to fix a race condition — what race does this fix?\n\nA link to an associated issue and a regression test would be helpful.",
+      "revId": "d9a7d9154dd45f43177d55b4fc45fd6c84387f0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
