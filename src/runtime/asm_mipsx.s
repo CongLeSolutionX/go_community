@@ -633,7 +633,7 @@ TEXT ·checkASM(SB),NOSPLIT,$0-1
 // The act of CALLing gcWriteBarrier will clobber R31 (LR).
 // It does not clobber any other general-purpose registers,
 // but may clobber others (e.g., floating point registers).
-TEXT runtime·gcWriteBarrier(SB),NOSPLIT,$104
+TEXT runtime·gcWriteBarrier(SB),NOSPLIT,$108
 	// Save the registers clobbered by the fast path.
 	MOVW	R1, 100(R29)
 	MOVW	R2, 104(R29)
