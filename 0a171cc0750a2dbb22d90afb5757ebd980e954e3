@@ -105,6 +105,24 @@
       "parentUuid": "74ee0aec_e56ec326",
       "revId": "0a171cc0750a2dbb22d90afb5757ebd980e954e3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f0a76fc_798e268c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-07-26T01:48:55Z",
+      "side": 1,
+      "message": "Thanks. 1.19 is fine with me.",
+      "parentUuid": "e52c1d92_5f9eda61",
+      "revId": "0a171cc0750a2dbb22d90afb5757ebd980e954e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
