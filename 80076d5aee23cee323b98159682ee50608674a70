@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d966068_5df076a0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2022-07-27T21:13:42Z",
+      "side": 1,
+      "message": "Thanks. One minor formatting suggestion.",
+      "revId": "80076d5aee23cee323b98159682ee50608674a70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16e3f672_7e93fdc3",
+        "filename": "doc/go1.19.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2022-07-27T21:13:42Z",
+      "side": 1,
+      "message": "Consider removing the italics tag here, to match the style of this document (it tends to avoid styling).",
+      "range": {
+        "startLine": 57,
+        "startChar": 16,
+        "endLine": 57,
+        "endChar": 19
+      },
+      "revId": "80076d5aee23cee323b98159682ee50608674a70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
