@@ -53,6 +53,24 @@
       "message": "Do we really need this documentation though? ReadFrom has the exact same behavior, and it was never explicitly documented.",
       "revId": "b8d65eb32e55f4a43f8fecfbc507dd9342aaeb67",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69e44c6d_df648316",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2022-07-27T02:39:00Z",
+      "side": 1,
+      "message": "ReadFrom doesn\u0027t return a type which supports distinguishing the two forms as strongly. That is, a net.IP doesn\u0027t retain that information the same way that netip.Addr does. Basically you never depend on the len(net.IP) being 4 vs 16 to mean anything because it\u0027s such a mix of which form you\u0027ll get. That\u0027s one of the the big things that net/netip aimed to fix.",
+      "parentUuid": "7d982984_3c0c6782",
+      "revId": "b8d65eb32e55f4a43f8fecfbc507dd9342aaeb67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
