@@ -53,6 +53,24 @@
       "message": "After a few rounds of reviews I still have a hard time to see this is more maintainable. This CL adds a lot complexity, and a mix of (semi-)generated code and hand-written code. I\u0027m not sure this is the right direction. If the goal is to add  SVE support, I think we should discuss that instead. I think it is probably possible to add SVE support without the rewrite. Thanks.",
       "revId": "cd94b29118eb7cf35c4b3b516751ef7bcedcaf5f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34ecc13b_31c79ca3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-07-28T08:57:53Z",
+      "side": 1,
+      "message": "\u003e complexity\nI admit that this CL increases the code size, but I think this CL just puts the previous Prog matching work and part of the encoding work into unfolding, and this is for better modularity. The previous implementation mixed the conversion of Prog to machine IR with encoding, now we separated the two. So in fact, the encoding of machine IR is simplified. The overall framework is more modular, so I think it is simpler. Of course this is subjective.\n\n\u003e mix of (semi-)generated code and hand-written code\nI guess you are referring to the instruction table and the parameter table, and the encoding of the parameters. To be honest I would also like these to be automatically generated. Suppose there is such an automated program, what are its inputs? What can be seen outside the Arm are some PDF documents, so we can only parse this pdf document, which has no fixed format and changes with the development of ISA. To be honest, we don\u0027t have a good automation program in-house either, so I think this form of semi-automation is the most practical. We can update these two tables for a large version of the ISA, such as arm v8 to arm v9, SVE, etc. And small version updates, such as v8 to v8.1, will not have too many instructions, we can manually add some instructions. In most cases I would assume that there will be no changes to the two tables.\n\n\u003e If the goal is to add SVE support\nIn addition to SVE, there are many unsupported NEON instructions, and new instructions in the future. I can\u0027t imagine the effort of adding hundreds or thousands of SVE and NEON instructions to the existing framework. Our main goal is to reduce the effort of adding new instructions, this CL can reuse a lot of the encoding and unfolding work, which can reduce a lot of effort.\n\nThanks for your feedback, I think our goal is the same, improve the arm64 backend. The current design may not be the best, but it\u0027s the result of our internal discussions. If you have other better designs, I\u0027d be happy to make changes for it. Thanks.",
+      "parentUuid": "bdb55681_288c3e8e",
+      "revId": "cd94b29118eb7cf35c4b3b516751ef7bcedcaf5f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
