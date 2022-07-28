@@ -53,6 +53,24 @@
       "message": "nit: Could you use GOTEST instead of TESTGO as prefix?\nanything starting with GO is understood as belonging to Go.\n",
       "revId": "4ca2e18b75323ff8d6be0a639c42f22df041ce12",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96828d57_6b1003c5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-07-28T15:53:32Z",
+      "side": 1,
+      "message": "We\u0027ve been using `TESTGO` to indicate environment variables specific to the test variant of the `go` command. I don\u0027t expect these variables to ever appear outside of the `cmd/go` test suite (they aren\u0027t even read by the non-test variant of the `go` command), so there should be essentially no risk of crosstalk.",
+      "parentUuid": "90112584_caf7c286",
+      "revId": "4ca2e18b75323ff8d6be0a639c42f22df041ce12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
