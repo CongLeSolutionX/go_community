@@ -16,6 +16,23 @@
       "message": "Rebased and adjusted according to review comment.",
       "revId": "e34739108cf4621aec14477fa0c1e507a5cc411a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "17156c3f_d4a87130",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2022-07-28T13:45:27Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "e34739108cf4621aec14477fa0c1e507a5cc411a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
