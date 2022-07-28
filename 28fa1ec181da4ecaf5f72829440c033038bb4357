@@ -16,6 +16,24 @@
       "message": "Thanks.  A change like this should have a test.",
       "revId": "28fa1ec181da4ecaf5f72829440c033038bb4357",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66e1b62d_dfc6a5f3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 51238
+      },
+      "writtenOn": "2022-07-28T03:36:42Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "c148f190_8a582150",
+      "revId": "28fa1ec181da4ecaf5f72829440c033038bb4357",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
