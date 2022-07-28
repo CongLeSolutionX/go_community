@@ -34,6 +34,24 @@
       "parentUuid": "04c01a29_8a924b3f",
       "revId": "87b89bf46bebf839ca44dc903f0416527c488751",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de5c3d25_eb4fab41",
+        "filename": "doc/go1.19.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 34895
+      },
+      "writtenOn": "2022-07-28T01:38:46Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "784af247_9db5686a",
+      "revId": "87b89bf46bebf839ca44dc903f0416527c488751",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
