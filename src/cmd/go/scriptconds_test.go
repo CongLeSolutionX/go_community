@@ -40,8 +40,6 @@ func scriptConditions() map[string]script.Cond {
 	add("cross", script.BoolCondition("cmd/go GOOS/GOARCH != GOHOSTOS/GOHOSTARCH", goHostOS != runtime.GOOS || goHostArch != runtime.GOARCH))
 	add("fuzz", sysCondition("-fuzz", sys.FuzzSupported))
 	add("fuzz-instrumented", sysCondition("-fuzz with instrumentation", sys.FuzzInstrumented))
-	add("gc", script.BoolCondition(`runtime.Compiler == "gc"`, runtime.Compiler == "gc"))
-	add("gccgo", script.BoolCondition(`runtime.Compiler == "gccgo"`, runtime.Compiler == "gccgo"))
 	add("git", lazyBool("the 'git' executable exists and provides the standard CLI", hasWorkingGit))
 	add("GODEBUG", script.PrefixCondition("GODEBUG contains <suffix>", hasGodebug))
 	add("link", lazyBool("testenv.HasLink()", testenv.HasLink))
