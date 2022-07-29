@@ -20,8 +20,6 @@ import (
 // fakeLabelName matches the RISCV_FAKE_LABEL_NAME from binutils.
 const fakeLabelName = ".L0 "
 
-func gentext(ctxt *ld.Link, ldr *loader.Loader) {}
-
 func findHI20Reloc(ldr *loader.Loader, s loader.Sym, val int64) *loader.Reloc {
 	outer := ldr.OuterSym(s)
 	if outer == 0 {
@@ -158,6 +156,38 @@ func adddynrel(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loade
 	}
 
 	return false
+}
+
+func gentext(ctxt *ld.Link, ldr *loader.Loader) {
+	initfunc, addmoduledata := ld.PrepareAddmoduledata(ctxt)
+	if initfunc == nil {
+		return
+	}
+
+	o := func(op uint32) {
+		initfunc.AddUint32(ctxt.Arch, op)
+	}
+	// 0000000000000000 <local.dso_init>:
+	// 0:	0x00000f97	AUIPC 	$0, X31
+	// 	0: R_RISCV_PCREL_HI20	local.moduledata+0
+	// 4:	0x000fb503	MOV	0(X31), X10
+	// 	4: R_RISCV_PCREL_LO12_I	local.moduledata+4
+	o(0x00000517)
+	o(0x00050513)
+	rel, _ := initfunc.AddRel(objabi.R_RISCV_PCREL_ITYPE)
+	rel.SetOff(0)
+	rel.SetSiz(8)
+	rel.SetSym(ctxt.Moduledata)
+
+	// 8:   0x0000006f      JMP <runtime.addmoduledata>
+	//      8: R_RISCV_CALL runtime.addmoduledata
+	o(0x0000006f)
+	rel2, _ := initfunc.AddRel(objabi.R_RISCV_CALL)
+	rel2.SetOff(8)
+	rel2.SetSiz(4)
+	rel2.SetSym(addmoduledata)
+
+	o(0x00000000) // for debug
 }
 
 func genSymsLate(ctxt *ld.Link, ldr *loader.Loader) {
