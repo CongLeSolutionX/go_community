@@ -59,6 +59,30 @@
       },
       "revId": "da7ca6f6d087c81e1a3e0743325b25512d1f2929",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4800ae1b_a8658705",
+        "filename": "test/codegen/memcombine.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 52329
+      },
+      "writtenOn": "2022-07-29T04:01:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9619fa5f_c71a0efa",
+      "range": {
+        "startLine": 423,
+        "startChar": 13,
+        "endLine": 423,
+        "endChar": 15
+      },
+      "revId": "da7ca6f6d087c81e1a3e0743325b25512d1f2929",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
