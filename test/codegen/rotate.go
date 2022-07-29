@@ -243,7 +243,7 @@ func checkArithmeticWithRotate(a *[1000]uint64) {
 	a[16] = a[15] ^ ^bits.RotateLeft64(a[14], 13)
 	// arm64: "ORN\tR[0-9]+@>51, R[0-9]+, R[0-9]+"
 	a[19] = a[18] | ^bits.RotateLeft64(a[17], 13)
-	// arm64: "TST\tR[0-9]+@>51, R[0-9]+"
+	// arm64: "AND\tR[0-9]+@>51, R[0-9]+"
 	if a[18]&bits.RotateLeft64(a[19], 13) == 0 {
 		a[20] = 1
 	}

@@ -163,7 +163,7 @@ func CmpZero4(a int64, ptr *int) {
 
 func CmpToZero(a, b, d int32, e, f int64, deOptC0, deOptC1 bool) int32 {
 	// arm:`TST`,-`AND`
-	// arm64:`TSTW`,-`AND`
+	// arm64:`AND`
 	// 386:`TESTL`,-`ANDL`
 	// amd64:`TESTL`,-`ANDL`
 	c0 := a&b < 0
@@ -172,7 +172,7 @@ func CmpToZero(a, b, d int32, e, f int64, deOptC0, deOptC1 bool) int32 {
 	c1 := a+b < 0
 	// arm:`TEQ`,-`XOR`
 	c2 := a^b < 0
-	// arm64:`TST`,-`AND`
+	// arm64:`AND`
 	// amd64:`TESTQ`,-`ANDQ`
 	c3 := e&f < 0
 	// arm64:`CMN`,-`ADD`
@@ -186,7 +186,7 @@ func CmpToZero(a, b, d int32, e, f int64, deOptC0, deOptC1 bool) int32 {
 	// arm:`AND`,-`TST`
 	// 386:`ANDL`
 	c6 := a&d >= 0
-	// arm64:`TST\sR[0-9]+<<3,\sR[0-9]+`
+	// arm64:`AND\sR[0-9]+<<3,\sR[0-9]+`
 	c7 := e&(f<<3) < 0
 	// arm64:`CMN\sR[0-9]+<<3,\sR[0-9]+`
 	c8 := e+(f<<3) < 0
