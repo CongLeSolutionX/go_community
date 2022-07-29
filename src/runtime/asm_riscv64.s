@@ -637,6 +637,17 @@ TEXT ·checkASM(SB),NOSPLIT,$0-1
 	MOV	T0, ret+0(FP)
 	RET
 
+// Add a module's moduledata to the linked list of moduledata objects. This
+// is called from .init_array by a function generated in the linker and so
+// follows the platform ABI wrt register preservation -- it only touches X10,
+// X31, but it does not follow the ABI wrt arguments:
+// instead the pointer to the moduledata is passed in X10
+TEXT runtime·addmoduledata(SB),NOSPLIT,$0-0
+	MOV	runtime·lastmoduledatap(SB), X31
+	MOV	X10, moduledata_next(X31)
+	MOV	X10, runtime·lastmoduledatap(SB) //implicity clobber X31
+	RET
+
 #ifdef GOEXPERIMENT_regabiargs
 // spillArgs stores return values from registers to a *internal/abi.RegArgs in X25.
 TEXT ·spillArgs(SB),NOSPLIT,$0-0

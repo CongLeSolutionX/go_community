@@ -21,6 +21,35 @@ import (
 const fakeLabelName = ".L0 "
 
 func gentext(ctxt *ld.Link, ldr *loader.Loader) {
+	initfunc, addmoduledata := ld.PrepareAddmoduledata(ctxt)
+	if initfunc == nil {
+		return
+	}
+
+	o := func(op uint32) {
+		initfunc.AddUint32(ctxt.Arch, op)
+	}
+	// 0000000000000000 <go.link.addmoduledata>:
+	// 0:	0x00000f97	AUIPC 	$0, X10
+	// 	0: R_RISCV_PCREL_HI20	local.moduledata+0
+	// 4:	0x000fa503	ADDI	0, X10
+	// 	4: R_RISCV_PCREL_LO12_I	local.moduledata+4
+	o(0x00000517)
+	o(0x00050513)
+	rel, _ := initfunc.AddRel(objabi.R_RISCV_PCREL_ITYPE)
+	rel.SetOff(0)
+	rel.SetSiz(8)
+	rel.SetSym(ctxt.Moduledata)
+
+	// 8:   0x0000006f      JMP <runtime.addmoduledata>
+	//      8: R_RISCV_CALL runtime.addmoduledata
+	o(0x0000006f)
+	rel2, _ := initfunc.AddRel(objabi.R_RISCV_CALL)
+	rel2.SetOff(8)
+	rel2.SetSiz(4)
+	rel2.SetSym(addmoduledata)
+
+	o(0x00000000) // for debug
 }
 
 func genSymsLate(ctxt *ld.Link, ldr *loader.Loader) {
