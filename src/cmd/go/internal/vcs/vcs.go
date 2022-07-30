@@ -60,6 +60,13 @@ type Status struct {
 	Uncommitted bool      // Required.
 }
 
+// VCSTestURL is the URL of the server that replaces vcs-test.golang.org and
+// github.com/rsc/vgotest1.
+//
+// In tests, this is set to the URL of an httptest.Server hosting a
+// cmd/go/internal/vcweb.Server.
+var VCSTestURL string
+
 var defaultSecureScheme = map[string]bool{
 	"https":   true,
 	"git+ssh": true,
@@ -1100,6 +1107,15 @@ func repoRootFromVCSPaths(importPath string, security web.SecurityMode, vcsPaths
 		// a lookup on rsc.io.
 		return nil, fmt.Errorf("rsc.io is not a module")
 	}
+	if VCSTestURL != "" && importPath == "github.com/rsc/vgotest1" {
+		// This test repo used to be served from github.com/rsc/vgotest1.
+		// It is now reproduced in cmd/go/testdata/vcstest/git/vgotest1.txt,
+		return &RepoRoot{
+			Repo: VCSTestURL + "/git/vgotest1",
+			Root: "github.com/rsc/vgotest1",
+			VCS:  vcsGit,
+		}, nil
+	}
 	// A common error is to use https://packagepath because that's what
 	// hg and git require. Diagnose this helpfully.
 	if prefix := httpPrefix(importPath); prefix != "" {
@@ -1151,21 +1167,25 @@ func repoRootFromVCSPaths(importPath string, security web.SecurityMode, vcsPaths
 		if !srv.schemelessRepo {
 			repoURL = match["repo"]
 		} else {
-			scheme := vcs.Scheme[0] // default to first scheme
 			repo := match["repo"]
-			if vcs.PingCmd != "" {
-				// If we know how to test schemes, scan to find one.
-				for _, s := range vcs.Scheme {
-					if security == web.SecureOnly && !vcs.isSecureScheme(s) {
-						continue
-					}
-					if vcs.Ping(s, repo) == nil {
-						scheme = s
-						break
+			if VCSTestURL != "" && str.HasPathPrefix(repo, "vcs-test.golang.org") && match["vcs"] != "svn" {
+				repoURL = VCSTestURL + strings.TrimPrefix(repo, "vcs-test.golang.org")
+			} else {
+				scheme := vcs.Scheme[0] // default to first scheme
+				if vcs.PingCmd != "" {
+					// If we know how to test schemes, scan to find one.
+					for _, s := range vcs.Scheme {
+						if security == web.SecureOnly && !vcs.isSecureScheme(s) {
+							continue
+						}
+						if vcs.Ping(s, repo) == nil {
+							scheme = s
+							break
+						}
 					}
 				}
+				repoURL = scheme + "://" + repo
 			}
-			repoURL = scheme + "://" + repo
 		}
 		rr := &RepoRoot{
 			Repo: repoURL,
