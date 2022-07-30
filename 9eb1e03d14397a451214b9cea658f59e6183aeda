@@ -69,6 +69,24 @@
       "parentUuid": "7e2f12af_69609fef",
       "revId": "9eb1e03d14397a451214b9cea658f59e6183aeda",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b19ea1ed_354b0c9a",
+        "filename": "src/os/file_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-07-30T20:09:31Z",
+      "side": 1,
+      "message": "I think the comment meant to imply that it was fine to call Init multiple times with the same arguments.  When we call it with pollable \u003d\u003d false, if pd.pollable() already returns true, we should call pd.close.  Even when using kqueue that will at least release the pollDesc.",
+      "parentUuid": "d16de929_604a9846",
+      "revId": "9eb1e03d14397a451214b9cea658f59e6183aeda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
