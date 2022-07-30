@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76f48ee5_ffeb8f6e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5781
+      },
+      "writtenOn": "2022-07-30T17:48:06Z",
+      "side": 1,
+      "message": "TRY\u003dfreebsd-386,freebsd-amd64,freebsd-arm,freebad-arm64",
+      "revId": "9eb1e03d14397a451214b9cea658f59e6183aeda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
