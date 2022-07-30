@@ -87,6 +87,24 @@
       "parentUuid": "d16de929_604a9846",
       "revId": "9eb1e03d14397a451214b9cea658f59e6183aeda",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef2ca48d_4793f45d",
+        "filename": "src/os/file_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 5781
+      },
+      "writtenOn": "2022-07-30T22:03:02Z",
+      "side": 1,
+      "message": "I\u0027ve sent a version calling `f.pfd.Dup()` + `f.pfd.Init(\"file\", false)` but the original bug still reproduces but slightly differently:\n```\n49399 101257: 0.033051228 open(\"/dev/fuse\",O_RDWR|O_CLOEXEC,00) \u003d 3 (0x3)\n\n49399 101257: 0.033556511 fstat(3,{ mode\u003dcrw-rw-rw- ,inode\u003d102,size\u003d0,blksize\u003d4096 }) \u003d 0 (0x0)\n49399 101257: 0.033708448 kqueue()               \u003d 4 (0x4)\n49399 101257: 0.033856451 fcntl(4,F_SETFD,FD_CLOEXEC) \u003d 0 (0x0)\n\n49399 101257: 0.034352257 compat11.kevent(4,{ 3,EVFILT_READ,EV_ADD|EV_CLEAR,0,0,0x827a7df58 3,EVFILT_WRITE,EV_ADD|EV_CLEAR,0,0,0x827a7df58 },2,0x0,0,0x0) \u003d 0 (0x0)\n\n49399 101257: 0.034625612 fcntl(3,F_GETFL,)      \u003d 2 (0x2)\n49399 101257: 0.034780052 fcntl(3,F_SETFL,O_RDWR|O_NONBLOCK) ERR#19 \u0027Operation not supported by device\u0027\n49399 101257: 0.034962150 fcntl(3,F_DUPFD_CLOEXEC,0x0) \u003d 7 (0x7)\n49399 101257: 0.035113193 close(3)               \u003d 0 (0x0)\n49399 100215: 0.035335882 compat11.kevent(4,0x0,0,{ },64,{ 0.000000000 }) \u003d 0 (0x0)\n\n49399 101257: 0.035699601 compat11.kevent(4,{ 3,EVFILT_READ,EV_ADD|EV_CLEAR,0,0,0x827a7df58 3,EVFILT_WRITE,EV_ADD|EV_CLEAR,0,0,0x827a7df58 },2,0x0,0,0x0) \u003d 0 (0x0)\n49399 101257: 0.035855233 fcntl(3,F_GETFL,)      \u003d 2 (0x2)\n49399 101257: 0.036005799 fcntl(3,F_SETFL,O_RDWR|O_NONBLOCK) \u003d 0 (0x0)\n```\n\nIt looks like the filter is still active on the old fd in the kernel, and eventually the dup\u0027ed fd is still getting an EAGAIN error on read:\n```\n49399 101257: 0.058624591 read(7,\"8\\0\\0\\0\\^Z\\0\\0\\0\\^A\\0\\0\\0\\0\\0\\0\"...,135168) \u003d 56 (0x38)\n49399 101257: 0.058898125 write(7,\"(\\0\\0\\0\\0\\0\\0\\0\\^A\\0\\0\\0\\0\\0\\0\\0\"...,40) \u003d 40 (0x28)\n49399 101257: 0.059072473 read(7,0xc000200000,135168) ERR#35 \u0027Resource temporarily unavailable\u0027\n```\n\nI\u0027ll try to implement `netpollclose` which does `EV_DELETE` in the morning.",
+      "parentUuid": "b19ea1ed_354b0c9a",
+      "revId": "9eb1e03d14397a451214b9cea658f59e6183aeda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
