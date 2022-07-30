@@ -51,6 +51,24 @@
       "message": "With the current code I don\u0027t think this will work well in general.  The first call to Init will have set the runtimeCtx field, and it won\u0027t be cleared, so the code in internal/poll will consider the descriptor to be pollable.",
       "revId": "9eb1e03d14397a451214b9cea658f59e6183aeda",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d16de929_604a9846",
+        "filename": "src/os/file_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 5781
+      },
+      "writtenOn": "2022-07-30T18:41:48Z",
+      "side": 1,
+      "message": "`FD.Init()` has this comment\n\u003e Init initializes the FD. ...\n\u003e This can be called multiple times on a single FD.\nSo I figured it was safe, but looking at `netpollclose` in `runtime/netpoll_kqueue.go`, it does nothing. Expecting the file descriptor to be closed instead.\n\nCalling `f.pfd.Init(\"file\", false)` still has the benefit of not blocking on `FD.Close()`:\n```\nif fd.isBlocking \u003d\u003d 0 {\n    runtime_Semacquire(\u0026fd.csema)\n}\n```\nShould I drop it+update the FD.Init comment?",
+      "parentUuid": "7e2f12af_69609fef",
+      "revId": "9eb1e03d14397a451214b9cea658f59e6183aeda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
