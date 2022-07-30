@@ -60,6 +60,18 @@ type Status struct {
 	Uncommitted bool      // Required.
 }
 
+var (
+	// VCSTestRepoURL is the URL of the HTTP server that serves the repos for
+	// vcs-test.golang.org.
+	//
+	// In tests, this is set to the URL of an httptest.Server hosting a
+	// cmd/go/internal/vcweb.Server.
+	VCSTestRepoURL string
+
+	// VCSTestHosts is the set of hosts supported by the vcs-test server.
+	VCSTestHosts []string
+)
+
 var defaultSecureScheme = map[string]bool{
 	"https":   true,
 	"git+ssh": true,
@@ -73,6 +85,9 @@ func (v *Cmd) IsSecure(repo string) bool {
 	if err != nil {
 		// If repo is not a URL, it's not secure.
 		return false
+	}
+	if VCSTestRepoURL != "" && strings.HasPrefix(repo, VCSTestRepoURL) {
+		return true
 	}
 	return v.isSecureScheme(u.Scheme)
 }
@@ -1151,21 +1166,25 @@ func repoRootFromVCSPaths(importPath string, security web.SecurityMode, vcsPaths
 		if !srv.schemelessRepo {
 			repoURL = match["repo"]
 		} else {
-			scheme := vcs.Scheme[0] // default to first scheme
 			repo := match["repo"]
-			if vcs.PingCmd != "" {
-				// If we know how to test schemes, scan to find one.
-				for _, s := range vcs.Scheme {
-					if security == web.SecureOnly && !vcs.isSecureScheme(s) {
-						continue
-					}
-					if vcs.Ping(s, repo) == nil {
-						scheme = s
-						break
+			var ok bool
+			repoURL, ok = interceptVCSTest(repo, vcs, security)
+			if !ok {
+				scheme := vcs.Scheme[0] // default to first scheme
+				if vcs.PingCmd != "" {
+					// If we know how to test schemes, scan to find one.
+					for _, s := range vcs.Scheme {
+						if security == web.SecureOnly && !vcs.isSecureScheme(s) {
+							continue
+						}
+						if vcs.Ping(s, repo) == nil {
+							scheme = s
+							break
+						}
 					}
 				}
+				repoURL = scheme + "://" + repo
 			}
-			repoURL = scheme + "://" + repo
 		}
 		rr := &RepoRoot{
 			Repo: repoURL,
@@ -1175,6 +1194,32 @@ func repoRootFromVCSPaths(importPath string, security web.SecurityMode, vcsPaths
 		return rr, nil
 	}
 	return nil, errUnknownSite
+}
+
+func interceptVCSTest(repo string, vcs *Cmd, security web.SecurityMode) (repoURL string, ok bool) {
+	if VCSTestRepoURL == "" {
+		return "", false
+	}
+	if vcs == vcsMod {
+		return "", false // Will be implemented in CL 427254.
+	}
+	if vcs == vcsSvn {
+		return "", false // Will be implemented in CL 427914.
+	}
+
+	if scheme, path, ok := strings.Cut(repo, "://"); ok {
+		if security == web.SecureOnly && !vcs.isSecureScheme(scheme) {
+			return "", false // Let the caller reject the original URL.
+		}
+		repo = path // Remove leading URL scheme if present.
+	}
+	for _, host := range VCSTestHosts {
+		if !str.HasPathPrefix(repo, host) {
+			continue
+		}
+		return VCSTestRepoURL + strings.TrimPrefix(repo, host), true
+	}
+	return "", false
 }
 
 // urlForImportPath returns a partially-populated URL for the given Go import path.
@@ -1275,8 +1320,12 @@ func repoRootForImportDynamic(importPath string, mod ModuleMode, security web.Se
 		return nil, err
 	}
 
+	repoURL, ok := interceptVCSTest(mmi.RepoRoot, vcs, security)
+	if !ok {
+		repoURL = mmi.RepoRoot
+	}
 	rr := &RepoRoot{
-		Repo:     mmi.RepoRoot,
+		Repo:     repoURL,
 		Root:     mmi.Prefix,
 		IsCustom: true,
 		VCS:      vcs,
