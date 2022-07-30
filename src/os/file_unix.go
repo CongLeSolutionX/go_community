@@ -176,10 +176,19 @@ func newFile(fd uintptr, name string, kind newFileKind) *File {
 		// Linux systems. We assume that any real error
 		// will show up in later I/O.
 	} else if pollable {
-		// We successfully registered with netpoll, so put
-		// the file into nonblocking mode.
-		if err := syscall.SetNonblock(fdi, true); err == nil {
+		switch kind {
+		case kindNonBlock:
+			// We successfully registered with netpoll, fdi is already in nonblocking mode.
 			f.nonblock = true
+		default:
+			// We successfully registered with netpoll, so attempt to put
+			// the file into nonblocking mode.
+			if err := syscall.SetNonblock(fdi, true); err == nil {
+				f.nonblock = true
+			} else {
+				// set f.pdf.isBlocking=1 accordingly.
+				_ = f.pfd.Init("file", false)
+			}
 		}
 	}
 
