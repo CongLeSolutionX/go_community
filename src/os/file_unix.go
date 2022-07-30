@@ -165,6 +165,13 @@ func newFile(fd uintptr, name string, kind newFileKind) *File {
 			if (runtime.GOOS == "darwin" || runtime.GOOS == "ios") && typ == syscall.S_IFIFO {
 				pollable = false
 			}
+
+			// Disable polling for fuse devices on FreeBSD, see issue #54100.
+			if runtime.GOOS == "freebsd" && typ == syscall.S_IFCHR {
+				if dev, err := devname(st.Rdev); err == nil && dev == "fuse" {
+					pollable = false
+				}
+			}
 		}
 	}
 
