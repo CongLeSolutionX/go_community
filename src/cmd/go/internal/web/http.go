@@ -18,6 +18,7 @@ import (
 	"mime"
 	"net"
 	"net/http"
+	"net/url"
 	urlpkg "net/url"
 	"os"
 	"strings"
@@ -255,3 +256,20 @@ func getFile(u *urlpkg.URL) (*Response, error) {
 }
 
 func openBrowser(url string) bool { return browser.Open(url) }
+
+func isLocalHost(u *url.URL) bool {
+	// VCSTestRepoURL itself is secure, and it may redirect requests to other
+	// ports (such as a port serving the "svn" protocol) which should also be
+	// considered secure.
+	host, _, err := net.SplitHostPort(u.Host)
+	if err != nil {
+		host = u.Host
+	}
+	if host == "localhost" {
+		return true
+	}
+	if ip := net.ParseIP(host); ip != nil && ip.IsLoopback() {
+		return true
+	}
+	return false
+}
