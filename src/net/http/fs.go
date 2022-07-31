@@ -713,7 +713,8 @@ func localRedirect(w ResponseWriter, r *Request, newPath string) {
 // r.URL.Path for selecting the file or directory to serve; only the
 // file or directory provided in the name argument is used.
 func ServeFile(w ResponseWriter, r *Request, name string) {
-	if containsDotDot(r.URL.Path) {
+	dir, file := filepath.Split(name)
+	if containsDotDot(r.URL.Path, dir) {
 		// Too many programs use r.URL.Path to construct the argument to
 		// serveFile. Reject the request under the assumption that happened
 		// here and ".." may not be wanted.
@@ -722,20 +723,28 @@ func ServeFile(w ResponseWriter, r *Request, name string) {
 		Error(w, "invalid URL path", StatusBadRequest)
 		return
 	}
-	dir, file := filepath.Split(name)
 	serveFile(w, r, Dir(dir), file, false)
 }
 
-func containsDotDot(v string) bool {
-	if !strings.Contains(v, "..") {
-		return false
-	}
-	for _, ent := range strings.FieldsFunc(v, isSlashRune) {
-		if ent == ".." {
-			return true
+func containsDotDot(l ...string) bool {
+	for _, v := range l {
+		if !strings.Contains(v, "..") {
+			continue
+		}
+		for _, ent := range strings.FieldsFunc(v, isSlashRune) {
+			if ent == ".." {
+				return true
+			}
 		}
 	}
 	return false
+}
+
+func containsUnEscaped(v string) bool {
+	if !strings.ContainsAny(v, "?%") {
+		return false
+	}
+	return true
 }
 
 func isSlashRune(r rune) bool { return r == '/' || r == '\\' }

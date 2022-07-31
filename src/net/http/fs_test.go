@@ -180,18 +180,24 @@ Cases:
 func TestServeFile_DotDot(t *testing.T) {
 	tests := []struct {
 		req        string
+		name       string
 		wantStatus int
 	}{
-		{"/testdata/file", 200},
-		{"/../file", 400},
-		{"/..", 400},
-		{"/../", 400},
-		{"/../foo", 400},
-		{"/..\\foo", 400},
-		{"/file/a", 200},
-		{"/file/a..", 200},
-		{"/file/a/..", 400},
-		{"/file/a\\..", 400},
+		{"/testdata/file", "testdata/file", 200},
+		{"/testdata/file", "testdata/..file", 200},
+		{"/testdata/file", "../testdata/file", 400},
+		{"/testdata/file", "testdata/../file", 400},
+		{"/testdata/file", "..\\testdata/file", 400},
+		{"/testdata/file", "testdata/..\\testdata/file", 400},
+		{"/../file", "testdata/file", 400},
+		{"/..", "testdata/file", 400},
+		{"/../", "testdata/file", 400},
+		{"/../foo", "testdata/file", 400},
+		{"/..\\foo", "testdata/file", 400},
+		{"/file/a", "testdata/file", 200},
+		{"/file/a..", "testdata/file", 200},
+		{"/file/a/..", "testdata/file", 400},
+		{"/file/a\\..", "testdata/file", 400},
 	}
 	for _, tt := range tests {
 		req, err := ReadRequest(bufio.NewReader(strings.NewReader("GET " + tt.req + " HTTP/1.1\r\nHost: foo\r\n\r\n")))
@@ -200,9 +206,9 @@ func TestServeFile_DotDot(t *testing.T) {
 			continue
 		}
 		rec := httptest.NewRecorder()
-		ServeFile(rec, req, "testdata/file")
+		ServeFile(rec, req, tt.name)
 		if rec.Code != tt.wantStatus {
-			t.Errorf("for request %q, status = %d; want %d", tt.req, rec.Code, tt.wantStatus)
+			t.Errorf("for request %q and name %s, status = %d; want %d", tt.req, tt.name, rec.Code, tt.wantStatus)
 		}
 	}
 }
