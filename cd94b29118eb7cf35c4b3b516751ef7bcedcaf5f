@@ -71,6 +71,24 @@
       "parentUuid": "bdb55681_288c3e8e",
       "revId": "cd94b29118eb7cf35c4b3b516751ef7bcedcaf5f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "00c683a2_52e1acec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-08-01T23:16:54Z",
+      "side": 1,
+      "message": "I think the unfolding pass actually adds more complexity. Now every instruction has two representations, and there are several tables. I don\u0027t think this is really necessary. The machine instruction encoding is really not needed until the very end. So let\u0027s keep it that way. Also, while there exist a number of Progs that expand to multiple machine instructions, I\u0027d expect that most instructions we will add in the future, including SVE and NEON instructions, don\u0027t need rewrite. So they really don\u0027t need to go through the unfolding process and the complexity around it.\n\nI can see one of the challenge of adding SVE, NEON, or other new instructions is the current \"optab\" table (and related operand classification) isn\u0027t very easy to extend to work with those instructions. The optab is designed to work with relatively simple instruction set where there are relatively few operand types and instruction encodings. The integer instructions are like that, and the optab works reasonable well with that. (There are problems, but I think they are more implementation details instead of overall design problems.) For SVE and NEON, they don\u0027t have to use the same table. We can have new tables specifically for SVE, or for NEON, or other new type of instructions. We can check whether an instruction is an integer instruction, or SVE or NEON, and use different tables and possibly even code paths. (There are currently NEON instructions in the current optab. We can remove them once the new NEON support is complete.)\n\nOverall, I think the structure is clearer: for integer instructions, use the current optab. For SVE and other new instructions, use new tables. And no unfolding is necessary.\n\nThanks.",
+      "parentUuid": "34ecc13b_31c79ca3",
+      "revId": "cd94b29118eb7cf35c4b3b516751ef7bcedcaf5f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
