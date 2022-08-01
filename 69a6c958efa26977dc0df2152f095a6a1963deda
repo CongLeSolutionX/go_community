@@ -16,6 +16,24 @@
       "message": "This and CL 348734 (and its stack) seem to have a lot of overlap. Maybe you can build it on top of that CL?",
       "revId": "69a6c958efa26977dc0df2152f095a6a1963deda",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "016a61bc_afba6e12",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2022-08-01T06:51:38Z",
+      "side": 1,
+      "message": "I\u0027m reluctant to do that, unless these changes are guaranteed to land early in the next cycle (this change is part of a stack that got blocked on CL#342510) - currently, CL#348733 which the referenced change depends on, is still not approved.\n\nOverall, the conflicts will be fairly minor and easy to resolve (additional symbols in objabi/reloctype.go and additional cases for r.Type handling in mips64/asm.go).\nIf the referenced stack becomes ready to land, I can easily rebase, otherwise I\u0027d like to not be unnecessarily blocked (an alternative would be to pull the combined additional reloc types into a separate CL that we then both rebase on to).",
+      "parentUuid": "f9816469_5e9ec655",
+      "revId": "69a6c958efa26977dc0df2152f095a6a1963deda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
