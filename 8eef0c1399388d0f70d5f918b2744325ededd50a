@@ -16,6 +16,24 @@
       "message": "name                      old time/op       new time/op       delta\nTemplate                        140ms ± 1%        140ms ± 1%    ~     (p\u003d1.000 n\u003d9+9)\nUnicode                        65.1ms ± 3%       64.7ms ± 2%    ~     (p\u003d0.905 n\u003d10+9)\nGoTypes                         776ms ± 1%        776ms ± 1%    ~     (p\u003d0.931 n\u003d9+9)\nCompiler                       61.4ms ± 6%       60.7ms ± 7%    ~     (p\u003d0.315 n\u003d9+10)\nSSA                             6.13s ± 1%        6.10s ± 1%  -0.46%  (p\u003d0.013 n\u003d9+10)\nFlate                          86.5ms ± 1%       86.2ms ± 1%    ~     (p\u003d0.050 n\u003d9+9)\nGoParser                        167ms ± 2%        168ms ± 1%    ~     (p\u003d0.156 n\u003d10+9)\nTar                             117ms ± 2%        117ms ± 1%    ~     (p\u003d1.000 n\u003d10+10)\nXML                             166ms ± 1%        165ms ± 1%    ~     (p\u003d0.780 n\u003d9+10)\nLinkCompiler                    484ms ±23%        471ms ±27%    ~     (p\u003d0.853 n\u003d10+10)\nExternalLinkCompiler            1.81s ± 1%        1.82s ± 1%    ~     (p\u003d0.743 n\u003d8+9)\nLinkWithoutDebugCompiler        254ms ± 1%        256ms ± 1%  +0.75%  (p\u003d0.019 n\u003d10+10)\nStdCmd                          11.5s ± 2%        11.5s ± 1%    ~     (p\u003d0.139 n\u003d9+8)\n\nname                      old user-time/op  new user-time/op  delta\nTemplate                        177ms ± 3%        181ms ± 6%    ~     (p\u003d0.315 n\u003d8+10)\nUnicode                        86.1ms ± 2%       85.6ms ± 2%    ~     (p\u003d0.279 n\u003d8+8)\nGoTypes                         1.06s ± 3%        1.06s ± 4%    ~     (p\u003d0.529 n\u003d10+10)\nCompiler                       77.5ms ± 4%       77.0ms ±10%    ~     (p\u003d0.912 n\u003d10+10)\nSSA                             8.83s ± 3%        8.58s ± 3%  -2.85%  (p\u003d0.002 n\u003d10+10)\nFlate                           106ms ± 4%        106ms ± 4%    ~     (p\u003d0.853 n\u003d10+10)\nGoParser                        217ms ± 2%        218ms ± 2%    ~     (p\u003d0.325 n\u003d10+10)\nTar                             152ms ± 2%        152ms ± 3%    ~     (p\u003d0.912 n\u003d10+10)\nXML                             214ms ± 3%        214ms ± 3%    ~     (p\u003d0.549 n\u003d9+10)\nLinkCompiler                    565ms ± 1%        571ms ± 1%  +1.06%  (p\u003d0.015 n\u003d10+10)\nExternalLinkCompiler            1.74s ± 1%        1.75s ± 0%    ~     (p\u003d0.089 n\u003d10+10)\nLinkWithoutDebugCompiler        271ms ± 1%        273ms ± 1%  +0.64%  (p\u003d0.035 n\u003d10+10)\n\nname                      old text-bytes    new text-bytes    delta\nHelloSize                       459kB ± 0%        459kB ± 0%    ~     (all equal)\nCmdGoSize                      5.96MB ± 0%       5.96MB ± 0%    ~     (all equal)\n\nname                      old data-bytes    new data-bytes    delta\nHelloSize                       223kB ± 0%        223kB ± 0%    ~     (all equal)\nCmdGoSize                       551kB ± 0%        551kB ± 0%    ~     (all equal)\n\nname                      old exe-bytes     new exe-bytes     delta\nHelloSize                      1.19MB ± 0%       1.19MB ± 0%    ~     (all equal)\nCmdGoSize                      14.6MB ± 0%       14.6MB ± 0%    ~     (all equal)",
       "revId": "8eef0c1399388d0f70d5f918b2744325ededd50a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3de19a31_c561c660",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2022-08-01T06:18:32Z",
+      "side": 1,
+      "message": "ignore this!",
+      "parentUuid": "26e41a91_4a953c60",
+      "revId": "8eef0c1399388d0f70d5f918b2744325ededd50a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
