@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "866b2954_8a5858b9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-08-01T17:58:53Z",
+      "side": 1,
+      "message": "I feel like this CL is just patching over the problem. Why do the existing rules not combine operations correctly?\n",
+      "revId": "b98f3feea2d132f94c2248235e4054e3f35b21b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
