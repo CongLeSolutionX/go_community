@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6be5829_a03a39e9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2022-08-01T18:33:42Z",
+      "side": 1,
+      "message": "Sorry, the draft notes have just moved to x/website (via CL 420417 and CL 420418), please resend this change to that repo.",
+      "revId": "bd533dda4803bf69d6cbba194425507a59ac5f82",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
