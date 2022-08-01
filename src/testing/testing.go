@@ -14,12 +14,19 @@
 // Within these functions, use the Error, Fail or related methods to signal failure.
 //
 // To write a new test suite, create a file whose name ends _test.go that
-// contains the TestXxx functions as described here. Put the file in the same
-// package as the one being tested. The file will be excluded from regular
+// contains the TestXxx functions as described here.
+// The file will be excluded from regular
 // package builds but will be included when the "go test" command is run.
-// For more detail, run "go help test" and "go help testflag".
 //
-// A simple test function looks like this:
+// The test file can either be in the same package as the one being tested,
+// or you can place it in a package with the _test suffix.
+//
+// If the test file is in the package you are testing, then you can can access
+// all identifiers within the package, such as in this example:
+//
+//	package abs
+//
+//	import "testing"
 //
 //	func TestAbs(t *testing.T) {
 //	    got := Abs(-1)
@@ -27,6 +34,27 @@
 //	        t.Errorf("Abs(-1) = %d; want 1", got)
 //	    }
 //	}
+//
+// If the test files is in a _test package, then you must import the package you
+// wish to test and then reference the exported identifiers.
+// This is known as "black box" testing.
+//
+//	package abs_test
+//
+//	import (
+//		"testing"
+//
+//		"path_to_pkg/abs"
+//	)
+//
+//	func TestAbs(t *testing.T) {
+//	    got := abs.Abs(-1)
+//	    if got != 1 {
+//	        t.Errorf("Abs(-1) = %d; want 1", got)
+//	    }
+//	}
+//
+// For more detail, run "go help test" and "go help testflag".
 //
 // # Benchmarks
 //
