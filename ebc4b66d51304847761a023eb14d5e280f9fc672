@@ -80,6 +80,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf1053f4_fe581a3b",
+        "filename": "src/cmd/compile/internal/noder/reader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1057,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-08-01T21:05:23Z",
+      "side": 1,
+      "message": "Added a comment in reader.funcLit, and added a cross-reference here.",
+      "parentUuid": "de237928_b7c337c9",
+      "range": {
+        "startLine": 1057,
+        "startChar": 16,
+        "endLine": 1057,
+        "endChar": 51
+      },
+      "revId": "ebc4b66d51304847761a023eb14d5e280f9fc672",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c6762034_ba448191",
@@ -93,6 +117,30 @@
       "writtenOn": "2022-08-01T20:31:36Z",
       "side": 1,
       "message": "\"spilled\" is kind of a misnomer here, at least according to my compiler-backend brain. More of just \"inlvar where we stored the argument value\".",
+      "range": {
+        "startLine": 1104,
+        "startChar": 9,
+        "endLine": 1104,
+        "endChar": 16
+      },
+      "revId": "ebc4b66d51304847761a023eb14d5e280f9fc672",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "14d6ea40_71e1f14a",
+        "filename": "src/cmd/compile/internal/noder/reader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1104,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-08-01T21:05:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6762034_ba448191",
       "range": {
         "startLine": 1104,
         "startChar": 9,
@@ -126,6 +174,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "918cf0a8_709d7c00",
+        "filename": "src/cmd/compile/internal/noder/reader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1105,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-08-01T21:05:23Z",
+      "side": 1,
+      "message": "It\u0027s just receiver+parameter order. I added docs to reader.{inl,ret}vars.",
+      "parentUuid": "8a344a85_c6e9b450",
+      "range": {
+        "startLine": 1105,
+        "startChar": 22,
+        "endLine": 1105,
+        "endChar": 33
+      },
+      "revId": "ebc4b66d51304847761a023eb14d5e280f9fc672",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cb95d267_30336eca",
@@ -143,6 +215,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c9df705_9e0b6ee9",
+        "filename": "src/cmd/compile/internal/noder/reader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1174,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-08-01T21:05:23Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "cb95d267_30336eca",
+      "revId": "ebc4b66d51304847761a023eb14d5e280f9fc672",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "26d6fd4b_b0789566",
@@ -156,6 +246,24 @@
       "writtenOn": "2022-08-01T20:31:36Z",
       "side": 1,
       "message": "This is where the dictionary is made the last closure variable?",
+      "revId": "ebc4b66d51304847761a023eb14d5e280f9fc672",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b3f7e9c_6e0bdd7d",
+        "filename": "src/cmd/compile/internal/noder/reader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2172,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-08-01T21:05:23Z",
+      "side": 1,
+      "message": "Correct. Added a comment.",
+      "parentUuid": "26d6fd4b_b0789566",
       "revId": "ebc4b66d51304847761a023eb14d5e280f9fc672",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
