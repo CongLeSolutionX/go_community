@@ -16,6 +16,24 @@
       "message": "I feel like this CL is just patching over the problem. Why do the existing rules not combine operations correctly?\n",
       "revId": "b98f3feea2d132f94c2248235e4054e3f35b21b9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e575c89_44500742",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2022-08-01T22:38:25Z",
+      "side": 1,
+      "message": "https://github.com/golang/go/blob/5a103ca5e9e67414f5307b3993c1c34e531b26a8/src/cmd/compile/internal/ssa/gen/AMD64.rules#L1979-L2044\nthese rules work when the code looks like:\ni \u003d uint64(123)\nbinary.LittleEndian.PutUint64(a, i)\nit would not work when i \u003d binary.LittleEndian.Uint64(b),\nit is because of the inline change the values. can be fix like\nhttps://github.com/cuiweixie/go/commit/98dcaf27e07f12253278b61e1ade66967f3a7740.\nit need more loop to combine binary.LittleEndian.Uint64(b) into  one instruction before apply the https://github.com/golang/go/blob/5a103ca5e9e67414f5307b3993c1c34e531b26a8/src/cmd/compile/internal/ssa/gen/AMD64.rules#L1979-L2044.\nthis rule(https://github.com/golang/go/blob/5a103ca5e9e67414f5307b3993c1c34e531b26a8/src/cmd/compile/internal/ssa/gen/AMD64.rules#L2046-L2054) would not work, it\u0027s because of first p1 is leaq and the last is addq. so i add a rule to fix this.",
+      "parentUuid": "866b2954_8a5858b9",
+      "revId": "b98f3feea2d132f94c2248235e4054e3f35b21b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
