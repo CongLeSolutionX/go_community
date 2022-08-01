@@ -88,6 +88,24 @@
       "parentUuid": "4af05f84_064effb3",
       "revId": "2b8b525ff0624a19b3e0806553f1081c076b65b0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b60e4b6_d75ba53a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-08-01T20:11:59Z",
+      "side": 1,
+      "message": "I don\u0027t think so, for now. We have cross-compile builders, but those just check that we can cross compile, not check cross-compiled binary can run...\nI don\u0027t know how to set a test for running cross-compiled binary. It will probably need coordinating multiple builders.",
+      "parentUuid": "417727ba_c7af29f4",
+      "revId": "2b8b525ff0624a19b3e0806553f1081c076b65b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
