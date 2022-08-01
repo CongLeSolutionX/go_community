@@ -190,7 +190,7 @@ type writerDict struct {
 // A derivedInfo represents a reference to an encoded generic Go type.
 type derivedInfo struct {
 	idx    pkgbits.Index
-	needed bool // TODO(mdempsky): Remove; will break x/tools importer
+	needed bool
 }
 
 // A typeInfo represents a reference to an encoded Go type.
@@ -1952,7 +1952,12 @@ func (w *writer) exprs(exprs []syntax.Expr) {
 // expression of type *runtime._type representing typ.
 func (w *writer) rtype(typ types2.Type) {
 	w.Sync(pkgbits.SyncRType)
-	w.typ(typ)
+	info := w.p.typIdx(typ, w.dict)
+	w.typInfo(info)
+
+	if info.derived {
+		w.dict.derived[info.idx].needed = true
+	}
 }
 
 // convRTTI writes information so that the reader can construct
