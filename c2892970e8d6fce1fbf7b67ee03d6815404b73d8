@@ -114,6 +114,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "04f29f38_bec37926",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2403,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-08-01T21:32:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "66ae7058_c8a113bb",
+      "range": {
+        "startLine": 2403,
+        "startChar": 30,
+        "endLine": 2403,
+        "endChar": 36
+      },
+      "revId": "c2892970e8d6fce1fbf7b67ee03d6815404b73d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cf4ab679_563f61bd",
@@ -127,6 +151,30 @@
       "writtenOn": "2022-03-02T15:48:28Z",
       "side": 1,
       "message": "is this comment really required given that the delicate dance comment contains most of the same information? this confused me a little, because I was expecting to find new information. keeping these in sync in the future is going to be tricky.\n\nI feel like the relevant parts here are\n\n\"We need a spinning M, but there is no P available.\"\n\nand \n\n\"If we do nothing, that P will go idle and we will fail to start a new spinning M, resulting in a loss of work conservation\"\n\nthen you can just point to the delicate dance comment which explains what needspinning actually is.",
+      "range": {
+        "startLine": 2410,
+        "startChar": 0,
+        "endLine": 2430,
+        "endChar": 50
+      },
+      "revId": "c2892970e8d6fce1fbf7b67ee03d6815404b73d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "837a4ea7_73b04f03",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2430,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-08-01T21:32:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf4ab679_563f61bd",
       "range": {
         "startLine": 2410,
         "startChar": 0,
@@ -162,6 +210,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0dcc04f5_fd2efd6c",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2719,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-08-01T21:32:41Z",
+      "side": 1,
+      "message": "Added a common function.\n\nWhy do you say the nmspinning++ needs to come prior to needspinning reset?",
+      "parentUuid": "0f79d0c1_bcd4205b",
+      "range": {
+        "startLine": 2717,
+        "startChar": 2,
+        "endLine": 2719,
+        "endChar": 23
+      },
+      "revId": "c2892970e8d6fce1fbf7b67ee03d6815404b73d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d120b630_8ecf112f",
         "filename": "src/runtime/proc.go",
         "patchSetId": 2
@@ -173,6 +245,30 @@
       "writtenOn": "2022-03-02T15:48:28Z",
       "side": 1,
       "message": "same for this pattern (though, this is a bit more loose than that first one). this is the other side of that needspinning mechanism, and capturing that in a function or method might be helpful for understanding if the mechanism is right at-a-glance.\n\nhowever, it\u0027s much less clear to me what you might call this function.",
+      "range": {
+        "startLine": 3054,
+        "startChar": 1,
+        "endLine": 3063,
+        "endChar": 2
+      },
+      "revId": "c2892970e8d6fce1fbf7b67ee03d6815404b73d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4663cced_4f0650ac",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3063,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-08-01T21:32:41Z",
+      "side": 1,
+      "message": "This one is harder because each case is a bit different depending on whether nmspinning was incremented and if pidleget is called immediately prior. I\u0027m open to suggestions.",
+      "parentUuid": "d120b630_8ecf112f",
       "range": {
         "startLine": 3054,
         "startChar": 1,

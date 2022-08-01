@@ -128,6 +128,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c0b50b1e_1a060256",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-08-01T21:32:41Z",
+      "side": 1,
+      "message": "I have at least verified that TestGoroutineParallelism2 with async preemption disabled goes from ~30/20k failing test runs to 0/20k with this CL.",
+      "parentUuid": "9a196ece_ac50423e",
+      "revId": "692fcf65011051f1f8bb2e2d5eb7f2a754704c44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4c8cae99_18c02fec",
         "filename": "src/runtime/proc.go",
         "patchSetId": 1
@@ -222,6 +240,30 @@
       "side": 1,
       "message": "ohhhh I misread this as referring to \"_p_ \u003d\u003d nil\" as a function call.\n\nmaybe \"All remaining calls to this function with _p_ \u003d\u003d nil could be cleaned ...\" ?",
       "parentUuid": "f64884d3_78a03a25",
+      "range": {
+        "startLine": 2270,
+        "startChar": 47,
+        "endLine": 2270,
+        "endChar": 52
+      },
+      "revId": "692fcf65011051f1f8bb2e2d5eb7f2a754704c44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac01f798_6bee7607",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2270,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-08-01T21:32:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63951a4a_3678b6f4",
       "range": {
         "startLine": 2270,
         "startChar": 47,
