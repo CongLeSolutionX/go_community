@@ -143,6 +143,24 @@
       "parentUuid": "3c0ff43f_495a8fca",
       "revId": "3d947bad47d6250e50cf69fb7a22c563594e1a5c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9921b852_8e4d86a3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5781
+      },
+      "writtenOn": "2022-08-01T12:11:55Z",
+      "side": 1,
+      "message": "Before this CL the FIFO is never set into nonblocking mode, because that happens only on a successful registration with the netpoller (and it was/is always failing for this UT because of O_RDONLY/O_WRONLY mismatch with EVFILT_READ+EVFILT_WRITE).\nIn the PatcSet3 version, I set the FIFO into nonblocking mode, and leave it in that state even though we\u0027ve failed to register with the netpoller. This generates the EAGAIN errors which are unexpected (somewhat similar to the fuse device bug).\n\nWith PatchSet4 I clear the nonblocking mode, on error and the test passes as before.\n\nThe Darwin failure happened when I modified the unit test to use O_RDWR for both sides of the FIFO. This made them run using netpoller because the registration was successful. It doesn\u0027t generate the expected `EV_EOF` flag same as for Darwin comment states.",
+      "parentUuid": "303413c5_873510e4",
+      "revId": "3d947bad47d6250e50cf69fb7a22c563594e1a5c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
