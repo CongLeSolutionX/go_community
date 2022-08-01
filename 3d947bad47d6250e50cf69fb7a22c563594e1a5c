@@ -125,6 +125,24 @@
       "message": "\u003e Failed on openbsd-amd64-70: https://storage.googleapis.com/go-build-log/3d947bad/openbsd-amd64-70_aa2d8398.log\nI think TestFifoEOF is now failing because the file open flags O_RDONLY/O_WRONLY used in the test contradict the requested filters (EVFILT_READ+EVFILT_WRITE):\n\n```\n 69383 os.test  CALL  mkfifo(0xc00001e0c0,0600\u003cS_IRUSR|S_IWUSR\u003e)\n 69383 os.test  NAMI  \"/tmp/TestFifoEOF1132704602/001/fifo\"\n 69383 os.test  RET   mkfifo 0\n \n 69383 os.test  CALL  open(0xc00001e0f0,0x10000\u003cO_RDONLY|O_CLOEXEC\u003e)\n 69383 os.test  NAMI  \"/tmp/TestFifoEOF1132704602/001/fifo\"\n\n 69383 os.test  CALL  open(0xc00008c000,0x10001\u003cO_WRONLY|O_CLOEXEC\u003e)\n 69383 os.test  NAMI  \"/tmp/TestFifoEOF1132704602/001/fifo\"\n 69383 os.test  RET   open 4\n 69383 os.test  RET   open 3\n\n...\n\n 69383 os.test  CALL  kevent(5,0xc000060c80,2,0,0,0)\n 69383 os.test  STRU  struct kevent [2] { ident\u003d3, filter\u003dEVFILT_READ, flags\u003d0x21\u003cEV_ADD|EV_CLEAR\u003e, fflags\u003d0\u003c\u003e, data\u003d0, udata\u003d0x2649b6018 } { ident\u003d3, filter\u003dEVFILT_WRITE, flags\u003d0x21\u003cEV_ADD|EV_CLEAR\u003e, fflags\u003d0\u003c\u003e, data\u003d0, udata\u003d0x2649b6018 }\n 69383 os.test  RET   kevent -1 errno 22 Invalid argument\n\n 69383 os.test  CALL  kevent(5,0xc000038520,2,0,0,0)\n 69383 os.test  STRU  struct kevent [2] { ident\u003d4, filter\u003dEVFILT_READ, flags\u003d0x21\u003cEV_ADD|EV_CLEAR\u003e, fflags\u003d0\u003c\u003e, data\u003d0, udata\u003d0x2649b6018 } { ident\u003d4, filter\u003dEVFILT_WRITE, flags\u003d0x21\u003cEV_ADD|EV_CLEAR\u003e, fflags\u003d0\u003c\u003e, data\u003d0, udata\u003d0x2649b6018 }\n 69383 os.test  RET   kevent -1 errno 22 Invalid argument\n```\n\nIf I modify the test to use O_RDWR for both sides, I get:\n```\n--- FAIL: TestFifoEOF (1.02s)\n    fifo_test.go:91: line 0\n    fifo_test.go:91: line 1\n    fifo_test.go:91: line 2\n    fifo_test.go:99: timed out waiting for read\n    fifo_test.go:88: read /tmp/TestFifoEOF2396212903/001/fifo: file already closed\n    fifo_test.go:77: error closing reader: close /tmp/TestFifoEOF2396212903/001/fifo: file already closed\nFAIL\n```\nWhich looks like #35275.\n\nCan I also add \"openbsd\" to the \n\u003e if (runtime.GOOS \u003d\u003d \"darwin\" || runtime.GOOS \u003d\u003d \"ios\") \u0026\u0026 typ \u003d\u003d syscall.S_IFIFO {\ncase?",
       "revId": "3d947bad47d6250e50cf69fb7a22c563594e1a5c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "303413c5_873510e4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-08-01T01:13:26Z",
+      "side": 1,
+      "message": "I don\u0027t understand why this CL affects the behavior of TestFifoEOF on OpenBSD.  I see that the results are similar to the failure case on Darwin, but why does it work before this CL?  Or is this just a very rare flake?",
+      "parentUuid": "3c0ff43f_495a8fca",
+      "revId": "3d947bad47d6250e50cf69fb7a22c563594e1a5c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
