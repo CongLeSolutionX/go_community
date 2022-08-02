@@ -89,6 +89,24 @@
       "message": "Minor, but I think this will be slightly clearer as\n\n    if kind \u003d\u003d kindNonBlock {\n        ...\n    } else if err :\u003d syscall.SetNonblock(fdi, true); err \u003d\u003d nil {\n        ...\n    } else {\n        pollable \u003d false\n    }",
       "revId": "2a61f44c7ac3dab1c4fd5ef2d671c13c97933c98",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b5af826_72f8de13",
+        "filename": "src/os/file_unix.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 5781
+      },
+      "writtenOn": "2022-08-02T09:12:15Z",
+      "side": 1,
+      "message": "Done, Thanks!",
+      "parentUuid": "12601bb2_ca860c94",
+      "revId": "2a61f44c7ac3dab1c4fd5ef2d671c13c97933c98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
