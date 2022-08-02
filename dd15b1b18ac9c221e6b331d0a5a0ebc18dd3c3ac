@@ -53,6 +53,24 @@
       "message": "I\u0027m not really sure about this. I think TST and CMP set the carry bit differently. So if it is an unsigned comparison the result may be different. I think that is why it only includes EQ, NE, and signed comparisons.",
       "revId": "dd15b1b18ac9c221e6b331d0a5a0ebc18dd3c3ac",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "147895bd_f375a44a",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-08-02T03:02:38Z",
+      "side": 1,
+      "message": "I think there\u0027s should be no difference when comparing with 0, at least the test results are the same, see https://go.dev/play/p/ifnfgL0eygE. Actually we are encoding the below code with TST:\n\nfunc ulegt(a, b uint) string {\n        c0 :\u003d a\u0026b \u003c\u003d 0\n        if c0 {\n                return \"\u003c\u003d\"\n        }\n        c0 \u003d a\u0026b \u003e 0\n        if c0 {\n                return \"\u003e\"\n        }\n        return \"none\"\n}",
+      "parentUuid": "1bb664d2_908c30b4",
+      "revId": "dd15b1b18ac9c221e6b331d0a5a0ebc18dd3c3ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
