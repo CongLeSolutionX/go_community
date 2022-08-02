@@ -592,10 +592,10 @@ func rewriteValueLOONG64(v *Value) bool {
 	case OpSlicemask:
 		return rewriteValueLOONG64_OpSlicemask(v)
 	case OpSqrt:
-		v.Op = OpLOONG64SQRTD
+		v.Op = OpLOONG64FSQRTD
 		return true
 	case OpSqrt32:
-		v.Op = OpLOONG64SQRTF
+		v.Op = OpLOONG64FSQRTS
 		return true
 	case OpStaticCall:
 		v.Op = OpLOONG64CALLstatic

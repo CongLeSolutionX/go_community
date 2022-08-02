@@ -189,11 +189,11 @@ func init() {
 		{name: "NOR", argLength: 2, reg: gp21, asm: "NOR", commutative: true},                // ^(arg0 | arg1)
 		{name: "NORconst", argLength: 1, reg: gp11, asm: "NOR", aux: "Int64"},                // ^(arg0 | auxInt)
 
-		{name: "NEGV", argLength: 1, reg: gp11},                // -arg0
-		{name: "NEGF", argLength: 1, reg: fp11, asm: "NEGF"},   // -arg0, float32
-		{name: "NEGD", argLength: 1, reg: fp11, asm: "NEGD"},   // -arg0, float64
-		{name: "SQRTD", argLength: 1, reg: fp11, asm: "SQRTD"}, // sqrt(arg0), float64
-		{name: "SQRTF", argLength: 1, reg: fp11, asm: "SQRTF"}, // sqrt(arg0), float32
+		{name: "NEGV", argLength: 1, reg: gp11},                  // -arg0
+		{name: "NEGF", argLength: 1, reg: fp11, asm: "NEGF"},     // -arg0, float32
+		{name: "NEGD", argLength: 1, reg: fp11, asm: "NEGD"},     // -arg0, float64
+		{name: "FSQRTD", argLength: 1, reg: fp11, asm: "FSQRTD"}, // sqrt(arg0), float64
+		{name: "FSQRTS", argLength: 1, reg: fp11, asm: "FSQRTS"}, // sqrt(arg0), float32
 
 		// shifts
 		{name: "SLLV", argLength: 2, reg: gp21, asm: "SLLV"},                    // arg0 << arg1, shift amount is mod 64

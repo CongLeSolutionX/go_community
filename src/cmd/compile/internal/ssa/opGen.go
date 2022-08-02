@@ -1738,8 +1738,8 @@ const (
 	OpLOONG64NEGV
 	OpLOONG64NEGF
 	OpLOONG64NEGD
-	OpLOONG64SQRTD
-	OpLOONG64SQRTF
+	OpLOONG64FSQRTD
+	OpLOONG64FSQRTS
 	OpLOONG64SLLV
 	OpLOONG64SLLVconst
 	OpLOONG64SRLV
@@ -23235,9 +23235,9 @@ var opcodeTable = [...]opInfo{
 		},
 	},
 	{
-		name:   "SQRTD",
+		name:   "FSQRTD",
 		argLen: 1,
-		asm:    loong64.ASQRTD,
+		asm:    loong64.AFSQRTD,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 4611686017353646080}, // F0 F1 F2 F3 F4 F5 F6 F7 F8 F9 F10 F11 F12 F13 F14 F15 F16 F17 F18 F19 F20 F21 F22 F23 F24 F25 F26 F27 F28 F29 F30 F31
@@ -23248,9 +23248,9 @@ var opcodeTable = [...]opInfo{
 		},
 	},
 	{
-		name:   "SQRTF",
+		name:   "FSQRTS",
 		argLen: 1,
-		asm:    loong64.ASQRTF,
+		asm:    loong64.AFSQRTS,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 4611686017353646080}, // F0 F1 F2 F3 F4 F5 F6 F7 F8 F9 F10 F11 F12 F13 F14 F15 F16 F17 F18 F19 F20 F21 F22 F23 F24 F25 F26 F27 F28 F29 F30 F31
