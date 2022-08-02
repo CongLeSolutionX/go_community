@@ -34,6 +34,23 @@
       "parentUuid": "866b2954_8a5858b9",
       "revId": "b98f3feea2d132f94c2248235e4054e3f35b21b9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b0295f4_6dbae6e8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2022-08-02T06:22:01Z",
+      "side": 1,
+      "message": "package main\n\nimport (\n\t\"encoding/binary\"\n\t\"fmt\"\n)\n\nfunc main() {\n\tfmt.Println(foo([]byte{16: 15}, 1, 2, 3))\n\n}\nfunc foo(dst []byte, d, length, offset int) []byte {\n\ta :\u003d dst[d : d+length]\n\tbinary.LittleEndian.PutUint64(a, uint64(offset \u003c\u003c 8)) //  this line trigger the store combine add by this cl and the old code before this cl would not combine the store.\n\treturn dst\n}",
+      "revId": "b98f3feea2d132f94c2248235e4054e3f35b21b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
