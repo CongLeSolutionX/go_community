@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de880189_a4b8e055",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 745,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-08-03T20:27:38Z",
+      "side": 0,
+      "message": "This is somewhat out of date.",
+      "range": {
+        "startLine": 745,
+        "startChar": 2,
+        "endLine": 745,
+        "endChar": 61
+      },
+      "revId": "c41e032f6cb88670173b866f8249c933bf64726b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
