@@ -59,6 +59,30 @@
       },
       "revId": "8bdc4334178a04bf0d83a01407b214179a932add",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "108f8858_1f0683eb",
+        "filename": "src/cmd/compile/internal/noder/reader.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1155,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-08-03T19:08:14Z",
+      "side": 1,
+      "message": "Mentioning r.curfn was just short hand. Reworded to avoid it.",
+      "parentUuid": "0ba220a5_7ec19f28",
+      "range": {
+        "startLine": 1155,
+        "startChar": 3,
+        "endLine": 1155,
+        "endChar": 10
+      },
+      "revId": "8bdc4334178a04bf0d83a01407b214179a932add",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
