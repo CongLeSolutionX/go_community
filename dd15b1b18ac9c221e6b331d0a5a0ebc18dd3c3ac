@@ -107,6 +107,24 @@
       "parentUuid": "fee9f482_2ca0776b",
       "revId": "dd15b1b18ac9c221e6b331d0a5a0ebc18dd3c3ac",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99eb8fb9_d8a44fd3",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-08-03T09:18:14Z",
+      "side": 1,
+      "message": "\u003e I think there is another rule that turns unsigned \u003e0 to !\u003d0\nYou are right, I found this rule, disable it, and found that \"TST; BHI\" behaves differently with \"AND; CMP $0; BHI\". Thanks.\n\n\u003e What optimization is missing without this change?\nThis rule doesn\u0027t apply to conditional instructions in a block, such as cset, csel.\n\"AND; CMP $0; CSET EQ\" can be optimized as \"TST; CSET EQ\"",
+      "parentUuid": "74a9a98e_935b1d03",
+      "revId": "dd15b1b18ac9c221e6b331d0a5a0ebc18dd3c3ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
