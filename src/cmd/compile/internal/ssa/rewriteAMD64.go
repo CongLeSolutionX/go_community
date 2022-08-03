@@ -11305,6 +11305,50 @@ func rewriteValueAMD64_OpAMD64MOVBstore(v *Value) bool {
 		v.AddArg3(p1, w, mem)
 		return true
 	}
+	// match: (MOVBstore {s} p3 (SHRQconst [56] w) x1:(MOVWstore {s} p2 (SHRQconst [40] w) x2:(MOVLstore {s} p1 (SHRQconst [8] w) x3:(MOVBstore {s} p0 w mem))))
+	// cond: x1.Uses == 1 && x2.Uses == 1 && x3.Uses == 1 && clobber(x1, x2, x3) && sequentialAddresses(p0, p1, 1) && sequentialAddresses(p0, p2, 5) && sequentialAddresses(p0, p3, 7)
+	// result: (MOVQstore {s} p0 w mem)
+	for {
+		s := auxToSym(v.Aux)
+		p3 := v_0
+		if v_1.Op != OpAMD64SHRQconst || auxIntToInt8(v_1.AuxInt) != 56 {
+			break
+		}
+		w := v_1.Args[0]
+		x1 := v_2
+		if x1.Op != OpAMD64MOVWstore || auxToSym(x1.Aux) != s {
+			break
+		}
+		_ = x1.Args[2]
+		p2 := x1.Args[0]
+		x1_1 := x1.Args[1]
+		if x1_1.Op != OpAMD64SHRQconst || auxIntToInt8(x1_1.AuxInt) != 40 || w != x1_1.Args[0] {
+			break
+		}
+		x2 := x1.Args[2]
+		if x2.Op != OpAMD64MOVLstore || auxToSym(x2.Aux) != s {
+			break
+		}
+		_ = x2.Args[2]
+		p1 := x2.Args[0]
+		x2_1 := x2.Args[1]
+		if x2_1.Op != OpAMD64SHRQconst || auxIntToInt8(x2_1.AuxInt) != 8 || w != x2_1.Args[0] {
+			break
+		}
+		x3 := x2.Args[2]
+		if x3.Op != OpAMD64MOVBstore || auxToSym(x3.Aux) != s {
+			break
+		}
+		mem := x3.Args[2]
+		p0 := x3.Args[0]
+		if w != x3.Args[1] || !(x1.Uses == 1 && x2.Uses == 1 && x3.Uses == 1 && clobber(x1, x2, x3) && sequentialAddresses(p0, p1, 1) && sequentialAddresses(p0, p2, 5) && sequentialAddresses(p0, p3, 7)) {
+			break
+		}
+		v.reset(OpAMD64MOVQstore)
+		v.Aux = symToAux(s)
+		v.AddArg3(p0, w, mem)
+		return true
+	}
 	// match: (MOVBstore [i] {s} p x1:(MOVBload [j] {s2} p2 mem) mem2:(MOVBstore [i-1] {s} p x2:(MOVBload [j-1] {s2} p2 mem) mem))
 	// cond: x1.Uses == 1 && x2.Uses == 1 && mem2.Uses == 1 && clobber(x1, x2, mem2)
 	// result: (MOVWstore [i-1] {s} p (MOVWload [j-1] {s2} p2 mem) mem)
