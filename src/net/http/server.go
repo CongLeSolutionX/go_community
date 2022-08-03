@@ -293,7 +293,7 @@ type conn struct {
 	// on this connection, if any.
 	lastMethod string
 
-	curReq atomic.Value // of *response (which has a Request in it)
+	curReq atomic.Pointer[response] // (which has a Request in it)
 
 	curState struct{ atomic uint64 } // packed (unixtime<<8|uint8(ConnState))
 
@@ -749,7 +749,7 @@ func (cr *connReader) handleReadError(_ error) {
 
 // may be called from multiple goroutines.
 func (cr *connReader) closeNotify() {
-	res, _ := cr.conn.curReq.Load().(*response)
+	res := cr.conn.curReq.Load()
 	if res != nil && atomic.CompareAndSwapInt32(&res.didCloseNotify, 0, 1) {
 		res.closeNotifyCh <- true
 	}
@@ -2002,7 +2002,7 @@ func (c *conn) serve(ctx context.Context) {
 			return
 		}
 		c.setState(c.rwc, StateIdle, runHooks)
-		c.curReq.Store((*response)(nil))
+		c.curReq.Store(nil)
 
 		if !w.conn.server.doKeepAlives() {
 			// We're in shutdown mode. We might've replied
