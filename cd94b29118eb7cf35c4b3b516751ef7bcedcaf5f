@@ -125,6 +125,24 @@
       "parentUuid": "1150c53b_95636f5a",
       "revId": "cd94b29118eb7cf35c4b3b516751ef7bcedcaf5f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6fde913a_32991d1f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-08-03T09:10:36Z",
+      "side": 1,
+      "message": "OK, I think if we stipulate that the Prog of the newly added instruction and the machine instruction are 1:1 mapping, then the biggest trouble is gone. This is very good, a few things that come to my mind:\n\n1. The constant or offset value of the newly added Go assembly instruction must be consistent with that of the arm instruction. I hope this is no problem.\n\n2. I think we\u0027ll continue to use operand matching to find the corresponding item in the new table for a Prog. It is expected that here we need to classify the operand of the Arm instruction, and then map it with the class of Prog. Operand matching is expected to be simple because there are no more complex operands.\n\n3. For encoding, I hope to adopt the method of this CL, that is, we will still introduce a semi-automatically generated instruction table (see above inst.go), this table contains the skeleton and operand types of the arm instruction, but compare to the one in inst.go, we do not need to manually specify its index. After finding a Prog\u0027s corresponding machine instruction in the table, use encoding(prog) \u003d skeleton|opcode|arg1|arg2|...|argn to encode. This way we don\u0027t need to encode each machine instruction, but encode each operand type, the operand type is much less than the instruction. Do you have any concern about this? We can add both general, NEON and SVE instructions at one time, or add them one by one.\n\n4, Before coding, we need to consider the difference in operand order between Go assembly instructions and Arm assembly instructions. I expect that the operand order of instructions in the new instruction table is the same as that of the Arm instruction，then before encoding, we adjusted the operand order of Prog to the same as that of the arm instruction. Maybe we should make the operand order of the table\u0027s instructions consistent with Go\u0027s, then this problem doesn\u0027t exist. It\u0027s just that when generating this table we may not be sure what the operant order should be for instructions that are not yet supported. Or for an unsupported instruction we can temporarily ignore its operator order in the table?\n\nI think this design is simpler than both this CL and the current implementation. If my thoughts above agree with yours, I will reimplement this CL, and if there are other issues, let\u0027s get it done before coding. Thanks.",
+      "parentUuid": "203c391e_46b7312f",
+      "revId": "cd94b29118eb7cf35c4b3b516751ef7bcedcaf5f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
