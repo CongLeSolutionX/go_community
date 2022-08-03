@@ -68,6 +68,23 @@
       "message": "is this cl ok for merge?",
       "revId": "b98f3feea2d132f94c2248235e4054e3f35b21b9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f372ca94_9cce1669",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16935
+      },
+      "writtenOn": "2022-08-03T04:08:32Z",
+      "side": 1,
+      "message": "I think the benchmark test result has too large turbulence, it would be better to cut down to around 1%. For example, you can use `taskset` to bind your test to a big core and lock its frequency (via setting some files in /proc ?)",
+      "revId": "b98f3feea2d132f94c2248235e4054e3f35b21b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
