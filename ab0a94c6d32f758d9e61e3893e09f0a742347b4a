@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4986d483_2e36bf57",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-08-04T20:41:27Z",
+      "side": 1,
+      "message": "FYI, ppc64le buildlets are failing during API check since this commit, which seems mysterious:\n\nhttps://build.golang.org/log/22308c2c339bd9dab4a0a0930035a597ca117afb\nhttps://build.golang.org/log/40ae07499aee733edff1ff220040170e22247e09\n\nThe android-arm{,64}-corellium builders evidently don\u0027t have Go 1.17 either:\n\nhttps://build.golang.org/log/7ec2583af94533c2610d03f8306cff79ce11fc41\nhttps://build.golang.org/log/98d822a4f8595b33cf0b9eba83c3db9709d68459",
+      "revId": "ab0a94c6d32f758d9e61e3893e09f0a742347b4a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
