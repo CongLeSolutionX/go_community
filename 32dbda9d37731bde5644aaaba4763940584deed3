@@ -18,6 +18,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "24280fde_c93fd52f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-08-04T19:53:52Z",
+      "side": 1,
+      "message": "TRY\u003dppc64le,ppc64lep9",
+      "revId": "32dbda9d37731bde5644aaaba4763940584deed3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f35412b6_a14c0127",
@@ -31,6 +48,24 @@
       "writtenOn": "2022-06-16T20:14:16Z",
       "side": 1,
       "message": "Which \"These\" are you referring to? (relocation types?)",
+      "revId": "32dbda9d37731bde5644aaaba4763940584deed3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac30019c_826d4889",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-08-04T19:53:52Z",
+      "side": 1,
+      "message": "s/These/The following sequences/",
+      "parentUuid": "f35412b6_a14c0127",
       "revId": "32dbda9d37731bde5644aaaba4763940584deed3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -54,6 +89,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c9c6f51a_62d8c0cf",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-08-04T19:53:52Z",
+      "side": 1,
+      "message": "Yes, they are 0-sized informational relocs annotating instructions 3 and 4/5.",
+      "parentUuid": "f1654a36_973907c3",
+      "revId": "32dbda9d37731bde5644aaaba4763940584deed3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9a397976_08d5321a",
         "filename": "src/cmd/link/internal/ppc64/asm.go",
         "patchSetId": 1
@@ -65,6 +118,24 @@
       "writtenOn": "2022-06-16T20:14:16Z",
       "side": 1,
       "message": "I\u0027m guessing you added this comment because this type of linking only happens on ppc64le. Just wondering how you plan to resolve the TODO? It probably doesn\u0027t matter if you use the ByteOrder mechanism as is done in other places even though it can\u0027t really happen to avoid any unnecessary checking.",
+      "revId": "32dbda9d37731bde5644aaaba4763940584deed3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2d93e50_cfe767d1",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-08-04T19:53:52Z",
+      "side": 1,
+      "message": "I think using the target\u0027s byteorder is likely sufficient in either case. I\u0027ll change it.",
+      "parentUuid": "9a397976_08d5321a",
       "revId": "32dbda9d37731bde5644aaaba4763940584deed3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
