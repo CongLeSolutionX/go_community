@@ -34,6 +34,24 @@
       "parentUuid": "d4d028cd_8bfebe65",
       "revId": "c2a0465d8794a34252c42fa2c6e9d02ff2399a57",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b329af0b_792806f9",
+        "filename": "src/cmd/compile/internal/gc/pprof.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-08-04T15:04:23Z",
+      "side": 0,
+      "message": "Ah, now I see. (After I\u0027d stepped away from my computer I started thinking \"wait, how did that compile?\")",
+      "parentUuid": "e0e351f4_d4395e16",
+      "revId": "c2a0465d8794a34252c42fa2c6e9d02ff2399a57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
