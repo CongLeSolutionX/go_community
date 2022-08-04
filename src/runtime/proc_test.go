@@ -10,6 +10,8 @@ import (
 	"internal/testenv"
 	"math"
 	"net"
+	"os"
+	"os/signal"
 	"runtime"
 	"runtime/debug"
 	"strings"
@@ -18,6 +20,7 @@ import (
 	"syscall"
 	"testing"
 	"time"
+	"unsafe"
 )
 
 var stop = make(chan bool, 1)
@@ -1153,5 +1156,167 @@ func TestBigGOMAXPROCS(t *testing.T) {
 	}
 	if !strings.Contains(output, "unknown function: NonexistentTest") {
 		t.Errorf("output:\n%s\nwanted:\nunknown function: NonexistentTest", output)
+	}
+}
+
+// The idea here is that we trigger a deadlock via the work conversation bug in
+// issue 45867.
+//
+// The requirements are:
+//
+// 1. A spinning M submits new work, but fails to acquire or wake a P because
+// all Ps are running.
+//
+// 2. All Ps are in the process of going idle on non-spinning Ms.
+//
+// We achieve that here by:
+//
+// 1. Setting GOMAXPROCS=2
+//
+// 2. The main goroutine will run on an M that becomes the spinning M once the
+// goroutine goes to sleep. This spinning M will block in netpoll, waiting for
+// the sleep to expire. When the sleep expires, it will attempt to acquire or
+// wake a P to run the timer.
+//
+// There are three goroutines:
+//
+// - 2 spinning goroutines. The second spinning goroutine is started on a delay
+// to leave a P for the main goroutine to finish its setup.
+
+// M 1: in netpoll, waiting on timer (was spinning)
+// M 2: in signal_recv, waiting on signal
+//
+// * M 1: wait on timer, release P, sleep in netpoll
+// * M 2: wait on signal
+// * M 2: receives signal
+// * M 2: acquires P, runs signal_recv
+// * M 2: writes to channel, wakep wakes M 3
+// * M 2: releases P via entersyscallblock in signal_recv
+// * M 3: acquires P
+// * M 3: runs channel recv goroutine
+// * M 3: goes idle just as M 1 should be waking
+// * M 1: wakes from netpoll, no P available
+// * M 3: drops P, sleeps
+
+
+func doTestIssue45867(t *testing.T) {
+	const duration = 1*time.Second
+
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, os.Signal(syscall.SIGALRM)) // Starts M 2, sleeping in signal_recv.
+	defer signal.Reset(os.Signal(syscall.SIGALRM))
+
+	const _sigev_max_size = 64
+
+	type sigeventFields struct {
+		value  uintptr
+		signo  int32
+		notify int32
+		// below here is a union; sigev_notify_thread_id is the only field we use
+		sigev_notify_thread_id int32
+	}
+
+	type sigevent struct {
+		sigeventFields
+
+		// Pad struct to the max size in the kernel.
+		_ [_sigev_max_size - unsafe.Sizeof(sigeventFields{})]byte
+	}
+
+	const _SIGEV_SIGNAL = 0
+	const _CLOCK_MONOTONIC = 1
+
+	event := sigevent{}
+	event.notify = _SIGEV_SIGNAL
+	event.signo = int32(syscall.SIGALRM)
+
+	var timerid int32
+	_, _, e := syscall.Syscall(syscall.SYS_TIMER_CREATE, _CLOCK_MONOTONIC, uintptr(unsafe.Pointer(&event)), uintptr(unsafe.Pointer(&timerid)))
+	if e != 0 {
+		t.Fatalf("timer_create: %v", e)
+	}
+
+	type itimerspec struct {
+		it_interval syscall.Timespec
+		it_value    syscall.Timespec
+	}
+
+	spec := itimerspec{
+		it_value: syscall.NsecToTimespec(int64(duration - 50*time.Microsecond)),
+	}
+	_, _, e = syscall.Syscall6(syscall.SYS_TIMER_SETTIME, uintptr(timerid), 0, uintptr(unsafe.Pointer(&spec)), 0, 0, 0)
+	if e != 0 {
+		t.Fatalf("timer_settime: %v", e)
+	}
+
+	done := make(chan struct{}, 1)
+	go func() {
+		time.Sleep(duration)
+		// M 1 sleep in netpoll.
+		done <- struct{}{}
+	}()
+
+	<-c // Or here, M 1 sleep in netpoll.
+
+	// Wake here on M 3 once signal arrives. M 1 still in netpoll.
+
+	// Go idle just as M 1 wakes.
+	//
+	// M 1 fails to acquire P because we still have it, sleeps. M 3 (us)
+	// fails to see newly ready G because we already did work check,
+	// sleeps. Deadlock (os/signal will prevent checkdead from detecting
+	// this)!
+	<-done
+}
+
+//func doTestIssue45867() {
+//	start := time.Now()
+//	const duration = 1*time.Second
+//
+//	go func() {
+//		startedSecond := false
+//		for time.Since(start) < duration {
+//			since := time.Since(start)
+//			if !startedSecond && since > duration / 2 {
+//				startedSecond = true
+//				go func() {
+//					for time.Since(start) < duration {
+//					}
+//				}()
+//			}
+//			if since > duration {
+//				break
+//			}
+//		}
+//	}()
+//
+//	go func() {
+//		for time.Since(start) < duration {
+//		}
+//	}()
+//	go func() {
+//		for time.Since(start) < duration {
+//		}
+//	}()
+//
+//	remaining := duration - time.Since(start)
+//	if remaining < 0 {
+//		return
+//	}
+//	t := time.NewTimer(remaining)
+//	defer t.Stop()
+//
+//	for time.Since(start) < duration-50*time.Microsecond {
+//	}
+//
+//	<-t.C
+//}
+
+func TestIssue45867(t *testing.T) {
+	procs := runtime.GOMAXPROCS(1)
+	defer runtime.GOMAXPROCS(procs)
+
+	for i := 0; i < 1; i++ {
+		doTestIssue45867(t)
 	}
 }
