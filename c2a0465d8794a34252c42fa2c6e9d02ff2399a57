@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4d028cd_8bfebe65",
+        "filename": "src/cmd/compile/internal/gc/pprof.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-08-04T13:56:02Z",
+      "side": 0,
+      "message": "It looks like this CL drops this, but it should make it unconditional.",
+      "revId": "c2a0465d8794a34252c42fa2c6e9d02ff2399a57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
