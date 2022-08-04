@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8d9ec02_94785a5d",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-08-04T10:08:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9151398f_9af07e44",
+      "revId": "2eef47041bab1bb9a00006631c7bb0caa3b381e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d99edb87_3d779815",
@@ -85,6 +103,24 @@
       "writtenOn": "2022-08-03T17:02:58Z",
       "side": 1,
       "message": "Maybe also check -AND?",
+      "revId": "2eef47041bab1bb9a00006631c7bb0caa3b381e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d7b526e_19fc2934",
+        "filename": "test/codegen/arithmetic.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-08-04T10:08:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d99edb87_3d779815",
       "revId": "2eef47041bab1bb9a00006631c7bb0caa3b381e6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
