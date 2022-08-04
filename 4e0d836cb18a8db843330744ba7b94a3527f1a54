@@ -16,6 +16,24 @@
       "message": "Kindly ping after the release of 1.19.",
       "revId": "4e0d836cb18a8db843330744ba7b94a3527f1a54",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48cc2e3e_fad7857d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-08-04T15:45:28Z",
+      "side": 1,
+      "message": "This CL is pretty much good-to-go, but the tree is not fully open yet. See https://go.dev/issue/53812.",
+      "parentUuid": "70dd9a77_999e2d6c",
+      "revId": "4e0d836cb18a8db843330744ba7b94a3527f1a54",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
