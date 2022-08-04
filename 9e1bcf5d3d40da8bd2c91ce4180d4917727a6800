@@ -72,6 +72,92 @@
       "message": "Kindly ping guys, I think it\u0027s better to make this early in the cycle. We missed it for a couple of releases.",
       "revId": "9e1bcf5d3d40da8bd2c91ce4180d4917727a6800",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6ba8553_e9e763ba",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 29
+      },
+      "lineNbr": 2321,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-08-04T21:24:27Z",
+      "side": 1,
+      "message": "Do you need to  include this part? Starting with \"type:\" includes the \"type:.\".",
+      "range": {
+        "startLine": 2321,
+        "startChar": 44,
+        "endLine": 2321,
+        "endChar": 55
+      },
+      "revId": "9e1bcf5d3d40da8bd2c91ce4180d4917727a6800",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4cb993a6_3044d8b6",
+        "filename": "src/cmd/link/internal/ld/pe.go",
+        "patchSetId": 29
+      },
+      "lineNbr": 727,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-08-04T21:24:27Z",
+      "side": 1,
+      "message": "Sounds like the CL description has better reasoning. Update this comment?",
+      "range": {
+        "startLine": 727,
+        "startChar": 4,
+        "endLine": 727,
+        "endChar": 87
+      },
+      "revId": "9e1bcf5d3d40da8bd2c91ce4180d4917727a6800",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2569d6c_ce7daa5c",
+        "filename": "src/debug/gosym/symtab.go",
+        "patchSetId": 29
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-08-04T21:24:27Z",
+      "side": 1,
+      "message": "Parentheses this part?\n\nAlso the next if statement.",
+      "range": {
+        "startLine": 64,
+        "startChar": 29,
+        "endLine": 64,
+        "endChar": 95
+      },
+      "revId": "9e1bcf5d3d40da8bd2c91ce4180d4917727a6800",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ddf4e496_5debbbee",
+        "filename": "src/debug/gosym/symtab_test.go",
+        "patchSetId": 29
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-08-04T21:24:27Z",
+      "side": 1,
+      "message": "For the ver118 case, probably also add some cases for compiler-gererated type and go symbols (not only the one that causes confusion). Maybe add a comment like \"// unfortunate\" to the confusing case.",
+      "revId": "9e1bcf5d3d40da8bd2c91ce4180d4917727a6800",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
