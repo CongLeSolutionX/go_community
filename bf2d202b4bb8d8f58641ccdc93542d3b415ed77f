@@ -72,6 +72,23 @@
       "message": "I don\u0027t think this is a good enough reason to add this dependency.",
       "revId": "bf2d202b4bb8d8f58641ccdc93542d3b415ed77f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c522c5c5_30d2f5a4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-08-05T14:24:11Z",
+      "side": 1,
+      "message": "I invite you to read: https://go-proverbs.github.io/\n\n\"A little copying is better than a little dependency.\"",
+      "revId": "bf2d202b4bb8d8f58641ccdc93542d3b415ed77f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
