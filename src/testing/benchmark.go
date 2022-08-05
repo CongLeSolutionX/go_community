@@ -670,7 +670,9 @@ func (b *B) Run(name string, f func(b *B)) bool {
 			}
 		})
 
-		fmt.Println(benchName)
+		if benchName != "root" {
+			fmt.Println(benchName)
+		}
 	}
 
 	if sub.run1() {
