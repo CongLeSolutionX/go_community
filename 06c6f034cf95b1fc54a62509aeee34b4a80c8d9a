@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75de5457_a6d16147",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-08-05T16:14:08Z",
+      "side": 1,
+      "message": "it\u0027s not clear to me what part of the original is a \"mess.\" can you be more specific?",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 38
+      },
+      "revId": "06c6f034cf95b1fc54a62509aeee34b4a80c8d9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b30e0ab_7d6d0bf5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-08-05T16:14:08Z",
+      "side": 1,
+      "message": "thanks for your change.\n\nI\u0027m not sure that this is something we\u0027d want to take in its current state, as I\u0027m not really sure what problems it\u0027s solving. even for refactorings it\u0027s good to coordinate and communicate on a GitHub issue or mailing list (like golang-dev) so we\u0027re on the same page before anyone ends up doing a lot of work.\n\nto be clear, however, I appreciate your efforts here. we\u0027ve long thought about breaking up the Go runtime into a number of different internal packages (which I do think would bring benefits, especially for testability), but detangling everything and giving it a concrete API is difficult. I think this change is a step toward that, as it seeks to group the timer system into a single abstraction. I think that\u0027s good, but again, I have some reservations about the choices here.\n\nI think being more clear and explicit about the goals of this refactoring beyond \"cleaning up a mess\" would help a lot.",
+      "revId": "06c6f034cf95b1fc54a62509aeee34b4a80c8d9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e603e7cd_2700d42d",
+        "filename": "src/runtime/timer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-08-05T16:14:08Z",
+      "side": 1,
+      "message": "from my perspective, this is more confusing than just \"addtimer\" because the fact that it\u0027s a method implies that it\u0027s some kind of operation *on* the timer, but in fact, it\u0027s an operation on the current P.\n\nthe original \"addtimer\" already deals with implicit state, but somehow by turning it into a method, it\u0027s more puzzling that there\u0027s some implicit state manipulation going on. at least with a top-level function, the fact that top-level state might be manipulated is less unexpected (this is in general true of the scheduler).\n\nthis could be a method on a P, or on a \"timing,\" but it would require updating all the callsites. for the sake for testing and detangling code, I think that makes sense?\n\nsame for the other methods below.",
+      "range": {
+        "startLine": 72,
+        "startChar": 0,
+        "endLine": 76,
+        "endChar": 23
+      },
+      "revId": "06c6f034cf95b1fc54a62509aeee34b4a80c8d9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03ef29f4_0ca025e5",
+        "filename": "src/runtime/timer_status.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-08-05T16:14:08Z",
+      "side": 1,
+      "message": "hm, I\u0027m not sure what the benefit is of this living in its own file. it was useful to have this state machine reference next to the description of the timer system.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 54
+      },
+      "revId": "06c6f034cf95b1fc54a62509aeee34b4a80c8d9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04efdb4e_7dea6fb5",
+        "filename": "src/runtime/timing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-08-05T16:14:08Z",
+      "side": 1,
+      "message": "I don\u0027t know if I like this name for this.\n\non a broader note, I think detangling the timer system from the P and grouping it is an interesting and useful idea (specifically for testability) but the internal reference to the P here causes a somewhat leaky abstraction.",
+      "range": {
+        "startLine": 21,
+        "startChar": 5,
+        "endLine": 21,
+        "endChar": 11
+      },
+      "revId": "06c6f034cf95b1fc54a62509aeee34b4a80c8d9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
