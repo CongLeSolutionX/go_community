@@ -2,18 +2,18 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package cipher_test
+package subtle_test
 
 import (
 	"bytes"
-	"crypto/cipher"
 	"crypto/rand"
+	. "crypto/subtle"
 	"fmt"
 	"io"
 	"testing"
 )
 
-func TestXOR(t *testing.T) {
+func TestXORBytes(t *testing.T) {
 	for j := 1; j <= 1024; j++ {
 		if testing.Short() && j > 16 {
 			break
@@ -31,7 +31,7 @@ func TestXOR(t *testing.T) {
 					if _, err := io.ReadFull(rand.Reader, q); err != nil {
 						t.Fatal(err)
 					}
-					cipher.XorBytes(d1, p, q)
+					XORBytes(d1, p, q)
 					n := min(p, q)
 					for i := 0; i < n; i++ {
 						d2[i] = p[i] ^ q[i]
@@ -68,7 +68,7 @@ func BenchmarkXORBytes(b *testing.B) {
 			s1 := data1[:size]
 			b.SetBytes(int64(size))
 			for i := 0; i < b.N; i++ {
-				cipher.XorBytes(dst, s0, s1)
+				XORBytes(dst, s0, s1)
 			}
 		})
 	}
