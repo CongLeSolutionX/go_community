@@ -76,6 +76,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "62802d7e_fa992718",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2022-08-05T16:22:51Z",
+      "side": 1,
+      "message": "r.Out.Host \u003d r.In.Host // if desired",
+      "revId": "40890675d130f273a7556d715f207129e8a45d0b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6c06c9d2_37f7502e",
         "filename": "src/net/http/httputil/reverseproxy.go",
         "patchSetId": 7
