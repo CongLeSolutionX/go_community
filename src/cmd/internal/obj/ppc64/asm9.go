@@ -60,6 +60,7 @@ const (
 )
 
 const (
+	// R0 is treated as $0.
 	r0iszero = 1
 )
 
