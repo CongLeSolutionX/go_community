@@ -97,6 +97,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "054240e7_1c1d0461",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 29
+      },
+      "lineNbr": 2321,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-08-05T01:46:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6ba8553_e9e763ba",
+      "range": {
+        "startLine": 2321,
+        "startChar": 44,
+        "endLine": 2321,
+        "endChar": 55
+      },
+      "revId": "9e1bcf5d3d40da8bd2c91ce4180d4917727a6800",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4cb993a6_3044d8b6",
@@ -110,6 +134,30 @@
       "writtenOn": "2022-08-04T21:24:27Z",
       "side": 1,
       "message": "Sounds like the CL description has better reasoning. Update this comment?",
+      "range": {
+        "startLine": 727,
+        "startChar": 4,
+        "endLine": 727,
+        "endChar": 87
+      },
+      "revId": "9e1bcf5d3d40da8bd2c91ce4180d4917727a6800",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "603e7267_bd686c05",
+        "filename": "src/cmd/link/internal/ld/pe.go",
+        "patchSetId": 29
+      },
+      "lineNbr": 727,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-08-05T01:46:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4cb993a6_3044d8b6",
       "range": {
         "startLine": 727,
         "startChar": 4,
@@ -143,6 +191,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "093b9836_16e48c19",
+        "filename": "src/debug/gosym/symtab.go",
+        "patchSetId": 29
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-08-05T01:46:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a2569d6c_ce7daa5c",
+      "range": {
+        "startLine": 64,
+        "startChar": 29,
+        "endLine": 64,
+        "endChar": 95
+      },
+      "revId": "9e1bcf5d3d40da8bd2c91ce4180d4917727a6800",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ddf4e496_5debbbee",
@@ -156,6 +228,24 @@
       "writtenOn": "2022-08-04T21:24:27Z",
       "side": 1,
       "message": "For the ver118 case, probably also add some cases for compiler-gererated type and go symbols (not only the one that causes confusion). Maybe add a comment like \"// unfortunate\" to the confusing case.",
+      "revId": "9e1bcf5d3d40da8bd2c91ce4180d4917727a6800",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d2faf06_601173e9",
+        "filename": "src/debug/gosym/symtab_test.go",
+        "patchSetId": 29
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-08-05T01:46:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ddf4e496_5debbbee",
       "revId": "9e1bcf5d3d40da8bd2c91ce4180d4917727a6800",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
