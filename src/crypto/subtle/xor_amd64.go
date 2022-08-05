@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package cipher
+package subtle
 
-// Export internal functions for testing.
-var NewCBCGenericEncrypter = newCBCGenericEncrypter
-var NewCBCGenericDecrypter = newCBCGenericDecrypter
+//go:noescape
+func xorBytes(dst, a, b *byte, n int)
