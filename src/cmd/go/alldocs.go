@@ -103,6 +103,10 @@
 // The build flags are shared by the build, clean, get, install, list, run,
 // and test commands:
 //
+//	-C dir
+//		Change to dir before running the command.
+//		Any files named on the command line are interpreted after
+//		changing directories.
 //	-a
 //		force rebuilding of packages that are already up-to-date.
 //	-n
@@ -1230,6 +1234,8 @@
 // referred to indirectly. For the full set of modules available to a build,
 // use 'go list -m -json all'.
 //
+// Edit also provides the -C, -n, and -x build flags.
+//
 // See https://golang.org/ref/mod#go-mod-edit for more about 'go mod edit'.
 //
 // # Print module requirement graph
@@ -1800,7 +1806,7 @@
 //
 // Usage:
 //
-//	go vet [-n] [-x] [-vettool prog] [build flags] [vet flags] [packages]
+//	go vet [-C dir] [-n] [-x] [-vettool prog] [build flags] [vet flags] [packages]
 //
 // Vet runs the Go vet command on the packages named by the import paths.
 //
@@ -1809,6 +1815,7 @@
 // For a list of checkers and their flags, see 'go tool vet help'.
 // For details of a specific checker such as 'printf', see 'go tool vet help printf'.
 //
+// The -C flag changes to dir before running the 'go vet' command.
 // The -n flag prints commands that would be executed.
 // The -x flag prints commands as they are executed.
 //
