@@ -1,0 +1,2 @@
+pkg crypto/subtle, func XORBytes([]uint8, []uint8, []uint8) int #53021
+
