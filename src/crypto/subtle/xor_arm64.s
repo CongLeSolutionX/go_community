@@ -4,8 +4,8 @@
 
 #include "textflag.h"
 
-// func xorBytesARM64(dst, a, b *byte, n int)
-TEXT ·xorBytesARM64(SB), NOSPLIT|NOFRAME, $0
+// func xorBytes(dst, a, b *byte, n int)
+TEXT ·xorBytes(SB), NOSPLIT|NOFRAME, $0
 	MOVD	dst+0(FP), R0
 	MOVD	a+8(FP), R1
 	MOVD	b+16(FP), R2
