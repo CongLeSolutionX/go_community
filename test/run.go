@@ -2018,6 +2018,8 @@ var unifiedFailures = setOf(
 	"escape4.go",  // unified IR can inline f5 and f6; test doesn't expect this
 
 	"typeparam/issue47631.go", // unified IR can handle local type declarations
+
+	"typeparam/issue48042.go", // linker bug? see go.dev/issue/54346
 )
 
 func setOf(keys ...string) map[string]bool {
