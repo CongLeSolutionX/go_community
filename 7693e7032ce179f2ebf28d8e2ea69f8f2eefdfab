@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb94b9d7_74190f0b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-08-06T20:29:25Z",
+      "side": 1,
+      "message": "TRY\u003dsolaris,aix",
+      "revId": "7693e7032ce179f2ebf28d8e2ea69f8f2eefdfab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
