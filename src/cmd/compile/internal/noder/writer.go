@@ -172,12 +172,70 @@ type writerDict struct {
 	// derivedIdx maps a Type to its corresponding index within the
 	// derived slice, if present.
 	derivedIdx map[types2.Type]pkgbits.Index
+
+	typeParamMethodExprs []writerMethodExprInfo
+
+	subdicts []objInfo
+
+	rtypes []typeInfo
+
+	itabs []itabInfo
+}
+
+type itabInfo struct {
+	typ   typeInfo
+	iface typeInfo
+}
+
+// typeParamIndex returns the index of the given type parameter within
+// the dictionary. This may differ from typ.Index() when there are
+// implicit type parameters due to defined types declared within a
+// generic function or method.
+func (dict *writerDict) typeParamIndex(typ *types2.TypeParam) int {
+	for idx, implicit := range dict.implicits {
+		if implicit.Type().(*types2.TypeParam) == typ {
+			return idx
+		}
+	}
+
+	return len(dict.implicits) + typ.Index()
+}
+
+func (dict *writerDict) subdictIdx(newInfo objInfo) int {
+	for idx, oldInfo := range dict.subdicts {
+		if oldInfo.equals(newInfo) {
+			return idx
+		}
+	}
+
+	idx := len(dict.subdicts)
+	dict.subdicts = append(dict.subdicts, newInfo)
+	return idx
+}
+
+type writerMethodExprInfo struct {
+	typeParamIdx int
+	methodInfo   selectorInfo
+}
+
+func (dict *writerDict) typeParamMethodExprIdx(typeParamIdx int, methodInfo selectorInfo) int {
+	newInfo := writerMethodExprInfo{typeParamIdx, methodInfo}
+
+	for idx, oldInfo := range dict.typeParamMethodExprs {
+		if oldInfo == newInfo {
+			return idx
+		}
+	}
+
+	idx := len(dict.typeParamMethodExprs)
+	dict.typeParamMethodExprs = append(dict.typeParamMethodExprs, newInfo)
+	return idx
 }
 
 // A derivedInfo represents a reference to an encoded generic Go type.
 type derivedInfo struct {
 	idx    pkgbits.Index
-	needed bool
+	needed bool // TODO(mdempsky): Remove.
 }
 
 // A typeInfo represents a reference to an encoded Go type.
@@ -412,19 +470,9 @@ func (pw *pkgWriter) typIdx(typ types2.Type, dict *writerDict) typeInfo {
 		w.obj(obj, targs)
 
 	case *types2.TypeParam:
-		index := func() int {
-			for idx, name := range w.dict.implicits {
-				if name.Type().(*types2.TypeParam) == typ {
-					return idx
-				}
-			}
-
-			return len(w.dict.implicits) + typ.Index()
-		}()
-
 		w.derived = true
 		w.Code(pkgbits.TypeTypeParam)
-		w.Len(index)
+		w.Len(w.dict.typeParamIndex(typ))
 
 	case *types2.Array:
 		w.Code(pkgbits.TypeArray)
@@ -750,6 +798,28 @@ func (w *writer) objDict(obj types2.Object, dict *writerDict) {
 	for _, typ := range dict.derived {
 		w.Reloc(pkgbits.RelocType, typ.idx)
 		w.Bool(typ.needed)
+	}
+
+	w.Len(len(dict.typeParamMethodExprs))
+	for _, info := range dict.typeParamMethodExprs {
+		w.Len(info.typeParamIdx)
+		w.selectorInfo(info.methodInfo)
+	}
+
+	w.Len(len(dict.subdicts))
+	for _, info := range dict.subdicts {
+		w.objInfo(info)
+	}
+
+	w.Len(len(dict.rtypes))
+	for _, info := range dict.rtypes {
+		w.typInfo(info)
+	}
+
+	w.Len(len(dict.itabs))
+	for _, info := range dict.itabs {
+		w.typInfo(info.typ)
+		w.typInfo(info.iface)
 	}
 
 	assert(len(dict.derived) == nderived)
@@ -1489,7 +1559,8 @@ func (w *writer) expr(expr syntax.Expr) {
 			obj := obj.(*types2.Func)
 
 			w.Code(exprFuncInst)
-			w.obj(obj, targs)
+			w.pos(expr)
+			w.funcInst(obj, targs)
 			return
 		}
 
@@ -1535,9 +1606,8 @@ func (w *writer) expr(expr syntax.Expr) {
 
 		case types2.MethodVal:
 			w.Code(exprMethodVal)
-			w.recvExpr(expr, sel)
-			w.pos(expr)
-			w.selector(sel.Obj())
+			typ := w.recvExpr(expr, sel)
+			w.methodExpr(expr, typ, sel)
 
 		case types2.MethodExpr:
 			w.Code(exprMethodExpr)
@@ -1546,9 +1616,30 @@ func (w *writer) expr(expr syntax.Expr) {
 			assert(ok)
 			assert(tv.IsType())
 
-			w.typ(tv.Type)
-			w.pos(expr)
-			w.selector(sel.Obj())
+			index := sel.Index()
+			implicits := index[:len(index)-1]
+
+			typ := tv.Type
+			w.typ(typ)
+
+			w.Len(len(implicits))
+			for _, ix := range implicits {
+				w.Len(ix)
+				typ = deref2(typ).Underlying().(*types2.Struct).Field(ix).Type()
+			}
+
+			isPtrTo := func(from, to types2.Type) bool {
+				ptr, ok := from.(*types2.Pointer)
+				return ok && types2.Identical(ptr.Elem(), to)
+			}
+			recv := sel.Obj().(*types2.Func).Type().(*types2.Signature).Recv().Type()
+			if w.Bool(isPtrTo(typ, recv)) { // need deref
+				typ = recv
+			} else if w.Bool(isPtrTo(recv, typ)) { // need addr
+				typ = recv
+			}
+
+			w.methodExpr(expr, typ, sel)
 		}
 
 	case *syntax.IndexExpr:
@@ -1690,18 +1781,28 @@ func (w *writer) expr(expr syntax.Expr) {
 		}
 
 		writeFunExpr := func() {
-			if selector, ok := unparen(expr.Fun).(*syntax.SelectorExpr); ok {
+			fun := unparen(expr.Fun)
+
+			if selector, ok := fun.(*syntax.SelectorExpr); ok {
 				if sel, ok := w.p.info.Selections[selector]; ok && sel.Kind() == types2.MethodVal {
-					w.recvExpr(selector, sel)
 					w.Bool(true) // method call
-					w.pos(selector)
-					w.selector(sel.Obj())
+					typ := w.recvExpr(selector, sel)
+					w.methodExpr(selector, typ, sel)
 					return
 				}
 			}
 
-			w.expr(expr.Fun)
 			w.Bool(false) // not a method call (i.e., normal function call)
+
+			if obj, inst := lookupObj(w.p.info, fun); w.Bool(obj != nil && inst.TypeArgs.Len() != 0) {
+				obj := obj.(*types2.Func)
+
+				w.pos(fun)
+				w.funcInst(obj, inst.TypeArgs)
+				return
+			}
+
+			w.expr(fun)
 		}
 
 		sigType := types2.CoreType(tv.Type).(*types2.Signature)
@@ -1737,7 +1838,8 @@ func (w *writer) optExpr(expr syntax.Expr) {
 }
 
 // recvExpr writes out expr.X, but handles any implicit addressing,
-// dereferencing, and field selections.
+// dereferencing, and field selections appropriate for the method
+// selection.
 func (w *writer) recvExpr(expr *syntax.SelectorExpr, sel *types2.Selection) types2.Type {
 	index := sel.Index()
 	implicits := index[:len(index)-1]
@@ -1768,6 +1870,67 @@ func (w *writer) recvExpr(expr *syntax.SelectorExpr, sel *types2.Selection) type
 	}
 
 	return typ
+}
+
+func (w *writer) funcInst(obj *types2.Func, targs *types2.TypeList) {
+	info := w.p.objInstIdx(obj, targs, w.dict)
+
+	if w.Bool(info.anyDerived()) {
+		w.Len(w.dict.subdictIdx(info))
+		return
+	}
+
+	w.objInfo(info)
+}
+
+func (w *writer) methodExpr(expr *syntax.SelectorExpr, embed types2.Type, sel *types2.Selection) {
+	fun := sel.Obj().(*types2.Func)
+	sig := fun.Type().(*types2.Signature)
+
+	w.typ(embed)
+	w.signature(sig)
+	w.pos(expr)
+	w.selector(fun)
+
+	if typeParam, ok := embed.(*types2.TypeParam); w.Bool(ok) {
+		// Type parameter method expressions can be indexed by their type
+		// parameter + constraint method index.
+		//
+		// Otherwise, we should have a named type available.
+
+		typeParamIdx := w.dict.typeParamIndex(typeParam)
+		methodInfo := w.p.selectorIdx(fun)
+
+		w.Len(w.dict.typeParamMethodExprIdx(typeParamIdx, methodInfo))
+		return
+	}
+
+	if isInterface(embed) != isInterface(sig.Recv().Type()) {
+		w.p.fatalf(expr, "isInterface inconsistency: %v and %v", embed, sig.Recv().Type())
+	}
+
+	if !isInterface(embed) {
+		if named, ok := deref2(embed).(*types2.Named); ok {
+			obj, targs := splitNamed(named)
+			info := w.p.objInstIdx(obj, targs, w.dict)
+
+			if w.p.hasImplicitTypeParams(obj) || info.anyDerived() {
+				w.Bool(true) // dynamic subdictionary
+				w.Len(w.dict.subdictIdx(info))
+				return
+			}
+
+			if targs.Len() != 0 {
+				w.Bool(false) // no dynamic subdictionary
+				w.Bool(true)  // static dictionary
+				w.objInfo(info)
+				return
+			}
+		}
+	}
+
+	w.Bool(false) // no dynamic subdictionary
+	w.Bool(false) // no static dictionary
 }
 
 // multiExpr writes a sequence of expressions, where the i'th value is
@@ -1925,27 +2088,68 @@ func (w *writer) exprs(exprs []syntax.Expr) {
 // rtype writes information so that the reader can construct an
 // expression of type *runtime._type representing typ.
 func (w *writer) rtype(typ types2.Type) {
+	typ = types2.Default(typ)
+
 	w.Sync(pkgbits.SyncRType)
-	w.typNeeded(typ)
+
+	info := w.p.typIdx(typ, w.dict)
+	if w.Bool(info.derived) {
+		w.Len(w.dict.rtypeIdx(info))
+	} else {
+		w.typInfo(info)
+	}
 }
 
-// typNeeded writes a reference to typ, and records that its
-// *runtime._type is needed.
-func (w *writer) typNeeded(typ types2.Type) {
-	info := w.p.typIdx(typ, w.dict)
-	w.typInfo(info)
+func isUntyped(typ types2.Type) bool {
+	basic, ok := typ.(*types2.Basic)
+	return ok && basic.Info()&types2.IsUntyped != 0
+}
 
-	if info.derived {
-		w.dict.derived[info.idx].needed = true
+func (w *writer) itab(typ, iface types2.Type) {
+	typ = types2.Default(typ)
+	iface = types2.Default(iface)
+
+	typInfo := w.p.typIdx(typ, w.dict)
+	ifaceInfo := w.p.typIdx(iface, w.dict)
+	if w.Bool(typInfo.derived || ifaceInfo.derived) {
+		w.Len(w.dict.itabIdx(typInfo, ifaceInfo))
+	} else {
+		w.typInfo(typInfo)
+		w.typInfo(ifaceInfo)
 	}
+}
+
+func (dict *writerDict) rtypeIdx(newInfo typeInfo) int {
+	for idx, oldInfo := range dict.rtypes {
+		if oldInfo == newInfo {
+			return idx
+		}
+	}
+
+	idx := len(dict.rtypes)
+	dict.rtypes = append(dict.rtypes, newInfo)
+	return idx
+}
+
+func (dict *writerDict) itabIdx(typInfo, ifaceInfo typeInfo) int {
+	newInfo := itabInfo{typInfo, ifaceInfo}
+
+	for idx, oldInfo := range dict.itabs {
+		if oldInfo == newInfo {
+			return idx
+		}
+	}
+
+	idx := len(dict.itabs)
+	dict.itabs = append(dict.itabs, newInfo)
+	return idx
 }
 
 // convRTTI writes information so that the reader can construct
 // expressions for converting from src to dst.
 func (w *writer) convRTTI(src, dst types2.Type) {
 	w.Sync(pkgbits.SyncConvRTTI)
-	w.typNeeded(src)
-	w.typNeeded(dst)
+	w.itab(src, dst)
 }
 
 func (w *writer) exprType(iface types2.Type, typ syntax.Expr) {
@@ -1958,9 +2162,13 @@ func (w *writer) exprType(iface types2.Type, typ syntax.Expr) {
 	w.Sync(pkgbits.SyncExprType)
 	w.pos(typ)
 
-	w.typNeeded(tv.Type)
 	if w.Bool(iface != nil && !iface.Underlying().(*types2.Interface).Empty()) {
-		w.typ(iface)
+		w.itab(tv.Type, iface)
+	} else {
+		w.rtype(tv.Type)
+
+		info := w.p.typIdx(tv.Type, w.dict)
+		w.Bool(info.derived)
 	}
 }
 
