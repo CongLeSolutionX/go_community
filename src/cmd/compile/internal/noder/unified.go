@@ -120,25 +120,48 @@ func unified(noders []*noder) {
 	base.ExitIfErrors() // just in case
 }
 
+var todoDicts []func()
+
 // readBodies reads in bodies for any
 func readBodies(target *ir.Package) {
 	// Don't use range--bodyIdx can add closures to todoBodies.
-	for len(todoBodies) > 0 {
-		// The order we expand bodies doesn't matter, so pop from the end
-		// to reduce todoBodies reallocations if it grows further.
-		fn := todoBodies[len(todoBodies)-1]
-		todoBodies = todoBodies[:len(todoBodies)-1]
+	for {
+		// The order we expand dictionaries and bodies doesn't matter, so
+		// pop from the end to reduce todoBodies reallocations if it grows
+		// further.
+		//
+		// However, we do at least need to flush any pending dictionaries
+		// before reading bodies, because bodies might reference the
+		// dictionaries.
 
-		pri, ok := bodyReader[fn]
-		assert(ok)
-		pri.funcBody(fn)
-
-		// Instantiated generic function: add to Decls for typechecking
-		// and compilation.
-		if fn.OClosure == nil && len(pri.dict.targs) != 0 {
-			target.Decls = append(target.Decls, fn)
+		if len(todoDicts) > 0 {
+			fn := todoDicts[len(todoDicts)-1]
+			todoDicts = todoDicts[:len(todoDicts)-1]
+			fn()
+			continue
 		}
+
+		if len(todoBodies) > 0 {
+			fn := todoBodies[len(todoBodies)-1]
+			todoBodies = todoBodies[:len(todoBodies)-1]
+
+			pri, ok := bodyReader[fn]
+			assert(ok)
+			pri.funcBody(fn)
+
+			// Instantiated generic function: add to Decls for typechecking
+			// and compilation.
+			if fn.OClosure == nil && len(pri.dict.targs) != 0 {
+				target.Decls = append(target.Decls, fn)
+			}
+
+			continue
+		}
+
+		break
 	}
+
+	todoDicts = nil
 	todoBodies = nil
 }
 
