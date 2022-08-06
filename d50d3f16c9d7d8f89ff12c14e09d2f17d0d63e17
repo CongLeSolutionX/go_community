@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13a63119_f5a4f45f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34788
+      },
+      "writtenOn": "2022-08-06T13:01:06Z",
+      "side": 1,
+      "message": "Also considered inlining the descriptions into the links table for the index page, not sure if people will like that?",
+      "revId": "d50d3f16c9d7d8f89ff12c14e09d2f17d0d63e17",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
