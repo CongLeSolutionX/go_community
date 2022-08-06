@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5feb7a65_4fb75c11",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2022-08-06T02:47:44Z",
+      "side": 1,
+      "message": "Add blank line after line 9, and then add\n\nUpdates #54251\n\nline and then add one more blank line.",
+      "revId": "a74182b47f5fc7e300eb528e2c4b43454ae03bb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e4c2add_e50fe092",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2022-08-06T02:47:44Z",
+      "side": 1,
+      "message": "Thank you for doing this.\n\nLooks reasonable.\n\nBut your CL has code that is common with https://go-review.googlesource.com/c/go/+/421357 . CL 421357 is already approved, so, please, wait until CL 421357 is submitted. Then rebase this CL, and ping us again.\n\nAlex",
+      "revId": "a74182b47f5fc7e300eb528e2c4b43454ae03bb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ccbb6f2_9f0e9dea",
+        "filename": "src/debug/pe/pe.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2022-08-06T02:47:44Z",
+      "side": 1,
+      "message": "You also need to update api/next/54251.txt file. See https://go-review.googlesource.com/c/go/+/421357 for details why it is needed.",
+      "revId": "a74182b47f5fc7e300eb528e2c4b43454ae03bb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
