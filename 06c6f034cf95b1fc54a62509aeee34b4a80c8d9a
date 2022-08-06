@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "30d1f39f_9fcd38f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 58499
+      },
+      "writtenOn": "2022-08-06T08:06:38Z",
+      "side": 1,
+      "message": "First I thank you to take time and review my codes.\n\nIf I used strong word like \"mess\" I didn\u0027t want to be rude about good codes that write in the go `runtime`, I just mean:\n- If any one wants to know about how `timing` initialize, it must read a lot of code even in not related codes like this logic\nhttps://github.com/golang/go/blob/27f1246b85426ead27f7a695b97d4e042840014b/src/runtime/time.go#L843\n- Where can I add new suggested `timerBucket` struct for timing that describe in the issue? I think if timing codes structure be in good shape, It let us easily added that struct(ofcourse after suggestion approval)\nhttps://github.com/golang/go/issues/53953\n- ...",
+      "parentUuid": "75de5457_a6d16147",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 38
+      },
+      "revId": "06c6f034cf95b1fc54a62509aeee34b4a80c8d9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "1b30e0ab_7d6d0bf5",
@@ -41,6 +65,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e166bcd_4890cb82",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 58499
+      },
+      "writtenOn": "2022-08-06T08:06:38Z",
+      "side": 1,
+      "message": "First I thank you to take time and review my codes.\nPlease review my comments reply.",
+      "revId": "06c6f034cf95b1fc54a62509aeee34b4a80c8d9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e603e7cd_2700d42d",
@@ -54,6 +95,30 @@
       "writtenOn": "2022-08-05T16:14:08Z",
       "side": 1,
       "message": "from my perspective, this is more confusing than just \"addtimer\" because the fact that it\u0027s a method implies that it\u0027s some kind of operation *on* the timer, but in fact, it\u0027s an operation on the current P.\n\nthe original \"addtimer\" already deals with implicit state, but somehow by turning it into a method, it\u0027s more puzzling that there\u0027s some implicit state manipulation going on. at least with a top-level function, the fact that top-level state might be manipulated is less unexpected (this is in general true of the scheduler).\n\nthis could be a method on a P, or on a \"timing,\" but it would require updating all the callsites. for the sake for testing and detangling code, I think that makes sense?\n\nsame for the other methods below.",
+      "range": {
+        "startLine": 72,
+        "startChar": 0,
+        "endLine": 76,
+        "endChar": 23
+      },
+      "revId": "06c6f034cf95b1fc54a62509aeee34b4a80c8d9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73b83633_d2029232",
+        "filename": "src/runtime/timer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 58499
+      },
+      "writtenOn": "2022-08-06T08:06:38Z",
+      "side": 1,
+      "message": "I agree with you, It is better to change `add` method to `start` method and `delete` to `stop` in `timer` struct, But I don\u0027t agree to move them to `timing` struct.\nI also think `reset` and `modify` method of timer is in good shape and We don\u0027t need to change it.",
+      "parentUuid": "e603e7cd_2700d42d",
       "range": {
         "startLine": 72,
         "startChar": 0,
@@ -89,6 +154,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "59619548_8ddafe64",
+        "filename": "src/runtime/timer_status.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 58499
+      },
+      "writtenOn": "2022-08-06T08:06:38Z",
+      "side": 1,
+      "message": "Go have chosen to be package(folder) base instead of file based, So I think instead of have long files that describe multi part of a logic, split them to separate files. When a developer want to understand the logic of the timer, I think it can read timer.go without need to see timer-status.go",
+      "parentUuid": "03ef29f4_0ca025e5",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 54
+      },
+      "revId": "06c6f034cf95b1fc54a62509aeee34b4a80c8d9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "04efdb4e_7dea6fb5",
         "filename": "src/runtime/timing.go",
         "patchSetId": 1
@@ -100,6 +189,30 @@
       "writtenOn": "2022-08-05T16:14:08Z",
       "side": 1,
       "message": "I don\u0027t know if I like this name for this.\n\non a broader note, I think detangling the timer system from the P and grouping it is an interesting and useful idea (specifically for testability) but the internal reference to the P here causes a somewhat leaky abstraction.",
+      "range": {
+        "startLine": 21,
+        "startChar": 5,
+        "endLine": 21,
+        "endChar": 11
+      },
+      "revId": "06c6f034cf95b1fc54a62509aeee34b4a80c8d9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c00e5c20_58314a4f",
+        "filename": "src/runtime/timing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 58499
+      },
+      "writtenOn": "2022-08-06T08:06:38Z",
+      "side": 1,
+      "message": "Do you have any suggesion instead of `timing`?\n\nI didn\u0027t want to change codes and comments a lot to make the pr complicated to review, otherwise It is not so hard work to fix this leaky abstraction.\nBut I think it needs to change a lot of codes in timing methods to fix your concern. It is better to step one by one. First move codes from `p` struct and after that fix the leaky logic.\n\nIt think this is obvious that I didn\u0027t made this leaky abstraction, It is inside existing codes.",
+      "parentUuid": "04efdb4e_7dea6fb5",
       "range": {
         "startLine": 21,
         "startChar": 5,
