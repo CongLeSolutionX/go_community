@@ -828,7 +828,12 @@ func mkinlcall(n *ir.CallExpr, fn *ir.Func, maxCost int32, inlMap map[*ir.Func]b
 func CalleeEffects(init *ir.Nodes, callee ir.Node) {
 	for {
 		switch callee.Op() {
-		case ir.ONAME, ir.OCLOSURE, ir.OMETHEXPR:
+		case ir.ONAME, ir.OMETHEXPR:
+			return // done
+
+		case ir.OCLOSURE:
+			clo := callee.(*ir.ClosureExpr)
+			init.Append(ir.TakeInit(clo)...)
 			return // done
 
 		case ir.OCONVNOP:

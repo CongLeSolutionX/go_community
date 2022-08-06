@@ -41,6 +41,11 @@ func Call(call *ir.CallExpr) {
 		return
 	}
 
+	// TODO(mdempsky): How does stencil.go avoid this issue?
+	if base.Debug.Unified != 0 && typ.HasShape() {
+		return
+	}
+
 	dt := ir.NewTypeAssertExpr(sel.Pos(), sel.X, nil)
 	dt.SetType(typ)
 	x := typecheck.Callee(ir.NewSelectorExpr(sel.Pos(), ir.OXDOT, dt, sel.Sel))

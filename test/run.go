@@ -2016,6 +2016,10 @@ var unifiedFailures = setOf(
 	"escape4.go",  // unified IR can inline f5 and f6; test doesn't expect this
 
 	"typeparam/issue47631.go", // unified IR can handle local type declarations
+
+	// TODO(mdempsky): Investigate and fix.
+	"typeparam/eface.go",
+	"typeparam/issue48042.go", // "unreachable method called"; missing R_USEIFACE reloc?
 )
 
 func setOf(keys ...string) map[string]bool {

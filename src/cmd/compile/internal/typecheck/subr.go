@@ -382,6 +382,9 @@ func Assignop1(src, dst *types.Type) (ir.Op, string) {
 			// don't have the methods for them.
 			return ir.OCONVIFACE, ""
 		}
+		if base.Debug.Unified != 0 && src.HasShape() {
+			return ir.OCONVIFACE, ""
+		}
 		if implements(src, dst, &missing, &have, &ptr) {
 			return ir.OCONVIFACE, ""
 		}

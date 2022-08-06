@@ -45,7 +45,11 @@ func walkConvInterface(n *ir.ConvExpr, init *ir.Nodes) ir.Node {
 	toType := n.Type()
 	if !fromType.IsInterface() && !ir.IsBlank(ir.CurFunc.Nname) {
 		// skip unnamed functions (func _())
-		reflectdata.MarkTypeUsedInInterface(fromType, ir.CurFunc.LSym)
+		if base.Debug.Unified != 0 && fromType.HasShape() {
+			// ok
+		} else {
+			reflectdata.MarkTypeUsedInInterface(fromType, ir.CurFunc.LSym)
+		}
 	}
 
 	if !fromType.IsInterface() {
