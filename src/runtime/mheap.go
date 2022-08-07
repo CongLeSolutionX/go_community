@@ -12,6 +12,7 @@ import (
 	"internal/cpu"
 	"internal/goarch"
 	"runtime/internal/atomic"
+	"runtime/internal/sys"
 	"unsafe"
 )
 
@@ -57,9 +58,9 @@ const (
 //
 // mheap must not be heap-allocated because it contains mSpanLists,
 // which must not be heap-allocated.
-//
-//go:notinheap
 type mheap struct {
+	_ sys.NotInHeap
+
 	// lock must only be acquired on the system stack, otherwise a g
 	// could self-deadlock if its stack grows with the lock held.
 	lock mutex
@@ -217,9 +218,9 @@ var mheap_ mheap
 
 // A heapArena stores metadata for a heap arena. heapArenas are stored
 // outside of the Go heap and accessed via the mheap_.arenas index.
-//
-//go:notinheap
 type heapArena struct {
+	_ sys.NotInHeap
+
 	// bitmap stores the pointer/scalar bitmap for the words in
 	// this arena. See mbitmap.go for a description. Use the
 	// heapBits type to access this.
@@ -290,9 +291,8 @@ type heapArena struct {
 
 // arenaHint is a hint for where to grow the heap arenas. See
 // mheap_.arenaHints.
-//
-//go:notinheap
 type arenaHint struct {
+	_    sys.NotInHeap
 	addr uintptr
 	down bool
 	next *arenaHint
@@ -366,15 +366,14 @@ func (b *mSpanStateBox) get() mSpanState {
 }
 
 // mSpanList heads a linked list of spans.
-//
-//go:notinheap
 type mSpanList struct {
+	_     sys.NotInHeap
 	first *mspan // first span in list, or nil if none
 	last  *mspan // last span in list, or nil if none
 }
 
-//go:notinheap
 type mspan struct {
+	_    sys.NotInHeap
 	next *mspan     // next span in list, or nil if none
 	prev *mspan     // previous span in list, or nil if none
 	list *mSpanList // For debugging. TODO: Remove.
@@ -1715,8 +1714,8 @@ const (
 	// if that happens.
 )
 
-//go:notinheap
 type special struct {
+	_      sys.NotInHeap
 	next   *special // linked list in span
 	offset uint16   // span offset of object
 	kind   byte     // kind of special
@@ -1836,9 +1835,8 @@ func removespecial(p unsafe.Pointer, kind uint8) *special {
 //
 // specialfinalizer is allocated from non-GC'd memory, so any heap
 // pointers must be specially handled.
-//
-//go:notinheap
 type specialfinalizer struct {
+	_       sys.NotInHeap
 	special special
 	fn      *funcval // May be a heap pointer.
 	nret    uintptr
@@ -1897,9 +1895,8 @@ func removefinalizer(p unsafe.Pointer) {
 }
 
 // The described object is being heap profiled.
-//
-//go:notinheap
 type specialprofile struct {
+	_       sys.NotInHeap
 	special special
 	b       *bucket
 }
@@ -1978,14 +1975,15 @@ func freeSpecial(s *special, p unsafe.Pointer, size uintptr) {
 	}
 }
 
-// gcBits is an alloc/mark bitmap. This is always used as *gcBits.
-//
-//go:notinheap
-type gcBits uint8
+// gcBits is an alloc/mark bitmap. This is always used as *gcBits.x.
+type gcBits struct {
+	_ sys.NotInHeap
+	x uint8
+}
 
 // bytep returns a pointer to the n'th byte of b.
 func (b *gcBits) bytep(n uintptr) *uint8 {
-	return addb((*uint8)(b), n)
+	return addb(&b.x, n)
 }
 
 // bitp returns a pointer to the byte containing bit n and a mask for
@@ -2002,8 +2000,8 @@ type gcBitsHeader struct {
 	next uintptr // *gcBits triggers recursive type bug. (issue 14620)
 }
 
-//go:notinheap
 type gcBitsArena struct {
+	_ sys.NotInHeap
 	// gcBitsHeader // side step recursive type bug (issue 14620) by including fields by hand.
 	free uintptr // free is the index into bits of the next free byte; read/write atomically
 	next *gcBitsArena
