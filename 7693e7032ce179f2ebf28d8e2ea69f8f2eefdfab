@@ -70,6 +70,24 @@
       "message": "A question to understand this change better: what\u0027s the reason syscall_close was renamed to syscall_closeFD in runtime/syscall_aix.go, but not here?",
       "revId": "7693e7032ce179f2ebf28d8e2ea69f8f2eefdfab",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5333ae7_6671c3f4",
+        "filename": "src/runtime/syscall_solaris.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-08-08T20:37:21Z",
+      "side": 1,
+      "message": "It\u0027s just because this function is named \"syscall_close\" and the function in syscall_aix.go is named \"syscall.close\".  That is, this one is a function in the runtime package named \"syscall_close\", which is not a problem, and the other one is a function in the syscall package named \"close\", which is a problem.",
+      "parentUuid": "1bcf36e9_ebacfb6b",
+      "revId": "7693e7032ce179f2ebf28d8e2ea69f8f2eefdfab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
