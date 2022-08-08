@@ -181,6 +181,24 @@
       "message": "Hey folks.Hope you all are good.\n\nSince go 1.19 has released, Should I resume the work for this CL?",
       "revId": "54ada2708a22434e8d1dc969beaf39cdd085b59f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51f72b1c_6af0f1bb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 35155
+      },
+      "writtenOn": "2022-08-08T16:11:11Z",
+      "side": 1,
+      "message": "Hello.\n\nIf you rebase this CL, it will be empty as a newer version of x/crypto was already recently vendored into the main repo in CL 421334 as part of #36905.",
+      "parentUuid": "d2cc83d3_d2a64086",
+      "revId": "54ada2708a22434e8d1dc969beaf39cdd085b59f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
