@@ -16,6 +16,57 @@
       "message": "LGTM, curious if it leads to better code, or if this is just a better expression of what\u0027s actually going on.",
       "revId": "aab9add028be23b278392cd725c43cc369bfce7a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "38adb5a6_f9fb4d89",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-08-08T15:03:22Z",
+      "side": 1,
+      "message": "If you prefer this, I think it is fine.\n\nPersonally I think the old rules are simpler. Each SSA Op corresponds to a specific use case, and no Select ops are needed. Also, for the case where we only need the flags, now it probably needs to allocate a register, whereas the old rule would not (the register allocator doesn\u0027t care REGTMP). On the other hand, if there are cases where both the value and the flags are needed, this may be beneficial. Up to you.",
+      "revId": "aab9add028be23b278392cd725c43cc369bfce7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fdde2274_4e1474ec",
+        "filename": "src/cmd/compile/internal/ppc64/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 764,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-08-08T15:03:22Z",
+      "side": 1,
+      "message": "Delete?",
+      "revId": "aab9add028be23b278392cd725c43cc369bfce7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a74f15c4_418e8857",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-08-08T15:03:22Z",
+      "side": 1,
+      "message": "Delete?",
+      "revId": "aab9add028be23b278392cd725c43cc369bfce7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
