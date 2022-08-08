@@ -34,6 +34,24 @@
       "parentUuid": "9bf6cef5_b9708f7d",
       "revId": "b6c16068897c370661f03af91e8ba46860408e61",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf9b3669_034e7958",
+        "filename": "doc/go1.19.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 863,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2022-08-08T20:42:02Z",
+      "side": 0,
+      "message": "SGTM. Thanks for considering this.",
+      "parentUuid": "ee1be82c_d71456d7",
+      "revId": "b6c16068897c370661f03af91e8ba46860408e61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
