@@ -72,6 +72,24 @@
       "message": "@ludi317 looks like this is ready; ok for me to submit it?",
       "revId": "495ff028aef475e0e91fafdb788070758755f05d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b7fd49f_0a6131c4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16956
+      },
+      "writtenOn": "2022-08-08T15:50:19Z",
+      "side": 1,
+      "message": "Yes, thank you.",
+      "parentUuid": "6a554343_f019f515",
+      "revId": "495ff028aef475e0e91fafdb788070758755f05d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
