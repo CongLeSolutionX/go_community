@@ -308,6 +308,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "280584ae_0a25528e",
+        "filename": "src/debug/gosym/symtab_test.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-08-08T15:34:13Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a95cb7f4_24e07b8f",
+      "range": {
+        "startLine": 69,
+        "startChar": 18,
+        "endLine": 69,
+        "endChar": 28
+      },
+      "revId": "b67a1d8a636e789cd9a3e0a9253c28e94e46682f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4c5e854c_77f82772",
