@@ -1,0 +1,108 @@
+pkg debug/elf, const R_PPC64_ADDR16_HIGHER34 = 136
+pkg debug/elf, const R_PPC64_ADDR16_HIGHER34 R_PPC64
+pkg debug/elf, const R_PPC64_ADDR16_HIGHERA34 = 137
+pkg debug/elf, const R_PPC64_ADDR16_HIGHERA34 R_PPC64
+pkg debug/elf, const R_PPC64_ADDR16_HIGHEST34 = 138
+pkg debug/elf, const R_PPC64_ADDR16_HIGHEST34 R_PPC64
+pkg debug/elf, const R_PPC64_ADDR16_HIGHESTA34 = 139
+pkg debug/elf, const R_PPC64_ADDR16_HIGHESTA34 R_PPC64
+pkg debug/elf, const R_PPC64_COPY = 19
+pkg debug/elf, const R_PPC64_COPY R_PPC64
+pkg debug/elf, const R_PPC64_D28 = 144
+pkg debug/elf, const R_PPC64_D28 R_PPC64
+pkg debug/elf, const R_PPC64_D34 = 128
+pkg debug/elf, const R_PPC64_D34 R_PPC64
+pkg debug/elf, const R_PPC64_D34_HA30 = 131
+pkg debug/elf, const R_PPC64_D34_HA30 R_PPC64
+pkg debug/elf, const R_PPC64_D34_HI30 = 130
+pkg debug/elf, const R_PPC64_D34_HI30 R_PPC64
+pkg debug/elf, const R_PPC64_D34_LO = 129
+pkg debug/elf, const R_PPC64_D34_LO R_PPC64
+pkg debug/elf, const R_PPC64_DTPREL28 = 147
+pkg debug/elf, const R_PPC64_DTPREL28 R_PPC64
+pkg debug/elf, const R_PPC64_GLOB_DAT = 20
+pkg debug/elf, const R_PPC64_GLOB_DAT R_PPC64
+pkg debug/elf, const R_PPC64_GNU_VTENTRY = 254
+pkg debug/elf, const R_PPC64_GNU_VTENTRY R_PPC64
+pkg debug/elf, const R_PPC64_GNU_VTINHERIT = 253
+pkg debug/elf, const R_PPC64_GNU_VTINHERIT R_PPC64
+pkg debug/elf, const R_PPC64_GOT_DTPREL_PCREL34 = 151
+pkg debug/elf, const R_PPC64_GOT_DTPREL_PCREL34 R_PPC64
+pkg debug/elf, const R_PPC64_GOT_PCREL34 = 133
+pkg debug/elf, const R_PPC64_GOT_PCREL34 R_PPC64
+pkg debug/elf, const R_PPC64_GOT_TLSGD_PCREL34 = 148
+pkg debug/elf, const R_PPC64_GOT_TLSGD_PCREL34 R_PPC64
+pkg debug/elf, const R_PPC64_GOT_TLSLD_PCREL34 = 149
+pkg debug/elf, const R_PPC64_GOT_TLSLD_PCREL34 R_PPC64
+pkg debug/elf, const R_PPC64_GOT_TPREL_PCREL34 = 150
+pkg debug/elf, const R_PPC64_GOT_TPREL_PCREL34 R_PPC64
+pkg debug/elf, const R_PPC64_PCREL28 = 145
+pkg debug/elf, const R_PPC64_PCREL28 R_PPC64
+pkg debug/elf, const R_PPC64_PCREL34 = 132
+pkg debug/elf, const R_PPC64_PCREL34 R_PPC64
+pkg debug/elf, const R_PPC64_PCREL_OPT = 123
+pkg debug/elf, const R_PPC64_PCREL_OPT R_PPC64
+pkg debug/elf, const R_PPC64_PLT16_HA = 31
+pkg debug/elf, const R_PPC64_PLT16_HA R_PPC64
+pkg debug/elf, const R_PPC64_PLT16_HI = 30
+pkg debug/elf, const R_PPC64_PLT16_HI R_PPC64
+pkg debug/elf, const R_PPC64_PLT16_LO = 29
+pkg debug/elf, const R_PPC64_PLT16_LO R_PPC64
+pkg debug/elf, const R_PPC64_PLT32 = 27
+pkg debug/elf, const R_PPC64_PLT32 R_PPC64
+pkg debug/elf, const R_PPC64_PLT64 = 45
+pkg debug/elf, const R_PPC64_PLT64 R_PPC64
+pkg debug/elf, const R_PPC64_PLTCALL = 120
+pkg debug/elf, const R_PPC64_PLTCALL R_PPC64
+pkg debug/elf, const R_PPC64_PLTCALL_NOTOC = 122
+pkg debug/elf, const R_PPC64_PLTCALL_NOTOC R_PPC64
+pkg debug/elf, const R_PPC64_PLTREL32 = 28
+pkg debug/elf, const R_PPC64_PLTREL32 R_PPC64
+pkg debug/elf, const R_PPC64_PLTREL64 = 46
+pkg debug/elf, const R_PPC64_PLTREL64 R_PPC64
+pkg debug/elf, const R_PPC64_PLTSEQ = 119
+pkg debug/elf, const R_PPC64_PLTSEQ R_PPC64
+pkg debug/elf, const R_PPC64_PLTSEQ_NOTOC = 121
+pkg debug/elf, const R_PPC64_PLTSEQ_NOTOC R_PPC64
+pkg debug/elf, const R_PPC64_PLT_PCREL34 = 134
+pkg debug/elf, const R_PPC64_PLT_PCREL34 R_PPC64
+pkg debug/elf, const R_PPC64_PLT_PCREL34_NOTOC = 135
+pkg debug/elf, const R_PPC64_PLT_PCREL34_NOTOC R_PPC64
+pkg debug/elf, const R_PPC64_REL16_HIGH = 240
+pkg debug/elf, const R_PPC64_REL16_HIGH R_PPC64
+pkg debug/elf, const R_PPC64_REL16_HIGHA = 241
+pkg debug/elf, const R_PPC64_REL16_HIGHA R_PPC64
+pkg debug/elf, const R_PPC64_REL16_HIGHER = 242
+pkg debug/elf, const R_PPC64_REL16_HIGHER R_PPC64
+pkg debug/elf, const R_PPC64_REL16_HIGHER34 = 140
+pkg debug/elf, const R_PPC64_REL16_HIGHER34 R_PPC64
+pkg debug/elf, const R_PPC64_REL16_HIGHERA = 243
+pkg debug/elf, const R_PPC64_REL16_HIGHERA R_PPC64
+pkg debug/elf, const R_PPC64_REL16_HIGHERA34 = 141
+pkg debug/elf, const R_PPC64_REL16_HIGHERA34 R_PPC64
+pkg debug/elf, const R_PPC64_REL16_HIGHEST = 244
+pkg debug/elf, const R_PPC64_REL16_HIGHEST R_PPC64
+pkg debug/elf, const R_PPC64_REL16_HIGHEST34 = 142
+pkg debug/elf, const R_PPC64_REL16_HIGHEST34 R_PPC64
+pkg debug/elf, const R_PPC64_REL16_HIGHESTA = 245
+pkg debug/elf, const R_PPC64_REL16_HIGHESTA R_PPC64
+pkg debug/elf, const R_PPC64_REL16_HIGHESTA34 = 143
+pkg debug/elf, const R_PPC64_REL16_HIGHESTA34 R_PPC64
+pkg debug/elf, const R_PPC64_REL30 = 37
+pkg debug/elf, const R_PPC64_REL30 R_PPC64
+pkg debug/elf, const R_PPC64_SECTOFF = 33
+pkg debug/elf, const R_PPC64_SECTOFF R_PPC64
+pkg debug/elf, const R_PPC64_SECTOFF_HA = 36
+pkg debug/elf, const R_PPC64_SECTOFF_HA R_PPC64
+pkg debug/elf, const R_PPC64_SECTOFF_HI = 35
+pkg debug/elf, const R_PPC64_SECTOFF_HI R_PPC64
+pkg debug/elf, const R_PPC64_SECTOFF_LO = 34
+pkg debug/elf, const R_PPC64_SECTOFF_LO R_PPC64
+pkg debug/elf, const R_PPC64_TPREL28 = 146
+pkg debug/elf, const R_PPC64_TPREL28 R_PPC64
+pkg debug/elf, const R_PPC64_UADDR16 = 25
+pkg debug/elf, const R_PPC64_UADDR16 R_PPC64
+pkg debug/elf, const R_PPC64_UADDR32 = 24
+pkg debug/elf, const R_PPC64_UADDR32 R_PPC64
+pkg debug/elf, const R_PPC64_UADDR64 = 43
+pkg debug/elf, const R_PPC64_UADDR64 R_PPC64
