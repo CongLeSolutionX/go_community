@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f192fcd_3638d809",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-08-08T15:00:42Z",
+      "side": 1,
+      "message": "LGTM, curious if it leads to better code, or if this is just a better expression of what\u0027s actually going on.",
+      "revId": "aab9add028be23b278392cd725c43cc369bfce7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
