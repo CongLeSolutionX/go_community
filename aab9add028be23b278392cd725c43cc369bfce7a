@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "99775341_81c8fee0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2022-08-08T15:19:28Z",
+      "side": 1,
+      "message": "I started on this because we\u0027ve had the TODO comment to fix this in here for a long time (added by David Chase) and I\u0027m also looking at improvements to the rules that use ANDCCconst with CMP and ISELB. I think there will be cases where both results are wanted. But I agree this makes the rules messier.\n\nIf the input operand to the ANDCCconst is not used again, I\u0027m assuming the register allocator would just reuse the input reg for output. But I didn\u0027t think about that case and will check out how much it affects anything.",
+      "parentUuid": "38adb5a6_f9fb4d89",
+      "revId": "aab9add028be23b278392cd725c43cc369bfce7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fdde2274_4e1474ec",
@@ -52,6 +70,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8a1dd7b_476b9b49",
+        "filename": "src/cmd/compile/internal/ppc64/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 764,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2022-08-08T15:19:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fdde2274_4e1474ec",
+      "revId": "aab9add028be23b278392cd725c43cc369bfce7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a74f15c4_418e8857",
@@ -65,6 +101,24 @@
       "writtenOn": "2022-08-08T15:03:22Z",
       "side": 1,
       "message": "Delete?",
+      "revId": "aab9add028be23b278392cd725c43cc369bfce7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d2904a3_80aab4d5",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2022-08-08T15:19:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a74f15c4_418e8857",
       "revId": "aab9add028be23b278392cd725c43cc369bfce7a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
