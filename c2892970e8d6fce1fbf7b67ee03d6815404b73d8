@@ -232,6 +232,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9bad6fa_e984686c",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2719,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-08-08T03:00:01Z",
+      "side": 1,
+      "message": "ah, no, I was mistaken. I was thinking the race window between the two might be a problem but I don\u0027t think it is.",
+      "parentUuid": "0dcc04f5_fd2efd6c",
+      "range": {
+        "startLine": 2717,
+        "startChar": 2,
+        "endLine": 2719,
+        "endChar": 23
+      },
+      "revId": "c2892970e8d6fce1fbf7b67ee03d6815404b73d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d120b630_8ecf112f",
@@ -269,6 +293,30 @@
       "side": 1,
       "message": "This one is harder because each case is a bit different depending on whether nmspinning was incremented and if pidleget is called immediately prior. I\u0027m open to suggestions.",
       "parentUuid": "d120b630_8ecf112f",
+      "range": {
+        "startLine": 3054,
+        "startChar": 1,
+        "endLine": 3063,
+        "endChar": 2
+      },
+      "revId": "c2892970e8d6fce1fbf7b67ee03d6815404b73d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cfbe98b3_9660cbe2",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3063,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-08-08T03:00:01Z",
+      "side": 1,
+      "message": "I\u0027m not sure I understand; looking at all the places needspinning is set to 1, the pattern appears to be:\n\n    lock sched\n    pp :\u003d pidleget\n    if pp \u003d\u003d nil {\n         needspinning \u003d 1\n         unlock sched\n    }\n    unlock sched\n\nso I\u0027m suggesting a function that\u0027s basically just a wrapper for pidleget that also sets needspinning \u003d 1 (so it\u0027s less likely to be missed).\n\ndoes that make sense? maybe I\u0027m missing something",
+      "parentUuid": "4663cced_4f0650ac",
       "range": {
         "startLine": 3054,
         "startChar": 1,
