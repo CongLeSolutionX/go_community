@@ -7,10 +7,15 @@
 package test
 
 import (
+	"internal/testenv"
+	"strings"
 	"testing"
 )
 
 func TestAppendOfMake(t *testing.T) {
+	if strings.HasSuffix(testenv.Builder(), "-noopt") {
+		t.Skip("append of make optimization is disabled on noopt builder")
+	}
 	for n := 32; n < 33; n++ { // avoid stack allocation of make()
 		b := make([]byte, n)
 		f := func() {
