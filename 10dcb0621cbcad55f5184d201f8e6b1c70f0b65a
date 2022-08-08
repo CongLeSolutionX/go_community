@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a727c4a_f13a46e0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2022-08-08T16:48:04Z",
+      "side": 1,
+      "message": "ping, the tree is open, cl can be reviewed now!",
+      "revId": "10dcb0621cbcad55f5184d201f8e6b1c70f0b65a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
