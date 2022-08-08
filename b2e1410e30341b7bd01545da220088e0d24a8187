@@ -51,6 +51,24 @@
       "message": "Maybe we should add a \"OptimizationsOff\" function in internal/testenv?\nThis CL is ok for now to get the builder green.",
       "revId": "b2e1410e30341b7bd01545da220088e0d24a8187",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cdfd6294_888de9c7",
+        "filename": "src/cmd/compile/internal/test/issue53888_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-08-08T17:34:27Z",
+      "side": 1,
+      "message": "Sounds like a good idea, since we\u0027re using this pattern to detect noopt builder in couple of places.",
+      "parentUuid": "f175a50b_2d254769",
+      "revId": "b2e1410e30341b7bd01545da220088e0d24a8187",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
