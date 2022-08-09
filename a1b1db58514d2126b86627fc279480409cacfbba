@@ -70,6 +70,23 @@
       "message": "In the original case there is LWSYNC before both writes (0,1) to Rout would there be any change in behaviour now that there is a write of 0 to Rout before the LWSYNC? ",
       "revId": "a1b1db58514d2126b86627fc279480409cacfbba",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78847564_2d2f4be3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2022-08-09T07:30:52Z",
+      "side": 1,
+      "message": "p0 is not used as a variable in any other case, it starts from p1, may be for consistency it would be better for us to start with p1 as well? ",
+      "revId": "a1b1db58514d2126b86627fc279480409cacfbba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
