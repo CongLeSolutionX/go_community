@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2c65e8c_94bd8743",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2022-08-09T06:20:02Z",
+      "side": 1,
+      "message": "What instructions/features does this provide?\n\nThis seems semi-problematic, given that AFAIK SHA2 includes SHA2-512 in the form of SHA512H/SHA512H2/SHA512SU0/SHA512SU1. If it is the same as these then it is possibly redundant; if it is Apple M1 specific then the name is potentially misleading:\n\nhttps://developer.arm.com/documentation/101800/0201/AArch64-registers/AArch64-Identification-register-summary/ID-AA64ISAR0-EL1--AArch64-Instruction-Set-Attribute-Register-0",
+      "revId": "228f891c905af8c01743085a74b2189f58eecba1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
