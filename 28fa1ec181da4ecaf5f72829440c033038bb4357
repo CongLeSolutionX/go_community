@@ -34,6 +34,24 @@
       "parentUuid": "c148f190_8a582150",
       "revId": "28fa1ec181da4ecaf5f72829440c033038bb4357",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1730a998_5308f19c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 58538
+      },
+      "writtenOn": "2022-08-09T10:40:16Z",
+      "side": 1,
+      "message": "I am not familiar with this code, but it seems to me that the bug is in internetAddrList in ipsock.go and that that is the function that should be fixed.",
+      "parentUuid": "66e1b62d_dfc6a5f3",
+      "revId": "28fa1ec181da4ecaf5f72829440c033038bb4357",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
