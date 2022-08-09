@@ -1461,12 +1461,12 @@ func (r *reader) stmt1(tag codeStmt, out *ir.Nodes) ir.Node {
 
 		if len(lhs) == 1 && len(rhs) == 1 {
 			n := ir.NewAssignStmt(pos, lhs[0], rhs[0])
-			n.Def = r.initDefn(n, names)
+			n.Def = initDefn(n, names)
 			return n
 		}
 
 		n := ir.NewAssignListStmt(pos, ir.OAS2, lhs, rhs)
-		n.Def = r.initDefn(n, names)
+		n.Def = initDefn(n, names)
 		return n
 
 	case stmtAssignOp:
@@ -1599,7 +1599,7 @@ func (r *reader) forStmt(label *types.Sym) ir.Node {
 				rang.Value = lhs[1]
 			}
 		}
-		rang.Def = r.initDefn(rang, names)
+		rang.Def = initDefn(rang, names)
 
 		rang.X = r.expr()
 		if rang.X.Type().IsMap() {
@@ -1819,23 +1819,6 @@ func (r *reader) optLabel() *types.Sym {
 		return r.label()
 	}
 	return nil
-}
-
-// initDefn marks the given names as declared by defn and populates
-// its Init field with ODCL nodes. It then reports whether any names
-// were so declared, which can be used to initialize defn.Def.
-func (r *reader) initDefn(defn ir.InitNode, names []*ir.Name) bool {
-	if len(names) == 0 {
-		return false
-	}
-
-	init := make([]ir.Node, len(names))
-	for i, name := range names {
-		name.Defn = defn
-		init[i] = ir.NewDecl(name.Pos(), ir.ODCL, name)
-	}
-	defn.SetInit(init)
-	return true
 }
 
 // @@@ Expressions
