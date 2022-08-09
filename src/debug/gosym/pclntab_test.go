@@ -268,6 +268,18 @@ func TestPCLine(t *testing.T) {
 	}
 }
 
+func TestSymVersion(t *testing.T) {
+	table := getTable(t)
+	if table.go12line == nil {
+		t.Skip("not relevant to Go 1.2+ symbol table")
+	}
+	for _, fn := range table.Funcs {
+		if fn.goVersion == verUnknown {
+			t.Fatalf("unexpected symbol version: %v", fn)
+		}
+	}
+}
+
 // read115Executable returns a hello world executable compiled by Go 1.15.
 //
 // The file was compiled in /tmp/hello.go:
