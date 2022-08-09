@@ -130,7 +130,6 @@ func main() {
 
 	if *serve != "" {
 		log.Fatal(http.ListenAndServe(*serve, nil))
-		println(lastParsed)
 	}
 }
 
