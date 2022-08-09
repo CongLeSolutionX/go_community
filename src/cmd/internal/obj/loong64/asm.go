@@ -979,10 +979,12 @@ func buildop(ctxt *obj.Link) {
 		case ASLL:
 			opset(ASRL, r0)
 			opset(ASRA, r0)
+			opset(AROTR, r0)
 
 		case ASLLV:
 			opset(ASRAV, r0)
 			opset(ASRLV, r0)
+			opset(AROTRV, r0)
 
 		case ASUB:
 			opset(ASUBU, r0)
@@ -1645,12 +1647,16 @@ func (c *ctxt0) oprrr(a obj.As) uint32 {
 		return 0x2f << 15
 	case ASRA:
 		return 0x30 << 15
+	case AROTR:
+		return 0x36 << 15
 	case ASLLV:
 		return 0x31 << 15
 	case ASRLV:
 		return 0x32 << 15
 	case ASRAV:
 		return 0x33 << 15
+	case AROTRV:
+		return 0x37 << 15
 	case AADDV:
 		return 0x21 << 15
 	case AADDVU:
@@ -1837,6 +1843,8 @@ func (c *ctxt0) opirr(a obj.As) uint32 {
 		return 0x00089 << 15
 	case ASRA:
 		return 0x00091 << 15
+	case AROTR:
+		return 0x00099 << 15
 	case AADDV:
 		return 0x00b << 22
 	case AADDVU:
@@ -1931,6 +1939,9 @@ func (c *ctxt0) opirr(a obj.As) uint32 {
 	case ASRAV,
 		-ASRAV:
 		return 0x0049 << 16
+	case AROTRV,
+		-AROTRV:
+		return 0x004d << 16
 	case -ALL:
 		return 0x020 << 24
 	case -ALLV:
@@ -1953,7 +1964,8 @@ func vshift(a obj.As) bool {
 	switch a {
 	case ASLLV,
 		ASRLV,
-		ASRAV:
+		ASRAV,
+		AROTRV:
 		return true
 	}
 	return false
