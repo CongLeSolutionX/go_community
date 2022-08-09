@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c51473b4_e0762c4c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2022-08-09T08:18:02Z",
+      "side": 1,
+      "message": "TRY\u003dfreebsd-arm64,openbsd-arm64",
+      "revId": "237294ac8d04ed2505380b0c548580d0947b0d86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
