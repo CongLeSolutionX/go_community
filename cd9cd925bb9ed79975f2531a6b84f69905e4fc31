@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee827c8a_a240ae02",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2022-08-09T20:52:00Z",
+      "side": 1,
+      "message": "Thank you for the reivews Dmitri \u0026 Than!",
+      "revId": "cd9cd925bb9ed79975f2531a6b84f69905e4fc31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
