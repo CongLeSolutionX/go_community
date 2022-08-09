@@ -1982,6 +1982,7 @@ var types2Failures32Bit = setOf(
 var go118Failures = setOf(
 	"typeparam/nested.go",      // 1.18 compiler doesn't support function-local types with generics
 	"typeparam/issue51521.go",  // 1.18 compiler produces bad panic message and link error
+	"typeparam/issue54343.go",  // 1.18 compiler assigns receiver parameter to global variable
 	"typeparam/mdempsky/16.go", // 1.18 compiler uses interface shape type in failed type assertions
 	"typeparam/mdempsky/17.go", // 1.18 compiler mishandles implicit conversions from range loops
 	"typeparam/mdempsky/18.go", // 1.18 compiler mishandles implicit conversions in select statements
