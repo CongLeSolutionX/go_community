@@ -34,6 +34,24 @@
       "parentUuid": "bf6487d8_f54f3268",
       "revId": "c3833a55433f4b2981253f64444fe5c3d1bc910a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d9fc72f_960d6494",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-08-09T16:13:44Z",
+      "side": 1,
+      "message": "Thanks. Yep, looks like the linker special-cases gcbits to have lower alignment (cmd/interna/obj/objfile.go:357). Removing that special cases fixes the alignment issue.\nIt *may* also fix the zombie object issue, if the linker dedup then causes ptr bits beyond the object end to be included.",
+      "parentUuid": "bcc4bf64_3caf7ff8",
+      "revId": "c3833a55433f4b2981253f64444fe5c3d1bc910a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
