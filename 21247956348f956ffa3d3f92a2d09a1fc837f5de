@@ -88,6 +88,24 @@
       "parentUuid": "c4702f69_7dc86b30",
       "revId": "21247956348f956ffa3d3f92a2d09a1fc837f5de",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe328008_6654118e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57733
+      },
+      "writtenOn": "2022-08-09T13:26:59Z",
+      "side": 1,
+      "message": "Yes, I\u0027m happy with it.",
+      "parentUuid": "4a4950d8_eb840329",
+      "revId": "21247956348f956ffa3d3f92a2d09a1fc837f5de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
