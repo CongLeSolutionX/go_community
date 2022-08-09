@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf6487d8_f54f3268",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2022-08-09T12:24:42Z",
+      "side": 1,
+      "message": "This change has broken the openbsd/arm and openbsd/mips64 ports - both are crashing due to a SIGBUS, which is most likely caused by unaligned memory accesses (this will also have a performance impact on architectures like riscv64, as the unaligned loads will be handled by a kernel trap):\n\nhttps://build.golang.org/log/81ca03c776f394f1743c468676156a1c392ef001\n\nhttps://build.golang.org/log/154d2d0577fd0cdc31a8f0c31202d8a6d0df0249\n\nPlease let me know if you need further details.",
+      "revId": "c3833a55433f4b2981253f64444fe5c3d1bc910a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
