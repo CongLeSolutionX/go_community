@@ -4,7 +4,6 @@
 
 package sys
 
-// TODO: make this as a compiler intrinsic type, and remove go:notinheap
 //go:notinheap
 type nih struct{}
 
@@ -38,4 +37,7 @@ type nih struct{}
 // scheduler and the memory allocator where they are illegal or simply
 // inefficient. This mechanism is reasonably safe and does not compromise
 // the readability of the runtime.
-type NotInHeap struct{ _ nih }
+//
+// NOTE: keep in sync with cmd/compile/internal/types.CalcSize
+// to make the compiler recognize this as an intrinsic type.
+type NotInHeap struct{}
