@@ -71,6 +71,24 @@
       "parentUuid": "d8014a53_c27f0aa4",
       "revId": "c02730278d663e42ab0ecc3d5fc5dcdceb67fb5b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ca32203_d855fa06",
+        "filename": "src/cmd/compile/internal/amd64/versions_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-08-10T18:30:19Z",
+      "side": 1,
+      "message": "Sorry, maybe I was unclear, because neither of those are what I suggested. I meant to check that \"amd64.v2\" (v2, not v1) is *not* present:\n\n```\namd64v1 :\u003d func() bool {\n  for _, tag :\u003d range build.Default.ToolTags {\n    if tag \u003d\u003d \"amd64.v2\" {\n      return false // compiling for GOAMD64\u003dv2 or higher\n    }\n  }\n  return true\n}()\n```",
+      "parentUuid": "26ae3ddd_acace23a",
+      "revId": "c02730278d663e42ab0ecc3d5fc5dcdceb67fb5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
