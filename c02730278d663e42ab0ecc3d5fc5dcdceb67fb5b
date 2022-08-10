@@ -53,6 +53,24 @@
       "message": "Can we check that \"amd64.v2\" is absent instead?",
       "revId": "c02730278d663e42ab0ecc3d5fc5dcdceb67fb5b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26ae3ddd_acace23a",
+        "filename": "src/cmd/compile/internal/amd64/versions_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-08-10T18:06:51Z",
+      "side": 1,
+      "message": "Yeah, I initially do something like this:\n\n```\namd64v1 :\u003d func() bool {\n    for _, tag :\u003d range build.Default.ToolTags {\n        if tag !\u003d \"amd64.v1\" {\n            return false\n        }\n    }\n    return true\n}\n```\n\nBut it\u0027s not right, since when we need to care about the case that experiment is enabled, so it becomes:\n\n```\namd64v1 :\u003d func() bool {\n    for _, tag :\u003d range build.Default.ToolTags {\n        if strings.HasPrefix(tag, \"experiment.\") {\n            continue\n        }\n        if tag !\u003d \"amd64.v1\" {\n            return false\n        }\n    }\n    return true\n}\n```\n\nSounds like too much works. Because `build.Default.ToolTags` is arranged to have experiment tags before \"GO$GOARCH\" tags, it\u0027s safe to just check for the last element.",
+      "parentUuid": "d8014a53_c27f0aa4",
+      "revId": "c02730278d663e42ab0ecc3d5fc5dcdceb67fb5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
