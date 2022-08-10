@@ -4,9 +4,6 @@
 
 package sys
 
-//go:notinheap
-type nih struct{}
-
 // NotInHeap is a type must never be allocated from the GC'd heap or on the stack,
 // and is called not-in-heap.
 //
