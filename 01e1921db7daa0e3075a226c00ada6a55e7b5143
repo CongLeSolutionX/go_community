@@ -61,6 +61,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "05ab5358_4573dcd5",
+        "filename": "src/cmd/compile/internal/noder/writer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-08-10T23:16:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "229dbec9_55c2df36",
+      "range": {
+        "startLine": 612,
+        "startChar": 21,
+        "endLine": 612,
+        "endChar": 31
+      },
+      "revId": "01e1921db7daa0e3075a226c00ada6a55e7b5143",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ecc3f60e_c0b54829",
@@ -74,6 +98,24 @@
       "writtenOn": "2022-08-08T17:44:24Z",
       "side": 1,
       "message": "A comment describing this would also be helpful.",
+      "revId": "01e1921db7daa0e3075a226c00ada6a55e7b5143",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa7e4144_6489e157",
+        "filename": "src/cmd/compile/internal/noder/writer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1786,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-08-10T23:16:25Z",
+      "side": 1,
+      "message": "Done. (Though it actually gets removed again in a subsequent CL.)",
+      "parentUuid": "ecc3f60e_c0b54829",
       "revId": "01e1921db7daa0e3075a226c00ada6a55e7b5143",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
