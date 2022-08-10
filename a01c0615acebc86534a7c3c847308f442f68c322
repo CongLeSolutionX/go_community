@@ -55,6 +55,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e025ea31_56adb30d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-08-10T00:51:35Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "a01c0615acebc86534a7c3c847308f442f68c322",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fcdc6880_df10b148",
@@ -68,6 +85,24 @@
       "writtenOn": "2022-08-09T22:26:12Z",
       "side": 1,
       "message": "Is using a zero-initialized obj.LSym like this supported? (You would of course know better than me; I\u0027ve just never seen this usage before.)",
+      "revId": "a01c0615acebc86534a7c3c847308f442f68c322",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a406fdc7_c3bcc561",
+        "filename": "src/cmd/compile/internal/reflectdata/reflect.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2064,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-08-10T00:51:35Z",
+      "side": 1,
+      "message": "I think it should be fine. The init function https://cs.opensource.google/go/go/+/master:src/cmd/internal/obj/sym.go;l\u003d125 essentially just sets the name, and add it to the lookup map. We now support unnamed symbols, so it should be fine.",
+      "parentUuid": "fcdc6880_df10b148",
       "revId": "a01c0615acebc86534a7c3c847308f442f68c322",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
