@@ -1062,11 +1062,10 @@ func (t *Type) SetFields(fields []*Field) {
 	}
 	t.wantEtype(TSTRUCT)
 	for _, f := range fields {
-		// If type T contains a field F with a go:notinheap
-		// type, then T must also be go:notinheap. Otherwise,
+		// If type T contains a field F marked as not-in-heap,
+		// then T must also be a not-in-heap type. Otherwise,
 		// you could heap allocate T and then get a pointer F,
-		// which would be a heap pointer to a go:notinheap
-		// type.
+		// which would be a heap pointer to a not-in-heap type.
 		if f.Type != nil && f.Type.NotInHeap() {
 			t.SetNotInHeap(true)
 			break
@@ -1676,7 +1675,7 @@ func (t *Type) IsUntyped() bool {
 }
 
 // HasPointers reports whether t contains a heap pointer.
-// Note that this function ignores pointers to go:notinheap types.
+// Note that this function ignores pointers to not-in-heap types.
 func (t *Type) HasPointers() bool {
 	return PtrDataSize(t) > 0
 }

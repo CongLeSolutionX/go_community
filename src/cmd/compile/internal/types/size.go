@@ -412,6 +412,10 @@ func CalcSize(t *Type) {
 		if t.IsFuncArgStruct() {
 			base.Fatalf("CalcSize fn struct %v", t)
 		}
+		// Recognize and mark runtime/internal/sys.NotInHeap as not-in-heap.
+		if sym := t.Sym(); sym != nil && sym.Pkg.Path == "runtime/internal/sys" && sym.Name == "NotInHeap" {
+			t.SetNotInHeap(true)
+		}
 		w = calcStructOffset(t, t, 0, 1)
 
 	// make fake type to check later to
