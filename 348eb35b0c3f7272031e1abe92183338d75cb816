@@ -72,6 +72,24 @@
       "message": "I wouldn\u0027t think we want users depending on the order of tags. I think of them logically as a set, not a sequence. Is there anything that\u0027s depending on them currently (aside from the previous CL)?",
       "revId": "348eb35b0c3f7272031e1abe92183338d75cb816",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45babe43_987d7e3d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-08-10T18:15:38Z",
+      "side": 1,
+      "message": "Note that previous CL use `build.Default.ToolTags` (use by other packages), this CL is meant to make `cfg.BuildContext.ToolTags` (use by cmd/go internally, specifically, \"go list\") the same order with it. I notice the different between them, that\u0027s why I send this CL.\n\nI think putting experiment tags before or after \"GO$GOARCH\" tags is not problem, but should be better if we\u0027re consistent.\n\nPutting experiment tags first have an advantage that we can easily check if tool tags is a specific version (like the previous CL do).",
+      "parentUuid": "d93f28dd_cc0d40f9",
+      "revId": "348eb35b0c3f7272031e1abe92183338d75cb816",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
