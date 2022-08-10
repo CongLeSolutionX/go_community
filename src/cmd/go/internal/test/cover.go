@@ -6,6 +6,7 @@ package test
 
 import (
 	"cmd/go/internal/base"
+	"errors"
 	"fmt"
 	"io"
 	"os"
@@ -15,7 +16,8 @@ import (
 
 var coverMerge struct {
 	f          *os.File
-	sync.Mutex // for f.Write
+	fsize      int64 // size of valid data written to f
+	sync.Mutex       // for f.Write
 }
 
 // initCoverProfile initializes the test coverage profile.
@@ -35,18 +37,18 @@ func initCoverProfile() {
 	if err != nil {
 		base.Fatalf("%v", err)
 	}
-	_, err = fmt.Fprintf(f, "mode: %s\n", testCoverMode)
+	n, err := fmt.Fprintf(f, "mode: %s\n", testCoverMode)
 	if err != nil {
 		base.Fatalf("%v", err)
 	}
 	coverMerge.f = f
+	coverMerge.fsize += int64(n)
 }
 
 // mergeCoverProfile merges file into the profile stored in testCoverProfile.
-// It prints any errors it encounters to ew.
-func mergeCoverProfile(ew io.Writer, file string) {
+func mergeCoverProfile(file string) error {
 	if coverMerge.f == nil {
-		return
+		return nil
 	}
 	coverMerge.Lock()
 	defer coverMerge.Unlock()
@@ -56,29 +58,40 @@ func mergeCoverProfile(ew io.Writer, file string) {
 	r, err := os.Open(file)
 	if err != nil {
 		// Test did not create profile, which is OK.
-		return
+		return nil
 	}
 	defer r.Close()
 
 	n, err := io.ReadFull(r, buf)
 	if n == 0 {
-		return
+		return nil
 	}
 	if err != nil || string(buf) != expect {
-		fmt.Fprintf(ew, "error: test wrote malformed coverage profile.\n")
-		return
+		return errMalformedCoverProfile
 	}
-	_, err = io.Copy(coverMerge.f, r)
+	m, err := io.Copy(coverMerge.f, r)
 	if err != nil {
-		fmt.Fprintf(ew, "error: saving coverage profile: %v\n", err)
+		if m > 0 {
+			// Attempt to rollback partial write.
+			coverMerge.f.Seek(coverMerge.fsize, 0)
+		}
+		return fmt.Errorf("saving coverage profile: %w", err)
 	}
+	coverMerge.fsize += m
+	return nil
 }
 
 func closeCoverProfile() {
 	if coverMerge.f == nil {
 		return
 	}
+	// Discard any partially written data from a failed merge.
+	if err := coverMerge.f.Truncate(coverMerge.fsize); err != nil {
+		base.Errorf("closing coverage profile: %v", err)
+	}
 	if err := coverMerge.f.Close(); err != nil {
 		base.Errorf("closing coverage profile: %v", err)
 	}
 }
+
+var errMalformedCoverProfile = errors.New("test wrote malformed coverage profile")
