@@ -16,6 +16,24 @@
       "message": "Thanks for the change.\n\nI don\u0027t think this is right; the server should clean up these temp files once the handler returns.\nhttps://go.googlesource.com/go/+/refs/tags/go1.19/src/net/http/server.go#1665\n\nI see that there\u0027s an issue open for cases when this doesn\u0027t happen: https://go.dev/issue/20253\n\nOne problem I see is that I don\u0027t think the HTTP/2 server is doing the same cleanup as the HTTP/1 server. That\u0027s something that should be fixed; users shouldn\u0027t need to call RemoveAll manually.",
       "revId": "9f8b2b2e1ced5cf4e44def2fe913b84fa00db029",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e3a590d_4684152e",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1320,
+      "author": {
+        "id": 12425
+      },
+      "writtenOn": "2022-08-10T01:52:25Z",
+      "side": 1,
+      "message": "FWIW, I opened this after reading https://mtlynch.io/notes/picoshare-perf/. The author says,\n\n\u003e From Googling, I discovered another gotcha with ParseMultipartForm.\n\u003e \n\u003e The documentation doesn’t warn the reader, but the caller is responsible for calling r.MultipartForm.RemoveAll() to free the resources Go allocated during ParseMultipartForm. So, I was leaking memory every time I called ParseMultipartForm.\n\u003e \n\u003e To fix the leak, I rewrote my code to clean up the multipart resources. This fix looked promising, as I saw huge reductions in RAM usage on Fly after freeing resources explicitly.\n\nBut maybe he was using HTTP2?",
+      "parentUuid": "03785a24_63685dd1",
+      "revId": "9f8b2b2e1ced5cf4e44def2fe913b84fa00db029",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
