@@ -32,8 +32,8 @@ type boringPub struct {
 	orig PublicKey
 }
 
-var pubCache bcache.Cache
-var privCache bcache.Cache
+var pubCache bcache.Cache[boringPub]
+var privCache bcache.Cache[boringPriv]
 
 func init() {
 	pubCache.Register()
@@ -41,7 +41,7 @@ func init() {
 }
 
 func boringPublicKey(pub *PublicKey) (*boring.PublicKeyRSA, error) {
-	b := (*boringPub)(pubCache.Get(unsafe.Pointer(pub)))
+	b := pubCache.Get(unsafe.Pointer(pub))
 	if b != nil && publicKeyEqual(&b.orig, pub) {
 		return b.key, nil
 	}
@@ -53,7 +53,7 @@ func boringPublicKey(pub *PublicKey) (*boring.PublicKeyRSA, error) {
 		return nil, err
 	}
 	b.key = key
-	pubCache.Put(unsafe.Pointer(pub), unsafe.Pointer(b))
+	pubCache.Put(unsafe.Pointer(pub), b)
 	return key, nil
 }
 
@@ -63,7 +63,7 @@ type boringPriv struct {
 }
 
 func boringPrivateKey(priv *PrivateKey) (*boring.PrivateKeyRSA, error) {
-	b := (*boringPriv)(privCache.Get(unsafe.Pointer(priv)))
+	b := privCache.Get(unsafe.Pointer(priv))
 	if b != nil && privateKeyEqual(&b.orig, priv) {
 		return b.key, nil
 	}
@@ -87,7 +87,7 @@ func boringPrivateKey(priv *PrivateKey) (*boring.PrivateKeyRSA, error) {
 		return nil, err
 	}
 	b.key = key
-	privCache.Put(unsafe.Pointer(priv), unsafe.Pointer(b))
+	privCache.Put(unsafe.Pointer(priv), b)
 	return key, nil
 }
 
