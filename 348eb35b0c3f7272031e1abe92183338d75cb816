@@ -90,6 +90,24 @@
       "parentUuid": "d93f28dd_cc0d40f9",
       "revId": "348eb35b0c3f7272031e1abe92183338d75cb816",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8b888aa_d873eed9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-08-10T18:46:37Z",
+      "side": 1,
+      "message": "\u003e I think putting experiment tags before or after \"GO$GOARCH\" tags is not problem, but should be better if we\u0027re consistent.\n\nI\u0027m skeptical that anything should actually be sensitive to the orders, but maybe there\u0027s value in keeping them in sync anyway. I\u0027ll defer to Russ here, since this is more his domain of expertise, not mine.\n\n\u003e Putting experiment tags first have an advantage that we can easily check if tool tags is a specific version (like the previous CL do).\n\nThe documentation for ToolTags doesn\u0027t specify an ordering, so I don\u0027t think users should depend on any particular ordering. In particular, I think the usage you original added in the previous CL (testing for GOAMD64\u003dv1 by checking that the last ToolTags is \"goamd64.v1\") should be discouraged actually.\n\nI think the right way to check for GOAMD64\u003dv1 is to check that none of the tags are \"goamd64.v2\". This approach is insensitive to the order of ToolTags. It\u0027s analogous to writing `//go:build !goamd64.v2`.",
+      "parentUuid": "45babe43_987d7e3d",
+      "revId": "348eb35b0c3f7272031e1abe92183338d75cb816",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
