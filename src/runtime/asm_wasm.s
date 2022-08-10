@@ -138,6 +138,7 @@ TEXT runtime·systemstack(SB), NOSPLIT, $0-8
 	I64Ne
 	If
 		CALLNORESUME runtime·badsystemstack(SB)
+		UNDEF
 	End
 
 	// switch:
@@ -225,6 +226,7 @@ TEXT runtime·morestack(SB), NOSPLIT, $0-0
 	I64Eq
 	If
 		CALLNORESUME runtime·badmorestackg0(SB)
+		UNDEF
 	End
 
 	// Cannot grow signal stack (m->gsignal).
@@ -233,6 +235,7 @@ TEXT runtime·morestack(SB), NOSPLIT, $0-0
 	I64Eq
 	If
 		CALLNORESUME runtime·badmorestackgsignal(SB)
+		UNDEF
 	End
 
 	// Called from f.
