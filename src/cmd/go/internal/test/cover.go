@@ -6,6 +6,7 @@ package test
 
 import (
 	"cmd/go/internal/base"
+	"errors"
 	"fmt"
 	"io"
 	"os"
@@ -43,10 +44,9 @@ func initCoverProfile() {
 }
 
 // mergeCoverProfile merges file into the profile stored in testCoverProfile.
-// It prints any errors it encounters to ew.
-func mergeCoverProfile(ew io.Writer, file string) {
+func mergeCoverProfile(file string) error {
 	if coverMerge.f == nil {
-		return
+		return nil
 	}
 	coverMerge.Lock()
 	defer coverMerge.Unlock()
@@ -56,22 +56,22 @@ func mergeCoverProfile(ew io.Writer, file string) {
 	r, err := os.Open(file)
 	if err != nil {
 		// Test did not create profile, which is OK.
-		return
+		return nil
 	}
 	defer r.Close()
 
 	n, err := io.ReadFull(r, buf)
 	if n == 0 {
-		return
+		return nil
 	}
 	if err != nil || string(buf) != expect {
-		fmt.Fprintf(ew, "error: test wrote malformed coverage profile.\n")
-		return
+		return errMalformedCoverProfile
 	}
 	_, err = io.Copy(coverMerge.f, r)
 	if err != nil {
-		fmt.Fprintf(ew, "error: saving coverage profile: %v\n", err)
+		return fmt.Errorf("saving coverage profile: %v\n", err)
 	}
+	return nil
 }
 
 func closeCoverProfile() {
@@ -82,3 +82,5 @@ func closeCoverProfile() {
 		base.Errorf("closing coverage profile: %v", err)
 	}
 }
+
+var errMalformedCoverProfile = errors.New("test wrote malformed coverage profile")
