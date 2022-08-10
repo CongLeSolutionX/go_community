@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e7bb9311_8c1f5420",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1664,
+      "author": {
+        "id": 55498
+      },
+      "writtenOn": "2022-08-10T02:04:38Z",
+      "side": 1,
+      "message": "I\u0027ve updated the comment. The \"test data above\" and \"entry\" are referring to the condition: `if entry.Time.Before(testCacheExpire)` on line 1631. I\u0027m not sure how else to reference this check.",
+      "parentUuid": "6fa5b75f_20a06344",
+      "range": {
+        "startLine": 1663,
+        "startChar": 0,
+        "endLine": 1664,
+        "endChar": 30
+      },
+      "revId": "6405012a9730172f875f96eb80b4a2acc011a3f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ce342698_0565cf9b",
         "filename": "src/cmd/go/internal/test/test.go",
         "patchSetId": 2
@@ -49,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bfe4430c_471250c2",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1677,
+      "author": {
+        "id": 55498
+      },
+      "writtenOn": "2022-08-10T02:04:38Z",
+      "side": 1,
+      "message": "There isn\u0027t any logic to back out partial writes from `io.Copy` on error during merge. This isn\u0027t something I\u0027d considered, thanks for pointing it out. I\u0027ve updated the patch to Seek to the last known good write on merge failure and Truncate when closing the merged file. It\u0027s a best-effort attempt that\u0027s meant to follow the behavior of `Cache.copyFile`.\n\n\n\u003e I wonder — would it make sense to move the call to `mergeCoverProfile`  to somewhere on the caller side, so that we are completely committed to using the cached result before we determine whether there is an error in merging?\n\nI may be misunderstanding your idea here. I don\u0027t see how we can move the call to `mergeCoverProfile` to the caller, since it\u0027s abstracted as a `work.Action.TryCache` function. I also thought that we\u0027ve already committed to using the cached result at this point, because the next line after the condition returns `true` from the `TryCache` function.\n\nHopefully the update to make `mergeCoverProfile` back out incremental writes on partial failure resolves this issue as well. If not, I may need an alternative explanation of what you have in mind.",
+      "parentUuid": "ce342698_0565cf9b",
+      "range": {
+        "startLine": 1672,
+        "startChar": 0,
+        "endLine": 1677,
+        "endChar": 3
+      },
+      "revId": "6405012a9730172f875f96eb80b4a2acc011a3f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "329f90d9_8e4ca00a",
         "filename": "src/cmd/go/internal/test/test.go",
         "patchSetId": 2
@@ -60,6 +108,30 @@
       "writtenOn": "2022-06-22T20:47:25Z",
       "side": 1,
       "message": "(nit) It seems like we could simplify this a bit by consolidating the failure logic into the `saveCoverProfile` variable:\n\n\n```\nsaveCoverProfile :\u003d func(testID cache.ActionID) {}\nif coverprofileFile !\u003d \"\" {\n\tcoverprof, err \u003d os.Open(coverprofileFile)\n\tif err \u003d\u003d nil {\n\t\tsaveCoverProfile \u003d func(testID cache.ActionID) {\n\t\t\tcache.Default().Put(…)\n\t\t}\n\t\tdefer func() {\n\t\t\t…\n\t\t}()\n\t} else if cache.DebugTest {\n\t\tfmt.Fprintf(os.Stderr, \"testcache: %s: failed to open temporary coverprofile: %s\", a.Package.ImportPath, err)\n\t}\n}\n```",
+      "range": {
+        "startLine": 1861,
+        "startChar": 0,
+        "endLine": 1873,
+        "endChar": 2
+      },
+      "revId": "6405012a9730172f875f96eb80b4a2acc011a3f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "17d1c170_b173b7ce",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1873,
+      "author": {
+        "id": 55498
+      },
+      "writtenOn": "2022-08-10T02:04:38Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "329f90d9_8e4ca00a",
       "range": {
         "startLine": 1861,
         "startChar": 0,

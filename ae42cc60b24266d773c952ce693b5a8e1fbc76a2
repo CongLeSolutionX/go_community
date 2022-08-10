@@ -71,6 +71,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b898505f_4fcbcbba",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55498
+      },
+      "writtenOn": "2022-08-10T02:04:38Z",
+      "side": 1,
+      "message": "Sorry for taking so long to respond. Now that the tree has reopened for 1.20, I\u0027ll be sure to stay more active.\n\nThank you for all the thoughtful feedback in your review!\n\nI took a look at #49267 and left a comment to try to help move that issue forward as best I could.\n\nWhile I understand the reluctance to add complexity to a somewhat buggy system, I hope this change won\u0027t be blocked. The company I work for mandates test coverage data for all our software and it\u0027s painful to see how much compute is wasted in CI pipelines by running the same tests on unchanged packages.",
+      "parentUuid": "4cf0f4e6_c70d6825",
+      "revId": "ae42cc60b24266d773c952ce693b5a8e1fbc76a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1fff5e53_18106c79",
@@ -120,6 +138,24 @@
       "side": 1,
       "message": "I agree that this looks suspicious and I also agree that it can be fixed independently — but at least a TODO (and/or a fix in a CL prior to this one) would help clarify what\u0027s going on.",
       "parentUuid": "ca91bef2_f91151c2",
+      "revId": "ae42cc60b24266d773c952ce693b5a8e1fbc76a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee1c295c_a7d45f78",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1424,
+      "author": {
+        "id": 55498
+      },
+      "writtenOn": "2022-08-10T02:04:38Z",
+      "side": 1,
+      "message": "I\u0027ve added a TODO comment and will open an issue to decide on the change. Happy to submit a CL once we know the intended behavior.",
+      "parentUuid": "ea665123_8c34556f",
       "revId": "ae42cc60b24266d773c952ce693b5a8e1fbc76a2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
