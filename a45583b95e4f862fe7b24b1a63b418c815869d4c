@@ -70,6 +70,80 @@
       "message": "The upstream reporter confirmed that this fixed the issue for s390",
       "revId": "a45583b95e4f862fe7b24b1a63b418c815869d4c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dcc15f8d_30b7b7b1",
+        "filename": "misc/cgo/testcarchive/carchive_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-08-10T16:36:21Z",
+      "side": 1,
+      "message": "Debugging remnant?",
+      "revId": "a45583b95e4f862fe7b24b1a63b418c815869d4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c83f40f_be4cef41",
+        "filename": "misc/cgo/testcarchive/carchive_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 680,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-08-10T16:36:21Z",
+      "side": 1,
+      "message": "If it doesn\u0027t really matter, then why are we doing this? Can you maybe expand this comment?",
+      "revId": "a45583b95e4f862fe7b24b1a63b418c815869d4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c205c34_7cbeea4e",
+        "filename": "misc/cgo/testcarchive/carchive_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 695,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-08-10T16:36:21Z",
+      "side": 1,
+      "message": "If I\u0027m not mistaken, this code block is identical to TestSignalForwardingExternal. Can this be lifted into a helper function?",
+      "range": {
+        "startLine": 650,
+        "startChar": 0,
+        "endLine": 695,
+        "endChar": 2
+      },
+      "revId": "a45583b95e4f862fe7b24b1a63b418c815869d4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47a45491_ecaacdbf",
+        "filename": "misc/cgo/testcarchive/carchive_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 767,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-08-10T16:36:21Z",
+      "side": 1,
+      "message": "I found this convention confusing when I saw the call that passed SIGSEGV twice. Maybe pass 0 for the second signal? (Even better would be a sigs... syscall.Signal argument, but that\u0027s probably overkill.)",
+      "revId": "a45583b95e4f862fe7b24b1a63b418c815869d4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
