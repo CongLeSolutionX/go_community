@@ -3,6 +3,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9ede3495_2285c39d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-08-11T22:19:40Z",
+      "side": 1,
+      "message": "Fixes #54385\n  \nThis specific syntax is recognized by gopherbot.",
+      "revId": "0515d42a57b141b8d93331247c84f6c6380a0942",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4a39073_de1977de",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-08-11T22:19:40Z",
+      "side": 1,
+      "message": "Thanks for the contribution!",
+      "revId": "0515d42a57b141b8d93331247c84f6c6380a0942",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d7f66d9d_dc5fcdd9",
         "filename": "src/net/url/url.go",
         "patchSetId": 1
@@ -14,6 +48,41 @@
       "writtenOn": "2022-08-11T07:05:42Z",
       "side": 1,
       "message": "what about elem looks like ../../../path ?",
+      "revId": "0515d42a57b141b8d93331247c84f6c6380a0942",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "daee9f16_1c9987e9",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1201,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-08-11T22:19:40Z",
+      "side": 1,
+      "message": "I believe this will do:\n\n    p \u003d path.Join(u.EscapedPath(), path.Clean(\"/\"+path.Join(elem...)))",
+      "parentUuid": "d7f66d9d_dc5fcdd9",
+      "revId": "0515d42a57b141b8d93331247c84f6c6380a0942",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9bb41870_f392a938",
+        "filename": "src/net/url/url_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2097,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-08-11T22:19:40Z",
+      "side": 1,
+      "message": "Include a test case with a few more ../../../, and one with multiple elements containing relative paths.\n\n    \"../../../go\"\n    \"go\", \"../go\", \"../../../go\"",
       "revId": "0515d42a57b141b8d93331247c84f6c6380a0942",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
