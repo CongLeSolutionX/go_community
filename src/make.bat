@@ -147,7 +147,7 @@ goto end
 
 :bootstrapfail
 echo ERROR: Cannot find %GOROOT_BOOTSTRAP%\bin\go.exe
-echo Set GOROOT_BOOTSTRAP to a working Go tree ^>= Go 1.4.
+echo Set GOROOT_BOOTSTRAP to a working Go tree ^>= Go 1.17.
 
 :fail
 set GOBUILDFAIL=1
