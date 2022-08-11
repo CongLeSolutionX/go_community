@@ -53,6 +53,24 @@
       "message": "Looks like we\u0027re open for 1.20 now. could anyone merge it?\n",
       "revId": "78875ad683c5cfc05c146d1d08d827a28abb5e2e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a10f243_2bdc77ad",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-08-11T16:28:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71474ab8_a592bff3",
+      "revId": "78875ad683c5cfc05c146d1d08d827a28abb5e2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ],
   "submitRequirementResults": [
