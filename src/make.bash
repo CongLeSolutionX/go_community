@@ -148,7 +148,6 @@ fi
 
 goroot_bootstrap_set=${GOROOT_BOOTSTRAP+"true"}
 if [ -z "$GOROOT_BOOTSTRAP" ]; then
-	GOROOT_BOOTSTRAP="$HOME/go1.4"
 	for d in sdk/go1.17 go1.17; do
 		if [ -d "$HOME/$d" ]; then
 			GOROOT_BOOTSTRAP="$HOME/$d"
@@ -172,7 +171,7 @@ IFS=$'\n'; for go_exe in $(type -ap go); do
 done; unset IFS
 if [ ! -x "$GOROOT_BOOTSTRAP/bin/go" ]; then
 	echo "ERROR: Cannot find $GOROOT_BOOTSTRAP/bin/go." >&2
-	echo "Set \$GOROOT_BOOTSTRAP to a working Go tree >= Go 1.4." >&2
+	echo "Set \$GOROOT_BOOTSTRAP to a working Go tree >= Go 1.17." >&2
 	exit 1
 fi
 # Get the exact bootstrap toolchain version to help with debugging.
