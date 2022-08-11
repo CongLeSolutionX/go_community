@@ -34,6 +34,24 @@
       "parentUuid": "03785a24_63685dd1",
       "revId": "9f8b2b2e1ced5cf4e44def2fe913b84fa00db029",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74be3954_f224de1e",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1320,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-08-11T23:06:41Z",
+      "side": 1,
+      "message": "I strongly suspect this was with HTTP/2.\n\nhttps://go.dev/cl/423194 and https://go.dev/cl/423055 to fix the HTTP/2 case.",
+      "parentUuid": "8e3a590d_4684152e",
+      "revId": "9f8b2b2e1ced5cf4e44def2fe913b84fa00db029",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
