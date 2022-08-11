@@ -512,7 +512,7 @@ func writeObject(buf *bytes.Buffer, obj Object, qf Qualifier) {
 
 	// For package-level objects, qualify the name.
 	if obj.Pkg() != nil && obj.Pkg().scope.Lookup(obj.Name()) == obj {
-		writePackage(buf, obj.Pkg(), qf)
+		writePackage(buf, obj.Pkg(), qf, true)
 	}
 	buf.WriteString(obj.Name())
 
@@ -553,7 +553,7 @@ func writeObject(buf *bytes.Buffer, obj Object, qf Qualifier) {
 	WriteType(buf, typ, qf)
 }
 
-func writePackage(buf *bytes.Buffer, pkg *Package, qf Qualifier) {
+func writePackage(buf *bytes.Buffer, pkg *Package, qf Qualifier, withDot bool) {
 	if pkg == nil {
 		return
 	}
@@ -565,7 +565,9 @@ func writePackage(buf *bytes.Buffer, pkg *Package, qf Qualifier) {
 	}
 	if s != "" {
 		buf.WriteString(s)
-		buf.WriteByte('.')
+		if withDot {
+			buf.WriteByte('.')
+		}
 	}
 }
 
@@ -604,7 +606,7 @@ func writeFuncName(buf *bytes.Buffer, f *Func, qf Qualifier) {
 			buf.WriteByte(')')
 			buf.WriteByte('.')
 		} else if f.pkg != nil {
-			writePackage(buf, f.pkg, qf)
+			writePackage(buf, f.pkg, qf, true)
 		}
 	}
 	buf.WriteString(f.name)
