@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b982d25e_cf563224",
+        "filename": "src/cmd/compile/internal/noder/reader.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1927,
+      "author": {
+        "id": 35136
+      },
+      "writtenOn": "2022-08-11T11:50:12Z",
+      "side": 1,
+      "message": "That does not look right. Using r.Bool() on if and else if?",
+      "range": {
+        "startLine": 1923,
+        "startChar": 2,
+        "endLine": 1927,
+        "endChar": 3
+      },
+      "revId": "de95dca32fb196d5f09bf5db4a6ba592907559c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
