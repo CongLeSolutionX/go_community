@@ -478,11 +478,34 @@ const (
 )
 
 const (
+	AC_NONE             = iota
+	AC_REG              // general purpose registers R0..R30 and ZR
+	AC_RSP              // general purpose registers R0..R30 and RSP
+	AC_FREG             // floating point registers, such as F1
+	AC_VREG             // vector registers, such V1
+	AC_PAIR             // register pair, such as (R1, R3)
+	AC_REGSHIFT         // general purpose register with shift, such as R1<<2
+	AC_REGEXTEND        // general purpose register with extend, such as R7.SXTW<<1
+	AC_COND             // conditional flags, such as CS
+	AC_SPOP             // special operands, such as DAIFSet
+	AC_LABEL            // branch labels
+	AC_IMM              // constants
+	AC_VREGLIST         // vector register list, such [V1, V2, V3]
+	AC_ARRANGEMENT      // vector register with arrangement, such as V11.D2
+	AC_ARRANGEMENTINDEX // vector register with arrangement and index, such as V12.D[1]
+	AC_MEMEXTEND        // address with extend offset, such as (R2)(R5.SXTX<<1)
+	AC_MEMOPTIONAL      // address with optional offset, such as 4(R1)
+	AC_MEMPOSTIMM       // address of the post-index class, offset is an immediate
+	AC_MEMPOSTREG       // address of the post-index class, offset is a register
+	AC_MEMPREIMM        // address of the pre-index class, offset is an immediate
+)
+
+const (
 	C_XPRE  = 1 << 6 // match arm.C_WBIT, so Prog.String know how to print it
 	C_XPOST = 1 << 5 // match arm.C_PBIT, so Prog.String know how to print it
 )
 
-//go:generate go run ../stringer.go -i $GOFILE -o anames.go -p arm64
+//go:generate go run ../stringer.go -i a.out.go -o anames.go -p arm64
 
 const (
 	AADC = obj.ABaseARM64 + obj.A_ARCHSPECIFIC + iota
