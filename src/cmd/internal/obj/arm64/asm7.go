@@ -925,126 +925,130 @@ var prfopfield = map[SpecialOperand]uint32{
 	SPOP_PSTL3STRM: 21,
 }
 
-// sysInstFields helps convert SYS alias instructions to SYS instructions.
+type sysInstFields struct {
+	op1 uint8
+	cn  uint8
+	cm  uint8
+	op2 uint8
+}
+
+// sysInstTLBIDC helps convert SYS alias instructions to SYS instructions.
 // For example, the format of TLBI is: TLBI <tlbi_op>{, <Xt>}.
 // It's equivalent to: SYS #<op1>, C8, <Cm>, #<op2>{, <Xt>}.
 // The field hasOperand2 indicates whether Xt is required. It helps to check
 // some combinations that may be undefined, such as TLBI VMALLE1IS, R0.
-var sysInstFields = map[SpecialOperand]struct {
-	op1         uint8
-	cn          uint8
-	cm          uint8
-	op2         uint8
+var sysInstTLBIDC = map[SpecialOperand]struct {
+	sysInstFields
 	hasOperand2 bool
 }{
 	// TLBI
-	SPOP_VMALLE1IS:    {0, 8, 3, 0, false},
-	SPOP_VAE1IS:       {0, 8, 3, 1, true},
-	SPOP_ASIDE1IS:     {0, 8, 3, 2, true},
-	SPOP_VAAE1IS:      {0, 8, 3, 3, true},
-	SPOP_VALE1IS:      {0, 8, 3, 5, true},
-	SPOP_VAALE1IS:     {0, 8, 3, 7, true},
-	SPOP_VMALLE1:      {0, 8, 7, 0, false},
-	SPOP_VAE1:         {0, 8, 7, 1, true},
-	SPOP_ASIDE1:       {0, 8, 7, 2, true},
-	SPOP_VAAE1:        {0, 8, 7, 3, true},
-	SPOP_VALE1:        {0, 8, 7, 5, true},
-	SPOP_VAALE1:       {0, 8, 7, 7, true},
-	SPOP_IPAS2E1IS:    {4, 8, 0, 1, true},
-	SPOP_IPAS2LE1IS:   {4, 8, 0, 5, true},
-	SPOP_ALLE2IS:      {4, 8, 3, 0, false},
-	SPOP_VAE2IS:       {4, 8, 3, 1, true},
-	SPOP_ALLE1IS:      {4, 8, 3, 4, false},
-	SPOP_VALE2IS:      {4, 8, 3, 5, true},
-	SPOP_VMALLS12E1IS: {4, 8, 3, 6, false},
-	SPOP_IPAS2E1:      {4, 8, 4, 1, true},
-	SPOP_IPAS2LE1:     {4, 8, 4, 5, true},
-	SPOP_ALLE2:        {4, 8, 7, 0, false},
-	SPOP_VAE2:         {4, 8, 7, 1, true},
-	SPOP_ALLE1:        {4, 8, 7, 4, false},
-	SPOP_VALE2:        {4, 8, 7, 5, true},
-	SPOP_VMALLS12E1:   {4, 8, 7, 6, false},
-	SPOP_ALLE3IS:      {6, 8, 3, 0, false},
-	SPOP_VAE3IS:       {6, 8, 3, 1, true},
-	SPOP_VALE3IS:      {6, 8, 3, 5, true},
-	SPOP_ALLE3:        {6, 8, 7, 0, false},
-	SPOP_VAE3:         {6, 8, 7, 1, true},
-	SPOP_VALE3:        {6, 8, 7, 5, true},
-	SPOP_VMALLE1OS:    {0, 8, 1, 0, false},
-	SPOP_VAE1OS:       {0, 8, 1, 1, true},
-	SPOP_ASIDE1OS:     {0, 8, 1, 2, true},
-	SPOP_VAAE1OS:      {0, 8, 1, 3, true},
-	SPOP_VALE1OS:      {0, 8, 1, 5, true},
-	SPOP_VAALE1OS:     {0, 8, 1, 7, true},
-	SPOP_RVAE1IS:      {0, 8, 2, 1, true},
-	SPOP_RVAAE1IS:     {0, 8, 2, 3, true},
-	SPOP_RVALE1IS:     {0, 8, 2, 5, true},
-	SPOP_RVAALE1IS:    {0, 8, 2, 7, true},
-	SPOP_RVAE1OS:      {0, 8, 5, 1, true},
-	SPOP_RVAAE1OS:     {0, 8, 5, 3, true},
-	SPOP_RVALE1OS:     {0, 8, 5, 5, true},
-	SPOP_RVAALE1OS:    {0, 8, 5, 7, true},
-	SPOP_RVAE1:        {0, 8, 6, 1, true},
-	SPOP_RVAAE1:       {0, 8, 6, 3, true},
-	SPOP_RVALE1:       {0, 8, 6, 5, true},
-	SPOP_RVAALE1:      {0, 8, 6, 7, true},
-	SPOP_RIPAS2E1IS:   {4, 8, 0, 2, true},
-	SPOP_RIPAS2LE1IS:  {4, 8, 0, 6, true},
-	SPOP_ALLE2OS:      {4, 8, 1, 0, false},
-	SPOP_VAE2OS:       {4, 8, 1, 1, true},
-	SPOP_ALLE1OS:      {4, 8, 1, 4, false},
-	SPOP_VALE2OS:      {4, 8, 1, 5, true},
-	SPOP_VMALLS12E1OS: {4, 8, 1, 6, false},
-	SPOP_RVAE2IS:      {4, 8, 2, 1, true},
-	SPOP_RVALE2IS:     {4, 8, 2, 5, true},
-	SPOP_IPAS2E1OS:    {4, 8, 4, 0, true},
-	SPOP_RIPAS2E1:     {4, 8, 4, 2, true},
-	SPOP_RIPAS2E1OS:   {4, 8, 4, 3, true},
-	SPOP_IPAS2LE1OS:   {4, 8, 4, 4, true},
-	SPOP_RIPAS2LE1:    {4, 8, 4, 6, true},
-	SPOP_RIPAS2LE1OS:  {4, 8, 4, 7, true},
-	SPOP_RVAE2OS:      {4, 8, 5, 1, true},
-	SPOP_RVALE2OS:     {4, 8, 5, 5, true},
-	SPOP_RVAE2:        {4, 8, 6, 1, true},
-	SPOP_RVALE2:       {4, 8, 6, 5, true},
-	SPOP_ALLE3OS:      {6, 8, 1, 0, false},
-	SPOP_VAE3OS:       {6, 8, 1, 1, true},
-	SPOP_VALE3OS:      {6, 8, 1, 5, true},
-	SPOP_RVAE3IS:      {6, 8, 2, 1, true},
-	SPOP_RVALE3IS:     {6, 8, 2, 5, true},
-	SPOP_RVAE3OS:      {6, 8, 5, 1, true},
-	SPOP_RVALE3OS:     {6, 8, 5, 5, true},
-	SPOP_RVAE3:        {6, 8, 6, 1, true},
-	SPOP_RVALE3:       {6, 8, 6, 5, true},
+	SPOP_VMALLE1IS:    {sysInstFields{0, 8, 3, 0}, false},
+	SPOP_VAE1IS:       {sysInstFields{0, 8, 3, 1}, true},
+	SPOP_ASIDE1IS:     {sysInstFields{0, 8, 3, 2}, true},
+	SPOP_VAAE1IS:      {sysInstFields{0, 8, 3, 3}, true},
+	SPOP_VALE1IS:      {sysInstFields{0, 8, 3, 5}, true},
+	SPOP_VAALE1IS:     {sysInstFields{0, 8, 3, 7}, true},
+	SPOP_VMALLE1:      {sysInstFields{0, 8, 7, 0}, false},
+	SPOP_VAE1:         {sysInstFields{0, 8, 7, 1}, true},
+	SPOP_ASIDE1:       {sysInstFields{0, 8, 7, 2}, true},
+	SPOP_VAAE1:        {sysInstFields{0, 8, 7, 3}, true},
+	SPOP_VALE1:        {sysInstFields{0, 8, 7, 5}, true},
+	SPOP_VAALE1:       {sysInstFields{0, 8, 7, 7}, true},
+	SPOP_IPAS2E1IS:    {sysInstFields{4, 8, 0, 1}, true},
+	SPOP_IPAS2LE1IS:   {sysInstFields{4, 8, 0, 5}, true},
+	SPOP_ALLE2IS:      {sysInstFields{4, 8, 3, 0}, false},
+	SPOP_VAE2IS:       {sysInstFields{4, 8, 3, 1}, true},
+	SPOP_ALLE1IS:      {sysInstFields{4, 8, 3, 4}, false},
+	SPOP_VALE2IS:      {sysInstFields{4, 8, 3, 5}, true},
+	SPOP_VMALLS12E1IS: {sysInstFields{4, 8, 3, 6}, false},
+	SPOP_IPAS2E1:      {sysInstFields{4, 8, 4, 1}, true},
+	SPOP_IPAS2LE1:     {sysInstFields{4, 8, 4, 5}, true},
+	SPOP_ALLE2:        {sysInstFields{4, 8, 7, 0}, false},
+	SPOP_VAE2:         {sysInstFields{4, 8, 7, 1}, true},
+	SPOP_ALLE1:        {sysInstFields{4, 8, 7, 4}, false},
+	SPOP_VALE2:        {sysInstFields{4, 8, 7, 5}, true},
+	SPOP_VMALLS12E1:   {sysInstFields{4, 8, 7, 6}, false},
+	SPOP_ALLE3IS:      {sysInstFields{6, 8, 3, 0}, false},
+	SPOP_VAE3IS:       {sysInstFields{6, 8, 3, 1}, true},
+	SPOP_VALE3IS:      {sysInstFields{6, 8, 3, 5}, true},
+	SPOP_ALLE3:        {sysInstFields{6, 8, 7, 0}, false},
+	SPOP_VAE3:         {sysInstFields{6, 8, 7, 1}, true},
+	SPOP_VALE3:        {sysInstFields{6, 8, 7, 5}, true},
+	SPOP_VMALLE1OS:    {sysInstFields{0, 8, 1, 0}, false},
+	SPOP_VAE1OS:       {sysInstFields{0, 8, 1, 1}, true},
+	SPOP_ASIDE1OS:     {sysInstFields{0, 8, 1, 2}, true},
+	SPOP_VAAE1OS:      {sysInstFields{0, 8, 1, 3}, true},
+	SPOP_VALE1OS:      {sysInstFields{0, 8, 1, 5}, true},
+	SPOP_VAALE1OS:     {sysInstFields{0, 8, 1, 7}, true},
+	SPOP_RVAE1IS:      {sysInstFields{0, 8, 2, 1}, true},
+	SPOP_RVAAE1IS:     {sysInstFields{0, 8, 2, 3}, true},
+	SPOP_RVALE1IS:     {sysInstFields{0, 8, 2, 5}, true},
+	SPOP_RVAALE1IS:    {sysInstFields{0, 8, 2, 7}, true},
+	SPOP_RVAE1OS:      {sysInstFields{0, 8, 5, 1}, true},
+	SPOP_RVAAE1OS:     {sysInstFields{0, 8, 5, 3}, true},
+	SPOP_RVALE1OS:     {sysInstFields{0, 8, 5, 5}, true},
+	SPOP_RVAALE1OS:    {sysInstFields{0, 8, 5, 7}, true},
+	SPOP_RVAE1:        {sysInstFields{0, 8, 6, 1}, true},
+	SPOP_RVAAE1:       {sysInstFields{0, 8, 6, 3}, true},
+	SPOP_RVALE1:       {sysInstFields{0, 8, 6, 5}, true},
+	SPOP_RVAALE1:      {sysInstFields{0, 8, 6, 7}, true},
+	SPOP_RIPAS2E1IS:   {sysInstFields{4, 8, 0, 2}, true},
+	SPOP_RIPAS2LE1IS:  {sysInstFields{4, 8, 0, 6}, true},
+	SPOP_ALLE2OS:      {sysInstFields{4, 8, 1, 0}, false},
+	SPOP_VAE2OS:       {sysInstFields{4, 8, 1, 1}, true},
+	SPOP_ALLE1OS:      {sysInstFields{4, 8, 1, 4}, false},
+	SPOP_VALE2OS:      {sysInstFields{4, 8, 1, 5}, true},
+	SPOP_VMALLS12E1OS: {sysInstFields{4, 8, 1, 6}, false},
+	SPOP_RVAE2IS:      {sysInstFields{4, 8, 2, 1}, true},
+	SPOP_RVALE2IS:     {sysInstFields{4, 8, 2, 5}, true},
+	SPOP_IPAS2E1OS:    {sysInstFields{4, 8, 4, 0}, true},
+	SPOP_RIPAS2E1:     {sysInstFields{4, 8, 4, 2}, true},
+	SPOP_RIPAS2E1OS:   {sysInstFields{4, 8, 4, 3}, true},
+	SPOP_IPAS2LE1OS:   {sysInstFields{4, 8, 4, 4}, true},
+	SPOP_RIPAS2LE1:    {sysInstFields{4, 8, 4, 6}, true},
+	SPOP_RIPAS2LE1OS:  {sysInstFields{4, 8, 4, 7}, true},
+	SPOP_RVAE2OS:      {sysInstFields{4, 8, 5, 1}, true},
+	SPOP_RVALE2OS:     {sysInstFields{4, 8, 5, 5}, true},
+	SPOP_RVAE2:        {sysInstFields{4, 8, 6, 1}, true},
+	SPOP_RVALE2:       {sysInstFields{4, 8, 6, 5}, true},
+	SPOP_ALLE3OS:      {sysInstFields{6, 8, 1, 0}, false},
+	SPOP_VAE3OS:       {sysInstFields{6, 8, 1, 1}, true},
+	SPOP_VALE3OS:      {sysInstFields{6, 8, 1, 5}, true},
+	SPOP_RVAE3IS:      {sysInstFields{6, 8, 2, 1}, true},
+	SPOP_RVALE3IS:     {sysInstFields{6, 8, 2, 5}, true},
+	SPOP_RVAE3OS:      {sysInstFields{6, 8, 5, 1}, true},
+	SPOP_RVALE3OS:     {sysInstFields{6, 8, 5, 5}, true},
+	SPOP_RVAE3:        {sysInstFields{6, 8, 6, 1}, true},
+	SPOP_RVALE3:       {sysInstFields{6, 8, 6, 5}, true},
 	// DC
-	SPOP_IVAC:    {0, 7, 6, 1, true},
-	SPOP_ISW:     {0, 7, 6, 2, true},
-	SPOP_CSW:     {0, 7, 10, 2, true},
-	SPOP_CISW:    {0, 7, 14, 2, true},
-	SPOP_ZVA:     {3, 7, 4, 1, true},
-	SPOP_CVAC:    {3, 7, 10, 1, true},
-	SPOP_CVAU:    {3, 7, 11, 1, true},
-	SPOP_CIVAC:   {3, 7, 14, 1, true},
-	SPOP_IGVAC:   {0, 7, 6, 3, true},
-	SPOP_IGSW:    {0, 7, 6, 4, true},
-	SPOP_IGDVAC:  {0, 7, 6, 5, true},
-	SPOP_IGDSW:   {0, 7, 6, 6, true},
-	SPOP_CGSW:    {0, 7, 10, 4, true},
-	SPOP_CGDSW:   {0, 7, 10, 6, true},
-	SPOP_CIGSW:   {0, 7, 14, 4, true},
-	SPOP_CIGDSW:  {0, 7, 14, 6, true},
-	SPOP_GVA:     {3, 7, 4, 3, true},
-	SPOP_GZVA:    {3, 7, 4, 4, true},
-	SPOP_CGVAC:   {3, 7, 10, 3, true},
-	SPOP_CGDVAC:  {3, 7, 10, 5, true},
-	SPOP_CGVAP:   {3, 7, 12, 3, true},
-	SPOP_CGDVAP:  {3, 7, 12, 5, true},
-	SPOP_CGVADP:  {3, 7, 13, 3, true},
-	SPOP_CGDVADP: {3, 7, 13, 5, true},
-	SPOP_CIGVAC:  {3, 7, 14, 3, true},
-	SPOP_CIGDVAC: {3, 7, 14, 5, true},
-	SPOP_CVAP:    {3, 7, 12, 1, true},
-	SPOP_CVADP:   {3, 7, 13, 1, true},
+	SPOP_IVAC:    {sysInstFields{0, 7, 6, 1}, true},
+	SPOP_ISW:     {sysInstFields{0, 7, 6, 2}, true},
+	SPOP_CSW:     {sysInstFields{0, 7, 10, 2}, true},
+	SPOP_CISW:    {sysInstFields{0, 7, 14, 2}, true},
+	SPOP_ZVA:     {sysInstFields{3, 7, 4, 1}, true},
+	SPOP_CVAC:    {sysInstFields{3, 7, 10, 1}, true},
+	SPOP_CVAU:    {sysInstFields{3, 7, 11, 1}, true},
+	SPOP_CIVAC:   {sysInstFields{3, 7, 14, 1}, true},
+	SPOP_IGVAC:   {sysInstFields{0, 7, 6, 3}, true},
+	SPOP_IGSW:    {sysInstFields{0, 7, 6, 4}, true},
+	SPOP_IGDVAC:  {sysInstFields{0, 7, 6, 5}, true},
+	SPOP_IGDSW:   {sysInstFields{0, 7, 6, 6}, true},
+	SPOP_CGSW:    {sysInstFields{0, 7, 10, 4}, true},
+	SPOP_CGDSW:   {sysInstFields{0, 7, 10, 6}, true},
+	SPOP_CIGSW:   {sysInstFields{0, 7, 14, 4}, true},
+	SPOP_CIGDSW:  {sysInstFields{0, 7, 14, 6}, true},
+	SPOP_GVA:     {sysInstFields{3, 7, 4, 3}, true},
+	SPOP_GZVA:    {sysInstFields{3, 7, 4, 4}, true},
+	SPOP_CGVAC:   {sysInstFields{3, 7, 10, 3}, true},
+	SPOP_CGDVAC:  {sysInstFields{3, 7, 10, 5}, true},
+	SPOP_CGVAP:   {sysInstFields{3, 7, 12, 3}, true},
+	SPOP_CGDVAP:  {sysInstFields{3, 7, 12, 5}, true},
+	SPOP_CGVADP:  {sysInstFields{3, 7, 13, 3}, true},
+	SPOP_CGDVADP: {sysInstFields{3, 7, 13, 5}, true},
+	SPOP_CIGVAC:  {sysInstFields{3, 7, 14, 3}, true},
+	SPOP_CIGDVAC: {sysInstFields{3, 7, 14, 5}, true},
+	SPOP_CVAP:    {sysInstFields{3, 7, 12, 1}, true},
+	SPOP_CVADP:   {sysInstFields{3, 7, 13, 1}, true},
 }
 
 // Used for padding NOOP instruction
@@ -1224,7 +1228,12 @@ func span7(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 				psz += 4
 			}
 		} else {
-			c.asmout(p, o, out[:])
+			opt := int(p.Optab)
+			if opt > 0 && opt < len(optab) {
+				c.asmout(p, o, out[:])
+			} else if opt >= len(optab) && opt < len(optab)+len(instTab) {
+				c.asmInst(p, opt-len(optab), out[:])
+			}
 			for i = 0; i < sz/4; i++ {
 				c.ctxt.Arch.ByteOrder.PutUint32(bp, out[i])
 				bp = bp[4:]
@@ -2243,11 +2252,195 @@ func (c *ctxt7) aclass(a *obj.Addr) int {
 	return C_GOK
 }
 
+func raclass(a *obj.Addr) oprType {
+	r := a.Reg
+	arng, typ, _ := DecodeIndex(a.Index)
+
+	switch typ {
+	case RTYP_NORMAL:
+		if arng != ARNG_NONE {
+			return AC_ARNG
+		}
+		switch {
+		case REG_R0 <= r && r <= REG_R31: // including ZR
+			return AC_REG
+		case r == REGSP:
+			return AC_RSP
+		case REG_F0 <= r && r <= REG_F31:
+			return AC_FREG
+		case REG_V0 <= r && r <= REG_V31:
+			return AC_VREG
+		case REG_Z0 <= r && r <= REG_Z31:
+			return AC_ZREG
+		case REG_ZA0 <= r && r <= REG_ZA7:
+			return AC_ZAREG
+		case r == REG_ZT0:
+			return AC_ZTREG
+		case REG_P0 <= r && r <= REG_P15:
+			return AC_PREG
+		case REG_PN0 <= r && r <= REG_PN15:
+			return AC_PNREG
+		case r >= REG_SPECIAL:
+			return AC_SPR
+		}
+	case RTYP_SVE_PM:
+		return AC_PREGM
+	case RTYP_SVE_PZ:
+		return AC_PREGZ
+	case RTYP_INDEX:
+		if arng != ARNG_NONE {
+			return AC_ARNGIDX
+		}
+		return AC_REGIDX
+	case RTYP_EXT_UXTB,
+		RTYP_EXT_UXTH,
+		RTYP_EXT_UXTW,
+		RTYP_EXT_UXTX,
+		RTYP_EXT_SXTB,
+		RTYP_EXT_SXTH,
+		RTYP_EXT_SXTW,
+		RTYP_EXT_SXTX,
+		RTYP_EXT_LSL:
+		return AC_REGEXT
+	}
+	return AC_NONE
+}
+
+func (c *ctxt7) acclass(a *obj.Addr, p *obj.Prog) oprType {
+	switch a.Type {
+	case obj.TYPE_NONE:
+		return AC_NONE
+
+	case obj.TYPE_REG:
+		return raclass(a)
+
+	case obj.TYPE_REGREG:
+		return AC_PAIR
+
+	case obj.TYPE_SHIFT:
+		return AC_REGSHIFT
+
+	case obj.TYPE_REGLIST:
+		_, _, regcnt, _, _, hasIndex := c.decodeRegList(p, a)
+		if hasIndex {
+			if regcnt == 1 {
+				// For historical reasons, when the list has only one register,
+				// we write the operand in the form of AC_ARNGIDX.
+				return AC_ARNGIDX
+			}
+			return AC_LISTIDX
+		}
+		switch regcnt {
+		case 1:
+			return AC_REGLIST1
+		case 2:
+			return AC_REGLIST2
+		case 3:
+			return AC_REGLIST3
+		case 4:
+			return AC_REGLIST4
+		default:
+			log.Fatalf("unrecognized register list length\n")
+		}
+
+	case obj.TYPE_TEXTSIZE:
+		return AC_TEXTSIZE
+
+	case obj.TYPE_CONST, obj.TYPE_FCONST, obj.TYPE_ADDR:
+		switch a.Name {
+		case obj.NAME_NONE:
+			c.instoffset = a.Offset
+		case obj.NAME_EXTERN, obj.NAME_STATIC:
+			if a.Sym == nil {
+				return AC_NONE
+			}
+			if a.Sym.Type == objabi.STLSBSS {
+				log.Fatalf("taking address of TLS variable is not supported\n")
+			}
+			c.instoffset = a.Offset
+		case obj.NAME_AUTO:
+			if a.Reg == REGSP {
+				// unset base register for better printing, since
+				// a.Offset is still relative to pseudo-SP.
+				a.Reg = obj.REG_NONE
+			}
+			// The frame top 8 or 16 bytes are for FP
+			c.instoffset = int64(c.autosize) + a.Offset - int64(c.extrasize)
+		case obj.NAME_PARAM:
+			if a.Reg == REGSP {
+				// unset base register for better printing, since
+				// a.Offset is still relative to pseudo-FP.
+				a.Reg = obj.REG_NONE
+			}
+			c.instoffset = int64(c.autosize) + a.Offset + 8
+		default:
+			return AC_NONE
+		}
+		return AC_IMM
+
+	case obj.TYPE_BRANCH:
+		return AC_LABEL
+
+	case obj.TYPE_SPECIAL:
+		opd := SpecialOperand(a.Offset)
+		if SPOP_EQ <= opd && opd <= SPOP_NV {
+			return AC_COND
+		}
+		return AC_SPOP
+
+	case obj.TYPE_MEM:
+		// The base register should be a general purpose register or Z register.
+		if !(REG_R0 <= a.Reg && a.Reg <= REG_R31 || a.Reg == REG_RSP || REG_Z0 <= a.Reg && a.Reg <= REG_Z31) {
+			break
+		}
+		if p.Scond != 0 && a.Name != obj.NAME_NONE {
+			// Post-index and pre-index are not allowed for symbol references.
+			return AC_NONE
+		}
+		_, typ, _ := DecodeIndex(a.Index)
+		if p.Scond == C_XPRE {
+			return AC_MEMPREIMM
+		} else if p.Scond == C_XPOST {
+			if typ == RTYP_MEM_ROFF {
+				_, ext, _ := DecodeIndex(int16(a.Offset >> 16))
+				if ext != RTYP_NORMAL {
+					c.ctxt.Diag("invalid extended register: %v", p)
+					return AC_NONE
+				}
+				return AC_MEMPOSTREG // register offset
+			} else if typ == RTYP_NORMAL {
+				return AC_MEMPOSTIMM // immediate offset
+			}
+			return AC_NONE
+		}
+		if typ == RTYP_MEM_ROFF {
+			return AC_MEMEXT
+		} else if typ == RTYP_MEM_IMMEXT {
+			return AC_MEMIMMEXT // (const*VL)(Rn)
+		} else if typ == RTYP_NORMAL {
+			return AC_MEMIMM
+		}
+	}
+	return AC_NONE
+}
+
 func (c *ctxt7) oplook(p *obj.Prog) *Optab {
 	a1 := int(p.Optab)
 	if a1 != 0 {
+		if a1 >= len(optab) {
+			// TODO(eric): set flag if necessary.
+			flag := int8(0)
+			return &Optab{p.As, C_NONE, C_NONE, C_NONE, C_NONE, C_NONE, 0, 4, 0, flag, 0}
+		}
 		return &optab[a1-1]
 	}
+	// check if the instruction has been supported.
+	if p.As > obj.A_ARCHSPECIFIC && !supportedInsts[p.As-obj.ABaseARM64] {
+		c.ctxt.Diag("unsupported instruction: %v", p)
+		// Turn illegal instruction into an UNDEF, avoid crashing in asmout
+		return &Optab{obj.AUNDEF, C_NONE, C_NONE, C_NONE, C_NONE, C_NONE, 90, 4, 0, 0, 0}
+	}
+
 	a1 = int(p.From.Class)
 	if a1 == 0 {
 		a1 = c.aclass(&p.From)
@@ -2353,9 +2546,135 @@ func (c *ctxt7) oplook(p *obj.Prog) *Optab {
 		}
 	}
 
+	// No match in optab, try looking in the instTab instruction table.
+	idxs := c.instLook(p)
+	if len(idxs) > 0 {
+		// While instLook may return multiple matches, in the end there is only one true match.
+		// Since each Prog corresponds to only one arm64 instruction, the flags are all empty,
+		// so no matter which is the real match, the Optab constructed is the same. Here we
+		// build an Optab with the first match, since there is usually only one match.
+		p.Optab = uint16(idxs[0] + len(optab))
+		p.Isize = uint8(len(idxs) << 2)
+		flag := int8(0)
+		// TODO(eric): set flag if necessary.
+		return &Optab{p.As, C_NONE, C_NONE, C_NONE, C_NONE, C_NONE, 0, 4, 0, flag, 0}
+	}
+
 	c.ctxt.Diag("illegal combination: %v %v %v %v %v %v, %d %d", p, DRconv(a1), DRconv(a2), DRconv(a3), DRconv(a4), DRconv(a5), p.From.Type, p.To.Type)
 	// Turn illegal instruction into an UNDEF, avoid crashing in asmout
 	return &Optab{obj.AUNDEF, C_NONE, C_NONE, C_NONE, C_NONE, C_NONE, 90, 4, 0, 0, 0}
+}
+
+// instLook finds out the machine instructions corresponding to p.
+// 1, Find out all of the possible instructions.
+// 2, For each of the candidate:
+//
+//	2.1, Check that each argument matches.
+//
+// 3, Return the indexes of matched instructions in instTab.
+func (c *ctxt7) instLook(p *obj.Prog) []int {
+	// Get all candidates
+	idx, num := instSearch(p.As)
+	if idx == -1 {
+		return nil
+	}
+	idxs := []int{}
+	operands := getOperands(p)
+	for i, inst := range instTab[idx : idx+num] {
+		if len(operands) != len(inst.args) {
+			// Note: keep the length of the arguments consistent.
+			continue
+		}
+		match := true
+		// Check that each argument of the instruction matches.
+		for m, opr := range operands {
+			if !c.argMatch(p, opr, inst.args[m]) {
+				match = false
+				break
+			}
+		}
+		if !match {
+			continue
+		}
+		idxs = append(idxs, idx+i)
+	}
+	return idxs
+}
+
+// getOperands returns all of the operands of p.
+func getOperands(p *obj.Prog) []*obj.Addr {
+	operands := []*obj.Addr{}
+	if p.From.Class != C_NONE {
+		operands = append(operands, &p.From)
+	}
+	if p.Reg != 0 {
+		operands = append(operands, &obj.Addr{Reg: p.Reg, Type: obj.TYPE_REG})
+	}
+
+	for i := 0; i < len(p.RestArgs); i++ {
+		arg := p.RestArgs[i]
+		if arg.Pos == obj.Source {
+			operands = append(operands, &arg.Addr)
+		}
+	}
+
+	if p.To.Class != C_NONE {
+		operands = append(operands, &p.To)
+	}
+	if p.RegTo2 != 0 {
+		operands = append(operands, &obj.Addr{Reg: p.RegTo2, Type: obj.TYPE_REG})
+	}
+	for i := 0; i < len(p.RestArgs); i++ {
+		arg := p.RestArgs[i]
+		if arg.Pos == obj.Destination {
+			operands = append(operands, &arg.Addr)
+		}
+	}
+	return operands
+}
+
+// argMatch checks whether the Prog operand ap matches the instruction argument ai.
+func (c *ctxt7) argMatch(p *obj.Prog, ap *obj.Addr, ai arg) bool {
+	ci := ai.aType
+	cp := c.acclass(ap, p)
+	if ci == AC_ANY {
+		return true
+	}
+	switch cp {
+	case AC_REG:
+		if ap.Reg != REGZERO && ci == AC_RSP {
+			return true
+		}
+	}
+	return ci == cp
+}
+
+// instSearch uses binary search to search for name in instTab,
+// and returns the index of the first occurrence and the number
+// of occurrence. instTab must first be sorted by icmp type.
+func instSearch(name obj.As) (int, int) {
+	i, j := 0, len(instTab)-1
+	for i <= j {
+		h := (i + j) >> 1
+		if name == instTab[h].goOp {
+			if h > 0 && name > instTab[h-1].goOp || h == 0 {
+				c := 1
+				for k := h + 1; k < len(instTab); k++ {
+					if name != instTab[k].goOp {
+						break
+					}
+					c++
+				}
+				return h, c
+			}
+			j = h - 1
+		} else if name > instTab[h].goOp {
+			i = h + 1
+		} else {
+			j = h - 1
+		}
+	}
+	return -1, 0
 }
 
 func cmp(a int, b int) bool {
@@ -3348,6 +3667,8 @@ func buildop(ctxt *obj.Link) {
 			break
 		}
 	}
+
+	sort.Sort(icmp(instTab))
 }
 
 // chipfloat7() checks if the immediate constants available in  FMOVS/FMOVD instructions.
@@ -6152,7 +6473,7 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		o1 |= enc | c.encodeReg(rs)<<16 | c.encodeReg(rb)<<5 | c.encodeReg(rt)
 
 	case 107: /* tlbi, dc */
-		op, ok := sysInstFields[SpecialOperand(p.From.Offset)]
+		op, ok := sysInstTLBIDC[SpecialOperand(p.From.Offset)]
 		if !ok || (p.As == ATLBI && op.cn != 8) || (p.As == ADC && op.cn != 7) {
 			c.ctxt.Diag("illegal argument: %v\n", p)
 			break
@@ -6193,6 +6514,37 @@ func (c *ctxt7) addrRelocType(p *obj.Prog) objabi.RelocType {
 		c.ctxt.Diag("use R_ADDRARM64 relocation type for: %v\n", p)
 	}
 	return -1
+}
+
+// asmInst encodes an instruction.
+func (c *ctxt7) asmInst(p *obj.Prog, idx int, out []uint32) {
+	matches := []int{idx}
+	if p.Isize > 4 {
+		matches = c.instLook(p)
+	}
+	operands := getOperands(p)
+	checks := make(map[uint32]uint32)
+	for _, m := range matches {
+		match := true
+		// TODO(eric): add relocation type if it is necessary.
+		bin := instTab[m].skeleton
+		for k := range checks { // use clear(checks) after go1.21
+			delete(checks, k)
+		}
+		for i, op := range operands {
+			if enc, ok := c.encodeArg(p, bin, op, m, i, checks); ok {
+				bin |= enc
+			} else {
+				match = false
+				break
+			}
+		}
+		if match {
+			out[0] = bin
+			return
+		}
+	}
+	c.ctxt.Diag("no arm64 instruction matches: %v\n", p)
 }
 
 /*
