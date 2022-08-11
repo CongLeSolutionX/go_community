@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "adbfb1d8_b9cb11db",
+        "filename": "src/make.bash",
+        "patchSetId": 3
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2022-08-11T14:36:50Z",
+      "side": 0,
+      "message": "I don\u0027t think we want to delete the use of go1.4 directory as a last fallback yet. Some users or setups may have a newer, compatible bootstrap at that location, and maybe there\u0027s not significant benefit in requiring it to be renamed. Consider leaving this change out of this CL for now.",
+      "revId": "de95dca32fb196d5f09bf5db4a6ba592907559c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "477a8ed2_55148654",
+        "filename": "src/make.bat",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2022-08-11T14:36:50Z",
+      "side": 0,
+      "message": "Same comment here.",
+      "revId": "de95dca32fb196d5f09bf5db4a6ba592907559c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
