@@ -22,6 +22,30 @@
       },
       "revId": "de95dca32fb196d5f09bf5db4a6ba592907559c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b20145ed_c74651c9",
+        "filename": "src/cmd/compile/internal/noder/reader.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1927,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-08-11T11:55:30Z",
+      "side": 1,
+      "message": "`r.Bool()` reads value from the bitstream, two calls of them would read at different offset, so the results are not identical.\n\nYou can read the corresponding `writer.recvExpr` method to see how we write data to the bitstream.",
+      "parentUuid": "b982d25e_cf563224",
+      "range": {
+        "startLine": 1923,
+        "startChar": 2,
+        "endLine": 1927,
+        "endChar": 3
+      },
+      "revId": "de95dca32fb196d5f09bf5db4a6ba592907559c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
