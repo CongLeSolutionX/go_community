@@ -53,6 +53,24 @@
       "message": "I was worried about possible conflicts with https://go-review.googlesource.com/c/go/+/421195, but this looks good, you\u0027ve not yet added all the different rotation optimizations that would soon be redundant.",
       "revId": "4c9bd26244c927197bfdffefee21ffbe35af7e51",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "566c50a1_e24b2f9c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 52329
+      },
+      "writtenOn": "2022-08-11T07:36:25Z",
+      "side": 1,
+      "message": "I\u0027m waiting CL 421195 gotten merged and I will add more checks in test/codegen/rotate.go after that CL merge.",
+      "parentUuid": "138b597e_cdff09a5",
+      "revId": "4c9bd26244c927197bfdffefee21ffbe35af7e51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
