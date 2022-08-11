@@ -36,6 +36,7 @@ import (
 	"fmt"
 	"log"
 	"math"
+	"regexp"
 	"sort"
 )
 
@@ -1195,7 +1196,12 @@ func span7(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 				psz += 4
 			}
 		} else {
-			c.asmout(p, o, out[:])
+			opt := int(p.Optab)
+			if opt > 0 && opt < len(optab) {
+				c.asmout(p, o, out[:])
+			} else if opt >= len(optab) && opt < len(optab)+len(instTab) {
+				c.asminst(p, opt-len(optab), out[:])
+			}
 			for i = 0; i < int(o.size/4); i++ {
 				c.ctxt.Arch.ByteOrder.PutUint32(bp, out[i])
 				bp = bp[4:]
@@ -2093,6 +2099,11 @@ func oclass(a *obj.Addr) int {
 func (c *ctxt7) oplook(p *obj.Prog) *Optab {
 	a1 := int(p.Optab)
 	if a1 != 0 {
+		if a1 > len(optab) {
+			flag := uint16(0)
+			// TODO(eric): set flag if necessary.
+			return &Optab{p.As, C_NONE, C_NONE, C_NONE, C_NONE, 0, 4, 0, 0, flag}
+		}
 		return &optab[a1-1]
 	}
 	a1 = int(p.From.Class)
@@ -2166,9 +2177,206 @@ func (c *ctxt7) oplook(p *obj.Prog) *Optab {
 		}
 	}
 
+	a5 := C_NONE
+	if p.RegTo2 != 0 {
+		a5 = rclass(p.RegTo2)
+	} else if p.GetTo2() != nil {
+		a5 = c.aclass(p.GetTo2())
+		p.GetTo2().Class = int8(a5) + 1
+	}
+
+	// No match in optab, try looking in inst instruction table.
+	idx := c.instLook(p)
+	if idx >= 0 {
+		p.Optab = uint16(idx + len(optab))
+		flag := uint16(0)
+		// TODO(eric): set flag if necessary.
+		return &Optab{p.As, C_NONE, C_NONE, C_NONE, C_NONE, 0, 4, 0, 0, flag}
+	}
+
 	c.ctxt.Diag("illegal combination: %v %v %v %v %v, %d %d", p, DRconv(a1), DRconv(a2), DRconv(a3), DRconv(a4), p.From.Type, p.To.Type)
 	// Turn illegal instruction into an UNDEF, avoid crashing in asmout
 	return &Optab{obj.AUNDEF, C_NONE, C_NONE, C_NONE, C_NONE, 90, 4, 0, 0, 0}
+}
+
+// instLook finds out the machine instruction corresponding to p.
+// 1, Find out all of the possible instructions.
+// 2, For each of the candidate:
+//
+//	2.1, Classify the argument.
+//	2.2, Check that each argument matches.
+//
+// 3, Return the index of matched instruction in instTab.
+func (c *ctxt7) instLook(p *obj.Prog) int {
+	// Get all candidates
+	idx, num := instSearch(p.As.String())
+	if idx == -1 {
+		return -1
+	}
+	operands := getOperands(p)
+	for i, ist := range instTab[idx : idx+num] {
+		if len(operands) != len(ist.args) {
+			continue
+		}
+		match := true
+		// Check that each argument of the instruction matches.
+		for m, op := range operands {
+			if !c.argMatch(p, op, ist.args[m]) {
+				match = false
+				break
+			}
+		}
+		if !match {
+			continue
+		}
+		return idx + i
+	}
+	return -1
+}
+
+// getOperands returns all of the operands of p.
+func getOperands(p *obj.Prog) []*obj.Addr {
+	operands := []*obj.Addr{}
+	if p.From.Class != C_NONE {
+		operands = append(operands, &p.From)
+	}
+	if p.Reg != 0 {
+		operands = append(operands, &obj.Addr{Reg: p.Reg, Type: obj.TYPE_REG})
+	}
+	if from3 := p.GetFrom3(); from3 != nil && from3.Class != C_NONE {
+		operands = append(operands, p.GetFrom3())
+	}
+	if p.To.Class != C_NONE {
+		operands = append(operands, &p.To)
+	}
+	if p.RegTo2 != 0 {
+		operands = append(operands, &obj.Addr{Reg: p.RegTo2, Type: obj.TYPE_REG})
+	} else if to2 := p.GetTo2(); to2 != nil {
+		operands = append(operands, to2)
+	}
+	return operands
+}
+
+// argMatch checks whether the Prog operand op matches the instruction argument at.
+func (c *ctxt7) argMatch(p *obj.Prog, op *obj.Addr, at argtype) bool {
+	ic := iaclass(at)
+	ac := c.aclass(op)
+	switch op.Type {
+	case obj.TYPE_REG:
+		switch ac {
+		case C_RSP:
+			return ic == IC_CREGSP
+		case C_REG, C_ZCON:
+			return ic == IC_CREG
+		case C_FREG:
+			return ic == IC_FREG
+		case C_VREG:
+			return ic == IC_VREG
+		case C_ARNG:
+			return ic == IC_ARRANGEMENT
+		case C_ELEM:
+			return ic == IC_ARRANGEMENTINDEX
+		case C_EXTREG:
+			return ic == IC_CREGEXTEND
+		case C_SPR:
+			return ic == IC_SPC
+		}
+	case obj.TYPE_BRANCH:
+		return ic == IC_LABEL
+	case obj.TYPE_MEM:
+		if p.Scond == C_XPRE {
+			return ic == IC_MEMPREIMM
+		}
+		if p.Scond == C_XPOST {
+			if ac == C_ROFF {
+				return ic == IC_MEMPOSTREG
+			}
+			return ic == IC_MEMPOSTIMM
+		}
+		if ac == C_ROFF {
+			return ic == IC_MEMEXTEND
+		}
+		return ic == IC_MEMOPTIONAL
+	case obj.TYPE_CONST, obj.TYPE_FCONST, obj.TYPE_ADDR:
+		return ic == IC_IMM
+	case obj.TYPE_SHIFT:
+		return ic == IC_CREGSHIFT
+	case obj.TYPE_REGREG:
+		return ic == IC_PAIR
+	case obj.TYPE_REGLIST:
+		return ic == IC_ARRANGEMENT
+	case obj.TYPE_SPECIAL:
+		if ac == C_COND {
+			return ic == IC_COND
+		}
+		return ic == IC_SPC
+	}
+	return false
+}
+
+var argRegExps = []struct {
+	reStr string
+	ic    int
+	rePtr *regexp.Regexp
+}{
+	{`^[XWR][mndsta]([n]??|(_[1-9]{2}_.*)??)$`, IC_CREG, nil},
+	{`^[XW][dn]s$`, IC_CREGSP, nil},
+	{`^[XW]m_shift`, IC_CREGSHIFT, nil},
+	{`^[WR]m_extend`, IC_CREGEXTEND, nil},
+	{`_pair`, IC_PAIR, nil},
+	{`^Xns_mem_extend_`, IC_MEMEXTEND, nil},
+	{`^(Xns_mem$|Xns_mem_offset$|Xns_mem_optional_)`, IC_MEMOPTIONAL, nil},
+	{`^Xns_mem_post_[^X]`, IC_MEMPOSTIMM, nil},
+	{`^Xns_mem_post_Xm$`, IC_MEMPOSTREG, nil},
+	{`^Xns_mem_wb_`, IC_MEMPREIMM, nil},
+	{`^cond`, IC_COND, nil},
+	{`^slabel_`, IC_LABEL, nil},
+	{`^[QDSHB][mndta]$`, IC_FREG, nil},
+	{`^V[dmn]_[1-9]{2}_`, IC_VREG, nil},
+	{`^(immediate_|IAddSub)`, IC_IMM, nil},
+	{`^V[dmnt].*_arrangement_.*_index_`, IC_ARRANGEMENTINDEX, nil},
+	{`^V[dmnta].*_arrangement_`, IC_ARRANGEMENT, nil}, // after IC_ARRANGEMENTINDEX
+}
+
+// iaclass classifies instruction argument types.
+func iaclass(at argtype) int {
+	if at == arg_None {
+		return IC_NONE
+	}
+	for _, e := range argRegExps {
+		if e.rePtr.MatchString(at.String()) {
+			return e.ic
+		}
+	}
+	return IC_SPC
+}
+
+// instSearch uses binary search to search for name in instTab,
+// and returns the index of the first occurrence and the number
+// of occurrence. instTab must first be sorted by icmp type.
+func instSearch(name string) (int, int) {
+	i, j := 0, len(instTab)-1
+	for i <= j {
+		h := (i + j) >> 1
+		if name == instTab[h].as {
+			if h > 0 && name > instTab[h-1].as || h == 0 {
+				c := 1
+				for k := h + 1; k < len(instTab); k++ {
+					if name != instTab[k].as {
+						break
+					}
+					c++
+				}
+				return h, c
+			}
+			j = h - 1
+		} else if name > instTab[h].as {
+			i = h + 1
+		} else {
+			j = h - 1
+		}
+	}
+	return -1, 0
 }
 
 func cmp(a int, b int) bool {
@@ -3164,6 +3372,11 @@ func buildop(ctxt *obj.Link) {
 			obj.ADUFFCOPY:
 			break
 		}
+	}
+	sort.Sort(icmp(instTab))
+	// initiate argRegExps
+	for i := 0; i < len(argRegExps); i++ {
+		argRegExps[i].rePtr = regexp.MustCompile(argRegExps[i].reStr)
 	}
 }
 
@@ -5675,6 +5888,19 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 	out[2] = o3
 	out[3] = o4
 	out[4] = o5
+}
+
+// asminst encodes an instruction.
+func (c *ctxt7) asminst(p *obj.Prog, idx int, out []uint32) {
+	// TODO(eric): add relocation type if it is necessary.
+	enc := instTab[idx].skeleton
+	// TODO(eric): enable this when necessary
+	// enc |= c.encodeOpcode(p.As)
+	operands := getOperands(p)
+	for i, op := range operands {
+		enc |= c.encodeArg(p, op, instTab[idx].args[i])
+	}
+	out[0] = enc
 }
 
 /*
