@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ce55394_8643c7e5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2022-08-11T14:57:15Z",
+      "side": 1,
+      "message": "See inline comments that point out a few more places that are in need of a similar update.",
+      "revId": "8a02d8b49a1439ed27e11a4327a68edf7ad5d2f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d57f0bc_9a851c54",
+        "filename": "src/make.bash",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2022-08-11T14:57:15Z",
+      "side": 1,
+      "message": "This can be updated.",
+      "range": {
+        "startLine": 70,
+        "startChar": 44,
+        "endLine": 70,
+        "endChar": 47
+      },
+      "revId": "8a02d8b49a1439ed27e11a4327a68edf7ad5d2f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2db836bc_7b374518",
+        "filename": "src/make.bash",
+        "patchSetId": 4
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2022-08-11T14:57:15Z",
+      "side": 1,
+      "message": "Here.",
+      "range": {
+        "startLine": 188,
+        "startChar": 57,
+        "endLine": 188,
+        "endChar": 60
+      },
+      "revId": "8a02d8b49a1439ed27e11a4327a68edf7ad5d2f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "591f00f0_043dca82",
+        "filename": "src/make.rc",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2022-08-11T14:57:15Z",
+      "side": 1,
+      "message": "Here, and also on line 80 below.",
+      "range": {
+        "startLine": 75,
+        "startChar": 56,
+        "endLine": 75,
+        "endChar": 59
+      },
+      "revId": "8a02d8b49a1439ed27e11a4327a68edf7ad5d2f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
