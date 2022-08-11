@@ -59,6 +59,30 @@
       },
       "revId": "e07d1546646bee4e6641b6051dd363a31a2c4c2c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "353b501e_ac3e57d0",
+        "filename": "src/cmd/compile/internal/amd64/versions_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-08-11T00:20:54Z",
+      "side": 1,
+      "message": "Ah right, that make sense.",
+      "parentUuid": "abbc855a_d62c01c3",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 2
+      },
+      "revId": "e07d1546646bee4e6641b6051dd363a31a2c4c2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
