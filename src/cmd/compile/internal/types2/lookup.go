@@ -388,8 +388,14 @@ func (check *Checker) missingMethodReason(V, T Type, m, alt *Func) string {
 			return check.sprintf("(%s has pointer receiver)", mname)
 		}
 
+		altS, mS := check.funcString(alt), check.funcString(m)
+		if altS == mS {
+			// Would tell the user that Foo isn't a Foo, add package information to disambiguate.  See #54258.
+			altS, mS = check.funcStringWithPkgs(alt), check.funcStringWithPkgs(m)
+		}
+
 		return check.sprintf("(wrong type for %s)\n\t\thave %s\n\t\twant %s",
-			mname, check.funcString(alt), check.funcString(m))
+			mname, altS, mS)
 	}
 
 	if isInterfacePtr(V) {
@@ -426,6 +432,17 @@ func (check *Checker) funcString(f *Func) string {
 		qf = check.qualifier
 	}
 	WriteSignature(buf, f.typ.(*Signature), qf)
+	return buf.String()
+}
+
+// funcStringWithPkgs returns a string of the form name + signature for f,
+// but with package-qualified structures within.  This is used to remove
+// ambiguity from error messages where otherwise identical structs from
+// different packages are not equal.  See #54258.
+// check may be nil.
+func (check *Checker) funcStringWithPkgs(f *Func) string {
+	buf := bytes.NewBufferString(f.name)
+	WriteFullSignature(buf, f.typ.(*Signature), nil)
 	return buf.String()
 }
 

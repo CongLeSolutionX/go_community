@@ -516,6 +516,17 @@ func tcDot(n *ir.SelectorExpr, top int) ir.Node {
 	return n
 }
 
+func wrongTypeFor(haveSym *types.Sym, haveType *types.Type, missingSym *types.Sym, missingType *types.Type) string {
+	haveT, missingT := fmt.Sprintf("%S", haveType), fmt.Sprintf("%S", missingType)
+	if haveT == missingT {
+		// Add packages instead of reporting "got Foo but wanted Foo", see #54258.
+		haveT = haveType.Pkg().Path + "." + haveT
+		missingT = missingType.Pkg().Path + "." + missingT
+	}
+	return fmt.Sprintf("(wrong type for %v method)\n"+
+		"\t\thave %v%s\n\t\twant %v%s", missingSym, haveSym, haveT, missingSym, missingT)
+}
+
 // tcDotType typechecks an ODOTTYPE node.
 func tcDotType(n *ir.TypeAssertExpr) ir.Node {
 	n.X = Expr(n.X)
@@ -539,8 +550,8 @@ func tcDotType(n *ir.TypeAssertExpr) ir.Node {
 		var ptr int
 		if !implements(n.Type(), t, &missing, &have, &ptr) {
 			if have != nil && have.Sym == missing.Sym {
-				base.Errorf("impossible type assertion:\n\t%v does not implement %v (wrong type for %v method)\n"+
-					"\t\thave %v%S\n\t\twant %v%S", n.Type(), t, missing.Sym, have.Sym, have.Type, missing.Sym, missing.Type)
+				base.Errorf("impossible type assertion:\n\t%v does not implement %v %s", n.Type(), t,
+					wrongTypeFor(have.Sym, have.Type, missing.Sym, missing.Type))
 			} else if ptr != 0 {
 				base.Errorf("impossible type assertion:\n\t%v does not implement %v (%v method has pointer receiver)", n.Type(), t, missing.Sym)
 			} else if have != nil {

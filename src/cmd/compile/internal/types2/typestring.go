@@ -71,22 +71,35 @@ func WriteSignature(buf *bytes.Buffer, sig *Signature, qf Qualifier) {
 	newTypeWriter(buf, qf).signature(sig)
 }
 
+// WriteFullSignature writes the representation of the signature sig to buf,
+// without a leading "func" keyword.
+// The Qualifier controls the printing of package-level objects, and may be nil,
+// but non-empty structs are tagged with their package.  The expected use for
+// this is case where not tagging the structs would lead to a confusing error
+// message.
+func WriteFullSignature(buf *bytes.Buffer, sig *Signature, qf Qualifier) {
+	w := newTypeWriter(buf, qf)
+	w.disambiguateStructs = true
+	w.signature(sig)
+}
+
 type typeWriter struct {
-	buf     *bytes.Buffer
-	seen    map[Type]bool
-	qf      Qualifier
-	ctxt    *Context       // if non-nil, we are type hashing
-	tparams *TypeParamList // local type parameters
-	debug   bool           // if true, write debug annotations
+	buf                 *bytes.Buffer
+	seen                map[Type]bool
+	qf                  Qualifier
+	ctxt                *Context       // if non-nil, we are type hashing
+	tparams             *TypeParamList // local type parameters
+	disambiguateStructs bool           // package-qualify structs to avoid confusing error messages
+	debug               bool           // if true, write debug annotations
 }
 
 func newTypeWriter(buf *bytes.Buffer, qf Qualifier) *typeWriter {
-	return &typeWriter{buf, make(map[Type]bool), qf, nil, nil, false}
+	return &typeWriter{buf, make(map[Type]bool), qf, nil, nil, false, false}
 }
 
 func newTypeHasher(buf *bytes.Buffer, ctxt *Context) *typeWriter {
 	assert(ctxt != nil)
-	return &typeWriter{buf, make(map[Type]bool), nil, ctxt, nil, false}
+	return &typeWriter{buf, make(map[Type]bool), nil, ctxt, nil, false, false}
 }
 
 func (w *typeWriter) byte(b byte) {
@@ -148,6 +161,10 @@ func (w *typeWriter) typ(typ Type) {
 		w.typ(t.elem)
 
 	case *Struct:
+		if w.qf == nil && w.disambiguateStructs && len(t.fields) > 0 {
+			// special case for "write all the packages", disambiguate structures
+			writePackage(w.buf, t.fields[0].pkg, nil)
+		}
 		w.string("struct{")
 		for i, f := range t.fields {
 			if i > 0 {
