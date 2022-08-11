@@ -477,11 +477,33 @@ const (
 )
 
 const (
+	IC_NONE             = iota
+	IC_FREG             // floating point registers, such as F1
+	IC_PAIR             // register pair, such as (R1, R2)
+	IC_CREG             // general purpose registers, such as R1
+	IC_CREGSP           // general purpose registers and SP
+	IC_CREGSHIFT        // general purpose register with shift, such as R1<<2
+	IC_CREGEXTEND       // general purpose register with extend, such as R7.SXTW<<1
+	IC_COND             // conditional flags, such as CS
+	IC_LABEL            // branch labels
+	IC_VREG             // vector registers, such V1
+	IC_SPC              // special operands, such as DAIFSet
+	IC_IMM              // constants
+	IC_ARRANGEMENT      // vector register with arrangement, such as V11.D2
+	IC_ARRANGEMENTINDEX // vector register with arrangement and index, such as V12.D[1]
+	IC_MEMEXTEND        // address with extend offset, such as (R2)(R5.SXTX<<1)
+	IC_MEMOPTIONAL      // address with optional offset, such as 4(R1)
+	IC_MEMPOSTIMM       // address of the post-index class, offset is an immediate
+	IC_MEMPOSTREG       // address of the post-index class, offset is a register
+	IC_MEMPREIMM        // address of the pre-index class, offset is an immediate
+)
+
+const (
 	C_XPRE  = 1 << 6 // match arm.C_WBIT, so Prog.String know how to print it
 	C_XPOST = 1 << 5 // match arm.C_PBIT, so Prog.String know how to print it
 )
 
-//go:generate go run ../stringer.go -i $GOFILE -o anames.go -p arm64
+//go:generate go run ../stringer.go -i a.out.go -o anames.go -p arm64
 
 const (
 	AADC = obj.ABaseARM64 + obj.A_ARCHSPECIFIC + iota

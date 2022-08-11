@@ -251,6 +251,7 @@ func (a *Addr) Target() *Prog {
 	}
 	return nil
 }
+
 func (a *Addr) SetTarget(t *Prog) {
 	if a.Type != TYPE_BRANCH {
 		panic("setting branch target when type is not TYPE_BRANCH")
@@ -264,7 +265,7 @@ func (a *Addr) SetConst(v int64) {
 	a.Offset = v
 }
 
-// Prog describes a single machine instruction.
+// Prog describes a single Go assembly instruction.
 //
 // The general instruction form is:
 //
@@ -353,7 +354,7 @@ func (p *Prog) From3Type() AddrType {
 // Introduced to simplify transition to []Addr.
 // Usage of this is discouraged due to fragility and lack of guarantees.
 func (p *Prog) GetFrom3() *Addr {
-	if p.RestArgs == nil {
+	if p.RestArgs == nil || p.RestArgs[0].Pos != Source {
 		return nil
 	}
 	return &p.RestArgs[0].Addr
@@ -389,7 +390,7 @@ func (p *Prog) SetTo2(a Addr) {
 
 // GetTo2 returns the second destination operand.
 func (p *Prog) GetTo2() *Addr {
-	if p.RestArgs == nil {
+	if p.RestArgs == nil || p.RestArgs[0].Pos != Destination {
 		return nil
 	}
 	return &p.RestArgs[0].Addr
