@@ -72,6 +72,24 @@
       "message": "Are you in any hurry to get this one approved?",
       "revId": "c5f66f568cfab15cbfe163a9fc5989cbe8bbb958",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "06a38b61_976dd7bd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-08-11T21:39:03Z",
+      "side": 1,
+      "message": "I\u0027d say eager, but not hurried. I think the previous CL (switching to shape-based dictionaries) is the last blocking task before making the switch.",
+      "parentUuid": "47798651_d0a57034",
+      "revId": "c5f66f568cfab15cbfe163a9fc5989cbe8bbb958",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
