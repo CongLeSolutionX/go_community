@@ -143,7 +143,70 @@ const (
 	REG_V30
 	REG_V31
 
-	REG_RSP = REG_V31 + 32 // to differentiate ZR/SP, REG_RSP&0x1f = 31
+	// SVE
+	REG_Z0
+	REG_Z1
+	REG_Z2
+	REG_Z3
+	REG_Z4
+	REG_Z5
+	REG_Z6
+	REG_Z7
+	REG_Z8
+	REG_Z9
+	REG_Z10
+	REG_Z11
+	REG_Z12
+	REG_Z13
+	REG_Z14
+	REG_Z15
+	REG_Z16
+	REG_Z17
+	REG_Z18
+	REG_Z19
+	REG_Z20
+	REG_Z21
+	REG_Z22
+	REG_Z23
+	REG_Z24
+	REG_Z25
+	REG_Z26
+	REG_Z27
+	REG_Z28
+	REG_Z29
+	REG_Z30
+	REG_Z31
+
+	// SME ZA tile
+	REG_ZA0
+	REG_ZA1
+	REG_ZA2
+	REG_ZA3
+	REG_ZA4
+	REG_ZA5
+	REG_ZA6
+	REG_ZA7
+
+	REG_P0
+	REG_P1
+	REG_P2
+	REG_P3
+	REG_P4
+	REG_P5
+	REG_P6
+	REG_P7
+	REG_P8
+	REG_P9
+	REG_P10
+	REG_P11
+	REG_P12
+	REG_P13
+	REG_P14
+	REG_P15
+
+	REG_ZT0
+
+	REG_RSP = REG_ZT0 + 7 // to differentiate ZR/SP, REG_RSP&0x1f = 31
 )
 
 // All register types
@@ -270,6 +333,24 @@ var ARM64DWARFRegisters = map[int16]int16{
 	REG_R29: 29,
 	REG_R30: 30,
 
+	// SVE predicate registers
+	REG_P0:  48,
+	REG_P1:  49,
+	REG_P2:  50,
+	REG_P3:  51,
+	REG_P4:  52,
+	REG_P5:  53,
+	REG_P6:  54,
+	REG_P7:  55,
+	REG_P8:  56,
+	REG_P9:  57,
+	REG_P10: 58,
+	REG_P11: 59,
+	REG_P12: 60,
+	REG_P13: 61,
+	REG_P14: 62,
+	REG_P15: 63,
+
 	// floating point
 	REG_F0:  64,
 	REG_F1:  65,
@@ -337,6 +418,40 @@ var ARM64DWARFRegisters = map[int16]int16{
 	REG_V29: 93,
 	REG_V30: 94,
 	REG_V31: 95,
+
+	// SVE vector registers
+	REG_Z0:  96,
+	REG_Z1:  97,
+	REG_Z2:  98,
+	REG_Z3:  99,
+	REG_Z4:  100,
+	REG_Z5:  101,
+	REG_Z6:  102,
+	REG_Z7:  103,
+	REG_Z8:  104,
+	REG_Z9:  105,
+	REG_Z10: 106,
+	REG_Z11: 107,
+	REG_Z12: 108,
+	REG_Z13: 109,
+	REG_Z14: 110,
+	REG_Z15: 111,
+	REG_Z16: 112,
+	REG_Z17: 113,
+	REG_Z18: 114,
+	REG_Z19: 115,
+	REG_Z20: 116,
+	REG_Z21: 117,
+	REG_Z22: 118,
+	REG_Z23: 119,
+	REG_Z24: 120,
+	REG_Z25: 121,
+	REG_Z26: 122,
+	REG_Z27: 123,
+	REG_Z28: 124,
+	REG_Z29: 125,
+	REG_Z30: 126,
+	REG_Z31: 127,
 }
 
 const (
@@ -500,548 +615,72 @@ const (
 	C_NCLASS // must be last
 )
 
+type oprType uint16
+
+// The classification table below will eventually replace the classification table above.
+//
+//go:generate stringer -type oprType -trimprefix AC_
+const (
+	AC_NONE   oprType = iota
+	AC_REG            // general purpose registers R0..R30 and ZR
+	AC_RSP            // general purpose registers R0..R30 and RSP
+	AC_FREG           // floating point registers, such as F1
+	AC_VREG           // vector registers, such as V1
+	AC_ZREG           // the scalable vector registers, such as Z1
+	AC_ZAREG          // the name of the ZA tile, defined as registers, such as ZA0
+	AC_ZTREG          // the ZT0 register
+	AC_PREG           // the governing scalable predicate registers, such as P1
+	AC_PREGM          // Pg/M
+	AC_PREGZ          // Pg/Z
+	AC_SPR            // special register, such as REG_NZCV, system registers
+	AC_REGIDX         // P8[1]
+	AC_PAIR           // register pair, such as (R1, R3)
+	AC_REGEXT         // general purpose register with extend, such as R7.SXTW<<1
+
+	AC_REGSHIFT // general purpose register with shift, such as R1<<2
+
+	AC_COND  // conditional flags, such as CS
+	AC_SPOP  // special operands, such as DAIFSet
+	AC_LABEL // branch labels
+
+	AC_IMM // constants
+
+	AC_REGLIST1  // list of 1 vector register, such as [V1]
+	AC_REGLIST2  // list of 2 vector registers, such as [V1, V2]
+	AC_REGLIST2C // list of 2 consecutive vector registers, such as [V1, V2]
+	AC_REGLIST3  // list of 3 vector registers, such as [V1, V2, V3]
+	AC_REGLIST4  // list of 4 vector registers, such as [V1, V2, V3, V4]
+	AC_REGLIST4C // list of 4 consecutive vector registers, such as [V1, V2, V3, V4]
+	AC_LISTIDX   // list with index, such as [V1.B, V2.B][2]
+
+	AC_ARNG    // vector register with arrangement, such as V11.D2
+	AC_ARNGIDX // vector register with arrangement and index, such as V12.D[1]
+
+	AC_MEMIMM     // address with optional offset, the offset is an immediate, such as 4(R1)
+	AC_MEMIMMEXT  // address with optional offset, the offset is an immediate with extension, such as (2*VL)(R1)
+	AC_MEMEXT     // address with extend offset, such as (R2)(R5.SXTX<<1)
+	AC_MEMPOSTIMM // address of the post-index class, offset is an immediate
+	AC_MEMPOSTREG // address of the post-index class, offset is a register
+	AC_MEMPREIMM  // address of the pre-index class, offset is an immediate
+
+	AC_ZAHVTILEIDX // <ZAd><HV>.D[<Ws>, <offs>]
+	AC_ZAHVTILESEL // <ZAd><HV>.D[<Ws>, <offsf>:<offsl>]
+
+	AC_ZAVECTORIDX    // ZA[<Wv>, <offs>]
+	AC_ZAVECTORIDXVG2 // ZA.<T>[<Wv>, <offs>{, VGx2}]
+	AC_ZAVECTORIDXVG4 // ZA.<T>[<Wv>, <offs>{, VGx4}]
+
+	AC_ZAVECTORSEL    // ZA.<T>[<Wv>, <offsf>:<offsl>]
+	AC_ZAVECTORSELVG2 // ZA.<T>[<Wv>, <offsf>:<offsl>{, VGx2}]
+	AC_ZAVECTORSELVG4 // ZA.<T>[<Wv>, <offsf>:<offsl>{, VGx4}]
+
+	AC_TEXTSIZE
+	AC_ANY // any other operand format
+)
+
 const (
 	C_XPRE  = 1 << 6 // match arm.C_WBIT, so Prog.String know how to print it
 	C_XPOST = 1 << 5 // match arm.C_PBIT, so Prog.String know how to print it
-)
-
-//go:generate go run ../stringer.go -i $GOFILE -o anames.go -p arm64
-
-const (
-	AADC = obj.ABaseARM64 + obj.A_ARCHSPECIFIC + iota
-	AADCS
-	AADCSW
-	AADCW
-	AADD
-	AADDS
-	AADDSW
-	AADDW
-	AADR
-	AADRP
-	AAESD
-	AAESE
-	AAESIMC
-	AAESMC
-	AAND
-	AANDS
-	AANDSW
-	AANDW
-	AASR
-	AASRW
-	AAT
-	ABCC
-	ABCS
-	ABEQ
-	ABFI
-	ABFIW
-	ABFM
-	ABFMW
-	ABFXIL
-	ABFXILW
-	ABGE
-	ABGT
-	ABHI
-	ABHS
-	ABIC
-	ABICS
-	ABICSW
-	ABICW
-	ABLE
-	ABLO
-	ABLS
-	ABLT
-	ABMI
-	ABNE
-	ABPL
-	ABRK
-	ABVC
-	ABVS
-	ACASAD
-	ACASALB
-	ACASALD
-	ACASALH
-	ACASALW
-	ACASAW
-	ACASB
-	ACASD
-	ACASH
-	ACASLD
-	ACASLW
-	ACASPD
-	ACASPW
-	ACASW
-	ACBNZ
-	ACBNZW
-	ACBZ
-	ACBZW
-	ACCMN
-	ACCMNW
-	ACCMP
-	ACCMPW
-	ACINC
-	ACINCW
-	ACINV
-	ACINVW
-	ACLREX
-	ACLS
-	ACLSW
-	ACLZ
-	ACLZW
-	ACMN
-	ACMNW
-	ACMP
-	ACMPW
-	ACNEG
-	ACNEGW
-	ACRC32B
-	ACRC32CB
-	ACRC32CH
-	ACRC32CW
-	ACRC32CX
-	ACRC32H
-	ACRC32W
-	ACRC32X
-	ACSEL
-	ACSELW
-	ACSET
-	ACSETM
-	ACSETMW
-	ACSETW
-	ACSINC
-	ACSINCW
-	ACSINV
-	ACSINVW
-	ACSNEG
-	ACSNEGW
-	ADC
-	ADCPS1
-	ADCPS2
-	ADCPS3
-	ADMB
-	ADRPS
-	ADSB
-	ADWORD
-	AEON
-	AEONW
-	AEOR
-	AEORW
-	AERET
-	AEXTR
-	AEXTRW
-	AFABSD
-	AFABSS
-	AFADDD
-	AFADDS
-	AFCCMPD
-	AFCCMPED
-	AFCCMPES
-	AFCCMPS
-	AFCMPD
-	AFCMPED
-	AFCMPES
-	AFCMPS
-	AFCSELD
-	AFCSELS
-	AFCVTDH
-	AFCVTDS
-	AFCVTHD
-	AFCVTHS
-	AFCVTSD
-	AFCVTSH
-	AFCVTZSD
-	AFCVTZSDW
-	AFCVTZSS
-	AFCVTZSSW
-	AFCVTZUD
-	AFCVTZUDW
-	AFCVTZUS
-	AFCVTZUSW
-	AFDIVD
-	AFDIVS
-	AFLDPD
-	AFLDPQ
-	AFLDPS
-	AFMADDD
-	AFMADDS
-	AFMAXD
-	AFMAXNMD
-	AFMAXNMS
-	AFMAXS
-	AFMIND
-	AFMINNMD
-	AFMINNMS
-	AFMINS
-	AFMOVD
-	AFMOVQ
-	AFMOVS
-	AFMSUBD
-	AFMSUBS
-	AFMULD
-	AFMULS
-	AFNEGD
-	AFNEGS
-	AFNMADDD
-	AFNMADDS
-	AFNMSUBD
-	AFNMSUBS
-	AFNMULD
-	AFNMULS
-	AFRINTAD
-	AFRINTAS
-	AFRINTID
-	AFRINTIS
-	AFRINTMD
-	AFRINTMS
-	AFRINTND
-	AFRINTNS
-	AFRINTPD
-	AFRINTPS
-	AFRINTXD
-	AFRINTXS
-	AFRINTZD
-	AFRINTZS
-	AFSQRTD
-	AFSQRTS
-	AFSTPD
-	AFSTPQ
-	AFSTPS
-	AFSUBD
-	AFSUBS
-	AHINT
-	AHLT
-	AHVC
-	AIC
-	AISB
-	ALDADDAB
-	ALDADDAD
-	ALDADDAH
-	ALDADDALB
-	ALDADDALD
-	ALDADDALH
-	ALDADDALW
-	ALDADDAW
-	ALDADDB
-	ALDADDD
-	ALDADDH
-	ALDADDLB
-	ALDADDLD
-	ALDADDLH
-	ALDADDLW
-	ALDADDW
-	ALDAR
-	ALDARB
-	ALDARH
-	ALDARW
-	ALDAXP
-	ALDAXPW
-	ALDAXR
-	ALDAXRB
-	ALDAXRH
-	ALDAXRW
-	ALDCLRAB
-	ALDCLRAD
-	ALDCLRAH
-	ALDCLRALB
-	ALDCLRALD
-	ALDCLRALH
-	ALDCLRALW
-	ALDCLRAW
-	ALDCLRB
-	ALDCLRD
-	ALDCLRH
-	ALDCLRLB
-	ALDCLRLD
-	ALDCLRLH
-	ALDCLRLW
-	ALDCLRW
-	ALDEORAB
-	ALDEORAD
-	ALDEORAH
-	ALDEORALB
-	ALDEORALD
-	ALDEORALH
-	ALDEORALW
-	ALDEORAW
-	ALDEORB
-	ALDEORD
-	ALDEORH
-	ALDEORLB
-	ALDEORLD
-	ALDEORLH
-	ALDEORLW
-	ALDEORW
-	ALDORAB
-	ALDORAD
-	ALDORAH
-	ALDORALB
-	ALDORALD
-	ALDORALH
-	ALDORALW
-	ALDORAW
-	ALDORB
-	ALDORD
-	ALDORH
-	ALDORLB
-	ALDORLD
-	ALDORLH
-	ALDORLW
-	ALDORW
-	ALDP
-	ALDPSW
-	ALDPW
-	ALDXP
-	ALDXPW
-	ALDXR
-	ALDXRB
-	ALDXRH
-	ALDXRW
-	ALSL
-	ALSLW
-	ALSR
-	ALSRW
-	AMADD
-	AMADDW
-	AMNEG
-	AMNEGW
-	AMOVB
-	AMOVBU
-	AMOVD
-	AMOVH
-	AMOVHU
-	AMOVK
-	AMOVKW
-	AMOVN
-	AMOVNW
-	AMOVP
-	AMOVPD
-	AMOVPQ
-	AMOVPS
-	AMOVPSW
-	AMOVPW
-	AMOVW
-	AMOVWU
-	AMOVZ
-	AMOVZW
-	AMRS
-	AMSR
-	AMSUB
-	AMSUBW
-	AMUL
-	AMULW
-	AMVN
-	AMVNW
-	ANEG
-	ANEGS
-	ANEGSW
-	ANEGW
-	ANGC
-	ANGCS
-	ANGCSW
-	ANGCW
-	ANOOP
-	AORN
-	AORNW
-	AORR
-	AORRW
-	APRFM
-	APRFUM
-	ARBIT
-	ARBITW
-	AREM
-	AREMW
-	AREV
-	AREV16
-	AREV16W
-	AREV32
-	AREVW
-	AROR
-	ARORW
-	ASBC
-	ASBCS
-	ASBCSW
-	ASBCW
-	ASBFIZ
-	ASBFIZW
-	ASBFM
-	ASBFMW
-	ASBFX
-	ASBFXW
-	ASCVTFD
-	ASCVTFS
-	ASCVTFWD
-	ASCVTFWS
-	ASDIV
-	ASDIVW
-	ASEV
-	ASEVL
-	ASHA1C
-	ASHA1H
-	ASHA1M
-	ASHA1P
-	ASHA1SU0
-	ASHA1SU1
-	ASHA256H
-	ASHA256H2
-	ASHA256SU0
-	ASHA256SU1
-	ASHA512H
-	ASHA512H2
-	ASHA512SU0
-	ASHA512SU1
-	ASMADDL
-	ASMC
-	ASMNEGL
-	ASMSUBL
-	ASMULH
-	ASMULL
-	ASTLR
-	ASTLRB
-	ASTLRH
-	ASTLRW
-	ASTLXP
-	ASTLXPW
-	ASTLXR
-	ASTLXRB
-	ASTLXRH
-	ASTLXRW
-	ASTP
-	ASTPW
-	ASTXP
-	ASTXPW
-	ASTXR
-	ASTXRB
-	ASTXRH
-	ASTXRW
-	ASUB
-	ASUBS
-	ASUBSW
-	ASUBW
-	ASVC
-	ASWPAB
-	ASWPAD
-	ASWPAH
-	ASWPALB
-	ASWPALD
-	ASWPALH
-	ASWPALW
-	ASWPAW
-	ASWPB
-	ASWPD
-	ASWPH
-	ASWPLB
-	ASWPLD
-	ASWPLH
-	ASWPLW
-	ASWPW
-	ASXTB
-	ASXTBW
-	ASXTH
-	ASXTHW
-	ASXTW
-	ASYS
-	ASYSL
-	ATBNZ
-	ATBZ
-	ATLBI
-	ATST
-	ATSTW
-	AUBFIZ
-	AUBFIZW
-	AUBFM
-	AUBFMW
-	AUBFX
-	AUBFXW
-	AUCVTFD
-	AUCVTFS
-	AUCVTFWD
-	AUCVTFWS
-	AUDIV
-	AUDIVW
-	AUMADDL
-	AUMNEGL
-	AUMSUBL
-	AUMULH
-	AUMULL
-	AUREM
-	AUREMW
-	AUXTB
-	AUXTBW
-	AUXTH
-	AUXTHW
-	AUXTW
-	AVADD
-	AVADDP
-	AVADDV
-	AVAND
-	AVBCAX
-	AVBIF
-	AVBIT
-	AVBSL
-	AVCMEQ
-	AVCMTST
-	AVCNT
-	AVDUP
-	AVEOR
-	AVEOR3
-	AVEXT
-	AVFMLA
-	AVFMLS
-	AVLD1
-	AVLD1R
-	AVLD2
-	AVLD2R
-	AVLD3
-	AVLD3R
-	AVLD4
-	AVLD4R
-	AVMOV
-	AVMOVD
-	AVMOVI
-	AVMOVQ
-	AVMOVS
-	AVORR
-	AVPMULL
-	AVPMULL2
-	AVRAX1
-	AVRBIT
-	AVREV16
-	AVREV32
-	AVREV64
-	AVSHL
-	AVSLI
-	AVSRI
-	AVST1
-	AVST2
-	AVST3
-	AVST4
-	AVSUB
-	AVTBL
-	AVTBX
-	AVTRN1
-	AVTRN2
-	AVUADDLV
-	AVUADDW
-	AVUADDW2
-	AVUMAX
-	AVUMIN
-	AVUSHLL
-	AVUSHLL2
-	AVUSHR
-	AVUSRA
-	AVUXTL
-	AVUXTL2
-	AVUZP1
-	AVUZP2
-	AVXAR
-	AVZIP1
-	AVZIP2
-	AWFE
-	AWFI
-	AWORD
-	AYIELD
-	ALAST
-	AB  = obj.AJMP
-	ABL = obj.ACALL
 )
 
 //go:generate stringer -type SpecialOperand -trimprefix SPOP_
