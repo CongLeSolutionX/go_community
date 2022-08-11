@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "75f790eb_1925378e",
+        "filename": "src/make.bash",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2022-08-11T15:09:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d57f0bc_9a851c54",
+      "range": {
+        "startLine": 70,
+        "startChar": 44,
+        "endLine": 70,
+        "endChar": 47
+      },
+      "revId": "8a02d8b49a1439ed27e11a4327a68edf7ad5d2f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2db836bc_7b374518",
@@ -64,6 +88,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "41a1f657_a81b3841",
+        "filename": "src/make.bash",
+        "patchSetId": 4
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2022-08-11T15:09:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2db836bc_7b374518",
+      "range": {
+        "startLine": 188,
+        "startChar": 57,
+        "endLine": 188,
+        "endChar": 60
+      },
+      "revId": "8a02d8b49a1439ed27e11a4327a68edf7ad5d2f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "591f00f0_043dca82",
@@ -77,6 +125,30 @@
       "writtenOn": "2022-08-11T14:57:15Z",
       "side": 1,
       "message": "Here, and also on line 80 below.",
+      "range": {
+        "startLine": 75,
+        "startChar": 56,
+        "endLine": 75,
+        "endChar": 59
+      },
+      "revId": "8a02d8b49a1439ed27e11a4327a68edf7ad5d2f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5cc59eec_4ac9d518",
+        "filename": "src/make.rc",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2022-08-11T15:09:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "591f00f0_043dca82",
       "range": {
         "startLine": 75,
         "startChar": 56,
