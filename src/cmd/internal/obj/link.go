@@ -346,6 +346,7 @@ func (a *Addr) Target() *Prog {
 	}
 	return nil
 }
+
 func (a *Addr) SetTarget(t *Prog) {
 	if a.Type != TYPE_BRANCH {
 		panic("setting branch target when type is not TYPE_BRANCH")
@@ -411,7 +412,7 @@ type Prog struct {
 	Back     uint8     // for x86 back end: backwards branch state
 	Ft       uint8     // for x86 back end: type index of Prog.From
 	Tt       uint8     // for x86 back end: type index of Prog.To
-	Isize    uint8     // for x86 back end: size of the instruction in bytes
+	Isize    uint8     // for x86, arm64 back end: size of the instruction in bytes
 }
 
 // AddrPos indicates whether the operand is the source or the destination.
@@ -496,7 +497,8 @@ func (p *Prog) AddRestSourceArgs(args []Addr) {
 // that are common to all architectures.
 // However, the majority of opcodes are arch-specific
 // and are declared in their respective architecture's subpackage.
-type As int16
+// The type should cover all ABase{Arch} + AllowedOpCodes.
+type As int32
 
 // These are the portable opcodes.
 const (
@@ -525,7 +527,7 @@ const (
 // Subspaces are aligned to a power of two so opcodes can be masked
 // with AMask and used as compact array indices.
 const (
-	ABase386 = (1 + iota) << 11
+	ABase386 = (1 + iota) << 12
 	ABaseARM
 	ABaseAMD64
 	ABasePPC64
@@ -536,7 +538,7 @@ const (
 	ABaseS390X
 	ABaseWasm
 
-	AllowedOpCodes = 1 << 11            // The number of opcodes available for any given architecture.
+	AllowedOpCodes = 1 << 12            // The number of opcodes available for any given architecture.
 	AMask          = AllowedOpCodes - 1 // AND with this to use the opcode as an array index.
 )
 
