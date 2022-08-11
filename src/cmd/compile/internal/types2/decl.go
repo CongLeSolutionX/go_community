@@ -312,7 +312,7 @@ func (check *Checker) cycleError(cycle []Object) {
 	// TODO(gri) This functionality is used elsewhere. Factor it out.
 	name := func(obj Object) string {
 		var buf bytes.Buffer
-		writePackage(&buf, obj.Pkg(), check.qualifier)
+		writePackage(&buf, obj.Pkg(), check.qualifier, true)
 		buf.WriteString(obj.Name())
 		return buf.String()
 	}

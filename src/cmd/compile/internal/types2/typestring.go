@@ -62,7 +62,20 @@ func WriteType(buf *bytes.Buffer, typ Type, qf Qualifier) {
 // The Qualifier controls the printing of
 // package-level objects, and may be nil.
 func WriteSignature(buf *bytes.Buffer, sig *Signature, qf Qualifier) {
-	newTypeWriter(buf, qf).signature(sig)
+	writeSignature(buf, sig, qf, false)
+}
+
+// writeSignature writes the representation of the signature sig to buf,
+// without a leading "func" keyword.
+// The Qualifier controls the printing of package-level objects, and may be nil.
+// If pkgInfo is true, then  the first unexported field of the struct(s) in the
+// signature is tagged with its package.  The expected use for this is case where
+// not tagging the structs would lead to a confusing error
+// message.
+func writeSignature(buf *bytes.Buffer, sig *Signature, qf Qualifier, pkgInfo bool) {
+	w := newTypeWriter(buf, qf)
+	w.pkgInfo = pkgInfo
+	w.signature(sig)
 }
 
 type typeWriter struct {
@@ -73,15 +86,17 @@ type typeWriter struct {
 	tparams      *TypeParamList // local type parameters
 	paramNames   bool           // if set, write function parameter names, otherwise, write types only
 	tpSubscripts bool           // if set, write type parameter indices as subscripts
+	pkgInfo      bool           // package-annotate first unexported-type field to avoid confusing type description
+	debug        bool           // if true, write debug annotations
 }
 
 func newTypeWriter(buf *bytes.Buffer, qf Qualifier) *typeWriter {
-	return &typeWriter{buf, make(map[Type]bool), qf, nil, nil, true, false}
+	return &typeWriter{buf, make(map[Type]bool), qf, nil, nil, true, false, false, false}
 }
 
 func newTypeHasher(buf *bytes.Buffer, ctxt *Context) *typeWriter {
 	assert(ctxt != nil)
-	return &typeWriter{buf, make(map[Type]bool), nil, ctxt, nil, false, false}
+	return &typeWriter{buf, make(map[Type]bool), nil, ctxt, nil, false, false, false, false}
 }
 
 func (w *typeWriter) byte(b byte) {
@@ -148,6 +163,33 @@ func (w *typeWriter) typ(typ Type) {
 			if i > 0 {
 				w.byte(';')
 			}
+
+			// If disambiguating one struct for another, look for the first unexported field.
+			// Do this first in case of nested structs; tag the first-outermost field.
+			pkgAnnotate := false
+			if w.qf == nil && w.pkgInfo {
+				if !f.embedded && !isExported(f.name) {
+					pkgAnnotate = true
+					w.pkgInfo = false // only tag once
+				} else if f.embedded {
+					switch ft := f.typ.(type) {
+					case *Basic:
+						if isExported(ft.name) {
+							break
+						}
+					case *Named:
+						if isExported(ft.obj.name) {
+							break
+						}
+					default:
+						// TODO figure out all the other cases
+						break
+					}
+					pkgAnnotate = true
+					w.pkgInfo = false // only tag once
+				}
+			}
+
 			// This doesn't do the right thing for embedded type
 			// aliases where we should print the alias name, not
 			// the aliased type (see issue #44410).
@@ -156,6 +198,11 @@ func (w *typeWriter) typ(typ Type) {
 				w.byte(' ')
 			}
 			w.typ(f.typ)
+			if pkgAnnotate {
+				w.string(" /* package ")
+				writePackage(w.buf, f.pkg, nil, false)
+				w.string(" */ ")
+			}
 			if tag := t.Tag(i); tag != "" {
 				w.byte(' ')
 				// TODO(gri) If tag contains blanks, replacing them with '#'
@@ -389,7 +436,7 @@ func (w *typeWriter) tParamList(list []*TypeParam) {
 
 func (w *typeWriter) typeName(obj *TypeName) {
 	if obj.pkg != nil {
-		writePackage(w.buf, obj.pkg, w.qf)
+		writePackage(w.buf, obj.pkg, w.qf, true)
 	}
 	w.string(obj.name)
 }
