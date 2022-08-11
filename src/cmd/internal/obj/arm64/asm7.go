@@ -1191,7 +1191,12 @@ func span7(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 				psz += 4
 			}
 		} else {
-			c.asmout(p, o, out[:])
+			opt := int(p.Optab)
+			if opt > 0 && opt < len(optab) {
+				c.asmout(p, o, out[:])
+			} else if opt >= len(optab) && opt < len(optab)+len(instTab) {
+				c.asmInst(p, opt-len(optab), out[:])
+			}
 			for i = 0; i < sz/4; i++ {
 				c.ctxt.Arch.ByteOrder.PutUint32(bp, out[i])
 				bp = bp[4:]
@@ -2092,9 +2097,150 @@ func (c *ctxt7) aclass(a *obj.Addr) int {
 	return C_GOK
 }
 
+func raclass(a *obj.Addr) oprType {
+	r := a.Reg
+	switch {
+	case REG_R0 <= r && r <= REG_R31: // including ZR
+		return AC_REG
+	case r == REGSP:
+		return AC_RSP
+	case REG_F0 <= r && r <= REG_F31:
+		return AC_FREG
+	case REG_V0 <= r && r <= REG_V31:
+		return AC_VREG
+	case REG_Z0 <= r && r <= REG_Z31:
+		return AC_ZREG
+	case REG_ZA0 <= r && r <= REG_ZA7:
+		return AC_ZAREG
+	case r == REG_ZT0:
+		return AC_ZTREG
+	case REG_P0 <= r && r <= REG_P15:
+		// TODO: distinguish between Pn, Pg/Z and Pg/M
+		// return AC_PREGZM
+		return AC_PREG
+	case r >= REG_ARNG && r < REG_ELEM:
+		return AC_ARNG
+	case r >= REG_ELEM && r < REG_ELEM_END:
+		return AC_ARNGIDX
+	case r >= REG_UXTB && r < REG_SPECIAL,
+		r >= REG_LSL && r < REG_ARNG:
+		return AC_REGEXT
+	case r >= REG_SPECIAL:
+		return AC_SPR
+	}
+	return AC_NONE
+}
+
+func (c *ctxt7) acclass(a *obj.Addr, p *obj.Prog) oprType {
+	switch a.Type {
+	case obj.TYPE_NONE:
+		return C_NONE
+
+	case obj.TYPE_REG:
+		return raclass(a)
+
+	case obj.TYPE_REGREG:
+		return AC_PAIR
+
+	case obj.TYPE_SHIFT:
+		return AC_REGSHIFT
+
+	case obj.TYPE_REGLIST:
+		// TODO: refine to AC_REGLIST1, AC_REGLIST2, AC_REGLIST2C, AC_REGLIST3,
+		// AC_REGLIST4, AC_REGLIST4C.
+		// And AC_LISTIDX
+		return AC_REGLIST1
+
+	case obj.TYPE_TEXTSIZE:
+		return AC_TEXTSIZE
+
+	case obj.TYPE_CONST, obj.TYPE_FCONST, obj.TYPE_ADDR:
+		switch a.Name {
+		case obj.NAME_NONE:
+			c.instoffset = a.Offset
+		case obj.NAME_EXTERN, obj.NAME_STATIC:
+			if a.Sym == nil {
+				return AC_NONE
+			}
+			if a.Sym.Type == objabi.STLSBSS {
+				log.Fatalf("taking address of TLS variable is not supported\n")
+			}
+			c.instoffset = a.Offset
+		case obj.NAME_AUTO:
+			if a.Reg == REGSP {
+				// unset base register for better printing, since
+				// a.Offset is still relative to pseudo-SP.
+				a.Reg = obj.REG_NONE
+			}
+			// The frame top 8 or 16 bytes are for FP
+			c.instoffset = int64(c.autosize) + a.Offset - int64(c.extrasize)
+		case obj.NAME_PARAM:
+			if a.Reg == REGSP {
+				// unset base register for better printing, since
+				// a.Offset is still relative to pseudo-FP.
+				a.Reg = obj.REG_NONE
+			}
+			c.instoffset = int64(c.autosize) + a.Offset + 8
+		default:
+			return AC_NONE
+		}
+		return AC_IMM
+
+	case obj.TYPE_BRANCH:
+		return AC_LABEL
+
+	case obj.TYPE_SPECIAL:
+		opd := SpecialOperand(a.Offset)
+		if SPOP_EQ <= opd && opd <= SPOP_NV {
+			return AC_COND
+		}
+		return AC_SPOP
+
+	case obj.TYPE_MEM:
+		// The base register should be an integer register.
+		if int16(REG_F0) <= a.Reg && a.Reg <= int16(REG_V31) {
+			break
+		}
+		if p.Scond != 0 && a.Name != obj.NAME_NONE {
+			// Post-index and pre-index are not allowed for symbol referrences.
+			return AC_NONE
+		}
+		// AC_MEMIMM                 // address with optional offset, such as 4(R1)
+		// AC_MEMIMMEXT              // [<Xn|SP>{, #<imm>, MUL VL}]
+		// AC_MEMEXT                 // address with extend offset, such as (R2)(R5.SXTX<<1)
+		// AC_MEMPOSTIMM             // address of the post-index class, offset is an immediate
+		// AC_MEMPOSTREG             // address of the post-index class, offset is a register
+		// AC_MEMPREIMM              // address of the pre-index class, offset is an immediate
+		if p.Scond == C_XPRE {
+			return AC_MEMPREIMM
+		} else if p.Scond == C_XPOST {
+			// TODO: Sync with addr formats.
+			if (a.Index>>5)&0x1f == 0 { // immediate offset
+				return AC_MEMPOSTIMM
+			} else { // register offset
+				return AC_MEMPOSTREG
+			}
+		}
+		// TODO: Sync with addr formats.
+		if (a.Index>>5)&0x1f == 0 { // immediate offset
+			return AC_MEMIMM
+		} else if (a.Index>>5)&0x1f == 1 { // register offset
+			return AC_MEMIMMEXT
+		} else {
+			return AC_MEMEXT
+		}
+	}
+	return C_NONE
+}
+
 func (c *ctxt7) oplook(p *obj.Prog) *Optab {
 	a1 := int(p.Optab)
 	if a1 != 0 {
+		if a1 >= len(optab) {
+			// TODO(eric): set flag if necessary.
+			flag := uint8(0)
+			return &Optab{p.As, C_NONE, C_NONE, C_NONE, C_NONE, C_NONE, 0, 4, 0, 0, flag}
+		}
 		return &optab[a1-1]
 	}
 	a1 = int(p.From.Class)
@@ -2172,9 +2318,123 @@ func (c *ctxt7) oplook(p *obj.Prog) *Optab {
 		}
 	}
 
+	// No match in optab, try looking in the instTab instruction table.
+	idxs := c.instLook(p)
+	if len(idxs) > 0 {
+		// While instLook may return multiple matches, in the end there is only one true match.
+		// Since each Prog corresponds to only one arm64 instruction, the flags are all empty,
+		// so no matter which is the real match, the Optab constructed is the same. Here we
+		// build an Optab with the first match, since there is usually only one match.
+		p.Optab = uint16(idxs[0] + len(optab))
+		p.Isize = uint8(len(idxs) << 2)
+		flag := uint8(0)
+		// TODO(eric): set flag if necessary.
+		return &Optab{p.As, C_NONE, C_NONE, C_NONE, C_NONE, C_NONE, 0, 4, 0, 0, flag}
+	}
+
 	c.ctxt.Diag("illegal combination: %v %v %v %v %v %v, %d %d", p, DRconv(a1), DRconv(a2), DRconv(a3), DRconv(a4), DRconv(a5), p.From.Type, p.To.Type)
 	// Turn illegal instruction into an UNDEF, avoid crashing in asmout
 	return &Optab{obj.AUNDEF, C_NONE, C_NONE, C_NONE, C_NONE, C_NONE, 90, 4, 0, 0, 0}
+}
+
+// instLook finds out the machine instructions corresponding to p.
+// 1, Find out all of the possible instructions.
+// 2, For each of the candidate:
+//
+//	2.1, Check that each argument matches.
+//
+// 3, Return the indexs of matched instructions in instTab.
+func (c *ctxt7) instLook(p *obj.Prog) []int {
+	// Get all candidates
+	idx, num := instSearch(p.As)
+	if idx == -1 {
+		return nil
+	}
+	idxs := []int{}
+	operands := getOperands(p)
+	for i, inst := range instTab[idx : idx+num] {
+		if len(operands) != len(inst.args) {
+			// Note: keep the length of the arguments consistent.
+			continue
+		}
+		match := true
+		// Check that each argument of the instruction matches.
+		for m, opr := range operands {
+			if !c.argMatch(p, opr, inst.args[m]) {
+				match = false
+				break
+			}
+		}
+		if !match {
+			continue
+		}
+		idxs = append(idxs, idx+i)
+	}
+	return idxs
+}
+
+// getOperands returns all of the operands of p.
+func getOperands(p *obj.Prog) []*obj.Addr {
+	operands := []*obj.Addr{}
+	if p.From.Class != C_NONE {
+		operands = append(operands, &p.From)
+	}
+	if p.Reg != 0 {
+		operands = append(operands, &obj.Addr{Reg: p.Reg, Type: obj.TYPE_REG})
+	}
+	if from3 := p.GetFrom3(); from3 != nil && from3.Class != C_NONE {
+		operands = append(operands, p.GetFrom3())
+	}
+	if p.To.Class != C_NONE {
+		operands = append(operands, &p.To)
+	}
+	if p.RegTo2 != 0 {
+		operands = append(operands, &obj.Addr{Reg: p.RegTo2, Type: obj.TYPE_REG})
+	} else if to2 := p.GetTo2(); to2 != nil {
+		operands = append(operands, to2)
+	}
+	return operands
+}
+
+// argMatch checks whether the Prog operand ap matches the instruction argument ai.
+func (c *ctxt7) argMatch(p *obj.Prog, ap *obj.Addr, ai arg) bool {
+	ci := ai.aType
+	cp := c.acclass(ap, p)
+	if ci == AC_ANY {
+		return true
+	}
+	if cp == AC_REG && ap.Reg != REGZERO && ci == AC_RSP {
+		return true
+	}
+	return ci == cp
+}
+
+// instSearch uses binary search to search for name in instTab,
+// and returns the index of the first occurrence and the number
+// of occurrence. instTab must first be sorted by icmp type.
+func instSearch(name obj.As) (int, int) {
+	i, j := 0, len(instTab)-1
+	for i <= j {
+		h := (i + j) >> 1
+		if name == instTab[h].goOp {
+			if h > 0 && name > instTab[h-1].goOp || h == 0 {
+				c := 1
+				for k := h + 1; k < len(instTab); k++ {
+					if name != instTab[k].goOp {
+						break
+					}
+					c++
+				}
+				return h, c
+			}
+			j = h - 1
+		} else if name > instTab[h].goOp {
+			i = h + 1
+		} else {
+			j = h - 1
+		}
+	}
+	return -1, 0
 }
 
 func cmp(a int, b int) bool {
@@ -3169,6 +3429,7 @@ func buildop(ctxt *obj.Link) {
 			break
 		}
 	}
+	sort.Sort(icmp(instTab))
 }
 
 // chipfloat7() checks if the immediate constants available in  FMOVS/FMOVD instructions.
@@ -5708,6 +5969,34 @@ func (c *ctxt7) addrRelocType(p *obj.Prog) objabi.RelocType {
 		c.ctxt.Diag("use R_ADDRARM64 relocation type for: %v\n", p)
 	}
 	return -1
+}
+
+// asmInst encodes an instruction.
+func (c *ctxt7) asmInst(p *obj.Prog, idx int, out []uint32) {
+	matches := []int{idx}
+	if p.Isize > 4 {
+		matches = c.instLook(p)
+	}
+	operands := getOperands(p)
+	for _, m := range matches {
+		match := true
+		// TODO(eric): add relocation type if it is necessary.
+		bin := instTab[m].skeleton
+		// TODO(eric): enable this when necessary
+		// enc |= c.encodeOpcode(p.As)
+		for i, op := range operands {
+			if enc, ok := c.encodeArg(p, op, instTab[m].args[i]); ok {
+				bin |= enc
+			} else {
+				match = false
+				break
+			}
+		}
+		if match {
+			out[0] = bin
+			return
+		}
+	}
 }
 
 /*
