@@ -204,10 +204,9 @@ func lastcontinuehandler(info *exceptionrecord, r *context, gp *g) int32 {
 func winthrow(info *exceptionrecord, r *context, gp *g) {
 	g0 := getg()
 
-	if panicking.Load() != 0 { // traceback already printed
+	if panicking.Add(1) > 1 { // traceback already printed
 		exit(2)
 	}
-	panicking.Store(1)
 
 	// In case we're handling a g0 stack overflow, blow away the
 	// g0 stack bounds so we have room to print the traceback. If
