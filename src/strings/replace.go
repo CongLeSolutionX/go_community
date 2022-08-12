@@ -454,21 +454,42 @@ func (r *byteReplacer) Replace(s string) string {
 	return string(buf)
 }
 
-func (r *byteReplacer) WriteString(w io.Writer, s string) (n int, err error) {
-	// TODO(bradfitz): use io.WriteString with slices of s, avoiding allocation.
-	bufsize := 32 << 10
-	if len(s) < bufsize {
-		bufsize = len(s)
-	}
-	buf := make([]byte, bufsize)
-
-	for len(s) > 0 {
-		ncopy := copy(buf, s)
-		s = s[ncopy:]
-		for i, b := range buf[:ncopy] {
-			buf[i] = r[b]
+// findOldIdx returns the index of the first "old" value in s, or -1 if not found.
+func (r *byteReplacer) findOldIdx(s string) int {
+	for i := 0; i < len(s); i++ {
+		b := s[i]
+		if r[b] != b {
+			return i
 		}
-		wn, err := w.Write(buf[:ncopy])
+	}
+	return -1
+}
+
+func (r *byteReplacer) WriteString(w io.Writer, s string) (n int, err error) {
+	for i := 0; i < len(s); i++ {
+		idx := r.findOldIdx(s[i:])
+		if idx == -1 {
+			wn, err := io.WriteString(w, s[i:])
+			n += wn
+			if err != nil {
+				return n, err
+			}
+			return n, nil
+		}
+
+		wn, err := io.WriteString(w, s[i:i+idx])
+		n += wn
+		if err != nil {
+			return n, err
+		}
+
+		i += idx
+		nb := s[i]
+		if nb+1 == 0 {
+			wn, err = w.Write(r[nb:])
+		} else {
+			wn, err = w.Write(r[nb : nb+1])
+		}
 		n += wn
 		if err != nil {
 			return n, err
