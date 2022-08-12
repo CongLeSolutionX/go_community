@@ -1373,3 +1373,16 @@ func runFileAndServerBenchmarks(b *testing.B, tlsOption bool, f *os.File, n int6
 		b.SetBytes(n)
 	}
 }
+
+// see issue https://github.com/golang/go/issues/54408
+func TestMaxBytesReader(t *testing.T) {
+	buffer := bytes.NewBufferString("foo")
+	reader := MaxBytesReader(nil, io.NopCloser(buffer), int64(1<<63-1))
+	res := make([]byte, 3)
+	if _, err := reader.Read(res); err != nil {
+		t.Errorf("got err: %v", err)
+	}
+	if string(res) != "foo" {
+		t.Errorf("got %s, want foo", string(res))
+	}
+}
