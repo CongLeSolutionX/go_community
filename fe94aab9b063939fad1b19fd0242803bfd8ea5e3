@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83958b17_b0560128",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-08-12T16:21:28Z",
+      "side": 1,
+      "message": "Be more specific about what is changing. How about something like:\n\n  net/http: don\u0027t panic on very large MaxBytesReaderLimit",
+      "revId": "fe94aab9b063939fad1b19fd0242803bfd8ea5e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca0cad2c_11eed4e5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-08-12T16:21:28Z",
+      "side": 1,
+      "message": "Thanks for the fix! Just a few nitpicks about naming.",
+      "revId": "fe94aab9b063939fad1b19fd0242803bfd8ea5e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94fec79c_ae523990",
+        "filename": "src/net/http/request_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1377,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-08-12T16:21:28Z",
+      "side": 1,
+      "message": "Use either \"Issue 54408\", or the canonical link to the issue: https://go.dev/issue/54408.",
+      "revId": "fe94aab9b063939fad1b19fd0242803bfd8ea5e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51120dd4_f08daaa5",
+        "filename": "src/net/http/request_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1378,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-08-12T16:21:28Z",
+      "side": 1,
+      "message": "This should use a test name that specified what property of MaxBytesReader is being tested, to distinguish this from other MaxBytesReader tests.\n\nHowever, rather than adding a new test here, just add a new test case to TestMaxBytesReaderDifferentLimits above.",
+      "revId": "fe94aab9b063939fad1b19fd0242803bfd8ea5e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
