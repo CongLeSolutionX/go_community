@@ -821,6 +821,9 @@ func (check *Checker) comparison(x, y *operand, op syntax.Operator, switchCase b
 			if x.isNil() {
 				typ = y.typ
 			}
+			if typ == Typ[Invalid] {
+				return
+			}
 			if !hasNil(typ) {
 				// This case should only be possible for "nil == nil".
 				// Report the error on the 2nd operand since we only
