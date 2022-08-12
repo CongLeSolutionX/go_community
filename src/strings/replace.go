@@ -454,26 +454,47 @@ func (r *byteReplacer) Replace(s string) string {
 	return string(buf)
 }
 
-func (r *byteReplacer) WriteString(w io.Writer, s string) (n int, err error) {
-	// TODO(bradfitz): use io.WriteString with slices of s, avoiding allocation.
-	bufsize := 32 << 10
-	if len(s) < bufsize {
-		bufsize = len(s)
+var bPool = sync.Pool{
+	New: func() any {
+		return make([]byte, 256)
+	},
+}
+
+func getBuf(size int) []byte {
+	buf := bPool.Get().([]byte)
+	if len(buf) < size {
+		bPool.Put(buf)
+		return make([]byte, size)
 	}
-	buf := make([]byte, bufsize)
+	return buf
+}
+
+func putBuf(buf []byte) {
+	bPool.Put(buf)
+}
+
+func (r *byteReplacer) WriteString(w io.Writer, s string) (n int, err error) {
+	bufSize := 32 << 10
+	if len(s) < bufSize {
+		bufSize = len(s)
+	}
+	buf := getBuf(bufSize)
 
 	for len(s) > 0 {
-		ncopy := copy(buf, s)
-		s = s[ncopy:]
-		for i, b := range buf[:ncopy] {
+		nCopy := copy(buf, s)
+		s = s[nCopy:]
+		for i, b := range buf[:nCopy] {
 			buf[i] = r[b]
 		}
-		wn, err := w.Write(buf[:ncopy])
+		wn, err := w.Write(buf[:nCopy])
 		n += wn
 		if err != nil {
 			return n, err
 		}
 	}
+
+	putBuf(buf)
+
 	return n, nil
 }
 
