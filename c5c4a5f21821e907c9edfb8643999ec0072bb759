@@ -87,6 +87,59 @@
       "message": "Is the wait-release tag blocked here? It could be removed.",
       "revId": "c5c4a5f21821e907c9edfb8643999ec0072bb759",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2891a1d5_2e1f2a45",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-08-12T02:07:10Z",
+      "side": 1,
+      "message": "It\u0027s not, our bot just hasn\u0027t gotten around to auto-removing the tag yet.\n\nSorry for the delay, folks are just busy with lots of cycle-opening CLs. I\u0027ll find one more person to review this.\n\nThanks for your patience and CL!",
+      "parentUuid": "f730a49e_de564fa8",
+      "revId": "c5c4a5f21821e907c9edfb8643999ec0072bb759",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34d171df_2e6dc3e2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-08-12T02:07:10Z",
+      "side": 1,
+      "message": "It\u0027s not, our bot just hasn\u0027t gotten",
+      "parentUuid": "f730a49e_de564fa8",
+      "revId": "c5c4a5f21821e907c9edfb8643999ec0072bb759",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8fd27b6e_1e3e17db",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-08-12T02:07:10Z",
+      "side": 1,
+      "message": "I just submitted CL 419440, which will cause a (trivial) merge conflict here, so you\u0027ll need to rebase.\n\nWhen you do, you can also remove the uint64 casts here.",
+      "revId": "c5c4a5f21821e907c9edfb8643999ec0072bb759",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
