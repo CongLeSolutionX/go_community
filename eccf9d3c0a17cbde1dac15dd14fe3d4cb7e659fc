@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64b766a6_5f3bc6f5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2022-08-13T17:54:36Z",
+      "side": 1,
+      "message": "All current locations are being documented in a very recent CL 423354:\n\n\u003e GOROOT_BOOTSTRAP: A working Go tree \u003e\u003d Go 1.17 for bootstrap.\n\u003e If $GOROOT_BOOTSTRAP/bin/go is missing, $(go env GOROOT) is\n\u003e tried for all \"go\" in $PATH. By default, one of $HOME/go1.17,\n\u003e $HOME/sdk/go1.17, or $HOME/go1.4, whichever exists, in that order.\n\u003e We still check $HOME/go1.4 to allow for build scripts that still hard-code\n\u003e that name even though they put newer Go toolchains there.\n\nSo they shouldn\u0027t be removed or changed.\n\nThe default installer location should be found via the \"$(go env GOROOT) is tried for all \"go\" in $PATH.\" behavior. See lines 72 to 82 in make.bat. That is, if \"C:\\Program Files\\Go\\bin\" is in PATH, then it\u0027ll be found and used. If that\u0027s not the case, please file an issue for it.",
+      "revId": "eccf9d3c0a17cbde1dac15dd14fe3d4cb7e659fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d1e3b44_9edf987a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2022-08-13T17:54:36Z",
+      "side": 1,
+      "message": "Thanks, but it seems that this change shouldn\u0027t be made as is. Please see inline comment.",
+      "revId": "eccf9d3c0a17cbde1dac15dd14fe3d4cb7e659fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
