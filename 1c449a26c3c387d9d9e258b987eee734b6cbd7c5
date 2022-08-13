@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e899f78b_a3361972",
+        "filename": "src/go/types/errorcodes.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1308,
+      "author": {
+        "id": 34507
+      },
+      "writtenOn": "2022-08-13T17:05:01Z",
+      "side": 1,
+      "message": "Codes have to be added to the end of the list, or it\u0027ll break users that depend on these codes (see the comment at the top).",
+      "revId": "1c449a26c3c387d9d9e258b987eee734b6cbd7c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
