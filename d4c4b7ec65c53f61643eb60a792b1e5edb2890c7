@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8038459f_9f83c8ce",
+        "filename": "src/cmd/go/internal/modcmd/audit.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 6480
+      },
+      "writtenOn": "2022-08-13T22:17:45Z",
+      "side": 1,
+      "message": "It looks like this is not necessary since the package is already `web`.",
+      "range": {
+        "startLine": 17,
+        "startChar": 1,
+        "endLine": 17,
+        "endChar": 4
+      },
+      "revId": "d4c4b7ec65c53f61643eb60a792b1e5edb2890c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
