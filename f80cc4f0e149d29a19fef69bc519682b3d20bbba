@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae36d1c4_d8f1fa51",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-08-13T23:56:39Z",
+      "side": 1,
+      "message": "We\u0027re going to stack up a lot of unnecessary exit functions.  I wonder if there is a simpler approach here.",
+      "revId": "f80cc4f0e149d29a19fef69bc519682b3d20bbba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2dc1655_4e1c56f9",
+        "filename": "src/cmd/go/internal/base/base.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-08-13T23:56:39Z",
+      "side": 1,
+      "message": "The convention is to put the mutex first, and this would usually be written\n\n    var (\n        atExecFuncsLock sync.Mutex\n        atExitFuncs     []func()\n    )",
+      "revId": "f80cc4f0e149d29a19fef69bc519682b3d20bbba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
