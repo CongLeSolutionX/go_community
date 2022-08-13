@@ -1445,6 +1445,18 @@ func BenchmarkParse(b *testing.B) {
 	}
 }
 
+func BenchmarkParseRFC3339(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		_, _ = Parse(RFC3339, "2022-08-20T11:44:03+05:30")
+	}
+}
+
+func BenchmarkParseRFC3339Nano(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		_, _ = Parse(RFC3339Nano, "2022-08-20T11:44:03.801236513+05:30")
+	}
+}
+
 func BenchmarkParseDuration(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		ParseDuration("9007199254.740993ms")
