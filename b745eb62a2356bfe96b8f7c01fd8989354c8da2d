@@ -87,6 +87,24 @@
       "parentUuid": "9bc9d128_bc282ca1",
       "revId": "b745eb62a2356bfe96b8f7c01fd8989354c8da2d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4176887a_30ebae10",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-08-13T15:55:31Z",
+      "side": 1,
+      "message": "FYI, here\u0027s the CL that reverted the use of sync.Pool https://codereview.appspot.com/102610043",
+      "parentUuid": "4d29f962_8948ca93",
+      "revId": "b745eb62a2356bfe96b8f7c01fd8989354c8da2d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
