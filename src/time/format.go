@@ -1043,6 +1043,13 @@ func parse(layout, value string, defaultLocation, local *Location) (Time, error)
 		zoneName   string
 	)
 
+	switch layout {
+	case RFC3339:
+		return parseRFC3339(value, local, false)
+	case RFC3339Nano:
+		return parseRFC3339(value, local, true)
+	}
+
 	// Each iteration processes one std value.
 	for {
 		var err error
@@ -1383,6 +1390,212 @@ func parse(layout, value string, defaultLocation, local *Location) (Time, error)
 
 	// Otherwise, fall back to default.
 	return Date(year, Month(month), day, hour, min, sec, nsec, defaultLocation), nil
+}
+
+// parseRFC3339 assumes layout
+// RFC3339     = "2006-01-02T15:04:05Z07:00"
+//
+//	012356789
+//
+// std = stdISO8601ColonTZ
+func parseRFC3339(value string, local *Location, nanos bool) (Time, error) {
+	avalue := value
+	layout := RFC3339
+	if nanos {
+		layout = RFC3339Nano
+	}
+
+	var nsec int
+
+	// Parse year.
+	if len(value) < 4 || !isDigit(value, 0) {
+		return Time{}, &ParseError{
+			layout,
+			avalue,
+			"2006",
+			value,
+			"",
+		}
+	}
+	year, err := atoi(value[0:4])
+	if err != nil {
+		return Time{}, &ParseError{
+			layout,
+			avalue,
+			"2006",
+			value,
+			"",
+		}
+	}
+	value = value[4:]
+
+	if len(value) < 1 || value[0] != '-' {
+		return Time{}, &ParseError{
+			layout,
+			avalue,
+			"-",
+			value,
+			"",
+		}
+	}
+	value = value[1:]
+
+	// Parse month.
+	month, value, err := getnum(value, true)
+	if err == nil && (month <= 0 || 12 < month) {
+		return Time{}, &ParseError{layout, avalue, "01", value, ": month out of range"}
+	}
+	if err != nil {
+		return Time{}, &ParseError{layout, avalue, "01", value, ""}
+	}
+
+	if len(value) < 1 || value[0] != '-' {
+		return Time{}, &ParseError{
+			layout,
+			avalue,
+			"-",
+			value,
+			"",
+		}
+	}
+	value = value[1:]
+
+	// Parse date.
+	day, value, err := getnum(value, true)
+	if day < 1 || day > daysIn(Month(month), year) {
+		return Time{}, &ParseError{layout, avalue, "02", value, ": day out of range"}
+	}
+	if err != nil {
+		return Time{}, &ParseError{layout, avalue, "02", value, ""}
+	}
+
+	if len(value) < 1 || value[0] != 'T' {
+		return Time{}, &ParseError{
+			layout,
+			avalue,
+			"T",
+			value,
+			"",
+		}
+	}
+	value = value[1:]
+
+	// Parse hour.
+	hour, value, err := getnum(value, true) // written as true
+	if hour < 0 || 24 <= hour {
+		return Time{}, &ParseError{layout, avalue, "15", value, ": hour out of range"}
+	}
+	if err != nil {
+		return Time{}, &ParseError{layout, avalue, "15", value, ""}
+	}
+
+	if len(value) < 1 || value[0] != ':' {
+		return Time{}, &ParseError{
+			layout,
+			avalue,
+			":",
+			value,
+			"",
+		}
+	}
+	value = value[1:]
+
+	// Parse minute.
+	minute, value, err := getnum(value, true)
+	if minute < 0 || 60 <= minute {
+		return Time{}, &ParseError{layout, avalue, "04", value, ": minute out of range"}
+	}
+	if err != nil {
+		return Time{}, &ParseError{layout, avalue, "04", value, ""}
+	}
+
+	if len(value) < 1 || value[0] != ':' {
+		return Time{}, &ParseError{
+			layout,
+			avalue,
+			":",
+			value,
+			"",
+		}
+	}
+	value = value[1:]
+
+	// Parse second.
+	second, value, err := getnum(value, true)
+	if second < 0 || 60 <= second {
+		return Time{}, &ParseError{layout, avalue, "05", value, ": second out of range"}
+	}
+	if err != nil {
+		return Time{}, &ParseError{layout, avalue, "05", value, ""}
+	}
+
+	// Handle fracSecond.
+	if len(value) >= 2 && commaOrPeriod(value[0]) && ('0' <= value[1] || value[1] <= '9') {
+		i := 0
+		for i+1 < len(value) && '0' <= value[i+1] && value[i+1] <= '9' {
+			i++
+		}
+
+		nsec, _, err = parseNanoseconds(value, 1+i)
+		if err != nil {
+			return Time{}, err
+		}
+
+		value = value[1+i:]
+	}
+
+	if len(value) < 1 || (value[0] != 'Z' && value[0] != '+' && value[0] != '-') {
+		return Time{}, &ParseError{layout, avalue, "Z07:00", value, ""}
+	}
+
+	if value[0] == 'Z' {
+		if len(value) > 1 {
+			return Time{}, &ParseError{layout, avalue, "", value, ": extra text: " + quote(value[1:])}
+		}
+		return Date(year, Month(month), day, hour, minute, second, nsec, UTC), nil
+	}
+
+	// value = "-08:00"
+	if len(value) < 6 || value[3] != ':' {
+		return Time{}, &ParseError{layout, avalue, ":", value, ""}
+	}
+	sign, hourStr, minuteStr, secStr, value := value[0:1], value[1:3], value[4:6], "00", value[6:]
+
+	hr, err := atoi(hourStr)
+	if err != nil {
+		return Time{}, &ParseError{layout, avalue, "07", value, ""}
+	}
+	mm, err := atoi(minuteStr)
+	if err != nil {
+		return Time{}, &ParseError{layout, avalue, "00", value, ""}
+	}
+	ss, err := atoi(secStr)
+	if err != nil {
+		return Time{}, &ParseError{layout, avalue, "00", value, ""}
+	}
+
+	zoneOffset := (hr*60+mm)*60 + ss // offset is in seconds
+	switch sign[0] {
+	case '+':
+	case '-':
+		zoneOffset = -zoneOffset
+	default:
+		// todo handle err
+	}
+
+	t := Date(year, Month(month), day, hour, minute, second, nsec, UTC)
+	t.addSec(-int64(zoneOffset))
+
+	_, offset, _, _, _ := local.lookup(t.unixSec())
+	if offset == zoneOffset {
+		t.setLoc(local)
+		return t, nil
+	}
+
+	// Otherwise, create fake zone to record offset.
+	t.setLoc(FixedZone("", zoneOffset))
+
+	return t, nil
 }
 
 // parseTimeZone parses a time zone string and returns its length. Time zones
