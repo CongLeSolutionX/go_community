@@ -16,6 +16,24 @@
       "message": "IIRC, there was CL in the past to use sync.Pool, but it was also reverted.",
       "revId": "b745eb62a2356bfe96b8f7c01fd8989354c8da2d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "03dc0b04_e8c22d33",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2022-08-13T11:52:27Z",
+      "side": 1,
+      "message": "Why? was there something wrong with pool?",
+      "parentUuid": "28904412_f4c3fa89",
+      "revId": "b745eb62a2356bfe96b8f7c01fd8989354c8da2d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
