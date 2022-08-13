@@ -16,6 +16,24 @@
       "message": "Please run the benchmark `BenchmarkByteReplacerWriteString` before and after this CL, then comparing using `benchstat`. I think this CL will make it slow than before.",
       "revId": "1170f5da83e9498325994371aa12c246a6f47f5a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5088541b_e5ded4e1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2022-08-13T07:30:09Z",
+      "side": 1,
+      "message": "Sadly, you\u0027re right(╯_╰), here is the pprof for each version:\n\nold:\n      flat  flat%   sum%        cum   cum%\n     0.71s 58.68% 58.68%      0.71s 58.68%  runtime.kevent\n     0.14s 11.57% 70.25%      0.14s 11.57%  runtime.pthread_cond_wait\n     0.12s  9.92% 80.17%      0.16s 13.22%  strings.(*byteReplacer).WriteString\n     0.06s  4.96% 85.12%      0.06s  4.96%  runtime.pthread_kill\n     0.03s  2.48% 87.60%      0.03s  2.48%  runtime.madvise\n     0.03s  2.48% 90.08%      0.03s  2.48%  runtime.pthread_cond_timedwait_relative_np\n     0.02s  1.65% 91.74%      0.02s  1.65%  runtime.memmove\n     0.02s  1.65% 93.39%      0.02s  1.65%  runtime.pthread_cond_signal\n     0.02s  1.65% 95.04%      0.02s  1.65%  runtime.usleep\n     0.01s  0.83% 95.87%      0.01s  0.83%  runtime.(*spanSet).push\n     \nBenchmarkByteReplacerWriteString-10    \t  809893\t      1253 ns/op\t    2688 B/op\t       1 allocs/op\n     \nnew: \n      flat  flat%   sum%        cum   cum%\n     180ms 19.15% 19.15%      180ms 19.15%  strings.(*byteReplacer).findOldIdx (inline)\n     170ms 18.09% 37.23%      210ms 22.34%  runtime.getitab\n     150ms 15.96% 53.19%      920ms 97.87%  strings.(*byteReplacer).WriteString\n     120ms 12.77% 65.96%      120ms 12.77%  runtime.memmove\n      80ms  8.51% 74.47%      150ms 15.96%  bytes.(*Buffer).Write\n      50ms  5.32% 79.79%      130ms 13.83%  bytes.(*Buffer).WriteString\n      50ms  5.32% 85.11%      440ms 46.81%  io.WriteString\n      50ms  5.32% 90.43%      260ms 27.66%  runtime.assertI2I2\n      40ms  4.26% 94.68%       40ms  4.26%  runtime.(*itabTableType).find\n      30ms  3.19% 97.87%       30ms  3.19%  bytes.(*Buffer).tryGrowByReslice (inline)\nBenchmarkByteReplacerWriteString-10    \t  324573\t      3486 ns/op\t       0 B/op\t       0 allocs/op\n      \nThe new version eliminates allocation, but introduces additional complexity resulting in performance degradation.",
+      "parentUuid": "e5430686_d7bd2fdc",
+      "revId": "1170f5da83e9498325994371aa12c246a6f47f5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
