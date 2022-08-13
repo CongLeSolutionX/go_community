@@ -291,6 +291,18 @@ var parseTests = []ParseTest{
 	{"", "200600204 15:04:05", "201003504 21:00:57", false, false, 1, 0},
 }
 
+func TestParseOptimised(t *testing.T) {
+	value := `2021-09-29T16:04:33.123456789123Z`
+	tt, err := Parse(RFC3339, value)
+	if err != nil {
+		t.Errorf("err:" + err.Error())
+	}
+	t.Log("layout ", RFC3339)
+	t.Log("orgVal:", value)
+	t.Log("value :", tt.Format(RFC3339))
+
+}
+
 func TestParse(t *testing.T) {
 	for _, test := range parseTests {
 		time, err := Parse(test.format, test.value)
