@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "97be8d97_b9113cd1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 58628
+      },
+      "writtenOn": "2022-08-13T17:31:12Z",
+      "side": 1,
+      "message": "Just as a note, I used verify.go as a base.",
+      "revId": "c03ce0051dbb6862e9968179d75cb5834fdd6b4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
