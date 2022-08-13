@@ -105,15 +105,20 @@ func (c *Command) Runnable() bool {
 }
 
 var atExitFuncs []func()
+var atExitFuncsLock sync.Mutex
 
 func AtExit(f func()) {
+	atExitFuncsLock.Lock()
+	defer atExitFuncsLock.Unlock()
 	atExitFuncs = append(atExitFuncs, f)
 }
 
 func Exit() {
+	atExitFuncsLock.Lock()
 	for _, f := range atExitFuncs {
 		f()
 	}
+	atExitFuncsLock.Unlock()
 	os.Exit(exitStatus)
 }
 
