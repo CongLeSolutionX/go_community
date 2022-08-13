@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "474ec419_acfd9b76",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2022-08-13T08:10:17Z",
+      "side": 1,
+      "message": "Since it seems impossible to achieve zero-allocation and performance improvement at the same time, then let\u0027s go another way: using pool to reduce allocations and improve performance.",
+      "revId": "80bb4d4bc0a6c0ffd2e433664faa0f9138cb9bed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
