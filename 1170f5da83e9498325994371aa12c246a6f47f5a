@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5430686_d7bd2fdc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-08-13T00:35:06Z",
+      "side": 1,
+      "message": "Please run the benchmark `BenchmarkByteReplacerWriteString` before and after this CL, then comparing using `benchstat`. I think this CL will make it slow than before.",
+      "revId": "1170f5da83e9498325994371aa12c246a6f47f5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
