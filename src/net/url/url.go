@@ -1197,6 +1197,10 @@ func (u *URL) JoinPath(elem ...string) *URL {
 	url := *u
 	if len(elem) > 0 {
 		elem = append([]string{u.EscapedPath()}, elem...)
+		// fix issue https://golang.org/issue/54385
+		if elem[0] == "" && strings.HasPrefix(elem[1], "../") {
+			elem[0] = "/"
+		}
 		p := path.Join(elem...)
 		// path.Join will remove any trailing slashes.
 		// Preserve at least one.
