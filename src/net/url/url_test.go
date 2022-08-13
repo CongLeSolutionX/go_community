@@ -2091,6 +2091,21 @@ func TestJoinPath(t *testing.T) {
 			out:  "https://go.googlesource.com/go",
 		},
 		{
+			base: "https://go.googlesource.com",
+			elem: []string{"../go"},
+			out:  "https://go.googlesource.com/go",
+		},
+		{
+			base: "https://go.googlesource.com",
+			elem: []string{"../../../go"},
+			out:  "https://go.googlesource.com/go",
+		},
+		{
+			base: "https://go.googlesource.com",
+			elem: []string{"go", "../go", "../../../go"},
+			out:  "https://go.googlesource.com/go",
+		},
+		{
 			base: "https://go.googlesource.com//",
 			elem: []string{"/go", "a", "b", "c"},
 			out:  "https://go.googlesource.com/go/a/b/c",
