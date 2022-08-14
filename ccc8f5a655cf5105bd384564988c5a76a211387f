@@ -82,6 +82,54 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1911ebd9_69ba0f46",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 35973
+      },
+      "writtenOn": "2022-08-14T07:49:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed79effd_a12b1318",
+      "range": {
+        "startLine": 7,
+        "startChar": 15,
+        "endLine": 7,
+        "endChar": 23
+      },
+      "revId": "ccc8f5a655cf5105bd384564988c5a76a211387f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "39cb70cd_e8d31887",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 35973
+      },
+      "writtenOn": "2022-08-14T07:49:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "043374cc_62481a83",
+      "range": {
+        "startLine": 7,
+        "startChar": 6,
+        "endLine": 7,
+        "endChar": 14
+      },
+      "revId": "ccc8f5a655cf5105bd384564988c5a76a211387f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "658a013b_48f4449b",
@@ -140,6 +188,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "25a5454d_2e7c277b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 35973
+      },
+      "writtenOn": "2022-08-14T07:49:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84b357a0_e78e89b4",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 8
+      },
+      "revId": "ccc8f5a655cf5105bd384564988c5a76a211387f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "02297872_2a96c802",
@@ -153,6 +225,30 @@
       "writtenOn": "2022-08-14T07:27:40Z",
       "side": 1,
       "message": "I usually indent this so that it is formatted as a code-block on GitHub, while reading naturally in the terminal as well.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 0
+      },
+      "revId": "ccc8f5a655cf5105bd384564988c5a76a211387f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c23916a3_efbe087c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 35973
+      },
+      "writtenOn": "2022-08-14T07:49:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02297872_2a96c802",
       "range": {
         "startLine": 11,
         "startChar": 0,
@@ -223,6 +319,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5725150b_ba3640f6",
+        "filename": "src/time/format.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 35973
+      },
+      "writtenOn": "2022-08-14T07:49:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "40db5d26_652c289f",
+      "range": {
+        "startLine": 547,
+        "startChar": 24,
+        "endLine": 547,
+        "endChar": 26
+      },
+      "revId": "ccc8f5a655cf5105bd384564988c5a76a211387f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "73aafb28_6a3bb970",
@@ -236,6 +356,24 @@
       "writtenOn": "2022-08-14T07:27:40Z",
       "side": 1,
       "message": "Nit: Delete this empty line for consistency?",
+      "revId": "ccc8f5a655cf5105bd384564988c5a76a211387f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3c58941_ee39be41",
+        "filename": "src/time/format.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 35973
+      },
+      "writtenOn": "2022-08-14T07:49:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73aafb28_6a3bb970",
       "revId": "ccc8f5a655cf5105bd384564988c5a76a211387f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
