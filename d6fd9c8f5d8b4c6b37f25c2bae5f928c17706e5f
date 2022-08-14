@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "573a5663_8ef35c29",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-08-14T00:30:57Z",
+      "side": 1,
+      "message": "Is there an existing issue for this API change?  If so, mention it in the change description.  If not, it seems that there should be one; see https://go.dev/s/proposal.  Thanks.",
+      "revId": "d6fd9c8f5d8b4c6b37f25c2bae5f928c17706e5f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
