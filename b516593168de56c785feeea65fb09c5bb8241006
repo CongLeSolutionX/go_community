@@ -57,6 +57,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "393bfd6f_06153224",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 2640,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-08-14T22:59:49Z",
+      "side": 1,
+      "message": "Why do we need this doc addition? It seems like a subtle change in API that is unwarranted.\nOr is this just that Grow might do news :\u003d make([]T, ...) copy(news, s); return news? In that case, \"modify\" isn\u0027t really the right term here. Maybe something like \"Grow may replace the slice backing store with a larger allocation and copy the contents of the original backing store (up to the length) to the new slice\".\n\nIn no case would Grow modify the backing store of the original slice.",
+      "range": {
+        "startLine": 2638,
+        "startChar": 44,
+        "endLine": 2640,
+        "endChar": 0
+      },
+      "revId": "b516593168de56c785feeea65fb09c5bb8241006",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c07bbd01_82f2657c",
         "filename": "src/reflect/value.go",
         "patchSetId": 5
@@ -127,6 +150,30 @@
       "side": 1,
       "message": "`s` is a `unsafeheader.Slice`, not a `*unsafeheader.Slice`, so the mutation would not be observable.",
       "parentUuid": "139a2f1c_d1f4f3f4",
+      "range": {
+        "startLine": 2678,
+        "startChar": 1,
+        "endLine": 2678,
+        "endChar": 34
+      },
+      "revId": "b516593168de56c785feeea65fb09c5bb8241006",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18e1e78d_49b2860b",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 2678,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-08-14T22:59:49Z",
+      "side": 1,
+      "message": "Yes it would. v.ptr points to s. (And grow does not modify v.ptr.)",
+      "parentUuid": "45dd7d72_763a8033",
       "range": {
         "startLine": 2678,
         "startChar": 1,
