@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f2c7045_eba56f27",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-08-15T18:29:40Z",
+      "side": 1,
+      "message": "Is this just for io.EOF?  If so, perhaps we should just return io.EOF without wrapping, as that is the usual convention.",
+      "revId": "0f743195accaf4807e6ed312421c7868de96bf06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
