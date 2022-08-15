@@ -71,6 +71,24 @@
       "parentUuid": "a906c9b4_c7810b31",
       "revId": "1c5c05ad591949778cbb2c04002fb47cadbc901d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32309080_681484fc",
+        "filename": "src/go/types/lookup.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-08-15T21:53:09Z",
+      "side": 1,
+      "message": "Well, it\u0027s borderline.\nWith just a single *Named, the lookup benchmark shows (consistently) -57% performance, -90% allocs, versus -60% and -95%.  I.e. not quite the same. The code is a bit simpler though.\n\nWDYT?",
+      "parentUuid": "0e979b60_29418129",
+      "revId": "1c5c05ad591949778cbb2c04002fb47cadbc901d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
