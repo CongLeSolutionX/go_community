@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9a352ea3_be2ce92f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 58653
+      },
+      "writtenOn": "2022-08-15T19:30:07Z",
+      "side": 1,
+      "message": "Probably worth noting that an identical change was proposed a couple of years ago but wasn\u0027t implemented - https://go-review.googlesource.com/c/go/+/256420",
+      "parentUuid": "31ed3512_21b610fe",
+      "revId": "0f743195accaf4807e6ed312421c7868de96bf06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cf98aaf0_4fe077c6",
         "filename": "src/mime/multipart/multipart.go",
         "patchSetId": 1
