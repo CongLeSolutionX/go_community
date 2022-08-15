@@ -70,6 +70,24 @@
       "message": "I don\u0027t think we need this. Most of our builders run with optimizations on, so it\u0027s ok if the test on the noopt builder isn\u0027t capable of triggering the bug. In fact, it is kinda good that we run the tests in as many configurations as possible.\n",
       "revId": "e7b4b7304f5c93d529bb98c32ab578e2bcf9f9ec",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc806bb3_c7a32188",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-08-15T15:40:24Z",
+      "side": 1,
+      "message": "Hmm, but on noopt builder, the test will be unexpected successful, causing the builder red.",
+      "parentUuid": "1dfe0fc2_71f04ffd",
+      "revId": "e7b4b7304f5c93d529bb98c32ab578e2bcf9f9ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
