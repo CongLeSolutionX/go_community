@@ -52,6 +52,23 @@
       "parentUuid": "5f85f9a7_39253111",
       "revId": "0f743195accaf4807e6ed312421c7868de96bf06",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf98aaf0_4fe077c6",
+        "filename": "src/mime/multipart/multipart.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-08-15T19:27:57Z",
+      "side": 1,
+      "message": "This change isn\u0027t right: The error here is not io.EOF (which indicates a valid multipart EOF), it\u0027s that the input is invalid.\n\nPerhaps the error message here could be clearer when err is io.EOF, however; we could return something like \"multipart: NextPart: unexpected EOF\" to make it clear that this is not an expected end-of-input error.",
+      "revId": "0f743195accaf4807e6ed312421c7868de96bf06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
