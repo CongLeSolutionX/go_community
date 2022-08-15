@@ -89,6 +89,24 @@
       "parentUuid": "9411beb8_22ed59b3",
       "revId": "35ac849631724f9737a3c443afc0f86ac3fadb4e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c2edbf0_cb9ed622",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57904
+      },
+      "writtenOn": "2022-08-15T08:34:58Z",
+      "side": 1,
+      "message": "can this cl be merged now?",
+      "parentUuid": "a2def733_61f62af0",
+      "revId": "35ac849631724f9737a3c443afc0f86ac3fadb4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
