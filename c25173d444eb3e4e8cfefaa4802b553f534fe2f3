@@ -108,6 +108,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3907849_4ada1661",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-08-15T21:46:15Z",
+      "side": 1,
+      "message": "I think this is fine to go in as-is; if we decide we need a knob, it can go in a followup CL.",
+      "parentUuid": "9cc88abb_77a40a80",
+      "revId": "c25173d444eb3e4e8cfefaa4802b553f534fe2f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3fb63541_6fef1294",
