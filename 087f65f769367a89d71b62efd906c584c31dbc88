@@ -158,6 +158,41 @@
       "message": "Adding +1 in case we do decided to submit this (decision still up to Austin and the two Michaels)",
       "revId": "087f65f769367a89d71b62efd906c584c31dbc88",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "064d87c1_cbe99ce6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-08-15T15:21:38Z",
+      "side": 1,
+      "message": "Given the large number and diversity of failures, I agree with Cuong that we should revert for now. Perhaps we should just skip on these systems, but I\u0027d like to have at least a vague reason why.\n\nNote that you can run tests on these systems with e.g. `TRY\u003dillumos-amd64` in a CL comment prior to running TryBots (https://github.com/golang/go/wiki/SlowBots).",
+      "parentUuid": "831b39c3_aade410d",
+      "revId": "087f65f769367a89d71b62efd906c584c31dbc88",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41d4e576_fbca56be",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-08-15T15:21:38Z",
+      "side": 1,
+      "message": "I filed https://go.dev/issue/54458 for this.",
+      "revId": "087f65f769367a89d71b62efd906c584c31dbc88",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
