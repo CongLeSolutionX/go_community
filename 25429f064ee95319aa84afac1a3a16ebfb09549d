@@ -38,6 +38,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c02dc59_e04b7d27",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-08-15T21:25:07Z",
+      "side": 1,
+      "message": "LG, with one comment. Waiting for gri to +2 though.",
+      "revId": "25429f064ee95319aa84afac1a3a16ebfb09549d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5c786c5b_6e173a59",
@@ -74,6 +91,29 @@
       "writtenOn": "2022-08-15T21:17:00Z",
       "side": 1,
       "message": "add a line comment?\n\n// clear last file cache",
+      "revId": "25429f064ee95319aa84afac1a3a16ebfb09549d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca2bce3d_4b5eccba",
+        "filename": "src/go/token/position.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-08-15T21:25:07Z",
+      "side": 1,
+      "message": "I think an additional comment on why this is done would be helpful. At first glance, it doesn\u0027t seem necessary: in the common case, *last is still in s.files, and this additional pointer will be overwritten on the next add.\n\n(I also didn\u0027t know that the garbage collector wasn\u0027t smart enough to do this itself).",
+      "range": {
+        "startLine": 454,
+        "startChar": 2,
+        "endLine": 454,
+        "endChar": 23
+      },
       "revId": "25429f064ee95319aa84afac1a3a16ebfb09549d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
