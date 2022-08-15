@@ -53,6 +53,24 @@
       "message": "You\u0027re only seeing it with \"go test\" in the testing directory because by default stdout is hidden.  Running plain \"go test\" uses streaming output.  You will see it with \"go test testing\" if you use an option that causes that command to use streaming output, such as \"go test -test.bench\u003dxxx testing\".  Or of course you\u0027ll see it with \"go test -v\", hidden in a lot of other output.\n\nTesting for \"root\" seems kind of hacky for me.  What do you think of something like suppressStdoutForTesting \u003d true?",
       "revId": "53a968bb7ce4e91f2d702be7427d19214b660907",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b57e640_d0f0a1cc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-08-15T18:45:37Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "d8ebfd3b_911863ca",
+      "revId": "53a968bb7ce4e91f2d702be7427d19214b660907",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
