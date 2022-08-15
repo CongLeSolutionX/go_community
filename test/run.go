@@ -92,6 +92,10 @@ func defaultAllCodeGen() bool {
 	return os.Getenv("GO_BUILDER_NAME") == "linux-amd64"
 }
 
+func optimizationOff() bool {
+	return strings.HasSuffix(os.Getenv("GO_BUILDER_NAME"), "-noopt")
+}
+
 var (
 	goos          = env.GOOS
 	goarch        = env.GOARCH
@@ -341,6 +345,10 @@ func (t *test) initExpectFail() {
 	if unifiedEnabled {
 		failureSets = append(failureSets, unifiedFailures)
 	} else {
+		// TODO(cuonglm): remove once we fix non-unified frontend or when it gone.
+		if optimizationOff() {
+			delete(go118Failures, "fixedbugs/issue53702.go")
+		}
 		failureSets = append(failureSets, go118Failures)
 	}
 
