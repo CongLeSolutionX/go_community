@@ -34,6 +34,24 @@
       "parentUuid": "6f2c7045_eba56f27",
       "revId": "0f743195accaf4807e6ed312421c7868de96bf06",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31ed3512_21b610fe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 58653
+      },
+      "writtenOn": "2022-08-15T19:26:27Z",
+      "side": 1,
+      "message": "There are numerous other places where io.EOF is returned by this function, and I\u0027ve been using the function in other in my code and haven\u0027t encountered this issue. It seems this is the only place that the error is wrapped.",
+      "parentUuid": "5f85f9a7_39253111",
+      "revId": "0f743195accaf4807e6ed312421c7868de96bf06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
