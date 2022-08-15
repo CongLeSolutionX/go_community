@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b3b315c_2e73ff92",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 58499
+      },
+      "writtenOn": "2022-08-15T15:06:55Z",
+      "side": 1,
+      "message": "Just for information:\nAs you know runtime package is not good part of Go language. Calling Go from anything involves shoving the whole Go runtime (GC included) into whatever you\u0027re running: expect a very large static library and all the operational burden of running Go code as a regular executable.\nAs you said it is time to clean up runtime package. I think it is not so hard to move many parts from this huge package, for example move monotonic time to /time/monotonic/ package, move unix time to /time/unix/ or timer mechanism to /timer package, move scheduler to /scheduler or ... and just add needed packages base on build target. I know this job can be challenge work but it isn\u0027t impossible one.\n\np.s: I don\u0027t really want to bother you about these things and you can easily close my PR without any doubt, if you think it is not a choose that can take from out side google staff. We work on this idea on separate repo to reimplement Go good library here. e.g. see our monotonic package that provide Atomic mechanism too to prevent many problem when atomic.[T] use instead.\nhttps://github.com/GeniusesGroup/libgo/tree/dev/time/monotonic",
+      "revId": "aa3c695b1fcb662e9fab2ffea83f11788be4eb78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
