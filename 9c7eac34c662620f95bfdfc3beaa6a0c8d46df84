@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3145ce89_c7635352",
+        "filename": "src/internal/cpu/cpu.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2022-08-15T13:08:45Z",
+      "side": 1,
+      "message": "these are cpu feature bits. Please model LLCSize as a variable like CacheLineSize. this also avoids any offset calculations in assembly.",
+      "range": {
+        "startLine": 44,
+        "startChar": 1,
+        "endLine": 44,
+        "endChar": 8
+      },
+      "revId": "9c7eac34c662620f95bfdfc3beaa6a0c8d46df84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b1e6afa_0934c4b6",
+        "filename": "src/internal/cpu/cpu_x86.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2022-08-15T13:08:45Z",
+      "side": 1,
+      "message": "I think we can make this typed constants \n\ntype vendor int\n\nconst (\n   Unknown vendor \u003d iota\n   Intel vendor\n   AMD vendor \n) \n\nIf iota doesnt work we can specify 0,1,2 explicitly.",
+      "range": {
+        "startLine": 21,
+        "startChar": 1,
+        "endLine": 21,
+        "endChar": 12
+      },
+      "revId": "9c7eac34c662620f95bfdfc3beaa6a0c8d46df84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dcba3a60_73ae4c73",
+        "filename": "src/internal/cpu/cpu_x86_cache.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2022-08-15T13:08:45Z",
+      "side": 1,
+      "message": "Is that cpuid has defaults documented somewhere or are these our defaults? If so why are they so. Also lets put relateable size comments there like 64kb.",
+      "range": {
+        "startLine": 10,
+        "startChar": 1,
+        "endLine": 13,
+        "endChar": 26
+      },
+      "revId": "9c7eac34c662620f95bfdfc3beaa6a0c8d46df84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71e84eae_8621b4c0",
+        "filename": "src/internal/cpu/cpu_x86_cache.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2022-08-15T13:08:45Z",
+      "side": 1,
+      "message": "extra const block with type and iota",
+      "range": {
+        "startLine": 15,
+        "startChar": 1,
+        "endLine": 15,
+        "endChar": 24
+      },
+      "revId": "9c7eac34c662620f95bfdfc3beaa6a0c8d46df84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c78a039_d89eb415",
+        "filename": "src/internal/cpu/cpu_x86_cache.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2022-08-15T13:08:45Z",
+      "side": 1,
+      "message": "Since this is more special than CPU bits and vendor specific if we have documentation from which this was derived lets link it in comments.",
+      "range": {
+        "startLine": 38,
+        "startChar": 5,
+        "endLine": 38,
+        "endChar": 22
+      },
+      "revId": "9c7eac34c662620f95bfdfc3beaa6a0c8d46df84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80d1e208_1a10bf9f",
+        "filename": "src/internal/cpu/cpu_x86_cache.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2022-08-15T13:08:45Z",
+      "side": 1,
+      "message": "lets put comments behind these special constants to know what they should do. like filter out bits X to Y.",
+      "range": {
+        "startLine": 46,
+        "startChar": 22,
+        "endLine": 46,
+        "endChar": 26
+      },
+      "revId": "9c7eac34c662620f95bfdfc3beaa6a0c8d46df84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
