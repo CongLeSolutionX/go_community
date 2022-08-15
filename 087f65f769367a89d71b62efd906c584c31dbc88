@@ -124,6 +124,23 @@
       "parentUuid": "d2bd1fd6_fa920647",
       "revId": "087f65f769367a89d71b62efd906c584c31dbc88",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "789f4a06_c0f77f70",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2022-08-15T02:19:08Z",
+      "side": 1,
+      "message": "Just a quick look, riscv are using the RDTIME for cputicks which is weird that timestamp out of order.",
+      "revId": "087f65f769367a89d71b62efd906c584c31dbc88",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
