@@ -8,7 +8,7 @@ package aes
 
 import (
 	"crypto/cipher"
-	subtleoverlap "crypto/internal/subtle"
+	subtleoverlap "crypto/internal/alias"
 	"crypto/subtle"
 	"errors"
 )
