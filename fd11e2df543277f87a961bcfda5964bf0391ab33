@@ -106,6 +106,24 @@
       "parentUuid": "87efbf53_17c9030a",
       "revId": "fd11e2df543277f87a961bcfda5964bf0391ab33",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ea0d5dc_03ebfe5a",
+        "filename": "src/syscall/mkall.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 26451
+      },
+      "writtenOn": "2022-08-16T22:27:39Z",
+      "side": 1,
+      "message": "Done, see CL 423676",
+      "parentUuid": "6e52c4a0_3e6ea282",
+      "revId": "fd11e2df543277f87a961bcfda5964bf0391ab33",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
