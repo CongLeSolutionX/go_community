@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ea096ae_e24be21e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-08-16T17:59:10Z",
+      "side": 1,
+      "message": "I don\u0027t think this is the right approach to fixing this race.\n\nI left a comment at https://go.dev/issue/54423#issuecomment-1216968762 with more detail. Let\u0027s move the discussion to the issue.",
+      "revId": "6653457f07e2e2949acd5d2ce1e643d4fd20a6c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
