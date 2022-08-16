@@ -779,12 +779,8 @@ func mReserveID() int64 {
 
 // Pre-allocated ID may be passed as 'id', or omitted by passing -1.
 func mcommoninit(mp *m, id int64) {
-	gp := getg()
-
-	// g0 stack won't make sense for user (and is not necessary unwindable).
-	if gp != gp.m.g0 {
-		callers(1, mp.createstack[:])
-	}
+	// Record the thread creation stack: scheduler, new extra M (cgo), etc.
+	callers(1, mp.createstack[:])
 
 	lock(&sched.lock)
 
