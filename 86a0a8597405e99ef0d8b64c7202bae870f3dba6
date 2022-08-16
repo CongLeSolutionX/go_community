@@ -72,6 +72,24 @@
       "message": "This looks sound but I wonder whether it is necessary to use so much low-level unsafeness here.\nCompare with this implementation of CommonPrefixLen, which is at a high level very similar to this algorithm and generates good code:\nhttps://go-review.git.corp.google.com/c/go/+/408116/3/src/strings/common.go#14\nAll that would need to change is the core operation: from \"x!\u003dy\" to \"z\u003dy^x\".",
       "revId": "86a0a8597405e99ef0d8b64c7202bae870f3dba6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8bf7e9fc_c53b21c0",
+        "filename": "src/crypto/subtle/xor_generic.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-08-16T18:07:44Z",
+      "side": 1,
+      "message": "To me, this code seems much clearer, and the inner loop is much simpler than what\u0027s in that CL. I checked out that CL and disassembled CommonPrefixLen. This loop:\n\n\tfor i+wordsize \u003c\u003d commonLen {\n\t\tcopy(aword[:], a[i:i+wordsize])\n\t\tcopy(bword[:], b[i:i+wordsize])\n\t\tif aword !\u003d bword {\n\t\t\tbreak\n\t\t}\n\t\ti +\u003d wordsize\n\t}\n\nturns into:\n\n\tcommon.go:35\t\t0x10a8758\t\t4c89c6\t\t\tMOVQ R8, SI\t\t\t\n\tcommon.go:35\t\t0x10a875b\t\t4c8d4608\t\tLEAQ 0x8(SI), R8\t\t\n\tcommon.go:35\t\t0x10a875f\t\t90\t\t\tNOPL\t\t\t\t\n\tcommon.go:35\t\t0x10a8760\t\t4c39c7\t\t\tCMPQ R8, DI\t\t\t\n\tcommon.go:35\t\t0x10a8763\t\t7c67\t\t\tJL 0x10a87cc\t\t\t\n\tcommon.go:36\t\t0x10a8765\t\t4c39c3\t\t\tCMPQ R8, BX\t\t\t\n\tcommon.go:36\t\t0x10a8768\t\t0f82c4000000\t\tJB 0x10a8832\t\t\t\n\tcommon.go:36\t\t0x10a876e\t\t4c39c6\t\t\tCMPQ R8, SI\t\t\t\n\tcommon.go:36\t\t0x10a8771\t\t0f87b0000000\t\tJA 0x10a8827\t\t\t\n\tcommon.go:36\t\t0x10a8777\t\t4c8d0c30\t\tLEAQ 0(AX)(SI*1), R9\t\t\n\tcommon.go:36\t\t0x10a877b\t\t4c8d542418\t\tLEAQ 0x18(SP), R10\t\t\n\tcommon.go:36\t\t0x10a8780\t\t4d39ca\t\t\tCMPQ R9, R10\t\t\t\n\tcommon.go:36\t\t0x10a8783\t\t7409\t\t\tJE 0x10a878e\t\t\t\n\tcommon.go:36\t\t0x10a8785\t\t4c8b0c30\t\tMOVQ 0(AX)(SI*1), R9\t\t\n\tcommon.go:36\t\t0x10a8789\t\t4c894c2418\t\tMOVQ R9, 0x18(SP)\t\t\n\tcommon.go:37\t\t0x10a878e\t\t4c39c2\t\t\tCMPQ R8, DX\t\t\t\n\tcommon.go:37\t\t0x10a8791\t\t0f8288000000\t\tJB 0x10a881f\t\t\t\n\tcommon.go:37\t\t0x10a8797\t\t4c8d0c31\t\tLEAQ 0(CX)(SI*1), R9\t\t\n\tcommon.go:37\t\t0x10a879b\t\t4c8d542410\t\tLEAQ 0x10(SP), R10\t\t\n\tcommon.go:37\t\t0x10a87a0\t\t4d39ca\t\t\tCMPQ R9, R10\t\t\t\n\tcommon.go:37\t\t0x10a87a3\t\t7409\t\t\tJE 0x10a87ae\t\t\t\n\tcommon.go:37\t\t0x10a87a5\t\t4c8b0c31\t\tMOVQ 0(CX)(SI*1), R9\t\t\n\tcommon.go:37\t\t0x10a87a9\t\t4c894c2410\t\tMOVQ R9, 0x10(SP)\t\t\n\tcommon.go:38\t\t0x10a87ae\t\t4c8b4c2418\t\tMOVQ 0x18(SP), R9\t\t\n\tcommon.go:38\t\t0x10a87b3\t\t4c894c2420\t\tMOVQ R9, 0x20(SP)\t\t\n\tcommon.go:38\t\t0x10a87b8\t\t4c8b4c2410\t\tMOVQ 0x10(SP), R9\t\t\n\tcommon.go:38\t\t0x10a87bd\t\t0f1f00\t\t\tNOPL 0(AX)\t\t\t\n\tcommon.go:38\t\t0x10a87c0\t\t4c394c2420\t\tCMPQ R9, 0x20(SP)\t\t\n\tcommon.go:38\t\t0x10a87c5\t\t7491\t\t\tJE 0x10a8758\t\t\t\n\nIn contrast, after the unsafe setup, this loop:\n\n\tfor i :\u003d 0; i \u003c n; i++ {\n\t\tdstw[i] \u003d xw[i] ^ yw[i]\n\t}\n\nturns into:\n\n\txor_generic.go:51\t0x10ca4dc\t\t488b0cc6\t\tMOVQ 0(SI)(AX*8), CX\t\t\t\n\txor_generic.go:51\t0x10ca4e0\t\t48330cc3\t\tXORQ 0(BX)(AX*8), CX\t\t\t\n\txor_generic.go:51\t0x10ca4e4\t\t48890cc2\t\tMOVQ CX, 0(DX)(AX*8)\t\t\t\n\txor_generic.go:50\t0x10ca4e8\t\t48ffc0\t\t\tINCQ AX\t\t\t\t\t\n\txor_generic.go:50\t0x10ca4eb\t\t4839f8\t\t\tCMPQ DI, AX\t\t\t\t\n\txor_generic.go:50\t0x10ca4ee\t\t7cec\t\t\tJL 0x10ca4dc\t\t\t\t\n\n\nThe use of unsafe here, in what I hope is a fairly straightforward manner (converting between []uintptr and []byte), makes the portable Go code as fast as possible, which hopefully will discourage the addition of new assembly implementations. If it avoids an assembly file, it\u0027s almost certainly worth it.",
+      "parentUuid": "2b1711b3_cb4d427c",
+      "revId": "86a0a8597405e99ef0d8b64c7202bae870f3dba6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
