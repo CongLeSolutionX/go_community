@@ -5,7 +5,7 @@
 package cipher
 
 import (
-	subtleoverlap "crypto/internal/subtle"
+	subtleoverlap "crypto/internal/alias"
 	"crypto/subtle"
 	"encoding/binary"
 	"errors"
