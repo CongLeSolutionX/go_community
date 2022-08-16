@@ -96,6 +96,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4a42867_c8deaa0d",
+        "filename": "src/go/token/position.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2022-08-16T16:12:11Z",
+      "side": 1,
+      "message": "Queries return a Position struct, not a Pos int, so there\u0027s no actual ambiguity wrt negative meaning \"failure\" and \"x \u003c 0\".",
+      "parentUuid": "5c786c5b_6e173a59",
+      "range": {
+        "startLine": 440,
+        "startChar": 40,
+        "endLine": 440,
+        "endChar": 48
+      },
+      "revId": "25429f064ee95319aa84afac1a3a16ebfb09549d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "668e2e35_42cb2b8f",
@@ -113,6 +137,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c90f00c_1565e131",
+        "filename": "src/go/token/position.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2022-08-16T16:12:11Z",
+      "side": 1,
+      "message": "That\u0027s better. Done.",
+      "parentUuid": "668e2e35_42cb2b8f",
+      "revId": "25429f064ee95319aa84afac1a3a16ebfb09549d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ca2bce3d_4b5eccba",
@@ -126,6 +168,30 @@
       "writtenOn": "2022-08-15T21:25:07Z",
       "side": 1,
       "message": "I think an additional comment on why this is done would be helpful. At first glance, it doesn\u0027t seem necessary: in the common case, *last is still in s.files, and this additional pointer will be overwritten on the next add.\n\n(I also didn\u0027t know that the garbage collector wasn\u0027t smart enough to do this itself).",
+      "range": {
+        "startLine": 454,
+        "startChar": 2,
+        "endLine": 454,
+        "endChar": 23
+      },
+      "revId": "25429f064ee95319aa84afac1a3a16ebfb09549d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53c04ff6_c4313a75",
+        "filename": "src/go/token/position.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2022-08-16T16:12:11Z",
+      "side": 1,
+      "message": "\u003e At first glance, it doesn\u0027t seem necessary: in the common case, *last is still in s.files, and this additional pointer will be overwritten on the next add.\n\nIn fact *last is mostly likely not in s.files: I expect the most common argument to RemoveFile to be the most recent file returned by AddFile, at least when Add/Remove pairs occur in quick succession. In that case, last will point to the last element of the slice, making the append behave like a simple pop.\n\n\u003e (I also didn\u0027t know that the garbage collector wasn\u0027t smart enough to do this itself).\n\nIt\u0027s not about GC smarts: the spec guarantees that objects referenced by the slack portion of a slice remain reachable, since you can reslice and retrieve them.\n\nI\u0027ve reworded the comment:\n\n\t\t*last \u003d nil // don\u0027t prolong lifetime when popping last element",
+      "parentUuid": "ca2bce3d_4b5eccba",
       "range": {
         "startLine": 454,
         "startChar": 2,
