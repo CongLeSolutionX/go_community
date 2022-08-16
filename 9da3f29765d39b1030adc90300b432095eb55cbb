@@ -91,6 +91,24 @@
       "message": "Shouldn\u0027t these be hoisted into xorBytes (so xorWordsLoop benefits), since the API contract is that the bounds check occurs before the first update?",
       "revId": "9da3f29765d39b1030adc90300b432095eb55cbb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a63fdd9_eebf39dd",
+        "filename": "src/crypto/subtle/xor_generic.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-08-16T17:28:51Z",
+      "side": 1,
+      "message": "This code doesn\u0027t even build. Sorry about that. \nIt didn\u0027t occur to me that the code structure wasn\u0027t testing this on my machine.\nFixed by rewriting significantly.\nCan also now test with \u0027go test -tags testgenericxor\u0027.",
+      "parentUuid": "75e3fd7d_d39bc811",
+      "revId": "9da3f29765d39b1030adc90300b432095eb55cbb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
