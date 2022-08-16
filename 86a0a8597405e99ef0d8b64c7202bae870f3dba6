@@ -90,6 +90,24 @@
       "parentUuid": "2b1711b3_cb4d427c",
       "revId": "86a0a8597405e99ef0d8b64c7202bae870f3dba6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94b4e1f3_3fc79a85",
+        "filename": "src/crypto/subtle/xor_generic.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-08-16T18:19:22Z",
+      "side": 1,
+      "message": "I rewrote the code to better isolate the unsafe operations. See if it seems better.",
+      "parentUuid": "8bf7e9fc_c53b21c0",
+      "revId": "86a0a8597405e99ef0d8b64c7202bae870f3dba6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
