@@ -108,6 +108,24 @@
       "parentUuid": "8bf7e9fc_c53b21c0",
       "revId": "86a0a8597405e99ef0d8b64c7202bae870f3dba6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08a16e82_5b10d0bd",
+        "filename": "src/crypto/subtle/xor_generic.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2022-08-16T20:19:59Z",
+      "side": 1,
+      "message": "Wow, six early exits: that loop is indeed really bad. I could swear that at one point I got it down to little more than a single conditional branch and increment, the block of MOVs, and the early exit CMP check, with the bounds check hoisted out, but I can\u0027t reproduce that now.\n\nSorry for steering you into the weeds. The code you have now looks fine. A nice little use of generics too.",
+      "parentUuid": "94b4e1f3_3fc79a85",
+      "revId": "86a0a8597405e99ef0d8b64c7202bae870f3dba6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
