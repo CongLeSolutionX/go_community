@@ -16,6 +16,24 @@
       "message": "I\u0027ve tried a somewhat different approach in https://go.dev/cl/423514, which also addresses the fact that JoinPath will currently leave ../ components in the path when called with only one parameter.\n\nWhat do you think?",
       "revId": "a289602a1bba7dd796487e1db4825f2c9970b845",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdbc32f1_ed8ed453",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 51518
+      },
+      "writtenOn": "2022-08-16T11:59:47Z",
+      "side": 1,
+      "message": "I read https://go.dev/cl/423514  and think this way is better",
+      "parentUuid": "570e90c9_a26cebda",
+      "revId": "a289602a1bba7dd796487e1db4825f2c9970b845",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
