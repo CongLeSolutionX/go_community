@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "88d71b24_24524964",
+        "filename": "src/cmd/asm/internal/asm/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 740,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-08-16T14:40:54Z",
+      "side": 1,
+      "message": "No, it still has to match an optab rule. If it doesn\u0027t we generate a more helpful error when matching to an optab rule fails.",
+      "parentUuid": "6319c574_ba61aa99",
+      "revId": "fa1aa337261caca0d7ccf45cb26ff7ce116bc322",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "178511a2_0870ef0d",
@@ -89,6 +107,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c7a825b_56f13c6f",
+        "filename": "src/cmd/asm/internal/asm/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 832,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-08-16T14:40:54Z",
+      "side": 1,
+      "message": "\"set\" is likely a more suitable verb.",
+      "parentUuid": "178511a2_0870ef0d",
+      "revId": "fa1aa337261caca0d7ccf45cb26ff7ce116bc322",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d839f58b_e534ef5f",
@@ -102,6 +138,24 @@
       "writtenOn": "2022-08-16T12:07:08Z",
       "side": 1,
       "message": "Same comment as other, do we need a test for p9 instructions?",
+      "revId": "fa1aa337261caca0d7ccf45cb26ff7ce116bc322",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78212608_6cefd600",
+        "filename": "src/cmd/asm/internal/asm/endtoend_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-08-16T14:40:54Z",
+      "side": 1,
+      "message": "They are intermixed inside ppc64.s today. If we do any refactoring, moving them into a dedicated file might be a nice cleanup.",
+      "parentUuid": "d839f58b_e534ef5f",
       "revId": "fa1aa337261caca0d7ccf45cb26ff7ce116bc322",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -140,6 +194,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1fb1f56_e293e01d",
+        "filename": "src/cmd/asm/internal/asm/testdata/ppc64_p10.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-08-16T14:40:54Z",
+      "side": 1,
+      "message": "We don\u0027t, all the existing tests are combined into ppc64.s",
+      "parentUuid": "0f9f1658_ac7237e2",
+      "revId": "fa1aa337261caca0d7ccf45cb26ff7ce116bc322",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aa0cc614_6b53f7ed",
@@ -153,6 +225,24 @@
       "writtenOn": "2022-08-16T12:07:08Z",
       "side": 1,
       "message": "I have the same concern here as in the other file. Also, you don\u0027t mention the procedure for updating this list.",
+      "revId": "fa1aa337261caca0d7ccf45cb26ff7ce116bc322",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84618702_01d242bb",
+        "filename": "src/cmd/internal/obj/ppc64/a.out.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1094,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-08-16T14:40:54Z",
+      "side": 1,
+      "message": "Digging around at how Anames is used, I think these could move into the generated file without changing the workflow here.",
+      "parentUuid": "aa0cc614_6b53f7ed",
       "revId": "fa1aa337261caca0d7ccf45cb26ff7ce116bc322",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -174,6 +264,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd8fb9a2_ed50401f",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-08-16T14:40:54Z",
+      "side": 1,
+      "message": "Actually, this table can live inside the generated file. It can be merged in buildop. We\u0027re resorting this anyways, so it\u0027s not saving any memory by keeping this in one place.\n\nI\u0027ve refactored it to move it. Keeping as much generated stuff in one place is best. I am not sure there is a great way to workaround a.out.go and stringer.",
+      "parentUuid": "be75a71b_aa730e31",
+      "revId": "fa1aa337261caca0d7ccf45cb26ff7ce116bc322",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c9ff5385_ebdc0d28",
@@ -187,6 +295,24 @@
       "writtenOn": "2022-08-16T12:07:08Z",
       "side": 1,
       "message": "Why was this changed?",
+      "revId": "fa1aa337261caca0d7ccf45cb26ff7ce116bc322",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "acbbb07c_b22a939b",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 711,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-08-16T14:40:54Z",
+      "side": 1,
+      "message": "Only 5 values get used in asmout, so this is updated to match. Using an explicit array removes the unneeded bounds checks inside asmout.",
+      "parentUuid": "c9ff5385_ebdc0d28",
       "revId": "fa1aa337261caca0d7ccf45cb26ff7ce116bc322",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
