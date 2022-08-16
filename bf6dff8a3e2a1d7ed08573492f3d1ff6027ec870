@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea145021_3161d472",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-08-16T20:18:58Z",
+      "side": 1,
+      "message": "Thanks for working on improving documentation!\n\n(IMO, we should propose removing this profile altogether or at least removing stacks.)",
+      "revId": "bf6dff8a3e2a1d7ed08573492f3d1ff6027ec870",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0792ce9f_f9b4019a",
+        "filename": "src/runtime/mprof.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 823,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-08-16T20:18:58Z",
+      "side": 1,
+      "message": "This is not quite accurate.\n\nWe do collect stack traces for threads created on the user G: https://cs.opensource.google/go/go/+/master:src/runtime/proc.go;l\u003d786;drc\u003d8adc63b3eb21e8bbacd13335bcf8d6b3a9a507c4\n\ne.g., when I run the package os tests, I get 16 threads with no stack trace (created on g0) and 1 with a stack trace at:\n\n         1   runtime.allocm\n             runtime.newm\n             runtime.startTemplateThread\n             runtime.LockOSThread\n             os_test.TestProgWideChdir.func1\n             \nEven this is arguably not very useful due to the way the scheduler handles thread creation (this just happens to be the first caller of LockOSThread).\n\nI think the old text should remain, but we should add a note that records may be missing stacks if there is no meaningful value.",
+      "revId": "bf6dff8a3e2a1d7ed08573492f3d1ff6027ec870",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f043dee0_874f7654",
+        "filename": "src/runtime/pprof/pprof.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-08-16T20:18:58Z",
+      "side": 1,
+      "message": "Perhaps note that the sample stacks are not meaningful / missing?",
+      "revId": "bf6dff8a3e2a1d7ed08573492f3d1ff6027ec870",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
