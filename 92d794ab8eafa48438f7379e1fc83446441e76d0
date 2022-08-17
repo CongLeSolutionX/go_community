@@ -71,6 +71,41 @@
       "parentUuid": "6abdd764_62ef8a9e",
       "revId": "92d794ab8eafa48438f7379e1fc83446441e76d0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f7edfba_3c81984b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2022-08-17T02:44:37Z",
+      "side": 1,
+      "message": "Marking this thread as resolved since there are no code changes that need to happen for it.\n\nNote that CLs that only have the Review-Enforcement requirement remaining are listed in https://go.dev/s/needs-review, and having unresolved threads causes them not to show up there.",
+      "parentUuid": "9a03f77c_284ce993",
+      "revId": "92d794ab8eafa48438f7379e1fc83446441e76d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebf26586_171c0f0f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2022-08-17T02:44:37Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "92d794ab8eafa48438f7379e1fc83446441e76d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
