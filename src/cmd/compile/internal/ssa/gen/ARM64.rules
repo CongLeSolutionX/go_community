@@ -721,6 +721,11 @@
 (EQ (CMPW x z:(NEG y)) yes no) && z.Uses == 1 => (EQ (CMNW x y) yes no)
 (NE (CMPW x z:(NEG y)) yes no) && z.Uses == 1 => (NE (CMNW x y) yes no)
 
+(CMPconst [c] y) && c < 0 && c != -1<<63 => (CMNconst [-c] y)
+(CMPWconst [c] y) && c < 0 && c != -1<<31 => (CMNWconst [-c] y)
+(CMNconst [c] y) && c < 0 && c != -1<<63 => (CMPconst [-c] y)
+(CMNWconst [c] y) && c < 0 && c != -1<<31 => (CMPWconst [-c] y)
+
 (EQ (CMPconst [0] x) yes no) => (Z x yes no)
 (NE (CMPconst [0] x) yes no) => (NZ x yes no)
 (EQ (CMPWconst [0] x) yes no) => (ZW x yes no)
@@ -1246,6 +1251,10 @@
 
 (ROR x (MOVDconst [c])) => (RORconst x [c&63])
 (RORW x (MOVDconst [c])) => (RORWconst x [c&31])
+
+(ADDSflags x (MOVDconst [c]))  => (ADDSconstflags [c] x)
+
+(ADDconst [c] y) && c <= 0 => (SUBconst [-c] y)
 
 // Canonicalize the order of arguments to comparisons - helps with CSE.
 ((CMP|CMPW) x y) && canonLessThan(x,y) => (InvertFlags ((CMP|CMPW) y x))

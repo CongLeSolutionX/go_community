@@ -1994,3 +1994,61 @@ func canRotate(c *Config, bits int64) bool {
 		return false
 	}
 }
+
+// isbitcon reports whether a constant can be encoded into a logical instruction.
+// bitcon has a binary form of repetition of a bit sequence of length 2, 4, 8, 16, 32, or 64,
+// which itself is a rotate (w.r.t. the length of the unit) of a sequence of ones.
+// special cases: 0 and -1 are not bitcon.
+// this function needs to run against virtually all the constants, so it needs to be fast.
+// for this reason, bitcon testing and bitcon encoding are separate functions.
+//
+// This function is copied from cmd/internal/obj/arm64/asm7.go
+func isbitcon(x uint64) bool {
+	if x == 1<<64-1 || x == 0 {
+		return false
+	}
+	// determine the period and sign-extend a unit to 64 bits
+	switch {
+	case x != x>>32|x<<32:
+		// period is 64
+		// nothing to do
+	case x != x>>16|x<<48:
+		// period is 32
+		x = uint64(int64(int32(x)))
+	case x != x>>8|x<<56:
+		// period is 16
+		x = uint64(int64(int16(x)))
+	case x != x>>4|x<<60:
+		// period is 8
+		x = uint64(int64(int8(x)))
+	default:
+		// period is 4 or 2, always true
+		// 0001, 0010, 0100, 1000 -- 0001 rotate
+		// 0011, 0110, 1100, 1001 -- 0011 rotate
+		// 0111, 1011, 1101, 1110 -- 0111 rotate
+		// 0101, 1010             -- 01   rotate, repeat
+		return true
+	}
+	return sequenceOfOnes(x) || sequenceOfOnes(^x)
+}
+
+// sequenceOfOnes tests whether a constant is a sequence of ones in binary, with leading and trailing zeros
+//
+// This function is copied from cmd/internal/obj/arm64/asm7.go
+func sequenceOfOnes(x uint64) bool {
+	y := x & -x // lowest set bit of x. x is good iff x+y is a power of 2
+	y += x
+	return (y-1)&y == 0
+}
+
+// This function is copied from cmd/internal/obj/arm64/asm7.go
+func isaddcon(v int64) bool {
+	/* uimm12 or uimm24? */
+	if v < 0 {
+		return false
+	}
+	if (v & 0xFFF) == 0 {
+		v >>= 12
+	}
+	return v <= 0xFFF
+}
