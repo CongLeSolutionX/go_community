@@ -53,6 +53,108 @@
       "message": "It still needs a test, if you think this approach is satisfactory.",
       "revId": "7f3c77719bf0edb3ef704ed50642d7f053fe890e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a31cbf6_96ce9a1d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-08-17T20:10:05Z",
+      "side": 1,
+      "message": "This targeted approach seems ok. See feedback on types2 changes. Not sure if we also need to update the compiler-internal type checker. Do these errors still appear from it?",
+      "revId": "7f3c77719bf0edb3ef704ed50642d7f053fe890e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1aa76d79_40117968",
+        "filename": "src/cmd/compile/internal/types2/lookup.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-08-17T20:10:05Z",
+      "side": 1,
+      "message": "I think funcString is only used here. Instead of adding a new function, add a new parameter: pkgInfo bool (see the other suggested changes).",
+      "revId": "7f3c77719bf0edb3ef704ed50642d7f053fe890e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "316c48d4_1b53c7a0",
+        "filename": "src/cmd/compile/internal/types2/lookup.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-08-17T20:10:05Z",
+      "side": 1,
+      "message": "let\u0027s remove this - see comment above",
+      "revId": "7f3c77719bf0edb3ef704ed50642d7f053fe890e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "024a7618_2db14603",
+        "filename": "src/cmd/compile/internal/types2/typestring.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-08-17T20:10:05Z",
+      "side": 1,
+      "message": "let\u0027s not export this for now. I suggest\n\nfunc writeSignature(buf *bytes.Buffer, sig *Signature, qf Qualifier, pkgInfo bool) ...\n\nand then WriteSignature can just call writeSignature.",
+      "revId": "7f3c77719bf0edb3ef704ed50642d7f053fe890e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb8b2914_b79a958d",
+        "filename": "src/cmd/compile/internal/types2/typestring.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-08-17T20:10:05Z",
+      "side": 1,
+      "message": "Can we use a shorter name here? maybe\n\npkgInfo bool // if set, write package information for struct fields\n\n(if we want to extend this to other types we can, it\u0027s not related to structs; also it\u0027s not related to error messages only)",
+      "revId": "7f3c77719bf0edb3ef704ed50642d7f053fe890e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a908963_a8fd5192",
+        "filename": "src/cmd/compile/internal/types2/typestring.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-08-17T20:10:05Z",
+      "side": 1,
+      "message": "This can lead to output like\n\nmypkg.struct{ string }\n\nwhich is not Go. I\u0027ve discussed with rfindley and I think we should do:\n\nstruct { A int; string /* package mypkg */; f float64; ... }\n\ni.e., we print the package as a /*-style comment on the first (and only the first) non-exported field. This is Go code, it\u0027s not too intrusive, and will show the problem where it actually is.",
+      "revId": "7f3c77719bf0edb3ef704ed50642d7f053fe890e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
