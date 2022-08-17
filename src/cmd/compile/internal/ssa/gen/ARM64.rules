@@ -1197,30 +1197,35 @@
 (MOVDnop (MOVDconst [c])) => (MOVDconst [c])
 
 // fold constant into arithmetic ops
-(ADD x (MOVDconst [c])) => (ADDconst [c] x)
-(SUB x (MOVDconst [c])) => (SUBconst [c] x)
-(AND x (MOVDconst [c])) => (ANDconst [c] x)
-(OR  x (MOVDconst [c])) => (ORconst  [c] x)
-(XOR x (MOVDconst [c])) => (XORconst [c] x)
-(TST x (MOVDconst [c])) => (TSTconst [c] x)
-(TSTW x (MOVDconst [c])) => (TSTWconst [int32(c)] x)
-(CMN x (MOVDconst [c])) => (CMNconst [c] x)
-(CMNW x (MOVDconst [c])) => (CMNWconst [int32(c)] x)
-(BIC x (MOVDconst [c])) => (ANDconst [^c] x)
-(EON x (MOVDconst [c])) => (XORconst [^c] x)
-(ORN x (MOVDconst [c])) => (ORconst  [^c] x)
+(ADD x (MOVDconst [c])) && isaddcon(c) => (ADDconst [c] x)
+(SUB x (MOVDconst [c])) && isaddcon(c) => (SUBconst [c] x)
+(AND x (MOVDconst [c])) && isbitcon(uint64(c)) => (ANDconst [c] x)
+(OR  x (MOVDconst [c])) && isbitcon(uint64(c)) => (ORconst  [c] x)
+(XOR x (MOVDconst [c])) && isbitcon(uint64(c)) => (XORconst [c] x)
+(TST x (MOVDconst [c])) && isbitcon(uint64(c)) => (TSTconst [c] x)
+(TSTW x (MOVDconst [c])) && isbitcon(uint64(c&0xffffffff|(c&0xffffffff)<<32)) => (TSTWconst [int32(c)] x)
+(CMN x (MOVDconst [c])) && isaddcon(c) => (CMNconst [c] x)
+(CMNW x (MOVDconst [c])) && isaddcon(c) => (CMNWconst [int32(c)] x)
+(BIC x (MOVDconst [c])) && isbitcon(uint64(c)) => (ANDconst [^c] x)
+(EON x (MOVDconst [c])) && isbitcon(uint64(c)) => (XORconst [^c] x)
+(ORN x (MOVDconst [c])) && isbitcon(uint64(c)) => (ORconst  [^c] x)
 
 (SLL x (MOVDconst [c])) => (SLLconst x [c&63]) // Note: I don't think we ever generate bad constant shifts (i.e. c>=64)
 (SRL x (MOVDconst [c])) => (SRLconst x [c&63])
 (SRA x (MOVDconst [c])) => (SRAconst x [c&63])
 
-(CMP x (MOVDconst [c])) => (CMPconst [c] x)
-(CMP (MOVDconst [c]) x) => (InvertFlags (CMPconst [c] x))
-(CMPW x (MOVDconst [c])) => (CMPWconst [int32(c)] x)
-(CMPW (MOVDconst [c]) x) => (InvertFlags (CMPWconst [int32(c)] x))
+(CMP x (MOVDconst [c])) && isaddcon(c) => (CMPconst [c] x)
+(CMP (MOVDconst [c]) x) && isaddcon(c) => (InvertFlags (CMPconst [c] x))
+(CMPW x (MOVDconst [c])) && isaddcon(c) => (CMPWconst [int32(c)] x)
+(CMPW (MOVDconst [c]) x) && isaddcon(c) => (InvertFlags (CMPWconst [int32(c)] x))
+
+(ADD (MOVDconst [c]) y) && c < 0 => (SUBconst [-c] y)
 
 (ROR x (MOVDconst [c])) => (RORconst x [c&63])
 (RORW x (MOVDconst [c])) => (RORWconst x [c&31])
+
+(Select0 (ADDSflags x (MOVDconst [c]))) && isaddcon(c) => (Select0 (ADDSconstflags [c] x))
+(Select1 (ADDSflags x (MOVDconst [c]))) && isaddcon(c) => (Select1 (ADDSconstflags [c] x))
 
 // Canonicalize the order of arguments to comparisons - helps with CSE.
 ((CMP|CMPW) x y) && canonLessThan(x,y) => (InvertFlags ((CMP|CMPW) y x))
@@ -1850,7 +1855,7 @@
 ((ADDshiftLL|ORshiftLL|XORshiftLL) <typ.UInt16> [8] (UBFX <typ.UInt16> [armBFAuxInt(8, 8)] x) x) => (REV16W x)
 
 // ((x & 0xff00ff00)>>8) | ((x & 0x00ff00ff)<<8), "|" can also be "^" or "+".
-((ADDshiftLL|ORshiftLL|XORshiftLL) [8] (UBFX [armBFAuxInt(8, 24)] (ANDconst [c1] x)) (ANDconst [c2] x))
+((ADDshiftLL|ORshiftLL|XORshiftLL) [8] (UBFX [armBFAuxInt(8, 24)] (AND (MOVDconst [c1]) x)) (AND (MOVDconst [c2]) x))
 	&& uint32(c1) == 0xff00ff00 && uint32(c2) == 0x00ff00ff
 	=> (REV16W x)
 
@@ -1860,7 +1865,7 @@
 	=> (REV16 x)
 
 // ((x & 0xff00ff00)>>8) | ((x & 0x00ff00ff)<<8), "|" can also be "^" or "+".
-((ADDshiftLL|ORshiftLL|XORshiftLL) [8] (SRLconst [8] (ANDconst [c1] x)) (ANDconst [c2] x))
+((ADDshiftLL|ORshiftLL|XORshiftLL) [8] (SRLconst [8] (AND (MOVDconst [c1]) x)) (AND (MOVDconst [c2]) x))
 	&& (uint64(c1) == 0xff00ff00 && uint64(c2) == 0x00ff00ff)
 	=> (REV16 (ANDconst <x.Type> [0xffffffff] x))
 
