@@ -61,6 +61,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9db6280b_db51755d",
+        "filename": "src/crypto/subtle/xor_generic.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-08-17T18:31:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2783ebd7_06cf216e",
+      "range": {
+        "startLine": 5,
+        "startChar": 55,
+        "endLine": 5,
+        "endChar": 69
+      },
+      "revId": "db977f00a88e0fd319e2e5a70854896b32f5eb05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "75cc0b92_0b3fe7c9",
@@ -74,6 +98,24 @@
       "writtenOn": "2022-08-17T01:01:41Z",
       "side": 1,
       "message": "Maybe simply\n\n    if n % wordSize \u003d\u003d 0 {\n\ninstead?",
+      "revId": "db977f00a88e0fd319e2e5a70854896b32f5eb05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72635c41_a0702f60",
+        "filename": "src/crypto/subtle/xor_generic.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-08-17T18:31:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "75cc0b92_0b3fe7c9",
       "revId": "db977f00a88e0fd319e2e5a70854896b32f5eb05",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
