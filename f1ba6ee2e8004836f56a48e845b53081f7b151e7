@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7a215ab_e0afb70b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34895
+      },
+      "writtenOn": "2022-08-17T03:21:24Z",
+      "side": 1,
+      "message": "Should we also modify cmd/dist to run misc/cgo/testasan on ppc64le?",
+      "revId": "f1ba6ee2e8004836f56a48e845b53081f7b151e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
