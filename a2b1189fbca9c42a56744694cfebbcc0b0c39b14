@@ -16,6 +16,23 @@
       "message": "Guys, let\u0027s move forward ❤️",
       "revId": "a2b1189fbca9c42a56744694cfebbcc0b0c39b14",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8f62e03_0ef58b70",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34895
+      },
+      "writtenOn": "2022-08-17T02:50:19Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "a2b1189fbca9c42a56744694cfebbcc0b0c39b14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
