@@ -90,6 +90,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9672fad_5eb7e512",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-08-17T04:18:59Z",
+      "side": 1,
+      "message": "To change the CL description, edit the title and first comment of the GitHub pull request.  Do not edit the Gerritt change.  Edit the original GitHub pull request.  See https://go.dev/wiki/CommitMessage.  Thanks.\n\nIn any case this seems to be done.",
+      "parentUuid": "02df87c9_f35c9654",
+      "revId": "a4bbbbb4102ec6138fb003c0effbfdd8069b647e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "482b3023_7a152598",
