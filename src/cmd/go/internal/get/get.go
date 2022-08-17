@@ -494,7 +494,7 @@ func downloadPackage(p *load.Package) error {
 		}
 		vcsCmd, repo, rootPath = rr.VCS, rr.Repo, rr.Root
 	}
-	if !blindRepo && !vcsCmd.IsSecure(repo) && security != web.Insecure && (vcs.VCSTestURL == "" || !strings.HasPrefix(repo, vcs.VCSTestURL)) {
+	if !blindRepo && !vcsCmd.IsSecure(repo) && security != web.Insecure && (vcs.VCSTestRepoURL == "" || !strings.HasPrefix(repo, vcs.VCSTestRepoURL)) {
 		return fmt.Errorf("cannot download: %v uses insecure protocol", repo)
 	}
 
