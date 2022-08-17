@@ -41,10 +41,6 @@ import (
 )
 
 var complements = []obj.As{
-	AADD:  ASUB,
-	AADDW: ASUBW,
-	ASUB:  AADD,
-	ASUBW: AADDW,
 	ACMP:  ACMN,
 	ACMPW: ACMNW,
 	ACMN:  ACMP,
@@ -382,12 +378,12 @@ func progedit(ctxt *obj.Link, p *obj.Prog, newprog obj.ProgAlloc) {
 	// Rewrite negative immediates as positive immediates with
 	// complementary instruction.
 	switch p.As {
-	case AADD, ASUB, ACMP, ACMN:
+	case ACMP, ACMN:
 		if p.From.Type == obj.TYPE_CONST && p.From.Offset < 0 && p.From.Offset != -1<<63 {
 			p.From.Offset = -p.From.Offset
 			p.As = complements[p.As]
 		}
-	case AADDW, ASUBW, ACMPW, ACMNW:
+	case ACMPW, ACMNW:
 		if p.From.Type == obj.TYPE_CONST && p.From.Offset < 0 && int32(p.From.Offset) != -1<<31 {
 			p.From.Offset = -p.From.Offset
 			p.As = complements[p.As]
