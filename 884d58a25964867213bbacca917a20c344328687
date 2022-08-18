@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "28103fed_0b304850",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 35296
+      },
+      "writtenOn": "2022-08-18T07:22:16Z",
+      "side": 1,
+      "message": "Perhaps this should also include a `Meta()` method on `testing.M` so that metadata can be associated globally with the package in addition to individual test cases. Calling `Meta()` on `testing.M` would generate a log that uses \"TestMain\" for the test name (`--- META: TestMain: key: value`). Alternatively, it could omit the test name (`--- META: key: value`).",
+      "revId": "884d58a25964867213bbacca917a20c344328687",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8dad219d_9ff25502",
         "filename": "src/testing/testing.go",
         "patchSetId": 1
