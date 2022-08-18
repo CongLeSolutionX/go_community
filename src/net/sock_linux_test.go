@@ -5,12 +5,13 @@
 package net
 
 import (
+	"internal/sysinfo"
 	"testing"
 )
 
 func TestMaxAckBacklog(t *testing.T) {
 	n := 196602
-	major, minor := kernelVersion()
+	major, minor := sysinfo.KernelVersion()
 	backlog := maxAckBacklog(n)
 	expected := 1<<16 - 1
 	if major > 4 || (major == 4 && minor >= 1) {
