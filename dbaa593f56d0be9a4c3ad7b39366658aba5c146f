@@ -53,6 +53,24 @@
       "message": "Where is the code that makes a struct notinheap if one of its fields is notinheap?\n\nThat code existed in type.go:SetFields previously, I expected it to show up here but it didn\u0027t.",
       "revId": "dbaa593f56d0be9a4c3ad7b39366658aba5c146f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5a82c4a_a70b2450",
+        "filename": "src/cmd/compile/internal/types/size.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-08-18T02:47:48Z",
+      "side": 1,
+      "message": "it\u0027s in `calcStructOffset` function, or L187",
+      "parentUuid": "1f8d0de9_d6ed9e5b",
+      "revId": "dbaa593f56d0be9a4c3ad7b39366658aba5c146f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
