@@ -239,3 +239,16 @@ func Add(ptr Pointer, len IntegerType) Pointer
 // At run time, if len is negative, or if ptr is nil and len is not zero,
 // a run-time panic occurs.
 func Slice(ptr *ArbitraryType, len IntegerType) []ArbitraryType
+
+// SliceData returns the slice's data pointer
+func SliceData(slice []ArbitraryType) *ArbitraryType
+
+// String constructs a string value from a pointer and a length.
+// The bytes passed to String must not be modified;
+// doing so can cause the program to crash or behave unpredictably.
+func String(ptr *byte, len IntegerType) string
+
+// StringData returns a pointer to the bytes of a string.
+// The bytes must not be modified; doing so can cause
+// the program to crash or behave unpredictably.
+func StringData(str string) *byte
