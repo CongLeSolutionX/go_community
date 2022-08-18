@@ -29,21 +29,10 @@ type pkgReader struct {
 	// laterFns holds functions that need to be invoked at the end of
 	// import reading.
 	laterFns []func()
-	// laterFors is used in case of 'type A B' to ensure that B is processed before A.
-	laterFors map[types.Type]int
 }
 
 // later adds a function to be invoked at the end of import reading.
 func (pr *pkgReader) later(fn func()) {
-	pr.laterFns = append(pr.laterFns, fn)
-}
-
-// laterFor adds a function to be invoked at the end of import reading, and records the type that function is finishing.
-func (pr *pkgReader) laterFor(t types.Type, fn func()) {
-	if pr.laterFors == nil {
-		pr.laterFors = make(map[types.Type]int)
-	}
-	pr.laterFors[t] = len(pr.laterFns)
 	pr.laterFns = append(pr.laterFns, fn)
 }
 
@@ -491,41 +480,30 @@ func (pr *pkgReader) objIdx(idx pkgbits.Index) (*types.Package, string) {
 
 			named.SetTypeParams(r.typeParamNames())
 
-			rhs := r.typ()
-			pk := r.p
-			pk.laterFor(named, func() {
-				// First be sure that the rhs is initialized, if it needs to be initialized.
-				delete(pk.laterFors, named) // prevent cycles
-				if i, ok := pk.laterFors[rhs]; ok {
-					f := pk.laterFns[i]
-					pk.laterFns[i] = func() {} // function is running now, so replace it with a no-op
-					f()                        // initialize RHS
-				}
-				underlying := rhs.Underlying()
+			underlying := r.typ()
 
-				// If the underlying type is an interface, we need to
-				// duplicate its methods so we can replace the receiver
-				// parameter's type (#49906).
-				if iface, ok := underlying.(*types.Interface); ok && iface.NumExplicitMethods() != 0 {
-					methods := make([]*types.Func, iface.NumExplicitMethods())
-					for i := range methods {
-						fn := iface.ExplicitMethod(i)
-						sig := fn.Type().(*types.Signature)
+			// If the underlying type is an interface, we need to
+			// duplicate its methods so we can replace the receiver
+			// parameter's type (#49906).
+			if iface, ok := underlying.(*types.Interface); ok && iface.NumExplicitMethods() != 0 {
+				methods := make([]*types.Func, iface.NumExplicitMethods())
+				for i := range methods {
+					fn := iface.ExplicitMethod(i)
+					sig := fn.Type().(*types.Signature)
 
-						recv := types.NewVar(fn.Pos(), fn.Pkg(), "", named)
-						methods[i] = types.NewFunc(fn.Pos(), fn.Pkg(), fn.Name(), types.NewSignature(recv, sig.Params(), sig.Results(), sig.Variadic()))
-					}
-
-					embeds := make([]types.Type, iface.NumEmbeddeds())
-					for i := range embeds {
-						embeds[i] = iface.EmbeddedType(i)
-					}
-
-					underlying = types.NewInterfaceType(methods, embeds)
+					recv := types.NewVar(fn.Pos(), fn.Pkg(), "", named)
+					methods[i] = types.NewFunc(fn.Pos(), fn.Pkg(), fn.Name(), types.NewSignature(recv, sig.Params(), sig.Results(), sig.Variadic()))
 				}
 
-				named.SetUnderlying(underlying)
-			})
+				embeds := make([]types.Type, iface.NumEmbeddeds())
+				for i := range embeds {
+					embeds[i] = iface.EmbeddedType(i)
+				}
+
+				underlying = types.NewInterfaceType(methods, embeds)
+			}
+
+			named.SetUnderlying(underlying)
 
 			for i, n := 0, r.Len(); i < n; i++ {
 				named.AddMethod(r.method())
