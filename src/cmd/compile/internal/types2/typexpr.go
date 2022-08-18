@@ -367,7 +367,7 @@ func (check *Checker) typInternal(e0 syntax.Expr, def *Named) (T Type) {
 				if isTypeParam(typ.key) {
 					why = " (missing comparable constraint)"
 				}
-				check.errorf(e.Key, "invalid map key type %s%s", typ.key, why)
+				check.errorf(e.Key, "incomparable map key type %s%s", typ.key, why)
 			}
 		}).describef(e.Key, "check map key %s", typ.key)
 
