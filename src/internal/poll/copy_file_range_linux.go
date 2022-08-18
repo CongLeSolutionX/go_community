@@ -6,6 +6,7 @@ package poll
 
 import (
 	"internal/syscall/unix"
+	"internal/sysinfo"
 	"sync/atomic"
 	"syscall"
 )
@@ -14,48 +15,13 @@ var copyFileRangeSupported int32 = -1 // accessed atomically
 
 const maxCopyFileRangeRound = 1 << 30
 
-func kernelVersion() (major int, minor int) {
-	var uname syscall.Utsname
-	if err := syscall.Uname(&uname); err != nil {
-		return
-	}
-
-	rl := uname.Release
-	var values [2]int
-	vi := 0
-	value := 0
-	for _, c := range rl {
-		if '0' <= c && c <= '9' {
-			value = (value * 10) + int(c-'0')
-		} else {
-			// Note that we're assuming N.N.N here.  If we see anything else we are likely to
-			// mis-parse it.
-			values[vi] = value
-			vi++
-			if vi >= len(values) {
-				break
-			}
-			value = 0
-		}
-	}
-	switch vi {
-	case 0:
-		return 0, 0
-	case 1:
-		return values[0], 0
-	case 2:
-		return values[0], values[1]
-	}
-	return
-}
-
 // CopyFileRange copies at most remain bytes of data from src to dst, using
 // the copy_file_range system call. dst and src must refer to regular files.
 func CopyFileRange(dst, src *FD, remain int64) (written int64, handled bool, err error) {
 	if supported := atomic.LoadInt32(&copyFileRangeSupported); supported == 0 {
 		return 0, false, nil
 	} else if supported == -1 {
-		major, minor := kernelVersion()
+		major, minor := sysinfo.KernelVersion()
 		if major > 5 || (major == 5 && minor >= 3) {
 			atomic.StoreInt32(&copyFileRangeSupported, 1)
 		} else {
