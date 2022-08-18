@@ -89,6 +89,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "df5c9869_4fb4da2d",
+        "filename": "misc/cgo/testcarchive/carchive_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-08-18T03:37:33Z",
+      "side": 1,
+      "message": "No, this is logging what the exec.Command is doing: literally running \"bin 4\".",
+      "parentUuid": "dcc15f8d_30b7b7b1",
+      "revId": "a45583b95e4f862fe7b24b1a63b418c815869d4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3c83f40f_be4cef41",
@@ -102,6 +120,24 @@
       "writtenOn": "2022-08-10T16:36:21Z",
       "side": 1,
       "message": "If it doesn\u0027t really matter, then why are we doing this? Can you maybe expand this comment?",
+      "revId": "a45583b95e4f862fe7b24b1a63b418c815869d4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eab3a751_436ff023",
+        "filename": "misc/cgo/testcarchive/carchive_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 680,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-08-18T03:37:33Z",
+      "side": 1,
+      "message": "Expanded.",
+      "parentUuid": "3c83f40f_be4cef41",
       "revId": "a45583b95e4f862fe7b24b1a63b418c815869d4c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -129,6 +165,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "54a4dfad_6109ed4d",
+        "filename": "misc/cgo/testcarchive/carchive_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 695,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-08-18T03:37:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c205c34_7cbeea4e",
+      "range": {
+        "startLine": 650,
+        "startChar": 0,
+        "endLine": 695,
+        "endChar": 2
+      },
+      "revId": "a45583b95e4f862fe7b24b1a63b418c815869d4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "47a45491_ecaacdbf",
@@ -142,6 +202,24 @@
       "writtenOn": "2022-08-10T16:36:21Z",
       "side": 1,
       "message": "I found this convention confusing when I saw the call that passed SIGSEGV twice. Maybe pass 0 for the second signal? (Even better would be a sigs... syscall.Signal argument, but that\u0027s probably overkill.)",
+      "revId": "a45583b95e4f862fe7b24b1a63b418c815869d4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f70e8bce_37ffed66",
+        "filename": "misc/cgo/testcarchive/carchive_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 767,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-08-18T03:37:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47a45491_ecaacdbf",
       "revId": "a45583b95e4f862fe7b24b1a63b418c815869d4c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
