@@ -581,7 +581,8 @@ func (op Op) isCarryCreator() bool {
 // Return whether op consumes or creates a carry a bit value.
 func (op Op) isCarry() bool {
 	switch op {
-	case OpPPC64SUBE, OpPPC64ADDE, OpPPC64SUBZEzero, OpPPC64ADDZEzero:
+	case OpPPC64SUBE, OpPPC64ADDE, OpPPC64SUBZEzero, OpPPC64ADDZEzero,
+		OpARM64ADCzerocarry, OpARM64NGCzerocarry:
 		return true
 	}
 	return op.isCarryCreator()
