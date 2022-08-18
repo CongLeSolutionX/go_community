@@ -501,8 +501,11 @@ var depsRules = `
 	< net/rpc/jsonrpc;
 
 	# System Information
-	internal/cpu, sync
+	internal/cpu, internal/poll, net, sync
 	< internal/sysinfo;
+
+	internal/sysinfo
+	< syscall;
 
 	# Test-only
 	log
