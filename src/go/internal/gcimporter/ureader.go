@@ -26,18 +26,9 @@ type pkgReader struct {
 	pkgs     []*types.Package
 	typs     []types.Type
 
-	// laterFns holds functions that need to be invoked at the end of
-	// import reading.
-	laterFns []func()
-
 	// ifaces holds a list of constructed Interfaces, which need to have
 	// Complete called after importing is done.
 	ifaces []*types.Interface
-}
-
-// later adds a function to be invoked at the end of import reading.
-func (pr *pkgReader) later(fn func()) {
-	pr.laterFns = append(pr.laterFns, fn)
 }
 
 // readUnifiedPackage reads a package description from the given
@@ -74,10 +65,6 @@ func readUnifiedPackage(fset *token.FileSet, ctxt *types.Context, imports map[st
 	}
 
 	r.Sync(pkgbits.SyncEOF)
-
-	for _, fn := range pr.laterFns {
-		fn()
-	}
 
 	for _, iface := range pr.ifaces {
 		iface.Complete()
@@ -627,26 +614,12 @@ func (r *reader) typeParamNames() []*types.TypeParam {
 		typs[i] = r.p.typIdx(bound, r.dict)
 	}
 
-	// TODO(mdempsky): This is subtle, elaborate further.
-	//
-	// We have to save tparams outside of the closure, because
-	// typeParamNames() can be called multiple times with the same
-	// dictionary instance.
-	//
-	// Also, this needs to happen later to make sure SetUnderlying has
-	// been called.
-	//
-	// TODO(mdempsky): Is it safe to have a single "later" slice or do
-	// we need to have multiple passes? See comments on CL 386002 and
-	// go.dev/issue/52104.
 	tparams := r.dict.tparams
-	r.p.later(func() {
-		for i, typ := range typs {
-			tparams[i].SetConstraint(typ)
-		}
-	})
+	for i, typ := range typs {
+		tparams[i].SetConstraint(typ)
+	}
 
-	return r.dict.tparams
+	return tparams
 }
 
 func (r *reader) method() *types.Func {
