@@ -99,3 +99,55 @@ func TestStoreOrder(t *testing.T) {
 		t.Errorf("store order is wrong: got %v, want v2 v3 v4 after v5", order)
 	}
 }
+
+func TestCarryChainOrder(t *testing.T) {
+	// In the function below, v10 depends on v6, v6 depends on v5, and v2 depends on v8,
+	// v8 depends on v7. But there is no dependency between the two carry chains. If they
+	// are not scheduled properly, the carry value will be clobbered.
+	c := testConfigARM64(t)
+	fun := c.Fun("entry",
+		Bloc("entry",
+			Valu("v1", OpInitMem, types.TypeMem, 0, nil),
+			Valu("x", OpARM64MOVDconst, c.config.Types.UInt64, 5, nil),
+			Valu("y", OpARM64MOVDconst, c.config.Types.UInt64, 6, nil),
+			Valu("z", OpARM64MOVDconst, c.config.Types.UInt64, 7, nil),
+			Valu("v5", OpARM64ADDSflags, types.NewTuple(c.config.Types.UInt64, types.TypeFlags), 0, nil, "x", "z"), // x+z, set flags
+			Valu("b", OpSelect1, types.TypeFlags, 0, nil, "v5"),
+			Valu("v7", OpARM64ADDSflags, types.NewTuple(c.config.Types.UInt64, types.TypeFlags), 0, nil, "y", "z"), // y+z, set flags
+			Valu("d", OpSelect1, types.TypeFlags, 0, nil, "v7"),
+			Valu("a", OpSelect0, c.config.Types.UInt64, 0, nil, "v5"),
+			Valu("v10", OpARM64ADCzerocarry, c.config.Types.UInt64, 0, nil, "b"), // 0+0+carry
+			Valu("c", OpSelect0, c.config.Types.UInt64, 0, nil, "v7"),
+			Valu("v12", OpARM64ADCzerocarry, c.config.Types.UInt64, 0, nil, "d"), // 0+0+carry
+			Valu("v13", OpARM64ADD, c.config.Types.UInt64, 0, nil, "a", "c"),
+			Valu("v14", OpARM64ADD, c.config.Types.UInt64, 0, nil, "v10", "v12"),
+			Valu("v15", OpARM64AND, c.config.Types.UInt64, 0, nil, "v13", "v14"),
+			Goto("exit")),
+		Bloc("exit",
+			Exit("v1")),
+	)
+
+	CheckFunc(fun.f)
+	schedule(fun.f)
+
+	// the expected order is v5, a, b, v10, v7, c, d, v12, check that b < v10 < v7 < v8 < v12.
+	var ai, bi, ci, di, ei int
+	for i, v := range fun.f.Blocks[0].Values {
+		switch v.ID {
+		case 6:
+			ai = i
+		case 10:
+			bi = i
+		case 7:
+			ci = i
+		case 8:
+			di = i
+		case 12:
+			ei = i
+		}
+	}
+	if !(ai < bi && bi < ci && ci < di && di < ei) {
+		t.Logf("Func: %s", fun.f)
+		t.Errorf("carry chain order is wrong: got %v, want v12 after v8 after v7 after v10 after v6,", fun.f.Blocks[0])
+	}
+}
