@@ -102,6 +102,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "daae90f7_c5469d7c",
+        "filename": "src/cmd/compile/internal/devirtualize/devirtualize.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-08-18T09:44:22Z",
+      "side": 1,
+      "message": "Expanded the comment to mention these ideas more concretely.",
+      "parentUuid": "51262e2b_3fbd48f4",
+      "range": {
+        "startLine": 65,
+        "startChar": 5,
+        "endLine": 67,
+        "endChar": 26
+      },
+      "revId": "42462770355c9679473f5a15b4e8058463615f10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "99e9817f_354b3862",
@@ -149,6 +173,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3707abe5_2240abc0",
+        "filename": "src/cmd/compile/internal/noder/reader.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-08-18T09:44:22Z",
+      "side": 1,
+      "message": "Added some docs to readerDict to explain \"compile-time dictionaries.\"",
+      "parentUuid": "a0d81d9a_0c38d9eb",
+      "range": {
+        "startLine": 154,
+        "startChar": 34,
+        "endLine": 154,
+        "endChar": 51
+      },
+      "revId": "42462770355c9679473f5a15b4e8058463615f10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2ea34cec_2b663dff",
@@ -180,6 +228,24 @@
       "side": 1,
       "message": "Ack. Shaping pointer types the same where possible was the first change I had in mind after this one lands. There\u0027s further shaping I want to do after that though (e.g., ignoring struct field names and tags, or recursively shaping element types).\n\nFiled #54513 to implement at least pointer shaping for Go 1.20.",
       "parentUuid": "2ea34cec_2b663dff",
+      "revId": "42462770355c9679473f5a15b4e8058463615f10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e31be998_ac93069e",
+        "filename": "src/cmd/compile/internal/noder/reader.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 801,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-08-18T09:44:22Z",
+      "side": 1,
+      "message": "Updated TODO to reference the issue.",
+      "parentUuid": "6fa53168_6bb0d28e",
       "revId": "42462770355c9679473f5a15b4e8058463615f10",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -219,6 +285,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b837a222_8c5ee47c",
+        "filename": "src/cmd/compile/internal/noder/reader.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1194,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-08-18T09:44:22Z",
+      "side": 1,
+      "message": "Added a paragraph mentioning this design decision.",
+      "parentUuid": "80622d26_62eab2b9",
+      "revId": "42462770355c9679473f5a15b4e8058463615f10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "699a3c29_0a2464dc",
@@ -254,6 +338,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b7128dd_ef167a99",
+        "filename": "src/cmd/compile/internal/noder/reader.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1367,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-08-18T09:44:22Z",
+      "side": 1,
+      "message": "Added a TODO in addLocal to mention setting DictIndex, with reference to #54514.",
+      "parentUuid": "644a320b_7204c3f9",
+      "revId": "42462770355c9679473f5a15b4e8058463615f10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "48fa506e_6ad27ccf",
@@ -267,6 +369,30 @@
       "writtenOn": "2022-08-17T22:06:09Z",
       "side": 1,
       "message": "dictPtr?",
+      "range": {
+        "startLine": 2394,
+        "startChar": 6,
+        "endLine": 2394,
+        "endChar": 13
+      },
+      "revId": "42462770355c9679473f5a15b4e8058463615f10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "32542561_99e6314a",
+        "filename": "src/cmd/compile/internal/noder/reader.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 2394,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-08-18T09:44:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48fa506e_6ad27ccf",
       "range": {
         "startLine": 2394,
         "startChar": 6,
@@ -308,6 +434,24 @@
       "side": 1,
       "message": "Filed #54512.",
       "parentUuid": "43ce473c_e186fc8e",
+      "revId": "42462770355c9679473f5a15b4e8058463615f10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e73278ed_97cfc71c",
+        "filename": "test/typeparam/nested.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-08-18T09:44:22Z",
+      "side": 1,
+      "message": "Updated TODO to mention issue.",
+      "parentUuid": "63d31e82_81c5481f",
       "revId": "42462770355c9679473f5a15b4e8058463615f10",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
