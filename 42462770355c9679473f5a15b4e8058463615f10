@@ -38,6 +38,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a0a2375_f7163996",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-08-18T00:51:05Z",
+      "side": 1,
+      "message": "Thanks for review! Just responding to questions for now; will update the CL soon.",
+      "revId": "42462770355c9679473f5a15b4e8058463615f10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6db7dab6_9f42f3fa",
@@ -51,6 +68,30 @@
       "writtenOn": "2022-08-17T22:06:09Z",
       "side": 1,
       "message": "I don\u0027t think this would be possible in general, if the type word is loaded from a dictionary. But there may be cases where it is possible.",
+      "range": {
+        "startLine": 65,
+        "startChar": 5,
+        "endLine": 67,
+        "endChar": 26
+      },
+      "revId": "42462770355c9679473f5a15b4e8058463615f10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51262e2b_3fbd48f4",
+        "filename": "src/cmd/compile/internal/devirtualize/devirtualize.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-08-18T00:51:05Z",
+      "side": 1,
+      "message": "What I had in mind was to extend the `*runtime._type` for `T[int]` to include a pointer to `.dict.T[int]`. That should work in general, even when the type word needs to be looked up from a dictionary.\n\nOtherwise, yeah, if recv.TypeWord is a reference to a static itab, we should be able to directly compute a static reference to the corresponding dictionary.",
+      "parentUuid": "6db7dab6_9f42f3fa",
       "range": {
         "startLine": 65,
         "startChar": 5,
@@ -86,6 +127,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a0d81d9a_0c38d9eb",
+        "filename": "src/cmd/compile/internal/noder/reader.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-08-18T00:51:05Z",
+      "side": 1,
+      "message": "\u003e I\u0027m not sure I understand what a \"shaped dictionary\" is.\n\nI\u0027ve overloaded \"dictionary\" to mean multiple things, and I acknowledge that\u0027s confusing. I\u0027m open to establishing better terminology here.\n\nWhen I say \"runtime dictionary,\" I mean the dictionaries you\u0027re accustomed to (i.e., the data structures that exist at runtime). When I say \"compile-time dictionary,\" I mean objects of type writerDict and readerDict (or their corresponding serialized data in the export data format).\n\n--\n\nAs a contrived example, consider:\n\n```\nfunc SetZero[T any](ptr *T) { *ptr \u003d *new(T) }\n```\n\nWhen writing this out into the unified export data format, the derived type `*T` that appears in the parameter list gets recorded in writerDict. Also, the `new(T)` expression in the function body will record in writerDict that we need the `*runtime._type` for `T`. The writerDict then gets serialized into `SetZero`\u0027s \"dictionary\" object in the export data.\n\nOn the reading side to handle an instantiation like `SetZero[int]`, we then read this same export data into two separate readerDict instances:\n\n1. We read in the object using `targs \u003d\u003d {int}`, so the index for `*T` becomes `*int` and we know we need the rtype for `int`. This is the \"non-shaped [compile-time] dictionary\", which we use for generating the runtime dictionary symbols.\n\n2. We read in the object again using `targs \u003d\u003d {go.shape.int}`, so the index for `*T` becomes `*go.shape.int` instead. This is the \"shaped [compile-time] dictionary\", which we only use for building `F[go.shape.int]`\u0027s body. So when building the function body, looking up the index for `*T` gives us `*go.shape.int` instead. As for getting the rtype for `T`, we see that\u0027s a reference to a derived type, and so we generate a lookup into the runtime dictionary argument using the corresponding index.\n\n\u003e Dictionaries shouldn\u0027t have any shape types in them.\n\nAck, runtime dictionaries never do. This is asserted in dictNamedOf.\n\n\u003e Do I understand that right?\n\nYes, I think so.",
+      "parentUuid": "99e9817f_354b3862",
+      "range": {
+        "startLine": 154,
+        "startChar": 34,
+        "endLine": 154,
+        "endChar": 51
+      },
+      "revId": "42462770355c9679473f5a15b4e8058463615f10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2ea34cec_2b663dff",
         "filename": "src/cmd/compile/internal/noder/reader.go",
         "patchSetId": 9
@@ -97,6 +162,24 @@
       "writtenOn": "2022-08-17T22:06:09Z",
       "side": 1,
       "message": "This doesn\u0027t shape all pointer types to the same shape. That\u0027s a feature we had in 1.18 and 1.19, it would be good not to lose that. Is that the TODO above?",
+      "revId": "42462770355c9679473f5a15b4e8058463615f10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6fa53168_6bb0d28e",
+        "filename": "src/cmd/compile/internal/noder/reader.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 801,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-08-18T00:51:05Z",
+      "side": 1,
+      "message": "Ack. Shaping pointer types the same where possible was the first change I had in mind after this one lands. There\u0027s further shaping I want to do after that though (e.g., ignoring struct field names and tags, or recursively shaping element types).\n\nFiled #54513 to implement at least pointer shaping for Go 1.20.",
+      "parentUuid": "2ea34cec_2b663dff",
       "revId": "42462770355c9679473f5a15b4e8058463615f10",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -120,6 +203,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "80622d26_62eab2b9",
+        "filename": "src/cmd/compile/internal/noder/reader.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1194,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-08-18T00:51:05Z",
+      "side": 1,
+      "message": "When creating type `T[int]`, we create a corresponding shape type `T[go.shape.int]`. And the same code in unified IR that handles adding method `T[int].M` then also handles adding the shaped method `T[go.shape.int].M`.\n\nHowever, then typecheck and various bits of backend code want to see `T[go.shape.int]` as the first parameter of `T[go.shape.int].M`.\n\nI spent some time fighting with that, but ultimately the least intrusive / most reliable solution seemed to be to just embrace it for now by moving the dictionary parameter after the receiver parameter.\n\nLong term, I still want to explore using the context register to pass the dictionary argument instead. I expect that would eliminate a lot of register shuffling in wrapper functions.",
+      "parentUuid": "401153bb_c839fd46",
+      "revId": "42462770355c9679473f5a15b4e8058463615f10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "699a3c29_0a2464dc",
         "filename": "src/cmd/compile/internal/noder/reader.go",
         "patchSetId": 9
@@ -131,6 +232,24 @@
       "writtenOn": "2022-08-17T22:06:09Z",
       "side": 1,
       "message": "The current implementation always puts the concrete instantiating types first in a dictionary. I think maybe Delve depends on that now? Not sure.",
+      "revId": "42462770355c9679473f5a15b4e8058463615f10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "644a320b_7204c3f9",
+        "filename": "src/cmd/compile/internal/noder/reader.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1367,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-08-18T00:51:05Z",
+      "side": 1,
+      "message": "It doesn\u0027t look like Delve depends on that, but it does depend on ir.Name.DictIndex being set for local variables of derived type. Filed #54514 for this.",
+      "parentUuid": "699a3c29_0a2464dc",
       "revId": "42462770355c9679473f5a15b4e8058463615f10",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -171,6 +290,24 @@
       "writtenOn": "2022-08-17T22:06:09Z",
       "side": 1,
       "message": "File an issue so we don\u0027t forget?",
+      "revId": "42462770355c9679473f5a15b4e8058463615f10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63d31e82_81c5481f",
+        "filename": "test/typeparam/nested.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-08-18T00:51:05Z",
+      "side": 1,
+      "message": "Filed #54512.",
+      "parentUuid": "43ce473c_e186fc8e",
       "revId": "42462770355c9679473f5a15b4e8058463615f10",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
