@@ -14,12 +14,11 @@ package netip
 
 import (
 	"errors"
-	"math"
-	"strconv"
-
 	"internal/bytealg"
 	"internal/intern"
 	"internal/itoa"
+	"math"
+	"strconv"
 )
 
 // Sizes: (64-bit)
@@ -1274,7 +1273,12 @@ func (p Prefix) Addr() Addr { return p.ip }
 // Bits returns p's prefix length.
 //
 // It reports -1 if invalid.
-func (p Prefix) Bits() int { return int(p.bits) }
+func (p Prefix) Bits() int {
+	if p.IsValid() {
+		return int(p.bits)
+	}
+	return invalidPrefixBits
+}
 
 // IsValid reports whether p.Bits() has a valid range for p.Addr().
 // If p.Addr() is the zero Addr, IsValid returns false.
