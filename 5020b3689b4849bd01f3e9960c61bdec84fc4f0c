@@ -57,6 +57,30 @@
       },
       "revId": "5020b3689b4849bd01f3e9960c61bdec84fc4f0c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4569384b_b590f829",
+        "filename": "misc/cgo/test/cgo_linux_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-08-19T21:44:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6cd40f21_39071585",
+      "range": {
+        "startLine": 18,
+        "startChar": 38,
+        "endLine": 18,
+        "endChar": 41
+      },
+      "revId": "5020b3689b4849bd01f3e9960c61bdec84fc4f0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
