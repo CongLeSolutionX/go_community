@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c643d5ba_e8d13c9c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-08-19T16:27:01Z",
+      "side": 1,
+      "message": "net/http: keep sensitive headers on redirects to the same host\n    \n    Preserve sensitive headers on a redirect to a different port\n    of the same host.\n    \n    Fixes #35104\n    \nThe `Fixes #X` syntax is recognized by Gopherbot and allows it to associate CLs with issues.\n\nWrap commit messages at 80 characters.",
+      "revId": "a19f23a713ffd091c2b3625c367e63c249985b50",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44543785_543a80a4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-08-19T16:27:01Z",
+      "side": 1,
+      "message": "Thanks for the fix!\n\nLooks good, just a few formatting nitpicks.",
+      "revId": "a19f23a713ffd091c2b3625c367e63c249985b50",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c026abe_7003785a",
+        "filename": "src/net/http/client_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1524,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-08-19T16:27:01Z",
+      "side": 1,
+      "message": "A few nitpicks:\n\n\"URLs\", not \"URL\u0027s\"; this is a plural, not a possessive.\n\nWrap comment lines at something less than 100 characters. (This isn\u0027t a hard rule, but I try to avoid lines long enough to wrap in the Gerrit codereview display.)\n\nI\u0027d make this more succinct, but up to you:\n\n    // Issue 4800: copy (some) headers when Client follows a redirect.\n    // Issue 35104: Since both URLs have the same host (localhost)\n    // but different ports, sensitive headers like Cookie and Authorization\n    // are preserved.",
+      "revId": "a19f23a713ffd091c2b3625c367e63c249985b50",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8422973d_3b71bec5",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2728,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-08-19T16:27:01Z",
+      "side": 1,
+      "message": "Style nit: An acronym like IDNA should be all caps or all lowercase.\n\nHow about `idnaASCIIFromURL`?",
+      "revId": "a19f23a713ffd091c2b3625c367e63c249985b50",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
