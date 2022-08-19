@@ -2361,6 +2361,16 @@ func (r *reader) expr() (res ir.Node) {
 		typ := r.exprType()
 		return typecheck.Expr(ir.NewUnaryExpr(pos, ir.ONEW, typ))
 
+	case exprReshape:
+		typ := r.typ()
+		x := r.expr()
+		assert(typ.HasShape())
+
+		if !typ.IsPtr() || types.IdenticalStrict(x.Type(), typ) {
+			return x
+		}
+		return typecheck.Expr(ir.NewConvExpr(x.Pos(), ir.OCONVNOP, typ, x))
+
 	case exprConvert:
 		implicit := r.Bool()
 		typ := r.typ()

@@ -1599,6 +1599,20 @@ func (w *writer) expr(expr syntax.Expr) {
 			w.p.fatalf(expr, "unexpected type expression %v", syntax.String(expr))
 		}
 
+		{
+			// If the expression is of derived type, then we want to insert
+			// an implicit conversion to ensure it has the right shape type.
+			typ := tv.Type
+			if _, isTuple := typ.(*types2.Tuple); !isTuple && !tv.IsBuiltin() {
+				info := w.p.typIdx(typ, w.dict)
+				if info.derived {
+					w.Code(exprReshape)
+					w.typInfo(info)
+					// fallthrough
+				}
+			}
+		}
+
 		if tv.Value != nil {
 			w.Code(exprConst)
 			w.pos(expr)
