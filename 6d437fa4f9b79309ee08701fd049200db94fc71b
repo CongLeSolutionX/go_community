@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "abf2468f_ad10abca",
+        "filename": "src/go/parser/parser.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2570,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2022-08-19T18:15:47Z",
+      "side": 1,
+      "message": "Nit: Factor ASSIGN logic?\n\n        if p.tok !\u003d token.ASSIGN {\t\n\t\ttyp \u003d p.parseType()\n        }\n\tif p.tok \u003d\u003d token.ASSIGN {\n\t\tp.next()\n\t\tvalues \u003d p.parseList(true)\n\t}",
+      "revId": "6d437fa4f9b79309ee08701fd049200db94fc71b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
