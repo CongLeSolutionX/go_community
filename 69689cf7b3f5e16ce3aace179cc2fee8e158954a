@@ -34,6 +34,23 @@
       "parentUuid": "9d8cf0a0_f73c2b0a",
       "revId": "69689cf7b3f5e16ce3aace179cc2fee8e158954a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c97b2e9d_9bf5a863",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5915
+      },
+      "writtenOn": "2022-08-19T05:45:13Z",
+      "side": 1,
+      "message": "LGTM. Sorry for the review delay.",
+      "revId": "69689cf7b3f5e16ce3aace179cc2fee8e158954a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
