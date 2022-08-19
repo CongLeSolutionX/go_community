@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9bc935e8_cc8847a6",
+        "filename": ".github/ISSUE_TEMPLATE/00-bug.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2022-08-19T16:20:43Z",
+      "side": 1,
+      "message": "Consider copying this style for more consistency between the templates.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 6
+      },
+      "revId": "a7a2118998787d0cabdfa62f7ae9fc99160b8e76",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64e0ace3_272964f0",
+        "filename": ".github/ISSUE_TEMPLATE/00-bug.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2022-08-19T16:20:43Z",
+      "side": 1,
+      "message": "Similarly here.",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 16
+      },
+      "revId": "a7a2118998787d0cabdfa62f7ae9fc99160b8e76",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4d6b266_d4730117",
+        "filename": ".github/ISSUE_TEMPLATE/04-vuln.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2022-08-19T16:20:43Z",
+      "side": 1,
+      "message": "The go version and go env sections seem pretty similar to the standard bug template. See inline comments in that file about possibly reusing them.",
+      "revId": "a7a2118998787d0cabdfa62f7ae9fc99160b8e76",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "515118df_31170d35",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2022-08-19T16:20:43Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "a7a2118998787d0cabdfa62f7ae9fc99160b8e76",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
