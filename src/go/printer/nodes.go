@@ -1819,7 +1819,10 @@ func (p *printer) nodeSize(n ast.Node, maxSize int) (size int) {
 	// in RawFormat
 	cfg := Config{Mode: RawFormat}
 	var counter sizeCounter
-	if err := cfg.fprint(&counter, p.fset, n, p.nodeSizes); err != nil {
+	// We don't actually need the nested printer's output,
+	// but it will still need to append its bytes to it.
+	// Reuse the not-yet-used space in our output buffer.
+	if err := cfg.fprint(&counter, p.fset, n, p.nodeSizes, p.output[len(p.output):]); err != nil {
 		return
 	}
 	if counter.size <= maxSize && !counter.hasNewline {
