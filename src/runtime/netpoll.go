@@ -60,6 +60,7 @@ const (
 //	            and unparks the goroutine.
 //	nil - none of the above.
 const (
+	pdNil   uintptr = 0
 	pdReady uintptr = 1
 	pdWait  uintptr = 2
 )
@@ -217,21 +218,21 @@ func poll_runtime_pollOpen(fd uintptr) (*pollDesc, int) {
 	pd := pollcache.alloc()
 	lock(&pd.lock)
 	wg := pd.wg.Load()
-	if wg != 0 && wg != pdReady {
+	if wg != pdNil && wg != pdReady {
 		throw("runtime: blocked write on free polldesc")
 	}
 	rg := pd.rg.Load()
-	if rg != 0 && rg != pdReady {
+	if rg != pdNil && rg != pdReady {
 		throw("runtime: blocked read on free polldesc")
 	}
 	pd.fd = fd
 	pd.closing = false
 	pd.setEventErr(false)
 	pd.rseq++
-	pd.rg.Store(0)
+	pd.rg.Store(pdNil)
 	pd.rd = 0
 	pd.wseq++
-	pd.wg.Store(0)
+	pd.wg.Store(pdNil)
 	pd.wd = 0
 	pd.self = pd
 	pd.publishInfo()
@@ -251,11 +252,11 @@ func poll_runtime_pollClose(pd *pollDesc) {
 		throw("runtime: close polldesc w/o unblock")
 	}
 	wg := pd.wg.Load()
-	if wg != 0 && wg != pdReady {
+	if wg != pdNil && wg != pdReady {
 		throw("runtime: blocked write on closing polldesc")
 	}
 	rg := pd.rg.Load()
-	if rg != 0 && rg != pdReady {
+	if rg != pdNil && rg != pdReady {
 		throw("runtime: blocked read on closing polldesc")
 	}
 	netpollclose(pd.fd)
@@ -280,9 +281,9 @@ func poll_runtime_pollReset(pd *pollDesc, mode int) int {
 		return errcode
 	}
 	if mode == 'r' {
-		pd.rg.Store(0)
+		pd.rg.Store(pdNil)
 	} else if mode == 'w' {
-		pd.wg.Store(0)
+		pd.wg.Store(pdNil)
 	}
 	return pollNoError
 }
@@ -505,16 +506,16 @@ func netpollblock(pd *pollDesc, mode int32, waitio bool) bool {
 	// set the gpp semaphore to pdWait
 	for {
 		// Consume notification if already ready.
-		if gpp.CompareAndSwap(pdReady, 0) {
+		if gpp.CompareAndSwap(pdReady, pdNil) {
 			return true
 		}
-		if gpp.CompareAndSwap(0, pdWait) {
+		if gpp.CompareAndSwap(pdNil, pdWait) {
 			break
 		}
 
 		// Double check that this isn't corrupt; otherwise we'd loop
 		// forever.
-		if v := gpp.Load(); v != pdReady && v != 0 {
+		if v := gpp.Load(); v != pdReady && v != pdNil {
 			throw("runtime: double wait")
 		}
 	}
@@ -526,7 +527,7 @@ func netpollblock(pd *pollDesc, mode int32, waitio bool) bool {
 		gopark(netpollblockcommit, unsafe.Pointer(gpp), waitReasonIOWait, traceEvGoBlockNet, 5)
 	}
 	// be careful to not lose concurrent pdReady notification
-	old := gpp.Swap(0)
+	old := gpp.Swap(pdNil)
 	if old > pdWait {
 		throw("runtime: corrupted polldesc")
 	}
@@ -544,7 +545,7 @@ func netpollunblock(pd *pollDesc, mode int32, ioready bool) *g {
 		if old == pdReady {
 			return nil
 		}
-		if old == 0 && !ioready {
+		if old == pdNil && !ioready {
 			// Only set pdReady for ioready. runtime_pollWait
 			// will check for timeout/cancel before waiting.
 			return nil
@@ -555,7 +556,7 @@ func netpollunblock(pd *pollDesc, mode int32, ioready bool) *g {
 		}
 		if gpp.CompareAndSwap(old, new) {
 			if old == pdWait {
-				old = 0
+				old = pdNil
 			}
 			return (*g)(unsafe.Pointer(old))
 		}
