@@ -703,13 +703,15 @@ func runSignalForwardingTest(t *testing.T, arg string) error {
 
 	cmd.Process.Signal(syscall.SIGSEGV)
 
+	// Wait reading from stderr finished before calling cmd.Wait
+	wg.Wait()
+
 	err = cmd.Wait()
 
 	s := out.String()
 	if len(s) > 0 {
 		t.Log(s)
 	}
-	wg.Wait()
 	s = errsb.String()
 	if len(s) > 0 {
 		t.Log(s)
@@ -730,6 +732,7 @@ func expectSignal(t *testing.T, err error, sig1, sig2 syscall.Signal) bool {
 	} else if ws, ok := ee.Sys().(syscall.WaitStatus); !ok {
 		t.Errorf("error.Sys (%v) has type %T; expected syscall.WaitStatus", ee.Sys(), ee.Sys())
 	} else if !ws.Signaled() || (ws.Signal() != sig1 && ws.Signal() != sig2) {
+		t.Log(ws.Signaled(), ws.Signal())
 		if sig2 == 0 {
 			t.Errorf("got %q; expected signal %q", ee, sig1)
 		} else {
