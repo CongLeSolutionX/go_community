@@ -34,6 +34,23 @@
       "parentUuid": "4fffd192_8c6c650c",
       "revId": "ad9efbdac37fe473c5127e78fe86f5a273ae0106",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "184f1427_53bec1d8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2022-08-19T13:15:54Z",
+      "side": 1,
+      "message": "\u003e Why is this the case? Surely a single defer shouldn\u0027t\n\u003e incur such a large cost? Could it be that the naked return is somehow\n\u003e related? Perhaps the compiler people can take a look.\n\nA quick glance at the generated code (ARM in my case) shows that the defer incurs the usual call overhead, including an additional stack check, but also that it defeats the inlining of Mutex.Unlock that is enabled by this CL, thus incurring a second call overhead. I don\u0027t know why defer should defeat inlining, but inlining heuristics are notoriously tricky in any compiler.\n\nStill, I\u0027m surprised that two call overheads are so large relative to the other work done by unpack, but perhaps the common case is for searchInts (an inlined binary search) to be extremely fast and the adjustment logic to be a no-op.\n\nThe compiler folks will certainly know more.\n\n",
+      "revId": "ad9efbdac37fe473c5127e78fe86f5a273ae0106",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
