@@ -70,6 +70,29 @@
       "message": "For non-reflect case, it only populates argMap.n but not the data pointer? This could be confusing.\n\nActually, why this only handles the special case, but let the caller to handle the non-special case?",
       "revId": "aae31051174de078df40de50323010daaff8d0d0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6cc5d57_ce870a2b",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 680,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-08-19T19:09:20Z",
+      "side": 1,
+      "message": "Along the lines of Cherry\u0027s suggestion, I think it would also be cleaner to invert these conditions for early return.\n\n    if f.args !\u003d _ArgsSizeUnknown {\n        return\n    }\n    name :\u003d funcname(f)\n    if name !\u003d \"reflect.makeFuncStub\" \u0026\u0026 name !\u003d \"reflect.methodValueCall\" {\n        return\n    }\n    ... body ...",
+      "range": {
+        "startLine": 677,
+        "startChar": 0,
+        "endLine": 680,
+        "endChar": 57
+      },
+      "revId": "aae31051174de078df40de50323010daaff8d0d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
