@@ -2361,6 +2361,32 @@ func (r *reader) expr() (res ir.Node) {
 		typ := r.exprType()
 		return typecheck.Expr(ir.NewUnaryExpr(pos, ir.ONEW, typ))
 
+	case exprReshape:
+		typ := r.typ()
+		x := r.expr()
+
+		base.AssertfAt(typ.HasShape(), x.Pos(), "%v is not a shape type", typ)
+		if types.IdenticalStrict(x.Type(), typ) {
+			return x
+		}
+
+		base.AssertfAt(types.Identical(x.Type(), typ), x.Pos(), "%L is not shape-identical to %v", x, typ)
+
+		// We use ir.HasUniquePos here as a check that x only appears once
+		// in the AST, so it's okay for us to call SetType without
+		// breaking any other uses of it.
+		//
+		// Notably, any ONAMEs should already have the exactly right shape
+		// type and been caught by types.IdenticalStrict above.
+		base.AssertfAt(ir.HasUniquePos(x), x.Pos(), "cannot call SetType(%v) on %L", typ, x)
+
+		if base.Debug.Reshape != 0 {
+			base.WarnfAt(x.Pos(), "reshaping %L to %v", x, typ)
+		}
+
+		x.SetType(typ)
+		return x
+
 	case exprConvert:
 		implicit := r.Bool()
 		typ := r.typ()
