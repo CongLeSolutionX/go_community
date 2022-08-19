@@ -703,13 +703,14 @@ func runSignalForwardingTest(t *testing.T, arg string) error {
 
 	cmd.Process.Signal(syscall.SIGSEGV)
 
+	wg.Wait()
+
 	err = cmd.Wait()
 
 	s := out.String()
 	if len(s) > 0 {
 		t.Log(s)
 	}
-	wg.Wait()
 	s = errsb.String()
 	if len(s) > 0 {
 		t.Log(s)
