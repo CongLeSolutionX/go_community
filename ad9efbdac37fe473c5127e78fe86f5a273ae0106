@@ -16,6 +16,24 @@
       "message": "Spoke with Egon briefly about this, and it seems like the defer is more costly than expected due to the unpack function (along with the inlined searchInts) having a bounds check, and the defer also becoming a closure for some reason.\n\nI hope that we could improve the compiler here, but this 4% might be enough to warrant merging this change with a TODO, akin to how searchInts inlines sort.Search with a TODO.",
       "revId": "ad9efbdac37fe473c5127e78fe86f5a273ae0106",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a657d6c5_db8d9272",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2022-08-19T10:20:10Z",
+      "side": 1,
+      "message": "I also tried to appease the compiler\u0027s bounds check prove pass in searchInts, but could not make it work. Ideally we don\u0027t want searchInts to have bounds checks, though I was not successful in about fifteen minutes of fiddling.",
+      "parentUuid": "4fffd192_8c6c650c",
+      "revId": "ad9efbdac37fe473c5127e78fe86f5a273ae0106",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
