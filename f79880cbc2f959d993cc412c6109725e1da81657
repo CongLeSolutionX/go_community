@@ -70,6 +70,24 @@
       "message": "I think we still hope to generate them with \"cgo -godefs\". And some files (e.g. aix) are actually generated that way but with modifications. Maybe we want to keep the files.",
       "revId": "f79880cbc2f959d993cc412c6109725e1da81657",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8510ed46_a7173e26",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-08-19T01:56:00Z",
+      "side": 1,
+      "message": "Ah I see now, thanks.",
+      "parentUuid": "331ceddf_0a833755",
+      "revId": "f79880cbc2f959d993cc412c6109725e1da81657",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
