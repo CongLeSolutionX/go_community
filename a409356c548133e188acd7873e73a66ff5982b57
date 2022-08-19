@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46ef3f92_3aca1536",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-08-19T03:59:41Z",
+      "side": 1,
+      "message": "This seems break darwin-amd64 builders",
+      "revId": "a409356c548133e188acd7873e73a66ff5982b57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
