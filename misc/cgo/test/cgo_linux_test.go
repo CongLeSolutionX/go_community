@@ -13,12 +13,22 @@ func TestSetgid(t *testing.T) {
 	if runtime.GOOS == "android" {
 		t.Skip("unsupported on Android")
 	}
+	if runtime.GOOS == "linux" {
+		if _, err := os.Stat("/etc/alpine-release"); err == nil {
+			t.Skip("setgid is broken with musl lic - go.dev/issue/39857")
+		}
+	}
 	testSetgid(t)
 }
 
 func TestSetgidStress(t *testing.T) {
 	if runtime.GOOS == "android" {
 		t.Skip("unsupported on Android")
+	}
+	if runtime.GOOS == "linux" {
+		if _, err := os.Stat("/etc/alpine-release"); err == nil {
+			t.Skip("setgid is broken with musl lic - go.dev/issue/39857")
+		}
 	}
 	testSetgidStress(t)
 }
