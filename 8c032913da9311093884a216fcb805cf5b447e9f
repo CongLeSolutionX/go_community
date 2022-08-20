@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f718459_cb803a82",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-08-20T09:43:41Z",
+      "side": 1,
+      "message": "Personal opinion (others may disagree): I feel this is too much code. It is indeed faster, but the tradeoff includes maintaining the special cases in perpetuity. Yes, we optimized printing for the cases but printing is more common than parsing, and the printing code is small and easy to understand. This code is not.\n\nPlease find a better way or a better improvement, and explain things more thoroughly in the issue.\n\n",
+      "revId": "8c032913da9311093884a216fcb805cf5b447e9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1bb4aa22_f705574c",
