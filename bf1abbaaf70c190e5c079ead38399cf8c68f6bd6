@@ -34,6 +34,24 @@
       "message": "If bits is invalid, it is debatable whether we should even preserve the Addr.\nThis CL currently preserves the Addr (as did the old behavior).\n\nAn argument for dropping a valid Addr for invalid bits is that String, (Un)MarshalText, and (Un)MarshalBinary does not preserve the Addr round-trip.",
       "revId": "bf1abbaaf70c190e5c079ead38399cf8c68f6bd6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a418d09_501ec20d",
+        "filename": "src/net/netip/netip.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1253,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2022-08-20T19:28:24Z",
+      "side": 1,
+      "message": "Some related discussion on https://github.com/inetaf/netaddr/issues/169",
+      "parentUuid": "211b9930_03e7d39d",
+      "revId": "bf1abbaaf70c190e5c079ead38399cf8c68f6bd6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
