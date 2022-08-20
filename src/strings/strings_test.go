@@ -599,10 +599,10 @@ func tenRunes(ch rune) string {
 // User-defined self-inverse mapping function
 func rot13(r rune) rune {
 	step := rune(13)
-	if r >= 'a' && r <= 'z' {
+	if 'a' <= r && r <= 'z' {
 		return ((r - 'a' + step) % 26) + 'a'
 	}
-	if r >= 'A' && r <= 'Z' {
+	if 'A' <= r && r <= 'Z' {
 		return ((r - 'A' + step) % 26) + 'A'
 	}
 	return r
