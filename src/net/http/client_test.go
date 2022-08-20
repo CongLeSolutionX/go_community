@@ -1519,6 +1519,9 @@ func TestClientRedirectResponseWithoutRequest(t *testing.T) {
 }
 
 // Issue 4800: copy (some) headers when Client follows a redirect.
+// Issue 35104: Since both URLs have the same host (localhost)
+// but different ports, sensitive headers like Cookie and Authorization
+// are preserved.
 func TestClientCopyHeadersOnRedirect(t *testing.T) {
 	const (
 		ua   = "some-agent/1.2"
@@ -1531,6 +1534,8 @@ func TestClientCopyHeadersOnRedirect(t *testing.T) {
 			"X-Foo":           []string{xfoo},
 			"Referer":         []string{ts2URL},
 			"Accept-Encoding": []string{"gzip"},
+			"Cookie":          []string{"foo=bar"},
+			"Authorization":   []string{"secretpassword"},
 		}
 		if !reflect.DeepEqual(r.Header, want) {
 			t.Errorf("Request.Header = %#v; want %#v", r.Header, want)
@@ -1551,9 +1556,11 @@ func TestClientCopyHeadersOnRedirect(t *testing.T) {
 	c := ts1.Client()
 	c.CheckRedirect = func(r *Request, via []*Request) error {
 		want := Header{
-			"User-Agent": []string{ua},
-			"X-Foo":      []string{xfoo},
-			"Referer":    []string{ts2URL},
+			"User-Agent":    []string{ua},
+			"X-Foo":         []string{xfoo},
+			"Referer":       []string{ts2URL},
+			"Cookie":        []string{"foo=bar"},
+			"Authorization": []string{"secretpassword"},
 		}
 		if !reflect.DeepEqual(r.Header, want) {
 			t.Errorf("CheckRedirect Request.Header = %#v; want %#v", r.Header, want)
@@ -1755,18 +1762,30 @@ func TestShouldCopyHeaderOnRedirect(t *testing.T) {
 		{"cookie", "http://foo.com/", "http://bar.com/", false},
 		{"cookie2", "http://foo.com/", "http://bar.com/", false},
 		{"authorization", "http://foo.com/", "http://bar.com/", false},
+		{"authorization", "http://foo.com/", "https://foo.com/", true},
+		{"authorization", "http://foo.com:1234/", "http://foo.com:4321/", true},
 		{"www-authenticate", "http://foo.com/", "http://bar.com/", false},
 
 		// But subdomains should work:
 		{"www-authenticate", "http://foo.com/", "http://foo.com/", true},
 		{"www-authenticate", "http://foo.com/", "http://sub.foo.com/", true},
 		{"www-authenticate", "http://foo.com/", "http://notfoo.com/", false},
-		{"www-authenticate", "http://foo.com/", "https://foo.com/", false},
+		{"www-authenticate", "http://foo.com/", "https://foo.com/", true},
 		{"www-authenticate", "http://foo.com:80/", "http://foo.com/", true},
 		{"www-authenticate", "http://foo.com:80/", "http://sub.foo.com/", true},
 		{"www-authenticate", "http://foo.com:443/", "https://foo.com/", true},
 		{"www-authenticate", "http://foo.com:443/", "https://sub.foo.com/", true},
-		{"www-authenticate", "http://foo.com:1234/", "http://foo.com/", false},
+		{"www-authenticate", "http://foo.com:1234/", "http://foo.com/", true},
+
+		{"authorization", "http://foo.com/", "http://foo.com/", true},
+		{"authorization", "http://foo.com/", "http://sub.foo.com/", true},
+		{"authorization", "http://foo.com/", "http://notfoo.com/", false},
+		{"authorization", "http://foo.com/", "https://foo.com/", true},
+		{"authorization", "http://foo.com:80/", "http://foo.com/", true},
+		{"authorization", "http://foo.com:80/", "http://sub.foo.com/", true},
+		{"authorization", "http://foo.com:443/", "https://foo.com/", true},
+		{"authorization", "http://foo.com:443/", "https://sub.foo.com/", true},
+		{"authorization", "http://foo.com:1234/", "http://foo.com/", true},
 	}
 	for i, tt := range tests {
 		u0, err := url.Parse(tt.initialURL)
