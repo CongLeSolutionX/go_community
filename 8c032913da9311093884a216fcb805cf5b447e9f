@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e66a5aac_6c132238",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 35973
+      },
+      "writtenOn": "2022-08-20T13:14:52Z",
+      "side": 1,
+      "message": "I agree Rob that it\u0027s a lengthy code because of the many error cases it has to handle(compared to Format). I\u0027ll invest more time if I can make it more precise and readable.",
+      "parentUuid": "7f718459_cb803a82",
+      "revId": "8c032913da9311093884a216fcb805cf5b447e9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1bb4aa22_f705574c",
         "filename": "src/time/format.go",
         "patchSetId": 6
