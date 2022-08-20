@@ -16,6 +16,23 @@
       "message": "\t// bits is logically a uint8 (storing [0,128]) but also\n\t// encodes an \"invalid\" bit, currently represented by the\n\t// invalidPrefixBits sentinel value. It could be packed into\n\t// the uint8 more with more complicated expressions in the\n\t// accessors, but the extra byte (in padding anyway) doesn\u0027t\n\t// hurt and simplifies code below.\n\tbits int16\n\nBased on the comment of bits, I assume that Prefix.Bits() is supposed to report -1 instead of complying with the comment of Prefix.Bits()?",
       "revId": "cd78b07003417e5fe14c7d8c4ee29345507d571d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c758eb2_09ef815d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2022-08-20T19:17:00Z",
+      "side": 1,
+      "message": "Thanks, but I had something a little more comprehensive in mind. I would like Prefix to have the property that there\u0027s exactly one invalid representation for a given Addr.\n\nSee https://go-review.googlesource.com/c/go/+/425035",
+      "revId": "cd78b07003417e5fe14c7d8c4ee29345507d571d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
