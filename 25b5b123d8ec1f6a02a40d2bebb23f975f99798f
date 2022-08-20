@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35b454fb_a15ba7ef",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-08-20T13:05:47Z",
+      "side": 1,
+      "message": "Thanks, but I think this is unnecessary code churn.  The new code is not so much clearer that we should make this change.  The preference should be to leave working cider alone, and we should only change it for a significant improvement in readability.",
+      "revId": "25b5b123d8ec1f6a02a40d2bebb23f975f99798f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
