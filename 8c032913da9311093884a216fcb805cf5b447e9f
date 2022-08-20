@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1bb4aa22_f705574c",
+        "filename": "src/time/format.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1542,
+      "author": {
+        "id": 35973
+      },
+      "writtenOn": "2022-08-20T09:33:08Z",
+      "side": 1,
+      "message": "Below profile data shows FixedZone is causing a significant performance impact. Is it possible to escape the call? \n\nCpu Profile\n-----------\n      flat  flat%   sum%        cum   cum%\n    2700ms 13.19% 13.19%     8830ms 43.14%  runtime.mallocgc\n    2190ms 10.70% 23.89%    17270ms 84.37%  time.parseRFC3339\n    1510ms  7.38% 31.27%     1510ms  7.38%  runtime.nextFreeFast (inline)\n    1470ms  7.18% 38.45%     1470ms  7.18%  time.leadingInt (inline)\n     940ms  4.59% 43.04%     2410ms 11.77%  time.atoi\n     870ms  4.25% 47.29%      880ms  4.30%  runtime.writeHeapBits.flush\n     800ms  3.91% 51.20%      800ms  3.91%  time.daysSinceEpoch (inline)\n     760ms  3.71% 54.91%     1230ms  6.01%  time.getnum\n     560ms  2.74% 57.65%      560ms  2.74%  runtime.memclrNoHeapPointers\n     520ms  2.54% 60.19%     1770ms  8.65%  runtime.heapBitsSetType\n\nMemory Profile\n--------------\n      flat  flat%   sum%        cum   cum%\n    13.79GB   100%   100%    13.79GB   100%  time.FixedZone (inline)\n          0     0%   100%    13.79GB   100%  testing.(*B).launch\n          0     0%   100%    13.79GB   100%  testing.(*B).runN\n          0     0%   100%    13.79GB   100%  time.Parse (inline)\n          0     0%   100%    13.79GB   100%  time.parse\n          0     0%   100%    13.79GB   100%  time.parseRFC3339\n          0     0%   100%     7.07GB 51.27%  time_test.BenchmarkParseRFC3339\n          0     0%   100%     6.72GB 48.71%  time_test.BenchmarkParseRFC3339Nano",
+      "range": {
+        "startLine": 1542,
+        "startChar": 10,
+        "endLine": 1542,
+        "endChar": 35
+      },
+      "revId": "8c032913da9311093884a216fcb805cf5b447e9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
