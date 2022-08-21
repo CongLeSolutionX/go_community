@@ -1132,6 +1132,9 @@ func parse(layout, value string, defaultLocation, local *Location) (Time, error)
 			}
 		case stdSecond, stdZeroSecond:
 			sec, value, err = getnum(value, std == stdZeroSecond)
+			if err != nil {
+				break
+			}
 			if sec < 0 || 60 <= sec {
 				rangeErrString = "second"
 				break
