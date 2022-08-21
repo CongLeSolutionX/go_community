@@ -4,7 +4,9 @@
 
 package time
 
-import "errors"
+import (
+	"errors"
+)
 
 // These are predefined layouts for use in Time.Format and time.Parse.
 // The reference time used in these layouts is the specific time stamp:
@@ -1132,6 +1134,9 @@ func parse(layout, value string, defaultLocation, local *Location) (Time, error)
 			}
 		case stdSecond, stdZeroSecond:
 			sec, value, err = getnum(value, std == stdZeroSecond)
+			if err != nil {
+				break
+			}
 			if sec < 0 || 60 <= sec {
 				rangeErrString = "second"
 				break
@@ -1227,12 +1232,12 @@ func parse(layout, value string, defaultLocation, local *Location) (Time, error)
 				sign, hour, min, seconds, value = value[0:1], value[1:3], value[3:5], "00", value[5:]
 			}
 			var hr, mm, ss int
-			hr, err = atoi(hour)
+			hr, _, err = getnum(hour, true)
 			if err == nil {
-				mm, err = atoi(min)
+				mm, _, err = getnum(min, true)
 			}
 			if err == nil {
-				ss, err = atoi(seconds)
+				ss, _, err = getnum(seconds, true)
 			}
 			zoneOffset = (hr*60+mm)*60 + ss // offset is in seconds
 			switch sign[0] {
@@ -1268,14 +1273,14 @@ func parse(layout, value string, defaultLocation, local *Location) (Time, error)
 			value = value[ndigit:]
 
 		case stdFracSecond9:
-			if len(value) < 2 || !commaOrPeriod(value[0]) || value[1] < '0' || '9' < value[1] {
+			if len(value) < 2 || value[0] != '.' || value[1] < '0' || '9' < value[1] {
 				// Fractional second omitted.
 				break
 			}
 			// Take any number of digits, even more than asked for,
 			// because it is what the stdSecond case would do.
 			i := 0
-			for i < 9 && i+1 < len(value) && '0' <= value[i+1] && value[i+1] <= '9' {
+			for i+1 < len(value) && '0' <= value[i+1] && value[i+1] <= '9' {
 				i++
 			}
 			nsec, rangeErrString, err = parseNanoseconds(value, 1+i)
