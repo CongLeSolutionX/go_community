@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66055ab6_38dd07c2",
+        "filename": "src/internal/syscall/unix/at_sysnum_linux.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-08-22T21:17:04Z",
+      "side": 1,
+      "message": "Wait, is `AT_EACCESS` really equal to `AT_REMOVEDIR`‽ 🤯",
+      "revId": "423d3f878c216d8e29343592f2813461679dfa78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc3e40fc_9a476441",
+        "filename": "src/os/exec/lp_linux_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-08-22T21:17:04Z",
+      "side": 1,
+      "message": "Maybe make this a `log.Fatalf` if `os.Geteuid() \u003d\u003d 0`?\n\n(Or are there other conditions under which this can fail, like lacking support for `tmpfs` entirely or something?)",
+      "revId": "423d3f878c216d8e29343592f2813461679dfa78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7425f28c_749ac0a2",
+        "filename": "src/os/exec/lp_linux_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-08-22T21:17:04Z",
+      "side": 1,
+      "message": "Under what conditions might this `Skip` trigger? (Shouldn\u0027t `Mount` return an error if the `NOEXEC` flag isn\u0027t supported?)",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 39
+      },
+      "revId": "423d3f878c216d8e29343592f2813461679dfa78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
