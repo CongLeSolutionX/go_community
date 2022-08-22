@@ -798,6 +798,14 @@ func Mul64(x, y uint64) (hi, lo uint64) {
 	return bits.Mul64(x, y)
 }
 
+func issue54607(x, y, z, w uint64) (uint64, uint64) {
+	// arm64:"UMULH",-"MUL"
+	r, _ := bits.Mul64(x, y)
+	// arm64:-"UMULH","MUL"
+	_, s := bits.Mul64(z, w)
+	return r, s
+}
+
 // --------------- //
 //    bits.Div*    //
 // --------------- //
