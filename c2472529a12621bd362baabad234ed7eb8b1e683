@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "eb523df1_04db916a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55679
+      },
+      "writtenOn": "2022-08-22T10:14:10Z",
+      "side": 1,
+      "message": "\u003e You\u0027ll want the \"output\" comments to still be on the Example function though, because otherwise we\u0027re making the example not runnable anymore.\n\nYes.\n\n\u003e And in fact I think the comment was buggy: it used \"output:\" rather than \"Output:\".\n\nOK, let me correct it.",
+      "parentUuid": "d86b578d_19efc496",
+      "revId": "c2472529a12621bd362baabad234ed7eb8b1e683",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ff090267_4709e506",
         "filename": "src/go/printer/example_test.go",
         "patchSetId": 1
@@ -67,6 +85,24 @@
       "writtenOn": "2022-08-22T10:04:25Z",
       "side": 1,
       "message": "since we\u0027re renaming this file, how about renaming it to `printSelf`? it\u0027s more descriptive, and there\u0027s less confusion with the parent ExampleFprint.",
+      "revId": "c2472529a12621bd362baabad234ed7eb8b1e683",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ccf7e86_0177854e",
+        "filename": "src/go/printer/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 55679
+      },
+      "writtenOn": "2022-08-22T10:14:10Z",
+      "side": 1,
+      "message": "Good idea.",
+      "parentUuid": "ff090267_4709e506",
       "revId": "c2472529a12621bd362baabad234ed7eb8b1e683",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
