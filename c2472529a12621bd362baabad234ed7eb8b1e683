@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef401b35_864fba39",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55679
+      },
+      "writtenOn": "2022-08-22T10:31:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb523df1_04db916a",
+      "revId": "c2472529a12621bd362baabad234ed7eb8b1e683",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ff090267_4709e506",
@@ -103,6 +121,24 @@
       "side": 1,
       "message": "Good idea.",
       "parentUuid": "ff090267_4709e506",
+      "revId": "c2472529a12621bd362baabad234ed7eb8b1e683",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1389a6c_9ebac144",
+        "filename": "src/go/printer/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 55679
+      },
+      "writtenOn": "2022-08-22T10:31:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ccf7e86_0177854e",
       "revId": "c2472529a12621bd362baabad234ed7eb8b1e683",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
