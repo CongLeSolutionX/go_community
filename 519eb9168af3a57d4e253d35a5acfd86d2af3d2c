@@ -18,6 +18,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a740ef0_c7d218b0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55613
+      },
+      "writtenOn": "2022-08-22T07:54:58Z",
+      "side": 1,
+      "message": "Hi, rogpeppe.\nI\u0027m interested in this proposal and I noticed that this CL stuck for a while.\nThanks for the great work and hope you keep pushing it.",
+      "revId": "519eb9168af3a57d4e253d35a5acfd86d2af3d2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f5048c74_de62cbc1",
