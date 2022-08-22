@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "273008cd_7b51423e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2022-08-22T15:48:38Z",
+      "side": 1,
+      "message": "For what it\u0027s worth, I took a look at the other deferred unlocks in go/token, as well as some others in potential-hot-path packages like sync, but didn\u0027t find any other low hanging fruit to pick. I think this go/token func was special as it is called many thousands of times when using go/ast trees.",
+      "revId": "bdecfcb5fcc8705df7d2130310cf6b395f24e4c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
