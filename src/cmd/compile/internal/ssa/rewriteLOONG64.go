@@ -14,13 +14,13 @@ func rewriteValueLOONG64(v *Value) bool {
 		v.Op = OpLOONG64ADDV
 		return true
 	case OpAdd32F:
-		v.Op = OpLOONG64ADDF
+		v.Op = OpLOONG64FADDS
 		return true
 	case OpAdd64:
 		v.Op = OpLOONG64ADDV
 		return true
 	case OpAdd64F:
-		v.Op = OpLOONG64ADDD
+		v.Op = OpLOONG64FADDD
 		return true
 	case OpAdd8:
 		v.Op = OpLOONG64ADDV
@@ -156,14 +156,14 @@ func rewriteValueLOONG64(v *Value) bool {
 	case OpDiv32:
 		return rewriteValueLOONG64_OpDiv32(v)
 	case OpDiv32F:
-		v.Op = OpLOONG64DIVF
+		v.Op = OpLOONG64FDIVS
 		return true
 	case OpDiv32u:
 		return rewriteValueLOONG64_OpDiv32u(v)
 	case OpDiv64:
 		return rewriteValueLOONG64_OpDiv64(v)
 	case OpDiv64F:
-		v.Op = OpLOONG64DIVD
+		v.Op = OpLOONG64FDIVD
 		return true
 	case OpDiv64u:
 		return rewriteValueLOONG64_OpDiv64u(v)
@@ -418,12 +418,12 @@ func rewriteValueLOONG64(v *Value) bool {
 	case OpMul32:
 		return rewriteValueLOONG64_OpMul32(v)
 	case OpMul32F:
-		v.Op = OpLOONG64MULF
+		v.Op = OpLOONG64FMULS
 		return true
 	case OpMul64:
 		return rewriteValueLOONG64_OpMul64(v)
 	case OpMul64F:
-		v.Op = OpLOONG64MULD
+		v.Op = OpLOONG64FMULD
 		return true
 	case OpMul64uhilo:
 		v.Op = OpLOONG64MULVU
@@ -609,13 +609,13 @@ func rewriteValueLOONG64(v *Value) bool {
 		v.Op = OpLOONG64SUBV
 		return true
 	case OpSub32F:
-		v.Op = OpLOONG64SUBF
+		v.Op = OpLOONG64FSUBS
 		return true
 	case OpSub64:
 		v.Op = OpLOONG64SUBV
 		return true
 	case OpSub64F:
-		v.Op = OpLOONG64SUBD
+		v.Op = OpLOONG64FSUBD
 		return true
 	case OpSub8:
 		v.Op = OpLOONG64SUBV

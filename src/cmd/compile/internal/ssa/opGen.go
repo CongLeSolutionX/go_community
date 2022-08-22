@@ -1719,14 +1719,14 @@ const (
 	OpLOONG64MULVU
 	OpLOONG64DIVV
 	OpLOONG64DIVVU
-	OpLOONG64ADDF
-	OpLOONG64ADDD
-	OpLOONG64SUBF
-	OpLOONG64SUBD
-	OpLOONG64MULF
-	OpLOONG64MULD
-	OpLOONG64DIVF
-	OpLOONG64DIVD
+	OpLOONG64FADDS
+	OpLOONG64FADDD
+	OpLOONG64FSUBS
+	OpLOONG64FSUBD
+	OpLOONG64FMULS
+	OpLOONG64FMULD
+	OpLOONG64FDIVS
+	OpLOONG64FDIVD
 	OpLOONG64AND
 	OpLOONG64ANDconst
 	OpLOONG64OR
@@ -22965,10 +22965,10 @@ var opcodeTable = [...]opInfo{
 		},
 	},
 	{
-		name:        "ADDF",
+		name:        "FADDS",
 		argLen:      2,
 		commutative: true,
-		asm:         loong64.AADDF,
+		asm:         loong64.AFADDS,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 4611686017353646080}, // F0 F1 F2 F3 F4 F5 F6 F7 F8 F9 F10 F11 F12 F13 F14 F15 F16 F17 F18 F19 F20 F21 F22 F23 F24 F25 F26 F27 F28 F29 F30 F31
@@ -22980,10 +22980,10 @@ var opcodeTable = [...]opInfo{
 		},
 	},
 	{
-		name:        "ADDD",
+		name:        "FADDD",
 		argLen:      2,
 		commutative: true,
-		asm:         loong64.AADDD,
+		asm:         loong64.AFADDD,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 4611686017353646080}, // F0 F1 F2 F3 F4 F5 F6 F7 F8 F9 F10 F11 F12 F13 F14 F15 F16 F17 F18 F19 F20 F21 F22 F23 F24 F25 F26 F27 F28 F29 F30 F31
@@ -22995,9 +22995,9 @@ var opcodeTable = [...]opInfo{
 		},
 	},
 	{
-		name:   "SUBF",
+		name:   "FSUBS",
 		argLen: 2,
-		asm:    loong64.ASUBF,
+		asm:    loong64.AFSUBS,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 4611686017353646080}, // F0 F1 F2 F3 F4 F5 F6 F7 F8 F9 F10 F11 F12 F13 F14 F15 F16 F17 F18 F19 F20 F21 F22 F23 F24 F25 F26 F27 F28 F29 F30 F31
@@ -23009,9 +23009,9 @@ var opcodeTable = [...]opInfo{
 		},
 	},
 	{
-		name:   "SUBD",
+		name:   "FSUBD",
 		argLen: 2,
-		asm:    loong64.ASUBD,
+		asm:    loong64.AFSUBD,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 4611686017353646080}, // F0 F1 F2 F3 F4 F5 F6 F7 F8 F9 F10 F11 F12 F13 F14 F15 F16 F17 F18 F19 F20 F21 F22 F23 F24 F25 F26 F27 F28 F29 F30 F31
@@ -23023,10 +23023,10 @@ var opcodeTable = [...]opInfo{
 		},
 	},
 	{
-		name:        "MULF",
+		name:        "FMULS",
 		argLen:      2,
 		commutative: true,
-		asm:         loong64.AMULF,
+		asm:         loong64.AFMULS,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 4611686017353646080}, // F0 F1 F2 F3 F4 F5 F6 F7 F8 F9 F10 F11 F12 F13 F14 F15 F16 F17 F18 F19 F20 F21 F22 F23 F24 F25 F26 F27 F28 F29 F30 F31
@@ -23038,10 +23038,10 @@ var opcodeTable = [...]opInfo{
 		},
 	},
 	{
-		name:        "MULD",
+		name:        "FMULD",
 		argLen:      2,
 		commutative: true,
-		asm:         loong64.AMULD,
+		asm:         loong64.AFMULD,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 4611686017353646080}, // F0 F1 F2 F3 F4 F5 F6 F7 F8 F9 F10 F11 F12 F13 F14 F15 F16 F17 F18 F19 F20 F21 F22 F23 F24 F25 F26 F27 F28 F29 F30 F31
@@ -23053,9 +23053,9 @@ var opcodeTable = [...]opInfo{
 		},
 	},
 	{
-		name:   "DIVF",
+		name:   "FDIVS",
 		argLen: 2,
-		asm:    loong64.ADIVF,
+		asm:    loong64.AFDIVS,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 4611686017353646080}, // F0 F1 F2 F3 F4 F5 F6 F7 F8 F9 F10 F11 F12 F13 F14 F15 F16 F17 F18 F19 F20 F21 F22 F23 F24 F25 F26 F27 F28 F29 F30 F31
@@ -23067,9 +23067,9 @@ var opcodeTable = [...]opInfo{
 		},
 	},
 	{
-		name:   "DIVD",
+		name:   "FDIVD",
 		argLen: 2,
-		asm:    loong64.ADIVD,
+		asm:    loong64.AFDIVD,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 4611686017353646080}, // F0 F1 F2 F3 F4 F5 F6 F7 F8 F9 F10 F11 F12 F13 F14 F15 F16 F17 F18 F19 F20 F21 F22 F23 F24 F25 F26 F27 F28 F29 F30 F31

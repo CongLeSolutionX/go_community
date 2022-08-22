@@ -131,14 +131,14 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		ssa.OpLOONG64SLLV,
 		ssa.OpLOONG64SRLV,
 		ssa.OpLOONG64SRAV,
-		ssa.OpLOONG64ADDF,
-		ssa.OpLOONG64ADDD,
-		ssa.OpLOONG64SUBF,
-		ssa.OpLOONG64SUBD,
-		ssa.OpLOONG64MULF,
-		ssa.OpLOONG64MULD,
-		ssa.OpLOONG64DIVF,
-		ssa.OpLOONG64DIVD:
+		ssa.OpLOONG64FADDS,
+		ssa.OpLOONG64FADDD,
+		ssa.OpLOONG64FSUBS,
+		ssa.OpLOONG64FSUBD,
+		ssa.OpLOONG64FMULS,
+		ssa.OpLOONG64FMULD,
+		ssa.OpLOONG64FDIVS,
+		ssa.OpLOONG64FDIVD:
 		p := s.Prog(v.Op.Asm())
 		p.From.Type = obj.TYPE_REG
 		p.From.Reg = v.Args[1].Reg()

@@ -77,8 +77,8 @@ var optab = []Optab{
 	{ASLLV, C_REG, C_REG, C_REG, C_NONE, 9, 4, 0, sys.Loong64, 0},
 	{ACLO, C_REG, C_NONE, C_REG, C_NONE, 9, 4, 0, 0, 0},
 
-	{AADDF, C_FREG, C_NONE, C_FREG, C_NONE, 32, 4, 0, 0, 0},
-	{AADDF, C_FREG, C_REG, C_FREG, C_NONE, 32, 4, 0, 0, 0},
+	{AFADDS, C_FREG, C_NONE, C_FREG, C_NONE, 32, 4, 0, 0, 0},
+	{AFADDS, C_FREG, C_REG, C_FREG, C_NONE, 32, 4, 0, 0, 0},
 	{ACMPEQF, C_FREG, C_REG, C_NONE, C_NONE, 32, 4, 0, 0, 0},
 	{AABSF, C_FREG, C_NONE, C_FREG, C_NONE, 33, 4, 0, 0, 0},
 	{AMOVVF, C_FREG, C_NONE, C_FREG, C_NONE, 33, 4, 0, sys.Loong64, 0},
@@ -940,14 +940,14 @@ func buildop(ctxt *obj.Link) {
 		case AADDV:
 			opset(AADDVU, r0)
 
-		case AADDF:
-			opset(ADIVF, r0)
-			opset(ADIVD, r0)
-			opset(AMULF, r0)
-			opset(AMULD, r0)
-			opset(ASUBF, r0)
-			opset(ASUBD, r0)
-			opset(AADDD, r0)
+		case AFADDS:
+			opset(AFDIVS, r0)
+			opset(AFDIVD, r0)
+			opset(AFMULS, r0)
+			opset(AFMULD, r0)
+			opset(AFSUBS, r0)
+			opset(AFSUBD, r0)
+			opset(AFADDD, r0)
 
 		case AAND:
 			opset(AOR, r0)
@@ -1728,21 +1728,21 @@ func (c *ctxt0) oprrr(a obj.As) uint32 {
 		return 0x54 << 15
 	case ASYSCALL:
 		return 0x56 << 15
-	case ADIVF:
+	case AFDIVS:
 		return 0x20d << 15
-	case ADIVD:
+	case AFDIVD:
 		return 0x20e << 15
-	case AMULF:
+	case AFMULS:
 		return 0x209 << 15
-	case AMULD:
+	case AFMULD:
 		return 0x20a << 15
-	case ASUBF:
+	case AFSUBS:
 		return 0x205 << 15
-	case ASUBD:
+	case AFSUBD:
 		return 0x206 << 15
-	case AADDF:
+	case AFADDS:
 		return 0x201 << 15
-	case AADDD:
+	case AFADDD:
 		return 0x202 << 15
 	case ATRUNCFV:
 		return 0x46a9 << 10

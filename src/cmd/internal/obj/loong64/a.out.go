@@ -235,8 +235,6 @@ const (
 	AABSD = obj.ABaseLoong64 + obj.A_ARCHSPECIFIC + iota
 	AABSF
 	AADD
-	AADDD
-	AADDF
 	AADDU
 
 	AADDW
@@ -273,8 +271,6 @@ const (
 	ABGEU
 
 	ADIV
-	ADIVD
-	ADIVF
 	ADIVU
 	ADIVW
 
@@ -304,8 +300,6 @@ const (
 	AMOVWR
 
 	AMUL
-	AMULD
-	AMULF
 	AMULU
 	AMULH
 	AMULHU
@@ -336,8 +330,6 @@ const (
 	ASRA
 	ASRL
 	ASUB
-	ASUBD
-	ASUBF
 
 	ASUBU
 	ASUBW
@@ -393,6 +385,16 @@ const (
 	ARDTIMELW
 	ARDTIMEHW
 	ARDTIMED
+
+	// 3.2.1. Floating-Point Arithmetic Operation Instructions
+	AFADDD
+	AFADDS
+	AFSUBD
+	AFSUBS
+	AFMULD
+	AFMULS
+	AFDIVD
+	AFDIVS
 
 	ALAST
 

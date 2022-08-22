@@ -3,13 +3,13 @@
 // license that can be found in the LICENSE file.
 
 (Add(Ptr|64|32|16|8) ...) => (ADDV ...)
-(Add(32|64)F ...) => (ADD(F|D) ...)
+(Add(32|64)F ...) => (FADD(S|D) ...)
 
 (Sub(Ptr|64|32|16|8) ...) => (SUBV ...)
-(Sub(32|64)F ...) => (SUB(F|D) ...)
+(Sub(32|64)F ...) => (FSUB(S|D) ...)
 
 (Mul(64|32|16|8) x y) => (Select1 (MULVU x y))
-(Mul(32|64)F ...) => (MUL(F|D) ...)
+(Mul(32|64)F ...) => (FMUL(S|D) ...)
 (Mul64uhilo ...) => (MULVU ...)
 (Select0 (Mul64uover x y)) => (Select1 <typ.UInt64> (MULVU x y))
 (Select1 (Mul64uover x y)) => (SGTU <typ.Bool> (Select0 <typ.UInt64> (MULVU x y)) (MOVVconst <typ.UInt64> [0]))
@@ -27,7 +27,7 @@
 (Div16u x y) => (Select1 (DIVVU (ZeroExt16to64 x) (ZeroExt16to64 y)))
 (Div8 x y) => (Select1 (DIVV (SignExt8to64 x) (SignExt8to64 y)))
 (Div8u x y) => (Select1 (DIVVU (ZeroExt8to64 x) (ZeroExt8to64 y)))
-(Div(32|64)F ...) => (DIV(F|D) ...)
+(Div(32|64)F ...) => (FDIV(S|D) ...)
 
 (Mod64 x y) => (Select0 (DIVV x y))
 (Mod64u x y) => (Select0 (DIVVU x y))
