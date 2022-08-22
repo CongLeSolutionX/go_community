@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5de09409_f6b225ab",
+        "filename": "src/net/http/h2_error.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 58778
+      },
+      "writtenOn": "2022-08-22T23:32:37Z",
+      "side": 1,
+      "message": "This is a bit awkward, but seemed like a simple way to make this code testable. Is there a better approach I should pursue?",
+      "revId": "c6c3e0fb5b7f3305f7684f384ad0a4f102d7e7f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
