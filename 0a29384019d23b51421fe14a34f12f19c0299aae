@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e057ae65_698ed27d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2022-08-22T08:01:07Z",
+      "side": 1,
+      "message": "SGTM. It\u0027s not like these benchmarks need to be in these filenames, e.g. isValidNumber isn\u0027t declared in number.go.",
+      "revId": "0a29384019d23b51421fe14a34f12f19c0299aae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
