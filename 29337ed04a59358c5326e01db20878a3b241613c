@@ -16,6 +16,23 @@
       "message": "Hi Ian, would you mind sparing some time for this trivial CL?",
       "revId": "29337ed04a59358c5326e01db20878a3b241613c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd4a2c41_3238bfcf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34895
+      },
+      "writtenOn": "2022-08-22T23:32:50Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "29337ed04a59358c5326e01db20878a3b241613c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
