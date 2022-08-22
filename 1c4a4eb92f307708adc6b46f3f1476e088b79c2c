@@ -106,6 +106,24 @@
       "parentUuid": "1e568c28_d2b2a736",
       "revId": "1c4a4eb92f307708adc6b46f3f1476e088b79c2c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e072f499_2cb2efb5",
+        "filename": "src/cmd/compile/internal/ssa/schedule.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-08-22T22:51:37Z",
+      "side": 1,
+      "message": "It\u0027s not entirely clear to me whether isCarryCreator should return true for an op whose return values are (Flags). The pcc ops are (uint64,uint64), where the second uint64 is really just code for the XER register, and holds the 0/1 overflow.\nI suspect values which return Flags should be listed here. But it might not matter.\n\nOn PPC64, the *C operations generate a carry and the *E operations both consume+generate a carry.",
+      "parentUuid": "f12c7902_6702c2ce",
+      "revId": "1c4a4eb92f307708adc6b46f3f1476e088b79c2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
