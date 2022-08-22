@@ -57,6 +57,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "d4d0c593_09574175",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2022-08-22T16:15:14Z",
+      "side": 1,
+      "message": "Thanks. This mostly makes sense to me, see one question about tRNS chunk when color type is 6 (truecolor with alpha).",
+      "revId": "d33d1b6bb43dc8a949689e4ed121d9407477fe70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "a3db0b48_725e479c",
         "filename": "src/image/png/reader.go",
         "patchSetId": 1
@@ -68,6 +85,23 @@
       "writtenOn": "2022-08-19T06:09:35Z",
       "side": 1,
       "message": "Prior to this commit, we already allowed PLTE with TC/TCA. We just didn\u0027t allow PLTE *and* tRNS.",
+      "revId": "d33d1b6bb43dc8a949689e4ed121d9407477fe70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6db23f45_df2f2054",
+        "filename": "src/image/png/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 908,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2022-08-22T16:15:14Z",
+      "side": 1,
+      "message": "Question: https://www.w3.org/TR/PNG/#11tRNS includes:\n\n\u003e A tRNS chunk shall not appear for colour types 4 and 6, since a full alpha channel is already present in those cases.\n\nColor type 6 is truecolor with alpha (TRA), for which cbTrueColorEtc returns true.\n\nDoes that spec statement mean the PNG decode should reject an image with TRA when tRNS chunk is encountered? If so, is that being handled somewhere else?",
       "revId": "d33d1b6bb43dc8a949689e4ed121d9407477fe70",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
