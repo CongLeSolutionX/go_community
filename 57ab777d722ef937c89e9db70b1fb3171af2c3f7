@@ -16,6 +16,24 @@
       "message": "SGTM. Perhaps also mention in the commit message why we are deleting the dummy test func: to make the example show the entire file, as we want to show printSelf.",
       "revId": "57ab777d722ef937c89e9db70b1fb3171af2c3f7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8de78342_034ca967",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55679
+      },
+      "writtenOn": "2022-08-22T11:49:55Z",
+      "side": 1,
+      "message": "Commit message updated.",
+      "parentUuid": "73300c52_ce8469ac",
+      "revId": "57ab777d722ef937c89e9db70b1fb3171af2c3f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
