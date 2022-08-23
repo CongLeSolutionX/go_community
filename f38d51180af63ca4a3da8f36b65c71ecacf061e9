@@ -151,6 +151,29 @@
       "message": "Move this into p.init()?",
       "revId": "f38d51180af63ca4a3da8f36b65c71ecacf061e9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6eb34b92_7768d841",
+        "filename": "src/go/printer/printer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1332,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-08-23T20:22:03Z",
+      "side": 1,
+      "message": "On that note, I wonder if we should just make this nil and check when we append. There\u0027s maybe a dozen places where we append to printer.output. I suspect having an \u0027if\u0027 around the appends (sometimes it\u0027s multiple ones) won\u0027t make a significant difference compared to the append itself. That should speed up the uses of the printer where we don\u0027t care about the output even more.\n\n(Presumably we never look at those bytes until the end, but I haven\u0027t verified.)",
+      "range": {
+        "startLine": 1332,
+        "startChar": 3,
+        "endLine": 1332,
+        "endChar": 9
+      },
+      "revId": "f38d51180af63ca4a3da8f36b65c71ecacf061e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
