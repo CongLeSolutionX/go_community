@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6bd5f77_9645f198",
+        "filename": "src/os/exec/lp_linux_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 26451
+      },
+      "writtenOn": "2022-08-23T19:35:29Z",
+      "side": 1,
+      "message": "I guess that root (or CAP_SYS_ADMIN) should be sufficient, since tmpfs is almost always available.\n\nAdded `t.Fatalf()` when running as root. Strictly speaking, we should also check for CAP_SYS_ADMIN, but that would make the code more complicated.",
+      "parentUuid": "fc3e40fc_9a476441",
+      "revId": "423d3f878c216d8e29343592f2813461679dfa78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7425f28c_749ac0a2",
@@ -48,6 +66,30 @@
       "writtenOn": "2022-08-22T21:17:04Z",
       "side": 1,
       "message": "Under what conditions might this `Skip` trigger? (Shouldn\u0027t `Mount` return an error if the `NOEXEC` flag isn\u0027t supported?)",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 39
+      },
+      "revId": "423d3f878c216d8e29343592f2813461679dfa78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1f8f438_d69df87b",
+        "filename": "src/os/exec/lp_linux_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 26451
+      },
+      "writtenOn": "2022-08-23T19:35:29Z",
+      "side": 1,
+      "message": "I barely remember that some old Linux kernels ignored the noexec flag, but I might be wrong about it.\n\nAnyway, I see this code as a way to test findExecutable, and the working noexec as a test prerequisite (thus the comment), so I\u0027m using t.Skip in places where the prerequisites fail (same for Mount above).\n\nOTOH normally we do not expect a failure here, so changed to t.Fatal.",
+      "parentUuid": "7425f28c_749ac0a2",
       "range": {
         "startLine": 54,
         "startChar": 0,
