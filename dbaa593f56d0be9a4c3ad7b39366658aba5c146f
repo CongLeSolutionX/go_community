@@ -71,6 +71,24 @@
       "parentUuid": "1f8d0de9_d6ed9e5b",
       "revId": "dbaa593f56d0be9a4c3ad7b39366658aba5c146f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e2f3557_d923fed7",
+        "filename": "src/cmd/compile/internal/types/size.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-08-23T20:54:34Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c5a82c4a_a70b2450",
+      "revId": "dbaa593f56d0be9a4c3ad7b39366658aba5c146f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
