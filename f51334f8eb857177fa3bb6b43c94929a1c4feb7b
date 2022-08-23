@@ -57,6 +57,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b6f2086a_5e890b57",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-08-23T22:53:06Z",
+      "side": 1,
+      "message": "I\u0027m a bit worried about this preventing further constant folding. Like, (ADD const1 (ADD const2 x)) would be combined to a single ADDconst. Now if const2 is not in range this would not be combined (even if const1+const2 is in range).\n\nI think generic rules help fold some constants like this, but I think there are more constants created by the architecture-specific rules. Not sure how much this matters...\n\nI\u0027m thinking if it possible to have a separate pass that \"un-fold\" some of these operations, like (ADDconst [large_const] x) -\u003e (ADD (MOVDconst) x), which runs after all the other rules, and then CSE. I think there are other rules that may be beneficial to run only at the end. But rule interaction/ordering is tricky. It would be bad to end up with too many rules that need to be run at the end...\n",
+      "revId": "f51334f8eb857177fa3bb6b43c94929a1c4feb7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2df1bef9_1b7b7696",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
         "patchSetId": 1
