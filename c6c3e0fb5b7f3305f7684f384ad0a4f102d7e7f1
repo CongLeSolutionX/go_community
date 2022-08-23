@@ -53,6 +53,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4f831c8_77589a19",
+        "filename": "src/net/http/h2_error.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 58778
+      },
+      "writtenOn": "2022-08-23T19:23:45Z",
+      "side": 1,
+      "message": "Sure, can do. I pushed a revision that\u0027s a tiny bit stricter than you suggest: it checks that the target has exactly three fields, and it requires that the StreamID field have the literal uint32 type. Happy to relax the checks further if you\u0027d like me to.",
+      "parentUuid": "27b29724_741bdd41",
+      "revId": "c6c3e0fb5b7f3305f7684f384ad0a4f102d7e7f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3f345e49_2b78cb81",
@@ -66,6 +84,24 @@
       "writtenOn": "2022-08-23T00:57:27Z",
       "side": 1,
       "message": "What\u0027s this case for?\n\nIt\u0027s testing that an http2streamError can be converted to an http2streamError by errors.As, which is always going to be the case if As is functioning correctly. In addition, this doesn\u0027t test a path that any user can exercise, since http2streamError is not an exported type.\n\nI think you just need the \"external\" case below.",
+      "revId": "c6c3e0fb5b7f3305f7684f384ad0a4f102d7e7f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d229ef0_18f804c7",
+        "filename": "src/net/http/h2_error_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 58778
+      },
+      "writtenOn": "2022-08-23T19:23:45Z",
+      "side": 1,
+      "message": "You\u0027re 100% right; I didn\u0027t immediately realize that errors.As handles this case for me, so I included test coverage. I\u0027ll delete it!",
+      "parentUuid": "3f345e49_2b78cb81",
       "revId": "c6c3e0fb5b7f3305f7684f384ad0a4f102d7e7f1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
