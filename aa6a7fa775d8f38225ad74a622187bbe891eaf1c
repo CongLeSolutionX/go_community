@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1db4d104_93e687c6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2022-08-23T19:03:06Z",
+      "side": 1,
+      "message": "This CL appears to have broken x/build, though it seems strange given the CL description: https://build.golang.org/log/c6ecb423d7515d25f2d4894b6e65d0c98b46458f",
+      "revId": "aa6a7fa775d8f38225ad74a622187bbe891eaf1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
