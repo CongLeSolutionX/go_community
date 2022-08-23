@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7190bb5_d8172bb5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-08-23T18:22:14Z",
+      "side": 1,
+      "message": "FYI, the freebsd-arm64 builder seems unhappy since this CL was merged: https://build.golang.org/log/cccadb83599f2918945bde3945161a3e7aa8f968",
+      "revId": "9f0f87c806b7a11b2cb3ebcd02eac57ee389c43a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
