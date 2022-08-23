@@ -19,24 +19,24 @@
 (Hmul32 x y) => (SRAVconst (Select1 <typ.Int64> (MULV (SignExt32to64 x) (SignExt32to64 y))) [32])
 (Hmul32u x y) => (SRLVconst (Select1 <typ.UInt64> (MULVU (ZeroExt32to64 x) (ZeroExt32to64 y))) [32])
 
-(Div64 x y) => (Select1 (DIVV x y))
-(Div64u x y) => (Select1 (DIVVU x y))
-(Div32 x y) => (Select1 (DIVV (SignExt32to64 x) (SignExt32to64 y)))
-(Div32u x y) => (Select1 (DIVVU (ZeroExt32to64 x) (ZeroExt32to64 y)))
-(Div16 x y) => (Select1 (DIVV (SignExt16to64 x) (SignExt16to64 y)))
-(Div16u x y) => (Select1 (DIVVU (ZeroExt16to64 x) (ZeroExt16to64 y)))
-(Div8 x y) => (Select1 (DIVV (SignExt8to64 x) (SignExt8to64 y)))
-(Div8u x y) => (Select1 (DIVVU (ZeroExt8to64 x) (ZeroExt8to64 y)))
+(Div64 x y) => (Select1 (DIVD x y))
+(Div64u x y) => (Select1 (DIVDU x y))
+(Div32 x y) => (Select1 (DIVD (SignExt32to64 x) (SignExt32to64 y)))
+(Div32u x y) => (Select1 (DIVDU (ZeroExt32to64 x) (ZeroExt32to64 y)))
+(Div16 x y) => (Select1 (DIVD (SignExt16to64 x) (SignExt16to64 y)))
+(Div16u x y) => (Select1 (DIVDU (ZeroExt16to64 x) (ZeroExt16to64 y)))
+(Div8 x y) => (Select1 (DIVD (SignExt8to64 x) (SignExt8to64 y)))
+(Div8u x y) => (Select1 (DIVDU (ZeroExt8to64 x) (ZeroExt8to64 y)))
 (Div(32|64)F ...) => (FDIV(S|D) ...)
 
-(Mod64 x y) => (Select0 (DIVV x y))
-(Mod64u x y) => (Select0 (DIVVU x y))
-(Mod32 x y) => (Select0 (DIVV (SignExt32to64 x) (SignExt32to64 y)))
-(Mod32u x y) => (Select0 (DIVVU (ZeroExt32to64 x) (ZeroExt32to64 y)))
-(Mod16 x y) => (Select0 (DIVV (SignExt16to64 x) (SignExt16to64 y)))
-(Mod16u x y) => (Select0 (DIVVU (ZeroExt16to64 x) (ZeroExt16to64 y)))
-(Mod8 x y) => (Select0 (DIVV (SignExt8to64 x) (SignExt8to64 y)))
-(Mod8u x y) => (Select0 (DIVVU (ZeroExt8to64 x) (ZeroExt8to64 y)))
+(Mod64 x y) => (Select0 (DIVD x y))
+(Mod64u x y) => (Select0 (DIVDU x y))
+(Mod32 x y) => (Select0 (DIVD (SignExt32to64 x) (SignExt32to64 y)))
+(Mod32u x y) => (Select0 (DIVDU (ZeroExt32to64 x) (ZeroExt32to64 y)))
+(Mod16 x y) => (Select0 (DIVD (SignExt16to64 x) (SignExt16to64 y)))
+(Mod16u x y) => (Select0 (DIVDU (ZeroExt16to64 x) (ZeroExt16to64 y)))
+(Mod8 x y) => (Select0 (DIVD (SignExt8to64 x) (SignExt8to64 y)))
+(Mod8u x y) => (Select0 (DIVDU (ZeroExt8to64 x) (ZeroExt8to64 y)))
 
 // (x + y) / 2 with x>=y => (x - y) / 2 + y
 (Avg64u <t> x y) => (ADDV (SRLVconst <t> (SUBV <t> x y) [1]) y)
@@ -583,10 +583,10 @@
 (Select1 (MULVU x (MOVVconst [c]))) && isPowerOfTwo64(c) => (SLLVconst [log64(c)] x)
 
 // div by constant
-(Select1 (DIVVU x (MOVVconst [1]))) => x
-(Select1 (DIVVU x (MOVVconst [c]))) && isPowerOfTwo64(c) => (SRLVconst [log64(c)] x)
-(Select0 (DIVVU _ (MOVVconst [1]))) => (MOVVconst [0])                       // mod
-(Select0 (DIVVU x (MOVVconst [c]))) && isPowerOfTwo64(c) => (ANDconst [c-1] x) // mod
+(Select1 (DIVDU x (MOVVconst [1]))) => x
+(Select1 (DIVDU x (MOVVconst [c]))) && isPowerOfTwo64(c) => (SRLVconst [log64(c)] x)
+(Select0 (DIVDU _ (MOVVconst [1]))) => (MOVVconst [0])                       // mod
+(Select0 (DIVDU x (MOVVconst [c]))) && isPowerOfTwo64(c) => (ANDconst [c-1] x) // mod
 
 // generic simplifications
 (ADDV x (NEGV y)) => (SUBV x y)
@@ -617,10 +617,10 @@
 (SRLVconst [c] (MOVVconst [d]))  => (MOVVconst [int64(uint64(d)>>uint64(c))])
 (SRAVconst [c] (MOVVconst [d]))  => (MOVVconst [d>>uint64(c)])
 (Select1 (MULVU (MOVVconst [c]) (MOVVconst [d]))) => (MOVVconst [c*d])
-(Select1 (DIVV  (MOVVconst [c]) (MOVVconst [d]))) && d != 0 => (MOVVconst [c/d])
-(Select1 (DIVVU (MOVVconst [c]) (MOVVconst [d]))) && d != 0 => (MOVVconst [int64(uint64(c)/uint64(d))])
-(Select0 (DIVV  (MOVVconst [c]) (MOVVconst [d]))) && d != 0 => (MOVVconst [c%d])   // mod
-(Select0 (DIVVU (MOVVconst [c]) (MOVVconst [d]))) && d != 0 => (MOVVconst [int64(uint64(c)%uint64(d))]) // mod
+(Select1 (DIVD  (MOVVconst [c]) (MOVVconst [d]))) && d != 0 => (MOVVconst [c/d])
+(Select1 (DIVDU (MOVVconst [c]) (MOVVconst [d]))) && d != 0 => (MOVVconst [int64(uint64(c)/uint64(d))])
+(Select0 (DIVD  (MOVVconst [c]) (MOVVconst [d]))) && d != 0 => (MOVVconst [c%d])   // mod
+(Select0 (DIVDU (MOVVconst [c]) (MOVVconst [d]))) && d != 0 => (MOVVconst [int64(uint64(c)%uint64(d))]) // mod
 (ANDconst [c] (MOVVconst [d])) => (MOVVconst [c&d])
 (ANDconst [c] (ANDconst [d] x)) => (ANDconst [c&d] x)
 (ORconst [c] (MOVVconst [d])) => (MOVVconst [c|d])

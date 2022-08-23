@@ -33,12 +33,12 @@ func IsLoong64CMP(op obj.As) bool {
 }
 
 // IsLoong64MUL reports whether the op (as defined by an loong64.A* constant) is
-// one of the MUL/DIV/REM instructions that require special handling.
+// one of the MUL/DIV/MOD instructions that require special handling.
 func IsLoong64MUL(op obj.As) bool {
 	switch op {
 	case loong64.AMUL, loong64.AMULU, loong64.AMULV, loong64.AMULVU,
-		loong64.ADIV, loong64.ADIVU, loong64.ADIVV, loong64.ADIVVU,
-		loong64.AREM, loong64.AREMU, loong64.AREMV, loong64.AREMVU:
+		loong64.ADIVW, loong64.ADIVWU, loong64.ADIVD, loong64.ADIVDU,
+		loong64.AMODW, loong64.AMODWU, loong64.AMODD, loong64.AMODDU:
 		return true
 	}
 	return false

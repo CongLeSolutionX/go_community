@@ -139,14 +139,6 @@ lable2:
 	MULHV	R4, R5, R6		// a6101e00
 	MULHVU	R4, R5			// a5901e00
 	MULHVU	R4, R5, R6	 	// a6901e00
-	REMV	R4, R5	   		// a5902200
-	REMV	R4, R5, R6	   	// a6902200
-	REMVU	R4, R5			// a5902300
-	REMVU	R4, R5, R6		// a6902300
-	DIVV	R4, R5			// a5102200
-	DIVV	R4, R5, R6	   	// a6102200
-	DIVVU	R4, R5	 		// a5102300
-	DIVVU	R4, R5, R6		// a6102300
 
 	MOVH	R4, result+16(FP)	// 64604029
 	MOVH	R4, 1(R5)		// a4044029
@@ -163,14 +155,6 @@ lable2:
 	MULH	R4, R5, R6	   	// a6901c00
 	MULHU	R4, R5			// a5101d00
 	MULHU	R4, R5, R6		// a6101d00
-	REM	R4, R5	  		// a5902000
-	REM	R4, R5, R6	  	// a6902000
-	REMU	R4, R5	   		// a5902100
-	REMU	R4, R5, R6	   	// a6902100
-	DIV	R4, R5	  		// a5102000
-	DIV	R4, R5, R6	  	// a6102000
-	DIVU	R4, R5	   		// a5102100
-	DIVU	R4, R5, R6	   	// a6102100
 	SRLV	R4, R5 			// a5101900
 	SRLV	R4, R5, R6 		// a6101900
 	SRLV	$4, R4, R5		// 85104500
@@ -209,6 +193,25 @@ lable2:
 	CMPGED	F4, R5			// a090230c
 	CMPEQD	F4, R5			// a010220c
 
+	// 2.2.1. Arithmetic Operation Instructions
+	DIVW	R4, R5	  		// a5102000
+	DIVW	R4, R5, R6	  	// a6102000
+	DIVWU	R4, R5	   		// a5102100
+	DIVWU	R4, R5, R6	   	// a6102100
+	DIVD	R4, R5			// a5102200
+	DIVD	R4, R5, R6	   	// a6102200
+	DIVDU	R4, R5	 		// a5102300
+	DIVDU	R4, R5, R6		// a6102300
+	MODW	R4, R5	  		// a5902000
+	MODW	R4, R5, R6	  	// a6902000
+	MODWU	R4, R5	   		// a5902100
+	MODWU	R4, R5, R6	   	// a6902100
+	MODD	R4, R5	   		// a5902200
+	MODD	R4, R5, R6	   	// a6902200
+	MODDU	R4, R5			// a5902300
+	MODDU	R4, R5, R6		// a6902300
+
+	// 2.2.10. Other Miscellaneous Instructions
 	RDTIMELW R4, R0			// 80600000
 	RDTIMEHW R4, R0			// 80640000
 	RDTIMED  R4, R5			// 85680000

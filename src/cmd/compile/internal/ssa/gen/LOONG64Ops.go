@@ -168,8 +168,8 @@ func init() {
 
 		{name: "MULV", argLength: 2, reg: gpmuldiv, commutative: true, typ: "(Int64,Int64)"},    // arg0 * arg1, signed
 		{name: "MULVU", argLength: 2, reg: gpmuldiv, commutative: true, typ: "(UInt64,UInt64)"}, // arg0 * arg1, unsigned
-		{name: "DIVV", argLength: 2, reg: gpmuldiv, typ: "(Int64,Int64)"},                       // arg0 / arg1, signed
-		{name: "DIVVU", argLength: 2, reg: gpmuldiv, typ: "(UInt64,UInt64)"},                    // arg0 / arg1, unsigned
+		{name: "DIVD", argLength: 2, reg: gpmuldiv, typ: "(Int64,Int64)"},                       // arg0 / arg1, signed
+		{name: "DIVDU", argLength: 2, reg: gpmuldiv, typ: "(UInt64,UInt64)"},                    // arg0 / arg1, unsigned
 
 		{name: "FADDS", argLength: 2, reg: fp21, asm: "FADDS", commutative: true}, // arg0 + arg1
 		{name: "FADDD", argLength: 2, reg: fp21, asm: "FADDD", commutative: true}, // arg0 + arg1

@@ -1717,8 +1717,8 @@ const (
 	OpLOONG64SUBVconst
 	OpLOONG64MULV
 	OpLOONG64MULVU
-	OpLOONG64DIVV
-	OpLOONG64DIVVU
+	OpLOONG64DIVD
+	OpLOONG64DIVDU
 	OpLOONG64FADDS
 	OpLOONG64FADDD
 	OpLOONG64FSUBS
@@ -22937,7 +22937,7 @@ var opcodeTable = [...]opInfo{
 		},
 	},
 	{
-		name:   "DIVV",
+		name:   "DIVD",
 		argLen: 2,
 		reg: regInfo{
 			inputs: []inputInfo{
@@ -22951,7 +22951,7 @@ var opcodeTable = [...]opInfo{
 		},
 	},
 	{
-		name:   "DIVVU",
+		name:   "DIVDU",
 		argLen: 2,
 		reg: regInfo{
 			inputs: []inputInfo{

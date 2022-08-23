@@ -860,12 +860,12 @@ func rewriteValueLOONG64_OpDiv16(v *Value) bool {
 	b := v.Block
 	typ := &b.Func.Config.Types
 	// match: (Div16 x y)
-	// result: (Select1 (DIVV (SignExt16to64 x) (SignExt16to64 y)))
+	// result: (Select1 (DIVD (SignExt16to64 x) (SignExt16to64 y)))
 	for {
 		x := v_0
 		y := v_1
 		v.reset(OpSelect1)
-		v0 := b.NewValue0(v.Pos, OpLOONG64DIVV, types.NewTuple(typ.Int64, typ.Int64))
+		v0 := b.NewValue0(v.Pos, OpLOONG64DIVD, types.NewTuple(typ.Int64, typ.Int64))
 		v1 := b.NewValue0(v.Pos, OpSignExt16to64, typ.Int64)
 		v1.AddArg(x)
 		v2 := b.NewValue0(v.Pos, OpSignExt16to64, typ.Int64)
@@ -881,12 +881,12 @@ func rewriteValueLOONG64_OpDiv16u(v *Value) bool {
 	b := v.Block
 	typ := &b.Func.Config.Types
 	// match: (Div16u x y)
-	// result: (Select1 (DIVVU (ZeroExt16to64 x) (ZeroExt16to64 y)))
+	// result: (Select1 (DIVDU (ZeroExt16to64 x) (ZeroExt16to64 y)))
 	for {
 		x := v_0
 		y := v_1
 		v.reset(OpSelect1)
-		v0 := b.NewValue0(v.Pos, OpLOONG64DIVVU, types.NewTuple(typ.UInt64, typ.UInt64))
+		v0 := b.NewValue0(v.Pos, OpLOONG64DIVDU, types.NewTuple(typ.UInt64, typ.UInt64))
 		v1 := b.NewValue0(v.Pos, OpZeroExt16to64, typ.UInt64)
 		v1.AddArg(x)
 		v2 := b.NewValue0(v.Pos, OpZeroExt16to64, typ.UInt64)
@@ -902,12 +902,12 @@ func rewriteValueLOONG64_OpDiv32(v *Value) bool {
 	b := v.Block
 	typ := &b.Func.Config.Types
 	// match: (Div32 x y)
-	// result: (Select1 (DIVV (SignExt32to64 x) (SignExt32to64 y)))
+	// result: (Select1 (DIVD (SignExt32to64 x) (SignExt32to64 y)))
 	for {
 		x := v_0
 		y := v_1
 		v.reset(OpSelect1)
-		v0 := b.NewValue0(v.Pos, OpLOONG64DIVV, types.NewTuple(typ.Int64, typ.Int64))
+		v0 := b.NewValue0(v.Pos, OpLOONG64DIVD, types.NewTuple(typ.Int64, typ.Int64))
 		v1 := b.NewValue0(v.Pos, OpSignExt32to64, typ.Int64)
 		v1.AddArg(x)
 		v2 := b.NewValue0(v.Pos, OpSignExt32to64, typ.Int64)
@@ -923,12 +923,12 @@ func rewriteValueLOONG64_OpDiv32u(v *Value) bool {
 	b := v.Block
 	typ := &b.Func.Config.Types
 	// match: (Div32u x y)
-	// result: (Select1 (DIVVU (ZeroExt32to64 x) (ZeroExt32to64 y)))
+	// result: (Select1 (DIVDU (ZeroExt32to64 x) (ZeroExt32to64 y)))
 	for {
 		x := v_0
 		y := v_1
 		v.reset(OpSelect1)
-		v0 := b.NewValue0(v.Pos, OpLOONG64DIVVU, types.NewTuple(typ.UInt64, typ.UInt64))
+		v0 := b.NewValue0(v.Pos, OpLOONG64DIVDU, types.NewTuple(typ.UInt64, typ.UInt64))
 		v1 := b.NewValue0(v.Pos, OpZeroExt32to64, typ.UInt64)
 		v1.AddArg(x)
 		v2 := b.NewValue0(v.Pos, OpZeroExt32to64, typ.UInt64)
@@ -944,12 +944,12 @@ func rewriteValueLOONG64_OpDiv64(v *Value) bool {
 	b := v.Block
 	typ := &b.Func.Config.Types
 	// match: (Div64 x y)
-	// result: (Select1 (DIVV x y))
+	// result: (Select1 (DIVD x y))
 	for {
 		x := v_0
 		y := v_1
 		v.reset(OpSelect1)
-		v0 := b.NewValue0(v.Pos, OpLOONG64DIVV, types.NewTuple(typ.Int64, typ.Int64))
+		v0 := b.NewValue0(v.Pos, OpLOONG64DIVD, types.NewTuple(typ.Int64, typ.Int64))
 		v0.AddArg2(x, y)
 		v.AddArg(v0)
 		return true
@@ -961,12 +961,12 @@ func rewriteValueLOONG64_OpDiv64u(v *Value) bool {
 	b := v.Block
 	typ := &b.Func.Config.Types
 	// match: (Div64u x y)
-	// result: (Select1 (DIVVU x y))
+	// result: (Select1 (DIVDU x y))
 	for {
 		x := v_0
 		y := v_1
 		v.reset(OpSelect1)
-		v0 := b.NewValue0(v.Pos, OpLOONG64DIVVU, types.NewTuple(typ.UInt64, typ.UInt64))
+		v0 := b.NewValue0(v.Pos, OpLOONG64DIVDU, types.NewTuple(typ.UInt64, typ.UInt64))
 		v0.AddArg2(x, y)
 		v.AddArg(v0)
 		return true
@@ -978,12 +978,12 @@ func rewriteValueLOONG64_OpDiv8(v *Value) bool {
 	b := v.Block
 	typ := &b.Func.Config.Types
 	// match: (Div8 x y)
-	// result: (Select1 (DIVV (SignExt8to64 x) (SignExt8to64 y)))
+	// result: (Select1 (DIVD (SignExt8to64 x) (SignExt8to64 y)))
 	for {
 		x := v_0
 		y := v_1
 		v.reset(OpSelect1)
-		v0 := b.NewValue0(v.Pos, OpLOONG64DIVV, types.NewTuple(typ.Int64, typ.Int64))
+		v0 := b.NewValue0(v.Pos, OpLOONG64DIVD, types.NewTuple(typ.Int64, typ.Int64))
 		v1 := b.NewValue0(v.Pos, OpSignExt8to64, typ.Int64)
 		v1.AddArg(x)
 		v2 := b.NewValue0(v.Pos, OpSignExt8to64, typ.Int64)
@@ -999,12 +999,12 @@ func rewriteValueLOONG64_OpDiv8u(v *Value) bool {
 	b := v.Block
 	typ := &b.Func.Config.Types
 	// match: (Div8u x y)
-	// result: (Select1 (DIVVU (ZeroExt8to64 x) (ZeroExt8to64 y)))
+	// result: (Select1 (DIVDU (ZeroExt8to64 x) (ZeroExt8to64 y)))
 	for {
 		x := v_0
 		y := v_1
 		v.reset(OpSelect1)
-		v0 := b.NewValue0(v.Pos, OpLOONG64DIVVU, types.NewTuple(typ.UInt64, typ.UInt64))
+		v0 := b.NewValue0(v.Pos, OpLOONG64DIVDU, types.NewTuple(typ.UInt64, typ.UInt64))
 		v1 := b.NewValue0(v.Pos, OpZeroExt8to64, typ.UInt64)
 		v1.AddArg(x)
 		v2 := b.NewValue0(v.Pos, OpZeroExt8to64, typ.UInt64)
@@ -4918,12 +4918,12 @@ func rewriteValueLOONG64_OpMod16(v *Value) bool {
 	b := v.Block
 	typ := &b.Func.Config.Types
 	// match: (Mod16 x y)
-	// result: (Select0 (DIVV (SignExt16to64 x) (SignExt16to64 y)))
+	// result: (Select0 (DIVD (SignExt16to64 x) (SignExt16to64 y)))
 	for {
 		x := v_0
 		y := v_1
 		v.reset(OpSelect0)
-		v0 := b.NewValue0(v.Pos, OpLOONG64DIVV, types.NewTuple(typ.Int64, typ.Int64))
+		v0 := b.NewValue0(v.Pos, OpLOONG64DIVD, types.NewTuple(typ.Int64, typ.Int64))
 		v1 := b.NewValue0(v.Pos, OpSignExt16to64, typ.Int64)
 		v1.AddArg(x)
 		v2 := b.NewValue0(v.Pos, OpSignExt16to64, typ.Int64)
@@ -4939,12 +4939,12 @@ func rewriteValueLOONG64_OpMod16u(v *Value) bool {
 	b := v.Block
 	typ := &b.Func.Config.Types
 	// match: (Mod16u x y)
-	// result: (Select0 (DIVVU (ZeroExt16to64 x) (ZeroExt16to64 y)))
+	// result: (Select0 (DIVDU (ZeroExt16to64 x) (ZeroExt16to64 y)))
 	for {
 		x := v_0
 		y := v_1
 		v.reset(OpSelect0)
-		v0 := b.NewValue0(v.Pos, OpLOONG64DIVVU, types.NewTuple(typ.UInt64, typ.UInt64))
+		v0 := b.NewValue0(v.Pos, OpLOONG64DIVDU, types.NewTuple(typ.UInt64, typ.UInt64))
 		v1 := b.NewValue0(v.Pos, OpZeroExt16to64, typ.UInt64)
 		v1.AddArg(x)
 		v2 := b.NewValue0(v.Pos, OpZeroExt16to64, typ.UInt64)
@@ -4960,12 +4960,12 @@ func rewriteValueLOONG64_OpMod32(v *Value) bool {
 	b := v.Block
 	typ := &b.Func.Config.Types
 	// match: (Mod32 x y)
-	// result: (Select0 (DIVV (SignExt32to64 x) (SignExt32to64 y)))
+	// result: (Select0 (DIVD (SignExt32to64 x) (SignExt32to64 y)))
 	for {
 		x := v_0
 		y := v_1
 		v.reset(OpSelect0)
-		v0 := b.NewValue0(v.Pos, OpLOONG64DIVV, types.NewTuple(typ.Int64, typ.Int64))
+		v0 := b.NewValue0(v.Pos, OpLOONG64DIVD, types.NewTuple(typ.Int64, typ.Int64))
 		v1 := b.NewValue0(v.Pos, OpSignExt32to64, typ.Int64)
 		v1.AddArg(x)
 		v2 := b.NewValue0(v.Pos, OpSignExt32to64, typ.Int64)
@@ -4981,12 +4981,12 @@ func rewriteValueLOONG64_OpMod32u(v *Value) bool {
 	b := v.Block
 	typ := &b.Func.Config.Types
 	// match: (Mod32u x y)
-	// result: (Select0 (DIVVU (ZeroExt32to64 x) (ZeroExt32to64 y)))
+	// result: (Select0 (DIVDU (ZeroExt32to64 x) (ZeroExt32to64 y)))
 	for {
 		x := v_0
 		y := v_1
 		v.reset(OpSelect0)
-		v0 := b.NewValue0(v.Pos, OpLOONG64DIVVU, types.NewTuple(typ.UInt64, typ.UInt64))
+		v0 := b.NewValue0(v.Pos, OpLOONG64DIVDU, types.NewTuple(typ.UInt64, typ.UInt64))
 		v1 := b.NewValue0(v.Pos, OpZeroExt32to64, typ.UInt64)
 		v1.AddArg(x)
 		v2 := b.NewValue0(v.Pos, OpZeroExt32to64, typ.UInt64)
@@ -5002,12 +5002,12 @@ func rewriteValueLOONG64_OpMod64(v *Value) bool {
 	b := v.Block
 	typ := &b.Func.Config.Types
 	// match: (Mod64 x y)
-	// result: (Select0 (DIVV x y))
+	// result: (Select0 (DIVD x y))
 	for {
 		x := v_0
 		y := v_1
 		v.reset(OpSelect0)
-		v0 := b.NewValue0(v.Pos, OpLOONG64DIVV, types.NewTuple(typ.Int64, typ.Int64))
+		v0 := b.NewValue0(v.Pos, OpLOONG64DIVD, types.NewTuple(typ.Int64, typ.Int64))
 		v0.AddArg2(x, y)
 		v.AddArg(v0)
 		return true
@@ -5019,12 +5019,12 @@ func rewriteValueLOONG64_OpMod64u(v *Value) bool {
 	b := v.Block
 	typ := &b.Func.Config.Types
 	// match: (Mod64u x y)
-	// result: (Select0 (DIVVU x y))
+	// result: (Select0 (DIVDU x y))
 	for {
 		x := v_0
 		y := v_1
 		v.reset(OpSelect0)
-		v0 := b.NewValue0(v.Pos, OpLOONG64DIVVU, types.NewTuple(typ.UInt64, typ.UInt64))
+		v0 := b.NewValue0(v.Pos, OpLOONG64DIVDU, types.NewTuple(typ.UInt64, typ.UInt64))
 		v0.AddArg2(x, y)
 		v.AddArg(v0)
 		return true
@@ -5036,12 +5036,12 @@ func rewriteValueLOONG64_OpMod8(v *Value) bool {
 	b := v.Block
 	typ := &b.Func.Config.Types
 	// match: (Mod8 x y)
-	// result: (Select0 (DIVV (SignExt8to64 x) (SignExt8to64 y)))
+	// result: (Select0 (DIVD (SignExt8to64 x) (SignExt8to64 y)))
 	for {
 		x := v_0
 		y := v_1
 		v.reset(OpSelect0)
-		v0 := b.NewValue0(v.Pos, OpLOONG64DIVV, types.NewTuple(typ.Int64, typ.Int64))
+		v0 := b.NewValue0(v.Pos, OpLOONG64DIVD, types.NewTuple(typ.Int64, typ.Int64))
 		v1 := b.NewValue0(v.Pos, OpSignExt8to64, typ.Int64)
 		v1.AddArg(x)
 		v2 := b.NewValue0(v.Pos, OpSignExt8to64, typ.Int64)
@@ -5057,12 +5057,12 @@ func rewriteValueLOONG64_OpMod8u(v *Value) bool {
 	b := v.Block
 	typ := &b.Func.Config.Types
 	// match: (Mod8u x y)
-	// result: (Select0 (DIVVU (ZeroExt8to64 x) (ZeroExt8to64 y)))
+	// result: (Select0 (DIVDU (ZeroExt8to64 x) (ZeroExt8to64 y)))
 	for {
 		x := v_0
 		y := v_1
 		v.reset(OpSelect0)
-		v0 := b.NewValue0(v.Pos, OpLOONG64DIVVU, types.NewTuple(typ.UInt64, typ.UInt64))
+		v0 := b.NewValue0(v.Pos, OpLOONG64DIVDU, types.NewTuple(typ.UInt64, typ.UInt64))
 		v1 := b.NewValue0(v.Pos, OpZeroExt8to64, typ.UInt64)
 		v1.AddArg(x)
 		v2 := b.NewValue0(v.Pos, OpZeroExt8to64, typ.UInt64)
@@ -6790,10 +6790,10 @@ func rewriteValueLOONG64_OpSelect0(v *Value) bool {
 		v.AddArg(v0)
 		return true
 	}
-	// match: (Select0 (DIVVU _ (MOVVconst [1])))
+	// match: (Select0 (DIVDU _ (MOVVconst [1])))
 	// result: (MOVVconst [0])
 	for {
-		if v_0.Op != OpLOONG64DIVVU {
+		if v_0.Op != OpLOONG64DIVDU {
 			break
 		}
 		_ = v_0.Args[1]
@@ -6805,11 +6805,11 @@ func rewriteValueLOONG64_OpSelect0(v *Value) bool {
 		v.AuxInt = int64ToAuxInt(0)
 		return true
 	}
-	// match: (Select0 (DIVVU x (MOVVconst [c])))
+	// match: (Select0 (DIVDU x (MOVVconst [c])))
 	// cond: isPowerOfTwo64(c)
 	// result: (ANDconst [c-1] x)
 	for {
-		if v_0.Op != OpLOONG64DIVVU {
+		if v_0.Op != OpLOONG64DIVDU {
 			break
 		}
 		_ = v_0.Args[1]
@@ -6827,11 +6827,11 @@ func rewriteValueLOONG64_OpSelect0(v *Value) bool {
 		v.AddArg(x)
 		return true
 	}
-	// match: (Select0 (DIVV (MOVVconst [c]) (MOVVconst [d])))
+	// match: (Select0 (DIVD (MOVVconst [c]) (MOVVconst [d])))
 	// cond: d != 0
 	// result: (MOVVconst [c%d])
 	for {
-		if v_0.Op != OpLOONG64DIVV {
+		if v_0.Op != OpLOONG64DIVD {
 			break
 		}
 		_ = v_0.Args[1]
@@ -6852,11 +6852,11 @@ func rewriteValueLOONG64_OpSelect0(v *Value) bool {
 		v.AuxInt = int64ToAuxInt(c % d)
 		return true
 	}
-	// match: (Select0 (DIVVU (MOVVconst [c]) (MOVVconst [d])))
+	// match: (Select0 (DIVDU (MOVVconst [c]) (MOVVconst [d])))
 	// cond: d != 0
 	// result: (MOVVconst [int64(uint64(c)%uint64(d))])
 	for {
-		if v_0.Op != OpLOONG64DIVVU {
+		if v_0.Op != OpLOONG64DIVDU {
 			break
 		}
 		_ = v_0.Args[1]
@@ -6986,10 +6986,10 @@ func rewriteValueLOONG64_OpSelect1(v *Value) bool {
 		}
 		break
 	}
-	// match: (Select1 (DIVVU x (MOVVconst [1])))
+	// match: (Select1 (DIVDU x (MOVVconst [1])))
 	// result: x
 	for {
-		if v_0.Op != OpLOONG64DIVVU {
+		if v_0.Op != OpLOONG64DIVDU {
 			break
 		}
 		_ = v_0.Args[1]
@@ -7001,11 +7001,11 @@ func rewriteValueLOONG64_OpSelect1(v *Value) bool {
 		v.copyOf(x)
 		return true
 	}
-	// match: (Select1 (DIVVU x (MOVVconst [c])))
+	// match: (Select1 (DIVDU x (MOVVconst [c])))
 	// cond: isPowerOfTwo64(c)
 	// result: (SRLVconst [log64(c)] x)
 	for {
-		if v_0.Op != OpLOONG64DIVVU {
+		if v_0.Op != OpLOONG64DIVDU {
 			break
 		}
 		_ = v_0.Args[1]
@@ -7047,11 +7047,11 @@ func rewriteValueLOONG64_OpSelect1(v *Value) bool {
 		}
 		break
 	}
-	// match: (Select1 (DIVV (MOVVconst [c]) (MOVVconst [d])))
+	// match: (Select1 (DIVD (MOVVconst [c]) (MOVVconst [d])))
 	// cond: d != 0
 	// result: (MOVVconst [c/d])
 	for {
-		if v_0.Op != OpLOONG64DIVV {
+		if v_0.Op != OpLOONG64DIVD {
 			break
 		}
 		_ = v_0.Args[1]
@@ -7072,11 +7072,11 @@ func rewriteValueLOONG64_OpSelect1(v *Value) bool {
 		v.AuxInt = int64ToAuxInt(c / d)
 		return true
 	}
-	// match: (Select1 (DIVVU (MOVVconst [c]) (MOVVconst [d])))
+	// match: (Select1 (DIVDU (MOVVconst [c]) (MOVVconst [d])))
 	// cond: d != 0
 	// result: (MOVVconst [int64(uint64(c)/uint64(d))])
 	for {
-		if v_0.Op != OpLOONG64DIVVU {
+		if v_0.Op != OpLOONG64DIVDU {
 			break
 		}
 		_ = v_0.Args[1]

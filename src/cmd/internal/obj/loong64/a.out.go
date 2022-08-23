@@ -270,10 +270,6 @@ const (
 	ABLTU
 	ABGEU
 
-	ADIV
-	ADIVU
-	ADIVW
-
 	ALL
 	ALLV
 
@@ -313,8 +309,6 @@ const (
 	ANOOP // hardware nop
 	ANOR
 	AOR
-	AREM
-	AREMU
 
 	ARFE
 
@@ -354,11 +348,6 @@ const (
 	ASLLV
 	ASRAV
 	ASRLV
-	ADIVV
-	ADIVVU
-
-	AREMV
-	AREMVU
 
 	AMULV
 	AMULVU
@@ -380,6 +369,16 @@ const (
 	AMOVDV
 	AMOVVF
 	AMOVVD
+
+	// 2.2.1. Arithmetic Operation Instructions
+	ADIVW
+	ADIVWU
+	ADIVD
+	ADIVDU
+	AMODW
+	AMODWU
+	AMODD
+	AMODDU
 
 	// 2.2.10. Other Miscellaneous Instructions
 	ARDTIMELW
