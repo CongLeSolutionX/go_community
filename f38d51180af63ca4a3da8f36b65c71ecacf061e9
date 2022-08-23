@@ -72,6 +72,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8009a2cc_9ab3964f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2022-08-23T20:17:38Z",
+      "side": 1,
+      "message": "What do you think about the 16KiB init buffer, by the way? I wanted something large enough to cover the majority of small-to-medium Go files, but not so large that it would meaningfully increase peak memory usage in regular tools.",
+      "revId": "f38d51180af63ca4a3da8f36b65c71ecacf061e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "063ddbb5_feff51b0",
@@ -85,6 +102,30 @@
       "writtenOn": "2022-08-23T20:11:34Z",
       "side": 1,
       "message": "Ambiguous pronouns. How about:\n\n// We don\u0027t actually need the output of the nested printer,\n// but it must append its bytes somewhere. Lend it the\n// slack portion of our output buffer.",
+      "range": {
+        "startLine": 1823,
+        "startChar": 3,
+        "endLine": 1823,
+        "endChar": 52
+      },
+      "revId": "f38d51180af63ca4a3da8f36b65c71ecacf061e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ffbaba43_862f49e2",
+        "filename": "src/go/printer/nodes.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1823,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2022-08-23T20:17:38Z",
+      "side": 1,
+      "message": "what does \"slack portion\" mean? how about \"unused portion\", which is perhaps easier to understand?",
+      "parentUuid": "063ddbb5_feff51b0",
       "range": {
         "startLine": 1823,
         "startChar": 3,
