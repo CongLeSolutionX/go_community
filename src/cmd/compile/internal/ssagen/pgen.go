@@ -96,6 +96,7 @@ func needAlloc(n *ir.Name) bool {
 func (s *ssafn) AllocFrame(f *ssa.Func) {
 	s.stksize = 0
 	s.stkptrsize = 0
+	s.stkalign = int64(types.RegSize)
 	fn := s.curfn
 
 	// Mark the PAUTO's unused.
@@ -159,7 +160,14 @@ func (s *ssafn) AllocFrame(f *ssa.Func) {
 			w = 1
 		}
 		s.stksize += w
+<<<<<<< HEAD   (2375ef [release-branch.go1.19] cmd: vendor github.com/google/pprof )
 		s.stksize = types.Rnd(s.stksize, n.Type().Alignment())
+=======
+		s.stksize = types.RoundUp(s.stksize, n.Type().Alignment())
+		if n.Type().Alignment() > int64(types.RegSize) {
+			s.stkalign = n.Type().Alignment()
+		}
+>>>>>>> CHANGE (1211a6 cmd/compile: align stack offset to alignment larger than Ptr)
 		if n.Type().HasPointers() {
 			s.stkptrsize = s.stksize
 			lastHasPtr = true
@@ -169,8 +177,13 @@ func (s *ssafn) AllocFrame(f *ssa.Func) {
 		n.SetFrameOffset(-s.stksize)
 	}
 
+<<<<<<< HEAD   (2375ef [release-branch.go1.19] cmd: vendor github.com/google/pprof )
 	s.stksize = types.Rnd(s.stksize, int64(types.RegSize))
 	s.stkptrsize = types.Rnd(s.stkptrsize, int64(types.RegSize))
+=======
+	s.stksize = types.RoundUp(s.stksize, s.stkalign)
+	s.stkptrsize = types.RoundUp(s.stkptrsize, s.stkalign)
+>>>>>>> CHANGE (1211a6 cmd/compile: align stack offset to alignment larger than Ptr)
 }
 
 const maxStackSize = 1 << 30
