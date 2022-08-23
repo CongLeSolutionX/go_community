@@ -216,6 +216,30 @@
       },
       "revId": "f38d51180af63ca4a3da8f36b65c71ecacf061e9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0135e6e_00c4b0de",
+        "filename": "src/go/printer/printer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1332,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2022-08-23T20:41:55Z",
+      "side": 1,
+      "message": "I don\u0027t think that would work: it\u0027s only by appending to the internal buffer that we have anything to write to the external io.Writer on L1369. Also the logic depends on the length of the slice (see e.g. writeCommentPrefix).",
+      "parentUuid": "6eb34b92_7768d841",
+      "range": {
+        "startLine": 1332,
+        "startChar": 3,
+        "endLine": 1332,
+        "endChar": 9
+      },
+      "revId": "f38d51180af63ca4a3da8f36b65c71ecacf061e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
