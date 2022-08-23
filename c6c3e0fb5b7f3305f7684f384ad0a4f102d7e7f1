@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe9b0112_438b313a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-08-23T00:57:27Z",
+      "side": 1,
+      "message": "Thanks for the change!",
+      "revId": "c6c3e0fb5b7f3305f7684f384ad0a4f102d7e7f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5de09409_f6b225ab",
@@ -14,6 +31,41 @@
       "writtenOn": "2022-08-22T23:32:37Z",
       "side": 1,
       "message": "This is a bit awkward, but seemed like a simple way to make this code testable. Is there a better approach I should pursue?",
+      "revId": "c6c3e0fb5b7f3305f7684f384ad0a4f102d7e7f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27b29724_741bdd41",
+        "filename": "src/net/http/h2_error.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-08-23T00:57:27Z",
+      "side": 1,
+      "message": "Rather than looking at the name of the type, how about checking if the target has three fields named \"StreamID\", \"Code\", and \"Cause\" with underlying types uint32, uint32, and error? This is more permissive, but simplifies testing.",
+      "parentUuid": "5de09409_f6b225ab",
+      "revId": "c6c3e0fb5b7f3305f7684f384ad0a4f102d7e7f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f345e49_2b78cb81",
+        "filename": "src/net/http/h2_error_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-08-23T00:57:27Z",
+      "side": 1,
+      "message": "What\u0027s this case for?\n\nIt\u0027s testing that an http2streamError can be converted to an http2streamError by errors.As, which is always going to be the case if As is functioning correctly. In addition, this doesn\u0027t test a path that any user can exercise, since http2streamError is not an exported type.\n\nI think you just need the \"external\" case below.",
       "revId": "c6c3e0fb5b7f3305f7684f384ad0a4f102d7e7f1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
