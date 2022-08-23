@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "907986a1_9adbfd23",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-08-23T12:12:02Z",
+      "side": 1,
+      "message": "This seems to have broken the build for x/exp.  Sent https://go-review.git.corp.google.com/c/exp/+/425156 with fix.",
+      "revId": "833367e98af838a2511ee7e4e19dc8f1da7b8ed7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
