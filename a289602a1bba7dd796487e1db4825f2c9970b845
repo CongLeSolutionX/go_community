@@ -34,6 +34,23 @@
       "parentUuid": "570e90c9_a26cebda",
       "revId": "a289602a1bba7dd796487e1db4825f2c9970b845",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37cd5c08_96da1f6c",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1206,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-08-23T18:29:04Z",
+      "side": 1,
+      "message": "This ends up calling path.Join three times in the worst case. I think I\u0027d rather go ahead with the approach in https://go.dev/cl/423514 which always calls path.Join once, and addresses the separate issue of ./ and ../ elements not being cleaned when len(elem)\u003d\u003d1.",
+      "revId": "a289602a1bba7dd796487e1db4825f2c9970b845",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
