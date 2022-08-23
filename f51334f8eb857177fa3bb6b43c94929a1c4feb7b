@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "500e0ade_617c6616",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2022-08-23T23:10:31Z",
+      "side": 1,
+      "message": "\u003e I\u0027m thinking if it possible to have a separate pass that \"un-fold\" some of these operations\n\nWe already kind of do this on x86/s390x for the addressingmodes pass. (It\u0027s not rule-based, but has the same flavor of doing rewrites after the main lowering pass is done.)",
+      "parentUuid": "b6f2086a_5e890b57",
+      "revId": "f51334f8eb857177fa3bb6b43c94929a1c4feb7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2df1bef9_1b7b7696",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
         "patchSetId": 1
