@@ -130,6 +130,8 @@ func TestMain(m *testing.M) {
 				return fmt.Errorf("%stestgo must not write to GOROOT (installing to %s)", callerPos, filepath.Join("GOROOT", rel))
 			}
 		}
+
+		work.AllowBuilderLeaks = false
 		cmdgo.Main()
 		os.Exit(0)
 	}
