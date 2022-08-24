@@ -1,0 +1,222 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e4af9d9_ce61b18e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 54
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-08-24T18:05:30Z",
+      "side": 1,
+      "message": "I have questions, but LGTM.",
+      "revId": "96c1c328c85d19a996c224e7d20492ce8bd166e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4793aa1_d3611b70",
+        "filename": "src/runtime/coverage/apis.go",
+        "patchSetId": 54
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-08-24T18:05:30Z",
+      "side": 1,
+      "message": "\"if [the] operation\"",
+      "range": {
+        "startLine": 17,
+        "startChar": 26,
+        "endLine": 17,
+        "endChar": 38
+      },
+      "revId": "96c1c328c85d19a996c224e7d20492ce8bd166e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba0760dc_53be0f99",
+        "filename": "src/runtime/coverage/apis.go",
+        "patchSetId": 54
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-08-24T18:05:30Z",
+      "side": 1,
+      "message": "\"for [the] currently\"",
+      "range": {
+        "startLine": 28,
+        "startChar": 63,
+        "endLine": 29,
+        "endChar": 12
+      },
+      "revId": "96c1c328c85d19a996c224e7d20492ce8bd166e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "524d2b0c_29953319",
+        "filename": "src/runtime/coverage/apis.go",
+        "patchSetId": 54
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-08-24T18:05:30Z",
+      "side": 1,
+      "message": "\"if [the] operation\"",
+      "range": {
+        "startLine": 30,
+        "startChar": 12,
+        "endLine": 30,
+        "endChar": 24
+      },
+      "revId": "96c1c328c85d19a996c224e7d20492ce8bd166e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c33dd23_6c0a1488",
+        "filename": "src/runtime/coverage/apis.go",
+        "patchSetId": 54
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-08-24T18:05:30Z",
+      "side": 1,
+      "message": "\"if [the] operation\"",
+      "range": {
+        "startLine": 46,
+        "startChar": 26,
+        "endLine": 46,
+        "endChar": 38
+      },
+      "revId": "96c1c328c85d19a996c224e7d20492ce8bd166e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "771700ea_201c3fb6",
+        "filename": "src/runtime/coverage/apis.go",
+        "patchSetId": 54
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-08-24T18:05:30Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 56,
+        "startChar": 26,
+        "endLine": 56,
+        "endChar": 38
+      },
+      "revId": "96c1c328c85d19a996c224e7d20492ce8bd166e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd84561c_4ad51ca3",
+        "filename": "src/runtime/coverage/apis.go",
+        "patchSetId": 54
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-08-24T18:05:30Z",
+      "side": 1,
+      "message": "Comparing this with above, are these error messages consistent?  Is final hash a product of building with -cover, or of doing something with the metadata?",
+      "revId": "96c1c328c85d19a996c224e7d20492ce8bd166e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d726f458_f508aacc",
+        "filename": "src/runtime/coverage/apis.go",
+        "patchSetId": 54
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-08-24T18:05:30Z",
+      "side": 1,
+      "message": "\"corresponding [to] the\"",
+      "range": {
+        "startLine": 116,
+        "startChar": 18,
+        "endLine": 116,
+        "endChar": 35
+      },
+      "revId": "96c1c328c85d19a996c224e7d20492ce8bd166e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b73e12fa_c23f11b1",
+        "filename": "src/runtime/coverage/apis.go",
+        "patchSetId": 54
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-08-24T18:05:30Z",
+      "side": 1,
+      "message": "Is it possible (depending on the architecture) that this requires some sort of a barrier between reading sd[i] and the data that follows?  E.g., this might be dodgy on arm64.",
+      "range": {
+        "startLine": 133,
+        "startChar": 3,
+        "endLine": 133,
+        "endChar": 17
+      },
+      "revId": "96c1c328c85d19a996c224e7d20492ce8bd166e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06120d6d_d17cd9bf",
+        "filename": "src/runtime/coverage/emit.go",
+        "patchSetId": 54
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-08-24T18:05:30Z",
+      "side": 1,
+      "message": "is 3 the same as coverage.FirstCtrOffset?",
+      "range": {
+        "startLine": 470,
+        "startChar": 20,
+        "endLine": 470,
+        "endChar": 21
+      },
+      "revId": "96c1c328c85d19a996c224e7d20492ce8bd166e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
