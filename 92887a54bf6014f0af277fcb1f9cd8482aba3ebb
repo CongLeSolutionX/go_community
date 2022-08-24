@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8fcdc64d_0505bf15",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-08-24T16:23:54Z",
+      "side": 1,
+      "message": "I think there needs to be some discussion about the benefits, in the CL description or somewhere.",
+      "revId": "92887a54bf6014f0af277fcb1f9cd8482aba3ebb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ddc45839_b3646926",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1992,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-08-24T16:23:54Z",
+      "side": 1,
+      "message": "Do we need 128 of them? The old code just needs a few. Can we do the same?",
+      "revId": "92887a54bf6014f0af277fcb1f9cd8482aba3ebb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
