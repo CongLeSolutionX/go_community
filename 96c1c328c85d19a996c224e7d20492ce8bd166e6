@@ -401,6 +401,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "96dcec22_5badad37",
+        "filename": "src/runtime/coverage/apis.go",
+        "patchSetId": 54
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-08-24T21:28:44Z",
+      "side": 1,
+      "message": "The bad scenario I imagine is that the counter-number write somehow falls behind the write of the counters themselves (at least to an observer in another thread), and you run into the same problem you describe in zeroing -- that the function scanner misinterprets counter values as the function header because the actual function header is still zero.\n\nAnd arm64, because to my knowledge that architecture tends more finicky about its read/write fences.",
+      "parentUuid": "936bfbdd_20e0c7ff",
+      "range": {
+        "startLine": 133,
+        "startChar": 3,
+        "endLine": 133,
+        "endChar": 17
+      },
+      "revId": "96c1c328c85d19a996c224e7d20492ce8bd166e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "06120d6d_d17cd9bf",
         "filename": "src/runtime/coverage/emit.go",
         "patchSetId": 54
