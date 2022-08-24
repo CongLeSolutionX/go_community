@@ -90,6 +90,41 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0e2e116_558c3bd4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-08-24T04:39:48Z",
+      "side": 1,
+      "message": "I will deal with other comments after we come up with a consistent solution, thanks for your review.",
+      "revId": "f51334f8eb857177fa3bb6b43c94929a1c4feb7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a05f24d_6e0f6c25",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-08-24T04:39:48Z",
+      "side": 1,
+      "message": "Can we add another lower pass, say \"later lower\", after the current lower pass. And the corresponding rule file (e.g. ARM64LATER.rules) only contains rules that need to be run at the end. I think there may be other rules that need to be run at the end, so it might be better to keep the current rule-based approach.",
+      "parentUuid": "500e0ade_617c6616",
+      "revId": "f51334f8eb857177fa3bb6b43c94929a1c4feb7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2df1bef9_1b7b7696",
