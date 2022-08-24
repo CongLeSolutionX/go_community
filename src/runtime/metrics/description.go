@@ -265,6 +265,11 @@ var allDesc = []Description{
 		Description: "Count of M wakeups as a locked M.",
 		Kind:        KindFloat64Histogram,
 	},
+	{
+		Name:        "/sched/thread/wakeup-latencies:seconds",
+		Description: "Distribution of the time taken to wake an M.",
+		Kind:        KindFloat64Histogram,
+	},
 }
 
 // All returns a slice of containing metric descriptions for all supported metrics.

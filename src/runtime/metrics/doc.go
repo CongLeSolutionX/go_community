@@ -198,5 +198,8 @@ Below is the full list of supported metrics, ordered lexicographically.
 
 	/sched/thread/wakeups-locked:wakeups
 		Count of M wakeups as a locked M.
+
+	/sched/thread/wakeup-latencies:seconds
+		Distribution of the time taken to wake an M.
 */
 package metrics

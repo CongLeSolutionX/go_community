@@ -591,6 +591,8 @@ type m struct {
 	// Whether this is a pending preemption signal on this M.
 	signalPending atomic.Uint32
 
+	wakeTime int64 // time wake of this M was initiated.
+
 	// wakeups is the number of times this M is woken from park (excluding
 	// as a locked M or in rwmutex).
 	wakeups atomic.Uint64
@@ -851,6 +853,11 @@ type schedt struct {
 	// as the sum of time a G spends in the _Grunnable state before
 	// it transitions to _Grunning.
 	timeToRun timeHistogram
+
+	// timeToWake is a distribution of M wakeup latency, defined as the
+	// time from notewakeup until notesleep returns. Used only for unlocked
+	// Ms.
+	timeToWake timeHistogram
 
 	// runTime is a distribution of goroutine run times, defined as the
 	// time a G spends in the _Grunning state before it transitions to

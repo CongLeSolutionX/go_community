@@ -355,6 +355,15 @@ func initMetrics() {
 				out.scalar = in.sysStats.threadWakeupsLocked
 			},
 		},
+		"/sched/thread/wakeup-latencies:seconds": {
+			compute: func(_ *statAggregate, out *metricValue) {
+				hist := out.float64HistOrInit(timeHistBuckets)
+				hist.counts[0] = sched.timeToWake.underflow.Load()
+				for i := range sched.timeToWake.counts {
+					hist.counts[i+1] = sched.timeToWake.counts[i].Load()
+				}
+			},
+		},
 	}
 	metricsInit = true
 }

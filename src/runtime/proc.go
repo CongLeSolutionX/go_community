@@ -1304,6 +1304,7 @@ func startTheWorldWithSema(emitTraceEvent bool) int64 {
 				throw("startTheWorld: inconsistent mp->nextp")
 			}
 			mp.nextp.set(p)
+			mp.wakeTime = nanotime()
 			notewakeup(&mp.park)
 		} else {
 			// Start M to run P.  Do not start another M below.
@@ -1474,6 +1475,10 @@ func mPark() {
 		gp.m.wakeupsLocked.Add(1)
 	} else {
 		gp.m.wakeups.Add(1)
+	}
+	if gp.m.wakeTime != 0 {
+		sched.timeToWake.record(nanotime() - gp.m.wakeTime)
+		gp.m.wakeTime = 0
 	}
 }
 
@@ -2350,6 +2355,7 @@ func startm(pp *p, spinning bool) {
 	// The caller incremented nmspinning, so set m.spinning in the new M.
 	nmp.spinning = spinning
 	nmp.nextp.set(pp)
+	nmp.wakeTime = nanotime()
 	notewakeup(&nmp.park)
 	// Ownership transfer of pp committed by wakeup. Preemption is now
 	// safe.
@@ -2508,6 +2514,7 @@ func startlockedm(gp *g) {
 	incidlelocked(-1)
 	pp := releasep()
 	mp.nextp.set(pp)
+	mp.wakeTime = nanotime()
 	notewakeup(&mp.park)
 	stopm()
 }
@@ -5171,6 +5178,7 @@ func checkdead() {
 			sched.nmspinning.Add(1)
 			mp.spinning = true
 			mp.nextp.set(pp)
+			mp.wakeTime = nanotime()
 			notewakeup(&mp.park)
 			return
 		}
