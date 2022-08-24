@@ -107,6 +107,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "afd736c0_0ff477e4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2022-08-24T10:11:14Z",
+      "side": 1,
+      "message": "I\u0027m going to skip using a pool for now - I prefer to leave it as a last resort option :) One buffer allocation per file print doesn\u0027t seem particularly worrying either, as we currently have ~3k other allocations in place for the benchmark. I think Sprintf is different, as most Sprintf calls are much cheaper and should allocate way less.",
+      "parentUuid": "1d9cff2f_e62b31d7",
+      "revId": "f38d51180af63ca4a3da8f36b65c71ecacf061e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "063ddbb5_feff51b0",
@@ -168,6 +186,30 @@
       "side": 1,
       "message": "Agreed, that\u0027s better.",
       "parentUuid": "ffbaba43_862f49e2",
+      "range": {
+        "startLine": 1823,
+        "startChar": 3,
+        "endLine": 1823,
+        "endChar": 52
+      },
+      "revId": "f38d51180af63ca4a3da8f36b65c71ecacf061e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "363f2f33_603eb2ce",
+        "filename": "src/go/printer/nodes.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1823,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2022-08-24T10:11:14Z",
+      "side": 1,
+      "message": "Thanks, done. Not sure how I ended up with that old sentence, I must have been a bit tired.",
+      "parentUuid": "96ee6246_0afe671b",
       "range": {
         "startLine": 1823,
         "startChar": 3,
@@ -262,6 +304,48 @@
         "endLine": 1332,
         "endChar": 9
       },
+      "revId": "f38d51180af63ca4a3da8f36b65c71ecacf061e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8db3613_176bd0ef",
+        "filename": "src/go/printer/printer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1332,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2022-08-24T10:11:14Z",
+      "side": 1,
+      "message": "I thought the same as Robert early on, but also bailed rather quickly for the reasons that Alan suggests. At the end of the day, appending bytes is relatively cheap when compared to everything else that the printer does, especially if we preallocate enough space that append-grows won\u0027t be common.",
+      "parentUuid": "7d9e489c_f373c34d",
+      "range": {
+        "startLine": 1332,
+        "startChar": 3,
+        "endLine": 1332,
+        "endChar": 9
+      },
+      "revId": "f38d51180af63ca4a3da8f36b65c71ecacf061e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90af07a5_7d62db72",
+        "filename": "src/go/printer/printer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1332,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2022-08-24T10:11:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da68e576_b2df0c00",
       "revId": "f38d51180af63ca4a3da8f36b65c71ecacf061e9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
