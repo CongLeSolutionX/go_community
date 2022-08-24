@@ -332,6 +332,15 @@ func initMetrics() {
 				}
 			},
 		},
+		"/sched/runtimes:seconds": {
+			compute: func(_ *statAggregate, out *metricValue) {
+				hist := out.float64HistOrInit(timeHistBuckets)
+				hist.counts[0] = sched.runTime.underflow.Load()
+				for i := range sched.runTime.counts {
+					hist.counts[i+1] = sched.runTime.counts[i].Load()
+				}
+			},
+		},
 		"/sched/thread/wakeups:wakeups": {
 			deps: makeStatDepSet(sysStatsDep),
 			compute: func(in *statAggregate, out *metricValue) {

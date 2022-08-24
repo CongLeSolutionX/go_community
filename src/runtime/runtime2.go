@@ -470,6 +470,8 @@ type g struct {
 	trackingSeq    uint8    // used to decide whether to track this G
 	runnableStamp  int64    // timestamp of when the G last became runnable, only used when tracking
 	runnableTime   int64    // the amount of time spent runnable, cleared when running, only used when tracking
+	trackingRunningSeq    uint8    // used to decide whether to track this G
+	runningStamp   int64
 	sysexitticks   int64    // cputicks when syscall has returned (for tracing)
 	traceseq       uint64   // trace event sequencer
 	tracelastp     puintptr // last P emitted an event for this goroutine
@@ -849,6 +851,11 @@ type schedt struct {
 	// as the sum of time a G spends in the _Grunnable state before
 	// it transitions to _Grunning.
 	timeToRun timeHistogram
+
+	// runTime is a distribution of goroutine run times, defined as the
+	// time a G spends in the _Grunning state before it transitions to
+	// another state.
+	runTime timeHistogram
 }
 
 // Values for the flags field of a sigTabT.

@@ -1025,6 +1025,20 @@ func casgstatus(gp *g, oldval, newval uint32) {
 			gp.runnableTime = 0
 		}
 	}
+	if newval == _Grunning {
+		// Track every 8th time a goroutine transitions into running.
+		if gp.trackingRunningSeq%gTrackingPeriod == 0 {
+			gp.runningStamp = nanotime()
+		}
+		gp.trackingRunningSeq++
+	} else if gp.runningStamp != 0 {
+		if oldval == _Grunning {
+			now := nanotime()
+			runningTime := now - gp.runningStamp
+			gp.runningStamp = 0
+			sched.runTime.record(runningTime)
+		}
+	}
 }
 
 // casgstatus(gp, oldstatus, Gcopystack), assuming oldstatus is Gwaiting or Grunnable.

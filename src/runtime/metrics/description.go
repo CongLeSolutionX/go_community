@@ -251,6 +251,11 @@ var allDesc = []Description{
 		Kind:        KindFloat64Histogram,
 	},
 	{
+		Name:        "/sched/runtimes:seconds",
+		Description: "Distribution of the time goroutines spent in a running state before transitioning to another state.",
+		Kind:        KindFloat64Histogram,
+	},
+	{
 		Name:        "/sched/thread/wakeups:wakeups",
 		Description: "Count of M wakeups (excluding as a locked M or rwmutex).",
 		Kind:        KindFloat64Histogram,
