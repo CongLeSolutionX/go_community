@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13cccc2c_ffb71e3d",
+        "filename": "src/unsafe/unsafe.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-08-24T22:08:00Z",
+      "side": 1,
+      "message": "// SliceData returns a pointer to the underlying array of slice.\n// If the slice value is from an uninitialized variable, SliceData\n// returns nil.",
+      "range": {
+        "startLine": 243,
+        "startChar": 21,
+        "endLine": 243,
+        "endChar": 24
+      },
+      "revId": "8f86dc781f8b60ece035671f02b7c7a29d65062e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f563099_40815a90",
+        "filename": "src/unsafe/unsafe.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-08-24T22:08:00Z",
+      "side": 1,
+      "message": "// String returns a string value whose underlying bytes\n// start at ptr and whose length is len.\n// If ptr is nil and and len is zero, String returns the\n// empty string.\n//\n// The len argument must be of integer type or an untyped constant.\n// A constant len argument must be non-negative and representable by\n// a value of type int; if it is an untyped constant it is given type int.\n// At run time, if len is negative, or if ptr is nil and len is not zero,\n// a run-time panic occurs.\n//\n// The bytes passed to String must not be modified afterwards,\n// otherwise the program may behave unpredictably.",
+      "revId": "8f86dc781f8b60ece035671f02b7c7a29d65062e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e595ecd1_b080fdab",
+        "filename": "src/unsafe/unsafe.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-08-24T22:08:00Z",
+      "side": 1,
+      "message": "// StringData returns a pointer to the underlying bytes of str.\n// If the str value is from an uninitialized variable, StringData\n// returns nil.",
+      "range": {
+        "startLine": 251,
+        "startChar": 14,
+        "endLine": 251,
+        "endChar": 21
+      },
+      "revId": "8f86dc781f8b60ece035671f02b7c7a29d65062e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
