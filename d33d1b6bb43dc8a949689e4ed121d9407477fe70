@@ -126,6 +126,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "9c83d84e_3555ee3c",
+        "filename": "src/image/png/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 908,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2022-08-24T12:20:07Z",
+      "side": 1,
+      "message": "Good catch. I went with the https://go.dev/issue/54142 bug report (which said \"types 2 or 6\") but forgot to check the spec.\n\nPTAL.",
+      "parentUuid": "73a958b7_a37fc7f0",
+      "revId": "d33d1b6bb43dc8a949689e4ed121d9407477fe70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "e9db4d7d_7a5f6c76",
         "filename": "src/image/png/reader.go",
         "patchSetId": 1
