@@ -1985,31 +1985,21 @@ func MapOf(key, elem Type) Type {
 	return ti.(Type)
 }
 
-// TODO(crawshaw): as these funcTypeFixedN structs have no methods,
-// they could be defined at runtime using the StructOf function.
-type funcTypeFixed4 struct {
-	funcType
-	args [4]*rtype
-}
-type funcTypeFixed8 struct {
-	funcType
-	args [8]*rtype
-}
-type funcTypeFixed16 struct {
-	funcType
-	args [16]*rtype
-}
-type funcTypeFixed32 struct {
-	funcType
-	args [32]*rtype
-}
-type funcTypeFixed64 struct {
-	funcType
-	args [64]*rtype
-}
-type funcTypeFixed128 struct {
-	funcType
-	args [128]*rtype
+var funcTypes [129]Type
+
+func init() {
+	for i := 0; i <= 128; i++ {
+		funcTypes[i] = StructOf([]StructField{
+			{
+				Name: "FuncType",
+				Type: TypeOf(funcType{}),
+			},
+			{
+				Name: "Args",
+				Type: ArrayOf(i, TypeOf(&rtype{})),
+			},
+		})
+	}
 }
 
 // FuncOf returns the function type with the given argument and result types.
@@ -2031,34 +2021,14 @@ func FuncOf(in, out []Type, variadic bool) Type {
 
 	var ft *funcType
 	var args []*rtype
-	switch {
-	case n <= 4:
-		fixed := new(funcTypeFixed4)
-		args = fixed.args[:0:len(fixed.args)]
-		ft = &fixed.funcType
-	case n <= 8:
-		fixed := new(funcTypeFixed8)
-		args = fixed.args[:0:len(fixed.args)]
-		ft = &fixed.funcType
-	case n <= 16:
-		fixed := new(funcTypeFixed16)
-		args = fixed.args[:0:len(fixed.args)]
-		ft = &fixed.funcType
-	case n <= 32:
-		fixed := new(funcTypeFixed32)
-		args = fixed.args[:0:len(fixed.args)]
-		ft = &fixed.funcType
-	case n <= 64:
-		fixed := new(funcTypeFixed64)
-		args = fixed.args[:0:len(fixed.args)]
-		ft = &fixed.funcType
-	case n <= 128:
-		fixed := new(funcTypeFixed128)
-		args = fixed.args[:0:len(fixed.args)]
-		ft = &fixed.funcType
-	default:
+	if n <= 128 {
+		o := New(funcTypes[n]).Elem()
+		ft = (*funcType)(unsafe.Pointer(o.Field(0).Addr().Pointer()))
+		args = (*(*[128]*rtype)(unsafe.Pointer(o.Field(1).Addr().Pointer())))[:0:n]
+	} else {
 		panic("reflect.FuncOf: too many arguments")
 	}
+
 	*ft = *prototype
 
 	// Build a hash and minimally populate ft.
