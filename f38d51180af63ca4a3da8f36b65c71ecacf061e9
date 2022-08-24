@@ -161,6 +161,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0be0fa30_f996993b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2022-08-24T18:10:32Z",
+      "side": 1,
+      "message": "How about I add a benchmark that prints just one simple node, like one variable declaration? Then we can measure the effect of \"init time\" changes like this one for both large and small print jobs. My guess would be that printing a simple declaration allocates more bytes in total, but that the performance is still good.",
+      "parentUuid": "2259af91_9def3a2d",
+      "revId": "f38d51180af63ca4a3da8f36b65c71ecacf061e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "063ddbb5_feff51b0",
