@@ -250,6 +250,16 @@ var allDesc = []Description{
 		Description: "Distribution of the time goroutines have spent in the scheduler in a runnable state before actually running.",
 		Kind:        KindFloat64Histogram,
 	},
+	{
+		Name:        "/sched/thread/wakeups:wakeups",
+		Description: "Count of M wakeups (excluding as a locked M or rwmutex).",
+		Kind:        KindFloat64Histogram,
+	},
+	{
+		Name:        "/sched/thread/wakeups-locked:wakeups",
+		Description: "Count of M wakeups as a locked M.",
+		Kind:        KindFloat64Histogram,
+	},
 }
 
 // All returns a slice of containing metric descriptions for all supported metrics.

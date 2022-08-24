@@ -332,6 +332,20 @@ func initMetrics() {
 				}
 			},
 		},
+		"/sched/thread/wakeups:wakeups": {
+			deps: makeStatDepSet(sysStatsDep),
+			compute: func(in *statAggregate, out *metricValue) {
+				out.kind = metricKindUint64
+				out.scalar = in.sysStats.threadWakeups
+			},
+		},
+		"/sched/thread/wakeups-locked:wakeups": {
+			deps: makeStatDepSet(sysStatsDep),
+			compute: func(in *statAggregate, out *metricValue) {
+				out.kind = metricKindUint64
+				out.scalar = in.sysStats.threadWakeupsLocked
+			},
+		},
 	}
 	metricsInit = true
 }
@@ -466,6 +480,9 @@ type sysStatsAggregate struct {
 	heapGoal       uint64
 	gcCyclesDone   uint64
 	gcCyclesForced uint64
+
+	threadWakeups       uint64
+	threadWakeupsLocked uint64
 }
 
 // compute populates the sysStatsAggregate with values from the runtime.
@@ -485,6 +502,15 @@ func (a *sysStatsAggregate) compute() {
 		a.mCacheSys = memstats.mcache_sys.load()
 		a.mCacheInUse = uint64(mheap_.cachealloc.inuse)
 		unlock(&mheap_.lock)
+
+		a.threadWakeups = 0
+		a.threadWakeupsLocked = 0
+		lock(&sched.lock)
+		for mp := allm; mp != nil; mp = mp.alllink {
+			a.threadWakeups += mp.wakeups.Load()
+			a.threadWakeups += mp.wakeupsLocked.Load()
+		}
+		unlock(&sched.lock)
 	})
 }
 

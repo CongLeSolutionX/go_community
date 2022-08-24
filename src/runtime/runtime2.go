@@ -589,6 +589,13 @@ type m struct {
 	// Whether this is a pending preemption signal on this M.
 	signalPending atomic.Uint32
 
+	// wakeups is the number of times this M is woken from park (excluding
+	// as a locked M or in rwmutex).
+	wakeups atomic.Uint64
+
+	// wakeupsLocked is the number of times this M is woken as a locked M.
+	wakeupsLocked atomic.Uint64
+
 	dlogPerM
 
 	mOS

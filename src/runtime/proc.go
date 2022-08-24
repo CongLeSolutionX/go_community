@@ -1456,6 +1456,11 @@ func mPark() {
 	gp := getg()
 	notesleep(&gp.m.park)
 	noteclear(&gp.m.park)
+	if gp.m.lockedg != 0 {
+		gp.m.wakeupsLocked.Add(1)
+	} else {
+		gp.m.wakeups.Add(1)
+	}
 }
 
 // mexit tears down and exits the current thread.

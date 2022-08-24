@@ -188,5 +188,11 @@ Below is the full list of supported metrics, ordered lexicographically.
 	/sched/latencies:seconds
 		Distribution of the time goroutines have spent in the scheduler
 		in a runnable state before actually running.
+
+	/sched/thread/wakeups:wakeups
+		Count of M wakeups (excluding as a locked M or rwmutex).
+
+	/sched/thread/wakeups-locked:wakeups
+		Count of M wakeups as a locked M.
 */
 package metrics
