@@ -16,6 +16,24 @@
       "message": "This probably doesn\u0027t matter much in practice, but IIRC FieldByName does a linear search  across the type\u0027s fields, and we\u0027re doing it twice per field.\n\nI think we can make this a little bit more efficient and simpler as well. How about something like (untested):\n\n    dst :\u003d reflect.ValueOf(target).Elem()\n    src :\u003d reflect.ValueOf(e)\n    srcType :\u003d src.Type()\n    dstType :\u003d dst.Type()\n    numField :\u003d srcType.NumField()\n    if numField !\u003d target.Type().NumField() {\n      return false\n    }\n    for i :\u003d 0; i \u003c numField; i++ {\n      sf :\u003d srcType.Field(i)\n      df :\u003d dstType.Field(i)\n      if sf.Name !\u003d df.Name || !sf.Type.ConvertableTo(df.Type) {\n        return false\n      }\n    }\n    for i :\u003d 0; i \u003c numField; i++ {\n      df.Set(src.Field(i).Convert(df.Type())\n    }\n    return true\n    \nThis way the As function doesn\u0027t need to know anything about the structure of the StreamError type, since it just compares the source and destination types.\n\n(Sorry, I should have suggested this approach in the original review, but it didn\u0027t occur to me until now.)",
       "revId": "344de21896b5d70a632c3979560c81cb1922f4ed",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51ff1e73_ad85095d",
+        "filename": "src/net/http/h2_error.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 58778
+      },
+      "writtenOn": "2022-08-24T23:27:36Z",
+      "side": 1,
+      "message": "This is much better! I didn\u0027t know about the ConvertibleTo method. I\u0027ll move to something like this.",
+      "parentUuid": "1fb8a27b_2daf25bb",
+      "revId": "344de21896b5d70a632c3979560c81cb1922f4ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
