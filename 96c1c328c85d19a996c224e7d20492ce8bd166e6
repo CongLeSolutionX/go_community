@@ -18,6 +18,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a475e8bf_84800ad7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 54
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-08-24T19:09:22Z",
+      "side": 1,
+      "message": "Thanks for the comments.",
+      "revId": "96c1c328c85d19a996c224e7d20492ce8bd166e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d4793aa1_d3611b70",
@@ -31,6 +48,30 @@
       "writtenOn": "2022-08-24T18:05:30Z",
       "side": 1,
       "message": "\"if [the] operation\"",
+      "range": {
+        "startLine": 17,
+        "startChar": 26,
+        "endLine": 17,
+        "endChar": 38
+      },
+      "revId": "96c1c328c85d19a996c224e7d20492ce8bd166e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab834c19_bf8700b2",
+        "filename": "src/runtime/coverage/apis.go",
+        "patchSetId": 54
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-08-24T19:09:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d4793aa1_d3611b70",
       "range": {
         "startLine": 17,
         "startChar": 26,
@@ -64,6 +105,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b3a8744_2105e156",
+        "filename": "src/runtime/coverage/apis.go",
+        "patchSetId": 54
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-08-24T19:09:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba0760dc_53be0f99",
+      "range": {
+        "startLine": 28,
+        "startChar": 63,
+        "endLine": 29,
+        "endChar": 12
+      },
+      "revId": "96c1c328c85d19a996c224e7d20492ce8bd166e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "524d2b0c_29953319",
@@ -77,6 +142,30 @@
       "writtenOn": "2022-08-24T18:05:30Z",
       "side": 1,
       "message": "\"if [the] operation\"",
+      "range": {
+        "startLine": 30,
+        "startChar": 12,
+        "endLine": 30,
+        "endChar": 24
+      },
+      "revId": "96c1c328c85d19a996c224e7d20492ce8bd166e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "269a7f9e_a7f29ae4",
+        "filename": "src/runtime/coverage/apis.go",
+        "patchSetId": 54
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-08-24T19:09:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "524d2b0c_29953319",
       "range": {
         "startLine": 30,
         "startChar": 12,
@@ -110,6 +199,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0416463_959103c5",
+        "filename": "src/runtime/coverage/apis.go",
+        "patchSetId": 54
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-08-24T19:09:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c33dd23_6c0a1488",
+      "range": {
+        "startLine": 46,
+        "startChar": 26,
+        "endLine": 46,
+        "endChar": 38
+      },
+      "revId": "96c1c328c85d19a996c224e7d20492ce8bd166e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "771700ea_201c3fb6",
@@ -123,6 +236,30 @@
       "writtenOn": "2022-08-24T18:05:30Z",
       "side": 1,
       "message": "same",
+      "range": {
+        "startLine": 56,
+        "startChar": 26,
+        "endLine": 56,
+        "endChar": 38
+      },
+      "revId": "96c1c328c85d19a996c224e7d20492ce8bd166e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1c43b85_0efce729",
+        "filename": "src/runtime/coverage/apis.go",
+        "patchSetId": 54
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-08-24T19:09:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "771700ea_201c3fb6",
       "range": {
         "startLine": 56,
         "startChar": 26,
@@ -152,6 +289,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "61d6454a_f4376f5c",
+        "filename": "src/runtime/coverage/apis.go",
+        "patchSetId": 54
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-08-24T19:09:22Z",
+      "side": 1,
+      "message": "This is more of an insanity or an internal error, as opposed to something simple like not building with \"-cover\". \n\nThe final hash computation takes place in a call made from the main package \"init\" function, so if you try to write counter data before, then you\u0027ll hit this error. E.g. \n\nmain.go:\n  package main\n  import \"p\"\n  func main() {\n    p.Foo()\n  }\n\np.go:\n  package p\n  import (\n\t\"bytes\"\n\t\"fmt\"\n\t\"os\"\n\t\"runtime/coverage\"\n  )\n  func init() {\n\tvar b bytes.Buffer\n\terr :\u003d coverage.EmitCounterDataToWriter(\u0026b)\n\tif err !\u003d nil {\n\t\tfmt.Fprintf(os.Stderr, \"\u003d-\u003d err %v\\n\", err)\n\t}\n  }\n  func Foo() {\n    println(\"foo\")\n  }\n\nThis weird thing above would trigger the error, for example.",
+      "parentUuid": "bd84561c_4ad51ca3",
+      "revId": "96c1c328c85d19a996c224e7d20492ce8bd166e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d726f458_f508aacc",
         "filename": "src/runtime/coverage/apis.go",
         "patchSetId": 54
@@ -163,6 +318,30 @@
       "writtenOn": "2022-08-24T18:05:30Z",
       "side": 1,
       "message": "\"corresponding [to] the\"",
+      "range": {
+        "startLine": 116,
+        "startChar": 18,
+        "endLine": 116,
+        "endChar": 35
+      },
+      "revId": "96c1c328c85d19a996c224e7d20492ce8bd166e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01faa27c_16b4c896",
+        "filename": "src/runtime/coverage/apis.go",
+        "patchSetId": 54
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-08-24T19:09:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d726f458_f508aacc",
       "range": {
         "startLine": 116,
         "startChar": 18,
@@ -198,6 +377,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "936bfbdd_20e0c7ff",
+        "filename": "src/runtime/coverage/apis.go",
+        "patchSetId": 54
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-08-24T19:09:22Z",
+      "side": 1,
+      "message": "The only value that is ever written to this slot is the number of counters for the function, so while technically you have a data race (since program is still executing), there is never any danger of seeing an inconsistent value.\n\nMaybe you can say more about what the bad scenario might be on arm64?",
+      "parentUuid": "b73e12fa_c23f11b1",
+      "range": {
+        "startLine": 133,
+        "startChar": 3,
+        "endLine": 133,
+        "endChar": 17
+      },
+      "revId": "96c1c328c85d19a996c224e7d20492ce8bd166e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "06120d6d_d17cd9bf",
         "filename": "src/runtime/coverage/emit.go",
         "patchSetId": 54
@@ -209,6 +412,30 @@
       "writtenOn": "2022-08-24T18:05:30Z",
       "side": 1,
       "message": "is 3 the same as coverage.FirstCtrOffset?",
+      "range": {
+        "startLine": 470,
+        "startChar": 20,
+        "endLine": 470,
+        "endChar": 21
+      },
+      "revId": "96c1c328c85d19a996c224e7d20492ce8bd166e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb63a8b0_4bfb3d89",
+        "filename": "src/runtime/coverage/emit.go",
+        "patchSetId": 54
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-08-24T19:09:22Z",
+      "side": 1,
+      "message": "Yes. I\u0027ll fix that up...",
+      "parentUuid": "06120d6d_d17cd9bf",
       "range": {
         "startLine": 470,
         "startChar": 20,
