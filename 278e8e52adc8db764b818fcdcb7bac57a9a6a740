@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf16dd9d_aa3c22d0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-08-24T15:24:28Z",
+      "side": 1,
+      "message": "This will cause essentially every Go program to do more work when it starts running.  That doesn\u0027t seem like a good tradeoff.",
+      "revId": "278e8e52adc8db764b818fcdcb7bac57a9a6a740",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
