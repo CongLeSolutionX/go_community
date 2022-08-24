@@ -33,6 +33,24 @@
       "message": "Do we need 128 of them? The old code just needs a few. Can we do the same?",
       "revId": "92887a54bf6014f0af277fcb1f9cd8482aba3ebb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93169083_6a693685",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1992,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2022-08-24T16:34:05Z",
+      "side": 1,
+      "message": "i think make 128 of funcTypes is better for memory allocations, in the old code it will alloc [128]*rtype for func with 65 args, the new code just alloc [65]*rtype for args.",
+      "parentUuid": "ddc45839_b3646926",
+      "revId": "92887a54bf6014f0af277fcb1f9cd8482aba3ebb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
