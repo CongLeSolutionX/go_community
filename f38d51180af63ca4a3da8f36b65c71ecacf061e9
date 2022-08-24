@@ -125,6 +125,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "42d53965_00107160",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2022-08-24T16:09:41Z",
+      "side": 1,
+      "message": "Fair enough about not using a pool, but my bigger concern is that the benchmark measures only complete files, whereas it may be more common in production (or in gopls at least) for the workload to be only a single declaration.",
+      "parentUuid": "afd736c0_0ff477e4",
+      "revId": "f38d51180af63ca4a3da8f36b65c71ecacf061e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "063ddbb5_feff51b0",
