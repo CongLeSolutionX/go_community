@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d247a370_fe13b919",
+        "filename": "src/debug/macho/file.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 55613
+      },
+      "writtenOn": "2022-08-24T13:55:33Z",
+      "side": 1,
+      "message": "I see Ian use `s.Size` here, maybe saferio.ReadDataAt expects origin size?",
+      "range": {
+        "startLine": 125,
+        "startChar": 40,
+        "endLine": 125,
+        "endChar": 51
+      },
+      "revId": "6d7e61833a2ac3424a9173066a3fc949a7db14d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
