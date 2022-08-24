@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0c48d8f_34aa786e",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-08-24T21:16:26Z",
+      "side": 1,
+      "message": "(not sure) Do the blank lines in these code blocks need trailing tabs to keep each snippet in a single block?",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 2
+      },
+      "revId": "146bbd9d193431628609fd0033f911a7965ebf7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ef6e352_da3efa92",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-08-24T21:16:26Z",
+      "side": 1,
+      "message": "s/This/this/ (since the previous line ends in a colon)",
+      "range": {
+        "startLine": 40,
+        "startChar": 3,
+        "endLine": 40,
+        "endChar": 4
+      },
+      "revId": "146bbd9d193431628609fd0033f911a7965ebf7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
