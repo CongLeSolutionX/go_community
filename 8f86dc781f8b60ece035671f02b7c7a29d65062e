@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dca5f929_cf11e174",
+        "filename": "src/unsafe/unsafe.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2022-08-25T00:18:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13cccc2c_ffb71e3d",
+      "range": {
+        "startLine": 243,
+        "startChar": 21,
+        "endLine": 243,
+        "endChar": 24
+      },
+      "revId": "8f86dc781f8b60ece035671f02b7c7a29d65062e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0f563099_40815a90",
@@ -41,6 +65,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "268cafd9_9b96d162",
+        "filename": "src/unsafe/unsafe.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2022-08-25T00:18:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f563099_40815a90",
+      "revId": "8f86dc781f8b60ece035671f02b7c7a29d65062e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e595ecd1_b080fdab",
@@ -54,6 +96,30 @@
       "writtenOn": "2022-08-24T22:08:00Z",
       "side": 1,
       "message": "// StringData returns a pointer to the underlying bytes of str.\n// If the str value is from an uninitialized variable, StringData\n// returns nil.",
+      "range": {
+        "startLine": 251,
+        "startChar": 14,
+        "endLine": 251,
+        "endChar": 21
+      },
+      "revId": "8f86dc781f8b60ece035671f02b7c7a29d65062e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "291617a5_5fba81d2",
+        "filename": "src/unsafe/unsafe.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2022-08-25T00:18:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e595ecd1_b080fdab",
       "range": {
         "startLine": 251,
         "startChar": 14,
