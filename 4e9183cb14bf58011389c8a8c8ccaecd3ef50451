@@ -52,6 +52,24 @@
       "parentUuid": "6c2071b7_e80a8cdc",
       "revId": "4e9183cb14bf58011389c8a8c8ccaecd3ef50451",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3facb97_cdc11110",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2022-08-25T18:17:18Z",
+      "side": 1,
+      "message": "Got it. So 2 breakages from this change.\n\nFrom the perspective of the `time` package, this is fixing an internal inconsistency where parsing as `RFC3339` and `RFC3339Nano` differ subtly with regard to this behavior. The currently documented behavior prior to this change is that we allow any number of sub-second digits and truncate the extra precision.\n\nFrom the perspective of RFC 3339, arbitrary precision sub-seconds is allowed by the grammar specified in section 5.6. Furthermore, section 5.7 does not mention anything about implementations being allowed to restrict the grammar to a finite number of sub-second digits.\n\nFrom the perspective of protobuf, they document that:\n\u003e A Timestamp message is serialized to a RFC 3339 date-time string with a few restrictions.\n\nand later on specify:\n\n\u003e Serialization should also fail if the timestamp field is invalid (e.g., the “nanos” field\ncontains a negative value or greater than 999999999).\n\nIn other words, protobuf does not *exactly* use RFC 3339, but rather a sub-set of it. Therefore, it is the responsibility of protobuf to enforce their subset of the RFC 3339 grammar.\n\nI\u0027ll send out a fix for protojson.",
+      "parentUuid": "72b01c59_70753555",
+      "revId": "4e9183cb14bf58011389c8a8c8ccaecd3ef50451",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
