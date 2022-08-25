@@ -1,0 +1,147 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed292a1a_dfa6c236",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 55
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-08-25T22:07:44Z",
+      "side": 1,
+      "message": "I did the first 3, will continue later.",
+      "revId": "199d5b9f7dda4c8a8d109c2175fbce6eea05fd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41d5d624_951c711c",
+        "filename": "src/cmd/covdata/covdata.go",
+        "patchSetId": 55
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-08-25T22:07:44Z",
+      "side": 1,
+      "message": "Is there an example of such a package?  Maybe it\u0027s obvious, but not to me.  Not sure how the description would change, but I can imagine going \"huh, what\u0027s that?\".",
+      "range": {
+        "startLine": 100,
+        "startChar": 38,
+        "endLine": 100,
+        "endChar": 74
+      },
+      "revId": "199d5b9f7dda4c8a8d109c2175fbce6eea05fd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4cefaacc_cf11625f",
+        "filename": "src/cmd/covdata/covdata.go",
+        "patchSetId": 55
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-08-25T22:07:44Z",
+      "side": 1,
+      "message": "Isn\u0027t this the default?",
+      "range": {
+        "startLine": 192,
+        "startChar": 2,
+        "endLine": 193,
+        "endChar": 28
+      },
+      "revId": "199d5b9f7dda4c8a8d109c2175fbce6eea05fd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "391ae0d6_17a134cf",
+        "filename": "src/cmd/covdata/dump.go",
+        "patchSetId": 55
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-08-25T22:07:44Z",
+      "side": 1,
+      "message": "I might want comments on the fields saying they\u0027re for.  Some of them I figure out from reviewing other stuff (mm) or the type/name (cm, pkgpaths) but pkm is puzzling and I\u0027m not quite sure what a Formatter is or how it varies.",
+      "revId": "199d5b9f7dda4c8a8d109c2175fbce6eea05fd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cfc22173_9854c239",
+        "filename": "src/cmd/covdata/dump.go",
+        "patchSetId": 55
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-08-25T22:07:44Z",
+      "side": 1,
+      "message": "\"vet\"",
+      "range": {
+        "startLine": 99,
+        "startChar": 51,
+        "endLine": 99,
+        "endChar": 55
+      },
+      "revId": "199d5b9f7dda4c8a8d109c2175fbce6eea05fd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a06995a_12dcf3a6",
+        "filename": "src/cmd/covdata/dump.go",
+        "patchSetId": 55
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-08-25T22:07:44Z",
+      "side": 1,
+      "message": "\"inconsistency\"?  or perhaps \"nonsense\".  Usual caveats about sanity/insanity/sane and mental illness.",
+      "range": {
+        "startLine": 146,
+        "startChar": 21,
+        "endLine": 146,
+        "endChar": 29
+      },
+      "revId": "199d5b9f7dda4c8a8d109c2175fbce6eea05fd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4dff3be_7e6d9b02",
+        "filename": "src/cmd/covdata/dump.go",
+        "patchSetId": 55
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-08-25T22:07:44Z",
+      "side": 1,
+      "message": "I think just \"checking\"",
+      "revId": "199d5b9f7dda4c8a8d109c2175fbce6eea05fd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
