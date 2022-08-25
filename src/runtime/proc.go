@@ -3257,7 +3257,7 @@ top:
 	// Safety check: if we are spinning, the run queue should be empty.
 	// Check this before calling checkTimers, as that might call
 	// goready to put a ready goroutine on the local run queue.
-	if mp.spinning && (pp.runnext != 0 || pp.runqhead != pp.runqtail) {
+	if mp.spinning && (pp.runnext != 0 || pp.runqhead.Load() != pp.runqtail.Load()) {
 		throw("schedule: spinning with local work")
 	}
 
@@ -4764,10 +4764,10 @@ func (pp *p) destroy() {
 	assertWorldStopped()
 
 	// Move all runnable goroutines to the global queue
-	for pp.runqhead != pp.runqtail {
+	for pp.runqhead.Load() != pp.runqtail.Load() {
 		// Pop from tail of local queue
-		pp.runqtail--
-		gp := pp.runq[pp.runqtail%uint32(len(pp.runq))].ptr()
+		pp.runqtail.Add(-1)
+		gp := pp.runq[pp.runqtail.Load()%uint32(len(pp.runq))].ptr()
 		// Push onto head of global queue
 		globrunqputhead(gp)
 	}
@@ -5481,8 +5481,8 @@ func schedtrace(detailed bool) {
 	// E.g. (p->m ? p->m->id : -1) can crash if p->m changes from non-nil to nil.
 	for i, pp := range allp {
 		mp := pp.m.ptr()
-		h := atomic.Load(&pp.runqhead)
-		t := atomic.Load(&pp.runqtail)
+		h := pp.runqhead.Load()
+		t := pp.runqtail.Load()
 		if detailed {
 			print("  P", i, ": status=", pp.status, " schedtick=", pp.schedtick, " syscalltick=", pp.syscalltick, " m=")
 			if mp != nil {
@@ -5841,10 +5841,10 @@ func runqempty(pp *p) bool {
 	// Simply observing that runqhead == runqtail and then observing that runqnext == nil
 	// does not mean the queue is empty.
 	for {
-		head := atomic.Load(&pp.runqhead)
-		tail := atomic.Load(&pp.runqtail)
+		head := pp.runqhead.Load()
+		tail := pp.runqtail.Load()
 		runnext := atomic.Loaduintptr((*uintptr)(unsafe.Pointer(&pp.runnext)))
-		if tail == atomic.Load(&pp.runqtail) {
+		if tail == pp.runqtail.Load() {
 			return head == tail && runnext == 0
 		}
 	}
@@ -5885,11 +5885,11 @@ func runqput(pp *p, gp *g, next bool) {
 	}
 
 retry:
-	h := atomic.LoadAcq(&pp.runqhead) // load-acquire, synchronize with consumers
-	t := pp.runqtail
+	h := pp.runqhead.LoadAcquire() // load-acquire, synchronize with consumers
+	t := pp.runqtail.Load()
 	if t-h < uint32(len(pp.runq)) {
 		pp.runq[t%uint32(len(pp.runq))].set(gp)
-		atomic.StoreRel(&pp.runqtail, t+1) // store-release, makes the item available for consumption
+		pp.runqtail.StoreRelease(t + 1) // store-release, makes the item available for consumption
 		return
 	}
 	if runqputslow(pp, gp, h, t) {
@@ -5913,7 +5913,7 @@ func runqputslow(pp *p, gp *g, h, t uint32) bool {
 	for i := uint32(0); i < n; i++ {
 		batch[i] = pp.runq[(h+i)%uint32(len(pp.runq))].ptr()
 	}
-	if !atomic.CasRel(&pp.runqhead, h, h+n) { // cas-release, commits consume
+	if !pp.runqhead.CompareAndSwapRelease(h, h+n) { // cas-release, commits consume
 		return false
 	}
 	batch[n] = gp
@@ -5945,8 +5945,8 @@ func runqputslow(pp *p, gp *g, h, t uint32) bool {
 // this will temporarily acquire the scheduler lock.
 // Executed only by the owner P.
 func runqputbatch(pp *p, q *gQueue, qsize int) {
-	h := atomic.LoadAcq(&pp.runqhead)
-	t := pp.runqtail
+	h := pp.runqhead.LoadAcquire()
+	t := pp.runqtail.Load()
 	n := uint32(0)
 	for !q.empty() && t-h < uint32(len(pp.runq)) {
 		gp := q.pop()
@@ -5958,7 +5958,7 @@ func runqputbatch(pp *p, q *gQueue, qsize int) {
 
 	if randomizeScheduler {
 		off := func(o uint32) uint32 {
-			return (pp.runqtail + o) % uint32(len(pp.runq))
+			return (pp.runqtail.Load() + o) % uint32(len(pp.runq))
 		}
 		for i := uint32(1); i < n; i++ {
 			j := fastrandn(i + 1)
@@ -5966,7 +5966,7 @@ func runqputbatch(pp *p, q *gQueue, qsize int) {
 		}
 	}
 
-	atomic.StoreRel(&pp.runqtail, t)
+	pp.runqtail.StoreRelease(t)
 	if !q.empty() {
 		lock(&sched.lock)
 		globrunqputbatch(q, int32(qsize))
@@ -5989,13 +5989,13 @@ func runqget(pp *p) (gp *g, inheritTime bool) {
 	}
 
 	for {
-		h := atomic.LoadAcq(&pp.runqhead) // load-acquire, synchronize with other consumers
-		t := pp.runqtail
+		h := pp.runqhead.LoadAcquire() // load-acquire, synchronize with other consumers
+		t := pp.runqtail.Load()
 		if t == h {
 			return nil, false
 		}
 		gp := pp.runq[h%uint32(len(pp.runq))].ptr()
-		if atomic.CasRel(&pp.runqhead, h, h+1) { // cas-release, commits consume
+		if pp.runqhead.CompareAndSwapRelease(h, h+1) { // cas-release, commits consume
 			return gp, false
 		}
 	}
@@ -6011,8 +6011,8 @@ func runqdrain(pp *p) (drainQ gQueue, n uint32) {
 	}
 
 retry:
-	h := atomic.LoadAcq(&pp.runqhead) // load-acquire, synchronize with other consumers
-	t := pp.runqtail
+	h := pp.runqhead.LoadAcquire() // load-acquire, synchronize with other consumers
+	t := pp.runqtail.Load()
 	qn := t - h
 	if qn == 0 {
 		return
@@ -6021,7 +6021,7 @@ retry:
 		goto retry
 	}
 
-	if !atomic.CasRel(&pp.runqhead, h, h+qn) { // cas-release, commits consume
+	if !pp.runqhead.CompareAndSwapRelease(h, h+qn) { // cas-release, commits consume
 		goto retry
 	}
 
@@ -6046,8 +6046,8 @@ retry:
 // Can be executed by any P.
 func runqgrab(pp *p, batch *[256]guintptr, batchHead uint32, stealRunNextG bool) uint32 {
 	for {
-		h := atomic.LoadAcq(&pp.runqhead) // load-acquire, synchronize with other consumers
-		t := atomic.LoadAcq(&pp.runqtail) // load-acquire, synchronize with the producer
+		h := pp.runqhead.LoadAcquire() // load-acquire, synchronize with other consumers
+		t := pp.runqtail.LoadAcquire() // load-acquire, synchronize with the producer
 		n := t - h
 		n = n - n/2
 		if n == 0 {
@@ -6090,7 +6090,7 @@ func runqgrab(pp *p, batch *[256]guintptr, batchHead uint32, stealRunNextG bool)
 			g := pp.runq[(h+i)%uint32(len(pp.runq))]
 			batch[(batchHead+i)%uint32(len(batch))] = g
 		}
-		if atomic.CasRel(&pp.runqhead, h, h+n) { // cas-release, commits consume
+		if pp.runqhead.CompareAndSwapRelease(h, h+n) { // cas-release, commits consume
 			return n
 		}
 	}
@@ -6100,7 +6100,7 @@ func runqgrab(pp *p, batch *[256]guintptr, batchHead uint32, stealRunNextG bool)
 // and put onto local runnable queue of p.
 // Returns one of the stolen elements (or nil if failed).
 func runqsteal(pp, p2 *p, stealRunNextG bool) *g {
-	t := pp.runqtail
+	t := pp.runqtail.Load()
 	n := runqgrab(p2, &pp.runq, t, stealRunNextG)
 	if n == 0 {
 		return nil
@@ -6110,11 +6110,11 @@ func runqsteal(pp, p2 *p, stealRunNextG bool) *g {
 	if n == 0 {
 		return gp
 	}
-	h := atomic.LoadAcq(&pp.runqhead) // load-acquire, synchronize with consumers
+	h := pp.runqhead.LoadAcquire() // load-acquire, synchronize with consumers
 	if t-h+n >= uint32(len(pp.runq)) {
 		throw("runqsteal: runq overflow")
 	}
-	atomic.StoreRel(&pp.runqtail, t+n) // store-release, makes the item available for consumption
+	pp.runqtail.StoreRelease(t + n) // store-release, makes the item available for consumption
 	return gp
 }
 
