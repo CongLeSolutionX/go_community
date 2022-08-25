@@ -272,7 +272,7 @@ func (w *gcWork) dispose() {
 		// atomic becomes a problem, we should first try to
 		// dispose less and if necessary aggregate in a per-P
 		// counter.
-		atomic.Xadd64(&work.bytesMarked, int64(w.bytesMarked))
+		work.bytesMarked.Add(int64(w.bytesMarked))
 		w.bytesMarked = 0
 	}
 	if w.heapScanWork != 0 {
