@@ -3,6 +3,69 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1915ddef_61adf617",
+        "filename": "src/unsafe/unsafe.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-08-25T05:31:59Z",
+      "side": 1,
+      "message": "I think we should more precisely specify here that SliceData returns:\n\n1. \u0026slice[0] for non-empty slices (pedantically: \"\u0026slice[:1][0] for slices with capacity greater than zero\");\n2. nil for nil slices; and\n3. an unspecified, non-nil pointer for non-nil, empty (pedantically: \"capacity-zero\") slices.\n\nIn particular, because the GC doesn\u0027t support just-past-the-end pointers like in C, we implement `s[cap(s):cap(s)]` by returning `s[0:0:0]`: https://go.dev/play/p/e6L7B32kKS2 (gccgo appears to implement the same trick.)\n\nMaybe we want to say a pointer to an unspecified element of the slice\u0027s backing array.",
+      "revId": "0eabbe8bc6505befb2fdd2e7834b3025827d4597",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe564327_d1215192",
+        "filename": "src/unsafe/unsafe.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-08-25T05:31:59Z",
+      "side": 1,
+      "message": "I don\u0027t think this sentence is necessary to specify. The empty string is the only string of length zero. (Contrast that slice types have both nil and non-nil values of length zero.)\n\nThat said, I\u0027m not opposed to its inclusion if others think it adds value.",
+      "range": {
+        "startLine": 250,
+        "startChar": 0,
+        "endLine": 251,
+        "endChar": 16
+      },
+      "revId": "0eabbe8bc6505befb2fdd2e7834b3025827d4597",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b4b97cf_4a68f749",
+        "filename": "src/unsafe/unsafe.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-08-25T05:31:59Z",
+      "side": 1,
+      "message": "I think we should instead specify just that if str is an empty string, then StringData may return nil. I don\u0027t think we need to or should make any guarantees about when StringData will or will not return nil.\n\nWe should also repeat the warning about not modifying the memory referenced by str.",
+      "range": {
+        "startLine": 264,
+        "startChar": 0,
+        "endLine": 265,
+        "endChar": 15
+      },
+      "revId": "0eabbe8bc6505befb2fdd2e7834b3025827d4597",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "82cf59d4_d83e5248",
         "filename": "src/unsafe/unsafe.go",
         "patchSetId": 11
