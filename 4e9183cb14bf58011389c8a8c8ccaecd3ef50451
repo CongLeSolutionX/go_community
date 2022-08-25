@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ce97b82_146085da",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-08-25T16:20:05Z",
+      "side": 1,
+      "message": "This breaks a protocolbuffers test:\n```\n~/work/protocolbuffers/protobuf-go/encoding/protojson$ go test .\ngo: downloading github.com/google/go-cmp v0.5.5\n--- FAIL: TestUnmarshal (0.01s)\n    --- FAIL: TestUnmarshal/Timestamp_with_nanos_beyond_9_digits (0.00s)\n        decode_test.go:2473: Unmarshal() got nil error, want error \"invalid google.protobuf.Timestamp value\"\nFAIL\nFAIL\tgoogle.golang.org/protobuf/encoding/protojson\t0.037s\nFAIL\n```\n",
+      "revId": "4e9183cb14bf58011389c8a8c8ccaecd3ef50451",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
