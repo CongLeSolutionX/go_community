@@ -16,6 +16,24 @@
       "message": "This changes some existing non-atomic operations to be atomic operations, for fields that we know are performance sensitive.  Is this really a good idea?",
       "revId": "63970ce1ada808b455aeb13db7eea1544b7f5e2c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab12ff49_0f6063a4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2022-08-25T18:51:07Z",
+      "side": 1,
+      "message": "Quoted from Michael:\n\nThere are a few different reasons that some of these atomic fields are accessed non-atomically:\n- Some are just flat out incorrect and need to be fixed.\n- Some are protected via other mechanisms (e.g., access during STW when we know there can\u0027t be other writers).\n- Some are racy, but it is deemed \"ok\" because a precise value is not required for correctness (I\u0027d put the non-atomic gp.atomicstatus accesses in casgstatus in this category). These may be done because:\n1. At some point these accesses were causing high contention, resulting in a perf penalty.\n2. It was just written that way because atomic access wasn\u0027t \"required\", but was never profiled.\n  \nMy goal with these CLs is to convert _all_ uses to atomics if at all possible. Even non-atomics used for performance reasons are all quite old and those performance reasons may no longer be valid, so my preference is to convert them and monitor for performance regressions to see if we need a more nuanced approach.\n\nFor accesses protected via other mechanisms, I think the atomic types are much more difficult to accidentally misuse, so I also prefer to convert them.\n\n-- From CL 425363\n\nI guess we\u0027ve decided to give \"non-atomic operations to atomic operations\" a shot in runtime?",
+      "parentUuid": "f6e15fc8_22472dd1",
+      "revId": "63970ce1ada808b455aeb13db7eea1544b7f5e2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
