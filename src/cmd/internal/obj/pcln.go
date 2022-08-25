@@ -176,11 +176,14 @@ func (s *pcinlineState) addBranch(ctxt *Link, globalIndex int) int {
 	// each inlined call.
 	call := ctxt.InlTree.nodes[globalIndex]
 	call.Parent = s.addBranch(ctxt, call.Parent)
+	call.ParentPC = poisonPC
 	localIndex = len(s.localTree.nodes)
 	s.localTree.nodes = append(s.localTree.nodes, call)
 	s.globalToLocal[globalIndex] = localIndex
 	return localIndex
 }
+
+const poisonPC int32 = -1e9
 
 func (s *pcinlineState) setParentPC(ctxt *Link, globalIndex int, pc int32) {
 	localIndex, ok := s.globalToLocal[globalIndex]
@@ -312,6 +315,11 @@ func linkpcln(ctxt *Link, cursym *LSym) {
 		ctxt.Logf("-- inlining tree for %s:\n", cursym)
 		dumpInlTree(ctxt, pcln.InlTree)
 		ctxt.Logf("--\n")
+	}
+	for i, call := range pcln.InlTree.nodes {
+		if call.ParentPC == poisonPC {
+			ctxt.Diag("inline marker #%v still poisoned", i)
+		}
 	}
 
 	// tabulate which pc and func data we have.
