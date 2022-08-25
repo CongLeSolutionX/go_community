@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9e43dae_2d17499a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-08-25T19:13:00Z",
+      "side": 1,
+      "message": "I don\u0027t think we should change and monitor.  I think we should benchmark before and after to see whether it matters.  And the benchmarks have to be run on a processor with relaxed atomics, like arm64 or ppc64le.  Thanks.",
+      "revId": "4686053f8ced96dbe10ce01a920b2830a1abc4af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
