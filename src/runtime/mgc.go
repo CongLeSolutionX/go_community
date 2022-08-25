@@ -313,7 +313,7 @@ type workType struct {
 	//
 	// Put this field here because it needs 64-bit atomic access
 	// (and thus 8-byte alignment even on 32-bit architectures).
-	bytesMarked uint64
+	bytesMarked atomic.Uint64
 
 	markrootNext uint32 // next markroot job
 	markrootJobs uint32 // number of markroot jobs
@@ -951,7 +951,7 @@ func gcMarkTermination() {
 	})
 
 	systemstack(func() {
-		work.heap2 = work.bytesMarked
+		work.heap2 = work.bytesMarked.Load()
 		if debug.gccheckmark > 0 {
 			// Run a full non-parallel, stop-the-world
 			// mark using checkmark bits, to check that we
@@ -1476,7 +1476,7 @@ func gcMark(startTime int64) {
 	}
 
 	// Reset controller state.
-	gcController.resetLive(work.bytesMarked)
+	gcController.resetLive(work.bytesMarked.Load())
 }
 
 // gcSweep must be called on the system stack because it acquires the heap
@@ -1564,7 +1564,7 @@ func gcResetMarkState() {
 		}
 	}
 
-	work.bytesMarked = 0
+	work.bytesMarked.Store(0)
 	work.initialHeapLive = gcController.heapLive.Load()
 }
 
