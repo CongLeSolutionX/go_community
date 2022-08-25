@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6e15fc8_22472dd1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-08-25T18:46:13Z",
+      "side": 1,
+      "message": "This changes some existing non-atomic operations to be atomic operations, for fields that we know are performance sensitive.  Is this really a good idea?",
+      "revId": "63970ce1ada808b455aeb13db7eea1544b7f5e2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
