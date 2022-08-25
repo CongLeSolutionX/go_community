@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5a98bd2_e2603bc7",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-08-25T21:32:57Z",
+      "side": 1,
+      "message": "Oops, this is actually a stale comment, so I\u0027ve deleted it. This replaced getArgInfoFast, which was originally written to be inlineable, but at this point it really doesn\u0027t matter because of other changes in the code since then. It\u0027s in fact *not* inlineable (cost 84 \u003e threshold 80 😊), but I don\u0027t think it matters.",
+      "parentUuid": "d6403401_05edcbb9",
+      "revId": "aae31051174de078df40de50323010daaff8d0d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d213b81a_8f406e51",
@@ -68,6 +86,24 @@
       "writtenOn": "2022-08-18T21:46:47Z",
       "side": 1,
       "message": "For non-reflect case, it only populates argMap.n but not the data pointer? This could be confusing.\n\nActually, why this only handles the special case, but let the caller to handle the non-special case?",
+      "revId": "aae31051174de078df40de50323010daaff8d0d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a6dcb2d_db6cd7f5",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 676,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-08-25T21:32:57Z",
+      "side": 1,
+      "message": "I agree, it\u0027s weird. This structure came over from the old code, except that getArgInfo returned the length in *two* different ways and I found that even more confusing than this.\n\nI would be happy for this to be cleaner, but there are two reasons why it\u0027s structured this way:\n\n1. This function is used by both argBytes and getStackMap. argBytes doesn\u0027t care about the stack map, but we have to fetch it to get the size in exactly these two weird cases.\n\n2. To fetch the stack map in general, we need to know the PC and need to interpret PCDATA, but we don\u0027t need that in these cases (or for argBytes).\n\nSo we wind up with this weird matrix where we need to get either just the argument frame size (argBytes) or the whole stack map (getStackMap), and we\u0027re doing it for either a normal function or a special function.\n\n- argBytes/normal: Just f.args. Don\u0027t need PC.\n\n- argBytes/special: Need to decode the dynamic map. Don\u0027t need PC.\n\n- getStackMap/normal: If f.args \u003e 0, use PC, PCDATA, and FUCNDATA. Otherwise, it\u0027s empty.\n\n- getStackMap/special: Need to decode the dynamic map. Don\u0027t need PC.\n\nIn all cases, we need to determine if it\u0027s a normal or special function and right now we do that by looking at f.args and then the name.\n\nThis leads to this weird division of labor. I\u0027m not sure there\u0027s a better way to divide the problem, though it\u0027s possible a better API to argMapInternal would at least make this clearer.",
+      "parentUuid": "d213b81a_8f406e51",
       "revId": "aae31051174de078df40de50323010daaff8d0d0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
