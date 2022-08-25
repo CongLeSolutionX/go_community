@@ -66,6 +66,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "31afd035_21d3e06b",
+        "filename": "src/unsafe/unsafe.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-08-25T05:38:00Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t think we need to or should make any guarantees about when StringData will or will not return nil.\n\n[I\u0027m talking here just about guarantees when str is an empty string. If str is non-empty, then StringData should always return non-nil.]",
+      "parentUuid": "0b4b97cf_4a68f749",
+      "range": {
+        "startLine": 264,
+        "startChar": 0,
+        "endLine": 265,
+        "endChar": 15
+      },
+      "revId": "0eabbe8bc6505befb2fdd2e7834b3025827d4597",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "82cf59d4_d83e5248",
         "filename": "src/unsafe/unsafe.go",
         "patchSetId": 11

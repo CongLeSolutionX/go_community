@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da2fdb87_ff65a7b9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-08-25T05:38:00Z",
+      "side": 1,
+      "message": "xie: FYI, my comments are for gri@ and iant@. To save unnecessary confusion and round trips, please let them respond and advise how to proceed here. Thanks.",
+      "revId": "596d0b3dbb8fa05fc8d458ff76ae03c9f06431a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
