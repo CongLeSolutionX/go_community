@@ -320,6 +320,11 @@ func (p *ReverseProxy) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 		transport = http.DefaultTransport
 	}
 
+	if _, err := url.ParseQuery(req.URL.RawQuery); err != nil {
+		p.getErrorHandler()(rw, req, err)
+		return
+	}
+
 	ctx := req.Context()
 	if ctx.Done() != nil {
 		// CloseNotifier predates context.Context, and has been

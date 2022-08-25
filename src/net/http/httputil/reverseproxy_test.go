@@ -450,14 +450,18 @@ func TestReverseProxyRewriteStripsForwarded(t *testing.T) {
 }
 
 var proxyQueryTests = []struct {
+	rawQuery   bool
 	baseSuffix string // suffix to add to backend URL
 	reqSuffix  string // suffix to add to frontend's request URL
 	want       string // what backend should see for final request URL (without ?)
+	statusCode int    //response status code
 }{
-	{"", "", ""},
-	{"?sta=tic", "?us=er", "sta=tic&us=er"},
-	{"", "?us=er", "us=er"},
-	{"?sta=tic", "", "sta=tic"},
+	{false, "", "", "", http.StatusOK},
+	{false, "?sta=tic", "?us=er", "sta=tic&us=er", http.StatusOK},
+	{false, "", "?us=er", "us=er", http.StatusOK},
+	{false, "?sta=tic", "", "sta=tic", http.StatusOK},
+	{false, "?sta=tic", "", "sta=tic", http.StatusOK},
+	{true, "", "a;=b", "", http.StatusBadGateway},
 }
 
 func TestReverseProxyQuery(t *testing.T) {
@@ -473,12 +477,24 @@ func TestReverseProxyQuery(t *testing.T) {
 			t.Fatal(err)
 		}
 		frontend := httptest.NewServer(NewSingleHostReverseProxy(backendURL))
-		req, _ := http.NewRequest("GET", frontend.URL+tt.reqSuffix, nil)
+		frontendURL := frontend.URL
+		if !tt.rawQuery {
+			frontendURL += tt.reqSuffix
+		}
+		req, _ := http.NewRequest("GET", frontendURL, nil)
+		if tt.rawQuery {
+			req.URL.RawQuery = tt.reqSuffix
+		}
 		req.Close = true
 		res, err := frontend.Client().Do(req)
 		if err != nil {
 			t.Fatalf("%d. Get: %v", i, err)
 		}
+
+		if res.StatusCode != tt.statusCode {
+			t.Errorf("%d. got %d. expect %d", i, res.StatusCode, http.StatusBadGateway)
+		}
+
 		if g, e := res.Header.Get("X-Got-Query"), tt.want; g != e {
 			t.Errorf("%d. got query %q; expected %q", i, g, e)
 		}
