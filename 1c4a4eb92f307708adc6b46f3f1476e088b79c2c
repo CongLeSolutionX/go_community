@@ -124,6 +124,24 @@
       "parentUuid": "f12c7902_6702c2ce",
       "revId": "1c4a4eb92f307708adc6b46f3f1476e088b79c2c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a9fbf9e_c7cd6e84",
+        "filename": "src/cmd/compile/internal/ssa/schedule.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-08-25T08:47:22Z",
+      "side": 1,
+      "message": "Thanks, I added all flags creator OPs here and flags consumer OPs to isCarry, the benchmark result has a slight boost, I\u0027m not sure if that\u0027s the reason.",
+      "parentUuid": "e072f499_2cb2efb5",
+      "revId": "1c4a4eb92f307708adc6b46f3f1476e088b79c2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
