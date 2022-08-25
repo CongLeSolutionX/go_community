@@ -16,6 +16,24 @@
       "message": "This CL has backport requests, if you can do the cherrypicks that would be great.\n--------\nBackport issue(s) opened: #54056 (for 1.18), #54239 (for 1.19).\n\nRemember to create the cherry-pick CL(s) as soon as the patch is submitted to master, according to https://go.dev/wiki/MinorReleases.\n--------",
       "revId": "d05ce23756573c6dc2c5026d936f2ef6ac140ee2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "126f253b_130c3a54",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-08-25T19:35:53Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "51148c74_350001b5",
+      "revId": "d05ce23756573c6dc2c5026d936f2ef6ac140ee2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
