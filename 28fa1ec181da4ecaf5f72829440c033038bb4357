@@ -52,6 +52,24 @@
       "parentUuid": "66e1b62d_dfc6a5f3",
       "revId": "28fa1ec181da4ecaf5f72829440c033038bb4357",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f2eaee0_3bfe2cfc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-08-25T00:37:39Z",
+      "side": 1,
+      "message": "I\u0027m not especially familiar with this either, but from a quick look through things internetAddrList is used in cases where we do want to treat \"\" as a zero-valued address. For example, `Dial(\"tcp\",\":80\")` dials port 80 on the local machine, and changing internetAddrList\u0027s behavior breaks that.\n\nThere\u0027s probably a larger refactoring that could be done to make things less surprising internally, but changing just `Resolver.LookupIP` for now seems reasonable to me.",
+      "parentUuid": "1730a998_5308f19c",
+      "revId": "28fa1ec181da4ecaf5f72829440c033038bb4357",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
