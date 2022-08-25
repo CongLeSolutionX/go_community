@@ -70,6 +70,24 @@
       "parentUuid": "72b01c59_70753555",
       "revId": "4e9183cb14bf58011389c8a8c8ccaecd3ef50451",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eef770bb_830a38ac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-08-25T18:25:17Z",
+      "side": 1,
+      "message": "Excellent, tyvm.",
+      "parentUuid": "c3facb97_cdc11110",
+      "revId": "4e9183cb14bf58011389c8a8c8ccaecd3ef50451",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
