@@ -4,6 +4,11 @@
 
 package metrics
 
+import (
+	"fmt"
+	"strings"
+)
+
 // Float64Histogram represents a distribution of float64 values.
 type Float64Histogram struct {
 	// Counts contains the weights for each histogram bucket.
@@ -30,4 +35,77 @@ type Float64Histogram struct {
 	// fields, so the values within should only ever be read. If they need to be
 	// modified, the user must make a copy.
 	Buckets []float64
+}
+
+func (h *Float64Histogram) Visualize(full bool) string {
+	var b strings.Builder
+
+	var maxCount uint64
+	for _, count := range h.Counts {
+		if count > maxCount {
+			maxCount = count
+		}
+	}
+
+	shouldPrint := interestingBuckets(h, full)
+
+	const maxWidth = 20
+	for i, count := range h.Counts {
+		if !shouldPrint[i] {
+			continue
+		} else if i > 0 && !shouldPrint[i-1] {
+			// Didn't print last bucket, indicate skipped section.
+			fmt.Fprintf(&b, "%20s| ...\n", " ")
+		}
+
+		lower := h.Buckets[i] * 1e9
+		upper := h.Buckets[i+1] * 1e9
+
+		bar := strings.Repeat("*", int(maxWidth * (float64(count) / float64(maxCount))))
+
+		fmt.Fprintf(&b, "%20s| %6d [%6.1f, %6.1f)\n", bar, count, lower, upper)
+	}
+
+	return b.String()
+}
+
+// interestingBuckets returns a slice of bool, where each index corresponds to
+// whether that index of h.Count should be printed.
+func interestingBuckets(h *Float64Histogram, full bool) []bool {
+	interesting := make([]bool, len(h.Counts))
+	if full {
+		for i := range interesting {
+			interesting[i] = true
+		}
+		return interesting
+	}
+
+	markSurrounding := func(i int) {
+		const surround = 2 // 3 buckets around an interesting one are also interesting.
+
+		// Buckets before i.
+		for j := i-1; j >= i-surround && j >= 0; j-- {
+			interesting[j] = true
+		}
+
+		// i itself.
+		interesting[i] = true
+
+		// Buckets after i.
+		for j := i+1; j <= i+surround && j < len(interesting); j++ {
+			interesting[j] = true
+		}
+	}
+
+	// Start and end are always interesting.
+	markSurrounding(0)
+	markSurrounding(len(h.Counts)-1)
+
+	for i, count := range h.Counts {
+		if count > 0 {
+			markSurrounding(i)
+		}
+	}
+
+	return interesting
 }
