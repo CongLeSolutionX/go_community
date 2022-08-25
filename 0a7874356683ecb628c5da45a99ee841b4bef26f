@@ -70,6 +70,24 @@
       "message": "In new code we usually use \"got %q, want %q\" in that order.",
       "revId": "0a7874356683ecb628c5da45a99ee841b4bef26f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "263355ae_d5f10769",
+        "filename": "src/cmd/go/internal/fsys/fsys_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 794,
+      "author": {
+        "id": 33992
+      },
+      "writtenOn": "2022-08-25T09:51:01Z",
+      "side": 1,
+      "message": "Done, thanks!",
+      "parentUuid": "30a51b92_5e312441",
+      "revId": "0a7874356683ecb628c5da45a99ee841b4bef26f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
