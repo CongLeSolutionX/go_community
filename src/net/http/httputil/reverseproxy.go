@@ -315,6 +315,11 @@ func (p *ReverseProxy) modifyResponse(rw http.ResponseWriter, res *http.Response
 }
 
 func (p *ReverseProxy) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
+	if _, err := url.ParseQuery(req.URL.RawQuery); err != nil {
+		p.getErrorHandler()(rw, req, err)
+		return
+	}
+
 	transport := p.Transport
 	if transport == nil {
 		transport = http.DefaultTransport
