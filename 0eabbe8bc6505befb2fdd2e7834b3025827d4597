@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2f7fe3a5_bfbd513c",
+        "filename": "src/unsafe/unsafe.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-08-25T19:59:52Z",
+      "side": 1,
+      "message": "I guess that in the proposal we didn\u0027t consider SpliceData for a slice that is not nil but has capacity zero.  I think that you write makes sense.\n\n// SliceData returns a pointer to the underlying array of s.\n// If len(s) \u003e 0 SliceData returns \u0026s[0].\n// Otherwise, if cap(s) \u003e 0 SliceData returns \u0026s[:1][0].\n// Otherwise, if s \u003d\u003d nil, SliceData returns nil.\n// Otherwise, (s !\u003d nil \u0026\u0026 cap(s) \u003d\u003d 0), SliceData returns a non-nil pointer to\n// an unspecified element of the underlying array.\nfunc SliceData(s []ArbitraryType) *ArbitraryType",
+      "parentUuid": "1915ddef_61adf617",
+      "revId": "0eabbe8bc6505befb2fdd2e7834b3025827d4597",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fe564327_d1215192",
         "filename": "src/unsafe/unsafe.go",
         "patchSetId": 11
@@ -31,6 +49,30 @@
       "writtenOn": "2022-08-25T05:31:59Z",
       "side": 1,
       "message": "I don\u0027t think this sentence is necessary to specify. The empty string is the only string of length zero. (Contrast that slice types have both nil and non-nil values of length zero.)\n\nThat said, I\u0027m not opposed to its inclusion if others think it adds value.",
+      "range": {
+        "startLine": 250,
+        "startChar": 0,
+        "endLine": 251,
+        "endChar": 16
+      },
+      "revId": "0eabbe8bc6505befb2fdd2e7834b3025827d4597",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d551b9ff_7b3717cc",
+        "filename": "src/unsafe/unsafe.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-08-25T19:59:52Z",
+      "side": 1,
+      "message": "I agree that this seems unnecessary.",
+      "parentUuid": "fe564327_d1215192",
       "range": {
         "startLine": 250,
         "startChar": 0,
@@ -78,6 +120,30 @@
       "side": 1,
       "message": "\u003e I don\u0027t think we need to or should make any guarantees about when StringData will or will not return nil.\n\n[I\u0027m talking here just about guarantees when str is an empty string. If str is non-empty, then StringData should always return non-nil.]",
       "parentUuid": "0b4b97cf_4a68f749",
+      "range": {
+        "startLine": 264,
+        "startChar": 0,
+        "endLine": 265,
+        "endChar": 15
+      },
+      "revId": "0eabbe8bc6505befb2fdd2e7834b3025827d4597",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a238e430_29e4f7d0",
+        "filename": "src/unsafe/unsafe.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-08-25T19:59:52Z",
+      "side": 1,
+      "message": "I agree.\n\n// If len(str) \u003d\u003d 0, StringData may or may not return nil.",
+      "parentUuid": "31afd035_21d3e06b",
       "range": {
         "startLine": 264,
         "startChar": 0,
