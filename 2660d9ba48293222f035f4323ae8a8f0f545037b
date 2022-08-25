@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "705e0de0_86566123",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2022-08-25T15:01:01Z",
+      "side": 1,
+      "message": "Added a print benchmark with a smaller node. As expected, it now allocates much more than it needs to. I didn\u0027t expect the slow-down in wall time to be that dramatic - I guess it hurts the cache to use such an unnecessarily large buffer?\n\nI thought about using a large buffer only when the input file is an ast.File, and otherwise a small one (e.g. 256 bytes), but that\u0027s not a great heuristic either. You could have a single large declaration (e.g. a huge map or a long function), and tiny files aren\u0027t particularly rare either (e.g. doc.go or gen.go).\n\nI toyed with a smaller static buffer with 2KiB, and that does bring down the slow-down to a negligible 2%, but it also slashes the speed-up from 4-5% to 2%.",
+      "revId": "2660d9ba48293222f035f4323ae8a8f0f545037b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
