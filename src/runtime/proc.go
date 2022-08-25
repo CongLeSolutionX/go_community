@@ -5203,60 +5203,24 @@ func sysmon() {
 		}
 		usleep(delay)
 
-		// sysmon should not enter deep sleep if schedtrace is enabled so that
-		// it can print that information at the right time.
-		//
-		// It should also not enter deep sleep if there are any active P's so
-		// that it can retake P's from syscalls, preempt long running G's, and
-		// poll the network if all P's are busy for long stretches.
-		//
-		// It should wakeup from deep sleep if any P's become active either due
-		// to exiting a syscall or waking up due to a timer expiring so that it
-		// can resume performing those duties. If it wakes from a syscall it
-		// resets idle and delay as a bet that since it had retaken a P from a
-		// syscall before, it may need to do it again shortly after the
-		// application starts work again. It does not reset idle when waking
-		// from a timer to avoid adding system load to applications that spend
+		// We can wakeup from deep sleep if any P's become active
+		// either due to exiting a syscall or waking up due to a timer
+		// expiring so we can resume performing duties. If we wake from
+		// a syscall, reset idle and delay as a bet that we may need to
+		// retake a P from a syscall shortly after the application
+		// starts work again. Do not reset idle when waking from a
+		// timer to avoid adding system load to applications that spend
 		// most of their time sleeping.
-		now := nanotime()
-		if debug.schedtrace <= 0 && (sched.gcwaiting.Load() || sched.npidle.Load() == gomaxprocs) {
-			lock(&sched.lock)
-			if sched.gcwaiting.Load() || sched.npidle.Load() == gomaxprocs {
-				syscallWake := false
-				next := timeSleepUntil()
-				if next > now {
-					sched.sysmonwait.Store(true)
-					unlock(&sched.lock)
-					// Make wake-up period small enough
-					// for the sampling to be correct.
-					sleep := forcegcperiod / 2
-					if next-now < sleep {
-						sleep = next - now
-					}
-					shouldRelax := sleep >= osRelaxMinNS
-					if shouldRelax {
-						osRelax(true)
-					}
-					syscallWake = notetsleep(&sched.sysmonnote, sleep)
-					if shouldRelax {
-						osRelax(false)
-					}
-					lock(&sched.lock)
-					sched.sysmonwait.Store(false)
-					noteclear(&sched.sysmonnote)
-				}
-				if syscallWake {
-					idle = 0
-					delay = 20
-				}
-			}
-			unlock(&sched.lock)
+		syscallWake := maybeSysmonDeepSleep()
+		if syscallWake {
+			idle = 0
+			delay = 20
 		}
 
 		lock(&sched.sysmonlock)
-		// Update now in case we blocked on sysmonnote or spent a long time
+		// Compute now in case we blocked on sysmonnote or spent a long time
 		// blocked on schedlock or sysmonlock above.
-		now = nanotime()
+		now := nanotime()
 
 		// trigger libc interceptors if needed
 		if *cgo_yield != nil {
@@ -5326,6 +5290,63 @@ func sysmon() {
 		}
 		unlock(&sched.sysmonlock)
 	}
+}
+
+// If possible, enter deep sleep. Returns true if woken from sleep by P wakeup
+// from syscall exit, false if P wakeup from timer expiration.
+func maybeSysmonDeepSleep() bool {
+	// sysmon should not enter deep sleep if schedtrace is enabled so that
+	// it can print that information at the right time.
+	if debug.schedtrace > 0 {
+		return false
+	}
+
+	now := nanotime()
+
+	// It should also not enter deep sleep if there are any active P's so
+	// that it can retake P's from syscalls, preempt long running G's, and
+	// poll the network if all P's are busy for long stretches.
+	//
+	// Deep sleep while waiting for GC is OK because there is nothing to do
+	// anyways.
+	lock(&sched.lock)
+	if !sched.gcwaiting.Load() && sched.npidle.Load() != gomaxprocs {
+		unlock(&sched.lock)
+		return false
+	}
+
+	// We wakeup from deep sleep if any P's become active either due to
+	// exiting a syscall (wake of sched.sysmonnote) or waking up due to a
+	// timer expiring (notetsleep timeout).
+	syscallWake := false
+	next := timeSleepUntil()
+	if next <= now {
+		unlock(&sched.lock)
+		return false
+	}
+
+	sched.sysmonwait.Store(true)
+	unlock(&sched.lock)
+	// Make wake-up period small enough
+	// for the sampling to be correct.
+	sleep := forcegcperiod / 2
+	if next-now < sleep {
+		sleep = next - now
+	}
+	shouldRelax := sleep >= osRelaxMinNS
+	if shouldRelax {
+		osRelax(true)
+	}
+	syscallWake = notetsleep(&sched.sysmonnote, sleep)
+	if shouldRelax {
+		osRelax(false)
+	}
+	lock(&sched.lock)
+	sched.sysmonwait.Store(false)
+	noteclear(&sched.sysmonnote)
+	unlock(&sched.lock)
+
+	return syscallWake
 }
 
 type sysmontick struct {
