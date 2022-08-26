@@ -18,6 +18,40 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "018c1908_bf9cebd0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 55
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-08-26T12:51:48Z",
+      "side": 1,
+      "message": "I have some perhaps-annoying recommendations, still not all the way through the files but some of these imply a bit of work so put them out there early.",
+      "revId": "199d5b9f7dda4c8a8d109c2175fbce6eea05fd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e967a4a5_a5e843df",
+        "filename": "src/cmd/covdata/covdata.go",
+        "patchSetId": 55
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-08-26T12:51:48Z",
+      "side": 1,
+      "message": "I think this is not the best name for this, especially since it clashes with parameter \"verb\" in some functions in other files.  Maybe \"say\" or \"debug\" or \"trace\" or something like that.  Also, is use of package log vs fmt.Printf consistent?",
+      "revId": "199d5b9f7dda4c8a8d109c2175fbce6eea05fd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "41d5d624_951c711c",
@@ -140,6 +174,218 @@
       "writtenOn": "2022-08-25T22:07:44Z",
       "side": 1,
       "message": "I think just \"checking\"",
+      "revId": "199d5b9f7dda4c8a8d109c2175fbce6eea05fd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71b1921e_647bf1ca",
+        "filename": "src/cmd/covdata/metamerge.go",
+        "patchSetId": 55
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-08-26T12:51:48Z",
+      "side": 1,
+      "message": "any reason it\u0027s not just \"visitMetaDataFile\"?",
+      "range": {
+        "startLine": 100,
+        "startChar": 21,
+        "endLine": 100,
+        "endChar": 42
+      },
+      "revId": "199d5b9f7dda4c8a8d109c2175fbce6eea05fd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5753b20f_53946151",
+        "filename": "src/cmd/covdata/metamerge.go",
+        "patchSetId": 55
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-08-26T12:51:48Z",
+      "side": 1,
+      "message": "pointer",
+      "range": {
+        "startLine": 110,
+        "startChar": 11,
+        "endLine": 110,
+        "endChar": 17
+      },
+      "revId": "199d5b9f7dda4c8a8d109c2175fbce6eea05fd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e97f5f6_85c19645",
+        "filename": "src/cmd/covdata/metamerge.go",
+        "patchSetId": 55
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-08-26T12:51:48Z",
+      "side": 1,
+      "message": "again, why not just \"beginPod\"?",
+      "revId": "199d5b9f7dda4c8a8d109c2175fbce6eea05fd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc71e455_03c46f13",
+        "filename": "src/cmd/covdata/metamerge.go",
+        "patchSetId": 55
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-08-26T12:51:48Z",
+      "side": 1,
+      "message": "\"endPod\"?",
+      "revId": "199d5b9f7dda4c8a8d109c2175fbce6eea05fd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3026028a_4113a7f2",
+        "filename": "src/cmd/covdata/metamerge.go",
+        "patchSetId": 55
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-08-26T12:51:48Z",
+      "side": 1,
+      "message": "Need to know what this is for.  It\u0027s not an exported function, but a function comment would  be helpful here.",
+      "revId": "199d5b9f7dda4c8a8d109c2175fbce6eea05fd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12c0218e_cdbf64b4",
+        "filename": "src/cmd/covdata/metamerge.go",
+        "patchSetId": 55
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-08-26T12:51:48Z",
+      "side": 1,
+      "message": "Should the format change to let you accumulate multiple PIDs?  Does anything use the PIDs?  (another choice is to drop them)",
+      "range": {
+        "startLine": 241,
+        "startChar": 4,
+        "endLine": 243,
+        "endChar": 38
+      },
+      "revId": "199d5b9f7dda4c8a8d109c2175fbce6eea05fd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4798661_626ce99e",
+        "filename": "src/cmd/covdata/metamerge.go",
+        "patchSetId": 55
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-08-26T12:51:48Z",
+      "side": 1,
+      "message": "\"NewCoverageDataWriter\"? is it specific to files in any particular way?",
+      "range": {
+        "startLine": 261,
+        "startChar": 22,
+        "endLine": 261,
+        "endChar": 47
+      },
+      "revId": "199d5b9f7dda4c8a8d109c2175fbce6eea05fd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f0c6806_73bd7640",
+        "filename": "src/cmd/covdata/metamerge.go",
+        "patchSetId": 55
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-08-26T12:51:48Z",
+      "side": 1,
+      "message": "\"visitPackage\"?\n\nand this also might want a comment, again I am not quite sure what pcombine does.",
+      "range": {
+        "startLine": 309,
+        "startChar": 21,
+        "endLine": 309,
+        "endChar": 37
+      },
+      "revId": "199d5b9f7dda4c8a8d109c2175fbce6eea05fd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a471212_ef6b0fb1",
+        "filename": "src/cmd/covdata/metamerge.go",
+        "patchSetId": 55
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-08-26T12:51:48Z",
+      "side": 1,
+      "message": "\"visitFuncCounterData\"?",
+      "range": {
+        "startLine": 339,
+        "startChar": 21,
+        "endLine": 339,
+        "endChar": 45
+      },
+      "revId": "199d5b9f7dda4c8a8d109c2175fbce6eea05fd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ebb2565_68c3d9ac",
+        "filename": "src/cmd/covdata/metamerge.go",
+        "patchSetId": 55
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-08-26T12:51:48Z",
+      "side": 1,
+      "message": "\"visitFunc\"?",
+      "range": {
+        "startLine": 363,
+        "startChar": 21,
+        "endLine": 363,
+        "endChar": 34
+      },
       "revId": "199d5b9f7dda4c8a8d109c2175fbce6eea05fd84",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
