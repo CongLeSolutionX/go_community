@@ -129,6 +129,30 @@
       },
       "revId": "aae31051174de078df40de50323010daaff8d0d0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05596dae_d31446b1",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 680,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-08-26T18:41:08Z",
+      "side": 1,
+      "message": "Done in go.dev/cl/425936 to keep the diff in this CL minimal.\n\n(I had actually done that, and then pulled it off into a scratch file and then completely forgot about it. So thank you for the reminder!)",
+      "parentUuid": "d6cc5d57_ce870a2b",
+      "range": {
+        "startLine": 677,
+        "startChar": 0,
+        "endLine": 680,
+        "endChar": 57
+      },
+      "revId": "aae31051174de078df40de50323010daaff8d0d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
