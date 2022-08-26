@@ -16,6 +16,24 @@
       "message": "Happy to see convergence on the test suite, though I wonder whether there will be occasions when the behaviors of the two implementations must necessarily diverge. Perhaps the assertions can be written loosely enough to finesse the differences in those cases. In any case, this seems like the right direction.",
       "revId": "0d63aa4f164556967d36e9d4c65504f7888dae42",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86431e4d_d9837200",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-08-26T16:13:22Z",
+      "side": 1,
+      "message": "We\u0027re not giving up the ability to have type-checker specific tests. So we can always have tests that behave differently. But for now we are trying to avoid it.",
+      "parentUuid": "8cc658de_ec612212",
+      "revId": "0d63aa4f164556967d36e9d4c65504f7888dae42",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
