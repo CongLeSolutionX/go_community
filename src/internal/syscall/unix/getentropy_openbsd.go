@@ -1,20 +1,24 @@
-// Copyright 2016 The Go Authors. All rights reserved.
+// Copyright 2022 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
+
+//go:build openbsd && !mips64
 
 package unix
 
 import (
+	"internal/abi"
 	"syscall"
 	"unsafe"
 )
 
-// getentropy(2)'s syscall number, from /usr/src/sys/kern/syscalls.master
-const entropyTrap uintptr = 7
+//go:cgo_import_dynamic libc_getentropy getentropy "libc.so"
+
+func libc_getentropy_trampoline()
 
 // GetEntropy calls the OpenBSD getentropy system call.
 func GetEntropy(p []byte) error {
-	_, _, errno := syscall.Syscall(entropyTrap,
+	_, _, errno := syscall_syscall(abi.FuncPCABI0(libc_getentropy_trampoline),
 		uintptr(unsafe.Pointer(&p[0])),
 		uintptr(len(p)),
 		0)
@@ -23,3 +27,6 @@ func GetEntropy(p []byte) error {
 	}
 	return nil
 }
+
+//go:linkname syscall_syscall syscall.syscall
+func syscall_syscall(fn, a1, a2, a3 uintptr) (r1, r2 uintptr, err syscall.Errno)
