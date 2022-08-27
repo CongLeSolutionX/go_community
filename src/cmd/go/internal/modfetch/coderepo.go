@@ -546,6 +546,7 @@ func (r *codeRepo) convert(info *codehost.RevInfo, statVers string) (*RevInfo, e
 		}
 	}
 	if pseudoBase == "" {
+<<<<<<< HEAD   (37cedd [release-branch.go1.18] crypto/tls: support ECDHE when ec_po)
 		var tag string
 		if r.pseudoMajor != "" || canUseIncompatible("") {
 			tag, _ = r.code.RecentTag(info.Name, tagPrefix, allowedMajor(r.pseudoMajor))
@@ -555,6 +556,14 @@ func (r *codeRepo) convert(info *codehost.RevInfo, statVers string) (*RevInfo, e
 			if tag == "" {
 				tag, _ = r.code.RecentTag(info.Name, tagPrefix, allowedMajor("v0"))
 			}
+=======
+		tag, err := r.code.RecentTag(info.Name, tagPrefix, tagAllowed)
+		if err != nil {
+			return nil, err
+		}
+		if tag != "" {
+			pseudoBase, _ = tagToVersion(tag)
+>>>>>>> CHANGE (eec0ad [release-branch.go1.19] cmd/go/internal/modfetch: report err)
 		}
 		pseudoBase, _ = tagToVersion(tag)
 	}
