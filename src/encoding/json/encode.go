@@ -656,10 +656,12 @@ func isValidNumber(s string) bool {
 		return false
 	}
 
+	var i int
+
 	// Optional -
-	if s[0] == '-' {
-		s = s[1:]
-		if s == "" {
+	if s[i] == '-' {
+		i++
+		if len(s) == i {
 			return false
 		}
 	}
@@ -669,41 +671,40 @@ func isValidNumber(s string) bool {
 	default:
 		return false
 
-	case s[0] == '0':
-		s = s[1:]
+	case s[i] == '0':
+		i++
 
-	case '1' <= s[0] && s[0] <= '9':
-		s = s[1:]
-		for len(s) > 0 && '0' <= s[0] && s[0] <= '9' {
-			s = s[1:]
+	case '1' <= s[i] && s[i] <= '9':
+		for i < len(s) && '0' <= s[i] && s[i] <= '9' {
+			i++
 		}
 	}
 
 	// . followed by 1 or more digits.
-	if len(s) >= 2 && s[0] == '.' && '0' <= s[1] && s[1] <= '9' {
-		s = s[2:]
-		for len(s) > 0 && '0' <= s[0] && s[0] <= '9' {
-			s = s[1:]
+	if len(s) >= 2+i && s[i] == '.' && '0' <= s[i+1] && s[i+1] <= '9' {
+		i = i + 2
+		for i < len(s) && '0' <= s[i] && s[i] <= '9' {
+			i++
 		}
 	}
 
 	// e or E followed by an optional - or + and
 	// 1 or more digits.
-	if len(s) >= 2 && (s[0] == 'e' || s[0] == 'E') {
-		s = s[1:]
-		if s[0] == '+' || s[0] == '-' {
-			s = s[1:]
-			if s == "" {
+	if len(s) >= 2+i && (s[i] == 'e' || s[i] == 'E') {
+		i++
+		if s[i] == '+' || s[i] == '-' {
+			i++
+			if len(s) == i {
 				return false
 			}
 		}
-		for len(s) > 0 && '0' <= s[0] && s[0] <= '9' {
-			s = s[1:]
+		for i < len(s) && '0' <= s[i] && s[i] <= '9' {
+			i++
 		}
 	}
 
 	// Make sure we are at the end.
-	return s == ""
+	return len(s) == i
 }
 
 func interfaceEncoder(e *encodeState, v reflect.Value, opts encOpts) {
