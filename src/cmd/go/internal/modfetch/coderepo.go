@@ -548,12 +548,21 @@ func (r *codeRepo) convert(info *codehost.RevInfo, statVers string) (*RevInfo, e
 	if pseudoBase == "" {
 		var tag string
 		if r.pseudoMajor != "" || canUseIncompatible("") {
-			tag, _ = r.code.RecentTag(info.Name, tagPrefix, allowedMajor(r.pseudoMajor))
+			tag, err = r.code.RecentTag(info.Name, tagPrefix, allowedMajor(r.pseudoMajor))
+			if err != nil {
+				return nil, err
+			}
 		} else {
 			// Allow either v1 or v0, but not incompatible higher versions.
-			tag, _ = r.code.RecentTag(info.Name, tagPrefix, allowedMajor("v1"))
+			tag, err = r.code.RecentTag(info.Name, tagPrefix, allowedMajor("v1"))
+			if err != nil {
+				return nil, err
+			}
 			if tag == "" {
-				tag, _ = r.code.RecentTag(info.Name, tagPrefix, allowedMajor("v0"))
+				tag, err = r.code.RecentTag(info.Name, tagPrefix, allowedMajor("v0"))
+				if err != nil {
+					return nil, err
+				}
 			}
 		}
 		pseudoBase, _ = tagToVersion(tag)
