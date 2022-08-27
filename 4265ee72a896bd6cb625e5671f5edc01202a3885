@@ -16,6 +16,24 @@
       "message": "Hi, thanks for the CL.\n\nI\u0027m a bit confused. There was another CL sent out that is nearly identical: https://go-review.googlesource.com/c/go/+/425877\n\nWhat\u0027s up the sudden interest in trying to optimize isValidNumber?",
       "revId": "4265ee72a896bd6cb625e5671f5edc01202a3885",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "768650f8_2fa43abb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 35973
+      },
+      "writtenOn": "2022-08-27T09:04:47Z",
+      "side": 1,
+      "message": "aah... I wasn\u0027t aware.\nJust saw it, so thought of doing the change.\nI\u0027ll close my CL.\n\nThanks.",
+      "parentUuid": "79f27c76_270a6a3f",
+      "revId": "4265ee72a896bd6cb625e5671f5edc01202a3885",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
