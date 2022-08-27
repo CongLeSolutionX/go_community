@@ -140,6 +140,9 @@ func NewFile(r io.ReaderAt) (*File, error) {
 		if err != nil {
 			return nil, err
 		}
+		if sh.VirtualAddress+sh.VirtualSize < sh.VirtualAddress {
+			return nil, fmt.Errorf("section %d end overflows (%d + %d)", i, sh.VirtualAddress, sh.VirtualSize)
+		}
 		s := new(Section)
 		s.SectionHeader = SectionHeader{
 			Name:                 name,
