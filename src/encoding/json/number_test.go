@@ -79,6 +79,7 @@ func TestNumberIsValid(t *testing.T) {
 
 	invalidTests := []string{
 		"",
+		"-",
 		"invalid",
 		"1.0.1",
 		"1..1",
