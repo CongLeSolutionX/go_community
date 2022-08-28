@@ -1,0 +1,5 @@
+pkg context, func Cause(Context) error #51365
+pkg context, func WithCancelCause(Context) (Context, CancelCauseFunc) #51365
+pkg context, func WithDeadlineCause(Context, time.Time, error) (Context, CancelFunc) #51365
+pkg context, func WithTimeoutCause(Context, time.Duration, error) (Context, CancelFunc) #51365
+pkg context, type CancelCauseFunc func(error) #51365
