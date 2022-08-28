@@ -5,6 +5,7 @@
 package context
 
 import (
+	"errors"
 	"fmt"
 	"math/rand"
 	"runtime"
@@ -123,6 +124,15 @@ func XTestWithCancel(t testingT) {
 		if e := c.Err(); e != Canceled {
 			t.Errorf("c[%d].Err() == %v want %v", i, e, Canceled)
 		}
+	}
+}
+
+func XTestWithCancelCause(t testingT) {
+	cause := errors.New("context cancel cause")
+	ctx, canelCause := WithCancelCause(Background())
+	canelCause(cause)
+	if e := Cause(ctx); e != cause {
+		t.Errorf("got %v, want %v", e, cause)
 	}
 }
 
@@ -308,6 +318,22 @@ func XTestDeadline(t testingT) {
 	testDeadline(c, "WithDeadline+now", t)
 }
 
+func XTestDeadlineCause(t testingT) {
+	cause := errors.New("context cancel cause")
+	ctx, _ := WithDeadlineCause(Background(), time.Now().Add(shortDuration), cause)
+	d := quiescent(t)
+	timer := time.NewTimer(d)
+	defer timer.Stop()
+	select {
+	case <-ctx.Done():
+	case <-timer.C:
+		t.Errorf("ctx should have timed out after %v", d)
+	}
+	if e := Cause(ctx); e != cause {
+		t.Errorf("got %v, want %v", e, cause)
+	}
+}
+
 func XTestTimeout(t testingT) {
 	t.Parallel()
 
@@ -325,6 +351,22 @@ func XTestTimeout(t testingT) {
 	o = otherContext{c}
 	c, _ = WithTimeout(o, veryLongDuration)
 	testDeadline(c, "WithTimeout+otherContext+WithTimeout", t)
+}
+
+func XTestTimeoutCause(t testingT) {
+	cause := errors.New("context cancel cause")
+	ctx, _ := WithTimeoutCause(Background(), shortDuration, cause)
+	d := quiescent(t)
+	timer := time.NewTimer(d)
+	defer timer.Stop()
+	select {
+	case <-ctx.Done():
+	case <-timer.C:
+		t.Errorf("ctx should have timed out after %v", d)
+	}
+	if e := Cause(ctx); e != cause {
+		t.Errorf("got %v, want %v", e, cause)
+	}
 }
 
 func XTestCanceledTimeout(t testingT) {
@@ -541,14 +583,21 @@ func XTestInterlockedCancels(t testingT) {
 }
 
 func XTestLayersCancel(t testingT) {
-	testLayers(t, time.Now().UnixNano(), false)
+	testLayers(t, time.Now().UnixNano(), false, false, false)
 }
 
 func XTestLayersTimeout(t testingT) {
-	testLayers(t, time.Now().UnixNano(), true)
+	testLayers(t, time.Now().UnixNano(), true, false, false)
 }
 
-func testLayers(t testingT, seed int64, testTimeout bool) {
+func XTestLayersTimeoutCause(t testingT) {
+	testLayers(t, time.Now().UnixNano(), false, true, false)
+}
+
+func XTestLayersCancelCause(t testingT) {
+	testLayers(t, time.Now().UnixNano(), false, false, true)
+}
+func testLayers(t testingT, seed int64, testTimeout bool, testTimeoutCause bool, testCancelCause bool) {
 	t.Parallel()
 
 	r := rand.New(rand.NewSource(seed))
@@ -560,13 +609,15 @@ func testLayers(t testingT, seed int64, testTimeout bool) {
 	)
 	type value int
 	var (
-		vals      []*value
-		cancels   []CancelFunc
-		numTimers int
-		ctx       = Background()
+		vals         []*value
+		cancels      []CancelFunc
+		cancelCauses []CancelCauseFunc
+		numTimers    int
+		ctx          = Background()
+		cause        = errors.New("context cause error")
 	)
 	for i := 0; i < minLayers || numTimers == 0 || len(cancels) == 0 || len(vals) == 0; i++ {
-		switch r.Intn(3) {
+		switch r.Intn(5) {
 		case 0:
 			v := new(value)
 			ctx = WithValue(ctx, v, v)
@@ -584,6 +635,19 @@ func testLayers(t testingT, seed int64, testTimeout bool) {
 			ctx, cancel = WithTimeout(ctx, d)
 			cancels = append(cancels, cancel)
 			numTimers++
+		case 3:
+			var cancel CancelFunc
+			d := veryLongDuration
+			if testTimeoutCause {
+				d = shortDuration
+			}
+			ctx, cancel = WithTimeoutCause(ctx, d, cause)
+			cancels = append(cancels, cancel)
+			numTimers++
+		case 4:
+			var cancelCause CancelCauseFunc
+			ctx, cancelCause = WithCancelCause(ctx)
+			cancelCauses = append(cancelCauses, cancelCause)
 		}
 	}
 	checkValues := func(when string) {
@@ -605,7 +669,7 @@ func testLayers(t testingT, seed int64, testTimeout bool) {
 	}
 	t.Log(ctx)
 	checkValues("before cancel")
-	if testTimeout {
+	if testTimeout || testTimeoutCause {
 		d := quiescent(t)
 		timer := time.NewTimer(d)
 		defer timer.Stop()
@@ -614,7 +678,21 @@ func testLayers(t testingT, seed int64, testTimeout bool) {
 		case <-timer.C:
 			errorf("ctx should have timed out after %v", d)
 		}
+		if testTimeoutCause {
+			if e := Cause(ctx); e != cause {
+				errorf("got %v, want %v", e, cause)
+			}
+		}
 		checkValues("after timeout")
+	} else if testCancelCause {
+		cancelCause := cancelCauses[r.Intn(len(cancelCauses))]
+		cancelCause(cause)
+		select {
+		case <-ctx.Done():
+		default:
+			errorf("ctx should be canceled")
+		}
+		checkValues("after cancel cause")
 	} else {
 		cancel := cancels[r.Intn(len(cancels))]
 		cancel()
