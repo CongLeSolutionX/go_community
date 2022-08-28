@@ -12,10 +12,13 @@ import (
 func TestBackground(t *testing.T)                      { XTestBackground(t) }
 func TestTODO(t *testing.T)                            { XTestTODO(t) }
 func TestWithCancel(t *testing.T)                      { XTestWithCancel(t) }
+func TestWithCancelCause(t *testing.T)                 { XTestWithCancelCause(t) }
 func TestParentFinishesChild(t *testing.T)             { XTestParentFinishesChild(t) }
 func TestChildFinishesFirst(t *testing.T)              { XTestChildFinishesFirst(t) }
 func TestDeadline(t *testing.T)                        { XTestDeadline(t) }
+func TestDeadLineCause(t *testing.T)                   { XTestDeadlineCause(t) }
 func TestTimeout(t *testing.T)                         { XTestTimeout(t) }
+func TestTimeoutCause(t *testing.T)                    { XTestTimeoutCause(t) }
 func TestCanceledTimeout(t *testing.T)                 { XTestCanceledTimeout(t) }
 func TestValues(t *testing.T)                          { XTestValues(t) }
 func TestAllocs(t *testing.T)                          { XTestAllocs(t, testing.Short, testing.AllocsPerRun) }
@@ -23,6 +26,8 @@ func TestSimultaneousCancels(t *testing.T)             { XTestSimultaneousCancel
 func TestInterlockedCancels(t *testing.T)              { XTestInterlockedCancels(t) }
 func TestLayersCancel(t *testing.T)                    { XTestLayersCancel(t) }
 func TestLayersTimeout(t *testing.T)                   { XTestLayersTimeout(t) }
+func TestLayersTimeoutCause(t *testing.T)              { XTestLayersTimeoutCause(t) }
+func TestLayersCancelCause(t *testing.T)               { XTestLayersCancelCause(t) }
 func TestCancelRemoves(t *testing.T)                   { XTestCancelRemoves(t) }
 func TestWithCancelCanceledParent(t *testing.T)        { XTestWithCancelCanceledParent(t) }
 func TestWithValueChecksKey(t *testing.T)              { XTestWithValueChecksKey(t) }
