@@ -16,6 +16,40 @@
       "message": "ping",
       "revId": "ed4bfc8111d3d19d1fa3d351918be3b6549c0305",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45832e9f_44f040f1",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2350,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-08-29T21:10:37Z",
+      "side": 1,
+      "message": "These are in alphabetical order — `-buildmode` should go before `-compiler`.",
+      "revId": "ed4bfc8111d3d19d1fa3d351918be3b6549c0305",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b657f945_aa72779b",
+        "filename": "src/cmd/go/testdata/script/version.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-08-29T21:10:37Z",
+      "side": 1,
+      "message": "Probably we should either leave `-buildmode` out entirely when it is the default, or record what the default buildmode actually resolved to (since that should produce a resulting binary that is otherwise the same).",
+      "revId": "ed4bfc8111d3d19d1fa3d351918be3b6549c0305",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
