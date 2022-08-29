@@ -89,6 +89,23 @@
       "message": "IIRC last time I looked at this it provided very little benefit, at the cost of complexity and a lot of extra code (I\u0027ll see if I can find the change where this was discussed previously).\n\nHave you evaluated the actual benefit of this change?",
       "revId": "d1a18bcfd635e08362648ed315d7b17956872b9e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65438fca_75324ca0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2022-08-29T19:10:56Z",
+      "side": 1,
+      "message": "Part of the discussion is on https://go-review.googlesource.com/c/go/+/350689 (I\u0027m not immediately sure if there was a follow up/further discussion)",
+      "revId": "d1a18bcfd635e08362648ed315d7b17956872b9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
