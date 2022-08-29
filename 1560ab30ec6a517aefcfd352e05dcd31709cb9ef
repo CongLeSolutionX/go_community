@@ -53,6 +53,24 @@
       "message": "Thanks, but this doesn\u0027t seem right to me. Shapify won\u0027t work as intended if we don\u0027t have an underlying type. I think we need to break the cycle here some other way.",
       "revId": "1560ab30ec6a517aefcfd352e05dcd31709cb9ef",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90d89baf_e475a1c4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-08-29T16:16:56Z",
+      "side": 1,
+      "message": "\u003e Shapify won\u0027t work as intended if we don\u0027t have an underlying type. I think we need to break the cycle here some other way.\n\nYeah, that\u0027s also what I mentioned in commit message. But isn\u0027t that fully instantiated type always have underlying type?",
+      "parentUuid": "79d87886_fcb0a84d",
+      "revId": "1560ab30ec6a517aefcfd352e05dcd31709cb9ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
