@@ -106,6 +106,23 @@
       "message": "Part of the discussion is on https://go-review.googlesource.com/c/go/+/350689 (I\u0027m not immediately sure if there was a follow up/further discussion)",
       "revId": "d1a18bcfd635e08362648ed315d7b17956872b9e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82074365_82bb2ea6",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2022-08-29T19:27:45Z",
+      "side": 1,
+      "message": "If this change is sufficiently beneficial, I think you should be able to move the shiftIsBounded cases above the existing case and omit the !shiftIsBounded checks (AIUI they should be applied in rule order).",
+      "revId": "d1a18bcfd635e08362648ed315d7b17956872b9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
