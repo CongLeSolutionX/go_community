@@ -686,6 +686,9 @@
 (MOVWUreg x:(MOVHUload _ _)) => (MOVDreg x)
 (MOVWUreg x:(MOVWUload _ _)) => (MOVDreg x)
 
+// Avoid zero extension after properly typed atomic load.
+(MOVBUreg x:(Select0 (LoweredAtomicLoad8  _ _))) => (MOVDreg x)
+
 // Fold double extensions.
 (MOVBreg  x:(MOVBreg  _)) => (MOVDreg x)
 (MOVHreg  x:(MOVBreg  _)) => (MOVDreg x)
