@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7bb198f_05d9dd13",
+        "filename": "src/runtime/mcache.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-08-29T14:29:59Z",
+      "side": 1,
+      "message": "nit: IMO, this would be cleaner if you load c.flushGen once to a local variable and use that in the three places below.",
+      "revId": "c679f5d98ee0e933da98cc37a6f464fe44458d61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
