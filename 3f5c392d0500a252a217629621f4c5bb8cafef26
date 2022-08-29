@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a5ea370_5be8ac3e",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 717,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-08-29T21:45:21Z",
+      "side": 1,
+      "message": "This is changing ServeFile to reject any name which contains a .. path component. That\u0027s far too broad; `ServeFile(w, r, \"../foo\")` is fine, because the path is static and not derived from an untrusted source.",
+      "revId": "3f5c392d0500a252a217629621f4c5bb8cafef26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
