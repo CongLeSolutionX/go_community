@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d5634caf_7c0c40c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2022-08-29T14:43:08Z",
+      "side": 1,
+      "message": "I\u0027m not sure I understand your comment correctly. The default value for madvdontneed isn\u0027t be changed by this CL. As far as I can tell from https://cs.opensource.google/go/go/+/refs/tags/go1.19:src/runtime/runtime1.go;l\u003d363-372 madvdontneed\u003d0 (i.e. MADV_FREE) is still the default for the BSDs and Solaris/Illumos even after this CL.\n\nDo you think we should change the default to madvdontneed\u003d1 for *BSD/Solaris/Illumos as well (like on Linux)?",
+      "parentUuid": "6771ce7f_fc1e3f68",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 35
+      },
+      "revId": "95f284f9ca366111370d7899f079aebe2231f1c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d62cd96b_864fd4bf",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 5
@@ -91,6 +115,30 @@
       "writtenOn": "2022-08-29T13:43:25Z",
       "side": 1,
       "message": "this restates the previous sentence. maybe amend the previous sentence to say \"on Linux, *BSD, and Illumos/Solaris\"?",
+      "range": {
+        "startLine": 121,
+        "startChar": 49,
+        "endLine": 124,
+        "endChar": 14
+      },
+      "revId": "95f284f9ca366111370d7899f079aebe2231f1c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d061d6ef_5b6db1be",
+        "filename": "src/runtime/extern.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2022-08-29T14:43:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "986c7afb_03bc7d97",
       "range": {
         "startLine": 121,
         "startChar": 49,
