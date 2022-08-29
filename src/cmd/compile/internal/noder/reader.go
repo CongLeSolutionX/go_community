@@ -817,7 +817,7 @@ func (dict *readerDict) mangle(sym *types.Sym) *types.Sym {
 // If basic is true, then the type argument is used to instantiate a
 // type parameter whose constraint is a basic interface.
 func shapify(targ *types.Type, basic bool) *types.Type {
-	base.Assertf(targ.Kind() != types.TFORW, "%v is missing its underlying type", targ)
+	base.Assertf(targ.Kind() != types.TFORW || targ.IsFullyInstantiated(), "%v is missing its underlying type", targ)
 
 	// When a pointer type is used to instantiate a type parameter
 	// constrained by a basic interface, we know the pointer's element
