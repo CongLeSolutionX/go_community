@@ -108,6 +108,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "396aea0b_6842b380",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-08-29T19:27:52Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "54881de6_dd9bfb5b",
+      "revId": "1560ab30ec6a517aefcfd352e05dcd31709cb9ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "47e9ea3f_2684a243",
@@ -131,6 +149,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3f0c58a_0e1b2cbc",
+        "filename": "src/cmd/compile/internal/noder/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 820,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-08-29T19:27:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47e9ea3f_2684a243",
+      "range": {
+        "startLine": 820,
+        "startChar": 44,
+        "endLine": 820,
+        "endChar": 70
+      },
+      "revId": "1560ab30ec6a517aefcfd352e05dcd31709cb9ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "37a954d1_7deefb56",
@@ -144,6 +186,24 @@
       "writtenOn": "2022-08-29T19:03:51Z",
       "side": 1,
       "message": "I don\u0027t think this needs to be a 2-file test case? The issue reproduces with `var x G[int]` in a.go.",
+      "revId": "1560ab30ec6a517aefcfd352e05dcd31709cb9ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "682736b5_de73c4ca",
+        "filename": "test/fixedbugs/issue54722.dir/b.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-08-29T19:27:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37a954d1_7deefb56",
       "revId": "1560ab30ec6a517aefcfd352e05dcd31709cb9ef",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
