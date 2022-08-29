@@ -71,6 +71,81 @@
       "parentUuid": "79d87886_fcb0a84d",
       "revId": "1560ab30ec6a517aefcfd352e05dcd31709cb9ef",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54881de6_dd9bfb5b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-08-29T19:03:51Z",
+      "side": 1,
+      "message": "This is definitely a workaround, but I think it should be okay for now. I think worst case is we end up not reusing code optimally in some tricky cases.\n\nI think this CL should address #54512 too?",
+      "revId": "1560ab30ec6a517aefcfd352e05dcd31709cb9ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "480f5910_aac06814",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-08-29T19:03:51Z",
+      "side": 1,
+      "message": "\u003e But isn\u0027t that fully instantiated type always have underlying type?\n\nTFORW means that we haven\u0027t called SetUnderlying yet. And if we don\u0027t have targ\u0027s underlying type, we don\u0027t know its shape either. That\u0027s what I meant that shapify won\u0027t work.",
+      "parentUuid": "90d89baf_e475a1c4",
+      "revId": "1560ab30ec6a517aefcfd352e05dcd31709cb9ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47e9ea3f_2684a243",
+        "filename": "src/cmd/compile/internal/noder/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 820,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-08-29T19:03:51Z",
+      "side": 1,
+      "message": "Let\u0027s restructure this like (and add a `-d\u003dshapify` debug flag):\n\n```\nif targ.Kind() \u003d\u003d types.TFORW {\n  if targ.IsFullyInstantiated() {\n    // [comment explaining why this can happen]\n    if base.Debug.Shapify !\u003d 0 {\n      base.Warnf(\"skipping shaping of recursive type %v\", targ)\n    }\n  } else {\n    base.Fatalf(\"%v is missing its underlying type\", targ)\n  }\n}\n```",
+      "range": {
+        "startLine": 820,
+        "startChar": 44,
+        "endLine": 820,
+        "endChar": 70
+      },
+      "revId": "1560ab30ec6a517aefcfd352e05dcd31709cb9ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37a954d1_7deefb56",
+        "filename": "test/fixedbugs/issue54722.dir/b.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-08-29T19:03:51Z",
+      "side": 1,
+      "message": "I don\u0027t think this needs to be a 2-file test case? The issue reproduces with `var x G[int]` in a.go.",
+      "revId": "1560ab30ec6a517aefcfd352e05dcd31709cb9ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
