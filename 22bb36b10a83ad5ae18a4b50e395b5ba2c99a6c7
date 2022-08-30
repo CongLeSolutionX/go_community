@@ -53,6 +53,24 @@
       "message": "Do we need `return targ` here?\n\nI originally thought about suggesting that, but I worry it\u0027s wrong actually. If `dict.shaped` is true, then we\u0027re going to create methods that accept explicit dictionary parameters. That is, `T[int].m` and `T[go.shape.int].m` have different types and are not interchangeable.\n\nBy just returning targ without converting it to a shape type, we\u0027d effectively sometimes return `T[int]` instead of `T[go.shape.int]`. And in turn, callers might end up with `T[int].m` instead of `T[go.shape.int].m`, which would be bad.",
       "revId": "22bb36b10a83ad5ae18a4b50e395b5ba2c99a6c7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "94ccd7a8_20ecdcc3",
+        "filename": "src/cmd/compile/internal/noder/reader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 828,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-08-30T00:40:04Z",
+      "side": 1,
+      "message": "Ah right, fixed.",
+      "parentUuid": "ab0a3bb8_e701a0db",
+      "revId": "22bb36b10a83ad5ae18a4b50e395b5ba2c99a6c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
