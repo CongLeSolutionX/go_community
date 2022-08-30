@@ -2346,6 +2346,26 @@ func (p *Package) setBuildInfo(includeVCS bool) {
 	if BuildAsmflags.present {
 		appendSetting("-asmflags", BuildAsmflags.String())
 	}
+	buildmode := cfg.BuildBuildmode
+	if buildmode == "default" {
+		switch cfg.Goos {
+		case "android":
+			buildmode = "pie"
+		case "windows":
+			if cfg.BuildRace {
+				buildmode = "exe"
+			} else {
+				buildmode = "pie"
+			}
+		case "ios":
+			buildmode = "pie"
+		case "darwin":
+			fallthrough
+		default:
+			buildmode = "exe"
+		}
+	}
+	appendSetting("-buildmode", buildmode)
 	appendSetting("-compiler", cfg.BuildContext.Compiler)
 	if gccgoflags := BuildGccgoflags.String(); gccgoflags != "" && cfg.BuildContext.Compiler == "gccgo" {
 		appendSetting("-gccgoflags", gccgoflags)
