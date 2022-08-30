@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9611dfe6_f932c655",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2356,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-08-30T12:49:00Z",
+      "side": 1,
+      "message": "Hmm, it looks like the `default` buildmode really is separate from the others: it has its own behavior in `cmd/go/internal/work/init.go`.¹\n\n¹https://cs.opensource.google/go/go/+/master:src/cmd/go/internal/work/init.go;l\u003d216-241;drc\u003d0e16d67a560f22ac1fcbc1fa12d25add8bf649d6",
+      "range": {
+        "startLine": 2350,
+        "startChar": 0,
+        "endLine": 2356,
+        "endChar": 2
+      },
+      "revId": "fc29ced4a377f3affc55b8d9a8c037a0b66fe5fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
