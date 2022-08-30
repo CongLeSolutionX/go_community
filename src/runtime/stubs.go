@@ -121,7 +121,7 @@ func reflect_memmove(to, from unsafe.Pointer, n uintptr) {
 }
 
 // exported value for testing
-const hashLoad = float32(loadFactorNum) / float32(loadFactorDen)
+const hashLoad = float32(maxItemInBucket) / float32(bucketCnt)
 
 //go:nosplit
 func fastrand() uint32 {
