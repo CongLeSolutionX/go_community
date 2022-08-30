@@ -306,6 +306,7 @@ func walkMakeMap(n *ir.MakeExpr, init *ir.Nodes) ir.Node {
 			//     var bv bmap
 			//     b = &bv
 			//     h.buckets = b
+			//     h.growthLeft = BUCKETSIZE
 			// }
 
 			nif := ir.NewIfStmt(base.Pos, ir.NewBinaryExpr(base.Pos, ir.OLE, hint, ir.NewInt(reflectdata.BUCKETSIZE)), nil, nil)
@@ -315,10 +316,24 @@ func walkMakeMap(n *ir.MakeExpr, init *ir.Nodes) ir.Node {
 			// b = &bv
 			b := stackTempAddr(&nif.Body, reflectdata.MapBucketType(t))
 
+			for i := 0; i < reflectdata.BUCKETSIZE; i++ {
+				tophashsym := reflectdata.MapBucketType(t).Field(0).Sym
+				btophash := ir.NewSelectorExpr(base.Pos, ir.ODOT, b, tophashsym)                                    // b.tophash
+				tidx := ir.NewIndexExpr(base.Pos, btophash, ir.NewInt(int64(i)))                                    // b.tophash[i]
+				seti := ir.NewAssignStmt(base.Pos, tidx, typecheck.Conv(ir.NewInt(255), types.Types[types.TUINT8])) // b.tophash[i] = 255
+				nif.Body.Append(seti)
+			}
+
 			// h.buckets = b
 			bsym := hmapType.Field(5).Sym // hmap.buckets see reflect.go:hmap
 			na := ir.NewAssignStmt(base.Pos, ir.NewSelectorExpr(base.Pos, ir.ODOT, h, bsym), b)
 			nif.Body.Append(na)
+
+			// h.growthLeft = BUCKETSIZE
+			bsym2 := hmapType.Field(6).Sym
+			na2 := ir.NewAssignStmt(base.Pos, ir.NewSelectorExpr(base.Pos, ir.ODOT, h, bsym2), ir.NewInt(reflectdata.BUCKETSIZE))
+			nif.Body.Append(na2)
+
 			appendWalkStmt(init, nif)
 		}
 	}
@@ -328,7 +343,7 @@ func walkMakeMap(n *ir.MakeExpr, init *ir.Nodes) ir.Node {
 		// make(map[any]any, hint) where hint <= BUCKETSIZE
 		// special allows for faster map initialization and
 		// improves binary size by using calls with fewer arguments.
-		// For hint <= BUCKETSIZE overLoadFactor(hint, 0) is false
+		// For hint <= BUCKETSIZE isOverLoadFactor(hint, 0) is false
 		// and no buckets will be allocated by makemap. Therefore,
 		// no buckets need to be allocated in this code path.
 		if n.Esc() == ir.EscNone {
