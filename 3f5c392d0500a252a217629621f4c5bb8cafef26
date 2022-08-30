@@ -16,6 +16,24 @@
       "message": "This is changing ServeFile to reject any name which contains a .. path component. That\u0027s far too broad; `ServeFile(w, r, \"../foo\")` is fine, because the path is static and not derived from an untrusted source.",
       "revId": "3f5c392d0500a252a217629621f4c5bb8cafef26",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4c6191d_50055596",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 717,
+      "author": {
+        "id": 51238
+      },
+      "writtenOn": "2022-08-30T02:03:13Z",
+      "side": 1,
+      "message": "I think `for _, ent :\u003d range strings.FieldsFunc(v, isSlashRune) {` in `containsDotDot` only checks for paths whose names are exactly `..` . As `{\"/file/a..\", \"testdata/file\", 200}` in the test case, it passes the check.\n\ndo you mean that it still broad?",
+      "parentUuid": "2a5ea370_5be8ac3e",
+      "revId": "3f5c392d0500a252a217629621f4c5bb8cafef26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
