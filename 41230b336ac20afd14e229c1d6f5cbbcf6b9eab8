@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c41f6972_ce4fc7c2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44188
+      },
+      "writtenOn": "2022-08-30T09:13:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ca76148_d861565e",
+      "revId": "41230b336ac20afd14e229c1d6f5cbbcf6b9eab8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "40bcd768_242e41c0",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-08-30T08:24:07Z",
       "side": 1,
       "message": "make a named constant as before",
+      "revId": "41230b336ac20afd14e229c1d6f5cbbcf6b9eab8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "82f8d65a_7a6864a6",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 44188
+      },
+      "writtenOn": "2022-08-30T09:13:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "40bcd768_242e41c0",
       "revId": "41230b336ac20afd14e229c1d6f5cbbcf6b9eab8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -58,6 +94,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3eb74fc_45280069",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 44188
+      },
+      "writtenOn": "2022-08-30T09:13:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6aa686e4_ede3e016",
+      "range": {
+        "startLine": 111,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 0
+      },
+      "revId": "41230b336ac20afd14e229c1d6f5cbbcf6b9eab8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e39f757b_3d148ec5",
@@ -71,6 +131,30 @@
       "writtenOn": "2022-08-30T08:24:07Z",
       "side": 1,
       "message": "please move back where it was before to reduce diff.",
+      "range": {
+        "startLine": 229,
+        "startChar": 0,
+        "endLine": 237,
+        "endChar": 1
+      },
+      "revId": "41230b336ac20afd14e229c1d6f5cbbcf6b9eab8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "269c7f3d_b5382679",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 44188
+      },
+      "writtenOn": "2022-08-30T09:13:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e39f757b_3d148ec5",
       "range": {
         "startLine": 229,
         "startChar": 0,
@@ -127,6 +211,54 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "97efc665_50d05ec6",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 44188
+      },
+      "writtenOn": "2022-08-30T09:13:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "964a76f2_d56750cc",
+      "range": {
+        "startLine": 248,
+        "startChar": 21,
+        "endLine": 248,
+        "endChar": 42
+      },
+      "revId": "41230b336ac20afd14e229c1d6f5cbbcf6b9eab8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d9a54f3_ccb3dff5",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 44188
+      },
+      "writtenOn": "2022-08-30T09:13:13Z",
+      "side": 1,
+      "message": "Considered this approach before :) But because it requires changing the theoretical model of SwissTable, it would need a lot of validation work(such as whether SIMD supports this change), to avoid too many changes in one CL; maybe we could do it in a subsequent CL?",
+      "parentUuid": "f2e2b5cb_6d3caf4f",
+      "range": {
+        "startLine": 248,
+        "startChar": 21,
+        "endLine": 248,
+        "endChar": 43
+      },
+      "revId": "41230b336ac20afd14e229c1d6f5cbbcf6b9eab8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "59302aa5_0d9e5f1d",
@@ -140,6 +272,30 @@
       "writtenOn": "2022-08-30T08:24:07Z",
       "side": 1,
       "message": "Should memclrNoHeapPointers if elems have no pointers same as delete does to not misalign behaviour:\nhttps://github.com/golang/go/blob/4381c61c58315dbdb8004bf56e54a5d2aa5d0498/src/runtime/map.go#L760",
+      "range": {
+        "startLine": 796,
+        "startChar": 0,
+        "endLine": 800,
+        "endChar": 0
+      },
+      "revId": "41230b336ac20afd14e229c1d6f5cbbcf6b9eab8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a90fc7b_b74426be",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 800,
+      "author": {
+        "id": 44188
+      },
+      "writtenOn": "2022-08-30T09:13:13Z",
+      "side": 1,
+      "message": "Done. Maybe this is the reason why the TryBot failed. I have encountered the same problem before, but it is hard to reproduce this problem on my PC.",
+      "parentUuid": "59302aa5_0d9e5f1d",
       "range": {
         "startLine": 796,
         "startChar": 0,
