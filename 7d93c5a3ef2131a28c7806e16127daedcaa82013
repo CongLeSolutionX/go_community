@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5d98c19_459b5e48",
+        "filename": "src/unsafe/unsafe.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2022-08-30T21:05:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f614b2d_7f53f812",
+      "range": {
+        "startLine": 243,
+        "startChar": 58,
+        "endLine": 243,
+        "endChar": 59
+      },
+      "revId": "7d93c5a3ef2131a28c7806e16127daedcaa82013",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6472e07c_c7592d82",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-08-30T20:48:41Z",
       "side": 1,
       "message": "The second of these lines subsumes the first, so maybe we don\u0027t need the first one?",
+      "range": {
+        "startLine": 244,
+        "startChar": 0,
+        "endLine": 245,
+        "endChar": 56
+      },
+      "revId": "7d93c5a3ef2131a28c7806e16127daedcaa82013",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "436a7d58_4027fcd8",
+        "filename": "src/unsafe/unsafe.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2022-08-30T21:05:39Z",
+      "side": 1,
+      "message": "yes",
+      "parentUuid": "6472e07c_c7592d82",
       "range": {
         "startLine": 244,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d48f042_ea1c63c7",
+        "filename": "src/unsafe/unsafe.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2022-08-30T21:05:39Z",
+      "side": 1,
+      "message": "\u003e\u003e\u003e Maybe we should guarantee that SliceData(Slice(ptr, 0)) \u003d\u003d ptr, though.\nthe implement has guarantee this.",
+      "parentUuid": "8e278ac6_12679a58",
+      "range": {
+        "startLine": 248,
+        "startChar": 3,
+        "endLine": 248,
+        "endChar": 49
+      },
+      "revId": "7d93c5a3ef2131a28c7806e16127daedcaa82013",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ea66fe52_2bef6d90",
@@ -83,6 +155,24 @@
       "writtenOn": "2022-08-30T20:48:41Z",
       "side": 1,
       "message": "Add: The caller must not write to any of the underlying bytes, otherwise the program may behave unpredictably.",
+      "revId": "7d93c5a3ef2131a28c7806e16127daedcaa82013",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3f26f8e_85e95558",
+        "filename": "src/unsafe/unsafe.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2022-08-30T21:05:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea66fe52_2bef6d90",
       "revId": "7d93c5a3ef2131a28c7806e16127daedcaa82013",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
