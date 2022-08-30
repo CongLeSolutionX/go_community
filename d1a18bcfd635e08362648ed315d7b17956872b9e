@@ -123,6 +123,24 @@
       "message": "If this change is sufficiently beneficial, I think you should be able to move the shiftIsBounded cases above the existing case and omit the !shiftIsBounded checks (AIUI they should be applied in rule order).",
       "revId": "d1a18bcfd635e08362648ed315d7b17956872b9e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d414557_64bda540",
+        "filename": "src/cmd/compile/internal/ssa/gen/RISCV64.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-08-30T17:00:34Z",
+      "side": 1,
+      "message": "I don\u0027t want to make rules order-dependent. Please leave the conditionals in.",
+      "parentUuid": "82074365_82bb2ea6",
+      "revId": "d1a18bcfd635e08362648ed315d7b17956872b9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
