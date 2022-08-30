@@ -1798,8 +1798,6 @@ type hiter struct {
 	h           unsafe.Pointer
 	buckets     unsafe.Pointer
 	bptr        unsafe.Pointer
-	overflow    *[]unsafe.Pointer
-	oldoverflow *[]unsafe.Pointer
 	startBucket uintptr
 	offset      uint8
 	wrapped     bool
