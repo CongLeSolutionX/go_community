@@ -720,7 +720,9 @@ func typeBitsBulkBarrier(typ *_type, dst, src, size uintptr) {
 // If this is a span of single pointer allocations, it initializes all
 // words to pointer.
 func (s *mspan) initHeapBits() {
-	if s.spanclass.noscan() {
+	isPtrs := goarch.PtrSize == 8 && s.elemsize == goarch.PtrSize
+	if !isPtrs {
+		// XXX always zeroing heap bits. Unfortunate.
 		// Set all the pointer bits to zero. We do this once
 		// when the span is allocated so we don't have to do it
 		// for each object allocation.
@@ -729,10 +731,6 @@ func (s *mspan) initHeapBits() {
 		h := writeHeapBitsForAddr(base)
 		h.flush(base, size)
 		return
-	}
-	isPtrs := goarch.PtrSize == 8 && s.elemsize == goarch.PtrSize
-	if !isPtrs {
-		return // nothing to do
 	}
 	h := writeHeapBitsForAddr(s.base())
 	size := s.npages * pageSize
