@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ca76148_d861565e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2022-08-30T08:24:07Z",
+      "side": 1,
+      "message": "thanks. made a short first pass, definitely not exhaustive.\n\nCan we clearly call out in the CL description which map properties changed with this CL? e.g. could be:\n\n- maps immediately grow in place leader to potential long wait on map assign\n- might require more memory for some maps (I think there can be cases where before we had spare overflow buckets and now we dont use them, also 7 items max per bucket not 8)\n\n",
+      "revId": "41230b336ac20afd14e229c1d6f5cbbcf6b9eab8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40bcd768_242e41c0",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2022-08-30T08:24:07Z",
+      "side": 1,
+      "message": "make a named constant as before",
+      "revId": "41230b336ac20afd14e229c1d6f5cbbcf6b9eab8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6aa686e4_ede3e016",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2022-08-30T08:24:07Z",
+      "side": 1,
+      "message": "please move back where it was before to reduce diff",
+      "range": {
+        "startLine": 111,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 0
+      },
+      "revId": "41230b336ac20afd14e229c1d6f5cbbcf6b9eab8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e39f757b_3d148ec5",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2022-08-30T08:24:07Z",
+      "side": 1,
+      "message": "please move back where it was before to reduce diff.",
+      "range": {
+        "startLine": 229,
+        "startChar": 0,
+        "endLine": 237,
+        "endChar": 1
+      },
+      "revId": "41230b336ac20afd14e229c1d6f5cbbcf6b9eab8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "964a76f2_d56750cc",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2022-08-30T08:24:07Z",
+      "side": 1,
+      "message": "please define a constant and reference by name here.",
+      "range": {
+        "startLine": 248,
+        "startChar": 21,
+        "endLine": 248,
+        "endChar": 42
+      },
+      "revId": "41230b336ac20afd14e229c1d6f5cbbcf6b9eab8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2e2b5cb_6d3caf4f",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2022-08-30T08:24:07Z",
+      "side": 1,
+      "message": "would it be possible not need to write to each bucket but have all zeros which we can use memclr for to be the all empty state?",
+      "range": {
+        "startLine": 248,
+        "startChar": 21,
+        "endLine": 248,
+        "endChar": 43
+      },
+      "revId": "41230b336ac20afd14e229c1d6f5cbbcf6b9eab8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59302aa5_0d9e5f1d",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 800,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2022-08-30T08:24:07Z",
+      "side": 1,
+      "message": "Should memclrNoHeapPointers if elems have no pointers same as delete does to not misalign behaviour:\nhttps://github.com/golang/go/blob/4381c61c58315dbdb8004bf56e54a5d2aa5d0498/src/runtime/map.go#L760",
+      "range": {
+        "startLine": 796,
+        "startChar": 0,
+        "endLine": 800,
+        "endChar": 0
+      },
+      "revId": "41230b336ac20afd14e229c1d6f5cbbcf6b9eab8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
