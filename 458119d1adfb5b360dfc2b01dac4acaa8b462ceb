@@ -70,6 +70,24 @@
       "message": "Bryan, no slowbots on this one? If so I\u0027ll merge it.",
       "revId": "458119d1adfb5b360dfc2b01dac4acaa8b462ceb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e130889_cfdd44c3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-08-30T20:08:08Z",
+      "side": 1,
+      "message": "IIRC the release branch TryBots already include `-longtest` builders, which are the ones I usually add.",
+      "parentUuid": "2e5bed60_832a2dd6",
+      "revId": "458119d1adfb5b360dfc2b01dac4acaa8b462ceb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
