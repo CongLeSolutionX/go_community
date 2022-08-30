@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "db41eafb_4f0e29ee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44188
+      },
+      "writtenOn": "2022-08-30T10:03:14Z",
+      "side": 1,
+      "message": "Maybe TryBot failed because the `mapclear` uses an invalid pointer? Patchset 6 tries to fix it, but I can\u0027t reproduce this error on my PC.",
+      "revId": "73f21c8ad7cc20379dcb5cf712644315e95ec005",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
