@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64f0f13a_1b6787c9",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 723,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-08-30T20:53:58Z",
+      "side": 1,
+      "message": "This is fine as an experiment, but I don\u0027t think it completely solves the problem.\nThis zeroes the heap bits on span allocation, but it doesn\u0027t zero pointer bits on object free (during sweep). So there\u0027s still an opportunity to be allocating an object whose pointer bits are already junk.",
+      "revId": "34b9156365fcb9395d1b0fdb454f06078e5d42c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
