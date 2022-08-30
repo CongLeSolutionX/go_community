@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a996dfad_6a913017",
+        "filename": "src/go/printer/printer.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2022-08-30T20:21:08Z",
+      "side": 1,
+      "message": "Either delete this method, or keep it and move the guts of newPrinter back into it.",
+      "revId": "3e74314d0a62aa6d61d7b46201b5d5baebb5e5bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5611da0_06e1328f",
+        "filename": "src/go/printer/printer.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1326,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2022-08-30T20:21:08Z",
+      "side": 1,
+      "message": "In fewer words, and less likely to erode over time:\n\n// We start the printer with a 16K output buffer, which is currently\n// larger than about 80% of Go files in the standard library.",
+      "revId": "3e74314d0a62aa6d61d7b46201b5d5baebb5e5bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f1aed0b_ce3b2f06",
+        "filename": "src/go/printer/printer.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1344,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2022-08-30T20:21:08Z",
+      "side": 1,
+      "message": "This line is a no-op; let\u0027s delete it. (Did you mean to reset it, as with wsbuf? That was already done by free.)",
+      "revId": "3e74314d0a62aa6d61d7b46201b5d5baebb5e5bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

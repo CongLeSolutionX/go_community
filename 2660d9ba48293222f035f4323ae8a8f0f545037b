@@ -34,6 +34,24 @@
       "parentUuid": "705e0de0_86566123",
       "revId": "2660d9ba48293222f035f4323ae8a8f0f545037b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f16e4ced_65b0b76f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2022-08-30T20:21:08Z",
+      "side": 1,
+      "message": "Using the pools makes sense. It would be nice to have at least some idea about the distribution of sizes in a typical client program (e.g. gopls), but this already seems like a strict improvement.",
+      "parentUuid": "705e0de0_86566123",
+      "revId": "2660d9ba48293222f035f4323ae8a8f0f545037b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
