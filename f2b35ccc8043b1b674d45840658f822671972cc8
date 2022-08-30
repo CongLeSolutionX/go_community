@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "975301aa_6a119176",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-08-30T22:27:10Z",
+      "side": 1,
+      "message": "The extension ops on the shift amount aren\u0027t necessary here, The arm64 shift ops only use the low 6 bits of y.",
+      "range": {
+        "startLine": 142,
+        "startChar": 64,
+        "endLine": 142,
+        "endChar": 78
+      },
+      "revId": "f2b35ccc8043b1b674d45840658f822671972cc8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8519660b_1546bd3e",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-08-30T22:27:10Z",
+      "side": 1,
+      "message": "Can you add !shiftIsBounded(v) to all these rules?",
+      "revId": "f2b35ccc8043b1b674d45840658f822671972cc8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
