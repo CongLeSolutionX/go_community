@@ -89,6 +89,24 @@
       "parentUuid": "63ecc859_e3527284",
       "revId": "6ceaff7c6443a5b8175c1c3092d934308343f1b4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f95b32ff_640932f1",
+        "filename": "test/fixedbugs/issue54722.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-08-30T16:17:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71e2fa8f_efa17a61",
+      "revId": "6ceaff7c6443a5b8175c1c3092d934308343f1b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
