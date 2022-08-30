@@ -7023,20 +7023,21 @@ func TestGCBits(t *testing.T) {
 	hdr := make([]byte, 8/goarch.PtrSize)
 
 	verifyMapBucket := func(t *testing.T, k, e Type, m any, want []byte) {
+		want = trimBitmap(want)
 		verifyGCBits(t, MapBucketOf(k, e), want)
 		verifyGCBits(t, CachedBucketOf(TypeOf(m)), want)
 	}
 	verifyMapBucket(t,
 		Tscalar, Tptr,
 		map[Xscalar]Xptr(nil),
-		join(hdr, rep(8, lit(0)), rep(8, lit(1)), lit(1)))
+		join(hdr, rep(8, lit(0)), rep(8, lit(1))))
 	verifyMapBucket(t,
 		Tscalarptr, Tptr,
 		map[Xscalarptr]Xptr(nil),
-		join(hdr, rep(8, lit(0, 1)), rep(8, lit(1)), lit(1)))
+		join(hdr, rep(8, lit(0, 1)), rep(8, lit(1))))
 	verifyMapBucket(t, Tint64, Tptr,
 		map[int64]Xptr(nil),
-		join(hdr, rep(8, rep(8/goarch.PtrSize, lit(0))), rep(8, lit(1)), lit(1)))
+		join(hdr, rep(8, rep(8/goarch.PtrSize, lit(0))), rep(8, lit(1))))
 	verifyMapBucket(t,
 		Tscalar, Tscalar,
 		map[Xscalar]Xscalar(nil),
@@ -7044,23 +7045,23 @@ func TestGCBits(t *testing.T) {
 	verifyMapBucket(t,
 		ArrayOf(2, Tscalarptr), ArrayOf(3, Tptrscalar),
 		map[[2]Xscalarptr][3]Xptrscalar(nil),
-		join(hdr, rep(8*2, lit(0, 1)), rep(8*3, lit(1, 0)), lit(1)))
+		join(hdr, rep(8*2, lit(0, 1)), rep(8*3, lit(1, 0))))
 	verifyMapBucket(t,
 		ArrayOf(64/goarch.PtrSize, Tscalarptr), ArrayOf(64/goarch.PtrSize, Tptrscalar),
 		map[[64 / goarch.PtrSize]Xscalarptr][64 / goarch.PtrSize]Xptrscalar(nil),
-		join(hdr, rep(8*64/goarch.PtrSize, lit(0, 1)), rep(8*64/goarch.PtrSize, lit(1, 0)), lit(1)))
+		join(hdr, rep(8*64/goarch.PtrSize, lit(0, 1)), rep(8*64/goarch.PtrSize, lit(1, 0))))
 	verifyMapBucket(t,
 		ArrayOf(64/goarch.PtrSize+1, Tscalarptr), ArrayOf(64/goarch.PtrSize, Tptrscalar),
 		map[[64/goarch.PtrSize + 1]Xscalarptr][64 / goarch.PtrSize]Xptrscalar(nil),
-		join(hdr, rep(8, lit(1)), rep(8*64/goarch.PtrSize, lit(1, 0)), lit(1)))
+		join(hdr, rep(8, lit(1)), rep(8*64/goarch.PtrSize, lit(1, 0))))
 	verifyMapBucket(t,
 		ArrayOf(64/goarch.PtrSize, Tscalarptr), ArrayOf(64/goarch.PtrSize+1, Tptrscalar),
 		map[[64 / goarch.PtrSize]Xscalarptr][64/goarch.PtrSize + 1]Xptrscalar(nil),
-		join(hdr, rep(8*64/goarch.PtrSize, lit(0, 1)), rep(8, lit(1)), lit(1)))
+		join(hdr, rep(8*64/goarch.PtrSize, lit(0, 1)), rep(8, lit(1))))
 	verifyMapBucket(t,
 		ArrayOf(64/goarch.PtrSize+1, Tscalarptr), ArrayOf(64/goarch.PtrSize+1, Tptrscalar),
 		map[[64/goarch.PtrSize + 1]Xscalarptr][64/goarch.PtrSize + 1]Xptrscalar(nil),
-		join(hdr, rep(8, lit(1)), rep(8, lit(1)), lit(1)))
+		join(hdr, rep(8, lit(1)), rep(8, lit(1))))
 }
 
 func rep(n int, b []byte) []byte { return bytes.Repeat(b, n) }

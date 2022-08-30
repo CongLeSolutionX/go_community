@@ -2286,7 +2286,6 @@ func bucketOf(ktyp, etyp *rtype) *rtype {
 		base += bucketSize * etyp.size / goarch.PtrSize
 
 		word := base
-		mask[word/8] |= 1 << (word % 8)
 		gcdata = &mask[0]
 		ptrdata = (word + 1) * goarch.PtrSize
 

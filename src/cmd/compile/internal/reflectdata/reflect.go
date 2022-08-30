@@ -104,7 +104,7 @@ func MapBucketType(t *types.Type) *types.Type {
 		elemtype = types.NewPtr(elemtype)
 	}
 
-	field := make([]*types.Field, 0, 5)
+	field := make([]*types.Field, 0, 4)
 
 	// The first field is: uint8 topbits[BUCKETSIZE].
 	arr := types.NewArray(types.Types[types.TUINT8], BUCKETSIZE)
@@ -119,19 +119,6 @@ func MapBucketType(t *types.Type) *types.Type {
 	arr.SetNoalg(true)
 	elems := makefield("elems", arr)
 	field = append(field, elems)
-
-	// If keys and elems have no pointers, the map implementation
-	// can keep a list of overflow pointers on the side so that
-	// buckets can be marked as having no pointers.
-	// Arrange for the bucket to have no pointers by changing
-	// the type of the overflow field to uintptr in this case.
-	// See comment on hmap.overflow in runtime/map.go.
-	otyp := types.Types[types.TUNSAFEPTR]
-	if !elemtype.HasPointers() && !keytype.HasPointers() {
-		otyp = types.Types[types.TUINTPTR]
-	}
-	overflow := makefield("overflow", otyp)
-	field = append(field, overflow)
 
 	// link up fields
 	bucket := types.NewStruct(types.NoPkg, field[:])
@@ -182,12 +169,6 @@ func MapBucketType(t *types.Type) *types.Type {
 		base.Fatalf("bad alignment of elems in bmap for %v", t)
 	}
 
-	// Double-check that overflow field is final memory in struct,
-	// with no padding at end.
-	if overflow.Offset != bucket.Size()-int64(types.PtrSize) {
-		base.Fatalf("bad offset of overflow in bmap for %v", t)
-	}
-
 	t.MapType().Bucket = bucket
 
 	bucket.StructType().Map = t
@@ -206,35 +187,29 @@ func MapType(t *types.Type) *types.Type {
 	// build a struct:
 	// type hmap struct {
 	//    count      int
-	//    flags      uint8
-	//    B          uint8
-	//    noverflow  uint16
+	//    flags      uint32
 	//    hash0      uint32
 	//    buckets    *bmap
-	//    oldbuckets *bmap
-	//    nevacuate  uintptr
-	//    extra      unsafe.Pointer // *mapextra
+	// 	  growthLeft int
+	//    bucketmask uintptr
 	// }
 	// must match runtime/map.go:hmap.
 	fields := []*types.Field{
 		makefield("count", types.Types[types.TINT]),
-		makefield("flags", types.Types[types.TUINT8]),
-		makefield("B", types.Types[types.TUINT8]),
-		makefield("noverflow", types.Types[types.TUINT16]),
+		makefield("flags", types.Types[types.TUINT32]),
 		makefield("hash0", types.Types[types.TUINT32]), // Used in walk.go for OMAKEMAP.
 		makefield("buckets", types.NewPtr(bmap)),       // Used in walk.go for OMAKEMAP.
-		makefield("oldbuckets", types.NewPtr(bmap)),
-		makefield("nevacuate", types.Types[types.TUINTPTR]),
-		makefield("extra", types.Types[types.TUNSAFEPTR]),
+		makefield("growthLeft", types.Types[types.TINT]),
+		makefield("bucketmask", types.Types[types.TUINTPTR]),
 	}
 
 	hmap := types.NewStruct(types.NoPkg, fields)
 	hmap.SetNoalg(true)
 	types.CalcSize(hmap)
 
-	// The size of hmap should be 48 bytes on 64 bit
-	// and 28 bytes on 32 bit platforms.
-	if size := int64(8 + 5*types.PtrSize); hmap.Size() != size {
+	// The size of hmap should be 40 bytes on 64 bit
+	// and 24 bytes on 32 bit platforms.
+	if size := int64(8 + 4*types.PtrSize); hmap.Size() != size {
 		base.Fatalf("hmap size not correct: got %d, want %d", hmap.Size(), size)
 	}
 
@@ -261,8 +236,6 @@ func MapIterType(t *types.Type) *types.Type {
 	//    h           *hmap
 	//    buckets     *bmap
 	//    bptr        *bmap
-	//    overflow    unsafe.Pointer // *[]*bmap
-	//    oldoverflow unsafe.Pointer // *[]*bmap
 	//    startBucket uintptr
 	//    offset      uint8
 	//    wrapped     bool
@@ -270,6 +243,7 @@ func MapIterType(t *types.Type) *types.Type {
 	//    i           uint8
 	//    bucket      uintptr
 	//    checkBucket uintptr
+	//    bucketmask  uintptr
 	// }
 	// must match runtime/map.go:hiter.
 	fields := []*types.Field{
@@ -279,8 +253,6 @@ func MapIterType(t *types.Type) *types.Type {
 		makefield("h", types.NewPtr(hmap)),
 		makefield("buckets", types.NewPtr(bmap)),
 		makefield("bptr", types.NewPtr(bmap)),
-		makefield("overflow", types.Types[types.TUNSAFEPTR]),
-		makefield("oldoverflow", types.Types[types.TUNSAFEPTR]),
 		makefield("startBucket", types.Types[types.TUINTPTR]),
 		makefield("offset", types.Types[types.TUINT8]),
 		makefield("wrapped", types.Types[types.TBOOL]),
@@ -288,14 +260,16 @@ func MapIterType(t *types.Type) *types.Type {
 		makefield("i", types.Types[types.TUINT8]),
 		makefield("bucket", types.Types[types.TUINTPTR]),
 		makefield("checkBucket", types.Types[types.TUINTPTR]),
+		makefield("bucketmask", types.Types[types.TUINTPTR]),
 	}
 
 	// build iterator struct holding the above fields
 	hiter := types.NewStruct(types.NoPkg, fields)
 	hiter.SetNoalg(true)
 	types.CalcSize(hiter)
-	if hiter.Size() != int64(12*types.PtrSize) {
-		base.Fatalf("hash_iter size not correct %d %d", hiter.Size(), 12*types.PtrSize)
+	hitersize := int64(11 * types.PtrSize)
+	if hiter.Size() != hitersize {
+		base.Fatalf("hash_iter size not correct %d %d", hiter.Size(), hitersize)
 	}
 	t.MapType().Hiter = hiter
 	hiter.StructType().Map = t
