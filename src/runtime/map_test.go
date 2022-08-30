@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"internal/goarch"
 	"math"
+	"math/rand"
 	"reflect"
 	"runtime"
 	"sort"
@@ -15,13 +16,14 @@ import (
 	"strings"
 	"sync"
 	"testing"
+	"unsafe"
 )
 
 func TestHmapSize(t *testing.T) {
 	// The structure of hmap is defined in runtime/map.go
 	// and in cmd/compile/internal/gc/reflect.go and must be in sync.
-	// The size of hmap should be 48 bytes on 64 bit and 28 bytes on 32 bit platforms.
-	var hmapSize = uintptr(8 + 5*goarch.PtrSize)
+	// The size of hmap should be 40 bytes on 64 bit and 24 bytes on 32 bit platforms.
+	var hmapSize = uintptr(8 + 4*goarch.PtrSize)
 	if runtime.RuntimeHmapSize != hmapSize {
 		t.Errorf("sizeof(runtime.hmap{})==%d, want %d", runtime.RuntimeHmapSize, hmapSize)
 	}
@@ -142,6 +144,242 @@ func TestMapAppendAssignment(t *testing.T) {
 	want := []int{12345, 67890, 123, 456, 7, 8, 9, 0}
 	if got := m[0]; !reflect.DeepEqual(got, want) {
 		t.Errorf("got %v, want %v", got, want)
+	}
+}
+
+func TestMapInt64SameSizeGrow(t *testing.T) {
+	type ktype int64
+	type vtype int
+	type kv struct {
+		k ktype
+		v vtype
+	}
+	mcap := (runtime.RuntimeBucketCnt - 1) * 16
+	m := make(map[ktype]vtype, mcap)
+	for i := 0; i < 1000; i++ {
+		var addk []kv
+		for i := len(m); i < mcap; i++ {
+			r := rand.Int()
+			k := ktype(r)
+			v := vtype(i)
+			m[k] = v
+			addk = append(addk, kv{k, v})
+		}
+		for _, elem := range addk {
+			k, v := elem.k, elem.v
+			got, ok := m[k]
+			if !ok || got != v {
+				t.Fatalf("got wrong value (%v,%v), expected (%v,true)", got, ok, v)
+			}
+			got = m[k]
+			if got != v {
+				t.Fatalf("got wrong value %v, expected %v", got, v)
+			}
+		}
+		for _, elem := range addk {
+			delete(m, elem.k)
+			if len(m) == 16 {
+				break
+			}
+		}
+	}
+}
+
+func TestMapPointerSameSizeGrow(t *testing.T) {
+	type ktype unsafe.Pointer
+	type vtype int
+	type kv struct {
+		k ktype
+		v vtype
+	}
+	mcap := (runtime.RuntimeBucketCnt - 1) * 16
+	m := make(map[ktype]vtype, mcap)
+	for i := 0; i < 1000; i++ {
+		var addk []kv
+		for i := len(m); i < mcap; i++ {
+			r := rand.Int()
+			k := ktype(&r)
+			v := vtype(i)
+			m[k] = v
+			addk = append(addk, kv{k, v})
+		}
+		for _, elem := range addk {
+			k, v := elem.k, elem.v
+			got, ok := m[k]
+			if !ok || got != v {
+				t.Fatalf("got wrong value (%v,%v), expected (%v,true)", got, ok, v)
+			}
+			got = m[k]
+			if got != v {
+				t.Fatalf("got wrong value %v, expected %v", got, v)
+			}
+		}
+		for _, elem := range addk {
+			delete(m, elem.k)
+			if len(m) == 16 {
+				break
+			}
+		}
+	}
+}
+
+func TestMapInt32SameSizeGrow(t *testing.T) {
+	type ktype int32
+	type vtype int
+	type kv struct {
+		k ktype
+		v vtype
+	}
+	mcap := (runtime.RuntimeBucketCnt - 1) * 16
+	m := make(map[ktype]vtype, mcap)
+	for i := 0; i < 1000; i++ {
+		var addk []kv
+		for i := len(m); i < mcap; i++ {
+			r := rand.Int()
+			k := ktype(r)
+			v := vtype(i)
+			m[k] = v
+			addk = append(addk, kv{k, v})
+		}
+		for _, elem := range addk {
+			k, v := elem.k, elem.v
+			got, ok := m[k]
+			if !ok || got != v {
+				t.Fatalf("got wrong value (%v,%v), expected (%v,true)", got, ok, v)
+			}
+			got = m[k]
+			if got != v {
+				t.Fatalf("got wrong value %v, expected %v", got, v)
+			}
+		}
+		for _, elem := range addk {
+			delete(m, elem.k)
+			if len(m) == 16 {
+				break
+			}
+		}
+	}
+}
+
+func TestMapFloat64SameSizeGrow(t *testing.T) {
+	type ktype float64
+	type vtype int
+	type kv struct {
+		k ktype
+		v vtype
+	}
+	mcap := (runtime.RuntimeBucketCnt - 1) * 16
+	m := make(map[ktype]vtype, mcap)
+	for i := 0; i < 1000; i++ {
+		var addk []kv
+		for i := len(m); i < mcap; i++ {
+			r := rand.Int()
+			for r == 0 {
+				r = rand.Int()
+			}
+			k := ktype(r)
+			v := vtype(i)
+			m[k] = v
+			addk = append(addk, kv{k, v})
+		}
+		for _, elem := range addk {
+			k, v := elem.k, elem.v
+			got, ok := m[k]
+			if !ok || got != v {
+				t.Fatalf("got wrong value (%v,%v), expected (%v,true)", got, ok, v)
+			}
+			got = m[k]
+			if got != v {
+				t.Fatalf("got wrong value %v, expected %v", got, v)
+			}
+		}
+		for _, elem := range addk {
+			delete(m, elem.k)
+			if len(m) == 16 {
+				break
+			}
+		}
+	}
+}
+
+func TestMapStrSameSizeGrow(t *testing.T) {
+	type ktype string
+	type vtype int
+	type kv struct {
+		k ktype
+		v vtype
+	}
+	mcap := (runtime.RuntimeBucketCnt - 1) * 16
+	m := make(map[ktype]vtype, mcap)
+	for i := 0; i < 1000; i++ {
+		var addk []kv
+		for i := len(m); i < mcap; i++ {
+			r := rand.Int()
+			k := ktype(strconv.Itoa(r))
+			v := vtype(i)
+			m[k] = v
+			addk = append(addk, kv{k, v})
+		}
+		for _, elem := range addk {
+			k, v := elem.k, elem.v
+			got, ok := m[k]
+			if !ok || got != v {
+				t.Fatalf("got wrong value (%v,%v), expected (%v,true)", got, ok, v)
+			}
+			got = m[k]
+			if got != v {
+				t.Fatalf("got wrong value %v, expected %v", got, v)
+			}
+		}
+		for _, elem := range addk {
+			delete(m, elem.k)
+			if len(m) == 16 {
+				break
+			}
+		}
+	}
+}
+
+func TestMapIndirectKeyValueSameSizeGrow(t *testing.T) {
+	type ktype [129]byte
+	type vtype [129]byte
+	type kv struct {
+		k ktype
+		v vtype
+	}
+	mcap := (runtime.RuntimeBucketCnt - 1) * 16
+	m := make(map[ktype]vtype, mcap)
+	for i := 0; i < 1000; i++ {
+		var addk []kv
+		for i := len(m); i < mcap; i++ {
+			var k [129]byte
+			r := rand.Uint32()
+			k[0] = byte(r)
+			k[1] = byte(r >> 8)
+			k[2] = byte(r >> 16)
+			k[3] = byte(r >> 24)
+			v := k
+			v[0] = byte(i)
+			m[k] = v
+			addk = append(addk, kv{k, v})
+		}
+		for _, elem := range addk {
+			k, v := elem.k, elem.v
+			got, ok := m[k]
+			if !ok || got != v {
+				t.Fatalf("got wrong value (%v,%v), expected (%v,true)", got, ok, v)
+			}
+			got = m[k]
+			if got != v {
+				t.Fatalf("got wrong value %v, expected %v", got, v)
+			}
+		}
+		for _, elem := range addk {
+			delete(m, elem.k)
+			if len(m) == 16 {
+				break
+			}
+		}
 	}
 }
 
@@ -682,10 +920,12 @@ var mapBucketTests = [...]struct {
 	{-1, 1, 1},
 	{0, 1, 1},
 	{1, 1, 1},
-	{8, 1, 1},
+	{7, 1, 1},
+	{8, 2, 2},
 	{9, 2, 2},
 	{13, 2, 2},
-	{14, 4, 4},
+	{14, 2, 2},
+	{15, 4, 4},
 	{26, 4, 4},
 }
 
@@ -1147,31 +1387,6 @@ func TestIncrementAfterBulkClearKeyStringValueInt(t *testing.T) {
 	if n2 := m[key2]; n2 != 1 {
 		t.Errorf("incremented 0 to %d", n2)
 	}
-}
-
-func TestMapTombstones(t *testing.T) {
-	m := map[int]int{}
-	const N = 10000
-	// Fill a map.
-	for i := 0; i < N; i++ {
-		m[i] = i
-	}
-	runtime.MapTombstoneCheck(m)
-	// Delete half of the entries.
-	for i := 0; i < N; i += 2 {
-		delete(m, i)
-	}
-	runtime.MapTombstoneCheck(m)
-	// Add new entries to fill in holes.
-	for i := N; i < 3*N/2; i++ {
-		m[i] = i
-	}
-	runtime.MapTombstoneCheck(m)
-	// Delete everything.
-	for i := 0; i < 3*N/2; i++ {
-		delete(m, i)
-	}
-	runtime.MapTombstoneCheck(m)
 }
 
 type canString int

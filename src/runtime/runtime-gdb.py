@@ -160,36 +160,25 @@ class MapTypePrinter:
 		return str(self.val.type)
 
 	def children(self):
-		B = self.val['B']
+		nbuckets = self.val['bucketmask'] + 1
 		buckets = self.val['buckets']
-		oldbuckets = self.val['oldbuckets']
 		flags = self.val['flags']
 		inttype = self.val['hash0'].type
 		cnt = 0
-		for bucket in xrange(2 ** int(B)):
+		for bucket in xrange(int(nbuckets)):
 			bp = buckets + bucket
-			if oldbuckets:
-				oldbucket = bucket & (2 ** (B - 1) - 1)
-				oldbp = oldbuckets + oldbucket
-				oldb = oldbp.dereference()
-				if (oldb['overflow'].cast(inttype) & 1) == 0:  # old bucket not evacuated yet
-					if bucket >= 2 ** (B - 1):
-						continue    # already did old bucket
-					bp = oldbp
-			while bp:
-				b = bp.dereference()
-				for i in xrange(8):
-					if b['tophash'][i] != 0:
-						k = b['keys'][i]
-						v = b['values'][i]
-						if flags & 1:
-							k = k.dereference()
-						if flags & 2:
-							v = v.dereference()
-						yield str(cnt), k
-						yield str(cnt + 1), v
-						cnt += 2
-				bp = b['overflow']
+			b = bp.dereference()
+			for i in xrange(8):
+				if b['tophash'][i] != 255:
+					k = b['keys'][i]
+					v = b['values'][i]
+					if flags & 1:
+						k = k.dereference()
+					if flags & 2:
+						v = v.dereference()
+					yield str(cnt), k
+					yield str(cnt + 1), v
+					cnt += 2
 
 
 class ChanTypePrinter:

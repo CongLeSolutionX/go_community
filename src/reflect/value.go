@@ -1800,8 +1800,6 @@ type hiter struct {
 	h           unsafe.Pointer
 	buckets     unsafe.Pointer
 	bptr        unsafe.Pointer
-	overflow    *[]unsafe.Pointer
-	oldoverflow *[]unsafe.Pointer
 	startBucket uintptr
 	offset      uint8
 	wrapped     bool
@@ -1809,6 +1807,7 @@ type hiter struct {
 	i           uint8
 	bucket      uintptr
 	checkBucket uintptr
+	bucketmask  uintptr
 }
 
 func (h *hiter) initialized() bool {
