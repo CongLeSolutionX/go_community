@@ -125,6 +125,24 @@
       "parentUuid": "896d8ed8_8abe2cb5",
       "revId": "2b1a4e26e5920e13d64ae7a22e4ca16cafe8290d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb8f421c_10c9815a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 52329
+      },
+      "writtenOn": "2022-08-30T03:10:52Z",
+      "side": 1,
+      "message": "We should keep this name for consistency. Although the LoongArch Architecture Reference Manual uses ROTRW and ROTRD, but other instructions in go assembler still use Go MIPS-like name. The naming change should be done in another CL and all instruction names should be changed for consistency, for now it looks good to keep the old naming.\n\nYes, I don\u0027t have submit right, you can submit if this CL still looks good to you.",
+      "parentUuid": "fa28efee_20e65828",
+      "revId": "2b1a4e26e5920e13d64ae7a22e4ca16cafe8290d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
