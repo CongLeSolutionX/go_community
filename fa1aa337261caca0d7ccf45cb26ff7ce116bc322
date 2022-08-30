@@ -177,6 +177,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "39117e01_f5d3a3a3",
+        "filename": "src/cmd/asm/internal/asm/testdata/ppc64_p10.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-08-30T15:33:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f42032b3_21ea4ee1",
+      "revId": "fa1aa337261caca0d7ccf45cb26ff7ce116bc322",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0f9f1658_ac7237e2",
@@ -243,6 +261,24 @@
       "side": 1,
       "message": "Digging around at how Anames is used, I think these could move into the generated file without changing the workflow here.",
       "parentUuid": "aa0cc614_6b53f7ed",
+      "revId": "fa1aa337261caca0d7ccf45cb26ff7ce116bc322",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13eb7d70_94e08dd2",
+        "filename": "src/cmd/internal/obj/ppc64/a.out.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1094,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-08-30T15:33:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84618702_01d242bb",
       "revId": "fa1aa337261caca0d7ccf45cb26ff7ce116bc322",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
