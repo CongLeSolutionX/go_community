@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "df684765_f0fae863",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-08-30T21:44:37Z",
+      "side": 1,
+      "message": "Just one question about submitting this - will the build be broken between when this CL is submitted and when CL 423774 is submitted? Or will these declarations be fine because no one is referencing them?\n",
+      "revId": "61e71280fce31505e7d500392438c5da6b239d81",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "100c1736_1e891c42",
