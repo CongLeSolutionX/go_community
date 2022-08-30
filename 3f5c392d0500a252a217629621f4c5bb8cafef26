@@ -34,6 +34,24 @@
       "parentUuid": "2a5ea370_5be8ac3e",
       "revId": "3f5c392d0500a252a217629621f4c5bb8cafef26",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a37e5a3_e4384a21",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 717,
+      "author": {
+        "id": 51238
+      },
+      "writtenOn": "2022-08-30T02:08:42Z",
+      "side": 1,
+      "message": "As stated in the original test case and comment, I\u0027m not quite sure, but I think \"ServeFile\" should reject any request where the directory contains \"..\".",
+      "parentUuid": "c4c6191d_50055596",
+      "revId": "3f5c392d0500a252a217629621f4c5bb8cafef26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
