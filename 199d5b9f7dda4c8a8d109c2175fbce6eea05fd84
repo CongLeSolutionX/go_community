@@ -52,6 +52,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c998f84_f30aa287",
+        "filename": "src/cmd/covdata/covdata.go",
+        "patchSetId": 55
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-08-31T14:41:51Z",
+      "side": 1,
+      "message": "I\u0027ve renamed to \"dbgtrace\". \"verb\" is indeed a bit too overloaded. Logging is probably overkill for the debug trace output; I\u0027ll eliminate log and just use Fprintf.",
+      "parentUuid": "e967a4a5_a5e843df",
+      "revId": "199d5b9f7dda4c8a8d109c2175fbce6eea05fd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "41d5d624_951c711c",
@@ -65,6 +83,30 @@
       "writtenOn": "2022-08-25T22:07:44Z",
       "side": 1,
       "message": "Is there an example of such a package?  Maybe it\u0027s obvious, but not to me.  Not sure how the description would change, but I can imagine going \"huh, what\u0027s that?\".",
+      "range": {
+        "startLine": 100,
+        "startChar": 38,
+        "endLine": 100,
+        "endChar": 74
+      },
+      "revId": "199d5b9f7dda4c8a8d109c2175fbce6eea05fd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9661e21b_d0a6210c",
+        "filename": "src/cmd/covdata/covdata.go",
+        "patchSetId": 55
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-08-31T14:41:51Z",
+      "side": 1,
+      "message": "This is meant to cover the GO111MODULE\u003doff mode (which we do still support), and also oddball cases like\n\n$ go run -cover mumble.go\n\nwhere mumble.go just has a main package. \n\nI guess I could make the message a bit wordier (e.g. include language about \"go run\" or GO111MODULE\u003doff)?",
+      "parentUuid": "41d5d624_951c711c",
       "range": {
         "startLine": 100,
         "startChar": 38,
@@ -98,6 +140,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f53688f9_d7e45a47",
+        "filename": "src/cmd/covdata/covdata.go",
+        "patchSetId": 55
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-08-31T14:41:51Z",
+      "side": 1,
+      "message": "Interestingly, no. The default is to have memory profiling on at a very low sampling rate, even if the program never emits a profile: https://go.googlesource.com/go/+/62125c9b790c9dc62ab6b638286150a16024d40e/src/runtime/mprof.go#587.\n\nTurning it off completely eliminates some tiny amount of overhead. \nOther programs in cmd do similar things, e.g. cmd/compile does this: https://go.googlesource.com/go/+/62125c9b790c9dc62ab6b638286150a16024d40e/src/cmd/compile/internal/gc/util.go#47",
+      "parentUuid": "4cefaacc_cf11625f",
+      "range": {
+        "startLine": 192,
+        "startChar": 2,
+        "endLine": 193,
+        "endChar": 28
+      },
+      "revId": "199d5b9f7dda4c8a8d109c2175fbce6eea05fd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "391ae0d6_17a134cf",
@@ -115,6 +181,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f3e655f_e66f26cb",
+        "filename": "src/cmd/covdata/dump.go",
+        "patchSetId": 55
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-08-31T14:41:51Z",
+      "side": 1,
+      "message": "I\u0027ve written some better comments.",
+      "parentUuid": "391ae0d6_17a134cf",
+      "revId": "199d5b9f7dda4c8a8d109c2175fbce6eea05fd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cfc22173_9854c239",
@@ -128,6 +212,30 @@
       "writtenOn": "2022-08-25T22:07:44Z",
       "side": 1,
       "message": "\"vet\"",
+      "range": {
+        "startLine": 99,
+        "startChar": 51,
+        "endLine": 99,
+        "endChar": 55
+      },
+      "revId": "199d5b9f7dda4c8a8d109c2175fbce6eea05fd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58af4d59_624ab674",
+        "filename": "src/cmd/covdata/dump.go",
+        "patchSetId": 55
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-08-31T14:41:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cfc22173_9854c239",
       "range": {
         "startLine": 99,
         "startChar": 51,
@@ -161,6 +269,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ee8d189_39756a75",
+        "filename": "src/cmd/covdata/dump.go",
+        "patchSetId": 55
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-08-31T14:41:51Z",
+      "side": 1,
+      "message": "Done, changed to inconsistency.",
+      "parentUuid": "7a06995a_12dcf3a6",
+      "range": {
+        "startLine": 146,
+        "startChar": 21,
+        "endLine": 146,
+        "endChar": 29
+      },
+      "revId": "199d5b9f7dda4c8a8d109c2175fbce6eea05fd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a4dff3be_7e6d9b02",
@@ -178,6 +310,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c12301ce_97e27c87",
+        "filename": "src/cmd/covdata/dump.go",
+        "patchSetId": 55
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-08-31T14:41:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4dff3be_7e6d9b02",
+      "revId": "199d5b9f7dda4c8a8d109c2175fbce6eea05fd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "71b1921e_647bf1ca",
@@ -191,6 +341,30 @@
       "writtenOn": "2022-08-26T12:51:48Z",
       "side": 1,
       "message": "any reason it\u0027s not just \"visitMetaDataFile\"?",
+      "range": {
+        "startLine": 100,
+        "startChar": 21,
+        "endLine": 100,
+        "endChar": 42
+      },
+      "revId": "199d5b9f7dda4c8a8d109c2175fbce6eea05fd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd63da37_5788e28c",
+        "filename": "src/cmd/covdata/metamerge.go",
+        "patchSetId": 55
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-08-31T14:41:51Z",
+      "side": 1,
+      "message": "You\u0027re right, this is clunky. I had originally named it this way so as to avoid method name collisions, since this type is embedded into both the merge state object and the subtract/intersect state object. Hence the need for the prefixes (to distinguish the methods). If I use containment instead of embedding I can do away with that, which would allow me to rename these methods, so I went ahead and did this.",
+      "parentUuid": "71b1921e_647bf1ca",
       "range": {
         "startLine": 100,
         "startChar": 21,
@@ -224,6 +398,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "876a2088_3dab44ed",
+        "filename": "src/cmd/covdata/metamerge.go",
+        "patchSetId": 55
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-08-31T14:41:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5753b20f_53946151",
+      "range": {
+        "startLine": 110,
+        "startChar": 11,
+        "endLine": 110,
+        "endChar": 17
+      },
+      "revId": "199d5b9f7dda4c8a8d109c2175fbce6eea05fd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9e97f5f6_85c19645",
@@ -237,6 +435,24 @@
       "writtenOn": "2022-08-26T12:51:48Z",
       "side": 1,
       "message": "again, why not just \"beginPod\"?",
+      "revId": "199d5b9f7dda4c8a8d109c2175fbce6eea05fd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8938a32_46644163",
+        "filename": "src/cmd/covdata/metamerge.go",
+        "patchSetId": 55
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-08-31T14:41:51Z",
+      "side": 1,
+      "message": "See previous response.",
+      "parentUuid": "9e97f5f6_85c19645",
       "revId": "199d5b9f7dda4c8a8d109c2175fbce6eea05fd84",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -258,6 +474,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ed3a119_2e7ab087",
+        "filename": "src/cmd/covdata/metamerge.go",
+        "patchSetId": 55
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-08-31T14:41:51Z",
+      "side": 1,
+      "message": "See previous.",
+      "parentUuid": "fc71e455_03c46f13",
+      "revId": "199d5b9f7dda4c8a8d109c2175fbce6eea05fd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3026028a_4113a7f2",
@@ -271,6 +505,24 @@
       "writtenOn": "2022-08-26T12:51:48Z",
       "side": 1,
       "message": "Need to know what this is for.  It\u0027s not an exported function, but a function comment would  be helpful here.",
+      "revId": "199d5b9f7dda4c8a8d109c2175fbce6eea05fd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a8face5_bc650df1",
+        "filename": "src/cmd/covdata/metamerge.go",
+        "patchSetId": 55
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-08-31T14:41:51Z",
+      "side": 1,
+      "message": "Added comment.",
+      "parentUuid": "3026028a_4113a7f2",
       "revId": "199d5b9f7dda4c8a8d109c2175fbce6eea05fd84",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -298,6 +550,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b777432_47ca4248",
+        "filename": "src/cmd/covdata/metamerge.go",
+        "patchSetId": 55
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-08-31T14:41:51Z",
+      "side": 1,
+      "message": "Nobody is using the process ID at the moment, it is incorporated into the filename so as to reduce the possibility of collisions. I think you\u0027re right, it would be better to just eliminated it in this case.",
+      "parentUuid": "12c0218e_cdbf64b4",
+      "range": {
+        "startLine": 241,
+        "startChar": 4,
+        "endLine": 243,
+        "endChar": 38
+      },
+      "revId": "199d5b9f7dda4c8a8d109c2175fbce6eea05fd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b4798661_626ce99e",
@@ -311,6 +587,30 @@
       "writtenOn": "2022-08-26T12:51:48Z",
       "side": 1,
       "message": "\"NewCoverageDataWriter\"? is it specific to files in any particular way?",
+      "range": {
+        "startLine": 261,
+        "startChar": 22,
+        "endLine": 261,
+        "endChar": 47
+      },
+      "revId": "199d5b9f7dda4c8a8d109c2175fbce6eea05fd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e21c7fc_4f4402ec",
+        "filename": "src/cmd/covdata/metamerge.go",
+        "patchSetId": 55
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-08-31T14:41:51Z",
+      "side": 1,
+      "message": "I suppose you are right -- we\u0027re passing an io.Writer, so no need to mention \"File\". I\u0027ll see about fixing that up (will require some changes in other patches as well).",
+      "parentUuid": "b4798661_626ce99e",
       "range": {
         "startLine": 261,
         "startChar": 22,
@@ -346,6 +646,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fe97dab4_06fb1491",
+        "filename": "src/cmd/covdata/metamerge.go",
+        "patchSetId": 55
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-08-31T14:41:51Z",
+      "side": 1,
+      "message": "I\u0027ve renamed this method. \n\nRegarding -pcombine, it sounds like I need to add more comments on this score. I\u0027ll work on drafting a better explanation.",
+      "parentUuid": "5f0c6806_73bd7640",
+      "range": {
+        "startLine": 309,
+        "startChar": 21,
+        "endLine": 309,
+        "endChar": 37
+      },
+      "revId": "199d5b9f7dda4c8a8d109c2175fbce6eea05fd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4a471212_ef6b0fb1",
         "filename": "src/cmd/covdata/metamerge.go",
         "patchSetId": 55
@@ -357,6 +681,30 @@
       "writtenOn": "2022-08-26T12:51:48Z",
       "side": 1,
       "message": "\"visitFuncCounterData\"?",
+      "range": {
+        "startLine": 339,
+        "startChar": 21,
+        "endLine": 339,
+        "endChar": 45
+      },
+      "revId": "199d5b9f7dda4c8a8d109c2175fbce6eea05fd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c7198c5_97093b0b",
+        "filename": "src/cmd/covdata/metamerge.go",
+        "patchSetId": 55
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-08-31T14:41:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a471212_ef6b0fb1",
       "range": {
         "startLine": 339,
         "startChar": 21,
@@ -380,6 +728,30 @@
       "writtenOn": "2022-08-26T12:51:48Z",
       "side": 1,
       "message": "\"visitFunc\"?",
+      "range": {
+        "startLine": 363,
+        "startChar": 21,
+        "endLine": 363,
+        "endChar": 34
+      },
+      "revId": "199d5b9f7dda4c8a8d109c2175fbce6eea05fd84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7837e79_831f7a05",
+        "filename": "src/cmd/covdata/metamerge.go",
+        "patchSetId": 55
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-08-31T14:41:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ebb2565_68c3d9ac",
       "range": {
         "startLine": 363,
         "startChar": 21,
