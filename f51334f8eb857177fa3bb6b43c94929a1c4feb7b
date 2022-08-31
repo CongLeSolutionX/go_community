@@ -125,6 +125,42 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e3117cf_87b15449",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-08-31T02:36:45Z",
+      "side": 1,
+      "message": "Yeah, I did it in another way, now we don\u0027t need to touch the original rules.",
+      "parentUuid": "e56f2dab_5fd5c153",
+      "revId": "f51334f8eb857177fa3bb6b43c94929a1c4feb7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6cc31cee_98bd5919",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-08-31T02:36:45Z",
+      "side": 1,
+      "message": "I did it in another way, similar with addressingmodes pass, I called it \"late lower\" pass, because it looks like the second round of \"lower\" pass, please take a look if this looks better or not, thanks.",
+      "parentUuid": "4a05f24d_6e0f6c25",
+      "revId": "f51334f8eb857177fa3bb6b43c94929a1c4feb7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2df1bef9_1b7b7696",
@@ -138,6 +174,24 @@
       "writtenOn": "2022-08-23T22:26:44Z",
       "side": 1,
       "message": "There are a lot of rules that use ADDconst that now need a (ADD (MOVDconst ...)) variant. For example:\n\n(ADDconst [c] (ADDconst [d] x)) \u003d\u003e (ADDconst [c+d] x)\n\nWe still want to constant fold the add if c and/or d are not in the isaddcon range.",
+      "revId": "f51334f8eb857177fa3bb6b43c94929a1c4feb7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e68db23f_b563d089",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 1200,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-08-31T02:36:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2df1bef9_1b7b7696",
       "revId": "f51334f8eb857177fa3bb6b43c94929a1c4feb7b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -159,6 +213,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "99ae8744_2c32ee0e",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 1227,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-08-31T02:36:45Z",
+      "side": 1,
+      "message": "Yes. Done",
+      "parentUuid": "9fc93088_757b7198",
+      "revId": "f51334f8eb857177fa3bb6b43c94929a1c4feb7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ea030d80_48fc7c7e",
@@ -176,6 +248,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a4b190b_26784574",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 1459,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-08-31T02:36:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea030d80_48fc7c7e",
+      "revId": "f51334f8eb857177fa3bb6b43c94929a1c4feb7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "11b380b5_7c087041",
@@ -189,6 +279,24 @@
       "writtenOn": "2022-08-23T22:26:44Z",
       "side": 1,
       "message": "d1 isn\u0027t testing anything. Just return d here and get rid of the b argument?",
+      "revId": "f51334f8eb857177fa3bb6b43c94929a1c4feb7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1e386ff_0ff502d3",
+        "filename": "test/codegen/bits.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-08-31T02:36:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11b380b5_7c087041",
       "revId": "f51334f8eb857177fa3bb6b43c94929a1c4feb7b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
