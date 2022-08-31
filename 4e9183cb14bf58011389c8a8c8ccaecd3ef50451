@@ -124,6 +124,23 @@
       "parentUuid": "f6c209b2_dbf36ad6",
       "revId": "4e9183cb14bf58011389c8a8c8ccaecd3ef50451",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd72a8b4_6f927dd3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-08-31T16:13:18Z",
+      "side": 1,
+      "message": "RELNOTE\u003dyes\n\nSince this broke some existing code, this needs to be in the release notes.",
+      "revId": "4e9183cb14bf58011389c8a8c8ccaecd3ef50451",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
