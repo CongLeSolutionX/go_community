@@ -108,6 +108,42 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e20559f2_fe5da631",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2022-08-31T20:20:43Z",
+      "side": 1,
+      "message": "It would appear that this change removes almost 700 instructions from the Go binary on linux/riscv64, which suggests that this has improved quite a bit since it was last visited.",
+      "parentUuid": "466d8468_8dc92bc3",
+      "revId": "d1a18bcfd635e08362648ed315d7b17956872b9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "40e32249_6c043a40",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2022-08-31T20:20:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65438fca_75324ca0",
+      "revId": "d1a18bcfd635e08362648ed315d7b17956872b9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "82074365_82bb2ea6",
