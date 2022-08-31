@@ -1,0 +1,364 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0bf2a266_729029ab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 56
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-08-31T23:02:01Z",
+      "side": 1,
+      "message": "Almost all typos and wordos and a few pleas for comments, maybe one possible substantive change (which you might turn down which is fine).  LGTM.  If you want another scan after the next patch set, could do.",
+      "revId": "96aba98140bba81831331ecb019a4c9dd4c647f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "259d06c3_5ed76ac2",
+        "filename": "src/cmd/covdata/subtractintersect.go",
+        "patchSetId": 56
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-08-31T23:02:01Z",
+      "side": 1,
+      "message": "very likely verb is \"intersect\" or \"subtract\", comment ought to say what\u0027s supported.",
+      "revId": "96aba98140bba81831331ecb019a4c9dd4c647f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63f63b0e_5b5a76f2",
+        "filename": "src/cmd/covdata/subtractintersect.go",
+        "patchSetId": 56
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-08-31T23:02:01Z",
+      "side": 1,
+      "message": "// current input directory ?",
+      "revId": "96aba98140bba81831331ecb019a4c9dd4c647f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "402d0111_0b904048",
+        "filename": "src/cmd/covdata/tool_test.go",
+        "patchSetId": 56
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-08-31T23:02:01Z",
+      "side": 1,
+      "message": "I assume this comes out sooner or later (maybe? or tie it to a flag or an environment variable, just use that to set the output directory).",
+      "range": {
+        "startLine": 110,
+        "startChar": 1,
+        "endLine": 115,
+        "endChar": 2
+      },
+      "revId": "96aba98140bba81831331ecb019a4c9dd4c647f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53e91a51_f7cb80b1",
+        "filename": "src/cmd/covdata/tool_test.go",
+        "patchSetId": 56
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-08-31T23:02:01Z",
+      "side": 1,
+      "message": "what is a \"Perc\"?",
+      "revId": "96aba98140bba81831331ecb019a4c9dd4c647f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "140f6a0a_40820959",
+        "filename": "src/cmd/covdata/tool_test.go",
+        "patchSetId": 56
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-08-31T23:02:01Z",
+      "side": 1,
+      "message": "exactly",
+      "revId": "96aba98140bba81831331ecb019a4c9dd4c647f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "990173fa_eed7d407",
+        "filename": "src/cmd/internal/cov/readcovdata.go",
+        "patchSetId": 56
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-08-31T23:02:01Z",
+      "side": 1,
+      "message": "Looking at the signatures and intended use (and unclear if this is only for internal use, or if we mean to export this for other external tools -- it\u0027s internal, so probably not) I wonder if it makes sense to have more \"End...\" bracketing calls, e.g. EndCounterDataFile and EndPackage.",
+      "revId": "96aba98140bba81831331ecb019a4c9dd4c647f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5b42179_5175f138",
+        "filename": "src/internal/coverage/cformat/format.go",
+        "patchSetId": 56
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-08-31T23:02:01Z",
+      "side": 1,
+      "message": "Would be nice to know what the map key strings are -- file names? function names?",
+      "revId": "96aba98140bba81831331ecb019a4c9dd4c647f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b90a2ec7_eea6c3b7",
+        "filename": "src/internal/coverage/cformat/format.go",
+        "patchSetId": 56
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-08-31T23:02:01Z",
+      "side": 1,
+      "message": "I think this needs a comment, and \"um\" is one of the more, um, inscrutable field names I\u0027ve seen lately.",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 1
+      },
+      "revId": "96aba98140bba81831331ecb019a4c9dd4c647f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db7dd9a3_0bba9c2a",
+        "filename": "src/internal/coverage/cformat/format.go",
+        "patchSetId": 56
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-08-31T23:02:01Z",
+      "side": 1,
+      "message": "will accumulate / will be accumulated\n(is accumulate the right verb anyway?)",
+      "range": {
+        "startLine": 67,
+        "startChar": 23,
+        "endLine": 67,
+        "endChar": 40
+      },
+      "revId": "96aba98140bba81831331ecb019a4c9dd4c647f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44cf9fe5_8360832b",
+        "filename": "src/internal/coverage/cformat/format.go",
+        "patchSetId": 56
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-08-31T23:02:01Z",
+      "side": 1,
+      "message": "this happens in at least two places, seems like a `SaturatingAdd(x, y uint32) uint32` would be an okay function to write.",
+      "range": {
+        "startLine": 96,
+        "startChar": 2,
+        "endLine": 101,
+        "endChar": 22
+      },
+      "revId": "96aba98140bba81831331ecb019a4c9dd4c647f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51a0eab8_cd552d98",
+        "filename": "src/internal/coverage/cformat/format.go",
+        "patchSetId": 56
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-08-31T23:02:01Z",
+      "side": 1,
+      "message": "maybe this output format is required elsewhere, but would it better (for some cases of automatic processing of human-readable output to say instead\n   \"coverage: 0% of statements%s\\n\",covpkgs)",
+      "range": {
+        "startLine": 171,
+        "startChar": 41,
+        "endLine": 171,
+        "endChar": 56
+      },
+      "revId": "96aba98140bba81831331ecb019a4c9dd4c647f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6832e23_2c9d24af",
+        "filename": "src/internal/coverage/cmerge/merge.go",
+        "patchSetId": 56
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-08-31T23:02:01Z",
+      "side": 1,
+      "message": "saturating",
+      "revId": "96aba98140bba81831331ecb019a4c9dd4c647f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ad7de27_ee33375f",
+        "filename": "src/internal/coverage/cmerge/merge.go",
+        "patchSetId": 56
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-08-31T23:02:01Z",
+      "side": 1,
+      "message": "Seems like we could relax this -- downgrading from atomic should be okay, shouldn\u0027t it?  But that is something we could do in the future.",
+      "range": {
+        "startLine": 65,
+        "startChar": 33,
+        "endLine": 66,
+        "endChar": 10
+      },
+      "revId": "96aba98140bba81831331ecb019a4c9dd4c647f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b71ddb8b_850616b5",
+        "filename": "src/internal/coverage/pods/pods.go",
+        "patchSetId": 56
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-08-31T23:02:01Z",
+      "side": 1,
+      "message": "contain?\nActually not clear to me what is contained in what here.\nFrom the comment above, a \"Pod\" is a metadata file together with all the counters+origins+PIDs linked to that particular metadata.  So the files don\u0027t exactly containing the pods, in some sense this this might a use for the troublesome verb \"comprise\" -- i.e., returns the set of pods that comprise the files (or, that cover the files, or that partition the files).",
+      "range": {
+        "startLine": 38,
+        "startChar": 52,
+        "endLine": 38,
+        "endChar": 60
+      },
+      "revId": "96aba98140bba81831331ecb019a4c9dd4c647f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9c7848c_2b84264f",
+        "filename": "src/internal/coverage/pods/pods.go",
+        "patchSetId": 56
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-08-31T23:02:01Z",
+      "side": 1,
+      "message": "This does something complicated, and it probably deserves a comment.",
+      "range": {
+        "startLine": 83,
+        "startChar": 5,
+        "endLine": 83,
+        "endChar": 20
+      },
+      "revId": "96aba98140bba81831331ecb019a4c9dd4c647f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09fffdc5_e995da2a",
+        "filename": "src/internal/coverage/pods/pods.go",
+        "patchSetId": 56
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-08-31T23:02:01Z",
+      "side": 1,
+      "message": "duplicate or duplicated",
+      "revId": "96aba98140bba81831331ecb019a4c9dd4c647f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59bc6075_a66495e8",
+        "filename": "src/internal/coverage/pods/pods.go",
+        "patchSetId": 56
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-08-31T23:02:01Z",
+      "side": 1,
+      "message": "Don\u0027t you know this by line 100?",
+      "range": {
+        "startLine": 124,
+        "startChar": 1,
+        "endLine": 129,
+        "endChar": 2
+      },
+      "revId": "96aba98140bba81831331ecb019a4c9dd4c647f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
