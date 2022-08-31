@@ -77,8 +77,7 @@ func MustLinkExternal(goos, goarch string, withCgo bool) bool {
 	if withCgo {
 		switch goarch {
 		case "loong64",
-			"mips", "mipsle", "mips64", "mips64le",
-			"riscv64":
+			"mips", "mipsle", "mips64", "mips64le":
 			// Internally linking cgo is incomplete on some architectures.
 			// https://go.dev/issue/14449
 			return true
