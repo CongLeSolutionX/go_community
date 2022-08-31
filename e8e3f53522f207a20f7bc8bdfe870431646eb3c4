@@ -78,6 +78,30 @@
       },
       "revId": "e8e3f53522f207a20f7bc8bdfe870431646eb3c4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f02773b0_24d20bed",
+        "filename": "src/cmd/compile/internal/noder/irgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-08-31T23:37:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ccd4258_fc8d9b42",
+      "range": {
+        "startLine": 88,
+        "startChar": 77,
+        "endLine": 88,
+        "endChar": 81
+      },
+      "revId": "e8e3f53522f207a20f7bc8bdfe870431646eb3c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
