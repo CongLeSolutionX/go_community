@@ -53,6 +53,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "005397c4_bddc5c06",
+        "filename": "src/unsafe/unsafe.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2022-08-31T17:00:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b562efd_1fe8080e",
+      "revId": "85c65fb7d26dfabe03dca67917330f88d8268d74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fbd2f749_20b8a101",
@@ -76,6 +94,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a45f54b6_514bf05a",
+        "filename": "src/unsafe/unsafe.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2022-08-31T17:00:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fbd2f749_20b8a101",
+      "range": {
+        "startLine": 246,
+        "startChar": 49,
+        "endLine": 246,
+        "endChar": 81
+      },
+      "revId": "85c65fb7d26dfabe03dca67917330f88d8268d74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cebb7284_c3095fc5",
@@ -89,6 +131,30 @@
       "writtenOn": "2022-08-31T16:46:14Z",
       "side": 1,
       "message": "Can we please make this sentence symmetric to the one for String:\n\n// The bytes returned by StringData must not be modified afterwards,\n// otherwise the program may behave unpredictably.\n\nAs is, I had to compare the two sentences to see what was different.",
+      "range": {
+        "startLine": 264,
+        "startChar": 43,
+        "endLine": 264,
+        "endChar": 53
+      },
+      "revId": "85c65fb7d26dfabe03dca67917330f88d8268d74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b389d80_7241ab19",
+        "filename": "src/unsafe/unsafe.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2022-08-31T17:00:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cebb7284_c3095fc5",
       "range": {
         "startLine": 264,
         "startChar": 43,
