@@ -1049,8 +1049,11 @@ const (
 	waitReasonTraceReaderBlocked                      // "trace reader (blocked)"
 	waitReasonWaitForGCCycle                          // "wait for GC cycle"
 	waitReasonGCWorkerIdle                            // "GC worker (idle)"
+	waitReasonGCWorkerActive                          // "GC worker (active)"
 	waitReasonPreempted                               // "preempted"
 	waitReasonDebugCall                               // "debug call"
+	waitReasonGCMarkTermination                       // "GC mark termination"
+	waitReasonStoppingTheWorld                        // "stopping the world"
 )
 
 var waitReasonStrings = [...]string{
@@ -1081,8 +1084,11 @@ var waitReasonStrings = [...]string{
 	waitReasonTraceReaderBlocked:    "trace reader (blocked)",
 	waitReasonWaitForGCCycle:        "wait for GC cycle",
 	waitReasonGCWorkerIdle:          "GC worker (idle)",
+	waitReasonGCWorkerActive:        "GC worker (active)",
 	waitReasonPreempted:             "preempted",
 	waitReasonDebugCall:             "debug call",
+	waitReasonGCMarkTermination:     "GC mark termination",
+	waitReasonStoppingTheWorld:      "stopping the world",
 }
 
 func (w waitReason) String() string {
