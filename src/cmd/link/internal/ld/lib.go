@@ -246,7 +246,7 @@ type Arch struct {
 
 	Elfreloc1      func(*Link, *OutBuf, *loader.Loader, loader.Sym, loader.ExtReloc, int, int64) bool
 	ElfrelocSize   uint32 // size of an ELF relocation record, must match Elfreloc1.
-	Elfsetupplt    func(ctxt *Link, plt, gotplt *loader.SymbolBuilder, dynamic loader.Sym)
+	Elfsetupplt    func(ctxt *Link, ldr *loader.Loader, plt, gotplt *loader.SymbolBuilder, dynamic loader.Sym)
 	Gentext        func(*Link, *loader.Loader) // Generate text before addressing has been performed.
 	Machoreloc1    func(*sys.Arch, *OutBuf, *loader.Loader, loader.Sym, loader.ExtReloc, int64) bool
 	MachorelocSize uint32 // size of an Mach-O relocation record, must match Machoreloc1.

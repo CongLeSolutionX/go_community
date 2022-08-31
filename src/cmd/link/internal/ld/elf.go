@@ -1480,7 +1480,7 @@ func (ctxt *Link) doelf() {
 			// S390X uses .got instead of .got.plt
 			gotplt = got
 		}
-		thearch.Elfsetupplt(ctxt, plt, gotplt, dynamic.Sym())
+		thearch.Elfsetupplt(ctxt, ctxt.loader, plt, gotplt, dynamic.Sym())
 
 		/*
 		 * .dynamic table
