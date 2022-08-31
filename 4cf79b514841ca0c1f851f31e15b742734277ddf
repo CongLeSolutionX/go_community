@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4cea95fb_9afe0d15",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 55613
+      },
+      "writtenOn": "2022-08-31T10:58:55Z",
+      "side": 1,
+      "message": "been moved",
+      "range": {
+        "startLine": 28,
+        "startChar": 34,
+        "endLine": 28,
+        "endChar": 43
+      },
+      "revId": "4cf79b514841ca0c1f851f31e15b742734277ddf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f250033_26669fd3",
+        "filename": "src/runtime/map_fast32.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 55613
+      },
+      "writtenOn": "2022-08-31T10:58:55Z",
+      "side": 1,
+      "message": "Store",
+      "range": {
+        "startLine": 222,
+        "startChar": 6,
+        "endLine": 222,
+        "endChar": 11
+      },
+      "revId": "4cf79b514841ca0c1f851f31e15b742734277ddf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c661e0ae_26c00248",
+        "filename": "src/runtime/map_fast32.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 55613
+      },
+      "writtenOn": "2022-08-31T10:58:55Z",
+      "side": 1,
+      "message": "Store",
+      "range": {
+        "startLine": 315,
+        "startChar": 6,
+        "endLine": 315,
+        "endChar": 11
+      },
+      "revId": "4cf79b514841ca0c1f851f31e15b742734277ddf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
