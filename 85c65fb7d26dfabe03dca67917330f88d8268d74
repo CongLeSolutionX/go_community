@@ -38,6 +38,46 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7b562efd_1fe8080e",
+        "filename": "src/unsafe/unsafe.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-08-31T16:53:45Z",
+      "side": 1,
+      "message": "nit: \"if\" should be capitalized.",
+      "revId": "85c65fb7d26dfabe03dca67917330f88d8268d74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fbd2f749_20b8a101",
+        "filename": "src/unsafe/unsafe.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-08-31T16:53:45Z",
+      "side": 1,
+      "message": "I don\u0027t think we agreed to change this to \"unspecified.\" In particular, it should at least be an unspecified **non-nil** pointer.",
+      "range": {
+        "startLine": 246,
+        "startChar": 49,
+        "endLine": 246,
+        "endChar": 81
+      },
+      "revId": "85c65fb7d26dfabe03dca67917330f88d8268d74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cebb7284_c3095fc5",
         "filename": "src/unsafe/unsafe.go",
         "patchSetId": 18
