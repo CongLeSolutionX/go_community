@@ -110,6 +110,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3e8ddf0_808fa2e0",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 44188
+      },
+      "writtenOn": "2022-08-31T10:40:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "288127fc_52af6a77",
+      "revId": "73f21c8ad7cc20379dcb5cf712644315e95ec005",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ed7fde52_69cbd1c8",
@@ -123,6 +141,30 @@
       "writtenOn": "2022-08-30T15:25:31Z",
       "side": 1,
       "message": "A description of what this means would help.  My initial impression is that a \"factor\" would be a number, but this returns a boolean, so maybe a different name would work instead.",
+      "range": {
+        "startLine": 183,
+        "startChar": 5,
+        "endLine": 183,
+        "endChar": 19
+      },
+      "revId": "73f21c8ad7cc20379dcb5cf712644315e95ec005",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "842f0721_aaea2814",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 44188
+      },
+      "writtenOn": "2022-08-31T10:40:25Z",
+      "side": 1,
+      "message": "Changed to \"isOverLoadFactor\", it may look more clear. Also move back (this function comes from the previous implementation and is only used inside the `makemap`, there are some comments about it.)",
+      "parentUuid": "ed7fde52_69cbd1c8",
       "range": {
         "startLine": 183,
         "startChar": 5,
