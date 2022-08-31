@@ -168,6 +168,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "471ab782_78a58823",
+        "filename": "src/unsafe/unsafe.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-08-31T00:38:23Z",
+      "side": 1,
+      "message": "\u003e I\u0027m not sure what this means. I suspect it just means \u0026s[:1][0], pretending that the capacity is at least 1.\n\nFor a slice at the end of an array (e.g., `a[cap(a):]`), we currently always have the slice point into the array (so it\u0027s not finalized), but we don\u0027t guarantee what element will be pointed at. (In practice, it\u0027s the same element as the last non-zero-capacity slice.)\n\nBut maybe we don\u0027t want to guarantee the pointer is into the underlying array? I think it would be reasonable for non-nil-but-zero-capacity slices to use \u0026runtime.zerobase instead.",
+      "parentUuid": "c803c7ad_3019a1c3",
+      "range": {
+        "startLine": 248,
+        "startChar": 3,
+        "endLine": 248,
+        "endChar": 49
+      },
+      "revId": "7d93c5a3ef2131a28c7806e16127daedcaa82013",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ea66fe52_2bef6d90",
         "filename": "src/unsafe/unsafe.go",
         "patchSetId": 15

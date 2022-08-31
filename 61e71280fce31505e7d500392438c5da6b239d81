@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1524ad0c_c5143515",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-08-31T00:38:23Z",
+      "side": 1,
+      "message": "It should be fine. These declarations are only used by godoc.",
+      "parentUuid": "df684765_f0fae863",
+      "revId": "61e71280fce31505e7d500392438c5da6b239d81",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "100c1736_1e891c42",
