@@ -52,6 +52,47 @@
       "parentUuid": "5ab5d583_e21e401f",
       "revId": "ea2f9e79c5c27ecc741f9961057781d3486e83d3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec909852_61536933",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 20
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-08-31T18:07:10Z",
+      "side": 1,
+      "message": "Thank you for understanding.",
+      "parentUuid": "0c5b8a08_4c5c9267",
+      "revId": "ea2f9e79c5c27ecc741f9961057781d3486e83d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8400e60_869abf03",
+        "filename": "src/unsafe/unsafe.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-08-31T18:07:10Z",
+      "side": 1,
+      "message": "There should be a single space between \"an\" and \"unspecified\", not two.",
+      "range": {
+        "startLine": 263,
+        "startChar": 43,
+        "endLine": 263,
+        "endChar": 45
+      },
+      "revId": "ea2f9e79c5c27ecc741f9961057781d3486e83d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
