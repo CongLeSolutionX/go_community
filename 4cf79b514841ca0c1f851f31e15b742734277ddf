@@ -80,6 +80,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "136f89b1_434c122e",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 44188
+      },
+      "writtenOn": "2022-08-31T11:32:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4cea95fb_9afe0d15",
+      "range": {
+        "startLine": 28,
+        "startChar": 34,
+        "endLine": 28,
+        "endChar": 43
+      },
+      "revId": "4cf79b514841ca0c1f851f31e15b742734277ddf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2f250033_26669fd3",
@@ -103,6 +127,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "25625c9e_06f9bf0e",
+        "filename": "src/runtime/map_fast32.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 44188
+      },
+      "writtenOn": "2022-08-31T11:32:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f250033_26669fd3",
+      "range": {
+        "startLine": 222,
+        "startChar": 6,
+        "endLine": 222,
+        "endChar": 11
+      },
+      "revId": "4cf79b514841ca0c1f851f31e15b742734277ddf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c661e0ae_26c00248",
@@ -116,6 +164,30 @@
       "writtenOn": "2022-08-31T10:58:55Z",
       "side": 1,
       "message": "Store",
+      "range": {
+        "startLine": 315,
+        "startChar": 6,
+        "endLine": 315,
+        "endChar": 11
+      },
+      "revId": "4cf79b514841ca0c1f851f31e15b742734277ddf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7bd94126_d8e2cc37",
+        "filename": "src/runtime/map_fast32.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 44188
+      },
+      "writtenOn": "2022-08-31T11:32:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c661e0ae_26c00248",
       "range": {
         "startLine": 315,
         "startChar": 6,
