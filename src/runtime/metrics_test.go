@@ -156,12 +156,15 @@ func TestReadMetricsConsistency(t *testing.T) {
 	// Tests whether readMetrics produces consistent, sensible values.
 	// The values are read concurrently with the runtime doing other
 	// things (e.g. allocating) so what we read can't reasonably compared
-	// to runtime values.
+	// to other runtime values (e.g. MemStats).
 
 	// Run a few GC cycles to get some of the stats to be non-zero.
 	runtime.GC()
 	runtime.GC()
 	runtime.GC()
+
+	// Generate some mutex wait time for that metric.
+	minMutexWaitTime := generateMutexWaitTime()
 
 	// Read all the supported metrics through the metrics package.
 	descs, samples := prepareAllMetricsSamples()
@@ -267,6 +270,10 @@ func TestReadMetricsConsistency(t *testing.T) {
 		case "/sched/goroutines:goroutines":
 			if samples[i].Value.Uint64() < 1 {
 				t.Error("number of goroutines is less than one")
+			}
+		case "/sync/mutex-wait:seconds":
+			if wt := time.Duration(samples[i].Value.Float64() * 1e9); wt < minMutexWaitTime {
+				t.Errorf("too little mutex wait time: got %s, want %s", wt, minMutexWaitTime)
 			}
 		}
 	}
@@ -470,4 +477,66 @@ func TestReadMetricsCumulative(t *testing.T) {
 
 func withinEpsilon(v1, v2, e float64) bool {
 	return v1 >= v2-v2*e && v1 <= v2+v2*e
+}
+
+// generateMutexWaitTime causes a couple of goroutines
+// to block a whole bunch of times on a sync.Mutex, returning
+// the minimum amount of time that should be visible in the
+// /sync/mutex-wait:seconds metric.
+func generateMutexWaitTime() time.Duration {
+	var mu sync.Mutex
+	mu.Lock()
+
+	// Start up a goroutine to wait on the lock.
+	gc := make(chan *runtime.G)
+	acquired := make(chan struct{})
+	done := make(chan bool)
+	go func() {
+		gc <- runtime.Getg()
+
+		for {
+			mu.Lock()
+			mu.Unlock()
+			acquired <- struct{}{}
+			if <-done {
+				return
+			}
+		}
+	}()
+	gp := <-gc
+
+	// Ensure we get at least one sample by triggering
+	// GTrackingPeriod block events.
+	const blockTime = 10 * time.Microsecond
+	for i := 0; i < runtime.GTrackingPeriod; i++ {
+		// Make sure the goroutine spawned above actually blocks on the lock.
+		for {
+			if runtime.GIsWaiting(gp) {
+				break
+			}
+			runtime.Gosched()
+		}
+		// Let some amount of time pass.
+		time.Sleep(blockTime)
+
+		// Let the other goroutine acquire the lock.
+		mu.Unlock()
+
+		// Wait until the other goroutine acquires and releases the lock.
+		// Otherwise we might accidentally re-lock before it can get it.
+		<-acquired
+
+		// Re-lock the mutex. The other goroutine should be blocked on
+		// done or not scheduled.
+		mu.Lock()
+
+		// Signal that we're not done and go again.
+		done <- false
+	}
+	// Release the lock and synchronize on acquired so we can send the done signal.
+	mu.Unlock()
+	<-acquired
+	done <- true
+
+	return blockTime * runtime.GTrackingPeriod
 }

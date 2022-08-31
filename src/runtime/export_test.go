@@ -525,6 +525,10 @@ func Getg() *G {
 	return getg()
 }
 
+func GIsWaiting(gp *G) bool {
+	return readgstatus(gp) == _Gwaiting
+}
+
 //go:noinline
 func PanicForTesting(b []byte, i int) byte {
 	return unexportedPanicForTesting(b, i)
@@ -1620,3 +1624,5 @@ func (s *ScavengeIndex) Mark(base, limit uintptr) {
 func (s *ScavengeIndex) Clear(ci ChunkIdx) {
 	s.i.clear(chunkIdx(ci))
 }
+
+const GTrackingPeriod = gTrackingPeriod

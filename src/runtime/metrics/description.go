@@ -353,6 +353,12 @@ var allDesc = []Description{
 		Description: "Distribution of the time goroutines have spent in the scheduler in a runnable state before actually running.",
 		Kind:        KindFloat64Histogram,
 	},
+	{
+		Name:        "/sync/mutex-wait:seconds",
+		Description: "Approximate cumulative amount of time all goroutines have spent blocked on a sync.Mutex or sync.RWMutex. Useful for quickly identifying changes in lock contention. Collect a mutex or block profile using the runtime/pprof package for more detailed contention data.",
+		Kind:        KindFloat64,
+		Cumulative:  true,
+	},
 }
 
 // All returns a slice of containing metric descriptions for all supported metrics.
