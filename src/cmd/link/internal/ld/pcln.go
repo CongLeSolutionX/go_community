@@ -99,6 +99,13 @@ func makePclntab(ctxt *Link, container loader.Bitmap) (*pclntab, []*sym.Compilat
 }
 
 func emitPcln(ctxt *Link, s loader.Sym, container loader.Bitmap) bool {
+	if ctxt.Target.IsRISCV64() {
+		symName := ctxt.loader.SymName(s)
+		if symName == "" || strings.HasPrefix(symName, ".L") {
+			return false
+		}
+	}
+
 	// We want to generate func table entries only for the "lowest
 	// level" symbols, not containers of subsymbols.
 	return !container.Has(s)
