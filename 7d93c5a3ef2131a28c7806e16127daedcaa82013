@@ -190,6 +190,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d37ce02_ca61fcf3",
+        "filename": "src/unsafe/unsafe.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2022-08-31T01:18:57Z",
+      "side": 1,
+      "message": "with cap of slice is zero, the data pointer has no meaning, so I think just let them as what they are already are is a better choice.\nIMO, It\u0027s a good idea to guarantee SliceData(Slice(ptr, 0)) \u003d\u003d ptr. it keeps the reversibility.",
+      "parentUuid": "471ab782_78a58823",
+      "range": {
+        "startLine": 248,
+        "startChar": 3,
+        "endLine": 248,
+        "endChar": 49
+      },
+      "revId": "7d93c5a3ef2131a28c7806e16127daedcaa82013",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ea66fe52_2bef6d90",
