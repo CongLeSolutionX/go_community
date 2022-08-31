@@ -404,6 +404,12 @@ func initMetrics() {
 				hist.counts[len(hist.counts)-1] = sched.timeToRun.overflow.Load()
 			},
 		},
+		"/sync/mutex-wait:seconds": {
+			compute: func(_ *statAggregate, out *metricValue) {
+				out.kind = metricKindFloat64
+				out.scalar = float64bits(nsToSec(sched.totalMutexWaitTime.Load()))
+			},
+		},
 	}
 	metricsInit = true
 }
