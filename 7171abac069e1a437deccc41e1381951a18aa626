@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "eb85d039_af7aff48",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-08-31T13:48:22Z",
+      "side": 1,
+      "message": "I think it\u0027s better to be consistency, for now:\n\n```\n$ GOEXPERIMENT\u003dunified GOAMD64\u003dv1 go list -f \u0027{{context.ToolTags}}\u0027\n[amd64.v1 goexperiment.unified goexperiment.regabiwrappers goexperiment.regabiargs]\n```\n\nbut:\n\n```\n$ cat p.go\npackage main\n\nimport (\n\t\"fmt\"\n\t\"go/build\"\n)\n\nfunc main() {\n\tfmt.Println(build.Default.ToolTags)\n}\n$ go run p.go\n[goexperiment.unified goexperiment.regabiwrappers goexperiment.regabiargs amd64.v1]\n```\n\nThough, as my discussion with Matthew, the user should not rely on the order.",
+      "parentUuid": "f4d1ca30_6aff9614",
+      "revId": "7171abac069e1a437deccc41e1381951a18aa626",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d652c9ac_5341f428",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 4
@@ -68,6 +86,30 @@
       "writtenOn": "2022-08-31T12:25:12Z",
       "side": 1,
       "message": "(nit) `len(exps) + len(BuildContext.ToolTags)`, to avoid an extra reallocation at the end?",
+      "range": {
+        "startLine": 197,
+        "startChar": 30,
+        "endLine": 197,
+        "endChar": 39
+      },
+      "revId": "7171abac069e1a437deccc41e1381951a18aa626",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8787d0f7_ded5584d",
+        "filename": "src/cmd/go/internal/cfg/cfg.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-08-31T13:48:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "faffccfd_b67fab23",
       "range": {
         "startLine": 197,
         "startChar": 30,
