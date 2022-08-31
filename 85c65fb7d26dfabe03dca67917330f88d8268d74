@@ -19,6 +19,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd5f9dab_6d8e70d2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-08-31T16:47:03Z",
+      "side": 1,
+      "message": "Going to wait for a clean trybot run, just in case.",
+      "revId": "85c65fb7d26dfabe03dca67917330f88d8268d74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cebb7284_c3095fc5",
