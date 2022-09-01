@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2679a5b5_de2a0804",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2022-09-01T21:15:52Z",
+      "side": 1,
+      "message": "TRY\u003dillumos,solaris",
+      "revId": "2ce4ada7b3ce31071a0be7352eb24ca74a448f01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
