@@ -12,6 +12,7 @@ import (
 	"internal/singleflight"
 	"io/fs"
 	"log"
+	"net"
 	urlpkg "net/url"
 	"os"
 	"os/exec"
@@ -86,9 +87,23 @@ func (v *Cmd) IsSecure(repo string) bool {
 		// If repo is not a URL, it's not secure.
 		return false
 	}
-	if VCSTestRepoURL != "" && strings.HasPrefix(repo, VCSTestRepoURL) {
-		return true
+
+	if VCSTestRepoURL != "" {
+		// VCSTestRepoURL itself is secure, and it may redirect requests to other
+		// ports (such as a port serving the "svn" protocol) which should also be
+		// considered secure.
+		host, _, err := net.SplitHostPort(u.Host)
+		if err != nil {
+			host = u.Host
+		}
+		if host == "localhost" {
+			return true
+		}
+		if ip := net.ParseIP(host); ip != nil && ip.IsLoopback() {
+			return true
+		}
 	}
+
 	return v.isSecureScheme(u.Scheme)
 }
 
@@ -1205,9 +1220,6 @@ func interceptVCSTest(repo string, vcs *Cmd, security web.SecurityMode) (repoURL
 		// requests will be intercepted at a lower level (in cmd/go/internal/web).
 		return "", false
 	}
-	if vcs == vcsSvn {
-		return "", false // Will be implemented in CL 427914.
-	}
 
 	if scheme, path, ok := strings.Cut(repo, "://"); ok {
 		if security == web.SecureOnly && !vcs.isSecureScheme(scheme) {
@@ -1219,7 +1231,27 @@ func interceptVCSTest(repo string, vcs *Cmd, security web.SecurityMode) (repoURL
 		if !str.HasPathPrefix(repo, host) {
 			continue
 		}
-		return VCSTestRepoURL + strings.TrimPrefix(repo, host), true
+
+		httpURL := VCSTestRepoURL + strings.TrimPrefix(repo, host)
+
+		if vcs == vcsSvn {
+			// Ping the vcweb HTTP server to tell it to initialize the SVN repository
+			// and get the SVN server URL.
+			u, err := urlpkg.Parse(httpURL + "?vcwebsvn=1")
+			if err != nil {
+				panic(fmt.Sprintf("invalid vcs-test repo URL: %v", err))
+			}
+			svnURL, err := web.GetBytes(u)
+			svnURL = bytes.TrimSpace(svnURL)
+			if err == nil && len(svnURL) > 0 {
+				return string(svnURL) + strings.TrimPrefix(repo, host), true
+			}
+
+			// vcs-test doesn't have a svn handler for the given path,
+			// so resolve the repo to HTTPS instead.
+		}
+
+		return httpURL, true
 	}
 	return "", false
 }
