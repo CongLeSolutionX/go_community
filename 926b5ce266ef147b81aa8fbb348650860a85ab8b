@@ -16,6 +16,24 @@
       "message": "You can probably get rid of this comment.\n(And maybe move it? Not sure if there\u0027s a better place for it now that it doesn\u0027t need to be here due to alignment issues.)",
       "revId": "926b5ce266ef147b81aa8fbb348650860a85ab8b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4393ba10_72813516",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2022-09-01T23:54:14Z",
+      "side": 1,
+      "message": "can not find a better place. just let it here now.",
+      "parentUuid": "81ed67ce_ad72599e",
+      "revId": "926b5ce266ef147b81aa8fbb348650860a85ab8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
