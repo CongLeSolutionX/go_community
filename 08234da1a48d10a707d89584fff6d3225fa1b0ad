@@ -22,6 +22,30 @@
       },
       "revId": "08234da1a48d10a707d89584fff6d3225fa1b0ad",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4bf070e_a94a21a4",
+        "filename": "src/cmd/asm/internal/asm/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 842,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-09-01T23:12:42Z",
+      "side": 0,
+      "message": "Good observation. I think this allows for someone to use ADDEX, SHASIGMA[WD], XXSLDWI, or XXPERMDI with the second/third opcodes swapped. The assembler tests don\u0027t test for those possibilities.\n\nThere isn\u0027t any usage as such in the go repo.\n\nWith the proposed changes, the backend should generate an error in optab matching. The ASM can be fixed in a backwards compatible way. If there are no objection to this, I\u0027ll update the commit message.",
+      "parentUuid": "e28fc062_2a2a397d",
+      "range": {
+        "startLine": 839,
+        "startChar": 0,
+        "endLine": 842,
+        "endChar": 18
+      },
+      "revId": "08234da1a48d10a707d89584fff6d3225fa1b0ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
