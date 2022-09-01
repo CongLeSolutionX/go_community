@@ -34,6 +34,24 @@
       "parentUuid": "0f072444_ab81bf07",
       "revId": "98ee4d3b83cf33a22abaaa2571ed9e432faadfbc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3cde48f_a24ee6d3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-09-01T18:22:36Z",
+      "side": 1,
+      "message": "According to the issue this is possible with some combination of crashing and preemption.  The goal wouldn\u0027t be to write a test that always fails in this way, but a test that fails this way, say, 1% of the time.  Then the builders will catch the problem if it recurs.  The test would most likely go in runtime/testdata/testprog or runtime/testdata/testprogcgo.  See the tests in runtime/crash_test.go and runtime/crash_cgo_test.go.",
+      "parentUuid": "8a8df8a1_39e1b479",
+      "revId": "98ee4d3b83cf33a22abaaa2571ed9e432faadfbc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
