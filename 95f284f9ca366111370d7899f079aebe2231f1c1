@@ -48,6 +48,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "340bb7e1_e08c3ef9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-09-01T22:00:36Z",
+      "side": 1,
+      "message": "oops! I forgot that was Linux-specific. sorry about that. you can leave it as is.",
+      "parentUuid": "d5634caf_7c0c40c1",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 35
+      },
+      "revId": "95f284f9ca366111370d7899f079aebe2231f1c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d62cd96b_864fd4bf",
