@@ -1295,6 +1295,18 @@ func (ctxt *Link) archive() {
 }
 
 func (ctxt *Link) hostlink() {
+	// Determine if we are using Clang for MSVC.
+	// Some args for the linker of Mingw can not be passed to the linker of MSVC,
+	// and some args for the linker of MSVC are defferent from that of Mingw.
+	extld := ctxt.extld()
+	name := extld[0]
+	usingClangForMSVC := false
+	if out, err := exec.Command(name, "--version").CombinedOutput(); err == nil {
+		if bytes.Contains(out, []byte("msvc")) {
+			usingClangForMSVC = true
+		}
+	}
+
 	if ctxt.LinkMode != LinkExternal || nerrors > 0 {
 		return
 	}
@@ -1344,20 +1356,34 @@ func (ctxt *Link) hostlink() {
 	case objabi.Hwindows:
 		if windowsgui {
 			argv = append(argv, "-mwindows")
+			if usingClangForMSVC {
+				argv = append(argv, "-Wl,/SUBSYSTEM:WINDOWS")
+			}
 		} else {
 			argv = append(argv, "-mconsole")
+			if usingClangForMSVC {
+				argv = append(argv, "-Wl,/SUBSYSTEM:CONSOLE")
+			}
 		}
-		// Mark as having awareness of terminal services, to avoid
-		// ancient compatibility hacks.
-		argv = append(argv, "-Wl,--tsaware")
+		// The linker of MSVC have defferent flags from the linker of Mingw/GCC,
+		// and some flags for Mingw/GCC are not supported by MSVC.
+		if usingClangForMSVC {
+			argv = append(argv, "-Wl,/TSAWARE")
+			argv = append(argv, "-Wl,/NXCOMPAT")
+		} else {
+			// Mark as having awareness of terminal services, to avoid
+			// ancient compatibility hacks.
+			argv = append(argv, "-Wl,--tsaware")
 
-		// Enable DEP
-		argv = append(argv, "-Wl,--nxcompat")
+			// Enable DEP
+			argv = append(argv, "-Wl,--nxcompat")
 
-		argv = append(argv, fmt.Sprintf("-Wl,--major-os-version=%d", PeMinimumTargetMajorVersion))
-		argv = append(argv, fmt.Sprintf("-Wl,--minor-os-version=%d", PeMinimumTargetMinorVersion))
-		argv = append(argv, fmt.Sprintf("-Wl,--major-subsystem-version=%d", PeMinimumTargetMajorVersion))
-		argv = append(argv, fmt.Sprintf("-Wl,--minor-subsystem-version=%d", PeMinimumTargetMinorVersion))
+			argv = append(argv, fmt.Sprintf("-Wl,--major-os-version=%d", PeMinimumTargetMajorVersion))
+			argv = append(argv, fmt.Sprintf("-Wl,--minor-os-version=%d", PeMinimumTargetMinorVersion))
+			argv = append(argv, fmt.Sprintf("-Wl,--major-subsystem-version=%d", PeMinimumTargetMajorVersion))
+			argv = append(argv, fmt.Sprintf("-Wl,--minor-subsystem-version=%d", PeMinimumTargetMinorVersion))
+		}
+
 	case objabi.Haix:
 		argv = append(argv, "-pthread")
 		// prevent ld to reorder .text functions to keep the same
@@ -1392,6 +1418,13 @@ func (ctxt *Link) hostlink() {
 		heon := "--high-entropy-va"
 		dboff := "--disable-dynamicbase"
 		heoff := "--disable-high-entropy-va"
+		// These flags for MSVC are defferent.
+		if usingClangForMSVC {
+			dbon = "/DYNAMICBASE"
+			heon = "/HIGHENTROPYVA"
+			dboff = "/DYNAMICBASE:NO"
+			heoff = "/HIGHENTROPYVA:NO"
+		}
 		if val {
 			dbopt = dbon
 			heopt = heon
@@ -1720,7 +1753,7 @@ func (ctxt *Link) hostlink() {
 
 		// use gcc linker script to work around gcc bug
 		// (see https://golang.org/issue/20183 for details).
-		if !usingLLD {
+		if !usingLLD && !usingClangForMSVC {
 			p := writeGDBLinkerScript()
 			argv = append(argv, "-Wl,-T,"+p)
 		}
@@ -1729,9 +1762,13 @@ func (ctxt *Link) hostlink() {
 				argv = append(argv, "-lsynchronization")
 			}
 		}
-		// libmingw32 and libmingwex have some inter-dependencies,
-		// so must use linker groups.
-		argv = append(argv, "-Wl,--start-group", "-lmingwex", "-lmingw32", "-Wl,--end-group")
+
+		// MSVC don't have these libs.
+		if !usingClangForMSVC {
+			// libmingw32 and libmingwex have some inter-dependencies,
+			// so must use linker groups.
+			argv = append(argv, "-Wl,--start-group", "-lmingwex", "-lmingw32", "-Wl,--end-group")
+		}
 		argv = append(argv, peimporteddlls()...)
 	}
 
