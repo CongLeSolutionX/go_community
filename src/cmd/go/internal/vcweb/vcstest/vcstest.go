@@ -31,6 +31,7 @@ var Hosts = []string{
 }
 
 type Server struct {
+	vcweb   *vcweb.Server
 	workDir string
 	HTTP    *httptest.Server
 	HTTPS   *httptest.Server
@@ -64,6 +65,11 @@ func NewServer() (srv *Server, err error) {
 	if err != nil {
 		return nil, err
 	}
+	defer func() {
+		if err != nil {
+			handler.Close()
+		}
+	}()
 
 	srvHTTP := httptest.NewServer(handler)
 	httpURL, err := url.Parse(srvHTTP.URL)
@@ -88,6 +94,7 @@ func NewServer() (srv *Server, err error) {
 	}()
 
 	srv = &Server{
+		vcweb:   handler,
 		workDir: workDir,
 		HTTP:    srvHTTP,
 		HTTPS:   srvHTTPS,
@@ -121,7 +128,11 @@ func (srv *Server) Close() error {
 
 	srv.HTTP.Close()
 	srv.HTTPS.Close()
-	return os.RemoveAll(srv.workDir)
+	err := srv.vcweb.Close()
+	if rmErr := os.RemoveAll(srv.workDir); err == nil {
+		err = rmErr
+	}
+	return err
 }
 
 func (srv *Server) WriteCertificateFile() (string, error) {
