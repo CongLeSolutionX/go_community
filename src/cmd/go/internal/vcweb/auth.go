@@ -32,7 +32,7 @@ type accessToken struct {
 
 func (h *authHandler) Available() bool { return true }
 
-func (h *authHandler) Handler(dir string, env []string) (http.Handler, error) {
+func (h *authHandler) Handler(dir string, env []string, logger *log.Logger) (http.Handler, error) {
 	fs := http.Dir(dir)
 
 	handler := http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
@@ -85,7 +85,7 @@ func (h *authHandler) Handler(dir string, env []string) (http.Handler, error) {
 
 		var token accessToken
 		if err := json.Unmarshal(data, &token); err != nil {
-			log.Print(err)
+			logger.Print(err)
 			http.Error(w, "malformed access file", http.StatusInternalServerError)
 			return
 		}

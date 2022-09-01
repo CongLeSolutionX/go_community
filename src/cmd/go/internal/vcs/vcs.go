@@ -60,12 +60,17 @@ type Status struct {
 	Uncommitted bool      // Required.
 }
 
-// VCSTestRepoURL is the URL of the server that replaces vcs-test.golang.org and
-// github.com/rsc/vgotest1.
-//
-// In tests, this is set to the URL of an httptest.Server hosting a
-// cmd/go/internal/vcweb.Server.
-var VCSTestRepoURL string
+var (
+	// VCSTestRepoURL is the URL of the HTTP server that replaces
+	// vcs-test.golang.org and github.com/rsc/vgotest1.
+	//
+	// In tests, this is set to the URL of an httptest.Server hosting a
+	// cmd/go/internal/vcweb.Server.
+	VCSTestRepoURL string
+
+	// VCSTestHosts is the set of hosts supported by the vcs-test server.
+	VCSTestHosts []string
+)
 
 var defaultSecureScheme = map[string]bool{
 	"https":   true,
@@ -1168,9 +1173,9 @@ func repoRootFromVCSPaths(importPath string, security web.SecurityMode, vcsPaths
 			repoURL = match["repo"]
 		} else {
 			repo := match["repo"]
-			if VCSTestRepoURL != "" && str.HasPathPrefix(repo, "vcs-test.golang.org") && match["vcs"] != "svn" {
-				repoURL = VCSTestRepoURL + strings.TrimPrefix(repo, "vcs-test.golang.org")
-			} else {
+			var ok bool
+			repoURL, ok = interceptVCSTest(repo, vcs.Cmd)
+			if !ok {
 				scheme := vcs.Scheme[0] // default to first scheme
 				if vcs.PingCmd != "" {
 					// If we know how to test schemes, scan to find one.
@@ -1195,6 +1200,43 @@ func repoRootFromVCSPaths(importPath string, security web.SecurityMode, vcsPaths
 		return rr, nil
 	}
 	return nil, errUnknownSite
+}
+
+func interceptVCSTest(repo, vcs string) (repoURL string, ok bool) {
+	if VCSTestRepoURL == "" {
+		return "", false
+	}
+
+	if _, path, ok := strings.Cut(repo, "://"); ok {
+		repo = path // Remove leading URL scheme if present.
+	}
+	for _, host := range VCSTestHosts {
+		if !str.HasPathPrefix(repo, host) {
+			continue
+		}
+
+		httpURL := VCSTestRepoURL + strings.TrimPrefix(repo, host)
+
+		if vcs == "svn" {
+			// Ping the vcweb HTTP server to tell it to initialize the SVN repository
+			// and get the SVN server URL.
+			u, err := urlpkg.Parse(httpURL + "?vcwebsvn=1")
+			if err != nil {
+				panic(fmt.Sprintf("invalid vcs-test repo URL: %v", err))
+			}
+			svnURL, err := web.GetBytes(u)
+			svnURL = bytes.TrimSpace(svnURL)
+			if err == nil && len(svnURL) > 0 {
+				return string(svnURL) + strings.TrimPrefix(repo, host), true
+			}
+
+			// vcs-test doesn't have a svn handler for the given path,
+			// so resolve the repo to HTTPS instead.
+		}
+
+		return httpURL, true
+	}
+	return "", false
 }
 
 // urlForImportPath returns a partially-populated URL for the given Go import path.
@@ -1295,8 +1337,12 @@ func repoRootForImportDynamic(importPath string, mod ModuleMode, security web.Se
 		return nil, err
 	}
 
+	repoURL, ok := interceptVCSTest(mmi.RepoRoot, vcs.Cmd)
+	if !ok {
+		repoURL = mmi.RepoRoot
+	}
 	rr := &RepoRoot{
-		Repo:     mmi.RepoRoot,
+		Repo:     repoURL,
 		Root:     mmi.Prefix,
 		IsCustom: true,
 		VCS:      vcs,

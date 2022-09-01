@@ -53,8 +53,8 @@ import (
 
 // A Server serves cached, dynamically-generated version control repositories.
 type Server struct {
-	env []string
-	log *log.Logger
+	env    []string
+	logger *log.Logger
 
 	scriptDir string
 	workDir   string
@@ -69,14 +69,14 @@ type Server struct {
 // A vcsHandler serves repositories over HTTP for a known version-control tool.
 type vcsHandler interface {
 	Available() bool
-	Handler(dir string, env []string) (http.Handler, error)
+	Handler(dir string, env []string, logger *log.Logger) (http.Handler, error)
 }
 
 // dirHandler is a vcsHandler that serves the raw contents of a directory.
 type dirHandler struct{}
 
 func (*dirHandler) Available() bool { return true }
-func (*dirHandler) Handler(dir string, env []string) (http.Handler, error) {
+func (*dirHandler) Handler(dir string, env []string, logger *log.Logger) (http.Handler, error) {
 	return http.FileServer(http.Dir(dir)), nil
 }
 
@@ -129,7 +129,7 @@ func NewServer(scriptDir, workDir string, logger *log.Logger) (*Server, error) {
 
 	s := &Server{
 		env:       env,
-		log:       logger,
+		logger:    logger,
 		scriptDir: scriptDir,
 		workDir:   workDir,
 		homeDir:   homeDir,
@@ -142,6 +142,7 @@ func NewServer(scriptDir, workDir string, logger *log.Logger) (*Server, error) {
 			"git":      new(gitHandler),
 			"hg":       new(hgHandler),
 			"insecure": new(insecureHandler),
+			"svn":      &svnHandler{svnRoot: workDir, logger: logger},
 		},
 	}
 
@@ -161,6 +162,18 @@ func NewServer(scriptDir, workDir string, logger *log.Logger) (*Server, error) {
 	}
 
 	return s, nil
+}
+
+func (s *Server) Close() error {
+	var firstErr error
+	for _, h := range s.vcsHandlers {
+		if c, ok := h.(io.Closer); ok {
+			if closeErr := c.Close(); firstErr == nil {
+				firstErr = closeErr
+			}
+		}
+	}
+	return firstErr
 }
 
 // gitConfig contains a ~/.gitconfg file that attempts to provide
@@ -190,12 +203,12 @@ convert=
 
 // ServeHTTP implements [http.Handler] for version-control repositories.
 func (s *Server) ServeHTTP(w http.ResponseWriter, req *http.Request) {
-	s.log.Printf("serving %s", req.URL)
+	s.logger.Printf("serving %s", req.URL)
 
 	defer func() {
 		if v := recover(); v != nil {
 			debug.PrintStack()
-			s.log.Fatal(v)
+			s.logger.Fatal(v)
 		}
 	}()
 
@@ -234,11 +247,11 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	}
 	scriptPath += ".txt"
 
-	err := s.HandleScript(scriptPath, s.log, func(handler http.Handler) {
+	err := s.HandleScript(scriptPath, s.logger, func(handler http.Handler) {
 		handler.ServeHTTP(w, req)
 	})
 	if err != nil {
-		s.log.Print(err)
+		s.logger.Print(err)
 		if notFound := (ScriptNotFoundError{}); errors.As(err, &notFound) {
 			http.NotFound(w, req)
 		} else if notInstalled := (ServerNotInstalledError{}); errors.As(err, &notInstalled) || errors.Is(err, exec.ErrNotFound) {

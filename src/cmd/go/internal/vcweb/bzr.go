@@ -4,12 +4,15 @@
 
 package vcweb
 
-import "net/http"
+import (
+	"log"
+	"net/http"
+)
 
 type bzrHandler struct{}
 
 func (*bzrHandler) Available() bool { return true }
 
-func (*bzrHandler) Handler(dir string, env []string) (http.Handler, error) {
+func (*bzrHandler) Handler(dir string, env []string, logger *log.Logger) (http.Handler, error) {
 	return http.FileServer(http.Dir(dir)), nil
 }

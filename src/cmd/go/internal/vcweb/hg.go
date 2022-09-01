@@ -31,7 +31,7 @@ func (h *hgHandler) Available() bool {
 	return h.hgPathErr == nil
 }
 
-func (h *hgHandler) Handler(dir string, env []string) (http.Handler, error) {
+func (h *hgHandler) Handler(dir string, env []string, logger *log.Logger) (http.Handler, error) {
 	if !h.Available() {
 		return nil, ServerNotInstalledError{name: "hg"}
 	}
@@ -96,7 +96,7 @@ func (h *hgHandler) Handler(dir string, env []string) (http.Handler, error) {
 			}
 			err := cmd.Wait()
 			if out := strings.TrimSuffix(stderr.String(), "interrupted!\n"); out != "" {
-				log.Printf("%v: %v\n%s", cmd, err, out)
+				logger.Printf("%v: %v\n%s", cmd, err, out)
 			}
 		}()
 

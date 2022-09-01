@@ -4,7 +4,10 @@
 
 package vcweb
 
-import "net/http"
+import (
+	"log"
+	"net/http"
+)
 
 // insecureHandler redirects requests to the same host and path but using the
 // "http" scheme instead of "https".
@@ -12,7 +15,7 @@ type insecureHandler struct{}
 
 func (h *insecureHandler) Available() bool { return true }
 
-func (h *insecureHandler) Handler(dir string, env []string) (http.Handler, error) {
+func (h *insecureHandler) Handler(dir string, env []string, logger *log.Logger) (http.Handler, error) {
 	// The insecure-redirect handler implementation doesn't depend or dir or env.
 	//
 	// The only effect of the directory is to determine which prefix the caller

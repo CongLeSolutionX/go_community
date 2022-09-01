@@ -5,6 +5,7 @@
 package vcweb
 
 import (
+	"log"
 	"net/http"
 	"net/http/cgi"
 	"os/exec"
@@ -30,15 +31,16 @@ func (h *gitHandler) Available() bool {
 	return h.gitPathErr == nil
 }
 
-func (h *gitHandler) Handler(dir string, env []string) (http.Handler, error) {
+func (h *gitHandler) Handler(dir string, env []string, logger *log.Logger) (http.Handler, error) {
 	if !h.Available() {
 		return nil, ServerNotInstalledError{name: "git"}
 	}
 
 	handler := &cgi.Handler{
-		Path: h.gitPath,
-		Args: []string{"http-backend"},
-		Dir:  dir,
+		Path:   h.gitPath,
+		Logger: logger,
+		Args:   []string{"http-backend"},
+		Dir:    dir,
 		Env: append(env[:len(env):len(env)],
 			"GIT_PROJECT_ROOT="+dir,
 			"GIT_HTTP_EXPORT_ALL=1",

@@ -134,6 +134,7 @@ func TestMain(m *testing.M) {
 
 		if vcsTestHost := os.Getenv("TESTGO_VCSTEST_HOST"); vcsTestHost != "" {
 			vcs.VCSTestRepoURL = "http://" + vcsTestHost
+			vcs.VCSTestHosts = vcstest.Hosts
 			vcsTestTLSHost := os.Getenv("TESTGO_VCSTEST_TLS_HOST")
 			vcsTestClient, err := vcstest.TLSClient(os.Getenv("TESTGO_VCSTEST_CERT"))
 			if err != nil {

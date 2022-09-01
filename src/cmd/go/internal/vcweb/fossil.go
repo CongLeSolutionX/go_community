@@ -7,6 +7,7 @@ package vcweb
 import (
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"net/http/cgi"
 	"os"
@@ -28,7 +29,7 @@ func (h *fossilHandler) Available() bool {
 	return h.fossilPathErr == nil
 }
 
-func (h *fossilHandler) Handler(dir string, env []string) (http.Handler, error) {
+func (h *fossilHandler) Handler(dir string, env []string, logger *log.Logger) (http.Handler, error) {
 	if !h.Available() {
 		return nil, ServerNotInstalledError{name: "fossil"}
 	}
@@ -48,10 +49,11 @@ func (h *fossilHandler) Handler(dir string, env []string) (http.Handler, error) 
 			return
 		}
 		ch := &cgi.Handler{
-			Env:  env,
-			Path: h.fossilPath,
-			Args: []string{cgiPath},
-			Dir:  dir,
+			Env:    env,
+			Logger: logger,
+			Path:   h.fossilPath,
+			Args:   []string{cgiPath},
+			Dir:    dir,
 		}
 		ch.ServeHTTP(w, req)
 	})

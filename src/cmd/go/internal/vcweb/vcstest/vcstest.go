@@ -30,6 +30,7 @@ var Hosts = []string{
 }
 
 type Server struct {
+	vcweb   *vcweb.Server
 	workDir string
 	HTTP    *httptest.Server
 	HTTPS   *httptest.Server
@@ -54,30 +55,51 @@ func NewServer() (srv *Server, err error) {
 			os.RemoveAll(workDir)
 		}
 	}()
-	srv = &Server{workDir: workDir}
 
 	logger := log.Default()
 	if !testing.Verbose() {
 		logger = log.New(io.Discard, "", log.LstdFlags)
 	}
-	s, err := vcweb.NewServer(scriptDir, workDir, logger)
+	handler, err := vcweb.NewServer(scriptDir, workDir, logger)
 	if err != nil {
 		return nil, err
 	}
+	defer func() {
+		if err != nil {
+			handler.Close()
+		}
+	}()
 
-	srv.HTTP = httptest.NewServer(s)
-	httpURL, err := url.Parse(srv.HTTP.URL)
+	srvHTTP := httptest.NewServer(handler)
+	httpURL, err := url.Parse(srvHTTP.URL)
 	if err != nil {
 		return nil, err
 	}
+	defer func() {
+		if err != nil {
+			srvHTTP.Close()
+		}
+	}()
 
-	srv.HTTPS = httptest.NewTLSServer(s)
-	httpsURL, err := url.Parse(srv.HTTPS.URL)
+	srvHTTPS := httptest.NewTLSServer(handler)
+	httpsURL, err := url.Parse(srvHTTPS.URL)
 	if err != nil {
 		return nil, err
 	}
+	defer func() {
+		if err != nil {
+			srvHTTPS.Close()
+		}
+	}()
 
+	srv = &Server{
+		vcweb:   handler,
+		workDir: workDir,
+		HTTP:    srvHTTP,
+		HTTPS:   srvHTTPS,
+	}
 	vcs.VCSTestRepoURL = srv.HTTP.URL
+	vcs.VCSTestHosts = Hosts
 
 	var interceptors []web.Interceptor
 	for _, host := range Hosts {
@@ -98,11 +120,16 @@ func (srv *Server) Close() error {
 		panic("vcs URL hooks modified before Close")
 	}
 	vcs.VCSTestRepoURL = ""
+	vcs.VCSTestHosts = nil
 	web.DisableTestHooks()
 
 	srv.HTTP.Close()
 	srv.HTTPS.Close()
-	return os.RemoveAll(srv.workDir)
+	err := srv.vcweb.Close()
+	if rmErr := os.RemoveAll(srv.workDir); err == nil {
+		err = rmErr
+	}
+	return err
 }
 
 func (srv *Server) WriteCertificateFile() (string, error) {

@@ -42,6 +42,7 @@ func newScriptEngine() *script.Engine {
 	cmds["hg"] = script.Program("hg", interrupt, gracePeriod)
 	cmds["handle"] = scriptHandle()
 	cmds["modzip"] = scriptModzip()
+	cmds["svnadmin"] = script.Program("svnadmin", interrupt, gracePeriod)
 	cmds["svn"] = script.Program("svn", interrupt, gracePeriod)
 	cmds["unquote"] = scriptUnquote()
 
@@ -279,7 +280,7 @@ func scriptHandle() script.Cmd {
 			if len(args) >= 2 {
 				dir = st.Path(args[1])
 			}
-			sc.handler, err = h.Handler(dir, st.Environ())
+			sc.handler, err = h.Handler(dir, st.Environ(), sc.server.logger)
 			return nil, err
 		})
 }
