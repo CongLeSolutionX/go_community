@@ -16,6 +16,23 @@
       "message": "Slightly surprised that this went in without any codegen tests :) Otherwise one has to guess whether this works today or is broken at any point in the future.",
       "revId": "ab8a2c5e4467f55417f4ade4f8e3f9a867946e40",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5bd9d084_cf243f49",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-09-01T22:24:31Z",
+      "side": 1,
+      "message": "There are existing correctness tests for this but yes, a codegen test would be nice too.\n",
+      "revId": "ab8a2c5e4467f55417f4ade4f8e3f9a867946e40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
