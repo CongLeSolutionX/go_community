@@ -16,6 +16,24 @@
       "message": "A change like this should have a test.  Thanks.",
       "revId": "98ee4d3b83cf33a22abaaa2571ed9e432faadfbc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a8df8a1_39e1b479",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57834
+      },
+      "writtenOn": "2022-09-01T12:59:59Z",
+      "side": 1,
+      "message": "I don\u0027t know how to write test for this CL.What I can do is test the funciton can exit correctly\n without hanging up or crash. maybe when cpu number is 1, it\u0027s much likely that the scheduler preempts the printunlock after decrementing printlock but before actually unlocking, therefore other routine which try to lock the debuglock will hang up.\nCould you make some suggestions so that I can improve it?",
+      "parentUuid": "0f072444_ab81bf07",
+      "revId": "98ee4d3b83cf33a22abaaa2571ed9e432faadfbc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
