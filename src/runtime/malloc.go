@@ -1034,8 +1034,8 @@ func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
 		// For large allocations, keep track of zeroed state so that
 		// bulk zeroing can be happen later in a preemptible context.
 		span = c.allocLarge(size, noscan)
-		span.freeindex = 1
-		span.allocCount = 1
+		//span.freeindex = 1
+		//span.allocCount = 1
 		size = span.elemsize
 		x = unsafe.Pointer(span.base())
 		if needzero && span.needzero != 0 {
@@ -1066,6 +1066,14 @@ func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
 			scanSize = typ.ptrdata
 		}
 		c.scanAlloc += scanSize
+	}
+
+	if size > maxSmallSize {
+		// XXX increment freeindex and allocCount after the object is zeroed (if pointerful)
+		// and heap bitmap is set.
+		// XXX large object only.
+		span.freeindex = 1
+		span.allocCount = 1
 	}
 
 	// Ensure that the stores above that initialize x to
