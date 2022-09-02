@@ -146,6 +146,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "0532d7c9_ec9ca91d",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 676,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-09-02T16:34:59Z",
+      "side": 1,
+      "message": "SGTM, thanks.\n\nYeah, if the only place that we need only the size is conservative scan, I guess it doesn\u0027t matter.\n\nThe other day I was thinking if we could make conservative scan slightly more precise by OR\u0027ing the bitmaps together, and only scan slots that could ever hold a pointer (and the registers). I think it is safe but not really sure (do we ever put a pointer in a non-pointer slot?). Also not sure if it\u0027s worth doing.",
+      "parentUuid": "b1c60d74_da9eee46",
+      "revId": "aae31051174de078df40de50323010daaff8d0d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "d6cc5d57_ce870a2b",
         "filename": "src/runtime/traceback.go",
         "patchSetId": 1
