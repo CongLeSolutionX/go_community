@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"go/token"
 	"sort"
+	"strings"
 )
 
 type byPos []*CommentGroup
@@ -311,8 +312,8 @@ func (cmap CommentMap) String() string {
 	}
 	sort.Sort(byInterval(nodes))
 
-	var buf bytes.Buffer
-	fmt.Fprintln(&buf, "CommentMap {")
+	var sb strings.Builder
+	fmt.Fprintln(&sb, "CommentMap {")
 	for _, node := range nodes {
 		comment := cmap[node]
 		// print name of identifiers; print node type for other nodes
@@ -322,8 +323,8 @@ func (cmap CommentMap) String() string {
 		} else {
 			s = fmt.Sprintf("%T", node)
 		}
-		fmt.Fprintf(&buf, "\t%p  %20s:  %s\n", node, s, summary(comment))
+		fmt.Fprintf(&sb, "\t%p  %20s:  %s\n", node, s, summary(comment))
 	}
-	fmt.Fprintln(&buf, "}")
-	return buf.String()
+	fmt.Fprintln(&sb, "}")
+	return sb.String()
 }

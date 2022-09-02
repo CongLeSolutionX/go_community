@@ -7,9 +7,9 @@
 package ast
 
 import (
-	"bytes"
 	"fmt"
 	"go/token"
+	"strings"
 )
 
 // A Scope maintains the set of named language entities declared
@@ -46,16 +46,16 @@ func (s *Scope) Insert(obj *Object) (alt *Object) {
 
 // Debugging support
 func (s *Scope) String() string {
-	var buf bytes.Buffer
-	fmt.Fprintf(&buf, "scope %p {", s)
+	var sb strings.Builder
+	fmt.Fprintf(&sb, "scope %p {", s)
 	if s != nil && len(s.Objects) > 0 {
-		fmt.Fprintln(&buf)
+		fmt.Fprintln(&sb)
 		for _, obj := range s.Objects {
-			fmt.Fprintf(&buf, "\t%s %s\n", obj.Kind, obj.Name)
+			fmt.Fprintf(&sb, "\t%s %s\n", obj.Kind, obj.Name)
 		}
 	}
-	fmt.Fprintf(&buf, "}\n")
-	return buf.String()
+	fmt.Fprintf(&sb, "}\n")
+	return sb.String()
 }
 
 // ----------------------------------------------------------------------------
