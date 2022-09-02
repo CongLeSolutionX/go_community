@@ -5,7 +5,6 @@
 package types2
 
 import (
-	"bytes"
 	"fmt"
 	"strconv"
 	"strings"
@@ -65,9 +64,9 @@ func NewContext() *Context {
 func (ctxt *Context) instanceHash(orig Type, targs []Type) string {
 	assert(ctxt != nil)
 	assert(orig != nil)
-	var buf bytes.Buffer
+	var sb strings.Builder
 
-	h := newTypeHasher(&buf, ctxt)
+	h := newTypeHasher(&sb, ctxt)
 	h.string(strconv.Itoa(ctxt.getID(orig)))
 	// Because we've already written the unique origin ID this call to h.typ is
 	// unnecessary, but we leave it for hash readability. It can be removed later
@@ -79,7 +78,7 @@ func (ctxt *Context) instanceHash(orig Type, targs []Type) string {
 		h.typeList(targs)
 	}
 
-	return strings.Replace(buf.String(), " ", "#", -1) // ReplaceAll is not available in Go1.4
+	return strings.Replace(sb.String(), " ", "#", -1) // ReplaceAll is not available in Go1.4
 }
 
 // lookup returns an existing instantiation of orig with targs, if it exists.

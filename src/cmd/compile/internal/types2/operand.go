@@ -7,11 +7,11 @@
 package types2
 
 import (
-	"bytes"
 	"cmd/compile/internal/syntax"
 	"fmt"
 	"go/constant"
 	"go/token"
+	"strings"
 )
 
 // An operandMode specifies the (addressing) mode of an operand.
@@ -119,7 +119,7 @@ func operandString(x *operand, qf Qualifier) string {
 		}
 	}
 
-	var buf bytes.Buffer
+	var sb strings.Builder
 
 	var expr string
 	if x.expr != nil {
@@ -137,8 +137,8 @@ func operandString(x *operand, qf Qualifier) string {
 
 	// <expr> (
 	if expr != "" {
-		buf.WriteString(expr)
-		buf.WriteString(" (")
+		sb.WriteString(expr)
+		sb.WriteString(" (")
 	}
 
 	// <untyped kind>
@@ -150,8 +150,8 @@ func operandString(x *operand, qf Qualifier) string {
 		// should have a type, but be cautious (don't crash during printing)
 		if x.typ != nil {
 			if isUntyped(x.typ) {
-				buf.WriteString(x.typ.(*Basic).name)
-				buf.WriteByte(' ')
+				sb.WriteString(x.typ.(*Basic).name)
+				sb.WriteByte(' ')
 				break
 			}
 			hasType = true
@@ -159,13 +159,13 @@ func operandString(x *operand, qf Qualifier) string {
 	}
 
 	// <mode>
-	buf.WriteString(operandModeString[x.mode])
+	sb.WriteString(operandModeString[x.mode])
 
 	// <val>
 	if x.mode == constant_ {
 		if s := x.val.String(); s != expr {
-			buf.WriteByte(' ')
-			buf.WriteString(s)
+			sb.WriteByte(' ')
+			sb.WriteString(s)
 		}
 	}
 
@@ -178,23 +178,23 @@ func operandString(x *operand, qf Qualifier) string {
 			} else {
 				intro = " of type "
 			}
-			buf.WriteString(intro)
-			WriteType(&buf, x.typ, qf)
+			sb.WriteString(intro)
+			WriteType(&sb, x.typ, qf)
 			if tpar, _ := x.typ.(*TypeParam); tpar != nil {
-				buf.WriteString(" constrained by ")
-				WriteType(&buf, tpar.bound, qf) // do not compute interface type sets here
+				sb.WriteString(" constrained by ")
+				WriteType(&sb, tpar.bound, qf) // do not compute interface type sets here
 			}
 		} else {
-			buf.WriteString(" with invalid type")
+			sb.WriteString(" with invalid type")
 		}
 	}
 
 	// )
 	if expr != "" {
-		buf.WriteByte(')')
+		sb.WriteByte(')')
 	}
 
-	return buf.String()
+	return sb.String()
 }
 
 func (x *operand) String() string {

@@ -5,10 +5,10 @@
 package types2
 
 import (
-	"bytes"
 	"cmd/compile/internal/syntax"
 	"fmt"
 	"go/constant"
+	"strings"
 	"unicode"
 	"unicode/utf8"
 )
@@ -382,9 +382,9 @@ func NewFunc(pos syntax.Pos, pkg *Package, name string, sig *Signature) *Func {
 // FullName returns the package- or receiver-type-qualified name of
 // function or method obj.
 func (obj *Func) FullName() string {
-	var buf bytes.Buffer
-	writeFuncName(&buf, obj, nil)
-	return buf.String()
+	var sb strings.Builder
+	writeFuncName(&sb, obj, nil)
+	return sb.String()
 }
 
 // Scope returns the scope of the function's body block.
@@ -455,66 +455,66 @@ type Nil struct {
 	object
 }
 
-func writeObject(buf *bytes.Buffer, obj Object, qf Qualifier) {
+func writeObject(sb *strings.Builder, obj Object, qf Qualifier) {
 	var tname *TypeName
 	typ := obj.Type()
 
 	switch obj := obj.(type) {
 	case *PkgName:
-		fmt.Fprintf(buf, "package %s", obj.Name())
+		fmt.Fprintf(sb, "package %s", obj.Name())
 		if path := obj.imported.path; path != "" && path != obj.name {
-			fmt.Fprintf(buf, " (%q)", path)
+			fmt.Fprintf(sb, " (%q)", path)
 		}
 		return
 
 	case *Const:
-		buf.WriteString("const")
+		sb.WriteString("const")
 
 	case *TypeName:
 		tname = obj
-		buf.WriteString("type")
+		sb.WriteString("type")
 		if isTypeParam(typ) {
-			buf.WriteString(" parameter")
+			sb.WriteString(" parameter")
 		}
 
 	case *Var:
 		if obj.isField {
-			buf.WriteString("field")
+			sb.WriteString("field")
 		} else {
-			buf.WriteString("var")
+			sb.WriteString("var")
 		}
 
 	case *Func:
-		buf.WriteString("func ")
-		writeFuncName(buf, obj, qf)
+		sb.WriteString("func ")
+		writeFuncName(sb, obj, qf)
 		if typ != nil {
-			WriteSignature(buf, typ.(*Signature), qf)
+			WriteSignature(sb, typ.(*Signature), qf)
 		}
 		return
 
 	case *Label:
-		buf.WriteString("label")
+		sb.WriteString("label")
 		typ = nil
 
 	case *Builtin:
-		buf.WriteString("builtin")
+		sb.WriteString("builtin")
 		typ = nil
 
 	case *Nil:
-		buf.WriteString("nil")
+		sb.WriteString("nil")
 		return
 
 	default:
 		panic(fmt.Sprintf("writeObject(%T)", obj))
 	}
 
-	buf.WriteByte(' ')
+	sb.WriteByte(' ')
 
 	// For package-level objects, qualify the name.
 	if obj.Pkg() != nil && obj.Pkg().scope.Lookup(obj.Name()) == obj {
-		writePackage(buf, obj.Pkg(), qf)
+		writePackage(sb, obj.Pkg(), qf)
 	}
-	buf.WriteString(obj.Name())
+	sb.WriteString(obj.Name())
 
 	if typ == nil {
 		return
@@ -528,11 +528,11 @@ func writeObject(buf *bytes.Buffer, obj Object, qf Qualifier) {
 			return
 		case *Named:
 			if t.TypeParams().Len() > 0 {
-				newTypeWriter(buf, qf).tParamList(t.TypeParams().list())
+				newTypeWriter(sb, qf).tParamList(t.TypeParams().list())
 			}
 		}
 		if tname.IsAlias() {
-			buf.WriteString(" =")
+			sb.WriteString(" =")
 		} else if t, _ := typ.(*TypeParam); t != nil {
 			typ = t.bound
 		} else {
@@ -549,11 +549,11 @@ func writeObject(buf *bytes.Buffer, obj Object, qf Qualifier) {
 		typ = &emptyInterface
 	}
 
-	buf.WriteByte(' ')
-	WriteType(buf, typ, qf)
+	sb.WriteByte(' ')
+	WriteType(sb, typ, qf)
 }
 
-func writePackage(buf *bytes.Buffer, pkg *Package, qf Qualifier) {
+func writePackage(sb *strings.Builder, pkg *Package, qf Qualifier) {
 	if pkg == nil {
 		return
 	}
@@ -564,8 +564,8 @@ func writePackage(buf *bytes.Buffer, pkg *Package, qf Qualifier) {
 		s = pkg.Path()
 	}
 	if s != "" {
-		buf.WriteString(s)
-		buf.WriteByte('.')
+		sb.WriteString(s)
+		sb.WriteByte('.')
 	}
 }
 
@@ -573,9 +573,9 @@ func writePackage(buf *bytes.Buffer, pkg *Package, qf Qualifier) {
 // The Qualifier controls the printing of
 // package-level objects, and may be nil.
 func ObjectString(obj Object, qf Qualifier) string {
-	var buf bytes.Buffer
-	writeObject(&buf, obj, qf)
-	return buf.String()
+	var sb strings.Builder
+	writeObject(&sb, obj, qf)
+	return sb.String()
 }
 
 func (obj *PkgName) String() string  { return ObjectString(obj, nil) }
@@ -587,25 +587,25 @@ func (obj *Label) String() string    { return ObjectString(obj, nil) }
 func (obj *Builtin) String() string  { return ObjectString(obj, nil) }
 func (obj *Nil) String() string      { return ObjectString(obj, nil) }
 
-func writeFuncName(buf *bytes.Buffer, f *Func, qf Qualifier) {
+func writeFuncName(sb *strings.Builder, f *Func, qf Qualifier) {
 	if f.typ != nil {
 		sig := f.typ.(*Signature)
 		if recv := sig.Recv(); recv != nil {
-			buf.WriteByte('(')
+			sb.WriteByte('(')
 			if _, ok := recv.Type().(*Interface); ok {
 				// gcimporter creates abstract methods of
 				// named interfaces using the interface type
 				// (not the named type) as the receiver.
 				// Don't print it in full.
-				buf.WriteString("interface")
+				sb.WriteString("interface")
 			} else {
-				WriteType(buf, recv.Type(), qf)
+				WriteType(sb, recv.Type(), qf)
 			}
-			buf.WriteByte(')')
-			buf.WriteByte('.')
+			sb.WriteByte(')')
+			sb.WriteByte('.')
 		} else if f.pkg != nil {
-			writePackage(buf, f.pkg, qf)
+			writePackage(sb, f.pkg, qf)
 		}
 	}
-	buf.WriteString(f.name)
+	sb.WriteString(f.name)
 }

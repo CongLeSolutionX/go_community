@@ -7,7 +7,6 @@
 package types2
 
 import (
-	"bytes"
 	"fmt"
 	"strings"
 )
@@ -106,8 +105,8 @@ type tparamsList struct {
 
 // String returns a string representation for a tparamsList. For debugging.
 func (d *tparamsList) String() string {
-	var buf bytes.Buffer
-	w := newTypeWriter(&buf, nil)
+	var sb strings.Builder
+	w := newTypeWriter(&sb, nil)
 	w.byte('[')
 	for i, tpar := range d.tparams {
 		if i > 0 {
@@ -118,7 +117,7 @@ func (d *tparamsList) String() string {
 		w.typ(d.at(i))
 	}
 	w.byte(']')
-	return buf.String()
+	return sb.String()
 }
 
 // init initializes d with the given type parameters.
