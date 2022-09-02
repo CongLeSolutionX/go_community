@@ -46,6 +46,30 @@
       },
       "revId": "08234da1a48d10a707d89584fff6d3225fa1b0ad",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4975199b_7d4b8454",
+        "filename": "src/cmd/asm/internal/asm/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 842,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-09-02T19:09:59Z",
+      "side": 0,
+      "message": "I moved this hack into the backend rewriting for only those instructions which could be used like this.",
+      "parentUuid": "e4bf070e_a94a21a4",
+      "range": {
+        "startLine": 839,
+        "startChar": 0,
+        "endLine": 842,
+        "endChar": 18
+      },
+      "revId": "08234da1a48d10a707d89584fff6d3225fa1b0ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
