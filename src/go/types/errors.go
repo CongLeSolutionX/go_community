@@ -154,11 +154,11 @@ func sprintf(fset *token.FileSet, qf Qualifier, debug bool, format string, args 
 		case ast.Expr:
 			arg = ExprString(a)
 		case []ast.Expr:
-			var buf bytes.Buffer
-			buf.WriteByte('[')
-			writeExprList(&buf, a)
-			buf.WriteByte(']')
-			arg = buf.String()
+			var sb strings.Builder
+			sb.WriteByte('[')
+			writeExprList(&sb, a)
+			sb.WriteByte(']')
+			arg = sb.String()
 		case Object:
 			arg = ObjectString(a, qf)
 		case Type:

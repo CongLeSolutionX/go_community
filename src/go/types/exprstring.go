@@ -7,25 +7,25 @@
 package types
 
 import (
-	"bytes"
 	"fmt"
 	"go/ast"
 	"go/internal/typeparams"
+	"strings"
 )
 
 // ExprString returns the (possibly shortened) string representation for x.
 // Shortened representations are suitable for user interfaces but may not
 // necessarily follow Go syntax.
 func ExprString(x ast.Expr) string {
-	var buf bytes.Buffer
-	WriteExpr(&buf, x)
-	return buf.String()
+	var sb strings.Builder
+	WriteExpr(&sb, x)
+	return sb.String()
 }
 
 // WriteExpr writes the (possibly shortened) string representation for x to buf.
 // Shortened representations are suitable for user interfaces but may not
 // necessarily follow Go syntax.
-func WriteExpr(buf *bytes.Buffer, x ast.Expr) {
+func WriteExpr(sb *strings.Builder, x ast.Expr) {
 	// The AST preserves source-level parentheses so there is
 	// no need to introduce them here to correct for different
 	// operator precedences. (This assumes that the AST was
@@ -33,125 +33,125 @@ func WriteExpr(buf *bytes.Buffer, x ast.Expr) {
 
 	switch x := x.(type) {
 	default:
-		buf.WriteString(fmt.Sprintf("(ast: %T)", x)) // nil, ast.BadExpr, ast.KeyValueExpr
+		sb.WriteString(fmt.Sprintf("(ast: %T)", x)) // nil, ast.BadExpr, ast.KeyValueExpr
 
 	case *ast.Ident:
-		buf.WriteString(x.Name)
+		sb.WriteString(x.Name)
 
 	case *ast.Ellipsis:
-		buf.WriteString("...")
+		sb.WriteString("...")
 		if x.Elt != nil {
-			WriteExpr(buf, x.Elt)
+			WriteExpr(sb, x.Elt)
 		}
 
 	case *ast.BasicLit:
-		buf.WriteString(x.Value)
+		sb.WriteString(x.Value)
 
 	case *ast.FuncLit:
-		buf.WriteByte('(')
-		WriteExpr(buf, x.Type)
-		buf.WriteString(" literal)") // shortened
+		sb.WriteByte('(')
+		WriteExpr(sb, x.Type)
+		sb.WriteString(" literal)") // shortened
 
 	case *ast.CompositeLit:
-		WriteExpr(buf, x.Type)
-		buf.WriteByte('{')
+		WriteExpr(sb, x.Type)
+		sb.WriteByte('{')
 		if len(x.Elts) > 0 {
-			buf.WriteString("…")
+			sb.WriteString("…")
 		}
-		buf.WriteByte('}')
+		sb.WriteByte('}')
 
 	case *ast.ParenExpr:
-		buf.WriteByte('(')
-		WriteExpr(buf, x.X)
-		buf.WriteByte(')')
+		sb.WriteByte('(')
+		WriteExpr(sb, x.X)
+		sb.WriteByte(')')
 
 	case *ast.SelectorExpr:
-		WriteExpr(buf, x.X)
-		buf.WriteByte('.')
-		buf.WriteString(x.Sel.Name)
+		WriteExpr(sb, x.X)
+		sb.WriteByte('.')
+		sb.WriteString(x.Sel.Name)
 
 	case *ast.IndexExpr, *ast.IndexListExpr:
 		ix := typeparams.UnpackIndexExpr(x)
-		WriteExpr(buf, ix.X)
-		buf.WriteByte('[')
-		writeExprList(buf, ix.Indices)
-		buf.WriteByte(']')
+		WriteExpr(sb, ix.X)
+		sb.WriteByte('[')
+		writeExprList(sb, ix.Indices)
+		sb.WriteByte(']')
 
 	case *ast.SliceExpr:
-		WriteExpr(buf, x.X)
-		buf.WriteByte('[')
+		WriteExpr(sb, x.X)
+		sb.WriteByte('[')
 		if x.Low != nil {
-			WriteExpr(buf, x.Low)
+			WriteExpr(sb, x.Low)
 		}
-		buf.WriteByte(':')
+		sb.WriteByte(':')
 		if x.High != nil {
-			WriteExpr(buf, x.High)
+			WriteExpr(sb, x.High)
 		}
 		if x.Slice3 {
-			buf.WriteByte(':')
+			sb.WriteByte(':')
 			if x.Max != nil {
-				WriteExpr(buf, x.Max)
+				WriteExpr(sb, x.Max)
 			}
 		}
-		buf.WriteByte(']')
+		sb.WriteByte(']')
 
 	case *ast.TypeAssertExpr:
-		WriteExpr(buf, x.X)
-		buf.WriteString(".(")
-		WriteExpr(buf, x.Type)
-		buf.WriteByte(')')
+		WriteExpr(sb, x.X)
+		sb.WriteString(".(")
+		WriteExpr(sb, x.Type)
+		sb.WriteByte(')')
 
 	case *ast.CallExpr:
-		WriteExpr(buf, x.Fun)
-		buf.WriteByte('(')
-		writeExprList(buf, x.Args)
+		WriteExpr(sb, x.Fun)
+		sb.WriteByte('(')
+		writeExprList(sb, x.Args)
 		if x.Ellipsis.IsValid() {
-			buf.WriteString("...")
+			sb.WriteString("...")
 		}
-		buf.WriteByte(')')
+		sb.WriteByte(')')
 
 	case *ast.StarExpr:
-		buf.WriteByte('*')
-		WriteExpr(buf, x.X)
+		sb.WriteByte('*')
+		WriteExpr(sb, x.X)
 
 	case *ast.UnaryExpr:
-		buf.WriteString(x.Op.String())
-		WriteExpr(buf, x.X)
+		sb.WriteString(x.Op.String())
+		WriteExpr(sb, x.X)
 
 	case *ast.BinaryExpr:
-		WriteExpr(buf, x.X)
-		buf.WriteByte(' ')
-		buf.WriteString(x.Op.String())
-		buf.WriteByte(' ')
-		WriteExpr(buf, x.Y)
+		WriteExpr(sb, x.X)
+		sb.WriteByte(' ')
+		sb.WriteString(x.Op.String())
+		sb.WriteByte(' ')
+		WriteExpr(sb, x.Y)
 
 	case *ast.ArrayType:
-		buf.WriteByte('[')
+		sb.WriteByte('[')
 		if x.Len != nil {
-			WriteExpr(buf, x.Len)
+			WriteExpr(sb, x.Len)
 		}
-		buf.WriteByte(']')
-		WriteExpr(buf, x.Elt)
+		sb.WriteByte(']')
+		WriteExpr(sb, x.Elt)
 
 	case *ast.StructType:
-		buf.WriteString("struct{")
-		writeFieldList(buf, x.Fields.List, "; ", false)
-		buf.WriteByte('}')
+		sb.WriteString("struct{")
+		writeFieldList(sb, x.Fields.List, "; ", false)
+		sb.WriteByte('}')
 
 	case *ast.FuncType:
-		buf.WriteString("func")
-		writeSigExpr(buf, x)
+		sb.WriteString("func")
+		writeSigExpr(sb, x)
 
 	case *ast.InterfaceType:
-		buf.WriteString("interface{")
-		writeFieldList(buf, x.Methods.List, "; ", true)
-		buf.WriteByte('}')
+		sb.WriteString("interface{")
+		writeFieldList(sb, x.Methods.List, "; ", true)
+		sb.WriteByte('}')
 
 	case *ast.MapType:
-		buf.WriteString("map[")
-		WriteExpr(buf, x.Key)
-		buf.WriteByte(']')
-		WriteExpr(buf, x.Value)
+		sb.WriteString("map[")
+		WriteExpr(sb, x.Key)
+		sb.WriteByte(']')
+		WriteExpr(sb, x.Value)
 
 	case *ast.ChanType:
 		var s string
@@ -163,15 +163,15 @@ func WriteExpr(buf *bytes.Buffer, x ast.Expr) {
 		default:
 			s = "chan "
 		}
-		buf.WriteString(s)
-		WriteExpr(buf, x.Value)
+		sb.WriteString(s)
+		WriteExpr(sb, x.Value)
 	}
 }
 
-func writeSigExpr(buf *bytes.Buffer, sig *ast.FuncType) {
-	buf.WriteByte('(')
-	writeFieldList(buf, sig.Params.List, ", ", false)
-	buf.WriteByte(')')
+func writeSigExpr(sb *strings.Builder, sig *ast.FuncType) {
+	sb.WriteByte('(')
+	writeFieldList(sb, sig.Params.List, ", ", false)
+	sb.WriteByte(')')
 
 	res := sig.Results
 	n := res.NumFields()
@@ -180,59 +180,59 @@ func writeSigExpr(buf *bytes.Buffer, sig *ast.FuncType) {
 		return
 	}
 
-	buf.WriteByte(' ')
+	sb.WriteByte(' ')
 	if n == 1 && len(res.List[0].Names) == 0 {
 		// single unnamed result
-		WriteExpr(buf, res.List[0].Type)
+		WriteExpr(sb, res.List[0].Type)
 		return
 	}
 
 	// multiple or named result(s)
-	buf.WriteByte('(')
-	writeFieldList(buf, res.List, ", ", false)
-	buf.WriteByte(')')
+	sb.WriteByte('(')
+	writeFieldList(sb, res.List, ", ", false)
+	sb.WriteByte(')')
 }
 
-func writeFieldList(buf *bytes.Buffer, list []*ast.Field, sep string, iface bool) {
+func writeFieldList(sb *strings.Builder, list []*ast.Field, sep string, iface bool) {
 	for i, f := range list {
 		if i > 0 {
-			buf.WriteString(sep)
+			sb.WriteString(sep)
 		}
 
 		// field list names
-		writeIdentList(buf, f.Names)
+		writeIdentList(sb, f.Names)
 
 		// types of interface methods consist of signatures only
 		if sig, _ := f.Type.(*ast.FuncType); sig != nil && iface {
-			writeSigExpr(buf, sig)
+			writeSigExpr(sb, sig)
 			continue
 		}
 
 		// named fields are separated with a blank from the field type
 		if len(f.Names) > 0 {
-			buf.WriteByte(' ')
+			sb.WriteByte(' ')
 		}
 
-		WriteExpr(buf, f.Type)
+		WriteExpr(sb, f.Type)
 
 		// ignore tag
 	}
 }
 
-func writeIdentList(buf *bytes.Buffer, list []*ast.Ident) {
+func writeIdentList(sb *strings.Builder, list []*ast.Ident) {
 	for i, x := range list {
 		if i > 0 {
-			buf.WriteString(", ")
+			sb.WriteString(", ")
 		}
-		buf.WriteString(x.Name)
+		sb.WriteString(x.Name)
 	}
 }
 
-func writeExprList(buf *bytes.Buffer, list []ast.Expr) {
+func writeExprList(sb *strings.Builder, list []ast.Expr) {
 	for i, x := range list {
 		if i > 0 {
-			buf.WriteString(", ")
+			sb.WriteString(", ")
 		}
-		WriteExpr(buf, x)
+		WriteExpr(sb, x)
 	}
 }

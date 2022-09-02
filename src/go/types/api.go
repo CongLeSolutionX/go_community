@@ -26,11 +26,11 @@
 package types
 
 import (
-	"bytes"
 	"fmt"
 	"go/ast"
 	"go/constant"
 	"go/token"
+	"strings"
 )
 
 // An Error describes a type-checking error; it implements the error interface.
@@ -383,16 +383,16 @@ type Initializer struct {
 }
 
 func (init *Initializer) String() string {
-	var buf bytes.Buffer
+	var sb strings.Builder
 	for i, lhs := range init.Lhs {
 		if i > 0 {
-			buf.WriteString(", ")
+			sb.WriteString(", ")
 		}
-		buf.WriteString(lhs.Name())
+		sb.WriteString(lhs.Name())
 	}
-	buf.WriteString(" = ")
-	WriteExpr(&buf, init.Rhs)
-	return buf.String()
+	sb.WriteString(" = ")
+	WriteExpr(&sb, init.Rhs)
+	return sb.String()
 }
 
 // Check type-checks a package and returns the resulting package object and
