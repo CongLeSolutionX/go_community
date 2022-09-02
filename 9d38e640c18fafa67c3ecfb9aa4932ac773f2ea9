@@ -55,6 +55,41 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3cf532f8_636fa69e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-09-02T15:57:07Z",
+      "side": 1,
+      "message": "Yeah, looks good. Thanks.",
+      "parentUuid": "ecea9a06_2f57d48e",
+      "revId": "9d38e640c18fafa67c3ecfb9aa4932ac773f2ea9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c2e4555_5ebed749",
+        "filename": "src/cmd/compile/internal/ssa/compile.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-09-02T15:57:07Z",
+      "side": 1,
+      "message": "Would it be helpful to do a round of CSE before late lower? (I\u0027m not sure, just for thought.)",
+      "revId": "9d38e640c18fafa67c3ecfb9aa4932ac773f2ea9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0b8070ce_75db79bc",
@@ -114,6 +149,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5115aa83_5c1bc820",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64latelower.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-09-02T15:57:07Z",
+      "side": 1,
+      "message": "No newline at the end of the file. Please add a new line.",
+      "revId": "9d38e640c18fafa67c3ecfb9aa4932ac773f2ea9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48b18141_ed3cc3a3",
+        "filename": "src/cmd/compile/internal/ssa/later_lower.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-09-02T15:57:07Z",
+      "side": 1,
+      "message": "It seems okay to put this in lower.go, without a new file.",
+      "revId": "9d38e640c18fafa67c3ecfb9aa4932ac773f2ea9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "da6783e6_b5d477ae",
         "filename": "src/cmd/compile/internal/ssa/later_lower.go",
         "patchSetId": 2
@@ -165,6 +234,29 @@
       "writtenOn": "2022-09-01T17:33:57Z",
       "side": 1,
       "message": "These two lines are not needed here.",
+      "revId": "9d38e640c18fafa67c3ecfb9aa4932ac773f2ea9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc306712_2308ad19",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2006,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-09-02T15:57:07Z",
+      "side": 1,
+      "message": "Since this package is for all architectures,  I think it is clearer to add ARM64 to the name. Maybe isARM64Bitcon. Also isaddcon below.",
+      "range": {
+        "startLine": 2006,
+        "startChar": 5,
+        "endLine": 2006,
+        "endChar": 13
+      },
       "revId": "9d38e640c18fafa67c3ecfb9aa4932ac773f2ea9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
