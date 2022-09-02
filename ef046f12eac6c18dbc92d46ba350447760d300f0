@@ -3,6 +3,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ce3980f1_287cd464",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 6873,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2022-09-02T16:17:33Z",
+      "side": 1,
+      "message": "I\u0027d want to see a test where the client, on a single TCP connection, does a:\n\n* HEAD (normal)\n* HEAD (normal)\n* HEAD w/ body\n* HEAD (normal)\n\nAnd make sure it doesn\u0027t get out of sync.",
+      "revId": "ef046f12eac6c18dbc92d46ba350447760d300f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8dc175e_bcdfb0e2",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 6883,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2022-09-02T16:17:33Z",
+      "side": 1,
+      "message": "reply with X-Request-Body-Bytes-Read: len(b)",
+      "revId": "ef046f12eac6c18dbc92d46ba350447760d300f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "30fab7f8_9b753c92",
         "filename": "src/net/http/serve_test.go",
         "patchSetId": 2
