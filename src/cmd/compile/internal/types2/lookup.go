@@ -7,7 +7,6 @@
 package types2
 
 import (
-	"bytes"
 	"strings"
 )
 
@@ -420,13 +419,14 @@ func (check *Checker) interfacePtrError(T Type) string {
 // funcString returns a string of the form name + signature for f.
 // check may be nil.
 func (check *Checker) funcString(f *Func) string {
-	buf := bytes.NewBufferString(f.name)
+	var sb strings.Builder
+	sb.WriteString(f.name)
 	var qf Qualifier
 	if check != nil {
 		qf = check.qualifier
 	}
-	WriteSignature(buf, f.typ.(*Signature), qf)
-	return buf.String()
+	WriteSignature(&sb, f.typ.(*Signature), qf)
+	return sb.String()
 }
 
 // assertableTo reports whether a value of type V can be asserted to have type T.

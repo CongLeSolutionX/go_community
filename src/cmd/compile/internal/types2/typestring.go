@@ -7,7 +7,6 @@
 package types2
 
 import (
-	"bytes"
 	"fmt"
 	"sort"
 	"strconv"
@@ -49,30 +48,30 @@ func TypeString(typ Type, qf Qualifier) string {
 }
 
 func typeString(typ Type, qf Qualifier, debug bool) string {
-	var buf bytes.Buffer
-	w := newTypeWriter(&buf, qf)
+	var sb strings.Builder
+	w := newTypeWriter(&sb, qf)
 	w.debug = debug
 	w.typ(typ)
-	return buf.String()
+	return sb.String()
 }
 
-// WriteType writes the string representation of typ to buf.
+// WriteType writes the string representation of typ to sb.
 // The Qualifier controls the printing of
 // package-level objects, and may be nil.
-func WriteType(buf *bytes.Buffer, typ Type, qf Qualifier) {
-	newTypeWriter(buf, qf).typ(typ)
+func WriteType(sb *strings.Builder, typ Type, qf Qualifier) {
+	newTypeWriter(sb, qf).typ(typ)
 }
 
-// WriteSignature writes the representation of the signature sig to buf,
+// WriteSignature writes the representation of the signature sig to sb,
 // without a leading "func" keyword.
 // The Qualifier controls the printing of
 // package-level objects, and may be nil.
-func WriteSignature(buf *bytes.Buffer, sig *Signature, qf Qualifier) {
+func WriteSignature(buf *strings.Builder, sig *Signature, qf Qualifier) {
 	newTypeWriter(buf, qf).signature(sig)
 }
 
 type typeWriter struct {
-	buf     *bytes.Buffer
+	sb      *strings.Builder
 	seen    map[Type]bool
 	qf      Qualifier
 	ctxt    *Context       // if non-nil, we are type hashing
@@ -80,13 +79,13 @@ type typeWriter struct {
 	debug   bool           // if true, write debug annotations
 }
 
-func newTypeWriter(buf *bytes.Buffer, qf Qualifier) *typeWriter {
-	return &typeWriter{buf, make(map[Type]bool), qf, nil, nil, false}
+func newTypeWriter(sb *strings.Builder, qf Qualifier) *typeWriter {
+	return &typeWriter{sb, make(map[Type]bool), qf, nil, nil, false}
 }
 
-func newTypeHasher(buf *bytes.Buffer, ctxt *Context) *typeWriter {
+func newTypeHasher(sb *strings.Builder, ctxt *Context) *typeWriter {
 	assert(ctxt != nil)
-	return &typeWriter{buf, make(map[Type]bool), nil, ctxt, nil, false}
+	return &typeWriter{sb, make(map[Type]bool), nil, ctxt, nil, false}
 }
 
 func (w *typeWriter) byte(b byte) {
@@ -94,24 +93,24 @@ func (w *typeWriter) byte(b byte) {
 		if b == ' ' {
 			b = '#'
 		}
-		w.buf.WriteByte(b)
+		w.sb.WriteByte(b)
 		return
 	}
-	w.buf.WriteByte(b)
+	w.sb.WriteByte(b)
 	if b == ',' || b == ';' {
-		w.buf.WriteByte(' ')
+		w.sb.WriteByte(' ')
 	}
 }
 
 func (w *typeWriter) string(s string) {
-	w.buf.WriteString(s)
+	w.sb.WriteString(s)
 }
 
 func (w *typeWriter) error(msg string) {
 	if w.ctxt != nil {
 		panic(msg)
 	}
-	w.buf.WriteString("<" + msg + ">")
+	w.sb.WriteString("<" + msg + ">")
 }
 
 func (w *typeWriter) typ(typ Type) {
@@ -337,7 +336,7 @@ func (w *typeWriter) typeSet(s *_TypeSet) {
 		var termHashes []string
 		for _, term := range s.terms {
 			// terms are not canonically sorted, so we sort their hashes instead.
-			var buf bytes.Buffer
+			var buf strings.Builder
 			if term.tilde {
 				buf.WriteByte('~')
 			}
@@ -394,7 +393,7 @@ func (w *typeWriter) tParamList(list []*TypeParam) {
 
 func (w *typeWriter) typeName(obj *TypeName) {
 	if obj.pkg != nil {
-		writePackage(w.buf, obj.pkg, w.qf)
+		writePackage(w.sb, obj.pkg, w.qf)
 	}
 	w.string(obj.name)
 }

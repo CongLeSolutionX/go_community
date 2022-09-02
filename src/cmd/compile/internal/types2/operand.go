@@ -7,11 +7,11 @@
 package types2
 
 import (
-	"bytes"
 	"cmd/compile/internal/syntax"
 	"fmt"
 	"go/constant"
 	"go/token"
+	"strings"
 )
 
 // An operandMode specifies the (addressing) mode of an operand.
@@ -119,7 +119,7 @@ func operandString(x *operand, qf Qualifier) string {
 		}
 	}
 
-	var buf bytes.Buffer
+	var buf strings.Builder
 
 	var expr string
 	if x.expr != nil {
