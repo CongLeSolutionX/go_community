@@ -3,6 +3,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b3ce02f0_47863b32",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-09-02T13:24:53Z",
+      "side": 1,
+      "message": "(nit) s/Since when/Since/",
+      "range": {
+        "startLine": 9,
+        "startChar": 6,
+        "endLine": 9,
+        "endChar": 10
+      },
+      "revId": "5ca8005a7d289b1767641f39cbd803284ddc905d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6503716_e60bc618",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-09-02T13:24:53Z",
+      "side": 1,
+      "message": "(nit) s/bootstraping/bootstrapping/",
+      "range": {
+        "startLine": 9,
+        "startChar": 34,
+        "endLine": 9,
+        "endChar": 46
+      },
+      "revId": "5ca8005a7d289b1767641f39cbd803284ddc905d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ec482630_01c297ab",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
