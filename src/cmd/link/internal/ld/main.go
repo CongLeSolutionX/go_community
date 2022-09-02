@@ -38,6 +38,7 @@ import (
 	"cmd/internal/sys"
 	"cmd/link/internal/benchmark"
 	"flag"
+	"fmt"
 	"internal/buildcfg"
 	"log"
 	"os"
@@ -94,6 +95,7 @@ var (
 	FlagDebugTramp    = flag.Int("debugtramp", 0, "debug trampolines")
 	FlagDebugTextSize = flag.Int("debugtextsize", 0, "debug text section max size")
 	flagDebugNosplit  = flag.Bool("debugnosplit", false, "dump nosplit call graph")
+	flagDebugInlTree  = flag.Bool("debuginltree", false, "dump inltree count")
 	FlagStrictDups    = flag.Int("strictdups", 0, "sanity check duplicate symbol contents during object file reading (1=warn 2=err).")
 	FlagRound         = flag.Int("R", -1, "set address rounding `quantum`")
 	FlagTextAddr      = flag.Int64("T", -1, "set text segment `address`")
@@ -385,6 +387,10 @@ func Main(arch *sys.Arch, theArch Arch) {
 	bench.Start("archive")
 	ctxt.archive()
 	bench.Report(os.Stdout)
+
+	if *flagDebugInlTree {
+		fmt.Printf("InlTree symbols: %d\n", ctxt.numInlTreeSyms.Load())
+	}
 
 	errorexit()
 }

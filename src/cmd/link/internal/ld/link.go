@@ -37,6 +37,7 @@ import (
 	"cmd/link/internal/sym"
 	"debug/elf"
 	"fmt"
+	"sync/atomic"
 )
 
 type Shlib struct {
@@ -94,6 +95,8 @@ type Link struct {
 	// you can create a symbol, and just a generation function will be called
 	// after the symbol's been created in the output mmap.
 	generatorSyms map[loader.Sym]generatorFunc
+
+	numInlTreeSyms atomic.Uint64
 }
 
 type cgodata struct {

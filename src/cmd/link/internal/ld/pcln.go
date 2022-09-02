@@ -161,6 +161,7 @@ func genInlTreeSym(ctxt *Link, cu *sym.CompilationUnit, fi loader.FuncInfo, arch
 	ldr.SetSymAlign(its, 4) // it has 32-bit fields
 	ninl := fi.NumInlTree()
 	for i := 0; i < int(ninl); i++ {
+		ctxt.numInlTreeSyms.Add(1)
 		call := fi.InlTree(i)
 		nameOff, ok := nameOffsets[call.Func]
 		if !ok {
