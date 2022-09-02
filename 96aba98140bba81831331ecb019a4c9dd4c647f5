@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "99bda833_df0d68d9",
+        "filename": "src/cmd/covdata/subtractintersect.go",
+        "patchSetId": 56
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-09-02T19:43:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "259d06c3_5ed76ac2",
+      "revId": "96aba98140bba81831331ecb019a4c9dd4c647f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "63f63b0e_5b5a76f2",
@@ -48,6 +66,24 @@
       "writtenOn": "2022-08-31T23:02:01Z",
       "side": 1,
       "message": "// current input directory ?",
+      "revId": "96aba98140bba81831331ecb019a4c9dd4c647f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8defabca_af0b5365",
+        "filename": "src/cmd/covdata/subtractintersect.go",
+        "patchSetId": 56
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-09-02T19:43:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63f63b0e_5b5a76f2",
       "revId": "96aba98140bba81831331ecb019a4c9dd4c647f5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -77,6 +113,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f0370548_3242e43e",
+        "filename": "src/cmd/covdata/tool_test.go",
+        "patchSetId": 56
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-09-02T19:43:09Z",
+      "side": 1,
+      "message": "I had planned on leaving it in, the idea being that if you are working on a failing test and you need to see intermediate files, you can just edit the source. I use similar patterns elsewhere (compare to: https://go.googlesource.com/go/+/0cf996a9c12d9bc5b38787c2f3b0212c39d87dd5/src/net/http/transport_test.go#2153 ).",
+      "parentUuid": "402d0111_0b904048",
+      "range": {
+        "startLine": 110,
+        "startChar": 1,
+        "endLine": 115,
+        "endChar": 2
+      },
+      "revId": "96aba98140bba81831331ecb019a4c9dd4c647f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "53e91a51_f7cb80b1",
         "filename": "src/cmd/covdata/tool_test.go",
         "patchSetId": 56
@@ -88,6 +148,24 @@
       "writtenOn": "2022-08-31T23:02:01Z",
       "side": 1,
       "message": "what is a \"Perc\"?",
+      "revId": "96aba98140bba81831331ecb019a4c9dd4c647f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "50730e04_b2b66d2e",
+        "filename": "src/cmd/covdata/tool_test.go",
+        "patchSetId": 56
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-09-02T19:43:09Z",
+      "side": 1,
+      "message": "Perc -\u003e \"go tool covdata percent\". I\u0027ll fix it up.",
+      "parentUuid": "53e91a51_f7cb80b1",
       "revId": "96aba98140bba81831331ecb019a4c9dd4c647f5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -109,6 +187,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "109e5225_bd90392c",
+        "filename": "src/cmd/covdata/tool_test.go",
+        "patchSetId": 56
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-09-02T19:43:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "140f6a0a_40820959",
+      "revId": "96aba98140bba81831331ecb019a4c9dd4c647f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "990173fa_eed7d407",
@@ -122,6 +218,24 @@
       "writtenOn": "2022-08-31T23:02:01Z",
       "side": 1,
       "message": "Looking at the signatures and intended use (and unclear if this is only for internal use, or if we mean to export this for other external tools -- it\u0027s internal, so probably not) I wonder if it makes sense to have more \"End...\" bracketing calls, e.g. EndCounterDataFile and EndPackage.",
+      "revId": "96aba98140bba81831331ecb019a4c9dd4c647f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80dc5233_1b139675",
+        "filename": "src/cmd/internal/cov/readcovdata.go",
+        "patchSetId": 56
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-09-02T19:43:09Z",
+      "side": 1,
+      "message": "Yeah, that is probably a good idea. It is internal at the moment, but I suspect this may wind up being shipped off to x/tools and exported at some point. I\u0027ll add some more methods.",
+      "parentUuid": "990173fa_eed7d407",
       "revId": "96aba98140bba81831331ecb019a4c9dd4c647f5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -143,6 +257,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3b1eb9b_ca8e2c44",
+        "filename": "src/internal/coverage/cformat/format.go",
+        "patchSetId": 56
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-09-02T19:43:09Z",
+      "side": 1,
+      "message": "I\u0027ll fix this up.",
+      "parentUuid": "f5b42179_5175f138",
+      "revId": "96aba98140bba81831331ecb019a4c9dd4c647f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b90a2ec7_eea6c3b7",
@@ -156,6 +288,30 @@
       "writtenOn": "2022-08-31T23:02:01Z",
       "side": 1,
       "message": "I think this needs a comment, and \"um\" is one of the more, um, inscrutable field names I\u0027ve seen lately.",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 1
+      },
+      "revId": "96aba98140bba81831331ecb019a4c9dd4c647f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "394829b9_5d96d07e",
+        "filename": "src/internal/coverage/cformat/format.go",
+        "patchSetId": 56
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-09-02T19:43:09Z",
+      "side": 1,
+      "message": "Umm, err, ahh, ok I guess that makes sense. Renamed to \u0027unitTable\u0027. :-)",
+      "parentUuid": "b90a2ec7_eea6c3b7",
       "range": {
         "startLine": 48,
         "startChar": 0,
@@ -189,6 +345,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2672d139_739de92d",
+        "filename": "src/internal/coverage/cformat/format.go",
+        "patchSetId": 56
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-09-02T19:43:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db7dd9a3_0bba9c2a",
+      "range": {
+        "startLine": 67,
+        "startChar": 23,
+        "endLine": 67,
+        "endChar": 40
+      },
+      "revId": "96aba98140bba81831331ecb019a4c9dd4c647f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "44cf9fe5_8360832b",
@@ -202,6 +382,30 @@
       "writtenOn": "2022-08-31T23:02:01Z",
       "side": 1,
       "message": "this happens in at least two places, seems like a `SaturatingAdd(x, y uint32) uint32` would be an okay function to write.",
+      "range": {
+        "startLine": 96,
+        "startChar": 2,
+        "endLine": 101,
+        "endChar": 22
+      },
+      "revId": "96aba98140bba81831331ecb019a4c9dd4c647f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "937ab2d8_5769cd01",
+        "filename": "src/internal/coverage/cformat/format.go",
+        "patchSetId": 56
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-09-02T19:43:09Z",
+      "side": 1,
+      "message": "There is a SaturatingAdd method in internal/coverage/cmerge -- I\u0027ll see about extracting that out into a separate utility func and using it here.",
+      "parentUuid": "44cf9fe5_8360832b",
       "range": {
         "startLine": 96,
         "startChar": 2,
@@ -237,6 +441,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6c83f6d6_a5cc483e",
+        "filename": "src/internal/coverage/cformat/format.go",
+        "patchSetId": 56
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-09-02T19:43:09Z",
+      "side": 1,
+      "message": "Mmm. I suppose there is a good argument for that, but I think it is more important to be consistent with the existing \"go test -cover\" output. It would be weird to have the two output paths be different on this.",
+      "parentUuid": "51a0eab8_cd552d98",
+      "range": {
+        "startLine": 171,
+        "startChar": 41,
+        "endLine": 171,
+        "endChar": 56
+      },
+      "revId": "96aba98140bba81831331ecb019a4c9dd4c647f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d6832e23_2c9d24af",
         "filename": "src/internal/coverage/cmerge/merge.go",
         "patchSetId": 56
@@ -248,6 +476,24 @@
       "writtenOn": "2022-08-31T23:02:01Z",
       "side": 1,
       "message": "saturating",
+      "revId": "96aba98140bba81831331ecb019a4c9dd4c647f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "26da0b1f_0b4bc813",
+        "filename": "src/internal/coverage/cmerge/merge.go",
+        "patchSetId": 56
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-09-02T19:43:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6832e23_2c9d24af",
       "revId": "96aba98140bba81831331ecb019a4c9dd4c647f5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -265,6 +511,30 @@
       "writtenOn": "2022-08-31T23:02:01Z",
       "side": 1,
       "message": "Seems like we could relax this -- downgrading from atomic should be okay, shouldn\u0027t it?  But that is something we could do in the future.",
+      "range": {
+        "startLine": 65,
+        "startChar": 33,
+        "endLine": 66,
+        "endChar": 10
+      },
+      "revId": "96aba98140bba81831331ecb019a4c9dd4c647f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f42221f9_6b435029",
+        "filename": "src/internal/coverage/cmerge/merge.go",
+        "patchSetId": 56
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-09-02T19:43:09Z",
+      "side": 1,
+      "message": "Yes I suppose that\u0027s true. It\u0027s only set/atomic and set/count that are real clashes.",
+      "parentUuid": "7ad7de27_ee33375f",
       "range": {
         "startLine": 65,
         "startChar": 33,
@@ -298,6 +568,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f2a60f8_73d38b10",
+        "filename": "src/internal/coverage/pods/pods.go",
+        "patchSetId": 56
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-09-02T19:43:09Z",
+      "side": 1,
+      "message": "I\u0027ll reword as \"partitions the files into pods and returns descriptions of those pods\".",
+      "parentUuid": "b71ddb8b_850616b5",
+      "range": {
+        "startLine": 38,
+        "startChar": 52,
+        "endLine": 38,
+        "endChar": 60
+      },
+      "revId": "96aba98140bba81831331ecb019a4c9dd4c647f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c9c7848c_2b84264f",
@@ -311,6 +605,30 @@
       "writtenOn": "2022-08-31T23:02:01Z",
       "side": 1,
       "message": "This does something complicated, and it probably deserves a comment.",
+      "range": {
+        "startLine": 83,
+        "startChar": 5,
+        "endLine": 83,
+        "endChar": 20
+      },
+      "revId": "96aba98140bba81831331ecb019a4c9dd4c647f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0eac185c_a9dd86e2",
+        "filename": "src/internal/coverage/pods/pods.go",
+        "patchSetId": 56
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-09-02T19:43:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9c7848c_2b84264f",
       "range": {
         "startLine": 83,
         "startChar": 5,
@@ -338,6 +656,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1415484c_845182dc",
+        "filename": "src/internal/coverage/pods/pods.go",
+        "patchSetId": 56
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-09-02T19:43:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09fffdc5_e995da2a",
+      "revId": "96aba98140bba81831331ecb019a4c9dd4c647f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "59bc6075_a66495e8",
@@ -351,6 +687,30 @@
       "writtenOn": "2022-08-31T23:02:01Z",
       "side": 1,
       "message": "Don\u0027t you know this by line 100?",
+      "range": {
+        "startLine": 124,
+        "startChar": 1,
+        "endLine": 129,
+        "endChar": 2
+      },
+      "revId": "96aba98140bba81831331ecb019a4c9dd4c647f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7964d2c4_4a1541fd",
+        "filename": "src/internal/coverage/pods/pods.go",
+        "patchSetId": 56
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-09-02T19:43:09Z",
+      "side": 1,
+      "message": "True, but you want to allow for reporting of orphaned counter data files (if \"warn\" is on).",
+      "parentUuid": "59bc6075_a66495e8",
       "range": {
         "startLine": 124,
         "startChar": 1,
