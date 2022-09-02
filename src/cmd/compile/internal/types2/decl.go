@@ -5,10 +5,10 @@
 package types2
 
 import (
-	"bytes"
 	"cmd/compile/internal/syntax"
 	"fmt"
 	"go/constant"
+	"strings"
 )
 
 func (err *error_) recordAltDecl(obj Object) {
@@ -309,10 +309,10 @@ func (check *Checker) cycleError(cycle []Object) {
 	// may refer to imported types. See issue #50788.
 	// TODO(gri) Thus functionality is used elsewhere. Factor it out.
 	name := func(obj Object) string {
-		var buf bytes.Buffer
-		writePackage(&buf, obj.Pkg(), check.qualifier)
-		buf.WriteString(obj.Name())
-		return buf.String()
+		var sb strings.Builder
+		writePackage(&sb, obj.Pkg(), check.qualifier)
+		sb.WriteString(obj.Name())
+		return sb.String()
 	}
 
 	// TODO(gri) Should we start with the last (rather than the first) object in the cycle

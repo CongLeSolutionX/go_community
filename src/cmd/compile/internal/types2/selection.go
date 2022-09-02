@@ -7,8 +7,8 @@
 package types2
 
 import (
-	"bytes"
 	"fmt"
+	"strings"
 )
 
 // SelectionKind describes the kind of a selector expression x.f
@@ -127,16 +127,16 @@ func SelectionString(s *Selection, qf Qualifier) string {
 	default:
 		unreachable()
 	}
-	var buf bytes.Buffer
-	buf.WriteString(k)
-	buf.WriteByte('(')
-	WriteType(&buf, s.Recv(), qf)
-	fmt.Fprintf(&buf, ") %s", s.obj.Name())
+	var sb strings.Builder
+	sb.WriteString(k)
+	sb.WriteByte('(')
+	WriteType(&sb, s.Recv(), qf)
+	fmt.Fprintf(&sb, ") %s", s.obj.Name())
 	if T := s.Type(); s.kind == FieldVal {
-		buf.WriteByte(' ')
-		WriteType(&buf, T, qf)
+		sb.WriteByte(' ')
+		WriteType(&sb, T, qf)
 	} else {
-		WriteSignature(&buf, T.(*Signature), qf)
+		WriteSignature(&sb, T.(*Signature), qf)
 	}
-	return buf.String()
+	return sb.String()
 }
