@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ed4eab1_9ebec0bc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 58958
+      },
+      "writtenOn": "2022-09-02T17:32:01Z",
+      "side": 1,
+      "message": "I find the second problem today that is the program using Clang for MSVC can\u0027t be debugged in Go.\nI have no idea to fix it because it seems like Golang supports debug info of GCC only.\nso this commit only help us to link our golang program to those libraries of built-by-MSVC and closed source.\n\nWe can build at least now....hm....\n\nMingw/GCC has defferent C++ ABI from MSVC,so we can\u0027t use C++ library of MSVC in Mingw/GCC,\nbut there are so many commercial libraries that are closed source and built by MSVC.\nIt is regretful if Golang has no easy solution to be compatible with them.",
+      "revId": "86e0d8bd3161eea0a1f35689bdd85933af1806f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
