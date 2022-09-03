@@ -5,6 +5,7 @@
 package net
 
 import (
+	"internal/poll"
 	"runtime"
 	"syscall"
 )
@@ -58,6 +59,16 @@ func (c *rawConn) Write(f func(uintptr) bool) error {
 		err = &OpError{Op: "raw-write", Net: c.fd.net, Source: c.fd.laddr, Addr: c.fd.raddr, Err: err}
 	}
 	return err
+}
+
+// PollFD provides access to the poll.FD of the underlying connection.
+// This could be useful for some functions in internal/poll that require *poll.FD,
+// such as CopyFileRange, Splice, etc.
+func (c *rawConn) PollFD() *poll.FD {
+	if !c.ok() {
+		return nil
+	}
+	return &c.fd.pfd
 }
 
 func newRawConn(fd *netFD) (*rawConn, error) {
