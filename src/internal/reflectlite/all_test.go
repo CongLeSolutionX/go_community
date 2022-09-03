@@ -232,7 +232,7 @@ func testReflectType(t *testing.T, i int, typ Type, want string) {
 
 func TestTypes(t *testing.T) {
 	for i, tt := range typeTests {
-		testReflectType(t, i, Field(ValueOf(tt.i), 0).Type(), tt.s)
+		testReflectType(t, i, ValueOf(tt.i).Field(0).Type(), tt.s)
 	}
 }
 
@@ -353,7 +353,7 @@ func TestCanSetField(t *testing.T) {
 					if f.Kind() == Ptr {
 						f = f.Elem()
 					}
-					f = Field(f, i)
+					f = f.Field(i)
 				}
 				if got := f.CanSet(); got != tc.canSet {
 					t.Errorf("CanSet() = %v, want %v", got, tc.canSet)
@@ -425,7 +425,7 @@ func TestInterfaceValue(t *testing.T) {
 	}
 	inter.E = 123.456
 	v1 := ValueOf(&inter)
-	v2 := Field(v1.Elem(), 0)
+	v2 := v1.Elem().Field(0)
 	// assert(t, TypeString(v2.Type()), "interface {}")
 	v3 := v2.Elem()
 	assert(t, TypeString(v3.Type()), "float64")
@@ -607,14 +607,14 @@ func TestTypeOf(t *testing.T) {
 }
 
 func Nil(a any, t *testing.T) {
-	n := Field(ValueOf(a), 0)
+	n := ValueOf(a).Field(0)
 	if !n.IsNil() {
 		t.Errorf("%v should be nil", a)
 	}
 }
 
 func NotNil(a any, t *testing.T) {
-	n := Field(ValueOf(a), 0)
+	n := ValueOf(a).Field(0)
 	if n.IsNil() {
 		t.Errorf("value of type %v should not be nil", TypeString(ValueOf(a).Type()))
 	}
@@ -680,16 +680,6 @@ func TestIsNil(t *testing.T) {
 	Nil(fi, t)
 	fi.x = TestIsNil
 	NotNil(fi, t)
-}
-
-// Indirect returns the value that v points to.
-// If v is a nil pointer, Indirect returns a zero Value.
-// If v is not a pointer, Indirect returns v.
-func Indirect(v Value) Value {
-	if v.Kind() != Ptr {
-		return v
-	}
-	return v.Elem()
 }
 
 func TestNilPtrValueSub(t *testing.T) {
@@ -857,59 +847,59 @@ func TestSetPanic(t *testing.T) {
 
 	// not addressable
 	v := ValueOf(T{})
-	bad(func() { clear(Field(v, 0)) })                     // .X
-	bad(func() { clear(Field(v, 1)) })                     // .t1
-	bad(func() { clear(Field(Field(v, 1), 0)) })           // .t1.Y
-	bad(func() { clear(Field(Field(v, 1), 1)) })           // .t1.t0
-	bad(func() { clear(Field(Field(Field(v, 1), 1), 0)) }) // .t1.t0.W
-	bad(func() { clear(Field(v, 2)) })                     // .T2
-	bad(func() { clear(Field(Field(v, 2), 0)) })           // .T2.Z
-	bad(func() { clear(Field(Field(v, 2), 1)) })           // .T2.namedT0
-	bad(func() { clear(Field(Field(Field(v, 2), 1), 0)) }) // .T2.namedT0.W
-	bad(func() { clear(Field(v, 3)) })                     // .NamedT1
-	bad(func() { clear(Field(Field(v, 3), 0)) })           // .NamedT1.Y
-	bad(func() { clear(Field(Field(v, 3), 1)) })           // .NamedT1.t0
-	bad(func() { clear(Field(Field(Field(v, 3), 1), 0)) }) // .NamedT1.t0.W
-	bad(func() { clear(Field(v, 4)) })                     // .NamedT2
-	bad(func() { clear(Field(Field(v, 4), 0)) })           // .NamedT2.Z
-	bad(func() { clear(Field(Field(v, 4), 1)) })           // .NamedT2.namedT0
-	bad(func() { clear(Field(Field(Field(v, 4), 1), 0)) }) // .NamedT2.namedT0.W
-	bad(func() { clear(Field(v, 5)) })                     // .namedT1
-	bad(func() { clear(Field(Field(v, 5), 0)) })           // .namedT1.Y
-	bad(func() { clear(Field(Field(v, 5), 1)) })           // .namedT1.t0
-	bad(func() { clear(Field(Field(Field(v, 5), 1), 0)) }) // .namedT1.t0.W
-	bad(func() { clear(Field(v, 6)) })                     // .namedT2
-	bad(func() { clear(Field(Field(v, 6), 0)) })           // .namedT2.Z
-	bad(func() { clear(Field(Field(v, 6), 1)) })           // .namedT2.namedT0
-	bad(func() { clear(Field(Field(Field(v, 6), 1), 0)) }) // .namedT2.namedT0.W
+	bad(func() { clear(v.Field(0)) })                   // .X
+	bad(func() { clear(v.Field(1)) })                   // .t1
+	bad(func() { clear(v.Field(1).Field(0)) })          // .t1.Y
+	bad(func() { clear(v.Field(1).Field(1)) })          // .t1.t0
+	bad(func() { clear(v.Field(1).Field(1).Field(0)) }) // .t1.t0.W
+	bad(func() { clear(v.Field(2)) })                   // .T2
+	bad(func() { clear(v.Field(2).Field(0)) })          // .T2.Z
+	bad(func() { clear(v.Field(2).Field(1)) })          // .T2.namedT0
+	bad(func() { clear(v.Field(2).Field(1).Field(0)) }) // .T2.namedT0.W
+	bad(func() { clear(v.Field(3)) })                   // .NamedT1
+	bad(func() { clear(v.Field(3).Field(0)) })          // .NamedT1.Y
+	bad(func() { clear(v.Field(3).Field(1)) })          // .NamedT1.t0
+	bad(func() { clear(v.Field(3).Field(1).Field(0)) }) // .NamedT1.t0.W
+	bad(func() { clear(v.Field(4)) })                   // .NamedT2
+	bad(func() { clear(v.Field(4).Field(0)) })          // .NamedT2.Z
+	bad(func() { clear(v.Field(4).Field(1)) })          // .NamedT2.namedT0
+	bad(func() { clear(v.Field(4).Field(1).Field(0)) }) // .NamedT2.namedT0.W
+	bad(func() { clear(v.Field(5)) })                   // .namedT1
+	bad(func() { clear(v.Field(5).Field(0)) })          // .namedT1.Y
+	bad(func() { clear(v.Field(5).Field(1)) })          // .namedT1.t0
+	bad(func() { clear(v.Field(5).Field(1).Field(0)) }) // .namedT1.t0.W
+	bad(func() { clear(v.Field(6)) })                   // .namedT2
+	bad(func() { clear(v.Field(6).Field(0)) })          // .namedT2.Z
+	bad(func() { clear(v.Field(6).Field(1)) })          // .namedT2.namedT0
+	bad(func() { clear(v.Field(6).Field(1).Field(0)) }) // .namedT2.namedT0.W
 
 	// addressable
 	v = ValueOf(&T{}).Elem()
-	ok(func() { clear(Field(v, 0)) })                      // .X
-	bad(func() { clear(Field(v, 1)) })                     // .t1
-	ok(func() { clear(Field(Field(v, 1), 0)) })            // .t1.Y
-	bad(func() { clear(Field(Field(v, 1), 1)) })           // .t1.t0
-	ok(func() { clear(Field(Field(Field(v, 1), 1), 0)) })  // .t1.t0.W
-	ok(func() { clear(Field(v, 2)) })                      // .T2
-	ok(func() { clear(Field(Field(v, 2), 0)) })            // .T2.Z
-	bad(func() { clear(Field(Field(v, 2), 1)) })           // .T2.namedT0
-	bad(func() { clear(Field(Field(Field(v, 2), 1), 0)) }) // .T2.namedT0.W
-	ok(func() { clear(Field(v, 3)) })                      // .NamedT1
-	ok(func() { clear(Field(Field(v, 3), 0)) })            // .NamedT1.Y
-	bad(func() { clear(Field(Field(v, 3), 1)) })           // .NamedT1.t0
-	ok(func() { clear(Field(Field(Field(v, 3), 1), 0)) })  // .NamedT1.t0.W
-	ok(func() { clear(Field(v, 4)) })                      // .NamedT2
-	ok(func() { clear(Field(Field(v, 4), 0)) })            // .NamedT2.Z
-	bad(func() { clear(Field(Field(v, 4), 1)) })           // .NamedT2.namedT0
-	bad(func() { clear(Field(Field(Field(v, 4), 1), 0)) }) // .NamedT2.namedT0.W
-	bad(func() { clear(Field(v, 5)) })                     // .namedT1
-	bad(func() { clear(Field(Field(v, 5), 0)) })           // .namedT1.Y
-	bad(func() { clear(Field(Field(v, 5), 1)) })           // .namedT1.t0
-	bad(func() { clear(Field(Field(Field(v, 5), 1), 0)) }) // .namedT1.t0.W
-	bad(func() { clear(Field(v, 6)) })                     // .namedT2
-	bad(func() { clear(Field(Field(v, 6), 0)) })           // .namedT2.Z
-	bad(func() { clear(Field(Field(v, 6), 1)) })           // .namedT2.namedT0
-	bad(func() { clear(Field(Field(Field(v, 6), 1), 0)) }) // .namedT2.namedT0.W
+	ok(func() { clear(v.Field(0)) })                    // .X
+	bad(func() { clear(v.Field(1)) })                   // .t1
+	ok(func() { clear(v.Field(1).Field(0)) })           // .t1.Y
+	bad(func() { clear(v.Field(1).Field(1)) })          // .t1.t0
+	ok(func() { clear(v.Field(1).Field(1).Field(0)) })  // .t1.t0.W
+	ok(func() { clear(v.Field(2)) })                    // .T2
+	ok(func() { clear(v.Field(2).Field(0)) })           // .T2.Z
+	bad(func() { clear(v.Field(2).Field(1)) })          // .T2.namedT0
+	bad(func() { clear(v.Field(2).Field(1).Field(0)) }) // .T2.namedT0.W
+	ok(func() { clear(v.Field(3)) })                    // .NamedT1
+	ok(func() { clear(v.Field(3).Field(0)) })           // .NamedT1.Y
+	bad(func() { clear(v.Field(3).Field(1)) })          // .NamedT1.t0
+	ok(func() { clear(v.Field(3).Field(1).Field(0)) })  // .NamedT1.t0.W
+	ok(func() { clear(v.Field(4)) })                    // .NamedT2
+	ok(func() { clear(v.Field(4).Field(0)) })           // .NamedT2.Z
+	bad(func() { clear(v.Field(4).Field(1)) })          // .NamedT2.namedT0
+	bad(func() { clear(v.Field(4).Field(1).Field(0)) }) // .NamedT2.namedT0.W
+	bad(func() { clear(v.Field(5)) })                   // .namedT1
+	bad(func() { clear(v.Field(5).Field(0)) })          // .namedT1.Y
+	bad(func() { clear(v.Field(5).Field(1)) })          // .namedT1.t0
+	bad(func() { clear(v.Field(5).Field(1).Field(0)) }) // .namedT1.t0.W
+	bad(func() { clear(v.Field(6)) })                   // .namedT2
+	bad(func() { clear(v.Field(6).Field(0)) })          // .namedT2.Z
+	bad(func() { clear(v.Field(6).Field(1)) })          // .namedT2.namedT0
+	bad(func() { clear(v.Field(6).Field(1).Field(0)) }) // .namedT2.namedT0.W
 }
 
 func shouldPanic(f func()) {
@@ -941,7 +931,7 @@ func TestInvalid(t *testing.T) {
 	// Used to have inconsistency between IsValid() and Kind() != Invalid.
 	type T struct{ v any }
 
-	v := Field(ValueOf(T{}), 0)
+	v := ValueOf(T{}).Field(0)
 	if v.IsValid() != true || v.Kind() != Interface {
 		t.Errorf("field: IsValid=%v, Kind=%v, want true, Interface", v.IsValid(), v.Kind())
 	}
