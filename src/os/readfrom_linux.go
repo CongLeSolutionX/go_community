@@ -6,26 +6,98 @@ package os
 
 import (
 	"internal/poll"
+	reflect "internal/reflectlite"
 	"io"
+	"syscall"
+	"unsafe"
 )
 
 var pollCopyFileRange = poll.CopyFileRange
 
 func (f *File) readFrom(r io.Reader) (written int64, handled bool, err error) {
+	written, handled, err = f.copyFileRange(r)
+	if handled {
+		return
+	}
+
+	var (
+		remain int64
+		lr     *io.LimitedReader
+	)
+	if lr, r, remain = f.tryLimitedReader(r); remain <= 0 {
+		return 0, true, nil
+	}
+
+	sc, ok := r.(syscall.Conn)
+	if !ok {
+		return
+	}
+	rc, err := sc.SyscallConn()
+	if err != nil {
+		return
+	}
+
+	var rfd int
+	if err = rc.Control(func(fd uintptr) {
+		rfd = int(fd)
+	}); err != nil {
+		return
+	}
+
+	// TODO(panjf2000): avoid the system calls and take a preconceived guess that r is a streaming descriptor?
+	// Even if it's not, we can still tell by checking if the returned error from poll.Splice is EINVAL.
+	isStream := func(fd int) bool {
+		sa, err := syscall.Getsockname(fd)
+		if err != nil {
+			return false
+		}
+		switch sa.(type) {
+		case *syscall.SockaddrUnix, *syscall.SockaddrInet4, *syscall.SockaddrInet6:
+			sotype, err := syscall.GetsockoptInt(fd, syscall.SOL_SOCKET, syscall.SO_TYPE)
+			if err != nil {
+				return false
+			}
+			return sotype == syscall.SOCK_STREAM
+		default:
+			return false
+		}
+	}(rfd)
+	if !isStream {
+		return
+	}
+
+	// Pull the poll.FD out of the net.Conn(net.TCPConn/net.UnixConn) via reflection.
+	v := reflect.Indirect(reflect.ValueOf(r))
+	vfd := v.Field(0).Field(0)
+	if vfd.IsNil() {
+		return
+	}
+	vpfd := reflect.Indirect(vfd).Field(0)
+	pfd := (*poll.FD)(unsafe.Pointer(vpfd.UnsafeAddr()))
+
+	var syscallName string
+	written, handled, syscallName, err = poll.Splice(&f.pfd, pfd, remain)
+
+	if lr != nil {
+		lr.N = remain - written
+	}
+
+	return written, handled, NewSyscallError(syscallName, err)
+}
+
+func (f *File) copyFileRange(r io.Reader) (written int64, handled bool, err error) {
 	// copy_file_range(2) does not support destinations opened with
 	// O_APPEND, so don't even try.
 	if f.appendMode {
 		return 0, false, nil
 	}
 
-	remain := int64(1 << 62)
-
-	lr, ok := r.(*io.LimitedReader)
-	if ok {
-		remain, r = lr.N, lr.R
-		if remain <= 0 {
-			return 0, true, nil
-		}
+	var (
+		remain int64
+		lr     *io.LimitedReader
+	)
+	if lr, r, remain = f.tryLimitedReader(r); remain <= 0 {
+		return 0, true, nil
 	}
 
 	src, ok := r.(*File)
@@ -43,4 +115,16 @@ func (f *File) readFrom(r io.Reader) (written int64, handled bool, err error) {
 		lr.N -= written
 	}
 	return written, handled, NewSyscallError("copy_file_range", err)
+}
+
+func (f *File) tryLimitedReader(r io.Reader) (*io.LimitedReader, io.Reader, int64) {
+	remain := int64(1 << 62)
+
+	lr, ok := r.(*io.LimitedReader)
+	if !ok {
+		return nil, r, remain
+	}
+
+	remain = lr.N
+	return lr, lr.R, remain
 }
