@@ -16,6 +16,23 @@
       "message": "The original link works fine for me.\n",
       "revId": "7278242df46c287d7970bc1745cbd9d59ff1294e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4dc3d9c4_21c25f7d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-09-03T21:26:35Z",
+      "side": 1,
+      "message": "I take that back, it does look somewhat defaced.\n",
+      "revId": "7278242df46c287d7970bc1745cbd9d59ff1294e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
