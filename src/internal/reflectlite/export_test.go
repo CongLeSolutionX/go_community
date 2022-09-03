@@ -8,38 +8,6 @@ import (
 	"unsafe"
 )
 
-// Field returns the i'th field of the struct v.
-// It panics if v's Kind is not Struct or i is out of range.
-func Field(v Value, i int) Value {
-	if v.kind() != Struct {
-		panic(&ValueError{"reflect.Value.Field", v.kind()})
-	}
-	tt := (*structType)(unsafe.Pointer(v.typ))
-	if uint(i) >= uint(len(tt.fields)) {
-		panic("reflect: Field index out of range")
-	}
-	field := &tt.fields[i]
-	typ := field.typ
-
-	// Inherit permission bits from v, but clear flagEmbedRO.
-	fl := v.flag&(flagStickyRO|flagIndir|flagAddr) | flag(typ.Kind())
-	// Using an unexported field forces flagRO.
-	if !field.name.isExported() {
-		if field.embedded() {
-			fl |= flagEmbedRO
-		} else {
-			fl |= flagStickyRO
-		}
-	}
-	// Either flagIndir is set and v.ptr points at struct,
-	// or flagIndir is not set and v.ptr is the actual struct data.
-	// In the former case, we want v.ptr + offset.
-	// In the latter case, we must have field.offset = 0,
-	// so v.ptr + field.offset is still the correct address.
-	ptr := add(v.ptr, field.offset, "same as non-reflect &v.field")
-	return Value{typ, ptr, fl}
-}
-
 func TField(typ Type, i int) Type {
 	t := typ.(*rtype)
 	if t.Kind() != Struct {
