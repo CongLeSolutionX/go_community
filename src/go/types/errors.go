@@ -62,7 +62,7 @@ func (err *error_) msg(fset *token.FileSet, qf Qualifier) string {
 	if err.empty() {
 		return "no error"
 	}
-	var buf bytes.Buffer
+	var buf strings.Builder
 	for i := range err.desc {
 		p := &err.desc[i]
 		if i > 0 {
@@ -164,7 +164,7 @@ func sprintf(fset *token.FileSet, qf Qualifier, debug bool, format string, args 
 		case Type:
 			arg = typeString(a, qf, debug)
 		case []Type:
-			var buf bytes.Buffer
+			var buf strings.Builder
 			buf.WriteByte('[')
 			for i, x := range a {
 				if i > 0 {
@@ -175,7 +175,7 @@ func sprintf(fset *token.FileSet, qf Qualifier, debug bool, format string, args 
 			buf.WriteByte(']')
 			arg = buf.String()
 		case []*TypeParam:
-			var buf bytes.Buffer
+			var buf strings.Builder
 			buf.WriteByte('[')
 			for i, x := range a {
 				if i > 0 {
