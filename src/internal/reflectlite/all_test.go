@@ -682,16 +682,6 @@ func TestIsNil(t *testing.T) {
 	NotNil(fi, t)
 }
 
-// Indirect returns the value that v points to.
-// If v is a nil pointer, Indirect returns a zero Value.
-// If v is not a pointer, Indirect returns v.
-func Indirect(v Value) Value {
-	if v.Kind() != Ptr {
-		return v
-	}
-	return v.Elem()
-}
-
 func TestNilPtrValueSub(t *testing.T) {
 	var pi *int
 	if pv := ValueOf(pi); pv.Elem().IsValid() {
