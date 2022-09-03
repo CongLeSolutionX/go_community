@@ -23,8 +23,14 @@ func TestSplice(t *testing.T) {
 		t.Skip("skipping unix-to-tcp tests")
 	}
 	t.Run("unix-to-tcp", func(t *testing.T) { testSplice(t, "unix", "tcp") })
+	t.Run("tcp-to-file", func(t *testing.T) { testSpliceFile(t, "tcp", "file") })
+	t.Run("unix-to-file", func(t *testing.T) { testSpliceFile(t, "unix", "file") })
 	t.Run("no-unixpacket", testSpliceNoUnixpacket)
 	t.Run("no-unixgram", testSpliceNoUnixgram)
+}
+
+func testSpliceFile(t *testing.T, upNet, downNet string) {
+	t.Run("copySocketToFile", spliceTestCase{upNet: upNet, downNet: downNet, chunkSize: 512, totalSize: 100 * 512}.testFile)
 }
 
 func testSplice(t *testing.T, upNet, downNet string) {
@@ -93,6 +99,31 @@ func (tc spliceTestCase) test(t *testing.T) {
 		if n := r.(*io.LimitedReader).N; n != int64(wantN) {
 			t.Errorf("r.N = %d, want %d", n, wantN)
 		}
+	}
+}
+
+func (tc spliceTestCase) testFile(t *testing.T) {
+	f, err := os.CreateTemp(t.TempDir(), "linux-file-readfrom-socket")
+	if err != nil {
+		t.Fatalf("failed to create tmp directory: %v", err)
+	}
+	defer f.Close()
+
+	client, server := spliceTestSocketPair(t, tc.upNet)
+	defer server.Close()
+
+	cleanup, err := startSpliceClient(client, "w", tc.chunkSize, tc.totalSize)
+	if err != nil {
+		t.Fatal("failed to start splice client:", err)
+	}
+	defer cleanup()
+
+	sent, err := io.Copy(f, server)
+	if err != nil {
+		t.Fatalf("failed to ReadFrom with error: %v", err)
+	}
+	if sent != int64(tc.totalSize) {
+		t.Fatalf("bytes sent mismatch\n\texpect: %d\n\tgot: %d", tc.totalSize, sent)
 	}
 }
 
@@ -413,5 +444,46 @@ func init() {
 		if n, err = fn(buf); err != nil {
 			return
 		}
+	}
+}
+
+func BenchmarkFileReadFromTcp(b *testing.B) {
+	for i := 0; i <= 10; i++ {
+		size := 1 << (i + 10)
+		bench := fileReadFromTcpBench{chunkSize: size}
+		b.Run(strconv.Itoa(size), bench.benchFileReadFromTcp)
+	}
+}
+
+type fileReadFromTcpBench struct {
+	chunkSize int
+}
+
+func (bench fileReadFromTcpBench) benchFileReadFromTcp(b *testing.B) {
+	f, err := os.CreateTemp(b.TempDir(), "linux-file-readfrom-tcp")
+	if err != nil {
+		b.Fatalf("failed to create tmp directory: %v", err)
+	}
+	defer f.Close()
+
+	client, server := spliceTestSocketPair(b, "tcp")
+	defer server.Close()
+
+	cleanup, err := startSpliceClient(client, "w", bench.chunkSize, bench.chunkSize*b.N)
+	if err != nil {
+		b.Fatal(err)
+	}
+	defer cleanup()
+
+	b.ReportAllocs()
+	b.SetBytes(int64(bench.chunkSize))
+	b.ResetTimer()
+
+	got, err := io.Copy(f, server)
+	if err != nil {
+		b.Fatalf("failed to ReadFrom with error: %v", err)
+	}
+	if want := int64(b.N * bench.chunkSize); got != want {
+		b.Errorf("bytes sent mismatch\n\texpect: %d\n\tgot: %d", want, got)
 	}
 }
