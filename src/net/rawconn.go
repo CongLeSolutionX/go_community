@@ -5,6 +5,7 @@
 package net
 
 import (
+	"internal/poll"
 	"runtime"
 	"syscall"
 )
@@ -58,6 +59,22 @@ func (c *rawConn) Write(f func(uintptr) bool) error {
 		err = &OpError{Op: "raw-write", Net: c.fd.net, Source: c.fd.laddr, Addr: c.fd.raddr, Err: err}
 	}
 	return err
+}
+
+// PollFD provides access to the poll.FD of the underlying connection.
+// It is called in some scenarios where the callers outside the net package such as
+// os package need to get the poll.FD of the underlying connection and pass it to some
+// internal functions for instance internal/poll.Splice that ask for *poll.FD as parameter.
+//
+// Note that this is intended for use by standard libraries only and any other external library
+// won't be able to use a type assertion to get the interface of PollFD and then call this method
+// because it will result in a compile error for trying to import the internal package of Go and
+// access the internal/poll.FD.
+func (c *rawConn) PollFD() *poll.FD {
+	if !c.ok() {
+		return nil
+	}
+	return &c.fd.pfd
 }
 
 func newRawConn(fd *netFD) (*rawConn, error) {
