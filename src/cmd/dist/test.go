@@ -6,8 +6,10 @@ package main
 
 import (
 	"bytes"
+	"cmd/internal/sys"
 	"flag"
 	"fmt"
+	"io/fs"
 	"io/ioutil"
 	"log"
 	"os"
@@ -1469,7 +1471,7 @@ func (t *tester) raceDetectorSupported() bool {
 	if !t.cgoEnabled {
 		return false
 	}
-	if !raceDetectorSupported(goos, goarch) {
+	if !sys.RaceDetectorSupported(goos, goarch) {
 		return false
 	}
 	// The race detector doesn't work on Alpine Linux:
@@ -1628,8 +1630,7 @@ func (t *tester) makeGOROOTUnwritable() (undo func()) {
 	}
 	gocacheSubdir, _ := filepath.Rel(dir, gocache)
 
-	// Note: Can't use WalkDir here, because this has to compile with Go 1.4.
-	filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
+	filepath.WalkDir(dir, func(path string, de fs.DirEntry, err error) error {
 		if suffix := strings.TrimPrefix(path, dir+string(filepath.Separator)); suffix != "" {
 			if suffix == gocacheSubdir {
 				// Leave GOCACHE writable: we may need to write test binaries into it.
@@ -1643,7 +1644,7 @@ func (t *tester) makeGOROOTUnwritable() (undo func()) {
 			}
 		}
 		if err == nil {
-			mode := info.Mode()
+			mode := de.Type()
 			if mode&0222 != 0 && (mode.IsDir() || mode.IsRegular()) {
 				dirs = append(dirs, pathMode{path, mode})
 			}
@@ -1724,27 +1725,6 @@ func (t *tester) runPrecompiledStdTest(timeout time.Duration) error {
 	})
 	defer timer.Stop()
 	return cmd.Wait()
-}
-
-// raceDetectorSupported is a copy of the function
-// cmd/internal/sys.RaceDetectorSupported, which can't be used here
-// because cmd/dist has to be buildable by Go 1.4.
-// The race detector only supports 48-bit VMA on arm64. But we don't have
-// a good solution to check VMA size(See https://golang.org/issue/29948)
-// raceDetectorSupported will always return true for arm64. But race
-// detector tests may abort on non 48-bit VMA configuration, the tests
-// will be marked as "skipped" in this case.
-func raceDetectorSupported(goos, goarch string) bool {
-	switch goos {
-	case "linux":
-		return goarch == "amd64" || goarch == "ppc64le" || goarch == "arm64" || goarch == "s390x"
-	case "darwin":
-		return goarch == "amd64" || goarch == "arm64"
-	case "freebsd", "netbsd", "openbsd", "windows":
-		return goarch == "amd64"
-	default:
-		return false
-	}
 }
 
 // isUnsupportedVMASize reports whether the failure is caused by an unsupported

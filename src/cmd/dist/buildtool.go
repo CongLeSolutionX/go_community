@@ -2,11 +2,11 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Build toolchain using Go 1.4.
+// Build toolchain using Go 1.17+.
 //
 // The general strategy is to copy the source files we need into
 // a new GOPATH workspace, adjust import paths appropriately,
-// invoke the Go 1.4 go command to build those sources,
+// invoke the Go 1.17 go command to build those sources,
 // and then copy the binaries back.
 
 package main
@@ -20,13 +20,13 @@ import (
 )
 
 // bootstrapDirs is a list of directories holding code that must be
-// compiled with a Go 1.4 toolchain to produce the bootstrapTargets.
+// compiled with a 17 toolchain to produce the bootstrapTargets.
 // All directories in this list are relative to and must be below $GOROOT/src.
 //
 // The list has two kinds of entries: names beginning with cmd/ with
 // no other slashes, which are commands, and other paths, which are packages
 // supporting the commands. Packages in the standard library can be listed
-// if a newer copy needs to be substituted for the Go 1.4 copy when used
+// if a newer copy needs to be substituted for the Go 1.17 copy when used
 // by the command packages. Paths ending with /... automatically
 // include all packages within subdirectories as well.
 // These will be imported during bootstrap as bootstrap/name, like bootstrap/math/big.
@@ -107,7 +107,6 @@ func bootstrapBuildTools() {
 	goroot_bootstrap := os.Getenv("GOROOT_BOOTSTRAP")
 	if goroot_bootstrap == "" {
 		home := os.Getenv("HOME")
-		goroot_bootstrap = pathf("%s/go1.4", home)
 		for _, d := range tryDirs {
 			if p := pathf("%s/%s", home, d); isdir(p) {
 				goroot_bootstrap = p
@@ -176,12 +175,12 @@ func bootstrapBuildTools() {
 		})
 	}
 
-	// Set up environment for invoking Go 1.4 go command.
-	// GOROOT points at Go 1.4 GOROOT,
+	// Set up environment for invoking Go 1.17 go command.
+	// GOROOT points at Go 1.17 GOROOT,
 	// GOPATH points at our bootstrap workspace,
 	// GOBIN is empty, so that binaries are installed to GOPATH/bin,
 	// and GOOS, GOHOSTOS, GOARCH, and GOHOSTOS are empty,
-	// so that Go 1.4 builds whatever kind of binary it knows how to build.
+	// so that Go 1.17 builds whatever kind of binary it knows how to build.
 	// Restore GOROOT, GOPATH, and GOBIN when done.
 	// Don't bother with GOOS, GOHOSTOS, GOARCH, and GOHOSTARCH,
 	// because setup will take care of those when bootstrapBuildTools returns.
@@ -200,20 +199,13 @@ func bootstrapBuildTools() {
 	os.Setenv("GOARCH", "")
 	os.Setenv("GOHOSTARCH", "")
 
-	// Run Go 1.4 to build binaries. Use -gcflags=-l to disable inlining to
-	// workaround bugs in Go 1.4's compiler. See discussion thread:
-	// https://groups.google.com/d/msg/golang-dev/Ss7mCKsvk8w/Gsq7VYI0AwAJ
 	// Use the math_big_pure_go build tag to disable the assembly in math/big
 	// which may contain unsupported instructions.
 	// Use the purego build tag to disable other assembly code,
 	// such as in cmd/internal/notsha256.
-	// Note that if we are using Go 1.10 or later as bootstrap, the -gcflags=-l
-	// only applies to the final cmd/go binary, but that's OK: if this is Go 1.10
-	// or later we don't need to disable inlining to work around bugs in the Go 1.4 compiler.
 	cmd := []string{
 		pathf("%s/bin/go", goroot_bootstrap),
 		"install",
-		"-gcflags=-l",
 		"-tags=math_big_pure_go compiler_bootstrap purego",
 	}
 	if vflag > 0 {
