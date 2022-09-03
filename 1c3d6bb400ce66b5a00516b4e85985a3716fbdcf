@@ -177,6 +177,24 @@
       "parentUuid": "44a5b8e5_21d35179",
       "revId": "1c3d6bb400ce66b5a00516b4e85985a3716fbdcf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d409099_205ada61",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-09-03T15:11:45Z",
+      "side": 1,
+      "message": "I\u0027m not sure that is quite safe. RO means the value is read-only by the reflect package. But accesses outside the reflect package may still modify the object that is pointed to.",
+      "parentUuid": "4e49b9f3_a985c7ee",
+      "revId": "1c3d6bb400ce66b5a00516b4e85985a3716fbdcf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ],
   "submitRequirementResults": [
