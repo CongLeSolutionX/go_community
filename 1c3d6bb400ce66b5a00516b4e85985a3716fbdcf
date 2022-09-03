@@ -159,6 +159,24 @@
       "parentUuid": "c79e15a5_554c4709",
       "revId": "1c3d6bb400ce66b5a00516b4e85985a3716fbdcf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e49b9f3_a985c7ee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55613
+      },
+      "writtenOn": "2022-09-03T00:31:29Z",
+      "side": 1,
+      "message": "Thank you @Xie.",
+      "parentUuid": "44a5b8e5_21d35179",
+      "revId": "1c3d6bb400ce66b5a00516b4e85985a3716fbdcf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ],
   "submitRequirementResults": [
