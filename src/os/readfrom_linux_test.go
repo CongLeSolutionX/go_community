@@ -6,9 +6,11 @@ package os_test
 
 import (
 	"bytes"
+	"golang.org/x/net/nettest"
 	"internal/poll"
 	"io"
 	"math/rand"
+	"net"
 	"os"
 	. "os"
 	"path/filepath"
@@ -449,5 +451,66 @@ func TestProcCopy(t *testing.T) {
 	}
 	if !bytes.Equal(cmdline, copy) {
 		t.Errorf("copy of %q got %q want %q\n", cmdlineFile, copy, cmdline)
+	}
+}
+
+func TestGetPollFDFromReader(t *testing.T) {
+	t.Run("tcp", func(t *testing.T) { testGetPollFromReader(t, "tcp") })
+	t.Run("unix", func(t *testing.T) { testGetPollFromReader(t, "unix") })
+}
+
+func testGetPollFromReader(t *testing.T, proto string) {
+	ln, err := nettest.NewLocalListener(proto)
+	if err != nil {
+		t.Fatalf("NewLocalListener error: %v", err)
+	}
+	var client, server net.Conn
+	t.Cleanup(func() {
+		if ln != nil {
+			ln.Close()
+		}
+		if client != nil {
+			client.Close()
+		}
+		if server != nil {
+			server.Close()
+		}
+	})
+	ch := make(chan struct{})
+	go func() {
+		server, err = ln.Accept()
+		if err != nil {
+			t.Errorf("Accept new connection error: %v", err)
+		}
+		ch <- struct{}{}
+	}()
+	client, err = net.Dial(proto, ln.Addr().String())
+	if err != nil {
+		t.Fatalf("Dial new connection error: %v", err)
+	}
+	<-ch
+	sc, ok := server.(syscall.Conn)
+	if !ok {
+		t.Fatalf("server Conn is not a syscall.Conn")
+	}
+	rc, err := sc.SyscallConn()
+	if err != nil {
+		t.Fatalf("server SyscallConn error: %v", err)
+	}
+	var rfd int
+	if err = rc.Control(func(fd uintptr) {
+		rfd = int(fd)
+	}); err != nil {
+		t.Fatalf("server Control error: %v", err)
+	}
+	pfd := os.GetPollFDForTest(server)
+	if pfd == nil {
+		t.Fatalf("GetPollFDForTest didn't return poll.FD")
+	}
+	if pfd.Sysfd != rfd {
+		t.Fatalf("GetPollFDForTest returned wrong poll.FD")
+	}
+	if err = pfd.Init(proto, true); err == nil {
+		t.Fatalf("Init should have failed with the initialized poll.FD and return EEXIST error")
 	}
 }
