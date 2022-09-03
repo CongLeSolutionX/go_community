@@ -209,6 +209,55 @@ func (f flag) mustBeAssignable() {
 	}
 }
 
+//go:nocheckptr
+// This prevents inlining Value.UnsafeAddr when -d=checkptr is enabled,
+// which ensures cmd/compile can recognize unsafe.Pointer(v.UnsafeAddr())
+// and make an exception.
+
+// UnsafeAddr returns a pointer to v's data, as a uintptr.
+// It panics if v is not addressable.
+//
+// It's preferred to use uintptr(Value.Addr().UnsafePointer()) to get the equivalent result.
+func (v Value) UnsafeAddr() uintptr {
+	if v.typ == nil {
+		panic(&ValueError{"reflect.Value.UnsafeAddr", Invalid})
+	}
+	if v.flag&flagAddr == 0 {
+		panic("reflect.Value.UnsafeAddr of unaddressable value")
+	}
+	return uintptr(v.ptr)
+}
+
+// InternalUnsafePointer is the weakened version of reflect.UnsafePointer
+// which returns v's value as a [unsafe.Pointer].
+// It panics if v's Kind is not Chan, Map, Pointer, Slice, or UnsafePointer.
+//
+// If v's Kind is Slice, the returned pointer is to the first
+// element of the slice. If the slice is nil the returned value
+// is nil.  If the slice is empty but non-nil the return value is non-nil.
+//
+// Note that it doesn't handle the case of Value.Kind() == Func.
+func (v Value) InternalUnsafePointer() unsafe.Pointer {
+	k := v.kind()
+	switch k {
+	case Pointer:
+		if v.typ.ptrdata == 0 {
+			// Since it is a not-in-heap pointer, all pointers to the heap are
+			// forbidden! See comment in Value.Elem and issue #48399.
+			if !verifyNotInHeapPtr(*(*uintptr)(v.ptr)) {
+				panic("reflect: reflect.Value.UnsafePointer on an invalid notinheap pointer")
+			}
+			return *(*unsafe.Pointer)(v.ptr)
+		}
+		fallthrough
+	case Chan, Map, UnsafePointer:
+		return v.pointer()
+	case Slice:
+		return (*unsafeheader.Slice)(v.ptr).Data
+	}
+	panic(&ValueError{"reflect.Value.UnsafePointer", v.kind()})
+}
+
 // CanSet reports whether the value of v can be changed.
 // A Value can be changed only if it is addressable and was not
 // obtained by the use of unexported struct fields.
@@ -255,6 +304,38 @@ func (v Value) Elem() Value {
 		return Value{typ, ptr, fl}
 	}
 	panic(&ValueError{"reflectlite.Value.Elem", v.kind()})
+}
+
+// Field returns the i'th field of the struct v.
+// It panics if v's Kind is not Struct or i is out of range.
+func (v Value) Field(i int) Value {
+	if v.kind() != Struct {
+		panic(&ValueError{"reflect.Value.Field", v.kind()})
+	}
+	tt := (*structType)(unsafe.Pointer(v.typ))
+	if uint(i) >= uint(len(tt.fields)) {
+		panic("reflect: Field index out of range")
+	}
+	field := &tt.fields[i]
+	typ := field.typ
+
+	// Inherit permission bits from v, but clear flagEmbedRO.
+	fl := v.flag&(flagStickyRO|flagIndir|flagAddr) | flag(typ.Kind())
+	// Using an unexported field forces flagRO.
+	if !field.name.isExported() {
+		if field.embedded() {
+			fl |= flagEmbedRO
+		} else {
+			fl |= flagStickyRO
+		}
+	}
+	// Either flagIndir is set and v.ptr points at struct,
+	// or flagIndir is not set and v.ptr is the actual struct data.
+	// In the former case, we want v.ptr + offset.
+	// In the latter case, we must have field.offset = 0,
+	// so v.ptr + field.offset is still the correct address.
+	ptr := add(v.ptr, field.offset, "same as non-reflect &v.field")
+	return Value{typ, ptr, fl}
 }
 
 func valueInterface(v Value) any {
@@ -475,3 +556,5 @@ var dummy struct {
 	b bool
 	x any
 }
+
+func verifyNotInHeapPtr(p uintptr) bool
