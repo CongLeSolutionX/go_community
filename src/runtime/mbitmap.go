@@ -374,6 +374,16 @@ func reflect_verifyNotInHeapPtr(p uintptr) bool {
 	return spanOf(p) == nil && p != clobberdeadPtr
 }
 
+// reflectlite_verifyNotInHeapPtr reports whether converting the not-in-heap pointer into a unsafe.Pointer is ok.
+//
+//go:linkname reflectlite_verifyNotInHeapPtr internal/reflectlite.verifyNotInHeapPtr
+func reflectlite_verifyNotInHeapPtr(p uintptr) bool {
+	// Conversion to a pointer is ok as long as findObject above does not call badPointer.
+	// Since we're already promised that p doesn't point into the heap, just disallow heap
+	// pointers and the special clobbered pointer.
+	return spanOf(p) == nil && p != clobberdeadPtr
+}
+
 const ptrBits = 8 * goarch.PtrSize
 
 // heapBits provides access to the bitmap bits for a single heap word.
