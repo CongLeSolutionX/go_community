@@ -4,4 +4,7 @@
 
 package os
 
-var PollCopyFileRangeP = &pollCopyFileRange
+var (
+	PollCopyFileRangeP = &pollCopyFileRange
+	GetPollFDForTest   = getPollFD
+)
