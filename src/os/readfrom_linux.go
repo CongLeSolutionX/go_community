@@ -38,6 +38,15 @@ func (f *File) readFrom(r io.Reader) (written int64, handled bool, err error) {
 		return 0, false, nil
 	}
 
+	// If fd_in and fd_out refer to the same file and the source and target ranges overlap,
+	// copy_file_range(2) will just return EINVAL error.
+	// We can't tell if two different file descriptors pointing to the same file overlap,
+	// but if these two are the same fd, they must overlap, because we call copy_file_range(2)
+	// with off_in==NULL and off_out==NULL, so don't bother to try and avoid this system call.
+	if f.pfd.Sysfd == src.pfd.Sysfd {
+		return 0, false, nil
+	}
+
 	written, handled, err = pollCopyFileRange(&f.pfd, &src.pfd, remain)
 	if lr != nil {
 		lr.N -= written

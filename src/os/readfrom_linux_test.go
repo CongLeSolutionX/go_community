@@ -13,6 +13,7 @@ import (
 	. "os"
 	"path/filepath"
 	"strconv"
+	"strings"
 	"syscall"
 	"testing"
 	"time"
@@ -391,5 +392,50 @@ func TestProcCopy(t *testing.T) {
 	}
 	if !bytes.Equal(cmdline, copy) {
 		t.Errorf("copy of %q got %q want %q\n", cmdlineFile, copy, cmdline)
+	}
+}
+
+func TestFileReadFromItself(t *testing.T) {
+	f, err := os.CreateTemp("", "file-readfrom-itself-test")
+	if err != nil {
+		t.Fatalf("failed to create tmp file: %v", err)
+	}
+
+	data := []byte("hello world!")
+	if _, err := f.Write(data); err != nil {
+		t.Fatalf("failed to create and feed the file: %v", err)
+	}
+
+	if err := f.Sync(); err != nil {
+		t.Fatalf("failed to save the file: %v", err)
+	}
+
+	// Rewind it.
+	if _, err := f.Seek(0, io.SeekStart); err != nil {
+		t.Fatalf("failed to rewind the file: %v", err)
+	}
+
+	// Read data from the file itself.
+	if _, err := f.ReadFrom(f); err != nil {
+		t.Fatalf("failed to read from the file: %v", err)
+	}
+
+	// Rewind it.
+	if _, err := f.Seek(0, io.SeekStart); err != nil {
+		t.Fatalf("failed to rewind the file: %v", err)
+	}
+
+	data2, err := io.ReadAll(f)
+	if err != nil {
+		t.Fatalf("failed to read from the file: %v", err)
+	}
+
+	// It should wind up a double of the original data.
+	if strings.Repeat(string(data), 2) != string(data2) {
+		t.Fatalf("data mismatch: %s != %s", string(data), string(data2))
+	}
+
+	if err := os.Remove(f.Name()); err != nil {
+		t.Fatalf("failed to remove the file: %v", err)
 	}
 }
