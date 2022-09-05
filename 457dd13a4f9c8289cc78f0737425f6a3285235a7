@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e9feb0b_4cc4fa97",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2022-09-05T08:14:40Z",
+      "side": 1,
+      "message": "This adds new API, which must be proposed and accepted on the issue tracker first.",
+      "revId": "457dd13a4f9c8289cc78f0737425f6a3285235a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
