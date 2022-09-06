@@ -53,6 +53,24 @@
       "message": "It seems to me that this case is already handled correctly, because internal/poll.CopyFileRange will check for EINVAL and do the right thing.  Given that this is going to be a very rare case, almost certainly a programmer error, is it really worth adding a check here?",
       "revId": "fbdbf1321b059281ae73b6dae42e6b120a997bee",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9bf00fff_bf04302b",
+        "filename": "src/os/readfrom_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2022-09-06T01:15:44Z",
+      "side": 1,
+      "message": "Yes, this case is already handled by internal/poll.CopyFileRange, which costs a system call, and this system call can be eliminated just as we check for O_APPEND of dst rather than calling copy_file_range(2) and catching the EBADF error.\n\nBesides, it\u0027s hard to say this kind of case is done by accident or on purpose, since io.Copy and File.ReadFrom currently allow this behavior and return the expected result instead of an error. Therefore, this could be an optimization here, IMO.",
+      "parentUuid": "f9b840f3_1705066e",
+      "revId": "fbdbf1321b059281ae73b6dae42e6b120a997bee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
