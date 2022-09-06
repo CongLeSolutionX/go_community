@@ -667,10 +667,10 @@ func BenchmarkParallelTimerLatency(b *testing.B) {
 
 	const delay = Millisecond
 	var wg sync.WaitGroup
-	var count int32
+	var count atomic.Int32
 	for i := 0; i < b.N; i++ {
 		wg.Add(timerCount)
-		atomic.StoreInt32(&count, 0)
+		count.Store(0)
 		for j := 0; j < timerCount; j++ {
 			j := j
 			expectedWakeup := Now().Add(delay)
@@ -684,15 +684,15 @@ func BenchmarkParallelTimerLatency(b *testing.B) {
 				if late > stats[j].max {
 					stats[j].max = late
 				}
-				atomic.AddInt32(&count, 1)
-				for atomic.LoadInt32(&count) < int32(timerCount) {
+				count.Add(1)
+				for count.Load() < int32(timerCount) {
 					// spin until all timers fired
 				}
 				wg.Done()
 			})
 		}
 
-		for atomic.LoadInt32(&count) < int32(timerCount) {
+		for count.Load() < int32(timerCount) {
 			// spin until all timers fired
 		}
 		wg.Wait()
