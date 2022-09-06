@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48eee28a_83c2cbb2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-09-06T17:19:05Z",
+      "side": 1,
+      "message": "It would be easier to review this CL if it also consolidated these other copies. Then we could see what it has in common with what it\u0027s replacing, and also know that it suffices as a replacement for the other copies. As it is, you\u0027re basically adding another copy. :)",
+      "range": {
+        "startLine": 11,
+        "startChar": 56,
+        "endLine": 12,
+        "endChar": 63
+      },
+      "revId": "429eb52835b334a1fe3598515aaf2eee6a977b48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cda83b2e_214a49b2",
+        "filename": "src/internal/testenv/testenv.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-09-06T17:19:05Z",
+      "side": 1,
+      "message": "This function seems unrelated to factoring out BuildToolExec?",
+      "revId": "429eb52835b334a1fe3598515aaf2eee6a977b48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d21983c_16881b73",
+        "filename": "src/internal/testenv/testenv.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-09-06T17:19:05Z",
+      "side": 1,
+      "message": "Consider putting this in a new source file. testenv.go is a bit overloaded :)",
+      "revId": "429eb52835b334a1fe3598515aaf2eee6a977b48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2c2501d_bdfe88e8",
+        "filename": "src/internal/testenv/toolexec_test.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-09-06T17:19:05Z",
+      "side": 1,
+      "message": "2022",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "429eb52835b334a1fe3598515aaf2eee6a977b48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13b2a295_37604816",
+        "filename": "src/internal/testenv/toolexec_test.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-09-06T17:19:05Z",
+      "side": 1,
+      "message": "Do you need to run the subcommand? It seems like it would be easier to just print the message and exit. Or you could do something to check that the command-line arguments to this make sense.",
+      "revId": "429eb52835b334a1fe3598515aaf2eee6a977b48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25329b73_ebb5464c",
+        "filename": "src/internal/testenv/toolexec_test.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-09-06T17:19:05Z",
+      "side": 1,
+      "message": "I\u0027m actually not clear on why the link fails. It seems like it should actually run the linker and produce a binary and exit with 0. Is it just because quoter printed something to stderr?",
+      "revId": "429eb52835b334a1fe3598515aaf2eee6a977b48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
