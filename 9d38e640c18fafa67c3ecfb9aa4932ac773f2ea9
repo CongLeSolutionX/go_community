@@ -73,6 +73,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aceebb31_231fc215",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-09-06T09:03:16Z",
+      "side": 1,
+      "message": "Thanks for your review!",
+      "parentUuid": "3cf532f8_636fa69e",
+      "revId": "9d38e640c18fafa67c3ecfb9aa4932ac773f2ea9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4c2e4555_5ebed749",
@@ -90,6 +108,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eaa5cc95_9b9d3620",
+        "filename": "src/cmd/compile/internal/ssa/compile.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-09-06T09:03:16Z",
+      "side": 1,
+      "message": "I tried it, and there was no obvious benefit in go1. The test result of compilecmp showed that the code size was reduced by 0.014%, and the compilation speed decreased slightly, which can be ignored. I didn\u0027t modify it as there was no apparent benefit.",
+      "parentUuid": "4c2e4555_5ebed749",
+      "revId": "9d38e640c18fafa67c3ecfb9aa4932ac773f2ea9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0b8070ce_75db79bc",
@@ -103,6 +139,24 @@
       "writtenOn": "2022-09-01T17:33:57Z",
       "side": 1,
       "message": "Is there a reason these changes need to be in this CL?\nIt seems like a separate optimization to me.",
+      "revId": "9d38e640c18fafa67c3ecfb9aa4932ac773f2ea9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d10c90c_978d4a31",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 724,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-09-06T09:03:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b8070ce_75db79bc",
       "revId": "9d38e640c18fafa67c3ecfb9aa4932ac773f2ea9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -130,6 +184,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fdd4169_7b885b69",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 1257,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-09-06T09:03:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "851e40fc_82744334",
+      "range": {
+        "startLine": 1257,
+        "startChar": 20,
+        "endLine": 1257,
+        "endChar": 26
+      },
+      "revId": "9d38e640c18fafa67c3ecfb9aa4932ac773f2ea9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "34b3e5b2_af814b98",
@@ -143,6 +221,24 @@
       "writtenOn": "2022-09-01T17:33:57Z",
       "side": 1,
       "message": "InvertFlags ops should never reach here, I think. They should all be absorbed during the regular rules.",
+      "revId": "9d38e640c18fafa67c3ecfb9aa4932ac773f2ea9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "87086680_e1b53b12",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64latelower.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-09-06T09:03:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34b3e5b2_af814b98",
       "revId": "9d38e640c18fafa67c3ecfb9aa4932ac773f2ea9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -164,6 +260,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c28082e9_5513bd2c",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64latelower.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-09-06T09:03:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5115aa83_5c1bc820",
+      "revId": "9d38e640c18fafa67c3ecfb9aa4932ac773f2ea9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "48b18141_ed3cc3a3",
@@ -177,6 +291,24 @@
       "writtenOn": "2022-09-02T15:57:07Z",
       "side": 1,
       "message": "It seems okay to put this in lower.go, without a new file.",
+      "revId": "9d38e640c18fafa67c3ecfb9aa4932ac773f2ea9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "83b1c7cc_8f28ff8e",
+        "filename": "src/cmd/compile/internal/ssa/later_lower.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-09-06T09:03:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48b18141_ed3cc3a3",
       "revId": "9d38e640c18fafa67c3ecfb9aa4932ac773f2ea9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -204,6 +336,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ba34779_7fd4c03a",
+        "filename": "src/cmd/compile/internal/ssa/later_lower.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-09-06T09:03:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da6783e6_b5d477ae",
+      "range": {
+        "startLine": 7,
+        "startChar": 77,
+        "endLine": 7,
+        "endChar": 81
+      },
+      "revId": "9d38e640c18fafa67c3ecfb9aa4932ac773f2ea9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "590d3613_dac91698",
@@ -221,6 +377,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "03b8a194_0e21be60",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1999,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-09-06T09:03:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "590d3613_dac91698",
+      "revId": "9d38e640c18fafa67c3ecfb9aa4932ac773f2ea9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cdbb2101_5110a0f0",
@@ -234,6 +408,24 @@
       "writtenOn": "2022-09-01T17:33:57Z",
       "side": 1,
       "message": "These two lines are not needed here.",
+      "revId": "9d38e640c18fafa67c3ecfb9aa4932ac773f2ea9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "08f12fd1_83697f7c",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2002,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-09-06T09:03:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cdbb2101_5110a0f0",
       "revId": "9d38e640c18fafa67c3ecfb9aa4932ac773f2ea9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -261,6 +453,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "901f27d7_ecf00137",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2006,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-09-06T09:03:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc306712_2308ad19",
+      "range": {
+        "startLine": 2006,
+        "startChar": 5,
+        "endLine": 2006,
+        "endChar": 13
+      },
+      "revId": "9d38e640c18fafa67c3ecfb9aa4932ac773f2ea9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a8ecaeae_59d442c3",
@@ -278,6 +494,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4587183f_c93f325e",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2045,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-09-06T09:03:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8ecaeae_59d442c3",
+      "revId": "9d38e640c18fafa67c3ecfb9aa4932ac773f2ea9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "26d131dd_4a9ee969",
@@ -291,6 +525,24 @@
       "writtenOn": "2022-09-01T17:33:57Z",
       "side": 1,
       "message": "MOVD with the constant value here?",
+      "revId": "9d38e640c18fafa67c3ecfb9aa4932ac773f2ea9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6555fbd5_4fa65e54",
+        "filename": "test/codegen/arithmetic.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-09-06T09:03:16Z",
+      "side": 1,
+      "message": "Since this constant is the same with the constant in line 326, so the MOVD instruction is there and here we reused that register. I added a check there.",
+      "parentUuid": "26d131dd_4a9ee969",
       "revId": "9d38e640c18fafa67c3ecfb9aa4932ac773f2ea9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -318,6 +570,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "83903708_684a83ee",
+        "filename": "test/codegen/bits.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-09-06T09:03:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f8e5fe0_68824073",
+      "range": {
+        "startLine": 373,
+        "startChar": 28,
+        "endLine": 373,
+        "endChar": 29
+      },
+      "revId": "9d38e640c18fafa67c3ecfb9aa4932ac773f2ea9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ef0e489f_a727e2a0",
@@ -331,6 +607,24 @@
       "writtenOn": "2022-09-01T17:33:57Z",
       "side": 1,
       "message": "Part of a separate CL?",
+      "revId": "9d38e640c18fafa67c3ecfb9aa4932ac773f2ea9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e375587_a1fcd1c4",
+        "filename": "test/codegen/comparisons.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-09-06T09:03:16Z",
+      "side": 1,
+      "message": "This is caused by this CL, not those deleted CMP/CMN rules.",
+      "parentUuid": "ef0e489f_a727e2a0",
       "revId": "9d38e640c18fafa67c3ecfb9aa4932ac773f2ea9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
