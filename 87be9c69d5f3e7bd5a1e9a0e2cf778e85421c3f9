@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "256d775b_dd767f77",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-09-06T22:54:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0dfa0b43_e70448a0",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 3
+      },
+      "revId": "87be9c69d5f3e7bd5a1e9a0e2cf778e85421c3f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ca46736b_a2af4d05",
@@ -128,6 +152,24 @@
       "writtenOn": "2022-09-06T20:20:24Z",
       "side": 1,
       "message": "Does go mod tidy remove this line?",
+      "revId": "87be9c69d5f3e7bd5a1e9a0e2cf778e85421c3f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9637659_c325c789",
+        "filename": "src/go.sum",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-09-06T22:54:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a9d55833_811f46c4",
       "revId": "87be9c69d5f3e7bd5a1e9a0e2cf778e85421c3f9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
