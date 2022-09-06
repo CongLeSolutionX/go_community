@@ -1,6 +1,46 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed3716ce_409c5f98",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-09-06T14:24:04Z",
+      "side": 1,
+      "message": "cmd/go/internal/vcs:",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 3
+      },
+      "revId": "b91c2010a595fda237d62d6d18300f79c6b90f08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d09c7785_c284ad46",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-09-06T14:24:04Z",
+      "side": 1,
+      "message": "Drop this line. (It\u0027s redundant with the first line of the commit message.)\n\nFor future reference, we usually use complete paragraphs (with capitalization and punctuation) for the commit message after the first line.",
+      "revId": "b91c2010a595fda237d62d6d18300f79c6b90f08",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "def43f22_b87f2736",
