@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9b31d85_2fac4ce3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 59003
+      },
+      "writtenOn": "2022-09-06T20:00:57Z",
+      "side": 1,
+      "message": "This ticket asks for part of the code introduced in Issue 383215 to be reverted.  I have no problem with rejecting duplicate extensions and extension requests in certificates and CSRs, but rejecting duplicate attributes in CSRs is problematic.\n\nRFC2985 Section 2.1 says \"Some attribute types are restricted in their definition to have a single value; others may have multiple values\", and X.501 Section 12.4.6 defines \"\u0026single-valued BOOLEAN DEFAULT FALSE\".\n\nWe\u0027ve encountered customer-supplied CSRs that contain multiple, proprietary attributes of the same type, so this isn\u0027t a merely theoretical concern.\n\nI\u0027ll also note in passing that the error message \"x509: certificate request contains duplicate extensions\" in the problematic code (that this ticket proposes to remove) is misleading.  It should have said \"attributes\" rather than \"extensions\".",
+      "revId": "b6dc9456843e2617ffe5b758f66b6491e328adc3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
