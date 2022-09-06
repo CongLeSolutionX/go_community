@@ -627,6 +627,24 @@
       "parentUuid": "ef0e489f_a727e2a0",
       "revId": "9d38e640c18fafa67c3ecfb9aa4932ac773f2ea9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d96383e_66813a78",
+        "filename": "test/codegen/comparisons.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-09-06T09:03:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e375587_a1fcd1c4",
+      "revId": "9d38e640c18fafa67c3ecfb9aa4932ac773f2ea9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
