@@ -16,6 +16,23 @@
       "message": "This ticket asks for part of the code introduced in Issue 383215 to be reverted.  I have no problem with rejecting duplicate extensions and extension requests in certificates and CSRs, but rejecting duplicate attributes in CSRs is problematic.\n\nRFC2985 Section 2.1 says \"Some attribute types are restricted in their definition to have a single value; others may have multiple values\", and X.501 Section 12.4.6 defines \"\u0026single-valued BOOLEAN DEFAULT FALSE\".\n\nWe\u0027ve encountered customer-supplied CSRs that contain multiple, proprietary attributes of the same type, so this isn\u0027t a merely theoretical concern.\n\nI\u0027ll also note in passing that the error message \"x509: certificate request contains duplicate extensions\" in the problematic code (that this ticket proposes to remove) is misleading.  It should have said \"attributes\" rather than \"extensions\".",
       "revId": "b6dc9456843e2617ffe5b758f66b6491e328adc3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0378555_21361a80",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 59003
+      },
+      "writtenOn": "2022-09-06T20:14:20Z",
+      "side": 1,
+      "message": "Ah, my reasoning is flawed.  The RFC2985 quote \"Some attribute types are restricted in their definition to have a single value; others may have multiple values\" is referring to the permitted number of _values_ for a single instance of an attribute; whereas the lines of code in question relate to multiple _instances_ of an attribute.\nHowever, I still think that rejecting duplicate CSR attributes is problematic: whereas it says in RFC5280 Section 4.2 that \"A certificate MUST NOT include more than one instance of a particular extension\", I am not aware of any equivalent requirement for CSR attributes.",
+      "revId": "b6dc9456843e2617ffe5b758f66b6491e328adc3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
