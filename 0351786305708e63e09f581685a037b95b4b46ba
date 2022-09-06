@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bcb3e2fb_6463d8bb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 59003
+      },
+      "writtenOn": "2022-09-06T20:36:16Z",
+      "side": 1,
+      "message": "Just to explain Patch set 2: Reallowing duplicate attributes means that there could conceivably be multiple extensionRequest attributes in a CSR, and the check for duplicate requested extensions must consider all of these together.",
+      "revId": "0351786305708e63e09f581685a037b95b4b46ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
