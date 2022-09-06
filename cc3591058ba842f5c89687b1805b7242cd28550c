@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "77769703_05f96754",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-09-06T20:26:07Z",
+      "side": 1,
+      "message": "(nit) Describe what the buildmode is being added to.\n\nMaybe something like:\n```\ncmd/go: record the -buildmode flag in debug.BuildInfo\n```",
+      "range": {
+        "startLine": 7,
+        "startChar": 8,
+        "endLine": 7,
+        "endChar": 26
+      },
+      "revId": "cc3591058ba842f5c89687b1805b7242cd28550c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "c88f2414_bd9cbe18",
@@ -14,6 +37,23 @@
       "writtenOn": "2022-09-02T16:32:53Z",
       "side": 1,
       "message": "ping",
+      "revId": "cc3591058ba842f5c89687b1805b7242cd28550c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc172fc2_4a4a6741",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-09-06T20:26:07Z",
+      "side": 1,
+      "message": "TRY\u003dlongtest",
       "revId": "cc3591058ba842f5c89687b1805b7242cd28550c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
