@@ -16,6 +16,23 @@
       "message": "Thanks for your review",
       "revId": "9fddf9e07a9836cd959794fb18b31d20a4e3bdd3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9dec4663_c80ac161",
+        "filename": "src/cmd/compile/internal/ssa/schedule.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 52329
+      },
+      "writtenOn": "2022-09-06T08:59:47Z",
+      "side": 1,
+      "message": "I hope this can be:\n\n```\nswitch v.Block.Func.Config.arch {\ncase \"arm64\":\n    ...\ncase \"ppc64\", \"ppc64le\":\n    ...\n}\n```\n\nso that we can easily support other architectures.",
+      "revId": "9fddf9e07a9836cd959794fb18b31d20a4e3bdd3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
