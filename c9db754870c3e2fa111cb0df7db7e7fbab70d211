@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88dfd271_078cc315",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-09-07T17:07:34Z",
+      "side": 1,
+      "message": "TRY\u003dlinux-386-longtest,linux-amd64-noopt",
+      "revId": "c9db754870c3e2fa111cb0df7db7e7fbab70d211",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
