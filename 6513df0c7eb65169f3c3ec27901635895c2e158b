@@ -16,6 +16,24 @@
       "message": "A \"Fixes\" line should refer to an issue, not an earlier CL.  And we try to refer to CLs by CL number, not git hash.  So instead say something like\n\nThis corrects a problem introduced in CL 41793.",
       "revId": "6513df0c7eb65169f3c3ec27901635895c2e158b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c97f60dd_0c38af1a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 26451
+      },
+      "writtenOn": "2022-09-07T17:24:16Z",
+      "side": 1,
+      "message": "Got it. It\u0027s not that important in this case, so I dropped the reference.",
+      "parentUuid": "3dc9d0e7_aa1f4465",
+      "revId": "6513df0c7eb65169f3c3ec27901635895c2e158b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
