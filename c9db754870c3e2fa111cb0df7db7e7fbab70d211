@@ -196,6 +196,24 @@
       "parentUuid": "a50012a6_535a2f86",
       "revId": "c9db754870c3e2fa111cb0df7db7e7fbab70d211",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef84f531_1aea4e80",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-09-07T18:58:21Z",
+      "side": 1,
+      "message": "to be clear, I\u0027m not asking you to do this, I\u0027m just saying that I don\u0027t think we\u0027re very far away from having everything just be aligned intrinsically, so that we don\u0027t need *any* additional alignment annotations. as a result, I\u0027d rather just resolve that than switch. I\u0027m working on it now. mSpanSet is definitely the most complicated part, but it\u0027s doable.",
+      "parentUuid": "8666b38b_dc5c4edd",
+      "revId": "c9db754870c3e2fa111cb0df7db7e7fbab70d211",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
