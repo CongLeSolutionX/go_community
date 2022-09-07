@@ -16,6 +16,24 @@
       "message": "FYI: This CL failed on builder ppc64 \nhttps://build.golang.org/log/94be4739468ce56e170e8b9ca55b5e2fb95e4d1f",
       "revId": "2b8f21409480931b45c983853a78dc7984ed634e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b8528b4_61b64190",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-09-07T13:38:49Z",
+      "side": 1,
+      "message": "It seems to be a permissions issue related to mounting tmpfs within a container. I wonder if the related test should skip even if uid 0 can\u0027t mount a tmpfs.",
+      "parentUuid": "6c7f1fd7_1db6282b",
+      "revId": "2b8f21409480931b45c983853a78dc7984ed634e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
