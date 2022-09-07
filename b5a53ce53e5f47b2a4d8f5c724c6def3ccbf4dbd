@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c932c23b_b3fb56fc",
+        "filename": "src/runtime/testdata/testprog/deadlock.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-09-07T20:01:02Z",
+      "side": 1,
+      "message": "I\u0027ve been running this test program in a loop for a while on my workstation, and it hasn\u0027t failed once. I\u0027ve also tried several more streamlined variations with the same result.\n\nHas this test program failed at least once for you?",
+      "revId": "b5a53ce53e5f47b2a4d8f5c724c6def3ccbf4dbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
