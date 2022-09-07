@@ -89,6 +89,24 @@
       "parentUuid": "9bf00fff_bf04302b",
       "revId": "fbdbf1321b059281ae73b6dae42e6b120a997bee",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e6ec577_fa8466cc",
+        "filename": "src/os/readfrom_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2022-09-07T14:57:39Z",
+      "side": 1,
+      "message": "Fair enough, then we just add a new test case for it to prevent some future changes from breaking this current behavior, according to the guarantee of Go 1 backward compatibility.",
+      "parentUuid": "78dd9968_d26cf5a3",
+      "revId": "fbdbf1321b059281ae73b6dae42e6b120a997bee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
