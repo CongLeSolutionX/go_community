@@ -178,6 +178,8 @@ func blockAlignSummaryRange(level int, lo, hi int) (int, int) {
 }
 
 type pageAlloc struct {
+	_ [0]atomic.Int64
+
 	// Radix tree of summaries.
 	//
 	// Each slice's cap represents the whole memory reservation.

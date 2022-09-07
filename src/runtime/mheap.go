@@ -65,8 +65,6 @@ type mheap struct {
 	// could self-deadlock if its stack grows with the lock held.
 	lock mutex
 
-	_ uint32 // 8-byte align pages so its alignment is consistent with tests.
-
 	pages pageAlloc // page allocation data structure
 
 	sweepgen uint32 // sweep generation, see comment in mspan; written during STW
@@ -83,8 +81,6 @@ type mheap struct {
 	// must ensure that allocation cannot happen around the
 	// access (since that may free the backing store).
 	allspans []*mspan // all spans out there
-
-	// _ uint32 // align uint64 fields on 32-bit for atomics
 
 	// Proportional sweep
 	//
