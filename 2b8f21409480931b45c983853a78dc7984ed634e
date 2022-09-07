@@ -52,6 +52,24 @@
       "parentUuid": "2b8528b4_61b64190",
       "revId": "2b8f21409480931b45c983853a78dc7984ed634e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f46f747_0cf61c1b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-09-07T15:34:47Z",
+      "side": 1,
+      "message": "That fatal error is when error happens, and if there\u0027s no fatal, we would skip the test. So why use `t.Fatal` at all? I think we should just change t.Fatal to t.Logf",
+      "parentUuid": "3ed54524_c5a115a2",
+      "revId": "2b8f21409480931b45c983853a78dc7984ed634e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
