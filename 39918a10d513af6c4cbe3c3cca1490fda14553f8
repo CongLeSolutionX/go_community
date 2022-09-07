@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9733bc9c_b338cf3b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2022-09-07T17:16:35Z",
+      "side": 1,
+      "message": "Nevermind. There\u0027s no bug since the growth logic in print.go is a for-loop. I had originally read it as a if-statement (in which case the grown buffer may still be too small). I\u0027ll update the CL description.\n\nThere\u0027s no benchmark that triggers the modified code, but from the benchmarks in CL 345571, there\u0027s almost certainly a performance benefit for ASCII since AppendRune is inlineable. I don\u0027t think there\u0027s a need to add a benchmark here since the new code is obviously an code simplicity improvement.",
+      "parentUuid": "f7fd9fee_824a1f61",
+      "revId": "39918a10d513af6c4cbe3c3cca1490fda14553f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d4b003c7_ad8e653c",
@@ -68,6 +86,30 @@
       "writtenOn": "2022-09-02T07:51:09Z",
       "side": 1,
       "message": "Do we need this? It seems https://github.com/golang/go/blob/556c978400245b29c3150ba3a53da489d67f3f7e/src/unicode/utf8/utf8.go#L389 already handles c \u003e MaxRune",
+      "range": {
+        "startLine": 465,
+        "startChar": 1,
+        "endLine": 467,
+        "endChar": 2
+      },
+      "revId": "39918a10d513af6c4cbe3c3cca1490fda14553f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b570cbaf_5037250c",
+        "filename": "src/fmt/format.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2022-09-07T17:16:35Z",
+      "side": 1,
+      "message": "I believe yes.\n\nWhen we cast c (a 64-bit uint) to a rune (a 32-bit int), it is possible that we lose significant bits that then makes it look like there is no overflow.",
+      "parentUuid": "d4b003c7_ad8e653c",
       "range": {
         "startLine": 465,
         "startChar": 1,
