@@ -160,6 +160,24 @@
       "parentUuid": "65f2e6ae_f4e99c3d",
       "revId": "c9db754870c3e2fa111cb0df7db7e7fbab70d211",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a50012a6_535a2f86",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-09-07T18:31:19Z",
+      "side": 1,
+      "message": "So for this code:\n\n```\ntype mheap struct {\n\t_ sys.NotInHeap\n\n\t// lock must only be acquired on the system stack, otherwise a g\n\t// could self-deadlock if its stack grows with the lock held.\n\tlock mutex\n\n\tpages pageAlloc // page allocation data structure\n```\n\nWhat will guarantee that `pages` will have 8-byte alignment? Before this CL, we have:\n\n```\n_ uint32 // 8-byte align pages so its alignment is consistent with tests.\n\n\npages pageAlloc // page allocation data structure\n```\n\nBy making `pageAlloc` alignment itself, `mheap` don\u0027t have to add the padding field.",
+      "parentUuid": "4b9b621d_20cfdd7c",
+      "revId": "c9db754870c3e2fa111cb0df7db7e7fbab70d211",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
