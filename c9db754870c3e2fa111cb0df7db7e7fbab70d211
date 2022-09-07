@@ -124,6 +124,24 @@
       "parentUuid": "6aed0fd9_b41300d6",
       "revId": "c9db754870c3e2fa111cb0df7db7e7fbab70d211",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65f2e6ae_f4e99c3d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-09-07T18:20:49Z",
+      "side": 1,
+      "message": "In any case, I mean explicitly make the struct 8-byte alignment is better. The fact that this CL uses `_ [0]atomic.Int64` because it\u0027s guaranteed to have 8-byte alignment. We should not rely to `atomic.\u003cwhatever\u003e`.\n\nMoreover, when https://github.com/golang/go/issues/19057 land, we can simply replace `[0]atomic.Int64` with proper `AlignedN` type.",
+      "parentUuid": "ba35c312_9d432fa1",
+      "revId": "c9db754870c3e2fa111cb0df7db7e7fbab70d211",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
