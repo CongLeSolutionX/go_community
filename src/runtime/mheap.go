@@ -187,14 +187,13 @@ type mheap struct {
 		base, end uintptr
 	}
 
-	_ uint32 // ensure 64-bit alignment of central
-
 	// central free lists for small size classes.
 	// the padding makes sure that the mcentrals are
 	// spaced CacheLinePadSize bytes apart, so that each mcentral.lock
 	// gets its own cache line.
 	// central is indexed by spanClass.
 	central [numSpanClasses]struct {
+		_        [0]atomic.Int64
 		mcentral mcentral
 		pad      [(cpu.CacheLinePadSize - unsafe.Sizeof(mcentral{})%cpu.CacheLinePadSize) % cpu.CacheLinePadSize]byte
 	}
