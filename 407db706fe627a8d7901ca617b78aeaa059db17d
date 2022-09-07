@@ -16,6 +16,24 @@
       "message": "Let\u0027s not shadow hr here.",
       "revId": "407db706fe627a8d7901ca617b78aeaa059db17d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5ba657c_be471a17",
+        "filename": "src/time/zoneinfo.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2022-09-07T17:25:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6233d238_6da36c42",
+      "revId": "407db706fe627a8d7901ca617b78aeaa059db17d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
