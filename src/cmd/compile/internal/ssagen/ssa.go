@@ -3646,7 +3646,7 @@ func (s *state) assignWhichMayOverlap(left ir.Node, right *ssa.Value, deref bool
 			old := s.expr(left.X)
 
 			// Make new structure.
-			new := s.newValue0(ssa.StructMakeOp(t.NumFields()), t)
+			new := s.newValue0(ssa.OpStructMake, t)
 
 			// Add fields as args.
 			for i := 0; i < nf; i++ {
@@ -3774,7 +3774,7 @@ func (s *state) zeroVal(t *types.Type) *ssa.Value {
 		return s.constSlice(t)
 	case t.IsStruct():
 		n := t.NumFields()
-		v := s.entryNewValue0(ssa.StructMakeOp(t.NumFields()), t)
+		v := s.entryNewValue0(ssa.OpStructMake, t)
 		for i := 0; i < n; i++ {
 			v.AddArg(s.zeroVal(t.FieldType(i)))
 		}
@@ -5493,9 +5493,6 @@ func TypeOK(t *types.Type) bool {
 		}
 		return false
 	case types.TSTRUCT:
-		if t.NumFields() > ssa.MaxStruct {
-			return false
-		}
 		for _, t1 := range t.Fields().Slice() {
 			if !TypeOK(t1.Type) {
 				return false

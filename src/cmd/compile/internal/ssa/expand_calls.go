@@ -902,11 +902,11 @@ func (x *expandState) storeArgOrLoad(pos src.XPos, b *Block, source, mem *Value,
 			return ret
 		}
 
-	case OpArrayMake0, OpStructMake0:
+	case OpArrayMake0:
 		// TODO(register args) is this correct for registers?
 		return mem
 
-	case OpStructMake1, OpStructMake2, OpStructMake3, OpStructMake4:
+	case OpStructMake:
 		for i := 0; i < t.NumFields(); i++ {
 			fld := t.Field(i)
 			mem = x.storeArgOrLoad(pos, b, source.Args[i], mem, fld.Type, storeOffset+fld.Offset, 0, storeRc.next(fld.Type))

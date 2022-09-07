@@ -1994,3 +1994,39 @@ func canRotate(c *Config, bits int64) bool {
 		return false
 	}
 }
+
+func rewriteLoadStruct(v *Value) *Value {
+	b := v.Block
+	ptr := v.Args[0]
+	mem := v.Args[1]
+
+	t := v.Type
+	args := make([]*Value, t.NumFields())
+	for i := range args {
+		ft := t.FieldType(i)
+		addr := b.NewValue1I(v.Pos, OpOffPtr, ft.PtrTo(), int64(t.FieldOff(i)), ptr)
+		args[i] = b.NewValue2(v.Pos, OpLoad, ft, addr, mem)
+	}
+
+	v.reset(OpStructMake)
+	v.AddArgs(args...)
+	return v
+}
+
+func rewriteStoreStruct(v *Value) *Value {
+	b := v.Block
+	dst := v.Args[0]
+	x := v.Args[1] // OpStructMake
+	mem := v.Args[2]
+
+	t := x.Type
+	for i, arg := range x.Args {
+		ft := t.FieldType(i)
+
+		addr := b.NewValue1I(v.Pos, OpOffPtr, ft.PtrTo(), t.FieldOff(i), dst)
+		// TODO(mdempsky): Reuse v for the last iteration?
+		mem = b.NewValue3A(v.Pos, OpStore, types.TypeMem, typeToAux(ft), addr, arg, mem)
+	}
+
+	return mem
+}
