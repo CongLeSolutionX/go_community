@@ -70,6 +70,24 @@
       "message": "thanks for the change!\n\nhowever, now that ~everything is an atomic.\u003cwhatever\u003e, is the extra alignment still necessary at all? can we just get rid of the alignment fields (same for the next CL)",
       "revId": "c9db754870c3e2fa111cb0df7db7e7fbab70d211",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32583970_fdaa66aa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-09-07T17:53:41Z",
+      "side": 1,
+      "message": "Could you please elaborate more? What\u0027s \"everything\" mean?\n\nDo \"next CL\" refer to CL 429119? If yes, you can see get rid of the alignment fields cause trybot failed.",
+      "parentUuid": "5f2e7562_6716d53d",
+      "revId": "c9db754870c3e2fa111cb0df7db7e7fbab70d211",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
