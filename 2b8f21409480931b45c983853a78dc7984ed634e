@@ -70,6 +70,24 @@
       "parentUuid": "3ed54524_c5a115a2",
       "revId": "2b8f21409480931b45c983853a78dc7984ed634e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8bbf8432_3a8e664a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-09-07T15:53:52Z",
+      "side": 1,
+      "message": "I agree, this test should be skipped. This only fails on the ppc64-sid builder since it runs a sufficiently new kernel.\n\nmounting is blocked by both the container\u0027s lack of sys_admin caps, and the default docker apparmor policy which also prohibits mounts.",
+      "parentUuid": "3f46f747_0cf61c1b",
+      "revId": "2b8f21409480931b45c983853a78dc7984ed634e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
