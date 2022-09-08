@@ -53,6 +53,24 @@
       "message": "We don\u0027t have a \"write this pointer without a write barrier\" function anywhere in the runtime?\n*(*uintptr)(unsafe.Pointer(\u0026p.chunks[c.l1()])) \u003d uintptr(r)",
       "revId": "cf9233bae0960c7e544cb36943c6a3c11c6bbe26",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a86940b_43485cf5",
+        "filename": "src/runtime/mpagealloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-09-08T15:33:04Z",
+      "side": 1,
+      "message": "yeah I don\u0027t think so. we have ones for specific types, but not one for unsafe.Pointer.\n\nanyway, adopted your suggestion. we could probably write a generic one (won\u0027t work for NotInHeap values, but they don\u0027t need it!) but in this case it\u0027s a couple of unsafe.Pointers so I think writing it funny is fine.",
+      "parentUuid": "2b55353d_bc9db9ff",
+      "revId": "cf9233bae0960c7e544cb36943c6a3c11c6bbe26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
