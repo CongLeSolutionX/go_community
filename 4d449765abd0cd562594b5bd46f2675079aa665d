@@ -74,6 +74,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8fcafef5_307ad9fb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-09-08T20:36:18Z",
+      "side": 1,
+      "message": "awesome! :D thanks for doing that!",
+      "parentUuid": "fe001cd5_065d8db7",
+      "revId": "4d449765abd0cd562594b5bd46f2675079aa665d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "80f36be6_9fed33e3",
@@ -87,6 +105,30 @@
       "writtenOn": "2022-09-08T20:13:34Z",
       "side": 1,
       "message": "Note that in the existing metrics that use \"classes\" in the name, e.g., /memory/classes/*, there is only one total metric defined (/memory/classes/total:bytes) even though there are multiple levels of attribute hierarchy that could be totalized.\n\n- What logic prevented creating a /cpu/classes/gc/mark/total:cpu-seconds (at the third level of hierarchy). My guess: because /cpu/classes/gc/total:cpu-seconds is what you might have computed using `MemStats.GCCPUFraction*uptime*gomaxprocs` (so it\u0027s important, whereas total gc-mark time maybe isn\u0027t?)\n- What logic prevented creating /memory/classes/heap/total:bytes as a total of all the /memory/classes/heap/* classes? (Or /memory/classes/metadata/total:bytes as a total of all /memory/classes/metadata/* classes?)\n\nDo we need the extra two sub-total metrics in this change? Instead, should callers perhaps compute those two sub-totals (i.e., `/cpu/classes/gc/total:cpu-seconds` and `/cpu/classes/scavenge/total:cpu-seconds`) manually?",
+      "range": {
+        "startLine": 121,
+        "startChar": 0,
+        "endLine": 127,
+        "endChar": 4
+      },
+      "revId": "4d449765abd0cd562594b5bd46f2675079aa665d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e8f38e4_f49bcf92",
+        "filename": "src/runtime/metrics.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-09-08T20:36:18Z",
+      "side": 1,
+      "message": "thanks for your comment. there\u0027s no logic preventing subtotals, it just didn\u0027t come to mind. :)\n\n(I updated this to only recently to have the \"cpu/classes/gc/mark/\" subsection, so I just missed it on the latest iteration; I don\u0027t think there\u0027s anything wrong with exposing subtotals for the memory metrics either.)\n\nI\u0027ll go back and add subtotals. I don\u0027t think downstream users should necessarily count on them being there in general, but I\u0027m also OK with making the convention a little stricter (and documenting it).\n\nin any case, I\u0027ll get around to incorporating your suggestions soon, though it likely will not be backported.",
+      "parentUuid": "80f36be6_9fed33e3",
       "range": {
         "startLine": 121,
         "startChar": 0,
