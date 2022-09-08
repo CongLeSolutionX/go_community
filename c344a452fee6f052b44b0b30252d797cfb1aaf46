@@ -16,6 +16,24 @@
       "message": "See comment on https://go-review.git.corp.google.com/c/go/+/425455. Does this not break the compiler bootstrap?",
       "revId": "c344a452fee6f052b44b0b30252d797cfb1aaf46",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7cf9147a_4d7818d3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 51518
+      },
+      "writtenOn": "2022-09-08T09:38:30Z",
+      "side": 1,
+      "message": "Sorry, I can\u0027t access this site because a login is required. \nProbably this is a link inside google",
+      "parentUuid": "d1f3f40e_1338e21b",
+      "revId": "c344a452fee6f052b44b0b30252d797cfb1aaf46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
