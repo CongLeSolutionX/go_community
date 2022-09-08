@@ -145,6 +145,87 @@
       "message": "Nice!\n\nI remember we have an open issue for this.",
       "revId": "4cc527978c26cfa40fdba69d20de3ad92d803b63",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ecf74c0_14bf157e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-09-08T04:50:34Z",
+      "side": 1,
+      "message": "24416",
+      "parentUuid": "df544280_cde973c2",
+      "revId": "4cc527978c26cfa40fdba69d20de3ad92d803b63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a021ca4c_fe27f997",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-09-08T04:50:34Z",
+      "side": 1,
+      "message": "I think we do want to have some limit on the size / #fields / whatever. A struct like struct { aa, ab, ac, ..., zx, zy, zz int } will probably be better compiled in memory rather than 26**2 registers.\n\nSo maybe TypeOK just needs this CL, and then we can relax the #field restriction rather than remove them altogether?\n\n",
+      "revId": "4cc527978c26cfa40fdba69d20de3ad92d803b63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40947406_d329fb3d",
+        "filename": "src/cmd/compile/internal/ssa/gen/genericOps.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-09-08T04:50:34Z",
+      "side": 1,
+      "message": "This needs a bit more comment.",
+      "range": {
+        "startLine": 512,
+        "startChar": 55,
+        "endLine": 512,
+        "endChar": 74
+      },
+      "revId": "4cc527978c26cfa40fdba69d20de3ad92d803b63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "986f1c34_459d09f9",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2019,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-09-08T04:50:34Z",
+      "side": 1,
+      "message": "Might want to double-check that.",
+      "range": {
+        "startLine": 2019,
+        "startChar": 19,
+        "endLine": 2019,
+        "endChar": 31
+      },
+      "revId": "4cc527978c26cfa40fdba69d20de3ad92d803b63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
