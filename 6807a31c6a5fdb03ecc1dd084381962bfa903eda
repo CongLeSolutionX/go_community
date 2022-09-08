@@ -70,6 +70,23 @@
       "message": "This OK too.",
       "revId": "6807a31c6a5fdb03ecc1dd084381962bfa903eda",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0486f21_a8f52aae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26451
+      },
+      "writtenOn": "2022-09-08T19:10:52Z",
+      "side": 1,
+      "message": "Wrong CL link above; I guess the right one is CL 429175",
+      "revId": "6807a31c6a5fdb03ecc1dd084381962bfa903eda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ],
   "submitRequirementResults": [
