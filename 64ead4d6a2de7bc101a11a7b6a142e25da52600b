@@ -61,6 +61,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "412f147f_ce0dd674",
+        "filename": "src/runtime/mspanset.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-09-08T15:32:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ed37580_707c2a5d",
+      "range": {
+        "startLine": 38,
+        "startChar": 72,
+        "endLine": 38,
+        "endChar": 76
+      },
+      "revId": "64ead4d6a2de7bc101a11a7b6a142e25da52600b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ff812dfe_8b97213b",
@@ -74,6 +98,30 @@
       "writtenOn": "2022-09-07T21:16:44Z",
       "side": 1,
       "message": "atomic.Pointer",
+      "range": {
+        "startLine": 292,
+        "startChar": 69,
+        "endLine": 292,
+        "endChar": 82
+      },
+      "revId": "64ead4d6a2de7bc101a11a7b6a142e25da52600b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4016a878_39ca6a10",
+        "filename": "src/runtime/mspanset.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-09-08T15:32:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff812dfe_8b97213b",
       "range": {
         "startLine": 292,
         "startChar": 69,
