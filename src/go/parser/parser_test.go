@@ -416,6 +416,8 @@ type T struct {
 	F2 int  // F2 line comment
 	// f3 lead comment
 	f3 int  // f3 line comment
+
+	f4 int  /* f4 line comment */ ;
 }
 `, ParseComments)
 	if err != nil {
@@ -424,6 +426,12 @@ type T struct {
 	checkFieldComments(t, f, "T.F1", "/* F1 lead comment *///", "/* F1 */// line comment")
 	checkFieldComments(t, f, "T.F2", "// F2 lead// comment", "// F2 line comment")
 	checkFieldComments(t, f, "T.f3", "// f3 lead comment", "// f3 line comment")
+	checkFieldComments(t, f, "T.f4", "", "/* f4 line comment */") // TODO: valid?
+	// TODO: also test:
+	// f4 int; // f4 line comment
+	// f5 int; /* f5 line comment */
+	// f6 int; /* f6a line comment */ /* f6b line comment */
+
 	ast.FileExports(f)
 	checkFieldComments(t, f, "T.F1", "/* F1 lead comment *///", "/* F1 */// line comment")
 	checkFieldComments(t, f, "T.F2", "// F2 lead// comment", "// F2 line comment")
