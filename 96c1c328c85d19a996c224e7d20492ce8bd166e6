@@ -449,6 +449,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "24ef65b4_989a6605",
+        "filename": "src/runtime/coverage/apis.go",
+        "patchSetId": 54
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-09-08T14:04:01Z",
+      "side": 1,
+      "message": "David, one thing that we could do is require that for relaxed memory model architectures (e.g. arm64), ClearCoverageCounters could simply return an error if the program in question was not built with -covermode\u003datomic, and could then use atomic writes for counter clearing. Does this sound reasonable to you?",
+      "parentUuid": "447ebab7_d3c597c8",
+      "range": {
+        "startLine": 133,
+        "startChar": 3,
+        "endLine": 133,
+        "endChar": 17
+      },
+      "revId": "96c1c328c85d19a996c224e7d20492ce8bd166e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "06120d6d_d17cd9bf",
         "filename": "src/runtime/coverage/emit.go",
         "patchSetId": 54
