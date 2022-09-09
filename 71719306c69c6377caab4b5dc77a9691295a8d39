@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3bffeebe_f4ec208d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2022-09-09T19:01:19Z",
+      "side": 1,
+      "message": "Hi, thanks for the contribution.\n\nI\u0027m not sure we should provide this API if it\u0027s just thin helper function as it gives the allusion that this is more efficient when it isn\u0027t really.\n\nIn the proposal, I mentioned that the implementation can have a notable performance benefit by not double copying many of the inputs. This would start at the flate-layer and move up to gzip and zlib.",
+      "revId": "71719306c69c6377caab4b5dc77a9691295a8d39",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
