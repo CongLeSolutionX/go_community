@@ -5,6 +5,7 @@
 package gzip
 
 import (
+	"bytes"
 	"compress/flate"
 	"errors"
 	"fmt"
@@ -247,4 +248,43 @@ func (z *Writer) Close() error {
 	le.PutUint32(z.buf[4:8], z.size)
 	_, z.err = z.w.Write(z.buf[:8])
 	return z.err
+}
+
+// AppendEncoded appends the compressed form of src to the end of dst
+// using the specified compression level.
+// It returns an error only if the specified level is invalid.
+func AppendEncoded(dst, src []byte, level int) ([]byte, error) {
+	var r *Reader
+	var err error
+	if len(dst) > 0 {
+		r, err = NewReader(bytes.NewReader(dst))
+		if err != nil {
+			return nil, err
+		}
+		buf := &bytes.Buffer{}
+		w, err := NewWriterLevel(buf, level)
+		if err != nil {
+			return nil, err
+		}
+		w.wroteHeader = true
+		w.Header = r.Header
+		_, err = w.Write(src)
+		if err != nil {
+			return nil, err
+		}
+		w.Flush()
+		return buf.Bytes(), nil
+	} else {
+		buf := &bytes.Buffer{}
+		w, err := NewWriterLevel(buf, level)
+		if err != nil {
+			return nil, err
+		}
+		_, err = w.Write(src)
+		if err != nil {
+			return nil, err
+		}
+		w.Flush()
+		return buf.Bytes(), nil
+	}
 }

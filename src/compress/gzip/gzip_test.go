@@ -273,3 +273,18 @@ func TestLimitedWrite(t *testing.T) {
 		}
 	}
 }
+
+func TestAppendEncoded(t *testing.T) {
+	b, err := AppendEncoded(nil, []byte("it's ok"), BestSpeed)
+	if err != nil {
+		t.Errorf("got err: %v", err)
+	}
+	r, err := NewReader(bytes.NewReader(b))
+	if err != nil {
+		t.Errorf("got err: %v", err)
+	}
+	nb := make([]byte, 20)
+	if n, _ := r.Read(nb); string(nb[:n]) != "it's ok" {
+		t.Errorf("got %s, want %s", string(nb[:n]), "it's ok")
+	}
+}
