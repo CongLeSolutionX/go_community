@@ -168,13 +168,13 @@ func genInlTreeSym(ctxt *Link, cu *sym.CompilationUnit, fi loader.FuncInfo, arch
 		}
 
 		inlFunc := ldr.FuncInfo(call.Func)
-		var funcID objabi.FuncID
-		if inlFunc.Valid() {
-			funcID = inlFunc.FuncID()
+		if !inlFunc.Valid() {
+			panic(fmt.Sprintf("inlined function %s missing func info", ldr.SymName(call.Func)))
 		}
+
 		// Construct runtime.inlinedCall value.
 		const size = 12
-		inlTreeSym.SetUint8(arch, int64(i*size+0), uint8(funcID))
+		inlTreeSym.SetUint8(arch, int64(i*size+0), uint8(inlFunc.FuncID()))
 		// Bytes 1-3 are unused.
 		inlTreeSym.SetUint32(arch, int64(i*size+4), uint32(nameOff))
 		inlTreeSym.SetUint32(arch, int64(i*size+8), uint32(call.ParentPC))
