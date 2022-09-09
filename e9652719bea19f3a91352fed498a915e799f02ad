@@ -16,6 +16,24 @@
       "message": "I suggest you add a test case to be more reviewer friendly.",
       "revId": "e9652719bea19f3a91352fed498a915e799f02ad",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3da4bac5_10c632db",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 52385
+      },
+      "writtenOn": "2022-09-09T12:54:26Z",
+      "side": 1,
+      "message": "Thank you! It seems that this is an established practice to round to multiple of an align. I found several occurrences in the golang src with this command:\n\n```\ngrep -rn -E \"\\(\\s*\\w+\\s*\\+\\s*\\w+\\s*-\\s*\\w+\\)\\s*\u0026\\^\\s*\\(\\w+\\s*-\\s*1\\)\" **/*.go\n```\n\nExamples:\n\nhttps://go.googlesource.com/go/+/41089704ddafa736e73ebd54f837706e979ecb49/src/cmd/cgo/gcc.go#2996\n\nhttps://go.googlesource.com/go/+/41089704ddafa736e73ebd54f837706e979ecb49/src/cmd/compile/internal/ssa/writebarrier.go#540\n\nI have updated the commit message to make it more clear. I don\u0027t know how to construct a valid input to cover this case. The one provided by the issue is an invalid input. I\u0027m not sure whether it makes sense to turn it into a test.",
+      "parentUuid": "ee06515b_cfc9eb56",
+      "revId": "e9652719bea19f3a91352fed498a915e799f02ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
