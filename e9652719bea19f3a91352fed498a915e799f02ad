@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee06515b_cfc9eb56",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55613
+      },
+      "writtenOn": "2022-09-09T11:41:10Z",
+      "side": 1,
+      "message": "I suggest you add a test case to be more reviewer friendly.",
+      "revId": "e9652719bea19f3a91352fed498a915e799f02ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
