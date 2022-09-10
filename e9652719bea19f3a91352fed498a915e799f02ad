@@ -34,6 +34,24 @@
       "parentUuid": "ee06515b_cfc9eb56",
       "revId": "e9652719bea19f3a91352fed498a915e799f02ad",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e04a512_6e72346d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 8715
+      },
+      "writtenOn": "2022-09-10T16:57:42Z",
+      "side": 1,
+      "message": "It\u0027s fine to have a test case for an invalid input. The point of the test here is to make sure we return an error rather than infinite loop.",
+      "parentUuid": "3da4bac5_10c632db",
+      "revId": "e9652719bea19f3a91352fed498a915e799f02ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
