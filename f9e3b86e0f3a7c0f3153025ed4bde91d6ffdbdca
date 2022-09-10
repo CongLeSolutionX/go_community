@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af15f3b6_9e512dba",
+        "filename": "src/debug/elf/file.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 6480
+      },
+      "writtenOn": "2022-09-10T21:46:52Z",
+      "side": 1,
+      "message": "I\u0027m wondering whether this shouldn\u0027t return `nil, nil` for this case.",
+      "range": {
+        "startLine": 107,
+        "startChar": 2,
+        "endLine": 107,
+        "endChar": 34
+      },
+      "revId": "f9e3b86e0f3a7c0f3153025ed4bde91d6ffdbdca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
