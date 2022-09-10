@@ -67,8 +67,7 @@ func NewEncoding(encoder string) *Encoding {
 		}
 	}
 
-	e := new(Encoding)
-	e.padChar = StdPadding
+	e := &Encoding{padChar: StdPadding}
 	copy(e.encode[:], encoder)
 	copy(e.decodeMap[:], decodeMapInitialize)
 
