@@ -48,6 +48,15 @@ version. By default, tidy acts as if the -compat flag were set to the
 version prior to the one indicated by the 'go' directive in the go.mod
 file.
 
+go mod tidy works by loading all of the packages in the main module
+and all of the packages they import, recursively. This includes
+packages imported by tests (including tests in other modules). go mod
+tidy acts as if all build tags are enabled, so it will consider
+platform-specific source files and files that require custom build
+tags, even if those source files wouldn’t normally be built. There is
+one exception: the ignore build tag is NOT enabled, so a file with the
+build constraint //go:build ignore will not be considered.
+
 See https://golang.org/ref/mod#go-mod-tidy for more about 'go mod tidy'.
 	`,
 	Run: runTidy,
