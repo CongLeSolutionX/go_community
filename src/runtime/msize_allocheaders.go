@@ -11,17 +11,26 @@
 
 package runtime
 
-// Returns size of the memory block that mallocgc will allocate if you ask for the size.
-func roundupsize(size uintptr) uintptr {
-	if size < _MaxSmallSize {
-		if size <= smallSizeMax-8 {
-			return uintptr(class_to_size[size_to_class8[divRoundUp(size, smallSizeDiv)]])
-		} else {
-			return uintptr(class_to_size[size_to_class128[divRoundUp(size-smallSizeMax, largeSizeDiv)]])
+// Returns size of the memory block that mallocgc will allocate if you ask for the size,
+// minus any inline space for metadata.
+func roundupsize(size uintptr, noscan bool) uintptr {
+	if size <= maxSmallSize-mallocHeaderSize {
+		hasHeader := !noscan && !heapBitsInSpan(size)
+		if hasHeader {
+			size += mallocHeaderSize
 		}
-	}
-	if size+_PageSize < size {
+		if size <= smallSizeMax-8 {
+			size = uintptr(class_to_size[size_to_class8[divRoundUp(size, smallSizeDiv)]])
+		} else {
+			size = uintptr(class_to_size[size_to_class128[divRoundUp(size-smallSizeMax, largeSizeDiv)]])
+		}
+		if hasHeader {
+			size -= mallocHeaderSize
+		}
 		return size
 	}
-	return alignUp(size, _PageSize)
+	if size+pageSize < size {
+		return size
+	}
+	return alignUp(size, pageSize)
 }
