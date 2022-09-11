@@ -91,10 +91,14 @@ func TestGCInfo(t *testing.T) {
 
 func verifyGCInfo(t *testing.T, name string, p any, mask0 []byte) {
 	mask := runtime.GCMask(p)
-	if !bytes.Equal(mask, mask0) {
-		t.Errorf("bad GC program for %v:\nwant %+v\ngot  %+v", name, mask0, mask)
+	if bytes.Equal(mask, mask0) {
 		return
 	}
+	if len(mask) > len(mask0) && bytes.HasPrefix(mask, mask0) {
+		// Just the prefix matching is OK.
+		return
+	}
+	t.Errorf("bad GC program for %v:\nwant %+v\ngot  %+v", name, mask0, mask)
 }
 
 func trimDead(mask []byte) []byte {
