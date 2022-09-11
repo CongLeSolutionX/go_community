@@ -142,6 +142,24 @@
       "parentUuid": "6ea13045_037a724e",
       "revId": "671097cec2f70bf3d4b9a72528457e24ec0f1a3c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb55d185_2613f12e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6480
+      },
+      "writtenOn": "2022-09-11T05:05:10Z",
+      "side": 1,
+      "message": "An alternative approach would be to error at the loop. This would allow the file to be parsed, but would also signal to the caller of `ImportedSymbols` that something was fishy without loss of information since the loop would already result in a nil `[]string` being returned in that case.",
+      "parentUuid": "0e73e72e_a5b4c94f",
+      "revId": "671097cec2f70bf3d4b9a72528457e24ec0f1a3c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
