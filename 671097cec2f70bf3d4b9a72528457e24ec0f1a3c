@@ -124,6 +124,24 @@
       "parentUuid": "b7d0a16a_4800f450",
       "revId": "671097cec2f70bf3d4b9a72528457e24ec0f1a3c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e73e72e_a5b4c94f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6480
+      },
+      "writtenOn": "2022-09-11T05:01:00Z",
+      "side": 1,
+      "message": "The issue is differential parsing. Let\u0027s say we have a malicious executable (this is the context I\u0027m working in, looking for these) and it does not want to be identified by a program that will obtain signatures from imported symbols, but it knows that it will be loaded by the Windows PE loader even if the sum of virtual address and virtual size overflows uint32 (this part I don\u0027t know; on Linux, I\u0027d just check). In this case it would construct this scenario so that the forensic program does not find the symbol table. This is possible with the current code and this is the problem.\n\nIf pe returns an error in this case, then the forensic program can at least identify the PE as invalid and potentially flag that, even if it can\u0027t use the symbols for obtaining a signature.\n\n\u003e The error would help callers with corrupted executables with better error message, but it is possible that Microsoft intended not to report error here.\n\nUnder normal circumstances you would not expect there to be an overflow, but malicious executables are not normal circumstances. In the context of standard library use of the package, the error should never happen.",
+      "parentUuid": "6ea13045_037a724e",
+      "revId": "671097cec2f70bf3d4b9a72528457e24ec0f1a3c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
