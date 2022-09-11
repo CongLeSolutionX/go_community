@@ -53,6 +53,41 @@
       "message": "Alex, I\u0027d like to get your opinion on whether this is a valuable change. The basis for it is the use of the `VirtualAddress` and `VirtualSize` in `ImportedSymbols` to find which section contains the import directory table. AFAICS at the moment invalid values could result in failure to find the import directory table when there is an overflow here. I\u0027m not entirely sure that this is a bad enough outcome to prevent loading the whole file. An alternative would be to check for the overflow in `ImportedSymbols` and return an error there if no import directory table was found. WDYT?",
       "revId": "671097cec2f70bf3d4b9a72528457e24ec0f1a3c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51e88a4c_294af47a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2022-09-11T03:22:22Z",
+      "side": 1,
+      "message": "I looked at `ImportedSymbols` code and I don\u0027t see any problems. Can you tell more? Perhaps if you can give me an example of section table values that trigger the bug that you describe, I will understand what you are referring to. Perhaps if you can point to the line of code with the problem, it will help.\n\nIt has been many years since I have changed this code. And I did not write the original code, so I had to figure out original author intentions by myself.",
+      "parentUuid": "2645e7b0_32fd35cc",
+      "revId": "671097cec2f70bf3d4b9a72528457e24ec0f1a3c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34853a04_ac722444",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2022-09-11T03:22:22Z",
+      "side": 1,
+      "message": "Thank you for sending this CL.\n\nI am not sure, if you change is needed. Please, see my comment below.\n\nAlex",
+      "revId": "671097cec2f70bf3d4b9a72528457e24ec0f1a3c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
