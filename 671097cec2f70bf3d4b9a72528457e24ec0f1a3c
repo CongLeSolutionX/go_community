@@ -106,6 +106,24 @@
       "parentUuid": "51e88a4c_294af47a",
       "revId": "671097cec2f70bf3d4b9a72528457e24ec0f1a3c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ea13045_037a724e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2022-09-11T04:10:56Z",
+      "side": 1,
+      "message": "But we already return from `*File.ImportedSymbols` on line 361. We return nil for both return parameters - function results and error.\n\nSo that makes `*File.ImportedSymbols` report success, but no DLL functions returned for the scenario you described.\n\nWhy do you think it is a problem?\n\nMicrosoft defined `SectionHeader32.VirtualAddress` and `SectionHeader32.VirtualSize` as uint32. I am not sure what Microsoft intended to do when the sum of these values overflow uint32. The error would help callers with corrupted executables with better error message, but it is possible that Microsoft intended not to report error here.\n\nI am not sure what to do.",
+      "parentUuid": "b7d0a16a_4800f450",
+      "revId": "671097cec2f70bf3d4b9a72528457e24ec0f1a3c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
