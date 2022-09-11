@@ -88,6 +88,24 @@
       "message": "Thank you for sending this CL.\n\nI am not sure, if you change is needed. Please, see my comment below.\n\nAlex",
       "revId": "671097cec2f70bf3d4b9a72528457e24ec0f1a3c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7d0a16a_4800f450",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6480
+      },
+      "writtenOn": "2022-09-11T03:36:07Z",
+      "side": 1,
+      "message": "The bug is a hypothetical that could potentially be found by fuzzing and is part of the hardening of the debug packages. In the code here it is possible that `SectionHeader32.VirtualAddress + SectionHeader32.VirtualSize` overflow uin32. The loop in `*File.ImportedSymbols` (debug/pe/file.go:350 in go1.19) would fail to find the import directory table if the values were carefully constructed to cause this. If the Windows PE loader is robust to this we would have a differential behaviour that would allow the constructed PE to be loaded by would prevent the symbol section from being parsed by the debug/pe package.\n\nBy adding the error return, we at least see that the values are not valid.\n\nThis is in the context of using debug/* packages for executable forensics.",
+      "parentUuid": "51e88a4c_294af47a",
+      "revId": "671097cec2f70bf3d4b9a72528457e24ec0f1a3c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
