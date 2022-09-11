@@ -178,6 +178,24 @@
       "parentUuid": "eb55d185_2613f12e",
       "revId": "671097cec2f70bf3d4b9a72528457e24ec0f1a3c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14ae1015_b15bdf95",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6480
+      },
+      "writtenOn": "2022-09-11T11:25:27Z",
+      "side": 1,
+      "message": "The package does a good job at handling the details of PE files that I need and with some of the changes that have been made recently to harden it, the safety of the package is reasonable. I am currently using back-ported changes from master here with some additional changes that have not yet been merged.\n\n\u003e So at least you agree that not returning error on line 361 has merit.\n\nI don\u0027t think that is what I said. It\u0027s certainly not what I meant.",
+      "parentUuid": "52193ca3_8bef4aa3",
+      "revId": "671097cec2f70bf3d4b9a72528457e24ec0f1a3c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
