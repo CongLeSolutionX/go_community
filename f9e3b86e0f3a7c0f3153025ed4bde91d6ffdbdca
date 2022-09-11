@@ -22,6 +22,30 @@
       },
       "revId": "f9e3b86e0f3a7c0f3153025ed4bde91d6ffdbdca",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3792eda9_05c4a64b",
+        "filename": "src/debug/elf/file.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 52385
+      },
+      "writtenOn": "2022-09-11T08:10:13Z",
+      "side": 1,
+      "message": "Sorry that I don\u0027t know how to discuss the issue on both Gerrit and github. I will copy my comment from github:\n\nI like this solution! See also the discussion in https://golang.org/issues/18667.\n\nSince the CL (https://go.dev/cl/375216) that introduced this behavior has been released since go1.18, it seems that it\u0027s too late to change the behavior now.\n\nAnd this solution requires the caller to check the section type. If the caller would like to check the section type, it can avoid calling `(*Section).Data` at all when the section type is `SHT_NOBITS`([aclements\u0027 use case](https://github.com/aclements/go-obj/blob/91d9e299b01bb7d48c3ab33b24cdabb3fec63885/obj/elf.go#L420-L454)). It seems that breaking the compatibility does not worth it.\n\nRegarding the caller of `(*Section).Data`. I found that `debug/elf/file.go` should not call `(*Section).Data` when the section type is `SHT_NOBITS`. The testing elf file has an invalid `shstrndx` pointing to the SHT_NOBITS section. According to https://refspecs.linuxfoundation.org/elf/gabi4+/ch4.eheader.html, `shstrndx` should point to the section name string table, which has the type `SHT_STRTAB`. I have sent another CL (https://go.dev/cl/430155) to validate `shstrndx`, which will in turn prevent it from calling `(*Section).Data` at the first place.",
+      "parentUuid": "af15f3b6_9e512dba",
+      "range": {
+        "startLine": 107,
+        "startChar": 2,
+        "endLine": 107,
+        "endChar": 34
+      },
+      "revId": "f9e3b86e0f3a7c0f3153025ed4bde91d6ffdbdca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
