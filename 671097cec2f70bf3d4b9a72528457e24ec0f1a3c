@@ -160,6 +160,24 @@
       "parentUuid": "0e73e72e_a5b4c94f",
       "revId": "671097cec2f70bf3d4b9a72528457e24ec0f1a3c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52193ca3_8bef4aa3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2022-09-11T05:45:09Z",
+      "side": 1,
+      "message": "\u003e ... In this case it would construct this scenario so that the forensic program does not find the symbol table.\n\nIf you write malicious program scanner, you should not be using debug/pe package. Or at least use modified copy of the package. debug/pe is limited by bad design + Go backward compatibility promise. I also suspect that there are many existing bugs in the package if you push it hard enough. The package was designed to handle Go executables, not general Win32 executables.\n\n\u003e Under normal circumstances you would not expect there to be an overflow, but malicious executables are not normal circumstances. In the context of standard library use of the package, the error should never happen.\n\nSo at least you agree that not returning error on line 361 has merit.\n\n\u003e An alternative approach would be to error at the loop. This would allow the file to be parsed, but would also signal to the caller of `ImportedSymbols` that something was fishy without loss of information since the loop would already result in a nil `[]string` being returned in that case.\n\nWe could do that. But that changes current behaviour - not returning error vs returning error. And I am not convinced that change of behaviour is warranted (see my previous message).",
+      "parentUuid": "eb55d185_2613f12e",
+      "revId": "671097cec2f70bf3d4b9a72528457e24ec0f1a3c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
