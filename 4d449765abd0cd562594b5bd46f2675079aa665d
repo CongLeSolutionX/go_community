@@ -137,6 +137,30 @@
       },
       "revId": "4d449765abd0cd562594b5bd46f2675079aa665d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c357cf7c_524f5091",
+        "filename": "src/runtime/metrics.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-09-12T22:04:08Z",
+      "side": 1,
+      "message": "thinking about this more, I\u0027m leaning more toward your point that the subtotals may be unnecessary.\n\nmy original thinking with /cpu/classes/gc/total is that it\u0027s going to be a very common metric to reach for. /cpu/classes/scavenge/total just seemed right to mirror that. however I broke down the GC mark times into their own subdirectory, and now it feels like adding another subtotal means that there are a lot of unnecessary subtotals.\n\nhere\u0027s my new perspective on this: subtotals added judiciously where they\u0027re useful. in this case, the subtotals for gc and scavenge represent entire components, and push the user in the right direction for what might be worth looking for. it\u0027s a signal that this specific subtotal is useful.\n\nthis may be true for /memory/classes/heap as well, but I\u0027m less sure given that it also contains /memory/classes/heap/released.\n\nas a result, I\u0027m inclined to just leave the metrics in their current state for now, with exactly these subtotals. if the lack of subtotals on every level becomes a problem in the future we can easily address that, but I think this is OK for now.",
+      "parentUuid": "4e8f38e4_f49bcf92",
+      "range": {
+        "startLine": 121,
+        "startChar": 0,
+        "endLine": 127,
+        "endChar": 4
+      },
+      "revId": "4d449765abd0cd562594b5bd46f2675079aa665d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
