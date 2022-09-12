@@ -79,11 +79,14 @@ func newline(dst *bytes.Buffer, prefix, indent string, depth int) {
 // For example, if src has no trailing spaces, neither will dst;
 // if src ends in a trailing newline, so will dst.
 func Indent(dst *bytes.Buffer, src []byte, prefix, indent string) error {
+	_, _, err := _indent(dst, src, prefix, indent, false, 0)
+	return err
+}
+
+func _indent(dst *bytes.Buffer, src []byte, prefix, indent string, needIndent bool, depth int) (bool, int, error) {
 	origLen := dst.Len()
 	scan := newScanner()
 	defer freeScanner(scan)
-	needIndent := false
-	depth := 0
 	for _, c := range src {
 		scan.bytes++
 		v := scan.step(scan, c)
@@ -137,7 +140,7 @@ func Indent(dst *bytes.Buffer, src []byte, prefix, indent string) error {
 	}
 	if scan.eof() == scanError {
 		dst.Truncate(origLen)
-		return scan.err
+		return needIndent, depth, scan.err
 	}
-	return nil
+	return needIndent, depth, nil
 }

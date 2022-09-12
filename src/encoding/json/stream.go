@@ -6,7 +6,9 @@ package json
 
 import (
 	"bytes"
+	"encoding"
 	"errors"
+	"fmt"
 	"io"
 )
 
@@ -186,6 +188,11 @@ type Encoder struct {
 	indentBuf    *bytes.Buffer
 	indentPrefix string
 	indentValue  string
+
+	tokenState int
+	tokenStack []int
+	needIndent bool
+	depth      int
 }
 
 // NewEncoder returns a new encoder that writes to w.
@@ -199,6 +206,9 @@ func NewEncoder(w io.Writer) *Encoder {
 // See the documentation for Marshal for details about the
 // conversion of Go values to JSON.
 func (enc *Encoder) Encode(v any) error {
+	return enc.encode(v, true)
+}
+func (enc *Encoder) encode(v any, nextLine bool) error {
 	if enc.err != nil {
 		return enc.err
 	}
@@ -217,7 +227,9 @@ func (enc *Encoder) Encode(v any) error {
 	// is required if the encoded value was a number,
 	// so that the reader knows there aren't more
 	// digits coming.
-	e.WriteByte('\n')
+	if nextLine {
+		e.WriteByte('\n')
+	}
 
 	b := e.Bytes()
 	if enc.indentPrefix != "" || enc.indentValue != "" {
@@ -225,7 +237,7 @@ func (enc *Encoder) Encode(v any) error {
 			enc.indentBuf = new(bytes.Buffer)
 		}
 		enc.indentBuf.Reset()
-		err = Indent(enc.indentBuf, b, enc.indentPrefix, enc.indentValue)
+		enc.needIndent, enc.depth, err = _indent(enc.indentBuf, b, enc.indentPrefix, enc.indentValue, enc.needIndent, enc.depth)
 		if err != nil {
 			return err
 		}
@@ -512,4 +524,253 @@ func (dec *Decoder) peek() (byte, error) {
 // and the beginning of the next token.
 func (dec *Decoder) InputOffset() int64 {
 	return dec.scanned + int64(dec.scanp)
+}
+
+func (enc *Encoder) EncodeToken(tok Token) (err error) {
+	defer func() {
+		if enc.tokenState == tokenTopValue {
+			if err == nil {
+				_, err = enc.w.Write([]byte("\n"))
+				if err != nil {
+					return
+				}
+				if f, ok := enc.w.(interface{ Flush() error }); ok {
+					f.Flush()
+				}
+			} else {
+				enc.err = err
+			}
+		}
+	}()
+
+	if enc.err != nil {
+		return enc.err
+	}
+
+	if enc.indentPrefix != "" || enc.indentValue != "" {
+		if enc.needIndent && tok != Delim(']') && tok != Delim('}') {
+			enc.needIndent = false
+			enc.depth++
+			enc.newline()
+		}
+	}
+
+	switch enc.tokenState {
+	case tokenTopValue:
+		switch tok.(type) {
+		case Delim:
+			switch tok {
+			case Delim('['):
+				enc.tokenStack = append(enc.tokenStack, enc.tokenState)
+				enc.tokenState = tokenArrayStart
+				if enc.indentPrefix != "" || enc.indentValue != "" {
+					enc.needIndent = true
+				}
+				_, err := enc.w.Write([]byte("["))
+				return err
+
+			case Delim('{'):
+				enc.tokenStack = append(enc.tokenStack, enc.tokenState)
+				enc.tokenState = tokenObjectStart
+				if enc.indentPrefix != "" || enc.indentValue != "" {
+					enc.needIndent = true
+				}
+				_, err := enc.w.Write([]byte("{"))
+				return err
+
+			default:
+				return enc.tokenError(tok)
+			}
+		default:
+			return enc.encode(tok, false)
+		}
+
+	case tokenArrayStart, tokenArrayValue:
+		switch tok.(type) {
+		case Delim:
+			switch tok {
+			case Delim('['):
+				enc.tokenStack = append(enc.tokenStack, enc.tokenState)
+				enc.tokenState = tokenArrayStart
+				if enc.indentPrefix != "" || enc.indentValue != "" {
+					enc.needIndent = true
+				}
+				_, err := enc.w.Write([]byte("["))
+				return err
+
+			case Delim(']'):
+				enc.tokenState = enc.tokenStack[len(enc.tokenStack)-1]
+				enc.endDelim()
+				_, err := enc.w.Write([]byte("]"))
+				return err
+
+			case Delim('{'):
+				enc.tokenStack = append(enc.tokenStack, enc.tokenState)
+				enc.tokenState = tokenObjectStart
+				if enc.indentPrefix != "" || enc.indentValue != "" {
+					enc.needIndent = true
+				}
+				_, err := enc.w.Write([]byte("{"))
+				return err
+
+			default:
+				return enc.tokenError(tok)
+			}
+		default:
+			if enc.tokenState == tokenArrayValue {
+				_, err := enc.w.Write([]byte(","))
+				if err != nil {
+					return err
+				}
+				err = enc.newline()
+				if err != nil {
+					return err
+				}
+			}
+			enc.tokenState = tokenArrayValue
+			return enc.encode(tok, false)
+		}
+
+	//case tokenArrayComma:
+	case tokenObjectStart, tokenObjectKey:
+		switch tok.(type) {
+		case Delim:
+			if tok == Delim('}') {
+				enc.tokenState = enc.tokenStack[len(enc.tokenStack)-1]
+				enc.endDelim()
+				_, err := enc.w.Write([]byte("}"))
+				return err
+			}
+			return enc.tokenError(tok)
+		case string, int, int8, int16, int32, int64, uint, uint8, uint16, uint32, uint64, uintptr:
+			if enc.tokenState == tokenObjectKey {
+				_, err := enc.w.Write([]byte(","))
+				if err != nil {
+					return err
+				}
+				err = enc.newline()
+				if err != nil {
+					return err
+				}
+			}
+			enc.tokenState = tokenObjectValue
+			switch tok.(type) {
+			case string:
+				err = enc.encode(tok, false)
+			default:
+				_, err = enc.w.Write([]byte(fmt.Sprintf(`"%v"`, tok)))
+			}
+			return err
+		case encoding.TextMarshaler:
+			if enc.tokenState == tokenObjectKey {
+				_, err := enc.w.Write([]byte(","))
+				if err != nil {
+					return err
+				}
+				err = enc.newline()
+				if err != nil {
+					return err
+				}
+			}
+
+			t := tok.(encoding.TextMarshaler)
+			b, err := t.MarshalText()
+			if err != nil {
+				return err
+			}
+			enc.tokenState = tokenObjectValue
+			err = enc.encode(string(b), false)
+			return err
+		default:
+			return nil
+		}
+	//case tokenObjectColon:
+	case tokenObjectValue:
+		switch tok.(type) {
+		case Delim:
+			switch tok {
+			case Delim('['):
+				enc.tokenStack = append(enc.tokenStack, enc.tokenState)
+				enc.tokenState = tokenArrayStart
+				if enc.indentPrefix != "" || enc.indentValue != "" {
+					enc.needIndent = true
+				}
+				_, err := enc.w.Write([]byte(" ["))
+				return err
+
+			case Delim('{'):
+				enc.tokenStack = append(enc.tokenStack, enc.tokenState)
+				enc.tokenState = tokenObjectStart
+				if enc.indentPrefix != "" || enc.indentValue != "" {
+					enc.needIndent = true
+				}
+				_, err := enc.w.Write([]byte(" {"))
+				return err
+
+			case Delim('}'):
+				enc.tokenState = enc.tokenStack[len(enc.tokenStack)-1]
+				if enc.indentPrefix != "" || enc.indentValue != "" {
+					if enc.needIndent {
+						enc.needIndent = false
+					} else {
+						enc.depth--
+						enc.newline()
+					}
+				}
+				_, err := enc.w.Write([]byte("}"))
+				return err
+
+			default:
+				return enc.tokenError(tok)
+			}
+		default:
+			str := ":"
+			if enc.indentPrefix != "" || enc.indentValue != "" {
+				str = ": "
+			}
+			_, err := enc.w.Write([]byte(str))
+			if err != nil {
+				return err
+			}
+			enc.tokenState = tokenObjectKey
+			return enc.encode(tok, false)
+		}
+		//case tokenObjectComma:
+	}
+	return nil
+}
+
+func (enc *Encoder) tokenError(tok Token) error {
+	var context string
+	switch enc.tokenState {
+	case tokenTopValue:
+		context = " looking for beginning of value"
+	case tokenArrayStart, tokenArrayValue, tokenObjectValue:
+		context = " looking for beginning of value"
+	case tokenObjectKey:
+		context = " looking for beginning of object key string"
+	}
+	return fmt.Errorf(`invalid token "%v" %s`, tok, context)
+}
+
+func (enc *Encoder) endDelim() {
+	if enc.indentPrefix != "" || enc.indentValue != "" {
+		if enc.needIndent {
+			enc.needIndent = false
+		} else {
+			enc.depth--
+			var buf bytes.Buffer
+			newline(&buf, enc.indentPrefix, enc.indentValue, enc.depth)
+			enc.w.Write(buf.Bytes())
+		}
+	}
+}
+
+func (enc *Encoder) newline() error {
+	if enc.indentPrefix != "" || enc.indentValue != "" {
+		var buf bytes.Buffer
+		newline(&buf, enc.indentPrefix, enc.indentValue, enc.depth)
+		enc.w.Write(buf.Bytes())
+	}
+	return nil
 }

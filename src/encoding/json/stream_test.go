@@ -495,3 +495,89 @@ func TestHTTPDecoding(t *testing.T) {
 		t.Errorf("err = %v; want io.EOF", err)
 	}
 }
+
+func TestEncoder_EncodeToken(t *testing.T) {
+	var tests = []struct {
+		tokens []Token
+		ident  bool
+		ok     bool
+		result string
+	}{
+		{
+			[]Token{1},
+			false,
+			true,
+			"1\n",
+		},
+		{
+			[]Token{Number("1234")},
+			false,
+			true,
+			"1234\n",
+		},
+		{
+			[]Token{"1"},
+			false,
+			true,
+			`"1"` + "\n",
+		},
+		{
+			[]Token{Delim('['), 1, "1", Delim(']')},
+			false,
+			true,
+			`[1,"1"]` + "\n",
+		},
+		{
+			[]Token{Delim('{'), "k", "v", Delim('}')},
+			false,
+			true,
+			`{"k":"v"}` + "\n",
+		},
+		{
+			[]Token{Delim('['), 1, 2, 3, Delim(']')},
+			false,
+			true,
+			"[1,2,3]\n",
+		},
+		{
+			[]Token{Delim('{'), Delim(']')},
+			false,
+			false,
+			"",
+		},
+		{
+			[]Token{Delim('['), 1, 2, 3, Delim(']')},
+			true,
+			true,
+			"[\n*>1,\n*>2,\n*>3\n*]\n",
+		},
+		{
+			[]Token{Delim('{'), "k1", "v1", Delim('}')},
+			true,
+			true,
+			"{\n*>\"k1\": \"v1\"\n*}\n",
+		},
+	}
+
+	for _, c := range tests {
+		var buf bytes.Buffer
+		var err error
+		enc := NewEncoder(&buf)
+		if c.ident {
+			enc.SetIndent("*", ">")
+		}
+		for _, tok := range c.tokens {
+			err = enc.EncodeToken(tok)
+		}
+		if c.ok && err != nil {
+			t.Errorf("got error: %v, want nil", err)
+		}
+		if c.ok && buf.String() != c.result {
+			t.Errorf("got %s, want %s", buf.String(), c.result)
+		}
+
+		if !c.ok && err == nil {
+			t.Error("got nil, want error")
+		}
+	}
+}
