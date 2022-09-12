@@ -5,6 +5,7 @@
 package ld
 
 import (
+	"internal/abi"
 	"syscall"
 	"unsafe"
 )
@@ -38,11 +39,30 @@ func (out *OutBuf) fallocate(size uint64) error {
 	return err
 }
 
+//go:linkname syscall_syscall syscall.syscall
+func syscall_syscall(fn, a1, a2, a3 uintptr) (r1, r2 uintptr, err syscall.Errno)
+
+//go:cgo_import_dynamic libc_msync msync "/usr/lib/libSystem.B.dylib"
+
+func libc_msync_trampoline()
+
+func msync(b []byte, flags int) (err error) {
+	var p unsafe.Pointer
+	if len(b) > 0 {
+		p = unsafe.Pointer(&b[0])
+	}
+	_, _, errno := syscall_syscall(abi.FuncPCABI0(libc_msync_trampoline), uintptr(p), uintptr(len(b)), uintptr(flags))
+	if errno != 0 {
+		return errno
+	}
+	return nil
+}
+
 func (out *OutBuf) purgeSignatureCache() {
 	// Apparently, the Darwin kernel may cache the code signature at mmap.
 	// When we mmap the output buffer, it doesn't have a code signature
 	// (as we haven't generated one). Invalidate the kernel cache now that
 	// we have generated the signature. See issue #42684.
-	syscall.Syscall(syscall.SYS_MSYNC, uintptr(unsafe.Pointer(&out.buf[0])), uintptr(len(out.buf)), syscall.MS_INVALIDATE)
+	msync(out.buf, syscall.MS_INVALIDATE)
 	// Best effort. Ignore error.
 }
