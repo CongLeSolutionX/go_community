@@ -104,6 +104,24 @@
       "parentUuid": "47810f9e_ca94c212",
       "revId": "29dee46fc5634b0932a3ad77ac3ad94975cc38a8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "173646fe_ed62bf95",
+        "filename": "src/runtime/metrics/doc.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 59038
+      },
+      "writtenOn": "2022-09-12T18:29:05Z",
+      "side": 1,
+      "message": "Yes, I expect the `/total` metric to be redundant if you are able to read the other metrics, because they should sum to their total.",
+      "parentUuid": "dfef4ec1_67aba9d5",
+      "revId": "29dee46fc5634b0932a3ad77ac3ad94975cc38a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
