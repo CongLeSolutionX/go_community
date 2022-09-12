@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0993717_6571cba7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-09-12T16:52:50Z",
+      "side": 1,
+      "message": "For reference, here are example metrics before/after this change: https://gist.github.com/prattmic/3b5cc74299b954820f3a377097ca9fe2\n\nThe histogram is significantly downsampled, but at least at a glance IMO it is still plenty detailed.\n\nOne https://xkcd.com/1172/ style advantage of the previous buckets was that the [0.0, 1.0) ns bucket was convenient for seeing samples where we computed durations with literally the same `now`. With the new [0.0, 64.0) bucket we can\u0027t be sure anymore. But I don\u0027t think this necessarily needs a fix.",
+      "revId": "d9006be42d4d0ac06bcda1b2194f9efc29ff277c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa5315c0_3d87a15f",
+        "filename": "src/runtime/histogram.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-09-12T16:52:50Z",
+      "side": 1,
+      "message": "Next",
+      "range": {
+        "startLine": 46,
+        "startChar": 15,
+        "endLine": 46,
+        "endChar": 21
+      },
+      "revId": "d9006be42d4d0ac06bcda1b2194f9efc29ff277c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "046d216f_ab6a1152",
+        "filename": "src/runtime/histogram.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-09-12T16:52:50Z",
+      "side": 1,
+      "message": "day",
+      "range": {
+        "startLine": 63,
+        "startChar": 64,
+        "endLine": 63,
+        "endChar": 68
+      },
+      "revId": "d9006be42d4d0ac06bcda1b2194f9efc29ff277c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09e43f6c_59c42a40",
+        "filename": "src/runtime/histogram.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-09-12T16:52:50Z",
+      "side": 1,
+      "message": "Perhaps add a comment acknowledging that this is always 0. That tripped me up for a moment.",
+      "revId": "d9006be42d4d0ac06bcda1b2194f9efc29ff277c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
