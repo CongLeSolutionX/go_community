@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c46a9b8c_badf0dcd",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1319,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-09-12T18:46:18Z",
+      "side": 1,
+      "message": "😮 I never paid enough attention to notice that we do most work while in _Gwaiting. That is ... fun? I wonder if (in the future) it would make things a bit more clear by having a dedicated _Ggcdraining state.",
+      "revId": "bb43a2d83bcc34764ac6b2380b154c4eed7f608b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68abfb3e_666d045e",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 3408,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-09-12T18:46:18Z",
+      "side": 1,
+      "message": "You could use casGToWaiting(..., gp.waitreason). Not sure that it matters much though. It would still need an explanatory comment.",
+      "revId": "bb43a2d83bcc34764ac6b2380b154c4eed7f608b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
