@@ -154,12 +154,6 @@
 // The following reduction shows up frequently too. e.g b[(x>>14)&0xFF]
 (CLRLSLDI [c] i:(RLWINM [s] x)) && mergePPC64ClrlsldiRlwinm(c,s) != 0 => (RLWINM [mergePPC64ClrlsldiRlwinm(c,s)] x)
 
-// large constant shifts
-((Lsh64|Rsh64U)x64  _ (MOVDconst [c])) && uint64(c) >= 64 => (MOVDconst [0])
-((Lsh32|Rsh32U)x64  _ (MOVDconst [c])) && uint64(c) >= 32 => (MOVDconst [0])
-((Lsh16|Rsh16U)x64  _ (MOVDconst [c])) && uint64(c) >= 16 => (MOVDconst [0])
-((Lsh8|Rsh8U)x64   _ (MOVDconst [c])) && uint64(c) >= 8  => (MOVDconst [0])
-
 // large constant signed right shift, we leave the sign bit
 (Rsh64x64 x (MOVDconst [c])) && uint64(c) >= 64 => (SRADconst x [63])
 (Rsh32x64 x (MOVDconst [c])) && uint64(c) >= 32 => (SRAWconst x [63])
@@ -173,13 +167,6 @@
 (Lsh16x64  x (MOVDconst [c])) && uint64(c) < 16 => (SLWconst x [c])
 ((Rsh8|Rsh8U)x64  x (MOVDconst [c])) && uint64(c) < 8 => (SR(AW|W)const ((Sign|Zero)Ext8to32 x) [c])
 (Lsh8x64  x (MOVDconst [c])) && uint64(c) < 8 => (SLWconst x [c])
-
-((Lsh64|Rsh64|Rsh64U)x32  x (MOVDconst [c])) && uint32(c) < 64 => (S(L|RA|R)Dconst x [c&63])
-((Lsh32|Rsh32|Rsh32U)x32  x (MOVDconst [c])) && uint32(c) < 32 => (S(L|RA|R)Wconst x [c&31])
-(Lsh16x32  x (MOVDconst [c])) && uint32(c) < 16 => (SLWconst x [c&15])
-(Rsh(16|16U)x32  x (MOVDconst [c])) && uint32(c) < 16 => (S(RA|R)Wconst ((Sign|Zero)Ext16to32 x) [c&15])
-(Lsh8x32   x (MOVDconst [c])) && uint32(c) < 8  => (SLWconst x [c&7])
-(Rsh(8|8U)x32   x (MOVDconst [c])) && uint32(c) < 8  => (S(RA|R)Wconst ((Sign|Zero)Ext8to32  x) [c&7])
 
 // Lower bounded shifts first. No need to check shift value.
 (Lsh64x(64|32|16|8)  x y) && shiftIsBounded(v) => (SLD x y)
@@ -209,9 +196,6 @@
 
 ((Lsh64|Rsh64|Rsh64U)x64 x y)  => (S(L|RA|R)D  x (ISEL [0] y (MOVDconst [-1]) (CMPU y (MOVDconst [64]))))
 
-((Lsh32|Rsh32|Rsh32U)x64 x (AND y (MOVDconst [31]))) => (S(L|RA|R)W x (Select0 <typ.Int32> (ANDCCconst [31] y)))
-(Lsh32x64 x (Select0 <typ.Int32> (ANDCCconst [31] y))) => (SLW x (Select0 <typ.Int32> (ANDCCconst [31] y)))
-((Rsh32|Rsh32U)x64 x (Select0 (ANDCCconst <typ.UInt> [31] y))) => (S(RA|R)W x (Select0 <typ.UInt> (ANDCCconst [31] y)))
 (Rsh(32|32U)x64 x (SUB <typ.UInt> (MOVDconst [32]) (Select0 (ANDCCconst <typ.UInt> [31] y)))) => (SR(AW|W) x (SUB <typ.UInt> (MOVDconst [32]) (Select0 <typ.UInt> (ANDCCconst [31] y))))
 (Rsh(32|32U)x64 x (SUBFCconst <typ.UInt> [32] (Select0 (ANDCCconst <typ.UInt> [31] y)))) => (SR(AW|W) x (SUBFCconst <typ.UInt> [32] (Select0 <typ.UInt> (ANDCCconst [31] y))))
 (Rsh(32|32U)x64 x (SUB <typ.UInt> (MOVDconst [32]) (AND <typ.UInt> y (MOVDconst [31])))) => (SR(AW|W) x (SUB <typ.UInt> (MOVDconst [32]) (Select0 <typ.UInt> (ANDCCconst [31] y))))
