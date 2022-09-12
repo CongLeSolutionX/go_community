@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0185392b_11f5d422",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-09-12T20:42:25Z",
+      "side": 1,
+      "message": "right, that\u0027s what I mean by \"measured the same way.\"",
+      "parentUuid": "e1a044dd_2fb64ee8",
+      "range": {
+        "startLine": 12,
+        "startChar": 16,
+        "endLine": 12,
+        "endChar": 30
+      },
+      "revId": "c265a4d3c69570fc78efddac598fce0203798b01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "81a73a5f_4dbe9fdc",
