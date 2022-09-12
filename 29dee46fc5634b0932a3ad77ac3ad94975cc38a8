@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "03fc479a_d8044941",
+        "filename": "src/runtime/metrics/doc.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-09-12T17:59:35Z",
+      "side": 1,
+      "message": "This is the CPU-time equivalent of wall-time /gc/pauses:seconds, right? Perhaps mention the connection?",
+      "revId": "29dee46fc5634b0932a3ad77ac3ad94975cc38a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2b143d8_c719baf7",
+        "filename": "src/runtime/metrics/doc.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-09-12T17:59:35Z",
+      "side": 1,
+      "message": "The obvious thing missing from the list is time executing application goroutines. Should we add that?",
+      "revId": "29dee46fc5634b0932a3ad77ac3ad94975cc38a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d092cc6_ab3de128",
+        "filename": "src/runtime/metrics/doc.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-09-12T17:59:35Z",
+      "side": 1,
+      "message": "This is not true. This is the estimated _maximum_ CPU time used by this process. It is ∫gomaxprocs dt, which is a massive overestimate for processes with idles Ps.\n\nI\u0027d expect a metric with this name to be the sum of time spent in _Prunning, and ∫gomaxprocs dt to be something like /cpu/classes/total-available:cpu-seconds.\n\n(These metrics are clearly focused on the GC, where I agree that this metric makes sense as this is what GC CPU targets are based on, but I think that most users coming here looking for general CPU metrics (not necessarily GC-specific) will not expect this.)",
+      "revId": "29dee46fc5634b0932a3ad77ac3ad94975cc38a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
