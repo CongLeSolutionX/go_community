@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9838bfde_c1237e13",
+        "filename": "src/runtime/metrics/doc.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-09-12T18:16:35Z",
+      "side": 1,
+      "message": "for the reasons you stated below, this \"other\" also currently includes idle time, so it\u0027s not really accurate.\n\nbreaking out time spent executing application goroutines is a good idea, but I\u0027ll have to see how hard it is to actually measure that without too much overhead. (it gets tricky with syscalls; do we really want to nanotime twice on every syscall? maybe we already do?)",
+      "parentUuid": "e2b143d8_c719baf7",
+      "revId": "29dee46fc5634b0932a3ad77ac3ad94975cc38a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5d092cc6_ab3de128",
         "filename": "src/runtime/metrics/doc.go",
         "patchSetId": 12
@@ -48,6 +66,24 @@
       "writtenOn": "2022-09-12T17:59:35Z",
       "side": 1,
       "message": "This is not true. This is the estimated _maximum_ CPU time used by this process. It is ∫gomaxprocs dt, which is a massive overestimate for processes with idles Ps.\n\nI\u0027d expect a metric with this name to be the sum of time spent in _Prunning, and ∫gomaxprocs dt to be something like /cpu/classes/total-available:cpu-seconds.\n\n(These metrics are clearly focused on the GC, where I agree that this metric makes sense as this is what GC CPU targets are based on, but I think that most users coming here looking for general CPU metrics (not necessarily GC-specific) will not expect this.)",
+      "revId": "29dee46fc5634b0932a3ad77ac3ad94975cc38a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47810f9e_ca94c212",
+        "filename": "src/runtime/metrics/doc.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-09-12T18:16:35Z",
+      "side": 1,
+      "message": "yes, you\u0027re totally right. this is not worded correctly. I think this makes more sense if there\u0027s an \"idle time\" metric. then it\u0027s just the sum of everything.",
+      "parentUuid": "5d092cc6_ab3de128",
       "revId": "29dee46fc5634b0932a3ad77ac3ad94975cc38a8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
