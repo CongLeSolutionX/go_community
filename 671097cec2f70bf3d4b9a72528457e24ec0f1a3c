@@ -214,6 +214,24 @@
       "parentUuid": "14ae1015_b15bdf95",
       "revId": "671097cec2f70bf3d4b9a72528457e24ec0f1a3c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f1fdca0_77f39ed9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6480
+      },
+      "writtenOn": "2022-09-12T09:52:27Z",
+      "side": 1,
+      "message": "Thanks.\n\nI\u0027ve found the corresponding code in ReactOS for loading PE images, and I think that perhaps a better alternative would be to widen the addition in on line 361 something like so `if s.VirtualAddress \u003c\u003d idd.VirtualAddress \u0026\u0026 uint64(idd.VirtualAddress) \u003c uint64(s.VirtualAddress)+uint64(s.VirtualSize) {`. This would avoid the overflow and retain the same behaviour that exists at the moment otherwise, not returning an error. Does that sound better to you?\n\nThe ReactOS code can be found here https://doxygen.reactos.org/d8/dd5/peloader_8c_source.html.",
+      "parentUuid": "703e0c51_2f19b1d2",
+      "revId": "671097cec2f70bf3d4b9a72528457e24ec0f1a3c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
