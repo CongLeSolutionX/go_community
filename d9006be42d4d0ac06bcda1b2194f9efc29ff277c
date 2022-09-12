@@ -59,6 +59,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "40ea3763_a823c80f",
+        "filename": "src/runtime/histogram.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-09-12T20:37:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa5315c0_3d87a15f",
+      "range": {
+        "startLine": 46,
+        "startChar": 15,
+        "endLine": 46,
+        "endChar": 21
+      },
+      "revId": "d9006be42d4d0ac06bcda1b2194f9efc29ff277c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "046d216f_ab6a1152",
@@ -82,6 +106,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "69580f62_5d64e2ce",
+        "filename": "src/runtime/histogram.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-09-12T20:37:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "046d216f_ab6a1152",
+      "range": {
+        "startLine": 63,
+        "startChar": 64,
+        "endLine": 63,
+        "endChar": 68
+      },
+      "revId": "d9006be42d4d0ac06bcda1b2194f9efc29ff277c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "09e43f6c_59c42a40",
@@ -95,6 +143,24 @@
       "writtenOn": "2022-09-12T16:52:50Z",
       "side": 1,
       "message": "Perhaps add a comment acknowledging that this is always 0. That tripped me up for a moment.",
+      "revId": "d9006be42d4d0ac06bcda1b2194f9efc29ff277c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aae6e33f_22810656",
+        "filename": "src/runtime/histogram.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-09-12T20:37:24Z",
+      "side": 1,
+      "message": "instead I just set it to 0 and added the computation here in a comment",
+      "parentUuid": "09e43f6c_59c42a40",
       "revId": "d9006be42d4d0ac06bcda1b2194f9efc29ff277c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
