@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd65a44c_d8d64d10",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-09-13T14:13:04Z",
+      "side": 1,
+      "message": "It looks like you created a second CL, instead of patching https://go.dev/cl/430495. Please fix this so that everything is in one CL (we endeavor to keep the type-checkers in sync always).\n\nTo do this, I use git rebase -i origin/master and squash the commits together, keeping only the Change-Id from the first one. Then mail, and abandon the orphaned CL.",
+      "revId": "4ac1e9e42fe81e2b1a635917e54697fafd9a7d84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
