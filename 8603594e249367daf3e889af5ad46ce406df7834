@@ -176,6 +176,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d074534f_b18b3b00",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-09-13T17:11:11Z",
+      "side": 1,
+      "message": "They point to specific instructions in the inlined PLT calling sequence. They can be used to optimize calls which can be made locally. The CL above this attempts to do this.",
+      "parentUuid": "4bb8edb2_a644e7e7",
+      "revId": "8603594e249367daf3e889af5ad46ce406df7834",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "323dd82e_b3388c24",
