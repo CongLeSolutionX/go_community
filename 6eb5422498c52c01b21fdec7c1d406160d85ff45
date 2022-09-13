@@ -108,6 +108,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "97dbd8e7_bb75bb39",
+        "filename": "src/debug/buildinfo/buildinfo_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-09-13T17:45:36Z",
+      "side": 1,
+      "message": "If we keep the test, I think it would be better to fail the test instead of skipping if the data is not a valid PE file.\n\n(Otherwise, the test could silently stop running at all if the validation logic in the `debug/pe` package changes.)",
+      "parentUuid": "82c67edb_3861b5c7",
+      "revId": "6eb5422498c52c01b21fdec7c1d406160d85ff45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9c756140_911098d1",
         "filename": "src/debug/buildinfo/buildinfo_test.go",
         "patchSetId": 4
