@@ -72,6 +72,24 @@
       "message": "It seems a bit odd that the name of this new file is ppc64_cgo and not ppc64le_cgo? I know the naming is not ideal, but if this could be ppc64le_cgo I think it would be clearer.",
       "revId": "4054f8195183bfaf407a36bd7ea83a0cd3a9cc17",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "afa3c372_367f07b7",
+        "filename": "src/cmd/go/testdata/script/test_ppc64_cgo_inline_plt.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-09-13T19:32:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "936e658e_20941b5c",
+      "revId": "4054f8195183bfaf407a36bd7ea83a0cd3a9cc17",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
