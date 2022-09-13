@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "873f5661_6ef7db6d",
+        "filename": "src/debug/buildinfo/buildinfo_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 52385
+      },
+      "writtenOn": "2022-09-13T12:44:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5450337_c124dac7",
+      "revId": "da2b44cf1f5c7c4b7a28e383acf0e002a48def46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2df1b5c5_60675579",
@@ -54,6 +72,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "acc2810c_a86dc368",
+        "filename": "src/debug/buildinfo/buildinfo_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 52385
+      },
+      "writtenOn": "2022-09-13T12:44:56Z",
+      "side": 1,
+      "message": "It turns out that it\u0027s a little complicated because the data should starts with a valid executable header. Otherwise, it won\u0027t reach the code that searches for `\\xff Go buildinf:`.\n\nI have managed to construct a valid (kind of) PE header on the fly. I\u0027m not sure whether this is what you want. Please take a look, thank you!",
+      "parentUuid": "2df1b5c5_60675579",
+      "revId": "da2b44cf1f5c7c4b7a28e383acf0e002a48def46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "36e20a84_8001379f",
         "filename": "src/debug/buildinfo/buildinfo_test.go",
         "patchSetId": 3
@@ -65,6 +101,24 @@
       "writtenOn": "2022-09-12T18:58:52Z",
       "side": 1,
       "message": "`go test` already supports timeouts natively. We don\u0027t need to reimplement any timeout logic here.\n\nJust call buildinfo.Read and check that it\u0027s the expected error.",
+      "revId": "da2b44cf1f5c7c4b7a28e383acf0e002a48def46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ed16256_811a819b",
+        "filename": "src/debug/buildinfo/buildinfo_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 52385
+      },
+      "writtenOn": "2022-09-13T12:44:56Z",
+      "side": 1,
+      "message": "I was worried that when it enters an infinite loop, it will consume too many resources and affect other tests. Anyway, this should not happen unless it regresses. I will remove the timeout logic.",
+      "parentUuid": "36e20a84_8001379f",
       "revId": "da2b44cf1f5c7c4b7a28e383acf0e002a48def46",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
