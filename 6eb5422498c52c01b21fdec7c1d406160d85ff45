@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "382ea553_adc2ba5d",
+        "filename": "src/debug/buildinfo/buildinfo_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 52385
+      },
+      "writtenOn": "2022-09-13T17:20:39Z",
+      "side": 1,
+      "message": "In fact, the typo will cause valid input to fail. It fails when there happen to be an misaligned buildInfoMagic coming before a valid buildInfoMagic.\n\nBut since the \"rounding up to the multiple of 2^n\" is a common pattern, and it\u0027s indeed just a typo, I\u0027m not sure whether it deserves a test.\n\nI don\u0027t have a strong opinion here. I will accept any decision.\n\nAnyway, I have learned a lot and understand the problem better during writing the test! Thank you all!",
+      "parentUuid": "79a21c61_e918de63",
+      "revId": "6eb5422498c52c01b21fdec7c1d406160d85ff45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8325f8ed_9aa0f1aa",
         "filename": "src/debug/buildinfo/buildinfo_test.go",
         "patchSetId": 4
@@ -31,6 +49,24 @@
       "writtenOn": "2022-09-13T16:23:11Z",
       "side": 1,
       "message": "(nit, throughout this test) Go comments are conventionally complete sentences, starting with a capital letter and ending with punctuation.\n\n``\n// Construct a valid PE header.\n```",
+      "revId": "6eb5422498c52c01b21fdec7c1d406160d85ff45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "75672846_68b13bf8",
+        "filename": "src/debug/buildinfo/buildinfo_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 52385
+      },
+      "writtenOn": "2022-09-13T17:20:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8325f8ed_9aa0f1aa",
       "revId": "6eb5422498c52c01b21fdec7c1d406160d85ff45",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -52,6 +88,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "82c67edb_3861b5c7",
+        "filename": "src/debug/buildinfo/buildinfo_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 52385
+      },
+      "writtenOn": "2022-09-13T17:20:39Z",
+      "side": 1,
+      "message": "👍 Good idea! I will skip the test if the PE header is invalid.",
+      "parentUuid": "9549e3e4_2ac2790f",
+      "revId": "6eb5422498c52c01b21fdec7c1d406160d85ff45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9c756140_911098d1",
@@ -65,6 +119,30 @@
       "writtenOn": "2022-09-13T16:23:11Z",
       "side": 1,
       "message": "A comment here would help to explain what exactly we\u0027re constructing — is this an intentionally-misaligned buildInfoMagic?",
+      "range": {
+        "startLine": 299,
+        "startChar": 0,
+        "endLine": 301,
+        "endChar": 59
+      },
+      "revId": "6eb5422498c52c01b21fdec7c1d406160d85ff45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df6b7ace_11824dc0",
+        "filename": "src/debug/buildinfo/buildinfo_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 52385
+      },
+      "writtenOn": "2022-09-13T17:20:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c756140_911098d1",
       "range": {
         "startLine": 299,
         "startChar": 0,
