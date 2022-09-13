@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package types
+package types2
 
 type errorCode int
 
@@ -867,7 +867,7 @@ const (
 	//  var _ = string(x)
 	_InvalidConversion
 
-	// _InvalidUntypedConversion occurs when there is no valid implicit
+	// _InvalidUntypedConversion occurs when an there is no valid implicit
 	// conversion from an untyped value satisfying the type constraints of the
 	// context in which it is used.
 	//
