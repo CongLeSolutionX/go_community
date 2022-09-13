@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0a74cf4_b63fa217",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-09-13T21:42:44Z",
+      "side": 1,
+      "message": "Why *4 ?  Is SymLocalentry a byte offset?",
+      "range": {
+        "startLine": 188,
+        "startChar": 64,
+        "endLine": 188,
+        "endChar": 66
+      },
+      "revId": "821015479082a8d93de58eb45efb55237e882b55",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7afbb4f1_0950a1c0",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-09-13T21:42:44Z",
+      "side": 1,
+      "message": "Rewrite the instruction at offset ... ?",
+      "range": {
+        "startLine": 380,
+        "startChar": 3,
+        "endLine": 380,
+        "endChar": 20
+      },
+      "revId": "821015479082a8d93de58eb45efb55237e882b55",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56038548_a53a48a5",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-09-13T21:42:44Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 391,
+        "startChar": 3,
+        "endLine": 391,
+        "endChar": 20
+      },
+      "revId": "821015479082a8d93de58eb45efb55237e882b55",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2bcc4001_cb0f4b8b",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-09-13T21:42:44Z",
+      "side": 1,
+      "message": "Not needed now?",
+      "range": {
+        "startLine": 559,
+        "startChar": 4,
+        "endLine": 559,
+        "endChar": 28
+      },
+      "revId": "821015479082a8d93de58eb45efb55237e882b55",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
