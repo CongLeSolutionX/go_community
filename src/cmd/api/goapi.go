@@ -126,7 +126,11 @@ func setContexts() {
 
 var internalPkg = regexp.MustCompile(`(^|/)internal($|/)`)
 
+var exitCode = 0
+
 func main() {
+	log.SetPrefix("api: ")
+	log.SetFlags(0)
 	flag.Parse()
 
 	if build.Default.GOROOT == "" {
@@ -229,6 +233,7 @@ func main() {
 	}
 	exception := fileFeatures(*exceptFile)
 	fail = !compareAPI(bw, features, required, optional, exception, *allowNew)
+	os.Exit(exitCode)
 }
 
 // export emits the exported package features.
@@ -362,9 +367,27 @@ func fileFeatures(filename string) []string {
 	}
 	bs, err := os.ReadFile(filename)
 	if err != nil {
-		log.Fatalf("Error reading file %s: %v", filename, err)
+		log.Fatal(err)
 	}
 	s := string(bs)
+
+	// Diagnose common mistakes people make,
+	// since there is no apifmt to format these files.
+	// The missing final newline is important for the
+	// final release step of cat next/*.txt >go1.X.txt.
+	// If the files don't end in full lines, the concatenation goes awry.
+	if strings.Contains(s, "\r") {
+		log.Printf("%s: contains CRLFs", filename)
+		exitCode = 1
+	}
+	if s == "" {
+		log.Printf("%s: empty file", filename)
+		exitCode = 1
+	}
+	if s[len(s)-1] != '\n' {
+		log.Printf("%s: missing final newline", filename)
+		exitCode = 1
+	}
 	s = aliasReplacer.Replace(s)
 	lines := strings.Split(s, "\n")
 	var nonblank []string
@@ -376,11 +399,13 @@ func fileFeatures(filename string) []string {
 		if needApproval {
 			feature, approval, ok := strings.Cut(line, "#")
 			if !ok {
-				log.Fatalf("%s:%d: missing proposal approval\n", filename, i+1)
+				log.Printf("%s:%d: missing proposal approval\n", filename, i+1)
+				exitCode = 1
 			}
 			_, err := strconv.Atoi(approval)
 			if err != nil {
-				log.Fatalf("%s:%d: malformed proposal approval #%s\n", filename, i+1, approval)
+				log.Printf("%s:%d: malformed proposal approval #%s\n", filename, i+1, approval)
+				exitCode = 1
 			}
 			line = strings.TrimSpace(feature)
 		}
