@@ -51,6 +51,24 @@
       "parentUuid": "c59545fb_bd643e45",
       "revId": "8015100e89c25a5dafb154043f74626df9ad4111",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad58f5e1_1267a161",
+        "filename": "src/cmd/covdata/covdata.go",
+        "patchSetId": 61
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-09-14T17:11:38Z",
+      "side": 1,
+      "message": "\u003e I would like to point out that this feature (the distinction between \"main module\" only, \"dependencies listed in go.mod\" and \"all packages, including stdlib) is something that has been part of my design since day one. It was in the original internal design document, it was in the public proposal that was circulated + discussed + accepted, and it was in the first version of my CLs that I sent you to review last May (more than four months ago).\n\u003e \n\u003e Based on your comment here (as well as your previous comment in https://go-review.git.corp.google.com/c/go/+/355452/comment/132e87b7_cee2c3d8/ ) it is now finally becoming clear to me that you feel it is basically just a bad idea at any level and in any form (either in the cmd/go \"-coverpkg\u003dmod.main\" syntax or here as an option for cmd/covdata), and I have to say I am a bit frustrated by the timing.  It would have been great if you could have made your objections known a little earlier on in the process. Oh well.\n\nI agree that the distinction has been present throughout the drafts. I had not realized the finer implications of that detail until I looked in more depth at these CLs — the current design doc does not mention the `pkgclass` flag, nor the `depmod`, `mainmod`, etc. tokens, nor the `mod.main` package pattern. (The `mod.deps` pattern was mentioned, but only in an example; I apparently overlooked that example.)\n\nI had interpreted that part of the design was a framework for thinking about the concrete command-line interface, with details to be worked out later — and I\u0027m not satisfied with how the details have worked out.\n\nI am sorry that I hadn\u0027t been able to pay more attention to this detail earlier in the design process. (This is unfortunately one of several issues I haven\u0027t been able to attend as closely as I\u0027d like, due to a variety of factors.)",
+      "parentUuid": "40310e9a_15d1f9f0",
+      "revId": "8015100e89c25a5dafb154043f74626df9ad4111",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
