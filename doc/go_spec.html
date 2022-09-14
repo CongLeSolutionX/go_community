@@ -1,6 +1,6 @@
 <!--{
 	"Title": "The Go Programming Language Specification",
-	"Subtitle": "Version of September 8, 2022",
+	"Subtitle": "Version of September 14, 2022",
 	"Path": "/ref/spec"
 }-->
 
@@ -5555,6 +5555,7 @@ s4 := (*[4]byte)(s)      // panics: len([4]byte) > len(s)
 var t []string
 t0 := (*[0]string)(t)    // t0 == nil
 t1 := (*[1]string)(t)    // panics: len([1]string) > len(t)
+t2 := [0]string(t)       // [0]T(x) is fine when x is a nil slice
 
 u := make([]byte, 0)
 u0 := (*[0]byte)(u)      // u0 != nil
