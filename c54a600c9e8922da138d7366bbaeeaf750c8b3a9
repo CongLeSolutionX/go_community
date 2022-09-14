@@ -123,6 +123,24 @@
       "message": "Russ or Dmitri, could you please remove the hold vote? We can submit this now that we\u0027re in the 1.20 cycle.\n\nBryan, would you mind rebasing so we can re-test against the latest master?",
       "revId": "c54a600c9e8922da138d7366bbaeeaf750c8b3a9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cfb14f0_3b52d56a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2022-09-14T23:44:21Z",
+      "side": 1,
+      "message": "We are indeed in 1.20 dev window now, thanks for the ping. I\u0027ll let Russ remove it since he added it and is also the reviewer on this CL.\n\nProposal #21463 mentioned in the commit message isn\u0027t in accepted state; does this need to wait for that?",
+      "parentUuid": "18aeb426_e186158c",
+      "revId": "c54a600c9e8922da138d7366bbaeeaf750c8b3a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
