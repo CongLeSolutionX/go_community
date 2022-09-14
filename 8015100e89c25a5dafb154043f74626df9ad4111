@@ -33,6 +33,24 @@
       "message": "Given that we know the module path for each package, it seems like it would be more flexible (and more consistent with other module tooling) to filter on module paths — perhaps a list of exact module paths, or a list of module path patterns (as would be passed to `go list -m`)?\n\nI could reasonably see users running coverage to answer questions like “what are we actually using from \u003cdependency we\u0027d like to drop\u003e?” or “what is \u003cimportant customer\u003e actually using from \u003cour module\u003e?”, but in those cases the coverage you\u0027d be after is either a package pattern or a single specific module. (The use-case for “everything but the main module” is maybe interesting for exploration, but doesn\u0027t seem as central as asking about either specific modules or the entire program.)",
       "revId": "8015100e89c25a5dafb154043f74626df9ad4111",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40310e9a_15d1f9f0",
+        "filename": "src/cmd/covdata/covdata.go",
+        "patchSetId": 61
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-09-14T14:06:29Z",
+      "side": 1,
+      "message": "I would like to point out that this feature (the distinction between \"main module\" only, \"dependencies listed in go.mod\" and \"all packages, including stdlib) is something that has been part of my design since day one. It was in the original internal design document, it was in the public proposal that was circulated + discussed + accepted, and it was in the first version of my CLs that I sent you to review last May (more than four months ago).\n\nBased on your comment here (as well as your previous comment in https://go-review.git.corp.google.com/c/go/+/355452/comment/132e87b7_cee2c3d8/ ) it is now finally becoming clear to me that you feel it is basically just a bad idea at any level and in any form (either in the cmd/go \"-coverpkg\u003dmod.main\" syntax or here as an option for cmd/covdata), and I have to say I am a bit frustrated by the timing.  It would have been great if you could have made your objections known a little earlier on in the process. Oh well.\n\nI personally feel that the ability to refer to dependent packages (those pulled in via go.mod but not part of the main module) via this sort of special syntax as a useful feature, but at this point I don\u0027t think I want to try to argue/discuss any more about it. I will defer to your expertise and remove it, in the interests of moving the project along.\n\nThanks.",
+      "parentUuid": "c59545fb_bd643e45",
+      "revId": "8015100e89c25a5dafb154043f74626df9ad4111",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
