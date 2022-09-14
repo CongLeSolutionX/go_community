@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0b6985e_ede05b9a",
+        "filename": "src/cmd/covdata/covdata.go",
+        "patchSetId": 61
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-09-14T03:10:44Z",
+      "side": 1,
+      "message": "Is there a particular reason for this to be a regexp rather than a package pattern?\n\nFor `cmd/go` we generally pass package patterns (for cmd/go argument lists) or prefix globs (for `GOPRIVATE` and `GOINSECURE`), so using regular expressions here it seems likely that users will need to convert between the two.",
+      "revId": "8015100e89c25a5dafb154043f74626df9ad4111",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c59545fb_bd643e45",
+        "filename": "src/cmd/covdata/covdata.go",
+        "patchSetId": 61
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-09-14T03:10:44Z",
+      "side": 1,
+      "message": "Given that we know the module path for each package, it seems like it would be more flexible (and more consistent with other module tooling) to filter on module paths — perhaps a list of exact module paths, or a list of module path patterns (as would be passed to `go list -m`)?\n\nI could reasonably see users running coverage to answer questions like “what are we actually using from \u003cdependency we\u0027d like to drop\u003e?” or “what is \u003cimportant customer\u003e actually using from \u003cour module\u003e?”, but in those cases the coverage you\u0027d be after is either a package pattern or a single specific module. (The use-case for “everything but the main module” is maybe interesting for exploration, but doesn\u0027t seem as central as asking about either specific modules or the entire program.)",
+      "revId": "8015100e89c25a5dafb154043f74626df9ad4111",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
