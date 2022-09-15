@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e812635_2889eb9f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-09-15T01:43:59Z",
+      "side": 1,
+      "message": "Thanks.  The problem with this approach is that calling make with a very large but valid value will cause the program to fail to allocate memory and crash.  I think it would be fine to return an error if s.Size is negative when treated as a signed integer.  But if the value is in range, then we can\u0027t just return make; we still should go through saferio.ReadData or something similar, to keep us from crashing due to an out of memory error.",
+      "revId": "653993e9a2c8a0bb3367d5ff2fb10cc5d5cb5b57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
