@@ -16,6 +16,24 @@
       "message": "Thanks.  The problem with this approach is that calling make with a very large but valid value will cause the program to fail to allocate memory and crash.  I think it would be fine to return an error if s.Size is negative when treated as a signed integer.  But if the value is in range, then we can\u0027t just return make; we still should go through saferio.ReadData or something similar, to keep us from crashing due to an out of memory error.",
       "revId": "653993e9a2c8a0bb3367d5ff2fb10cc5d5cb5b57",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb61380a_25e51c32",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 52385
+      },
+      "writtenOn": "2022-09-15T05:14:33Z",
+      "side": 1,
+      "message": "I just had a checked, the type of `s.Size` is `uint64`, so we don\u0027t have to worry about the negative value.\n\nI think the problem here is that it\u0027s hard to decide whether the size is valid. Looking back, I think Dan Kortschak\u0027s approach (return `nil, nil`) is better. I can not think of a use case that a caller wants the byte slice from a SHT_NOBITS section. How about let\u0027s just document it and returns `nil, nil`?\n\n\n```\n// ...\n//\n// It returns \"nil, nil\" when the content type is SHT_NOBITS.\nfunc (s *Section) Data() ([]byte, error) {\n\tif s.Type \u003d\u003d SHT_NOBITS {\n\t\treturn nil, nil\n\t}\n\treturn saferio.ReadData(s.Open(), s.Size)\n}\n\n// ...\n//\n// The ReadSeeker can be used to read bytes with zero value from\n// an SHT_NOBITS section.\nfunc (s *Section) Open() io.ReadSeeker {\n```",
+      "parentUuid": "0e812635_2889eb9f",
+      "revId": "653993e9a2c8a0bb3367d5ff2fb10cc5d5cb5b57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
