@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0bfd01c4_151922cf",
+        "filename": "src/cmd/go/internal/modcmd/tidy.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-09-15T01:42:24Z",
+      "side": 1,
+      "message": "This is too much detail for this help text.\n\n(Much of the existing `go help` text is already too verbose, but let\u0027s not add to that problem.)\n\nInstead, perhaps add a sentence to the first paragraph? Maybe something along the lines of:\n\u003e Tidy treats all build constraints except \u0027ignore\u0027 as satisfied,\n\u003e including implicit constraints from filenames.",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 58
+      },
+      "revId": "f75a9c781f78864f8281e589efb7d9d4458cbe8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
