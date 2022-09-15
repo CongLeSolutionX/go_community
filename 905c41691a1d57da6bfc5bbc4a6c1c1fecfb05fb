@@ -70,6 +70,23 @@
       "message": "LGTM. That flag always seemed a bit suspicious to me, FWIW.",
       "revId": "905c41691a1d57da6bfc5bbc4a6c1c1fecfb05fb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea251569_dd201f79",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-09-15T14:57:49Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "905c41691a1d57da6bfc5bbc4a6c1c1fecfb05fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
