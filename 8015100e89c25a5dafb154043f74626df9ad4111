@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "64ccf6ae_8046e6ac",
+        "filename": "src/cmd/covdata/covdata.go",
+        "patchSetId": 61
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-09-15T15:43:11Z",
+      "side": 1,
+      "message": "It\u0027s true, this is indeed incompatible with go command package patterns. It just seemed as though it is a bit more flexible/powerful.\n\nFrom my perspective the strength/power of package patterns lies in being able to pick out packages using relative paths, e.g if I am sitting in \"$GOROOT/src/cmd\", it is great to be able to do things like\n\n  $ go test ./internal/obj/...\n\nor\n\n  $ go vet ./compile/internal/...\n\nWhen working with coverage profile data for applications, it seems less likely (at least to me) that folks will be working from within a specific point in their source tree, meaning that picking out specific pieces with patterns seems problematic (maybe there is a way to do this that I don\u0027t know about?).\n\nIf I am working with a coverage profile from Kubernetes kubelet, with a regular xpresssion I can do things like\n\n  $ go tool covdata percent -pkgre\u003dpkg/admission/plugin/webhook/config -i\u003d./covdata\n  k8s.io/apiserver/pkg/admission/plugin/webhook/config\tcoverage: 15.8% of statements\n  k8s.io/apiserver/pkg/admission/plugin/webhook/config/apis/webhookadmission\tcoverage: 18.8% of statements\n  k8s.io/apiserver/pkg/admission/plugin/webhook/config/apis/webhookadmission/v1\tcoverage: 24.1% of statements\n k8s.io/apiserver/pkg/admission/plugin/webhook/config/apis/webhookadmission/v1alpha1\tcoverage: 24.1% of statements\n  $\n  \nIs there a straightforward way to do that with package patterns, other than locating the proper place in the source hierarchy and then running \"go tool covdata\" from there?\n\nThere is also the question of implementation (I had assumed that the machinery for package pattern matching was all internal to the go tool).",
+      "parentUuid": "a0b6985e_ede05b9a",
+      "revId": "8015100e89c25a5dafb154043f74626df9ad4111",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c59545fb_bd643e45",
         "filename": "src/cmd/covdata/covdata.go",
         "patchSetId": 61
