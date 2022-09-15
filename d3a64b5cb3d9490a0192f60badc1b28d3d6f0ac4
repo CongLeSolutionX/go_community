@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "6bf7a5dd_8f6a92b8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2022-09-15T11:24:00Z",
+      "side": 1,
+      "message": "Nit: drops an extra space after `calls`",
+      "revId": "d3a64b5cb3d9490a0192f60badc1b28d3d6f0ac4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "2c0ab782_c23d560b",
