@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41c90c05_788d264f",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-09-15T14:13:54Z",
+      "side": 0,
+      "message": "I think we can get rid of all of these as well, lines 198-218.\n(Rotate detection is now in generic.rules.)",
+      "revId": "54182ff54a687272dd7632c3a963e036ce03cb7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
