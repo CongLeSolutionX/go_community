@@ -69,6 +69,11 @@ Diff:
 			continue
 		}
 
+		// Ignore GLOBL.
+		if strings.HasPrefix(line, "GLOBL ") {
+			continue
+		}
+
 		// The general form of a test input line is:
 		//	// comment
 		//	INST args [// printed form] [// hex encoding]
