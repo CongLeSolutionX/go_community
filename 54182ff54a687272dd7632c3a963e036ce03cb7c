@@ -16,6 +16,24 @@
       "message": "I think we can get rid of all of these as well, lines 198-218.\n(Rotate detection is now in generic.rules.)",
       "revId": "54182ff54a687272dd7632c3a963e036ce03cb7c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d759adc0_e45a45f1",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2022-09-15T17:48:32Z",
+      "side": 0,
+      "message": "Most can be removed but those with the ISEL on the right can\u0027t. On Power the shift instructions use the lower bits of the shift count register for the shift count, so if the total value in the register is \u003e\u003d64 the result won\u0027t be correct unless value of the low bits is \u003e\u003d 64.",
+      "parentUuid": "41c90c05_788d264f",
+      "revId": "54182ff54a687272dd7632c3a963e036ce03cb7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
