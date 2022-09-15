@@ -16,6 +16,24 @@
       "message": "This is fine. I wonder why we couldn\u0027t have similar optimizations with XOR. Perhaps SUB is similar to integer comparison so we don\u0027t need new rules?\n",
       "revId": "4288cc97e720448cd8ca3a6cc2593f55c2adfe78",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49a96b24_49ef2593",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2022-09-15T06:52:17Z",
+      "side": 1,
+      "message": "Indeed - we could keep the existing usage of XOR and write additional rules that turn (BEQZ (XORI)) and (BNEZ (XORI)) into more efficient branch conditions. However, by switching to SUB we end up reusing all the optimisations that already exist for integer comparison.",
+      "parentUuid": "2e0c3655_15430ec2",
+      "revId": "4288cc97e720448cd8ca3a6cc2593f55c2adfe78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
