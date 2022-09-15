@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4bf4e36c_93271047",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-09-15T22:10:20Z",
+      "side": 1,
+      "message": "Yeah, I think it is clearer to use the number of bytes. Either way, it probably should be documented at the definition of loader.SymLocalentry.",
+      "parentUuid": "514bb45d_871af982",
+      "range": {
+        "startLine": 188,
+        "startChar": 64,
+        "endLine": 188,
+        "endChar": 66
+      },
+      "revId": "821015479082a8d93de58eb45efb55237e882b55",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7afbb4f1_0950a1c0",
         "filename": "src/cmd/link/internal/ppc64/asm.go",
         "patchSetId": 7
