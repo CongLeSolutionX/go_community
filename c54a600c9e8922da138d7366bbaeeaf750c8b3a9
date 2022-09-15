@@ -141,6 +141,24 @@
       "parentUuid": "18aeb426_e186158c",
       "revId": "c54a600c9e8922da138d7366bbaeeaf750c8b3a9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0011cb04_a8950778",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2022-09-15T08:05:43Z",
+      "side": 1,
+      "message": "I\u0027m fairly sure that the hold vote was just for the 1.20 cycle. Fine with me to wait for Russ, but I worry that he might not get to it before the freeze is upon us.\n\nAs for the proposal hold, my understanding is that the hold is for a major change like a new matcher. Russ seems to be okay with smaller incremental improvements, given what he said on that thread and this +2 here.",
+      "parentUuid": "3cfb14f0_3b52d56a",
+      "revId": "c54a600c9e8922da138d7366bbaeeaf750c8b3a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
