@@ -34,6 +34,23 @@
       "parentUuid": "2e0c3655_15430ec2",
       "revId": "4288cc97e720448cd8ca3a6cc2593f55c2adfe78",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc78270d_be71c548",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2022-09-15T06:52:48Z",
+      "side": 1,
+      "message": "TRY\u003dlinux-riscv64",
+      "revId": "4288cc97e720448cd8ca3a6cc2593f55c2adfe78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
