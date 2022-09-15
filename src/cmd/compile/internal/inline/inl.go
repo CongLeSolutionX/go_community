@@ -304,7 +304,9 @@ func (v *hairyVisitor) doNode(n ir.Node) bool {
 						case "littleEndian.Uint64", "littleEndian.Uint32", "littleEndian.Uint16",
 							"bigEndian.Uint64", "bigEndian.Uint32", "bigEndian.Uint16",
 							"littleEndian.PutUint64", "littleEndian.PutUint32", "littleEndian.PutUint16",
-							"bigEndian.PutUint64", "bigEndian.PutUint32", "bigEndian.PutUint16":
+							"bigEndian.PutUint64", "bigEndian.PutUint32", "bigEndian.PutUint16",
+							"littleEndian.AppendUint64", "littleEndian.AppendUint32", "littleEndian.AppendUint16",
+							"bigEndian.AppendUint64", "bigEndian.AppendUint32", "bigEndian.AppendUint16":
 							cheap = true
 						}
 					}
@@ -360,7 +362,7 @@ func (v *hairyVisitor) doNode(n ir.Node) bool {
 
 		// TODO(danscales): Maybe make budget proportional to number of closure
 		// variables, e.g.:
-		//v.budget -= int32(len(n.(*ir.ClosureExpr).Func.ClosureVars) * 3)
+		// v.budget -= int32(len(n.(*ir.ClosureExpr).Func.ClosureVars) * 3)
 		v.budget -= 15
 		// Scan body of closure (which DoChildren doesn't automatically
 		// do) to check for disallowed ops in the body and include the
@@ -991,7 +993,7 @@ func oldInlineCall(call *ir.CallExpr, fn *ir.Func, inlIndex int) *ir.InlinedCall
 		}
 	}
 
-	//dumplist("ninit post", ninit);
+	// dumplist("ninit post", ninit);
 
 	res := ir.NewInlinedCallExpr(base.Pos, body, retvars)
 	res.SetInit(ninit)
@@ -1179,13 +1181,13 @@ func (subst *inlsubst) closure(n *ir.ClosureExpr) ir.Node {
 	defer func(prev bool) { subst.noPosUpdate = prev }(subst.noPosUpdate)
 	subst.noPosUpdate = true
 
-	//fmt.Printf("Inlining func %v with closure into %v\n", subst.fn, ir.FuncName(ir.CurFunc))
+	// fmt.Printf("Inlining func %v with closure into %v\n", subst.fn, ir.FuncName(ir.CurFunc))
 
 	oldfn := n.Func
 	newfn := ir.NewClosureFunc(oldfn.Pos(), true)
 
 	if subst.newclofn != nil {
-		//fmt.Printf("Inlining a closure with a nested closure\n")
+		// fmt.Printf("Inlining a closure with a nested closure\n")
 	}
 	prevxfunc := subst.newclofn
 
