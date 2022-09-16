@@ -53,6 +53,23 @@
       "message": "RELNOTES\u003dyes\n\nThanks!",
       "revId": "fad56d643e7ac07f51395535741ce7b99c806bf5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c2e77a2_b0e503a1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6010
+      },
+      "writtenOn": "2022-09-16T20:15:02Z",
+      "side": 1,
+      "message": "apparently i need a review enforcement vote before submitting.\nI\u0027m afraid I can\u0027t remember how that works, but I\u0027ll submit when I get one...",
+      "revId": "fad56d643e7ac07f51395535741ce7b99c806bf5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
