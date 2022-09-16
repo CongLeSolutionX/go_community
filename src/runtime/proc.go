@@ -703,6 +703,13 @@ func schedinit() {
 	sigsave(&gp.m.sigmask)
 	initSigmask = gp.m.sigmask
 
+	// if disableMemoryProfiling is set, update MemProfileRate to 0 to turn off memprofile.
+	// Note: parsedebugvars may update MemProfileRate prior to running init functions,
+	// so it can't be an init function.
+	if disableMemoryProfiling {
+		MemProfileRate = 0
+	}
+
 	goargs()
 	goenvs()
 	parsedebugvars()
