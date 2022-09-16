@@ -52,6 +52,24 @@
       "parentUuid": "fb61380a_25e51c32",
       "revId": "653993e9a2c8a0bb3367d5ff2fb10cc5d5cb5b57",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa144de6_09ad6d3e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 52385
+      },
+      "writtenOn": "2022-09-16T04:05:47Z",
+      "side": 1,
+      "message": "How about let\u0027s set a soft limit for the size? When the size is larger than the limit, it returns `nil, err`. Otherwise, it returns `make([]byte, s.Size), nil`. It still breaks the compatibility, but just for most likely invalid input. And the user can workaround it by checking `s.Type` before calling this function.\n\nI checked Chrome on my computer, the size of the `.bss` section is 0X236a50 (around 2.2M). The chunk size of `saferio` is 10M. I think it\u0027s safe to set the soft limit to 10M.",
+      "parentUuid": "7cf16b21_991d79a8",
+      "revId": "653993e9a2c8a0bb3367d5ff2fb10cc5d5cb5b57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
