@@ -810,8 +810,8 @@ func main() {
 		t.Fatalf("*main.X DIE had no runtime type attr. DIE: %v", dies[0])
 	}
 
-	if runtime.GOOS == "darwin" && runtime.GOARCH == "arm64" {
-		return // everything is PIE on ARM64, addresses are relocated
+	if runtime.GOOS == "darwin" {
+		return // we build PIE by default, addresses are relocated
 	}
 	if rtAttr.(uint64)+types.Addr != addr {
 		t.Errorf("DWARF type offset was %#x+%#x, but test program said %#x", rtAttr.(uint64), types.Addr, addr)

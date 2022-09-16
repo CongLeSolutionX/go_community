@@ -244,10 +244,12 @@ func buildModeInit() {
 			ldBuildmode = "pie"
 		case "darwin":
 			switch cfg.Goarch {
+			case "amd64":
+				ldBuildmode = "pie"
 			case "arm64":
 				codegenArg = "-shared"
+				ldBuildmode = "exe"
 			}
-			fallthrough
 		default:
 			ldBuildmode = "exe"
 		}
