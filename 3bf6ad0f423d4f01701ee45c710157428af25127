@@ -55,6 +55,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "813166e4_b4230f02",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-09-16T15:09:38Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "3bf6ad0f423d4f01701ee45c710157428af25127",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f13b9a1a_a73bc426",
@@ -68,6 +85,30 @@
       "writtenOn": "2022-09-16T11:36:33Z",
       "side": 1,
       "message": "Why only amd64? The warning doesn\u0027t happen with arm64?",
+      "range": {
+        "startLine": 1778,
+        "startChar": 29,
+        "endLine": 1778,
+        "endChar": 36
+      },
+      "revId": "3bf6ad0f423d4f01701ee45c710157428af25127",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54192737_d80789a5",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1778,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-09-16T15:09:38Z",
+      "side": 1,
+      "message": "It doesn\u0027t, because we already always build PIE on ARM64. (I guess it could happen if user explicitly passes -ldflags\u003d-extldflags\u003d-no_pie, but I think that\u0027s out of our reach.)",
+      "parentUuid": "f13b9a1a_a73bc426",
       "range": {
         "startLine": 1778,
         "startChar": 29,
