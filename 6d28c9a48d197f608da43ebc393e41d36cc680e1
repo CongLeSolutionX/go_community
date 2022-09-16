@@ -34,6 +34,24 @@
       "parentUuid": "a3d1b2d1_0807e856",
       "revId": "6d28c9a48d197f608da43ebc393e41d36cc680e1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "99c14d8a_9f1731dd",
+        "filename": "src/database/sql/driver/types_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 50284
+      },
+      "writtenOn": "2022-09-16T08:45:07Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c4e5f621_3326c432",
+      "revId": "6d28c9a48d197f608da43ebc393e41d36cc680e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
