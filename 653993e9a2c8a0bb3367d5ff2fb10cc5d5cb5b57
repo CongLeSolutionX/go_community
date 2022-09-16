@@ -70,6 +70,24 @@
       "parentUuid": "7cf16b21_991d79a8",
       "revId": "653993e9a2c8a0bb3367d5ff2fb10cc5d5cb5b57",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eeb17587_66a468cb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-09-16T20:11:33Z",
+      "side": 1,
+      "message": "I don\u0027t yet see the argument for returning an error when we can return a valid value.  We want our code to behave correctly.\n\nIt\u0027s not like we are telling people to call the Data method for .bss.  It\u0027s easy enough for them to not do so.  But if they do it, we should give them the correct results.",
+      "parentUuid": "fa144de6_09ad6d3e",
+      "revId": "653993e9a2c8a0bb3367d5ff2fb10cc5d5cb5b57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
