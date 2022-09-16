@@ -91,6 +91,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "98690a80_9594363c",
+        "filename": "src/cmd/compile/internal/ssa/schedule.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-09-16T09:57:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0aa16322_a43b1d92",
+      "revId": "b518b4eb3f48f4a4769f41ec8355438c201a412b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7713c1e4_d9805095",
@@ -104,6 +122,24 @@
       "writtenOn": "2022-09-15T13:37:40Z",
       "side": 1,
       "message": "Could just do a \u003d a.Args[0] here.",
+      "revId": "b518b4eb3f48f4a4769f41ec8355438c201a412b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c2af3bd_fccc461f",
+        "filename": "src/cmd/compile/internal/ssa/schedule.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 609,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-09-16T09:57:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7713c1e4_d9805095",
       "revId": "b518b4eb3f48f4a4769f41ec8355438c201a412b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
