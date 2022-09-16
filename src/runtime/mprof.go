@@ -584,7 +584,11 @@ func (r *StackRecord) Stack() []uintptr {
 // memory profiling rate should do so just once, as early as
 // possible in the execution of the program (for example,
 // at the beginning of main).
-var MemProfileRate int = defaultMemProfileRate(512 * 1024)
+var MemProfileRate int
+
+func initMemProfileRate() {
+	MemProfileRate = defaultMemProfileRate(512 * 1024)
+}
 
 // defaultMemProfileRate returns 0 if disableMemoryProfiling is set.
 // It exists primarily for the godoc rendering of MemProfileRate
