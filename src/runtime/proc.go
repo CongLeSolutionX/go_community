@@ -705,6 +705,10 @@ func schedinit() {
 
 	goargs()
 	goenvs()
+	// if disableMemoryProfiling is set, update MemProfileRate to 0 to turn off memprofile.
+	if disableMemoryProfiling {
+		MemProfileRate = 0
+	}
 	parsedebugvars()
 	gcinit()
 
