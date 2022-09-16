@@ -70,6 +70,24 @@
       "message": "Can you do src/crypto/internal/boring/sha.go too, since you\u0027re here? I see a appendUint64 as well.",
       "revId": "80c6bcb3a28f456cdf757336dcaac1fea6943b49",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1caf4b89_74e1a570",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57710
+      },
+      "writtenOn": "2022-09-16T08:38:08Z",
+      "side": 1,
+      "message": "Yes, thanks for the suggestion, I missed it when I opened this change proposal.",
+      "parentUuid": "571b62c0_684fb685",
+      "revId": "80c6bcb3a28f456cdf757336dcaac1fea6943b49",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
