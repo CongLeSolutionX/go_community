@@ -705,6 +705,7 @@ func schedinit() {
 
 	goargs()
 	goenvs()
+	initMemProfileRate() // must do before parsedebugvars
 	parsedebugvars()
 	gcinit()
 
