@@ -106,6 +106,24 @@
       "parentUuid": "eeb17587_66a468cb",
       "revId": "653993e9a2c8a0bb3367d5ff2fb10cc5d5cb5b57",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74c461d1_a02d594f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6480
+      },
+      "writtenOn": "2022-09-17T01:30:02Z",
+      "side": 1,
+      "message": "If it were arguable that allocation of the slice in this case is a security issue then you could do the `nil, nil` return under the Go1 promise caveats. I think this is the case, but I am probably alone here. (I\u0027ll be maintaining an internal fork with the `nil, nil` behaviour for safety).\n\nThe alternative is to ensure that this is not called indirectly within the stdlib and to document that if the type of the section is NOBITS, `Data` should not be called and that `Size` can be used to determine the size of the section instead.",
+      "parentUuid": "76521ff7_bdb23389",
+      "revId": "653993e9a2c8a0bb3367d5ff2fb10cc5d5cb5b57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
