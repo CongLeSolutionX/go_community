@@ -214,6 +214,24 @@
       "parentUuid": "28e145cd_63f42bb5",
       "revId": "653993e9a2c8a0bb3367d5ff2fb10cc5d5cb5b57",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "144753c8_9cb09938",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-09-17T21:57:01Z",
+      "side": 1,
+      "message": "Thanks, sorry for completely and persistently misunderstanding the problem.\n\nLooking at the history, it looks like before CL 375216 (January 14, 2022) we returned incorrect results.  And even after that CL it looks like we can\u0027t return good results for a corrupt file.\n\nThis suggests to me that we should return an error for a call to Data of a NOBITS section.  I\u0027m not sure \"return nil, nil\" is quite right, as that might lead a program to simply do the wrong thing, thinking that the section is empty.  I think it may be better to return an error, to force the caller to check for a NOBITS section and make a choice.\n\nWhat do you think?",
+      "parentUuid": "573d3690_de1cfb4c",
+      "revId": "653993e9a2c8a0bb3367d5ff2fb10cc5d5cb5b57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
