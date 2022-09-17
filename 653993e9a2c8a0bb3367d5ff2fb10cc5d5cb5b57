@@ -88,6 +88,24 @@
       "parentUuid": "fa144de6_09ad6d3e",
       "revId": "653993e9a2c8a0bb3367d5ff2fb10cc5d5cb5b57",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76521ff7_bdb23389",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 52385
+      },
+      "writtenOn": "2022-09-17T01:08:28Z",
+      "side": 1,
+      "message": "Understood. I think the ideal solution is to have a fake byte slice that doesn\u0027t have any item but can be read from (something like the `zeroReader`). As far as I know, there is not way to create a fake byte slice like this. Even we can, I think the fake byte slice can not be modified, the caller still can not use this fake slice like a real slice.\n\nI don\u0027t know how to improve the situation any more. Do you have any suggestion?",
+      "parentUuid": "eeb17587_66a468cb",
+      "revId": "653993e9a2c8a0bb3367d5ff2fb10cc5d5cb5b57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
