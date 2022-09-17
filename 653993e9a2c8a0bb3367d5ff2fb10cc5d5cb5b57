@@ -232,6 +232,24 @@
       "parentUuid": "573d3690_de1cfb4c",
       "revId": "653993e9a2c8a0bb3367d5ff2fb10cc5d5cb5b57",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22995477_6be7d325",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6480
+      },
+      "writtenOn": "2022-09-17T22:10:52Z",
+      "side": 1,
+      "message": "I think that is a sensible approach, in conjunction with additional documentation indicating the behaviour. Thanks.",
+      "parentUuid": "144753c8_9cb09938",
+      "revId": "653993e9a2c8a0bb3367d5ff2fb10cc5d5cb5b57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
