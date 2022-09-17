@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dda531ae_121c8b54",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1989,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-09-17T22:06:57Z",
+      "side": 1,
+      "message": "I wonder if we should just use a single mutex to control access to funcTypes.  Once the array entry is initialized the mutex should be held for a very short period of time.  It\u0027s hard to imagine that it would be a source of contention.",
+      "revId": "700ccde25a9220d503812600214a79bcc2c0edd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5972c81b_16debada",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 2002,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-09-17T22:06:57Z",
+      "side": 1,
+      "message": "Why use \u0026t here?  Why not just t?",
+      "revId": "700ccde25a9220d503812600214a79bcc2c0edd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
