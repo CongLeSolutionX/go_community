@@ -72,6 +72,24 @@
       "message": "Always initializing each entry doesn\u0027t seem like a good choice.  Very few programs are going to need functions of all sizes.  On balance this seems likely to waste more memory than it saves.",
       "revId": "e836921da33dfd820c24b9282c9657a2e5adeea7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74a8acb7_4ea1db1e",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1992,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2022-09-17T09:08:29Z",
+      "side": 1,
+      "message": "Change to init only when need the given funcTypes[n].",
+      "parentUuid": "77e36ee2_12893f33",
+      "revId": "e836921da33dfd820c24b9282c9657a2e5adeea7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
