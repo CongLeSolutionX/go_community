@@ -123,6 +123,24 @@
       "parentUuid": "63eda949_93a6cfe8",
       "revId": "8f371de3d1c0fb5edb68cbbc4541e6102bf6a3a2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32621451_554fc487",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1324,
+      "author": {
+        "id": 59161
+      },
+      "writtenOn": "2022-09-18T13:23:50Z",
+      "side": 1,
+      "message": "Will it work if I overwrite `parent` as `*T` like below? I\u0027m trying this.\n\n```\ntype T struct {\n\tcommon\n\tisParallel bool\n\tisEnvSet   bool\n\tcontext    *testContext // For running tests and subtests.\n\tparent     *T\n}\n```",
+      "parentUuid": "ff382030_929bcfa8",
+      "revId": "8f371de3d1c0fb5edb68cbbc4541e6102bf6a3a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
