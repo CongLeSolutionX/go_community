@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0d7e231_d0fd525d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2022-09-18T01:26:21Z",
+      "side": 1,
+      "message": "Hello Bryan,\n\nI am not sure if it is important or not. But\n\nDan set auto-submit +1 flag on patch set 4 (10:46AM my time). Then David +2 this CL at 11:10. I expected David +2 together with your +1 should have triggered auto-submit into action. But nothing happened. So I pushed Submit button manually at 11:17.\n\nAm I confused about auto-submit button?\n\nThank you.\n\nAlex",
+      "revId": "63d05642d48ec81637481518df962f2b3be435a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
