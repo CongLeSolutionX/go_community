@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4512cd81_4c3256d6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-09-18T12:05:19Z",
+      "side": 1,
+      "message": "Please don\u0027t use unsafe here.",
+      "revId": "8f371de3d1c0fb5edb68cbbc4541e6102bf6a3a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "82a88f49_9dad0405",
