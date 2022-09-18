@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19f14b5a_febcaaeb",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 2033,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-09-18T03:00:38Z",
+      "side": 1,
+      "message": "I guess **rtype happens to work, but it doesn\u0027t look right.  It seems that this ought to be\n\n    \u0026(*arrayType)(o.Field(1).Addr().Pointer()).rtype",
+      "revId": "86bb79fe46c43cee7a847f4bf25d5ebe6751e89e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
