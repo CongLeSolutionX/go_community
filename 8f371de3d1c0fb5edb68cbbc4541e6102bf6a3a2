@@ -141,6 +141,24 @@
       "parentUuid": "ff382030_929bcfa8",
       "revId": "8f371de3d1c0fb5edb68cbbc4541e6102bf6a3a2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3965bc65_bbeb71ca",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1324,
+      "author": {
+        "id": 59161
+      },
+      "writtenOn": "2022-09-18T14:22:21Z",
+      "side": 1,
+      "message": "If I named it `parent`, it didn\u0027t work when the parent wasn\u0027t `T`.\nFor example, If the parent is `F`, a nil pointer dereference occurred at below:\nhttps://github.com/golang/go/blob/63d05642d48ec81637481518df962f2b3be435a3/src/testing/fuzz.go#L315\n\nSo I named it `parentT`. And this way seems to work because `t.parent` and `t.parentT.common` are pointers so they share state, and only `t.parentT` is nil when the parent isn\u0027t `T`.\n\nI sent this change so please review it.",
+      "parentUuid": "32621451_554fc487",
+      "revId": "8f371de3d1c0fb5edb68cbbc4541e6102bf6a3a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
