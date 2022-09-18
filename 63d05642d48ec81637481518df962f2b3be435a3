@@ -16,6 +16,24 @@
       "message": "Hello Bryan,\n\nI am not sure if it is important or not. But\n\nDan set auto-submit +1 flag on patch set 4 (10:46AM my time). Then David +2 this CL at 11:10. I expected David +2 together with your +1 should have triggered auto-submit into action. But nothing happened. So I pushed Submit button manually at 11:17.\n\nAm I confused about auto-submit button?\n\nThank you.\n\nAlex",
       "revId": "63d05642d48ec81637481518df962f2b3be435a3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "30cc736d_828bd539",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-09-18T01:51:34Z",
+      "side": 1,
+      "message": "If I am reading the logs correctly, it looks like gopherbot fetched the state of the world at 01:10 UTC (likely just before the +2), worked on that for ~60s, then took 8.5min to fetch the state of the world again, which completed at 01:20 UTC, after you\u0027d already clicked submit.\n\nI\u0027m not sure why the fetch was so slow, but I think it would have worked given enough time.",
+      "parentUuid": "a0d7e231_d0fd525d",
+      "revId": "63d05642d48ec81637481518df962f2b3be435a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
