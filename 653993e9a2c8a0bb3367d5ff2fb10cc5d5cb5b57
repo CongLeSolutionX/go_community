@@ -322,6 +322,24 @@
       "parentUuid": "ac91cdd2_d18faf3a",
       "revId": "653993e9a2c8a0bb3367d5ff2fb10cc5d5cb5b57",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d63113cd_faef4544",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-09-18T12:02:51Z",
+      "side": 1,
+      "message": "I don\u0027t think that the suggestion is to crash on invalid input.  That would be bad.  The suggestion is to return an error on certain inputs.\n\nYes, with a 5MB ulimit the program will crash.  The goal is not to avoid every crash.  It\u0027s to return an error, rather than crash, on corrupt input.\n\nWhile compatibility is a concern, if starting over it\u0027s not really obvious to me what Data means for a NOBITS section.  There is no data there.",
+      "parentUuid": "be43da77_946b7b96",
+      "revId": "653993e9a2c8a0bb3367d5ff2fb10cc5d5cb5b57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
