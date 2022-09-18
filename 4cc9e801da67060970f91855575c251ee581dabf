@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d07b21a_095e1fc9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2022-09-18T13:01:37Z",
+      "side": 1,
+      "message": "I think this paragraph is debatable. There are two philosophies:\n\n1. DecodeConfig should be consistent with Decode. If Decode would reject it (even if it\u0027s a valid JPEG), DecodeConfig should likewise return an error.\n\n2. DecodeConfig should be as accomodating as possible, even if that diverges from Decode.\n\nI think that either philosophy is reasonable, in isolation, but the interesting question is when we have to choose only one of them. I think neither is better than the other, they just make different trade-offs.\n\nIf so, this proposed commit isn\u0027t necessarily an unambiguous improvement, it\u0027s choosing a different trade-off: more accomodation but less consistency (within the standard library).\n\nI\u0027m open to further discussion (e.g. from Rob), and if starting from scratch, philosophy 2 could arguably be a better choice, but given that we\u0027ve shipped philosophy 1 for many years now, I\u0027m tempted to reject the proposal. Sorry.",
+      "revId": "4cc9e801da67060970f91855575c251ee581dabf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
