@@ -16,6 +16,23 @@
       "message": "Still LGTM.\n\nI posted at https://groups.google.com/g/golang-dev/c/K7oGURi0wTM request for Googler to +1 this CL.\n\nAlex",
       "revId": "a1f34280079e9f4a9272b24d7cae3333a2888bad",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c731a675_f48e7fe3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2022-09-18T01:17:21Z",
+      "side": 1,
+      "message": "Thank you David.\n\nI will push Submit button now.\n\nAlex.",
+      "revId": "a1f34280079e9f4a9272b24d7cae3333a2888bad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
