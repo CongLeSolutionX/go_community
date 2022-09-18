@@ -16,6 +16,24 @@
       "message": "I guess **rtype happens to work, but it doesn\u0027t look right.  It seems that this ought to be\n\n    \u0026(*arrayType)(o.Field(1).Addr().Pointer()).rtype",
       "revId": "86bb79fe46c43cee7a847f4bf25d5ebe6751e89e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d0340dd_78e92129",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 2033,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2022-09-18T03:22:24Z",
+      "side": 1,
+      "message": "change to array type is ok, too.\nargs \u003d (*(*[128]*rtype)(unsafe.Pointer(o.Field(1).Addr().Pointer())))[0:0:n]",
+      "parentUuid": "19f14b5a_febcaaeb",
+      "revId": "86bb79fe46c43cee7a847f4bf25d5ebe6751e89e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
