@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5673559a_6ed1638a",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1989,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2022-09-18T02:48:27Z",
+      "side": 1,
+      "message": "mutex is ok too.",
+      "parentUuid": "dda531ae_121c8b54",
+      "revId": "700ccde25a9220d503812600214a79bcc2c0edd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5972c81b_16debada",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-09-17T22:06:57Z",
       "side": 1,
       "message": "Why use \u0026t here?  Why not just t?",
+      "revId": "700ccde25a9220d503812600214a79bcc2c0edd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c81521d_5a0f3637",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 2002,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2022-09-18T02:48:27Z",
+      "side": 1,
+      "message": "change to t.",
+      "parentUuid": "5972c81b_16debada",
       "revId": "700ccde25a9220d503812600214a79bcc2c0edd9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
