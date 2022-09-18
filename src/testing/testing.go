@@ -820,6 +820,7 @@ type T struct {
 	isParallel bool
 	isEnvSet   bool
 	context    *testContext // For running tests and subtests.
+	parentT    *T
 }
 
 func (c *common) private() {}
@@ -1320,7 +1321,14 @@ func (t *T) Parallel() {
 //
 // This cannot be used in parallel tests.
 func (t *T) Setenv(key, value string) {
-	if t.isParallel {
+	isParallel := false
+	for tt := t; tt != nil; tt = tt.parentT {
+		if tt.isParallel {
+			isParallel = true
+			break
+		}
+	}
+	if isParallel {
 		panic("testing: t.Setenv called after t.Parallel; cannot set environment variables in parallel tests")
 	}
 
@@ -1514,6 +1522,7 @@ func (t *T) Run(name string, f func(t *T)) bool {
 			chatty:  t.chatty,
 		},
 		context: t.context,
+		parentT: t,
 	}
 	t.w = indenter{&t.common}
 
