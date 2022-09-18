@@ -105,6 +105,24 @@
       "parentUuid": "ba6599ce_e30a4927",
       "revId": "8f371de3d1c0fb5edb68cbbc4541e6102bf6a3a2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff382030_929bcfa8",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1324,
+      "author": {
+        "id": 59161
+      },
+      "writtenOn": "2022-09-18T13:16:49Z",
+      "side": 1,
+      "message": "\u003e Should I move `isParallel` into `common` if it can\u0027t use unsafe? I want your opinion.\n\nBut `isParallel` is not necessary for `B`, so this is probably not good...",
+      "parentUuid": "63eda949_93a6cfe8",
+      "revId": "8f371de3d1c0fb5edb68cbbc4541e6102bf6a3a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
