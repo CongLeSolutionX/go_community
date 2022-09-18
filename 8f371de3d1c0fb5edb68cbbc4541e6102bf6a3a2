@@ -34,6 +34,24 @@
       "parentUuid": "82a88f49_9dad0405",
       "revId": "8f371de3d1c0fb5edb68cbbc4541e6102bf6a3a2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba6599ce_e30a4927",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1324,
+      "author": {
+        "id": 52385
+      },
+      "writtenOn": "2022-09-18T06:05:28Z",
+      "side": 1,
+      "message": "It can be implemented with `unsafe.Pointer`. But I\u0027m not sure whether it\u0027s okay to use it here. The number of nested levels will be small most of the time. So I think the cost can be ignored.\n\n```diff\ndiff --git a/src/testing/testing.go b/src/testing/testing.go\nindex 0228d2904b..5efd1e379e 100644\n--- a/src/testing/testing.go\n+++ b/src/testing/testing.go\n@@ -387,6 +387,7 @@ import (\n    \"time\"\n    \"unicode\"\n    \"unicode/utf8\"\n+   \"unsafe\"\n )\n \n var initRan bool\n@@ -1318,8 +1319,10 @@ func (t *T) Parallel() {\n //\n // This cannot be used in parallel tests.\n func (t *T) Setenv(key, value string) {\n-   if t.isParallel {\n-       panic(\"testing: t.Setenv called after t.Parallel; cannot set environment variables in parallel tests\")\n+   for p :\u003d t; p !\u003d nil; p \u003d (*T)(unsafe.Pointer(p.parent)) {\n+       if p.isParallel {\n+           panic(\"testing: t.Setenv called after t.Parallel; cannot set environment variables in parallel tests\")\n+       }\n    }\n```",
+      "parentUuid": "ed873b59_a800a581",
+      "revId": "8f371de3d1c0fb5edb68cbbc4541e6102bf6a3a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
