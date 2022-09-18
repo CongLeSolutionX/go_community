@@ -817,9 +817,10 @@ var _ TB = (*B)(nil)
 // may be called simultaneously from multiple goroutines.
 type T struct {
 	common
-	isParallel bool
-	isEnvSet   bool
-	context    *testContext // For running tests and subtests.
+	isParallel         bool
+	isAncestorParallel bool
+	isEnvSet           bool
+	context            *testContext // For running tests and subtests.
 }
 
 func (c *common) private() {}
@@ -1320,7 +1321,7 @@ func (t *T) Parallel() {
 //
 // This cannot be used in parallel tests.
 func (t *T) Setenv(key, value string) {
-	if t.isParallel {
+	if t.isParallel || t.isAncestorParallel {
 		panic("testing: t.Setenv called after t.Parallel; cannot set environment variables in parallel tests")
 	}
 
@@ -1513,7 +1514,8 @@ func (t *T) Run(name string, f func(t *T)) bool {
 			creator: pc[:n],
 			chatty:  t.chatty,
 		},
-		context: t.context,
+		isAncestorParallel: t.isParallel || t.isAncestorParallel,
+		context:            t.context,
 	}
 	t.w = indenter{&t.common}
 
