@@ -304,6 +304,24 @@
       "parentUuid": "f864aacf_c7041448",
       "revId": "653993e9a2c8a0bb3367d5ff2fb10cc5d5cb5b57",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be43da77_946b7b96",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5821
+      },
+      "writtenOn": "2022-09-18T06:04:35Z",
+      "side": 1,
+      "message": "Returning an error unconditionally would break delve for on some real executable files. I don\u0027t remember the exact circumstances but some tool uses SHT_NOBITS for eh_frame, because an all 0 section is a valid eh_frame with no entries.\n\nI changed the reader but I was really interested in changing the behavior of Data(), since that\u0027s what delve calls.\n\nI\u0027m tempted to say that no change should be made: you are trading a crash on invalid input for a rare edge case that needs to be handled for valid inputs. Either way users will have to be aware of something to have a correct program.\n\nAlso, I\u0027m worried this no-panics project might have taken a wrong turn somewhere. Here we have a API that allocates that must not panic but the only way go has to communicate an allocation problem is through panics and fatal errors... what does saferio.ReadData do if you try to read a 10MB section on a 5MB ulimit?",
+      "parentUuid": "ac91cdd2_d18faf3a",
+      "revId": "653993e9a2c8a0bb3367d5ff2fb10cc5d5cb5b57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
