@@ -159,6 +159,24 @@
       "parentUuid": "32621451_554fc487",
       "revId": "8f371de3d1c0fb5edb68cbbc4541e6102bf6a3a2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dfe62858_de752f6a",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1324,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-09-19T01:59:42Z",
+      "side": 1,
+      "message": "Rather than duplicate the parent field, I suggest we move the isParallel field into the common struct.  It already has fields that are specific to T, such as runner.",
+      "parentUuid": "3965bc65_bbeb71ca",
+      "revId": "8f371de3d1c0fb5edb68cbbc4541e6102bf6a3a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

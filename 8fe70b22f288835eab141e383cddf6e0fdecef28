@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d48a2466_f58da7ac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-09-19T01:59:42Z",
+      "side": 1,
+      "message": "Avoid the word \"fix\" in the topic as it doesn\u0027t tell the reader anything.  Try to instead briefly describe the change.  For example\n\ntesting: fail if t.Setenv is called via t.Run in a parallel test",
+      "revId": "8fe70b22f288835eab141e383cddf6e0fdecef28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc18890f_3330132e",
+        "filename": "src/testing/testing_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-09-19T01:59:42Z",
+      "side": 1,
+      "message": "s/Paralell/Parallel/\n\nSimilarly below.",
+      "revId": "8fe70b22f288835eab141e383cddf6e0fdecef28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
