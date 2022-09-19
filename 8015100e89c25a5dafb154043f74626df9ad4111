@@ -123,6 +123,24 @@
       "parentUuid": "ad58f5e1_1267a161",
       "revId": "8015100e89c25a5dafb154043f74626df9ad4111",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b642f8b_aac03fc0",
+        "filename": "src/cmd/covdata/covdata.go",
+        "patchSetId": 61
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-09-19T16:43:31Z",
+      "side": 1,
+      "message": "\u003e I have started work on removing package classification from my CL stack.\n\u003e \n\u003e Without \"go build -coverpkg\u003dmod.deps\", it seems likely that users who want to see coverage for things outside the main module will be using \"-coverpkg\u003dall\", then filtering by module path later on (so that they can filter out Go stdlib packages and/or select only the dependencies they are interested in).\n\u003e\n\u003e My plan is to add a \"-modpaths\" argument to cmd/covdata; this flag will accept a \":\" separated list of module paths, and will restrict output to only those packages whose module path appears in the list.\n\nMakes sense. That flag could reasonably be comma-separated, too: valid module paths cannot include a bunch of characters, including both `,` and `:`.\n\n\n\u003e Thus the recipe for \"show me coverage for every package mentioned in my module, but not the Go stdlib\" will be something along the lines of:\n\u003e \n\u003e   $ go build -coverpkg\u003dall -o myapp.exe .\n\u003e   $ GOCOVERDIR\u003d/tmp/dir ./myapp.exe ...\n\u003e   $ go list -mod\u003dmod -m all | tr \u0027\\n\u0027 \u0027:\u0027 \u003e modpaths.txt\n\u003e   $ go tool covdata percent -modpaths\u003d`cat modpaths.txt`\n\u003e   ...\n\nThat seems fine, although simpler still would be to only add the flag for filtering by package for now, and relying on `go list` for the module mapping. (That would give us the flexibility to add other filtering flags in the future without committing to any one in particular.)\n\nFWIW, the query to list “every package mentioned in my module, but not the Go stdlib” is:\n```\ngo list -f \u0027{{if not .Standard}}{{.ImportPath}}{{end}}\u0027 all\n```\n\nThat would give a workflow like:\n```\n$ go list -f \u0027{{if not .Standard}}{{.ImportPath}}{{end}}\u0027 all | tr \u0027\\n\u0027 \u0027,\u0027 \u003e pkgs.txt\n$ go build -coverpkg\u003d$(\u003cpkgs.txt) -o myapp.exe ...\n$ GOCOVERDIR\u003d/tmp/dir ./myapp.exe ...\n$ go tool covdata percent ...\n```\nwhich is very similar to the workflow you listed above, although because it lists packages instead of modules it run a somewhat greater chance of the arguments not fitting on the command line. (Probably at some point `cmd/go` needs to support “response files” anyway.)\n\n\n\u003e One mild item of concern is that there doesn\u0027t seem to be a good way to distinguish between packages in the the Go stdlib (which in the current scheme are explicitly tagged via PkgClassification) and packages that have no module path due to a GOPATH-style GO111MODULE\u003doff build. Do we care about this case? E.g. if I do something like\n\u003e \n\u003e   $ cd `go env GOPATH`\n\u003e   $ cd src/tmp/legacy\n\u003e   $ cat main.go\n\u003e   package main\n\u003e   import \"github.com/thanm/sandbox/plex\"\n\u003e   func main() {\n\u003e   \tprintln(plex.Single())\n\u003e   }\n\u003e   $ GO111MODULE\u003doff go build -o legacy.exe -coverpkg\u003dall .\n\u003e   $ GOCOVERDIR\u003d/tmp/dir ./legacy.exe ...\n\u003e   $\n\u003e \n\u003e At this point in the collected coverage data none of the packages will have associated module paths, so there is no way I can pick out code just from GOPATH (e.g. filter out the stdlib packages). Let me know if you are ok with this.\n\nI think that could also be handled using only package filters.\n\nThe query to list “every package in GOPATH but not the stdlib” is fairly straightforward for non-test dependencies:\n```\ngo list -f \u0027{{if not .Standard}}{{.ImportPath}}{{end}}\u0027 -deps . | sort -u\n```\nIt does get a bit more complicated for test dependencies because of test variants, unfortunately:\n```\ngo list -f \u0027{{if not .Standard}}{{.ImportPath}}{{end}}\u0027 -deps -test . | sort -u | grep -v \u0027\\.test\u0027\n```",
+      "parentUuid": "c44c3fe6_88b14b11",
+      "revId": "8015100e89c25a5dafb154043f74626df9ad4111",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
