@@ -177,6 +177,24 @@
       "parentUuid": "3965bc65_bbeb71ca",
       "revId": "8f371de3d1c0fb5edb68cbbc4541e6102bf6a3a2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53b58800_089e48d5",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1324,
+      "author": {
+        "id": 59161
+      },
+      "writtenOn": "2022-09-19T06:23:20Z",
+      "side": 1,
+      "message": "I moved `isParallel` into `common` and removed `parentT`.",
+      "parentUuid": "dfe62858_de752f6a",
+      "revId": "8f371de3d1c0fb5edb68cbbc4541e6102bf6a3a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
