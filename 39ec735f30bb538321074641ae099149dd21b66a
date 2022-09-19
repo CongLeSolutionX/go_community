@@ -55,6 +55,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "35d1f197_04a2a08e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-09-19T17:15:54Z",
+      "side": 1,
+      "message": "RELNOTE\u003daccept HEAD requests with a body",
+      "revId": "39ec735f30bb538321074641ae099149dd21b66a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fc04a3fa_f7652a78",
