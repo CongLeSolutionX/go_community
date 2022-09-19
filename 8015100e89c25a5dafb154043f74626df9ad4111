@@ -105,6 +105,24 @@
       "parentUuid": "40310e9a_15d1f9f0",
       "revId": "8015100e89c25a5dafb154043f74626df9ad4111",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c44c3fe6_88b14b11",
+        "filename": "src/cmd/covdata/covdata.go",
+        "patchSetId": 61
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-09-19T15:06:55Z",
+      "side": 1,
+      "message": "I have started work on removing package classification from my CL stack.\n\nWithout \"go build -coverpkg\u003dmod.deps\", it seems likely that users who want to see coverage for things outside the main module will be using \"-coverpkg\u003dall\", then filtering by module path later on (so that they can filter out Go stdlib packages and/or select only the dependencies they are interested in).\n\nMy plan is to add a \"-modpaths\" argument to cmd/covdata; this flag will accept a \":\" separated list of module paths, and will restrict output to only those packages whose module path appears in the list. Thus the recipe for \"show me coverage for every package mentioned in my module, but not the Go stdlib\" will be something along the lines of:\n\n  $ go build -coverpkg\u003dall -o myapp.exe .\n  $ GOCOVERDIR\u003d/tmp/dir ./myapp.exe ...\n  $ go list -mod\u003dmod -m all | tr \u0027\\n\u0027 \u0027:\u0027 \u003e modpaths.txt\n  $ go tool covdata percent -modpaths\u003d`cat modpaths.txt`\n  ...\n\nOne mild item of concern is that there doesn\u0027t seem to be a good way to distinguish between packages in the the Go stdlib (which in the current scheme are explicitly tagged via PkgClassification) and packages that have no module path due to a GOPATH-style GO111MODULE\u003doff build. Do we care about this case? E.g. if I do something like\n\n  $ cd `go env GOPATH`\n  $ cd src/tmp/legacy\n  $ cat main.go\n  package main\n  import \"github.com/thanm/sandbox/plex\"\n  func main() {\n  \tprintln(plex.Single())\n  }\n  $ GO111MODULE\u003doff go build -o legacy.exe -coverpkg\u003dall .\n  $ GOCOVERDIR\u003d/tmp/dir ./legacy.exe ...\n  $\n\nAt this point in the collected coverage data none of the packages will have associated module paths, so there is no way I can pick out code just from GOPATH (e.g. filter out the stdlib packages). Let me know if you are ok with this.",
+      "parentUuid": "ad58f5e1_1267a161",
+      "revId": "8015100e89c25a5dafb154043f74626df9ad4111",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
