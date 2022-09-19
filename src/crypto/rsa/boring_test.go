@@ -128,3 +128,19 @@ func TestBoringFinalizers(t *testing.T) {
 		wg.Wait()
 	}
 }
+
+func bigFromHex(hex string) *big.Int {
+	n, ok := new(big.Int).SetString(hex, 16)
+	if !ok {
+		panic("bad hex: " + hex)
+	}
+	return n
+}
+
+func fromHex(hexStr string) []byte {
+	s, err := hex.DecodeString(hexStr)
+	if err != nil {
+		panic(err)
+	}
+	return s
+}
