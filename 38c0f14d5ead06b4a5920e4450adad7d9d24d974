@@ -35,6 +35,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "96d8b6bd_d0ed064b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-09-19T00:22:25Z",
+      "side": 1,
+      "message": "See also https://go-review.googlesource.com/c/go/+/431102,which should be submitted before this one.",
+      "revId": "38c0f14d5ead06b4a5920e4450adad7d9d24d974",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3e1f593a_2a157f1c",
