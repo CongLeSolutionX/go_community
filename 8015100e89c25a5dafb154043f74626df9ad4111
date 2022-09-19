@@ -141,6 +141,24 @@
       "parentUuid": "c44c3fe6_88b14b11",
       "revId": "8015100e89c25a5dafb154043f74626df9ad4111",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9c0f91e_a4d02791",
+        "filename": "src/cmd/covdata/covdata.go",
+        "patchSetId": 61
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-09-19T17:54:25Z",
+      "side": 1,
+      "message": "Thanks.\n\nI tried your \"go list -f\" recipe for a couple of apps (Delve, k8s kubelet) and it does appear to have the desired effect. One minor surprise was was a lot of warnings about packages that I listed in -coverpkg but were not being built, e.g.\n\n...\nwarning: no packages being built depend on matches for pattern golang.org/x/mod/semver\nwarning: no packages being built depend on matches for pattern golang.org/x/sys/execabs\nwarning: no packages being built depend on matches for pattern golang.org/x/tools/go/gcexportdata\nwarning: no packages being built depend on matches for pattern golang.org/x/tools/go/internal/gcimporter\n...\n\nIt looks as though what\u0027s happening here is that these packages are coming out of the vendor directory. Perhaps there is some other more sophisticated \"go list -f\" recipe that might prevent this?\n\nRegarding -modpaths: yeah, looks as though \"go list\" would probably do the trick just as well. I\u0027ll put \"-modpaths\" on the shelf for now, can be dusted off later if need be.\n\nI worry a bit about skew there, e.g. I do a \"go build -cover\" at time T, run my application to generate coverage data files, then a week later I run \"go list -f ...\" to generate a package list and then feed that into \"go tool covdata\" without realizing that my go.mod has changed slightly in the intervening time period. On the other hand, I guess this is no different from any of the other scenarios where skew can come into play (with source files, that is), so users just need to be aware of it.",
+      "parentUuid": "7b642f8b_aac03fc0",
+      "revId": "8015100e89c25a5dafb154043f74626df9ad4111",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
