@@ -22,6 +22,30 @@
       },
       "revId": "c3dbc3e90b2b7d198ce2f227315840dbb358b0aa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "570ada56_7f22a114",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1330,
+      "author": {
+        "id": 59161
+      },
+      "writtenOn": "2022-09-19T19:44:01Z",
+      "side": 1,
+      "message": "I explain my understanding. (This is just my understanding, so I may be wrong.)\n\n### Example 1\n\nIf call `t.Parallel()`, the test to run after waiting for non-parallel sibling tests to complete.\n\nhttps://go.dev/play/p/SEkYckaFUC9\n\nIn this example, `TestA` and `TestC` will wait for `TestB` and `TestC` to run serially and complete when `t.Parallel()` is called. And then `TestA` and `TestC` will run parallelly.\n\n\n### Example 2\n\nAlso, parallel subtests with non-parallel parents run parallelly only between siblings.\n\nhttps://go.dev/play/p/SzsqGRSMZoB\n\nIn this example, `TestB` will wait for `TestA` and `TestC` to complete. And subtests with the same parent run parallelly, but `TestA` and `TestC` subtests never run at the same time. (`TestA` and `TestC` will run serially, including subtests.)\n\n\n### Example 3\n\nSo if the parent is parallel, the subtest may run parallelly regardless of whether it is parallel or not.\n\nhttps://go.dev/play/p/54VhJKYpb_q\n\nIn this example, `TestA` and `TestB` subtests may run at the same time even though they are not parallel. And I used `t.Setenv()` so the result is flaky.\n\n### Conclusion\n\nI think that it is necessary to traverse for the behavior described above.\n\n### Others\n\nI would like to know the meaning of \"CL\", is it an abbreviation for \"Change List\"? Does this mean creating a new commit? (Is it like PR?)",
+      "parentUuid": "29007d4d_88deb7ce",
+      "range": {
+        "startLine": 1323,
+        "startChar": 0,
+        "endLine": 1330,
+        "endChar": 16
+      },
+      "revId": "c3dbc3e90b2b7d198ce2f227315840dbb358b0aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
