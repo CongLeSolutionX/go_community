@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29007d4d_88deb7ce",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1330,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-09-19T17:56:55Z",
+      "side": 1,
+      "message": "I\u0027m wondering why this needs to traverse the whole chain, rather than just the `(*T)` on which `SetEnv` is called. The documentation for `Run` and `Parallel` doesn\u0027t really say what happens if the parent calls `Parallel` but the subtest does not.\n\n(Ideally we should both add a comment here, and update the package documentation in a separate CL to clarify.)\n\nFrom https://go.dev/play/p/69RoiFp3fhU, it appears that the subtests are run sequentially within each test, but concurrently with the subtests of other parallel tests?",
+      "range": {
+        "startLine": 1323,
+        "startChar": 0,
+        "endLine": 1330,
+        "endChar": 16
+      },
+      "revId": "c3dbc3e90b2b7d198ce2f227315840dbb358b0aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
