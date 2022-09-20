@@ -213,6 +213,24 @@
       "parentUuid": "c9c0f91e_a4d02791",
       "revId": "8015100e89c25a5dafb154043f74626df9ad4111",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e50ef4f4_3ad0bbf4",
+        "filename": "src/cmd/covdata/covdata.go",
+        "patchSetId": 61
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-09-20T21:05:49Z",
+      "side": 1,
+      "message": "\u003eWere you using go list -f on just the specific package(s) being built, or were you building the whole tree? \n\nOK that does indeed seem likely to be what I did (e.g. generated package list with \"go list -f .. all\" , which is going to overshoot for a specific binary). Thanks.",
+      "parentUuid": "f5f637f6_ce2bcaed",
+      "revId": "8015100e89c25a5dafb154043f74626df9ad4111",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
