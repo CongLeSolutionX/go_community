@@ -111,6 +111,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ca2c770e_7c4cc777",
+        "filename": "src/go/scanner/scanner.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-09-20T23:17:59Z",
+      "side": 1,
+      "message": "// position of first newline in preceding comment\n\n(also, this is only set of we got an insertSemi - not sure you want to explain this here)",
+      "range": {
+        "startLine": 43,
+        "startChar": 37,
+        "endLine": 43,
+        "endChar": 44
+      },
+      "revId": "f87c55b6250fbba607c327d9d34810982ecf16aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed636bca_6fa257bf",
+        "filename": "src/go/scanner/scanner.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-09-20T23:17:59Z",
+      "side": 1,
+      "message": "s/nlComment/nlPos/ ?",
+      "range": {
+        "startLine": 43,
+        "startChar": 1,
+        "endLine": 43,
+        "endChar": 10
+      },
+      "revId": "f87c55b6250fbba607c327d9d34810982ecf16aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cd19159a_68e5bfbc",
         "filename": "src/go/scanner/scanner.go",
         "patchSetId": 4
@@ -127,6 +173,29 @@
         "startChar": 1,
         "endLine": 166,
         "endChar": 9
+      },
+      "revId": "f87c55b6250fbba607c327d9d34810982ecf16aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9a7fb00_ef753274",
+        "filename": "src/go/scanner/scanner.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 790,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-09-20T23:17:59Z",
+      "side": 1,
+      "message": "... at position o",
+      "range": {
+        "startLine": 790,
+        "startChar": 45,
+        "endLine": 790,
+        "endChar": 46
       },
       "revId": "f87c55b6250fbba607c327d9d34810982ecf16aa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
