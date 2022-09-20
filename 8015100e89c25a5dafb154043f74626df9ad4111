@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "25dfcd78_e8cae8d3",
+        "filename": "src/cmd/covdata/covdata.go",
+        "patchSetId": 61
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-09-20T19:14:17Z",
+      "side": 1,
+      "message": "I took an initial look at separating out the package pattern matching\nlogic from cmd/go/internal/search into a new dir in cmd/internal.\n\nThere is a fair amount of logic in the search code for handling relative\nimport path references (e.g. ./cmd/foo, ./x/..., etc), and for\nensuring that wildcards don\u0027t pick up things in vendor directories.\n\nThis makes me wonder whether or how it makes sense to support relative\npackage paths for \"go tool covdata\". \n\nFor commands like \"go build\" or \"go test\", users have been trained\nover the years to understand that when they refer to packages, those\npackages can be relative to GOPATH, GOROOT, or the module or modules\nthey are working with, depending on where they are relative to those\ndirs (most of which have concrete representations in the filesystem).\n\nWhen running \"go tool covdata\" on a corpus of coverage data files, it is not\nclear that this same usage pattern is going to hold (e.g. running the\ntool from within the module source tree or equivalent). \n\nSo for example, if a user does:\n\n  $ cd myapp\n  $ go build -cover -o myapp.exe cmd/app\n  $ GOCOVERDIR\u003d/tmp/cdata ./myapp.exe ...\n  $\n\nit\u0027s possible to imagine more than once way of looking at the data. One way would be to run the \"covdata\" command from within the module, in which case relative paths make sense, e.g.\n\n  $ cd mymodrepo\n  $ go tool covdata percent -pkgpat\u003d./cmd/internal/... -i\u003d/tmp/cdata\n  myapp/cmd/internal/first \tcoverage: 74.4% of statements\n  myapp/cmd/internal/second \tcoverage: 93.4% of statements\n  $\n\nhowever if the user runs \"go tool covdata\" somewhere else, then there is no way to interpret the relative paths.\n\nIt seems unfriendly to reject this sort of usage model entirely (e.g. require that you always have to be within your source tree), but I suppose we could issue an error if this happens, e.g. \n\n  $ cd /tmp/cdata\n  $ go tool covdata percent -pkgpat\u003d./cmd/internal/... -i\u003d.\n  \u003cerror\u003e\n  $ \n\nOn the other hand it might be an easier model for users if we just\nask them to fall back just on paths and wildcards (and not relative refs).\n\nDo you have any thoughts on this?",
+      "parentUuid": "3f33b34e_f8008ef2",
+      "revId": "8015100e89c25a5dafb154043f74626df9ad4111",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c59545fb_bd643e45",
         "filename": "src/cmd/covdata/covdata.go",
         "patchSetId": 61
