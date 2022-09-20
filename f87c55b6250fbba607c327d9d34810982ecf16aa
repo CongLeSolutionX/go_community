@@ -73,6 +73,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f578211_0404f291",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-09-20T18:51:26Z",
+      "side": 1,
+      "message": "Mostly the trivial simplification that one doesn\u0027t need to compute that specific semi position.\n\nAsking differently: where is the semi position used?",
+      "parentUuid": "0bc2b77f_69596e11",
+      "revId": "f87c55b6250fbba607c327d9d34810982ecf16aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cd19159a_68e5bfbc",
