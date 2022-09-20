@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0bc2b77f_69596e11",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2022-09-20T18:41:14Z",
+      "side": 1,
+      "message": "Thanks. \n\n\u003e do we need the exact position of a \\n within a /*-style comment? Can\u0027t we just assume that the implicit semi is located at the end of that comment? It might simplify things slightly.\n\nIt seemed to me to be the most accurate answer to the question, where in the source file is the implicit semicolon?, and it establishes a nice invariant that the character at that position is either a semicolon, newline, or EOF. I couldn\u0027t see any downside.\n\nThe position after the comment seems problematic: it could be some other statement, or another newline, or even an explicit semicolon that logically belongs to the following (empty) statement, which seems quite confusing.\n\nWhat simplification did you have in mind?",
+      "parentUuid": "3ddf8810_86c05a3b",
+      "revId": "f87c55b6250fbba607c327d9d34810982ecf16aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cd19159a_68e5bfbc",
