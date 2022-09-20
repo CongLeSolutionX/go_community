@@ -394,6 +394,24 @@
       "parentUuid": "00e75a8e_57054b8c",
       "revId": "653993e9a2c8a0bb3367d5ff2fb10cc5d5cb5b57",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8567617_e8f2756c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-09-20T15:34:13Z",
+      "side": 1,
+      "message": "I don\u0027t think this is simple box checking.  Avoiding panics and crashes has been a goal for a long time, e.g., https://go.dev/issue/47653.\n\nI agree that SHF_COMPRESSED is an issue.  I don\u0027t know what to do about that.  But that doesn\u0027t mean we shouldn\u0027t try to address other cases.\n\nI think we should move forward here.",
+      "parentUuid": "9b1c1f7a_cb68f8fa",
+      "revId": "653993e9a2c8a0bb3367d5ff2fb10cc5d5cb5b57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
