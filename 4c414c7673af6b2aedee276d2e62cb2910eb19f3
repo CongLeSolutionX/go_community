@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ebb03081_b55cde4f",
+        "filename": "src/cmd/compile/internal/ssa/schedule.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 577,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-09-20T20:55:20Z",
+      "side": 1,
+      "message": "I am not sure this is entirely accurate. Not all flagops are used to pass the carry op. I suspect this may incorrectly classify unrelated opcodes as carry ops.\n\nOn PPC64, the opcode is used to identify whether and how the carry bit is used.\n\nIt gets a little more tricky when the carry is architecturally part of the flags. On my WIP for amd64, I had to create new opcodes to avoid optimizations which led to cases with multiple live flag values.\n\nHow difficult would it be to save flags to a gpr instead of regenerating them if the latter is more expensive? It doesn\u0027t take too many instructions before that becomes more desirable on PPC64. I am not sure about others.",
+      "range": {
+        "startLine": 577,
+        "startChar": 1,
+        "endLine": 577,
+        "endChar": 39
+      },
+      "revId": "4c414c7673af6b2aedee276d2e62cb2910eb19f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
