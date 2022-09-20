@@ -109,6 +109,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d97aa1df_2df5d162",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-09-20T23:20:55Z",
+      "side": 1,
+      "message": "Fair enough. As an additional bonus it preserves the property that token positions are monotonically increasing, by at least one character which ensures a form of progress.",
+      "parentUuid": "f20de5f8_51c1318e",
+      "revId": "f87c55b6250fbba607c327d9d34810982ecf16aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ca2c770e_7c4cc777",
