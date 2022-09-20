@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c002d76_2e19e9bd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-09-20T19:38:31Z",
+      "side": 1,
+      "message": "FYI, trying to roll forward again in CL 432136.",
+      "revId": "fc1cddcfe916eff82b7c6a0e82765e9b9fe29980",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
