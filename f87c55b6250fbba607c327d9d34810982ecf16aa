@@ -91,6 +91,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f20de5f8_51c1318e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2022-09-20T18:59:03Z",
+      "side": 1,
+      "message": "Computing it is easy and cheap, so I\u0027m not worried about that. (/*\\n*/ comments that act as semicolons are extremely rare.)\n\nThe semi position doesn\u0027t appear to be relied upon by any test in std and I expect few tools care, but it is part of the API exposed by the package, so if we have to decide on a new behavior this would be my vote for the most rational one.",
+      "parentUuid": "6f578211_0404f291",
+      "revId": "f87c55b6250fbba607c327d9d34810982ecf16aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cd19159a_68e5bfbc",
