@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96d4b120_d94e153a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 59093
+      },
+      "writtenOn": "2022-09-20T06:57:16Z",
+      "side": 1,
+      "message": "Hello Team,\n\nPlease review and let me know if anything more is needed from my end.\n\nThanks,\nVaibhav Dighe",
+      "revId": "f227efbe78e9eee70cbc0b6a7afba10010dc69b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
