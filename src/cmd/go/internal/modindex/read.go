@@ -12,6 +12,7 @@ import (
 	"go/build"
 	"go/build/constraint"
 	"go/token"
+	"internal/buildinternal"
 	"internal/godebug"
 	"internal/goroot"
 	"path"
@@ -431,8 +432,13 @@ func (rp *IndexPackage) Import(bctxt build.Context, mode build.ImportMode) (p *b
 			p.PkgRoot = ctxt.joinPath(p.Root, "pkg")
 			p.BinDir = ctxt.joinPath(p.Root, "bin")
 			if pkga != "" {
-				p.PkgTargetRoot = ctxt.joinPath(p.Root, pkgtargetroot)
-				p.PkgObj = ctxt.joinPath(p.Root, pkga)
+				// Do not set p.Target for most packages in goroot.
+				// Should this be in go/build or its modindex variant?
+				if p.Goroot && !buildinternal.NeedsInstalledDotA(p.ImportPath) {
+				} else {
+					p.PkgTargetRoot = ctxt.joinPath(p.Root, pkgtargetroot)
+					p.PkgObj = ctxt.joinPath(p.Root, pkga)
+				}
 			}
 		}
 	}
