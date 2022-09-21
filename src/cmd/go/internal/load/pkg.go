@@ -15,6 +15,7 @@ import (
 	"go/build"
 	"go/scanner"
 	"go/token"
+	"internal/buildinternal"
 	"io/fs"
 	"os"
 	"os/exec"
@@ -1813,7 +1814,10 @@ func (p *Package) load(ctx context.Context, opts PackageOpts, path string, stk *
 		// No permanent install target.
 		p.Target = ""
 	} else {
-		p.Target = p.Internal.Build.PkgObj
+		// TODO(matloob): do not
+		if p.Internal.Build.Goroot && buildinternal.NeedsInstalledDotA(p.ImportPath) {
+			p.Target = p.Internal.Build.PkgObj
+		}
 		if cfg.BuildLinkshared && p.Target != "" {
 			// TODO(bcmills): The reliance on p.Target implies that -linkshared does
 			// not work for any package that lacks a Target — such as a non-main

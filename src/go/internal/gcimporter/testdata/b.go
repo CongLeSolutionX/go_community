@@ -6,6 +6,6 @@
 
 package b
 
-import "./a"
+import "a"
 
 type A a.A
