@@ -10,6 +10,7 @@ import (
 	"debug/macho"
 	"debug/pe"
 	"fmt"
+	"internal/buildinternal"
 	"internal/testenv"
 	"internal/xcoff"
 	"io"
@@ -113,11 +114,18 @@ func buildGoobj(t *testing.T) goobjPaths {
 			go1src := filepath.Join("testdata", "go1.go")
 			go2src := filepath.Join("testdata", "go2.go")
 
-			out, err := exec.Command(gotool, "tool", "compile", "-p=p", "-o", go1obj, go1src).CombinedOutput()
+			importcfg, err := buildinternal.CreateStdlibImportcfg()
+			if err != nil {
+				t.Fatalf("preparing the importcfg failed: %s", err)
+			}
+			importcfgfile := filepath.Join(buildDir, "importcfg")
+			os.WriteFile(importcfgfile, []byte(importcfg), 0655)
+
+			out, err := exec.Command(gotool, "tool", "compile", "-importcfg="+importcfgfile, "-p=p", "-o", go1obj, go1src).CombinedOutput()
 			if err != nil {
 				return fmt.Errorf("go tool compile -o %s %s: %v\n%s", go1obj, go1src, err, out)
 			}
-			out, err = exec.Command(gotool, "tool", "compile", "-p=p", "-o", go2obj, go2src).CombinedOutput()
+			out, err = exec.Command(gotool, "tool", "compile", "-importcfg="+importcfgfile, "-p=p", "-o", go2obj, go2src).CombinedOutput()
 			if err != nil {
 				return fmt.Errorf("go tool compile -o %s %s: %v\n%s", go2obj, go2src, err, out)
 			}

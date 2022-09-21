@@ -5,6 +5,7 @@
 package importer
 
 import (
+	"fmt"
 	"go/build"
 	"go/token"
 	"internal/buildcfg"
@@ -25,15 +26,12 @@ func TestForCompiler(t *testing.T) {
 	testenv.MustHaveGoBuild(t)
 
 	const thePackage = "math/big"
-	out, err := exec.Command(testenv.GoToolPath(t), "list", "-f={{context.Compiler}}:{{.Target}}", thePackage).CombinedOutput()
+	out, err := exec.Command(testenv.GoToolPath(t), "list", "-export", "-f={{context.Compiler}}:{{.Export}}", thePackage).CombinedOutput()
 	if err != nil {
 		t.Fatalf("go list %s: %v\n%s", thePackage, err, out)
 	}
-	target := strings.TrimSpace(string(out))
-	compiler, target, _ := strings.Cut(target, ":")
-	if !strings.HasSuffix(target, ".a") {
-		t.Fatalf("unexpected package %s target %q (not *.a)", thePackage, target)
-	}
+	export := strings.TrimSpace(string(out))
+	compiler, target, _ := strings.Cut(export, ":")
 
 	if compiler == "gccgo" {
 		t.Skip("golang.org/issue/22500")
@@ -43,6 +41,7 @@ func TestForCompiler(t *testing.T) {
 
 	t.Run("LookupDefault", func(t *testing.T) {
 		imp := ForCompiler(fset, compiler, nil)
+		fmt.Fprintln(os.Stderr, "XXX")
 		pkg, err := imp.Import(thePackage)
 		if err != nil {
 			t.Fatal(err)
