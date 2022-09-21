@@ -7,11 +7,12 @@ package runtime_test
 import (
 	"go/ast"
 	"go/build"
-	"go/importer"
 	"go/parser"
 	"go/printer"
 	"go/token"
 	"go/types"
+	"internal/testenv"
+	"internal/teststdlib"
 	"os"
 	"regexp"
 	"runtime"
@@ -22,6 +23,8 @@ import (
 // Check that 64-bit fields on which we apply atomic operations
 // are aligned to 8 bytes. This can be a problem on 32-bit systems.
 func TestAtomicAlignment(t *testing.T) {
+	testenv.MustHaveGoBuild(t)
+
 	// Read the code making the tables above, to see which fields and
 	// variables we are currently checking.
 	checked := map[string]bool{}
@@ -83,7 +86,7 @@ func TestAtomicAlignment(t *testing.T) {
 	// Call go/types to analyze the runtime package.
 	var info types.Info
 	info.Types = map[ast.Expr]types.TypeAndValue{}
-	conf := types.Config{Importer: importer.Default()}
+	conf := types.Config{Importer: teststdlib.Importer()}
 	_, err = conf.Check("runtime", fset, files, &info)
 	if err != nil {
 		t.Fatalf("typechecking runtime failed: %v", err)
