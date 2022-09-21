@@ -337,6 +337,33 @@ func init() {
 	CmdList.Run = runList // break init cycle
 	work.AddBuildFlags(CmdList, work.DefaultBuildFlags)
 	CmdList.Flag.Var(&listJsonFields, "json", "")
+	CmdList.Flag.Var(&listU, "u", "")
+}
+
+// listUFlag is provided to maintain backwards compatibility with the old
+// bool-only behavior. Now that the -u flag supports a string (-u=patch), we
+// need to differentiate between non-existence, existence without value (-u),
+// and existence with value (-u=patch).
+//
+// TODO(deklerk): Can we merge this with upgradeFlag?
+// https://cs.opensource.google/go/go/+/master:src/cmd/go/internal/modget/get.go;l=225-247;drc=d7df872267f9071e678732f9469824d629cac595
+type listUFlag struct {
+	set   bool
+	value string
+}
+
+func (f *listUFlag) Set(x string) error {
+	f.value = x
+	f.set = true
+	return nil
+}
+
+func (f *listUFlag) String() string {
+	return f.value
+}
+
+func (f *listUFlag) IsBoolFlag() bool {
+	return true
 }
 
 var (
@@ -352,7 +379,7 @@ var (
 	listRetracted  = CmdList.Flag.Bool("retracted", false, "")
 	listReuse      = CmdList.Flag.String("reuse", "", "")
 	listTest       = CmdList.Flag.Bool("test", false, "")
-	listU          = CmdList.Flag.Bool("u", false, "")
+	listU          listUFlag
 	listVersions   = CmdList.Flag.Bool("versions", false, "")
 )
 
@@ -522,7 +549,7 @@ func runList(ctx context.Context, cmd *base.Command, args []string) {
 			if *listVersions {
 				base.Fatalf(actionDisabledFormat, "determine available versions")
 			}
-			if *listU {
+			if listU.set {
 				base.Fatalf(actionDisabledFormat, "determine available upgrades")
 			}
 
@@ -540,7 +567,9 @@ func runList(ctx context.Context, cmd *base.Command, args []string) {
 		}
 
 		var mode modload.ListMode
-		if *listU {
+		if listU.value == "patch" {
+			mode |= modload.ListPatch | modload.ListRetracted | modload.ListDeprecated
+		} else if listU.set {
 			mode |= modload.ListU | modload.ListRetracted | modload.ListDeprecated
 		}
 		if *listRetracted {
@@ -574,7 +603,7 @@ func runList(ctx context.Context, cmd *base.Command, args []string) {
 	}
 
 	// Package mode (not -m).
-	if *listU {
+	if listU.set {
 		base.Fatalf("go list -u can only be used with -m")
 	}
 	if *listVersions {

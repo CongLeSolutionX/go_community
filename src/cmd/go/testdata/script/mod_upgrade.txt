@@ -1,0 +1,54 @@
+# • listing -u=patch for a module that is already above the “latest” version
+# how... would that happen? o.O maybe a locally-tagged module? but not sure how i'd set that up in these tests? 
+#
+# DONE: • listing -u=patch for a module that is already at exactly the latest patch release
+# 
+# • listing -u=patch for a module one hop away from the main module (e.g. a 
+# dependency used by the test of an external package imported by the main module)
+# 
+# • listing -u=patch for a module that is not currently in the build list at all
+# 
+# • listing -u=patch, without -m (so listing packages instead of modules), with a 
+# -f argument that inspects {{.Module.Update.Version}}. (I believe that such an 
+# invocation should currently fail with go list -u can only be used with -m, which 
+# is fine, but we should have a test of it anyway — if only to remind us to update 
+# the test if we ever change that behavior.)
+
+env GO111MODULE=on
+
+go mod download patch.example.com/direct # Not sure what this sum is.
+
+# When -u is specified, show upgrades up to latest minor.patch, both for direct
+# and indirect dependencies.
+go list -u -m all
+stdout '^rsc.io/quote v1.2.0 \[v1.5.2\]$'
+stdout '^patch.example.com/indirect v1.0.0 \[v1.1.0\]$'
+
+# When -u=patch is specified, show upgrades up to latest patch, both for direct
+# and indirect dependencies.
+go list -u=patch -m all
+stdout '^rsc.io/quote v1.2.0 \[v1.2.1\]$'
+stdout '^patch.example.com/indirect v1.0.0 \[v1.0.1\]$'
+
+# When -u=patch is specified but the module is already at the latest patch,
+# don't show an upgrade option (despite there being later minor versions).
+go mod edit -require=rsc.io/quote@v1.2.1
+go mod download rsc.io/quote
+go list -u=patch -m all
+stdout '^rsc.io/quote v1.2.1$'
+
+-- go.mod --
+module x
+require (
+    rsc.io/quote v1.2.0
+    patch.example.com/direct v1.0.0
+)
+
+-- go.sum --
+rsc.io/quote v1.2.0 h1:fFMCNi0A97hfNrtUZVQKETbuc3h7bmfFQHnjutpPYCg=
+rsc.io/quote v1.2.0/go.mod h1:v83Ri/njykPcgJltBc/gEkJTmjTsNgtO1Y7vyIK1CQA=
+-- use.go --
+package use
+
+import _ "rsc.io/quote"
+import _ "patch.example.com/direct"
