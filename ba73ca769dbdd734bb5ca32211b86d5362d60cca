@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9448d15c_2459fac0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-09-21T13:01:19Z",
+      "side": 1,
+      "message": "Apologies for the giant list of auto-added reviewers. This CL is part of my code coverage work, I will trim down the reviewer set a bit.",
+      "revId": "ba73ca769dbdd734bb5ca32211b86d5362d60cca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
