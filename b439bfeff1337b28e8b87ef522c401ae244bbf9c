@@ -16,6 +16,24 @@
       "message": "OK, one more change.  Let\u0027s make funcType be a slice, and while holding the mutex make sure that the slice is long enough.  Since very few programs call this, no reason to waste the 129 words.  Thanks.",
       "revId": "b439bfeff1337b28e8b87ef522c401ae244bbf9c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5740e23b_d55593bb",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 1988,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2022-09-21T02:36:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8452b84d_3136d58b",
+      "revId": "b439bfeff1337b28e8b87ef522c401ae244bbf9c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
