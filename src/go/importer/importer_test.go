@@ -21,19 +21,34 @@ func TestMain(m *testing.M) {
 	os.Exit(m.Run())
 }
 
+// A copy of teststdlib.StdlibPkgfileMap to avoid an import cycle.
+func stdlibPkgfileMap() (map[string]string, error) {
+	m := make(map[string]string)
+	output, err := exec.Command("go", "list", "-export", "-f", "{{.ImportPath}} {{.Export}}", "std", "cmd/...", "cmd/vendor/...").Output()
+	if err != nil {
+		return nil, err
+	}
+	for _, line := range strings.Split(string(output), "\n") {
+		if line == "" {
+			continue
+		}
+		sp := strings.SplitN(line, " ", 2)
+		importPath, export := sp[0], sp[1]
+		m[importPath] = export
+	}
+	return m, err
+}
+
 func TestForCompiler(t *testing.T) {
 	testenv.MustHaveGoBuild(t)
 
 	const thePackage = "math/big"
-	out, err := exec.Command(testenv.GoToolPath(t), "list", "-f={{context.Compiler}}:{{.Target}}", thePackage).CombinedOutput()
+	out, err := exec.Command(testenv.GoToolPath(t), "list", "-export", "-f={{context.Compiler}}:{{.Export}}", thePackage).CombinedOutput()
 	if err != nil {
 		t.Fatalf("go list %s: %v\n%s", thePackage, err, out)
 	}
-	target := strings.TrimSpace(string(out))
-	compiler, target, _ := strings.Cut(target, ":")
-	if !strings.HasSuffix(target, ".a") {
-		t.Fatalf("unexpected package %s target %q (not *.a)", thePackage, target)
-	}
+	export := strings.TrimSpace(string(out))
+	compiler, target, _ := strings.Cut(export, ":")
 
 	if compiler == "gccgo" {
 		t.Skip("golang.org/issue/22500")
@@ -42,7 +57,13 @@ func TestForCompiler(t *testing.T) {
 	fset := token.NewFileSet()
 
 	t.Run("LookupDefault", func(t *testing.T) {
-		imp := ForCompiler(fset, compiler, nil)
+		imp := ForCompiler(fset, compiler, func(path string) (io.ReadCloser, error) {
+			m, err := stdlibPkgfileMap()
+			if err != nil {
+				return nil, err
+			}
+			return os.Open(m[path])
+		})
 		pkg, err := imp.Import(thePackage)
 		if err != nil {
 			t.Fatal(err)
