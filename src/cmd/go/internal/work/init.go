@@ -14,6 +14,7 @@ import (
 	"cmd/go/internal/modload"
 	"cmd/internal/quoted"
 	"fmt"
+	"internal/buildinternal"
 	"internal/platform"
 	"os"
 	"os/exec"
@@ -286,6 +287,7 @@ func buildModeInit() {
 			base.Fatalf("-buildmode=shared and -o not supported together")
 		}
 		ldBuildmode = "shared"
+		buildinternal.IsShared = true
 	case "plugin":
 		pkgsFilter = oneMainPkg
 		if gccgo {

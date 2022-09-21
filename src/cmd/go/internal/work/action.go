@@ -423,8 +423,8 @@ func (b *Builder) CompileAction(mode, depMode BuildMode, p *load.Package) *Actio
 	vetOnly := mode&ModeVetOnly != 0
 	mode &^= ModeVetOnly
 
-	if mode != ModeBuild && (p.Internal.Local || p.Module != nil) && p.Target == "" {
-		// Imported via local path or using modules. No permanent target.
+	if mode != ModeBuild && p.Target == "" {
+		// No permanent target.
 		mode = ModeBuild
 	}
 	if mode != ModeBuild && p.Name == "main" {
@@ -849,7 +849,9 @@ func (b *Builder) linkSharedAction(mode, depMode BuildMode, shlib string, a1 *Ac
 			// on the command line?
 			pkgDir := a1.Deps[0].Package.Internal.Build.PkgTargetRoot
 			for _, a2 := range a1.Deps {
-				if dir := a2.Package.Internal.Build.PkgTargetRoot; dir != pkgDir {
+				// TODO(matloob): is the check here valid? I think the intent is that there
+				// are actually two different roots, that one of the packages is in the cache.
+				if dir := a2.Package.Internal.Build.PkgTargetRoot; dir != "" && pkgDir != "" && dir != pkgDir {
 					base.Fatalf("installing shared library: cannot use packages %s and %s from different roots %s and %s",
 						a1.Deps[0].Package.ImportPath,
 						a2.Package.ImportPath,
