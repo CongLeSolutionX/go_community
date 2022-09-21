@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43e03581_667a8c6f",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1662,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-09-21T16:20:52Z",
+      "side": 0,
+      "message": "Do we need to check if `out` is empty after transformation and avoid logging? What happens if we try to log an empty string?",
+      "revId": "e576e5d521aadb17d6f0f773c346e86230043a85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
