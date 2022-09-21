@@ -431,8 +431,11 @@ func (rp *IndexPackage) Import(bctxt build.Context, mode build.ImportMode) (p *b
 			p.PkgRoot = ctxt.joinPath(p.Root, "pkg")
 			p.BinDir = ctxt.joinPath(p.Root, "bin")
 			if pkga != "" {
-				p.PkgTargetRoot = ctxt.joinPath(p.Root, pkgtargetroot)
-				p.PkgObj = ctxt.joinPath(p.Root, pkga)
+				// hack?: don't set p.Target for most packages in goroot.
+				if base.NeedsInstalledDotA(p.ImportPath) {
+					p.PkgTargetRoot = ctxt.joinPath(p.Root, pkgtargetroot)
+					p.PkgObj = ctxt.joinPath(p.Root, pkga)
+				}
 			}
 		}
 	}

@@ -504,6 +504,9 @@ func (b *Builder) useCache(a *Action, actionHash cache.ActionID, target string) 
 	if b.IsCmdList {
 		// Invoked during go list to compute and record staleness.
 		if p := a.Package; p != nil && !p.Stale {
+			// Set stale to true, but it may be set back to false below
+			// if the package is in a module and the package's build
+			// artifact is cached.
 			p.Stale = true
 			if cfg.BuildA {
 				p.StaleReason = "build -a flag in use"
@@ -544,8 +547,13 @@ func (b *Builder) useCache(a *Action, actionHash cache.ActionID, target string) 
 							a.json.BuildID = a.buildID
 						}
 						if p := a.Package; p != nil {
-							// Clearer than explaining that something else is stale.
-							p.StaleReason = "not installed but available in build cache"
+							if cfg.ModulesEnabled && !base.NeedsInstalledDotA(p.ImportPath) {
+								// For a module, stale means that it's not present in the build cache.
+								p.Stale = false
+							} else {
+								// Clearer than explaining that something else is stale.
+								p.StaleReason = "not installed but available in build cache"
+							}
 						}
 						return true
 					}

@@ -426,6 +426,10 @@ func (b *Builder) CompileAction(mode, depMode BuildMode, p *load.Package) *Actio
 		// Imported via local path or using modules. No permanent target.
 		mode = ModeBuild
 	}
+	if p.Goroot && !base.NeedsInstalledDotA(p.ImportPath) {
+		// Don't install most dot as
+		mode = ModeBuild
+	}
 	if mode != ModeBuild && p.Name == "main" {
 		// We never install the .a file for a main package.
 		mode = ModeBuild
