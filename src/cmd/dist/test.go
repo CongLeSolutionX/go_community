@@ -161,6 +161,10 @@ func (t *tester) run() {
 			// Instead, we can just check that it is not stale, which may be less
 			// expensive (and is also more likely to catch bugs in the builder
 			// implementation).
+			// The cache used by dist when building is different from that used when
+			// running dist test, so rebuild (but don't install) std and cmd to make
+			// sure packages without install targets are cached so they are not stale.
+			goCmd("go", "build", "std", "cmd") // make sure dependencies of targets are cached
 			checkNotStale("go", "std", "cmd")
 		}
 	}
@@ -1270,7 +1274,9 @@ func (t *tester) cgoTest(dt *distTest) error {
 // running in parallel with earlier tests, or if it has some other reason
 // for needing the earlier tests to be done.
 func (t *tester) runPending(nextTest *distTest) {
-	checkNotStale("go", "std")
+	targets := packagesWithTargets("go", "std")
+	goCmd("go", "build", targets...)
+	checkNotStale("go", targets...)
 	worklist := t.worklist
 	t.worklist = nil
 	for _, w := range worklist {
@@ -1328,7 +1334,7 @@ func (t *tester) runPending(nextTest *distTest) {
 			log.Printf("Failed: %v", w.err)
 			t.failed = true
 		}
-		checkNotStale("go", "std")
+		checkNotStale("go", targets...)
 	}
 	if t.failed && !t.keepGoing {
 		fatalf("FAILED")
