@@ -8,9 +8,10 @@ import (
 	"fmt"
 	"go/ast"
 	"go/constant"
-	"go/importer"
 	"go/parser"
 	"go/token"
+	"internal/testenv"
+	"internal/teststdlib"
 	"reflect"
 	"strings"
 	"testing"
@@ -19,6 +20,8 @@ import (
 )
 
 func TestErrorCodeExamples(t *testing.T) {
+	testenv.MustHaveGoBuild(t)
+
 	walkCodes(t, func(name string, value int, spec *ast.ValueSpec) {
 		t.Run(name, func(t *testing.T) {
 			doc := spec.Doc.Text()
@@ -48,7 +51,7 @@ func walkCodes(t *testing.T, f func(string, int, *ast.ValueSpec)) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	conf := Config{Importer: importer.Default()}
+	conf := Config{Importer: teststdlib.Importer()}
 	info := &Info{
 		Types: make(map[ast.Expr]TypeAndValue),
 		Defs:  make(map[*ast.Ident]Object),
@@ -98,7 +101,7 @@ func checkExample(t *testing.T, example string) error {
 	}
 	conf := Config{
 		FakeImportC: true,
-		Importer:    importer.Default(),
+		Importer:    teststdlib.Importer(),
 	}
 	_, err = conf.Check("example", fset, []*ast.File{file}, nil)
 	return err
