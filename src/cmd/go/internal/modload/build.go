@@ -124,12 +124,17 @@ func ModuleInfo(ctx context.Context, path string) *modinfo.ModulePublic {
 }
 
 // addUpdate fills in m.Update if an updated version is available.
-func addUpdate(ctx context.Context, m *modinfo.ModulePublic) {
+func addUpdate(ctx context.Context, m *modinfo.ModulePublic, minor bool) {
 	if m.Version == "" {
 		return
 	}
 
-	info, err := Query(ctx, m.Path, "upgrade", m.Version, CheckAllowed)
+	query := "upgrade"
+	if !minor {
+		query = "patch"
+	}
+
+	info, err := Query(ctx, m.Path, query, m.Version, CheckAllowed)
 	var noVersionErr *NoMatchingVersionError
 	if errors.Is(err, ErrDisallowed) ||
 		errors.Is(err, fs.ErrNotExist) ||
