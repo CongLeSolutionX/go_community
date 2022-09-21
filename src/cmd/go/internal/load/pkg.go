@@ -374,7 +374,9 @@ func (p *Package) copyBuild(opts PackageOpts, pp *build.Package) {
 		old := pp.PkgTargetRoot
 		pp.PkgRoot = cfg.BuildPkgdir
 		pp.PkgTargetRoot = cfg.BuildPkgdir
-		pp.PkgObj = filepath.Join(cfg.BuildPkgdir, strings.TrimPrefix(pp.PkgObj, old))
+		if pp.PkgObj != "" {
+			pp.PkgObj = filepath.Join(cfg.BuildPkgdir, strings.TrimPrefix(pp.PkgObj, old))
+		}
 	}
 
 	p.Dir = pp.Dir
@@ -1813,12 +1815,14 @@ func (p *Package) load(ctx context.Context, opts PackageOpts, path string, stk *
 		// No permanent install target.
 		p.Target = ""
 	} else {
-		p.Target = p.Internal.Build.PkgObj
-		if cfg.BuildLinkshared && p.Target != "" {
-			// TODO(bcmills): The reliance on p.Target implies that -linkshared does
-			// not work for any package that lacks a Target — such as a non-main
+		targetRoot := p.Internal.Build.PkgTargetRoot
+		if cfg.BuildLinkshared && targetRoot != "" {
+			// TODO(bcmills): The reliance on PkgTargetRoot implies that -linkshared does
+			// not work for any package that lacks a PkgTargetRoot — such as a non-main
 			// package in module mode. We should probably fix that.
-			shlibnamefile := p.Target[:len(p.Target)-2] + ".shlibname"
+			targetPrefix := p.Internal.Build.PkgTargetRoot + "/" + p.ImportPath
+			p.Target = targetPrefix + ".a"
+			shlibnamefile := targetPrefix + ".shlibname"
 			shlib, err := os.ReadFile(shlibnamefile)
 			if err != nil && !os.IsNotExist(err) {
 				base.Fatalf("reading shlibname: %v", err)
