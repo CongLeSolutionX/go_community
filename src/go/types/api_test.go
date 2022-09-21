@@ -12,6 +12,7 @@ import (
 	"go/parser"
 	"go/token"
 	"internal/testenv"
+	"internal/teststdlib"
 	"reflect"
 	"regexp"
 	"sort"
@@ -33,7 +34,7 @@ func pkgForMode(path, source string, info *Info, mode parser.Mode) (*Package, er
 	if err != nil {
 		return nil, err
 	}
-	conf := Config{Importer: importer.Default()}
+	conf := Config{Importer: teststdlib.Importer()}
 	return conf.Check(f.Name.Name, fset, []*ast.File{f}, info)
 }
 
@@ -57,7 +58,7 @@ func mayTypecheck(t *testing.T, path, source string, info *Info) (string, error)
 	}
 	conf := Config{
 		Error:    func(err error) {},
-		Importer: importer.Default(),
+		Importer: teststdlib.Importer(),
 	}
 	pkg, err := conf.Check(f.Name.Name, fset, []*ast.File{f}, info)
 	return pkg.Name(), err
