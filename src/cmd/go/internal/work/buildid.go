@@ -7,6 +7,7 @@ package work
 import (
 	"bytes"
 	"fmt"
+	"internal/buildinternal"
 	"os"
 	"os/exec"
 	"strings"
@@ -503,7 +504,10 @@ func (b *Builder) useCache(a *Action, actionHash cache.ActionID, target string) 
 
 	if b.IsCmdList {
 		// Invoked during go list to compute and record staleness.
-		if p := a.Package; p != nil && !p.Stale {
+		if p := a.Package; p != nil && !p.Stale && (!p.Goroot || buildinternal.NeedsInstalledDotA(p.ImportPath)) {
+			// Set stale to true, but it may be set back to false below
+			// if the package is in a module and the package's build
+			// artifact is cached.
 			p.Stale = true
 			if cfg.BuildA {
 				p.StaleReason = "build -a flag in use"
@@ -545,7 +549,9 @@ func (b *Builder) useCache(a *Action, actionHash cache.ActionID, target string) 
 						}
 						if p := a.Package; p != nil {
 							// Clearer than explaining that something else is stale.
-							p.StaleReason = "not installed but available in build cache"
+							if p.Stale {
+								p.StaleReason = "not installed but available in build cache"
+							}
 						}
 						return true
 					}
