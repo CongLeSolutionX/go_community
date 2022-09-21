@@ -423,7 +423,7 @@ func (b *Builder) CompileAction(mode, depMode BuildMode, p *load.Package) *Actio
 	vetOnly := mode&ModeVetOnly != 0
 	mode &^= ModeVetOnly
 
-	if mode != ModeBuild && (p.Internal.Local || p.Module != nil) && p.Target == "" {
+	if mode != ModeBuild && (p.Internal.Local || p.Goroot || p.Module != nil) && p.Target == "" {
 		// Imported via local path or using modules. No permanent target.
 		mode = ModeBuild
 	}
