@@ -9,6 +9,7 @@ import (
 	"cmd/internal/archive"
 	"fmt"
 	"internal/testenv"
+	"internal/teststdlib"
 	"io"
 	"io/fs"
 	"os"
@@ -177,11 +178,19 @@ func TestHello(t *testing.T) {
 		return doRun(t, dir, args...)
 	}
 
+	// Create importcfg file.
+	importcfgfile := filepath.Join(dir, "hello.importcfg")
+	importcfg, err := teststdlib.CreateStdlibImportcfg()
+	if err != nil {
+		t.Fatalf("preparing the importcfg failed: %s", err)
+	}
+	os.WriteFile(importcfgfile, []byte(importcfg), 0655)
+
 	goBin := testenv.GoToolPath(t)
 	run(goBin, "build", "cmd/pack") // writes pack binary to dir
-	run(goBin, "tool", "compile", "-p=main", "hello.go")
+	run(goBin, "tool", "compile", "-importcfg="+importcfgfile, "-p=main", "hello.go")
 	run("./pack", "grc", "hello.a", "hello.o")
-	run(goBin, "tool", "link", "-o", "a.out", "hello.a")
+	run(goBin, "tool", "link", "-importcfg="+importcfgfile, "-o", "a.out", "hello.a")
 	out := run("./a.out")
 	if out != "hello world\n" {
 		t.Fatalf("incorrect output: %q, want %q", out, "hello world\n")
@@ -244,12 +253,22 @@ func TestLargeDefs(t *testing.T) {
 		return doRun(t, dir, args...)
 	}
 
+	// Create importcfg file.
+	importcfgfile := filepath.Join(dir, "hello.importcfg")
+	importcfg, err := teststdlib.CreateStdlibImportcfg()
+	if err != nil {
+		t.Fatalf("preparing the importcfg failed: %s", err)
+	}
+	os.WriteFile(importcfgfile, []byte(importcfg), 0655)
+
 	goBin := testenv.GoToolPath(t)
 	run(goBin, "build", "cmd/pack") // writes pack binary to dir
-	run(goBin, "tool", "compile", "-p=large", "large.go")
+	run(goBin, "tool", "compile", "-importcfg="+importcfgfile, "-p=large", "large.go")
 	run("./pack", "grc", "large.a", "large.o")
-	run(goBin, "tool", "compile", "-p=main", "-I", ".", "main.go")
-	run(goBin, "tool", "link", "-L", ".", "-o", "a.out", "main.o")
+	importcfg += "\npackagefile large=" + filepath.Join(dir, "large.o")
+	os.WriteFile(importcfgfile, []byte(importcfg), 0655)
+	run(goBin, "tool", "compile", "-importcfg="+importcfgfile, "-p=main", "main.go")
+	run(goBin, "tool", "link", "-importcfg="+importcfgfile, "-L", ".", "-o", "a.out", "main.o")
 	out := run("./a.out")
 	if out != "ok\n" {
 		t.Fatalf("incorrect output: %q, want %q", out, "ok\n")
