@@ -14,6 +14,7 @@ import (
 	"debug/elf"
 	"encoding/json"
 	"fmt"
+	"internal/buildinternal"
 	"os"
 	"path/filepath"
 	"strings"
@@ -425,6 +426,10 @@ func (b *Builder) CompileAction(mode, depMode BuildMode, p *load.Package) *Actio
 
 	if mode != ModeBuild && (p.Internal.Local || p.Module != nil) && p.Target == "" {
 		// Imported via local path or using modules. No permanent target.
+		mode = ModeBuild
+	}
+	if p.Goroot && !buildinternal.NeedsInstalledDotA(p.ImportPath) {
+		// Don't install most dot as
 		mode = ModeBuild
 	}
 	if mode != ModeBuild && p.Name == "main" {
