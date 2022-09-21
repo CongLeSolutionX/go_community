@@ -1623,6 +1623,8 @@ func BuildInstallFunc(b *Builder, ctx context.Context, a *Action) (err error) {
 		a.json.BuildID = a.buildID
 	}
 
+	fmt.Println("IN BuildInstallFunc. target is ", a.Target, "-- and built is ", a1.built)
+
 	// If we are using the eventual install target as an up-to-date
 	// cached copy of the thing we built, then there's no need to
 	// copy it into itself (and that would probably fail anyway).
