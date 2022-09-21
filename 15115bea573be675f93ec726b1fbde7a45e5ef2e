@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52657fa7_097f26c0",
+        "filename": "src/runtime/coverage/ts_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-09-21T14:15:55Z",
+      "side": 1,
+      "message": "A comment for `TestTestSupport` describing what it is testing would be helpful.\n\n(It looks like `processCoverTestDir` is creating `file.txt`? Are we just checking that it doesn\u0027t crash, or is there some property of that file that we care about — perhaps that it exists after the call?)",
+      "revId": "15115bea573be675f93ec726b1fbde7a45e5ef2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
