@@ -9,8 +9,10 @@ import (
 	"cmd/compile/internal/types2"
 	"fmt"
 	"go/build"
+	"internal/buildinternal"
 	"internal/goexperiment"
 	"internal/testenv"
+	"io"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -37,14 +39,23 @@ func skipSpecialPlatforms(t *testing.T) {
 
 // compile runs the compiler on filename, with dirname as the working directory,
 // and writes the output file to outdirname.
-func compile(t *testing.T, dirname, filename, outdirname string) string {
+func compile(t *testing.T, dirname, filename, outdirname string, packagefiles map[string]string) string {
 	// filename must end with ".go"
 	if !strings.HasSuffix(filename, ".go") {
 		t.Fatalf("filename doesn't end in .go: %s", filename)
 	}
 	basename := filepath.Base(filename)
 	outname := filepath.Join(outdirname, basename[:len(basename)-2]+"o")
-	cmd := exec.Command(testenv.GoToolPath(t), "tool", "compile", "-p", strings.TrimSuffix(outname, ".o"), "-o", outname, filename)
+	importcfg, err := buildinternal.CreateStdlibImportcfg()
+	for k, v := range packagefiles {
+		importcfg += fmt.Sprintf("\npackagefile %s=%s", k, v)
+	}
+	if err != nil {
+		t.Fatalf("preparing the importcfg failed: %s", err)
+	}
+	importcfgfile := filepath.Join(outdirname, basename[:len(basename)-2]+"o") + "importcfg"
+	os.WriteFile(importcfgfile, []byte(importcfg), 0655)
+	cmd := exec.Command(testenv.GoToolPath(t), "tool", "compile", "-p", filepath.Base(strings.TrimSuffix(outname, ".o")), "-importcfg", importcfgfile, "-o", outname, filename)
 	cmd.Dir = dirname
 	out, err := cmd.CombinedOutput()
 	if err != nil {
@@ -54,9 +65,9 @@ func compile(t *testing.T, dirname, filename, outdirname string) string {
 	return outname
 }
 
-func testPath(t *testing.T, path, srcDir string) *types2.Package {
+func testPath(t *testing.T, path, srcDir string, lookup func(path string) (io.ReadCloser, error)) *types2.Package {
 	t0 := time.Now()
-	pkg, err := Import(make(map[string]*types2.Package), path, srcDir, nil)
+	pkg, err := Import(make(map[string]*types2.Package), path, srcDir, lookup)
 	if err != nil {
 		t.Errorf("testPath(%s): %s", path, err)
 		return nil
@@ -84,7 +95,7 @@ func testDir(t *testing.T, dir string, endTime time.Time) (nimports int) {
 			for _, ext := range pkgExts {
 				if strings.HasSuffix(f.Name(), ext) {
 					name := f.Name()[0 : len(f.Name())-len(ext)] // remove extension
-					if testPath(t, filepath.Join(dir, name), dir) != nil {
+					if testPath(t, filepath.Join(dir, name), dir, lookupStdlibPkgs) != nil {
 						nimports++
 					}
 				}
@@ -125,14 +136,28 @@ func TestImportTestdata(t *testing.T) {
 		testfiles["exports.go"] = []string{"go/ast"}
 	}
 
+	stdlibPkgs, err := buildinternal.StdlibPkgfileMap()
+	if err != nil {
+		t.Fatal(err)
+	}
+
 	for testfile, wantImports := range testfiles {
 		tmpdir := mktmpdir(t)
 		defer os.RemoveAll(tmpdir)
 
-		compile(t, "testdata", testfile, filepath.Join(tmpdir, "testdata"))
+		compile(t, "testdata", testfile, filepath.Join(tmpdir, "testdata"), nil)
 		path := "./testdata/" + strings.TrimSuffix(testfile, ".go")
 
-		if pkg := testPath(t, path, tmpdir); pkg != nil {
+		lookup := func(path string) (io.ReadCloser, error) {
+			if export, ok := stdlibPkgs[path]; ok {
+				return os.Open(export)
+			} else {
+				// Where compileAndImportPackage places the .o
+				return os.Open(filepath.Join(tmpdir, path+".o"))
+			}
+		}
+
+		if pkg := testPath(t, path, tmpdir, lookup); pkg != nil {
 			// The package's Imports list must include all packages
 			// explicitly imported by testfile, plus all packages
 			// referenced indirectly via exported objects in testfile.
@@ -293,7 +318,7 @@ func TestImportedTypes(t *testing.T) {
 		importPath := s[0]
 		objName := s[1]
 
-		pkg, err := Import(make(map[string]*types2.Package), importPath, ".", nil)
+		pkg, err := Import(make(map[string]*types2.Package), importPath, ".", lookupStdlibPkgs)
 		if err != nil {
 			t.Error(err)
 			continue
@@ -398,7 +423,7 @@ func TestCorrectMethodPackage(t *testing.T) {
 	}
 
 	imports := make(map[string]*types2.Package)
-	_, err := Import(imports, "net/http", ".", nil)
+	_, err := Import(imports, "net/http", ".", lookupStdlibPkgs)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -436,8 +461,8 @@ func TestIssue13566(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	compile(t, "testdata", "a.go", testoutdir)
-	compile(t, testoutdir, bpath, testoutdir)
+	compile(t, "testdata", "a.go", testoutdir, nil)
+	compile(t, testoutdir, bpath, testoutdir, map[string]string{"a": filepath.Join(testoutdir, "a.o")})
 
 	// import must succeed (test for issue at hand)
 	pkg := importPkg(t, "./testdata/b", tmpdir)
@@ -450,6 +475,14 @@ func TestIssue13566(t *testing.T) {
 	}
 }
 
+func lookupStdlibPkgs(path string) (io.ReadCloser, error) {
+	m, err := buildinternal.StdlibPkgfileMap()
+	if err != nil {
+		return nil, err
+	}
+	return os.Open(m[filepath.ToSlash(path)])
+}
+
 func TestIssue13898(t *testing.T) {
 	skipSpecialPlatforms(t)
 
@@ -460,7 +493,7 @@ func TestIssue13898(t *testing.T) {
 
 	// import go/internal/gcimporter which imports go/types partially
 	imports := make(map[string]*types2.Package)
-	_, err := Import(imports, "go/internal/gcimporter", ".", nil)
+	_, err := Import(imports, "go/internal/gcimporter", ".", lookupStdlibPkgs)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -513,7 +546,7 @@ func TestIssue15517(t *testing.T) {
 	tmpdir := mktmpdir(t)
 	defer os.RemoveAll(tmpdir)
 
-	compile(t, "testdata", "p.go", filepath.Join(tmpdir, "testdata"))
+	compile(t, "testdata", "p.go", filepath.Join(tmpdir, "testdata"), nil)
 
 	// Multiple imports of p must succeed without redeclaration errors.
 	// We use an import path that's not cleaned up so that the eventual
@@ -608,7 +641,19 @@ func TestIssue25596(t *testing.T) {
 }
 
 func importPkg(t *testing.T, path, srcDir string) *types2.Package {
-	pkg, err := Import(make(map[string]*types2.Package), path, srcDir, nil)
+	m, err := buildinternal.StdlibPkgfileMap()
+	if err != nil {
+		t.Fatal(err)
+	}
+	lookup := func(path string) (io.ReadCloser, error) {
+		if export, ok := m[path]; ok {
+			return os.Open(export)
+		} else {
+			// Where compileAndImportPackage places the .o
+			return os.Open(filepath.Join(srcDir, path+".o"))
+		}
+	}
+	pkg, err := Import(make(map[string]*types2.Package), path, srcDir, lookup)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -618,7 +663,7 @@ func importPkg(t *testing.T, path, srcDir string) *types2.Package {
 func compileAndImportPkg(t *testing.T, name string) *types2.Package {
 	tmpdir := mktmpdir(t)
 	defer os.RemoveAll(tmpdir)
-	compile(t, "testdata", name+".go", filepath.Join(tmpdir, "testdata"))
+	compile(t, "testdata", name+".go", filepath.Join(tmpdir, "testdata"), nil)
 	return importPkg(t, "./testdata/"+name, tmpdir)
 }
 
