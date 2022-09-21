@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e05cc067_9f18a0e4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-09-21T07:19:41Z",
+      "side": 1,
+      "message": "I have sent a fix for this CL, see https://go-review.googlesource.com/c/go/+/432275, thanks.",
+      "revId": "4c414c7673af6b2aedee276d2e62cb2910eb19f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ebb03081_b55cde4f",
@@ -24,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e976a596_d22415d6",
+        "filename": "src/cmd/compile/internal/ssa/schedule.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 577,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-09-21T07:19:41Z",
+      "side": 1,
+      "message": "For PPC64, we treat it as a special case. I\u0027m not very familiar with other architectures, if there are other special cases, we treat it like PPC64.",
+      "parentUuid": "ebb03081_b55cde4f",
+      "range": {
+        "startLine": 577,
+        "startChar": 1,
+        "endLine": 577,
+        "endChar": 39
+      },
+      "revId": "4c414c7673af6b2aedee276d2e62cb2910eb19f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d1fbe7d3_61a41a3d",
@@ -37,6 +78,24 @@
       "writtenOn": "2022-09-21T07:03:24Z",
       "side": 1,
       "message": "In my investigation last night, this for loop seems to be the culprit. If I comment out this loop, the build succeed. The `a` returned here is a TESTQ, which set carry flag to zero, so it would be wrong to consider it’s a carry input?",
+      "revId": "4c414c7673af6b2aedee276d2e62cb2910eb19f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f05c325_43fc3818",
+        "filename": "src/cmd/compile/internal/ssa/schedule.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-09-21T07:19:41Z",
+      "side": 1,
+      "message": "It\u0027s correct, this function returns the producing *Value of the carry bit, no matter it sets the carry flag to zero or one, as long as it SET the carry flag.",
+      "parentUuid": "d1fbe7d3_61a41a3d",
       "revId": "4c414c7673af6b2aedee276d2e62cb2910eb19f3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
