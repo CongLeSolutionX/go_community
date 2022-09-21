@@ -1803,16 +1803,20 @@ func TestImportLocal(t *testing.T) {
 
 func TestGoInstallPkgdir(t *testing.T) {
 	skipIfGccgo(t, "gccgo has no standard packages")
+	if !canCgo {
+		t.Skip("skipping because cgo not enabled")
+	}
 	tooSlow(t)
 
 	tg := testgo(t)
 	tg.parallel()
+	tg.setenv("GODEBUG", "installgoroot=all")
 	defer tg.cleanup()
 	tg.makeTempdir()
 	pkg := tg.path(".")
-	tg.run("install", "-pkgdir", pkg, "sync")
-	tg.mustExist(filepath.Join(pkg, "sync.a"))
-	tg.mustNotExist(filepath.Join(pkg, "sync/atomic.a"))
+	tg.run("install", "-pkgdir", pkg, "net")
+	tg.mustExist(filepath.Join(pkg, "net.a"))
+	tg.mustNotExist(filepath.Join(pkg, "runtime/cgo.a"))
 }
 
 // For issue 14337.
