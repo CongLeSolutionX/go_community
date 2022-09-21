@@ -14,6 +14,7 @@ import (
 	"cmd/go/internal/modload"
 	"cmd/internal/quoted"
 	"fmt"
+	"internal/buildinternal"
 	"internal/platform"
 	"os"
 	"os/exec"
@@ -286,6 +287,7 @@ func buildModeInit() {
 			base.Fatalf("-buildmode=shared and -o not supported together")
 		}
 		ldBuildmode = "shared"
+		buildinternal.IsShared = true
 	case "plugin":
 		pkgsFilter = oneMainPkg
 		if gccgo {
@@ -317,6 +319,7 @@ func buildModeInit() {
 			// TODO(mwhudson): remove -w when that gets fixed in linker.
 			forcedLdflags = append(forcedLdflags, "-linkshared", "-w")
 		}
+		buildinternal.IsShared = true
 	}
 	if codegenArg != "" {
 		if gccgo {
