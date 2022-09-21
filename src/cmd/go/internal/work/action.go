@@ -423,8 +423,8 @@ func (b *Builder) CompileAction(mode, depMode BuildMode, p *load.Package) *Actio
 	vetOnly := mode&ModeVetOnly != 0
 	mode &^= ModeVetOnly
 
-	if mode != ModeBuild && (p.Internal.Local || p.Module != nil) && p.Target == "" {
-		// Imported via local path or using modules. No permanent target.
+	if mode != ModeBuild && p.Target == "" {
+		// No permanent target.
 		mode = ModeBuild
 	}
 	if mode != ModeBuild && p.Name == "main" {
@@ -879,7 +879,7 @@ func (b *Builder) linkSharedAction(mode, depMode BuildMode, shlib string, a1 *Ac
 					Mode:    "shlibname",
 					Package: p,
 					Func:    (*Builder).installShlibname,
-					Target:  strings.TrimSuffix(p.Target, ".a") + ".shlibname",
+					Target:  p.Internal.Build.PkgTargetRoot + "/" + p.ImportPath + ".shlibname",
 					Deps:    []*Action{a.Deps[0]},
 				})
 			}
