@@ -37,8 +37,15 @@ func main() {
 	f.Close()
 	defer os.RemoveAll(f.Name())
 
+	importcfg, err := os.CreateTemp("", "importcfg")
+	output, err := exec.Command("go", "list", "-export", "-f", "{{if .Export}}packagefile {{.ImportPath}}={{.Export}}{{end}}", "std").Output()
+	if err != nil {
+		log.Fatal(err)
+	}
+	importcfg.Write(output)
+
 	// compile and test output
-	cmd := exec.Command("go", "tool", "compile", "-p=main", f.Name())
+	cmd := exec.Command("go", "tool", "compile", "-p=main", "-importcfg="+importcfg.Name(), f.Name())
 	out, err := cmd.CombinedOutput()
 	if err == nil {
 		log.Fatalf("expected cmd/compile to fail")
