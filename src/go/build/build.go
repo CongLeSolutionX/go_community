@@ -13,6 +13,7 @@ import (
 	"go/doc"
 	"go/token"
 	"internal/buildcfg"
+	"internal/buildinternal"
 	"internal/goroot"
 	"internal/goversion"
 	"io"
@@ -777,8 +778,13 @@ Found:
 		p.PkgRoot = ctxt.joinPath(p.Root, "pkg")
 		p.BinDir = ctxt.joinPath(p.Root, "bin")
 		if pkga != "" {
-			p.PkgTargetRoot = ctxt.joinPath(p.Root, pkgtargetroot)
-			p.PkgObj = ctxt.joinPath(p.Root, pkga)
+			// HACK: Do not set p.Target for most packages in goroot.
+			// Should this be in go/build or its modindex variant?
+			if p.Goroot && !buildinternal.NeedsInstalledDotA(p.ImportPath) {
+			} else {
+				p.PkgTargetRoot = ctxt.joinPath(p.Root, pkgtargetroot)
+				p.PkgObj = ctxt.joinPath(p.Root, pkga)
+			}
 		}
 	}
 
@@ -1106,35 +1112,6 @@ func (ctxt *Context) importGo(p *Package, path, srcDir string, mode ImportMode) 
 		// Maybe use modules.
 	}
 
-	if srcDir != "" {
-		var absSrcDir string
-		if filepath.IsAbs(srcDir) {
-			absSrcDir = srcDir
-		} else if ctxt.Dir != "" {
-			return fmt.Errorf("go/build: Dir is non-empty, so relative srcDir is not allowed: %v", srcDir)
-		} else {
-			// Find the absolute source directory. hasSubdir does not handle
-			// relative paths (and can't because the callbacks don't support this).
-			var err error
-			absSrcDir, err = filepath.Abs(srcDir)
-			if err != nil {
-				return errNoModules
-			}
-		}
-
-		// If the source directory is in GOROOT, then the in-process code works fine
-		// and we should keep using it. Moreover, the 'go list' approach below doesn't
-		// take standard-library vendoring into account and will fail.
-		if _, ok := ctxt.hasSubdir(filepath.Join(ctxt.GOROOT, "src"), absSrcDir); ok {
-			return errNoModules
-		}
-	}
-
-	// For efficiency, if path is a standard library package, let the usual lookup code handle it.
-	if dir := ctxt.joinPath(ctxt.GOROOT, "src", path); ctxt.isDir(dir) {
-		return errNoModules
-	}
-
 	// If GO111MODULE=auto, look to see if there is a go.mod.
 	// Since go1.13, it doesn't matter if we're inside GOPATH.
 	if go111Module == "auto" {
@@ -1175,7 +1152,8 @@ func (ctxt *Context) importGo(p *Package, path, srcDir string, mode ImportMode) 
 	}
 
 	goCmd := filepath.Join(ctxt.GOROOT, "bin", "go")
-	cmd := exec.Command(goCmd, "list", "-e", "-compiler="+ctxt.Compiler, "-tags="+strings.Join(ctxt.BuildTags, ","), "-installsuffix="+ctxt.InstallSuffix, "-f={{.Dir}}\n{{.ImportPath}}\n{{.Root}}\n{{.Goroot}}\n{{if .Error}}{{.Error}}{{end}}\n", "--", path)
+	// TODO(matloob): replace .Export with a new field added for export data
+	cmd := exec.Command(goCmd, "list", "-e", "-export", "-compiler="+ctxt.Compiler, "-tags="+strings.Join(ctxt.BuildTags, ","), "-installsuffix="+ctxt.InstallSuffix, "-f={{.Dir}}\n{{.ImportPath}}\n{{.Root}}\n{{.Goroot}}\n{{.Export}}\n{{if .Error}}{{.Error}}{{end}}\n", "--", path)
 
 	if ctxt.Dir != "" {
 		cmd.Dir = ctxt.Dir
@@ -1201,12 +1179,12 @@ func (ctxt *Context) importGo(p *Package, path, srcDir string, mode ImportMode) 
 		return fmt.Errorf("go/build: go list %s: %v\n%s\n", path, err, stderr.String())
 	}
 
-	f := strings.SplitN(stdout.String(), "\n", 5)
-	if len(f) != 5 {
+	f := strings.SplitN(stdout.String(), "\n", 6)
+	if len(f) != 6 {
 		return fmt.Errorf("go/build: importGo %s: unexpected output:\n%s\n", path, stdout.String())
 	}
 	dir := f[0]
-	errStr := strings.TrimSpace(f[4])
+	errStr := strings.TrimSpace(f[5])
 	if errStr != "" && dir == "" {
 		// If 'go list' could not locate the package (dir is empty),
 		// return the same error that 'go list' reported.
@@ -1220,6 +1198,7 @@ func (ctxt *Context) importGo(p *Package, path, srcDir string, mode ImportMode) 
 	p.ImportPath = f[1]
 	p.Root = f[2]
 	p.Goroot = f[3] == "true"
+	p.PkgObj = f[4]
 	return nil
 }
 
