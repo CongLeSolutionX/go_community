@@ -262,7 +262,7 @@ var depsRules = `
 	< go/parser;
 
 	FMT
-	< go/build/constraint, go/doc/comment;
+	< go/build/constraint, go/doc/comment, internal/buildinternal;
 
 	go/build/constraint, go/doc/comment, go/parser, text/tabwriter
 	< go/printer
