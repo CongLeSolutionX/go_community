@@ -412,6 +412,24 @@
       "parentUuid": "9b1c1f7a_cb68f8fa",
       "revId": "653993e9a2c8a0bb3367d5ff2fb10cc5d5cb5b57",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ae61f5b_550ab14b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 52385
+      },
+      "writtenOn": "2022-09-21T09:44:25Z",
+      "side": 1,
+      "message": "Thank you for your input!\n\nIIUC, the approach is to return an error for a call to Data of a NOBITS section. What about the `io.ReadSeeker` returned by Open? Can we replace the `zeroReader` with a new `nobitsSectionReader` shown below?\n\n```\ntype nobitsSectionReader struct{}\n\nfunc (*nobitsSectionReader) ReadAt(p []byte, off int64) (n int, err error) {\n\treturn 0, errors.New(\"unexpected read from SHT_NOBITS section\")\n}\n```\n\n@Alessandro, I have did a quick search and it seems that delve only calls Data from \".debug_\\*\" or \"zdebug_\\*\" section. Which should not be affected by this change.\n\n\u003e Returning an error unconditionally would break delve for on some real executable files. I don\u0027t remember the exact circumstances but some tool uses SHT_NOBITS for eh_frame, because an all 0 section is a valid eh_frame with no entries.\n\nIs it possible to figure out how it will be affected? I can not found any reported issue https://github.com/go-delve/delve/issues?q\u003dis%3Aissue+SHT_NOBITS.",
+      "parentUuid": "b8567617_e8f2756c",
+      "revId": "653993e9a2c8a0bb3367d5ff2fb10cc5d5cb5b57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
