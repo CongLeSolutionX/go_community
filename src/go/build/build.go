@@ -13,6 +13,7 @@ import (
 	"go/doc"
 	"go/token"
 	"internal/buildcfg"
+	"internal/buildinternal"
 	"internal/goroot"
 	"internal/goversion"
 	"io"
@@ -777,8 +778,13 @@ Found:
 		p.PkgRoot = ctxt.joinPath(p.Root, "pkg")
 		p.BinDir = ctxt.joinPath(p.Root, "bin")
 		if pkga != "" {
-			p.PkgTargetRoot = ctxt.joinPath(p.Root, pkgtargetroot)
-			p.PkgObj = ctxt.joinPath(p.Root, pkga)
+			if pkga != "" {
+				// Set the install target if applicable.
+				if buildinternal.NeedsInstalledDotA(p.ImportPath) {
+					p.PkgTargetRoot = ctxt.joinPath(p.Root, pkgtargetroot)
+					p.PkgObj = ctxt.joinPath(p.Root, pkga)
+				}
+			}
 		}
 	}
 
@@ -1104,35 +1110,6 @@ func (ctxt *Context) importGo(p *Package, path, srcDir string, mode ImportMode) 
 		return errNoModules
 	default: // "", "on", "auto", anything else
 		// Maybe use modules.
-	}
-
-	if srcDir != "" {
-		var absSrcDir string
-		if filepath.IsAbs(srcDir) {
-			absSrcDir = srcDir
-		} else if ctxt.Dir != "" {
-			return fmt.Errorf("go/build: Dir is non-empty, so relative srcDir is not allowed: %v", srcDir)
-		} else {
-			// Find the absolute source directory. hasSubdir does not handle
-			// relative paths (and can't because the callbacks don't support this).
-			var err error
-			absSrcDir, err = filepath.Abs(srcDir)
-			if err != nil {
-				return errNoModules
-			}
-		}
-
-		// If the source directory is in GOROOT, then the in-process code works fine
-		// and we should keep using it. Moreover, the 'go list' approach below doesn't
-		// take standard-library vendoring into account and will fail.
-		if _, ok := ctxt.hasSubdir(filepath.Join(ctxt.GOROOT, "src"), absSrcDir); ok {
-			return errNoModules
-		}
-	}
-
-	// For efficiency, if path is a standard library package, let the usual lookup code handle it.
-	if dir := ctxt.joinPath(ctxt.GOROOT, "src", path); ctxt.isDir(dir) {
-		return errNoModules
 	}
 
 	// If GO111MODULE=auto, look to see if there is a go.mod.
