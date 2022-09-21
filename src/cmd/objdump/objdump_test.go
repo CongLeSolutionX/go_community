@@ -11,6 +11,7 @@ import (
 	"go/build"
 	"internal/platform"
 	"internal/testenv"
+	"internal/teststdlib"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -297,8 +298,15 @@ func TestDisasmPIE(t *testing.T) {
 func TestDisasmGoobj(t *testing.T) {
 	mustHaveDisasm(t)
 
+	importcfg, err := teststdlib.CreateStdlibImportcfg()
+	if err != nil {
+		t.Fatalf("preparing the importcfg failed: %s", err)
+	}
+	importcfgfile := filepath.Join(tmp, "hello.importcfg")
+	os.WriteFile(importcfgfile, []byte(importcfg), 0655)
+
 	hello := filepath.Join(tmp, "hello.o")
-	args := []string{"tool", "compile", "-p=main", "-o", hello}
+	args := []string{"tool", "compile", "-p=main", "-importcfg=" + importcfgfile, "-o", hello}
 	args = append(args, "testdata/fmthello.go")
 	out, err := exec.Command(testenv.GoToolPath(t), args...).CombinedOutput()
 	if err != nil {
