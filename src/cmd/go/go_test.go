@@ -1790,6 +1790,7 @@ func TestGoInstallPkgdir(t *testing.T) {
 
 	tg := testgo(t)
 	tg.parallel()
+	tg.setenv("GODEBUG", "installgoroot=all")
 	defer tg.cleanup()
 	tg.makeTempdir()
 	pkg := tg.path(".")
