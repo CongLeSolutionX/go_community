@@ -776,8 +776,14 @@ Found:
 		p.PkgRoot = ctxt.joinPath(p.Root, "pkg")
 		p.BinDir = ctxt.joinPath(p.Root, "bin")
 		if pkga != "" {
-			p.PkgTargetRoot = ctxt.joinPath(p.Root, pkgtargetroot)
-			p.PkgObj = ctxt.joinPath(p.Root, pkga)
+			// HACK: RESET p.Target for most packages in goroot.
+			// Should this be in go/build or its modindex variant?
+			if p.ImportPath != "net" && p.ImportPath != "os/signal" && p.ImportPath != "os/user" && p.ImportPath != "plugin" &&
+				p.ImportPath != "runtime/cgo" {
+			} else {
+				p.PkgTargetRoot = ctxt.joinPath(p.Root, pkgtargetroot)
+				p.PkgObj = ctxt.joinPath(p.Root, pkga)
+			}
 		}
 	}
 
