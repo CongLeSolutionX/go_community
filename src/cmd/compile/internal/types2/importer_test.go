@@ -9,18 +9,46 @@ package types2_test
 import (
 	gcimporter "cmd/compile/internal/importer"
 	"cmd/compile/internal/types2"
+	"internal/teststdlib"
 	"io"
+	"os"
+	"path/filepath"
+	"strings"
 )
 
 func defaultImporter() types2.Importer {
+	stdlibPkgs, err := teststdlib.StdlibPkgfileMap()
+	if err != nil {
+		panic(err)
+	}
+
+	lookup := func(path string) (io.ReadCloser, error) {
+		p, ok := stdlibPkgs[path]
+		if !ok {
+			p, ok = stdlibPkgs["vendor/"+path]
+		}
+		return os.Open(p)
+	}
+
+	lookupVendorCmd := func(path string) (io.ReadCloser, error) {
+		p, ok := stdlibPkgs[path]
+		if !ok {
+			p, ok = stdlibPkgs["cmd/vendor/"+path]
+		}
+		return os.Open(p)
+	}
+
 	return &gcimports{
-		packages: make(map[string]*types2.Package),
+		packages:        make(map[string]*types2.Package),
+		lookupVendorStd: lookup,
+		lookupVendorCmd: lookupVendorCmd,
 	}
 }
 
 type gcimports struct {
-	packages map[string]*types2.Package
-	lookup   func(path string) (io.ReadCloser, error)
+	packages        map[string]*types2.Package
+	lookupVendorStd func(path string) (io.ReadCloser, error)
+	lookupVendorCmd func(path string) (io.ReadCloser, error)
 }
 
 func (m *gcimports) Import(path string) (*types2.Package, error) {
@@ -31,5 +59,9 @@ func (m *gcimports) ImportFrom(path, srcDir string, mode types2.ImportMode) (*ty
 	if mode != 0 {
 		panic("mode must be 0")
 	}
-	return gcimporter.Import(m.packages, path, srcDir, m.lookup)
+	lookup := m.lookupVendorStd
+	if strings.Contains(srcDir, filepath.Join("src", "cmd")) {
+		lookup = m.lookupVendorCmd
+	}
+	return gcimporter.Import(m.packages, path, srcDir, lookup)
 }

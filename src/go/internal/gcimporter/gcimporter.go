@@ -21,7 +21,7 @@ import (
 // debugging/development support
 const debug = false
 
-var pkgExts = [...]string{".a", ".o"}
+var pkgExts = [...]string{".a", ".o"} // a file from the build cache will have no extension
 
 // FindPkg returns the filename and unique package id for an import
 // path based on package information provided by build.Import (using
