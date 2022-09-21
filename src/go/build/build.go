@@ -13,6 +13,7 @@ import (
 	"go/doc"
 	"go/token"
 	"internal/buildcfg"
+	"internal/buildinternal"
 	"internal/goroot"
 	"internal/goversion"
 	"io"
@@ -777,8 +778,13 @@ Found:
 		p.PkgRoot = ctxt.joinPath(p.Root, "pkg")
 		p.BinDir = ctxt.joinPath(p.Root, "bin")
 		if pkga != "" {
-			p.PkgTargetRoot = ctxt.joinPath(p.Root, pkgtargetroot)
-			p.PkgObj = ctxt.joinPath(p.Root, pkga)
+			if pkga != "" {
+				// Set the install target if applicable.
+				if buildinternal.NeedsInstalledDotA(p.ImportPath) {
+					p.PkgTargetRoot = ctxt.joinPath(p.Root, pkgtargetroot)
+					p.PkgObj = ctxt.joinPath(p.Root, pkga)
+				}
+			}
 		}
 	}
 
