@@ -41,7 +41,8 @@ func FindPkg(path, srcDir string) (filename, id string) {
 		if abs, err := filepath.Abs(srcDir); err == nil { // see issue 14282
 			srcDir = abs
 		}
-		bp, _ := build.Import(path, srcDir, build.FindOnly|build.AllowBinary)
+		bp, _ := build.Import(path, srcDir, build.FindOnly)
+		fmt.Fprintln(os.Stderr, "XXX", bp)
 		if bp.PkgObj == "" {
 			id = path // make sure we have an id to print in error message
 			return

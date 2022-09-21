@@ -13,6 +13,7 @@ import (
 	"go/doc"
 	"go/token"
 	"internal/buildcfg"
+	"internal/buildinternal"
 	"internal/goroot"
 	"internal/goversion"
 	"io"
@@ -409,21 +410,22 @@ const (
 
 // A Package describes the Go package found in a directory.
 type Package struct {
-	Dir           string   // directory containing package sources
-	Name          string   // package name
-	ImportComment string   // path in import comment on package statement
-	Doc           string   // documentation synopsis
-	ImportPath    string   // import path of package ("" if unknown)
-	Root          string   // root of Go tree where this package lives
-	SrcRoot       string   // package source root directory ("" if unknown)
-	PkgRoot       string   // package install root directory ("" if unknown)
-	PkgTargetRoot string   // architecture dependent install root directory ("" if unknown)
-	BinDir        string   // command install directory ("" if unknown)
-	Goroot        bool     // package found in Go root
-	PkgObj        string   // installed .a file
-	AllTags       []string // tags that can influence file selection in this directory
-	ConflictDir   string   // this directory shadows Dir in $GOPATH
-	BinaryOnly    bool     // cannot be rebuilt from source (has //go:binary-only-package comment)
+	Dir           string // directory containing package sources
+	Name          string // package name
+	ImportComment string // path in import comment on package statement
+	Doc           string // documentation synopsis
+	ImportPath    string // import path of package ("" if unknown)
+	Root          string // root of Go tree where this package lives
+	SrcRoot       string // package source root directory ("" if unknown)
+	PkgRoot       string // package install root directory ("" if unknown)
+	PkgTargetRoot string // architecture dependent install root directory ("" if unknown)
+	BinDir        string // command install directory ("" if unknown)
+	Goroot        bool   // package found in Go root
+	PkgObj        string // installed .a file
+
+	AllTags     []string // tags that can influence file selection in this directory
+	ConflictDir string   // this directory shadows Dir in $GOPATH
+	BinaryOnly  bool     // cannot be rebuilt from source (has //go:binary-only-package comment)
 
 	// Source files
 	GoFiles           []string // .go source files (excluding CgoFiles, TestGoFiles, XTestGoFiles)
@@ -771,13 +773,20 @@ func (ctxt *Context) Import(path string, srcDir string, mode ImportMode) (*Packa
 	}
 
 Found:
+	fmt.Fprintln(os.Stderr, "XXX found")
 	if p.Root != "" {
 		p.SrcRoot = ctxt.joinPath(p.Root, "src")
 		p.PkgRoot = ctxt.joinPath(p.Root, "pkg")
 		p.BinDir = ctxt.joinPath(p.Root, "bin")
 		if pkga != "" {
-			p.PkgTargetRoot = ctxt.joinPath(p.Root, pkgtargetroot)
-			p.PkgObj = ctxt.joinPath(p.Root, pkga)
+			// HACK: RESET p.Target for most packages in goroot.
+			// Should this be in go/build or its modindex variant?
+			if buildinternal.NeedsInstalledDotA(p.ImportPath) {
+
+			} else {
+				p.PkgTargetRoot = ctxt.joinPath(p.Root, pkgtargetroot)
+				p.PkgObj = ctxt.joinPath(p.Root, pkga)
+			}
 		}
 	}
 
@@ -1078,11 +1087,13 @@ var errNoModules = errors.New("not using modules")
 // Then we reinvoke it for every dependency. But this is still better than not working at all.
 // See golang.org/issue/26504.
 func (ctxt *Context) importGo(p *Package, path, srcDir string, mode ImportMode) error {
+	fmt.Fprintln(os.Stderr, "YYY")
 	// To invoke the go command,
 	// we must not being doing special things like AllowBinary or IgnoreVendor,
 	// and all the file system callbacks must be nil (we're meant to use the local file system).
 	if mode&AllowBinary != 0 || mode&IgnoreVendor != 0 ||
 		ctxt.JoinPath != nil || ctxt.SplitPathList != nil || ctxt.IsAbsPath != nil || ctxt.IsDir != nil || ctxt.HasSubdir != nil || ctxt.ReadDir != nil || ctxt.OpenFile != nil || !equal(ctxt.ToolTags, defaultToolTags) || !equal(ctxt.ReleaseTags, defaultReleaseTags) {
+		fmt.Fprintln(os.Stderr, "ZZZ", mode&AllowBinary != 0)
 		return errNoModules
 	}
 
@@ -1100,39 +1111,45 @@ func (ctxt *Context) importGo(p *Package, path, srcDir string, mode ImportMode) 
 	go111Module := os.Getenv("GO111MODULE")
 	switch go111Module {
 	case "off":
+		fmt.Fprintln(os.Stderr, "go111module=off")
 		return errNoModules
 	default: // "", "on", "auto", anything else
 		// Maybe use modules.
 	}
 
-	if srcDir != "" {
-		var absSrcDir string
-		if filepath.IsAbs(srcDir) {
-			absSrcDir = srcDir
-		} else if ctxt.Dir != "" {
-			return fmt.Errorf("go/build: Dir is non-empty, so relative srcDir is not allowed: %v", srcDir)
-		} else {
-			// Find the absolute source directory. hasSubdir does not handle
-			// relative paths (and can't because the callbacks don't support this).
-			var err error
-			absSrcDir, err = filepath.Abs(srcDir)
-			if err != nil {
-				return errNoModules
-			}
-		}
+	fmt.Fprintln(os.Stderr, "ZZZ")
 
-		// If the source directory is in GOROOT, then the in-process code works fine
-		// and we should keep using it. Moreover, the 'go list' approach below doesn't
-		// take standard-library vendoring into account and will fail.
-		if _, ok := ctxt.hasSubdir(filepath.Join(ctxt.GOROOT, "src"), absSrcDir); ok {
-			return errNoModules
-		}
-	}
+	/*
+		if srcDir != "" {
+			var absSrcDir string
+			if filepath.IsAbs(srcDir) {
+				absSrcDir = srcDir
+			} else if ctxt.Dir != "" {
+				return fmt.Errorf("go/build: Dir is non-empty, so relative srcDir is not allowed: %v", srcDir)
+			} else {
+				// Find the absolute source directory. hasSubdir does not handle
+				// relative paths (and can't because the callbacks don't support this).
+				//var err error
+				//absSrcDir, err = filepath.Abs(srcDir)
+				//if err != nil {
+				//	return errNoModules
+				//}
+			}
+
+			// If the source directory is in GOROOT, then the in-process code works fine
+			// and we should keep using it. Moreover, the 'go list' approach below doesn't
+			// take standard-library vendoring into account and will fail.
+			// if _, ok := ctxt.hasSubdir(filepath.Join(ctxt.GOROOT, "src"), absSrcDir); ok {
+			//	return errNoModules
+			//}
+		}*/
 
 	// For efficiency, if path is a standard library package, let the usual lookup code handle it.
-	if dir := ctxt.joinPath(ctxt.GOROOT, "src", path); ctxt.isDir(dir) {
+	/*if dir := ctxt.joinPath(ctxt.GOROOT, "src", path); ctxt.isDir(dir) {
 		return errNoModules
-	}
+	}*/
+
+	fmt.Fprintln(os.Stderr, "XXX")
 
 	// If GO111MODULE=auto, look to see if there is a go.mod.
 	// Since go1.13, it doesn't matter if we're inside GOPATH.
@@ -1174,7 +1191,8 @@ func (ctxt *Context) importGo(p *Package, path, srcDir string, mode ImportMode) 
 	}
 
 	goCmd := filepath.Join(ctxt.GOROOT, "bin", "go")
-	cmd := exec.Command(goCmd, "list", "-e", "-compiler="+ctxt.Compiler, "-tags="+strings.Join(ctxt.BuildTags, ","), "-installsuffix="+ctxt.InstallSuffix, "-f={{.Dir}}\n{{.ImportPath}}\n{{.Root}}\n{{.Goroot}}\n{{if .Error}}{{.Error}}{{end}}\n", "--", path)
+	// TODO(matloob): replace .Export with a new field added for export data
+	cmd := exec.Command(goCmd, "list", "-e", "-compiler="+ctxt.Compiler, "-tags="+strings.Join(ctxt.BuildTags, ","), "-installsuffix="+ctxt.InstallSuffix, "-f={{.Dir}}\n{{.ImportPath}}\n{{.Root}}\n{{.Goroot}}\n{{.Export}}\n{{if .Error}}{{.Error}}{{end}}\n", "--", path)
 
 	if ctxt.Dir != "" {
 		cmd.Dir = ctxt.Dir
@@ -1200,6 +1218,8 @@ func (ctxt *Context) importGo(p *Package, path, srcDir string, mode ImportMode) 
 		return fmt.Errorf("go/build: go list %s: %v\n%s\n", path, err, stderr.String())
 	}
 
+	fmt.Fprintln(os.Stderr, "STDOUT.STRING", stdout.String())
+
 	f := strings.SplitN(stdout.String(), "\n", 5)
 	if len(f) != 5 {
 		return fmt.Errorf("go/build: importGo %s: unexpected output:\n%s\n", path, stdout.String())
@@ -1218,6 +1238,7 @@ func (ctxt *Context) importGo(p *Package, path, srcDir string, mode ImportMode) 
 	p.Dir = dir
 	p.ImportPath = f[1]
 	p.Root = f[2]
+	p.PkgObj = f[3]
 	p.Goroot = f[3] == "true"
 	return nil
 }

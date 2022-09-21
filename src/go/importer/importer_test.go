@@ -5,6 +5,7 @@
 package importer
 
 import (
+	"fmt"
 	"go/build"
 	"go/token"
 	"internal/buildcfg"
@@ -24,7 +25,7 @@ func TestMain(m *testing.M) {
 func TestForCompiler(t *testing.T) {
 	testenv.MustHaveGoBuild(t)
 
-	const thePackage = "math/big"
+	const thePackage = "runtime/cgo"
 	out, err := exec.Command(testenv.GoToolPath(t), "list", "-f={{context.Compiler}}:{{.Target}}", thePackage).CombinedOutput()
 	if err != nil {
 		t.Fatalf("go list %s: %v\n%s", thePackage, err, out)
@@ -43,6 +44,7 @@ func TestForCompiler(t *testing.T) {
 
 	t.Run("LookupDefault", func(t *testing.T) {
 		imp := ForCompiler(fset, compiler, nil)
+		fmt.Fprintln(os.Stderr, "XXX")
 		pkg, err := imp.Import(thePackage)
 		if err != nil {
 			t.Fatal(err)
@@ -77,7 +79,7 @@ func TestForCompiler(t *testing.T) {
 		}
 
 		lookup := func(path string) (io.ReadCloser, error) {
-			if path != "math/bigger" {
+			if path != "runtime/cgofoo" {
 				t.Fatalf("lookup called with unexpected path %q", path)
 			}
 			f, err := os.Open(target)
@@ -87,13 +89,13 @@ func TestForCompiler(t *testing.T) {
 			return f, nil
 		}
 		imp := ForCompiler(fset, compiler, lookup)
-		pkg, err := imp.Import("math/bigger")
+		pkg, err := imp.Import("runtime/cgofoo")
 		if err != nil {
 			t.Fatal(err)
 		}
 		// Even though we open math/big.a, the import request was for math/bigger
 		// and that should be recorded in pkg.Path(), at least for the gc toolchain.
-		if pkg.Path() != "math/bigger" {
+		if pkg.Path() != "runtime/cgofoo" {
 			t.Fatalf("Path() = %q, want %q", pkg.Path(), "math/bigger")
 		}
 	})
