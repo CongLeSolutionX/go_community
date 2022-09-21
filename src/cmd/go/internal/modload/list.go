@@ -32,6 +32,7 @@ const (
 	ListDeprecated
 	ListVersions
 	ListRetractedVersions
+	ListPatch
 )
 
 // ListModules returns a description of the modules matching args, if known,
@@ -80,7 +81,9 @@ func ListModules(ctx context.Context, args []string, mode ListMode, reuseFile st
 				sem <- token{}
 				go func() {
 					if mode&ListU != 0 {
-						addUpdate(ctx, m)
+						addUpdate(ctx, m, true)
+					} else if mode&ListPatch != 0 {
+						addUpdate(ctx, m, false)
 					}
 					if mode&ListVersions != 0 {
 						addVersions(ctx, m, mode&ListRetractedVersions != 0)
