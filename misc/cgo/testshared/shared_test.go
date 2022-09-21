@@ -34,6 +34,8 @@ var oldGOROOT string
 var minpkgs = []string{"runtime", "sync/atomic"}
 var soname = "libruntime,sync-atomic.so"
 
+var runtimeCgoPkg = "runtime/cgo" // one of the packages in GOROOT that has a target (for deternmining install dir)
+
 var testX = flag.Bool("testx", false, "if true, pass -x to 'go' subcommands invoked by the test")
 var testWork = flag.Bool("testwork", false, "if true, log and do not delete the temporary working directory")
 
@@ -151,11 +153,11 @@ func testMain(m *testing.M) (int, error) {
 	myContext := build.Default
 	myContext.GOROOT = goroot
 	myContext.GOPATH = gopath
-	runtimeP, err := myContext.Import("runtime", ".", build.ImportComment)
+	runtimeCgoP, err := myContext.Import(runtimeCgoPkg, ".", build.ImportComment)
 	if err != nil {
 		return 0, fmt.Errorf("import failed: %v", err)
 	}
-	gorootInstallDir = runtimeP.PkgTargetRoot + "_dynlink"
+	gorootInstallDir = runtimeCgoP.PkgTargetRoot + "_dynlink"
 
 	// All tests depend on runtime being built into a shared library. Because
 	// that takes a few seconds, do it here and have all tests use the version
@@ -214,6 +216,7 @@ func cloneGOROOTDeps(goroot string) error {
 
 	pkgs := append(strings.Split(strings.TrimSpace(stdDeps), "\n"),
 		strings.Split(strings.TrimSpace(testdataDeps), "\n")...)
+	pkgs = append(pkgs, runtimeCgoPkg) // add runtime/cgo for help determining install directory
 	sort.Strings(pkgs)
 	var pkgRoots []string
 	for _, pkg := range pkgs {

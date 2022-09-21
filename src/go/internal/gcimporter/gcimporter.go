@@ -66,6 +66,7 @@ func FindPkg(path, srcDir string) (filename, id string) {
 			var ok bool
 			if bp.Goroot {
 				filename, ok = lookupGorootExport(path, bp.SrcRoot, srcDir)
+				id = bp.ImportPath
 			}
 			if !ok {
 				id = path // make sure we have an id to print in error message
