@@ -10,6 +10,7 @@ import (
 	"flag"
 	"fmt"
 	"go/build"
+	"internal/buildinternal"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -738,6 +739,9 @@ func InstallPackages(ctx context.Context, patterns []string, pkgs []*load.Packag
 				base.Errorf("go: no install location for .go files listed on command line (GOBIN not set)")
 			case p.ConflictDir != "":
 				base.Errorf("go: no install location for %s: hidden by %s", p.Dir, p.ConflictDir)
+			case p.Standard && !buildinternal.NeedsInstalledDotA(p.ImportPath):
+				// This stdlib package does not need an installed .a; instead
+				// we'll use the build cache.
 			default:
 				base.Errorf("go: no install location for directory %s outside GOPATH\n"+
 					"\tFor more details see: 'go help gopath'", p.Dir)
