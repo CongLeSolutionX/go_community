@@ -9,6 +9,7 @@ import (
 	"bytes"
 	"debug/macho"
 	"internal/buildcfg"
+	"internal/buildinternal"
 	"internal/testenv"
 	"os"
 	"os/exec"
@@ -51,19 +52,27 @@ func main() {}
 
 	tmpdir := t.TempDir()
 
-	err := os.WriteFile(filepath.Join(tmpdir, "main.go"), []byte(source), 0666)
+	// Create importcfg file.
+	importcfgfile := filepath.Join(tmpdir, "importcfg")
+	importcfg, err := buildinternal.CreateStdlibImportcfg()
+	if err != nil {
+		t.Fatalf("preparing the importcfg failed: %s", err)
+	}
+	os.WriteFile(importcfgfile, []byte(importcfg), 0655)
+
+	err = os.WriteFile(filepath.Join(tmpdir, "main.go"), []byte(source), 0666)
 	if err != nil {
 		t.Fatalf("failed to write main.go: %v\n", err)
 	}
 
-	cmd := exec.Command(testenv.GoToolPath(t), "tool", "compile", "-p=main", "main.go")
+	cmd := exec.Command(testenv.GoToolPath(t), "tool", "compile", "-importcfg="+importcfgfile, "-p=main", "main.go")
 	cmd.Dir = tmpdir
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		t.Fatalf("failed to compile main.go: %v, output: %s\n", err, out)
 	}
 
-	cmd = exec.Command(testenv.GoToolPath(t), "tool", "link", "main.o")
+	cmd = exec.Command(testenv.GoToolPath(t), "tool", "link", "-importcfg="+importcfgfile, "main.o")
 	cmd.Dir = tmpdir
 	out, err = cmd.CombinedOutput()
 	if err != nil {
@@ -99,9 +108,17 @@ func TestIssue28429(t *testing.T) {
 		}
 	}
 
+	// Create importcfg file.
+	importcfgfile := filepath.Join(tmpdir, "importcfg")
+	importcfg, err := buildinternal.CreateStdlibImportcfg()
+	if err != nil {
+		t.Fatalf("preparing the importcfg failed: %s", err)
+	}
+	os.WriteFile(importcfgfile, []byte(importcfg), 0655)
+
 	// Compile a main package.
 	write("main.go", "package main; func main() {}")
-	runGo("tool", "compile", "-p=main", "main.go")
+	runGo("tool", "compile", "-importcfg="+importcfgfile, "-p=main", "main.go")
 	runGo("tool", "pack", "c", "main.a", "main.o")
 
 	// Add an extra section with a short, non-.o name.
@@ -111,7 +128,7 @@ func TestIssue28429(t *testing.T) {
 
 	// Verify that the linker does not attempt
 	// to compile the extra section.
-	runGo("tool", "link", "main.a")
+	runGo("tool", "link", "-importcfg="+importcfgfile, "main.a")
 }
 
 func TestUnresolved(t *testing.T) {
@@ -237,15 +254,23 @@ void foo() {
 	cc := strings.TrimSpace(runGo("env", "CC"))
 	cflags := strings.Fields(runGo("env", "GOGCCFLAGS"))
 
+	// Create importcfg file.
+	importcfgfile := filepath.Join(tmpdir, "importcfg")
+	importcfg, err := buildinternal.CreateStdlibImportcfg()
+	if err != nil {
+		t.Fatalf("preparing the importcfg failed: %s", err)
+	}
+	os.WriteFile(importcfgfile, []byte(importcfg), 0655)
+
 	// Compile, assemble and pack the Go and C code.
 	runGo("tool", "asm", "-p=main", "-gensymabis", "-o", "symabis", "x.s")
-	runGo("tool", "compile", "-symabis", "symabis", "-p=main", "-o", "x1.o", "main.go")
+	runGo("tool", "compile", "-importcfg="+importcfgfile, "-symabis", "symabis", "-p=main", "-o", "x1.o", "main.go")
 	runGo("tool", "asm", "-p=main", "-o", "x2.o", "x.s")
 	run(cc, append(cflags, "-c", "-o", "x3.o", "x.c")...)
 	runGo("tool", "pack", "c", "x.a", "x1.o", "x2.o", "x3.o")
 
 	// Now attempt to link using the internal linker.
-	cmd := exec.Command(testenv.GoToolPath(t), "tool", "link", "-linkmode=internal", "x.a")
+	cmd := exec.Command(testenv.GoToolPath(t), "tool", "link", "-importcfg="+importcfgfile, "-linkmode=internal", "x.a")
 	cmd.Dir = tmpdir
 	out, err := cmd.CombinedOutput()
 	if err == nil {
@@ -779,20 +804,31 @@ func TestIndexMismatch(t *testing.T) {
 	mObj := filepath.Join(tmpdir, "main.o")
 	exe := filepath.Join(tmpdir, "main.exe")
 
+	// Create importcfg file.
+	importcfgFile := filepath.Join(tmpdir, "stdlib.importcfg")
+	importcfg, err := buildinternal.CreateStdlibImportcfg()
+	if err != nil {
+		t.Fatalf("preparing the importcfg failed: %s", err)
+	}
+	os.WriteFile(importcfgFile, []byte(importcfg), 0655)
+	importcfgWithAFile := filepath.Join(tmpdir, "witha.importcfg")
+	importcfgWithA := importcfg + "\npackagefile a=" + aObj
+	os.WriteFile(importcfgWithAFile, []byte(importcfgWithA), 0655)
+
 	// Build a program with main package importing package a.
-	cmd := exec.Command(testenv.GoToolPath(t), "tool", "compile", "-p=a", "-o", aObj, aSrc)
+	cmd := exec.Command(testenv.GoToolPath(t), "tool", "compile", "-importcfg="+importcfgFile, "-p=a", "-o", aObj, aSrc)
 	t.Log(cmd)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		t.Fatalf("compiling a.go failed: %v\n%s", err, out)
 	}
-	cmd = exec.Command(testenv.GoToolPath(t), "tool", "compile", "-p=main", "-I", tmpdir, "-o", mObj, mSrc)
+	cmd = exec.Command(testenv.GoToolPath(t), "tool", "compile", "-importcfg="+importcfgWithAFile, "-p=main", "-I", tmpdir, "-o", mObj, mSrc)
 	t.Log(cmd)
 	out, err = cmd.CombinedOutput()
 	if err != nil {
 		t.Fatalf("compiling main.go failed: %v\n%s", err, out)
 	}
-	cmd = exec.Command(testenv.GoToolPath(t), "tool", "link", "-L", tmpdir, "-o", exe, mObj)
+	cmd = exec.Command(testenv.GoToolPath(t), "tool", "link", "-importcfg="+importcfgWithAFile, "-L", tmpdir, "-o", exe, mObj)
 	t.Log(cmd)
 	out, err = cmd.CombinedOutput()
 	if err != nil {
@@ -801,13 +837,13 @@ func TestIndexMismatch(t *testing.T) {
 
 	// Now, overwrite a.o with the object of b.go. This should
 	// result in an index mismatch.
-	cmd = exec.Command(testenv.GoToolPath(t), "tool", "compile", "-p=a", "-o", aObj, bSrc)
+	cmd = exec.Command(testenv.GoToolPath(t), "tool", "compile", "-importcfg="+importcfgFile, "-p=a", "-o", aObj, bSrc)
 	t.Log(cmd)
 	out, err = cmd.CombinedOutput()
 	if err != nil {
 		t.Fatalf("compiling a.go failed: %v\n%s", err, out)
 	}
-	cmd = exec.Command(testenv.GoToolPath(t), "tool", "link", "-L", tmpdir, "-o", exe, mObj)
+	cmd = exec.Command(testenv.GoToolPath(t), "tool", "link", "-importcfg="+importcfgWithAFile, "-L", tmpdir, "-o", exe, mObj)
 	t.Log(cmd)
 	out, err = cmd.CombinedOutput()
 	if err == nil {
