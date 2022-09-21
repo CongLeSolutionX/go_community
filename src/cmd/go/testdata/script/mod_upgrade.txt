@@ -1,0 +1,22 @@
+env GO111MODULE=on
+
+# TODO(golang.org/issue/41297): we shouldn't need go.sum. None of the commands
+# below depend on the build list.
+
+go list -u -m all
+stdout 'rsc.io/quote v1.2.0 \[v1.5.2\]'
+
+go list -u=patch -m all
+stdout 'rsc.io/quote v1.2.0 \[v1.2.1\]'
+
+-- go.mod --
+module x
+require rsc.io/quote v1.2.0
+
+-- go.sum --
+rsc.io/quote v1.2.0 h1:fFMCNi0A97hfNrtUZVQKETbuc3h7bmfFQHnjutpPYCg=
+rsc.io/quote v1.2.0/go.mod h1:v83Ri/njykPcgJltBc/gEkJTmjTsNgtO1Y7vyIK1CQA=
+-- use.go --
+package use
+
+import _ "rsc.io/quote"
