@@ -261,7 +261,7 @@ var depsRules = `
 	< go/parser;
 
 	FMT
-	< go/build/constraint, go/doc/comment;
+	< go/build/constraint, go/doc/comment, internal/buildinternal;
 
 	go/build/constraint, go/doc/comment, go/parser, text/tabwriter
 	< go/printer
@@ -279,7 +279,7 @@ var depsRules = `
 	FMT, internal/goexperiment
 	< internal/buildcfg;
 
-	go/build/constraint, go/doc, go/parser, internal/buildcfg, internal/goroot, internal/goversion
+	go/build/constraint, go/doc, go/parser, internal/buildcfg, internal/goroot, internal/goversion, internal/buildinternal
 	< go/build;
 
 	# databases
@@ -436,6 +436,7 @@ var depsRules = `
 	< crypto/tls;
 
 	# crypto-aware packages
+
 
 	DEBUG, go/build, go/types, text/scanner, crypto/md5
 	< internal/pkgbits
