@@ -1583,6 +1583,9 @@ func (b *Builder) installShlibname(ctx context.Context, a *Action) error {
 
 	// TODO: BuildN
 	a1 := a.Deps[0]
+	if err := os.MkdirAll(filepath.Dir(a.Target), 0755); err != nil {
+		return err
+	}
 	err := os.WriteFile(a.Target, []byte(filepath.Base(a1.Target)+"\n"), 0666)
 	if err != nil {
 		return err
