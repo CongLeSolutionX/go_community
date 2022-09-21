@@ -11,6 +11,7 @@ import (
 	"go/importer"
 	"go/parser"
 	"go/token"
+	"internal/testenv"
 	"reflect"
 	"strings"
 	"testing"
@@ -19,6 +20,8 @@ import (
 )
 
 func TestErrorCodeExamples(t *testing.T) {
+	testenv.MustHaveGoBuild(t) // go command needed to resolve std .a files for importer.Default().
+
 	walkCodes(t, func(name string, value int, spec *ast.ValueSpec) {
 		t.Run(name, func(t *testing.T) {
 			doc := spec.Doc.Text()
@@ -48,7 +51,7 @@ func walkCodes(t *testing.T, f func(string, int, *ast.ValueSpec)) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	conf := Config{Importer: importer.Default()}
+	conf := Config{Importer: impor}
 	info := &Info{
 		Types: make(map[ast.Expr]TypeAndValue),
 		Defs:  make(map[*ast.Ident]Object),

@@ -265,7 +265,7 @@ var depsRules = `
 	< go/parser;
 
 	FMT
-	< go/build/constraint, go/doc/comment;
+	< go/build/constraint, go/doc/comment, internal/buildinternal;
 
 	go/build/constraint, go/doc/comment, go/parser, text/tabwriter
 	< go/printer
@@ -446,6 +446,9 @@ var depsRules = `
 	< go/internal/gcimporter, go/internal/gccgoimporter, go/internal/srcimporter
 	< go/importer;
 
+	go/importer
+	< internal/teststdlib;
+
 	NET, crypto/rand, mime/quotedprintable
 	< mime/multipart;
 
@@ -533,7 +536,7 @@ var depsRules = `
 	internal/fuzz, internal/testlog, runtime/pprof, regexp
 	< testing/internal/testdeps;
 
-	OS, flag, testing, internal/cfg, internal/platform
+	OS, flag, testing, internal/cfg, internal/platform, internal/goroot
 	< internal/testenv;
 
 	OS, encoding/base64
