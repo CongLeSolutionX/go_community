@@ -450,9 +450,11 @@ func (dec *Decoder) decodeStruct(engine *decEngine, value reflect.Value) {
 			break
 		}
 		fieldnum := state.fieldnum + delta
+		if fieldnum < state.fieldnum {
+			errorf("decode: corrupted data: delta overflow")
+		}
 		if fieldnum >= len(engine.instr) {
 			error_(errRange)
-			break
 		}
 		instr := &engine.instr[fieldnum]
 		var field reflect.Value
