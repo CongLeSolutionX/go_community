@@ -90,6 +90,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d46312e_1eeaa4c2",
+        "filename": "src/cmd/covdata/covdata.go",
+        "patchSetId": 61
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-09-22T16:16:56Z",
+      "side": 1,
+      "message": "OK, in my next patch set I have migrated search.MatchPattern out of cmd/go and to a new package in cmd/internal, and removed the \"-pkgre\" flag in favor of a \"-pkg\" flag that accepts a cmd/go package pattern.",
+      "parentUuid": "2933898f_6a5e0ddf",
+      "revId": "8015100e89c25a5dafb154043f74626df9ad4111",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c59545fb_bd643e45",
