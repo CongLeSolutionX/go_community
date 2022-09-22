@@ -46,6 +46,30 @@
       },
       "revId": "c3dbc3e90b2b7d198ce2f227315840dbb358b0aa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f17e119_bcc25589",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1330,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-09-22T21:00:17Z",
+      "side": 1,
+      "message": "\u003e I think that it is necessary to traverse for the behavior described above.\n\nI agree, I think your analysis is correct — but please add a code comment summarizing that reasoning. (Just a sentence or two would be fine.) Perhaps something like:\n\n```\n// If non-parallel subtests of a parallel parent may still run\n// in parallel with other top-level tests: they are only non-parallel\n// with respect to the other subtests of the same parent.\n// Since SetEnv affects the whole process, we need to disallow\n// it if the current test or any parent is parallel.\n```\n\u003e \n\u003e ### Others\n\u003e \n\u003e I would like to know the meaning of \"CL\", is it an abbreviation for \"Change List\"? Does this mean creating a new commit? (Is it like PR?)\n\nYes, “CL” is “change list”. (The term comes from the Perforce version control system, which was used for early development on the Go project.)\n\n(Somewhat confusingly, a Gerrit CL gets merged as only one commit per CL in the Go repo.)",
+      "parentUuid": "570ada56_7f22a114",
+      "range": {
+        "startLine": 1323,
+        "startChar": 0,
+        "endLine": 1330,
+        "endChar": 16
+      },
+      "revId": "c3dbc3e90b2b7d198ce2f227315840dbb358b0aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
