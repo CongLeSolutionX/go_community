@@ -7,6 +7,7 @@ package tar
 import (
 	"bytes"
 	"io"
+	"path/filepath"
 	"strconv"
 	"strings"
 	"time"
@@ -44,11 +45,23 @@ func NewReader(r io.Reader) *Reader {
 // Any remaining data in the current file is automatically discarded.
 //
 // io.EOF is returned at the end of the input.
+//
+// ErrInsecurePath and a valid *Header are returned if the next file's name is:
+//
+//   - absolute;
+//   - a relative path escaping the current directory, such as "../a"; or
+//   - on Windows, a reserved file name such as "NUL".
+//
+// The caller may ignore the ErrInsecurePath error, but is then responsible for
+// sanitizing paths as appropriate.
 func (tr *Reader) Next() (*Header, error) {
 	if tr.err != nil {
 		return nil, tr.err
 	}
 	hdr, err := tr.next()
+	if err == nil && filepath.Escapes(hdr.Name) {
+		err = ErrInsecurePath
+	}
 	tr.err = err
 	return hdr, err
 }
