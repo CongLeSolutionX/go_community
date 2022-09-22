@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2574af0b_36c18f8c",
+        "filename": "src/context/context.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 52969
+      },
+      "writtenOn": "2022-09-22T08:23:56Z",
+      "side": 1,
+      "message": "Why keep withCancelCommon if it is now identical to WithCancelCause?",
+      "range": {
+        "startLine": 247,
+        "startChar": 0,
+        "endLine": 249,
+        "endChar": 1
+      },
+      "revId": "b0048640d0588753838d027e22de68799331ecf2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
