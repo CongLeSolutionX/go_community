@@ -857,11 +857,7 @@ Error:
 	if switchCase {
 		check.errorf(x, code, "invalid case %s in switch on %s (%s)", x.expr, y.expr, cause) // error position always at 1st operand
 	} else {
-		if compilerErrorMessages {
-			check.invalidOp(errOp, code, "%s %s %s (%s)", x.expr, op, y.expr, cause)
-		} else {
-			check.invalidOp(errOp, code, "cannot compare %s %s %s (%s)", x.expr, op, y.expr, cause)
-		}
+		check.invalidOp(errOp, code, "cannot compare %s %s %s (%s)", x.expr, op, y.expr, cause)
 	}
 	x.mode = invalid
 }
