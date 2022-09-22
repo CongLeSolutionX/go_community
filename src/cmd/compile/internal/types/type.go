@@ -579,43 +579,145 @@ func (f *Fields) Append(s ...*Field) {
 	*f.s = append(*f.s, s...)
 }
 
+func (t *Type) init(et Kind) {
+	t.kind = et
+	t.width = BADWIDTH
+	t.underlying = t
+}
+
 // New returns a new Type of the specified kind.
 func newType(et Kind) *Type {
-	t := &Type{
+	var t *Type
+
+	switch et {
+	case TMAP:
+		x := new(struct {
+			Type
+			Map
+		})
+		t = &x.Type
+		t.extra = &x.Map
+		t.init(et)
+		return t
+
+	case TFORW:
+		x := new(struct {
+			Type
+			Forward
+		})
+		t = &x.Type
+		t.extra = &x.Forward
+		t.init(et)
+		return t
+
+	case TFUNC:
+		x := new(struct {
+			Type
+			Func
+		})
+		t = &x.Type
+		t.extra = &x.Func
+		t.init(et)
+		return t
+	case TSTRUCT:
+		x := new(struct {
+			Type
+			Struct
+		})
+		t = &x.Type
+		t.extra = &x.Struct
+		t.init(et)
+		return t
+	case TINTER:
+		x := new(struct {
+			Type
+			Interface
+		})
+		t = &x.Type
+		t.extra = &x.Interface
+		t.init(et)
+		return t
+	case TPTR:
+		t := new(Type)
+		t.extra = Ptr{}
+		t.init(et)
+		return t
+	case TCHANARGS:
+		t := new(Type)
+		t.extra = ChanArgs{}
+		t.init(et)
+		return t
+	case TFUNCARGS:
+		t := new(Type)
+		t.extra = FuncArgs{}
+		t.init(et)
+		return t
+	case TCHAN:
+		x := new(struct {
+			Type
+			Chan
+		})
+		t = &x.Type
+		t.extra = &x.Chan
+		t.init(et)
+		return t
+	case TTUPLE:
+		x := new(struct {
+			Type
+			Tuple
+		})
+		t = &x.Type
+		t.extra = &x.Tuple
+		t.init(et)
+		return t
+	case TRESULTS:
+		x := new(struct {
+			Type
+			Results
+		})
+		t = &x.Type
+		t.extra = &x.Results
+		t.init(et)
+		return t
+	case TTYPEPARAM:
+		x := new(struct {
+			Type
+			Typeparam
+		})
+		t = &x.Type
+		t.extra = &x.Typeparam
+		t.init(et)
+		return t
+	case TUNION:
+		x := new(struct {
+			Type
+			Union
+		})
+		t = &x.Type
+		t.extra = &x.Union
+		t.init(et)
+		return t
+	}
+	t = &Type{
 		kind:  et,
 		width: BADWIDTH,
 	}
 	t.underlying = t
-	// TODO(josharian): lazily initialize some of these?
-	switch t.kind {
-	case TMAP:
-		t.extra = new(Map)
-	case TFORW:
-		t.extra = new(Forward)
-	case TFUNC:
-		t.extra = new(Func)
-	case TSTRUCT:
-		t.extra = new(Struct)
-	case TINTER:
-		t.extra = new(Interface)
-	case TPTR:
-		t.extra = Ptr{}
-	case TCHANARGS:
-		t.extra = ChanArgs{}
-	case TFUNCARGS:
-		t.extra = FuncArgs{}
-	case TCHAN:
-		t.extra = new(Chan)
-	case TTUPLE:
-		t.extra = new(Tuple)
-	case TRESULTS:
-		t.extra = new(Results)
-	case TTYPEPARAM:
-		t.extra = new(Typeparam)
-	case TUNION:
-		t.extra = new(Union)
-	}
 	return t
+}
+
+func newArray(elem *Type, bound int64) *Type {
+	x := new(struct {
+		Type
+		Array
+	})
+	t := &x.Type
+	x.Array.Elem = elem
+	x.Array.Bound = bound
+	t.extra = &x.Array
+	t.init(TARRAY)
+	return t
+
 }
 
 // NewArray returns a new fixed-length array Type.
@@ -623,14 +725,20 @@ func NewArray(elem *Type, bound int64) *Type {
 	if bound < 0 {
 		base.Fatalf("NewArray: invalid bound %v", bound)
 	}
-	t := newType(TARRAY)
-	t.extra = &Array{Elem: elem, Bound: bound}
+	t := newArray(elem, bound)
 	if elem.HasTParam() {
 		t.SetHasTParam(true)
 	}
 	if elem.HasShape() {
 		t.SetHasShape(true)
 	}
+	return t
+}
+
+func newSlice(elem *Type) *Type {
+	t := new(Type)
+	t.extra = Slice{Elem: elem}
+	t.init(TSLICE)
 	return t
 }
 
@@ -646,8 +754,7 @@ func NewSlice(elem *Type) *Type {
 		return t
 	}
 
-	t := newType(TSLICE)
-	t.extra = Slice{Elem: elem}
+	t := newSlice(elem)
 	elem.cache.slice = t
 	if elem.HasTParam() {
 		t.SetHasTParam(true)
