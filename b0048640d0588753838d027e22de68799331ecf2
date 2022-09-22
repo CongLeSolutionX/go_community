@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0450ff9d_9569ceec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5265
+      },
+      "writtenOn": "2022-09-22T18:01:57Z",
+      "side": 1,
+      "message": "This CL needs quite a bit more work on structure \u0026 testing to be ready.\nI already have a prototype here that\u0027s close to ready, so I plan to proceed with that one instead: https://go-review.git.corp.google.com/c/go/+/375977\nThank you for your work on this.",
+      "revId": "b0048640d0588753838d027e22de68799331ecf2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2574af0b_36c18f8c",
         "filename": "src/context/context.go",
         "patchSetId": 6
