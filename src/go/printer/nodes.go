@@ -43,6 +43,7 @@ import (
 // space taken up by them is not considered to reduce the number of
 // linebreaks. At the moment there is no easy way to know about
 // future (not yet interspersed) comments in this function.
+// TODO(adonovan): no longer true? They should all be in p.comments at this moment.
 func (p *printer) linebreak(line, min int, ws whiteSpace, newSection bool) (nbreaks int) {
 	n := nlimit(line - p.pos.Line)
 	if n < min {
@@ -68,30 +69,7 @@ func (p *printer) linebreak(line, min int, ws whiteSpace, newSection bool) (nbre
 // as exports only. It assumes that there is no pending comment in p.comments
 // and at most one pending comment in the p.comment cache.
 func (p *printer) setComment(g *ast.CommentGroup) {
-	if g == nil || !p.useNodeComments {
-		return
-	}
-	if p.comments == nil {
-		// initialize p.comments lazily
-		p.comments = make([]*ast.CommentGroup, 1)
-	} else if p.cindex < len(p.comments) {
-		// for some reason there are pending comments; this
-		// should never happen - handle gracefully and flush
-		// all comments up to g, ignore anything after that
-		p.flush(p.posFor(g.List[0].Pos()), token.ILLEGAL)
-		p.comments = p.comments[0:1]
-		// in debug mode, report error
-		p.internalError("setComment found pending comments")
-	}
-	p.comments[0] = g
-	p.cindex = 0
-	// don't overwrite any pending comment in the p.comment cache
-	// (there may be a pending comment when a line comment is
-	// immediately followed by a lead comment with no other
-	// tokens between)
-	if p.commentOffset == infinity {
-		p.nextComment() // get comment ready for use
-	}
+	// FIXME nope
 }
 
 type exprListMode uint
@@ -148,6 +126,13 @@ func (p *printer) exprList(prev0 token.Pos, list []ast.Expr, depth int, mode exp
 
 	if prev.IsValid() && prev.Line == line && line == endLine {
 		// all list entries on a single line
+
+		// A trailing comma is required if there's a /*\n*/-comment after the last element.
+		//   e.g []T{1, 2, /*\n*/ }
+		// FIXME but this predicate can't distinguish NL-comments and newlines
+		// It preserves the source newline before "}". Need more info.
+		trailingComma := mode&commaTerm != 0 && next.IsValid() && line < next.Line
+
 		for i, x := range list {
 			if i > 0 {
 				// use position of expression following the comma as
@@ -159,6 +144,9 @@ func (p *printer) exprList(prev0 token.Pos, list []ast.Expr, depth int, mode exp
 		}
 		if isIncomplete {
 			p.print(token.COMMA, blank, "/* "+filteredMsg+" */")
+		}
+		if trailingComma {
+			p.print(token.COMMA)
 		}
 		return
 	}
@@ -243,6 +231,7 @@ func (p *printer) exprList(prev0 token.Pos, list []ast.Expr, depth int, mode exp
 			// Use position of expression following the comma as
 			// comma position for correct comment placement, but
 			// only if the expression is on the same line.
+			// FIXME - this looks fishy (or unnecessary?) now.
 			if !needsLinebreak {
 				p.setPos(x.Pos())
 			}
@@ -272,6 +261,7 @@ func (p *printer) exprList(prev0 token.Pos, list []ast.Expr, depth int, mode exp
 			}
 		}
 
+		// print the element
 		if len(list) > 1 && isPair && size > 0 && needsLinebreak {
 			// We have a key:value expression that fits onto one line
 			// and it's not on the same line as the prior expression:
@@ -333,6 +323,7 @@ func (p *printer) parameters(fields *ast.FieldList, mode paramMode) {
 	if mode != funcParam {
 		openTok, closeTok = token.LBRACK, token.RBRACK
 	}
+	p.preciseComments(fields.PreciseComments, ast.PointStart)
 	p.setPos(fields.Opening)
 	p.print(openTok)
 	if len(fields.List) > 0 {
@@ -397,8 +388,10 @@ func (p *printer) parameters(fields *ast.FieldList, mode paramMode) {
 		}
 	}
 
+	p.preciseComments(fields.PreciseComments, ast.PointBeforeCloseBracket)
 	p.setPos(fields.Closing)
 	p.print(closeTok)
+	p.preciseComments(fields.PreciseComments, ast.PointEnd)
 }
 
 // combinesWithName reports whether a name followed by the expression x
@@ -499,10 +492,17 @@ func (p *printer) fieldList(fields *ast.FieldList, isStruct, isIncomplete bool) 
 	lbrace := fields.Opening
 	list := fields.List
 	rbrace := fields.Closing
-	hasComments := isIncomplete || p.commentBefore(p.posFor(rbrace))
+	// TODO this vvv needs to be a recursive check, no?
+	hasInnerComments := isIncomplete ||
+		// {◆}
+		len(fields.PreciseComments.At(ast.PointBeforeCloseBracket)) > 0 ||
+		// {a,b,c◆}
+		len(list) > 0 && ast.GetComments(list[len(list)-1] /*before=*/, false) != nil
 	srcIsOneLine := lbrace.IsValid() && rbrace.IsValid() && p.lineFor(lbrace) == p.lineFor(rbrace)
 
-	if !hasComments && srcIsOneLine {
+	p.preciseComments(fields.PreciseComments, ast.PointStart)
+
+	if !hasInnerComments && srcIsOneLine {
 		// possibly a one-line struct/interface
 		if len(list) == 0 {
 			// no blank between keyword and {} in this case
@@ -510,6 +510,7 @@ func (p *printer) fieldList(fields *ast.FieldList, isStruct, isIncomplete bool) 
 			p.print(token.LBRACE)
 			p.setPos(rbrace)
 			p.print(token.RBRACE)
+			p.preciseComments(fields.PreciseComments, ast.PointEnd)
 			return
 		} else if p.isOneLineFieldList(list) {
 			// small enough - print on one line
@@ -542,15 +543,16 @@ func (p *printer) fieldList(fields *ast.FieldList, isStruct, isIncomplete bool) 
 			p.print(blank)
 			p.setPos(rbrace)
 			p.print(token.RBRACE)
+			p.preciseComments(fields.PreciseComments, ast.PointEnd)
 			return
 		}
 	}
-	// hasComments || !srcIsOneLine
+	// hasInnerComments || !srcIsOneLine
 
 	p.print(blank)
 	p.setPos(lbrace)
 	p.print(token.LBRACE, indent)
-	if hasComments || len(list) > 0 {
+	if hasInnerComments || len(list) > 0 {
 		p.print(formfeed)
 	}
 
@@ -646,7 +648,10 @@ func (p *printer) fieldList(fields *ast.FieldList, isStruct, isIncomplete bool) 
 	}
 	p.print(unindent, formfeed)
 	p.setPos(rbrace)
+	p.preciseComments(fields.PreciseComments, ast.PointBeforeCloseBracket)
 	p.print(token.RBRACE)
+
+	p.preciseComments(fields.PreciseComments, ast.PointEnd)
 }
 
 // ----------------------------------------------------------------------------
@@ -829,7 +834,9 @@ func (p *printer) expr1(expr ast.Expr, prec1, depth int) {
 		p.print("BadExpr")
 
 	case *ast.Ident:
+		p.preciseComments(x.PreciseComments, ast.PointStart)
 		p.print(x)
+		p.preciseComments(x.PreciseComments, ast.PointEnd)
 
 	case *ast.BinaryExpr:
 		if depth < 1 {
@@ -845,41 +852,42 @@ func (p *printer) expr1(expr ast.Expr, prec1, depth int) {
 		p.expr(x.Value)
 
 	case *ast.StarExpr:
-		const prec = token.UnaryPrec
-		if prec < prec1 {
-			// parenthesis needed
+		parens := token.UnaryPrec < prec1
+		if parens {
 			p.print(token.LPAREN)
-			p.print(token.MUL)
-			p.expr(x.X)
+		}
+		p.preciseComments(x.PreciseComments, ast.PointStart)
+		p.print(token.MUL)
+		p.expr(x.X)
+		if parens {
 			p.print(token.RPAREN)
-		} else {
-			// no parenthesis needed
-			p.print(token.MUL)
-			p.expr(x.X)
 		}
 
 	case *ast.UnaryExpr:
 		const prec = token.UnaryPrec
-		if prec < prec1 {
-			// parenthesis needed
+		parens := prec < prec1
+		if parens {
 			p.print(token.LPAREN)
-			p.expr(x)
+		}
+		p.preciseComments(x.PreciseComments, ast.PointStart)
+		p.print(x.Op)
+		if x.Op == token.RANGE {
+			// TODO(gri) Remove this code if it cannot be reached.
+			p.print(blank)
+		}
+		p.expr1(x.X, prec, depth)
+		if parens {
 			p.print(token.RPAREN)
-		} else {
-			// no parenthesis needed
-			p.print(x.Op)
-			if x.Op == token.RANGE {
-				// TODO(gri) Remove this code if it cannot be reached.
-				p.print(blank)
-			}
-			p.expr1(x.X, prec, depth)
 		}
 
 	case *ast.BasicLit:
+		pcs := x.PreciseComments
 		if p.Config.Mode&normalizeNumbers != 0 {
 			x = normalizedNumber(x)
 		}
+		p.preciseComments(pcs, ast.PointStart)
 		p.print(x)
+		p.preciseComments(pcs, ast.PointEnd)
 
 	case *ast.FuncLit:
 		p.setPos(x.Type.Pos())
@@ -890,6 +898,7 @@ func (p *printer) expr1(expr ast.Expr, prec1, depth int) {
 		p.funcBody(p.distanceFrom(x.Type.Pos(), startCol), blank, x.Body)
 
 	case *ast.ParenExpr:
+		p.preciseComments(x.PreciseComments, ast.PointStart)
 		if _, hasParens := x.X.(*ast.ParenExpr); hasParens {
 			// don't print parentheses around an already parenthesized expression
 			// TODO(gri) consider making this more general and incorporate precedence levels
@@ -900,6 +909,7 @@ func (p *printer) expr1(expr ast.Expr, prec1, depth int) {
 			p.setPos(x.Rparen)
 			p.print(token.RPAREN)
 		}
+		p.preciseComments(x.PreciseComments, ast.PointEnd)
 
 	case *ast.SelectorExpr:
 		p.selectorExpr(x, depth, false)
@@ -1003,14 +1013,19 @@ func (p *printer) expr1(expr ast.Expr, prec1, depth int) {
 			}
 		} else {
 			p.exprList(x.Lparen, x.Args, depth, commaTerm, x.Rparen, false)
+			// TODO if has PointBeforeCloseBracket, emit extra comma?
+			// p.print(token.COMMA)
 		}
+		p.preciseComments(x.PreciseComments, ast.PointBeforeCloseBracket)
 		p.setPos(x.Rparen)
 		p.print(token.RPAREN)
+		p.preciseComments(x.PreciseComments, ast.PointEnd)
 		if wasIndented {
 			p.print(unindent)
 		}
 
 	case *ast.CompositeLit:
+		p.preciseComments(x.PreciseComments, ast.PointStart)
 		// composite literal elements that are composite literals themselves may have the type omitted
 		if x.Type != nil {
 			p.expr1(x.Type, token.HighestPrec, depth)
@@ -1031,8 +1046,10 @@ func (p *printer) expr1(expr ast.Expr, prec1, depth int) {
 		// need the initial indent to print lone comments with
 		// the proper level of indentation
 		p.print(indent, unindent, mode)
+		p.preciseComments(x.PreciseComments, ast.PointBeforeCloseBracket)
 		p.setPos(x.Rbrace)
 		p.print(token.RBRACE, mode)
+		p.preciseComments(x.PreciseComments, ast.PointEnd)
 		p.level--
 
 	case *ast.Ellipsis:
@@ -1161,15 +1178,15 @@ func (p *printer) selectorExpr(x *ast.SelectorExpr, depth int, isMethod bool) bo
 	p.print(token.PERIOD)
 	if line := p.lineFor(x.Sel.Pos()); p.pos.IsValid() && p.pos.Line < line {
 		p.print(indent, newline)
-		p.setPos(x.Sel.Pos())
-		p.print(x.Sel)
+		p.expr1(x.Sel, token.HighestPrec, depth)
 		if !isMethod {
 			p.print(unindent)
 		}
 		return true
 	}
-	p.setPos(x.Sel.Pos())
-	p.print(x.Sel)
+
+	p.expr1(x.Sel, token.HighestPrec, depth)
+
 	return false
 }
 
@@ -1196,7 +1213,9 @@ func (p *printer) stmtList(list []ast.Stmt, nindent int, nextIsRBrace bool) {
 	i := 0
 	for _, s := range list {
 		// ignore empty statements (was issue 3466)
-		if _, isEmpty := s.(*ast.EmptyStmt); !isEmpty {
+		if e, isEmpty := s.(*ast.EmptyStmt); isEmpty {
+			p.preciseComments(e.PreciseComments, ast.PointStart)
+		} else {
 			// nindent == 0 only for lists of switch/select case clauses;
 			// in those cases each clause is a new section
 			if len(p.output) > 0 {
@@ -1227,12 +1246,15 @@ func (p *printer) stmtList(list []ast.Stmt, nindent int, nextIsRBrace bool) {
 
 // block prints an *ast.BlockStmt; it always spans at least two lines.
 func (p *printer) block(b *ast.BlockStmt, nindent int) {
+	p.preciseComments(b.PreciseComments, ast.PointStart)
 	p.setPos(b.Lbrace)
 	p.print(token.LBRACE)
 	p.stmtList(b.List, nindent, true)
 	p.linebreak(p.lineFor(b.Rbrace), 1, ignore, true)
+	p.preciseComments(b.PreciseComments, ast.PointBeforeCloseBracket)
 	p.setPos(b.Rbrace)
 	p.print(token.RBRACE)
+	p.preciseComments(b.PreciseComments, ast.PointEnd)
 }
 
 func isTypeName(x ast.Expr) bool {
@@ -1278,10 +1300,11 @@ func stripParensAlways(x ast.Expr) ast.Expr {
 	return x
 }
 
+// TODO refactor this?
 func (p *printer) controlClause(isForStmt bool, init ast.Stmt, expr ast.Expr, post ast.Stmt) {
 	p.print(blank)
 	needsBlank := false
-	if init == nil && post == nil {
+	if init == nil && post == nil { // FIXME: && no PointAfterFirstSemicolon
 		// no semicolons required
 		if expr != nil {
 			p.expr(stripParens(expr))
@@ -1294,6 +1317,8 @@ func (p *printer) controlClause(isForStmt bool, init ast.Stmt, expr ast.Expr, po
 			p.stmt(init, false)
 		}
 		p.print(token.SEMICOLON, blank)
+		// FIXME pr.comments(n.PreciseComments, ast.PointAfterFirstSemicolon)
+
 		if expr != nil {
 			p.expr(stripParens(expr))
 			needsBlank = true
@@ -1357,7 +1382,7 @@ func (p *printer) stmt(stmt ast.Stmt, nextIsRBrace bool) {
 		p.decl(s.Decl)
 
 	case *ast.EmptyStmt:
-		// nothing to do
+		p.preciseComments(s.PreciseComments, ast.PointStart)
 
 	case *ast.LabeledStmt:
 		// a "correcting" unindent immediately following a line break
@@ -1368,6 +1393,7 @@ func (p *printer) stmt(stmt ast.Stmt, nextIsRBrace bool) {
 		p.setPos(s.Colon)
 		p.print(token.COLON, indent)
 		if e, isEmpty := s.Stmt.(*ast.EmptyStmt); isEmpty {
+			p.preciseComments(e.PreciseComments, ast.PointStart)
 			if !nextIsRBrace {
 				p.print(newline)
 				p.setPos(e.Pos())
@@ -1409,14 +1435,17 @@ func (p *printer) stmt(stmt ast.Stmt, nextIsRBrace bool) {
 		p.exprList(s.TokPos, s.Rhs, depth, 0, token.NoPos, false)
 
 	case *ast.GoStmt:
+		p.preciseComments(s.PreciseComments, ast.PointStart)
 		p.print(token.GO, blank)
 		p.expr(s.Call)
 
 	case *ast.DeferStmt:
+		p.preciseComments(s.PreciseComments, ast.PointStart)
 		p.print(token.DEFER, blank)
 		p.expr(s.Call)
 
 	case *ast.ReturnStmt:
+		p.preciseComments(s.PreciseComments, ast.PointStart)
 		p.print(token.RETURN)
 		if s.Results != nil {
 			p.print(blank)
@@ -1435,18 +1464,22 @@ func (p *printer) stmt(stmt ast.Stmt, nextIsRBrace bool) {
 				p.exprList(token.NoPos, s.Results, 1, 0, token.NoPos, false)
 			}
 		}
+		p.preciseComments(s.PreciseComments, ast.PointEnd)
 
 	case *ast.BranchStmt:
+		p.preciseComments(s.PreciseComments, ast.PointStart)
 		p.print(s.Tok)
 		if s.Label != nil {
 			p.print(blank)
 			p.expr(s.Label)
 		}
+		p.preciseComments(s.PreciseComments, ast.PointEnd)
 
 	case *ast.BlockStmt:
 		p.block(s, 1)
 
 	case *ast.IfStmt:
+		p.preciseComments(s.PreciseComments, ast.PointStart)
 		p.print(token.IF)
 		p.controlClause(false, s.Init, s.Cond, nil)
 		p.block(s.Body, 1)
@@ -1466,22 +1499,28 @@ func (p *printer) stmt(stmt ast.Stmt, nextIsRBrace bool) {
 		}
 
 	case *ast.CaseClause:
+		p.preciseComments(s.PreciseComments, ast.PointStart)
 		if s.List != nil {
 			p.print(token.CASE, blank)
+			p.preciseComments(s.PreciseComments, ast.PointAfterInitialToken)
 			p.exprList(s.Pos(), s.List, 1, 0, s.Colon, false)
 		} else {
 			p.print(token.DEFAULT)
+			p.preciseComments(s.PreciseComments, ast.PointAfterInitialToken)
 		}
 		p.setPos(s.Colon)
 		p.print(token.COLON)
+		p.preciseComments(s.PreciseComments, ast.PointAfterColon)
 		p.stmtList(s.Body, 1, nextIsRBrace)
 
 	case *ast.SwitchStmt:
+		p.preciseComments(s.PreciseComments, ast.PointStart)
 		p.print(token.SWITCH)
 		p.controlClause(false, s.Init, s.Tag, nil)
 		p.block(s.Body, 0)
 
 	case *ast.TypeSwitchStmt:
+		p.preciseComments(s.PreciseComments, ast.PointStart)
 		p.print(token.SWITCH)
 		if s.Init != nil {
 			p.print(blank)
@@ -1494,23 +1533,29 @@ func (p *printer) stmt(stmt ast.Stmt, nextIsRBrace bool) {
 		p.block(s.Body, 0)
 
 	case *ast.CommClause:
+		p.preciseComments(s.PreciseComments, ast.PointStart)
 		if s.Comm != nil {
 			p.print(token.CASE, blank)
+			p.preciseComments(s.PreciseComments, ast.PointAfterInitialToken)
 			p.stmt(s.Comm, false)
 		} else {
 			p.print(token.DEFAULT)
+			p.preciseComments(s.PreciseComments, ast.PointAfterInitialToken)
 		}
 		p.setPos(s.Colon)
 		p.print(token.COLON)
+		p.preciseComments(s.PreciseComments, ast.PointAfterColon)
 		p.stmtList(s.Body, 1, nextIsRBrace)
 
 	case *ast.SelectStmt:
+		p.preciseComments(s.PreciseComments, ast.PointStart)
 		p.print(token.SELECT, blank)
 		body := s.Body
-		if len(body.List) == 0 && !p.commentBefore(p.posFor(body.Rbrace)) {
+		if len(body.List) == 0 /* && !p.commentBefore(p.posFor(body.Rbrace))*/ { // TODO use pcs
 			// print empty select statement w/o comments on one line
 			p.setPos(body.Lbrace)
 			p.print(token.LBRACE)
+			p.preciseComments(body.PreciseComments, ast.PointBeforeCloseBracket)
 			p.setPos(body.Rbrace)
 			p.print(token.RBRACE)
 		} else {
@@ -1518,11 +1563,14 @@ func (p *printer) stmt(stmt ast.Stmt, nextIsRBrace bool) {
 		}
 
 	case *ast.ForStmt:
+		p.preciseComments(s.PreciseComments, ast.PointStart)
 		p.print(token.FOR)
+		p.preciseComments(s.PreciseComments, ast.PointAfterInitialToken)
 		p.controlClause(true, s.Init, s.Cond, s.Post)
 		p.block(s.Body, 1)
 
 	case *ast.RangeStmt:
+		p.preciseComments(s.PreciseComments, ast.PointStart)
 		p.print(token.FOR, blank)
 		if s.Key != nil {
 			p.expr(s.Key)
@@ -1537,6 +1585,7 @@ func (p *printer) stmt(stmt ast.Stmt, nextIsRBrace bool) {
 			p.setPos(s.TokPos)
 			p.print(s.Tok, blank)
 		}
+		p.preciseComments(s.PreciseComments, ast.PointBeforeRange)
 		p.print(token.RANGE, blank)
 		p.expr(stripParens(s.X))
 		p.print(blank)
@@ -1735,12 +1784,14 @@ func (p *printer) spec(spec ast.Spec, n int, doIndent bool) {
 }
 
 func (p *printer) genDecl(d *ast.GenDecl) {
+	p.preciseComments(d.PreciseComments, ast.PointStart)
 	p.setComment(d.Doc)
 	p.setPos(d.Pos())
 	p.print(d.Tok, blank)
 
 	if d.Lparen.IsValid() || len(d.Specs) > 1 {
 		// group of parenthesized declarations
+		p.preciseComments(d.PreciseComments, ast.PointBeforeOpenBracket)
 		p.setPos(d.Lparen)
 		p.print(token.LPAREN)
 		if n := len(d.Specs); n > 0 {
@@ -1769,6 +1820,7 @@ func (p *printer) genDecl(d *ast.GenDecl) {
 			}
 			p.print(unindent, formfeed)
 		}
+		p.preciseComments(d.PreciseComments, ast.PointBeforeCloseBracket)
 		p.setPos(d.Rparen)
 		p.print(token.RPAREN)
 
@@ -1776,6 +1828,8 @@ func (p *printer) genDecl(d *ast.GenDecl) {
 		// single declaration
 		p.spec(d.Specs[0], 1, true)
 	}
+
+	p.preciseComments(d.PreciseComments, ast.PointAfterCloseBracket)
 }
 
 // sizeCounter is an io.Writer which counts the number of bytes written,
@@ -1852,17 +1906,39 @@ func (p *printer) bodySize(b *ast.BlockStmt, maxSize int) int {
 		// too many statements - don't make it a one-liner
 		return maxSize + 1
 	}
-	// otherwise, estimate body size
-	bodySize := p.commentSizeBefore(p.posFor(pos2))
+
+	// Otherwise, estimate size of body tree, including all comments.
+	bodySize := 0
+
+	// comments
+	ast.Inspect(b, func(n ast.Node) bool {
+		if n != nil {
+			if pcs := ast.NodePreciseComments(n); pcs != nil {
+				for _, pc := range pcs.List {
+					for _, c := range pc.Comment.List {
+						bodySize += len(c.Text)
+					}
+				}
+			}
+		}
+		return true
+	})
+	//commSize := bodySize
+
+	// statements
+	// TODO: we're computing an underestimate: possibly due to comment
+	// handling changes in recursive formatter.
 	for i, s := range b.List {
 		if bodySize > maxSize {
 			break // no need to continue
 		}
 		if i > 0 {
-			bodySize += 2 // space for a semicolon and blank
+			bodySize += len("; ")
 		}
 		bodySize += p.nodeSize(s, maxSize)
 	}
+	// log.Printf("%s: comments=%d body=%d\n", p.fset.Position(b.Pos()), commSize, bodySize)
+
 	return bodySize
 }
 
@@ -1885,6 +1961,7 @@ func (p *printer) funcBody(headerSize int, sep whiteSpace, b *ast.BlockStmt) {
 	const maxSize = 100
 	if headerSize+p.bodySize(b, maxSize) <= maxSize {
 		p.print(sep)
+		p.preciseComments(b.PreciseComments, ast.PointStart)
 		p.setPos(b.Lbrace)
 		p.print(token.LBRACE)
 		if len(b.List) > 0 {
@@ -1898,8 +1975,10 @@ func (p *printer) funcBody(headerSize int, sep whiteSpace, b *ast.BlockStmt) {
 			p.print(blank)
 		}
 		p.print(noExtraLinebreak)
+		p.preciseComments(b.PreciseComments, ast.PointBeforeCloseBracket)
 		p.setPos(b.Rbrace)
 		p.print(token.RBRACE, noExtraLinebreak)
+		p.preciseComments(b.PreciseComments, ast.PointEnd)
 		return
 	}
 
@@ -1920,9 +1999,11 @@ func (p *printer) distanceFrom(startPos token.Pos, startOutCol int) int {
 }
 
 func (p *printer) funcDecl(d *ast.FuncDecl) {
+	p.preciseComments(d.Type.PreciseComments, ast.PointStart)
 	p.setComment(d.Doc)
 	p.setPos(d.Pos())
 	p.print(token.FUNC, blank)
+	p.preciseComments(d.Type.PreciseComments, ast.PointAfterInitialToken)
 	// We have to save startCol only after emitting FUNC; otherwise it can be on a
 	// different line (all whitespace preceding the FUNC is emitted only when the
 	// FUNC is emitted).
@@ -1992,10 +2073,44 @@ func (p *printer) declList(list []ast.Decl) {
 }
 
 func (p *printer) file(src *ast.File) {
+	p.preciseComments(src.PreciseComments, ast.PointStart)
 	p.setComment(src.Doc)
 	p.setPos(src.Pos())
 	p.print(token.PACKAGE, blank)
 	p.expr(src.Name)
 	p.declList(src.Decls)
 	p.print(newline)
+	p.preciseComments(src.PreciseComments, ast.PointEnd)
 }
+
+func (p *printer) preciseComments(pcs *ast.PreciseComments, point ast.Point) {
+	if pcs != nil {
+		// TODO: opt: avoid allocation in At.
+		for _, pc := range pcs.At(point) {
+			p.comments = append(p.comments, pc.Comment)
+		}
+	}
+}
+
+// TODO ensure we have copied all pr.preciseComments calls from ../parser/precise_test.go.
+
+// more test cases:     func _() /*here*/ { ... } /* here */   -- one line formatting limit
+
+// Subtleties:
+// T{
+//   a, // a
+//   b, // b
+// }
+// The comment associations in the example above are not what they seem:
+// The a comment belongs to expr b! and the "b" comment belongs to the complit.
+//
+// Similarly:
+//    S1; // comment1
+//    S2; // comment2
+// comment 1 is actually attached to S2, and comment2 to the outer block.
+// Mostly position information is what keeps it where it is
+// refactoring tools are going to have to work hard to figure all this out.
+
+// bugs:
+// - comment and complit block indentation is off
+//  {L2:/*comment*/}

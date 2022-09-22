@@ -11,6 +11,7 @@ import (
 	"go/build/constraint"
 	"go/token"
 	"io"
+	"log"
 	"os"
 	"strings"
 	"sync"
@@ -44,13 +45,6 @@ const (
 	noExtraLinebreak                   // disables extra line break after /*-style comment
 )
 
-type commentInfo struct {
-	cindex         int               // current comment index
-	comment        *ast.CommentGroup // = printer.comments[cindex]; or nil
-	commentOffset  int               // = printer.posFor(printer.comments[cindex].List[0].Pos()).Offset; or infinity
-	commentNewline bool              // true if the comment group contains newlines
-}
-
 type printer struct {
 	// Configuration (does not change after initialization)
 	Config
@@ -80,12 +74,7 @@ type printer struct {
 	last    token.Position // value of pos after calling writeString
 	linePtr *int           // if set, record out.Line for the next token in *linePtr
 
-	// The list of all source comments, in order of appearance.
-	comments        []*ast.CommentGroup // may be nil
-	useNodeComments bool                // if not set, ignore lead and line comments of nodes
-
-	// Information about p.comments[p.cindex]; set up by nextComment.
-	commentInfo
+	comments []*ast.CommentGroup // comments to emit before next token
 
 	// Cache of already computed node sizes.
 	nodeSizes map[ast.Node]int
@@ -101,67 +90,6 @@ func (p *printer) internalError(msg ...any) {
 		fmt.Println(msg...)
 		panic("go/printer")
 	}
-}
-
-// commentsHaveNewline reports whether a list of comments belonging to
-// an *ast.CommentGroup contains newlines. Because the position information
-// may only be partially correct, we also have to read the comment text.
-func (p *printer) commentsHaveNewline(list []*ast.Comment) bool {
-	// len(list) > 0
-	line := p.lineFor(list[0].Pos())
-	for i, c := range list {
-		if i > 0 && p.lineFor(list[i].Pos()) != line {
-			// not all comments on the same line
-			return true
-		}
-		if t := c.Text; len(t) >= 2 && (t[1] == '/' || strings.Contains(t, "\n")) {
-			return true
-		}
-	}
-	_ = line
-	return false
-}
-
-func (p *printer) nextComment() {
-	for p.cindex < len(p.comments) {
-		c := p.comments[p.cindex]
-		p.cindex++
-		if list := c.List; len(list) > 0 {
-			p.comment = c
-			p.commentOffset = p.posFor(list[0].Pos()).Offset
-			p.commentNewline = p.commentsHaveNewline(list)
-			return
-		}
-		// we should not reach here (correct ASTs don't have empty
-		// ast.CommentGroup nodes), but be conservative and try again
-	}
-	// no more comments
-	p.commentOffset = infinity
-}
-
-// commentBefore reports whether the current comment group occurs
-// before the next position in the source code and printing it does
-// not introduce implicit semicolons.
-func (p *printer) commentBefore(next token.Position) bool {
-	return p.commentOffset < next.Offset && (!p.impliedSemi || !p.commentNewline)
-}
-
-// commentSizeBefore returns the estimated size of the
-// comments on the same line before the next position.
-func (p *printer) commentSizeBefore(next token.Position) int {
-	// save/restore current p.commentInfo (p.nextComment() modifies it)
-	defer func(info commentInfo) {
-		p.commentInfo = info
-	}(p.commentInfo)
-
-	size := 0
-	for p.commentBefore(next) {
-		for _, c := range p.comment.List {
-			size += len(c.Text)
-		}
-		p.nextComment()
-	}
-	return size
 }
 
 // recordLine records the output line number for the next non-whitespace
@@ -721,33 +649,36 @@ func (p *printer) containsLinebreak() bool {
 	return false
 }
 
-// intersperseComments consumes all comments that appear before the next token
+// emitComments consumes all comments that appear before the next token
 // tok and prints it together with the buffered whitespace (i.e., the whitespace
 // that needs to be written before the next token). A heuristic is used to mix
 // the comments and whitespace. The intersperseComments result indicates if a
 // newline was written or if a formfeed was dropped from the whitespace buffer.
-func (p *printer) intersperseComments(next token.Position, tok token.Token) (wroteNewline, droppedFF bool) {
+// FIXME - update doc comment.
+func (p *printer) emitComments(next token.Position, tok token.Token) (wroteNewline, droppedFF bool) {
 	var last *ast.Comment
-	for p.commentBefore(next) {
-		list := p.comment.List
+	for i, comment := range p.comments {
+		list := comment.List
 		changed := false
+
 		if p.lastTok != token.IMPORT && // do not rewrite cgo's import "C" comments
-			p.posFor(p.comment.Pos()).Column == 1 &&
-			p.posFor(p.comment.End()+1) == next {
+			p.posFor(comment.Pos()).Column == 1 &&
+			p.posFor(comment.End()+1) == next {
 			// Unindented comment abutting next token position:
 			// a top-level doc comment.
 			list = formatDocComment(list)
 			changed = true
 
-			if len(p.comment.List) > 0 && len(list) == 0 {
+			if len(comment.List) > 0 && len(list) == 0 {
 				// The doc comment was removed entirely.
 				// Keep preceding whitespace.
-				p.writeCommentPrefix(p.posFor(p.comment.Pos()), next, last, tok)
+				p.writeCommentPrefix(p.posFor(comment.Pos()), next, last, tok)
 				// Change print state to continue at next.
 				p.pos = next
 				p.last = next
 				// There can't be any more comments.
-				p.nextComment()
+				// FIXME assert that?
+				p.comments = p.comments[:i] // FIXME???
 				return p.writeCommentSuffix(false)
 			}
 		}
@@ -758,13 +689,13 @@ func (p *printer) intersperseComments(next token.Position, tok token.Token) (wro
 		}
 		// In case list was rewritten, change print state to where
 		// the original list would have ended.
-		if len(p.comment.List) > 0 && changed {
-			last = p.comment.List[len(p.comment.List)-1]
+		if len(comment.List) > 0 && changed {
+			last = comment.List[len(comment.List)-1]
 			p.pos = p.posFor(last.End())
 			p.last = p.pos
 		}
-		p.nextComment()
 	}
+	p.comments = p.comments[:0]
 
 	if last != nil {
 		// If the last comment is a /*-style comment and the next item
@@ -800,8 +731,8 @@ func (p *printer) intersperseComments(next token.Position, tok token.Token) (wro
 	}
 
 	// no comment was written - we should never reach here since
-	// intersperseComments should not be called in that case
-	p.internalError("intersperseComments called without pending comments")
+	// emitComments should not be called in that case
+	p.internalError("emitComments called without pending comments")
 	return
 }
 
@@ -880,6 +811,7 @@ func mayCombine(prev token.Token, next byte) (b bool) {
 func (p *printer) setPos(pos token.Pos) {
 	if pos.IsValid() {
 		p.pos = p.posFor(pos) // accurate position of next item
+		log.Println(p.pos)
 	}
 }
 
@@ -1030,9 +962,9 @@ func (p *printer) print(args ...any) {
 // if a newline was written or if a formfeed was dropped from the whitespace
 // buffer.
 func (p *printer) flush(next token.Position, tok token.Token) (wroteNewline, droppedFF bool) {
-	if p.commentBefore(next) {
-		// if there are comments before the next item, intersperse them
-		wroteNewline, droppedFF = p.intersperseComments(next, tok)
+	if len(p.comments) > 0 {
+		// If there are comments before the next item, emit them.
+		wroteNewline, droppedFF = p.emitComments(next, tok)
 	} else {
 		// otherwise, write any leftover whitespace
 		p.writeWhitespace(len(p.wsbuf))
@@ -1091,6 +1023,7 @@ func (p *printer) printNode(node any) error {
 		comments = cnode.Comments
 	}
 
+	// FIXME -- this mis?feature is broken now.
 	if comments != nil {
 		// commented node - restrict comment list to relevant range
 		n, ok := node.(ast.Node)
@@ -1126,14 +1059,12 @@ func (p *printer) printNode(node any) error {
 		}
 	} else if n, ok := node.(*ast.File); ok {
 		// use ast.File comments, if any
-		p.comments = n.Comments
+		p.comments = n.Comments // FIXME
+		p.comments = nil
 	}
 
 	// if there are no comments, use node comments
-	p.useNodeComments = p.comments == nil
-
-	// get comments ready for use
-	p.nextComment()
+	// p.useNodeComments = p.comments == nil // FIXME broken now
 
 	p.print(pmode(0))
 
