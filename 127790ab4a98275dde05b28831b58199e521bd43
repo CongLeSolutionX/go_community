@@ -57,6 +57,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a984037_feaabe62",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26615
+      },
+      "writtenOn": "2022-09-23T14:34:42Z",
+      "side": 1,
+      "message": "Thanks for your review!",
+      "revId": "127790ab4a98275dde05b28831b58199e521bd43",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "43590353_0b025ae6",
@@ -70,6 +87,30 @@
       "writtenOn": "2022-09-22T20:13:40Z",
       "side": 1,
       "message": "It would be nice if `list -u` and `get -u` (in module mode) could share the same flag implementation, especially since `get -u` also supports `true` and `false`.\n\nFor reference, the current `get -u` flag implementation is here:\nhttps://cs.opensource.google/go/go/+/master:src/cmd/go/internal/modget/get.go;l\u003d225-247;drc\u003dd7df872267f9071e678732f9469824d629cac595",
+      "range": {
+        "startLine": 343,
+        "startChar": 0,
+        "endLine": 364,
+        "endChar": 1
+      },
+      "revId": "127790ab4a98275dde05b28831b58199e521bd43",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7890b2a3_816e2a76",
+        "filename": "src/cmd/go/internal/list/list.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 26615
+      },
+      "writtenOn": "2022-09-23T14:34:42Z",
+      "side": 1,
+      "message": "Ack\n\nI\u0027ve added a TODO. I\u0027ll try to follow up this CL with a refactor that does this.",
+      "parentUuid": "43590353_0b025ae6",
       "range": {
         "startLine": 343,
         "startChar": 0,
@@ -103,6 +144,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0362a427_f9943371",
+        "filename": "src/cmd/go/testdata/script/mod_upgrade.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 26615
+      },
+      "writtenOn": "2022-09-23T14:34:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0cfec675_831086e6",
+      "range": {
+        "startLine": 3,
+        "startChar": 58,
+        "endLine": 4,
+        "endChar": 33
+      },
+      "revId": "127790ab4a98275dde05b28831b58199e521bd43",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "76d42a33_4d4bacf8",
@@ -116,6 +181,24 @@
       "writtenOn": "2022-09-22T20:13:40Z",
       "side": 1,
       "message": "It would be good to also test a few other conditions:\n\n• listing `-u\u003dpatch` for a module that is already above the “latest” version\n\n• listing `-u\u003dpatch` for a module that is already at exactly the latest patch release\n\n• listing `-u\u003dpatch` for a module one hop away from the main module (e.g. a dependency used by the test of an external package imported by the main module)\n\n• listing `-u\u003dpatch` for a module that is not currently in the build list at all\n\n• listing `-u\u003dpatch`, without `-m` (so listing packages instead of modules), with a `-f` argument that inspects `{{.Module.Update.Version}}`. (I believe that such an invocation should currently fail with `go list -u can only be used with -m`, which is fine, but we should have a test of it anyway — if only to remind us to update the test if we ever change that behavior.)",
+      "revId": "127790ab4a98275dde05b28831b58199e521bd43",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "abd6c79a_f29cc9c2",
+        "filename": "src/cmd/go/testdata/script/mod_upgrade.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 26615
+      },
+      "writtenOn": "2022-09-23T14:34:42Z",
+      "side": 1,
+      "message": "\u003e • listing -u\u003dpatch for a module that is already above the “latest” version\n\nI\u0027m not sure how to set up such a test. I think I\u0027d have to get my local module to point to some local-to-the-filesystem module, which has a not-yet-pushed later tag? o.O\n\nCould you give a hint as to how you\u0027d set this test up, if there\u0027s an easier way?\n\n\u003e • listing -u\u003dpatch for a module that is already at exactly the latest patch release\n\nDone.\n\n\u003e • listing -u\u003dpatch for a module one hop away from the main module (e.g. a dependency used by the test of an external package imported by the main module)\n\nDone.\n\n\u003e • listing -u\u003dpatch for a module that is not currently in the build list at all\n\nI\u0027m not sure what the build list refers to here. Could you elaborate?\n\nLike, `go list -u\u003dpatch -m all golang.org/x/text` in a project which doesn\u0027t depend on x/text? If so - AFAICT you just get \"no required module provides package golang.org/x/text\" with instructions to add it to your go.mod, which seems WAI. (my feature never comes up)\n\nBut I am likely mis-understanding.\n\n\u003e  listing -u\u003dpatch, without -m\n\nThis is invalid input. You\u0027d get \"go list -u can only be used with -m\".",
+      "parentUuid": "76d42a33_4d4bacf8",
       "revId": "127790ab4a98275dde05b28831b58199e521bd43",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
