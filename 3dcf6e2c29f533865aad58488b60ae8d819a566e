@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0efc26e_d073b0fa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-09-23T21:29:59Z",
+      "side": 1,
+      "message": "This appears to have broken the `longtest` builders for `x/tools`.\n\nI think we need some kind of update to the analysis tools there before we can actually start using this feature..?",
+      "revId": "3dcf6e2c29f533865aad58488b60ae8d819a566e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
