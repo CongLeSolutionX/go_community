@@ -253,6 +253,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "12d6d3fc_5934a45e",
+        "filename": "src/internal/singleflight/singleflight_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-09-23T15:51:37Z",
+      "side": 1,
+      "message": "\u003e We want to make sure second is still running, for example, someone may change the body of second and accident removing `\u003c-secondCh`, so second may finish when we\u0027re here.\n\nIt seems like we could catch that with less code by changing the `close(secondCh)` to a blocking send, though — then the test would deadlock if the body somehow didn\u0027t reach the receive.",
+      "parentUuid": "9a25b857_a6db0305",
+      "range": {
+        "startLine": 137,
+        "startChar": 0,
+        "endLine": 139,
+        "endChar": 2
+      },
+      "revId": "37887830e897a33da8650242a68e67ba1710a829",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ef164c0b_212044ef",
         "filename": "src/internal/singleflight/singleflight_test.go",
         "patchSetId": 2
