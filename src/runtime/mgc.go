@@ -1070,6 +1070,9 @@ func gcMarkTermination() {
 	injectglist(&work.sweepWaiters.list)
 	unlock(&work.sweepWaiters.lock)
 
+	// Move the scavenger forward one generation.
+	mheap_.pages.scav.index.nextGen()
+
 	// Release the CPU limiter.
 	gcCPULimiter.finishGCTransition(now)
 
