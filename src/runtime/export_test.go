@@ -822,7 +822,7 @@ func (p *PageAlloc) Free(base, npages uintptr) {
 		// None of the tests need any higher-level locking, so we just
 		// take the lock internally.
 		lock(pp.mheapLock)
-		pp.free(base, npages, true)
+		pp.free(base, npages)
 		unlock(pp.mheapLock)
 	})
 }
@@ -832,7 +832,7 @@ func (p *PageAlloc) Bounds() (ChunkIdx, ChunkIdx) {
 func (p *PageAlloc) Scavenge(nbytes uintptr) (r uintptr) {
 	pp := (*pageAlloc)(p)
 	systemstack(func() {
-		r = pp.scavenge(nbytes, nil)
+		r = pp.scavenge(nbytes, nil, true)
 	})
 	return
 }
@@ -986,9 +986,8 @@ func NewPageAlloc(chunks, scav map[ChunkIdx][]BitRange) *PageAlloc {
 	p := new(pageAlloc)
 
 	// We've got an entry, so initialize the pageAlloc.
-	p.init(new(mutex), testSysStat)
+	p.init(new(mutex), testSysStat, true)
 	lockInit(p.mheapLock, lockRankMheap)
-	p.test = true
 	for i, init := range chunks {
 		addr := chunkBase(chunkIdx(i))
 
@@ -1000,7 +999,8 @@ func NewPageAlloc(chunks, scav map[ChunkIdx][]BitRange) *PageAlloc {
 		})
 
 		// Initialize the bitmap and update pageAlloc metadata.
-		chunk := p.chunkOf(chunkIndex(addr))
+		ci := chunkIndex(addr)
+		chunk := p.chunkOf(ci)
 
 		// Clear all the scavenged bits which grow set.
 		chunk.scavenged.clearRange(0, pallocChunkPages)
@@ -1019,24 +1019,29 @@ func NewPageAlloc(chunks, scav map[ChunkIdx][]BitRange) *PageAlloc {
 		}
 
 		// Apply alloc state.
+		allocated := uint(0)
 		for _, s := range init {
 			// Ignore the case of s.N == 0. allocRange doesn't handle
 			// it and it's a no-op anyway.
 			if s.N != 0 {
 				chunk.allocRange(s.I, s.N)
+				allocated += s.N
 			}
 		}
 
 		// Make sure the scavenge index is updated.
 		//
 		// This is an inefficient way to do it, but it's also the simplest way.
+		p.scav.index.alloc(ci, allocated)
 		minPages := physPageSize / pageSize
 		if minPages < 1 {
 			minPages = 1
 		}
 		_, npages := chunk.findScavengeCandidate(pallocChunkPages-1, minPages, minPages)
 		if npages != 0 {
-			p.scav.index.mark(addr, addr+pallocChunkBytes)
+			sc := p.scav.index.chunks[ci].load()
+			sc.denseHWM |= scavChunkFreeBit
+			p.scav.index.chunks[ci].store(sc)
 		}
 
 		// Update heap metadata for the allocRange calls above.
@@ -1070,6 +1075,9 @@ func FreePageAlloc(pp *PageAlloc) {
 		}
 		sysFreeOS(unsafe.Pointer(&p.summary[0][0]), alignUp(resSize, physPageSize))
 	}
+
+	// Free extra data structures.
+	sysFreeOS(unsafe.Pointer(&p.scav.index.chunks[0]), uintptr(cap(p.scav.index.chunks))*unsafe.Sizeof(scavChunkData{}))
 
 	// Subtract back out whatever we mapped for the summaries.
 	// sysUsed adds to p.sysStat and memstats.mappedReady no matter what
@@ -1614,6 +1622,7 @@ func (s *Scavenger) Stop() {
 	<-s.done
 }
 
+/*
 type ScavengeIndex struct {
 	i scavengeIndex
 }
@@ -1638,6 +1647,7 @@ func (s *ScavengeIndex) Mark(base, limit uintptr) {
 func (s *ScavengeIndex) Clear(ci ChunkIdx) {
 	s.i.clear(chunkIdx(ci))
 }
+*/
 
 const GTrackingPeriod = gTrackingPeriod
 
