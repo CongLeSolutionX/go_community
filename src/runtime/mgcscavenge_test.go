@@ -563,6 +563,7 @@ func TestScavenger(t *testing.T) {
 	s.Stop()
 }
 
+/*
 func TestScavengeIndex(t *testing.T) {
 	setup := func(t *testing.T) (func(ChunkIdx, uint), func(uintptr, uintptr)) {
 		t.Helper()
@@ -708,6 +709,7 @@ func TestScavengeIndex(t *testing.T) {
 		find(0, 0)
 	})
 }
+*/
 
 func FuzzPIController(f *testing.F) {
 	isNormal := func(x float64) bool {
