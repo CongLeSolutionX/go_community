@@ -72,6 +72,24 @@
       "message": "This renaming doesn\u0027t actually make sense to me.  closeAfterStart is very clear.  remotePipes is not clear to me.  And, for example, f here is not a pipe at all.",
       "revId": "fabdeced29ab8b656f5e83efe1b01509f2ab985c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23ff2743_5e3ab850",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-09-23T21:23:41Z",
+      "side": 1,
+      "message": "`closeAfterStart` is clear about what happens to the file descriptors, but not about what they actually represent: it doesn\u0027t help someone making a change to the package figure out which descriptors need to be closed when.\n\nIt\u0027s also not clear about the (fairly deep) aliasing invariants between `childFiles` and `closeAfterStart`. (I was about to suggest renaming `closeAfterStart` to `childIOFiles`, since it is the files allocated for I/O streams, but then realized that the existing field named `childFiles` is named confusingly close to that!)\n\nIronically, as I was writing this comment I realized that the `childFiles` field appears to serve no real purpose: the other fields of the `Cmd` struct already prevent any finalizers from running for `Stdin`, `Stdout`, `Stderr`, and `ExtraFiles`, and the only other files in the `childFiles` slice are the ones listed in `closeAfterStart` (for which the finalizers have no effect). I have removed that field as a further cleanup.\n\nI\u0027ve now renamed `closeafterStart` to `childIOFiles` (meaning “files passed as the child\u0027s I/O streams”), and `closeAfterWait` to `parentIOPipes` (which really does contain only pipes or wrappers around pipes), and added comments for both of those fields.",
+      "parentUuid": "2e11b8b0_475b5cdc",
+      "revId": "fabdeced29ab8b656f5e83efe1b01509f2ab985c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
