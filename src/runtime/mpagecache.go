@@ -86,14 +86,20 @@ func (c *pageCache) flush(p *pageAlloc) {
 
 	// This method is called very infrequently, so just do the
 	// slower, safer thing by iterating over each bit individually.
+	freed := uint(0)
 	for i := uint(0); i < 64; i++ {
 		if c.cache&(1<<i) != 0 {
 			p.chunkOf(ci).free1(pi + i)
+			freed++
 		}
 		if c.scav&(1<<i) != 0 {
 			p.chunkOf(ci).scavenged.setRange(pi+i, 1)
 		}
 	}
+
+	// Update density statistics.
+	p.scav.index.free(ci, freed)
+
 	// Since this is a lot like a free, we need to make sure
 	// we update the searchAddr just like free does.
 	if b := (offAddr{c.base}); b.lessThan(p.searchAddr) {
@@ -145,7 +151,7 @@ func (p *pageAlloc) allocToCache() pageCache {
 			p.searchAddr = maxSearchAddr()
 			return pageCache{}
 		}
-		ci := chunkIndex(addr)
+		ci = chunkIndex(addr)
 		chunk = p.chunkOf(ci)
 		c = pageCache{
 			base:  alignDown(addr, 64*pageSize),
@@ -162,6 +168,9 @@ func (p *pageAlloc) allocToCache() pageCache {
 
 	// Update as an allocation, but note that it's not contiguous.
 	p.update(c.base, pageCachePages, false, true)
+
+	// Update density statistics.
+	p.scav.index.alloc(ci, uint(sys.OnesCount64(c.cache)))
 
 	// Set the search address to the last page represented by the cache.
 	// Since all of the pages in this block are going to the cache, and we
