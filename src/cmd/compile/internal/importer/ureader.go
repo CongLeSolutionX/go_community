@@ -83,6 +83,15 @@ func (pr *pkgReader) newReader(k pkgbits.RelocKind, idx pkgbits.Index, marker pk
 	}
 }
 
+func (pr *pkgReader) withReader(k pkgbits.RelocKind, idx pkgbits.Index, marker pkgbits.SyncMarker, f func(r *reader)) {
+	r := &reader{
+		Decoder: pr.NewDecoder(k, idx, marker),
+		p:       pr,
+	}
+	f(r)
+	pr.RetireDecoder(&r.Decoder)
+}
+
 // @@@ Positions
 
 func (r *reader) pos() syntax.Pos {
@@ -107,19 +116,19 @@ func (pr *pkgReader) posBaseIdx(idx pkgbits.Index) *syntax.PosBase {
 		return b
 	}
 
-	r := pr.newReader(pkgbits.RelocPosBase, idx, pkgbits.SyncPosBase)
 	var b *syntax.PosBase
+	pr.withReader(pkgbits.RelocPosBase, idx, pkgbits.SyncPosBase, func(r *reader) {
+		filename := r.String()
 
-	filename := r.String()
-
-	if r.Bool() {
-		b = syntax.NewTrimmedFileBase(filename, true)
-	} else {
-		pos := r.pos()
-		line := r.Uint()
-		col := r.Uint()
-		b = syntax.NewLineBase(pos, filename, true, line, col)
-	}
+		if r.Bool() {
+			b = syntax.NewTrimmedFileBase(filename, true)
+		} else {
+			pos := r.pos()
+			line := r.Uint()
+			col := r.Uint()
+			b = syntax.NewLineBase(pos, filename, true, line, col)
+		}
+	})
 
 	pr.posBases[idx] = b
 	return b
@@ -202,11 +211,12 @@ func (pr *pkgReader) typIdx(info typeInfo, dict *readerDict) types2.Type {
 		return typ
 	}
 
-	r := pr.newReader(pkgbits.RelocType, idx, pkgbits.SyncTypeIdx)
-	r.dict = dict
-
-	typ := r.doTyp()
-	assert(typ != nil)
+	var typ types2.Type
+	pr.withReader(pkgbits.RelocType, idx, pkgbits.SyncTypeIdx, func(r *reader) {
+		r.dict = dict
+		typ = r.doTyp()
+		assert(typ != nil)
+	})
 
 	// See comment in pkgReader.typIdx explaining how this happens.
 	if prev := *where; prev != nil {
@@ -361,12 +371,15 @@ func (r *reader) obj() (types2.Object, []types2.Type) {
 }
 
 func (pr *pkgReader) objIdx(idx pkgbits.Index) (*types2.Package, string) {
-	rname := pr.newReader(pkgbits.RelocName, idx, pkgbits.SyncObject1)
 
-	objPkg, objName := rname.qualifiedIdent()
-	assert(objName != "")
-
-	tag := pkgbits.CodeObj(rname.Code(pkgbits.SyncCodeObj))
+	var objPkg *types2.Package
+	var objName string
+	var tag pkgbits.CodeObj
+	pr.withReader(pkgbits.RelocName, idx, pkgbits.SyncObject1, func(rname *reader) {
+		objPkg, objName = rname.qualifiedIdent()
+		assert(objName != "")
+		tag = pkgbits.CodeObj(rname.Code(pkgbits.SyncCodeObj))
+	})
 
 	if tag == pkgbits.ObjStub {
 		base.Assertf(objPkg == nil || objPkg == types2.Unsafe, "unexpected stub package: %v", objPkg)
@@ -431,25 +444,24 @@ func (pr *pkgReader) objIdx(idx pkgbits.Index) (*types2.Package, string) {
 }
 
 func (pr *pkgReader) objDictIdx(idx pkgbits.Index) *readerDict {
-	r := pr.newReader(pkgbits.RelocObjDict, idx, pkgbits.SyncObject1)
-
 	var dict readerDict
 
-	if implicits := r.Len(); implicits != 0 {
-		base.Fatalf("unexpected object with %v implicit type parameter(s)", implicits)
-	}
+	pr.withReader(pkgbits.RelocObjDict, idx, pkgbits.SyncObject1, func(r *reader) {
+		if implicits := r.Len(); implicits != 0 {
+			base.Fatalf("unexpected object with %v implicit type parameter(s)", implicits)
+		}
 
-	dict.bounds = make([]typeInfo, r.Len())
-	for i := range dict.bounds {
-		dict.bounds[i] = r.typInfo()
-	}
+		dict.bounds = make([]typeInfo, r.Len())
+		for i := range dict.bounds {
+			dict.bounds[i] = r.typInfo()
+		}
 
-	dict.derived = make([]derivedInfo, r.Len())
-	dict.derivedTypes = make([]types2.Type, len(dict.derived))
-	for i := range dict.derived {
-		dict.derived[i] = derivedInfo{r.Reloc(pkgbits.RelocType), r.Bool()}
-	}
-
+		dict.derived = make([]derivedInfo, r.Len())
+		dict.derivedTypes = make([]types2.Type, len(dict.derived))
+		for i := range dict.derived {
+			dict.derived[i] = derivedInfo{r.Reloc(pkgbits.RelocType), r.Bool()}
+		}
+	})
 	// function references follow, but reader doesn't need those
 
 	return &dict

@@ -131,6 +131,15 @@ func (pr *pkgReader) newReader(k pkgbits.RelocKind, idx pkgbits.Index, marker pk
 	}
 }
 
+func (pr *pkgReader) withReader(k pkgbits.RelocKind, idx pkgbits.Index, marker pkgbits.SyncMarker, f func(r *reader)) {
+	r := &reader{
+		Decoder: pr.NewDecoder(k, idx, marker),
+		p:       pr,
+	}
+	f(r)
+	pr.RetireDecoder(&r.Decoder)
+}
+
 // @@@ Positions
 
 func (r *reader) pos() token.Pos {
@@ -155,25 +164,27 @@ func (pr *pkgReader) posBaseIdx(idx pkgbits.Index) string {
 		return b
 	}
 
-	r := pr.newReader(pkgbits.RelocPosBase, idx, pkgbits.SyncPosBase)
+	var filename string
+	pr.withReader(pkgbits.RelocPosBase, idx, pkgbits.SyncPosBase, func(r *reader) {
 
-	// Within types2, position bases have a lot more details (e.g.,
-	// keeping track of where //line directives appeared exactly).
-	//
-	// For go/types, we just track the file name.
+		// Within types2, position bases have a lot more details (e.g.,
+		// keeping track of where //line directives appeared exactly).
+		//
+		// For go/types, we just track the file name.
 
-	filename := r.String()
+		filename = r.String()
 
-	if r.Bool() { // file base
-		// Was: "b = token.NewTrimmedFileBase(filename, true)"
-	} else { // line base
-		pos := r.pos()
-		line := r.Uint()
-		col := r.Uint()
+		if r.Bool() { // file base
+			// Was: "b = token.NewTrimmedFileBase(filename, true)"
+		} else { // line base
+			pos := r.pos()
+			line := r.Uint()
+			col := r.Uint()
 
-		// Was: "b = token.NewLineBase(pos, filename, true, line, col)"
-		_, _, _ = pos, line, col
-	}
+			// Was: "b = token.NewLineBase(pos, filename, true, line, col)"
+			_, _, _ = pos, line, col
+		}
+	})
 
 	b := filename
 	pr.posBases[idx] = b
@@ -286,11 +297,12 @@ func (pr *pkgReader) typIdx(info typeInfo, dict *readerDict) types.Type {
 		return typ
 	}
 
-	r := pr.newReader(pkgbits.RelocType, idx, pkgbits.SyncTypeIdx)
-	r.dict = dict
-
-	typ := r.doTyp()
-	assert(typ != nil)
+	var typ types.Type
+	pr.withReader(pkgbits.RelocType, idx, pkgbits.SyncTypeIdx, func(r *reader) {
+		r.dict = dict
+		typ = r.doTyp()
+		assert(typ != nil)
+	})
 
 	// See comment in pkgReader.typIdx explaining how this happens.
 	if prev := *where; prev != nil {
@@ -457,12 +469,14 @@ func (r *reader) obj() (types.Object, []types.Type) {
 }
 
 func (pr *pkgReader) objIdx(idx pkgbits.Index) (*types.Package, string) {
-	rname := pr.newReader(pkgbits.RelocName, idx, pkgbits.SyncObject1)
-
-	objPkg, objName := rname.qualifiedIdent()
-	assert(objName != "")
-
-	tag := pkgbits.CodeObj(rname.Code(pkgbits.SyncCodeObj))
+	var objPkg *types.Package
+	var objName string
+	var tag pkgbits.CodeObj
+	pr.withReader(pkgbits.RelocName, idx, pkgbits.SyncObject1, func(rname *reader) {
+		objPkg, objName = rname.qualifiedIdent()
+		assert(objName != "")
+		tag = pkgbits.CodeObj(rname.Code(pkgbits.SyncCodeObj))
+	})
 
 	if tag == pkgbits.ObjStub {
 		assert(objPkg == nil || objPkg == types.Unsafe)
@@ -567,25 +581,23 @@ func (pr *pkgReader) objIdx(idx pkgbits.Index) (*types.Package, string) {
 }
 
 func (pr *pkgReader) objDictIdx(idx pkgbits.Index) *readerDict {
-	r := pr.newReader(pkgbits.RelocObjDict, idx, pkgbits.SyncObject1)
-
 	var dict readerDict
+	pr.withReader(pkgbits.RelocObjDict, idx, pkgbits.SyncObject1, func(r *reader) {
+		if implicits := r.Len(); implicits != 0 {
+			errorf("unexpected object with %v implicit type parameter(s)", implicits)
+		}
 
-	if implicits := r.Len(); implicits != 0 {
-		errorf("unexpected object with %v implicit type parameter(s)", implicits)
-	}
+		dict.bounds = make([]typeInfo, r.Len())
+		for i := range dict.bounds {
+			dict.bounds[i] = r.typInfo()
+		}
 
-	dict.bounds = make([]typeInfo, r.Len())
-	for i := range dict.bounds {
-		dict.bounds[i] = r.typInfo()
-	}
-
-	dict.derived = make([]derivedInfo, r.Len())
-	dict.derivedTypes = make([]types.Type, len(dict.derived))
-	for i := range dict.derived {
-		dict.derived[i] = derivedInfo{r.Reloc(pkgbits.RelocType), r.Bool()}
-	}
-
+		dict.derived = make([]derivedInfo, r.Len())
+		dict.derivedTypes = make([]types.Type, len(dict.derived))
+		for i := range dict.derived {
+			dict.derived[i] = derivedInfo{r.Reloc(pkgbits.RelocType), r.Bool()}
+		}
+	})
 	// function references follow, but reader doesn't need those
 
 	return &dict
