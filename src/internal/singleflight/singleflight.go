@@ -17,6 +17,10 @@ type call struct {
 	val any
 	err error
 
+	// forgotten indicates whether Forget was called with this call's key
+	// while the call was still in flight.
+	forgotten bool
+
 	// These fields are read and written with the singleflight
 	// mutex held before the WaitGroup is done, and are read but
 	// not written after the WaitGroup is done.
@@ -94,7 +98,9 @@ func (g *Group) doCall(c *call, key string, fn func() (any, error)) {
 	c.wg.Done()
 
 	g.mu.Lock()
-	delete(g.m, key)
+	if !c.forgotten {
+		delete(g.m, key)
+	}
 	for _, ch := range c.chans {
 		ch <- Result{c.val, c.err, c.dups > 0}
 	}
@@ -115,6 +121,7 @@ func (g *Group) ForgetUnshared(key string) bool {
 	}
 	if c.dups == 0 {
 		delete(g.m, key)
+		c.forgotten = true
 		return true
 	}
 	return false

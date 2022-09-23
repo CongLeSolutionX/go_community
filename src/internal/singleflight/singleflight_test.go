@@ -85,3 +85,80 @@ func TestDoDupSuppress(t *testing.T) {
 		t.Errorf("number of calls = %d; want over 0 and less than %d", got, n)
 	}
 }
+
+func TestForgetUnshare(t *testing.T) {
+	var g Group
+
+	var firstStarted, firstFinished sync.WaitGroup
+
+	firstStarted.Add(1)
+	firstFinished.Add(1)
+
+	key := "key"
+	firstCh := make(chan struct{})
+	go func() {
+		g.Do(key, func() (i interface{}, e error) {
+			firstStarted.Done()
+			<-firstCh
+			firstFinished.Done()
+			return
+		})
+	}()
+
+	firstStarted.Wait()
+	g.ForgetUnshared(key) // from this point no two function using same key should be executed concurrently
+
+	var secondStarted int32
+	var secondFinished int32
+	var thirdStarted int32
+
+	secondCh := make(chan struct{})
+	secondRunning := make(chan struct{})
+	go func() {
+		g.Do(key, func() (i interface{}, e error) {
+			atomic.AddInt32(&secondStarted, 1)
+			// Notify that we started
+			secondCh <- struct{}{}
+			// Wait other get above signal
+			<-secondRunning
+			<-secondCh
+			atomic.AddInt32(&secondFinished, 1)
+			return 2, nil
+		})
+	}()
+
+	<-secondCh
+	// Notify second that we got the signal that it started
+	secondRunning <- struct{}{}
+	if atomic.LoadInt32(&secondStarted) != 1 {
+		t.Fatal("Second execution should be executed due to usage of forget")
+	}
+
+	if atomic.LoadInt32(&secondFinished) == 1 {
+		t.Fatal("Second execution should be still active")
+	}
+
+	resultCh := g.DoChan(key, func() (i interface{}, e error) {
+		atomic.AddInt32(&thirdStarted, 1)
+		return 3, nil
+	})
+
+	if g.ForgetUnshared(key) {
+		t.Errorf("Before first goroutine finished, key %q is shared, should return false", key)
+	}
+
+	close(firstCh)
+	firstFinished.Wait()
+
+	if g.ForgetUnshared(key) {
+		t.Errorf("After first goroutine finished, key %q is still shared, should return false", key)
+	}
+
+	close(secondCh)
+	if atomic.LoadInt32(&thirdStarted) != 0 {
+		t.Error("Third call should not be started because was started during second execution")
+	}
+	if result := <-resultCh; result.Val != 2 {
+		t.Errorf("We should receive result produced by second call, expected: 2, got %d", result.Val)
+	}
+}
