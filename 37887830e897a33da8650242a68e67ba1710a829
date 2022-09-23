@@ -74,6 +74,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9abcbd82_6ef23191",
+        "filename": "src/internal/singleflight/singleflight.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-09-23T15:31:20Z",
+      "side": 1,
+      "message": "Seems ok to do that, we only do this once for multiple calls.",
+      "parentUuid": "95c66de3_c1e61918",
+      "revId": "37887830e897a33da8650242a68e67ba1710a829",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "50c6db17_4603fbf2",
@@ -97,6 +115,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "61dda4c3_76c8b09a",
+        "filename": "src/internal/singleflight/singleflight_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-09-23T15:31:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50c6db17_4603fbf2",
+      "range": {
+        "startLine": 131,
+        "startChar": 0,
+        "endLine": 132,
+        "endChar": 28
+      },
+      "revId": "37887830e897a33da8650242a68e67ba1710a829",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6efbd721_b01051f4",
@@ -110,6 +152,30 @@
       "writtenOn": "2022-09-23T14:29:33Z",
       "side": 1,
       "message": "I\u0027m not sure the `secondStarted` variable adds much: since we received from `secondCh` we already know that the callback was started at least once.\n\nI guess this assertion would fail if `g.Do` somehow executes the second callback more than once, but do we have a reason to suspect that would happen? (If so, a comment on that reason would be helpful.)",
+      "range": {
+        "startLine": 133,
+        "startChar": 0,
+        "endLine": 135,
+        "endChar": 2
+      },
+      "revId": "37887830e897a33da8650242a68e67ba1710a829",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "335634fe_ade7cbc0",
+        "filename": "src/internal/singleflight/singleflight_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-09-23T15:31:20Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "6efbd721_b01051f4",
       "range": {
         "startLine": 133,
         "startChar": 0,
@@ -145,6 +211,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9a25b857_a6db0305",
+        "filename": "src/internal/singleflight/singleflight_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-09-23T15:31:20Z",
+      "side": 1,
+      "message": "We want to make sure second is still running, for example, someone may change the body of second and accident removing `\u003c-secondCh`, so second may finish when we\u0027re here.",
+      "parentUuid": "53ec8f0d_e19142e5",
+      "range": {
+        "startLine": 137,
+        "startChar": 0,
+        "endLine": 139,
+        "endChar": 2
+      },
+      "revId": "37887830e897a33da8650242a68e67ba1710a829",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ef164c0b_212044ef",
         "filename": "src/internal/singleflight/singleflight_test.go",
         "patchSetId": 2
@@ -156,6 +246,24 @@
       "writtenOn": "2022-09-23T14:29:33Z",
       "side": 1,
       "message": "It looks like this callback never runs at all? If so, it seems like it would be simpler to make the callback panic than to write and read a counter.\n\n(That would also detect any — admittedly unlikely — bug that causes the third callback to be unexpectedly executed after the receive from `resultCh`.)",
+      "revId": "37887830e897a33da8650242a68e67ba1710a829",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7757e7d8_9cd11fbf",
+        "filename": "src/internal/singleflight/singleflight_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-09-23T15:31:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef164c0b_212044ef",
       "revId": "37887830e897a33da8650242a68e67ba1710a829",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
