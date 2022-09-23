@@ -16,6 +16,24 @@
       "message": "This appears to have broken the `longtest` builders for `x/tools`.\n\nI think we need some kind of update to the analysis tools there before we can actually start using this feature..?",
       "revId": "3dcf6e2c29f533865aad58488b60ae8d819a566e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64b0887d_eaa8dfb4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2022-09-23T21:55:52Z",
+      "side": 1,
+      "message": "Thanks for the report. Looks like https://github.com/golang/go/issues/46505#issuecomment-1251484870 is related. I\u0027ll send a revert and re-send this CL once x/tools supports slice-to-array conversion.",
+      "parentUuid": "a0efc26e_d073b0fa",
+      "revId": "3dcf6e2c29f533865aad58488b60ae8d819a566e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
