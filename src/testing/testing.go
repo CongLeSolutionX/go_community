@@ -1181,7 +1181,8 @@ func removeAll(path string) error {
 // restore the environment variable to its original value
 // after the test.
 //
-// This cannot be used in parallel tests.
+// Because Setenv affects the whole process, it cannot be used
+// in parallel tests or tests with parallel ancestors.
 func (c *common) Setenv(key, value string) {
 	c.checkFuzzFn("Setenv")
 	prevValue, ok := os.LookupEnv(key)
@@ -1318,7 +1319,8 @@ func (t *T) Parallel() {
 // restore the environment variable to its original value
 // after the test.
 //
-// This cannot be used in parallel tests.
+// Because Setenv affects the whole process, it cannot be used
+// in parallel tests or tests with parallel ancestors.
 func (t *T) Setenv(key, value string) {
 	if t.isParallel {
 		panic("testing: t.Setenv called after t.Parallel; cannot set environment variables in parallel tests")
