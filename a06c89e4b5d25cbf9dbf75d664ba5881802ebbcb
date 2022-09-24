@@ -72,6 +72,24 @@
       "message": "Please fix the commit message per my feedback. Thanks.\n\n(More generally: Please do not send us CLs related to work that we are working on right now w/o communicating first. It creates unnecessary work for all of us. Thanks.)",
       "revId": "a06c89e4b5d25cbf9dbf75d664ba5881802ebbcb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36a46b4d_39511d28",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2022-09-24T00:34:34Z",
+      "side": 1,
+      "message": "Pardon, you do not send any feedback in these cl. So, I do not understand what should I change the commit message to.",
+      "parentUuid": "8ffb465f_00af6b50",
+      "revId": "a06c89e4b5d25cbf9dbf75d664ba5881802ebbcb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
