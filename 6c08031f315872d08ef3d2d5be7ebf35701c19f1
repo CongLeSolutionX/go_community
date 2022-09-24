@@ -16,6 +16,24 @@
       "message": "Rebased, I also have a few more changes queued that I\u0027ll upload early next week.",
       "revId": "6c08031f315872d08ef3d2d5be7ebf35701c19f1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6e779e8_404b7fca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2022-09-24T20:50:44Z",
+      "side": 1,
+      "message": "First batch of changes uploaded, finished reviewing and refactoring all non-modulo operations, and how the code plugs into the RSA operations. Second batch should come in a few days.",
+      "parentUuid": "b519021f_da84741f",
+      "revId": "6c08031f315872d08ef3d2d5be7ebf35701c19f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
