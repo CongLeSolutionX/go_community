@@ -22,6 +22,30 @@
       },
       "revId": "f75a9c781f78864f8281e589efb7d9d4458cbe8d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d551a62_10aa2472",
+        "filename": "src/cmd/go/internal/modcmd/tidy.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 27094
+      },
+      "writtenOn": "2022-09-24T20:19:11Z",
+      "side": 1,
+      "message": "Ok, will do.",
+      "parentUuid": "0bfd01c4_151922cf",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 58
+      },
+      "revId": "f75a9c781f78864f8281e589efb7d9d4458cbe8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
