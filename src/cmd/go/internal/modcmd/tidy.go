@@ -48,6 +48,9 @@ version. By default, tidy acts as if the -compat flag were set to the
 version prior to the one indicated by the 'go' directive in the go.mod
 file.
 
+Tidy treats all build constraints except 'ignore' as satisfied, including
+implicit constraints from filenames.
+
 See https://golang.org/ref/mod#go-mod-tidy for more about 'go mod tidy'.
 	`,
 	Run: runTidy,
