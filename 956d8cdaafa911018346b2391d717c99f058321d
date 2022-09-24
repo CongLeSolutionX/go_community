@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e273111_bec96360",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2022-09-24T08:21:37Z",
+      "side": 1,
+      "message": "waitting for https://go-review.googlesource.com/c/tools/+/433816 being merged.",
+      "revId": "956d8cdaafa911018346b2391d717c99f058321d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
