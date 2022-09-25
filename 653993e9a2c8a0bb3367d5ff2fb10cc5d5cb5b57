@@ -430,6 +430,24 @@
       "parentUuid": "b8567617_e8f2756c",
       "revId": "653993e9a2c8a0bb3367d5ff2fb10cc5d5cb5b57",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e555090_920ea1b4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5821
+      },
+      "writtenOn": "2022-09-25T12:02:34Z",
+      "side": 1,
+      "message": "\u003e @Alessandro, I have did a quick search and it seems that delve only calls Data from \".debug_*\" or \"zdebug_*\" section. Which should not be affected by this change.\n\nIt would be parseDebugFrameElf in pkg/proc/bininfo.go\n\n\u003e Is it possible to figure out how it will be affected? I can not found any reported issue\n\nIt was reported along with some other issue, I tried looking for it but couldn\u0027t find it either. I wouldn\u0027t worry too much about delve itself, it often breaks with new versions of go (I still think this change is negative).",
+      "parentUuid": "7ae61f5b_550ab14b",
+      "revId": "653993e9a2c8a0bb3367d5ff2fb10cc5d5cb5b57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
