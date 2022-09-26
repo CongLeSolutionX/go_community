@@ -57,6 +57,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a964b43e_c13d81d9",
+        "filename": "src/cmd/compile/internal/importer/ureader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-09-26T15:45:00Z",
+      "side": 1,
+      "message": "I\u0027m not sure if this is worth doing, but maybe put this code in a block, so it is clear that there is no use after the retire call?\n\nvar typ types2.Type\n{\n    r :\u003d pr.tempReader(...)\n    ...\n    typ \u003d r.doTyp()\n    pr.retireReader(r)\n}\n\nor even an anonymous func\n\ntyp :\u003d func() types.Type {\n    r :\u003d pr.tempReader()\n    tmp :\u003d r.doTyp()\n    pr.retireReader(r)\n    return tmp\n}()",
+      "revId": "dfe95ebf45e82efa9055e96d586fa48d9d939399",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9218a662_e5949cf0",
         "filename": "src/internal/pkgbits/decoder.go",
         "patchSetId": 2
