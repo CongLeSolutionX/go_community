@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f987a8a_be1882aa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-09-26T16:23:50Z",
+      "side": 1,
+      "message": "Please add a line\n\nFor #55845\n\nThanks.",
+      "revId": "72d7a32de7b09abaac6e52d3d4c933c591b4d540",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
