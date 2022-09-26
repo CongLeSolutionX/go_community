@@ -72,6 +72,24 @@
       "message": "(optional) I wonder if we should also move this call to `c.wg.Done` inside the section guarded by `g.mu`.\n\nOtherwise, the second call to `Do` for a key could complete and be followed by a call to `ForgetUnshared` that then returns `false`, even though the caller otherwise knows that no call with the key is in flight.",
       "revId": "1b9e97531959eb1939a5516cc66431530b83ae09",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63846363_6e9be43c",
+        "filename": "src/internal/singleflight/singleflight.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-09-26T02:55:27Z",
+      "side": 1,
+      "message": "Not sure I get it. If `Do` is completed, then the key was deleted, so ForgotUnshared should always return true.",
+      "parentUuid": "2dc9ed13_753d5108",
+      "revId": "1b9e97531959eb1939a5516cc66431530b83ae09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
