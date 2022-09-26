@@ -9,6 +9,7 @@ package osinfo
 import "golang.org/x/sys/unix"
 
 // Version returns the OS version name/number.
+// This comment is to understand gerrit flow for go repo, not to explicitly upstream this change
 func Version() (string, error) {
 	var uts unix.Utsname
 	if err := unix.Uname(&uts); err != nil {
