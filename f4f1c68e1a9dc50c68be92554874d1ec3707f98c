@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1752a4d_7c202ebd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 29
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-09-26T14:09:00Z",
+      "side": 1,
+      "message": "After a discussion with Brian, I\u0027ve moved the cmd/cover test back to using TestMain in the next CL in this sequence (404299), so as to standardize on the model of using the test executable itself as a stand-in for the tool binary. As a result I don\u0027t think we need this CL any more (will be abandoning it shortly). Thanks.",
+      "revId": "f4f1c68e1a9dc50c68be92554874d1ec3707f98c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
