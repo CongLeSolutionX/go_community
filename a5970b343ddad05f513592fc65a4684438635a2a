@@ -16,6 +16,24 @@
       "message": "Thanks for finding this problem.\n\nI tend to find this kind of code clearer if written as prevention rather than detection after the fact.  And it was probably a mistake on my part to drop c down to uintptr.  So something like\n\n    size :\u003d uint64(typ.Elem().Size())\n    if c \u003e (1\u003c\u003c64 - 1) / size {\n        return -1\n    }\n    if c*size \u003e chunk {\n        ...",
       "revId": "a5970b343ddad05f513592fc65a4684438635a2a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "304e8429_30db3173",
+        "filename": "src/internal/saferio/io.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 52385
+      },
+      "writtenOn": "2022-09-26T14:54:56Z",
+      "side": 1,
+      "message": "Thank you Ian! I have learned a lot from you!\n\nwhen v is `(*struct{})(nil)`, the size will be 0. So I write it like this:\n\n```\nif size \u003e 0 \u0026\u0026 c \u003e (1\u003c\u003c64 - 1) / size {\n    return -1\n}\n```\n\nI can not think of a case that v will be `(*struct{})(nil)`, so I\u0027m not sure whether the check is necessary.",
+      "parentUuid": "635a5015_fd10d35c",
+      "revId": "a5970b343ddad05f513592fc65a4684438635a2a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
