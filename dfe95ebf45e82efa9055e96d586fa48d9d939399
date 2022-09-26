@@ -53,6 +53,29 @@
       "message": "https://perf.golang.org/search?q\u003dupload:20220923.19\n1.4% reduction in geomean build user time.",
       "revId": "dfe95ebf45e82efa9055e96d586fa48d9d939399",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9218a662_e5949cf0",
+        "filename": "src/internal/pkgbits/decoder.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-09-26T03:00:48Z",
+      "side": 1,
+      "message": "`s/binary/pkgbits/`\n`s/varint/readUvarint/`",
+      "range": {
+        "startLine": 281,
+        "startChar": 27,
+        "endLine": 281,
+        "endChar": 33
+      },
+      "revId": "dfe95ebf45e82efa9055e96d586fa48d9d939399",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
