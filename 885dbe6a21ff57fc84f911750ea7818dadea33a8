@@ -161,6 +161,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9bb37a19_2e64483e",
+        "filename": "src/go/scanner/scanner.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2022-09-27T17:02:11Z",
+      "side": 1,
+      "message": "Ok, changed to nlPos.",
+      "parentUuid": "a2096ea3_af5ecad3",
+      "range": {
+        "startLine": 43,
+        "startChar": 1,
+        "endLine": 43,
+        "endChar": 10
+      },
+      "revId": "885dbe6a21ff57fc84f911750ea7818dadea33a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4b00cbe3_2aaecc62",
