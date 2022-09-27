@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cebba5f7_a15d7a89",
+        "filename": "src/go/token/position.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2022-09-27T22:29:25Z",
+      "side": 1,
+      "message": "Perhaps clearer as \n\n        if !((i \u003d\u003d 0 || lines[i-1] \u003c offset) \u0026\u0026 offset \u003c size) {\n    \nso that it has the same form as the other two occurrences.",
+      "revId": "9dddca3cbb46e4ef63668f16ce177c347e562d40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
