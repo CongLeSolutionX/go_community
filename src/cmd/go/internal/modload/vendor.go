@@ -98,16 +98,16 @@ func readVendorList(mainModule module.Version) {
 				continue
 			}
 
-			if strings.HasPrefix(line, "## ") {
+			if after, found := strings.CutPrefix(line, "## "); found {
 				// Metadata. Take the union of annotations across multiple lines, if present.
 				meta := vendorMeta[mod]
-				for _, entry := range strings.Split(strings.TrimPrefix(line, "## "), ";") {
+				for _, entry := range strings.Split(after, ";") {
 					entry = strings.TrimSpace(entry)
 					if entry == "explicit" {
 						meta.Explicit = true
 					}
-					if strings.HasPrefix(entry, "go ") {
-						meta.GoVersion = strings.TrimPrefix(entry, "go ")
+					if after2, found2 := strings.CutPrefix(entry, "go "); found2 {
+						meta.GoVersion = after2
 						rawGoVersion.Store(mod, meta.GoVersion)
 					}
 					// All other tokens are reserved for future use.
