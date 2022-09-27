@@ -16,6 +16,24 @@
       "message": "I\u0027m sorry, I don\u0027t understand what this means.",
       "revId": "c0515cbe0b44d933008d2f7035919afe4dbdc766",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cddf1f66_8f477a3f",
+        "filename": "src/cmd/internal/osinfo/os_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 59289
+      },
+      "writtenOn": "2022-09-27T07:01:16Z",
+      "side": 1,
+      "message": "Hey Lance, sorry I have created this gerrit to understand the upstream process of go as a newbie to golang opensource, please discard this change.",
+      "parentUuid": "f08b47f0_17c471aa",
+      "revId": "c0515cbe0b44d933008d2f7035919afe4dbdc766",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
