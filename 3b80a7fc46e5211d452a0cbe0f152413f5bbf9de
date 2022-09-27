@@ -16,6 +16,24 @@
       "message": "I\u0027m not really sure if this needs to run before parsedebugvars. disableMemoryProfiling is set to true by the linker if we know nothing is consuming the profile, so we set the rate to 0. What happens if GODEBUG is set but still nothing consumes the profile? I think we can still set the rate to 0 (which, I think, is the consequence of running this later in an init function)?",
       "revId": "3b80a7fc46e5211d452a0cbe0f152413f5bbf9de",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91ad01ec_01d4b611",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 707,
+      "author": {
+        "id": 57388
+      },
+      "writtenOn": "2022-09-27T15:54:35Z",
+      "side": 1,
+      "message": "This behavior is worth discussing.\n\u003e if GODEBUG is set but still nothing consumes the profile, we can still set the rate to 0.\nyes, but May need to modify the description of GODEBUG? \nhttps://github.com/golang/go/blob/master/src/runtime/extern.go#L126\nAnd this should be a rare scenario, unless the user makes a mistake.\n\nas for init function, The original problem is that defaultMemProfileRate() cann\u0027t run in init, because it will set MemProfileRate to 512K whatever the value of GODEBUG.",
+      "parentUuid": "8c1c0d82_61ce4309",
+      "revId": "3b80a7fc46e5211d452a0cbe0f152413f5bbf9de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
