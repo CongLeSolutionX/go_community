@@ -36,6 +36,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c342f3b_8b649eb5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-09-27T13:29:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0151f6ce_8430ab17",
+      "revId": "8fe70b22f288835eab141e383cddf6e0fdecef28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cc18890f_3330132e",
@@ -67,6 +85,24 @@
       "side": 1,
       "message": "I fixed typo.",
       "parentUuid": "cc18890f_3330132e",
+      "revId": "8fe70b22f288835eab141e383cddf6e0fdecef28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b5c1319_f0c988cb",
+        "filename": "src/testing/testing_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-09-27T13:29:33Z",
+      "side": 1,
+      "message": "Please remember to check the “Resolved” box in the Gerrit reply when the comment has been addressed. Thanks!",
+      "parentUuid": "8284c650_b8c4c631",
       "revId": "8fe70b22f288835eab141e383cddf6e0fdecef28",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
