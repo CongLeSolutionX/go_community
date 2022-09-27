@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "10c1e78a_f88ffc52",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-09-27T15:30:18Z",
+      "side": 1,
+      "message": "It\u0027s too early in the link process to determine. If it is, it should get a trampoline inserted later when addresses are assigned (admittedly not ideal, but also very unlikely).\n\nFor the moment, it seems a safe assumption that external text is relatively small and contained. In any non-trivial usage, we are likely using the external linker.",
+      "parentUuid": "df75aa36_ecedee04",
+      "revId": "d647deac489a9d9a5581e0ea60da761ee16e66ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "f7f09d1e_91eba91d",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -48,6 +66,24 @@
       "writtenOn": "2022-09-27T12:22:02Z",
       "side": 1,
       "message": "How do you plan to handle this TODO?",
+      "revId": "d647deac489a9d9a5581e0ea60da761ee16e66ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd180ccf_3d00053c",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-09-27T15:30:18Z",
+      "side": 1,
+      "message": "It\u0027s no longer endian specific. It uses the target endianness to rewrite instruction words.\n\nAs an aside, this can\u0027t be used with any other PPC64 target. ppc64le/linux is the only user today (I don\u0027t think ppc64/linux will ever support internal linking of cgo).",
+      "parentUuid": "6342176a_466d09c4",
       "revId": "d647deac489a9d9a5581e0ea60da761ee16e66ca",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
