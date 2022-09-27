@@ -509,11 +509,11 @@ const TrailerPrefix = "Trailer:"
 func (w *response) finalTrailers() Header {
 	var t Header
 	for k, vv := range w.handlerHeader {
-		if strings.HasPrefix(k, TrailerPrefix) {
+		if k, found := strings.CutPrefix(k, TrailerPrefix); found {
 			if t == nil {
 				t = make(Header)
 			}
-			t[strings.TrimPrefix(k, TrailerPrefix)] = vv
+			t[k] = vv
 		}
 	}
 	for _, k := range w.trailers {
