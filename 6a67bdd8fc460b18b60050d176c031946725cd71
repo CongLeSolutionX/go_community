@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "729cbd26_939d3647",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 34895
+      },
+      "writtenOn": "2022-09-27T15:36:19Z",
+      "side": 1,
+      "message": "This k shadows the k in the outer loop.  Use a different name here to avoid confusion.",
+      "revId": "6a67bdd8fc460b18b60050d176c031946725cd71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
