@@ -137,6 +137,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2096ea3_af5ecad3",
+        "filename": "src/go/scanner/scanner.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-09-27T16:12:12Z",
+      "side": 1,
+      "message": "I\u0027m not going to insist but (without the line comment) I\u0027d assume this is the position of a specific _comment_, notably a nlComment. But what you have here is the position of a _nl_ that happens to be inside a comment. So nlPos seems more obvious to me.\n\nBut leaving up to you.",
+      "parentUuid": "8f662ec2_e00b6e98",
+      "range": {
+        "startLine": 43,
+        "startChar": 1,
+        "endLine": 43,
+        "endChar": 10
+      },
+      "revId": "885dbe6a21ff57fc84f911750ea7818dadea33a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4b00cbe3_2aaecc62",
