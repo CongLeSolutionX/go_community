@@ -33,6 +33,63 @@
       "message": "hello, how is going on, here!",
       "revId": "3c100a25ca3f14dbae82f0296ce5729624bf3068",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee328bd1_91cdc01b",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-09-27T16:42:34Z",
+      "side": 1,
+      "message": "I think we can drop this, I don\u0027t see any more 64-bit atomics after this.",
+      "revId": "3c100a25ca3f14dbae82f0296ce5729624bf3068",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbd04282_575d1099",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-09-27T16:42:34Z",
+      "side": 1,
+      "message": "Perhaps reword, since the second sentence is the important part now.\n\n\"This is updated during the cycles, but updates may be batched arbitrarily ...\"",
+      "range": {
+        "startLine": 305,
+        "startChar": 47,
+        "endLine": 306,
+        "endChar": 32
+      },
+      "revId": "3c100a25ca3f14dbae82f0296ce5729624bf3068",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "376a6947_cd755d88",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-09-27T16:42:34Z",
+      "side": 1,
+      "message": "Drop this from align_runtime_test.go",
+      "revId": "3c100a25ca3f14dbae82f0296ce5729624bf3068",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
