@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ab24580_0341a0cd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-09-27T00:56:49Z",
+      "side": 1,
+      "message": "TRY\u003dlinux-amd64-nocgo",
+      "revId": "b888a75f189d898ac15907ade11a3e7b2984672d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
