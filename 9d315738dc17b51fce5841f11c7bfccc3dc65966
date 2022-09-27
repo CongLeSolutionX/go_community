@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "230ecced_b73e79b8",
+        "filename": "test/fixedbugs/issue17631.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-09-27T13:56:28Z",
+      "side": 1,
+      "message": "Hmm, this is making me second guess the decision to remove quotes. In this case, it look like we\u0027re complaining about \"field updates\".\n\nWorth a second thought?",
+      "range": {
+        "startLine": 20,
+        "startChar": 59,
+        "endLine": 20,
+        "endChar": 72
+      },
+      "revId": "9d315738dc17b51fce5841f11c7bfccc3dc65966",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
