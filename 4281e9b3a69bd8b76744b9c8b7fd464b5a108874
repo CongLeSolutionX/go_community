@@ -91,6 +91,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "47dbbc87_a92b3fa5",
+        "filename": "src/runtime/ehooks_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-09-27T13:13:07Z",
+      "side": 1,
+      "message": "I\u0027ll add a comment.",
+      "parentUuid": "6ef69989_d41d51b9",
+      "revId": "4281e9b3a69bd8b76744b9c8b7fd464b5a108874",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d8b469bf_9975c12f",
@@ -104,6 +122,30 @@
       "writtenOn": "2022-09-27T12:40:28Z",
       "side": 1,
       "message": "This seems unnecessarily restrictive. There is an existing `RaceDetectorSupported` function in `cmd/internal/sys` — would it make sense to move some or all of that  package to `internal/…` so that we can use it in `runtime_test`?\n\nThen this could be:\n```\nif !testing.Short() \u0026\u0026 testenv.HasCgo() \u0026\u0026 sys.RaceDetectorSupported(runtime.GOARCH, runtime.GOOS) {\n```",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 39
+      },
+      "revId": "4281e9b3a69bd8b76744b9c8b7fd464b5a108874",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "69a119a6_c72d3e89",
+        "filename": "src/runtime/ehooks_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-09-27T13:13:07Z",
+      "side": 1,
+      "message": "I\u0027d like to keep things simple for the time being, since this is breaking the builders. Happy to look into migrating sys.RaceDetectorSupported at some later stage.",
+      "parentUuid": "d8b469bf_9975c12f",
       "range": {
         "startLine": 19,
         "startChar": 0,
