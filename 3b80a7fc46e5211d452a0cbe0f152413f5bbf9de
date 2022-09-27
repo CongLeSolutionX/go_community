@@ -34,6 +34,24 @@
       "parentUuid": "8c1c0d82_61ce4309",
       "revId": "3b80a7fc46e5211d452a0cbe0f152413f5bbf9de",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f738edf3_e99abf09",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 707,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-09-27T16:02:18Z",
+      "side": 1,
+      "message": "Good point Cherry. As Wang says, the old init function was incorrect because it would overwrite the GODEBUG value, but clamping to 0 on disableMemoryProfile is fine.\n\nI\u0027m not sure what a clean place to put this is. Perhaps just below, below gcinit() so it is close to parsedebugvars(), with a comment for context.",
+      "parentUuid": "91ad01ec_01d4b611",
+      "revId": "3b80a7fc46e5211d452a0cbe0f152413f5bbf9de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
