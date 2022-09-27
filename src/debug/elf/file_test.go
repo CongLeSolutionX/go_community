@@ -9,7 +9,6 @@ import (
 	"compress/gzip"
 	"debug/dwarf"
 	"encoding/binary"
-	"fmt"
 	"io"
 	"math/rand"
 	"net"
@@ -942,6 +941,30 @@ func TestNoSectionOverlaps(t *testing.T) {
 					sih.Name, sjh.Name, sjh.Addr, sih.Addr, sih.Addr+sih.Size, sjh.Addr+sjh.Size)
 			}
 		}
+	}
+}
+
+func TestNobitsSection(t *testing.T) {
+	const testdata = "testdata/gcc-amd64-linux-exec"
+	f, err := Open(testdata)
+	if err != nil {
+		t.Fatalf("could not read %s: %v", testdata, err)
+	}
+	defer f.Close()
+
+	wantError := "unexpected read from SHT_NOBITS section"
+	bss := f.Section(".bss")
+
+	_, err = bss.Data()
+	if err == nil || err.Error() != wantError {
+		t.Fatalf("bss.Data() got error %q, want error %q", err, wantError)
+	}
+
+	r := bss.Open()
+	p := make([]byte, 1)
+	_, err = r.Read(p)
+	if err == nil || err.Error() != wantError {
+		t.Fatalf("r.Read(p) got error %q, want error %q", err, wantError)
 	}
 }
 
