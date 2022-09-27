@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bac17157_da64dbc4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-09-27T15:26:50Z",
+      "side": 1,
+      "message": "I don\u0027t know why all these reviewers were suddenly added.",
+      "revId": "0bb37c63eda73589dcd72823b4bcc0c092467fef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
