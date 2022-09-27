@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4807b5a8_0f70e415",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-09-27T00:58:03Z",
+      "side": 1,
+      "message": "For this kind of change we should have a couple of small tests.  There is probably some existing test file that we can test that opening the .bss section returns an error, or something like that.  Thanks.",
+      "revId": "4061dd0b7f677f936982bbcce77b69b728d7f65c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
