@@ -16,6 +16,23 @@
       "message": "For this kind of change we should have a couple of small tests.  There is probably some existing test file that we can test that opening the .bss section returns an error, or something like that.  Thanks.",
       "revId": "4061dd0b7f677f936982bbcce77b69b728d7f65c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61e76de3_193a504d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-09-27T00:58:10Z",
+      "side": 1,
+      "message": "RELNOTE\u003dyes",
+      "revId": "4061dd0b7f677f936982bbcce77b69b728d7f65c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
