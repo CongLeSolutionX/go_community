@@ -34,6 +34,24 @@
       "parentUuid": "41c90c05_788d264f",
       "revId": "54182ff54a687272dd7632c3a963e036ce03cb7c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ded72679_20f94ac9",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-09-27T22:25:40Z",
+      "side": 0,
+      "message": "Ack",
+      "parentUuid": "d759adc0_e45a45f1",
+      "revId": "54182ff54a687272dd7632c3a963e036ce03cb7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
