@@ -16,6 +16,24 @@
       "message": "Just confirming here before I look further, have you checked that the rationale for skipping cmd on js/wasm discussed in those issues is no longer applicable now?",
       "revId": "d737a12c74c15033715742626e30583033c8b34f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b37f94a_256824c6",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1687,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-09-27T16:42:39Z",
+      "side": 0,
+      "message": "The rationale in #25911 was “to save time/space”, but I don\u0027t see any measurements of how much time \u0026 space is actually spent on linking and running the test packages.\n\nThe rationale in #35220 was “why is the linker being built for js/wasm?”, but that seems like more of a rhetorical question than a rationale. 🤔\n\nOn the one hand, it\u0027s true that we don\u0027t actually run `cmd` executables on the host. On the other hand, it would be nice if `go test std cmd` could be relied upon to test all `GOOS`/`GOARCH` combinations.",
+      "parentUuid": "e4c38ac8_2955421b",
+      "revId": "d737a12c74c15033715742626e30583033c8b34f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
