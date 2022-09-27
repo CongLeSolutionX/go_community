@@ -115,6 +115,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8f662ec2_e00b6e98",
+        "filename": "src/go/scanner/scanner.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2022-09-27T15:56:26Z",
+      "side": 1,
+      "message": "You made the same suggestion on Sep 20:\n\n\u003e [gri] s/nlComment/nlPos/ ?\n\u003e [adonovan] I think the word \"comment\" is more valuable here than \"pos\" (which is its type); leaving as is.\n\nNot sure if you forgot or whether you are gently insisting. 😊\nMy preference is still to leave it as nlComment, but we could split the difference: nlCommentPos?",
+      "parentUuid": "1d289bf2_893d0ca3",
+      "range": {
+        "startLine": 43,
+        "startChar": 1,
+        "endLine": 43,
+        "endChar": 10
+      },
+      "revId": "885dbe6a21ff57fc84f911750ea7818dadea33a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4b00cbe3_2aaecc62",
         "filename": "src/go/scanner/scanner_test.go",
         "patchSetId": 5
