@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "df75aa36_ecedee04",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2022-09-27T12:22:02Z",
+      "side": 1,
+      "message": "Don\u0027t you have to make sure the local call isn\u0027t too far?",
+      "revId": "d647deac489a9d9a5581e0ea60da761ee16e66ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "f7f09d1e_91eba91d",
@@ -14,6 +31,23 @@
       "writtenOn": "2022-06-16T15:16:10Z",
       "side": 1,
       "message": "Hold until 1.20 development starts.",
+      "revId": "d647deac489a9d9a5581e0ea60da761ee16e66ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6342176a_466d09c4",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2022-09-27T12:22:02Z",
+      "side": 1,
+      "message": "How do you plan to handle this TODO?",
       "revId": "d647deac489a9d9a5581e0ea60da761ee16e66ca",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
