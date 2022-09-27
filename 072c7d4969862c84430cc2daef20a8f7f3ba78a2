@@ -16,6 +16,24 @@
       "message": "Looks like this CL is causing a failure on the aix-ppc64 builder (my favorite):\n\n# cmd/go\n/ramdisk8GB/workdir-host-aix-ppc64-osuosl/go/pkg/tool/aix_ppc64/link: running gcc failed: exit status 1\nld: 0711-591 ERROR: Symbol runtime.covctrs (entry 48678) in object /ramdisk8GB/workdir-host-aix-ppc64-osuosl/tmp/go-link-3104566924/go.o:\n\tA symbol with type XTY_SD must be in a .text or .data section.\nld: 0711-591 ERROR: Symbol runtime.ecovctrs (entry 48680) in object /ramdisk8GB/workdir-host-aix-ppc64-osuosl/tmp/go-link-3104566924/go.o:\n\tA symbol with type XTY_SD must be in a .text or .data section.\ncollect2: error: ld returned 8 exit status\n\nSomething is not being set up right for external linking with the cmd/link changes. \n\nI will try to take a closer look via gomote.",
       "revId": "072c7d4969862c84430cc2daef20a8f7f3ba78a2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa5e4da7_529d04a4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 44
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-09-27T16:30:52Z",
+      "side": 1,
+      "message": "Sent http://go.dev/cl/c/go/+/435335 with fix for this",
+      "parentUuid": "626400a9_955dfee1",
+      "revId": "072c7d4969862c84430cc2daef20a8f7f3ba78a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
