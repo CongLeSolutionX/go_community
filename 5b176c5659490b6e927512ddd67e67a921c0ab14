@@ -63,6 +63,24 @@
       "message": "This looks like a bug fix. Please add a test case. Thanks.",
       "revId": "5b176c5659490b6e927512ddd67e67a921c0ab14",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2a59d39_5d278761",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2022-09-27T22:16:01Z",
+      "side": 1,
+      "message": "A very old bug: it wasn\u0027t noticed in https://codereview.appspot.com/4041045/patch/21001/22001, even though the good and the bad implementations are almost side by side!",
+      "parentUuid": "475f96c0_62cb9369",
+      "revId": "5b176c5659490b6e927512ddd67e67a921c0ab14",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
