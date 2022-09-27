@@ -34,6 +34,24 @@
       "parentUuid": "e4c38ac8_2955421b",
       "revId": "d737a12c74c15033715742626e30583033c8b34f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "690490c7_306db2d8",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1687,
+      "author": {
+        "id": 35155
+      },
+      "writtenOn": "2022-09-27T17:05:56Z",
+      "side": 0,
+      "message": "Thanks. I agree without convincing savings numbers, it seems like an improvement to reduce special cases and have \u0027go test std cmd\u0027 work everywhere and skip unsupported tests at the level of the test.",
+      "parentUuid": "0b37f94a_256824c6",
+      "revId": "d737a12c74c15033715742626e30583033c8b34f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
