@@ -315,6 +315,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6e26dcd_d35679ab",
+        "filename": "src/go/scanner/scanner.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 790,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-09-27T03:56:02Z",
+      "side": 1,
+      "message": "Ignore this one. I don\u0027t know what I was trying to do.",
+      "parentUuid": "950e14f6_69d1b97f",
+      "range": {
+        "startLine": 790,
+        "startChar": 45,
+        "endLine": 790,
+        "endChar": 46
+      },
+      "revId": "f87c55b6250fbba607c327d9d34810982ecf16aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7bb31189_c0f5b4ef",
