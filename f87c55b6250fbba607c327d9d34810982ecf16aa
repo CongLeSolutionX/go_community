@@ -173,6 +173,54 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac8b867e_56086f4a",
+        "filename": "src/go/scanner/scanner.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2022-09-27T03:22:51Z",
+      "side": 1,
+      "message": "I think the word \"comment\" is more valuable here than \"pos\" (which is its type); leaving as is.",
+      "parentUuid": "ed636bca_6fa257bf",
+      "range": {
+        "startLine": 43,
+        "startChar": 1,
+        "endLine": 43,
+        "endChar": 10
+      },
+      "revId": "f87c55b6250fbba607c327d9d34810982ecf16aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49f7902a_de51b410",
+        "filename": "src/go/scanner/scanner.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2022-09-27T03:22:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca2c770e_7c4cc777",
+      "range": {
+        "startLine": 43,
+        "startChar": 37,
+        "endLine": 43,
+        "endChar": 44
+      },
+      "revId": "f87c55b6250fbba607c327d9d34810982ecf16aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cd19159a_68e5bfbc",
@@ -186,6 +234,30 @@
       "writtenOn": "2022-09-20T18:29:14Z",
       "side": 1,
       "message": "nit: s/nlOffset/nlOffs/ to match offs ?",
+      "range": {
+        "startLine": 166,
+        "startChar": 1,
+        "endLine": 166,
+        "endChar": 9
+      },
+      "revId": "f87c55b6250fbba607c327d9d34810982ecf16aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc9b3184_e1e4212f",
+        "filename": "src/go/scanner/scanner.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2022-09-27T03:22:51Z",
+      "side": 1,
+      "message": "It gets its value from s.offset, which is why that name made more sense to me.",
+      "parentUuid": "cd19159a_68e5bfbc",
       "range": {
         "startLine": 166,
         "startChar": 1,
@@ -221,6 +293,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "950e14f6_69d1b97f",
+        "filename": "src/go/scanner/scanner.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 790,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2022-09-27T03:22:51Z",
+      "side": 1,
+      "message": "I don\u0027t follow. Was this remark truncated/unfinished?",
+      "parentUuid": "b9a7fb00_ef753274",
+      "range": {
+        "startLine": 790,
+        "startChar": 45,
+        "endLine": 790,
+        "endChar": 46
+      },
+      "revId": "f87c55b6250fbba607c327d9d34810982ecf16aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7bb31189_c0f5b4ef",
         "filename": "src/go/scanner/scanner_test.go",
         "patchSetId": 4
@@ -232,6 +328,24 @@
       "writtenOn": "2022-09-20T18:29:14Z",
       "side": 1,
       "message": "go back to original name? (matching all the other \"semis\"?)",
+      "revId": "f87c55b6250fbba607c327d9d34810982ecf16aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4eaa06d_755e1fd9",
+        "filename": "src/go/scanner/scanner_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2022-09-27T03:22:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7bb31189_c0f5b4ef",
       "revId": "f87c55b6250fbba607c327d9d34810982ecf16aa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
