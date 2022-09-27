@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8de54b64_66e9a413",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-09-27T14:56:02Z",
+      "side": 1,
+      "message": "Thanks, I will take a look. \n\nApologies for the long delay, the Gopherbot auto-assigner was apparently broken.",
+      "revId": "ac9dba23d2c9c219810fa3cfa6ee6f12dd4afc27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
