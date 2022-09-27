@@ -5,6 +5,7 @@
 package runtime_test
 
 import (
+	"internal/testenv"
 	"os/exec"
 	"runtime"
 	"strings"
@@ -19,7 +20,7 @@ func TestExitHooks(t *testing.T) {
 	for _, bmode := range bmodes {
 		// Race detector is not supported everywhere -- limit to just
 		// amd64 to keep things simple.
-		if bmode == "-race" && runtime.GOARCH != "amd64" {
+		if bmode == "-race" && (runtime.GOARCH != "amd64" || !testenv.HasCGO()) {
 			t.Skipf("Skipping on %s/%s", runtime.GOOS, runtime.GOARCH)
 		}
 		scenarios := []struct {
