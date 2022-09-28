@@ -689,12 +689,12 @@ func printcreatedby(gp *g) {
 	pc := gp.gopc
 	f := findfunc(pc)
 	if f.valid() && showframe(f, gp, false, funcID_normal, funcID_normal) && gp.goid != 1 {
-		printcreatedby1(f, pc)
+		printcreatedby1(f, pc, gp.gogoid)
 	}
 }
 
-func printcreatedby1(f funcInfo, pc uintptr) {
-	print("created by ", funcname(f), "\n")
+func printcreatedby1(f funcInfo, pc uintptr, goid uint64) {
+	print("created by goroutine ", goid, " at ", funcname(f), "\n")
 	tracepc := pc // back up to CALL instruction for funcline.
 	if pc > f.entry() {
 		tracepc -= sys.PCQuantum
@@ -794,7 +794,7 @@ func printAncestorTraceback(ancestor ancestorInfo) {
 	// Show what created goroutine, except main goroutine (goid 1).
 	f := findfunc(ancestor.gopc)
 	if f.valid() && showfuncinfo(f, false, funcID_normal, funcID_normal) && ancestor.goid != 1 {
-		printcreatedby1(f, ancestor.gopc)
+		printcreatedby1(f, ancestor.gopc, ancestor.goid)
 	}
 }
 
