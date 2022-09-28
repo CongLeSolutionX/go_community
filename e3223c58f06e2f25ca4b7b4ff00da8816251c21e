@@ -22,6 +22,30 @@
       },
       "revId": "e3223c58f06e2f25ca4b7b4ff00da8816251c21e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36db9081_452b3b2b",
+        "filename": "src/cmd/compile/internal/base/flag.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 51518
+      },
+      "writtenOn": "2022-09-28T16:23:55Z",
+      "side": 1,
+      "message": "Thanks for pointing out",
+      "parentUuid": "a0d036f0_b9009c4c",
+      "range": {
+        "startLine": 415,
+        "startChar": 17,
+        "endLine": 415,
+        "endChar": 22
+      },
+      "revId": "e3223c58f06e2f25ca4b7b4ff00da8816251c21e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
