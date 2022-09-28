@@ -90,6 +90,24 @@
       "parentUuid": "2dc9ed13_753d5108",
       "revId": "1b9e97531959eb1939a5516cc66431530b83ae09",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3ae4f70_1969c11a",
+        "filename": "src/internal/singleflight/singleflight.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-09-28T18:12:27Z",
+      "side": 1,
+      "message": "\u003e Not sure I get it. If `Do` is completed, then the key was deleted\n\nThe second call to `Do` can currently return before the key is deleted.\nThe interleaving is something like:\n\nA: lock g.mu, set g.m[key] \u003d c, unlock g.mu\nB: lock g.mu, set c.dups\u003d1, unlock g.mu\nB: (block on c.wg)\nA: set c.val\nA: mark c.wg done\nB: (unblock on c.wg)\nB: return c.val\nB: call ForgetUnshared, lock g.mu read c.dups\u003d1, return false, unlock g.mu\nA: lock g.mu, delete g.m[key], unlock g.mu\n\nIf we move the call to `c.wg.Done` into the critical section, then goroutine A\u0027s “mark c.wg done” step moves into the same critical section as “delete g.m[key]”, which prevents B\u0027s critical section from interrupting in between those two operations.",
+      "parentUuid": "63846363_6e9be43c",
+      "revId": "1b9e97531959eb1939a5516cc66431530b83ae09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
