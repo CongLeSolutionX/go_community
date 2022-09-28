@@ -193,7 +193,7 @@ func (check *Checker) unary(x *operand, e *syntax.Operation) {
 	case syntax.Recv:
 		u := coreType(x.typ)
 		if u == nil {
-			check.errorf(x, _InvalidReceive, invalidOp+"cannot receive from %s: no core type", x)
+			check.errorf(x, _InvalidReceive, invalidOp+"cannot receive from %s (no core type)", x)
 			x.mode = invalid
 			return
 		}
@@ -875,11 +875,7 @@ Error:
 	if switchCase {
 		check.errorf(x, code, "invalid case %s in switch on %s (%s)", x.expr, y.expr, cause) // error position always at 1st operand
 	} else {
-		if check.conf.CompilerErrorMessages {
-			check.errorf(errOp, code, invalidOp+"%s %s %s (%s)", x.expr, op, y.expr, cause)
-		} else {
-			check.errorf(errOp, code, invalidOp+"cannot compare %s %s %s (%s)", x.expr, op, y.expr, cause)
-		}
+		check.errorf(errOp, code, invalidOp+"%s %s %s (%s)", x.expr, op, y.expr, cause)
 	}
 	x.mode = invalid
 }
