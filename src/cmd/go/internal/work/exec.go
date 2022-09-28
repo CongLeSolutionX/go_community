@@ -400,6 +400,9 @@ func (b *Builder) buildActionID(a *Action) cache.ActionID {
 	for _, file := range inputFiles {
 		fmt.Fprintf(h, "file %s %s\n", file, b.fileHash(filepath.Join(p.Dir, file)))
 	}
+	if cfg.BuildPGOFile != "" {
+		fmt.Fprintf(h, "file %s %s\n", cfg.BuildPGOFile, b.fileHash(cfg.BuildPGOFile)) // XXX is absolut path a problem?
+	}
 	for _, a1 := range a.Deps {
 		p1 := a1.Package
 		if p1 != nil {
