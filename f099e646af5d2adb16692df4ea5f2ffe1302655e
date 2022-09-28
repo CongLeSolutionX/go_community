@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "08fb113d_e4fbd193",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-09-28T21:00:44Z",
+      "side": 1,
+      "message": "Thanks!",
+      "revId": "f099e646af5d2adb16692df4ea5f2ffe1302655e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19f4345a_6d233215",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-09-28T21:00:44Z",
+      "side": 1,
+      "message": "This is a clever name, but perhaps a little too clever. :) parentGoid?",
+      "range": {
+        "startLine": 482,
+        "startChar": 1,
+        "endLine": 482,
+        "endChar": 7
+      },
+      "revId": "f099e646af5d2adb16692df4ea5f2ffe1302655e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f52a8034_fd43b479",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-09-28T21:00:44Z",
+      "side": 1,
+      "message": "I would lean very slightly toward \"created by {funcname} in goroutine {goid}\". That has a chance that existing traceback parsers will continue to work, or at least be easier to modify to support both. It also puts the more specific and often more important information first.",
+      "revId": "f099e646af5d2adb16692df4ea5f2ffe1302655e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
