@@ -72,6 +72,24 @@
       "message": "Thanks.",
       "revId": "78b078793d42d93b0258969826a55e25063c2afb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a26ace0_68b50a72",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-09-28T21:08:20Z",
+      "side": 1,
+      "message": "Curiously, even though this was passing on the TryBots it seems to be failing in post-commit testing (https://build.golang.org/log/e8263d5d34210277eaf6c68c8edce1643dd7294fv):\n\n```\n--- FAIL: TestCacheTrim (0.83s)\n    cache_test.go:260: stat /workdir/tmp/cachetest-1769666100/01/0100000000000000000000000000000000000000000000000000000000000000-a: No such file or directory\nFAIL\nFAIL\tcmd/go/internal/cache\t3.106s\n```\n\n`(*Cache).Trim` uses `lockedfile.Write` [here](https://cs.opensource.google/go/go/+/master:src/cmd/go/internal/cache/cache.go;l\u003d341;drc\u003d61ed6d5c3341f73af9529b4808dd0997c6c86ed4), so I suspect that this has something to do with `js/wasm` not having a `lockedfile` implementation.\n\n(Since `js/wasm` doesn\u0027t support executing multiple concurrent processes, perhaps it could use a dummy implementation with intra-process file locking implemented using entries in a map, kind of like the approach that we use for aix and solaris in `filelock_fcntl.go`?)",
+      "parentUuid": "e63055a6_3023a3a2",
+      "revId": "78b078793d42d93b0258969826a55e25063c2afb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ],
   "submitRequirementResults": [
