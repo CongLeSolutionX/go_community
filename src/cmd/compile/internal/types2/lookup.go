@@ -364,8 +364,8 @@ func (check *Checker) missingMethod(V Type, T *Interface, static bool) (method, 
 	return
 }
 
-// missingMethodReason returns a string giving the detailed reason for a missing method m,
-// where m is missing from V, but required by T. It puts the reason in parentheses,
+// missingMethodReason returns a string giving the detailed cause for a missing method m,
+// where m is missing from V, but required by T. It puts the cause in parentheses,
 // and may include more have/want info after that. If non-nil, alt is a relevant
 // method that matches in some way. It may have the correct name, but wrong type, or
 // it may have a pointer receiver, or it may have the correct name except wrong case.
