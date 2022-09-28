@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d185a29_eca0f026",
+        "filename": "src/cmd/go/internal/cmdflag/flag.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-09-28T16:46:12Z",
+      "side": 1,
+      "message": "You can simplify this even further! 🙂\n\n```\nname, value, hasValue :\u003d strings.Cut(arg[1:], \"\u003d\")\n```",
+      "revId": "5000a0670d825962f4933f90d00b59d693d839dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31a92749_b37dc6e0",
+        "filename": "src/cmd/go/internal/modget/query.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-09-28T16:46:12Z",
+      "side": 1,
+      "message": "```\npattern, rawVers, found :\u003d strings.Cut(raw, \"@\")\nif found \u0026\u0026 (strings.Contains(rawVers, \"@\") || rawVers \u003d\u003d \"\") {\n\treturn …\n}\n```",
+      "range": {
+        "startLine": 141,
+        "startChar": 0,
+        "endLine": 144,
+        "endChar": 34
+      },
+      "revId": "5000a0670d825962f4933f90d00b59d693d839dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8ea5e25_2cbd5cf6",
+        "filename": "src/cmd/go/internal/modload/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-09-28T16:46:12Z",
+      "side": 1,
+      "message": "```\npath, vers, found :\u003d …\n```",
+      "range": {
+        "startLine": 92,
+        "startChar": 3,
+        "endLine": 92,
+        "endChar": 24
+      },
+      "revId": "5000a0670d825962f4933f90d00b59d693d839dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47c1b22c_a2ca2e64",
+        "filename": "src/cmd/go/internal/vcs/vcs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 883,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-09-28T16:46:12Z",
+      "side": 1,
+      "message": "```\npattern, list, found :\u003d …\n```",
+      "range": {
+        "startLine": 883,
+        "startChar": 2,
+        "endLine": 883,
+        "endChar": 25
+      },
+      "revId": "5000a0670d825962f4933f90d00b59d693d839dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2cf83702_4ede0d5f",
+        "filename": "src/cmd/go/internal/work/gccgo.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-09-28T16:46:12Z",
+      "side": 1,
+      "message": "Can we drop this condition and update the conditions at line 168 and 179 instead?\n\n```\nif !found || before \u003d\u003d \"\" || after \u003d\u003d \"\" {\n```",
+      "range": {
+        "startLine": 161,
+        "startChar": 0,
+        "endLine": 163,
+        "endChar": 3
+      },
+      "revId": "5000a0670d825962f4933f90d00b59d693d839dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
