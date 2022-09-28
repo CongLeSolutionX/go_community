@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0d036f0_b9009c4c",
+        "filename": "src/cmd/compile/internal/base/flag.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-09-28T15:31:36Z",
+      "side": 1,
+      "message": "s/exist/found/\n\nthere\u0027s no need for a new variable name",
+      "range": {
+        "startLine": 415,
+        "startChar": 17,
+        "endLine": 415,
+        "endChar": 22
+      },
+      "revId": "e3223c58f06e2f25ca4b7b4ff00da8816251c21e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
