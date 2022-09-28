@@ -56,6 +56,24 @@
       "message": "I would lean very slightly toward \"created by {funcname} in goroutine {goid}\". That has a chance that existing traceback parsers will continue to work, or at least be easier to modify to support both. It also puts the more specific and often more important information first.",
       "revId": "f099e646af5d2adb16692df4ea5f2ffe1302655e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b185a84f_77903083",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-09-28T21:04:12Z",
+      "side": 1,
+      "message": "We should also probably not print the \"in goroutine {goid}\" part if goid is 0, which will happen for the main goroutine, since there is no goroutine 0. It\u0027s also more natural to drop that for goid\u003d\u003d0 if that part of the message is at the end.",
+      "parentUuid": "f52a8034_fd43b479",
+      "revId": "f099e646af5d2adb16692df4ea5f2ffe1302655e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
