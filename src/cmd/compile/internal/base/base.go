@@ -5,7 +5,11 @@
 package base
 
 import (
+	// "fmt"
 	"os"
+	"runtime"
+	"runtime/debug"
+	"runtime/metrics"
 )
 
 var atExitFuncs []func()
@@ -25,6 +29,57 @@ func Exit(code int) {
 
 // To enable tracing support (-t flag), set EnableTrace to true.
 const EnableTrace = false
+
+func init() {
+	if os.Getenv("GOGC") != "" {
+		// do not interfere with requested GOGC.
+		return
+	}
+	const allocs = "/gc/heap/allocs:bytes"
+	const frees = "/gc/heap/frees:bytes"
+	const goal = "/gc/heap/goal:bytes"
+	sample := []metrics.Sample{metrics.Sample{Name: allocs}, metrics.Sample{Name: frees}, metrics.Sample{Name: goal}}
+	metrics.Read(sample)
+	for _, s := range sample {
+		if s.Value.Kind() == metrics.KindBad {
+			// fmt.Fprintf(os.Stderr, "Unexpected kind-bad for metric %s\n", s.Name)
+			return
+		}
+	}
+
+	// Tinker with GOGC to make the heap grow rapidly at first.
+	currentGoal := sample[2].Value.Uint64()
+	threshold := uint64(64 * 1024 * 1024) // Once heap size exceeds threshold, back off
+	factor := 1 + 2*threshold/currentGoal // Goal = 2x live, desired goal = 2x threshold, plus one for fudge
+	// Note that notification is driven by finalization, so expect heap to hit desired goal, GC, then finalizer, and allocs-frees will be near-to-above threshold.
+	debug.SetGCPercent(int(100 * factor))
+
+	sentinel := factor
+
+	// GC quirk -- despite increasing GOGC, for the first collection that does not affect the goal.
+	// therefore make the finalizer tolerate running very early.
+	var adjustFunc func(pfactor *uint64)
+	adjustFunc = func(pfactor *uint64) {
+		metrics.Read(sample)
+		inUse := sample[0].Value.Uint64() - sample[1].Value.Uint64()
+		// goal := sample[2].Value.Uint64()
+		if inUse < threshold/2 {
+			// oldfactor := *pfactor
+			*pfactor = 1 + 2*threshold/inUse
+			// fmt.Fprintf(os.Stderr, "Retry GOGC adjust, current inuse %d, current goal %d, factor was %d, is now %d\n",
+			// 	inUse, goal, oldfactor, *pfactor)
+			debug.SetGCPercent(int(100 * *pfactor))
+			runtime.SetFinalizer(pfactor, adjustFunc)
+			return
+		}
+		debug.SetGCPercent(100)
+		// fmt.Fprintf(os.Stderr, "Reset GC, current inuse %d, old goal %d, factor was %d\n",
+		// 	inUse, sample[2].Value.Uint64(), *pfactor)
+	}
+
+	runtime.SetFinalizer(&sentinel, adjustFunc)
+
+}
 
 func Compiling(pkgs []string) bool {
 	if Ctxt.Pkgpath != "" {
