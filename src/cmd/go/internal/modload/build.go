@@ -89,8 +89,8 @@ func ModuleInfo(ctx context.Context, path string) *modinfo.ModulePublic {
 		return nil
 	}
 
-	if i := strings.Index(path, "@"); i >= 0 {
-		m := module.Version{Path: path[:i], Version: path[i+1:]}
+	if before, after, found := strings.Cut(path, "@"); found {
+		m := module.Version{Path: before, Version: after}
 		return moduleInfo(ctx, nil, m, 0, nil)
 	}
 

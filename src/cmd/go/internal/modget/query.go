@@ -140,8 +140,8 @@ func errSet(err error) pathSet { return pathSet{err: err} }
 func newQuery(raw string) (*query, error) {
 	pattern := raw
 	rawVers := ""
-	if i := strings.Index(raw, "@"); i >= 0 {
-		pattern, rawVers = raw[:i], raw[i+1:]
+	if before, after, found := strings.Cut(raw, "@"); found {
+		pattern, rawVers = before, after
 		if strings.Contains(rawVers, "@") || rawVers == "" {
 			return nil, fmt.Errorf("invalid module version syntax %q", raw)
 		}
