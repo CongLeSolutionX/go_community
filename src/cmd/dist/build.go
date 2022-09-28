@@ -1394,6 +1394,12 @@ func cmdbootstrap() {
 		copyfile(pathf("%s/compile3", tooldir), pathf("%s/compile", tooldir), writeExec)
 	}
 
+	// We no longer need the .a files placed in pkg/GOOS_GOARCH for the build.
+	// The necessary files for the distribution will be produced by the go install
+	// commands below.
+	// TODO(matloob): is this the right place?
+	// xremoveall(pathf("%s/pkg/%s_%s", goroot, goos, goarch))
+
 	if goos == oldgoos && goarch == oldgoarch {
 		// Common case - not setting up for cross-compilation.
 		timelog("build", "toolchain")
