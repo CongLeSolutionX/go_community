@@ -84,6 +84,8 @@ func BuildInit() {
 	if cfg.BuildRace && cfg.BuildCoverMode != "atomic" {
 		base.Fatalf(`-covermode must be "atomic", not %q, when -race is enabled`, cfg.BuildCoverMode)
 	}
+
+	setPGOProfilePath()
 }
 
 // fuzzInstrumentFlags returns compiler flags that enable fuzzing instrumation
@@ -437,4 +439,26 @@ func compilerRequiredAsanVersion() error {
 		return fmt.Errorf("-asan: C compiler is not gcc or clang")
 	}
 	return nil
+}
+
+func setPGOProfilePath() {
+	switch cfg.BuildPGO {
+	case "":
+		fallthrough // default to "auto"
+	case "auto":
+		// TODO: implement auto mode.
+	case "off":
+		// nothing to do
+	default:
+		if fi, err := os.Stat(cfg.BuildPGO); err != nil || fi.IsDir() { // profile doesn't exist
+			cfg.BuildPGO = "off" // should this be an error? Or just let the compiler error instead?
+			break
+		}
+		// make it absolute path, as the compiler runs on various directories.
+		if p, err := filepath.Abs(cfg.BuildPGO); err != nil {
+			cfg.BuildPGO = "off"
+		} else {
+			cfg.BuildPGOFile = p
+		}
+	}
 }
