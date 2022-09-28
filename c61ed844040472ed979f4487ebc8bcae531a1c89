@@ -16,6 +16,23 @@
       "message": "This CL is for:\nhttps://go-review.googlesource.com/c/go/+/431101\n\nSo this is only valid if the above CL is merged.",
       "revId": "c61ed844040472ed979f4487ebc8bcae531a1c89",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f8a847b_a4102b8f",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1184,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-09-28T20:43:02Z",
+      "side": 1,
+      "message": "Start the sentence with the familiar information and conclude with the new information:\n\n```\n// Because Setenv affects the whole process, it cannot be used\n// in parallel tests or tests with parallel ancestors.\n```",
+      "revId": "c61ed844040472ed979f4487ebc8bcae531a1c89",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
