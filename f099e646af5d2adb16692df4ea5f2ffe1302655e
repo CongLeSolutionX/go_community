@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f0378aa_d29553b2",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 57733
+      },
+      "writtenOn": "2022-09-28T22:08:42Z",
+      "side": 1,
+      "message": "Agreed, parentGoid is clearer.",
+      "parentUuid": "19f4345a_6d233215",
+      "range": {
+        "startLine": 482,
+        "startChar": 1,
+        "endLine": 482,
+        "endChar": 7
+      },
+      "revId": "f099e646af5d2adb16692df4ea5f2ffe1302655e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f52a8034_fd43b479",
@@ -72,6 +96,24 @@
       "side": 1,
       "message": "We should also probably not print the \"in goroutine {goid}\" part if goid is 0, which will happen for the main goroutine, since there is no goroutine 0. It\u0027s also more natural to drop that for goid\u003d\u003d0 if that part of the message is at the end.",
       "parentUuid": "f52a8034_fd43b479",
+      "revId": "f099e646af5d2adb16692df4ea5f2ffe1302655e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3b9775d_9fdee303",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 57733
+      },
+      "writtenOn": "2022-09-28T22:08:42Z",
+      "side": 1,
+      "message": "That also reads better, in my opinion. Updated",
+      "parentUuid": "b185a84f_77903083",
       "revId": "f099e646af5d2adb16692df4ea5f2ffe1302655e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }

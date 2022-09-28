@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95a3a966_6c63e897",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57733
+      },
+      "writtenOn": "2022-09-28T22:08:42Z",
+      "side": 1,
+      "message": "Thanks for the review! I\u0027ve addressed to your comments and also updated two tests that were affected by this change (TestSizeof due to the change in g, and TestNumGoroutine due to parsing the new stack trace output)",
+      "revId": "ab032611c78031de2aef9ab995c8f685b896208d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
