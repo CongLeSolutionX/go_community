@@ -84,6 +84,8 @@ func BuildInit() {
 	if cfg.BuildRace && cfg.BuildCoverMode != "atomic" {
 		base.Fatalf(`-covermode must be "atomic", not %q, when -race is enabled`, cfg.BuildCoverMode)
 	}
+
+	setPGOProfilePath()
 }
 
 // fuzzInstrumentFlags returns compiler flags that enable fuzzing instrumation
@@ -437,4 +439,29 @@ func compilerRequiredAsanVersion() error {
 		return fmt.Errorf("-asan: C compiler is not gcc or clang")
 	}
 	return nil
+}
+
+func setPGOProfilePath() {
+	switch cfg.BuildPGO {
+	case "":
+		fallthrough // default to "auto"
+	case "off":
+		// Nothibng to do.
+	case "auto":
+		base.Fatalf("-pgo=auto is not implemented")
+	default:
+		if f, err := os.Open(cfg.BuildPGO); err != nil {
+			// Cannot read profile. We cannot hash it for build ID. Emit an error here.
+			// (The compiler would also error if we pass it through.)
+			base.Fatalf("fail to open PGO file %s: %v", cfg.BuildPGO, err)
+		} else {
+			f.Close()
+		}
+		// make it absolute path, as the compiler runs on various directories.
+		if p, err := filepath.Abs(cfg.BuildPGO); err != nil {
+			base.Fatalf("fail to get absolute path of PGO file %s: %v", cfg.BuildPGO, err)
+		} else {
+			cfg.BuildPGOFile = p
+		}
+	}
 }
