@@ -291,13 +291,13 @@ func (t *Type) SetRParams(rparams []*Type) {
 // IsBaseGeneric returns true if t is a generic type (not reinstantiated with
 // another type params or fully instantiated.
 func (t *Type) IsBaseGeneric() bool {
-	return len(t.RParams()) > 0 && strings.Index(t.Sym().Name, "[") < 0
+	return len(t.RParams()) > 0 && strings.Contains(t.Sym().Name, "[")
 }
 
 // IsInstantiatedGeneric returns t if t ia generic type that has been
 // reinstantiated with new typeparams (i.e. is not fully instantiated).
 func (t *Type) IsInstantiatedGeneric() bool {
-	return len(t.RParams()) > 0 && strings.Index(t.Sym().Name, "[") >= 0 &&
+	return len(t.RParams()) > 0 && strings.Contains(t.Sym().Name, "[") &&
 		t.HasTParam()
 }
 
