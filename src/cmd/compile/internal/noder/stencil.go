@@ -663,10 +663,9 @@ func (g *genInst) getInstantiation(nameNode *ir.Name, shapes []*types.Type, isMe
 	// specified concrete type args.
 	s1 := make([]*types.Type, len(shapes))
 	for i, t := range shapes {
-		var tparam *types.Type
 		// Shapes are grouped differently for structural types, so we
 		// pass the type param to Shapify(), so we can distinguish.
-		tparam = tparams[i]
+		tparam := tparams[i]
 		if !t.IsShape() {
 			s1[i] = typecheck.Shapify(t, i, tparam)
 		} else {
