@@ -87,6 +87,24 @@
       "message": "Perhaps it\u0027s easier if Than reviews this, so you can combine the best of both CLs.\n\nI was trying to understand the need for making testcovdata a helper, thinking perhaps it works by letting testenv.MustHaveExec etc. run and skip the test, before os.Executable runs. But then I saw os.Executable is implemented on js/wasm, so figured it\u0027s something else. I see Than also guarded the os.Executable calls with testenv.HasExec() in CL 436239.",
       "revId": "7cc9b3886a1eac9d3cc31085a1b716d37555fd56",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "715af4d5_3adc97c1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2022-09-29T19:27:23Z",
+      "side": 1,
+      "message": "\u003e But then I saw os.Executable is implemented on js/wasm ...\n\nAh, I misread the switch in executable_procfs.go in haste. os.Executable is indeed not implemented on GOOS\u003djs, so this makes sense.",
+      "parentUuid": "65fe30c2_419b71a1",
+      "revId": "7cc9b3886a1eac9d3cc31085a1b716d37555fd56",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ],
   "submitRequirementResults": [
