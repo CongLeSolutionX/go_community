@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "15ce17c2_aa96861f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-09-29T03:23:16Z",
+      "side": 1,
+      "message": "In the meantime we have submitted an alternative CL. Please abandon. Thanks.",
+      "revId": "1cb6483e2fe11d7b93145c032c8fde1706fa29f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
