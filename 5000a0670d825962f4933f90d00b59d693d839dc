@@ -73,6 +73,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fae29056_a63a1ca7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-09-29T15:27:51Z",
+      "side": 1,
+      "message": "`cmd/go` doesn\u0027t build using the bootstrap compiler. (It\u0027s not in the list in [`cmd/dist/buildtool.go`](https://cs.opensource.google/go/go/+/master:src/cmd/dist/buildtool.go;l\u003d22-76;drc\u003de6d9057e2f3442b133afe7e37bec72bb9b780b04).)\n\nThe first build of `cmd/go` in the bootstrap sequence is done using `toolchain1`, so only `toolchain1` needs to be compatible with the bootstrap Go version.\n\n(The main constraint on `cmd/go` during bootstrapping is that it cannot require cgo dependencies like `net` that `cmd/dist` doesn\u0027t know how to build.)",
+      "parentUuid": "edbaf21e_b7a6e612",
+      "revId": "5000a0670d825962f4933f90d00b59d693d839dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6d185a29_eca0f026",
