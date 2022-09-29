@@ -72,6 +72,23 @@
       "message": "Hi Matthew, I think the same approach can apply to hashfor/genhash. But since when it relies on sym.Def, I want you to give it a review first 😊",
       "revId": "d5c5c3e5c91634af24e795682bc2f110bf20c83a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2ec04e4_87c33961",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-09-29T19:03:30Z",
+      "side": 1,
+      "message": "Thanks Cuong. Can you elaborate on why you believe this CL is desirable? I\u0027m not opposed to it, but I don\u0027t immediately see the benefit or long-term goal here either.",
+      "revId": "d5c5c3e5c91634af24e795682bc2f110bf20c83a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
