@@ -107,6 +107,24 @@
       "parentUuid": "c2ec04e4_87c33961",
       "revId": "d5c5c3e5c91634af24e795682bc2f110bf20c83a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f4b89b0_13a74d7e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-09-29T20:12:24Z",
+      "side": 1,
+      "message": "\u003e IIRC, we were beaten in the past when adding regabi, due to the fact that the frontend generate ONAME node with nil Func, there’s code in the backend that workaround for this.\n\nI see. Thanks for elaborating.\n\n\u003e With this fix (and next for genhash when this CL is approved), the only case left is interface method, which I believe will also be fixed when Unified IR is fully replaced the old frontend.\n\nMaybe I misunderstand what you mean here, but I don\u0027t think unified IR creates `ir.Func`s for interface methods either.\n\n\u003e With all of them fixed, I think we can simplify the backend code by removing the workaround.\n\nAre you able to prepare a CL stack demonstrating the full cleanup? That would help evaluate whether this is worthwhile.\n\nFor demo purposes, I think it\u0027s fine if it fails on the -nounified builder. Alternatively, you can keep the workaround, and just put it behind `if base.Debug.Unified \u003d\u003d 0`.",
+      "parentUuid": "feae93e4_f80f7f53",
+      "revId": "d5c5c3e5c91634af24e795682bc2f110bf20c83a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
