@@ -108,6 +108,24 @@
       "parentUuid": "63846363_6e9be43c",
       "revId": "1b9e97531959eb1939a5516cc66431530b83ae09",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1925d22c_2016b149",
+        "filename": "src/internal/singleflight/singleflight.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-09-29T04:16:14Z",
+      "side": 1,
+      "message": "Ah right, I will send a follow up CL for fixing that, so it can be easier to reference when porting to x/sync.\n\nHowever, writing test for that case can be tricky.",
+      "parentUuid": "e3ae4f70_1969c11a",
+      "revId": "1b9e97531959eb1939a5516cc66431530b83ae09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
