@@ -1632,7 +1632,7 @@ func (s *regAllocState) regalloc(f *Func) {
 					// Note that subsequent SelectX instructions will do the assignReg calls.
 				} else if v.Type.IsResults() {
 					// preallocate outLocs to the right size, which is maxOutIdx+1
-					outLocs := make(LocResults, maxOutIdx+1, maxOutIdx+1)
+					outLocs := make(LocResults, maxOutIdx+1)
 					for i := 0; i <= maxOutIdx; i++ {
 						if r := outRegs[i]; r != noRegister {
 							outLocs[i] = &s.registers[r]
