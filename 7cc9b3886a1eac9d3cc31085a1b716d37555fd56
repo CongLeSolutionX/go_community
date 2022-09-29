@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d721a9b_e8e8ac02",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-09-29T18:58:04Z",
+      "side": 1,
+      "message": "TRY\u003djs-wasm",
+      "revId": "7cc9b3886a1eac9d3cc31085a1b716d37555fd56",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
