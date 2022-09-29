@@ -105,6 +105,24 @@
       "parentUuid": "65fe30c2_419b71a1",
       "revId": "7cc9b3886a1eac9d3cc31085a1b716d37555fd56",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "08b01804_e2cfa7fa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-09-29T19:45:11Z",
+      "side": 1,
+      "message": "Yeah, making it a test-helper is just me being lazy with error-propagation. (I used `t.Fatal` with the reasoning that the test should skip much earlier if it\u0027s going to skip, to avoid incurring additional setup costs before it gets to the actual `Exectuable` call.)",
+      "parentUuid": "715af4d5_3adc97c1",
+      "revId": "7cc9b3886a1eac9d3cc31085a1b716d37555fd56",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ],
   "submitRequirementResults": [
