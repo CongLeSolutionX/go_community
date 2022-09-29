@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2699de53_1e024a3c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2022-09-29T18:33:48Z",
+      "side": 1,
+      "message": "Found one new bug and an alternative refactoring.\n\nFor that bug I would suggest to improve your scripts or tooling,\nso it replaces with the correct expression.\n\n\nbytes.Compare(...) !\u003d 0 should become !bytes.Equal\nbytes.Compare(...) \u003d\u003d 0 should become bytes.Equal",
+      "revId": "8d24f4fe98fa87d07d9fd6af29d546e85d2b4871",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d02566dd_9072131e",
+        "filename": "src/go/internal/gccgoimporter/ar.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2022-09-29T18:33:48Z",
+      "side": 1,
+      "message": "this should by !bytes.Equal since it compares the result against !\u003d 0",
+      "revId": "8d24f4fe98fa87d07d9fd6af29d546e85d2b4871",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4459d63_cc9035a6",
+        "filename": "src/go/internal/gccgoimporter/ar.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2022-09-29T18:33:48Z",
+      "side": 1,
+      "message": "string(fn[:8]) \u003d\u003d “/SYM64/ \"\ncould be the more readable expression. Go doesn\u0027t allocate in this case.",
+      "revId": "8d24f4fe98fa87d07d9fd6af29d546e85d2b4871",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
