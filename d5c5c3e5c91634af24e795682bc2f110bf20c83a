@@ -89,6 +89,24 @@
       "message": "Thanks Cuong. Can you elaborate on why you believe this CL is desirable? I\u0027m not opposed to it, but I don\u0027t immediately see the benefit or long-term goal here either.",
       "revId": "d5c5c3e5c91634af24e795682bc2f110bf20c83a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "feae93e4_f80f7f53",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-09-29T19:25:22Z",
+      "side": 1,
+      "message": "IIRC, we were beaten in the past when adding regabi, due to the fact that the frontend generate ONAME node with nil Func, there’s code in the backend that workaround for this.\n\nWith this fix (and next for genhash when this CL is approved), the only case left is interface method, which I believe will also be fixed when Unified IR is fully replaced the old frontend.\n\nWith all of them fixed, I think we can simplify the backend code by removing the workaround.",
+      "parentUuid": "c2ec04e4_87c33961",
+      "revId": "d5c5c3e5c91634af24e795682bc2f110bf20c83a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
