@@ -83,14 +83,12 @@ func (pr *pkgReader) newReader(k pkgbits.RelocKind, idx pkgbits.Index, marker pk
 	}
 }
 
-func (pr *pkgReader) tempReader(k pkgbits.RelocKind, idx pkgbits.Index, marker pkgbits.SyncMarker) *reader {
-	return &reader{
+func (pr *pkgReader) withReader(k pkgbits.RelocKind, idx pkgbits.Index, marker pkgbits.SyncMarker, f func(r *reader)) {
+	r := &reader{
 		Decoder: pr.TempDecoder(k, idx, marker),
 		p:       pr,
 	}
-}
-
-func (pr *pkgReader) retireReader(r *reader) {
+	f(r)
 	pr.RetireDecoder(&r.Decoder)
 }
 
@@ -118,9 +116,7 @@ func (pr *pkgReader) posBaseIdx(idx pkgbits.Index) *syntax.PosBase {
 		return b
 	}
 	var b *syntax.PosBase
-	{
-		r := pr.tempReader(pkgbits.RelocPosBase, idx, pkgbits.SyncPosBase)
-
+	pr.withReader(pkgbits.RelocPosBase, idx, pkgbits.SyncPosBase, func(r *reader) {
 		filename := r.String()
 
 		if r.Bool() {
@@ -131,9 +127,7 @@ func (pr *pkgReader) posBaseIdx(idx pkgbits.Index) *syntax.PosBase {
 			col := r.Uint()
 			b = syntax.NewLineBase(pos, filename, true, line, col)
 		}
-		pr.retireReader(r)
-	}
-
+	})
 	pr.posBases[idx] = b
 	return b
 }
@@ -216,14 +210,12 @@ func (pr *pkgReader) typIdx(info typeInfo, dict *readerDict) types2.Type {
 	}
 
 	var typ types2.Type
-	{
-		r := pr.tempReader(pkgbits.RelocType, idx, pkgbits.SyncTypeIdx)
+	pr.withReader(pkgbits.RelocType, idx, pkgbits.SyncTypeIdx, func(r *reader) {
 		r.dict = dict
 
 		typ = r.doTyp()
 		assert(typ != nil)
-		pr.retireReader(r)
-	}
+	})
 
 	// See comment in pkgReader.typIdx explaining how this happens.
 	if prev := *where; prev != nil {
@@ -381,15 +373,12 @@ func (pr *pkgReader) objIdx(idx pkgbits.Index) (*types2.Package, string) {
 	var objPkg *types2.Package
 	var objName string
 	var tag pkgbits.CodeObj
-	{
-		rname := pr.tempReader(pkgbits.RelocName, idx, pkgbits.SyncObject1)
-
+	pr.withReader(pkgbits.RelocName, idx, pkgbits.SyncObject1, func(rname *reader) {
 		objPkg, objName = rname.qualifiedIdent()
 		assert(objName != "")
 
 		tag = pkgbits.CodeObj(rname.Code(pkgbits.SyncCodeObj))
-		pr.retireReader(rname)
-	}
+	})
 
 	if tag == pkgbits.ObjStub {
 		base.Assertf(objPkg == nil || objPkg == types2.Unsafe, "unexpected stub package: %v", objPkg)
@@ -455,9 +444,7 @@ func (pr *pkgReader) objIdx(idx pkgbits.Index) (*types2.Package, string) {
 
 func (pr *pkgReader) objDictIdx(idx pkgbits.Index) *readerDict {
 	var dict readerDict
-	{
-		r := pr.tempReader(pkgbits.RelocObjDict, idx, pkgbits.SyncObject1)
-
+	pr.withReader(pkgbits.RelocObjDict, idx, pkgbits.SyncObject1, func(r *reader) {
 		if implicits := r.Len(); implicits != 0 {
 			base.Fatalf("unexpected object with %v implicit type parameter(s)", implicits)
 		}
@@ -472,9 +459,7 @@ func (pr *pkgReader) objDictIdx(idx pkgbits.Index) *readerDict {
 		for i := range dict.derived {
 			dict.derived[i] = derivedInfo{r.Reloc(pkgbits.RelocType), r.Bool()}
 		}
-
-		pr.retireReader(r)
-	}
+	})
 	// function references follow, but reader doesn't need those
 
 	return &dict
