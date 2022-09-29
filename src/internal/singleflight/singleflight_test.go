@@ -141,3 +141,54 @@ func TestForgetUnshare(t *testing.T) {
 		t.Errorf("We should receive result produced by second call, expected: 2, got %d", result.Val)
 	}
 }
+
+func TestDoAndForgetUnsharedRace(t *testing.T) {
+	var g Group
+
+	var (
+		firstStarted  = make(chan struct{})
+		unblockFirst  = make(chan struct{})
+		firstFinished = make(chan struct{})
+		key           = "key"
+	)
+
+	go func() {
+		g.Do(key, func() (i interface{}, e error) {
+			close(firstStarted)
+			<-unblockFirst
+			close(firstFinished)
+			return
+		})
+	}()
+	<-firstStarted
+
+	n := 100
+	forgotUnsharedCh := make(chan bool, n)
+	var workerStartWg sync.WaitGroup
+	var workerDoneWg sync.WaitGroup
+	workerStartWg.Add(n)
+	workerDoneWg.Add(n)
+	for i := 0; i < 100; i++ {
+		go func() {
+			workerStartWg.Done()
+			g.Do(key, func() (interface{}, error) { panic("unreachable") })
+			forgotUnsharedCh <- g.ForgetUnshared(key)
+			workerDoneWg.Done()
+		}()
+	}
+
+	// Wait all goroutines started
+	workerStartWg.Wait()
+	close(unblockFirst)
+
+	go func() {
+		workerDoneWg.Wait()
+		close(forgotUnsharedCh)
+	}()
+
+	for forgotUnshared := range forgotUnsharedCh {
+		if !forgotUnshared {
+			t.Error("ForgetUnshared should not return false")
+		}
+	}
+}
