@@ -214,7 +214,7 @@ func GetRedzoneSizeForGlobal(size int64) int64 {
 // Consider range over maps is nondeterministic, make a slice to hold all the values in the
 // InstrumentGlobalsMap and iterate over the InstrumentGlobalsSlice.
 var InstrumentGlobalsMap = make(map[string]ir.Node)
-var InstrumentGlobalsSlice = make([]ir.Node, 0, 0)
+var InstrumentGlobalsSlice = make([]ir.Node, 0)
 
 func canInstrumentGlobal(g ir.Node) bool {
 	if g.Op() != ir.ONAME {
