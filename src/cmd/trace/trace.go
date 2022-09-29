@@ -766,9 +766,7 @@ func generateTrace(params *traceParams, consumer traceConsumer) error {
 	if ctx.mode&modeTaskOriented != 0 {
 		// sort tasks based on the task start time.
 		sortedTask := make([]*taskDesc, 0, len(ctx.tasks))
-		for _, task := range ctx.tasks {
-			sortedTask = append(sortedTask, task)
-		}
+		sortedTask = append(sortedTask, ctx.tasks...)
 		sort.SliceStable(sortedTask, func(i, j int) bool {
 			ti, tj := sortedTask[i], sortedTask[j]
 			if ti.firstTimestamp() == tj.firstTimestamp() {
