@@ -35,6 +35,8 @@ type pkgReader struct {
 	// ifaces holds a list of constructed Interfaces, which need to have
 	// Complete called after importing is done.
 	ifaces []*types.Interface
+
+	scratchReader *reader
 }
 
 // later adds a function to be invoked at the end of import reading.
@@ -131,14 +133,20 @@ func (pr *pkgReader) newReader(k pkgbits.RelocKind, idx pkgbits.Index, marker pk
 	}
 }
 
-func (pr *pkgReader) tempReader(k pkgbits.RelocKind, idx pkgbits.Index, marker pkgbits.SyncMarker) *reader {
-	return &reader{
-		Decoder: pr.TempDecoder(k, idx, marker),
-		p:       pr,
+func (pr *pkgReader) withReader(k pkgbits.RelocKind, idx pkgbits.Index, marker pkgbits.SyncMarker, f func(r *reader)) {
+	r := pr.scratchReader
+	if r != nil {
+		pr.scratchReader = nil
+		r.Decoder = pr.TempDecoder(k, idx, marker)
+	} else {
+		r = &reader{
+			Decoder: pr.TempDecoder(k, idx, marker),
+			p:       pr,
+		}
 	}
-}
-
-func (pr *pkgReader) retireReader(r *reader) {
+	f(r)
+	r.dict = nil
+	pr.scratchReader = r
 	pr.RetireDecoder(&r.Decoder)
 }
 
@@ -167,9 +175,7 @@ func (pr *pkgReader) posBaseIdx(idx pkgbits.Index) string {
 	}
 
 	var filename string
-	{
-		r := pr.tempReader(pkgbits.RelocPosBase, idx, pkgbits.SyncPosBase)
-
+	pr.withReader(pkgbits.RelocPosBase, idx, pkgbits.SyncPosBase, func(r *reader) {
 		// Within types2, position bases have a lot more details (e.g.,
 		// keeping track of where //line directives appeared exactly).
 		//
@@ -187,8 +193,7 @@ func (pr *pkgReader) posBaseIdx(idx pkgbits.Index) string {
 			// Was: "b = token.NewLineBase(pos, filename, true, line, col)"
 			_, _, _ = pos, line, col
 		}
-		pr.retireReader(r)
-	}
+	})
 	b := filename
 	pr.posBases[idx] = b
 	return b
@@ -301,14 +306,12 @@ func (pr *pkgReader) typIdx(info typeInfo, dict *readerDict) types.Type {
 	}
 
 	var typ types.Type
-	{
-		r := pr.tempReader(pkgbits.RelocType, idx, pkgbits.SyncTypeIdx)
+	pr.withReader(pkgbits.RelocType, idx, pkgbits.SyncTypeIdx, func(r *reader) {
 		r.dict = dict
 
 		typ = r.doTyp()
 		assert(typ != nil)
-		pr.retireReader(r)
-	}
+	})
 	// See comment in pkgReader.typIdx explaining how this happens.
 	if prev := *where; prev != nil {
 		return prev
@@ -478,15 +481,13 @@ func (pr *pkgReader) objIdx(idx pkgbits.Index) (*types.Package, string) {
 	var objPkg *types.Package
 	var objName string
 	var tag pkgbits.CodeObj
-	{
-		rname := pr.tempReader(pkgbits.RelocName, idx, pkgbits.SyncObject1)
 
+	pr.withReader(pkgbits.RelocName, idx, pkgbits.SyncObject1, func(rname *reader) {
 		objPkg, objName = rname.qualifiedIdent()
 		assert(objName != "")
 
 		tag = pkgbits.CodeObj(rname.Code(pkgbits.SyncCodeObj))
-		pr.retireReader(rname)
-	}
+	})
 
 	if tag == pkgbits.ObjStub {
 		assert(objPkg == nil || objPkg == types.Unsafe)
@@ -593,9 +594,7 @@ func (pr *pkgReader) objIdx(idx pkgbits.Index) (*types.Package, string) {
 func (pr *pkgReader) objDictIdx(idx pkgbits.Index) *readerDict {
 
 	var dict readerDict
-
-	{
-		r := pr.tempReader(pkgbits.RelocObjDict, idx, pkgbits.SyncObject1)
+	pr.withReader(pkgbits.RelocObjDict, idx, pkgbits.SyncObject1, func(r *reader) {
 		if implicits := r.Len(); implicits != 0 {
 			errorf("unexpected object with %v implicit type parameter(s)", implicits)
 		}
@@ -610,9 +609,7 @@ func (pr *pkgReader) objDictIdx(idx pkgbits.Index) *readerDict {
 		for i := range dict.derived {
 			dict.derived[i] = derivedInfo{r.Reloc(pkgbits.RelocType), r.Bool()}
 		}
-
-		pr.retireReader(r)
-	}
+	})
 	// function references follow, but reader doesn't need those
 
 	return &dict
