@@ -108,6 +108,24 @@
       "parentUuid": "6a26ace0_68b50a72",
       "revId": "78b078793d42d93b0258969826a55e25063c2afb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "04db79e0_8f0a436b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2022-09-29T10:58:52Z",
+      "side": 1,
+      "message": "Thank you both for your help. I\u0027ve sent CL 436596 implementing Bryan\u0027s suggestion for the `js/wasm` `filelock` implementation. With that CL, the respective test passed locally and I didn\u0027t encounter any other test failures.",
+      "parentUuid": "910ae65b_2ab3c9b3",
+      "revId": "78b078793d42d93b0258969826a55e25063c2afb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ],
   "submitRequirementResults": [
