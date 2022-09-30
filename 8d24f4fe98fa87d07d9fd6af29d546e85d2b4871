@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe62cb95_aada8ff3",
+        "filename": "src/go/internal/gccgoimporter/ar.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2022-09-30T00:04:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d02566dd_9072131e",
+      "revId": "8d24f4fe98fa87d07d9fd6af29d546e85d2b4871",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a4459d63_cc9035a6",
@@ -48,6 +66,24 @@
       "writtenOn": "2022-09-29T18:33:48Z",
       "side": 1,
       "message": "string(fn[:8]) \u003d\u003d “/SYM64/ \"\ncould be the more readable expression. Go doesn\u0027t allocate in this case.",
+      "revId": "8d24f4fe98fa87d07d9fd6af29d546e85d2b4871",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3290863b_cd26b56d",
+        "filename": "src/go/internal/gccgoimporter/ar.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2022-09-30T00:04:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4459d63_cc9035a6",
       "revId": "8d24f4fe98fa87d07d9fd6af29d546e85d2b4871",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
