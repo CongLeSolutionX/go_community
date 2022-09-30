@@ -113,6 +113,10 @@ type Conn struct {
 	// the rest of the bits are the number of goroutines in Conn.Write.
 	activeCall atomic.Int32
 
+	// TODO: doc
+	// Should this be uint16? Cause then we would need to convert it in places.
+	maxPlaintext int
+
 	tmp [16]byte
 }
 
@@ -174,6 +178,9 @@ type halfConn struct {
 	nextMac    hash.Hash // next MAC algorithm
 
 	trafficSecret []byte // current TLS 1.3 traffic secret
+
+	// TODO: populate this
+	maxPlaintext int
 }
 
 type permanentError struct {
@@ -401,7 +408,7 @@ func (hc *halfConn) decrypt(record []byte) ([]byte, recordType, error) {
 			if typ != recordTypeApplicationData {
 				return nil, 0, alertUnexpectedMessage
 			}
-			if len(plaintext) > maxPlaintext+1 {
+			if len(plaintext) > hc.maxPlaintext+1 {
 				return nil, 0, alertRecordOverflow
 			}
 			// Remove padding and find the ContentType scanning from the end.
@@ -669,7 +676,7 @@ func (c *Conn) readRecordOrCCS(expectChangeCipherSpec bool) error {
 	if err != nil {
 		return c.in.setErrorLocked(c.sendAlert(err.(alert)))
 	}
-	if len(data) > maxPlaintext {
+	if len(data) > c.maxPlaintext {
 		return c.in.setErrorLocked(c.sendAlert(alertRecordOverflow))
 	}
 
@@ -866,11 +873,11 @@ const (
 // to reset the record size once the connection is idle, however.
 func (c *Conn) maxPayloadSizeForWrite(typ recordType) int {
 	if c.config.DynamicRecordSizingDisabled || typ != recordTypeApplicationData {
-		return maxPlaintext
+		return c.maxPlaintext
 	}
 
 	if c.bytesSent >= recordSizeBoostThreshold {
-		return maxPlaintext
+		return c.maxPlaintext
 	}
 
 	// Subtract TLS overheads to get the maximum payload size.
@@ -901,12 +908,12 @@ func (c *Conn) maxPayloadSizeForWrite(typ recordType) int {
 	pkt := c.packetsSent
 	c.packetsSent++
 	if pkt > 1000 {
-		return maxPlaintext // avoid overflow in multiply below
+		return c.maxPlaintext // avoid overflow in multiply below
 	}
 
 	n := payloadBytes * int(pkt+1)
-	if n > maxPlaintext {
-		n = maxPlaintext
+	if n > defaultMaxPlaintext {
+		n = defaultMaxPlaintext
 	}
 	return n
 }

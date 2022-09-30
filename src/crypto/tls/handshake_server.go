@@ -163,8 +163,30 @@ func (c *Conn) readClientHello(ctx context.Context) (*clientHelloMsg, error) {
 	c.haveVers = true
 	c.in.version = c.vers
 	c.out.version = c.vers
-
+	c.maxPlaintext, err = parseMaxPlaintext(clientHello.maxFragmentLength)
+	if err != nil {
+		c.sendAlert(alertIllegalParameter)
+		return nil, err
+	}
 	return clientHello, nil
+}
+
+func parseMaxPlaintext(maxFragmentLength *uint8) (int, error) {
+	if maxFragmentLength == nil {
+		return defaultMaxPlaintext, nil
+	}
+	switch *maxFragmentLength {
+	case 1:
+		return 512, nil
+	case 2:
+		return 1024, nil
+	case 3:
+		return 2048, nil
+	case 4:
+		return 4096, nil
+	default:
+		return 0, fmt.Errorf("tls: client offered unsupported max_fragment_length: %d", maxFragmentLength)
+	}
 }
 
 func (hs *serverHandshakeState) processClientHello() error {
@@ -172,6 +194,7 @@ func (hs *serverHandshakeState) processClientHello() error {
 
 	hs.hello = new(serverHelloMsg)
 	hs.hello.vers = c.vers
+	hs.hello.maxFragmentLength = hs.clientHello.maxFragmentLength
 
 	foundCompression := false
 	// We only support null compression, so check that the client offered it.
