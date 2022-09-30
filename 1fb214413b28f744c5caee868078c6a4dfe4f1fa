@@ -52,6 +52,24 @@
       "parentUuid": "35bbb721_f4d9139c",
       "revId": "1fb214413b28f744c5caee868078c6a4dfe4f1fa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f5bbaa6_55af5587",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 52385
+      },
+      "writtenOn": "2022-09-30T10:41:27Z",
+      "side": 1,
+      "message": "Sorry to make noise here.\n\n@panzhongxian It\u0027s funny to dig into the commit history of `sync/once.go`. It\u0027s very interesting that the very first version was implemented without the atomic package. See https://github.com/golang/go/commit/895c5db6df786e9312d187f27d6a4538afd4b0b1. `atomic` was later introduced by https://github.com/golang/go/commit/93dde6b0e6c0de50a47f9dc5f3ac7205c36742aa. And there is a simple discussion for this commit about the usage of the `atomic` package: https://codereview.appspot.com/4641066/#msg14\n\nBTW, the change is wrong and won\u0027t be accepted. So please abandon this PR (by closing the PR on github).",
+      "parentUuid": "ec61db8a_8a8aa78a",
+      "revId": "1fb214413b28f744c5caee868078c6a4dfe4f1fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
