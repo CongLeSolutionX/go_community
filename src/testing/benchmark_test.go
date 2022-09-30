@@ -181,3 +181,34 @@ func ExampleB_ReportMetric() {
 		b.ReportMetric(float64(compares)/float64(b.Elapsed().Nanoseconds()), "compares/ns")
 	})
 }
+
+func ExampleB_ReportMetric_parallel() {
+	// This reports a custom benchmark metric relevant to a
+	// specific algorithm (in this case, sorting) in parallel.
+	testing.Benchmark(func(b *testing.B) {
+		b.RunParallel(func(pb *testing.PB) {
+			var compares int64
+			for pb.Next() {
+				s := []int{5, 4, 3, 2, 1}
+				sort.Slice(s, func(i, j int) bool {
+					// By using the atomic package, we can ensure
+					// that we are avoding accidental data races
+					// caused by concurrent iterations.
+					atomic.AddInt64(&compares, 1)
+					return s[i] < s[j]
+				})
+			}
+
+			// NOTE: It should be mentioned that b.N's use is ill-advised
+			// for the parallel loop, but is safe for total number
+			// of iterations outside of it.
+
+			// This metric is per-operation, so divide by b.N and
+			// report it as a "/op" unit.
+			b.ReportMetric(float64(compares)/float64(b.N), "compares/op")
+			// This metric is per-time, so divide by b.Elapsed and
+			// report it as a "/ns" unit.
+			b.ReportMetric(float64(compares)/float64(b.Elapsed().Nanoseconds()), "compares/ns")
+		})
+	})
+}
