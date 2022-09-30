@@ -143,6 +143,24 @@
       "parentUuid": "6f4b89b0_13a74d7e",
       "revId": "d5c5c3e5c91634af24e795682bc2f110bf20c83a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d6a7fe6_a7dc5202",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-09-30T03:11:00Z",
+      "side": 1,
+      "message": "To clarify, I thought we used to generate the Func for interface method in reflectdata.methodWrapper, which happens late in the compiler phases. I would re-check that, but I think it\u0027s still worth to eliminate case that having ONAME with nil Func as much as possible.",
+      "parentUuid": "a0f6a32e_93c4dead",
+      "revId": "d5c5c3e5c91634af24e795682bc2f110bf20c83a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
