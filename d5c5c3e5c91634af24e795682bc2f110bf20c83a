@@ -161,6 +161,24 @@
       "parentUuid": "a0f6a32e_93c4dead",
       "revId": "d5c5c3e5c91634af24e795682bc2f110bf20c83a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40d81d56_febdf767",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-09-30T07:28:34Z",
+      "side": 1,
+      "message": "\u003e Maybe I misunderstand what you mean here, but I don\u0027t think unified IR creates ir.Funcs for interface methods either.\n\nI re-read the Unified IR code to generate wrapper func. So for current package interface method, Unified IR actually generates the ir.Func, it just don\u0027t attach the Func to the method.\n\nWith this diff:\n\n```\n@@ -3833,6 +3835,7 @@ func newWrapperFunc(pos src.XPos, sym *types.Sym, wrapper *types.Type, method *t\n        name.Func \u003d fn\n        name.Defn \u003d fn\n        fn.Nname \u003d name\n+       method.Nname \u003d fn.Nname\n\n        sig :\u003d newWrapperType(wrapper, method)\n        setType(name, sig)\n```\n\nThen for this code:\n\n```\npackage p\n\nimport (\n\t\"bytes\"\n\t\"io\"\n)\n\ntype MyReader interface {\n\tRead([]byte) (int, error)\n}\n\nfunc g(b *bytes.Buffer) {\n\t_, _ \u003d MyReader.Read(b, make([]byte, 10))\n\t_, _ \u003d io.Reader.Read(b, make([]byte, 10))\n}\n```\n\nWe have the ir.Func for MyReader.Read, but not io.Reader.Read method.",
+      "parentUuid": "7d6a7fe6_a7dc5202",
+      "revId": "d5c5c3e5c91634af24e795682bc2f110bf20c83a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
