@@ -16,6 +16,24 @@
       "message": "In the past we\u0027ve kept this kind of comparison because it makes the code clearer for the reader.",
       "revId": "70039ee4f0046b3836d7122edec84977cd130dda",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3551bcb1_2eb22a53",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2022-09-30T01:56:01Z",
+      "side": 1,
+      "message": "ok",
+      "parentUuid": "e38c4990_e490e9c9",
+      "revId": "70039ee4f0046b3836d7122edec84977cd130dda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
