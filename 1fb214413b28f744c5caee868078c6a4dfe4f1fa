@@ -16,6 +16,24 @@
       "message": "That atomic load is needed. The atomic read ensures that future reads by the loser see all the writes done by `f` in the winner.",
       "revId": "1fb214413b28f744c5caee868078c6a4dfe4f1fa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35bbb721_f4d9139c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 59388
+      },
+      "writtenOn": "2022-09-30T01:13:19Z",
+      "side": 1,
+      "message": "Hi,Keith. Thanks for your reply. What do you mean when you say \"future reads by the loser\"?\n\nThere are several cases of losers when atomic store is called by winner:\n\n1. Just enter the Do(): If they don\u0027t use atomic load, they may observe the old value 0. Then, get lock and check o.done \u003d\u003d 0 again.\n2. After atomic load, entering the doSlow and before get lock, the continuous common comparison o.done \u003d\u003d 0 may watch the old value 0? I don\u0027t think so. Otherwise, the f() will be called more than once.\n\nSo what\u0027s the reason the second comparison to zero won\u0027t observe the old value? Because of the previous atomic load? that\u0027s the only reason the atomic load is needed?",
+      "parentUuid": "2619de7f_95ec53d4",
+      "revId": "1fb214413b28f744c5caee868078c6a4dfe4f1fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
