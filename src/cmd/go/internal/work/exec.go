@@ -151,7 +151,13 @@ func (b *Builder) Do(ctx context.Context, root *Action) {
 		defer b.exec.Unlock()
 
 		if err != nil {
-			if err == errPrintedOutput {
+			if b.AllowErrors {
+				if err != errPrintedOutput { // if err == errPrintedOutput a.Package.Error was already set
+					if a.Package.Error == nil {
+						a.Package.Error = &load.PackageError{Err: err}
+					}
+				}
+			} else if err == errPrintedOutput {
 				base.SetExitStatus(2)
 			} else {
 				base.Errorf("%s", err)
@@ -2109,6 +2115,11 @@ func (b *Builder) showOutput(a *Action, dir, desc, out string) {
 		suffix = strings.ReplaceAll(suffix, "\n\t"+dir, "\n\t"+reldir)
 	}
 	suffix = strings.ReplaceAll(suffix, " "+b.WorkDir, " $WORK")
+
+	if b.AllowErrors {
+		a.Package.Error = &load.PackageError{Err: errors.New(prefix + suffix)}
+		return
+	}
 
 	if a != nil && a.output != nil {
 		a.output = append(a.output, prefix...)
