@@ -72,6 +72,24 @@
       "message": "This looks strange.\n\nWhy not just:\n\n    return len(t) \u003d\u003d 0",
       "revId": "2e3a8bf1e83be475b767ff96e5d55610799d3c5d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "efa0cbf6_aa5676c5",
+        "filename": "src/encoding/json/fold.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2022-09-30T01:36:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "397b2be1_68173660",
+      "revId": "2e3a8bf1e83be475b767ff96e5d55610799d3c5d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
