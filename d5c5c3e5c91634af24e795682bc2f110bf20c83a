@@ -125,6 +125,24 @@
       "parentUuid": "feae93e4_f80f7f53",
       "revId": "d5c5c3e5c91634af24e795682bc2f110bf20c83a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0f6a32e_93c4dead",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-09-30T02:46:38Z",
+      "side": 1,
+      "message": "\u003e Maybe I misunderstand what you mean here, but I don\u0027t think unified IR creates ir.Funcs for interface methods either.\n\nOps, you\u0027re right. Specifically, the check in (*SelectorExpr).FuncName() is still required.",
+      "parentUuid": "6f4b89b0_13a74d7e",
+      "revId": "d5c5c3e5c91634af24e795682bc2f110bf20c83a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
