@@ -70,6 +70,24 @@
       "parentUuid": "ec61db8a_8a8aa78a",
       "revId": "1fb214413b28f744c5caee868078c6a4dfe4f1fa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4be91566_2f11d4af",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 52385
+      },
+      "writtenOn": "2022-09-30T10:45:29Z",
+      "side": 1,
+      "message": "Oh, I forgot to mention that https://go.dev/ref/mem states that\n\u003e The preceding definition has the same semantics as C++’s sequentially consistent atomics and Java’s volatile variables.\n\nAnd here is a helpful guide to Java’s volatile keyword: https://www.baeldung.com/java-volatile",
+      "parentUuid": "9f5bbaa6_55af5587",
+      "revId": "1fb214413b28f744c5caee868078c6a4dfe4f1fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
