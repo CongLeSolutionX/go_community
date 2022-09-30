@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4daa2a63_c8ebc1f2",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-09-30T17:13:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "379d511b_3ef3394f",
+      "revId": "12a0e5dd4571d1ad9b82a942677ebe4287317dd4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "28bfc9e0_336a3924",
@@ -68,6 +86,24 @@
       "writtenOn": "2022-09-29T02:51:30Z",
       "side": 1,
       "message": "This doc needs to describe the default value set up by CommandContext.",
+      "revId": "12a0e5dd4571d1ad9b82a942677ebe4287317dd4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "75970bf8_9ef524a6",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-09-30T17:13:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28bfc9e0_336a3924",
       "revId": "12a0e5dd4571d1ad9b82a942677ebe4287317dd4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -89,6 +125,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d00bb82_64e9a834",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-09-30T17:13:58Z",
+      "side": 1,
+      "message": "Reworked the doc comments.\n\nThat also prompted me to think a little harder about what the behavior ought to be for the pipes returned by `StdoutPipe`, `StdinPipe`, and `StderrPipe` in case of context cancellation.\n\nI had been planning to leave those open, but it occurs to me that it may be more useful for callers if we actually close those too — that way, a user can create a command using `exec.CommandContext`, read its pipes to exhaustion, and only then call `Wait` to clean it up.\n\nNote that the doc comments today claim that “it is … incorrect to call `Wait` before all reads from the pipe have completed”, so if we don\u0027t close the user pipes when the `WaitDelay` expires after the Context is canceled, there would be no reliable way to use `WaitDelay` in conjunction with `StderrPipe` or `StdoutPipe`: the caller would have to invoke `Wait` to trigger the pipes to close, but they aren\u0027t *allowed* to invoke `Wait` because it might close them too early.",
+      "parentUuid": "6a64590a_19ba28c3",
+      "revId": "12a0e5dd4571d1ad9b82a942677ebe4287317dd4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "20aa0b98_ed93a1c4",
@@ -106,6 +160,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a150cad4_2985c865",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-09-30T17:13:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20aa0b98_ed93a1c4",
+      "revId": "12a0e5dd4571d1ad9b82a942677ebe4287317dd4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c229a28e_86c092a2",
@@ -119,6 +191,24 @@
       "writtenOn": "2022-09-29T02:51:30Z",
       "side": 1,
       "message": "I don\u0027t understand the new part of this condition.  It seems entirely possible for Interrupt to be nil and WaitDelay to be 0 and ctx to not be nil.  In that case we still want to call watchCtx.",
+      "revId": "12a0e5dd4571d1ad9b82a942677ebe4287317dd4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "235d85ea_090b291e",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 673,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-09-30T17:13:58Z",
+      "side": 1,
+      "message": "Added a comment.\n\nIf `Interrupt` is nil and `WaitDelay` is 0, then nothing happens on cancellation anyway. That may seem like an odd configuration, but consider that a program may call `CommandContext` and then set the `Interrupt` field based on some dynamic (or OS- or environment-specific) setting.",
+      "parentUuid": "c229a28e_86c092a2",
       "revId": "12a0e5dd4571d1ad9b82a942677ebe4287317dd4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
