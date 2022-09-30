@@ -34,6 +34,24 @@
       "parentUuid": "2619de7f_95ec53d4",
       "revId": "1fb214413b28f744c5caee868078c6a4dfe4f1fa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec61db8a_8a8aa78a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-09-30T01:52:53Z",
+      "side": 1,
+      "message": "I recommend asking this question on golang-nuts.  See https://go.dev/wiki/Questions.\n\nThe atomic load is required so that the goroutine doing the load will see all the opreations by the goroutine that ran the function.  Without an atomic load it may see some but not all of those writes.",
+      "parentUuid": "35bbb721_f4d9139c",
+      "revId": "1fb214413b28f744c5caee868078c6a4dfe4f1fa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
