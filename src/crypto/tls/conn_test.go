@@ -188,8 +188,8 @@ func runDynamicRecordSizingTest(t *testing.T, config *Config) {
 	// The server writes these plaintexts in order.
 	plaintext := bytes.Join([][]byte{
 		bytes.Repeat([]byte("x"), recordSizeBoostThreshold),
-		bytes.Repeat([]byte("y"), maxPlaintext*2),
-		bytes.Repeat([]byte("z"), maxPlaintext),
+		bytes.Repeat([]byte("y"), defaultMaxPlaintext*2),
+		bytes.Repeat([]byte("z"), defaultMaxPlaintext),
 	}, nil)
 
 	if _, err := tlsConn.Write(plaintext); err != nil {
@@ -216,10 +216,10 @@ func runDynamicRecordSizingTest(t *testing.T, config *Config) {
 			if size > (i+1)*tcpMSSEstimate {
 				t.Fatalf("Record #%d has size %d, which is too large too soon", i, size)
 			}
-			if size >= maxPlaintext {
+			if size >= defaultMaxPlaintext {
 				seenLargeRecord = true
 			}
-		} else if size <= maxPlaintext {
+		} else if size <= defaultMaxPlaintext {
 			t.Fatalf("Record #%d has size %d but should be full sized", i, size)
 		}
 	}

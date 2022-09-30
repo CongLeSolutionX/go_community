@@ -442,6 +442,12 @@ func (hs *serverHandshakeStateTLS13) doHelloRetryRequest(selectedGroup CurveID) 
 		return unexpectedMessageError(clientHello, msg)
 	}
 
+	c.maxPlaintext, err = parseMaxPlaintext(clientHello.maxFragmentLength)
+	if err != nil {
+		c.sendAlert(alertIllegalParameter)
+		return err
+	}
+
 	if len(clientHello.keyShares) != 1 || clientHello.keyShares[0].group != selectedGroup {
 		c.sendAlert(alertIllegalParameter)
 		return errors.New("tls: client sent invalid key share in second ClientHello")

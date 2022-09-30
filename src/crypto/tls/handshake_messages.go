@@ -92,6 +92,7 @@ type clientHelloMsg struct {
 	pskModes                         []uint8
 	pskIdentities                    []pskIdentity
 	pskBinders                       [][]byte
+	maxFragmentLength                *uint8
 }
 
 func (m *clientHelloMsg) marshal() []byte {
@@ -123,7 +124,7 @@ func (m *clientHelloMsg) marshal() []byte {
 		b.AddUint16LengthPrefixed(func(b *cryptobyte.Builder) {
 			if len(m.serverName) > 0 {
 				// RFC 6066, Section 3
-				b.AddUint16(extensionServerName)
+
 				b.AddUint16LengthPrefixed(func(b *cryptobyte.Builder) {
 					b.AddUint16LengthPrefixed(func(b *cryptobyte.Builder) {
 						b.AddUint8(0) // name_type = host_name
@@ -426,6 +427,14 @@ func (m *clientHelloMsg) unmarshal(data []byte) bool {
 					return false
 				}
 			}
+		case extensionMaxFragmentLength:
+			// RFC 6066, Section 4
+			//
+			// FAIL
+			// 1) extData = empty & no more extension data, but extType = max_fragement_length
+			if !extData.ReadUint8(m.maxFragmentLength) {
+				return false
+			}
 		case extensionStatusRequest:
 			// RFC 4366, Section 3.6
 			var statusType uint8
@@ -614,8 +623,9 @@ type serverHelloMsg struct {
 	supportedPoints              []uint8
 
 	// HelloRetryRequest extensions
-	cookie        []byte
-	selectedGroup CurveID
+	cookie            []byte
+	selectedGroup     CurveID
+	maxFragmentLength *uint8
 }
 
 func (m *serverHelloMsg) marshal() []byte {
@@ -720,6 +730,10 @@ func (m *serverHelloMsg) marshal() []byte {
 						b.AddBytes(m.supportedPoints)
 					})
 				})
+			}
+			if m.maxFragmentLength != nil {
+				b.AddUint16(extensionMaxFragmentLength)
+				b.AddUint8(*m.maxFragmentLength)
 			}
 
 			extensionsPresent = len(b.BytesOrPanic()) > 2

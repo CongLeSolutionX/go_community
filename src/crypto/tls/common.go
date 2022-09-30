@@ -37,12 +37,12 @@ const (
 )
 
 const (
-	maxPlaintext       = 16384        // maximum plaintext payload length
-	maxCiphertext      = 16384 + 2048 // maximum ciphertext payload length
-	maxCiphertextTLS13 = 16384 + 256  // maximum ciphertext length in TLS 1.3
-	recordHeaderLen    = 5            // record header length
-	maxHandshake       = 65536        // maximum handshake we support (protocol max is 16 MB)
-	maxUselessRecords  = 16           // maximum number of consecutive non-advancing records
+	defaultMaxPlaintext = 16384        // maximum plaintext payload length
+	maxCiphertext       = 16384 + 2048 // maximum ciphertext payload length
+	maxCiphertextTLS13  = 16384 + 256  // maximum ciphertext length in TLS 1.3
+	recordHeaderLen     = 5            // record header length
+	maxHandshake        = 65536        // maximum handshake we support (protocol max is 16 MB)
+	maxUselessRecords   = 16           // maximum number of consecutive non-advancing records
 )
 
 // TLS record types.
@@ -84,6 +84,7 @@ const (
 // TLS extension numbers
 const (
 	extensionServerName              uint16 = 0
+	extensionMaxFragmentLength       uint16 = 1
 	extensionStatusRequest           uint16 = 5
 	extensionSupportedCurves         uint16 = 10 // supported_groups in TLS 1.3, see RFC 8446, Section 4.2.7
 	extensionSupportedPoints         uint16 = 11
