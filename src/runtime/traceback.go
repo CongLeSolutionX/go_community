@@ -182,9 +182,27 @@ func gentraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max in
 				case funcID_systemstack:
 					// systemstack returns normally, so just follow the
 					// stack transition.
+<<<<<<< HEAD   (5d5ed5 [release-branch.go1.19] go1.19.3)
 					frame.sp = gp.m.curg.sched.sp
 					stack = gp.m.curg.stack
 					cgoCtxt = gp.m.curg.cgoCtxt
+=======
+					if usesLR && funcspdelta(f, frame.pc, &cache) == 0 {
+						// We're at the function prologue and the stack
+						// switch hasn't happened, or epilogue where we're
+						// about to return. Just unwind normally.
+						// Do this only on LR machines because on x86
+						// systemstack doesn't have an SP delta (the CALL
+						// instruction opens the frame), therefore no way
+						// to check.
+						flag &^= funcFlag_SPWRITE
+						break
+					}
+					gp = gp.m.curg
+					frame.sp = gp.sched.sp
+					stack = gp.stack
+					cgoCtxt = gp.cgoCtxt
+>>>>>>> CHANGE (500bc6 runtime: don't jump stack if at entry of systemstack)
 					flag &^= funcFlag_SPWRITE
 				}
 			}
