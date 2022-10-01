@@ -16,6 +16,24 @@
       "message": "Maybe easier to just mark f5 and f6 as `//go:noinline`, with a TODO that we can remove them (and update ERROR expectations) once GOEXPERIMENT\u003dnounified is gone?",
       "revId": "6f47251b8f961a8c7952a55122daa1bc89538f29",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "690ad332_e12c1785",
+        "filename": "test/escape4.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-10-01T01:36:17Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "60ea06e1_97293419",
+      "revId": "6f47251b8f961a8c7952a55122daa1bc89538f29",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
