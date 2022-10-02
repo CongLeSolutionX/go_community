@@ -336,7 +336,7 @@ type FuncMap = template.FuncMap
 // type. However, it is legal to overwrite elements of the map. The return
 // value is the template, so calls can be chained.
 func (t *Template) Funcs(funcMap FuncMap) *Template {
-	t.text.Funcs(template.FuncMap(funcMap))
+	t.text.Funcs(funcMap)
 	return t
 }
 
