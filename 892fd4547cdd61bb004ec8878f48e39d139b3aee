@@ -16,6 +16,24 @@
       "message": "The variable s is changed during the loop.  This patch changes the behavior of the coffee.",
       "revId": "892fd4547cdd61bb004ec8878f48e39d139b3aee",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4ed3517_96aa3193",
+        "filename": "src/net/ip.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 565,
+      "author": {
+        "id": 26163
+      },
+      "writtenOn": "2022-10-02T05:35:44Z",
+      "side": 1,
+      "message": "Ack, added len check in the beginning and unchanged the loop logic, Pls review",
+      "parentUuid": "82b1579f_cf6b35ef",
+      "revId": "892fd4547cdd61bb004ec8878f48e39d139b3aee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
