@@ -715,6 +715,8 @@ func runTest(ctx context.Context, cmd *base.Command, args []string) {
 	initCoverProfile()
 	defer closeCoverProfile()
 
+	work.FindDefaultPGOFile(pkgs)
+
 	// If a test timeout is finite, set our kill timeout
 	// to that timeout plus one minute. This is a backup alarm in case
 	// the test wedges with a goroutine spinning and its background
