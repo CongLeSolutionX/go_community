@@ -487,6 +487,8 @@ func runBuild(ctx context.Context, cmd *base.Command, args []string) {
 		load.PrepareForCoverageBuild(pkgs)
 	}
 
+	FindDefaultPGOFile(pkgs)
+
 	if cfg.BuildO != "" {
 		// If the -o name exists and is a directory or
 		// ends with a slash or backslash, then
@@ -538,6 +540,28 @@ func runBuild(ctx context.Context, cmd *base.Command, args []string) {
 		a = b.buildmodeShared(ModeBuild, depMode, args, pkgs, a)
 	}
 	b.Do(ctx, a)
+}
+
+// FindDefaultPGOFile finds the default PGO profile to use in -pgo=auto mode.
+// When found, it sets cfg.BuildPGOFile to the file path.
+func FindDefaultPGOFile(pkgs []*load.Package) {
+	if cfg.BuildPGO != "" && cfg.BuildPGO != "auto" {
+		return
+	}
+
+	// Locate PGO profile from the main package.
+	mainpkgs := pkgsMain(pkgs)
+	if len(mainpkgs) == 1 {
+		// We find default.pgo file from the main package.
+		// If there is no main package for this build, there is
+		// no PGO profile to be used.
+		// If there are multiple main packages, we don't know
+		// which one to use, so give up.
+		file := filepath.Join(mainpkgs[0].Dir, "default.pgo")
+		if fi, err := os.Stat(file); err == nil && !fi.IsDir() {
+			cfg.BuildPGOFile = file
+		}
+	}
 }
 
 var CmdInstall = &base.Command{
@@ -696,6 +720,8 @@ func runInstall(ctx context.Context, cmd *base.Command, args []string) {
 	if cfg.Experiment.CoverageRedesign && cfg.BuildCover {
 		load.PrepareForCoverageBuild(pkgs)
 	}
+
+	FindDefaultPGOFile(pkgs)
 
 	InstallPackages(ctx, args, pkgs)
 }
