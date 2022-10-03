@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bcfb76b9_8a94a78f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-10-03T15:14:01Z",
+      "side": 1,
+      "message": "This looks to be creating a race condition, See #56011.\nProbably initFuncTypes needs to return a *Type pointing to the nth entry of funcTYpes?",
+      "revId": "63668a5155c808f474d5adab676ef3f3aa50c1d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
