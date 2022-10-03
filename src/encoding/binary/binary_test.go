@@ -485,7 +485,7 @@ func TestByteOrder(t *testing.T) {
 				t.Errorf("AppendUint32: len(buf) = %d, want %d", len(buf), offset+4)
 			}
 
-			want64 := uint64(value)
+			want64 := value
 			order.PutUint64(buf[:8], want64)
 			if got := order.Uint64(buf[:8]); got != want64 {
 				t.Errorf("PutUint64: Uint64 = %v, want %v", got, want64)
