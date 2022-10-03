@@ -229,25 +229,33 @@ type Cmd struct {
 
 	Err error // LookPath error, if any.
 
-	// If Interrupt is non-nil, the command must have been created with
-	// CommandContext and Interrupt will be sent to the child process when its
-	// Context is done. By default, CommandContext sets Interrupt to os.Kill.
+	// If Cancel is non-nil, the command must have been created with
+	// CommandContext and Cancel will be called when the command's
+	// Context is done. By default, CommandContext sets Cancel to
+	// call the Kill method on the command's Process.
 	//
-	// If the command exits with a success code after the Interrupt signal has
-	// been sent, Wait and similar methods will return the error from the Context
-	// instead of nil. (If the command exits with a non-success status after the
-	// Interrupt, that status is reported as-is.)
+	// Typically a custom Cancel will send a signal to the command's
+	// Process, but it may instead take other actions to initiate cancellation,
+	// such as closing a stdin or stdout pipe or sending a shutdown request on a
+	// network socket.
 	//
-	// If the Interrupt signal is not supported on the current platform
-	// (for example, if it is os.Interrupt on Windows), Start may fail
-	// (and return a non-nil error).
+	// If the command exits with a success status after Cancel is
+	// called, and Cancel does not return an error equivalent to
+	// os.ErrProcessDone, then Wait and similar methods will return a non-nil
+	// error: either an error wrapping the one returned by Cancel,
+	// or the error from the Context.
+	// (If the command exist with a non-success status, or Cancel
+	// returns an error that wraps os.ErrProcessDone, Wait and similar methods
+	// continue to return the command's usual exit status.)
 	//
-	// If Interrupt is set to nil, no signal will be sent when the Context is
-	// done, but if the WaitDelay is nonzero it will still take effect. In that
-	// case, the caller may explicitly watch for the context to be done and
-	// initiate shutdown by some other means, such as closing a stdin or stdout
-	// pipe or sending a shutdown request on a network socket.
-	Interrupt os.Signal
+	// If Cancel is set to nil, nothing will happen immediately when
+	// the command's Context is done, but if the WaitDelay is nonzero it will
+	// still take effect. That may be useful, for example, to work around
+	// deadlocks in commands that do not support shutdown signals but are expected
+	// to always finish quickly.
+	//
+	// Cancel will not be called if Start returns a non-nil error.
+	Cancel func() error
 
 	// If WaitDelay is non-zero, it bounds the time spent waiting on two sources
 	// of unexpected delay in Wait: a child process that fails to exit after the
@@ -422,7 +430,7 @@ func Command(name string, arg ...string) *Cmd {
 // CommandContext is like Command but includes a context.
 //
 // The provided context is used to interrupt the process
-// (by sending cmd.Interrupt or calling os.Process.Kill)
+// (by calling cmd.Cancel or os.Process.Kill)
 // if the context becomes done before the command completes on its own.
 //
 // CommandContext sets the command's Interrupt signal to os.Kill and leaves its
@@ -434,7 +442,9 @@ func CommandContext(ctx context.Context, name string, arg ...string) *Cmd {
 	}
 	cmd := Command(name, arg...)
 	cmd.ctx = ctx
-	cmd.Interrupt = os.Kill
+	cmd.Cancel = func() error {
+		return cmd.Process.Kill()
+	}
 	return cmd
 }
 
@@ -643,16 +653,8 @@ func (c *Cmd) Start() error {
 		}
 		c.Path = lp
 	}
-	if c.Interrupt != nil {
-		if c.ctx == nil {
-			return errors.New("exec: Interrupt requires a non-nil Context")
-		}
-		if runtime.GOOS == "windows" && c.Interrupt != os.Kill {
-			return wrappedError{
-				prefix: "exec: signal " + c.Interrupt.String(),
-				err:    errWindows,
-			}
-		}
+	if c.Cancel != nil && c.ctx == nil {
+		return errors.New("exec: command with a non-nil Cancel was not created with CommandContext")
 	}
 	if c.ctx != nil {
 		select {
@@ -732,7 +734,7 @@ func (c *Cmd) Start() error {
 	// (Even if the command was created by CommandContext, a helper library
 	// may have explicitly set its Interrupt field back to nil, indicating
 	// that the process should not be interrupted on cancellation after all.)
-	if (c.Interrupt != nil || c.WaitDelay != 0) && c.ctx != nil && c.ctx.Done() != nil {
+	if (c.Cancel != nil || c.WaitDelay != 0) && c.ctx != nil && c.ctx.Done() != nil {
 		resultc := make(chan ctxResult)
 		c.ctxResult = resultc
 		go c.watchCtx(resultc)
@@ -743,8 +745,8 @@ func (c *Cmd) Start() error {
 
 // watchCtx watches c.ctx until it is able to send a result to resultc.
 //
-// If c.ctx is done before a result can be sent, watchCtx sends c.Interrupt to
-// the command and/or kills it after c.WaitDelay has elapsed.
+// If c.ctx is done before a result can be sent, watchCtx calls c.Cancel,
+// and/or kills cmd.Process it after c.WaitDelay has elapsed.
 //
 // watchCtx manipulates c.goroutineErr, so its result must be received before
 // c.awaitGoroutines is called.
@@ -756,20 +758,20 @@ func (c *Cmd) watchCtx(resultc chan<- ctxResult) {
 	}
 
 	var err error
-	if c.Interrupt != nil {
-		if signalErr := c.Process.Signal(c.Interrupt); signalErr == nil {
-			// We appear to have successfully delivered c.Interrupt, so any
+	if c.Cancel != nil {
+		if interruptErr := c.Cancel(); interruptErr == nil {
+			// We appear to have successfully interrupted the command, so any
 			// program behavior from this point may be due to ctx even if the
-			// program exits with code 0.
+			// command exits with code 0.
 			err = c.ctx.Err()
-		} else if errors.Is(signalErr, os.ErrProcessDone) {
+		} else if errors.Is(interruptErr, os.ErrProcessDone) {
 			// The process already finished: we just didn't notice it yet.
 			// (Perhaps c.Wait hadn't been called, or perhaps it happened to race with
 			// c.ctx being cancelled.) Don't inject a needless error.
 		} else {
 			err = wrappedError{
-				prefix: "exec: error sending signal to Cmd",
-				err:    signalErr,
+				prefix: "exec: interrupting Cmd",
+				err:    interruptErr,
 			}
 		}
 	}
@@ -794,7 +796,7 @@ func (c *Cmd) watchCtx(resultc chan<- ctxResult) {
 		// so don't set err to anything here.
 	} else if !errors.Is(killErr, os.ErrProcessDone) {
 		err = wrappedError{
-			prefix: "exec: error killing Cmd",
+			prefix: "exec: killing Cmd",
 			err:    killErr,
 		}
 	}
