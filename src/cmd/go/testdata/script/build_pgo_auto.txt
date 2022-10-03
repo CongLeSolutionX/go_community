@@ -1,0 +1,37 @@
+# Test go build -pgo=auto flag.
+
+# use default.pgo for a single main package
+go build -n -pgo=auto -o a.exe ./a
+stderr 'compile.* -pgoprofile=.*default\.pgo.*a.go'
+
+# same without explicit -pgo=auto (the default)
+go build -n -o a.exe ./a
+stderr 'compile.* -pgoprofile=.*default\.pgo.*a.go'
+
+# default.pgo is ignored for non-main package
+go build -n -pgo=auto ./b/b2
+! stderr 'compile.* -pgoprofile'
+
+# use default.pgo for ... with a single main package
+go build -n -pgo=auto ./b/...
+stderr 'compile.* -pgoprofile=.*default\.pgo.*b1.go'
+
+# multiple main packages, not used.
+go build -n -pgo=auto ./...
+! stderr 'compile.* -pgoprofile'
+
+-- go.mod --
+module test
+go 1.20
+-- a/a.go --
+package main
+func main() {}
+-- a/default.pgo --
+-- b/b1/b1.go --
+package main
+import _ "test/b/b2"
+func main() {}
+-- b/b1/default.pgo --
+-- b/b2/b2.go --
+package b2
+-- b/b2/default.pgo --
