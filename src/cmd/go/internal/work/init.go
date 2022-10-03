@@ -446,7 +446,7 @@ func setPGOProfilePath() {
 	case "":
 		fallthrough // default to "auto"
 	case "auto":
-		// TODO: implement auto mode.
+		// nothing to do here. Default profile will be searched at later stage.
 	case "off":
 		// nothing to do
 	default:
