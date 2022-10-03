@@ -113,6 +113,7 @@ func TestCmdGoNoHTTPServer(t *testing.T) {
 // Tests that the nethttpomithttp2 build tag doesn't rot too much,
 // even if there's not a regular builder on it.
 func TestOmitHTTP2(t *testing.T) {
+	//t.Skip("skip")
 	if testing.Short() {
 		t.Skip("skipping in short mode")
 	}
