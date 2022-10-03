@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "596a6a8d_19da282e",
+        "filename": "src/cmd/internal/obj/arm64/obj7.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-10-03T16:08:25Z",
+      "side": 0,
+      "message": "Are these necessary, or just an optimization?\nI ask because I think assembly code goes through this pass, and code from the assembler will not have been normalized like the compiler-generated assembly has been.\nI\u0027m happy to drop this code if it\u0027s just an optimization.",
+      "revId": "dc53738f58a5db038c052256a7da2b0c07ec9fcb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
