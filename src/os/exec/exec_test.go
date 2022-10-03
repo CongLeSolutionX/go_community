@@ -1290,7 +1290,13 @@ func startHang(t *testing.T, ctx context.Context, hangTime time.Duration, interr
 	cmd := helperCommandContext(t, ctx, "hang", args...)
 	cmd.Stdin = newTickReader(1 * time.Millisecond)
 	cmd.Stderr = new(strings.Builder)
-	cmd.Interrupt = interrupt
+	if interrupt == nil {
+		cmd.InterruptFunc = nil
+	} else {
+		cmd.InterruptFunc = func() error {
+			return cmd.Process.Signal(interrupt)
+		}
+	}
 	cmd.WaitDelay = waitDelay
 	out, err := cmd.StdoutPipe()
 	if err != nil {
