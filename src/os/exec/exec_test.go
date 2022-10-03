@@ -31,6 +31,7 @@ import (
 	"strconv"
 	"strings"
 	"sync"
+	"sync/atomic"
 	"testing"
 	"time"
 )
@@ -1290,7 +1291,13 @@ func startHang(t *testing.T, ctx context.Context, hangTime time.Duration, interr
 	cmd := helperCommandContext(t, ctx, "hang", args...)
 	cmd.Stdin = newTickReader(1 * time.Millisecond)
 	cmd.Stderr = new(strings.Builder)
-	cmd.Interrupt = interrupt
+	if interrupt == nil {
+		cmd.InterruptFunc = nil
+	} else {
+		cmd.InterruptFunc = func() error {
+			return cmd.Process.Signal(interrupt)
+		}
+	}
 	cmd.WaitDelay = waitDelay
 	out, err := cmd.StdoutPipe()
 	if err != nil {
@@ -1318,6 +1325,8 @@ func startHang(t *testing.T, ctx context.Context, hangTime time.Duration, interr
 }
 
 func TestWaitInterrupt(t *testing.T) {
+	t.Parallel()
+
 	// tooLong is an arbitrary duration that is expected to be much longer than
 	// the test runs, but short enough that leaked processes will eventually exit
 	// on their own.
@@ -1504,6 +1513,221 @@ func TestWaitInterrupt(t *testing.T) {
 
 		if !strings.Contains(fmt.Sprint(cmd.Stderr), "\n\ngoroutine ") {
 			t.Errorf("cmd.Stderr does not contain a goroutine dump")
+		}
+	})
+}
+
+func TestInterruptFuncErrors(t *testing.T) {
+	t.Parallel()
+
+	// If the InterruptFunc returns a non-ErrProcessDone error and the process
+	// exits successfully, Wait should wrap the error from the InterruptFunc.
+	t.Run("success after error", func(t *testing.T) {
+		t.Parallel()
+
+		ctx, cancel := context.WithCancel(context.Background())
+		defer cancel()
+
+		cmd := helperCommandContext(t, ctx, "pipetest")
+		stdin, err := cmd.StdinPipe()
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		errArbitrary := errors.New("arbitrary error")
+		cmd.InterruptFunc = func() error {
+			stdin.Close()
+			t.Logf("InterruptFunc returning %v", errArbitrary)
+			return errArbitrary
+		}
+		if err := cmd.Start(); err != nil {
+			t.Fatal(err)
+		}
+		cancel()
+
+		err = cmd.Wait()
+		t.Logf("[%d] %v", cmd.Process.Pid, err)
+		if !errors.Is(err, errArbitrary) || err == errArbitrary {
+			t.Errorf("Wait error = %v; want an error wrapping %v", err, errArbitrary)
+		}
+	})
+
+	// If the InterruptFunc returns an error equivalent to ErrProcessDone,
+	// Wait should ignore that error. (ErrProcessDone indicates that the
+	// process was already done before we tried to interrupt it — maybe we
+	// just didn't notice because Wait hadn't been called yet.)
+	t.Run("success after ErrProcessDone", func(t *testing.T) {
+		t.Parallel()
+
+		ctx, cancel := context.WithCancel(context.Background())
+		defer cancel()
+
+		cmd := helperCommandContext(t, ctx, "pipetest")
+		stdin, err := cmd.StdinPipe()
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		stdout, err := cmd.StdoutPipe()
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		// We intentionally race the InterruptFunc against the process exiting,
+		// but ensure that the process wins the race (and return ErrProcessDone
+		// from the InterruptFunc to report that).
+		interruptCalled := make(chan struct{})
+		done := make(chan struct{})
+		cmd.InterruptFunc = func() error {
+			close(interruptCalled)
+			<-done
+			t.Logf("InterruptFunc returning an error wrapping ErrProcessDone")
+			return fmt.Errorf("%w: stdout closed", os.ErrProcessDone)
+		}
+
+		if err := cmd.Start(); err != nil {
+			t.Fatal(err)
+		}
+
+		cancel()
+		<-interruptCalled
+		stdin.Close()
+		io.Copy(io.Discard, stdout) // reaches EOF when the process exits
+		close(done)
+
+		err = cmd.Wait()
+		t.Logf("[%d] %v", cmd.Process.Pid, err)
+		if err != nil {
+			t.Errorf("Wait error = %v; want nil", err)
+		}
+	})
+
+	// If the InterruptFunc returns an error and the process is killed after
+	// WaitDelay, Wait should report the usual SIGKILL ExitError, not the
+	// error from the InterruptFunc.
+	t.Run("killed after error", func(t *testing.T) {
+		t.Parallel()
+
+		ctx, cancel := context.WithCancel(context.Background())
+		defer cancel()
+
+		cmd := helperCommandContext(t, ctx, "pipetest")
+		stdin, err := cmd.StdinPipe()
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer stdin.Close()
+
+		errArbitrary := errors.New("arbitrary error")
+		var interruptCalled atomic.Bool
+		cmd.InterruptFunc = func() error {
+			t.Logf("InterruptFunc called")
+			interruptCalled.Store(true)
+			return errArbitrary
+		}
+		cmd.WaitDelay = 1 * time.Millisecond
+		if err := cmd.Start(); err != nil {
+			t.Fatal(err)
+		}
+		cancel()
+
+		err = cmd.Wait()
+		t.Logf("[%d] %v", cmd.Process.Pid, err)
+
+		// Ensure that the InterruptFunc actually had the opportunity to
+		// return the error.
+		if !interruptCalled.Load() {
+			t.Errorf("InterruptFunc was not called when the context was canceled")
+		}
+
+		// This test should kill the child process after 1ms,
+		// To maximize compatibility with existing uses of exec.CommandContext, the
+		// resulting error should be an exec.ExitError without additional wrapping.
+		if ee, ok := err.(*exec.ExitError); !ok {
+			t.Errorf("Wait error = %v; want %T", err, *ee)
+		}
+	})
+
+	// If the InterruptFunc returns ErrProcessDone but the process is not
+	// actually done (and has to be killed), Wait
+	// If the InterruptFunc returns an error and the process is killed after
+	// WaitDelay, the error should report the usual SIGKILL ExitError, not the
+	// error from the InterruptFunc.
+	t.Run("killed after spurious ErrProcessDone", func(t *testing.T) {
+		t.Parallel()
+
+		ctx, cancel := context.WithCancel(context.Background())
+		defer cancel()
+
+		cmd := helperCommandContext(t, ctx, "pipetest")
+		stdin, err := cmd.StdinPipe()
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer stdin.Close()
+
+		var interruptCalled atomic.Bool
+		cmd.InterruptFunc = func() error {
+			t.Logf("InterruptFunc returning an error wrapping ErrProcessDone")
+			interruptCalled.Store(true)
+			return fmt.Errorf("%w: stdout closed", os.ErrProcessDone)
+		}
+		cmd.WaitDelay = 1 * time.Millisecond
+		if err := cmd.Start(); err != nil {
+			t.Fatal(err)
+		}
+		cancel()
+
+		err = cmd.Wait()
+		t.Logf("[%d] %v", cmd.Process.Pid, err)
+
+		// Ensure that the InterruptFunc actually had the opportunity to
+		// return the error.
+		if !interruptCalled.Load() {
+			t.Errorf("InterruptFunc was not called when the context was canceled")
+		}
+
+		// This test should kill the child process after 1ms,
+		// To maximize compatibility with existing uses of exec.CommandContext, the
+		// resulting error should be an exec.ExitError without additional wrapping.
+		if ee, ok := err.(*exec.ExitError); !ok {
+			t.Errorf("Wait error of type %T; want %T", err, ee)
+		}
+	})
+
+	// If the InterruptFunc returns an error and the process exits with an
+	// unsuccessful exit code, the process error should take precedence over the
+	// InterruptFunc error.
+	t.Run("nonzero exit after error", func(t *testing.T) {
+		t.Parallel()
+
+		ctx, cancel := context.WithCancel(context.Background())
+		defer cancel()
+
+		cmd := helperCommandContext(t, ctx, "stderrfail")
+		stderr, err := cmd.StderrPipe()
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		errArbitrary := errors.New("arbitrary error")
+		interrupted := make(chan struct{})
+		cmd.InterruptFunc = func() error {
+			close(interrupted)
+			return errArbitrary
+		}
+		if err := cmd.Start(); err != nil {
+			t.Fatal(err)
+		}
+		cancel()
+		<-interrupted
+		io.Copy(io.Discard, stderr)
+
+		err = cmd.Wait()
+		t.Logf("[%d] %v", cmd.Process.Pid, err)
+
+		if ee, ok := err.(*exec.ExitError); !ok || ee.ProcessState.ExitCode() != 1 {
+			t.Errorf("Wait error = %v; want exit status 1", err)
 		}
 	})
 }
