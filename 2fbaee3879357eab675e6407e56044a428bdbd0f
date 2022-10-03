@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f3c3dc9_1f0dd5ff",
+        "filename": "src/html/template/template.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-10-03T02:06:39Z",
+      "side": 1,
+      "message": "template.FuncMap and FuncMap are aliases, so the type conversion does nothing, but it is still useful for the reader.",
+      "revId": "2fbaee3879357eab675e6407e56044a428bdbd0f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
