@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af60edff_547df696",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-10-03T21:28:23Z",
+      "side": 1,
+      "message": "TRY\u003dlinux-mips64,linux-mips64le",
+      "revId": "be2cb296b8fab2c8f3c299601d0bd6dab55f4d77",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "942bc56a_96c85c85",
+        "filename": "src/cmd/go/internal/work/gc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-10-03T21:28:23Z",
+      "side": 1,
+      "message": "Maybe \"R28 is used as SB in static code\".",
+      "range": {
+        "startLine": 374,
+        "startChar": 21,
+        "endLine": 374,
+        "endChar": 54
+      },
+      "revId": "be2cb296b8fab2c8f3c299601d0bd6dab55f4d77",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
