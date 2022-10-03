@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52f4c9d5_7893120e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-03T18:26:50Z",
+      "side": 1,
+      "message": "Thanks! This pattern definitely has some subtlety to it, so the new example should help clear this up for a lot of Go users.",
+      "revId": "f41dd074d3da60de71bbbab0da690cf878a8147b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c71ac710_ff1a4690",
+        "filename": "src/testing/benchmark_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-03T18:26:50Z",
+      "side": 1,
+      "message": "Move this declaration to before the `RunParallel` call and use `atomic.Int64` instead of a plain `int64`.",
+      "revId": "f41dd074d3da60de71bbbab0da690cf878a8147b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24242016_cd1abeeb",
+        "filename": "src/testing/benchmark_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-03T18:26:50Z",
+      "side": 1,
+      "message": "This comment puts the emphasis in the wrong place — explain why it would race, instead of why it doesn\u0027t.\n\nPerhaps:\n```\n// Because RunParallel runs the function many times in parallel,\n// we must increment the counter atomically to avoid racing writes.\n```",
+      "range": {
+        "startLine": 194,
+        "startChar": 0,
+        "endLine": 196,
+        "endChar": 40
+      },
+      "revId": "f41dd074d3da60de71bbbab0da690cf878a8147b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9229eecb_8f0994b3",
+        "filename": "src/testing/benchmark_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-03T18:26:50Z",
+      "side": 1,
+      "message": "I\u0027m not sure what this comment is saying. `RunParallel` does not modify `b.N`, so it is always safe to access. (But see my next comment below.)",
+      "range": {
+        "startLine": 202,
+        "startChar": 3,
+        "endLine": 203,
+        "endChar": 28
+      },
+      "revId": "f41dd074d3da60de71bbbab0da690cf878a8147b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "018f86d8_cf5b9e50",
+        "filename": "src/testing/benchmark_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-03T18:26:50Z",
+      "side": 1,
+      "message": "These calls need to be moved outside of the `RunParallel` callback: we want only one call per metric overall, but this would call `ReportMetric` once per metric _per invocation of the callback_.\n\nSince that\u0027s fairly subtle, please also add a comment. Perhaps something like:\n```\n// Report each metric only once, after all of the parallel calls have completed.\n```",
+      "range": {
+        "startLine": 206,
+        "startChar": 0,
+        "endLine": 212,
+        "endChar": 0
+      },
+      "revId": "f41dd074d3da60de71bbbab0da690cf878a8147b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
