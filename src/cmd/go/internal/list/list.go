@@ -631,6 +631,8 @@ func runList(ctx context.Context, cmd *base.Command, args []string) {
 		}
 	}
 
+	work.SetPGOProfilePath(pkgs)
+
 	if *listTest {
 		c := cache.Default()
 		// Add test binaries to packages to be listed.

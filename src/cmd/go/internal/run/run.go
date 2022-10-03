@@ -143,6 +143,8 @@ func runRun(ctx context.Context, cmd *base.Command, args []string) {
 		}
 		p = pkgs[0]
 		i++
+
+		work.SetPGOProfilePath(pkgs)
 	} else {
 		base.Fatalf("go: no go files listed")
 	}
