@@ -159,6 +159,8 @@ and test commands:
 		run through go run and go test respectively.
 	-pgo file
 		specify the file path of a profile for profile-guided optimization (PGO).
+		Special name "auto" lets the go command select a file named
+		"default.pgo" in the main package's directory if that file exists.
 		Special name "off" turns off PGO.
 	-pkgdir dir
 		install and load all packages from dir instead of the usual locations.
@@ -490,6 +492,8 @@ func runBuild(ctx context.Context, cmd *base.Command, args []string) {
 		load.PrepareForCoverageBuild(pkgs)
 	}
 
+	SetPGOProfilePath(pkgs)
+
 	if cfg.BuildO != "" {
 		// If the -o name exists and is a directory or
 		// ends with a slash or backslash, then
@@ -541,6 +545,41 @@ func runBuild(ctx context.Context, cmd *base.Command, args []string) {
 		a = b.buildmodeShared(ModeBuild, depMode, args, pkgs, a)
 	}
 	b.Do(ctx, a)
+}
+
+// SetPGOProfilePath sets cfg.BuildPGOFile to the PGO profile path.
+// In -pgo=auto mode, it finds the default PGO profile.
+func SetPGOProfilePath(pkgs []*load.Package) {
+	switch cfg.BuildPGO {
+	case "":
+		fallthrough // default to "off"
+	case "off":
+		return
+
+	case "auto":
+		// Locate PGO profile from the main package.
+		mainpkgs := pkgsMain(pkgs)
+		if len(mainpkgs) == 0 {
+			// No main package, no default.pgo to look for.
+			return
+		}
+		if len(mainpkgs) > 1 {
+			base.Fatalf("-pgo=auto requires exactly one main package")
+		}
+		file := filepath.Join(mainpkgs[0].Dir, "default.pgo")
+		if fi, err := os.Stat(file); err == nil && !fi.IsDir() {
+			cfg.BuildPGOFile = file
+		}
+
+	default:
+		// Profile specified from the command line.
+		// Make it absolute path, as the compiler runs on various directories.
+		if p, err := filepath.Abs(cfg.BuildPGO); err != nil {
+			base.Fatalf("fail to get absolute path of PGO file %s: %v", cfg.BuildPGO, err)
+		} else {
+			cfg.BuildPGOFile = p
+		}
+	}
 }
 
 var CmdInstall = &base.Command{
@@ -699,6 +738,8 @@ func runInstall(ctx context.Context, cmd *base.Command, args []string) {
 	if cfg.Experiment.CoverageRedesign && cfg.BuildCover {
 		load.PrepareForCoverageBuild(pkgs)
 	}
+
+	SetPGOProfilePath(pkgs)
 
 	InstallPackages(ctx, args, pkgs)
 }
