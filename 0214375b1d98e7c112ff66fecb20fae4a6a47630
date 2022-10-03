@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "221bfcbf_33b5c666",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-10-03T02:04:19Z",
+      "side": 1,
+      "message": "Thanks, but I don\u0027t see any reason to do this.  It\u0027s very unlikely that anybody will call these functions with an empty string, and it seems to me that if they do the right thing will happen.  There\u0027s no reason to add an extra check for an unlikely case.",
+      "revId": "0214375b1d98e7c112ff66fecb20fae4a6a47630",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
