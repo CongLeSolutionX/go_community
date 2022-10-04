@@ -35,6 +35,13 @@ func atomicstorep(ptr unsafe.Pointer, new unsafe.Pointer) {
 	atomic.StorepNoWB(noescape(ptr), new)
 }
 
+// atomicPointerStore is what ptr.Store(new) would do if not for the import cycle.
+//
+//go:nosplit
+func atomicPointerStore[T any](ptr *atomic.Pointer[T], new *T) {
+	atomicstorep(unsafe.Pointer(ptr), unsafe.Pointer(new))
+}
+
 // Like above, but implement in terms of sync/atomic's uintptr operations.
 // We cannot just call the runtime routines, because the race detector expects
 // to be able to intercept the sync/atomic forms but not the runtime forms.
