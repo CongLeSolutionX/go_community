@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27193c41_46d948b6",
+        "filename": "src/path/filepath/path.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-10-04T22:20:36Z",
+      "side": 1,
+      "message": "Thanks, but currently path/filepath does not import path, and I think we ought to keep it that way.  The two packages serve different purposes, and I\u0027d rather not start entangling them.",
+      "revId": "9f29c9bb89b2fe008aaf84e364e47dce1b34f98f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13428abd_b98bc3d2",
+        "filename": "src/path/path.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-10-04T22:20:36Z",
+      "side": 1,
+      "message": "I think that if we\u0027re going to adopt this approach we may as well get rid of lazybuf.  The whole point of lazybuf is to handle clean paths more efficiently.  If we are already doing that, lazybuf isn\u0027t helping much.",
+      "revId": "9f29c9bb89b2fe008aaf84e364e47dce1b34f98f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "665339fe_c07b7327",
+        "filename": "src/path/path.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-10-04T22:20:36Z",
+      "side": 1,
+      "message": "This doesn\u0027t seem to me to be a good enough reason to use a goto.  We can just wrap this loop into a little closure and have it return whether the path is clean.",
+      "revId": "9f29c9bb89b2fe008aaf84e364e47dce1b34f98f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ca8777b_5a35b484",
+        "filename": "src/path/path_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-10-04T22:20:36Z",
+      "side": 1,
+      "message": "Not sure what \"TestRedirect\" means here.",
+      "revId": "9f29c9bb89b2fe008aaf84e364e47dce1b34f98f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
