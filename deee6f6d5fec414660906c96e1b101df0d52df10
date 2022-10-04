@@ -16,6 +16,23 @@
       "message": "Had to change `atomic.Int64` back to int64 due to build issues",
       "revId": "deee6f6d5fec414660906c96e1b101df0d52df10",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "25eba4d6_1b096e14",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 59308
+      },
+      "writtenOn": "2022-10-04T17:36:12Z",
+      "side": 1,
+      "message": "Removed the `:` from the comment mentioning the issue fix",
+      "revId": "deee6f6d5fec414660906c96e1b101df0d52df10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
