@@ -766,12 +766,14 @@ func (p *parser) funcDeclOrNil() *FuncDecl {
 	f := new(FuncDecl)
 	f.pos = p.pos()
 	f.Pragma = p.takePragma()
+	var hasReceiver = true
 
 	if p.got(_Lparen) {
 		rcvr := p.paramList(nil, nil, _Rparen, false)
 		switch len(rcvr) {
 		case 0:
 			p.error("method has no receiver")
+			hasReceiver = false
 		default:
 			p.error("method has multiple receivers")
 			fallthrough
@@ -781,7 +783,12 @@ func (p *parser) funcDeclOrNil() *FuncDecl {
 	}
 
 	if p.tok != _Name {
-		p.syntaxError("expected name or (")
+		if hasReceiver {
+			p.syntaxError("expected name")
+		} else {
+			p.syntaxError("expected name or (")
+		}
+
 		p.advance(_Lbrace, _Semi)
 		return nil
 	}
