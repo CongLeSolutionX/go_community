@@ -33,6 +33,24 @@
       "message": "Removed the `:` from the comment mentioning the issue fix",
       "revId": "deee6f6d5fec414660906c96e1b101df0d52df10",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5911dcca_1c98a145",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-04T21:12:33Z",
+      "side": 1,
+      "message": "It looks like the build failures were just a missing part of the change: with `atomic.Int64` you need to use the `(*atomic.Int64).Add` method instead of the `atomic.AddInt64` function:\n\n```\n\tcompares.Add(1)\n```",
+      "parentUuid": "a1313459_b35d8a9e",
+      "revId": "deee6f6d5fec414660906c96e1b101df0d52df10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
