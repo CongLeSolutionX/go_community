@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b918b16f_d86ea757",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-10-04T17:23:21Z",
+      "side": 1,
+      "message": "Thanks, but I like to fix this one myself.",
+      "revId": "22b1442e9554148ff45a755e58f6ed092df97116",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ffe7d78_bce98ccb",
+        "filename": "src/cmd/compile/internal/syntax/parser.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 769,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-10-04T17:23:21Z",
+      "side": 1,
+      "message": "We already have this information in f.Recv.",
+      "revId": "22b1442e9554148ff45a755e58f6ed092df97116",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
