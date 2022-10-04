@@ -51,6 +51,41 @@
       "parentUuid": "a1313459_b35d8a9e",
       "revId": "deee6f6d5fec414660906c96e1b101df0d52df10",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbf5adb9_1d90f749",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 59308
+      },
+      "writtenOn": "2022-10-04T22:07:52Z",
+      "side": 1,
+      "message": "@bcmills@google.com I want to note that I have been having this error while running `./all.bat` in my system:\n\n```\n##### ../misc/cgo/test\nok      misc/cgo/test   7.979s\nfatal error: unexpected signal during runtime execution\n[signal 0xc0000005 code\u003d0x0 addr\u003d0xffffffffffffffff pc\u003d0x3e2348]\n\n...\n\nFAIL    misc/cgo/test   0.488s\n```\n\nBut am not understanding why. Even when I cloned the repo again and ran `./all.bat` from a fresh copy of the repo I keep getting this error. Would you happen to know anything about it?",
+      "revId": "deee6f6d5fec414660906c96e1b101df0d52df10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e9790b7_dd156271",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 59308
+      },
+      "writtenOn": "2022-10-04T22:07:52Z",
+      "side": 1,
+      "message": "I saw the documentation for `atomic.Int64`, and realized that by adding the `compares.Add(1)` method, we would also have to call `compares.Load()` every time we wanted to retrieve the wrapped number. At the time I figured to show simplicity just using `int64` was good, but using `atomic.Int64` is better to drive the idea that we are adding concurrently and it better fits the pattern we want others to see. Thanks for the note!",
+      "parentUuid": "5911dcca_1c98a145",
+      "revId": "deee6f6d5fec414660906c96e1b101df0d52df10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
