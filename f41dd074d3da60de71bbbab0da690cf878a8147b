@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "51508281_1e3fb8c9",
+        "filename": "src/testing/benchmark_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 59308
+      },
+      "writtenOn": "2022-10-04T15:12:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c71ac710_ff1a4690",
+      "revId": "f41dd074d3da60de71bbbab0da690cf878a8147b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "24242016_cd1abeeb",
@@ -48,6 +66,30 @@
       "writtenOn": "2022-10-03T18:26:50Z",
       "side": 1,
       "message": "This comment puts the emphasis in the wrong place — explain why it would race, instead of why it doesn\u0027t.\n\nPerhaps:\n```\n// Because RunParallel runs the function many times in parallel,\n// we must increment the counter atomically to avoid racing writes.\n```",
+      "range": {
+        "startLine": 194,
+        "startChar": 0,
+        "endLine": 196,
+        "endChar": 40
+      },
+      "revId": "f41dd074d3da60de71bbbab0da690cf878a8147b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65e2e402_1c52f653",
+        "filename": "src/testing/benchmark_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 59308
+      },
+      "writtenOn": "2022-10-04T15:12:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24242016_cd1abeeb",
       "range": {
         "startLine": 194,
         "startChar": 0,
@@ -81,6 +123,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dee38d18_f093da74",
+        "filename": "src/testing/benchmark_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 59308
+      },
+      "writtenOn": "2022-10-04T15:12:10Z",
+      "side": 1,
+      "message": "It was mostly due to a comment made in the issue thread, however, this makes sense given the comment you made below.",
+      "parentUuid": "9229eecb_8f0994b3",
+      "range": {
+        "startLine": 202,
+        "startChar": 3,
+        "endLine": 203,
+        "endChar": 28
+      },
+      "revId": "f41dd074d3da60de71bbbab0da690cf878a8147b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "018f86d8_cf5b9e50",
@@ -94,6 +160,30 @@
       "writtenOn": "2022-10-03T18:26:50Z",
       "side": 1,
       "message": "These calls need to be moved outside of the `RunParallel` callback: we want only one call per metric overall, but this would call `ReportMetric` once per metric _per invocation of the callback_.\n\nSince that\u0027s fairly subtle, please also add a comment. Perhaps something like:\n```\n// Report each metric only once, after all of the parallel calls have completed.\n```",
+      "range": {
+        "startLine": 206,
+        "startChar": 0,
+        "endLine": 212,
+        "endChar": 0
+      },
+      "revId": "f41dd074d3da60de71bbbab0da690cf878a8147b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7102303_f28ce42b",
+        "filename": "src/testing/benchmark_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 59308
+      },
+      "writtenOn": "2022-10-04T15:12:10Z",
+      "side": 1,
+      "message": "Nice catch! Added that in my newest change",
+      "parentUuid": "018f86d8_cf5b9e50",
       "range": {
         "startLine": 206,
         "startChar": 0,

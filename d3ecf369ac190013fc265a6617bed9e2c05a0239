@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "82758cbd_50a165e5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 59308
+      },
+      "writtenOn": "2022-10-04T15:12:10Z",
+      "side": 1,
+      "message": "Thank you for the review! Just updated my change based on your comments. Thank you for the prompt feedback 😊",
+      "revId": "d3ecf369ac190013fc265a6617bed9e2c05a0239",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
