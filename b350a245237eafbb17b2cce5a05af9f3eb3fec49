@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a11f6e4_0edb1a5d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-10-04T19:26:32Z",
+      "side": 1,
+      "message": "I reviewed the last file, transport_test.go, and it looks to me like it is doing the same thing that it was before.  So, that much LGTM, but that was a large file.",
+      "revId": "b350a245237eafbb17b2cce5a05af9f3eb3fec49",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5cefab13_16c5f166",
+        "filename": "src/net/http/clientserver_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-10-04T19:26:32Z",
+      "side": 1,
+      "message": "I think this might want a comment talking about things that are not obvious w/o reading the code, like that \"opts\" (options?  That\u0027s how I read it) are functions.   Some of the other code is difficult to understand w/o that context.",
+      "range": {
+        "startLine": 138,
+        "startChar": 0,
+        "endLine": 138,
+        "endChar": 97
+      },
+      "revId": "b350a245237eafbb17b2cce5a05af9f3eb3fec49",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

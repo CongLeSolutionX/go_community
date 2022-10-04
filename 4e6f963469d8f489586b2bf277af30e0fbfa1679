@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19e08947_b48c69eb",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2765,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-10-04T19:26:32Z",
+      "side": 0,
+      "message": "I infer that setParallel is now the default, and not-parallel is requested?\n(There\u0027s another comment on this below).",
+      "range": {
+        "startLine": 2765,
+        "startChar": 1,
+        "endLine": 2765,
+        "endChar": 15
+      },
+      "revId": "4e6f963469d8f489586b2bf277af30e0fbfa1679",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "239c5b7a_f0e3a01d",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 6553,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-10-04T19:26:32Z",
+      "side": 0,
+      "message": "Does removing this matter?  I see how \"run\" can turn this on based on something, but I don\u0027t see connected dots from here to there (doesn\u0027t mean the dots aren\u0027t there, but I don\u0027t see them).",
+      "range": {
+        "startLine": 6553,
+        "startChar": 1,
+        "endLine": 6553,
+        "endChar": 15
+      },
+      "revId": "4e6f963469d8f489586b2bf277af30e0fbfa1679",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
