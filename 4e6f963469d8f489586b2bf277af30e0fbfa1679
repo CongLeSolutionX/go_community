@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "583313c2_60980999",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2765,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-10-04T20:15:34Z",
+      "side": 0,
+      "message": "Yes; added some doc comments and a comment to the CL description.",
+      "parentUuid": "19e08947_b48c69eb",
+      "range": {
+        "startLine": 2765,
+        "startChar": 1,
+        "endLine": 2765,
+        "endChar": 15
+      },
+      "revId": "4e6f963469d8f489586b2bf277af30e0fbfa1679",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "239c5b7a_f0e3a01d",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-10-04T19:26:32Z",
       "side": 0,
       "message": "Does removing this matter?  I see how \"run\" can turn this on based on something, but I don\u0027t see connected dots from here to there (doesn\u0027t mean the dots aren\u0027t there, but I don\u0027t see them).",
+      "range": {
+        "startLine": 6553,
+        "startChar": 1,
+        "endLine": 6553,
+        "endChar": 15
+      },
+      "revId": "4e6f963469d8f489586b2bf277af30e0fbfa1679",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c4402e6_263b30e0",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 6553,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-10-04T20:15:34Z",
+      "side": 0,
+      "message": "Most net/http tests call setParallel(t) (which calls t.Parallel, depending on the test flags). Some don\u0027t, either because they can\u0027t run in parallel for one reason or another, or because someone forgot to add the setParallel(t) call.\n\nThis CL moves most tests into subtests; where we had TestFoo_h1, now we have TestFoo/h1. To preserve parallelism, both TestFoo and the h1 subtest need to call t.Parallel. (If you just do it in the subtest, then the subtests execute in parallel but the parent tests don\u0027t.)\n\nThe simplest way to handle this seemed to be to move the t.Parallel calls for both the outer test and the subtest into the run function, and to tell it about the relatively unusual cases where a test can\u0027t run in parallel. This does mean we need to remove the setParallel(t) calls in the tests, because it\u0027s an error to call t.Parallel twice for the same test.",
+      "parentUuid": "239c5b7a_f0e3a01d",
       "range": {
         "startLine": 6553,
         "startChar": 1,
