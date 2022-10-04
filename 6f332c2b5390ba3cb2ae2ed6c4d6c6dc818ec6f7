@@ -61,6 +61,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c0e328b_2bdfb963",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 772,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-04T14:45:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f69f32b1_ec2d6de6",
+      "range": {
+        "startLine": 772,
+        "startChar": 12,
+        "endLine": 772,
+        "endChar": 15
+      },
+      "revId": "6f332c2b5390ba3cb2ae2ed6c4d6c6dc818ec6f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a25e1cb1_4a0f3be0",
@@ -74,6 +98,24 @@
       "writtenOn": "2022-10-03T21:09:19Z",
       "side": 1,
       "message": "Should use `helperCommandContext` here, even though the command shouldn\u0027t actually start.",
+      "revId": "6f332c2b5390ba3cb2ae2ed6c4d6c6dc818ec6f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a32442a_786a855e",
+        "filename": "src/os/exec/exec_windows_test.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-04T14:45:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a25e1cb1_4a0f3be0",
       "revId": "6f332c2b5390ba3cb2ae2ed6c4d6c6dc818ec6f7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
