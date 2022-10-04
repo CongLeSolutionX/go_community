@@ -17,7 +17,7 @@ import (
 // error will be returned if the operation can't be completed
 // successfully (for example, if the currently running program was not
 // built with "-cover", or if the directory does not exist).
-func EmitMetaDataToDir(dir string) error {
+func WriteMetaDir(dir string) error {
 	if !finalHashComputed {
 		return fmt.Errorf("error: no meta-data available (binary not built with -cover?)")
 	}
@@ -30,7 +30,7 @@ func EmitMetaDataToDir(dir string) error {
 // the operation can't be completed successfully (for example, if the
 // currently running program was not built with "-cover", or if a
 // write fails).
-func EmitMetaDataToWriter(w io.Writer) error {
+func WriteMeta(w io.Writer) error {
 	if w == nil {
 		return fmt.Errorf("error: nil writer in EmitMetaDataToWriter")
 	}
@@ -48,7 +48,7 @@ func EmitMetaDataToWriter(w io.Writer) error {
 // built with "-cover", or if the directory does not exist). The
 // counter data written will be a snapshot taken at the point of the
 // call.
-func EmitCounterDataToDir(dir string) error {
+func WriteCountersDir(dir string) error {
 	return emitCounterDataToDirectory(dir)
 }
 
@@ -58,7 +58,7 @@ func EmitCounterDataToDir(dir string) error {
 // example, if the currently running program was not built with
 // "-cover", or if a write fails). The counter data written will be a
 // snapshot taken at the point of the invocation.
-func EmitCounterDataToWriter(w io.Writer) error {
+func WriteCounters(w io.Writer) error {
 	if w == nil {
 		return fmt.Errorf("error: nil writer in EmitCounterDataToWriter")
 	}
@@ -85,7 +85,7 @@ func EmitCounterDataToWriter(w io.Writer) error {
 // of coverage counters is also not supported for programs not using
 // atomic counter mode (see more detailed comments below for the
 // rationale here).
-func ClearCoverageCounters() error {
+func ClearCounters() error {
 	cl := getCovCounterList()
 	if len(cl) == 0 {
 		return fmt.Errorf("program not built with -cover")
