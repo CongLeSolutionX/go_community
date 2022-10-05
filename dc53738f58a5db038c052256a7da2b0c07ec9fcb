@@ -16,6 +16,24 @@
       "message": "Are these necessary, or just an optimization?\nI ask because I think assembly code goes through this pass, and code from the assembler will not have been normalized like the compiler-generated assembly has been.\nI\u0027m happy to drop this code if it\u0027s just an optimization.",
       "revId": "dc53738f58a5db038c052256a7da2b0c07ec9fcb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e72f236_abca8d47",
+        "filename": "src/cmd/internal/obj/arm64/obj7.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-10-05T01:33:35Z",
+      "side": 0,
+      "message": "Yeah, these are just optimizations, in fact, I think our assembler is very thoughtful about the encoding of constants, so I think these are unnecessary.",
+      "parentUuid": "596a6a8d_19da282e",
+      "revId": "dc53738f58a5db038c052256a7da2b0c07ec9fcb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

@@ -76,6 +76,30 @@
       },
       "revId": "0e96fff740da11e1ba36d5a3e17f97806f848731",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4f00b48_0d3831e1",
+        "filename": "test/codegen/comparisons.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-10-05T01:33:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ca4fe8d_b3a574ff",
+      "range": {
+        "startLine": 330,
+        "startChar": 17,
+        "endLine": 330,
+        "endChar": 22
+      },
+      "revId": "0e96fff740da11e1ba36d5a3e17f97806f848731",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
