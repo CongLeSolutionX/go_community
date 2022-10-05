@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f2aba60_2f6a3449",
+        "filename": "src/crypto/rand/example_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 6480
+      },
+      "writtenOn": "2022-10-05T07:46:04Z",
+      "side": 1,
+      "message": "Maybe something like \"This example prints a single cryptographically secure pseudorandom number between 0 and 99 inclusive.\"",
+      "revId": "7806022f1b7dedf9405c974fc475eaf5af0f98cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57e43020_2bcdcf76",
+        "filename": "src/crypto/rand/example_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 6480
+      },
+      "writtenOn": "2022-10-05T07:46:04Z",
+      "side": 1,
+      "message": "This is not true. Do we need this comment?",
+      "range": {
+        "startLine": 22,
+        "startChar": 27,
+        "endLine": 22,
+        "endChar": 42
+      },
+      "revId": "7806022f1b7dedf9405c974fc475eaf5af0f98cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a2dbd47_5747af3b",
+        "filename": "src/crypto/rand/example_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 6480
+      },
+      "writtenOn": "2022-10-05T07:46:04Z",
+      "side": 1,
+      "message": "The comment here will cause the test to fail always since it is now expecting no output.",
+      "range": {
+        "startLine": 25,
+        "startChar": 1,
+        "endLine": 25,
+        "endChar": 11
+      },
+      "revId": "7806022f1b7dedf9405c974fc475eaf5af0f98cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
