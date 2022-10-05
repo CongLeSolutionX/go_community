@@ -16,6 +16,24 @@
       "message": "It would be nice to include benchmark results in the commit message.",
       "revId": "4f30674815554240da7c9838785f6c6fa3f8396d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53d05236_595679ce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 58123
+      },
+      "writtenOn": "2022-10-05T13:20:36Z",
+      "side": 1,
+      "message": "The 386 assembly code is still a little more than twice as fast as Go code for 64 bit integers, so keep it for now.",
+      "parentUuid": "0a8554ef_df6fc06b",
+      "revId": "4f30674815554240da7c9838785f6c6fa3f8396d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
