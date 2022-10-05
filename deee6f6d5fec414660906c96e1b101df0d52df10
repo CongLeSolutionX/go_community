@@ -86,6 +86,24 @@
       "parentUuid": "5911dcca_1c98a145",
       "revId": "deee6f6d5fec414660906c96e1b101df0d52df10",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e12fc26_a6345950",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-05T15:27:01Z",
+      "side": 1,
+      "message": "That looks like the same failure we\u0027re seeing on the `windows-.*-newcc` builders:\nhttps://build.golang.org/log/d984ad6d06f6372256c7a74e7b5e9fc9eec0dd9c\n\nUnfortunately, the Go project\u0027s builders currently only run tests against outdated C compilers; there is ongoing work to fix that, but it\u0027s not done yet. 😞\n(See https://github.com/golang/go/issues/35006#issuecomment-1145891995 in particular.)\n\nUntil then, perhaps you can run `all.bat` with `CGO_ENABLED\u003d0`, or only run `make.bat` along with `go test` on smaller package patters?",
+      "parentUuid": "bbf5adb9_1d90f749",
+      "revId": "deee6f6d5fec414660906c96e1b101df0d52df10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
