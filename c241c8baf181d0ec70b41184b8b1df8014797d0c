@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "19129cdd_3e655c12",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-10-05T14:47:13Z",
+      "side": 1,
+      "message": "Sorry if this is obvious, but why is this better?  Thanks.",
+      "revId": "c241c8baf181d0ec70b41184b8b1df8014797d0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
