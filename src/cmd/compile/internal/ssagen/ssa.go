@@ -4750,8 +4750,8 @@ func InitTables() {
 		sys.AMD64)
 	alias("math/bits", "Div", "math/bits", "Div64", sys.ArchAMD64)
 
-	alias("runtime/internal/sys", "Ctz8", "math/bits", "TrailingZeros8", all...)
 	alias("runtime/internal/sys", "TrailingZeros8", "math/bits", "TrailingZeros8", all...)
+	alias("runtime/internal/sys", "TrailingZeros32", "math/bits", "TrailingZeros32", all...)
 	alias("runtime/internal/sys", "TrailingZeros64", "math/bits", "TrailingZeros64", all...)
 	alias("runtime/internal/sys", "Len8", "math/bits", "Len8", all...)
 	alias("runtime/internal/sys", "Len64", "math/bits", "Len64", all...)
