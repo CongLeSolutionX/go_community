@@ -16,6 +16,24 @@
       "message": "This type conversion is parallel to the other code.  Let\u0027s keep it even though it\u0027s unnecessary.  Thanks.",
       "revId": "b6f6cb40feca455387a658284cdc6bb371d95e62",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0fc39e31_b789e86d",
+        "filename": "src/encoding/binary/binary_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 51518
+      },
+      "writtenOn": "2022-10-05T03:15:04Z",
+      "side": 1,
+      "message": "Thanks for your guidance.",
+      "parentUuid": "8afda00c_725b9533",
+      "revId": "b6f6cb40feca455387a658284cdc6bb371d95e62",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
