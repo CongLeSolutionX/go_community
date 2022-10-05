@@ -106,6 +106,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "593aa157_6714c66b",
+        "filename": "src/debug/buildinfo/buildinfo_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-05T21:18:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd4b5bb1_a8359f2a",
+      "revId": "da2b44cf1f5c7c4b7a28e383acf0e002a48def46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "36e20a84_8001379f",
