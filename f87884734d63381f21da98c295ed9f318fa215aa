@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7648f9b_41b21fec",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-10-05T14:53:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64d106db_3363c367",
+      "revId": "f87884734d63381f21da98c295ed9f318fa215aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cc874f9e_4350e46e",
@@ -68,6 +86,24 @@
       "writtenOn": "2022-10-05T03:03:00Z",
       "side": 1,
       "message": "s/Specual/Special",
+      "revId": "f87884734d63381f21da98c295ed9f318fa215aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "029475d0_fbfb8d39",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-10-05T14:53:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cc874f9e_4350e46e",
       "revId": "f87884734d63381f21da98c295ed9f318fa215aa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
