@@ -78,6 +78,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8000aa3c_53e37098",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 2640,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2022-10-06T23:03:58Z",
+      "side": 1,
+      "message": "Removed. This was the documented behavior of `slices.Grow`, but changed in CL 417494 to address #53853.",
+      "parentUuid": "393bfd6f_06153224",
+      "range": {
+        "startLine": 2638,
+        "startChar": 44,
+        "endLine": 2640,
+        "endChar": 0
+      },
+      "revId": "b516593168de56c785feeea65fb09c5bb8241006",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c07bbd01_82f2657c",
@@ -174,6 +198,30 @@
       "side": 1,
       "message": "Yes it would. v.ptr points to s. (And grow does not modify v.ptr.)",
       "parentUuid": "45dd7d72_763a8033",
+      "range": {
+        "startLine": 2678,
+        "startChar": 1,
+        "endLine": 2678,
+        "endChar": 34
+      },
+      "revId": "b516593168de56c785feeea65fb09c5bb8241006",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "55e4d913_83c0c335",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 2678,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2022-10-06T23:03:58Z",
+      "side": 1,
+      "message": "I think you\u0027re misreading a single `*` in the code. Changing this to `s.Len +\u003d n` causes the tests to fail.\n\nAnyways, I rewrote this section to hopefully to be more clear.",
+      "parentUuid": "18e1e78d_49b2860b",
       "range": {
         "startLine": 2678,
         "startChar": 1,
