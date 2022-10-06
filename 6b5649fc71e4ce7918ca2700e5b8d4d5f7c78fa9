@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a539e8ce_c228f61a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-10-06T15:49:09Z",
+      "side": 1,
+      "message": "I don\u0027t see why this helps. N/2 * (2 calls to less) is the same as N calls to less.",
+      "revId": "6b5649fc71e4ce7918ca2700e5b8d4d5f7c78fa9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
