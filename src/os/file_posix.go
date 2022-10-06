@@ -14,17 +14,6 @@ import (
 
 func sigpipe() // implemented in package runtime
 
-// Close closes the File, rendering it unusable for I/O.
-// On files that support SetDeadline, any pending I/O operations will
-// be canceled and return immediately with an ErrClosed error.
-// Close will return an error if it has already been called.
-func (f *File) Close() error {
-	if f == nil {
-		return ErrInvalid
-	}
-	return f.file.close()
-}
-
 // read reads up to len(b) bytes from the File.
 // It returns the number of bytes read and an error, if any.
 func (f *File) read(b []byte) (n int, err error) {

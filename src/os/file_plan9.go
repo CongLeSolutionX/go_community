@@ -8,6 +8,7 @@ import (
 	"internal/poll"
 	"io"
 	"runtime"
+	"sync"
 	"syscall"
 	"time"
 )
@@ -22,7 +23,9 @@ func fixLongPath(path string) string {
 // can overwrite this data, which could cause the finalizer
 // to close the wrong file descriptor.
 type file struct {
-	fd         int
+	fdMu sync.RWMutex
+	fd   int
+
 	name       string
 	dirinfo    *dirInfo // nil unless directory being read
 	appendMode bool     // whether file is opened for appending
@@ -40,7 +43,11 @@ func (f *File) Fd() uintptr {
 	if f == nil {
 		return ^(uintptr(0))
 	}
-	return uintptr(f.fd)
+	fd, err := f.lockFD("")
+	if err == nil {
+		f.unlockFD()
+	}
+	return uintptr(fd)
 }
 
 // NewFile returns a new File with the given file descriptor and
@@ -137,26 +144,24 @@ func openFileNolog(name string, flag int, perm FileMode) (*File, error) {
 	return NewFile(uintptr(fd), name), nil
 }
 
-// Close closes the File, rendering it unusable for I/O.
-// On files that support SetDeadline, any pending I/O operations will
-// be canceled and return immediately with an ErrClosed error.
-// Close will return an error if it has already been called.
-func (f *File) Close() error {
-	if err := f.checkValid("close"); err != nil {
-		return err
-	}
-	return f.file.close()
-}
-
 func (file *file) close() error {
-	if file == nil || file.fd == badFd {
-		return ErrInvalid
-	}
-	var err error
-	if e := syscall.Close(file.fd); e != nil {
-		err = &PathError{Op: "close", Path: file.name, Err: e}
+	file.fdMu.Lock() // exclusive, unlike lockFD
+	defer file.fdMu.Unlock()
+
+	fd := file.fd
+	if fd == badFd {
+		return &PathError{Op: "close", Path: file.name, Err: ErrClosed}
 	}
 	file.fd = badFd // so it can't be closed again
+
+	// Per https://9p.io/magic/man2html/2/open:
+	// “Provided the file descriptor is a valid open descriptor, close is
+	// guaranteed to close it; there will be no error.”
+	// But we'll check for one anyway.
+	var err error
+	if e := syscall.Close(fd); e != nil {
+		err = &PathError{Op: "close", Path: file.name, Err: e}
+	}
 
 	// no need for a finalizer anymore
 	runtime.SetFinalizer(file, nil)
@@ -193,7 +198,14 @@ func (f *File) Truncate(size int64) error {
 	if err != nil {
 		return &PathError{Op: "truncate", Path: f.name, Err: err}
 	}
-	if err = syscall.Fwstat(f.fd, buf[:n]); err != nil {
+
+	fd, err := f.lockFD("truncate")
+	if err != nil {
+		return err
+	}
+	defer f.unlockFD()
+
+	if err = syscall.Fwstat(fd, buf[:n]); err != nil {
 		return &PathError{Op: "truncate", Path: f.name, Err: err}
 	}
 	return nil
@@ -219,7 +231,14 @@ func (f *File) chmod(mode FileMode) error {
 	if err != nil {
 		return &PathError{Op: "chmod", Path: f.name, Err: err}
 	}
-	if err = syscall.Fwstat(f.fd, buf[:n]); err != nil {
+
+	fd, err := f.lockFD("chmod")
+	if err != nil {
+		return err
+	}
+	defer f.unlockFD()
+
+	if err = syscall.Fwstat(fd, buf[:n]); err != nil {
 		return &PathError{Op: "chmod", Path: f.name, Err: err}
 	}
 	return nil
@@ -240,7 +259,14 @@ func (f *File) Sync() error {
 	if err != nil {
 		return &PathError{Op: "sync", Path: f.name, Err: err}
 	}
-	if err = syscall.Fwstat(f.fd, buf[:n]); err != nil {
+
+	fd, err := f.lockFD("sync")
+	if err != nil {
+		return err
+	}
+	defer f.unlockFD()
+
+	if err = syscall.Fwstat(fd, buf[:n]); err != nil {
 		return &PathError{Op: "sync", Path: f.name, Err: err}
 	}
 	return nil
@@ -249,7 +275,13 @@ func (f *File) Sync() error {
 // read reads up to len(b) bytes from the File.
 // It returns the number of bytes read and an error, if any.
 func (f *File) read(b []byte) (n int, err error) {
-	n, e := fixCount(syscall.Read(f.fd, b))
+	fd, err := f.lockFD("")
+	if err != nil {
+		return 0, err
+	}
+	defer f.unlockFD()
+
+	n, e := fixCount(syscall.Read(fd, b))
 	if n == 0 && len(b) > 0 && e == nil {
 		return 0, io.EOF
 	}
@@ -260,7 +292,13 @@ func (f *File) read(b []byte) (n int, err error) {
 // It returns the number of bytes read and the error, if any.
 // EOF is signaled by a zero count with err set to nil.
 func (f *File) pread(b []byte, off int64) (n int, err error) {
-	n, e := fixCount(syscall.Pread(f.fd, b, off))
+	fd, err := f.lockFD("")
+	if err != nil {
+		return 0, err
+	}
+	defer f.unlockFD()
+
+	n, e := fixCount(syscall.Pread(fd, b, off))
 	if n == 0 && len(b) > 0 && e == nil {
 		return 0, io.EOF
 	}
@@ -272,10 +310,16 @@ func (f *File) pread(b []byte, off int64) (n int, err error) {
 // Since Plan 9 preserves message boundaries, never allow
 // a zero-byte write.
 func (f *File) write(b []byte) (n int, err error) {
+	fd, err := f.lockFD("")
+	if err != nil {
+		return 0, err
+	}
+	defer f.unlockFD()
+
 	if len(b) == 0 {
 		return 0, nil
 	}
-	return fixCount(syscall.Write(f.fd, b))
+	return fixCount(syscall.Write(fd, b))
 }
 
 // pwrite writes len(b) bytes to the File starting at byte offset off.
@@ -283,10 +327,16 @@ func (f *File) write(b []byte) (n int, err error) {
 // Since Plan 9 preserves message boundaries, never allow
 // a zero-byte write.
 func (f *File) pwrite(b []byte, off int64) (n int, err error) {
+	fd, err := f.lockFD("")
+	if err != nil {
+		return 0, err
+	}
+	defer f.unlockFD()
+
 	if len(b) == 0 {
 		return 0, nil
 	}
-	return fixCount(syscall.Pwrite(f.fd, b, off))
+	return fixCount(syscall.Pwrite(fd, b, off))
 }
 
 // seek sets the offset for the next Read or Write on file to offset, interpreted
@@ -294,12 +344,18 @@ func (f *File) pwrite(b []byte, off int64) (n int, err error) {
 // relative to the current offset, and 2 means relative to the end.
 // It returns the new offset and an error, if any.
 func (f *File) seek(offset int64, whence int) (ret int64, err error) {
+	fd, err := f.lockFD("")
+	if err != nil {
+		return 0, err
+	}
+	defer f.unlockFD()
+
 	if f.dirinfo != nil {
 		// Free cached dirinfo, so we allocate a new one if we
 		// access this file as a directory again. See #35767 and #37161.
 		f.dirinfo = nil
 	}
-	return syscall.Seek(f.fd, offset, whence)
+	return syscall.Seek(fd, offset, whence)
 }
 
 // Truncate changes the size of the named file.
@@ -493,10 +549,13 @@ func tempDir() string {
 // which must be a directory.
 // If there is an error, it will be of type *PathError.
 func (f *File) Chdir() error {
-	if err := f.checkValid("chdir"); err != nil {
+	fd, err := f.lockFD("chdir")
+	if err != nil {
 		return err
 	}
-	if e := syscall.Fchdir(f.fd); e != nil {
+	defer f.unlockFD()
+
+	if e := syscall.Fchdir(fd); e != nil {
 		return &PathError{Op: "chdir", Path: f.name, Err: e}
 	}
 	return nil
@@ -529,13 +588,38 @@ func (f *File) setWriteDeadline(time.Time) error {
 // checkValid checks whether f is valid for use.
 // If not, it returns an appropriate error, perhaps incorporating the operation name op.
 func (f *File) checkValid(op string) error {
-	if f == nil {
-		return ErrInvalid
+	_, err := f.lockFD(op)
+	if err == nil {
+		f.unlockFD()
 	}
+	return err
+}
+
+// lockFD returns the file's fd, or a non-nil error if the fd is invalid.
+//
+// If lockFD returns a nil error, the fd will remain valid (and the file
+// cannot be closed) until the caller eventually calls unlockFD.
+func (f *File) lockFD(op string) (fd int, err error) {
+	if f == nil || f.file == nil {
+		return badFd, ErrInvalid
+	}
+
+	f.fdMu.RLock()
+
 	if f.fd == badFd {
-		return &PathError{Op: op, Path: f.name, Err: ErrClosed}
+		f.fdMu.RUnlock()
+		if op == "" {
+			return badFd, ErrClosed
+		}
+		return badFd, &PathError{Op: op, Path: f.name, Err: ErrClosed}
 	}
-	return nil
+
+	return f.fd, nil
+}
+
+// unlockFD releases the lock acquired by the lockFD method.
+func (f *File) unlockFD() {
+	f.fdMu.RUnlock()
 }
 
 type rawConn struct{}

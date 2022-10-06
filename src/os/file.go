@@ -107,6 +107,21 @@ func (e *LinkError) Unwrap() error {
 	return e.Err
 }
 
+// Close closes the File, rendering it unusable for I/O.
+// On files that support SetDeadline, any pending I/O operations will
+// be canceled and return immediately with an ErrClosed error.
+//
+// Close will return an error if it has already been called.
+//
+// On Plan 9 (which does not support SetDeadline), Close may block
+// until pending I/O operations complete.
+func (f *File) Close() error {
+	if f == nil {
+		return ErrInvalid
+	}
+	return f.file.close()
+}
+
 // Read reads up to len(b) bytes from the File and stores them in b.
 // It returns the number of bytes read and any error encountered.
 // At end of file, Read returns 0, io.EOF.
