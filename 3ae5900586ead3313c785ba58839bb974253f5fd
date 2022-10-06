@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "0457661b_20c2f3ac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-06T19:28:15Z",
+      "side": 1,
+      "message": "(nit) “fix bug setting” is a bit ambiguous about whether the bug was that we were setting it, that we were not setting it, or something that went wrong in the process of setting it.\n\nMaybe “avoid setting” instead?",
+      "range": {
+        "startLine": 7,
+        "startChar": 8,
+        "endLine": 7,
+        "endChar": 23
+      },
+      "revId": "3ae5900586ead3313c785ba58839bb974253f5fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "40ac066a_381d6ad0",
