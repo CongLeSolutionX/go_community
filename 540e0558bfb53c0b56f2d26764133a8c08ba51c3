@@ -89,6 +89,24 @@
       "message": "Free compile-time wins SGTM, but the specific runtime calls and math here is pure magic to me.",
       "revId": "540e0558bfb53c0b56f2d26764133a8c08ba51c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "788ce392_221df1cf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-10-06T18:41:11Z",
+      "side": 1,
+      "message": "I tried a little cleanup and rewrite, not sure how much I should talk about known behavior of the GC in this code, it does assume a bit of knowledge.",
+      "parentUuid": "d46ab34d_0e481ec2",
+      "revId": "540e0558bfb53c0b56f2d26764133a8c08ba51c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
