@@ -16,6 +16,24 @@
       "message": "Sorry if this is obvious, but why is this better?  Thanks.",
       "revId": "c241c8baf181d0ec70b41184b8b1df8014797d0c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0e41fcf_3c9380ca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 58123
+      },
+      "writtenOn": "2022-10-06T13:59:41Z",
+      "side": 1,
+      "message": "Hi, Ian! I followed the TODO in the comments in intrinsics.go to reduce duplication of code. Hope can make the code more intuitive and cleaner. I am also learning how to intrinsify 386, and it\u0027s not easy.",
+      "parentUuid": "19129cdd_3e655c12",
+      "revId": "c241c8baf181d0ec70b41184b8b1df8014797d0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
