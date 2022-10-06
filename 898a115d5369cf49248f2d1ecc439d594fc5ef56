@@ -181,6 +181,24 @@
       "message": "How many iterations is this, exactly? (Should we skip this test if `testing.Short()` is false?)",
       "revId": "898a115d5369cf49248f2d1ecc439d594fc5ef56",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9dc4a11b_1b4d3674",
+        "filename": "src/debug/buildinfo/buildinfo_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 52385
+      },
+      "writtenOn": "2022-10-06T00:19:12Z",
+      "side": 1,
+      "message": "`paddingSize-len(buildInfoMagic)` is `186`. It takes `0.003s` on my laptop (CPU: i7-7700 @ 3.60GHz, Memory: 16GiB):\n\n```\ngotip test ./debug/buildinfo -run TestIssue54968 -count 1                                                                                     08:17:58\nok  \tdebug/buildinfo\t0.003s\n```",
+      "parentUuid": "7a24162b_1606b9fc",
+      "revId": "898a115d5369cf49248f2d1ecc439d594fc5ef56",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
