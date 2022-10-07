@@ -512,7 +512,7 @@ func CapMod(a []int) int {
 }
 
 func AddMul(x int) int {
-	// amd64:"LEAQ\t1"
+	// amd64:`LEAQ\t\(AX\)\(AX\*1\)`, "INCQ"
 	return 2*x + 1
 }
 
