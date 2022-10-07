@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "98fa6231_eb75a3f5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2022-10-07T22:10:23Z",
+      "side": 1,
+      "message": "Thank you for the review! If you have the time to do another round after the refactor, that would be awesome!",
+      "parentUuid": "5d6dcac8_25ccad86",
+      "revId": "cf006b83aed30951c18fa6376212d653466934b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0c94bef1_1aa03330",
@@ -106,6 +124,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "25c5f879_6a8f5900",
+        "filename": "src/crypto/rsa/nat.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2022-10-07T22:10:23Z",
+      "side": 1,
+      "message": "Made fillBytes clear the buffer, and expect it to be big enough because we never want to truncate.",
+      "parentUuid": "295e1acb_ed1d20d3",
+      "revId": "cf006b83aed30951c18fa6376212d653466934b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e8e42bc9_7fc99c0f",
@@ -176,6 +212,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a02bba46_1e2a410b",
+        "filename": "src/crypto/rsa/nat.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2022-10-07T22:10:23Z",
+      "side": 1,
+      "message": "See above.",
+      "parentUuid": "bf1e04b8_447c389a",
+      "revId": "cf006b83aed30951c18fa6376212d653466934b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6fc4745f_b3f6236c",
@@ -224,6 +278,24 @@
       "writtenOn": "2021-06-09T10:16:34Z",
       "side": 1,
       "message": "That\u0027s nice, padding can get annoying quickly when you do remove zeros.",
+      "revId": "cf006b83aed30951c18fa6376212d653466934b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "06baf6b5_3d2b2727",
+        "filename": "src/crypto/rsa/nat.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2022-10-07T22:10:23Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2235cc60_b95efa33",
       "revId": "cf006b83aed30951c18fa6376212d653466934b6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -298,6 +370,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d618f14_ab32769f",
+        "filename": "src/crypto/rsa/nat.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2022-10-07T22:10:23Z",
+      "side": 1,
+      "message": "(1 \u003c\u003c 4) - 1 is better, done.",
+      "parentUuid": "d6b2d394_9b94f085",
+      "revId": "cf006b83aed30951c18fa6376212d653466934b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0927e28f_20cede2d",
@@ -329,6 +419,24 @@
       "side": 1,
       "message": "We should also be mindful of helping the compiler elide bounds checking. It may not make the connection between size and the length of the buffer we\u0027re writing to.",
       "parentUuid": "0927e28f_20cede2d",
+      "revId": "cf006b83aed30951c18fa6376212d653466934b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e63a821_9b955b63",
+        "filename": "src/crypto/rsa/nat.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2022-10-07T22:10:23Z",
+      "side": 1,
+      "message": "Replaced with resetFor.",
+      "parentUuid": "0b373a21_c42d6169",
       "revId": "cf006b83aed30951c18fa6376212d653466934b6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -398,6 +506,24 @@
       "writtenOn": "2021-06-09T10:16:34Z",
       "side": 1,
       "message": "The blinding is no longer applied there... Might require further changes to the comments.\nI\u0027m not sure blinding should be removed altogether... notice that it is also effective against some power-analysis attacks, not just timing ones.",
+      "revId": "cf006b83aed30951c18fa6376212d653466934b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f14b53d_47341ba8",
+        "filename": "src/crypto/rsa/rsa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2022-10-07T22:10:23Z",
+      "side": 1,
+      "message": "Cleaned up all mentions of blinding in comments. Power-analysis attacks are out of scope for the Go standard library in general.",
+      "parentUuid": "758aaa56_3fa1e1bf",
       "revId": "cf006b83aed30951c18fa6376212d653466934b6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
