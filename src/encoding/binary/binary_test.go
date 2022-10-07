@@ -5,6 +5,7 @@
 package binary
 
 import (
+	"bufio"
 	"bytes"
 	"fmt"
 	"io"
@@ -539,38 +540,87 @@ func testReadInvalidDestination(t *testing.T, order ByteOrder) {
 	}
 }
 
-type byteSliceReader struct {
-	remain []byte
+func TestReadZeroCopy(t *testing.T) {
+	pb := new(byte)             // fast path
+	ps := new(struct{ V byte }) // reflection
+	raw := make([]byte, (100+1)*2)
+
+	for _, r := range []io.Reader{
+		bytes.NewBuffer(raw),
+		bufio.NewReader(bytes.NewReader(raw)),
+	} {
+		t.Run(fmt.Sprintf("%T", r), func(t *testing.T) {
+			n := testing.AllocsPerRun(100, func() {
+				if err := Read(r, LittleEndian, pb); err != nil {
+					t.Fatal("Read failed:", err)
+				}
+			})
+			if n > 0 {
+				t.Errorf("Reading byte from %T allocated %v times on average", r, n)
+			}
+
+			n = testing.AllocsPerRun(100, func() {
+				if err := Read(r, LittleEndian, ps); err != nil {
+					t.Fatal("Read failed:", err)
+				}
+			})
+			if n > 0 {
+				t.Errorf("Reading struct{byte} from %T allocated %v times on average", r, n)
+			}
+		})
+	}
 }
 
-func (br *byteSliceReader) Read(p []byte) (int, error) {
-	n := copy(p, br.remain)
-	br.remain = br.remain[n:]
-	return n, nil
+func TestWriteZeroCopy(t *testing.T) {
+	pb := new(byte)             // fast path
+	ps := new(struct{ V byte }) // reflection
+
+	for _, w := range []io.Writer{
+		bufio.NewWriter(io.Discard),
+	} {
+		t.Run(fmt.Sprintf("%T", w), func(t *testing.T) {
+			n := testing.AllocsPerRun(100, func() {
+				if err := Write(w, LittleEndian, pb); err != nil {
+					t.Fatal("Write failed:", err)
+				}
+			})
+			if n > 0 {
+				t.Errorf("Writing byte to %T allocated %v times on average", w, n)
+			}
+
+			n = testing.AllocsPerRun(100, func() {
+				if err := Write(w, LittleEndian, ps); err != nil {
+					t.Fatal("Write failed:", err)
+				}
+			})
+			if n > 0 {
+				t.Errorf("Writing struct{byte} to %T allocated %v times on average", w, n)
+			}
+		})
+	}
 }
 
 func BenchmarkReadSlice1000Int32s(b *testing.B) {
-	bsr := &byteSliceReader{}
+	var bb bytes.Buffer
 	slice := make([]int32, 1000)
 	buf := make([]byte, len(slice)*4)
 	b.SetBytes(int64(len(buf)))
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		bsr.remain = buf
-		Read(bsr, BigEndian, slice)
+		bb = *bytes.NewBuffer(buf)
+		Read(&bb, BigEndian, slice)
 	}
 }
 
 func BenchmarkReadStruct(b *testing.B) {
-	bsr := &byteSliceReader{}
-	var buf bytes.Buffer
+	var bb, buf bytes.Buffer
 	Write(&buf, BigEndian, &s)
 	b.SetBytes(int64(dataSize(reflect.ValueOf(s))))
 	t := s
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		bsr.remain = buf.Bytes()
-		Read(bsr, BigEndian, &t)
+		bb = *bytes.NewBuffer(buf.Bytes())
+		Read(&bb, BigEndian, &t)
 	}
 	b.StopTimer()
 	if b.N > 0 && !reflect.DeepEqual(s, t) {
@@ -588,12 +638,12 @@ func BenchmarkWriteStruct(b *testing.B) {
 
 func BenchmarkReadInts(b *testing.B) {
 	var ls Struct
-	bsr := &byteSliceReader{}
-	var r io.Reader = bsr
+	var bb bytes.Buffer
+	var r io.Reader = &bb
 	b.SetBytes(2 * (1 + 2 + 4 + 8))
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		bsr.remain = big
+		bb = *bytes.NewBuffer(big)
 		Read(r, BigEndian, &ls.Int8)
 		Read(r, BigEndian, &ls.Int16)
 		Read(r, BigEndian, &ls.Int32)
@@ -738,12 +788,12 @@ func BenchmarkLittleEndianAppendUint64(b *testing.B) {
 
 func BenchmarkReadFloats(b *testing.B) {
 	var ls Struct
-	bsr := &byteSliceReader{}
-	var r io.Reader = bsr
+	var bb bytes.Buffer
+	var r io.Reader = &bb
 	b.SetBytes(4 + 8)
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		bsr.remain = big[30:]
+		bb = *bytes.NewBuffer(big[30:])
 		Read(r, BigEndian, &ls.Float32)
 		Read(r, BigEndian, &ls.Float64)
 	}
@@ -784,14 +834,14 @@ func BenchmarkWriteFloats(b *testing.B) {
 }
 
 func BenchmarkReadSlice1000Float32s(b *testing.B) {
-	bsr := &byteSliceReader{}
+	var bb bytes.Buffer
 	slice := make([]float32, 1000)
 	buf := make([]byte, len(slice)*4)
 	b.SetBytes(int64(len(buf)))
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		bsr.remain = buf
-		Read(bsr, BigEndian, slice)
+		bb = *bytes.NewBuffer(buf)
+		Read(&bb, BigEndian, slice)
 	}
 }
 
@@ -809,14 +859,14 @@ func BenchmarkWriteSlice1000Float32s(b *testing.B) {
 }
 
 func BenchmarkReadSlice1000Uint8s(b *testing.B) {
-	bsr := &byteSliceReader{}
+	var bb bytes.Buffer
 	slice := make([]uint8, 1000)
 	buf := make([]byte, len(slice))
 	b.SetBytes(int64(len(buf)))
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		bsr.remain = buf
-		Read(bsr, BigEndian, slice)
+		bb = *bytes.NewBuffer(buf)
+		Read(&bb, BigEndian, slice)
 	}
 }
 

@@ -22,6 +22,8 @@
 package binary
 
 import (
+	"bufio"
+	"bytes"
 	"errors"
 	"io"
 	"math"
@@ -229,8 +231,8 @@ func (bigEndian) GoString() string { return "binary.BigEndian" }
 func Read(r io.Reader, order ByteOrder, data any) error {
 	// Fast path for basic types and slices.
 	if n := intDataSize(data); n != 0 {
-		bs := make([]byte, n)
-		if _, err := io.ReadFull(r, bs); err != nil {
+		bs, err := readBuffer(r, n)
+		if err != nil {
 			return err
 		}
 		switch data := data.(type) {
@@ -319,12 +321,42 @@ func Read(r io.Reader, order ByteOrder, data any) error {
 	if size < 0 {
 		return errors.New("binary.Read: invalid type " + reflect.TypeOf(data).String())
 	}
-	d := &decoder{order: order, buf: make([]byte, size)}
-	if _, err := io.ReadFull(r, d.buf); err != nil {
+	bs, err := readBuffer(r, size)
+	if err != nil {
 		return err
 	}
+	d := &decoder{order: order, buf: bs}
 	d.value(v)
 	return nil
+}
+
+func readBuffer(r io.Reader, n int) ([]byte, error) {
+	switch r := r.(type) {
+	case *bufio.Reader:
+		buf, err := r.Peek(n)
+		if err != nil {
+			// Something went wrong, maybe we've hit bufio.ErrBufferFull.
+			// Fall back to allocating a new slice and trying a Read.
+			break
+		}
+
+		_, err = r.Discard(n)
+		return buf, err
+
+	case *bytes.Buffer:
+		buf := r.Next(n)
+		if len(buf) == 0 {
+			return nil, io.EOF
+		} else if len(buf) < n {
+			return nil, io.ErrUnexpectedEOF
+		}
+
+		return buf, nil
+	}
+
+	buf := make([]byte, n)
+	_, err := io.ReadFull(r, buf)
+	return buf, err
 }
 
 // Write writes the binary representation of data into w.
@@ -338,7 +370,7 @@ func Read(r io.Reader, order ByteOrder, data any) error {
 func Write(w io.Writer, order ByteOrder, data any) error {
 	// Fast path for basic types and slices.
 	if n := intDataSize(data); n != 0 {
-		bs := make([]byte, n)
+		bs := writeBuffer(w, n)
 		switch v := data.(type) {
 		case *bool:
 			if *v {
@@ -449,11 +481,22 @@ func Write(w io.Writer, order ByteOrder, data any) error {
 	if size < 0 {
 		return errors.New("binary.Write: invalid type " + reflect.TypeOf(data).String())
 	}
-	buf := make([]byte, size)
+	buf := writeBuffer(w, size)
 	e := &encoder{order: order, buf: buf}
 	e.value(v)
 	_, err := w.Write(buf)
 	return err
+}
+
+// writeBuffer returns a buffer of length n.
+//
+// Uses the backing buffer of w if possible.
+func writeBuffer(w io.Writer, n int) []byte {
+	if bw, ok := w.(*bufio.Writer); ok && bw.Available() >= n {
+		return bw.AvailableBuffer()[:n]
+	}
+
+	return make([]byte, n)
 }
 
 // Size returns how many bytes Write would generate to encode the value v, which
