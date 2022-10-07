@@ -8,3 +8,8 @@
 (LEA(Q|L|W)2 <t> [c] {s} x y) && !t.IsPtrShaped() && c != 0 && s == nil => (LEA(Q|L|W) [c] {s} (LEA(Q|L|W)2 <x.Type> x y))
 (LEA(Q|L|W)4 <t> [c] {s} x y) && !t.IsPtrShaped() && c != 0 && s == nil => (LEA(Q|L|W) [c] {s} (LEA(Q|L|W)4 <x.Type> x y))
 (LEA(Q|L|W)8 <t> [c] {s} x y) && !t.IsPtrShaped() && c != 0 && s == nil => (LEA(Q|L|W) [c] {s} (LEA(Q|L|W)8 <x.Type> x y))
+
+// Prefer SARX/SHLX/SHRX instruction because it has less register restriction on the shift input.
+(SAR(Q|L) x y) && buildcfg.GOAMD64 >= 3 => (SARX(Q|L) x y)
+(SHL(Q|L) x y) && buildcfg.GOAMD64 >= 3 => (SHLX(Q|L) x y)
+(SHR(Q|L) x y) && buildcfg.GOAMD64 >= 3 => (SHRX(Q|L) x y)
