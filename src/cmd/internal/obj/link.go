@@ -191,21 +191,21 @@ import (
 //			index = element index
 
 type Addr struct {
-	Reg    int16
-	Index  int16
-	Scale  int16 // Sometimes holds a register.
-	Type   AddrType
-	Name   AddrName
-	Class  int8
-	Offset int64
-	Sym    *LSym
-
+	Sym *LSym
 	// argument value:
 	//	for TYPE_SCONST, a string
 	//	for TYPE_FCONST, a float64
 	//	for TYPE_BRANCH, a *Prog (optional)
 	//	for TYPE_TEXTSIZE, an int32 (optional)
-	Val interface{}
+	Val    interface{}
+	Offset int64
+
+	Reg   int16
+	Index int16
+	Scale int16 // Sometimes holds a register.
+	Type  AddrType
+	Name  AddrName
+	Class int8
 }
 
 type AddrName int8
@@ -298,12 +298,12 @@ func (a *Addr) SetConst(v int64) {
 type Prog struct {
 	Ctxt     *Link     // linker context
 	Link     *Prog     // next Prog in linked list
-	From     Addr      // first source operand
-	RestArgs []AddrPos // can pack any operands that not fit into {Prog.From, Prog.To}
-	To       Addr      // destination operand (second is RegTo2 below)
 	Pool     *Prog     // constant pool entry, for arm,arm64 back ends
 	Forwd    *Prog     // for x86 back end
 	Rel      *Prog     // for x86, arm back ends
+	RestArgs []AddrPos // can pack any operands that not fit into {Prog.From, Prog.To}
+	From     Addr      // first source operand
+	To       Addr      // destination operand (second is RegTo2 below)
 	Pc       int64     // for back ends or assembler: virtual or actual program counter, depending on phase
 	Pos      src.XPos  // source position of this instruction
 	Spadj    int32     // effect of instruction on stack pointer (increment or decrement amount)
