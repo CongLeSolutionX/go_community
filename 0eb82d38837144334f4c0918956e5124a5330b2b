@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45e1c22c_e45e2b0a",
+        "filename": "src/encoding/binary/binary.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 59313
+      },
+      "writtenOn": "2022-10-07T11:58:03Z",
+      "side": 1,
+      "message": "I\u0027m guessing that the new imports are going to be problematic, but I want to show that there are some good speedups to be had here.",
+      "revId": "0eb82d38837144334f4c0918956e5124a5330b2b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
