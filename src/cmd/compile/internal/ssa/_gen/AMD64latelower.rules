@@ -6,3 +6,8 @@
 (LEA(Q|L)1 <t> [c] {s} x y) && c != 0 => (ADD(Q|L)const [c] (LEA(Q|L)1 <t> [0] {s} x y))
 (LEA(Q|L)4 <t> [c] {s} x y) && c != 0 => (ADD(Q|L)const [c] (LEA(Q|L)4 <t> [0] {s} x y))
 (LEA(Q|L)8 <t> [c] {s} x y) && c != 0 => (ADD(Q|L)const [c] (LEA(Q|L)8 <t> [0] {s} x y))
+
+// Prefer SARX/SHLX/SHRX instruction because it has less register restriction on the shift input.
+(SAR(Q|L) x y) && buildcfg.GOAMD64 >= 3 => (SARX(Q|L) x y)
+(SHL(Q|L) x y) && buildcfg.GOAMD64 >= 3 => (SHLX(Q|L) x y)
+(SHR(Q|L) x y) && buildcfg.GOAMD64 >= 3 => (SHRX(Q|L) x y)
