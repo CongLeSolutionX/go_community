@@ -3313,7 +3313,7 @@ func (v Value) Equal(u Value) bool {
 		return v.Elem().Equal(u.Elem())
 	}
 
-	return false
+	panic("reflect.Value.Equal using uncomparable value")
 }
 
 // convertOp returns the function to convert a value of type src

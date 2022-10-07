@@ -3943,6 +3943,30 @@ func TestValuePanic(t *testing.T) {
 	shouldPanic("call of reflect.Value.Uint on float64 Value", func() { vo(0.0).Uint() })
 }
 
+func TestValue_EqualPanic(t *testing.T) {
+	var invalid = ValueOf(nil)
+	var values = []Value{
+		ValueOf(([]int{})),               // value of slice is uncomparable
+		ValueOf((map[int]int{})),         // value of map is uncomparable
+		ValueOf(((func())(nil))),         // value of func is uncomparable
+		ValueOf((NonComparableStruct{})), // value of struct is uncomparable because of uncomparable elements
+
+		// value of array is uncomparable because of uncomparable elements
+		ValueOf([0]map[int]int{}),
+		ValueOf([0]func(){}),
+		ValueOf(([1]struct{ I interface{} }{{[]int{}}})),
+		ValueOf(([1]interface{}{[1]interface{}{map[int]int{}}})),
+	}
+	for _, value := range values {
+		shouldPanic("reflect.Value.Equal using uncomparable value", func() { value.Equal(value) })
+
+		// If one of these is an invalid value, the expected result is always false.
+		if r := value.Equal(invalid); r != false {
+			t.Errorf("%s == invalid got %t, want false", value.Type(), r)
+		}
+	}
+}
+
 func shouldPanic(expect string, f func()) {
 	defer func() {
 		r := recover()
@@ -8163,16 +8187,6 @@ var valueEqualTests = []ValueEqualTest{
 		true, false,
 	},
 	{
-		&equalSlice, []int{1},
-		false,
-		true, false,
-	},
-	{
-		map[int]int{}, map[int]int{},
-		false,
-		false, false,
-	},
-	{
 		(chan int)(nil), nil,
 		false,
 		false, false,
@@ -8207,14 +8221,10 @@ var valueEqualTests = []ValueEqualTest{
 		true,
 		false, false,
 	},
-	{
-		&mapInterface, &mapInterface,
-		false,
-		true, true,
-	},
 }
 
 func TestValue_Equal(t *testing.T) {
+	var invalid = ValueOf(nil)
 	for _, test := range valueEqualTests {
 		var v, u Value
 		if vv, ok := test.v.(Value); ok {
@@ -8238,6 +8248,13 @@ func TestValue_Equal(t *testing.T) {
 
 		if r := v.Equal(u); r != test.eq {
 			t.Errorf("%s == %s got %t, want %t", v.Type(), u.Type(), r, test.eq)
+		}
+
+		// If one of these is an invalid value, the expected result is always false.
+		if v != invalid {
+			if r := v.Equal(invalid); r != false {
+				t.Errorf("%s == invalid got %t, want false", v.Type(), r)
+			}
 		}
 	}
 }
