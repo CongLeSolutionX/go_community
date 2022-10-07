@@ -3299,7 +3299,8 @@ func (v Value) Comparable() bool {
 }
 
 // Equal reports true if v is equal to u.
-// For valid values, if either v or u is non-comparable, Equal returns false.
+// For valid values, if one of them is non-comparable, and the other is comparable,
+// Equal reports false; if v and u are both uncomparable, Equal will panic.
 func (v Value) Equal(u Value) bool {
 	if !v.IsValid() || !u.IsValid() {
 		return v.IsValid() == u.IsValid()
@@ -3313,7 +3314,7 @@ func (v Value) Equal(u Value) bool {
 		return v.Elem().Equal(u.Elem())
 	}
 
-	return false
+	panic("reflect.Value.Equal using two uncomparable values")
 }
 
 // convertOp returns the function to convert a value of type src
