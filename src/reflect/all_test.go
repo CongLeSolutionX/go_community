@@ -8163,16 +8163,6 @@ var valueEqualTests = []ValueEqualTest{
 		true, false,
 	},
 	{
-		&equalSlice, []int{1},
-		false,
-		true, false,
-	},
-	{
-		map[int]int{}, map[int]int{},
-		false,
-		false, false,
-	},
-	{
 		(chan int)(nil), nil,
 		false,
 		false, false,
@@ -8207,11 +8197,6 @@ var valueEqualTests = []ValueEqualTest{
 		true,
 		false, false,
 	},
-	{
-		&mapInterface, &mapInterface,
-		false,
-		true, true,
-	},
 }
 
 func TestValue_Equal(t *testing.T) {
@@ -8238,6 +8223,41 @@ func TestValue_Equal(t *testing.T) {
 
 		if r := v.Equal(u); r != test.eq {
 			t.Errorf("%s == %s got %t, want %t", v.Type(), u.Type(), r, test.eq)
+		}
+	}
+}
+
+func TestValue_Equal_Uncomparable(t *testing.T) {
+	var invalid = Value{} // ValueOf(nil)
+	var values = []Value{
+		// value of slice is uncomparable
+		ValueOf([]int(nil)),
+		ValueOf(([]int{})),
+
+		// value of map is uncomparable
+		ValueOf(map[int]int(nil)),
+		ValueOf((map[int]int{})),
+
+		// value of func is uncomparable
+		ValueOf(((func())(nil))),
+		ValueOf(func() {}),
+
+		// value of struct is uncomparable because of uncomparable elements
+		ValueOf((NonComparableStruct{})),
+
+		// value of array is uncomparable because of uncomparable elements
+		ValueOf([0]map[int]int{}),
+		ValueOf([0]func(){}),
+		ValueOf(([1]struct{ I interface{} }{{[]int{}}})),
+		ValueOf(([1]interface{}{[1]interface{}{map[int]int{}}})),
+	}
+	for _, value := range values {
+		// Panic when reflect.Value.Equal using two valid uncomparable value.
+		shouldPanic("reflect.Value.Equal using uncomparable value", func() { value.Equal(value) })
+
+		// If one is uncomparable and the other is invalid, the expected result is always false.
+		if r := value.Equal(invalid); r != false {
+			t.Errorf("%s == invalid got %t, want false", value.Type(), r)
 		}
 	}
 }
