@@ -1,0 +1,9 @@
+// Copyright 2022 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+// split 3 operand LEA.
+(LEA(Q|L|W)1 [c] {s} x y) && c != 0 && s == nil => (LEA(Q|L|W) [c] {s} (LEA(Q|L|W)1 <x.Type> x y))
+(LEA(Q|L|W)2 [c] {s} x y) && c != 0 && s == nil => (LEA(Q|L|W) [c] {s} (LEA(Q|L|W)2 <x.Type> x y))
+(LEA(Q|L|W)4 [c] {s} x y) && c != 0 && s == nil => (LEA(Q|L|W) [c] {s} (LEA(Q|L|W)4 <x.Type> x y))
+(LEA(Q|L|W)8 [c] {s} x y) && c != 0 && s == nil => (LEA(Q|L|W) [c] {s} (LEA(Q|L|W)8 <x.Type> x y))
