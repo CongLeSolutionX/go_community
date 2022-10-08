@@ -1304,6 +1304,9 @@
 // version prior to the one indicated by the 'go' directive in the go.mod
 // file.
 //
+// Tidy treats all build constraints except 'ignore' as satisfied, including
+// implicit constraints from filenames.
+//
 // See https://golang.org/ref/mod#go-mod-tidy for more about 'go mod tidy'.
 //
 // # Make vendored copy of dependencies
