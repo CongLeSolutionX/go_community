@@ -91,6 +91,24 @@
       "message": "Splitting slow lea is done late here: https://github.com/golang/go/blob/058f019e45fc1f18842e0339d7d56d804936263b/src/cmd/compile/internal/amd64/ssa.go#L683\n\nIf we move it earlier we should be able to remove the above code.",
       "revId": "884b3c09294f3e5da190f2b99dd36fa09e176a4a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0364a9eb_146b2bb8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 52329
+      },
+      "writtenOn": "2022-10-08T14:01:39Z",
+      "side": 1,
+      "message": "Thanks. But we still need that code, we cannot split pointer arithmetic in late lower pass.",
+      "parentUuid": "b028f88f_7164c36a",
+      "revId": "884b3c09294f3e5da190f2b99dd36fa09e176a4a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ],
   "submitRequirementResults": [
