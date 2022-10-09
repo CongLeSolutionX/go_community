@@ -21983,6 +21983,84 @@ func rewriteValuegeneric_OpPhi(v *Value) bool {
 		v.AuxInt = int64ToAuxInt(c)
 		return true
 	}
+	// match: (Phi (ConstBool [c]) (ConstBool [c]))
+	// result: (ConstBool [c])
+	for {
+		if len(v.Args) != 2 {
+			break
+		}
+		_ = v.Args[1]
+		v_0 := v.Args[0]
+		if v_0.Op != OpConstBool {
+			break
+		}
+		c := auxIntToBool(v_0.AuxInt)
+		v_1 := v.Args[1]
+		if v_1.Op != OpConstBool || auxIntToBool(v_1.AuxInt) != c {
+			break
+		}
+		v.reset(OpConstBool)
+		v.AuxInt = boolToAuxInt(c)
+		return true
+	}
+	// match: (Phi (Const32F [c]) (Const32F [c]))
+	// result: (Const32F [c])
+	for {
+		if len(v.Args) != 2 {
+			break
+		}
+		_ = v.Args[1]
+		v_0 := v.Args[0]
+		if v_0.Op != OpConst32F {
+			break
+		}
+		c := auxIntToFloat32(v_0.AuxInt)
+		v_1 := v.Args[1]
+		if v_1.Op != OpConst32F || auxIntToFloat32(v_1.AuxInt) != c {
+			break
+		}
+		v.reset(OpConst32F)
+		v.AuxInt = float32ToAuxInt(c)
+		return true
+	}
+	// match: (Phi (Const64F [c]) (Const64F [c]))
+	// result: (Const64F [c])
+	for {
+		if len(v.Args) != 2 {
+			break
+		}
+		_ = v.Args[1]
+		v_0 := v.Args[0]
+		if v_0.Op != OpConst64F {
+			break
+		}
+		c := auxIntToFloat64(v_0.AuxInt)
+		v_1 := v.Args[1]
+		if v_1.Op != OpConst64F || auxIntToFloat64(v_1.AuxInt) != c {
+			break
+		}
+		v.reset(OpConst64F)
+		v.AuxInt = float64ToAuxInt(c)
+		return true
+	}
+	// match: (Phi (ConstNil) (ConstNil))
+	// result: (ConstNil)
+	for {
+		if len(v.Args) != 2 {
+			break
+		}
+		_ = v.Args[1]
+		v_0 := v.Args[0]
+		if v_0.Op != OpConstNil {
+			break
+		}
+		v_1 := v.Args[1]
+		if v_1.Op != OpConstNil {
+			break
+		}
+		v.reset(OpConstNil)
+		return true
+	}
 	return false
 }
 func rewriteValuegeneric_OpPtrIndex(v *Value) bool {

@@ -633,6 +633,10 @@
 (Phi (Const16 [c]) (Const16 [c])) => (Const16 [c])
 (Phi (Const32 [c]) (Const32 [c])) => (Const32 [c])
 (Phi (Const64 [c]) (Const64 [c])) => (Const64 [c])
+(Phi (ConstBool [c]) (ConstBool [c])) => (ConstBool [c])
+(Phi (Const32F [c]) (Const32F [c])) => (Const32F [c])
+(Phi (Const64F [c]) (Const64F [c])) => (Const64F [c])
+(Phi (ConstNil) (ConstNil)) => (ConstNil)
 
 // slice and interface comparisons
 // The frontend ensures that we can only compare against nil,
