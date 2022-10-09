@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "185f8c9d_cae01a6e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2022-10-09T20:40:09Z",
+      "side": 1,
+      "message": "Looks ok, but I can\u0027t help but think that there\u0027s a more encompassing rule that should be doing these as a special case.\n\nThe phielim pass should be catching these. Do you understand why it isn\u0027t? Maybe the pattern in question doesn\u0027t exist until we\u0027re in the middle of generic rewriting.",
+      "revId": "6d9135c8346299019e047ea6d018e5c06191ce88",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
