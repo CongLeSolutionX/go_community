@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ae2f59d_d207c89e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-10-09T20:04:48Z",
+      "side": 1,
+      "message": "Thanks, but I believe the text is correct.  The \"o\" or \"O\" is optional.  See https://go.dev/doc/go1.13#language for how we got here.",
+      "revId": "8fa760e3f567fa36c0fb68fb167c0563fa154e71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
