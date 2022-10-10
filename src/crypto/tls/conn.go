@@ -583,6 +583,12 @@ func (c *Conn) newRecordHeaderError(conn net.Conn, msg string) (err RecordHeader
 	return err
 }
 
+func (c *Conn) setMaxPlaintext(maxPlaintext int) {
+	c.maxPlaintext = maxPlaintext
+	c.in.maxPlaintext = maxPlaintext
+	c.out.maxPlaintext = maxPlaintext
+}
+
 func (c *Conn) readRecord() error {
 	return c.readRecordOrCCS(false)
 }

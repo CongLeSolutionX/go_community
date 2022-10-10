@@ -163,11 +163,12 @@ func (c *Conn) readClientHello(ctx context.Context) (*clientHelloMsg, error) {
 	c.haveVers = true
 	c.in.version = c.vers
 	c.out.version = c.vers
-	c.maxPlaintext, err = parseMaxPlaintext(clientHello.maxFragmentLength)
+	maxPlaintext, err := parseMaxPlaintext(clientHello.maxFragmentLength)
 	if err != nil {
 		c.sendAlert(alertIllegalParameter)
 		return nil, err
 	}
+	c.setMaxPlaintext(maxPlaintext)
 	return clientHello, nil
 }
 

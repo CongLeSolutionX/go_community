@@ -442,11 +442,12 @@ func (hs *serverHandshakeStateTLS13) doHelloRetryRequest(selectedGroup CurveID) 
 		return unexpectedMessageError(clientHello, msg)
 	}
 
-	c.maxPlaintext, err = parseMaxPlaintext(clientHello.maxFragmentLength)
+	maxPlaintext, err := parseMaxPlaintext(clientHello.maxFragmentLength)
 	if err != nil {
 		c.sendAlert(alertIllegalParameter)
 		return err
 	}
+	c.setMaxPlaintext(maxPlaintext)
 
 	if len(clientHello.keyShares) != 1 || clientHello.keyShares[0].group != selectedGroup {
 		c.sendAlert(alertIllegalParameter)
