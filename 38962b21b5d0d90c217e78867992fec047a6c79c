@@ -106,6 +106,24 @@
       "message": "Antonio, could you take a look at this w.r.t. dragonflybsd?\n\nThe final wait in the outermost parent (L344) never returns. What I see in ktrace is that this parent is in wait6:\n\n    3150:3    signal.test CALL  wait6(0,0xc4f,0,0x18,0,0)\n    \nThat syscall never returns even though the child (0xc4f \u003d\u003d 3151) later exits:\n\n    3151:1    signal.test CALL  exit(0)\n\nDoes wait6 with these flags not catch a process in a different session or something? (Note we start the child with Setsid and Setctty).",
       "revId": "38962b21b5d0d90c217e78867992fec047a6c79c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33fc446b_61e85f3f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-10-10T19:27:28Z",
+      "side": 1,
+      "message": "I\u0027ve filed https://go.dev/issue/56132 for this and skipped the test on dragonfly for now.",
+      "parentUuid": "01135d73_b1dbe31e",
+      "revId": "38962b21b5d0d90c217e78867992fec047a6c79c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
