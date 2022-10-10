@@ -179,6 +179,24 @@
       "parentUuid": "7d6a7fe6_a7dc5202",
       "revId": "d5c5c3e5c91634af24e795682bc2f110bf20c83a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d950e440_1c7bd8d8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-10-10T07:11:00Z",
+      "side": 1,
+      "message": "\u003e We have the ir.Func for MyReader.Read, but not io.Reader.Read method.\n\nFor more context, io.Reader.Read is from imported package, so we assume its receiver \"haveWrapperTypes\", not \"needWrapperTypes\". I can\u0027t think offhand how to solve this, since when adding more thing to \"needWrapperTypes\" would make Unified IR more slow, which we don\u0027t want.\n\nBut at least, I think the CL to hand runtime hash function should be land, so it reduce the pain to deal with ONAME with nil Func.",
+      "parentUuid": "40d81d56_febdf767",
+      "revId": "d5c5c3e5c91634af24e795682bc2f110bf20c83a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
