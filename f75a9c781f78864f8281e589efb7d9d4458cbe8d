@@ -94,6 +94,30 @@
       },
       "revId": "f75a9c781f78864f8281e589efb7d9d4458cbe8d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8aeda323_4b7ce03e",
+        "filename": "src/cmd/go/internal/modcmd/tidy.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 27094
+      },
+      "writtenOn": "2022-10-10T12:53:45Z",
+      "side": 1,
+      "message": "Ah, I see. Thanks for pointing that out, Bryan.\n\nI have updated `alldocs.go` now.",
+      "parentUuid": "ff2e003a_0ff36677",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 58
+      },
+      "revId": "f75a9c781f78864f8281e589efb7d9d4458cbe8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
