@@ -16,6 +16,24 @@
       "message": "Thanks, but as you say this change makes the grammar more verbose and less concise.  The text already explains that this syntax is only permitted on the incoming parameter list.  In general we have chosen in the spec to use a simpler grammar and to add additional rules in the text.",
       "revId": "71d785afe1e77bb45d65aa92ea90ac9713cd62bd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2a4ec12_d5531954",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 59508
+      },
+      "writtenOn": "2022-10-10T03:05:39Z",
+      "side": 1,
+      "message": "That makes sense. I saw you added another reviewer. Should I close the GitHub PR, or should I hold off for now? Would changing the text from \"The final incoming parameter...\" to \"Only the final incoming parameter...\" add clarity? I believe that \"incoming\" makes it clear, like you said, but this might make the explanation more forceful.",
+      "parentUuid": "b9338bd6_e248137e",
+      "revId": "71d785afe1e77bb45d65aa92ea90ac9713cd62bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
