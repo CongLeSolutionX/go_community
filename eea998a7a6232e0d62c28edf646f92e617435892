@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "137b2865_f2290e18",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 26955
+      },
+      "writtenOn": "2022-10-10T01:31:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b1ad13b_54d07fed",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 46
+      },
+      "revId": "eea998a7a6232e0d62c28edf646f92e617435892",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "924affa1_df527725",
@@ -94,6 +118,24 @@
       "side": 1,
       "message": "Please rebase on master branch.",
       "parentUuid": "5c2889b6_d8605c85",
+      "revId": "eea998a7a6232e0d62c28edf646f92e617435892",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56d8a8c0_6fd9620c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26955
+      },
+      "writtenOn": "2022-10-10T01:31:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9818315_33538697",
       "revId": "eea998a7a6232e0d62c28edf646f92e617435892",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
