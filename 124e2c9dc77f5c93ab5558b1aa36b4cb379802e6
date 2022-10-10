@@ -78,6 +78,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1895be76_cfa0012d",
+        "filename": "src/cmd/compile/internal/ssa/_gen/AMD64latelower.rules",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 52329
+      },
+      "writtenOn": "2022-10-10T02:36:33Z",
+      "side": 1,
+      "message": "Nice idea! Done.",
+      "parentUuid": "2bb28085_db6a4c5c",
+      "range": {
+        "startLine": 7,
+        "startChar": 75,
+        "endLine": 7,
+        "endChar": 122
+      },
+      "revId": "124e2c9dc77f5c93ab5558b1aa36b4cb379802e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bd097ec1_1f8c13fe",
@@ -91,6 +115,30 @@
       "writtenOn": "2022-10-09T20:28:52Z",
       "side": 1,
       "message": "For these I think we still need to avoid pointer computations, because there\u0027s no constant+2*reg instruction.\nBut we can still use ADDQconst for the outer operation.",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 122
+      },
+      "revId": "124e2c9dc77f5c93ab5558b1aa36b4cb379802e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c8a4121_bd818883",
+        "filename": "src/cmd/compile/internal/ssa/_gen/AMD64latelower.rules",
+        "patchSetId": 6
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 52329
+      },
+      "writtenOn": "2022-10-10T02:36:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd097ec1_1f8c13fe",
       "range": {
         "startLine": 8,
         "startChar": 0,
