@@ -237,3 +237,70 @@ func TestTerminalSignal(t *testing.T) {
 		t.Errorf("subprogram failed: %v", err)
 	}
 }
+
+func TestDragonfly(t *testing.T) {
+	const (
+		ptyFD = 3  // child end of pty.
+	)
+
+	if os.Getenv("GO_TEST_DRAGONFLY") == "1" {
+		// Wait hangs whether or not we read from the PTY.
+		//pty := os.NewFile(ptyFD, "pty")
+		//n, err := pty.Read(b[:])
+
+		fmt.Println("child exiting")
+
+		os.Exit(0)
+	}
+
+	pty, procTTYName, err := ptypkg.Open()
+	if err != nil {
+		ptyErr := err.(*ptypkg.PtyError)
+		if ptyErr.FuncName == "posix_openpt" && ptyErr.Errno == syscall.EACCES {
+			t.Skip("posix_openpt failed with EACCES, assuming chroot and skipping")
+		}
+		t.Fatal(err)
+	}
+	defer pty.Close()
+	procTTY, err := os.OpenFile(procTTYName, os.O_RDWR, 0)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer procTTY.Close()
+
+	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
+	defer cancel()
+	cmd := exec.CommandContext(ctx, os.Args[0], "-test.run=TestDragonfly")
+	cmd.Env = append(os.Environ(), "GO_TEST_DRAGONFLY=1")
+	cmd.Stdin = os.Stdin
+	cmd.Stdout = os.Stdout // for logging
+	cmd.Stderr = os.Stderr
+	cmd.ExtraFiles = []*os.File{procTTY}
+	cmd.SysProcAttr = &syscall.SysProcAttr{
+		// Hang occurs whether or not we create a session and set
+		// controlling terminal.
+		//Setsid:  true,
+		//Setctty: true,
+		//Ctty:    ptyFD,
+	}
+
+	if err := cmd.Start(); err != nil {
+		t.Fatal(err)
+	}
+
+	if err := procTTY.Close(); err != nil {
+		t.Errorf("closing procTTY: %v", err)
+	}
+
+	// cmd.Wait below hangs if we write to the PTY. Note that it hangs
+	// whether or not the child reads the byte.
+	if _, err := pty.Write([]byte{'\n'}); err != nil {
+		t.Fatalf("writing %q to pty: %v", "\n", err)
+	}
+
+	t.Logf("Waiting for exit...")
+
+	if err = cmd.Wait(); err != nil {
+		t.Errorf("subprogram failed: %v", err)
+	}
+}
