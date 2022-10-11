@@ -113,6 +113,8 @@ type Conn struct {
 	// the rest of the bits are the number of goroutines in Conn.Write.
 	activeCall atomic.Int32
 
+	maxPlaintext int
+
 	tmp [16]byte
 }
 
@@ -174,6 +176,8 @@ type halfConn struct {
 	nextMac    hash.Hash // next MAC algorithm
 
 	trafficSecret []byte // current TLS 1.3 traffic secret
+
+	maxPlaintext int
 }
 
 type permanentError struct {
@@ -582,6 +586,12 @@ func (c *Conn) readRecord() error {
 
 func (c *Conn) readChangeCipherSpec() error {
 	return c.readRecordOrCCS(true)
+}
+
+func (c *Conn) setMaxPlaintext(maxPlaintext int) {
+	c.maxPlaintext = maxPlaintext
+	c.in.maxPlaintext = maxPlaintext
+	c.out.maxPlaintext = maxPlaintext
 }
 
 // readRecordOrCCS reads one or more TLS records from the connection and
