@@ -76,6 +76,30 @@
       },
       "revId": "b06dd50e7fadd2b2ef10fbcc59181cdd44df8b4c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27bd8855_5198a25e",
+        "filename": "src/runtime/sys_windows_arm64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 27780
+      },
+      "writtenOn": "2022-10-11T16:55:41Z",
+      "side": 1,
+      "message": "Will do.\n\nMy main concern with submitting this patch was whether this is the best way to specify the correct offset within the stack. For example, if there is a change in the frame prolog that the Go assembler outputs, the offset to add to RSP may have to change.\n\nUnfortunately I am not familiar with Go\u0027s assembler to know the best way.",
+      "parentUuid": "a1c7ccff_f507670c",
+      "range": {
+        "startLine": 116,
+        "startChar": 5,
+        "endLine": 116,
+        "endChar": 10
+      },
+      "revId": "b06dd50e7fadd2b2ef10fbcc59181cdd44df8b4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
