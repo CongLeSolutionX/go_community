@@ -175,6 +175,24 @@
       "message": "Why was this changed from XXLORQ to XXLOR?",
       "revId": "a3978dafb55856572fcbd7244347dcd395f36fa5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ee6851c_4358d5de",
+        "filename": "src/cmd/internal/notsha256/sha256block_ppc64x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-10-11T14:01:18Z",
+      "side": 1,
+      "message": "The minimum bootstrap version is 1.17. We can share the assembly between the two versions without changes.",
+      "parentUuid": "0c18f221_d386bb7f",
+      "revId": "a3978dafb55856572fcbd7244347dcd395f36fa5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
