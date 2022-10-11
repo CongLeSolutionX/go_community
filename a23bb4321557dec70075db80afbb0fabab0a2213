@@ -92,6 +92,195 @@
       "parentUuid": "fbb3e2d5_6445d708",
       "revId": "a23bb4321557dec70075db80afbb0fabab0a2213",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bde39f6a_6e7cabb8",
+        "filename": "src/os/signal/signal_cgo_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-11T16:26:34Z",
+      "side": 1,
+      "message": "I\u0027m a little unclear on why this particular process (#1) is needed in the stack — it looks like a pure pass-through, except that it\u0027s in a different process group.\n\nDoes the test still work if we cut this process out and have the main test process create #2 directly, setting `Setpgid` alongside the existing `Setsid`, `Setctty`, and `Ctty` fields?\n\n(Or does the process group of the `Setctty` process have to be the same as the main test process to make this test work?)",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 12
+      },
+      "revId": "a23bb4321557dec70075db80afbb0fabab0a2213",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d24eabdd_095fe363",
+        "filename": "src/os/signal/signal_cgo_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-11T16:26:34Z",
+      "side": 1,
+      "message": "Why 90s?",
+      "range": {
+        "startLine": 93,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 16
+      },
+      "revId": "a23bb4321557dec70075db80afbb0fabab0a2213",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c73010d8_53ea63a6",
+        "filename": "src/os/signal/signal_cgo_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-11T16:26:34Z",
+      "side": 1,
+      "message": "https://pubs.opengroup.org/onlinepubs/9699919799/functions/tcsetpgrp.html is a more authoritative reference for this:\n\n\u003e Attempts to use `tcsetpgrp()` from a process which is a member of a background process group on a `fildes` associated with its controlling terminal shall cause the process group to be sent a SIGTTOU signal. If the calling thread is blocking SIGTTOU signals or the process is ignoring SIGTTOU signals, the process shall be allowed to perform the operation, and no signal is sent.",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 126,
+        "endChar": 35
+      },
+      "revId": "a23bb4321557dec70075db80afbb0fabab0a2213",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "adf9bf66_9de91f5d",
+        "filename": "src/os/signal/signal_cgo_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-11T16:26:34Z",
+      "side": 1,
+      "message": "I think you could avoid the need for a separate `pid-pipe` by putting the pipe on `os.Stdout` and switching the `fmt.Printf` calls below to use `fmt.Fprintf(os.Stderr, …)`.\n\n(That would also be a bit more Unix-idiomatic, since stderr is conventionally used for errors...)",
+      "revId": "a23bb4321557dec70075db80afbb0fabab0a2213",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2cff7148_ea9abc83",
+        "filename": "src/os/signal/signal_cgo_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-11T16:26:34Z",
+      "side": 1,
+      "message": "For cleaner shutdown in case the test process terminates early for some reason, also add a `cmd.Process.Kill()` on all of these early-exit paths.\n\n(Consider factoring out a function that returns an error instead of pairing `fmt.Printf` and `os.Exit`, so that you can `defer` the cleanup more easily.)",
+      "revId": "a23bb4321557dec70075db80afbb0fabab0a2213",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35d71303_f7678a19",
+        "filename": "src/os/signal/signal_cgo_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-11T16:26:34Z",
+      "side": 1,
+      "message": "I\u0027m curious: why do we need to send the `SIGCONT` from the controlling process, rather than directly from here?\n\nI guess we need to send _something_ on `pidW` to let the controlling process know when to write `^Z`, and when to write the additional data. Although, maybe we could have it just `io.Copy` the writes it receives on `pid-pipe` directly over to `pty`, and then process #2 can be in charge of everything?\n\n(Or, for that matter, could we wire the input side of the PTY directly to the `stdout` stream of process #2, or does that break something? 😅)",
+      "range": {
+        "startLine": 198,
+        "startChar": 0,
+        "endLine": 204,
+        "endChar": 3
+      },
+      "revId": "a23bb4321557dec70075db80afbb0fabab0a2213",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2b1ca38_3bdd0d31",
+        "filename": "src/os/signal/signal_cgo_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-11T16:26:34Z",
+      "side": 1,
+      "message": "This is a very long test function, and it\u0027s a little hard for me to follow because the first process in the chain is last in the code. 😅\n\nWould it be feasible to break out the chunks into individual functions and switch on `os.Getenv(\"GO_TEST_TERMINAL_SIGNALS\")` to dispatch them?",
+      "revId": "a23bb4321557dec70075db80afbb0fabab0a2213",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e22b852e_62d60308",
+        "filename": "src/os/signal/signal_cgo_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-11T16:26:34Z",
+      "side": 1,
+      "message": "I think this sleep would be a little more robust inside process #2, after it calls `cmd.Start`. That way, the `pause` interval starts counting down from the time the last process has started, with less noise from the startup delay for the other processes above it.",
+      "range": {
+        "startLine": 317,
+        "startChar": 0,
+        "endLine": 321,
+        "endChar": 18
+      },
+      "revId": "a23bb4321557dec70075db80afbb0fabab0a2213",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a00621ec_0987d728",
+        "filename": "src/os/signal/signal_cgo_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-11T16:26:34Z",
+      "side": 1,
+      "message": "Should this occur before we write the `^Z`?\n\nOtherwise, if the pause is too short we could deliver the `^Z` before process #3 has even started, in which case I\u0027m not sure what would happen. (Would the `SIGTSTP` be delivered to process #2 instead of #3?)",
+      "range": {
+        "startLine": 329,
+        "startChar": 0,
+        "endLine": 332,
+        "endChar": 2
+      },
+      "revId": "a23bb4321557dec70075db80afbb0fabab0a2213",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
