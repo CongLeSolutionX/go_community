@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e731e915_82b44e55",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-11T14:28:42Z",
+      "side": 1,
+      "message": "This appears to have caused significant instability in `TestTransportPersistConnLeakShortBody`, `TestTransportEventTrace`, `TestTransportIgnores408`, `TestCancelRequestWhenSharingConnection`, and perhaps others.\n\nIt\u0027s good that we\u0027ve learned that new information, but perhaps we should roll this back while we shore up those tests..?",
+      "revId": "747e1961e95c2eb3df62e045b90b111c2ceea337",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
