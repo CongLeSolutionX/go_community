@@ -50,6 +50,7 @@ func Client(conn net.Conn, config *Config) *Conn {
 		config:   config,
 		isClient: true,
 	}
+	c.setMaxPlaintext(defaultMaxPlaintext)
 	c.handshakeFn = c.clientHandshake
 	return c
 }
