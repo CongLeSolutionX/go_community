@@ -401,7 +401,7 @@ func (hc *halfConn) decrypt(record []byte) ([]byte, recordType, error) {
 			if typ != recordTypeApplicationData {
 				return nil, 0, alertUnexpectedMessage
 			}
-			if len(plaintext) > maxPlaintext+1 {
+			if len(plaintext) > defaultMaxPlaintext+1 {
 				return nil, 0, alertRecordOverflow
 			}
 			// Remove padding and find the ContentType scanning from the end.
@@ -669,7 +669,7 @@ func (c *Conn) readRecordOrCCS(expectChangeCipherSpec bool) error {
 	if err != nil {
 		return c.in.setErrorLocked(c.sendAlert(err.(alert)))
 	}
-	if len(data) > maxPlaintext {
+	if len(data) > defaultMaxPlaintext {
 		return c.in.setErrorLocked(c.sendAlert(alertRecordOverflow))
 	}
 
@@ -866,11 +866,11 @@ const (
 // to reset the record size once the connection is idle, however.
 func (c *Conn) maxPayloadSizeForWrite(typ recordType) int {
 	if c.config.DynamicRecordSizingDisabled || typ != recordTypeApplicationData {
-		return maxPlaintext
+		return defaultMaxPlaintext
 	}
 
 	if c.bytesSent >= recordSizeBoostThreshold {
-		return maxPlaintext
+		return defaultMaxPlaintext
 	}
 
 	// Subtract TLS overheads to get the maximum payload size.
@@ -901,12 +901,12 @@ func (c *Conn) maxPayloadSizeForWrite(typ recordType) int {
 	pkt := c.packetsSent
 	c.packetsSent++
 	if pkt > 1000 {
-		return maxPlaintext // avoid overflow in multiply below
+		return defaultMaxPlaintext // avoid overflow in multiply below
 	}
 
 	n := payloadBytes * int(pkt+1)
-	if n > maxPlaintext {
-		n = maxPlaintext
+	if n > defaultMaxPlaintext {
+		n = defaultMaxPlaintext
 	}
 	return n
 }
