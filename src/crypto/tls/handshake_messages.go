@@ -622,6 +622,8 @@ type serverHelloMsg struct {
 	// HelloRetryRequest extensions
 	cookie        []byte
 	selectedGroup CurveID
+
+	maxFragmentLength *uint8
 }
 
 func (m *serverHelloMsg) marshal() []byte {
@@ -726,6 +728,10 @@ func (m *serverHelloMsg) marshal() []byte {
 						b.AddBytes(m.supportedPoints)
 					})
 				})
+			}
+			if m.maxFragmentLength != nil {
+				b.AddUint16(extensionMaxFragmentLength)
+				b.AddUint8(*m.maxFragmentLength)
 			}
 
 			extensionsPresent = len(b.BytesOrPanic()) > 2
