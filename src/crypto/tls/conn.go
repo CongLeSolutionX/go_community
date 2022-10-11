@@ -405,6 +405,7 @@ func (hc *halfConn) decrypt(record []byte) ([]byte, recordType, error) {
 			if typ != recordTypeApplicationData {
 				return nil, 0, alertUnexpectedMessage
 			}
+			// TODO: fix
 			if len(plaintext) > defaultMaxPlaintext+1 {
 				return nil, 0, alertRecordOverflow
 			}

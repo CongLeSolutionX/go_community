@@ -192,6 +192,10 @@ func (c *Conn) clientHandshake(ctx context.Context) (err error) {
 		return unexpectedMessageError(serverHello, msg)
 	}
 
+	// The client does not support RFC 6066, Section 4, so it always uses the
+	// default.
+	c.setMaxPlaintext(defaultMaxPlaintext)
+
 	if err := c.pickTLSVersion(serverHello); err != nil {
 		return err
 	}
