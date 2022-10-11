@@ -100,6 +100,30 @@
       },
       "revId": "b06dd50e7fadd2b2ef10fbcc59181cdd44df8b4c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a235c7d7_f17ef58b",
+        "filename": "src/runtime/sys_windows_arm64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-10-11T20:39:22Z",
+      "side": 1,
+      "message": "If I\u0027m reading this right, this is just a pointer within badsignal2\u0027s own local frame, which is declared to be 16 bytes in the TEXT line. So, I think the way you\u0027ve written it is actually fine, though maybe I\u0027d add a comment explaining this.\n\nIt\u0027s a little unfortunate that \"16\" appears so many times because there are actually two unrelated \"16\"s in this function: The \"16\" on lines 102, and 116 are related to the local frame size, while the \"16\" on lines 108, 110, 119 are related to a mismatch between the Go ABI and the C ABI.",
+      "parentUuid": "27bd8855_5198a25e",
+      "range": {
+        "startLine": 116,
+        "startChar": 5,
+        "endLine": 116,
+        "endChar": 10
+      },
+      "revId": "b06dd50e7fadd2b2ef10fbcc59181cdd44df8b4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
