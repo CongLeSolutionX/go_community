@@ -72,6 +72,24 @@
       "message": "We\u0027re avoiding io/ioutil in new code.  Use os.CreateTemp instead.",
       "revId": "23622ef665fc2c2b23b8a3d578f1db9c09389224",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d66a535a_dfcd05b3",
+        "filename": "test/fixedbugs/issue21317.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-11T17:24:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fd5bd16_982579b8",
+      "revId": "23622ef665fc2c2b23b8a3d578f1db9c09389224",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
