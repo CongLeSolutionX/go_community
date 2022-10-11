@@ -84,6 +84,7 @@ const (
 // TLS extension numbers
 const (
 	extensionServerName              uint16 = 0
+	extensionMaxFragmentLength       uint16 = 1
 	extensionStatusRequest           uint16 = 5
 	extensionSupportedCurves         uint16 = 10 // supported_groups in TLS 1.3, see RFC 8446, Section 4.2.7
 	extensionSupportedPoints         uint16 = 11

@@ -92,6 +92,7 @@ type clientHelloMsg struct {
 	pskModes                         []uint8
 	pskIdentities                    []pskIdentity
 	pskBinders                       [][]byte
+	maxFragmentLength                *uint8
 }
 
 func (m *clientHelloMsg) marshal() []byte {
@@ -425,6 +426,11 @@ func (m *clientHelloMsg) unmarshal(data []byte) bool {
 				if strings.HasSuffix(m.serverName, ".") {
 					return false
 				}
+			}
+		case extensionMaxFragmentLength:
+			// RFC 6066, Section 4
+			if !extData.ReadUint8(m.maxFragmentLength) {
+				return false
 			}
 		case extensionStatusRequest:
 			// RFC 4366, Section 3.6
