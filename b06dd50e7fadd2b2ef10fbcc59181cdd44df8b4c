@@ -124,6 +124,30 @@
       },
       "revId": "b06dd50e7fadd2b2ef10fbcc59181cdd44df8b4c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5097e6f_0a3ecba3",
+        "filename": "src/runtime/sys_windows_arm64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-10-11T21:28:49Z",
+      "side": 1,
+      "message": "It looks weird to me that this function (before this CL) was declared as 16-byte frame size but actually not using any. Now it actually uses it (and it is fine). Concur that a comment would be good.",
+      "parentUuid": "a235c7d7_f17ef58b",
+      "range": {
+        "startLine": 116,
+        "startChar": 5,
+        "endLine": 116,
+        "endChar": 10
+      },
+      "revId": "b06dd50e7fadd2b2ef10fbcc59181cdd44df8b4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
