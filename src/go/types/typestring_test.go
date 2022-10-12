@@ -6,10 +6,10 @@ package types_test
 
 import (
 	"go/ast"
-	"go/importer"
 	"go/parser"
 	"go/token"
 	"internal/testenv"
+	"internal/teststdlib"
 	"testing"
 
 	. "go/types"
@@ -24,7 +24,7 @@ func makePkg(src string) (*Package, error) {
 		return nil, err
 	}
 	// use the package name as package path
-	conf := Config{Importer: importer.Default()}
+	conf := Config{Importer: teststdlib.Importer()}
 	return conf.Check(file.Name.Name, fset, []*ast.File{file}, nil)
 }
 

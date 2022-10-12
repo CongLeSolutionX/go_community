@@ -27,11 +27,11 @@ import (
 	"flag"
 	"fmt"
 	"go/ast"
-	"go/importer"
 	"go/parser"
 	"go/scanner"
 	"go/token"
 	"internal/testenv"
+	"internal/teststdlib"
 	"os"
 	"path/filepath"
 	"reflect"
@@ -250,7 +250,7 @@ func testFiles(t *testing.T, sizes Sizes, filenames []string, srcs [][]byte, man
 
 	// typecheck and collect typechecker errors
 	if imp == nil {
-		imp = importer.Default()
+		imp = teststdlib.Importer()
 	}
 	conf.Importer = imp
 	conf.Error = func(err error) {
