@@ -34,6 +34,24 @@
       "parentUuid": "e731e915_82b44e55",
       "revId": "747e1961e95c2eb3df62e045b90b111c2ceea337",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf337599_9cc72637",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-10-12T15:33:24Z",
+      "side": 1,
+      "message": "TestCancelRequestWhenSharingConnection is a preexisting flake, sent https://go.dev/cl/442495 for the others I know of. (One test flaky when run with HTTP/2, two cases where I missed tests that can\u0027t run in parallel.)",
+      "parentUuid": "c3336852_7085a4fd",
+      "revId": "747e1961e95c2eb3df62e045b90b111c2ceea337",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
