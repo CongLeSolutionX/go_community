@@ -24,7 +24,7 @@ func makePkg(src string) (*Package, error) {
 		return nil, err
 	}
 	// use the package name as package path
-	conf := Config{Importer: importer.Default()}
+	conf := Config{Importer: importer.Default()} // The Go command is needed for the importer determine the locations of stdlib .a files.
 	return conf.Check(file.Name.Name, fset, []*ast.File{file}, nil)
 }
 
