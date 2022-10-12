@@ -8,10 +8,10 @@ package types_test
 
 import (
 	"go/ast"
-	"go/importer"
 	"go/parser"
 	"go/token"
 	"go/types"
+	"internal/teststdlib"
 	"testing"
 )
 
@@ -101,7 +101,7 @@ const _ = unsafe.Offsetof(struct{ x int64 }{}.x)
 	}
 	info := types.Info{Types: make(map[ast.Expr]types.TypeAndValue)}
 	conf := types.Config{
-		Importer: importer.Default(),
+		Importer: teststdlib.Importer(),
 		Sizes:    &types.StdSizes{WordSize: 8, MaxAlign: 8},
 	}
 	_, err = conf.Check("x", fset, []*ast.File{f}, &info)
@@ -132,7 +132,7 @@ var s struct {
 	for _, arch := range []string{"386", "amd64"} {
 		t.Run(arch, func(t *testing.T) {
 			conf := types.Config{
-				Importer: importer.Default(),
+				Importer: teststdlib.Importer(),
 				Sizes:    types.SizesFor("gc", arch),
 			}
 			ts := findStructTypeConfig(t, src, &conf)
