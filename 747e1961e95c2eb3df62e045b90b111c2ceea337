@@ -16,6 +16,24 @@
       "message": "This appears to have caused significant instability in `TestTransportPersistConnLeakShortBody`, `TestTransportEventTrace`, `TestTransportIgnores408`, `TestCancelRequestWhenSharingConnection`, and perhaps others.\n\nIt\u0027s good that we\u0027ve learned that new information, but perhaps we should roll this back while we shore up those tests..?",
       "revId": "747e1961e95c2eb3df62e045b90b111c2ceea337",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3336852_7085a4fd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-10-12T15:12:53Z",
+      "side": 1,
+      "message": "Sorry, I was watching for watchflakes reports, but I guess it hasn\u0027t run yet. I\u0027ll send you a CL disabling the flaky tests.\n\nI very much don\u0027t want to roll this back, because it\u0027s going to be very hard to keep in sync with any other changes in this package.",
+      "parentUuid": "e731e915_82b44e55",
+      "revId": "747e1961e95c2eb3df62e045b90b111c2ceea337",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
