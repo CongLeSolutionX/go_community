@@ -6,9 +6,10 @@ package types_test
 
 import (
 	"go/ast"
-	"go/importer"
 	"go/parser"
 	"go/token"
+	"internal/testenv"
+	"internal/teststdlib"
 	"path"
 	"path/filepath"
 	"testing"
@@ -18,13 +19,15 @@ import (
 )
 
 func TestSelf(t *testing.T) {
+	testenv.MustHaveGoBuild(t)
+
 	fset := token.NewFileSet()
 	files, err := pkgFiles(fset, ".")
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	conf := Config{Importer: importer.Default()}
+	conf := Config{Importer: teststdlib.Importer()}
 	_, err = conf.Check("go/types", fset, files, nil)
 	if err != nil {
 		t.Fatal(err)
@@ -32,6 +35,8 @@ func TestSelf(t *testing.T) {
 }
 
 func BenchmarkCheck(b *testing.B) {
+	testenv.MustHaveGoBuild(b)
+
 	for _, p := range []string{
 		"net/http",
 		"go/parser",
@@ -77,7 +82,7 @@ func runbench(b *testing.B, path string, ignoreFuncBodies, writeInfo bool) {
 	for i := 0; i < b.N; i++ {
 		conf := Config{
 			IgnoreFuncBodies: ignoreFuncBodies,
-			Importer:         importer.Default(),
+			Importer:         teststdlib.Importer(),
 		}
 		var info *Info
 		if writeInfo {

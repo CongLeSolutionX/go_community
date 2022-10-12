@@ -7,10 +7,10 @@ package types_test
 import (
 	"fmt"
 	"go/ast"
-	"go/importer"
 	"go/parser"
 	"go/token"
 	"internal/testenv"
+	"internal/teststdlib"
 	"sort"
 	"testing"
 
@@ -31,7 +31,7 @@ func (imp *resolveTestImporter) ImportFrom(path, srcDir string, mode ImportMode)
 		panic("mode must be 0")
 	}
 	if imp.importer == nil {
-		imp.importer = importer.Default().(ImporterFrom)
+		imp.importer = teststdlib.Importer().(ImporterFrom)
 		imp.imported = make(map[string]bool)
 	}
 	pkg, err := imp.importer.ImportFrom(path, srcDir, mode)
