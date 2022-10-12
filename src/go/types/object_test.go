@@ -9,6 +9,7 @@ import (
 	"go/parser"
 	"go/token"
 	"internal/testenv"
+	"internal/teststdlib"
 	"strings"
 	"testing"
 
@@ -66,7 +67,7 @@ func TestEmbeddedMethod(t *testing.T) {
 	if err != nil {
 		t.Fatalf("parse failed: %s", err)
 	}
-	var conf Config
+	var conf = Config{Importer: teststdlib.Importer()}
 	pkg, err := conf.Check(f.Name.Name, fset, []*ast.File{f}, nil)
 	if err != nil {
 		t.Fatalf("typecheck failed: %s", err)
