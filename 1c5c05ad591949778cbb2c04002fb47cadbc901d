@@ -107,6 +107,24 @@
       "parentUuid": "32309080_681484fc",
       "revId": "1c5c05ad591949778cbb2c04002fb47cadbc901d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "043e7d53_1304a2bf",
+        "filename": "src/go/types/lookup.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-10-12T23:31:00Z",
+      "side": 1,
+      "message": "I\u0027ll admit I forgot about this CL, until I rediscovered it during grooming. Shall we merge this?",
+      "parentUuid": "c63ad9b5_b519bdd7",
+      "revId": "1c5c05ad591949778cbb2c04002fb47cadbc901d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
