@@ -963,8 +963,8 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		p.To.Type = obj.TYPE_MEM
 		p.To.Reg = v.Args[0].Reg()
 
-	case ssa.OpPPC64ISEL, ssa.OpPPC64ISELB:
-		// ISEL, ISELB
+	case ssa.OpPPC64ISEL, ssa.OpPPC64ISELB, ssa.OpPPC64ISELZ:
+		// ISEL, ISELB, ISELZ
 		// AuxInt value indicates condition: 0=LT 1=GT 2=EQ 4=GE 5=LE 6=NE
 		// ISEL only accepts 0, 1, 2 condition values but the others can be
 		// achieved by swapping operand order.

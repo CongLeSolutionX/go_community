@@ -422,3 +422,25 @@ func cmovFcmp1(s, t float64, a, b int) {
 	// arm64:"CSINC\tEQ", -"CSEL"
 	r5 = x5
 }
+
+// Conditionally selecting between a value or 0 can be done without
+// an extra load of 0 to a register on PPC64 by using R0 (which always
+// holds the value $0) instead. Verify both cases where either arg1
+// or arg2 is zero.
+func cmovzero0(a, b int) int {
+	x := 0
+	if a == b {
+		x = a
+	}
+	// ppc64le:"ISEL\t[$]2, R[0-9]+, R0, R[0-9]+"
+	return x
+}
+
+func cmovzero1(a, b int) int {
+	x := a
+	if a == b {
+		x = 0
+	}
+	// ppc64le:"ISEL\t[$]2, R0, R[0-9]+, R[0-9]+"
+	return x
+}
