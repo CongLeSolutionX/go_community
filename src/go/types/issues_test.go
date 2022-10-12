@@ -9,10 +9,10 @@ package types_test
 import (
 	"fmt"
 	"go/ast"
-	"go/importer"
 	"go/parser"
 	"go/token"
 	"internal/testenv"
+	"internal/teststdlib"
 	"sort"
 	"strings"
 	"testing"
@@ -29,7 +29,7 @@ func mustParse(t *testing.T, src string) *ast.File {
 }
 func TestIssue5770(t *testing.T) {
 	f := mustParse(t, `package p; type S struct{T}`)
-	conf := Config{Importer: importer.Default()}
+	conf := Config{Importer: teststdlib.Importer()}
 	_, err := conf.Check(f.Name.Name, fset, []*ast.File{f}, nil) // do not crash
 	const want = "undefined: T"
 	if err == nil || !strings.Contains(err.Error(), want) {
@@ -253,7 +253,7 @@ func main() {
 `
 	f := func(test, src string) {
 		f := mustParse(t, src)
-		cfg := Config{Importer: importer.Default()}
+		cfg := Config{Importer: teststdlib.Importer()}
 		info := Info{Uses: make(map[*ast.Ident]Object)}
 		_, err := cfg.Check("main", fset, []*ast.File{f}, &info)
 		if err != nil {
@@ -314,7 +314,7 @@ func TestIssue25627(t *testing.T) {
 	} {
 		f := mustParse(t, prefix+src)
 
-		cfg := Config{Importer: importer.Default(), Error: func(err error) {}}
+		cfg := Config{Importer: teststdlib.Importer(), Error: func(err error) {}}
 		info := &Info{Types: make(map[ast.Expr]TypeAndValue)}
 		_, err := cfg.Check(f.Name.Name, fset, []*ast.File{f}, info)
 		if err != nil {
@@ -578,6 +578,8 @@ func TestIssue44515(t *testing.T) {
 func TestIssue43124(t *testing.T) {
 	// TODO(rFindley) move this to testdata by enhancing support for importing.
 
+	testenv.MustHaveGoBuild(t)
+
 	// All involved packages have the same name (template). Error messages should
 	// disambiguate between text/template and html/template by printing the full
 	// path.
@@ -631,7 +633,7 @@ var _ T = template /* ERROR cannot use.*text/template.* as T value */.Template{}
 	if err != nil {
 		t.Fatalf("package a failed to typecheck: %v", err)
 	}
-	imp := importHelper{pkg: a, fallback: importer.Default()}
+	imp := importHelper{pkg: a, fallback: teststdlib.Importer()}
 
 	testFiles(t, nil, []string{"b.go"}, [][]byte{[]byte(bsrc)}, false, imp)
 	testFiles(t, nil, []string{"c.go"}, [][]byte{[]byte(csrc)}, false, imp)

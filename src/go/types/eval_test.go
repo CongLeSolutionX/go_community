@@ -9,10 +9,10 @@ package types_test
 import (
 	"fmt"
 	"go/ast"
-	"go/importer"
 	"go/parser"
 	"go/token"
 	"internal/testenv"
+	"internal/teststdlib"
 	"strings"
 	"testing"
 
@@ -175,7 +175,7 @@ func TestEvalPos(t *testing.T) {
 		files = append(files, file)
 	}
 
-	conf := Config{Importer: importer.Default()}
+	conf := Config{Importer: teststdlib.Importer()}
 	pkg, err := conf.Check("p", fset, files, nil)
 	if err != nil {
 		t.Fatal(err)
@@ -241,7 +241,7 @@ func f(a int, s string) S {
 		t.Fatal(err)
 	}
 
-	conf := Config{Importer: importer.Default()}
+	conf := Config{Importer: teststdlib.Importer()}
 	pkg, err := conf.Check("p", fset, []*ast.File{f}, nil)
 	if err != nil {
 		t.Fatal(err)
