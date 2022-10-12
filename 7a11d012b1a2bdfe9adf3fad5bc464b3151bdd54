@@ -72,6 +72,24 @@
       "message": "Would it make sense to have `run.go` set an environment variable with the path to `stdlibImportcfgFile` so that the individual tests could just read that (using `os.Getenv`) instead of re-running the more expensive `go list` command?",
       "revId": "7a11d012b1a2bdfe9adf3fad5bc464b3151bdd54",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6cf4cc4_99c990fc",
+        "filename": "test/fixedbugs/bug369.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-12T19:03:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49a26881_6f6a4cf6",
+      "revId": "7a11d012b1a2bdfe9adf3fad5bc464b3151bdd54",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
