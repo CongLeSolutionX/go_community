@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "95c4b820_0a82375e",
+        "filename": "misc/cgo/testsanitizers/testdata/asan_linkerx/go.mod",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-10-12T21:41:49Z",
+      "side": 1,
+      "message": "Interesting. I\u0027d be interested to know why 😊 Thanks.\n\nI think we don\u0027t want to write to the testdata directory. We could copy things over to tmp dir but that seems more complicated.\n\nApparently relying on top-level misc/go.mod and using misc/-rooted path works. Done.",
+      "parentUuid": "d1504423_2e71d165",
+      "revId": "f8097ea212ec2336c671faa128fe18e0baa67989",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "58ae277d_8c28064a",
@@ -85,6 +103,24 @@
       "writtenOn": "2022-10-12T21:07:31Z",
       "side": 1,
       "message": "LGTM but might mention issue number.",
+      "revId": "f8097ea212ec2336c671faa128fe18e0baa67989",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbe0636a_76bfef41",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1131,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-10-12T21:41:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58ae277d_8c28064a",
       "revId": "f8097ea212ec2336c671faa128fe18e0baa67989",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
