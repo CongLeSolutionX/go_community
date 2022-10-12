@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ccda0972_eb329c1c",
+        "filename": "src/path/path.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 56198
+      },
+      "writtenOn": "2022-10-12T15:07:27Z",
+      "side": 1,
+      "message": "Agreed, will fix and update the PR to remove lazybuf.",
+      "parentUuid": "13428abd_b98bc3d2",
+      "revId": "9f29c9bb89b2fe008aaf84e364e47dce1b34f98f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "665339fe_c07b7327",
         "filename": "src/path/path.go",
         "patchSetId": 3
