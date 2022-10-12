@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6894a1c_32400055",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-10-12T20:31:19Z",
+      "side": 1,
+      "message": "TRY\u003dlinux-ppc64le,linux-riscv64",
+      "revId": "222e8e66ab4e7b086ce441cc253a389d326cfd9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
