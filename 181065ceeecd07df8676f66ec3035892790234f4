@@ -71,6 +71,24 @@
       "parentUuid": "aede5126_5dc95941",
       "revId": "181065ceeecd07df8676f66ec3035892790234f4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a7b047c_77d4bf44",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 28
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-13T20:02:06Z",
+      "side": 1,
+      "message": "Since the API change is at “likely accept”, I went ahead and squashed the changes.",
+      "parentUuid": "59087d01_a3ca78ef",
+      "revId": "181065ceeecd07df8676f66ec3035892790234f4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
