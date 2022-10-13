@@ -963,32 +963,25 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		p.To.Type = obj.TYPE_MEM
 		p.To.Reg = v.Args[0].Reg()
 
-	case ssa.OpPPC64ISEL, ssa.OpPPC64ISELB, ssa.OpPPC64ISELZ:
-		// ISEL, ISELB, ISELZ
+	case ssa.OpPPC64ISEL, ssa.OpPPC64ISELZ:
+		// ISEL/ISELZ (ISELZ's second GPR argument is assumed to be 0 or $0)
 		// AuxInt value indicates condition: 0=LT 1=GT 2=EQ 4=GE 5=LE 6=NE
 		// ISEL only accepts 0, 1, 2 condition values but the others can be
 		// achieved by swapping operand order.
 		// arg0 ? arg1 : arg2 with conditions LT, GT, EQ
 		// arg0 ? arg2 : arg1 for conditions GE, LE, NE
-		// ISELB is used when a boolean result is needed, returning 0 or 1
 		p := s.Prog(ppc64.AISEL)
-		p.To.Type = obj.TYPE_REG
-		p.To.Reg = v.Reg()
-		// For ISELB, boolean result 0 or 1. Use R0 for 0 operand to avoid load.
-		r := obj.Addr{Type: obj.TYPE_REG, Reg: ppc64.REG_R0}
+		p.To = obj.Addr{Type: obj.TYPE_REG, Reg: v.Reg()}
+		p.Reg = v.Args[0].Reg()
+		p.SetFrom3Reg(ppc64.REG_R0)
 		if v.Op == ssa.OpPPC64ISEL {
-			r.Reg = v.Args[1].Reg()
+			p.SetFrom3Reg(v.Args[1].Reg())
 		}
 		// AuxInt values 4,5,6 implemented with reverse operand order from 0,1,2
 		if v.AuxInt > 3 {
-			p.Reg = r.Reg
-			p.SetFrom3Reg(v.Args[0].Reg())
-		} else {
-			p.Reg = v.Args[0].Reg()
-			p.SetFrom3(r)
+			p.Reg, p.GetFrom3().Reg = p.GetFrom3().Reg, p.Reg
 		}
-		p.From.Type = obj.TYPE_CONST
-		p.From.Offset = v.AuxInt & 3
+		p.From.SetConst(v.AuxInt & 3)
 
 	case ssa.OpPPC64LoweredQuadZero, ssa.OpPPC64LoweredQuadZeroShort:
 		// The LoweredQuad code generation
