@@ -200,7 +200,17 @@ func (x floatVal) String() string {
 	// Use exact fmt formatting if in float64 range (common case):
 	// proceed if f doesn't underflow to 0 or overflow to inf.
 	if x, _ := f.Float64(); f.Sign() == 0 == (x == 0) && !math.IsInf(x, 0) {
-		return fmt.Sprintf("%.6g", x)
+		s := fmt.Sprintf("%.6g", x)
+		if !f.IsInt() {
+			n := 6
+			// f is not an integer, but its string representation
+			// doesn't reflect that. Use more digits. See issue 56220.
+			for n < 18 && strings.IndexByte(s, '.') < 0 {
+				n += 3
+				s = fmt.Sprintf("%.*g", n, x)
+			}
+		}
+		return s
 	}
 
 	// Out of float64 range. Do approximate manual to decimal
