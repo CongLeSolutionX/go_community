@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6d572fe_e8cec9ca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-13T14:37:14Z",
+      "side": 1,
+      "message": "This would be a backward-incompatible change. I am working on a backward-compatible fix for this problem in CL 401835.",
+      "revId": "1534e1ae6ad9295aa2cbcba275a07b6db63e47cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
