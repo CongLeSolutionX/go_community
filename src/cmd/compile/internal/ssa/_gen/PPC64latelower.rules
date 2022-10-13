@@ -8,3 +8,8 @@
 (ISEL [a] x (MOVDconst [0]) z) => (ISELZ [a] x z)
 // Simplify ISEL $0 y z into ISELZ by inverting comparison and reversing arguments.
 (ISEL [a] (MOVDconst [0]) y z) => (ISELZ [a^0x4] y z)
+
+// TODO: this limits to cases where only the flag output of the logic op
+//       is used. In many cases both are used. Can this be achieved here?
+// TODO: Extending the above, can this play nicely with CSE when a.Uses > 1?
+(CMPconst [0] a:((AND|XOR|OR) y z)) && a.Uses == 1 => (Select1 <types.TypeFlags> ((AND|XOR|OR)CC y z ))
