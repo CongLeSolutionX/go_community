@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aabb6d5a_49921600",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-10-14T14:41:12Z",
+      "side": 1,
+      "message": "Oof.",
+      "parentUuid": "3b0248c1_8479f667",
+      "range": {
+        "startLine": 1,
+        "startChar": 12,
+        "endLine": 1,
+        "endChar": 20
+      },
+      "revId": "1c71bd36123c21302941ba35b76a40655a5cd1ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eeeff81c_7267e495",
@@ -168,6 +192,24 @@
       "writtenOn": "2022-10-13T20:37:20Z",
       "side": 1,
       "message": "Since b is [1]byte, I think reaching this branch implies `n \u003d\u003d 0` (and thus `err !\u003d nil`).\n\nMaybe increase the buffer size and move the `err !\u003d nil` case earlier?",
+      "revId": "1c71bd36123c21302941ba35b76a40655a5cd1ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "82efb92c_9eac12af",
+        "filename": "src/os/signal/signal_cgo_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-10-14T14:41:12Z",
+      "side": 1,
+      "message": "I don\u0027t actually want this to block waiting for extra bytes. This isn\u0027t what the test is really about, so I\u0027ve just dropped the \u0027too many bytes\u0027 case, and moved err up.",
+      "parentUuid": "dd9b757d_0a034944",
       "revId": "1c71bd36123c21302941ba35b76a40655a5cd1ea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
