@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8987e928_c23f3a81",
+        "filename": "src/crypto/rsa/rsa.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 687,
+      "author": {
+        "id": 16287
+      },
+      "writtenOn": "2022-10-14T20:43:00Z",
+      "side": 0,
+      "message": "Nice to see this finally go! It enabled a Manger attack if the leak was detectable.",
+      "revId": "b3f4f858c7a56382288d9fdbd6379ce054550ede",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
