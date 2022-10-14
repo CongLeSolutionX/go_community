@@ -34,6 +34,24 @@
       "parentUuid": "96339f3b_56d5b264",
       "revId": "c1f33780eb2cda5bdf37733c1d5b0fbd10b22a58",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1792b933_2c753b6d",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 3302,
+      "author": {
+        "id": 55613
+      },
+      "writtenOn": "2022-10-14T01:50:48Z",
+      "side": 1,
+      "message": "Hi, Ian. Should I change all `uncomparable` to `non-comparable`? Thanks.",
+      "parentUuid": "df8d8ebd_e10695d4",
+      "revId": "c1f33780eb2cda5bdf37733c1d5b0fbd10b22a58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
