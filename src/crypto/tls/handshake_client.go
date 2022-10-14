@@ -144,6 +144,17 @@ func (c *Conn) makeClientHello() (*clientHelloMsg, *ecdh.PrivateKey, error) {
 		hello.keyShares = []keyShare{{group: curveID, data: key.PublicKey().Bytes()}}
 	}
 
+	if c.quic != nil {
+		p, err := c.quic.GetTransportParameters()
+		if err != nil {
+			return nil, nil, err
+		}
+		if p == nil {
+			p = []byte{}
+		}
+		hello.quicTransportParameters = p
+	}
+
 	return hello, key, nil
 }
 
@@ -267,7 +278,10 @@ func (c *Conn) loadSession(hello *clientHelloMsg) (cacheKey string,
 	}
 
 	// Try to resume a previously negotiated TLS session, if available.
-	cacheKey = clientSessionCacheKey(c.conn.RemoteAddr(), c.config)
+	cacheKey = c.clientSessionCacheKey()
+	if cacheKey == "" {
+		return "", nil, nil, nil
+	}
 	session, ok := c.config.ClientSessionCache.Get(cacheKey)
 	if !ok || session == nil {
 		return cacheKey, nil, nil, nil
@@ -992,11 +1006,14 @@ func (c *Conn) getClientCertificate(cri *CertificateRequestInfo) (*Certificate, 
 
 // clientSessionCacheKey returns a key used to cache sessionTickets that could
 // be used to resume previously negotiated TLS sessions with a server.
-func clientSessionCacheKey(serverAddr net.Addr, config *Config) string {
-	if len(config.ServerName) > 0 {
-		return config.ServerName
+func (c *Conn) clientSessionCacheKey() string {
+	if len(c.config.ServerName) > 0 {
+		return c.config.ServerName
 	}
-	return serverAddr.String()
+	if c.conn != nil {
+		return c.conn.RemoteAddr().String()
+	}
+	return ""
 }
 
 // hostnameInSNI converts name into an appropriate hostname for SNI.
