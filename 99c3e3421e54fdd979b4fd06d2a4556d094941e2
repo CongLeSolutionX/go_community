@@ -47,6 +47,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "edce2d8f_fbceb3fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 52415
+      },
+      "writtenOn": "2022-10-14T20:49:24Z",
+      "side": 1,
+      "message": "By require I did in fact mean \"assume\", which is perhaps misleading.",
+      "parentUuid": "d5a8f53d_4431d601",
+      "range": {
+        "startLine": 54,
+        "startChar": 16,
+        "endLine": 54,
+        "endChar": 23
+      },
+      "revId": "99c3e3421e54fdd979b4fd06d2a4556d094941e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "c39b0764_ae63481d",
@@ -413,6 +437,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "81956f0a_123fdee6",
+        "filename": "src/crypto/rsa/rsa.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 583,
+      "author": {
+        "id": 52415
+      },
+      "writtenOn": "2022-10-14T20:49:24Z",
+      "side": 1,
+      "message": "In principle the size of N and P is public information, no?",
+      "parentUuid": "e46ff27e_230add4e",
+      "range": {
+        "startLine": 579,
+        "startChar": 1,
+        "endLine": 583,
+        "endChar": 29
+      },
+      "revId": "99c3e3421e54fdd979b4fd06d2a4556d094941e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ec5946a4_becdc94c",
         "filename": "src/crypto/rsa/rsa.go",
         "patchSetId": 17
@@ -424,6 +472,24 @@
       "writtenOn": "2022-10-14T20:43:00Z",
       "side": 1,
       "message": "Why t0.mod(m, p) instead of m directly here?",
+      "revId": "99c3e3421e54fdd979b4fd06d2a4556d094941e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47a465a7_a5ebbdaa",
+        "filename": "src/crypto/rsa/rsa.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 52415
+      },
+      "writtenOn": "2022-10-14T20:49:24Z",
+      "side": 1,
+      "message": "IIRC this is necessary so that the operand as the same size as m2.",
+      "parentUuid": "ec5946a4_becdc94c",
       "revId": "99c3e3421e54fdd979b4fd06d2a4556d094941e2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
