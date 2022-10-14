@@ -29,6 +29,7 @@ type Conn struct {
 	conn        net.Conn
 	isClient    bool
 	handshakeFn func(context.Context) error // (*Conn).clientHandshake or serverHandshake
+	quic        *QUICTransport
 
 	// isHandshakeComplete is true if the connection is currently transferring
 	// application data (i.e. is not currently processing a handshake).
@@ -176,7 +177,8 @@ type halfConn struct {
 	nextCipher any       // next encryption state
 	nextMac    hash.Hash // next MAC algorithm
 
-	trafficSecret []byte // current TLS 1.3 traffic secret
+	level         EncryptionLevel // current QUIC encryption level
+	trafficSecret []byte          // current TLS 1.3 traffic secret
 }
 
 type permanentError struct {
@@ -221,8 +223,9 @@ func (hc *halfConn) changeCipherSpec() error {
 	return nil
 }
 
-func (hc *halfConn) setTrafficSecret(suite *cipherSuiteTLS13, secret []byte) {
+func (hc *halfConn) setTrafficSecret(suite *cipherSuiteTLS13, level EncryptionLevel, secret []byte) {
 	hc.trafficSecret = secret
+	hc.level = level
 	key, iv := suite.trafficKey(secret)
 	hc.cipher = suite.aead(key, iv)
 	for i := range hc.seq {
@@ -613,6 +616,10 @@ func (c *Conn) readRecordOrCCS(expectChangeCipherSpec bool) error {
 	}
 	c.input.Reset(nil)
 
+	if c.quic != nil {
+		return c.in.setErrorLocked(errors.New("tls: internal error: attempted to read record with QUIC transport"))
+	}
+
 	// Read header, payload.
 	if err := c.readFromUntil(c.conn, recordHeaderLen); err != nil {
 		// RFC 8446, Section 6.1 suggests that EOF without an alertCloseNotify
@@ -813,6 +820,10 @@ func (c *Conn) readFromUntil(r io.Reader, n int) error {
 
 // sendAlert sends a TLS alert message.
 func (c *Conn) sendAlertLocked(err alert) error {
+	if c.quic != nil {
+		return c.out.setErrorLocked(&net.OpError{Op: "local error", Err: err})
+	}
+
 	switch err {
 	case alertNoRenegotiation, alertCloseNotify:
 		c.tmp[0] = alertLevelWarning
@@ -926,6 +937,10 @@ func (c *Conn) write(data []byte) (int, error) {
 }
 
 func (c *Conn) flush() (int, error) {
+	if c.quic != nil {
+		return 0, c.quic.FlushHandshakeData()
+	}
+
 	if len(c.sendBuf) == 0 {
 		return 0, nil
 	}
@@ -947,6 +962,21 @@ var outBufPool = sync.Pool{
 // writeRecordLocked writes a TLS record with the given type and payload to the
 // connection and updates the record layer state.
 func (c *Conn) writeRecordLocked(typ recordType, data []byte) (int, error) {
+	if c.quic != nil {
+		if typ != recordTypeHandshake {
+			return 0, errors.New("tls: internal error: sending non-handshake message to QUIC transport")
+		}
+		if err := c.quic.WriteHandshakeData(c.out.level, data); err != nil {
+			return 0, err
+		}
+		if !c.buffering {
+			if _, err := c.flush(); err != nil {
+				return 0, err
+			}
+		}
+		return len(data), nil
+	}
+
 	outBufPtr := outBufPool.Get().(*[]byte)
 	outBuf := *outBufPtr
 	defer func() {
@@ -1013,13 +1043,37 @@ func (c *Conn) writeRecord(typ recordType, data []byte) (int, error) {
 	return c.writeRecordLocked(typ, data)
 }
 
+type quicReader Conn
+
+func (q *quicReader) Read(p []byte) (n int, err error) {
+	level, n, err := q.quic.ReadHandshakeData(p)
+	if level != q.in.level {
+		return 0, errors.New("tls: QUIC transport returned data at wrong encryption level")
+	}
+	return n, err
+}
+
+func (c *Conn) readHandshakeBytes(n int) error {
+	if c.quic != nil {
+		if c.hand.Len() >= n {
+			return nil
+		}
+		_, err := c.hand.ReadFrom(&atLeastReader{(*quicReader)(c), int64(n - c.hand.Len())})
+		return err
+	}
+	for c.hand.Len() < 4 {
+		if err := c.readRecord(); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 // readHandshake reads the next handshake message from
 // the record layer.
 func (c *Conn) readHandshake() (any, error) {
-	for c.hand.Len() < 4 {
-		if err := c.readRecord(); err != nil {
-			return nil, err
-		}
+	if err := c.readHandshakeBytes(4); err != nil {
+		return nil, err
 	}
 
 	data := c.hand.Bytes()
@@ -1028,10 +1082,8 @@ func (c *Conn) readHandshake() (any, error) {
 		c.sendAlertLocked(alertInternalError)
 		return nil, c.in.setErrorLocked(fmt.Errorf("tls: handshake message of length %d bytes exceeds maximum of %d bytes", n, maxHandshake))
 	}
-	for c.hand.Len() < 4+n {
-		if err := c.readRecord(); err != nil {
-			return nil, err
-		}
+	if err := c.readHandshakeBytes(4 + n); err != nil {
+		return nil, err
 	}
 	data = c.hand.Next(4 + n)
 	var m handshakeMessage
@@ -1244,7 +1296,7 @@ func (c *Conn) handleKeyUpdate(keyUpdate *keyUpdateMsg) error {
 	}
 
 	newSecret := cipherSuite.nextTrafficSecret(c.in.trafficSecret)
-	c.in.setTrafficSecret(cipherSuite, newSecret)
+	c.in.setTrafficSecret(cipherSuite, EncryptionLevelInitial, newSecret)
 
 	if keyUpdate.updateRequested {
 		c.out.Lock()
@@ -1259,7 +1311,7 @@ func (c *Conn) handleKeyUpdate(keyUpdate *keyUpdateMsg) error {
 		}
 
 		newSecret := cipherSuite.nextTrafficSecret(c.out.trafficSecret)
-		c.out.setTrafficSecret(cipherSuite, newSecret)
+		c.out.setTrafficSecret(cipherSuite, EncryptionLevelInitial, newSecret)
 	}
 
 	return nil
