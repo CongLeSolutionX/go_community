@@ -52,6 +52,24 @@
       "parentUuid": "df8d8ebd_e10695d4",
       "revId": "c1f33780eb2cda5bdf37733c1d5b0fbd10b22a58",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a088e441_5725a280",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 3302,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-10-14T20:19:48Z",
+      "side": 1,
+      "message": "Yes, the panic message should also say non-comparable.  Are there any other uses of \"uncomparable\"?\n\n\"Uncomparable\" isn\u0027t really a word in English.  \"Non-comparable\" seems clearer.  Thanks.",
+      "parentUuid": "1792b933_2c753b6d",
+      "revId": "c1f33780eb2cda5bdf37733c1d5b0fbd10b22a58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
