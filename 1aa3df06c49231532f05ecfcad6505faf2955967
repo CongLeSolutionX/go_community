@@ -88,6 +88,24 @@
       "parentUuid": "2d71c976_808a8add",
       "revId": "1aa3df06c49231532f05ecfcad6505faf2955967",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4065e019_897ae0cc",
+        "filename": "src/go/constant/value.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-10-14T03:02:11Z",
+      "side": 1,
+      "message": "OK, but you still don\u0027t need all this logic. If it\u0027s close to an int, don\u0027t worry about the precision, just use %g. https://go.dev/play/p/Hzx38NwAKnq",
+      "parentUuid": "981bf4a5_8a355147",
+      "revId": "1aa3df06c49231532f05ecfcad6505faf2955967",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
