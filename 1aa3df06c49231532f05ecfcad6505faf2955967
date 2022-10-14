@@ -70,6 +70,24 @@
       "message": "You shouldn\u0027t need any of this logic. Just drop the .6.\n\n%g uses \"the smallest number of digits necessary to identify the value uniquely\", as it says in the fmt docs.\n\nhttps://go.dev/play/p/y_AGa0AbhWM",
       "revId": "1aa3df06c49231532f05ecfcad6505faf2955967",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "981bf4a5_8a355147",
+        "filename": "src/go/constant/value.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2022-10-14T00:39:22Z",
+      "side": 1,
+      "message": "For\n\n  x :\u003d int(math.Pi)\n\nThe error you get now is\n\n  cannot convert math.Pi (untyped float constant 3.14159) to type int\n\nThere\u0027s no need to report more digits here. Only if the constant is really near an integer are more digits useful.",
+      "parentUuid": "2d71c976_808a8add",
+      "revId": "1aa3df06c49231532f05ecfcad6505faf2955967",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
