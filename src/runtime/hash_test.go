@@ -762,3 +762,15 @@ func TestCollisions(t *testing.T) {
 		}
 	}
 }
+
+func BenchmarkMemhashFallback64(b *testing.B) {
+	for i := uint64(0); i < uint64(b.N); i++ {
+		Memhash64Fallback(unsafe.Pointer(&i), uintptr(i))
+	}
+}
+
+func BenchmarkMemhashFallback32(b *testing.B) {
+	for i := uint32(0); i < uint32(b.N); i++ {
+		Memhash32Fallback(unsafe.Pointer(&i), uintptr(i))
+	}
+}
