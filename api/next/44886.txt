@@ -1,0 +1,25 @@
+pkg crypto/tls, method (AlertError) Error() string #44886
+pkg crypto/tls, method (AlertError) String() string #44886
+pkg crypto/tls, type AlertError uint8 #44886
+pkg crypto/tls, const EncryptionLevelApplication = 2 #44886
+pkg crypto/tls, const EncryptionLevelApplication EncryptionLevel #44886
+pkg crypto/tls, const EncryptionLevelHandshake = 1 #44886
+pkg crypto/tls, const EncryptionLevelHandshake EncryptionLevel #44886
+pkg crypto/tls, const EncryptionLevelInitial = 0 #44886
+pkg crypto/tls, const EncryptionLevelInitial EncryptionLevel #44886
+pkg crypto/tls, func QUICClient(*QUICTransport, *Config) *QUICConn #44886
+pkg crypto/tls, func QUICServer(*QUICTransport, *Config) *QUICConn #44886
+pkg crypto/tls, method (*QUICConn) Close() error #44886
+pkg crypto/tls, method (*QUICConn) ConnectionState() ConnectionState #44886
+pkg crypto/tls, method (*QUICConn) HandleCryptoData(EncryptionLevel, []uint8) error #44886
+pkg crypto/tls, method (*QUICConn) Start(context.Context) error #44886
+pkg crypto/tls, method (EncryptionLevel) String() string #44886
+pkg crypto/tls, type EncryptionLevel int #44886
+pkg crypto/tls, type QUICConn struct #44886
+pkg crypto/tls, type QUICTransport struct #44886
+pkg crypto/tls, type QUICTransport struct, GetTransportParameters func() []uint8 #44886
+pkg crypto/tls, type QUICTransport struct, HandshakeComplete func() #44886
+pkg crypto/tls, type QUICTransport struct, SetReadSecret func(EncryptionLevel, uint16, []uint8) #44886
+pkg crypto/tls, type QUICTransport struct, SetTransportParameters func([]uint8) error #44886
+pkg crypto/tls, type QUICTransport struct, SetWriteSecret func(EncryptionLevel, uint16, []uint8) #44886
+pkg crypto/tls, type QUICTransport struct, WriteCryptoData func(EncryptionLevel, []uint8) error #44886
