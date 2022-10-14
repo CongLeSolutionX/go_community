@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b6ca6e3_cdcf92ed",
+        "filename": "src/os/signal/signal_cgo_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-14T16:45:12Z",
+      "side": 1,
+      "message": "For some reason this is returning `no such process` errors on `linux-s390x-ibm`. 😵‍💫\n\n(Looks like a platform bug to me, but we should at least file it for the s390x maintainers to fix.)",
+      "revId": "a8ca70ff98dd088ff6afe57eafd553aa79732086",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc06be90_bfdb259a",
+        "filename": "src/os/signal/signal_cgo_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-14T16:45:12Z",
+      "side": 1,
+      "message": "This `Fprintf` message and the two that follow it are all missing trailing newlines.",
+      "revId": "a8ca70ff98dd088ff6afe57eafd553aa79732086",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
