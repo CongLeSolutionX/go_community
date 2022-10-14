@@ -38,6 +38,29 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "4dee9d02_9a6301ee",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 2811,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-10-14T21:42:39Z",
+      "side": 1,
+      "message": "Grow could modify the ptr also. Maybe \"which modifies the slice in place and does not change the length\"?",
+      "range": {
+        "startLine": 2811,
+        "startChar": 16,
+        "endLine": 2811,
+        "endChar": 48
+      },
+      "revId": "a5983c0cf75c3244211a19252f00737ec3e29fd5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "f1fedb64_893eadbf",
@@ -57,6 +80,23 @@
         "endLine": 140,
         "endChar": 45
       },
+      "revId": "a5983c0cf75c3244211a19252f00737ec3e29fd5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5aa72dd_61558d15",
+        "filename": "src/runtime/slice.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-10-14T21:42:39Z",
+      "side": 1,
+      "message": "Might be worth commenting (and checking?) here that we only call this function when old.len+num \u003e old.cap, so this math should never make a negative num.",
       "revId": "a5983c0cf75c3244211a19252f00737ec3e29fd5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
