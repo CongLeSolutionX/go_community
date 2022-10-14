@@ -36,6 +36,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "00e661b6_40960832",
+        "filename": "src/os/signal/signal_cgo_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-10-14T18:25:56Z",
+      "side": 1,
+      "message": "Thanks for filing. I\u0027ll see if it is obvious.",
+      "parentUuid": "b8e9186c_4885e263",
+      "revId": "a8ca70ff98dd088ff6afe57eafd553aa79732086",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bc06be90_bfdb259a",
@@ -49,6 +67,24 @@
       "writtenOn": "2022-10-14T16:45:12Z",
       "side": 1,
       "message": "This `Fprintf` message and the two that follow it are all missing trailing newlines.",
+      "revId": "a8ca70ff98dd088ff6afe57eafd553aa79732086",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66734f2a_f1250080",
+        "filename": "src/os/signal/signal_cgo_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-10-14T18:25:56Z",
+      "side": 1,
+      "message": "CL 443066",
+      "parentUuid": "bc06be90_bfdb259a",
       "revId": "a8ca70ff98dd088ff6afe57eafd553aa79732086",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
