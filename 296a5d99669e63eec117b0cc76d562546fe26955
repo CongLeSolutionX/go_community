@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71ec1f3b_464b7a01",
+        "filename": "src/runtime/atomic_pointer.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-10-14T20:13:02Z",
+      "side": 1,
+      "message": "I don\u0027t understand this.  What import cycle?  Why not just ptr.StoreNoWB(new)?  Note that atomic.Pointer here comes from runtime/internal/atomic, not sync/atomic.",
+      "revId": "296a5d99669e63eec117b0cc76d562546fe26955",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
