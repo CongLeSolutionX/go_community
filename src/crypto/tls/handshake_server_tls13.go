@@ -226,6 +226,16 @@ GroupSelection:
 		return errors.New("tls: invalid client key share")
 	}
 
+	if c.quic != nil {
+		if hs.clientHello.quicTransportParameters == nil {
+			// RFC 9001 Section 8.2.
+			return c.sendAlert(alertMissingExtension)
+		}
+		if err := c.quicSetTransportParameters(hs.clientHello.quicTransportParameters); err != nil {
+			return err
+		}
+	}
+
 	c.serverName = hs.clientHello.serverName
 	return nil
 }
@@ -397,6 +407,9 @@ func (hs *serverHandshakeStateTLS13) pickCertificate() error {
 // sendDummyChangeCipherSpec sends a ChangeCipherSpec record for compatibility
 // with middleboxes that didn't implement TLS correctly. See RFC 8446, Appendix D.4.
 func (hs *serverHandshakeStateTLS13) sendDummyChangeCipherSpec() error {
+	if hs.c.quic != nil {
+		return nil
+	}
 	if hs.sentDummyCCS {
 		return nil
 	}
@@ -548,10 +561,19 @@ func (hs *serverHandshakeStateTLS13) sendServerParameters() error {
 
 	clientSecret := hs.suite.deriveSecret(hs.handshakeSecret,
 		clientHandshakeTrafficLabel, hs.transcript)
-	c.in.setTrafficSecret(hs.suite, clientSecret)
+	c.in.setTrafficSecret(hs.suite, EncryptionLevelHandshake, clientSecret)
 	serverSecret := hs.suite.deriveSecret(hs.handshakeSecret,
 		serverHandshakeTrafficLabel, hs.transcript)
-	c.out.setTrafficSecret(hs.suite, serverSecret)
+	c.out.setTrafficSecret(hs.suite, EncryptionLevelHandshake, serverSecret)
+
+	if c.quic != nil {
+		if c.hand.Len() != 0 {
+			// TODO: Handle this in setTrafficSecret?
+			c.sendAlert(alertUnexpectedMessage)
+		}
+		c.quicSetWriteSecret(EncryptionLevelHandshake, hs.suite.id, serverSecret)
+		c.quicSetReadSecret(EncryptionLevelHandshake, hs.suite.id, clientSecret)
+	}
 
 	err := c.config.writeKeyLog(keyLogLabelClientHandshake, hs.clientHello.random, clientSecret)
 	if err != nil {
@@ -566,13 +588,21 @@ func (hs *serverHandshakeStateTLS13) sendServerParameters() error {
 
 	encryptedExtensions := new(encryptedExtensionsMsg)
 
-	selectedProto, err := negotiateALPN(c.config.NextProtos, hs.clientHello.alpnProtocols)
+	selectedProto, err := negotiateALPN(c.config.NextProtos, hs.clientHello.alpnProtocols, c.quic != nil)
 	if err != nil {
 		c.sendAlert(alertNoApplicationProtocol)
 		return err
 	}
 	encryptedExtensions.alpnProtocol = selectedProto
 	c.clientProtocol = selectedProto
+
+	if c.quic != nil {
+		p := c.quicGetTransportParameters()
+		if p == nil {
+			p = []byte{}
+		}
+		encryptedExtensions.quicTransportParameters = p
+	}
 
 	if _, err := hs.c.writeHandshakeRecord(encryptedExtensions, hs.transcript); err != nil {
 		return err
@@ -672,7 +702,15 @@ func (hs *serverHandshakeStateTLS13) sendServerFinished() error {
 		clientApplicationTrafficLabel, hs.transcript)
 	serverSecret := hs.suite.deriveSecret(hs.masterSecret,
 		serverApplicationTrafficLabel, hs.transcript)
-	c.out.setTrafficSecret(hs.suite, serverSecret)
+	c.out.setTrafficSecret(hs.suite, EncryptionLevelApplication, serverSecret)
+
+	if c.quic != nil {
+		if c.hand.Len() != 0 {
+			// TODO: Handle this in setTrafficSecret?
+			c.sendAlert(alertUnexpectedMessage)
+		}
+		c.quicSetWriteSecret(EncryptionLevelApplication, hs.suite.id, c.out.trafficSecret)
+	}
 
 	err := c.config.writeKeyLog(keyLogLabelClientTraffic, hs.clientHello.random, hs.trafficSecret)
 	if err != nil {
@@ -887,7 +925,7 @@ func (hs *serverHandshakeStateTLS13) readClientFinished() error {
 		return errors.New("tls: invalid client finished hash")
 	}
 
-	c.in.setTrafficSecret(hs.suite, hs.trafficSecret)
+	c.in.setTrafficSecret(hs.suite, EncryptionLevelApplication, hs.trafficSecret)
 
 	return nil
 }
