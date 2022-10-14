@@ -7,15 +7,20 @@ package ssa
 import (
 	"cmd/internal/obj"
 	"sort"
+	"sync"
 )
 
 // A Cache holds reusable compiler state.
 // It is intended to be re-used for multiple Func compilations.
 type Cache struct {
-	// Storage for low-numbered values and blocks.
-	values [2000]Value
-	blocks [200]Block
-	locs   [2000]Location
+	// batch allocator for various types
+	nValues      int
+	valueBatches []*[valueBatchSize]Value
+	nBlocks      int
+	blockBatches []*[blockBatchSize]Block
+
+	// Storage for regalloc result
+	locs [2000]Location
 
 	// Reusable stackAllocState.
 	// See stackalloc.go's {new,put}StackAllocState.
@@ -42,17 +47,71 @@ type Cache struct {
 	hdrIDSlice    []*[]ID
 }
 
+const valueBatchSize = 256
+const blockBatchSize = 64
+
+var valueBatchPool = sync.Pool{New: func() interface{} { return new([valueBatchSize]Value) }}
+var blockBatchPool = sync.Pool{New: func() interface{} { return new([blockBatchSize]Block) }}
+
+func (c *Cache) allocValue() *Value {
+	// Grab a value from the cache allocator.
+	n := c.nValues
+	batchId, batchOff := uint(n)/valueBatchSize, uint(n)%valueBatchSize
+	if batchId == uint(len(c.valueBatches)) {
+		c.valueBatches = append(c.valueBatches, valueBatchPool.Get().(*[valueBatchSize]Value))
+	}
+	c.nValues = n + 1
+	return &c.valueBatches[batchId][batchOff]
+}
+
+func (c *Cache) allocBlock() *Block {
+	// Grab a block from the cache allocator.
+	n := c.nBlocks
+	batchId, batchOff := uint(n)/blockBatchSize, uint(n)%blockBatchSize
+	if batchId == uint(len(c.blockBatches)) {
+		c.blockBatches = append(c.blockBatches, blockBatchPool.Get().(*[blockBatchSize]Block))
+	}
+	c.nBlocks = n + 1
+	return &c.blockBatches[batchId][batchOff]
+}
+
 func (c *Cache) Reset() {
-	nv := sort.Search(len(c.values), func(i int) bool { return c.values[i].ID == 0 })
-	xv := c.values[:nv]
-	for i := range xv {
-		xv[i] = Value{}
+	// Zero the values we've used.
+	for i, b := range c.valueBatches {
+		n := c.nValues - i*valueBatchSize
+		if n < valueBatchSize {
+			// zero partial batch
+			s := b[:n]
+			for j := range s {
+				s[j] = Value{}
+			}
+		} else {
+			// zero full batch
+			*b = [valueBatchSize]Value{}
+		}
+		valueBatchPool.Put(b)
 	}
-	nb := sort.Search(len(c.blocks), func(i int) bool { return c.blocks[i].ID == 0 })
-	xb := c.blocks[:nb]
-	for i := range xb {
-		xb[i] = Block{}
+	c.valueBatches = nil
+	c.nValues = 0
+
+	// Zero the blocks we've used.
+	for i, b := range c.blockBatches {
+		n := c.nBlocks - i*blockBatchSize
+		if n < blockBatchSize {
+			// zero partial batch
+			s := b[:n]
+			for j := range s {
+				s[j] = Block{}
+			}
+		} else {
+			// zero full batch
+			*b = [blockBatchSize]Block{}
+		}
+		blockBatchPool.Put(b)
 	}
+	c.blockBatches = nil
+	c.nBlocks = 0
+
 	nl := sort.Search(len(c.locs), func(i int) bool { return c.locs[i] == nil })
 	xl := c.locs[:nl]
 	for i := range xl {
