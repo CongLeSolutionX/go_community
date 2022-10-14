@@ -4,6 +4,8 @@
 
 package ssa
 
+import "fmt"
+
 // flagalloc allocates the flag register among all the flag-generating
 // instructions. Flag values are recomputed if they need to be
 // spilled/restored.
@@ -166,7 +168,7 @@ func flagalloc(f *Func) {
 		for i, v := range b.ControlValues() {
 			if v != flag && v.Type.IsFlags() {
 				// Recalculate control value.
-				remove = append(remove, v)
+				remove = appendOps(remove, v)
 				c := copyFlags(v, b)
 				b.ReplaceControl(i, c)
 				flag = v
@@ -175,7 +177,7 @@ func flagalloc(f *Func) {
 		if v := end[b.ID]; v != nil && v != flag {
 			// Need to reissue flag generator for use by
 			// subsequent blocks.
-			remove = append(remove, v)
+			remove = appendOps(remove, v)
 			copyFlags(v, b)
 			// Note: this flag generator is not properly linked up
 			// with the flag users. This breaks the SSA representation.
@@ -251,6 +253,17 @@ func (v *Value) clobbersFlags() bool {
 		return true
 	}
 	return false
+}
+
+// Add values which are likely to be removed, and if a flag selecting op, the tuple op too.
+func appendOps(remove []*Value, v *Value) []*Value {
+	remove = append(remove, v)
+	// Special case, delete tuple generating ops if they are likely to become unused.
+	if (v.Op == OpSelect1 || v.Op == OpSelect0) && v.Args[0].Uses == 1 {
+		fmt.Printf("clobber tupleop %s\n", v.LongString())
+		remove = append(remove, v.Args[0])
+	}
+	return remove
 }
 
 // copyFlags copies v (flag generator) into b, returns the copy.
