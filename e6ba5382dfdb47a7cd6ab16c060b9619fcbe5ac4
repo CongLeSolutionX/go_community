@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86360d2f_566fa3e3",
+        "filename": "src/runtime/hash64.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-10-14T21:04:29Z",
+      "side": 1,
+      "message": "I don\u0027t think this is particularly collision resistant. Any values with the same top 5 bits and low N bits will have the same low N bits of result. So you can easily enumerate, say, 2^27 values with the same low 32 bits of hash.",
+      "revId": "e6ba5382dfdb47a7cd6ab16c060b9619fcbe5ac4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
