@@ -6,7 +6,13 @@ package tls
 
 import "strconv"
 
-type alert uint8
+// An AlertError is a TLS alert.
+//
+// When using a QUIC transport, QUICConn methods will return an AlertError
+// rather than sending a TLS alert.
+type AlertError uint8
+
+type alert = AlertError
 
 const (
 	// alert level
@@ -86,7 +92,7 @@ var alertText = map[alert]string{
 	alertNoApplicationProtocol:        "no application protocol",
 }
 
-func (e alert) String() string {
+func (e AlertError) String() string {
 	s, ok := alertText[e]
 	if ok {
 		return "tls: " + s
@@ -94,6 +100,6 @@ func (e alert) String() string {
 	return "tls: alert(" + strconv.Itoa(int(e)) + ")"
 }
 
-func (e alert) Error() string {
+func (e AlertError) Error() string {
 	return e.String()
 }
