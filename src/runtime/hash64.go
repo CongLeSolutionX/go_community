@@ -4,6 +4,7 @@
 
 // Hashing algorithm inspired by
 // wyhash: https://github.com/wangyi-fudan/wyhash
+// fxhash: https://searchfox.org/mozilla-central/rev/633345116df55e2d37be9be6555aa739656c5a7d/mfbt/HashFunctions.h
 
 //go:build amd64 || arm64 || loong64 || mips64 || mips64le || ppc64 || ppc64le || riscv64 || s390x || wasm
 
@@ -20,6 +21,7 @@ const (
 	m3 = 0x8ebc6af09c88c6e3
 	m4 = 0x589965cc75374cc3
 	m5 = 0x1d8e4e27c47d124f
+	k0 = 0x517cc1b727220a95
 )
 
 func memhashFallback(p unsafe.Pointer, seed, s uintptr) uintptr {
@@ -68,16 +70,6 @@ func memhashFallback(p unsafe.Pointer, seed, s uintptr) uintptr {
 	return mix(m5^s, mix(a^m2, b^seed))
 }
 
-func memhash32Fallback(p unsafe.Pointer, seed uintptr) uintptr {
-	a := r4(p)
-	return mix(m5^4, mix(a^m2, a^seed^hashkey[0]^m1))
-}
-
-func memhash64Fallback(p unsafe.Pointer, seed uintptr) uintptr {
-	a := r8(p)
-	return mix(m5^8, mix(a^m2, a^seed^hashkey[0]^m1))
-}
-
 func mix(a, b uintptr) uintptr {
 	hi, lo := math.Mul64(uint64(a), uint64(b))
 	return uintptr(hi ^ lo)
@@ -89,4 +81,14 @@ func r4(p unsafe.Pointer) uintptr {
 
 func r8(p unsafe.Pointer) uintptr {
 	return uintptr(readUnaligned64(p))
+}
+
+func memhash64Fallback(p unsafe.Pointer, seed uintptr) uintptr {
+	x := *(*uint64)(p) + uint64(seed)
+	return uintptr(math.RotateLeft64(x, 5)^x) * k0
+}
+
+func memhash32Fallback(p unsafe.Pointer, seed uintptr) uintptr {
+	x := *(*uint32)(p) + uint32(seed)
+	return uintptr(math.RotateLeft32(x, 5)^x) * k0
 }

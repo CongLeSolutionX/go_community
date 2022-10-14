@@ -38,3 +38,29 @@ func Mul64(x, y uint64) (hi, lo uint64) {
 	lo = x * y
 	return
 }
+
+// RotateLeft32 returns the value of x rotated left by (k mod 32) bits.
+// To rotate x right by k bits, call RotateLeft32(x, -k).
+//
+// This function's execution time does not depend on the inputs.
+//
+// This is a copy from math/bits.RotateLeft32
+// On supported platforms this is an intrinsic lowered by the compiler.
+func RotateLeft32(x uint32, k int) uint32 {
+	const n = 32
+	s := uint(k) & (n - 1)
+	return x<<s | x>>(n-s)
+}
+
+// RotateLeft64 returns the value of x rotated left by (k mod 64) bits.
+// To rotate x right by k bits, call RotateLeft64(x, -k).
+//
+// This function's execution time does not depend on the inputs.
+//
+// This is a copy from math/bits.RotateLeft64
+// On supported platforms this is an intrinsic lowered by the compiler.
+func RotateLeft64(x uint64, k int) uint64 {
+	const n = 64
+	s := uint(k) & (n - 1)
+	return x<<s | x>>(n-s)
+}

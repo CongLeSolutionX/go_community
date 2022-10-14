@@ -184,15 +184,17 @@ func RunSchedLocalQueueEmptyTest(iters int) {
 }
 
 var (
-	StringHash = stringHash
-	BytesHash  = bytesHash
-	Int32Hash  = int32Hash
-	Int64Hash  = int64Hash
-	MemHash    = memhash
-	MemHash32  = memhash32
-	MemHash64  = memhash64
-	EfaceHash  = efaceHash
-	IfaceHash  = ifaceHash
+	StringHash        = stringHash
+	BytesHash         = bytesHash
+	Int32Hash         = int32Hash
+	Int64Hash         = int64Hash
+	MemHash           = memhash
+	MemHash32         = memhash32
+	MemHash64         = memhash64
+	Memhash32Fallback = memhash32Fallback
+	Memhash64Fallback = memhash64Fallback
+	EfaceHash         = efaceHash
+	IfaceHash         = ifaceHash
 )
 
 var UseAeshash = &useAeshash
