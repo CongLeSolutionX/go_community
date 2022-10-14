@@ -250,17 +250,14 @@ func (f *Func) SplitSlot(name *LocalSlot, sfx string, offset int64, t *types.Typ
 func (f *Func) newValue(op Op, t *types.Type, b *Block, pos src.XPos) *Value {
 	var v *Value
 	if f.freeValues != nil {
+		// Grab a value from f's free list.
 		v = f.freeValues
 		f.freeValues = v.argstorage[0]
 		v.argstorage[0] = nil
 	} else {
-		ID := f.vid.get()
-		if int(ID) < len(f.Cache.values) {
-			v = &f.Cache.values[ID]
-			v.ID = ID
-		} else {
-			v = &Value{ID: ID}
-		}
+		// Grab a value from the cache allocator.
+		v = f.Cache.allocValue()
+		v.ID = f.vid.get()
 	}
 	v.Op = op
 	v.Type = t
@@ -284,13 +281,8 @@ func (f *Func) newValueNoBlock(op Op, t *types.Type, pos src.XPos) *Value {
 		f.freeValues = v.argstorage[0]
 		v.argstorage[0] = nil
 	} else {
-		ID := f.vid.get()
-		if int(ID) < len(f.Cache.values) {
-			v = &f.Cache.values[ID]
-			v.ID = ID
-		} else {
-			v = &Value{ID: ID}
-		}
+		v = f.Cache.allocValue()
+		v.ID = f.vid.get()
 	}
 	v.Op = op
 	v.Type = t
@@ -393,13 +385,8 @@ func (f *Func) NewBlock(kind BlockKind) *Block {
 		f.freeBlocks = b.succstorage[0].b
 		b.succstorage[0].b = nil
 	} else {
-		ID := f.bid.get()
-		if int(ID) < len(f.Cache.blocks) {
-			b = &f.Cache.blocks[ID]
-			b.ID = ID
-		} else {
-			b = &Block{ID: ID}
-		}
+		b = f.Cache.allocBlock()
+		b.ID = f.bid.get()
 	}
 	b.Kind = kind
 	b.Func = f
