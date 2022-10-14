@@ -99,6 +99,7 @@ const (
 	extensionCertificateAuthorities  uint16 = 47
 	extensionSignatureAlgorithmsCert uint16 = 50
 	extensionKeyShare                uint16 = 51
+	extensionQUICTransportParameters uint16 = 57
 	extensionRenegotiationInfo       uint16 = 0xff01
 )
 
@@ -723,6 +724,10 @@ type Config struct {
 	// used for debugging.
 	KeyLogWriter io.Writer
 
+	// If QUICTransport is non-nil, it replaces the TLS transport layer.
+	// In this case, MinVersion and MaxVersion must be VersionTLS13.
+	QUICTransport *QUICTransport
+
 	// mutex protects sessionTicketKeys and autoSessionTicketKeys.
 	mutex sync.RWMutex
 	// sessionTicketKeys contains zero or more ticket keys. If set, it means
@@ -812,6 +817,7 @@ func (c *Config) Clone() *Config {
 		DynamicRecordSizingDisabled: c.DynamicRecordSizingDisabled,
 		Renegotiation:               c.Renegotiation,
 		KeyLogWriter:                c.KeyLogWriter,
+		QUICTransport:               c.QUICTransport,
 		sessionTicketKeys:           c.sessionTicketKeys,
 		autoSessionTicketKeys:       c.autoSessionTicketKeys,
 	}

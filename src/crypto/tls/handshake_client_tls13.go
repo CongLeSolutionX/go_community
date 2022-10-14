@@ -167,6 +167,9 @@ func (hs *clientHandshakeStateTLS13) checkServerHelloOrHRR() error {
 // sendDummyChangeCipherSpec sends a ChangeCipherSpec record for compatibility
 // with middleboxes that didn't implement TLS correctly. See RFC 8446, Appendix D.4.
 func (hs *clientHandshakeStateTLS13) sendDummyChangeCipherSpec() error {
+	if hs.c.config.QUICTransport != nil {
+		return nil
+	}
 	if hs.sentDummyCCS {
 		return nil
 	}
@@ -368,10 +371,15 @@ func (hs *clientHandshakeStateTLS13) establishHandshakeKeys() error {
 
 	clientSecret := hs.suite.deriveSecret(handshakeSecret,
 		clientHandshakeTrafficLabel, hs.transcript)
-	c.out.setTrafficSecret(hs.suite, clientSecret)
+	c.out.setTrafficSecret(hs.suite, EncryptionLevelHandshake, clientSecret)
 	serverSecret := hs.suite.deriveSecret(handshakeSecret,
 		serverHandshakeTrafficLabel, hs.transcript)
-	c.in.setTrafficSecret(hs.suite, serverSecret)
+	c.in.setTrafficSecret(hs.suite, EncryptionLevelHandshake, serverSecret)
+
+	if q := c.config.QUICTransport; q != nil {
+		q.SetWriteSecret(EncryptionLevelHandshake, hs.suite.id, serverSecret)
+		q.SetReadSecret(EncryptionLevelHandshake, hs.suite.id, clientSecret)
+	}
 
 	err = c.config.writeKeyLog(keyLogLabelClientHandshake, hs.hello.random, clientSecret)
 	if err != nil {
@@ -410,6 +418,10 @@ func (hs *clientHandshakeStateTLS13) readServerParameters() error {
 		return err
 	}
 	c.clientProtocol = encryptedExtensions.alpnProtocol
+
+	if q := c.config.QUICTransport; q != nil {
+		q.SetTransportParameters(encryptedExtensions.quicTransportParameters)
+	}
 
 	return nil
 }
@@ -531,7 +543,11 @@ func (hs *clientHandshakeStateTLS13) readServerFinished() error {
 		clientApplicationTrafficLabel, hs.transcript)
 	serverSecret := hs.suite.deriveSecret(hs.masterSecret,
 		serverApplicationTrafficLabel, hs.transcript)
-	c.in.setTrafficSecret(hs.suite, serverSecret)
+	c.in.setTrafficSecret(hs.suite, EncryptionLevelApplication, serverSecret)
+
+	if q := c.config.QUICTransport; q != nil {
+		q.SetWriteSecret(EncryptionLevelApplication, hs.suite.id, serverSecret)
+	}
 
 	err = c.config.writeKeyLog(keyLogLabelClientTraffic, hs.hello.random, hs.trafficSecret)
 	if err != nil {
@@ -630,7 +646,10 @@ func (hs *clientHandshakeStateTLS13) sendClientFinished() error {
 		return err
 	}
 
-	c.out.setTrafficSecret(hs.suite, hs.trafficSecret)
+	c.out.setTrafficSecret(hs.suite, EncryptionLevelApplication, hs.trafficSecret)
+	if q := c.config.QUICTransport; q != nil {
+		q.SetReadSecret(EncryptionLevelApplication, hs.suite.id, hs.trafficSecret)
+	}
 
 	if !c.config.SessionTicketsDisabled && c.config.ClientSessionCache != nil {
 		c.resumptionSecret = hs.suite.deriveSecret(hs.masterSecret,

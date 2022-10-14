@@ -144,6 +144,14 @@ func (c *Conn) makeClientHello() (*clientHelloMsg, *ecdh.PrivateKey, error) {
 		hello.keyShares = []keyShare{{group: curveID, data: key.PublicKey().Bytes()}}
 	}
 
+	if q := c.config.QUICTransport; q != nil {
+		p := q.GetTransportParameters()
+		if p == nil {
+			p = []byte{}
+		}
+		hello.quicTransportParameters = p
+	}
+
 	return hello, key, nil
 }
 
