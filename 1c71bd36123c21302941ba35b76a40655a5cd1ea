@@ -212,6 +212,24 @@
       "parentUuid": "dd9b757d_0a034944",
       "revId": "1c71bd36123c21302941ba35b76a40655a5cd1ea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2fb2889a_2772b18c",
+        "filename": "src/os/signal/signal_cgo_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-14T15:25:01Z",
+      "side": 1,
+      "message": "FWIW, the `Read` call shouldn\u0027t block waiting for extra bytes. (`io.Reader` implementation are encouraged to return whenever they have data, in contrast with `io.Writer` which is supposed to block until the whole payload is written.)",
+      "parentUuid": "82efb92c_9eac12af",
+      "revId": "1c71bd36123c21302941ba35b76a40655a5cd1ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
