@@ -63,6 +63,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "92168217_d6170063",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 2811,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2022-10-14T22:10:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4dee9d02_9a6301ee",
+      "range": {
+        "startLine": 2811,
+        "startChar": 16,
+        "endLine": 2811,
+        "endChar": 48
+      },
+      "revId": "a5983c0cf75c3244211a19252f00737ec3e29fd5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "f1fedb64_893eadbf",
         "filename": "src/runtime/slice.go",
         "patchSetId": 7
@@ -97,6 +121,24 @@
       "writtenOn": "2022-10-14T21:42:39Z",
       "side": 1,
       "message": "Might be worth commenting (and checking?) here that we only call this function when old.len+num \u003e old.cap, so this math should never make a negative num.",
+      "revId": "a5983c0cf75c3244211a19252f00737ec3e29fd5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61e2f422_53ca71ca",
+        "filename": "src/runtime/slice.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2022-10-14T22:10:39Z",
+      "side": 1,
+      "message": "Added a comment, but didn\u0027t check for it. Since there\u0027s a 1:1 relationship between the \"reflect_xxx\" functions in the runtime package, I don\u0027t think there would be other callers to worry about.",
+      "parentUuid": "f5aa72dd_61558d15",
       "revId": "a5983c0cf75c3244211a19252f00737ec3e29fd5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
