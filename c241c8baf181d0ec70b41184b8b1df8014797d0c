@@ -34,6 +34,57 @@
       "parentUuid": "19129cdd_3e655c12",
       "revId": "c241c8baf181d0ec70b41184b8b1df8014797d0c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1444cab7_465de37e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-10-14T21:57:13Z",
+      "side": 1,
+      "message": "Thanks, this does get rid of some unnecessary duplication (both code, and API surface).",
+      "revId": "c241c8baf181d0ec70b41184b8b1df8014797d0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f272eada_0c2bad03",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 4006,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-10-14T21:57:13Z",
+      "side": 1,
+      "message": "Get rid of these.",
+      "revId": "c241c8baf181d0ec70b41184b8b1df8014797d0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89d0b37f_dedd2a95",
+        "filename": "src/runtime/internal/sys/intrinsics.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-10-14T21:57:13Z",
+      "side": 1,
+      "message": "ntz8tab looks a bit different in math/bits now. Copy that one?",
+      "revId": "c241c8baf181d0ec70b41184b8b1df8014797d0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
