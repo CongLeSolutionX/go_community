@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68f5ac73_73b9e842",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 44188
+      },
+      "writtenOn": "2022-10-14T08:31:59Z",
+      "side": 1,
+      "message": "I\u0027m wondering if we could use the fxhash as the default hasher for uint64 and uint32(in the genhash). If so we can use the fxhash in the hashmap directly without using the pointer.",
+      "revId": "eec1d99bb42124fed1877d19b7e28b3fcef7d8b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
