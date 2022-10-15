@@ -139,17 +139,16 @@ func (pkg *Package) Fatalf(format string, args ...any) {
 // we can then use to generate documentation.
 func parsePackage(writer io.Writer, pkg *build.Package, userPath string) *Package {
 	// include tells parser.ParseDir which files to include.
-	// That means the file must be in the build package's GoFiles or CgoFiles
-	// list only (no tag-ignored files, tests, swig or other non-Go files).
+	// That means the file must be in the build package's GoFiles, CgoFiles,
+	// TestGoFiles or XTestGoFiles list only (no tag-ignored files, swig or
+	// other non-Go files).
 	include := func(info fs.FileInfo) bool {
-		for _, name := range pkg.GoFiles {
-			if name == info.Name() {
-				return true
-			}
-		}
-		for _, name := range pkg.CgoFiles {
-			if name == info.Name() {
-				return true
+		files := [][]string{pkg.GoFiles, pkg.CgoFiles, pkg.TestGoFiles, pkg.XTestGoFiles}
+		for _, f := range files {
+			for _, name := range f {
+				if name == info.Name() {
+					return true
+				}
 			}
 		}
 		return false
@@ -162,9 +161,6 @@ func parsePackage(writer io.Writer, pkg *build.Package, userPath string) *Packag
 	// Make sure they are all in one package.
 	if len(pkgs) == 0 {
 		log.Fatalf("no source-code package in directory %s", pkg.Dir)
-	}
-	if len(pkgs) > 1 {
-		log.Fatalf("multiple packages in directory %s", pkg.Dir)
 	}
 	astPkg := pkgs[pkg.Name]
 
@@ -180,7 +176,16 @@ func parsePackage(writer io.Writer, pkg *build.Package, userPath string) *Packag
 	if showSrc {
 		mode |= doc.PreserveAST // See comment for Package.emit.
 	}
-	docPkg := doc.New(astPkg, pkg.ImportPath, mode)
+	var allGoFiles []*ast.File
+	for _, p := range pkgs {
+		for _, f := range p.Files {
+			allGoFiles = append(allGoFiles, f)
+		}
+	}
+	docPkg, err := doc.NewFromFiles(fset, allGoFiles, pkg.ImportPath, mode)
+	if err != nil {
+		log.Fatal(err)
+	}
 	typedValue := make(map[*doc.Value]bool)
 	constructor := make(map[*doc.Func]bool)
 	for _, typ := range docPkg.Types {
@@ -470,8 +475,23 @@ func joinStrings(ss []string) string {
 // allDoc prints all the docs for the package.
 func (pkg *Package) allDoc() {
 	pkg.Printf("") // Trigger the package clause; we know the package exists.
+
+	if showEx {
+		pkg.examples(pkg.doc.Examples)
+		for _, fun := range pkg.doc.Funcs {
+			if isExported(fun.Name) && !pkg.constructor[fun] {
+				pkg.examples(fun.Examples)
+			}
+		}
+		return
+	}
+
 	pkg.ToText(&pkg.buf, pkg.doc.Doc, "", indent)
 	pkg.newlines(1)
+
+	if len(pkg.doc.Examples) > 0 {
+		pkg.Printf("\nThere are executable examples for %s.\n", pkg.doc.Name)
+	}
 
 	printed := make(map[*ast.GenDecl]bool)
 
@@ -514,6 +534,9 @@ func (pkg *Package) allDoc() {
 		if isExported(fun.Name) && !pkg.constructor[fun] {
 			printHdr("FUNCTIONS")
 			pkg.emit(fun.Doc, fun.Decl)
+			if len(fun.Examples) > 0 {
+				pkg.Printf("%sThere are executable examples for %s.\n\n", indent, fun.Name)
+			}
 		}
 	}
 
@@ -529,9 +552,18 @@ func (pkg *Package) allDoc() {
 // packageDoc prints the docs for the package (package doc plus one-liners of the rest).
 func (pkg *Package) packageDoc() {
 	pkg.Printf("") // Trigger the package clause; we know the package exists.
+
+	if showEx {
+		pkg.examples(pkg.doc.Examples)
+		return
+	}
+
 	if !short {
 		pkg.ToText(&pkg.buf, pkg.doc.Doc, "", indent)
 		pkg.newlines(1)
+		if len(pkg.doc.Examples) > 0 {
+			pkg.Printf("\nThere are executable examples for %s.\n", pkg.doc.Name)
+		}
 	}
 
 	if pkg.pkg.Name == "main" && !showCmd {
@@ -722,11 +754,29 @@ func (pkg *Package) findTypeSpec(decl *ast.GenDecl, symbol string) *ast.TypeSpec
 // If there is no top-level symbol, symbolDoc looks for methods that match.
 func (pkg *Package) symbolDoc(symbol string) bool {
 	found := false
+	if showEx {
+		for _, fun := range pkg.findFuncs(symbol) {
+			pkg.examples(fun.Examples)
+			found = true
+		}
+		for _, typ := range pkg.findTypes(symbol) {
+			pkg.examples(typ.Examples)
+			found = true
+		}
+		if !found {
+			found = pkg.printMethodDoc("", symbol)
+		}
+		return found
+	}
+
 	// Functions.
 	for _, fun := range pkg.findFuncs(symbol) {
 		// Symbol is a function.
 		decl := fun.Decl
 		pkg.emit(fun.Doc, decl)
+		if len(fun.Examples) > 0 {
+			pkg.Printf("\n%sThere are executable examples for %s.\n", indent, fun.Name)
+		}
 		found = true
 	}
 	// Constants and variables behave the same.
@@ -804,6 +854,20 @@ func (pkg *Package) valueDoc(value *doc.Value, printed map[*ast.GenDecl]bool) {
 // typeDoc prints the docs for a type, including constructors and other items
 // related to it.
 func (pkg *Package) typeDoc(typ *doc.Type) {
+	if showEx {
+		pkg.examples(typ.Examples)
+		if showAll {
+			funcs := typ.Funcs
+			funcs = append(funcs, typ.Methods...)
+			for _, fun := range funcs {
+				if isExported(fun.Name) {
+					pkg.examples(fun.Examples)
+				}
+			}
+		}
+		return
+	}
+
 	decl := typ.Decl
 	spec := pkg.findTypeSpec(decl, typ.Name)
 	trimUnexportedElems(spec)
@@ -813,6 +877,9 @@ func (pkg *Package) typeDoc(typ *doc.Type) {
 	}
 	pkg.emit(typ.Doc, decl)
 	pkg.newlines(2)
+	if len(typ.Examples) > 0 {
+		pkg.Printf("\nThere are executable examples for %s.\n", typ.Name)
+	}
 	// Show associated methods, constants, etc.
 	if showAll {
 		printed := make(map[*ast.GenDecl]bool)
@@ -835,6 +902,9 @@ func (pkg *Package) typeDoc(typ *doc.Type) {
 				if fun.Doc == "" {
 					pkg.newlines(2)
 				}
+				if len(fun.Examples) > 0 {
+					pkg.Printf("\n%sThere are executable examples for %s.\n", indent, fun.Name)
+				}
 			}
 		}
 	} else {
@@ -842,6 +912,36 @@ func (pkg *Package) typeDoc(typ *doc.Type) {
 		pkg.valueSummary(typ.Vars, true)
 		pkg.funcSummary(typ.Funcs, true)
 		pkg.funcSummary(typ.Methods, true)
+	}
+}
+
+// examples prints a slice of examples and their output.
+func (pkg *Package) examples(exs []*doc.Example) {
+	for _, ex := range exs {
+		pkg.newlines(2)
+		title := "Example"
+		if ex.Suffix != "" {
+			title += fmt.Sprintf(" (%s)", ex.Suffix)
+		}
+		pkg.Printf("%s:\n", title)
+		if ex.Play != nil {
+			format.Node(&pkg.buf, pkg.fs, ex.Play)
+		} else {
+			// If code is an *ast.BlockStmt, trim the braces and indentation
+			// by just printing the enclosed List of ast.[]Stmt.
+			b, ok := ex.Code.(*ast.BlockStmt)
+			if !ok {
+				format.Node(&pkg.buf, pkg.fs, ex.Code)
+			} else {
+				format.Node(&pkg.buf, pkg.fs, b.List)
+			}
+		}
+		pkg.newlines(1)
+
+		if ex.Output != "" {
+			pkg.Printf("Output:\n%s", ex.Output)
+		}
+		pkg.newlines(2)
 	}
 }
 
@@ -954,12 +1054,30 @@ func (pkg *Package) printMethodDoc(symbol, method string) bool {
 		pkg.Fatalf("symbol %s is not a type in package %s installed in %q", symbol, pkg.name, pkg.build.ImportPath)
 	}
 	found := false
+	if showEx {
+		for _, typ := range types {
+			if len(typ.Methods) == 0 {
+				return false
+			}
+			for _, meth := range typ.Methods {
+				if match(method, meth.Name) {
+					pkg.examples(meth.Examples)
+					found = true
+				}
+			}
+		}
+		return found
+	}
+
 	for _, typ := range types {
 		if len(typ.Methods) > 0 {
 			for _, meth := range typ.Methods {
 				if match(method, meth.Name) {
 					decl := meth.Decl
 					pkg.emit(meth.Doc, decl)
+					if len(meth.Examples) > 0 {
+						pkg.Printf("\n%sThere are executable examples for %s.\n", indent, meth.Name)
+					}
 					found = true
 				}
 			}
