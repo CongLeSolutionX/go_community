@@ -36,6 +36,9 @@
 // The -src flag causes doc to print the full source code for the symbol, such
 // as the body of a struct, function or method.
 //
+// The -ex flag causes doc to print any examples and their output for the
+// package or symbol.
+//
 // The -all flag causes doc to print all documentation for the package and
 // all its visible symbols. The argument must identify a package.
 //
@@ -61,6 +64,7 @@ var (
 	matchCase  bool // -c flag
 	showAll    bool // -all flag
 	showCmd    bool // -cmd flag
+	showEx     bool // -ex flag
 	showSrc    bool // -src flag
 	short      bool // -short flag
 )
@@ -100,6 +104,7 @@ func do(writer io.Writer, flagSet *flag.FlagSet, args []string) (err error) {
 	flagSet.BoolVar(&matchCase, "c", false, "symbol matching honors case (paths not affected)")
 	flagSet.BoolVar(&showAll, "all", false, "show all documentation for package")
 	flagSet.BoolVar(&showCmd, "cmd", false, "show symbols with package docs even if package is a command")
+	flagSet.BoolVar(&showEx, "ex", false, "show examples for symbol or package")
 	flagSet.BoolVar(&showSrc, "src", false, "show source code for symbol")
 	flagSet.BoolVar(&short, "short", false, "one-line representation for each symbol")
 	flagSet.Parse(args)

@@ -139,17 +139,16 @@ func (pkg *Package) Fatalf(format string, args ...any) {
 // we can then use to generate documentation.
 func parsePackage(writer io.Writer, pkg *build.Package, userPath string) *Package {
 	// include tells parser.ParseDir which files to include.
-	// That means the file must be in the build package's GoFiles or CgoFiles
-	// list only (no tag-ignored files, tests, swig or other non-Go files).
+	// That means the file must be in the build package's GoFiles, CgoFiles,
+	// TestGoFiles or XTestGoFiles list only (no tag-ignored files, swig or
+	// other non-Go files).
 	include := func(info fs.FileInfo) bool {
-		for _, name := range pkg.GoFiles {
-			if name == info.Name() {
-				return true
-			}
-		}
-		for _, name := range pkg.CgoFiles {
-			if name == info.Name() {
-				return true
+		files := [][]string{pkg.GoFiles, pkg.CgoFiles, pkg.TestGoFiles, pkg.XTestGoFiles}
+		for _, f := range files {
+			for _, name := range f {
+				if name == info.Name() {
+					return true
+				}
 			}
 		}
 		return false
@@ -162,9 +161,6 @@ func parsePackage(writer io.Writer, pkg *build.Package, userPath string) *Packag
 	// Make sure they are all in one package.
 	if len(pkgs) == 0 {
 		log.Fatalf("no source-code package in directory %s", pkg.Dir)
-	}
-	if len(pkgs) > 1 {
-		log.Fatalf("multiple packages in directory %s", pkg.Dir)
 	}
 	astPkg := pkgs[pkg.Name]
 
@@ -180,7 +176,16 @@ func parsePackage(writer io.Writer, pkg *build.Package, userPath string) *Packag
 	if showSrc {
 		mode |= doc.PreserveAST // See comment for Package.emit.
 	}
-	docPkg := doc.New(astPkg, pkg.ImportPath, mode)
+	var allGoFiles []*ast.File
+	for _, p := range pkgs {
+		for _, f := range p.Files {
+			allGoFiles = append(allGoFiles, f)
+		}
+	}
+	docPkg, err := doc.NewFromFiles(fset, allGoFiles, pkg.ImportPath, mode)
+	if err != nil {
+		log.Fatal(err)
+	}
 	typedValue := make(map[*doc.Value]bool)
 	constructor := make(map[*doc.Func]bool)
 	for _, typ := range docPkg.Types {
@@ -514,6 +519,9 @@ func (pkg *Package) allDoc() {
 		if isExported(fun.Name) && !pkg.constructor[fun] {
 			printHdr("FUNCTIONS")
 			pkg.emit(fun.Doc, fun.Decl)
+			if showEx {
+				pkg.examples(fun.Examples)
+			}
 		}
 	}
 
@@ -523,6 +531,12 @@ func (pkg *Package) allDoc() {
 			printHdr("TYPES")
 			pkg.typeDoc(typ)
 		}
+	}
+
+	// Examples.
+	if showEx {
+		printHdr("EXAMPLES")
+		pkg.examples(pkg.doc.Examples)
 	}
 }
 
@@ -549,6 +563,10 @@ func (pkg *Package) packageDoc() {
 	pkg.typeSummary()
 	if !short {
 		pkg.bugs()
+	}
+
+	if showEx {
+		pkg.examples(pkg.doc.Examples)
 	}
 }
 
@@ -727,6 +745,9 @@ func (pkg *Package) symbolDoc(symbol string) bool {
 		// Symbol is a function.
 		decl := fun.Decl
 		pkg.emit(fun.Doc, decl)
+		if showEx {
+			pkg.examples(fun.Examples)
+		}
 		found = true
 	}
 	// Constants and variables behave the same.
@@ -835,6 +856,9 @@ func (pkg *Package) typeDoc(typ *doc.Type) {
 				if fun.Doc == "" {
 					pkg.newlines(2)
 				}
+				if showEx {
+					pkg.examples(fun.Examples)
+				}
 			}
 		}
 	} else {
@@ -842,6 +866,39 @@ func (pkg *Package) typeDoc(typ *doc.Type) {
 		pkg.valueSummary(typ.Vars, true)
 		pkg.funcSummary(typ.Funcs, true)
 		pkg.funcSummary(typ.Methods, true)
+	}
+	if showEx {
+		pkg.examples(typ.Examples)
+	}
+}
+
+// examples prints a slice of examples and their output.
+func (pkg *Package) examples(exs []*doc.Example) {
+	for _, ex := range exs {
+		pkg.newlines(2)
+		title := "Example"
+		if ex.Suffix != "" {
+			title += fmt.Sprintf(" (%s)", ex.Suffix)
+		}
+		pkg.Printf("%s:\n", title)
+		if ex.Play != nil {
+			format.Node(&pkg.buf, pkg.fs, ex.Play)
+		} else {
+			// If code is an *ast.BlockStmt, trim the braces and indentation
+			// by just printing the enclosed List of ast.[]Stmt.
+			b, ok := ex.Code.(*ast.BlockStmt)
+			if !ok {
+				format.Node(&pkg.buf, pkg.fs, ex.Code)
+			} else {
+				format.Node(&pkg.buf, pkg.fs, b.List)
+			}
+		}
+		pkg.newlines(1)
+
+		if ex.Output != "" {
+			pkg.Printf("Output:\n%s", ex.Output)
+		}
+		pkg.newlines(2)
 	}
 }
 
@@ -960,6 +1017,9 @@ func (pkg *Package) printMethodDoc(symbol, method string) bool {
 				if match(method, meth.Name) {
 					decl := meth.Decl
 					pkg.emit(meth.Doc, decl)
+					if showEx {
+						pkg.examples(meth.Examples)
+					}
 					found = true
 				}
 			}

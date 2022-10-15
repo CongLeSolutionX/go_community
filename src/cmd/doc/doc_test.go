@@ -314,6 +314,25 @@ var tests = []test{
 		},
 		nil,
 	},
+	// Package dump -ex
+	{
+		"full package with ex",
+		[]string{`-ex`, p},
+		[]string{
+			`Example:`,
+			`fmt.Println\("Package example output"\)`,
+			`Output:\nPackage example output`,
+			`Example \(playable\):`,
+			`package main`,
+			`func main\(\)`,
+			`fmt.Println\("Playable package example output"\)`,
+			`Output:\nPlayable package example output`,
+		},
+		[]string{
+			`func Example\(\)`, // No function name for non-play example.
+			`{\n\tfmt.Println\("Package example output"\)\n\n}`, // No braces for non-play example.
+		},
+	},
 
 	// Single constant.
 	{
@@ -447,6 +466,18 @@ var tests = []test{
 		},
 		nil,
 	},
+	// Function with -ex.
+	{
+		"function with -ex",
+		[]string{"-ex", p, `ExportedFunc`},
+		[]string{
+			`Comment about exported function`, // Include comment.
+			`func ExportedFunc\(a int\) bool`,
+			`fmt.Println\("Function example output"\)`,
+			`Output:\nFunction example output`,
+		},
+		nil,
+	},
 	// Function -u.
 	{
 		"function with -u",
@@ -493,6 +524,16 @@ var tests = []test{
 			`unexportedTypedConstant`,       // No unexported constant.
 			`error`,                         // No embedded error.
 		},
+	},
+	// Type with -ex.
+	{
+		"type",
+		[]string{"-ex", p, `ExportedType`},
+		[]string{
+			`fmt.Println\("Type example output"\)`,
+			`Output:\nType example output`,
+		},
+		nil,
 	},
 	// Type with -src. Will see unexported fields.
 	{
@@ -583,6 +624,16 @@ var tests = []test{
 			`func \(unexportedType\) unexportedMethod\(\) bool`,
 			`ExportedTypedConstant_unexported unexportedType = iota`,
 			`const unexportedTypedConstant unexportedType = 1`,
+		},
+		nil,
+	},
+	// Type method with -ex.
+	{
+		"type",
+		[]string{"-ex", p, `ExportedType.ExportedMethod`},
+		[]string{
+			`fmt.Println\("Method on type example output"\)`,
+			`Output:\nMethod on type example output`,
 		},
 		nil,
 	},
