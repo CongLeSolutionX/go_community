@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a77cfaa1_b71dcf94",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2022-10-15T10:11:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3212e37f_e9876bbc",
+      "range": {
+        "startLine": 20,
+        "startChar": 32,
+        "endLine": 20,
+        "endChar": 39
+      },
+      "revId": "99c3e3421e54fdd979b4fd06d2a4556d094941e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d5a8f53d_4431d601",
@@ -61,6 +85,30 @@
       "side": 1,
       "message": "By require I did in fact mean \"assume\", which is perhaps misleading.",
       "parentUuid": "d5a8f53d_4431d601",
+      "range": {
+        "startLine": 54,
+        "startChar": 16,
+        "endLine": 54,
+        "endChar": 23
+      },
+      "revId": "99c3e3421e54fdd979b4fd06d2a4556d094941e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44c64f90_67d3e2f2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2022-10-15T10:11:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edce2d8f_fbceb3fb",
       "range": {
         "startLine": 54,
         "startChar": 16,
@@ -144,6 +192,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3990986_4e745659",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2022-10-15T10:11:38Z",
+      "side": 1,
+      "message": "Thank you! I really appreciate the review!",
+      "parentUuid": "ad5fde97_964e7188",
+      "revId": "99c3e3421e54fdd979b4fd06d2a4556d094941e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d0b40f37_67389ec5",
@@ -157,6 +223,30 @@
       "writtenOn": "2022-10-14T20:43:00Z",
       "side": 1,
       "message": "Nice one, my benchmarks show this is consistently 5% faster than the initial bit twiddling proposal and this is much clearer to read.",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 27
+      },
+      "revId": "99c3e3421e54fdd979b4fd06d2a4556d094941e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ddc067e3_adf83f40",
+        "filename": "src/crypto/rsa/nat.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2022-10-15T10:11:38Z",
+      "side": 1,
+      "message": "Nice! I actually had not even benchmarked it because it doesn\u0027t show up in overall benchmarks.",
+      "parentUuid": "d0b40f37_67389ec5",
       "range": {
         "startLine": 43,
         "startChar": 0,
@@ -184,6 +274,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb759f53_074ccf0d",
+        "filename": "src/crypto/rsa/nat.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2022-10-15T10:11:38Z",
+      "side": 1,
+      "message": "I tried adding a comment here and in the other places where there are leaked sized, but then concluded that it\u0027s covered by the nat comment that it leaks the size. Since this changes the size, both the previous and the new sizes leak.\n\nThe higher-level API will make these less subtle.",
+      "parentUuid": "dbdba614_fda5c979",
+      "revId": "99c3e3421e54fdd979b4fd06d2a4556d094941e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c7466a22_93da2611",
@@ -197,6 +305,24 @@
       "writtenOn": "2022-10-14T20:43:00Z",
       "side": 1,
       "message": "Isn\u0027t the recommended way of initializing struct literals in the std lib to use named keys?",
+      "revId": "99c3e3421e54fdd979b4fd06d2a4556d094941e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31176b3a_cda880af",
+        "filename": "src/crypto/rsa/nat.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2022-10-15T10:11:38Z",
+      "side": 1,
+      "message": "Named keys are important across packages, and even more across modules (or when an application uses the standard library) because they avoid breakage due to changes in the other package/module. Here, we are in the same file as the struct definition, so there is no problem changing definition and initialization at the same time. Then it becomes a matter of readability, and I think in this case the name doesn\u0027t add much.",
+      "parentUuid": "c7466a22_93da2611",
       "revId": "99c3e3421e54fdd979b4fd06d2a4556d094941e2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -218,6 +344,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d953e987_49628d3c",
+        "filename": "src/crypto/rsa/nat.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2022-10-15T10:11:38Z",
+      "side": 1,
+      "message": "Ditto.",
+      "parentUuid": "cde49e6d_1805508a",
+      "revId": "99c3e3421e54fdd979b4fd06d2a4556d094941e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a4d8271e_8652768b",
@@ -231,6 +375,24 @@
       "writtenOn": "2022-10-14T20:43:00Z",
       "side": 1,
       "message": "Isn\u0027t the recommended way of initializing struct literals in the std lib to use named keys?",
+      "revId": "99c3e3421e54fdd979b4fd06d2a4556d094941e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2941a2a7_1516662a",
+        "filename": "src/crypto/rsa/nat.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2022-10-15T10:11:38Z",
+      "side": 1,
+      "message": "Ditto.",
+      "parentUuid": "a4d8271e_8652768b",
       "revId": "99c3e3421e54fdd979b4fd06d2a4556d094941e2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -252,6 +414,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3581b51d_2d411353",
+        "filename": "src/crypto/rsa/nat.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2022-10-15T10:11:38Z",
+      "side": 1,
+      "message": "Thank you!",
+      "parentUuid": "243b8ba1_d7fa2364",
+      "revId": "99c3e3421e54fdd979b4fd06d2a4556d094941e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4afd3e96_01f13a60",
@@ -265,6 +445,24 @@
       "writtenOn": "2022-10-14T20:43:00Z",
       "side": 1,
       "message": "This seems unused?",
+      "revId": "99c3e3421e54fdd979b4fd06d2a4556d094941e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11ecdd50_0582f36b",
+        "filename": "src/crypto/rsa/nat_test.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2022-10-15T10:11:38Z",
+      "side": 1,
+      "message": "It\u0027s used by testing/quick to generate fuzz inputs. Extended the comment.",
+      "parentUuid": "4afd3e96_01f13a60",
       "revId": "99c3e3421e54fdd979b4fd06d2a4556d094941e2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -355,6 +553,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7acb0803_ed05bd5b",
+        "filename": "src/crypto/rsa/pkcs1v15.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2022-10-15T10:11:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "75fc3544_bdcd37b7",
+      "revId": "99c3e3421e54fdd979b4fd06d2a4556d094941e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b3633c10_54f0f2a0",
@@ -368,6 +584,24 @@
       "writtenOn": "2022-10-14T20:43:00Z",
       "side": 1,
       "message": "Same",
+      "revId": "99c3e3421e54fdd979b4fd06d2a4556d094941e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68fd7106_6067e5aa",
+        "filename": "src/crypto/rsa/pkcs1v15.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2022-10-15T10:11:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3633c10_54f0f2a0",
       "revId": "99c3e3421e54fdd979b4fd06d2a4556d094941e2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -395,6 +629,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "db3d2482_a884802a",
+        "filename": "src/crypto/rsa/pkcs1v15.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2022-10-15T10:11:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0eb2bca0_087a31db",
+      "range": {
+        "startLine": 164,
+        "startChar": 20,
+        "endLine": 165,
+        "endChar": 30
+      },
+      "revId": "99c3e3421e54fdd979b4fd06d2a4556d094941e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1ec57906_557bd2b3",
@@ -408,6 +666,24 @@
       "writtenOn": "2022-10-14T20:43:00Z",
       "side": 1,
       "message": "Same, mention it can just be nil.",
+      "revId": "99c3e3421e54fdd979b4fd06d2a4556d094941e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c078df9_b5da136c",
+        "filename": "src/crypto/rsa/pkcs1v15.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2022-10-15T10:11:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ec57906_557bd2b3",
       "revId": "99c3e3421e54fdd979b4fd06d2a4556d094941e2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -459,6 +735,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8707ed15_7d538980",
+        "filename": "src/crypto/rsa/rsa.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 583,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2022-10-15T10:11:38Z",
+      "side": 1,
+      "message": "This leaks the sizes of P, Qinv, and N (and above c and Q). The size of N, P, Q, and c are all public and fixed based on the key size. (c thanks to padding.)\n\nThe size of Qinv... might honestly be a leak, but it\u0027s unavoidable as it\u0027s stored in a big.Int. The good news is that it\u0027s always the same for every message, so it information-theoretically leaks at most one bit of the secret key in total, which should be fine.",
+      "parentUuid": "81956f0a_123fdee6",
+      "range": {
+        "startLine": 579,
+        "startChar": 1,
+        "endLine": 583,
+        "endChar": 29
+      },
+      "revId": "99c3e3421e54fdd979b4fd06d2a4556d094941e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ec5946a4_becdc94c",
@@ -494,6 +794,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ae13134_c9353323",
+        "filename": "src/crypto/rsa/rsa.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2022-10-15T10:11:38Z",
+      "side": 1,
+      "message": "Yep, m is bigger than p (and m2 which is computed modulo p), so it needs to be reduced before being used in a modular operation under p. I have an API change planned to make this less manual but it\u0027ll be a follow-up CL.",
+      "parentUuid": "47a465a7_a5ebbdaa",
+      "revId": "99c3e3421e54fdd979b4fd06d2a4556d094941e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8261bced_f38b8cb7",
@@ -507,6 +825,24 @@
       "writtenOn": "2022-10-14T20:43:00Z",
       "side": 1,
       "message": "Maybe mention it should be nil?",
+      "revId": "99c3e3421e54fdd979b4fd06d2a4556d094941e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d806b86_857779c6",
+        "filename": "src/crypto/rsa/rsa.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 625,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2022-10-15T10:11:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8261bced_f38b8cb7",
       "revId": "99c3e3421e54fdd979b4fd06d2a4556d094941e2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
