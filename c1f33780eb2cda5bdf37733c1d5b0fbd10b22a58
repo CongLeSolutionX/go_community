@@ -70,6 +70,24 @@
       "parentUuid": "1792b933_2c753b6d",
       "revId": "c1f33780eb2cda5bdf37733c1d5b0fbd10b22a58",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8645ecf_4abda24a",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 3302,
+      "author": {
+        "id": 55613
+      },
+      "writtenOn": "2022-10-15T00:41:55Z",
+      "side": 1,
+      "message": "Yes, I am referring this issue: https://github.com/golang/go/issues/54709.\n\nActually all 3 words are used in the code:\n- uncomparable\n  - https://github.com/golang/go/blob/9ddb8ea73724d717a9bbf44be7d585ba5587504f/src/runtime/alg.go#L249\n  - https://github.com/golang/go/blob/9ddb8ea73724d717a9bbf44be7d585ba5587504f/src/runtime/alg.go#L266\n- incomparable\n \n - https://github.com/golang/go/blob/9ddb8ea73724d717a9bbf44be7d585ba5587504f/src/go/types/predicates.go#L159\n- non-comparable\n  - https://github.com/golang/go/blob/9ddb8ea73724d717a9bbf44be7d585ba5587504f/src/text/template/funcs.go#L501\n\nI\u0027m a little confused about this naming. 😂",
+      "parentUuid": "a088e441_5725a280",
+      "revId": "c1f33780eb2cda5bdf37733c1d5b0fbd10b22a58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
