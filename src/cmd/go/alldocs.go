@@ -415,6 +415,8 @@
 //		Treat a command (package main) like a regular package.
 //		Otherwise package main's exported symbols are hidden
 //		when showing the package's top-level documentation.
+//	-ex
+//		Show any executable examples for the package or symbol.
 //	-short
 //		One-line representation for each symbol.
 //	-src
