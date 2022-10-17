@@ -55,7 +55,12 @@ const (
 
 // InlinePackage finds functions that can be inlined and clones them before walk expands them.
 func InlinePackage() {
-	ir.VisitFuncsBottomUp(typecheck.Target.Decls, func(list []*ir.Func, recursive bool) {
+	InlineDecls(typecheck.Target.Decls, true)
+}
+
+// InlineDecls applies inlining to the given batch of declarations.
+func InlineDecls(decls []ir.Node, doInline bool) {
+	ir.VisitFuncsBottomUp(decls, func(list []*ir.Func, recursive bool) {
 		numfns := numNonClosures(list)
 		for _, n := range list {
 			if !recursive || numfns > 1 {
@@ -68,7 +73,9 @@ func InlinePackage() {
 					fmt.Printf("%v: cannot inline %v: recursive\n", ir.Line(n), n.Nname)
 				}
 			}
-			InlineCalls(n)
+			if doInline {
+				InlineCalls(n)
+			}
 		}
 	})
 }
