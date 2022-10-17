@@ -36,6 +36,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd4b2eca_26a2969d",
+        "filename": "src/runtime/atomic_pointer.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-10-17T19:38:39Z",
+      "side": 1,
+      "message": "Given the confusion, I went ahead and made runtime/internal/atomic.Pointer have a Store method. Also CompareAndSwap for consistency. Those changes are now in CL 443379.",
+      "parentUuid": "0af94e31_35e29ee3",
+      "revId": "296a5d99669e63eec117b0cc76d562546fe26955",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b89dfdc1_2ade63f1",
@@ -49,6 +67,30 @@
       "writtenOn": "2022-10-17T15:11:11Z",
       "side": 1,
       "message": "Since this is purely meant for internal/godebug, maybe godebug_getGODEBUG, like we do other linknamed symbols?",
+      "range": {
+        "startLine": 72,
+        "startChar": 5,
+        "endLine": 72,
+        "endChar": 15
+      },
+      "revId": "296a5d99669e63eec117b0cc76d562546fe26955",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be5e3e27_51a06789",
+        "filename": "src/runtime/runtime.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-10-17T19:38:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b89dfdc1_2ade63f1",
       "range": {
         "startLine": 72,
         "startChar": 5,
