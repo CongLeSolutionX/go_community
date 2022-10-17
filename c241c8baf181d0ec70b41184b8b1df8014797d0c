@@ -70,6 +70,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b828408_e6f2c160",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 4006,
+      "author": {
+        "id": 58123
+      },
+      "writtenOn": "2022-10-17T08:12:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f272eada_0c2bad03",
+      "revId": "c241c8baf181d0ec70b41184b8b1df8014797d0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "89d0b37f_dedd2a95",
@@ -83,6 +101,24 @@
       "writtenOn": "2022-10-14T21:57:13Z",
       "side": 1,
       "message": "ntz8tab looks a bit different in math/bits now. Copy that one?",
+      "revId": "c241c8baf181d0ec70b41184b8b1df8014797d0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "033a5aff_0130bd54",
+        "filename": "src/runtime/internal/sys/intrinsics.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 58123
+      },
+      "writtenOn": "2022-10-17T08:12:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89d0b37f_dedd2a95",
       "revId": "c241c8baf181d0ec70b41184b8b1df8014797d0c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
