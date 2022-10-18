@@ -107,6 +107,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3800ac4_d83f262c",
+        "filename": "src/go/internal/gcimporter/gcimporter_test.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-18T18:31:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16fa4e2a_fee30160",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 63,
+        "endChar": 53
+      },
+      "revId": "9e77a2c68dfa93473bc0a602536fc12d847483ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ea075c65_599acb59",
@@ -308,6 +332,30 @@
       "writtenOn": "2022-10-14T18:44:03Z",
       "side": 1,
       "message": "I think `Importer` is the only part of this package with significant dependencies. Consider moving the other exported files to `internal/testenv` to reduce the number of packages one needs to import in compiler tests.\n\nPerhaps more importantly, that would also remove the need to duplicate `StdlibPkgfileMap` in `go/importer/importer_test.go`!",
+      "range": {
+        "startLine": 79,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 1
+      },
+      "revId": "9e77a2c68dfa93473bc0a602536fc12d847483ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "142a4865_ef7a7d7d",
+        "filename": "src/internal/teststdlib/importcfg.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-18T18:31:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c52fdce6_1582d0f8",
       "range": {
         "startLine": 79,
         "startChar": 0,
