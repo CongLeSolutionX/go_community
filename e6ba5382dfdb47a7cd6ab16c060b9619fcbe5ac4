@@ -70,6 +70,24 @@
       "parentUuid": "a8df8590_798a2822",
       "revId": "e6ba5382dfdb47a7cd6ab16c060b9619fcbe5ac4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0432e91_edd5a0ef",
+        "filename": "src/runtime/hash64.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-10-18T15:33:11Z",
+      "side": 1,
+      "message": "We want at the very least no easy seed-independent collisions. I don\u0027t think changing where the seed is xor\u0027d in will help with that.",
+      "parentUuid": "113507b7_5aa4b130",
+      "revId": "e6ba5382dfdb47a7cd6ab16c060b9619fcbe5ac4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
