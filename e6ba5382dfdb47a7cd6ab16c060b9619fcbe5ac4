@@ -16,6 +16,24 @@
       "message": "I don\u0027t think this is particularly collision resistant. Any values with the same top 5 bits and low N bits will have the same low N bits of result. So you can easily enumerate, say, 2^27 values with the same low 32 bits of hash.",
       "revId": "e6ba5382dfdb47a7cd6ab16c060b9619fcbe5ac4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ebddbc5_73482847",
+        "filename": "src/runtime/hash64.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 44188
+      },
+      "writtenOn": "2022-10-18T08:00:19Z",
+      "side": 1,
+      "message": "Yes, this algorithm is not designed to prevent collision attacks, but having a random seed can mitigate that. In cases the random seed is not good enough, the collision is truly a problem. Or maybe we could use `seed ^ result` instead of `seed ^ x`?\nIf the random seed mechanism can\u0027t solve this problem, I can abandon this CL :)",
+      "parentUuid": "86360d2f_566fa3e3",
+      "revId": "e6ba5382dfdb47a7cd6ab16c060b9619fcbe5ac4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
