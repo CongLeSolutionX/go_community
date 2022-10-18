@@ -130,6 +130,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "672ed829_61ced54c",
+        "filename": "src/internal/teststdlib/importcfg.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-18T17:40:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea075c65_599acb59",
+      "range": {
+        "startLine": 22,
+        "startChar": 19,
+        "endLine": 22,
+        "endChar": 21
+      },
+      "revId": "9e77a2c68dfa93473bc0a602536fc12d847483ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ca144681_984ee309",
@@ -143,6 +167,30 @@
       "writtenOn": "2022-10-14T18:44:03Z",
       "side": 1,
       "message": "(nit) Since `stdlib` is already part of the package name, omit it. Also consider omitting `Create`, since it is somewhat redundant with the function signature and not needed to avoid collisions with a type declaration.\n\n```\nfunc Importcfg() (string, error)\n```",
+      "range": {
+        "startLine": 23,
+        "startChar": 5,
+        "endLine": 23,
+        "endChar": 26
+      },
+      "revId": "9e77a2c68dfa93473bc0a602536fc12d847483ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6465b0d3_072eea58",
+        "filename": "src/internal/teststdlib/importcfg.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-18T17:40:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca144681_984ee309",
       "range": {
         "startLine": 23,
         "startChar": 5,
@@ -176,6 +224,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec348447_73ae4158",
+        "filename": "src/internal/teststdlib/importcfg.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-18T17:40:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2a83514_420738ac",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 1
+      },
+      "revId": "9e77a2c68dfa93473bc0a602536fc12d847483ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f63c1eb6_d91b8768",
@@ -189,6 +261,30 @@
       "writtenOn": "2022-10-14T18:44:03Z",
       "side": 1,
       "message": "(nit) drop `Stdlib` — just `PkgfileMap()`.\n\n(Please also add a doc comment.)",
+      "range": {
+        "startLine": 59,
+        "startChar": 5,
+        "endLine": 59,
+        "endChar": 21
+      },
+      "revId": "9e77a2c68dfa93473bc0a602536fc12d847483ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a24bf1e_fe27eaa5",
+        "filename": "src/internal/teststdlib/importcfg.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-18T17:40:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f63c1eb6_d91b8768",
       "range": {
         "startLine": 59,
         "startChar": 5,
