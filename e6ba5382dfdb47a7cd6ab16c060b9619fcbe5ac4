@@ -34,6 +34,24 @@
       "parentUuid": "86360d2f_566fa3e3",
       "revId": "e6ba5382dfdb47a7cd6ab16c060b9619fcbe5ac4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8df8590_798a2822",
+        "filename": "src/runtime/hash64.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 49673
+      },
+      "writtenOn": "2022-10-18T14:52:16Z",
+      "side": 1,
+      "message": "Here is a simple test used to simulate the situation in the hashmap: https://gist.github.com/zhangyunhao116/c2f625dfb2ab7c90fbc26b38fb92311d\n\nIt includes three cases: 1. random inputs (from runtime.fastrand) 2. liner inputs (from 1.. N) 3. shift inputs (from 1\u003c\u003c1 .. 1\u003c\u003cN)\n\nIf the bucket items exceed 8, the `badcases ++`\n\nThe result is\n```\nrandom inputs, overflow-fxhash: 333082 overflow-wyhash: 333709\nlinear inputs(1 .. N), overflow-fxhash: 0 overflow-wyhash: 333782\nshift inputs (1\u003c\u003c1 .. 1\u003c\u003cN), overflow-fxhash: 100 overflow-wyhash: 100\n```\n\nLooks like the fxhash is better in linear inputs, and has the same quality in the other two cases.",
+      "parentUuid": "2ebddbc5_73482847",
+      "revId": "e6ba5382dfdb47a7cd6ab16c060b9619fcbe5ac4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
