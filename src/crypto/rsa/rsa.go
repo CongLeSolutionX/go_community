@@ -25,6 +25,8 @@ package rsa
 
 import (
 	"crypto"
+	"crypto/internal/bigmod"
+	"crypto/internal/bigmod/bbmod"
 	"crypto/internal/boring"
 	"crypto/internal/boring/bbig"
 	"crypto/internal/randutil"
@@ -434,11 +436,17 @@ func mgf1XOR(out []byte, hash hash.Hash, seed []byte) {
 // be returned if the size of the salt is too large.
 var ErrMessageTooLong = errors.New("crypto/rsa: message too long for RSA key size")
 
-func encrypt(pub *PublicKey, plaintext []byte) []byte {
+func encrypt(pub *PublicKey, plaintext []byte) ([]byte, error) {
 	boring.Unreachable()
 
-	N := modulusFromNat(natFromBig(pub.N))
-	m := natFromBytes(plaintext).expandFor(N)
+	N, err := bbmod.NewModulusFromBig(pub.N)
+	if err != nil {
+		return nil, err
+	}
+	m, err := bigmod.NewInt(N).SetBytes(plaintext)
+	if err != nil {
+		return nil, err
+	}
 
 	e := make([]byte, 8)
 	binary.BigEndian.PutUint64(e, uint64(pub.E))
@@ -446,8 +454,8 @@ func encrypt(pub *PublicKey, plaintext []byte) []byte {
 		e = e[1:]
 	}
 
-	out := make([]byte, modulusSize(N))
-	return new(nat).exp(m, e, N).fillBytes(out)
+	out := make([]byte, m.Size())
+	return m.Exp(e).FillBytes(out), nil
 }
 
 // EncryptOAEP encrypts the given message with RSA-OAEP.
@@ -515,7 +523,7 @@ func EncryptOAEP(hash hash.Hash, random io.Reader, pub *PublicKey, msg []byte, l
 		return boring.EncryptRSANoPadding(bkey, em)
 	}
 
-	return encrypt(pub, em), nil
+	return encrypt(pub, em)
 }
 
 // ErrDecryption represents a failure to decrypt a message.
@@ -563,12 +571,12 @@ func decrypt(priv *PrivateKey, ciphertext []byte) ([]byte, error) {
 		boring.Unreachable()
 	}
 
-	N := modulusFromNat(natFromBig(priv.N))
-	c := natFromBytes(ciphertext).expandFor(N)
-	if c.cmpGeq(N.nat) == 1 {
+	N, err := bbmod.NewModulusFromBig(priv.N)
+	if err != nil {
 		return nil, ErrDecryption
 	}
-	if priv.N.Sign() == 0 {
+	c, err := bigmod.NewInt(N).SetBytes(ciphertext)
+	if err != nil {
 		return nil, ErrDecryption
 	}
 
@@ -576,43 +584,55 @@ func decrypt(priv *PrivateKey, ciphertext []byte) ([]byte, error) {
 	// we potentially leak the exact number of bits of these exponents. This
 	// isn't great, but should be fine.
 	if priv.Precomputed.Dp == nil || len(priv.Primes) > 2 {
-		out := make([]byte, modulusSize(N))
-		return new(nat).exp(c, priv.D.Bytes(), N).fillBytes(out), nil
+		out := make([]byte, c.Size())
+		return c.Exp(priv.D.Bytes()).FillBytes(out), nil
 	}
 
-	t0 := new(nat)
-	P := modulusFromNat(natFromBig(priv.Primes[0]))
-	Q := modulusFromNat(natFromBig(priv.Primes[1]))
-	// m = c ^ Dp mod p
-	m := new(nat).exp(t0.mod(c, P), priv.Precomputed.Dp.Bytes(), P)
-	// m2 = c ^ Dq mod q
-	m2 := new(nat).exp(t0.mod(c, Q), priv.Precomputed.Dq.Bytes(), Q)
-	// m = m - m2 mod p
-	m.modSub(t0.mod(m2, P), P)
-	// m = m * Qinv mod p
-	m.modMul(natFromBig(priv.Precomputed.Qinv).expandFor(P), P)
-	// m = m * q mod N
-	m.expandFor(N).modMul(t0.mod(Q.nat, N), N)
-	// m = m + m2 mod N
-	m.modAdd(m2.expandFor(N), N)
-
-	out := make([]byte, modulusSize(N))
-	return m.fillBytes(out), nil
-}
-
-func decryptAndCheck(priv *PrivateKey, ciphertext []byte) (m []byte, err error) {
-	m, err = decrypt(priv, ciphertext)
+	P, err := bbmod.NewModulusFromBig(priv.Primes[0])
 	if err != nil {
-		return nil, err
+		return nil, ErrDecryption
 	}
+	Q, err := bbmod.NewModulusFromBig(priv.Primes[1])
+	if err != nil {
+		return nil, ErrDecryption
+	}
+	Qinv, err := bbmod.SetBig(bigmod.NewInt(P), priv.Precomputed.Qinv)
+	if err != nil {
+		return nil, ErrDecryption
+	}
+	QmodN, err := bbmod.SetBig(bigmod.NewInt(N), priv.Primes[1])
+	if err != nil {
+		return nil, ErrDecryption
+	}
+	e := make([]byte, 8)
+	binary.BigEndian.PutUint64(e, uint64(priv.E))
+	for len(e) > 1 && e[0] == 0 {
+		e = e[1:]
+	}
+
+	// m1 = c ^ Dp mod p
+	m1 := bigmod.NewInt(P).SetInt(c).Exp(priv.Precomputed.Dp.Bytes())
+	// m2 = c ^ Dq mod q
+	m2 := bigmod.NewInt(Q).SetInt(c).Exp(priv.Precomputed.Dq.Bytes())
+	// m1 = m1 - m2 mod p
+	m1.Sub(m1, bigmod.NewInt(P).SetInt(m2))
+	// m1 = m1 * Qinv mod p
+	m1.Mul(m1, Qinv)
+	// m = m1 * q mod N
+	m := bigmod.NewInt(N).SetInt(m1)
+	m.Mul(m, QmodN)
+	// m = m + m2 mod N
+	m.Add(m, bigmod.NewInt(N).SetInt(m2))
 
 	// In order to defend against errors in the CRT computation, m^e is
 	// calculated, which should match the original ciphertext.
-	check := encrypt(&priv.PublicKey, m)
-	if subtle.ConstantTimeCompare(ciphertext, check) != 1 {
-		return nil, errors.New("rsa: internal error")
+	c1 := bigmod.NewInt(N).SetInt(m).Exp(e)
+	if !c1.Equal(c) {
+		return nil, ErrDecryption
 	}
-	return m, nil
+
+	out := make([]byte, m.Size())
+	return m.FillBytes(out), nil
 }
 
 // DecryptOAEP decrypts ciphertext using RSA-OAEP.

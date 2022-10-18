@@ -129,6 +129,39 @@ func testKeyBasics(t *testing.T, priv *PrivateKey) {
 	}
 }
 
+// TestSignatureInvalid ensures that nothing panics if the signature
+// is not a valid ciphertext.
+func TestSignatureLargerThanModulus(t *testing.T) {
+	hash := crypto.SHA1
+	h := hash.New()
+	h.Write([]byte("testing"))
+	hashed := h.Sum(nil)
+
+	sig := []byte{}
+	err := VerifyPSS(&rsaPrivateKey.PublicKey, hash, hashed, sig, nil)
+	if err == nil {
+		t.Errorf("expected a failure")
+	}
+
+	sig = []byte{0x01}
+	err = VerifyPSS(&rsaPrivateKey.PublicKey, hash, hashed, sig, nil)
+	if err == nil {
+		t.Errorf("expected a failure")
+	}
+
+	sig = bytes.Repeat([]byte{0x01}, 1000)
+	err = VerifyPSS(&rsaPrivateKey.PublicKey, hash, hashed, sig, nil)
+	if err == nil {
+		t.Errorf("expected a failure")
+	}
+
+	sig = bytes.Repeat([]byte{0xFF}, rsaPrivateKey.Size())
+	err = VerifyPSS(&rsaPrivateKey.PublicKey, hash, hashed, sig, nil)
+	if err == nil {
+		t.Errorf("expected a failure")
+	}
+}
+
 var allFlag = flag.Bool("all", false, "test all key sizes up to 8192")
 
 func TestEverything(t *testing.T) {
@@ -210,18 +243,18 @@ func testEverything(t *testing.T, priv *PrivateKey) {
 		if err != nil {
 			t.Errorf("VerifyPKCS1v15: %v", err)
 		}
-		sig[1] ^= 0x80
+		sig[1] ^= 0x01
 		err = VerifyPKCS1v15(&priv.PublicKey, crypto.SHA256, hash[:], sig)
 		if err == nil {
 			t.Errorf("VerifyPKCS1v15 success for tampered signature")
 		}
-		sig[1] ^= 0x80
-		hash[1] ^= 0x80
+		sig[1] ^= 0x01
+		hash[1] ^= 0x01
 		err = VerifyPKCS1v15(&priv.PublicKey, crypto.SHA256, hash[:], sig)
 		if err == nil {
 			t.Errorf("VerifyPKCS1v15 success for tampered message")
 		}
-		hash[1] ^= 0x80
+		hash[1] ^= 0x01
 	}
 
 	opts := &PSSOptions{SaltLength: PSSSaltLengthAuto}
@@ -236,18 +269,18 @@ func testEverything(t *testing.T, priv *PrivateKey) {
 		if err != nil {
 			t.Errorf("VerifyPSS: %v", err)
 		}
-		sig[1] ^= 0x80
+		sig[1] ^= 0x01
 		err = VerifyPSS(&priv.PublicKey, crypto.SHA256, hash[:], sig, opts)
 		if err == nil {
 			t.Errorf("VerifyPSS success for tampered signature")
 		}
-		sig[1] ^= 0x80
-		hash[1] ^= 0x80
+		sig[1] ^= 0x01
+		hash[1] ^= 0x01
 		err = VerifyPSS(&priv.PublicKey, crypto.SHA256, hash[:], sig, opts)
 		if err == nil {
 			t.Errorf("VerifyPSS success for tampered message")
 		}
-		hash[1] ^= 0x80
+		hash[1] ^= 0x01
 	}
 
 	opts.SaltLength = PSSSaltLengthEqualsHash
@@ -262,18 +295,18 @@ func testEverything(t *testing.T, priv *PrivateKey) {
 		if err != nil {
 			t.Errorf("VerifyPSS: %v", err)
 		}
-		sig[1] ^= 0x80
+		sig[1] ^= 0x01
 		err = VerifyPSS(&priv.PublicKey, crypto.SHA256, hash[:], sig, opts)
 		if err == nil {
 			t.Errorf("VerifyPSS success for tampered signature")
 		}
-		sig[1] ^= 0x80
-		hash[1] ^= 0x80
+		sig[1] ^= 0x01
+		hash[1] ^= 0x01
 		err = VerifyPSS(&priv.PublicKey, crypto.SHA256, hash[:], sig, opts)
 		if err == nil {
 			t.Errorf("VerifyPSS success for tampered message")
 		}
-		hash[1] ^= 0x80
+		hash[1] ^= 0x01
 	}
 }
 

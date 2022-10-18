@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package rsa
+package bigmod
 
 import (
 	"bytes"
@@ -12,6 +12,7 @@ import (
 	"reflect"
 	"testing"
 	"testing/quick"
+	"unsafe"
 )
 
 // Generate generates an even nat. It's used by testing/quick to produce random
@@ -85,8 +86,9 @@ func TestMontgomeryRoundtrip(t *testing.T) {
 
 func TestFromBig(t *testing.T) {
 	expected := []byte{0x01, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff}
-	theBig := new(big.Int).SetBytes(expected)
-	actual := natFromBig(theBig).fillBytes(make([]byte, len(expected)))
+	bb := new(big.Int).SetBytes(expected).Bits()
+	limbs := unsafe.Slice((*uint)(&bb[0]), len(bb))
+	actual := natFromBits(limbs).fillBytes(make([]byte, len(expected)))
 	if !bytes.Equal(actual, expected) {
 		t.Errorf("%+x != %+x", actual, expected)
 	}
@@ -277,7 +279,7 @@ func TestExp(t *testing.T) {
 	}
 }
 
-func makeBenchmarkModulus() *modulus {
+func makeBenchmarkModulus() *Modulus {
 	m := make([]uint, 32)
 	for i := 0; i < 32; i++ {
 		m[i] = _MASK
