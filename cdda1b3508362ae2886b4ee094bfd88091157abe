@@ -72,6 +72,24 @@
       "message": "Stray debug print?",
       "revId": "cdda1b3508362ae2886b4ee094bfd88091157abe",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe7d86ca_c6fc6ba5",
+        "filename": "src/cmd/compile/internal/importer/gcimporter_test.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-18T20:21:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a0e61728_3785d950",
+      "revId": "cdda1b3508362ae2886b4ee094bfd88091157abe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

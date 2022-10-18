@@ -16,6 +16,42 @@
       "message": "Please restore the newlines here: the comment after the copyright header seems to be intended as a file comment, not a package comment or copyright note.",
       "revId": "201759f959a6182215efe6070cf94dd4610cb3e9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "695e97ae_24a95d31",
+        "filename": "src/cmd/compile/internal/types2/importer_test.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-18T20:21:49Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "184883e4_2c4bac63",
+      "revId": "201759f959a6182215efe6070cf94dd4610cb3e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b87bd43b_a04693e7",
+        "filename": "src/cmd/compile/internal/types2/importer_test.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-18T20:21:49Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "184883e4_2c4bac63",
+      "revId": "201759f959a6182215efe6070cf94dd4610cb3e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

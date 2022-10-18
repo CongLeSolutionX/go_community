@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ad6252f_41bf4f0f",
+        "filename": "src/cmd/link/link_test.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-18T20:21:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "054bbe4e_be64361d",
+      "revId": "06259bfa3a71d157c9b0797df5882f88f1e5c7d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5c56cade_231aec46",
@@ -68,6 +86,30 @@
       "writtenOn": "2022-10-18T18:31:25Z",
       "side": 1,
       "message": "is `internal/buildinternal` gone now?",
+      "range": {
+        "startLine": 268,
+        "startChar": 38,
+        "endLine": 268,
+        "endChar": 63
+      },
+      "revId": "06259bfa3a71d157c9b0797df5882f88f1e5c7d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d343137_2ae21591",
+        "filename": "src/go/build/deps_test.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-18T20:21:49Z",
+      "side": 1,
+      "message": "It\u0027s added in a later cl. Removing",
+      "parentUuid": "5c56cade_231aec46",
       "range": {
         "startLine": 268,
         "startChar": 38,
@@ -101,6 +143,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6962cd1_f4236811",
+        "filename": "src/go/build/deps_test.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-18T20:21:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee3ae47c_3d703911",
+      "range": {
+        "startLine": 448,
+        "startChar": 0,
+        "endLine": 451,
+        "endChar": 0
+      },
+      "revId": "06259bfa3a71d157c9b0797df5882f88f1e5c7d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8ecdbdfb_e0b77f6d",
@@ -118,6 +184,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e6ddbbf_b261ee38",
+        "filename": "src/go/internal/gcimporter/gcimporter.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-18T20:21:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ecdbdfb_e0b77f6d",
+      "revId": "06259bfa3a71d157c9b0797df5882f88f1e5c7d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "80440d97_3b993625",
@@ -131,6 +215,30 @@
       "writtenOn": "2022-10-18T18:31:25Z",
       "side": 1,
       "message": "Can we use `testenv.WriteImportcfg` here?",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 53
+      },
+      "revId": "06259bfa3a71d157c9b0797df5882f88f1e5c7d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7014415e_e0f78a61",
+        "filename": "src/go/internal/gcimporter/gcimporter_test.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-18T20:21:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80440d97_3b993625",
       "range": {
         "startLine": 57,
         "startChar": 0,
@@ -164,6 +272,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "36abe1fb_0695a166",
+        "filename": "src/internal/abi/abi_test.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-18T20:21:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b5a431c1_a94b10bc",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 53
+      },
+      "revId": "06259bfa3a71d157c9b0797df5882f88f1e5c7d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "be306527_a6a91ceb",
@@ -177,6 +309,30 @@
       "writtenOn": "2022-10-18T18:31:25Z",
       "side": 1,
       "message": "s/nil/err/",
+      "range": {
+        "startLine": 19,
+        "startChar": 13,
+        "endLine": 19,
+        "endChar": 16
+      },
+      "revId": "06259bfa3a71d157c9b0797df5882f88f1e5c7d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f856fbc_7a016831",
+        "filename": "src/internal/goroot/importcfg.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-18T20:21:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be306527_a6a91ceb",
       "range": {
         "startLine": 19,
         "startChar": 13,
@@ -204,6 +360,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0884776e_17016e6a",
+        "filename": "src/internal/goroot/importcfg.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-18T20:21:49Z",
+      "side": 1,
+      "message": "added comment",
+      "parentUuid": "3e67f207_785fedfd",
+      "revId": "06259bfa3a71d157c9b0797df5882f88f1e5c7d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4cca9570_3813db2d",
@@ -217,6 +391,24 @@
       "writtenOn": "2022-10-18T18:31:25Z",
       "side": 1,
       "message": "(nit) consider adding `-e` to this so that fewer tests break if just one package somewhere in the tree is broken.",
+      "revId": "06259bfa3a71d157c9b0797df5882f88f1e5c7d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4dacd01f_ea1038b4",
+        "filename": "src/internal/goroot/importcfg.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-18T20:21:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4cca9570_3813db2d",
       "revId": "06259bfa3a71d157c9b0797df5882f88f1e5c7d6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -238,6 +430,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b8ed024_afce7f74",
+        "filename": "src/internal/goroot/importcfg.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-18T20:21:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c8afbae_6c597367",
+      "revId": "06259bfa3a71d157c9b0797df5882f88f1e5c7d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f5e40da9_d1b895f9",
@@ -255,6 +465,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee7a3c81_a3620523",
+        "filename": "src/internal/teststdlib/importcfg.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-18T20:21:49Z",
+      "side": 1,
+      "message": "deleted package. no longer need this importer.",
+      "parentUuid": "f5e40da9_d1b895f9",
+      "revId": "06259bfa3a71d157c9b0797df5882f88f1e5c7d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fd457f96_572d2c82",
@@ -268,6 +496,24 @@
       "writtenOn": "2022-10-18T18:31:25Z",
       "side": 1,
       "message": "Is the `vendor` special-case actually needed here?\n\nAs far as I can tell, `gcimporter` doesn\u0027t specifically handle vendored imports, and the vendored packages in `std` actually have `vendor` as part of their package path.\n\n(A comment would be helpful.)",
+      "revId": "06259bfa3a71d157c9b0797df5882f88f1e5c7d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc9b2c1e_e6b0c538",
+        "filename": "src/internal/teststdlib/importcfg.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-18T20:21:49Z",
+      "side": 1,
+      "message": "(this package is no longer necessary. deleting.)\n\nI think it is. The case in Import() where lookup is nil calls FindPkg which in turn calls build.Import, which in turn uses vendor directories to satisfy imports. (unless I misunderstand what build.Import is doing?) The tests seemed to fail without making changes in the importers to handle vendored paths, which is why lookupGorootExport handles vendors.",
+      "parentUuid": "fd457f96_572d2c82",
       "revId": "06259bfa3a71d157c9b0797df5882f88f1e5c7d6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
