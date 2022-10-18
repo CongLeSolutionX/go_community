@@ -1508,6 +1508,7 @@ func mexit(osStack bool) {
 	}
 	throw("m not found in allm")
 found:
+<<<<<<< HEAD   (947091 [release-branch.go1.18] go1.18.7)
 	if !osStack {
 		// Delay reaping m until it's done with the stack.
 		//
@@ -1521,6 +1522,20 @@ found:
 		m.freelink = sched.freem
 		sched.freem = m
 	}
+=======
+	// Delay reaping m until it's done with the stack.
+	//
+	// Put mp on the free list, though it will not be reaped while freeWait
+	// is freeMWait. mp is no longer reachable via allm, so even if it is
+	// on an OS stack, we must keep a reference to mp alive so that the GC
+	// doesn't free mp while we are still using it.
+	//
+	// Note that the free list must not be linked through alllink because
+	// some functions walk allm without locking, so may be using alllink.
+	mp.freeWait.Store(freeMWait)
+	mp.freelink = sched.freem
+	sched.freem = mp
+>>>>>>> CHANGE (e252dc runtime: always keep global reference to mp until mexit comp)
 	unlock(&sched.lock)
 
 	atomic.Xadd64(&ncgocall, int64(m.ncgocall))
@@ -1550,6 +1565,9 @@ found:
 	mdestroy(m)
 
 	if osStack {
+		// No more uses of mp, so it is safe to drop the reference.
+		mp.freeWait.Store(freeMRef)
+
 		// Return from mstart and let the system thread
 		// library free the g0 stack and terminate the thread.
 		return
@@ -1721,19 +1739,25 @@ func allocm(_p_ *p, fn func(), id int64) *m {
 		lock(&sched.lock)
 		var newList *m
 		for freem := sched.freem; freem != nil; {
-			if freem.freeWait != 0 {
+			wait := freem.freeWait.Load()
+			if wait == freeMWait {
 				next := freem.freelink
 				freem.freelink = newList
 				newList = freem
 				freem = next
 				continue
 			}
-			// stackfree must be on the system stack, but allocm is
-			// reachable off the system stack transitively from
-			// startm.
-			systemstack(func() {
-				stackfree(freem.g0.stack)
-			})
+			// Free the stack if needed. For freeMRef, there is
+			// nothing to do except drop freem from the sched.freem
+			// list.
+			if wait == freeMStack {
+				// stackfree must be on the system stack, but allocm is
+				// reachable off the system stack transitively from
+				// startm.
+				systemstack(func() {
+					stackfree(freem.g0.stack)
+				})
+			}
 			freem = freem.freelink
 		}
 		sched.freem = newList
