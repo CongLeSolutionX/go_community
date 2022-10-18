@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7ebb63a_1ed4bd9c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-10-18T18:07:33Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d8c70fff_7e53be91",
+      "revId": "0850eda491c5a51103fa5b9c4c054d656a95a75a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "25dee4a3_77c384a4",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-10-18T17:48:15Z",
       "side": 1,
       "message": "Do you have any performance data on this change?",
+      "revId": "0850eda491c5a51103fa5b9c4c054d656a95a75a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0924e982_0089d4b8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-10-18T18:07:33Z",
+      "side": 1,
+      "message": "No, I noticed a riscv patch doing similar. I suspect the performance difference is minimal but not worse.",
+      "parentUuid": "25dee4a3_77c384a4",
       "revId": "0850eda491c5a51103fa5b9c4c054d656a95a75a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
