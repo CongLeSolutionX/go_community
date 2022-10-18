@@ -335,7 +335,10 @@ func VerifyPSS(pub *PublicKey, hash crypto.Hash, digest []byte, sig []byte, opts
 
 	emBits := pub.N.BitLen() - 1
 	emLen := (emBits + 7) / 8
-	em := encrypt(pub, sig)
+	em, err := encrypt(pub, sig)
+	if err != nil {
+		return ErrVerification
+	}
 
 	// Like in signPSSWithSalt, deal with mismatches between emLen and the size
 	// of the modulus. The spec would have us wire emLen into the encoding
