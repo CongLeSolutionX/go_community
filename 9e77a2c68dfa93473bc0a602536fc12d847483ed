@@ -61,6 +61,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6ecec35_eacb2e64",
+        "filename": "src/cmd/compile/internal/importer/gcimporter_test.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-18T20:24:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c2d3ecba_a72bfad5",
+      "range": {
+        "startLine": 56,
+        "startChar": 53,
+        "endLine": 56,
+        "endChar": 69
+      },
+      "revId": "9e77a2c68dfa93473bc0a602536fc12d847483ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "88afedb9_3ef8c9ce",
@@ -74,6 +98,30 @@
       "writtenOn": "2022-10-14T18:44:03Z",
       "side": 1,
       "message": "Is this `lookup` identical to the one further above?\n\n(If so, consider factoring it out in a helper function.)",
+      "range": {
+        "startLine": 648,
+        "startChar": 0,
+        "endLine": 655,
+        "endChar": 2
+      },
+      "revId": "9e77a2c68dfa93473bc0a602536fc12d847483ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f26b7dec_efbb4046",
+        "filename": "src/cmd/compile/internal/importer/gcimporter_test.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 655,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-18T20:24:46Z",
+      "side": 1,
+      "message": "lookup removed.",
+      "parentUuid": "88afedb9_3ef8c9ce",
       "range": {
         "startLine": 648,
         "startChar": 0,
@@ -379,6 +427,24 @@
       "writtenOn": "2022-10-14T18:44:03Z",
       "side": 1,
       "message": "Add a comment explaining why?\n\nOr, consider changing \u0027teststdlib.Importer()` to accept a (possibly-nil?) `testing.TB` (like `testenv.GoToolPath` or `testenv.GOROOT`) — then it could do the skipping itself.",
+      "revId": "9e77a2c68dfa93473bc0a602536fc12d847483ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7aa89d8_3e51fd41",
+        "filename": "src/internal/types/errors/codes_test.go",
+        "patchSetId": 16
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-18T20:24:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "322f6dae_4528048e",
       "revId": "9e77a2c68dfa93473bc0a602536fc12d847483ed",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
