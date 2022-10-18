@@ -52,6 +52,24 @@
       "parentUuid": "2ebddbc5_73482847",
       "revId": "e6ba5382dfdb47a7cd6ab16c060b9619fcbe5ac4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "113507b7_5aa4b130",
+        "filename": "src/runtime/hash64.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 49673
+      },
+      "writtenOn": "2022-10-18T15:12:55Z",
+      "side": 1,
+      "message": "Sorry to bother. Now the scripts also add memhash, and the shift inputs now become `(1\u003c\u003c1)+1 .. (1\u003c\u003cN)+N`(the previous case is incorrect).\nNow the result is (lower is better):\n```\nrandom inputs, fxhash: 333748 wyhash: 334455 memhash: 333682\nlinear inputs(1 .. N), fxhash: 0 wyhash: 334079 memhash: 667299\nshift inputs (1\u003c\u003c1 + 1 .. 1\u003c\u003cN + N), fxhash: 1400 wyhash: 333904 memhash: 1000631\n```",
+      "parentUuid": "a8df8590_798a2822",
+      "revId": "e6ba5382dfdb47a7cd6ab16c060b9619fcbe5ac4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
