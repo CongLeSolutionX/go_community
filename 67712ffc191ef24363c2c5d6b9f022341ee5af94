@@ -142,6 +142,30 @@
       },
       "revId": "67712ffc191ef24363c2c5d6b9f022341ee5af94",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29eb9e2e_d588099b",
+        "filename": "src/runtime/pprof/proto_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 5470
+      },
+      "writtenOn": "2022-10-19T20:22:31Z",
+      "side": 1,
+      "message": "Ack, looks like you\u0027re right, thanks for providing that link! I suppose we can abandon this CL and I can carry this patch downstream.",
+      "parentUuid": "ae633d18_b843f04d",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 41
+      },
+      "revId": "67712ffc191ef24363c2c5d6b9f022341ee5af94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
