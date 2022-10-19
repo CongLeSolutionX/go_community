@@ -6,6 +6,9 @@
 
 // Package bits implements bit counting and manipulation
 // functions for the predeclared unsigned integer types.
+// On most architectures, functions in this package are
+// additionally recognized by the compiler and treated as
+// intrinsics for additional performance.
 package bits
 
 const uintSize = 32 << (^uint(0) >> 63) // 32 or 64
