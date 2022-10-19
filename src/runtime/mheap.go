@@ -1298,6 +1298,7 @@ HaveSpan:
 	// There are a few very limited cirumstances where we won't have a P here.
 	// It's OK to simply skip scavenging in these cases. Something else will notice
 	// and pick up the tab.
+	var now int64
 	if pp != nil && bytesToScavenge > 0 {
 		// Measure how long we spent scavenging and add that measurement to the assist
 		// time so we can track it for the GC CPU limiter.
@@ -1313,7 +1314,7 @@ HaveSpan:
 		})
 
 		// Finish up accounting.
-		now := nanotime()
+		now = nanotime()
 		if track {
 			pp.limiterEvent.stop(limiterEventScavengeAssist, now)
 		}
@@ -1351,6 +1352,13 @@ HaveSpan:
 		atomic.Xaddint64(&stats.inWorkBufs, int64(nbytes))
 	}
 	memstats.heapStats.release()
+
+	if pageTrace.fd >= 0 {
+		if now == 0 {
+			now = nanotime()
+		}
+		pageTraceAlloc(pp, now, base, npages)
+	}
 
 	return s
 }
@@ -1526,6 +1534,10 @@ func (h *mheap) grow(npage uintptr) (uintptr, bool) {
 // Free the span back into the heap.
 func (h *mheap) freeSpan(s *mspan) {
 	systemstack(func() {
+		if pageTrace.fd >= 0 {
+			pageTraceFree(getg().m.p.ptr(), nanotime(), s.base(), s.npages)
+		}
+
 		lock(&h.lock)
 		if msanenabled {
 			// Tell msan that this entire span is no longer in use.
@@ -1556,6 +1568,10 @@ func (h *mheap) freeSpan(s *mspan) {
 //
 //go:systemstack
 func (h *mheap) freeManual(s *mspan, typ spanAllocType) {
+	if pageTrace.fd >= 0 {
+		pageTraceFree(getg().m.p.ptr(), nanotime(), s.base(), s.npages)
+	}
+
 	s.needzero = 1
 	lock(&h.lock)
 	h.freeSpanLocked(s, typ)

@@ -747,6 +747,10 @@ func (p *pageAlloc) scavengeOne(ci chunkIdx, searchIdx uint, max uintptr) uintpt
 			unlock(p.mheapLock)
 
 			if !p.test {
+				if pageTrace.fd >= 0 {
+					pageTraceScav(getg().m.p.ptr(), nanotime(), addr, uintptr(npages))
+				}
+
 				// Only perform the actual scavenging if we're not in a test.
 				// It's dangerous to do so otherwise.
 				sysUnused(unsafe.Pointer(addr), uintptr(npages)*pageSize)
