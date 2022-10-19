@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b497c011_76fc006e",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-10-19T16:13:33Z",
+      "side": 1,
+      "message": "Do we want to mention that this must have value 0 because that\u0027s encoded in assembly code? (Or we could use the symbolic constant in the assembly, but that\u0027s an annoying amount of code to touch.)",
+      "revId": "e252dcf9d38ce9192bccacb7e33867cbfbd22b6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
