@@ -118,6 +118,30 @@
       },
       "revId": "67712ffc191ef24363c2c5d6b9f022341ee5af94",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae633d18_b843f04d",
+        "filename": "src/runtime/pprof/proto_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-10-19T19:45:07Z",
+      "side": 1,
+      "message": "Ah, yes. I think your problem is fixed by CL 424295.",
+      "parentUuid": "1cfa41a7_0ce8017b",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 41
+      },
+      "revId": "67712ffc191ef24363c2c5d6b9f022341ee5af94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
