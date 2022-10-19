@@ -46,6 +46,30 @@
       },
       "revId": "67712ffc191ef24363c2c5d6b9f022341ee5af94",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aaa9a820_8e03e73e",
+        "filename": "src/runtime/pprof/proto_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-10-19T19:03:42Z",
+      "side": 1,
+      "message": "Thanks.\n\nIIUC ParseMemoryMap -\u003e parseMappingEntry [1] skips non-executable mappings, except in the `briefMapsRe` fallback case. Is this a bug in parseMappingEntry that it isn\u0027t matching your lines properly?\n\n[1] https://cs.opensource.google/go/go/+/master:src/internal/profile/legacy_profile.go;l\u003d1080-1084;drc\u003d1f068f0dc7bc997446a7aac44cfc70746ad918e0;bpv\u003d1;bpt\u003d1",
+      "parentUuid": "48f1419d_e44ba26a",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 41
+      },
+      "revId": "67712ffc191ef24363c2c5d6b9f022341ee5af94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
