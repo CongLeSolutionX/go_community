@@ -22,6 +22,30 @@
       },
       "revId": "67712ffc191ef24363c2c5d6b9f022341ee5af94",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48f1419d_e44ba26a",
+        "filename": "src/runtime/pprof/proto_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 5470
+      },
+      "writtenOn": "2022-10-19T16:51:41Z",
+      "side": 1,
+      "message": "Absolutely!\n\nSo essentially the test original just grabbed the first address in the first mapping, however there is no guarantee in the current implementation that the address chosen is actually in an executable section.\n\nIf you take a look at the following (truncated) mapping from running this test with our downstream modifications you can see the first mapping is not executable:\n\n```\n00400000-00405000 r--p 00000000 fd:01 2883702                            /tmp/go-build1780295367/b001/pprof.test       \n00405000-00574000 r-xp 00005000 fd:01 2883702                            /tmp/go-build1780295367/b001/pprof.test       \n00574000-006d0000 r--p 00174000 fd:01 2883702                            /tmp/go-build1780295367/b001/pprof.test       \n006d1000-006d2000 r--p 002d0000 fd:01 2883702                            /tmp/go-build1780295367/b001/pprof.test       \n006d2000-006f2000 rw-p 002d1000 fd:01 2883702                            /tmp/go-build1780295367/b001/pprof.test       \n006f2000-00729000 rw-p 00000000 00:00 0                                                                                \n01d7c000-01d9d000 rw-p 00000000 00:00 0                                  [heap]\n```\n\nThe executable part of that mapping starts at address 0x405000, however in the tests the address 0x400000 would be chosen, incorrectly. This patch ensures that we always end up with an address contained within an executable mapping.\n\nI hope that clears things up, I\u0027m happy to elaborate further if need be.",
+      "parentUuid": "ede462c6_a40c3626",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 41
+      },
+      "revId": "67712ffc191ef24363c2c5d6b9f022341ee5af94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
