@@ -94,6 +94,30 @@
       },
       "revId": "67712ffc191ef24363c2c5d6b9f022341ee5af94",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1cfa41a7_0ce8017b",
+        "filename": "src/runtime/pprof/proto_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 5470
+      },
+      "writtenOn": "2022-10-19T19:42:49Z",
+      "side": 1,
+      "message": "I\u0027m also realizing that this patch targets the code as it was laid out in the 1.19 tree, it seems to have been moved / refactored since then. This might end up being a patch we carry downstream for the 1.19 tree, if the underlying cause has in fact been fixed by 1.20+. \n\nIf not I\u0027m happy to hack on changes for the current tree.",
+      "parentUuid": "5dcc817c_4df9e6d3",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 41
+      },
+      "revId": "67712ffc191ef24363c2c5d6b9f022341ee5af94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
