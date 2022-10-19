@@ -120,11 +120,7 @@ func TestObjectString(t *testing.T) {
 
 	for _, test := range testObjects {
 		src := "package p; " + test.src
-		pkg, err := typecheck(filename, src, nil)
-		if err != nil {
-			t.Errorf("%s: %s", src, err)
-			continue
-		}
+		pkg := mustTypecheck(filename, src, nil)
 
 		names := strings.Split(test.obj, ".")
 		if len(names) != 1 && len(names) != 2 {
