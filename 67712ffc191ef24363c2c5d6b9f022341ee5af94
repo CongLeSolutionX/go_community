@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ede462c6_a40c3626",
+        "filename": "src/runtime/pprof/proto_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-10-19T14:00:59Z",
+      "side": 1,
+      "message": "Could you explain the change here in a bit more detail? It is not clear to me how this is any different from what was there before. Aren\u0027t both cases returning the start address of an executable mapping?",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 41
+      },
+      "revId": "67712ffc191ef24363c2c5d6b9f022341ee5af94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
