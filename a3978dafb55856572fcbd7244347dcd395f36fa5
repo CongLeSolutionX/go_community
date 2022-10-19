@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e87b70e9_a841d8d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-10-19T16:19:37Z",
+      "side": 1,
+      "message": "There are relatively few of these changes. Most are functional. My hope was to capture this in the first paragraph.",
+      "parentUuid": "4f53451c_145dc573",
+      "revId": "a3978dafb55856572fcbd7244347dcd395f36fa5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1ded34a0_f5a35ff6",
@@ -67,6 +85,24 @@
       "side": 1,
       "message": "I don\u0027t think they would all need unique registers. Couldn\u0027t the same register get used for some and just initialized before the macro invocation. But it didn\u0027t help I suppose it doesn\u0027t matter.",
       "parentUuid": "863f2987_de894e64",
+      "revId": "a3978dafb55856572fcbd7244347dcd395f36fa5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b30240cc_c7903cd4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-10-19T16:19:37Z",
+      "side": 1,
+      "message": "The extra adds still seemed to prevent a performance gain for sha512.",
+      "parentUuid": "65193556_9d229ba7",
       "revId": "a3978dafb55856572fcbd7244347dcd395f36fa5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
