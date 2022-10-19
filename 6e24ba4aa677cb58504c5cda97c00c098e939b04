@@ -75,6 +75,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "63097be4_303b97a1",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 827,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-10-19T19:43:36Z",
+      "side": 1,
+      "message": "IMO, we should delete these if they are unused. Alternatively, it seems like several would be a better fit in their respective package.",
+      "parentUuid": "edf0cad4_068b5f6a",
+      "revId": "6e24ba4aa677cb58504c5cda97c00c098e939b04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "361a7d3f_f1dcf73e",
         "filename": "src/cmd/dist/test.go",
         "patchSetId": 1
