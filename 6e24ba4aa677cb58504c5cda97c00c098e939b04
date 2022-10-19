@@ -57,6 +57,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "edf0cad4_068b5f6a",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 827,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-10-19T19:16:42Z",
+      "side": 1,
+      "message": "I hope not! But I think we should either test that it builds, since it\u0027s in the tree, or we should just delete these benchmarks entirely.",
+      "parentUuid": "1d9cb7d9_a8a43920",
+      "revId": "6e24ba4aa677cb58504c5cda97c00c098e939b04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "361a7d3f_f1dcf73e",
         "filename": "src/cmd/dist/test.go",
         "patchSetId": 1
@@ -68,6 +86,30 @@
       "writtenOn": "2022-10-17T16:08:36Z",
       "side": 1,
       "message": "10 minutes just to build? Is this just for consistency with other timeouts?",
+      "range": {
+        "startLine": 828,
+        "startChar": 73,
+        "endLine": 828,
+        "endChar": 76
+      },
+      "revId": "6e24ba4aa677cb58504c5cda97c00c098e939b04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4b6f965_08351fff",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 828,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-10-19T19:16:42Z",
+      "side": 1,
+      "message": "Good point. This was for consistency, but you\u0027re right that it\u0027s silly. I\u0027ll just drop the timeout.",
+      "parentUuid": "361a7d3f_f1dcf73e",
       "range": {
         "startLine": 828,
         "startChar": 73,
