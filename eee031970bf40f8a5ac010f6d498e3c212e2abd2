@@ -58,6 +58,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e395a03_69af91ae",
+        "filename": "src/math/big/int.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 59708
+      },
+      "writtenOn": "2022-10-20T22:34:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "496d4547_113434df",
+      "range": {
+        "startLine": 208,
+        "startChar": 47,
+        "endLine": 208,
+        "endChar": 56
+      },
+      "revId": "eee031970bf40f8a5ac010f6d498e3c212e2abd2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d4975882_3c2b6add",
@@ -71,6 +95,30 @@
       "writtenOn": "2022-10-20T21:39:53Z",
       "side": 1,
       "message": "make this consistent with the comment below and use the C notation\n\n// C(n, k) \u003d\u003d C(n, n-k)",
+      "range": {
+        "startLine": 215,
+        "startChar": 18,
+        "endLine": 215,
+        "endChar": 26
+      },
+      "revId": "eee031970bf40f8a5ac010f6d498e3c212e2abd2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "019f0b46_20198bcc",
+        "filename": "src/math/big/int.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 59708
+      },
+      "writtenOn": "2022-10-20T22:34:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d4975882_3c2b6add",
       "range": {
         "startLine": 215,
         "startChar": 18,
@@ -104,6 +152,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e8278a6_c36af3db",
+        "filename": "src/math/big/int.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 59708
+      },
+      "writtenOn": "2022-10-20T22:34:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8671dea8_7d48855e",
+      "range": {
+        "startLine": 233,
+        "startChar": 7,
+        "endLine": 233,
+        "endChar": 8
+      },
+      "revId": "eee031970bf40f8a5ac010f6d498e3c212e2abd2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e5b5b5cb_e90963ed",
@@ -117,6 +189,24 @@
       "writtenOn": "2022-10-20T21:39:53Z",
       "side": 1,
       "message": "ditto:\n\nfor i.Cmp(\u0026k) !\u003d 0 {\n\nor (in keeping with the comments above):\n\nfor i.Cmp(\u0026k) \u003c 0 {",
+      "revId": "eee031970bf40f8a5ac010f6d498e3c212e2abd2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6cee5dbb_9560d55e",
+        "filename": "src/math/big/int.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 59708
+      },
+      "writtenOn": "2022-10-20T22:34:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5b5b5cb_e90963ed",
       "revId": "eee031970bf40f8a5ac010f6d498e3c212e2abd2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
