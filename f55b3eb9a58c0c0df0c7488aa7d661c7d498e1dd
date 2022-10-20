@@ -62,6 +62,30 @@
       },
       "revId": "f55b3eb9a58c0c0df0c7488aa7d661c7d498e1dd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "991ba441_3dcdaa7a",
+        "filename": "src/math/bits/bits.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-10-20T22:52:00Z",
+      "side": 1,
+      "message": "Perhaps we can try to explain what is happening.\n\nOn most architectures some functions in this package are implemented directly by the compiler, for better performance.  For those functions the code in this package will not be used.  The exact set of those functions differs depending on the architecture and the Go release.",
+      "parentUuid": "9f5d514f_07c61af3",
+      "range": {
+        "startLine": 11,
+        "startChar": 45,
+        "endLine": 11,
+        "endChar": 55
+      },
+      "revId": "f55b3eb9a58c0c0df0c7488aa7d661c7d498e1dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
