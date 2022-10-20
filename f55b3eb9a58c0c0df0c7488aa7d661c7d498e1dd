@@ -16,6 +16,52 @@
       "message": "Thanks for the reviews.\n\nI\u0027ve fixed the patch up.\n\nPTAL",
       "revId": "f55b3eb9a58c0c0df0c7488aa7d661c7d498e1dd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a6fe341_0f21a88d",
+        "filename": "src/math/bits/bits.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-10-20T14:59:12Z",
+      "side": 1,
+      "message": "\"On most architectures\" seems unnecessary, given \"some\" later in the sentence.",
+      "range": {
+        "startLine": 10,
+        "startChar": 3,
+        "endLine": 10,
+        "endChar": 26
+      },
+      "revId": "f55b3eb9a58c0c0df0c7488aa7d661c7d498e1dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f5d514f_07c61af3",
+        "filename": "src/math/bits/bits.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-10-20T14:59:12Z",
+      "side": 1,
+      "message": "Those familiar with the compiler understand what intrinsics are, but I worry most readers won\u0027t know what that means. I\u0027m not sure what do do about that, though.",
+      "range": {
+        "startLine": 11,
+        "startChar": 45,
+        "endLine": 11,
+        "endChar": 55
+      },
+      "revId": "f55b3eb9a58c0c0df0c7488aa7d661c7d498e1dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
