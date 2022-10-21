@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6a5a397f_8f39155c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-10-21T16:32:01Z",
+      "side": 1,
+      "message": "If coverage is enabled, and we\u0027re building a package with coverage turned on, counter variables are flagged (e.g. ir.Name node will have CoverageCounter flag set, etc). When an inlinable coverage-instrumented function is written out to export data, however, we lose the special flags (no export data support for those). So if another package inlines the function, the counter variables will appear as regular vars to the race detector. Let me know if that makes sense.",
+      "parentUuid": "5e3f2866_d0131828",
+      "range": {
+        "startLine": 7,
+        "startChar": 42,
+        "endLine": 7,
+        "endChar": 50
+      },
+      "revId": "93957b089626b4c56a374eabbe982f7a59fe675f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "be18866d_300b4c69",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
