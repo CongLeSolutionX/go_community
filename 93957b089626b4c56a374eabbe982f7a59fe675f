@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5e3f2866_d0131828",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-10-21T16:22:39Z",
+      "side": 1,
+      "message": "The fix looks good. But I\u0027m not sure I understand why this is specific to inlining.",
+      "range": {
+        "startLine": 7,
+        "startChar": 42,
+        "endLine": 7,
+        "endChar": 50
+      },
+      "revId": "93957b089626b4c56a374eabbe982f7a59fe675f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "be18866d_300b4c69",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
