@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "e3fb0ea1_7c1fcdc9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-10-21T21:07:44Z",
+      "side": 1,
+      "message": "It puts the constant into memory and loads it. Not wrong, just slower.",
+      "parentUuid": "69e68901_a660edc9",
+      "revId": "f508cb820265c2463d691749137183d8417ccd5c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "409339ee_dbe9e370",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
