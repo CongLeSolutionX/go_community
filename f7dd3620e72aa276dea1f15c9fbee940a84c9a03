@@ -70,6 +70,74 @@
       "message": "TRY\u003dwindows-amd64-2012,windows-amd64-2008,windows-386,windows-arm64-10,windows-arm64-11",
       "revId": "f7dd3620e72aa276dea1f15c9fbee940a84c9a03",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d294ce62_14fda2ca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-10-21T20:33:49Z",
+      "side": 1,
+      "message": "TRY\u003dwindows-arm64-10,windows-arm64-11",
+      "revId": "f7dd3620e72aa276dea1f15c9fbee940a84c9a03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77785c5a_82a1dbac",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-10-21T20:33:49Z",
+      "side": 1,
+      "message": "Add a comment mentioning that the opSize method should be used instead.\n\nMaybe we can rename this field size_ and name the method size. So it is more clear.",
+      "revId": "f7dd3620e72aa276dea1f15c9fbee940a84c9a03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7977d09_a0b27448",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1053,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-10-21T20:33:49Z",
+      "side": 1,
+      "message": "This comment seems outdated. Looks like we can remove the condition now?",
+      "revId": "f7dd3620e72aa276dea1f15c9fbee940a84c9a03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41981572_f0573d62",
+        "filename": "src/cmd/link/internal/arm64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 688,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-10-21T20:33:49Z",
+      "side": 1,
+      "message": "It looks to me for LDST it should be IMAGE_REL_ARM64_PAGEOFFSET_12L ?\nhttps://learn.microsoft.com/en-us/windows/win32/debug/pe-format",
+      "revId": "f7dd3620e72aa276dea1f15c9fbee940a84c9a03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
