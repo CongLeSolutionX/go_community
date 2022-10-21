@@ -112,6 +112,24 @@
       "message": "Does this work for big endian?",
       "revId": "d134a7faf01a0d41ac2cd64b17522da7aa7eb213",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f5cd651_2cc4a6ed",
+        "filename": "src/runtime/sys_linux_ppc64x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-10-21T15:14:36Z",
+      "side": 1,
+      "message": "Yes, this isn\u0027t sensitive to byte order.",
+      "parentUuid": "ada83336_37bea55a",
+      "revId": "d134a7faf01a0d41ac2cd64b17522da7aa7eb213",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
