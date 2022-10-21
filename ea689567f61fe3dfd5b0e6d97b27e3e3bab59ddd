@@ -91,6 +91,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f620657_f869aa7b",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-21T17:14:14Z",
+      "side": 1,
+      "message": "In this context “must” means “to do otherwise is a programmer error”.\n\nIn practice, today that does mean that `Start` will return an error (because that is the least intrusive way to report a programmer error), but I don\u0027t want to codify that specific behavior into the documented API because it may be something we will want to change in the future.\n\n(For example, we might eventually export a `Context` field that could be set even if the command was not created by `CommandContext`, and if that happens I would rather it not run counter to the existing documented behavior.)",
+      "parentUuid": "18b0a5f1_0e6b664f",
+      "revId": "ea689567f61fe3dfd5b0e6d97b27e3e3bab59ddd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "932edde7_389cc06e",
@@ -104,6 +122,24 @@
       "writtenOn": "2022-10-20T22:16:25Z",
       "side": 1,
       "message": "We no longer have an Interrupt signal.",
+      "revId": "ea689567f61fe3dfd5b0e6d97b27e3e3bab59ddd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "15a7a63e_849dd634",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-21T17:14:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "932edde7_389cc06e",
       "revId": "ea689567f61fe3dfd5b0e6d97b27e3e3bab59ddd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -125,6 +161,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd3ca88b_01155835",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-21T17:14:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a170c63_13faeb21",
+      "revId": "ea689567f61fe3dfd5b0e6d97b27e3e3bab59ddd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "22c4b1b3_0d62658a",
@@ -138,6 +192,24 @@
       "writtenOn": "2022-10-20T22:16:25Z",
       "side": 1,
       "message": "Rewrite reference to Interrupt.",
+      "revId": "ea689567f61fe3dfd5b0e6d97b27e3e3bab59ddd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f76314f_b5938eed",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-21T17:14:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "22c4b1b3_0d62658a",
       "revId": "ea689567f61fe3dfd5b0e6d97b27e3e3bab59ddd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -159,6 +231,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "702c7a28_1f83e1f3",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-21T17:14:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7885bb86_0b964f66",
+      "revId": "ea689567f61fe3dfd5b0e6d97b27e3e3bab59ddd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3d114ff3_5890bc36",
@@ -172,6 +262,24 @@
       "writtenOn": "2022-10-20T22:16:25Z",
       "side": 1,
       "message": "s/Interrupt/Cancel/ or something",
+      "revId": "ea689567f61fe3dfd5b0e6d97b27e3e3bab59ddd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f268c9cd_8632db56",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 735,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-21T17:14:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d114ff3_5890bc36",
       "revId": "ea689567f61fe3dfd5b0e6d97b27e3e3bab59ddd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
