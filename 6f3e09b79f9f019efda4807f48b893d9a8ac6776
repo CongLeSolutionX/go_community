@@ -80,6 +80,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4f023aa_0ca0b575",
+        "filename": "src/cmd/go/internal/work/buildid.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-21T20:35:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d03675f2_b5939303",
+      "range": {
+        "startLine": 447,
+        "startChar": 0,
+        "endLine": 448,
+        "endChar": 19
+      },
+      "revId": "6f3e09b79f9f019efda4807f48b893d9a8ac6776",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "77b0c906_b8942148",
@@ -97,6 +121,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a19eeeb_8dfb1bcc",
+        "filename": "src/cmd/go/internal/work/buildid.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-21T20:35:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77b0c906_b8942148",
+      "revId": "6f3e09b79f9f019efda4807f48b893d9a8ac6776",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8d8ca2f9_5844b774",
@@ -110,6 +152,24 @@
       "writtenOn": "2022-10-21T20:08:34Z",
       "side": 1,
       "message": "Also need to set `p.Stale \u003d true` here (and I think that explains the test failure in the TryBot).",
+      "revId": "6f3e09b79f9f019efda4807f48b893d9a8ac6776",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a16ec14_27aeba42",
+        "filename": "src/cmd/go/internal/work/buildid.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-21T20:35:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d8ca2f9_5844b774",
       "revId": "6f3e09b79f9f019efda4807f48b893d9a8ac6776",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
