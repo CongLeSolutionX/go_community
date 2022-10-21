@@ -80,6 +80,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6067f61d_109ca6e1",
+        "filename": "src/cmd/go/internal/work/buildid.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-21T19:48:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de24acae_1f6674f1",
+      "range": {
+        "startLine": 421,
+        "startChar": 4,
+        "endLine": 421,
+        "endChar": 33
+      },
+      "revId": "3b2484866718737c259a24e3d41344f617824f45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f0efb5bb_d66dd786",
@@ -110,6 +134,24 @@
       "writtenOn": "2022-10-21T19:09:55Z",
       "side": 1,
       "message": "(discussed out-of-band) I think this call to `showStdout` should be guarded by `if !b.IsCmdList` or similar.\n\n(Strictly speaking, it should be guarded by the [`need`](https://cs.opensource.google/go/go/+/master:src/cmd/go/internal/work/exec.go;l\u003d476-479;drc\u003d01604129aee8bfc9dd3e2fffd2ad8f772a3089ec) variable for build actions, I think.)\n\nThe lack of guard on the other existing calls appears to be a bug, which I\u0027ve filed as #56375.",
+      "revId": "3b2484866718737c259a24e3d41344f617824f45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e9f1f01_ffd272ea",
+        "filename": "src/cmd/go/internal/work/buildid.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-21T19:48:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18be0465_27cf997c",
       "revId": "3b2484866718737c259a24e3d41344f617824f45",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
