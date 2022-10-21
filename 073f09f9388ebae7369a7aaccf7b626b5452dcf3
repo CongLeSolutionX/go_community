@@ -16,6 +16,24 @@
       "message": "(not sure)\n\nPreviously if we failed to show the `stdout` output we would treat the target as stale and regenerate it (unlike the best-effort logging for linked binaries above).\n\nDo we want to preserve that behavior here, or do we think it\u0027s a bug?",
       "revId": "073f09f9388ebae7369a7aaccf7b626b5452dcf3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "23be9d4b_ec07a660",
+        "filename": "src/cmd/go/internal/work/buildid.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-21T19:37:10Z",
+      "side": 1,
+      "message": "Discussed offline. We think it\u0027s more important to keep the behavior of whether to regenerate consistent and we don\u0027t regenerate when the other showStdout calls in this function fail.",
+      "parentUuid": "b38b8ceb_df1c3d0c",
+      "revId": "073f09f9388ebae7369a7aaccf7b626b5452dcf3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
