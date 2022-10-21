@@ -421,17 +421,34 @@ func (b *Builder) useCache(a *Action, actionHash cache.ActionID, target string) 
 	// Check to see if target exists and matches the expected action ID.
 	// If so, it's up to date and we can reuse it instead of rebuilding it.
 	var buildID string
-	if target != "" && !cfg.BuildA {
-		buildID, _ = buildid.ReadFile(target)
-		if strings.HasPrefix(buildID, actionID+buildIDSeparator) {
-			a.buildID = buildID
-			if a.json != nil {
-				a.json.BuildID = a.buildID
+	if !cfg.BuildA {
+		if target != "" {
+			buildID, _ = buildid.ReadFile(target)
+			if strings.HasPrefix(buildID, actionID+buildIDSeparator) {
+				a.buildID = buildID
+				if a.json != nil {
+					a.json.BuildID = a.buildID
+				}
+				a.built = target
+				// Poison a.Target to catch uses later in the build.
+				a.Target = "DO NOT USE - " + a.Mode
+				return true
 			}
-			a.built = target
-			// Poison a.Target to catch uses later in the build.
-			a.Target = "DO NOT USE - " + a.Mode
-			return true
+		} else if c := cache.Default(); c != nil {
+			if file, _, err := c.GetFile(actionHash); err == nil {
+				if buildID, err := buildid.ReadFile(file); err == nil {
+					// Show stdout of cached commands of requested by -n or -x.
+					if err := showStdout(b, c, a.actionID, "stdout"); err == nil {
+						a.buildID = buildID
+						if a.json != nil {
+							a.json.BuildID = a.buildID
+						}
+						a.built = file
+						a.Target = "DO NOT USE - using cache"
+						return true
+					}
+				}
+			}
 		}
 	}
 
