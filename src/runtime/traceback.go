@@ -162,7 +162,7 @@ func gentraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max in
 			// We also defensively check that this won't switch M's on us,
 			// which could happen at critical points in the scheduler.
 			// This ensures gp.m doesn't change from a stack jump.
-			if flags&_TraceJumpStack != 0 && gp == gp.m.g0 && gp.m.curg != nil && gp.m.curg.m == gp.m {
+			if flags&_TraceJumpStack != 0 && gp.m != nil && gp == gp.m.g0 && gp.m.curg != nil && gp.m.curg.m == gp.m {
 				switch f.funcID {
 				case funcID_morestack:
 					// morestack does not return normally -- newstack()
@@ -255,7 +255,7 @@ func gentraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max in
 				// But if callback is set, we're doing a garbage collection and must
 				// get everything, so crash loudly.
 				doPrint := printing
-				if doPrint && gp.m.incgo && f.funcID == funcID_sigpanic {
+				if doPrint && gp.m != nil && gp.m.incgo && f.funcID == funcID_sigpanic {
 					// We can inject sigpanic
 					// calls directly into C code,
 					// in which case we'll see a C
@@ -732,7 +732,7 @@ func traceback(pc, sp, lr uintptr, gp *g) {
 // If gp.m.libcall{g,pc,sp} information is available, it uses that information in preference to
 // the pc/sp/lr passed in.
 func tracebacktrap(pc, sp, lr uintptr, gp *g) {
-	if gp.m.libcallsp != 0 {
+	if gp.m != nil && gp.m.libcallsp != 0 {
 		// We're in C code somewhere, traceback from the saved position.
 		traceback1(gp.m.libcallpc, gp.m.libcallsp, 0, gp.m.libcallg.ptr(), 0)
 		return
