@@ -86,6 +86,30 @@
       },
       "revId": "f55b3eb9a58c0c0df0c7488aa7d661c7d498e1dd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4313a928_95c27d6d",
+        "filename": "src/math/bits/bits.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5175
+      },
+      "writtenOn": "2022-10-21T14:35:10Z",
+      "side": 1,
+      "message": "How does this sound? This includes Ian\u0027s words explaining compiler intrinsics and addressed Keith\u0027s point about unnecessary words. I tried to reword \"the exact set of\" as it might not be understood by people without a math background.\n\n// Functions in this package may be implemented directly by\n// the compiler, for better performance. For those functions\n// the code in this package will not be used. Which\n// functions are implemented by the compiler depends on the\n// architecture and the Go release.\n\nOK @iant@golang.org and @khr@golang.org ?",
+      "parentUuid": "991ba441_3dcdaa7a",
+      "range": {
+        "startLine": 11,
+        "startChar": 45,
+        "endLine": 11,
+        "endChar": 55
+      },
+      "revId": "f55b3eb9a58c0c0df0c7488aa7d661c7d498e1dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
