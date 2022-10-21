@@ -53,6 +53,23 @@
       "message": "I\u0027m not sure if the implementation on Windows is correct, but it seems the tests pass?",
       "revId": "f7dd3620e72aa276dea1f15c9fbee940a84c9a03",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3bfca8e_dfdd011e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-10-21T12:40:51Z",
+      "side": 1,
+      "message": "TRY\u003dwindows-amd64-2012,windows-amd64-2008,windows-386,windows-arm64-10,windows-arm64-11",
+      "revId": "f7dd3620e72aa276dea1f15c9fbee940a84c9a03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
