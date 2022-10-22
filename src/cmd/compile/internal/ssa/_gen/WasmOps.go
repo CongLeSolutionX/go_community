@@ -103,6 +103,7 @@ func init() {
 		gp11      = regInfo{inputs: []regMask{gpsp}, outputs: []regMask{gp}}
 		gp21      = regInfo{inputs: []regMask{gpsp, gpsp}, outputs: []regMask{gp}}
 		gp31      = regInfo{inputs: []regMask{gpsp, gpsp, gpsp}, outputs: []regMask{gp}}
+		gp30      = regInfo{inputs: []regMask{gpsp, gpsp, gpsp}}
 		fp32_01   = regInfo{inputs: nil, outputs: []regMask{fp32}}
 		fp32_11   = regInfo{inputs: []regMask{fp32}, outputs: []regMask{fp32}}
 		fp32_21   = regInfo{inputs: []regMask{fp32, fp32}, outputs: []regMask{fp32}}
@@ -258,6 +259,9 @@ func init() {
 		{name: "I32Rotl", asm: "I32Rotl", argLength: 2, reg: gp21, typ: "Int32"},     // rotl(arg0, arg1)
 		{name: "I64Rotl", asm: "I64Rotl", argLength: 2, reg: gp21, typ: "Int64"},     // rotl(arg0, arg1)
 		{name: "I64Popcnt", asm: "I64Popcnt", argLength: 1, reg: gp11, typ: "Int64"}, // popcnt(arg0)
+
+		{name: "MemoryCopy", asm: "MemoryCopy", argLength: 3, reg: gp30}, // memory.copy(arg0, arg1, arg2)
+		{name: "MemoryFill", asm: "MemoryFill", argLength: 3, reg: gp30}, // memory.fill(arg0, arg1, arg2)
 	}
 
 	archs = append(archs, arch{

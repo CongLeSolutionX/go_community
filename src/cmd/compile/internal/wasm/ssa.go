@@ -148,15 +148,14 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 	case ssa.OpWasmLoweredMove:
 		getValue32(s, v.Args[0])
 		getValue32(s, v.Args[1])
-		i32Const(s, int32(v.AuxInt))
-		p := s.Prog(wasm.ACall)
-		p.To = obj.Addr{Type: obj.TYPE_MEM, Name: obj.NAME_EXTERN, Sym: ir.Syms.WasmMove}
+		i32Const(s, int32(v.AuxInt)*8)
+		s.Prog(wasm.AMemoryCopy)
 
 	case ssa.OpWasmLoweredZero:
 		getValue32(s, v.Args[0])
-		i32Const(s, int32(v.AuxInt))
-		p := s.Prog(wasm.ACall)
-		p.To = obj.Addr{Type: obj.TYPE_MEM, Name: obj.NAME_EXTERN, Sym: ir.Syms.WasmZero}
+		i32Const(s, 0)
+		i32Const(s, int32(v.AuxInt)*8)
+		s.Prog(wasm.AMemoryFill)
 
 	case ssa.OpWasmLoweredNilCheck:
 		getValue64(s, v.Args[0])
@@ -192,6 +191,12 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 
 	case ssa.OpClobber, ssa.OpClobberReg:
 		// TODO: implement for clobberdead experiment. Nop is ok for now.
+
+	case ssa.OpWasmMemoryFill, ssa.OpWasmMemoryCopy:
+		getValue32(s, v.Args[0])
+		getValue32(s, v.Args[1])
+		getValue32(s, v.Args[2])
+		s.Prog(v.Op.Asm())
 
 	default:
 		if v.Type.IsMemory() {
