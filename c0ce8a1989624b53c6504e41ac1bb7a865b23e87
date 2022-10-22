@@ -51,6 +51,24 @@
       "parentUuid": "08f63e56_457c7caa",
       "revId": "c0ce8a1989624b53c6504e41ac1bb7a865b23e87",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9f1f992_d901cef5",
+        "filename": "src/runtime/sys_wasm.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 59608
+      },
+      "writtenOn": "2022-10-22T18:13:36Z",
+      "side": 1,
+      "message": "Should this be enabled by a GOWASM flag and fall back to the previous wasmMove and wasmZero like SignExt and SatConv? I don\u0027t feel strongly either way, but if we plan to primarily support the latest browsers I think it should be enabled by default",
+      "parentUuid": "56e8ff24_067fdecc",
+      "revId": "c0ce8a1989624b53c6504e41ac1bb7a865b23e87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
