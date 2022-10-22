@@ -193,6 +193,12 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 	case ssa.OpClobber, ssa.OpClobberReg:
 		// TODO: implement for clobberdead experiment. Nop is ok for now.
 
+	case ssa.OpWasmMemoryFill, ssa.OpWasmMemoryCopy:
+		getValue32(s, v.Args[0])
+		getValue32(s, v.Args[1])
+		getValue32(s, v.Args[2])
+		s.Prog(v.Op.Asm())
+
 	default:
 		if v.Type.IsMemory() {
 			return
