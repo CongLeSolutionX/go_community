@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0ac1363_24f40c9f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2022-10-22T11:04:21Z",
+      "side": 1,
+      "message": "Thanks for contributing to the Wasm backend!\n\nI am generally in favor of this change, see https://github.com/golang/go/issues/28360#issuecomment-1287760265.",
+      "revId": "c0ce8a1989624b53c6504e41ac1bb7a865b23e87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08f63e56_457c7caa",
+        "filename": "src/runtime/sys_wasm.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2022-10-22T11:04:21Z",
+      "side": 1,
+      "message": "I think we should inline wasmMove and wasmZero. No need for an extra call now.",
+      "revId": "c0ce8a1989624b53c6504e41ac1bb7a865b23e87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
