@@ -53,6 +53,24 @@
       "message": "Just building this string will use a lot of memory.  Better to use one of the expressions added to invalidRegexps in CL 439356.",
       "revId": "04dc2a6de12e5fa5c4bdf28907e3996c85f24e52",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d47f043_f74d6a88",
+        "filename": "src/regexp/all_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2022-10-23T22:56:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d5c6521_bdb11912",
+      "revId": "04dc2a6de12e5fa5c4bdf28907e3996c85f24e52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
