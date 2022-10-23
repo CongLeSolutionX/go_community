@@ -69,6 +69,24 @@
       "parentUuid": "56e8ff24_067fdecc",
       "revId": "c0ce8a1989624b53c6504e41ac1bb7a865b23e87",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46c87d27_0e054759",
+        "filename": "src/runtime/sys_wasm.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13620
+      },
+      "writtenOn": "2022-10-23T09:19:40Z",
+      "side": 1,
+      "message": "I think it is not worth the trouble. We will most likely not support older browsers because of other features anyways. I\u0027m planning to remove the flags for SignExt and SatConv.",
+      "parentUuid": "c9f1f992_d901cef5",
+      "revId": "c0ce8a1989624b53c6504e41ac1bb7a865b23e87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
