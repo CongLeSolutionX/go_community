@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "af4d0cb8_6a1e07d7",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 33
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-24T19:02:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1172d52_1d33f35e",
+      "revId": "d3b149ec117e7bef09c7d0482f3eceac7f26ebfd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "66839966_bf97f8d8",
@@ -68,6 +86,24 @@
       "writtenOn": "2022-10-21T23:36:25Z",
       "side": 1,
       "message": "We should say something about WaitDelay here.",
+      "revId": "d3b149ec117e7bef09c7d0482f3eceac7f26ebfd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f569b20_823f1922",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 33
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-24T19:02:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "66839966_bf97f8d8",
       "revId": "d3b149ec117e7bef09c7d0482f3eceac7f26ebfd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -89,6 +125,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "876df00b_57dc7cc4",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 33
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-24T19:02:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ec97143_b2823331",
+      "revId": "d3b149ec117e7bef09c7d0482f3eceac7f26ebfd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5bca9398_8ee373e6",
@@ -102,6 +156,24 @@
       "writtenOn": "2022-10-21T23:36:25Z",
       "side": 1,
       "message": "Perhaps s/interrupting/cancelling/ , now that the field is Cancel?",
+      "revId": "d3b149ec117e7bef09c7d0482f3eceac7f26ebfd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbca695c_70700e2f",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 33
+      },
+      "lineNbr": 772,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-24T19:02:27Z",
+      "side": 1,
+      "message": "Done.\n\n(With one “l”, because the Internet suggests that that\u0027s more common in American English and that\u0027s the dialect for Go error messages.)",
+      "parentUuid": "5bca9398_8ee373e6",
       "revId": "d3b149ec117e7bef09c7d0482f3eceac7f26ebfd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -123,6 +195,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3adfbe9f_bb11108f",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 33
+      },
+      "lineNbr": 923,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-24T19:02:27Z",
+      "side": 1,
+      "message": "Added a comment.",
+      "parentUuid": "48fb4533_13c552b3",
+      "revId": "d3b149ec117e7bef09c7d0482f3eceac7f26ebfd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ceea78dd_b59b4f06",
@@ -136,6 +226,24 @@
       "writtenOn": "2022-10-21T23:36:25Z",
       "side": 1,
       "message": "Where is this used?\n\n(Same for the other two definitions of this.)",
+      "revId": "d3b149ec117e7bef09c7d0482f3eceac7f26ebfd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "50c6532a_3854dd5a",
+        "filename": "src/os/exec/exec_plan9.go",
+        "patchSetId": 33
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-24T19:02:27Z",
+      "side": 1,
+      "message": "Looks like the usage got factored out in an intervening patchset. Removed!",
+      "parentUuid": "ceea78dd_b59b4f06",
       "revId": "d3b149ec117e7bef09c7d0482f3eceac7f26ebfd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -157,6 +265,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4ad20aa_ace40976",
+        "filename": "src/os/exec/exec_test.go",
+        "patchSetId": 33
+      },
+      "lineNbr": 1131,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-24T19:02:27Z",
+      "side": 1,
+      "message": "Leftover from earlier prototyping. Unexported.",
+      "parentUuid": "e2e2445f_d0d51ae8",
+      "revId": "d3b149ec117e7bef09c7d0482f3eceac7f26ebfd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8babb653_99be0ca9",
@@ -170,6 +296,24 @@
       "writtenOn": "2022-10-21T23:36:25Z",
       "side": 1,
       "message": "s/no Interrupt signal/no Cancel function/",
+      "revId": "d3b149ec117e7bef09c7d0482f3eceac7f26ebfd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf0cb64d_416dbc01",
+        "filename": "src/os/exec/exec_test.go",
+        "patchSetId": 33
+      },
+      "lineNbr": 1316,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-24T19:02:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8babb653_99be0ca9",
       "revId": "d3b149ec117e7bef09c7d0482f3eceac7f26ebfd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -191,6 +335,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "24423ba8_21b3e35f",
+        "filename": "src/os/exec/exec_test.go",
+        "patchSetId": 33
+      },
+      "lineNbr": 1326,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-24T19:02:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0c6c02e_1a96bf8a",
+      "revId": "d3b149ec117e7bef09c7d0482f3eceac7f26ebfd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "50c07eb0_2ceee1c6",
@@ -204,6 +366,24 @@
       "writtenOn": "2022-10-21T23:36:25Z",
       "side": 1,
       "message": "s/the Interrupt signal is os.Kill/the Cancel function sends an os.Kill signal/",
+      "revId": "d3b149ec117e7bef09c7d0482f3eceac7f26ebfd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9a07b59_a0fca7e2",
+        "filename": "src/os/exec/exec_test.go",
+        "patchSetId": 33
+      },
+      "lineNbr": 1350,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-24T19:02:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50c07eb0_2ceee1c6",
       "revId": "d3b149ec117e7bef09c7d0482f3eceac7f26ebfd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -225,6 +405,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e15c7490_49d25ffd",
+        "filename": "src/os/exec/exec_test.go",
+        "patchSetId": 33
+      },
+      "lineNbr": 1396,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-24T19:02:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9010d0f6_3d29d3af",
+      "revId": "d3b149ec117e7bef09c7d0482f3eceac7f26ebfd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3df1fff5_06ebffec",
@@ -238,6 +436,24 @@
       "writtenOn": "2022-10-21T23:36:25Z",
       "side": 1,
       "message": "If the process handles the cancellation signal ...",
+      "revId": "d3b149ec117e7bef09c7d0482f3eceac7f26ebfd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "746603b3_4b4efcbe",
+        "filename": "src/os/exec/exec_test.go",
+        "patchSetId": 33
+      },
+      "lineNbr": 1419,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-24T19:02:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3df1fff5_06ebffec",
       "revId": "d3b149ec117e7bef09c7d0482f3eceac7f26ebfd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -259,6 +475,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1c40780_430df158",
+        "filename": "src/os/exec/exec_test.go",
+        "patchSetId": 33
+      },
+      "lineNbr": 1446,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-24T19:02:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "723aa5e3_e0877382",
+      "revId": "d3b149ec117e7bef09c7d0482f3eceac7f26ebfd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6a636d35_4cae138b",
@@ -276,6 +510,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d50f68b2_4ceb0416",
+        "filename": "src/os/exec/exec_test.go",
+        "patchSetId": 33
+      },
+      "lineNbr": 1473,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-24T19:02:27Z",
+      "side": 1,
+      "message": "`cmd.Stderr` has no string method, so that would require a type-assertion to `fmt.Stringer` — which is about twice as verbose as calling `fmt.Sprint`.",
+      "parentUuid": "6a636d35_4cae138b",
+      "revId": "d3b149ec117e7bef09c7d0482f3eceac7f26ebfd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "58325112_df577e0e",
@@ -289,6 +541,24 @@
       "writtenOn": "2022-10-21T23:36:25Z",
       "side": 1,
       "message": "Incomplete sentence?",
+      "revId": "d3b149ec117e7bef09c7d0482f3eceac7f26ebfd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3607325f_ed9f43e9",
+        "filename": "src/os/exec/exec_test.go",
+        "patchSetId": 33
+      },
+      "lineNbr": 1611,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-24T19:02:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58325112_df577e0e",
       "revId": "d3b149ec117e7bef09c7d0482f3eceac7f26ebfd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
