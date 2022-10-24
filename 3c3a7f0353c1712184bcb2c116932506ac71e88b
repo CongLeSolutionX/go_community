@@ -101,6 +101,54 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe2a7769_210d577f",
+        "filename": "src/cmd/compile/internal/ssa/_gen/WasmOps.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 59608
+      },
+      "writtenOn": "2022-10-24T16:51:52Z",
+      "side": 1,
+      "message": "Done, I think we should keep LoweredMove/LoweredZero",
+      "parentUuid": "31b61d5e_3dae94bf",
+      "range": {
+        "startLine": 263,
+        "startChar": 0,
+        "endLine": 264,
+        "endChar": 101
+      },
+      "revId": "3c3a7f0353c1712184bcb2c116932506ac71e88b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f806f63e_4012a0db",
+        "filename": "src/cmd/compile/internal/ssa/_gen/WasmOps.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 59608
+      },
+      "writtenOn": "2022-10-24T16:51:52Z",
+      "side": 1,
+      "message": "Done, removed as per comment above",
+      "parentUuid": "95a9eda4_c2bb84da",
+      "range": {
+        "startLine": 264,
+        "startChar": 88,
+        "endLine": 264,
+        "endChar": 93
+      },
+      "revId": "3c3a7f0353c1712184bcb2c116932506ac71e88b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b239a7e0_eb9b2344",
@@ -118,6 +166,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "72831dbc_ff5f7655",
+        "filename": "src/runtime/memclr_wasm.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 59608
+      },
+      "writtenOn": "2022-10-24T16:51:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b239a7e0_eb9b2344",
+      "revId": "3c3a7f0353c1712184bcb2c116932506ac71e88b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "39b3298c_a96d0235",
@@ -131,6 +197,24 @@
       "writtenOn": "2022-10-24T14:49:41Z",
       "side": 1,
       "message": "Same here.",
+      "revId": "3c3a7f0353c1712184bcb2c116932506ac71e88b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "70b4ca00_75a86e64",
+        "filename": "src/runtime/memmove_wasm.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 59608
+      },
+      "writtenOn": "2022-10-24T16:51:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39b3298c_a96d0235",
       "revId": "3c3a7f0353c1712184bcb2c116932506ac71e88b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
