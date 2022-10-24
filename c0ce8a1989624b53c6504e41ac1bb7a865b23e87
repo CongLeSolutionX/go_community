@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9cec1dc2_15cbe946",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-10-24T14:49:41Z",
+      "side": 1,
+      "message": "If I understand correctly there is no compatibility issue with old browsers (that we care) so no need to do feature flags (like GOWASM)?",
+      "parentUuid": "c0ac1363_24f40c9f",
+      "revId": "c0ce8a1989624b53c6504e41ac1bb7a865b23e87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "08f63e56_457c7caa",

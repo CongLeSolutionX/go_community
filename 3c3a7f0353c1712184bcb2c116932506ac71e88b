@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c82c6be_b924144d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-10-24T14:49:41Z",
+      "side": 1,
+      "message": "Thanks for the CL.",
+      "revId": "3c3a7f0353c1712184bcb2c116932506ac71e88b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95a9eda4_c2bb84da",
+        "filename": "src/cmd/compile/internal/ssa/_gen/WasmOps.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-10-24T14:49:41Z",
+      "side": 1,
+      "message": "Maybe comment that value is byte, or count is number of bytes.",
+      "range": {
+        "startLine": 264,
+        "startChar": 88,
+        "endLine": 264,
+        "endChar": 93
+      },
+      "revId": "3c3a7f0353c1712184bcb2c116932506ac71e88b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31b61d5e_3dae94bf",
+        "filename": "src/cmd/compile/internal/ssa/_gen/WasmOps.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-10-24T14:49:41Z",
+      "side": 1,
+      "message": "It looks to me that in the current state there is no rule (in Wasm.rules) to generate these ops. I think we should either let LoweredMove/LoweredZero generate these ops (like you did in the first part of wasm/ssa.go), or replace LoweredMove/LoweredZero with the new ops. There seems no need to keep both?",
+      "range": {
+        "startLine": 263,
+        "startChar": 0,
+        "endLine": 264,
+        "endChar": 101
+      },
+      "revId": "3c3a7f0353c1712184bcb2c116932506ac71e88b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b239a7e0_eb9b2344",
+        "filename": "src/runtime/memclr_wasm.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-10-24T14:49:41Z",
+      "side": 1,
+      "message": "The UNDEF can be removed.",
+      "revId": "3c3a7f0353c1712184bcb2c116932506ac71e88b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39b3298c_a96d0235",
+        "filename": "src/runtime/memmove_wasm.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-10-24T14:49:41Z",
+      "side": 1,
+      "message": "Same here.",
+      "revId": "3c3a7f0353c1712184bcb2c116932506ac71e88b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
