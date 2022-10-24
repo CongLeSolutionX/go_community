@@ -74,6 +74,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "47aa1724_c9f23886",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-10-24T21:59:40Z",
+      "side": 1,
+      "message": "We committed the improvements to avoid extra byteswapping in 1.19. Hopefully the updated commit message conveys it is mostly a full unroll of the inner loop and preload of the keys which improve the decrypt performance.",
+      "parentUuid": "c979ace6_321c988a",
+      "revId": "9a44d8f392003f1a159dde25a93a8751e805bdf1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a46929b1_2c9fa7d2",
@@ -87,6 +105,24 @@
       "writtenOn": "2022-10-24T19:05:09Z",
       "side": 1,
       "message": "points",
+      "revId": "9a44d8f392003f1a159dde25a93a8751e805bdf1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "043700b8_ec703c49",
+        "filename": "src/crypto/aes/asm_ppc64x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 626,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-10-24T21:59:40Z",
+      "side": 1,
+      "message": "Ack. I updated the comment to match the usage in the encrypt/decrypt functions. I fixed this typo in a couple other places.",
+      "parentUuid": "a46929b1_2c9fa7d2",
       "revId": "9a44d8f392003f1a159dde25a93a8751e805bdf1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
