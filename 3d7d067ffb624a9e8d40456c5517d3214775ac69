@@ -95,6 +95,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "de5052f1_c2f921e4",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-10-24T20:44:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1d19494_7c2acf66",
+      "range": {
+        "startLine": 201,
+        "startChar": 0,
+        "endLine": 202,
+        "endChar": 70
+      },
+      "revId": "3d7d067ffb624a9e8d40456c5517d3214775ac69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "87c61cdc_ead5d376",
@@ -108,6 +132,30 @@
       "writtenOn": "2022-10-14T21:42:20Z",
       "side": 1,
       "message": "Does the path to the file actually matter, or just the hash of its contents?\n\nSource file names end up in the debug metadata for the compiled binary, but AFAIK the name of the profile file should not, so perhaps it can just be omitted.",
+      "range": {
+        "startLine": 404,
+        "startChar": 84,
+        "endLine": 404,
+        "endChar": 114
+      },
+      "revId": "3d7d067ffb624a9e8d40456c5517d3214775ac69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe12b7b2_2cbd1820",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-10-24T20:44:02Z",
+      "side": 1,
+      "message": "The file name doesn\u0027t matter to the compiler. But maybe we want to include it in the buildinfo? Per Michael\u0027s comment https://go-review.git.corp.google.com/c/go/+/438736/6#message-d5777f1d1dbef3da6428959d1ae7aa95d9f92b01\nWe could include a hash of the file instead, perhaps. Let me know what you think. Thanks.",
+      "parentUuid": "87c61cdc_ead5d376",
       "range": {
         "startLine": 404,
         "startChar": 84,
@@ -137,6 +185,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "88f8998b_2696af70",
+        "filename": "src/cmd/go/internal/work/gc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-10-24T20:44:02Z",
+      "side": 1,
+      "message": "Good point.\n\nCurrently the compiler doesn\u0027t record the profile path in the binary (maybe it should?). If we do the buildinfo change it would be recorded there. Maybe we\u0027ll need to redact there?\n\nIf the compiler ends up recording the profile path, it would probably honor the trimpath flag there.",
+      "parentUuid": "ffd69f09_74e28b58",
+      "revId": "3d7d067ffb624a9e8d40456c5517d3214775ac69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ef6e4ed4_f51a1e53",
         "filename": "src/cmd/go/internal/work/init.go",
         "patchSetId": 6
@@ -148,6 +214,24 @@
       "writtenOn": "2022-10-14T21:42:20Z",
       "side": 1,
       "message": "For this CL, please emit an explicit error if the the user explicitly sets `-pgo\u003dauto`.\n\nI think for now that also means that the empty string should fall through to `\"off\"` instead of `\"auto\"`.",
+      "revId": "3d7d067ffb624a9e8d40456c5517d3214775ac69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eaa1ff21_13ebfd9d",
+        "filename": "src/cmd/go/internal/work/init.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-10-24T20:44:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef6e4ed4_f51a1e53",
       "revId": "3d7d067ffb624a9e8d40456c5517d3214775ac69",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -165,6 +249,42 @@
       "writtenOn": "2022-10-14T21:42:20Z",
       "side": 1,
       "message": "(nit) Please use complete sentences for line comments (capitalize and punctuate).",
+      "revId": "3d7d067ffb624a9e8d40456c5517d3214775ac69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "698904b3_e760234e",
+        "filename": "src/cmd/go/internal/work/init.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-10-24T20:44:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32522e4c_189f2b77",
+      "revId": "3d7d067ffb624a9e8d40456c5517d3214775ac69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c94168c_4db91edb",
+        "filename": "src/cmd/go/internal/work/init.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-10-24T20:44:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32522e4c_189f2b77",
       "revId": "3d7d067ffb624a9e8d40456c5517d3214775ac69",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -194,6 +314,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f5538213_5c16fa20",
+        "filename": "src/cmd/go/internal/work/init.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-10-24T20:44:02Z",
+      "side": 1,
+      "message": "Maybe we could leave it here and let the compiler detect. On the other hand, the go command also needs to read it for the content hash. Maybe just detect it here?",
+      "parentUuid": "91591953_31e79c7b",
+      "range": {
+        "startLine": 453,
+        "startChar": 0,
+        "endLine": 457,
+        "endChar": 3
+      },
+      "revId": "3d7d067ffb624a9e8d40456c5517d3214775ac69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d6e4d032_977ef585",
         "filename": "src/cmd/go/testdata/script/build_pgo.txt",
         "patchSetId": 6
@@ -205,6 +349,24 @@
       "writtenOn": "2022-10-14T21:42:20Z",
       "side": 1,
       "message": "It isn\u0027t obvious to me why an empty file would be a valid profile. (Maybe expand this comment a bit?)",
+      "revId": "3d7d067ffb624a9e8d40456c5517d3214775ac69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a87d7ec6_e266e83a",
+        "filename": "src/cmd/go/testdata/script/build_pgo.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-10-24T20:44:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6e4d032_977ef585",
       "revId": "3d7d067ffb624a9e8d40456c5517d3214775ac69",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -222,6 +384,24 @@
       "writtenOn": "2022-10-14T21:42:20Z",
       "side": 1,
       "message": "Perhaps also check that `go list -json\u003dBuildID` reports the same ID for the same profile contents, and a different ID with different contents?",
+      "revId": "3d7d067ffb624a9e8d40456c5517d3214775ac69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0b9a6f8_46fa2d19",
+        "filename": "src/cmd/go/testdata/script/build_pgo.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-10-24T20:44:02Z",
+      "side": 1,
+      "message": "Is there a way to test two command outputs are same in the script? Or we need a go test? Thanks.",
+      "parentUuid": "566cb6be_3c9f2990",
       "revId": "3d7d067ffb624a9e8d40456c5517d3214775ac69",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
