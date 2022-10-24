@@ -16,6 +16,24 @@
       "message": "Fixed commit message and rebased on top of master",
       "revId": "6f6e8883e49d4659b18f1413faea8e8a8b8d7a5c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4969b9b8_aafdc064",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2022-10-24T12:13:26Z",
+      "side": 1,
+      "message": "Thank you, rebased to fix the CI failure.",
+      "parentUuid": "74a35778_dac1d4ad",
+      "revId": "6f6e8883e49d4659b18f1413faea8e8a8b8d7a5c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
