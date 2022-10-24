@@ -162,6 +162,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2bb9d0d7_5efd00bc",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-10-24T02:08:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77785c5a_82a1dbac",
+      "revId": "f7dd3620e72aa276dea1f15c9fbee940a84c9a03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e7977d09_a0b27448",
@@ -179,6 +197,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "00ca85a1_9f8283a4",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1053,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-10-24T02:08:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7977d09_a0b27448",
+      "revId": "f7dd3620e72aa276dea1f15c9fbee940a84c9a03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "41981572_f0573d62",
@@ -192,6 +228,24 @@
       "writtenOn": "2022-10-21T20:33:49Z",
       "side": 1,
       "message": "It looks to me for LDST it should be IMAGE_REL_ARM64_PAGEOFFSET_12L ?\nhttps://learn.microsoft.com/en-us/windows/win32/debug/pe-format",
+      "revId": "f7dd3620e72aa276dea1f15c9fbee940a84c9a03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6589c939_c11e64d4",
+        "filename": "src/cmd/link/internal/arm64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 688,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-10-24T02:08:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41981572_f0573d62",
       "revId": "f7dd3620e72aa276dea1f15c9fbee940a84c9a03",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
