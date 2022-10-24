@@ -178,6 +178,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0db383ef_6213e67d",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 33
+      },
+      "lineNbr": 772,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-10-24T21:03:10Z",
+      "side": 1,
+      "message": "Good point, just want to note that we even a page on that: https://go.dev/wiki/Spelling.",
+      "parentUuid": "cbca695c_70700e2f",
+      "revId": "d3b149ec117e7bef09c7d0482f3eceac7f26ebfd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "48fb4533_13c552b3",
