@@ -16,6 +16,23 @@
       "message": "Updated with the latest code review changes.",
       "revId": "3581c0e97cd8e5672e2a6391107341d8b9ffa234",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "23ac58bf_a998c6f1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 59708
+      },
+      "writtenOn": "2022-10-24T21:53:37Z",
+      "side": 1,
+      "message": "Hi, is there anything else I can do to help get this change approved?\nThank you!",
+      "revId": "3581c0e97cd8e5672e2a6391107341d8b9ffa234",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
