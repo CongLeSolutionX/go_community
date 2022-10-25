@@ -53,6 +53,24 @@
       "message": "Benchmarking this too, though I think there\u0027s a case to be made for doing this anyhow.  Does it require the prior CLs to work?",
       "revId": "3487ac2228e8ff3b599dfe9bea476713ede2c187",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89a17089_9973f9d0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2022-10-25T14:52:25Z",
+      "side": 1,
+      "message": "This CL had originally required the Value/Block allocator CL because I wasn\u0027t zeroing the slices in the Pool. I changed that though, so the Value/Block CL is no longer required.",
+      "parentUuid": "82f6afd4_9cbd3956",
+      "revId": "3487ac2228e8ff3b599dfe9bea476713ede2c187",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
