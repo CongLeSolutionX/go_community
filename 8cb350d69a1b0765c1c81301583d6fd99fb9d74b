@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "554fb3a6_5c957eea",
+        "filename": "src/cmd/dist/buildtool.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-10-25T16:20:09Z",
+      "side": 0,
+      "message": "The comment changes in this CL are fine, but this code change is not. \nWe are going to keep looking for the bootstrap Go toolchain in $HOME/go1.4\nbecause that path is hard-coded in too many places that build Go.",
+      "revId": "8cb350d69a1b0765c1c81301583d6fd99fb9d74b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
