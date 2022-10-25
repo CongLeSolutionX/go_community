@@ -72,6 +72,24 @@
       "message": "Some comments in this file would be nice, especially on the data.",
       "revId": "c06794bbb66ccddb00bd98461086c1fb513a57bd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7eadf85d_660780e3",
+        "filename": "src/cmd/go/internal/vcweb/svn.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-25T13:21:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb6096e0_b9c9fbd3",
+      "revId": "c06794bbb66ccddb00bd98461086c1fb513a57bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
