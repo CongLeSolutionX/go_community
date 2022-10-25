@@ -73,6 +73,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "e997f8e2_f8717a9d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-10-25T15:23:17Z",
+      "side": 1,
+      "message": "Anyhow, I created a contrived benchmark to call getpid via syscall6 in a loop to investigate (and look at SCV again). Hopefully that is representative of the shortest syscall.\n\nThis is a hair faster on P9. I consistently observed something like 260 vs 263 nS per call.",
+      "parentUuid": "0924e982_0089d4b8",
+      "revId": "0850eda491c5a51103fa5b9c4c054d656a95a75a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "6aed531f_c3c6164d",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
