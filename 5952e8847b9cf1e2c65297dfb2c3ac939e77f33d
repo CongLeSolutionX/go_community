@@ -16,6 +16,23 @@
       "message": "Here is the page where flag.Example() is renamed to `main`:\n\nhttps://pkg.go.dev/flag#example-package",
       "revId": "5952e8847b9cf1e2c65297dfb2c3ac939e77f33d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4c48898_e8360234",
+        "filename": "src/flag/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-10-25T20:17:16Z",
+      "side": 1,
+      "message": "You\u0027re referring to how a function named Example appears in pkg.go.dev, not the playground. Let\u0027s explain it better, if that\u0027s important. Is it though?\n\nWe don\u0027t call flag.Parse here because this code is a function called \"Example\" that is part of the testing suite for the package, which has already parsed the flags. When viewed at pkg.go.dev, however, the function is renamed \"main\" and it could be run as a standalone example.",
+      "revId": "5952e8847b9cf1e2c65297dfb2c3ac939e77f33d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
