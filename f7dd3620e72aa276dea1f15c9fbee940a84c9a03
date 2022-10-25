@@ -266,6 +266,24 @@
       "parentUuid": "6589c939_c11e64d4",
       "revId": "f7dd3620e72aa276dea1f15c9fbee940a84c9a03",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a49bfb3_939db7c8",
+        "filename": "src/cmd/link/internal/arm64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 688,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-10-25T16:38:46Z",
+      "side": 1,
+      "message": "I think on Windows, the addend needs to be written into the instruction, and it is at different bits in ADD vs. LDR/STR. The code in archreloc probably needs change.",
+      "parentUuid": "0eed7410_f67219e7",
+      "revId": "f7dd3620e72aa276dea1f15c9fbee940a84c9a03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
