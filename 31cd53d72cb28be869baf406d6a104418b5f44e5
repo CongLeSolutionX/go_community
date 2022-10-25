@@ -53,6 +53,24 @@
       "message": "I\u0027m running a build benchmark on this, though it looks like a good idea as it stands.",
       "revId": "31cd53d72cb28be869baf406d6a104418b5f44e5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "93ad0d29_89f42e8d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-10-25T01:29:39Z",
+      "side": 1,
+      "message": "The build benchmark results were not inspiring for this benchmark.\nhttps://perf.golang.org/search?q\u003dupload:20221024.12\nI don\u0027t see a case where it would be extra-helpful for very-large inputs either.\nI\u0027m not sure it\u0027s worth it.",
+      "parentUuid": "61f2bf1b_04c7e8b8",
+      "revId": "31cd53d72cb28be869baf406d6a104418b5f44e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
