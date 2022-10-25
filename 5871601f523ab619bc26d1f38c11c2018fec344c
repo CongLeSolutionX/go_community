@@ -99,6 +99,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7b23f96_bf73efb6",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 45
+      },
+      "lineNbr": 1818,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-25T21:00:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb8648bc_b6d39048",
+      "range": {
+        "startLine": 1818,
+        "startChar": 4,
+        "endLine": 1818,
+        "endChar": 37
+      },
+      "revId": "5871601f523ab619bc26d1f38c11c2018fec344c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c088e402_4ee0ad1a",
@@ -135,6 +159,30 @@
       "writtenOn": "2022-10-25T19:05:59Z",
       "side": 1,
       "message": "add a cgo condition.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 12
+      },
+      "revId": "5871601f523ab619bc26d1f38c11c2018fec344c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7597467_ec8e8997",
+        "filename": "src/cmd/go/testdata/script/install_goroot_targets.txt",
+        "patchSetId": 45
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-25T21:00:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0a3d295_e2c8bf80",
       "range": {
         "startLine": 1,
         "startChar": 0,
