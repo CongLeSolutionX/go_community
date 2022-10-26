@@ -72,6 +72,24 @@
       "message": "I seem to have hit #56276 in the trybot.",
       "revId": "e4d54f9a1b71600cbb6a441e07804d241d457838",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce11c197_1b35696e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-10-26T17:55:18Z",
+      "side": 1,
+      "message": "I think it is OK to ignore aix. It hit #56276. This is still testing BE via ppc64.",
+      "parentUuid": "10e1c87c_b11a3b42",
+      "revId": "e4d54f9a1b71600cbb6a441e07804d241d457838",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
