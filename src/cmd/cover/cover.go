@@ -74,7 +74,7 @@ var (
 
 var pkgconfig coverage.CoverPkgConfig
 
-var outputfiles []string // set whe -pkgcfg is in use
+var outputfiles []string // set when -pkgcfg is in use
 
 var profile string // The profile to read; the value of -html or -func
 
@@ -483,6 +483,11 @@ func (f *File) postFunc(fn ast.Node, funcname string, flit bool, body *ast.Block
 	fnpos := f.fset.Position(fn.Pos())
 	ppath := pkgconfig.PkgPath
 	filename := ppath + "/" + filepath.Base(fnpos.Filename)
+
+	// See issue #56433 for more on why this is needed.
+	if pkgconfig.Local {
+		filename = f.name
+	}
 
 	// Hand off function to meta-data builder.
 	fd := coverage.FuncDesc{
