@@ -284,6 +284,24 @@
       "parentUuid": "0eed7410_f67219e7",
       "revId": "f7dd3620e72aa276dea1f15c9fbee940a84c9a03",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a99004b_855263c8",
+        "filename": "src/cmd/link/internal/arm64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 688,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-10-26T07:22:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a49bfb3_939db7c8",
+      "revId": "f7dd3620e72aa276dea1f15c9fbee940a84c9a03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
