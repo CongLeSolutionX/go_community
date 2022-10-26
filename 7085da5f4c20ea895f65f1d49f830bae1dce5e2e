@@ -16,6 +16,24 @@
       "message": "Minor nit: this is an old comment but it could say something like \u003e32 bit constants are generated in memory, \u003c\u003d 32 bit constants generated with multiple immediate register loads.",
       "revId": "7085da5f4c20ea895f65f1d49f830bae1dce5e2e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "82c4cf4c_95bba7c3",
+        "filename": "src/cmd/internal/obj/ppc64/obj9.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-10-26T16:42:31Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "42bf139e_e66b55f8",
+      "revId": "7085da5f4c20ea895f65f1d49f830bae1dce5e2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
