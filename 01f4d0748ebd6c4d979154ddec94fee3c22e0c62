@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63988d44_e12e060b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-10-26T23:58:05Z",
+      "side": 1,
+      "message": "This has gotten quite complicated. I\u0027m dubious that the tradeoff of significantly increasing the complexity of a debug function for a reduction in allocations is worth it.\n\nI think that while we\u0027d consider small changes to httputil.Dump* to reduce allocations, simplicity is more important than performance here.",
+      "revId": "01f4d0748ebd6c4d979154ddec94fee3c22e0c62",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
