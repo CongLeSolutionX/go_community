@@ -132,6 +132,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0d03aca7_4594fe2a",
+        "filename": "src/internal/testenv/testenv.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-26T16:11:48Z",
+      "side": 1,
+      "message": "Now that #50436 is implemented, CL 445596 contains a proper `interna/testenv` implementation of this approach. 😃",
+      "parentUuid": "28ab23f4_ec107c95",
+      "revId": "ce7ae24ab211765921a60e6c15f594da8ec3be66",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f4a3f18c_450622c5",
         "filename": "src/internal/testenv/testenv.go",
         "patchSetId": 3
