@@ -309,6 +309,24 @@
       "message": "Push this to the caller side? (It\u0027s not clear to me why this needs to be a package variable.)\n\n```\nif buildinternal.NeedsInstalledDotA(path) ||\n\tcfg.BuildBuildmode \u003d\u003d \"shared\" || cfg.BuildLinkshared {\n```",
       "revId": "fbf2c74dd7a5c04d66b30dbbf8e4439e05025f52",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e5363fd_24f4aaa1",
+        "filename": "src/internal/buildinternal/needs_install.go",
+        "patchSetId": 60
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-27T17:38:25Z",
+      "side": 1,
+      "message": "It\u0027s used in go/build, which doesn\u0027t have access to the cfg package.",
+      "parentUuid": "30cbfb87_3c2af378",
+      "revId": "fbf2c74dd7a5c04d66b30dbbf8e4439e05025f52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
