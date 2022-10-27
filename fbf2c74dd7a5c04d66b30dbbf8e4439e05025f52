@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "774d217a_8c4dd87c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 60
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-27T16:07:21Z",
+      "side": 1,
+      "message": "“For #47257.”?",
+      "revId": "fbf2c74dd7a5c04d66b30dbbf8e4439e05025f52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b5191a36_33bc8399",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 60
@@ -90,6 +107,52 @@
       "side": 1,
       "message": "\u003e 2 of 32 SlowBots failed.\n\u003e Failed on linux-amd64-nounified: https://storage.googleapis.com/go-build-log/fbf2c74d/linux-amd64-nounified_1f37dea5.log\n\nI think this just needs an importcfg file: it is invoking `go tool compile` and `go tool link`, and the `link` steps need to find the correct location for `runtime.a`.\n\nThe reason the failure isn\u0027t showing up on the other builders is because the test is skipped basically everywhere else:\nhttps://cs.opensource.google/go/go/+/master:src/cmd/link/link_test.go;l\u003d1096-1098;drc\u003d7ea0520234aafb47d05bb4822cb7af54c6ac7554\n\n\n\u003e Failed on linux-amd64-longtest: https://storage.googleapis.com/go-build-log/fbf2c74d/linux-amd64-longtest_986d0052.log\n\n```\n            \u003e exec /usr/bin/env bash -x test.sh\n            [stdout]\n            /workdir/go/src/internal/reflectlite/swapper.go:9:2: could not import internal/unsafeheader (open $WORK/b022/_pkg_.a: no such file or directory)\n```\n\nI don\u0027t know what\u0027s going on here. The script clearly writes that file earlier on:\n```\n            /workdir/go/pkg/tool/linux_amd64/compile -o $WORK/b022/_pkg_.a -trimpath \"$WORK/b022\u003d\u003e\" -p internal/unsafeheader -std -complete -buildid Wm1tX3WB93wey7PjIlZo/Wm1tX3WB93wey7PjIlZo -c\u003d4 -nolocalimports -importcfg $WORK/b022/importcfg -pack /workdir/go/src/internal/unsafeheader/unsafeheader.go\n            /workdir/go/pkg/tool/linux_amd64/buildid -w $WORK/b023/_pkg_.a # internal\n            cp $WORK/b023/_pkg_.a /workdir/tmp/cmd-go-test-3713553710/tmpdir2543117927/build_dash_x3670831120/tmp/cache/60/60a6e70bd8091cee031bee38b0732c4150bfbcbd878d2149ed182fa8a0a6df2f-d # internal\n            /workdir/go/pkg/tool/linux_amd64/buildid -w $WORK/b022/_pkg_.a # internal\n```",
       "parentUuid": "8d261770_97fa19ef",
+      "revId": "fbf2c74dd7a5c04d66b30dbbf8e4439e05025f52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de6beba4_1364aa15",
+        "filename": "misc/cgo/testshared/shared_test.go",
+        "patchSetId": 60
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-27T16:07:21Z",
+      "side": 1,
+      "message": "s/deternmining/determining/",
+      "range": {
+        "startLine": 37,
+        "startChar": 90,
+        "endLine": 37,
+        "endChar": 102
+      },
+      "revId": "fbf2c74dd7a5c04d66b30dbbf8e4439e05025f52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05285576_890e8e68",
+        "filename": "misc/cgo/testshared/shared_test.go",
+        "patchSetId": 60
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-27T16:07:21Z",
+      "side": 1,
+      "message": "Instead of using `mycontext.Import`, can we identify `gorootInstallDir` using `go list` after we run the `go install` step?\n\nI see the following behavior in local testing:\n\n```\n/tmp/goroot/go/src$ ../bin/go list -buildmode\u003dshared -json\u003dShlib runtime sync/atomic\n{}\n{}\n\n/tmp/goroot/go/src$ ../bin/go install -buildmode\u003dshared runtime sync/atomic\n\n/tmp/goroot/go/src$ ../bin/go list -linkshared -json\u003dShlib runtime sync/atomic\n{\n        \"Shlib\": \"/tmp/goroot/go/pkg/linux_amd64_dynlink/libruntime,sync-atomic.so\"\n}\n{\n        \"Shlib\": \"/tmp/goroot/go/pkg/linux_amd64_dynlink/libruntime,sync-atomic.so\"\n}\n```\n\nSo I think we could do:\n1. Run the `go install` at line 165.\n2. Then run `go list -linkshared -f \u0027{{.Shlib}}\u0027 runtime`.\n3. Check that the output is non-empty, and then send it through `filepath.Dir` to identify `gorootInstallDir`.\n\nAnd then we can drop the changes involving `runtimeCgoPkg`, since we shouldn\u0027t need to refer to that package explicitly.",
+      "range": {
+        "startLine": 156,
+        "startChar": 0,
+        "endLine": 160,
+        "endChar": 58
+      },
       "revId": "fbf2c74dd7a5c04d66b30dbbf8e4439e05025f52",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
