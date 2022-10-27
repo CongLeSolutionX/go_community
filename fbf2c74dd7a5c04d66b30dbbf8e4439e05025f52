@@ -36,6 +36,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "94d6cf28_52b18396",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 60
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-27T18:49:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "774d217a_8c4dd87c",
+      "revId": "fbf2c74dd7a5c04d66b30dbbf8e4439e05025f52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b5191a36_33bc8399",
@@ -176,6 +194,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce91c944_9b723954",
+        "filename": "misc/cgo/testshared/shared_test.go",
+        "patchSetId": 60
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-27T18:49:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de6beba4_1364aa15",
+      "range": {
+        "startLine": 37,
+        "startChar": 90,
+        "endLine": 37,
+        "endChar": 102
+      },
+      "revId": "fbf2c74dd7a5c04d66b30dbbf8e4439e05025f52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "05285576_890e8e68",
@@ -199,6 +241,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d706e30_8d8e6e0b",
+        "filename": "misc/cgo/testshared/shared_test.go",
+        "patchSetId": 60
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-27T18:49:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "05285576_890e8e68",
+      "range": {
+        "startLine": 156,
+        "startChar": 0,
+        "endLine": 160,
+        "endChar": 58
+      },
+      "revId": "fbf2c74dd7a5c04d66b30dbbf8e4439e05025f52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6bc62166_5d26eebb",
@@ -212,6 +278,24 @@
       "writtenOn": "2022-10-27T17:27:14Z",
       "side": 1,
       "message": "(nit) It looks like `id` is invariantly equal to `bp.ImportPath` at the exit from the `default` case, so maybe factor it out for clarity?\n\n```\nif bp.PkgObj \u003d\u003d \"\" {\n\t…\n\tif !ok {\n\t\tid \u003d path // …\n\t\treturn\n\t}\n} else {\n\tnoext \u003d strings.TrimSuffix(bp.PkgObj, \".a\")\n}\nid \u003d bp.ImportPath\n```",
+      "revId": "fbf2c74dd7a5c04d66b30dbbf8e4439e05025f52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee2e2b51_3ba603f2",
+        "filename": "src/cmd/compile/internal/importer/gcimporter.go",
+        "patchSetId": 60
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-27T18:49:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bc62166_5d26eebb",
       "revId": "fbf2c74dd7a5c04d66b30dbbf8e4439e05025f52",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -274,6 +358,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d8d4625_bd06415d",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 60
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-27T18:49:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88e8cb2c_f348e2b0",
+      "range": {
+        "startLine": 727,
+        "startChar": 0,
+        "endLine": 728,
+        "endChar": 50
+      },
+      "revId": "fbf2c74dd7a5c04d66b30dbbf8e4439e05025f52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3f6c7735_c90feacb",
@@ -287,6 +395,30 @@
       "writtenOn": "2022-10-27T17:27:14Z",
       "side": 1,
       "message": "Conceptually I think this belongs with the two `p.Name !\u003d \"main\"` cases above. Come to think of it, we *do* want to ensure that packages named `main` in `GOROOT/src` have install targets!\n\nSo, probably:\n```\ncase p.Name !\u003d \"main\" \u0026\u0026 p.Standard \u0026\u0026 !buildinternal.NeedsInstalledDotA(p.ImportPath):\n```",
+      "range": {
+        "startLine": 742,
+        "startChar": 0,
+        "endLine": 744,
+        "endChar": 33
+      },
+      "revId": "fbf2c74dd7a5c04d66b30dbbf8e4439e05025f52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9494b25_191969e6",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 60
+      },
+      "lineNbr": 744,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-27T18:49:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f6c7735_c90feacb",
       "range": {
         "startLine": 742,
         "startChar": 0,
@@ -314,6 +446,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a8ca530_b6cce215",
+        "filename": "src/go/internal/gcimporter/gcimporter.go",
+        "patchSetId": 60
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-27T18:49:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "78128cbf_c2b0e750",
+      "revId": "fbf2c74dd7a5c04d66b30dbbf8e4439e05025f52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6d39345a_77c8a5e4",
@@ -337,6 +487,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd43c742_8567abe1",
+        "filename": "src/go/types/example_test.go",
+        "patchSetId": 60
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-27T18:49:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d39345a_77c8a5e4",
+      "range": {
+        "startLine": 8,
+        "startChar": 11,
+        "endLine": 8,
+        "endChar": 25
+      },
+      "revId": "fbf2c74dd7a5c04d66b30dbbf8e4439e05025f52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2c5dc154_2c28c7ad",
@@ -350,6 +524,24 @@
       "writtenOn": "2022-10-27T17:27:14Z",
       "side": 1,
       "message": "add copyright header",
+      "revId": "fbf2c74dd7a5c04d66b30dbbf8e4439e05025f52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a17c259_11c39e19",
+        "filename": "src/internal/buildinternal/needs_install.go",
+        "patchSetId": 60
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-27T18:49:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c5dc154_2c28c7ad",
       "revId": "fbf2c74dd7a5c04d66b30dbbf8e4439e05025f52",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
