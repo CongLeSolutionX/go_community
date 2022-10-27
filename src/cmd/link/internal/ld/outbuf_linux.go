@@ -7,5 +7,17 @@ package ld
 import "syscall"
 
 func (out *OutBuf) fallocate(size uint64) error {
-	return syscall.Fallocate(int(out.f.Fd()), 0, 0, int64(size))
+	var st syscall.Stat_t
+
+	err := syscall.Fstat(int(out.f.Fd()), &st)
+	if err != nil {
+		return err
+	}
+
+	cursize := uint64(st.Blocks) * 512
+	if size <= cursize {
+		return nil
+	}
+
+	return syscall.Fallocate(int(out.f.Fd()), 0, int64(cursize), int64(size-cursize))
 }
