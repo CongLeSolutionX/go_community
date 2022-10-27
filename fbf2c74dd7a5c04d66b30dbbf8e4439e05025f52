@@ -335,6 +335,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "109891e8_6189a189",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 60
+      },
+      "lineNbr": 1810,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-27T20:09:32Z",
+      "side": 1,
+      "message": "Discussed an alternative test that uses packages that still have installed .as: net (and runtime/cgo)",
+      "parentUuid": "9774884e_4072d3d9",
+      "revId": "fbf2c74dd7a5c04d66b30dbbf8e4439e05025f52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "88e8cb2c_f348e2b0",
@@ -577,6 +595,24 @@
       "side": 1,
       "message": "It\u0027s used in go/build, which doesn\u0027t have access to the cfg package.",
       "parentUuid": "30cbfb87_3c2af378",
+      "revId": "fbf2c74dd7a5c04d66b30dbbf8e4439e05025f52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f0d4d2d_2ecf1916",
+        "filename": "src/internal/buildinternal/needs_install.go",
+        "patchSetId": 60
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-27T20:09:32Z",
+      "side": 1,
+      "message": "We\u0027re changing how the paths to shlibs and other shared artifacts are created, discussed offline.",
+      "parentUuid": "0e5363fd_24f4aaa1",
       "revId": "fbf2c74dd7a5c04d66b30dbbf8e4439e05025f52",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
