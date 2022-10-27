@@ -3,6 +3,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "94277089_00164cb1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-10-27T22:17:22Z",
+      "side": 1,
+      "message": "I think this refers https://cs.opensource.google/go/go/+/master:src/cmd/internal/obj/arm64/obj7.go;l\u003d439\nThis code is used in -dynlink mode, so the it should be Flag_dynlink instead of Flag_shared (sorry).\n\nI think the argument might still apply -- if we do a load from a global variable with a large offset in -dynlink mode, it may still fail. But apparently it\u0027s been like that all the time, so it is probably okay to just drop the condition. It is also fine if you want to correct it to Flag_dynlink. Thanks.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 40
+      },
+      "revId": "60beb44c4a43e9fb587c3ab5adcf2af7b711f9c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed5a7308_3441b407",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-10-27T22:17:22Z",
+      "side": 1,
+      "message": "R16 and R17 are used for PLT call stubs but not for accessing the GOT for the address of a global variable.",
+      "range": {
+        "startLine": 13,
+        "startChar": 18,
+        "endLine": 14,
+        "endChar": 22
+      },
+      "revId": "60beb44c4a43e9fb587c3ab5adcf2af7b711f9c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d986c2c5_c938051d",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
