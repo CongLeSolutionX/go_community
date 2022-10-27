@@ -338,6 +338,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0510fce6_bf90d069",
+        "filename": "src/cmd/go/internal/work/init.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-27T17:52:43Z",
+      "side": 1,
+      "message": "I would rather avoid the overhead of opening the file — and the risk of failing a command spuriously — if the file might turn out to be irrelevant.\n\nI\u0027m thinking of cases like `go env` or `go list` where one might pass the build flags in `GOFLAGS` or generated flags to pass via a script even though some of them might not matter.\n\nThat\u0027s especially true if we make `go list` avoid more unnecessary work (see #29666).",
+      "parentUuid": "f5538213_5c16fa20",
+      "range": {
+        "startLine": 453,
+        "startChar": 0,
+        "endLine": 457,
+        "endChar": 3
+      },
+      "revId": "3d7d067ffb624a9e8d40456c5517d3214775ac69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d6e4d032_977ef585",
         "filename": "src/cmd/go/testdata/script/build_pgo.txt",
         "patchSetId": 6
@@ -402,6 +426,24 @@
       "side": 1,
       "message": "Is there a way to test two command outputs are same in the script? Or we need a go test? Thanks.",
       "parentUuid": "566cb6be_3c9f2990",
+      "revId": "3d7d067ffb624a9e8d40456c5517d3214775ac69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7733d149_aebd5469",
+        "filename": "src/cmd/go/testdata/script/build_pgo.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-27T17:52:43Z",
+      "side": 1,
+      "message": "You can `cp stdout list.out` and then `cmp stdout list.out` or similar.",
+      "parentUuid": "c0b9a6f8_46fa2d19",
       "revId": "3d7d067ffb624a9e8d40456c5517d3214775ac69",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
