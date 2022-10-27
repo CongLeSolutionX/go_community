@@ -16,6 +16,24 @@
       "message": "This has gotten quite complicated. I\u0027m dubious that the tradeoff of significantly increasing the complexity of a debug function for a reduction in allocations is worth it.\n\nI think that while we\u0027d consider small changes to httputil.Dump* to reduce allocations, simplicity is more important than performance here.",
       "revId": "01f4d0748ebd6c4d979154ddec94fee3c22e0c62",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e151dcc_5555caf2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 56493
+      },
+      "writtenOn": "2022-10-27T20:17:06Z",
+      "side": 1,
+      "message": "As an alternative approach, would you feel handling this in a circular buffer might reduce the complexity? I\u0027d like to determine if we could arrive to a solution that would be reasonably maintainable. The approach I had taken here was what I thought would be easier to understand or maintain.\n\nI understand the sentiment that this is a debug facility, but there are cases where users may be attempting to capture debugging information where the payload is on the order of gigabytes. So having to have the memory allowance in such scenarios ca be frustrating, and potentially just unexpected for users.",
+      "parentUuid": "63988d44_e12e060b",
+      "revId": "01f4d0748ebd6c4d979154ddec94fee3c22e0c62",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
