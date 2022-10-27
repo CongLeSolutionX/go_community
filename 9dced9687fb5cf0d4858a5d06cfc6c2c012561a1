@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94ed4f16_66af236d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-10-27T14:43:55Z",
+      "side": 1,
+      "message": "I\u0027m not sure this is what we want. We need to ensure the entire file has backing storage. Here it is not obvious to me that it has backing storage up to the current size, and we only need to allocate for the end.\n\nI also don\u0027t think the benchmark is relevant, as it is not what the linker does. The linker doesn\u0027t grow the file many times.\n\nSee also the discussion on the issue. Thanks.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 74
+      },
+      "revId": "9dced9687fb5cf0d4858a5d06cfc6c2c012561a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
