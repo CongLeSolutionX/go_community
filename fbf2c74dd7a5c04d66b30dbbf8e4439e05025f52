@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3c972a7_f8cae17b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 60
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-27T17:50:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "774d217a_8c4dd87c",
+      "revId": "fbf2c74dd7a5c04d66b30dbbf8e4439e05025f52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b5191a36_33bc8399",
@@ -124,6 +142,30 @@
       "writtenOn": "2022-10-27T16:07:21Z",
       "side": 1,
       "message": "s/deternmining/determining/",
+      "range": {
+        "startLine": 37,
+        "startChar": 90,
+        "endLine": 37,
+        "endChar": 102
+      },
+      "revId": "fbf2c74dd7a5c04d66b30dbbf8e4439e05025f52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f214950a_90514aa1",
+        "filename": "misc/cgo/testshared/shared_test.go",
+        "patchSetId": 60
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-27T17:50:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de6beba4_1364aa15",
       "range": {
         "startLine": 37,
         "startChar": 90,
