@@ -235,6 +235,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9774884e_4072d3d9",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 60
+      },
+      "lineNbr": 1810,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-27T18:43:34Z",
+      "side": 1,
+      "message": "Per out-of-band discussion: maybe change the test to check the location of `runtime/cgo` instead, and change `(*load.Package).copyBuild` to only rewrite `PkgObj` if it is non-empty?",
+      "parentUuid": "4feb6034_38380118",
+      "revId": "fbf2c74dd7a5c04d66b30dbbf8e4439e05025f52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "88e8cb2c_f348e2b0",
         "filename": "src/cmd/go/internal/work/build.go",
         "patchSetId": 60
