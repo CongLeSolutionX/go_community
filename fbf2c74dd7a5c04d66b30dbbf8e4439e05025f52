@@ -155,6 +155,160 @@
       },
       "revId": "fbf2c74dd7a5c04d66b30dbbf8e4439e05025f52",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6bc62166_5d26eebb",
+        "filename": "src/cmd/compile/internal/importer/gcimporter.go",
+        "patchSetId": 60
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-27T17:27:14Z",
+      "side": 1,
+      "message": "(nit) It looks like `id` is invariantly equal to `bp.ImportPath` at the exit from the `default` case, so maybe factor it out for clarity?\n\n```\nif bp.PkgObj \u003d\u003d \"\" {\n\t…\n\tif !ok {\n\t\tid \u003d path // …\n\t\treturn\n\t}\n} else {\n\tnoext \u003d strings.TrimSuffix(bp.PkgObj, \".a\")\n}\nid \u003d bp.ImportPath\n```",
+      "revId": "fbf2c74dd7a5c04d66b30dbbf8e4439e05025f52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4feb6034_38380118",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 60
+      },
+      "lineNbr": 1810,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-27T17:27:14Z",
+      "side": 1,
+      "message": "I\u0027m not convinced that a `GODEBUG` setting should be needed for this test.\n\n(Probably a non-empty `-pkgdir` setting should imply `installgoroot\u003dall` automatically?)",
+      "revId": "fbf2c74dd7a5c04d66b30dbbf8e4439e05025f52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88e8cb2c_f348e2b0",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 60
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-27T17:27:14Z",
+      "side": 1,
+      "message": "(nit) I think this case can be folded into the new one?",
+      "range": {
+        "startLine": 727,
+        "startChar": 0,
+        "endLine": 728,
+        "endChar": 50
+      },
+      "revId": "fbf2c74dd7a5c04d66b30dbbf8e4439e05025f52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f6c7735_c90feacb",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 60
+      },
+      "lineNbr": 744,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-27T17:27:14Z",
+      "side": 1,
+      "message": "Conceptually I think this belongs with the two `p.Name !\u003d \"main\"` cases above. Come to think of it, we *do* want to ensure that packages named `main` in `GOROOT/src` have install targets!\n\nSo, probably:\n```\ncase p.Name !\u003d \"main\" \u0026\u0026 p.Standard \u0026\u0026 !buildinternal.NeedsInstalledDotA(p.ImportPath):\n```",
+      "range": {
+        "startLine": 742,
+        "startChar": 0,
+        "endLine": 744,
+        "endChar": 33
+      },
+      "revId": "fbf2c74dd7a5c04d66b30dbbf8e4439e05025f52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78128cbf_c2b0e750",
+        "filename": "src/go/internal/gcimporter/gcimporter.go",
+        "patchSetId": 60
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-27T17:27:14Z",
+      "side": 1,
+      "message": "(same here as in cmd/compile/internal/importer)",
+      "revId": "fbf2c74dd7a5c04d66b30dbbf8e4439e05025f52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d39345a_77c8a5e4",
+        "filename": "src/go/types/example_test.go",
+        "patchSetId": 60
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-27T17:27:14Z",
+      "side": 1,
+      "message": "(nit) The existing condition looks increasingly imprecise: we have builders for `linux/arm`, `darwin/arm64`, and `windows/arm64` that all have perfectly fine access to compiled packages, and we have configurations for `ios/amd64` and `android/amd64` to support emulators that probably shouldn\u0027t have export data in the test environment.\n\nProbably this should explicitly exclude only the mobile platforms:\n\n```\n//go:build !android \u0026\u0026 !ios \u0026\u0026 !js\n```",
+      "range": {
+        "startLine": 8,
+        "startChar": 11,
+        "endLine": 8,
+        "endChar": 25
+      },
+      "revId": "fbf2c74dd7a5c04d66b30dbbf8e4439e05025f52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c5dc154_2c28c7ad",
+        "filename": "src/internal/buildinternal/needs_install.go",
+        "patchSetId": 60
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-27T17:27:14Z",
+      "side": 1,
+      "message": "add copyright header",
+      "revId": "fbf2c74dd7a5c04d66b30dbbf8e4439e05025f52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30cbfb87_3c2af378",
+        "filename": "src/internal/buildinternal/needs_install.go",
+        "patchSetId": 60
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-27T17:27:14Z",
+      "side": 1,
+      "message": "Push this to the caller side? (It\u0027s not clear to me why this needs to be a package variable.)\n\n```\nif buildinternal.NeedsInstalledDotA(path) ||\n\tcfg.BuildBuildmode \u003d\u003d \"shared\" || cfg.BuildLinkshared {\n```",
+      "revId": "fbf2c74dd7a5c04d66b30dbbf8e4439e05025f52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
