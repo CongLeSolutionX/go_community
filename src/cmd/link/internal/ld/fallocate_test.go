@@ -63,3 +63,65 @@ func TestFallocate(t *testing.T) {
 		out.munmap()
 	}
 }
+
+func BenchmarkFallocate(b *testing.B) {
+	dir := b.TempDir()
+	filename := filepath.Join(dir, "a.out")
+	out := NewOutBuf(nil)
+
+	err := out.Open(filename)
+	if err != nil {
+		b.Fatalf("Open file failed: %v", err)
+	}
+	defer out.Close()
+
+	for {
+		err = out.fallocate(100 << 20)
+		if err == syscall.EOPNOTSUPP {
+			b.Skip("fallocate is not supported")
+		}
+		if err == syscall.EINTR {
+			continue
+		}
+		if err != nil {
+			b.Fatalf("fallocate failed: %v", err)
+		}
+		out.Close()
+		os.Remove(filename)
+		break
+	}
+
+	var fsize = []int64{
+		100, 200, 500, 800, 1000, 1234, 2030, 4567, 5600, 5710, 6620,
+		6643, 8000, 9012, 10010, 10240, 12010, 12345, 20000, 28000,
+		35000, 53000, 54321, 65535, 81020, 88050, 100200, 110010, 111000,
+		111100, 118100, 168200, 1682200, 10682200, 10882200, 20682200,
+		20692200, 31698200, 40691200, 48691200, 50730000, 83886080,
+	}
+
+	b.ResetTimer()
+	for j := 0; j < b.N; j++ {
+		err := out.Open(filename)
+		if err != nil {
+			b.Fatalf("Open file failed: %v", err)
+		}
+		defer out.Close()
+
+		for _, sz := range fsize {
+			err = out.Mmap(uint64(sz))
+			if err != nil {
+				b.Fatalf("fallocate failed: %v", err)
+			}
+			stat, err := os.Stat(filename)
+			if err != nil {
+				b.Fatalf("Stat failed: %v", err)
+			}
+			if got, want := stat.Sys().(*syscall.Stat_t).Blocks, (sz+511)/512; got < want {
+				b.Errorf("unexpected disk usage: got %d blocks, want at least %d\n", got, want)
+			}
+			out.munmap()
+		}
+		out.Close()
+		os.Remove(filename)
+	}
+}
