@@ -294,7 +294,7 @@ func (v *hairyVisitor) doNode(n ir.Node) bool {
 			// failures (a good example is the TestAllocations in
 			// crypto/ed25519).
 			if isAtomicCoverageCounterUpdate(n) {
-				break
+				return false
 			}
 		}
 		if n.X.Op() == ir.OMETHEXPR {
@@ -497,7 +497,7 @@ func (v *hairyVisitor) doNode(n ir.Node) bool {
 		// then result in test failures (a good example is the
 		// TestAllocations in crypto/ed25519).
 		n := n.(*ir.AssignStmt)
-		if n.X.Op() == ir.OINDEX && isIndexingCoverageCounter(n) {
+		if n.X.Op() == ir.OINDEX && isIndexingCoverageCounter(n.X) {
 			return false
 		}
 	}
@@ -1572,7 +1572,8 @@ func isAtomicCoverageCounterUpdate(cn *ir.CallExpr) bool {
 		return false
 	}
 	fn := name.Sym().Name
-	if name.Sym().Pkg.Path != "sync/atomic" || fn != "AddUint32" {
+	if name.Sym().Pkg.Path != "sync/atomic" ||
+		(fn != "AddUint32" && fn != "StoreUint32") {
 		return false
 	}
 	if len(cn.Args) != 2 || cn.Args[0].Op() != ir.OADDR {
