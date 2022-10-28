@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7eb07b5_73885cb3",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 3242,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-28T15:56:16Z",
+      "side": 1,
+      "message": "`p.Standard` implies `p.Module \u003d\u003d nil`, so this part can simplify to `(p.Module !\u003d nil \u0026\u0026 p.Module.Main)`.",
+      "range": {
+        "startLine": 3242,
+        "startChar": 61,
+        "endLine": 3242,
+        "endChar": 110
+      },
+      "revId": "d398025345118d43a4db4332bbaf32f58fceacad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16ef4667_765fffe1",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 3267,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-28T15:56:16Z",
+      "side": 1,
+      "message": "`!modload.Enabled()` implies `p.Module \u003d\u003d nil` for all packages `p`, in which case `MatchMainModAndCommandLine` decays to become equivalent to `matchCmdLine`. So this whole block could be further simplified to:\n\n```\n} else {\n\t// Without -coverpkg, instrument only packages in the main module\n\t// (if any), as well as packages/files specifically named on the\n\t// command line.\n\tmatch \u003d []func(*Package) bool { matchMainModAndCommandLine }\n}\n```",
+      "range": {
+        "startLine": 3255,
+        "startChar": 0,
+        "endLine": 3267,
+        "endChar": 3
+      },
+      "revId": "d398025345118d43a4db4332bbaf32f58fceacad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c568ef9c_f624861b",
+        "filename": "src/cmd/go/testdata/script/cover_build_cmdline_pkgs.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-28T15:56:16Z",
+      "side": 1,
+      "message": "An overview comment for this file would be helpful.\n\n(It looks like we\u0027re testing that `go run` instruments standard-library packages and individual source files when invoked inside a module?)",
+      "revId": "d398025345118d43a4db4332bbaf32f58fceacad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55182d66_a298c39d",
+        "filename": "src/cmd/go/testdata/script/cover_build_cmdline_pkgs.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-28T15:56:16Z",
+      "side": 1,
+      "message": "s/Collection/Collect/",
+      "range": {
+        "startLine": 9,
+        "startChar": 2,
+        "endLine": 9,
+        "endChar": 12
+      },
+      "revId": "d398025345118d43a4db4332bbaf32f58fceacad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
