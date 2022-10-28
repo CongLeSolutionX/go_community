@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c1011026_13f9c226",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-28T17:13:03Z",
+      "side": 1,
+      "message": "Hmmm, I think the current approach is simpler than needing to quote",
+      "parentUuid": "13459929_96c4cadd",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 9
+      },
+      "revId": "b9439bcfdf2c9439f8b93e57ecde1707d34594ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ae8ab4da_5d573a6e",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -128,6 +152,30 @@
       "writtenOn": "2022-10-28T14:33:16Z",
       "side": 1,
       "message": "(nit) `\"cat \"` (with trailing space)",
+      "range": {
+        "startLine": 2064,
+        "startChar": 47,
+        "endLine": 2064,
+        "endChar": 53
+      },
+      "revId": "b9439bcfdf2c9439f8b93e57ecde1707d34594ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b52d9e3_3fa19138",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2064,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-28T17:13:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42724c74_0db79aa8",
       "range": {
         "startLine": 2064,
         "startChar": 47,
