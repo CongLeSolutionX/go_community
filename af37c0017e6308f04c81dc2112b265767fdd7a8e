@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f04f1297_f4e8f5ec",
+        "filename": "src/cmd/cover/cover.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-10-28T15:16:26Z",
+      "side": 1,
+      "message": "OK, I\u0027ve fixed this up.",
+      "parentUuid": "7c590615_88554c41",
+      "revId": "af37c0017e6308f04c81dc2112b265767fdd7a8e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "15fd5811_c433df3d",
@@ -85,6 +103,30 @@
       "writtenOn": "2022-10-27T20:24:06Z",
       "side": 1,
       "message": "The `PackageInternal` field corresponding to an invocation like `go test foo_test.go` is `CmdlineFiles`, not `Local`.",
+      "range": {
+        "startLine": 30,
+        "startChar": 47,
+        "endLine": 31,
+        "endChar": 54
+      },
+      "revId": "af37c0017e6308f04c81dc2112b265767fdd7a8e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "70bade4b_81d137e2",
+        "filename": "src/internal/coverage/cmddefs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-10-28T15:16:26Z",
+      "side": 1,
+      "message": "I\u0027ve fixed it up to better reflect the meaning of \"Local\".",
+      "parentUuid": "15fd5811_c433df3d",
       "range": {
         "startLine": 30,
         "startChar": 47,
