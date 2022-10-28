@@ -8,7 +8,6 @@ import (
 	"bufio"
 	"fmt"
 	"internal/testenv"
-	"io"
 	"io/ioutil"
 	"os"
 	"os/exec"
@@ -75,23 +74,28 @@ func TestPGOIntendedInlining(t *testing.T) {
 	}
 
 	// go test -bench=. -cpuprofile testdata/pgo/inline/inline_hot.pprof cmd/compile/internal/test/testdata/pgo/inline
-	curdir, err1 := os.Getwd()
-	if err1 != nil {
-		t.Fatal(err1)
+	curdir, err := os.Getwd()
+	if err != nil {
+		t.Fatalf("error getting wd: %v", err)
 	}
-	gcflag_option := "-gcflags=-m -m -pgoprofile %s/testdata/pgo/inline/inline_hot.pprof"
-	gcflag := fmt.Sprintf(gcflag_option, curdir)
+	gcflag := fmt.Sprintf("-gcflags=-m -m -pgoprofile %s/testdata/pgo/inline/inline_hot.pprof", curdir)
 	args := append([]string{"test", "-run=nope", gcflag}, pkgs...)
 	cmd := testenv.CleanCmdEnv(exec.Command(testenv.GoToolPath(t), args...))
 
-	pr, pw := io.Pipe()
+	pr, pw, err := os.Pipe()
+	if err != nil {
+		t.Fatalf("error creating pipe: %v", err)
+	}
+	defer pr.Close()
 	cmd.Stdout = pw
 	cmd.Stderr = pw
-	cmdErr := make(chan error, 1)
-	go func() {
-		cmdErr <- cmd.Run()
-		pw.Close()
-	}()
+
+	err = cmd.Start()
+	pw.Close()
+	if err != nil {
+		t.Fatalf("error starting go test: %v", err)
+	}
+
 	scanner := bufio.NewScanner(pr)
 	curPkg := ""
 	canInline := regexp.MustCompile(`: can inline ([^ ]*)`)
@@ -99,6 +103,7 @@ func TestPGOIntendedInlining(t *testing.T) {
 	cannotInline := regexp.MustCompile(`: cannot inline ([^ ]*): (.*)`)
 	for scanner.Scan() {
 		line := scanner.Text()
+		t.Logf("child: %s", line)
 		if strings.HasPrefix(line, "# ") {
 			curPkg = line[2:]
 			splits := strings.Split(curPkg, " ")
@@ -130,11 +135,11 @@ func TestPGOIntendedInlining(t *testing.T) {
 			continue
 		}
 	}
-	if err := <-cmdErr; err != nil {
-		t.Fatal(err)
+	if err := cmd.Wait(); err != nil {
+		t.Fatalf("error running go test: %v", err)
 	}
 	if err := scanner.Err(); err != nil {
-		t.Fatal(err)
+		t.Fatalf("error reading go test output: %v", err)
 	}
 	for fullName, reason := range notInlinedReason {
 		t.Errorf("%s was not inlined: %s", fullName, reason)
