@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0304475b_f565d069",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-10-28T07:27:19Z",
+      "side": 1,
+      "message": "TRY\u003ddarwin-arm64-11,darwin-arm64-12",
+      "revId": "65c74b0d76a404bd64c68637037fc5aa6f04a2ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

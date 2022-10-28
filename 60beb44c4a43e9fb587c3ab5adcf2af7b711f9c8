@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab210d92_0d9ca66d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-10-28T07:27:19Z",
+      "side": 1,
+      "message": "I did some tests with -dynlink and found no problem, the test case is derived from https://github.com/golang/go/blob/537c4354cb9fdf8812c0448bd8f8a3b9f9ab1736/src/cmd/link/link_test.go#L1023, so I tend to delete this condition. If we do find a problem in the future, we can add it back.",
+      "parentUuid": "94277089_00164cb1",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 40
+      },
+      "revId": "60beb44c4a43e9fb587c3ab5adcf2af7b711f9c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ed5a7308_3441b407",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-10-27T22:17:22Z",
       "side": 1,
       "message": "R16 and R17 are used for PLT call stubs but not for accessing the GOT for the address of a global variable.",
+      "range": {
+        "startLine": 13,
+        "startChar": 18,
+        "endLine": 14,
+        "endChar": 22
+      },
+      "revId": "60beb44c4a43e9fb587c3ab5adcf2af7b711f9c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c32964c1_9e80008b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-10-28T07:27:19Z",
+      "side": 1,
+      "message": "Thanks, I have updated the commit message.",
+      "parentUuid": "ed5a7308_3441b407",
       "range": {
         "startLine": 13,
         "startChar": 18,
