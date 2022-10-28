@@ -72,6 +72,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "16aad03c_3a1494e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-28T17:21:37Z",
+      "side": 1,
+      "message": "I doubt it, but I don\u0027t really have any way of knowing. 😅\n\nLet\u0027s just leave it unquoted for now?",
+      "parentUuid": "a086c352_86d9d20f",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 9
+      },
+      "revId": "b9439bcfdf2c9439f8b93e57ecde1707d34594ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ae8ab4da_5d573a6e",
