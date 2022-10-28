@@ -74,6 +74,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d435da01_e8188b9a",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 72
+      },
+      "lineNbr": 1806,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-28T19:20:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "badcc7ac_83a8502d",
+      "revId": "ff98f42e5273c3579e11c8f52eb69dbcb18de6ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "442b8f05_e67ce415",
@@ -93,6 +111,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "47faaf3c_5d37c14b",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 72
+      },
+      "lineNbr": 1820,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-28T19:20:51Z",
+      "side": 1,
+      "message": "I\u0027m not sure exactly what\u0027s going on, but the tests fail without this block.",
+      "parentUuid": "442b8f05_e67ce415",
+      "revId": "ff98f42e5273c3579e11c8f52eb69dbcb18de6ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2451a99c_18f97430",
         "filename": "src/cmd/go/internal/load/pkg.go",
         "patchSetId": 72
@@ -104,6 +140,30 @@
       "writtenOn": "2022-10-28T14:45:11Z",
       "side": 1,
       "message": "(nit) `} else if … {`",
+      "range": {
+        "startLine": 1821,
+        "startChar": 2,
+        "endLine": 1822,
+        "endChar": 4
+      },
+      "revId": "ff98f42e5273c3579e11c8f52eb69dbcb18de6ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02f7b785_8cd1f8ee",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 72
+      },
+      "lineNbr": 1822,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-28T19:20:51Z",
+      "side": 1,
+      "message": "Can\u0027t Buildlinkshared and BuildBuildmode \u003d\u003d \"shared\" be true at the same time? We\u0027d still need this, right? Though we could move the above if below this one to",
+      "parentUuid": "2451a99c_18f97430",
       "range": {
         "startLine": 1821,
         "startChar": 2,
@@ -137,6 +197,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d3ccb43_8f17f49a",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 72
+      },
+      "lineNbr": 1826,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-28T19:20:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5bf029d5_33d304f7",
+      "range": {
+        "startLine": 1826,
+        "startChar": 19,
+        "endLine": 1826,
+        "endChar": 70
+      },
+      "revId": "ff98f42e5273c3579e11c8f52eb69dbcb18de6ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6fceb668_575569f7",
@@ -154,6 +238,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "51734628_5bbce763",
+        "filename": "src/cmd/go/internal/work/action.go",
+        "patchSetId": 72
+      },
+      "lineNbr": 883,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-28T19:20:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6fceb668_575569f7",
+      "revId": "ff98f42e5273c3579e11c8f52eb69dbcb18de6ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4cd24489_434dbd7b",
@@ -167,6 +269,30 @@
       "writtenOn": "2022-10-28T14:45:11Z",
       "side": 1,
       "message": "This part of the condition is redundant: `buildinternal.NeedsInstallDotA(\"unsafe\")` is necessarily false.",
+      "range": {
+        "startLine": 734,
+        "startChar": 43,
+        "endLine": 734,
+        "endChar": 71
+      },
+      "revId": "ff98f42e5273c3579e11c8f52eb69dbcb18de6ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5d56cc8_c4e67237",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 72
+      },
+      "lineNbr": 734,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-28T19:20:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4cd24489_434dbd7b",
       "range": {
         "startLine": 734,
         "startChar": 43,
@@ -200,6 +326,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "186638ce_6961869e",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 72
+      },
+      "lineNbr": 736,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-28T19:20:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7278b135_5bf6778e",
+      "range": {
+        "startLine": 735,
+        "startChar": 7,
+        "endLine": 736,
+        "endChar": 13
+      },
+      "revId": "ff98f42e5273c3579e11c8f52eb69dbcb18de6ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f54604d1_64c6c5a1",
@@ -213,6 +363,30 @@
       "writtenOn": "2022-10-28T14:45:11Z",
       "side": 1,
       "message": "`b.Mkdir`",
+      "range": {
+        "startLine": 1586,
+        "startChar": 11,
+        "endLine": 1586,
+        "endChar": 23
+      },
+      "revId": "ff98f42e5273c3579e11c8f52eb69dbcb18de6ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f66f71b1_bbb1d6d0",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 72
+      },
+      "lineNbr": 1586,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-10-28T19:20:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f54604d1_64c6c5a1",
       "range": {
         "startLine": 1586,
         "startChar": 11,
