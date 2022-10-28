@@ -57,6 +57,41 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2f0e5963_2fe5ecbc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-10-28T02:54:03Z",
+      "side": 1,
+      "message": "I\u0027ve been led to believe that ReadMemStats is not what I want -- it has a heavier-weight interaction with the GC.\n\nAlso, a nit, I think that the memory limit and the requestedHeapGoal are the same; in both cases that is how large the heap grows to start a GC (modulo starting early to ensure that it finishes in time). \n\nMy main worry about SetMemoryLimit is that in certain cases a memory limit will be hit and the finalizer not run soon enough to prevent the next GC; i.e.,a time penalty, which is exactly counter to the plan,  The goal is set low enough to permit even a 100% overshoot from a late finalizer (the most I\u0027ve observed is 50%).",
+      "parentUuid": "6ba7ed61_4176543a",
+      "revId": "ebe5d3ebc8ffb8c840d7f2cc75cbc546cb26797a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b55fb973_dbb21b7f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-10-28T02:54:03Z",
+      "side": 1,
+      "message": "Thanks for the feedback, CL incorporating comments will be delayed because I am on a sort-of vacation.",
+      "revId": "ebe5d3ebc8ffb8c840d7f2cc75cbc546cb26797a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8b53dfbc_86ce2d87",
         "filename": "src/cmd/compile/internal/base/base.go",
         "patchSetId": 10
@@ -68,6 +103,30 @@
       "writtenOn": "2022-10-27T22:26:36Z",
       "side": 1,
       "message": "Could abstract as:\n\n```\n// EachGC calls fn each GC cycle until it returns false.\nfunc EachGC(fn func() bool) {\n  type T [32]byte // large enough to avoid runtime\u0027s tiny object allocator\n  \n  var finalizer func(*T)\n  finalizer \u003d func(p *T) {\n    if fn() {\n      runtime.SetFinalizer(p, finalizer)\n    }\n  }\n  \n  finalizer(new(T))\n}\n```",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 1
+      },
+      "revId": "ebe5d3ebc8ffb8c840d7f2cc75cbc546cb26797a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd6bc8fd_cac32e88",
+        "filename": "src/cmd/compile/internal/base/base.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-10-28T02:54:03Z",
+      "side": 1,
+      "message": "That\u0027s nice, I might steal that.",
+      "parentUuid": "8b53dfbc_86ce2d87",
       "range": {
         "startLine": 32,
         "startChar": 0,
@@ -103,6 +162,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "06a09de4_fe92b1a3",
+        "filename": "src/cmd/compile/internal/base/base.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-10-28T02:54:03Z",
+      "side": 1,
+      "message": "Sure.",
+      "parentUuid": "b2bce33b_61c5adae",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 47
+      },
+      "revId": "ebe5d3ebc8ffb8c840d7f2cc75cbc546cb26797a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "562bae90_54b5c252",
         "filename": "src/cmd/compile/internal/base/base.go",
         "patchSetId": 10
@@ -114,6 +197,30 @@
       "writtenOn": "2022-10-27T22:26:36Z",
       "side": 1,
       "message": "nit: Replace with go.dev/issue/NNN link to actual issue?",
+      "range": {
+        "startLine": 47,
+        "startChar": 51,
+        "endLine": 47,
+        "endChar": 61
+      },
+      "revId": "ebe5d3ebc8ffb8c840d7f2cc75cbc546cb26797a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8acb7a5a_835eb289",
+        "filename": "src/cmd/compile/internal/base/base.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-10-28T02:54:03Z",
+      "side": 1,
+      "message": "I will when the issue exists.  There was some discussion about adding the knob to the garbage collector to do this, the only person to express interest was me, that was not enough and the compiler is \"not typical\", so, fizzle.  The bug would be something like \"the compiler uses annoying tricks to avoid early GC; should there be a GC interface/lnob instead?\"  (I think there should, I\u0027m not thrilled to depend on guessing at the behavior of the GC and setting finalizers, but given the performance gains from this, I will happily hold my nose.)",
+      "parentUuid": "562bae90_54b5c252",
       "range": {
         "startLine": 47,
         "startChar": 51,
@@ -143,6 +250,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8f2b64e0_5ec5d460",
+        "filename": "src/cmd/compile/internal/base/base.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-10-28T02:54:03Z",
+      "side": 1,
+      "message": "I think, once the finalizer is not a small object, that they all behave the same, but I could add this.  I have tested this with the bootstrap compiler, which led to my confusion about GOGC\u003d1000 (the bootstrap compiler runs with -c\u003d1, not sure that is necessary for 1.17, but that is another issue).",
+      "parentUuid": "27b80fc8_428d1752",
+      "revId": "ebe5d3ebc8ffb8c840d7f2cc75cbc546cb26797a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "eeb6ebf7_a61d6c06",
         "filename": "src/cmd/compile/internal/base/base.go",
         "patchSetId": 10
@@ -154,6 +279,30 @@
       "writtenOn": "2022-10-27T22:26:36Z",
       "side": 1,
       "message": "Why do we use currentGoal here, but max(inUse, startHeapGoal) later?",
+      "range": {
+        "startLine": 91,
+        "startChar": 37,
+        "endLine": 91,
+        "endChar": 48
+      },
+      "revId": "ebe5d3ebc8ffb8c840d7f2cc75cbc546cb26797a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92860107_df81cc61",
+        "filename": "src/cmd/compile/internal/base/base.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-10-28T02:54:03Z",
+      "side": 1,
+      "message": "The aim is to get the GC\u0027s goal up to requestedHeapGoal and keep it there until the actual heap is about that big.  The first call is the transition from unboosted to boosted (if it is after the first GC, setting GOGC boosts the goal immediately, otherwise it will take effect at the end of the first GC, at least that is my understanding).\n\nSubsequent calls monitor progress of the \"inUse\" heap towards that goal and ensure that the goal is not allowed to stay at a ridiculous number.  .\n\nUnmentioned is my assumption that the GC could decide to run at any time whatsoever, just for fun, and I don\u0027t know for sure if any GC has run before this code.  The compiler might also, for some inputs, allocate rapidly but create a heap that is mostly reclaimed, so that GOGC needs to be reduced in order to keep the heap goal at the right point, but still to a number well above 100.\n\nI\u0027m unsure of the right way to talk about this, because some of this is details about the current collector that might change.  The code is a little defensive towards some of this changing in the future, and also defensive about the uncertainty of when GCs might run.",
+      "parentUuid": "eeb6ebf7_a61d6c06",
       "range": {
         "startLine": 91,
         "startChar": 37,
@@ -183,6 +332,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "66758172_d7805070",
+        "filename": "src/cmd/compile/internal/base/base.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-10-28T02:54:03Z",
+      "side": 1,
+      "message": "I should fix this, thanks for spotting.",
+      "parentUuid": "d403db1a_ada129a4",
+      "revId": "ebe5d3ebc8ffb8c840d7f2cc75cbc546cb26797a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "86675af4_d94998f1",
         "filename": "src/cmd/compile/internal/base/base.go",
         "patchSetId": 10
@@ -194,6 +361,30 @@
       "writtenOn": "2022-10-27T22:26:36Z",
       "side": 1,
       "message": "Sorry, I don\u0027t understand this comment/code.\n\nE.g., what does it mean that inUse is not the same as goal? Why would we expect them to be the same? (My naive expectation is that inUse would naturally fluctuate, and the GC is trying to keep it close to the goal.)\n\nAlso, what steady-state assumptions are we talking about here? And why do we lower-bound inUse with startHeapGoal?",
+      "range": {
+        "startLine": 119,
+        "startChar": 0,
+        "endLine": 125,
+        "endChar": 3
+      },
+      "revId": "ebe5d3ebc8ffb8c840d7f2cc75cbc546cb26797a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6c762b0_ba2dac32",
+        "filename": "src/cmd/compile/internal/base/base.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-10-28T02:54:03Z",
+      "side": 1,
+      "message": "This is perhaps an audience problem; this comment comes from discussions with MK about metrics and how they work (and one remark still doesn\u0027t make sense to me so I will assume I misremembered it, but it implied I could use a function of heap goal and GOGC to derive he value of inUse -- but this is only true in the steady state).  And part of the problem with \"inUse\" is that it is dynamic -- not only are allocations increasing, as sweep proceeds (the same sweep that detects that the finalizer can run) the number of frees also increases.\n\nBUT this seems like a too-detailed explanation of current GC behavior, so perhaps I should simplify the comment.",
+      "parentUuid": "86675af4_d94998f1",
       "range": {
         "startLine": 119,
         "startChar": 0,
