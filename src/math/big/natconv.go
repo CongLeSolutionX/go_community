@@ -10,7 +10,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"math"
 	"math/bits"
 	"sync"
 )
@@ -272,7 +271,7 @@ func (x nat) itoa(neg bool, base int) []byte {
 	// len(x) > 0
 
 	// allocate buffer for conversion
-	i := int(float64(x.bitLen())/math.Log2(float64(base))) + 1 // off by 1 at most
+	i := x.bitLen()/(bits.Len(uint(base))-1) + 1 // off by 1 at most
 	if neg {
 		i++
 	}
