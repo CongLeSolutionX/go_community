@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d4e944e_0b7ba2bd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-10-29T00:12:47Z",
+      "side": 1,
+      "message": "Looks reasonable. My only real question is whether setting the flag should cause doc to print _only_ the examples. It seems that\u0027s likelier to be what you want. You find the thing you\u0027re looking for doing a bunch of runs of the form\n\ngo doc foo\n\nand then when you find the right one, you want to see how to use it, so you do\n\ngo doc -ex fooIWant\n\nIn other words, when you run with this flag, is it likely you\u0027ve already seen the other documentation?\n\nGenuinely a question. It\u0027s of course unknown without experience.",
+      "revId": "98a95d5c44b704cf165a6c00d6049b54dd418fbc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
