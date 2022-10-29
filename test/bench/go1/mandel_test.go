@@ -8,11 +8,13 @@ package go1
 
 import "testing"
 
-func mandelbrot(n int) int {
+var result uint
+
+func mandelbrot(n int) uint {
 	const Iter = 50
 	const Zero float64 = 0
 	const Limit = 2.0
-	ok := 0
+	var ok uint = 0
 	for y := 0; y < n; y++ {
 		for x := 0; x < n; x++ {
 			Zr, Zi, Tr, Ti := Zero, Zero, Zero, Zero
@@ -36,6 +38,10 @@ func mandelbrot(n int) int {
 
 func BenchmarkMandelbrot200(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		mandelbrot(200)
+		result += mandelbrot(200)
+	}
+
+	if result == 0 {
+		panic("Error in BenchmarkMandelbrot200")
 	}
 }
