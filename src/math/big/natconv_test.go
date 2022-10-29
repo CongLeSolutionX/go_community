@@ -461,3 +461,26 @@ func TestStringPowers(t *testing.T) {
 		}
 	}
 }
+
+var zsink any
+
+func BenchmarkIntMarshalText(b *testing.B) {
+	bi, ok := (new(Int)).SetString("340282366920938463463374607431768211456", 10)
+	if !ok {
+		b.Fatal("Could not parse the value")
+	}
+	b.ResetTimer()
+	b.ReportAllocs()
+	for i := 0; i < b.N; i++ {
+		bs, err := bi.MarshalText()
+		if err != nil {
+			b.Fatal(err)
+		}
+		b.SetBytes(int64(len(bs)))
+		zsink = bs
+	}
+	if zsink == nil {
+		b.Fatal("Benchmark did not run!")
+	}
+	zsink = (any)(nil)
+}
