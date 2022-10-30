@@ -90,6 +90,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f55325ed_0b311676",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-10-30T23:12:11Z",
+      "side": 1,
+      "message": "Also, ReadMemStats actually requests a GC, so much heavier weight.",
+      "parentUuid": "2f0e5963_2fe5ecbc",
+      "revId": "ebe5d3ebc8ffb8c840d7f2cc75cbc546cb26797a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8b53dfbc_86ce2d87",
@@ -137,6 +155,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad4b4304_67537e44",
+        "filename": "src/cmd/compile/internal/base/base.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-10-30T23:12:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd6bc8fd_cac32e88",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 1
+      },
+      "revId": "ebe5d3ebc8ffb8c840d7f2cc75cbc546cb26797a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b2bce33b_61c5adae",
@@ -174,6 +216,30 @@
       "side": 1,
       "message": "Sure.",
       "parentUuid": "b2bce33b_61c5adae",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 47
+      },
+      "revId": "ebe5d3ebc8ffb8c840d7f2cc75cbc546cb26797a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a46fbac4_c51072ca",
+        "filename": "src/cmd/compile/internal/base/base.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-10-30T23:12:11Z",
+      "side": 1,
+      "message": "Done, except I had to leave an environment variable so that this could be observed when building the Go bootstrap; GO_GCFLAGS is not applied to that build.  People who run make.bash also care about time.",
+      "parentUuid": "06a09de4_fe92b1a3",
       "range": {
         "startLine": 41,
         "startChar": 0,
@@ -266,6 +332,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc1ebbf2_a2078635",
+        "filename": "src/cmd/compile/internal/base/base.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-10-30T23:12:11Z",
+      "side": 1,
+      "message": "This is even less necessary now; read ahead to discussion of \"inuse\" but the estimate of live has been changed to something more accurate that relies on an identity that has been true since at least go1.6.",
+      "parentUuid": "8f2b64e0_5ec5d460",
+      "revId": "ebe5d3ebc8ffb8c840d7f2cc75cbc546cb26797a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eeb6ebf7_a61d6c06",
@@ -313,6 +397,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3287e2b0_3e6cdca3",
+        "filename": "src/cmd/compile/internal/base/base.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-10-30T23:12:11Z",
+      "side": 1,
+      "message": "I fixed this by getting rid of inUse, and use an estimate based on previous GOGC and new heap goal after each GC, and validated the result.",
+      "parentUuid": "92860107_df81cc61",
+      "range": {
+        "startLine": 91,
+        "startChar": 37,
+        "endLine": 91,
+        "endChar": 48
+      },
+      "revId": "ebe5d3ebc8ffb8c840d7f2cc75cbc546cb26797a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d403db1a_ada129a4",
@@ -344,6 +452,24 @@
       "side": 1,
       "message": "I should fix this, thanks for spotting.",
       "parentUuid": "d403db1a_ada129a4",
+      "revId": "ebe5d3ebc8ffb8c840d7f2cc75cbc546cb26797a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d7a33ed_93dc608c",
+        "filename": "src/cmd/compile/internal/base/base.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-10-30T23:12:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "66758172_d7805070",
       "revId": "ebe5d3ebc8ffb8c840d7f2cc75cbc546cb26797a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -385,6 +511,30 @@
       "side": 1,
       "message": "This is perhaps an audience problem; this comment comes from discussions with MK about metrics and how they work (and one remark still doesn\u0027t make sense to me so I will assume I misremembered it, but it implied I could use a function of heap goal and GOGC to derive he value of inUse -- but this is only true in the steady state).  And part of the problem with \"inUse\" is that it is dynamic -- not only are allocations increasing, as sweep proceeds (the same sweep that detects that the finalizer can run) the number of frees also increases.\n\nBUT this seems like a too-detailed explanation of current GC behavior, so perhaps I should simplify the comment.",
       "parentUuid": "86675af4_d94998f1",
+      "range": {
+        "startLine": 119,
+        "startChar": 0,
+        "endLine": 125,
+        "endChar": 3
+      },
+      "revId": "ebe5d3ebc8ffb8c840d7f2cc75cbc546cb26797a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d06d77ea_4cf002d3",
+        "filename": "src/cmd/compile/internal/base/base.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-10-30T23:12:11Z",
+      "side": 1,
+      "message": "Problem solved by removing all mention of inUse; the new estimate relies on identities involving GOGC before the just-completed GC and new goal after that GC.",
+      "parentUuid": "a6c762b0_ba2dac32",
       "range": {
         "startLine": 119,
         "startChar": 0,
