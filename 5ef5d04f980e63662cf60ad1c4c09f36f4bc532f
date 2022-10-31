@@ -147,6 +147,30 @@
       },
       "revId": "5ef5d04f980e63662cf60ad1c4c09f36f4bc532f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8fdac087_507b9aaa",
+        "filename": "src/cmd/compile/internal/test/pgo_inl_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-10-31T20:42:44Z",
+      "side": 1,
+      "message": "LGTM. Thanks.",
+      "parentUuid": "9196cbf2_5aadbb9a",
+      "range": {
+        "startLine": 82,
+        "startChar": 32,
+        "endLine": 82,
+        "endChar": 44
+      },
+      "revId": "5ef5d04f980e63662cf60ad1c4c09f36f4bc532f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
