@@ -53,6 +53,24 @@
       "message": "The nil checks may be fine. But I wonder if we should fix up-stack instead? It seems that they are called from profilem, which is specifically to the m. If gp.m is not that m, we probably should not traceback that gp?",
       "revId": "7142503be67101c9562d1b57d5ffc69472b5e6ae",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95721239_f18dbfb5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2022-10-31T18:37:17Z",
+      "side": 1,
+      "message": "Not calling `sigprof` from `profilem` when `gp.m` is not `mp` is easy, but I\u0027m reluctant to do it myself, I haven\u0027t found a way to reproduce it, nor I have enough knowledge of this path to say it is safe to do so.\n\nCan I can see is that `sigprof` (which calls `gentraceback`) supports nil `gp`, so my first impresion is that it should also support nil `gp.m`.",
+      "parentUuid": "5f9c1a4c_5ab9c2fd",
+      "revId": "7142503be67101c9562d1b57d5ffc69472b5e6ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
