@@ -51,6 +51,24 @@
       "message": "We like to keep types2 and go/types2 as closely the same as possible. Should probably make the same changes in go/types.",
       "revId": "beaa0f1f4ac9d89ed59df5cb136f3166899206c4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6e23570_c4ff259d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-31T15:29:02Z",
+      "side": 1,
+      "message": "The change in `example_test.go` was already made in CL 432535.\n\nThe change in the other files was made in CL 442695, but we forgot to update `types2` because nothing broke at that point from the mismatch.",
+      "parentUuid": "4880ed55_f2b93003",
+      "revId": "beaa0f1f4ac9d89ed59df5cb136f3166899206c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
