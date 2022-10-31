@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc7418ea_e312cb94",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-31T15:38:51Z",
+      "side": 1,
+      "message": "If this is fixing a bug, please add an integration test in src/cmd/go/testdata/script (see the README there for a description of the test script format).",
+      "revId": "e7bea56fae38e32b4f2ad0e8616801f5f989812c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7fe528b3_7cdcf516",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-31T15:38:51Z",
+      "side": 1,
+      "message": "Please read and perform the items in this list.",
+      "revId": "e7bea56fae38e32b4f2ad0e8616801f5f989812c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7fbc27ca_168519a9",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2261,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-31T15:38:51Z",
+      "side": 1,
+      "message": "This function needs a doc comment.\n\n- What kind of filtering does it perform?\n- Why does it return a string instead of a filtered list?\n- What kind of quoting or escaping, if any, is applied to the flags in the list?",
+      "revId": "e7bea56fae38e32b4f2ad0e8616801f5f989812c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "172dea8d_ea874dae",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2264,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-31T15:38:51Z",
+      "side": 1,
+      "message": "For `go build -x` we replace certain paths with environment-variable strings (`$WORK`, `$GOROOT`). Could we use the same approach here instead of omitting the flags entirely?",
+      "revId": "e7bea56fae38e32b4f2ad0e8616801f5f989812c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
