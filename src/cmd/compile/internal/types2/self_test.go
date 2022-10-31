@@ -6,6 +6,7 @@ package types2_test
 
 import (
 	"cmd/compile/internal/syntax"
+	"internal/testenv"
 	"path"
 	"path/filepath"
 	"runtime"
@@ -16,6 +17,8 @@ import (
 )
 
 func TestSelf(t *testing.T) {
+	testenv.MustHaveGoBuild(t)
+
 	files, err := pkgFiles(".")
 	if err != nil {
 		t.Fatal(err)

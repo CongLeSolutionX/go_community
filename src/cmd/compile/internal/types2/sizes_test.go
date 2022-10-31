@@ -9,6 +9,7 @@ package types2_test
 import (
 	"cmd/compile/internal/syntax"
 	"cmd/compile/internal/types2"
+	"internal/testenv"
 	"testing"
 )
 
@@ -101,6 +102,8 @@ const _ = unsafe.Offsetof(struct{ x int64 }{}.x)
 
 // Issue #53884.
 func TestAtomicAlign(t *testing.T) {
+	testenv.MustHaveGoBuild(t)
+
 	const src = `
 package main
 
