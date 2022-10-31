@@ -34,6 +34,23 @@
       "parentUuid": "cb3e973a_8d1b1a81",
       "revId": "42f334d677d5d50ba7ddca08a30451b33e78e61b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c45d1cdb_e8d1de2c",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2730,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-10-31T19:53:20Z",
+      "side": 1,
+      "message": "(FYI)\n\nThis test is failing on the `plan9` builders, apparently because the error returned from the system call also includes the path (redundantly).",
+      "revId": "42f334d677d5d50ba7ddca08a30451b33e78e61b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
