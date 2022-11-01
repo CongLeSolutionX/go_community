@@ -34,6 +34,24 @@
       "parentUuid": "3d4e944e_0b7ba2bd",
       "revId": "98a95d5c44b704cf165a6c00d6049b54dd418fbc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ddd43752_ed74822a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-11-01T05:08:23Z",
+      "side": 1,
+      "message": "I dislike that kind of output. I know some folks want it, but computers making suggestions anthropomorphizes them in a way that disturbs me. Also, in this situation the context for the command to run could be tricky. Unlike with most go subcommands, doc has a lot of context in its argument handling. Also also, you don\u0027t want every run of the go doc command to add a tutorial about a flag; that gets old fast.\n\nHow about if -ex is _not_ given::\n- If there are no examples, do nothing.\n- If there are examples, just add, indented, after the docs,\n   There are example for \u003csymbol\u003e\n  \n\npackage fmt // import \".\"\n\nfunc Printf(format string, a ...any) (n int, err error)\n    Printf formats according to a format specifier and writes to standard\n    output. It returns the number of bytes written and any write error\n    encountered.\n    \n    There are examples for Printf.",
+      "parentUuid": "14c3b8f1_37e92f23",
+      "revId": "98a95d5c44b704cf165a6c00d6049b54dd418fbc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
