@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "022e381c_f0545d4f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-11-01T17:00:19Z",
+      "side": 1,
+      "message": "Why remove this? It is checking something important.\nIf the source and destination aren\u0027t the same register, then this case won\u0027t generate correct assembly.",
+      "revId": "4f5d7c8040108fcf41534482253a093ff2d31927",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
