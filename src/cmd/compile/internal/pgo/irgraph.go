@@ -337,13 +337,44 @@ func (p *Profile) createIRGraphEdge(fn *ir.Func, callernode *IRNode, name string
 	doNode(fn)
 }
 
-// WeightInPercentage converts profile weights to a percentage.
-func WeightInPercentage(value int64, total int64) float64 {
+// weightInPercentage converts profile weights to a percentage.
+func weightInPercentage(value int64, total int64) float64 {
 	var ratio float64
 	if total != 0 {
 		ratio = (float64(value) / float64(total)) * 100
 	}
 	return ratio
+}
+
+// NodeWeight returns the weight of the pkg.function 'name' as a percentage of
+// total profile node weight.
+//
+// Returns !ok if name is not in the profile.
+//
+// TODO(prattmic): pass *ir.Func instead of string name.
+func (p *Profile) NodeWeight(name string) (float64, bool) {
+	n, ok := p.WeightedCG.IRNodes[name]
+	if !ok {
+		return 0, false
+	}
+	return weightInPercentage(n.Flat, p.TotalNodeWeight), true
+}
+
+// EdgeWeight returns the weight of the edge from pkg.function 'caller' to
+// 'callee' as a percentage of total profile edge weight.
+//
+// Returns !ok if the edge is not in the profile.
+func (p *Profile) EdgeWeight(caller, callee string, line int) (float64, bool) {
+	k := NodeMapKey{
+		CallerName: caller,
+		CalleeName: callee,
+		CallSite:   line,
+	}
+	w, ok := p.NodeMap[k]
+	if !ok {
+		return 0, false
+	}
+	return weightInPercentage(w.EWeight, p.TotalEdgeWeight), true
 }
 
 // PrintWeightedCallGraphDOT prints IRGraph in DOT format.
@@ -381,7 +412,7 @@ func (p *Profile) PrintWeightedCallGraphDOT(nodeThreshold float64, edgeThreshold
 	// Print nodes.
 	for name, ast := range nodes {
 		if n, ok := p.WeightedCG.IRNodes[name]; ok {
-			nodeweight := WeightInPercentage(n.Flat, p.TotalNodeWeight)
+			nodeweight := weightInPercentage(n.Flat, p.TotalNodeWeight)
 			color := "black"
 			if nodeweight > nodeThreshold {
 				color = "red"
@@ -399,7 +430,7 @@ func (p *Profile) PrintWeightedCallGraphDOT(nodeThreshold float64, edgeThreshold
 			name := ir.PkgFuncName(f)
 			if n, ok := p.WeightedCG.IRNodes[name]; ok {
 				for _, e := range p.WeightedCG.OutEdges[n] {
-					edgepercent := WeightInPercentage(e.Weight, p.TotalEdgeWeight)
+					edgepercent := weightInPercentage(e.Weight, p.TotalEdgeWeight)
 					if edgepercent > edgeThreshold {
 						fmt.Printf("edge [color=red, style=solid];\n")
 					} else {
