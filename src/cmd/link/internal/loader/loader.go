@@ -2396,8 +2396,9 @@ func (l *Loader) RelocVariant(s Sym, ri int) sym.RelocVariant {
 // value is a list of loader.Sym's corresponding to the undefined
 // cross-refs. The "limit" param controls the maximum number of
 // results returned; if "limit" is -1, then all undefs are returned.
-func (l *Loader) UndefinedRelocTargets(limit int) []Sym {
-	result := []Sym{}
+func (l *Loader) UndefinedRelocTargets(limit int) ([]Sym, []Sym) {
+	result, fromr := []Sym{}, []Sym{}
+outerloop:
 	for si := Sym(1); si < Sym(len(l.objSyms)); si++ {
 		relocs := l.Relocs(si)
 		for ri := 0; ri < relocs.Count(); ri++ {
@@ -2405,13 +2406,14 @@ func (l *Loader) UndefinedRelocTargets(limit int) []Sym {
 			rs := r.Sym()
 			if rs != 0 && l.SymType(rs) == sym.SXREF && l.SymName(rs) != ".got" {
 				result = append(result, rs)
+				fromr = append(fromr, si)
 				if limit != -1 && len(result) >= limit {
-					break
+					break outerloop
 				}
 			}
 		}
 	}
-	return result
+	return result, fromr
 }
 
 // AssignTextSymbolOrder populates the Textp slices within each
