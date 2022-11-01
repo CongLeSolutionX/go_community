@@ -110,6 +110,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e66c3f4b_2accd3cd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-11-01T18:18:09Z",
+      "side": 1,
+      "message": "To be clear, I don\u0027t care about ReadMemStats vs metrics. I just used ReadMemStats for simpler exposition.\n\nMy main point was just using SetMemoryLimit and then waiting until we\u0027ve reached target usage, rather than constantly re-tuning GOGC.",
+      "parentUuid": "6ba7ed61_4176543a",
+      "revId": "ebe5d3ebc8ffb8c840d7f2cc75cbc546cb26797a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8b53dfbc_86ce2d87",
         "filename": "src/cmd/compile/internal/base/base.go",
         "patchSetId": 10
