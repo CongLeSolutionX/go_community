@@ -39,6 +39,7 @@ TEXT ·addVV(SB), NOSPLIT, $0
 	MOVD  R5, CTR         // Set up loop counter
 	BEQ   tail            // If R5 = 0, we can't use the loop
 
+	PCALIGN $32
 	// Process 4 elements per iteration. Unrolling this loop
 	// means a performance trade-off: we will lose performance
 	// for small values of z_len (0.90x in the worst case), but
@@ -125,6 +126,7 @@ TEXT ·subVV(SB), NOSPLIT, $0
 	CMP   R0, R5
 	MOVD  R5, CTR         // Set up loop counter
 	BEQ   tail            // If R5 = 0, we can't use the loop
+	PCALIGN $32
 
 	// Process 4 elements per iteration. Unrolling this loop
 	// means a performance trade-off: we will lose performance
@@ -212,6 +214,7 @@ TEXT ·addVW(SB), NOSPLIT, $0
 	CMP   R0, R9
 	MOVD  R9, CTR		// Set up the loop counter
 	BEQ   tail		// If R9 = 0, we can't use the loop
+	PCALIGN $32
 
 loop:
 	MOVD  8(R8), R20	// R20 = x[i]
@@ -284,6 +287,7 @@ TEXT ·subVW(SB), NOSPLIT, $0
 	CMP   R0, R9
 	MOVD  R9, CTR		// Set up the loop counter
 	BEQ   tail		// If R9 = 0, we can't use the loop
+	PCALIGN $32
 
 	// The loop here is almost the same as the one used in s390x, but
 	// we don't need to capture CA every iteration because we've already
@@ -358,6 +362,7 @@ TEXT ·shlVU(SB), NOSPLIT, $0
 	CMP     R5, R0          // iterate from i=len(z)-1 to 0
 	BEQ     loopexit        // Already at end?
 	MOVD	0(R15),R10	// x[i]
+	PCALIGN $32
 shloop:
 	SLD     R9, R10, R10    // x[i]<<s
 	MOVDU   -8(R15), R14
@@ -520,6 +525,7 @@ TEXT ·mulAddVWW(SB), NOSPLIT, $0
 	CMP     R0, R14
 	MOVD    R14, CTR          // Set up the loop counter
 	BEQ     tail              // If R9 = 0, we can't use the loop
+	PCALIGN $32
 
 loop:
 	MOVD    8(R8), R20        // R20 = x[i]
@@ -602,6 +608,7 @@ TEXT ·addMulVVW(SB), NOSPLIT, $0
 	MOVD R0, R4		// R4 = c = 0
 	MOVD R22, CTR		// Initialize loop counter
 	BEQ  done
+	PCALIGN $32
 
 loop:
 	MOVD  (R8)(R3), R20	// Load x[i]
