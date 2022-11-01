@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69e00237_74b2e3d2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-11-01T21:35:15Z",
+      "side": 1,
+      "message": "FWIW, I\u0027m not sure why bgsweep didn\u0027t eventually finish sweeping and gopark. It seemed that isSweepDone always returned false because sweep.active was `sweepDrainedMask|1`.",
+      "revId": "7aaf4be977bb88f80a74f9713c9acc54fd3d2657",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
