@@ -52,6 +52,24 @@
       "parentUuid": "14c3b8f1_37e92f23",
       "revId": "98a95d5c44b704cf165a6c00d6049b54dd418fbc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "91ef1c76_152c329c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-11-01T05:09:58Z",
+      "side": 1,
+      "message": "Screwed up the indentation. This is what I meant, and maybe this is better wording.\n\n```\npackage fmt // import \".\"\n\nfunc Printf(format string, a ...any) (n int, err error)\n    Printf formats according to a format specifier and writes to standard\n    output. It returns the number of bytes written and any write error\n    encountered.\n    \n    There are executable examples for Printf.\n```",
+      "parentUuid": "ddd43752_ed74822a",
+      "revId": "98a95d5c44b704cf165a6c00d6049b54dd418fbc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
