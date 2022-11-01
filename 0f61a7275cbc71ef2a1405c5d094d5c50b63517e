@@ -1,0 +1,129 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9823f22_205779fc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-11-01T17:09:46Z",
+      "side": 1,
+      "message": "You will need to resolve the merge conflicts.",
+      "revId": "0f61a7275cbc71ef2a1405c5d094d5c50b63517e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d4e0781_7ff4fbf0",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-11-01T17:09:46Z",
+      "side": 1,
+      "message": "Can we do these in generic rules somehow? That way we get the benefits for all archs.",
+      "revId": "0f61a7275cbc71ef2a1405c5d094d5c50b63517e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fcbabcfc_a5f27f09",
+        "filename": "test/codegen/comparisons.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-11-01T17:09:46Z",
+      "side": 1,
+      "message": "These additional args are unused?",
+      "range": {
+        "startLine": 270,
+        "startChar": 36,
+        "endLine": 270,
+        "endChar": 55
+      },
+      "revId": "0f61a7275cbc71ef2a1405c5d094d5c50b63517e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34c2498a_d9d13877",
+        "filename": "test/codegen/comparisons.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-11-01T17:09:46Z",
+      "side": 1,
+      "message": "Also CMP?",
+      "revId": "0f61a7275cbc71ef2a1405c5d094d5c50b63517e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c2f2e57_d1e3d82e",
+        "filename": "test/codegen/comparisons.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-11-01T17:09:46Z",
+      "side": 1,
+      "message": "Also TEST?",
+      "revId": "0f61a7275cbc71ef2a1405c5d094d5c50b63517e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b788619_653c7ac3",
+        "filename": "test/codegen/comparisons.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-11-01T17:09:46Z",
+      "side": 1,
+      "message": "Also CMP?",
+      "revId": "0f61a7275cbc71ef2a1405c5d094d5c50b63517e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82c0935e_a1cd1c64",
+        "filename": "test/codegen/comparisons.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-11-01T17:09:46Z",
+      "side": 1,
+      "message": "Also TEST?",
+      "revId": "0f61a7275cbc71ef2a1405c5d094d5c50b63517e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
