@@ -55,6 +55,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5856aad3_3c1c8c7f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-11-01T16:38:09Z",
+      "side": 1,
+      "message": "For reference: https://go.dev/play/p/ls0g_Rshfts",
+      "revId": "e8ce197f39ca23ac915df14d8ebc5d5c2ed7feca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8e5c75a2_3901b404",
