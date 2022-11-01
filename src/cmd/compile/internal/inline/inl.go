@@ -56,8 +56,8 @@ const (
 )
 
 var (
-	// List of all hot ndes.
-	candHotNodeMap = make(map[*pgo.IRNode]struct{})
+	// List of all hot callee nodes.
+	candHotCalleeMap = make(map[*pgo.IRNode]struct{})
 
 	// List of all hot call sites.
 	candHotEdgeMap = make(map[pgo.CallSiteInfo]struct{})
@@ -99,10 +99,6 @@ func pgoInlinePrologue(p *pgo.Profile) {
 		for _, f := range list {
 			name := ir.PkgFuncName(f)
 			if n, ok := p.WeightedCG.IRNodes[name]; ok {
-				nodeweight := pgo.WeightInPercentage(n.Flat, p.TotalNodeWeight)
-				if nodeweight > inlineHotFuncThresholdPercent {
-					candHotNodeMap[n] = struct{}{}
-				}
 				for _, e := range p.WeightedCG.OutEdges[n] {
 					if e.Weight != 0 {
 						edgeweightpercent := pgo.WeightInPercentage(e.Weight, p.TotalEdgeWeight)
@@ -110,6 +106,7 @@ func pgoInlinePrologue(p *pgo.Profile) {
 							csi := pgo.CallSiteInfo{Line: e.CallSite, Caller: n.AST, Callee: e.Dst.AST}
 							if _, ok := candHotEdgeMap[csi]; !ok {
 								candHotEdgeMap[csi] = struct{}{}
+								candHotCalleeMap[e.Dst] = struct{}{}
 							}
 						}
 					}
@@ -270,7 +267,7 @@ func CanInline(fn *ir.Func, profile *pgo.Profile) {
 	budget := int32(inlineMaxBudget)
 	if profile != nil {
 		if n, ok := profile.WeightedCG.IRNodes[ir.PkgFuncName(fn)]; ok {
-			if _, ok := candHotNodeMap[n]; ok {
+			if _, ok := candHotCalleeMap[n]; ok {
 				budget = int32(inlineHotMaxBudget)
 				if base.Debug.PGOInline > 0 {
 					fmt.Printf("hot-node enabled increased budget=%v for func=%v\n", budget, ir.PkgFuncName(fn))
