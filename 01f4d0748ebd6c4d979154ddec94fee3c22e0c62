@@ -34,6 +34,23 @@
       "parentUuid": "63988d44_e12e060b",
       "revId": "01f4d0748ebd6c4d979154ddec94fee3c22e0c62",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1ff51ac_7ee937d1",
+        "filename": "src/net/http/httputil/dump.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-11-01T19:02:07Z",
+      "side": 1,
+      "message": "How about this simplification?\n\n```\ntype noBodyWriter struct {\n  buf *bytes.Buffer\n}\n\nfunc (b *noBodyWriter) Write(p []byte) (n int, err error) {\n  if bytes.HasSuffix(b.buf.Bytes(), []byte(\"\\r\\n\\r\\n\")) {\n    return len(p), nil\n  }\n  b.buf.Write(p)\n  if i :\u003d bytes.Index(b.buf.Bytes(), []byte(\"\\r\\n\\r\\n\")); i \u003e\u003d 0 {\n    b.buf.Truncate(i + 4)\n  }\n  return len(p), nil\n}\n```",
+      "revId": "01f4d0748ebd6c4d979154ddec94fee3c22e0c62",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
