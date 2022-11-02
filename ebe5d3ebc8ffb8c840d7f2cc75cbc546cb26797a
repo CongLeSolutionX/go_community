@@ -128,6 +128,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a31d9ec9_4238c13e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-11-02T14:45:13Z",
+      "side": 1,
+      "message": "I\u0027m reluctant to use SetMemoryLimit for a few reasons.\n\nFirst, the bootstrap compiler doesn\u0027t support it, and it would be nice to avoid that complication in the source code, and to get the small performance improvement for make.bash too.\n\nSecond, it\u0027s new-ish, and this is not its actual intended use, so it might not work the way I want, or it might get broken by downstream bug fixing aimed at its intended use.  GOGC and finalizers are old, low tech (and I still had to do experiments to verify that they behave as expected).\n\nThird, the logic is very similar; it turns out (from experiments) that the best way to get a handle on live size is to infer it from the values of GOGC and heap goal after a GC completes.  I\u0027ll still need to set a value for GOGC, check the live size after a GC, and calculate a candidate GOGC that gets me from live to my desired goal, and see if the candidate is low enough to turn off the starting heap boost.\n\nAlso, this works pretty well, at least for the compiler.",
+      "parentUuid": "e66c3f4b_2accd3cd",
+      "revId": "ebe5d3ebc8ffb8c840d7f2cc75cbc546cb26797a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8b53dfbc_86ce2d87",
         "filename": "src/cmd/compile/internal/base/base.go",
         "patchSetId": 10
