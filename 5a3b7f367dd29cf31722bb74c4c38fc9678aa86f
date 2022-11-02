@@ -45,6 +45,54 @@
       },
       "revId": "5a3b7f367dd29cf31722bb74c4c38fc9678aa86f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2bd278ad_c52a345c",
+        "filename": "src/testing/benchmark.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 781,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2022-11-02T15:00:17Z",
+      "side": 1,
+      "message": "Done.\n\nBut I think your phrasing is more difficult to parse.\n\n1. I don\u0027t know why CPU Time should be discussed here at all. It\u0027s mentioned in #31884, but AFAIK Go\u0027s benchmarking framework always reports wall time, and never CPU time. If that needs to be documented it would probably make more sense to discuss it in the benchmark section here: https://pkg.go.dev/testing#hdr-Benchmarks\n2. I\u0027m okay with not using \"real value\", but I still think it\u0027s helpful to advise users on how to convert the currently reported ns/op into the more intuitive number.\n\nMaybe something like this?\n\n```\n// RunParallel reports ns/op values as wall time for the benchmark as a whole.\n// You can multiply the value by the number of goroutines to understand their\n// individual performance.\n```",
+      "parentUuid": "0f3b672f_9b340303",
+      "range": {
+        "startLine": 781,
+        "startChar": 9,
+        "endLine": 781,
+        "endChar": 32
+      },
+      "revId": "5a3b7f367dd29cf31722bb74c4c38fc9678aa86f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0cde9904_06e139ce",
+        "filename": "src/testing/benchmark.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 781,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2022-11-02T15:00:17Z",
+      "side": 1,
+      "message": "Done. I just copied this from other public comments in this package that seem to be used to document important pitfalls.",
+      "parentUuid": "19d7d6fc_92792919",
+      "range": {
+        "startLine": 781,
+        "startChar": 2,
+        "endLine": 781,
+        "endChar": 9
+      },
+      "revId": "5a3b7f367dd29cf31722bb74c4c38fc9678aa86f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
