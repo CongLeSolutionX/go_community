@@ -16,6 +16,24 @@
       "message": "Why remove this? It is checking something important.\nIf the source and destination aren\u0027t the same register, then this case won\u0027t generate correct assembly.",
       "revId": "4f5d7c8040108fcf41534482253a093ff2d31927",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cfe1645a_13ccca53",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 54019
+      },
+      "writtenOn": "2022-11-02T07:47:45Z",
+      "side": 1,
+      "message": "Because CL 296010 supports automatic resultInArg0 register checking， here is a duplicate check, so remove it。\n\nThanks",
+      "parentUuid": "022e381c_f0545d4f",
+      "revId": "4f5d7c8040108fcf41534482253a093ff2d31927",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
