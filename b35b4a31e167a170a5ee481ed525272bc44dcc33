@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b98c0a4a_7563fa73",
+        "filename": "src/cmd/api/goapi.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-11-02T14:57:31Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "a25aed3f_ea349411",
+      "revId": "b35b4a31e167a170a5ee481ed525272bc44dcc33",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "84fcf2b8_6a685524",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-09-19T20:20:55Z",
       "side": 0,
       "message": "Move os.Exit(exitCode) here, or resolve its poor intersection with the 2 defers in main in some other way.",
+      "revId": "b35b4a31e167a170a5ee481ed525272bc44dcc33",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "00726358_0ef3249e",
+        "filename": "src/cmd/api/goapi.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-11-02T14:57:31Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "84fcf2b8_6a685524",
       "revId": "b35b4a31e167a170a5ee481ed525272bc44dcc33",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
