@@ -419,10 +419,10 @@ func (v *hairyVisitor) doNode(n ir.Node) bool {
 		// Determine if the callee edge is for an inlinable hot callee or not.
 		if v.profile != nil && v.curFunc != nil {
 			if fn := inlCallee(n.X, v.profile); fn != nil && typecheck.HaveInlineBody(fn) {
-				line := int(base.Ctxt.InnermostPos(n.Pos()).RelLine())
+				lineOffset := pgo.NodeLineOffset(n, fn)
 				caller := ir.PkgFuncName(v.curFunc)
 				callee := ir.PkgFuncName(fn)
-				if w, ok := v.profile.EdgeWeight(caller, callee, line); ok && w > inlineHotCallSiteThresholdPercent {
+				if w, ok := v.profile.EdgeWeight(caller, callee, lineOffset); ok && w > inlineHotCallSiteThresholdPercent {
 					if base.Debug.PGOInline > 0 {
 						fmt.Printf("hot-callsite identified at line=%v from func %v to %v\n", ir.Line(n), caller, callee)
 					}
@@ -1026,8 +1026,7 @@ func mkinlcall(n *ir.CallExpr, fn *ir.Func, maxCost int32, inlCalls *[]*ir.Inlin
 	}
 
 	if base.Debug.PGOInline > 0 {
-		line := int(base.Ctxt.InnermostPos(n.Pos()).RelLine())
-		csi := pgo.CallSiteInfo{Line: line, Caller: ir.CurFunc}
+		csi := pgo.CallSiteInfo{LineOffset: pgo.NodeLineOffset(n, fn), Caller: ir.CurFunc}
 		if _, ok := inlinedCallSites[csi]; !ok {
 			inlinedCallSites[csi] = struct{}{}
 		}
