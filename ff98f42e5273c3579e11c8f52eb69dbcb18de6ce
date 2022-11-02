@@ -127,6 +127,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ab8d86f_42ea2242",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 72
+      },
+      "lineNbr": 1820,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-11-02T17:33:43Z",
+      "side": 1,
+      "message": "Added a TODO to figure out\u0027s what\u0027s going on.",
+      "parentUuid": "47faaf3c_5d37c14b",
+      "revId": "ff98f42e5273c3579e11c8f52eb69dbcb18de6ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2451a99c_18f97430",
@@ -164,6 +182,30 @@
       "side": 1,
       "message": "Can\u0027t Buildlinkshared and BuildBuildmode \u003d\u003d \"shared\" be true at the same time? We\u0027d still need this, right? Though we could move the above if below this one to",
       "parentUuid": "2451a99c_18f97430",
+      "range": {
+        "startLine": 1821,
+        "startChar": 2,
+        "endLine": 1822,
+        "endChar": 4
+      },
+      "revId": "ff98f42e5273c3579e11c8f52eb69dbcb18de6ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0cfcddaf_d75acf8f",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 72
+      },
+      "lineNbr": 1822,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-11-02T17:33:43Z",
+      "side": 1,
+      "message": "Leaving it as is to submit. Let me know if you want me to reorder in a follow up CL.",
+      "parentUuid": "02f7b785_8cd1f8ee",
       "range": {
         "startLine": 1821,
         "startChar": 2,
