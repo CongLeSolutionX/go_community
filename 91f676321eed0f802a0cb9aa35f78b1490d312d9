@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5aa76a95_165a9da9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 56073
+      },
+      "writtenOn": "2022-11-02T11:42:19Z",
+      "side": 1,
+      "message": "Follow up on unused certificate.Raw field.",
+      "revId": "91f676321eed0f802a0cb9aa35f78b1490d312d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
