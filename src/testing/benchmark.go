@@ -777,6 +777,10 @@ func (pb *PB) Next() bool {
 // goroutine-local state and then iterate until pb.Next returns false.
 // It should not use the StartTimer, StopTimer, or ResetTimer functions,
 // because they have global effect. It should also not call Run.
+//
+// NOTE: For historical reasons, RunParallel reports ns/op values as if only
+// one goroutine had done all the work. Multiply ns/op by the number of
+// goroutines to get the real value.
 func (b *B) RunParallel(body func(*PB)) {
 	if b.N == 0 {
 		return // Nothing to do when probing.
