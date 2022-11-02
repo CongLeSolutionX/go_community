@@ -294,6 +294,8 @@ func (t *tester) maybeLogMetadata() error {
 // detail between the Go build system and cmd/dist for
 // the purpose of longtest builders, and is not intended
 // for use by users. See golang.org/issue/12508.
+//
+// TODO: Simplify this once all uses of goTest() are gone.
 func short() string {
 	if v := os.Getenv("GO_TEST_SHORT"); v != "" {
 		short, err := strconv.ParseBool(v)
@@ -310,28 +312,166 @@ func short() string {
 // goTest returns the beginning of the go test command line.
 // Callers should use goTest and then pass flags overriding these
 // defaults as later arguments in the command line.
+//
+// TODO: Convert all uses of goTest() to goTest.run and delete this.
 func (t *tester) goTest() []string {
 	return []string{
 		"go", "test", "-short=" + short(), "-count=1", t.tags(), t.runFlag(""),
 	}
 }
 
-func (t *tester) tags() string {
+type goTest struct {
+	timeout  time.Duration // If non-zero, override timeout
+	short    bool          // If true, force -short
+	tags     []string      // Build tags
+	race     bool          // Force -race
+	bench    bool          // Run benchmarks (briefly), not tests.
+	runTests string        // Regexp of tests to run
+	cpu      string        // If non-empty, -cpu flag
+	goCmd    string        // If non-empty, path to go command
+
+	gcflags   string // If non-empty, build with -gcflags=all=X
+	ldflags   string // If non-empty, build with -ldflags=X
+	buildmode string // If non-empty, -buildmode flag
+
+	dir string   // If non-empty, run in GOROOT/src-relative directory dir
+	env []string // Environment variables to add, as KEY=VAL. KEY= unsets a variable
+
+	// We have both pkg and pkgs as a convenience. If both are
+	// empty, the default is ".".
+	pkg  string   // A single package to test
+	pkgs []string // Multiple packages to test
+
+	testFlags []string // Additional flags accepted by this test
+}
+
+// bgCommand returns a go test Cmd. The result has Stdout and Stderr set to nil
+// and is intended to be added to the work queue.
+func (opts *goTest) bgCommand(t *tester) *exec.Cmd {
+	args := []string{
+		"test",
+		"-count=1", // Disallow caching
+	}
+
+	if opts.timeout != 0 {
+		d := opts.timeout * time.Duration(t.timeoutScale)
+		args = append(args, "-timeout="+d.String())
+	}
+	if opts.short || short() == "true" {
+		args = append(args, "-short")
+	}
+	args = append(args, t.tags(opts.tags...))
+	if t.race || opts.race {
+		args = append(args, "-race")
+	}
+	if t.msan {
+		args = append(args, "-msan")
+	}
+	if t.asan {
+		args = append(args, "-asan")
+	}
+	if opts.bench || t.compileOnly {
+		// Run no tests.
+		args = append(args, "-run=^$")
+	} else if opts.runTests != "" {
+		args = append(args, "-run="+opts.runTests)
+	}
+	if opts.bench && !t.compileOnly {
+		// Run benchmarks as a smoke test
+		args = append(args, "-bench=.*", "-benchtime=.1s")
+	}
+	if opts.cpu != "" {
+		args = append(args, "-cpu="+opts.cpu)
+	}
+
+	if opts.gcflags != "" {
+		args = append(args, "-gcflags=all="+opts.gcflags)
+	}
+	if opts.ldflags != "" {
+		args = append(args, "-ldflags="+opts.ldflags)
+	}
+	if opts.buildmode != "" {
+		args = append(args, "-buildmode="+opts.buildmode)
+	}
+
+	if opts.pkg == "" && len(opts.pkgs) == 0 {
+		args = append(args, ".")
+	} else {
+		if opts.pkg != "" {
+			args = append(args, opts.pkg)
+		}
+		args = append(args, opts.pkgs...)
+	}
+
+	if !t.compileOnly {
+		args = append(args, opts.testFlags...)
+	}
+
+	goCmd := gorootBinGo
+	if opts.goCmd != "" {
+		goCmd = opts.goCmd
+	}
+	cmd := exec.Command(goCmd, args...)
+
+	if opts.dir != "" {
+		if filepath.IsAbs(opts.dir) {
+			panic("dir must be relative, got: " + opts.dir)
+		}
+		setDir(cmd, filepath.Join(goroot, "src", opts.dir))
+	}
+	if len(opts.env) != 0 {
+		cmd.Env = os.Environ()
+		for _, kv := range opts.env {
+			if strings.HasSuffix(kv, "=") {
+				unsetEnv(cmd, kv[:len(kv)-1])
+			} else {
+				cmd.Env = append(cmd.Env, kv)
+			}
+		}
+	}
+
+	return cmd
+}
+
+// command returns a go test Cmd intended to be run immediately.
+func (opts *goTest) command(t *tester) *exec.Cmd {
+	cmd := opts.bgCommand(t)
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	return cmd
+}
+
+func (opts *goTest) run(t *tester) error {
+	return opts.command(t).Run()
+}
+
+func (t *tester) tags(extra ...string) string {
+	tags := ""
 	ios := t.iOS()
 	switch {
 	case ios && noOpt:
-		return "-tags=lldb,noopt"
+		tags = "lldb,noopt"
 	case ios:
-		return "-tags=lldb"
+		tags = "lldb"
 	case noOpt:
-		return "-tags=noopt"
-	default:
-		return "-tags="
+		tags = "noopt"
 	}
+	for _, x := range extra {
+		if x == "" {
+			continue
+		}
+		if tags == "" {
+			tags += ","
+		}
+		tags += x
+	}
+	return "-tags=" + tags
 }
 
 // timeoutDuration converts the provided number of seconds into a
 // time.Duration, scaled by the t.timeoutScale factor.
+//
+// TODO: Delete in favor of goTest.run
 func (t *tester) timeoutDuration(sec int) time.Duration {
 	return time.Duration(sec) * time.Second * time.Duration(t.timeoutScale)
 }
@@ -339,6 +479,8 @@ func (t *tester) timeoutDuration(sec int) time.Duration {
 // timeout returns the "-timeout=" string argument to "go test" given
 // the number of seconds of timeout. It scales it by the
 // t.timeoutScale factor.
+//
+// TODO: Delete in favor of goTest.run
 func (t *tester) timeout(sec int) string {
 	return "-timeout=" + t.timeoutDuration(sec).String()
 }
@@ -1450,6 +1592,7 @@ func isAlpineLinux() bool {
 	return err == nil && fi.Mode().IsRegular()
 }
 
+// TODO: Delete in favor of goTest.run
 func (t *tester) runFlag(rx string) string {
 	if t.compileOnly {
 		return "-run=^$"
