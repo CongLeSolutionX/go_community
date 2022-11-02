@@ -55,6 +55,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "01cbff10_23dc485c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 56073
+      },
+      "writtenOn": "2022-11-02T11:29:39Z",
+      "side": 1,
+      "message": "Thanks for the review Roland! Addressed most of the review feedback, but note I left the `tbsCertificateList.Raw` element -- see note below. \n\nI pushed a new revision to the PR, hopefully it syncs here... \n\n- A",
+      "revId": "899466027bc6728d50057d73c243fa9cee41f3aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "edcd1b13_0e4d48f5",
@@ -68,6 +85,30 @@
       "writtenOn": "2022-11-01T23:47:11Z",
       "side": 1,
       "message": "What is this needed for?",
+      "range": {
+        "startLine": 2158,
+        "startChar": 1,
+        "endLine": 2158,
+        "endChar": 35
+      },
+      "revId": "899466027bc6728d50057d73c243fa9cee41f3aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b3b8de7_a4e247f5",
+        "filename": "src/crypto/x509/x509.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2158,
+      "author": {
+        "id": 56073
+      },
+      "writtenOn": "2022-11-02T11:29:39Z",
+      "side": 1,
+      "message": "Ack -- this was added for consistency with `certificate`, which includes the `Raw` member, though it appears unused in both places. I\u0027ve removed it from here.",
+      "parentUuid": "edcd1b13_0e4d48f5",
       "range": {
         "startLine": 2158,
         "startChar": 1,
@@ -103,6 +144,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e3599e88_dca00821",
+        "filename": "src/crypto/x509/x509.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2165,
+      "author": {
+        "id": 56073
+      },
+      "writtenOn": "2022-11-02T11:29:39Z",
+      "side": 1,
+      "message": "See note below in #2275.",
+      "parentUuid": "bb0755d0_a4cedd6d",
+      "range": {
+        "startLine": 2165,
+        "startChar": 0,
+        "endLine": 2165,
+        "endChar": 36
+      },
+      "revId": "899466027bc6728d50057d73c243fa9cee41f3aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4cf04900_552b408b",
         "filename": "src/crypto/x509/x509.go",
         "patchSetId": 1
@@ -114,6 +179,30 @@
       "writtenOn": "2022-11-01T23:47:11Z",
       "side": 1,
       "message": "issuerSubject, err :\u003d subjectBytes(issuer)\n    if err !\u003d nil {\n      return nil, err\n    }",
+      "range": {
+        "startLine": 2232,
+        "startChar": 1,
+        "endLine": 2244,
+        "endChar": 2
+      },
+      "revId": "899466027bc6728d50057d73c243fa9cee41f3aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e26bd6a2_d553dc0e",
+        "filename": "src/crypto/x509/x509.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2244,
+      "author": {
+        "id": 56073
+      },
+      "writtenOn": "2022-11-02T11:29:39Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4cf04900_552b408b",
       "range": {
         "startLine": 2232,
         "startChar": 1,
@@ -149,6 +238,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4f956039_1f8b9dec",
+        "filename": "src/crypto/x509/x509.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2275,
+      "author": {
+        "id": 56073
+      },
+      "writtenOn": "2022-11-02T11:29:39Z",
+      "side": 1,
+      "message": "Since we already need to marshal the tbsCertList for hashing, doesn\u0027t it make sense to save the raw encoded form to prevent re-marshaling the CRL?\n\nIf you don\u0027t agree, I can always remove it, but it seems weird to marshal the tbsCertList, use it for hashing, and then discard it only to re-marshal it a few lines below (when marshaling the certificateList).\n\nMy 2c.",
+      "parentUuid": "03ba2f41_9106b52e",
+      "range": {
+        "startLine": 2275,
+        "startChar": 1,
+        "endLine": 2275,
+        "endChar": 38
+      },
+      "revId": "899466027bc6728d50057d73c243fa9cee41f3aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1d132f3c_967d202e",
         "filename": "src/crypto/x509/x509_test.go",
         "patchSetId": 1
@@ -160,6 +273,30 @@
       "writtenOn": "2022-11-01T23:47:11Z",
       "side": 1,
       "message": "This block can be simplified to\n\n\tissuerSubj, err :\u003d subjectBytes(tc.issuer)\n\tif err !\u003d nil {\n\t\tt.Fatalf(\"failed to get issuer subject: %s\", err)\n\t}\n\tif !bytes.Equal(issuerSubj, parsedCRL.RawIssuer) {\n\t\tt.Fatalf(\"Unexpected issuer subject; wanted: %v, got: %v\", hex.EncodeToString(issuerSubj), hex.EncodeToString(parsedCRL.RawIssuer))\n\t}",
+      "range": {
+        "startLine": 2760,
+        "startChar": 3,
+        "endLine": 2780,
+        "endChar": 4
+      },
+      "revId": "899466027bc6728d50057d73c243fa9cee41f3aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2419c972_b009c817",
+        "filename": "src/crypto/x509/x509_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2780,
+      "author": {
+        "id": 56073
+      },
+      "writtenOn": "2022-11-02T11:29:39Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "1d132f3c_967d202e",
       "range": {
         "startLine": 2760,
         "startChar": 3,
