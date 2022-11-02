@@ -53,6 +53,24 @@
       "message": "Should we remove this?",
       "revId": "11d4a3f81043b7ed10e8c0a59baa4c7b362944f4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a404ea0_dab0c198",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-02T20:25:14Z",
+      "side": 1,
+      "message": "Done. Also removed the flag.",
+      "parentUuid": "be1586ce_6e1c6251",
+      "revId": "11d4a3f81043b7ed10e8c0a59baa4c7b362944f4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
