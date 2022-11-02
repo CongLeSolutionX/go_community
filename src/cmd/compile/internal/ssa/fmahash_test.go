@@ -15,12 +15,10 @@ import (
 )
 
 // TestFmaHash checks that the hash-test machinery works properly for a single case.
-// It does not check or run the generated code.
+// It also runs ssa/check and gccheck to be sure that those are checked at least a
+// little in each run.bash.  It does not check or run the generated code.
 // The test file is however a useful example of fused-vs-cascaded multiply-add.
 func TestFmaHash(t *testing.T) {
-	if testing.Short() {
-		t.Skip("Slow test, usually avoid it, testing.Short")
-	}
 	switch runtime.GOOS {
 	case "linux", "darwin":
 	default:
@@ -42,7 +40,7 @@ func TestFmaHash(t *testing.T) {
 	source := filepath.Join("testdata", "fma.go")
 	output := filepath.Join(tmpdir, "fma.exe")
 	cmd := exec.Command(gocmd, "build", "-o", output, source)
-	cmd.Env = append(cmd.Env, "GOCOMPILEDEBUG=fmahash=101111101101111001110110", "GOOS=linux", "GOARCH=arm64", "HOME="+tmpdir)
+	cmd.Env = append(cmd.Env, "GOCOMPILEDEBUG=fmahash=101111101101111001110110,gccheck=1", "GOOS=linux", "GOARCH=arm64", "HOME="+tmpdir)
 	t.Logf("%v", cmd)
 	t.Logf("%v", cmd.Env)
 	b, e := cmd.CombinedOutput()
