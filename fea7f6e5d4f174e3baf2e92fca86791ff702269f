@@ -63,6 +63,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9ff9bc61_2327016a",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-02T21:02:58Z",
+      "side": 1,
+      "message": "Currently, the absolute threshold can still be specified by the flag, and it will override the threshold computed from CDF. Are you suggesting that we remove this and keep only a flag to adjust the CDF threshold? (PS2 does this -- add CDF flag, remove the absolute threshold flag.)",
+      "parentUuid": "d3ad0502_adaa6871",
+      "range": {
+        "startLine": 73,
+        "startChar": 35,
+        "endLine": 73,
+        "endChar": 49
+      },
+      "revId": "fea7f6e5d4f174e3baf2e92fca86791ff702269f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "06c8b1a0_fe225261",
         "filename": "src/cmd/compile/internal/inline/inl.go",
         "patchSetId": 1
@@ -74,6 +98,24 @@
       "writtenOn": "2022-11-02T17:47:33Z",
       "side": 1,
       "message": "Add a debug flag to adjust this?",
+      "revId": "fea7f6e5d4f174e3baf2e92fca86791ff702269f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b573ca8a_485bfed0",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-02T21:02:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06c8b1a0_fe225261",
       "revId": "fea7f6e5d4f174e3baf2e92fca86791ff702269f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -101,6 +143,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3dd8e5b4_042bb24c",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-02T21:02:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83cbcf3f_3c97e05c",
+      "range": {
+        "startLine": 148,
+        "startChar": 33,
+        "endLine": 148,
+        "endChar": 39
+      },
+      "revId": "fea7f6e5d4f174e3baf2e92fca86791ff702269f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f4341342_37903554",
@@ -114,6 +180,30 @@
       "writtenOn": "2022-11-02T17:47:33Z",
       "side": 1,
       "message": "weight",
+      "range": {
+        "startLine": 150,
+        "startChar": 10,
+        "endLine": 150,
+        "endChar": 16
+      },
+      "revId": "fea7f6e5d4f174e3baf2e92fca86791ff702269f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff62a94c_19085ae2",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-02T21:02:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f4341342_37903554",
       "range": {
         "startLine": 150,
         "startChar": 10,
