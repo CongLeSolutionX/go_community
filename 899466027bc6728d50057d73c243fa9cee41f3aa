@@ -190,6 +190,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab88e900_29780839",
+        "filename": "src/crypto/x509/x509.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2165,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2022-11-02T15:49:38Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e3599e88_dca00821",
+      "range": {
+        "startLine": 2165,
+        "startChar": 0,
+        "endLine": 2165,
+        "endChar": 36
+      },
+      "revId": "899466027bc6728d50057d73c243fa9cee41f3aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4cf04900_552b408b",
@@ -274,6 +298,30 @@
       "side": 1,
       "message": "Since we already need to marshal the tbsCertList for hashing, doesn\u0027t it make sense to save the raw encoded form to prevent re-marshaling the CRL?\n\nIf you don\u0027t agree, I can always remove it, but it seems weird to marshal the tbsCertList, use it for hashing, and then discard it only to re-marshal it a few lines below (when marshaling the certificateList).\n\nMy 2c.",
       "parentUuid": "03ba2f41_9106b52e",
+      "range": {
+        "startLine": 2275,
+        "startChar": 1,
+        "endLine": 2275,
+        "endChar": 38
+      },
+      "revId": "899466027bc6728d50057d73c243fa9cee41f3aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b49b4ee_fbc443b5",
+        "filename": "src/crypto/x509/x509.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2275,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2022-11-02T15:49:38Z",
+      "side": 1,
+      "message": "Oh right, I forgot RawContent forces the marshaller to just skip the rest of the struct. Can you add a comment noting this is a performance optimization, since otherwise it requires remembering encoding/asn1 semantics that are not immediately obvious.",
+      "parentUuid": "4f956039_1f8b9dec",
       "range": {
         "startLine": 2275,
         "startChar": 1,
