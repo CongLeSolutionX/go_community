@@ -6,6 +6,7 @@ package exec
 
 import (
 	"reflect"
+	"runtime"
 	"testing"
 )
 
@@ -48,7 +49,7 @@ func TestDedupEnv(t *testing.T) {
 			// Filter out entries containing NULs.
 			in:      []string{"A=a\x00b", "B=b", "C\x00C=c"},
 			want:    []string{"B=b"},
-			wantErr: true,
+			wantErr: runtime.GOOS != "plan9",
 		},
 	}
 	for _, tt := range tests {

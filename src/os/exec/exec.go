@@ -1225,10 +1225,13 @@ func dedupEnvCase(caseInsensitive bool, env []string) ([]string, error) {
 	for n := len(env); n > 0; n-- {
 		kv := env[n-1]
 
-		if strings.IndexByte(kv, 0) != -1 {
+		// Reject NUL in environment variables to prevent security issues (#56284);
+		// except on Plan 9, which uses NUL as os.PathListSeparator (#56544).
+		if runtime.GOOS != "plan9" && strings.IndexByte(kv, 0) != -1 {
 			err = errors.New("exec: environment variable contains NUL")
 			continue
 		}
+
 		i := strings.Index(kv, "=")
 		if i == 0 {
 			// We observe in practice keys with a single leading "=" on Windows.
