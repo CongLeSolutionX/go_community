@@ -144,6 +144,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "573f9ff4_417f881a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-11-03T17:41:33Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a31d9ec9_4238c13e",
+      "revId": "ebe5d3ebc8ffb8c840d7f2cc75cbc546cb26797a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8b53dfbc_86ce2d87",
@@ -323,6 +341,30 @@
       "side": 1,
       "message": "I will when the issue exists.  There was some discussion about adding the knob to the garbage collector to do this, the only person to express interest was me, that was not enough and the compiler is \"not typical\", so, fizzle.  The bug would be something like \"the compiler uses annoying tricks to avoid early GC; should there be a GC interface/lnob instead?\"  (I think there should, I\u0027m not thrilled to depend on guessing at the behavior of the GC and setting finalizers, but given the performance gains from this, I will happily hold my nose.)",
       "parentUuid": "562bae90_54b5c252",
+      "range": {
+        "startLine": 47,
+        "startChar": 51,
+        "endLine": 47,
+        "endChar": 61
+      },
+      "revId": "ebe5d3ebc8ffb8c840d7f2cc75cbc546cb26797a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdc29941_1fcc56ee",
+        "filename": "src/cmd/compile/internal/base/base.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-11-03T17:41:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8acb7a5a_835eb289",
       "range": {
         "startLine": 47,
         "startChar": 51,
