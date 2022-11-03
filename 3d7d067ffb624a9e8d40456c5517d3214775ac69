@@ -166,6 +166,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "57e97b11_3bcde009",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-03T19:33:33Z",
+      "side": 1,
+      "message": "Done. File name removed.",
+      "parentUuid": "fe12b7b2_2cbd1820",
+      "range": {
+        "startLine": 404,
+        "startChar": 84,
+        "endLine": 404,
+        "endChar": 114
+      },
+      "revId": "3d7d067ffb624a9e8d40456c5517d3214775ac69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ffd69f09_74e28b58",
@@ -197,6 +221,24 @@
       "side": 1,
       "message": "Good point.\n\nCurrently the compiler doesn\u0027t record the profile path in the binary (maybe it should?). If we do the buildinfo change it would be recorded there. Maybe we\u0027ll need to redact there?\n\nIf the compiler ends up recording the profile path, it would probably honor the trimpath flag there.",
       "parentUuid": "ffd69f09_74e28b58",
+      "revId": "3d7d067ffb624a9e8d40456c5517d3214775ac69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff6cf5ef_19e05291",
+        "filename": "src/cmd/go/internal/work/gc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-03T19:33:33Z",
+      "side": 1,
+      "message": "Currently we don\u0027t record profile path anywhere, so nothing to trim. We can revisit if we start to do it.",
+      "parentUuid": "88f8998b_2696af70",
       "revId": "3d7d067ffb624a9e8d40456c5517d3214775ac69",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -360,6 +402,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0069bf1_31061a0e",
+        "filename": "src/cmd/go/internal/work/init.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-03T19:33:33Z",
+      "side": 1,
+      "message": "Good point. Removed.",
+      "parentUuid": "0510fce6_bf90d069",
+      "range": {
+        "startLine": 453,
+        "startChar": 0,
+        "endLine": 457,
+        "endChar": 3
+      },
+      "revId": "3d7d067ffb624a9e8d40456c5517d3214775ac69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d6e4d032_977ef585",
@@ -444,6 +510,24 @@
       "side": 1,
       "message": "You can `cp stdout list.out` and then `cmp stdout list.out` or similar.",
       "parentUuid": "c0b9a6f8_46fa2d19",
+      "revId": "3d7d067ffb624a9e8d40456c5517d3214775ac69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "add63774_0fb1656e",
+        "filename": "src/cmd/go/testdata/script/build_pgo.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-03T19:33:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7733d149_aebd5469",
       "revId": "3d7d067ffb624a9e8d40456c5517d3214775ac69",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
