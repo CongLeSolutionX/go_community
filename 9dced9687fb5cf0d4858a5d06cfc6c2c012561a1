@@ -22,6 +22,30 @@
       },
       "revId": "9dced9687fb5cf0d4858a5d06cfc6c2c012561a1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18eea0b5_51024776",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 54019
+      },
+      "writtenOn": "2022-11-03T12:29:42Z",
+      "side": 1,
+      "message": "Thanks，I have removed BenchmarkFallocate.\n\nThis patch is to solve issue #53116, I think this problem is a common problem of Linux platform. \n\n\nI can reproduce the same error as loong64 by executing make.bash in Golang\u0027s linux/amd64 (kernel version 6.1.0-rc2), here are my logs and corrupted files：\nbad file: https://github.com/golang/go/files/9909710/bad_go_asm_x86.tar.gz\nlog file: https://github.com/golang/go/files/9909711/golang-x86.log\n\n\nI can reproduce the error of fallocate returning EINTR in the C code by sending a signal to another process, and found that the problem of data loss does occur. My C code: https://github.com/abner-chenc/abner/blob/master/fallocate.c\n\n\nThis should be a bug of kernel tmpfs (introduced in linux 5.16-rc4), I have reported this bug：https://lore.kernel.org/linux-mm/33b85d82.7764.1842e9ab207.Coremail.chenguoqic@163.com/\n\n\nThis is the fix patch provided by our colleagues： https://lore.kernel.org/linux-mm/20221101032248.819360-1-kernel@hev.cc/T/#u\n\n\nNote: Need to mount /tmp as tmpfs when testing (because some Linux distributions don\u0027t do this)",
+      "parentUuid": "94ed4f16_66af236d",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 74
+      },
+      "revId": "9dced9687fb5cf0d4858a5d06cfc6c2c012561a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
