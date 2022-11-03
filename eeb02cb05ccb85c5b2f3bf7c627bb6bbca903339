@@ -59,6 +59,30 @@
       },
       "revId": "eeb02cb05ccb85c5b2f3bf7c627bb6bbca903339",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9be5060b_9fa3ef91",
+        "filename": "src/cmd/compile/internal/base/debug.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-11-03T14:43:07Z",
+      "side": 1,
+      "message": "I struggle to explain this in one line as well, so I don\u0027t have a better suggestion. Having the longer explanation in package inline helps.",
+      "parentUuid": "58fea6d8_823ae228",
+      "range": {
+        "startLine": 49,
+        "startChar": 45,
+        "endLine": 49,
+        "endChar": 77
+      },
+      "revId": "eeb02cb05ccb85c5b2f3bf7c627bb6bbca903339",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
