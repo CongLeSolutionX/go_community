@@ -6,18 +6,20 @@ package exec
 
 import (
 	"reflect"
+	"runtime"
 	"testing"
 )
 
 func TestDedupEnv(t *testing.T) {
 	t.Parallel()
 
-	tests := []struct {
+	type testCase struct {
 		noCase  bool
 		in      []string
 		want    []string
 		wantErr bool
-	}{
+	}
+	tests := []testCase{
 		{
 			noCase: true,
 			in:     []string{"k1=v1", "k2=v2", "K1=v3"},
@@ -44,12 +46,22 @@ func TestDedupEnv(t *testing.T) {
 			in:   []string{"dodgy", "entries"},
 			want: []string{"dodgy", "entries"},
 		},
-		{
-			// Filter out entries containing NULs.
-			in:      []string{"A=a\x00b", "B=b", "C\x00C=c"},
-			want:    []string{"B=b"},
-			wantErr: true,
-		},
+		func() testCase {
+			in := []string{"A=a\x00b", "B=b", "C\x00C=c"}
+			if runtime.GOOS == "plan9" {
+				// Plan 9 needs to preserve environment variables with NUL (#56544).
+				return testCase{
+					in:   in,
+					want: in,
+				}
+			}
+			// On other OSes, filter out entries containing NULs and report an error.
+			return testCase{
+				in:      in,
+				want:    []string{"B=b"},
+				wantErr: true,
+			}
+		}(),
 	}
 	for _, tt := range tests {
 		got, err := dedupEnvCase(tt.noCase, tt.in)
