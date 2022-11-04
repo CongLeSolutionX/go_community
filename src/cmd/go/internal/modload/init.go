@@ -673,7 +673,7 @@ func LoadModFile(ctx context.Context) *Requirements {
 			modfetch.WorkspaceGoSumFiles = append(modfetch.WorkspaceGoSumFiles, sumFile)
 		}
 		modfetch.GoSumFile = workFilePath + ".sum"
-	} else if modRoots == nil {
+	} else if len(modRoots) == 0 {
 		// We're in module mode, but not inside a module.
 		//
 		// Commands like 'go build', 'go run', 'go list' have no go.mod file to
@@ -695,6 +695,9 @@ func LoadModFile(ctx context.Context) *Requirements {
 		modfetch.GoSumFile = strings.TrimSuffix(modFilePath(modRoots[0]), ".mod") + ".sum"
 	}
 	if len(modRoots) == 0 {
+		if cfg.BuildMod == "vendor" {
+			base.Fatalf("go: -mod=vendor is not supported outside of a module")
+		}
 		// TODO(#49228): Instead of creating a fake module with an empty modroot,
 		// make MainModules.Len() == 0 mean that we're in module mode but not inside
 		// any module.
