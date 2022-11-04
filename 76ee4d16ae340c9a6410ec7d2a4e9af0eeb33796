@@ -38,6 +38,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7841fba3_e8b89e4a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-04T19:41:40Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "76ee4d16ae340c9a6410ec7d2a4e9af0eeb33796",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0fc7adfb_6776bfd6",
@@ -51,6 +68,24 @@
       "writtenOn": "2022-11-04T18:33:52Z",
       "side": 1,
       "message": "If this is a set (`map[pgo.NodeMapKey]struct{}`), then I think you could eliminate `candHotEdgeMap` entirely (it is the same thing with Callee dropped).\n\nNot critical now, I could perhaps fold this into my existing pending cleanups.",
+      "revId": "76ee4d16ae340c9a6410ec7d2a4e9af0eeb33796",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ca956c0_a8f74aef",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-04T19:41:40Z",
+      "side": 1,
+      "message": "Yeah, I think so. Will try in a separate CL. (Or if your cleanup comes first we\u0027ll go with yours :)",
+      "parentUuid": "0fc7adfb_6776bfd6",
       "revId": "76ee4d16ae340c9a6410ec7d2a4e9af0eeb33796",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
