@@ -1183,7 +1183,7 @@ func (t *tester) cgoTest(dt *distTest) error {
 	pair := gohostos + "-" + goarch
 	switch pair {
 	case "darwin-amd64", "darwin-arm64",
-		"windows-386", "windows-amd64":
+		"windows-386", "windows-amd64", "windows-arm", "windows-arm64":
 		// test linkmode=external, but __thread not supported, so skip testtls.
 		if !t.extLink() {
 			break
@@ -1201,11 +1201,11 @@ func (t *tester) cgoTest(dt *distTest) error {
 		}
 
 	case "aix-ppc64",
-		"android-arm", "android-arm64",
+		"android-386", "android-amd64", "android-arm", "android-arm64",
 		"dragonfly-amd64",
 		"freebsd-386", "freebsd-amd64", "freebsd-arm", "freebsd-riscv64",
-		"linux-386", "linux-amd64", "linux-arm", "linux-arm64", "linux-ppc64le", "linux-riscv64", "linux-s390x",
-		"netbsd-386", "netbsd-amd64",
+		"linux-386", "linux-amd64", "linux-arm", "linux-arm64", "linux-loong64", "linux-mips", "linux-mipsle", "linux-mips64", "linux-mips64le", "linux-ppc64", "linux-ppc64le", "linux-riscv64", "linux-s390x",
+		"netbsd-386", "netbsd-amd64", "netbsd-arm", "netbsd-arm64",
 		"openbsd-386", "openbsd-amd64", "openbsd-arm", "openbsd-arm64", "openbsd-mips64":
 
 		cmd := t.addCmd(dt, "misc/cgo/test", t.goTest(), "-ldflags=-linkmode=external", ".")
@@ -1243,8 +1243,11 @@ func (t *tester) cgoTest(dt *distTest) error {
 					// -static in CGO_LDFLAGS triggers a different code path
 					// than -static in -extldflags, so test both.
 					// See issue #16651.
-					cmd := t.addCmd(dt, "misc/cgo/test", t.goTest(), "-tags=static", ".")
-					setEnv(cmd, "CGO_LDFLAGS", "-static -pthread")
+					if goarch != "loong64" {
+						// TODO: Why does this fail on loong64?
+						cmd := t.addCmd(dt, "misc/cgo/test", t.goTest(), "-tags=static", ".")
+						setEnv(cmd, "CGO_LDFLAGS", "-static -pthread")
+					}
 				}
 			}
 
