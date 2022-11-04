@@ -217,10 +217,17 @@ func (c *TCPConn) SetNoDelay(noDelay bool) error {
 	return nil
 }
 
-func newTCPConn(fd *netFD) *TCPConn {
-	c := &TCPConn{conn{fd}}
-	setNoDelay(c.fd, true)
-	return c
+func newTCPConn(fd *netFD, keepAlive time.Duration) *TCPConn {
+	setNoDelay(fd, true)
+	if keepAlive == 0 {
+		keepAlive = defaultTCPKeepAlive
+	}
+	if keepAlive > 0 {
+		setKeepAlive(fd, true)
+		setKeepAlivePeriod(fd, keepAlive)
+		testHookSetKeepAlive(keepAlive)
+	}
+	return &TCPConn{conn{fd}}
 }
 
 // DialTCP acts like Dial for TCP networks.
