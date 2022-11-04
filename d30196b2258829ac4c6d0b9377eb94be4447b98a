@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f9cb7fe_8d66fcac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-11-04T17:55:06Z",
+      "side": 1,
+      "message": "See https://go.dev/doc/contribute#commit_messages for the Go project\u0027s conventions on commit-message formatting.\n\n(Note especially https://go.dev/doc/contribute#first_line.)",
+      "revId": "d30196b2258829ac4c6d0b9377eb94be4447b98a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7465680e_19a91439",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-11-04T17:55:06Z",
+      "side": 1,
+      "message": "“Fixes #39593.”",
+      "revId": "d30196b2258829ac4c6d0b9377eb94be4447b98a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ef99863_44f35ea7",
+        "filename": "src/cmd/go/internal/modload/query.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1001,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-11-04T17:55:06Z",
+      "side": 1,
+      "message": "I think this message is too verbose for the information it provides, and in general commands in the Go project do not ask questions (although they may suggest an alternate command if they can be reasonably confident that command would succeed).\n\nMoreover, I think the suggestion we make to the user should probably depend on the specifics of the situation: for example, if a matching directory exists but contains no Go files (which might suggest a deleted package), that\u0027s quite a bit different from if the directory isn\u0027t there at all (which might suggest a typo\u0027d import, but could also indicate a deleted package), or if the package exists in a nested module (which would suggest retrying the command with a more specific pattern or set of patterns in order to locate the module).",
+      "revId": "d30196b2258829ac4c6d0b9377eb94be4447b98a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
