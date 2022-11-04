@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01072ace_b859df8d",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-11-04T17:47:08Z",
+      "side": 1,
+      "message": "Thanks Jin for the thoughts earlier.\n\nI think there is a problem here because we are requiring that the caller be reachable from the current package in order to mark the callee as hot. We don\u0027t want that restriction.",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 95,
+        "endChar": 48
+      },
+      "revId": "fb4f7fdb26da9ed0fee6beab280c84b399edaa42",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
