@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "271cafea_a4f58117",
+        "filename": "src/math/big/nat.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1754,
+      "author": {
+        "id": 59838
+      },
+      "writtenOn": "2022-11-04T19:52:47Z",
+      "side": 1,
+      "message": "I would recommend trying non-recursive implementation, which could also be easier to be generalized to handle inverse FFT case. Some links for reference - https://stackoverflow.com/questions/54319758/applying-fft-on-multiplication-of-two-very-large-number-without-using-recursion and https://en.wikipedia.org/wiki/Cooley–Tukey_FFT_algorithm#Data_reordering,_bit_reversal,_and_in-place_algorithms\n\nThe reference code uses complex roots, but could be easily be adapted for prime fields.\n\nAlso worth a note that suggested implementation can work inplace and it is cache-friendly, because we always update adjacent coefficients",
+      "revId": "6a07dcfc285e37bb577a641bd6050d81d363562a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
