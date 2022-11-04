@@ -22,6 +22,30 @@
       },
       "revId": "fb4f7fdb26da9ed0fee6beab280c84b399edaa42",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f486c35f_bd24ba09",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-04T20:03:52Z",
+      "side": 1,
+      "message": "Yeah, thanks for pointing it out. CL 448015 should fix it, making cross-package inlining work again.",
+      "parentUuid": "01072ace_b859df8d",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 95,
+        "endChar": 48
+      },
+      "revId": "fb4f7fdb26da9ed0fee6beab280c84b399edaa42",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
