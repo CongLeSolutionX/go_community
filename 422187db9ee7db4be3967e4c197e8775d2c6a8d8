@@ -34,6 +34,24 @@
       "parentUuid": "d354612b_0ceefff7",
       "revId": "422187db9ee7db4be3967e4c197e8775d2c6a8d8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69637545_a1b88ceb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-11-05T22:32:29Z",
+      "side": 1,
+      "message": "Perhaps I\u0027m misreading the CL description.  The description seems to say that we are changing the behavior of DialTCP to enable keepalive.  If that is so, then it should be possible to add a test that DialTCP enables keepalive, a test that fails before this CL and succeeds after it.  If it\u0027s not possible to write such a test, then I think the CL description should be rewritten to be more clear that this is just a de-duplication.  Thanks.",
+      "parentUuid": "b89551fd_7e4a5c02",
+      "revId": "422187db9ee7db4be3967e4c197e8775d2c6a8d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
