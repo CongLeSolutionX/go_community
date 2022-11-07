@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0089a942_c4765a85",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1220,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-07T22:42:00Z",
+      "side": 0,
+      "message": "It seems this removal is intentional from the CL description. Do we know if netbsd supports static linking?",
+      "range": {
+        "startLine": 1220,
+        "startChar": 20,
+        "endLine": 1220,
+        "endChar": 48
+      },
+      "revId": "4a8387f29ce62768a64ab5d6eba24301c75d6a9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

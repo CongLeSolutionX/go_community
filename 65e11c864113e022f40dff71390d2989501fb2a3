@@ -90,6 +90,23 @@
       "parentUuid": "04e45c36_c5e7efb3",
       "revId": "65e11c864113e022f40dff71390d2989501fb2a3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf8f9415_8b1d9e8d",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1236,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-07T22:42:00Z",
+      "side": 1,
+      "message": "As static TLS is not supported on FreeBSD ARM, it wouldn\u0027t be surprised that it doesn\u0027t work on NetBSD ARM...",
+      "revId": "65e11c864113e022f40dff71390d2989501fb2a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
