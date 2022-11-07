@@ -72,6 +72,29 @@
       "message": "I downloaded this patch locally and tested it on a Linux workstation with `svn` installed, and all of the `svn`-related tests passed.\n\nThanks for following up on this!",
       "revId": "048a9ecfdbefe63351c57f3949deca8b6fbdb509",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94966045_c1dbe7b1",
+        "filename": "src/cmd/go/internal/vcweb/script.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 5184
+      },
+      "writtenOn": "2022-11-07T10:45:47Z",
+      "side": 1,
+      "message": "I thought it was spelled COMSPEC?",
+      "range": {
+        "startLine": 131,
+        "startChar": 2,
+        "endLine": 131,
+        "endChar": 11
+      },
+      "revId": "048a9ecfdbefe63351c57f3949deca8b6fbdb509",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
