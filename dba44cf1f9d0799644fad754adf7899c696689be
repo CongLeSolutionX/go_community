@@ -90,6 +90,23 @@
       "parentUuid": "a6cab4ae_4af18407",
       "revId": "dba44cf1f9d0799644fad754adf7899c696689be",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1783a57c_a1e689a2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 26
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-11-08T21:20:06Z",
+      "side": 1,
+      "message": "Ping @cuong.manhle.vn@gmail.com Any interest in pushing this forward for 1.20?  Thanks.",
+      "revId": "dba44cf1f9d0799644fad754adf7899c696689be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
