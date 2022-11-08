@@ -16,6 +16,24 @@
       "message": "Please write this as\n\ncmd/asm: optimize if statement to return directly\n\nThen you don\u0027t need the next sentence (leave the first comment in the GitHub pull request empty).  See https://go.dev/wiki/CommitMessage.  Thanks.",
       "revId": "08c66cb7e092ba8e0ede9a46b216d56c7d5b6051",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c594397_d63c6907",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 59643
+      },
+      "writtenOn": "2022-11-08T08:13:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b4f4d2bd_e807c5c2",
+      "revId": "08c66cb7e092ba8e0ede9a46b216d56c7d5b6051",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
