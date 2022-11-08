@@ -119,6 +119,30 @@
       },
       "revId": "048a9ecfdbefe63351c57f3949deca8b6fbdb509",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a550652_d02ee26b",
+        "filename": "src/cmd/go/internal/vcweb/script.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-11-08T19:36:55Z",
+      "side": 1,
+      "message": "https://en.wikipedia.org/wiki/COMSPEC suggests that `ComSpec` is the spelling conventionally used under `cmd.exe`.\n\nThat seems like a good enough reason to use that casing here; we can always update it again if this causes test failures on some variant of Windows.",
+      "parentUuid": "b3726ce5_ba0fa42c",
+      "range": {
+        "startLine": 131,
+        "startChar": 2,
+        "endLine": 131,
+        "endChar": 11
+      },
+      "revId": "048a9ecfdbefe63351c57f3949deca8b6fbdb509",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
