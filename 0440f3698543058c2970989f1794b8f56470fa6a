@@ -33,6 +33,23 @@
       "message": "Ping @thebrokentoaster@gmail.com",
       "revId": "0440f3698543058c2970989f1794b8f56470fa6a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a992a00b_9ebe7757",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2022-11-08T21:49:36Z",
+      "side": 1,
+      "message": "This is a lot of code to work around the fact that the API guarantees that we never read a single byte past the final block IF the input reader happens to implement `io.ByteReader`.\n\nMost usages do not actually pass an `io.ByteReader`, and so the implementation implicitly wraps it within a `bufio.Reader`. There seems to be an impedance mismatch in the complexity of this code and what happens in practice.\n\nI argue that we should instead specialize for `bufio.Reader` and make use of the `bufio.Reader.{Buffered,Peek,Discard}` methods to fetch a chunk of the upcoming data. This avoids the tricky logic checking for the final block and computing the maximum number of bits we are allowed to read. This approach is what\u0027s taken in https://github.com/dsnet/compress/blob/f66993602bf5da07ef49d35b08e7264ae9fe2b6e/internal/prefix/reader.go#L253-L317 and results in performance gains comparable to what\u0027s reported here for much less code complexity.\n\nWe already have a dependency on `bufio.Reader`, so special-casing that type seem palatable. Anyone wanting better performance, can just wrap their input in a `bufio.Reader`.\n\nAdding a dependency on \"bytes\" and \"strings\" is expensive and shouldn\u0027t be done lightly. See https://github.com/golang/go/issues/54098. Until that issue is resolved, we shouldn\u0027t be adding dependencies on these if it\u0027s not necessary.",
+      "revId": "0440f3698543058c2970989f1794b8f56470fa6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
