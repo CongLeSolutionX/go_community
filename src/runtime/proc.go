@@ -2663,6 +2663,9 @@ func execute(gp *g, inheritTime bool) {
 func findRunnable() (gp *g, inheritTime, tryWakeP bool) {
 	mp := getg().m
 
+	lastGosched := mp.p.ptr().lastGosched
+	mp.p.ptr().lastGosched.set(nil)
+
 	// The conditions here and in handoffp must agree: if
 	// findrunnable would return a G to run, handoffp must start
 	// an M.
@@ -2733,11 +2736,21 @@ top:
 	if sched.runqsize != 0 {
 		lock(&sched.lock)
 		gp := globrunqget(pp, 0)
+		if gp != nil && gp.schedlink.ptr() == nil && lastGosched == guintptr(unsafe.Pointer(gp)) {
+			// When a G calls Gosched, the P puts the G in the global run queue
+			// and then looks for work. Pulling that same G out of the global
+			// run queue before checking other Ps' local run queues gives that G
+			// unfair preference. Avoid the specific case (single goroutine,
+			// there via this P), go.dev/issue/56060.
+			globrunqput(gp)
+			gp = nil
+		}
 		unlock(&sched.lock)
 		if gp != nil {
 			return gp, false, false
 		}
 	}
+	lastGosched.set(nil)
 
 	// Poll network.
 	// This netpoll is only an optimization before we resort to stealing.
@@ -3503,6 +3516,7 @@ func park_m(gp *g) {
 }
 
 func goschedImpl(gp *g) {
+	gp.m.p.ptr().lastGosched.set(gp)
 	status := readgstatus(gp)
 	if status&^_Gscan != _Grunning {
 		dumpgstatus(gp)

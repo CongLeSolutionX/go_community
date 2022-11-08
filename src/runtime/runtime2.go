@@ -643,6 +643,11 @@ type p struct {
 	// only the owner P can CAS it to a valid G.
 	runnext guintptr
 
+	// lastGosched tracks a G that this P put into the global run queue via
+	// Gosched until this P's next findRunnable call. For that call, this P will
+	// prefer netpoll and stealWork over re-running that G. go.dev/issue/56060.
+	lastGosched guintptr
+
 	// Available G's (status == Gdead)
 	gFree struct {
 		gList
