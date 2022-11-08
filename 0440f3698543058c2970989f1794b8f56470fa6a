@@ -68,6 +68,24 @@
       "parentUuid": "6b38bca2_01cacac7",
       "revId": "0440f3698543058c2970989f1794b8f56470fa6a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13583dfa_c343a499",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2022-11-08T21:54:53Z",
+      "side": 1,
+      "message": "It seems that \"bufio\" already depends on \"bytes\" and \"strings\", so my last point isn\u0027t valid, but the rest of my argument still stands.\n\nIf we want to optimize `bytes.Buffer`, `strings.Reader`, and `bytes.Reader` with my proposed approach, we can wrap it in a way that presents an API similar to `bufio.Reader`: https://github.com/dsnet/compress/blob/master/internal/prefix/wrap.go",
+      "parentUuid": "a992a00b_9ebe7757",
+      "revId": "0440f3698543058c2970989f1794b8f56470fa6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
