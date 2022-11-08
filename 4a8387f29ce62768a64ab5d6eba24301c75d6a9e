@@ -22,6 +22,30 @@
       },
       "revId": "4a8387f29ce62768a64ab5d6eba24301c75d6a9e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "39eef959_a5872a85",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1220,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-11-08T14:50:45Z",
+      "side": 0,
+      "message": "I\u0027m not sure, but I do know that when I let netbsd/386 and netbsd/amd64 fall through to the default case that tests static linking, the tests run and everything passes, so either the tests aren\u0027t testing what they\u0027re supposed to, or it works. 😊",
+      "parentUuid": "0089a942_c4765a85",
+      "range": {
+        "startLine": 1220,
+        "startChar": 20,
+        "endLine": 1220,
+        "endChar": 48
+      },
+      "revId": "4a8387f29ce62768a64ab5d6eba24301c75d6a9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
