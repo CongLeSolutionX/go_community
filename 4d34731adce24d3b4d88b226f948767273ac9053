@@ -72,6 +72,24 @@
       "message": "(discussed out-of-band)\n\nI don\u0027t think we should disallow `-mod\u003dvendor` outside of a module. It should be reasonable to set `GOFLAGS\u003d-mod\u003dvendor` and only get an error if you need to load a non-stdlib dependency.",
       "revId": "4d34731adce24d3b4d88b226f948767273ac9053",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54445fcc_6a65a961",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-11-08T21:41:28Z",
+      "side": 1,
+      "message": "Ok, reworked this cl to call initvendor to enter vendor mode on the command-line-arguments module so it works with -mod\u003dvendor.",
+      "parentUuid": "5c2f1754_79397228",
+      "revId": "4d34731adce24d3b4d88b226f948767273ac9053",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
