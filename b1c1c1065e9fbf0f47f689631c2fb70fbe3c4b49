@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "815bb6df_92adee49",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-11-08T17:17:49Z",
+      "side": 1,
+      "message": "Please write this as\n\nCONTRIBUTING: updating URL to go.dev\n\n\nThen delete everything else, as explained in the text.  Thanks.",
+      "revId": "b1c1c1065e9fbf0f47f689631c2fb70fbe3c4b49",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
