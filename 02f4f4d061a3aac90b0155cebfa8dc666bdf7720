@@ -170,6 +170,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b3e5dae2_e2e23aa9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 51768
+      },
+      "writtenOn": "2022-11-08T21:07:41Z",
+      "side": 1,
+      "message": "I don\u0027t think I have the knowledge to do the internal linking case without sinking a lot more time into it sadly. Will that be a blocker to get the external linker portion merged?",
+      "parentUuid": "af433f67_1ccb8382",
+      "revId": "02f4f4d061a3aac90b0155cebfa8dc666bdf7720",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "91da3b2e_280b8bcd",
         "filename": "src/cmd/link/internal/ld/lib.go",
         "patchSetId": 4
