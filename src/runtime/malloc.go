@@ -1092,6 +1092,10 @@ func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
 	// the garbage collector could follow a pointer to x,
 	// but see uninitialized memory or stale heap bits.
 	publicationBarrier()
+	// As x and the heap bits are initialized, update
+	// freeindexForScan now so x is seen by the GC
+	// (including convervative scan) as an allocated object.
+	span.freeindexForScan = span.freeindex
 
 	// Allocate black during GC.
 	// All slots hold nil so no scanning is needed.

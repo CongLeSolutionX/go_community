@@ -487,6 +487,14 @@ type mspan struct {
 	speciallock           mutex         // guards specials list
 	specials              *special      // linked list of special records sorted by offset.
 	userArenaChunkFree    addrRange     // interval for managing chunk allocation
+
+	// freeindexForScan is like freeindex, except that freeindex is
+	// used by the allocator whereas freeindexForScan is used by the
+	// GC scanner. They are two fields so that the GC sees the object
+	// is allocated only when the object and the heap bits are
+	// initialized (see also the assignment of freeindexForScan in
+	// mallocgc, and issue 54596).
+	freeindexForScan uintptr
 }
 
 func (s *mspan) base() uintptr {
@@ -1386,6 +1394,7 @@ func (h *mheap) initSpan(s *mspan, typ spanAllocType, spanclass spanClass, base,
 
 		// Initialize mark and allocation structures.
 		s.freeindex = 0
+		s.freeindexForScan = 0
 		s.allocCache = ^uint64(0) // all 1s indicating all free.
 		s.gcmarkBits = newMarkBits(s.nelems)
 		s.allocBits = newAllocBits(s.nelems)
@@ -1657,6 +1666,7 @@ func (span *mspan) init(base uintptr, npages uintptr) {
 	span.specials = nil
 	span.needzero = 0
 	span.freeindex = 0
+	span.freeindexForScan = 0
 	span.allocBits = nil
 	span.gcmarkBits = nil
 	span.state.set(mSpanDead)
