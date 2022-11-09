@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c049713f_22b9d721",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2022-11-09T21:34:29Z",
+      "side": 1,
+      "message": "I think there are still cases where it is valuable to use runtime checks for the target cpu to determine what code to run. Then the best code can be executed regardless of whether it was compiled with an explicit GOPPC64 setting.",
+      "revId": "69f8a9c516a14c1d12f797953e0618acf8a5e128",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2606c690_d126d333",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
