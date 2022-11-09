@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51d57e5f_2d54898f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-11-09T19:43:21Z",
+      "side": 1,
+      "message": "Please read and perform the items in this list.",
+      "revId": "6f0f6377ef07afe7cce1f77fccdcb0595995821e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
