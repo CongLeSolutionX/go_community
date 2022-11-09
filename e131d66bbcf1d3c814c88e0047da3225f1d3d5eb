@@ -89,6 +89,24 @@
       "message": "What is the status of this CL?  It has been around for a while, has a +2, and a merge conflict.  @cuong.manhle.vn@gmail.com @khr@golang.org Thanks.",
       "revId": "e131d66bbcf1d3c814c88e0047da3225f1d3d5eb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0cc862dd_69f43144",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-11-09T00:55:33Z",
+      "side": 1,
+      "message": "This is the preparation CL for better marking stack objects. However, we still havent got a good approach for this. See discussion in next CL in CLs chain.",
+      "parentUuid": "46a2d791_1912e19e",
+      "revId": "e131d66bbcf1d3c814c88e0047da3225f1d3d5eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
