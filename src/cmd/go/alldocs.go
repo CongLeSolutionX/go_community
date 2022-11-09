@@ -1285,7 +1285,7 @@
 //
 // Usage:
 //
-//	go mod tidy [-e] [-v] [-go=version] [-compat=version]
+//	go mod tidy [-e] [-v] [-x] [-go=version] [-compat=version]
 //
 // Tidy makes sure go.mod matches the source code in the module.
 // It adds any missing modules necessary to build the current module's
