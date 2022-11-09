@@ -106,6 +106,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0550a89_7f760804",
+        "filename": "src/cmd/compile/internal/types2/lookup.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-11-09T19:08:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1aa76d79_40117968",
+      "revId": "7f3c77719bf0edb3ef704ed50642d7f053fe890e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "316c48d4_1b53c7a0",
@@ -119,6 +137,24 @@
       "writtenOn": "2022-08-17T20:10:05Z",
       "side": 1,
       "message": "let\u0027s remove this - see comment above",
+      "revId": "7f3c77719bf0edb3ef704ed50642d7f053fe890e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd5d50b2_b581faa9",
+        "filename": "src/cmd/compile/internal/types2/lookup.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-11-09T19:08:30Z",
+      "side": 1,
+      "message": "Whoops, forgot to delete the code, otherwise done.",
+      "parentUuid": "316c48d4_1b53c7a0",
       "revId": "7f3c77719bf0edb3ef704ed50642d7f053fe890e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -140,6 +176,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e50109fd_f1b9dce9",
+        "filename": "src/cmd/compile/internal/types2/typestring.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-11-09T19:08:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "024a7618_2db14603",
+      "revId": "7f3c77719bf0edb3ef704ed50642d7f053fe890e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fb8b2914_b79a958d",
@@ -157,6 +211,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8755543_9e878fc8",
+        "filename": "src/cmd/compile/internal/types2/typestring.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-11-09T19:08:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb8b2914_b79a958d",
+      "revId": "7f3c77719bf0edb3ef704ed50642d7f053fe890e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1a908963_a8fd5192",
@@ -170,6 +242,24 @@
       "writtenOn": "2022-08-17T20:10:05Z",
       "side": 1,
       "message": "This can lead to output like\n\nmypkg.struct{ string }\n\nwhich is not Go. I\u0027ve discussed with rfindley and I think we should do:\n\nstruct { A int; string /* package mypkg */; f float64; ... }\n\ni.e., we print the package as a /*-style comment on the first (and only the first) non-exported field. This is Go code, it\u0027s not too intrusive, and will show the problem where it actually is.",
+      "revId": "7f3c77719bf0edb3ef704ed50642d7f053fe890e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f55d7d91_c4871a38",
+        "filename": "src/cmd/compile/internal/types2/typestring.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-11-09T19:08:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a908963_a8fd5192",
       "revId": "7f3c77719bf0edb3ef704ed50642d7f053fe890e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
