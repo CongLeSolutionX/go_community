@@ -7,6 +7,7 @@ package base
 import (
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"sync"
 )
@@ -53,4 +54,16 @@ func RelPaths(paths []string) []string {
 func IsTestFile(file string) bool {
 	// We don't cover tests, only the code they test.
 	return strings.HasSuffix(file, "_test.go")
+}
+
+func IsNull(path string) bool {
+	if path == os.DevNull {
+		return true
+	}
+	if runtime.GOOS == "windows" {
+		if strings.ToUpper(path) == "NUL" {
+			return true
+		}
+	}
+	return false
 }
