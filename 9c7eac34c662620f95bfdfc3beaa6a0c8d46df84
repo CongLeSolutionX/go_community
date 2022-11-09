@@ -41,6 +41,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "72741e11_06c8d740",
+        "filename": "src/internal/cpu/cpu.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 52933
+      },
+      "writtenOn": "2022-11-09T12:09:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3145ce89_c7635352",
+      "range": {
+        "startLine": 44,
+        "startChar": 1,
+        "endLine": 44,
+        "endChar": 8
+      },
+      "revId": "9c7eac34c662620f95bfdfc3beaa6a0c8d46df84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7b1e6afa_0934c4b6",
@@ -54,6 +78,30 @@
       "writtenOn": "2022-08-15T13:08:45Z",
       "side": 1,
       "message": "I think we can make this typed constants \n\ntype vendor int\n\nconst (\n   Unknown vendor \u003d iota\n   Intel vendor\n   AMD vendor \n) \n\nIf iota doesnt work we can specify 0,1,2 explicitly.",
+      "range": {
+        "startLine": 21,
+        "startChar": 1,
+        "endLine": 21,
+        "endChar": 12
+      },
+      "revId": "9c7eac34c662620f95bfdfc3beaa6a0c8d46df84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b817fac_154828fb",
+        "filename": "src/internal/cpu/cpu_x86.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 52933
+      },
+      "writtenOn": "2022-11-09T12:09:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b1e6afa_0934c4b6",
       "range": {
         "startLine": 21,
         "startChar": 1,
@@ -87,6 +135,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b695e84_2066de91",
+        "filename": "src/internal/cpu/cpu_x86_cache.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 52933
+      },
+      "writtenOn": "2022-11-09T12:09:43Z",
+      "side": 1,
+      "message": "Decided to base default cache sizes for old x86-CPUs which do not support implemented techniques to determine the cache size.",
+      "parentUuid": "dcba3a60_73ae4c73",
+      "range": {
+        "startLine": 10,
+        "startChar": 1,
+        "endLine": 13,
+        "endChar": 26
+      },
+      "revId": "9c7eac34c662620f95bfdfc3beaa6a0c8d46df84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "71e84eae_8621b4c0",
@@ -100,6 +172,30 @@
       "writtenOn": "2022-08-15T13:08:45Z",
       "side": 1,
       "message": "extra const block with type and iota",
+      "range": {
+        "startLine": 15,
+        "startChar": 1,
+        "endLine": 15,
+        "endChar": 24
+      },
+      "revId": "9c7eac34c662620f95bfdfc3beaa6a0c8d46df84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "14112753_930b768a",
+        "filename": "src/internal/cpu/cpu_x86_cache.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 52933
+      },
+      "writtenOn": "2022-11-09T12:09:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71e84eae_8621b4c0",
       "range": {
         "startLine": 15,
         "startChar": 1,
@@ -133,6 +229,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "de38e9eb_c0a72441",
+        "filename": "src/internal/cpu/cpu_x86_cache.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 52933
+      },
+      "writtenOn": "2022-11-09T12:09:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c78a039_d89eb415",
+      "range": {
+        "startLine": 38,
+        "startChar": 5,
+        "endLine": 38,
+        "endChar": 22
+      },
+      "revId": "9c7eac34c662620f95bfdfc3beaa6a0c8d46df84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "80d1e208_1a10bf9f",
@@ -146,6 +266,30 @@
       "writtenOn": "2022-08-15T13:08:45Z",
       "side": 1,
       "message": "lets put comments behind these special constants to know what they should do. like filter out bits X to Y.",
+      "range": {
+        "startLine": 46,
+        "startChar": 22,
+        "endLine": 46,
+        "endChar": 26
+      },
+      "revId": "9c7eac34c662620f95bfdfc3beaa6a0c8d46df84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd622ca0_c09448f8",
+        "filename": "src/internal/cpu/cpu_x86_cache.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 52933
+      },
+      "writtenOn": "2022-11-09T12:09:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80d1e208_1a10bf9f",
       "range": {
         "startLine": 46,
         "startChar": 22,
