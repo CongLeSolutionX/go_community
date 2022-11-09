@@ -93,3 +93,4 @@ type UnknownGroupError string
 func (e UnknownGroupError) Error() string {
 	return "group: unknown group " + string(e)
 }
+
