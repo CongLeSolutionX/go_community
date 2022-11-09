@@ -89,6 +89,24 @@
       "message": "If a split happens, would this still be beneficial? Maybe we do this only when it can fit in a single ADD and a shift?",
       "revId": "97a4876c8992d28530531bd8be38a2da95cb0d9b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b47c19ea_fe5d5399",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1862,
+      "author": {
+        "id": 52329
+      },
+      "writtenOn": "2022-11-09T06:25:30Z",
+      "side": 1,
+      "message": "I think it is still beneficial. Both LLVM and gcc follow this behaviour.\n    * LLVM: https://godbolt.org/z/bYYGcjaY5\n    * gcc: https://godbolt.org/z/4fKzeYPGc",
+      "parentUuid": "4d7595e1_8e2416e6",
+      "revId": "97a4876c8992d28530531bd8be38a2da95cb0d9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
