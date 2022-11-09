@@ -57,6 +57,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3cbcc747_94128ea8",
+        "filename": "src/cmd/go/internal/modload/import.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-11-09T22:39:33Z",
+      "side": 1,
+      "message": "MainModules.ModRoot returns the empty string: when we initialize the command-line-arguments module, we pass in the empty string as its root.\n\nThe dirInModule call for the main module exits in the else case at the beginning of the function. The dirInModule call for the vendor directory appends vendor to the empty string. That could be problematic because joining \"\" and \"vendor\" produces the vendor directory relative to the current directory, so we might want to guard this logic on ModRoot not being empty?",
+      "parentUuid": "ae696b96_c5128639",
+      "revId": "c1474644cd2f62661ca496f257572b185388b7b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "87a09d25_1ca493e2",
         "filename": "src/cmd/go/internal/modload/init.go",
         "patchSetId": 3
@@ -68,6 +86,30 @@
       "writtenOn": "2022-11-09T21:51:53Z",
       "side": 1,
       "message": "Is `vendorList` ever non-empty at this point? (This might be clearer as `initVendor(nil)`.)",
+      "range": {
+        "startLine": 714,
+        "startChar": 27,
+        "endLine": 714,
+        "endChar": 37
+      },
+      "revId": "c1474644cd2f62661ca496f257572b185388b7b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33a778f0_55e295be",
+        "filename": "src/cmd/go/internal/modload/init.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 714,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2022-11-09T22:39:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87a09d25_1ca493e2",
       "range": {
         "startLine": 714,
         "startChar": 27,
