@@ -33,6 +33,29 @@
       "message": "Ping @bcmills@google.com",
       "revId": "f77622322721774958a9c564b15ae1f347c20be9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "edb696df_f11764b1",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2511,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-11-09T22:18:50Z",
+      "side": 1,
+      "message": "We don\u0027t really want to encourage GO111MODULE\u003doff or use of relative import paths — they cause lots of other problems too (like not having a good name for the package in crash dumps and debug metadata).\n\nI think it\u0027s good to update this documentation to more accurately describe what relative import paths do — mainly to aid in understanding legacy code — but I don\u0027t want to suggest that they are fit for any current use.",
+      "range": {
+        "startLine": 2508,
+        "startChar": 0,
+        "endLine": 2511,
+        "endChar": 73
+      },
+      "revId": "f77622322721774958a9c564b15ae1f347c20be9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
