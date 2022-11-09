@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b55c617_8b63c679",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2022-11-09T18:15:11Z",
+      "side": 1,
+      "message": "This seems to have broken the API tests again.",
+      "revId": "2f4d5c3b791b9b78c32ad587a70adfc1b46f29e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
