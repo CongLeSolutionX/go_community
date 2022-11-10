@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee7477e4_7d161d45",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-11-10T02:33:29Z",
+      "side": 1,
+      "message": "This caused failures on the nocgo builders. It\u0027s hard to see because it was masked another much larger builder failure.\n\nExamples:\nhttps://build.golang.org/log/54d8390c1e8b50fc431fc75678de66ff3374230f\nhttps://build.golang.org/log/3bfc5eca3e09f2c36cad7aae14060c403cd09c71",
+      "revId": "f5d21ffc816760813079d4429060a6c03f643b55",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
