@@ -51,6 +51,23 @@
       "parentUuid": "b996513f_2f14617e",
       "revId": "ad042b89f85d291a900c363772ad2e00fdb93c83",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f924be02_75405f80",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-11-10T19:07:34Z",
+      "side": 1,
+      "message": "This change was already made as part of CL 427157 a while back. Please abandon. Thanks.",
+      "revId": "ad042b89f85d291a900c363772ad2e00fdb93c83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
