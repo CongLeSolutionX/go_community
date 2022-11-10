@@ -70,3 +70,4 @@ func (p *Plugin) Lookup(symName string) (Symbol, error) {
 //	*v.(*int) = 7
 //	f.(func())() // prints "Hello, number 7"
 type Symbol any
+
