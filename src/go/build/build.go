@@ -1005,7 +1005,10 @@ Found:
 
 	// Now that p.CgoFiles has been set, use it to determine whether
 	// a package in GOROOT gets an install target:
-	if len(p.CgoFiles) != 0 && p.Root != "" && p.Goroot && pkga != "" {
+	// By default, (unless the GODEBUG value installgoroot=all is set)
+	// GOROOT packages only have an install target on Linux, and if they
+	// have any cgo files.
+	if ctxt.GOOS == "linux" && len(p.CgoFiles) != 0 && p.Root != "" && p.Goroot && pkga != "" {
 		p.PkgObj = ctxt.joinPath(p.Root, pkga)
 	}
 
