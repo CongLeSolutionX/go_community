@@ -82,6 +82,29 @@
       },
       "revId": "0735d45df37099b4936af6c6e6b95eb5db48cbab",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22d1cec4_6aeb682d",
+        "filename": "src/crypto/rsa/rsa.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2022-11-10T22:41:04Z",
+      "side": 1,
+      "message": "May want to explicitly document which functions are not constant time. Also may want to consider explicitly documenting _what_ information we leak (exact bit sizes of various private variables) so that people don\u0027t come along and say \"hey this isn\u0027t _actually_ constant time!\"",
+      "range": {
+        "startLine": 23,
+        "startChar": 15,
+        "endLine": 23,
+        "endChar": 40
+      },
+      "revId": "0735d45df37099b4936af6c6e6b95eb5db48cbab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
