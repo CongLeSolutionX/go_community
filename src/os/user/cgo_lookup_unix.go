@@ -54,18 +54,19 @@ func lookupUser(username string) (*User, error) {
 	nameC := make([]byte, len(username)+1)
 	copy(nameC, username)
 
-	buf := alloc(userBuffer)
-	defer buf.free()
-
-	err := retryWithBuffer(buf, func() syscall.Errno {
+	err := retryWithBuffer(userBuffer, func(buf []byte) syscall.Errno {
+		// Avoid cgo errors due to possible pointers
+		// remaining from earlier call.
+		pwd = C.struct_passwd{}
+		result = nil
 		// mygetpwnam_r is a wrapper around getpwnam_r to avoid
 		// passing a size_t to getpwnam_r, because for unknown
 		// reasons passing a size_t to getpwnam_r doesn't work on
 		// Solaris.
 		return syscall.Errno(C.mygetpwnam_r((*C.char)(unsafe.Pointer(&nameC[0])),
 			&pwd,
-			(*C.char)(buf.ptr),
-			C.size_t(buf.size),
+			(*C.char)(unsafe.Pointer(&buf[0])),
+			C.size_t(len(buf)),
 			&result))
 	})
 	if err != nil {
@@ -89,16 +90,17 @@ func lookupUnixUid(uid int) (*User, error) {
 	var pwd C.struct_passwd
 	var result *C.struct_passwd
 
-	buf := alloc(userBuffer)
-	defer buf.free()
-
-	err := retryWithBuffer(buf, func() syscall.Errno {
+	err := retryWithBuffer(userBuffer, func(buf []byte) syscall.Errno {
+		// Avoid cgo errors due to possible pointers
+		// remaining from earlier call.
+		result = nil
+		pwd = C.struct_passwd{}
 		// mygetpwuid_r is a wrapper around getpwuid_r to avoid using uid_t
 		// because C.uid_t(uid) for unknown reasons doesn't work on linux.
 		return syscall.Errno(C.mygetpwuid_r(C.int(uid),
 			&pwd,
-			(*C.char)(buf.ptr),
-			C.size_t(buf.size),
+			(*C.char)(unsafe.Pointer(&buf[0])),
+			C.size_t(len(buf)),
 			&result))
 	})
 	if err != nil {
@@ -130,16 +132,18 @@ func lookupGroup(groupname string) (*Group, error) {
 	var grp C.struct_group
 	var result *C.struct_group
 
-	buf := alloc(groupBuffer)
-	defer buf.free()
 	cname := make([]byte, len(groupname)+1)
 	copy(cname, groupname)
 
-	err := retryWithBuffer(buf, func() syscall.Errno {
+	err := retryWithBuffer(groupBuffer, func(buf []byte) syscall.Errno {
+		// Avoid cgo errors due to possible pointers
+		// remaining from earlier call.
+		grp = C.struct_group{}
+		result = nil
 		return syscall.Errno(C.mygetgrnam_r((*C.char)(unsafe.Pointer(&cname[0])),
 			&grp,
-			(*C.char)(buf.ptr),
-			C.size_t(buf.size),
+			(*C.char)(unsafe.Pointer(&buf[0])),
+			C.size_t(len(buf)),
 			&result))
 	})
 	if err != nil {
@@ -163,16 +167,17 @@ func lookupUnixGid(gid int) (*Group, error) {
 	var grp C.struct_group
 	var result *C.struct_group
 
-	buf := alloc(groupBuffer)
-	defer buf.free()
-
-	err := retryWithBuffer(buf, func() syscall.Errno {
+	err := retryWithBuffer(groupBuffer, func(buf []byte) syscall.Errno {
+		// Avoid cgo errors due to possible pointers
+		// remaining from earlier call.
+		grp = C.struct_group{}
+		result = nil
 		// mygetgrgid_r is a wrapper around getgrgid_r to avoid using gid_t
 		// because C.gid_t(gid) for unknown reasons doesn't work on linux.
 		return syscall.Errno(C.mygetgrgid_r(C.int(gid),
 			&grp,
-			(*C.char)(buf.ptr),
-			C.size_t(buf.size),
+			(*C.char)(unsafe.Pointer(&buf[0])),
+			C.size_t(len(buf)),
 			&result))
 	})
 	if err != nil {
@@ -214,44 +219,23 @@ func (k bufferKind) initialSize() C.size_t {
 	return C.size_t(sz)
 }
 
-type memBuffer struct {
-	ptr  unsafe.Pointer
-	size C.size_t
-}
-
-func alloc(kind bufferKind) *memBuffer {
-	sz := kind.initialSize()
-	return &memBuffer{
-		ptr:  C.malloc(sz),
-		size: sz,
-	}
-}
-
-func (mb *memBuffer) resize(newSize C.size_t) {
-	mb.ptr = C.realloc(mb.ptr, newSize)
-	mb.size = newSize
-}
-
-func (mb *memBuffer) free() {
-	C.free(mb.ptr)
-}
-
 // retryWithBuffer repeatedly calls f(), increasing the size of the
 // buffer each time, until f succeeds, fails with a non-ERANGE error,
 // or the buffer exceeds a reasonable limit.
-func retryWithBuffer(buf *memBuffer, f func() syscall.Errno) error {
+func retryWithBuffer(startSize bufferKind, f func([]byte) syscall.Errno) error {
+	buf := make([]byte, startSize)
 	for {
-		errno := f()
+		errno := f(buf)
 		if errno == 0 {
 			return nil
 		} else if errno != syscall.ERANGE {
 			return errno
 		}
-		newSize := buf.size * 2
+		newSize := len(buf) * 2
 		if !isSizeReasonable(int64(newSize)) {
 			return fmt.Errorf("internal buffer exceeds %d bytes", maxBufferSize)
 		}
-		buf.resize(newSize)
+		buf = make([]byte, newSize)
 	}
 }
 
