@@ -7,7 +7,7 @@
 // Package pty is a simple pseudo-terminal package for Unix systems,
 // implemented by calling C functions via cgo.
 // This is only used for testing the os/signal package.
-package pty
+package testpty
 
 import (
 	"fmt"
