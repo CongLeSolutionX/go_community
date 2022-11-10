@@ -6,12 +6,12 @@ go list -f '{{.Target}}' fmt
 go list -export -f '{{.Export}}' fmt
 stdout $GOCACHE
 
-# Packages that use cgo still do.
-[cgo] go list -f '{{.Target}}' runtime/cgo
-[cgo] stdout .
-[cgo] go list -export -f '{{.Export}}' runtime/cgo
-[cgo] ! stdout $GOCACHE
-[cgo] stdout cgo\.a
+# Packages that use cgo on linux still do.
+[GOOS:linux] [cgo] go list -f '{{.Target}}' runtime/cgo
+[GOOS:linux] [cgo] stdout .
+[GOOS:linux] [cgo] go list -export -f '{{.Export}}' runtime/cgo
+[GOOS:linux] [cgo] ! stdout $GOCACHE
+[GOOS:linux] [cgo] stdout cgo\.a
 
 # With GODEBUG=installgoroot=all, fmt has a target.
 # (Though we can't try installing it without modifying goroot).
