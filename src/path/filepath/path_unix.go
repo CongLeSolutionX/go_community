@@ -8,6 +8,10 @@ package filepath
 
 import "strings"
 
+func escapes(path string) bool {
+	return unixEscapes(path)
+}
+
 // IsAbs reports whether the path is absolute.
 func IsAbs(path string) bool {
 	return strings.HasPrefix(path, "/")

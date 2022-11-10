@@ -143,6 +143,52 @@ func TestClean(t *testing.T) {
 	}
 }
 
+type EscapeTest struct {
+	path    string
+	escapes bool
+}
+
+var escapetests = []EscapeTest{
+	{"", true},
+	{".", true},
+	{"..", true},
+	{"../a", true},
+	{"/", true},
+	{"/a", true},
+	{"/a/../..", true},
+	{"a", false},
+	{"a/../a", false},
+	{"a/", false},
+	{"a/.", false},
+	{"a/./b/./c", false},
+}
+
+var winescapetests = []EscapeTest{
+	{"NUL", true},
+	{"nul", true},
+	{"nul.txt", true},
+	{"com1", true},
+	{"./nul", true},
+	{"a/nul.txt/b", true},
+	{`\`, true},
+	{`\a`, true},
+	{`C:`, true},
+	{`C:\a`, true},
+	{`..\a`, true},
+}
+
+func TestEscapes(t *testing.T) {
+	tests := escapetests
+	if runtime.GOOS == "windows" {
+		tests = append(tests, winescapetests...)
+	}
+	for _, test := range tests {
+		if got := filepath.Escapes(test.path); got != test.escapes {
+			t.Errorf("Escapes(%q) = %v, want %v", test.path, got, test.escapes)
+		}
+	}
+}
+
 const sep = filepath.Separator
 
 var slashtests = []PathTest{

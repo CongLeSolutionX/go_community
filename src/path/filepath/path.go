@@ -172,6 +172,45 @@ func Clean(path string) string {
 	return FromSlash(out.string())
 }
 
+// Escapes reports whether path, using lexical analysis only, has any of these properties:
+//
+//   - is outside the subtree rooted at the current directory
+//   - is an absolute path
+//   - is empty
+//   - on Windows, is a reserved name such as "NUL"
+//
+// If Escapes(path) returns false, then
+// Join(base, path) will always produce a path contained within base and
+// Clean(path) will always produce an unrooted path with no ".." path elements.
+//
+// Escapes does not consider links, which can cause the location
+// named by path to exist outside the current directory.
+func Escapes(path string) bool {
+	return escapes(path)
+}
+
+func unixEscapes(path string) bool {
+	if IsAbs(path) || path == "" {
+		return true
+	}
+	hasDots := false
+	for p := path; p != ""; {
+		var part string
+		part, p, _ = strings.Cut(p, "/")
+		if part == "." || part == ".." {
+			hasDots = true
+			break
+		}
+	}
+	if hasDots {
+		path = Clean(path)
+	}
+	if path == "." || path == ".." || strings.HasPrefix(path, "../") {
+		return true
+	}
+	return false
+}
+
 // ToSlash returns the result of replacing each separator character
 // in path with a slash ('/') character. Multiple separators are
 // replaced by multiple slashes.
