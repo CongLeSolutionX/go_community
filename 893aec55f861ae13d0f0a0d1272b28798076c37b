@@ -16,6 +16,23 @@
       "message": "I\u0027ve added to this the analogous clarification for array comparisons. If people feel this requires a separate proposal/issue and CL, I\u0027m happy to make that happen.",
       "revId": "893aec55f861ae13d0f0a0d1272b28798076c37b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7566f155_cd7ffed3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-11-10T22:17:34Z",
+      "side": 1,
+      "message": "LGTM, thanks.",
+      "revId": "893aec55f861ae13d0f0a0d1272b28798076c37b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
