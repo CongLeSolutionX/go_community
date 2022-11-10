@@ -797,6 +797,20 @@ func (hs *serverHandshakeState) sendFinished(out []byte) error {
 	return nil
 }
 
+// CertificateVerificationError is returned when verification of client certs fail during the handshake.
+type CertificateVerificationError struct {
+	UnverifiedCertificates []*x509.Certificate
+	Err                    error
+}
+
+func (e *CertificateVerificationError) Error() string {
+	return fmt.Sprintf("failed to verify client certificate: %s", e.Err)
+}
+
+func (e *CertificateVerificationError) Unwrap() error {
+	return e.Err
+}
+
 // processCertsFromClient takes a chain of client certificates either from a
 // Certificates message or from a sessionState and verifies them. It returns
 // the public key of the leaf certificate.
@@ -831,7 +845,7 @@ func (c *Conn) processCertsFromClient(certificate Certificate) error {
 		chains, err := certs[0].Verify(opts)
 		if err != nil {
 			c.sendAlert(alertBadCertificate)
-			return errors.New("tls: failed to verify client certificate: " + err.Error())
+			return &CertificateVerificationError{UnverifiedCertificates: certs, Err: err}
 		}
 
 		c.verifiedChains = chains
