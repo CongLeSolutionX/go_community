@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "670b8a3a_19e84dd6",
+        "filename": "src/net/conf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-11-10T17:45:13Z",
+      "side": 1,
+      "message": "It seems like you\u0027re going to a certain amount of work to avoid calling getSystemDNSConfig but I\u0027m not sure why.  Unless we are using cgo, we\u0027re almost certainly going to have to call it at some point, so why not now?",
+      "revId": "5f2f6cef757972743c675146f51c1123ba44fe0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed624797_c657bd08",
+        "filename": "src/net/conf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-11-10T17:45:13Z",
+      "side": 1,
+      "message": "Use parentheses around \u0026\u0026 within ||.  But also I don\u0027t think you should check conf.unknownOpt if conf.err !\u003d nil \u0026\u0026 os.IsPermission(conf.eff).",
+      "revId": "5f2f6cef757972743c675146f51c1123ba44fe0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "667ebfb1_f4d83acc",
+        "filename": "src/net/conf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-11-10T17:45:13Z",
+      "side": 1,
+      "message": "The first line of this comment was dropped.",
+      "revId": "5f2f6cef757972743c675146f51c1123ba44fe0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b1a7b39_d14a4f25",
+        "filename": "src/net/conf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-11-10T17:45:13Z",
+      "side": 1,
+      "message": "I think this will be easier to understand if you move it above the earlier conditional, rather than \"if !a\" followed by \"if a\".",
+      "revId": "5f2f6cef757972743c675146f51c1123ba44fe0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0cb11509_cff7efc4",
+        "filename": "src/net/conf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-11-10T17:45:13Z",
+      "side": 1,
+      "message": "Don\u0027t check unknownOpt if conf.err !\u003d nil.",
+      "revId": "5f2f6cef757972743c675146f51c1123ba44fe0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62aa57c6_170d614f",
+        "filename": "src/net/conf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-11-10T17:45:13Z",
+      "side": 1,
+      "message": "Don\u0027t check conf.unknownOpt if conf.err !\u003d nil.",
+      "revId": "5f2f6cef757972743c675146f51c1123ba44fe0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
