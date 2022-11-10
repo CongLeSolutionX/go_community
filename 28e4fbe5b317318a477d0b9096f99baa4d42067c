@@ -179,6 +179,24 @@
       "message": "Why use syscallPtr if it\u0027s still just going to return uintptr?",
       "revId": "28e4fbe5b317318a477d0b9096f99baa4d42067c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a26a4114_e70353b5",
+        "filename": "src/internal/syscall/unix/net_darwin.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-11-10T05:03:25Z",
+      "side": 1,
+      "message": "The difference between syscall and syscallPtr is that syscall detects a failure by a negative result, while syscallPtr detects a failure by a zero result. (And when they detect failures they fetch and return errno.)",
+      "parentUuid": "8f6ff750_f09fcd59",
+      "revId": "28e4fbe5b317318a477d0b9096f99baa4d42067c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
