@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1fcbcc90_9745f01e",
+        "filename": "src/crypto/rsa/nat.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2022-11-10T19:53:39Z",
+      "side": 1,
+      "message": "It\u0027s maybe obvious, but might be worth noting in a comment that we do this to target the most common RSA case.",
+      "range": {
+        "startLine": 72,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 27
+      },
+      "revId": "8b99d29717d3774d57f739c18db29272b4e30cf1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
