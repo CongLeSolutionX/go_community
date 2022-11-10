@@ -12,13 +12,15 @@ stale runtime/cgo
 
 
 # If we then build a package that uses cgo, runtime/cgo should be rebuilt and
-# cached with the new flag, but not installed to GOROOT (and thus still stale).
+# cached with the new flag, but not installed to GOROOT on linux (and thus
+# still stale). Linux is the only platform on which .a files are installed
+# to $GOROOT/pkg.
 
 env GOCACHE=$WORK/cache  # Use a fresh cache to avoid interference between runs.
 
 go build -x .
 stderr '[/\\]cgo'$GOEXE'["]? .* -importpath runtime/cgo'
-stale runtime/cgo
+[linux] stale runtime/cgo
 
 
 # After runtime/cgo has been rebuilt and cached, it should not be rebuilt again
