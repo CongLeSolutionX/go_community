@@ -2,36 +2,9 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build (linux && cgo) || (darwin && cgo) || (freebsd && cgo)
+//go:build darwin || (linux && cgo) || (freebsd && cgo)
 
 package plugin
-
-/*
-#cgo linux LDFLAGS: -ldl
-#include <dlfcn.h>
-#include <limits.h>
-#include <stdlib.h>
-#include <stdint.h>
-
-#include <stdio.h>
-
-static uintptr_t pluginOpen(const char* path, char** err) {
-	void* h = dlopen(path, RTLD_NOW|RTLD_GLOBAL);
-	if (h == NULL) {
-		*err = (char*)dlerror();
-	}
-	return (uintptr_t)h;
-}
-
-static void* pluginLookup(uintptr_t h, const char* name, char** err) {
-	void* r = dlsym((void*)h, name);
-	if (r == NULL) {
-		*err = (char*)dlerror();
-	}
-	return r;
-}
-*/
-import "C"
 
 import (
 	"errors"
@@ -40,16 +13,16 @@ import (
 )
 
 func open(name string) (*Plugin, error) {
-	cPath := make([]byte, C.PATH_MAX+1)
+	cPath := make([]byte, _C_PATH_MAX+1)
 	cRelName := make([]byte, len(name)+1)
 	copy(cRelName, name)
-	if C.realpath(
-		(*C.char)(unsafe.Pointer(&cRelName[0])),
-		(*C.char)(unsafe.Pointer(&cPath[0]))) == nil {
+	if _C_realpath(
+		(*_C_char)(unsafe.Pointer(&cRelName[0])),
+		(*_C_char)(unsafe.Pointer(&cPath[0]))) == nil {
 		return nil, errors.New(`plugin.Open("` + name + `"): realpath failed`)
 	}
 
-	filepath := C.GoString((*C.char)(unsafe.Pointer(&cPath[0])))
+	filepath := _C_GoString((*_C_char)(unsafe.Pointer(&cPath[0])))
 
 	pluginsMu.Lock()
 	if p := plugins[filepath]; p != nil {
@@ -60,11 +33,11 @@ func open(name string) (*Plugin, error) {
 		<-p.loaded
 		return p, nil
 	}
-	var cErr *C.char
-	h := C.pluginOpen((*C.char)(unsafe.Pointer(&cPath[0])), &cErr)
+	var cErr *_C_char
+	h := _C_pluginOpen((*_C_char)(unsafe.Pointer(&cPath[0])), &cErr)
 	if h == 0 {
 		pluginsMu.Unlock()
-		return nil, errors.New(`plugin.Open("` + name + `"): ` + C.GoString(cErr))
+		return nil, errors.New(`plugin.Open("` + name + `"): ` + _C_GoString(cErr))
 	}
 	// TODO(crawshaw): look for plugin note, confirm it is a Go plugin
 	// and it was built with the correct toolchain.
@@ -96,7 +69,7 @@ func open(name string) (*Plugin, error) {
 	copy(initStr, pluginpath)
 	copy(initStr[len(pluginpath):], "..inittask")
 
-	initTask := C.pluginLookup(h, (*C.char)(unsafe.Pointer(&initStr[0])), &cErr)
+	initTask := _C_pluginLookup(h, (*_C_char)(unsafe.Pointer(&initStr[0])), &cErr)
 	if initTask != nil {
 		doInit(initTask)
 	}
@@ -114,9 +87,9 @@ func open(name string) (*Plugin, error) {
 		cname := make([]byte, len(fullName)+1)
 		copy(cname, fullName)
 
-		p := C.pluginLookup(h, (*C.char)(unsafe.Pointer(&cname[0])), &cErr)
+		p := _C_pluginLookup(h, (*_C_char)(unsafe.Pointer(&cname[0])), &cErr)
 		if p == nil {
-			return nil, errors.New(`plugin.Open("` + name + `"): could not find symbol ` + symName + `: ` + C.GoString(cErr))
+			return nil, errors.New(`plugin.Open("` + name + `"): could not find symbol ` + symName + `: ` + _C_GoString(cErr))
 		}
 		valp := (*[2]unsafe.Pointer)(unsafe.Pointer(&sym))
 		if isFunc {
@@ -147,6 +120,7 @@ var (
 )
 
 // lastmoduleinit is defined in package runtime
+//go:linkname lastmoduleinit plugin.lastmoduleinit
 func lastmoduleinit() (pluginpath string, syms map[string]any, errstr string)
 
 // doInit is defined in package runtime
