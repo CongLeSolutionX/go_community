@@ -78,6 +78,30 @@
       },
       "revId": "93483f2a1de629af624197eb1a2d2fef118523ee",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ad7793b_a52c5768",
+        "filename": "src/os/signal/internal/pty/pty_darwin.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-11-10T16:17:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5673bdd5_f26d6d45",
+      "range": {
+        "startLine": 26,
+        "startChar": 13,
+        "endLine": 26,
+        "endChar": 14
+      },
+      "revId": "93483f2a1de629af624197eb1a2d2fef118523ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
