@@ -675,14 +675,18 @@ func TestImportDirTarget(t *testing.T) {
 	testenv.MustHaveGoBuild(t) // really must just have source
 	ctxt := Default
 	ctxt.GOPATH = ""
-	// In GOROOT only a handful of packages have install targets. Most stdlib packages will
-	// only be built and placed in the build cache.
+
 	p, err := ctxt.ImportDir(filepath.Join(testenv.GOROOT(t), "src/runtime/cgo"), 0)
 	if err != nil {
 		t.Fatal(err)
 	}
 	if p.PkgTargetRoot == "" {
 		t.Errorf("p.PkgTargetRoot == %q, want non-empty", p.PkgTargetRoot)
+	}
+	// In GOROOT only a handful of packages on Linux have install targets. Most stdlib packages will
+	// only be built and placed in the build cache.
+	if runtime.GOOS != "linux" {
+		t.Skip("skipping check of PkgObj on non-linux platform")
 	}
 	if testenv.HasCGO() && p.PkgObj == "" {
 		t.Errorf("p.PkgObj == %q, want non-empty", p.PkgObj)
