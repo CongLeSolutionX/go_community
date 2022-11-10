@@ -53,6 +53,80 @@
       "message": "This CL is ready for review. Thanks,",
       "revId": "d888db4acea2cd5fc2136f10bb306aeff8062fdf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74bf4c68_fe63583d",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-11-10T16:53:18Z",
+      "side": 1,
+      "message": "I\u0027m concerned that with the number of different places this is called, it will be easy to miss one (either in this CL or in the face of future changes).\n\nWould it make sense to move this into the end of `load.PackagesAndErrors`?\n\n(Are there any cases in which we want to set the PGO path without calling that function either directly or indirectly, or cases in which we want to call `load.PackagesAndErrors` without modifying the PGO path?)",
+      "revId": "d888db4acea2cd5fc2136f10bb306aeff8062fdf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a52660c1_d5a827ca",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-11-10T16:53:18Z",
+      "side": 1,
+      "message": "I think this will cause `go test` and `go list -deps` to fail, since they end up constructing several packages in the service of running a single test.\n\nWould it make sense to filter through `pkgs` to find the one named `\"main\"` (ignoring its dependencies) and only fail if we find more than one?\n\n―\n\nI guess a related question is: if I run `go build -pgo\u003dauto ./...`, and there is exactly one `main` package in a subdirectory, should that cause all of the packages to be built with the PGO file for the one main package, or should it be an error?\n\nIf it should build everything with the PGO file for the one main package, then this approach is fine and we should just look for the `main` among the results.\n\nIf it should be an error, then perhaps we should also check the `CmdlinePkg` field for the other packages and/or `CmdlinePkgLiteral` for `main`?",
+      "range": {
+        "startLine": 560,
+        "startChar": 0,
+        "endLine": 563,
+        "endChar": 3
+      },
+      "revId": "d888db4acea2cd5fc2136f10bb306aeff8062fdf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e7d4d80_62323417",
+        "filename": "src/cmd/go/testdata/script/build_pgo_auto.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-11-10T16:53:18Z",
+      "side": 1,
+      "message": "Also test the other commands that allow build flags (`test`, `run`, `list`, `list -deps`, `list -test`)?",
+      "revId": "d888db4acea2cd5fc2136f10bb306aeff8062fdf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55c5eaad_e11113ba",
+        "filename": "src/cmd/go/testdata/script/build_pgo_auto.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-11-10T16:53:18Z",
+      "side": 1,
+      "message": "`-pgo\u003dauto` will presumably guide the build for all dependencies of `main`, so to better capture the real expected usage the test should also use a `main` with a nontrivial set of dependencies.",
+      "revId": "d888db4acea2cd5fc2136f10bb306aeff8062fdf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
