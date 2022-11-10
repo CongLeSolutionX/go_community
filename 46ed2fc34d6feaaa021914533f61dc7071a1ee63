@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c8ec7f1_8b1b0fab",
+        "filename": "src/plugin/plugin.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-11-10T05:49:19Z",
+      "side": 1,
+      "message": "Thanks. \n\n(To find the cgo definitions I need for the unix package I echo a blank line onto the end of a file and then run \u0027go build -work\u0027 and poke around in the cgo-generated files. I am surprised git codereview is letting me check in these non-gofmt-ed files.)",
+      "parentUuid": "c5febd21_a9141433",
+      "revId": "46ed2fc34d6feaaa021914533f61dc7071a1ee63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1453d8c4_ad5ae86c",
@@ -68,6 +86,24 @@
       "writtenOn": "2022-11-10T05:45:07Z",
       "side": 1,
       "message": "This linkname directive is new--what changed?",
+      "revId": "46ed2fc34d6feaaa021914533f61dc7071a1ee63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d32f9e50_cead4386",
+        "filename": "src/plugin/plugin_dlopen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-11-10T05:49:19Z",
+      "side": 1,
+      "message": "Removing the use of cgo marks the package during macOS builds as a \"pure Go\" package, which then errors out on this body-less function. In other packages I have fixed this error by echo \u003estub.s, so that it looks like it has assembly that might provide the body. But Austin suggested at one point that using //go:linkname would be equally effective and less mysterious, and that they prefer to see //go:linkname in both of the packages involved anyway.",
+      "parentUuid": "1453d8c4_ad5ae86c",
       "revId": "46ed2fc34d6feaaa021914533f61dc7071a1ee63",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
