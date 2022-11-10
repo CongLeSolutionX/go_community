@@ -91,6 +91,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0282009e_5262f00c",
+        "filename": "api/next/43958.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2022-11-10T16:54:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7e009bf_3b541510",
+      "revId": "9ab6277811560f5190cc210612511439ca702c22",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c2d5c760_a9f02ec1",
@@ -104,6 +122,24 @@
       "writtenOn": "2022-11-09T22:28:58Z",
       "side": 1,
       "message": "Is forcerootfallback the best name here?  I note that it does not refer to crypto or x509 and that \"root\" has multiple meanings in programming.  Perhaps GODEBUG\u003dx509usefallbackroots\u003d1 ?",
+      "revId": "9ab6277811560f5190cc210612511439ca702c22",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7ffc15d_23036114",
+        "filename": "src/crypto/x509/root.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2022-11-10T16:54:56Z",
+      "side": 1,
+      "message": "Much better name, thanks.",
+      "parentUuid": "c2d5c760_a9f02ec1",
       "revId": "9ab6277811560f5190cc210612511439ca702c22",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
