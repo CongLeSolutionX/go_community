@@ -256,6 +256,10 @@ func mustLinkExternal(ctxt *Link) (res bool, reason string) {
 		return true, fmt.Sprintf("some packages could not be built to support internal linking (%v)", dynimportfail)
 	}
 
+	if ctxt.canUsePlugins {
+		return true, "using package plugin"
+	}
+
 	return false, ""
 }
 
