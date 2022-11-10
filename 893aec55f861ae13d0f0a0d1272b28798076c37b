@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ac58bb8_65ee1c18",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-11-10T21:55:40Z",
+      "side": 1,
+      "message": "I\u0027ve added to this the analogous clarification for array comparisons. If people feel this requires a separate proposal/issue and CL, I\u0027m happy to make that happen.",
+      "revId": "893aec55f861ae13d0f0a0d1272b28798076c37b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
