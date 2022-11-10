@@ -87,6 +87,20 @@ func TestScripts(t *testing.T) {
 	}
 	srv := httptest.NewServer(s)
 
+	// To check for data races in the handler, run the root handler to produce an
+	// overview of the script status at an arbitrary point during the test.
+	// (We ignore the output because the expected failure mode is a friendly stack
+	// dump from the race detector.)
+	t.Run("overview", func(t *testing.T) {
+		t.Parallel()
+		resp, err := http.Get(srv.URL)
+		if err == nil {
+			resp.Body.Close()
+		} else {
+			t.Error(err)
+		}
+	})
+
 	t.Cleanup(func() {
 		// The subtests spawned by WalkDir run in parallel. When they complete, this
 		// Cleanup callback will run. At that point we fetch the root URL (which
