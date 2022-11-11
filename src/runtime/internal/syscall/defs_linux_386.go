@@ -27,3 +27,13 @@ type EpollEvent struct {
 	Events uint32
 	Data   [8]byte // to match amd64
 }
+
+type Timespec struct {
+	Sec  int32
+	Nsec int32
+}
+
+//go:nosplit
+func (ts *Timespec) SetNsec(ns int64) {
+	ts.Sec = timediv(ns, 1e9, &ts.Nsec)
+}
