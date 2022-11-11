@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "01cd4060_4909f7a5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-11-11T00:22:19Z",
+      "side": 1,
+      "message": "As an aside, we probably want to generalize these functions to work for type parameter typed arguments. We currently don\u0027t do that here nor in the implementation. Can be done separately. What we have here matches the implementation.",
+      "revId": "900ddb6665209438368e50e3b5a3218d6b74d265",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3f450c83_22914b7d",
@@ -14,6 +31,30 @@
       "writtenOn": "2022-11-10T23:55:24Z",
       "side": 1,
       "message": "nit: I think the syntax \"If x, [...]. If y, [...]; otherwise [...].\" suggests the otherwise clause applies whenever !y, rather than !x \u0026\u0026 !y.\n\nI\u0027d change `s/; otherwise/. Otherwise/` to avoid that ambiguity.\n\nMaybe also use a \u003cul\u003e list to structure the cases as a bullet list, like the package unsafe documentation.\n\n(Alternatively, I\u0027ve thought for a while we should just remove the detailed description of package unsafe from the spec, and just link to the package docs so we have just one copy to maintain and for users to read. E.g., users that only read the spec will miss out on unsafe.Pointer\u0027s safety rules that are only mentioned in the package docs.)",
+      "range": {
+        "startLine": 8118,
+        "startChar": 73,
+        "endLine": 8119,
+        "endChar": 9
+      },
+      "revId": "900ddb6665209438368e50e3b5a3218d6b74d265",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "87664d91_75bc7117",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 8119,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-11-11T00:22:19Z",
+      "side": 1,
+      "message": "Done the replacement.\n\nI was considering the bullet list, but then we should probably adjust some of the other descriptions as well for consistency. Leaving alone for now.\n\nAgreed on a single place for documentation, but that\u0027s a separate discussion.",
+      "parentUuid": "3f450c83_22914b7d",
       "range": {
         "startLine": 8118,
         "startChar": 73,
@@ -47,6 +88,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f03ad6a5_dc80fd63",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 8127,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-11-11T00:22:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d2e73c1_da5836f6",
+      "range": {
+        "startLine": 8127,
+        "startChar": 52,
+        "endLine": 8127,
+        "endChar": 58
+      },
+      "revId": "900ddb6665209438368e50e3b5a3218d6b74d265",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e7a726a3_ec69edc1",
@@ -60,6 +125,30 @@
       "writtenOn": "2022-11-10T23:55:24Z",
       "side": 1,
       "message": "nit: \u003ccode\u003eStringData\u003c/code\u003e",
+      "range": {
+        "startLine": 8133,
+        "startChar": 54,
+        "endLine": 8133,
+        "endChar": 64
+      },
+      "revId": "900ddb6665209438368e50e3b5a3218d6b74d265",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fcf925e6_b436ff05",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 8133,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-11-11T00:22:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7a726a3_ec69edc1",
       "range": {
         "startLine": 8133,
         "startChar": 54,
