@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "0b7db3c3_93cfa7a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-11-11T22:34:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80178bea_27864375",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 37
+      },
+      "revId": "56b5642f207db98af9383c3b02aa342aaef0bd96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "33bac5d6_7dc37c5a",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -91,6 +115,30 @@
       "writtenOn": "2022-11-11T20:50:28Z",
       "side": 1,
       "message": "I think this condition can be omitted too — it appears that `runtime.gostring` handles a nil `*byte`.\n\n- `findNull` special-cases it here and returns `0`:\nhttps://cs.opensource.google/go/go/+/master:src/runtime/string.go;l\u003d498-500;drc\u003da11cd6f69aec5c783656601fbc7b493e0d63f605\n\n- which causes `gostring` to return the empty string:\nhttps://cs.opensource.google/go/go/+/master:src/runtime/string.go;l\u003d320-322;drc\u003da11cd6f69aec5c783656601fbc7b493e0d63f605",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 2
+      },
+      "revId": "56b5642f207db98af9383c3b02aa342aaef0bd96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2eaa9a17_fbfb17c2",
+        "filename": "src/internal/syscall/unix/net_darwin.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-11-11T22:34:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a6f51e3_3db25164",
       "range": {
         "startLine": 102,
         "startChar": 0,
