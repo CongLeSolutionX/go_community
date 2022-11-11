@@ -109,6 +109,24 @@
       "message": "Maybe we should just call runtime.gostring.  It\u0027s already called by the syscall package (in asm_plan9_*.s).",
       "revId": "782d5f8e4f2c53ca3fcbdb0f17fcf41a8b10c682",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "154b070b_54b0917f",
+        "filename": "src/internal/syscall/unix/net_darwin.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-11-11T19:29:31Z",
+      "side": 1,
+      "message": "That would probably be fine too, although I couldn\u0027t get it to work with a quick attempt.\n\nI tried to use this:\n```\n// go:linkname runtime_gostring runtime.gostring\nfunc runtime_gostring(p *byte) string\n\nfunc GoString(p *byte) string {\n\treturn runtime_gostring(p)\n}\n```\n\nbut got:\n```\n~/go-review/src$ GOOS\u003ddarwin go test -c net -o /dev/null\n# net.test\nnet.cgoLookupIPCNAME: relocation target internal/syscall/unix.runtime_gostring not defined\ninternal/syscall/unix.GaiStrerror: relocation target internal/syscall/unix.runtime_gostring not defined\n```\n\nI could probably futz with the `go:linkname` directives some more to figure out how to make it work, but it just doesn\u0027t seem worth the wrangling to eliminate this simple a function.",
+      "parentUuid": "39392d76_dceddf70",
+      "revId": "782d5f8e4f2c53ca3fcbdb0f17fcf41a8b10c682",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
