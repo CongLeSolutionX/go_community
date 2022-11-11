@@ -99,13 +99,15 @@ func GoString(p *byte) string {
 	if p == nil {
 		return ""
 	}
-	x := unsafe.Slice(p, 1e9)
-	for i, c := range x {
-		if c == 0 {
-			return string(x[:i])
+
+	n := 0
+	for {
+		b := unsafe.Slice(p, n+1)
+		if b[n] == 0 {
+			return string(b[:n])
 		}
+		n++
 	}
-	return ""
 }
 
 //go:linkname syscall_syscall syscall.syscall
