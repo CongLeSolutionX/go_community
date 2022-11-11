@@ -15,6 +15,8 @@ import (
 var (
 	epfd int32 = -1 // epoll descriptor
 
+	haveEpollWait2 bool
+
 	netpollBreakRd, netpollBreakWr uintptr // for netpollBreak
 
 	netpollWakeSig atomic.Uint32 // used to avoid duplicate calls of netpollBreak
@@ -43,6 +45,17 @@ func netpollinit() {
 	}
 	netpollBreakRd = uintptr(r)
 	netpollBreakWr = uintptr(w)
+
+	var events [1]syscall.EpollEvent
+	var ts syscall.Timespec
+	_, errno = syscall.EpollWait2(epfd, events[:], 1, &ts)
+	if errno == 0 {
+		haveEpollWait2 = true
+	} else if errno != _ENOSYS {
+		// It shouldn't be possible to get get other errors.
+		println("runtime: epollwait2 probe returned", errno)
+		throw("runtime: epollwait2 probe failed")
+	}
 }
 
 func netpollIsPollDescriptor(fd uintptr) bool {
@@ -98,23 +111,45 @@ func netpoll(delay int64) gList {
 	if epfd == -1 {
 		return gList{}
 	}
+	// An arbitrary cap on how long to wait for a timer.
+	// 1e15 ns == ~11.5 days.
+	const maxTimeoutNs = 1e15
+
 	var waitms int32
-	if delay < 0 {
-		waitms = -1
-	} else if delay == 0 {
-		waitms = 0
-	} else if delay < 1e6 {
-		waitms = 1
-	} else if delay < 1e15 {
-		waitms = int32(delay / 1e6)
+	var ts syscall.Timespec
+	var timeout *syscall.Timespec
+	if haveEpollWait2 {
+		if delay > maxTimeoutNs {
+			delay = maxTimeoutNs
+		}
+		if delay >= 0 {
+			ts.SetNsec(delay)
+			timeout = &ts
+		}
 	} else {
-		// An arbitrary cap on how long to wait for a timer.
-		// 1e9 ms == ~11.5 days.
-		waitms = 1e9
+		if delay < 0 {
+			waitms = -1
+		} else if delay == 0 {
+			waitms = 0
+		} else if delay < 1e6 {
+			waitms = 1
+		} else if delay < maxTimeoutNs {
+			waitms = int32(delay / 1e6)
+		} else {
+			// An arbitrary cap on how long to wait for a timer.
+			// 1e9 ms == ~11.5 days.
+			waitms = maxTimeoutNs / 1e6
+		}
 	}
 	var events [128]syscall.EpollEvent
 retry:
-	n, errno := syscall.EpollWait(epfd, events[:], int32(len(events)), waitms)
+	var n int32
+	var errno uintptr
+	if haveEpollWait2 {
+		n, errno = syscall.EpollWait2(epfd, events[:], int32(len(events)), timeout)
+	} else {
+		n, errno = syscall.EpollWait(epfd, events[:], int32(len(events)), waitms)
+	}
 	if errno != 0 {
 		if errno != _EINTR {
 			println("runtime: epollwait on fd", epfd, "failed with", errno)
