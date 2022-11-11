@@ -109,6 +109,24 @@
       "parentUuid": "9deabd90_14849356",
       "revId": "38f71c4f73dea57cda2092a429d733356e724990",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b065f125_3a4486c8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2022-11-11T18:24:10Z",
+      "side": 1,
+      "message": "Right, allgs should keep it alive. I found another explanation: #55167 points to several other failures (on a variety of x86 platforms) in the compress/flate package with the same message. So the windows-amd64-2016 failure was an unrelated flake, and it was in fact safe to convert guintptr to *g.",
+      "parentUuid": "57798841_95eba96c",
+      "revId": "38f71c4f73dea57cda2092a429d733356e724990",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
