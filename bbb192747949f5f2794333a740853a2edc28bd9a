@@ -53,6 +53,24 @@
       "message": "friendly ping!",
       "revId": "bbb192747949f5f2794333a740853a2edc28bd9a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1a32b44_969c72c0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34895
+      },
+      "writtenOn": "2022-11-11T20:45:05Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2b242046_1e480ef5",
+      "revId": "bbb192747949f5f2794333a740853a2edc28bd9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
