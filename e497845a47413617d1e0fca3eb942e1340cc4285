@@ -74,6 +74,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6af6373_f5924ddc",
+        "filename": "src/internal/testpty/pty.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-11-11T21:04:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bde14fbf_6f26aea1",
+      "revId": "e497845a47413617d1e0fca3eb942e1340cc4285",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ef3ff9be_64a28e46",
@@ -91,6 +109,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbc657d5_b27ec506",
+        "filename": "src/internal/testpty/pty.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-11-11T21:04:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef3ff9be_64a28e46",
+      "revId": "e497845a47413617d1e0fca3eb942e1340cc4285",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "62b639a2_bd265008",
@@ -104,6 +140,24 @@
       "writtenOn": "2022-11-11T19:54:48Z",
       "side": 1,
       "message": "Now that the name has changed to testpty, we no longer need a package alias.  Just change the two uses of ptypkg to use testpty instead.",
+      "revId": "e497845a47413617d1e0fca3eb942e1340cc4285",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de0567fd_f85bb791",
+        "filename": "src/os/signal/signal_cgo_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-11-11T21:04:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62b639a2_bd265008",
       "revId": "e497845a47413617d1e0fca3eb942e1340cc4285",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
