@@ -72,6 +72,23 @@
       "message": "PTAL",
       "revId": "891e199844da4278ddbf49480f82735715d1c807",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9574b749_326965cb",
+        "filename": "src/internal/syscall/unix/net_darwin.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-11-11T02:44:59Z",
+      "side": 1,
+      "message": "I don\u0027t think anything uses syscallPtr but I guess it does no harm.",
+      "revId": "891e199844da4278ddbf49480f82735715d1c807",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
