@@ -46,6 +46,30 @@
       },
       "revId": "9dced9687fb5cf0d4858a5d06cfc6c2c012561a1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2df8daab_de1a720b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-11T16:22:33Z",
+      "side": 1,
+      "message": "Thanks for looking into the kernel issue. If we do this. in the CL description and code comment, mention clearly that this is a kernel issue and this CL is a workaround (and at some point we may undo it if we don\u0027t need to support buggy kernels).",
+      "parentUuid": "18eea0b5_51024776",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 74
+      },
+      "revId": "9dced9687fb5cf0d4858a5d06cfc6c2c012561a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

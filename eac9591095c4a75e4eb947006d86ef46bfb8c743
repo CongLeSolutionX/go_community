@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7af318d_4f09b2d2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-11T16:22:33Z",
+      "side": 1,
+      "message": "It is unclear to me this is right. It looks like to code just compute the current allocated size, and assumes that this corresponds to the beginning part of the file. I\u0027m not sure this is guaranteed by the kernel, especially with an interrupted fallocate.",
+      "range": {
+        "startLine": 9,
+        "startChar": 39,
+        "endLine": 9,
+        "endChar": 72
+      },
+      "revId": "eac9591095c4a75e4eb947006d86ef46bfb8c743",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "135e1aee_4658f8ee",
