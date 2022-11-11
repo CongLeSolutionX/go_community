@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "101141fd_e1c90dfd",
+        "filename": "src/runtime/internal/syscall/defs_linux_386.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 14850
+      },
+      "writtenOn": "2022-11-11T14:10:30Z",
+      "side": 1,
+      "message": "I\u0027m not sure what to do with `timespec` and `func timediv` as it\u0027s being used by other OSs. Should I move it completely into `runtime/internal/syscall` so non-linux OSs would use it from there?\nAs for me it more belongs to `runtime/internal/os`...",
+      "revId": "696972754f95b7d46a6d783daa538f42f4825e61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
