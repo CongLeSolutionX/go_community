@@ -71,6 +71,24 @@
       "parentUuid": "0c92e945_95c734d2",
       "revId": "4317ad7db3e2f450f41fd2b84559b573dae0e7eb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3efd8fc8_0955af81",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-11-11T22:44:50Z",
+      "side": 1,
+      "message": "Am I correct in thinking that the only place where this can make a different is GOOS \u003d\u003d \"openbsd\"?  I\u0027m not seeing where else there is a race.  Thanks.",
+      "parentUuid": "bf61322e_63c1a4a5",
+      "revId": "4317ad7db3e2f450f41fd2b84559b573dae0e7eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
