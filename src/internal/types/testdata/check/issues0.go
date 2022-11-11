@@ -137,7 +137,7 @@ func issue10260() {
 	_ = x /* ERROR impossible type assertion: x\.\(T1\)\n\tT1 does not implement I1 \(method foo has pointer receiver\) */ .(T1)
 
 	T1{}.foo /* ERROR cannot call pointer method foo on T1 */ ()
-	x.Foo /* ERROR "x.Foo undefined \(type I1 has no field or method Foo, but does have foo\)" */ ()
+	x.Foo /* ERROR x.Foo undefined \(type I1 has no field or method Foo, but does have foo\) */ ()
 
 	_ = i2 /* ERROR impossible type assertion: i2\.\(\*T1\)\n\t\*T1 does not implement I2 \(wrong type for method foo\)\n\t\thave foo\(\)\n\t\twant foo\(int\) */ .(*T1)
 
@@ -207,11 +207,11 @@ func issue15755() {
 // Test that we don't get "declared and not used"
 // errors in the context of invalid/C objects.
 func issue20358() {
-	var F C /* ERROR "undefined" */ .F
-	var A C /* ERROR "undefined" */ .A
-	var S C /* ERROR "undefined" */ .S
-	type T C /* ERROR "undefined" */ .T
-	type P C /* ERROR "undefined" */ .P
+	var F C /* ERROR undefined */ .F
+	var A C /* ERROR undefined */ .A
+	var S C /* ERROR undefined */ .S
+	type T C /* ERROR undefined */ .T
+	type P C /* ERROR undefined */ .P
 
 	// these variables must be "used" even though
 	// the LHS expressions/types below in which

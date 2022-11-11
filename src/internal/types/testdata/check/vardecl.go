@@ -14,95 +14,95 @@ var m map[string]int
 var _ int
 var _, _ int
 
-var _; /* ERROR "expected type" */
-var _, _; /* ERROR "expected type" */
-var _, _, _; /* ERROR "expected type" */
+var _; /* ERROR expected type */
+var _, _; /* ERROR expected type */
+var _, _, _; /* ERROR expected type */
 
 // The initializer must be an expression.
-var _ = int /* ERROR "not an expression" */
-var _ = f /* ERROR "used as value" */ ()
+var _ = int /* ERROR not an expression */
+var _ = f /* ERROR used as value */ ()
 
 // Identifier and expression arity must match.
 var _, _ = 1, 2
-var _ = 1, 2 /* ERROR "extra init expr 2" */
-var _, _ = 1 /* ERROR "assignment mismatch: [1-9]+ variables but.*[1-9]+ value(s)?" */
-var _, _, _ /* ERROR "missing init expr for _" */ = 1, 2
+var _ = 1, 2 /* ERROR extra init expr 2 */
+var _, _ = 1 /* ERROR assignment mismatch: [1-9]+ variables but.*[1-9]+ value(s)? */
+var _, _, _ /* ERROR missing init expr for _ */ = 1, 2
 
-var _ = g /* ERROR "multiple-value g" */ ()
+var _ = g /* ERROR multiple-value g */ ()
 var _, _ = g()
-var _, _, _ = g /* ERROR "assignment mismatch: [1-9]+ variables but.*[1-9]+ value(s)?" */ ()
+var _, _, _ = g /* ERROR assignment mismatch: [1-9]+ variables but.*[1-9]+ value(s)? */ ()
 
 var _ = m["foo"]
 var _, _ = m["foo"]
-var _, _, _ = m  /* ERROR "assignment mismatch: [1-9]+ variables but.*[1-9]+ value(s)?" */ ["foo"]
+var _, _, _ = m  /* ERROR assignment mismatch: [1-9]+ variables but.*[1-9]+ value(s)? */ ["foo"]
 
 var _, _ int = 1, 2
-var _ int = 1, 2 /* ERROR "extra init expr 2" */
-var _, _ int = 1 /* ERROR "assignment mismatch: [1-9]+ variables but.*[1-9]+ value(s)?" */
-var _, _, _ /* ERROR "missing init expr for _" */ int = 1, 2
+var _ int = 1, 2 /* ERROR extra init expr 2 */
+var _, _ int = 1 /* ERROR assignment mismatch: [1-9]+ variables but.*[1-9]+ value(s)? */
+var _, _, _ /* ERROR missing init expr for _ */ int = 1, 2
 
 var (
 	_, _ = 1, 2
-	_ = 1, 2 /* ERROR "extra init expr 2" */
-	_, _ = 1 /* ERROR "assignment mismatch: [1-9]+ variables but.*[1-9]+ value(s)?" */
-	_, _, _ /* ERROR "missing init expr for _" */ = 1, 2
+	_ = 1, 2 /* ERROR extra init expr 2 */
+	_, _ = 1 /* ERROR assignment mismatch: [1-9]+ variables but.*[1-9]+ value(s)? */
+	_, _, _ /* ERROR missing init expr for _ */ = 1, 2
 
-	_ = g /* ERROR "multiple-value g" */ ()
+	_ = g /* ERROR multiple-value g */ ()
 	_, _ = g()
-	_, _, _ = g /* ERROR "assignment mismatch: [1-9]+ variables but.*[1-9]+ value(s)?" */ ()
+	_, _, _ = g /* ERROR assignment mismatch: [1-9]+ variables but.*[1-9]+ value(s)? */ ()
 
 	_ = m["foo"]
 	_, _ = m["foo"]
-	_, _, _ = m /* ERROR "assignment mismatch: [1-9]+ variables but.*[1-9]+ value(s)?" */ ["foo"]
+	_, _, _ = m /* ERROR assignment mismatch: [1-9]+ variables but.*[1-9]+ value(s)? */ ["foo"]
 
 	_, _ int = 1, 2
-	_ int = 1, 2 /* ERROR "extra init expr 2" */
-	_, _ int = 1 /* ERROR "assignment mismatch: [1-9]+ variables but.*[1-9]+ value(s)?" */
-	_, _, _ /* ERROR "missing init expr for _" */ int = 1, 2
+	_ int = 1, 2 /* ERROR extra init expr 2 */
+	_, _ int = 1 /* ERROR assignment mismatch: [1-9]+ variables but.*[1-9]+ value(s)? */
+	_, _, _ /* ERROR missing init expr for _ */ int = 1, 2
 )
 
 // Variables declared in function bodies must be 'used'.
 type T struct{}
 func (r T) _(a, b, c int) (u, v, w int) {
-	var x1 /* ERROR "declared and not used" */ int
-	var x2 /* ERROR "declared and not used" */ int
+	var x1 /* ERROR declared and not used */ int
+	var x2 /* ERROR declared and not used */ int
 	x1 = 1
 	(x2) = 2
 
-	y1 /* ERROR "declared and not used" */ := 1
-	y2 /* ERROR "declared and not used" */ := 2
+	y1 /* ERROR declared and not used */ := 1
+	y2 /* ERROR declared and not used */ := 2
 	y1 = 1
 	(y1) = 2
 
 	{
-		var x1 /* ERROR "declared and not used" */ int
-		var x2 /* ERROR "declared and not used" */ int
+		var x1 /* ERROR declared and not used */ int
+		var x2 /* ERROR declared and not used */ int
 		x1 = 1
 		(x2) = 2
 
-		y1 /* ERROR "declared and not used" */ := 1
-		y2 /* ERROR "declared and not used" */ := 2
+		y1 /* ERROR declared and not used */ := 1
+		y2 /* ERROR declared and not used */ := 2
 		y1 = 1
 		(y1) = 2
 	}
 
-	if x /* ERROR "declared and not used" */ := 0; a < b {}
+	if x /* ERROR declared and not used */ := 0; a < b {}
 
-	switch x /* ERROR "declared and not used" */, y := 0, 1; a {
+	switch x /* ERROR declared and not used */, y := 0, 1; a {
 	case 0:
 		_ = y
 	case 1:
-		x /* ERROR "declared and not used" */ := 0
+		x /* ERROR declared and not used */ := 0
 	}
 
 	var t interface{}
-	switch t /* ERROR "declared and not used" */ := t.(type) {}
+	switch t /* ERROR declared and not used */ := t.(type) {}
 
-	switch t /* ERROR "declared and not used" */ := t.(type) {
+	switch t /* ERROR declared and not used */ := t.(type) {
 	case int:
 	}
 
-	switch t /* ERROR "declared and not used" */ := t.(type) {
+	switch t /* ERROR declared and not used */ := t.(type) {
 	case int:
 	case float32, complex64:
 		t = nil
@@ -123,9 +123,9 @@ func (r T) _(a, b, c int) (u, v, w int) {
 		}
 	}
 
-	switch t := t; t /* ERROR "declared and not used" */ := t.(type) {}
+	switch t := t; t /* ERROR declared and not used */ := t.(type) {}
 
-	var z1 /* ERROR "declared and not used" */ int
+	var z1 /* ERROR declared and not used */ int
 	var z2 int
 	_ = func(a, b, c int) (u, v, w int) {
 		z1 = a
@@ -135,12 +135,12 @@ func (r T) _(a, b, c int) (u, v, w int) {
 	}
 
 	var s []int
-	var i /* ERROR "declared and not used" */ , j int
+	var i /* ERROR declared and not used */ , j int
 	for i, j = range s {
 		_ = j
 	}
 
-	for i, j /* ERROR "declared and not used" */ := range s {
+	for i, j /* ERROR declared and not used */ := range s {
 		_ = func() int {
 			return i
 		}
@@ -171,7 +171,7 @@ func _() {
 func _() {
 	var a, b, c int
 	var x, y int
-	x, y = a /* ERROR "assignment mismatch: [1-9]+ variables but.*[1-9]+ value(s)?" */ , b, c
+	x, y = a /* ERROR assignment mismatch: [1-9]+ variables but.*[1-9]+ value(s)? */ , b, c
 	_ = x
 	_ = y
 }
@@ -204,11 +204,11 @@ var A /* ERROR initialization cycle */ = func() int { return A }()
 
 func _() {
 	// The function literal below must not see a.
-	var a = func() int { return a /* ERROR "undefined" */ }()
+	var a = func() int { return a /* ERROR undefined */ }()
 	var _ = func() int { return a }()
 
 	// The function literal below must not see x, y, or z.
-	var x, y, z = 0, 1, func() int { return x /* ERROR "undefined" */ + y /* ERROR "undefined" */ + z /* ERROR "undefined" */ }()
+	var x, y, z = 0, 1, func() int { return x /* ERROR undefined" */ + y /* ERROR "undefined" */ + z /* ERROR "undefined */ }()
 	_, _, _ = x, y, z
 }
 
