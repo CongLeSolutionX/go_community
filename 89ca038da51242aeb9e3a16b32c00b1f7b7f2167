@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "925ea21b_6f807806",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 8116,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-11-11T01:21:33Z",
+      "side": 1,
+      "message": "s/returns the pointer/returns a pointer/ ?",
+      "revId": "89ca038da51242aeb9e3a16b32c00b1f7b7f2167",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
