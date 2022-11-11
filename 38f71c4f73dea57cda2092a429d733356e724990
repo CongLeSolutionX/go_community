@@ -73,6 +73,24 @@
       "parentUuid": "c376551a_d2850ee0",
       "revId": "38f71c4f73dea57cda2092a429d733356e724990",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9deabd90_14849356",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 9210
+      },
+      "writtenOn": "2022-11-11T06:29:36Z",
+      "side": 1,
+      "message": "GOARCH\u003dwasm means there\u0027s a single M, so there\u0027s no chance of finding work in another P\u0027s local run queue. It probably also means there\u0027s no concept of a spinning M. So, skip the useless (and harmful) yielding behavior if gomaxprocs\u003c2.",
+      "parentUuid": "063c674d_c7fc342e",
+      "revId": "38f71c4f73dea57cda2092a429d733356e724990",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
