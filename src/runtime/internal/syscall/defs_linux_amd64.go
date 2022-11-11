@@ -27,3 +27,5 @@ type EpollEvent struct {
 	Events uint32
 	Data   [8]byte // unaligned uintptr
 }
+
+type Timespec = Timespec64

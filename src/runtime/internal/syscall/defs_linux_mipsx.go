@@ -30,3 +30,13 @@ type EpollEvent struct {
 	pad_cgo_0 [4]byte
 	Data      uint64
 }
+
+type Timespec struct {
+	Sec  int32
+	Nsec int32
+}
+
+//go:nosplit
+func (ts *Timespec) SetNsec(ns int64) {
+	ts.Sec = timediv(ns, 1e9, &ts.Nsec)
+}

@@ -28,3 +28,5 @@ type EpollEvent struct {
 	_pad   uint32
 	Data   [8]byte // to match amd64
 }
+
+type Timespec = Timespec64
