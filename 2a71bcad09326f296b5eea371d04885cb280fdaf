@@ -72,6 +72,24 @@
       "message": "LGTM, but I slightly prefer the other change because it\u0027s I think easier to maintain freeindex\u0027s invariants going forward. however, I don\u0027t feel strongly. there is value in avoiding another mspan field.",
       "revId": "2a71bcad09326f296b5eea371d04885cb280fdaf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "026f6493_63207851",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-11T17:21:30Z",
+      "side": 1,
+      "message": "Is freeindex (and nelems) uintptr for performance reasons? It looks to me that we can use a smaller type (uint16?) to hold all possible values. If we can reduce the size of these fields, we can add another field without increasing the size of mspan. (I could try doing some benchmarks with smaller sized fields.) Thanks.",
+      "parentUuid": "c8d9d611_f334e346",
+      "revId": "2a71bcad09326f296b5eea371d04885cb280fdaf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
