@@ -2,14 +2,13 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build ((aix || dragonfly || freebsd || (linux && !android) || netbsd || openbsd) && cgo) || darwin
-
 // Package pty is a simple pseudo-terminal package for Unix systems,
 // implemented by calling C functions via cgo.
 // This is only used for testing the os/signal package.
 package testpty
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"syscall"
@@ -31,7 +30,11 @@ func (e *PtyError) Error() string {
 
 func (e *PtyError) Unwrap() error { return e.Errno }
 
+var ErrNotSupported = errors.New("testpty.Open not implemented on this platform")
+
 // Open returns a control pty and the name of the linked process tty.
+//
+// If Open is not implemented on this platform, it returns ErrNotSupported.
 func Open() (pty *os.File, processTTY string, err error) {
 	return open()
 }
