@@ -248,28 +248,29 @@ func (r *reader) doPkg() *types.Package {
 	return pkg
 }
 
-// flattenImports returns the transitive closure of all imported
-// packages rooted from pkgs.
+// flattenImports returns the transitive closure of all imported packages
+// rooted from pkgs, extending its input pkgs to perhaps avoid allocation.
 func flattenImports(pkgs []*types.Package) []*types.Package {
-	var res []*types.Package
-
+	// TODO is the transitive closure actually required?
 	seen := make(map[*types.Package]bool)
-	var add func(pkg *types.Package)
-	add = func(pkg *types.Package) {
-		if seen[pkg] {
-			return
-		}
+	for _, pkg := range pkgs {
 		seen[pkg] = true
-		res = append(res, pkg)
-		for _, imp := range pkg.Imports() {
-			add(imp)
-		}
 	}
 
-	for _, pkg := range pkgs {
-		add(pkg)
+	// Because doPkg is the original source of all packages,
+	// any import.Imports() returns its own transitive closure,
+	// so it is not necessary to redo the entire closure for
+	// this new package's imports.
+	for _, pkg := range pkgs { // iteration over original slice, not extended.
+		for _, imp := range pkg.Imports() {
+			if seen[imp] {
+				continue
+			}
+			seen[imp] = true
+			pkgs = append(pkgs, imp)
+		}
 	}
-	return res
+	return pkgs
 }
 
 // @@@ Types
