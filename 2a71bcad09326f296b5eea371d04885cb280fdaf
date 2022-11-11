@@ -90,6 +90,24 @@
       "parentUuid": "c8d9d611_f334e346",
       "revId": "2a71bcad09326f296b5eea371d04885cb280fdaf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5addf6e4_4e32c192",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-11-11T18:32:28Z",
+      "side": 1,
+      "message": "that I don\u0027t know. I don\u0027t see why it couldn\u0027t be a uint16, I agree.",
+      "parentUuid": "026f6493_63207851",
+      "revId": "2a71bcad09326f296b5eea371d04885cb280fdaf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
