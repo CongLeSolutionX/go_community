@@ -92,6 +92,23 @@
       "parentUuid": "7545acae_78fdaae9",
       "revId": "782d5f8e4f2c53ca3fcbdb0f17fcf41a8b10c682",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39392d76_dceddf70",
+        "filename": "src/internal/syscall/unix/net_darwin.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-11-11T18:37:46Z",
+      "side": 1,
+      "message": "Maybe we should just call runtime.gostring.  It\u0027s already called by the syscall package (in asm_plan9_*.s).",
+      "revId": "782d5f8e4f2c53ca3fcbdb0f17fcf41a8b10c682",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
