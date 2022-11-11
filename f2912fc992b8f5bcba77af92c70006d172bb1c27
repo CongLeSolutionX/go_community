@@ -99,6 +99,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4e89c8e_f057806c",
+        "filename": "src/cmd/go/terminal_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-11-11T21:02:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f464ce70_8b91a4a6",
+      "range": {
+        "startLine": 71,
+        "startChar": 8,
+        "endLine": 71,
+        "endChar": 20
+      },
+      "revId": "f2912fc992b8f5bcba77af92c70006d172bb1c27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7145f98e_4d444551",
@@ -112,6 +136,30 @@
       "writtenOn": "2022-11-11T19:48:56Z",
       "side": 1,
       "message": "I believe that `syscall.Errno` is not defined on plan9 — maybe change the type here to `error`?",
+      "range": {
+        "startLine": 20,
+        "startChar": 13,
+        "endLine": 20,
+        "endChar": 26
+      },
+      "revId": "f2912fc992b8f5bcba77af92c70006d172bb1c27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "38c40165_f517150e",
+        "filename": "src/internal/testpty/pty.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-11-11T21:02:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7145f98e_4d444551",
       "range": {
         "startLine": 20,
         "startChar": 13,
