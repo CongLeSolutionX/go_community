@@ -738,9 +738,6 @@ func testServerTimeoutsWithTimeout(t *testing.T, timeout time.Duration, mode tes
 
 func TestServerReadTimeout(t *testing.T) { run(t, testServerReadTimeout) }
 func testServerReadTimeout(t *testing.T, mode testMode) {
-	if mode == http2Mode {
-		t.Skip("https://go.dev/issue/49837")
-	}
 	respBody := "response body"
 	cst := newClientServerTest(t, mode, HandlerFunc(func(res ResponseWriter, req *Request) {
 		_, err := io.Copy(io.Discard, req.Body)
@@ -749,6 +746,7 @@ func testServerReadTimeout(t *testing.T, mode testMode) {
 		}
 		res.Write([]byte(respBody))
 	}), func(ts *httptest.Server) {
+		ts.Config.ReadHeaderTimeout = -1 // don't time out while reading headers
 		ts.Config.ReadTimeout = 5 * time.Millisecond
 	})
 	pr, pw := io.Pipe()
@@ -766,9 +764,6 @@ func testServerReadTimeout(t *testing.T, mode testMode) {
 
 func TestServerWriteTimeout(t *testing.T) { run(t, testServerWriteTimeout) }
 func testServerWriteTimeout(t *testing.T, mode testMode) {
-	if mode == http2Mode {
-		t.Skip("https://go.dev/issue/56478")
-	}
 	for timeout := 5 * time.Millisecond; ; timeout *= 2 {
 		errc := make(chan error, 2)
 		cst := newClientServerTest(t, mode, HandlerFunc(func(res ResponseWriter, req *Request) {
