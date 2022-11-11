@@ -53,6 +53,24 @@
       "message": "A lot of the changes here are to pass around a *dnsConfig.  If I understand what is happening--and I may not--then we are passing around the dnsConfig to avoid needing to grab the mutex to load it.  But the only code that I see actually using that dnsConfig file is for the GOOS \u003d\u003d \"openbsd\" case.  I may very well be missing something, but what?  Do we really need to add all this code just for OpenBSD?  Can we just have the OpenBSD code grab the mutex when it needs it?",
       "revId": "4317ad7db3e2f450f41fd2b84559b573dae0e7eb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf61322e_63c1a4a5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2022-11-11T21:21:05Z",
+      "side": 1,
+      "message": "Oh, I did not include the reasoning in the message. This passing of *dnsConfig is to fix a possible race condition: hostLookupOrder() uses a dnsConfig (without unknownOPT) and returns FilesDNS order, but then a resolv.conf change occurs so the lookup methods will use a new config (let\u0027s say with  an unsupported option, so the unknownOPT is set). With this passing we will use the same config that was used to decide the lookup order.",
+      "parentUuid": "0c92e945_95c734d2",
+      "revId": "4317ad7db3e2f450f41fd2b84559b573dae0e7eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
