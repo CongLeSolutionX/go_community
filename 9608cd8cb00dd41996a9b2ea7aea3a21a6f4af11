@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d70b9987_79e542b3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-11-12T03:26:20Z",
+      "side": 1,
+      "message": "TRY\u003dlinux-386-longtest,linux-386-clang,linux-amd64-longtest,linux-amd64-nocgo,linux-amd64-alpine,linux-amd64-clang,linux-amd64-noopt,android-amd64,android-arm64,ios-arm64,aix-ppc64",
+      "revId": "9608cd8cb00dd41996a9b2ea7aea3a21a6f4af11",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
