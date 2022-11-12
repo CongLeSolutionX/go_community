@@ -89,6 +89,24 @@
       "parentUuid": "bf61322e_63c1a4a5",
       "revId": "4317ad7db3e2f450f41fd2b84559b573dae0e7eb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "737a323b_7ec87901",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2022-11-12T07:04:10Z",
+      "side": 1,
+      "message": "Why only openbsd? This can happen on all Unix systems.",
+      "parentUuid": "3efd8fc8_0955af81",
+      "revId": "4317ad7db3e2f450f41fd2b84559b573dae0e7eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
