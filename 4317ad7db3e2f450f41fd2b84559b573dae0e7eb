@@ -107,6 +107,24 @@
       "parentUuid": "3efd8fc8_0955af81",
       "revId": "4317ad7db3e2f450f41fd2b84559b573dae0e7eb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36d5d359_6ae7e294",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-11-12T16:17:34Z",
+      "side": 1,
+      "message": "I see the openbsd case where hostLookupOrder looks at the conf.lookup field.  I don\u0027t see any other cases where it looks at a conf field.\n\nOK, I see, it\u0027s the unknownOpt field, which you did mention.  If unknownOpt is true, then we will use cgo.  So I guess the problem is that we might see that unknownOpt is false.  Then in goLookupIPCNAMEOrder we might reload resolv.conf, and at that point unknownOpt might become true, but we don\u0027t check it again.  So we might use a new server list that we probably shouldn\u0027t.\n\nIf that sounds accurate can you add that to the description?  Thanks.",
+      "parentUuid": "737a323b_7ec87901",
+      "revId": "4317ad7db3e2f450f41fd2b84559b573dae0e7eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
