@@ -16,6 +16,24 @@
       "message": "x.FuncName().Func.Closures may be filled after here as x.FuncName().Func may be walked later.",
       "revId": "f21514c7f8c972ce2291d41cf5b6263f0eb350c7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f04a9a4_a7a8c30a",
+        "filename": "src/cmd/compile/internal/reflectdata/reflect.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2009,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-11-14T09:46:42Z",
+      "side": 1,
+      "message": "No, if `x.FuncName().Func` is not nil, then `x.FuncName().Func.Closures` are already filled.",
+      "parentUuid": "c6923725_00c7c025",
+      "revId": "f21514c7f8c972ce2291d41cf5b6263f0eb350c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
