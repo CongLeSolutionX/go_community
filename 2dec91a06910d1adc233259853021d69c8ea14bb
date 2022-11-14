@@ -91,6 +91,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f4889c8_48e8c1cb",
+        "filename": "test/inline.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-11-14T15:30:42Z",
+      "side": 1,
+      "message": "I kept this line (fixed) but also merged initempty.go and sinit.go into noinit.go. The approach taken in initempty.go is less likely to break again in the future. The updated test does require that package errors have no init code, but I\u0027m OK with that. :-)",
+      "parentUuid": "eaf98db5_9b749bb2",
+      "revId": "2dec91a06910d1adc233259853021d69c8ea14bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "20f7ff22_8957ed5c",
@@ -104,6 +122,30 @@
       "writtenOn": "2022-11-14T09:27:28Z",
       "side": 1,
       "message": "Sounds like we can drop this `!nacl` condition, it\u0027s not supported anymore.",
+      "range": {
+        "startLine": 2,
+        "startChar": 10,
+        "endLine": 2,
+        "endChar": 15
+      },
+      "revId": "2dec91a06910d1adc233259853021d69c8ea14bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3c70629_60317542",
+        "filename": "test/sinit_run.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-11-14T15:30:42Z",
+      "side": 1,
+      "message": "Deleted the file.",
+      "parentUuid": "20f7ff22_8957ed5c",
       "range": {
         "startLine": 2,
         "startChar": 10,
