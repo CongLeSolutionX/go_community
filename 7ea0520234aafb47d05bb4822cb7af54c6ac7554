@@ -33,6 +33,23 @@
       "message": "and I have a CL coming to fix this.",
       "revId": "7ea0520234aafb47d05bb4822cb7af54c6ac7554",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7caca6eb_0ebe4d51",
+        "filename": "src/internal/goroot/importcfg.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2022-11-14T15:07:23Z",
+      "side": 1,
+      "message": "It looks like this value of err is never returned or reported anywhere. Should this be assigned to stdlibPkgfileErr instead?",
+      "revId": "7ea0520234aafb47d05bb4822cb7af54c6ac7554",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
