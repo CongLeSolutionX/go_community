@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "641c9426_21337121",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-11-14T19:21:11Z",
+      "side": 1,
+      "message": "net: use a consistent dnsConfig in hostLookupOrder\n\nUse the same dnsConfig throughout a DNS lookup operation.\nBefore this CL it was possible to decide to re-read a\nmodified resolv.conf file during the DNS lookup,\nwhich could lead to inconsistencies between the lookup order\nand the name server list.",
+      "revId": "0042356d6a35a59550ea8c2b7a68b2dcc1a3141b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
