@@ -16,6 +16,69 @@
       "message": "implemented your suggestions.",
       "revId": "83160a534c56a2737888a0e37c5a9b091331c545",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f29a759e_cccbd664",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2022-11-14T16:51:00Z",
+      "side": 1,
+      "message": "Thanks!",
+      "revId": "83160a534c56a2737888a0e37c5a9b091331c545",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2fc09292_6cf0a154",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1497,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2022-11-14T16:51:00Z",
+      "side": 1,
+      "message": "\"when certificate verification fails\"",
+      "range": {
+        "startLine": 1497,
+        "startChar": 44,
+        "endLine": 1497,
+        "endChar": 82
+      },
+      "revId": "83160a534c56a2737888a0e37c5a9b091331c545",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "984301f2_fa4799fa",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1504,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2022-11-14T16:51:00Z",
+      "side": 1,
+      "message": "\"failed to verify certificate\"",
+      "range": {
+        "startLine": 1504,
+        "startChar": 26,
+        "endLine": 1504,
+        "endChar": 61
+      },
+      "revId": "83160a534c56a2737888a0e37c5a9b091331c545",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
