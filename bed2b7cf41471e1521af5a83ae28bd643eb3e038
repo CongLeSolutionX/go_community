@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa294751_4262bdd9",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-14T20:05:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "850c5594_79a4c46d",
+      "range": {
+        "startLine": 136,
+        "startChar": 19,
+        "endLine": 136,
+        "endChar": 34
+      },
+      "revId": "bed2b7cf41471e1521af5a83ae28bd643eb3e038",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "898e1c62_f0a0228b",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-11-14T19:09:39Z",
       "side": 1,
       "message": "This check is no longer doing what it\u0027s supposed to do (though maybe in a harmless way?)",
+      "range": {
+        "startLine": 176,
+        "startChar": 14,
+        "endLine": 176,
+        "endChar": 37
+      },
+      "revId": "bed2b7cf41471e1521af5a83ae28bd643eb3e038",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52c37126_b08b8590",
+        "filename": "src/runtime/mcentral.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-14T20:05:12Z",
+      "side": 1,
+      "message": "Yeah, if this is reached from the \"goto havespan\" case above, we know that they cannot be equal. If we add the assignment back, this may be closer to what it is supposed to check? (Although shouldn\u0027t be true anyway?)",
+      "parentUuid": "898e1c62_f0a0228b",
       "range": {
         "startLine": 176,
         "startChar": 14,
