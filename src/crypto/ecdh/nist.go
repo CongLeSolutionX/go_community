@@ -153,7 +153,10 @@ func (c *nistCurve[Point]) NewPublicKey(key []byte) (*PublicKey, error) {
 	}, nil
 }
 
-func (c *nistCurve[Point]) ECDH(local *PrivateKey, remote *PublicKey) ([]byte, error) {
+func (c *nistCurve[Point]) ecdh(local *PrivateKey, remote *PublicKey) ([]byte, error) {
+	// This function can't actually return an error, because publicKey was
+	// checked in NewPublicKey, and the only privateKey that would generate the
+	// point at infinity is the zero key, which is rejected by NewPrivateKey.
 	p, err := c.newPoint().SetBytes(remote.publicKey)
 	if err != nil {
 		return nil, err
@@ -161,7 +164,6 @@ func (c *nistCurve[Point]) ECDH(local *PrivateKey, remote *PublicKey) ([]byte, e
 	if _, err := p.ScalarMult(p, local.privateKey); err != nil {
 		return nil, err
 	}
-	// BytesX will return an error if p is the point at infinity.
 	return p.BytesX()
 }
 

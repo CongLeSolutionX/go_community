@@ -67,11 +67,11 @@ func TestECDH(t *testing.T) {
 			t.Error("encoded and decoded private keys are different")
 		}
 
-		bobSecret, err := curve.ECDH(bobKey, aliceKey.PublicKey())
+		bobSecret, err := bobKey.ECDH(aliceKey.PublicKey())
 		if err != nil {
 			t.Fatal(err)
 		}
-		aliceSecret, err := curve.ECDH(aliceKey, bobKey.PublicKey())
+		aliceSecret, err := aliceKey.ECDH(bobKey.PublicKey())
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -168,7 +168,7 @@ func TestVectors(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		secret, err := curve.ECDH(key, peer)
+		secret, err := key.ECDH(peer)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -232,7 +232,7 @@ func BenchmarkECDH(b *testing.B) {
 			if err != nil {
 				b.Fatal(err)
 			}
-			secret, err := curve.ECDH(key, peerPubKey)
+			secret, err := key.ECDH(peerPubKey)
 			if err != nil {
 				b.Fatal(err)
 			}
@@ -272,7 +272,7 @@ func main() {
 	if err != nil { panic(err) }
 	_, err = curve.NewPrivateKey(key.Bytes())
 	if err != nil { panic(err) }
-	_, err = curve.ECDH(key, key.PublicKey())
+	_, err = key.ECDH(key.PublicKey())
 	if err != nil { panic(err) }
 	println("OK")
 }
