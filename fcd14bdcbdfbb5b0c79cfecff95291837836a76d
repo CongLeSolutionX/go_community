@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ff0815e_bed49c9a",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 824,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-11-14T19:09:39Z",
+      "side": 0,
+      "message": "Was this code unnecessary because we already check theBit \u003c 64 above?",
+      "revId": "fcd14bdcbdfbb5b0c79cfecff95291837836a76d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf2df8fc_4e8d911f",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-11-14T19:09:39Z",
+      "side": 0,
+      "message": "Oof, updating freeindex in this case makes for some rough skew...",
+      "revId": "fcd14bdcbdfbb5b0c79cfecff95291837836a76d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f6de740_506456cc",
+        "filename": "src/runtime/mcentral.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-11-14T19:09:39Z",
+      "side": 0,
+      "message": "It makes me really uncomfortable that we now drop the result of nextFreeIndex on the floor in this case. Given that it\u0027s now the caller\u0027s responsibility to commit that, I\u0027m not sure how this can be right...",
+      "revId": "fcd14bdcbdfbb5b0c79cfecff95291837836a76d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

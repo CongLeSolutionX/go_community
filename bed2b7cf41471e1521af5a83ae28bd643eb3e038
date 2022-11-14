@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "850c5594_79a4c46d",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-11-14T19:09:39Z",
+      "side": 1,
+      "message": "\"the alloc cache\" could refer to various things. Probably better to say s.allocCache.",
+      "range": {
+        "startLine": 136,
+        "startChar": 19,
+        "endLine": 136,
+        "endChar": 34
+      },
+      "revId": "bed2b7cf41471e1521af5a83ae28bd643eb3e038",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "898e1c62_f0a0228b",
+        "filename": "src/runtime/mcentral.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-11-14T19:09:39Z",
+      "side": 1,
+      "message": "This check is no longer doing what it\u0027s supposed to do (though maybe in a harmless way?)",
+      "range": {
+        "startLine": 176,
+        "startChar": 14,
+        "endLine": 176,
+        "endChar": 37
+      },
+      "revId": "bed2b7cf41471e1521af5a83ae28bd643eb3e038",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
