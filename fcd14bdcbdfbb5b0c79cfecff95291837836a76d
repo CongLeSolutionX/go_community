@@ -86,6 +86,24 @@
       "parentUuid": "9f6de740_506456cc",
       "revId": "fcd14bdcbdfbb5b0c79cfecff95291837836a76d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6810bb15_38dad3ef",
+        "filename": "src/runtime/mcentral.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-11-14T20:57:54Z",
+      "side": 0,
+      "message": "Okay, I can believe that it makes sense to \"undo\" the effect of nextFreeIndex. But (in the original code) doesn\u0027t setting s.freeindex *without* setting s.allocCache get those out of sync?",
+      "parentUuid": "be1cfe60_9c14d8a9",
+      "revId": "fcd14bdcbdfbb5b0c79cfecff95291837836a76d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
