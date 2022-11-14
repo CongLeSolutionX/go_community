@@ -490,6 +490,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "55604874_c56946e2",
+        "filename": "src/crypto/rsa/nat_test.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2022-11-14T23:40:22Z",
+      "side": 1,
+      "message": "The tests changed quite a bit in later CLs in the stack, and multi-limb tests become architecture size dependent, so this is really just a very basic check. crypto/rsa transitively tests all sizes now.",
+      "parentUuid": "83931069_23d2ba82",
+      "range": {
+        "startLine": 177,
+        "startChar": 0,
+        "endLine": 179,
+        "endChar": 21
+      },
+      "revId": "99c3e3421e54fdd979b4fd06d2a4556d094941e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cc487c89_d181e1e3",
@@ -513,6 +537,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "90589966_a0513a04",
+        "filename": "src/crypto/rsa/nat_test.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2022-11-14T23:40:22Z",
+      "side": 1,
+      "message": "Same",
+      "parentUuid": "cc487c89_d181e1e3",
+      "range": {
+        "startLine": 193,
+        "startChar": 0,
+        "endLine": 195,
+        "endChar": 21
+      },
+      "revId": "99c3e3421e54fdd979b4fd06d2a4556d094941e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "69b57d79_192417df",
@@ -526,6 +574,30 @@
       "writtenOn": "2022-10-14T20:43:00Z",
       "side": 1,
       "message": "Same",
+      "range": {
+        "startLine": 210,
+        "startChar": 0,
+        "endLine": 212,
+        "endChar": 26
+      },
+      "revId": "99c3e3421e54fdd979b4fd06d2a4556d094941e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9119c254_cf2bd74e",
+        "filename": "src/crypto/rsa/nat_test.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2022-11-14T23:40:22Z",
+      "side": 1,
+      "message": "Same",
+      "parentUuid": "69b57d79_192417df",
       "range": {
         "startLine": 210,
         "startChar": 0,
