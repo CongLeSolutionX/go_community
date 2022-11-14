@@ -89,6 +89,24 @@
       "message": "Is this guaranteed somewhere?",
       "revId": "1284f216c0fbb870e42752354234045a4025a3ec",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9db596f0_cd6adcaa",
+        "filename": "src/go/internal/gcimporter/ureader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-11-14T15:37:36Z",
+      "side": 1,
+      "message": "If it\u0027s not guaranteed, then we should replace flattenImports with a no-op and save time and memory.  I thought, however, that we had tried that and it caused problems.  In either case, I think the recursive helper function is not helpful, and I think that direct imports should always come first.\n\nI can at least rewrite to obtain that.",
+      "parentUuid": "1e845ff3_343d8910",
+      "revId": "1284f216c0fbb870e42752354234045a4025a3ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
