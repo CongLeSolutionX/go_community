@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "289533b7_c0970aa5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 25
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2022-11-14T23:42:50Z",
+      "side": 1,
+      "message": "TRY\u003dx/crypto",
+      "revId": "77d68ee001b6933477f3794c0d93911b18a0d980",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
