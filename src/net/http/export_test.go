@@ -16,6 +16,8 @@ import (
 	"sync"
 	"testing"
 	"time"
+
+	"golang.org/x/net/http2/h2"
 )
 
 var (
@@ -30,7 +32,7 @@ var (
 	ExportErrServerClosedIdle         = errServerClosedIdle
 	ExportServeFile                   = serveFile
 	ExportScanETag                    = scanETag
-	ExportHttp2ConfigureServer        = http2ConfigureServer
+	ExportHttp2ConfigureServer        = configureHTTP2Server
 	Export_shouldCopyHeaderOnRedirect = shouldCopyHeaderOnRedirect
 	Export_writeStatusLine            = writeStatusLine
 	Export_is408Message               = is408Message
@@ -135,21 +137,25 @@ func (t *Transport) IdleConnStrsForTesting() []string {
 }
 
 func (t *Transport) IdleConnStrsForTesting_h2() []string {
-	var ret []string
-	noDialPool := t.h2transport.(*http2Transport).ConnPool.(http2noDialClientConnPool)
-	pool := noDialPool.http2clientConnPool
+	return nil
+	/*
+		var ret []string
+		//noDialPool := t.h2transport.(*http2Transport).ConnPool.(http2noDialClientConnPool)
+		noDialPool := t.h2transport.(rawRoundTripper).r.(*h2.Transport).ConnPool.(http2noDialClientConnPool)
+		pool := noDialPool.http2clientConnPool
 
-	pool.mu.Lock()
-	defer pool.mu.Unlock()
+		pool.mu.Lock()
+		defer pool.mu.Unlock()
 
-	for k, cc := range pool.conns {
-		for range cc {
-			ret = append(ret, k)
+		for k, cc := range pool.conns {
+			for range cc {
+				ret = append(ret, k)
+			}
 		}
-	}
 
-	sort.Strings(ret)
-	return ret
+		sort.Strings(ret)
+		return ret
+	*/
 }
 
 func (t *Transport) IdleConnCountForTesting(scheme, addr string) int {
@@ -247,11 +253,7 @@ func hookSetter(dst *func()) func(func()) {
 }
 
 func ExportHttp2ConfigureTransport(t *Transport) error {
-	t2, err := http2configureTransports(t)
-	if err != nil {
-		return err
-	}
-	t.h2transport = t2
+	configureHTTP2Transport(t)
 	return nil
 }
 
@@ -283,9 +285,9 @@ func (r *Request) WithT(t *testing.T) *Request {
 }
 
 func ExportSetH2GoawayTimeout(d time.Duration) (restore func()) {
-	old := http2goAwayTimeout
-	http2goAwayTimeout = d
-	return func() { http2goAwayTimeout = old }
+	old := *h2.GoAwayTimeout
+	*h2.GoAwayTimeout = d
+	return func() { *h2.GoAwayTimeout = old }
 }
 
 func (r *Request) ExportIsReplayable() bool { return r.isReplayable() }

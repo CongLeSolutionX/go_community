@@ -31,6 +31,7 @@ import (
 	"time"
 
 	"golang.org/x/net/http/httpguts"
+	"golang.org/x/net/http2/h2"
 )
 
 // Errors used by the HTTP server.
@@ -38,25 +39,25 @@ var (
 	// ErrBodyNotAllowed is returned by ResponseWriter.Write calls
 	// when the HTTP method or response code does not permit a
 	// body.
-	ErrBodyNotAllowed = errors.New("http: request method or response status code does not allow body")
+	ErrBodyNotAllowed = httpguts.ErrBodyNotAllowed
 
 	// ErrHijacked is returned by ResponseWriter.Write calls when
 	// the underlying connection has been hijacked using the
 	// Hijacker interface. A zero-byte write on a hijacked
 	// connection will return ErrHijacked without any other side
 	// effects.
-	ErrHijacked = errors.New("http: connection has been hijacked")
+	ErrHijacked = httpguts.ErrHijacked
 
 	// ErrContentLength is returned by ResponseWriter.Write calls
 	// when a Handler set a Content-Length response header with a
 	// declared size and then attempted to write more bytes than
 	// declared.
-	ErrContentLength = errors.New("http: wrote more than the declared Content-Length")
+	ErrContentLength = httpguts.ErrContentLength
 
 	// Deprecated: ErrWriteAfterFlush is no longer returned by
 	// anything in the net/http package. Callers should not
 	// compare errors against this variable.
-	ErrWriteAfterFlush = errors.New("unused")
+	ErrWriteAfterFlush = httpguts.ErrWriteAfterFlush
 )
 
 // A Handler responds to an HTTP request.
@@ -240,13 +241,13 @@ var (
 	// handlers with Context.Value to access the server that
 	// started the handler. The associated value will be of
 	// type *Server.
-	ServerContextKey = &contextKey{"http-server"}
+	ServerContextKey = httpguts.ServerContextKey
 
 	// LocalAddrContextKey is a context key. It can be used in
 	// HTTP handlers with Context.Value to access the local
 	// address the connection arrived on.
 	// The associated value will be of type net.Addr.
-	LocalAddrContextKey = &contextKey{"local-addr"}
+	LocalAddrContextKey = httpguts.LocalAddrContextKey
 )
 
 // A conn represents the server side of an HTTP connection.
@@ -1823,7 +1824,7 @@ func (e statusError) Error() string { return StatusText(e.code) + ": " + e.text 
 // While any panic from ServeHTTP aborts the response to the client,
 // panicking with ErrAbortHandler also suppresses logging of a stack
 // trace to the server's error log.
-var ErrAbortHandler = errors.New("net/http: abort Handler")
+var ErrAbortHandler = httpguts.ErrAbortHandler
 
 // isCommonNetReadError reports whether err is a common error
 // encountered during reading a request off the network when the
@@ -2708,6 +2709,8 @@ type Server struct {
 	onShutdown []func()
 
 	listenerGroup sync.WaitGroup
+
+	h2 *h2.Server
 }
 
 // Close immediately closes all active net.Listeners and any
@@ -2856,14 +2859,14 @@ func (s *Server) closeListenersLocked() error {
 
 // A ConnState represents the state of a client connection to a server.
 // It's used by the optional Server.ConnState hook.
-type ConnState int
+type ConnState = httpguts.ConnState
 
 const (
 	// StateNew represents a new connection that is expected to
 	// send a request immediately. Connections begin at this
 	// state and then transition to either StateActive or
 	// StateClosed.
-	StateNew ConnState = iota
+	StateNew = httpguts.StateNew
 
 	// StateActive represents a connection that has read 1 or more
 	// bytes of a request. The Server.ConnState hook for
@@ -2876,35 +2879,23 @@ const (
 	// active requests are complete. That means that ConnState
 	// cannot be used to do per-request work; ConnState only notes
 	// the overall state of the connection.
-	StateActive
+	StateActive = httpguts.StateActive
 
 	// StateIdle represents a connection that has finished
 	// handling a request and is in the keep-alive state, waiting
 	// for a new request. Connections transition from StateIdle
 	// to either StateActive or StateClosed.
-	StateIdle
+	StateIdle = httpguts.StateIdle
 
 	// StateHijacked represents a hijacked connection.
 	// This is a terminal state. It does not transition to StateClosed.
-	StateHijacked
+	StateHijacked = httpguts.StateHijacked
 
 	// StateClosed represents a closed connection.
 	// This is a terminal state. Hijacked connections do not
 	// transition to StateClosed.
-	StateClosed
+	StateClosed = httpguts.StateClosed
 )
-
-var stateName = map[ConnState]string{
-	StateNew:      "new",
-	StateActive:   "active",
-	StateIdle:     "idle",
-	StateHijacked: "hijacked",
-	StateClosed:   "closed",
-}
-
-func (c ConnState) String() string {
-	return stateName[c]
-}
 
 // serverHandler delegates to either the server's Handler or
 // DefaultServeMux and also handles "OPTIONS *" requests.
@@ -3009,7 +3000,7 @@ func (srv *Server) shouldConfigureHTTP2ForServe() bool {
 	// passed this tls.Config to tls.NewListener. And if they did,
 	// it's too late anyway to fix it. It would only be potentially racy.
 	// See Issue 15908.
-	return strSliceContains(srv.TLSConfig.NextProtos, http2NextProtoTLS)
+	return strSliceContains(srv.TLSConfig.NextProtos, "h2")
 }
 
 // ErrServerClosed is returned by the Server's Serve, ServeTLS, ListenAndServe,
@@ -3203,6 +3194,9 @@ func (srv *Server) SetKeepAlivesEnabled(v bool) {
 		return
 	}
 	srv.disableKeepAlives.Store(true)
+	if srv.h2 != nil {
+		srv.h2.SetKeepAlivesEnabled(v)
+	}
 
 	// Close idle HTTP/1 conns:
 	srv.closeIdleConns()
@@ -3320,14 +3314,86 @@ func (srv *Server) onceSetNextProtoDefaults() {
 	if omitBundledHTTP2 || godebug.Get("http2server") == "0" {
 		return
 	}
-	// Enable HTTP/2 by default if the user hasn't otherwise
-	// configured their TLSNextProto map.
-	if srv.TLSNextProto == nil {
-		conf := &http2Server{
-			NewWriteScheduler: func() http2WriteScheduler { return http2NewPriorityWriteScheduler(nil) },
-		}
-		srv.nextProtoErr = http2ConfigureServer(srv, conf)
+	if srv.TLSNextProto != nil {
+		return
 	}
+	configureHTTP2Server(srv, nil)
+}
+
+func configureHTTP2Server(srv *Server, h2srv *h2.Server) error {
+	if h2srv == nil {
+		h2srv = h2.NewServer(&httpguts.ServerConfig{})
+		h2srv.Logf = srv.logf
+	}
+	srv.RegisterOnShutdown(h2srv.Shutdown)
+
+	if srv.TLSConfig == nil {
+		srv.TLSConfig = new(tls.Config)
+	} else if srv.TLSConfig.CipherSuites != nil && srv.TLSConfig.MinVersion < tls.VersionTLS13 {
+		// If they already provided a TLS 1.0–1.2 CipherSuite list, return an
+		// error if it is missing ECDHE_RSA_WITH_AES_128_GCM_SHA256 or
+		// ECDHE_ECDSA_WITH_AES_128_GCM_SHA256.
+		haveRequired := false
+		for _, cs := range srv.TLSConfig.CipherSuites {
+			switch cs {
+			case tls.TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
+				// Alternative MTI cipher to not discourage ECDSA-only servers.
+				// See http://golang.org/cl/30721 for further information.
+				tls.TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256:
+				haveRequired = true
+			}
+		}
+		if !haveRequired {
+			srv.nextProtoErr = fmt.Errorf("http2: TLSConfig.CipherSuites is missing an HTTP/2-required AES_128_GCM_SHA256 cipher (need at least one of TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 or TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256)")
+			return srv.nextProtoErr
+		}
+	}
+
+	// Note: not setting MinVersion to tls.VersionTLS12,
+	// as we don't want to interfere with HTTP/1.1 traffic
+	// on the user's server. We enforce TLS 1.2 later once
+	// we accept a connection. Ideally this should be done
+	// during next-proto selection, but using TLS <1.2 with
+	// HTTP/2 is still the client's bug.
+
+	srv.TLSConfig.PreferServerCipherSuites = true
+
+	if !strSliceContains(srv.TLSConfig.NextProtos, "h2") {
+		srv.TLSConfig.NextProtos = append(srv.TLSConfig.NextProtos, "h2")
+	}
+	if !strSliceContains(srv.TLSConfig.NextProtos, "http/1.1") {
+		srv.TLSConfig.NextProtos = append(srv.TLSConfig.NextProtos, "http/1.1")
+	}
+
+	srv.TLSNextProto = map[string]func(*Server, *tls.Conn, Handler){
+		"h2": func(hs *Server, c *tls.Conn, h Handler) {
+			// The TLSNextProto interface predates contexts, so
+			// the net/http package passes down its per-connection
+			// base context via an exported but unadvertised
+			// method on the Handler. This is for internal
+			// net/http<=>http2 use only.
+			var ctx context.Context
+			type baseContexter interface {
+				BaseContext() context.Context
+			}
+			if bc, ok := h.(baseContexter); ok {
+				ctx = bc.BaseContext()
+			}
+			h2srv.ServeConn(c, &h2.ServeConnOpts{
+				Context: ctx,
+				Handler: rawHandler{h},
+				BaseConfig: &httpguts.ServerConfig{
+					ReadTimeout:    srv.ReadTimeout,
+					WriteTimeout:   srv.WriteTimeout,
+					IdleTimeout:    srv.IdleTimeout,
+					MaxHeaderBytes: srv.MaxHeaderBytes,
+					ConnState:      srv.ConnState,
+				},
+			})
+		},
+	}
+	srv.h2 = h2srv
+	return nil
 }
 
 // TimeoutHandler returns a Handler that runs h with the given time limit.

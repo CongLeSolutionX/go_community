@@ -19,12 +19,13 @@ import (
 	"log"
 	"net/http/internal/ascii"
 	"net/url"
-	"reflect"
 	"sort"
 	"strings"
 	"sync"
 	"sync/atomic"
 	"time"
+
+	"golang.org/x/net/http2/h2"
 )
 
 // A Client is an HTTP client. Its zero value (DefaultClient) is a
@@ -317,17 +318,13 @@ func knownRoundTripperImpl(rt RoundTripper, req *Request) bool {
 			return knownRoundTripperImpl(altRT, req)
 		}
 		return true
-	case *http2Transport, http2noDialH2RoundTripper:
-		return true
-	}
-	// There's a very minor chance of a false positive with this.
-	// Instead of detecting our golang.org/x/net/http2.Transport,
-	// it might detect a Transport type in a different http2
-	// package. But I know of none, and the only problem would be
-	// some temporarily leaked goroutines if the transport didn't
-	// support contexts. So this is a good enough heuristic:
-	if reflect.TypeOf(rt).String() == "*http2.Transport" {
-		return true
+		//case *http2Transport, http2noDialH2RoundTripper:
+		//	return true
+	case *rawRoundTripper:
+		switch t.r.(type) {
+		case *h2.Transport:
+			return true
+		}
 	}
 	return false
 }

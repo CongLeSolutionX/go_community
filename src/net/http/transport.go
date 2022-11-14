@@ -33,6 +33,7 @@ import (
 
 	"golang.org/x/net/http/httpguts"
 	"golang.org/x/net/http/httpproxy"
+	"golang.org/x/net/http2/h2"
 )
 
 // DefaultTransport is the default implementation of Transport and is
@@ -402,28 +403,39 @@ func (t *Transport) onceSetNextProtoDefaults() {
 	if omitBundledHTTP2 {
 		return
 	}
-	t2, err := http2configureTransports(t)
-	if err != nil {
-		log.Printf("Error enabling Transport HTTP/2 support: %v", err)
-		return
-	}
-	t.h2transport = t2
+	configureHTTP2Transport(t)
+}
 
-	// Auto-configure the http2.Transport's MaxHeaderListSize from
-	// the http.Transport's MaxResponseHeaderBytes. They don't
-	// exactly mean the same thing, but they're close.
-	//
-	// TODO: also add this to x/net/http2.Configure Transport, behind
-	// a +build go1.7 build tag:
-	if limit1 := t.MaxResponseHeaderBytes; limit1 != 0 && t2.MaxHeaderListSize == 0 {
-		const h2max = 1<<32 - 1
-		if limit1 >= h2max {
-			t2.MaxHeaderListSize = h2max
-		} else {
-			t2.MaxHeaderListSize = uint32(limit1)
+func configureHTTP2Transport(t *Transport) {
+	t2 := &h2.Transport{}
+	w := &rawRoundTripper{t, t2}
+	t.RegisterProtocol("https", w)
+	if t.TLSClientConfig == nil {
+		t.TLSClientConfig = new(tls.Config)
+	}
+	if !strSliceContains(t.TLSClientConfig.NextProtos, "h2") {
+		t.TLSClientConfig.NextProtos = append([]string{"h2"}, t.TLSClientConfig.NextProtos...)
+	}
+	if !strSliceContains(t.TLSClientConfig.NextProtos, "http/1.1") {
+		t.TLSClientConfig.NextProtos = append(t.TLSClientConfig.NextProtos, "http/1.1")
+	}
+	if t.TLSNextProto == nil {
+		t.TLSNextProto = map[string]func(string, *tls.Conn) RoundTripper{}
+	}
+	t.TLSNextProto["h2"] = func(authority string, c *tls.Conn) RoundTripper {
+		if err := t2.UpgradeConn(authority, c, httpguts.UpgradeConnOpts{
+			IdleConnTimeout: t.IdleConnTimeout,
+		}); err != nil {
+			return roundTripErr{err}
 		}
+		return w
 	}
 }
+
+type roundTripErr struct{ err error }
+
+func (rt roundTripErr) RoundTripErr() error                   { return rt.err }
+func (rt roundTripErr) RoundTrip(*Request) (*Response, error) { return nil, rt.err }
 
 // ProxyFromEnvironment returns the URL of the proxy to use for a
 // given request, as indicated by the environment variables
@@ -543,7 +555,7 @@ func (t *Transport) roundTrip(req *Request) (*Response, error) {
 	req = setupRewindBody(req)
 
 	if altRT := t.alternateRoundTripper(req); altRT != nil {
-		if resp, err := altRT.RoundTrip(req); err != ErrSkipAltProtocol {
+		if resp, err := altRT.RoundTrip(req); err != ErrSkipAltProtocol && err != httpguts.ErrNoCachedConn {
 			return resp, err
 		}
 		var err error
@@ -606,7 +618,7 @@ func (t *Transport) roundTrip(req *Request) (*Response, error) {
 		}
 
 		// Failed. Clean up and determine whether to retry.
-		if http2isNoCachedConnError(err) {
+		if err == httpguts.ErrNoCachedConn {
 			if t.removeIdleConn(pconn) {
 				t.decConnsPerHost(pconn.cacheKey)
 			}
@@ -689,7 +701,7 @@ func rewindBody(req *Request) (rewound *Request, err error) {
 // HTTP request on a new connection. The non-nil input error is the
 // error from roundTrip.
 func (pc *persistConn) shouldRetryRequest(req *Request, err error) bool {
-	if http2isNoCachedConnError(err) {
+	if err == httpguts.ErrNoCachedConn {
 		// Issue 16582: if the user started a bunch of
 		// requests at once, they can all pick the same conn
 		// and violate the server's max concurrent streams.
@@ -782,6 +794,12 @@ func (t *Transport) CloseIdleConnections() {
 	}
 	if t2 := t.h2transport; t2 != nil {
 		t2.CloseIdleConnections()
+	}
+	altProto, _ := t.altProto.Load().(map[string]RoundTripper)
+	for _, rt := range altProto {
+		if rrt, ok := rt.(*rawRoundTripper); ok {
+			rrt.r.CloseIdleConnections()
+		}
 	}
 }
 
@@ -2530,7 +2548,7 @@ var errTimeout error = &httpError{err: "net/http: timeout awaiting response head
 
 // errRequestCanceled is set to be identical to the one from h2 to facilitate
 // testing.
-var errRequestCanceled = http2errRequestCanceled
+var errRequestCanceled = httpguts.ErrRequestCanceled
 var errRequestCanceledConn = errors.New("net/http: request canceled while waiting for connection") // TODO: unify?
 
 func nop() {}

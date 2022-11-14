@@ -2350,11 +2350,17 @@ func testTransportResponseHeaderTimeout(t *testing.T, mode testMode) {
 		t.Skip("skipping timeout test in -short mode")
 	}
 	inHandler := make(chan bool, 1)
+	var wg sync.WaitGroup
+	defer wg.Wait()
 	mux := NewServeMux()
 	mux.HandleFunc("/fast", func(w ResponseWriter, r *Request) {
+		wg.Add(1)
+		defer wg.Done()
 		inHandler <- true
 	})
 	mux.HandleFunc("/slow", func(w ResponseWriter, r *Request) {
+		wg.Add(1)
+		defer wg.Done()
 		inHandler <- true
 		time.Sleep(2 * time.Second)
 	})
@@ -5015,6 +5021,9 @@ func testTransportMaxIdleConns(t *testing.T, mode testMode) {
 
 func TestTransportIdleConnTimeout(t *testing.T) { run(t, testTransportIdleConnTimeout) }
 func testTransportIdleConnTimeout(t *testing.T, mode testMode) {
+	if mode == http2Mode {
+		t.Skip("requires poking around in http2 internals")
+	}
 	if testing.Short() {
 		t.Skip("skipping in short mode")
 	}
