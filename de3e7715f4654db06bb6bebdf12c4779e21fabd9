@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4c72b15_bf7f6a16",
+        "filename": "src/net/conf.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-11-14T20:39:39Z",
+      "side": 1,
+      "message": "I find this condition a bit hard to read.  I\u0027d rather split it up.\n\n\tif conf.err !\u003d nil \u0026\u0026 !os.IsNotExist(conf.err) \u0026\u0026 !os.IsPermission(conf.err) {\n\t\t// If we can\u0027t read the resolv.conf file, assume it\n\t\t// had something important in it and defer to cgo.\n\t\t// libc\u0027s resolver might then fail too, but at least\n\t\t// it wasn\u0027t our fault.\n\t\treturn fallbackOrder, conf\n\t}\n\n\tif conf.unknownOpt {\n\t\treturn fallbackOrder, conf\n\t}\n\nEarlier I said that we should check conf.err before checking conf.unknownOpt, but I think I was wrong about that.  The existing code seems happy to check conf fields even if conf.err !\u003d nil, because it know that if conf.err !\u003d nil then it is because the file doesn\u0027t exist or can\u0027t be read.",
+      "revId": "de3e7715f4654db06bb6bebdf12c4779e21fabd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc9cb68e_94c745a5",
+        "filename": "src/net/conf_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-11-14T20:39:39Z",
+      "side": 1,
+      "message": "s/faield/failed/",
+      "revId": "de3e7715f4654db06bb6bebdf12c4779e21fabd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
