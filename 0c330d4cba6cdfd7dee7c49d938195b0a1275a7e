@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "351cf1ee_7b1a7ccc",
+        "filename": "src/internal/godebug/godebug.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-11-14T04:55:52Z",
+      "side": 1,
+      "message": "Yes although I think the implementation of atomic.String would have to be the same as atomic.Pointer[string], meaning it would have to allocate. At least on systems without double-width cas.",
+      "parentUuid": "1817725a_a64296f1",
+      "revId": "0c330d4cba6cdfd7dee7c49d938195b0a1275a7e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a3bbc576_fa2ee2ac",
@@ -68,6 +86,24 @@
       "writtenOn": "2022-11-11T20:29:36Z",
       "side": 1,
       "message": "This seems like a reasonable use case for sync.Map.",
+      "revId": "0c330d4cba6cdfd7dee7c49d938195b0a1275a7e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "230327da_4ca6a07f",
+        "filename": "src/internal/godebug/godebug.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-11-14T04:55:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3bbc576_fa2ee2ac",
       "revId": "0c330d4cba6cdfd7dee7c49d938195b0a1275a7e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
