@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "78632204_5663b40e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-11-14T22:17:27Z",
+      "side": 1,
+      "message": "Cherry noted that we can probably save space in the mspan by shrinking some fields. e.g. both freeindex fields can probably become uint16 values.",
+      "parentUuid": "e1b1bea9_dbd54728",
+      "revId": "da3df0bca305db0bb8025ec8dbcb28105aa85fa6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "69448585_97b982bd",
