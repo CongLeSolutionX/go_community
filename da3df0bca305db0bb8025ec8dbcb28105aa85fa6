@@ -89,6 +89,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "67a26596_e66f0555",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1097,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-14T21:28:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "69448585_97b982bd",
+      "revId": "da3df0bca305db0bb8025ec8dbcb28105aa85fa6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bd31daaf_9d7b065e",
@@ -102,6 +120,30 @@
       "writtenOn": "2022-11-14T20:52:02Z",
       "side": 1,
       "message": "freeIndexForScan?",
+      "range": {
+        "startLine": 497,
+        "startChar": 1,
+        "endLine": 497,
+        "endChar": 17
+      },
+      "revId": "da3df0bca305db0bb8025ec8dbcb28105aa85fa6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf2b9563_f3fcd19d",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-14T21:28:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd31daaf_9d7b065e",
       "range": {
         "startLine": 497,
         "startChar": 1,
