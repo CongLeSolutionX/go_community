@@ -108,6 +108,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f170c2e_3f85d27e",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-15T23:50:01Z",
+      "side": 1,
+      "message": "Thanks. Done. Also change to attach the error to main packages, PTAL. Thanks,",
+      "parentUuid": "6bf0f058_6bfb8416",
+      "revId": "d888db4acea2cd5fc2136f10bb306aeff8062fdf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a52660c1_d5a827ca",
@@ -169,6 +187,30 @@
       "side": 1,
       "message": "\u003e \u003e I think this will cause go test and go list -deps to fail, since they end up constructing several packages in the service of running a single test.\n\u003e \n\u003e I think currently it doesn\u0027t fail, as we call SetPGOProfilePath before -test or -deps adjust the package list.\n\nThat sounds like a good argument for moving `SetPGOProfilePath` into `load.PackagesAndErrors`, so that there are fewer parts of the code that depend on subtle ordering constraints. 😅",
       "parentUuid": "ae4d562d_c094b7ee",
+      "range": {
+        "startLine": 560,
+        "startChar": 0,
+        "endLine": 563,
+        "endChar": 3
+      },
+      "revId": "d888db4acea2cd5fc2136f10bb306aeff8062fdf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d345709_c4f455ee",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-15T23:50:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e74be21_b7893ebe",
       "range": {
         "startLine": 560,
         "startChar": 0,
