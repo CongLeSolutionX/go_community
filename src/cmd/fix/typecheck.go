@@ -137,6 +137,8 @@ func (typ *Type) dot(cfg *TypeConfig, name string) string {
 	return ""
 }
 
+var suppressCgoErrors = true
+
 // typecheck type checks the AST f assuming the information in cfg.
 // It returns two maps with type information:
 // typeof maps AST nodes to type information in gofmt string form.
@@ -170,7 +172,14 @@ func typecheck(cfg *TypeConfig, f *ast.File) (typeof map[any]string, assign map[
 			if err != nil {
 				return err
 			}
-			cmd := exec.Command(filepath.Join(runtime.GOROOT(), "bin", "go"), "tool", "cgo", "-objdir", dir, "-srcdir", dir, "in.go")
+			goCmd := "go"
+			if goroot := runtime.GOROOT(); goroot != "" {
+				goCmd = filepath.Join(goroot, "bin", "go")
+			}
+			cmd := exec.Command(goCmd, "tool", "cgo", "-objdir", dir, "-srcdir", dir, "in.go")
+			if !suppressCgoErrors {
+				cmd.Stderr = os.Stderr
+			}
 			err = cmd.Run()
 			if err != nil {
 				return err
@@ -207,6 +216,9 @@ func typecheck(cfg *TypeConfig, f *ast.File) (typeof map[any]string, assign map[
 		}()
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "go fix: warning: no cgo types: %s\n", err)
+			if !suppressCgoErrors {
+				panic("unexpected cgo error")
+			}
 		}
 	}
 

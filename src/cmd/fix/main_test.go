@@ -8,9 +8,18 @@ import (
 	"go/ast"
 	"go/parser"
 	"internal/diff"
+	"internal/testenv"
 	"strings"
 	"testing"
 )
+
+func init() {
+	// If cgo is enabled, enforce that cgo commands invoked by cmd/fix
+	// do not fail during testing.
+	if testenv.HasCGO() {
+		suppressCgoErrors = false
+	}
+}
 
 type testCase struct {
 	Name    string
@@ -79,7 +88,13 @@ func TestRewrite(t *testing.T) {
 		tt := tt
 		t.Run(tt.Name, func(t *testing.T) {
 			if tt.Version == 0 {
-				t.Parallel()
+				if testing.Verbose() {
+					// Don't run in parallel: cmd/fix sometimes writes directly to stderr,
+					// and since -v prints which test is currently running we want that
+					// information to accurately correlate with the stderr output.
+				} else {
+					t.Parallel()
+				}
 			} else {
 				old := goVersion
 				goVersion = tt.Version
