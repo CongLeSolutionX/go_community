@@ -270,7 +270,8 @@ func newGraph(prof *profile.Profile, o *Options) *Graph {
 		residual := false
 
 		// Group the sample frames, based on a global map.
-		for i := len(sample.Location) - 1; i >= 0; i-- {
+		//for i := len(sample.Location) - 1; i >= 0; i-- {
+		for i := 1; i < len(sample.Location) && i >= 0; i-- { // count only the last two frames as a call edge
 			l := sample.Location[i]
 			locNodes := locationMap.get(l.ID)
 			for ni := len(locNodes) - 1; ni >= 0; ni-- {
