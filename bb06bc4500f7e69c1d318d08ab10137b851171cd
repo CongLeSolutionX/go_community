@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ed5b1c1_529ea553",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-15T16:36:41Z",
+      "side": 1,
+      "message": "Not sure if we want to make orderBlock always emit type-checked statements... (The CL looks fine.)",
+      "range": {
+        "startLine": 10,
+        "startChar": 30,
+        "endLine": 10,
+        "endChar": 49
+      },
+      "revId": "bb06bc4500f7e69c1d318d08ab10137b851171cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "665853ff_40a4c6b6",
