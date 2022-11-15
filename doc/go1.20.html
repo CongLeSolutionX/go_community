@@ -122,12 +122,20 @@ Do not send CLs removing the interior tags from such phrases.
 
 <h3 id="vet">Vet</h3>
 
+<h4 id="vet-timeformat">New warning for incorrect time formats</h4>
+
 <p><!-- https://go.dev/issue/48801, CL 354010 -->
   TODO: <a href="https://go.dev/issue/48801">https://go.dev/issue/48801</a>: check for time formats with 2006-02-01
 </p>
 
+<h4 id="vet-loopclosure">New warning for references to loop variables in parallel subtests</h4>
+
 <p><!-- CL 447256 --><!-- https://go.dev/issue/55972: extend the loopclosure analysis to parallel subtests -->
-  TODO: https://go.dev/issue/55972: extend the loopclosure analysis to parallel subtests
+  The <code>vet</code> tool now warns about references to loop variables
+  following a call to <a href="/pkg/testing/#T.Parallel"><code>T.Parallel()</code></a>
+  within subtest function bodies. Such references may access loop variable
+  values outside the current loop, resulting in a data race that often causes
+  test cases to be skipped.
 </p>
 
 <h2 id="runtime">Runtime</h2>
