@@ -70,6 +70,30 @@
       },
       "revId": "9dced9687fb5cf0d4858a5d06cfc6c2c012561a1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8747fbbe_2aaf9f2f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 54019
+      },
+      "writtenOn": "2022-11-15T12:46:15Z",
+      "side": 1,
+      "message": "Thanks， I\u0027ve updated the CL description to clarify this workaround for a kernel bug.",
+      "parentUuid": "2df8daab_de1a720b",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 74
+      },
+      "revId": "9dced9687fb5cf0d4858a5d06cfc6c2c012561a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
