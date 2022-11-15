@@ -84,8 +84,10 @@ var (
 
 // pgoInlinePrologue records the hot callsites from ir-graph.
 func pgoInlinePrologue(p *pgo.Profile, decls []ir.Node) {
-	if s, err := strconv.ParseFloat(base.Debug.PGOInlineCDFThreshold, 64); err == nil {
+	if s, err := strconv.ParseFloat(base.Debug.PGOInlineCDFThreshold, 64); err == nil && s >= 0 && s <= 100 {
 		inlineCDFHotCallSiteThresholdPercent = s
+	} else {
+		base.Fatalf("invalid PGOInlineCDFThreshold, must be between 0 and 100")
 	}
 	var hotCallsites []pgo.NodeMapKey
 	inlineHotCallSiteThresholdPercent, hotCallsites = computeThresholdFromCDF(p)
@@ -97,31 +99,18 @@ func pgoInlinePrologue(p *pgo.Profile, decls []ir.Node) {
 		inlineHotMaxBudget = int32(x)
 	}
 
-	// mark inlineable callees from hot edges
 	for _, n := range hotCallsites {
-		if fn := p.WeightedCG.IRNodes[n.CalleeName]; fn != nil {
-			candHotCalleeMap[fn] = struct{}{}
+		// mark inlineable callees from hot edges
+		if callee := p.WeightedCG.IRNodes[n.CalleeName]; callee != nil {
+			candHotCalleeMap[callee] = struct{}{}
+		}
+		// mark hot call sites
+		if caller := p.WeightedCG.IRNodes[n.CallerName]; caller != nil {
+			csi := pgo.CallSiteInfo{LineOffset: n.CallSiteOffset, Caller: caller.AST}
+			candHotEdgeMap[csi] = struct{}{}
 		}
 	}
-	// mark hot call sites
-	ir.VisitFuncsBottomUp(decls, func(list []*ir.Func, recursive bool) {
-		for _, f := range list {
-			name := ir.PkgFuncName(f)
-			if n, ok := p.WeightedCG.IRNodes[name]; ok {
-				for _, e := range p.WeightedCG.OutEdges[n] {
-					if e.Weight != 0 {
-						edgeweightpercent := pgo.WeightInPercentage(e.Weight, p.TotalEdgeWeight)
-						if edgeweightpercent > inlineHotCallSiteThresholdPercent {
-							csi := pgo.CallSiteInfo{LineOffset: e.CallSiteOffset, Caller: n.AST}
-							if _, ok := candHotEdgeMap[csi]; !ok {
-								candHotEdgeMap[csi] = struct{}{}
-							}
-						}
-					}
-				}
-			}
-		}
-	})
+
 	if base.Debug.PGOInline >= 2 {
 		fmt.Printf("hot-cg before inline in dot format:")
 		p.PrintWeightedCallGraphDOT(inlineHotCallSiteThresholdPercent)
@@ -129,8 +118,8 @@ func pgoInlinePrologue(p *pgo.Profile, decls []ir.Node) {
 }
 
 // computeThresholdFromCDF computes an edge weight threshold based on the
-// CDF of edge weights from the profile. Returns the threshold, and the
-// list of edges that make up the given percentage of the CDF.
+// CDF of edge weights from the profile. Returns the threshold as a percent,
+// and the list of edges that make up the given percentage of the CDF.
 func computeThresholdFromCDF(p *pgo.Profile) (float64, []pgo.NodeMapKey) {
 	nodes := make([]pgo.NodeMapKey, len(p.NodeMap))
 	i := 0
@@ -157,10 +146,13 @@ func computeThresholdFromCDF(p *pgo.Profile) (float64, []pgo.NodeMapKey) {
 		w := p.NodeMap[n].EWeight
 		cum += w
 		if pgo.WeightInPercentage(cum, p.TotalEdgeWeight) > inlineCDFHotCallSiteThresholdPercent {
-			return pgo.WeightInPercentage(w, p.TotalEdgeWeight), nodes[:i]
+			// nodes[:i+1] to include the very last node that makes it to go over the threshold.
+			// (Say, if the CDF threshold is 50% and one hot node takes 60% of weight, we want to
+			// include that node instead of excluding it.)
+			return pgo.WeightInPercentage(w, p.TotalEdgeWeight), nodes[:i+1]
 		}
 	}
-	return 100, nil
+	return 0, nodes
 }
 
 // pgoInlineEpilogue updates IRGraph after inlining.
