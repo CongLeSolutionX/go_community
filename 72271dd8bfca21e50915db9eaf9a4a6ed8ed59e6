@@ -70,6 +70,24 @@
       "message": "Calling panic here doesn\u0027t seem useful.  Can we instead just exit?",
       "revId": "72271dd8bfca21e50915db9eaf9a4a6ed8ed59e6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76fb0664_2f6063ba",
+        "filename": "src/cmd/fix/typecheck.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-11-15T20:37:42Z",
+      "side": 1,
+      "message": "The panic is useful because this condition occurs while the test for this package is running, which tells us which specific test case provoked the failure (and gives us a call chain leading to that failure, which may itself be useful).\n\nCalling `os.Exit` instead would cause the entire test process to exit without logging anything useful in the way of stack traces.\n\nAs an alternative, we could have the test inject a `func(error)` instead of a `bool`, although I think we would still want that function to panic.\n\nEven better still would be to change the test to re-exec itself as a command instead of invoking the `fix` functions in-process, but that\u0027s a much bigger cleanup that I\u0027m not prepared to do right now.",
+      "parentUuid": "417fd555_b07deed5",
+      "revId": "72271dd8bfca21e50915db9eaf9a4a6ed8ed59e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
