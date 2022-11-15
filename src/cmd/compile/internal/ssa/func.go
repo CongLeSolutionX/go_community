@@ -245,8 +245,9 @@ func (f *Func) SplitSlot(name *LocalSlot, sfx string, offset int64, t *types.Typ
 	return &ls
 }
 
-// newValue allocates a new Value with the given fields and places it at the end of b.Values.
-func (f *Func) newValue(op Op, t *types.Type, b *Block, pos src.XPos) *Value {
+// newFreeValue is similar to newValue but the caller is expected to set
+// the v.Block field and place it in to the b.Values[] field of a block.
+func (f *Func) newFreeValue(op Op, t *types.Type, pos src.XPos) *Value {
 	var v *Value
 	if f.freeValues != nil {
 		v = f.freeValues
@@ -263,11 +264,17 @@ func (f *Func) newValue(op Op, t *types.Type, b *Block, pos src.XPos) *Value {
 	}
 	v.Op = op
 	v.Type = t
-	v.Block = b
 	if notStmtBoundary(op) {
 		pos = pos.WithNotStmt()
 	}
 	v.Pos = pos
+	return v
+}
+
+// newValue allocates a new Value with the given fields and places it at the end of b.Values.
+func (f *Func) newValue(op Op, t *types.Type, b *Block, pos src.XPos) *Value {
+	v := f.newFreeValue(op, t, pos)
+	v.Block = b
 	b.Values = append(b.Values, v)
 	return v
 }

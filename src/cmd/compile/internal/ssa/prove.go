@@ -801,6 +801,19 @@ func prove(f *Func) {
 	ft := newFactsTable(f)
 	ft.checkpoint()
 
+	// Find induction variables. Currently, findIndVars
+	// is limited to one induction variable per block.
+	var indVars map[*Block]indVar
+	for _, v := range findIndVar(f) {
+		if indVars == nil {
+			indVars = make(map[*Block]indVar)
+		}
+
+		if !unroll(v, f) {
+			indVars[v.entry] = v
+		}
+	}
+
 	var lensVars map[*Block][]*Value
 
 	// Find length and capacity ops.
@@ -907,15 +920,6 @@ func prove(f *Func) {
 				// of compile time.
 			}
 		}
-	}
-	// Find induction variables. Currently, findIndVars
-	// is limited to one induction variable per block.
-	var indVars map[*Block]indVar
-	for _, v := range findIndVar(f) {
-		if indVars == nil {
-			indVars = make(map[*Block]indVar)
-		}
-		indVars[v.entry] = v
 	}
 
 	// current node state

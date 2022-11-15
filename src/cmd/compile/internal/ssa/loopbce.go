@@ -28,6 +28,7 @@ type indVar struct {
 	//	min <  ind <  max    [if flags == indVarMinExc]
 	//	min <= ind <= max    [if flags == indVarMaxInc]
 	//	min <  ind <= max    [if flags == indVarMinExc|indVarMaxInc]
+	inc int64
 }
 
 // parseIndVar checks whether the SSA value passed as argument is a valid induction
@@ -84,7 +85,7 @@ func parseIndVar(ind *Value) (min, inc, nxt *Value) {
 // TODO: handle 32 bit operations
 func findIndVar(f *Func) []indVar {
 	var iv []indVar
-	sdom := f.Sdom()
+	var sdom SparseTree
 
 	for _, b := range f.Blocks {
 		if b.Kind != BlockIf || len(b.Preds) != 2 {
@@ -173,6 +174,9 @@ func findIndVar(f *Func) []indVar {
 
 		// Second condition: b.Succs[0] dominates nxt so that
 		// nxt is computed when inc < limit.
+		if sdom == nil {
+			sdom = f.Sdom()
+		}
 		if !sdom.IsAncestorEq(b.Succs[0].b, nxt.Block) {
 			// inc+ind can only be reached through the branch that enters the loop.
 			continue
@@ -292,6 +296,7 @@ func findIndVar(f *Func) []indVar {
 				max:   max,
 				entry: b.Succs[0].b,
 				flags: flags,
+				inc:   step,
 			})
 			b.Logf("found induction variable %v (inc = %v, min = %v, max = %v)\n", ind, inc, min, max)
 		}
