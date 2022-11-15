@@ -33,6 +33,42 @@
       "message": "Ah, my reasoning is flawed.  The RFC2985 quote \"Some attribute types are restricted in their definition to have a single value; others may have multiple values\" is referring to the permitted number of _values_ for a single instance of an attribute; whereas the lines of code in question relate to multiple _instances_ of an attribute.\nHowever, I still think that rejecting duplicate CSR attributes is problematic: whereas it says in RFC5280 Section 4.2 that \"A certificate MUST NOT include more than one instance of a particular extension\", I am not aware of any equivalent requirement for CSR attributes.",
       "revId": "b6dc9456843e2617ffe5b758f66b6491e328adc3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01114e86_0737ad97",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2022-11-15T17:38:11Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a9b31d85_2fac4ce3",
+      "revId": "b6dc9456843e2617ffe5b758f66b6491e328adc3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41e41b4c_651eede0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2022-11-15T17:38:11Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d0378555_21361a80",
+      "revId": "b6dc9456843e2617ffe5b758f66b6491e328adc3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
