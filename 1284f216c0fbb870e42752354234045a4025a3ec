@@ -107,6 +107,24 @@
       "parentUuid": "1e845ff3_343d8910",
       "revId": "1284f216c0fbb870e42752354234045a4025a3ec",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8261d84_4a7663e2",
+        "filename": "src/go/internal/gcimporter/ureader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-11-15T20:13:11Z",
+      "side": 1,
+      "message": "yes it is guaranteed.  See comments in code, now.",
+      "parentUuid": "9db596f0_cd6adcaa",
+      "revId": "1284f216c0fbb870e42752354234045a4025a3ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
