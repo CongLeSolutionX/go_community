@@ -70,6 +70,24 @@
       "parentUuid": "8a37e5a3_e4384a21",
       "revId": "3f5c392d0500a252a217629621f4c5bb8cafef26",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5fec00fc_3b63899b",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 717,
+      "author": {
+        "id": 51238
+      },
+      "writtenOn": "2022-11-15T12:43:00Z",
+      "side": 1,
+      "message": "\u003e I\u0027m not talking about `/file/a..`, but the literal name `../foo`.\n\u003e \n\u003e `ServeFile(w, r, \"../foo\")` passes a `name` parameter that contains a `..` path element. That\u0027s fine, the name is a static string and not derived from an untrusted source. I don\u0027t think we can change `ServeFile` to reject that filename.\n\nI think there is some risky if some name parameters containing `..` path elements. Because users can test and get files by different name parameters. For example dir is `/root/path` and name is `../other/path`.\n\nBut if this needs to be discussed, or temporarily maintain the status quo and wait for other people\u0027s opinions, I think it is also reasonable.\n\nSo do we need to reject names containing `?` and `%`, just like this [comment](https://github.com/golang/go/issues/53946#issuecomment-1188530556).",
+      "parentUuid": "5f7612d3_a9ddde22",
+      "revId": "3f5c392d0500a252a217629621f4c5bb8cafef26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
