@@ -92,6 +92,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6bf0f058_6bfb8416",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-11-15T20:12:32Z",
+      "side": 1,
+      "message": "\u003e Maybe. I think currently setting PGO path always follows `load.PackagesAndErrors`. For the other direction, it looks like `load.PackagesAndErrors` is called more than build-related actions, e.g. go vet, go fmt, go generate. They don\u0027t seem to need PGO (but it probably doesn\u0027t hurt to set PGO path?)\n\nSeems benign, and setting it might improve the cache hit rate for tools that end up loading export data (I\u0027m not sure whether `go vet` does, but it seems plausible).\n\n\u003e Another concern is error reporting (if we move it to `load.PackagesAndErrors`). For erroneous cases, I don\u0027t want to -pgo\u003dauto to change what error it reports. (Maybe we can solve this by making `SetPGOProfilePath` not error out if any package is erroneous.)\n\nHmm, that brings up an interesting point. `go list -e -deps -pgo\u003dauto main1 main2` should probably still list all of the packages and dependencies. I\u0027m inclined to attach the PGO error to only the `main` packages, since those are the ones that prevent us from having a well-defined PGO file for the rest of the packages. 🤔",
+      "parentUuid": "56d94fc0_aa5f7861",
+      "revId": "d888db4acea2cd5fc2136f10bb306aeff8062fdf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a52660c1_d5a827ca",
         "filename": "src/cmd/go/internal/work/build.go",
         "patchSetId": 7
@@ -127,6 +145,30 @@
       "side": 1,
       "message": "\u003e I think this will cause go test and go list -deps to fail, since they end up constructing several packages in the service of running a single test.\n\nI think currently it doesn\u0027t fail, as we call SetPGOProfilePath before -test or -deps adjust the package list.\n\n\u003e Would it make sense to filter through pkgs to find the one named \"main\" (ignoring its dependencies) and only fail if we find more than one?\n\nI think it is fine either way. The previous version of the CL does this, except that it silently ignores PGO when multiple main packages appear. Maybe it is better this way (fewer error cases).\n\nDone.",
       "parentUuid": "a52660c1_d5a827ca",
+      "range": {
+        "startLine": 560,
+        "startChar": 0,
+        "endLine": 563,
+        "endChar": 3
+      },
+      "revId": "d888db4acea2cd5fc2136f10bb306aeff8062fdf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e74be21_b7893ebe",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-11-15T20:12:32Z",
+      "side": 1,
+      "message": "\u003e \u003e I think this will cause go test and go list -deps to fail, since they end up constructing several packages in the service of running a single test.\n\u003e \n\u003e I think currently it doesn\u0027t fail, as we call SetPGOProfilePath before -test or -deps adjust the package list.\n\nThat sounds like a good argument for moving `SetPGOProfilePath` into `load.PackagesAndErrors`, so that there are fewer parts of the code that depend on subtle ordering constraints. 😅",
+      "parentUuid": "ae4d562d_c094b7ee",
       "range": {
         "startLine": 560,
         "startChar": 0,
