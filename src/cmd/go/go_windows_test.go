@@ -38,7 +38,7 @@ func TestAbsolutePath(t *testing.T) {
 
 	noVolume := file[len(filepath.VolumeName(file)):]
 	wrongPath := filepath.Join(dir, noVolume)
-	cmd := exec.Command(tg.goTool(), "build", noVolume)
+	cmd := testenv.Command(t, tg.goTool(), "build", noVolume)
 	cmd.Dir = dir
 	output, err := cmd.CombinedOutput()
 	if err == nil {
