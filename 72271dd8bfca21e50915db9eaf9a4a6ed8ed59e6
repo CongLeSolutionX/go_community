@@ -88,6 +88,24 @@
       "parentUuid": "417fd555_b07deed5",
       "revId": "72271dd8bfca21e50915db9eaf9a4a6ed8ed59e6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aaa9ed19_25d8c808",
+        "filename": "src/cmd/fix/typecheck.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 34895
+      },
+      "writtenOn": "2022-11-15T23:51:10Z",
+      "side": 1,
+      "message": "This isn\u0027t test code, though.  I don\u0027t think that we should write it purely to make tests better.  And when not testing cmd/fix, I think that we definitely do not want a panic.  We want it to exit after printing the cgo errors without a stack trace.\n\nIf the test wants to provoke a panic somehow, that is fine, but it shouldn\u0027t be the default.",
+      "parentUuid": "76fb0664_2f6063ba",
+      "revId": "72271dd8bfca21e50915db9eaf9a4a6ed8ed59e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
