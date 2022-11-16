@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5678ebb3_d9b4328e",
+        "filename": "src/time/format.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1300,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-11-16T21:04:18Z",
+      "side": 1,
+      "message": "It seems like the root of the problem here is that this code is sloppy about the postconditions of the `switch` statement: in some of the cases the `value` variable is always updated to the next chunk of the value to be parsed (even if an earlier chunk is invalid), and in other cases it is preserved as-is.\n\nThis would probably end up a lot clearer if we could fix that postcondition.\n\nEspecially given the length of the `switch` statement, perhaps it would make sense to factor it out into a standalone function? That would make it much easier to keep track of exactly when and under what conditions the `value` variable is updated.",
+      "range": {
+        "startLine": 1298,
+        "startChar": 0,
+        "endLine": 1300,
+        "endChar": 4
+      },
+      "revId": "8164d4c4f3dd309a6589380c6489daa3db7ea65c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
