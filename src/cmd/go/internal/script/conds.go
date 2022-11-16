@@ -8,6 +8,7 @@ import (
 	"cmd/go/internal/imports"
 	"fmt"
 	"os"
+	"path/filepath"
 	"runtime"
 	"sync"
 )
@@ -58,6 +59,8 @@ func DefaultConds() map[string]Cond {
 		})
 
 	conds["root"] = BoolCondition("os.Geteuid() == 0", os.Geteuid() == 0)
+
+	conds["absoluteCC"] = BoolCondition("filepath.IsAbs(os.Getenv(\"CC\"))", filepath.IsAbs(os.Getenv("CC")))
 
 	return conds
 }

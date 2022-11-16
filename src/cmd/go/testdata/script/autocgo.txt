@@ -2,6 +2,7 @@
 
 [!cgo] skip
 [cross] skip
+[absoluteCC] skip # CC=/usr/bin/clang defeats the PATH change below
 
 # Assume we're on a system that can enable cgo normally.
 env CGO_ENABLED=
