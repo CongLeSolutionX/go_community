@@ -75,6 +75,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "737d104f_10b4ad1d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31806
+      },
+      "writtenOn": "2022-11-16T10:04:30Z",
+      "side": 1,
+      "message": "adjusted the test",
+      "parentUuid": "635d808d_d8ab51c4",
+      "revId": "b3f09dcbb3611b65ff3879073e4b94cccf2564ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "52a7078d_20eb2b83",
@@ -124,6 +142,24 @@
       "side": 1,
       "message": "No, x509.Certificate contains slices (and other pointers) also x509.Certificate is shared between all connections using the same cert.",
       "parentUuid": "cc7d7868_f28b8455",
+      "revId": "b3f09dcbb3611b65ff3879073e4b94cccf2564ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "565159af_615957c5",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1499,
+      "author": {
+        "id": 31806
+      },
+      "writtenOn": "2022-11-16T10:04:30Z",
+      "side": 1,
+      "message": "added the clarification",
+      "parentUuid": "0efb6f71_4ab314ad",
       "revId": "b3f09dcbb3611b65ff3879073e4b94cccf2564ed",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
