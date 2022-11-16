@@ -251,7 +251,7 @@ func (c *mcache) allocLarge(size uintptr, noscan bool) *mspan {
 	// Put the large span in the mcentral swept list so that it's
 	// visible to the background sweeper.
 	mheap_.central[spc].mcentral.fullSwept(mheap_.sweepgen).push(s)
-	s.limit = s.base() + size
+	s.datasize = size
 	s.initHeapBits(false)
 	return s
 }

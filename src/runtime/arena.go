@@ -687,9 +687,9 @@ func newUserArenaChunk() (unsafe.Pointer, *mspan) {
 		// TODO(mknyszek): Track individual objects.
 		rzSize := computeRZlog(span.elemsize)
 		span.elemsize -= rzSize
-		span.limit -= rzSize
-		span.userArenaChunkFree = makeAddrRange(span.base(), span.limit)
-		asanpoison(unsafe.Pointer(span.limit), span.npages*pageSize-span.elemsize)
+		span.datasize -= rzSize
+		span.userArenaChunkFree = makeAddrRange(span.base(), span.limit())
+		asanpoison(unsafe.Pointer(span.limit()), span.npages*pageSize-span.elemsize)
 		asanunpoison(unsafe.Pointer(span.base()), span.elemsize)
 	}
 
@@ -975,7 +975,7 @@ func (h *mheap) allocUserArenaChunk() *mspan {
 	// Put the large span in the mcentral swept list so that it's
 	// visible to the background sweeper.
 	h.central[spc].mcentral.fullSwept(h.sweepgen).push(s)
-	s.limit = s.base() + userArenaChunkBytes
+	s.datasize = userArenaChunkBytes
 	s.freeindex = 1
 	s.allocCount = 1
 
@@ -998,6 +998,6 @@ func (h *mheap) allocUserArenaChunk() *mspan {
 	s.freeIndexForScan = 1
 
 	// Set up the range for allocation.
-	s.userArenaChunkFree = makeAddrRange(base, s.limit)
+	s.userArenaChunkFree = makeAddrRange(base, s.limit())
 	return s
 }

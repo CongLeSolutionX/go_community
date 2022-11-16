@@ -483,7 +483,7 @@ type mspan struct {
 	isUserArenaChunk      bool          // whether or not this span represents a user arena
 	allocCountBeforeCache uint16        // a copy of allocCount that is stored just before this span is cached
 	elemsize              uintptr       // computed from sizeclass or from npages
-	limit                 uintptr       // end of data in span
+	datasize              uintptr       // total number of data bytes within span (excludes trailing padding)
 	speciallock           mutex         // guards specials list
 	specials              *special      // linked list of special records sorted by offset.
 	userArenaChunkFree    addrRange     // interval for managing chunk allocation
@@ -499,6 +499,16 @@ type mspan struct {
 
 func (s *mspan) base() uintptr {
 	return s.startAddr
+}
+
+func (s *mspan) limit() uintptr {
+	return s.base() + s.datasize
+}
+
+// contains reports whether address p is contained within the
+// half-open interval [base, limit).
+func (s *mspan) contains(p uintptr) bool {
+	return (p - s.startAddr) < s.datasize
 }
 
 func (s *mspan) layout() (size, n, total uintptr) {
@@ -651,12 +661,12 @@ func inheap(b uintptr) bool {
 //go:nosplit
 func inHeapOrStack(b uintptr) bool {
 	s := spanOf(b)
-	if s == nil || b < s.base() {
+	if s == nil {
 		return false
 	}
 	switch s.state.get() {
 	case mSpanInUse, mSpanManual:
-		return b < s.limit
+		return s.contains(b)
 	default:
 		return false
 	}
@@ -726,7 +736,7 @@ func spanOfHeap(p uintptr) *mspan {
 	// have to synchronize with span initialization. Then, it's
 	// still possible we picked up a stale span pointer, so we
 	// have to check the span's bounds.
-	if s == nil || s.state.get() != mSpanInUse || p < s.base() || p >= s.limit {
+	if s == nil || s.state.get() != mSpanInUse || !s.contains(p) {
 		return nil
 	}
 	return s
@@ -1376,7 +1386,7 @@ func (h *mheap) initSpan(s *mspan, typ spanAllocType, spanclass spanClass, base,
 	if typ.manual() {
 		s.manualFreeList = 0
 		s.nelems = 0
-		s.limit = s.base() + s.npages*pageSize
+		s.datasize = s.npages * pageSize
 		s.state.set(mSpanManual)
 	} else {
 		// We must set span properties before the span is published anywhere

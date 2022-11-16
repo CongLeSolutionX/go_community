@@ -771,7 +771,7 @@ func (sl *sweepLocked) sweep(preserve bool) bool {
 			// It should be possible to switch back to sysFree if we also
 			// implement and then call some kind of mheap.deleteSpan.
 			if debug.efence > 0 {
-				s.limit = 0 // prevent mlookup from finding this span
+				s.datasize = 0 // prevent mlookup from finding this span
 				sysFault(unsafe.Pointer(s.base()), size)
 			} else {
 				mheap_.freeSpan(s)

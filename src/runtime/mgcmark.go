@@ -1516,7 +1516,7 @@ func gcDumpObject(label string, obj, off uintptr) {
 		print(" s=nil\n")
 		return
 	}
-	print(" s.base()=", hex(s.base()), " s.limit=", hex(s.limit), " s.spanclass=", s.spanclass, " s.elemsize=", s.elemsize, " s.state=")
+	print(" s.base()=", hex(s.base()), " s.limit()=", hex(s.limit()), " s.spanclass=", s.spanclass, " s.elemsize=", s.elemsize, " s.state=")
 	if state := s.state.get(); 0 <= state && int(state) < len(mSpanStateNames) {
 		print(mSpanStateNames[state], "\n")
 	} else {

@@ -303,7 +303,7 @@ func badPointer(s *mspan, p, refBase, refOff uintptr) {
 		} else {
 			print(" to unused region of span")
 		}
-		print(" span.base()=", hex(s.base()), " span.limit=", hex(s.limit), " span.state=", state)
+		print(" span.base()=", hex(s.base()), " span.limit()=", hex(s.limit()), " span.state=", state)
 	}
 	print("\n")
 	if refBase != 0 {
@@ -346,7 +346,7 @@ func findObject(p, refBase, refOff uintptr) (base uintptr, s *mspan, objIndex ui
 	//
 	// Check s.state to synchronize with span initialization
 	// before checking other fields. See also spanOfHeap.
-	if state := s.state.get(); state != mSpanInUse || p < s.base() || p >= s.limit {
+	if state := s.state.get(); state != mSpanInUse || !s.contains(p) {
 		// Pointers into stacks are also ok, the runtime manages these explicitly.
 		if state == mSpanManual {
 			return
@@ -554,7 +554,7 @@ func bulkBarrierPreWrite(dst, src, size uintptr) {
 			}
 		}
 		return
-	} else if s.state.get() != mSpanInUse || dst < s.base() || s.limit <= dst {
+	} else if s.state.get() != mSpanInUse || !s.contains(dst) {
 		// dst was heap memory at some point, but isn't now.
 		// It can't be a global. It must be either our stack,
 		// or in the case of direct channel sends, it could be
