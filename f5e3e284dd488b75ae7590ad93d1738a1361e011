@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "322251fa_69552e04",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-11-16T17:24:15Z",
+      "side": 1,
+      "message": "That would reduce a bit of work in `watchflakes` triage, but on balance I think I\u0027d rather let `watchflakes` create the issue so that we can check its pattern-inference logic. (I\u0027ll keep an eye out for the issue to come in on the tracker so that I can close it.)",
+      "parentUuid": "83340aab_cac90d85",
+      "revId": "f5e3e284dd488b75ae7590ad93d1738a1361e011",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "00fce647_1f0705a2",
