@@ -90,6 +90,24 @@
       "message": "We should probably clarify the *x509.Certificate ownership here (similar to CL 427155).",
       "revId": "b3f09dcbb3611b65ff3879073e4b94cccf2564ed",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc7d7868_f28b8455",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1499,
+      "author": {
+        "id": 31806
+      },
+      "writtenOn": "2022-11-16T08:36:12Z",
+      "side": 1,
+      "message": "wouldn\u0027t not having a slice of pointers, but just a []x509.Certificate work here too? I know it can\u0027t be changed for the existing APIs, that\u0027s why the clarification makes sense there.",
+      "parentUuid": "52a7078d_20eb2b83",
+      "revId": "b3f09dcbb3611b65ff3879073e4b94cccf2564ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
