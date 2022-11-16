@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ee612be_f902cb0e",
+        "filename": "src/testing/sub_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 808,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-11-16T17:04:44Z",
+      "side": 0,
+      "message": "Maybe move this inside root.Run so the scope of use is clearer?",
+      "revId": "978ce7e252b0d6ff0a19f66206ed5f3eca281059",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
