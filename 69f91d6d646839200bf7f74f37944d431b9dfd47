@@ -72,6 +72,29 @@
       "message": "Hold for IsLocal",
       "revId": "69f91d6d646839200bf7f74f37944d431b9dfd47",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc35e8ec_519aa912",
+        "filename": "src/archive/zip/reader.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-11-16T23:19:43Z",
+      "side": 1,
+      "message": "In the upper levels of the standard library we usually prefer strings.Index to strings.IndexByte (https://go.dev/issue/22148).  And then we can use Contains, so: strings.Contains(f.Name, `\\`).",
+      "range": {
+        "startLine": 113,
+        "startChar": 34,
+        "endLine": 113,
+        "endChar": 70
+      },
+      "revId": "69f91d6d646839200bf7f74f37944d431b9dfd47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
