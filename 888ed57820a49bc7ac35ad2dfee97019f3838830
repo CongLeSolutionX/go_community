@@ -59,6 +59,30 @@
       },
       "revId": "888ed57820a49bc7ac35ad2dfee97019f3838830",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "abcf49f1_5b3cd53e",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-11-16T16:23:13Z",
+      "side": 1,
+      "message": "I went back and forth on this a bunch of times, actually. You\u0027re definitely right that there are some advantages to a value receiver. I wound up landing on a pointer receiver for two reasons: 1) goTest is a fairly large struct and I didn\u0027t like passing around copies of it so much (arguably the compiler could optimize away these copies, but we don\u0027t do anything like that right now) and 2) the number of places that awkwardly create the struct and then call a method on it is actually quite small (in fact, I think they\u0027re all in this CL).",
+      "parentUuid": "deb77344_5053efdd",
+      "range": {
+        "startLine": 393,
+        "startChar": 11,
+        "endLine": 393,
+        "endChar": 12
+      },
+      "revId": "888ed57820a49bc7ac35ad2dfee97019f3838830",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
