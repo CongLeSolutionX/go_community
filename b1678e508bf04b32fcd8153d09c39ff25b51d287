@@ -16,6 +16,23 @@
       "message": "Mailed CL 450740 for the noopt build breakage.",
       "revId": "b1678e508bf04b32fcd8153d09c39ff25b51d287",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76ca3bcb_2070caa7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-11-16T15:04:41Z",
+      "side": 1,
+      "message": "Looks like this may have also broken x/image?\nhttps://build.golang.org/?repo\u003dgolang.org%2fx%2fimage\n\ngo build golang.org/x/image/vector: # golang.org/x/image/vector [golang.org/x/image/vector.test]\nvector/acc_test.go:465:6: constant -131072 overflows uint32",
+      "revId": "b1678e508bf04b32fcd8153d09c39ff25b51d287",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
