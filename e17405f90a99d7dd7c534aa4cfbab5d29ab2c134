@@ -72,6 +72,24 @@
       "message": "LGTM but please also adjust types2.",
       "revId": "e17405f90a99d7dd7c534aa4cfbab5d29ab2c134",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27ca5c54_1d3a2ef2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2022-11-16T23:02:19Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "cee2f1a1_44f8d459",
+      "revId": "e17405f90a99d7dd7c534aa4cfbab5d29ab2c134",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
