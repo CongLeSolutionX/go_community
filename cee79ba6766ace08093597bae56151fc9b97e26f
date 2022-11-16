@@ -166,6 +166,24 @@
       "parentUuid": "2ef55908_fdf2f337",
       "revId": "cee79ba6766ace08093597bae56151fc9b97e26f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "953529d5_4b5d335e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-11-16T21:34:32Z",
+      "side": 1,
+      "message": "Fixed up-stack.",
+      "parentUuid": "896739d9_b5de8fc7",
+      "revId": "cee79ba6766ace08093597bae56151fc9b97e26f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
