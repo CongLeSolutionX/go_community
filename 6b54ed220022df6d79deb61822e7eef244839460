@@ -127,6 +127,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a050510e_3105b39f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-11-16T23:18:43Z",
+      "side": 1,
+      "message": "One idea about correctness: have an alternate compiler mode that unrolls *every* loop at least once. Then we can really hammer on the implementation with lots of different loop bodies.",
+      "parentUuid": "117101a7_1602ddb4",
+      "revId": "6b54ed220022df6d79deb61822e7eef244839460",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "43c08770_3312f226",
