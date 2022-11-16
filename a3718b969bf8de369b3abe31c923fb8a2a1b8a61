@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a4383f62_c5d2ddf3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-11-16T23:50:20Z",
+      "side": 1,
+      "message": "s/ComparableTo/ConvertibleTo",
+      "range": {
+        "startLine": 12,
+        "startChar": 8,
+        "endLine": 12,
+        "endChar": 20
+      },
+      "revId": "a3718b969bf8de369b3abe31c923fb8a2a1b8a61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7a0e395b_a60b4c60",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 4
@@ -51,6 +74,24 @@
       "writtenOn": "2022-11-16T03:02:11Z",
       "side": 1,
       "message": "Let\u0027s discuss this further, as I\u0027m not sure always returning false is better than returning true.\n\nReturning true is more consistent with the behavior of Typ[Invalid] within the type-checking. Need to think about it more.",
+      "revId": "a3718b969bf8de369b3abe31c923fb8a2a1b8a61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "268fa25e_89c6532f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-11-16T23:50:20Z",
+      "side": 1,
+      "message": "Here a playground link with more examples:\nhttps://go.dev/play/p/DG2xwaOYX7c\n\nAnd here\u0027s a comparison against 1.17, with that program:\n\n```\n\u003e diff -u \u003c(go1.17.9 run test.go) \u003c(go run test.go)\n--- /dev/fd/63  2022-11-16 18:37:38.238451082 -0500  (note: 1.17)\n+++ /dev/fd/62  2022-11-16 18:37:38.238451082 -0500  (note: 1.20)\n@@ -1,16 +1,16 @@\n AssignableTo(invalid, int) \u003d false\n AssignableTo(invalid, invalid) \u003d true\n AssignableTo(int, invalid) \u003d true\n-AssignableTo(invalid, error) \u003d false\n+AssignableTo(invalid, error) \u003d true\n AssignableTo(invalid, any) \u003d true\n AssignableTo(any, invalid) \u003d true\n ConvertibleTo(invalid, int) \u003d false\n ConvertibleTo(invalid, invalid) \u003d true\n ConvertibleTo(int, invalid) \u003d true\n-ConvertibleTo(invalid, error) \u003d false\n+ConvertibleTo(invalid, error) \u003d true\n ConvertibleTo(any, invalid) \u003d true\n ConvertibleTo(invalid, any) \u003d true\n AssertableTo(error, invalid) \u003d false\n-AssertableTo(any, invalid) \u003d true\n+AssertableTo(any, invalid) \u003d false\n Implements(invalid, error) \u003d false\n Implements(invalid, any) \u003d true\n```\n\nNote that the behavior in 1.20 is definitely inconsistent. Typ[Invalid] is not assignable to error, but DOES implement error?  Any is not assertable to invalid, yet is both assignable to any and implements any?\n\nThe behavior before was at least consistent: invalid is a basic type with its own singleton identity, and an empty method set. If it is too hard to preserve that behavior (because invalid is special, and used to suppress errors), this change makes sense to me. At least this change is easy to implement, and allows us to use Typ[Invalid] internally however we want.\n\nNote that even with this change Typ[Invalid] will be identical to itself. I\u0027m not sure we can change that, as there are many tools that assume pointer-identical types are also identical.",
+      "parentUuid": "b9e63a46_65a02ada",
       "revId": "a3718b969bf8de369b3abe31c923fb8a2a1b8a61",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
