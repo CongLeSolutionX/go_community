@@ -592,8 +592,8 @@ func (sl *sweepLocked) sweep(preserve bool) bool {
 		// efficient; allocfreetrace has massive overhead.
 		mbits := s.markBitsForBase()
 		abits := s.allocBitsForIndex(0)
-		for i := uintptr(0); i < s.nelems; i++ {
-			if !mbits.isMarked() && (abits.index < s.freeindex || abits.isMarked()) {
+		for i := uintptr(0); i < uintptr(s.nelems); i++ {
+			if !mbits.isMarked() && (abits.index < uintptr(s.freeindex) || abits.isMarked()) {
 				x := s.base() + i*s.elemsize
 				if debug.allocfreetrace != 0 {
 					tracefree(unsafe.Pointer(x), size)
@@ -624,12 +624,12 @@ func (sl *sweepLocked) sweep(preserve bool) bool {
 		//
 		// Check the first bitmap byte, where we have to be
 		// careful with freeindex.
-		obj := s.freeindex
+		obj := uintptr(s.freeindex)
 		if (*s.gcmarkBits.bytep(obj / 8)&^*s.allocBits.bytep(obj / 8))>>(obj%8) != 0 {
 			s.reportZombies()
 		}
 		// Check remaining bytes.
-		for i := obj/8 + 1; i < divRoundUp(s.nelems, 8); i++ {
+		for i := obj/8 + 1; i < divRoundUp(uintptr(s.nelems), 8); i++ {
 			if *s.gcmarkBits.bytep(i)&^*s.allocBits.bytep(i) != 0 {
 				s.reportZombies()
 			}
@@ -656,7 +656,7 @@ func (sl *sweepLocked) sweep(preserve bool) bool {
 	// gcmarkBits becomes the allocBits.
 	// get a fresh cleared gcmarkBits in preparation for next GC
 	s.allocBits = s.gcmarkBits
-	s.gcmarkBits = newMarkBits(s.nelems)
+	s.gcmarkBits = newMarkBits(uintptr(s.nelems))
 
 	// Initialize alloc bits cache.
 	s.refillAllocCache(0)
@@ -745,7 +745,7 @@ func (sl *sweepLocked) sweep(preserve bool) bool {
 				return true
 			}
 			// Return span back to the right mcentral list.
-			if uintptr(nalloc) == s.nelems {
+			if nalloc == s.nelems {
 				mheap_.central[spc].mcentral.fullSwept(sweepgen).push(s)
 			} else {
 				mheap_.central[spc].mcentral.partialSwept(sweepgen).push(s)
@@ -814,10 +814,10 @@ func (s *mspan) reportZombies() {
 	print("runtime: marked free object in span ", s, ", elemsize=", s.elemsize, " freeindex=", s.freeindex, " (bad use of unsafe.Pointer? try -d=checkptr)\n")
 	mbits := s.markBitsForBase()
 	abits := s.allocBitsForIndex(0)
-	for i := uintptr(0); i < s.nelems; i++ {
+	for i := uintptr(0); i < uintptr(s.nelems); i++ {
 		addr := s.base() + i*s.elemsize
 		print(hex(addr))
-		alloc := i < s.freeindex || abits.isMarked()
+		alloc := i < uintptr(s.freeindex) || abits.isMarked()
 		if alloc {
 			print(" alloc")
 		} else {
