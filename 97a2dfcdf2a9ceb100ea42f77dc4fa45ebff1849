@@ -53,6 +53,24 @@
       "message": "Note that this will break the x/crypto builder until CL 451095 is merged.",
       "revId": "97a2dfcdf2a9ceb100ea42f77dc4fa45ebff1849",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0227985_fe7da4ae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-11-16T16:24:21Z",
+      "side": 1,
+      "message": "This could have been done without a build break as a three-part change instead of a two-part:\n\n1. Change `x/crypto/internal/wycheproof` to use a type-assertion to figure out which of the two types has the `ECDH` method.\n\n2. Move the method definition in `crypto/edch`.\n\n3. Make a second change in `x/crypto/internal/wycheproof` to remove the type-assertion (invoking the method only on the `PrivateKey`).",
+      "parentUuid": "63adc373_409ee7ce",
+      "revId": "97a2dfcdf2a9ceb100ea42f77dc4fa45ebff1849",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ],
   "submitRequirementResults": [
