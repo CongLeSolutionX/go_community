@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ffe4c0c8_9f82b3a8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2022-11-16T02:21:40Z",
+      "side": 1,
+      "message": "I have multiple questions about submitting such changes:\n1. what kind of tests should be there ? (except the obvious codegen ones such as `for i :\u003d x; i \u003c x+4; i++ { /* do some stuff */ }`)\n2. what kind of benchmarks ? is `go test -bench ./...` in `./src` and show some improvements (and no degradation) would be enough ?",
+      "revId": "6b54ed220022df6d79deb61822e7eef244839460",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43c08770_3312f226",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 812,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2022-11-16T02:21:40Z",
+      "side": 1,
+      "message": "This was implemented as piggingback from prove\u0027s loopbce analysis, `unroll` will fail fast and thus this is tries to be extremely cheap if the loop cannot be unrolled.\n\nThis would probably be better if this was runned before `opt` because now we are relying on `lower` to fix the code generated, it\u0027s fine in most cases but `opt` + `lower` would be better.\n\nSo:\n3. What are the expected results to get a new pass, how much ~ns is too much to add a new pass ?",
+      "revId": "6b54ed220022df6d79deb61822e7eef244839460",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
