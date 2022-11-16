@@ -109,6 +109,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "117101a7_1602ddb4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-11-16T23:16:33Z",
+      "side": 1,
+      "message": "1. I think we\u0027d need to understand the performance implications. How much faster do the unrolled loops get? How much bigger is the code? And to a lesser extent, how much slower is the compiler?\n2. I worry generally about correctness. How can we ensure that this doesn\u0027t break some weird corner case? SSA graph surgery isn\u0027t easy to get right.\n\nThis is something that may be better paired with the PGO framework that will be available in 1.20, so we\u0027re not unrolling lots of cold loops. Not that we should just wait for that, just that we might want to be very conservative to start (low unroll count, low threshold for #instructions) and open it up with larger thresholds when we have PGO information.",
+      "parentUuid": "6aa01a77_931ad148",
+      "revId": "6b54ed220022df6d79deb61822e7eef244839460",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "43c08770_3312f226",
