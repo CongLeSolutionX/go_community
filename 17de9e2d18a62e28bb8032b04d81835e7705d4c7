@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a958b46_1f7512dc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-11-16T22:47:03Z",
+      "side": 1,
+      "message": "It looks like this broke android-386-emu and android-amd64-emu:\nhttps://build.golang.org/log/ed4f0bb0d56c4a3fd2781ed9249558000da88d14",
+      "revId": "17de9e2d18a62e28bb8032b04d81835e7705d4c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
