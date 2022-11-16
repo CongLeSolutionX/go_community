@@ -51,6 +51,24 @@
       "message": "This was implemented as piggingback from prove\u0027s loopbce analysis, `unroll` will fail fast and thus this is tries to be extremely cheap if the loop cannot be unrolled.\n\nThis would probably be better if this was runned before `opt` because now we are relying on `lower` to fix the code generated, it\u0027s fine in most cases but `opt` + `lower` would be better.\n\nSo:\n3. What are the expected results to get a new pass, how much ~ns is too much to add a new pass ?",
       "revId": "6b54ed220022df6d79deb61822e7eef244839460",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26af1d8f_c82d4b73",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 812,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2022-11-16T02:52:39Z",
+      "side": 1,
+      "message": "Actually this is missing the original optimisation I wrote it for:\n```\n  func Add256(a, b [4]uint64) (r [4]uint64) {\n    var carry uint64\n    for i :\u003d range b {\n      r[i], carry \u003d bits.Add64(a[i], b[i], carry)\n    }\n    return\n  }\n```\nInto:\n```\n  func Add256(a, b [4]uint64) (r [4]uint64) {\n    var carry uint64\n    r[0], carry \u003d bits.Add64(a[0], b[0], carry)\n    r[1], carry \u003d bits.Add64(a[1], b[1], carry)\n    r[2], carry \u003d bits.Add64(a[2], b[2], carry)\n    r[3], carry \u003d bits.Add64(a[3], b[3], carry)\n    return\n  }\n```\nBecause before `prove` is runned after, and so the body of the loop is still an `If` block that contains bounds checks.\nI see why passes scheduling is such a hard problem now.",
+      "parentUuid": "43c08770_3312f226",
+      "revId": "6b54ed220022df6d79deb61822e7eef244839460",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
