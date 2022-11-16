@@ -59,6 +59,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c8901d93_9e4f3559",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14850
+      },
+      "writtenOn": "2022-11-16T17:25:20Z",
+      "side": 1,
+      "message": "I\u0027ve synced the changes with the master. It should definitely fix TestLookupDotsWithRemoteSource fails. Not 100% sure about TestSpuriousWakeupsNeverHangSemasleep although I wasn\u0027t able to reproduce it locally. Also, I struggle to see how these changes could trigger eopll_pwait to return EINVAL (https://storage.googleapis.com/go-build-log/69697275/linux-386_402cc998.log) and can\u0027t check if sync has fixed it as I don\u0027t have i386 machine in the disposal.",
+      "parentUuid": "691699f2_3baf9bf5",
+      "revId": "696972754f95b7d46a6d783daa538f42f4825e61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "101141fd_e1c90dfd",
         "filename": "src/runtime/internal/syscall/defs_linux_386.go",
         "patchSetId": 1
