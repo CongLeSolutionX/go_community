@@ -74,15 +74,16 @@ type typeWriter struct {
 	tparams      *TypeParamList // local type parameters
 	paramNames   bool           // if set, write function parameter names, otherwise, write types only
 	tpSubscripts bool           // if set, write type parameter indices as subscripts
+	nest         int            // nesting level, for detecting infinite recursions
 }
 
 func newTypeWriter(buf *bytes.Buffer, qf Qualifier) *typeWriter {
-	return &typeWriter{buf, make(map[Type]bool), qf, nil, nil, true, false}
+	return &typeWriter{buf, make(map[Type]bool), qf, nil, nil, true, false, 0}
 }
 
 func newTypeHasher(buf *bytes.Buffer, ctxt *Context) *typeWriter {
 	assert(ctxt != nil)
-	return &typeWriter{buf, make(map[Type]bool), nil, ctxt, nil, false, false}
+	return &typeWriter{buf, make(map[Type]bool), nil, ctxt, nil, false, false, 0}
 }
 
 func (w *typeWriter) byte(b byte) {
@@ -117,6 +118,15 @@ func (w *typeWriter) typ(typ Type) {
 	}
 	w.seen[typ] = true
 	defer delete(w.seen, typ)
+
+	// catch "infinitely" deeply nested types and panic rather than overflow stack
+	const maxNest = 250
+	if w.nest >= maxNest {
+		w.error("infinite nesting with " + goTypeName(typ))
+		return
+	}
+	w.nest++
+	defer func() { w.nest-- }()
 
 	switch t := typ.(type) {
 	case nil:
