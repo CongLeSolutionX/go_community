@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7cd695fd_2d9e73e8",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-11-16T19:06:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f167127f_dacba437",
+      "revId": "60cadee782fb61ee36b6673481ff765b96424afd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4ea82fed_a9b411d8",
@@ -85,6 +103,30 @@
       "writtenOn": "2022-11-16T18:25:44Z",
       "side": 1,
       "message": "Minor: Is TrimSpace still needed (here and on the next 2 lines)? Asking because it was previously needed to trim the trailing newline, but that particular reason doesn\u0027t apply anymore since the output is now split by newline.\n\nThe only case where I can see it making a difference is if the GOTMPDIR path starts or ends with a space... Maybe not something to worry about.",
+      "range": {
+        "startLine": 113,
+        "startChar": 37,
+        "endLine": 113,
+        "endChar": 54
+      },
+      "revId": "60cadee782fb61ee36b6673481ff765b96424afd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9086a812_3af49ae5",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-11-16T19:06:01Z",
+      "side": 1,
+      "message": "Good point. Done.",
+      "parentUuid": "4ea82fed_a9b411d8",
       "range": {
         "startLine": 113,
         "startChar": 37,
