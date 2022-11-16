@@ -821,8 +821,8 @@ func TestRacyOutput(t *T) {
 				})
 			}(i)
 		}
+		wg.Wait()
 	})
-	wg.Wait()
 
 	if races > 0 {
 		t.Errorf("detected %d racy Writes", races)
