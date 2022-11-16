@@ -52,6 +52,24 @@
       "parentUuid": "0f04a9a4_a7a8c30a",
       "revId": "f21514c7f8c972ce2291d41cf5b6263f0eb350c7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10c8d0a8_55c9c658",
+        "filename": "src/cmd/compile/internal/reflectdata/reflect.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2009,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-11-16T09:39:53Z",
+      "side": 1,
+      "message": "Hmm, you\u0027re right. The doc should be stated that:\n\n\u003e do not contain any *walked* closures\n\nFor example, if you changed the code to:\n\n```\npackage main\n\nimport (\n\t\"fmt\"\n)\n\nfunc create() fmt.Stringer {\n\tvar a A\n\treturn a\n}\n\ntype A int\n\nfunc g(f func() string) {}\n\nfunc (a A) String() string {\n\tg(func() string { return \"\" })\n\treturn \"\"\n}\n\nfunc main() {\n\tcreate().String()\n}\n```\n\nYou will see the closures there.",
+      "parentUuid": "6266657a_ca2da9ea",
+      "revId": "f21514c7f8c972ce2291d41cf5b6263f0eb350c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
