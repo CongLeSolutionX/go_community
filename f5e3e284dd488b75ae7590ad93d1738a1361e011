@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "83340aab_cac90d85",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-11-16T17:07:28Z",
+      "side": 1,
+      "message": "Does it make sense to file a watchflakes issue that matches these failures (like https://build.golang.org/log/a8df5ceadc1c2a9f683f19a7b9ee29f4578f16c0) and close it with this CL?",
+      "revId": "f5e3e284dd488b75ae7590ad93d1738a1361e011",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "00fce647_1f0705a2",
