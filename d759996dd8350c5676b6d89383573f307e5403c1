@@ -70,6 +70,29 @@
       "message": "This looks good to me overall. \n\nIs there any way to test this? I realize it is tricky to write test cases for trampoline insertion.",
       "revId": "d759996dd8350c5676b6d89383573f307e5403c1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0612f1ba_dedbc4c2",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 997,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-17T03:22:10Z",
+      "side": 1,
+      "message": "Maybe say \"called directly at entry, which then jumps to the original symbol plus addend\"?",
+      "range": {
+        "startLine": 997,
+        "startChar": 38,
+        "endLine": 997,
+        "endChar": 78
+      },
+      "revId": "d759996dd8350c5676b6d89383573f307e5403c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
