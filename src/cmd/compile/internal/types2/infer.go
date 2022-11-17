@@ -61,6 +61,24 @@ func (check *Checker) infer(pos syntax.Pos, tparams []*TypeParam, targs []Type, 
 	}
 	// len(targs) < n
 
+	// Inferred types must be manually accessible from current package if so desired (issue #56669).
+	const allowInferringUnexportedTypes = false
+	if !allowInferringUnexportedTypes {
+		defer func() {
+			for i, targ := range result {
+				if tname, _ := targ.(*Named); tname != nil {
+					obj := tname.obj
+					if obj.pkg != nil && !obj.Exported() && obj.pkg != check.pkg {
+						tpar := tparams[i]
+						check.errorf(pos, CannotInferTypeArgs, "cannot infer unexported type %s for %s (%s)", targ, tpar.obj.name, tpar.obj.pos)
+						result = nil // type inference failed
+						return
+					}
+				}
+			}
+		}()
+	}
+
 	const enableTparamRenaming = true
 	if enableTparamRenaming {
 		// For the purpose of type inference we must differentiate type parameters
