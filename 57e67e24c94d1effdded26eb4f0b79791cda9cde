@@ -70,6 +70,29 @@
       "message": "s/17/20/",
       "revId": "57e67e24c94d1effdded26eb4f0b79791cda9cde",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a082f113_f674ba9b",
+        "filename": "src/cmd/dist/README",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2022-11-17T23:00:50Z",
+      "side": 1,
+      "message": "Given that the minimum Go bootstrap version has been changed to 1.17.13 minimum¹, it should help to replace mentions of \"1.17\" here and below with \"1.17.13\", to reduce possible confusion.\n\n¹ https://groups.google.com/g/golang-dev/c/ur194Xnrosg/m/YuEHzq31AgAJ",
+      "range": {
+        "startLine": 9,
+        "startChar": 26,
+        "endLine": 9,
+        "endChar": 30
+      },
+      "revId": "57e67e24c94d1effdded26eb4f0b79791cda9cde",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

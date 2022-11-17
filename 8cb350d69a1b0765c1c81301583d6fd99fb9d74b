@@ -16,6 +16,23 @@
       "message": "The comment changes in this CL are fine, but this code change is not. \nWe are going to keep looking for the bootstrap Go toolchain in $HOME/go1.4\nbecause that path is hard-coded in too many places that build Go.",
       "revId": "8cb350d69a1b0765c1c81301583d6fd99fb9d74b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "548736ef_ef3275a4",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1642,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2022-11-17T23:00:50Z",
+      "side": 0,
+      "message": "Can this change be simplified by using the fs.DirEntry.Type method (https://pkg.go.dev/io/fs#DirEntry.Type), i.e., something that\u0027s very close to the current code:\n\n```\n if err \u003d\u003d nil {\n-\tmode :\u003d info.Mode()\n+\tmode :\u003d d.Type()\n \tif mode\u00260222 !\u003d 0 \u0026\u0026 (mode.IsDir() || mode.IsRegular()) {\n \t\tdirs \u003d append(dirs, pathMode{path, mode})\n \t}\n }\n```\n\nOr does that not work because its missing permission bits?\n\nIf in this case it\u0027s necessary to do an Lstat on each DirEntry anyway, is there still benefit to move to filepath.WalkDir compared the existing filepath.Walk that does that automatically?",
+      "revId": "8cb350d69a1b0765c1c81301583d6fd99fb9d74b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
