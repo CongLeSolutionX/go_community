@@ -335,7 +335,11 @@ func createHeaders() error {
 		if err != nil {
 			return fmt.Errorf("unable to find dlltool path: %v\n%s\n", err, out)
 		}
-		args := []string{strings.TrimSpace(string(out)), "-D", args[6], "-l", libgoname, "-d", "libgo.def"}
+		dlltoolpath := strings.TrimSpace(string(out))
+		if !strings.HasSuffix(dlltoolpath, ".exe") {
+			dlltoolpath += ".exe"
+		}
+		args := []string{dlltoolpath, "-D", args[6], "-l", libgoname, "-d", "libgo.def"}
 
 		// This is an unfortunate workaround for https://github.com/mstorsjo/llvm-mingw/issues/205 in which
 		// we basically reimplement the contents of the dlltool.sh wrapper: https://git.io/JZFlU
