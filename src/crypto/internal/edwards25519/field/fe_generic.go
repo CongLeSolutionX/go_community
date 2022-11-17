@@ -244,23 +244,3 @@ func feSquareGeneric(v, a *Element) {
 	*v = Element{rr0, rr1, rr2, rr3, rr4}
 	v.carryPropagate()
 }
-
-// carryPropagate brings the limbs below 52 bits by applying the reduction
-// identity (a * 2²⁵⁵ + b = a * 19 + b) to the l4 carry.
-func (v *Element) carryPropagateGeneric() *Element {
-	c0 := v.l0 >> 51
-	c1 := v.l1 >> 51
-	c2 := v.l2 >> 51
-	c3 := v.l3 >> 51
-	c4 := v.l4 >> 51
-
-	// c4 is at most 64 - 51 = 13 bits, so c4*19 is at most 18 bits, and
-	// the final l0 will be at most 52 bits. Similarly for the rest.
-	v.l0 = v.l0&maskLow51Bits + c4*19
-	v.l1 = v.l1&maskLow51Bits + c0
-	v.l2 = v.l2&maskLow51Bits + c1
-	v.l3 = v.l3&maskLow51Bits + c2
-	v.l4 = v.l4&maskLow51Bits + c3
-
-	return v
-}

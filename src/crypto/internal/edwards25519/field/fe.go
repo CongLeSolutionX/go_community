@@ -90,11 +90,7 @@ func (v *Element) Add(a, b *Element) *Element {
 	v.l2 = a.l2 + b.l2
 	v.l3 = a.l3 + b.l3
 	v.l4 = a.l4 + b.l4
-	// Using the generic implementation here is actually faster than the
-	// assembly. Probably because the body of this function is so simple that
-	// the compiler can figure out better optimizations by inlining the carry
-	// propagation.
-	return v.carryPropagateGeneric()
+	return v.carryPropagate()
 }
 
 // Subtract sets v = a - b, and returns v.
@@ -107,6 +103,26 @@ func (v *Element) Subtract(a, b *Element) *Element {
 	v.l3 = (a.l3 + 0xFFFFFFFFFFFFE) - b.l3
 	v.l4 = (a.l4 + 0xFFFFFFFFFFFFE) - b.l4
 	return v.carryPropagate()
+}
+
+// carryPropagate brings the limbs below 52 bits by applying the reduction
+// identity (a * 2²⁵⁵ + b = a * 19 + b) to the l4 carry.
+func (v *Element) carryPropagate() *Element {
+	c0 := v.l0 >> 51
+	c1 := v.l1 >> 51
+	c2 := v.l2 >> 51
+	c3 := v.l3 >> 51
+	c4 := v.l4 >> 51
+
+	// c4 is at most 64 - 51 = 13 bits, so c4*19 is at most 18 bits, and
+	// the final l0 will be at most 52 bits. Similarly for the rest.
+	v.l0 = v.l0&maskLow51Bits + c4*19
+	v.l1 = v.l1&maskLow51Bits + c0
+	v.l2 = v.l2&maskLow51Bits + c1
+	v.l3 = v.l3&maskLow51Bits + c2
+	v.l4 = v.l4&maskLow51Bits + c3
+
+	return v
 }
 
 // Negate sets v = -a, and returns v.
