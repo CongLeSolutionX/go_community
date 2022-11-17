@@ -254,6 +254,24 @@
       "parentUuid": "a3ffea1e_ed072aaf",
       "revId": "1cd854eadb23b72d1f9e0f61c0954c41e6ea13d6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46057df4_034d4b25",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-11-17T02:37:40Z",
+      "side": 1,
+      "message": "Oh I see...\n\nThat threshold is kind of weird. The set of edges with EWeight/TotalEdgeWeight * 100 \u003e\u003d threshold isn\u0027t necessarily the same as nodes[:i+1]. For example, if two edges have the same weight, and the first one we process above pushes us over, we\u0027ll return just the first one, but if we later look back by the threshold, it will include both.\n\nSince it\u0027s just for debugging, maybe it doesn\u0027t matter, though you don\u0027t want debugging info to be misleading either.\n\nI would at least leave a warning about this in the doc comment. Maybe in a follow-up, we can make PrintWeightedCallGraphDOT directly use the set of hot nodes.",
+      "parentUuid": "0662c194_5f139f92",
+      "revId": "1cd854eadb23b72d1f9e0f61c0954c41e6ea13d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
