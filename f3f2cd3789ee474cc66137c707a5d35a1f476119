@@ -323,6 +323,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3ba23a41_dc42ea43",
+        "filename": "src/cmd/compile/internal/types2/typestring.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-11-17T23:37:26Z",
+      "side": 1,
+      "message": "just do it once, below, even it takes an if. see next comment.",
+      "parentUuid": "615803d1_47ad89a0",
+      "range": {
+        "startLine": 174,
+        "startChar": 7,
+        "endLine": 174,
+        "endChar": 14
+      },
+      "revId": "f3f2cd3789ee474cc66137c707a5d35a1f476119",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "aca36b8d_e0e8e409",
         "filename": "src/cmd/compile/internal/types2/typestring.go",
         "patchSetId": 6
