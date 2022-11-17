@@ -272,6 +272,24 @@
       "parentUuid": "0662c194_5f139f92",
       "revId": "1cd854eadb23b72d1f9e0f61c0954c41e6ea13d6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fad16a64_ae77f7f7",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-17T20:02:21Z",
+      "side": 1,
+      "message": "Added comment about the threshold. Also renamed the function as the threshold isn\u0027t actually important.",
+      "parentUuid": "46057df4_034d4b25",
+      "revId": "1cd854eadb23b72d1f9e0f61c0954c41e6ea13d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
