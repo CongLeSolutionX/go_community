@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e371d761_f10bebd1",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1069,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-17T00:34:57Z",
+      "side": 0,
+      "message": "Why remove this (and the next one)?",
+      "range": {
+        "startLine": 1067,
+        "startChar": 0,
+        "endLine": 1069,
+        "endChar": 3
+      },
+      "revId": "d9b7be4f57ba755908ac364f720d24f15cc3b652",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

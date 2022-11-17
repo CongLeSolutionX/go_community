@@ -70,6 +70,52 @@
       "message": "Needs rebasing however",
       "revId": "90ec9d7932ce098cd222cfe5eca694da029eee35",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "caceae3b_0e7c911c",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1124,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-17T00:34:57Z",
+      "side": 1,
+      "message": "This comment is no longer useful.",
+      "range": {
+        "startLine": 1124,
+        "startChar": 115,
+        "endLine": 1124,
+        "endChar": 169
+      },
+      "revId": "90ec9d7932ce098cd222cfe5eca694da029eee35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "521f01d0_382abcf3",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1131,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-17T00:34:57Z",
+      "side": 1,
+      "message": "The toofar case below also generates a branch instruction with the same amount of offset. If this is too far, the next one would also be, so this won\u0027t help. Maybe just error out, or leave it (and the linker would error out).\n\nIf we really want, we could do something to handle very far branches, e.g. generate an indirect branch. But various places (e.g. the linker) may not like a single function that big anyway. I don\u0027t think we really need to handle this case.",
+      "range": {
+        "startLine": 1131,
+        "startChar": 13,
+        "endLine": 1131,
+        "endChar": 78
+      },
+      "revId": "90ec9d7932ce098cd222cfe5eca694da029eee35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
