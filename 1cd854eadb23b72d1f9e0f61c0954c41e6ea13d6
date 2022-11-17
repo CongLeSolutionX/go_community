@@ -80,6 +80,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c7a1d0d_46e00470",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-17T00:19:31Z",
+      "side": 1,
+      "message": "I\u0027m not sure either. For most debug flags I think we don\u0027t report errors. But it may be a good idea to do so. Done.",
+      "parentUuid": "d2a77fa4_affe68ad",
+      "range": {
+        "startLine": 87,
+        "startChar": 72,
+        "endLine": 87,
+        "endChar": 104
+      },
+      "revId": "1cd854eadb23b72d1f9e0f61c0954c41e6ea13d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b789be59_100f7aff",
@@ -93,6 +117,24 @@
       "writtenOn": "2022-11-16T17:42:13Z",
       "side": 1,
       "message": "Simpler to just do candHotEdgeMap[csi] \u003d struct{}{} without the presence check?",
+      "revId": "1cd854eadb23b72d1f9e0f61c0954c41e6ea13d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc983e0e_50696b24",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-17T00:19:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b789be59_100f7aff",
       "revId": "1cd854eadb23b72d1f9e0f61c0954c41e6ea13d6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -120,6 +162,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fb57b24_4347cbda",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-17T00:19:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "442dab13_fa29d63b",
+      "range": {
+        "startLine": 121,
+        "startChar": 53,
+        "endLine": 121,
+        "endChar": 62
+      },
+      "revId": "1cd854eadb23b72d1f9e0f61c0954c41e6ea13d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0aae4395_17dc869f",
@@ -137,6 +203,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dfeaa103_631f3836",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-17T00:19:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0aae4395_17dc869f",
+      "revId": "1cd854eadb23b72d1f9e0f61c0954c41e6ea13d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a3ffea1e_ed072aaf",
@@ -150,6 +234,24 @@
       "writtenOn": "2022-11-16T17:42:13Z",
       "side": 1,
       "message": "I\u0027m not sure I understand this line. It seems like you\u0027d either want to return 0, nil or 100, nodes. I would think you\u0027d want 100, nodes. If inlineCDFHotCallSiteThresholdPercent is set really low, like 0 (or negative, though we catch that above), then the first iteration of the loop will exceed it and return, so you won\u0027t reach here. If inlineCDFHotCallSiteThresholdPercent is set high, like 100 (or higher) and perhaps floating point error means the final cumulative weight isn\u0027t quite 100, then you\u0027d fall through the loop to here and you\u0027d want to return everything, which is 100, nodes.",
+      "revId": "1cd854eadb23b72d1f9e0f61c0954c41e6ea13d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0662c194_5f139f92",
+        "filename": "src/cmd/compile/internal/inline/inl.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-17T00:19:31Z",
+      "side": 1,
+      "message": "The threshold this function returns is a lower bound for edge weight percentage. If an edge has higher weight, it will be counted as hot. So (0, nodes) means \"all are hot\".\n\nWith this CL the threshold returned here isn\u0027t really used for comparing with the weights anymore. It doesn\u0027t really matter now. (Currently it only appears in a debug print. Maybe we should not return it.)",
+      "parentUuid": "a3ffea1e_ed072aaf",
       "revId": "1cd854eadb23b72d1f9e0f61c0954c41e6ea13d6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
