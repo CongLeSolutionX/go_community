@@ -46,6 +46,30 @@
       },
       "revId": "8164d4c4f3dd309a6589380c6489daa3db7ea65c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45c0ef41_9e0aaf8b",
+        "filename": "src/time/format.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1300,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-11-17T15:26:05Z",
+      "side": 1,
+      "message": "\u003e The `switch` statement could change any one of the following variables. If we factor it out into a standalone function, I think we should create a struct with these fields and parse a pointer to this struct to the new function. It will result in many git differences. So I borrow the idea from CL 160338 to hold the original `value` and use it if there is a parse error. Please let me know if I\u0027m wrong.\n\nThat seems perfect, and it\u0027s a delightfully small patch. Thanks!",
+      "parentUuid": "93df576b_2d6e9e65",
+      "range": {
+        "startLine": 1298,
+        "startChar": 0,
+        "endLine": 1300,
+        "endChar": 4
+      },
+      "revId": "8164d4c4f3dd309a6589380c6489daa3db7ea65c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
