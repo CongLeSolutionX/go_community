@@ -36,6 +36,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "79de1119_1f211fa9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-11-17T16:25:09Z",
+      "side": 1,
+      "message": "`watchflakes` successfully picked it up in #56808, which I have now closed.",
+      "parentUuid": "322251fa_69552e04",
+      "revId": "f5e3e284dd488b75ae7590ad93d1738a1361e011",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "00fce647_1f0705a2",
