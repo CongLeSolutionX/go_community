@@ -145,6 +145,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "44fb8aeb_26693a11",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 26814
+      },
+      "writtenOn": "2022-11-17T19:36:34Z",
+      "side": 1,
+      "message": "For completeness sake I don\u0027t like the fact that we can iterate using CountSetOfInts but with this change can\u0027t with Count[]. In practice a lot of code in protobuf modules uses type aliases, but I can\u0027t name anything particular ATM which does use private and exported types at the same composite type.\n\nAlso this change doesn\u0027t take type aliases into account when it does type inference. Aka https://go.dev/play/p/0uWYrbtezew will stop working, but it is correct code.",
+      "parentUuid": "9786fcfb_88a7000b",
+      "revId": "feb31534ef7a9d4b3bea2e0b5127cd94c02e6056",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "493b1f6b_a7904eb9",
         "filename": "src/cmd/compile/internal/types2/infer.go",
         "patchSetId": 2
