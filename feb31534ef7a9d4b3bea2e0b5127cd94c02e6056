@@ -217,6 +217,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "acab5b1e_ed5ef4ae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-11-17T21:54:41Z",
+      "side": 1,
+      "message": "Duh, sorry for the poor formatting.\n\nThis is what I mean:\nhttps://go.dev/play/p/cRDfDVtTBAZ\n\nIn that example, the calling program would break when the library author changes Y to be an alias for an unexported type. We can\u0027t do this.",
+      "parentUuid": "ba2bccd0_8ea02d77",
+      "revId": "feb31534ef7a9d4b3bea2e0b5127cd94c02e6056",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "493b1f6b_a7904eb9",
         "filename": "src/cmd/compile/internal/types2/infer.go",
         "patchSetId": 2
