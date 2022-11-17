@@ -199,6 +199,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ba2bccd0_8ea02d77",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-11-17T21:51:16Z",
+      "side": 1,
+      "message": "Right but per Dmitry\u0027s point, with type aliases this change would mean that valid type inference would fail (meaning type inference that IS possible to replace with explicit type arguments.\n\nPut differently, suppose I am using lib, and have func F[T any](T). Suppose somewhere I have var x lib.X and call F(x).\n\nNow suppose someone is refactoring lib, and does `type X \u003d internalX`. This is a non-breaking change, but would break users of lib!\n\nTherefore we can\u0027t do this, with the current compiler, because of the lack of alias information.",
+      "parentUuid": "7ad287f6_279f62ab",
+      "revId": "feb31534ef7a9d4b3bea2e0b5127cd94c02e6056",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "493b1f6b_a7904eb9",
         "filename": "src/cmd/compile/internal/types2/infer.go",
         "patchSetId": 2
