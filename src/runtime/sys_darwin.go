@@ -179,6 +179,13 @@ func pthread_kill(t pthread, sig uint32) {
 }
 func pthread_kill_trampoline()
 
+//go:nosplit
+func osinit_hack() {
+	libcCall(unsafe.Pointer(abi.FuncPCABI0(osinit_hack_trampoline)), nil)
+	return
+}
+func osinit_hack_trampoline()
+
 // mmap is used to do low-level memory allocation via mmap. Don't allow stack
 // splits, since this function (used by sysAlloc) is called in a lot of low-level
 // parts of the runtime and callers often assume it won't acquire any locks.
@@ -548,3 +555,6 @@ func setNonblock(fd int32) {
 //go:cgo_import_dynamic libc_pthread_cond_wait pthread_cond_wait "/usr/lib/libSystem.B.dylib"
 //go:cgo_import_dynamic libc_pthread_cond_timedwait_relative_np pthread_cond_timedwait_relative_np "/usr/lib/libSystem.B.dylib"
 //go:cgo_import_dynamic libc_pthread_cond_signal pthread_cond_signal "/usr/lib/libSystem.B.dylib"
+
+//go:cgo_import_dynamic libc_notify_is_valid_token notify_is_valid_token "/usr/lib/libSystem.B.dylib"
+//go:cgo_import_dynamic libc_xpc_atfork_child xpc_atfork_child "/usr/lib/libSystem.B.dylib"
