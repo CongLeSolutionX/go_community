@@ -703,3 +703,22 @@ func TestIssue51093(t *testing.T) {
 		}
 	}
 }
+
+func TestIssue56669(t *testing.T) {
+	const (
+		asrc = `package a; type local struct{}; func F(local) {}`
+		bsrc = `package b; import "a"; func f[P any](_ func(P)) {}; func _() { f(a.F) }`
+	)
+
+	a := mustTypecheck("a", asrc, nil)
+	conf := Config{Importer: importHelper{pkg: a, fallback: defaultImporter()}}
+
+	bast := mustParse("", bsrc)
+	_, err := conf.Check(bast.PkgName.Value, []*syntax.File{bast}, nil)
+	if err == nil {
+		t.Fatal("package b had no errors")
+	}
+	if !strings.Contains(err.Error(), "cannot infer unexported type a.local for P") {
+		t.Errorf("unexpected type-checking error for b: %s", err)
+	}
+}
