@@ -181,6 +181,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7ad287f6_279f62ab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-11-17T21:40:01Z",
+      "side": 1,
+      "message": "The lack of information about aliases is a separate issue that we should address separately.\n\nThe point I am trying to make here is very simple: if the code cannot be written without type inference, we shouldn\u0027t be able to call type inference to the rescue. We should write the code so that it works w/o type inference. Note that type inference is strictly a convenience feature. This was clearly the intent early on an expressed explicitly in the type parameters design doc ( https://go.googlesource.com/proposal/+/HEAD/design/43651-type-parameters.md#type-inference ).",
+      "parentUuid": "c67c4e44_54017d0f",
+      "revId": "feb31534ef7a9d4b3bea2e0b5127cd94c02e6056",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "493b1f6b_a7904eb9",
         "filename": "src/cmd/compile/internal/types2/infer.go",
         "patchSetId": 2
