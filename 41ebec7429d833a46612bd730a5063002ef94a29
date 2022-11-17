@@ -53,6 +53,46 @@
       "message": "Would you mind taking a look of this change, thanks.",
       "revId": "41ebec7429d833a46612bd730a5063002ef94a29",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95725a95_84cf625c",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1275,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-17T00:46:17Z",
+      "side": 1,
+      "message": "While here, maybe document the meaning of the skip parameter. Maybe change it to a boolean?",
+      "revId": "41ebec7429d833a46612bd730a5063002ef94a29",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19de8c12_378a8235",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1287,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-17T00:46:17Z",
+      "side": 1,
+      "message": "I think I understand this, but a comment may still be good.",
+      "range": {
+        "startLine": 1287,
+        "startChar": 70,
+        "endLine": 1287,
+        "endChar": 84
+      },
+      "revId": "41ebec7429d833a46612bd730a5063002ef94a29",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
