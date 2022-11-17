@@ -163,6 +163,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c67c4e44_54017d0f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-11-17T19:43:28Z",
+      "side": 1,
+      "message": "The point about aliases is a good one.\n\nUnfortunately, I think this means we can\u0027t make this change, because the type-checker lacks information about aliases.",
+      "parentUuid": "44fb8aeb_26693a11",
+      "revId": "feb31534ef7a9d4b3bea2e0b5127cd94c02e6056",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "493b1f6b_a7904eb9",
         "filename": "src/cmd/compile/internal/types2/infer.go",
         "patchSetId": 2
