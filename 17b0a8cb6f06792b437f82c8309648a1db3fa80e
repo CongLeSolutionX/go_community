@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c0c450e_6f6cb7b7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-11-17T01:27:20Z",
+      "side": 1,
+      "message": "TRY\u003dandroid-amd64-emu",
+      "revId": "17b0a8cb6f06792b437f82c8309648a1db3fa80e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
