@@ -335,13 +335,31 @@ func createHeaders() error {
 		if err != nil {
 			return fmt.Errorf("unable to find dlltool path: %v\n%s\n", err, out)
 		}
-		args := []string{strings.TrimSpace(string(out)), "-D", args[6], "-l", libgoname, "-d", "libgo.def"}
+		dlltoolpath := strings.TrimSpace(string(out))
+		args := []string{dlltoolpath, "-D", args[6], "-l", libgoname, "-d", "libgo.def"}
 
 		// This is an unfortunate workaround for https://github.com/mstorsjo/llvm-mingw/issues/205 in which
 		// we basically reimplement the contents of the dlltool.sh wrapper: https://git.io/JZFlU
+		// TODO(thanm): remove this workaround once we can upgrade the compilers
+		// on the windows-arm64 builder.
+
 		dlltoolContents, err := os.ReadFile(args[0])
 		if err != nil {
-			return fmt.Errorf("unable to read dlltool: %v\n", err)
+			if os.IsNotExist(err) {
+				// Sometimes clang will emit "-print-prog-name=dlltool"
+				// output ending with "dlltool" and not "dlltool.exe".
+				// If the readfile fails, try again with the ".exe"
+				// variant.
+				if filepath.Ext(args[0]) != ".exe" {
+					args[0] += ".exe"
+					dlltoolContents, err = os.ReadFile(args[0])
+					if err != nil {
+						return fmt.Errorf("unable to read dlltool: %v\n", err)
+					}
+				}
+			} else {
+				return fmt.Errorf("unable to read dlltool: %v\n", err)
+			}
 		}
 		if bytes.HasPrefix(dlltoolContents, []byte("#!/bin/sh")) && bytes.Contains(dlltoolContents, []byte("llvm-dlltool")) {
 			base, name := filepath.Split(args[0])
