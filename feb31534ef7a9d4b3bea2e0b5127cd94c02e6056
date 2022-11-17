@@ -92,6 +92,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9786fcfb_88a7000b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-11-17T18:30:08Z",
+      "side": 1,
+      "message": "No, this won\u0027t work because none is not exported (also there\u0027s an alias but it\u0027s for ExportedInt).\n\nHow important is this kind of pattern?",
+      "parentUuid": "e2f3ad9d_425453d5",
+      "revId": "feb31534ef7a9d4b3bea2e0b5127cd94c02e6056",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "493b1f6b_a7904eb9",
         "filename": "src/cmd/compile/internal/types2/infer.go",
         "patchSetId": 2
