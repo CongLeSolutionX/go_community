@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "97689962_4800543e",
+        "filename": "src/cmd/compile/internal/pgo/graph.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-17T00:19:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2020b308_9fe1100a",
+      "revId": "d80071224453e5553cb9f16ce9161fcf0be9fea1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b7ee3c62_af5719db",
@@ -85,6 +103,42 @@
       "writtenOn": "2022-11-16T17:47:47Z",
       "side": 1,
       "message": "Start i at min(1, len(sample.Location)-1). Then the loop is\n\n  for ; i \u003e\u003d 0; i--\n\nThat makes the loop more robust to len(sample.Location) \u003d\u003d 1 (or even 0), and I think makes the loop much easier to read. It\u0027s should also be clearer how to tweak the policy if we want, like say, min(2, len(sample.Location)-1).",
+      "revId": "d80071224453e5553cb9f16ce9161fcf0be9fea1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65f365be_bbf37728",
+        "filename": "src/cmd/compile/internal/pgo/graph.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-17T00:19:43Z",
+      "side": 1,
+      "message": "Done. (open-coded min.)",
+      "parentUuid": "06bfebff_ba810327",
+      "revId": "d80071224453e5553cb9f16ce9161fcf0be9fea1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb7d3b17_279d24e5",
+        "filename": "src/cmd/compile/internal/pgo/graph.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-17T00:19:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b7ee3c62_af5719db",
       "revId": "d80071224453e5553cb9f16ce9161fcf0be9fea1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
