@@ -91,6 +91,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7a18202d_6f099d33",
+        "filename": "src/cmd/compile/internal/typecheck/expr.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-11-17T23:15:34Z",
+      "side": 1,
+      "message": "this would be easier to read by writing the two assignments on separate lines (it would also more clearly show how they are similar)",
+      "revId": "f3f2cd3789ee474cc66137c707a5d35a1f476119",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a3939b5e_96768649",
         "filename": "src/cmd/compile/internal/types2/object.go",
         "patchSetId": 6
@@ -108,6 +125,132 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c6214e97_464b3c71",
+        "filename": "src/cmd/compile/internal/types2/typestring.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-11-17T23:15:34Z",
+      "side": 1,
+      "message": "remove this line in favor of a single check for all cases - see below",
+      "revId": "f3f2cd3789ee474cc66137c707a5d35a1f476119",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3e2a6e4_4e3b80a9",
+        "filename": "src/cmd/compile/internal/types2/typestring.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-11-17T23:15:34Z",
+      "side": 1,
+      "message": "I think this switch can be simplified t just:\n```\nbase, _ :\u003d deref(f.typ)\nif n, _ :\u003d base.(*Named); n !\u003d nil \u0026\u0026 !isExported(n.name) {\n   pkgAnnotate \u003d true\n}\n```",
+      "range": {
+        "startLine": 160,
+        "startChar": 5,
+        "endLine": 160,
+        "endChar": 11
+      },
+      "revId": "f3f2cd3789ee474cc66137c707a5d35a1f476119",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e42ad8cd_e252155b",
+        "filename": "src/cmd/compile/internal/types2/typestring.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-11-17T23:15:34Z",
+      "side": 1,
+      "message": "Why is this needed?",
+      "range": {
+        "startLine": 161,
+        "startChar": 11,
+        "endLine": 161,
+        "endChar": 16
+      },
+      "revId": "f3f2cd3789ee474cc66137c707a5d35a1f476119",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d31572b_95aab86b",
+        "filename": "src/cmd/compile/internal/types2/typestring.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-11-17T23:15:34Z",
+      "side": 1,
+      "message": "The other case is pointer to embedded type.",
+      "range": {
+        "startLine": 170,
+        "startChar": 13,
+        "endLine": 170,
+        "endChar": 14
+      },
+      "revId": "f3f2cd3789ee474cc66137c707a5d35a1f476119",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48b8aefb_0fe19ab5",
+        "filename": "src/cmd/compile/internal/types2/typestring.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-11-17T23:15:34Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 174,
+        "startChar": 7,
+        "endLine": 174,
+        "endChar": 14
+      },
+      "revId": "f3f2cd3789ee474cc66137c707a5d35a1f476119",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aca36b8d_e0e8e409",
+        "filename": "src/cmd/compile/internal/types2/typestring.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-11-17T23:15:34Z",
+      "side": 1,
+      "message": "```\nif pkgAnnotate {\n   w.pkgInfo \u003d false // only tag once\n}\n```",
+      "revId": "f3f2cd3789ee474cc66137c707a5d35a1f476119",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bb76da17_f1310a86",
         "filename": "src/cmd/compile/internal/types2/typestring.go",
         "patchSetId": 6
@@ -119,6 +262,30 @@
       "writtenOn": "2022-11-17T22:29:38Z",
       "side": 1,
       "message": "at least in theory, writePackage may return an empty string",
+      "range": {
+        "startLine": 188,
+        "startChar": 4,
+        "endLine": 188,
+        "endChar": 16
+      },
+      "revId": "f3f2cd3789ee474cc66137c707a5d35a1f476119",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "304be524_6c542344",
+        "filename": "src/cmd/compile/internal/types2/typestring.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-11-17T23:15:34Z",
+      "side": 1,
+      "message": "Just do:\n\n```\nif pkgAnnotate \u0026\u0026 f.pkg !\u003d nil {\n   w.string(\" /* package \")\n   w.string(f.pkg.Path())\n   w.string(\" */ \")\n}\n```",
+      "parentUuid": "bb76da17_f1310a86",
       "range": {
         "startLine": 188,
         "startChar": 4,
