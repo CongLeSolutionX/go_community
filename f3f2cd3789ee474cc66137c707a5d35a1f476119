@@ -89,6 +89,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2b5ee1b_4b41ef4c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-11-17T23:26:24Z",
+      "side": 1,
+      "message": "I\u0027ll do a round of cleanup, and see what\u0027s left.",
+      "revId": "f3f2cd3789ee474cc66137c707a5d35a1f476119",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7a18202d_6f099d33",
@@ -188,6 +205,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "78fe788f_5766e625",
+        "filename": "src/cmd/compile/internal/types2/typestring.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-11-17T23:26:24Z",
+      "side": 1,
+      "message": "I wasn\u0027t clear on what could be embedded.",
+      "parentUuid": "e42ad8cd_e252155b",
+      "range": {
+        "startLine": 161,
+        "startChar": 11,
+        "endLine": 161,
+        "endChar": 16
+      },
+      "revId": "f3f2cd3789ee474cc66137c707a5d35a1f476119",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2d31572b_95aab86b",
         "filename": "src/cmd/compile/internal/types2/typestring.go",
         "patchSetId": 6
@@ -211,6 +252,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dbfa2c01_03989715",
+        "filename": "src/cmd/compile/internal/types2/typestring.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-11-17T23:26:24Z",
+      "side": 1,
+      "message": "Is this a case that I need to address, and what would it look like?",
+      "parentUuid": "2d31572b_95aab86b",
+      "range": {
+        "startLine": 170,
+        "startChar": 13,
+        "endLine": 170,
+        "endChar": 14
+      },
+      "revId": "f3f2cd3789ee474cc66137c707a5d35a1f476119",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "48b8aefb_0fe19ab5",
         "filename": "src/cmd/compile/internal/types2/typestring.go",
         "patchSetId": 6
@@ -222,6 +287,30 @@
       "writtenOn": "2022-11-17T23:15:34Z",
       "side": 1,
       "message": "ditto",
+      "range": {
+        "startLine": 174,
+        "startChar": 7,
+        "endLine": 174,
+        "endChar": 14
+      },
+      "revId": "f3f2cd3789ee474cc66137c707a5d35a1f476119",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "615803d1_47ad89a0",
+        "filename": "src/cmd/compile/internal/types2/typestring.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-11-17T23:26:24Z",
+      "side": 1,
+      "message": "ditto with respect to what?",
+      "parentUuid": "48b8aefb_0fe19ab5",
       "range": {
         "startLine": 174,
         "startChar": 7,
