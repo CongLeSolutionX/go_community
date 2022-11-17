@@ -135,6 +135,14 @@ const (
 	IMAGE_REL_ARM64_REL32            = 0x0011
 )
 
+const (
+	// When stored into the PLT value for a symbol, this token tells
+	// windynrelocsym to redirect direct references to this symbol to a stub
+	// that loads from the corresponding import symbol and then does
+	// an indirect call to the loaded value.
+	CreateImportStubPltToken = -2
+)
+
 // TODO(brainman): maybe just add ReadAt method to bio.Reader instead of creating peBiobuf
 
 // peBiobuf makes bio.Reader look like io.ReaderAt.
@@ -162,15 +170,45 @@ func makeUpdater(l *loader.Loader, bld *loader.SymbolBuilder, s loader.Sym) *loa
 	return bld
 }
 
+// peImportSymsState tracks the set of DLL import symbols we've seen
+// while reading host objects. We create a singleton instance of this
+// type, which will persist across multiple host objects.
+type peImportSymsState struct {
+	// this contains the set of import symbols we've seen so far.
+	importSyms map[loader.Sym]struct{}
+
+	// Text and non-text sections read in by the host object loader.
+	secSyms []loader.Sym
+
+	// SDYNIMPORT symbols encountered along the way
+	dynimports map[loader.Sym]struct{}
+
+	// Loader and arch, for use in postprocessing.
+	l    *loader.Loader
+	arch *sys.Arch
+}
+
+var importSymsState *peImportSymsState
+
+func createImportSymsState(l *loader.Loader, arch *sys.Arch) {
+	if importSymsState != nil {
+		return
+	}
+	importSymsState = &peImportSymsState{
+		dynimports: make(map[loader.Sym]struct{}),
+		l:          l,
+		arch:       arch,
+	}
+}
+
 // peLoaderState holds various bits of useful state information needed
-// while loading a PE object file.
+// while loading a single PE object file.
 type peLoaderState struct {
 	l               *loader.Loader
 	arch            *sys.Arch
 	f               *pe.File
 	pn              string
 	sectsyms        map[*pe.Section]loader.Sym
-	defWithImp      map[string]struct{}
 	comdats         map[uint16]int64 // key is section index, val is size
 	sectdata        map[*pe.Section][]byte
 	localSymVersion int
@@ -194,6 +232,7 @@ func Load(l *loader.Loader, arch *sys.Arch, localSymVersion int, input *bio.Read
 		localSymVersion: localSymVersion,
 		pn:              pn,
 	}
+	createImportSymsState(state.l, state.arch)
 
 	// Some input files are archives containing multiple of
 	// object files, and pe.NewFile seeks to the start of
@@ -259,9 +298,7 @@ func Load(l *loader.Loader, arch *sys.Arch, localSymVersion int, input *bio.Read
 		}
 	}
 
-	// Make a prepass over the symbols to detect situations where
-	// we have both a defined symbol X and an import symbol __imp_X
-	// (needed by readpesym()).
+	// Make a prepass over the symbols to collect info about COMDAT symbols.
 	if err := state.preprocessSymbols(); err != nil {
 		return nil, nil, err
 	}
@@ -438,10 +475,6 @@ func Load(l *loader.Loader, arch *sys.Arch, localSymVersion int, input *bio.Read
 		}
 
 		if pesym.SectionNumber == 0 { // extern
-			if l.SymType(s) == sym.SDYNIMPORT {
-				bld = makeUpdater(l, bld, s)
-				bld.SetPlt(-2) // flag for dynimport in PE object files.
-			}
 			if l.SymType(s) == sym.SXREF && pesym.Value > 0 { // global data
 				bld = makeUpdater(l, bld, s)
 				bld.SetType(sym.SNOPTRDATA)
@@ -511,6 +544,7 @@ func Load(l *loader.Loader, arch *sys.Arch, localSymVersion int, input *bio.Read
 			continue
 		}
 		l.SortSub(s)
+		importSymsState.secSyms = append(importSymsState.secSyms, s)
 		if l.SymType(s) == sym.STEXT {
 			for ; s != 0; s = l.SubSym(s) {
 				if l.AttrOnList(s) {
@@ -523,6 +557,70 @@ func Load(l *loader.Loader, arch *sys.Arch, localSymVersion int, input *bio.Read
 	}
 
 	return textp, rsrc, nil
+}
+
+// PostProcessImports works to resolve inconsistencies with DLL import
+// symbols; it is needed when building with more "modern" C compilers
+// with internal linkage.
+//
+// Background: DLL import symbols are data (SNOPTRDATA) symbols whose
+// name is of the form "__imp_XXX", which contain a pointer/reference
+// to symbol XXX. It's possible to have import symbols for both data
+// symbols ("__imp__fmode") and text symbols ("__imp_CreateEventA").
+// In some case import symbols are just references to some external
+// thing, and in other cases we see actual definitions of import
+// symbols when reading host objects.
+//
+// Previous versions of the linker would in most cases immediately
+// "forward" import symbol references, e.g. treat a references to
+// "__imp_XXX" a references to "XXX", however this doesn't work well
+// with more modern compilers, where you can sometimes see import
+// symbols that are defs (as opposed to external refs).
+//
+// The main actions taken below are to search for references to
+// SDYNIMPORT symbols in host object text/data sections and flag the
+// symbols for later fixup. When we see a reference to an import
+// symbol __imp_XYZ where XYZ corresponds to some SDYNIMPORT symbol,
+// we flag the symbol (via GOT setting) so that it can be redirected
+// to XYZ later in windynrelocsym. When we see a direct reference to
+// an SDYNIMPORT symbol XYZ, we also flag the symbol (via PLT setting)
+// to indicated that the reference will need to be redirected to a
+// stub.
+func PostProcessImports() error {
+	ldr := importSymsState.l
+	for _, s := range importSymsState.secSyms {
+		relocs := ldr.Relocs(s)
+		for i := 0; i < relocs.Count(); i++ {
+			r := relocs.At(i)
+			rs := r.Sym()
+			if ldr.SymType(rs) == sym.SDYNIMPORT {
+				// Tag the symbol for later stub generation.
+				ldr.SetPlt(rs, CreateImportStubPltToken)
+				continue
+			}
+			sname := ldr.SymName(rs)
+			if !strings.HasPrefix(sname, "__imp_") {
+				continue
+			}
+			basename := sname[len("__imp_"):]
+			if importSymsState.arch.Family == sys.I386 && basename[0] == '_' {
+				basename = basename[1:] // _Name => Name
+			}
+			isym := ldr.Lookup(basename, 0)
+			if isym == 0 {
+				return fmt.Errorf("internal error: import symbol %q with no underlying sym", sname)
+			}
+			if ldr.SymType(isym) != sym.SDYNIMPORT {
+				continue
+			}
+			// At this point (having established that the import
+			// symbol really does target a DLL import), we can
+			// forward the reference from __imp_X to X.
+			r.SetSym(isym)
+		}
+	}
+	importSymsState = nil
+	return nil
 }
 
 func issect(s *pe.COFFSymbol) bool {
@@ -539,25 +637,13 @@ func (state *peLoaderState) readpesym(pesym *pe.COFFSymbol) (*loader.SymbolBuild
 		name = state.l.SymName(state.sectsyms[state.f.Sections[pesym.SectionNumber-1]])
 	} else {
 		name = symname
-		if strings.HasPrefix(symname, "__imp_") {
-			orig := symname[len("__imp_"):]
-			if _, ok := state.defWithImp[orig]; ok {
-				// Don't rename __imp_XXX to XXX, since if we do this
-				// we'll wind up with a duplicate definition. One
-				// example is "__acrt_iob_func"; see commit b295099
-				// from git://git.code.sf.net/p/mingw-w64/mingw-w64
-				// for details.
-			} else {
-				name = strings.TrimPrefix(name, "__imp_") // __imp_Name => Name
-			}
-		}
 		// A note on the "_main" exclusion below: the main routine
 		// defined by the Go runtime is named "_main", not "main", so
 		// when reading references to _main from a host object we want
 		// to avoid rewriting "_main" to "main" in this specific
 		// instance. See #issuecomment-1143698749 on #35006 for more
 		// details on this problem.
-		if state.arch.Family == sys.I386 && name[0] == '_' && name != "_main" {
+		if state.arch.Family == sys.I386 && name[0] == '_' && name != "_main" && !strings.HasPrefix(name, "__imp_") {
 			name = name[1:] // _Name => Name
 		}
 	}
@@ -592,10 +678,6 @@ func (state *peLoaderState) readpesym(pesym *pe.COFFSymbol) (*loader.SymbolBuild
 		bld = makeUpdater(state.l, bld, s)
 		bld.SetType(sym.SXREF)
 	}
-	if strings.HasPrefix(symname, "__imp_") {
-		bld = makeUpdater(state.l, bld, s)
-		bld.SetGot(-2) // flag for __imp_
-	}
 
 	return bld, s, nil
 }
@@ -618,8 +700,6 @@ func (state *peLoaderState) preprocessSymbols() error {
 	}
 
 	// Examine symbol defs.
-	imp := make(map[string]struct{})
-	def := make(map[string]struct{})
 	for i, numaux := 0, 0; i < len(state.f.COFFSymbols); i += numaux + 1 {
 		pesym := &state.f.COFFSymbols[i]
 		numaux = int(pesym.NumberOfAuxSymbols)
@@ -629,10 +709,6 @@ func (state *peLoaderState) preprocessSymbols() error {
 		symname, err := pesym.FullName(state.f.StringTable)
 		if err != nil {
 			return err
-		}
-		def[symname] = struct{}{}
-		if strings.HasPrefix(symname, "__imp_") {
-			imp[strings.TrimPrefix(symname, "__imp_")] = struct{}{}
 		}
 		if _, isc := state.comdats[uint16(pesym.SectionNumber-1)]; !isc {
 			continue
@@ -656,12 +732,6 @@ func (state *peLoaderState) preprocessSymbols() error {
 			// moment. I suspect that we may need to also support
 			// "associative", we'll see.
 			return fmt.Errorf("internal error: unsupported COMDAT selection strategy found in path=%s sec=%d strategy=%d idx=%d, please file a bug", state.pn, auxsymp.SecNum, auxsymp.Selection, i)
-		}
-	}
-	state.defWithImp = make(map[string]struct{})
-	for n := range imp {
-		if _, ok := def[n]; ok {
-			state.defWithImp[n] = struct{}{}
 		}
 	}
 	return nil
