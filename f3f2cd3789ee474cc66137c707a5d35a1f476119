@@ -70,6 +70,63 @@
       "message": "I\u0027ll look at this later today.",
       "revId": "f3f2cd3789ee474cc66137c707a5d35a1f476119",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d41456d_dff17c4f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-11-17T22:29:38Z",
+      "side": 1,
+      "message": "Still looking, but I think some code can be simpler.\nSee pending https://go-review.git.corp.google.com/c/go/+/451795 which you can use.",
+      "revId": "f3f2cd3789ee474cc66137c707a5d35a1f476119",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3939b5e_96768649",
+        "filename": "src/cmd/compile/internal/types2/object.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-11-17T22:29:38Z",
+      "side": 1,
+      "message": "this seems a bit overkill, just for one use where it\u0027s different",
+      "revId": "f3f2cd3789ee474cc66137c707a5d35a1f476119",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb76da17_f1310a86",
+        "filename": "src/cmd/compile/internal/types2/typestring.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-11-17T22:29:38Z",
+      "side": 1,
+      "message": "at least in theory, writePackage may return an empty string",
+      "range": {
+        "startLine": 188,
+        "startChar": 4,
+        "endLine": 188,
+        "endChar": 16
+      },
+      "revId": "f3f2cd3789ee474cc66137c707a5d35a1f476119",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
