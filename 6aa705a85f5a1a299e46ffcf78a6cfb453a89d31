@@ -70,6 +70,24 @@
       "message": "Is there any particular harm in running `osusergo` in race mode?\n\nI don\u0027t see any shared state in it today, but it\u0027s not implausible that the `osusergo` implementation could end up with a race condition from some kind of shared cache at some point in the future...",
       "revId": "6aa705a85f5a1a299e46ffcf78a6cfb453a89d31",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05296156_48744667",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 667,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-11-17T03:00:13Z",
+      "side": 1,
+      "message": "Probably not, but you could ask that same question about a lot of the tests below this point. I\u0027m happy to run more stuff in -race mode, but it\u0027s clear the previous behavior was not intentional. :)",
+      "parentUuid": "97e7e9d6_c0a98497",
+      "revId": "6aa705a85f5a1a299e46ffcf78a6cfb453a89d31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ],
   "submitRequirementResults": [
