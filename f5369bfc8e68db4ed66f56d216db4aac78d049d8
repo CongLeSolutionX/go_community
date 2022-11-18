@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "83eeb7fb_f046df78",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-11-18T17:27:50Z",
+      "side": 1,
+      "message": "I\u0027ll work on that now that this is in what I think is good shape (and will mark this unresolved so it sticks out).",
+      "parentUuid": "11920d67_54403dad",
+      "revId": "f5369bfc8e68db4ed66f56d216db4aac78d049d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0d7b9afe_d793ed32",
         "filename": "src/cmd/compile/internal/types2/typestring.go",
         "patchSetId": 7
@@ -161,6 +179,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0bf083b0_fbac1f23",
+        "filename": "src/cmd/compile/internal/types2/typestring.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-11-18T17:27:50Z",
+      "side": 1,
+      "message": "That works, done.",
+      "parentUuid": "983b991c_21e2c40d",
+      "revId": "f5369bfc8e68db4ed66f56d216db4aac78d049d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5b44759e_7daa59d2",
@@ -174,6 +210,30 @@
       "writtenOn": "2022-11-18T05:03:11Z",
       "side": 1,
       "message": "btw., if you change these signatures so that the types are arguments rather than results, you don\u0027t need the _ or the return:\n\nfunc (S) M1(struct{ string }) {}\n\nand you can make all these functions one-liners.",
+      "range": {
+        "startLine": 9,
+        "startChar": 17,
+        "endLine": 9,
+        "endChar": 23
+      },
+      "revId": "f5369bfc8e68db4ed66f56d216db4aac78d049d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad308b25_5b639c91",
+        "filename": "test/fixedbugs/issue54258.dir/b.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-11-18T17:27:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b44759e_7daa59d2",
       "range": {
         "startLine": 9,
         "startChar": 17,
@@ -215,6 +275,24 @@
       "side": 1,
       "message": "will do.",
       "parentUuid": "16fc0485_19032b77",
+      "revId": "f5369bfc8e68db4ed66f56d216db4aac78d049d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7a24697_7e6853bc",
+        "filename": "test/fixedbugs/issue54258.dir/main.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-11-18T17:27:50Z",
+      "side": 1,
+      "message": "I added one for *string.\n\nOther embeddings don\u0027t trigger this code, because it (rightly) calls b\u0027s t \"b.t\" which is not \"t\" so the messages aren\u0027t equal.  But I left that in as a negative test -- i.e., it should not receive comments.",
+      "parentUuid": "85095c94_e0b53b1b",
       "revId": "f5369bfc8e68db4ed66f56d216db4aac78d049d8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
