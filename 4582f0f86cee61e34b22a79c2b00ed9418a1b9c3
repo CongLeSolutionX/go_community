@@ -90,6 +90,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "509538b4_c61e1671",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-11-18T16:07:06Z",
+      "side": 1,
+      "message": "Thanks. I verified that the latest release from https://github.com/mstorsjo/llvm-mingw looks good. I will go ahead and take out the workaround as part of this CL.\n\nAppreciate the quick response.",
+      "parentUuid": "f8313e8b_7e77ce88",
+      "revId": "4582f0f86cee61e34b22a79c2b00ed9418a1b9c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6b06c6b2_124f7828",
@@ -103,6 +121,24 @@
       "writtenOn": "2022-11-18T15:24:06Z",
       "side": 1,
       "message": "If `dlltoolpath` is a `.exe`, then presumably we can skip the whole `dlltoolContents` thing below, right?\n\n(Also consider using `filepath.Ext` to check for the presence of an existing suffix, and/or using `exec.LookPath` to determine whether the dlltool is already an executable and if so what its extension is.)",
+      "revId": "4582f0f86cee61e34b22a79c2b00ed9418a1b9c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2181e1bc_3930b8e4",
+        "filename": "misc/cgo/testcshared/cshared_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-11-18T16:07:06Z",
+      "side": 1,
+      "message": "I\u0027ll look into using filepath.Ext.  Am planning on removing the workaround, so no lookpath needed it looks like.",
+      "parentUuid": "6b06c6b2_124f7828",
       "revId": "4582f0f86cee61e34b22a79c2b00ed9418a1b9c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
