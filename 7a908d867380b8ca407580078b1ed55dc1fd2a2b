@@ -72,6 +72,24 @@
       "message": "This is a lot of syncronization primitives. I\u0027d drop once and fallbackMu, and just make every function take systemRootsMu.",
       "revId": "7a908d867380b8ca407580078b1ed55dc1fd2a2b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60d7efa3_c78651f8",
+        "filename": "src/crypto/x509/root.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2022-11-18T21:48:25Z",
+      "side": 1,
+      "message": "I tried to rewrite this with just a single RWMutex, but the locking dance needed to manage the init, loading, and fallbacks logic ended up being _extremely bad_ and seemed very prone to anyone trying to work with it down the road leading to subtle race issue.\n\nI think we can live with just a sync.Once and a sync.RWMutex, and it\u0027s relatively simple and easy to understand.",
+      "parentUuid": "08877a5a_d9bd6354",
+      "revId": "7a908d867380b8ca407580078b1ed55dc1fd2a2b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
