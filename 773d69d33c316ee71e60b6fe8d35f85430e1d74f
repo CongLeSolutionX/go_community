@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "53444958_9d229ad5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-11-18T00:28:09Z",
+      "side": 1,
+      "message": "I sometimes over-optimize for the 72 character limit. Since we\u0027re going to overflow anyway, I further rephrased.",
+      "parentUuid": "d88c6dd5_14d997db",
+      "range": {
+        "startLine": 7,
+        "startChar": 49,
+        "endLine": 7,
+        "endChar": 57
+      },
+      "revId": "773d69d33c316ee71e60b6fe8d35f85430e1d74f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e9dcf667_16186004",
@@ -47,6 +71,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1f6527b_843fef7e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-11-18T00:28:09Z",
+      "side": 1,
+      "message": "\"and\": the value recorded in info.Types was inaccurate for call.Fun (we fall-back to recording the generic type), and there was no instance recorded in types.Instances.",
+      "parentUuid": "e9dcf667_16186004",
+      "range": {
+        "startLine": 9,
+        "startChar": 39,
+        "endLine": 9,
+        "endChar": 41
+      },
+      "revId": "773d69d33c316ee71e60b6fe8d35f85430e1d74f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "57ec6332_aafda4e9",
@@ -60,6 +108,24 @@
       "writtenOn": "2022-11-17T19:08:58Z",
       "side": 1,
       "message": "... where fully instantiated function signatures are are not recorded as such following an error checking their arguments.\n\n(?)",
+      "revId": "773d69d33c316ee71e60b6fe8d35f85430e1d74f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de2ec692_8e3e315f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-11-18T00:28:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57ec6332_aafda4e9",
       "revId": "773d69d33c316ee71e60b6fe8d35f85430e1d74f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -160,6 +226,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca485d0f_081d8edf",
+        "filename": "src/cmd/compile/internal/types2/api_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 539,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-11-18T00:28:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96baff0f_0168d1e7",
+      "range": {
+        "startLine": 539,
+        "startChar": 67,
+        "endLine": 539,
+        "endChar": 68
+      },
+      "revId": "773d69d33c316ee71e60b6fe8d35f85430e1d74f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f37edbed_59b730ca",
@@ -173,6 +263,24 @@
       "writtenOn": "2022-11-17T19:08:58Z",
       "side": 1,
       "message": "This should use check.versionErrorf in types2.",
+      "revId": "773d69d33c316ee71e60b6fe8d35f85430e1d74f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ed81223_c0d608f7",
+        "filename": "src/cmd/compile/internal/types2/call.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-11-18T00:28:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f37edbed_59b730ca",
       "revId": "773d69d33c316ee71e60b6fe8d35f85430e1d74f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
