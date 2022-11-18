@@ -127,6 +127,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1165a49b_b6e84222",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-11-18T16:27:14Z",
+      "side": 1,
+      "message": "Well, drat-- although the amd64 and 386 versions of dlltool on our builders are ok, the one on our existing windows-arm64 builder is still a script. So it looks like I will need to leave that in until we can upgrade our compilers.  OK, back to adding a TODO.",
+      "parentUuid": "509538b4_c61e1671",
+      "revId": "4582f0f86cee61e34b22a79c2b00ed9418a1b9c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6b06c6b2_124f7828",
