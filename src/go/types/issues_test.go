@@ -640,6 +640,36 @@ func TestIssue50646(t *testing.T) {
 	}
 }
 
+func TestIssue53595(t *testing.T) {
+	invalid := Typ[Invalid]
+	intType := Universe.Lookup("int").Type()
+	anyType := Universe.Lookup("any").Type().(*Interface)
+
+	for _, T := range [...]Type{invalid, intType, anyType} {
+		if !AssignableTo(invalid, T) {
+			t.Errorf("%s not assignable to %s", invalid, T)
+		}
+		if !AssignableTo(T, invalid) {
+			t.Errorf("%s not assignable to %s", T, invalid)
+		}
+
+		if !ConvertibleTo(invalid, T) {
+			t.Errorf("%s not convertible to %s", invalid, T)
+		}
+		if !ConvertibleTo(T, invalid) {
+			t.Errorf("%s not convertible to %s", T, invalid)
+		}
+	}
+
+	if !AssertableTo(anyType, invalid) {
+		t.Errorf("%s not assertable to %s", anyType, invalid)
+	}
+
+	if !Implements(invalid, anyType) {
+		t.Errorf("%s not implements %s", invalid, anyType)
+	}
+}
+
 func TestIssue55030(t *testing.T) {
 	// makeSig makes the signature func(typ...)
 	makeSig := func(typ Type) {

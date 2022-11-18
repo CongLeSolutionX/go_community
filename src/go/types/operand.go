@@ -230,7 +230,7 @@ func (x *operand) isNil() bool {
 // if assignableTo is invoked through an exported API call, i.e., when all
 // methods have been type-checked.
 func (x *operand) assignableTo(check *Checker, T Type, cause *string) (bool, Code) {
-	if x.mode == invalid || T == Typ[Invalid] {
+	if x.mode == invalid || x.typ == Typ[Invalid] || T == Typ[Invalid] {
 		return true, 0 // avoid spurious errors
 	}
 

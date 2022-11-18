@@ -2492,8 +2492,8 @@ type Bad Bad // invalid type
 		{N3, CI, false},
 		{N4, II, true},
 		{N4, CI, false},
-		{Bad, II, false},
-		{Bad, CI, false},
+		{Bad, II, true},
+		{Bad, CI, true},
 		{Bad, EmptyIface, true},
 	}
 
@@ -2503,11 +2503,10 @@ type Bad Bad // invalid type
 		}
 
 		// The type assertion x.(T) is valid if T is an interface or if T implements the type of x.
-		// The assertion is never valid if T is a bad type.
 		V := test.T
 		T := test.V
 		want := false
-		if _, ok := T.Underlying().(*Interface); (ok || Implements(T, V)) && T != Bad {
+		if _, ok := T.Underlying().(*Interface); ok || Implements(T, V) {
 			want = true
 		}
 		if got := AssertableTo(V, T); got != want {

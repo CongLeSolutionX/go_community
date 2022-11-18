@@ -424,11 +424,6 @@ func (conf *Config) Check(path string, fset *token.FileSet, files []*ast.File, i
 //     as a type constraint in Go code
 //   - if T is an uninstantiated generic type
 func AssertableTo(V *Interface, T Type) bool {
-	// Checker.newAssertableTo suppresses errors for invalid types, so we need special
-	// handling here.
-	if T.Underlying() == Typ[Invalid] {
-		return false
-	}
 	return (*Checker)(nil).newAssertableTo(V, T)
 }
 
@@ -439,7 +434,7 @@ func AssertableTo(V *Interface, T Type) bool {
 // uninstantiated generic type.
 func AssignableTo(V, T Type) bool {
 	x := operand{mode: value, typ: V}
-	ok, _ := x.assignableTo(nil, T, nil) // check not needed for non-constant x
+	ok, _ := x.assignableTo(nil, T, nil) // *Checker not needed for non-constant x
 	return ok
 }
 
@@ -450,7 +445,7 @@ func AssignableTo(V, T Type) bool {
 // uninstantiated generic type.
 func ConvertibleTo(V, T Type) bool {
 	x := operand{mode: value, typ: V}
-	return x.convertibleTo(nil, T, nil) // check not needed for non-constant x
+	return x.convertibleTo(nil, T, nil) // *Checker not needed for non-constant x
 }
 
 // Implements reports whether type V implements interface T.
@@ -458,15 +453,6 @@ func ConvertibleTo(V, T Type) bool {
 // The behavior of Implements is unspecified if V is Typ[Invalid] or an uninstantiated
 // generic type.
 func Implements(V Type, T *Interface) bool {
-	if T.Empty() {
-		// All types (even Typ[Invalid]) implement the empty interface.
-		return true
-	}
-	// Checker.implements suppresses errors for invalid types, so we need special
-	// handling here.
-	if V.Underlying() == Typ[Invalid] {
-		return false
-	}
 	return (*Checker)(nil).implements(V, T, false, nil)
 }
 
