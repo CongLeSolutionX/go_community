@@ -48,6 +48,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "67a2a482_f0af4a0c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 8470
+      },
+      "writtenOn": "2022-11-18T12:29:16Z",
+      "side": 1,
+      "message": "I’m happy to help with testing, but:\n\n1. I can only very sporadically reproduce the issue on my machine (once every 1 or 2 weeks).\n2. I am about to go on vacation for two weeks.\n3. Given the long time to reproduce, I would be more comfortable if we had a change that Cherry thinks looks good before I start verifying it.\n\nThanks for taking care of this issue!",
+      "parentUuid": "0b9182f9_87db5ce8",
+      "range": {
+        "startLine": 9,
+        "startChar": 39,
+        "endLine": 9,
+        "endChar": 72
+      },
+      "revId": "eac9591095c4a75e4eb947006d86ef46bfb8c743",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "135e1aee_4658f8ee",
