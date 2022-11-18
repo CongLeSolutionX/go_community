@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "19320d31_40af4577",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-11-18T19:57:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbc907ed_ffadb127",
+      "revId": "c5ff92471e2117772c37dbb505feac90777c0e9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "28331366_295a3efc",
@@ -68,6 +86,24 @@
       "writtenOn": "2022-11-18T19:12:40Z",
       "side": 1,
       "message": "s/resolve/resolv/",
+      "revId": "c5ff92471e2117772c37dbb505feac90777c0e9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ef8e5d2_b4106614",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-11-18T19:57:23Z",
+      "side": 1,
+      "message": "If I had a dime for every time I\u0027ve made that typo.",
+      "parentUuid": "28331366_295a3efc",
       "revId": "c5ff92471e2117772c37dbb505feac90777c0e9f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
