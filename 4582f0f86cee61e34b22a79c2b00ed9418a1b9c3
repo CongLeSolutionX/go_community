@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8313e8b_7e77ce88",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2022-11-18T16:01:49Z",
+      "side": 1,
+      "message": "In theory, https://github.com/mstorsjo/llvm-mingw/commit/459e37f03fa37f32e606abb6a53170b0297279c1 should be sufficient now I think. Maybe test the latest llvm mingw toolchain from that repo to be sure?",
+      "parentUuid": "4e37f89e_213d0944",
+      "revId": "4582f0f86cee61e34b22a79c2b00ed9418a1b9c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6b06c6b2_124f7828",
