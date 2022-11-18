@@ -53,6 +53,24 @@
       "message": "Also add comment to explain the condition, i.e. we don\u0027t need the jump if following an unconditional branch, or it is at the end of the function.\n\nActually, for the end of the function, if it is not an unconditional branch, I think it may be better to insert a trap instruction (UNDEF) before the pool instead , so we don\u0027t accidentally fall through to the pool and executing weird instructions. This should be a rare case (most function should end with a RET or an unconditional jump).",
       "revId": "d5f55bde2b04ddee3dd331ce93e1224b7214a04f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ebfc23f_7fa4f611",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1278,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2022-11-18T02:47:07Z",
+      "side": 1,
+      "message": "\u003e This should be a rare case (most function should end with a RET or an unconditional jump).\n\nYes I think so, and I think it will be more rare if this special case also needs to use the constant pool. So I personally don\u0027t tend to add this JMP or UNDEF instruction, if it goes wrong, we can just check to see what kind of situation it is.",
+      "parentUuid": "ef79ea89_7e7eb8a7",
+      "revId": "d5f55bde2b04ddee3dd331ce93e1224b7214a04f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
