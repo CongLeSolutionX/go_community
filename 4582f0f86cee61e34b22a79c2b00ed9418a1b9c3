@@ -55,6 +55,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e37f89e_213d0944",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-11-18T15:49:58Z",
+      "side": 1,
+      "message": "Hi Jason, I am wondering whether it might be possible for me to remove the dlltool workaround you added in  https://go-review.googlesource.com/c/go/+/327211 here in this file. Looks like the bug in question has been closed out, and I verified that the dlltool\u0027s on our Go builders are exe\u0027s and not scripts. Let me know what you think.",
+      "revId": "4582f0f86cee61e34b22a79c2b00ed9418a1b9c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6b06c6b2_124f7828",
