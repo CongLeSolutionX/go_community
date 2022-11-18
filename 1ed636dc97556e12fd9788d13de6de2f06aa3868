@@ -16,6 +16,24 @@
       "message": "Looks like there are some issues with the test -- in a recent trybot run (https://storage.googleapis.com/go-build-log/81f32c83/linux-amd64-longtest_2050e14d.log ) I see\n\n--- FAIL: TestScript (0.01s)\n    --- FAIL: TestScript/trampoline_reuse_test (0.00s)\n        script_test.go:259: \n            # Verify PPC64 does not reuse a trampoline which is too far away.\n            # This tests an edge case where the direct call relocation addend should\n            # be ignored when computing the distance from the direct call to the\n            # already placed trampoline (0.000s)\n            \u003e [short] skip\n            \u003e [!GOARCH:ppc64] [!GOARCH:ppc64le] skip\n            FAIL: testdata/script/trampoline_reuse_test.txt:6: unknown condition \"GOARCH:ppc64\"",
       "revId": "1ed636dc97556e12fd9788d13de6de2f06aa3868",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a598defa_c202a753",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2022-11-18T15:57:07Z",
+      "side": 1,
+      "message": "That is the first patchset of my go1.18 backport? I forgot about the minor syntax changes since then. I\u0027ve updated them.",
+      "parentUuid": "3af906a9_72f7e8d4",
+      "revId": "1ed636dc97556e12fd9788d13de6de2f06aa3868",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
