@@ -55,6 +55,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "96fb96a6_703c764d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-11-18T17:58:02Z",
+      "side": 1,
+      "message": "I\u0027ve got the changes ready for go/types, also needs a helper (isExported) in object.go.\n\nIs there an obvious place to copy the test for go/types?  I had started looking when your comment appeared.",
+      "revId": "41204e17ea001c0175d0a1aa8c09dc35122e77b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "457922de_0cb3c636",
@@ -78,6 +95,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b8ee3ce_244e0aae",
+        "filename": "test/fixedbugs/issue54258.dir/b.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-11-18T17:58:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "457922de_0cb3c636",
+      "range": {
+        "startLine": 9,
+        "startChar": 13,
+        "endLine": 9,
+        "endChar": 14
+      },
+      "revId": "41204e17ea001c0175d0a1aa8c09dc35122e77b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "91e5c934_004f52d2",
@@ -91,6 +132,30 @@
       "writtenOn": "2022-11-18T17:51:03Z",
       "side": 1,
       "message": "put closing } on previous line, here and below?",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 1
+      },
+      "revId": "41204e17ea001c0175d0a1aa8c09dc35122e77b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bdb41542_0651b04b",
+        "filename": "test/fixedbugs/issue54258.dir/b.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-11-18T17:58:02Z",
+      "side": 1,
+      "message": "Done, except where gofmt objected.",
+      "parentUuid": "91e5c934_004f52d2",
       "range": {
         "startLine": 10,
         "startChar": 0,
