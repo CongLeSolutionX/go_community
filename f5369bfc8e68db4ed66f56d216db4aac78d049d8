@@ -145,6 +145,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "983b991c_21e2c40d",
+        "filename": "src/cmd/compile/internal/types2/typestring.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-11-18T16:15:07Z",
+      "side": 1,
+      "message": "Sorry for not being clearer. I believe that struct fields always store a name, even when embedded, and that name is the type name in question (perhaps modulo the bug mentioned below, on line 171). See (types2) struct.go which builds the struct types: lines 126ff handles embedded fields, and they are added with name (line 138).\n\nSo if the name is already there, you don\u0027t need to extract it again from the type itself. So something as simple as\n\n```\n// If disambiguating one struct for another, look for the first unexported field.\n// Do this first in case of nested structs; tag the first-outermost field.\npkgAnnotate :\u003d false\nif w.qf \u003d\u003d nil \u0026\u0026 w.pkgInfo \u0026\u0026 !isExported(f.name) {\n\tpkgAnnotate \u003d true\n\tw.pkgInfo \u003d false // only tag once\n}\n```\nshould do the trick.",
+      "parentUuid": "73022479_e97127af",
+      "revId": "f5369bfc8e68db4ed66f56d216db4aac78d049d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5b44759e_7daa59d2",
         "filename": "test/fixedbugs/issue54258.dir/b.go",
         "patchSetId": 7
