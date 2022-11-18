@@ -106,6 +106,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8ed0cf3_370d9aef",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-11-18T00:04:05Z",
+      "side": 1,
+      "message": "This version should be better.",
+      "revId": "f3f2cd3789ee474cc66137c707a5d35a1f476119",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7a18202d_6f099d33",
@@ -119,6 +136,24 @@
       "writtenOn": "2022-11-17T23:15:34Z",
       "side": 1,
       "message": "this would be easier to read by writing the two assignments on separate lines (it would also more clearly show how they are similar)",
+      "revId": "f3f2cd3789ee474cc66137c707a5d35a1f476119",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "137d60b0_1dae8f7f",
+        "filename": "src/cmd/compile/internal/typecheck/expr.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-11-18T00:04:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a18202d_6f099d33",
       "revId": "f3f2cd3789ee474cc66137c707a5d35a1f476119",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -140,6 +175,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "692b2a98_e2363fa5",
+        "filename": "src/cmd/compile/internal/types2/object.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-11-18T00:04:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3939b5e_96768649",
+      "revId": "f3f2cd3789ee474cc66137c707a5d35a1f476119",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c6214e97_464b3c71",
@@ -157,6 +210,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb54fd0f_ba5947f9",
+        "filename": "src/cmd/compile/internal/types2/typestring.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-11-18T00:04:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6214e97_464b3c71",
+      "revId": "f3f2cd3789ee474cc66137c707a5d35a1f476119",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c3e2a6e4_4e3b80a9",
@@ -170,6 +241,30 @@
       "writtenOn": "2022-11-17T23:15:34Z",
       "side": 1,
       "message": "I think this switch can be simplified t just:\n```\nbase, _ :\u003d deref(f.typ)\nif n, _ :\u003d base.(*Named); n !\u003d nil \u0026\u0026 !isExported(n.name) {\n   pkgAnnotate \u003d true\n}\n```",
+      "range": {
+        "startLine": 160,
+        "startChar": 5,
+        "endLine": 160,
+        "endChar": 11
+      },
+      "revId": "f3f2cd3789ee474cc66137c707a5d35a1f476119",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6bc4b041_a79f30f9",
+        "filename": "src/cmd/compile/internal/types2/typestring.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-11-18T00:04:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3e2a6e4_4e3b80a9",
       "range": {
         "startLine": 160,
         "startChar": 5,
@@ -227,6 +322,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "df4947fa_0dbe8097",
+        "filename": "src/cmd/compile/internal/types2/typestring.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-11-18T00:04:05Z",
+      "side": 1,
+      "message": "Actually, this is needed for \"string\", the test caught this after I removed it.",
+      "parentUuid": "78fe788f_5766e625",
+      "range": {
+        "startLine": 161,
+        "startChar": 11,
+        "endLine": 161,
+        "endChar": 16
+      },
+      "revId": "f3f2cd3789ee474cc66137c707a5d35a1f476119",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2d31572b_95aab86b",
@@ -264,6 +383,30 @@
       "side": 1,
       "message": "Is this a case that I need to address, and what would it look like?",
       "parentUuid": "2d31572b_95aab86b",
+      "range": {
+        "startLine": 170,
+        "startChar": 13,
+        "endLine": 170,
+        "endChar": 14
+      },
+      "revId": "f3f2cd3789ee474cc66137c707a5d35a1f476119",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61a5a5b3_1cf76b3f",
+        "filename": "src/cmd/compile/internal/types2/typestring.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-11-18T00:04:05Z",
+      "side": 1,
+      "message": "Ah, deref takes care of it.",
+      "parentUuid": "dbfa2c01_03989715",
       "range": {
         "startLine": 170,
         "startChar": 13,
@@ -345,6 +488,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd46d2f0_458c75f7",
+        "filename": "src/cmd/compile/internal/types2/typestring.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-11-18T00:04:05Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3ba23a41_dc42ea43",
+      "range": {
+        "startLine": 174,
+        "startChar": 7,
+        "endLine": 174,
+        "endChar": 14
+      },
+      "revId": "f3f2cd3789ee474cc66137c707a5d35a1f476119",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aca36b8d_e0e8e409",
@@ -358,6 +525,24 @@
       "writtenOn": "2022-11-17T23:15:34Z",
       "side": 1,
       "message": "```\nif pkgAnnotate {\n   w.pkgInfo \u003d false // only tag once\n}\n```",
+      "revId": "f3f2cd3789ee474cc66137c707a5d35a1f476119",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1240c71e_e01e6edd",
+        "filename": "src/cmd/compile/internal/types2/typestring.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-11-18T00:04:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aca36b8d_e0e8e409",
       "revId": "f3f2cd3789ee474cc66137c707a5d35a1f476119",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -399,6 +584,30 @@
       "side": 1,
       "message": "Just do:\n\n```\nif pkgAnnotate \u0026\u0026 f.pkg !\u003d nil {\n   w.string(\" /* package \")\n   w.string(f.pkg.Path())\n   w.string(\" */ \")\n}\n```",
       "parentUuid": "bb76da17_f1310a86",
+      "range": {
+        "startLine": 188,
+        "startChar": 4,
+        "endLine": 188,
+        "endChar": 16
+      },
+      "revId": "f3f2cd3789ee474cc66137c707a5d35a1f476119",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b36f53f5_73ef59f2",
+        "filename": "src/cmd/compile/internal/types2/typestring.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-11-18T00:04:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "304be524_6c542344",
       "range": {
         "startLine": 188,
         "startChar": 4,
