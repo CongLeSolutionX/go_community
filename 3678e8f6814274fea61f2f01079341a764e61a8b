@@ -38,6 +38,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "75bbc2a2_c4707406",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-11-19T21:09:55Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "3678e8f6814274fea61f2f01079341a764e61a8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7f1d7638_3de1fefc",
@@ -51,6 +68,30 @@
       "writtenOn": "2022-11-19T17:34:44Z",
       "side": 1,
       "message": "Maybe update the comment above to mention the second result.",
+      "range": {
+        "startLine": 2399,
+        "startChar": 58,
+        "endLine": 2399,
+        "endChar": 63
+      },
+      "revId": "3678e8f6814274fea61f2f01079341a764e61a8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ced66bb1_56bd293f",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2399,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-11-19T21:09:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f1d7638_3de1fefc",
       "range": {
         "startLine": 2399,
         "startChar": 58,
