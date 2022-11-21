@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "32aafaa8_5c580a05",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2022-11-21T22:38:36Z",
+      "side": 1,
+      "message": "This CL was submitted after the freeze. No need to roll it back, but please don\u0027t submit any more CLs unless they are fixes per the freeze policy.",
+      "revId": "995c0f310c087c9cbc49112ecc48459a96310451",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
