@@ -69,6 +69,24 @@
       "parentUuid": "548736ef_ef3275a4",
       "revId": "8cb350d69a1b0765c1c81301583d6fd99fb9d74b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c25af65_49964af2",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1642,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2022-11-21T16:36:01Z",
+      "side": 0,
+      "message": "DirEntry.Type does seem to be missing permissions though, as checked via a small program (https://go.dev/play/p/jzbq_rdI4B7). So if you\u0027re switching to WalkDir, it is necessary to use DirEntry.Info.Mode for mode\u00260222 to continue to work as before. Sorry for my misleading comment.\n\n(This test helper exists to make GOROOT unwritable on some builders to help catch problems, I\u0027m not sure if it has any test coverage itself.)",
+      "parentUuid": "beca1909_469e9f3f",
+      "revId": "8cb350d69a1b0765c1c81301583d6fd99fb9d74b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
