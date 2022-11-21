@@ -183,6 +183,7 @@ func TestReadMetricsConsistency(t *testing.T) {
 		allocs, frees           uint64
 		allocdBytes, freedBytes uint64
 		total, totalBytes       uint64
+		liveBytes               uint64
 	}
 	var gc struct {
 		numGC  uint64
@@ -248,6 +249,8 @@ func TestReadMetricsConsistency(t *testing.T) {
 			totalVirtual.got = samples[i].Value.Uint64()
 		case "/memory/classes/heap/objects:bytes":
 			objects.totalBytes = samples[i].Value.Uint64()
+		case "/gc/heap/live:bytes":
+			objects.liveBytes = samples[i].Value.Uint64()
 		case "/gc/heap/objects:objects":
 			objects.total = samples[i].Value.Uint64()
 		case "/gc/heap/allocs:bytes":
@@ -312,6 +315,9 @@ func TestReadMetricsConsistency(t *testing.T) {
 	}
 	if got, want := objects.allocs-objects.frees, objects.total; got != want {
 		t.Errorf("mismatch between object alloc/free tallies and total: got %d, want %d", got, want)
+	}
+	if objects.liveBytes > objects.totalBytes {
+		t.Errorf("liveBytes bytes: %d > totalBytes: %d", objects.liveBytes, objects.totalBytes)
 	}
 	if got, want := objects.allocdBytes-objects.freedBytes, objects.totalBytes; got != want {
 		t.Errorf("mismatch between object alloc/free tallies and total: got %d, want %d", got, want)
