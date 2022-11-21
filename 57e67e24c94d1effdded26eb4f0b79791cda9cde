@@ -57,6 +57,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f9054bf2_dc6686de",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2022-11-21T16:02:36Z",
+      "side": 1,
+      "message": "sorry for the late update. I missed the email in October that a review had happened.\n\n@dmitri could you have a look at the new patch set once more and if it look good please merge it.",
+      "revId": "57e67e24c94d1effdded26eb4f0b79791cda9cde",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "084126b9_aa05ee76",
         "filename": "src/cmd/dist/README",
         "patchSetId": 6
@@ -68,6 +85,24 @@
       "writtenOn": "2022-10-25T16:20:09Z",
       "side": 1,
       "message": "s/17/20/",
+      "revId": "57e67e24c94d1effdded26eb4f0b79791cda9cde",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d54be35f_2ae20870",
+        "filename": "src/cmd/dist/README",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2022-11-21T16:02:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "084126b9_aa05ee76",
       "revId": "57e67e24c94d1effdded26eb4f0b79791cda9cde",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -85,6 +120,30 @@
       "writtenOn": "2022-11-17T23:00:50Z",
       "side": 1,
       "message": "Given that the minimum Go bootstrap version has been changed to 1.17.13 minimum¹, it should help to replace mentions of \"1.17\" here and below with \"1.17.13\", to reduce possible confusion.\n\n¹ https://groups.google.com/g/golang-dev/c/ur194Xnrosg/m/YuEHzq31AgAJ",
+      "range": {
+        "startLine": 9,
+        "startChar": 26,
+        "endLine": 9,
+        "endChar": 30
+      },
+      "revId": "57e67e24c94d1effdded26eb4f0b79791cda9cde",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc4062e5_d3b5dfd0",
+        "filename": "src/cmd/dist/README",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2022-11-21T16:02:36Z",
+      "side": 1,
+      "message": "changed to go 1.17.13.",
+      "parentUuid": "a082f113_f674ba9b",
       "range": {
         "startLine": 9,
         "startChar": 26,
