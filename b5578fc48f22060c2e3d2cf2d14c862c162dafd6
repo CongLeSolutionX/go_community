@@ -59,6 +59,30 @@
       },
       "revId": "b5578fc48f22060c2e3d2cf2d14c862c162dafd6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e0e6d77_041dc0ec",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 44473
+      },
+      "writtenOn": "2022-11-21T23:03:23Z",
+      "side": 1,
+      "message": "https://go-review.git.corp.google.com/c/go/+/452615 made it.\n\nLet\u0027s include an update for that here/add a new TODO.",
+      "parentUuid": "143ccecc_c558da22",
+      "range": {
+        "startLine": 138,
+        "startChar": 0,
+        "endLine": 138,
+        "endChar": 71
+      },
+      "revId": "b5578fc48f22060c2e3d2cf2d14c862c162dafd6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
