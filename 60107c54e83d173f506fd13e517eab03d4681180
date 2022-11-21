@@ -16,6 +16,75 @@
       "message": "Gentle ping.",
       "revId": "60107c54e83d173f506fd13e517eab03d4681180",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ffba0ba_a065c6ac",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2022-11-21T18:18:15Z",
+      "side": 1,
+      "message": "s/warning/diagnostic/ (since it causes exit(1))\n\nOr: \"Vet now detects mistakes in references to loop variables from parallel subtests.\"",
+      "range": {
+        "startLine": 131,
+        "startChar": 29,
+        "endLine": 131,
+        "endChar": 36
+      },
+      "revId": "60107c54e83d173f506fd13e517eab03d4681180",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ad11a80_c1872399",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2022-11-21T18:18:15Z",
+      "side": 1,
+      "message": "\"reports\"",
+      "range": {
+        "startLine": 134,
+        "startChar": 32,
+        "endLine": 134,
+        "endChar": 43
+      },
+      "revId": "60107c54e83d173f506fd13e517eab03d4681180",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38b7bb5a_87051280",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2022-11-21T18:18:15Z",
+      "side": 1,
+      "message": "\"Such references may observe the value of the variable from a different iteration (typically causing test cases to be skipped) or an invalid state due to unsynchronized concurrent access.\"",
+      "range": {
+        "startLine": 136,
+        "startChar": 34,
+        "endLine": 138,
+        "endChar": 26
+      },
+      "revId": "60107c54e83d173f506fd13e517eab03d4681180",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
