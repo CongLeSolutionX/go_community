@@ -16,6 +16,24 @@
       "message": "Code is probably OK (is there a performance impact??) but we are very, very late in the Go 1.20 release cycle. This announcement (https://groups.google.com/g/golang-dev/c/k8IJw4On0fc) specifically says \"There will be no exceptions for CLs in review\".",
       "revId": "4358379632fdbb75553427d97cb06f0d5101f18f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a658ab2e_cf5f2667",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 32637
+      },
+      "writtenOn": "2022-11-21T09:58:19Z",
+      "side": 1,
+      "message": "\u003e is there a performance impact??\n\nThe change adds io.EOF check to the readByte codepath, I don\u0027t expect any significant performance impact but I can re-run BenchmarkDecodeBaseline to tell for sure.\n\n\u003e we are very, very late in the Go 1.20 release cycle.\n\nLets keep this for the next cycle then",
+      "parentUuid": "d3698857_69bd9765",
+      "revId": "4358379632fdbb75553427d97cb06f0d5101f18f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
