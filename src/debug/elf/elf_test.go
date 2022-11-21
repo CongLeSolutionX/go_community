@@ -49,3 +49,25 @@ func TestNames(t *testing.T) {
 		}
 	}
 }
+
+func TestDynValue(t *testing.T) {
+	const testdata = "testdata/gcc-amd64-linux-exec"
+	f, err := Open(testdata)
+	if err != nil {
+		t.Fatalf("could not read %s: %v", testdata, err)
+	}
+	defer f.Close()
+
+	vals, err := f.DynValue(DT_VERNEEDNUM)
+	if err != nil {
+		t.Fatalf("DynValue(): could not retrieve DT_VERNEEDNUM: %v", err)
+	}
+
+	var gotNum uint64
+	for _, v := range vals {
+		gotNum |= v
+	}
+	if gotNum != 1 {
+		t.Errorf("DynValue(DT_VERNEEDNUM): got %d, want %d", gotNum, 1)
+	}
+}
