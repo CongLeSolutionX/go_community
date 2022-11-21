@@ -3,6 +3,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "3b41e268_61eb7abe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2022-11-21T17:26:08Z",
+      "side": 1,
+      "message": "It makes sense to do that in general, and it\u0027s already done in some places like https://cs.opensource.google/go/go/+/master:src/cmd/internal/moddeps/moddeps_test.go;l\u003d451-456;drc\u003d6484e813b5ec80a399ed1b8e4608070db2144b39. It\u0027s probably fine to deal with it later when it becomes needed for 3 or more modules.",
+      "revId": "af140886fef1ba54bd044727686fcc1b58c9d10b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "532ba235_8774ed12",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
