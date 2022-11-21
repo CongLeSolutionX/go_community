@@ -16,6 +16,23 @@
       "message": "Thanks.",
       "revId": "60be2b465603a56807a8a1a8016c4c8f947579b5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f6f4de6_eac158ac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2022-11-21T21:55:05Z",
+      "side": 1,
+      "message": "Thank you, sorry for the breakage. I was convinced we were excluding based on prefix.",
+      "revId": "60be2b465603a56807a8a1a8016c4c8f947579b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
