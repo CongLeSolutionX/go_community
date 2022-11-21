@@ -87,6 +87,24 @@
       "parentUuid": "beca1909_469e9f3f",
       "revId": "8cb350d69a1b0765c1c81301583d6fd99fb9d74b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33fbd2db_b8c7fa3f",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1642,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2022-11-21T16:53:19Z",
+      "side": 0,
+      "message": "thanks for testing. reverted to using Info().Mode().",
+      "parentUuid": "0c25af65_49964af2",
+      "revId": "8cb350d69a1b0765c1c81301583d6fd99fb9d74b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
