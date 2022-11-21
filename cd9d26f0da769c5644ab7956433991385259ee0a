@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2b190b6_c149632e",
+        "filename": "src/cmd/go/terminal_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-11-21T15:37:10Z",
+      "side": 1,
+      "message": "This failed on the new `darwin-amd64-aws-race` builder with a completely empty output:\nhttps://build.golang.org/log/cb9f86e984247cc335e2616cc7de0d72de911be0\n\nPerhaps `print` doesn\u0027t always flush correctly at exit on macOS? (Probably we should switch it to use `fmt.Println` either way.)",
+      "revId": "cd9d26f0da769c5644ab7956433991385259ee0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
