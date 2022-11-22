@@ -16,6 +16,24 @@
       "message": "I think this drops the `close` call on the `case \u003c-errc` path..?",
       "revId": "85a2c19b328081c3fbcd1fa3db9a56d708a25c68",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "55b84af4_d308ada2",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 793,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2022-11-22T18:52:49Z",
+      "side": 0,
+      "message": "It does, but newClientServerTest does the close in a t.Cleanup.\n\nThe explicit close calls here are to clean up one server before starting a new one after retrying with a longer timeout. This isn\u0027t strictly necessary, but seems like it\u0027d avoid confusion if a prior server instance generates logs interleaved with a new iteration.",
+      "parentUuid": "0214c459_70813c72",
+      "revId": "85a2c19b328081c3fbcd1fa3db9a56d708a25c68",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
