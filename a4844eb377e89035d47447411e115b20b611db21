@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b067a5f_df7ede31",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2022-11-22T01:28:18Z",
+      "side": 1,
+      "message": "Placed on hold pending resolution of discussion in the issue.",
+      "revId": "a4844eb377e89035d47447411e115b20b611db21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
