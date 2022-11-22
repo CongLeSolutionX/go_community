@@ -3343,7 +3343,7 @@ func (v Value) Equal(u Value) bool {
 		return false
 	}
 
-	// Handle ach Kind directly rather than calling valueInterface
+	// Handle each Kind directly rather than calling valueInterface
 	// to avoid allocating.
 	switch v.Kind() {
 	default:
