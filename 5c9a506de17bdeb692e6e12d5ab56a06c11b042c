@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bfda8758_abcf5616",
+        "filename": "test/fixedbugs/issue56778.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-11-22T19:48:36Z",
+      "side": 0,
+      "message": "I was thinking to leave the `-d\u003dinlstaticinit\u003d1` arguments in these tests so enabling/disabling only requires changing the default value in base/flag.go. But it doesn\u0027t seem like a big issue either way.",
+      "revId": "5c9a506de17bdeb692e6e12d5ab56a06c11b042c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
