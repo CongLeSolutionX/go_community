@@ -760,6 +760,21 @@ proxyHandler := &httputil.ReverseProxy{
     <p><!-- CL 448897 -->
       TODO: <a href="https://go.dev/cl/448897">https://go.dev/cl/448897</a>: os: remove special casing of NUL in Windows file operations
     </p>
+    <p><!-- https://go.dev/issue/52747, CL 405275 -->
+      On Windows, <code>File.Stat</code> now uses the file handle
+      to retrieve attributes when the file is a directory.
+      Previously it would use the path passed to <code>Open</code>,
+      which may no longer be the file represented by the file handle
+      if the file has been moved or replaced. This change modifies
+      <code>Open</code> to open directories without the
+      <code>FILE_SHARE_DELETE</code> access, which match the behavior
+      of regular files.
+    </p>
+    <p><!-- https://go.dev/issue/36019, CL 405275 -->
+      On Windows, <code>File.Seek</code> now supports seeking
+      to the beginning of the directory in case the file
+      is a directory.
+    </p>
   </dd>
 </dl><!-- os -->
 
