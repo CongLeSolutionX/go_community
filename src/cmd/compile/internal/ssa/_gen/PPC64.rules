@@ -233,7 +233,7 @@
 (S(RAW|RW|LW) x (MOVDconst [c])) => (S(RAW|RW|LW)const [c&31 | (c>>5&1*31)] x)
 
 (Addr {sym} base) => (MOVDaddr {sym} [0] base)
-(LocalAddr {sym} base _) => (MOVDaddr {sym} base)
+(LocalAddr {sym} base mem) => (MOVDaddr {sym} (SPanchored base mem))
 (OffPtr [off] ptr) => (ADD (MOVDconst <typ.Int64> [off]) ptr)
 
 // TODO: optimize these cases?

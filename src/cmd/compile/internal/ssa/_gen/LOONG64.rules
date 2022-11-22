@@ -227,7 +227,7 @@
 (OffPtr [off] ptr) => (ADDVconst [off] ptr)
 
 (Addr {sym} base) => (MOVVaddr {sym} base)
-(LocalAddr {sym} base _) => (MOVVaddr {sym} base)
+(LocalAddr {sym} base mem) => (MOVVaddr {sym} (SPanchored base mem))
 
 // loads
 (Load <t> ptr mem) && t.IsBoolean() => (MOVBUload ptr mem)

@@ -547,7 +547,7 @@
 (ConstBool [val]) => (MOVDconst [int64(b2i(val))])
 
 (Addr {sym} base) => (MOVaddr {sym} [0] base)
-(LocalAddr {sym} base _) => (MOVaddr {sym} base)
+(LocalAddr {sym} base mem) => (MOVaddr {sym} (SPanchored base mem))
 
 // Calls
 (StaticCall  ...) => (CALLstatic  ...)

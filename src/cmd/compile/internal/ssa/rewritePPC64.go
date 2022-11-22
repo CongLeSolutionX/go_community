@@ -2350,15 +2350,21 @@ func rewriteValuePPC64_OpLoad(v *Value) bool {
 	return false
 }
 func rewriteValuePPC64_OpLocalAddr(v *Value) bool {
+	v_1 := v.Args[1]
 	v_0 := v.Args[0]
-	// match: (LocalAddr {sym} base _)
-	// result: (MOVDaddr {sym} base)
+	b := v.Block
+	typ := &b.Func.Config.Types
+	// match: (LocalAddr {sym} base mem)
+	// result: (MOVDaddr {sym} (SPanchored base mem))
 	for {
 		sym := auxToSym(v.Aux)
 		base := v_0
+		mem := v_1
 		v.reset(OpPPC64MOVDaddr)
 		v.Aux = symToAux(sym)
-		v.AddArg(base)
+		v0 := b.NewValue0(v.Pos, OpSPanchored, typ.Uintptr)
+		v0.AddArg2(base, mem)
+		v.AddArg(v0)
 		return true
 	}
 }
