@@ -70,6 +70,23 @@
       "message": "Verified that the internal failures pass since CL 452616 and with -d\u003dinlstaticinit\u003d1 enabled by default again. LGTM, thanks.",
       "revId": "3ff4945c5e141d42ad8d11adfa801b8d39164747",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1cfd7099_87debd77",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-11-22T20:29:48Z",
+      "side": 1,
+      "message": "If you don\u0027t want build time side-effects, be sure that you include concurrent:\"ok\" in the properties for that debug flag.  Right now that seems not to be the case.\n\nInlFuncsWithClosures int`help:\"allow functions with closures to be inlined\" concurrent:\"ok\"`\nInlStaticInit   int `help:\"allow static initialization of inlined calls\"`\nInterfaceCycles int `help:\"allow anonymous interface cycles\"`\n\nI\u0027m happy to set more of these in a separate CL (in fact I will do that)",
+      "revId": "3ff4945c5e141d42ad8d11adfa801b8d39164747",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
