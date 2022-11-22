@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7fdd1ca7_1538fb60",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 764,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2022-11-22T17:51:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de62675c_7a9196fd",
+      "revId": "eb1166588a2a6ba481762bd3b8f41a7d52461899",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "75dd68ba_f796e56c",
@@ -85,6 +103,24 @@
       "writtenOn": "2022-11-22T14:12:23Z",
       "side": 1,
       "message": "\u003ca href\u003d\"/pkg/os/#Open\"\u003e\u003ccode\u003eOpen\u003c/code\u003e\u003c/a\u003e\n\n(Just this one; the next mention of Open doesn\u0027t need a link.)",
+      "revId": "eb1166588a2a6ba481762bd3b8f41a7d52461899",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c7109ab_916ba632",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 766,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2022-11-22T17:51:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "75dd68ba_f796e56c",
       "revId": "eb1166588a2a6ba481762bd3b8f41a7d52461899",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -106,6 +142,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "14e09bc6_6cc16245",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 774,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2022-11-22T17:51:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ec9f2d9e_b7707eea",
+      "revId": "eb1166588a2a6ba481762bd3b8f41a7d52461899",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ede6f925_ce3da062",
@@ -119,6 +173,24 @@
       "writtenOn": "2022-11-22T14:12:23Z",
       "side": 1,
       "message": "to the beginning of a directory. (end of sentence, no more is needed)",
+      "revId": "eb1166588a2a6ba481762bd3b8f41a7d52461899",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5327f3ae_f03e3386",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 775,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2022-11-22T17:51:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ede6f925_ce3da062",
       "revId": "eb1166588a2a6ba481762bd3b8f41a7d52461899",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
