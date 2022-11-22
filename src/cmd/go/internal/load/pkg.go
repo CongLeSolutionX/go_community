@@ -1905,7 +1905,8 @@ func (p *Package) load(ctx context.Context, opts PackageOpts, path string, stk *
 		return
 	}
 
-	if !SafeArg(p.ImportPath) {
+	var invalidPatherr *module.InvalidPathError
+	if !SafeArg(p.ImportPath) && !(p.Error != nil && errors.As(p.Error, &invalidPatherr)) {
 		setError(ImportErrorf(p.ImportPath, "invalid import path %q", p.ImportPath))
 		return
 	}
