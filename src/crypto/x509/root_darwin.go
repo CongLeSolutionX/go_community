@@ -7,6 +7,16 @@ package x509
 import (
 	macOS "crypto/x509/internal/macos"
 	"errors"
+	"fmt"
+)
+
+const (
+	// various macOS error codes that can be returned from
+	// SecTrustEvaluateWithError that we can map to CertificateInvalidError
+	// reasons.
+	errSecCertificateExpired = -67818
+	errSecHostNameMismatch   = -67602
+	errSecNotTrusted         = -67843
 )
 
 func (c *Certificate) systemVerify(opts *VerifyOptions) (chains [][]*Certificate, err error) {
@@ -57,8 +67,17 @@ func (c *Certificate) systemVerify(opts *VerifyOptions) (chains [][]*Certificate
 	// always enforce its SCT requirements, and there are still _some_ people
 	// using TLS or OCSP for that.
 
-	if err := macOS.SecTrustEvaluateWithError(trustObj); err != nil {
-		return nil, err
+	if ret, err := macOS.SecTrustEvaluateWithError(trustObj); err != nil {
+		switch ret {
+		case errSecCertificateExpired:
+			return nil, CertificateInvalidError{c, Expired, err.Error()}
+		case errSecHostNameMismatch:
+			return nil, HostnameError{c, opts.DNSName}
+		case errSecNotTrusted:
+			return nil, UnknownAuthorityError{Cert: c}
+		default:
+			return nil, fmt.Errorf("x509: %s", err)
+		}
 	}
 
 	chain := [][]*Certificate{{}}
