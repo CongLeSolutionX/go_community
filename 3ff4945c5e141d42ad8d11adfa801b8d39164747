@@ -139,6 +139,24 @@
       "message": "Are we going to make this optimization for 1.20 again?",
       "revId": "3ff4945c5e141d42ad8d11adfa801b8d39164747",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5260537a_67507875",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-11-23T19:33:23Z",
+      "side": 1,
+      "message": "OK but this is Go. The default should really be concurrent OK.",
+      "parentUuid": "63ac0229_be9eb7f1",
+      "revId": "3ff4945c5e141d42ad8d11adfa801b8d39164747",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
