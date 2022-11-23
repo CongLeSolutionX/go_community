@@ -16,6 +16,24 @@
       "message": "This doesn\u0027t feel like the right mechanism for ResponseRecorder.\n\nClientTrace is an immediate API; you get a call for each event as it occurs. ResponseRecorder is a recording, it logs what happened for future examination.\n\nPerhaps something like this instead?\n\n```\ntype ResponseCodeHeader struct {\n  Code   int\n  Header http.Header\n}\n\ntype ResponseRecorder struct {\n  // Code1xxs is a list of 1xx response headers written by a handler.\n  Code1xxs []ResponseCodeHeader\n}\n```\n\n(I don\u0027t particularly like the name `ResponseCodeHeader`, but I\u0027m not coming up with a better one at the moment.)",
       "revId": "1245ff3bf1bf5977f99a27a7967f4982cbd8cea1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a39ef82_6b4df67a",
+        "filename": "src/net/http/httptest/recorder.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 34852
+      },
+      "writtenOn": "2022-11-23T15:14:35Z",
+      "side": 1,
+      "message": "I deliberately mimicked the existing client API for consistency, but I agree that a specific API is more appropriate.\n\nI pushed a new commit following your recommendation.\n\nI used the names `InformationalResponse` and `InformationalResponses` instead `ResponseCodeHeader` and `Code1xxs` because it\u0027s the name used in the HTTP spec (by the spec, informational responses only contain headers and no body).\n\nWDYT.",
+      "parentUuid": "1dd0185d_ee724295",
+      "revId": "1245ff3bf1bf5977f99a27a7967f4982cbd8cea1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
