@@ -254,7 +254,10 @@ func (x *Index) lookupAll(s []byte) ints {
 // Lookup time is O(log(N)*len(s) + len(result)) where N is the
 // size of the indexed data.
 func (x *Index) Lookup(s []byte, n int) (result []int) {
-	if len(s) > 0 && n != 0 {
+	if l := len(s); len(x.data) < l {
+		// if len(data) is less than len(s), the result is obviously empty
+		return
+	} else if l > 0 && n != 0 {
 		matches := x.lookupAll(s)
 		count := matches.len()
 		if n < 0 || count < n {
