@@ -1,0 +1,3 @@
+pkg math/big, method (*Int) ToFloat64() (float64, Accuracy) #99999
+pkg math/big, method (*Int) ToInt64() (int64, Accuracy) #99999
+pkg math/big, method (*Int) ToUint64() (uint64, Accuracy) #99999

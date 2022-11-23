@@ -9,6 +9,7 @@ package big
 import (
 	"fmt"
 	"io"
+	"math"
 	"math/rand"
 	"strings"
 )
@@ -422,8 +423,9 @@ func (x *Int) Int64() int64 {
 	return v
 }
 
-// Uint64 returns the uint64 representation of x.
-// If x cannot be represented in a uint64, the result is undefined.
+// Uint64 returns the uint64 representation of the absolute value of x.
+// If the absolute value of x cannot be represented in a uint64,
+// the result is undefined.
 func (x *Int) Uint64() uint64 {
 	return low64(x.abs)
 }
@@ -440,6 +442,49 @@ func (x *Int) IsInt64() bool {
 // IsUint64 reports whether x can be represented as a uint64.
 func (x *Int) IsUint64() bool {
 	return !x.neg && len(x.abs) <= 64/_W
+}
+
+// ToInt64 returns the closest int64 value to i
+// and an indication of the accuracy of the result.
+func (i *Int) ToInt64() (int64, Accuracy) {
+	sign := i.Sign()
+	if sign > 0 {
+		if i.Cmp(maxint64) > 0 {
+			return math.MaxInt64, Below
+		}
+	} else if sign < 0 {
+		if i.Cmp(minint64) < 0 {
+			return math.MinInt64, Above
+		}
+	}
+	return i.Int64(), Exact
+}
+
+// ToUint64 returns the closest uint64 value to i
+// and an indication of the accuracy of the result.
+func (i *Int) ToUint64() (uint64, Accuracy) {
+	sign := i.Sign()
+	if sign > 0 {
+		if i.BitLen() > 64 {
+			return math.MaxUint64, Below
+		}
+	} else if sign < 0 {
+		return 0, Above
+	}
+	return i.Uint64(), Exact
+}
+
+var (
+	minint64 = new(Int).SetInt64(math.MinInt64)
+	maxint64 = new(Int).SetInt64(math.MaxInt64)
+)
+
+// ToFloat64 returns the nearest float64 value to i,
+// and an indication of the accuracy of the result.
+func (i *Int) ToFloat64() (float64, Accuracy) {
+	// TODO(adonovan): opt: implement hardware fast path
+	// for values in the uint64 and int64 ranges.
+	return new(Float).SetInt(i).Float64()
 }
 
 // SetString sets z to the value of s, interpreted in the given base,
