@@ -59,6 +59,30 @@
       },
       "revId": "228cbe0df602a7723ec4a3e8277ccef169748a82",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ace47eb_504c0199",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2022-11-23T14:10:11Z",
+      "side": 1,
+      "message": "I think it\u0027s worth pointing out that it\u0027s not just uncommon: it doesn\u0027t appear in date standards and is almost certainly a mistake (otherwise it wouldn\u0027t have been a good candidate for vet).\n\nMaybe \"This format does not appear in common date standards, but is frequently used by mistake when attempting to use the ISO 8601 date format (yyyy-mm-dd)\".",
+      "parentUuid": "1923cee9_9ab5849c",
+      "range": {
+        "startLine": 211,
+        "startChar": 2,
+        "endLine": 211,
+        "endChar": 32
+      },
+      "revId": "228cbe0df602a7723ec4a3e8277ccef169748a82",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
