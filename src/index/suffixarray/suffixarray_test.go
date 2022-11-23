@@ -613,3 +613,61 @@ func BenchmarkSaveRestore(b *testing.B) {
 		})
 	}
 }
+
+func BenchmarkLookup(b *testing.B) {
+	s, err := makeText("rand")
+	if err != nil {
+		b.Fatal(err)
+	}
+	s = s[:100]
+
+	for _, text := range []string{"opticks", "zero", "rand"} {
+		b.Run("text="+text, func(b *testing.B) {
+			data, err := makeText(text)
+			if err != nil {
+				b.Fatal(err)
+			}
+			if testing.Short() && len(data) > 5e6 {
+				data = data[:5e6]
+			}
+			for _, size := range []int{10, 1e3, 1e6} {
+				if len(data) < size {
+					size = len(data)
+				}
+				data := data[:size]
+				var name string
+				if size >= 1e6 {
+					name = fmt.Sprintf("%.1fM", float64(size)/1e6)
+				} else if size >= 1e3 {
+					name = fmt.Sprintf("%.1fK", float64(size)/1e3)
+				} else {
+					name = fmt.Sprintf("%dB", size)
+				}
+				b.Run("size="+name, func(b *testing.B) {
+					for _, bits := range []int{32, 64} {
+						if ^uint(0) == 0xffffffff && bits == 64 {
+							continue
+						}
+						b.Run(fmt.Sprintf("bits=%d", bits), func(b *testing.B) {
+							for _, n := range []int{1, 10, 1e5, -1} {
+								b.Run(fmt.Sprintf("n=%d", n), func(b *testing.B) {
+									cleanup := setBits(bits)
+									defer cleanup()
+
+									b.StopTimer()
+									idx := New(data)
+									b.SetBytes(int64(len(data) + len(s)))
+									b.StartTimer()
+									b.ReportAllocs()
+									for i := 0; i < b.N; i++ {
+										idx.Lookup(s, n)
+									}
+								})
+							}
+						})
+					}
+				})
+			}
+		})
+	}
+}

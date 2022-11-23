@@ -34,6 +34,7 @@ const realMaxData32 = math.MaxInt32
 type Index struct {
 	data []byte
 	sa   ints // suffix array for data; sa.len() == len(data)
+	len  int
 }
 
 // An ints is either an []int32 or an []int64.
@@ -73,7 +74,7 @@ func (a *ints) slice(i, j int) ints {
 // New creates a new Index for data.
 // Index creation time is O(N) for N = len(data).
 func New(data []byte) *Index {
-	ix := &Index{data: data}
+	ix := &Index{data: data, len: len(data)}
 	if len(data) <= maxData32 {
 		ix.sa.int32 = make([]int32, len(data))
 		text_32(data, ix.sa.int32)
@@ -206,7 +207,7 @@ func (x *Index) Write(w io.Writer) error {
 	buf := make([]byte, bufSize)
 
 	// write length
-	if err := writeInt(w, buf, len(x.data)); err != nil {
+	if err := writeInt(w, buf, x.len); err != nil {
 		return err
 	}
 
@@ -254,7 +255,10 @@ func (x *Index) lookupAll(s []byte) ints {
 // Lookup time is O(log(N)*len(s) + len(result)) where N is the
 // size of the indexed data.
 func (x *Index) Lookup(s []byte, n int) (result []int) {
-	if len(s) > 0 && n != 0 {
+	if l := len(s); x.len < l {
+		// if len(data) is less than len(s), the result is obviously empty
+		return
+	} else if l > 0 && n != 0 {
 		matches := x.lookupAll(s)
 		count := matches.len()
 		if n < 0 || count < n {
