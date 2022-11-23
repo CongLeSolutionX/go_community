@@ -83,6 +83,30 @@
       },
       "revId": "228cbe0df602a7723ec4a3e8277ccef169748a82",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f0e0d8b_8e78997f",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2022-11-23T15:35:39Z",
+      "side": 1,
+      "message": "Yes, that\u0027s better.",
+      "parentUuid": "5ace47eb_504c0199",
+      "range": {
+        "startLine": 211,
+        "startChar": 2,
+        "endLine": 211,
+        "endChar": 32
+      },
+      "revId": "228cbe0df602a7723ec4a3e8277ccef169748a82",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
