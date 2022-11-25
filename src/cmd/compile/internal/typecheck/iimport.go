@@ -1489,7 +1489,7 @@ func (r *importReader) node() ir.Node {
 		n.SetImplicit(r.bool())
 		return n
 
-	case ir.OCOPY, ir.OCOMPLEX, ir.OREAL, ir.OIMAG, ir.OAPPEND, ir.OCAP, ir.OCLOSE, ir.ODELETE, ir.OLEN, ir.OMAKE,
+	case ir.OCOPY, ir.OCOMPLEX, ir.OREAL, ir.OIMAG, ir.OAPPEND, ir.OCAP, ir.OCLEAR, ir.OCLOSE, ir.ODELETE, ir.OLEN, ir.OMAKE,
 		ir.ONEW, ir.OPANIC, ir.ORECOVER, ir.OPRINT, ir.OPRINTN,
 		ir.OUNSAFEADD, ir.OUNSAFESLICE, ir.OUNSAFESLICEDATA, ir.OUNSAFESTRING, ir.OUNSAFESTRINGDATA:
 		pos := r.pos()
@@ -1500,7 +1500,7 @@ func (r *importReader) node() ir.Node {
 			n.SetInit(init)
 			n.SetType(r.typ())
 			return n
-		case ir.OREAL, ir.OIMAG, ir.OCAP, ir.OCLOSE, ir.OLEN, ir.ONEW, ir.OPANIC, ir.OUNSAFESTRINGDATA, ir.OUNSAFESLICEDATA:
+		case ir.OREAL, ir.OIMAG, ir.OCAP, ir.OCLEAR, ir.OCLOSE, ir.OLEN, ir.ONEW, ir.OPANIC, ir.OUNSAFESTRINGDATA, ir.OUNSAFESLICEDATA:
 			n := ir.NewUnaryExpr(pos, op, r.expr())
 			if op != ir.OPANIC {
 				n.SetType(r.typ())
