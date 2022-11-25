@@ -896,7 +896,7 @@ func transformBuiltin(n *ir.CallExpr) ir.Node {
 			return n
 		}
 
-	case ir.OCAP, ir.OCLOSE, ir.OIMAG, ir.OLEN, ir.OPANIC, ir.OREAL:
+	case ir.OCAP, ir.OCLEAR, ir.OCLOSE, ir.OIMAG, ir.OLEN, ir.OPANIC, ir.OREAL:
 		transformArgs(n)
 		fallthrough
 
@@ -913,7 +913,7 @@ func transformBuiltin(n *ir.CallExpr) ir.Node {
 		case ir.OALIGNOF, ir.OOFFSETOF, ir.OSIZEOF:
 			// This corresponds to the EvalConst() call near end of typecheck().
 			return typecheck.EvalConst(u1)
-		case ir.OCLOSE, ir.ONEW, ir.OUNSAFESTRINGDATA, ir.OUNSAFESLICEDATA:
+		case ir.OCLEAR, ir.OCLOSE, ir.ONEW, ir.OUNSAFESTRINGDATA, ir.OUNSAFESLICEDATA:
 			// nothing more to do
 			return u1
 		}
