@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9abf9d8_3d1b7a85",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2022-11-25T13:43:03Z",
+      "side": 1,
+      "message": "I know we are on freeze, still making it ready for review for when master reopens.",
+      "revId": "e9cb07bcb239483de417d09b0f0b15197959744e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
