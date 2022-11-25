@@ -103,6 +103,20 @@ var decodeTests = []decodeTest{
 	{[]uint16{0xdfff}, []rune{0xfffd}},
 }
 
+func TestAllocationsDecode(t *testing.T) {
+	for _, tt := range decodeTests {
+		allocs := testing.AllocsPerRun(10, func() {
+			out := Decode(tt.in)
+			if out == nil {
+				t.Errorf("Decode(%x) = nil", tt.in)
+			}
+		})
+		if allocs > 0 {
+			t.Errorf("Decode allocated %v times", allocs)
+		}
+	}
+}
+
 func TestDecode(t *testing.T) {
 	for _, tt := range decodeTests {
 		out := Decode(tt.in)
