@@ -1359,7 +1359,7 @@ func ssaGenBlock(s *ssagen.State, b, next *ssa.Block) {
 		// defer returns in rax:
 		// 0 if we should continue executing
 		// 1 if we should jump to deferreturn call
-		p := s.Prog(x86.ATESTL)
+		p := s.Prog(x86.ATESTB)
 		p.From.Type = obj.TYPE_REG
 		p.From.Reg = x86.REG_AX
 		p.To.Type = obj.TYPE_REG
