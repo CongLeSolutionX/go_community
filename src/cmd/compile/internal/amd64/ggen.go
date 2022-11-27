@@ -69,7 +69,7 @@ func zerorange(pp *objw.Progs, p *obj.Prog, off, cnt int64, state *uint32) *obj.
 			base.Fatalf("zerorange count not a multiple of widthptr %d", cnt)
 		}
 		if *state&r13 == 0 {
-			p = pp.Append(p, x86.AMOVQ, obj.TYPE_CONST, 0, 0, obj.TYPE_REG, x86.REG_R13, 0)
+			p = pp.Append(p, x86.AXORL, obj.TYPE_REG, x86.REG_R13, 0, obj.TYPE_REG, x86.REG_R13, 0)
 			*state |= r13
 		}
 		p = pp.Append(p, x86.AMOVL, obj.TYPE_REG, x86.REG_R13, 0, obj.TYPE_MEM, x86.REG_SP, off)
@@ -79,7 +79,7 @@ func zerorange(pp *objw.Progs, p *obj.Prog, off, cnt int64, state *uint32) *obj.
 
 	if cnt == 8 {
 		if *state&r13 == 0 {
-			p = pp.Append(p, x86.AMOVQ, obj.TYPE_CONST, 0, 0, obj.TYPE_REG, x86.REG_R13, 0)
+			p = pp.Append(p, x86.AXORL, obj.TYPE_REG, x86.REG_R13, 0, obj.TYPE_REG, x86.REG_R13, 0)
 			*state |= r13
 		}
 		p = pp.Append(p, x86.AMOVQ, obj.TYPE_REG, x86.REG_R13, 0, obj.TYPE_MEM, x86.REG_SP, off)
@@ -120,7 +120,7 @@ func zerorange(pp *objw.Progs, p *obj.Prog, off, cnt int64, state *uint32) *obj.
 		p = pp.Append(p, x86.AMOVQ, obj.TYPE_REG, x86.REG_CX, 0, obj.TYPE_REG, x86.REG_R15, 0)
 
 		// Set up the REPSTOSQ and kick it off.
-		p = pp.Append(p, x86.AMOVQ, obj.TYPE_CONST, 0, 0, obj.TYPE_REG, x86.REG_AX, 0)
+		p = pp.Append(p, x86.AXORL, obj.TYPE_REG, x86.REG_AX, 0, obj.TYPE_REG, x86.REG_AX, 0)
 		p = pp.Append(p, x86.AMOVQ, obj.TYPE_CONST, 0, cnt/int64(types.RegSize), obj.TYPE_REG, x86.REG_CX, 0)
 		p = pp.Append(p, leaptr, obj.TYPE_MEM, x86.REG_SP, off, obj.TYPE_REG, x86.REG_DI, 0)
 		p = pp.Append(p, x86.AREP, obj.TYPE_NONE, 0, 0, obj.TYPE_NONE, 0, 0)
