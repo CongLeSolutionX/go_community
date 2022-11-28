@@ -91,7 +91,7 @@ const (
 	// unscavenged memory available for allocation (since using scavenged memory
 	// incurs an additional cost), to account for heap fragmentation and
 	// the ever-changing layout of the heap.
-	retainExtraPercent = 10
+	retainExtraPercent = 1 // 1%
 
 	// reduceExtraPercent represents the amount of memory under the limit
 	// that the scavenger should target. For example, 5 means we target 95%
