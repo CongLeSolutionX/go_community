@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "533164e2_7bd49118",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-28T21:30:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "40e0038e_c57506df",
+      "range": {
+        "startLine": 150,
+        "startChar": 71,
+        "endLine": 150,
+        "endChar": 76
+      },
+      "revId": "f691091abe872535a5e9eda6e37cfdbeaaf29432",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3758f089_bc6a282b",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-11-28T19:30:02Z",
       "side": 1,
       "message": "... optimization, which is described in more detail in the \u003ca href\u003d\"#compiler\"\u003eCompiler\u003c/a\u003e section below,\n\nI have a friend who used to write for the Wall Street Journal and he always read parenthetical statements very quietly with his hand mostly covering his mouth and now I can\u0027t help but do that in my head. So I always try to find ways to rewrite parenthetical statements. 😂",
+      "range": {
+        "startLine": 151,
+        "startChar": 17,
+        "endLine": 151,
+        "endChar": 30
+      },
+      "revId": "f691091abe872535a5e9eda6e37cfdbeaaf29432",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b1ee50b_221e74db",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-28T21:30:17Z",
+      "side": 1,
+      "message": "Haha 😊 Thanks. Done.",
+      "parentUuid": "3758f089_bc6a282b",
       "range": {
         "startLine": 151,
         "startChar": 17,
@@ -93,6 +141,54 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "092c8623_f770544c",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-28T21:30:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f57f3e21_15fb3cf5",
+      "range": {
+        "startLine": 154,
+        "startChar": 47,
+        "endLine": 154,
+        "endChar": 49
+      },
+      "revId": "f691091abe872535a5e9eda6e37cfdbeaaf29432",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "59883568_be57289f",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-28T21:30:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d406670_bce09ae2",
+      "range": {
+        "startLine": 154,
+        "startChar": 2,
+        "endLine": 154,
+        "endChar": 42
+      },
+      "revId": "f691091abe872535a5e9eda6e37cfdbeaaf29432",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "24c845bb_b64d7847",
@@ -106,6 +202,30 @@
       "writtenOn": "2022-11-28T19:30:02Z",
       "side": 1,
       "message": "Drop the parenthesis and maybe combine the two sentences: \"This mode currently requires a single main package to be specified on the command line, but we plan to lift this restriction in a future release.\"",
+      "range": {
+        "startLine": 156,
+        "startChar": 2,
+        "endLine": 157,
+        "endChar": 76
+      },
+      "revId": "f691091abe872535a5e9eda6e37cfdbeaaf29432",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf252463_40fd5763",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-28T21:30:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24c845bb_b64d7847",
       "range": {
         "startLine": 156,
         "startChar": 2,
@@ -139,6 +259,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8dabe55_8ec275ba",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-28T21:30:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9898123_0b096909",
+      "range": {
+        "startLine": 158,
+        "startChar": 2,
+        "endLine": 158,
+        "endChar": 14
+      },
+      "revId": "f691091abe872535a5e9eda6e37cfdbeaaf29432",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d87e1794_58b587e7",
@@ -152,6 +296,30 @@
       "writtenOn": "2022-11-28T19:30:02Z",
       "side": 1,
       "message": "Perhaps \"preview support for\"?",
+      "range": {
+        "startLine": 255,
+        "startChar": 15,
+        "endLine": 255,
+        "endChar": 27
+      },
+      "revId": "f691091abe872535a5e9eda6e37cfdbeaaf29432",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5fafa50_2a29f0ff",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-28T21:30:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d87e1794_58b587e7",
       "range": {
         "startLine": 255,
         "startChar": 15,
@@ -185,6 +353,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d813ad49_88d653ca",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-28T21:30:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0425af86_e12f9952",
+      "range": {
+        "startLine": 256,
+        "startChar": 6,
+        "endLine": 256,
+        "endChar": 17
+      },
+      "revId": "f691091abe872535a5e9eda6e37cfdbeaaf29432",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "122bc4ed_24e32a96",
@@ -202,6 +394,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b85722a_82f34bb8",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-28T21:30:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "122bc4ed_24e32a96",
+      "revId": "f691091abe872535a5e9eda6e37cfdbeaaf29432",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0234f33d_241d0083",
@@ -215,6 +425,24 @@
       "writtenOn": "2022-11-28T19:30:02Z",
       "side": 1,
       "message": "Go 1.20 uses PGO to more aggressively inline functions at hot call sites.",
+      "revId": "f691091abe872535a5e9eda6e37cfdbeaaf29432",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6078a12_8b28b990",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-28T21:30:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0234f33d_241d0083",
       "revId": "f691091abe872535a5e9eda6e37cfdbeaaf29432",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -265,6 +493,54 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e32db65d_95115b3a",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-28T21:30:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "695fd6dd_51ae0916",
+      "range": {
+        "startLine": 266,
+        "startChar": 75,
+        "endLine": 266,
+        "endChar": 76
+      },
+      "revId": "f691091abe872535a5e9eda6e37cfdbeaaf29432",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f040289d_96ffe14b",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-28T21:30:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e611aad9_682eeff9",
+      "range": {
+        "startLine": 266,
+        "startChar": 39,
+        "endLine": 266,
+        "endChar": 67
+      },
+      "revId": "f691091abe872535a5e9eda6e37cfdbeaaf29432",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "58c5d929_f2d665f6",
@@ -282,6 +558,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "86aad2e1_18c1254a",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-28T21:30:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58c5d929_f2d665f6",
+      "revId": "f691091abe872535a5e9eda6e37cfdbeaaf29432",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "45431a0c_3627713c",
@@ -295,6 +589,24 @@
       "writtenOn": "2022-11-28T19:30:02Z",
       "side": 1,
       "message": "Drop one of the two pleases, please. 😊",
+      "revId": "f691091abe872535a5e9eda6e37cfdbeaaf29432",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c43ba571_dd85d9fe",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-28T21:30:17Z",
+      "side": 1,
+      "message": "Done 😄",
+      "parentUuid": "45431a0c_3627713c",
       "revId": "f691091abe872535a5e9eda6e37cfdbeaaf29432",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
