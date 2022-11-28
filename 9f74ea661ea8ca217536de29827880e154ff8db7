@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "400e03b0_34784d00",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-28T20:46:19Z",
+      "side": 1,
+      "message": "This involves the compiler, linker, and some other packages. I think the linker section is a fine place for this? I can move it if there is a better choice. Thanks.",
+      "range": {
+        "startLine": 284,
+        "startChar": 0,
+        "endLine": 290,
+        "endChar": 4
+      },
+      "revId": "9f74ea661ea8ca217536de29827880e154ff8db7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c31a63c8_70804af0",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-28T20:46:19Z",
+      "side": 1,
+      "message": "Than, do you think we want to mention some specific versions? Thanks.",
+      "range": {
+        "startLine": 293,
+        "startChar": 41,
+        "endLine": 293,
+        "endChar": 70
+      },
+      "revId": "9f74ea661ea8ca217536de29827880e154ff8db7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
