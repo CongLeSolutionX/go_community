@@ -275,8 +275,22 @@ Do not send CLs removing the interior tags from such phrases.
 
 <h2 id="linker">Linker</h2>
 
-<p>
-  TODO: complete this section, or delete if not needed
+<p><!-- https://go.dev/issue/54197, CL 420774 -->
+  On Linux, the linker now selects the dynamic interpreter for <code>glibc</code>
+  or <code>musl</code> at linker time. The <code>GO_LDSO</code> environment
+  variable is no longer used.
+</p>
+
+<p><!-- https://go.dev/issue/37762, CL 317917 -->
+  Go 1.20 uses <code>go:</code>, <code>type:</code> prefixes for compiler-generated
+  symbols, instead of previously <code>go.</code>, <code>type.</code> prefixes.
+  This avoids confusion for user packages whose name starts with <code>go.</code>.
+  The <a href="/pkg/debug/gosym"><code>debug/gosym</code></a> package is updated to
+  understand this new naming convention for binaries built with Go 1.20 and newer.
+</p>
+
+<p><!-- https://go.dev/issue/35006 -->
+  On Windows, the Go linker now supports modern LLVM-based C toolchain.
 </p>
 
 <h2 id="bootstrap">Bootstrap</h2>
