@@ -20,6 +20,16 @@
 //		}
 //		...
 //	}
+//
+// Each godebug exports a runtime metric
+// /godebug/non-default-behavior/<name>:events
+// that counts the number of times the named GODEBUG setting
+// has caused the program to deviate from the default behavior
+// for the Go release used for building the program.
+// Note that the metric must be documented in
+// ../../runtime/metrics/description.go or else
+// it will not be returned by metrics.All and also
+// will not be made available to metrics.Read.
 package godebug
 
 import (
@@ -30,9 +40,14 @@ import (
 
 // A Setting is a single setting in the $GODEBUG environment variable.
 type Setting struct {
-	name  string
-	once  sync.Once
-	value *atomic.Pointer[string]
+	name string
+	once sync.Once
+	*setting
+}
+
+type setting struct {
+	value      atomic.Pointer[string]
+	nonDefault atomic.Int64
 }
 
 // New returns a new Setting for the $GODEBUG setting with the given name.
@@ -48,6 +63,14 @@ func (s *Setting) Name() string {
 // String returns a printable form for the setting: name=value.
 func (s *Setting) String() string {
 	return s.name + "=" + s.Value()
+}
+
+// IncNonDefault increments the non-default behavior counter
+// associated with the given setting.
+// This counter is exposed in the runtime/metrics value
+// /godebug/non-default-behavior/<name>:events.
+func (s *Setting) IncNonDefault() {
+	s.nonDefault.Add(1)
 }
 
 // cache is a cache of all the GODEBUG settings,
@@ -76,15 +99,25 @@ var empty string
 // caching of Value's result.
 func (s *Setting) Value() string {
 	s.once.Do(func() {
-		v, ok := cache.Load(s.name)
-		if !ok {
-			p := new(atomic.Pointer[string])
-			p.Store(&empty)
-			v, _ = cache.LoadOrStore(s.name, p)
-		}
-		s.value = v.(*atomic.Pointer[string])
+		s.setting = lookup(s.name)
 	})
 	return *s.value.Load()
+}
+
+// lookup returns the unique *setting value for the given name.
+func lookup(name string) *setting {
+	if v, ok := cache.Load(name); ok {
+		return v.(*setting)
+	}
+	s := new(setting)
+	s.value.Store(&empty)
+	if v, loaded := cache.LoadOrStore(name, s); loaded {
+		// Lost race: someone else created it. Use theirs.
+		return v.(*setting)
+	}
+
+	registerMetric("/godebug/non-default-behavior/"+name+":events", s.nonDefault.Load)
+	return s
 }
 
 // setUpdate is provided by package runtime.
@@ -96,6 +129,12 @@ func (s *Setting) Value() string {
 //
 //go:linkname setUpdate
 func setUpdate(update func(string, string))
+
+// registerMetric is provided by package runtime.
+// It forwards registrations to runtime/metrics.
+//
+//go:linkname registerMetric
+func registerMetric(name string, read func() int64)
 
 func init() {
 	setUpdate(update)
@@ -119,9 +158,9 @@ func update(def, env string) {
 	parse(did, def)
 
 	// Clear any cached values that are no longer present.
-	cache.Range(func(name, v any) bool {
+	cache.Range(func(name, s any) bool {
 		if !did[name.(string)] {
-			v.(*atomic.Pointer[string]).Store(&empty)
+			s.(*setting).value.Store(&empty)
 		}
 		return true
 	})
@@ -146,13 +185,7 @@ func parse(did map[string]bool, s string) {
 				name, value := s[i+1:eq], s[eq+1:end]
 				if !did[name] {
 					did[name] = true
-					v, ok := cache.Load(name)
-					if !ok {
-						p := new(atomic.Pointer[string])
-						p.Store(&empty)
-						v, _ = cache.LoadOrStore(name, p)
-					}
-					v.(*atomic.Pointer[string]).Store(&value)
+					lookup(name).value.Store(&value)
 				}
 			}
 			eq = -1
