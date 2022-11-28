@@ -18,6 +18,42 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ccebb96c_b41786c4",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-28T21:53:21Z",
+      "side": 1,
+      "message": "Done. I kept the word \"symbol\", which I think is useful here.",
+      "parentUuid": "fd57474b_7aff9141",
+      "revId": "6934c68d21eb9b8e6692681f2f0ea872dbaeab7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6658fefc_bf686c2e",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-28T21:53:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd57474b_7aff9141",
+      "revId": "6934c68d21eb9b8e6692681f2f0ea872dbaeab7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3c1c7d0e_fd4b75b7",
@@ -31,6 +67,54 @@
       "writtenOn": "2022-11-28T20:59:32Z",
       "side": 1,
       "message": "\"understands\" (avoids passive voice and puts in the present tense)",
+      "range": {
+        "startLine": 288,
+        "startChar": 70,
+        "endLine": 289,
+        "endChar": 12
+      },
+      "revId": "6934c68d21eb9b8e6692681f2f0ea872dbaeab7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbca58dc_7ce6cd4a",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-28T21:53:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c1c7d0e_fd4b75b7",
+      "range": {
+        "startLine": 288,
+        "startChar": 70,
+        "endLine": 289,
+        "endChar": 12
+      },
+      "revId": "6934c68d21eb9b8e6692681f2f0ea872dbaeab7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0906dfe_18870e0c",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-11-28T21:53:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c1c7d0e_fd4b75b7",
       "range": {
         "startLine": 288,
         "startChar": 70,
