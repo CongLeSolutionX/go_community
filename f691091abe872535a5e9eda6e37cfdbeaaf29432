@@ -1,0 +1,302 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40e0038e_c57506df",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-11-28T19:30:02Z",
+      "side": 1,
+      "message": "... flag that enables ...",
+      "range": {
+        "startLine": 150,
+        "startChar": 71,
+        "endLine": 150,
+        "endChar": 76
+      },
+      "revId": "f691091abe872535a5e9eda6e37cfdbeaaf29432",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3758f089_bc6a282b",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-11-28T19:30:02Z",
+      "side": 1,
+      "message": "... optimization, which is described in more detail in the \u003ca href\u003d\"#compiler\"\u003eCompiler\u003c/a\u003e section below,\n\nI have a friend who used to write for the Wall Street Journal and he always read parenthetical statements very quietly with his hand mostly covering his mouth and now I can\u0027t help but do that in my head. So I always try to find ways to rewrite parenthetical statements. 😂",
+      "range": {
+        "startLine": 151,
+        "startChar": 17,
+        "endLine": 151,
+        "endChar": 30
+      },
+      "revId": "f691091abe872535a5e9eda6e37cfdbeaaf29432",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d406670_bce09ae2",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-11-28T19:30:02Z",
+      "side": 1,
+      "message": "Perhaps \"Specifying \u003ccode\u003e-pgo\u003dauto\u003c/code\u003e causes the \u003ccode\u003ego\u003c/code\u003e command to search for a file named \u003ccode\u003edefault.pgo\u003c/code\u003e in the main package\u0027s directory and use it if present.\"",
+      "range": {
+        "startLine": 154,
+        "startChar": 2,
+        "endLine": 154,
+        "endChar": 42
+      },
+      "revId": "f691091abe872535a5e9eda6e37cfdbeaaf29432",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f57f3e21_15fb3cf5",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-11-28T19:30:02Z",
+      "side": 1,
+      "message": "I think we format this as \"\u003ccode\u003ego\u003c/code\u003e command\"",
+      "range": {
+        "startLine": 154,
+        "startChar": 47,
+        "endLine": 154,
+        "endChar": 49
+      },
+      "revId": "f691091abe872535a5e9eda6e37cfdbeaaf29432",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24c845bb_b64d7847",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-11-28T19:30:02Z",
+      "side": 1,
+      "message": "Drop the parenthesis and maybe combine the two sentences: \"This mode currently requires a single main package to be specified on the command line, but we plan to lift this restriction in a future release.\"",
+      "range": {
+        "startLine": 156,
+        "startChar": 2,
+        "endLine": 157,
+        "endChar": 76
+      },
+      "revId": "f691091abe872535a5e9eda6e37cfdbeaaf29432",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9898123_0b096909",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-11-28T19:30:02Z",
+      "side": 1,
+      "message": "Specifying",
+      "range": {
+        "startLine": 158,
+        "startChar": 2,
+        "endLine": 158,
+        "endChar": 14
+      },
+      "revId": "f691091abe872535a5e9eda6e37cfdbeaaf29432",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d87e1794_58b587e7",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-11-28T19:30:02Z",
+      "side": 1,
+      "message": "Perhaps \"preview support for\"?",
+      "range": {
+        "startLine": 255,
+        "startChar": 15,
+        "endLine": 255,
+        "endChar": 27
+      },
+      "revId": "f691091abe872535a5e9eda6e37cfdbeaaf29432",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0425af86_e12f9952",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-11-28T19:30:02Z",
+      "side": 1,
+      "message": "enables",
+      "range": {
+        "startLine": 256,
+        "startChar": 6,
+        "endLine": 256,
+        "endChar": 17
+      },
+      "revId": "f691091abe872535a5e9eda6e37cfdbeaaf29432",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "122bc4ed_24e32a96",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-11-28T19:30:02Z",
+      "side": 1,
+      "message": "Perhaps \"To enable PGO, pass the path of a pprof profile file via the \u003ccode\u003e-pgo\u003c/code\u003e flag to \u003ccode\u003ego\u003c/code\u003e \u003ccode\u003ebuild\u003c/code\u003e, as mentioned ...\"?",
+      "revId": "f691091abe872535a5e9eda6e37cfdbeaaf29432",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0234f33d_241d0083",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-11-28T19:30:02Z",
+      "side": 1,
+      "message": "Go 1.20 uses PGO to more aggressively inline functions at hot call sites.",
+      "revId": "f691091abe872535a5e9eda6e37cfdbeaaf29432",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e611aad9_682eeff9",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-11-28T19:30:02Z",
+      "side": 1,
+      "message": "improves performance",
+      "range": {
+        "startLine": 266,
+        "startChar": 39,
+        "endLine": 266,
+        "endChar": 67
+      },
+      "revId": "f691091abe872535a5e9eda6e37cfdbeaaf29432",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "695fd6dd_51ae0916",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-11-28T19:30:02Z",
+      "side": 1,
+      "message": "–\n\n(You can\u0027t even tell the difference in this font, but this should be an en dash, which I\u0027ve written above, rather than a hyphen.)",
+      "range": {
+        "startLine": 266,
+        "startChar": 75,
+        "endLine": 266,
+        "endChar": 76
+      },
+      "revId": "f691091abe872535a5e9eda6e37cfdbeaaf29432",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58c5d929_f2d665f6",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-11-28T19:30:02Z",
+      "side": 1,
+      "message": "Avoiding passive voice: \"We plan to add more profile-guided optimizations in future releases.\"",
+      "revId": "f691091abe872535a5e9eda6e37cfdbeaaf29432",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45431a0c_3627713c",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-11-28T19:30:02Z",
+      "side": 1,
+      "message": "Drop one of the two pleases, please. 😊",
+      "revId": "f691091abe872535a5e9eda6e37cfdbeaaf29432",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
