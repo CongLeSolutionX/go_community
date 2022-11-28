@@ -69,6 +69,30 @@
       },
       "revId": "9f74ea661ea8ca217536de29827880e154ff8db7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2eae130_daa0c424",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-11-28T21:01:16Z",
+      "side": 1,
+      "message": "The ones that are being rolled out with the newcc builders are based on LLVM 14, but the current ARM64 builder is using a toolchain based on LLVM 12. I think it is probably ok to just describe it in more general terms (as you have it).",
+      "parentUuid": "c31a63c8_70804af0",
+      "range": {
+        "startLine": 293,
+        "startChar": 41,
+        "endLine": 293,
+        "endChar": 70
+      },
+      "revId": "9f74ea661ea8ca217536de29827880e154ff8db7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
