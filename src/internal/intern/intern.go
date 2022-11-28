@@ -72,6 +72,7 @@ var intern = godebug.New("intern")
 // as controlled by GODEBUG=intern=leaky
 func safeMap() map[key]*Value {
 	if intern.Value() == "leaky" {
+		intern.IncNonDefault()
 		return map[key]*Value{}
 	}
 	return nil

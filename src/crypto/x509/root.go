@@ -65,8 +65,11 @@ func SetFallbackRoots(roots *CertPool) {
 	}
 	fallbacksSet = true
 
-	if systemRoots != nil && (systemRoots.len() > 0 || systemRoots.systemPool) && forceFallback.Value() != "1" {
-		return
+	if systemRoots != nil && (systemRoots.len() > 0 || systemRoots.systemPool) {
+		if forceFallback.Value() != "1" {
+			return
+		}
+		forceFallback.IncNonDefault()
 	}
 	systemRoots, systemRootsErr = roots, nil
 }
