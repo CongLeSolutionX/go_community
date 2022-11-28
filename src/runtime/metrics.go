@@ -421,6 +421,23 @@ func initMetrics() {
 	metricsInit = true
 }
 
+type metricReader func() uint64
+
+func (f metricReader) compute(_ *statAggregate, out *metricValue) {
+	out.kind = metricKindUint64
+	out.scalar = f()
+}
+
+//go:linkname godebug_registerMetric internal/godebug.registerMetric
+func godebug_registerMetric(name string, read func() uint64) {
+	metricsLock()
+	initMetrics()
+	metrics[name] = metricData{
+		compute: metricReader(read).compute,
+	}
+	metricsUnlock()
+}
+
 // statDep is a dependency on a group of statistics
 // that a metric might have.
 type statDep uint
