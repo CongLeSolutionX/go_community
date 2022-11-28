@@ -199,6 +199,10 @@ Below is the full list of supported metrics, ordered lexicographically.
 	/gc/stack/starting-size:bytes
 		The stack size of new goroutines.
 
+	/godebug/non-default-behavior/panicnil:events
+		The number of times panic(nil) happened with GODEBUG=panicnil=1 set,
+		meaning that recover would return nil instead of a *runtime.PanicNilError.
+
 	/memory/classes/heap/free:bytes
 		Memory that is completely free and eligible to be returned to
 		the underlying system, but has not been. This metric is the

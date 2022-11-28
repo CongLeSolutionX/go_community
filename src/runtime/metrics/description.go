@@ -278,6 +278,13 @@ var allDesc = []Description{
 		Cumulative:  false,
 	},
 	{
+		Name: "/godebug/non-default-behavior/panicnil:events",
+		Description: "The number of times panic(nil) happened with GODEBUG=panicnil=1 set, " +
+			"meaning that recover would return nil instead of a *runtime.PanicNilError.",
+		Kind:       KindUint64,
+		Cumulative: true,
+	},
+	{
 		Name: "/memory/classes/heap/free:bytes",
 		Description: "Memory that is completely free and eligible to be returned to the underlying system, " +
 			"but has not been. This metric is the runtime's estimate of free address space that is backed by " +
