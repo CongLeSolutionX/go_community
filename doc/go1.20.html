@@ -145,6 +145,19 @@ Do not send CLs removing the interior tags from such phrases.
   the <code>GOPATH</code> install targets to unexpectedly remain in effect.)
 </p>
 
+<p><!-- https://go.dev/issue/55022 -->
+  The <code>go</code> <code>build</code>, <code>go</code> <code>install</code>,
+  and other build-related commands now support a <code>-pgo</code> flag, for
+  profile-guided optimizations (PGO, more details <a href="#compiler">below</a> for
+  the PGO implementation in the compiler).
+  The <code>-pgo</code> flag specifies the file path of the profile.
+  Special name <code>-pgo=auto</code> lets the go command select a file named
+  <code>default.pgo</code> in the main package's directory if that file exists.
+  (This mode currently requires a single main package to be specified on the
+  command line. We will support mulitple main packages in a future release.)
+  Special name <code>-pgo=off</code> turns off PGO.
+</p>
+
 <h4 id="go-version"><code>go</code> <code>version</code></h4>
 
 <p><!-- https://go.dev/issue/48187 -->
@@ -237,6 +250,24 @@ Do not send CLs removing the interior tags from such phrases.
 </p>
 
 <h2 id="compiler">Compiler</h2>
+
+<p><!-- https://go.dev/issue/55022 -->
+  Go 1.20 adds a preview of profile-guided optimization (PGO).
+  PGO will enable the toolchain to perform application- and workload-specific
+  optimizations based on run-time profile information.
+  Currently, the compiler supports pprof CPU profiles, which can be collected
+  through usual means, such as the the <code>runtime/pprof</code> or
+  <code>net/http/pprof</code> packages.
+  The profile can be passed via <code>go</code> <code>build</code>'s
+  <code>-pgo</code> flag, as mentioned <a href="#go-command">above</a>.
+  A profile-guided inliner is implemented, where, a function call will be
+  inlined, if possible, if the profile indicates the call site is hot.
+  Benchmarks for a representative set of Go programs show enabling
+  profile-guided inlining optimization will improve the performance about 3-4%.
+  More profile-based optimizations may be added in the future releases.
+  Please note that profile-guided optimization is a preview, so please use it
+  with appropriate caution.
+</p>
 
 <p><!-- https://go.dev/issue/49390 -->
   TODO: <a href="https://go.dev/issue/49390">https://go.dev/issue/49390</a>: clarify whether "-l" and "-N" compiler flags are actually supported
