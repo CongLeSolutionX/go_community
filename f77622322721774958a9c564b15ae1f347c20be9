@@ -80,6 +80,30 @@
       },
       "revId": "f77622322721774958a9c564b15ae1f347c20be9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b8c40c0_a8bf1207",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2511,
+      "author": {
+        "id": 34895
+      },
+      "writtenOn": "2022-11-29T19:17:52Z",
+      "side": 1,
+      "message": "Personally I think we can just say \"Relative paths should not be used in import statements.\"  But then of course the whole section is weird, because the title is \"Relative import paths\" and we are saying that there is no such thing.  So this should all be rewritten to just talk about relative paths on the command line, perhaps earlier where it talks about \"cmd\" and \"std\".\n\nBut really this is up to Bryan and Michael.",
+      "parentUuid": "a6c495ff_d17b96e4",
+      "range": {
+        "startLine": 2508,
+        "startChar": 0,
+        "endLine": 2511,
+        "endChar": 73
+      },
+      "revId": "f77622322721774958a9c564b15ae1f347c20be9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
