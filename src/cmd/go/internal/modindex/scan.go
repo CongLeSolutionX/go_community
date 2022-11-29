@@ -12,6 +12,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"go/build"
 	"go/doc"
 	"go/scanner"
 	"go/token"
@@ -155,6 +156,7 @@ type rawFile struct {
 	plusBuildConstraints []string
 	imports              []rawImport
 	embeds               []embed
+	directives           []build.Directive
 }
 
 type rawImport struct {
@@ -229,6 +231,7 @@ func importRaw(modroot, reldir string) *rawPackage {
 			goBuildConstraint:    info.goBuildConstraint,
 			plusBuildConstraints: info.plusBuildConstraints,
 			binaryOnly:           info.binaryOnly,
+			directives:           info.directives,
 		}
 		if info.parsed != nil {
 			rf.pkgName = info.parsed.Name.Name
