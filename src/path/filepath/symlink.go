@@ -111,6 +111,15 @@ func walkSymlinks(path string) (string, error) {
 			break
 		}
 
+		// Detect self-referencing cycle.
+		filink, err := os.Lstat(link)
+		if err != nil {
+			return "", err
+		}
+		if os.SameFile(fi, filink) {
+			continue
+		}
+
 		path = link + path[end:]
 
 		v := volumeNameLen(link)
