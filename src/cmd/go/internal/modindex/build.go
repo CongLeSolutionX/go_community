@@ -13,6 +13,7 @@ import (
 	"errors"
 	"fmt"
 	"go/ast"
+	"go/build"
 	"go/build/constraint"
 	"go/token"
 	"io"
@@ -256,6 +257,11 @@ type Package struct {
 	TestGoFiles  []string // _test.go files in package
 	XTestGoFiles []string // _test.go files outside package
 
+	// Directive information
+	Directives      []build.Directive // directives in package source files
+	TestDirectives  []build.Directive // directives in test source files
+	XTestDirectives []build.Directive // directives in package p_test source files
+
 	// Dependency information
 	Imports        []string                    // import paths from GoFiles, CgoFiles
 	ImportPos      map[string][]token.Position // line information for Imports
@@ -452,13 +458,14 @@ var dummyPkg Package
 
 // fileInfo records information learned about a file included in a build.
 type fileInfo struct {
-	name     string // full name including dir
-	header   []byte
-	fset     *token.FileSet
-	parsed   *ast.File
-	parseErr error
-	imports  []fileImport
-	embeds   []fileEmbed
+	name       string // full name including dir
+	header     []byte
+	fset       *token.FileSet
+	parsed     *ast.File
+	parseErr   error
+	imports    []fileImport
+	embeds     []fileEmbed
+	directives []build.Directive
 
 	// Additional fields added to go/build's fileinfo for the purposes of the modindex package.
 	binaryOnly           bool
