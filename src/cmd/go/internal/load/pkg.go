@@ -104,6 +104,11 @@ type PackagePublic struct {
 	SwigCXXFiles      []string `json:",omitempty"` // .swigcxx files
 	SysoFiles         []string `json:",omitempty"` // .syso system object files added to package
 
+	// Directive information
+	Directives      []string `json:",omitempty"` // directives in package source files
+	TestDirectives  []string `json:",omitempty"` // directives in test source files
+	XTestDirectives []string `json:",omitempty"` // directives in package p_test source files
+
 	// Embedded files
 	EmbedPatterns []string `json:",omitempty"` // //go:embed patterns
 	EmbedFiles    []string `json:",omitempty"` // files matched by EmbedPatterns
@@ -435,6 +440,20 @@ func (p *Package) copyBuild(opts PackageOpts, pp *build.Package) {
 	p.TestEmbedPatterns = pp.TestEmbedPatterns
 	p.XTestEmbedPatterns = pp.XTestEmbedPatterns
 	p.Internal.OrigImportPath = pp.ImportPath
+
+	p.Directives = directiveTexts(pp.Directives)
+	p.TestDirectives = directiveTexts(pp.TestDirectives)
+	p.XTestDirectives = directiveTexts(pp.XTestDirectives)
+}
+
+func directiveTexts(list []build.Directive) []string {
+	var out []string
+	for _, d := range list {
+		out = append(out, d.Text)
+	}
+	sort.Strings(out)
+	str.Uniq(&out)
+	return out
 }
 
 // A PackageError describes an error loading information about a package.
