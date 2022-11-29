@@ -16,6 +16,24 @@
       "message": "It\u0027s unfortunate that the existing functions (Int64, Uint64, etc.) don\u0027t already return an accuracy, especially since there are such matching functions for Floats, and to some extent for Rats.\n\nI\u0027m not principally opposed to these functions, but if it\u0027s just for your own specific purpose, I suspect the outcome of the proposal review will be to just implement those wrappers for yourself.",
       "revId": "c6e76eab13657013b81d076aaf872ca1d227ac20",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "358635e8_1f6e69ec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2022-11-29T19:58:04Z",
+      "side": 1,
+      "message": "\u003e I\u0027m not principally opposed to these functions, but if it\u0027s just for your own specific purpose, I suspect the outcome of the proposal review will be to just implement those wrappers for yourself.\n\nOf course; that\u0027s what I\u0027ve done. But if these functions are a natural extension of the API and aren\u0027t trivial to implement, others may benefit from us adding them.",
+      "parentUuid": "8b44f4b5_e8c49deb",
+      "revId": "c6e76eab13657013b81d076aaf872ca1d227ac20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
