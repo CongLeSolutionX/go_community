@@ -205,6 +205,8 @@ func TestPackagesAndErrors(ctx context.Context, opts PackageOpts, p *Package, co
 		ptest.Internal.Embed = testEmbed
 		ptest.EmbedFiles = str.StringList(p.EmbedFiles, p.TestEmbedFiles)
 		ptest.Internal.OrigImportPath = p.Internal.OrigImportPath
+		ptest.Directives = append(p.Directives[:len(p.Directives):len(p.Directives)], p.TestDirectives...)
+		ptest.Internal.Directives = append(p.Internal.Directives[:len(p.Internal.Directives):len(p.Internal.Directives)], p.Internal.Build.TestDirectives...)
 		ptest.collectDeps()
 	} else {
 		ptest = p
@@ -225,6 +227,7 @@ func TestPackagesAndErrors(ctx context.Context, opts PackageOpts, p *Package, co
 				Module:     p.Module,
 				Error:      pxtestErr,
 				EmbedFiles: p.XTestEmbedFiles,
+				Directives: p.XTestDirectives,
 			},
 			Internal: PackageInternal{
 				LocalPrefix: p.Internal.LocalPrefix,
@@ -240,6 +243,7 @@ func TestPackagesAndErrors(ctx context.Context, opts PackageOpts, p *Package, co
 				Gccgoflags:     p.Internal.Gccgoflags,
 				Embed:          xtestEmbed,
 				OrigImportPath: p.Internal.OrigImportPath,
+				Directives:     p.Internal.Build.XTestDirectives,
 			},
 		}
 		if pxtestNeedsPtest {
@@ -269,6 +273,14 @@ func TestPackagesAndErrors(ctx context.Context, opts PackageOpts, p *Package, co
 			OrigImportPath: p.Internal.OrigImportPath,
 		},
 	}
+
+	pmain.Directives = str.StringList(p.Directives, p.TestDirectives, p.XTestDirectives)
+	sort.Strings(pmain.Directives)
+	str.Uniq(&pmain.Directives)
+	pmain.Internal.Directives = append(pmain.Internal.Directives, p.Internal.Directives...)
+	pmain.Internal.Directives = append(pmain.Internal.Directives, p.Internal.Build.TestDirectives...)
+	pmain.Internal.Directives = append(pmain.Internal.Directives, p.Internal.Build.XTestDirectives...)
+	pmain.DefaultGODEBUG = defaultGODEBUG(pmain)
 
 	// The generated main also imports testing, regexp, and os.
 	// Also the linker introduces implicit dependencies reported by LinkerDeps.
