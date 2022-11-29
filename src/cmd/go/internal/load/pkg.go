@@ -58,7 +58,7 @@ type Package struct {
 type PackagePublic struct {
 	// Note: These fields are part of the go command's public API.
 	// See list.go. It is okay to add fields, but not to change or
-	// remove existing ones. Keep in sync with list.go
+	// remove existing ones. Keep in sync with ../list/list.go
 	Dir           string                `json:",omitempty"` // directory containing package sources
 	ImportPath    string                `json:",omitempty"` // import path of package in dir
 	ImportComment string                `json:",omitempty"` // path in import comment on package statement
@@ -78,6 +78,8 @@ type PackagePublic struct {
 	DepOnly       bool                  `json:",omitempty"` // package is only as a dependency, not explicitly listed
 	BinaryOnly    bool                  `json:",omitempty"` // package cannot be recompiled
 	Incomplete    bool                  `json:",omitempty"` // was there an error loading this package or dependencies?
+
+	DefaultGODEBUG string `json:",omitempty"` // default GODEBUG setting (only for Name=="main")
 
 	// Stale and StaleReason remain here *only* for the list command.
 	// They are only initialized in preparation for list execution.
@@ -235,6 +237,7 @@ type PackageInternal struct {
 	TestmainGo        *[]byte              // content for _testmain.go
 	Embed             map[string][]string  // //go:embed comment mapping
 	OrigImportPath    string               // original import path before adding '_test' suffix
+	Directives        []build.Directive
 
 	Asmflags   []string // -asmflags for this package
 	Gcflags    []string // -gcflags for this package
@@ -444,6 +447,8 @@ func (p *Package) copyBuild(opts PackageOpts, pp *build.Package) {
 	p.Directives = directiveTexts(pp.Directives)
 	p.TestDirectives = directiveTexts(pp.TestDirectives)
 	p.XTestDirectives = directiveTexts(pp.XTestDirectives)
+	p.Internal.Directives = pp.Directives
+	p.DefaultGODEBUG = defaultGODEBUG(p)
 }
 
 func directiveTexts(list []build.Directive) []string {
@@ -2422,6 +2427,9 @@ func (p *Package) setBuildInfo(autoVCS bool) {
 	}
 	if cfg.BuildTrimpath {
 		appendSetting("-trimpath", "true")
+	}
+	if p.DefaultGODEBUG != "" {
+		appendSetting("DefaultGODEBUG", p.DefaultGODEBUG)
 	}
 	cgo := "0"
 	if cfg.BuildContext.CgoEnabled {
