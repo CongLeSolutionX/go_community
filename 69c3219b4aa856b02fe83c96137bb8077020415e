@@ -105,6 +105,23 @@
       "message": "@mzh@golangcn.org @091knez@gmail.com - would you be able to review this?",
       "revId": "69c3219b4aa856b02fe83c96137bb8077020415e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8efbc31_4a4c967d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2022-11-29T08:33:54Z",
+      "side": 1,
+      "message": "cc RongRong as new MIPS maintainer",
+      "revId": "69c3219b4aa856b02fe83c96137bb8077020415e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
