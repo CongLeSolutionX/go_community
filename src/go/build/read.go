@@ -471,6 +471,18 @@ func readGoInfo(f io.Reader, info *fileInfo) error {
 		}
 	}
 
+	// Extract directives.
+	for _, group := range info.parsed.Comments {
+		if group.Pos() >= info.parsed.Package {
+			break
+		}
+		for _, c := range group.List {
+			if strings.HasPrefix(c.Text, "//go:") {
+				info.directives = append(info.directives, Directive{c.Text, info.fset.Position(c.Slash)})
+			}
+		}
+	}
+
 	// If the file imports "embed",
 	// we have to look for //go:embed comments
 	// in the remainder of the file.
@@ -503,6 +515,8 @@ func readGoInfo(f io.Reader, info *fileInfo) error {
 
 	return nil
 }
+
+// parseGoDebug parses the text following "//go:debug" to
 
 // parseGoEmbed parses the text following "//go:embed" to extract the glob patterns.
 // It accepts unquoted space-separated patterns as well as double-quoted and back-quoted Go strings.
