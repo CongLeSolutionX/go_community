@@ -53,6 +53,24 @@
       "message": "I\u0027m not sure I believe that this actually helps performance. The two instructions are exactly the same size, and probably use the same chip resources.\nThe best improvement you show, BinaryTree, doesn\u0027t have any defers in it, so the changed code never actually executes?",
       "revId": "0d51fc4f602d0d134c91926b2b549f92666a53fc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "889ce737_b9bf9b69",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 50499
+      },
+      "writtenOn": "2022-11-29T08:24:34Z",
+      "side": 1,
+      "message": "You are right. TESTB AX, AX is the same length as TESTL AX, AX. Neither AMD\u0027s nor Intel\u0027s docs show any different latencies, throughput or ports used. These two seem equivalent. I reran benches on the GCP VM\u0027s I used originally and the results were very noisy. I\u0027ve updated the commit message accordingly.",
+      "parentUuid": "ea201c65_9aca1ccc",
+      "revId": "0d51fc4f602d0d134c91926b2b549f92666a53fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
