@@ -1111,6 +1111,23 @@ func TestEvalSymlinks(t *testing.T) {
 	}
 }
 
+func TestEvalSymlinksCycleToItself(t *testing.T) {
+	testenv.MustHaveSymlink(t)
+
+	// /tmp may itself be a symlink!
+	tmpDir, err := filepath.EvalSymlinks(t.TempDir())
+	if err != nil {
+		t.Fatal("eval symlink for tmp dir:", err)
+	}
+
+	path := simpleJoin(tmpDir, "cycle")
+	err = os.Symlink(path, path)
+	if err != nil {
+		t.Fatal(err)
+	}
+	testEvalSymlinks(t, path, path)
+}
+
 func TestEvalSymlinksIsNotExist(t *testing.T) {
 	testenv.MustHaveSymlink(t)
 
