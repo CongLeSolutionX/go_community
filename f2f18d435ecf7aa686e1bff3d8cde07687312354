@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09b989f2_0bf93558",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2022-11-29T08:35:00Z",
+      "side": 1,
+      "message": "cc RongRong as new MIPS maintainer",
+      "revId": "f2f18d435ecf7aa686e1bff3d8cde07687312354",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
