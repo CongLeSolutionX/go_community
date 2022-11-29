@@ -52,6 +52,24 @@
       "parentUuid": "fcbc801b_a8b06585",
       "revId": "8a81fdf165facdcefa06531de5af98a4db343035",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f25ca32_217e959f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 30
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31657
+      },
+      "writtenOn": "2022-11-29T16:45:32Z",
+      "side": 1,
+      "message": "sure, opened https://github.com/golang/go/issues/56980",
+      "parentUuid": "e2f36e76_1398977b",
+      "revId": "8a81fdf165facdcefa06531de5af98a4db343035",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
