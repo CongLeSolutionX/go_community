@@ -104,6 +104,30 @@
       },
       "revId": "f77622322721774958a9c564b15ae1f347c20be9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0924f04e_9d8d9ae5",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2511,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-11-29T21:28:34Z",
+      "side": 1,
+      "message": "Relative paths on the command line should probably be covered in the “Package lists and patterns” section.\n\nI think it\u0027s fine to keep a very short section for `Relative import paths` here within `Import path syntax`, but it should probably go after `Remote import paths` (which are now the thing ~everybody should be using).\n\nThat said, I think the documentation should describe what the paths do, not just when they were used — otherwise, it doesn\u0027t help folks who are trying to figure out how to update existing legacy code.\n\nPerhaps:\n\n```\nAn import path beginning with ./ or ../ is called a relative path. In GOPATH mode in a working directory outside of\nGOPATH/src, a relative import path in a Go source file\nreferred to a package in a directory relative to\nthe directory containing that file.\n\nRelative import paths are not supported in module mode,\nand should not be used in new Go code.\n```",
+      "parentUuid": "1b8c40c0_a8bf1207",
+      "range": {
+        "startLine": 2508,
+        "startChar": 0,
+        "endLine": 2511,
+        "endChar": 73
+      },
+      "revId": "f77622322721774958a9c564b15ae1f347c20be9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
