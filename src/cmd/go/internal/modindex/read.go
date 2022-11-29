@@ -592,6 +592,7 @@ func (rp *IndexPackage) Import(bctxt build.Context, mode build.ImportMode) (p *b
 
 		var fileList *[]string
 		var importMap, embedMap map[string][]token.Position
+		var directives *[]build.Directive
 		switch {
 		case isCgo:
 			allTags["cgo"] = true
@@ -599,6 +600,7 @@ func (rp *IndexPackage) Import(bctxt build.Context, mode build.ImportMode) (p *b
 				fileList = &p.CgoFiles
 				importMap = importPos
 				embedMap = embedPos
+				directives = &p.Directives
 			} else {
 				// Ignore Imports and Embeds from cgo files if cgo is disabled.
 				fileList = &p.IgnoredGoFiles
@@ -607,14 +609,17 @@ func (rp *IndexPackage) Import(bctxt build.Context, mode build.ImportMode) (p *b
 			fileList = &p.XTestGoFiles
 			importMap = xTestImportPos
 			embedMap = xTestEmbedPos
+			directives = &p.XTestDirectives
 		case isTest:
 			fileList = &p.TestGoFiles
 			importMap = testImportPos
 			embedMap = testEmbedPos
+			directives = &p.TestDirectives
 		default:
 			fileList = &p.GoFiles
 			importMap = importPos
 			embedMap = embedPos
+			directives = &p.Directives
 		}
 		*fileList = append(*fileList, name)
 		if importMap != nil {
@@ -626,6 +631,9 @@ func (rp *IndexPackage) Import(bctxt build.Context, mode build.ImportMode) (p *b
 			for _, e := range tf.embeds() {
 				embedMap[e.pattern] = append(embedMap[e.pattern], e.position)
 			}
+		}
+		if directives != nil {
+			*directives = append(*directives, tf.directives()...)
 		}
 	}
 
@@ -914,6 +922,13 @@ func (sf *sourceFile) embedsOffset() int {
 	return pos + 4 + n*(4*5)
 }
 
+func (sf *sourceFile) directivesOffset() int {
+	pos := sf.embedsOffset()
+	n := sf.d.intAt(pos)
+	// each import is 5 uint32s (string + tokpos)
+	return pos + 4 + n*(4*5)
+}
+
 func (sf *sourceFile) imports() []rawImport {
 	sf.onceReadImports.Do(func() {
 		importsOffset := sf.importsOffset()
@@ -935,6 +950,17 @@ func (sf *sourceFile) embeds() []embed {
 	ret := make([]embed, numEmbeds)
 	for i := range ret {
 		ret[i] = embed{r.string(), r.tokpos()}
+	}
+	return ret
+}
+
+func (sf *sourceFile) directives() []build.Directive {
+	directivesOffset := sf.directivesOffset()
+	r := sf.d.readAt(directivesOffset)
+	numDirectives := r.int()
+	ret := make([]build.Directive, numDirectives)
+	for i := range ret {
+		ret[i] = build.Directive{Text: r.string(), Pos: r.tokpos()}
 	}
 	return ret
 }
