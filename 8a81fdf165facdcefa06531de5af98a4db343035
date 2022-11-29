@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0d180a5_e40016bc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 30
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31657
+      },
+      "writtenOn": "2022-11-29T15:06:52Z",
+      "side": 1,
+      "message": "Are optimizations planned for this before go1.20 is finalized? When running unit tests with race detection enabled, dial+handshake+request times in unit tests increased 4x (~20ms → ~80ms) on linux/amd64 and 7x (~30ms → ~200ms) on linux/ppc64le after this commit.",
+      "revId": "8a81fdf165facdcefa06531de5af98a4db343035",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
