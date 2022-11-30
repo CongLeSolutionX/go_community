@@ -54,6 +54,29 @@
 //	    }
 //	}
 //
+// Additionally, it is possible to use unexported identifiers of a package
+// in its corresponding "_test" package if the identifiers are exported in
+// a file with a suffix "_test.go". For example:
+//
+//	package abs // abs.go
+//
+//	type unexported struct { ... }
+//
+//	package abs // export_test.go
+//
+//	var Unexported = exported
+//
+//	package abs_test // abs_test.go
+//
+//	import (
+//		"path_to_pkg/abs"
+//	)
+//
+//	func TestAbs(t *testing.T) {
+//	    v := abs.Unexported{}
+//	    ...
+//	}
+//
 // For more detail, run "go help test" and "go help testflag".
 //
 // # Benchmarks
