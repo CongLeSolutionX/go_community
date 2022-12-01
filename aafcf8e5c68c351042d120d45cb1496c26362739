@@ -107,6 +107,24 @@
       "parentUuid": "b5b7b880_a6eb106e",
       "revId": "aafcf8e5c68c351042d120d45cb1496c26362739",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1f70399_25c74add",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2022-12-01T01:59:20Z",
+      "side": 1,
+      "message": "Yeah, I also think it’s safer to make the optimization conservatively for 1.20, we can investigate more cases for 1.21 cycle.\n\nPS: sorry to hear about your illness, hope you feel better now. Thanks for reviewing!",
+      "parentUuid": "791f85fa_c7aac5e1",
+      "revId": "aafcf8e5c68c351042d120d45cb1496c26362739",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ],
   "submitRequirementResults": [
