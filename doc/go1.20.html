@@ -290,7 +290,13 @@ Do not send CLs removing the interior tags from such phrases.
 </p>
 
 <p>
-  TODO: complete this section
+  The Go 1.20 compiler upgraded its front-end to use a new "Unified" IR, which
+  fixes several generic-types bugs and enables local generic types.  In addition,
+  the compiler now rejects anonymous interface cycles. Relative to Go 1.19,
+  generated code performance is generally slightly improved, build wall times
+  are slightly increased, build user times are slightly decreased. For arm64,
+  ppc64, and s390x compilation, this compiler includes a debugging flag for
+  controlling use of fused-multiply-add (-d=fmahash=n).
 </p>
 
 <h2 id="linker">Linker</h2>
