@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aaddda2d_205e2ca9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-12-02T18:26:00Z",
+      "side": 1,
+      "message": "I think that\u0027s not worth putting in the release notes.",
+      "parentUuid": "fe3cffc1_357dfb5a",
+      "revId": "615570a766aa32dc7432a54baa7157b852ff0239",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d8d0f8fb_39136a8e",
