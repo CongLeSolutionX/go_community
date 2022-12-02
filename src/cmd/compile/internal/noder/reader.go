@@ -514,18 +514,14 @@ func (r *reader) doTyp() *types.Type {
 	case pkgbits.TypeInterface:
 		return r.interfaceType()
 	case pkgbits.TypeUnion:
-		return r.unionType()
+		// In the types1 universe, we only need to handle pure interfaces,
+		// but we might still see type unions because of interfaces like
+		// "interface{ any | int }" (e.g., typeparam/issue52124.go).
+		//
+		// However, we can just replace the type union with the empty
+		// interface.
+		return types.Types[types.TINTER]
 	}
-}
-
-func (r *reader) unionType() *types.Type {
-	terms := make([]*types.Type, r.Len())
-	tildes := make([]bool, len(terms))
-	for i := range terms {
-		tildes[i] = r.Bool()
-		terms[i] = r.typ()
-	}
-	return types.NewUnion(terms, tildes)
 }
 
 func (r *reader) interfaceType() *types.Type {
