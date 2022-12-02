@@ -52,9 +52,8 @@ var (
 	defaultpkgconfig string
 	defaultldso      string
 
-	rebuildall   bool
-	defaultclang bool
-	noOpt        bool
+	rebuildall bool
+	noOpt      bool
 
 	vflag int // verbosity
 )
@@ -210,12 +209,8 @@ func xinit() {
 	gogcflags = os.Getenv("BOOT_GO_GCFLAGS")
 	goldflags = os.Getenv("BOOT_GO_LDFLAGS")
 
-	cc, cxx := "gcc", "g++"
-	if defaultclang {
-		cc, cxx = "clang", "clang++"
-	}
-	defaultcc = compilerEnv("CC", cc)
-	defaultcxx = compilerEnv("CXX", cxx)
+	defaultcc = compilerEnv("CC", "")
+	defaultcxx = compilerEnv("CXX", "")
 
 	b = os.Getenv("PKG_CONFIG")
 	if b == "" {
@@ -308,12 +303,27 @@ func compilerEnv(envName, def string) map[string]string {
 	return m
 }
 
+// clangos lists the operating systems where we prefer clang to gcc.
+var clangos = []string{
+	"darwin",  // macOS 10.9 and later require clang
+	"freebsd", // FreeBSD 10 and later do not ship gcc
+	"openbsd", // OpenBSD ships with GCC 4.2, which is now quite old.
+}
+
 // compilerEnvLookup returns the compiler settings for goos/goarch in map m.
 func compilerEnvLookup(m map[string]string, goos, goarch string) string {
 	if cc := m[goos+"/"+goarch]; cc != "" {
 		return cc
 	}
-	return m[""]
+	if cc := m[""]; cc != "" {
+		return cc
+	}
+	for _, os := range clangos {
+		if goos == os {
+			return "clang"
+		}
+	}
+	return "gcc"
 }
 
 // rmworkdir deletes the work directory.
@@ -1259,6 +1269,12 @@ func timelog(op, name string) {
 	fmt.Fprintf(timeLogFile, "%s %+.1fs %s %s\n", t.Format(time.UnixDate), t.Sub(timeLogStart).Seconds(), op, name)
 }
 
+// toolenv is the environment to use when building cmd.
+// We disable cgo to get static binaries for cmd/go and cmd/pprof,
+// so that they work on systems without the same dynamic libraries
+// as the original build system. And we add -trimpath for reproducible builds.
+var toolenv = []string{"CGO_ENABLED=0", "GOFLAGS=-trimpath"}
+
 var toolchain = []string{"cmd/asm", "cmd/cgo", "cmd/compile", "cmd/link"}
 
 // The bootstrap command runs a build from scratch,
@@ -1386,7 +1402,7 @@ func cmdbootstrap() {
 	os.Setenv("CC", compilerEnvLookup(defaultcc, goos, goarch))
 	// Now that cmd/go is in charge of the build process, enable GOEXPERIMENT.
 	os.Setenv("GOEXPERIMENT", goexperiment)
-	goInstall(goBootstrap, toolchain...)
+	goInstall(toolenv, goBootstrap, toolchain...)
 	if debug {
 		run("", ShowOutput|CheckExit, pathf("%s/compile", tooldir), "-V=full")
 		copyfile(pathf("%s/compile2", tooldir), pathf("%s/compile", tooldir), writeExec)
@@ -1413,7 +1429,7 @@ func cmdbootstrap() {
 		xprintf("\n")
 	}
 	xprintf("Building Go toolchain3 using go_bootstrap and Go toolchain2.\n")
-	goInstall(goBootstrap, append([]string{"-a"}, toolchain...)...)
+	goInstall(toolenv, goBootstrap, append([]string{"-a"}, toolchain...)...)
 	if debug {
 		run("", ShowOutput|CheckExit, pathf("%s/compile", tooldir), "-V=full")
 		copyfile(pathf("%s/compile3", tooldir), pathf("%s/compile", tooldir), writeExec)
@@ -1435,9 +1451,12 @@ func cmdbootstrap() {
 			xprintf("\n")
 		}
 		xprintf("Building packages and commands for host, %s/%s.\n", goos, goarch)
-		goInstall(goBootstrap, "std", "cmd")
-		checkNotStale(goBootstrap, "std", "cmd")
-		checkNotStale(cmdGo, "std", "cmd")
+		goInstall(nil, goBootstrap, "std")
+		goInstall(toolenv, goBootstrap, "cmd")
+		checkNotStale(nil, goBootstrap, "std")
+		checkNotStale(toolenv, goBootstrap, "cmd")
+		checkNotStale(nil, cmdGo, "std")
+		checkNotStale(toolenv, cmdGo, "cmd")
 
 		timelog("build", "target toolchain")
 		if vflag > 0 {
@@ -1450,14 +1469,16 @@ func cmdbootstrap() {
 		os.Setenv("CC", compilerEnvLookup(defaultcc, goos, goarch))
 		xprintf("Building packages and commands for target, %s/%s.\n", goos, goarch)
 	}
-	targets := []string{"std", "cmd"}
-	goInstall(goBootstrap, targets...)
-	checkNotStale(goBootstrap, append(toolchain, "runtime/internal/sys")...)
-	checkNotStale(goBootstrap, targets...)
-	checkNotStale(cmdGo, targets...)
+	goInstall(nil, goBootstrap, "std")
+	goInstall(toolenv, goBootstrap, "cmd")
+	checkNotStale(toolenv, goBootstrap, append(toolchain, "runtime/internal/sys")...)
+	checkNotStale(nil, goBootstrap, "std")
+	checkNotStale(toolenv, goBootstrap, "cmd")
+	checkNotStale(nil, cmdGo, "std")
+	checkNotStale(toolenv, cmdGo, "cmd")
 	if debug {
 		run("", ShowOutput|CheckExit, pathf("%s/compile", tooldir), "-V=full")
-		checkNotStale(goBootstrap, append(toolchain, "runtime/internal/sys")...)
+		checkNotStale(toolenv, goBootstrap, append(toolchain, "runtime/internal/sys")...)
 		copyfile(pathf("%s/compile4", tooldir), pathf("%s/compile", tooldir), writeExec)
 	}
 
@@ -1488,7 +1509,7 @@ func cmdbootstrap() {
 		os.Setenv("GOOS", gohostos)
 		os.Setenv("GOARCH", gohostarch)
 		os.Setenv("CC", compilerEnvLookup(defaultcc, gohostos, gohostarch))
-		goCmd(cmdGo, "build", "-o", pathf("%s/go_%s_%s_exec%s", gorootBin, goos, goarch, exe), wrapperPath)
+		goCmd(nil, cmdGo, "build", "-o", pathf("%s/go_%s_%s_exec%s", gorootBin, goos, goarch, exe), wrapperPath)
 		// Restore environment.
 		// TODO(elias.naur): support environment variables in goCmd?
 		os.Setenv("GOOS", goos)
@@ -1516,8 +1537,8 @@ func wrapperPathFor(goos, goarch string) string {
 	return ""
 }
 
-func goInstall(goBinary string, args ...string) {
-	goCmd(goBinary, "install", args...)
+func goInstall(env []string, goBinary string, args ...string) {
+	goCmd(env, goBinary, "install", args...)
 }
 
 func appendCompilerFlags(args []string) []string {
@@ -1530,7 +1551,7 @@ func appendCompilerFlags(args []string) []string {
 	return args
 }
 
-func goCmd(goBinary string, cmd string, args ...string) {
+func goCmd(env []string, goBinary string, cmd string, args ...string) {
 	goCmd := []string{goBinary, cmd}
 	if noOpt {
 		goCmd = append(goCmd, "-tags=noopt")
@@ -1545,10 +1566,10 @@ func goCmd(goBinary string, cmd string, args ...string) {
 		goCmd = append(goCmd, "-p=1")
 	}
 
-	run(workdir, ShowOutput|CheckExit, append(goCmd, args...)...)
+	runEnv(workdir, ShowOutput|CheckExit, env, append(goCmd, args...)...)
 }
 
-func checkNotStale(goBinary string, targets ...string) {
+func checkNotStale(env []string, goBinary string, targets ...string) {
 	goCmd := []string{goBinary, "list"}
 	if noOpt {
 		goCmd = append(goCmd, "-tags=noopt")
@@ -1556,7 +1577,7 @@ func checkNotStale(goBinary string, targets ...string) {
 	goCmd = appendCompilerFlags(goCmd)
 	goCmd = append(goCmd, "-f={{if .Stale}}\tSTALE {{.ImportPath}}: {{.StaleReason}}{{end}}")
 
-	out := run(workdir, CheckExit, append(goCmd, targets...)...)
+	out := runEnv(workdir, CheckExit, env, append(goCmd, targets...)...)
 	if strings.Contains(out, "\tSTALE ") {
 		os.Setenv("GODEBUG", "gocachehash=1")
 		for _, target := range []string{"runtime/internal/sys", "cmd/dist", "cmd/link"} {
@@ -1659,7 +1680,17 @@ func checkCC() {
 	if !needCC() {
 		return
 	}
-	cc, err := quotedSplit(defaultcc[""])
+	cc1 := defaultcc[""]
+	if cc1 == "" {
+		cc1 = "gcc"
+		for _, os := range clangos {
+			if gohostos == os {
+				cc1 = "clang"
+				break
+			}
+		}
+	}
+	cc, err := quotedSplit(cc1)
 	if err != nil {
 		fatalf("split CC: %v", err)
 	}
