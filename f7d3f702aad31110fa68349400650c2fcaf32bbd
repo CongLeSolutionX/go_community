@@ -204,6 +204,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e1f0090b_158d5cea",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-12-02T19:01:23Z",
+      "side": 1,
+      "message": "I was thinking referencing it in an HTML comment. (I don\u0027t think we usually explicitly mention addressing an issue.)",
+      "parentUuid": "8b52c36f_4d28b44e",
+      "revId": "f7d3f702aad31110fa68349400650c2fcaf32bbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ee192818_75b0b13d",
         "filename": "doc/go1.20.html",
         "patchSetId": 4
@@ -239,6 +257,30 @@
       "side": 1,
       "message": "I want there to be some record of it so that the people who need it will try it, but I\u0027m not sure of the best way.  I could take it out and leave it to e.g. IBM (who was interested when I mentioned it) to use with their users/customers as they find appropriate.  But they think it\u0027s useful, local clang/llvm guy says its useful for them too, just as a problem-explanation tool",
       "parentUuid": "ee192818_75b0b13d",
+      "range": {
+        "startLine": 318,
+        "startChar": 45,
+        "endLine": 318,
+        "endChar": 70
+      },
+      "revId": "f7d3f702aad31110fa68349400650c2fcaf32bbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a858cb1f_c6663509",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-12-02T19:01:23Z",
+      "side": 1,
+      "message": "If we mention it in the release note, I think it sounds like it is a user facing knob and we commit to support it, which probably requires proposal or something.\n\nI think this is more for targeting compiler developers. It may be better to communicate through other channels. Maybe we could have a cmd/compile/HACKING.md, similar to runtime/HACKING.md .",
+      "parentUuid": "a8ed33e4_424e1446",
       "range": {
         "startLine": 318,
         "startChar": 45,
