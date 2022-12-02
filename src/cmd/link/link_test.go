@@ -1092,7 +1092,7 @@ func TestUnlinkableObj(t *testing.T) {
 	testenv.MustHaveGoBuild(t)
 	t.Parallel()
 
-	if buildcfg.Experiment.Unified {
+	if true /* was buildcfg.Experiment.Unified */ {
 		t.Skip("TODO(mdempsky): Fix ICE when importing unlinkable objects for GOEXPERIMENT=unified")
 	}
 

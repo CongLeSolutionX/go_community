@@ -84,7 +84,7 @@ func TestDebugLinesPushback(t *testing.T) {
 
 	case "arm64", "amd64": // register ABI
 		fn := "(*List[go.shape.int_0]).PushBack"
-		if buildcfg.Experiment.Unified {
+		if true /* was buildcfg.Experiment.Unified */ {
 			// Unified mangles differently
 			fn = "(*List[go.shape.int]).PushBack"
 		}
@@ -101,7 +101,7 @@ func TestDebugLinesConvert(t *testing.T) {
 
 	case "arm64", "amd64": // register ABI
 		fn := "G[go.shape.int_0]"
-		if buildcfg.Experiment.Unified {
+		if true /* was buildcfg.Experiment.Unified */ {
 			// Unified mangles differently
 			fn = "G[go.shape.int]"
 		}
