@@ -52,9 +52,8 @@ var (
 	defaultpkgconfig string
 	defaultldso      string
 
-	rebuildall   bool
-	defaultclang bool
-	noOpt        bool
+	rebuildall bool
+	noOpt      bool
 
 	vflag int // verbosity
 )
@@ -210,12 +209,8 @@ func xinit() {
 	gogcflags = os.Getenv("BOOT_GO_GCFLAGS")
 	goldflags = os.Getenv("BOOT_GO_LDFLAGS")
 
-	cc, cxx := "gcc", "g++"
-	if defaultclang {
-		cc, cxx = "clang", "clang++"
-	}
-	defaultcc = compilerEnv("CC", cc)
-	defaultcxx = compilerEnv("CXX", cxx)
+	defaultcc = compilerEnv("CC", "")
+	defaultcxx = compilerEnv("CXX", "")
 
 	b = os.Getenv("PKG_CONFIG")
 	if b == "" {
@@ -308,12 +303,27 @@ func compilerEnv(envName, def string) map[string]string {
 	return m
 }
 
+// clangos lists the operating systems where we prefer clang to gcc.
+var clangos = []string{
+	"darwin",  // macOS 10.9 and later require clang
+	"freebsd", // FreeBSD 10 and later do not ship gcc
+	"openbsd", // OpenBSD ships with GCC 4.2, which is now quite old.
+}
+
 // compilerEnvLookup returns the compiler settings for goos/goarch in map m.
 func compilerEnvLookup(m map[string]string, goos, goarch string) string {
 	if cc := m[goos+"/"+goarch]; cc != "" {
 		return cc
 	}
-	return m[""]
+	if cc := m[""]; cc != "" {
+		return cc
+	}
+	for _, os := range clangos {
+		if goos == os {
+			return "clang"
+		}
+	}
+	return "gcc"
 }
 
 // rmworkdir deletes the work directory.
@@ -1670,7 +1680,17 @@ func checkCC() {
 	if !needCC() {
 		return
 	}
-	cc, err := quotedSplit(defaultcc[""])
+	cc1 := defaultcc[""]
+	if cc1 == "" {
+		cc1 = "gcc"
+		for _, os := range clangos {
+			if gohostos == os {
+				cc1 = "clang"
+				break
+			}
+		}
+	}
+	cc, err := quotedSplit(cc1)
 	if err != nil {
 		fatalf("split CC: %v", err)
 	}
