@@ -189,11 +189,6 @@ type Type struct {
 	// instantiated from a generic type, and is otherwise set to nil.
 	// TODO(danscales): choose a better name.
 	rparams *[]*Type
-
-	// For an instantiated generic type, the base generic type.
-	// This backpointer is useful, because the base type is the type that has
-	// the method bodies.
-	origType *Type
 }
 
 func (*Type) CanBeAnSSAAux() {}
@@ -233,11 +228,6 @@ func (t *Type) Sym() *Sym {
 	}
 	return nil
 }
-
-// OrigType returns the original generic type that t is an
-// instantiation of, if any.
-func (t *Type) OrigType() *Type        { return t.origType }
-func (t *Type) SetOrigType(orig *Type) { t.origType = orig }
 
 // Underlying returns the underlying type of type t.
 func (t *Type) Underlying() *Type { return t.underlying }
@@ -355,7 +345,6 @@ func (t *Type) StructType() *Struct {
 
 // Interface contains Type fields specific to interface types.
 type Interface struct {
-	implicit bool
 }
 
 // Ptr contains Type fields specific to pointer types.
@@ -1697,7 +1686,7 @@ func newBasic(kind Kind, obj Object) *Type {
 
 // NewInterface returns a new interface for the given methods and
 // embedded types. Embedded types are specified as fields with no Sym.
-func NewInterface(methods []*Field, implicit bool) *Type {
+func NewInterface(methods []*Field) *Type {
 	t := newType(TINTER)
 	t.SetInterface(methods)
 	for _, f := range methods {
@@ -1707,21 +1696,7 @@ func NewInterface(methods []*Field, implicit bool) *Type {
 			break
 		}
 	}
-	t.extra.(*Interface).implicit = implicit
 	return t
-}
-
-// IsImplicit reports whether an interface is implicit (i.e. elided from a type
-// parameter constraint).
-func (t *Type) IsImplicit() bool {
-	t.wantEtype(TINTER)
-	return t.extra.(*Interface).implicit
-}
-
-// MarkImplicit marks the interface as implicit.
-func (t *Type) MarkImplicit() {
-	t.wantEtype(TINTER)
-	t.extra.(*Interface).implicit = true
 }
 
 const BOGUS_FUNARG_OFFSET = -1000000000
