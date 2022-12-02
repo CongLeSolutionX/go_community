@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe3cffc1_357dfb5a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-12-02T17:33:14Z",
+      "side": 1,
+      "message": "New patchset coming soon.  One thing I did not know how to do for sure was talk about the hash-search uses of the fused multiply-add flag, and whether that is\nappropriate or too far into the weeds.",
+      "revId": "615570a766aa32dc7432a54baa7157b852ff0239",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d8d0f8fb_39136a8e",
@@ -47,6 +64,54 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "39a27ddb_e001d74b",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-12-02T17:33:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8d0f8fb_39136a8e",
+      "range": {
+        "startLine": 294,
+        "startChar": 67,
+        "endLine": 294,
+        "endChar": 69
+      },
+      "revId": "615570a766aa32dc7432a54baa7157b852ff0239",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b1d5251_6656f365",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-12-02T17:33:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92c2351c_f5211e23",
+      "range": {
+        "startLine": 294,
+        "startChar": 47,
+        "endLine": 294,
+        "endChar": 66
+      },
+      "revId": "615570a766aa32dc7432a54baa7157b852ff0239",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "051d9d56_9f1d4516",
@@ -60,6 +125,30 @@
       "writtenOn": "2022-12-02T17:03:09Z",
       "side": 1,
       "message": "New paragraph.",
+      "range": {
+        "startLine": 295,
+        "startChar": 54,
+        "endLine": 295,
+        "endChar": 55
+      },
+      "revId": "615570a766aa32dc7432a54baa7157b852ff0239",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d811e721_933ff261",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-12-02T17:33:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "051d9d56_9f1d4516",
       "range": {
         "startLine": 295,
         "startChar": 54,
@@ -93,6 +182,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "65bb6679_36d18016",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-12-02T17:33:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b325ee1_35723f7a",
+      "range": {
+        "startLine": 297,
+        "startChar": 66,
+        "endLine": 297,
+        "endChar": 67
+      },
+      "revId": "615570a766aa32dc7432a54baa7157b852ff0239",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7137e1ff_daae670c",
@@ -106,6 +219,30 @@
       "writtenOn": "2022-12-02T17:03:09Z",
       "side": 1,
       "message": "this -\u003e the ?",
+      "range": {
+        "startLine": 298,
+        "startChar": 32,
+        "endLine": 298,
+        "endChar": 36
+      },
+      "revId": "615570a766aa32dc7432a54baa7157b852ff0239",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71fd1bfa_ca3d562b",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-12-02T17:33:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7137e1ff_daae670c",
       "range": {
         "startLine": 298,
         "startChar": 32,
