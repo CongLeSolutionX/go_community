@@ -574,7 +574,7 @@ func (r *reader) signature(recv *types.Field) *types.Type {
 		params[len(params)-1].SetIsDDD(true)
 	}
 
-	return types.NewSignature(recv, nil, params, results)
+	return types.NewSignature(recv, params, results)
 }
 
 func (r *reader) params() []*types.Field {
@@ -2550,7 +2550,7 @@ func (r *reader) curry(pos src.XPos, ifaceHack bool, fun ir.Node, arg0, arg1 ir.
 
 	params, results := syntheticSig(fun.Type())
 	params = params[len(captured)-1:] // skip curried parameters
-	typ := types.NewSignature(nil, nil, params, results)
+	typ := types.NewSignature(nil, params, results)
 
 	addBody := func(pos src.XPos, r *reader, captured []ir.Node) {
 		recvs, params := r.syntheticArgs(pos)
@@ -2588,7 +2588,7 @@ func (r *reader) methodExprWrap(pos src.XPos, recv *types.Type, implicits []int,
 		params = append(params[:1], params[2:]...)
 	}
 
-	typ := types.NewSignature(nil, nil, params, results)
+	typ := types.NewSignature(nil, params, results)
 
 	addBody := func(pos src.XPos, r *reader, captured []ir.Node) {
 		recvs, args := r.syntheticArgs(pos)
@@ -3895,7 +3895,7 @@ func newWrapperType(recvType *types.Type, method *types.Field) *types.Type {
 	params := clone(sig.Params().FieldSlice())
 	results := clone(sig.Results().FieldSlice())
 
-	return types.NewSignature(recv, nil, params, results)
+	return types.NewSignature(recv, params, results)
 }
 
 func addTailCall(pos src.XPos, fn *ir.Func, recv ir.Node, method *types.Field) {
@@ -3963,5 +3963,5 @@ func shapeSig(fn *ir.Func, dict *readerDict) *types.Type {
 		results[i] = types.NewField(result.Pos, result.Sym, result.Type)
 	}
 
-	return types.NewSignature(recv, nil, params, results)
+	return types.NewSignature(recv, params, results)
 }
