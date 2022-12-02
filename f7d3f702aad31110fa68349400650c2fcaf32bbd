@@ -61,6 +61,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d685fb33_10b760df",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-12-02T18:49:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e06f1703_6b545483",
+      "range": {
+        "startLine": 302,
+        "startChar": 59,
+        "endLine": 302,
+        "endChar": 71
+      },
+      "revId": "f7d3f702aad31110fa68349400650c2fcaf32bbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f6bc110d_d629d892",
@@ -74,6 +98,24 @@
       "writtenOn": "2022-12-02T18:24:49Z",
       "side": 1,
       "message": "Add comment about issue/CL. \u003c!-- https://go.dev/issue/56103, CL 445598 --\u003e",
+      "revId": "f7d3f702aad31110fa68349400650c2fcaf32bbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9eedc03_ee23a8fd",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-12-02T18:49:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6bc110d_d629d892",
       "revId": "f7d3f702aad31110fa68349400650c2fcaf32bbd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -101,6 +143,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b5e201e_b900c9b8",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-12-02T18:49:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96d6d23a_0f68f18b",
+      "range": {
+        "startLine": 308,
+        "startChar": 2,
+        "endLine": 308,
+        "endChar": 16
+      },
+      "revId": "f7d3f702aad31110fa68349400650c2fcaf32bbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6a2e64c8_dbab5025",
@@ -114,6 +180,24 @@
       "writtenOn": "2022-12-02T18:24:49Z",
       "side": 1,
       "message": "Maybe reference issue 49569 in comment.",
+      "revId": "f7d3f702aad31110fa68349400650c2fcaf32bbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b52c36f_4d28b44e",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-12-02T18:49:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a2e64c8_dbab5025",
       "revId": "f7d3f702aad31110fa68349400650c2fcaf32bbd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -143,6 +227,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a8ed33e4_424e1446",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-12-02T18:49:39Z",
+      "side": 1,
+      "message": "I want there to be some record of it so that the people who need it will try it, but I\u0027m not sure of the best way.  I could take it out and leave it to e.g. IBM (who was interested when I mentioned it) to use with their users/customers as they find appropriate.  But they think it\u0027s useful, local clang/llvm guy says its useful for them too, just as a problem-explanation tool",
+      "parentUuid": "ee192818_75b0b13d",
+      "range": {
+        "startLine": 318,
+        "startChar": 45,
+        "endLine": 318,
+        "endChar": 70
+      },
+      "revId": "f7d3f702aad31110fa68349400650c2fcaf32bbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e1a7a1e8_3ab08ebd",
         "filename": "doc/go1.20.html",
         "patchSetId": 4
@@ -154,6 +262,24 @@
       "writtenOn": "2022-12-02T18:26:00Z",
       "side": 1,
       "message": "We may want to link to issues for some of these for more reading? In particular, the interface cycle one.",
+      "revId": "f7d3f702aad31110fa68349400650c2fcaf32bbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d049fd5_e893313d",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-12-02T18:49:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1a7a1e8_3ab08ebd",
       "revId": "f7d3f702aad31110fa68349400650c2fcaf32bbd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
