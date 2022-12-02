@@ -1394,7 +1394,7 @@ func writtenByWriteBasicTypes(typ *types.Type) bool {
 	if typ.Sym() == nil && typ.Kind() == types.TFUNC {
 		f := typ.FuncType()
 		// func(error) string
-		if f.Receiver.NumFields() == 0 && f.TParams.NumFields() == 0 &&
+		if f.Receiver.NumFields() == 0 &&
 			f.Params.NumFields() == 1 && f.Results.NumFields() == 1 &&
 			f.Params.FieldType(0) == types.ErrorType &&
 			f.Results.FieldType(0) == types.Types[types.TSTRING] {
@@ -1443,7 +1443,7 @@ func WriteBasicTypes() {
 
 		// emit type for func(error) string,
 		// which is the type of an auto-generated wrapper.
-		writeType(types.NewPtr(types.NewSignature(nil, nil, []*types.Field{
+		writeType(types.NewPtr(types.NewSignature(nil, []*types.Field{
 			types.NewField(base.Pos, nil, types.ErrorType),
 		}, []*types.Field{
 			types.NewField(base.Pos, nil, types.Types[types.TSTRING]),

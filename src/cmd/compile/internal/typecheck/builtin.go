@@ -11,7 +11,7 @@ import (
 //
 //go:noinline
 func newSig(params, results []*types.Field) *types.Type {
-	return types.NewSignature(nil, nil, params, results)
+	return types.NewSignature(nil, params, results)
 }
 
 func params(tlist ...*types.Type) []*types.Field {

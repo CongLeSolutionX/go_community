@@ -312,7 +312,6 @@ type Func struct {
 	Receiver *Type // function receiver
 	Results  *Type // function results
 	Params   *Type // function params
-	TParams  *Type // type params of receiver (if method) or function
 
 	// Argwid is the total width of the function receiver, params, and results.
 	// It gets calculated via a temporary TFUNCARGS type.
@@ -827,12 +826,10 @@ func (t *Type) wantEtype(et Kind) {
 }
 
 func (t *Type) Recvs() *Type   { return t.FuncType().Receiver }
-func (t *Type) TParams() *Type { return t.FuncType().TParams }
 func (t *Type) Params() *Type  { return t.FuncType().Params }
 func (t *Type) Results() *Type { return t.FuncType().Results }
 
 func (t *Type) NumRecvs() int   { return t.FuncType().Receiver.NumFields() }
-func (t *Type) NumTParams() int { return t.FuncType().TParams.NumFields() }
 func (t *Type) NumParams() int  { return t.FuncType().Params.NumFields() }
 func (t *Type) NumResults() int { return t.FuncType().Results.NumFields() }
 
@@ -1736,8 +1733,8 @@ func unzeroFieldOffsets(f []*Field) {
 }
 
 // NewSignature returns a new function type for the given receiver,
-// parameters, results, and type parameters, any of which may be nil.
-func NewSignature(recv *Field, tparams, params, results []*Field) *Type {
+// parameters, and results, any of which may be nil.
+func NewSignature(recv *Field, params, results []*Field) *Type {
 	var recvs []*Field
 	if recv != nil {
 		recvs = []*Field{recv}
@@ -1758,8 +1755,6 @@ func NewSignature(recv *Field, tparams, params, results []*Field) *Type {
 	unzeroFieldOffsets(params)
 	unzeroFieldOffsets(results)
 	ft.Receiver = funargs(recvs, FunargRcvr)
-	// TODO(danscales): just use nil here (save memory) if no tparams
-	ft.TParams = funargs(tparams, FunargTparams)
 	ft.Params = funargs(params, FunargParams)
 	ft.Results = funargs(results, FunargResults)
 	if fieldsHasShape(recvs) || fieldsHasShape(params) || fieldsHasShape(results) {

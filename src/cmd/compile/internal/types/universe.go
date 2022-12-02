@@ -140,7 +140,7 @@ func InitTypes(defTypeName func(sym *Sym, typ *Type) Object) {
 }
 
 func makeErrorInterface() *Type {
-	sig := NewSignature(FakeRecv(), nil, nil, []*Field{
+	sig := NewSignature(FakeRecv(), nil, []*Field{
 		NewField(src.NoXPos, nil, Types[TSTRING]),
 	})
 	method := NewField(src.NoXPos, LocalPkg.Lookup("Error"), sig)
