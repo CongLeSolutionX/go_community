@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2cf58e87_3d139926",
+        "filename": "src/cmd/compile/internal/typecheck/expr.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-12-02T01:31:45Z",
+      "side": 1,
+      "message": "Is this code path reachable somehow? It doesn\u0027t seem exercised by \"go run run.go\".\n\nI expect ~every base.Errorf in cmd/compile/internal/typecheck to be dead code now, because type checking errors should be caught in types2 instead.\n\nAlso, Type.Pkg isn\u0027t defined for all types, and I was planning on getting rid of it after we remove the nounified frontend.",
+      "revId": "ea2c27fe8204225b4d76ed4a541c6b92afec8dde",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
