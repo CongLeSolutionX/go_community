@@ -7,16 +7,19 @@
 package main
 
 import (
-	"cmd/go/internal/workcmd"
 	"context"
 	"flag"
 	"fmt"
 	"internal/buildcfg"
+	"io/fs"
+	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
+	"regexp"
 	"runtime"
 	"strings"
+	"syscall"
 
 	"cmd/go/internal/base"
 	"cmd/go/internal/bug"
@@ -28,6 +31,7 @@ import (
 	"cmd/go/internal/fmtcmd"
 	"cmd/go/internal/generate"
 	"cmd/go/internal/get"
+	"cmd/go/internal/gotoolchain"
 	"cmd/go/internal/help"
 	"cmd/go/internal/list"
 	"cmd/go/internal/modcmd"
@@ -41,6 +45,7 @@ import (
 	"cmd/go/internal/version"
 	"cmd/go/internal/vet"
 	"cmd/go/internal/work"
+	"cmd/go/internal/workcmd"
 )
 
 func init() {
@@ -91,6 +96,8 @@ func main() {
 	flag.Usage = base.Usage
 	flag.Parse()
 	log.SetFlags(0)
+
+	setupGoToolchain()
 
 	args := flag.Args()
 	if len(args) < 1 {
@@ -251,4 +258,133 @@ func maybeStartTrace(pctx context.Context) context.Context {
 	})
 
 	return ctx
+}
+
+var goLineRE = regexp.MustCompile(`^\s*go\s+([^/#\s]+)\s*$`)
+
+/*
+TODO:
+ - all the panics
+ - GOTOOLCHAIN=auto needs to allow older go lines to be handled by newer local toolchain
+ - need to read the toolchain line from go.mod
+    - if toolchain line says 'toolchain local', then we use the local toolchain.
+ - if we get the go version from the go line, need to read the module version list to decide which to use.
+    version list will have two versions in it - current release most recent patch, and previous release most recent patch.
+    we want to use the minimum one that is acceptable.
+    so if it says 1.19.3 and 1.18.8 and we need go 1.16, we'd use 1.18.8.
+    but if we need go 1.19, we use 1.19.3.
+ - when we make a choice based on the go line and it's different from the go line itself, we need to add a toolchain line immediately after the go line.
+    - for reproducibility and also not re-fetching the module list every single time
+
+ - go install path@version needs to run a lot of this code after downloading the go.mod for path@version,
+    and it should ignore the toolchain line.
+
+ - go get needs to watch the go version in dependencies and update the toolchain line in the work module go.mod
+    to be at least as big as the minimum go version needed by dependencies
+
+ - devel toolchain has to default to GOTOOLCHAIN=local, releases default to =auto
+
+ - need to fetch GOTOOLCHAIN from go env -w file if not set in environment.
+
+ - probably check that the go line only has 1.X, 1.X.Y, disallow beta1, rc1 etc.
+
+ - go get go@1.20.1
+
+ - go get toolchain@go1.20.1
+
+ - go get go@latest (or just go get go), go get -p go, and go get toolchain@latest
+
+*/
+
+func setupGoToolchain() {
+	if !modload.WillBeEnabled() {
+		return
+	}
+
+	rel := os.Getenv("GOTOOLCHAIN")
+	if rel == "" {
+		if strings.HasPrefix(runtime.Version(), "go") {
+			rel = "auto"
+		} else {
+			rel = "local"
+		}
+	}
+	if rel == "auto" {
+		// find go.mod or go.work
+		modFile := modload.EarlyGoMod()
+		if modFile == "" {
+			return
+		}
+		data, err := ioutil.ReadFile(modFile)
+		if err != nil {
+			panic(err)
+		}
+		for _, line := range strings.Split(string(data), "\n") {
+			if m := goLineRE.FindStringSubmatch(line); m != nil {
+				rel = "go" + m[1]
+				break
+			}
+		}
+		if rel == "auto" {
+			panic("did not find go line")
+		}
+	}
+	if rel == "local" || rel == runtime.Version() {
+		// TODO: rel == runtime.Version() is wrong; if it's newer and rel was auto, we can keep using local too.
+		// Let the current binary handle the command.
+		return
+	}
+
+	modload.ForceUseModules = true
+	modload.RootMode = modload.NoRoot
+	modload.Init()
+
+	path, vers, ok := gotoolchain.Module(rel)
+	if !ok {
+		panic("bad go version: " + rel)
+	}
+
+	m := &modcmd.ModuleJSON{Path: path, Version: vers + "." + runtime.GOOS + "-" + runtime.GOARCH}
+	modcmd.DownloadModule(context.Background(), m)
+	if m.Error != "" {
+		panic(m.Error)
+	}
+
+	// look at m.Dir for execute bits
+	dir := m.Dir
+	if runtime.GOOS != "windows" {
+		info, err := os.Stat(filepath.Join(dir, "bin/go"))
+		if err != nil {
+			panic(err)
+		}
+		if info.Mode()&0111 == 0 {
+			// Set execute bits on bin and pkg/tool files.
+			setExecBits := func(dir string) {
+				err := filepath.WalkDir(dir, func(path string, d fs.DirEntry, err error) error {
+					if err != nil {
+						return err
+					}
+					if !d.IsDir() {
+						info, err := os.Stat(path)
+						if err != nil {
+							return err
+						}
+						if err := os.Chmod(path, info.Mode()&0777|0111); err != nil {
+							return err
+						}
+					}
+					return nil
+				})
+				if err != nil {
+					panic(err)
+				}
+			}
+
+			setExecBits(filepath.Join(dir, "bin"))
+			setExecBits(filepath.Join(dir, "pkg/tool"))
+		}
+		os.Setenv("GOROOT", dir)
+		err = syscall.Exec(filepath.Join(dir, "bin/go"), os.Args, os.Environ())
+		panic(err)
+	}
 }

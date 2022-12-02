@@ -23,6 +23,7 @@ import (
 	"cmd/go/internal/base"
 	"cmd/go/internal/cfg"
 	"cmd/go/internal/fsys"
+	"cmd/go/internal/gotoolchain"
 	"cmd/go/internal/lockedfile"
 	"cmd/go/internal/par"
 	"cmd/go/internal/robustio"
@@ -610,22 +611,26 @@ func checkModSum(mod module.Version, h string) error {
 	// to checkSumDB.
 
 	// Check whether mod+h is listed in go.sum already. If so, we're done.
-	goSum.mu.Lock()
-	inited, err := initGoSum()
-	if err != nil {
+	var inited bool
+	if mod.Path != gotoolchain.ModulePath {
+		goSum.mu.Lock()
+		var err error
+		inited, err = initGoSum()
+		if err != nil {
+			goSum.mu.Unlock()
+			return err
+		}
+		done := inited && haveModSumLocked(mod, h)
+		if inited {
+			st := goSum.status[modSum{mod, h}]
+			st.used = true
+			goSum.status[modSum{mod, h}] = st
+		}
 		goSum.mu.Unlock()
-		return err
-	}
-	done := inited && haveModSumLocked(mod, h)
-	if inited {
-		st := goSum.status[modSum{mod, h}]
-		st.used = true
-		goSum.status[modSum{mod, h}] = st
-	}
-	goSum.mu.Unlock()
 
-	if done {
-		return nil
+		if done {
+			return nil
+		}
 	}
 
 	// Not listed, so we want to add them.
