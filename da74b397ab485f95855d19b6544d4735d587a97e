@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c9e52c3_eb730c7a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-12-02T18:20:19Z",
+      "side": 1,
+      "message": "TRY\u003ddarwin,windows,freebsd,netbsd,openbsd,linux",
+      "revId": "da74b397ab485f95855d19b6544d4735d587a97e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
