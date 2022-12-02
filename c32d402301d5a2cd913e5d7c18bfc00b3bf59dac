@@ -16,6 +16,24 @@
       "message": "Please, let me know if you want me to break this input further. I wanted to use the reproduction input from the issue, but also to have some parts to act as a documentation, like \u0027P\u0027, \u0027E\u0027, 0, 0...\n\nShould I actually create a valid go program with invalid pointer size and test on that?",
       "revId": "c32d402301d5a2cd913e5d7c18bfc00b3bf59dac",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72c68e5b_d3368ec8",
+        "filename": "src/debug/buildinfo/buildinfo_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-12-02T17:42:30Z",
+      "side": 1,
+      "message": "The original post on #57002 claims that it was found through fuzzing, so probably the regression test should also be structured as a fuzz test (with the failing input either checked in to `testdata` or given in a call to `f.Add`).\n\nThen we could run the same test under the fuzzer to check for similar bugs.",
+      "parentUuid": "ecdd8501_abd96626",
+      "revId": "c32d402301d5a2cd913e5d7c18bfc00b3bf59dac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
