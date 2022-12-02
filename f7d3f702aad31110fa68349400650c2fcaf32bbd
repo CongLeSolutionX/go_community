@@ -222,6 +222,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "89bcd3ce_1e7503e8",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-12-02T19:17:42Z",
+      "side": 1,
+      "message": "Do you think it is okay like this?  I can certainly remove it and put it in a comment instead.",
+      "parentUuid": "e1f0090b_158d5cea",
+      "revId": "f7d3f702aad31110fa68349400650c2fcaf32bbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ee192818_75b0b13d",
         "filename": "doc/go1.20.html",
         "patchSetId": 4
@@ -281,6 +299,30 @@
       "side": 1,
       "message": "If we mention it in the release note, I think it sounds like it is a user facing knob and we commit to support it, which probably requires proposal or something.\n\nI think this is more for targeting compiler developers. It may be better to communicate through other channels. Maybe we could have a cmd/compile/HACKING.md, similar to runtime/HACKING.md .",
       "parentUuid": "a8ed33e4_424e1446",
+      "range": {
+        "startLine": 318,
+        "startChar": 45,
+        "endLine": 318,
+        "endChar": 70
+      },
+      "revId": "f7d3f702aad31110fa68349400650c2fcaf32bbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aacfac7c_ebe12ef6",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-12-02T19:17:42Z",
+      "side": 1,
+      "message": "It\u0027s not just for compiler developers; end-users doing fiddly numerical code care about this. I\u0027d be happy with that approach, it would let me talk about hash searching, which is too much for the release notes.  Seems like we\u0027d need to write HACKING.md pretty quickly -- is there anything else we\u0027d put in there besides this?",
+      "parentUuid": "a858cb1f_c6663509",
       "range": {
         "startLine": 318,
         "startChar": 45,
