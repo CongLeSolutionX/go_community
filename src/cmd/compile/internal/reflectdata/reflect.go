@@ -132,7 +132,7 @@ func MapBucketType(t *types.Type) *types.Type {
 	field = append(field, overflow)
 
 	// link up fields
-	bucket := types.NewStruct(types.NoPkg, field[:])
+	bucket := types.NewStruct(field[:])
 	bucket.SetNoalg(true)
 	types.CalcSize(bucket)
 
@@ -226,7 +226,7 @@ func MapType(t *types.Type) *types.Type {
 		makefield("extra", types.Types[types.TUNSAFEPTR]),
 	}
 
-	hmap := types.NewStruct(types.NoPkg, fields)
+	hmap := types.NewStruct(fields)
 	hmap.SetNoalg(true)
 	types.CalcSize(hmap)
 
@@ -289,7 +289,7 @@ func MapIterType(t *types.Type) *types.Type {
 	}
 
 	// build iterator struct holding the above fields
-	hiter := types.NewStruct(types.NoPkg, fields)
+	hiter := types.NewStruct(fields)
 	hiter.SetNoalg(true)
 	types.CalcSize(hiter)
 	if hiter.Size() != int64(12*types.PtrSize) {
@@ -1443,7 +1443,7 @@ func WriteBasicTypes() {
 
 		// emit type for func(error) string,
 		// which is the type of an auto-generated wrapper.
-		writeType(types.NewPtr(types.NewSignature(types.NoPkg, nil, nil, []*types.Field{
+		writeType(types.NewPtr(types.NewSignature(nil, nil, []*types.Field{
 			types.NewField(base.Pos, nil, types.ErrorType),
 		}, []*types.Field{
 			types.NewField(base.Pos, nil, types.Types[types.TSTRING]),
