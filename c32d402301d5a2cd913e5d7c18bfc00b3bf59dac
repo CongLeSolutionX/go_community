@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ecdd8501_abd96626",
+        "filename": "src/debug/buildinfo/buildinfo_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 58259
+      },
+      "writtenOn": "2022-12-02T17:31:23Z",
+      "side": 1,
+      "message": "Please, let me know if you want me to break this input further. I wanted to use the reproduction input from the issue, but also to have some parts to act as a documentation, like \u0027P\u0027, \u0027E\u0027, 0, 0...\n\nShould I actually create a valid go program with invalid pointer size and test on that?",
+      "revId": "c32d402301d5a2cd913e5d7c18bfc00b3bf59dac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
