@@ -290,9 +290,10 @@ func TestNullString(t *testing.T) {
 	if ns.String != "foo" {
 		t.Errorf("expecting foo; got %q", ns.String)
 	}
+	ns = NullString{} // reset test state
 	convertAssign(&ns, nil)
 	if ns.Valid {
-		t.Errorf("expecting null on nil")
+		t.Errorf("expecting null on nil, got %s", ns.String)
 	}
 	if ns.String != "" {
 		t.Errorf("expecting blank on nil; got %q", ns.String)

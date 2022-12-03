@@ -212,6 +212,10 @@ func convertAssign(dest, src any) error {
 	return convertAssignRows(dest, src, nil)
 }
 
+// coalesceNullValuesToZero determines whether to interpret null values from SQL as the
+// equivalent zero value in go
+var coalesceNullValuesToZero = false
+
 // convertAssignRows copies to dest the value in src, converting it if possible.
 // An error is returned if the copy would result in loss of information.
 // dest should be a pointer type. If rows is passed in, the rows will
@@ -313,6 +317,10 @@ func convertAssignRows(dest, src any, rows *Rows) error {
 				return errNilPtr
 			}
 			*d = nil
+			return nil
+		}
+		if coalesceNullValuesToZero {
+			// go will instantiate these to the zero value without our help
 			return nil
 		}
 	// The driver is returning a cursor the client may iterate over.
