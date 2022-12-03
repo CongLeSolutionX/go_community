@@ -34,6 +34,24 @@
       "parentUuid": "ecdd8501_abd96626",
       "revId": "c32d402301d5a2cd913e5d7c18bfc00b3bf59dac",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ed85667_8e42a770",
+        "filename": "src/debug/buildinfo/buildinfo_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 58259
+      },
+      "writtenOn": "2022-12-03T15:16:53Z",
+      "side": 1,
+      "message": "Thank you for your input!\nI changed the test to be a Fuzz test 😊",
+      "parentUuid": "72c68e5b_d3368ec8",
+      "revId": "c32d402301d5a2cd913e5d7c18bfc00b3bf59dac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
