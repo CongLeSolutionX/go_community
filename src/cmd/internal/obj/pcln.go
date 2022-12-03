@@ -410,7 +410,7 @@ func (it *PCIter) Next() {
 	it.NextPC = it.PC + uint32(pc)*it.PCScale
 }
 
-// init prepares it to iterate over p,
+// Init prepares it to iterate over p,
 // and advances it to the first pc.
 func (it *PCIter) Init(p []byte) {
 	it.p = p

@@ -3172,7 +3172,7 @@ func buildop(ctxt *obj.Link) {
 	}
 }
 
-// chipfloat7() checks if the immediate constants available in  FMOVS/FMOVD instructions.
+// chipfloat7 checks if the immediate constants available in  FMOVS/FMOVD instructions.
 // For details of the range of constants available, see
 // http://infocenter.arm.com/help/topic/com.arm.doc.dui0473m/dom1359731199385.html.
 func (c *ctxt7) chipfloat7(e float64) int {

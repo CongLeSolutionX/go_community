@@ -9,7 +9,6 @@ package types2
 import (
 	"cmd/compile/internal/syntax"
 	"go/constant"
-	. "internal/types/errors"
 )
 
 // If e is a valid function instantiation, indexExpr returns true.
@@ -415,7 +414,7 @@ func (check *Checker) isValidIndex(x *operand, code Code, what string, allowNega
 	return true
 }
 
-// indexElts checks the elements (elts) of an array or slice composite literal
+// indexedElts checks the elements (elts) of an array or slice composite literal
 // against the literal's element type (typ), and the element indices against
 // the literal length if known (length >= 0). It returns the length of the
 // literal (maximum index value + 1).

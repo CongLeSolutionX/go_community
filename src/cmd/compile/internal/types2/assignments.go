@@ -9,7 +9,6 @@ package types2
 import (
 	"cmd/compile/internal/syntax"
 	"fmt"
-	. "internal/types/errors"
 	"strings"
 )
 
@@ -427,7 +426,7 @@ func (check *Checker) assignVars(lhs, orig_rhs []syntax.Expr) {
 	}
 }
 
-// unpack unpacks a *syntax.ListExpr into a list of syntax.Expr.
+// unpackExpr unpacks a *syntax.ListExpr into a list of syntax.Expr.
 // Helper introduced for the go/types -> types2 port.
 // TODO(gri) Should find a more efficient solution that doesn't
 // require introduction of a new slice for simple

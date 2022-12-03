@@ -1312,7 +1312,7 @@ func (l *Loader) NewSection() *sym.Section {
 	return sect
 }
 
-// SymDynImplib returns the "dynimplib" attribute for the specified
+// SymDynimplib returns the "dynimplib" attribute for the specified
 // symbol, making up a portion of the info for a symbol specified
 // on a "cgo_import_dynamic" compiler directive.
 func (l *Loader) SymDynimplib(i Sym) string {
@@ -1495,7 +1495,7 @@ func (l *Loader) SetSymDynid(i Sym, val int32) {
 	}
 }
 
-// DynIdSyms returns the set of symbols for which dynID is set to an
+// DynidSyms returns the set of symbols for which dynID is set to an
 // interesting (non-default) value. This is expected to be a fairly
 // small set.
 func (l *Loader) DynidSyms() []Sym {

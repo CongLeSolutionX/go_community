@@ -116,7 +116,7 @@ func asmb(ctxt *ld.Link, ldr *loader.Loader) {
 	}
 }
 
-// asmb writes the final WebAssembly module binary.
+// asmb2 writes the final WebAssembly module binary.
 // Spec: https://webassembly.github.io/spec/core/binary/modules.html
 func asmb2(ctxt *ld.Link, ldr *loader.Loader) {
 	types := []*wasmFuncType{

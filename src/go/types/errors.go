@@ -11,7 +11,6 @@ import (
 	"fmt"
 	"go/ast"
 	"go/token"
-	. "internal/types/errors"
 	"runtime"
 	"strconv"
 	"strings"
@@ -213,7 +212,7 @@ func (check *Checker) dump(format string, args ...any) {
 	fmt.Println(sprintf(check.fset, check.qualifier, true, format, args...))
 }
 
-// Report records the error pointed to by errp, setting check.firstError if
+// report records the error pointed to by errp, setting check.firstError if
 // necessary.
 func (check *Checker) report(errp *error_) {
 	if errp.empty() {

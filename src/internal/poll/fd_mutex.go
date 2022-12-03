@@ -112,7 +112,7 @@ func (mu *fdMutex) decref() bool {
 	}
 }
 
-// lock adds a reference to mu and locks mu.
+// rwlock adds a reference to mu and locks mu.
 // It reports whether mu is available for reading or writing.
 func (mu *fdMutex) rwlock(read bool) bool {
 	var mutexBit, mutexWait, mutexMask uint64
@@ -157,7 +157,7 @@ func (mu *fdMutex) rwlock(read bool) bool {
 	}
 }
 
-// unlock removes a reference from mu and unlocks mu.
+// rwunlock removes a reference from mu and unlocks mu.
 // It reports whether there is no remaining reference.
 func (mu *fdMutex) rwunlock(read bool) bool {
 	var mutexBit, mutexWait, mutexMask uint64
