@@ -292,7 +292,7 @@ func TestNullString(t *testing.T) {
 	}
 	convertAssign(&ns, nil)
 	if ns.Valid {
-		t.Errorf("expecting null on nil")
+		t.Errorf("expecting null on nil, got %s", ns.String)
 	}
 	if ns.String != "" {
 		t.Errorf("expecting blank on nil; got %q", ns.String)
