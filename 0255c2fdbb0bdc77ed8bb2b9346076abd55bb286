@@ -70,6 +70,24 @@
       "message": "When we call compilerEnvLookup with defaultcxx, as we do in tester.hasCxx, the current code returns g++ or clang++, not gcc or clang.  With this approach hasCxx will incorrectly return true in some cases.",
       "revId": "0255c2fdbb0bdc77ed8bb2b9346076abd55bb286",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "635c58ea_54d7b7b9",
+        "filename": "src/cmd/dist/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-12-03T04:52:56Z",
+      "side": 1,
+      "message": "Merged this CL with CL 454836, and fixed there. Thanks.",
+      "parentUuid": "bc8df069_3980fbd8",
+      "revId": "0255c2fdbb0bdc77ed8bb2b9346076abd55bb286",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
