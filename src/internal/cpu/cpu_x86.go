@@ -33,13 +33,19 @@ const (
 	cpuid_OSXSAVE   = 1 << 27
 	cpuid_AVX       = 1 << 28
 
+	// ecx bits, eax = 0x7
+	cpuid_VAES       = 1 << 9
+	cpuid_VPCLMULQDQ = 1 << 10
+
 	// ebx bits
-	cpuid_BMI1 = 1 << 3
-	cpuid_AVX2 = 1 << 5
-	cpuid_BMI2 = 1 << 8
-	cpuid_ERMS = 1 << 9
-	cpuid_ADX  = 1 << 19
-	cpuid_SHA  = 1 << 29
+	cpuid_BMI1     = 1 << 3
+	cpuid_AVX2     = 1 << 5
+	cpuid_BMI2     = 1 << 8
+	cpuid_ERMS     = 1 << 9
+	cpuid_ADX      = 1 << 19
+	cpuid_SHA      = 1 << 29
+	cpuid_AVX512F  = 1 << 16
+	cpuid_AVX512VL = 1 << 31
 
 	// edx bits for CPUID 0x80000001
 	cpuid_RDTSCP = 1 << 27
@@ -73,6 +79,9 @@ func doinit() {
 		options = append(options,
 			option{Name: "avx", Feature: &X86.HasAVX},
 			option{Name: "avx2", Feature: &X86.HasAVX2},
+			option{Name: "avx512", Feature: &X86.HasAVX512},
+			option{Name: "avx512f", Feature: &X86.HasAVX512F},
+			option{Name: "avx512vl", Feature: &X86.HasAVX512VL},
 			option{Name: "bmi1", Feature: &X86.HasBMI1},
 			option{Name: "bmi2", Feature: &X86.HasBMI2},
 			option{Name: "fma", Feature: &X86.HasFMA})
@@ -108,11 +117,13 @@ func doinit() {
 	X86.HasFMA = isSet(ecx1, cpuid_FMA) && X86.HasOSXSAVE
 
 	osSupportsAVX := false
+	osSupportsAVX512 := false
 	// For XGETBV, OSXSAVE bit is required and sufficient.
 	if X86.HasOSXSAVE {
 		eax, _ := xgetbv()
 		// Check if XMM and YMM registers have OS support.
 		osSupportsAVX = isSet(eax, 1<<1) && isSet(eax, 1<<2)
+		osSupportsAVX512 = osSupportsAVX && isSet(eax, 1<<5) && isSet(eax, 1<<6) && isSet(eax, 1<<7)
 	}
 
 	X86.HasAVX = isSet(ecx1, cpuid_AVX) && osSupportsAVX
@@ -121,13 +132,21 @@ func doinit() {
 		return
 	}
 
-	_, ebx7, _, _ := cpuid(7, 0)
+	_, ebx7, ecx7, _ := cpuid(7, 0)
 	X86.HasBMI1 = isSet(ebx7, cpuid_BMI1)
 	X86.HasAVX2 = isSet(ebx7, cpuid_AVX2) && osSupportsAVX
 	X86.HasBMI2 = isSet(ebx7, cpuid_BMI2)
 	X86.HasERMS = isSet(ebx7, cpuid_ERMS)
 	X86.HasADX = isSet(ebx7, cpuid_ADX)
 	X86.HasSHA = isSet(ebx7, cpuid_SHA)
+
+	X86.HasAVX512 = isSet(ebx7, cpuid_AVX512F) && osSupportsAVX512
+	if X86.HasAVX512 {
+		X86.HasAVX512F = true
+		X86.HasAVX512VL = isSet(ebx7, cpuid_AVX512VL)
+		X86.HasVAES = isSet(ecx7, cpuid_VAES)
+		X86.HasVPCLMULQDQ = isSet(ecx7, cpuid_VPCLMULQDQ)
+	}
 
 	var maxExtendedInformation uint32
 	maxExtendedInformation, _, _, _ = cpuid(0x80000000, 0)
