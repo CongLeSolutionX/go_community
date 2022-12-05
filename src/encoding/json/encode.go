@@ -156,7 +156,7 @@ import (
 // an error.
 func Marshal(v any) ([]byte, error) {
 	e := newEncodeState()
-	defer encodeStatePool.Put(e)
+	defer putEncodeState(e)
 
 	err := e.marshal(v, encOpts{escapeHTML: true})
 	if err != nil {
@@ -283,8 +283,9 @@ var hex = "0123456789abcdef"
 
 // An encodeState encodes JSON into a bytes.Buffer.
 type encodeState struct {
-	bytes.Buffer // accumulated output
-	scratch      [64]byte
+	bufferStrikes int // number of times the buffer was under-utilized
+	bytes.Buffer      // accumulated output
+	scratch       [64]byte
 
 	// Keep track of what pointers we've seen in the current recursive call
 	// path, to avoid cycles that could lead to a stack overflow. Only do
@@ -310,6 +311,37 @@ func newEncodeState() *encodeState {
 		return e
 	}
 	return &encodeState{ptrSeen: make(map[any]struct{})}
+}
+
+// putEncodeState puts the encodeState back in encodeStatePool.
+// It may clear the internal buffer if it is underutilized.
+func putEncodeState(e *encodeState) {
+	// Recycle large buffers only if sufficiently utilized.
+	// If a buffer is under-utilized enough times sequentially,
+	// then it is discarded, ensuring that a single large buffer
+	// won't be kept alive by a continuous stream of small usages.
+	//
+	// The worst case utilization is computed as:
+	//	MIN_UTILIZATION_THRESHOLD / (1 + MAX_NUM_STRIKES)
+	//
+	// For the constants chosen below, this is (25%)/(1+4) ⇒ 5%.
+	// This may seem low, but it ensures a lower bound on
+	// the absolute worst-case utilization. Without this check,
+	// this would be theoretically 0%, which is infinitely worse.
+	//
+	// See https://go.dev/issue/27735 and https://go.dev/issue/23199.
+	switch {
+	case e.Cap() <= 4<<10: // always recycle buffers smaller than 4KiB
+		e.bufferStrikes = 0
+	case e.Cap()/4 <= e.Len(): // at least 25% utilization
+		e.bufferStrikes = 0
+	case e.bufferStrikes < 4: // at most 4 strikes
+		e.bufferStrikes++
+	default: // discard the buffer; too large and too often under-utilized
+		e.bufferStrikes = 0
+		e.Buffer = bytes.Buffer{}
+	}
+	encodeStatePool.Put(e)
 }
 
 // jsonError is an error wrapper type for internal use only.
