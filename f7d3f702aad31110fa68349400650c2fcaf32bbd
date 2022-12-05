@@ -240,6 +240,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a28cd82c_31e6a8dc",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-12-05T19:02:23Z",
+      "side": 1,
+      "message": "I think it is better to put it in a comment. Thanks.",
+      "parentUuid": "89bcd3ce_1e7503e8",
+      "revId": "f7d3f702aad31110fa68349400650c2fcaf32bbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ee192818_75b0b13d",
         "filename": "doc/go1.20.html",
         "patchSetId": 4
@@ -323,6 +341,30 @@
       "side": 1,
       "message": "It\u0027s not just for compiler developers; end-users doing fiddly numerical code care about this. I\u0027d be happy with that approach, it would let me talk about hash searching, which is too much for the release notes.  Seems like we\u0027d need to write HACKING.md pretty quickly -- is there anything else we\u0027d put in there besides this?",
       "parentUuid": "a858cb1f_c6663509",
+      "range": {
+        "startLine": 318,
+        "startChar": 45,
+        "endLine": 318,
+        "endChar": 70
+      },
+      "revId": "f7d3f702aad31110fa68349400650c2fcaf32bbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a3cc804_35969fdc",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-12-05T19:02:23Z",
+      "side": 1,
+      "message": "There are probably a number of things that could be helpful to put into HACKING.md, like various ways to debug the compiler. For the release notes, I think we just remove it.",
+      "parentUuid": "aacfac7c_ebe12ef6",
       "range": {
         "startLine": 318,
         "startChar": 45,
