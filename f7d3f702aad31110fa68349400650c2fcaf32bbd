@@ -256,6 +256,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0cb5cb7f_6a34231c",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-12-05T19:11:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a28cd82c_31e6a8dc",
+      "revId": "f7d3f702aad31110fa68349400650c2fcaf32bbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ee192818_75b0b13d",
@@ -365,6 +383,30 @@
       "side": 1,
       "message": "There are probably a number of things that could be helpful to put into HACKING.md, like various ways to debug the compiler. For the release notes, I think we just remove it.",
       "parentUuid": "aacfac7c_ebe12ef6",
+      "range": {
+        "startLine": 318,
+        "startChar": 45,
+        "endLine": 318,
+        "endChar": 70
+      },
+      "revId": "f7d3f702aad31110fa68349400650c2fcaf32bbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "877f64aa_a9b372c2",
+        "filename": "doc/go1.20.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-12-05T19:11:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a3cc804_35969fdc",
       "range": {
         "startLine": 318,
         "startChar": 45,
