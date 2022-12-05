@@ -106,6 +106,24 @@
       "message": "With this CL, the size of the buffers in the pool will likely be in the „utilized“ size. That size (maybe the size of the last buffer put back into the pool) might be used to pre-allocate the buffer‘s buf memory before putting an un-utilised recycled buffer back into the pool to save on future allocations for buffer growth?",
       "revId": "f4ba2324e4aab03757dd3a8bb7ea9ba6cf49dd8f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a62ceb3_72ab9f1a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2022-12-05T20:54:00Z",
+      "side": 1,
+      "message": "That can be future optimization. I left it out because the addition of another field to track the previous length increases the size of `encodeState` past 128B, which bumps it up to the next allocation size class (see https://commaok.xyz/post/discovering-size-classes/). This has other effects on memory cache locality and what not.\n\nThere\u0027s other work that can be done to optimize this further. For example, the scratch buffer is redundant with the fact that `bytes.Buffer` itself has a scratch buffer. Removing that will reduce the size of `encodeState`, which allows us to track other statistics.",
+      "parentUuid": "54a29f4e_d603e2a3",
+      "revId": "f4ba2324e4aab03757dd3a8bb7ea9ba6cf49dd8f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
