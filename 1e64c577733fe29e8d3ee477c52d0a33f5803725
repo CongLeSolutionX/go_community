@@ -16,6 +16,46 @@
       "message": "ptal! Thank you for the suggestion!",
       "revId": "1e64c577733fe29e8d3ee477c52d0a33f5803725",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6b6c5ce_8a951d43",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-12-05T20:54:11Z",
+      "side": 1,
+      "message": "TRY\u003dlongtest",
+      "revId": "1e64c577733fe29e8d3ee477c52d0a33f5803725",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c081011_ab06667f",
+        "filename": "src/debug/buildinfo/buildinfo_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-12-05T20:54:11Z",
+      "side": 1,
+      "message": "Please remove the deferred `recover` here — the fuzzer already knows to treat a `panic` as a failure, and letting the panic propagate will likely be much easier to diagnose — if the panic makes it up to the top level, the runtime will write out a stack trace for the panic. A call to `t.Error` leaves no such trace.",
+      "range": {
+        "startLine": 259,
+        "startChar": 0,
+        "endLine": 263,
+        "endChar": 5
+      },
+      "revId": "1e64c577733fe29e8d3ee477c52d0a33f5803725",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
