@@ -56,6 +56,30 @@
       },
       "revId": "52e8659f03ccfba005c3925104e87c208adccbeb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c4c1f80_d6305259",
+        "filename": "src/cmd/compile/internal/ssa/_gen/AMD64Ops.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 757,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-12-05T22:06:23Z",
+      "side": 1,
+      "message": "No reason, just CL was getting big and no reason to do it all at once.",
+      "parentUuid": "cee67d55_b389e394",
+      "range": {
+        "startLine": 757,
+        "startChar": 125,
+        "endLine": 757,
+        "endChar": 151
+      },
+      "revId": "52e8659f03ccfba005c3925104e87c208adccbeb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
