@@ -195,6 +195,24 @@
       "parentUuid": "6426e9bf_755e382d",
       "revId": "f4ba2324e4aab03757dd3a8bb7ea9ba6cf49dd8f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e1fa0b3_5fc73c7d",
+        "filename": "src/encoding/json/encode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 34561
+      },
+      "writtenOn": "2022-12-05T22:55:12Z",
+      "side": 1,
+      "message": "(I agree with your analysis-- I did suggest 10x instead of 2x which might help)\n\nI agree a segmented buffer would be great, but given go\u0027s lack of operator overloading it would be a very leaky abstraction for consumers.\n\nI guess my hesitation with the current approach is that it\u0027s not actually clear what the utilization is right now and therefore it\u0027s hard to evaluate how much of an improvement this would be. E.g. I think it\u0027s still possible for the pool to pin arbitrary amounts of memory given the right request distribution and frequency.",
+      "parentUuid": "a6d9b497_abf43415",
+      "revId": "f4ba2324e4aab03757dd3a8bb7ea9ba6cf49dd8f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
