@@ -159,6 +159,24 @@
       "parentUuid": "58e84a0d_87d9a472",
       "revId": "f4ba2324e4aab03757dd3a8bb7ea9ba6cf49dd8f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6426e9bf_755e382d",
+        "filename": "src/encoding/json/encode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 34561
+      },
+      "writtenOn": "2022-12-05T22:12:29Z",
+      "side": 1,
+      "message": "I like this change better with that context, thanks.\n\nIt still seems like a distribution of requests like this causes a lot of extra memory usage:\n* 10% of requests: 1MiB\n* 16% of requests: 257MiB (these reset the strikes but don\u0027t take advantage of all the memory)\n* 74% of requests: 1kiB\n\nIt seems like the fundamental problem is that it\u0027s unknowable how much space a given work item will need. The solution that comes to mind to actually fix this looks like:\n* keep multiple pools, e.g. 1 per base-10 order-of-magnitude, starting at e.g. 1kiB\n* When buffer needs to reallocate, it first tries to get a buffer from the next size up and if successful, copies instead, releasing the original buffer back into the appropriate pool.\n\nI\u0027m not sure if that can be changed without modifying Buffer, unfortunately",
+      "parentUuid": "0e5fc633_74644ac2",
+      "revId": "f4ba2324e4aab03757dd3a8bb7ea9ba6cf49dd8f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
