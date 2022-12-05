@@ -71,6 +71,23 @@
       "parentUuid": "483d2d95_580e46cc",
       "revId": "d3e895942dfaf37406999f6963e8a8e3fe354def",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "542aec18_1aa42fca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-12-05T14:04:35Z",
+      "side": 1,
+      "message": "I poked at this a little bit. \n\nComparing the strings in the two binaries it appears that the culprit is the build ID:\n\n$ strings main1.exe \u003e /tmp/s1.txt\n$ strings main.exe \u003e /tmp/s.txt\n$ diff /tmp/s1.txt /tmp/s.txt\n29c29\n\u003c  Go build ID: \"dZHTL-mLNl-75j1PYoxo/6xeQjCD5n1mC5hnYQrOh/9HtIZ0KXlMGp3kJObCKn/n8-pUzSAbddhAbGR81bh\"\n---\n\u003e  Go build ID: \"dZHTL-mLNl-75j1PYoxo/6xeQjCD5n1mC5hnYQrOh/9HtIZ0KXlMGp3kJObCKn/fX3iLpaqUFu7Nu3ILlZ2\"",
+      "revId": "d3e895942dfaf37406999f6963e8a8e3fe354def",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
