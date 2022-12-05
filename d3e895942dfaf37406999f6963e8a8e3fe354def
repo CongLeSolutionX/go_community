@@ -106,6 +106,24 @@
       "parentUuid": "542aec18_1aa42fca",
       "revId": "d3e895942dfaf37406999f6963e8a8e3fe354def",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7d1d906_d63f467f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-12-05T20:38:17Z",
+      "side": 1,
+      "message": "OK, I dug into this a bit earlier. I ran the two offending builds (the ones that are supposed to produce identical output) with \"-x\" and captured the stderr, then I also ran with -tmpdir\u003d... in both cases to capture the \"go.o\" file being created by the Go linker to feed into the external linking step. \n\nFor the first build, the \"-x\" output shows the build id being set to a specific value, as expected. Here is the link line\n\n```\n\"C:\\\\workdir\\\\go\\\\pkg\\\\tool\\\\windows_amd64\\\\link.exe\" -o \"$WORK\\\\b001\\\\exe\\\\a.out.exe\" -importcfg \"$WORK\\\\b001\\\\importcfg.link\" -buildmode\u003dpie \\\n-buildid\u003dCgyrkNSznQh8Dmld7Se8/5MYNNhjWxvVHM7HZHaf2/9HtIZ0KXlMGp3kJObCKn/CgyrkNSznQh8Dmld7Se8 -linkmode\u003dexternal -tmpdir\u003dC:/workdir/xxx/tmparchive/tmp1 -extld\u003dgcc \"$WORK\\\\b001\\\\_pkg_.a\"\n```\n\nIf I inspect the go.o generated (via llvm-objdump) I see\n\n```\nContents of section .text:\n 0000 ff20476f 20627569 6c642049 443a2022  . Go build ID: \"\n 0010 43677972 6b4e537a 6e516838 446d6c64  CgyrkNSznQh8Dmld\n 0020 37536538 2f354d59 4e4e686a 57787656  7Se8/5MYNNhjWxvV\n 0030 484d3748 5a486166 322f3948 74495a30  HM7HZHaf2/9HtIZ0\n 0040 4b586c4d 4770336b 4a4f6243 4b6e2f43  KXlMGp3kJObCKn/C\n 0050 6779726b 4e537a6e 51683844 6d6c6437  gyrkNSznQh8Dmld7\n 0060 53653822 0a20ffcc cccccccc cccccccc  Se8\". ..........\n```\n\nThis all looks fine. Here\u0027s the \"-x\" output for the second link (where I might add everything is coming out of the cache):\n\n```\n\"C:\\\\workdir\\\\go\\\\pkg\\\\tool\\\\windows_amd64\\\\link.exe\" -o \"$WORK\\\\b001\\\\exe\\\\a.out.exe\" -importcfg \"$WORK\\\\b001\\\\importcfg.link\" -buildmode\u003dpie \\\n -buildid\u003dkWHDvJUprBArDDbOpbwe/KhTbpEhAZTjCW6NhCAPH/9HtIZ0KXlMGp3kJObCKn/kWHDvJUprBArDDbOpbwe -linkmode\u003dexternal -tmpdir\u003dC:/workdir/xxx/tmparchive/tmp3 -extld\u003dgcc \"$WORK\\\\b001\\\\_pkg_.a\"\n```\n\nNote the final segment of the build ID diffs (was CgyrkNSznQh8Dmld7Se8 first time around and now kWHDvJUprBArDDbOpbwe this time). \n\nEven weirder, when I inspect the go.o, I see:\n\n```\nContents of section .text:\n 0000 ff20476f 20627569 6c642049 443a2022  . Go build ID: \"\n 0010 716f6235 35582d31 676b7536 6b354f5a  qob55X-1gku6k5OZ\n 0020 4a677859 2f434b34 7755656c 37782d71  JgxY/CK4wUel7x-q\n 0030 63483246 42595847 432f3948 74495a30  cH2FBYXGC/9HtIZ0\n 0040 4b586c4d 4770336b 4a4f6243 4b6e2f71  KXlMGp3kJObCKn/q\n 0050 6f623535 582d3167 6b75366b 354f5a4a  ob55X-1gku6k5OZJ\n 0060 67785922 0a20ffcc cccccccc cccccccc  gxY\". ..........\n```\n\nFinal segment there (qob55X-1gku6k5OZJgxY) doesn\u0027t seem to match either what appears in the \"-x\" output or the value from the previous run.\n\nI can\u0027t explain this at all for the second link. Could the Go command be somehow printing one thing for the \"-x\" output and sending something else to the linker? This seems impossible.\n\nI\u0027ll try rerunning with GODEBUG\u003dgocachehash\u003d1 maybe.",
+      "parentUuid": "f3726cb8_f09a2bd2",
+      "revId": "d3e895942dfaf37406999f6963e8a8e3fe354def",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
