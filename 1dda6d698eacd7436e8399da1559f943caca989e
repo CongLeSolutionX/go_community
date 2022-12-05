@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67e79391_f91b133c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2022-12-05T17:49:36Z",
+      "side": 1,
+      "message": "Hi, thank you for your contribution.\n\nThis is a known issue, and a fix nearly identical to this has been attempted in CL 136035, but was not submitted because it negatively affects too many legitimate usages of `encoding/json`. Something should be done about this, but it needs to be more intelligent than a simple clamping of the maximum capacity to some fixed size.",
+      "revId": "1dda6d698eacd7436e8399da1559f943caca989e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
