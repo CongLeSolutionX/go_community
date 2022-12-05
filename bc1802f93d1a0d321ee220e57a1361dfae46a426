@@ -16,6 +16,23 @@
       "message": "The CL description needs performance numbers.\n\nWe\u0027ve been avoiding any avx512 in the stdlib because of downclocking issues on some chips. We don\u0027t want a tiny bit of md5 use to cause downclocking for a whole application.\n\nAlso, I\u0027m not sure we want to accept additional complication for md5, which is effectively obsolete.",
       "revId": "bc1802f93d1a0d321ee220e57a1361dfae46a426",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "97b9d11e_ba64affb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2022-12-05T22:15:51Z",
+      "side": 1,
+      "message": "From the Security teams perspective, I don\u0027t think we really want to make MD5 faster (especially at the expensive of more complexity), we\u0027d rather people use it as little as possible.",
+      "revId": "bc1802f93d1a0d321ee220e57a1361dfae46a426",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
