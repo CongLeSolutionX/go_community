@@ -34,6 +34,24 @@
       "parentUuid": "ed53ceb9_45c81ef6",
       "revId": "15106ff3e47a79b4d885b36d70f6fe9f39c52637",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef3a0675_93ca618e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2022-12-05T18:57:28Z",
+      "side": 1,
+      "message": "If we are talking about adding API or changing behavior, create a new issue on the golang issue tracker labeled \"proposal: ...\".\n\nIn the current SQL package, I\u0027m not sure if we can or should try to change the behavior like this.",
+      "parentUuid": "1e889501_e373a9f1",
+      "revId": "15106ff3e47a79b4d885b36d70f6fe9f39c52637",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
