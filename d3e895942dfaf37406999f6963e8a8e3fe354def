@@ -124,6 +124,24 @@
       "parentUuid": "f3726cb8_f09a2bd2",
       "revId": "d3e895942dfaf37406999f6963e8a8e3fe354def",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4dcd71a4_dc033db4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-12-05T20:57:38Z",
+      "side": 1,
+      "message": "The final segment of the build-ID is a hash of the actual binary itself,¹ so it will indeed differ from the one passed to the linker.\n\nThat ID update step happens here:\nhttps://cs.opensource.google/go/go/+/master:src/cmd/go/internal/work/exec.go;l\u003d1401-1419;drc\u003d3a7a528c2d7ee0c7b2988a7aee0b9347e973cbed\n\n―\n\n¹https://cs.opensource.google/go/go/+/master:src/cmd/go/internal/work/buildid.go;l\u003d25-33;drc\u003ddb259cdd80eff527e8f344d678031c516167d258",
+      "parentUuid": "b7d1d906_d63f467f",
+      "revId": "d3e895942dfaf37406999f6963e8a8e3fe354def",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
