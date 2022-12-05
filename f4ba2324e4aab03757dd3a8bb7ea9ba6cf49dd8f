@@ -213,6 +213,24 @@
       "parentUuid": "a6d9b497_abf43415",
       "revId": "f4ba2324e4aab03757dd3a8bb7ea9ba6cf49dd8f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91fb9907_fa5cfdee",
+        "filename": "src/encoding/json/encode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2022-12-05T23:36:35Z",
+      "side": 1,
+      "message": "\u003e still possible for the pool to pin arbitrary amounts of memory given the right request distribution and frequency.\n\nTrue, the part that\u0027s unbounded though is dependent on caller behavior. Even if `sync.Pool` were not involved, the minimum heap usage will be N number of concurrent `json.Marshal` calls multiplied by M average bytes of output per call. Since N is outside the control of `json.Marshal`, that could be arbitrarily large and unbounded. This CL makes it such that the worst-case heap usage of the json package is some constant fraction of N*M (when it previously was unbounded even if N and M were bounded). At least N is within user control.\n\nWe could add a weighted semaphore in the `json` package that slows the allocation rate to be within some maximum amount. However, it\u0027s not clear to me that this belongs in the json package. Arguably every Go package that allocates on behalf of the caller could then be justified to include a weighted semaphore. That does not seem to scale. It seems like this should either be a system-wide runtime feature OR a weighted semaphore that exists on the caller side.\n\nI should note that a limiter to the system memory at the runtime level now exists in with the introduction of GOMEM in https://github.com/golang/go/issues/48409, which enforces a soft memory limit for a Go process. When the total heap exceeds the memory limit, the GC is run more often to avoid OOMs. Consequently, this causes unused objects in `sync.Pools` to be flushed more often.\n\nAt Tailscale, we had a service that was OOMing often even though we had weighted semaphores to reduce the allocation rate. Fundamentally, such a mechanism is flawed since the weighted semaphore doesn\u0027t know that a large buffer has been truly freed by the Go runtime (i.e., there\u0027s an asynchronous nature to when objects are actually freed and versus when a local piece of code stops using an object). Assistance from the Go runtime is necessary. The effects of setting GOMEM was immediately helpful since it caused the GC to run more frequently during spikes.",
+      "parentUuid": "7e1fa0b3_5fc73c7d",
+      "revId": "f4ba2324e4aab03757dd3a8bb7ea9ba6cf49dd8f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
