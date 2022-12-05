@@ -89,6 +89,23 @@
       "parentUuid": "54d7fdd4_68864f57",
       "revId": "f4ba2324e4aab03757dd3a8bb7ea9ba6cf49dd8f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54a29f4e_d603e2a3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 30738
+      },
+      "writtenOn": "2022-12-05T20:48:08Z",
+      "side": 1,
+      "message": "With this CL, the size of the buffers in the pool will likely be in the „utilized“ size. That size (maybe the size of the last buffer put back into the pool) might be used to pre-allocate the buffer‘s buf memory before putting an un-utilised recycled buffer back into the pool to save on future allocations for buffer growth?",
+      "revId": "f4ba2324e4aab03757dd3a8bb7ea9ba6cf49dd8f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
