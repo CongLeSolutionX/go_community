@@ -53,6 +53,24 @@
       "message": "regarding the e.Cap()/4 comparison- does the compiler transform this into an *4 comparison the other way round or are divisions faster these days?",
       "revId": "f4ba2324e4aab03757dd3a8bb7ea9ba6cf49dd8f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54d7fdd4_68864f57",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2022-12-05T20:42:02Z",
+      "side": 1,
+      "message": "That optimization is in place:\n```\nsink \u003d src.Cap() / 4\n```\ncompiles to:\n```\n0x0000 00000 (/tmp/sandbox2160700864/main.go:12)\tMOVQ\tmain.src+16(SB), AX\n0x0007 00007 (/tmp/sandbox2160700864/main.go:12)\tSHRQ\t$2, AX\n0x000b 00011 (/tmp/sandbox2160700864/main.go:12)\tMOVQ\tAX, main.sink(SB)\n```",
+      "parentUuid": "4dadbf11_df0a2837",
+      "revId": "f4ba2324e4aab03757dd3a8bb7ea9ba6cf49dd8f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
