@@ -16,6 +16,46 @@
       "message": "Ping.",
       "revId": "52e8659f03ccfba005c3925104e87c208adccbeb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78233a39_ae0fd5c1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-12-05T18:59:16Z",
+      "side": 1,
+      "message": "Sorry, don\u0027t know how I missed this one.  LGTM.",
+      "revId": "52e8659f03ccfba005c3925104e87c208adccbeb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cee67d55_b389e394",
+        "filename": "src/cmd/compile/internal/ssa/_gen/AMD64Ops.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 757,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-12-05T18:59:16Z",
+      "side": 1,
+      "message": "any reason you didn\u0027t clean these out, too?",
+      "range": {
+        "startLine": 757,
+        "startChar": 125,
+        "endLine": 757,
+        "endChar": 151
+      },
+      "revId": "52e8659f03ccfba005c3925104e87c208adccbeb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
