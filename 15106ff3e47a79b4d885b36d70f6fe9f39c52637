@@ -16,6 +16,24 @@
       "message": "Thank you for your contribution!\n\nAs a policy, we don\u0027t do changes where the flag to turn them on is hidden in this way. But I absolutely understand this would be nice. I think something like this would need to wait for a sql/v2 package to come out.",
       "revId": "15106ff3e47a79b4d885b36d70f6fe9f39c52637",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e889501_e373a9f1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57938
+      },
+      "writtenOn": "2022-12-05T13:55:03Z",
+      "side": 1,
+      "message": "Sorry, I should\u0027ve been clearer -- I totally agree with that stance; I\u0027m also proposing to expose the new flag as part of this change (though it\u0027s not yet implemented, I\u0027d love some feedback on the most standard way to do that)",
+      "parentUuid": "ed53ceb9_45c81ef6",
+      "revId": "15106ff3e47a79b4d885b36d70f6fe9f39c52637",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
