@@ -177,6 +177,24 @@
       "parentUuid": "0e5fc633_74644ac2",
       "revId": "f4ba2324e4aab03757dd3a8bb7ea9ba6cf49dd8f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6d9b497_abf43415",
+        "filename": "src/encoding/json/encode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2022-12-05T22:38:25Z",
+      "side": 1,
+      "message": "The main advantage of providing a sufficiently large buffer up front is that we avoid the copying as we jump buffer sizes (e.g., 1K to 2K to 4K to 8K, etc). Admittedly the amortized cost of this is O(2n) where n is the final output size. (Technically, it\u0027s O(3n) since there\u0027s a final clone at the end to avoid leaking the pooled buffer outside the json package).\n\nA variation on the idea you suggested is to have a custom `Buffer` implementation that uses a series of segmented buffers under the hood. Every time we exhaust the current buffer, we grab a larger buffer from the higher-level pool. However, we do *NOT* copy the contents from the smaller buffer to the larger buffer, but treat the final output as the concatenation of all the buffers. When `Marshal` returns, we construct the final buffer from the segments. Counting the final clone, this approach would be O(2n) instead of O(3n).\n\nThat said, I think the segmented buffer with multiple pools can be something that\u0027s explored in the future. It\u0027ll definitely be a more complex change that what\u0027s presented here.",
+      "parentUuid": "6426e9bf_755e382d",
+      "revId": "f4ba2324e4aab03757dd3a8bb7ea9ba6cf49dd8f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
