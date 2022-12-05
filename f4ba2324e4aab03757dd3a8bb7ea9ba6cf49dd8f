@@ -71,6 +71,24 @@
       "parentUuid": "4dadbf11_df0a2837",
       "revId": "f4ba2324e4aab03757dd3a8bb7ea9ba6cf49dd8f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b4f41ae_e010d45d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2022-12-05T20:44:27Z",
+      "side": 1,
+      "message": "To be specific, it doesn\u0027t translate it into a *4 otherwise that can overflow. Instead it performs a right bit-shift by 2.",
+      "parentUuid": "54d7fdd4_68864f57",
+      "revId": "f4ba2324e4aab03757dd3a8bb7ea9ba6cf49dd8f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
