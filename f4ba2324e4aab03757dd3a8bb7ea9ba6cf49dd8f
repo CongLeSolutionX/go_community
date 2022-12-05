@@ -124,6 +124,23 @@
       "parentUuid": "54a29f4e_d603e2a3",
       "revId": "f4ba2324e4aab03757dd3a8bb7ea9ba6cf49dd8f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58e84a0d_87d9a472",
+        "filename": "src/encoding/json/encode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 34561
+      },
+      "writtenOn": "2022-12-05T21:37:02Z",
+      "side": 1,
+      "message": "However... If you solve for max memory held by the pool, it\u0027s still unbounded, no? And I think that is more important than utilization when we\u0027re worried about memory problems. (put another way, everything in the pool actually has zero utilization while it\u0027s in the pool)\n\nThis is a significant improvement, but have you considered instead something like:\n* keep a running average and std dev (of the buffer len) in global memory\n* drop buffers with caps larger than e.g average + 3 * stddev\n\nI can suggest various ways of adjusting that cap if you want more ideas along these lines.",
+      "revId": "f4ba2324e4aab03757dd3a8bb7ea9ba6cf49dd8f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
