@@ -59,7 +59,7 @@ var (
 )
 
 // alias receiver types
-func (Ai /* ERROR "cannot define new methods on non-local type int" */) m1() {}
+func (Ai /* ERROR cannot define new methods on non-local type int */) m1() {}
 func (T0) m1() {}
 func (A0) m1 /* ERROR already declared */ () {}
 func (A0) m2 () {}
