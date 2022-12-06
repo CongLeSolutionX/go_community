@@ -6,8 +6,10 @@
 
 package decls2
 
-import "time"
-import "unsafe"
+import (
+	"time"
+	"unsafe"
+)
 
 // T1 declared before its methods.
 type T1 struct{

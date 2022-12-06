@@ -46,7 +46,7 @@ func f(x int, m map[string]int) {
 func _() {
 	0 /* ERROR "0 .* is not used" */
 	0 /* ERROR 0 .* is not used */
-	0 // ERROR "0 .* is not used"
+	0 // ERROR 0 .* is not used
 	0 // ERROR 0 .* is not used
 }
 

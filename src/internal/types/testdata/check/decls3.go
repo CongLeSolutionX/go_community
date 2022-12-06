@@ -6,8 +6,10 @@
 
 package decls3
 
-import "unsafe"
-import "fmt"
+import (
+	"fmt"
+	"unsafe"
+)
 
 // fields with the same name at the same level cancel each other out
 

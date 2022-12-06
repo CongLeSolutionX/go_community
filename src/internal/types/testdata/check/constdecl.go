@@ -4,8 +4,10 @@
 
 package constdecl
 
-import "math"
-import "unsafe"
+import (
+	"math"
+	"unsafe"
+)
 
 var v int
 
