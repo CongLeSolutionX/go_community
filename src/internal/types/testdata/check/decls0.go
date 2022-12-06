@@ -13,7 +13,7 @@ import "unsafe"
 const pi = 3.1415
 
 type (
-	N undefined /* ERROR "undefined" */
+	N undefined /* ERROR undefined */
 	B bool
 	I int32
 	A [10]P
@@ -31,19 +31,19 @@ type (
 	C chan<- I
 
 	// blank types must be typechecked
-	_ pi /* ERROR "not a type" */
+	_ pi /* ERROR not a type */
 	_ struct{}
-	_ struct{ pi /* ERROR "not a type" */ }
+	_ struct{ pi /* ERROR not a type */ }
 )
 
 
 // declarations of init
-const _, init /* ERROR "cannot declare init" */ , _ = 0, 1, 2
-type init /* ERROR "cannot declare init" */ struct{}
-var _, init /* ERROR "cannot declare init" */ int
+const _, init /* ERROR cannot declare init */ , _ = 0, 1, 2
+type init /* ERROR cannot declare init */ struct{}
+var _, init /* ERROR cannot declare init */ int
 
 func init() {}
-func init /* ERROR "missing function body" */ ()
+func init /* ERROR missing function body */ ()
 
 func _() { const init = 0 }
 func _() { type init int }
@@ -51,30 +51,30 @@ func _() { var init int; _ = init }
 
 // invalid array types
 type (
-	iA0 [... /* ERROR "invalid use of \[...\] array" */ ]byte
+	iA0 [... /* ERROR invalid use of \[...\] array */ ]byte
 	// The error message below could be better. At the moment
 	// we believe an integer that is too large is not an integer.
 	// But at least we get an error.
-	iA1 [1 /* ERROR "must be integer" */ <<100]int
-	iA2 [- /* ERROR "invalid array length" */ 1]complex128
-	iA3 ["foo" /* ERROR "must be integer" */ ]string
-	iA4 [float64 /* ERROR "must be integer" */ (0)]int
+	iA1 [1 /* ERROR must be integer */ <<100]int
+	iA2 [- /* ERROR invalid array length */ 1]complex128
+	iA3 ["foo" /* ERROR must be integer */ ]string
+	iA4 [float64 /* ERROR must be integer */ (0)]int
 )
 
 
 type (
-	p1 pi.foo /* ERROR "no field or method foo" */
+	p1 pi.foo /* ERROR no field or method foo */
 	p2 unsafe.Pointer
 )
 
 
 type (
-	Pi pi /* ERROR "not a type" */
+	Pi pi /* ERROR not a type */
 
-	a /* ERROR "invalid recursive type" */ a
-	a /* ERROR "redeclared" */ int
+	a /* ERROR invalid recursive type */ a
+	a /* ERROR redeclared */ int
 
-	b /* ERROR "invalid recursive type" */ c
+	b /* ERROR invalid recursive type */ c
 	c d
 	d e
 	e b
@@ -92,19 +92,19 @@ type (
 	}
 	S1 struct {
 		a, b, c int
-		u, v, a /* ERROR "redeclared" */ float32
+		u, v, a /* ERROR redeclared */ float32
 	}
 	S2 struct {
 		S0 // embedded field
-		S0 /* ERROR "redeclared" */ int
+		S0 /* ERROR redeclared */ int
 	}
 	S3 struct {
 		x S2
 	}
-	S4/* ERROR "invalid recursive type" */ struct {
+	S4/* ERROR invalid recursive type */ struct {
 		S4
 	}
-	S5 /* ERROR "invalid recursive type" */ struct {
+	S5 /* ERROR invalid recursive type */ struct {
 		S6
 	}
 	S6 struct {
@@ -118,17 +118,17 @@ type (
 	L2 []int
 
 	A1 [10.0]int
-	A2 /* ERROR "invalid recursive type" */ [10]A2
-	A3 /* ERROR "invalid recursive type" */ [10]struct {
+	A2 /* ERROR invalid recursive type */ [10]A2
+	A3 /* ERROR invalid recursive type */ [10]struct {
 		x A4
 	}
 	A4 [10]A3
 
 	F1 func()
 	F2 func(x, y, z float32)
-	F3 func(x, y, x /* ERROR "redeclared" */ float32)
-	F4 func() (x, y, x /* ERROR "redeclared" */ float32)
-	F5 func(x int) (x /* ERROR "redeclared" */ float32)
+	F3 func(x, y, x /* ERROR redeclared */ float32)
+	F4 func() (x, y, x /* ERROR redeclared */ float32)
+	F5 func(x int) (x /* ERROR redeclared */ float32)
 	F6 func(x ...int)
 
 	I1 interface{}
@@ -137,27 +137,27 @@ type (
 	}
 	I3 interface {
 		m1()
-		m1 /* ERROR "duplicate method" */ ()
+		m1 /* ERROR duplicate method */ ()
 	}
 	I4 interface {
-		m1(x, y, x /* ERROR "redeclared" */ float32)
-		m2() (x, y, x /* ERROR "redeclared" */ float32)
-		m3(x int) (x /* ERROR "redeclared" */ float32)
+		m1(x, y, x /* ERROR redeclared */ float32)
+		m2() (x, y, x /* ERROR redeclared */ float32)
+		m3(x int) (x /* ERROR redeclared */ float32)
 	}
 	I5 interface {
 		m1(I5)
 	}
 	I6 interface {
-		S0 /* ERROR "non-interface type S0" */
+		S0 /* ERROR non-interface type S0 */
 	}
 	I7 interface {
 		I1
 		I1
 	}
-	I8 /* ERROR "invalid recursive type" */ interface {
+	I8 /* ERROR invalid recursive type */ interface {
 		I8
 	}
-	I9 /* ERROR "invalid recursive type" */ interface {
+	I9 /* ERROR invalid recursive type */ interface {
 		I10
 	}
 	I10 interface {
@@ -182,10 +182,10 @@ type (
 
 // cycles in function/method declarations
 // (test cases for issues #5217, #25790 and variants)
-func f1(x f1 /* ERROR "not a type" */ ) {}
-func f2(x *f2 /* ERROR "not a type" */ ) {}
-func f3() (x f3 /* ERROR "not a type" */ ) { return }
-func f4() (x *f4 /* ERROR "not a type" */ ) { return }
+func f1(x f1 /* ERROR not a type */ ) {}
+func f2(x *f2 /* ERROR not a type */ ) {}
+func f3() (x f3 /* ERROR not a type */ ) { return }
+func f4() (x *f4 /* ERROR not a type */ ) { return }
 // TODO(#43215) this should be detected as a cycle error
 func f5([unsafe.Sizeof(f5)]int) {}
 
@@ -196,8 +196,8 @@ func (S0) m4 () (x *S0 /* ERROR illegal cycle in method declaration */ .m4) { re
 
 // interfaces may not have any blank methods
 type BlankI interface {
-	_ /* ERROR "methods must have a unique non-blank name" */ ()
-	_ /* ERROR "methods must have a unique non-blank name" */ (float32) int
+	_ /* ERROR methods must have a unique non-blank name */ ()
+	_ /* ERROR methods must have a unique non-blank name */ (float32) int
 	m()
 }
 
