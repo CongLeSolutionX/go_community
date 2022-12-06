@@ -160,6 +160,24 @@
       "parentUuid": "4dcd71a4_dc033db4",
       "revId": "d3e895942dfaf37406999f6963e8a8e3fe354def",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6af5c4b_0dc847b3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-12-06T15:20:48Z",
+      "side": 1,
+      "message": "Interesting. Good observation! Yeah, this sounds like the right thing to do.",
+      "parentUuid": "11df4afc_ca01b19f",
+      "revId": "d3e895942dfaf37406999f6963e8a8e3fe354def",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
