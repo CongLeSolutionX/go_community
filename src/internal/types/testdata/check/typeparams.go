@@ -92,14 +92,14 @@ var _ = f3[int, rune, bool](1, struct{x rune}{}, nil)
 
 // indexing
 
-func _[T any] (x T, i int) { _ = x /* ERROR "cannot index" */ [i] }
-func _[T interface{ ~int }] (x T, i int) { _ = x /* ERROR "cannot index" */ [i] }
+func _[T any] (x T, i int) { _ = x /* ERROR cannot index */ [i] }
+func _[T interface{ ~int }] (x T, i int) { _ = x /* ERROR cannot index */ [i] }
 func _[T interface{ ~string }] (x T, i int) { _ = x[i] }
 func _[T interface{ ~[]int }] (x T, i int) { _ = x[i] }
 func _[T interface{ ~[10]int | ~*[20]int | ~map[int]int }] (x T, i int) { _ = x /* ERROR cannot index */ [i] } // map and non-map types
 func _[T interface{ ~string | ~[]byte }] (x T, i int) { _ = x[i] }
-func _[T interface{ ~[]int | ~[1]rune }] (x T, i int) { _ = x /* ERROR "cannot index" */ [i] }
-func _[T interface{ ~string | ~[]rune }] (x T, i int) { _ = x /* ERROR "cannot index" */ [i] }
+func _[T interface{ ~[]int | ~[1]rune }] (x T, i int) { _ = x /* ERROR cannot index */ [i] }
+func _[T interface{ ~string | ~[]rune }] (x T, i int) { _ = x /* ERROR cannot index */ [i] }
 
 // indexing with various combinations of map types in type sets (see issue #42616)
 func _[T interface{ ~[]E | ~map[int]E }, E any](x T, i int) { _ = x /* ERROR cannot index */ [i] } // map and non-map types

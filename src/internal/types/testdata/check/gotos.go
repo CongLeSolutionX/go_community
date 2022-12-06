@@ -32,7 +32,7 @@ L:
 
 // goto across declaration not okay
 func _() {
-	goto L /* ERROR "goto L jumps over variable declaration at line 36" */
+	goto L /* ERROR goto L jumps over variable declaration at line 36 */
 	x := 1
 	_ = x
 L:
@@ -50,7 +50,7 @@ L:
 
 // goto across declaration after inner scope not okay
 func _() {
-	goto L /* ERROR "goto L jumps over variable declaration at line 58" */
+	goto L /* ERROR goto L jumps over variable declaration at line 58 */
 	{
 		x := 1
 		_ = x
@@ -78,7 +78,7 @@ L: L1:
 
 // error shows first offending variable
 func _() {
-	goto L /* ERROR "goto L jumps over variable declaration at line 84" */
+	goto L /* ERROR goto L jumps over variable declaration at line 84 */
 	x := 1
 	_ = x
 	y := 1
@@ -88,7 +88,7 @@ L:
 
 // goto not okay even if code path is dead
 func _() {
-	goto L /* ERROR "goto L jumps over variable declaration" */
+	goto L /* ERROR goto L jumps over variable declaration */
 	x := 1
 	_ = x
 	y := 1
@@ -131,15 +131,15 @@ L: L1:
 
 // goto into inner block not okay
 func _() {
-	goto L /* ERROR "goto L jumps into block" */
+	goto L /* ERROR goto L jumps into block */
 	{
 	L:
 	}
 }
 
 func _() {
-	goto L /* ERROR "goto L jumps into block" */
-	goto L1 /* ERROR "goto L1 jumps into block" */
+	goto L /* ERROR goto L jumps into block */
+	goto L1 /* ERROR goto L1 jumps into block */
 	{
 	L: L1:
 	}
@@ -150,20 +150,20 @@ func _() {
 	{
 	L:
 	}
-	goto L /* ERROR "goto L jumps into block" */
+	goto L /* ERROR goto L jumps into block */
 }
 
 func _() {
 	{
 	L: L1:
 	}
-	goto L /* ERROR "goto L jumps into block" */
-	goto L1 /* ERROR "goto L1 jumps into block" */
+	goto L /* ERROR goto L jumps into block */
+	goto L1 /* ERROR goto L1 jumps into block */
 }
 
 // error shows first (outermost) offending block
 func _() {
-	goto L /* ERROR "goto L jumps into block" */
+	goto L /* ERROR goto L jumps into block */
 	{
 		{
 			{
@@ -175,7 +175,7 @@ func _() {
 
 // error prefers block diagnostic over declaration diagnostic
 func _() {
-	goto L /* ERROR "goto L jumps into block" */
+	goto L /* ERROR goto L jumps into block */
 	x := 1
 	_ = x
 	{
@@ -212,14 +212,14 @@ L:
 }
 
 func _() {
-	goto L /* ERROR "goto L jumps into block" */
+	goto L /* ERROR goto L jumps into block */
 	if true {
 	L:
 	}
 }
 
 func _() {
-	goto L /* ERROR "goto L jumps into block" */
+	goto L /* ERROR goto L jumps into block */
 	if true {
 	L:
 	} else {
@@ -227,7 +227,7 @@ func _() {
 }
 
 func _() {
-	goto L /* ERROR "goto L jumps into block" */
+	goto L /* ERROR goto L jumps into block */
 	if true {
 	} else {
 	L:
@@ -238,13 +238,13 @@ func _() {
 	if false {
 	L:
 	} else {
-		goto L /* ERROR "goto L jumps into block" */
+		goto L /* ERROR goto L jumps into block */
 	}
 }
 
 func _() {
 	if true {
-		goto L /* ERROR "goto L jumps into block" */
+		goto L /* ERROR goto L jumps into block */
 	} else {
 	L:
 	}
@@ -252,7 +252,7 @@ func _() {
 
 func _() {
 	if true {
-		goto L /* ERROR "goto L jumps into block" */
+		goto L /* ERROR goto L jumps into block */
 	} else if false {
 	L:
 	}
@@ -260,7 +260,7 @@ func _() {
 
 func _() {
 	if true {
-		goto L /* ERROR "goto L jumps into block" */
+		goto L /* ERROR goto L jumps into block */
 	} else if false {
 	L:
 	} else {
@@ -269,7 +269,7 @@ func _() {
 
 func _() {
 	if true {
-		goto L /* ERROR "goto L jumps into block" */
+		goto L /* ERROR goto L jumps into block */
 	} else if false {
 	} else {
 	L:
@@ -278,7 +278,7 @@ func _() {
 
 func _() {
 	if true {
-		goto L /* ERROR "goto L jumps into block" */
+		goto L /* ERROR goto L jumps into block */
 	} else {
 		L:
 	}
@@ -288,7 +288,7 @@ func _() {
 	if true {
 		L:
 	} else {
-		goto L /* ERROR "goto L jumps into block" */
+		goto L /* ERROR goto L jumps into block */
 	}
 }
 
@@ -312,7 +312,7 @@ func _() {
 	for {
 	L:
 	}
-	goto L /* ERROR "goto L jumps into block" */
+	goto L /* ERROR goto L jumps into block */
 }
 
 func _() {
@@ -321,49 +321,49 @@ func _() {
 	L1:
 	}
 L:
-	goto L1 /* ERROR "goto L1 jumps into block" */
+	goto L1 /* ERROR goto L1 jumps into block */
 }
 
 func _() {
 	for i < n {
 	L:
 	}
-	goto L /* ERROR "goto L jumps into block" */
+	goto L /* ERROR goto L jumps into block */
 }
 
 func _() {
 	for i = 0; i < n; i++ {
 	L:
 	}
-	goto L /* ERROR "goto L jumps into block" */
+	goto L /* ERROR goto L jumps into block */
 }
 
 func _() {
 	for i = range x {
 	L:
 	}
-	goto L /* ERROR "goto L jumps into block" */
+	goto L /* ERROR goto L jumps into block */
 }
 
 func _() {
 	for i = range c {
 	L:
 	}
-	goto L /* ERROR "goto L jumps into block" */
+	goto L /* ERROR goto L jumps into block */
 }
 
 func _() {
 	for i = range m {
 	L:
 	}
-	goto L /* ERROR "goto L jumps into block" */
+	goto L /* ERROR goto L jumps into block */
 }
 
 func _() {
 	for i = range s {
 	L:
 	}
-	goto L /* ERROR "goto L jumps into block" */
+	goto L /* ERROR goto L jumps into block */
 }
 
 // switch
@@ -417,7 +417,7 @@ func _() {
 }
 
 func _() {
-	goto L /* ERROR "goto L jumps into block" */
+	goto L /* ERROR goto L jumps into block */
 	switch i {
 	case 0:
 	L:
@@ -425,7 +425,7 @@ func _() {
 }
 
 func _() {
-	goto L /* ERROR "goto L jumps into block" */
+	goto L /* ERROR goto L jumps into block */
 	switch i {
 	case 0:
 	L:
@@ -435,7 +435,7 @@ func _() {
 }
 
 func _() {
-	goto L /* ERROR "goto L jumps into block" */
+	goto L /* ERROR goto L jumps into block */
 	switch i {
 	case 0:
 	default:
@@ -446,7 +446,7 @@ func _() {
 func _() {
 	switch i {
 	default:
-		goto L /* ERROR "goto L jumps into block" */
+		goto L /* ERROR goto L jumps into block */
 	case 0:
 	L:
 	}
@@ -458,7 +458,7 @@ func _() {
 	L:
 		;
 	default:
-		goto L /* ERROR "goto L jumps into block" */
+		goto L /* ERROR goto L jumps into block */
 	}
 }
 
@@ -514,7 +514,7 @@ func _() {
 }
 
 func _() {
-	goto L /* ERROR "goto L jumps into block" */
+	goto L /* ERROR goto L jumps into block */
 	select {
 	case c <- 1:
 	L:
@@ -522,7 +522,7 @@ func _() {
 }
 
 func _() {
-	goto L /* ERROR "goto L jumps into block" */
+	goto L /* ERROR goto L jumps into block */
 	select {
 	case c <- 1:
 	L:
@@ -532,7 +532,7 @@ func _() {
 }
 
 func _() {
-	goto L /* ERROR "goto L jumps into block" */
+	goto L /* ERROR goto L jumps into block */
 	select {
 	case <-c:
 	default:
@@ -543,7 +543,7 @@ func _() {
 func _() {
 	select {
 	default:
-		goto L /* ERROR "goto L jumps into block" */
+		goto L /* ERROR goto L jumps into block */
 	case <-c:
 	L:
 	}
@@ -555,6 +555,6 @@ func _() {
 	L:
 		;
 	default:
-		goto L /* ERROR "goto L jumps into block" */
+		goto L /* ERROR goto L jumps into block */
 	}
 }

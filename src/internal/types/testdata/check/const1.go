@@ -69,157 +69,157 @@ const (
 )
 
 const (
-	_ int8 = minInt8 /* ERROR "overflows" */ - 1
+	_ int8 = minInt8 /* ERROR overflows */ - 1
 	_ int8 = minInt8
 	_ int8 = maxInt8
-	_ int8 = maxInt8 /* ERROR "overflows" */ + 1
-	_ int8 = smallestFloat64 /* ERROR "truncated" */
+	_ int8 = maxInt8 /* ERROR overflows */ + 1
+	_ int8 = smallestFloat64 /* ERROR truncated */
 
-	_ = int8(minInt8 /* ERROR "cannot convert" */ - 1)
+	_ = int8(minInt8 /* ERROR cannot convert */ - 1)
 	_ = int8(minInt8)
 	_ = int8(maxInt8)
-	_ = int8(maxInt8 /* ERROR "cannot convert" */ + 1)
-	_ = int8(smallestFloat64 /* ERROR "cannot convert" */)
+	_ = int8(maxInt8 /* ERROR cannot convert */ + 1)
+	_ = int8(smallestFloat64 /* ERROR cannot convert */)
 )
 
 const (
-	_ int16 = minInt16 /* ERROR "overflows" */ - 1
+	_ int16 = minInt16 /* ERROR overflows */ - 1
 	_ int16 = minInt16
 	_ int16 = maxInt16
-	_ int16 = maxInt16 /* ERROR "overflows" */ + 1
-	_ int16 = smallestFloat64 /* ERROR "truncated" */
+	_ int16 = maxInt16 /* ERROR overflows */ + 1
+	_ int16 = smallestFloat64 /* ERROR truncated */
 
-	_ = int16(minInt16 /* ERROR "cannot convert" */ - 1)
+	_ = int16(minInt16 /* ERROR cannot convert */ - 1)
 	_ = int16(minInt16)
 	_ = int16(maxInt16)
-	_ = int16(maxInt16 /* ERROR "cannot convert" */ + 1)
-	_ = int16(smallestFloat64 /* ERROR "cannot convert" */)
+	_ = int16(maxInt16 /* ERROR cannot convert */ + 1)
+	_ = int16(smallestFloat64 /* ERROR cannot convert */)
 )
 
 const (
-	_ int32 = minInt32 /* ERROR "overflows" */ - 1
+	_ int32 = minInt32 /* ERROR overflows */ - 1
 	_ int32 = minInt32
 	_ int32 = maxInt32
-	_ int32 = maxInt32 /* ERROR "overflows" */ + 1
-	_ int32 = smallestFloat64 /* ERROR "truncated" */
+	_ int32 = maxInt32 /* ERROR overflows */ + 1
+	_ int32 = smallestFloat64 /* ERROR truncated */
 
-	_ = int32(minInt32 /* ERROR "cannot convert" */ - 1)
+	_ = int32(minInt32 /* ERROR cannot convert */ - 1)
 	_ = int32(minInt32)
 	_ = int32(maxInt32)
-	_ = int32(maxInt32 /* ERROR "cannot convert" */ + 1)
-	_ = int32(smallestFloat64 /* ERROR "cannot convert" */)
+	_ = int32(maxInt32 /* ERROR cannot convert */ + 1)
+	_ = int32(smallestFloat64 /* ERROR cannot convert */)
 )
 
 const (
-	_ int64 = minInt64 /* ERROR "overflows" */ - 1
+	_ int64 = minInt64 /* ERROR overflows */ - 1
 	_ int64 = minInt64
 	_ int64 = maxInt64
-	_ int64 = maxInt64 /* ERROR "overflows" */ + 1
-	_ int64 = smallestFloat64 /* ERROR "truncated" */
+	_ int64 = maxInt64 /* ERROR overflows */ + 1
+	_ int64 = smallestFloat64 /* ERROR truncated */
 
-	_ = int64(minInt64 /* ERROR "cannot convert" */ - 1)
+	_ = int64(minInt64 /* ERROR cannot convert */ - 1)
 	_ = int64(minInt64)
 	_ = int64(maxInt64)
-	_ = int64(maxInt64 /* ERROR "cannot convert" */ + 1)
-	_ = int64(smallestFloat64 /* ERROR "cannot convert" */)
+	_ = int64(maxInt64 /* ERROR cannot convert */ + 1)
+	_ = int64(smallestFloat64 /* ERROR cannot convert */)
 )
 
 const (
-	_ int = minInt /* ERROR "overflows" */ - 1
+	_ int = minInt /* ERROR overflows */ - 1
 	_ int = minInt
 	_ int = maxInt
-	_ int = maxInt /* ERROR "overflows" */ + 1
-	_ int = smallestFloat64 /* ERROR "truncated" */
+	_ int = maxInt /* ERROR overflows */ + 1
+	_ int = smallestFloat64 /* ERROR truncated */
 
-	_ = int(minInt /* ERROR "cannot convert" */ - 1)
+	_ = int(minInt /* ERROR cannot convert */ - 1)
 	_ = int(minInt)
 	_ = int(maxInt)
-	_ = int(maxInt /* ERROR "cannot convert" */ + 1)
-	_ = int(smallestFloat64 /* ERROR "cannot convert" */)
+	_ = int(maxInt /* ERROR cannot convert */ + 1)
+	_ = int(smallestFloat64 /* ERROR cannot convert */)
 )
 
 const (
-	_ uint8 = 0 /* ERROR "overflows" */ - 1
+	_ uint8 = 0 /* ERROR overflows */ - 1
 	_ uint8 = 0
 	_ uint8 = maxUint8
-	_ uint8 = maxUint8 /* ERROR "overflows" */ + 1
-	_ uint8 = smallestFloat64 /* ERROR "truncated" */
+	_ uint8 = maxUint8 /* ERROR overflows */ + 1
+	_ uint8 = smallestFloat64 /* ERROR truncated */
 
-	_ = uint8(0 /* ERROR "cannot convert" */ - 1)
+	_ = uint8(0 /* ERROR cannot convert */ - 1)
 	_ = uint8(0)
 	_ = uint8(maxUint8)
-	_ = uint8(maxUint8 /* ERROR "cannot convert" */ + 1)
-	_ = uint8(smallestFloat64 /* ERROR "cannot convert" */)
+	_ = uint8(maxUint8 /* ERROR cannot convert */ + 1)
+	_ = uint8(smallestFloat64 /* ERROR cannot convert */)
 )
 
 const (
-	_ uint16 = 0 /* ERROR "overflows" */ - 1
+	_ uint16 = 0 /* ERROR overflows */ - 1
 	_ uint16 = 0
 	_ uint16 = maxUint16
-	_ uint16 = maxUint16 /* ERROR "overflows" */ + 1
-	_ uint16 = smallestFloat64 /* ERROR "truncated" */
+	_ uint16 = maxUint16 /* ERROR overflows */ + 1
+	_ uint16 = smallestFloat64 /* ERROR truncated */
 
-	_ = uint16(0 /* ERROR "cannot convert" */ - 1)
+	_ = uint16(0 /* ERROR cannot convert */ - 1)
 	_ = uint16(0)
 	_ = uint16(maxUint16)
-	_ = uint16(maxUint16 /* ERROR "cannot convert" */ + 1)
-	_ = uint16(smallestFloat64 /* ERROR "cannot convert" */)
+	_ = uint16(maxUint16 /* ERROR cannot convert */ + 1)
+	_ = uint16(smallestFloat64 /* ERROR cannot convert */)
 )
 
 const (
-	_ uint32 = 0 /* ERROR "overflows" */ - 1
+	_ uint32 = 0 /* ERROR overflows */ - 1
 	_ uint32 = 0
 	_ uint32 = maxUint32
-	_ uint32 = maxUint32 /* ERROR "overflows" */ + 1
-	_ uint32 = smallestFloat64 /* ERROR "truncated" */
+	_ uint32 = maxUint32 /* ERROR overflows */ + 1
+	_ uint32 = smallestFloat64 /* ERROR truncated */
 
-	_ = uint32(0 /* ERROR "cannot convert" */ - 1)
+	_ = uint32(0 /* ERROR cannot convert */ - 1)
 	_ = uint32(0)
 	_ = uint32(maxUint32)
-	_ = uint32(maxUint32 /* ERROR "cannot convert" */ + 1)
-	_ = uint32(smallestFloat64 /* ERROR "cannot convert" */)
+	_ = uint32(maxUint32 /* ERROR cannot convert */ + 1)
+	_ = uint32(smallestFloat64 /* ERROR cannot convert */)
 )
 
 const (
-	_ uint64 = 0 /* ERROR "overflows" */ - 1
+	_ uint64 = 0 /* ERROR overflows */ - 1
 	_ uint64 = 0
 	_ uint64 = maxUint64
-	_ uint64 = maxUint64 /* ERROR "overflows" */ + 1
-	_ uint64 = smallestFloat64 /* ERROR "truncated" */
+	_ uint64 = maxUint64 /* ERROR overflows */ + 1
+	_ uint64 = smallestFloat64 /* ERROR truncated */
 
-	_ = uint64(0 /* ERROR "cannot convert" */ - 1)
+	_ = uint64(0 /* ERROR cannot convert */ - 1)
 	_ = uint64(0)
 	_ = uint64(maxUint64)
-	_ = uint64(maxUint64 /* ERROR "cannot convert" */ + 1)
-	_ = uint64(smallestFloat64 /* ERROR "cannot convert" */)
+	_ = uint64(maxUint64 /* ERROR cannot convert */ + 1)
+	_ = uint64(smallestFloat64 /* ERROR cannot convert */)
 )
 
 const (
-	_ uint = 0 /* ERROR "overflows" */ - 1
+	_ uint = 0 /* ERROR overflows */ - 1
 	_ uint = 0
 	_ uint = maxUint
-	_ uint = maxUint /* ERROR "overflows" */ + 1
-	_ uint = smallestFloat64 /* ERROR "truncated" */
+	_ uint = maxUint /* ERROR overflows */ + 1
+	_ uint = smallestFloat64 /* ERROR truncated */
 
-	_ = uint(0 /* ERROR "cannot convert" */ - 1)
+	_ = uint(0 /* ERROR cannot convert */ - 1)
 	_ = uint(0)
 	_ = uint(maxUint)
-	_ = uint(maxUint /* ERROR "cannot convert" */ + 1)
-	_ = uint(smallestFloat64 /* ERROR "cannot convert" */)
+	_ = uint(maxUint /* ERROR cannot convert */ + 1)
+	_ = uint(smallestFloat64 /* ERROR cannot convert */)
 )
 
 const (
-	_ uintptr = 0 /* ERROR "overflows" */ - 1
+	_ uintptr = 0 /* ERROR overflows */ - 1
 	_ uintptr = 0
 	_ uintptr = maxUintptr
-	_ uintptr = maxUintptr /* ERROR "overflows" */ + 1
-	_ uintptr = smallestFloat64 /* ERROR "truncated" */
+	_ uintptr = maxUintptr /* ERROR overflows */ + 1
+	_ uintptr = smallestFloat64 /* ERROR truncated */
 
-	_ = uintptr(0 /* ERROR "cannot convert" */ - 1)
+	_ = uintptr(0 /* ERROR cannot convert */ - 1)
 	_ = uintptr(0)
 	_ = uintptr(maxUintptr)
-	_ = uintptr(maxUintptr /* ERROR "cannot convert" */ + 1)
-	_ = uintptr(smallestFloat64 /* ERROR "cannot convert" */)
+	_ = uintptr(maxUintptr /* ERROR cannot convert */ + 1)
+	_ = uintptr(smallestFloat64 /* ERROR cannot convert */)
 )
 
 const (
@@ -251,15 +251,15 @@ const (
 const delta32 = maxFloat32/(1 << 23)
 
 const (
-	_ float32 = - /* ERROR "overflow" */ (maxFloat32 + delta32)
+	_ float32 = - /* ERROR overflow */ (maxFloat32 + delta32)
 	_ float32 = -maxFloat32
 	_ float32 = maxFloat32
-	_ float32 = maxFloat32 /* ERROR "overflow" */ + delta32
+	_ float32 = maxFloat32 /* ERROR overflow */ + delta32
 
-	_ = float32(- /* ERROR "cannot convert" */ (maxFloat32 + delta32))
+	_ = float32(- /* ERROR cannot convert */ (maxFloat32 + delta32))
 	_ = float32(-maxFloat32)
 	_ = float32(maxFloat32)
-	_ = float32(maxFloat32 /* ERROR "cannot convert" */ + delta32)
+	_ = float32(maxFloat32 /* ERROR cannot convert */ + delta32)
 
 	_ = assert(float32(smallestFloat32) == smallestFloat32)
 	_ = assert(float32(smallestFloat32/2) == 0)
@@ -270,15 +270,15 @@ const (
 const delta64 = maxFloat64/(1 << 52)
 
 const (
-	_ float64 = - /* ERROR "overflow" */ (maxFloat64 + delta64)
+	_ float64 = - /* ERROR overflow */ (maxFloat64 + delta64)
 	_ float64 = -maxFloat64
 	_ float64 = maxFloat64
-	_ float64 = maxFloat64 /* ERROR "overflow" */ + delta64
+	_ float64 = maxFloat64 /* ERROR overflow */ + delta64
 
-	_ = float64(- /* ERROR "cannot convert" */ (maxFloat64 + delta64))
+	_ = float64(- /* ERROR cannot convert */ (maxFloat64 + delta64))
 	_ = float64(-maxFloat64)
 	_ = float64(maxFloat64)
-	_ = float64(maxFloat64 /* ERROR "cannot convert" */ + delta64)
+	_ = float64(maxFloat64 /* ERROR cannot convert */ + delta64)
 
 	_ = assert(float64(smallestFloat32) == smallestFloat32)
 	_ = assert(float64(smallestFloat32/2) == smallestFloat32/2)
@@ -287,27 +287,27 @@ const (
 )
 
 const (
-	_ complex64 = - /* ERROR "overflow" */ (maxFloat32 + delta32)
+	_ complex64 = - /* ERROR overflow */ (maxFloat32 + delta32)
 	_ complex64 = -maxFloat32
 	_ complex64 = maxFloat32
-	_ complex64 = maxFloat32 /* ERROR "overflow" */ + delta32
+	_ complex64 = maxFloat32 /* ERROR overflow */ + delta32
 
-	_ = complex64(- /* ERROR "cannot convert" */ (maxFloat32 + delta32))
+	_ = complex64(- /* ERROR cannot convert */ (maxFloat32 + delta32))
 	_ = complex64(-maxFloat32)
 	_ = complex64(maxFloat32)
-	_ = complex64(maxFloat32 /* ERROR "cannot convert" */ + delta32)
+	_ = complex64(maxFloat32 /* ERROR cannot convert */ + delta32)
 )
 
 const (
-	_ complex128 = - /* ERROR "overflow" */ (maxFloat64 + delta64)
+	_ complex128 = - /* ERROR overflow */ (maxFloat64 + delta64)
 	_ complex128 = -maxFloat64
 	_ complex128 = maxFloat64
-	_ complex128 = maxFloat64 /* ERROR "overflow" */ + delta64
+	_ complex128 = maxFloat64 /* ERROR overflow */ + delta64
 
-	_ = complex128(- /* ERROR "cannot convert" */ (maxFloat64 + delta64))
+	_ = complex128(- /* ERROR cannot convert */ (maxFloat64 + delta64))
 	_ = complex128(-maxFloat64)
 	_ = complex128(maxFloat64)
-	_ = complex128(maxFloat64 /* ERROR "cannot convert" */ + delta64)
+	_ = complex128(maxFloat64 /* ERROR cannot convert */ + delta64)
 )
 
 // Initialization of typed constant and conversion are the same:
@@ -327,8 +327,8 @@ const (
 
 const (
 	_ = int8(-1) << 7
-	_ = int8 /* ERROR "overflows" */ (-1) << 8
+	_ = int8 /* ERROR overflows */ (-1) << 8
 
 	_ = uint32(1) << 31
-	_ = uint32 /* ERROR "overflows" */ (1) << 32
+	_ = uint32 /* ERROR overflows */ (1) << 32
 )
