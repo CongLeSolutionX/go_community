@@ -8,7 +8,7 @@ package stmt1
 
 func _() {}
 
-func _() int {} /* ERROR "missing return" */
+func _() int {} /* ERROR missing return */
 
 func _() int { panic(0) }
 func _() int { (panic(0)) }
@@ -30,14 +30,14 @@ func _(x, y int) (z int) {
 func _(x, y int) (z int) {
 	{
 	}
-} /* ERROR "missing return" */
+} /* ERROR missing return */
 
 func _(x, y int) (z int) {
 	{
 		; ; ;
 	}
 	; ; ;
-} /* ERROR "missing return" */
+} /* ERROR missing return */
 
 // if statements
 func _(x, y int) (z int) {
@@ -57,13 +57,13 @@ func _(x, y int) (z int) {
 
 func _(x, y int) (z int) {
 	if x < y { return }
-} /* ERROR "missing return" */
+} /* ERROR missing return */
 
 func _(x, y int) (z int) {
 	if x < y {
 	} else { return 1
 	}
-} /* ERROR "missing return" */
+} /* ERROR missing return */
 
 func _(x, y int) (z int) {
 	if x < y { return
@@ -76,7 +76,7 @@ func _(x, y int) (z int) {
 	for x < y {
 		return
 	}
-} /* ERROR "missing return" */
+} /* ERROR missing return */
 
 func _(x, y int) (z int) {
 	for {
@@ -96,7 +96,7 @@ func _(x, y int) (z int) {
 		break
 	}
 	; ; ;
-} /* ERROR "missing return" */
+} /* ERROR missing return */
 
 func _(x, y int) (z int) {
 	for {
@@ -118,7 +118,7 @@ L:	for {
 		for { break L }
 		return
 	}
-} /* ERROR "missing return" */
+} /* ERROR missing return */
 
 // switch statements
 func _(x, y int) (z int) {
@@ -139,14 +139,14 @@ func _(x, y int) (z int) {
 	switch x {
 	case 0: return
 	}
-} /* ERROR "missing return" */
+} /* ERROR missing return */
 
 func _(x, y int) (z int) {
 	switch x {
 	case 0: return
 	case 1: break
 	}
-} /* ERROR "missing return" */
+} /* ERROR missing return */
 
 func _(x, y int) (z int) {
 	switch x {
@@ -180,7 +180,7 @@ L:	switch x {
 		}
 		panic(0)
 	}
-} /* ERROR "missing return" */
+} /* ERROR missing return */
 
 // select statements
 func _(ch chan int) (z int) {
@@ -196,14 +196,14 @@ func _(ch chan int) (z int) {
 	select {
 	default: break
 	}
-} /* ERROR "missing return" */
+} /* ERROR missing return */
 
 func _(ch chan int) (z int) {
 	select {
 	case <-ch: return
 	default: break
 	}
-} /* ERROR "missing return" */
+} /* ERROR missing return */
 
 func _(ch chan int) (z int) {
 	select {
@@ -238,7 +238,7 @@ L:	select {
 		return
 	}
 	; ; ;
-} /* ERROR "missing return" */
+} /* ERROR missing return */
 
 func parenPanic() int {
 	((((((panic)))(0))))
@@ -249,11 +249,11 @@ func issue23218a() int {
 		panic := func(interface{}){}
 		panic(0)
 	}
-} /* ERROR "missing return" */
+} /* ERROR missing return */
 
 func issue23218b() int {
 	{
 		panic := func(interface{}){}
 		((((panic))))(0)
 	}
-} /* ERROR "missing return" */
+} /* ERROR missing return */
