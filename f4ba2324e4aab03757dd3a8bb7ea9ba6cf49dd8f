@@ -253,6 +253,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "32b466ee_1411d40e",
+        "filename": "src/encoding/json/encode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 34561
+      },
+      "writtenOn": "2022-12-06T01:16:57Z",
+      "side": 1,
+      "message": "A much shorter way to state my complaint: I doubt real-life systems currently waste 95% of their encoding-related memory and therefore I doubt this bound is a real-life improvement; how can we measure to find out?",
+      "revId": "f4ba2324e4aab03757dd3a8bb7ea9ba6cf49dd8f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "73cf4588_1f571a45",
         "filename": "src/encoding/json/encode.go",
         "patchSetId": 1
