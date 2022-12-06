@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c36162f_df8a04bd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2022-12-06T02:21:29Z",
+      "side": 1,
+      "message": "Note that this requires new js-wasm runners first, see https://go-review.googlesource.com/c/build/+/455375.",
+      "revId": "5e6a0d41d4bc750751904864d1b57edec3933e5a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
