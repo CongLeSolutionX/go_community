@@ -195,6 +195,23 @@
       "message": "Sent tentative CL https://go-review.googlesource.com/c/go/+/455535",
       "revId": "d3e895942dfaf37406999f6963e8a8e3fe354def",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a69726f_187bf665",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-12-06T15:56:57Z",
+      "side": 1,
+      "message": "OK, CL 455535 submitted as fe67a21625ee811897077b32d4e75566ef74c6c4. When you get a chance, please try rebasing past that change. Thanks.",
+      "revId": "d3e895942dfaf37406999f6963e8a8e3fe354def",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
