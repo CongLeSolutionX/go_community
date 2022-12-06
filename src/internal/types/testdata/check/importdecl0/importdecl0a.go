@@ -10,19 +10,19 @@ import (
 	// we can have multiple blank imports (was bug)
 	_ "math"
 	_ "net/rpc"
-	init /* ERROR "cannot import package as init" */ "fmt"
+	init /* ERROR cannot import package as init */ "fmt"
 	// reflect defines a type "flag" which shows up in the gc export data
 	"reflect"
-	. /* ERROR "imported and not used" */ "reflect"
+	. /* ERROR imported and not used */ "reflect"
 )
 
-import "math" /* ERROR "imported and not used" */
-import m /* ERROR "imported as m and not used" */ "math"
+import "math" /* ERROR imported and not used */
+import m /* ERROR imported as m and not used */ "math"
 import _ "math"
 
 import (
-	"math/big" /* ERROR "imported and not used" */
-	b /* ERROR "imported as b and not used" */ "math/big"
+	"math/big" /* ERROR imported and not used */
+	b /* ERROR imported as b and not used */ "math/big"
 	_ "math/big"
 )
 
@@ -32,13 +32,13 @@ import f2 "fmt"
 
 // reflect.flag must not be visible in this package
 type flag int
-type _ reflect.flag /* ERROR "not exported" */
+type _ reflect.flag /* ERROR not exported */
 
 // imported package name may conflict with local objects
-type reflect /* ERROR "reflect already declared" */ int
+type reflect /* ERROR reflect already declared */ int
 
 // dot-imported exported objects may conflict with local objects
-type Value /* ERROR "Value already declared through dot-import of package reflect" */ struct{}
+type Value /* ERROR Value already declared through dot-import of package reflect */ struct{}
 
 var _ = fmt.Println // use "fmt"
 
