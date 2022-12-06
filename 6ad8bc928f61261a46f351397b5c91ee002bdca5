@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a662ed34_813c7681",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2022-12-06T04:12:42Z",
+      "side": 1,
+      "message": "Thanks for taking the time to do this, but through no fault of your own, this CL is not reviewable. I tried \n\ngit change 454815\ncd lib/time\n./update.bash\ngit status\n\nhoping that it would show no files changed, meaning the zoneinfo.zip and zipdata.go in the CL are correct for the change to update.bash. \n\nUnfortunately, it turns out that the zip command we use in the script does not write reproducible output: it includes time stamps and it also stores the files in the order returned by the directory read, which can be any arbitrary order. So trying to reproduce the output to review it doesn\u0027t work.\n\nI fixed the generator so that it _is_ reproducible, and I\u0027ve sent the result out as CL 455356, so that the next time you or anyone sends us an update to review, we\u0027ll be able to do that. That CL does the 2022g update.\n\nThanks again for the CL. If you send us one next release, we should be able to review and accept it.",
+      "revId": "6ad8bc928f61261a46f351397b5c91ee002bdca5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
