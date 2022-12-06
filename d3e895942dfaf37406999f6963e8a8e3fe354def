@@ -142,6 +142,24 @@
       "parentUuid": "b7d1d906_d63f467f",
       "revId": "d3e895942dfaf37406999f6963e8a8e3fe354def",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11df4afc_ca01b19f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-12-06T15:14:22Z",
+      "side": 1,
+      "message": "Thanks. I tend to fall into the trap of thinking that the transcript from \"go build -x\" is completely accurate, but this is obviously not always the case.\n\nLooks like I have been overthinking this a bit, the difference seems to be right there staring me in the face once I diff the output of \"llvm-objdump-14 --wide --all-headers -s -r\": the PE file header has a timestamp (e.g. [this field](https://go.googlesource.com/go/+/1eb0465fa596a2d6e9c1a632499989544f0d7e68/src/debug/pe/pe.go#10), and the differences there are going to trigger a difference in the build ID.\n\n```\n$ llvm-objdump-14 --wide --all-headers -s -r xxx/main.exe \u003e oda.txt\n$ llvm-objdump-14 --wide --all-headers -s -r xxx/main1.exe \u003e oda1.txt\n$ diff oda.txt oda1.txt\n2c2\n\u003c xxx/main.exe:\tfile format coff-x86-64\n---\n\u003e xxx/main1.exe:\tfile format coff-x86-64\n9c9\n\u003c Time/Date               Tue Dec  6 09:55:52 2022\n---\n\u003e Time/Date               Tue Dec  6 09:55:41 2022\n2324,2326c2324,2326\n\u003c  1400014c0 31356c74 52546545 72423337 69382f6f  15ltRTeErB37i8/o\n\u003c  1400014d0 357a5664 30784462 6c5a4639 6969775f  5zVd0xDblZF9iiw_\n\u003c  1400014e0 30386922 0a20ffcc cccccccc cccccccc  08i\". ..........\n---\n\u003e  1400014c0 31356c74 52546545 72423337 69382f48  15ltRTeErB37i8/H\n\u003e  1400014d0 324d6c64 6f2d3751 6b614973 45494c63  2Mldo-7QkaIsEILc\n\u003e  1400014e0 66547622 0a20ffcc cccccccc cccccccc  fTv\". ..........\n58151c58151\n\u003c  1400dc000 00000000 f8578f63 00000000 02000000  .....W.c........\n---\n\u003e  1400dc000 00000000 ed578f63 00000000 02000000  .....W.c........\n```\n\nFor internal linking we [zero the timestamp](https://go.googlesource.com/go/+/1eb0465fa596a2d6e9c1a632499989544f0d7e68/src/cmd/link/internal/ld/pe.go#885), but without telling the external linker otherwise, we\u0027ll get a timestamp. I verified that the diff goes away if I add `-ldflags\u003d\"-extldflags\u003d-Wl,--no-insert-timestamp\"`, so I think that\u0027s probably the right option to pursue.",
+      "parentUuid": "4dcd71a4_dc033db4",
+      "revId": "d3e895942dfaf37406999f6963e8a8e3fe354def",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
