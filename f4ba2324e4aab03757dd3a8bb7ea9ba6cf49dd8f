@@ -126,6 +126,40 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d4a6cbe_bea703f5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34561
+      },
+      "writtenOn": "2022-12-06T19:56:24Z",
+      "side": 1,
+      "message": "Sorry for so many comments. Thought of one more idea.\n\nThis is kind of a big deal for my codebase (kube-apiserver); if you think the go team would have appetite for it, I would be willing to write the segmented buffer solution for this. Are you interested in that?\n\nPS My very rough estimate is that kube-apiserver gets maybe 20% utilization right now.",
+      "revId": "f4ba2324e4aab03757dd3a8bb7ea9ba6cf49dd8f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b00f27fe_f37ef109",
+        "filename": "src/encoding/json/encode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 34561
+      },
+      "writtenOn": "2022-12-06T19:56:24Z",
+      "side": 1,
+      "message": "Idea: if the buffer is sufficiently large, instead of copying this, return e.Bytes() and reset the buffer. If `e` tracks average size then this decision is easier to make. If not, maybe do this for any buffer larger than 1MiB?",
+      "revId": "f4ba2324e4aab03757dd3a8bb7ea9ba6cf49dd8f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "58e84a0d_87d9a472",
