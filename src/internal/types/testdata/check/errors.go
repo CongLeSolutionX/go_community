@@ -44,9 +44,9 @@ func f(x int, m map[string]int) {
 
 // Valid ERROR comments can have a variety of forms.
 func _() {
-	0 /* ERROR "0 .* is not used" */
 	0 /* ERROR 0 .* is not used */
-	0 // ERROR "0 .* is not used"
+	0 /* ERROR 0 .* is not used */
+	0 // ERROR 0 .* is not used
 	0 // ERROR 0 .* is not used
 }
 
