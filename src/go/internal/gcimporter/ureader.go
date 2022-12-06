@@ -29,10 +29,6 @@ type pkgReader struct {
 	// laterFns holds functions that need to be invoked at the end of
 	// import reading.
 	laterFns []func()
-
-	// ifaces holds a list of constructed Interfaces, which need to have
-	// Complete called after importing is done.
-	ifaces []*types.Interface
 }
 
 // later adds a function to be invoked at the end of import reading.
@@ -77,10 +73,6 @@ func readUnifiedPackage(fset *token.FileSet, ctxt *types.Context, imports map[st
 
 	for _, fn := range pr.laterFns {
 		fn()
-	}
-
-	for _, iface := range pr.ifaces {
-		iface.Complete()
 	}
 
 	pkg.MarkComplete()
@@ -401,16 +393,7 @@ func (r *reader) interfaceType() *types.Interface {
 		iface.MarkImplicit()
 	}
 
-	// We need to call iface.Complete(), but if there are any embedded
-	// defined types, then we may not have set their underlying
-	// interface type yet. So we need to defer calling Complete until
-	// after we've called SetUnderlying everywhere.
-	//
-	// TODO(mdempsky): After CL 424876 lands, it should be safe to call
-	// iface.Complete() immediately.
-	r.p.ifaces = append(r.p.ifaces, iface)
-
-	return iface
+	return iface.Complete()
 }
 
 func (r *reader) signature(recv *types.Var, rtparams, tparams []*types.TypeParam) *types.Signature {
@@ -547,9 +530,7 @@ func (pr *pkgReader) objIdx(idx pkgbits.Index) (*types.Package, string) {
 					embeds[i] = iface.EmbeddedType(i)
 				}
 
-				newIface := types.NewInterfaceType(methods, embeds)
-				r.p.ifaces = append(r.p.ifaces, newIface)
-				underlying = newIface
+				underlying = types.NewInterfaceType(methods, embeds).Complete()
 			}
 
 			named.SetUnderlying(underlying)
