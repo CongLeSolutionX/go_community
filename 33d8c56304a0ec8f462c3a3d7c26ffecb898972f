@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "414acc84_b986d409",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-12-06T15:27:18Z",
+      "side": 1,
+      "message": "This doesn\u0027t look better than the old code. Sorry, but no, thanks.",
+      "revId": "33d8c56304a0ec8f462c3a3d7c26ffecb898972f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "014eae7c_12c29c87",
+        "filename": "src/runtime/pprof/map.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2022-12-06T15:27:18Z",
+      "side": 1,
+      "message": "This looks like a semantic change. The old code returns e, now it returns last, which doesn\u0027t look same.",
+      "revId": "33d8c56304a0ec8f462c3a3d7c26ffecb898972f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
