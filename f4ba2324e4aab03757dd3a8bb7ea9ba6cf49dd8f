@@ -160,6 +160,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "65cbe699_0492de76",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2022-12-07T19:06:05Z",
+      "side": 1,
+      "message": "I apologize that my response rate will be declining. I\u0027ll be going on paternity leave soon and there\u0027s non-contribution work of mine that takes priority.",
+      "revId": "f4ba2324e4aab03757dd3a8bb7ea9ba6cf49dd8f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b00f27fe_f37ef109",
@@ -298,6 +315,24 @@
       "side": 1,
       "message": "\u003e\u003eI guess my hesitation with the current approach is that it\u0027s not actually clear what the utilization is right now and therefore it\u0027s hard to evaluate how much of an improvement this would be.\n\nI wasn\u0027t clear, sorry. Let me try again: if at least 1/4th of requests are for big buffers, then this code change will not result in a behavior change.\n\nCan we measure something to see if, in practice, this is a good threshold to bake into the code?",
       "parentUuid": "91fb9907_fa5cfdee",
+      "revId": "f4ba2324e4aab03757dd3a8bb7ea9ba6cf49dd8f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aaa3769f_e978f998",
+        "filename": "src/encoding/json/encode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2022-12-07T19:06:05Z",
+      "side": 1,
+      "message": "The thresholds could certainly use fine-tuning and it\u0027s a bit challenging to come up with constants that are ideal for all use-cases.",
+      "parentUuid": "35ef8639_740f93fd",
       "revId": "f4ba2324e4aab03757dd3a8bb7ea9ba6cf49dd8f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
