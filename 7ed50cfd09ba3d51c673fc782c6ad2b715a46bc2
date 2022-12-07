@@ -16,6 +16,24 @@
       "message": "This seems to cause `Current` to fail on `aix-ppc64`:\nhttps://build.golang.org/log/c26aac0e3edba889ff817b3f68c924971ee159fd\n\n```\n--- FAIL: TestCurrent (0.00s)\n    user_test.go:26: Current: user: lookup userid 0: errno -1 (got (*user.User)(nil))\n```",
       "revId": "7ed50cfd09ba3d51c673fc782c6ad2b715a46bc2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9919dd11_816546e8",
+        "filename": "src/os/user/user_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-12-07T21:29:38Z",
+      "side": 1,
+      "message": "Sent CL 456075 to fix this.",
+      "parentUuid": "959fc926_ff19edea",
+      "revId": "7ed50cfd09ba3d51c673fc782c6ad2b715a46bc2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
