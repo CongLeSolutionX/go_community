@@ -43,6 +43,11 @@ env GOCOVERDIR=data/panic
 go tool covdata percent -i=data/panic
 stdout  'coverage:.*[0-9.]+%'
 
+# Run with GOCOVERDIR=_
+env GOCOVERDIR=_
+exec ./example.exe normal
+! stderr '^warning: GOCOVERDIR not set, no coverage data emitted'
+
 # Skip remainder if no race detector support.
 [!race] skip
 
