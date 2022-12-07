@@ -143,6 +143,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4191020c_6c65c6ef",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34561
+      },
+      "writtenOn": "2022-12-07T07:02:21Z",
+      "side": 1,
+      "message": "I tried implementing the segmented buffer approach here: https://go-review.git.corp.google.com/c/go/+/455776",
+      "revId": "f4ba2324e4aab03757dd3a8bb7ea9ba6cf49dd8f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b00f27fe_f37ef109",
