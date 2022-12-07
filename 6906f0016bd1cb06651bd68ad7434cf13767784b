@@ -70,6 +70,24 @@
       "message": "the the",
       "revId": "6906f0016bd1cb06651bd68ad7434cf13767784b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11fc9fbb_15781aa2",
+        "filename": "src/cmd/go/terminal_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-12-07T18:00:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5dc5dc8a_32dc73c5",
+      "revId": "6906f0016bd1cb06651bd68ad7434cf13767784b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
