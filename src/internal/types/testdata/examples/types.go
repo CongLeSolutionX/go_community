@@ -53,7 +53,7 @@ var x2 T2[int]
 func _() {
 	// This assignment is invalid because the types of x1, x2 are T1(...)
 	// and T2(...) respectively, which are two different defined types.
-	x1 = x2 // ERROR assignment
+	x1 = x2 // ERR assignment
 
 	// This assignment is valid because the types of x1.f and x2.f are
 	// both struct { g int }; the type parameters act like type aliases
@@ -78,7 +78,7 @@ var x1a T1a
 var x2a T2a
 
 func _() {
-	x1a = x2a // ERROR assignment
+	x1a = x2a // ERR assignment
 	x1a.f = x2a.f
 }
 
@@ -97,16 +97,16 @@ var xbool T[bool]
 // differently depending on the type arguments, and thus we can't possibly
 // consider such types identical. Consequently:
 func _() {
-	xint = xbool // ERROR assignment
+	xint = xbool // ERR assignment
 }
 
 // Generic types cannot be used without instantiation.
-var _ T // ERROR cannot use generic type T
-var _ = T /* ERROR cannot use generic type T */ (0)
+var _ T // ERR cannot use generic type T
+var _ = T /* ERR cannot use generic type T */ (0)
 
 // In type context, generic (parameterized) types cannot be parenthesized before
 // being instantiated. See also NOTES entry from 12/4/2019.
-var _ (T /* ERROR cannot use generic type T */ )[ /* ERROR unexpected \[|expected ';' */ int]
+var _ (T /* ERR cannot use generic type T */ )[ /* ERROR unexpected \[|expected ';' */ int]
 
 // All types may be parameterized, including interfaces.
 type I1[T any] interface{
@@ -114,7 +114,7 @@ type I1[T any] interface{
 }
 
 // There is no such thing as a variadic generic type.
-type _[T ... /* ERROR invalid use of ... */ any] struct{}
+type _[T ... /* ERR invalid use of '...' */ any] struct{}
 
 // Generic interfaces may be embedded as one would expect.
 type I2 interface {
@@ -146,14 +146,14 @@ func _() {
 }
 
 type _ struct {
-	( /* ERROR cannot parenthesize */ int8)
-	( /* ERROR cannot parenthesize */ *int16)
-	*( /* ERROR cannot parenthesize */ int32)
+	( /* ERR cannot parenthesize */ int8)
+	( /* ERR cannot parenthesize */ *int16)
+	*( /* ERR cannot parenthesize */ int32)
 	List[int]
 
-	int8 /* ERROR int8 redeclared */
-	* /* ERROR int16 redeclared */ int16
-	List /* ERROR List redeclared */ [int]
+	int8 /* ERR int8 redeclared */
+	* /* ERR int16 redeclared */ int16
+	List /* ERR List redeclared */ [int]
 }
 
 // Issue #45639: We don't allow this anymore. Keep this code
@@ -169,7 +169,7 @@ type _ struct {
 // 
 // 	// m is not defined on L (it is not "inherited" from
 // 	// its underlying type).
-// 	x.m /* ERROR x.m undefined */ ()
+// 	x.m /* ERR x.m undefined */ ()
 // 
 // 	// But the properties of T, such that as that it supports
 // 	// the operations of the types given by its type bound,
@@ -189,8 +189,8 @@ type _ struct {
 // // It is not permitted to declare a local type whose underlying
 // // type is a type parameter not declared by that type declaration.
 // func _[T any]() {
-// 	type _ T         // ERROR cannot use function type parameter T as RHS in type declaration
-// 	type _ [_ any] T // ERROR cannot use function type parameter T as RHS in type declaration
+// 	type _ T         // ERR cannot use function type parameter T as RHS in type declaration
+// 	type _ [_ any] T // ERR cannot use function type parameter T as RHS in type declaration
 // }
 
 // As a special case, an explicit type argument may be omitted
@@ -248,30 +248,30 @@ type I interface {
 }
 
 var (
-	_ interface /* ERROR contains type constraints */ {~int}
-	_ I /* ERROR contains type constraints */
+	_ interface /* ERR contains type constraints */ {~int}
+	_ I /* ERR contains type constraints */
 )
 
-func _(I /* ERROR contains type constraints */ )
-func _(x, y, z I /* ERROR contains type constraints */ )
-func _() I /* ERROR contains type constraints */
+func _(I /* ERR contains type constraints */ )
+func _(x, y, z I /* ERR contains type constraints */ )
+func _() I /* ERR contains type constraints */
 
 func _() {
-	var _ I /* ERROR contains type constraints */
+	var _ I /* ERR contains type constraints */
 }
 
 type C interface {
 	comparable
 }
 
-var _ comparable /* ERROR comparable */
-var _ C /* ERROR comparable */
+var _ comparable /* ERR comparable */
+var _ C /* ERR comparable */
 
-func _(_ comparable /* ERROR comparable */ , _ C /* ERROR comparable */ )
+func _(_ comparable /* ERR comparable */ , _ C /* ERR comparable */ )
 
 func _() {
-	var _ comparable /* ERROR comparable */
-	var _ C /* ERROR comparable */
+	var _ comparable /* ERR comparable */
+	var _ C /* ERR comparable */
 }
 
 // Type parameters are never const types, i.e., it's
@@ -281,8 +281,8 @@ func _() {
 // first place.)
 func _[T interface{~int|~float64}]() {
 	// not valid
-	const _ = T /* ERROR not constant */ (0)
-	const _ T /* ERROR invalid constant type T */ = 1
+	const _ = T /* ERR not constant */ (0)
+	const _ T /* ERR invalid constant type T */ = 1
 
 	// valid
 	var _ = T(0)

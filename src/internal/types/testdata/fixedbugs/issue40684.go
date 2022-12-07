@@ -10,6 +10,6 @@ func f[_ any]() {}
 func g[_, _ any]() {}
 
 func _() {
-	_ = f[T /* ERROR without instantiation */ ]
-	_ = g[T /* ERROR without instantiation */ , T /* ERROR without instantiation */ ]
+	_ = f[T /* ERR without instantiation */ ]
+	_ = g[T /* ERR without instantiation */ , T /* ERR without instantiation */ ]
 }

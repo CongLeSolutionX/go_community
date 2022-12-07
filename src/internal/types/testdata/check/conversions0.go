@@ -10,8 +10,8 @@ import "unsafe"
 
 // argument count
 var (
-	_ = int() /* ERROR missing argument */
-	_ = int(1, 2 /* ERROR too many arguments */ )
+	_ = int() /* ERR missing argument */
+	_ = int(1, 2 /* ERR too many arguments */ )
 )
 
 // numeric constant conversions are in const1.src.
@@ -29,14 +29,14 @@ func string_conversions() {
 	type mystring string
 	const _ mystring = mystring("foo")
 
-	const _ = string(true /* ERROR cannot convert */ )
-	const _ = string(1.2 /* ERROR cannot convert */ )
-	const _ = string(nil /* ERROR cannot convert */ )
+	const _ = string(true /* ERR cannot convert */ )
+	const _ = string(1.2 /* ERR cannot convert */ )
+	const _ = string(nil /* ERR cannot convert */ )
 
 	// issues 11357, 11353: argument must be of integer type
-	_ = string(0.0 /* ERROR cannot convert */ )
-	_ = string(0i /* ERROR cannot convert */ )
-	_ = string(1 /* ERROR cannot convert */ + 2i)
+	_ = string(0.0 /* ERR cannot convert */ )
+	_ = string(0i /* ERR cannot convert */ )
+	_ = string(1 /* ERR cannot convert */ + 2i)
 }
 
 func interface_conversions() {
@@ -67,20 +67,20 @@ func interface_conversions() {
 	_ = E(i1)
 	_ = E(i2)
 
-	_ = I1(0 /* ERROR cannot convert */ )
+	_ = I1(0 /* ERR cannot convert */ )
 	_ = I1(nil)
 	_ = I1(i1)
-	_ = I1(e /* ERROR cannot convert */ )
+	_ = I1(e /* ERR cannot convert */ )
 	_ = I1(i2)
 
 	_ = I2(nil)
-	_ = I2(i1 /* ERROR cannot convert */ )
+	_ = I2(i1 /* ERR cannot convert */ )
 	_ = I2(i2)
-	_ = I2(i3 /* ERROR cannot convert */ )
+	_ = I2(i3 /* ERR cannot convert */ )
 
 	_ = I3(nil)
-	_ = I3(i1 /* ERROR cannot convert */ )
-	_ = I3(i2 /* ERROR cannot convert */ )
+	_ = I3(i1 /* ERR cannot convert */ )
+	_ = I3(i2 /* ERR cannot convert */ )
 	_ = I3(i3)
 
 	// TODO(gri) add more tests, improve error message

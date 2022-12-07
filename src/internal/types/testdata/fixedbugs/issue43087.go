@@ -5,7 +5,7 @@
 package p
 
 func _() {
-	a, b, b /* ERROR b repeated on left side of := */ := 1, 2, 3
+	a, b, b /* ERR b repeated on left side of := */ := 1, 2, 3
 	_ = a
 	_ = b
 }
@@ -17,7 +17,7 @@ func _() {
 
 func _() {
 	var b int
-	a, b, b /* ERROR b repeated on left side of := */ := 1, 2, 3
+	a, b, b /* ERR b repeated on left side of := */ := 1, 2, 3
 	_ = a
 	_ = b
 }
@@ -31,13 +31,13 @@ func _() {
 
 func _() {
 	var a int
-	a, a /* ERROR a repeated on left side of := */ := 1, 2
+	a, a /* ERR a repeated on left side of := */ := 1, 2
 	_ = a
 }
 
 func _() {
 	var a, b int
-	a, b := /* ERROR no new variables on left side of := */ 1, 2
+	a, b := /* ERR no new variables on left side of := */ 1, 2
 	_ = a
 	_ = b
 }

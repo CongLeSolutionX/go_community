@@ -7,7 +7,7 @@ package p
 type Mer interface { M() }
 
 func F[T Mer](p *T) {
-	p.M /* ERROR p\.M undefined */ ()
+	p.M /* ERR p.M undefined */ ()
 }
 
 type MyMer int

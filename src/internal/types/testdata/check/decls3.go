@@ -21,7 +21,7 @@ func _() {
 	)
 
 	var t T3
-	_ = t.X /* ERROR ambiguous selector t.X */
+	_ = t.X /* ERR ambiguous selector t.X */
 }
 
 func _() {
@@ -33,7 +33,7 @@ func _() {
 	)
 
 	var t T4
-	_ = t.X /* ERROR ambiguous selector t.X */
+	_ = t.X /* ERR ambiguous selector t.X */
 }
 
 func issue4355() {
@@ -46,7 +46,7 @@ func issue4355() {
 	)
 
 	var t T5
-	_ = t.X /* ERROR ambiguous selector t.X */
+	_ = t.X /* ERR ambiguous selector t.X */
 }
 
 func _() {
@@ -56,7 +56,7 @@ func _() {
 	type T struct{ A; B }
 
 	var t T
-	_ = t.State /* ERROR ambiguous selector t.State */
+	_ = t.State /* ERR ambiguous selector t.State */
 }
 
 // Embedded fields can be predeclared types.
@@ -92,18 +92,18 @@ func _() {
 
 	type T1 struct {
 		I1
-		* /* ERROR cannot be a pointer to an interface */ I2
-		* /* ERROR cannot be a pointer to an interface */ error
-		P1 /* ERROR cannot be a pointer */
-		* /* ERROR cannot be a pointer */ P2
+		* /* ERR cannot be a pointer to an interface */ I2
+		* /* ERR cannot be a pointer to an interface */ error
+		P1 /* ERR cannot be a pointer */
+		* /* ERR cannot be a pointer */ P2
 	}
 
 	// unsafe.Pointers are treated like regular pointers when embedded
 	type T2 struct {
-		unsafe /* ERROR cannot be unsafe.Pointer */ .Pointer
-		*/* ERROR cannot be unsafe.Pointer */ /* ERROR Pointer redeclared */ unsafe.Pointer
-		UP /* ERROR cannot be unsafe.Pointer */
-		* /* ERROR cannot be unsafe.Pointer */  /* ERROR UP redeclared */ UP
+		unsafe /* ERR cannot be unsafe.Pointer */ .Pointer
+		*/* ERR cannot be unsafe.Pointer */ /* ERR Pointer redeclared */ unsafe.Pointer
+		UP /* ERR cannot be unsafe.Pointer */
+		* /* ERR cannot be unsafe.Pointer */  /* ERR UP redeclared */ UP
 	}
 }
 
@@ -120,8 +120,8 @@ func _() {
 
 	var p P
 	_ = p.x
-	_ = p.m /* ERROR no field or method */
-	_ = P.m /* ERROR no field or method */
+	_ = p.m /* ERR no field or method */
+	_ = P.m /* ERR no field or method */
 }
 
 // Borrowed from the FieldByName test cases in reflect/all_test.go.
@@ -211,9 +211,9 @@ type S13 struct {
 }
 
 func _() {
-	_ = struct{}{}.Foo /* ERROR no field or method */
+	_ = struct{}{}.Foo /* ERR no field or method */
 	_ = S0{}.A
-	_ = S0{}.D /* ERROR no field or method */
+	_ = S0{}.D /* ERR no field or method */
 	_ = S1{}.A
 	_ = S1{}.B
 	_ = S1{}.S0
@@ -222,17 +222,17 @@ func _() {
 	_ = S2{}.S1
 	_ = S2{}.B
 	_ = S2{}.C
-	_ = S2{}.D /* ERROR no field or method */
-	_ = S3{}.S1 /* ERROR ambiguous selector S3{}\.S1 */
+	_ = S2{}.D /* ERR no field or method */
+	_ = S3{}.S1 /* ERR ambiguous selector S3{}.S1 */
 	_ = S3{}.A
-	_ = S3{}.B /* ERROR ambiguous selector S3{}\.B */
+	_ = S3{}.B /* ERR "ambiguous selector" S3{}.B */
 	_ = S3{}.D
 	_ = S3{}.E
 	_ = S4{}.A
-	_ = S4{}.B /* ERROR no field or method */
-	_ = S5{}.X /* ERROR ambiguous selector S5{}\.X */
+	_ = S4{}.B /* ERR no field or method */
+	_ = S5{}.X /* ERR ambiguous selector S5{}.X */
 	_ = S5{}.Y
-	_ = S10{}.X /* ERROR ambiguous selector S10{}\.X */
+	_ = S10{}.X /* ERR ambiguous selector S10{}.X */
 	_ = S10{}.Y
 }
 
@@ -308,4 +308,4 @@ type R22 R21
 type R23 R21
 type R24 R21
 
-var _ = R0{}.X /* ERROR ambiguous selector R0{}.X */
+var _ = R0{}.X /* ERR ambiguous selector R0{}.X */

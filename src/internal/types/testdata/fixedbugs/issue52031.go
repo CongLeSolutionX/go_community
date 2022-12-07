@@ -27,7 +27,7 @@ const (
 var x int = 1
 var _ = (8 << x /* ERROR signed shift count .* requires go1.13 or later */)
 
-const _ = (1 << 1.2 /* ERROR truncated to uint */)
+const _ = (1 << 1.2 /* ERR truncated to uint */)
 
 var y float64
-var _ = (1 << y /* ERROR must be integer */)
+var _ = (1 << y /* ERR must be integer */)

@@ -10,7 +10,7 @@ import "io"
 
 const pi = 3.1415
 
-func (T1) m /* ERROR already declared */ () {}
+func (T1) m /* ERR already declared */ () {}
 func (T2) m(io.Writer) {}
 
 type T3 struct {
@@ -31,26 +31,26 @@ func f() {
 }
 
 // Double declarations across package files
-const c_double /* ERROR redeclared */ = 0
-type t_double  /* ERROR redeclared */ int
-var v_double /* ERROR redeclared */ int
-func f_double /* ERROR redeclared */ () {}
+const c_double /* ERR redeclared */ = 0
+type t_double  /* ERR redeclared */ int
+var v_double /* ERR redeclared */ int
+func f_double /* ERR redeclared */ () {}
 
 // Blank methods need to be type-checked.
 // Verify by checking that errors are reported.
-func (T /* ERROR undefined */ ) _() {}
-func (T1) _(undefined /* ERROR undefined */ ) {}
+func (T /* ERR undefined */ ) _() {}
+func (T1) _(undefined /* ERR undefined */ ) {}
 func (T1) _() int { return "foo" /* ERROR cannot use .* in return statement */ }
 
 // Methods with undefined receiver type can still be checked.
 // Verify by checking that errors are reported.
-func (Foo /* ERROR undefined */ ) m() {}
-func (Foo /* ERROR undefined */ ) m(undefined /* ERROR undefined */ ) {}
-func (Foo /* ERROR undefined */ ) m() int { return "foo" /* ERROR cannot use .* in return statement */ }
+func (Foo /* ERR undefined */ ) m() {}
+func (Foo /* ERR undefined */ ) m(undefined /* ERR undefined */ ) {}
+func (Foo /* ERR undefined */ ) m() int { return "foo" /* ERROR cannot use .* in return statement */ }
 
-func (Foo /* ERROR undefined */ ) _() {}
-func (Foo /* ERROR undefined */ ) _(undefined /* ERROR undefined */ ) {}
-func (Foo /* ERROR undefined */ ) _() int { return "foo" /* ERROR cannot use .* in return statement */ }
+func (Foo /* ERR undefined */ ) _() {}
+func (Foo /* ERR undefined */ ) _(undefined /* ERR undefined */ ) {}
+func (Foo /* ERR undefined */ ) _() int { return "foo" /* ERROR cannot use .* in return statement */ }
 
 // Receiver declarations are regular parameter lists;
 // receiver types may use parentheses, and the list

@@ -118,8 +118,8 @@ func _() {
 	s = t // ERROR cannot use .* in assignment
 	s = u // ERROR cannot use .* in assignment
 	s = S(s)
-	s = S(t /* ERROR cannot convert */ )
-	s = S(u /* ERROR cannot convert */ )
+	s = S(t /* ERR cannot convert */ )
+	s = S(u /* ERR cannot convert */ )
 	t = u   // ERROR cannot use .* in assignment
 	t = T(u)
 }
@@ -144,9 +144,9 @@ func _() {
 	s = u // ERROR cannot use .* in assignment
 	s = S(s)
 	s = S(t)
-	s = S(u /* ERROR cannot convert */ )
+	s = S(u /* ERR cannot convert */ )
 	t = u   // ERROR cannot use .* in assignment
-	t = T(u /* ERROR cannot convert */ )
+	t = T(u /* ERR cannot convert */ )
 }
 
 // conversions between pointers to structs
@@ -256,8 +256,8 @@ func _() {
 	s = t // ERROR cannot use .* in assignment
 	s = u // ERROR cannot use .* in assignment
 	s = (*S)(s)
-	s = (*S)(t /* ERROR cannot convert */ )
-	s = (*S)(u /* ERROR cannot convert */ )
+	s = (*S)(t /* ERR cannot convert */ )
+	s = (*S)(u /* ERR cannot convert */ )
 	t = u      // ERROR cannot use .* in assignment
 	t = (*T)(u)
 }
@@ -282,9 +282,9 @@ func _() {
 	s = u // ERROR cannot use .* in assignment
 	s = (*S)(s)
 	s = (*S)(t)
-	s = (*S)(u /* ERROR cannot convert */ )
+	s = (*S)(u /* ERR cannot convert */ )
 	t = u      // ERROR cannot use .* in assignment
-	t = (*T)(u /* ERROR cannot convert */ )
+	t = (*T)(u /* ERR cannot convert */ )
 }
 
 func _() {
@@ -307,7 +307,7 @@ func _() {
 	s = u // ERROR cannot use .* in assignment
 	s = (*S)(s)
 	s = (*S)(t)
-	s = (*S)(u /* ERROR cannot convert */ )
+	s = (*S)(u /* ERR cannot convert */ )
 	t = u      // ERROR cannot use .* in assignment
-	t = (*T)(u /* ERROR cannot convert */ )
+	t = (*T)(u /* ERR cannot convert */ )
 }

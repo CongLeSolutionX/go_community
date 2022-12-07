@@ -64,7 +64,7 @@ func _[TP1, TP2 Interface](X1 TP1, X2 TP2) {
 
 // "T is an interface type and x implements T and T is not a type parameter"
 func _[TP Interface](X TP) {
-	i = d // ERROR missing method m
+	i = d // ERR missing method m
 	i = D
 	i = X
 	X = i // ERROR cannot use i .* as TP value
@@ -153,28 +153,28 @@ func _[
 
 // "x is the predeclared identifier nil and T is a pointer, function, slice, map, channel, or interface type"
 func _[TP Interface](X TP) {
-	b = nil // ERROR cannot use nil
-	a = nil // ERROR cannot use nil
+	b = nil // ERR cannot use nil
+	a = nil // ERR cannot use nil
 	l = nil
-	s = nil // ERROR cannot use nil
+	s = nil // ERR cannot use nil
 	p = nil
 	f = nil
 	i = nil
 	m = nil
 	c = nil
-	d = nil // ERROR cannot use nil
+	d = nil // ERR cannot use nil
 
-	B = nil // ERROR cannot use nil
-	A = nil // ERROR cannot use nil
+	B = nil // ERR cannot use nil
+	A = nil // ERR cannot use nil
 	L = nil
-	S = nil // ERROR cannot use nil
+	S = nil // ERR cannot use nil
 	P = nil
 	F = nil
 	I = nil
 	M = nil
 	C = nil
-	D = nil // ERROR cannot use nil
-	X = nil // ERROR cannot use nil
+	D = nil // ERR cannot use nil
+	X = nil // ERR cannot use nil
 }
 
 // "x is an untyped constant representable by a value of type T"

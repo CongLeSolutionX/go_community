@@ -7,9 +7,9 @@
 package importC
 
 import "C"
-import _ /* ERROR cannot rename import "C" */ "C"
-import foo /* ERROR cannot rename import "C" */ "C"
-import . /* ERROR cannot rename import "C" */ "C"
+import _ /* ERR cannot rename import "C" */ "C"
+import foo /* ERR cannot rename import "C" */ "C"
+import . /* ERR cannot rename import "C" */ "C"
 
 // Test cases extracted from issue #22090.
 

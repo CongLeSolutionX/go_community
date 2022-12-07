@@ -41,7 +41,7 @@ type (
 )
 
 func (T4) m4() {}
-func _() { (T{}).m4 /* ERROR cannot call pointer method m4 on T */ () }
+func _() { (T{}).m4 /* ERR cannot call pointer method m4 on T */ () }
 func _() { (&T{}).m4() }
 
 type (
@@ -51,7 +51,7 @@ type (
 )
 
 func (T6) m6() {}
-func _() { (T{}).m6 /* ERROR cannot call pointer method m6 on T */ () }
+func _() { (T{}).m6 /* ERR cannot call pointer method m6 on T */ () }
 func _() { (&T{}).m6() }
 
 type (
@@ -60,6 +60,6 @@ type (
         T11 = T
 )
 
-func (T9 /* ERROR invalid receiver type \*\*T */ ) m9() {}
-func _() { (T{}).m9 /* ERROR has no field or method m9 */ () }
-func _() { (&T{}).m9 /* ERROR has no field or method m9 */ () }
+func (T9 /* ERR invalid receiver type \*\*T */ ) m9() {}
+func _() { (T{}).m9 /* ERR has no field or method m9 */ () }
+func _() { (&T{}).m9 /* ERR has no field or method m9 */ () }

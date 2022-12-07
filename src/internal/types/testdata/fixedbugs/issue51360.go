@@ -5,9 +5,9 @@
 package p
 
 func _() {
-	len.Println /* ERROR cannot select on len */
-	len.Println /* ERROR cannot select on len */ ()
-	_ = len.Println /* ERROR cannot select on len */
-	_ = len /* ERROR cannot index len */ [0]
-	_ = *len /* ERROR cannot indirect len */
+	len.Println /* ERR cannot select on len */
+	len.Println /* ERR cannot select on len */ ()
+	_ = len.Println /* ERR cannot select on len */
+	_ = len /* ERR cannot index len */ [0]
+	_ = *len /* ERR cannot indirect len */
 }

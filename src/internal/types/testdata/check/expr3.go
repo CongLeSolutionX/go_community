@@ -7,21 +7,21 @@ package expr3
 import "time"
 
 func indexes() {
-	_ = 1 /* ERROR cannot index */ [0]
-	_ = indexes /* ERROR cannot index */ [0]
-	_ = ( /* ERROR cannot slice */ 12 + 3)[1:2]
+	_ = 1 /* ERR cannot index */ [0]
+	_ = indexes /* ERR cannot index */ [0]
+	_ = ( /* ERR cannot slice */ 12 + 3)[1:2]
 
 	var a [10]int
-	_ = a[true /* ERROR cannot convert */ ]
-	_ = a["foo" /* ERROR cannot convert */ ]
-	_ = a[1.1 /* ERROR truncated */ ]
+	_ = a[true /* ERR cannot convert */ ]
+	_ = a["foo" /* ERR cannot convert */ ]
+	_ = a[1.1 /* ERR truncated */ ]
 	_ = a[1.0]
-	_ = a[- /* ERROR negative */ 1]
-	_ = a[- /* ERROR negative */ 1 :]
-	_ = a[: - /* ERROR negative */ 1]
-	_ = a[: /* ERROR middle index required */ : /* ERROR final index required */ ]
-	_ = a[0: /* ERROR middle index required */ : /* ERROR final index required */ ]
-	_ = a[0: /* ERROR middle index required */ :10]
+	_ = a[- /* ERR negative */ 1]
+	_ = a[- /* ERR negative */ 1 :]
+	_ = a[: - /* ERR negative */ 1]
+	_ = a[: /* ERR middle index required */ : /* ERR final index required */ ]
+	_ = a[0: /* ERR middle index required */ : /* ERR final index required */ ]
+	_ = a[0: /* ERR middle index required */ :10]
 	_ = a[:10:10]
 
 	var a0 int
@@ -33,39 +33,39 @@ func indexes() {
 
 	_ = a[9]
 	_ = a[10 /* ERROR index .* out of bounds */ ]
-	_ = a[1 /* ERROR overflows */ <<100]
-	_ = a[1<< /* ERROR constant shift overflow */ 1000] // no out-of-bounds follow-on error
+	_ = a[1 /* ERR overflows */ <<100]
+	_ = a[1<< /* ERR constant shift overflow */ 1000] // no out-of-bounds follow-on error
 	_ = a[10:]
 	_ = a[:10]
 	_ = a[10:10]
 	_ = a[11 /* ERROR index .* out of bounds */ :]
 	_ = a[: 11 /* ERROR index .* out of bounds */ ]
-	_ = a[: 1 /* ERROR overflows */ <<100]
+	_ = a[: 1 /* ERR overflows */ <<100]
 	_ = a[:10:10]
 	_ = a[:11 /* ERROR index .* out of bounds */ :10]
 	_ = a[:10:11 /* ERROR index .* out of bounds */ ]
-	_ = a[10:0 /* ERROR invalid slice indices */ :10]
-	_ = a[0:10:0 /* ERROR invalid slice indices */ ]
-	_ = a[10:0 /* ERROR invalid slice indices */:0]
-	_ = &a /* ERROR cannot take address */ [:10]
+	_ = a[10:0 /* ERR invalid slice indices */ :10]
+	_ = a[0:10:0 /* ERR invalid slice indices */ ]
+	_ = a[10:0 /* ERR invalid slice indices */:0]
+	_ = &a /* ERR cannot take address */ [:10]
 
 	pa := &a
 	_ = pa[9]
 	_ = pa[10 /* ERROR index .* out of bounds */ ]
-	_ = pa[1 /* ERROR overflows */ <<100]
+	_ = pa[1 /* ERR overflows */ <<100]
 	_ = pa[10:]
 	_ = pa[:10]
 	_ = pa[10:10]
 	_ = pa[11 /* ERROR index .* out of bounds */ :]
 	_ = pa[: 11 /* ERROR index .* out of bounds */ ]
-	_ = pa[: 1 /* ERROR overflows */ <<100]
+	_ = pa[: 1 /* ERR overflows */ <<100]
 	_ = pa[:10:10]
 	_ = pa[:11 /* ERROR index .* out of bounds */ :10]
 	_ = pa[:10:11 /* ERROR index .* out of bounds */ ]
-	_ = pa[10:0 /* ERROR invalid slice indices */ :10]
-	_ = pa[0:10:0 /* ERROR invalid slice indices */ ]
-	_ = pa[10:0 /* ERROR invalid slice indices */ :0]
-	_ = &pa /* ERROR cannot take address */ [:10]
+	_ = pa[10:0 /* ERR invalid slice indices */ :10]
+	_ = pa[0:10:0 /* ERR invalid slice indices */ ]
+	_ = pa[10:0 /* ERR invalid slice indices */ :0]
+	_ = &pa /* ERR cannot take address */ [:10]
 
 	var b [0]int
 	_ = b[0 /* ERROR index .* out of bounds */ ]
@@ -77,40 +77,40 @@ func indexes() {
 	_ = b[1 /* ERROR index .* out of bounds */ :0:0]
 
 	var s []int
-	_ = s[- /* ERROR negative */ 1]
-	_ = s[- /* ERROR negative */ 1 :]
-	_ = s[: - /* ERROR negative */ 1]
+	_ = s[- /* ERR negative */ 1]
+	_ = s[- /* ERR negative */ 1 :]
+	_ = s[: - /* ERR negative */ 1]
 	_ = s[0]
 	_ = s[1:2]
-	_ = s[2:1 /* ERROR invalid slice indices */ ]
+	_ = s[2:1 /* ERR invalid slice indices */ ]
 	_ = s[2:]
-	_ = s[: 1 /* ERROR overflows */ <<100]
-	_ = s[1 /* ERROR overflows */ <<100 :]
-	_ = s[1 /* ERROR overflows */ <<100 : 1 /* ERROR overflows */ <<100]
-	_ = s[: /* ERROR middle index required */ :  /* ERROR final index required */ ]
+	_ = s[: 1 /* ERR overflows */ <<100]
+	_ = s[1 /* ERR overflows */ <<100 :]
+	_ = s[1 /* ERR overflows */ <<100 : 1 /* ERR overflows */ <<100]
+	_ = s[: /* ERR middle index required */ :  /* ERR final index required */ ]
 	_ = s[:10:10]
-	_ = s[10:0 /* ERROR invalid slice indices */ :10]
-	_ = s[0:10:0 /* ERROR invalid slice indices */ ]
-	_ = s[10:0 /* ERROR invalid slice indices */ :0]
-	_ = &s /* ERROR cannot take address */ [:10]
+	_ = s[10:0 /* ERR invalid slice indices */ :10]
+	_ = s[0:10:0 /* ERR invalid slice indices */ ]
+	_ = s[10:0 /* ERR invalid slice indices */ :0]
+	_ = &s /* ERR cannot take address */ [:10]
 
 	var m map[string]int
 	_ = m[0 /* ERROR cannot use .* in map index */ ]
-	_ = m /* ERROR cannot slice */ ["foo" : "bar"]
+	_ = m /* ERR cannot slice */ ["foo" : "bar"]
 	_ = m["foo"]
 	// ok is of type bool
 	type mybool bool
 	var ok mybool
 	_, ok = m["bar"]
 	_ = ok
-	_ = m/* ERROR mismatched types int and untyped string */[0 /* ERROR cannot use 0 */ ] + "foo"
+	_ = m/* ERR mismatched types int and untyped string */[0 /* ERR cannot use 0 */ ] + "foo"
 
 	var t string
-	_ = t[- /* ERROR negative */ 1]
-	_ = t[- /* ERROR negative */ 1 :]
-	_ = t[: - /* ERROR negative */ 1]
-	_ = t[1:2:3 /* ERROR 3-index slice of string */ ]
-	_ = "foo"[1:2:3 /* ERROR 3-index slice of string */ ]
+	_ = t[- /* ERR negative */ 1]
+	_ = t[- /* ERR negative */ 1 :]
+	_ = t[: - /* ERR negative */ 1]
+	_ = t[1:2:3 /* ERR 3-index slice of string */ ]
+	_ = "foo"[1:2:3 /* ERR 3-index slice of string */ ]
 	var t0 byte
 	t0 = t[0]
 	_ = t0
@@ -121,9 +121,9 @@ func indexes() {
 	_ = ("foo" + "bar")[6 /* ERROR index .* out of bounds */ ]
 
 	const c = "foo"
-	_ = c[- /* ERROR negative */ 1]
-	_ = c[- /* ERROR negative */ 1 :]
-	_ = c[: - /* ERROR negative */ 1]
+	_ = c[- /* ERR negative */ 1]
+	_ = c[- /* ERR negative */ 1 :]
+	_ = c[: - /* ERR negative */ 1]
 	var c0 byte
 	c0 = c[0]
 	_ = c0
@@ -155,17 +155,17 @@ type T struct {
 func (*T) m() {}
 
 func method_expressions() {
-	_ = T.a /* ERROR no field or method */
-	_ = T.x /* ERROR has no method */
-	_ = T.m /* ERROR invalid method expression T\.m \(needs pointer receiver \(\*T\)\.m\) */
+	_ = T.a /* ERR no field or method */
+	_ = T.x /* ERR has no method */
+	_ = T.m /* ERR invalid method expression T.m (needs pointer receiver (*T).m) */
 	_ = (*T).m
 
-	var f func(*T) = T.m /* ERROR invalid method expression T\.m \(needs pointer receiver \(\*T\)\.m\) */
+	var f func(*T) = T.m /* ERR invalid method expression T.m (needs pointer receiver (*T).m) */
 	var g func(*T) = (*T).m
 	_, _ = f, g
 
-	_ = T.y /* ERROR has no method */
-	_ = (*T).y /* ERROR has no method */
+	_ = T.y /* ERR has no method */
+	_ = (*T).y /* ERR has no method */
 }
 
 func struct_literals() {
@@ -183,35 +183,35 @@ func struct_literals() {
 	// keyed elements
 	_ = T1{}
 	_ = T1{a: 0, 1 /* ERROR mixture of .* elements */ }
-	_ = T1{aa /* ERROR unknown field */ : 0}
-	_ = T1{1 /* ERROR invalid field name */ : 0}
-	_ = T1{a: 0, s: "foo", u: 0, a /* ERROR duplicate field */: 10}
+	_ = T1{aa /* ERR unknown field */ : 0}
+	_ = T1{1 /* ERR invalid field name */ : 0}
+	_ = T1{a: 0, s: "foo", u: 0, a /* ERR duplicate field */: 10}
 	_ = T1{a: "foo" /* ERROR cannot use .* in struct literal */ }
-	_ = T1{c /* ERROR unknown field */ : 0}
-	_ = T1{T0: { /* ERROR missing type */ }} // struct literal element type may not be elided
+	_ = T1{c /* ERR unknown field */ : 0}
+	_ = T1{T0: { /* ERR missing type */ }} // struct literal element type may not be elided
 	_ = T1{T0: T0{}}
-	_ = T1{T0 /* ERROR invalid field name */ .a: 0}
+	_ = T1{T0 /* ERR invalid field name */ .a: 0}
 
 	// unkeyed elements
 	_ = T0{1, 2, 3}
-	_ = T0{1, b /* ERROR mixture */ : 2, 3}
-	_ = T0{1, 2} /* ERROR too few values */
-	_ = T0{1, 2, 3, 4  /* ERROR too many values */ }
+	_ = T0{1, b /* ERR mixture */ : 2, 3}
+	_ = T0{1, 2} /* ERR too few values */
+	_ = T0{1, 2, 3, 4  /* ERR too many values */ }
 	_ = T0{1, "foo" /* ERROR cannot use .* in struct literal */, 3.4  /* ERROR cannot use .*\(truncated\) */}
 
 	// invalid type
 	type P *struct{
 		x int
 	}
-	_ = P /* ERROR invalid composite literal type */ {}
+	_ = P /* ERR invalid composite literal type */ {}
 
 	// unexported fields
 	_ = time.Time{}
-	_ = time.Time{sec /* ERROR unknown field */ : 0}
+	_ = time.Time{sec /* ERR unknown field */ : 0}
 	_ = time.Time{
-		0 /* ERROR implicit assignment to unexported field wall in struct literal */,
-		0 /* ERROR implicit assignment */ ,
-		nil /* ERROR implicit assignment */ ,
+		0 /* ERR implicit assignment to unexported field wall in struct literal */,
+		0 /* ERR implicit assignment */ ,
+		nil /* ERR implicit assignment */ ,
 	}
 }
 
@@ -226,26 +226,26 @@ func array_literals() {
 	_ = A1{0, 1, 2}
 	_ = A1{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
 	_ = A1{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 /* ERROR index .* out of bounds */ }
-	_ = A1{- /* ERROR negative */ 1: 0}
+	_ = A1{- /* ERR negative */ 1: 0}
 	_ = A1{8: 8, 9}
 	_ = A1{8: 8, 9, 10 /* ERROR index .* out of bounds */ }
-	_ = A1{0, 1, 2, 0 /* ERROR duplicate index */ : 0, 3: 3, 4}
+	_ = A1{0, 1, 2, 0 /* ERR duplicate index */ : 0, 3: 3, 4}
 	_ = A1{5: 5, 6, 7, 3: 3, 4}
-	_ = A1{5: 5, 6, 7, 3: 3, 4, 5 /* ERROR duplicate index */ }
+	_ = A1{5: 5, 6, 7, 3: 3, 4, 5 /* ERR duplicate index */ }
 	_ = A1{10 /* ERROR index .* out of bounds */ : 10, 10 /* ERROR index .* out of bounds */ : 10}
-	_ = A1{5: 5, 6, 7, 3: 3, 1 /* ERROR overflows */ <<100: 4, 5 /* ERROR duplicate index */ }
-	_ = A1{5: 5, 6, 7, 4: 4, 1 /* ERROR overflows */ <<100: 4}
+	_ = A1{5: 5, 6, 7, 3: 3, 1 /* ERR overflows */ <<100: 4, 5 /* ERR duplicate index */ }
+	_ = A1{5: 5, 6, 7, 4: 4, 1 /* ERR overflows */ <<100: 4}
 	_ = A1{2.0}
-	_ = A1{2.1 /* ERROR truncated */ }
+	_ = A1{2.1 /* ERR truncated */ }
 	_ = A1{"foo" /* ERROR cannot use .* in array or slice literal */ }
 
 	// indices must be integer constants
 	i := 1
 	const f = 2.1
 	const s = "foo"
-	_ = A1{i /* ERROR index i must be integer constant */ : 0}
-	_ = A1{f /* ERROR truncated */ : 0}
-	_ = A1{s /* ERROR cannot convert */ : 0}
+	_ = A1{i /* ERR index i must be integer constant */ : 0}
+	_ = A1{f /* ERR truncated */ : 0}
+	_ = A1{s /* ERR cannot convert */ : 0}
 
 	a0 := [...]int{}
 	assert(len(a0) == 0)
@@ -258,10 +258,10 @@ func array_literals() {
 	a14 = a1 /* ERROR cannot use .* in assignment */
 	_, _ = a13, a14
 
-	a2 := [...]int{- /* ERROR negative */ 1: 0}
+	a2 := [...]int{- /* ERR negative */ 1: 0}
 	_ = a2
 
-	a3 := [...]int{0, 1, 2, 0 /* ERROR duplicate index */ : 0, 3: 3, 4}
+	a3 := [...]int{0, 1, 2, 0 /* ERR duplicate index */ : 0, 3: 3, 4}
 	assert(len(a3) == 5) // somewhat arbitrary
 
 	a4 := [...]complex128{0, 1, 2, 1<<10-2: -1i, 1i, 400: 10, 12, 14}
@@ -292,32 +292,32 @@ func slice_literals() {
 	_ = S0{0, 1, 2}
 	_ = S0{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
 	_ = S0{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
-	_ = S0{- /* ERROR negative */ 1: 0}
+	_ = S0{- /* ERR negative */ 1: 0}
 	_ = S0{8: 8, 9}
 	_ = S0{8: 8, 9, 10}
-	_ = S0{0, 1, 2, 0 /* ERROR duplicate index */ : 0, 3: 3, 4}
+	_ = S0{0, 1, 2, 0 /* ERR duplicate index */ : 0, 3: 3, 4}
 	_ = S0{5: 5, 6, 7, 3: 3, 4}
-	_ = S0{5: 5, 6, 7, 3: 3, 4, 5 /* ERROR duplicate index */ }
-	_ = S0{10: 10, 10 /* ERROR duplicate index */ : 10}
-	_ = S0{5: 5, 6, 7, 3: 3, 1 /* ERROR overflows */ <<100: 4, 5 /* ERROR duplicate index */ }
-	_ = S0{5: 5, 6, 7, 4: 4, 1 /* ERROR overflows */ <<100: 4}
+	_ = S0{5: 5, 6, 7, 3: 3, 4, 5 /* ERR duplicate index */ }
+	_ = S0{10: 10, 10 /* ERR duplicate index */ : 10}
+	_ = S0{5: 5, 6, 7, 3: 3, 1 /* ERR overflows */ <<100: 4, 5 /* ERR duplicate index */ }
+	_ = S0{5: 5, 6, 7, 4: 4, 1 /* ERR overflows */ <<100: 4}
 	_ = S0{2.0}
-	_ = S0{2.1 /* ERROR truncated */ }
+	_ = S0{2.1 /* ERR truncated */ }
 	_ = S0{"foo" /* ERROR cannot use .* in array or slice literal */ }
 
 	// indices must be resolved correctly
 	const index1 = 1
 	_ = S0{index1: 1}
 	_ = S0{index2: 2}
-	_ = S0{index3 /* ERROR undefined */ : 3}
+	_ = S0{index3 /* ERR undefined */ : 3}
 
 	// indices must be integer constants
 	i := 1
 	const f = 2.1
 	const s = "foo"
-	_ = S0{i /* ERROR index i must be integer constant */ : 0}
-	_ = S0{f /* ERROR truncated */ : 0}
-	_ = S0{s /* ERROR cannot convert */ : 0}
+	_ = S0{i /* ERR index i must be integer constant */ : 0}
+	_ = S0{f /* ERR truncated */ : 0}
+	_ = S0{s /* ERR cannot convert */ : 0}
 
 	// composite literal element types may be elided
 	type T []int
@@ -355,37 +355,37 @@ func map_literals() {
 	type M2 map[*int]int
 
 	_ = M0{}
-	_ = M0{1 /* ERROR missing key */ }
+	_ = M0{1 /* ERR missing key */ }
 	_ = M0{1 /* ERROR cannot use .* in map literal */ : 2}
 	_ = M0{"foo": "bar" /* ERROR cannot use .* in map literal */ }
-	_ = M0{"foo": 1, "bar": 2, "foo" /* ERROR duplicate key */ : 3 }
+	_ = M0{"foo": 1, "bar": 2, "foo" /* ERR duplicate key */ : 3 }
 
-	_ = map[interface{}]int{2: 1, 2 /* ERROR duplicate key */ : 1}
+	_ = map[interface{}]int{2: 1, 2 /* ERR duplicate key */ : 1}
 	_ = map[interface{}]int{int(2): 1, int16(2): 1}
-	_ = map[interface{}]int{int16(2): 1, int16 /* ERROR duplicate key */ (2): 1}
+	_ = map[interface{}]int{int16(2): 1, int16 /* ERR duplicate key */ (2): 1}
 
 	type S string
 
-	_ = map[interface{}]int{"a": 1, "a" /* ERROR duplicate key */ : 1}
+	_ = map[interface{}]int{"a": 1, "a" /* ERR duplicate key */ : 1}
 	_ = map[interface{}]int{"a": 1, S("a"): 1}
-	_ = map[interface{}]int{S("a"): 1, S /* ERROR duplicate key */ ("a"): 1}
-	_ = map[interface{}]int{1.0: 1, 1.0 /* ERROR duplicate key */: 1}
-	_ = map[interface{}]int{int64(-1): 1, int64 /* ERROR duplicate key */ (-1) : 1}
-	_ = map[interface{}]int{^uint64(0): 1, ^ /* ERROR duplicate key */ uint64(0): 1}
-	_ = map[interface{}]int{complex(1,2): 1, complex /* ERROR duplicate key */ (1,2) : 1}
+	_ = map[interface{}]int{S("a"): 1, S /* ERR duplicate key */ ("a"): 1}
+	_ = map[interface{}]int{1.0: 1, 1.0 /* ERR duplicate key */: 1}
+	_ = map[interface{}]int{int64(-1): 1, int64 /* ERR duplicate key */ (-1) : 1}
+	_ = map[interface{}]int{^uint64(0): 1, ^ /* ERR duplicate key */ uint64(0): 1}
+	_ = map[interface{}]int{complex(1,2): 1, complex /* ERR duplicate key */ (1,2) : 1}
 
 	type I interface {
 		f()
 	}
 
 	_ = map[I]int{N(0): 1, N(2): 1}
-	_ = map[I]int{N(2): 1, N /* ERROR duplicate key */ (2): 1}
+	_ = map[I]int{N(2): 1, N /* ERR duplicate key */ (2): 1}
 
 	// map keys must be resolved correctly
 	key1 := "foo"
 	_ = M0{key1: 1}
 	_ = M0{key2: 2}
-	_ = M0{key3 /* ERROR undefined */ : 2}
+	_ = M0{key3 /* ERR undefined */ : 2}
 
 	var value int
 	_ = M1{true: 1, false: 0}
@@ -444,7 +444,7 @@ type mybool bool
 
 func type_asserts() {
 	var x int
-	_ = x /* ERROR not an interface */ .(int)
+	_ = x /* ERR not an interface */ .(int)
 
 	var e interface{}
 	var ok bool
@@ -458,10 +458,10 @@ func type_asserts() {
 
 	var t I
 	_ = t /* ERROR use of .* outside type switch */ .(type)
-	_ = t /* ERROR m has pointer receiver */ .(T)
+	_ = t /* ERR m has pointer receiver */ .(T)
 	_ = t.(*T)
-	_ = t /* ERROR missing method m */ .(T1)
-	_ = t /* ERROR wrong type for method m */ .(T2)
+	_ = t /* ERR missing method m */ .(T1)
+	_ = t /* ERR wrong type for method m */ .(T2)
 	_ = t /* STRICT "wrong type for method m" */ .(I2) // only an error in strict mode (issue 8561)
 
 	// e doesn't statically have an m, but may have one dynamically.
@@ -487,40 +487,40 @@ func _calls() {
 	var s []int
 
 	f0()
-	_ = f0 /* ERROR used as value */ ()
-	f0(g0 /* ERROR too many arguments */ )
+	_ = f0 /* ERR used as value */ ()
+	f0(g0 /* ERR too many arguments */ )
 
 	f1(0)
 	f1(x)
 	f1(10.0)
-	f1() /* ERROR not enough arguments in call to f1\n\thave \(\)\n\twant \(int\) */
-	f1(x, y /* ERROR too many arguments in call to f1\n\thave \(int, float32\)\n\twant \(int\) */ )
+	f1() /* ERR not enough arguments in call to f1\n\thave ()\n\twant (int) */
+	f1(x, y /* ERR too many arguments in call to f1\n\thave (int, float32)\n\twant (int) */ )
 	f1(s /* ERROR cannot use .* in argument */ )
-	f1(x ... /* ERROR cannot use ... */ )
-	f1(g0 /* ERROR used as value */ ())
+	f1(x ... /* ERR cannot use ... */ )
+	f1(g0 /* ERR used as value */ ())
 	f1(g1())
-	f1(g2 /* ERROR too many arguments in call to f1\n\thave \(float32, string\)\n\twant \(int\) */ ())
+	f1(g2 /* ERR too many arguments in call to f1\n\thave (float32, string)\n\twant (int) */ ())
 
-	f2() /* ERROR not enough arguments in call to f2\n\thave \(\)\n\twant \(float32, string\) */
-	f2(3.14) /* ERROR not enough arguments in call to f2\n\thave \(number\)\n\twant \(float32, string\) */
+	f2() /* ERR not enough arguments in call to f2\n\thave ()\n\twant (float32, string) */
+	f2(3.14) /* ERR not enough arguments in call to f2\n\thave (number)\n\twant (float32, string) */
 	f2(3.14, "foo")
 	f2(x /* ERROR cannot use .* in argument */ , "foo")
-	f2(g0 /* ERROR used as value */ ())
-	f2(g1()) /* ERROR not enough arguments in call to f2\n\thave \(int\)\n\twant \(float32, string\) */
+	f2(g0 /* ERR used as value */ ())
+	f2(g1()) /* ERR not enough arguments in call to f2\n\thave (int)\n\twant (float32, string) */
 	f2(g2())
 
-	fs() /* ERROR not enough arguments */
-	fs(g0 /* ERROR used as value */ ())
+	fs() /* ERR not enough arguments */
+	fs(g0 /* ERR used as value */ ())
 	fs(g1 /* ERROR cannot use .* in argument */ ())
-	fs(g2 /* ERROR too many arguments */ ())
+	fs(g2 /* ERR too many arguments */ ())
 	fs(gs())
 
 	fv()
 	fv(1, 2.0, x)
 	fv(s /* ERROR cannot use .* in argument */ )
 	fv(s...)
-	fv(x /* ERROR cannot use */ ...)
-	fv(1, s /* ERROR too many arguments */ ...)
+	fv(x /* ERR cannot use */ ...)
+	fv(1, s /* ERR too many arguments */ ...)
 	fv(gs /* ERROR cannot use .* in argument */ ())
 	fv(gs /* ERROR cannot use .* in argument */ ()...)
 
@@ -529,7 +529,7 @@ func _calls() {
 	t.fm(1, 2.0, x)
 	t.fm(s /* ERROR cannot use .* in argument */ )
 	t.fm(g1())
-	t.fm(1, s /* ERROR too many arguments */ ...)
+	t.fm(1, s /* ERR too many arguments */ ...)
 	t.fm(gs /* ERROR cannot use .* in argument */ ())
 	t.fm(gs /* ERROR cannot use .* in argument */ ()...)
 
@@ -537,7 +537,7 @@ func _calls() {
 	T.fm(t, 1, 2.0, x)
 	T.fm(t, s /* ERROR cannot use .* in argument */ )
 	T.fm(t, g1())
-	T.fm(t, 1, s /* ERROR too many arguments */ ...)
+	T.fm(t, 1, s /* ERR too many arguments */ ...)
 	T.fm(t, gs /* ERROR cannot use .* in argument */ ())
 	T.fm(t, gs /* ERROR cannot use .* in argument */ ()...)
 
@@ -546,7 +546,7 @@ func _calls() {
 	i.fm(1, 2.0, x)
 	i.fm(s /* ERROR cannot use .* in argument */ )
 	i.fm(g1())
-	i.fm(1, s /* ERROR too many arguments */ ...)
+	i.fm(1, s /* ERR too many arguments */ ...)
 	i.fm(gs /* ERROR cannot use .* in argument */ ())
 	i.fm(gs /* ERROR cannot use .* in argument */ ()...)
 
@@ -554,7 +554,7 @@ func _calls() {
 	fi(1, 2.0, x, 3.14, "foo")
 	fi(g2())
 	fi(0, g2)
-	fi(0, g2 /* ERROR multiple-value g2 */ ())
+	fi(0, g2 /* ERR multiple-value g2 */ ())
 }
 
 func issue6344() {

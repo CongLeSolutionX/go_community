@@ -12,9 +12,9 @@ import . /* ERROR .unsafe. imported and not used */ "unsafe"
 import . "fmt"     // declares Println in file scope
 
 import (
-	"" /* ERROR invalid import path */
-	"a!b" /* ERROR invalid import path */
-	"abc\xffdef" /* ERROR invalid import path */
+	"" /* ERR invalid import path */
+	"a!b" /* ERR invalid import path */
+	"abc\xffdef" /* ERR invalid import path */
 )
 
 // using "math" in this file doesn't affect its use in other files

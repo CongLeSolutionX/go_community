@@ -16,9 +16,9 @@ package p
 func _() {
 	var s uint
 
-	_ = int32(0x80000000 /* ERROR "overflows int32" */ << s)
+	_ = int32(0x80000000 /* ERR overflows int32 */ << s)
 	// TODO(rfindley) Eliminate the redundant error here.
-	_ = int32(( /* ERROR "truncated to int32" */ 0x80000000 /* ERROR "truncated to int32" */ + 0i) << s)
+	_ = int32(( /* ERR truncated to int32 */ 0x80000000 /* ERR truncated to int32 */ + 0i) << s)
 
 	_ = int(1 + 0i<<0)
 	_ = int((1 + 0i) << s)

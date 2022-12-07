@@ -25,25 +25,25 @@ func issue7035() {
 func issue8066() {
 	const (
 		_ = float32(340282356779733661637539395458142568447)
-		_ = float32(340282356779733661637539395458142568448 /* ERROR cannot convert */ )
+		_ = float32(340282356779733661637539395458142568448 /* ERR cannot convert */ )
 	)
 }
 
 // Check that a missing identifier doesn't lead to a spurious error cascade.
 func issue8799a() {
-	x, ok := missing /* ERROR undefined */ ()
+	x, ok := missing /* ERR undefined */ ()
 	_ = !ok
 	_ = x
 }
 
 func issue8799b(x int, ok bool) {
-	x, ok = missing /* ERROR undefined */ ()
+	x, ok = missing /* ERR undefined */ ()
 	_ = !ok
 	_ = x
 }
 
 func issue9182() {
-	type Point C /* ERROR undefined */ .Point
+	type Point C /* ERR undefined */ .Point
 	// no error for composite literal based on unknown type
 	_ = Point{x: 1, y: 2}
 }
@@ -60,53 +60,53 @@ func issue9473(a []int, b ...int) {
 	_ = append(f0(), f0()...)
 	_ = append(f1())
 	_ = append(f2 /* ERROR cannot use .* in argument */ ())
-	_ = append(f2()... /* ERROR cannot use ... */ )
-	_ = append(f0(), f1 /* ERROR multiple-value f1 */ ())
-	_ = append(f0(), f2 /* ERROR multiple-value f2 */ ())
-	_ = append(f0(), f1 /* ERROR multiple-value f1 */ ()...)
-	_ = append(f0(), f2 /* ERROR multiple-value f2 */ ()...)
+	_ = append(f2()... /* ERR cannot use ... */ )
+	_ = append(f0(), f1 /* ERR multiple-value f1 */ ())
+	_ = append(f0(), f2 /* ERR multiple-value f2 */ ())
+	_ = append(f0(), f1 /* ERR multiple-value f1 */ ()...)
+	_ = append(f0(), f2 /* ERR multiple-value f2 */ ()...)
 
 	// variadic user-defined function
 	append_(f0())
 	append_(f0(), f0()...)
 	append_(f1())
 	append_(f2 /* ERROR cannot use .* in argument */ ())
-	append_(f2()... /* ERROR cannot use ... */ )
-	append_(f0(), f1 /* ERROR multiple-value f1 */ ())
-	append_(f0(), f2 /* ERROR multiple-value f2 */ ())
-	append_(f0(), f1 /* ERROR multiple-value f1 */ ()...)
-	append_(f0(), f2 /* ERROR multiple-value f2 */ ()...)
+	append_(f2()... /* ERR cannot use ... */ )
+	append_(f0(), f1 /* ERR multiple-value f1 */ ())
+	append_(f0(), f2 /* ERR multiple-value f2 */ ())
+	append_(f0(), f1 /* ERR multiple-value f1 */ ()...)
+	append_(f0(), f2 /* ERR multiple-value f2 */ ()...)
 }
 
 // Check that embedding a non-interface type in an interface results in a good error message.
 func issue10979() {
 	type _ interface {
-		int /* ERROR non-interface type int */
+		int /* ERR non-interface type int */
 	}
 	type T struct{}
 	type _ interface {
-		T /* ERROR non-interface type T */
+		T /* ERR non-interface type T */
 	}
 	type _ interface {
-		nosuchtype /* ERROR undefined: nosuchtype */
+		nosuchtype /* ERR undefined: nosuchtype */
 	}
 	type _ interface {
-		fmt.Nosuchtype /* ERROR undefined: fmt\.Nosuchtype */
+		fmt.Nosuchtype /* ERR undefined: fmt.Nosuchtype */
 	}
 	type _ interface {
-		nosuchpkg /* ERROR undefined: nosuchpkg */ .Nosuchtype
+		nosuchpkg /* ERR undefined: nosuchpkg */ .Nosuchtype
 	}
 	type I interface {
-		I.m /* ERROR no field or method m */
+		I.m /* ERR no field or method m */
 		m()
 	}
 }
 
 // issue11347
 // These should not crash.
-var a1, b1 /* ERROR cycle */ , c1 /* ERROR cycle */ b1 = 0 > 0<<""[""[c1]]>c1
-var a2, b2 /* ERROR cycle */ = 0 /* ERROR assignment mismatch */ /* ERROR assignment mismatch */ > 0<<""[b2]
-var a3, b3 /* ERROR cycle */ = int /* ERROR assignment mismatch */ /* ERROR assignment mismatch */ (1<<""[b3])
+var a1, b1 /* ERR cycle */ , c1 /* ERR cycle */ b1 = 0 > 0<<""[""[c1]]>c1
+var a2, b2 /* ERR cycle */ = 0 /* ERR assignment mismatch */ /* ERR assignment mismatch */ > 0<<""[b2]
+var a3, b3 /* ERR cycle */ = int /* ERR assignment mismatch */ /* ERR assignment mismatch */ (1<<""[b3])
 
 // issue10260
 // Check that error messages explain reason for interface assignment failures.
@@ -134,12 +134,12 @@ func issue10260() {
 
 	var x I1
 	x = T1 /* ERROR cannot use T1{} .* as I1 value in assignment: T1 does not implement I1 \(method foo has pointer receiver\) */ {}
-	_ = x /* ERROR impossible type assertion: x\.\(T1\)\n\tT1 does not implement I1 \(method foo has pointer receiver\) */ .(T1)
+	_ = x /* ERR impossible type assertion: x.(T1)\n\tT1 does not implement I1 (method foo has pointer receiver) */ .(T1)
 
-	T1{}.foo /* ERROR cannot call pointer method foo on T1 */ ()
-	x.Foo /* ERROR x.Foo undefined \(type I1 has no field or method Foo, but does have foo\) */ ()
+	T1{}.foo /* ERR cannot call pointer method foo on T1 */ ()
+	x.Foo /* ERR x.Foo undefined (type I1 has no field or method Foo, but does have foo) */ ()
 
-	_ = i2 /* ERROR impossible type assertion: i2\.\(\*T1\)\n\t\*T1 does not implement I2 \(wrong type for method foo\)\n\t\thave foo\(\)\n\t\twant foo\(int\) */ .(*T1)
+	_ = i2 /* ERR impossible type assertion: i2.(*T1)\n\t*T1 does not implement I2 (wrong type for method foo)\n\t\thave foo()\n\t\twant foo(int) */ .(*T1)
 
 	i1 = i0 /* ERROR cannot use i0 .* as I1 value in assignment: I0 does not implement I1 \(missing method foo\) */
 	i1 = t0 /* ERROR .* t0 .* as I1 .*: \*T0 does not implement I1 \(missing method foo\) */
@@ -158,17 +158,17 @@ func issue10260() {
 	// a few more - less exhaustive now
 
 	f := func(I1, I2){}
-	f(i0 /* ERROR missing method foo */ , i1 /* ERROR wrong type for method foo */ )
+	f(i0 /* ERR missing method foo */ , i1 /* ERR wrong type for method foo */ )
 
 	_ = [...]I1{i0 /* ERROR cannot use i0 .* as I1 value in array or slice literal: I0 does not implement I1 \(missing method foo\) */ }
 	_ = [...]I1{i2 /* ERROR cannot use i2 .* as I1 value in array or slice literal: I2 does not implement I1 \(wrong type for method foo\)\n\t\thave foo\(int\)\n\t\twant foo\(\) */ }
-	_ = []I1{i0 /* ERROR missing method foo */ }
-	_ = []I1{i2 /* ERROR wrong type for method foo */ }
-	_ = map[int]I1{0: i0 /* ERROR missing method foo */ }
-	_ = map[int]I1{0: i2 /* ERROR wrong type for method foo */ }
+	_ = []I1{i0 /* ERR missing method foo */ }
+	_ = []I1{i2 /* ERR wrong type for method foo */ }
+	_ = map[int]I1{0: i0 /* ERR missing method foo */ }
+	_ = map[int]I1{0: i2 /* ERR wrong type for method foo */ }
 
-	make(chan I1) <- i0 /* ERROR missing method foo */
-	make(chan I1) <- i2 /* ERROR wrong type for method foo */
+	make(chan I1) <- i0 /* ERR missing method foo */
+	make(chan I1) <- i2 /* ERR wrong type for method foo */
 }
 
 // Check that constants representable as integers are in integer form
@@ -199,7 +199,7 @@ func issue15755() {
 	_ = x == y
 
 	// related: we should see an error since the result of f1 is ([]int, int)
-	var u, v []int = f1 /* ERROR cannot use f1 */ ()
+	var u, v []int = f1 /* ERR cannot use f1 */ ()
 	_ = u
 	_ = v
 }
@@ -207,11 +207,11 @@ func issue15755() {
 // Test that we don't get "declared and not used"
 // errors in the context of invalid/C objects.
 func issue20358() {
-	var F C /* ERROR undefined */ .F
-	var A C /* ERROR undefined */ .A
-	var S C /* ERROR undefined */ .S
-	type T C /* ERROR undefined */ .T
-	type P C /* ERROR undefined */ .P
+	var F C /* ERR undefined */ .F
+	var A C /* ERR undefined */ .A
+	var S C /* ERR undefined */ .S
+	type T C /* ERR undefined */ .T
+	type P C /* ERR undefined */ .P
 
 	// these variables must be "used" even though
 	// the LHS expressions/types below in which
@@ -240,7 +240,7 @@ func issue24026() {
 	// b and c must not be visible inside function literal
 	a := 0
 	a, b, c := func() (int, int, int) {
-		return a, b /* ERROR undefined */ , c /* ERROR undefined */
+		return a, b /* ERR undefined */ , c /* ERR undefined */
 	}()
 	_, _ = b, c
 }
@@ -260,10 +260,10 @@ func issue24140(x interface{}) int {
 
 // Test that we don't crash when the 'if' condition is missing.
 func issue25438() {
-	if { /* ERROR missing condition */ }
-	if x := 0; /* ERROR missing condition */ { _ = x }
+	if { /* ERR missing condition */ }
+	if x := 0; /* ERR missing condition */ { _ = x }
 	if
-	{ /* ERROR missing condition */ }
+	{ /* ERR missing condition */ }
 }
 
 // Test that we can embed alias type names in interfaces.
@@ -277,12 +277,12 @@ type E = interface {
 
 // Test case from issue.
 // cmd/compile reports a cycle as well.
-type issue25301b /* ERROR invalid recursive type */ = interface {
+type issue25301b /* ERR invalid recursive type */ = interface {
 	m() interface{ issue25301b }
 }
 
 type issue25301c interface {
-	notE // ERROR non-interface type struct\{\}
+	notE // ERR non-interface type struct\{\}
 }
 
 type notE = struct{}
@@ -313,28 +313,28 @@ type allocator struct {
 
 // Test that we don't crash when type-checking composite literals
 // containing errors in the type.
-var issue27346 = [][n /* ERROR undefined */ ]int{
+var issue27346 = [][n /* ERR undefined */ ]int{
 	0: {},
 }
 
-var issue22467 = map[int][... /* ERROR invalid use of ... */ ]int{0: {}}
+var issue22467 = map[int][... /* ERR invalid use of [...] array */ ]int{0: {}}
 
 // Test that invalid use of ... in parameter lists is recognized
 // (issue #28281).
 func issue28281a(int, int, ...int)
 func issue28281b(a, b int, c ...int)
-func issue28281c(a, b, c ... /* ERROR can only use ... with final parameter */ int)
-func issue28281d(... /* ERROR can only use ... with final parameter */ int, int)
-func issue28281e(a, b, c  ... /* ERROR can only use ... with final parameter */ int, d int)
-func issue28281f(... /* ERROR can only use ... with final parameter */ int, ... /* ERROR can only use ... with final parameter */ int, int)
-func (... /* ERROR can only use ... with final parameter */ TT) f()
-func issue28281g() (... /* ERROR can only use ... with final parameter */ TT)
+func issue28281c(a, b, c ... /* ERR can only use ... with final parameter */ int)
+func issue28281d(... /* ERR can only use ... with final parameter */ int, int)
+func issue28281e(a, b, c  ... /* ERR can only use ... with final parameter */ int, d int)
+func issue28281f(... /* ERR can only use ... with final parameter */ int, ... /* ERR can only use ... with final parameter */ int, int)
+func (... /* ERR can only use ... with final parameter */ TT) f()
+func issue28281g() (... /* ERR can only use ... with final parameter */ TT)
 
 // Issue #26234: Make various field/method lookup errors easier to read by matching cmd/compile's output
 func issue26234a(f *syn.Prog) {
 	// The error message below should refer to the actual package name (syntax)
 	// not the local package name (syn).
-	f.foo /* ERROR f\.foo undefined \(type \*syntax\.Prog has no field or method foo\) */
+	f.foo /* ERR f\.foo undefined \(type \*syntax\.Prog has no field or method foo\) */
 }
 
 type T struct {
@@ -347,19 +347,19 @@ type E1 struct{ f int }
 type E2 struct{ f int }
 
 func issue26234b(x T) {
-	_ = x.f /* ERROR ambiguous selector x.f */
+	_ = x.f /* ERR ambiguous selector x.f */
 }
 
 func issue26234c() {
-	T.x /* ERROR T.x undefined \(type T has no method x\) */ ()
+	T.x /* ERR T.x undefined (type T has no method x) */ ()
 }
 
 func issue35895() {
 	// T is defined in this package, don't qualify its name with the package name.
-	var _ T = 0 // ERROR cannot use 0 \(untyped int constant\) as T
+	var _ T = 0 // ERR cannot use 0 (untyped int constant) as T
 
 	// There is only one package with name syntax imported, only use the (global) package name in error messages.
-	var _ *syn.Prog = 0 // ERROR cannot use 0 \(untyped int constant\) as \*syntax.Prog
+	var _ *syn.Prog = 0 // ERR cannot use 0 (untyped int constant) as *syntax.Prog
 
 	// Because both t1 and t2 have the same global package name (template),
 	// qualify packages with full path name in this case.

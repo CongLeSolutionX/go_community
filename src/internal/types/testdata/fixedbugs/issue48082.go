@@ -4,4 +4,4 @@
 
 package issue48082
 
-import "init" /* ERROR init must be a func */ /* ERROR could not import init */
+import "init" /* ERR init must be a func */ /* ERR could not import init */

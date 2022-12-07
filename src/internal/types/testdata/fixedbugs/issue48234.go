@@ -6,5 +6,5 @@ package p
 
 var _ = interface{
 	m()
-	m /* ERROR duplicate method */ ()
+	m /* ERR duplicate method */ ()
 }(nil)

@@ -37,6 +37,7 @@ import (
 	"reflect"
 	"regexp"
 	"sort"
+	"strconv"
 	"strings"
 	"testing"
 
@@ -199,7 +200,7 @@ func testFiles(t *testing.T, sizes Sizes, filenames []string, srcs [][]byte, man
 	// collect expected errors
 	errmap := make(map[string]map[int][]comment)
 	for i, filename := range filenames {
-		if m := commentMap(srcs[i], regexp.MustCompile("^ ERROR ")); len(m) > 0 {
+		if m := commentMap(srcs[i], regexp.MustCompile("^ (ERROR|ERR) ")); len(m) > 0 {
 			errmap[filename] = m
 		}
 	}
@@ -221,18 +222,26 @@ func testFiles(t *testing.T, sizes Sizes, filenames []string, srcs [][]byte, man
 		// one of errors in list should match the current error
 		index := -1 // list index of matching message, if any
 		for i, want := range list {
-			pattern := strings.TrimSpace(want.text[len(" ERROR "):])
-			if n := len(pattern); n >= 2 && pattern[0] == '"' && pattern[n-1] == '"' {
-				pattern = pattern[1 : n-1]
-			}
-			rx, err := regexp.Compile(pattern)
-			if err != nil {
-				t.Errorf("%s:%d:%d: %v", filename, line, want.col, err)
-				continue
-			}
-			if rx.MatchString(got.Msg) {
-				index = i
-				break
+			if pattern, found := strings.CutPrefix(want.text, " ERROR "); found {
+				rx, err := regexp.Compile(strings.TrimSpace(pattern))
+				if err != nil {
+					t.Errorf("%s:%d:%d: %v", filename, line, want.col, err)
+					continue
+				}
+				if rx.MatchString(got.Msg) {
+					index = i
+					break
+				}
+			} else if pattern, found := strings.CutPrefix(want.text, " ERR "); found {
+				// temp. hack
+				// TODO needs cleanup
+				pattern, _ := strconv.Unquote(`"` + strings.TrimSpace(pattern) + `"`)
+				// t.Errorf("got  %q", got.Msg)
+				// t.Errorf("want %q (%v)", wantMsg, err)
+				if strings.Contains(got.Msg, pattern) {
+					index = i
+					break
+				}
 			}
 		}
 		if index < 0 {
@@ -335,7 +344,7 @@ func TestLongConstants(t *testing.T) {
 // be representable as int even if they already have a type that can
 // represent larger values.
 func TestIndexRepresentability(t *testing.T) {
-	const src = "package index\n\nvar s []byte\nvar _ = s[int64 /* ERROR \"int64\\(1\\) << 40 \\(.*\\) overflows int\" */ (1) << 40]"
+	const src = `package index; var s []byte; var _ = s[int64 /* ERROR int64\(1\) << 40 \(.*\) overflows int */ (1) << 40]`
 	testFiles(t, &StdSizes{4, 4}, []string{"index.go"}, [][]byte{[]byte(src)}, false, nil)
 }
 

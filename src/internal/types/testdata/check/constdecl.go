@@ -12,75 +12,75 @@ import (
 var v int
 
 // Const decls must be initialized by constants.
-const _ = v /* ERROR not constant */
-const _ = math /* ERROR not constant */ .Sin(0)
-const _ = int /* ERROR not an expression */
+const _ = v /* ERR not constant */
+const _ = math /* ERR not constant */ .Sin(0)
+const _ = int /* ERR not an expression */
 
 func _() {
-	const _ = v /* ERROR not constant */
-	const _ = math /* ERROR not constant */ .Sin(0)
-	const _ = int /* ERROR not an expression */
+	const _ = v /* ERR not constant */
+	const _ = math /* ERR not constant */ .Sin(0)
+	const _ = int /* ERR not an expression */
 }
 
 // Identifier and expression arity must match.
-const _ /* ERROR missing init expr for _ */
-const _ = 1, 2 /* ERROR extra init expr 2 */
+const _ /* ERR missing init expr for _ */
+const _ = 1, 2 /* ERR extra init expr 2 */
 
-const _ /* ERROR missing init expr for _ */ int
-const _ int = 1, 2 /* ERROR extra init expr 2 */
+const _ /* ERR missing init expr for _ */ int
+const _ int = 1, 2 /* ERR extra init expr 2 */
 
 const (
-	_ /* ERROR missing init expr for _ */
-	_ = 1, 2 /* ERROR extra init expr 2 */
+	_ /* ERR missing init expr for _ */
+	_ = 1, 2 /* ERR extra init expr 2 */
 
-	_ /* ERROR missing init expr for _ */ int
-	_ int = 1, 2 /* ERROR extra init expr 2 */
+	_ /* ERR missing init expr for _ */ int
+	_ int = 1, 2 /* ERR extra init expr 2 */
 )
 
 const (
 	_ = 1
 	_
-	_, _ /* ERROR missing init expr for _ */
+	_, _ /* ERR missing init expr for _ */
 	_
 )
 
 const (
 	_, _ = 1, 2
 	_, _
-	_ /* ERROR extra init expr at */
+	_ /* ERR extra init expr at */
 	_, _
-	_, _, _ /* ERROR missing init expr for _ */
+	_, _, _ /* ERR missing init expr for _ */
 	_, _
 )
 
 func _() {
-	const _ /* ERROR missing init expr for _ */
-	const _ = 1, 2 /* ERROR extra init expr 2 */
+	const _ /* ERR missing init expr for _ */
+	const _ = 1, 2 /* ERR extra init expr 2 */
 
-	const _ /* ERROR missing init expr for _ */ int
-	const _ int = 1, 2 /* ERROR extra init expr 2 */
+	const _ /* ERR missing init expr for _ */ int
+	const _ int = 1, 2 /* ERR extra init expr 2 */
 
 	const (
-		_ /* ERROR missing init expr for _ */
-		_ = 1, 2 /* ERROR extra init expr 2 */
+		_ /* ERR missing init expr for _ */
+		_ = 1, 2 /* ERR extra init expr 2 */
 
-		_ /* ERROR missing init expr for _ */ int
-		_ int = 1, 2 /* ERROR extra init expr 2 */
+		_ /* ERR missing init expr for _ */ int
+		_ int = 1, 2 /* ERR extra init expr 2 */
 	)
 
 	const (
 		_ = 1
 		_
-		_, _ /* ERROR missing init expr for _ */
+		_, _ /* ERR missing init expr for _ */
 		_
 	)
 
 	const (
 		_, _ = 1, 2
 		_, _
-		_ /* ERROR extra init expr at */
+		_ /* ERR extra init expr at */
 		_, _
-		_, _, _ /* ERROR missing init expr for _ */
+		_, _, _ /* ERR missing init expr for _ */
 		_, _
 	)
 }
@@ -89,21 +89,21 @@ func _() {
 // Caused panic because the constant value was not set up (gri - 7/8/2014).
 func _() {
 	const (
-	    x string = missing /* ERROR undefined */
+	    x string = missing /* ERR undefined */
 	    y = x + ""
 	)
 }
 
 // Test case for constants depending on function literals (see also #22992).
-const A /* ERROR initialization cycle */ = unsafe.Sizeof(func() { _ = A })
+const A /* ERR initialization cycle */ = unsafe.Sizeof(func() { _ = A })
 
 func _() {
 	// The function literal below must not see a.
-	const a = unsafe.Sizeof(func() { _ = a /* ERROR undefined */ })
+	const a = unsafe.Sizeof(func() { _ = a /* ERR undefined */ })
 	const b = unsafe.Sizeof(func() { _ = a })
 
 	// The function literal below must not see x, y, or z.
-	const x, y, z = 0, 1, unsafe.Sizeof(func() { _ = x /* ERROR undefined */ + y /* ERROR undefined */ + z /* ERROR undefined */ })
+	const x, y, z = 0, 1, unsafe.Sizeof(func() { _ = x /* ERR undefined */ + y /* ERR undefined */ + z /* ERR undefined */ })
 }
 
 // Test cases for errors in inherited constant initialization expressions.
@@ -113,13 +113,13 @@ func _() {
 const (
 	_ byte = 255 + iota
 	/* some gap */
-	_ // ERROR overflows
+	_ // ERR overflows
 	/* some gap */
-	/* some gap */ _ /* ERROR overflows */; _ /* ERROR overflows */
+	/* some gap */ _ /* ERR overflows */; _ /* ERR overflows */
 	/* some gap */
 	_ = 255 + iota
-	_ = byte /* ERROR overflows */ (255) + iota
-	_ /* ERROR overflows */
+	_ = byte /* ERR overflows */ (255) + iota
+	_ /* ERR overflows */
 )
 
 // Test cases from issue.
@@ -127,14 +127,14 @@ const (
 	ok = byte(iota + 253)
 	bad
 	barn
-	bard // ERROR cannot convert
+	bard // ERR cannot convert
 )
 
 const (
 	c = len([1 - iota]int{})
 	d
-	e // ERROR invalid array length
-	f // ERROR invalid array length
+	e // ERR invalid array length
+	f // ERR invalid array length
 )
 
 // Test that identifiers in implicit (omitted) RHS

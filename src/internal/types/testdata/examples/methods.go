@@ -28,7 +28,7 @@ var _ int = x.m1()
 // It cannot possibly be some other type because the receiver type is not
 // instantiated with concrete types, it is standing for the parameterized
 // receiver type.
-func (t T1[[ /* ERROR must be an identifier */ ]int]) m2() {}
+func (t T1[[ /* ERR must be an identifier */ ]int]) m2() {}
 
 // Note that using what looks like a predeclared identifier, say int,
 // as type parameter in this situation is deceptive and considered bad
@@ -105,8 +105,8 @@ func (T1[A]) _() {}
 // 
 // type T3b[P interface{ ~unsafe.Pointer }] P
 // 
-// func (T3b /* ERROR invalid receiver */ [_]) m() {}
+// func (T3b /* ERR invalid receiver */ [_]) m() {}
 // 
 // type T3c[P interface{ *int | *string }] P
 // 
-// func (T3c /* ERROR invalid receiver */ [_]) m() {}
+// func (T3c /* ERR invalid receiver */ [_]) m() {}

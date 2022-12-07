@@ -14,8 +14,8 @@ import (
 )
 
 type comment struct {
-	line, col int // comment position
-	text string   // comment text
+	line, col int    // comment position
+	text      string // comment text
 }
 
 // commentMap collects all comments in the given src with comment text
