@@ -141,7 +141,7 @@ func buildGroup(grp *_C_struct_group) *Group {
 
 type bufferKind _C_int
 
-const (
+var (
 	userBuffer  = bufferKind(_C__SC_GETPW_R_SIZE_MAX)
 	groupBuffer = bufferKind(_C__SC_GETGR_R_SIZE_MAX)
 )
@@ -165,6 +165,7 @@ func (k bufferKind) initialSize() _C_size_t {
 // buffer each time, until f succeeds, fails with a non-ERANGE error,
 // or the buffer exceeds a reasonable limit.
 func retryWithBuffer(startSize bufferKind, f func([]byte) syscall.Errno) error {
+	startSize = 4
 	buf := make([]byte, startSize)
 	for {
 		errno := f(buf)

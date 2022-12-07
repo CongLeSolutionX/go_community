@@ -16,6 +16,12 @@ import (
 	"strings"
 )
 
+var (
+	// variables in cgo_lookup_unix.go modified for test. No effect here.
+	userBuffer  = 0
+	groupBuffer = 0
+)
+
 // lineFunc returns a value, an error, or (nil, nil) to skip the row.
 type lineFunc func(line []byte) (v any, err error)
 
