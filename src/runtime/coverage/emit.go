@@ -124,6 +124,14 @@ func emitMetaData() {
 	if covProfileAlreadyEmitted {
 		return
 	}
+	goCoverDir = os.Getenv("GOCOVERDIR")
+	if goCoverDir == "_" {
+		// By setting GOCOVERDIR to "_", the user is requesting
+		// that we suppress the warning (in a case where for whatever
+		// reason the user wants to run a -cover binary to do something
+		// useful without seeing a lot of warnings).
+		return
+	}
 	ml, err := prepareForMetaEmit()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "error: coverage meta-data prep failed: %v\n", err)
@@ -135,8 +143,6 @@ func emitMetaData() {
 		fmt.Fprintf(os.Stderr, "program not built with -cover\n")
 		return
 	}
-
-	goCoverDir = os.Getenv("GOCOVERDIR")
 	if goCoverDir == "" {
 		fmt.Fprintf(os.Stderr, "warning: GOCOVERDIR not set, no coverage data emitted\n")
 		return
