@@ -436,9 +436,19 @@ func Join(elems []string, sep string) string {
 	case 1:
 		return elems[0]
 	}
-	n := len(sep) * (len(elems) - 1)
-	for i := 0; i < len(elems); i++ {
-		n += len(elems[i])
+
+	var n int
+	if len(sep) > 0 {
+		n += len(sep) * (len(elems) - 1)
+		if n/len(sep) != (len(elems) - 1) {
+			panic("strings: Join output length overflow")
+		}
+	}
+	for _, elem := range elems {
+		n += len(elem)
+		if n < 0 {
+			panic("strings: Join output length overflow")
+		}
 	}
 
 	var b Builder
@@ -534,22 +544,20 @@ func Repeat(s string, count int) string {
 	case 1:
 		return s
 	}
-
-	// Since we cannot return an error on overflow,
-	// we should panic if the repeat will generate
-	// an overflow.
-	// See golang.org/issue/16237.
-	if count < 0 {
-		panic("strings: negative Repeat count")
-	} else if len(s)*count/count != len(s) {
-		panic("strings: Repeat count causes overflow")
-	}
-
 	if len(s) == 0 {
 		return ""
 	}
 
+	// Since we cannot return an error on overflow,
+	// we should panic if the repeat will generate an overflow.
+	// See golang.org/issue/16237.
+	if count < 0 {
+		panic("strings: negative Repeat count")
+	}
 	n := len(s) * count
+	if n/len(s) != count {
+		panic("strings: Repeat count causes overflow")
+	}
 
 	// Past a certain chunk size it is counterproductive to use
 	// larger chunks as the source of the write, as when the source
