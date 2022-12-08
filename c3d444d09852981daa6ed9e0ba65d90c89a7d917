@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85025b29_5734d8a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-12-08T16:05:31Z",
+      "side": 1,
+      "message": "I believe that in order to safely return the structs to Go they must be zero-initialized: otherwise, if the call fails (and does not mutate the passed in struct) we can end up writing wild pointers to struct fields that are now visible to the Go GC.\n\nMy proposed fix is in CL 456121.",
+      "range": {
+        "startLine": 13,
+        "startChar": 54,
+        "endLine": 14,
+        "endChar": 66
+      },
+      "revId": "c3d444d09852981daa6ed9e0ba65d90c89a7d917",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
