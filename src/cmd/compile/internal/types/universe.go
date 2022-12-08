@@ -46,12 +46,18 @@ func InitTypes(defTypeName func(sym *Sym, typ *Type) Object) {
 	}
 
 	SlicePtrOffset = 0
-	SliceLenOffset = RoundUp(SlicePtrOffset+int64(PtrSize), int64(PtrSize))
-	SliceCapOffset = RoundUp(SliceLenOffset+int64(PtrSize), int64(PtrSize))
-	SliceSize = RoundUp(SliceCapOffset+int64(PtrSize), int64(PtrSize))
 
-	// string is same as slice wo the cap
-	StringSize = RoundUp(SliceLenOffset+int64(PtrSize), int64(PtrSize))
+	if base.SwapLenCap() {
+		SliceCapOffset = RoundUp(SlicePtrOffset+int64(PtrSize), int64(PtrSize))
+		SliceLenOffset = RoundUp(SliceCapOffset+int64(PtrSize), int64(PtrSize))
+		SliceSize = RoundUp(SliceLenOffset+int64(PtrSize), int64(PtrSize))
+	} else {
+		SliceLenOffset = RoundUp(SlicePtrOffset+int64(PtrSize), int64(PtrSize))
+		SliceCapOffset = RoundUp(SliceLenOffset+int64(PtrSize), int64(PtrSize))
+		SliceSize = RoundUp(SliceCapOffset+int64(PtrSize), int64(PtrSize))
+	}
+
+	StringSize = RoundUp(2*int64(PtrSize), int64(PtrSize))
 
 	for et := Kind(0); et < NTYPE; et++ {
 		SimType[et] = et

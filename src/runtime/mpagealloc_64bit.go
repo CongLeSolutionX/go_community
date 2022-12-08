@@ -83,14 +83,14 @@ func (p *pageAlloc) sysInit() {
 		}
 
 		// Put this reservation into a slice.
-		sl := notInHeapSlice{(*notInHeap)(r), 0, entries}
+		sl := notInHeapSlice{array: (*notInHeap)(r), len: 0, cap: entries}
 		p.summary[l] = *(*[]pallocSum)(unsafe.Pointer(&sl))
 	}
 
 	// Set up the scavenge index.
 	nbytes := uintptr(1<<heapAddrBits) / pallocChunkBytes / 8
 	r := sysReserve(nil, nbytes)
-	sl := notInHeapSlice{(*notInHeap)(r), int(nbytes), int(nbytes)}
+	sl := notInHeapSlice{array: (*notInHeap)(r), len: int(nbytes), cap: int(nbytes)}
 	p.scav.index.chunks = *(*[]atomic.Uint8)(unsafe.Pointer(&sl))
 }
 
