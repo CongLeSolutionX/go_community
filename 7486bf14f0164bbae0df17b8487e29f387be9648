@@ -3,6 +3,29 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "2477674b_ca1750f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2022-12-08T14:17:21Z",
+      "side": 1,
+      "message": "Correct. GC is now just as precise on 32-bit. This must date from when we still had a partially-conservative GC (goodness!)",
+      "range": {
+        "startLine": 11,
+        "startChar": 43,
+        "endLine": 11,
+        "endChar": 52
+      },
+      "revId": "7486bf14f0164bbae0df17b8487e29f387be9648",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "6fbcc523_5249ceb2",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
