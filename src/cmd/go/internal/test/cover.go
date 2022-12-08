@@ -7,11 +7,13 @@ package test
 import (
 	"cmd/go/internal/base"
 	"cmd/go/internal/cfg"
+	"cmd/go/internal/work"
 	"fmt"
 	"io"
 	"os"
 	"path/filepath"
 	"sync"
+	"time"
 )
 
 var coverMerge struct {
@@ -82,4 +84,81 @@ func closeCoverProfile() {
 	if err := coverMerge.f.Close(); err != nil {
 		base.Errorf("closing coverage profile: %v", err)
 	}
+}
+
+// mergeGoCoverDir merges new-style coverage profile data files from
+// 'src' to 'dst'; this helper is used to support the use case of "go
+// test -cover -gocoverdir=...", where we've finished running a specific
+// package test with coverage, and we want to incorporate the coverage
+// data files from that test into the a target user-supplied directory.
+//
+// Note that although "src" is under our control, "dst" is a
+// user-supplied directory, and could (conceivably) be targeted by
+// several different parallel "go test" runs at the same time. In
+// most cases we don't expect collisions since the meta-data file
+// names incorporate a hash that includes source info from package
+// (plus the import path, etc), and since the counter data files have
+// the meta hash plus process ID and nanotime. However in a case like
+//
+//	$ mkdir mydir
+//	$ go test -gocoverdir=mydir package1 &
+//	$ SOMEVAR=99 go test -gocoverdir=mydir package1 &
+//	$ wait
+//
+// we could wind up with two "go test" runs trying to write the same
+// meta-data file to "mydir" at the same time. This is handled by
+// copying files into the dest dir and then doing a rename.
+func mergeGoCoverDir(b *work.Builder, src, dst string) error {
+	if cfg.BuildN || cfg.BuildX {
+		// It would be problematic to show the specific names of the
+		// files being copied here, since they incorporate time stamps
+		// that change each time we do a run. Instead put out an
+		// informational "cp" command showing what's happening.
+		b.Showcmd("", "cp %s/* %s", src, dst)
+		if cfg.BuildN {
+			return nil
+		}
+	}
+
+	// For each file in the src dir, copy it to the dst if
+	// there isn't already a file of that name in dst.
+	entries, err := os.ReadDir(src)
+	if err != nil {
+		return fmt.Errorf("attempting to read dir %s: %v", src, err)
+	}
+	for _, e := range entries {
+		dstfn := filepath.Join(dst, e.Name())
+		_, statErr := os.Stat(dstfn)
+		if statErr == nil || !os.IsNotExist(statErr) {
+			continue
+		}
+		// open the srcfile
+		srcfn := filepath.Join(src, e.Name())
+		sf, oerr := os.Open(srcfn)
+		if oerr != nil {
+			return fmt.Errorf("attempting to read %s: %v", srcfn, err)
+		}
+		// open a temp file in the dest dir.
+		tmpfile := fmt.Sprintf("%s.tmp.%d.%d",
+			dstfn, os.Getpid(), time.Now().UnixNano())
+		df, err := os.OpenFile(tmpfile, os.O_WRONLY|os.O_CREATE|os.O_TRUNC|os.O_EXCL, 0666)
+		if err != nil {
+			return fmt.Errorf("attempting to write %s: %v", dstfn, err)
+		}
+		// copy over the contents.
+		_, err = io.Copy(df, sf)
+		if err != nil {
+			return err
+		}
+		sf.Close()
+		if err := df.Close(); err != nil {
+			return err
+		}
+		// now rename the temp to the final target filename.
+		if err := os.Rename(tmpfile, dstfn); err != nil {
+			return fmt.Errorf("writing %s: rename from %s failed: %v\n",
+				dstfn, tmpfile, err)
+		}
+	}
+	return nil
 }

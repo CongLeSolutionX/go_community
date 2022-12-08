@@ -1,0 +1,69 @@
+
+# Check to make sure that the -gocoverdir test option works correctly.
+
+[short] skip
+[!GOEXPERIMENT:coverageredesign] skip
+
+# Create a directory, do a "go test -cover" run, then check
+# that the dir was correctly populated.
+
+mkdir $WORK/covdata
+
+go test -cover -gocoverdir=$WORK/covdata
+stdout 'hello\s+coverage:\s+50.0%\s+of\s+statements'
+
+go tool covdata percent -i=$WORK/covdata
+stdout '\s*hello\s+coverage:'
+
+# Non-directory settings should be rejected
+echo afile >$WORK/bad.txt
+
+! go test -cover -gocoverdir=$WORK/bad.txt
+
+# Build test executable, try it that way as well.
+
+mkdir $WORK/covdata2
+
+go test -c -o $WORK/t.exe -cover hello
+exec $WORK/t.exe -test.gocoverdir=$WORK/covdata2
+go tool covdata percent -i=$WORK/covdata2
+stdout '\s*hello\s+coverage:'
+
+# Test for bad dir.
+! exec $WORK/t.exe -test.gocoverdir=$WORK/bad.txt
+
+# Now try a bunch of concurrent runs to see if we can
+# cause a collision.
+mkdir $WORK/covdata3
+exec $WORK/t.exe -test.gocoverdir=$WORK/covdata3 &
+exec $WORK/t.exe -test.gocoverdir=$WORK/covdata3 &
+exec $WORK/t.exe -test.gocoverdir=$WORK/covdata3 &
+exec $WORK/t.exe -test.gocoverdir=$WORK/covdata3 &
+exec $WORK/t.exe -test.gocoverdir=$WORK/covdata3 &
+exec $WORK/t.exe -test.gocoverdir=$WORK/covdata3 &
+wait
+go tool covdata percent -i=$WORK/covdata3
+stdout '\s*hello\s+coverage:'
+
+-- go.mod --
+module hello
+
+go 1.20
+-- hello.go --
+package hello
+
+func Hello() {
+	println("hello")
+}
+
+func Meaning() int {
+	return 42
+}
+-- hello_test.go --
+package hello
+
+import "testing"
+
+func TestCoverage(t *testing.T) {
+	println(Meaning())
+}
