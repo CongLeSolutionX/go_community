@@ -345,3 +345,16 @@ func slicecopy(toPtr unsafe.Pointer, toLen int, fromPtr unsafe.Pointer, fromLen 
 	}
 	return n
 }
+
+//go:linkname bytealg_MakeNoZero internal/bytealg.MakeNoZero
+func bytealg_MakeNoZero(len int) (out []byte) {
+	if uintptr(len) > maxAlloc {
+		panicmakeslicelen()
+	}
+	*(*slice)(unsafe.Pointer(&out)) = slice{
+		array: mallocgc(uintptr(len), nil, false),
+		len:   len,
+		cap:   len,
+	}
+	return out
+}
