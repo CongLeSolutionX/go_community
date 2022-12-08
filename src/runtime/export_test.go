@@ -204,7 +204,7 @@ var (
 var UseAeshash = &useAeshash
 
 func MemclrBytes(b []byte) {
-	s := (*slice)(unsafe.Pointer(&b))
+	s := (*heapSlice)(unsafe.Pointer(&b))
 	memclrNoHeapPointers(s.array, uintptr(s.len))
 }
 

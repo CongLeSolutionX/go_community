@@ -14,7 +14,7 @@ import (
 type hex uint64
 
 func bytes(s string) (ret []byte) {
-	rp := (*slice)(unsafe.Pointer(&ret))
+	rp := (*heapSlice)(unsafe.Pointer(&ret))
 	sp := stringStructOf(&s)
 	rp.array = sp.str
 	rp.len = sp.len
@@ -247,7 +247,7 @@ func printstring(s string) {
 }
 
 func printslice(s []byte) {
-	sp := (*slice)(unsafe.Pointer(&s))
+	sp := (*heapSlice)(unsafe.Pointer(&s))
 	print("[", len(s), "/", cap(s), "]")
 	printpointer(sp.array)
 }

@@ -317,7 +317,7 @@ func typedslicecopy(typ *_type, dstPtr unsafe.Pointer, dstLen int, srcPtr unsafe
 }
 
 //go:linkname reflect_typedslicecopy reflect.typedslicecopy
-func reflect_typedslicecopy(elemType *_type, dst, src slice) int {
+func reflect_typedslicecopy(elemType *_type, dst, src heapSlice) int {
 	if elemType.PtrBytes == 0 {
 		return slicecopy(dst.array, dst.len, src.array, src.len, elemType.Size_)
 	}

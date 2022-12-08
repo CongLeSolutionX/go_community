@@ -751,7 +751,7 @@ func readMetricNames() []string {
 //go:linkname readMetrics runtime/metrics.runtime_readMetrics
 func readMetrics(samplesp unsafe.Pointer, len int, cap int) {
 	// Construct a slice from the args.
-	sl := slice{samplesp, len, cap}
+	sl := heapSlice{array: samplesp, len: len, cap: cap}
 	samples := *(*[]metricSample)(unsafe.Pointer(&sl))
 
 	metricsLock()

@@ -307,7 +307,7 @@ func (l *dlogger) s(x string) *dlogger {
 		// We can't use unsafe.Slice as it may panic, which isn't safe
 		// in this (potentially) nowritebarrier context.
 		var b []byte
-		bb := (*slice)(unsafe.Pointer(&b))
+		bb := (*heapSlice)(unsafe.Pointer(&b))
 		bb.array = unsafe.Pointer(strData)
 		bb.len, bb.cap = len(x), len(x)
 		if len(b) > debugLogStringLimit {
