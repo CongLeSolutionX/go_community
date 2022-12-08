@@ -542,7 +542,10 @@ func annotate(names []string) {
 	if *pkgcfg != "" {
 		pp := pkgconfig.PkgPath
 		pn := pkgconfig.PkgName
-		if pn == "main" {
+		// This is hacky, but makes reporting and package selection
+		// easier for the "go run *.go" and "go build *.go" case,
+		// where we're building a package main on the command line.
+		if pp == "command-line-arguments" {
 			pp = "main"
 		}
 		mp := pkgconfig.ModulePath
