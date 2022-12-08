@@ -159,13 +159,13 @@ func rewriteValuedec_OpLoad(v *Value) bool {
 		return true
 	}
 	// match: (Load <t> ptr mem)
-	// cond: t.IsSlice()
+	// cond: t.IsSlice() && v.Block.Func.ABISelf.SliceLenIndex() == 1
 	// result: (SliceMake (Load <t.Elem().PtrTo()> ptr mem) (Load <typ.Int> (OffPtr <typ.IntPtr> [config.PtrSize] ptr) mem) (Load <typ.Int> (OffPtr <typ.IntPtr> [2*config.PtrSize] ptr) mem))
 	for {
 		t := v.Type
 		ptr := v_0
 		mem := v_1
-		if !(t.IsSlice()) {
+		if !(t.IsSlice() && v.Block.Func.ABISelf.SliceLenIndex() == 1) {
 			break
 		}
 		v.reset(OpSliceMake)
@@ -179,6 +179,32 @@ func rewriteValuedec_OpLoad(v *Value) bool {
 		v3 := b.NewValue0(v.Pos, OpLoad, typ.Int)
 		v4 := b.NewValue0(v.Pos, OpOffPtr, typ.IntPtr)
 		v4.AuxInt = int64ToAuxInt(2 * config.PtrSize)
+		v4.AddArg(ptr)
+		v3.AddArg2(v4, mem)
+		v.AddArg3(v0, v1, v3)
+		return true
+	}
+	// match: (Load <t> ptr mem)
+	// cond: t.IsSlice() && v.Block.Func.ABISelf.SliceLenIndex() == 2
+	// result: (SliceMake (Load <t.Elem().PtrTo()> ptr mem) (Load <typ.Int> (OffPtr <typ.IntPtr> [2*config.PtrSize] ptr) mem) (Load <typ.Int> (OffPtr <typ.IntPtr> [config.PtrSize] ptr) mem))
+	for {
+		t := v.Type
+		ptr := v_0
+		mem := v_1
+		if !(t.IsSlice() && v.Block.Func.ABISelf.SliceLenIndex() == 2) {
+			break
+		}
+		v.reset(OpSliceMake)
+		v0 := b.NewValue0(v.Pos, OpLoad, t.Elem().PtrTo())
+		v0.AddArg2(ptr, mem)
+		v1 := b.NewValue0(v.Pos, OpLoad, typ.Int)
+		v2 := b.NewValue0(v.Pos, OpOffPtr, typ.IntPtr)
+		v2.AuxInt = int64ToAuxInt(2 * config.PtrSize)
+		v2.AddArg(ptr)
+		v1.AddArg2(v2, mem)
+		v3 := b.NewValue0(v.Pos, OpLoad, typ.Int)
+		v4 := b.NewValue0(v.Pos, OpOffPtr, typ.IntPtr)
+		v4.AuxInt = int64ToAuxInt(config.PtrSize)
 		v4.AddArg(ptr)
 		v3.AddArg2(v4, mem)
 		v.AddArg3(v0, v1, v3)
@@ -344,6 +370,7 @@ func rewriteValuedec_OpStore(v *Value) bool {
 		return true
 	}
 	// match: (Store {t} dst (SliceMake ptr len cap) mem)
+	// cond: v.Block.Func.ABISelf.SliceLenIndex() == 1
 	// result: (Store {typ.Int} (OffPtr <typ.IntPtr> [2*config.PtrSize] dst) cap (Store {typ.Int} (OffPtr <typ.IntPtr> [config.PtrSize] dst) len (Store {t.Elem().PtrTo()} dst ptr mem)))
 	for {
 		t := auxToType(v.Aux)
@@ -355,6 +382,9 @@ func rewriteValuedec_OpStore(v *Value) bool {
 		ptr := v_1.Args[0]
 		len := v_1.Args[1]
 		mem := v_2
+		if !(v.Block.Func.ABISelf.SliceLenIndex() == 1) {
+			break
+		}
 		v.reset(OpStore)
 		v.Aux = typeToAux(typ.Int)
 		v0 := b.NewValue0(v.Pos, OpOffPtr, typ.IntPtr)
@@ -370,6 +400,39 @@ func rewriteValuedec_OpStore(v *Value) bool {
 		v3.AddArg3(dst, ptr, mem)
 		v1.AddArg3(v2, len, v3)
 		v.AddArg3(v0, cap, v1)
+		return true
+	}
+	// match: (Store {t} dst (SliceMake ptr len cap) mem)
+	// cond: v.Block.Func.ABISelf.SliceLenIndex() == 2
+	// result: (Store {typ.Int} (OffPtr <typ.IntPtr> [2*config.PtrSize] dst) len (Store {typ.Int} (OffPtr <typ.IntPtr> [config.PtrSize] dst) cap (Store {t.Elem().PtrTo()} dst ptr mem)))
+	for {
+		t := auxToType(v.Aux)
+		dst := v_0
+		if v_1.Op != OpSliceMake {
+			break
+		}
+		cap := v_1.Args[2]
+		ptr := v_1.Args[0]
+		len := v_1.Args[1]
+		mem := v_2
+		if !(v.Block.Func.ABISelf.SliceLenIndex() == 2) {
+			break
+		}
+		v.reset(OpStore)
+		v.Aux = typeToAux(typ.Int)
+		v0 := b.NewValue0(v.Pos, OpOffPtr, typ.IntPtr)
+		v0.AuxInt = int64ToAuxInt(2 * config.PtrSize)
+		v0.AddArg(dst)
+		v1 := b.NewValue0(v.Pos, OpStore, types.TypeMem)
+		v1.Aux = typeToAux(typ.Int)
+		v2 := b.NewValue0(v.Pos, OpOffPtr, typ.IntPtr)
+		v2.AuxInt = int64ToAuxInt(config.PtrSize)
+		v2.AddArg(dst)
+		v3 := b.NewValue0(v.Pos, OpStore, types.TypeMem)
+		v3.Aux = typeToAux(t.Elem().PtrTo())
+		v3.AddArg3(dst, ptr, mem)
+		v1.AddArg3(v2, cap, v3)
+		v.AddArg3(v0, len, v1)
 		return true
 	}
 	// match: (Store dst (IMake itab data) mem)

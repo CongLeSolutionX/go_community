@@ -336,8 +336,8 @@ func reflect_typedmemclrpartial(typ *_type, ptr unsafe.Pointer, off, size uintpt
 
 //go:linkname reflect_typedarrayclear reflect.typedarrayclear
 func reflect_typedarrayclear(typ *_type, ptr unsafe.Pointer, len int) {
-	size := typ.size * uintptr(len)
-	if writeBarrier.needed && typ.ptrdata != 0 {
+	size := typ.Size_ * uintptr(len)
+	if writeBarrier.needed && typ.PtrBytes != 0 {
 		bulkBarrierPreWrite(uintptr(ptr), 0, size)
 	}
 	memclrNoHeapPointers(ptr, size)
