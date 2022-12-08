@@ -16,6 +16,40 @@
       "message": "Thanks for the review! I\u0027ve addressed to your comments and also updated two tests that were affected by this change (TestSizeof due to the change in g, and TestNumGoroutine due to parsing the new stack trace output)",
       "revId": "ab032611c78031de2aef9ab995c8f685b896208d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a103006_e68f3292",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-12-08T21:46:16Z",
+      "side": 1,
+      "message": "It would be nice to have a test for this. Perhaps add `func Goid() uint64` to `export_test.go` to return the current goroutine ID, then you could test a parent/child relationship pretty easily.",
+      "revId": "ab032611c78031de2aef9ab995c8f685b896208d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1eea9f4_f20fca7a",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 4272,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-12-08T21:46:16Z",
+      "side": 1,
+      "message": "I\u0027d forgotten we have a GODEBUG for getting ancestors already!",
+      "revId": "ab032611c78031de2aef9ab995c8f685b896208d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

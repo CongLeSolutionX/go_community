@@ -65,6 +65,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3962886b_c2c27fc3",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-12-08T21:46:16Z",
+      "side": 1,
+      "message": "I would not be opposed to renaming gopc to parentPC as well (in a different CL if we do it).",
+      "parentUuid": "2f0378aa_d29553b2",
+      "range": {
+        "startLine": 482,
+        "startChar": 1,
+        "endLine": 482,
+        "endChar": 7
+      },
+      "revId": "f099e646af5d2adb16692df4ea5f2ffe1302655e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f52a8034_fd43b479",
