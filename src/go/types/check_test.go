@@ -36,7 +36,6 @@ import (
 	"path/filepath"
 	"reflect"
 	"regexp"
-	"sort"
 	"strconv"
 	"strings"
 	"testing"
@@ -83,8 +82,8 @@ func unpackError(fset *token.FileSet, err error) scanner.Error {
 	panic("unreachable")
 }
 
-// delta returns the absolute difference between x and y.
-func delta(x, y int) int {
+// absDiff returns the absolute difference between x and y.
+func absDiff(x, y int) int {
 	switch {
 	case x < y:
 		return y - x
@@ -188,15 +187,6 @@ func testFiles(t *testing.T, sizes Sizes, filenames []string, srcs [][]byte, man
 		return
 	}
 
-	// sort errlist in source order
-	sort.Slice(errlist, func(i, j int) bool {
-		// TODO(gri) this is probably not 100% correct
-		// (scanner.Errors don't have an offset)
-		pi := unpackError(fset, errlist[i]).Pos.Offset
-		pj := unpackError(fset, errlist[j]).Pos.Offset
-		return pi < pj
-	})
-
 	// collect expected errors
 	errmap := make(map[string]map[int][]comment)
 	for i, filename := range filenames {
@@ -206,6 +196,7 @@ func testFiles(t *testing.T, sizes Sizes, filenames []string, srcs [][]byte, man
 	}
 
 	// match against found errors
+	var indices []int // list indices of matching errors, reused for each error
 	for _, err := range errlist {
 		got := unpackError(fset, err)
 
@@ -219,8 +210,8 @@ func testFiles(t *testing.T, sizes Sizes, filenames []string, srcs [][]byte, man
 		}
 		// list may be nil
 
-		// one of errors in list should match the current error
-		index := -1 // list index of matching message, if any
+		// At least one of the errors in list should match the current error.
+		indices = indices[:0]
 		for i, want := range list {
 			if pattern, found := strings.CutPrefix(want.text, " ERROR "); found {
 				rx, err := regexp.Compile(strings.TrimSpace(pattern))
@@ -229,8 +220,7 @@ func testFiles(t *testing.T, sizes Sizes, filenames []string, srcs [][]byte, man
 					continue
 				}
 				if rx.MatchString(got.Msg) {
-					index = i
-					break
+					indices = append(indices, i)
 				}
 			} else if pattern, found := strings.CutPrefix(want.text, " ERR "); found {
 				// temp. hack
@@ -239,21 +229,29 @@ func testFiles(t *testing.T, sizes Sizes, filenames []string, srcs [][]byte, man
 				// t.Errorf("got  %q", got.Msg)
 				// t.Errorf("want %q (%v)", wantMsg, err)
 				if strings.Contains(got.Msg, pattern) {
-					index = i
-					break
+					indices = append(indices, i)
 				}
 			}
 		}
-		if index < 0 {
+		if len(indices) == 0 {
 			t.Errorf("%s: no error expected: %q", got.Pos, got.Msg)
 			continue
 		}
+		// len(indices) > 0
 
-		// column position must be within expected colDelta
-		const colDelta = 0
-		want := list[index]
-		if delta(got.Pos.Column, want.col) > colDelta {
-			t.Errorf("%s: got col = %d; want %d", got.Pos, got.Pos.Column, want.col)
+		// If there are multiple matching errors, select the one with the closest column position.
+		index := -1 // index of matching error
+		var delta int
+		for _, i := range indices {
+			if d := absDiff(got.Pos.Column, list[i].col); index < 0 || d < delta {
+				index, delta = i, d
+			}
+		}
+
+		// The closest column position must be within expected colDelta.
+		const colDelta = 0 // go/types errors are positioned correctly
+		if delta > colDelta {
+			t.Errorf("%s: got col = %d; want %d", got.Pos, got.Pos.Column, list[index].col)
 		}
 
 		// eliminate from list
