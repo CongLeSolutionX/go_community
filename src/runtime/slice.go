@@ -12,19 +12,6 @@ import (
 	"unsafe"
 )
 
-type slice struct {
-	array unsafe.Pointer
-	len   int
-	cap   int
-}
-
-// A notInHeapSlice is a slice backed by runtime/internal/sys.NotInHeap memory.
-type notInHeapSlice struct {
-	array *notInHeap
-	len   int
-	cap   int
-}
-
 func panicmakeslicelen() {
 	panic(errorString("makeslice: len out of range"))
 }
@@ -154,7 +141,7 @@ func mulUintptr(a, b uintptr) (uintptr, bool) {
 // new length so that the old length is not live (does not need to be
 // spilled/restored) and the new length is returned (also does not need
 // to be spilled/restored).
-func growslice(oldPtr unsafe.Pointer, newLen, oldCap, num int, et *_type) slice {
+func growslice(oldPtr unsafe.Pointer, newLen, oldCap, num int, et *_type) heapSlice {
 	oldLen := newLen - num
 	if raceenabled {
 		callerpc := getcallerpc()
@@ -174,7 +161,7 @@ func growslice(oldPtr unsafe.Pointer, newLen, oldCap, num int, et *_type) slice 
 	if et.Size_ == 0 {
 		// append should not create a slice with nil pointer but non-zero len.
 		// We assume that append doesn't need to preserve oldPtr in this case.
-		return slice{unsafe.Pointer(&zerobase), newLen, newLen}
+		return heapSlice{array: unsafe.Pointer(&zerobase), len: newLen, cap: newLen}
 	}
 
 	newcap := oldCap
@@ -280,11 +267,11 @@ func growslice(oldPtr unsafe.Pointer, newLen, oldCap, num int, et *_type) slice 
 	}
 	memmove(p, oldPtr, lenmem)
 
-	return slice{p, newLen, newcap}
+	return heapSlice{array: p, len: newLen, cap: newcap}
 }
 
 //go:linkname reflect_growslice reflect.growslice
-func reflect_growslice(et *_type, old slice, num int) slice {
+func reflect_growslice(et *_type, old heapSlice, num int) heapSlice {
 	// Semantically equivalent to slices.Grow, except that the caller
 	// is responsible for ensuring that old.len+num > old.cap.
 	num -= old.cap - old.len // preserve memory of old[old.len:old.cap]

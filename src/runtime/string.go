@@ -276,7 +276,7 @@ func rawbyteslice(size int) (b []byte) {
 		memclrNoHeapPointers(add(p, uintptr(size)), cap-uintptr(size))
 	}
 
-	*(*slice)(unsafe.Pointer(&b)) = slice{p, size, int(cap)}
+	*(*heapSlice)(unsafe.Pointer(&b)) = heapSlice{array: p, len: size, cap: int(cap)}
 	return
 }
 
@@ -291,7 +291,7 @@ func rawruneslice(size int) (b []rune) {
 		memclrNoHeapPointers(add(p, uintptr(size)*4), mem-uintptr(size)*4)
 	}
 
-	*(*slice)(unsafe.Pointer(&b)) = slice{p, size, int(mem / 4)}
+	*(*heapSlice)(unsafe.Pointer(&b)) = heapSlice{array: p, len: size, cap: int(mem / 4)}
 	return
 }
 
@@ -308,7 +308,7 @@ func gobytes(p *byte, n int) (b []byte) {
 	bp := mallocgc(uintptr(n), nil, false)
 	memmove(bp, unsafe.Pointer(p), uintptr(n))
 
-	*(*slice)(unsafe.Pointer(&b)) = slice{bp, n, n}
+	*(*heapSlice)(unsafe.Pointer(&b)) = heapSlice{array: bp, len: n, cap: n}
 	return
 }
 

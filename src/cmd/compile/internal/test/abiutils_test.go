@@ -22,7 +22,7 @@ import (
 // AMD64 registers available:
 // - integer: RAX, RBX, RCX, RDI, RSI, R8, R9, r10, R11
 // - floating point: X0 - X14
-var configAMD64 = abi.NewABIConfig(9, 15, 0)
+var configAMD64 *abi.ABIConfig
 
 func TestMain(m *testing.M) {
 	ssagen.Arch.LinkArch = &x86.Linkamd64
@@ -38,6 +38,7 @@ func TestMain(m *testing.M) {
 	types.PtrSize = ssagen.Arch.LinkArch.PtrSize
 	types.RegSize = ssagen.Arch.LinkArch.RegSize
 	typecheck.InitUniverse()
+	configAMD64 = abi.NewABIConfig(9, 15, 0, 1)
 	os.Exit(m.Run())
 }
 
@@ -390,7 +391,7 @@ func TestABIUtilsComputePadding(t *testing.T) {
 	regRes := configAMD64.ABIAnalyze(ft, false)
 	padding := make([]uint64, 32)
 	parm := regRes.InParams()[1]
-	padding = parm.ComputePadding(padding)
+	padding = parm.ComputePadding(padding, configAMD64)
 	want := "[1 1 1 0]"
 	got := fmt.Sprintf("%+v", padding)
 	if got != want {

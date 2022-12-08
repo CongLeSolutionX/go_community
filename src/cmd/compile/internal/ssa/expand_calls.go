@@ -79,8 +79,12 @@ func (rc *registerCursor) String() string {
 			regs = regs + x.LongString()
 		}
 	}
+	a := -1
+	if rc.config != nil {
+		a = rc.config.Number()
+	}
 	// not printing the config because that has not been useful
-	return fmt.Sprintf("RCSR{storeDest=%v, regsLen=%d, nextSlice=%d, regValues=[%s]}", dest, rc.regsLen, rc.nextSlice, regs)
+	return fmt.Sprintf("RCSR{abi=%d, storeDest=%v, regsLen=%d, nextSlice=%d, regValues=[%s]}", a, dest, rc.regsLen, rc.nextSlice, regs)
 }
 
 // next effectively post-increments the register cursor; the receiver is advanced,
@@ -105,9 +109,9 @@ const (
 	// Register offsets for fields of built-in aggregate types; the ones not listed are zero.
 	RO_complex_imag = 1
 	RO_string_len   = 1
-	RO_slice_len    = 1
-	RO_slice_cap    = 2
-	RO_iface_data   = 1
+	// RO_slice_len    = 1
+	// RO_slice_cap    = 2
+	RO_iface_data = 1
 )
 
 func (x *expandState) regWidth(t *types.Type) Abi1RO {
@@ -155,13 +159,13 @@ func (c *registerCursor) at(t *types.Type, i int) registerCursor {
 }
 
 func (c *registerCursor) init(regs []abi.RegIndex, info *abi.ABIParamResultInfo, result *[]*Value, storeDest *Value) {
+	c.config = info.Config()
 	c.regsLen = len(regs)
 	c.nextSlice = 0
 	if len(regs) == 0 {
 		c.storeDest = storeDest // only save this if there are no registers, will explode if misused.
 		return
 	}
-	c.config = info.Config()
 	c.regValues = result
 }
 
@@ -216,6 +220,16 @@ func (x *expandState) isAlreadyExpandedAggregateType(t *types.Type) bool {
 	}
 	return t.IsStruct() || t.IsArray() || t.IsComplex() || t.IsInterface() || t.IsString() || t.IsSlice() ||
 		(t.Size() > x.regSize && (t.IsInteger() || (x.f.Config.SoftFloat && t.IsFloat())))
+}
+
+func (x *expandState) isBoringStore(t1, t2 *types.Type) bool {
+	if t1 != t2 {
+		return false
+	}
+	if !x.canSSAType(t1) {
+		return false
+	}
+	return t1.Size() <= x.regSize && !(t1.IsStruct() || t1.IsArray() || t1.IsComplex() || t1.IsInterface() || t1.IsString() || t1.IsSlice())
 }
 
 // offsetFrom creates an offset from a pointer, simplifying chained offsets and offsets from SP
@@ -537,17 +551,23 @@ func (x *expandState) rewriteSelect(leaf *Value, selector *Value, offset int64, 
 		ls := x.rewriteSelect(leaf, selector.Args[0], offset+selector.Type.Size(), regOffset+RO_complex_imag) // result is FloatNN, width of result is offset of imaginary part.
 		locs = x.splitSlots(ls, ".imag", selector.Type.Size(), selector.Type)
 
-	case OpStringLen, OpSliceLen:
-		ls := x.rewriteSelect(leaf, selector.Args[0], offset+x.ptrSize, regOffset+RO_slice_len)
+	case OpStringLen:
+		ls := x.rewriteSelect(leaf, selector.Args[0], offset+x.ptrSize, regOffset+RO_string_len)
 		locs = x.splitSlots(ls, ".len", x.ptrSize, leafType)
 
 	case OpIData:
 		ls := x.rewriteSelect(leaf, selector.Args[0], offset+x.ptrSize, regOffset+RO_iface_data)
 		locs = x.splitSlots(ls, ".data", x.ptrSize, leafType)
 
+	case OpSliceLen:
+		sli := abiForSliceOp(selector).SliceLenIndex()
+		ls := x.rewriteSelect(leaf, selector.Args[0], offset+sli*x.ptrSize, regOffset+Abi1RO(sli))
+		locs = x.splitSlots(ls, ".len", sli*x.ptrSize, leafType)
+
 	case OpSliceCap:
-		ls := x.rewriteSelect(leaf, selector.Args[0], offset+2*x.ptrSize, regOffset+RO_slice_cap)
-		locs = x.splitSlots(ls, ".cap", 2*x.ptrSize, leafType)
+		sci := abiForSliceOp(selector).SliceCapIndex()
+		ls := x.rewriteSelect(leaf, selector.Args[0], offset+sci*x.ptrSize, regOffset+Abi1RO(sci))
+		locs = x.splitSlots(ls, ".cap", sci*x.ptrSize, leafType)
 
 	case OpCopy: // If it's an intermediate result, recurse
 		locs = x.rewriteSelect(leaf, selector.Args[0], offset, regOffset)
@@ -633,10 +653,14 @@ outer:
 			return path + ".itab"
 
 		case types.TSLICE:
-			if offset == 2*x.regSize {
-				return path + ".cap"
+			if offset == x.f.ABISelf.SliceLenIndex()*x.regSize {
+				return path + ".len"
 			}
-			fallthrough
+			if offset == 0 {
+				return path + ".ptr"
+			}
+			return path + ".cap"
+
 		case types.TSTRING:
 			if offset == 0 {
 				return path + ".ptr"
@@ -674,9 +698,11 @@ func (x *expandState) decomposeArg(pos src.XPos, b *Block, source, mem *Value, t
 		locs = append(locs, x.f.Names[s.locIndex])
 	}
 
-	if len(pa.Registers) > 0 {
+	u := source.Type
+
+	if len(pa.Registers) > 0 && u.Kind() != types.TSLICE {
 		// Handle the in-registers case directly
-		rts, offs := pa.RegisterTypesAndOffsets()
+		rts, offs := pa.RegisterTypesAndOffsets(x.f.ABISelf)
 		last := loadRegOffset + x.regWidth(t)
 		if offs[loadRegOffset] != 0 {
 			// Document the problem before panicking.
@@ -716,7 +742,6 @@ func (x *expandState) decomposeArg(pos src.XPos, b *Block, source, mem *Value, t
 		return mem
 	}
 
-	u := source.Type
 	switch u.Kind() {
 	case types.TARRAY:
 		elem := u.Elem()
@@ -758,7 +783,25 @@ func (x *expandState) decomposeArg(pos src.XPos, b *Block, source, mem *Value, t
 		return storeTwoArg(x, pos, b, locs, ".real", ".imag", source, mem, x.typs.Float64, x.typs.Float64, 0, storeOffset, loadRegOffset, storeRc)
 	case types.TSLICE:
 		mem = storeOneArg(x, pos, b, locs, ".ptr", source, mem, x.typs.BytePtr, 0, storeOffset, loadRegOffset, storeRc.next(x.typs.BytePtr))
-		return storeTwoArg(x, pos, b, locs, ".len", ".cap", source, mem, x.typs.Int, x.typs.Int, x.ptrSize, storeOffset+x.ptrSize, loadRegOffset+RO_slice_len, storeRc)
+		pos = pos.WithNotStmt()
+		t1 := x.typs.Int
+		t1Size := x.typs.Int.Size()
+		offStore := storeOffset + x.ptrSize
+
+		lenO, capO := x.ptrSize, x.ptrSize+t1Size
+		lenRO, capRO := loadRegOffset+1, loadRegOffset+2
+		if x.f.ABISelf.SliceLenIndex() == 2 {
+			capO, lenO = x.ptrSize, x.ptrSize+t1Size
+			capRO, lenRO = loadRegOffset+1, loadRegOffset+2
+		}
+
+		if storeRc.config.SliceLenIndex() == 1 { // store len, cap
+			mem = storeOneArg(x, pos, b, locs, ".len", source, mem, t1, lenO, offStore, lenRO, storeRc.next(t1))
+			return storeOneArg(x, pos, b, locs, ".cap", source, mem, t1, capO, offStore+t1Size, capRO, storeRc)
+		} else { // store cap, len
+			mem = storeOneArg(x, pos, b, locs, ".cap", source, mem, t1, capO, offStore, capRO, storeRc.next(t1))
+			return storeOneArg(x, pos, b, locs, ".len", source, mem, t1, lenO, offStore+t1Size, lenRO, storeRc)
+		}
 	}
 	return nil
 }
@@ -829,7 +872,27 @@ func (x *expandState) decomposeLoad(pos src.XPos, b *Block, source, mem *Value, 
 		return storeTwoLoad(x, pos, b, source, mem, x.typs.Float64, x.typs.Float64, 0, storeOffset, loadRegOffset, storeRc)
 	case types.TSLICE:
 		mem = storeOneLoad(x, pos, b, source, mem, x.typs.BytePtr, 0, storeOffset, loadRegOffset, storeRc.next(x.typs.BytePtr))
-		return storeTwoLoad(x, pos, b, source, mem, x.typs.Int, x.typs.Int, x.ptrSize, storeOffset+x.ptrSize, loadRegOffset+RO_slice_len, storeRc)
+
+		// TODO This is probably only "good enough" and might fail determined fuzzing
+		// This next has a risk of going wrong because it is not 100% clear where the Load is coming from.
+		// In mixed code with long parameter lists, ????
+		pos = pos.WithNotStmt()
+		t1 := x.typs.Int
+		t1Size := x.typs.Int.Size()
+		offStore := storeOffset + x.ptrSize
+		lenO, capO := x.ptrSize, x.ptrSize+t1Size
+		lenRO, capRO := loadRegOffset+1, loadRegOffset+2
+		if x.f.ABISelf.SliceLenIndex() == 2 {
+			capO, lenO = x.ptrSize, x.ptrSize+t1Size
+			capRO, lenRO = loadRegOffset+1, loadRegOffset+2
+		}
+		if storeRc.config.SliceLenIndex() == 1 { // store len, cap
+			mem = storeOneLoad(x, pos, b, source, mem, t1, lenO, offStore, lenRO, storeRc.next(t1))
+			return storeOneLoad(x, pos, b, source, mem, t1, capO, offStore+t1Size, capRO, storeRc)
+		} else { // store cap, len
+			mem = storeOneLoad(x, pos, b, source, mem, t1, capO, offStore, capRO, storeRc.next(t1))
+			return storeOneLoad(x, pos, b, source, mem, t1, lenO, offStore+t1Size, lenRO, storeRc)
+		}
 	}
 	return nil
 }
@@ -879,6 +942,9 @@ func storeTwoLoad(x *expandState, pos src.XPos, b *Block, source, mem *Value, t1
 // stores of non-aggregate types.  It recursively walks up a chain of selectors until it reaches a Load or an Arg.
 // If it does not reach a Load or an Arg, nothing happens; this allows a little freedom in phase ordering.
 func (x *expandState) storeArgOrLoad(pos src.XPos, b *Block, source, mem *Value, t *types.Type, storeOffset int64, loadRegOffset Abi1RO, storeRc registerCursor) *Value {
+	if storeRc.config == nil {
+		panic("nil storeRc.config")
+	}
 	if x.debug > 1 {
 		x.indent(3)
 		defer x.indent(-3)
@@ -946,8 +1012,14 @@ func (x *expandState) storeArgOrLoad(pos src.XPos, b *Block, source, mem *Value,
 	case OpSliceMake:
 		mem = x.storeArgOrLoad(pos, b, source.Args[0], mem, x.typs.BytePtr, storeOffset, 0, storeRc.next(x.typs.BytePtr))
 		pos = pos.WithNotStmt()
-		mem = x.storeArgOrLoad(pos, b, source.Args[1], mem, x.typs.Int, storeOffset+x.ptrSize, 0, storeRc.next(x.typs.Int))
-		return x.storeArgOrLoad(pos, b, source.Args[2], mem, x.typs.Int, storeOffset+2*x.ptrSize, 0, storeRc)
+		if storeRc.config.SliceLenIndex() == 1 {
+			mem = x.storeArgOrLoad(pos, b, source.Args[1], mem, x.typs.Int, storeOffset+1*x.ptrSize, 0, storeRc.next(x.typs.Int))
+			return x.storeArgOrLoad(pos, b, source.Args[2], mem, x.typs.Int, storeOffset+2*x.ptrSize, 0, storeRc)
+		} else {
+			mem = x.storeArgOrLoad(pos, b, source.Args[2], mem, x.typs.Int, storeOffset+1*x.ptrSize, 0, storeRc.next(x.typs.Int))
+			return x.storeArgOrLoad(pos, b, source.Args[1], mem, x.typs.Int, storeOffset+2*x.ptrSize, 0, storeRc)
+
+		}
 	}
 
 	// For nodes that cannot be taken apart -- OpSelectN, other structure selectors.
@@ -1034,10 +1106,17 @@ func (x *expandState) storeArgOrLoad(pos src.XPos, b *Block, source, mem *Value,
 		sel := source.Block.NewValue1(pos, OpSlicePtr, et, source)
 		mem = x.storeArgOrLoad(pos, b, sel, mem, et, storeOffset, loadRegOffset, storeRc.next(et))
 		pos = pos.WithNotStmt()
-		sel = source.Block.NewValue1(pos, OpSliceLen, x.typs.Int, source)
-		mem = x.storeArgOrLoad(pos, b, sel, mem, x.typs.Int, storeOffset+x.ptrSize, loadRegOffset+RO_slice_len, storeRc.next(x.typs.Int))
-		sel = source.Block.NewValue1(pos, OpSliceCap, x.typs.Int, source)
-		return x.storeArgOrLoad(pos, b, sel, mem, x.typs.Int, storeOffset+2*x.ptrSize, loadRegOffset+RO_slice_cap, storeRc)
+		if storeRc.config.SliceLenIndex() == 1 { // store len, cap
+			sel = source.Block.NewValue1(pos, OpSliceLen, x.typs.Int, source)
+			mem = x.storeArgOrLoad(pos, b, sel, mem, x.typs.Int, storeOffset+x.ptrSize, loadRegOffset+1, storeRc.next(x.typs.Int))
+			sel = source.Block.NewValue1(pos, OpSliceCap, x.typs.Int, source)
+			return x.storeArgOrLoad(pos, b, sel, mem, x.typs.Int, storeOffset+2*x.ptrSize, loadRegOffset+2, storeRc)
+		} else { // store len, cap
+			sel = source.Block.NewValue1(pos, OpSliceCap, x.typs.Int, source)
+			mem = x.storeArgOrLoad(pos, b, sel, mem, x.typs.Int, storeOffset+x.ptrSize, loadRegOffset+1, storeRc.next(x.typs.Int))
+			sel = source.Block.NewValue1(pos, OpSliceLen, x.typs.Int, source)
+			return x.storeArgOrLoad(pos, b, sel, mem, x.typs.Int, storeOffset+2*x.ptrSize, loadRegOffset+2, storeRc)
+		}
 
 	case types.TCOMPLEX64:
 		sel := source.Block.NewValue1(pos, OpComplexReal, x.typs.Float32, source)
@@ -1173,6 +1252,21 @@ func (x *expandState) invalidateRecursively(a *Value) {
 	}
 }
 
+func abiForSliceOp(v *Value) *abi.ABIConfig {
+	abiconfig := v.Block.Func.ABISelf
+	for source := v.Args[0]; source != nil; source = source.Args[0] {
+		switch source.Op {
+		case OpSelectN:
+			call := source.Args[0]
+			return call.Aux.(*AuxCall).abiInfo.Config()
+		case OpStructSelect, OpArraySelect:
+		default:
+			return abiconfig
+		}
+	}
+	return abiconfig
+}
+
 // expandCalls converts LE (Late Expansion) calls that act like they receive value args into a lower-level form
 // that is more oriented to a platform's ABI.  The SelectN operations that extract results are rewritten into
 // more appropriate forms, and any StructMake or ArrayMake inputs are decomposed until non-struct values are
@@ -1295,7 +1389,8 @@ func expandCalls(f *Func) {
 			v.resetArgs()
 			v.AddArgs(allResults...)
 			v.AddArg(mem)
-			v.Type = types.NewResults(append(abi.RegisterTypes(aux.abiInfo.OutParams()), types.TypeMem))
+			config := aux.abiInfo.Config()
+			v.Type = types.NewResults(append(config.RegisterTypes(aux.abiInfo.OutParams()), types.TypeMem))
 			b.SetControl(v)
 			for _, a := range oldArgs {
 				if a.Uses == 0 {
@@ -1320,6 +1415,9 @@ func expandCalls(f *Func) {
 				t := v.Aux.(*types.Type)
 				source := v.Args[1]
 				tSrc := source.Type
+				if x.isBoringStore(t, tSrc) {
+					continue
+				}
 				iAEATt := x.isAlreadyExpandedAggregateType(t)
 
 				if !iAEATt {
@@ -1331,7 +1429,11 @@ func expandCalls(f *Func) {
 					}
 				}
 				dst, mem := v.Args[0], v.Args[2]
-				mem = x.storeArgOrLoad(v.Pos, b, source, mem, t, 0, 0, registerCursor{storeDest: dst})
+				// TODO It seems risky to assume that the store targets only the function's own ABI.
+				if x.debug > 1 {
+					x.Printf("...risky storeArgOrLoad %s\n", v.LongString())
+				}
+				mem = x.storeArgOrLoad(v.Pos, b, source, mem, t, 0, 0, registerCursor{storeDest: dst, config: f.ABISelf})
 				v.copyOf(mem)
 			}
 		}
@@ -1481,10 +1583,12 @@ func expandCalls(f *Func) {
 			offset = x.hiOffset
 		case OpInt64Lo:
 			offset = x.lowOffset
-		case OpStringLen, OpSliceLen, OpIData:
+		case OpStringLen, OpIData:
 			offset = x.ptrSize
+		case OpSliceLen:
+			offset = abiForSliceOp(v).SliceLenIndex() * x.ptrSize
 		case OpSliceCap:
-			offset = 2 * x.ptrSize
+			offset = abiForSliceOp(v).SliceCapIndex() * x.ptrSize
 		case OpComplexImag:
 			offset = size
 		}
@@ -1544,6 +1648,13 @@ func expandCalls(f *Func) {
 
 	deleteNamedVals(f, toDelete)
 
+	rewriteCall := func(v *Value, newOp Op) {
+		v.Op = newOp
+		abiInfo := v.Aux.(*AuxCall).abiInfo
+		rts := abiInfo.Config().RegisterTypes(abiInfo.OutParams())
+		v.Type = types.NewResults(append(rts, types.TypeMem))
+	}
+
 	// Step 4: rewrite the calls themselves, correcting the type.
 	for _, b := range f.Blocks {
 		for _, v := range b.Values {
@@ -1551,21 +1662,13 @@ func expandCalls(f *Func) {
 			case OpArg:
 				x.rewriteArgToMemOrRegs(v)
 			case OpStaticLECall:
-				v.Op = OpStaticCall
-				rts := abi.RegisterTypes(v.Aux.(*AuxCall).abiInfo.OutParams())
-				v.Type = types.NewResults(append(rts, types.TypeMem))
+				rewriteCall(v, OpStaticCall)
 			case OpTailLECall:
-				v.Op = OpTailCall
-				rts := abi.RegisterTypes(v.Aux.(*AuxCall).abiInfo.OutParams())
-				v.Type = types.NewResults(append(rts, types.TypeMem))
+				rewriteCall(v, OpTailCall)
 			case OpClosureLECall:
-				v.Op = OpClosureCall
-				rts := abi.RegisterTypes(v.Aux.(*AuxCall).abiInfo.OutParams())
-				v.Type = types.NewResults(append(rts, types.TypeMem))
+				rewriteCall(v, OpClosureCall)
 			case OpInterLECall:
-				v.Op = OpInterCall
-				rts := abi.RegisterTypes(v.Aux.(*AuxCall).abiInfo.OutParams())
-				v.Type = types.NewResults(append(rts, types.TypeMem))
+				rewriteCall(v, OpInterCall)
 			}
 		}
 	}

@@ -398,7 +398,7 @@ func convTstring(val string) (x unsafe.Pointer) {
 
 func convTslice(val []byte) (x unsafe.Pointer) {
 	// Note: this must work for any element type, not just byte.
-	if (*slice)(unsafe.Pointer(&val)).array == nil {
+	if (*heapSlice)(unsafe.Pointer(&val)).array == nil {
 		x = unsafe.Pointer(&zeroVal[0])
 	} else {
 		x = mallocgc(unsafe.Sizeof(val), sliceType, true)

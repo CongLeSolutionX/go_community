@@ -279,7 +279,7 @@ func stringHash(s string, seed uintptr) uintptr {
 }
 
 func bytesHash(b []byte, seed uintptr) uintptr {
-	s := (*slice)(unsafe.Pointer(&b))
+	s := (*heapSlice)(unsafe.Pointer(&b))
 	return memhash(s.array, seed, uintptr(s.len))
 }
 

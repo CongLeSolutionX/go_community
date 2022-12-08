@@ -48,8 +48,13 @@ func InitAddr(n *ir.Name, noff int64, lsym *obj.LSym) {
 func InitSlice(n *ir.Name, noff int64, lsym *obj.LSym, lencap int64) {
 	s := n.Linksym()
 	s.WriteAddr(base.Ctxt, noff, types.PtrSize, lsym, 0)
-	s.WriteInt(base.Ctxt, noff+types.SliceLenOffset, types.PtrSize, lencap)
-	s.WriteInt(base.Ctxt, noff+types.SliceCapOffset, types.PtrSize, lencap)
+	if base.SwapLenCap() {
+		s.WriteInt(base.Ctxt, noff+types.SliceCapOffset, types.PtrSize, lencap)
+		s.WriteInt(base.Ctxt, noff+types.SliceLenOffset, types.PtrSize, lencap)
+	} else {
+		s.WriteInt(base.Ctxt, noff+types.SliceLenOffset, types.PtrSize, lencap)
+		s.WriteInt(base.Ctxt, noff+types.SliceCapOffset, types.PtrSize, lencap)
+	}
 }
 
 func InitSliceBytes(nam *ir.Name, off int64, s string) {
