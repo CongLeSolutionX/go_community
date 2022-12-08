@@ -2553,11 +2553,26 @@ func TestUserHomeDir(t *testing.T) {
 	if dir == "" && err == nil {
 		t.Fatal("UserHomeDir returned an empty string but no error")
 	}
+
 	if err != nil {
-		t.Skipf("UserHomeDir failed: %v", err)
+		if strings.HasSuffix(err.Error(), " is not defined") {
+			// The environment variable needed to locate the user's home directory is
+			// not defined. (Maybe the test is being run with a minimal environment?)
+			t.Log(err)
+			return
+		}
+		t.Fatal(err)
 	}
+
 	fi, err := Stat(dir)
 	if err != nil {
+		if os.IsNotExist(err) {
+			// The user's home directory has a well-defined location, but does not
+			// exist. (Maybe nothing has written to it yet? That could happen, for
+			// example, on minimal VM images used for CI testing.)
+			t.Log(err)
+			return
+		}
 		t.Fatal(err)
 	}
 	if !fi.IsDir() {
