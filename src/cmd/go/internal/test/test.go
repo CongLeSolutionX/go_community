@@ -537,6 +537,7 @@ var (
 	testC            bool                              // -c flag
 	testCoverPkgs    []*load.Package                   // -coverpkg flag
 	testCoverProfile string                            // -coverprofile flag
+	testGoCoverDir   string                            // -gocoverdir flag
 	testFuzz         string                            // -fuzz flag
 	testJSON         bool                              // -json flag
 	testList         string                            // -list flag
@@ -787,6 +788,14 @@ func runTest(ctx context.Context, cmd *base.Command, args []string) {
 
 	initCoverProfile()
 	defer closeCoverProfile()
+
+	if testGoCoverDir != "" {
+		// Vet the user-supplied dir.
+		if _, err := os.ReadDir(testGoCoverDir); err != nil {
+			base.Fatalf("error: -gocoverdir arg %q not a directory: %v",
+				testGoCoverDir, err)
+		}
+	}
 
 	// If a test timeout is finite, set our kill timeout
 	// to that timeout plus one minute. This is a backup alarm in case
@@ -1312,9 +1321,10 @@ func (r *runTestActor) Act(b *work.Builder, ctx context.Context, a *work.Action)
 	}
 	coverdirArg := []string{}
 	addToEnv := ""
+	tGoCoverDir := ""
 	if cfg.BuildCover {
-		gcd := filepath.Join(a.Objdir, "gocoverdir")
-		if err := b.Mkdir(gcd); err != nil {
+		tGoCoverDir = filepath.Join(a.Objdir, "gocoverdir")
+		if err := b.Mkdir(tGoCoverDir); err != nil {
 			// If we can't create a temp dir, terminate immediately
 			// with an error as opposed to returning an error to the
 			// caller; failed MkDir most likely indicates that we're
@@ -1322,14 +1332,14 @@ func (r *runTestActor) Act(b *work.Builder, ctx context.Context, a *work.Action)
 			// that will make forward progress unlikely.
 			base.Fatalf("failed to create temporary dir: %v", err)
 		}
-		coverdirArg = append(coverdirArg, "-test.gocoverdir="+gcd)
+		coverdirArg = append(coverdirArg, "-test.gocoverdir="+tGoCoverDir)
 		// Even though we are passing the -test.gocoverdir option to
 		// the test binary, also set GOCOVERDIR as well. This is
 		// intended to help with tests that run "go build" to build
 		// fresh copies of tools to test as part of the testing.
-		addToEnv = "GOCOVERDIR=" + gcd
+		addToEnv = "GOCOVERDIR=" + tGoCoverDir
 	}
-	args := str.StringList(execCmd, a.Deps[0].BuiltTarget(), testlogArg, panicArg, fuzzArg, coverdirArg, testArgs)
+	args := str.StringList(execCmd, a.Deps[0].BuiltTarget(), testlogArg, panicArg, fuzzArg, testArgs, coverdirArg)
 
 	if testCoverProfile != "" {
 		// Write coverage to temporary profile, for merging later.
@@ -1416,6 +1426,12 @@ func (r *runTestActor) Act(b *work.Builder, ctx context.Context, a *work.Action)
 	t := fmt.Sprintf("%.3fs", time.Since(t0).Seconds())
 
 	mergeCoverProfile(cmd.Stdout, a.Objdir+"_cover_.out")
+	if testGoCoverDir != "" {
+		if err := mergeGoCoverDir(b, tGoCoverDir, testGoCoverDir); err != nil {
+			base.Fatalf("error: merging cover profiles from %s to %s: %v",
+				tGoCoverDir, testGoCoverDir, err)
+		}
+	}
 
 	if err == nil {
 		norun := ""

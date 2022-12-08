@@ -32,6 +32,7 @@ func init() {
 	cf.BoolVar(&testC, "c", false, "")
 	cf.StringVar(&testO, "o", "", "")
 	work.AddCoverFlags(CmdTest, &testCoverProfile)
+	cf.StringVar(&testGoCoverDir, "gocoverdir", "", "")
 	cf.Var((*base.StringsFlag)(&work.ExecCmd), "exec", "")
 	cf.BoolVar(&testJSON, "json", false, "")
 	cf.Var(&testVet, "vet", "")
