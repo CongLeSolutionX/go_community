@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc4c93ac_a9cc30de",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2022-12-08T12:48:38Z",
+      "side": 1,
+      "message": "Maybe, give more background information that is abstrated from your “ref CL”. And why we do on loong64 in this way.",
+      "range": {
+        "startLine": 7,
+        "startChar": 9,
+        "endLine": 7,
+        "endChar": 70
+      },
+      "revId": "d8d84236cc543e162114eeb41097da7767fbc319",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
