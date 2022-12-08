@@ -23,6 +23,7 @@ var passFlagToTest = map[string]bool{
 	"fuzz":                 true,
 	"fuzzminimizetime":     true,
 	"fuzztime":             true,
+	"gocoverdir":           true,
 	"list":                 true,
 	"memprofile":           true,
 	"memprofilerate":       true,

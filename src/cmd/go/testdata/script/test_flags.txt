@@ -37,7 +37,7 @@ stdout 'timeout: 25h0m0s$'  # Later flag wins.
 # to the 'go' command's working directory, not zero it out
 # for the test binary.
 go test -x -coverprofile=cover.out '-outputdir=' ./x
-stderr '-test.outputdir=[^ ]'
+stderr '-test.outputdir= '
 exists ./cover.out
 ! exists ./x/cover.out
 
