@@ -3959,6 +3959,10 @@ func TestTransportAndServerSharedBodyRace(t *testing.T) {
 func testTransportAndServerSharedBodyRace(t *testing.T, mode testMode) {
 	const bodySize = 1 << 20
 
+	if testing.Short() {
+		t.Skip("Assumes a functioning network which is outside the domain of Go's implementation")
+	}
+
 	// errorf is like t.Errorf, but also writes to println. When
 	// this test fails, it hangs. This helps debugging and I've
 	// added this enough times "temporarily".  It now gets added

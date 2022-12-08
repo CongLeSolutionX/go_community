@@ -170,7 +170,7 @@ func arena_heapify(s any) any {
 		len := (*slice)(e.data).len
 		et := (*slicetype)(unsafe.Pointer(t)).elem
 		sl := new(slice)
-		*sl = slice{makeslicecopy(et, len, len, (*slice)(e.data).array), len, len}
+		*sl = slice{array: makeslicecopy(et, len, len, (*slice)(e.data).array), len: len, cap: len}
 		xe := efaceOf(&x)
 		xe._type = t
 		xe.data = unsafe.Pointer(sl)
@@ -291,7 +291,7 @@ func (a *userArena) slice(sl any, cap int) {
 	typ = (*slicetype)(unsafe.Pointer(typ)).elem
 	// t is now the element type of the slice we want to allocate.
 
-	*((*slice)(i.data)) = slice{a.alloc(typ, cap), cap, cap}
+	*((*slice)(i.data)) = slice{array: a.alloc(typ, cap), len: cap, cap: cap}
 }
 
 // free returns the userArena's chunks back to mheap and marks it as defunct.
