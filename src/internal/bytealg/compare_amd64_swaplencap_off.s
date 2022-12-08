@@ -2,6 +2,9 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+//go:build amd64 && !goexperiment.swaplencap
+// +build amd64,!goexperiment.swaplencap
+
 #include "go_asm.h"
 #include "asm_amd64.h"
 #include "textflag.h"

@@ -61,7 +61,7 @@ func TestRuntimeTypesPresent(t *testing.T) {
 		"runtime.structtype":    true,
 		"runtime.interfacetype": true,
 		"runtime.itab":          true,
-		"runtime.imethod":       true,
+		//		"runtime.imethod":       true,
 	}
 
 	found := findTypes(t, dwarf, want)
