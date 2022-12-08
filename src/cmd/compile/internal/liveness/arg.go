@@ -101,7 +101,7 @@ func ArgLiveness(fn *ir.Func, f *ssa.Func, pp *objw.Progs) (blockIdx, valueIdx m
 		if !ok || len(a.Registers) == 0 {
 			continue
 		}
-		_, offs := a.RegisterTypesAndOffsets()
+		_, offs := a.RegisterTypesAndOffsets(f.ABISelf)
 		for _, off := range offs {
 			if n.FrameOffset()+off > 0xff {
 				// We only print a limited number of args, with stack

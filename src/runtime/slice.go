@@ -12,19 +12,6 @@ import (
 	"unsafe"
 )
 
-type slice struct {
-	array unsafe.Pointer
-	len   int
-	cap   int
-}
-
-// A notInHeapSlice is a slice backed by runtime/internal/sys.NotInHeap memory.
-type notInHeapSlice struct {
-	array *notInHeap
-	len   int
-	cap   int
-}
-
 func panicmakeslicelen() {
 	panic(errorString("makeslice: len out of range"))
 }
@@ -174,7 +161,7 @@ func growslice(oldPtr unsafe.Pointer, newLen, oldCap, num int, et *_type) slice 
 	if et.Size_ == 0 {
 		// append should not create a slice with nil pointer but non-zero len.
 		// We assume that append doesn't need to preserve oldPtr in this case.
-		return slice{unsafe.Pointer(&zerobase), newLen, newLen}
+		return slice{array: unsafe.Pointer(&zerobase), len: newLen, cap: newLen}
 	}
 
 	newcap := oldCap
@@ -280,7 +267,7 @@ func growslice(oldPtr unsafe.Pointer, newLen, oldCap, num int, et *_type) slice 
 	}
 	memmove(p, oldPtr, lenmem)
 
-	return slice{p, newLen, newcap}
+	return slice{array: p, len: newLen, cap: newcap}
 }
 
 //go:linkname reflect_growslice reflect.growslice

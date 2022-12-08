@@ -1,6 +1,6 @@
 // runoutput
-//go:build !goexperiment.swaplencap
-// +build !goexperiment.swaplencap
+//go:build goexperiment.swaplencap
+// +build goexperiment.swaplencap
 
 // Copyright 2013 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
@@ -143,7 +143,7 @@ func checkSlice(desc string, f func() []byte, xbase, xlen, xcap int) {
 
 	arrayBase := uintptr(unsafe.Pointer(array))
 	raw := *(*[3]uintptr)(unsafe.Pointer(&x))
-	base, len, cap := raw[0] - arrayBase, raw[1], raw[2]
+	base, cap, len := raw[0] - arrayBase, raw[1], raw[2]
 	if xbase < 0 {
 		notOK()
 		println(desc, "=", base, len, cap, "want panic")
