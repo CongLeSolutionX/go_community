@@ -98,6 +98,12 @@ func (e *escape) exprSkipInit(k hole, n ir.Node) {
 		e.discard(n.High)
 		e.discard(n.Max)
 
+	case ir.OSLICEHEADER: // special case for swap len-cap ABI wrappers
+		n := n.(*ir.SliceHeaderExpr)
+		e.expr(k.note(n, "sliceheaderexpr"), n.Ptr)
+		e.discard(n.Len)
+		e.discard(n.Cap)
+
 	case ir.OCONV, ir.OCONVNOP:
 		n := n.(*ir.ConvExpr)
 		if (ir.ShouldCheckPtr(e.curfn, 2) || ir.ShouldAsanCheckPtr(e.curfn)) && n.Type().IsUnsafePtr() && n.X.Type().IsPtr() {

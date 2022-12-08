@@ -1075,7 +1075,7 @@ func writeBlock(ctxt *Link, out *OutBuf, ldr *loader.Loader, syms []loader.Sym, 
 			addr = val + siz
 		}
 		if addr != val+siz {
-			ldr.Errorf(s, "phase error: addr=%#x value+size=%#x", addr, val+siz)
+			ldr.Errorf(s, "phase error: addr=%#x value+size=%#x type=%v sect=%v", addr, val+siz, ldr.SymType(s), ldr.SymSect(s).Name)
 			errorexit()
 		}
 		if val+siz >= eaddr {
@@ -2149,7 +2149,7 @@ func (state *dodataState) dodataSect(ctxt *Link, symn sym.SymKind, syms []loader
 		ds := int64(len(ldr.Data(s)))
 		switch {
 		case ss < ds:
-			ctxt.Errorf(s, "initialize bounds (%d < %d)", ss, ds)
+			ctxt.Errorf(s, "initialize bounds (%d < %d) name=%s", ss, ds, ldr.SymName(s))
 		case ss < 0:
 			ctxt.Errorf(s, "negative size (%d bytes)", ss)
 		case ss > cutoff:
