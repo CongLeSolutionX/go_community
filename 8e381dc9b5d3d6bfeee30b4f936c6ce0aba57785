@@ -53,6 +53,24 @@
       "message": "would it be better to check LookupEnv rather than a golden string?",
       "revId": "8e381dc9b5d3d6bfeee30b4f936c6ce0aba57785",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb6b234c_43797e9a",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2556,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-12-08T20:31:31Z",
+      "side": 1,
+      "message": "Unfortunately these strings are all hard-coded at the moment:\nhttps://cs.opensource.google/go/go/+/master:src/os/file.go;l\u003d398-416;drc\u003d7dc9fcb13de7bb20b11f6a526865545cc9142c2c\n\n(I agree that it would be cleaner to give them some sort of common structure or origin, but I\u0027d like to restrict this CL to a test-only change.)",
+      "parentUuid": "37f934f0_e577acc4",
+      "revId": "8e381dc9b5d3d6bfeee30b4f936c6ce0aba57785",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
