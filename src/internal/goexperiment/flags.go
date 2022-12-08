@@ -105,4 +105,8 @@ type Flags struct {
 	// LoopVar changes loop semantics so that each iteration gets its own
 	// copy of the iteration variable.
 	LoopVar bool
+
+	// SwapLenCap changes the order of fields in a slice, swapping length
+	// and capacity.
+	SwapLenCap bool
 }

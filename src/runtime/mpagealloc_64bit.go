@@ -82,7 +82,7 @@ func (p *pageAlloc) sysInit(test bool) {
 		}
 
 		// Put this reservation into a slice.
-		sl := notInHeapSlice{(*notInHeap)(r), 0, entries}
+		sl := notInHeapSlice{array: (*notInHeap)(r), len: 0, cap: entries}
 		p.summary[l] = *(*[]pallocSum)(unsafe.Pointer(&sl))
 	}
 }
@@ -252,7 +252,7 @@ func (s *scavengeIndex) sysInit(test bool, sysStat *sysMemStat) uintptr {
 	n := uintptr(1<<heapAddrBits) / pallocChunkBytes
 	nbytes := n * unsafe.Sizeof(atomicScavChunkData{})
 	r := sysReserve(nil, nbytes)
-	sl := notInHeapSlice{(*notInHeap)(r), int(n), int(n)}
+	sl := notInHeapSlice{array: (*notInHeap)(r), len: int(n), cap: int(n)}
 	s.chunks = *(*[]atomicScavChunkData)(unsafe.Pointer(&sl))
 	return 0 // All memory above is mapped Reserved.
 }

@@ -539,7 +539,7 @@ func recordspan(vh unsafe.Pointer, p unsafe.Pointer) {
 			n = cap(h.allspans) * 3 / 2
 		}
 		var new []*mspan
-		sp := (*slice)(unsafe.Pointer(&new))
+		sp := (*heapSlice)(unsafe.Pointer(&new))
 		sp.array = sysAlloc(uintptr(n)*goarch.PtrSize, &memstats.other_sys)
 		if sp.array == nil {
 			throw("runtime: cannot allocate memory")
