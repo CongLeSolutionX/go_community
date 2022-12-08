@@ -6,6 +6,8 @@
 
 package base
 
+import "internal/buildcfg"
+
 // Debug holds the parsed debugging configuration values.
 var Debug DebugFlags
 
@@ -46,6 +48,7 @@ type DebugFlags struct {
 	Shapify               int    `help:"print information about shaping recursive types"`
 	Slice                 int    `help:"print information about slice compilation"`
 	SoftFloat             int    `help:"force compiler to emit soft-float code" concurrent:"ok"`
+	SwapLenCap            int    `help:"swap slice length and capacity fields" concurrent:"ok"`
 	SyncFrames            int    `help:"how many writer stack frames to include at sync points in unified export data"`
 	TypeAssert            int    `help:"print information about type assertion inlining"`
 	WB                    int    `help:"print information about write barriers"`
@@ -64,3 +67,7 @@ type DebugFlags struct {
 // If nil, those options are reported as invalid options.
 // If DebugSSA returns a non-empty string, that text is reported as a compiler error.
 var DebugSSA func(phase, flag string, val int, valString string) string
+
+func SwapLenCap() bool {
+	return Debug.SwapLenCap > 0 || buildcfg.Experiment.SwapLenCap
+}
