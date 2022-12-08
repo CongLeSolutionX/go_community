@@ -58,7 +58,8 @@
 (SliceCap (SliceMake _ _ cap)) => cap
 (SlicePtrUnchecked (SliceMake ptr _ _ )) => ptr
 
-(Load <t> ptr mem) && t.IsSlice() =>
+// Old slice ptr-len-cap
+(Load <t> ptr mem) && t.IsSlice() && v.Block.Func.ABISelf.SliceLenIndex() == 1 =>
   (SliceMake
     (Load <t.Elem().PtrTo()> ptr mem)
     (Load <typ.Int>
@@ -67,7 +68,7 @@
     (Load <typ.Int>
       (OffPtr <typ.IntPtr> [2*config.PtrSize] ptr)
       mem))
-(Store {t} dst (SliceMake ptr len cap) mem) =>
+(Store {t} dst (SliceMake ptr len cap) mem) && v.Block.Func.ABISelf.SliceLenIndex() == 1 =>
   (Store {typ.Int}
     (OffPtr <typ.IntPtr> [2*config.PtrSize] dst)
     cap
@@ -75,6 +76,27 @@
       (OffPtr <typ.IntPtr> [config.PtrSize] dst)
       len
       (Store {t.Elem().PtrTo()} dst ptr mem)))
+
+// Experimental slice ptr-cap-len
+(Load <t> ptr mem) && t.IsSlice() && v.Block.Func.ABISelf.SliceLenIndex() == 2 =>
+  (SliceMake
+    (Load <t.Elem().PtrTo()> ptr mem)
+    (Load <typ.Int>
+      (OffPtr <typ.IntPtr> [2*config.PtrSize] ptr)
+      mem)
+    (Load <typ.Int>
+      (OffPtr <typ.IntPtr> [config.PtrSize] ptr)
+      mem))
+(Store {t} dst (SliceMake ptr len cap) mem) && v.Block.Func.ABISelf.SliceLenIndex() == 2 =>
+  (Store {typ.Int}
+    (OffPtr <typ.IntPtr> [2*config.PtrSize] dst)
+    len
+    (Store {typ.Int}
+      (OffPtr <typ.IntPtr> [config.PtrSize] dst)
+      cap
+      (Store {t.Elem().PtrTo()} dst ptr mem)))
+
+
 
 // interface ops
 (ITab (IMake itab _)) => itab
