@@ -182,7 +182,8 @@ func expandCalls(f *Func) {
 		// Break aggregate args passed to call into smaller pieces.
 		x.rewriteCallArgsNew(v, argStart)
 		v.Op = newOp
-		rts := abi.RegisterTypes(v.Aux.(*AuxCall).abiInfo.OutParams())
+		abiInfo := v.Aux.(*AuxCall).abiInfo
+		rts := abiInfo.Config().RegisterTypes(abiInfo.OutParams())
 		v.Type = types.NewResults(append(rts, types.TypeMem))
 	}
 
@@ -257,7 +258,8 @@ func (x *expandState) rewriteFuncResultsNew(v *Value, b *Block, aux *AuxCall) {
 			x.invalidateRecursively(a)
 		}
 	}
-	v.Type = types.NewResults(append(abi.RegisterTypes(aux.abiInfo.OutParams()), types.TypeMem))
+	abiInfo := aux.abiInfo
+	v.Type = types.NewResults(append(abiInfo.Config().RegisterTypes(abiInfo.OutParams()), types.TypeMem))
 	return
 }
 
@@ -402,10 +404,16 @@ func (x *expandState) decomposeAsNecessary(pos src.XPos, b *Block, a, m0 *Value,
 		return mem
 
 	case types.TSLICE:
+		sli := rc.config.SliceLenIndex()
 		mem = x.decomposeOne(pos, b, a, mem, x.typs.BytePtr, OpSlicePtr, &rc)
 		pos = pos.WithNotStmt()
-		mem = x.decomposeOne(pos, b, a, mem, x.typs.Int, OpSliceLen, &rc)
-		return x.decomposeOne(pos, b, a, mem, x.typs.Int, OpSliceCap, &rc)
+		if sli == 1 {
+			mem = x.decomposeOne(pos, b, a, mem, x.typs.Int, OpSliceLen, &rc)
+			return x.decomposeOne(pos, b, a, mem, x.typs.Int, OpSliceCap, &rc)
+		} else {
+			mem = x.decomposeOne(pos, b, a, mem, x.typs.Int, OpSliceCap, &rc)
+			return x.decomposeOne(pos, b, a, mem, x.typs.Int, OpSliceLen, &rc)
+		}
 
 	case types.TSTRING:
 		return x.decomposePair(pos, b, a, mem, x.typs.BytePtr, x.typs.Int, OpStringPtr, OpStringLen, &rc)
@@ -567,6 +575,9 @@ func (x *expandState) rewriteSelectOrArgNew(pos src.XPos, b *Block, container, a
 		pos = pos.WithNotStmt()
 		addArg(x.rewriteSelectOrArgNew(pos, b, container, nil, m0, x.typs.Int, rc.next(x.typs.Int)))
 		addArg(x.rewriteSelectOrArgNew(pos, b, container, nil, m0, x.typs.Int, rc.next(x.typs.Int)))
+		if rc.config.SliceLenIndex() != 1 {
+			args[1], args[2] = args[2], args[1]
+		}
 		a = makeOf(a, nil, OpSliceMake, args)
 		x.commonSelectors[sk] = a
 		return a
@@ -724,6 +735,8 @@ func (x *expandState) rewriteSelectOrArgNewDirect(pos src.XPos, b *Block, contai
 		pos = pos.WithNotStmt()
 		m0 = x.rewriteSelectOrArgNewDirect(pos, b, container, m0, x.typs.Int, rc.next(x.typs.Int))
 		m0 = x.rewriteSelectOrArgNewDirect(pos, b, container, m0, x.typs.Int, rc.next(x.typs.Int))
+		// Believe that this works for both len/cap orders because it is just a copy.
+		// TODO - can a copy directly from arg to interior call go wrong in a wrapper?
 		return m0
 
 	case types.TSTRING:
@@ -822,8 +835,12 @@ func (rc *registerCursor) String() string {
 			regs = regs + x.LongString()
 		}
 	}
+	a := -1
+	if rc.config != nil {
+		a = rc.config.Number()
+	}
 	// not printing the config because that has not been useful
-	return fmt.Sprintf("RCSR{storeDest=%v, regsLen=%d, nextSlice=%d, regValues=[%s]}", dest, len(rc.regs), rc.nextSlice, regs)
+	return fmt.Sprintf("RCSR{abi=%d, storeDest=%v, regsLen=%d, nextSlice=%d, regValues=[%s]}", a, dest, len(rc.regs), rc.nextSlice, regs)
 }
 
 func alignTo(x, a int64) int64 {

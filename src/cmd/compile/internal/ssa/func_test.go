@@ -154,6 +154,7 @@ func AuxCallLSym(name string) *AuxCall {
 func (c *Conf) Fun(entry string, blocs ...bloc) fun {
 	f := NewFunc(c.Frontend())
 	f.Config = c.config
+	f.ABISelf = f.Config.ABI1
 	// TODO: Either mark some SSA tests as t.Parallel,
 	// or set up a shared Cache and Reset it between tests.
 	// But not both.
