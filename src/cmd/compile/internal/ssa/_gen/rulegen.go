@@ -583,6 +583,7 @@ func fprint(w io.Writer, n Node) {
 			"internal/buildcfg",
 			"math",
 			"cmd/internal/obj",
+			"cmd/compile/internal/abi",
 			"cmd/compile/internal/base",
 			"cmd/compile/internal/types",
 			"cmd/compile/internal/ir",
