@@ -103,7 +103,8 @@ func (c *registerCursor) plus(regWidth Abi1RO) registerCursor {
 
 const (
 	// Register offsets for fields of built-in aggregate types; the ones not listed are zero.
-	RO_complex_imag = 1
+	RO_complex_real = 1
+	RO_complex_imag = 0
 	RO_string_len   = 1
 	RO_slice_len    = 1
 	RO_slice_cap    = 2
@@ -530,7 +531,7 @@ func (x *expandState) rewriteSelect(leaf *Value, selector *Value, offset int64, 
 		locs = x.splitSlots(ls, sfx, 0, x.typs.Uintptr)
 
 	case OpComplexReal:
-		ls := x.rewriteSelect(leaf, selector.Args[0], offset, regOffset)
+		ls := x.rewriteSelect(leaf, selector.Args[0], offset, regOffset+RO_complex_real)
 		locs = x.splitSlots(ls, ".real", 0, selector.Type)
 
 	case OpComplexImag:
@@ -678,7 +679,7 @@ func (x *expandState) decomposeArg(pos src.XPos, b *Block, source, mem *Value, t
 		// Handle the in-registers case directly
 		rts, offs := pa.RegisterTypesAndOffsets()
 		last := loadRegOffset + x.regWidth(t)
-		if offs[loadRegOffset] != 0 {
+		if offs[loadRegOffset] != 0 && false {
 			// Document the problem before panicking.
 			for i := 0; i < len(rts); i++ {
 				rt := rts[i]
@@ -753,9 +754,15 @@ func (x *expandState) decomposeArg(pos src.XPos, b *Block, source, mem *Value, t
 	case types.TSTRING:
 		return storeTwoArg(x, pos, b, locs, ".ptr", ".len", source, mem, x.typs.BytePtr, x.typs.Int, 0, storeOffset, loadRegOffset, storeRc)
 	case types.TCOMPLEX64:
-		return storeTwoArg(x, pos, b, locs, ".real", ".imag", source, mem, x.typs.Float32, x.typs.Float32, 0, storeOffset, loadRegOffset, storeRc)
+		mem = storeOneArg(x, pos, b, locs, ".imag", source, mem, x.typs.Float32, 4, storeOffset+4, loadRegOffset+RO_complex_imag, storeRc.plus(RO_complex_imag))
+		pos = pos.WithNotStmt()
+		return storeOneArg(x, pos, b, locs, ".real", source, mem, x.typs.Float32, 0, storeOffset, loadRegOffset+RO_complex_real, storeRc.plus(RO_complex_real))
+		//return storeTwoArg(x, pos, b, locs, ".real", ".imag", source, mem, x.typs.Float32, x.typs.Float32, 0, storeOffset, loadRegOffset, storeRc)
 	case types.TCOMPLEX128:
-		return storeTwoArg(x, pos, b, locs, ".real", ".imag", source, mem, x.typs.Float64, x.typs.Float64, 0, storeOffset, loadRegOffset, storeRc)
+		mem = storeOneArg(x, pos, b, locs, ".imag", source, mem, x.typs.Float64, 8, storeOffset+8, loadRegOffset+RO_complex_imag, storeRc.plus(RO_complex_imag))
+		pos = pos.WithNotStmt()
+		return storeOneArg(x, pos, b, locs, ".real", source, mem, x.typs.Float64, 0, storeOffset, loadRegOffset+RO_complex_real, storeRc.plus(RO_complex_real))
+		//return storeTwoArg(x, pos, b, locs, ".real", ".imag", source, mem, x.typs.Float64, x.typs.Float64, 0, storeOffset, loadRegOffset, storeRc)
 	case types.TSLICE:
 		mem = storeOneArg(x, pos, b, locs, ".ptr", source, mem, x.typs.BytePtr, 0, storeOffset, loadRegOffset, storeRc.next(x.typs.BytePtr))
 		return storeTwoArg(x, pos, b, locs, ".len", ".cap", source, mem, x.typs.Int, x.typs.Int, x.ptrSize, storeOffset+x.ptrSize, loadRegOffset+RO_slice_len, storeRc)
@@ -824,9 +831,15 @@ func (x *expandState) decomposeLoad(pos src.XPos, b *Block, source, mem *Value, 
 	case types.TSTRING:
 		return storeTwoLoad(x, pos, b, source, mem, x.typs.BytePtr, x.typs.Int, 0, storeOffset, loadRegOffset, storeRc)
 	case types.TCOMPLEX64:
-		return storeTwoLoad(x, pos, b, source, mem, x.typs.Float32, x.typs.Float32, 0, storeOffset, loadRegOffset, storeRc)
+		mem = storeOneLoad(x, pos, b, source, mem, x.typs.Float32, 4, storeOffset+4, loadRegOffset+RO_complex_imag, storeRc.plus(RO_complex_imag))
+		pos = pos.WithNotStmt()
+		return storeOneLoad(x, pos, b, source, mem, x.typs.Float32, 0, storeOffset, loadRegOffset+RO_complex_real, storeRc.plus(RO_complex_real))
+		//return storeTwoLoad(x, pos, b, source, mem, x.typs.Float32, x.typs.Float32, 0, storeOffset, loadRegOffset, storeRc)
 	case types.TCOMPLEX128:
-		return storeTwoLoad(x, pos, b, source, mem, x.typs.Float64, x.typs.Float64, 0, storeOffset, loadRegOffset, storeRc)
+		mem = storeOneLoad(x, pos, b, source, mem, x.typs.Float64, 8, storeOffset+8, loadRegOffset+RO_complex_imag, storeRc.plus(RO_complex_imag))
+		pos = pos.WithNotStmt()
+		return storeOneLoad(x, pos, b, source, mem, x.typs.Float64, 0, storeOffset, loadRegOffset+RO_complex_real, storeRc.plus(RO_complex_real))
+		//return storeTwoLoad(x, pos, b, source, mem, x.typs.Float64, x.typs.Float64, 0, storeOffset, loadRegOffset, storeRc)
 	case types.TSLICE:
 		mem = storeOneLoad(x, pos, b, source, mem, x.typs.BytePtr, 0, storeOffset, loadRegOffset, storeRc.next(x.typs.BytePtr))
 		return storeTwoLoad(x, pos, b, source, mem, x.typs.Int, x.typs.Int, x.ptrSize, storeOffset+x.ptrSize, loadRegOffset+RO_slice_len, storeRc)
@@ -929,9 +942,9 @@ func (x *expandState) storeArgOrLoad(pos src.XPos, b *Block, source, mem *Value,
 		if wPart == 8 {
 			tPart = x.typs.Float64
 		}
-		mem = x.storeArgOrLoad(pos, b, source.Args[0], mem, tPart, storeOffset, 0, storeRc.next(tPart))
+		mem = x.storeArgOrLoad(pos, b, source.Args[1], mem, tPart, storeOffset+wPart, 0, storeRc.next(tPart))
 		pos = pos.WithNotStmt()
-		return x.storeArgOrLoad(pos, b, source.Args[1], mem, tPart, storeOffset+wPart, 0, storeRc)
+		return x.storeArgOrLoad(pos, b, source.Args[0], mem, tPart, storeOffset, 0, storeRc)
 
 	case OpIMake:
 		mem = x.storeArgOrLoad(pos, b, source.Args[0], mem, x.typs.Uintptr, storeOffset, 0, storeRc.next(x.typs.Uintptr))
@@ -1040,18 +1053,18 @@ func (x *expandState) storeArgOrLoad(pos src.XPos, b *Block, source, mem *Value,
 		return x.storeArgOrLoad(pos, b, sel, mem, x.typs.Int, storeOffset+2*x.ptrSize, loadRegOffset+RO_slice_cap, storeRc)
 
 	case types.TCOMPLEX64:
-		sel := source.Block.NewValue1(pos, OpComplexReal, x.typs.Float32, source)
-		mem = x.storeArgOrLoad(pos, b, sel, mem, x.typs.Float32, storeOffset, loadRegOffset, storeRc.next(x.typs.Float32))
+		sel := source.Block.NewValue1(pos, OpComplexImag, x.typs.Float32, source)
+		mem = x.storeArgOrLoad(pos, b, sel, mem, x.typs.Float32, storeOffset+4, loadRegOffset+RO_complex_imag, storeRc.next(x.typs.Float32))
 		pos = pos.WithNotStmt()
-		sel = source.Block.NewValue1(pos, OpComplexImag, x.typs.Float32, source)
-		return x.storeArgOrLoad(pos, b, sel, mem, x.typs.Float32, storeOffset+4, loadRegOffset+RO_complex_imag, storeRc)
+		sel = source.Block.NewValue1(pos, OpComplexReal, x.typs.Float32, source)
+		return x.storeArgOrLoad(pos, b, sel, mem, x.typs.Float32, storeOffset, loadRegOffset+RO_complex_real, storeRc)
 
 	case types.TCOMPLEX128:
-		sel := source.Block.NewValue1(pos, OpComplexReal, x.typs.Float64, source)
-		mem = x.storeArgOrLoad(pos, b, sel, mem, x.typs.Float64, storeOffset, loadRegOffset, storeRc.next(x.typs.Float64))
+		sel := source.Block.NewValue1(pos, OpComplexImag, x.typs.Float64, source)
+		mem = x.storeArgOrLoad(pos, b, sel, mem, x.typs.Float64, storeOffset+8, loadRegOffset+RO_complex_imag, storeRc.next(x.typs.Float64))
 		pos = pos.WithNotStmt()
-		sel = source.Block.NewValue1(pos, OpComplexImag, x.typs.Float64, source)
-		return x.storeArgOrLoad(pos, b, sel, mem, x.typs.Float64, storeOffset+8, loadRegOffset+RO_complex_imag, storeRc)
+		sel = source.Block.NewValue1(pos, OpComplexReal, x.typs.Float64, source)
+		return x.storeArgOrLoad(pos, b, sel, mem, x.typs.Float64, storeOffset, loadRegOffset+RO_complex_real, storeRc)
 	}
 
 	s := mem

@@ -191,6 +191,7 @@ func appendParamTypes(rts []*types.Type, t *types.Type) []*types.Type {
 
 // appendParamOffsets appends the offset(s) of type t, starting from "at",
 // to input offsets, and returns the longer slice and the next unused offset.
+// The offsets are in the same order of register assignments.
 func appendParamOffsets(offsets []int64, at int64, t *types.Type) ([]int64, int64) {
 	at = align(at, t)
 	w := t.Size()
@@ -200,7 +201,7 @@ func appendParamOffsets(offsets []int64, at int64, t *types.Type) ([]int64, int6
 	if t.IsScalar() || t.IsPtrShaped() {
 		if t.IsComplex() || int(t.Size()) > types.RegSize { // complex and *int64 on 32-bit
 			s := w / 2
-			return append(offsets, at, at+s), at + w
+			return append(offsets, at+s, at), at + w // reg order (imag, real), memory order (real, imag)
 		} else {
 			return append(offsets, at), at + w
 		}
