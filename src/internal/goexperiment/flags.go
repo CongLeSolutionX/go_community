@@ -101,4 +101,8 @@ type Flags struct {
 	// When this experiment is enabled, cgo rule checks occur regardless
 	// of the GODEBUG=cgocheck setting provided at runtime.
 	CgoCheck2 bool
+
+	// SwapLenCap changes the order of fields in a slice, swapping length
+	// and capacity.
+	SwapLenCap bool
 }

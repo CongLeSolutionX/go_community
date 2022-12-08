@@ -738,7 +738,7 @@ mapped:
 					throw("out of memory allocating allArenas")
 				}
 				oldSlice := h.allArenas
-				*(*notInHeapSlice)(unsafe.Pointer(&h.allArenas)) = notInHeapSlice{newArray, len(h.allArenas), int(size / goarch.PtrSize)}
+				*(*notInHeapSlice)(unsafe.Pointer(&h.allArenas)) = notInHeapSlice{array: newArray, len: len(h.allArenas), cap: int(size / goarch.PtrSize)}
 				copy(h.allArenas, oldSlice)
 				// Do not free the old backing array because
 				// there may be concurrent readers. Since we

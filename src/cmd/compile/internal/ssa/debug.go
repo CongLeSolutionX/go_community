@@ -523,7 +523,7 @@ func PopulateABIInRegArgOps(f *Func) {
 
 		// Param is spread across one or more registers. Walk through
 		// each piece to see whether we've seen an arg reg op for it.
-		types, offsets := inp.RegisterTypesAndOffsets()
+		types, offsets := inp.RegisterTypesAndOffsets(f.ABISelf)
 		for k, t := range types {
 			// Note: this recipe for creating a LocalSlot is designed
 			// to be compatible with the one used in expand_calls.go
@@ -1821,9 +1821,9 @@ func BuildFuncDebugNoOptimized(ctxt *obj.Link, f *Func, loggingEnabled bool, sta
 		if loggingEnabled {
 			state.logf("param %v:\n  [<entry>, %d]:\n", n, afterPrologVal)
 		}
-		rtypes, _ := inp.RegisterTypesAndOffsets()
+		rtypes, _ := inp.RegisterTypesAndOffsets(f.ABISelf)
 		padding := make([]uint64, 0, 32)
-		padding = inp.ComputePadding(padding)
+		padding = inp.ComputePadding(padding, f.ABISelf)
 		for k, r := range inp.Registers {
 			reg := ObjRegForAbiReg(r, f.Config)
 			dwreg := ctxt.Arch.DWARFRegisters[reg]
