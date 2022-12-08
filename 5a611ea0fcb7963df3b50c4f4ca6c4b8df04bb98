@@ -78,6 +78,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3e5233c_8d15ce6a",
+        "filename": "src/cmd/cover/cover.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-12-08T17:34:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "08ef571d_cecd6c70",
+      "range": {
+        "startLine": 545,
+        "startChar": 0,
+        "endLine": 547,
+        "endChar": 61
+      },
+      "revId": "5a611ea0fcb7963df3b50c4f4ca6c4b8df04bb98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2dcfab3f_ed713494",
@@ -115,6 +139,30 @@
       "side": 1,
       "message": "Well phooey, I hadn\u0027t realized that you could even do things like\n\n```\ngo test -cover foo.go foo_test.go\n```\n\nI guess given that this works in 1.19 and reports \n\n```\nok  \tcommand-line-arguments\t0.014s\tcoverage: 100.0% of statements\n```\n\nthen I agree it\u0027s best to stick with that convention (we certainly don\u0027t want \"main\") in this case. I\u0027ll just remove the hack entirely and update the tests.",
       "parentUuid": "2dcfab3f_ed713494",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 1
+      },
+      "revId": "5a611ea0fcb7963df3b50c4f4ca6c4b8df04bb98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea994809_bcfaa232",
+        "filename": "src/cmd/go/testdata/script/cover_main_import_path.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-12-08T17:34:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10d1da69_7898c990",
       "range": {
         "startLine": 37,
         "startChar": 0,
