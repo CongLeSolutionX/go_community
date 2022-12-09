@@ -22,6 +22,30 @@
       },
       "revId": "ecd112c0d1c90a12d3c87172cf969cdd1f6cbeca",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "376f4007_49b8aca8",
+        "filename": "src/runtime/coverage/emitdata_test.go",
+        "patchSetId": 74
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2022-12-09T16:21:04Z",
+      "side": 1,
+      "message": "Yes, it\u0027s a leftover. \n\nI had trouble getting this test to work properly on Windows. If you are able to figure out a way to resolve that puzzle, I am happy to hook it back in.",
+      "parentUuid": "167fdad0_926ec128",
+      "range": {
+        "startLine": 276,
+        "startChar": 5,
+        "endLine": 276,
+        "endChar": 28
+      },
+      "revId": "ecd112c0d1c90a12d3c87172cf969cdd1f6cbeca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
