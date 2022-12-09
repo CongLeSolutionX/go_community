@@ -127,19 +127,19 @@ func runtime_AfterForkInChild()
 func forkAndExecInChild(argv0 *byte, argv, envv []*byte, chroot, dir *byte, attr *ProcAttr, sys *SysProcAttr, pipe int) (pid int, err Errno) {
 	// Set up and fork. This returns immediately in the parent or
 	// if there's an error.
-	r1, err1, p, locked := forkAndExecInChild1(argv0, argv, envv, chroot, dir, attr, sys, pipe)
+	uPid, err, mapPipe, locked := forkAndExecInChild1(argv0, argv, envv, chroot, dir, attr, sys, pipe)
 	if locked {
 		runtime_AfterFork()
 	}
-	if err1 != 0 {
-		return 0, err1
+	if err != 0 {
+		return 0, err
 	}
 
 	// parent; return PID
-	pid = int(r1)
+	pid = int(uPid)
 
 	if sys.UidMappings != nil || sys.GidMappings != nil {
-		Close(p[0])
+		Close(mapPipe[0])
 		var err2 Errno
 		// uid/gid mappings will be written after fork and unshare(2) for user
 		// namespaces.
@@ -148,8 +148,8 @@ func forkAndExecInChild(argv0 *byte, argv, envv []*byte, chroot, dir *byte, attr
 				err2 = err.(Errno)
 			}
 		}
-		RawSyscall(SYS_WRITE, uintptr(p[1]), uintptr(unsafe.Pointer(&err2)), unsafe.Sizeof(err2))
-		Close(p[1])
+		RawSyscall(SYS_WRITE, uintptr(mapPipe[1]), uintptr(unsafe.Pointer(&err2)), unsafe.Sizeof(err2))
+		Close(mapPipe[1])
 	}
 
 	return pid, 0
@@ -203,7 +203,7 @@ type cloneArgs struct {
 //
 //go:noinline
 //go:norace
-func forkAndExecInChild1(argv0 *byte, argv, envv []*byte, chroot, dir *byte, attr *ProcAttr, sys *SysProcAttr, pipe int) (r1 uintptr, err1 Errno, p [2]int, locked bool) {
+func forkAndExecInChild1(argv0 *byte, argv, envv []*byte, chroot, dir *byte, attr *ProcAttr, sys *SysProcAttr, pipe int) (pid uintptr, err1 Errno, mapPipe [2]int, locked bool) {
 	// Defined in linux/prctl.h starting with Linux 4.3.
 	const (
 		PR_CAP_AMBIENT       = 0x2f
@@ -217,6 +217,12 @@ func forkAndExecInChild1(argv0 *byte, argv, envv []*byte, chroot, dir *byte, att
 	// post-fork processing in the outer frame.
 	// Declare all variables at top in case any
 	// declarations require heap allocation (e.g., err1).
+	//
+	// NOTE(bcmills): I think the above comment is bogus. If these are indeed
+	// allocated on the heap, nothing in the language prevents the compiler from
+	// moving those allocations closer to the point of use. (And anyway, there
+	// have been lots of ":=" added later in the function since that comment was
+	// written.)
 	var (
 		err2                      Errno
 		nextfd                    int
@@ -264,7 +270,7 @@ func forkAndExecInChild1(argv0 *byte, argv, envv []*byte, chroot, dir *byte, att
 	// Allocate another pipe for parent to child communication for
 	// synchronizing writing of User ID/Group ID mappings.
 	if sys.UidMappings != nil || sys.GidMappings != nil {
-		if err := forkExecPipe(p[:]); err != nil {
+		if err := forkExecPipe(mapPipe[:]); err != nil {
 			err1 = err.(Errno)
 			return
 		}
@@ -288,17 +294,17 @@ func forkAndExecInChild1(argv0 *byte, argv, envv []*byte, chroot, dir *byte, att
 	runtime_BeforeFork()
 	locked = true
 	if clone3 != nil {
-		r1, err1 = rawVforkSyscall(_SYS_clone3, uintptr(unsafe.Pointer(clone3)), unsafe.Sizeof(*clone3))
+		pid, err1 = rawVforkSyscall(_SYS_clone3, uintptr(unsafe.Pointer(clone3)), unsafe.Sizeof(*clone3))
 	} else {
 		flags |= uintptr(SIGCHLD)
 		if runtime.GOARCH == "s390x" {
 			// On Linux/s390, the first two arguments of clone(2) are swapped.
-			r1, err1 = rawVforkSyscall(SYS_CLONE, 0, flags)
+			pid, err1 = rawVforkSyscall(SYS_CLONE, 0, flags)
 		} else {
-			r1, err1 = rawVforkSyscall(SYS_CLONE, flags, 0)
+			pid, err1 = rawVforkSyscall(SYS_CLONE, flags, 0)
 		}
 	}
-	if err1 != 0 || r1 != 0 {
+	if err1 != 0 || pid != 0 {
 		// If we're in the parent, we must return immediately
 		// so we're not in the same stack frame as the child.
 		// This can at most use the return PC, which the child
@@ -320,14 +326,14 @@ func forkAndExecInChild1(argv0 *byte, argv, envv []*byte, chroot, dir *byte, att
 
 	// Wait for User ID/Group ID mappings to be written.
 	if sys.UidMappings != nil || sys.GidMappings != nil {
-		if _, _, err1 = RawSyscall(SYS_CLOSE, uintptr(p[1]), 0, 0); err1 != 0 {
+		if _, _, err1 = RawSyscall(SYS_CLOSE, uintptr(mapPipe[1]), 0, 0); err1 != 0 {
 			goto childerror
 		}
-		r1, _, err1 = RawSyscall(SYS_READ, uintptr(p[0]), uintptr(unsafe.Pointer(&err2)), unsafe.Sizeof(err2))
+		pid, _, err1 = RawSyscall(SYS_READ, uintptr(mapPipe[0]), uintptr(unsafe.Pointer(&err2)), unsafe.Sizeof(err2))
 		if err1 != 0 {
 			goto childerror
 		}
-		if r1 != unsafe.Sizeof(err2) {
+		if pid != unsafe.Sizeof(err2) {
 			err1 = EINVAL
 			goto childerror
 		}
@@ -357,9 +363,9 @@ func forkAndExecInChild1(argv0 *byte, argv, envv []*byte, chroot, dir *byte, att
 	if sys.Foreground {
 		pgrp := int32(sys.Pgid)
 		if pgrp == 0 {
-			r1, _ = rawSyscallNoError(SYS_GETPID, 0, 0, 0)
+			pid, _ = rawSyscallNoError(SYS_GETPID, 0, 0, 0)
 
-			pgrp = int32(r1)
+			pgrp = int32(pid)
 		}
 
 		// Place process group in foreground.
@@ -385,7 +391,7 @@ func forkAndExecInChild1(argv0 *byte, argv, envv []*byte, chroot, dir *byte, att
 			if fd1, _, err1 = RawSyscall6(SYS_OPENAT, uintptr(dirfd), uintptr(unsafe.Pointer(&psetgroups[0])), uintptr(O_WRONLY), 0, 0, 0); err1 != 0 {
 				goto childerror
 			}
-			r1, _, err1 = RawSyscall(SYS_WRITE, uintptr(fd1), uintptr(unsafe.Pointer(&setgroups[0])), uintptr(len(setgroups)))
+			pid, _, err1 = RawSyscall(SYS_WRITE, uintptr(fd1), uintptr(unsafe.Pointer(&setgroups[0])), uintptr(len(setgroups)))
 			if err1 != 0 {
 				goto childerror
 			}
@@ -396,7 +402,7 @@ func forkAndExecInChild1(argv0 *byte, argv, envv []*byte, chroot, dir *byte, att
 			if fd1, _, err1 = RawSyscall6(SYS_OPENAT, uintptr(dirfd), uintptr(unsafe.Pointer(&pgid[0])), uintptr(O_WRONLY), 0, 0, 0); err1 != 0 {
 				goto childerror
 			}
-			r1, _, err1 = RawSyscall(SYS_WRITE, uintptr(fd1), uintptr(unsafe.Pointer(&gidmap[0])), uintptr(len(gidmap)))
+			pid, _, err1 = RawSyscall(SYS_WRITE, uintptr(fd1), uintptr(unsafe.Pointer(&gidmap[0])), uintptr(len(gidmap)))
 			if err1 != 0 {
 				goto childerror
 			}
@@ -410,7 +416,7 @@ func forkAndExecInChild1(argv0 *byte, argv, envv []*byte, chroot, dir *byte, att
 			if fd1, _, err1 = RawSyscall6(SYS_OPENAT, uintptr(dirfd), uintptr(unsafe.Pointer(&puid[0])), uintptr(O_WRONLY), 0, 0, 0); err1 != 0 {
 				goto childerror
 			}
-			r1, _, err1 = RawSyscall(SYS_WRITE, uintptr(fd1), uintptr(unsafe.Pointer(&uidmap[0])), uintptr(len(uidmap)))
+			pid, _, err1 = RawSyscall(SYS_WRITE, uintptr(fd1), uintptr(unsafe.Pointer(&uidmap[0])), uintptr(len(uidmap)))
 			if err1 != 0 {
 				goto childerror
 			}
@@ -511,9 +517,9 @@ func forkAndExecInChild1(argv0 *byte, argv, envv []*byte, chroot, dir *byte, att
 		// Signal self if parent is already dead. This might cause a
 		// duplicate signal in rare cases, but it won't matter when
 		// using SIGKILL.
-		r1, _ = rawSyscallNoError(SYS_GETPPID, 0, 0, 0)
-		if r1 != ppid {
-			pid, _ := rawSyscallNoError(SYS_GETPID, 0, 0, 0)
+		pid, _ = rawSyscallNoError(SYS_GETPPID, 0, 0, 0)
+		if pid != ppid {
+			pid, _ = rawSyscallNoError(SYS_GETPID, 0, 0, 0)
 			_, _, err1 = RawSyscall(SYS_KILL, pid, uintptr(sys.Pdeathsig), 0)
 			if err1 != 0 {
 				goto childerror
