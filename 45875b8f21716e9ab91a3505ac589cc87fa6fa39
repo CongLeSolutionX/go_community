@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "35b65ba9_11a78ed5",
+        "filename": "src/syscall/exec_linux.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-12-09T21:13:20Z",
+      "side": 1,
+      "message": "Fair enough — rephrased to emphasize the underlying concern, which is that the behavior described in this comment is fragile — and appears not to be covered by a test that would detect it, short of “occasional unexplained data corruption” along the lines of #34988.",
+      "parentUuid": "dec042c8_10366fba",
+      "revId": "45875b8f21716e9ab91a3505ac589cc87fa6fa39",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a3bea858_a3736c3b",
@@ -85,6 +103,24 @@
       "writtenOn": "2022-12-09T18:11:42Z",
       "side": 1,
       "message": "But none that escaped (or that would be a bug). Making the rule for this code \"don\u0027t use :\u003d in this function\" is an easy, correct, conservative way to ensure that. There really are not \"lots\" of :\u003d in this function. They should be removed.",
+      "revId": "45875b8f21716e9ab91a3505ac589cc87fa6fa39",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47fcb9e6_35398da0",
+        "filename": "src/syscall/exec_linux.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-12-09T21:13:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3bea858_a3736c3b",
       "revId": "45875b8f21716e9ab91a3505ac589cc87fa6fa39",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
