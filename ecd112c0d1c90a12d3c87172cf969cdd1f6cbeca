@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "167fdad0_926ec128",
+        "filename": "src/runtime/coverage/emitdata_test.go",
+        "patchSetId": 74
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 5020
+      },
+      "writtenOn": "2022-12-09T16:11:00Z",
+      "side": 1,
+      "message": "This function doesn\u0027t seem to get called anywhere",
+      "range": {
+        "startLine": 276,
+        "startChar": 5,
+        "endLine": 276,
+        "endChar": 28
+      },
+      "revId": "ecd112c0d1c90a12d3c87172cf969cdd1f6cbeca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
