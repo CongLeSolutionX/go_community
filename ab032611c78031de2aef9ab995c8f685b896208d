@@ -109,6 +109,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d9564f2_51166b4b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57733
+      },
+      "writtenOn": "2022-12-09T19:48:39Z",
+      "side": 1,
+      "message": "I added a test. Let me know if it looks like what you had in mind.",
+      "parentUuid": "6a103006_e68f3292",
+      "revId": "ab032611c78031de2aef9ab995c8f685b896208d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "f1eea9f4_f20fca7a",
@@ -122,6 +140,24 @@
       "writtenOn": "2022-12-08T21:46:16Z",
       "side": 1,
       "message": "I\u0027d forgotten we have a GODEBUG for getting ancestors already!",
+      "revId": "ab032611c78031de2aef9ab995c8f685b896208d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0de8084_2a2ca88b",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 4272,
+      "author": {
+        "id": 57733
+      },
+      "writtenOn": "2022-12-09T19:48:39Z",
+      "side": 1,
+      "message": "Indeed. Now that you mention it, I realize that passing ancestor.goid to printcreatedby1 in printAncestorTraceback is redundant since the ancestor traceback shows parent goroutine IDs already. Plus, it was the wrong ID to pass there anyway (should have been the ancestor\u0027s parent goroutine ID, not the ancestor\u0027s goroutine ID). I\u0027ve updated the CL to get rid of the redundancy.",
+      "parentUuid": "f1eea9f4_f20fca7a",
       "revId": "ab032611c78031de2aef9ab995c8f685b896208d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
