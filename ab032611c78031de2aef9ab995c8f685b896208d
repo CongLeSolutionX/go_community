@@ -129,6 +129,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "8ababaab_21c7721b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-12-09T21:22:45Z",
+      "side": 1,
+      "message": "LGTM",
+      "parentUuid": "3d9564f2_51166b4b",
+      "revId": "ab032611c78031de2aef9ab995c8f685b896208d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "f1eea9f4_f20fca7a",
         "filename": "src/runtime/proc.go",
         "patchSetId": 2

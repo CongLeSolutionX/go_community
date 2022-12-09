@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d86fc7ea_29afd5d2",
+        "filename": "src/runtime/traceback_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-12-09T21:22:45Z",
+      "side": 1,
+      "message": "Could you leave a comment here noting that we are expecting to see the parent \"goroutine N\" in \"created by ... in goroutine N\"? It took me a moment to realize this, rather than parent being its own stack trace (which it won\u0027t since we pass false to Stack()).",
+      "range": {
+        "startLine": 436,
+        "startChar": 2,
+        "endLine": 436,
+        "endChar": 37
+      },
+      "revId": "4e7a1c1f51c0da1fb09f0dfe21e5c7b14d933701",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
