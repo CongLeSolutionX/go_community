@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b652697_8a5732af",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-12-09T04:12:16Z",
+      "side": 1,
+      "message": "Thanks, but this kind of change is just churn.  In general we don\u0027t make changes to working code unless the result is obviously much better.  That is not the case here.  When changing working code, there is always a risk of introducing a bug.  If there isn\u0027t a significant improvement to the code, better to leave it alone.  Thanks.",
+      "revId": "dbcae2dae7204a3c7da2e334eb86d2035e9460a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
