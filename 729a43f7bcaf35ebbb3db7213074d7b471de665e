@@ -51,6 +51,23 @@
       "message": "TRY\u003dlinux-ppc64,linux-ppc64le",
       "revId": "729a43f7bcaf35ebbb3db7213074d7b471de665e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43b1e63d_6f36496b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-12-10T03:55:39Z",
+      "side": 1,
+      "message": "Actually, PPC64Ops.go says they keep the whole register 0 or 1.\nMaybe that would need a abi.go fix. Or maybe we can switch their idea of bools-in-registers.",
+      "revId": "729a43f7bcaf35ebbb3db7213074d7b471de665e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
