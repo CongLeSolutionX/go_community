@@ -72,6 +72,23 @@
       "message": "Rewrote. Please re-review.",
       "revId": "c0768e6a78df359566d3cc936e5dce97f36eee77",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc30e8a9_2a2d6f63",
+        "filename": "src/make.bash",
+        "patchSetId": 4
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-12-12T14:45:36Z",
+      "side": 1,
+      "message": "Do we need a corresponding change in `make.bat`?\n\nIt looks like the equivalent line there is outside the `setlocal` block that clears these variables:\nhttps://cs.opensource.google/go/go/+/master:src/make.bat;l\u003d76;drc\u003d07c57aff5d6d8f1df96eb99507bd04c57d0616ca",
+      "revId": "c0768e6a78df359566d3cc936e5dce97f36eee77",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
