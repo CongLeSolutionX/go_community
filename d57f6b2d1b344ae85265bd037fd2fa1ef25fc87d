@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d6ce3de_7fbe270f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 58718
+      },
+      "writtenOn": "2022-12-12T02:26:42Z",
+      "side": 1,
+      "message": "Hi guys,\n\nPlease, let me know if I need to do something else on this PR.\n\nThanks!",
+      "revId": "d57f6b2d1b344ae85265bd037fd2fa1ef25fc87d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
