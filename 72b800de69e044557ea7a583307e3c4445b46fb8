@@ -53,6 +53,24 @@
       "message": "Do\n\nif got, want :\u003d \"prefix \"+string(b)+\" suffix\", \"prefix bytes suffix\"; got !\u003d want {\n\nThen you don\u0027t need to repeat those expressions in the t.Fatalf args.",
       "revId": "72b800de69e044557ea7a583307e3c4445b46fb8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a82306fb_cb50f0f9",
+        "filename": "src/runtime/string_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 60423
+      },
+      "writtenOn": "2022-12-12T16:56:06Z",
+      "side": 1,
+      "message": "If I do that, it would actually allocate a new string, defying the purpose of the test.",
+      "parentUuid": "1852267e_b50d4363",
+      "revId": "72b800de69e044557ea7a583307e3c4445b46fb8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
