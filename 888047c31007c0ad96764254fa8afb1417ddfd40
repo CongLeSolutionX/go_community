@@ -94,6 +94,30 @@
       },
       "revId": "888047c31007c0ad96764254fa8afb1417ddfd40",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0eec8048_56a182a7",
+        "filename": "src/cmd/compile/internal/ssa/_gen/PPC64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-12-12T18:55:19Z",
+      "side": 1,
+      "message": "This is the patch:\n\n--- a/src/cmd/compile/internal/ppc64/ssa.go\n+++ b/src/cmd/compile/internal/ppc64/ssa.go\n@@ -103,6 +103,22 @@ func storeByType(t *types.Type) obj.As {\n }\n \n func ssaGenValue(s *ssagen.State, v *ssa.Value) {\n+       ssaGenValue2(s, v)\n+       if v.Type.IsBoolean() {\n+               switch v.Op {\n+               case ssa.OpStoreReg:\n+                       return\n+               }\n+               // set some high bits (without affecting flags).\n+               p :\u003d s.Prog(ppc64.AOR)\n+               p.From.Type \u003d obj.TYPE_CONST\n+               p.From.Offset \u003d 0x100\n+               p.Reg \u003d v.Reg()\n+               p.To.Type \u003d obj.TYPE_REG\n+               p.To.Reg \u003d v.Reg()\n+       }\n+}\n+func ssaGenValue2(s *ssagen.State, v *ssa.Value) {\n        switch v.Op {\n        case ssa.OpCopy:\n                t :\u003d v.Type\n\nand I had to disable a couple extension rules that would break as a result:\n\n--- a/src/cmd/compile/internal/ssa/_gen/PPC64.rules\n+++ b/src/cmd/compile/internal/ssa/_gen/PPC64.rules\n@@ -658,8 +658,8 @@\n (MOVBZreg ((OR|XOR|AND) \u003ct\u003e x (MOVHZreg y))) \u003d\u003e (MOVBZreg ((OR|XOR|AND) \u003ct\u003e x y))\n (MOVBZreg ((OR|XOR|AND) \u003ct\u003e x (MOVBZreg y))) \u003d\u003e (MOVBZreg ((OR|XOR|AND) \u003ct\u003e x y))\n \n-(MOV(B|H|W)Zreg z:(Select0 (ANDCCconst [c] (MOVBZload ptr x)))) \u003d\u003e z\n-(MOV(B|H|W)Zreg z:(AND y (MOV(B|H|W)Zload ptr x))) \u003d\u003e z\n+//(MOV(B|H|W)Zreg z:(Select0 (ANDCCconst [c] (MOVBZload ptr x)))) \u003d\u003e z\n+//(MOV(B|H|W)Zreg z:(AND y (MOV(B|H|W)Zload ptr x))) \u003d\u003e z\n (MOV(H|W)Zreg z:(Select0 (ANDCCconst [c] (MOVHZload ptr x)))) \u003d\u003e z\n (MOVWZreg z:(Select0 (ANDCCconst [c] (MOVWZload ptr x)))) \u003d\u003e z\n \n@@ -789,8 +789,8 @@\n \n // Note that MOV??reg returns a 64-bit int, x is not necessarily that wide\n // This may interact with other patterns in the future. (Compare with arm64)\n-(MOV(B|H|W)Zreg x:(MOVBZload _ _)) \u003d\u003e x\n-(MOV(B|H|W)Zreg x:(MOVBZloadidx _ _ _)) \u003d\u003e x\n+//(MOV(B|H|W)Zreg x:(MOVBZload _ _)) \u003d\u003e x\n+//(MOV(B|H|W)Zreg x:(MOVBZloadidx _ _ _)) \u003d\u003e x\n (MOV(H|W)Zreg x:(MOVHZload _ _)) \u003d\u003e x\n (MOV(H|W)Zreg x:(MOVHZloadidx _ _ _)) \u003d\u003e x\n (MOV(H|W)reg x:(MOVHload _ _)) \u003d\u003e x",
+      "parentUuid": "60f38bd6_e23c2747",
+      "range": {
+        "startLine": 412,
+        "startChar": 64,
+        "endLine": 412,
+        "endChar": 71
+      },
+      "revId": "888047c31007c0ad96764254fa8afb1417ddfd40",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
