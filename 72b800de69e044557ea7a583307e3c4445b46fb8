@@ -71,6 +71,24 @@
       "parentUuid": "1852267e_b50d4363",
       "revId": "72b800de69e044557ea7a583307e3c4445b46fb8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "62a8c8df_c59b1c4e",
+        "filename": "src/runtime/string_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-12-12T18:02:43Z",
+      "side": 1,
+      "message": "Good point, never mind.",
+      "parentUuid": "a82306fb_cb50f0f9",
+      "revId": "72b800de69e044557ea7a583307e3c4445b46fb8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
