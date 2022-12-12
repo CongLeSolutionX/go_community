@@ -504,10 +504,10 @@ func prepareCgroupFD(t *testing.T) (int, string) {
 	// Need an ability to create a sub-cgroup.
 	subCgroup, err := os.MkdirTemp(prefix+string(bytes.TrimSpace(cg)), "subcg-")
 	if err != nil {
-		if os.IsPermission(err) {
-			t.Skip(err)
-		}
-		t.Fatal(err)
+		// This may generate a permission error, or a read-only file
+		// system error if unsupported.
+		t.Skip(err)
+
 	}
 	t.Cleanup(func() { syscall.Rmdir(subCgroup) })
 
