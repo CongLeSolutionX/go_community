@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "698a2bb4_18bf25de",
+        "filename": "src/syscall/exec_linux_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-12-12T19:56:29Z",
+      "side": 1,
+      "message": "```\nif os.IsPermissionError(err) || errors.Is(err, syscall.EROFS) {\n\tt.Skip(err)\n}\nt.Fatal(err)\n```\nto more closely match the comment above?",
+      "range": {
+        "startLine": 507,
+        "startChar": 0,
+        "endLine": 508,
+        "endChar": 33
+      },
+      "revId": "56bcedd495269b534b8f55b1b81dd4b6a6560202",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
