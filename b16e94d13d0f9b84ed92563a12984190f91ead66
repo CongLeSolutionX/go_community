@@ -16,6 +16,24 @@
       "message": "(FYI) It looks like this was an incomplete fix in CL 6009046 — this bug is 10½ years old. 😅",
       "revId": "b16e94d13d0f9b84ed92563a12984190f91ead66",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0fb42234_f42e6adb",
+        "filename": "src/syscall/exec_plan9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 12217
+      },
+      "writtenOn": "2022-12-13T14:56:02Z",
+      "side": 0,
+      "message": "\u003e this bug is 10½ years old. 😅\n\nMight have been caught by TestExtraFilesFDShuffle in os/exec, if that had ever been (re-)enabled.",
+      "parentUuid": "984ea274_5e584778",
+      "revId": "b16e94d13d0f9b84ed92563a12984190f91ead66",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
