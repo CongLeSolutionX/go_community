@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "984ea274_5e584778",
+        "filename": "src/syscall/exec_plan9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-12-13T14:39:29Z",
+      "side": 0,
+      "message": "(FYI) It looks like this was an incomplete fix in CL 6009046 — this bug is 10½ years old. 😅",
+      "revId": "b16e94d13d0f9b84ed92563a12984190f91ead66",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
