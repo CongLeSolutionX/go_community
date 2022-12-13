@@ -2,30 +2,19 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build darwin || dragonfly || freebsd || linux || netbsd || openbsd
+//go:build darwin || dragonfly || freebsd || (linux && !android) || netbsd || openbsd
 
 package os_test
 
 import (
-	"bufio"
-	"bytes"
-	"fmt"
-	"io"
 	"os"
 	"path/filepath"
-	"runtime"
-	"sync"
 	"syscall"
 	"testing"
-	"time"
 )
 
-// Issue 24164.
 func TestFifoEOF(t *testing.T) {
-	switch runtime.GOOS {
-	case "android":
-		t.Skip("skipping on Android; mkfifo syscall not available")
-	}
+	t.Parallel()
 
 	dir := t.TempDir()
 	fifoName := filepath.Join(dir, "fifo")
@@ -33,71 +22,24 @@ func TestFifoEOF(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	var wg sync.WaitGroup
-	wg.Add(1)
-	go func() {
-		defer wg.Done()
+	// Per https://pubs.opengroup.org/onlinepubs/9699919799/functions/open.html#tag_16_357_03:
+	// “When opening a FIFO with O_RDONLY or O_WRONLY set: If O_NONBLOCK is set,
+	// an open() for reading-only shall return without delay. An open() for
+	// writing-only shall return an error if no process currently has the file
+	// open for reading.”
+	//
+	// So we open the read side first, then the write side.
 
-		w, err := os.OpenFile(fifoName, os.O_WRONLY, 0)
-		if err != nil {
-			t.Error(err)
-			return
-		}
-
-		defer func() {
-			if err := w.Close(); err != nil {
-				t.Errorf("error closing writer: %v", err)
-			}
-		}()
-
-		for i := 0; i < 3; i++ {
-			time.Sleep(10 * time.Millisecond)
-			_, err := fmt.Fprintf(w, "line %d\n", i)
-			if err != nil {
-				t.Errorf("error writing to fifo: %v", err)
-				return
-			}
-		}
-		time.Sleep(10 * time.Millisecond)
-	}()
-
-	defer wg.Wait()
-
-	r, err := os.Open(fifoName)
+	r, err := os.OpenFile(fifoName, os.O_RDONLY|syscall.O_NONBLOCK, 0)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	done := make(chan bool)
-	go func() {
-		defer close(done)
-
-		defer func() {
-			if err := r.Close(); err != nil {
-				t.Errorf("error closing reader: %v", err)
-			}
-		}()
-
-		rbuf := bufio.NewReader(r)
-		for {
-			b, err := rbuf.ReadBytes('\n')
-			if err == io.EOF {
-				break
-			}
-			if err != nil {
-				t.Error(err)
-				return
-			}
-			t.Logf("%s\n", bytes.TrimSpace(b))
-		}
-	}()
-
-	select {
-	case <-done:
-		// Test succeeded.
-	case <-time.After(time.Second):
-		t.Error("timed out waiting for read")
-		// Close the reader to force the read to complete.
+	w, err := os.OpenFile(fifoName, os.O_WRONLY|syscall.O_NONBLOCK, 0)
+	if err != nil {
 		r.Close()
+		t.Fatal(err)
 	}
+
+	testPipeEOF(t, r, w)
 }
