@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e79398f_3ad90ec4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-12-13T17:37:54Z",
+      "side": 1,
+      "message": "Thanks, but this is unnecessary.  The documentation is clear.",
+      "revId": "d25fe5b18ac731b0f4236169b0f4f848f61d9784",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
