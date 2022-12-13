@@ -341,66 +341,62 @@ func testCloseWithBlockingRead(t *testing.T, r, w *os.File) {
 
 // Issue 24164, for pipes.
 func TestPipeEOF(t *testing.T) {
+	t.Parallel()
+
+	// parkDelay is an aribtrary delay we wait for a pipe-reader goroutine to park
+	// before issuing the corresponding write. The test should pass no matter what
+	// delay we use, but with a longer delay is has a higher chance of detecting
+	// poller bugs.
+	parkDelay := 10 * time.Millisecond
+	if testing.Short() {
+		parkDelay = 100 * time.Microsecond
+	}
+
 	r, w, err := os.Pipe()
 	if err != nil {
 		t.Fatal(err)
 	}
+	writerDone := make(chan struct{})
+	defer func() {
+		if err := r.Close(); err != nil {
+			t.Errorf("error closing reader: %v", err)
+		}
+		<-writerDone
+	}()
 
-	var wg sync.WaitGroup
-	wg.Add(1)
+	write := make(chan int, 1)
 	go func() {
-		defer wg.Done()
+		defer close(writerDone)
 
-		defer func() {
-			if err := w.Close(); err != nil {
-				t.Errorf("error closing writer: %v", err)
-			}
-		}()
-
-		for i := 0; i < 3; i++ {
-			time.Sleep(10 * time.Millisecond)
+		for i := range write {
+			time.Sleep(parkDelay)
 			_, err := fmt.Fprintf(w, "line %d\n", i)
 			if err != nil {
 				t.Errorf("error writing to fifo: %v", err)
 				return
 			}
 		}
-		time.Sleep(10 * time.Millisecond)
-	}()
 
-	defer wg.Wait()
-
-	done := make(chan bool)
-	go func() {
-		defer close(done)
-
-		defer func() {
-			if err := r.Close(); err != nil {
-				t.Errorf("error closing reader: %v", err)
-			}
-		}()
-
-		rbuf := bufio.NewReader(r)
-		for {
-			b, err := rbuf.ReadBytes('\n')
-			if err == io.EOF {
-				break
-			}
-			if err != nil {
-				t.Error(err)
-				return
-			}
-			t.Logf("%s\n", bytes.TrimSpace(b))
+		time.Sleep(parkDelay)
+		if err := w.Close(); err != nil {
+			t.Errorf("error closing writer: %v", err)
 		}
 	}()
 
-	select {
-	case <-done:
-		// Test succeeded.
-	case <-time.After(time.Second):
-		t.Error("timed out waiting for read")
-		// Close the reader to force the read to complete.
-		r.Close()
+	rbuf := bufio.NewReader(r)
+	for i := 0; i < 3; i++ {
+		write <- i
+		b, err := rbuf.ReadBytes('\n')
+		if err != nil {
+			t.Fatal(err)
+		}
+		t.Logf("%s\n", bytes.TrimSpace(b))
+	}
+
+	close(write)
+	b, err := rbuf.ReadBytes('\n')
+	if err != io.EOF || len(b) != 0 {
+		t.Errorf(`ReadBytes: %q, %v; want "", io.EOF`, b, err)
 	}
 }
 
