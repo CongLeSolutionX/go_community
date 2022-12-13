@@ -16,6 +16,23 @@
       "message": "Please benchmark the code and use benchstat to compare the results. Any optimization should be backed up by benchstat result.",
       "revId": "b724e63ffaf472e10621d02070bed5346d79f3e5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6772f24_b2e32344",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34693
+      },
+      "writtenOn": "2022-12-13T06:27:02Z",
+      "side": 1,
+      "message": "Also, please improve the commit message. Please follow: https://go.dev/doc/contribute#commit_messages to understand how to write a good commit messages.",
+      "revId": "b724e63ffaf472e10621d02070bed5346d79f3e5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
