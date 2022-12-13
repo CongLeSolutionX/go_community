@@ -16,6 +16,24 @@
       "message": "Thanks, I noticed this issue also exists in linux/riscv64.\nI think we can do this in lowering rules, so that we can eliminate some unnecessary sign extensions.\n```\n(AtomicCompareAndSwap32 ptr old new mem) \u003d\u003e (LoweredAtomicCas32 ptr (SignExt32to64 old) new mem)\n```\nThis rule should also works on riscv64 port.",
       "revId": "3b07a3f5f571f8c881835c3c451e2bcb4406e8a4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a3b1ba4_73a758e3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 54019
+      },
+      "writtenOn": "2022-12-13T12:42:16Z",
+      "side": 1,
+      "message": "Thanks, I think your suggestion is better",
+      "parentUuid": "1d80e04b_6fc5c2f7",
+      "revId": "3b07a3f5f571f8c881835c3c451e2bcb4406e8a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
