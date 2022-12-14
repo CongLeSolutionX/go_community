@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d233983b_2a09e118",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 52329
+      },
+      "writtenOn": "2022-12-14T09:03:08Z",
+      "side": 1,
+      "message": "TRY\u003dlinux-mips64,linux-mips64le",
+      "revId": "49aee026f9a742c938a802b60b8935b23ec5bb83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
