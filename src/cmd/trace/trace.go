@@ -291,6 +291,10 @@ func (r Range) URL() string {
 	return fmt.Sprintf("/trace?start=%d&end=%d", r.Start, r.End)
 }
 
+func (r Range) JSONURL() string {
+	return fmt.Sprintf("/jsontrace?start=%d&end=%d", r.Start, r.End)
+}
+
 // splitTrace splits the trace into a number of ranges,
 // each resulting in approx 100MB of json output
 // (trace viewer can hardly handle more).
@@ -338,7 +342,7 @@ func stackFrameEncodedSize(id uint, f traceviewer.Frame) int {
 	// The parent is omitted if 0. The trailing comma is omitted from the
 	// last entry, but we don't need that much precision.
 	const (
-		baseSize = len(`"`) + len (`":{"name":"`) + len(`"},`)
+		baseSize = len(`"`) + len(`":{"name":"`) + len(`"},`)
 
 		// Don't count the trailing quote on the name, as that is
 		// counted in baseSize.

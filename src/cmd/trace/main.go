@@ -203,6 +203,65 @@ h1,h2 {
 }
 p  { color: grey85; font-size:85%; }
 </style>
+<script>
+window.addEventListener('load', (e) => {
+  document
+    .querySelectorAll('.perfetto a')
+    .forEach(el => el.addEventListener('click', onClickPerfetto));
+});
+
+function onClickPerfetto(e) {
+  e.preventDefault();
+
+  const perfettoLink = this;
+  const indicator = this.parentNode.querySelector('.indicator');
+  const traceURL = perfettoLink.href;
+
+  perfettoLink.removeAttribute('href'); // avoid user clicking more than once
+  indicator.innerText = 'loading ... this might take a bit';
+
+  fetch(traceURL)
+    .then(response => response.blob())
+    .then(blob => blob.arrayBuffer())
+    .then(arrayBuf => {
+      const openLink = document.createElement('a');
+      openLink.setAttribute('href', '#');
+      openLink.innerText = 'open';
+      openLink.addEventListener('click', onClickOpenHandler(arrayBuf));
+      indicator.innerHTML = '';
+      indicator.appendChild(openLink);
+
+      // Try to automatically open Perfetto UI. If fetch() takes more than a
+      // few seconds, browsers may block this as an unwanted "popup". In this
+      // case users will have to manually click the link.
+      // See https://groups.google.com/g/perfetto-dev/c/Au39ZVrySgk
+      openLink.click();
+    });
+}
+
+function onClickOpenHandler(arrayBuf) {
+  return e => {
+    // See https://perfetto.dev/docs/visualization/deep-linking-to-perfetto-ui
+    // for how the code below works.
+    const origin = 'https://ui.perfetto.dev';
+    const handle = window.open(origin);
+    const timer = setInterval(() => handle.postMessage('PING', origin), 50);
+    const onMessageHandler = (evt) => {
+      if (evt.data !== 'PONG') return;
+
+      window.clearInterval(timer);
+      window.removeEventListener('message', onMessageHandler);
+
+      handle.postMessage({
+        perfetto: {
+          buffer: arrayBuf,
+          title: 'go tool trace', // TODO: use traceFile name?
+      }}, origin);
+    };
+    window.addEventListener('message', onMessageHandler);
+  };
+}
+</script>
 <body>
 <h1>cmd/trace: the Go trace event viewer</h1>
 <p>
@@ -218,12 +277,12 @@ p  { color: grey85; font-size:85%; }
 </p>
 <ul>
 	{{range $e := $}}
-		<li><a href="{{$e.URL}}">View trace ({{$e.Name}})</a></li>
+		<li>View trace ({{$e.Name}}) in <a href="{{$e.URL}}">Catapult</a> or <span class="perfetto"><a href="{{$e.JSONURL}}">Perfetto</a> (<span class="indicator">experimental</span>)</span></li>
 	{{end}}
 </ul>
 {{else}}
 <ul>
-	<li><a href="/trace">View trace</a></li>
+	<li>View trace in <a href="/trace">Catapult</a> or <span class="perfetto"><a href="/jsontrace">Perfetto</a> (<span class="indicator">experimental</span>)</span></li>
 </ul>
 {{end}}
 <p>
