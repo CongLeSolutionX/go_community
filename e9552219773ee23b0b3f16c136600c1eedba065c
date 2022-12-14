@@ -107,6 +107,24 @@
       "message": "Apparently macOS",
       "revId": "e9552219773ee23b0b3f16c136600c1eedba065c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f3c1242_0a90637b",
+        "filename": "src/os/fifo_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-12-14T19:38:38Z",
+      "side": 1,
+      "message": "Worked around.",
+      "parentUuid": "9ae7b668_faf5e2ad",
+      "revId": "e9552219773ee23b0b3f16c136600c1eedba065c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
