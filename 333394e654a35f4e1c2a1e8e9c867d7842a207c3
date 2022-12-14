@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4c5d50a_5636c40f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-12-14T01:53:26Z",
+      "side": 1,
+      "message": "PTAL",
+      "revId": "333394e654a35f4e1c2a1e8e9c867d7842a207c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0264cbb8_6d4839e4",
@@ -14,6 +31,24 @@
       "writtenOn": "2022-12-13T23:34:55Z",
       "side": 1,
       "message": "Using \"exceptionally\" here reads oddly.  I think I would drop \"For each of use\" and just say \"As an exception, a strictly comparable....\"",
+      "revId": "333394e654a35f4e1c2a1e8e9c867d7842a207c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11aa3f2d_07488a43",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2718,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-12-14T01:53:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0264cbb8_6d4839e4",
       "revId": "333394e654a35f4e1c2a1e8e9c867d7842a207c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -35,6 +70,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7e642ce_75122206",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2720,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-12-14T01:53:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f049cd6_1f8985b0",
+      "revId": "333394e654a35f4e1c2a1e8e9c867d7842a207c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4c3e5090_6931f4c7",
@@ -48,6 +101,24 @@
       "writtenOn": "2022-12-13T23:34:55Z",
       "side": 1,
       "message": "It\u0027s a bit odd to say that this is \"invalid\" because this is not an expression, it\u0027s just a type and a constraint.  Perhaps simply \"does not satisfy\"?  And put \"satisfies\" on the other lines?  Not sure.",
+      "revId": "333394e654a35f4e1c2a1e8e9c867d7842a207c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "802a71ef_cdf116ac",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2744,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-12-14T01:53:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c3e5090_6931f4c7",
       "revId": "333394e654a35f4e1c2a1e8e9c867d7842a207c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
