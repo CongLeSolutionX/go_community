@@ -74,6 +74,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9beda5b4_2b6bee0d",
+        "filename": "src/os/pipe_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-12-14T15:13:19Z",
+      "side": 1,
+      "message": "Hmm, looks like TestFifoEOF is a duplicate of this test — either it needs the corresponding change, or they should be factored out to use a common helper function.",
+      "revId": "77a34383878c915deb26177eb92abc9a52362379",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5470a70c_ad6cbfe2",
         "filename": "src/os/pipe_test.go",
         "patchSetId": 2
