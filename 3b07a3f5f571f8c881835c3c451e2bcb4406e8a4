@@ -34,6 +34,24 @@
       "parentUuid": "1d80e04b_6fc5c2f7",
       "revId": "3b07a3f5f571f8c881835c3c451e2bcb4406e8a4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd947900_6b865394",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 54019
+      },
+      "writtenOn": "2022-12-14T08:51:03Z",
+      "side": 1,
+      "message": "I have modified the low rules.",
+      "parentUuid": "6a3b1ba4_73a758e3",
+      "revId": "3b07a3f5f571f8c881835c3c451e2bcb4406e8a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
