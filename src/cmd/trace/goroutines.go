@@ -251,6 +251,7 @@ function reloadTable(key, value) {
   window.location.search = params.toString();
 }
 </script>
+` + perfettoScript + `
 
 <table class="summary">
 	<tr><td>Goroutine Name:</td><td>{{.Name}}</td></tr>
@@ -262,6 +263,7 @@ function reloadTable(key, value) {
 	<tr><td>Scheduler Wait Time:</td><td> <a href="/sched?id={{.PC}}">graph</a><a href="/sched?id={{.PC}}&raw=1" download="sched.profile">(download)</a></td></tr>
 </table>
 <p>
+` + perfettoCheckbox + `
 <table class="details">
 <tr>
 <th> Goroutine</th>
@@ -277,7 +279,7 @@ function reloadTable(key, value) {
 </tr>
 {{range .GList}}
   <tr>
-    <td> <a href="/trace?goid={{.ID}}">{{.ID}}</a> </td>
+    <td class="viewtrace"> <a href="/trace?goid={{.ID}}" data-href-json="/jsontrace?goid={{.ID}}">{{.ID}}</a> </td>
     <td> {{prettyDuration .TotalTime}} </td>
     <td>
 	<div class="stacked-bar-graph">

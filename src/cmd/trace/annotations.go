@@ -1056,6 +1056,7 @@ var templUserTaskType = template.Must(template.New("userTask").Funcs(template.Fu
                         margin-top: 5em;
                 }
         </style>
+` + perfettoScript + `
 <body>
 
 <h2>User Task: {{.Name}}</h2>
@@ -1063,6 +1064,8 @@ var templUserTaskType = template.Must(template.New("userTask").Funcs(template.Fu
 Search log text: <form onsubmit="window.location.search+='&logtext='+window.logtextinput.value; return false">
 <input name="logtext" id="logtextinput" type="text"><input type="submit">
 </form><br>
+
+` + perfettoCheckbox + `
 
 <table id="reqs">
 <tr><th>When</th><th>Elapsed</th><th>Goroutine ID</th><th>Events</th></tr>
@@ -1072,8 +1075,8 @@ Search log text: <form onsubmit="window.location.search+='&logtext='+window.logt
                 <td class="elapsed">{{$el.Duration}}</td>
 		<td></td>
                 <td>
-<a href="/trace?focustask={{$el.ID}}#{{asMillisecond $el.Start}}:{{asMillisecond $el.End}}">Task {{$el.ID}}</a>
-<a href="/trace?taskid={{$el.ID}}#{{asMillisecond $el.Start}}:{{asMillisecond $el.End}}">(goroutine view)</a>
+<span class="viewtrace"><a href="/trace?focustask={{$el.ID}}#{{asMillisecond $el.Start}}:{{asMillisecond $el.End}}" data-href-json="/jsontrace?focustask={{$el.ID}}">Task {{$el.ID}}</a></span>
+(<span class="viewtrace"><a href="/trace?taskid={{$el.ID}}#{{asMillisecond $el.Start}}:{{asMillisecond $el.End}}" data-href-json="/jsontrace?taskid={{$el.ID}}">goroutine view</a></span>)
 ({{if .Complete}}complete{{else}}incomplete{{end}})</td>
         </tr>
         {{range $el.Events}}
@@ -1254,6 +1257,7 @@ function reloadTable(key, value) {
   window.location.search = params.toString();
 }
 </script>
+` + perfettoScript + `
 
 <h2>{{.Name}}</h2>
 
@@ -1266,6 +1270,7 @@ function reloadTable(key, value) {
 </table>
 {{ end }}
 <p>
+` + perfettoCheckbox + `
 <table class="details">
 <tr>
 <th> Goroutine </th>
@@ -1282,8 +1287,8 @@ function reloadTable(key, value) {
 </tr>
 {{range .Data}}
   <tr>
-    <td> <a href="/trace?goid={{.G}}">{{.G}}</a> </td>
-    <td> {{if .TaskID}}<a href="/trace?focustask={{.TaskID}}">{{.TaskID}}</a>{{end}} </td>
+    <td class="viewtrace"> <a href="/trace?goid={{.G}}" data-href-json="/jsontrace?goid={{.G}}">{{.G}}</a> </td>
+    <td class="viewtrace"> {{if .TaskID}}<a href="/trace?focustask={{.TaskID}}" data-href-json="/jsontrace?focustask={{.TaskID}}">{{.TaskID}}</a>{{end}} </td>
     <td> {{prettyDuration .TotalTime}} </td>
     <td>
         <div class="stacked-bar-graph">

@@ -183,6 +183,105 @@ func httpMain(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+const perfettoCheckbox = `<label><input id="perfetto" type="checkbox" name="checkbox" value="value">Use Perfetto UI (experimental)</label>`
+
+const perfettoScript = `
+<script>
+window.addEventListener('load', e => {
+  document
+    .querySelectorAll('.viewtrace > a')
+    .forEach(el => {
+      el.dataset.href = el.href;
+      el.addEventListener('click', onClickViewTrace);
+    });
+
+  const perfettoCheckbox = document.getElementById('perfetto');
+  perfettoCheckbox.addEventListener('click', el => {
+    // Restore trace links and indicator state depending on which viewer is
+    // selected by the user.
+    document
+      .querySelectorAll('.viewtrace .indicator')
+      .forEach(el => el.hidden = !perfettoCheckbox.checked);
+    document
+      .querySelectorAll('.viewtrace > a')
+      .forEach(link => {
+        const href = perfettoCheckbox.checked ? link.dataset.hrefJson : link.dataset.href;
+        if (!href) {
+          link.removeAttribute('href');
+        } else {
+          link.setAttribute('href', href);
+        }
+      })
+  });
+});
+
+function onClickViewTrace(e) {
+  const perfettoCheckbox = document.querySelector('#perfetto');
+  if (!perfettoCheckbox.checked) {
+    return;
+  }
+
+  e.preventDefault();
+
+  const link = this;
+  const traceURL = link.href;
+  let indicator = link.parentNode.querySelector('.indicator');
+  if (!indicator) {
+    delete link.dataset.hrefJson;
+    indicator = document.createElement('span');
+    indicator.className = 'indicator';
+    indicator.innerText = ' (loading ... this might take a bit)';
+    link.parentNode.appendChild(indicator);
+  }
+
+  link.removeAttribute('href'); // avoid user clicking more than once
+
+  fetch(traceURL)
+    .then(response => response.blob())
+    .then(blob => blob.arrayBuffer())
+    .then(arrayBuf => {
+      const openLink = document.createElement('a');
+      openLink.setAttribute('href', '#');
+      openLink.innerText = 'open';
+      openLink.addEventListener('click', onClickOpenHandler(arrayBuf));
+      indicator.innerHTML = '';
+      indicator.appendChild(document.createTextNode(' ('));
+      indicator.appendChild(openLink);
+      indicator.appendChild(document.createTextNode(')'));
+
+      // Try to automatically open Perfetto UI. If fetch() takes more than a
+      // few seconds, browsers may block this as an unwanted "popup". In this
+      // case users will have to manually click the link.
+      // See https://groups.google.com/g/perfetto-dev/c/Au39ZVrySgk
+      openLink.click();
+    });
+}
+
+function onClickOpenHandler(arrayBuf) {
+  return e => {
+    // See https://perfetto.dev/docs/visualization/deep-linking-to-perfetto-ui
+    // for how the code below works.
+    const origin = 'https://ui.perfetto.dev';
+    const handle = window.open(origin);
+    const timer = setInterval(() => handle.postMessage('PING', origin), 50);
+    const onMessageHandler = (evt) => {
+      if (evt.data !== 'PONG') return;
+
+      window.clearInterval(timer);
+      window.removeEventListener('message', onMessageHandler);
+
+      handle.postMessage({
+        perfetto: {
+          buffer: arrayBuf,
+          title: 'go tool trace', // TODO: use traceFile name?
+      }}, origin);
+    };
+    window.addEventListener('message', onMessageHandler);
+  };
+}
+</script>
+`
+
 var templMain = template.Must(template.New("").Parse(`
 <html>
 <style>
@@ -203,6 +302,7 @@ h1,h2 {
 }
 p  { color: grey85; font-size:85%; }
 </style>
+` + perfettoScript + `
 <body>
 <h1>cmd/trace: the Go trace event viewer</h1>
 <p>
@@ -211,19 +311,20 @@ p  { color: grey85; font-size:85%; }
 </p>
 
 <h2>Event timelines for running goroutines</h2>
+` + perfettoCheckbox + `
 {{if $}}
 <p>
   Large traces are split into multiple sections of equal data size
   (not duration) to avoid overwhelming the visualizer.
 </p>
 <ul>
-	{{range $e := $}}
-		<li><a href="{{$e.URL}}">View trace ({{$e.Name}})</a></li>
-	{{end}}
+  {{range $e := $}}
+    <li class="viewtrace"><a href="{{$e.URL}}" data-href-json="{{$e.JSONURL}}">View trace ({{$e.Name}})</a></li>
+  {{end}}
 </ul>
 {{else}}
 <ul>
-	<li><a href="/trace">View trace</a></li>
+  <li class="viewtrace"><a href="/trace" data-href-json="/jsontrace">View trace</a></li>
 </ul>
 {{end}}
 <p>
