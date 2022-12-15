@@ -36,6 +36,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "3bd88ff2_460cadb0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2022-12-15T22:17:37Z",
+      "side": 1,
+      "message": "@Michael Pratt: That could work. Would you imagine this \"viewer selector\" to only appear on the homepage, or also inside of the goroutine analysis sub pages? If it\u0027s the former, we\u0027d have to carry the selected selector value via URL params or similar.\n\nHaving a \"viewer selector\" will also require an extra click for users who want to use Perfetto. But I guess this is okay if we\u0027re hoping to completely move away from Catapult in the future (or at least make Perfetto the default choice).\n\nLet me know what you think and I can make the required changes.",
+      "parentUuid": "427ee474_4bc0a5c0",
+      "revId": "0c190f37f7afb07395440f9f0e6f97eef29998eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "b33bbe5c_044fcfea",
