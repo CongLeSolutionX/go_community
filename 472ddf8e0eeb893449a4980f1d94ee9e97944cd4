@@ -90,6 +90,40 @@
       "parentUuid": "2b44ee13_a45264cf",
       "revId": "472ddf8e0eeb893449a4980f1d94ee9e97944cd4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "674d6a97_1463750d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-12-15T23:14:33Z",
+      "side": 1,
+      "message": "The fix is trivial and identical for all 3 architectures, so I\u0027d think it\u0027s fine to fix them all in a single CL. It would make backporting easier too.",
+      "revId": "472ddf8e0eeb893449a4980f1d94ee9e97944cd4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23b1e830_544d1aad",
+        "filename": "test/fixedbugs/issue57282.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2022-12-15T23:14:33Z",
+      "side": 1,
+      "message": "nit: I think this test should be added to $GOROOT/src/sync/atomic/atomic_test.go instead.\n\nAlso, please have the test run on all architectures by default, and only skip architectures that are known to have problems.",
+      "revId": "472ddf8e0eeb893449a4980f1d94ee9e97944cd4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
