@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "0bbefcec_696ac1eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 57733
+      },
+      "writtenOn": "2022-12-15T12:55:46Z",
+      "side": 1,
+      "message": "I think you could do that as part of this patch, using the same method you do for the overall trace.\n\nThe link for per-goroutine breakdown is here:\n\nhttps://cs.opensource.google/go/go/+/refs/tags/go1.19.4:src/cmd/trace/goroutines.go;l\u003d275\n\nAnd the links for per-user-task breakdowns are here:\n\nhttps://cs.opensource.google/go/go/+/refs/tags/go1.19.4:src/cmd/trace/annotations.go;l\u003d1077-1078\n\nIn all cases, the /trace?\u003cparams\u003e link can be changed to /jsontrace?\u003cparams\u003e and you\u0027ll get the data you can feed to Perfetto.",
+      "revId": "0c190f37f7afb07395440f9f0e6f97eef29998eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "b33bbe5c_044fcfea",
