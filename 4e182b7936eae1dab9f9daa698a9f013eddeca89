@@ -59,6 +59,30 @@
       },
       "revId": "4e182b7936eae1dab9f9daa698a9f013eddeca89",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f53cea92_8dd88c42",
+        "filename": "src/cmd/compile/internal/types2/check_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2022-12-15T01:21:11Z",
+      "side": 1,
+      "message": "It\u0027s the max. column difference we permit from the \"true\" error position. Adding the quotes shifted positions over the threshold (47 would have worked, too, I think, so 2 more for 2 quotes).",
+      "parentUuid": "ade19f2e_8b1d41a0",
+      "range": {
+        "startLine": 317,
+        "startChar": 65,
+        "endLine": 317,
+        "endChar": 68
+      },
+      "revId": "4e182b7936eae1dab9f9daa698a9f013eddeca89",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
