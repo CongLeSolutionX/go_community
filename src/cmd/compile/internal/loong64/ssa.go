@@ -687,6 +687,9 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		p4.To.Type = obj.TYPE_REG
 		p4.To.Reg = v.Reg0()
 	case ssa.OpLOONG64LoweredAtomicCas32, ssa.OpLOONG64LoweredAtomicCas64:
+		// if v.Op == ssa.OpLOONG64LoweredAtomicCas32 {
+		//	SLL.W Rarg1, Rarg1, $0
+		// }
 		// MOVV $0, Rout
 		// DBAR
 		// LL	(Rarg0), Rtmp
@@ -700,6 +703,13 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		if v.Op == ssa.OpLOONG64LoweredAtomicCas32 {
 			ll = loong64.ALL
 			sc = loong64.ASC
+
+			p0 := s.Prog(loong64.ASLL)
+			p0.From.Type = obj.TYPE_REG
+			p0.From.Reg = loong64.REGZERO
+			p0.Reg = v.Args[1].Reg()
+			p0.To.Type = obj.TYPE_REG
+			p0.To.Reg = v.Args[1].Reg()
 		}
 		p := s.Prog(loong64.AMOVV)
 		p.From.Type = obj.TYPE_REG
