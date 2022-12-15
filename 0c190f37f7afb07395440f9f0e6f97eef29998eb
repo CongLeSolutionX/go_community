@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "427ee474_4bc0a5c0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-12-15T20:14:11Z",
+      "side": 1,
+      "message": "You could also consider using a toggle at the top of the pages for \"Open links in legacy viewer / open links in Perfetto (experimental)\", which would avoid the need to take up lots of space including two links everywhere.",
+      "parentUuid": "0bbefcec_696ac1eb",
+      "revId": "0c190f37f7afb07395440f9f0e6f97eef29998eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "b33bbe5c_044fcfea",
