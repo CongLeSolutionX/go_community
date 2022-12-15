@@ -198,6 +198,24 @@
       "message": "Putting a hold on this one, to remove when the order is good, so that things will go more smoothly.",
       "revId": "facd3046168b5ec14a4e2ba0bb74892888603a49",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a070b2e_7b189f76",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 54019
+      },
+      "writtenOn": "2022-12-15T11:44:29Z",
+      "side": 1,
+      "message": "I\u0027ve adjusted the order of the patches so that loong64 is last.\nYes, the first supported version of loong64 is 1.19.",
+      "parentUuid": "dbca45cc_7da46923",
+      "revId": "facd3046168b5ec14a4e2ba0bb74892888603a49",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
