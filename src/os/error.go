@@ -139,3 +139,17 @@ func underlyingError(err error) error {
 	}
 	return err
 }
+
+// wrappedError wraps an error without relying on fmt.Errorf.
+type wrappedError struct {
+	prefix string
+	err    error
+}
+
+func (w wrappedError) Error() string {
+	return w.prefix + ": " + w.err.Error()
+}
+
+func (w wrappedError) Unwrap() error {
+	return w.err
+}
