@@ -22,10 +22,11 @@ func disableWER() {
 	stdcall1(_SetErrorMode, uintptr(errormode)|SEM_FAILCRITICALERRORS|SEM_NOGPFAULTERRORBOX|SEM_NOOPENFILEERRORBOX)
 }
 
-// in sys_windows_386.s and sys_windows_amd64.s
+// in sys_windows_386.s, sys_windows_amd64.s, sys_windows_arm.s, and sys_windows_arm64.s
 func exceptiontramp()
 func firstcontinuetramp()
 func lastcontinuetramp()
+func sigresume()
 
 func initExceptionHandler() {
 	stdcall2(_AddVectoredExceptionHandler, 1, abi.FuncPCABI0(exceptiontramp))
@@ -86,6 +87,83 @@ func isgoexception(info *exceptionrecord, r *context) bool {
 	case _EXCEPTION_ILLEGAL_INSTRUCTION: // breakpoint arrives this way on arm64
 	}
 	return true
+}
+
+const (
+	callbackVEH = iota
+	callbackFirstVCH
+	callbackLastVCH
+)
+
+// sigFetchGSafe is like getg() but without panicking
+// when TLS is not set.
+// Only implemented on windows/386, which is the only
+// arch that loads TLS when calling getg(). Others
+// use a dedicated register.
+func sigFetchGSafe() *g
+
+func sigFetchG() *g {
+	if GOARCH == "386" {
+		return sigFetchGSafe()
+	}
+	return getg()
+}
+
+// sigtrampgo is called from the exception handler function, sigtramp,
+// written in assembly code.
+//
+// It is nosplit for the same reason as exceptionhandler.
+//
+//go:nosplit
+func sigtrampgo(ep *exceptionpointers, kind int) int32 {
+	gp := sigFetchG()
+	if gp == nil {
+		return _EXCEPTION_CONTINUE_SEARCH
+	}
+
+	var fn func(info *exceptionrecord, r *context, gp *g) int32
+	switch kind {
+	case callbackVEH:
+		fn = exceptionhandler
+	case callbackFirstVCH:
+		fn = firstcontinuehandler
+	case callbackLastVCH:
+		fn = lastcontinuehandler
+	default:
+		throw("unknown sigtramp callback")
+	}
+
+	var ret int32
+	if gp != gp.m.g0 {
+		// fn must be called on the g0 stack.
+		systemstack(func() {
+			ret = fn(ep.record, ep.context, gp)
+		})
+	} else {
+		ret = fn(ep.record, ep.context, gp)
+	}
+	if ret == _EXCEPTION_CONTINUE_SEARCH {
+		return ret
+	}
+
+	// Check if we need to set up the control flow guard workaround.
+	// On Windows, the stack pointer in the context must lie within
+	// system stack limits when we resume from exception.
+	// Store the resume SP and PC in alternate registers
+	// and return to sigresume on the g0 stack.
+	// sigresume makes no use of the stack at all,
+	// loading SP from RX and jumping to RY, being RX and RY two scratch registers.
+	// Note that blindly smashing RX and RY is only safe because we know sigpanic
+	// will not actually return to the original frame, so the registers
+	// are effectively dead. But this does mean we can't use the
+	// same mechanism for async preemption.
+	if ep.context.ip() == abi.FuncPCABI0(sigresume) {
+		return ret
+	}
+	prepareContextForSigResume(ep.context)
+	ep.context.set_sp(gp.m.g0.sched.sp)
+	ep.context.set_ip(abi.FuncPCABI0(sigresume))
+	return ret
 }
 
 // Called by sigtramp from Windows VEH handler.
