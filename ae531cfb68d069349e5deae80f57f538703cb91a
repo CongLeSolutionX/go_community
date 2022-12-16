@@ -53,6 +53,24 @@
       "message": "I note that our x/text repo is still on unicode 13-- are there any potential issues there (e.g. program using x/text tip with go tip)?",
       "revId": "ae531cfb68d069349e5deae80f57f538703cb91a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "557d67b6_c6eccd79",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 60513
+      },
+      "writtenOn": "2022-12-16T22:50:59Z",
+      "side": 1,
+      "message": "\u003e are there any potential issues there (e.g. program using x/text tip with go tip)?\n\nJust finished testing w/ the most recent version (via GH) of x/text; no news is good news. The only issue I can really imagine is inconsistencies in data availability, i.e. info for a Unicode 14 or 15 rune is available in src/unicode but the rune name won\u0027t be available in x/text/unicode/runenames.\n\nI would love to update x/text as well to get the whole project to parity w/ modern text standards, but the generate sequence appears to be borked (hence no accompanying PR). Seems pretty important that this gets fixed; Unicode is over a year out of date and the CLDR is about 5 years out of date, but both of these should only take a few minutes to upgrade. I would be more than happy to be involved in seeing this through if anyone more qualified would be interested.",
+      "parentUuid": "819218bb_3cf44f31",
+      "revId": "ae531cfb68d069349e5deae80f57f538703cb91a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
