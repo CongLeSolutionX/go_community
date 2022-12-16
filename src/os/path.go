@@ -5,6 +5,8 @@
 package os
 
 import (
+	"errors"
+	"io/fs"
 	"syscall"
 )
 
@@ -52,6 +54,13 @@ func MkdirAll(path string, perm FileMode) error {
 		dir, err1 := Lstat(path)
 		if err1 == nil && dir.IsDir() {
 			return nil
+		}
+		if err1 != nil && errors.Is(err1, fs.ErrNotExist) {
+			return &PathError{
+				Op:   "mkdir",
+				Path: path,
+				Err:  errors.New("MkdirAll: intermediate directory not found: " + err.Error()),
+			}
 		}
 		return err
 	}
