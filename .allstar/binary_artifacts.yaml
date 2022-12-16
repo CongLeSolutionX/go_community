@@ -1,0 +1,20 @@
+ignorePaths:
+- src/crypto/internal/boring/syso/goboringcrypto_linux_amd64.syso
+- src/crypto/internal/boring/syso/goboringcrypto_linux_arm64.syso
+- src/runtime/race/internal/amd64v1/race_darwin.syso
+- src/runtime/race/internal/amd64v1/race_freebsd.syso
+- src/runtime/race/internal/amd64v1/race_linux.syso
+- src/runtime/race/internal/amd64v1/race_netbsd.syso
+- src/runtime/race/internal/amd64v1/race_openbsd.syso
+- src/runtime/race/internal/amd64v3/race_linux.syso
+- src/runtime/race/race_darwin_arm64.syso
+- src/runtime/race/race_linux_arm64.syso
+- src/runtime/race/race_linux_ppc64le.syso
+- src/runtime/race/race_linux_s390x.syso
+- src/runtime/race/internal/amd64v1/race_darwin.syso
+- src/runtime/race/internal/amd64v1/race_freebsd.syso
+- src/runtime/race/internal/amd64v1/race_linux.syso
+- src/runtime/race/internal/amd64v1/race_netbsd.syso
+- src/runtime/race/internal/amd64v1/race_openbsd.syso
+- src/runtime/race/internal/amd64v1/race_windows.syso
+- src/runtime/race/internal/amd64v3/race_linux.syso
