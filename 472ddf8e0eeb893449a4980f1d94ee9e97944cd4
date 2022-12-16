@@ -143,6 +143,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3af223d7_d8fd690b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 54019
+      },
+      "writtenOn": "2022-12-16T12:02:33Z",
+      "side": 1,
+      "message": "I have merged the three CLs into a single CL.",
+      "parentUuid": "cda353fe_28c7e5ed",
+      "revId": "472ddf8e0eeb893449a4980f1d94ee9e97944cd4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "23b1e830_544d1aad",
@@ -156,6 +174,24 @@
       "writtenOn": "2022-12-15T23:14:33Z",
       "side": 1,
       "message": "nit: I think this test should be added to $GOROOT/src/sync/atomic/atomic_test.go instead.\n\nAlso, please have the test run on all architectures by default, and only skip architectures that are known to have problems.",
+      "revId": "472ddf8e0eeb893449a4980f1d94ee9e97944cd4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b04973cb_fcf0b833",
+        "filename": "test/fixedbugs/issue57282.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 54019
+      },
+      "writtenOn": "2022-12-16T12:02:33Z",
+      "side": 1,
+      "message": "Thanks. I\u0027ve been moving the test code into atomic_test.go and run all architectures by default",
+      "parentUuid": "23b1e830_544d1aad",
       "revId": "472ddf8e0eeb893449a4980f1d94ee9e97944cd4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
