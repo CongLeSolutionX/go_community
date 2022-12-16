@@ -106,133 +106,62 @@ TEXT runtime·getlasterror(SB),NOSPLIT,$0
 	MOVL	AX, ret+0(FP)
 	RET
 
-// Called by Windows as a Vectored Exception Handler (VEH).
-// First argument is pointer to struct containing
-// exception record and context pointers.
-// Handler function is stored in AX.
-// Return 0 for 'not handled', -1 for handled.
-TEXT sigtramp<>(SB),NOSPLIT|NOFRAME,$0-0
-	// CX: PEXCEPTION_POINTERS ExceptionInfo
+TEXT runtime·sigFetchG<ABIInternal>(SB),NOSPLIT|NOFRAME,$0
+	get_tls(AX)
+	CMPQ	AX, $0
+	JE	3(PC)
+	MOVQ	g(AX), AX
+	MOVQ	AX, R14 // Go ABI expects R14 to contain g.
+	MOVQ	AX, ret+0(FP)
+	RET
 
+// Called by Windows as a Vectored Exception Handler (VEH).
+// CX is pointer to struct containing
+// exception record and context pointers.
+// DX is the kind if sigtramp function.
+TEXT sigtramp<>(SB),NOSPLIT|NOFRAME,$0-0
 	// Switch from the host ABI to the Go ABI.
 	PUSH_REGS_HOST_TO_ABI0()
-	// Make stack space for the rest of the function.
-	ADJSP	$48
 
-	MOVQ	CX, R13	// save exception address
-	MOVQ	AX, R15	// save handler address
+	// Set up ABIInternal environment: cleared X15 and R14.
+	// R14 is cleared so that there's a bad value in there 
+	// if called from a non-go thread,
+	XORPS	X15, X15
+	XORQ	R14, R14
 
-	// find g
-	get_tls(DX)
-	CMPQ	DX, $0
-	JNE	3(PC)
-	MOVQ	$0, AX // continue
-	JMP	done
-	MOVQ	g(DX), DX
-	CMPQ	DX, $0
-	JNE	2(PC)
-	CALL	runtime·badsignal2(SB)
+	// Reserve space for spill slots.
+	ADJSP	$16
+	MOVQ	CX, AX
+	MOVQ	DX, BX
+	// Calling ABIInternal because TLS might be nil.
+	CALL	runtime·sigtrampgo<ABIInternal>(SB)
+	ADJSP	$-16
 
-	// save g and SP in case of stack switch
-	MOVQ	DX, 32(SP) // g
-	MOVQ	SP, 40(SP)
-
-	// do we need to switch to the g0 stack?
-	MOVQ	g_m(DX), BX
-	MOVQ	m_g0(BX), BX
-	CMPQ	DX, BX
-	JEQ	g0
-
-	// switch to g0 stack
-	get_tls(BP)
-	MOVQ	BX, g(BP)
-	MOVQ	(g_sched+gobuf_sp)(BX), DI
-	// make room for sighandler arguments
-	// and re-save old SP for restoring later.
-	// Adjust g0 stack by the space we're using and
-	// save SP at the same place on the g0 stack.
-	// The 40(DI) here must match the 40(SP) above.
-	SUBQ	$(REGS_HOST_TO_ABI0_STACK + 48), DI
-	MOVQ	SP, 40(DI)
-	MOVQ	DI, SP
-
-g0:
-	MOVQ	0(R13), BX // ExceptionRecord*
-	MOVQ	8(R13), CX // Context*
-	MOVQ	BX, 0(SP)
-	MOVQ	CX, 8(SP)
-	MOVQ	DX, 16(SP)
-	CALL	R15	// call handler
-	// AX is set to report result back to Windows
-	MOVL	24(SP), AX
-
-	MOVQ	SP, DI // save g0 SP
-
-	// switch back to original stack and g
-	// no-op if we never left.
-	MOVQ	40(SP), SP
-	MOVQ	32(SP), DX
-	get_tls(BP)
-	MOVQ	DX, g(BP)
-
-	// if return value is CONTINUE_SEARCH, do not set up control
-	// flow guard workaround.
-	CMPQ	AX, $0
-	JEQ	done
-
-	// Check if we need to set up the control flow guard workaround.
-	// On Windows, the stack pointer in the context must lie within
-	// system stack limits when we resume from exception.
-	// Store the resume SP and PC in alternate registers
-	// and return to sigresume on the g0 stack.
-	// sigresume makes no use of the stack at all,
-	// loading SP from R8 and jumping to R9.
-	// Note that smashing R8 and R9 is only safe because we know sigpanic
-	// will not actually return to the original frame, so the registers
-	// are effectively dead. But this does mean we can't use the
-	// same mechanism for async preemption.
-	MOVQ	8(R13), CX
-	MOVQ	$sigresume<>(SB), BX
-	CMPQ	BX, context_rip(CX)
-	JEQ	done			// do not clobber saved SP/PC
-
-	// Save resume SP and PC into R8, R9.
-	MOVQ	context_rsp(CX), BX
-	MOVQ	BX, context_r8(CX)
-	MOVQ	context_rip(CX), BX
-	MOVQ	BX, context_r9(CX)
-
-	// Set up context record to return to sigresume on g0 stack
-	MOVD	DI, BX
-	MOVD	BX, context_rsp(CX)
-	MOVD	$sigresume<>(SB), BX
-	MOVD	BX, context_rip(CX)
-
-done:
-	ADJSP	$-48
 	POP_REGS_HOST_TO_ABI0()
-
 	RET
 
 // Trampoline to resume execution from exception handler.
 // This is part of the control flow guard workaround.
 // It switches stacks and jumps to the continuation address.
-// R8 and R9 are set above at the end of sigtramp<>
-// in the context that starts executing at sigresume<>.
-TEXT sigresume<>(SB),NOSPLIT|NOFRAME,$0
+// R8 and R9 are set above at the end of sigtrampgo
+// in the context that starts executing at sigresume.
+TEXT runtime·sigresume(SB),NOSPLIT|NOFRAME,$0
 	MOVQ	R8, SP
 	JMP	R9
 
 TEXT runtime·exceptiontramp(SB),NOSPLIT|NOFRAME,$0
-	MOVQ	$runtime·exceptionhandler(SB), AX
+	// PExceptionPointers already on CX
+	MOVQ	$const_callbackVEH, DX
 	JMP	sigtramp<>(SB)
 
 TEXT runtime·firstcontinuetramp(SB),NOSPLIT|NOFRAME,$0-0
-	MOVQ	$runtime·firstcontinuehandler(SB), AX
+	// PExceptionPointers already on CX
+	MOVQ	$const_callbackFirstVCH, DX
 	JMP	sigtramp<>(SB)
 
 TEXT runtime·lastcontinuetramp(SB),NOSPLIT|NOFRAME,$0-0
-	MOVQ	$runtime·lastcontinuehandler(SB), AX
+	// PExceptionPointers already on CX
+	MOVQ	$const_callbackLastVCH, DX
 	JMP	sigtramp<>(SB)
 
 GLOBL runtime·cbctxts(SB), NOPTR, $8
