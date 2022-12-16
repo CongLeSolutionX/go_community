@@ -5,6 +5,7 @@
 package os
 
 import (
+	"errors"
 	"syscall"
 )
 
@@ -53,6 +54,14 @@ func MkdirAll(path string, perm FileMode) error {
 		if err1 == nil && dir.IsDir() {
 			return nil
 		}
+		if err1 != nil && errors.Is(err1, syscall.ERROR_PATH_NOT_FOUND) {
+			return &PathError{
+				Op:   "mkdir",
+				Path: path,
+				Err:  errors.New("intermediate directory removed or created with the wrong name"),
+			}
+		}
+
 		return err
 	}
 	return nil

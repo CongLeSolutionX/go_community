@@ -5,6 +5,7 @@
 package os_test
 
 import (
+	"errors"
 	"os"
 	"strings"
 	"syscall"
@@ -82,6 +83,19 @@ func TestMkdirAllExtendedLength(t *testing.T) {
 	path = path + `.\dir2`
 	if err := os.MkdirAll(path, 0777); err == nil {
 		t.Fatalf("MkdirAll(%q) should have failed, but did not", path)
+	}
+}
+
+func TestMkDirAllIntermediateTrailingSpace(t *testing.T) {
+	tmpDir := t.TempDir()
+
+	path := tmpDir + "folder \\this one fails"
+	err := os.MkdirAll(path, 0777)
+	if err == nil {
+		t.Fatalf("MkdirAll(%q) should have failed, but did not", path)
+	}
+	if err != nil && errors.Is(err, syscall.ERROR_PATH_NOT_FOUND) {
+		t.Fatalf("MkdirAll(%q) should not have failed with ERROR_PATH_NOT_FOUND, but did", path)
 	}
 }
 
