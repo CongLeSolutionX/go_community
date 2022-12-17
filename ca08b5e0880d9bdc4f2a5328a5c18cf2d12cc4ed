@@ -175,7 +175,7 @@
       },
       "applicabilityExpressionResult": {},
       "submittabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"NOT label:Hold=1"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":["label:Hold=1"],"failingAtoms":[]}
+        "value": {"expression":{"expressionString":"NOT label:Hold=1"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["label:Hold=1"]}
       },
       "overrideExpressionResult": {},
       "patchSetCommitId": "ca08b5e0880d9bdc4f2a5328a5c18cf2d12cc4ed",
