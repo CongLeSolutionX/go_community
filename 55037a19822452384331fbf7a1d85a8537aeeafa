@@ -16,6 +16,23 @@
       "message": "R\u003dgo1.21",
       "revId": "55037a19822452384331fbf7a1d85a8537aeeafa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f2cec63_08590eb6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-12-19T19:53:11Z",
+      "side": 1,
+      "message": "Thanks.  This will be for 1.21.\n\nIt will require a new file in $GOROOT/api/next describing the new field.",
+      "revId": "55037a19822452384331fbf7a1d85a8537aeeafa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
