@@ -146,6 +146,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "23c8b009_7752c939",
+        "filename": "src/runtime/signal_windows.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2022-12-19T22:12:15Z",
+      "side": 1,
+      "message": "Hmm, not I remember why I did not unconditionally use systemstack(). It sometimes fail with `fatal: morestack on g0` https://storage.googleapis.com/go-build-log/452ae817/windows-amd64-2016_d7223721.log.\n\nWill investigate more.",
+      "parentUuid": "345ee392_ad1864a2",
+      "revId": "385efb1fac58f0869ca0db4c29d4187f7487298f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "12f8dd92_ffde0b0f",
         "filename": "src/runtime/sys_windows_386.s",
         "patchSetId": 13
