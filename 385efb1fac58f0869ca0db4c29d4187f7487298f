@@ -164,6 +164,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1177608c_c5bc9a54",
+        "filename": "src/runtime/signal_windows.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-12-19T22:57:26Z",
+      "side": 1,
+      "message": "Oh blegh. I think what is happening is that TestG0StackOverflow is overflowing the g0 stack (as it should!), and then ending up in the signal handler [1]. The closure you pass to `systemstack()` must have a `morestack()` preamble call, which triggers because the g0 stack is at the guard.\n\nThe \"right\" answer is that that closure should be marked `//go:nosplit` in order to omit the preamble. But there is no way to add `//go:nosplit` to a closure, only top-level functions.\n\nI can\u0027t think of other workarounds off the top of my head. You may need to switch back to what you had before...\n\n[1] I\u0027m not entirely sure exactly why this happens? [2] should throw() in a morestack() call in stackOverflow() when it reaches the stack guard. That throw should be a successful fatal throw that just exits with `exit(2)`. But maybe `GOTRACEBACK\u003dcrash` is set and it is trying to crash instead of cleanly exiting?\n[2] https://cs.opensource.google/go/go/+/master:src/runtime/export_test.go;l\u003d559-568",
+      "parentUuid": "23c8b009_7752c939",
+      "revId": "385efb1fac58f0869ca0db4c29d4187f7487298f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "12f8dd92_ffde0b0f",
         "filename": "src/runtime/sys_windows_386.s",
         "patchSetId": 13
