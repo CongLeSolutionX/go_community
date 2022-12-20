@@ -60,6 +60,9 @@ type Flags struct {
 	StaticLockRanking bool
 	BoringCrypto      bool
 
+	// TODO(mdempsky): Remove.
+	Unified bool
+
 	// Regabi is split into several sub-experiments that can be
 	// enabled individually. Not all combinations work.
 	// The "regabi" GOEXPERIMENT is an alias for all "working"
