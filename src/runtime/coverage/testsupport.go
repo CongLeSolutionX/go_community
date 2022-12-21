@@ -170,6 +170,7 @@ func (ts *tstate) processPod(p pods.Pod) error {
 			copy(c, data.Counters)
 			pmm[key] = c
 		}
+		cf.Close()
 	}
 
 	// Visit meta-data file.
