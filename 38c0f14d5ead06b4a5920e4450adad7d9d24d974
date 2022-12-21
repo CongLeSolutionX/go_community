@@ -35,6 +35,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "aeca74f5_4defded1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-12-21T22:09:57Z",
+      "side": 1,
+      "message": "Please change this line to\n\nFixes #53747",
+      "revId": "38c0f14d5ead06b4a5920e4450adad7d9d24d974",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "96d8b6bd_d0ed064b",
@@ -65,6 +82,24 @@
       "writtenOn": "2022-12-21T20:53:16Z",
       "side": 1,
       "message": "This should be taken off hold so it can be merged into 1.21 once the tree is unfrozen.",
+      "revId": "38c0f14d5ead06b4a5920e4450adad7d9d24d974",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ddfa0e8b_a618fe77",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-12-21T22:09:57Z",
+      "side": 1,
+      "message": "I don\u0027t think this is on hold right now?  I think the hold was removed in August.\n\nBut it does have some unaddressed comments and it does have a merge conflict.",
+      "parentUuid": "2a064009_0d853040",
       "revId": "38c0f14d5ead06b4a5920e4450adad7d9d24d974",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
