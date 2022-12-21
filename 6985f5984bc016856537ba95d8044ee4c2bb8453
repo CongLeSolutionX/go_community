@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "65970172_fbdd3193",
+        "filename": "src/crypto/x509/internal/macos/corefoundation.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2022-12-21T17:09:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd256443_23c5e1ee",
+      "range": {
+        "startLine": 193,
+        "startChar": 8,
+        "endLine": 193,
+        "endChar": 13
+      },
+      "revId": "6985f5984bc016856537ba95d8044ee4c2bb8453",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8a5f7bb9_9f82b7c8",
@@ -37,6 +61,24 @@
       "writtenOn": "2022-12-05T10:40:32Z",
       "side": 1,
       "message": "I\u0027d move these to internal/macos. It is a low-level package, so we don\u0027t need to go to the distance of making an error type to hold int+string at least for now, but the magic numbers should live next to the rest of the Security.framework gunk.",
+      "revId": "6985f5984bc016856537ba95d8044ee4c2bb8453",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92545319_f51b92a0",
+        "filename": "src/crypto/x509/root_darwin.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2022-12-21T17:09:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a5f7bb9_9f82b7c8",
       "revId": "6985f5984bc016856537ba95d8044ee4c2bb8453",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
