@@ -16,6 +16,24 @@
       "message": "If new ports don\u0027t need to enter the \"broken port\" map during their development phase, maybe it\u0027s not very useful to support this flag here. Hmm.",
       "revId": "fa1b717aeef108c3b31560489e3128617d95d358",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9674109_68fe18a9",
+        "filename": "src/bootstrap.bash",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-12-21T03:39:39Z",
+      "side": 1,
+      "message": "This seems fine to me.",
+      "parentUuid": "a83f87b8_c6afebe7",
+      "revId": "fa1b717aeef108c3b31560489e3128617d95d358",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
