@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01b3978e_fdebbcb4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-12-21T20:09:22Z",
+      "side": 1,
+      "message": "Thanks, but this changes the meaning of the code.  The \"\u003d\u003d nil\" will test whether the interface value is nil, not whether the value stored in the interface is nil.  See https://go.dev/doc/faq#nil_error.",
+      "revId": "75e99475205b6d8dd4823177608c8509862b5386",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
