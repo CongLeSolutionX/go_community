@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3ec66c8_c3b28e43",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6400
+      },
+      "writtenOn": "2022-12-22T09:30:15Z",
+      "side": 1,
+      "message": "If possible, I would like to discuss whether this implementation would also need support for registering context-value preservation handlers to keep special values alive and handle their closure when the detached child is done.  This is something we\u0027ve needed internally, and I\u0027d hate to have a fragmented implementation.\n\nI\u0027ve added someone who can help suss this out, but he\u0027s out on vacation.",
+      "revId": "4bc45c54dcfbd7566a00d0ae9376ab85e8888943",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
