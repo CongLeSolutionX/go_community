@@ -85,6 +85,8 @@ const (
 	atomicPackageName = "_cover_atomic_"
 )
 
+var atomicPackagePref string
+
 func main() {
 	objabi.AddVersionFlag()
 	flag.Usage = usage
@@ -382,8 +384,23 @@ func (f *File) Visit(node ast.Node) ast.Visitor {
 		if n.Name.Name == "_" || n.Body == nil {
 			return nil
 		}
-		// Determine proper function or method name.
 		fname := n.Name.Name
+		// Skip AddUint32 and StoreUint32 if we're instrumenting
+		// sync/atomic itself in atomic mode (out of an abundance of
+		// caution), since as part of the instrumentation process we
+		// add calls to AddUint32/StoreUint32, and we don't want to
+		// somehow create an infinite loop.
+		//
+		// Note that in the current implementation (Go 1.20) both
+		// routines are assembly stubs that forward calls to the
+		// runntime/internal/atomic equivalents, hence the infinite
+		// loop scenario is purely theoretical (maybe if in some
+		// future implementation one of these functions might be
+		// written in Go). See #57445 for more details.
+		if atomicPackagePref == "" && (fname == "AddUint32" || fname == "StoreUint32") {
+			return nil
+		}
+		// Determine proper function or method name.
 		if r := n.Recv; r != nil && len(r.List) == 1 {
 			t := r.List[0].Type
 			star := ""
@@ -508,7 +525,7 @@ func (f *File) postFunc(fn ast.Node, funcname string, flit bool, body *ast.Block
 	}
 	if *mode == "atomic" {
 		hookWrite = func(cv string, which int, val string) string {
-			return fmt.Sprintf("%s.StoreUint32(&%s[%d], %s)", atomicPackageName,
+			return fmt.Sprintf("%sStoreUint32(&%s[%d], %s)", atomicPackagePref,
 				cv, which, val)
 		}
 	}
@@ -612,9 +629,16 @@ func (p *Package) annotateFile(name string, fd io.Writer, last bool) {
 		// We do this even if there is an existing import, because the
 		// existing import may be shadowed at any given place we want
 		// to refer to it, and our name (_cover_atomic_) is less likely to
-		// be shadowed.
-		file.edit.Insert(file.offset(file.astFile.Name.End()),
-			fmt.Sprintf("; import %s %q", atomicPackageName, atomicPackagePath))
+		// be shadowed. The one exception is if we're visiting the
+		// sync/atomic package itself, in which case we can refer to
+		// functions directly without an import prefix. See also #57445.
+		if pkgconfig.PkgPath == "sync/atomic" {
+			atomicPackagePref = ""
+		} else {
+			atomicPackagePref = atomicPackageName + "."
+			file.edit.Insert(file.offset(file.astFile.Name.End()),
+				fmt.Sprintf("; import %s %q", atomicPackageName, atomicPackagePath))
+		}
 	}
 	if pkgconfig.PkgName == "main" {
 		file.edit.Insert(file.offset(file.astFile.Name.End()),
@@ -637,7 +661,7 @@ func (p *Package) annotateFile(name string, fd io.Writer, last bool) {
 	// Emit a reference to the atomic package to avoid
 	// import and not used error when there's no code in a file.
 	if *mode == "atomic" {
-		fmt.Fprintf(fd, "var _ = %s.LoadUint32\n", atomicPackageName)
+		fmt.Fprintf(fd, "var _ = %sLoadUint32\n", atomicPackagePref)
 	}
 
 	// Last file? Emit meta-data and converage config.
@@ -658,7 +682,7 @@ func incCounterStmt(f *File, counter string) string {
 
 // atomicCounterStmt returns the expression: atomic.AddUint32(&__count[23], 1)
 func atomicCounterStmt(f *File, counter string) string {
-	return fmt.Sprintf("%s.AddUint32(&%s, 1)", atomicPackageName, counter)
+	return fmt.Sprintf("%sAddUint32(&%s, 1)", atomicPackagePref, counter)
 }
 
 // newCounter creates a new counter expression of the appropriate form.
