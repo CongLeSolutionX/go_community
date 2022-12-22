@@ -53,6 +53,24 @@
       "message": "Just for clarification, do these Windows exceptions unconditionally push directly onto whichever stack happens to be in use when the exception is raised?",
       "revId": "20204dc42b61922bc396326f9f042534b5c09c27",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9c21669_1ebeb416",
+        "filename": "src/runtime/signal_windows.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2022-12-22T20:32:53Z",
+      "side": 1,
+      "message": "Yes. Does it affect the comment or the code?",
+      "parentUuid": "e2b9a749_bec9e057",
+      "revId": "20204dc42b61922bc396326f9f042534b5c09c27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
