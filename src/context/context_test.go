@@ -954,3 +954,93 @@ func XTestCauseRace(t testingT) {
 		runtime.Gosched()
 	}
 }
+
+func XTestDetachString(t testingT) {
+	ctx := Detach(TODO())
+	if got, want := fmt.Sprint(ctx), "context.TODO().Detach()"; got != want {
+		t.Errorf("detached context string incorrect: got %q, want %q", got, want)
+	}
+}
+
+func XTestDetachNilParent(t testingT) {
+	defer func() {
+		if got, want := recover(), "cannot create context from nil parent"; got != want {
+			t.Errorf("panic: got %q want %q", got, want)
+		}
+	}()
+	Detach(nil)
+}
+
+func XTestDetachCancelAfter(t testingT) {
+	ctx, cancel := WithCancel(Background())
+	ctx = WithValue(ctx, "key", "value")
+	dctx := Detach(ctx)
+	cancel()
+	<-ctx.Done()
+	if dctx.Done() != nil {
+		t.Errorf("detached context done channel not nil")
+	}
+	if dctx.Err() != nil {
+		t.Errorf("detached context error not nil")
+	}
+	if dctx.Value("key") != "value" {
+		t.Errorf("detached context missing value")
+	}
+}
+
+func XTestDetachCancelBefore(t testingT) {
+	ctx, cancel := WithCancel(Background())
+	ctx = WithValue(ctx, "key", "value")
+	cancel()
+	<-ctx.Done()
+	dctx := Detach(ctx)
+	if dctx.Done() != nil {
+		t.Errorf("detached context done channel not nil")
+	}
+	if dctx.Err() != nil {
+		t.Errorf("detached context error not nil")
+	}
+	if dctx.Value("key") != "value" {
+		t.Errorf("detached context missing value")
+	}
+}
+
+func XTestDetachDeadlineAfter(t testingT) {
+	t.Parallel()
+	ctx, _ := WithDeadline(Background(), time.Now().Add(shortDuration))
+	ctx = WithValue(ctx, "key", "value")
+	dctx := Detach(ctx)
+	if d, ok := dctx.Deadline(); ok || !d.Equal(time.Time{}) {
+		t.Errorf("detached context deadline is set")
+	}
+	<-ctx.Done()
+	if dctx.Done() != nil {
+		t.Errorf("detached context done channel not nil")
+	}
+	if dctx.Err() != nil {
+		t.Errorf("detached context error not nil")
+	}
+	if dctx.Value("key") != "value" {
+		t.Errorf("detached context missing value")
+	}
+}
+
+func XTestDetachDeadlineBefore(t testingT) {
+	t.Parallel()
+	ctx, _ := WithDeadline(Background(), time.Now().Add(shortDuration))
+	ctx = WithValue(ctx, "key", "value")
+	<-ctx.Done()
+	dctx := Detach(ctx)
+	if d, ok := dctx.Deadline(); ok || !d.Equal(time.Time{}) {
+		t.Errorf("detached context deadline is set")
+	}
+	if dctx.Done() != nil {
+		t.Errorf("detached context done channel not nil")
+	}
+	if dctx.Err() != nil {
+		t.Errorf("detached context error not nil")
+	}
+	if dctx.Value("key") != "value" {
+		t.Errorf("detached context missing value")
+	}
+}
