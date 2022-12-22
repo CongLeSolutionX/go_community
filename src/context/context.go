@@ -570,7 +570,10 @@ func WithTimeout(parent Context, timeout time.Duration) (Context, CancelFunc) {
 // WithValue returns a copy of parent in which the value associated with key is
 // val.
 //
-// Use context Values only for request-scoped data that transits processes and
+// Users of the context may still make use of the value after
+// the context expires or is canceled.
+//
+// Use context values only for request-scoped data that transits processes and
 // APIs, not for passing optional parameters to functions.
 //
 // The provided key must be comparable and should not be of type
@@ -626,6 +629,41 @@ func (c *valueCtx) Value(key any) any {
 	return value(c.Context, key)
 }
 
+// Detach returns a context with the same key-value pairs as ctx
+// but that is not canceled when ctx's timeout/deadline expires
+// or when ctx is otherwise canceled (including in case ctx is
+// already expired or canceled when Detach is called).
+func Detach(parent Context) Context {
+	if parent == nil {
+		panic("cannot create context from nil parent")
+	}
+	return &detachCtx{parent}
+}
+
+type detachCtx struct {
+	Context
+}
+
+func (c *detachCtx) Deadline() (deadline time.Time, ok bool) {
+	return
+}
+
+func (c *detachCtx) Done() <-chan struct{} {
+	return nil
+}
+
+func (c *detachCtx) Err() error {
+	return nil
+}
+
+func (c *detachCtx) Value(key any) any {
+	return value(c.Context, key)
+}
+
+func (c *detachCtx) String() string {
+	return contextName(c.Context) + ".Detach()"
+}
+
 func value(c Context, key any) any {
 	for {
 		switch ctx := c.(type) {
@@ -643,6 +681,8 @@ func value(c Context, key any) any {
 			if key == &cancelCtxKey {
 				return ctx.cancelCtx
 			}
+			c = ctx.Context
+		case *detachCtx:
 			c = ctx.Context
 		case *emptyCtx:
 			return nil
