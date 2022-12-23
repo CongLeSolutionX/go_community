@@ -9,8 +9,9 @@
 // appropriately so different callbacks start with different
 // CALL instruction in runtime·callbackasm. This determines
 // which Go callback function is executed later on.
+#include "textflag.h"
 
-TEXT runtime·callbackasm(SB),7,$0
+TEXT runtime·callbackasm(SB),NOSPLIT|NOFRAME|DUPOK,$0
 	CALL	runtime·callbackasm1(SB)
 	CALL	runtime·callbackasm1(SB)
 	CALL	runtime·callbackasm1(SB)
