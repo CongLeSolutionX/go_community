@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8b276c2_12b8feb0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2022-12-23T11:11:32Z",
+      "side": 1,
+      "message": "I think a selector per page makes sense. I\u0027ve updated the CL to add a \"Use Perfetto UI (experimental)\" checkbox in all places that needed it: View Trace, Goroutine Analysis, Tasks, Regions\n\nAdditionally I uploaded a video (and the sample traces I used) that shows a demo of all these integration points here: https://drive.google.com/drive/folders/1PpAUYmtBP3bi4SmNm6mOo_PFW-sIC3k_?usp\u003dsharing\n\nPTAL and let me know what you think.",
+      "parentUuid": "1bab3a82_bf6eb55b",
+      "revId": "0c190f37f7afb07395440f9f0e6f97eef29998eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "b33bbe5c_044fcfea",
