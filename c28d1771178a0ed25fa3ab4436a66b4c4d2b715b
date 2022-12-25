@@ -37,6 +37,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bee99293_e695832a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 60654
+      },
+      "writtenOn": "2022-12-25T14:41:40Z",
+      "side": 1,
+      "message": "I can pick this up. Do I have to create a new CL or can I take over this one? I\u0027d like to re-use this code and address the existing review comments.",
+      "revId": "c28d1771178a0ed25fa3ab4436a66b4c4d2b715b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "147f43d0_55ce3987",
         "filename": "src/os/user/lookup_unix.go",
         "patchSetId": 1
