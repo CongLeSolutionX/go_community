@@ -52,6 +52,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "74ea88e8_49125b17",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 60654
+      },
+      "writtenOn": "2022-12-25T19:01:26Z",
+      "side": 1,
+      "message": "I\u0027ve opened a GitHub PR here: https://github.com/golang/go/pull/57458, picking up where this left off.",
+      "revId": "c28d1771178a0ed25fa3ab4436a66b4c4d2b715b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "147f43d0_55ce3987",
