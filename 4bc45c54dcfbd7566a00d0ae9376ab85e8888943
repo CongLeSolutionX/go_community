@@ -34,6 +34,23 @@
       "parentUuid": "b3ec66c8_c3b28e43",
       "revId": "4bc45c54dcfbd7566a00d0ae9376ab85e8888943",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c71c3a2d_f8a86cb6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11500
+      },
+      "writtenOn": "2022-12-25T13:46:09Z",
+      "side": 1,
+      "message": "This kind of discussion is probably better suited for the linked proposal. This CL just implements the current proposal.",
+      "revId": "4bc45c54dcfbd7566a00d0ae9376ab85e8888943",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
