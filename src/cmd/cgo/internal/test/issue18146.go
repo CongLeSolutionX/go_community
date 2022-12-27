@@ -23,6 +23,9 @@ func test18146(t *testing.T) {
 	if testing.Short() {
 		t.Skip("skipping in short mode")
 	}
+	if testing.CoverMode() != "" {
+		t.Skip("skipping in coverage mode")
+	}
 
 	if runtime.GOOS == "darwin" || runtime.GOOS == "ios" {
 		t.Skipf("skipping flaky test on %s; see golang.org/issue/18202", runtime.GOOS)
