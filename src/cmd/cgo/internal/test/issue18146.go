@@ -11,8 +11,10 @@ package cgotest
 import (
 	"bytes"
 	"crypto/md5"
+	"internal/testenv"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"runtime"
 	"syscall"
 	"testing"
@@ -22,6 +24,28 @@ import (
 func test18146(t *testing.T) {
 	if testing.Short() {
 		t.Skip("skipping in short mode")
+	}
+	binaryToExec := os.Args[0]
+	if testing.CoverMode() != "" {
+		// This test exec's itself a large number of times below with
+		// "-test.run=NoSuchTestExists", under the assumption the
+		// doing this is a lightweight operation. If the test is built
+		// with "-coverpkg=all", however, those self-executions can be
+		// costly; use a different binary in those cases.
+		testenv.MustHaveGoBuild(t)
+		td := t.TempDir()
+		prog := filepath.Join(td, "prog.go")
+		const src = `package main
+                     func main() { println("foo") }`
+		if err := os.WriteFile(prog, []byte(src), 0666); err != nil {
+			t.Fatalf("os.WriteFile(%s) failed: %v", prog, err)
+		}
+		binaryToExec = filepath.Join(td, "prog.exe")
+		cmd := testenv.Command(t, testenv.GoToolPath(t), "build",
+			"-o", binaryToExec, prog)
+		if b, err := cmd.CombinedOutput(); err != nil {
+			t.Fatalf("go build failed (%v): %s", err, b)
+		}
 	}
 
 	if runtime.GOOS == "darwin" || runtime.GOOS == "ios" {
@@ -73,7 +97,7 @@ func test18146(t *testing.T) {
 		}
 		runtime.GOMAXPROCS(threads)
 		argv := append(os.Args, "-test.run=NoSuchTestExists")
-		if err := syscall.Exec(os.Args[0], argv, os.Environ()); err != nil {
+		if err := syscall.Exec(binaryToExec, argv, os.Environ()); err != nil {
 			t.Fatal(err)
 		}
 	}
