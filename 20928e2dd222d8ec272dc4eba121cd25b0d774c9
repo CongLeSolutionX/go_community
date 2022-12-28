@@ -16,6 +16,23 @@
       "message": "Done. Hopefully this will do.",
       "revId": "20928e2dd222d8ec272dc4eba121cd25b0d774c9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52ad5019_b2e62845",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-12-28T23:10:03Z",
+      "side": 1,
+      "message": "Thanks. This should go in when the tree opens for 1.21.",
+      "revId": "20928e2dd222d8ec272dc4eba121cd25b0d774c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
