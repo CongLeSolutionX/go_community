@@ -12,6 +12,9 @@ import (
 	"cmd/link/internal/sym"
 	"fmt"
 	"internal/buildcfg"
+	"regexp"
+	"sort"
+	"strings"
 	"unicode"
 )
 
@@ -29,12 +32,16 @@ type deadcodePass struct {
 	dynlink            bool
 
 	methodsigstmp []methodsig // scratch buffer for decoding method signatures
+	edges         map[loader.Sym]map[loader.Sym]bool
 }
 
 func (d *deadcodePass) init() {
 	d.ldr.InitReachable()
 	d.ifaceMethod = make(map[methodsig]bool)
 	d.genericIfaceMethod = make(map[string]bool)
+	if *flagShowIdead {
+		d.edges = make(map[loader.Sym]map[loader.Sym]bool)
+	}
 	if buildcfg.Experiment.FieldTrack {
 		d.ldr.Reachparent = make([]loader.Sym, d.ldr.NSym())
 	}
@@ -262,8 +269,99 @@ func (d *deadcodePass) flood() {
 	}
 }
 
+var initfre = regexp.MustCompile(`^\S+\.init$|^\S+\.init\.\d+$`)
+
+func (d *deadcodePass) postProcess() {
+	// First pass to recognize init functions.
+	initfs := make(map[loader.Sym]bool)
+	for k, v := range d.edges {
+		pname := d.ldr.SymName(k)
+		if strings.HasSuffix(pname, "..inittask") {
+			for tgt := range v {
+				tname := d.ldr.SymName(tgt)
+				m := initfre.FindStringSubmatch(tname)
+				if len(m) != 0 {
+					// tgt is an init function.
+					initfs[tgt] = true
+				}
+			}
+		}
+	}
+	// Second pass to classify. Note that here we ignore references
+	// from a symbol X to X's aux symbols, since those relationships
+	// are not really references in the regular sense.
+	frominit := make(map[loader.Sym]bool)
+	fromnoninit := make(map[loader.Sym]bool)
+	auxes := make(map[loader.Sym]bool)
+	for k, v := range d.edges {
+		for k := range auxes {
+			delete(auxes, k)
+		}
+		naux := d.ldr.NAux(k)
+		for i := 0; i < naux; i++ {
+			a := d.ldr.Aux(k, i)
+			auxes[a.Sym()] = true
+		}
+		if initfs[k] {
+			for tgt := range v {
+				if auxes[tgt] {
+					continue
+				}
+				frominit[tgt] = true
+			}
+		} else {
+			for tgt := range v {
+				fromnoninit[tgt] = true
+			}
+		}
+	}
+	// third pass to print candidates.
+	sl := []loader.Sym{}
+	for s := range frominit {
+		if !fromnoninit[s] {
+			sl = append(sl, s)
+		}
+	}
+	// Sort first by package, then by name
+	sort.Slice(sl, func(i, j int) bool {
+		pi := d.ldr.SymPkg(sl[i])
+		pj := d.ldr.SymPkg(sl[j])
+		if pi != pj {
+			return pi < pj
+		}
+		return d.ldr.SymName(sl[i]) < d.ldr.SymName(sl[j])
+		return d.ldr.SymName(sl[i]) < d.ldr.SymName(sl[j])
+	})
+	fmt.Printf("Referenced from init only:\n")
+	pk := ""
+	for k, v := range sl {
+		vpk := d.ldr.SymPkg(v)
+		if pk != vpk {
+			fmt.Printf("-- package %s --\n", vpk)
+			pk = vpk
+		}
+		sn := d.ldr.SymName(v)
+		sgt := d.ldr.SymGoType(v)
+		sgts := ""
+		if sgt != 0 {
+			sgts = " t=" + d.ldr.SymName(sgt)
+		}
+		fmt.Printf("%d: %s %s%s\n", k, d.ldr.SymType(v).String(), sn, sgts)
+	}
+}
+
 func (d *deadcodePass) mark(symIdx, parent loader.Sym) {
 	if symIdx != 0 && !d.ldr.AttrReachable(symIdx) {
+		if *flagShowIdead {
+			if parent != 0 {
+				m := d.edges[parent]
+				if m == nil {
+					m = make(map[loader.Sym]bool)
+				}
+				m[symIdx] = true
+				d.edges[parent] = m
+			}
+		}
 		d.wq.push(symIdx)
 		d.ldr.SetAttrReachable(symIdx, true)
 		if buildcfg.Experiment.FieldTrack && d.ldr.Reachparent[symIdx] == 0 {
@@ -369,6 +467,9 @@ func deadcode(ctxt *Link) {
 			break
 		}
 		d.flood()
+	}
+	if *flagShowIdead {
+		d.postProcess()
 	}
 }
 
