@@ -1603,5 +1603,10 @@ var Anames = []string{
 	"XSAVES64",
 	"XSETBV",
 	"XTEST",
+	"ACLUI",
+	"ASTUI",
+	"ASENDUIPIQ",
+	"ATESTUI",
+	"AUIRET",
 	"LAST",
 }

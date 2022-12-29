@@ -1784,6 +1784,13 @@ var optab =
 	{AXEND, ynone, Px, opBytes{0x0f, 01, 0xd5}},
 	{AXTEST, ynone, Px, opBytes{0x0f, 01, 0xd6}},
 	{AXGETBV, ynone, Pm, opBytes{01, 0xd0}},
+
+	{ACLUI, ynone, Py, opBytes{0xf3, 0x0f, 0x01, 0xee}},
+	{ASTUI, ynone, Py, opBytes{0xf3, 0x0f, 0x01, 0xef}},
+	{ASENDUIPIQ, ywrfsbase, Pf3, opBytes{0xc7, 06}},
+	{ATESTUI, ynone, Py, opBytes{0xf3, 0x0f, 0x01, 0xed}},
+	{AUIRET, ynone, Py, opBytes{0xf3, 0x0f, 0x01, 0xec}},
+
 	{obj.AFUNCDATA, yfuncdata, Px, opBytes{0, 0}},
 	{obj.APCDATA, ypcdata, Px, opBytes{0, 0}},
 	{obj.ADUFFCOPY, yduff, Px, opBytes{0xe8}},
