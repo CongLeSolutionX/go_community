@@ -53,6 +53,24 @@
       "message": "This doesn\u0027t seem like a great error message.  [2]any is right there in the interface.  It seems obscure to say that [2]any is not in \"int\".",
       "revId": "5d7767e7e62bad33a28643036b1d1a4e473d76ba",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb9704ca_db857e23",
+        "filename": "src/internal/types/testdata/fixedbugs/issue57486.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2022-12-29T00:34:06Z",
+      "side": 1,
+      "message": "Fair enough but that\u0027s a larger change only indirectly related to this specific issue. I filed #57500 so it can be fixed separately. Improving the error message is not a release blocker.",
+      "parentUuid": "31c89450_5258c495",
+      "revId": "5d7767e7e62bad33a28643036b1d1a4e473d76ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
