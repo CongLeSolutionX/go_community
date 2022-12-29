@@ -33,6 +33,23 @@
       "message": "Thanks. This change looks generally right, but since we are in the freeze for 1.20, I think we will need to wait for the tree to reopen for 1.21 development and aim to get Node 18 support in (and drop Node 14 support) then. Added wait-release hashtag.\n\nThe Node 18 builder is finding a problem in compress/gzip package, which I\u0027ll file an issue for, but fixing it will also need to wait for 1.21 dev cycle. Thanks.",
       "revId": "16ff178f78bc9b65702f74d132b4aaa342f21795",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae01cd1b_2a24aa13",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2022-12-29T21:51:13Z",
+      "side": 1,
+      "message": "TRY\u003djs-wasm-node18",
+      "revId": "16ff178f78bc9b65702f74d132b4aaa342f21795",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
