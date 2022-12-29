@@ -23,6 +23,9 @@ import (
 // Note that the conventional point at infinity (0, 0) is not considered on the
 // curve, although it can be returned by Add, Double, ScalarMult, or
 // ScalarBaseMult (but not the Unmarshal or UnmarshalCompressed functions).
+//
+// Using Curve implementations besides those returned by P224(), P256(), P384(),
+// and P521() is deprecated.
 type Curve interface {
 	// Params returns the parameters for the curve.
 	Params() *CurveParams
@@ -36,12 +39,12 @@ type Curve interface {
 
 	// Add returns the sum of (x1,y1) and (x2,y2).
 	//
-	// Note: this is a low-level unsafe API.
+	// Deprecated: this is a low-level unsafe API.
 	Add(x1, y1, x2, y2 *big.Int) (x, y *big.Int)
 
 	// Double returns 2*(x,y).
 	//
-	// Note: this is a low-level unsafe API.
+	// Deprecated: this is a low-level unsafe API.
 	Double(x1, y1 *big.Int) (x, y *big.Int)
 
 	// ScalarMult returns k*(x,y) where k is an integer in big-endian form.

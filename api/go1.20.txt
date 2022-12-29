@@ -32,6 +32,13 @@ pkg crypto/ed25519, method (*Options) HashFunc() crypto.Hash #31804
 pkg crypto/ed25519, type Options struct #31804
 pkg crypto/ed25519, type Options struct, Context string #31804
 pkg crypto/ed25519, type Options struct, Hash crypto.Hash #31804
+pkg crypto/elliptic, method (*CurveParams) Add //deprecated #34648
+pkg crypto/elliptic, method (*CurveParams) Double //deprecated #34648
+pkg crypto/elliptic, method (*CurveParams) IsOnCurve //deprecated #34648
+pkg crypto/elliptic, method (*CurveParams) ScalarBaseMult //deprecated #34648
+pkg crypto/elliptic, method (*CurveParams) ScalarMult //deprecated #34648
+pkg crypto/elliptic, type Curve interface, Add //deprecated #52221
+pkg crypto/elliptic, type Curve interface, Double //deprecated #52221
 pkg crypto/rsa, func GenerateMultiPrimeKey //deprecated #56921
 pkg crypto/rsa, type OAEPOptions struct, MGFHash crypto.Hash #19974
 pkg crypto/rsa, type PrecomputedValues struct, CRTValues //deprecated #56921
