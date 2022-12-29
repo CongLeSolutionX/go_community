@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbef4a18_d9334bd1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2022-12-29T21:12:12Z",
+      "side": 1,
+      "message": "Looping in @dmitshur@golang.org since he is upgrading the Node builders, which this fix depends on.",
+      "revId": "16ff178f78bc9b65702f74d132b4aaa342f21795",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
