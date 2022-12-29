@@ -32,7 +32,9 @@ pkg crypto/ed25519, method (*Options) HashFunc() crypto.Hash #31804
 pkg crypto/ed25519, type Options struct #31804
 pkg crypto/ed25519, type Options struct, Context string #31804
 pkg crypto/ed25519, type Options struct, Hash crypto.Hash #31804
+pkg crypto/rsa, func GenerateMultiPrimeKey //deprecated #56921
 pkg crypto/rsa, type OAEPOptions struct, MGFHash crypto.Hash #19974
+pkg crypto/rsa, type PrecomputedValues struct, CRTValues //deprecated #56921
 pkg crypto/subtle, func XORBytes([]uint8, []uint8, []uint8) int #53021
 pkg crypto/tls, method (*CertificateVerificationError) Error() string #48152
 pkg crypto/tls, method (*CertificateVerificationError) Unwrap() error #48152
