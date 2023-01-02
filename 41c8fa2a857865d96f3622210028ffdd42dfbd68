@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b62a5132_71eeb53f",
+        "filename": "src/os/path.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-01-02T18:42:09Z",
+      "side": 1,
+      "message": "Looking at this, I don\u0027t think that \"created with the wrong name\" is going to help people understand what went wrong.  Also I wonder whether this error should itself satisfy Is(err, fs.ErrNotExist).  Perhaps this should be\n\n    fmt.Errorf(\"MkdirAll: intermediate directory not found: %w\", err1)\n\nand trust that people will look at the Path to see the problem.",
+      "revId": "41c8fa2a857865d96f3622210028ffdd42dfbd68",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b40ce3b1_6914f86e",
+        "filename": "src/os/path_windows_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-01-02T18:42:09Z",
+      "side": 1,
+      "message": "Use a raw string literal to avoid backslash quoting.\n\nAlso start with a backslash so that the file is within tmpDir.  Or, better, use filepath.Join.",
+      "revId": "41c8fa2a857865d96f3622210028ffdd42dfbd68",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d31573f3_1c77d4b5",
+        "filename": "src/os/path_windows_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-01-02T18:42:09Z",
+      "side": 1,
+      "message": "Instead of checking this, check that the err.(*fs.PathError).Path is as expected.",
+      "revId": "41c8fa2a857865d96f3622210028ffdd42dfbd68",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
