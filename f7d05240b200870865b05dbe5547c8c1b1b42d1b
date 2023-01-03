@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "60ea1ce1_14a775d4",
+        "filename": "src/os/path.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-01-03T07:56:38Z",
+      "side": 1,
+      "message": "`fmt` can\u0027t be used in `os`. I see that some `os` functions use `wrappedError` instead, it could look like this:\n\n```\nreturn \u0026PathError:{\n  Op: \"mkdir\",\n  Path: path,\n  Err: wrappedError{\n    prefix: \"MkdirAll: intermediate directory not found\",\n    err:    err1,\n  }\n}\n```",
+      "parentUuid": "a1504a88_8e0b00b2",
+      "revId": "f7d05240b200870865b05dbe5547c8c1b1b42d1b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0e3e8b2f_8dc9fbaf",
         "filename": "src/os/path_windows_test.go",
         "patchSetId": 5
