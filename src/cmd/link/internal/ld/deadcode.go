@@ -123,7 +123,15 @@ func (d *deadcodePass) flood() {
 	for !d.wq.empty() {
 		symIdx := d.wq.pop()
 
+		oldReflectSeen := d.reflectSeen
 		d.reflectSeen = d.reflectSeen || d.ldr.IsReflectMethod(symIdx)
+
+		if !oldReflectSeen && d.reflectSeen {
+			if *flagFieldTrack != "" {
+				fmt.Printf("reflectSeen turned on (IsReflectMethod)\n")
+				printReachability(d.ldr, symIdx)
+			}
+		}
 
 		isgotype := d.ldr.IsGoType(symIdx)
 		relocs := d.ldr.Relocs(symIdx)
@@ -383,6 +391,11 @@ func (d *deadcodePass) markMethod(m methodref) {
 //
 // Any unreached text symbols are removed from ctxt.Textp.
 func deadcode(ctxt *Link) {
+	oldFieldTrack := buildcfg.Experiment.FieldTrack
+	if !buildcfg.Experiment.FieldTrack && *flagFieldTrack != "" {
+		buildcfg.Experiment.FieldTrack = true
+	}
+
 	ldr := ctxt.loader
 	d := deadcodePass{ctxt: ctxt, ldr: ldr}
 	d.init()
@@ -397,11 +410,25 @@ func deadcode(ctxt *Link) {
 		d.reflectSeen = true
 	}
 
+	if *flagFieldTrack != "" && !oldFieldTrack {
+		fmt.Printf("Reflect seen at the start was: %v\n", d.reflectSeen)
+	}
+
 	for {
+		oldReflectSeen := d.reflectSeen
 		// Methods might be called via reflection. Give up on
 		// static analysis, mark all exported methods of
 		// all reachable types as reachable.
 		d.reflectSeen = d.reflectSeen || (methSym != 0 && ldr.AttrReachable(methSym)) || (methByNameSym != 0 && ldr.AttrReachable(methByNameSym))
+
+		if d.reflectSeen && !oldReflectSeen {
+			if *flagFieldTrack != "" && !oldFieldTrack {
+				printReachability(ldr, methSym)
+				fmt.Printf("\n")
+				printReachability(ldr, methByNameSym)
+				fmt.Printf("\n")
+			}
+		}
 
 		// Mark all methods that could satisfy a discovered
 		// interface as reachable. We recheck old marked interfaces
@@ -425,6 +452,39 @@ func deadcode(ctxt *Link) {
 	}
 	if *flagPruneWeakMap {
 		d.mapinitcleanup()
+	}
+
+	buildcfg.Experiment.FieldTrack = oldFieldTrack
+	if *flagFieldTrack != "" && !oldFieldTrack {
+		fmt.Printf("Reflect seen at the end was: %v\n", d.reflectSeen)
+		s := ldr.Lookup(*flagFieldTrack, abiInternalVer)
+		if s != 0 {
+			printReachability(ldr, s)
+		}
+	}
+}
+
+func printReachability(ldr *loader.Loader, methSym loader.Sym) {
+	cur := methSym
+	name := ldr.SymName(cur)
+	first := true
+	for {
+		if !ldr.AttrReachable(cur) {
+			fmt.Printf("Symbol %s is not reachable\n", name)
+			break
+		}
+		parent := ldr.Reachparent[cur]
+		if parent == 0 {
+			if first {
+				fmt.Printf("Symbol %s is directly reachable\n", name)
+			}
+			break
+		}
+		first = false
+		parentName := ldr.SymName(parent)
+		fmt.Printf("Symbol %s reached from %s\n", name, parentName)
+		cur = parent
+		name = parentName
 	}
 }
 
