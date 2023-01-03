@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "93c9f41a_1751098e",
+        "filename": "src/os/path_windows_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-01-03T03:22:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b40ce3b1_6914f86e",
+      "revId": "41c8fa2a857865d96f3622210028ffdd42dfbd68",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d31573f3_1c77d4b5",
@@ -48,6 +66,24 @@
       "writtenOn": "2023-01-02T18:42:09Z",
       "side": 1,
       "message": "Instead of checking this, check that the err.(*fs.PathError).Path is as expected.",
+      "revId": "41c8fa2a857865d96f3622210028ffdd42dfbd68",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d33c993_9d678c43",
+        "filename": "src/os/path_windows_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-01-03T03:22:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d31573f3_1c77d4b5",
       "revId": "41c8fa2a857865d96f3622210028ffdd42dfbd68",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
