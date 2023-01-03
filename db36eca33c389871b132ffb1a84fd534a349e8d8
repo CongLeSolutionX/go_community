@@ -46,6 +46,30 @@
       },
       "revId": "db36eca33c389871b132ffb1a84fd534a349e8d8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0aa923a_3c2566c7",
+        "filename": "src/cmd/compile/internal/ssa/_gen/README",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-01-03T21:44:35Z",
+      "side": 0,
+      "message": "I\u0027d rather leave the README. The package comment is fine if you\u0027re browsing using godoc or pkg.go.dev, but if you\u0027re just modifying files in the _gen directory it\u0027s not obvious what to do after modifying the files. Having a pointer in a README will help in that case.",
+      "parentUuid": "bc94fb72_6c2fe497",
+      "range": {
+        "startLine": 5,
+        "startChar": 3,
+        "endLine": 7,
+        "endChar": 10
+      },
+      "revId": "db36eca33c389871b132ffb1a84fd534a349e8d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
