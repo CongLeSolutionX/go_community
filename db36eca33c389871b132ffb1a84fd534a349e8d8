@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a1069e4_2b66d1d2",
+        "filename": "src/cmd/compile/internal/ssa/_gen/README",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-01-03T20:56:27Z",
+      "side": 0,
+      "message": "I think it would still be worth having the README here to point people in the right direction. Something like\n\nThis package generates opcode tables, rewrite rules, etc. for the ssa compiler.\nTo regenerate everything, run \"go generate\" in the parent directory.",
+      "range": {
+        "startLine": 5,
+        "startChar": 3,
+        "endLine": 7,
+        "endChar": 10
+      },
+      "revId": "db36eca33c389871b132ffb1a84fd534a349e8d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
