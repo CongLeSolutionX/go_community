@@ -50,6 +50,24 @@
       "message": "Did gofmt do this?  This is a bit easier to read if we keep the []byte, I think.",
       "revId": "60329c4c37b28998d662ac8e6f9dafd884519970",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9bf696d_73810c5a",
+        "filename": "src/bytes/bytes_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2203,
+      "author": {
+        "id": 55613
+      },
+      "writtenOn": "2023-01-03T23:51:35Z",
+      "side": 1,
+      "message": "Yes. I run `gofmt -w -s bytes_test.go` command on a Linux server.\nWhen I find that this place has been modified, I confirm it through Goland, and the IDE will prompt that there are a redundant type here.",
+      "parentUuid": "cf1b1468_7716486c",
+      "revId": "60329c4c37b28998d662ac8e6f9dafd884519970",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
