@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22e5f45f_d4c77ce7",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 724,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-01-03T21:02:38Z",
+      "side": 1,
+      "message": "How do we know writeLoop has exited by this point in time?\n\nI think it\u0027s possible for pc to be still executing at this point, and servicing an entirely different request, since the persistConn is returned to the idle pool by persistConn.readLoop.",
+      "revId": "ab3e36a44b30630a086abbe94d99106fe558a2af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c78f8de8_91c19ff9",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 6730,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-01-03T21:02:38Z",
+      "side": 1,
+      "message": "This is a lot of complexity for a single test case. Can this be simplified?",
+      "revId": "ab3e36a44b30630a086abbe94d99106fe558a2af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
