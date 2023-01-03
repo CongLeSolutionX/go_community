@@ -1183,6 +1183,11 @@ func gcMarkTermination() {
 		lc.mspan.setUserArenaChunkToFault()
 	}
 
+	// Enable huge pages on some metadata if we cross a heap threshold.
+	if gcController.heapGoal() > minHeapForMetadataHugePages {
+		mheap_.enableMetadataHugePages()
+	}
+
 	semrelease(&worldsema)
 	semrelease(&gcsema)
 	// Careful: another GC cycle may start now.
