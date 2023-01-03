@@ -1847,6 +1847,17 @@ func TestContainsRune(t *testing.T) {
 	}
 }
 
+func TestContainsFunc(t *testing.T) {
+	for _, ct := range ContainsRuneTests {
+		if ContainsFunc(ct.b, func(r rune) bool {
+			return ct.r == r
+		}) != ct.expected {
+			t.Errorf("ContainsFunc(%q, func(%q)) = %v, want %v",
+				ct.b, ct.r, !ct.expected, ct.expected)
+		}
+	}
+}
+
 var makeFieldsInput = func() []byte {
 	x := make([]byte, 1<<20)
 	// Input is ~10% space, ~10% 2-byte UTF-8, rest ASCII non-space.
@@ -2189,7 +2200,7 @@ func BenchmarkIndexPeriodic(b *testing.B) {
 func TestClone(t *testing.T) {
 	var cloneTests = [][]byte{
 		[]byte(nil),
-		[]byte{},
+		{},
 		Clone([]byte{}),
 		[]byte(strings.Repeat("a", 42))[:0],
 		[]byte(strings.Repeat("a", 42))[:0:0],

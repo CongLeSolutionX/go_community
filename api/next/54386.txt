@@ -1,0 +1,2 @@
+pkg strings, func ContainsFunc(string, func(rune) bool) bool #54386
+pkg bytes, func ContainsFunc([]uint8, func(rune) bool) bool #54386
