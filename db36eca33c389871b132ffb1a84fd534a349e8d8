@@ -22,6 +22,30 @@
       },
       "revId": "db36eca33c389871b132ffb1a84fd534a349e8d8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc94fb72_6c2fe497",
+        "filename": "src/cmd/compile/internal/ssa/_gen/README",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2023-01-03T21:18:48Z",
+      "side": 0,
+      "message": "I initially considered keeping the README with just the package description, but then noticed there\u0027s already a package comment that describes it (https://tip.golang.org/cmd/compile/internal/ssa/_gen/?m\u003dold), so figured there\u0027s no benefit to a README if all it contains is a copy of the package comment.\n\nAlso, the README in parent directory goes in more depth about how this directory is used in the \"Hacking on SSA\" section, so I thought it would act as a better landing point instead of trying to mirror a subset of that information here.\n\nI just wanted to check if you think the README in _gen would be worth having with the above taken into account? (I\u0027m happy to re-add it if so.)",
+      "parentUuid": "8a1069e4_2b66d1d2",
+      "range": {
+        "startLine": 5,
+        "startChar": 3,
+        "endLine": 7,
+        "endChar": 10
+      },
+      "revId": "db36eca33c389871b132ffb1a84fd534a349e8d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
