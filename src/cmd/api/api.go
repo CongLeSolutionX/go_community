@@ -48,38 +48,12 @@ func goCmd() string {
 
 // contexts are the default contexts which are scanned, unless
 // overridden by the -contexts flag.
-var contexts = []*build.Context{
-	{GOOS: "linux", GOARCH: "386", CgoEnabled: true},
-	{GOOS: "linux", GOARCH: "386"},
-	{GOOS: "linux", GOARCH: "amd64", CgoEnabled: true},
-	{GOOS: "linux", GOARCH: "amd64"},
-	{GOOS: "linux", GOARCH: "arm", CgoEnabled: true},
-	{GOOS: "linux", GOARCH: "arm"},
-	{GOOS: "darwin", GOARCH: "amd64", CgoEnabled: true},
-	{GOOS: "darwin", GOARCH: "amd64"},
-	{GOOS: "darwin", GOARCH: "arm64", CgoEnabled: true},
-	{GOOS: "darwin", GOARCH: "arm64"},
-	{GOOS: "windows", GOARCH: "amd64"},
-	{GOOS: "windows", GOARCH: "386"},
-	{GOOS: "freebsd", GOARCH: "386", CgoEnabled: true},
-	{GOOS: "freebsd", GOARCH: "386"},
-	{GOOS: "freebsd", GOARCH: "amd64", CgoEnabled: true},
-	{GOOS: "freebsd", GOARCH: "amd64"},
-	{GOOS: "freebsd", GOARCH: "arm", CgoEnabled: true},
-	{GOOS: "freebsd", GOARCH: "arm"},
-	{GOOS: "netbsd", GOARCH: "386", CgoEnabled: true},
-	{GOOS: "netbsd", GOARCH: "386"},
-	{GOOS: "netbsd", GOARCH: "amd64", CgoEnabled: true},
-	{GOOS: "netbsd", GOARCH: "amd64"},
-	{GOOS: "netbsd", GOARCH: "arm", CgoEnabled: true},
-	{GOOS: "netbsd", GOARCH: "arm"},
-	{GOOS: "netbsd", GOARCH: "arm64", CgoEnabled: true},
-	{GOOS: "netbsd", GOARCH: "arm64"},
-	{GOOS: "openbsd", GOARCH: "386", CgoEnabled: true},
-	{GOOS: "openbsd", GOARCH: "386"},
-	{GOOS: "openbsd", GOARCH: "amd64", CgoEnabled: true},
-	{GOOS: "openbsd", GOARCH: "amd64"},
-}
+var (
+	contexts           = []*build.Context{}
+	firstClassPorts    = []*build.Context{}
+	nonFirstClassPorts = []*build.Context{}
+	contextsStrings    = []string{}
+)
 
 func contextName(c *build.Context) string {
 	s := c.GOOS + "-" + c.GOARCH
@@ -90,6 +64,53 @@ func contextName(c *build.Context) string {
 		s += fmt.Sprintf(" [%s]", c.Dir)
 	}
 	return s
+}
+
+// sortPorts loads the lists of ports from "go tool dist list -json" in slices firstClassPorts and nonFirstClassPorts.
+// contexts is initialized by default using firstClassPorts.
+func sortPorts() {
+	type jsonResult struct {
+		GOOS, GOARCH string
+		CgoSupported bool
+		FirstClass   bool
+	}
+	out, err := exec.Command("go", "tool", "dist", "list", "-json").Output()
+	if err != nil {
+		log.Fatal(err)
+	}
+	var results []jsonResult
+	if err = json.Unmarshal(out, &results); err != nil {
+		log.Fatal(err)
+	}
+	for _, result := range results {
+		c := &build.Context{
+			GOOS:       result.GOOS,
+			GOARCH:     result.GOARCH,
+			CgoEnabled: result.CgoSupported,
+		}
+		if result.FirstClass {
+			firstClassPorts = append(firstClassPorts, c)
+			if c.CgoEnabled {
+				c = &build.Context{
+					GOOS:       result.GOOS,
+					GOARCH:     result.GOARCH,
+					CgoEnabled: false,
+				}
+				firstClassPorts = append(firstClassPorts, c)
+			}
+		} else {
+			nonFirstClassPorts = append(nonFirstClassPorts, c)
+			if c.CgoEnabled {
+				c = &build.Context{
+					GOOS:       result.GOOS,
+					GOARCH:     result.GOARCH,
+					CgoEnabled: false,
+				}
+				nonFirstClassPorts = append(nonFirstClassPorts, c)
+			}
+		}
+	}
+	contexts = firstClassPorts
 }
 
 func parseContext(c string) *build.Context {
@@ -116,6 +137,7 @@ var internalPkg = regexp.MustCompile(`(^|/)internal($|/)`)
 var exitCode = 0
 
 func Check(t *testing.T) {
+	sortPorts()
 	checkFiles, err := filepath.Glob(filepath.Join(testenv.GOROOT(t), "api/go1*.txt"))
 	if err != nil {
 		t.Fatal(err)
@@ -132,7 +154,9 @@ func Check(t *testing.T) {
 
 	for _, c := range contexts {
 		c.Compiler = build.Default.Compiler
+		contextsStrings = append(contextsStrings, contextName(c))
 	}
+	sort.Strings(contextsStrings)
 
 	walkers := make([]*Walker, len(contexts))
 	var wg sync.WaitGroup
@@ -248,6 +272,17 @@ func portRemoved(feature string) bool {
 		strings.Contains(feature, "(darwin-386-cgo)")
 }
 
+// outOfScopePort returns true when the API feature is out of scope according to contexts.
+// A feature specific to a port is out of scope if it is not in the list of contexts.
+func outOfScopePort(f string) bool {
+	if !strings.Contains(f, "),") {
+		// Feature is not specific to a port
+		return false
+	}
+	return sort.SearchStrings(contextsStrings,
+		strings.Split(strings.SplitAfter(f, "(")[1], ")")[0]) != len(contextsStrings)
+}
+
 func compareAPI(w io.Writer, features, required, optional, exception []string, allowAdd bool) (ok bool) {
 	ok = true
 
@@ -279,6 +314,8 @@ func compareAPI(w io.Writer, features, required, optional, exception []string, a
 				// okay.
 			} else if featureSet[featureWithoutContext(feature)] {
 				// okay.
+			} else if outOfScopePort(feature) {
+				// feature is port specific but not checked in this run. okay.
 			} else {
 				fmt.Fprintf(w, "-%s\n", feature)
 				ok = false // broke compatibility
@@ -290,6 +327,8 @@ func compareAPI(w io.Writer, features, required, optional, exception []string, a
 				// Delete it from the map so we can detect any upcoming features
 				// which were never seen.  (so we can clean up the nextFile)
 				delete(optionalSet, newFeature)
+			} else if outOfScopePort(newFeature) {
+				// Port is not tested by this run.
 			} else {
 				fmt.Fprintf(w, "+%s\n", newFeature)
 				if !allowAdd {

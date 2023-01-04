@@ -1,0 +1,12 @@
+pkg syscall, const EBADMSG Errno #14892
+pkg syscall, const EMULTIHOP Errno #14892
+pkg syscall, const ENODATA Errno #14892
+pkg syscall, const ENOLINK Errno #14892
+pkg syscall, const ENOSR Errno #14892
+pkg syscall, const ENOSTR Errno #14892
+pkg syscall, const ENOTRECOVERABLE Errno #14892
+pkg syscall, const EOWNERDEAD Errno #14892
+pkg syscall, const EPROTO Errno #14892
+pkg syscall, const ETIME Errno #14892
+pkg syscall, const S_IWRITE = 128 #14892
+pkg syscall, const S_IWRITE ideal-int #14892

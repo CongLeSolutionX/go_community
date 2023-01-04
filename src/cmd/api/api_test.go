@@ -114,12 +114,16 @@ func TestGolden(t *testing.T) {
 }
 
 func TestCompareAPI(t *testing.T) {
+	// List of checked contexts
+	contextsStrings = []string{"darwin-amd64", "linux-loong64"}
 	tests := []struct {
 		name                                    string
 		features, required, optional, exception []string
 		ok                                      bool   // want
 		out                                     string // want
 	}{
+		// Parameters optional and exception are always empty, i.e. no feature added in this cycle
+		// and no feature in exceptions (before go1.4)
 		{
 			name:     "feature added",
 			features: []string{"A", "B", "C", "D", "E", "F"},
@@ -163,6 +167,103 @@ func TestCompareAPI(t *testing.T) {
 			},
 			ok:  true,
 			out: "+pkg syscall, type RawSockaddrInet6 struct\n",
+		},
+		// https://golang.org/issue/14892
+		{
+			name: "convergence: promotion of a feature of a out of scope port to all ports",
+			required: []string{
+				"A",
+				"pkg syscall (linux-mips), type RawSockaddrInet6 struct",
+			},
+			features: []string{
+				"A",
+				"pkg syscall, type RawSockaddrInet6 struct",
+			},
+			ok:  true,
+			out: "+pkg syscall, type RawSockaddrInet6 struct\n",
+		},
+		{
+			name: "convergence: add feature to out of scope port",
+			required: []string{
+				"A",
+				"pkg syscall, type RawSockaddrInet6 struct",
+			},
+			features: []string{
+				"A",
+				"pkg syscall (linux-mips), type RawSockaddrInet6 struct",
+				"pkg syscall, type RawSockaddrInet6 struct",
+			},
+			ok:  true,
+			out: "+pkg syscall (linux-mips), type RawSockaddrInet6 struct\n",
+		},
+		{
+			name: "convergence: add feature to in scope port.",
+			required: []string{
+				"A",
+				"pkg syscall, type RawSockaddrInet6 struct",
+			},
+			features: []string{
+				"A",
+				"pkg syscall (linux-loong64), type RawSockaddrInet6 struct",
+				"pkg syscall, type RawSockaddrInet6 struct",
+			},
+			ok:  true,
+			out: "",
+		},
+		{
+			name: "convergence: remove feature from in scope port ",
+			required: []string{
+				"A",
+				"pkg syscall, type RawSockaddrInet6 struct",
+				"pkg syscall (linux-loong64), type RawSockaddrInet6 struct",
+			},
+			features: []string{
+				"A",
+				"pkg syscall, type RawSockaddrInet6 struct",
+			},
+			ok:  true,
+			out: "", // Because of convergence, port feature is not reported as removed.
+		},
+		{
+			name: "convergence: remove feature from out of scope port with convergence",
+			required: []string{
+				"A",
+				"pkg syscall, type RawSockaddrInet6 struct",
+				"pkg syscall (linux-mips), type RawSockaddrInet6 struct",
+			},
+			features: []string{
+				"A",
+				"pkg syscall, type RawSockaddrInet6 struct",
+			},
+			ok:  true,
+			out: "", // Because of convergence, ported feature is not reported as removed.
+		},
+		{
+			name: "remove feature for a in-scope port without convergence",
+			required: []string{
+				"A",
+				"pkg syscall (linux-loong64), type RawSockaddrInet6 struct",
+			},
+			features: []string{
+				"A",
+			},
+			ok: true,
+			// TODO Add flag to add a context (github.com/golang/go/issues/53205)
+			// If this removal was reported, all log/syslog and syscall entries must be added to
+			// go1.* files for all ports which would grow out of proportion without much value.
+			out: "",
+		},
+		{
+			name: "remove feature for an out-of-scope port without convergence",
+			required: []string{
+				"A",
+				"pkg syscall (linux-mips), type RawSockaddrInet6 struct",
+			},
+			features: []string{
+				"A",
+			},
+			ok:  false,
+			out: "-pkg syscall (linux-mips), type RawSockaddrInet6 struct\n",
 		},
 	}
 	for _, tt := range tests {
