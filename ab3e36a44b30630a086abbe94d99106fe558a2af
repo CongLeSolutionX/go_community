@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dcbb22a2_c7ce4f6d",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 724,
+      "author": {
+        "id": 50893
+      },
+      "writtenOn": "2023-01-04T10:10:08Z",
+      "side": 1,
+      "message": "Cleanup on pc.writech when persistConn was closed. But I\u0027m not sure if I\u0027m ignoring some other cases.",
+      "parentUuid": "22e5f45f_d4c77ce7",
+      "revId": "ab3e36a44b30630a086abbe94d99106fe558a2af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c78f8de8_91c19ff9",
         "filename": "src/net/http/transport_test.go",
         "patchSetId": 3
@@ -31,6 +49,24 @@
       "writtenOn": "2023-01-03T21:02:38Z",
       "side": 1,
       "message": "This is a lot of complexity for a single test case. Can this be simplified?",
+      "revId": "ab3e36a44b30630a086abbe94d99106fe558a2af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d933cbcd_7d6cb93c",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 6730,
+      "author": {
+        "id": 50893
+      },
+      "writtenOn": "2023-01-04T10:10:08Z",
+      "side": 1,
+      "message": "Simplified the test case, but because the order of \u003c-pc.writech \u003c-pc.reqch cannot be guaranteed, the test results are not stable.",
+      "parentUuid": "c78f8de8_91c19ff9",
       "revId": "ab3e36a44b30630a086abbe94d99106fe558a2af",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
