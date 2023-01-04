@@ -34,6 +34,24 @@
       "parentUuid": "9b5f174f_7bb9ed57",
       "revId": "8761d1fa4a184efe1412d3b326f0c32ecf644393",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "367cbb70_9b790b79",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2023-01-04T22:19:31Z",
+      "side": 1,
+      "message": "I\u0027m not sure anyone has thought about it too carefully.\n\nSince this is an unmodified cherrypick of http://go.dev/cl/428636 I suppose there\u0027s no harm in me +2ing it.",
+      "parentUuid": "dcdd994e_117f6be9",
+      "revId": "8761d1fa4a184efe1412d3b326f0c32ecf644393",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
