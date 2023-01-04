@@ -170,6 +170,30 @@
       },
       "revId": "16ff178f78bc9b65702f74d132b4aaa342f21795",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb431fba_5da70881",
+        "filename": "misc/wasm/wasm_exec_node.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-01-04T23:01:46Z",
+      "side": 1,
+      "message": "Double quotes*",
+      "parentUuid": "1dd82478_ecec4af5",
+      "range": {
+        "startLine": 24,
+        "startChar": 30,
+        "endLine": 24,
+        "endChar": 31
+      },
+      "revId": "16ff178f78bc9b65702f74d132b4aaa342f21795",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
