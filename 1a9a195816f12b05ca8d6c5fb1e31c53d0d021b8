@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df627966_527e8822",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 50893
+      },
+      "writtenOn": "2023-01-04T10:12:38Z",
+      "side": 1,
+      "message": "The essence of the problem is actually that when the tcp connection is forcibly disconnected by the server,\npersistConn still has content in writech before closing. Is there a better way to handle it?",
+      "revId": "1a9a195816f12b05ca8d6c5fb1e31c53d0d021b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
