@@ -68,6 +68,24 @@
       "parentUuid": "cf1b1468_7716486c",
       "revId": "60329c4c37b28998d662ac8e6f9dafd884519970",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9fa3891_abb91ab3",
+        "filename": "src/bytes/bytes_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2203,
+      "author": {
+        "id": 55613
+      },
+      "writtenOn": "2023-01-04T00:01:29Z",
+      "side": 1,
+      "message": "In order to make the code more pure, I rolled back the changes here.",
+      "parentUuid": "e9bf696d_73810c5a",
+      "revId": "60329c4c37b28998d662ac8e6f9dafd884519970",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
