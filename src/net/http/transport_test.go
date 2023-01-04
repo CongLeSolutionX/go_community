@@ -40,6 +40,7 @@ import (
 	"strings"
 	"sync"
 	"sync/atomic"
+	"syscall"
 	"testing"
 	"testing/iotest"
 	"time"
@@ -6653,4 +6654,65 @@ func testHandlerAbortRacesBodyRead(t *testing.T, mode testMode) {
 		}()
 	}
 	wg.Wait()
+}
+
+type issue49621Conn struct {
+	net.Conn
+}
+
+func (c *issue49621Conn) Read(_ []byte) (n int, err error) {
+	return 0, syscall.ECONNRESET
+}
+
+type testIssue49621Closer struct {
+	io.Reader
+	close int
+}
+
+func (i *testIssue49621Closer) Close() error {
+	i.close++
+	return nil
+}
+
+// Issue 49621: request not retry or close body after writeLoop exited.
+func TestIssue49621(t *testing.T) {
+	ln := newLocalListener(t)
+	defer ln.Close()
+
+	addr := ln.Addr().String()
+
+	s := &Server{Addr: addr, Handler: HandlerFunc(func(w ResponseWriter, r *Request) {
+		if r.Method != MethodPost {
+			w.WriteHeader(StatusMethodNotAllowed)
+			return
+		}
+
+		_, _ = io.Copy(io.Discard, r.Body)
+		_ = r.Body.Close()
+		w.WriteHeader(StatusOK)
+	})}
+
+	go func() { s.Serve(ln) }()
+	defer s.Close()
+
+	client := &Client{Transport: &Transport{
+		DialContext: func(_ context.Context, network, addr string) (net.Conn, error) {
+			c, err := net.Dial(network, addr)
+			return &issue49621Conn{Conn: c}, err
+		},
+	}}
+
+	for i := 0; i < 50; i++ {
+		rc := &testIssue49621Closer{Reader: bytes.NewReader(make([]byte, 100))}
+
+		resp, err := client.Post("http://"+addr, "text/plain", rc)
+		if err == nil {
+			_, _ = io.Copy(io.Discard, resp.Body)
+			_ = resp.Body.Close()
+			return
+		}
+		if rc.close == 0 {
+			t.Errorf("resp = %v, err = %v, close = %d\n", resp, err, rc.close)
+		}
+	}
 }

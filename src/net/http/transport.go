@@ -2437,6 +2437,15 @@ func (pc *persistConn) writeLoop() {
 				return
 			}
 		case <-pc.closech:
+			// persistConn.closeLocked() will close(pc.closech)
+			// There may be content in pc.writech
+			for len(pc.writech) > 0 {
+				select {
+				case wr := <-pc.writech:
+					wr.req.Body.Close()
+				default:
+				}
+			}
 			return
 		}
 	}
