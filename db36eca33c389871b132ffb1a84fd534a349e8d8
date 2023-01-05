@@ -70,6 +70,30 @@
       },
       "revId": "db36eca33c389871b132ffb1a84fd534a349e8d8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2226eb0e_6a54e062",
+        "filename": "src/cmd/compile/internal/ssa/_gen/README",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2023-01-05T18:13:38Z",
+      "side": 0,
+      "message": "Sounds good, thanks. Done in PS 3. (I tried to avoid phrasing that could discourage people from just running `go generate ..` in this directory; happy to tweak it further if desired.)",
+      "parentUuid": "c0aa923a_3c2566c7",
+      "range": {
+        "startLine": 5,
+        "startChar": 3,
+        "endLine": 7,
+        "endChar": 10
+      },
+      "revId": "db36eca33c389871b132ffb1a84fd534a349e8d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
