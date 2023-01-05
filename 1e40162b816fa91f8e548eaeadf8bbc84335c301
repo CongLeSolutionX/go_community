@@ -70,6 +70,46 @@
       "message": "friendly ping, I would like to get this submitted at some point. Thanks.",
       "revId": "1e40162b816fa91f8e548eaeadf8bbc84335c301",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8a82c86_d15feb9f",
+        "filename": "src/cmd/cover/cover.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-01-05T15:57:08Z",
+      "side": 1,
+      "message": "When I read this variable I read “Pref” as “Preference”, but it seems to mean “Prefix” instead — a clearer name (and ideally a doc comment) would be helpful.",
+      "range": {
+        "startLine": 88,
+        "startChar": 17,
+        "endLine": 88,
+        "endChar": 21
+      },
+      "revId": "1e40162b816fa91f8e548eaeadf8bbc84335c301",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ca85a9f_f11990be",
+        "filename": "src/cmd/cover/cover.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-01-05T15:57:08Z",
+      "side": 1,
+      "message": "This variable seems to be derived from the `pkgconfig` and `mode` variables, and if I\u0027m following correctly it always holds one of two constants (either the empty string or `atomicPackageName + \".\"`).\n\nTo reduce the likelihood of typestate bugs, could it be made a function instead of a variable? (It should be trivial for the compiler to inline.)",
+      "revId": "1e40162b816fa91f8e548eaeadf8bbc84335c301",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
