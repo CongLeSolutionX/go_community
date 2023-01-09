@@ -106,6 +106,24 @@
       "parentUuid": "a9c21669_1ebeb416",
       "revId": "20204dc42b61922bc396326f9f042534b5c09c27",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f25f1163_bad6b0b4",
+        "filename": "src/runtime/signal_windows.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-01-09T19:20:19Z",
+      "side": 1,
+      "message": "Thanks, it doesn\u0027t affect anything, I just wasn\u0027t certain (on Linux etc, we have sigaltstack, I see that we don\u0027t have something similar for Windows).",
+      "parentUuid": "aab7507e_56726233",
+      "revId": "20204dc42b61922bc396326f9f042534b5c09c27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
