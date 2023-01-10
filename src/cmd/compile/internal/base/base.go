@@ -269,3 +269,7 @@ var NoInstrumentPkgs = []string{
 // Don't insert racefuncenter/racefuncexit into the following packages.
 // Memory accesses in the packages are either uninteresting or will cause false positives.
 var NoRacePkgs = []string{"sync", "sync/atomic"}
+
+// VarToMapInit holds book-keeping state for global map initialization;
+// it is (in reality) a map from *ir.Name to *ir.Func.
+var VarToMapInit interface{}

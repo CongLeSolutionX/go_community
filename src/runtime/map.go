@@ -1416,3 +1416,6 @@ func reflectlite_maplen(h *hmap) int {
 
 const maxZero = 1024 // must match value in reflect/value.go:maxZero cmd/compile/internal/gc/walk.go:zeroValSize
 var zeroVal [maxZero]byte
+
+func mapinitnoop() {
+}

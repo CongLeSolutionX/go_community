@@ -5,8 +5,11 @@
 package ssagen
 
 import (
+	"fmt"
 	"internal/buildcfg"
+	"os"
 	"sort"
+	"strings"
 	"sync"
 
 	"cmd/compile/internal/base"
@@ -208,6 +211,27 @@ func Compile(fn *ir.Func, worker int) {
 	}
 
 	pp.Flush() // assemble, fill in boilerplate, etc.
+
+	if base.Flag.WrapGlobalMapInit > 0 {
+		if base.Flag.WrapGlobalMapInit > 2 {
+			fmt.Fprintf(os.Stderr, "=-= ssagen: considering %s\n", fn.LSym.Name)
+		}
+		for i := range fn.LSym.R {
+			if fn.LSym.R[i].Sym == nil {
+				continue
+			}
+			tname := fn.LSym.R[i].Sym.Name
+			//fmt.Fprintf(os.Stderr, "=-= consider tgt=%s relo %+v\n",
+			//	tname, fn.LSym.R[i])
+			if strings.Contains(tname, ".map.init.") {
+				// weakify
+				fn.LSym.R[i].Type |= objabi.R_WEAK
+				//fmt.Fprintf(os.Stderr, "=-= weakified relo %d %+v\n",
+				//	i, fn.LSym.R[i])
+			}
+		}
+	}
+
 	// fieldtrack must be called after pp.Flush. See issue 20014.
 	fieldtrack(pp.Text.From.Sym, fn.FieldTrack)
 }
