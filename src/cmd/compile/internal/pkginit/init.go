@@ -148,7 +148,7 @@ func Task() *ir.Name {
 				Temps: make(map[ir.Node]*ir.Name),
 			}
 			for _, n := range fn.Body {
-				s.StaticInit(n)
+				s.StaticInit(n, fn)
 			}
 			fn.Body = s.Out
 			ir.WithFunc(fn, func() {
