@@ -12,6 +12,8 @@ import (
 	"cmd/link/internal/sym"
 	"fmt"
 	"internal/buildcfg"
+	"os"
+	"strings"
 	"unicode"
 )
 
@@ -137,6 +139,8 @@ func (d *deadcodePass) flood() {
 			}
 			t := r.Type()
 			switch t {
+			case objabi.R_KEEP:
+				d.mark(r.Sym(), symIdx)
 			case objabi.R_METHODOFF:
 				if i+2 >= relocs.Count() {
 					panic("expect three consecutive R_METHODOFF relocs")
@@ -262,6 +266,40 @@ func (d *deadcodePass) flood() {
 	}
 }
 
+// mapcleanup walks all init functions and looks for weak relocations
+// to mapinit symbols that are no longer reachable. It rewrites
+// the relocs to target a new no-op routine in the runtime.
+func (d *deadcodePass) mapcleanup() {
+	noop := d.ldr.Lookup("runtime.mapinitnoop", abiInternalVer)
+	if noop == 0 {
+		panic("could not look up runtime.mapinitnoop")
+	}
+	// TODO: find some more efficient way of doing this.
+	for idx := loader.Sym(1); idx < loader.Sym(d.ldr.NDef()); idx++ {
+		sname := d.ldr.SymName(idx)
+		if !strings.HasSuffix(sname, ".init") {
+			continue
+		}
+		relocs := d.ldr.Relocs(idx)
+		var su *loader.SymbolBuilder
+		for i := 0; i < relocs.Count(); i++ {
+			r := relocs.At(i)
+			if r.Weak() && !d.ldr.AttrReachable(r.Sym()) {
+				// rewrite
+				d.ldr.SetAttrReachable(noop, true)
+				if *flagPruneWeakMapDbg {
+					fmt.Fprintf(os.Stderr, "=-= in %s rewrite %s ref to noop\n",
+						sname, d.ldr.SymName(r.Sym()))
+				}
+				if su == nil {
+					su = d.ldr.MakeSymbolUpdater(idx)
+				}
+				su.SetRelocSym(i, noop)
+			}
+		}
+	}
+}
+
 func (d *deadcodePass) mark(symIdx, parent loader.Sym) {
 	if symIdx != 0 && !d.ldr.AttrReachable(symIdx) {
 		d.wq.push(symIdx)
@@ -369,6 +407,9 @@ func deadcode(ctxt *Link) {
 			break
 		}
 		d.flood()
+	}
+	if *flagPruneWeakMap {
+		d.mapcleanup()
 	}
 }
 
