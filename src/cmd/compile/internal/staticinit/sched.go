@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"go/constant"
 	"go/token"
+	"os"
 
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
@@ -39,6 +40,11 @@ type Schedule struct {
 
 	Plans map[ir.Node]*Plan
 	Temps map[ir.Node]*ir.Name
+
+	// List of map variables and a corresponding list of map init
+	// functions generated to initialize the maps
+	MapVars      []ir.Node
+	MapInitFuncs []*ir.Func
 }
 
 func (s *Schedule) append(n ir.Node) {
@@ -50,6 +56,17 @@ func (s *Schedule) StaticInit(n ir.Node) {
 	if !s.tryStaticInit(n) {
 		if base.Flag.Percent != 0 {
 			ir.Dump("StaticInit failed", n)
+		}
+		if base.Flag.WrapGlobalMapInit > 0 {
+			if mapvar, genfn, call := tryWrapGlobalMapInit(n); call != nil {
+				s.MapVars = append(s.MapVars, mapvar)
+				s.MapInitFuncs = append(s.MapInitFuncs, genfn)
+				fmt.Fprintf(os.Stderr, "=-= appending call instead: %v\n", call)
+				s.append(call)
+				return
+			} else {
+				fmt.Fprintf(os.Stderr, "=-= tryWrapGlobalMapInit failed, call: %v\n", call)
+			}
 		}
 		s.append(n)
 	}
@@ -297,6 +314,9 @@ func (s *Schedule) StaticAssign(l *ir.Name, loff int64, r ir.Node, typ *types.Ty
 		return true
 
 	case ir.OMAPLIT:
+		if base.Flag.WrapGlobalMapInit > 0 {
+
+		}
 		break
 
 	case ir.OCLOSURE:
@@ -886,4 +906,87 @@ func truncate(c *ir.ConstExpr, t *types.Type) (*ir.ConstExpr, bool) {
 	c = ir.NewConstExpr(cv, c).(*ir.ConstExpr)
 	c.SetType(t)
 	return c, true
+}
+
+const wrapGlobalMapInitSizeThreshold = 100
+
+// tryWrapGlobalMapInit examines the node 'n' to see if it is a map
+// variable initialization, and if so, possibly returns the mapvar
+// being assigned, a new function containing the init code, and a call
+// to the function passing the mapvar. Returns will be nil if the
+// assignment is not to a map, or the map init is not big enough.
+func tryWrapGlobalMapInit(n ir.Node) (mapvar ir.Node, genfn *ir.Func, call ir.Node) {
+	// Look for "X = ..." where X has map type.
+	if n.Op() != ir.OAS {
+		return nil, nil, nil
+	}
+	as := n.(*ir.AssignStmt)
+	if ir.IsBlank(as.X) || as.X.Op() != ir.ONAME {
+		return nil, nil, nil
+	}
+	nm := as.X.(*ir.Name)
+	if !nm.Type().IsMap() {
+		return nil, nil, nil
+	}
+	fmt.Fprintf(os.Stderr, "=-= found mapassign %v\n", n)
+
+	// Determine size of RHS.
+	rsiz := 0
+	ir.Any(as.Y, func(n ir.Node) bool {
+		rsiz++
+		return false
+	})
+	fmt.Fprintf(os.Stderr, "=-= RHS size is %d\n", rsiz)
+
+	// Reject smaller candidates if not in stress mode.
+	if base.Flag.WrapGlobalMapInit < 2 &&
+		rsiz > wrapGlobalMapInitSizeThreshold {
+		return nil, nil, nil
+	}
+
+	fmt.Fprintf(os.Stderr, "=-= committed for: %+v\n", n)
+
+	// Create new function.
+	newfn, param := mkMapInitFunc(nm)
+
+	// Replace assignment to map var with assignment to deref of param.
+	as.X = typecheck.Expr(ir.NewStarExpr(n.Pos(), param))
+
+	// Insert assignment into function body; mark body finished.
+	newfn.Body = append(newfn.Body, as)
+	typecheck.FinishFuncBody()
+
+	// Register new function with decls.
+	typecheck.Target.Decls = append(typecheck.Target.Decls, newfn)
+
+	// Create call to function, passing mapvar.
+	arg := ir.NewAddrExpr(n.Pos(), nm)
+	fncall := ir.NewCallExpr(n.Pos(), ir.OCALL, newfn.Nname, []ir.Node{arg})
+
+	fmt.Fprintf(os.Stderr, "=-= mapvar is %v\n", nm)
+	fmt.Fprintf(os.Stderr, "=-= newfunc is %+v\n", newfn)
+	fmt.Fprintf(os.Stderr, "=-= call is %+v\n", fncall)
+
+	return mapvar, newfn, typecheck.Stmt(fncall)
+}
+
+var mapinitgen int
+
+func mkMapInitFunc(mapvar *ir.Name) (*ir.Func, *ir.Name) {
+	// Create a function that will eventually have this form:
+	//
+	//    func mapinit.%d(m *maptype) {
+	//      tmp = runtime.makemap...()
+	//      <assignments to tmp>
+	//      *m = tmp
+	//    }
+	//
+	minitsym := typecheck.LookupNum("mapinit.", mapinitgen)
+	mapinitgen++
+	param := typecheck.Lookup("m")
+	args := []*ir.Field{
+		ir.NewField(mapvar.Pos(), param, types.NewPtr(mapvar.Type())),
+	}
+	fn := typecheck.DeclFunc(minitsym, nil, args, nil)
+	return fn, fn.Dcl[0]
 }

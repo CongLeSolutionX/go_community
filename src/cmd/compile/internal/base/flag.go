@@ -122,7 +122,8 @@ type CmdFlags struct {
 	SymABIs            string       "help:\"read symbol ABIs from `file`\""
 	TraceProfile       string       "help:\"write an execution trace to `file`\""
 	TrimPath           string       "help:\"remove `prefix` from recorded source file paths\""
-	WB                 bool         "help:\"enable write barrier\""            // TODO: remove
+	WB                 bool         "help:\"enable write barrier\"" // TODO: remove
+	WrapGlobalMapInit  int          "help:\"wrap global map inits in if nonzero\""
 	OldComparable      bool         "help:\"enable old comparable semantics\"" // TODO: remove for Go 1.21
 	PgoProfile         string       "help:\"read profile from `file`\""
 
