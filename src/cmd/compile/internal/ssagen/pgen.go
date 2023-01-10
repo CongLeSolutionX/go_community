@@ -5,8 +5,11 @@
 package ssagen
 
 import (
+	"fmt"
 	"internal/buildcfg"
+	"os"
 	"sort"
+	"strings"
 	"sync"
 
 	"cmd/compile/internal/base"
@@ -208,8 +211,48 @@ func Compile(fn *ir.Func, worker int) {
 	}
 
 	pp.Flush() // assemble, fill in boilerplate, etc.
+
+	// If we're compiling the package init function, search for any
+	// relocations that target global map init outline functions and
+	// turn them into weak relocs. [NB: is there a better way to check
+	// for package init than just looking at the name?]
+	if base.Flag.WrapGlobalMapInit &&
+		strings.HasSuffix(fn.LSym.Name, ".init") {
+		weakenGlobalMapInitRelocs(fn)
+	}
+
 	// fieldtrack must be called after pp.Flush. See issue 20014.
 	fieldtrack(pp.Text.From.Sym, fn.FieldTrack)
+}
+
+var globalMapInitLsyms map[*obj.LSym]struct{}
+
+func RegisterMapInitLsym(s *obj.LSym) {
+	if globalMapInitLsyms == nil {
+		globalMapInitLsyms = make(map[*obj.LSym]struct{})
+	}
+	globalMapInitLsyms[s] = struct{}{}
+}
+
+func weakenGlobalMapInitRelocs(fn *ir.Func) {
+	if globalMapInitLsyms == nil {
+		return
+	}
+	for i := range fn.LSym.R {
+		tgt := fn.LSym.R[i].Sym
+		if tgt == nil {
+			continue
+		}
+		if _, ok := globalMapInitLsyms[tgt]; !ok {
+			continue
+		}
+		if base.Flag.WrapGlobalMapDbg {
+			fmt.Fprintf(os.Stderr, "=-= weakify fn %v reloc %d %+v\n", fn, i,
+				fn.LSym.R[i])
+		}
+		// set the R_WEAK bit, leave rest of reloc type intact
+		fn.LSym.R[i].Type |= objabi.R_WEAK
+	}
 }
 
 // StackOffset returns the stack location of a LocalSlot relative to the

@@ -84,6 +84,15 @@ func prepareFunc(fn *ir.Func) {
 	// (e.g. in MarkTypeUsedInInterface).
 	ir.InitLSym(fn, true)
 
+	// If this function is a compiler-generated outlined global map
+	// initializer function, register its LSym for later processing.
+	if base.Flag.WrapGlobalMapInit && base.MapInitToVar != nil {
+		m := base.MapInitToVar.(map[*ir.Func]*ir.Name)
+		if _, ok := m[fn]; ok {
+			ssagen.RegisterMapInitLsym(fn.Linksym())
+		}
+	}
+
 	// Calculate parameter offsets.
 	types.CalcSize(fn.Type())
 

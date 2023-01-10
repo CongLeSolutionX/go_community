@@ -60,8 +60,9 @@ func init() {
 
 // Flags used by the linker. The exported flags are used by the architecture-specific packages.
 var (
-	flagBuildid   = flag.String("buildid", "", "record `id` as Go toolchain build id")
-	flagShowIdead = flag.Bool("showidead", false, "print names of symbols initialized in init functions but then never used elsewhere.")
+	flagBuildid      = flag.String("buildid", "", "record `id` as Go toolchain build id")
+	flagShowIdead    = flag.Bool("showidead", false, "print names of symbols initialized in init functions but then never used elsewhere.")
+	flagPruneWeakMap = flag.Bool("pruneweakmap", true, "prune weak mapinit refs")
 
 	flagOutfile    = flag.String("o", "", "write output to `file`")
 	flagPluginPath = flag.String("pluginpath", "", "full path name for plugin")
