@@ -611,6 +611,9 @@ func PtrDataSize(t *Type) int64 {
 		return 0
 
 	case TSSA:
+		if t == TypeStr128 {
+			return int64(PtrSize)
+		}
 		if t != TypeInt128 {
 			base.Fatalf("PtrDataSize: unexpected ssa type %v", t)
 		}

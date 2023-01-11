@@ -241,6 +241,10 @@
 (Store {t} ptr val mem) && t.Size() == 2 => (MOVWstore ptr val mem)
 (Store {t} ptr val mem) && t.Size() == 1 => (MOVBstore ptr val mem)
 
+// Special cases for strings-in-16byte-registers
+(Load <t> ptr mem) && t.Size() == 16 => (MOVOload ptr mem)
+(Store {t} ptr val mem) && t.Size() == 16 => (MOVOstore ptr val mem)
+
 // Lowering moves
 (Move [0] _ _ mem) => mem
 (Move [1] dst src mem) => (MOVBstore dst (MOVBload src mem) mem)
@@ -2222,3 +2226,7 @@
 ((SHL|SHR|SAR)XQload [off] {sym} ptr (MOVQconst [c]) mem) => ((SHL|SHR|SAR)Qconst [int8(c&63)] (MOVQload [off] {sym} ptr mem))
 ((SHL|SHR|SAR)XQload [off] {sym} ptr (MOVLconst [c]) mem) => ((SHL|SHR|SAR)Qconst [int8(c&63)] (MOVQload [off] {sym} ptr mem))
 ((SHL|SHR|SAR)XLload [off] {sym} ptr (MOVLconst [c]) mem) => ((SHL|SHR|SAR)Lconst [int8(c&31)] (MOVLload [off] {sym} ptr mem))
+
+(ExpStringPtr ...) => (MOVQf2i ...)
+(ExpStringLen s) => (PEXTRQ [1] s)
+(ExpStringMake ptr len) => (PINSRQ [1] (MOVQi2f ptr) len)

@@ -503,6 +503,10 @@ var genericOps = []opData{
 	{name: "StringPtr", argLength: 1, typ: "BytePtr"}, // ptr(arg0)
 	{name: "StringLen", argLength: 1, typ: "Int"},     // len(arg0)
 
+	{name: "ExpStringMake", argLength: 2}, // make string-in-16byte-register from (arg0=ptr, arg1=len)
+	{name: "ExpStringPtr", argLength: 1},  // select ptr part of string-in-16byte-register
+	{name: "ExpStringLen", argLength: 1},  // select len part of string-in-16byte-register
+
 	// Interfaces
 	{name: "IMake", argLength: 2},                // arg0=itab, arg1=data
 	{name: "ITab", argLength: 1, typ: "Uintptr"}, // arg0=interface, returns itable field

@@ -90,6 +90,10 @@ func set(t *types.Type, off int64, bv bitvec.BitVec, skip bool) {
 			set(f.Type, off+f.Offset, bv, skip)
 		}
 
+	case types.TSSA:
+		if t.Size() == 16 {
+			bv.Set(int32(off / int64(types.PtrSize))) //pointer in first slot
+		}
 	default:
 		base.Fatalf("typebits.Set: unexpected type, %v", t)
 	}

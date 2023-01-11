@@ -1089,6 +1089,9 @@ func init() {
 		{name: "SHRXLloadidx8", argLength: 4, reg: gp21shxloadidx, asm: "SHRXL", scale: 8, aux: "SymOff", typ: "Uint32", faultOnNilArg0: true, symEffect: "Read"}, // unsigned *(arg0+8*arg1+auxint+aux) >> arg2, arg3=mem, shift amount is mod 32
 		{name: "SHRXQloadidx1", argLength: 4, reg: gp21shxloadidx, asm: "SHRXQ", scale: 1, aux: "SymOff", typ: "Uint64", faultOnNilArg0: true, symEffect: "Read"}, // unsigned *(arg0+1*arg1+auxint+aux) >> arg2, arg3=mem, shift amount is mod 64
 		{name: "SHRXQloadidx8", argLength: 4, reg: gp21shxloadidx, asm: "SHRXQ", scale: 8, aux: "SymOff", typ: "Uint64", faultOnNilArg0: true, symEffect: "Read"}, // unsigned *(arg0+8*arg1+auxint+aux) >> arg2, arg3=mem, shift amount is mod 64
+
+		{name: "PEXTRQ", argLength: 1, aux: "Int32", reg: fpgp},                                                                           // move 64 bits from auxint'th 64-bit part of arg0 to result
+		{name: "PINSRQ", argLength: 2, aux: "Int32", reg: regInfo{inputs: []regMask{fp, gp}, outputs: []regMask{fp}}, resultInArg0: true}, // move 64 bits from arg1 to auxint'th 64-bit part of arg0.
 	}
 
 	var AMD64blocks = []blockData{

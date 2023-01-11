@@ -15,6 +15,7 @@ import (
 	"errors"
 	"fmt"
 	"go/build"
+	"internal/buildcfg"
 	"internal/testenv"
 	"io"
 	"math"
@@ -36,6 +37,9 @@ func TestGoAMD64v1(t *testing.T) {
 	}
 	if runtime.GOOS != "linux" && runtime.GOOS != "darwin" {
 		t.Skip("test only works on elf or macho platforms")
+	}
+	if buildcfg.Experiment.AtomicAggregates {
+		t.Skipf("Test can't run with GOEXPERIMENT=atomicaggregates")
 	}
 	for _, tag := range build.Default.ToolTags {
 		if tag == "amd64.v2" {
