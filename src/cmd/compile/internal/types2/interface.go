@@ -14,12 +14,12 @@ import (
 
 // An Interface represents an interface type.
 type Interface struct {
-	check     *Checker      // for error reporting; nil once type set is computed
-	methods   []*Func       // ordered list of explicitly declared methods
-	embeddeds []Type        // ordered list of explicitly embedded elements
-	embedPos  *[]syntax.Pos // positions of embedded elements; or nil (for error messages) - use pointer to save space
-	implicit  bool          // interface is wrapper for type set literal (non-interface T, ~T, or A|B)
-	complete  bool          // indicates that all fields (except for tset) are set up
+	check     *Checker  // for error reporting; nil once type set is computed
+	methods   []*Func   // ordered list of explicitly declared methods
+	embeddeds []Type    // ordered list of explicitly embedded elements
+	embedPos  *[]srcPos // positions of embedded elements; or nil (for error messages) - use pointer to save space
+	implicit  bool      // interface is wrapper for type set literal (non-interface T, ~T, or A|B)
+	complete  bool      // indicates that all fields (except for tset) are set up
 
 	tset *_TypeSet // type set described by this interface, computed lazily
 }
@@ -117,10 +117,10 @@ func (t *Interface) cleanup() {
 }
 
 func (check *Checker) interfaceType(ityp *Interface, iface *syntax.InterfaceType, def *Named) {
-	addEmbedded := func(pos syntax.Pos, typ Type) {
+	addEmbedded := func(pos srcPos, typ Type) {
 		ityp.embeddeds = append(ityp.embeddeds, typ)
 		if ityp.embedPos == nil {
-			ityp.embedPos = new([]syntax.Pos)
+			ityp.embedPos = new([]srcPos)
 		}
 		*ityp.embedPos = append(*ityp.embedPos, pos)
 	}

@@ -20,7 +20,7 @@ func (err *error_) recordAltDecl(obj Object) {
 	}
 }
 
-func (check *Checker) declare(scope *Scope, id *syntax.Name, obj Object, pos syntax.Pos) {
+func (check *Checker) declare(scope *Scope, id *syntax.Name, obj Object, pos srcPos) {
 	// spec: "The blank identifier, represented by the underscore
 	// character _, may be used in a declaration like any other
 	// identifier but the declaration does not introduce a new
@@ -371,7 +371,7 @@ func (check *Checker) constDecl(obj *Const, typ, init syntax.Expr, inherited boo
 	assert(obj.typ == nil)
 
 	// use the correct value of iota and errpos
-	defer func(iota constant.Value, errpos syntax.Pos) {
+	defer func(iota constant.Value, errpos srcPos) {
 		check.iota = iota
 		check.errpos = errpos
 	}(check.iota, check.errpos)

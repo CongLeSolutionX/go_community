@@ -42,7 +42,7 @@ type error_ struct {
 
 // An errorDesc describes part of a type-checking error.
 type errorDesc struct {
-	pos    syntax.Pos
+	pos    srcPos
 	format string
 	args   []interface{}
 }
@@ -51,7 +51,7 @@ func (err *error_) empty() bool {
 	return err.desc == nil
 }
 
-func (err *error_) pos() syntax.Pos {
+func (err *error_) pos() srcPos {
 	if err.empty() {
 		return nopos
 	}
@@ -99,7 +99,7 @@ func sprintf(qf Qualifier, tpSubscripts bool, format string, args ...interface{}
 			panic("got operand instead of *operand")
 		case *operand:
 			arg = operandString(a, qf)
-		case syntax.Pos:
+		case srcPos:
 			arg = a.String()
 		case syntax.Expr:
 			arg = syntax.String(a)
@@ -207,7 +207,7 @@ func (check *Checker) report(err *error_) {
 	check.err(err.pos(), err.code, err.msg(check.qualifier), err.soft)
 }
 
-func (check *Checker) trace(pos syntax.Pos, format string, args ...interface{}) {
+func (check *Checker) trace(pos srcPos, format string, args ...interface{}) {
 	fmt.Printf("%s:\t%s%s\n",
 		pos,
 		strings.Repeat(".  ", check.indent),
@@ -272,7 +272,7 @@ const (
 )
 
 type poser interface {
-	Pos() syntax.Pos
+	Pos() srcPos
 }
 
 func (check *Checker) error(at poser, code Code, msg string) {
@@ -294,7 +294,7 @@ func (check *Checker) versionErrorf(at poser, goVersion string, format string, a
 }
 
 // posFor reports the left (= start) position of at.
-func posFor(at poser) syntax.Pos {
+func posFor(at poser) srcPos {
 	switch x := at.(type) {
 	case *operand:
 		if x.expr != nil {

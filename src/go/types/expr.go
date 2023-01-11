@@ -88,7 +88,7 @@ func (check *Checker) op(m opPredicates, x *operand, op token.Token) bool {
 // overflow checks that the constant x is representable by its type.
 // For untyped constants, it checks that the value doesn't become
 // arbitrarily large.
-func (check *Checker) overflow(x *operand, opPos token.Pos) {
+func (check *Checker) overflow(x *operand, opPos srcPos) {
 	assert(x.mode == constant_)
 
 	if x.val.Kind() == constant.Unknown {
@@ -1064,7 +1064,7 @@ func init() {
 
 // If e != nil, it must be the binary expression; it may be nil for non-constant expressions
 // (when invoked for an assignment operation where the binary expression is implicit).
-func (check *Checker) binary(x *operand, e ast.Expr, lhs, rhs ast.Expr, op token.Token, opPos token.Pos) {
+func (check *Checker) binary(x *operand, e ast.Expr, lhs, rhs ast.Expr, op token.Token, opPos srcPos) {
 	var y operand
 
 	check.expr(x, lhs)

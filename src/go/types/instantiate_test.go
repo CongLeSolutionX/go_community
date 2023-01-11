@@ -43,13 +43,13 @@ func TestInstantiateEquality(t *testing.T) {
 			// interface{interface{...}} is equivalent to interface{...}
 			"package equivalentinterfaces; type T[P any] int",
 			"T", []Type{
-				NewInterfaceType([]*Func{NewFunc(nopos, nil, "M", emptySignature)}, nil),
+				NewInterfaceType([]*Func{NewFunc(Nopos, nil, "M", emptySignature)}, nil),
 			},
 			"T", []Type{
 				NewInterfaceType(
 					nil,
 					[]Type{
-						NewInterfaceType([]*Func{NewFunc(nopos, nil, "M", emptySignature)}, nil),
+						NewInterfaceType([]*Func{NewFunc(Nopos, nil, "M", emptySignature)}, nil),
 					},
 				),
 			},

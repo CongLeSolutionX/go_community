@@ -11,6 +11,12 @@ package types2
 
 import "cmd/compile/internal/syntax"
 
+// A srcPos describes a source position.
+type srcPos = syntax.Pos
+
+// nopos indicates an unknown position.
+var nopos srcPos
+
 // cmpPos compares the positions p and q and returns a result r as follows:
 //
 // r <  0: p is before q
@@ -19,4 +25,4 @@ import "cmd/compile/internal/syntax"
 //
 // If p and q are in different files, p is before q if the filename
 // of p sorts lexicographically before the filename of q.
-func cmpPos(p, q syntax.Pos) int { return p.Cmp(q) }
+func cmpPos(p, q srcPos) int { return p.Cmp(q) }
