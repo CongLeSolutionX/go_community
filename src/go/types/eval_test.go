@@ -19,7 +19,7 @@ import (
 	. "go/types"
 )
 
-func testEval(t *testing.T, fset *token.FileSet, pkg *Package, pos token.Pos, expr string, typ Type, typStr, valStr string) {
+func testEval(t *testing.T, fset *token.FileSet, pkg *Package, pos SrcPos, expr string, typ Type, typStr, valStr string) {
 	gotTv, err := Eval(fset, pkg, pos, expr)
 	if err != nil {
 		t.Errorf("Eval(%q) failed: %s", expr, err)
@@ -59,14 +59,14 @@ func testEval(t *testing.T, fset *token.FileSet, pkg *Package, pos token.Pos, ex
 func TestEvalBasic(t *testing.T) {
 	fset := token.NewFileSet()
 	for _, typ := range Typ[Bool : String+1] {
-		testEval(t, fset, nil, nopos, typ.Name(), typ, "", "")
+		testEval(t, fset, nil, Nopos, typ.Name(), typ, "", "")
 	}
 }
 
 func TestEvalComposite(t *testing.T) {
 	fset := token.NewFileSet()
 	for _, test := range independentTestTypes {
-		testEval(t, fset, nil, nopos, test.src, nil, test.str, "")
+		testEval(t, fset, nil, Nopos, test.src, nil, test.str, "")
 	}
 }
 
@@ -83,7 +83,7 @@ func TestEvalArith(t *testing.T) {
 	}
 	fset := token.NewFileSet()
 	for _, test := range tests {
-		testEval(t, fset, nil, nopos, test, Typ[UntypedBool], "", "true")
+		testEval(t, fset, nil, Nopos, test, Typ[UntypedBool], "", "true")
 	}
 }
 
@@ -247,7 +247,7 @@ func f(a int, s string) S {
 		t.Fatal(err)
 	}
 
-	checkExpr := func(pos token.Pos, str string) (Object, error) {
+	checkExpr := func(pos SrcPos, str string) (Object, error) {
 		expr, err := parser.ParseExprFrom(fset, "eval", str, 0)
 		if err != nil {
 			return nil, err

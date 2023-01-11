@@ -7,6 +7,8 @@
 
 package types2
 
-import "cmd/compile/internal/syntax"
+type SrcPos = srcPos
 
-func CmpPos(p, q syntax.Pos) int { return cmpPos(p, q) }
+var Nopos = nopos
+
+func CmpPos(p, q srcPos) int { return cmpPos(p, q) }

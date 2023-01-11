@@ -9,7 +9,6 @@ package types
 import (
 	"go/ast"
 	"go/internal/typeparams"
-	"go/token"
 	. "internal/types/errors"
 	"strings"
 	"unicode"
@@ -61,7 +60,7 @@ func (check *Checker) funcInst(x *operand, ix *typeparams.IndexExpr) {
 	x.expr = ix.Orig
 }
 
-func (check *Checker) instantiateSignature(pos token.Pos, typ *Signature, targs []Type, xlist []ast.Expr) (res *Signature) {
+func (check *Checker) instantiateSignature(pos srcPos, typ *Signature, targs []Type, xlist []ast.Expr) (res *Signature) {
 	assert(check != nil)
 	assert(len(targs) == typ.TypeParams().Len())
 

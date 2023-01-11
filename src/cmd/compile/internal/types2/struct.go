@@ -80,7 +80,7 @@ func (check *Checker) structType(styp *Struct, e *syntax.StructType) {
 	// current field typ and tag
 	var typ Type
 	var tag string
-	add := func(ident *syntax.Name, embedded bool, pos syntax.Pos) {
+	add := func(ident *syntax.Name, embedded bool, pos srcPos) {
 		if tag != "" && tags == nil {
 			tags = make([]string, len(fields))
 		}
@@ -101,7 +101,7 @@ func (check *Checker) structType(styp *Struct, e *syntax.StructType) {
 	// fields with errors; this keeps the number of struct fields in sync
 	// with the source as long as the fields are _ or have different names
 	// (issue #25627).
-	addInvalid := func(ident *syntax.Name, pos syntax.Pos) {
+	addInvalid := func(ident *syntax.Name, pos srcPos) {
 		typ = Typ[Invalid]
 		tag = ""
 		add(ident, true, pos)
@@ -197,7 +197,7 @@ func embeddedFieldIdent(e syntax.Expr) *syntax.Name {
 	return nil // invalid embedded field
 }
 
-func (check *Checker) declareInSet(oset *objset, pos syntax.Pos, obj Object) bool {
+func (check *Checker) declareInSet(oset *objset, pos srcPos, obj Object) bool {
 	if alt := oset.insert(obj); alt != nil {
 		var err error_
 		err.code = DuplicateDecl

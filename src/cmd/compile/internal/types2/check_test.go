@@ -64,14 +64,14 @@ func parseFiles(t *testing.T, filenames []string, mode syntax.Mode) ([]*syntax.F
 	return files, errlist
 }
 
-func unpackError(err error) (syntax.Pos, string) {
+func unpackError(err error) (SrcPos, string) {
 	switch err := err.(type) {
 	case syntax.Error:
 		return err.Pos, err.Msg
 	case Error:
 		return err.Pos, err.Msg
 	default:
-		return nopos, err.Error()
+		return Nopos, err.Error()
 	}
 }
 

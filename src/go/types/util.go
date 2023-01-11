@@ -11,6 +11,12 @@ package types
 
 import "go/token"
 
+// A srcPos describes a source position.
+type srcPos = token.Pos
+
+// nopos indicates an unknown position.
+var nopos srcPos
+
 // cmpPos compares the positions p and q and returns a result r as follows:
 //
 // r <  0: p is before q
@@ -19,4 +25,4 @@ import "go/token"
 //
 // If p and q are in different files, p is before q if the filename
 // of p sorts lexicographically before the filename of q.
-func cmpPos(p, q token.Pos) int { return int(p - q) }
+func cmpPos(p, q srcPos) int { return int(p - q) }

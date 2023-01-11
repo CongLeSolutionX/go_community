@@ -18,9 +18,6 @@ import (
 	. "cmd/compile/internal/types2"
 )
 
-// nopos indicates an unknown position
-var nopos syntax.Pos
-
 func parse(path, src string) (*syntax.File, error) {
 	errh := func(error) {} // dummy error handler so that parsing continues in presence of errors
 	return syntax.Parse(syntax.NewFileBase(path), strings.NewReader(src), errh, nil, 0)
@@ -1525,7 +1522,7 @@ func main() {
 }
 
 // indexFor returns the index into s corresponding to the position pos.
-func indexFor(s string, pos syntax.Pos) int {
+func indexFor(s string, pos SrcPos) int {
 	i, line := 0, 1 // string index and corresponding line
 	target := int(pos.Line())
 	for line < target && i < len(s) {
@@ -1826,7 +1823,7 @@ func F(){
 
 // newDefined creates a new defined type named T with the given underlying type.
 func newDefined(underlying Type) *Named {
-	tname := NewTypeName(nopos, nil, "T", nil)
+	tname := NewTypeName(Nopos, nil, "T", nil)
 	return NewNamed(tname, underlying, nil)
 }
 
@@ -1942,7 +1939,7 @@ func TestIdentical_issue15173(t *testing.T) {
 }
 
 func TestIdenticalUnions(t *testing.T) {
-	tname := NewTypeName(nopos, nil, "myInt", nil)
+	tname := NewTypeName(Nopos, nil, "myInt", nil)
 	myInt := NewNamed(tname, Typ[Int], nil)
 	tmap := map[string]*Term{
 		"int":     NewTerm(false, Typ[Int]),
