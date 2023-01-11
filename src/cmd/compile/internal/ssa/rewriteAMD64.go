@@ -755,6 +755,13 @@ func rewriteValueAMD64(v *Value) bool {
 		return rewriteValueAMD64_OpEqB(v)
 	case OpEqPtr:
 		return rewriteValueAMD64_OpEqPtr(v)
+	case OpExpStringLen:
+		return rewriteValueAMD64_OpExpStringLen(v)
+	case OpExpStringMake:
+		return rewriteValueAMD64_OpExpStringMake(v)
+	case OpExpStringPtr:
+		v.Op = OpAMD64MOVQf2i
+		return true
 	case OpFMA:
 		return rewriteValueAMD64_OpFMA(v)
 	case OpFloor:
@@ -29217,6 +29224,36 @@ func rewriteValueAMD64_OpEqPtr(v *Value) bool {
 		return true
 	}
 }
+func rewriteValueAMD64_OpExpStringLen(v *Value) bool {
+	v_0 := v.Args[0]
+	// match: (ExpStringLen s)
+	// result: (PEXTRQ [1] s)
+	for {
+		s := v_0
+		v.reset(OpAMD64PEXTRQ)
+		v.AuxInt = int32ToAuxInt(1)
+		v.AddArg(s)
+		return true
+	}
+}
+func rewriteValueAMD64_OpExpStringMake(v *Value) bool {
+	v_1 := v.Args[1]
+	v_0 := v.Args[0]
+	b := v.Block
+	typ := &b.Func.Config.Types
+	// match: (ExpStringMake ptr len)
+	// result: (PINSRQ [1] (MOVQi2f ptr) len)
+	for {
+		ptr := v_0
+		len := v_1
+		v.reset(OpAMD64PINSRQ)
+		v.AuxInt = int32ToAuxInt(1)
+		v0 := b.NewValue0(v.Pos, OpAMD64MOVQi2f, typ.Float64)
+		v0.AddArg(ptr)
+		v.AddArg2(v0, len)
+		return true
+	}
+}
 func rewriteValueAMD64_OpFMA(v *Value) bool {
 	v_2 := v.Args[2]
 	v_1 := v.Args[1]
@@ -29727,6 +29764,20 @@ func rewriteValueAMD64_OpLoad(v *Value) bool {
 			break
 		}
 		v.reset(OpAMD64MOVSDload)
+		v.AddArg2(ptr, mem)
+		return true
+	}
+	// match: (Load <t> ptr mem)
+	// cond: t.Size() == 16
+	// result: (MOVOload ptr mem)
+	for {
+		t := v.Type
+		ptr := v_0
+		mem := v_1
+		if !(t.Size() == 16) {
+			break
+		}
+		v.reset(OpAMD64MOVOload)
 		v.AddArg2(ptr, mem)
 		return true
 	}
@@ -33135,6 +33186,21 @@ func rewriteValueAMD64_OpStore(v *Value) bool {
 			break
 		}
 		v.reset(OpAMD64MOVBstore)
+		v.AddArg3(ptr, val, mem)
+		return true
+	}
+	// match: (Store {t} ptr val mem)
+	// cond: t.Size() == 16
+	// result: (MOVOstore ptr val mem)
+	for {
+		t := auxToType(v.Aux)
+		ptr := v_0
+		val := v_1
+		mem := v_2
+		if !(t.Size() == 16) {
+			break
+		}
+		v.reset(OpAMD64MOVOstore)
 		v.AddArg3(ptr, val, mem)
 		return true
 	}

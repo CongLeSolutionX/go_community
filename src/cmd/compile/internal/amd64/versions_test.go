@@ -267,8 +267,8 @@ var featureToOpcodes = map[string][]string{
 	},
 	"sse41": {
 		"roundsd",
-		"pinsrq", "pinsrl", "pinsrd", "pinsrb", "pinsr",
-		"pextrq", "pextrl", "pextrd", "pextrb", "pextr",
+		"pinsrl", "pinsrd", "pinsrb", "pinsr",
+		"pextrl", "pextrd", "pextrb", "pextr",
 		"pminsb", "pminsd", "pminuw", "pminud", // Note: ub and sw are ok.
 		"pmaxsb", "pmaxsd", "pmaxuw", "pmaxud",
 		"pmovzxbw", "pmovzxbd", "pmovzxbq", "pmovzxwd", "pmovzxwq", "pmovzxdq",

@@ -40,17 +40,22 @@
 (StringPtr (StringMake ptr _)) => ptr
 (StringLen (StringMake _ len)) => len
 
+// Note: we require that these loads be CSEd. So this isn't
+// correct with optimizations off.
 (Load <t> ptr mem) && t.IsString() =>
   (StringMake
-    (Load <typ.BytePtr> ptr mem)
-    (Load <typ.Int>
-      (OffPtr <typ.IntPtr> [config.PtrSize] ptr)
-      mem))
-(Store dst (StringMake ptr len) mem) =>
-  (Store {typ.Int}
-    (OffPtr <typ.IntPtr> [config.PtrSize] dst)
-    len
-    (Store {typ.BytePtr} dst ptr mem))
+    (ExpStringPtr <typ.BytePtr> (Load <types.TypeStr128> ptr mem))
+    (ExpStringLen <typ.Int> (Load <types.TypeStr128> ptr mem)))
+
+(Store {t} dst str mem) && t.IsString() =>
+  (Store {types.TypeStr128}
+    dst
+    (ExpStringMake <types.TypeStr128> (StringPtr str) (StringLen str))
+    mem)
+
+// Avoid round-tripping through the integer registers. Useful when
+// we're just doing a load+store of a string.
+(ExpStringMake (ExpStringPtr x) (ExpStringLen x)) => x
 
 // slice ops
 (SlicePtr (SliceMake ptr _ _ )) => ptr

@@ -10,6 +10,8 @@ func rewriteValuedec(v *Value) bool {
 		return rewriteValuedec_OpComplexImag(v)
 	case OpComplexReal:
 		return rewriteValuedec_OpComplexReal(v)
+	case OpExpStringMake:
+		return rewriteValuedec_OpExpStringMake(v)
 	case OpIData:
 		return rewriteValuedec_OpIData(v)
 	case OpITab:
@@ -57,6 +59,24 @@ func rewriteValuedec_OpComplexReal(v *Value) bool {
 		}
 		real := v_0.Args[0]
 		v.copyOf(real)
+		return true
+	}
+	return false
+}
+func rewriteValuedec_OpExpStringMake(v *Value) bool {
+	v_1 := v.Args[1]
+	v_0 := v.Args[0]
+	// match: (ExpStringMake (ExpStringPtr x) (ExpStringLen x))
+	// result: x
+	for {
+		if v_0.Op != OpExpStringPtr {
+			break
+		}
+		x := v_0.Args[0]
+		if v_1.Op != OpExpStringLen || x != v_1.Args[0] {
+			break
+		}
+		v.copyOf(x)
 		return true
 	}
 	return false
@@ -139,7 +159,7 @@ func rewriteValuedec_OpLoad(v *Value) bool {
 	}
 	// match: (Load <t> ptr mem)
 	// cond: t.IsString()
-	// result: (StringMake (Load <typ.BytePtr> ptr mem) (Load <typ.Int> (OffPtr <typ.IntPtr> [config.PtrSize] ptr) mem))
+	// result: (StringMake (ExpStringPtr <typ.BytePtr> (Load <types.TypeStr128> ptr mem)) (ExpStringLen <typ.Int> (Load <types.TypeStr128> ptr mem)))
 	for {
 		t := v.Type
 		ptr := v_0
@@ -148,14 +168,13 @@ func rewriteValuedec_OpLoad(v *Value) bool {
 			break
 		}
 		v.reset(OpStringMake)
-		v0 := b.NewValue0(v.Pos, OpLoad, typ.BytePtr)
-		v0.AddArg2(ptr, mem)
-		v1 := b.NewValue0(v.Pos, OpLoad, typ.Int)
-		v2 := b.NewValue0(v.Pos, OpOffPtr, typ.IntPtr)
-		v2.AuxInt = int64ToAuxInt(config.PtrSize)
-		v2.AddArg(ptr)
-		v1.AddArg2(v2, mem)
-		v.AddArg2(v0, v1)
+		v0 := b.NewValue0(v.Pos, OpExpStringPtr, typ.BytePtr)
+		v1 := b.NewValue0(v.Pos, OpLoad, types.TypeStr128)
+		v1.AddArg2(ptr, mem)
+		v0.AddArg(v1)
+		v2 := b.NewValue0(v.Pos, OpExpStringLen, typ.Int)
+		v2.AddArg(v1)
+		v.AddArg2(v0, v2)
 		return true
 	}
 	// match: (Load <t> ptr mem)
@@ -322,25 +341,26 @@ func rewriteValuedec_OpStore(v *Value) bool {
 		v.AddArg3(v0, imag, v1)
 		return true
 	}
-	// match: (Store dst (StringMake ptr len) mem)
-	// result: (Store {typ.Int} (OffPtr <typ.IntPtr> [config.PtrSize] dst) len (Store {typ.BytePtr} dst ptr mem))
+	// match: (Store {t} dst str mem)
+	// cond: t.IsString()
+	// result: (Store {types.TypeStr128} dst (ExpStringMake <types.TypeStr128> (StringPtr str) (StringLen str)) mem)
 	for {
+		t := auxToType(v.Aux)
 		dst := v_0
-		if v_1.Op != OpStringMake {
+		str := v_1
+		mem := v_2
+		if !(t.IsString()) {
 			break
 		}
-		len := v_1.Args[1]
-		ptr := v_1.Args[0]
-		mem := v_2
 		v.reset(OpStore)
-		v.Aux = typeToAux(typ.Int)
-		v0 := b.NewValue0(v.Pos, OpOffPtr, typ.IntPtr)
-		v0.AuxInt = int64ToAuxInt(config.PtrSize)
-		v0.AddArg(dst)
-		v1 := b.NewValue0(v.Pos, OpStore, types.TypeMem)
-		v1.Aux = typeToAux(typ.BytePtr)
-		v1.AddArg3(dst, ptr, mem)
-		v.AddArg3(v0, len, v1)
+		v.Aux = typeToAux(types.TypeStr128)
+		v0 := b.NewValue0(v.Pos, OpExpStringMake, types.TypeStr128)
+		v1 := b.NewValue0(v.Pos, OpStringPtr, typ.BytePtr)
+		v1.AddArg(str)
+		v2 := b.NewValue0(v.Pos, OpStringLen, typ.Int)
+		v2.AddArg(str)
+		v0.AddArg2(v1, v2)
+		v.AddArg3(dst, v0, mem)
 		return true
 	}
 	// match: (Store {t} dst (SliceMake ptr len cap) mem)

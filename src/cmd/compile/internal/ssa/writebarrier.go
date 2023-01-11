@@ -391,6 +391,14 @@ func writebarrier(f *Func) {
 			val := w.Args[1]
 			if !srcs.contains(val.ID) && needWBsrc(val) {
 				srcs.add(val.ID)
+				if val.Type.Size() == 16 {
+					// Storing the string is atomic, but the write barrier only wants
+					// to know about the pointer part.
+					// TODO: this causes an sse register to be spilled/restored around
+					// the gcWriterBarrierX call. Consider saving/restoring a few sse registers
+					// now that we're keeping int register stuff in float registers?
+					val = bThen.NewValue1(pos, OpExpStringPtr, types.Types[types.TUINTPTR], val)
+				}
 				addEntry(val)
 			}
 			if !dsts.contains(ptr.ID) && needWBdst(ptr, w.Args[2], zeroes) {
@@ -402,6 +410,8 @@ func writebarrier(f *Func) {
 				// take care of the vast majority of these. We could
 				// patch this up in the signal handler, or use XCHG to
 				// combine the read and the write.
+				// Note that this loads the pointer field of a string/slice, not the whole string/slice.
+				// TODO: for interfaces we'll need 2 loads/stores (or a 2-ptr load/store?)
 				oldVal := bThen.NewValue2(pos, OpLoad, types.Types[types.TUINTPTR], ptr, memThen)
 				// Save old value to write buffer.
 				addEntry(oldVal)

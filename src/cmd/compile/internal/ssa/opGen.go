@@ -1118,6 +1118,8 @@ const (
 	OpAMD64SHRXLloadidx8
 	OpAMD64SHRXQloadidx1
 	OpAMD64SHRXQloadidx8
+	OpAMD64PEXTRQ
+	OpAMD64PINSRQ
 
 	OpARMADD
 	OpARMADDconst
@@ -3091,6 +3093,9 @@ const (
 	OpStringMake
 	OpStringPtr
 	OpStringLen
+	OpExpStringMake
+	OpExpStringPtr
+	OpExpStringLen
 	OpIMake
 	OpITab
 	OpIData
@@ -14819,6 +14824,34 @@ var opcodeTable = [...]opInfo{
 			},
 			outputs: []outputInfo{
 				{0, 49135}, // AX CX DX BX BP SI DI R8 R9 R10 R11 R12 R13 R15
+			},
+		},
+	},
+	{
+		name:    "PEXTRQ",
+		auxType: auxInt32,
+		argLen:  1,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 2147418112}, // X0 X1 X2 X3 X4 X5 X6 X7 X8 X9 X10 X11 X12 X13 X14
+			},
+			outputs: []outputInfo{
+				{0, 49135}, // AX CX DX BX BP SI DI R8 R9 R10 R11 R12 R13 R15
+			},
+		},
+	},
+	{
+		name:         "PINSRQ",
+		auxType:      auxInt32,
+		argLen:       2,
+		resultInArg0: true,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{1, 49135},      // AX CX DX BX BP SI DI R8 R9 R10 R11 R12 R13 R15
+				{0, 2147418112}, // X0 X1 X2 X3 X4 X5 X6 X7 X8 X9 X10 X11 X12 X13 X14
+			},
+			outputs: []outputInfo{
+				{0, 2147418112}, // X0 X1 X2 X3 X4 X5 X6 X7 X8 X9 X10 X11 X12 X13 X14
 			},
 		},
 	},
@@ -39303,6 +39336,21 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:    "StringLen",
+		argLen:  1,
+		generic: true,
+	},
+	{
+		name:    "ExpStringMake",
+		argLen:  2,
+		generic: true,
+	},
+	{
+		name:    "ExpStringPtr",
+		argLen:  1,
+		generic: true,
+	},
+	{
+		name:    "ExpStringLen",
 		argLen:  1,
 		generic: true,
 	},

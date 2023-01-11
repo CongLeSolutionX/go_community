@@ -943,6 +943,20 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		p.From.Reg = v.Args[0].Reg()
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = v.Reg()
+	case ssa.OpAMD64PEXTRQ:
+		p := s.Prog(x86.APEXTRQ)
+		p.From.Type = obj.TYPE_CONST
+		p.From.Offset = v.AuxInt
+		p.SetFrom3Reg(v.Args[0].Reg())
+		p.To.Type = obj.TYPE_REG
+		p.To.Reg = v.Reg()
+	case ssa.OpAMD64PINSRQ:
+		p := s.Prog(x86.APINSRQ)
+		p.From.Type = obj.TYPE_CONST
+		p.From.Offset = v.AuxInt
+		p.SetFrom3Reg(v.Args[1].Reg())
+		p.To.Type = obj.TYPE_REG
+		p.To.Reg = v.Reg() // which should be the same as v.Args[0].Reg()
 	case ssa.OpAMD64ADDQload, ssa.OpAMD64ADDLload, ssa.OpAMD64SUBQload, ssa.OpAMD64SUBLload,
 		ssa.OpAMD64ANDQload, ssa.OpAMD64ANDLload, ssa.OpAMD64ORQload, ssa.OpAMD64ORLload,
 		ssa.OpAMD64XORQload, ssa.OpAMD64XORLload, ssa.OpAMD64ADDSDload, ssa.OpAMD64ADDSSload,
