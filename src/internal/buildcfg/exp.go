@@ -138,6 +138,18 @@ func ParseGOEXPERIMENT(goos, goarch, goexp string) (*ExperimentFlags, error) {
 	if flags.RegabiArgs && !flags.RegabiWrappers {
 		return nil, fmt.Errorf("GOEXPERIMENT regabiargs requires regabiwrappers")
 	}
+	// Check atomicaggregates dependencies.
+	if flags.AtomicAggregates {
+		if !flags.SwapLenCap {
+			return nil, fmt.Errorf("GOEXPERIMENT atomicaggregates requires swaplencap")
+		}
+		if GOARCH != "amd64" {
+			return nil, fmt.Errorf("GOEXPERIMENT atomicaggregates requires GOARCH=amd64")
+		}
+		if GOAMD64 < 2 {
+			return nil, fmt.Errorf("GOEXPERIMENT atomicaggregates requires GOAMD64>=v2")
+		}
+	}
 	return flags, nil
 }
 

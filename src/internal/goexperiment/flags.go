@@ -105,4 +105,8 @@ type Flags struct {
 	// SwapLenCap changes the order of fields in a slice, swapping length
 	// and capacity.
 	SwapLenCap bool
+
+	// AtomicAggregates uses 128-bit loads/stores for strings/interfaces/slices.
+	// This experiment requires SwapLenCap to be enabled.
+	AtomicAggregates bool
 }

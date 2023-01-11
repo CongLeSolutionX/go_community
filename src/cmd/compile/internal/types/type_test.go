@@ -15,6 +15,7 @@ func TestSSACompare(t *testing.T) {
 		TypeFlags,
 		TypeVoid,
 		TypeInt128,
+		TypeStr128,
 	}
 	for _, x := range a {
 		for _, y := range a {

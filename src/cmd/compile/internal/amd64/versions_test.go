@@ -37,6 +37,9 @@ func TestGoAMD64v1(t *testing.T) {
 	if runtime.GOOS != "linux" && runtime.GOOS != "darwin" {
 		t.Skip("test only works on elf or macho platforms")
 	}
+	if buildcfg.Experiment.AtomicAggregates {
+		t.Skipf("Test can't run with GOEXPERIMENT=atomicaggregates")
+	}
 	for _, tag := range build.Default.ToolTags {
 		if tag == "amd64.v2" {
 			t.Skip("compiling for GOAMD64=v2 or higher")
@@ -268,7 +271,7 @@ var featureToOpcodes = map[string][]string{
 	"sse41": {
 		"roundsd",
 		"pinsrq", "pinsrl", "pinsrd", "pinsrb", "pinsr",
-		"pextrq", "pextrl", "pextrd", "pextrb", "pextr",
+		"pinsrq", "pextrl", "pextrd", "pextrb", "pextr",
 		"pminsb", "pminsd", "pminuw", "pminud", // Note: ub and sw are ok.
 		"pmaxsb", "pmaxsd", "pmaxuw", "pmaxud",
 		"pmovzxbw", "pmovzxbd", "pmovzxbq", "pmovzxwd", "pmovzxwq", "pmovzxdq",
