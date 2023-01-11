@@ -5728,6 +5728,9 @@ func (s *state) storeType(t *types.Type, left, right *ssa.Value, skip skipMask, 
 	// we can do a single store here as long as skip==0.
 	s.storeTypeScalars(t, left, right, skip)
 	if skip&skipPtr == 0 && t.HasPointers() {
+		if buildcfg.Experiment.AtomicAggregates && skip&skipLen != 0 {
+			s.Fatalf("can't write ptr without writing len")
+		}
 		s.storeTypePtrs(t, left, right)
 	}
 }
@@ -5744,6 +5747,11 @@ func (s *state) storeTypeScalars(t *types.Type, left, right *ssa.Value, skip ski
 		// otherwise, no scalar fields.
 	case t.IsString():
 		if skip&skipLen != 0 {
+			return
+		}
+		if buildcfg.Experiment.AtomicAggregates && skip&skipPtr == 0 {
+			// If we're going to be writing the pointer, we write both ptr and len
+			// in the pointer case. No need to do it here.
 			return
 		}
 		len := s.newValue1(ssa.OpStringLen, types.Types[types.TINT], right)
@@ -5790,8 +5798,14 @@ func (s *state) storeTypePtrs(t *types.Type, left, right *ssa.Value) {
 		}
 		s.store(t, left, right)
 	case t.IsString():
-		ptr := s.newValue1(ssa.OpStringPtr, s.f.Config.Types.BytePtr, right)
-		s.store(s.f.Config.Types.BytePtr, left, ptr)
+		if buildcfg.Experiment.AtomicAggregates {
+			// Store both ptr and len atomically.
+			s.store(t, left, right)
+		} else {
+			// Store just the pointer.
+			ptr := s.newValue1(ssa.OpStringPtr, s.f.Config.Types.BytePtr, right)
+			s.store(s.f.Config.Types.BytePtr, left, ptr)
+		}
 	case t.IsSlice():
 		elType := types.NewPtr(t.Elem())
 		ptr := s.newValue1(ssa.OpSlicePtr, elType, right)

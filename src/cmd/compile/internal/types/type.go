@@ -970,7 +970,7 @@ func (t *Type) ArgWidth() int64 {
 
 func (t *Type) Size() int64 {
 	if t.kind == TSSA {
-		if t == TypeInt128 {
+		if t == TypeInt128 || t == TypeStr128 {
 			return 16
 		}
 		return 0
@@ -1581,11 +1581,14 @@ var (
 	TypeVoid      = newSSA("void")
 	TypeInt128    = newSSA("int128")
 	TypeResultMem = newResults([]*Type{TypeMem})
+	TypeStr128    = newSSA("str128") // except this one has a pointer in it
 )
 
 func init() {
 	TypeInt128.width = 16
 	TypeInt128.align = 8
+	TypeStr128.width = 16
+	TypeStr128.align = 16
 }
 
 // NewNamed returns a new named type for the given type name. obj should be an
