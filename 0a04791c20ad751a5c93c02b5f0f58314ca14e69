@@ -74,6 +74,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c33ba8c_0aef3874",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-01-11T23:25:30Z",
+      "side": 1,
+      "message": "Good question! I think it was just an oversight.\n\nAdded.",
+      "parentUuid": "9648d144_cfa58147",
+      "revId": "0a04791c20ad751a5c93c02b5f0f58314ca14e69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "492d8a1d_2e6620b6",
@@ -87,6 +105,24 @@
       "writtenOn": "2023-01-11T22:42:23Z",
       "side": 1,
       "message": "I\u0027m not sure it\u0027s a great idea to spin up 100 (admittedly trivial) goroutines in parallel with running other tests.  I would omit t;Parallel here.",
+      "revId": "0a04791c20ad751a5c93c02b5f0f58314ca14e69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbfac9c8_140f4367",
+        "filename": "src/os/pipe_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-01-11T23:25:30Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "492d8a1d_2e6620b6",
       "revId": "0a04791c20ad751a5c93c02b5f0f58314ca14e69",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
