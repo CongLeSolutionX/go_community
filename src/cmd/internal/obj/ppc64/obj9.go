@@ -642,8 +642,8 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 
 			q = p
 
-			if c.ctxt.Flag_shared && c.cursym.Name != "runtime.duffzero" && c.cursym.Name != "runtime.duffcopy" {
-				// When compiling Go into PIC, all functions must start
+			if needTOCpointer(c.ctxt) && c.cursym.Name != "runtime.duffzero" && c.cursym.Name != "runtime.duffcopy" {
+				// When compiling Go into PIC, without PCrel support, all functions must start
 				// with instructions to load the TOC pointer into r2:
 				//
 				//	addis r2, r12, .TOC.-func@ha
@@ -765,7 +765,7 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 				break
 			}
 
-			if c.ctxt.Flag_shared {
+			if needTOCpointer(c.ctxt) {
 				q = obj.Appendp(q, c.newprog)
 				q.As = AMOVD
 				q.Pos = p.Pos
@@ -1291,7 +1291,7 @@ func (c *ctxt9) stacksplit(p *obj.Prog, framesize int32) *obj.Prog {
 		morestacksym = c.ctxt.Lookup("runtime.morestack")
 	}
 
-	if c.ctxt.Flag_shared {
+	if needTOCpointer(c.ctxt) {
 		// In PPC64 PIC code, R2 is used as TOC pointer derived from R12
 		// which is the address of function entry point when entering
 		// the function. We need to preserve R2 across call to morestack.
@@ -1354,7 +1354,7 @@ func (c *ctxt9) stacksplit(p *obj.Prog, framesize int32) *obj.Prog {
 		p.To.Sym = morestacksym
 	}
 
-	if c.ctxt.Flag_shared {
+	if needTOCpointer(c.ctxt) {
 		// MOVD 8(SP), R2
 		p = obj.Appendp(p, c.newprog)
 		p.As = AMOVD

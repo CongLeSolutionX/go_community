@@ -1081,6 +1081,7 @@ func (c *ctxt9) aclass(a *obj.Addr) int {
 		}
 
 	case obj.TYPE_BRANCH:
+		// TODO: space for TOC pointer reload still needs to be maintained with Flag_dynlink
 		if a.Sym != nil && c.ctxt.Flag_dynlink {
 			return C_LBRAPIC
 		}
@@ -1283,6 +1284,13 @@ func optabLess(i, j int) bool {
 // as opcode a.
 func opset(a, b0 obj.As) {
 	oprange[a&obj.AMask] = oprange[b0]
+}
+
+// Determine if the build configuration requires a TOC pointer.
+// It is assumed this always called after buildop.
+func needTOCpointer(ctxt *obj.Link) bool {
+	// TODO: support Flag_dynlink when prefix instruction are supported.
+	return (!pfxEnabled && ctxt.Flag_shared) || ctxt.Flag_dynlink
 }
 
 // Build the opcode table

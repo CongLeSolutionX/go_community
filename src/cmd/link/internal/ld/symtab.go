@@ -144,7 +144,11 @@ func putelfsym(ctxt *Link, x loader.Sym, typ elf.SymType, curbind elf.SymBind) {
 		// The conditions here match those in preprocess in
 		// cmd/internal/obj/ppc64/obj9.go, which is where the
 		// instructions are inserted.
-		other |= 3 << 5
+		// TODO: better comment, better check.
+		hasPCrel := buildcfg.GOPPC64 >= 10 && buildcfg.GOOS == "linux" && buildcfg.GOARCH == "ppc64le" && !ctxt.DynlinkingGo()
+		if !hasPCrel {
+			other |= 3 << 5
+		}
 	}
 
 	// When dynamically linking, we create Symbols by reading the names from

@@ -791,7 +791,12 @@ func elfreloc1(ctxt *ld.Link, out *ld.OutBuf, ldr *loader.Loader, s loader.Sym, 
 		if r.Size != 4 {
 			return false
 		}
-		out.Write64(uint64(elf.R_PPC64_REL24) | uint64(elfsym)<<32)
+		if !hasPCrel || ctxt.DynlinkingGo() {
+			out.Write64(uint64(elf.R_PPC64_REL24) | uint64(elfsym)<<32)
+		} else {
+			// TOC is not used in PCrel compiled Go code.
+			out.Write64(uint64(elf.R_PPC64_REL24_NOTOC) | uint64(elfsym)<<32)
+		}
 
 	}
 	out.Write64(uint64(r.Xadd))
@@ -1228,7 +1233,14 @@ func archreloc(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, r loade
 		if !ldr.AttrExternal(rs) && ldr.AttrShared(rs) && tgtName != "runtime.duffzero" && tgtName != "runtime.duffcopy" {
 			// Furthermore, only apply the offset if the target looks like the start of a function call.
 			if r.Add() == 0 && ldr.SymType(rs) == sym.STEXT {
-				t += 8
+				// This is internal linking, therefore, we are a PIE or static binary.
+				// Shared/Library code is always externally linked.
+				if !hasPCrel {
+					t += 8
+				} else {
+					// TODO: some cgo links into go ex c to _cgo_topofstack
+					//fmt.Printf("skip %s %s\n", ldr.SymName(s), tgtName)
+				}
 			}
 		}
 

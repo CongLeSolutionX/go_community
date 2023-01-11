@@ -1869,7 +1869,8 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		pp.To.Reg = ppc64.REG_LR
 		pp.SetFrom3Const(1)
 
-		if base.Ctxt.Flag_shared {
+		// PC-relative support still requires TOC with Flag_dynlink.
+		if base.Ctxt.Flag_shared && (buildcfg.GOPPC64 < 10 || base.Ctxt.Flag_dynlink) {
 			// When compiling Go into PIC, the function we just
 			// called via pointer might have been implemented in
 			// a separate module and so overwritten the TOC
