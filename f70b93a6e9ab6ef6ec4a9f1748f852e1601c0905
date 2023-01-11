@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e243f756_becd371c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-01-11T20:22:01Z",
+      "side": 1,
+      "message": "Note: sent CL 461598 to use a different fallback strategy.",
+      "revId": "f70b93a6e9ab6ef6ec4a9f1748f852e1601c0905",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "96a3570e_1e7dcaa3",
