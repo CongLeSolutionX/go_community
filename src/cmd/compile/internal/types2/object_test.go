@@ -30,23 +30,23 @@ func TestIsAlias(t *testing.T) {
 
 	// various other types
 	pkg := NewPackage("p", "p")
-	t1 := NewTypeName(nopos, pkg, "t1", nil)
+	t1 := NewTypeName(Nopos, pkg, "t1", nil)
 	n1 := NewNamed(t1, new(Struct), nil)
-	t5 := NewTypeName(nopos, pkg, "t5", nil)
+	t5 := NewTypeName(Nopos, pkg, "t5", nil)
 	NewTypeParam(t5, nil)
 	for _, test := range []struct {
 		name  *TypeName
 		alias bool
 	}{
-		{NewTypeName(nopos, nil, "t0", nil), false}, // no type yet
-		{NewTypeName(nopos, pkg, "t0", nil), false}, // no type yet
+		{NewTypeName(Nopos, nil, "t0", nil), false}, // no type yet
+		{NewTypeName(Nopos, pkg, "t0", nil), false}, // no type yet
 		{t1, false}, // type name refers to named type and vice versa
-		{NewTypeName(nopos, nil, "t2", NewInterfaceType(nil, nil)), true}, // type name refers to unnamed type
-		{NewTypeName(nopos, pkg, "t3", n1), true},                         // type name refers to named type with different type name
-		{NewTypeName(nopos, nil, "t4", Typ[Int32]), true},                 // type name refers to basic type with different name
-		{NewTypeName(nopos, nil, "int32", Typ[Int32]), false},             // type name refers to basic type with same name
-		{NewTypeName(nopos, pkg, "int32", Typ[Int32]), true},              // type name is declared in user-defined package (outside Universe)
-		{NewTypeName(nopos, nil, "rune", Typ[Rune]), true},                // type name refers to basic type rune which is an alias already
+		{NewTypeName(Nopos, nil, "t2", NewInterfaceType(nil, nil)), true}, // type name refers to unnamed type
+		{NewTypeName(Nopos, pkg, "t3", n1), true},                         // type name refers to named type with different type name
+		{NewTypeName(Nopos, nil, "t4", Typ[Int32]), true},                 // type name refers to basic type with different name
+		{NewTypeName(Nopos, nil, "int32", Typ[Int32]), false},             // type name refers to basic type with same name
+		{NewTypeName(Nopos, pkg, "int32", Typ[Int32]), true},              // type name is declared in user-defined package (outside Universe)
+		{NewTypeName(Nopos, nil, "rune", Typ[Rune]), true},                // type name refers to basic type rune which is an alias already
 		{t5, false}, // type name refers to type parameter and vice versa
 	} {
 		check(test.name, test.alias)
@@ -129,7 +129,7 @@ func TestObjectString(t *testing.T) {
 			t.Errorf("%s: invalid object path %s", test.src, test.obj)
 			continue
 		}
-		_, obj := pkg.Scope().LookupParent(names[0], nopos)
+		_, obj := pkg.Scope().LookupParent(names[0], Nopos)
 		if obj == nil {
 			t.Errorf("%s: %s not found", test.src, names[0])
 			continue

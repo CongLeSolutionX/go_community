@@ -442,7 +442,7 @@ func unpackExpr(x syntax.Expr) []syntax.Expr {
 	return nil
 }
 
-func (check *Checker) shortVarDecl(pos syntax.Pos, lhs, rhs []syntax.Expr) {
+func (check *Checker) shortVarDecl(pos srcPos, lhs, rhs []syntax.Expr) {
 	top := len(check.delayed)
 	scope := check.scope
 

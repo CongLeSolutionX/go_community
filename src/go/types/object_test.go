@@ -131,7 +131,7 @@ func TestObjectString(t *testing.T) {
 			t.Errorf("%s: invalid object path %s", test.src, test.obj)
 			continue
 		}
-		_, obj := pkg.Scope().LookupParent(names[0], nopos)
+		_, obj := pkg.Scope().LookupParent(names[0], Nopos)
 		if obj == nil {
 			t.Errorf("%s: %s not found", test.src, names[0])
 			continue

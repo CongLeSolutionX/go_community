@@ -8,7 +8,6 @@
 package types2
 
 import (
-	"cmd/compile/internal/syntax"
 	"errors"
 	"fmt"
 	. "internal/types/errors"
@@ -75,7 +74,7 @@ func Instantiate(ctxt *Context, orig Type, targs []Type, validate bool) (Type, e
 // must be non-nil.
 //
 // For Named types the resulting instance may be unexpanded.
-func (check *Checker) instance(pos syntax.Pos, orig Type, targs []Type, expanding *Named, ctxt *Context) (res Type) {
+func (check *Checker) instance(pos srcPos, orig Type, targs []Type, expanding *Named, ctxt *Context) (res Type) {
 	// The order of the contexts below matters: we always prefer instances in the
 	// expanding instance context in order to preserve reference cycles.
 	//
@@ -153,7 +152,7 @@ func (check *Checker) instance(pos syntax.Pos, orig Type, targs []Type, expandin
 // validateTArgLen verifies that the length of targs and tparams matches,
 // reporting an error if not. If validation fails and check is nil,
 // validateTArgLen panics.
-func (check *Checker) validateTArgLen(pos syntax.Pos, ntparams, ntargs int) bool {
+func (check *Checker) validateTArgLen(pos srcPos, ntparams, ntargs int) bool {
 	if ntargs != ntparams {
 		// TODO(gri) provide better error message
 		if check != nil {
@@ -165,7 +164,7 @@ func (check *Checker) validateTArgLen(pos syntax.Pos, ntparams, ntargs int) bool
 	return true
 }
 
-func (check *Checker) verify(pos syntax.Pos, tparams []*TypeParam, targs []Type, ctxt *Context) (int, error) {
+func (check *Checker) verify(pos srcPos, tparams []*TypeParam, targs []Type, ctxt *Context) (int, error) {
 	smap := makeSubstMap(tparams, targs)
 	for i, tpar := range tparams {
 		// Ensure that we have a (possibly implicit) interface as type bound (issue #51048).

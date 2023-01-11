@@ -14,9 +14,6 @@ import (
 	. "internal/types/errors"
 )
 
-// nopos indicates an unknown position
-var nopos syntax.Pos
-
 // debugging/development support
 const debug = false // leave on during development
 
@@ -33,9 +30,9 @@ type exprInfo struct {
 type environment struct {
 	decl          *declInfo                 // package-level declaration whose init expression/function body is checked
 	scope         *Scope                    // top-most scope for lookups
-	pos           syntax.Pos                // if valid, identifiers are looked up as if at position pos (used by Eval)
+	pos           srcPos                    // if valid, identifiers are looked up as if at position pos (used by Eval)
 	iota          constant.Value            // value of iota in a constant declaration; nil otherwise
-	errpos        syntax.Pos                // if valid, identifier position of a constant with inherited initializer
+	errpos        srcPos                    // if valid, identifier position of a constant with inherited initializer
 	inTParamList  bool                      // set if inside a type parameter list
 	sig           *Signature                // function signature if inside a function; nil otherwise
 	isPanic       map[*syntax.CallExpr]bool // set of panic call expressions (used for termination check)

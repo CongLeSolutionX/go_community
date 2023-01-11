@@ -21,7 +21,7 @@ func (check *Checker) reportAltDecl(obj Object) {
 	}
 }
 
-func (check *Checker) declare(scope *Scope, id *ast.Ident, obj Object, pos token.Pos) {
+func (check *Checker) declare(scope *Scope, id *ast.Ident, obj Object, pos srcPos) {
 	// spec: "The blank identifier, represented by the underscore
 	// character _, may be used in a declaration like any other
 	// identifier but the declaration does not introduce a new

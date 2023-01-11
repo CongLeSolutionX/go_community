@@ -60,7 +60,7 @@ func (check *Checker) funcInst(x *operand, inst *syntax.IndexExpr) {
 	x.expr = inst
 }
 
-func (check *Checker) instantiateSignature(pos syntax.Pos, typ *Signature, targs []Type, xlist []syntax.Expr) (res *Signature) {
+func (check *Checker) instantiateSignature(pos srcPos, typ *Signature, targs []Type, xlist []syntax.Expr) (res *Signature) {
 	assert(check != nil)
 	assert(len(targs) == typ.TypeParams().Len())
 
