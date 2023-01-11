@@ -39,10 +39,19 @@ import (
 	"debug/elf"
 	"encoding/binary"
 	"fmt"
+	"internal/buildcfg"
 	"log"
 	"strconv"
 	"strings"
 )
+
+// The build configuration supports PC-relative instructions and relocations.
+var hasPCrel bool
+
+func init() {
+	// TODO: is there a more generic place to hold this which can be shared with the compiler/assembler?
+	hasPCrel = buildcfg.GOPPC64 >= 10 && buildcfg.GOOS == "linux" && buildcfg.GOARCH == "ppc64le"
+}
 
 func genpltstub(ctxt *ld.Link, ldr *loader.Loader, r loader.Reloc, s loader.Sym) (sym loader.Sym, firstUse bool) {
 	// The ppc64 ABI PLT has similar concepts to other
@@ -1025,6 +1034,13 @@ func gentramp(ctxt *ld.Link, ldr *loader.Loader, tramp *loader.SymbolBuilder, ta
 	P := make([]byte, tramp.Size())
 	var o1, o2 uint32
 
+	// ELFv2 save/restore functions use R0/R12 in special ways, therefore trampolines
+	// as generated here will not always work correctly.
+	if strings.HasPrefix(ldr.SymName(target), "runtime.elf_") {
+		log.Fatalf("Internal linker does not support trampolines to ELFv2 ABI"+
+			" register save/restore function %s", ldr.SymName(target))
+	}
+
 	if ctxt.IsAIX() {
 		// On AIX, the address is retrieved with a TOC symbol.
 		// For internal linking, the "Linux" way might still be used.
@@ -1042,19 +1058,12 @@ func gentramp(ctxt *ld.Link, ldr *loader.Loader, tramp *loader.SymbolBuilder, ta
 		r.SetOff(0)
 		r.SetSiz(8) // generates 2 relocations: HA + LO
 		r.SetSym(toctramp.Sym())
-	} else {
+	} else if !hasPCrel {
 		// Used for default build mode for an executable
 		// Address of the call target is generated using
 		// relocation and doesn't depend on r2 (TOC).
 		o1 = uint32(0x3c000000) | 12<<21          // lis  r12,targetaddr hi
 		o2 = uint32(0x38000000) | 12<<21 | 12<<16 // addi r12,r12,targetaddr lo
-
-		// ELFv2 save/restore functions use R0/R12 in special ways, therefore trampolines
-		// as generated here will not always work correctly.
-		if strings.HasPrefix(ldr.SymName(target), "runtime.elf_") {
-			log.Fatalf("Internal linker does not support trampolines to ELFv2 ABI"+
-				" register save/restore function %s", ldr.SymName(target))
-		}
 
 		t := ldr.SymValue(target)
 		if t == 0 || r2Valid(ctxt) || ctxt.IsExternal() {
@@ -1075,6 +1084,17 @@ func gentramp(ctxt *ld.Link, ldr *loader.Loader, tramp *loader.SymbolBuilder, ta
 			o1 |= (uint32(t) + 0x8000) >> 16 // HA
 			o2 |= uint32(t) & 0xFFFF         // LO
 		}
+	} else {
+		// pla r12, addr (PC-rel). This works for static or PIC, with or without a valid TOC pointer.
+		o1 = uint32(0x06100000)
+		o2 = uint32(0x39800000) // pla r12, addr
+
+		// The trampoline's position is not known yet, insert a relocation.
+		r, _ := tramp.AddRel(objabi.R_ADDRPOWER_PCREL34)
+		r.SetOff(0)
+		r.SetSiz(8) // This spans 2 words.
+		r.SetSym(target)
+		r.SetAdd(offset)
 	}
 
 	o3 := uint32(0x7c0903a6) | 12<<21 // mtctr r12
