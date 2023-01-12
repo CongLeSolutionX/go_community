@@ -8,10 +8,10 @@ package types2
 
 import (
 	"bytes"
-	"cmd/compile/internal/syntax"
 	"fmt"
 	"go/constant"
 	"go/token"
+	"internal/syntax"
 	. "internal/types/errors"
 )
 

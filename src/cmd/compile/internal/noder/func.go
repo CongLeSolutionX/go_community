@@ -7,10 +7,10 @@ package noder
 import (
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
-	"cmd/compile/internal/syntax"
 	"cmd/compile/internal/typecheck"
 	"cmd/compile/internal/types"
 	"cmd/internal/src"
+	"internal/syntax"
 )
 
 func (g *irgen) funcBody(fn *ir.Func, recv *syntax.Field, sig *syntax.FuncType, block *syntax.BlockStmt) {

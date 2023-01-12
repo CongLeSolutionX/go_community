@@ -279,7 +279,8 @@ var depsRules = `
 	< go/constant;
 
 	container/heap, go/constant, go/parser, internal/types/errors, regexp
-	< go/types;
+	< go/types
+	< internal/syntax;
 
 	FMT, internal/goexperiment
 	< internal/buildcfg;
