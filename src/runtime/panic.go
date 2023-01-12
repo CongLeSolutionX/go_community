@@ -800,8 +800,23 @@ func deferCallSave(p *_panic, fn func()) {
 	}
 }
 
+// A PanicNilError happens when code calls panic(nil).
+//
+// Before Go 1.21, programs that called panic(nil) observed recover returning nil.
+// Starting in Go 1.21, programs that call panic(nil) observe recover returning a *PanicNilError.
+// Programs can change back to the old behavior by setting GODEBUG=panicnil=1.
+type PanicNilError struct {
+	_ *[0]PanicNilError // avoid conversion to/from other empty structs
+}
+
+func (*PanicNilError) Error() string { return "panic called with nil argument" }
+func (*PanicNilError) RuntimeError() {}
+
 // The implementation of the predeclared function panic.
 func gopanic(e any) {
+	if e == nil && debug.panicnil.Load() != 1 {
+		e = new(PanicNilError)
+	}
 	gp := getg()
 	if gp.m.curg != gp {
 		print("panic: ")
