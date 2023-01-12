@@ -9,10 +9,10 @@ import (
 
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
-	"cmd/compile/internal/syntax"
 	"cmd/compile/internal/typecheck"
 	"cmd/compile/internal/types"
 	"cmd/compile/internal/types2"
+	"internal/syntax"
 )
 
 // TODO(mdempsky): Skip blank declarations? Probably only safe

@@ -6,10 +6,10 @@ package importer
 
 import (
 	"cmd/compile/internal/base"
-	"cmd/compile/internal/syntax"
 	"cmd/compile/internal/types2"
 	"cmd/internal/src"
 	"internal/pkgbits"
+	"internal/syntax"
 )
 
 type pkgReader struct {

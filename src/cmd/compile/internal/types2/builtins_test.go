@@ -5,8 +5,8 @@
 package types2_test
 
 import (
-	"cmd/compile/internal/syntax"
 	"fmt"
+	"internal/syntax"
 	"testing"
 
 	. "cmd/compile/internal/types2"

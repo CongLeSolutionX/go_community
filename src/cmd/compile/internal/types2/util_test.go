@@ -7,6 +7,6 @@
 
 package types2
 
-import "cmd/compile/internal/syntax"
+import "internal/syntax"
 
 func CmpPos(p, q syntax.Pos) int { return cmpPos(p, q) }

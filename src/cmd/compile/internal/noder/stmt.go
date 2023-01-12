@@ -7,10 +7,10 @@ package noder
 import (
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
-	"cmd/compile/internal/syntax"
 	"cmd/compile/internal/typecheck"
 	"cmd/compile/internal/types"
 	"cmd/internal/src"
+	"internal/syntax"
 )
 
 // stmts creates nodes for a slice of statements that form a scope.

@@ -5,7 +5,7 @@
 package types2
 
 import (
-	"cmd/compile/internal/syntax"
+	"internal/syntax"
 	"strings"
 	"testing"
 )
