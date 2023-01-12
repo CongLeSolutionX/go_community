@@ -1,6 +1,6 @@
 <!--{
 	"Title": "The Go Programming Language Specification",
-	"Subtitle": "Version of December 15, 2022",
+	"Subtitle": "Version of January 12, 2023",
 	"Path": "/ref/spec"
 }-->
 
@@ -7564,7 +7564,8 @@ Suppose a function <code>G</code> defers a function <code>D</code> that calls
 <code>recover</code> and a panic occurs in a function on the same goroutine in which <code>G</code>
 is executing.
 When the running of deferred functions reaches <code>D</code>,
-the return value of <code>D</code>'s call to <code>recover</code> will be the value passed to the call of <code>panic</code>.
+<code>D</code>'s call to recover will return the value previously passed to the call of <code>panic</code>
+that initiated the unwinding.
 If <code>D</code> returns normally, without starting a new
 <code>panic</code>, the panicking sequence stops. In that case,
 the state of functions called between <code>G</code> and the call to <code>panic</code>
