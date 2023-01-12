@@ -16,6 +16,29 @@
       "message": "Compilebench performance testing numbers for this patch.\n\nThe speedup in LinkCompiler seems larger than I would have expected, I am not sure what is going on there. I looked at the differences between the two binaries and I see a bit of global map deadcoding but not that much.\n\nname                      old time/op       new time/op       delta\nTemplate                        196ms ± 5%        196ms ± 3%     ~     (p\u003d0.668 n\u003d23+25)\nUnicode                         187ms ± 3%        183ms ± 3%   -2.37%  (p\u003d0.000 n\u003d24+25)\nGoTypes                         811ms ± 7%        821ms ± 6%     ~     (p\u003d0.143 n\u003d24+25)\nCompiler                        149ms ± 7%        149ms ± 7%     ~     (p\u003d0.954 n\u003d25+25)\nSSA                             6.31s ± 4%        6.39s ± 4%     ~     (p\u003d0.057 n\u003d25+25)\nFlate                           122ms ±11%        125ms ± 9%     ~     (p\u003d0.221 n\u003d24+25)\nGoParser                        239ms ± 5%        243ms ± 3%   +1.75%  (p\u003d0.003 n\u003d23+23)\nReflect                         452ms ± 3%        454ms ± 3%     ~     (p\u003d0.282 n\u003d24+24)\nTar                             186ms ± 7%        188ms ± 6%     ~     (p\u003d0.494 n\u003d24+25)\nXML                             233ms ± 4%        233ms ± 5%     ~     (p\u003d0.684 n\u003d24+25)\nLinkCompiler                    974ms ±40%        775ms ± 7%  -20.39%  (p\u003d0.006 n\u003d25+23)\nExternalLinkCompiler            1.90s ± 2%        1.89s ± 2%     ~     (p\u003d0.605 n\u003d23+24)\nLinkWithoutDebugCompiler        648ms ±37%        513ms ±22%  -20.77%  (p\u003d0.004 n\u003d25+25)\nStdCmd                          21.5s ± 2%        21.6s ± 2%     ~     (p\u003d0.253 n\u003d24+25)\n\nname                      old user-time/op  new user-time/op  delta\nTemplate                        682ms ±16%        655ms ±19%   -4.00%  (p\u003d0.028 n\u003d24+25)\nUnicode                         210ms ±16%        214ms ±18%     ~     (p\u003d0.365 n\u003d25+25)\nGoTypes                         3.66s ± 4%        3.65s ± 7%     ~     (p\u003d0.886 n\u003d23+25)\nCompiler                        229ms ±10%        231ms ±12%     ~     (p\u003d0.605 n\u003d23+24)\nSSA                             39.7s ± 3%        39.9s ± 3%     ~     (p\u003d0.306 n\u003d24+25)\nFlate                           379ms ±19%        379ms ±16%     ~     (p\u003d0.803 n\u003d25+25)\nGoParser                        724ms ±12%        712ms ±10%     ~     (p\u003d0.493 n\u003d24+24)\nReflect                         1.90s ± 7%        1.89s ±10%     ~     (p\u003d0.773 n\u003d25+25)\nTar                             568ms ±17%        566ms ±15%     ~     (p\u003d0.832 n\u003d25+25)\nXML                             704ms ±15%        697ms ± 9%     ~     (p\u003d0.729 n\u003d25+24)\nLinkCompiler                    1.15s ± 8%        1.19s ± 9%   +3.70%  (p\u003d0.001 n\u003d24+24)\nExternalLinkCompiler            2.21s ± 5%        2.17s ± 6%   -1.78%  (p\u003d0.031 n\u003d24+25)\nLinkWithoutDebugCompiler        500ms ±10%        504ms ± 8%     ~     (p\u003d0.532 n\u003d25+24)\n\nname                      old text-bytes    new text-bytes    delta\nHelloSize                       774kB ± 0%        774kB ± 0%     ~     (all equal)\nCmdGoSize                      10.5MB ± 0%       10.5MB ± 0%   -0.03%  (p\u003d0.000 n\u003d25+25)\n\nname                      old data-bytes    new data-bytes    delta\nHelloSize                      13.4kB ± 0%       13.4kB ± 0%     ~     (all equal)\nCmdGoSize                       315kB ± 0%        304kB ± 0%   -3.21%  (p\u003d0.000 n\u003d25+25)\n\nname                      old bss-bytes     new bss-bytes     delta\nHelloSize                       202kB ± 0%        202kB ± 0%     ~     (all equal)\nCmdGoSize                       234kB ± 0%        234kB ± 0%   -0.01%  (p\u003d0.000 n\u003d25+25)\n\nname                      old exe-bytes     new exe-bytes     delta\nHelloSize                      1.23MB ± 0%       1.23MB ± 0%   +0.00%  (p\u003d0.000 n\u003d25+25)\nCmdGoSize                      15.6MB ± 0%       15.6MB ± 0%   -0.06%  (p\u003d0.000 n\u003d25+25)",
       "revId": "75cf9a856e30406fccf2d68c5e5272033f878fcc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d83e2cf4_4ea21e05",
+        "filename": "src/cmd/compile/internal/base/flag.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-01-12T14:13:51Z",
+      "side": 1,
+      "message": "I\u0027m not in love with this flag name -- if there are better suggestions I am happy to change.",
+      "range": {
+        "startLine": 126,
+        "startChar": 1,
+        "endLine": 126,
+        "endChar": 18
+      },
+      "revId": "75cf9a856e30406fccf2d68c5e5272033f878fcc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
