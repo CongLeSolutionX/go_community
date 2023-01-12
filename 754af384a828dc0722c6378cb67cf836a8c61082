@@ -59,6 +59,30 @@
       },
       "revId": "754af384a828dc0722c6378cb67cf836a8c61082",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95ae54b1_ba59f658",
+        "filename": "src/go/types/generator.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-01-12T17:28:28Z",
+      "side": 1,
+      "message": "Sure, done.\n\nThe intent for the manual run feature was to make it easier to see what changes (if any) were needed when generating some of the not-yet generated files. But it\u0027s trivial to read the filemap entry.",
+      "parentUuid": "bf281eca_8e1b57f2",
+      "range": {
+        "startLine": 41,
+        "startChar": 22,
+        "endLine": 41,
+        "endChar": 25
+      },
+      "revId": "754af384a828dc0722c6378cb67cf836a8c61082",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
