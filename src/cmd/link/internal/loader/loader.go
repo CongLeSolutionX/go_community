@@ -1989,6 +1989,12 @@ func (fi *FuncInfo) TopFrame() bool {
 	return (fi.FuncFlag() & objabi.FuncFlag_TOPFRAME) != 0
 }
 
+// NoFrame returns true if the function associated with this FuncInfo
+// does not have a frame pointer even if it grows the stack.
+func (fi *FuncInfo) NoFrame() bool {
+	return (fi.FuncFlag() & objabi.FuncFlag_NOFRAME) != 0
+}
+
 type InlTreeNode struct {
 	Parent   int32
 	File     goobj.CUFileIndex

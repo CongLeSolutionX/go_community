@@ -408,6 +408,9 @@ const (
 
 	// ASM indicates that a function was implemented in assembly.
 	funcFlag_ASM
+
+	// NOFRAME indicates that a function does not use a frame pointer.
+	funcFlag_NOFRAME
 )
 
 // pcHeader holds data used by the pclntab lookups.

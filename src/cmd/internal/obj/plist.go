@@ -205,6 +205,9 @@ func (ctxt *Link) toFuncFlag(flag int) objabi.FuncFlag {
 	if flag&TOPFRAME != 0 {
 		out |= objabi.FuncFlag_TOPFRAME
 	}
+	if flag&NOFRAME != 0 {
+		out |= objabi.FuncFlag_NOFRAME
+	}
 	if ctxt.IsAsm {
 		out |= objabi.FuncFlag_ASM
 	}
