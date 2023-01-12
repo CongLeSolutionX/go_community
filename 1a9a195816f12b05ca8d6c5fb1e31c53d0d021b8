@@ -33,6 +33,24 @@
       "message": "This is still a race condition--it\u0027s possible for the pconn to be closed, the write loop to exit, and a value to then be added to writech.\n\nI have an alternate approach in https://go.dev/cl/461675. What do you think?",
       "revId": "1a9a195816f12b05ca8d6c5fb1e31c53d0d021b8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b71b06c_6d0b3702",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2442,
+      "author": {
+        "id": 50893
+      },
+      "writtenOn": "2023-01-12T01:43:34Z",
+      "side": 1,
+      "message": "That\u0027s very good",
+      "parentUuid": "15f4dc60_80a582e6",
+      "revId": "1a9a195816f12b05ca8d6c5fb1e31c53d0d021b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
