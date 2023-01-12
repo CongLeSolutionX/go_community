@@ -592,9 +592,18 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 	}
 
 	p := cursym.Func().Text
+	if ctxt.Arch.Family == sys.I386 {
+		// 386 never uses a frame pointer.
+		p.From.Sym.Set(obj.AttrNoFrame, true)
+	}
 	autoffset := int32(p.To.Offset)
 	if autoffset < 0 {
 		autoffset = 0
+	}
+	if autoffset == 0 && p.From.Sym.NoSplit() {
+		// Historical way to mark NOFRAME.
+		// TODO: Maybe someday we label them all with NOFRAME and get rid of this heuristic
+		p.From.Sym.Set(obj.AttrNoFrame, true)
 	}
 
 	hasCall := false
@@ -604,25 +613,16 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 			break
 		}
 	}
+	if autoffset == 0 && !hasCall {
+		// A leaf function with no locals has no frame.
+		p.From.Sym.Set(obj.AttrNoFrame, true)
+	}
 
 	var bpsize int
-	if ctxt.Arch.Family == sys.AMD64 &&
-		!p.From.Sym.NoFrame() && // (1) below
-		!(autoffset == 0 && p.From.Sym.NoSplit()) && // (2) below
-		!(autoffset == 0 && !hasCall) { // (3) below
-		// Make room to save a base pointer.
-		// There are 2 cases we must avoid:
-		// 1) If noframe is set (which we do for functions which tail call).
-		// 2) Scary runtime internals which would be all messed up by frame pointers.
-		//    We detect these using a heuristic: frameless nosplit functions.
-		//    TODO: Maybe someday we label them all with NOFRAME and get rid of this heuristic.
-		// For performance, we also want to avoid:
-		// 3) Frameless leaf functions
+	if !p.From.Sym.NoFrame() {
 		bpsize = ctxt.Arch.PtrSize
 		autoffset += int32(bpsize)
 		p.To.Offset += int64(bpsize)
-	} else {
-		bpsize = 0
 	}
 
 	textarg := int64(p.To.Val.(int32))
