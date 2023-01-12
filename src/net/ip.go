@@ -618,7 +618,7 @@ func parseIPv6(s string) (ip IP) {
 	for i < IPv6len {
 		// Hex number.
 		n, c, ok := xtoi(s)
-		if !ok || n > 0xFFFF {
+		if !ok || n > 0xFFFF || c > 4 {
 			return nil
 		}
 
