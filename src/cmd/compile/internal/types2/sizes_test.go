@@ -7,8 +7,8 @@
 package types2_test
 
 import (
-	"cmd/compile/internal/syntax"
 	"cmd/compile/internal/types2"
+	"internal/syntax"
 	"internal/testenv"
 	"testing"
 )

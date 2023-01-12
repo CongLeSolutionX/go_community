@@ -5,7 +5,7 @@
 package types2_test
 
 import (
-	"cmd/compile/internal/syntax"
+	"internal/syntax"
 	"internal/testenv"
 	"path"
 	"path/filepath"

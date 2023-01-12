@@ -9,9 +9,9 @@ package types2_test
 
 import (
 	"bytes"
-	"cmd/compile/internal/syntax"
 	"fmt"
 	"go/build"
+	"internal/syntax"
 	"internal/testenv"
 	"os"
 	"path/filepath"

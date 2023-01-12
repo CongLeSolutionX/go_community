@@ -7,7 +7,7 @@ package noder
 import (
 	"fmt"
 
-	"cmd/compile/internal/syntax"
+	"internal/syntax"
 )
 
 // typeExprEndPos returns the position that noder would leave base.Pos

@@ -6,8 +6,8 @@ package noder
 
 import (
 	"cmd/compile/internal/base"
-	"cmd/compile/internal/syntax"
 	"cmd/internal/src"
+	"internal/syntax"
 )
 
 // A posMap handles mapping from syntax.Pos to src.XPos.

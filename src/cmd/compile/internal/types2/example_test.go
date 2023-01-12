@@ -16,9 +16,9 @@ package types2_test
 // from source, use golang.org/x/tools/go/loader.
 
 import (
-	"cmd/compile/internal/syntax"
 	"cmd/compile/internal/types2"
 	"fmt"
+	"internal/syntax"
 	"log"
 	"regexp"
 	"sort"

@@ -9,8 +9,8 @@ import (
 
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
-	"cmd/compile/internal/syntax"
 	"cmd/compile/internal/types2"
+	"internal/syntax"
 )
 
 // recordScopes populates fn.Parents and fn.Marks based on the scoping

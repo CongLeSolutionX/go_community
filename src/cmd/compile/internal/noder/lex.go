@@ -10,7 +10,7 @@ import (
 	"strings"
 
 	"cmd/compile/internal/ir"
-	"cmd/compile/internal/syntax"
+	"internal/syntax"
 )
 
 func isSpace(c rune) bool {
