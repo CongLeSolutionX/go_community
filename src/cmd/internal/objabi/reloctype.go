@@ -50,6 +50,9 @@ const (
 	// R_ADDROFF resolves to a 32-bit offset from the beginning of the section
 	// holding the data being relocated to the referenced symbol.
 	R_ADDROFF
+	// R_ADDRREL (only used on windows for now) resolves to a 32-bit offset from
+	// the beginning of the image holding the data being relocated to the referenced symbol.
+	R_ADDRREL
 	R_SIZE
 	R_CALL
 	R_CALLARM
