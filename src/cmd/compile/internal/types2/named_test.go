@@ -7,8 +7,8 @@ package types2_test
 import (
 	"testing"
 
-	"cmd/compile/internal/syntax"
 	. "cmd/compile/internal/types2"
+	"internal/syntax"
 )
 
 func BenchmarkNamed(b *testing.B) {

@@ -8,9 +8,9 @@ import (
 	"go/constant"
 
 	"cmd/compile/internal/base"
-	"cmd/compile/internal/syntax"
 	"cmd/compile/internal/types"
 	"cmd/compile/internal/types2"
+	"internal/syntax"
 )
 
 // match reports whether types t1 and t2 are consistent

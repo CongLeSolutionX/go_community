@@ -9,7 +9,7 @@
 
 package types2
 
-import "cmd/compile/internal/syntax"
+import "internal/syntax"
 
 // cmpPos compares the positions p and q and returns a result r as follows:
 //

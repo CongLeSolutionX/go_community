@@ -7,7 +7,7 @@
 package types2
 
 import (
-	"cmd/compile/internal/syntax"
+	"internal/syntax"
 )
 
 // isTerminating reports if s is a terminating statement.

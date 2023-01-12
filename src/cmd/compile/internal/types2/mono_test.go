@@ -5,10 +5,10 @@
 package types2_test
 
 import (
-	"cmd/compile/internal/syntax"
 	"cmd/compile/internal/types2"
 	"errors"
 	"fmt"
+	"internal/syntax"
 	"strings"
 	"testing"
 )

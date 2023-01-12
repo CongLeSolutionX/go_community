@@ -7,8 +7,8 @@
 package types2
 
 import (
-	"cmd/compile/internal/syntax"
 	"fmt"
+	"internal/syntax"
 	. "internal/types/errors"
 	"strings"
 )

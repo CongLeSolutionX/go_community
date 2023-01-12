@@ -8,13 +8,13 @@
 package importer
 
 import (
-	"cmd/compile/internal/syntax"
 	"cmd/compile/internal/typecheck"
 	"cmd/compile/internal/types2"
 	"encoding/binary"
 	"fmt"
 	"go/constant"
 	"go/token"
+	"internal/syntax"
 	"io"
 	"math/big"
 	"sort"
