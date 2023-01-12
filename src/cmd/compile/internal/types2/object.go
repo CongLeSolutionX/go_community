@@ -6,9 +6,9 @@ package types2
 
 import (
 	"bytes"
-	"cmd/compile/internal/syntax"
 	"fmt"
 	"go/constant"
+	"internal/syntax"
 	"unicode"
 	"unicode/utf8"
 )

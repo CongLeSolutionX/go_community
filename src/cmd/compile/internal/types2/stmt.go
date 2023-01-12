@@ -7,8 +7,8 @@
 package types2
 
 import (
-	"cmd/compile/internal/syntax"
 	"go/constant"
+	"internal/syntax"
 	. "internal/types/errors"
 	"sort"
 )

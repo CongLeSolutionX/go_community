@@ -7,10 +7,10 @@
 package types2
 
 import (
-	"cmd/compile/internal/syntax"
 	"errors"
 	"fmt"
 	"go/constant"
+	"internal/syntax"
 	. "internal/types/errors"
 )
 

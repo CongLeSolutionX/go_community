@@ -31,9 +31,9 @@ package types2_test
 
 import (
 	"bytes"
-	"cmd/compile/internal/syntax"
 	"flag"
 	"fmt"
+	"internal/syntax"
 	"internal/testenv"
 	"os"
 	"path/filepath"

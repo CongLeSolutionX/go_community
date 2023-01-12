@@ -5,9 +5,9 @@
 package types2_test
 
 import (
-	"cmd/compile/internal/syntax"
 	"errors"
 	"fmt"
+	"internal/syntax"
 	"internal/testenv"
 	"reflect"
 	"regexp"

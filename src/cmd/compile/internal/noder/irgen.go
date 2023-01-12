@@ -12,11 +12,11 @@ import (
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/dwarfgen"
 	"cmd/compile/internal/ir"
-	"cmd/compile/internal/syntax"
 	"cmd/compile/internal/typecheck"
 	"cmd/compile/internal/types"
 	"cmd/compile/internal/types2"
 	"cmd/internal/src"
+	"internal/syntax"
 )
 
 var versionErrorRx = regexp.MustCompile(`requires go[0-9]+\.[0-9]+ or later`)
