@@ -1,0 +1,13 @@
+// Copyright 2023 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+package abi
+
+// Map constants common to several packages
+const (
+	MapBucketCountBits = 4 // log2 of number of elements in a bucket.
+	MapBucketCount     = 1 << MapBucketCountBits
+	MapMaxKeyBytes     = 128 // Must fit in a uint8.
+	MapMaxElemBytes    = 128 // Must fit in a uint8.
+)
