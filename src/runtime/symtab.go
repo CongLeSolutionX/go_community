@@ -461,6 +461,7 @@ type moduledata struct {
 
 	pluginpath string
 	pkghashes  []modulehash
+	inittasks  []*initTask
 
 	modulename   string
 	modulehashes []modulehash

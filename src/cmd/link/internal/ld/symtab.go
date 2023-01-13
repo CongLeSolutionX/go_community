@@ -758,10 +758,17 @@ func (ctxt *Link) symtab(pcln *pclntab) []sym.SymKind {
 		moduledata.AddAddr(ctxt.Arch, pkghashes.Sym())
 		moduledata.AddUint(ctxt.Arch, uint64(len(ctxt.Library)))
 		moduledata.AddUint(ctxt.Arch, uint64(len(ctxt.Library)))
+		t := ctxt.inittasksForPlugin
+		moduledata.AddAddr(ctxt.Arch, t)
+		moduledata.AddUint(ctxt.Arch, uint64(ldr.SymSize(t)/int64(ctxt.Arch.PtrSize)))
+		moduledata.AddUint(ctxt.Arch, uint64(ldr.SymSize(t)/int64(ctxt.Arch.PtrSize)))
 	} else {
 		moduledata.AddUint(ctxt.Arch, 0) // pluginpath
 		moduledata.AddUint(ctxt.Arch, 0)
 		moduledata.AddUint(ctxt.Arch, 0) // pkghashes slice
+		moduledata.AddUint(ctxt.Arch, 0)
+		moduledata.AddUint(ctxt.Arch, 0)
+		moduledata.AddUint(ctxt.Arch, 0) // inittasks slice
 		moduledata.AddUint(ctxt.Arch, 0)
 		moduledata.AddUint(ctxt.Arch, 0)
 	}
