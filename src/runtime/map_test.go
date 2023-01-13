@@ -6,6 +6,7 @@ package runtime_test
 
 import (
 	"fmt"
+	"internal/abi"
 	"internal/goarch"
 	"math"
 	"reflect"
@@ -506,7 +507,12 @@ func TestMapNanGrowIterator(t *testing.T) {
 }
 
 func TestMapIterOrder(t *testing.T) {
-	for _, n := range [...]int{3, 7, 9, 15} {
+	sizes := []int{3, 7, 9, 15}
+	if abi.MapBucketCountBits >= 5 {
+		// it gets flaky (often only one iteration order) at size 3 when abi.MapBucketCountBits >=5.
+		t.Fatalf("This test becomes flaky if abi.MapBucketCountBits(=%d) is 5 or larger", abi.MapBucketCountBits)
+	}
+	for _, n := range sizes {
 		for i := 0; i < 1000; i++ {
 			// Make m be {0: true, 1: true, ..., n-1: true}.
 			m := make(map[int]bool)
@@ -673,6 +679,8 @@ func TestIgnoreBogusMapHint(t *testing.T) {
 	}
 }
 
+const bs = abi.MapBucketCount
+
 var mapBucketTests = [...]struct {
 	n        int // n is the number of map elements
 	noescape int // number of expected buckets for non-escaping map
@@ -682,11 +690,13 @@ var mapBucketTests = [...]struct {
 	{-1, 1, 1},
 	{0, 1, 1},
 	{1, 1, 1},
-	{8, 1, 1},
-	{9, 2, 2},
-	{13, 2, 2},
-	{14, 4, 4},
-	{26, 4, 4},
+	{bs, 1, 1},
+	{bs + 1, 2, 2},
+	{bs + bs/2 + 1, 2, 2},
+	{bs + bs/2 + bs/8 + 1, 4, 4},
+	{3*bs + bs/4, 4, 4},
+	{5*bs + bs/4, 8, 8},
+	{7*bs + bs/4, 16, 16},
 }
 
 func TestMapBuckets(t *testing.T) {
