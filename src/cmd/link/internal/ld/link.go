@@ -94,6 +94,10 @@ type Link struct {
 	// you can create a symbol, and just a generation function will be called
 	// after the symbol's been created in the output mmap.
 	generatorSyms map[loader.Sym]generatorFunc
+
+	// Symbol containing a list of all the inittasks that need
+	// to be run at startup.
+	mainInittasks loader.Sym
 }
 
 type cgodata struct {
