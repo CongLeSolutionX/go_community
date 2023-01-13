@@ -74,6 +74,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8ca81e1_16c9eb28",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-01-13T22:08:37Z",
+      "side": 1,
+      "message": "Thanks, will try a new version in a bit, hopefully w/ TryBot issue also addressed.",
+      "revId": "89a6e4ffe50226c990cd218c6fb21ce2762ec2f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "32fdf96e_c5f000e0",
@@ -87,6 +104,24 @@
       "writtenOn": "2023-01-13T21:45:16Z",
       "side": 1,
       "message": "This should live in a new file. (And possibly we should rename abi.go.)\n\nNow that this is centralized, I don\u0027t think you need to say what it\u0027s used by because we don\u0027t need to carefully keep them in sync. This comment can only get stale.",
+      "revId": "89a6e4ffe50226c990cd218c6fb21ce2762ec2f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "147e0a74_3fde210a",
+        "filename": "src/internal/abi/abi.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-01-13T22:08:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32fdf96e_c5f000e0",
       "revId": "89a6e4ffe50226c990cd218c6fb21ce2762ec2f1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -131,6 +166,48 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0a20757_260ccc03",
+        "filename": "src/internal/abi/abi.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-01-13T22:08:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d4c27e5_cdea24f2",
+      "range": {
+        "startLine": 106,
+        "startChar": 42,
+        "endLine": 106,
+        "endChar": 46
+      },
+      "revId": "89a6e4ffe50226c990cd218c6fb21ce2762ec2f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f375bf96_a90a396a",
+        "filename": "src/internal/abi/abi.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-01-13T22:08:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74958d94_6182514a",
+      "revId": "89a6e4ffe50226c990cd218c6fb21ce2762ec2f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a0b35bcc_73080be4",
@@ -144,6 +221,30 @@
       "writtenOn": "2023-01-13T21:45:16Z",
       "side": 1,
       "message": "While we\u0027re here, maybe s/Size/Bytes/ on this and the next line?",
+      "range": {
+        "startLine": 107,
+        "startChar": 10,
+        "endLine": 107,
+        "endChar": 14
+      },
+      "revId": "89a6e4ffe50226c990cd218c6fb21ce2762ec2f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5289df6d_732f080f",
+        "filename": "src/internal/abi/abi.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-01-13T22:08:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a0b35bcc_73080be4",
       "range": {
         "startLine": 107,
         "startChar": 10,
@@ -171,6 +272,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6cbe424_7b7ebc67",
+        "filename": "src/internal/abi/abi_afterbootstrap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-01-13T22:08:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c01650e_7780a201",
+      "revId": "89a6e4ffe50226c990cd218c6fb21ce2762ec2f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d50fc41f_97b1f154",
@@ -184,6 +303,24 @@
       "writtenOn": "2023-01-13T21:45:16Z",
       "side": 1,
       "message": "// The bootstrap compiler doesn\u0027t understand the use of \"any\" below, but that\u0027s okay because these are only used from the runtime.",
+      "revId": "89a6e4ffe50226c990cd218c6fb21ce2762ec2f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49af5ab5_18e84a72",
+        "filename": "src/internal/abi/abi_afterbootstrap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-01-13T22:08:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d50fc41f_97b1f154",
       "revId": "89a6e4ffe50226c990cd218c6fb21ce2762ec2f1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
