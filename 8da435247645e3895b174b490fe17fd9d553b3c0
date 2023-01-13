@@ -51,6 +51,24 @@
       "message": "Let me know what your thoughts are about whether this is suitable for inclusion in 1.20. It is pretty late for this sort of change.",
       "revId": "8da435247645e3895b174b490fe17fd9d553b3c0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a53d4f0_99cc59c4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-01-13T21:59:39Z",
+      "side": 1,
+      "message": "I\u0027m a bit ambivalent on 1.20 vs. 1.21. Maybe ask the release team and see what they think?",
+      "parentUuid": "70b5cd36_940c6b7b",
+      "revId": "8da435247645e3895b174b490fe17fd9d553b3c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
