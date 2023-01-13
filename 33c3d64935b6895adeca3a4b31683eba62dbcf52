@@ -16,6 +16,24 @@
       "message": "This should go before the call to `setDir`: `setDir` may need to update `cmd.Env`, in which case we don\u0027t want to overwrite it from `os.Environ()`.",
       "revId": "33c3d64935b6895adeca3a4b31683eba62dbcf52",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5eaf8bdd_89bc60a1",
+        "filename": "src/cmd/dist/util.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-01-13T17:50:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "835f0105_7316c18d",
+      "revId": "33c3d64935b6895adeca3a4b31683eba62dbcf52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
