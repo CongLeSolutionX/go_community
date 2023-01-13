@@ -6,6 +6,7 @@ package runtime_test
 
 import (
 	"fmt"
+	"internal/abi"
 	"internal/goarch"
 	"math"
 	"reflect"
@@ -673,6 +674,8 @@ func TestIgnoreBogusMapHint(t *testing.T) {
 	}
 }
 
+const bs = 1 << abi.MapBucketCountBits
+
 var mapBucketTests = [...]struct {
 	n        int // n is the number of map elements
 	noescape int // number of expected buckets for non-escaping map
@@ -682,11 +685,13 @@ var mapBucketTests = [...]struct {
 	{-1, 1, 1},
 	{0, 1, 1},
 	{1, 1, 1},
-	{8, 1, 1},
-	{9, 2, 2},
-	{13, 2, 2},
-	{14, 4, 4},
-	{26, 4, 4},
+	{bs, 1, 1},
+	{bs + 1, 2, 2},
+	{bs + bs/2 + 1, 2, 2},
+	{bs + bs/2 + 3, 4, 4},
+	{3*bs + bs/4, 4, 4},
+	{5*bs + bs/4, 8, 8},
+	{7*bs + bs/4, 16, 16},
 }
 
 func TestMapBuckets(t *testing.T) {

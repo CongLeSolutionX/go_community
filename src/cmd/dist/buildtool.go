@@ -60,6 +60,7 @@ var bootstrapDirs = []string{
 	"debug/macho",
 	"debug/pe",
 	"go/constant",
+	"internal/abi",
 	"internal/coverage",
 	"internal/buildcfg",
 	"internal/goexperiment",
