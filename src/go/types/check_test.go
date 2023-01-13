@@ -38,6 +38,7 @@ import (
 	"go/parser"
 	"go/scanner"
 	"go/token"
+	"internal/syntax"
 	"internal/testenv"
 	"os"
 	"path/filepath"
@@ -191,9 +192,9 @@ func testFiles(t *testing.T, sizes Sizes, filenames []string, srcs [][]byte, man
 	}
 
 	// collect expected errors
-	errmap := make(map[string]map[int][]comment)
+	errmap := make(map[string]map[uint][]syntax.Error)
 	for i, filename := range filenames {
-		if m := commentMap(srcs[i], regexp.MustCompile("^ ERRORx? ")); len(m) > 0 {
+		if m := syntax.CommentMap(bytes.NewReader(srcs[i]), regexp.MustCompile("^ ERRORx? ")); len(m) > 0 {
 			errmap[filename] = m
 		}
 	}
@@ -206,8 +207,8 @@ func testFiles(t *testing.T, sizes Sizes, filenames []string, srcs [][]byte, man
 		// find list of errors for the respective error line
 		filename := gotPos.Filename
 		filemap := errmap[filename]
-		line := gotPos.Line
-		var errList []comment
+		line := uint(gotPos.Line)
+		var errList []syntax.Error
 		if filemap != nil {
 			errList = filemap[line]
 		}
@@ -215,17 +216,17 @@ func testFiles(t *testing.T, sizes Sizes, filenames []string, srcs [][]byte, man
 		// At least one of the errors in errList should match the current error.
 		indices = indices[:0]
 		for i, want := range errList {
-			pattern, substr := strings.CutPrefix(want.text, " ERROR ")
+			pattern, substr := strings.CutPrefix(want.Msg, " ERROR ")
 			if !substr {
 				var found bool
-				pattern, found = strings.CutPrefix(want.text, " ERRORx ")
+				pattern, found = strings.CutPrefix(want.Msg, " ERRORx ")
 				if !found {
 					panic("unreachable")
 				}
 			}
 			pattern, err := strconv.Unquote(strings.TrimSpace(pattern))
 			if err != nil {
-				t.Errorf("%s:%d:%d: %v", filename, line, want.col, err)
+				t.Errorf("%s:%d:%d: %v", filename, line, int(want.Pos.Col()), err)
 				continue
 			}
 			if substr {
@@ -235,7 +236,7 @@ func testFiles(t *testing.T, sizes Sizes, filenames []string, srcs [][]byte, man
 			} else {
 				rx, err := regexp.Compile(pattern)
 				if err != nil {
-					t.Errorf("%s:%d:%d: %v", filename, line, want.col, err)
+					t.Errorf("%s:%d:%d: %v", filename, line, int(want.Pos.Col()), err)
 					continue
 				}
 				if !rx.MatchString(gotMsg) {
@@ -254,7 +255,7 @@ func testFiles(t *testing.T, sizes Sizes, filenames []string, srcs [][]byte, man
 		index := -1 // index of matching error
 		var delta int
 		for _, i := range indices {
-			if d := absDiff(gotPos.Column, errList[i].col); index < 0 || d < delta {
+			if d := absDiff(gotPos.Column, int(errList[i].Pos.Col())); index < 0 || d < delta {
 				index, delta = i, d
 			}
 		}
@@ -262,7 +263,7 @@ func testFiles(t *testing.T, sizes Sizes, filenames []string, srcs [][]byte, man
 		// The closest column position must be within expected colDelta.
 		const colDelta = 0 // go/types errors are positioned correctly
 		if delta > colDelta {
-			t.Errorf("%s: got col = %d; want %d", gotPos, gotPos.Column, errList[index].col)
+			t.Errorf("%s: got col = %d; want %d", gotPos, gotPos.Column, int(errList[index].Pos.Col()))
 		}
 
 		// eliminate from errList
@@ -287,7 +288,7 @@ func testFiles(t *testing.T, sizes Sizes, filenames []string, srcs [][]byte, man
 		for filename, filemap := range errmap {
 			for line, errList := range filemap {
 				for _, err := range errList {
-					t.Errorf("%s:%d:%d: %s", filename, line, err.col, err.text)
+					t.Errorf("%s:%d:%d: %s", filename, line, err.Pos.Col(), err.Msg)
 				}
 			}
 		}
