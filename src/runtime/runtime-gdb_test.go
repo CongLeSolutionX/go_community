@@ -119,8 +119,8 @@ import "fmt"
 import "runtime"
 var gslice []string
 func main() {
-	mapvar := make(map[string]string, 13)
-	slicemap := make(map[string][]string,11)
+	mapvar := make(map[string]string, 77)
+	slicemap := make(map[string][]string,71)
     chanint := make(chan int, 10)
     chanstr := make(chan string, 10)
     chanint <- 99
