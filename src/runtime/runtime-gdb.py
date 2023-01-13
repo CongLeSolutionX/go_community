@@ -149,6 +149,7 @@ class MapTypePrinter:
 	"""
 
 	pattern = re.compile(r'^map\[.*\].*$')
+	MapBucketCount = 16 # see internal/abi.go:MapBucketCount
 
 	def __init__(self, val):
 		self.val = val
@@ -178,7 +179,7 @@ class MapTypePrinter:
 					bp = oldbp
 			while bp:
 				b = bp.dereference()
-				for i in xrange(8):
+				for i in xrange(MapBucketCount):
 					if b['tophash'][i] != 0:
 						k = b['keys'][i]
 						v = b['values'][i]
