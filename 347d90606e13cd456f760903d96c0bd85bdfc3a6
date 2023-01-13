@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1765ff9_4a52e7e3",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 7568,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-01-13T01:20:47Z",
+      "side": 1,
+      "message": "I think this is misleading: recover returns the value passed to the most recent panic call, not necessarily the one that initiated the unwinding (\"panicking\"? we don\u0027t use \"unwinding\" otherwise): https://go.dev/play/p/wbnh3z__64M\n\nFWIW, the description of panic/recover semantics that I wrote while working on deferfuzz is at https://docs.google.com/document/d/1DNoilWILWR8-I_GnDyL4PgH_gODgXt1F7z04LReZDQ8/edit#.",
+      "range": {
+        "startLine": 7567,
+        "startChar": 55,
+        "endLine": 7568,
+        "endChar": 28
+      },
+      "revId": "347d90606e13cd456f760903d96c0bd85bdfc3a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
