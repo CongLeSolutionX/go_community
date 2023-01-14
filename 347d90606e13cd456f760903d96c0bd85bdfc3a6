@@ -22,6 +22,30 @@
       },
       "revId": "347d90606e13cd456f760903d96c0bd85bdfc3a6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ecdccd94_10940717",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 7568,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2023-01-14T09:07:44Z",
+      "side": 1,
+      "message": "Does it though?\n\nhttps://go.dev/play/p/KysVO3-_arW\n\nI\u0027m not sure any of these explanations quite capture what happens in this program.",
+      "parentUuid": "c1765ff9_4a52e7e3",
+      "range": {
+        "startLine": 7567,
+        "startChar": 55,
+        "endLine": 7568,
+        "endChar": 28
+      },
+      "revId": "347d90606e13cd456f760903d96c0bd85bdfc3a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
