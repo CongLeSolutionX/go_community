@@ -692,6 +692,9 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 		p.Spadj = autoffset
 		p.Pos = p.Pos.WithXlogue(src.PosPrologueEnd)
 		markedPrologue = true
+		if ctxt.HasSeh() && bpsize > 0 {
+			cursym.Func().AddSehUnwindCode(p, obj.SehOpStackGrow)
+		}
 	}
 
 	if bpsize > 0 {
