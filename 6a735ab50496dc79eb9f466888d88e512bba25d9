@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "38d36a8c_861898df",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-01-16T18:38:50Z",
+      "side": 1,
+      "message": "Relative Virtual Address.\n\nDescription from docs [1]:\n\u003e In an image file, this is the address of an item after it is loaded into memory, with the base address of the image file subtracted from it\n\n[1] https://learn.microsoft.com/en-us/windows/win32/debug/pe-format#general-concepts",
+      "parentUuid": "b2a83775_9cfaea26",
+      "range": {
+        "startLine": 12,
+        "startChar": 6,
+        "endLine": 12,
+        "endChar": 10
+      },
+      "revId": "6a735ab50496dc79eb9f466888d88e512bba25d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "205ed720_e5f5ae97",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -86,6 +110,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "eb08bc7f_849aa7d0",
+        "filename": "src/cmd/internal/objabi/reloctype.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-01-16T18:38:50Z",
+      "side": 1,
+      "message": "\u003e What is the beginning of the image? The start address of where the executable file is mapped in memory?\n\nYep.\n\n\u003e Is it something like ELF\u0027s R_X86_64_RELATIVE?\n\nI\u0027m not that familiar with Linux relocations. IMAGE_REL_*_DIR32NB relocations can be resolved by the linker, they don\u0027t get to the loader, and when dereferencing its offset one should add the image base manually.",
+      "parentUuid": "605f24e4_58fa5926",
+      "range": {
+        "startLine": 54,
+        "startChar": 4,
+        "endLine": 54,
+        "endChar": 30
+      },
+      "revId": "6a735ab50496dc79eb9f466888d88e512bba25d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bb699222_38a118ca",
         "filename": "src/cmd/link/internal/loader/symbolbuilder.go",
         "patchSetId": 1
@@ -97,6 +145,30 @@
       "writtenOn": "2023-01-13T21:04:14Z",
       "side": 1,
       "message": "Add \"Plus\" suffix to the name. The convention is that the ones with Plus has an addend parameter, others don\u0027t.",
+      "range": {
+        "startLine": 390,
+        "startChar": 25,
+        "endLine": 390,
+        "endChar": 35
+      },
+      "revId": "6a735ab50496dc79eb9f466888d88e512bba25d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1daa22c_16fe363e",
+        "filename": "src/cmd/link/internal/loader/symbolbuilder.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-01-16T18:38:50Z",
+      "side": 1,
+      "message": "Sure",
+      "parentUuid": "bb699222_38a118ca",
       "range": {
         "startLine": 390,
         "startChar": 25,
