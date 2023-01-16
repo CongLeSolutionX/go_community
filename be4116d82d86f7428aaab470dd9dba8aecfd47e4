@@ -57,6 +57,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0ce7dd87_30b7529d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-01-16T16:30:28Z",
+      "side": 1,
+      "message": "Thanks for the review. Your comment made me rethink the overall design of the SEH support. What I was trying to do is implementing some heuristic on the Go linker to infer which instructions were emitted by the Go compiler by using the NoFrame() flag and the stack changes.\n\nI\u0027ve now realized that it\u0027s better to move the SEH unwind information generation to the compiler, where we already have all the information so the linker doesn\u0027t need to take leaky assumptions, just assemble the unwind information into the .xdata section.\n\nI\u0027ll drop this PR in favor of CL 461749.",
+      "parentUuid": "6e478349_c8f3a851",
+      "revId": "be4116d82d86f7428aaab470dd9dba8aecfd47e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e94d804e_c4000ffa",
         "filename": "src/runtime/symtab.go",
         "patchSetId": 1
