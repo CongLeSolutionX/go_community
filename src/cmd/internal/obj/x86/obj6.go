@@ -692,6 +692,9 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 		p.Spadj = autoffset
 		p.Pos = p.Pos.WithXlogue(src.PosPrologueEnd)
 		markedPrologue = true
+		if ctxt.HasSeh() && bpsize > 0 {
+			cursym.Func().AddSehUnwindOp(p, sehOpStackGrow)
+		}
 	}
 
 	if bpsize > 0 {
@@ -708,6 +711,9 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 		if !markedPrologue {
 			p.Pos = p.Pos.WithXlogue(src.PosPrologueEnd)
 		}
+		if ctxt.HasSeh() {
+			cursym.Func().AddSehUnwindOp(p, sehOpSaveReg)
+		}
 
 		// Move current frame to BP
 		p = obj.Appendp(p, newprog)
@@ -719,6 +725,9 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 		p.From.Offset = int64(autoffset) - int64(bpsize)
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = REG_BP
+		if ctxt.HasSeh() {
+			cursym.Func().AddSehUnwindOp(p, sehOpSetFP)
+		}
 	}
 
 	if cursym.Func().Text.From.Sym.Wrapper() {
@@ -1442,6 +1451,7 @@ var Linkamd64 = obj.LinkArch{
 	Preprocess:     preprocess,
 	Assemble:       span6,
 	Progedit:       progedit,
+	SEH:            populateSeh,
 	UnaryDst:       unaryDst,
 	DWARFRegisters: AMD64DWARFRegisters,
 }
