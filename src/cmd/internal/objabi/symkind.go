@@ -72,5 +72,6 @@ const (
 	SCOVERAGE_COUNTER
 	SCOVERAGE_AUXVAR
 
+	SSEHUNWINDCODES
 	// Update cmd/link/internal/sym/AbiSymKindToSymKind for new SymKind values.
 )
