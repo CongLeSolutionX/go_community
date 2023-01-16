@@ -440,6 +440,7 @@ const (
 	AuxPcline
 	AuxPcinline
 	AuxPcdata
+	AuxSehUnwindCodes
 )
 
 func (a *Aux) Type() uint8 { return a[0] }
