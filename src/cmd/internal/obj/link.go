@@ -500,6 +500,9 @@ type FuncInfo struct {
 	JumpTables         []JumpTable
 
 	FuncInfoSym *LSym
+
+	sehUnwindCodes   []sehUnwindCode
+	sehUnwindInfoSym *LSym
 }
 
 // JumpTable represents a table used for implementing multi-way
