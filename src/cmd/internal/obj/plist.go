@@ -157,6 +157,9 @@ func Flushplist(ctxt *Link, plist *Plist, newprog ProgAlloc, myimportpath string
 		if myimportpath != "" {
 			ctxt.populateDWARF(plist.Curfn, s, myimportpath)
 		}
+		if ctxt.HasSeh() {
+			ctxt.Arch.SEH(ctxt, s)
+		}
 	}
 }
 

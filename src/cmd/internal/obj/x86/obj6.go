@@ -691,6 +691,9 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 		p.As = APUSHQ
 		p.From.Type = obj.TYPE_REG
 		p.From.Reg = REG_BP
+		if ctxt.HasSeh() {
+			cursym.Func().AddSehUnwindOp(p, sehOpSaveReg)
+		}
 
 		// Move current frame to BP
 		p = obj.Appendp(p, newprog)
@@ -700,6 +703,10 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 		p.From.Reg = REG_SP
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = REG_BP
+		if ctxt.HasSeh() {
+			cursym.Func().AddSehUnwindOp(p, sehOpSetFP)
+		}
+
 	}
 
 	if autoffset%int32(ctxt.Arch.RegSize) != 0 {
@@ -1443,6 +1450,7 @@ var Linkamd64 = obj.LinkArch{
 	Preprocess:     preprocess,
 	Assemble:       span6,
 	Progedit:       progedit,
+	SEH:            populateSeh,
 	UnaryDst:       unaryDst,
 	DWARFRegisters: AMD64DWARFRegisters,
 }

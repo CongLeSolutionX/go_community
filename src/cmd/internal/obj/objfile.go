@@ -602,6 +602,9 @@ func (w *writer) Aux(s *LSym) {
 		if fn.Pcln.Pcinline != nil && fn.Pcln.Pcinline.Size != 0 {
 			w.aux1(goobj.AuxPcinline, fn.Pcln.Pcinline)
 		}
+		if fn.SehUnwindInfoSym != nil && fn.SehUnwindInfoSym.Size != 0 {
+			w.aux1(goobj.AuxSehUnwindInfo, fn.SehUnwindInfoSym)
+		}
 		for _, pcSym := range fn.Pcln.Pcdata {
 			w.aux1(goobj.AuxPcdata, pcSym)
 		}
@@ -702,6 +705,9 @@ func nAuxSym(s *LSym) int {
 		if fn.Pcln.Pcinline != nil && fn.Pcln.Pcinline.Size != 0 {
 			n++
 		}
+		if fn.SehUnwindInfoSym != nil && fn.SehUnwindInfoSym.Size != 0 {
+			n++
+		}
 		n += len(fn.Pcln.Pcdata)
 	}
 	return n
@@ -759,8 +765,8 @@ func genFuncInfoSyms(ctxt *Link) {
 		fn.FuncInfoSym = isym
 		b.Reset()
 
-		dwsyms := []*LSym{fn.dwarfRangesSym, fn.dwarfLocSym, fn.dwarfDebugLinesSym, fn.dwarfInfoSym}
-		for _, s := range dwsyms {
+		syms := []*LSym{fn.dwarfRangesSym, fn.dwarfLocSym, fn.dwarfDebugLinesSym, fn.dwarfInfoSym, fn.SehUnwindInfoSym}
+		for _, s := range syms {
 			if s == nil || s.Size == 0 {
 				continue
 			}

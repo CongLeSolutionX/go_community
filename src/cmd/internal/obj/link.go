@@ -470,6 +470,12 @@ type LSym struct {
 	SymIdx int32
 }
 
+// A SehUnwindOp represents a generic SEH unwind operation.
+type SehUnwindOp struct {
+	Prog      *Prog
+	Operation uint8
+}
+
 // A FuncInfo contains extra fields for STEXT symbols.
 type FuncInfo struct {
 	Args      int32
@@ -500,6 +506,9 @@ type FuncInfo struct {
 	JumpTables         []JumpTable
 
 	FuncInfoSym *LSym
+
+	SehUnwindOps     []SehUnwindOp
+	SehUnwindInfoSym *LSym
 }
 
 // JumpTable represents a table used for implementing multi-way
@@ -962,6 +971,10 @@ func (ctxt *Link) Logf(format string, args ...interface{}) {
 	ctxt.Bso.Flush()
 }
 
+func (ctxt *Link) HasSeh() bool {
+	return ctxt.Headtype == objabi.Hwindows && ctxt.Arch.SEH != nil
+}
+
 // SpillRegisterArgs emits the code to spill register args into whatever
 // locations the spill records specify.
 func (fi *FuncInfo) SpillRegisterArgs(last *Prog, pa ProgAlloc) *Prog {
@@ -992,6 +1005,11 @@ func (fi *FuncInfo) UnspillRegisterArgs(last *Prog, pa ProgAlloc) *Prog {
 	return last
 }
 
+// AddSehUnwindOp adds a new SEH unwind operation to fi.
+func (fi *FuncInfo) AddSehUnwindOp(p *Prog, op uint8) {
+	fi.SehUnwindOps = append(fi.SehUnwindOps, SehUnwindOp{p, op})
+}
+
 // LinkArch is the definition of a single architecture.
 type LinkArch struct {
 	*sys.Arch
@@ -1000,6 +1018,7 @@ type LinkArch struct {
 	Preprocess     func(*Link, *LSym, ProgAlloc)
 	Assemble       func(*Link, *LSym, ProgAlloc)
 	Progedit       func(*Link, *Prog, ProgAlloc)
+	SEH            func(*Link, *LSym)
 	UnaryDst       map[As]bool // Instruction takes one operand, a destination.
 	DWARFRegisters map[int16]int16
 }
