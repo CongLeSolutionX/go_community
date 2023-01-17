@@ -124,6 +124,23 @@
       "parentUuid": "6c6499f7_31cf2204",
       "revId": "c19daf673adf4f5827fb8ee0d8a6785abbe4d165",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce0912aa_48fad882",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-01-17T15:42:03Z",
+      "side": 1,
+      "message": "As Go 1.20 is about to be released, I\u0027m not sure there will be any more 1.18 minor release. This is fine if there is one. But hold for now. Thanks.",
+      "revId": "c19daf673adf4f5827fb8ee0d8a6785abbe4d165",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
