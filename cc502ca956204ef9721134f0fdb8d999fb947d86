@@ -74,6 +74,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8b1a671_2e51dead",
+        "filename": "misc/go.mod",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-01-17T20:18:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03842e1b_8af9122c",
+      "revId": "cc502ca956204ef9721134f0fdb8d999fb947d86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f1017524_8caf562f",
@@ -87,6 +105,24 @@
       "writtenOn": "2023-01-17T18:37:52Z",
       "side": 1,
       "message": "Unused, delete",
+      "revId": "cc502ca956204ef9721134f0fdb8d999fb947d86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e30eafcc_988de7ca",
+        "filename": "src/cmd/compile/internal/reflectdata/reflect.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-01-17T20:18:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1017524_8caf562f",
       "revId": "cc502ca956204ef9721134f0fdb8d999fb947d86",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -108,6 +144,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4299e3b7_74feae66",
+        "filename": "src/internal/abi/map.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-01-17T20:18:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a43327f2_9cf46437",
+      "revId": "cc502ca956204ef9721134f0fdb8d999fb947d86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "517fabc2_cfc88b75",
@@ -121,6 +175,30 @@
       "writtenOn": "2023-01-17T18:37:52Z",
       "side": 1,
       "message": "bucketCount?",
+      "range": {
+        "startLine": 35,
+        "startChar": 6,
+        "endLine": 35,
+        "endChar": 16
+      },
+      "revId": "cc502ca956204ef9721134f0fdb8d999fb947d86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a57b6564_33973741",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-01-17T20:18:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "517fabc2_cfc88b75",
       "range": {
         "startLine": 35,
         "startChar": 6,
@@ -154,6 +232,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa8220fd_29d599f1",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-01-17T20:18:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8322bae_0378f895",
+      "range": {
+        "startLine": 69,
+        "startChar": 12,
+        "endLine": 69,
+        "endChar": 19
+      },
+      "revId": "cc502ca956204ef9721134f0fdb8d999fb947d86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5a16e484_d163857a",
@@ -171,6 +273,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "86184527_0679a73d",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-01-17T20:18:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a16e484_d163857a",
+      "revId": "cc502ca956204ef9721134f0fdb8d999fb947d86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1337c103_64f6e698",
@@ -184,6 +304,24 @@
       "writtenOn": "2023-01-17T18:37:52Z",
       "side": 1,
       "message": "To me this indicates a real problem with what the test is testing. But since we\u0027re not changing MapBucketCountBits, I would change this into a t.Fatal so if we ever do this this, we capture the existing debugging.",
+      "revId": "cc502ca956204ef9721134f0fdb8d999fb947d86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3fd1f24f_9a465db0",
+        "filename": "src/runtime/map_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-01-17T20:18:35Z",
+      "side": 1,
+      "message": "I\u0027m a little unclear on where you want the fatal -- here instead of the slice editing, or change the iterator order Errorf to a Fatalf below (line 539).",
+      "parentUuid": "1337c103_64f6e698",
       "revId": "cc502ca956204ef9721134f0fdb8d999fb947d86",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
