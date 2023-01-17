@@ -7,7 +7,7 @@ package abi
 // Map constants common to several packages
 // runtime/runtime-gdb.py:MapTypePrinter contains its own copy
 const (
-	MapBucketCountBits = 3 // log2 of number of elements in a bucket.
+	MapBucketCountBits = 4 // log2 of number of elements in a bucket.
 	MapBucketCount     = 1 << MapBucketCountBits
 	MapMaxKeyBytes     = 128 // Must fit in a uint8.
 	MapMaxElemBytes    = 128 // Must fit in a uint8.
