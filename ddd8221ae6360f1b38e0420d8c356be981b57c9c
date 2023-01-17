@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3c07473f_8d30f52f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-01-17T23:04:24Z",
+      "side": 1,
+      "message": "Add \"[release-branch.go1.20]\" prefix.",
+      "revId": "ddd8221ae6360f1b38e0420d8c356be981b57c9c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "12aa489f_a6cbc9f6",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
