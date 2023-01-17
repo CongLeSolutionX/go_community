@@ -83,6 +83,30 @@
       },
       "revId": "0a88a166413c42224a587806bbb0bacf3d82a520",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d16df0ce_1b7ff45b",
+        "filename": "src/cmd/dist/build.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 557,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-01-17T17:51:46Z",
+      "side": 1,
+      "message": "Per off-CL discussion, updated CL to set -trimpath on builders too, but leaving off for local development to make things nicer for people working on the Go toolchain itself. We can revisit if we start seeeing too many (any?) \"only works with -trimpath\" bugs.",
+      "parentUuid": "1cc50174_47dc9f46",
+      "range": {
+        "startLine": 554,
+        "startChar": 0,
+        "endLine": 557,
+        "endChar": 40
+      },
+      "revId": "0a88a166413c42224a587806bbb0bacf3d82a520",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
