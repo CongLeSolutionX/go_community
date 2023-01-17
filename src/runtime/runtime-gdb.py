@@ -160,7 +160,7 @@ class MapTypePrinter:
 		return str(self.val.type)
 
 	def children(self):
-		MapBucketCount = 8 # see internal/abi.go:MapBucketCount
+		MapBucketCount = 16 # see internal/abi.go:MapBucketCount
 		B = self.val['B']
 		buckets = self.val['buckets']
 		oldbuckets = self.val['oldbuckets']
