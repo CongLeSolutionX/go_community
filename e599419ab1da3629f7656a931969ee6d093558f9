@@ -89,6 +89,24 @@
       "message": "TRY\u003dppc64le,ppc64lep9,ppc64",
       "revId": "e599419ab1da3629f7656a931969ee6d093558f9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86214921_414bdfdb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2023-01-17T15:10:39Z",
+      "side": 1,
+      "message": "Go1.19 does not recognise GOPPC64\u003dpower10 hence the power10osu builder cannot be used for releases prior to Go1.20",
+      "parentUuid": "d81249b6_bb8b518b",
+      "revId": "e599419ab1da3629f7656a931969ee6d093558f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
