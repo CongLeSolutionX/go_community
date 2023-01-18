@@ -72,6 +72,24 @@
       "message": "These seem to be missing from runtime/metrics/doc.go / description.go (except panicnil). The test should have caught this, I\u0027m not sure why it didn\u0027t?",
       "revId": "4c45bd1be710b9ba9085f7e1e94f153d5debdd66",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51061013_eb8c71bb",
+        "filename": "src/runtime/metrics.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-01-18T15:31:49Z",
+      "side": 1,
+      "message": "There was a test that doc.go and description.go are in sync, but no test that those two match runtime/metrics.go.\n\nI updated this CL to add a test that runtime and runtime/metrics agree on names and kinds, and I replaced the doc test with auto-generated docs (still tested but easier to update).",
+      "parentUuid": "411b4d78_3afbd67e",
+      "revId": "4c45bd1be710b9ba9085f7e1e94f153d5debdd66",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
