@@ -88,16 +88,13 @@ func OpenReader(name string) (*ReadCloser, error) {
 // NewReader returns a new Reader reading from r, which is assumed to
 // have the given size in bytes.
 //
-// ErrInsecurePath and a valid *Reader are returned if the names of any
-// files in the archive:
-//
-//   - are absolute;
-//   - are a relative path escaping the current directory, such as "../a";
-//   - contain a backslash (\) character; or
-//   - on Windows, are a reserved file name such as "NUL".
-//
-// The caller may ignore the ErrInsecurePath error,
-// but is then responsible for sanitizing paths as appropriate.
+// If any file inside the archive uses a non-local name
+// (as defined by [filepath.IsLocal]) or a name containing backslashes
+// and the GODEBUG environment variable contains `zipinsecurepath=0`,
+// NewReader returns the reader with an ErrInsecurePath error.
+// A future version of Go may introduce this behavior by default.
+// Programs that want to accept non-local names can ignore
+// the ErrInsecurePath error and use the returned reader.
 func NewReader(r io.ReaderAt, size int64) (*Reader, error) {
 	if size < 0 {
 		return nil, errors.New("zip: size cannot be negative")
@@ -228,7 +225,16 @@ func (f *File) Open() (io.ReadCloser, error) {
 		return nil, err
 	}
 	if strings.HasSuffix(f.Name, "/") {
-		if f.CompressedSize64 != 0 || f.hasDataDescriptor() {
+		// The ZIP specification (APPNOTE.TXT) specifies that directories, which
+		// are technically zero-byte files, must not have any associated file
+		// data. We previously tried failing here if f.CompressedSize64 != 0,
+		// but it turns out that a number of implementations (namely, the Java
+		// jar tool) don't properly set the storage method on directories
+		// resulting in a file with compressed size > 0 but uncompressed size ==
+		// 0. We still want to fail when a directory has associated uncompressed
+		// data, but we are tolerant of cases where the uncompressed size is
+		// zero but compressed size is not.
+		if f.UncompressedSize64 != 0 {
 			return &dirReader{ErrFormat}, nil
 		} else {
 			return &dirReader{io.EOF}, nil

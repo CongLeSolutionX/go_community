@@ -170,7 +170,7 @@ func computeInterfaceTypeSet(check *Checker, pos token.Pos, ityp *Interface) *_T
 		return &topTypeSet
 	}
 
-	if check != nil && trace {
+	if check != nil && check.conf._Trace {
 		// Types don't generally have position information.
 		// If we don't have a valid pos provided, try to use
 		// one close enough.
@@ -350,7 +350,7 @@ func intersectTermLists(xterms termlist, xcomp bool, yterms termlist, ycomp bool
 		i := 0
 		for _, t := range terms {
 			assert(t.typ != nil)
-			if Comparable(t.typ) {
+			if comparable(t.typ, false /* strictly comparable */, nil, nil) {
 				terms[i] = t
 				i++
 			}
@@ -381,7 +381,7 @@ func assertSortedMethods(list []*Func) {
 type byUniqueMethodName []*Func
 
 func (a byUniqueMethodName) Len() int           { return len(a) }
-func (a byUniqueMethodName) Less(i, j int) bool { return a[i].Id() < a[j].Id() }
+func (a byUniqueMethodName) Less(i, j int) bool { return a[i].less(&a[j].object) }
 func (a byUniqueMethodName) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
 
 // invalidTypeSet is a singleton type set to signal an invalid type set

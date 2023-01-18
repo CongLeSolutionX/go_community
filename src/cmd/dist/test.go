@@ -102,12 +102,6 @@ func (t *tester) run() {
 
 	os.Setenv("PATH", fmt.Sprintf("%s%c%s", gorootBin, os.PathListSeparator, os.Getenv("PATH")))
 
-	// Default to running tests in "short" mode, unless the environment variable
-	// GO_TEST_SHORT is set to a non-empty, false-ish string.
-	//
-	// This environment variable is meant to be an internal detail between the
-	// Go build system and cmd/dist for the purpose of longtest builders, and is
-	// not intended for use by users. See golang.org/issue/12508.
 	t.short = true
 	if v := os.Getenv("GO_TEST_SHORT"); v != "" {
 		short, err := strconv.ParseBool(v)
@@ -155,7 +149,7 @@ func (t *tester) run() {
 	if t.rebuild {
 		t.out("Building packages and commands.")
 		// Force rebuild the whole toolchain.
-		goInstall("go", append([]string{"-a"}, toolchain...)...)
+		goInstall(toolenv, "go", append([]string{"-a"}, toolchain...)...)
 	}
 
 	if !t.listMode {
@@ -172,9 +166,10 @@ func (t *tester) run() {
 			// to break if we don't automatically refresh things here.
 			// Rebuilding is a shortened bootstrap.
 			// See cmdbootstrap for a description of the overall process.
-			goInstall("go", toolchain...)
-			goInstall("go", toolchain...)
-			goInstall("go", "std", "cmd")
+			goInstall(toolenv, "go", toolchain...)
+			goInstall(toolenv, "go", toolchain...)
+			goInstall(toolenv, "go", "cmd")
+			goInstall(nil, "go", "std")
 		} else {
 			// The Go builder infrastructure should always begin running tests from a
 			// clean, non-stale state, so there is no need to rebuild the world.
@@ -184,15 +179,15 @@ func (t *tester) run() {
 			// The cache used by dist when building is different from that used when
 			// running dist test, so rebuild (but don't install) std and cmd to make
 			// sure packages without install targets are cached so they are not stale.
-			goCmd("go", "build", "std", "cmd") // make sure dependencies of targets are cached
-			if builder == "aix-ppc64" {
+			goCmd(toolenv, "go", "build", "cmd") // make sure dependencies of targets are cached
+			goCmd(nil, "go", "build", "std")
+			checkNotStale(nil, "go", "std")
+			if builder != "aix-ppc64" {
 				// The aix-ppc64 builder for some reason does not have deterministic cgo
 				// builds, so "cmd" is stale. Fortunately, most of the tests don't care.
 				// TODO(#56896): remove this special case once the builder supports
 				// determistic cgo builds.
-				checkNotStale("go", "std")
-			} else {
-				checkNotStale("go", "std", "cmd")
+				checkNotStale(toolenv, "go", "cmd")
 			}
 		}
 	}
@@ -957,20 +952,9 @@ func (t *tester) registerTests() {
 	// Every platform checks the API on every GOOS/GOARCH/CGO_ENABLED combination anyway,
 	// so we really only need to run this check once anywhere to get adequate coverage.
 	// To help developers avoid trybot-only failures, we try to run on typical developer machines
-	// which is darwin/linux/windows and amd64/arm64.
-	if (goos == "darwin" || goos == "linux" || goos == "windows") && (goarch == "amd64" || goarch == "arm64") {
-		t.tests = append(t.tests, distTest{
-			name:    "api",
-			heading: "API check",
-			fn: func(dt *distTest) error {
-				if t.compileOnly {
-					t.addCmd(dt, "src", "go", "build", "-o", os.DevNull, filepath.Join(goroot, "src/cmd/api/run.go"))
-					return nil
-				}
-				t.addCmd(dt, "src", "go", "run", filepath.Join(goroot, "src/cmd/api/run.go"))
-				return nil
-			},
-		})
+	// which is darwin,linux,windows/amd64 and darwin/arm64.
+	if goos == "darwin" || ((goos == "linux" || goos == "windows") && goarch == "amd64") {
+		t.registerTest("api", "", &goTest{dir: "cmd/api", timeout: 5 * time.Minute, testFlags: []string{"-check"}})
 	}
 
 	// Ensure that the toolchain can bootstrap itself.
@@ -1332,7 +1316,7 @@ func (t *tester) registerCgoTests() {
 			// Check for static linking support
 			var staticCheck rtPreFunc
 			cmd := t.dirCmd("misc/cgo/test",
-				compilerEnvLookup(defaultcc, goos, goarch), "-xc", "-o", "/dev/null", "-static", "-")
+				compilerEnvLookup("CC", defaultcc, goos, goarch), "-xc", "-o", "/dev/null", "-static", "-")
 			cmd.Stdin = strings.NewReader("int main() {}")
 			cmd.Stdout, cmd.Stderr = nil, nil // Discard output
 			if err := cmd.Run(); err != nil {
@@ -1382,7 +1366,7 @@ func (t *tester) registerCgoTests() {
 // running in parallel with earlier tests, or if it has some other reason
 // for needing the earlier tests to be done.
 func (t *tester) runPending(nextTest *distTest) {
-	checkNotStale("go", "std")
+	checkNotStale(nil, "go", "std")
 	worklist := t.worklist
 	t.worklist = nil
 	for _, w := range worklist {
@@ -1440,7 +1424,7 @@ func (t *tester) runPending(nextTest *distTest) {
 			log.Printf("Failed: %v", w.err)
 			t.failed = true
 		}
-		checkNotStale("go", "std")
+		checkNotStale(nil, "go", "std")
 	}
 	if t.failed && !t.keepGoing {
 		fatalf("FAILED")
@@ -1466,7 +1450,7 @@ func (t *tester) hasBash() bool {
 }
 
 func (t *tester) hasCxx() bool {
-	cxx, _ := exec.LookPath(compilerEnvLookup(defaultcxx, goos, goarch))
+	cxx, _ := exec.LookPath(compilerEnvLookup("CXX", defaultcxx, goos, goarch))
 	return cxx != ""
 }
 
