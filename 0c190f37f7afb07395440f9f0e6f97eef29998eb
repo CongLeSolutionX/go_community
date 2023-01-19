@@ -90,6 +90,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "e65c345c_d6a36950",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-01-19T15:41:08Z",
+      "side": 1,
+      "message": "I like it, I think it looks a lot less cluttered. (I assume we don\u0027t need \"View trace\" to change to \"View trace (open)\" anymore?)\n\nIt would be nice to be able to keep folks preferred default. Is it possible to set a cookie on a localhost domain? (Not high priority)",
+      "parentUuid": "a8b276c2_12b8feb0",
+      "revId": "0c190f37f7afb07395440f9f0e6f97eef29998eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "b33bbe5c_044fcfea",
