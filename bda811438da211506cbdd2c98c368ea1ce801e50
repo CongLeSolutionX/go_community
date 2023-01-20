@@ -53,6 +53,24 @@
       "message": "Does it make sense to cherry pick the CL to the 1.20 release?",
       "revId": "bda811438da211506cbdd2c98c368ea1ce801e50",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3621a3bc_6d1b166a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-01-20T19:22:48Z",
+      "side": 1,
+      "message": "Agreed — I added it to https://go.dev/issue/57854#issuecomment-1398831001.",
+      "parentUuid": "b58500ab_711f4556",
+      "revId": "bda811438da211506cbdd2c98c368ea1ce801e50",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
