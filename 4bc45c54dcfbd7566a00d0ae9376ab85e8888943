@@ -51,6 +51,24 @@
       "message": "This kind of discussion is probably better suited for the linked proposal. This CL just implements the current proposal.",
       "revId": "4bc45c54dcfbd7566a00d0ae9376ab85e8888943",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2104e17_8cd85105",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11500
+      },
+      "writtenOn": "2023-01-20T05:13:54Z",
+      "side": 1,
+      "message": "As I mentioned in my previous comment, this should really be discussed on the proposal itself, not here. Just as a heads-up, the proposal is almost approved, so the window is closing fast. \n\nAt the same time, I don\u0027t see why what you\u0027re proposing shouldn\u0027t be doable in a second moment, hence why the proposal itself should be held up because of it.",
+      "parentUuid": "c396d64f_9c1ff179",
+      "revId": "4bc45c54dcfbd7566a00d0ae9376ab85e8888943",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
