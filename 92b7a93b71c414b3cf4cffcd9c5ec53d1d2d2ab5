@@ -71,6 +71,24 @@
       "parentUuid": "4486d803_12497b0f",
       "revId": "92b7a93b71c414b3cf4cffcd9c5ec53d1d2d2ab5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e798f149_7cafbd85",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-01-20T15:37:44Z",
+      "side": 1,
+      "message": "I\u0027m not sure this is really necessary. For this case, I think the important part is that it doesn\u0027t allocate in the common case, which the utf16 test covers. The inlining is just an implementation detail to achieve that. If there were other way to make it not allocate (for now I\u0027m not aware of), it doesn\u0027t necessarily have to be inlined. Not a strong objection, though. Feel free to proceed. Thanks.",
+      "parentUuid": "b5e51ec8_5b6cfae7",
+      "revId": "92b7a93b71c414b3cf4cffcd9c5ec53d1d2d2ab5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
