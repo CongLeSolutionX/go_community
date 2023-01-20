@@ -61,6 +61,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "24e6197e_cbfe3ee7",
+        "filename": "src/runtime/proc_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 57733
+      },
+      "writtenOn": "2023-01-20T14:49:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "826ecea5_fb1c09f4",
+      "range": {
+        "startLine": 420,
+        "startChar": 12,
+        "endLine": 420,
+        "endChar": 64
+      },
+      "revId": "9e3046b927369df4475937dac6de14348422f2aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2546f31b_31487186",
@@ -84,6 +108,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c76e81e2_3d452b10",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 813,
+      "author": {
+        "id": 57733
+      },
+      "writtenOn": "2023-01-20T14:49:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2546f31b_31487186",
+      "range": {
+        "startLine": 813,
+        "startChar": 36,
+        "endLine": 813,
+        "endChar": 37
+      },
+      "revId": "9e3046b927369df4475937dac6de14348422f2aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d3aed7e3_250b5929",
@@ -97,6 +145,30 @@
       "writtenOn": "2023-01-19T23:46:49Z",
       "side": 1,
       "message": "This seems too large for a backtrace of a single stack. 1K is probably enough?",
+      "range": {
+        "startLine": 433,
+        "startChar": 22,
+        "endLine": 433,
+        "endChar": 27
+      },
+      "revId": "9e3046b927369df4475937dac6de14348422f2aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4472aa12_da116ed9",
+        "filename": "src/runtime/traceback_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 57733
+      },
+      "writtenOn": "2023-01-20T14:49:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3aed7e3_250b5929",
       "range": {
         "startLine": 433,
         "startChar": 22,
