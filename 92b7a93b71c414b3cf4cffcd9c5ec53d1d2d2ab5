@@ -89,6 +89,24 @@
       "parentUuid": "b5e51ec8_5b6cfae7",
       "revId": "92b7a93b71c414b3cf4cffcd9c5ec53d1d2d2ab5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9f1795b_2785afa7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-01-20T15:53:29Z",
+      "side": 1,
+      "message": "That\u0027s a good point. I\u0027ve already added the function there, so I won\u0027t revert for the sake of not bikeshedding.",
+      "parentUuid": "e798f149_7cafbd85",
+      "revId": "92b7a93b71c414b3cf4cffcd9c5ec53d1d2d2ab5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
