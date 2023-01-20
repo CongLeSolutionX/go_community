@@ -65,7 +65,7 @@ func cgoCheckWriteBarrier(dst *uintptr, src uintptr) {
 //go:nosplit
 //go:nowritebarrier
 func cgoCheckMemmove(typ *_type, dst, src unsafe.Pointer, off, size uintptr) {
-	if typ.ptrdata == 0 {
+	if typ.PtrBytes == 0 {
 		return
 	}
 	if !cgoIsGoPointer(src) {
@@ -86,7 +86,7 @@ func cgoCheckMemmove(typ *_type, dst, src unsafe.Pointer, off, size uintptr) {
 //go:nosplit
 //go:nowritebarrier
 func cgoCheckSliceCopy(typ *_type, dst, src unsafe.Pointer, n int) {
-	if typ.ptrdata == 0 {
+	if typ.PtrBytes == 0 {
 		return
 	}
 	if !cgoIsGoPointer(src) {
@@ -97,8 +97,8 @@ func cgoCheckSliceCopy(typ *_type, dst, src unsafe.Pointer, n int) {
 	}
 	p := src
 	for i := 0; i < n; i++ {
-		cgoCheckTypedBlock(typ, p, 0, typ.size)
-		p = add(p, typ.size)
+		cgoCheckTypedBlock(typ, p, 0, typ.Size_)
+		p = add(p, typ.Size_)
 	}
 }
 
@@ -109,16 +109,16 @@ func cgoCheckSliceCopy(typ *_type, dst, src unsafe.Pointer, n int) {
 //go:nosplit
 //go:nowritebarrier
 func cgoCheckTypedBlock(typ *_type, src unsafe.Pointer, off, size uintptr) {
-	// Anything past typ.ptrdata is not a pointer.
-	if typ.ptrdata <= off {
+	// Anything past typ.Ptrdata is not a pointer.
+	if typ.PtrBytes <= off {
 		return
 	}
-	if ptrdataSize := typ.ptrdata - off; size > ptrdataSize {
+	if ptrdataSize := typ.PtrBytes - off; size > ptrdataSize {
 		size = ptrdataSize
 	}
 
-	if typ.kind&kindGCProg == 0 {
-		cgoCheckBits(src, typ.gcdata, off, size)
+	if typ.Kind_&kindGCProg == 0 {
+		cgoCheckBits(src, typ.GCData, off, size)
 		return
 	}
 
@@ -209,37 +209,37 @@ func cgoCheckBits(src unsafe.Pointer, gcbits *byte, off, size uintptr) {
 //go:nowritebarrier
 //go:systemstack
 func cgoCheckUsingType(typ *_type, src unsafe.Pointer, off, size uintptr) {
-	if typ.ptrdata == 0 {
+	if typ.PtrBytes == 0 {
 		return
 	}
 
-	// Anything past typ.ptrdata is not a pointer.
-	if typ.ptrdata <= off {
+	// Anything past typ.Ptrdata is not a pointer.
+	if typ.PtrBytes <= off {
 		return
 	}
-	if ptrdataSize := typ.ptrdata - off; size > ptrdataSize {
+	if ptrdataSize := typ.PtrBytes - off; size > ptrdataSize {
 		size = ptrdataSize
 	}
 
-	if typ.kind&kindGCProg == 0 {
-		cgoCheckBits(src, typ.gcdata, off, size)
+	if typ.Kind_&kindGCProg == 0 {
+		cgoCheckBits(src, typ.GCData, off, size)
 		return
 	}
-	switch typ.kind & kindMask {
+	switch typ.Kind_ & kindMask {
 	default:
 		throw("can't happen")
 	case kindArray:
 		at := (*arraytype)(unsafe.Pointer(typ))
 		for i := uintptr(0); i < at.len; i++ {
-			if off < at.elem.size {
+			if off < at.elem.Size_ {
 				cgoCheckUsingType(at.elem, src, off, size)
 			}
-			src = add(src, at.elem.size)
+			src = add(src, at.elem.Size_)
 			skipped := off
-			if skipped > at.elem.size {
-				skipped = at.elem.size
+			if skipped > at.elem.Size_ {
+				skipped = at.elem.Size_
 			}
-			checked := at.elem.size - skipped
+			checked := at.elem.Size_ - skipped
 			off -= skipped
 			if size <= checked {
 				return
@@ -249,15 +249,15 @@ func cgoCheckUsingType(typ *_type, src unsafe.Pointer, off, size uintptr) {
 	case kindStruct:
 		st := (*structtype)(unsafe.Pointer(typ))
 		for _, f := range st.fields {
-			if off < f.typ.size {
+			if off < f.typ.Size_ {
 				cgoCheckUsingType(f.typ, src, off, size)
 			}
-			src = add(src, f.typ.size)
+			src = add(src, f.typ.Size_)
 			skipped := off
-			if skipped > f.typ.size {
-				skipped = f.typ.size
+			if skipped > f.typ.Size_ {
+				skipped = f.typ.Size_
 			}
-			checked := f.typ.size - skipped
+			checked := f.typ.Size_ - skipped
 			off -= skipped
 			if size <= checked {
 				return
