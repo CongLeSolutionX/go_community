@@ -227,6 +227,15 @@ func real(c ComplexType) FloatType
 // the type of c.
 func imag(c ComplexType) FloatType
 
+// The built-in function clear takes an argument of map, slice, or
+// type parameter type. For maps, clear deletes all entries, resulting
+// in an empty map. For slices, clear sets all elements up to the length
+// of the slice to the zero value of the respective element type. If the
+// argument type is a type parameter, the type parameter's type set must
+// contain only maps or slices types, and clear performs the operation
+// implied by the actual type argument.
+func clear[T interface{ ~[]Type | ~map[Type]Type1 }](t T)
+
 // The close built-in function closes a channel, which must be either
 // bidirectional or send-only. It should be executed only by the sender,
 // never the receiver, and has the effect of shutting down the channel after
