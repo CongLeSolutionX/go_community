@@ -72,6 +72,24 @@
       "message": "Some of these expressions are really opaque.\n\nI\u0027m guessing the \"/8\" in many of them is related to bs being 8?\n\nBut why things like 2 * bs * 12 / 8 instead of bs * 24 / 8 if you want to keep the \"/ 8\" or just \"3 * bs\" like in the line comment?\n\nIt also seems like the cases are trying to come in pairs, where the first reaches 75% and the next just passes the overflow point, but the pairs of expressions aren\u0027t obviously related to each other.",
       "revId": "f8f78436d184852cdb18ef2bc91c3c58655fa704",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e148fd0_4c5cb729",
+        "filename": "src/runtime/map_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 695,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-01-21T21:08:58Z",
+      "side": 1,
+      "message": "How\u0027s this look?",
+      "parentUuid": "84978d0a_eb6812b4",
+      "revId": "f8f78436d184852cdb18ef2bc91c3c58655fa704",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
