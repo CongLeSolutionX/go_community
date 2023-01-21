@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35f4c13e_2d5343f9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-01-21T16:31:10Z",
+      "side": 1,
+      "message": "The specs of Pow say:\n\n\u003e Pow(±0, y) \u003d ±0 for y an odd integer \u003e 0\n\nIn particular, -0 can be the result.\n\nWe can\u0027t change the specs of what Pow does, people may be relying on it.",
+      "revId": "821a82dced4cf78e8bef097dec74e1290944018f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
