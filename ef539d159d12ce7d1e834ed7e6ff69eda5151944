@@ -16,6 +16,24 @@
       "message": "We probably don\u0027t want to remove the comment about the return value? Update this if necessary. (Also on other architectures.)",
       "revId": "ef539d159d12ce7d1e834ed7e6ff69eda5151944",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7308db7_a4cea386",
+        "filename": "src/runtime/sys_windows_amd64.s",
+        "patchSetId": 19
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-01-21T10:50:30Z",
+      "side": 0,
+      "message": "Ack",
+      "parentUuid": "2d46227e_db9123c4",
+      "revId": "ef539d159d12ce7d1e834ed7e6ff69eda5151944",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

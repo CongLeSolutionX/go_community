@@ -74,6 +74,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "925c8e2a_a66ac5fa",
+        "filename": "src/runtime/signal_windows.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-01-21T10:50:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12bc4f0e_0c3f064d",
+      "revId": "8b8f78f1d339816a60b3916718e7a211b3e0cda1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "cb523714_14349dd5",
         "filename": "src/runtime/signal_windows.go",
         "patchSetId": 19
@@ -85,6 +103,30 @@
       "writtenOn": "2023-01-21T01:13:42Z",
       "side": 1,
       "message": "I have something working-in-progress that might make this situation better. When that is landed maybe we can remove this workaround.",
+      "range": {
+        "startLine": 142,
+        "startChar": 1,
+        "endLine": 143,
+        "endChar": 35
+      },
+      "revId": "8b8f78f1d339816a60b3916718e7a211b3e0cda1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "133444c4_eab6b632",
+        "filename": "src/runtime/signal_windows.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-01-21T10:50:30Z",
+      "side": 1,
+      "message": "Great! I\u0027ll add a TODO to reflect this possibility.",
+      "parentUuid": "cb523714_14349dd5",
       "range": {
         "startLine": 142,
         "startChar": 1,
@@ -112,6 +154,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e62cde27_a65b3dce",
+        "filename": "src/runtime/sys_windows_386.s",
+        "patchSetId": 19
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-01-21T10:50:30Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "df4f7d74_c879990d",
+      "revId": "8b8f78f1d339816a60b3916718e7a211b3e0cda1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6b3b2725_339c1271",
@@ -125,6 +185,24 @@
       "writtenOn": "2023-01-21T01:13:42Z",
       "side": 1,
       "message": "How is the return value handled? Does the Go calling convention happen to be the same as system one? The SP is adjusted below. Is the return value still at the right place? If so, some comment may be good.",
+      "revId": "8b8f78f1d339816a60b3916718e7a211b3e0cda1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b876887_73458956",
+        "filename": "src/runtime/sys_windows_386.s",
+        "patchSetId": 19
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-01-21T10:50:30Z",
+      "side": 1,
+      "message": "Go stored the return value in the stack and in AX, Windows expects it to be in AX, so there is nothing to do here other than adding a clarification comment.",
+      "parentUuid": "6b3b2725_339c1271",
       "revId": "8b8f78f1d339816a60b3916718e7a211b3e0cda1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -152,6 +230,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea849c37_e874bd7c",
+        "filename": "src/runtime/sys_windows_amd64.s",
+        "patchSetId": 19
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-01-21T10:50:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45d78a72_ed9948b8",
+      "range": {
+        "startLine": 118,
+        "startChar": 60,
+        "endLine": 118,
+        "endChar": 61
+      },
+      "revId": "8b8f78f1d339816a60b3916718e7a211b3e0cda1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e0507fc4_d5576efb",
@@ -169,6 +271,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "252826f4_a5e4b7c0",
+        "filename": "src/runtime/sys_windows_amd64.s",
+        "patchSetId": 19
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-01-21T10:50:30Z",
+      "side": 1,
+      "message": "Return value is already in AX, I\u0027ll add a comment.",
+      "parentUuid": "e0507fc4_d5576efb",
+      "revId": "8b8f78f1d339816a60b3916718e7a211b3e0cda1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9aface85_0d90c2a8",
@@ -182,6 +302,24 @@
       "writtenOn": "2023-01-21T01:13:42Z",
       "side": 1,
       "message": "How is the return value handled? Does the Go calling convention happen to be the same as system one? If so, a comment may be good.",
+      "revId": "8b8f78f1d339816a60b3916718e7a211b3e0cda1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "87dd3369_69e278e3",
+        "filename": "src/runtime/sys_windows_arm64.s",
+        "patchSetId": 19
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-01-21T10:50:30Z",
+      "side": 1,
+      "message": "Return value is already stored in R0, I\u0027ll add a comment.",
+      "parentUuid": "9aface85_0d90c2a8",
       "revId": "8b8f78f1d339816a60b3916718e7a211b3e0cda1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
