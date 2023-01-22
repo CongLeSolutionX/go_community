@@ -16,6 +16,24 @@
       "message": "Hi @mknyszek@google.com, should this be mentioned in the release notes?",
       "revId": "b7c28f484ddbc8267273c997e1bcc83a1391b5f7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68d7417a_c1c8a570",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28792
+      },
+      "writtenOn": "2023-01-22T13:10:48Z",
+      "side": 1,
+      "message": "Oops, sorry, I see that it is already mentioned. (I had done a ctrl-F for \"CPU\" and then also for this CL number in the source, and missed it... but I see that the release notes do describe it, and the source includes a reference to a corresponding issue).",
+      "parentUuid": "9e589dbc_bf0b0472",
+      "revId": "b7c28f484ddbc8267273c997e1bcc83a1391b5f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
