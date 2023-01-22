@@ -52,6 +52,23 @@
       "parentUuid": "69c4d71c_7c935244",
       "revId": "8a27154bcdb657fd172e77ba19ac0a5dccb996fb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4c96081_3f47be56",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 30903
+      },
+      "writtenOn": "2023-01-22T14:43:31Z",
+      "side": 1,
+      "message": "Looks like this CL is causing the toolchain build process fails on iOS.\n\nhttps://build.golang.org/log/fe7dc38047bccedcf67640847ff602864fabc40b",
+      "revId": "8a27154bcdb657fd172e77ba19ac0a5dccb996fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
