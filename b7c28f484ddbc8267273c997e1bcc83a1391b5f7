@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e589dbc_bf0b0472",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28792
+      },
+      "writtenOn": "2023-01-22T12:59:13Z",
+      "side": 1,
+      "message": "Hi @mknyszek@google.com, should this be mentioned in the release notes?",
+      "revId": "b7c28f484ddbc8267273c997e1bcc83a1391b5f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
