@@ -269,6 +269,9 @@ func (l *linker) relocFuncExt(w *pkgbits.Encoder, name *ir.Name) {
 	l.pragmaFlag(w, name.Func.Pragma)
 	l.linkname(w, name)
 
+	w.String("")
+	w.String("")
+
 	// Relocated extension data.
 	w.Bool(true)
 
