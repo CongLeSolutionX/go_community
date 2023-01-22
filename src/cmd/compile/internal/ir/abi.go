@@ -75,4 +75,40 @@ func setupTextLSym(f *Func, flag int) {
 	}
 
 	base.Ctxt.InitTextSym(f.LSym, flag, f.Pos())
+
+	if f.WasmImport != nil {
+		wi := obj.WasmImport{
+			Module: f.WasmImport.Module,
+			Name:   f.WasmImport.Name,
+		}
+		if wi.Module == "go" {
+			// Functions that are imported from the "go" module use a special
+			// ABI that just accepts the stack pointer.
+			// Example:
+			//
+			// 	//go:wasmimport go add
+			// 	func importedAdd(a, b uint) uint
+			//
+			// will roughly become
+			//
+			// 	(import "go" "add" (func (param i32)))
+			wi.Params = []obj.WasmField{{Type: obj.WasmI32}}
+		} else {
+			panic("nope")
+			// All other imported functions use the normal WASM ABI.
+			// Example:
+			//
+			// 	//go:wasmimport a_module add
+			// 	func importedAdd(a, b uint) uint
+			//
+			// will roughly become
+			//
+			// 	(import "a_module" "add" (func (param i32 i32) (result i32)))
+			// abiConfig := AbiForBodylessFuncStackMap(f)
+			// abiInfo := abiConfig.ABIAnalyzeFuncType(f.Type().FuncType())
+			// wi.Params = toWasmFields(abiInfo, abiInfo.InParams())
+			// wi.Results = toWasmFields(abiInfo, abiInfo.OutParams())
+		}
+		f.LSym.Func().WasmImport = &wi
+	}
 }

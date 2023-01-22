@@ -5,6 +5,7 @@
 package noder
 
 import (
+	"fmt"
 	"go/constant"
 
 	"cmd/compile/internal/base"
@@ -123,6 +124,22 @@ func (g *irgen) funcDecl(out *ir.Nodes, decl *syntax.FuncDecl) {
 			meth := typecheck.Lookdot1(fn, typecheck.Lookup(decl.Name.Value), typ, typ.Methods(), 0)
 			meth.SetNointerface(true)
 		}
+	}
+	fmt.Printf("decl prag: %p\n", decl.Pragma)
+	if p, ok := decl.Pragma.(*pragmas); ok && p.WasmImport != nil {
+		if decl.Body != nil {
+			base.ErrorfAt(fn.Pos(), "can only use //go:wasmimport with external func implementations")
+		}
+		name := typecheck.Lookup(decl.Name.Value).Def.(*ir.Name)
+		f := name.Defn.(*ir.Func)
+		f.WasmImport = &ir.WasmImport{
+			Module: p.WasmImport.Module,
+			Name:   p.WasmImport.Name,
+		}
+		// While functions annotated with //go:wasmimport are
+		// bodyless, the compiler generates a WebAssembly body for
+		// them. However, the body will never grow the Go stack.
+		f.Pragma |= ir.Nosplit
 	}
 
 	if decl.Body != nil {
@@ -348,5 +365,8 @@ func (g *irgen) reportUnused(pragma *pragmas) {
 		for _, e := range pragma.Embeds {
 			base.ErrorfAt(g.makeXPos(e.Pos), "misplaced go:embed directive")
 		}
+	}
+	if pragma.WasmImport != nil {
+		base.ErrorfAt(g.makeXPos(pragma.WasmImport.Pos), "misplaced go:wasmimport directive")
 	}
 }
