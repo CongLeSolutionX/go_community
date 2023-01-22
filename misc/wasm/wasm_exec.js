@@ -113,6 +113,10 @@
 				this.mem.setUint32(addr + 4, Math.floor(v / 4294967296), true);
 			}
 
+			const setInt32 = (addr, v) => {
+				this.mem.setUint32(addr + 0, v, true);
+			}
+
 			const getInt64 = (addr) => {
 				const low = this.mem.getUint32(addr + 0, true);
 				const high = this.mem.getInt32(addr + 4, true);
@@ -206,12 +210,20 @@
 
 			const timeOrigin = Date.now() - performance.now();
 			this.importObject = {
+				_gotest: {
+					add: (a, b) => a + b,
+				},
 				go: {
 					// Go's SP does not change as long as no Go code is running. Some operations (e.g. calls, getters and setters)
 					// may synchronously trigger a Go event handler. This makes Go code get executed in the middle of the imported
 					// function. A goroutine can switch to a new stack if the current stack is too small (see morestack function).
 					// This changes the SP, thus we have to update the SP used by the imported function.
 
+					"syscall/js.probeWasm": (sp) => {
+						sp >>>= 0;
+
+						setInt32(sp + 8, 0xfeed);
+					},
 					// func wasmExit(code int32)
 					"runtime.wasmExit": (sp) => {
 						sp >>>= 0;

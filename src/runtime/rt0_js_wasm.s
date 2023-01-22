@@ -87,6 +87,8 @@ TEXT wasm_pc_f_loop(SB),NOSPLIT,$0
 // wasm_export_getsp gets called from JavaScript to retrieve the SP.
 TEXT wasm_export_getsp(SB),NOSPLIT,$0
 	Get SP
+	// I32Const $8
+	// I32Sub
 	Return
 
 TEXT runtime·pause(SB), NOSPLIT, $0-8
@@ -98,6 +100,7 @@ TEXT runtime·pause(SB), NOSPLIT, $0-8
 TEXT runtime·exit(SB), NOSPLIT, $0-4
 	I32Const $0
 	Call runtime·wasmExit(SB)
+	// Remove below
 	Drop
 	I32Const $1
 	Set PAUSE
