@@ -83,6 +83,30 @@
       },
       "revId": "fc862955b696a0ba12428b37922366857a0efa95",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0bdd20ad_4c39f04c",
+        "filename": "src/cmd/compile/internal/amd64/ggen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 5846
+      },
+      "writtenOn": "2023-01-22T15:55:48Z",
+      "side": 1,
+      "message": "We dont need to revert completely just use the right move instruction. MOVQ can move 8 byte from an SSE register (R15) to a memory location: https://c9x.me/x86/html/file_module_x86_id_201.html\n\nThere is likely no test case explicitly testing if an 8 byte memory location after the 8 byte memory location to be zeroes should have a non 0 value. Or alternatively this case is never triggered.",
+      "parentUuid": "d3df0f8a_97efc104",
+      "range": {
+        "startLine": 66,
+        "startChar": 23,
+        "endLine": 66,
+        "endChar": 30
+      },
+      "revId": "fc862955b696a0ba12428b37922366857a0efa95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
