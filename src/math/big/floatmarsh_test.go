@@ -149,3 +149,24 @@ func TestFloatGobDecodeShortBuffer(t *testing.T) {
 		}
 	}
 }
+
+func TestFloatGobDecodeInvalid(t *testing.T) {
+	for _, tc := range []struct {
+		buf []byte
+		msg string
+	}{
+		{
+			[]byte{0x1, 0x2a, 0x20, 0x20, 0x20, 0x20, 0x0, 0x20, 0x20, 0x20, 0x0, 0x20, 0x20, 0x20, 0x20, 0x0, 0x0, 0x0, 0x0, 0xc},
+			"Float.GobDecode: msb not set in last word 0x0 of 0x.p+2105376",
+		},
+		{
+			[]byte{1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+			"Float.GobDecode: nonzero finite number with empty mantissa",
+		},
+	} {
+		err := NewFloat(0).GobDecode(tc.buf)
+		if err == nil || err.Error() != tc.msg {
+			t.Errorf("expected GobDecode error: %s, got: %v", tc.msg, err)
+		}
+	}
+}
