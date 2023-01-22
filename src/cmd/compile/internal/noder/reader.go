@@ -1071,6 +1071,16 @@ func (r *reader) funcExt(name *ir.Name, method *types.Sym) {
 	fn.Pragma = r.pragmaFlag()
 	r.linkname(name)
 
+	xmod := r.String()
+	xname := r.String()
+
+	if xmod != "" && xname != "" {
+		fn.WasmImport = &ir.WasmImport{
+			Module: xmod,
+			Name:   xname,
+		}
+	}
+
 	typecheck.Func(fn)
 
 	if r.Bool() {
