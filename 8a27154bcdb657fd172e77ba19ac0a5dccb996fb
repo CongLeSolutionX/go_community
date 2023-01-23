@@ -145,6 +145,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5a836e45_7a8ece1e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-01-23T15:40:43Z",
+      "side": 1,
+      "message": "No. From the build log,\n\n\u003e Building Go cmd/dist using /var/root/go-ios-arm64-bootstrap. (go1.19 ios/arm64)\n\nThe bootstrap toolchain is GOOS\u003dios. And it looks the target toolchain is also ios (no cross-compile message appears in the log).",
+      "parentUuid": "4cb4d255_50b34541",
+      "revId": "8a27154bcdb657fd172e77ba19ac0a5dccb996fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5487bb1e_bae6a974",
         "filename": "src/cmd/dist/build.go",
         "patchSetId": 12
