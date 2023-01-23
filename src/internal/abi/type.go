@@ -71,3 +71,29 @@ type Type struct {
 	Str       NameOff // string form
 	PtrToThis TypeOff // type for pointer to this type, may be zero
 }
+
+// Method on non-interface type
+type Method struct {
+	Name NameOff // name of method
+	Mtyp TypeOff // method type (without receiver)
+	Ifn  TextOff // fn used in interface call (one-word receiver)
+	Tfn  TextOff // fn used for normal method call
+}
+
+// uncommonType is present only for defined types or types with methods
+// (if T is a defined type, the uncommonTypes for T and *T have methods).
+// Using a pointer to this struct reduces the overall size required
+// to describe a non-defined type with no methods.
+type UncommonType struct {
+	PkgPath NameOff // import path; empty for built-in types like int, string
+	Mcount  uint16  // number of methods
+	Xcount  uint16  // number of exported methods
+	Moff    uint32  // offset from this uncommontype to [mcount]method
+	_       uint32  // unused
+}
+
+// imethod represents a method on an interface type
+type Imethod struct {
+	Name NameOff // name of method
+	Typ  TypeOff // .(*FuncType) underneath
+}
