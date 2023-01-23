@@ -16,7 +16,6 @@
 package reflect
 
 import (
-	"internal/abi"
 	"internal/goarch"
 	"strconv"
 	"sync"
@@ -2227,9 +2226,9 @@ func hashMightPanic(t *rtype) bool {
 // Currently, that's just size and the GC program. We also fill in string
 // for possible debugging use.
 const (
-	bucketSize uintptr = abi.MapBucketCount
-	maxKeySize uintptr = abi.MapMaxKeyBytes
-	maxValSize uintptr = abi.MapMaxElemBytes
+	bucketSize uintptr = 8
+	maxKeySize uintptr = 128
+	maxValSize uintptr = 128
 )
 
 func bucketOf(ktyp, etyp *rtype) *rtype {

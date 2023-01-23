@@ -160,7 +160,6 @@ class MapTypePrinter:
 		return str(self.val.type)
 
 	def children(self):
-		MapBucketCount = 8 # see internal/abi.go:MapBucketCount
 		B = self.val['B']
 		buckets = self.val['buckets']
 		oldbuckets = self.val['oldbuckets']
@@ -179,7 +178,7 @@ class MapTypePrinter:
 					bp = oldbp
 			while bp:
 				b = bp.dereference()
-				for i in xrange(MapBucketCount):
+				for i in xrange(8):
 					if b['tophash'][i] != 0:
 						k = b['keys'][i]
 						v = b['values'][i]

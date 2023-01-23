@@ -7,7 +7,6 @@ package reflectdata
 import (
 	"encoding/binary"
 	"fmt"
-	"internal/abi"
 	"os"
 	"sort"
 	"strings"
@@ -66,17 +65,10 @@ type typeSig struct {
 // we include only enough information to generate a correct GC
 // program for it.
 // Make sure this stays in sync with runtime/map.go.
-//
-//	A "bucket" is a "struct" {
-//	      tophash [BUCKETSIZE]uint8
-//	      keys [BUCKETSIZE]keyType
-//	      elems [BUCKETSIZE]elemType
-//	      overflow *bucket
-//	    }
 const (
-	BUCKETSIZE  = abi.MapBucketCount
-	MAXKEYSIZE  = abi.MapMaxKeyBytes
-	MAXELEMSIZE = abi.MapMaxElemBytes
+	BUCKETSIZE  = 8
+	MAXKEYSIZE  = 128
+	MAXELEMSIZE = 128
 )
 
 func structfieldSize() int { return 3 * types.PtrSize }       // Sizeof(runtime.structfield{})

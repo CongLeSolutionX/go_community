@@ -63,21 +63,20 @@ import (
 
 const (
 	// Maximum number of key/elem pairs a bucket can hold.
-	bucketCntBits = abi.MapBucketCountBits
-	bucketCnt     = abi.MapBucketCount
+	bucketCntBits = 3
+	bucketCnt     = 1 << bucketCntBits
 
-	// Maximum average load of a bucket that triggers growth is bucketCnt*13/16 (about 80% full)
-	// Because of minimum alignment rules, bucketCnt is known to be at least 8.
+	// Maximum average load of a bucket that triggers growth is 6.5.
 	// Represent as loadFactorNum/loadFactorDen, to allow integer math.
+	loadFactorNum = 13
 	loadFactorDen = 2
-	loadFactorNum = (bucketCnt * 13 / 16) * loadFactorDen
 
 	// Maximum key or elem size to keep inline (instead of mallocing per element).
 	// Must fit in a uint8.
 	// Fast versions cannot handle big elems - the cutoff size for
 	// fast versions in cmd/compile/internal/gc/walk.go must be at most this elem.
-	maxKeySize  = abi.MapMaxKeyBytes
-	maxElemSize = abi.MapMaxElemBytes
+	maxKeySize  = 128
+	maxElemSize = 128
 
 	// data offset should be the size of the bmap struct, but needs to be
 	// aligned correctly. For amd64p32 this means 64-bit alignment
