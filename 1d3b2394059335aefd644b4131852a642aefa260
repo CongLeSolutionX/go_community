@@ -197,6 +197,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "12aaa595_5244e3a1",
+        "filename": "src/cmd/internal/obj/wasm/wasmobj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-01-23T16:37:01Z",
+      "side": 1,
+      "message": "There\u0027s a comment from @cherryyz@google.com about maybe moving this codegen into a different package, could you have a look? https://go-review.googlesource.com/c/go/+/350737/comment/3fd64445_274515a5/",
+      "revId": "1d3b2394059335aefd644b4131852a642aefa260",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5e5661f8_d8769059",
         "filename": "src/cmd/internal/obj/wasm/wasmobj.go",
         "patchSetId": 2
@@ -231,6 +248,57 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b031a708_3d004f19",
+        "filename": "src/cmd/internal/obj/wasm/wasmobj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-01-23T16:37:01Z",
+      "side": 1,
+      "message": "More context: https://go-review.googlesource.com/c/go/+/350737/comment/ee568639_20dc63cf/",
+      "revId": "1d3b2394059335aefd644b4131852a642aefa260",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "afd61718_e1e9dad4",
+        "filename": "src/cmd/internal/obj/wasm/wasmobj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-01-23T16:37:01Z",
+      "side": 1,
+      "message": "More context: https://go-review.googlesource.com/c/go/+/350737/comment/aff178f0_94f827eb/",
+      "revId": "1d3b2394059335aefd644b4131852a642aefa260",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1c11f81_6eebe023",
+        "filename": "src/cmd/internal/obj/wasm/wasmobj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-01-23T16:37:01Z",
+      "side": 1,
+      "message": "More context: https://go-review.googlesource.com/c/go/+/350737/comment/aff178f0_94f827eb/",
+      "revId": "1d3b2394059335aefd644b4131852a642aefa260",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dccf7538_25708376",
         "filename": "src/cmd/link/internal/loader/loader.go",
         "patchSetId": 2
@@ -247,6 +315,46 @@
         "startChar": 29,
         "endLine": 1604,
         "endChar": 37
+      },
+      "revId": "1d3b2394059335aefd644b4131852a642aefa260",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c97cbdf7_1a838aef",
+        "filename": "src/cmd/link/internal/wasm/asm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-01-23T16:37:01Z",
+      "side": 1,
+      "message": "Looks like we can use `binary.LittleEndian.Uint32/Uint64` directly here instead: https://go-review.googlesource.com/c/go/+/350737/comment/733f7ae9_2b87adb7/.",
+      "revId": "1d3b2394059335aefd644b4131852a642aefa260",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7603988e_84e5c402",
+        "filename": "src/cmd/link/internal/wasm/asm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-01-23T16:37:01Z",
+      "side": 1,
+      "message": "No backticks in comments (https://go-review.googlesource.com/c/go/+/350737/comment/f81b955c_d7d442df/).",
+      "range": {
+        "startLine": 177,
+        "startChar": 40,
+        "endLine": 177,
+        "endChar": 46
       },
       "revId": "1d3b2394059335aefd644b4131852a642aefa260",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
