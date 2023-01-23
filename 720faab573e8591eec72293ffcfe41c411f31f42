@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "15cdbeaa_36ae6bfd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2023-01-23T17:32:42Z",
+      "side": 1,
+      "message": "Unsure what the code in wasm_export_getsp was trying to do, but adding it back in breaks things so I left it out.",
+      "revId": "720faab573e8591eec72293ffcfe41c411f31f42",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
