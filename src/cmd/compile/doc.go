@@ -247,14 +247,46 @@ at times when it is unsafe for the calling goroutine to be preempted.
 
 	//go:linkname localname [importpath.name]
 
-This special directive does not apply to the Go code that follows it.
-Instead, the //go:linkname directive instructs the compiler to use ``importpath.name''
-as the object file symbol name for the variable or function declared as ``localname''
-in the source code.
-If the ``importpath.name'' argument is omitted, the directive uses the
-symbol's default object file symbol name and only has the effect of making
-the symbol accessible to other packages.
-Because this directive can subvert the type system and package
-modularity, it is only enabled in files that have imported "unsafe".
+The //go:linkname directive conventionally precedes the var or func
+declaration named by ``localname``, though its position does not
+change its effect.
+This directive determines the object-file symbol used for a Go var or
+func declaration, allowing two Go symbols to alias the same
+object-file symbol, thereby enabling one package to access a symbol in
+another package even when this would violate the usual encapsulation
+of unexported declarations, or even type safety.
+For that reason, it is only enabled in files that have imported "unsafe".
+
+It may be used in two scenarios. In the first, a higher-level
+package unilaterally creates an alias for a lower-level symbol:
+
+    package upper
+    import _ "unsafe"
+    //go:linkname g lower.f
+    func g()
+
+    package lower
+    func f() { ... }
+
+In the second scenario, a lower-level package defines a symbol whose
+object file name belongs to a higher-level package.
+Both packages contain a linkname directive: the lower package uses the
+two-argument form and the upper package uses the one-argument form.
+In the example below, lower.f is an alias for the function upper.g:
+
+    package upper
+    import _ "unsafe"
+    //go:linkname g
+    func g()
+
+    package lower
+    import _ "unsafe"
+    //go:linkname f upper.g
+    func f() { ... }
+
+The upper linkname directive suppresses the usual error for a function
+that lacks a body. (That check may alternatively be suppressed by
+including a .s file, even an empty one, in the package.)
+
 */
 package main
