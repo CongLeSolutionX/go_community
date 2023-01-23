@@ -109,6 +109,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c0504fb0_163a91d0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-01-23T15:23:57Z",
+      "side": 1,
+      "message": "\u003e loadinternal: cannot find runtime/cgo\n\nThis is related to #31544. It is not an error for the linker. Previously we also saw it for some bootstrap binaries on iOS (and Android), and it is fine.",
+      "parentUuid": "7e85cfec_166f3e3b",
+      "revId": "8a27154bcdb657fd172e77ba19ac0a5dccb996fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5487bb1e_bae6a974",
         "filename": "src/cmd/dist/build.go",
         "patchSetId": 12
