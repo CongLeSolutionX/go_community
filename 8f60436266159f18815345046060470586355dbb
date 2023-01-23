@@ -90,6 +90,40 @@
       "parentUuid": "5d9e1643_dff492e7",
       "revId": "8f60436266159f18815345046060470586355dbb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a519b0c_a8e21056",
+        "filename": "misc/wasm/go_js_wasm_exec",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-01-23T02:23:39Z",
+      "side": 1,
+      "message": "This could probably be moved to a separate CL as it\u0027s more of a bug fix and unrelated to this CL.",
+      "revId": "8f60436266159f18815345046060470586355dbb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "103fd0e9_8778a275",
+        "filename": "src/cmd/compile/internal/ir/sizeof_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-01-23T02:23:39Z",
+      "side": 1,
+      "message": "I noticed this test started failing when I was playing around with this, I guess it\u0027s because of the new field in `Func`? Do you know why `Name` changed (but only on 32 bit platforms?)?",
+      "revId": "8f60436266159f18815345046060470586355dbb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
