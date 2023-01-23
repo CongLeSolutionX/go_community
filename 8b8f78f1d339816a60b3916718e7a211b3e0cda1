@@ -207,6 +207,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "722ea622_6e56e17f",
+        "filename": "src/runtime/sys_windows_386.s",
+        "patchSetId": 19
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-01-23T15:55:17Z",
+      "side": 1,
+      "message": "No. On 386, register ABI is not used. So it stores on stack. (It might happen to be also in AX due to the the register allocator happens to use AX, but that is not a guarantee.)\n\nThe code change adds a load, which seems right, although doesn\u0027t match what you said here.",
+      "parentUuid": "7b876887_73458956",
+      "revId": "8b8f78f1d339816a60b3916718e7a211b3e0cda1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "45d78a72_ed9948b8",
