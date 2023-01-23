@@ -70,6 +70,24 @@
       "message": "Why is this added to a case that is intended for TLS relocations? Seems like it fits in with the other GOT case.",
       "revId": "db18acb0a4bb5be48d3da11b6e4118bc03c3b750",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31724e77_50a29212",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1156,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-01-23T17:56:24Z",
+      "side": 1,
+      "message": "It translates to one external relocation, unlike the TOC relative reloc.",
+      "parentUuid": "01192a06_f65aa95c",
+      "revId": "db18acb0a4bb5be48d3da11b6e4118bc03c3b750",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
