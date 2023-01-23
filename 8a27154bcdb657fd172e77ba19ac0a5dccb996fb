@@ -127,6 +127,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4cb4d255_50b34541",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-01-23T15:30:35Z",
+      "side": 1,
+      "message": "I thought the `ios` builder uses a cross-compiler built with `GOOS\u003ddarwin` — is that not the case?\n\nIf the host toolchain is compiled with `GOOS\u003ddarwin`, then it should be fine to build it with `CGO_ENABLED\u003d0`, since that seems to work fine on the regular `darwin` builders. 🤔",
+      "parentUuid": "7e85cfec_166f3e3b",
+      "revId": "8a27154bcdb657fd172e77ba19ac0a5dccb996fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5487bb1e_bae6a974",
         "filename": "src/cmd/dist/build.go",
         "patchSetId": 12
