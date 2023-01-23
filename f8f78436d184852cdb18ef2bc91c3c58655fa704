@@ -90,6 +90,24 @@
       "parentUuid": "84978d0a_eb6812b4",
       "revId": "f8f78436d184852cdb18ef2bc91c3c58655fa704",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bedb306f_5b46ffd4",
+        "filename": "src/runtime/map_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 695,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-01-23T15:57:32Z",
+      "side": 1,
+      "message": "Much better!",
+      "parentUuid": "8e148fd0_4c5cb729",
+      "revId": "f8f78436d184852cdb18ef2bc91c3c58655fa704",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
