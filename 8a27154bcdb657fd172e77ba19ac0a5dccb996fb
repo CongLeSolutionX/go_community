@@ -91,6 +91,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7e85cfec_166f3e3b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-01-23T15:21:34Z",
+      "side": 1,
+      "message": "Would it be possible to force cgo for the iOS builder? Does setting CGO_ENABLED\u003d1 in the environment on the builder work?\n\nPreviously almost all binaries on iOS are cgo binaries, and there are probably places assuming that is true. Non-cgo binaries may work (some bootstrap binaries were non-cgo), but may not be well tested and supported.\n\nFrom user\u0027s perspective, user mostly won\u0027t build a toolchain running _on_ iOS. They will build a toolchain on macOS then cross compile to iOS. So enabling cgo shouldn\u0027t hurt reproducibility for the toolchain that user uses.",
+      "parentUuid": "a4c96081_3f47be56",
+      "revId": "8a27154bcdb657fd172e77ba19ac0a5dccb996fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5487bb1e_bae6a974",
         "filename": "src/cmd/dist/build.go",
         "patchSetId": 12
