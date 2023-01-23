@@ -181,6 +181,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5bb86bc3_a9848859",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-01-23T16:52:49Z",
+      "side": 1,
+      "message": "For platforms that always require external linking (even otherwise pure-Go), disable cgo is probably not really enough for reproducible toolchain anyway, as the C linker is still used. Maybe we could allow cgo on those platforms. Or we pursue supporting internal linking everywhere...",
+      "parentUuid": "a6288b48_97d3291f",
+      "revId": "8a27154bcdb657fd172e77ba19ac0a5dccb996fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5487bb1e_bae6a974",
         "filename": "src/cmd/dist/build.go",
         "patchSetId": 12
