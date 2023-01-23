@@ -225,6 +225,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e99f1614_74f6e99d",
+        "filename": "src/runtime/sys_windows_386.s",
+        "patchSetId": 19
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-01-23T16:07:01Z",
+      "side": 1,
+      "message": "Yep, I was reviewing this discussion earlier today and I realized that I was wrong on 386, the return value is not guaranteed to be on AX. So I fixed the code and still hadn\u0027t posted an update on this thread. I believe it is right now.",
+      "parentUuid": "722ea622_6e56e17f",
+      "revId": "8b8f78f1d339816a60b3916718e7a211b3e0cda1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "45d78a72_ed9948b8",
