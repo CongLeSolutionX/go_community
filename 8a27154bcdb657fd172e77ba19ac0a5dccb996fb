@@ -69,6 +69,58 @@
       "message": "Looks like this CL is causing the toolchain build process fails on iOS.\n\nhttps://build.golang.org/log/fe7dc38047bccedcf67640847ff602864fabc40b",
       "revId": "8a27154bcdb657fd172e77ba19ac0a5dccb996fb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f05ac96d_13b0d1d2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-01-23T15:16:41Z",
+      "side": 1,
+      "message": "I see what appear to be two separate issues in the builder output.\n\n- There are a lot of `loadinternal: cannot find runtime/cgo` messages emitted by the linker (filed as #57961), but since the build proceeds past them I infer that they do not cause the linker to exit with an error status. \n\n- Building and running the `archive/tar` test (which happens to be the first test in the run) consistently times out (filed as #57962), but due to #53201 I can\u0027t tell at what point in the build/test cycle that happens, let alone why.",
+      "parentUuid": "a4c96081_3f47be56",
+      "revId": "8a27154bcdb657fd172e77ba19ac0a5dccb996fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5487bb1e_bae6a974",
+        "filename": "src/cmd/dist/build.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-01-23T15:16:41Z",
+      "side": 1,
+      "message": "Hmm, should `ios` be included in this list too?",
+      "revId": "8a27154bcdb657fd172e77ba19ac0a5dccb996fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e6d5937_442049dd",
+        "filename": "src/cmd/dist/build.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-01-23T15:16:41Z",
+      "side": 1,
+      "message": "It looks like this line was comment out at PS9. Was that intentional?",
+      "revId": "8a27154bcdb657fd172e77ba19ac0a5dccb996fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
