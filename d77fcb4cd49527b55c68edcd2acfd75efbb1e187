@@ -16,6 +16,23 @@
       "message": "Thanks.",
       "revId": "d77fcb4cd49527b55c68edcd2acfd75efbb1e187",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3f2a0c1_2aa2b067",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2023-01-24T15:19:52Z",
+      "side": 1,
+      "message": "This seems worse. fmt.Print and fmt.Fprint take ...any, not a string, so all these strings (or many of them) get boxed inside an interface.\n\nI think the Printf is fine.\n\nWhat\u0027s the purported benefits of this change? None are listed.",
+      "revId": "d77fcb4cd49527b55c68edcd2acfd75efbb1e187",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
