@@ -33,6 +33,24 @@
       "message": "This seems worse. fmt.Print and fmt.Fprint take ...any, not a string, so all these strings (or many of them) get boxed inside an interface.\n\nI think the Printf is fine.\n\nWhat\u0027s the purported benefits of this change? None are listed.",
       "revId": "d77fcb4cd49527b55c68edcd2acfd75efbb1e187",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0aa922d_d26f5206",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34895
+      },
+      "writtenOn": "2023-01-24T17:34:02Z",
+      "side": 1,
+      "message": "That is a good point.",
+      "parentUuid": "b3f2a0c1_2aa2b067",
+      "revId": "d77fcb4cd49527b55c68edcd2acfd75efbb1e187",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
