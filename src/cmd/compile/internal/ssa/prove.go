@@ -856,9 +856,21 @@ func prove(f *Func) {
 			case OpAnd64, OpAnd32, OpAnd16, OpAnd8:
 				ft.update(b, v, v.Args[1], unsigned, lt|eq)
 				ft.update(b, v, v.Args[0], unsigned, lt|eq)
+<<<<<<< HEAD   (5adb0c [release-branch.go1.20] time: revert strict parsing of RFC 3)
 			case OpOr64, OpOr32, OpOr16, OpOr8:
 				ft.update(b, v, v.Args[1], unsigned, gt|eq)
 				ft.update(b, v, v.Args[0], unsigned, gt|eq)
+=======
+			case OpDiv64u, OpDiv32u, OpDiv16u, OpDiv8u,
+				OpRsh8Ux64, OpRsh8Ux32, OpRsh8Ux16, OpRsh8Ux8,
+				OpRsh16Ux64, OpRsh16Ux32, OpRsh16Ux16, OpRsh16Ux8,
+				OpRsh32Ux64, OpRsh32Ux32, OpRsh32Ux16, OpRsh32Ux8,
+				OpRsh64Ux64, OpRsh64Ux32, OpRsh64Ux16, OpRsh64Ux8:
+				ft.update(b, v, v.Args[0], unsigned, lt|eq)
+			case OpMod64u, OpMod32u, OpMod16u, OpMod8u:
+				ft.update(b, v, v.Args[0], unsigned, lt|eq)
+				ft.update(b, v, v.Args[1], unsigned, lt)
+>>>>>>> CHANGE (a6ddb1 Revert "cmd/compile: teach prove about bitwise OR operation")
 			case OpPhi:
 				// Determine the min and max value of OpPhi composed entirely of integer constants.
 				//
