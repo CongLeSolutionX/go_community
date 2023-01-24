@@ -1,6 +1,46 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c2f970e_41ce2b7a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-01-24T18:02:36Z",
+      "side": 1,
+      "message": "Would be nice to have some benchmarks for compiler speed and binary size impact, for both the dead map case (for improvement) and the live map case (for overhead). I\u0027d expect the overhead is quite small.",
+      "revId": "6a566a1b3171e438c796b881a238f1de35b2dc92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "db82d85d_1944091d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-01-24T18:02:36Z",
+      "side": 1,
+      "message": "As we only do this for large maps, this is probably fine. A function call is probably not a big deal compared to the actual map init code.",
+      "range": {
+        "startLine": 49,
+        "startChar": 2,
+        "endLine": 50,
+        "endChar": 39
+      },
+      "revId": "6a566a1b3171e438c796b881a238f1de35b2dc92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "cdf16b4f_f3360fd3",
@@ -85,6 +125,286 @@
       "writtenOn": "2023-01-24T13:30:40Z",
       "side": 1,
       "message": "friendly ping",
+      "revId": "6a566a1b3171e438c796b881a238f1de35b2dc92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bba26e5e_eb686720",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-01-24T18:02:36Z",
+      "side": 1,
+      "message": "Looks nice overall, thanks! I was considering doing this. Apparently you get ahead of me 😊\n\nSo the overall logic seems that the current compiler creates map init code to put into a single init function, and the new code moves them out as an outlined call? Maybe worth mentioning the overall idea somewhere in the code comment. Also, would it be possible to create separate init functions in the first place?",
+      "revId": "6a566a1b3171e438c796b881a238f1de35b2dc92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26f97ab6_277019b7",
+        "filename": "src/cmd/compile/internal/base/flag.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-01-24T18:02:36Z",
+      "side": 1,
+      "message": "Maybe consider putting them in debug flags, i.e. -d\u003dXXX ?",
+      "range": {
+        "startLine": 126,
+        "startChar": 0,
+        "endLine": 128,
+        "endChar": 87
+      },
+      "revId": "6a566a1b3171e438c796b881a238f1de35b2dc92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fdd1035e_74b0927d",
+        "filename": "src/cmd/compile/internal/staticinit/sched.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-01-24T18:02:36Z",
+      "side": 1,
+      "message": "Maybe document what fn is.",
+      "range": {
+        "startLine": 52,
+        "startChar": 41,
+        "endLine": 52,
+        "endChar": 52
+      },
+      "revId": "6a566a1b3171e438c796b881a238f1de35b2dc92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8530d591_be8c51a9",
+        "filename": "src/cmd/compile/internal/staticinit/sched.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 935,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-01-24T18:02:36Z",
+      "side": 1,
+      "message": "or has side effect?",
+      "revId": "6a566a1b3171e438c796b881a238f1de35b2dc92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7b19a2f_21ecdbdf",
+        "filename": "src/cmd/compile/internal/staticinit/sched.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 936,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-01-24T18:02:36Z",
+      "side": 1,
+      "message": "Maybe document what fn is.",
+      "range": {
+        "startLine": 936,
+        "startChar": 37,
+        "endLine": 936,
+        "endChar": 48
+      },
+      "revId": "6a566a1b3171e438c796b881a238f1de35b2dc92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ef74d9c_e125153e",
+        "filename": "src/cmd/compile/internal/staticinit/sched.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 946,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-01-24T18:02:36Z",
+      "side": 1,
+      "message": "Maybe we could consider nm is an interface type and the RHS is a map. Probably not a common case. Okay to not handle.",
+      "revId": "6a566a1b3171e438c796b881a238f1de35b2dc92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6e59953_a1dd452a",
+        "filename": "src/cmd/compile/internal/staticinit/sched.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 955,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-01-24T18:02:36Z",
+      "side": 1,
+      "message": "So the size is AST size, not the number of entries?",
+      "range": {
+        "startLine": 950,
+        "startChar": 0,
+        "endLine": 955,
+        "endChar": 3
+      },
+      "revId": "6a566a1b3171e438c796b881a238f1de35b2dc92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df827298_4c252aa6",
+        "filename": "src/cmd/compile/internal/staticinit/sched.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 990,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-01-24T18:02:36Z",
+      "side": 1,
+      "message": "Maybe mark the new function noinline. (Currently this runs after the inliner so it doesn\u0027t actually matter. But in case that changes.)",
+      "revId": "6a566a1b3171e438c796b881a238f1de35b2dc92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2f5797c_1b66b19d",
+        "filename": "src/cmd/compile/internal/staticinit/sched.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 995,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-01-24T18:02:36Z",
+      "side": 1,
+      "message": "How difficult is to do this before inlining?\n\nIf that is hard, does the inliner create an OINLCALL node containing the whole inline body? If so, we can just migrate the OINLCALL subtree?",
+      "revId": "6a566a1b3171e438c796b881a238f1de35b2dc92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e98fe9e_4a7b2147",
+        "filename": "src/cmd/compile/internal/staticinit/sched.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 1067,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-01-24T18:02:36Z",
+      "side": 1,
+      "message": "(Note to myself: haven\u0027t read this function carefully)",
+      "revId": "6a566a1b3171e438c796b881a238f1de35b2dc92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "170976b5_bc4c77d9",
+        "filename": "src/cmd/link/internal/ld/deadcode.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-01-24T18:02:36Z",
+      "side": 1,
+      "message": "I think we can do it when applying relocations. E.g. if it is a CALL-like weak relocation and the target symbol is unreachable, change the target to a no-op function. Like the runtime.unreachableMethod rewrite for unreachable method in method tables.\nhttps://cs.opensource.google/go/go/+/master:src/cmd/link/internal/ld/data.go;l\u003d346\nhttps://cs.opensource.google/go/go/+/master:src/cmd/link/internal/ld/data.go;l\u003d635\nThis way we don\u0027t need to edit those symbols.\n\nThis may need a little extra work than the unreachableMethod case as the CALL relocations have architecture-dependent variants.",
+      "revId": "6a566a1b3171e438c796b881a238f1de35b2dc92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cbaa6a95_8b1d9cf6",
+        "filename": "src/cmd/link/internal/ld/deadcode_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-01-24T18:02:36Z",
+      "side": 1,
+      "message": "Seems not much different from a slice literal. If typing []string is long, maybe we can define \"type ss \u003d []string\" then use ss{...}.",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 2
+      },
+      "revId": "6a566a1b3171e438c796b881a238f1de35b2dc92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10058f24_568f8354",
+        "filename": "src/cmd/link/internal/ld/main.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-01-24T18:02:36Z",
+      "side": 1,
+      "message": "Maybe start with \"debug\" (like the ones above)?",
+      "range": {
+        "startLine": 104,
+        "startChar": 34,
+        "endLine": 104,
+        "endChar": 49
+      },
+      "revId": "6a566a1b3171e438c796b881a238f1de35b2dc92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce8b5148_b6cbc3c9",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 1424,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-01-24T18:02:36Z",
+      "side": 1,
+      "message": "Interesting. Do we instrument the runtime? Does the norace pragma help? (If no, assembly function is okay.)",
+      "range": {
+        "startLine": 1423,
+        "startChar": 37,
+        "endLine": 1424,
+        "endChar": 54
+      },
       "revId": "6a566a1b3171e438c796b881a238f1de35b2dc92",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
