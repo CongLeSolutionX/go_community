@@ -38,6 +38,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "70b0a68b_117f96c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-01-24T21:10:37Z",
+      "side": 1,
+      "message": "I posted compilebench numbers previously in https://go-review.git.corp.google.com/c/go/+/461315/comments/efb69fb3_62d50fb0 (kind of lost in the sauce there). The LinkCompiler result I think is bogus, I need to do a rerun again since things may have changed since then. I\u0027ll add them to the commit messages once I have new numbers.",
+      "parentUuid": "9c2f970e_41ce2b7a",
+      "revId": "6a566a1b3171e438c796b881a238f1de35b2dc92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "db82d85d_1944091d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 12
@@ -181,6 +199,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2121197_6c7adf1a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-01-24T21:10:37Z",
+      "side": 1,
+      "message": "Placing the map inits in separate functions prior to inlining is an interesting idea, I\u0027ll have to take a look at that.\n\nI can think of a few small risks with the pre-inline route...\n\n...doing the size cutoff test post-inlining is potentially more accurate, since we can\u0027t tell what will/won\u0027t be inlined. For example if we have a global map \"var m \u003d map[X]Y{foo():bar()}\", it looks small before inlining, but could expand into a giant/enormous blob after inlining.\n\nAlso for packages with very large init functions, this might result in more inlining overall, since it would decrease the size of the main init function, possibly bumping it under the \"large function\" threshold (which could be either good of bad depending). Not sure if that is a big deal.\n\nIn any case, I will prototype it and see what it looks like.",
+      "parentUuid": "bba26e5e_eb686720",
+      "revId": "6a566a1b3171e438c796b881a238f1de35b2dc92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "26f97ab6_277019b7",
@@ -194,6 +230,30 @@
       "writtenOn": "2023-01-24T18:02:36Z",
       "side": 1,
       "message": "Maybe consider putting them in debug flags, i.e. -d\u003dXXX ?",
+      "range": {
+        "startLine": 126,
+        "startChar": 0,
+        "endLine": 128,
+        "endChar": 87
+      },
+      "revId": "6a566a1b3171e438c796b881a238f1de35b2dc92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3bbd475_d4ade77d",
+        "filename": "src/cmd/compile/internal/base/flag.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-01-24T21:10:37Z",
+      "side": 1,
+      "message": "This is a good idea. I\u0027ll migrate them over.",
+      "parentUuid": "26f97ab6_277019b7",
       "range": {
         "startLine": 126,
         "startChar": 0,
@@ -244,6 +304,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea6581f0_7c0b0ff2",
+        "filename": "src/cmd/compile/internal/staticinit/sched.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 935,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-01-24T21:10:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8530d591_be8c51a9",
+      "revId": "6a566a1b3171e438c796b881a238f1de35b2dc92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b7b19a2f_21ecdbdf",
@@ -284,6 +362,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "70fea8a1_45f47de7",
+        "filename": "src/cmd/compile/internal/staticinit/sched.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 946,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-01-24T21:10:37Z",
+      "side": 1,
+      "message": "Interesting thought. I will add a TODO/FIXME.",
+      "parentUuid": "9ef74d9c_e125153e",
+      "revId": "6a566a1b3171e438c796b881a238f1de35b2dc92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d6e59953_a1dd452a",
@@ -297,6 +393,30 @@
       "writtenOn": "2023-01-24T18:02:36Z",
       "side": 1,
       "message": "So the size is AST size, not the number of entries?",
+      "range": {
+        "startLine": 950,
+        "startChar": 0,
+        "endLine": 955,
+        "endChar": 3
+      },
+      "revId": "6a566a1b3171e438c796b881a238f1de35b2dc92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a513e3ed_196db4ac",
+        "filename": "src/cmd/compile/internal/staticinit/sched.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 955,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-01-24T21:10:37Z",
+      "side": 1,
+      "message": "Yes, size of AST.  We could change that of course if need be.",
+      "parentUuid": "d6e59953_a1dd452a",
       "range": {
         "startLine": 950,
         "startChar": 0,
@@ -377,6 +497,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "16f88072_6b8088e8",
+        "filename": "src/cmd/link/internal/ld/deadcode.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-01-24T21:10:37Z",
+      "side": 1,
+      "message": "Interesting idea, I had forgotten about that bit in relocsym.\n\nI will prototype that idea. I think you are right that it will be faster to do it that way, although I worry a bit that there might be some future case where the compiler is generating other weak relocations (not involving map inits) and we need to be able to distinguish between the two. I guess if that happens we can add more bits/flags to the reloc type.",
+      "parentUuid": "170976b5_bc4c77d9",
+      "revId": "6a566a1b3171e438c796b881a238f1de35b2dc92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cbaa6a95_8b1d9cf6",
         "filename": "src/cmd/link/internal/ld/deadcode_test.go",
         "patchSetId": 12
@@ -388,6 +526,30 @@
       "writtenOn": "2023-01-24T18:02:36Z",
       "side": 1,
       "message": "Seems not much different from a slice literal. If typing []string is long, maybe we can define \"type ss \u003d []string\" then use ss{...}.",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 2
+      },
+      "revId": "6a566a1b3171e438c796b881a238f1de35b2dc92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65fa0f65_14fb4c64",
+        "filename": "src/cmd/link/internal/ld/deadcode_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-01-24T21:10:37Z",
+      "side": 1,
+      "message": "Fair enough, I will fix that up.",
+      "parentUuid": "cbaa6a95_8b1d9cf6",
       "range": {
         "startLine": 20,
         "startChar": 0,
@@ -434,6 +596,30 @@
       "writtenOn": "2023-01-24T18:02:36Z",
       "side": 1,
       "message": "Interesting. Do we instrument the runtime? Does the norace pragma help? (If no, assembly function is okay.)",
+      "range": {
+        "startLine": 1423,
+        "startChar": 37,
+        "endLine": 1424,
+        "endChar": 54
+      },
+      "revId": "6a566a1b3171e438c796b881a238f1de35b2dc92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cad90e0c_61fbccab",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 1424,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-01-24T21:10:37Z",
+      "side": 1,
+      "message": "We do instrument the runtime. I don\u0027t think norace pragma will help, at least not for coverage.",
+      "parentUuid": "ce8b5148_b6cbc3c9",
       "range": {
         "startLine": 1423,
         "startChar": 37,
