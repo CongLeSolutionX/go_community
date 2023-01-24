@@ -87,6 +87,24 @@
       "message": "This one and the next could have a line added for ppc64x.",
       "revId": "606f5c69ae8e5c298e2f1581a1985204d02a6c23",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c76d4f4_ba0ebd59",
+        "filename": "test/codegen/mathbits.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 812,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-01-24T23:04:33Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "1b35e6c0_fbb53bad",
+      "revId": "606f5c69ae8e5c298e2f1581a1985204d02a6c23",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
