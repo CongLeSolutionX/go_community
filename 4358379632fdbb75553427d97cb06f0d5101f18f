@@ -34,6 +34,24 @@
       "parentUuid": "d3698857_69bd9765",
       "revId": "4358379632fdbb75553427d97cb06f0d5101f18f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96e0c7fe_793749bb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2023-01-24T06:32:49Z",
+      "side": 1,
+      "message": "The tree is open for Go 1.21 development.\nhttps://groups.google.com/g/golang-dev/c/09IwUs7cxXA/m/c2jyIhECBQAJ",
+      "parentUuid": "a658ab2e_cf5f2667",
+      "revId": "4358379632fdbb75553427d97cb06f0d5101f18f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
