@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e717721_6dae9458",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2023-01-24T20:02:09Z",
+      "side": 1,
+      "message": "A good test program is a blank import of \"unicode\". See #54098\n\nGo 1.19:\n```\n$ go build main.go \u0026\u0026 du -bs main\n1203051 main\n$ go build main_unicode.go \u0026\u0026 du -bs main_unicode\n1309319 main_unicode\n```\nthat\u0027s an increase of ~104KiB\n\nGo with this patch:\n```\n$ go build main.go \u0026\u0026 du -bs main\n1234628 main\n$ go build main_unicode.go \u0026\u0026 du -bs main_unicode\n1243708 main_unicode\n```\nthat\u0027s an increase of only ~9KiB!",
+      "parentUuid": "9c2f970e_41ce2b7a",
+      "revId": "6a566a1b3171e438c796b881a238f1de35b2dc92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "db82d85d_1944091d",
@@ -142,6 +160,23 @@
       "writtenOn": "2023-01-24T18:02:36Z",
       "side": 1,
       "message": "Looks nice overall, thanks! I was considering doing this. Apparently you get ahead of me 😊\n\nSo the overall logic seems that the current compiler creates map init code to put into a single init function, and the new code moves them out as an outlined call? Maybe worth mentioning the overall idea somewhere in the code comment. Also, would it be possible to create separate init functions in the first place?",
+      "revId": "6a566a1b3171e438c796b881a238f1de35b2dc92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "12096451_ac1cac4a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2023-01-24T20:02:09Z",
+      "side": 1,
+      "message": "Very cool. Thank you for working on this.",
       "revId": "6a566a1b3171e438c796b881a238f1de35b2dc92",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
