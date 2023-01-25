@@ -14,6 +14,14 @@ import (
 	"unsafe"
 )
 
+var (
+	tempPath2Exists bool
+)
+
+func init() {
+	tempPath2Exists = windows.LoadGetTempPath2()
+}
+
 // file is the real representation of *File.
 // The extra level of indirection ensures that no clients of os
 // can overwrite this data, which could cause the finalizer
@@ -300,10 +308,14 @@ func Pipe() (r *File, w *File, err error) {
 }
 
 func tempDir() string {
+	getTempPath := syscall.GetTempPath
+	if tempPath2Exists {
+		getTempPath = windows.GetTempPath2
+	}
 	n := uint32(syscall.MAX_PATH)
 	for {
 		b := make([]uint16, n)
-		n, _ = syscall.GetTempPath(uint32(len(b)), &b[0])
+		n, _ = getTempPath(uint32(len(b)), &b[0])
 		if n > uint32(len(b)) {
 			continue
 		}
