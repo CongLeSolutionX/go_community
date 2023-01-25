@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "17cd9fab_c858827a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-01-25T00:19:39Z",
+      "side": 1,
+      "message": "I think the regexp doesn\u0027t ensure that ppc64 and ppc64le checks expect exactly the same content. Would it be possible to write it to replace only when the contents are same? Then we can be more confident about the CL without checking every case.",
+      "revId": "4864d28683c6239f61c61ef98bf11c2c960ec805",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5707a387_9c560366",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
