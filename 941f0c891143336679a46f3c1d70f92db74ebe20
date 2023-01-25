@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf1c89fd_c6513813",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-01-25T07:24:18Z",
+      "side": 1,
+      "message": "Update the commit message with the new approach, e.g., RtlGetNtVersionNumbers is no longer used.",
+      "revId": "941f0c891143336679a46f3c1d70f92db74ebe20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41b48004_d8851c7f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-01-25T07:24:18Z",
+      "side": 1,
+      "message": "Thanks for working on this!",
+      "revId": "941f0c891143336679a46f3c1d70f92db74ebe20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19eefba4_a6a38c28",
+        "filename": "src/internal/syscall/windows/syscall_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-01-25T07:24:18Z",
+      "side": 1,
+      "message": "You can simplify this by writing `return procGetTempPath2W.Find() \u003d\u003d nil` instead.",
+      "revId": "941f0c891143336679a46f3c1d70f92db74ebe20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
