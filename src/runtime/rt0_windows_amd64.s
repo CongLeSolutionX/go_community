@@ -24,7 +24,9 @@ TEXT _rt0_amd64_windows_lib(SB),NOSPLIT|NOFRAME,$0x20
 	CALL	AX
 	RET
 
-TEXT _rt0_amd64_windows_lib_go(SB),NOSPLIT,$0
+// Leave space for four pointers on the stack as required
+// by the Windows amd64 calling convention.
+TEXT _rt0_amd64_windows_lib_go(SB),NOSPLIT|NOFRAME,$0x20
 	MOVQ  $0, DI
 	MOVQ	$0, SI
 	MOVQ	$runtime·rt0_go(SB), AX
