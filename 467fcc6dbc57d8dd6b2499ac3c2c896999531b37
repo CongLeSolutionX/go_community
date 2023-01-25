@@ -50,6 +50,24 @@
       "message": "This says \"better fix merged\", but I don\u0027t see it on the builder dashboard (maybe not yet merged)?",
       "revId": "467fcc6dbc57d8dd6b2499ac3c2c896999531b37",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "38eaf4ee_645ee059",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-01-25T14:51:14Z",
+      "side": 1,
+      "message": "Never mind ... looks like it is some sort of problem with the coordinator.",
+      "parentUuid": "ffdda21b_16bd3663",
+      "revId": "467fcc6dbc57d8dd6b2499ac3c2c896999531b37",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ],
   "submitRequirementResults": [
