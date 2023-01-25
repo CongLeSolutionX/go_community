@@ -42,7 +42,7 @@ func walkRange(nrange *ir.RangeStmt) ir.Node {
 		return mapRangeClear(nrange)
 	}
 
-	nfor := ir.NewForStmt(nrange.Pos(), nil, nil, nil, nil)
+	nfor := ir.NewForStmt(nrange.Pos(), nil, nil, nil, nil, nrange.DistinctVars)
 	nfor.SetInit(nrange.Init())
 	nfor.Label = nrange.Label
 
