@@ -145,6 +145,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b720e3ac_8f57f249",
+        "filename": "src/cmd/compile/internal/gc/main.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-01-25T23:01:08Z",
+      "side": 1,
+      "message": "The next step is to add the flag to the for/range nodes, set it appropriately, and in this code, only transform the marked loops.  An intermediate step is to copy the loopvar flag (which can be set per-package in this CL, though that is not the intended usual case) into the modified for/range nodes -- so we could test that incremental step, the loopvar setting should be preserved if the code is inlined into some other package w/ a different compilation setting.\n\nFor example: https://go.dev/cl/463595\n\nSSA transformation would continue to only handle the \"old\" style nodes with shared variables.\n\nNext step after that is to use language variant to set the flag.",
+      "parentUuid": "15495d4a_cdc66af1",
+      "revId": "6340d172c63e0ed1a5a23d9892f8fdf5e2b752e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "73d11161_0a43fd5f",
@@ -194,6 +212,24 @@
       "side": 1,
       "message": "Sorry, but I don\u0027t share your risk assessment here. IR is already hard enough to even construct correctly, and we have a worse track record with implementing transforms correctly. E.g., the static initializer optimization (CL 450136) is the most recent IR transformation to be added (back in November), it still needed multiple fixes (CLs 451376, 451555, 452676, 453315, 461686). Or recall we stopped backporting generics fixes to Go 1.18, because each time we tried to fix an issue with its transforms, we\u0027d break something else.\n\nThat\u0027s why the defining essence of the unified frontend\u0027s design was to avoid transforms, and instead to favor simple, universal IR constructs. I think that\u0027s the right approach to apply here too.",
       "parentUuid": "a432ed35_b8172e58",
+      "revId": "6340d172c63e0ed1a5a23d9892f8fdf5e2b752e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a79aefeb_3c288b58",
+        "filename": "src/cmd/compile/internal/loopvar/loopvar.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-01-25T23:01:08Z",
+      "side": 1,
+      "message": "I think this change is less \"deep\" and less prone to surprising interactions, than those two (especially generics).\n\nMost of this complexity has to live *somewhere* for a while, if not here, then in SSA code generation.  We need to be able to detect/report relevant loops, and the 3-clause rewrite is messy (over 1/3 of LOC in loopvar.go) no matter where we implement it.  That\u0027s 80% of the complexity that remains, somewhere (the 20% remainder where declarations and initializations are sorted properly ought to go away with OREDCL nodes -- on the other hand we\u0027d need to implement OREDCL nodes).\n\nTo remove the need to detect/report loops, I think we need to wait for the language change to propagate (I think at least 2 years), and we also need to ensure that the back-end removes the extra code added for 3-clause loops when it turns out to be unnecessary.\n\nAlso, it looks like you are proposing a use for OREDCL in the the 3-clause transformation (\"post-body\"), but I don\u0027t see the whole picture.  That code assigns back and forth between the shared and an unshared copies of the iteration variable.  I\u0027m clearly missing something.",
+      "parentUuid": "0cbaceba_89fa9fd0",
       "revId": "6340d172c63e0ed1a5a23d9892f8fdf5e2b752e2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
