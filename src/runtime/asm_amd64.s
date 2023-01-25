@@ -160,8 +160,8 @@ TEXT runtime·rt0_go(SB),NOSPLIT|NOFRAME|TOPFRAME,$0
 	// copy arguments forward on an even stack
 	MOVQ	DI, AX		// argc
 	MOVQ	SI, BX		// argv
-	SUBQ	$(5*8), SP		// 3args 2auto
 	ANDQ	$~15, SP
+	SUBQ	$(6*8), SP		// 3args, 2auto and 1 extra for alignment
 	MOVQ	AX, 24(SP)
 	MOVQ	BX, 32(SP)
 
