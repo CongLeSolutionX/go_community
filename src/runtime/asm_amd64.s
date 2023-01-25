@@ -156,12 +156,11 @@ GLOBL bad_cpu_msg<>(SB), RODATA, $84
 
 #endif
 
-TEXT runtime·rt0_go(SB),NOSPLIT|NOFRAME|TOPFRAME,$0
+TEXT runtime·rt0_go(SB),NOSPLIT|TOPFRAME,$48
+	ANDQ	$~15, SP	// alignment for gcc ABI
 	// copy arguments forward on an even stack
 	MOVQ	DI, AX		// argc
 	MOVQ	SI, BX		// argv
-	SUBQ	$(5*8), SP		// 3args 2auto
-	ANDQ	$~15, SP
 	MOVQ	AX, 24(SP)
 	MOVQ	BX, 32(SP)
 
