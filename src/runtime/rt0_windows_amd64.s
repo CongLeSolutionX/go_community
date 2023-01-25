@@ -16,8 +16,10 @@ TEXT _rt0_amd64_windows(SB),NOSPLIT,$-8
 // phase.
 // Leave space for four pointers on the stack as required
 // by the Windows amd64 calling convention.
-TEXT _rt0_amd64_windows_lib(SB),NOSPLIT|NOFRAME,$0x20
+TEXT _rt0_amd64_windows_lib(SB),NOSPLIT|NOFRAME,$0
 	// Create a new thread to do the runtime initialization and return.
+	SUBQ	$32, SP		// 3 args, 2 auto and 1 extra for alignment
+	ANDQ	$~15, SP
 	MOVQ	_cgo_sys_thread_create(SB), AX
 	MOVQ	$_rt0_amd64_windows_lib_go(SB), CX
 	MOVQ	$0, DX
