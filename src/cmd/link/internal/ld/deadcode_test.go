@@ -17,16 +17,27 @@ func TestDeadcode(t *testing.T) {
 
 	tmpdir := t.TempDir()
 
+	mk := func(s string, a ...string) []string {
+		if s == "" {
+			return []string{}
+		} else {
+			return append([]string{s}, a...)
+		}
+	}
+
+	type ss = []string
+
 	tests := []struct {
 		src      string
-		pos, neg string // positive and negative patterns
+		pos, neg []string // positive and negative patterns
 	}{
-		{"reflectcall", "", "main.T.M"},
-		{"typedesc", "", "type:main.T"},
-		{"ifacemethod", "", "main.T.M"},
-		{"ifacemethod2", "main.T.M", ""},
-		{"ifacemethod3", "main.S.M", ""},
-		{"ifacemethod4", "", "main.T.M"},
+		{"reflectcall", ss{""}, mk("main.T.M")},
+		{"typedesc", mk(""), mk("type:main.T")},
+		{"ifacemethod", mk(""), mk("main.T.M")},
+		{"ifacemethod2", mk("main.T.M"), mk("")},
+		{"ifacemethod3", mk("main.S.M"), mk("")},
+		{"ifacemethod4", mk(""), mk("main.T.M")},
+		{"globalmap", mk("main.small", "main.effect"), mk("main.large")},
 	}
 	for _, test := range tests {
 		test := test
@@ -39,11 +50,15 @@ func TestDeadcode(t *testing.T) {
 			if err != nil {
 				t.Fatalf("%v: %v:\n%s", cmd.Args, err, out)
 			}
-			if test.pos != "" && !bytes.Contains(out, []byte(test.pos+"\n")) {
-				t.Errorf("%s should be reachable. Output:\n%s", test.pos, out)
+			for _, pos := range test.pos {
+				if !bytes.Contains(out, []byte(pos+"\n")) {
+					t.Errorf("%s should be reachable. Output:\n%s", pos, out)
+				}
 			}
-			if test.neg != "" && bytes.Contains(out, []byte(test.neg+"\n")) {
-				t.Errorf("%s should not be reachable. Output:\n%s", test.neg, out)
+			for _, neg := range test.neg {
+				if bytes.Contains(out, []byte(neg+"\n")) {
+					t.Errorf("%s should not be reachable. Output:\n%s", neg, out)
+				}
 			}
 		})
 	}

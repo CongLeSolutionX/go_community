@@ -12,6 +12,7 @@ import (
 	"cmd/link/internal/sym"
 	"fmt"
 	"internal/buildcfg"
+	"strings"
 	"unicode"
 )
 
@@ -29,6 +30,8 @@ type deadcodePass struct {
 	dynlink            bool
 
 	methodsigstmp []methodsig // scratch buffer for decoding method signatures
+	pkginits      []loader.Sym
+	mapinitnoop   loader.Sym
 }
 
 func (d *deadcodePass) init() {
@@ -105,6 +108,11 @@ func (d *deadcodePass) init() {
 		}
 		d.mark(s, 0)
 	}
+
+	d.mapinitnoop = d.ldr.Lookup("runtime.mapinitnoop", abiInternalVer)
+	if d.mapinitnoop == 0 {
+		panic("could not look up runtime.mapinitnoop")
+	}
 }
 
 func (d *deadcodePass) flood() {
@@ -137,6 +145,8 @@ func (d *deadcodePass) flood() {
 			}
 			t := r.Type()
 			switch t {
+			case objabi.R_KEEP:
+				d.mark(r.Sym(), symIdx)
 			case objabi.R_METHODOFF:
 				if i+2 >= relocs.Count() {
 					panic("expect three consecutive R_METHODOFF relocs")
@@ -229,6 +239,9 @@ func (d *deadcodePass) flood() {
 			}
 			d.mark(a.Sym(), symIdx)
 		}
+		if naux != 0 && d.ldr.IsPkgInit(symIdx) {
+			d.pkginits = append(d.pkginits, symIdx)
+		}
 		// Some host object symbols have an outer object, which acts like a
 		// "carrier" symbol, or it holds all the symbols for a particular
 		// section. We need to mark all "referenced" symbols from that carrier,
@@ -258,6 +271,37 @@ func (d *deadcodePass) flood() {
 				}
 			}
 			d.markableMethods = append(d.markableMethods, methods...)
+		}
+	}
+}
+
+// mapcleanup walks all pkg init functions and looks for weak relocations
+// to mapinit symbols that are no longer reachable. It rewrites
+// the relocs to target a new no-op routine in the runtime.
+func (d *deadcodePass) mapcleanup() {
+	for _, idx := range d.pkginits {
+		relocs := d.ldr.Relocs(idx)
+		var su *loader.SymbolBuilder
+		for i := 0; i < relocs.Count(); i++ {
+			r := relocs.At(i)
+			rs := r.Sym()
+			if r.Weak() && r.Type().IsDirectCall() && !d.ldr.AttrReachable(rs) {
+				// double check to make sure target is indeed map.init
+				rsn := d.ldr.SymName(rs)
+				if !strings.Contains(rsn, "map.init") {
+					panic(fmt.Sprintf("internal error: expected map.init sym for weak call reloc, got %s -> %s", d.ldr.SymName(idx), rsn))
+				}
+				d.ldr.SetAttrReachable(d.mapinitnoop, true)
+				if d.ctxt.Debugvlog > 1 {
+					d.ctxt.Logf("deadcode: %s rewrite %s ref to %s\n",
+						d.ldr.SymName(idx), rsn,
+						d.ldr.SymName(d.mapinitnoop))
+				}
+				if su == nil {
+					su = d.ldr.MakeSymbolUpdater(idx)
+				}
+				su.SetRelocSym(i, d.mapinitnoop)
+			}
 		}
 	}
 }
@@ -369,6 +413,9 @@ func deadcode(ctxt *Link) {
 			break
 		}
 		d.flood()
+	}
+	if *flagPruneWeakMap {
+		d.mapcleanup()
 	}
 }
 
