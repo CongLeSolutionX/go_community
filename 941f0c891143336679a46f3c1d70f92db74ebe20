@@ -87,6 +87,70 @@
       "message": "You can simplify this by writing `return procGetTempPath2W.Find() \u003d\u003d nil` instead.",
       "revId": "941f0c891143336679a46f3c1d70f92db74ebe20",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "938ffe4b_4b7af1b3",
+        "filename": "src/internal/syscall/windows/syscall_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-01-25T15:40:53Z",
+      "side": 1,
+      "message": "For consistency with `LoadGetFinalPathNameByHandle`, maybe change the return type to `error` and push the `\u003d\u003d nil` check to the caller side?",
+      "parentUuid": "19eefba4_a6a38c28",
+      "revId": "941f0c891143336679a46f3c1d70f92db74ebe20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70ab35ac_ffd43640",
+        "filename": "src/os/file_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-01-25T15:40:53Z",
+      "side": 1,
+      "message": "Please move these declarations to be adjacent to the `tempDir` function in the file, since that\u0027s the only place they are used.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 1
+      },
+      "revId": "941f0c891143336679a46f3c1d70f92db74ebe20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "994d0d58_3bab7936",
+        "filename": "src/os/file_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-01-25T15:40:53Z",
+      "side": 1,
+      "message": "To reduce init-time overhead (and possibly facilitate link-time dead code elimination) for programs that don\u0027t call `TempDir`, maybe use a `sync.Once` in the `tempDir` function instead of an `init` function:\n\n```\nvar (\n\tuseGetTempPath2Once sync.Once\n\tuseGetTempPath2 bool\n)\n\nfunc tempDir() string {\n\tuseGetTempPath2Once.Do(func() {\n\t\tuseGetTempPath2 \u003d (windows.LoadGetTempPath2() \u003d\u003d nil)\n\t})\n\tgetTempPath :\u003d syscall.GetTempPath\n\tif useGetTempPath2 {\n\t\tgetTempPath \u003d windows.GetTempPath2\n\t}\n\t…\n}\n```",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 0
+      },
+      "revId": "941f0c891143336679a46f3c1d70f92db74ebe20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
