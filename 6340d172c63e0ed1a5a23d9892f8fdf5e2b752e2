@@ -74,6 +74,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca98422a_f4b3f997",
+        "filename": "src/cmd/compile/internal/devirtualize/devirtualize.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-01-25T17:13:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8765ef35_f404238a",
+      "revId": "6340d172c63e0ed1a5a23d9892f8fdf5e2b752e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0c170cd2_42e6f820",
@@ -87,6 +105,24 @@
       "writtenOn": "2023-01-24T21:52:15Z",
       "side": 1,
       "message": "This is being applied after inlining, so how does this make sure we get the right loop semantics when cross-package inlining is applied?\n\nI think we need to record during unified IR writing which loop semantics a function needs; and then during unified IR reading, we create the appropriate loop.",
+      "revId": "6340d172c63e0ed1a5a23d9892f8fdf5e2b752e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aba0d985_f6a9296d",
+        "filename": "src/cmd/compile/internal/gc/main.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-01-25T17:13:14Z",
+      "side": 1,
+      "message": "That happens in a later CL; this CL is for the basic GOEXPERIMENT, which normally applies to an entire build.",
+      "parentUuid": "0c170cd2_42e6f820",
       "revId": "6340d172c63e0ed1a5a23d9892f8fdf5e2b752e2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -108,6 +144,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a432ed35_b8172e58",
+        "filename": "src/cmd/compile/internal/loopvar/loopvar.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-01-25T17:13:14Z",
+      "side": 1,
+      "message": "My goal at this stage -- when the proposal has not yet been officially accepted, though the discussion and all the testing has pointed towards \"let\u0027s please do this\" -- was to modify less of the compiler.  And, because this can be modeled as a source-to-source transformation, doing it this way let me check my work not just against \"did it work as expected?\" but also against what AST gets generated from corresponding source changes (all the transformation work was done last year).\n\nI\u0027m also transforming only a subset of loops because that is lower risk to code generation and debugging, plus if someone has a loop that changes badly, knowing where the change was applied makes it easier to debug that problem.\n\nThe next step (next CL) is to add that bool field to For/Range Stmts, set it appropriately, and use it to govern what gets transformed instead.",
+      "parentUuid": "73d11161_0a43fd5f",
+      "revId": "6340d172c63e0ed1a5a23d9892f8fdf5e2b752e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0806d331_067b79f3",
@@ -121,6 +175,24 @@
       "writtenOn": "2023-01-24T22:24:48Z",
       "side": 1,
       "message": "nit: Compiler diagnostics start with a lower-case letter.",
+      "revId": "6340d172c63e0ed1a5a23d9892f8fdf5e2b752e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2348894b_c26643a2",
+        "filename": "src/cmd/compile/internal/loopvar/loopvar.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-01-25T17:13:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0806d331_067b79f3",
       "revId": "6340d172c63e0ed1a5a23d9892f8fdf5e2b752e2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
