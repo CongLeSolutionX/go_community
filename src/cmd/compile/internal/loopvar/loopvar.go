@@ -15,7 +15,9 @@ import (
 )
 
 // ForCapture transforms for and range loops that declare variables that might be
-// captured by a closure or escaped to the heap. It returns the list of names
+// captured by a closure or escaped to the heap, using a syntactice check that
+// conservatively overestimates the loops where capture occurs, but still avoids
+// transforming the (large) majority of loops. It returns the list of names
 // subject to this change, that may (once transformed) be heap allocated in the
 // process. (This allows checking after escape analysis to call out any such
 // variables, in case it causes allocation/performance problems).
@@ -25,21 +27,17 @@ import (
 // base.LoopVarHash != nil => use hash setting to govern transformation.
 // note that LoopVarHash != nil sets base.Debug.LoopVar to 1 (unless it is >= 11, for testing/debugging).
 //
+// base.Debug.LoopVar == -1 => do not transform
 // base.Debug.LoopVar == 0 => do nothing unless base.LoopVarHash != nil
 // base.Debug.LoopVar == 1 => transform (may be set by GOEXPERIMENT)
 // base.Debug.LoopVar == 2 => transform and log results (can be in addition to GOEXPERIMENT)
 // base.Debug.LoopVar == 11 => transform ALL loops ignoring syntactic/potential escape.  Do not log, can be in addition to GOEXPERIMENT.
 // base.Debug.LoopVar == 12 => 11, but log results
-// base.Debug.LoopVar == 13 => 12 plus internal debugging
-// base.Debug.LoopVar == -1 => do not transform
+// base.Debug.LoopVar == 13 => 12 plus any internal debugging
 //
 
 func ForCapture(fn *ir.Func) []*ir.Name {
-	if base.Debug.LoopVar <= 0 { // code in base:flags.go ensures >= 1 if loopvarhash != ""
-		// TODO remove this when the transformation is made sensitive to inlining; this is least-risk for 1.21
-		return nil
-	}
-	seq := 1
+	seq := 1 // For generated labels for control-flow added to transformed 3-clause for loops.
 
 	// if a loop variable is transformed it is appended to this slice for later logging
 	var transformed []*ir.Name
@@ -52,7 +50,8 @@ func ForCapture(fn *ir.Func) []*ir.Name {
 	// will be transformed.
 	possiblyLeaked := make(map[*ir.Name]bool)
 
-	// noteMayLeak is called for candidate variables in for range/3-clause.
+	// noteMayLeak is called for candidate variables in for range/3-clause, and
+	// adds them (mapped to false) to possiblyLeaked.
 	noteMayLeak := func(x ir.Node) {
 		if n, ok := x.(*ir.Name); ok {
 			if n.Type().Kind() == types.TBLANK {
@@ -63,6 +62,9 @@ func ForCapture(fn *ir.Func) []*ir.Name {
 		}
 	}
 
+	// maybeReplaceVar unshares an iteration variable for a range loop,
+	// if that variable was actually (syntactically) leaked,
+	// subject to hash-variable debugging.
 	maybeReplaceVar := func(k ir.Node, x *ir.RangeStmt) ir.Node {
 		if n, ok := k.(*ir.Name); ok && possiblyLeaked[n] {
 			if base.LoopVarHash == nil ||
@@ -148,17 +150,23 @@ func ForCapture(fn *ir.Func) []*ir.Name {
 			return false
 
 		case *ir.RangeStmt:
-			if !x.Def {
+			if !(x.Def && x.DistinctVars) {
+				// range loop must define its iteration variables AND have distinctVars.
 				break
 			}
+
 			noteMayLeak(x.Key)
 			noteMayLeak(x.Value)
 			ir.DoChildren(n, scanChildrenThenTransform)
 			x.Key = maybeReplaceVar(x.Key, x)
 			x.Value = maybeReplaceVar(x.Value, x)
+			x.DistinctVars = false
 			return false
 
 		case *ir.ForStmt:
+			if !x.DistinctVars {
+				break
+			}
 			forAllDefInInit(x, noteMayLeak)
 			ir.DoChildren(n, scanChildrenThenTransform)
 			leaked := []*ir.Name{}
@@ -318,6 +326,7 @@ func ForCapture(fn *ir.Func) []*ir.Name {
 				// (11) post' = {}
 				x.Post = nil
 			}
+			x.DistinctVars = false
 
 			return false
 		}

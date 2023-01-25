@@ -432,6 +432,9 @@ func stmtFmt(n Node, s fmt.State) {
 		}
 
 		fmt.Fprintf(s, " { %v }", n.Body)
+		if n.DistinctVars {
+			fmt.Fprint(s, " /* distinct vars */")
+		}
 
 	case ORANGE:
 		n := n.(*RangeStmt)
@@ -449,6 +452,9 @@ func stmtFmt(n Node, s fmt.State) {
 			fmt.Fprint(s, " =")
 		}
 		fmt.Fprintf(s, " range %v { %v }", n.X, n.Body)
+		if n.DistinctVars {
+			fmt.Fprint(s, " /* distinct vars */")
+		}
 
 	case OSELECT:
 		n := n.(*SelectStmt)

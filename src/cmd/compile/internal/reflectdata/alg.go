@@ -150,7 +150,7 @@ func genhash(t *types.Type) *obj.LSym {
 		init := ir.NewAssignStmt(base.Pos, ni, ir.NewInt(0))
 		cond := ir.NewBinaryExpr(base.Pos, ir.OLT, ni, ir.NewInt(t.NumElem()))
 		post := ir.NewAssignStmt(base.Pos, ni, ir.NewBinaryExpr(base.Pos, ir.OADD, ni, ir.NewInt(1)))
-		loop := ir.NewForStmt(base.Pos, nil, cond, post, nil)
+		loop := ir.NewForStmt(base.Pos, nil, cond, post, nil, false)
 		loop.PtrInit().Append(init)
 
 		// h = hashel(&p[i], h)
@@ -425,7 +425,7 @@ func geneq(t *types.Type) *obj.LSym {
 				i := typecheck.Temp(types.Types[types.TINT])
 				init := ir.NewAssignStmt(base.Pos, i, ir.NewInt(0))
 				cond := ir.NewBinaryExpr(base.Pos, ir.OLT, i, ir.NewInt(iterateTo))
-				loop := ir.NewForStmt(base.Pos, nil, cond, nil, nil)
+				loop := ir.NewForStmt(base.Pos, nil, cond, nil, nil, false)
 				loop.PtrInit().Append(init)
 
 				// if eq(p[i+0], q[i+0]) && eq(p[i+1], q[i+1]) && ... && eq(p[i+unroll-1], q[i+unroll-1]) {

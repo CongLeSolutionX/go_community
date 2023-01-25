@@ -50,10 +50,6 @@ var cases = []testcase{
 	{"1", "", 0, []string{"for_nested.go"}},
 }
 
-// TestFmaHash checks that the hash-test machinery works properly for a single case.
-// It also runs ssa/check and gccheck to be sure that those are checked at least a
-// little in each run.bash.  It does not check or run the generated code.
-// The test file is however a useful example of fused-vs-cascaded multiply-add.
 func TestLoopVar(t *testing.T) {
 	switch runtime.GOOS {
 	case "linux", "darwin":
@@ -107,5 +103,66 @@ func TestLoopVar(t *testing.T) {
 				t.Error(e)
 			}
 		}
+	}
+}
+
+func TestLoopVarInlines(t *testing.T) {
+	switch runtime.GOOS {
+	case "linux", "darwin":
+	default:
+		t.Skipf("Slow test, usually avoid it, os=%s not linux or darwin", runtime.GOOS)
+	}
+	switch runtime.GOARCH {
+	case "amd64", "arm64":
+	default:
+		t.Skipf("Slow test, usually avoid it, arch=%s not amd64 or arm64", runtime.GOARCH)
+	}
+
+	testenv.MustHaveGoBuild(t)
+	gocmd := testenv.GoToolPath(t)
+	tmpdir, err := os.MkdirTemp("", "x")
+	if err != nil {
+		t.Error(err)
+	}
+	defer os.RemoveAll(tmpdir)
+
+	root := "cmd/compile/internal/loopvar/testdata/inlines"
+
+	f := func(pkg string) string {
+		// This disables the loopvar change, except for the specified package.
+		// The effect should follow the package, even though everything (except "c")
+		// is inlined.
+		cmd := testenv.Command(t, gocmd, "run", "-gcflags="+pkg+"=-d=loopvar=1", root)
+		cmd.Env = append(cmd.Env, "GOEXPERIMENT=noloopvar", "HOME="+tmpdir)
+		cmd.Dir = filepath.Join("testdata", "inlines")
+
+		b, e := cmd.CombinedOutput()
+		if e != nil {
+			t.Error(e)
+		}
+		return string(b)
+	}
+
+	a := f(root + "/a")
+	b := f(root + "/b")
+	c := f(root + "/c")
+	m := f(root)
+
+	t.Logf(a)
+	t.Logf(b)
+	t.Logf(c)
+	t.Logf(m)
+
+	if !strings.Contains(a, "f, af, bf, abf, cf sums = 100, 45, 100, 100, 100") {
+		t.Errorf("Did not see expected value of a")
+	}
+	if !strings.Contains(b, "f, af, bf, abf, cf sums = 100, 100, 45, 45, 100") {
+		t.Errorf("Did not see expected value of b")
+	}
+	if !strings.Contains(c, "f, af, bf, abf, cf sums = 100, 100, 100, 100, 45") {
+		t.Errorf("Did not see expected value of c")
+	}
+	if !strings.Contains(m, "f, af, bf, abf, cf sums = 45, 100, 100, 100, 100") {
+		t.Errorf("Did not see expected value of m")
 	}
 }
