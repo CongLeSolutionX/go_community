@@ -22,6 +22,30 @@
       },
       "revId": "7a5460ed9b53ac99805e6578cc67da8ef431c577",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ffe73f5e_dd17db23",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-01-25T16:15:38Z",
+      "side": 1,
+      "message": "Might be due to CL 420197, which was submitted just before this.",
+      "parentUuid": "00f90c5e_33188955",
+      "range": {
+        "startLine": 9,
+        "startChar": 55,
+        "endLine": 10,
+        "endChar": 71
+      },
+      "revId": "7a5460ed9b53ac99805e6578cc67da8ef431c577",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
