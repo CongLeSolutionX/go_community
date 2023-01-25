@@ -16,6 +16,24 @@
       "message": "I wonder why the script doesn\u0027t get this one...",
       "revId": "97d09b858f7af213ccf794de57303f35f051b317",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05cf7064_ab0e431f",
+        "filename": "test/codegen/shift.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2023-01-25T21:26:27Z",
+      "side": 1,
+      "message": "Is it relevant that one of the lines has -\"ORN\", the other has -ORN\" (missing double quote)?\nThis seems to be the only instance in this file.",
+      "parentUuid": "72058ad7_3b817635",
+      "revId": "97d09b858f7af213ccf794de57303f35f051b317",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
