@@ -52,6 +52,24 @@
       "parentUuid": "05cf7064_ab0e431f",
       "revId": "97d09b858f7af213ccf794de57303f35f051b317",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c9f8302_433ad487",
+        "filename": "test/codegen/shift.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-01-25T22:00:03Z",
+      "side": 1,
+      "message": "Good catch. I think without the quote it is probably just processed as regular comment, not really checking the ORN instruction...\n\nWe should add the quote in the new code, though.",
+      "parentUuid": "3daf8999_5145d9d2",
+      "revId": "97d09b858f7af213ccf794de57303f35f051b317",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
