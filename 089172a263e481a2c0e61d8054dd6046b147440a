@@ -16,6 +16,24 @@
       "message": "(nit)\n\nPer https://go.dev/wiki/CommitMessage, “when referencing CLs, prefer saying \"CL nnn\" or using a go.dev/cl/nnn shortlink over a direct Gerrit URL or git hash, since that\u0027s more future-proof.”\n\nPlease also use complete sentences / paragraphs in the body of the commit message.\n\n(Note that for GitHub pull requests, the first comment on the PR is imported to Gerrit as the commit message — you can edit the commit message by editing that comment.)",
       "revId": "089172a263e481a2c0e61d8054dd6046b147440a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88f79d91_68c68e97",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 60893
+      },
+      "writtenOn": "2023-01-25T00:51:22Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d48544cc_f64a5f60",
+      "revId": "089172a263e481a2c0e61d8054dd6046b147440a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
