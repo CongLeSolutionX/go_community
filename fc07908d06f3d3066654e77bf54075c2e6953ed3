@@ -90,6 +90,24 @@
       "parentUuid": "55b2399e_639ced5d",
       "revId": "fc07908d06f3d3066654e77bf54075c2e6953ed3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "edde24b4_2bd402c9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5184
+      },
+      "writtenOn": "2023-01-25T16:48:36Z",
+      "side": 1,
+      "message": "I filed https://github.com/golang/go/issues/57997.",
+      "parentUuid": "09521ffe_cb896bc3",
+      "revId": "fc07908d06f3d3066654e77bf54075c2e6953ed3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
