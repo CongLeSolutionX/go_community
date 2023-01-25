@@ -305,6 +305,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "da7f7779_0f32b545",
+        "filename": "src/cmd/compile/internal/staticinit/sched.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-01-25T16:34:51Z",
+      "side": 1,
+      "message": "This param now removed in latest patch set.",
+      "parentUuid": "fdd1035e_74b0927d",
+      "range": {
+        "startLine": 52,
+        "startChar": 41,
+        "endLine": 52,
+        "endChar": 52
+      },
+      "revId": "6a566a1b3171e438c796b881a238f1de35b2dc92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8530d591_be8c51a9",
@@ -353,6 +377,30 @@
       "writtenOn": "2023-01-24T18:02:36Z",
       "side": 1,
       "message": "Maybe document what fn is.",
+      "range": {
+        "startLine": 936,
+        "startChar": 37,
+        "endLine": 936,
+        "endChar": 48
+      },
+      "revId": "6a566a1b3171e438c796b881a238f1de35b2dc92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9eb425e6_eb07114c",
+        "filename": "src/cmd/compile/internal/staticinit/sched.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 936,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-01-25T16:34:51Z",
+      "side": 1,
+      "message": "This param now removed in latest patch set.",
+      "parentUuid": "b7b19a2f_21ecdbdf",
       "range": {
         "startLine": 936,
         "startChar": 37,
@@ -462,6 +510,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e0da50f_7176e1ac",
+        "filename": "src/cmd/compile/internal/staticinit/sched.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 990,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-01-25T16:34:51Z",
+      "side": 1,
+      "message": "In latest patch set the function gets marked \"inlinability checked\", similar to the main init function.",
+      "parentUuid": "df827298_4c252aa6",
+      "revId": "6a566a1b3171e438c796b881a238f1de35b2dc92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b2f5797c_1b66b19d",
@@ -479,6 +545,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e3503b2_9e5d7726",
+        "filename": "src/cmd/compile/internal/staticinit/sched.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 995,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-01-25T16:34:51Z",
+      "side": 1,
+      "message": "Latest patch set does this before inlining.",
+      "parentUuid": "b2f5797c_1b66b19d",
+      "revId": "6a566a1b3171e438c796b881a238f1de35b2dc92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8e98fe9e_4a7b2147",
@@ -492,6 +576,24 @@
       "writtenOn": "2023-01-24T18:02:36Z",
       "side": 1,
       "message": "(Note to myself: haven\u0027t read this function carefully)",
+      "revId": "6a566a1b3171e438c796b881a238f1de35b2dc92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0f70ee3_3d4732a2",
+        "filename": "src/cmd/compile/internal/staticinit/sched.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 1067,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-01-25T16:34:51Z",
+      "side": 1,
+      "message": "Function no longer needed in latest patch set.",
+      "parentUuid": "8e98fe9e_4a7b2147",
       "revId": "6a566a1b3171e438c796b881a238f1de35b2dc92",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -609,6 +711,30 @@
       "writtenOn": "2023-01-24T18:02:36Z",
       "side": 1,
       "message": "Maybe start with \"debug\" (like the ones above)?",
+      "range": {
+        "startLine": 104,
+        "startChar": 34,
+        "endLine": 104,
+        "endChar": 49
+      },
+      "revId": "6a566a1b3171e438c796b881a238f1de35b2dc92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "70c3c483_a8e12600",
+        "filename": "src/cmd/link/internal/ld/main.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-01-25T16:34:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10058f24_568f8354",
       "range": {
         "startLine": 104,
         "startChar": 34,
