@@ -217,6 +217,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ff2766d_21aa43bf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-01-25T16:18:55Z",
+      "side": 1,
+      "message": "Doing things before inlining seems to work, so that appears in the next patch set, thanks.",
+      "parentUuid": "a2121197_6c7adf1a",
+      "revId": "6a566a1b3171e438c796b881a238f1de35b2dc92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "26f97ab6_277019b7",
@@ -509,6 +527,24 @@
       "side": 1,
       "message": "Interesting idea, I had forgotten about that bit in relocsym.\n\nI will prototype that idea. I think you are right that it will be faster to do it that way, although I worry a bit that there might be some future case where the compiler is generating other weak relocations (not involving map inits) and we need to be able to distinguish between the two. I guess if that happens we can add more bits/flags to the reloc type.",
       "parentUuid": "170976b5_bc4c77d9",
+      "revId": "6a566a1b3171e438c796b881a238f1de35b2dc92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a83178c7_10797071",
+        "filename": "src/cmd/link/internal/ld/deadcode.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-01-25T16:18:55Z",
+      "side": 1,
+      "message": "OK, I have coded this up and it seems to work (although more testing needed with slowbots in case I messed up something for our weirder architectures).\n\nI had to change a lot of files to do this (required updating the archreloc method signature), so I am going to split out the linker changes into a separate patch.",
+      "parentUuid": "16f88072_6b8088e8",
       "revId": "6a566a1b3171e438c796b881a238f1de35b2dc92",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
