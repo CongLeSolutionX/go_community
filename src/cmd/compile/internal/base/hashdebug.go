@@ -76,7 +76,7 @@ var LoopVarHash *HashDebug // for debugging shared/private loop variable changes
 //  4. is a suffix of the sha1 hash of pkgAndName (returns true)
 //
 //  5. OR
-//     if the value is in the regular language "[01]+(;[01]+)+"
+//     if the value is in the regular language "[01]+(/[01]+)+"
 //     test the [01]+ substrings after in order returning true
 //     for the first one that suffix-matches. The substrings AFTER
 //     the first semicolon are numbered 0,1, etc and are named
