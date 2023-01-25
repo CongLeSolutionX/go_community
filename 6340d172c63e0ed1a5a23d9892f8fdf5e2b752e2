@@ -129,6 +129,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "15495d4a_cdc66af1",
+        "filename": "src/cmd/compile/internal/gc/main.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-01-25T18:54:56Z",
+      "side": 1,
+      "message": "I think it\u0027s fine if the GOEXPERIMENT turns on the new semantics unconditionally, but we will ultimately need a solution that *can* be sensitive to per-package (and perhaps per-function) language compatibility in the presence of inlining. I\u0027m concerned that I don\u0027t see how we do that robustly with this approach. How do you envision that working?",
+      "parentUuid": "aba0d985_f6a9296d",
+      "revId": "6340d172c63e0ed1a5a23d9892f8fdf5e2b752e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "73d11161_0a43fd5f",
         "filename": "src/cmd/compile/internal/loopvar/loopvar.go",
         "patchSetId": 10
@@ -158,6 +176,24 @@
       "side": 1,
       "message": "My goal at this stage -- when the proposal has not yet been officially accepted, though the discussion and all the testing has pointed towards \"let\u0027s please do this\" -- was to modify less of the compiler.  And, because this can be modeled as a source-to-source transformation, doing it this way let me check my work not just against \"did it work as expected?\" but also against what AST gets generated from corresponding source changes (all the transformation work was done last year).\n\nI\u0027m also transforming only a subset of loops because that is lower risk to code generation and debugging, plus if someone has a loop that changes badly, knowing where the change was applied makes it easier to debug that problem.\n\nThe next step (next CL) is to add that bool field to For/Range Stmts, set it appropriately, and use it to govern what gets transformed instead.",
       "parentUuid": "73d11161_0a43fd5f",
+      "revId": "6340d172c63e0ed1a5a23d9892f8fdf5e2b752e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0cbaceba_89fa9fd0",
+        "filename": "src/cmd/compile/internal/loopvar/loopvar.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-01-25T18:54:56Z",
+      "side": 1,
+      "message": "Sorry, but I don\u0027t share your risk assessment here. IR is already hard enough to even construct correctly, and we have a worse track record with implementing transforms correctly. E.g., the static initializer optimization (CL 450136) is the most recent IR transformation to be added (back in November), it still needed multiple fixes (CLs 451376, 451555, 452676, 453315, 461686). Or recall we stopped backporting generics fixes to Go 1.18, because each time we tried to fix an issue with its transforms, we\u0027d break something else.\n\nThat\u0027s why the defining essence of the unified frontend\u0027s design was to avoid transforms, and instead to favor simple, universal IR constructs. I think that\u0027s the right approach to apply here too.",
+      "parentUuid": "a432ed35_b8172e58",
       "revId": "6340d172c63e0ed1a5a23d9892f8fdf5e2b752e2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
