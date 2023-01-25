@@ -302,6 +302,7 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 			n := t.Name
 			pos := n.Pos()
 			if logopt.Enabled() {
+				// For automated checking of coverage of this transformation, include this in the JSON information.
 				if n.Esc() == ir.EscHeap {
 					logopt.LogOpt(pos, "transform-escape", "loopvar", ir.FuncName(t.Fn))
 				} else {
