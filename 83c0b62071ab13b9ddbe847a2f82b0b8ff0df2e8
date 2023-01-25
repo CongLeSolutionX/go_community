@@ -53,6 +53,24 @@
       "message": "This is not a great test.  If somebody forgets to add an entry to the go:build line, it won\u0027t run.  I think we should remove this file and also native_endian_little_test.go.\n\nA better test would be something like (untested)\n\nfunc TestNativeEndian(t *testing.T) {\n    const val \u003d 0x12345678\n    i :\u003d uint32(val)\n    s :\u003d unsafe.Slice((*byte)(unsafe.Pointer(\u0026i)), unsafe.Sizeof(i))\n    if v :\u003d NativeEndian.Uint32(s); v !\u003d i {\n        t.Error(\"argh\")\n    }\n}",
       "revId": "83c0b62071ab13b9ddbe847a2f82b0b8ff0df2e8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2feda573_d981905f",
+        "filename": "src/encoding/binary/native_endian_big_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-01-25T22:29:17Z",
+      "side": 1,
+      "message": "Sorry, instead of \"v !\u003d i\" use \"v !\u003d val\".",
+      "parentUuid": "c91db9e7_d510db9c",
+      "revId": "83c0b62071ab13b9ddbe847a2f82b0b8ff0df2e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
