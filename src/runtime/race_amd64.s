@@ -227,13 +227,19 @@ TEXT	sync∕atomic·LoadPointer(SB), NOSPLIT, $0-16
 // Store
 TEXT	sync∕atomic·StoreInt32(SB), NOSPLIT|NOFRAME, $0-12
 	GO_ARGS
-	MOVQ	$__tsan_go_atomic32_store(SB), AX
+	MOVQ	$__tsan_go_atomic32_exchange(SB), AX
 	CALL	racecallatomic<>(SB)
 	RET
 
 TEXT	sync∕atomic·StoreInt64(SB), NOSPLIT|NOFRAME, $0-16
 	GO_ARGS
-	MOVQ	$__tsan_go_atomic64_store(SB), AX
+	// Note: we use _exchange instead of _store because
+	// we need the sequential consistency semantics
+	// that _store doesn't provide.
+	// TODO: fix the _store versions in the tsan library
+	// (mo_release -> mo_acq_rel) and and switch these
+	// back to the _store calls. See issue 58020.
+	MOVQ	$__tsan_go_atomic64_exchange(SB), AX
 	CALL	racecallatomic<>(SB)
 	RET
 

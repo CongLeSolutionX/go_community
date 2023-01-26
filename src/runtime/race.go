@@ -318,8 +318,6 @@ var __tsan_report_count byte
 
 //go:cgo_import_static __tsan_go_atomic32_load
 //go:cgo_import_static __tsan_go_atomic64_load
-//go:cgo_import_static __tsan_go_atomic32_store
-//go:cgo_import_static __tsan_go_atomic64_store
 //go:cgo_import_static __tsan_go_atomic32_exchange
 //go:cgo_import_static __tsan_go_atomic64_exchange
 //go:cgo_import_static __tsan_go_atomic32_fetch_add
