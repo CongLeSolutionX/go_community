@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dccfaaad_be3d3ad9",
+        "filename": "src/cmd/compile/internal/noder/reader.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-01-26T21:09:47Z",
+      "side": 1,
+      "message": "Basically, this code path is only used for value types, and interfaces used for value types have to be \"pure\" (i.e., their type set needs to include all types). Type unions are really only needed for impure interfaces, so we should be able to ignore them.\n\nThe annoying quirk is users can write `var x interface{ int | any }`, so we might still see a type union in a value type.\n\nThe solution here is to take advantage of the fact that types2 has already made sure the type union is equivalent to \"any\", and just treat that declaration like `var x interface{ any }` instead.\n\nThe original CL just relied on that assumption. But the last PS changes it to include a valid check that the type union includes an empty interface term, to make sure the substitution is sound.",
+      "parentUuid": "ccc59ff4_6c1b74e3",
+      "revId": "b57659dbe116029255512656aa6875bc40b7e92e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bfb697f9_4b7fd178",
@@ -68,6 +86,24 @@
       "writtenOn": "2023-01-26T00:35:34Z",
       "side": 1,
       "message": "Don\u0027t you at least need to read a length and then length instances of bool+typ? That\u0027s what the writer is writing.",
+      "revId": "b57659dbe116029255512656aa6875bc40b7e92e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f4c98f0_cc0d7103",
+        "filename": "src/cmd/compile/internal/noder/reader.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-01-26T21:09:47Z",
+      "side": 1,
+      "message": "It\u0027s not needed because types are each written as separate, cross-referenced atoms, and there\u0027s no more data to read in the atom after this. But the latest PS reads it anyway as a consistency check.",
+      "parentUuid": "bfb697f9_4b7fd178",
       "revId": "b57659dbe116029255512656aa6875bc40b7e92e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
