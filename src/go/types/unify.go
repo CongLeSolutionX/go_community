@@ -47,32 +47,32 @@ const (
 // corresponding types inferred for each type parameter.
 // A unifier is created by calling newUnifier.
 type unifier struct {
+	// tparams is the initial list of type parameters provided.
+	// It is needed only to return/print in a consistent order.
 	tparams []*TypeParam
-	// For each tparams element, there is a corresponding type slot index in indices.
-	// index  < 0: unifier.types[-index-1] == nil
-	// index == 0: no type slot allocated yet
-	// index  > 0: unifier.types[index-1] == typ
-	// Joined tparams elements share the same type slot and thus have the same index.
-	// By using a negative index for nil types we don't need to check unifier.types
-	// to see if we have a type or not.
-	indices []int  // len(indices) == len(tparams)
-	types   []Type // inferred types, shared by x and y
-	depth   int    // recursion depth during unification
+	// index maps a type parameter x to a type t: t = types[index[x]]
+	// Joined type parameters (type parameters that have been unified)
+	// share the same types slot and thus have the same index.
+	// If index[x] == nil, no type "slot" has been allocated yet.
+	// If types[index[x]] == nil, no type has been set yet.
+	// index maps a type parameter to a corresponding types "slot" (index):
+	index map[*TypeParam]int
+	// types collects inferred types. Each type parameter that unified
+	// with a type or other type parameter gets a types slot. To simplify
+	// indexing, types[0] is not used, since a 0 index means no slot has
+	// been allocated yet.
+	types []Type // inferred types; len(types) > 0
+	depth int    // recursion depth during unification
 }
 
-// newUnifier returns a new unifier initialized with the given type parameters.
-// The type parameters must be in the order in which they appear in their declaration
-// (this ensures that the tparams indices match the respective type parameter index).
+// newUnifier returns a new unifier initialized with the given type parameter list.
 func newUnifier(tparams []*TypeParam) *unifier {
-	if debug {
-		for i, tpar := range tparams {
-			assert(i == tpar.index)
-		}
+	index := make(map[*TypeParam]int, len(tparams))
+	for _, tpar := range tparams {
+		index[tpar] = 0
 	}
-	return &unifier{
-		tparams: tparams,
-		indices: make([]int, len(tparams)),
-	}
+	types := make([]Type, 1, len(tparams)) // element 0 is never used
+	return &unifier{tparams, index, types, 0}
 }
 
 // unify attempts to unify x and y and reports whether it succeeded.
@@ -85,8 +85,8 @@ func (u *unifier) tracef(format string, args ...interface{}) {
 	fmt.Println(strings.Repeat(".  ", u.depth) + sprintf(nil, nil, true, format, args...))
 }
 
-// String returns a string representation of the mapping from
-// type parameters to types.
+// String returns a string representation of the current mapping
+// from type parameters to types.
 func (u *unifier) String() string {
 	var buf bytes.Buffer
 	w := newTypeWriter(&buf, nil)
@@ -97,103 +97,97 @@ func (u *unifier) String() string {
 		}
 		w.typ(tpar)
 		w.string(": ")
-		w.typ(u.at(i))
+		w.typ(u.at(tpar))
 	}
 	w.byte(']')
 	return buf.String()
 }
 
-// join unifies the i'th type parameter with the j'th type parameter.
+// join unifies the given type parameters x and y.
 // If both type parameters already have a type associated with them
 // and they are not joined, join fails and returns false.
-func (u *unifier) join(i, j int) bool {
+func (u *unifier) join(x, y *TypeParam) bool {
 	if traceInference {
-		u.tracef("%s ⇄ %s", u.tparams[i], u.tparams[j])
+		u.tracef("%s ⇄ %s", x, y)
 	}
-	ti := u.indices[i]
-	tj := u.indices[j]
-	switch {
-	case ti == 0 && tj == 0:
+	switch i, j := u.index[x], u.index[y]; {
+	case i == 0 && j == 0:
 		// Neither type parameter has a type slot associated with them.
-		// Allocate a new joined nil type slot (negative index).
+		// Allocate a new joined nil type slot.
+		u.index[x] = len(u.types)
+		u.index[y] = len(u.types)
 		u.types = append(u.types, nil)
-		u.indices[i] = -len(u.types)
-		u.indices[j] = -len(u.types)
-	case ti == 0:
-		// The type parameter (with index) i has no type slot yet. Use slot of j.
-		u.indices[i] = tj
-	case tj == 0:
-		// The type parameter (with index) j has no type slot yet. Use slot of i.
-		u.indices[j] = ti
+	case i == 0:
+		// Type parameter x has no type slot yet. Use slot of y.
+		u.index[x] = j
+	case j == 0:
+		// Type parameter y has no type slot yet. Use slot of x.
+		u.index[y] = i
 
-	// Both type parameters have a slot: ti != 0 && tj != 0.
-	case ti == tj:
+	// Both type parameters have a slot: i != 0 && j != 0.
+	case i == j:
 		// Both type parameters already share the same slot. Nothing to do.
-		break
-	case ti > 0 && tj > 0:
+	case i > 0 && j > 0:
 		// Both type parameters have (possibly different) inferred types. Cannot join.
-		// TODO(gri) Should we check if types are identical? Investigate.
 		return false
-	case ti > 0:
-		// Only the type parameter (with index) i has an inferred type. Use i slot for j.
-		u.setIndex(j, ti)
+	case i > 0:
+		// Only type parameter x has an inferred type. Use x slot for y.
+		u.index[y] = i
 	// This case is handled like the default case.
-	// case tj > 0:
-	// 	// Only the type parameter for y has an inferred type. Use y slot for x.
-	// 	u.setIndex(i, tj)
+	// case j > 0:
+	// 	// Only type parameter y has an inferred type. Use y slot for x.
+	//	u.index[x] = j
 	default:
-		// Neither type parameter has an inferred type. Use j slot for i
-		// (or i slot for j, it doesn't matter).
-		u.setIndex(i, tj)
+		// Neither type parameter has an inferred type. Use y slot for x.
+		u.index[x] = j
 	}
 	return true
 }
 
-// If typ is a type parameter recorded with u, index returns the type parameter index.
-// Otherwise, the result is < 0.
-func (u *unifier) index(typ Type) int {
-	if tpar, ok := typ.(*TypeParam); ok {
-		return tparamIndex(u.tparams, tpar)
+// asTypeParam returns x.(*TypeParam) if x is a type parameter recorded with u.
+// Otherwise, the result is nil.
+func (u *unifier) asTypeParam(x Type) *TypeParam {
+	if x, _ := x.(*TypeParam); x != nil {
+		if _, found := u.index[x]; found {
+			return x
+		}
 	}
-	return -1
+	return nil
 }
 
 // setIndex sets the type slot index for the i'th type parameter
 // (and all its joined parameters) to tj. The type parameter
 // must have a (possibly nil) type slot associated with it.
-func (u *unifier) setIndex(i, tj int) {
-	ti := u.indices[i]
-	assert(ti != 0 && tj != 0)
-	for k, tk := range u.indices {
-		if tk == ti {
-			u.indices[k] = tj
-		}
-	}
+func (u *unifier) setIndex(tpar *TypeParam, ti int) {
+	panic(0)
+	// ti := u.indices[i]
+	// assert(ti != 0 && ti != 0)
+	// for k, tk := range u.indices {
+	// 	if tk == ti {
+	// 		u.indices[k] = ti
+	// 	}
+	// }
 }
 
-// at returns the type set for the i'th type parameter; or nil.
-func (u *unifier) at(i int) Type {
-	if ti := u.indices[i]; ti > 0 {
-		return u.types[ti-1]
-	}
-	return nil
-}
+// at returns the type set for the given type parameter x; or nil.
+func (u *unifier) at(x *TypeParam) Type { return u.types[u.index[x]] }
 
-// set sets the type typ for the i'th type parameter;
-// typ must not be nil and it must not have been set before.
-func (u *unifier) set(i int, typ Type) {
-	assert(typ != nil)
+// set sets the type t for the given type parameter x;
+// t must not be nil and it must not have been set before.
+func (u *unifier) set(x *TypeParam, t Type) {
+	assert(t != nil)
 	if traceInference {
-		u.tracef("%s ➞ %s", u.tparams[i], typ)
+		u.tracef("%s ➞ %s", x, t)
 	}
-	switch ti := u.indices[i]; {
-	case ti < 0:
-		u.types[-ti-1] = typ
-		u.setIndex(i, -ti)
-	case ti == 0:
-		u.types = append(u.types, typ)
-		u.indices[i] = len(u.types)
-	default:
+	if i := u.index[x]; i == 0 {
+		// no types slot yet - allocate it
+		u.index[x] = len(u.types)
+		u.types = append(u.types, t)
+	} else if u.types[i] == nil {
+		// types slot exists and type is nil - set it
+		u.setIndex(x, i)
+		u.types[i] = t
+	} else {
 		panic("type already set")
 	}
 }
@@ -201,8 +195,8 @@ func (u *unifier) set(i int, typ Type) {
 // unknowns returns the number of type parameters for which no type has been set yet.
 func (u *unifier) unknowns() int {
 	n := 0
-	for _, ti := range u.indices {
-		if ti <= 0 {
+	for _, i := range u.index {
+		if u.types[i] == nil {
 			n++
 		}
 	}
@@ -216,8 +210,8 @@ func (u *unifier) unknowns() int {
 func (u *unifier) inferred() (list []Type, index int) {
 	list = make([]Type, len(u.tparams))
 	index = -1
-	for i := range u.tparams {
-		t := u.at(i)
+	for i, x := range u.tparams {
+		t := u.at(x)
 		list[i] = t
 		if index < 0 && t == nil {
 			index = i
@@ -276,32 +270,32 @@ func (u *unifier) nify(x, y Type, p *ifacePair) (result bool) {
 		}
 	}
 
-	// Cases where at least one of x or y is a type parameter.
-	switch i, j := u.index(x), u.index(y); {
-	case i >= 0 && j >= 0:
+	// Cases where at least one of x or y is a type parameter recorded with u.
+	switch px, py := u.asTypeParam(x), u.asTypeParam(y); {
+	case px != nil && py != nil:
 		// both x and y are type parameters
-		if u.join(i, j) {
+		if u.join(px, py) {
 			return true
 		}
 		// both x and y have an inferred type - they must match
-		return u.nifyEq(u.at(i), u.at(j), p)
+		return u.nifyEq(u.at(px), u.at(py), p)
 
-	case i >= 0:
+	case px != nil:
 		// x is a type parameter, y is not
-		if tx := u.at(i); tx != nil {
+		if tx := u.at(px); tx != nil {
 			return u.nifyEq(tx, y, p)
 		}
 		// otherwise, infer type from y
-		u.set(i, y)
+		u.set(px, y)
 		return true
 
-	case j >= 0:
+	case py != nil:
 		// y is a type parameter, x is not
-		if ty := u.at(j); ty != nil {
+		if ty := u.at(py); ty != nil {
 			return u.nifyEq(x, ty, p)
 		}
 		// otherwise, infer type from x
-		u.set(j, x)
+		u.set(py, x)
 		return true
 	}
 
