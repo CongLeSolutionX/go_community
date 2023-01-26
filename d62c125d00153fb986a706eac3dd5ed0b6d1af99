@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8341319_d400e396",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-01-26T19:44:43Z",
+      "side": 1,
+      "message": "Thanks for the fix!",
+      "revId": "d62c125d00153fb986a706eac3dd5ed0b6d1af99",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4678630_e29c81b3",
+        "filename": "src/net/ip.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 621,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-01-26T19:44:43Z",
+      "side": 1,
+      "message": "Need to update the parser in net/netip as well.\n\n(Why do we have two address parsers? Filed https://go.dev/issue/58098 to unify them.)",
+      "revId": "d62c125d00153fb986a706eac3dd5ed0b6d1af99",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c877316_b54f3cb1",
+        "filename": "src/net/ip_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-01-26T19:44:43Z",
+      "side": 1,
+      "message": "Test five zeroes as well, to exercise the edge case.",
+      "revId": "d62c125d00153fb986a706eac3dd5ed0b6d1af99",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
