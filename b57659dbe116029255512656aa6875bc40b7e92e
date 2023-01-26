@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "ea9f59e9_0e2cceb0",
+        "filename": "src/cmd/compile/internal/noder/stencil.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-01-26T21:52:02Z",
+      "side": 0,
+      "message": "Ack. I can add some similar comments in reader.go, though the details differ so these exact comments probably aren\u0027t applicable.",
+      "parentUuid": "1d382a85_ce2a6f18",
+      "range": {
+        "startLine": 376,
+        "startChar": 0,
+        "endLine": 387,
+        "endChar": 0
+      },
+      "revId": "b57659dbe116029255512656aa6875bc40b7e92e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "8a1655de_9c82e8a0",
         "filename": "src/cmd/compile/internal/noder/stencil.go",
         "patchSetId": 6
