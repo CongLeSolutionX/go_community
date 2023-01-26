@@ -61,6 +61,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a045e98c_e4777ece",
+        "filename": "src/encoding/binary/native_endian_big.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2023-01-26T17:52:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07810778_9748deb1",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 2
+      },
+      "revId": "0b0ccd9d85a43b1eee0ee1b6793fdfc225204bf4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "150c3dc7_f1ec5a69",
@@ -78,6 +102,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7d6bf0b_e0eb5cdc",
+        "filename": "src/encoding/binary/native_endian_big.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2023-01-26T17:52:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "150c3dc7_f1ec5a69",
+      "revId": "0b0ccd9d85a43b1eee0ee1b6793fdfc225204bf4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d1a75e8_06bbad9f",
@@ -91,6 +133,30 @@
       "writtenOn": "2023-01-26T17:47:18Z",
       "side": 1,
       "message": "(nit) Here too.",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 2
+      },
+      "revId": "0b0ccd9d85a43b1eee0ee1b6793fdfc225204bf4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2929c554_afc044f7",
+        "filename": "src/encoding/binary/native_endian_little.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2023-01-26T17:52:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d1a75e8_06bbad9f",
       "range": {
         "startLine": 4,
         "startChar": 0,
