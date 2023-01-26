@@ -42,6 +42,7 @@ func MakeInit() {
 	// Outline (if legal/profitable) global map inits.
 	newfuncs := []*ir.Func{}
 	nf, newfuncs = staticinit.OutlineMapInits(nf)
+	fn.SetIsPackageInit(true)
 
 	// Suppress useless "can inline" diagnostics.
 	// Init functions are only called dynamically.
