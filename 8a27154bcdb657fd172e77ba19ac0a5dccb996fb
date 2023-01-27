@@ -197,6 +197,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c04074c_37ab0e98",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-01-27T20:45:07Z",
+      "side": 1,
+      "message": "Done in CL 463739.",
+      "parentUuid": "5bb86bc3_a9848859",
+      "revId": "8a27154bcdb657fd172e77ba19ac0a5dccb996fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5487bb1e_bae6a974",
@@ -214,6 +232,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "08c23196_82989011",
+        "filename": "src/cmd/dist/build.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-01-27T20:45:07Z",
+      "side": 1,
+      "message": "Done in CL 463739.",
+      "parentUuid": "5487bb1e_bae6a974",
+      "revId": "8a27154bcdb657fd172e77ba19ac0a5dccb996fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9e6d5937_442049dd",
@@ -227,6 +263,24 @@
       "writtenOn": "2023-01-23T15:16:41Z",
       "side": 1,
       "message": "It looks like this line was comment out at PS9. Was that intentional?",
+      "revId": "8a27154bcdb657fd172e77ba19ac0a5dccb996fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "046caf2b_f58a5104",
+        "filename": "src/cmd/dist/build.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-01-27T20:45:07Z",
+      "side": 1,
+      "message": "Uncommented in CL 463740.",
+      "parentUuid": "9e6d5937_442049dd",
       "revId": "8a27154bcdb657fd172e77ba19ac0a5dccb996fb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
