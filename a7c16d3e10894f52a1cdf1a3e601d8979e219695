@@ -108,6 +108,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e1eac7d6_c251b7a5",
+        "filename": "src/net/cgo_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-01-27T22:52:46Z",
+      "side": 1,
+      "message": "I mean something like have doBlockingWithCtx return a bool reporting whether the context was cancelled, rather than trying to determine that based on the returned error.\n\nIf the context is cancelled, I think it\u0027s fine to return completed as true, as you suggest.",
+      "parentUuid": "16f1c082_4610364f",
+      "revId": "a7c16d3e10894f52a1cdf1a3e601d8979e219695",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6d1d55a7_7424bdcb",
         "filename": "src/net/cgo_unix.go",
         "patchSetId": 1
