@@ -18,6 +18,7 @@ import (
 	"testing"
 	"text/tabwriter"
 	"time"
+	_ "unsafe"
 )
 
 // TestTraceSymbolize tests symbolization and that events has proper stacks.
@@ -152,11 +153,11 @@ func TestTraceSymbolize(t *testing.T) {
 			{"runtime/trace_test.TestTraceSymbolize.func1", 0},
 		}},
 		{trace.EvGoSched, []frame{
-			{"runtime/trace_test.TestTraceSymbolize", 111},
+			{"runtime/trace_test.TestTraceSymbolize", 112},
 			{"testing.tRunner", 0},
 		}},
 		{trace.EvGoCreate, []frame{
-			{"runtime/trace_test.TestTraceSymbolize", 40},
+			{"runtime/trace_test.TestTraceSymbolize", 41},
 			{"testing.tRunner", 0},
 		}},
 		{trace.EvGoStop, []frame{
@@ -177,7 +178,7 @@ func TestTraceSymbolize(t *testing.T) {
 		}},
 		{trace.EvGoUnblock, []frame{
 			{"runtime.chansend1", 0},
-			{"runtime/trace_test.TestTraceSymbolize", 113},
+			{"runtime/trace_test.TestTraceSymbolize", 114},
 			{"testing.tRunner", 0},
 		}},
 		{trace.EvGoBlockSend, []frame{
@@ -186,7 +187,7 @@ func TestTraceSymbolize(t *testing.T) {
 		}},
 		{trace.EvGoUnblock, []frame{
 			{"runtime.chanrecv1", 0},
-			{"runtime/trace_test.TestTraceSymbolize", 114},
+			{"runtime/trace_test.TestTraceSymbolize", 115},
 			{"testing.tRunner", 0},
 		}},
 		{trace.EvGoBlockSelect, []frame{
@@ -195,7 +196,7 @@ func TestTraceSymbolize(t *testing.T) {
 		}},
 		{trace.EvGoUnblock, []frame{
 			{"runtime.selectgo", 0},
-			{"runtime/trace_test.TestTraceSymbolize", 115},
+			{"runtime/trace_test.TestTraceSymbolize", 116},
 			{"testing.tRunner", 0},
 		}},
 		{trace.EvGoBlockSync, []frame{
@@ -214,7 +215,7 @@ func TestTraceSymbolize(t *testing.T) {
 		{trace.EvGoUnblock, []frame{
 			{"sync.(*WaitGroup).Add", 0},
 			{"sync.(*WaitGroup).Done", 0},
-			{"runtime/trace_test.TestTraceSymbolize", 120},
+			{"runtime/trace_test.TestTraceSymbolize", 121},
 			{"testing.tRunner", 0},
 		}},
 		{trace.EvGoBlockCond, []frame{
@@ -231,14 +232,27 @@ func TestTraceSymbolize(t *testing.T) {
 			{"runtime/trace_test.TestTraceSymbolize", 0},
 			{"testing.tRunner", 0},
 		}},
-		{trace.EvGomaxprocs, []frame{
+	}
+
+	if fpunwindoff() {
+		want = append(want, eventDesc{trace.EvGomaxprocs, []frame{
 			{"runtime.startTheWorld", 0}, // this is when the current gomaxprocs is logged.
 			{"runtime.startTheWorldGC", 0},
 			{"runtime.GOMAXPROCS", 0},
 			{"runtime/trace_test.TestTraceSymbolize", 0},
 			{"testing.tRunner", 0},
-		}},
+		}})
+	} else {
+		want = append(want, eventDesc{trace.EvGomaxprocs, []frame{
+			{"runtime.startTheWorld.func1", 0}, // this is when the current gomaxprocs is logged.
+			{"runtime.systemstack", 0},         // systemstack doesn't push rbp, so no runtime.startTheWorld for fpunwind
+			{"runtime.startTheWorldGC", 0},
+			{"runtime.GOMAXPROCS", 0},
+			{"runtime/trace_test.TestTraceSymbolize", 0},
+			{"testing.tRunner", 0},
+		}})
 	}
+
 	// Stacks for the following events are OS-dependent due to OS-specific code in net package.
 	if runtime.GOOS != "windows" && runtime.GOOS != "plan9" {
 		want = append(want, []eventDesc{
@@ -249,7 +263,9 @@ func TestTraceSymbolize(t *testing.T) {
 				{"net.(*TCPListener).Accept", 0},
 				{"runtime/trace_test.TestTraceSymbolize.func10", 0},
 			}},
-			{trace.EvGoSysCall, []frame{
+		}...)
+		if fpunwindoff() {
+			want = append(want, eventDesc{trace.EvGoSysCall, []frame{
 				{"syscall.read", 0},
 				{"syscall.Read", 0},
 				{"internal/poll.ignoringEINTRIO", 0},
@@ -257,9 +273,31 @@ func TestTraceSymbolize(t *testing.T) {
 				{"os.(*File).read", 0},
 				{"os.(*File).Read", 0},
 				{"runtime/trace_test.TestTraceSymbolize.func11", 0},
-			}},
-		}...)
+			}})
+		} else if runtime.GOOS == "freebsd" && runtime.GOARCH == "amd64" {
+			want = append(want, eventDesc{trace.EvGoSysCall, []frame{
+				{"syscall.Syscall", 0}, // fpunwind finds this extra frame, but not "syscall.read"
+				{"syscall.Read", 0},
+				{"internal/poll.ignoringEINTRIO", 0},
+				{"internal/poll.(*FD).Read", 0},
+				{"os.(*File).read", 0},
+				{"os.(*File).Read", 0},
+				{"runtime/trace_test.TestTraceSymbolize.func11", 0},
+			}})
+		} else {
+			want = append(want, eventDesc{trace.EvGoSysCall, []frame{
+				{"syscall.Syscall", 0}, // fpunwind finds this extra frame
+				{"syscall.read", 0},
+				{"syscall.Read", 0},
+				{"internal/poll.ignoringEINTRIO", 0},
+				{"internal/poll.(*FD).Read", 0},
+				{"os.(*File).read", 0},
+				{"os.(*File).Read", 0},
+				{"runtime/trace_test.TestTraceSymbolize.func11", 0},
+			}})
+		}
 	}
+
 	matched := make([]bool, len(want))
 	for _, ev := range events {
 	wantLoop:
@@ -286,6 +324,9 @@ func TestTraceSymbolize(t *testing.T) {
 			trace.EventDescriptions[w.Type].Name, dumpFrames(w.Stk), n, seen)
 	}
 }
+
+//go:linkname fpunwindoff runtime.fpunwindoff
+func fpunwindoff() bool
 
 func skipTraceSymbolizeTestIfNecessary(t *testing.T) {
 	testenv.MustHaveGoBuild(t)
