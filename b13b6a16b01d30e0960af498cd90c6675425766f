@@ -40,6 +40,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "77ad6cc3_fbe8223c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25422
+      },
+      "writtenOn": "2023-01-27T06:44:37Z",
+      "side": 1,
+      "message": "LGTM",
+      "revId": "b13b6a16b01d30e0960af498cd90c6675425766f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "8f4534c1_71d12f8d",
         "filename": "src/cmd/asm/internal/asm/testdata/amd64enc_extra.s",
         "patchSetId": 2
