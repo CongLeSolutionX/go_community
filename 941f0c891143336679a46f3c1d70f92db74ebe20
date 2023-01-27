@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7ee1970_2e6c724c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 60538
+      },
+      "writtenOn": "2023-01-27T06:01:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "492fefc7_4ea08d58",
+      "revId": "941f0c891143336679a46f3c1d70f92db74ebe20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bf1c89fd_c6513813",
@@ -52,6 +70,42 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d80a8fa_44587913",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 60538
+      },
+      "writtenOn": "2023-01-27T06:01:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c60d1458_b89fe8d5",
+      "revId": "941f0c891143336679a46f3c1d70f92db74ebe20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec3ad921_b522d539",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 60538
+      },
+      "writtenOn": "2023-01-27T06:01:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf1c89fd_c6513813",
+      "revId": "941f0c891143336679a46f3c1d70f92db74ebe20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "53b4a144_1ccfca61",
@@ -65,6 +119,24 @@
       "writtenOn": "2023-01-25T22:35:10Z",
       "side": 1,
       "message": "Drop this line. (The best place to add a comment like this is as a comment in Gerrit.)",
+      "revId": "941f0c891143336679a46f3c1d70f92db74ebe20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad643cf2_1c6456b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 60538
+      },
+      "writtenOn": "2023-01-27T06:01:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53b4a144_1ccfca61",
       "revId": "941f0c891143336679a46f3c1d70f92db74ebe20",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -175,6 +247,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7497726_32387d6e",
+        "filename": "src/internal/syscall/windows/syscall_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 60538
+      },
+      "writtenOn": "2023-01-27T06:01:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "938ffe4b_4b7af1b3",
+      "revId": "941f0c891143336679a46f3c1d70f92db74ebe20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "70ab35ac_ffd43640",
@@ -198,6 +288,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c448e058_d828446c",
+        "filename": "src/os/file_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 60538
+      },
+      "writtenOn": "2023-01-27T06:01:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70ab35ac_ffd43640",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 1
+      },
+      "revId": "941f0c891143336679a46f3c1d70f92db74ebe20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "994d0d58_3bab7936",
@@ -211,6 +325,30 @@
       "writtenOn": "2023-01-25T15:40:53Z",
       "side": 1,
       "message": "To reduce init-time overhead (and possibly facilitate link-time dead code elimination) for programs that don\u0027t call `TempDir`, maybe use a `sync.Once` in the `tempDir` function instead of an `init` function:\n\n```\nvar (\n\tuseGetTempPath2Once sync.Once\n\tuseGetTempPath2 bool\n)\n\nfunc tempDir() string {\n\tuseGetTempPath2Once.Do(func() {\n\t\tuseGetTempPath2 \u003d (windows.LoadGetTempPath2() \u003d\u003d nil)\n\t})\n\tgetTempPath :\u003d syscall.GetTempPath\n\tif useGetTempPath2 {\n\t\tgetTempPath \u003d windows.GetTempPath2\n\t}\n\t…\n}\n```",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 0
+      },
+      "revId": "941f0c891143336679a46f3c1d70f92db74ebe20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce6d0e98_31fdbeeb",
+        "filename": "src/os/file_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 60538
+      },
+      "writtenOn": "2023-01-27T06:01:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "994d0d58_3bab7936",
       "range": {
         "startLine": 16,
         "startChar": 0,
