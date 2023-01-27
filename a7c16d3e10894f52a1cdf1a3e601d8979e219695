@@ -3,6 +3,57 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c2dde94f_a7fab319",
+        "filename": "src/net/cgo_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-01-27T18:20:40Z",
+      "side": 1,
+      "message": "A function like this needs a clear doc comment.",
+      "revId": "a7c16d3e10894f52a1cdf1a3e601d8979e219695",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "617749b0_249b6bb1",
+        "filename": "src/net/cgo_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-01-27T18:20:40Z",
+      "side": 1,
+      "message": "Let\u0027s not use *new(T), which works but is unnecessarily cryptic.  Just\n\n    var zero T\n    return zero mapErr(ctx.Err())",
+      "revId": "a7c16d3e10894f52a1cdf1a3e601d8979e219695",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1cb1ca7_897b45b9",
+        "filename": "src/net/cgo_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-01-27T18:20:40Z",
+      "side": 1,
+      "message": "This seems problematic.  Is this code trying to figure out whether the failure happened because the context was cancelled?  If so, let\u0027s handle that directly, rather than by testing the error value.",
+      "revId": "a7c16d3e10894f52a1cdf1a3e601d8979e219695",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6d1d55a7_7424bdcb",
         "filename": "src/net/cgo_unix.go",
         "patchSetId": 1
