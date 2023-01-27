@@ -260,7 +260,7 @@ func StartTrace() error {
 			gp.traceseq = 0
 			gp.tracelastp = getg().m.p
 			// +PCQuantum because traceFrameForPC expects return PCs and subtracts PCQuantum.
-			id := trace.stackTab.put([]uintptr{startPCforTrace(gp.startpc) + sys.PCQuantum})
+			id := trace.stackTab.put([]uintptr{^uintptr(0), startPCforTrace(gp.startpc) + sys.PCQuantum})
 			traceEvent(traceEvGoCreate, -1, gp.goid, uint64(id), stackID)
 		}
 		if status == _Gwaiting {
@@ -278,7 +278,7 @@ func StartTrace() error {
 			gp.traceseq = 0
 			gp.tracelastp = getg().m.p
 			// +PCQuantum because traceFrameForPC expects return PCs and subtracts PCQuantum.
-			id := trace.stackTab.put([]uintptr{startPCforTrace(0) + sys.PCQuantum}) // no start pc
+			id := trace.stackTab.put([]uintptr{^uintptr(0), startPCforTrace(0) + sys.PCQuantum}) // no start pc
 			traceEvent(traceEvGoCreate, -1, gp.goid, uint64(id), stackID)
 			gp.traceseq++
 			traceEvent(traceEvGoInSyscall, -1, gp.goid)
@@ -859,13 +859,14 @@ func traceReadCPU() {
 				})
 				buf = bufp.ptr()
 			}
+			buf.stk[0] = ^uintptr(0)
 			for i := range stk {
-				if i >= len(buf.stk) {
+				if i+1 >= len(buf.stk) {
 					break
 				}
-				buf.stk[i] = uintptr(stk[i])
+				buf.stk[i+1] = uintptr(stk[i])
 			}
-			stackID := trace.stackTab.put(buf.stk[:len(stk)])
+			stackID := trace.stackTab.put(buf.stk[:len(stk)+1])
 
 			traceEventLocked(0, nil, 0, bufp, traceEvCPUSample, stackID, 1, timestamp/traceTickDiv, ppid, goid)
 		}
@@ -876,10 +877,18 @@ func traceStackID(mp *m, buf []uintptr, skip int) uint64 {
 	gp := getg()
 	curgp := mp.curg
 	var nstk int
-	if curgp == gp {
-		nstk = callers(skip+1, buf)
-	} else if curgp != nil {
-		nstk = gcallers(curgp, skip, buf)
+	if fpunwindoff() {
+		if curgp == gp {
+			nstk = callers(skip+1, buf)
+		} else if curgp != nil {
+			nstk = gcallers(curgp, skip, buf)
+		}
+	} else {
+		if curgp == gp {
+			nstk = fptraceback(getcallerfp(), skip, buf)
+		} else if curgp != nil {
+			nstk = fptraceback(getcallerfp(), skip+4, buf)
+		}
 	}
 	if nstk > 0 {
 		nstk-- // skip runtime.goexit
@@ -889,6 +898,39 @@ func traceStackID(mp *m, buf []uintptr, skip int) uint64 {
 	}
 	id := trace.stackTab.put(buf[:nstk])
 	return uint64(id)
+}
+
+// fpunwindoff returns false if frame pointer unwinding is disabled.
+func fpunwindoff() bool {
+	// compiler emits frame pointers for amd64 and arm64, but issue 58432
+	// prevents arm64 support.
+	return debug.fpunwindoff == 1 || goarch.ArchFamily != goarch.AMD64
+}
+
+// fptraceback uses frame pointer unwinding to collect a stack. nosplit to avoid
+// invalidating fp before starting to unwind.
+//
+//go:noinline
+//go:nosplit
+func fptraceback(fp uintptr, skip int, buf []uintptr) int {
+	buf[0] = uintptr(skip)
+	i := 1
+	for i < len(buf) {
+		// return addr sits one word above the frame pointer
+		pc := *(*uintptr)(unsafe.Pointer(fp + goarch.PtrSize))
+		buf[i] = pc
+		i++
+
+		// follow the frame pointer to the next one
+		fp = *(*uintptr)(unsafe.Pointer(fp))
+
+		// fp == 0 indicates that we reached the root frame.
+		if fp == 0 {
+			break
+		}
+	}
+
+	return i
 }
 
 // traceAcquireBuffer returns trace buffer to use and, if necessary, locks it.
@@ -1175,7 +1217,7 @@ func (tab *traceStackTable) dump(bufp traceBufPtr) traceBufPtr {
 		stk := tab.tab[i].ptr()
 		for ; stk != nil; stk = stk.link.ptr() {
 			var frames []traceFrame
-			frames, bufp = traceFrames(bufp, stk.stack())
+			frames, bufp = traceFrames(bufp, fpunwindExpand(stk.stack()))
 
 			// Estimate the size of this record. This
 			// bound is pretty loose, but avoids counting
@@ -1213,6 +1255,60 @@ func (tab *traceStackTable) dump(bufp traceBufPtr) traceBufPtr {
 	lockInit(&((*tab).lock), lockRankTraceStackTab)
 
 	return bufp
+}
+
+func fpunwindExpand(buf []uintptr) []uintptr {
+	if len(buf) > 0 && buf[0] == ^uintptr(0) {
+		return buf[1:]
+	} else if fpunwindoff() {
+		return buf
+	}
+
+	var (
+		cache      pcvalueCache
+		lastFuncID = funcID_normal
+		newBuf     = make([]uintptr, 0, traceStackSize)
+		skip       = buf[0]
+	)
+	for _, pc := range buf[1:] {
+		f := findfunc(pc)
+		if !f.valid() {
+			break
+		}
+
+		tracepc := pc - 1
+		// If there is inlining info, record the inner frames.
+		if inldata := funcdata(f, _FUNCDATA_InlTree); inldata != nil {
+			inltree := (*[1 << 20]inlinedCall)(inldata)
+			for {
+				ix := pcdatavalue(f, _PCDATA_InlTreeIndex, tracepc, &cache)
+				if ix < 0 {
+					break
+				}
+				if inltree[ix].funcID == funcID_wrapper && elideWrapperCalling(lastFuncID) {
+					// ignore wrappers
+				} else if skip > 0 {
+					skip--
+				} else if len(newBuf) < cap(newBuf) {
+					newBuf = append(newBuf, pc)
+				}
+				lastFuncID = inltree[ix].funcID
+				// Back up to an instruction in the "caller".
+				tracepc = f.entry() + uintptr(inltree[ix].parentPc)
+				pc = tracepc + 1
+			}
+		}
+		// Record the main frame.
+		if f.funcID == funcID_wrapper && elideWrapperCalling(lastFuncID) {
+			// Ignore wrapper functions (except when they trigger panics).
+		} else if skip > 0 {
+			skip--
+		} else if len(newBuf) < cap(newBuf) {
+			newBuf = append(newBuf, pc)
+		}
+		lastFuncID = f.funcID
+	}
+	return newBuf
 }
 
 type traceFrame struct {
@@ -1387,7 +1483,7 @@ func traceGoCreate(newg *g, pc uintptr) {
 	newg.traceseq = 0
 	newg.tracelastp = getg().m.p
 	// +PCQuantum because traceFrameForPC expects return PCs and subtracts PCQuantum.
-	id := trace.stackTab.put([]uintptr{startPCforTrace(pc) + sys.PCQuantum})
+	id := trace.stackTab.put([]uintptr{^uintptr(0), startPCforTrace(pc) + sys.PCQuantum})
 	traceEvent(traceEvGoCreate, 2, newg.goid, uint64(id))
 }
 
@@ -1440,7 +1536,11 @@ func traceGoUnpark(gp *g, skip int) {
 }
 
 func traceGoSysCall() {
-	traceEvent(traceEvGoSysCall, 1)
+	if fpunwindoff() {
+		traceEvent(traceEvGoSysCall, 1)
+	} else {
+		traceEvent(traceEvGoSysCall, 2)
+	}
 }
 
 func traceGoSysExit(ts int64) {
