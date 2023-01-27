@@ -165,6 +165,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "6f68e6b1_e5a11cf7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-01-27T23:04:20Z",
+      "side": 1,
+      "message": "Do we have CPU performance data for this? \"without affecting performance\" is pretty vague.\n\nI suspect it might be good. The only long pole I see is that it requires 2 uops to adjust the stack pointer instead of 1. Pre-regabi that could be bad because the first thing a function does is read its arguments from memory with SP as the base register. But post-regabi, we might get some actual work done before having to reference SP at all.",
+      "revId": "910a7a6ea542d2d655e416bf33450bfcfc2a1f72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "1851690b_8a46f2ad",
         "filename": "src/cmd/internal/obj/x86/obj6.go",
         "patchSetId": 4
