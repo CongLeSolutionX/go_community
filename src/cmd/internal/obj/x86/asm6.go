@@ -4070,6 +4070,9 @@ func (ab *AsmBuf) asmevex(ctxt *obj.Link, p *obj.Prog, rm, v, r, k *obj.Addr) {
 		if !evex.ZeroingEnabled() {
 			ctxt.Diag("unsupported zeroing: %v", p)
 		}
+		if k == nil {
+			ctxt.Diag("K register must be specified for .Z instructions: %v", p)
+		}
 		evexZ = 1
 	}
 	switch {
