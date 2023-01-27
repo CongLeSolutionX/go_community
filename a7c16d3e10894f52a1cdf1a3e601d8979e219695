@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d1d55a7_7424bdcb",
+        "filename": "src/net/cgo_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-01-27T10:14:35Z",
+      "side": 1,
+      "message": "Should we do here the same thing as in the CL 454696?",
+      "revId": "a7c16d3e10894f52a1cdf1a3e601d8979e219695",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
