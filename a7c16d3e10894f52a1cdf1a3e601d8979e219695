@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ab153bb_670b849c",
+        "filename": "src/net/cgo_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-01-27T19:06:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c2dde94f_a7fab319",
+      "revId": "a7c16d3e10894f52a1cdf1a3e601d8979e219695",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "617749b0_249b6bb1",
@@ -35,6 +53,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e38f62e8_6bc6642c",
+        "filename": "src/net/cgo_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-01-27T19:06:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "617749b0_249b6bb1",
+      "revId": "a7c16d3e10894f52a1cdf1a3e601d8979e219695",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b1cb1ca7_897b45b9",
@@ -48,6 +84,24 @@
       "writtenOn": "2023-01-27T18:20:40Z",
       "side": 1,
       "message": "This seems problematic.  Is this code trying to figure out whether the failure happened because the context was cancelled?  If so, let\u0027s handle that directly, rather than by testing the error value.",
+      "revId": "a7c16d3e10894f52a1cdf1a3e601d8979e219695",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16f1c082_4610364f",
+        "filename": "src/net/cgo_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-01-27T19:06:42Z",
+      "side": 1,
+      "message": "\u003e If so, let\u0027s handle that directly, rather than by testing the error value.\n\nWhy do you mean: \"handle that directly\". Not to use the `doBlockingWithCtx` at all here??\n\nAlso I am unsure whether it should return `compleated \u003d\u003d false` (I made a comment before about that)",
+      "parentUuid": "b1cb1ca7_897b45b9",
       "revId": "a7c16d3e10894f52a1cdf1a3e601d8979e219695",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
