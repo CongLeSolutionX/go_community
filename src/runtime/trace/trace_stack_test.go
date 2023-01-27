@@ -7,6 +7,7 @@ package trace_test
 import (
 	"bytes"
 	"fmt"
+	"internal/godebug"
 	"internal/testenv"
 	"internal/trace"
 	"net"
@@ -152,11 +153,11 @@ func TestTraceSymbolize(t *testing.T) {
 			{"runtime/trace_test.TestTraceSymbolize.func1", 0},
 		}},
 		{trace.EvGoSched, []frame{
-			{"runtime/trace_test.TestTraceSymbolize", 111},
+			{"runtime/trace_test.TestTraceSymbolize", 112},
 			{"testing.tRunner", 0},
 		}},
 		{trace.EvGoCreate, []frame{
-			{"runtime/trace_test.TestTraceSymbolize", 40},
+			{"runtime/trace_test.TestTraceSymbolize", 41},
 			{"testing.tRunner", 0},
 		}},
 		{trace.EvGoStop, []frame{
@@ -177,7 +178,7 @@ func TestTraceSymbolize(t *testing.T) {
 		}},
 		{trace.EvGoUnblock, []frame{
 			{"runtime.chansend1", 0},
-			{"runtime/trace_test.TestTraceSymbolize", 113},
+			{"runtime/trace_test.TestTraceSymbolize", 114},
 			{"testing.tRunner", 0},
 		}},
 		{trace.EvGoBlockSend, []frame{
@@ -186,7 +187,7 @@ func TestTraceSymbolize(t *testing.T) {
 		}},
 		{trace.EvGoUnblock, []frame{
 			{"runtime.chanrecv1", 0},
-			{"runtime/trace_test.TestTraceSymbolize", 114},
+			{"runtime/trace_test.TestTraceSymbolize", 115},
 			{"testing.tRunner", 0},
 		}},
 		{trace.EvGoBlockSelect, []frame{
@@ -195,7 +196,7 @@ func TestTraceSymbolize(t *testing.T) {
 		}},
 		{trace.EvGoUnblock, []frame{
 			{"runtime.selectgo", 0},
-			{"runtime/trace_test.TestTraceSymbolize", 115},
+			{"runtime/trace_test.TestTraceSymbolize", 116},
 			{"testing.tRunner", 0},
 		}},
 		{trace.EvGoBlockSync, []frame{
@@ -214,7 +215,7 @@ func TestTraceSymbolize(t *testing.T) {
 		{trace.EvGoUnblock, []frame{
 			{"sync.(*WaitGroup).Add", 0},
 			{"sync.(*WaitGroup).Done", 0},
-			{"runtime/trace_test.TestTraceSymbolize", 120},
+			{"runtime/trace_test.TestTraceSymbolize", 121},
 			{"testing.tRunner", 0},
 		}},
 		{trace.EvGoBlockCond, []frame{
@@ -232,13 +233,30 @@ func TestTraceSymbolize(t *testing.T) {
 			{"testing.tRunner", 0},
 		}},
 		{trace.EvGomaxprocs, []frame{
-			{"runtime.startTheWorld", 0}, // this is when the current gomaxprocs is logged.
+			{"runtime.startTheWorld.func1", 0}, // this is when the current gomaxprocs is logged.
+			{"runtime.systemstack", 0},         // this is when the current gomaxprocs is logged.
 			{"runtime.startTheWorldGC", 0},
 			{"runtime.GOMAXPROCS", 0},
 			{"runtime/trace_test.TestTraceSymbolize", 0},
 			{"testing.tRunner", 0},
 		}},
 	}
+
+	// FP unwinding (correctly?) finds a frame that gentraceback currently
+	// misses. Adjust the test expections accordingly when fp unwinding is
+	// used.
+	// TODO: check if frame pointer enabled
+	fpUnwind := godebug.New("fpunwindoff").Value() != "1"
+	if fpUnwind {
+		for i, desc := range want {
+			last := desc.Stk[len(desc.Stk)-1]
+			if last.Fn == "testing.tRunner" && desc.Type != trace.EvGCStart {
+				// desc.Stk = append(desc.Stk, frame{"testing.(*T).Run.func1", 0})
+				want[i] = desc
+			}
+		}
+	}
+
 	// Stacks for the following events are OS-dependent due to OS-specific code in net package.
 	if runtime.GOOS != "windows" && runtime.GOOS != "plan9" {
 		want = append(want, []eventDesc{
@@ -250,6 +268,7 @@ func TestTraceSymbolize(t *testing.T) {
 				{"runtime/trace_test.TestTraceSymbolize.func10", 0},
 			}},
 			{trace.EvGoSysCall, []frame{
+				{"syscall.Syscall", 0},
 				{"syscall.read", 0},
 				{"syscall.Read", 0},
 				{"internal/poll.ignoringEINTRIO", 0},

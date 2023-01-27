@@ -876,10 +876,18 @@ func traceStackID(mp *m, buf []uintptr, skip int) uint64 {
 	gp := getg()
 	curgp := mp.curg
 	var nstk int
-	if curgp == gp {
-		nstk = callers(skip+1, buf)
-	} else if curgp != nil {
-		nstk = gcallers(curgp, skip, buf)
+	if debug.fpunwindoff == 0 {
+		if curgp == gp {
+			nstk = fpcallers(skip+1, buf)
+		} else if curgp != nil {
+			nstk = fpgcallers(curgp, skip+5, buf)
+		}
+	} else {
+		if curgp == gp {
+			nstk = callers(skip+1, buf)
+		} else if curgp != nil {
+			nstk = gcallers(curgp, skip, buf)
+		}
 	}
 	if nstk > 0 {
 		nstk-- // skip runtime.goexit
@@ -889,6 +897,94 @@ func traceStackID(mp *m, buf []uintptr, skip int) uint64 {
 	}
 	id := trace.stackTab.put(buf[:nstk])
 	return uint64(id)
+}
+
+//go:noinline
+func fpcallers(skip int, buf []uintptr) int {
+	gp := getg()
+	fp := getcallerfp()
+	var n int
+	systemstack(func() {
+		n = fptraceback(gp, fp, skip, buf)
+	})
+	return n
+}
+
+var Getcallerfp = getcallerfp
+
+//go:noinline
+func fpgcallers(gp *g, skip int, buf []uintptr) int {
+	// NOTE: we don't use gp.sched.bp here because that would cause us to miss
+	// frames from the g0 stack that we'd like.
+	return fptraceback(gp, getcallerfp(), skip, buf)
+}
+
+// fptraceback uses frame pointer unwinding to collect a stack trace, and stores
+// it in buf. The diagram below shows the stack layout. The algorithm simply
+// follows the frame pointers from the leaf frame (frame 2) to the root frame
+// (frame 0) and stores the "return addr" values discovered along the way in
+// buf. The first frame pointer (aka base pointer) is usually retrieved from a
+// CPU register.
+//
+//go:noinline
+//go:nosplit
+func fptraceback(gp *g, fp uintptr, skip int, buf []uintptr) int {
+	i := 0
+	var cache pcvalueCache
+	lastFuncID := funcID_normal
+	for i < len(buf) {
+		// return addr sits one word above the frame pointer
+		pc := *(*uintptr)(unsafe.Pointer(fp + goarch.PtrSize))
+		//- goarch.PCQuantum
+		f := findfunc(pc)
+		if !f.valid() {
+			break
+		}
+		tracepc := pc - 1
+
+		// If there is inlining info, record the inner frames.
+		if inldata := funcdata(f, _FUNCDATA_InlTree); inldata != nil {
+			inltree := (*[1 << 20]inlinedCall)(inldata)
+			for {
+				ix := pcdatavalue(f, _PCDATA_InlTreeIndex, tracepc, &cache)
+				if ix < 0 {
+					break
+				}
+				if inltree[ix].funcID == funcID_wrapper && elideWrapperCalling(lastFuncID) {
+					// ignore wrappers
+				} else if skip > 0 {
+					skip--
+				} else if i < len(buf) {
+					buf[i] = pc
+					i++
+				}
+				lastFuncID = inltree[ix].funcID
+				// Back up to an instruction in the "caller".
+				tracepc = f.entry() + uintptr(inltree[ix].parentPc)
+				pc = tracepc + 1
+			}
+		}
+		// Record the main frame.
+		if f.funcID == funcID_wrapper && elideWrapperCalling(lastFuncID) {
+			// Ignore wrapper functions (except when they trigger panics).
+		} else if skip > 0 {
+			skip--
+		} else if i < len(buf) {
+			buf[i] = pc
+			i++
+		}
+		lastFuncID = f.funcID
+
+		// follow the frame pointer to the next one
+		fp = *(*uintptr)(unsafe.Pointer(fp))
+
+		// fp == 0 indicates that we reached the root frame.
+		if fp == 0 {
+			break
+		}
+	}
+
+	return i
 }
 
 // traceAcquireBuffer returns trace buffer to use and, if necessary, locks it.
