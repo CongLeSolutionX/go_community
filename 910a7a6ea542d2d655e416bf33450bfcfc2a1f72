@@ -72,6 +72,24 @@
       "message": "Hi Quim, in case you add more reviewers just to get this CL submittable, you wouldn\u0027t need to do that. For CLs that are already +2\u0027d, passed trybot, and no unresolved comments, they will be on https://golang.org/s/needs-review list and someone on the team (on a rotation base) will go over the list and do a (light-weight) review to make it submittable. There may be some latency for this process, perhaps a few days. If you find a CL stuck for a long time, feel free to ping.\nIf you add reviewers because you actively seek review from them, you\u0027re also welcome to do so. Thanks.",
       "revId": "910a7a6ea542d2d655e416bf33450bfcfc2a1f72",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f74c9a1e_82725756",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-01-27T10:32:15Z",
+      "side": 1,
+      "message": "Thanks for the guidance Cherry. I\u0027m still a little bit lost on who to add as reviewer, and gobot doesn\u0027t help much on that.\nDidn\u0027t know that this CL already appears on the needs-review page, will wait for someone to chime in 😊.",
+      "parentUuid": "5613e21d_3cecb3ca",
+      "revId": "910a7a6ea542d2d655e416bf33450bfcfc2a1f72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
