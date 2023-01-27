@@ -16,6 +16,24 @@
       "message": "Based on similar options, I develop the code, but I have the following question:\nSome files need to be manually changed because the generator command generates lines that are unrelated to this CL. Is it ok?",
       "revId": "aba996eedd61e51c4719ccdc6603ed9af9aacf50",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81bcabd3_120bd5d6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-01-27T18:07:30Z",
+      "side": 1,
+      "message": "No.  Please file a bug or send a separate patch to fix the problem.  Thanks.",
+      "parentUuid": "f665faf4_e7d67521",
+      "revId": "aba996eedd61e51c4719ccdc6603ed9af9aacf50",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
