@@ -52,6 +52,24 @@
       "parentUuid": "a658ab2e_cf5f2667",
       "revId": "4358379632fdbb75553427d97cb06f0d5101f18f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8a61ceb_a1194f0b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 32637
+      },
+      "writtenOn": "2023-01-27T17:56:14Z",
+      "side": 1,
+      "message": "Thank you, great instinct!\nI\u0027ve changed the code to return nil early when n \u003e 0 to keep the performance unchanged and updated commit message with benchmark results.",
+      "parentUuid": "96e0c7fe_793749bb",
+      "revId": "4358379632fdbb75553427d97cb06f0d5101f18f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
