@@ -53,6 +53,24 @@
       "message": "depending on strings like this is trouble. how about adding a sentence to the doc comment for UserHomeDir stating the format of the error?",
       "revId": "8e3d6322a39cf8a4fe395722027f085617d92dd0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "822a8051_55c3fb3c",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 2558,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-01-27T16:08:09Z",
+      "side": 1,
+      "message": "This turns out to be something of an API wart: a missing environment variable is the *only* condition under which `UserHomeDir` returns a non-nil error.\n\nChanged the `err !\u003d nil` action to a skip and added a sentence about error behavior to the doc comment.",
+      "parentUuid": "963ca428_d02ee65d",
+      "revId": "8e3d6322a39cf8a4fe395722027f085617d92dd0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
