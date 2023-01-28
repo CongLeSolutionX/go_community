@@ -16,6 +16,23 @@
       "message": "Try bots will not succeed on Node 14 but I have tested this successfully locally.",
       "revId": "86412f088bba6170941f2cd15666888c1830e559",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48934e32_cd32d371",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2023-01-28T21:51:18Z",
+      "side": 1,
+      "message": "Looks good, makes sense given the comment.",
+      "revId": "86412f088bba6170941f2cd15666888c1830e559",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
