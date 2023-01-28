@@ -400,6 +400,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c51d50c3_ce74e60a",
+        "filename": "src/cmd/internal/obj/wasm/wasmobj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2023-01-28T21:45:39Z",
+      "side": 1,
+      "message": "I looked at the original comment and I\u0027m unsure where it would go in cmd/compile/internal/wasm as it currently doesn\u0027t handle functions from the top-level, just individual SSA operations. Happy to move it, just unclear as to what that entails.",
+      "parentUuid": "12aaa595_5244e3a1",
+      "revId": "1d3b2394059335aefd644b4131852a642aefa260",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5e5661f8_d8769059",
         "filename": "src/cmd/internal/obj/wasm/wasmobj.go",
         "patchSetId": 2
@@ -486,6 +504,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ce76ee8_6ed2ff83",
+        "filename": "src/cmd/internal/obj/wasm/wasmobj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2023-01-28T21:45:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ce74a71_5f5e87a8",
+      "revId": "1d3b2394059335aefd644b4131852a642aefa260",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b031a708_3d004f19",
@@ -499,6 +535,24 @@
       "writtenOn": "2023-01-23T16:37:01Z",
       "side": 1,
       "message": "More context: https://go-review.googlesource.com/c/go/+/350737/comment/ee568639_20dc63cf/",
+      "revId": "1d3b2394059335aefd644b4131852a642aefa260",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "841fda79_eceadcc0",
+        "filename": "src/cmd/internal/obj/wasm/wasmobj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2023-01-28T21:45:39Z",
+      "side": 1,
+      "message": "I\u0027ve added a bunch of comments about this.",
+      "parentUuid": "b031a708_3d004f19",
       "revId": "1d3b2394059335aefd644b4131852a642aefa260",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -522,6 +576,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9dae08a7_a737c1cf",
+        "filename": "src/cmd/internal/obj/wasm/wasmobj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2023-01-28T21:45:39Z",
+      "side": 1,
+      "message": "I\u0027ve added a bunch of comments in the code about why this is done.",
+      "parentUuid": "afd61718_e1e9dad4",
+      "revId": "1d3b2394059335aefd644b4131852a642aefa260",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a1c11f81_6eebe023",
         "filename": "src/cmd/internal/obj/wasm/wasmobj.go",
         "patchSetId": 2
@@ -533,6 +605,24 @@
       "writtenOn": "2023-01-23T16:37:01Z",
       "side": 1,
       "message": "More context: https://go-review.googlesource.com/c/go/+/350737/comment/aff178f0_94f827eb/",
+      "revId": "1d3b2394059335aefd644b4131852a642aefa260",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81028174_b0f9ef0a",
+        "filename": "src/cmd/internal/obj/wasm/wasmobj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2023-01-28T21:45:39Z",
+      "side": 1,
+      "message": "I\u0027ve added a bunch of comments in the code about why this is done.",
+      "parentUuid": "a1c11f81_6eebe023",
       "revId": "1d3b2394059335aefd644b4131852a642aefa260",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -597,6 +687,24 @@
       "writtenOn": "2023-01-23T16:37:01Z",
       "side": 1,
       "message": "Looks like we can use `binary.LittleEndian.Uint32/Uint64` directly here instead: https://go-review.googlesource.com/c/go/+/350737/comment/733f7ae9_2b87adb7/.",
+      "revId": "1d3b2394059335aefd644b4131852a642aefa260",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "125c50c2_07b62b91",
+        "filename": "src/cmd/link/internal/wasm/asm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2023-01-28T21:45:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c97cbdf7_1a838aef",
       "revId": "1d3b2394059335aefd644b4131852a642aefa260",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
