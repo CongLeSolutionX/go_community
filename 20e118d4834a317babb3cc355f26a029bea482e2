@@ -126,6 +126,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "865dc720_020df398",
+        "filename": "src/cmd/compile/doc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2023-01-28T22:04:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1bbb9cd_b42e3e0a",
+      "revId": "20e118d4834a317babb3cc355f26a029bea482e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4dcb4626_7e4103b2",
@@ -139,6 +157,24 @@
       "writtenOn": "2023-01-23T19:20:33Z",
       "side": 1,
       "message": "Could you mention this case first? At least from the compiler/linker perspective the \"push\" style linkname (this case) is much better than the \"pull\" style (the case above), as in the push style the package defining the function knows the function is accessed outside the package even it is not exported. So if linkname cannot be avoided, we hope one use push style instead of pull.\n\nEven in the \"pull\" style we\u0027ve been trying to add a self linkname in the lower package, to make it clear that it is accessed outside the package.",
+      "revId": "20e118d4834a317babb3cc355f26a029bea482e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b187f15_9a47edba",
+        "filename": "src/cmd/compile/doc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2023-01-28T22:04:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4dcb4626_7e4103b2",
       "revId": "20e118d4834a317babb3cc355f26a029bea482e2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
