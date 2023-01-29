@@ -930,6 +930,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e1d3c5a6_76dc69db",
+        "filename": "src/cmd/link/internal/wasm/asm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-01-29T03:52:07Z",
+      "side": 1,
+      "message": "I believe we discussed this and a panic should be fine here.",
+      "parentUuid": "93c5af14_52fbf422",
+      "range": {
+        "startLine": 203,
+        "startChar": 5,
+        "endLine": 210,
+        "endChar": 5
+      },
+      "revId": "1d3b2394059335aefd644b4131852a642aefa260",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ff3e4fef_8718da8e",
         "filename": "src/cmd/link/internal/wasm/asm.go",
         "patchSetId": 2
