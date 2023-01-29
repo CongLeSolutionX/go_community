@@ -178,6 +178,24 @@
       "parentUuid": "103fd0e9_8778a275",
       "revId": "8f60436266159f18815345046060470586355dbb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ccf4b7af_ee2ebe30",
+        "filename": "src/cmd/compile/internal/ir/sizeof_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-01-29T04:08:41Z",
+      "side": 1,
+      "message": "This test seems to be failing on 32 bit (https://storage.googleapis.com/go-build-log/0fc6184d/linux-386_bf1c3c42.log), maybe this should be \n\n188\n100\n\n?",
+      "parentUuid": "65f7bf77_392e828b",
+      "revId": "8f60436266159f18815345046060470586355dbb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
