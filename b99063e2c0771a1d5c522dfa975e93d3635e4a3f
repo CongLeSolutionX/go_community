@@ -80,6 +80,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "701a0352_7ba41c3c",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-01-30T19:02:13Z",
+      "side": 1,
+      "message": "Removed entirely. Only DefaultGODEBUG needs to be exposed.",
+      "parentUuid": "c95dfc9a_e5bc11b0",
+      "range": {
+        "startLine": 108,
+        "startChar": 19,
+        "endLine": 108,
+        "endChar": 25
+      },
+      "revId": "b99063e2c0771a1d5c522dfa975e93d3635e4a3f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "466ba8e7_a54bb489",
@@ -93,6 +117,24 @@
       "writtenOn": "2023-01-19T19:19:58Z",
       "side": 1,
       "message": "The definition of “directive comment” given in https://go.dev/doc/comment#syntax also includes third-party prefixes and a couple of legacy directives.\n\nIn this case, `line`, `extern`, and `export` directives before the `package` statement seem like degenerate cases, but I think we should at least include prefixes beyond just `//go:` — both to make this API more useful for the authors of third-party tools, and to reduce the number of meanings of “directive” that we have to keep in our own heads as maintainers.\n\n(Perhaps this would also be a good time to consolidate [`go/ast.isDirective`](https://cs.opensource.google/go/go/+/master:src/go/ast/ast.go;l\u003d160-187;drc\u003df1d281fe4d6177349032776c22ab6dfb8533f0eb) and [`go/printer.isDirective`](https://cs.opensource.google/go/go/+/master:src/go/printer/comment.go;l\u003d110-138;drc\u003d361f5eba9f9e9902226e7edac76646253b7025e4)  into a shared internal helper?)",
+      "revId": "b99063e2c0771a1d5c522dfa975e93d3635e4a3f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "287ae60d_fa402dae",
+        "filename": "src/go/build/read.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-01-30T19:02:13Z",
+      "side": 1,
+      "message": "Updated the doc comment here.",
+      "parentUuid": "466ba8e7_a54bb489",
       "revId": "b99063e2c0771a1d5c522dfa975e93d3635e4a3f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
