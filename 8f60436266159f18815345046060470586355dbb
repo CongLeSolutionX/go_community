@@ -196,6 +196,24 @@
       "parentUuid": "65f7bf77_392e828b",
       "revId": "8f60436266159f18815345046060470586355dbb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1b3528b_b52fd13d",
+        "filename": "src/cmd/compile/internal/ir/sizeof_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-01-30T23:15:02Z",
+      "side": 1,
+      "message": "I don\u0027t see any reason Name should have changed. Maybe an earlier patch set tried adding wasmimport there instead of to Func?\n\nFWIW, on amd64 you can use `GOARCH\u003d386 go test -run Sizeof cmd/compile/internal/ir` to test the 32-bit values. That\u0027s what I usually do at least when I\u0027m updating these values.",
+      "parentUuid": "ccf4b7af_ee2ebe30",
+      "revId": "8f60436266159f18815345046060470586355dbb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
