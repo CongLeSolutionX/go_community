@@ -192,6 +192,24 @@
       "parentUuid": "ccd935e3_6facb199",
       "revId": "69c3219b4aa856b02fe83c96137bb8077020415e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72eb3b49_c4ee3bb6",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-01-30T15:54:13Z",
+      "side": 1,
+      "message": "I think what Ian is suggesting is just a blob of code at the end of asmb() something along the lines of\n\n\tif ctxt.IsMIPS64() {\n\t\tmips64.FixupSyms(ctxt, ctxt.loader)\n\t}",
+      "parentUuid": "152969fc_ba171a34",
+      "revId": "69c3219b4aa856b02fe83c96137bb8077020415e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
