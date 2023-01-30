@@ -213,6 +213,24 @@
       "message": "Might as well make this a MOVQ then. They are smaller right?\n(In a followon CL if you want.)",
       "revId": "910a7a6ea542d2d655e416bf33450bfcfc2a1f72",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6dcf6b03_dd156754",
+        "filename": "src/cmd/internal/obj/x86/obj6.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 691,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-01-30T15:51:12Z",
+      "side": 1,
+      "message": "Good point, will do that in a follow-up CL!",
+      "parentUuid": "1851690b_8a46f2ad",
+      "revId": "910a7a6ea542d2d655e416bf33450bfcfc2a1f72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
