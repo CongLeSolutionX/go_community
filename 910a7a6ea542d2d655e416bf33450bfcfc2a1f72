@@ -182,6 +182,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "f969fe5f_b641a3ca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-01-30T09:48:59Z",
+      "side": 1,
+      "message": "I\u0027ve run many benchmarks with this change and didn\u0027t notice any major difference, although I just ran high level benchmarks (i.e., test/bench/go1, crypto and math). There might be a better way to know the performance effect of changing a single instruction.",
+      "parentUuid": "6f68e6b1_e5a11cf7",
+      "revId": "910a7a6ea542d2d655e416bf33450bfcfc2a1f72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "1851690b_8a46f2ad",
         "filename": "src/cmd/internal/obj/x86/obj6.go",
         "patchSetId": 4
