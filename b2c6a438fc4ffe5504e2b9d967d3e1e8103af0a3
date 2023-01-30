@@ -74,6 +74,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "46cbc138_6422b9a0",
+        "filename": "src/cmd/go/internal/load/godebug.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-01-30T19:44:18Z",
+      "side": 1,
+      "message": "The hypothetical cuts both ways. I could also see someone starting to write one and forgetting to finish the line. In general we reject\n\nimport\nvar\nconst\ntype\nfunc\n\netc.",
+      "parentUuid": "5bf9250b_e3bf60e9",
+      "revId": "b2c6a438fc4ffe5504e2b9d967d3e1e8103af0a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "61b2a230_77eaccd9",
@@ -87,6 +105,30 @@
       "writtenOn": "2023-01-25T21:18:23Z",
       "side": 1,
       "message": "`ContainsAny`?",
+      "range": {
+        "startLine": 34,
+        "startChar": 12,
+        "endLine": 34,
+        "endChar": 20
+      },
+      "revId": "b2c6a438fc4ffe5504e2b9d967d3e1e8103af0a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0fd21aca_b5d82bbe",
+        "filename": "src/cmd/go/internal/load/godebug.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-01-30T19:44:18Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "61b2a230_77eaccd9",
       "range": {
         "startLine": 34,
         "startChar": 12,
@@ -120,6 +162,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "01d1965e_ddf71162",
+        "filename": "src/cmd/go/internal/load/godebug.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-01-30T19:44:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b00a5c8_7eac9354",
+      "range": {
+        "startLine": 37,
+        "startChar": 21,
+        "endLine": 37,
+        "endChar": 22
+      },
+      "revId": "b2c6a438fc4ffe5504e2b9d967d3e1e8103af0a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "312927af_1dd57b6a",
@@ -133,6 +199,30 @@
       "writtenOn": "2023-01-25T21:18:23Z",
       "side": 1,
       "message": "`v`?",
+      "range": {
+        "startLine": 43,
+        "startChar": 21,
+        "endLine": 43,
+        "endChar": 22
+      },
+      "revId": "b2c6a438fc4ffe5504e2b9d967d3e1e8103af0a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aef2028a_6b2e95ea",
+        "filename": "src/cmd/go/internal/load/godebug.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-01-30T19:44:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "312927af_1dd57b6a",
       "range": {
         "startLine": 43,
         "startChar": 21,
@@ -166,6 +256,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2fedb791_c34286c5",
+        "filename": "src/cmd/go/internal/load/godebug.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-01-30T19:44:18Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "a55c4a0d_6f7e1f69",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 24
+      },
+      "revId": "b2c6a438fc4ffe5504e2b9d967d3e1e8103af0a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ce2bee5e_92625103",
@@ -179,6 +293,24 @@
       "writtenOn": "2023-01-25T21:18:23Z",
       "side": 1,
       "message": "This implementation will need to be updated if/when we reach Go 1.100.\n\nPerhaps clamp `n` to the range [0, 99], and add `//go:build !go1.100` to this file as a reminder to future maintainers to fix it up?",
+      "revId": "b2c6a438fc4ffe5504e2b9d967d3e1e8103af0a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34a6a028_6f0378c3",
+        "filename": "src/cmd/go/internal/load/godebug.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-01-30T19:44:18Z",
+      "side": 1,
+      "message": "Rewrote the code not to have that limit.",
+      "parentUuid": "ce2bee5e_92625103",
       "revId": "b2c6a438fc4ffe5504e2b9d967d3e1e8103af0a3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -206,6 +338,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "337b5649_58245996",
+        "filename": "src/cmd/go/internal/load/test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-01-30T19:44:18Z",
+      "side": 1,
+      "message": "Rewrote.",
+      "parentUuid": "c372493b_23eb7da5",
+      "range": {
+        "startLine": 280,
+        "startChar": 0,
+        "endLine": 282,
+        "endChar": 99
+      },
+      "revId": "b2c6a438fc4ffe5504e2b9d967d3e1e8103af0a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b8edacc3_e2150631",
@@ -223,6 +379,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2039bfd6_c31f1193",
+        "filename": "src/cmd/go/internal/modload/modfile.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-01-30T19:44:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8edacc3_e2150631",
+      "revId": "b2c6a438fc4ffe5504e2b9d967d3e1e8103af0a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9c0367d6_9a7b1661",
@@ -236,6 +410,24 @@
       "writtenOn": "2023-01-25T21:18:23Z",
       "side": 1,
       "message": "Does this belong in CL 462201?",
+      "revId": "b2c6a438fc4ffe5504e2b9d967d3e1e8103af0a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aaad1f98_11c93dc6",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-01-30T19:44:18Z",
+      "side": 1,
+      "message": "That was just about bringing in vet. I made a separate CL for enabling it (moving this code out of this CL).",
+      "parentUuid": "9c0367d6_9a7b1661",
       "revId": "b2c6a438fc4ffe5504e2b9d967d3e1e8103af0a3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
