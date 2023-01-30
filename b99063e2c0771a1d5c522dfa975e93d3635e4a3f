@@ -154,6 +154,24 @@
       "message": "(stray comment)",
       "revId": "b99063e2c0771a1d5c522dfa975e93d3635e4a3f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "16eb8bb0_e8e9ddd2",
+        "filename": "src/go/build/read.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-01-30T19:44:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db1fba52_e9d42d2e",
+      "revId": "b99063e2c0771a1d5c522dfa975e93d3635e4a3f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
