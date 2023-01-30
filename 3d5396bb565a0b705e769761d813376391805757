@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f52622f4_522786e0",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1485,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-01-30T15:30:58Z",
+      "side": 1,
+      "message": "With your change in cl/463982, we should be able to just remove this chunk.",
+      "parentUuid": "1f5233a7_d50e3424",
+      "range": {
+        "startLine": 1478,
+        "startChar": 0,
+        "endLine": 1485,
+        "endChar": 3
+      },
+      "revId": "3d5396bb565a0b705e769761d813376391805757",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "becc8cbd_6657cbfe",
         "filename": "src/cmd/link/internal/ld/lib.go",
         "patchSetId": 2

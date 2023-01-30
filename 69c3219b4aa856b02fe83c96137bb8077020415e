@@ -143,6 +143,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4a75f8ec_4ebe6ea3",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1536,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-01-30T15:30:58Z",
+      "side": 1,
+      "message": "AFAICT the comment is completely unrelated to the elf.DT_DEBUG section, hence adding a blank line to separate them. I can drop it if it is unwanted.",
+      "parentUuid": "d0215c79_0e336f5d",
+      "revId": "69c3219b4aa856b02fe83c96137bb8077020415e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ccd935e3_6facb199",
         "filename": "src/cmd/link/internal/ld/lib.go",
         "patchSetId": 4
@@ -154,6 +172,24 @@
       "writtenOn": "2023-01-29T04:17:35Z",
       "side": 1,
       "message": "Adding a new general pass complicates the linker for every target.  Why not just have the MIPS targets do this in asmb?  Why make a separate pass?",
+      "revId": "69c3219b4aa856b02fe83c96137bb8077020415e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "152969fc_ba171a34",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-01-30T15:30:58Z",
+      "side": 1,
+      "message": "I\u0027m working from memory, however I believe it has to be done at the completion of asmb (once we have the symbol counts) and before the start of asmb2. Adding to the tail of asmb seems worse to me (than having a hook that can be nil for most architectures), since we\u0027d have to build MIPS64 specific knowledge into generic code, plus the variables would need to be exported from the cmd/link/internal/mips64 package - importing those into cmd/link/internal/ld would then appear to create a circular dependency. Otherwise I guess we could hook asmb2 for mips64, but then we\u0027re likely going to have to duplicate code that exists in the generic asmb2 function. Maybe I\u0027m missing something here?",
+      "parentUuid": "ccd935e3_6facb199",
       "revId": "69c3219b4aa856b02fe83c96137bb8077020415e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
