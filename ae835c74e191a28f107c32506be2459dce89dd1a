@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63aa9c54_f6444dab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-01-31T20:17:29Z",
+      "side": 1,
+      "message": "LGTM, thanks.\n\nThe platform-independent compiler parts look good. I\u0027ve skimmed the wasm-specific parts, and they look reasonable too.",
+      "revId": "ae835c74e191a28f107c32506be2459dce89dd1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ca9f291_ed1ae8b9",
+        "filename": "src/cmd/internal/obj/wasm/wasmobj.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-01-31T20:17:29Z",
+      "side": 1,
+      "message": "nit: add a comment mentioning the significance of this string?",
+      "revId": "ae835c74e191a28f107c32506be2459dce89dd1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

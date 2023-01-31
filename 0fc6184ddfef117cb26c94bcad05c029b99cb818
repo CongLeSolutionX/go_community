@@ -325,6 +325,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "081dba2d_eeddc8b4",
+        "filename": "src/cmd/compile/internal/noder/writer.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1055,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-01-31T20:17:29Z",
+      "side": 1,
+      "message": "Ack. This is within the compiler-private parts of the export data, so we can make arbitrary changes to the byte stream, including varying it based on target platform.",
+      "parentUuid": "8f905743_97a5b2e8",
+      "range": {
+        "startLine": 1049,
+        "startChar": 0,
+        "endLine": 1055,
+        "endChar": 2
+      },
+      "revId": "0fc6184ddfef117cb26c94bcad05c029b99cb818",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e937edae_242b8572",
@@ -372,6 +396,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "33daabc3_11eeb48f",
+        "filename": "src/cmd/compile/internal/ssagen/abi.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-01-31T20:17:29Z",
+      "side": 1,
+      "message": "LGTM, thanks.",
+      "parentUuid": "3afca583_7811dec4",
+      "range": {
+        "startLine": 398,
+        "startChar": 42,
+        "endLine": 398,
+        "endChar": 46
+      },
+      "revId": "0fc6184ddfef117cb26c94bcad05c029b99cb818",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8540d8ce_8f7a2ed3",
@@ -409,6 +457,30 @@
       "side": 1,
       "message": "WasmPtr is handled the same as WasmI32. Additionally, wasm itself doesn\u0027t have a pointer type, WasmPtr is just an internal tracking mechanism used by the Go compiler.\n\nSo basically yeah, we pass the stack pointer as an i32.",
       "parentUuid": "8540d8ce_8f7a2ed3",
+      "range": {
+        "startLine": 399,
+        "startChar": 31,
+        "endLine": 399,
+        "endChar": 44
+      },
+      "revId": "0fc6184ddfef117cb26c94bcad05c029b99cb818",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa987d6a_14523bea",
+        "filename": "src/cmd/compile/internal/ssagen/abi.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-01-31T20:17:29Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "565787ff_832812c0",
       "range": {
         "startLine": 399,
         "startChar": 31,
@@ -595,6 +667,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e1e9f6b_2aa7d961",
+        "filename": "src/cmd/internal/obj/wasm/wasmobj.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-01-31T20:17:29Z",
+      "side": 1,
+      "message": "Thanks, this is clearer now.",
+      "parentUuid": "b3bb1449_369b8691",
+      "revId": "0fc6184ddfef117cb26c94bcad05c029b99cb818",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "70ecf5de_f8347c7b",
@@ -626,6 +716,24 @@
       "side": 1,
       "message": "The linter was flagging them. I can put them back, was just trying to leave it cleaner than I found it.",
       "parentUuid": "70ecf5de_f8347c7b",
+      "revId": "0fc6184ddfef117cb26c94bcad05c029b99cb818",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0d0b791_a57a9be2",
+        "filename": "src/cmd/internal/obj/wasm/wasmobj.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-01-31T20:17:29Z",
+      "side": 1,
+      "message": "Ah, I see. Thanks for the context. I\u0027d still default to consistently using `p \u003d appendp(p, ...)` and ignoring the linter errors. But this is more Cherry\u0027s area of expertise, so I\u0027d defer to her if she has differing opinions.",
+      "parentUuid": "d68d7d92_d018fc09",
       "revId": "0fc6184ddfef117cb26c94bcad05c029b99cb818",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
