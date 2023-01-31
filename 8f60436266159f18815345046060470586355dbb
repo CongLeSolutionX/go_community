@@ -214,6 +214,24 @@
       "parentUuid": "ccf4b7af_ee2ebe30",
       "revId": "8f60436266159f18815345046060470586355dbb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa38c988_18b37ea1",
+        "filename": "src/cmd/compile/internal/ir/sizeof_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2023-01-31T19:28:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1b3528b_b52fd13d",
+      "revId": "8f60436266159f18815345046060470586355dbb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

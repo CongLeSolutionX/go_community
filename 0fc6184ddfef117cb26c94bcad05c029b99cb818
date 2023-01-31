@@ -108,6 +108,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0fd97cc_e038781d",
+        "filename": "src/cmd/compile/internal/ir/node.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2023-01-31T19:28:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "307bbbb1_5ce98eaf",
+      "revId": "0fc6184ddfef117cb26c94bcad05c029b99cb818",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "23b3c453_2ea1f01b",
@@ -121,6 +139,24 @@
       "writtenOn": "2023-01-30T23:15:02Z",
       "side": 1,
       "message": "This seems wrong. I think you want to write out name.Func.WasmImport.{Module,Name}.",
+      "revId": "0fc6184ddfef117cb26c94bcad05c029b99cb818",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b507634_9c06b795",
+        "filename": "src/cmd/compile/internal/noder/linker.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2023-01-31T19:28:32Z",
+      "side": 1,
+      "message": "This path shouldn\u0027t be used in the case of generating an import, but you\u0027re correct, I\u0027ll use the right fields so it\u0027s not confusing.",
+      "parentUuid": "23b3c453_2ea1f01b",
       "revId": "0fc6184ddfef117cb26c94bcad05c029b99cb818",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -142,6 +178,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f05bed56_f1099a74",
+        "filename": "src/cmd/compile/internal/noder/noder.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2023-01-31T19:28:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67dfddd8_f3f3f1fb",
+      "revId": "0fc6184ddfef117cb26c94bcad05c029b99cb818",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ff75aa4c_c0eccbdd",
@@ -159,6 +213,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c61f6b8c_a1395e33",
+        "filename": "src/cmd/compile/internal/noder/noder.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2023-01-31T19:28:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff75aa4c_c0eccbdd",
+      "revId": "0fc6184ddfef117cb26c94bcad05c029b99cb818",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "10327dae_d3c1b026",
@@ -172,6 +244,30 @@
       "writtenOn": "2023-01-30T23:15:02Z",
       "side": 1,
       "message": "nit: `||`?",
+      "range": {
+        "startLine": 1077,
+        "startChar": 15,
+        "endLine": 1077,
+        "endChar": 17
+      },
+      "revId": "0fc6184ddfef117cb26c94bcad05c029b99cb818",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab07b045_2e4b3937",
+        "filename": "src/cmd/compile/internal/noder/reader.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1077,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2023-01-31T19:28:32Z",
+      "side": 1,
+      "message": "We need both a module name and a function name for this code to work, so that\u0027s why it\u0027s `\u0026\u0026`. I consider collapsing this down to a single field to make that clearer but left it 2 fields so I didn\u0027t have to parse it back apart.",
+      "parentUuid": "10327dae_d3c1b026",
       "range": {
         "startLine": 1077,
         "startChar": 15,
@@ -207,6 +303,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8f905743_97a5b2e8",
+        "filename": "src/cmd/compile/internal/noder/writer.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1055,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2023-01-31T19:28:32Z",
+      "side": 1,
+      "message": "So I wasn\u0027t sure if the ir byte format is meant to be portable between architectures or not. If not, yeah, i\u0027ll change this to only happen for WASM.",
+      "parentUuid": "70afdefc_0cc23892",
+      "range": {
+        "startLine": 1049,
+        "startChar": 0,
+        "endLine": 1055,
+        "endChar": 2
+      },
+      "revId": "0fc6184ddfef117cb26c94bcad05c029b99cb818",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e937edae_242b8572",
         "filename": "src/cmd/compile/internal/ssagen/abi.go",
         "patchSetId": 5
@@ -218,6 +338,30 @@
       "writtenOn": "2023-01-30T23:15:02Z",
       "side": 1,
       "message": "Why does the comment here talk about \"go\" but the comparison on the previous line uses \"gojs\"?",
+      "range": {
+        "startLine": 398,
+        "startChar": 42,
+        "endLine": 398,
+        "endChar": 46
+      },
+      "revId": "0fc6184ddfef117cb26c94bcad05c029b99cb818",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3afca583_7811dec4",
+        "filename": "src/cmd/compile/internal/ssagen/abi.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2023-01-31T19:28:32Z",
+      "side": 1,
+      "message": "Ah yup!",
+      "parentUuid": "e937edae_242b8572",
       "range": {
         "startLine": 398,
         "startChar": 42,
@@ -253,6 +397,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "565787ff_832812c0",
+        "filename": "src/cmd/compile/internal/ssagen/abi.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2023-01-31T19:28:32Z",
+      "side": 1,
+      "message": "WasmPtr is handled the same as WasmI32. Additionally, wasm itself doesn\u0027t have a pointer type, WasmPtr is just an internal tracking mechanism used by the Go compiler.\n\nSo basically yeah, we pass the stack pointer as an i32.",
+      "parentUuid": "8540d8ce_8f7a2ed3",
+      "range": {
+        "startLine": 399,
+        "startChar": 31,
+        "endLine": 399,
+        "endChar": 44
+      },
+      "revId": "0fc6184ddfef117cb26c94bcad05c029b99cb818",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cb558a7c_3e1fd9ea",
         "filename": "src/cmd/internal/obj/wasm/wasmobj.go",
         "patchSetId": 5
@@ -264,6 +432,30 @@
       "writtenOn": "2023-01-30T23:15:02Z",
       "side": 1,
       "message": "This is the second time this magic string has appeared in the CL. I\u0027d suggest declaring it as a const somewhere, for easier cross-referencing of applicable code.\n\nE.g., cmd/internal/obj.WasmGoModule or cmd/internal/obj/wasm.GoModule would seem fine.",
+      "range": {
+        "startLine": 200,
+        "startChar": 18,
+        "endLine": 200,
+        "endChar": 24
+      },
+      "revId": "0fc6184ddfef117cb26c94bcad05c029b99cb818",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbaa2ea4_1b57e201",
+        "filename": "src/cmd/internal/obj/wasm/wasmobj.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2023-01-31T19:28:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb558a7c_3e1fd9ea",
       "range": {
         "startLine": 200,
         "startChar": 18,
@@ -297,6 +489,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b124eb4_3a9d0865",
+        "filename": "src/cmd/internal/obj/wasm/wasmobj.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2023-01-31T19:28:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03201f0e_d30a1e1b",
+      "range": {
+        "startLine": 222,
+        "startChar": 12,
+        "endLine": 222,
+        "endChar": 41
+      },
+      "revId": "0fc6184ddfef117cb26c94bcad05c029b99cb818",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5b4612e9_be069cae",
@@ -310,6 +526,30 @@
       "writtenOn": "2023-01-30T23:15:02Z",
       "side": 1,
       "message": "typo: parameters",
+      "range": {
+        "startLine": 228,
+        "startChar": 43,
+        "endLine": 228,
+        "endChar": 52
+      },
+      "revId": "0fc6184ddfef117cb26c94bcad05c029b99cb818",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c40e4fab_2f98c1a8",
+        "filename": "src/cmd/internal/obj/wasm/wasmobj.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2023-01-31T19:28:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b4612e9_be069cae",
       "range": {
         "startLine": 228,
         "startChar": 43,
@@ -339,6 +579,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b3bb1449_369b8691",
+        "filename": "src/cmd/internal/obj/wasm/wasmobj.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2023-01-31T19:28:32Z",
+      "side": 1,
+      "message": "I\u0027ll clarify the comment. Basically code below this, if framesize is greater than 0, adds a bunch of code to the function body which we don\u0027t want because our function code is just the stub callout code.",
+      "parentUuid": "002872fa_76c7ace2",
+      "revId": "0fc6184ddfef117cb26c94bcad05c029b99cb818",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "70ecf5de_f8347c7b",
         "filename": "src/cmd/internal/obj/wasm/wasmobj.go",
         "patchSetId": 5
@@ -350,6 +608,24 @@
       "writtenOn": "2023-01-30T23:15:02Z",
       "side": 1,
       "message": "Is there a reason you\u0027re removing the `p \u003d` assignments here?\n\nIf it\u0027s just because they\u0027re effectively nops, the compiler can figure that out on its own. It\u0027s preferable for idioms to be consistently applied, IMO.",
+      "revId": "0fc6184ddfef117cb26c94bcad05c029b99cb818",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d68d7d92_d018fc09",
+        "filename": "src/cmd/internal/obj/wasm/wasmobj.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2023-01-31T19:28:32Z",
+      "side": 1,
+      "message": "The linter was flagging them. I can put them back, was just trying to leave it cleaner than I found it.",
+      "parentUuid": "70ecf5de_f8347c7b",
       "revId": "0fc6184ddfef117cb26c94bcad05c029b99cb818",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -373,6 +649,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ac8b877f_da9fcd31",
+        "filename": "src/cmd/internal/obj/wasm/wasmobj.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2023-01-31T19:28:32Z",
+      "side": 1,
+      "message": "There might be, and I\u0027d love for @neelance@gmail.com to weigh in, but I think that regardless the logic is still what we want. Effectively all these checks are preventing frame management code to be added to functions that don\u0027t want any frame management.",
+      "parentUuid": "27687d5f_0adbbf55",
+      "revId": "0fc6184ddfef117cb26c94bcad05c029b99cb818",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "937833ae_32fd04f0",
         "filename": "src/cmd/link/internal/wasm/asm.go",
         "patchSetId": 5
@@ -384,6 +678,30 @@
       "writtenOn": "2023-01-30T23:15:02Z",
       "side": 1,
       "message": "This has an extra, unnecessary copy of the byte data to buf, before copying it to the string. This should be equivalent, but without the extra copy:\n\n```\nn :\u003d readUint32()\ns :\u003d string(data[:n])\ndata \u003d data[n:]\nreturn s\n```",
+      "range": {
+        "startLine": 89,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 20
+      },
+      "revId": "0fc6184ddfef117cb26c94bcad05c029b99cb818",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a9dd1d9_306ba74d",
+        "filename": "src/cmd/link/internal/wasm/asm.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2023-01-31T19:28:32Z",
+      "side": 1,
+      "message": "Ah great call!",
+      "parentUuid": "937833ae_32fd04f0",
       "range": {
         "startLine": 89,
         "startChar": 0,
@@ -434,6 +752,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0182521_8e16c0f6",
+        "filename": "src/cmd/link/internal/wasm/asm.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2023-01-31T19:28:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a87ecba_4b415ac5",
+      "range": {
+        "startLine": 355,
+        "startChar": 23,
+        "endLine": 355,
+        "endChar": 27
+      },
+      "revId": "0fc6184ddfef117cb26c94bcad05c029b99cb818",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "69e1ed4c_0935e90d",
@@ -451,6 +793,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "58dfc4d3_63709d3c",
+        "filename": "src/cmd/link/internal/wasm/asm.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 683,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2023-01-31T19:28:32Z",
+      "side": 1,
+      "message": "Good call.",
+      "parentUuid": "69e1ed4c_0935e90d",
+      "revId": "0fc6184ddfef117cb26c94bcad05c029b99cb818",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f012728a_ed5c304c",
@@ -464,6 +824,24 @@
       "writtenOn": "2023-01-30T23:15:02Z",
       "side": 1,
       "message": "nit: typically we write `import _ \"unsafe\" // for go:linkname`.",
+      "revId": "0fc6184ddfef117cb26c94bcad05c029b99cb818",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8f846d5_97d63985",
+        "filename": "src/runtime/lock_js.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2023-01-31T19:28:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f012728a_ed5c304c",
       "revId": "0fc6184ddfef117cb26c94bcad05c029b99cb818",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
