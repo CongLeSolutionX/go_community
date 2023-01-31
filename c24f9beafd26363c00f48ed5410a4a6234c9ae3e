@@ -40,6 +40,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "06d59e30_00370ec9",
+        "filename": "src/cmd/compile/internal/reflectdata/alg.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-01-31T21:43:37Z",
+      "side": 1,
+      "message": "nit: use ir.WithFunc?",
+      "range": {
+        "startLine": 559,
+        "startChar": 0,
+        "endLine": 562,
+        "endChar": 24
+      },
+      "revId": "c24f9beafd26363c00f48ed5410a4a6234c9ae3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bfb9204b_261da9f1",
         "filename": "src/cmd/compile/internal/reflectdata/alg.go",
         "patchSetId": 4
@@ -91,6 +114,24 @@
       "writtenOn": "2023-01-31T21:28:44Z",
       "side": 1,
       "message": "I see, this is where the length gets passed.\n\nSeems like these concerns are tangled up and not documented well. Certainly we should fix the latter, but maybe there\u0027s a better way to organize it which would fix the former as well.",
+      "revId": "c24f9beafd26363c00f48ed5410a4a6234c9ae3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ef09cf1_58ef24b4",
+        "filename": "src/cmd/compile/internal/walk/compare.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-01-31T21:43:37Z",
+      "side": 1,
+      "message": "Maybe EqFor should also return a `needsLength bool` result?",
+      "parentUuid": "33df4a76_497d7e21",
       "revId": "c24f9beafd26363c00f48ed5410a4a6234c9ae3e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
