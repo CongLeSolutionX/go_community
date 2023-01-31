@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "94a4a31e_7ce6753a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-01-31T20:12:24Z",
+      "side": 1,
+      "message": "What is the status of this change? I see a new patchset was uploaded in August 2021, but there is still an unresolved comment thread.",
+      "revId": "e68048d495c53c7e0a72e58cba5cccd277ec3e53",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
