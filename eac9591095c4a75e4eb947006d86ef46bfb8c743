@@ -87,6 +87,23 @@
       "message": "Gentle ping.",
       "revId": "eac9591095c4a75e4eb947006d86ef46bfb8c743",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb25011a_3c40639d",
+        "filename": "src/cmd/link/internal/ld/outbuf_linux.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-01-31T22:48:12Z",
+      "side": 1,
+      "message": "This code should have a comment explaining that we can go back to the simpler version when we require a new enough Linux kernel.  Thanks.",
+      "revId": "eac9591095c4a75e4eb947006d86ef46bfb8c743",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
