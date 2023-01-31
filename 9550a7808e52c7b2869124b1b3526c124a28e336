@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2787c323_d6922bbb",
+        "filename": "src/builtin/builtin.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-01-31T19:37:31Z",
+      "side": 1,
+      "message": "I think you can get rid of the interface{} wrapper. It is implied in this context.",
+      "revId": "9550a7808e52c7b2869124b1b3526c124a28e336",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
