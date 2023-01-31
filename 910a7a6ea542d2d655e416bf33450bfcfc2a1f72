@@ -267,6 +267,24 @@
       "parentUuid": "8f66dc6a_543bffd2",
       "revId": "910a7a6ea542d2d655e416bf33450bfcfc2a1f72",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9705900_8f4a6b98",
+        "filename": "src/cmd/internal/obj/x86/obj6.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 691,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-01-31T16:02:23Z",
+      "side": 1,
+      "message": "Very true, I incorrectly tested your idea with a memory move of offset 0:\n\n```\n48 8b 2c 24    MOVQ 0(SP), BP\n```\n\nUsing a MOV instead of a LEA shaves 0.06% of bytes from the Go toolchain, extrapolable to other binaries, so I\u0027ll send a CL with this change.",
+      "parentUuid": "9a76174a_7e290cda",
+      "revId": "910a7a6ea542d2d655e416bf33450bfcfc2a1f72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
