@@ -33,6 +33,24 @@
       "message": "If `ctx` is canceled, this write to `addrs` (which is abandoned in flight) races with the one at line 209.",
       "revId": "00e7fdc07792abdd1cf323c62c5c9bede368ecc0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ae07f69_3662e3e6",
+        "filename": "src/net/cgo_unix.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-01-31T22:05:45Z",
+      "side": 1,
+      "message": "The code in the function literal passed to doBlockingWithCtx should be using :\u003d.",
+      "parentUuid": "1e8e5ffa_94b51329",
+      "revId": "00e7fdc07792abdd1cf323c62c5c9bede368ecc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
