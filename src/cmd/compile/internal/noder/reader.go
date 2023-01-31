@@ -1558,8 +1558,11 @@ func (r *reader) addLocal(name *ir.Name, ctxt ir.Class) {
 		}
 
 		// TODO(mdempsky): Rethink this hack.
-		if strings.HasPrefix(name.Sym().Name, "~") || base.Flag.GenDwarfInl == 0 {
+		if strings.HasPrefix(name.Sym().Name, "~") {
 			name.SetPos(r.inlCall.Pos())
+			name.SetInlFormal(false)
+			name.SetInlLocal(false)
+		} else if base.Flag.GenDwarfInl == 0 {
 			name.SetInlFormal(false)
 			name.SetInlLocal(false)
 		}
