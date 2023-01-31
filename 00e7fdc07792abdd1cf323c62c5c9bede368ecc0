@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "25d97731_62fd2c8c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-01-31T20:54:37Z",
+      "side": 1,
+      "message": "This appears to have introduced a data race on `darwin`, filed as #58169.",
+      "revId": "00e7fdc07792abdd1cf323c62c5c9bede368ecc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
