@@ -246,6 +246,24 @@
       "parentUuid": "72eb3b49_c4ee3bb6",
       "revId": "69c3219b4aa856b02fe83c96137bb8077020415e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5e84b51_98d87959",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-01-31T00:35:01Z",
+      "side": 1,
+      "message": "Yes, sorry, you\u0027re right that asmb doesn\u0027t quite work.  Can we do it in the existing GenSymsLate pass?  That pass is currently implemented only for arm64 and riscv64.",
+      "parentUuid": "f2e17355_fca15ce0",
+      "revId": "69c3219b4aa856b02fe83c96137bb8077020415e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
