@@ -16,6 +16,23 @@
       "message": "I find the second problem today that is the program using Clang for MSVC can\u0027t be debugged in Go.\nI have no idea to fix it because it seems like Golang supports debug info of GCC only.\nso this commit only help us to link our golang program to those libraries of built-by-MSVC and closed source.\n\nWe can build at least now....hm....\n\nMingw/GCC has defferent C++ ABI from MSVC,so we can\u0027t use C++ library of MSVC in Mingw/GCC,\nbut there are so many commercial libraries that are closed source and built by MSVC.\nIt is regretful if Golang has no easy solution to be compatible with them.",
       "revId": "86e0d8bd3161eea0a1f35689bdd85933af1806f2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b84f20c1_ee70cb3e",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1298,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-01-31T22:53:42Z",
+      "side": 1,
+      "message": "There is already code later in this function that calls ld --version on Windows.  We should pull that code up here (including the use of flagExtldflags and trimLinkerArgv) and set usingLLD here, rather than doing it twice.  And we should only do this on Windows, not other systems.",
+      "revId": "86e0d8bd3161eea0a1f35689bdd85933af1806f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
