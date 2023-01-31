@@ -249,6 +249,24 @@
       "parentUuid": "6dcf6b03_dd156754",
       "revId": "910a7a6ea542d2d655e416bf33450bfcfc2a1f72",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a76174a_7e290cda",
+        "filename": "src/cmd/internal/obj/x86/obj6.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 691,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-01-31T15:28:17Z",
+      "side": 1,
+      "message": "I think the movq is 1 byte shorter?\n\n       1:\t48 8d 2c 24 \tleaq\t(%rsp), %rbp\n       5:\t48 89 e5 \tmovq\t%rsp, %rbp",
+      "parentUuid": "8f66dc6a_543bffd2",
+      "revId": "910a7a6ea542d2d655e416bf33450bfcfc2a1f72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
