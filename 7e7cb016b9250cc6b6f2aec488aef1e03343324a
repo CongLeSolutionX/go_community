@@ -16,6 +16,23 @@
       "message": "This really should be removed. Good job",
       "revId": "7e7cb016b9250cc6b6f2aec488aef1e03343324a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "590ba1eb_9f37513b",
+        "filename": "src/cmd/internal/obj/loong64/cnames.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-01-31T22:40:56Z",
+      "side": 1,
+      "message": "Minor: period at end of sentence.",
+      "revId": "7e7cb016b9250cc6b6f2aec488aef1e03343324a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
