@@ -109,6 +109,24 @@
       "message": "Kindly cc x/tools/gopls folks.",
       "revId": "d52bb5d500cd75dac38ec334b757e5cd8f458dcc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18d2b0e2_150a24a7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2023-02-01T15:20:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3b75313_8fa54c8b",
+      "revId": "d52bb5d500cd75dac38ec334b757e5cd8f458dcc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
