@@ -51,6 +51,46 @@
       "message": "This CL I intend to backport for Go 1.19 and Go 1.20.\nFine to review, although I expect some trybot work.",
       "revId": "4559dbc6864f002d54a662822dbdac0b270e11ea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c59b1de_449b7d5c",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1674,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-02-01T17:40:49Z",
+      "side": 1,
+      "message": "This is fine. Just wonder, have you tried to use allocateNamedSectionAndAssignSyms instead?",
+      "range": {
+        "startLine": 1672,
+        "startChar": 0,
+        "endLine": 1674,
+        "endChar": 2
+      },
+      "revId": "4559dbc6864f002d54a662822dbdac0b270e11ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f883d38e_2a47a6d1",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2283,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-02-01T17:40:49Z",
+      "side": 1,
+      "message": "Maybe add a comment that this is to keep the section referenced so not being GC\u0027d.",
+      "revId": "4559dbc6864f002d54a662822dbdac0b270e11ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
