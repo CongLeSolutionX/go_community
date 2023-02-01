@@ -72,6 +72,24 @@
       "message": "When possible I think it\u0027s clearer to check for overflow first.\n\nconst (\n\tintSize \u003d 32 \u003c\u003c (^uint(0) \u003e\u003e 63) // 32 or 64\n\tmaxInt    \u003d 1\u003c\u003c(intSize-1) - 1\n)\n\nif len(sep) \u003e\u003d maxInt / (len(s) - 1) {\n    panic(\"overflow\")\n}",
       "revId": "75330146d114613b8219f1308e535d659cedcd15",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b0308e1_d295b402",
+        "filename": "src/bytes/bytes.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2023-02-01T04:52:22Z",
+      "side": 1,
+      "message": "Done. I guess it\u0027s a matter of taste as I found it previously more readable.",
+      "parentUuid": "04ea4c9f_8a8abc6f",
+      "revId": "75330146d114613b8219f1308e535d659cedcd15",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
