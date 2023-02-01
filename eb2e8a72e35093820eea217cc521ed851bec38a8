@@ -59,6 +59,30 @@
       },
       "revId": "eb2e8a72e35093820eea217cc521ed851bec38a8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5b3ad51_d3a5f77e",
+        "filename": "src/cmd/compile/internal/types2/unify.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-02-01T21:10:31Z",
+      "side": 1,
+      "message": "I think the documentation/definition is directly above:\n\n\"Joined type parameters (parameters that have been unified) share the same handle and thus type.\"\n\nBut I have rewritten this comment, it should be clearer now.",
+      "parentUuid": "a115a554_16eafbbe",
+      "range": {
+        "startLine": 55,
+        "startChar": 1,
+        "endLine": 55,
+        "endChar": 29
+      },
+      "revId": "eb2e8a72e35093820eea217cc521ed851bec38a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
