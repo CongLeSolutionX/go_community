@@ -53,6 +53,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b79ec42_03d2443a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2023-02-01T22:43:34Z",
+      "side": 1,
+      "message": "Well, this file is the public documentation for the compiler, so the audience is anyone who writes Go and wants to understand these directives, but more specifically, it is me: I was recently reviewing CL 463755, which adds to gopls the ability to \"go to definition\" on the symbol upper.f referenced by a linkname directive, and the previous wording left me with questions that I had to answer empirically.",
+      "parentUuid": "07bd0137_e50f65e3",
+      "revId": "b4c20419f0f385b43202db65b3d64e19ae307c7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fbd41ca4_6f3ba44d",
@@ -66,6 +84,30 @@
       "writtenOn": "2023-02-01T21:37:10Z",
       "side": 1,
       "message": "Maybe drop this part? I think we want to encourage linkname directive right next to the declaration.",
+      "range": {
+        "startLine": 251,
+        "startChar": 34,
+        "endLine": 252,
+        "endChar": 18
+      },
+      "revId": "b4c20419f0f385b43202db65b3d64e19ae307c7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d7c3e5f_c4ff69d8",
+        "filename": "src/cmd/compile/doc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2023-02-01T22:43:34Z",
+      "side": 1,
+      "message": "All of the other directives start with their relation to the following statement, and indeed the old wording followed this pattern. The new wording states the convention, so I think readers will know what they are being encouraged to do, but it also documents exactly what happens, as it should.",
+      "parentUuid": "fbd41ca4_6f3ba44d",
       "range": {
         "startLine": 251,
         "startChar": 34,
@@ -93,6 +135,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "883dd4ed_47a39275",
+        "filename": "src/cmd/compile/doc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2023-02-01T22:43:34Z",
+      "side": 1,
+      "message": "I think the words \"violate...type safety\" and \"unsafe\" make the risks clear enough. Even the unsafe package gingerly says only that it \"steps around\" type safety. 😊",
+      "parentUuid": "285cdf32_dd46c05c",
+      "revId": "b4c20419f0f385b43202db65b3d64e19ae307c7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d56a2bb6_dba69b90",
@@ -106,6 +166,30 @@
       "writtenOn": "2023-02-01T21:37:10Z",
       "side": 1,
       "message": "Minor: most of the comments use one space between sentences, but here, line 263, and 265 have two spaces.",
+      "range": {
+        "startLine": 261,
+        "startChar": 42,
+        "endLine": 261,
+        "endChar": 44
+      },
+      "revId": "b4c20419f0f385b43202db65b3d64e19ae307c7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca8f9950_d409ca19",
+        "filename": "src/cmd/compile/doc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2023-02-01T22:43:34Z",
+      "side": 1,
+      "message": "Oh, quite right, I thought I had taught Emacs not to do that any more. Fixed.",
+      "parentUuid": "d56a2bb6_dba69b90",
       "range": {
         "startLine": 261,
         "startChar": 42,
