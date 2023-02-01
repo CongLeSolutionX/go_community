@@ -1,0 +1,19 @@
+# This test checks that external linking with --gc-sections does not strip version information.
+
+[short] skip
+[!cgo] skip
+[GOOS:darwin] skip
+
+go build -ldflags='-linkmode=external -extldflags=-Wl,--gc-sections'
+go version hello
+! stdout 'not a Go executable'
+! stderr 'not a Go executable'
+
+-- go.mod --
+module hello
+-- hello.go --
+package main
+
+func main() {
+	println("hello")
+}
