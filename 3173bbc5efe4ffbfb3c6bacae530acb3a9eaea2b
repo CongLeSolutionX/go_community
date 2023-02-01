@@ -16,6 +16,23 @@
       "message": "I have applied this to a branch here: https://github.com/cipherboy/go/tree/fix-pss-usage-in-crypto-x509\n\nThis correctly parses PSS OID\u0027d CSRs without further changes and should be merged independently of PSS OID certificate support as that is a much larger change.",
       "revId": "3173bbc5efe4ffbfb3c6bacae530acb3a9eaea2b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9449b72_2de41f2f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 51983
+      },
+      "writtenOn": "2023-02-01T19:20:48Z",
+      "side": 1,
+      "message": "Hi,\n\nIs it normal for a patch such as this one to take this time to merge?\nI just worry that it was lost/forgotten...\n\nThanks!",
+      "revId": "3173bbc5efe4ffbfb3c6bacae530acb3a9eaea2b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
