@@ -16,6 +16,24 @@
       "message": "I think it may be worth doing a direct performance comparison for this change using golang.org/x/benchmarks.\n\nI looked over our performance dashboard (perf.golang.org/dashboard). There isn\u0027t a great way to get a summary of the impact of a particular CL right now, but you can sort of scroll through and look.\n\nOverall, it looks like a 0.5–1.5 percentage point improvement in total binary size. The impact on text is much larger, but is somewhat offset by a large pclntab (since there are more SP adjustments, this makes sense).\n\nThe performance results are pretty mixed. There are a bunch of small speedups and a bunch of small slowdowns. But there are some huge speedups (25 percentage point improvement on BaseTest2KB-8) and some pretty big slowdowns (10 percentage point slowdown on BucketsEqual/same_20_values-8). As usual, microbenchmarks aren\u0027t necessarily representative of anything, so I wouldn\u0027t read too much into those specific results, but it does suggest a real performance comparison is warranted here.",
       "revId": "f66581ead6f6dbc94b1d2fddee11abff722039e1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "195ffeea_9ee705bd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-02-01T21:27:11Z",
+      "side": 1,
+      "message": "Michael Pratt dug up the raw results:\n\nParent: https://perf.golang.org/search?q\u003dupload%3A20230131.15+%7C+toolchain%3Abaseline+vs+toolchain%3Aexperiment\n\nCommit: https://perf.golang.org/search?q\u003dupload%3A20230131.24+%7C+toolchain%3Abaseline+vs+toolchain%3Aexperiment\n\nThese are really hard to compare directly because we don\u0027t have an A/B between the parent and the commit (that\u0027s not how the dashboard works), but we can see that there\u0027s an improvement in the geomean of −0.82% sec/op versus baseline to −1.88% sec/op versus baseline. So that\u0027s actually quite good.\n\nIt\u0027s probably still worth doing the direct A/B and possibly profiling any large regressions to see if there\u0027s anything we can do for them.",
+      "parentUuid": "5b108ef1_da097e9c",
+      "revId": "f66581ead6f6dbc94b1d2fddee11abff722039e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
