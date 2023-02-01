@@ -61,6 +61,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "86ff6491_f10693c6",
+        "filename": "src/cmd/compile/internal/reflectdata/alg.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2023-02-01T04:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06d59e30_00370ec9",
+      "range": {
+        "startLine": 559,
+        "startChar": 0,
+        "endLine": 562,
+        "endChar": 24
+      },
+      "revId": "c24f9beafd26363c00f48ed5410a4a6234c9ae3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bfb9204b_261da9f1",
@@ -84,6 +108,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f44ff01_05ede7b0",
+        "filename": "src/cmd/compile/internal/reflectdata/alg.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 573,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2023-02-01T04:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bfb9204b_261da9f1",
+      "range": {
+        "startLine": 573,
+        "startChar": 39,
+        "endLine": 573,
+        "endChar": 46
+      },
+      "revId": "c24f9beafd26363c00f48ed5410a4a6234c9ae3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "67c07a9b_01d6e2b4",
@@ -97,6 +145,24 @@
       "writtenOn": "2023-01-31T21:28:44Z",
       "side": 1,
       "message": "It looks like this function only works for some special types t. For instance, it doesn\u0027t work for float64, or even [3]byte.\nAlso runtime.memequal takes 3 args, 2 pointers and a length. I don\u0027t see how the length gets passed (espically since the .eq functions don\u0027t take a length, and those get generated in the ASPECIAL case).",
+      "revId": "c24f9beafd26363c00f48ed5410a4a6234c9ae3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ecce66f_e528c21d",
+        "filename": "src/cmd/compile/internal/reflectdata/alg.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 578,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2023-02-01T04:19:53Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "67c07a9b_01d6e2b4",
       "revId": "c24f9beafd26363c00f48ed5410a4a6234c9ae3e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -132,6 +198,24 @@
       "side": 1,
       "message": "Maybe EqFor should also return a `needsLength bool` result?",
       "parentUuid": "33df4a76_497d7e21",
+      "revId": "c24f9beafd26363c00f48ed5410a4a6234c9ae3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64fd5999_6d818107",
+        "filename": "src/cmd/compile/internal/walk/compare.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2023-02-01T04:19:53Z",
+      "side": 1,
+      "message": "Seems reasonable, PS5 includes this change.",
+      "parentUuid": "4ef09cf1_58ef24b4",
       "revId": "c24f9beafd26363c00f48ed5410a4a6234c9ae3e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
