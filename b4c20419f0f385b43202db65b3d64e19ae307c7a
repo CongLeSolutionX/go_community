@@ -33,6 +33,87 @@
       "message": "I\u0027m leaving this for Cherry or some other compiler developer.",
       "revId": "b4c20419f0f385b43202db65b3d64e19ae307c7a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "07bd0137_e50f65e3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-02-01T21:37:10Z",
+      "side": 1,
+      "message": "Looks fine, thanks. I\u0027m curious what the motivation for this CL is, or who is the target audience, though.",
+      "parentUuid": "52c8c922_c9f9222f",
+      "revId": "b4c20419f0f385b43202db65b3d64e19ae307c7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fbd41ca4_6f3ba44d",
+        "filename": "src/cmd/compile/doc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-02-01T21:37:10Z",
+      "side": 1,
+      "message": "Maybe drop this part? I think we want to encourage linkname directive right next to the declaration.",
+      "range": {
+        "startLine": 251,
+        "startChar": 34,
+        "endLine": 252,
+        "endChar": 18
+      },
+      "revId": "b4c20419f0f385b43202db65b3d64e19ae307c7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "285cdf32_dd46c05c",
+        "filename": "src/cmd/compile/doc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-02-01T21:37:10Z",
+      "side": 1,
+      "message": "Maybe add some sort of warning or discouragement? \"use with extreme caution\" or something? Maybe add that only use it when you control both side of the code? (As the unexported declaration may change at any time without breaking the API.)",
+      "revId": "b4c20419f0f385b43202db65b3d64e19ae307c7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d56a2bb6_dba69b90",
+        "filename": "src/cmd/compile/doc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-02-01T21:37:10Z",
+      "side": 1,
+      "message": "Minor: most of the comments use one space between sentences, but here, line 263, and 265 have two spaces.",
+      "range": {
+        "startLine": 261,
+        "startChar": 42,
+        "endLine": 261,
+        "endChar": 44
+      },
+      "revId": "b4c20419f0f385b43202db65b3d64e19ae307c7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
