@@ -90,6 +90,24 @@
       "parentUuid": "04ea4c9f_8a8abc6f",
       "revId": "75330146d114613b8219f1308e535d659cedcd15",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e7a8e3a_89c390dc",
+        "filename": "src/bytes/bytes.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-02-01T23:50:34Z",
+      "side": 1,
+      "message": "Thanks for humoring me.  I\u0027d rather verify that we are in range rather than having to understand precisely what happens when we overflow.",
+      "parentUuid": "6b0308e1_d295b402",
+      "revId": "75330146d114613b8219f1308e535d659cedcd15",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
