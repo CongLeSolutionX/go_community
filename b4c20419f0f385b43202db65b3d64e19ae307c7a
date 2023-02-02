@@ -71,6 +71,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6474a5c9_6c401914",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-02-02T02:17:40Z",
+      "side": 1,
+      "message": "Okay, thanks. For general user who writes Go, I hope one shouldn\u0027t use linkname. But one should be able to understand what it means if one sees a linkname in Go code. This documentation seems good for that. Thanks.\n\nFor tooling, for completeness, there are cases not covered in these two use cases (although these two probably cover the majority). What it actually does is simply rename a symbol\u0027s object-file name. In theory that name doesn\u0027t need to match any package. E.g. there are cases we linkname a Go symbol to alias a C symbol. These are very rare cases and there is probably no need for tools to handle those.",
+      "parentUuid": "2b79ec42_03d2443a",
+      "revId": "b4c20419f0f385b43202db65b3d64e19ae307c7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fbd41ca4_6f3ba44d",
