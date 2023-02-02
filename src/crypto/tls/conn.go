@@ -95,12 +95,13 @@ type Conn struct {
 	clientProtocol string
 
 	// input/output
-	in, out   halfConn
-	rawInput  bytes.Buffer // raw input, starting with a record header
-	input     bytes.Reader // application data waiting to be read, from rawInput.Next
-	hand      bytes.Buffer // handshake data waiting to be read
-	buffering bool         // whether records are buffered in sendBuf
-	sendBuf   []byte       // a buffer of records waiting to be sent
+	in, out       halfConn
+	rawInput      bytes.Buffer  // raw input, starting with a record header
+	input         bytes.Reader  // application data waiting to be read, from rawInput.Next
+	atLeastReader atLeastReader // reused atLeastReader in .Read.
+	hand          bytes.Buffer  // handshake data waiting to be read
+	buffering     bool          // whether records are buffered in sendBuf
+	sendBuf       []byte        // a buffer of records waiting to be sent
 
 	// bytesSent counts the bytes of application data sent.
 	// packetsSent counts packets.
@@ -807,7 +808,9 @@ func (c *Conn) readFromUntil(r io.Reader, n int) error {
 	// attempt to fetch it so that it can be used in (*Conn).Read to
 	// "predict" closeNotify alerts.
 	c.rawInput.Grow(needs + bytes.MinRead)
-	_, err := c.rawInput.ReadFrom(&atLeastReader{r, int64(needs)})
+	c.atLeastReader = atLeastReader{r, int64(needs)}
+	_, err := c.rawInput.ReadFrom(&c.atLeastReader)
+	c.atLeastReader = atLeastReader{} // don't keep alive.
 	return err
 }
 
