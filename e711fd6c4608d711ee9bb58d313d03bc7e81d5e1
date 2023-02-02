@@ -71,6 +71,47 @@
       "parentUuid": "3c43d1a8_0c6b0e30",
       "revId": "e711fd6c4608d711ee9bb58d313d03bc7e81d5e1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8e55f88_86fdeb6e",
+        "filename": "src/cmd/compile/internal/noder/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1560,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-02-02T20:00:36Z",
+      "side": 1,
+      "message": "Ack. I believe you that the current behavior is incorrect; I meant that I think it\u0027s probably incorrect more broadly than the current CL attempts to correct, because this code was written to be bug-for-bug identical to the Go 1.17 compiler.\n\nI\u0027m wondering if we can just get rid of this if statement entirely. I.e., remove the SetPos and SetInlXXX(false) calls altogether. Does anything break if you do that?",
+      "parentUuid": "15b02cd1_ec23e64c",
+      "revId": "e711fd6c4608d711ee9bb58d313d03bc7e81d5e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76bc1dec_e6cc7c6d",
+        "filename": "src/cmd/compile/internal/noder/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3548,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-02-02T20:00:36Z",
+      "side": 1,
+      "message": "I also wonder if this whole section can become just `name.SetInlLocal(true)`. I.e., no `if` statement or SetPos call.",
+      "range": {
+        "startLine": 3544,
+        "startChar": 0,
+        "endLine": 3548,
+        "endChar": 5
+      },
+      "revId": "e711fd6c4608d711ee9bb58d313d03bc7e81d5e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
