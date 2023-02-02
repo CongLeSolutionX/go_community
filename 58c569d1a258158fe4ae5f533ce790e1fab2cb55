@@ -93,6 +93,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "37385209_aacf8013",
+        "filename": "src/bytes/bytes.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2023-02-02T01:28:53Z",
+      "side": 1,
+      "message": "Done. I swapped the expression order to be consistent with the other overflow check.",
+      "parentUuid": "edba9d58_0979dae2",
+      "revId": "58c569d1a258158fe4ae5f533ce790e1fab2cb55",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "02c2d24a_bbc5230b",
@@ -110,6 +128,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "81b61739_171323f2",
+        "filename": "src/runtime/slice.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2023-02-02T01:28:53Z",
+      "side": 1,
+      "message": "Nice. I forgot about the new unsafe.Slice function.",
+      "parentUuid": "02c2d24a_bbc5230b",
+      "revId": "58c569d1a258158fe4ae5f533ce790e1fab2cb55",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1ada1b06_58050fb0",
@@ -123,6 +159,24 @@
       "writtenOn": "2023-02-01T23:50:34Z",
       "side": 1,
       "message": "if maxInt - n \u003c len(elem) {\n        panic(...)\n    }\n    n +\u003d len(elem)",
+      "revId": "58c569d1a258158fe4ae5f533ce790e1fab2cb55",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e85f5b3c_dcae83dd",
+        "filename": "src/strings/strings.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2023-02-02T01:28:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ada1b06_58050fb0",
       "revId": "58c569d1a258158fe4ae5f533ce790e1fab2cb55",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
