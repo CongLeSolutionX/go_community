@@ -72,6 +72,69 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "83e751af_f4499977",
+        "filename": "src/cmd/link/link_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 790,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-02-02T18:37:08Z",
+      "side": 1,
+      "message": "Maybe rename this?",
+      "range": {
+        "startLine": 790,
+        "startChar": 41,
+        "endLine": 790,
+        "endChar": 47
+      },
+      "revId": "7860d9cbeb732e96382a49e85de5a5fe07340572",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbf2a3a8_fbdb2918",
+        "filename": "src/go/internal/gcimporter/gcimporter_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-02-02T18:37:08Z",
+      "side": 1,
+      "message": "Could be wantImports... ?",
+      "range": {
+        "startLine": 113,
+        "startChar": 75,
+        "endLine": 113,
+        "endChar": 95
+      },
+      "revId": "7860d9cbeb732e96382a49e85de5a5fe07340572",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c2cdf10_7082e15c",
+        "filename": "src/internal/abi/abi_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-02-02T18:37:08Z",
+      "side": 1,
+      "message": "Surprised that this works, as x.go imports an internal package, which is not allowed. I thought we use \"internal/abi\" here...",
+      "revId": "7860d9cbeb732e96382a49e85de5a5fe07340572",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cde6c5f4_136d104a",
         "filename": "src/internal/testenv/testenv.go",
         "patchSetId": 2
