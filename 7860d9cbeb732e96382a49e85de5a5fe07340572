@@ -70,6 +70,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "da71a2aa_52787d5e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-02-02T19:11:12Z",
+      "side": 1,
+      "message": "`openbsd-arm-jsing` still hasn\u0027t even started, so I\u0027m going to press ahead without it.",
+      "parentUuid": "d193c09c_aacbf64c",
+      "revId": "7860d9cbeb732e96382a49e85de5a5fe07340572",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "83e751af_f4499977",
@@ -83,6 +101,30 @@
       "writtenOn": "2023-02-02T18:37:08Z",
       "side": 1,
       "message": "Maybe rename this?",
+      "range": {
+        "startLine": 790,
+        "startChar": 41,
+        "endLine": 790,
+        "endChar": 47
+      },
+      "revId": "7860d9cbeb732e96382a49e85de5a5fe07340572",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c657ac6_1b3947ee",
+        "filename": "src/cmd/link/link_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 790,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-02-02T19:11:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83e751af_f4499977",
       "range": {
         "startLine": 790,
         "startChar": 41,
@@ -116,6 +158,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8290daa7_7517887b",
+        "filename": "src/go/internal/gcimporter/gcimporter_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-02-02T19:11:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dbf2a3a8_fbdb2918",
+      "range": {
+        "startLine": 113,
+        "startChar": 75,
+        "endLine": 113,
+        "endChar": 95
+      },
+      "revId": "7860d9cbeb732e96382a49e85de5a5fe07340572",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2c2cdf10_7082e15c",
@@ -133,6 +199,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb8c005f_80248f30",
+        "filename": "src/internal/abi/abi_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-02-02T19:11:12Z",
+      "side": 1,
+      "message": "I used the `-e` flag in `internal/testenv.WriteImportcfg`, which hides all manner of problems. 😁\n\nI had done that under the assumption that it would be needed by some test or another, but it appears that all of the tests can be written in a way that avoids the errors, which does seem more robust. Switched to that approach and passed the package path `\"internal/abi\"` explicitly here.",
+      "parentUuid": "2c2cdf10_7082e15c",
+      "revId": "7860d9cbeb732e96382a49e85de5a5fe07340572",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cde6c5f4_136d104a",
@@ -146,6 +230,24 @@
       "writtenOn": "2023-02-02T18:27:44Z",
       "side": 1,
       "message": "Might be worth mentioning that it\u0027s ok to pass in Go source files in \u0027pkgs\u0027.",
+      "revId": "7860d9cbeb732e96382a49e85de5a5fe07340572",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34252c6b_e521c3eb",
+        "filename": "src/internal/testenv/testenv.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-02-02T19:11:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cde6c5f4_136d104a",
       "revId": "7860d9cbeb732e96382a49e85de5a5fe07340572",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
