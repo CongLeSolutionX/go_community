@@ -51,6 +51,24 @@
       "message": "Do we want to make a helper function (or make WriteImportcfg so) that build the importcfg only for some packages (and dependencies)? Usually the tests that does manual compile/asm/link have very small dependencies.",
       "revId": "3e94d1234e9a31d87b8e006392c44c7d0411af55",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7f7d041_ea7929e9",
+        "filename": "src/internal/abi/abi_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-02-02T16:35:16Z",
+      "side": 1,
+      "message": "Hmm, that\u0027s a good point. Probably all of the uses of `testenv.WriteImportcfg` in short tests ought to be replaced with something less expensive.\n\nI\u0027ll see what I can generalize.",
+      "parentUuid": "00f4ec9c_49cfe1e0",
+      "revId": "3e94d1234e9a31d87b8e006392c44c7d0411af55",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
