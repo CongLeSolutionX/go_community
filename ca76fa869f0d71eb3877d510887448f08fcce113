@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4690d45_1aaad023",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-02-02T03:34:24Z",
+      "side": 1,
+      "message": "Great, thanks~",
+      "parentUuid": "e247bc89_c94b8991",
+      "revId": "ca76fa869f0d71eb3877d510887448f08fcce113",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fe241f34_bde190d4",
@@ -68,6 +86,30 @@
       "writtenOn": "2023-02-01T21:00:05Z",
       "side": 1,
       "message": "ai",
+      "range": {
+        "startLine": 2265,
+        "startChar": 80,
+        "endLine": 2265,
+        "endChar": 82
+      },
+      "revId": "ca76fa869f0d71eb3877d510887448f08fcce113",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2497d2cd_b9acb746",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2265,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-02-02T03:34:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe241f34_bde190d4",
       "range": {
         "startLine": 2265,
         "startChar": 80,
@@ -95,6 +137,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fbc82eff_2946bb94",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 5886,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-02-02T03:34:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b4c7512b_7d9403ce",
+      "revId": "ca76fa869f0d71eb3877d510887448f08fcce113",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f6596305_f1a6acb3",
@@ -118,6 +178,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5068c7c3_de5951c8",
+        "filename": "src/cmd/internal/obj/arm64/elements.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-02-02T03:34:24Z",
+      "side": 1,
+      "message": "Yes, we will write a script that parses xml documents to get all element types at once. If the Arm xml document is updated in the future, we need to update the script synchronously to get new instructions and new element types.",
+      "parentUuid": "f6596305_f1a6acb3",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 1
+      },
+      "revId": "ca76fa869f0d71eb3877d510887448f08fcce113",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6d05e803_57ee86b5",
@@ -131,6 +215,30 @@
       "writtenOn": "2023-02-01T21:00:05Z",
       "side": 1,
       "message": "created",
+      "range": {
+        "startLine": 7,
+        "startChar": 59,
+        "endLine": 7,
+        "endChar": 62
+      },
+      "revId": "ca76fa869f0d71eb3877d510887448f08fcce113",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7da03e3d_e83c209e",
+        "filename": "src/cmd/internal/obj/arm64/inst.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-02-02T03:34:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d05e803_57ee86b5",
       "range": {
         "startLine": 7,
         "startChar": 59,
