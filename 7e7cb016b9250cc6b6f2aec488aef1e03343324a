@@ -33,6 +33,24 @@
       "message": "Minor: period at end of sentence.",
       "revId": "7e7cb016b9250cc6b6f2aec488aef1e03343324a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f155aee_adb0641e",
+        "filename": "src/cmd/internal/obj/loong64/cnames.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 54019
+      },
+      "writtenOn": "2023-02-02T13:08:46Z",
+      "side": 1,
+      "message": "Thanks, I have updated it.",
+      "parentUuid": "590ba1eb_9f37513b",
+      "revId": "7e7cb016b9250cc6b6f2aec488aef1e03343324a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
