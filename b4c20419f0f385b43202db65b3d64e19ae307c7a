@@ -89,6 +89,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "94b8dbe0_ee887eee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2023-02-02T16:02:31Z",
+      "side": 1,
+      "message": "\u003e there are cases not covered [e.g.] linkname a Go symbol to alias a C symbol.\n\nI think this is plausibly covered by the initial description that \"this directive determines the object-file symbol\", which C programmers should understand, but you make a good point that my \"two scenarios\" aren\u0027t exhaustive.",
+      "parentUuid": "6474a5c9_6c401914",
+      "revId": "b4c20419f0f385b43202db65b3d64e19ae307c7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fbd41ca4_6f3ba44d",
