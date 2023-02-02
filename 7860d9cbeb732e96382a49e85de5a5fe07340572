@@ -51,6 +51,40 @@
       "message": "PTAL.",
       "revId": "7860d9cbeb732e96382a49e85de5a5fe07340572",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef13237a_625ef004",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-02-02T18:27:44Z",
+      "side": 1,
+      "message": "LGTM",
+      "revId": "7860d9cbeb732e96382a49e85de5a5fe07340572",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cde6c5f4_136d104a",
+        "filename": "src/internal/testenv/testenv.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-02-02T18:27:44Z",
+      "side": 1,
+      "message": "Might be worth mentioning that it\u0027s ok to pass in Go source files in \u0027pkgs\u0027.",
+      "revId": "7860d9cbeb732e96382a49e85de5a5fe07340572",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
