@@ -263,3 +263,18 @@ func testWrappedResponseController(t *testing.T, mode testMode) {
 	io.Copy(io.Discard, res.Body)
 	defer res.Body.Close()
 }
+
+func TestIssue58237(t *testing.T) {
+	cst := newClientServerTest(t, http2Mode, HandlerFunc(func(w ResponseWriter, req *Request) {
+		ctl := NewResponseController(w)
+		if err := ctl.SetReadDeadline(time.Now().Add(1 * time.Millisecond)); err != nil {
+			t.Errorf("ctl.SetReadDeadline() = %v, want nil", err)
+		}
+		time.Sleep(10 * time.Millisecond)
+	}))
+	res, err := cst.c.Get(cst.ts.URL)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer res.Body.Close()
+}
