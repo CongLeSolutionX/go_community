@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92fc9558_bf82c7df",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2023-02-02T11:06:14Z",
+      "side": 1,
+      "message": "Tweaked your commit message a bit on the PR. SGTM.",
+      "revId": "59ef563ae0824c991a64aade9453fdf6ac66b321",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
