@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c3a4310_b0b3face",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2023-02-03T17:48:28Z",
+      "side": 1,
+      "message": "Hi! Can you open an issue listing the wrapped errors and the APIs they\u0027d be returned from? They\u0027re not quite covered by the Go 1 Compatibility Promise, but once we expose them they\u0027ll be hard to roll back, so they are worth discussing. (In general, opening an issue also helps us track the change better and increases the chances it will make it into a release.)",
+      "revId": "8cf9fd725b941c2438d001db7be48185f6204c99",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
