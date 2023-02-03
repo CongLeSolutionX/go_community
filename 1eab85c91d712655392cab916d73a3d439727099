@@ -92,6 +92,24 @@
       "parentUuid": "37dc47c4_e6f0d825",
       "revId": "1eab85c91d712655392cab916d73a3d439727099",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "396cf79d_ffb982f5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2023-02-03T22:21:38Z",
+      "side": 1,
+      "message": "This test failure is due to https://github.com/golang/go/issues/58168.",
+      "parentUuid": "1be0b11e_75d6d061",
+      "revId": "1eab85c91d712655392cab916d73a3d439727099",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
