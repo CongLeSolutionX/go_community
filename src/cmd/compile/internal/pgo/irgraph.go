@@ -140,9 +140,22 @@ func New(profileFile string) *Profile {
 		return nil
 	}
 
+	samplesCountIndex := -1
+	for i, s := range profile.SampleType {
+		if s.Type == "samples" && s.Unit == "count" {
+			samplesCountIndex = i
+			break
+		}
+	}
+
+	if samplesCountIndex == -1 {
+		log.Fatal("failed to find CPU samples count value-type in profile.")
+		return nil
+	}
+
 	g := newGraph(profile, &Options{
 		CallTree:    false,
-		SampleValue: func(v []int64) int64 { return v[1] },
+		SampleValue: func(v []int64) int64 { return v[samplesCountIndex] },
 	})
 
 	p := &Profile{
