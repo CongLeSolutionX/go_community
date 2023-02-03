@@ -108,6 +108,46 @@
       "parentUuid": "51c2e5ca_4bcacab2",
       "revId": "51932148b542ec7c5b9d141ce3c4a5ac9b62ffb2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f27525ec_4006587d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-02-03T16:59:30Z",
+      "side": 1,
+      "message": "Thanks!",
+      "revId": "51932148b542ec7c5b9d141ce3c4a5ac9b62ffb2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d36138de_6f711f23",
+        "filename": "src/cmd/compile/internal/pgo/irgraph.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-02-03T16:59:30Z",
+      "side": 1,
+      "message": "We probably could accept \"cpu\" as well, as you noted that it is just a scaled version of samples.",
+      "range": {
+        "startLine": 145,
+        "startChar": 16,
+        "endLine": 145,
+        "endChar": 23
+      },
+      "revId": "51932148b542ec7c5b9d141ce3c4a5ac9b62ffb2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
