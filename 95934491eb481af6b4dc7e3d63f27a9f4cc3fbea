@@ -71,6 +71,24 @@
       "parentUuid": "7727f319_ed28ad76",
       "revId": "95934491eb481af6b4dc7e3d63f27a9f4cc3fbea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b3db25d_89c0ef26",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-02-03T18:20:08Z",
+      "side": 1,
+      "message": "I saw a way to simplify the code.  Net increase of 62 lines of code.\n\nProbably needs a couple more tests, though.",
+      "parentUuid": "77ed0920_d5d5afdd",
+      "revId": "95934491eb481af6b4dc7e3d63f27a9f4cc3fbea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
