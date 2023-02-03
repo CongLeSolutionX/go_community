@@ -7,6 +7,7 @@ package test
 import (
 	"bufio"
 	"fmt"
+	"internal/profile"
 	"internal/testenv"
 	"io"
 	"os"
@@ -209,6 +210,59 @@ func TestPGOIntendedInliningShiftedLines(t *testing.T) {
 	}
 
 	dst.Close()
+
+	testPGOIntendedInlining(t, dir)
+}
+
+// TestPGONon1Index tests that the sample index can not be 1 and compilation
+// will not fail.
+func TestPGONon1Index(t *testing.T) {
+	wd, err := os.Getwd()
+	if err != nil {
+		t.Fatalf("error getting wd: %v", err)
+	}
+	srcDir := filepath.Join(wd, "testdata/pgo/inline")
+
+	// Copy the module to a scratch location so we can add a go.mod.
+	dir := t.TempDir()
+
+	originalPprofFile, err := os.Open(filepath.Join(srcDir, "inline_hot.pprof"))
+	if err != nil {
+		t.Fatalf("error opening inline_hot.pprof: %v", err)
+	}
+	defer originalPprofFile.Close()
+
+	p, err := profile.Parse(originalPprofFile)
+	if err != nil {
+		t.Fatalf("error parsing inline_hot.pprof: %v", err)
+	}
+
+	// Move the samples count value-type to the 0 index.
+	p.SampleType = []*profile.ValueType{{
+		Type: "samples",
+		Unit: "count",
+	}}
+
+	// Ensure we only have a single set of sample values.
+	for _, s := range p.Sample {
+		s.Value = s.Value[:1]
+	}
+
+	modifiedPprofFile, err := os.Create(filepath.Join(dir, "inline_hot.pprof"))
+	if err != nil {
+		t.Fatalf("error creating inline_hot.pprof: %v", err)
+	}
+	defer modifiedPprofFile.Close()
+
+	if err := p.Write(modifiedPprofFile); err != nil {
+		t.Fatalf("error writing inline_hot.pprof: %v", err)
+	}
+
+	for _, file := range []string{"inline_hot.go", "inline_hot_test.go"} {
+		if err := copyFile(filepath.Join(dir, file), filepath.Join(srcDir, file)); err != nil {
+			t.Fatalf("error copying %s: %v", file, err)
+		}
+	}
 
 	testPGOIntendedInlining(t, dir)
 }
