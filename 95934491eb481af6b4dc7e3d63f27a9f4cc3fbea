@@ -89,6 +89,24 @@
       "parentUuid": "77ed0920_d5d5afdd",
       "revId": "95934491eb481af6b4dc7e3d63f27a9f4cc3fbea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb4969df_6d6057a8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-02-03T22:51:48Z",
+      "side": 1,
+      "message": "I do see your point that it would be trivial to add a new Source type that just called fastrand64, and presumably panicked on a call to Seed.  Any ideas for a good name for that?",
+      "parentUuid": "0b3db25d_89c0ef26",
+      "revId": "95934491eb481af6b4dc7e3d63f27a9f4cc3fbea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
