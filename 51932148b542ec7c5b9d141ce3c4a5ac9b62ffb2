@@ -90,6 +90,24 @@
       "message": "Thanks, nice catch! Our testing of non-Go-generated pprof isn\u0027t great.\n\nI think at least a basic test would be nice. Perhaps construct a simple profile with only one or two samples at a different value index and test that it isn\u0027t rejected. Perhaps in https://cs.opensource.google/go/go/+/master:src/cmd/compile/internal/test/pgo_inl_test.go (import \"internal/profile\" to construct a profile, it is basically https://pkg.go.dev/github.com/google/pprof/profile.",
       "revId": "51932148b542ec7c5b9d141ce3c4a5ac9b62ffb2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "16316967_32742551",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 61148
+      },
+      "writtenOn": "2023-02-03T16:56:29Z",
+      "side": 1,
+      "message": "Added a test. Let me know if that\u0027s how you were thinking of it.",
+      "parentUuid": "51c2e5ca_4bcacab2",
+      "revId": "51932148b542ec7c5b9d141ce3c4a5ac9b62ffb2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
