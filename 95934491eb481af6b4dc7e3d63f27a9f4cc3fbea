@@ -53,6 +53,24 @@
       "message": "This is a lot of code. A lot.\n\nI\u0027d rather we worked on replacing the generator here than looking for performance improvements.",
       "revId": "95934491eb481af6b4dc7e3d63f27a9f4cc3fbea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77ed0920_d5d5afdd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-02-03T17:41:56Z",
+      "side": 1,
+      "message": "We\u0027ve kind of boxed ourselves in by\n1) we want to generate the same sequence of numbers given a particular seed;\n2) we want GODEBUG\u003dautorandseed\u003d0 to act like an initial call to Seed(1);\n3) we use locks to ensure specific behavior from the top-level calls.\n\nA consequence of that is that we can\u0027t replace the generator in all cases.\n\nIn https://go.dev/issue/49892 people have requested the ability to get fast non-replicable sequences of pseudo-random numbers.  The runtime already has that facility, and people are already using it in ways that we don\u0027t want to support (via go:linkname directives).  In that issue we observed that we can actually support that with no change in API, by honoring the three requirements above but behaving differently in the absence of calls to Seed and GODEBUG\u003dautorandseed\u003d0.\n\nThis is my best attempt at implementing that.  We can of course decide that this approach is too complicated, and that the right way to address issue 49892 is to introduce new API in math/rand, or to introduce a new package (math/rand/v2?).  Or we can just decline issue 49892, although it does seem to me to be a reasonable use case.",
+      "parentUuid": "7727f319_ed28ad76",
+      "revId": "95934491eb481af6b4dc7e3d63f27a9f4cc3fbea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
