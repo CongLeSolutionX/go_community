@@ -218,6 +218,24 @@
       "parentUuid": "4ef09cf1_58ef24b4",
       "revId": "c24f9beafd26363c00f48ed5410a4a6234c9ae3e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2dde4481_db2db1d4",
+        "filename": "src/cmd/compile/internal/walk/compare.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-02-04T00:55:27Z",
+      "side": 1,
+      "message": "LGTM, thanks!",
+      "parentUuid": "64fd5999_6d818107",
+      "revId": "c24f9beafd26363c00f48ed5410a4a6234c9ae3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
