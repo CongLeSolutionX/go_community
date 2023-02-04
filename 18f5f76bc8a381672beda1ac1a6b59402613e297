@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "046d8416_24654c22",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 32637
+      },
+      "writtenOn": "2023-02-04T14:58:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ed430f9_af697511",
+      "revId": "18f5f76bc8a381672beda1ac1a6b59402613e297",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0680ace7_b66065c0",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-02-04T05:55:04Z",
       "side": 1,
       "message": "I don\u0027t think \"io.EOF can only happen when underlying reader returns zero bytes\" is correct. https://pkg.go.dev/io#Reader says \"a Reader returning a non-zero number of bytes at the end of the input stream may return either err \u003d\u003d EOF or err \u003d\u003d nil\".\n\nI\u0027d trim the sentence to \"This change moves io.EOF\ntranslation inside fill.\" See above.",
+      "range": {
+        "startLine": 12,
+        "startChar": 44,
+        "endLine": 12,
+        "endChar": 48
+      },
+      "revId": "18f5f76bc8a381672beda1ac1a6b59402613e297",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "62c23f02_f4b9f0a9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 32637
+      },
+      "writtenOn": "2023-02-04T14:58:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0680ace7_b66065c0",
       "range": {
         "startLine": 12,
         "startChar": 44,
@@ -60,6 +102,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5538fc5b_74948ec9",
+        "filename": "src/image/jpeg/reader_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 32637
+      },
+      "writtenOn": "2023-02-04T14:58:26Z",
+      "side": 1,
+      "message": "The byte at offset 24 is read by readByte and reproduces the issue.\nI can rewrite the test to verify Decode returns unexpected EOF for all offsets from 1 to len(b) (or say 100) at the expense of test runtime.",
+      "parentUuid": "85564731_7dd9a43d",
+      "revId": "18f5f76bc8a381672beda1ac1a6b59402613e297",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "72b63dc0_9ff08405",
         "filename": "src/image/jpeg/reader_test.go",
         "patchSetId": 7
@@ -71,6 +131,24 @@
       "writtenOn": "2023-02-04T05:55:04Z",
       "side": 1,
       "message": "The usual order (e.g. in all of the other *test.go files) is got first, want second.",
+      "revId": "18f5f76bc8a381672beda1ac1a6b59402613e297",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dde5ab72_209db87a",
+        "filename": "src/image/jpeg/reader_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 32637
+      },
+      "writtenOn": "2023-02-04T14:58:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72b63dc0_9ff08405",
       "revId": "18f5f76bc8a381672beda1ac1a6b59402613e297",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
