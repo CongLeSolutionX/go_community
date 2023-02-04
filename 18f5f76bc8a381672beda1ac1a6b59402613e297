@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ed430f9_af697511",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2023-02-04T05:55:04Z",
+      "side": 1,
+      "message": "Thanks for adding the benchmarks but I think only the speed numbers are necessary (as the allocs haven\u0027t changed and time/op is just the inverse of speed).\n\nI\u0027d also simplify the \"Fixes...\" line and re-justify like this:\n\n```\nimage/jpeg: return io.ErrUnexpectedEOF on truncated data\n\nDecoder calls fill from readFull, ignore and readByte and\nreadByte did not check returned io.EOF. This change moves io.EOF\ntranslation inside fill.\n\nname                 old speed      new speed      delta\nDecodeBaseline-8     67.4MB/s ± 0%  67.3MB/s ± 0%  -0.20%  (p\u003d0.000 n\u003d16+19)\nDecodeProgressive-8  43.7MB/s ± 0%  43.6MB/s ± 0%  -0.06%  (p\u003d0.013 n\u003d17+19)\n\nFixes #56724\n```",
+      "revId": "18f5f76bc8a381672beda1ac1a6b59402613e297",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0680ace7_b66065c0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2023-02-04T05:55:04Z",
+      "side": 1,
+      "message": "I don\u0027t think \"io.EOF can only happen when underlying reader returns zero bytes\" is correct. https://pkg.go.dev/io#Reader says \"a Reader returning a non-zero number of bytes at the end of the input stream may return either err \u003d\u003d EOF or err \u003d\u003d nil\".\n\nI\u0027d trim the sentence to \"This change moves io.EOF\ntranslation inside fill.\" See above.",
+      "range": {
+        "startLine": 12,
+        "startChar": 44,
+        "endLine": 12,
+        "endChar": 48
+      },
+      "revId": "18f5f76bc8a381672beda1ac1a6b59402613e297",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85564731_7dd9a43d",
+        "filename": "src/image/jpeg/reader_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2023-02-04T05:55:04Z",
+      "side": 1,
+      "message": "This magic 24 number probably deserves a comment.",
+      "revId": "18f5f76bc8a381672beda1ac1a6b59402613e297",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72b63dc0_9ff08405",
+        "filename": "src/image/jpeg/reader_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2023-02-04T05:55:04Z",
+      "side": 1,
+      "message": "The usual order (e.g. in all of the other *test.go files) is got first, want second.",
+      "revId": "18f5f76bc8a381672beda1ac1a6b59402613e297",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
