@@ -61,6 +61,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ddbb031_e3ce6b54",
+        "filename": "src/cmd/compile/internal/ssagen/pgen.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-02-05T15:35:26Z",
+      "side": 1,
+      "message": "Yes. I\u0027ll rebase and make that update.",
+      "parentUuid": "d5588c19_e0f29981",
+      "range": {
+        "startLine": 217,
+        "startChar": 32,
+        "endLine": 218,
+        "endChar": 52
+      },
+      "revId": "12dcd5c8eaa339e718f876138475eeae84b1aab4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ebe94b34_7b0e1cff",
@@ -74,6 +98,30 @@
       "writtenOn": "2023-02-04T02:12:10Z",
       "side": 1,
       "message": "Remove?",
+      "range": {
+        "startLine": 1007,
+        "startChar": 0,
+        "endLine": 1010,
+        "endChar": 1
+      },
+      "revId": "12dcd5c8eaa339e718f876138475eeae84b1aab4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d57d6a88_46d221f0",
+        "filename": "src/cmd/compile/internal/staticinit/sched.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 1010,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-02-05T15:35:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ebe94b34_7b0e1cff",
       "range": {
         "startLine": 1007,
         "startChar": 0,
