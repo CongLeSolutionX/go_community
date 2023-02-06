@@ -993,7 +993,7 @@ func (b *Builder) checkDirectives(a *Action) error {
 	return nil
 }
 
-func (b *Builder) cacheObjdirFile(a *Action, c *cache.Cache, name string) error {
+func (b *Builder) cacheObjdirFile(a *Action, c cache.Cache, name string) error {
 	f, err := os.Open(a.Objdir + name)
 	if err != nil {
 		return err
@@ -1003,7 +1003,7 @@ func (b *Builder) cacheObjdirFile(a *Action, c *cache.Cache, name string) error 
 	return err
 }
 
-func (b *Builder) findCachedObjdirFile(a *Action, c *cache.Cache, name string) (string, error) {
+func (b *Builder) findCachedObjdirFile(a *Action, c cache.Cache, name string) (string, error) {
 	file, _, err := c.GetFile(cache.Subkey(a.actionID, name))
 	if err != nil {
 		return "", fmt.Errorf("loading cached file %s: %w", name, err)
@@ -1011,7 +1011,7 @@ func (b *Builder) findCachedObjdirFile(a *Action, c *cache.Cache, name string) (
 	return file, nil
 }
 
-func (b *Builder) loadCachedObjdirFile(a *Action, c *cache.Cache, name string) error {
+func (b *Builder) loadCachedObjdirFile(a *Action, c cache.Cache, name string) error {
 	cached, err := b.findCachedObjdirFile(a, c, name)
 	if err != nil {
 		return err
