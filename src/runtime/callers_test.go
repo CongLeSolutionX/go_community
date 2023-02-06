@@ -339,3 +339,21 @@ func callerLine(t *testing.T, skip int) int {
 	}
 	return line
 }
+
+func BenchmarkCallers(b *testing.B) {
+	b.StopTimer()
+	for i := 0; i < b.N; i++ {
+		callersCount(b, 1000)
+	}
+}
+
+func callersCount(b *testing.B, n int) int {
+	if n == 0 {
+		pcs := make([]uintptr, 1000)
+		b.StartTimer()
+		runtime.Callers(0, pcs)
+		b.StopTimer()
+		return 0
+	}
+	return 1 + callersCount(b, n-1)
+}
