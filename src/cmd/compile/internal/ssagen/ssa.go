@@ -4002,7 +4002,7 @@ func InitTables() {
 
 	/* Use only on Power10 as the new byte reverse instructions that Power10 provide
 	   make it worthwhile as an intrinsic */
-	brev_arch := []sys.ArchFamily{sys.AMD64, sys.ARM64, sys.ARM, sys.S390X}
+	brev_arch := []sys.ArchFamily{sys.AMD64, sys.I386, sys.ARM64, sys.ARM, sys.S390X}
 	if buildcfg.GOPPC64 >= 10 {
 		brev_arch = append(brev_arch, sys.PPC64)
 	}
