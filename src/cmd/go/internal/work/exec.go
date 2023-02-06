@@ -2153,12 +2153,23 @@ func (e *prefixSuffixError) ImportPath() string {
 func formatOutput(workDir, dir, importPath, desc, out string) *prefixSuffixError {
 	prefix := "# " + desc
 	suffix := "\n" + out
-	if reldir := base.ShortPath(dir); reldir != dir {
-		suffix = strings.ReplaceAll(suffix, " "+dir, " "+reldir)
-		suffix = strings.ReplaceAll(suffix, "\n"+dir, "\n"+reldir)
-		suffix = strings.ReplaceAll(suffix, "\n\t"+dir, "\n\t"+reldir)
-	}
+
 	suffix = strings.ReplaceAll(suffix, " "+workDir, " $WORK")
+
+	for {
+		if reldir := base.ShortPath(dir); reldir != dir {
+			// fmt.Fprintf(os.Stderr, "dir=%s, reldir=%s\n", dir, reldir)
+			suffix = strings.ReplaceAll(suffix, " "+dir, " "+reldir)
+			suffix = strings.ReplaceAll(suffix, "\n"+dir, "\n"+reldir)
+			suffix = strings.ReplaceAll(suffix, "\n\t"+dir, "\n\t"+reldir)
+		}
+		dirP, _ := filepath.Split(dir)
+		dirP = filepath.Dir(dirP)
+		if dir == dirP || dirP == "" {
+			break
+		}
+		dir = dirP
+	}
 
 	return &prefixSuffixError{importPath: importPath, prefix: prefix, suffix: suffix}
 }
