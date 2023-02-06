@@ -16,14 +16,14 @@ import (
 
 // Default returns the default cache to use.
 // It never returns nil.
-func Default() *Cache {
+func Default() Cache {
 	defaultOnce.Do(initDefaultCache)
 	return defaultCache
 }
 
 var (
 	defaultOnce  sync.Once
-	defaultCache *Cache
+	defaultCache Cache
 )
 
 // cacheREADME is a message stored in a README in the cache directory.
@@ -53,11 +53,17 @@ func initDefaultCache() {
 		os.WriteFile(filepath.Join(dir, "README"), []byte(cacheREADME), 0666)
 	}
 
-	c, err := Open(dir)
+	diskCache, err := Open(dir)
 	if err != nil {
 		base.Fatalf("failed to initialize build cache at %s: %s\n", dir, err)
 	}
-	defaultCache = c
+
+	if v := cfg.Getenv("GOCACHEPROG"); v != "" {
+		defaultCache = startCacheProg(v, diskCache)
+		return
+	} else {
+		defaultCache = diskCache
+	}
 }
 
 var (
