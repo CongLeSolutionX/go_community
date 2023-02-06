@@ -171,47 +171,37 @@ func racecallback(cmd uintptr, ctx unsafe.Pointer) {
 func raceSymbolizeCode(ctx *symbolizeCodeContext) {
 	pc := ctx.pc
 	fi := findfunc(pc)
-	f := fi._Func()
-	if f != nil {
-		file, line := f.FileLine(pc)
-		if line != 0 {
-			if inldata := funcdata(fi, _FUNCDATA_InlTree); inldata != nil {
-				inltree := (*[1 << 20]inlinedCall)(inldata)
-				for {
-					ix := pcdatavalue(fi, _PCDATA_InlTreeIndex, pc, nil)
-					if ix >= 0 {
-						if inltree[ix].funcID == funcID_wrapper {
-							// ignore wrappers
-							// Back up to an instruction in the "caller".
-							pc = f.Entry() + uintptr(inltree[ix].parentPc)
-							continue
-						}
-						ctx.pc = f.Entry() + uintptr(inltree[ix].parentPc) // "caller" pc
-						name := funcnameFromNameOff(fi, inltree[ix].nameOff)
-						ctx.fn = &bytes(name)[0] // assume NUL-terminated
-						ctx.line = uintptr(line)
-						ctx.file = &bytes(file)[0] // assume NUL-terminated
-						ctx.off = pc - f.Entry()
-						ctx.res = 1
-						return
-					}
-					break
-				}
-			}
-			name := funcname(fi)
-			ctx.fn = &bytes(name)[0] // assume NUL-terminated
-			ctx.line = uintptr(line)
-			ctx.file = &bytes(file)[0] // assume NUL-terminated
-			ctx.off = pc - f.Entry()
-			ctx.res = 1
-			return
-		}
+	if !fi.valid() {
+		ctx.fn = &qq[0]
+		ctx.file = &dash[0]
+		ctx.line = 0
+		ctx.off = ctx.pc
+		ctx.res = 1
+		return
 	}
-	ctx.fn = &qq[0]
-	ctx.file = &dash[0]
-	ctx.line = 0
-	ctx.off = ctx.pc
-	ctx.res = 1
+	u := newInlineUnwinder(fi, pc, nil)
+	for ; u.valid(); u.next() {
+		sf := u.srcFunc()
+		if sf.funcID == funcID_wrapper {
+			// ignore wrappers
+			continue
+		}
+
+		name := sf.name()
+		file, line := u.fileLine()
+		ctx.fn = &bytes(name)[0] // assume NUL-terminated
+		ctx.line = uintptr(line)
+		ctx.file = &bytes(file)[0] // assume NUL-terminated
+		ctx.off = pc - fi.entry()
+		ctx.res = 1
+		if u.isInlined() {
+			// Set ctx.pc to the "caller" so the race detector calls this again
+			// to further unwind.
+			u.next()
+			ctx.pc = u.pc
+		}
+		return
+	}
 }
 
 type symbolizeDataContext struct {
