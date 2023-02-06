@@ -305,57 +305,37 @@ func gentraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max in
 			}
 		}
 
-		if pcbuf != nil {
-			pc := frame.pc
-			// backup to CALL instruction to read inlining info (same logic as below)
-			tracepc := pc
-			// Normally, pc is a return address. In that case, we want to look up
-			// file/line information using pc-1, because that is the pc of the
-			// call instruction (more precisely, the last byte of the call instruction).
-			// Callers expect the pc buffer to contain return addresses and do the
-			// same -1 themselves, so we keep pc unchanged.
-			// When the pc is from a signal (e.g. profiler or segv) then we want
-			// to look up file/line information using pc, and we store pc+1 in the
-			// pc buffer so callers can unconditionally subtract 1 before looking up.
-			// See issue 34123.
-			// The pc can be at function entry when the frame is initialized without
-			// actually running code, like runtime.mstart.
-			if (n == 0 && flags&_TraceTrap != 0) || callerFuncID == funcID_sigpanic || pc == f.entry() {
-				pc++
-			} else {
-				tracepc--
-			}
+		// Backup to the CALL instruction to read inlining info
+		//
+		// Normally, pc is a return address. In that case, we want to look up
+		// file/line information using pc-1, because that is the pc of the
+		// call instruction (more precisely, the last byte of the call instruction).
+		// When the pc is from a signal (e.g. profiler or segv) then pc is for
+		// the trapped instruction, not a return address, so we use pc unchanged.
+		// See issue 34123.
+		// The pc can be at function entry when the frame is initialized without
+		// actually running code, like runtime.mstart.
+		callPC := frame.pc
+		if (n > 0 || flags&_TraceTrap == 0) && frame.pc > f.entry() && callerFuncID != funcID_sigpanic {
+			callPC--
+		}
 
-			// If there is inlining info, record the inner frames.
-			if inldata := funcdata(f, _FUNCDATA_InlTree); inldata != nil {
-				inltree := (*[1 << 20]inlinedCall)(inldata)
-				for {
-					ix := pcdatavalue(f, _PCDATA_InlTreeIndex, tracepc, &cache)
-					if ix < 0 {
-						break
-					}
-					if inltree[ix].funcID == funcID_wrapper && elideWrapperCalling(callerFuncID) {
-						// ignore wrappers
-					} else if skip > 0 {
-						skip--
-					} else if n < max {
-						(*[1 << 20]uintptr)(unsafe.Pointer(pcbuf))[n] = pc
-						n++
-					}
-					callerFuncID = inltree[ix].funcID
-					// Back up to an instruction in the "caller".
-					tracepc = frame.fn.entry() + uintptr(inltree[ix].parentPc)
-					pc = tracepc + 1
+		if pcbuf != nil {
+			// TODO: Why does passing &cache cause cache to escape? (Same below)
+			for iu := newInlineUnwinder(f, callPC, nil); iu.valid(); iu.next() {
+				sf := iu.srcFunc()
+				if sf.funcID == funcID_wrapper && elideWrapperCalling(callerFuncID) {
+					// ignore wrappers
+				} else if skip > 0 {
+					skip--
+				} else if n < max {
+					// Callers expect the pc buffer to contain return addresses
+					// and do the -1 themselves, so we add 1 to the call PC to
+					// create a return PC.
+					(*[1 << 20]uintptr)(unsafe.Pointer(pcbuf))[n] = iu.pc + 1
+					n++
 				}
-			}
-			// Record the main frame.
-			if f.funcID == funcID_wrapper && elideWrapperCalling(callerFuncID) {
-				// Ignore wrapper functions (except when they trigger panics).
-			} else if skip > 0 {
-				skip--
-			} else if n < max {
-				(*[1 << 20]uintptr)(unsafe.Pointer(pcbuf))[n] = pc
-				n++
+				callerFuncID = sf.funcID
 			}
 			n-- // offset n++ below
 		}
@@ -367,58 +347,38 @@ func gentraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max in
 			// any frames. And don't elide wrappers that
 			// called panic rather than the wrapped
 			// function. Otherwise, leave them out.
-
-			// backup to CALL instruction to read inlining info (same logic as below)
-			tracepc := frame.pc
-			if (n > 0 || flags&_TraceTrap == 0) && frame.pc > f.entry() && callerFuncID != funcID_sigpanic {
-				tracepc--
-			}
-			// If there is inlining info, print the inner frames.
-			if inldata := funcdata(f, _FUNCDATA_InlTree); inldata != nil {
-				inltree := (*[1 << 20]inlinedCall)(inldata)
-				for {
-					ix := pcdatavalue(f, _PCDATA_InlTreeIndex, tracepc, nil)
-					if ix < 0 {
-						break
+			for iu := newInlineUnwinder(f, callPC, nil); iu.valid(); iu.next() {
+				sf := iu.srcFunc()
+				if (flags&_TraceRuntimeFrames) != 0 || showframe(sf, gp, nprint == 0, callerFuncID) {
+					name := sf.name()
+					file, line := iu.fileLine()
+					if name == "runtime.gopanic" {
+						name = "panic"
 					}
-
-					sf := srcFunc{f.datap, inltree[ix].nameOff, inltree[ix].startLine, inltree[ix].funcID}
-
-					if (flags&_TraceRuntimeFrames) != 0 || showframe(sf, gp, nprint == 0, callerFuncID) {
-						name := sf.name()
-						file, line := funcline(f, tracepc)
-						print(name, "(...)\n")
-						print("\t", file, ":", line, "\n")
-						nprint++
+					// Print during crash.
+					//	main(0x1, 0x2, 0x3)
+					//		/home/rsc/go/src/runtime/x.go:23 +0xf
+					//
+					print(name, "(")
+					if iu.isInlined() {
+						print("...")
+					} else {
+						argp := unsafe.Pointer(frame.argp)
+						printArgs(f, argp, callPC)
 					}
-					callerFuncID = inltree[ix].funcID
-					// Back up to an instruction in the "caller".
-					tracepc = frame.fn.entry() + uintptr(inltree[ix].parentPc)
+					print(")\n")
+					print("\t", file, ":", line)
+					if !iu.isInlined() {
+						if frame.pc > f.entry() {
+							print(" +", hex(frame.pc-f.entry()))
+						}
+						if gp.m != nil && gp.m.throwing >= throwTypeRuntime && gp == gp.m.curg || level >= 2 {
+							print(" fp=", hex(frame.fp), " sp=", hex(frame.sp), " pc=", hex(frame.pc))
+						}
+					}
+					print("\n")
+					nprint++
 				}
-			}
-			if (flags&_TraceRuntimeFrames) != 0 || showframe(f.srcFunc(), gp, nprint == 0, callerFuncID) {
-				// Print during crash.
-				//	main(0x1, 0x2, 0x3)
-				//		/home/rsc/go/src/runtime/x.go:23 +0xf
-				//
-				name := funcname(f)
-				file, line := funcline(f, tracepc)
-				if name == "runtime.gopanic" {
-					name = "panic"
-				}
-				print(name, "(")
-				argp := unsafe.Pointer(frame.argp)
-				printArgs(f, argp, tracepc)
-				print(")\n")
-				print("\t", file, ":", line)
-				if frame.pc > f.entry() {
-					print(" +", hex(frame.pc-f.entry()))
-				}
-				if gp.m != nil && gp.m.throwing >= throwTypeRuntime && gp == gp.m.curg || level >= 2 {
-					print(" fp=", hex(frame.fp), " sp=", hex(frame.sp), " pc=", hex(frame.pc))
-				}
-				print("\n")
-				nprint++
 			}
 		}
 		n++
@@ -801,15 +761,9 @@ func printAncestorTraceback(ancestor ancestorInfo) {
 // due to only have access to the pcs at the time of the caller
 // goroutine being created.
 func printAncestorTracebackFuncInfo(f funcInfo, pc uintptr) {
-	name := funcname(f)
-	if inldata := funcdata(f, _FUNCDATA_InlTree); inldata != nil {
-		inltree := (*[1 << 20]inlinedCall)(inldata)
-		ix := pcdatavalue(f, _PCDATA_InlTreeIndex, pc, nil)
-		if ix >= 0 {
-			name = funcnameFromNameOff(f, inltree[ix].nameOff)
-		}
-	}
-	file, line := funcline(f, pc)
+	u := newInlineUnwinder(f, pc, nil)
+	name := u.srcFunc().name()
+	file, line := u.fileLine()
 	if name == "runtime.gopanic" {
 		name = "panic"
 	}
