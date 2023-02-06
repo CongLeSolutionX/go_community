@@ -564,7 +564,7 @@ func (b *Builder) useCache(a *Action, actionHash cache.ActionID, target string, 
 	return false
 }
 
-func showStdout(b *Builder, c *cache.Cache, actionID cache.ActionID, key string) error {
+func showStdout(b *Builder, c cache.Cache, actionID cache.ActionID, key string) error {
 	stdout, stdoutEntry, err := c.GetBytes(cache.Subkey(actionID, key))
 	if err != nil {
 		return err
