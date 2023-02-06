@@ -90,6 +90,24 @@
       "parentUuid": "a4a03f07_4c14e992",
       "revId": "261e2c946c1b31548441108f713d9801591ce194",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f8f59a6_da8e581d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-02-06T18:37:07Z",
+      "side": 1,
+      "message": "Correct, Gerrit invalidates +2s when rebasing. (That\u0027s #31085, give or take.)",
+      "parentUuid": "b9b9e599_ebf0f4e3",
+      "revId": "261e2c946c1b31548441108f713d9801591ce194",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
