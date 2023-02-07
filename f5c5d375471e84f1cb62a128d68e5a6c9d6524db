@@ -90,6 +90,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "392242aa_9fc1d1f4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-02-07T07:22:04Z",
+      "side": 1,
+      "message": "Yeah this is also something under consideration, the new instruction format supports disassembler. The current disassembler is also implemented in a semi-automatic way. It currently supports most general and FP\u0026SIMD instructions, but since elements need to be manually encoded and decoded, we may not be able to replace the current implementation of disassembler at first. We may make a patch to support the encoding and decoding of all xxx instructions in the new assembler, then we can replace the old implementation with the new implementation. But when we get the instruction table and element table we will eventually replace the old version with the new design.\n\nPerhaps this is a rough plan:\n1, Bring the design to consensus. (We are here now).\n2, Parsing the xml document, get the new instruction table and element table.\n3, Merge the framework, new instruction table and element table into the master branch. Since this is a completely new branch, it does not affect the correctness of the existing assembler. And now we can enable an unsupported instruction with the new path.\n4, Add encoding and decoding of more elements, replacing replaceable instructions in the old path.\n5，Apply the new instruction table to disassembler.\n6, Share the instruction table, element table and encoding and decoding codes among the disassembler and assembler.\n7, (Optional) If anyone is interested, more effort can be spent on improving this parsing script to automate the encoding and decoding of elements. But it might be a little hard to do, with some text recognition work to do.\n\nThis is just my rough plan and may change depending on the situation. Thanks.",
+      "parentUuid": "06b70f58_9f0cabc1",
+      "revId": "f5c5d375471e84f1cb62a128d68e5a6c9d6524db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4a7bca0b_a394c25f",
@@ -150,6 +168,30 @@
       "writtenOn": "2023-02-07T04:48:03Z",
       "side": 1,
       "message": "I\u0027m guessing you\u0027d probably do it this way anyway... but I think it will be cleaner if the generated table is in an entirely different file?",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 22
+      },
+      "revId": "f5c5d375471e84f1cb62a128d68e5a6c9d6524db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9fd557f_56551467",
+        "filename": "src/cmd/internal/obj/arm64/inst.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-02-07T07:22:04Z",
+      "side": 1,
+      "message": "Yeah, I\u0027ll put the table in a separate file in the future.",
+      "parentUuid": "ee2a676f_be0a41f2",
       "range": {
         "startLine": 53,
         "startChar": 0,
