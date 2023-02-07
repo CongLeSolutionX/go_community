@@ -70,6 +70,24 @@
       "message": "This seems racy. Two concurrent callers can both call globalRand, get nil from the Load on 319, then both store here \u0026 return it. That\u0027s fine if both are using fastSource, but if it\u0027s seeded, both callers can then get the same first rand value.\n\nI think this should be a CompareAndSwap and for the caller(s) for which it fails, re-do and return the Load value?",
       "revId": "cf7407a967b66be15e765084e7e7d924a5e22e83",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8eb41813_6bc32463",
+        "filename": "src/math/rand/rand.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-02-07T01:25:48Z",
+      "side": 1,
+      "message": "Thanks, fixed.\n\nAlso added some tests.",
+      "parentUuid": "76795e17_c748c33d",
+      "revId": "cf7407a967b66be15e765084e7e7d924a5e22e83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
