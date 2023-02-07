@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "9ea27a68_cddbb86a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 52329
+      },
+      "writtenOn": "2023-02-07T13:16:51Z",
+      "side": 1,
+      "message": "Done. I mailed CL 465516 to remove those Bswap32/64 functions.",
+      "parentUuid": "ede6047e_1556139f",
+      "revId": "a4d1d0d4f5c0a2379fd75630a9b5c5a2ed8f58aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "d0bd891c_fc0fe405",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -85,6 +103,24 @@
       "writtenOn": "2023-02-07T00:39:54Z",
       "side": 1,
       "message": "nit: change this to a //-style comment while you\u0027re here\n\nWe don\u0027t usually use /* */ comments like this; see https://go.dev/doc/effective_go#commentary",
+      "revId": "a4d1d0d4f5c0a2379fd75630a9b5c5a2ed8f58aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "376562d9_2f2cea6d",
+        "filename": "src/cmd/compile/internal/ssagen/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4004,
+      "author": {
+        "id": 52329
+      },
+      "writtenOn": "2023-02-07T13:16:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be03f55c_c59a0869",
       "revId": "a4d1d0d4f5c0a2379fd75630a9b5c5a2ed8f58aa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
