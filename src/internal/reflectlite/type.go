@@ -119,13 +119,7 @@ type rtype abi.Type
 // (if T is a defined type, the uncommonTypes for T and *T have methods).
 // Using a pointer to this struct reduces the overall size required
 // to describe a non-defined type with no methods.
-type uncommonType struct {
-	PkgPath nameOff // import path; empty for built-in types like int, string
-	Mcount  uint16  // number of methods
-	Xcount  uint16  // number of exported methods
-	Moff    uint32  // offset from this uncommontype to [mcount]method
-	_       uint32  // unused
-}
+type uncommonType = abi.UncommonType
 
 // chanDir represents a channel type's direction.
 type chanDir int
@@ -359,20 +353,6 @@ var kindNames = []string{
 	UnsafePointer: "unsafe.Pointer",
 }
 
-func (t *uncommonType) methods() []abi.Method {
-	if t.Mcount == 0 {
-		return nil
-	}
-	return (*[1 << 16]abi.Method)(add(unsafe.Pointer(t), uintptr(t.Moff), "t.mcount > 0"))[:t.Mcount:t.Mcount]
-}
-
-func (t *uncommonType) exportedMethods() []abi.Method {
-	if t.Xcount == 0 {
-		return nil
-	}
-	return (*[1 << 16]abi.Method)(add(unsafe.Pointer(t), uintptr(t.Moff), "t.xcount > 0"))[:t.Xcount:t.Xcount]
-}
-
 // resolveNameOff resolves a name offset from a base pointer.
 // The (*rtype).nameOff method is a convenience wrapper for this function.
 // Implemented in the runtime package.
@@ -470,7 +450,7 @@ func (t *rtype) exportedMethods() []abi.Method {
 	if ut == nil {
 		return nil
 	}
-	return ut.exportedMethods()
+	return ut.ExportedMethods()
 }
 
 func (t *rtype) NumMethod() int {
@@ -723,7 +703,7 @@ func implements(T, V *rtype) bool {
 		return false
 	}
 	i := 0
-	vmethods := v.methods()
+	vmethods := v.Methods()
 	for j := 0; j < int(v.Mcount); j++ {
 		tm := &t.methods[i]
 		tmName := t.nameOff(tm.Name)
