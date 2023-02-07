@@ -8,8 +8,8 @@ import (
 	"unsafe"
 )
 
-// TFlag is used by an rtype to signal what extra type information is
-// available in the memory directly following the rtype value.
+// TFlag is used by an Type to signal what extra type information is
+// available in the memory directly following the Type value.
 type TFlag uint8
 
 const (
@@ -95,6 +95,31 @@ type UncommonType struct {
 	Xcount  uint16  // number of exported methods
 	Moff    uint32  // offset from this uncommontype to [mcount]method
 	_       uint32  // unused
+}
+
+func (t *UncommonType) Methods() []Method {
+	if t.Mcount == 0 {
+		return nil
+	}
+	return (*[1 << 16]Method)(add(unsafe.Pointer(t), uintptr(t.Moff), "t.mcount > 0"))[:t.Mcount:t.Mcount]
+}
+
+func (t *UncommonType) ExportedMethods() []Method {
+	if t.Xcount == 0 {
+		return nil
+	}
+	return (*[1 << 16]Method)(add(unsafe.Pointer(t), uintptr(t.Moff), "t.xcount > 0"))[:t.Xcount:t.Xcount]
+}
+
+// add returns p+x.
+//
+// The whySafe string is ignored, so that the function still inlines
+// as efficiently as p+x, but all call sites should use the string to
+// record why the addition is safe, which is to say why the addition
+// does not cause x to advance to the very end of p's allocation
+// and therefore point incorrectly at the next block in memory.
+func add(p unsafe.Pointer, x uintptr, whySafe string) unsafe.Pointer {
+	return unsafe.Pointer(uintptr(p) + x)
 }
 
 // imethod represents a method on an interface type
