@@ -34,6 +34,24 @@
       "parentUuid": "5b108ef1_da097e9c",
       "revId": "f66581ead6f6dbc94b1d2fddee11abff722039e1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f47b218_78ddb575",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-02-07T09:11:24Z",
+      "side": 1,
+      "message": "I\u0027ve spent a couple of hours investigating the regressions. I would say that most of them are due to noise, and the metrics returned to its normal values in the following builds. For example, I can\u0027t reproduce the 10% slowdown on `BucketsEqual/same_20_values`, nor even the 45% speedup on `BucketsEqual/same_20_durations`:\n\n```\ngoos: linux\ngoarch: amd64\npkg: github.com/uber-go/tally/v4\ncpu: Intel(R) Xeon(R) Platinum 8272CL CPU @ 2.60GHz\n                                  │   old.txt   │              new.txt               │\n                                  │   sec/op    │   sec/op     vs base               │\nBucketsEqual/same_20_values-16      16.14n ± 1%   15.25n ± 1%  -5.51% (p\u003d0.000 n\u003d10)\nBucketsEqual/same_20_durations-16   9.992n ± 1%   9.921n ± 2%       ~ (p\u003d0.138 n\u003d10)\ngeomean                             12.70n        12.30n       -3.14%\n```\n\nOn the other hand, I\u0027ve identified one benchmark, `DecodehealingTracker` that I can consistently reproduce a 3% slowdown:\n\n```\ngoos: linux\ngoarch: amd64\npkg: github.com/minio/minio/cmd\ncpu: Intel(R) Xeon(R) Platinum 8272CL CPU @ 2.60GHz\n                        │   old.txt   │              new.txt               │\n                        │   sec/op    │   sec/op     vs base               │\nDecodehealingTracker-16   697.8n ± 5%   718.2n ± 3%  +2.94% (p\u003d0.011 n\u003d10)\n```\n\nI\u0027ve tried to find the culprit without much luck. It might be related to instruction alignment, or that in the newer disassembly there is an additional NOP instruction in the hot path of the `healingTracker.DecodeMsg` loop:\n\n```\n\t\tfield, err \u003d dc.ReadMapKeyPtr()\n  0x1f2eead\t\t488b842480000000\tMOVQ 0x80(SP), AX\t\t\t\t\t\t\n  0x1f2eeb5\t\te8c6f4a5fe\t\tCALL github.com/tinylib/msgp/msgp.(*Reader).ReadMapKeyPtr(SB)\t\n  0x1f2eeba\t\t660f1f440000\t\tNOPW 0(AX)(AX*1) // \u003c-- new instr\t\t\t\t\t\t\n\t\tif err !\u003d nil {\n```",
+      "parentUuid": "195ffeea_9ee705bd",
+      "revId": "f66581ead6f6dbc94b1d2fddee11abff722039e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
