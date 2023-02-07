@@ -19,7 +19,7 @@ func (e *escape) call(ks []hole, call ir.Node) {
 	var init ir.Nodes
 	e.callCommon(ks, call, &init, nil)
 	if len(init) != 0 {
-		call.(*ir.CallExpr).PtrInit().Append(init...)
+		call.(ir.InitNode).PtrInit().Append(init...)
 	}
 }
 
@@ -152,6 +152,7 @@ func (e *escape) callCommon(ks []hole, call ir.Node, init *ir.Nodes, wrapper *ir
 				argument(e.heapHole(), &args[i])
 			}
 		}
+		e.wrapRType(init, call, wrapper)
 
 	case ir.OCOPY:
 		call := call.(*ir.BinaryExpr)
@@ -162,6 +163,7 @@ func (e *escape) callCommon(ks []hole, call ir.Node, init *ir.Nodes, wrapper *ir
 			copiedK = e.heapHole().deref(call, "copied slice")
 		}
 		argument(copiedK, &call.Y)
+		e.wrapRType(init, call, wrapper)
 
 	case ir.OPANIC:
 		call := call.(*ir.UnaryExpr)
@@ -178,6 +180,7 @@ func (e *escape) callCommon(ks []hole, call ir.Node, init *ir.Nodes, wrapper *ir
 		for i := range call.Args {
 			argument(e.discardHole(), &call.Args[i])
 		}
+		e.wrapRType(init, call, wrapper)
 
 	case ir.OLEN, ir.OCAP, ir.OREAL, ir.OIMAG, ir.OCLOSE, ir.OCLEAR:
 		call := call.(*ir.UnaryExpr)
@@ -191,6 +194,7 @@ func (e *escape) callCommon(ks []hole, call ir.Node, init *ir.Nodes, wrapper *ir
 		call := call.(*ir.BinaryExpr)
 		argument(ks[0], &call.X)
 		argument(e.discardHole(), &call.Y)
+		e.wrapRType(init, call, wrapper)
 	}
 }
 
@@ -403,6 +407,30 @@ func (e *escape) wrapExpr(pos src.XPos, exprp *ir.Node, init *ir.Nodes, call ir.
 
 	*exprp = tmp
 	return tmp
+}
+
+// wrapRType like wrapExpr, but for nodes with RType field.
+func (e *escape) wrapRType(init *ir.Nodes, call ir.Node, wrapper *ir.Func) {
+	needWrap := func(rtype ir.Node) bool {
+		return ir.Any(rtype, func(n ir.Node) bool {
+			if nn, ok := n.(*ir.Name); ok && nn.Sym().Name == typecheck.LocalDictName {
+				return nn.Class != ir.PEXTERN
+			}
+			return false
+		})
+	}
+	rtype := func(n ir.Node) ir.Node {
+		if needWrap(n) {
+			return e.wrapExpr(call.Pos(), &n, init, call, wrapper)
+		}
+		return n
+	}
+	switch call := call.(type) {
+	case *ir.CallExpr:
+		call.RType = rtype(call.RType)
+	case *ir.BinaryExpr:
+		call.RType = rtype(call.RType)
+	}
 }
 
 // copyExpr creates and returns a new temporary variable within fn;
