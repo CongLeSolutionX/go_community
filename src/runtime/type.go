@@ -293,13 +293,7 @@ func (t *functype) dotdotdot() bool {
 	return t.outCount&(1<<15) != 0
 }
 
-type uncommontype struct {
-	PkgPath nameOff
-	Mcount  uint16 // number of methods
-	Xcount  uint16 // number of exported methods
-	Moff    uint32 // offset from this uncommontype to [mcount]method
-	_       uint32 // unused
-}
+type uncommontype = abi.UncommonType
 
 type interfacetype struct {
 	typ     _type
