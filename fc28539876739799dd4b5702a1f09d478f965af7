@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3da0cbe5_be3beec3",
+        "filename": "src/net/cgo_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-02-07T15:37:53Z",
+      "side": 1,
+      "message": "Actually, we don\u0027t even use the cname return from this function in the entire net package. Should I also remove it in this CL or a in a separete one?",
+      "revId": "fc28539876739799dd4b5702a1f09d478f965af7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
