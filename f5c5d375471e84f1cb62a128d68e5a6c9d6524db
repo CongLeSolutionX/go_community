@@ -73,6 +73,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "06b70f58_9f0cabc1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 22750
+      },
+      "writtenOn": "2023-02-07T04:48:03Z",
+      "side": 1,
+      "message": "Looking forward to seeing the work on the XML parsing. Is that going to be contributed to the `x/arch` repository?\n\nThanks!",
+      "revId": "f5c5d375471e84f1cb62a128d68e5a6c9d6524db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4a7bca0b_a394c25f",
@@ -115,6 +132,29 @@
         "startChar": 0,
         "endLine": 19,
         "endChar": 51
+      },
+      "revId": "f5c5d375471e84f1cb62a128d68e5a6c9d6524db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee2a676f_be0a41f2",
+        "filename": "src/cmd/internal/obj/arm64/inst.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 22750
+      },
+      "writtenOn": "2023-02-07T04:48:03Z",
+      "side": 1,
+      "message": "I\u0027m guessing you\u0027d probably do it this way anyway... but I think it will be cleaner if the generated table is in an entirely different file?",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 22
       },
       "revId": "f5c5d375471e84f1cb62a128d68e5a6c9d6524db",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
