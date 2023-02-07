@@ -122,3 +122,11 @@ type Imethod struct {
 	Name NameOff // name of method
 	Typ  TypeOff // .(*FuncType) underneath
 }
+
+// arrayType represents a fixed array type.
+type ArrayType struct {
+	Type
+	Elem  *Type // array element type
+	Slice *Type // slice type
+	Len   uintptr
+}
