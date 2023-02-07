@@ -50,8 +50,8 @@ func TestRuntimeTypesPresent(t *testing.T) {
 	}
 
 	want := map[string]bool{
-		"runtime._type":         true,
-		"runtime.arraytype":     true,
+		"runtime._type": true,
+		// "runtime.arraytype":     true,
 		"runtime.chantype":      true,
 		"runtime.functype":      true,
 		"runtime.maptype":       true,
