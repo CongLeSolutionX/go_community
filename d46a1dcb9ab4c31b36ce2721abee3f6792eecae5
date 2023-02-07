@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bc4157c3_3a22388f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-02-07T20:56:09Z",
+      "side": 1,
+      "message": "For the future it\u0027s usually better to say what changed than to say \"fix ...\".  Maybe\n\ncmd/cover: add newline before code that uses imported\n\nThen the paragraph below, which is fine, explains what is being fixed.  Thanks.",
+      "revId": "d46a1dcb9ab4c31b36ce2721abee3f6792eecae5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "96d356cf_b39f6321",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
