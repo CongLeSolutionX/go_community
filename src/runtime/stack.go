@@ -118,14 +118,14 @@ const (
 	//            == 2: logging of per-frame operations
 	//            == 3: logging of per-word updates
 	//            == 4: logging of per-word reads
-	stackDebug       = 0
+	stackDebug       = 3
 	stackFromSystem  = 0 // allocate stacks from system memory instead of the heap
 	stackFaultOnFree = 0 // old stacks are mapped noaccess to detect use after free
 	stackPoisonCopy  = 0 // fill stack that should not be accessed with garbage, to detect bad dereferences during copy
 	stackNoCache     = 0 // disable per-P small stack caches
 
 	// check the BP links during traceback.
-	debugCheckBP = false
+	debugCheckBP = true
 )
 
 const (
@@ -537,7 +537,7 @@ var ptrnames = []string{
 // +------------------+ <- frame->argp
 // |  return address  |
 // +------------------+
-// |  caller's BP (*) | (*) if framepointer_enabled && varp < sp
+// |  caller's BP (*) | (*) if framepointer_enabled && argp-varp == 2*PtrSize
 // +------------------+ <- frame->varp
 // |     locals       |
 // +------------------+
@@ -549,6 +549,8 @@ var ptrnames = []string{
 // | args from caller |
 // +------------------+ <- frame->argp
 // | caller's retaddr |
+// +------------------+
+// |  caller's BP (*) | (*) if framepointer_enabled && argp-varp == 2*PtrSize
 // +------------------+ <- frame->varp
 // |     locals       |
 // +------------------+
@@ -675,8 +677,7 @@ func adjustframe(frame *stkframe, arg unsafe.Pointer) bool {
 	}
 
 	// Adjust saved base pointer if there is one.
-	// TODO what about arm64 frame pointer adjustment?
-	if goarch.ArchFamily == goarch.AMD64 && frame.argp-frame.varp == 2*goarch.PtrSize {
+	if framepointer_enabled && frame.argp-frame.varp == 2*goarch.PtrSize {
 		if stackDebug >= 3 {
 			print("      saved bp\n")
 		}
@@ -687,6 +688,7 @@ func adjustframe(frame *stkframe, arg unsafe.Pointer) bool {
 			if bp != 0 && (bp < adjinfo.old.lo || bp >= adjinfo.old.hi) {
 				println("runtime: found invalid frame pointer")
 				print("bp=", hex(bp), " min=", hex(adjinfo.old.lo), " max=", hex(adjinfo.old.hi), "\n")
+				print("fp=", hex(frame.fp), " sp=", hex(frame.sp), " varp=", hex(frame.varp), "\n")
 				throw("bad frame pointer")
 			}
 		}
@@ -744,6 +746,9 @@ func adjustctxt(gp *g, adjinfo *adjustinfo) {
 	adjustpointer(adjinfo, unsafe.Pointer(&gp.sched.ctxt))
 	if !framepointer_enabled {
 		return
+	}
+	if stackDebug >= 3 {
+		print("adjusted go.sched.bp\n")
 	}
 	if debugCheckBP {
 		bp := gp.sched.bp
