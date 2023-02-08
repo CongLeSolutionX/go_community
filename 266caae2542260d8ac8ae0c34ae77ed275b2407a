@@ -70,6 +70,24 @@
       "message": "I found the name \"unwanted\" confusing here.  These flags are not unwanted.  A better name might be \"known\".  Similarly below.\n\nFor that matter I think most of this test can simply be\n\n    if !maps.Equal(passFlagToTest, genflags.PassFlagsToTest()) {\n        t.Errorf(\"%v !\u003d %v\", passFlagToTest, genflags.PassFlagToTest())\n    }\n\nThe maps package is in the standard library now.",
       "revId": "266caae2542260d8ac8ae0c34ae77ed275b2407a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "15bb332a_69b5521e",
+        "filename": "src/cmd/go/internal/test/flagdefs_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-02-08T21:20:18Z",
+      "side": 1,
+      "message": "\u003e I found the name \"unwanted\" confusing here.  These flags are not unwanted. A better name might be \"known\".  Similarly below.\n\nThe residue remaining in the map after we have deleted from it is indeed unwanted. (It\u0027s a bit tricky to come up with good names for these because the map APIs are mutative rather than functional: the name ends up describing some eventual state of the map instead of an invariant that always holds for it.)\n\n\u003e For that matter I think most of this test can simply be\n\u003e \n\u003e     if !maps.Equal(passFlagToTest, genflags.PassFlagsToTest()) {\n\u003e         t.Errorf(\"%v !\u003d %v\", passFlagToTest, genflags.PassFlagToTest())\n\u003e     }\n\u003e \n\u003e The maps package is in the standard library now.\n\nThat approach produces very poor error messages: these maps are fairly large, and `t.Errorf` prints them on a single line. But I do agree that the test can be somewhat simplified using the `maps` package.",
+      "parentUuid": "a33eddb2_81c02159",
+      "revId": "266caae2542260d8ac8ae0c34ae77ed275b2407a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
