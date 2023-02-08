@@ -125,7 +125,7 @@ const (
 	stackNoCache     = 0 // disable per-P small stack caches
 
 	// check the BP links during traceback.
-	debugCheckBP = false
+	debugCheckBP = true
 )
 
 const (
@@ -537,7 +537,7 @@ var ptrnames = []string{
 // +------------------+ <- frame->argp
 // |  return address  |
 // +------------------+
-// |  caller's BP (*) | (*) if framepointer_enabled && varp < sp
+// |  caller's BP (*) | (*) if framepointer_enabled && argp-varp == 2*PtrSize
 // +------------------+ <- frame->varp
 // |     locals       |
 // +------------------+
@@ -549,6 +549,8 @@ var ptrnames = []string{
 // | args from caller |
 // +------------------+ <- frame->argp
 // | caller's retaddr |
+// +------------------+
+// |  caller's BP (*) | (*) if framepointer_enabled && argp-varp == 2*PtrSize
 // +------------------+ <- frame->varp
 // |     locals       |
 // +------------------+
@@ -675,8 +677,7 @@ func adjustframe(frame *stkframe, arg unsafe.Pointer) bool {
 	}
 
 	// Adjust saved base pointer if there is one.
-	// TODO what about arm64 frame pointer adjustment?
-	if goarch.ArchFamily == goarch.AMD64 && frame.argp-frame.varp == 2*goarch.PtrSize {
+	if framepointer_enabled && frame.argp-frame.varp == 2*goarch.PtrSize {
 		if stackDebug >= 3 {
 			print("      saved bp\n")
 		}
