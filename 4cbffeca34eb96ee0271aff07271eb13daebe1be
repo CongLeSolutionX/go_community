@@ -91,6 +91,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd0a1868_4af69b07",
+        "filename": "src/net/splice_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-02-08T04:36:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6117c9a8_30b66fa2",
+      "revId": "4cbffeca34eb96ee0271aff07271eb13daebe1be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "df38f51e_309d7317",
@@ -104,6 +122,24 @@
       "writtenOn": "2023-02-07T23:08:11Z",
       "side": 1,
       "message": "Use a name like testFile, not test1.",
+      "revId": "4cbffeca34eb96ee0271aff07271eb13daebe1be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fec89f98_168f08ff",
+        "filename": "src/net/splice_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-02-08T04:36:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df38f51e_309d7317",
       "revId": "4cbffeca34eb96ee0271aff07271eb13daebe1be",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -125,6 +161,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f375dcc3_4e699792",
+        "filename": "src/net/splice_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-02-08T04:36:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ee21381_8b850c30",
+      "revId": "4cbffeca34eb96ee0271aff07271eb13daebe1be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e15eb6bb_38f110e5",
@@ -138,6 +192,24 @@
       "writtenOn": "2023-02-07T23:08:11Z",
       "side": 1,
       "message": "The man page says that splice only works if one of the descriptors is a pipe.  That doesn\u0027t seem to be true here.  Why does this help?",
+      "revId": "4cbffeca34eb96ee0271aff07271eb13daebe1be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f6f3544_a71aabbd",
+        "filename": "src/net/splice_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-02-08T04:36:20Z",
+      "side": 1,
+      "message": "io.Copy --\u003e File.ReadFrom --\u003e File.readFrom --\u003e poll.Splice, poll.Splice is where we call splice with pipe.",
+      "parentUuid": "e15eb6bb_38f110e5",
       "revId": "4cbffeca34eb96ee0271aff07271eb13daebe1be",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -159,6 +231,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "59293435_afbf1f5b",
+        "filename": "src/net/splice_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-02-08T04:36:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb7bc11e_c200d08b",
+      "revId": "4cbffeca34eb96ee0271aff07271eb13daebe1be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dec272e3_8a04c94c",
@@ -172,6 +262,24 @@
       "writtenOn": "2023-02-07T23:08:11Z",
       "side": 1,
       "message": "Let\u0027s move this into a new method, as you\u0027ve done with copyFileRange, so that this method just calls two new ones.",
+      "revId": "4cbffeca34eb96ee0271aff07271eb13daebe1be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "186dead3_1c9dc649",
+        "filename": "src/os/readfrom_linux.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-02-08T04:36:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dec272e3_8a04c94c",
       "revId": "4cbffeca34eb96ee0271aff07271eb13daebe1be",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -193,6 +301,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e96b79e5_3d0bca33",
+        "filename": "src/os/readfrom_linux.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-02-08T04:36:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e957e1ea_bbf70ac1",
+      "revId": "4cbffeca34eb96ee0271aff07271eb13daebe1be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "93184d61_637d88bf",
@@ -210,6 +336,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "09f0a7bd_671d652b",
+        "filename": "src/os/readfrom_linux.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-02-08T04:36:20Z",
+      "side": 1,
+      "message": "sc is already used by syscall.Conn in the code above, I\u0027m changing it to syscallName.",
+      "parentUuid": "93184d61_637d88bf",
+      "revId": "4cbffeca34eb96ee0271aff07271eb13daebe1be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "04a42460_5e74c0a3",
@@ -223,6 +367,24 @@
       "writtenOn": "2023-02-07T23:08:11Z",
       "side": 1,
       "message": "This is too hacky.  We need to do something cleaner here.",
+      "revId": "4cbffeca34eb96ee0271aff07271eb13daebe1be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8a2e020_2629e246",
+        "filename": "src/os/readfrom_linux.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-02-08T04:36:20Z",
+      "side": 1,
+      "message": "This is because that the return error from https://go.googlesource.com/go/+/refs/tags/go1.20/src/internal/poll/fd_poll_runtime.go#82 is not a pre-defined error, maybe we should make it pre-defined?",
+      "parentUuid": "04a42460_5e74c0a3",
       "revId": "4cbffeca34eb96ee0271aff07271eb13daebe1be",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
