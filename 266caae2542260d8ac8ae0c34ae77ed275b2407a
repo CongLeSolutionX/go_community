@@ -88,6 +88,24 @@
       "parentUuid": "a33eddb2_81c02159",
       "revId": "266caae2542260d8ac8ae0c34ae77ed275b2407a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c675e282_e2e2d093",
+        "filename": "src/cmd/go/internal/test/flagdefs_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-02-08T21:21:10Z",
+      "side": 1,
+      "message": "I\u0027ve reduced this CL to make it smaller to backport to Go 1.20, and added CL 466695 for the broader cleanup.",
+      "parentUuid": "15bb332a_69b5521e",
+      "revId": "266caae2542260d8ac8ae0c34ae77ed275b2407a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
