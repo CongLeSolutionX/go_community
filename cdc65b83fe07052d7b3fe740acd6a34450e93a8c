@@ -34,6 +34,24 @@
       "parentUuid": "781ec627_7fbb2cab",
       "revId": "cdc65b83fe07052d7b3fe740acd6a34450e93a8c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "924109d3_f5fcc6fc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-02-08T19:01:04Z",
+      "side": 1,
+      "message": "Are the profiles just empty in this case, so there are no sample types at all?",
+      "parentUuid": "bbafa745_3640f589",
+      "revId": "cdc65b83fe07052d7b3fe740acd6a34450e93a8c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
