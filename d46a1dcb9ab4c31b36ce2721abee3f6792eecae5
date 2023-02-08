@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1634813a_b5551c54",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-02-08T14:38:27Z",
+      "side": 1,
+      "message": "Thanks. I\u0027ve revised the headline to read \"cmd/cover: add newline to fix -covermode\u003datomic build error\".",
+      "parentUuid": "bc4157c3_3a22388f",
+      "revId": "d46a1dcb9ab4c31b36ce2721abee3f6792eecae5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "96d356cf_b39f6321",
