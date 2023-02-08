@@ -72,6 +72,24 @@
       "message": "ErrSchemeMismatch is returned when a server returns an HTTP response to an HTTPS client.",
       "revId": "acce93c3c934fe1d35cdc86d1f7477bb94ea69cb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64f58a1e_11899e27",
+        "filename": "src/net/http/client.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 13030
+      },
+      "writtenOn": "2023-02-08T21:45:13Z",
+      "side": 1,
+      "message": "Done\n\n(Sorry, didn\u0027t notice your reply for a year 🤦)",
+      "parentUuid": "fc0b6e48_b0554628",
+      "revId": "acce93c3c934fe1d35cdc86d1f7477bb94ea69cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
