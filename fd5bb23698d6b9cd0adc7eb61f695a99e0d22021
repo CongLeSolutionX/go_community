@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b5f93e0_baaa774b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-02-08T17:52:29Z",
+      "side": 1,
+      "message": "Is this going to cause contention on mheap after a GC as each P needs to go back to the central heap to get pages?\n\nShould the cache be cleared _only_ for idle Ps?",
+      "revId": "fd5bb23698d6b9cd0adc7eb61f695a99e0d22021",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
