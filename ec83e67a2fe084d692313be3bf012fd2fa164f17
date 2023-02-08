@@ -70,6 +70,24 @@
       "message": "This should be updated to mention both acceptable types.",
       "revId": "ec83e67a2fe084d692313be3bf012fd2fa164f17",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbbc7d4d_affd84af",
+        "filename": "src/cmd/compile/internal/pgo/irgraph.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 61148
+      },
+      "writtenOn": "2023-02-08T18:02:41Z",
+      "side": 1,
+      "message": "Good catch!",
+      "parentUuid": "4fc35c11_44069cc9",
+      "revId": "ec83e67a2fe084d692313be3bf012fd2fa164f17",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
