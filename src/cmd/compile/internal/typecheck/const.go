@@ -5,11 +5,9 @@
 package typecheck
 
 import (
-	"fmt"
 	"go/constant"
 	"go/token"
 	"math"
-	"math/big"
 	"strings"
 	"unicode"
 
@@ -276,36 +274,7 @@ func toint(v constant.Value) constant.Value {
 	if v.Kind() == constant.Complex {
 		v = constant.Real(v)
 	}
-
-	if v := constant.ToInt(v); v.Kind() == constant.Int {
-		return v
-	}
-
-	// The value of v cannot be represented as an integer;
-	// so we need to print an error message.
-	// Unfortunately some float values cannot be
-	// reasonably formatted for inclusion in an error
-	// message (example: 1 + 1e-100), so first we try to
-	// format the float; if the truncation resulted in
-	// something that looks like an integer we omit the
-	// value from the error message.
-	// (See issue #11371).
-	f := ir.BigFloat(v)
-	if f.MantExp(nil) > 2*ir.ConstPrec {
-		base.Errorf("integer too large")
-	} else {
-		var t big.Float
-		t.Parse(fmt.Sprint(v), 0)
-		if t.IsInt() {
-			base.Errorf("constant truncated to integer")
-		} else {
-			base.Errorf("constant %v truncated to integer", v)
-		}
-	}
-
-	// Prevent follow-on errors.
-	// TODO(mdempsky): Use constant.MakeUnknown() instead.
-	return constant.MakeInt64(1)
+	return constant.ToInt(v)
 }
 
 func tostr(v constant.Value) constant.Value {
@@ -348,12 +317,10 @@ var tokenForOp = [...]token.Token{
 	ir.ORSH: token.SHR,
 }
 
-// EvalConst returns a constant-evaluated expression equivalent to n.
-// If n is not a constant, EvalConst returns n.
-// Otherwise, EvalConst returns a new OLITERAL with the same value as n,
-// and with .Orig pointing back to n.
-func EvalConst(n ir.Node) ir.Node {
-	// Pick off just the opcodes that can be constant evaluated.
+// EvalExpr returns a constant node c with the value of constant-evaluated n
+// in non-constant semantic, and with c.Orig pointing back to n.
+// If n.Op() is an operand that can not be constant-evaluated, EvalExpr returns n.
+func EvalExpr(n ir.Node) ir.Node {
 	switch n.Op() {
 	case ir.OPLUS, ir.ONEG, ir.OBITNOT, ir.ONOT:
 		n := n.(*ir.UnaryExpr)
@@ -374,13 +341,9 @@ func EvalConst(n ir.Node) ir.Node {
 
 			// check for divisor underflow in complex division (see issue 20227)
 			if n.Op() == ir.ODIV && n.Type().IsComplex() && constant.Sign(square(constant.Real(rval))) == 0 && constant.Sign(square(constant.Imag(rval))) == 0 {
-				base.Errorf("complex division by zero")
-				n.SetType(nil)
 				return n
 			}
 			if (n.Op() == ir.ODIV || n.Op() == ir.OMOD) && constant.Sign(rval) == 0 {
-				base.Errorf("division by zero")
-				n.SetType(nil)
 				return n
 			}
 
@@ -413,18 +376,22 @@ func EvalConst(n ir.Node) ir.Node {
 			const shiftBound = 1023 - 1 + 52
 			s, ok := constant.Uint64Val(nr.Val())
 			if !ok || s > shiftBound {
-				base.Errorf("invalid shift count %v", nr)
-				n.SetType(nil)
-				break
+				return n
 			}
 			return OrigConst(n, constant.Shift(toint(nl.Val()), tokenForOp[n.Op()], uint(s)))
 		}
 
-	case ir.OCONV, ir.ORUNESTR:
+	case ir.ORUNESTR:
 		n := n.(*ir.ConvExpr)
 		nl := n.X
 		if ir.OKForConst[n.Type().Kind()] && nl.Op() == ir.OLITERAL {
 			return OrigConst(n, convertVal(nl.Val(), n.Type(), true))
+		}
+
+	case ir.OCONV:
+		n := n.(*ir.ConvExpr)
+		if ir.OKForConst[n.Type().Kind()] && n.X.Op() == ir.OLITERAL {
+			return conv(n)
 		}
 
 	case ir.OCONVNOP:
@@ -539,17 +506,6 @@ func square(x constant.Value) constant.Value {
 	return constant.BinaryOp(x, token.MUL, x)
 }
 
-// For matching historical "constant OP overflow" error messages.
-// TODO(mdempsky): Replace with error messages like go/types uses.
-var overflowNames = [...]string{
-	ir.OADD:    "addition",
-	ir.OSUB:    "subtraction",
-	ir.OMUL:    "multiplication",
-	ir.OLSH:    "shift",
-	ir.OXOR:    "bitwise XOR",
-	ir.OBITNOT: "bitwise complement",
-}
-
 // OrigConst returns an OLITERAL with orig n and value v.
 func OrigConst(n ir.Node, v constant.Value) ir.Node {
 	lno := ir.SetPos(n)
@@ -558,16 +514,14 @@ func OrigConst(n ir.Node, v constant.Value) ir.Node {
 
 	switch v.Kind() {
 	case constant.Int:
+		if ir.ConstOverflow(v, n.Type()) {
+			return n
+		}
 		if constant.BitLen(v) <= ir.ConstPrec {
 			break
 		}
 		fallthrough
 	case constant.Unknown:
-		what := overflowNames[n.Op()]
-		if what == "" {
-			base.Fatalf("unexpected overflow: %v", n.Op())
-		}
-		base.ErrorfAt(n.Pos(), "constant %v overflow", what)
 		n.SetType(nil)
 		return n
 	}
@@ -834,4 +788,33 @@ func evalunsafe(n ir.Node) int64 {
 
 	base.Fatalf("unexpected op %v", n.Op())
 	return 0
+}
+
+// conv returns the result of conversion expression n,
+// truncating its value as needed, like a conversion of a variable.
+func conv(n *ir.ConvExpr) ir.Node {
+	t := n.Type()
+	ct := n.X.Type()
+	cv := n.X.Val()
+	if ct.Kind() != t.Kind() {
+		switch {
+		default:
+			// Note: float -> float/integer and complex -> complex are valid but subtle.
+			// For example a float32(float64 1e300) evaluates to +Inf at runtime
+			// and the compiler doesn't have any concept of +Inf, so that would
+			// have to be left for runtime code evaluation for now.
+			return n
+
+		case ct.IsInteger() && t.IsInteger():
+			// truncate or sign extend
+			bits := t.Size() * 8
+			cv = constant.BinaryOp(cv, token.AND, constant.MakeUint64(1<<bits-1))
+			if t.IsSigned() && constant.Compare(cv, token.GEQ, constant.MakeUint64(1<<(bits-1))) {
+				cv = constant.BinaryOp(cv, token.OR, constant.MakeInt64(-1<<(bits-1)))
+			}
+		}
+	}
+	c := ir.NewConstExpr(cv, n).(*ir.ConstExpr)
+	c.SetType(t)
+	return c
 }
