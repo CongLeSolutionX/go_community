@@ -357,7 +357,7 @@ func typecheck(n ir.Node, top int) (res ir.Node) {
 		}
 	}
 	if t != nil {
-		n = EvalConst(n)
+		n = EvalExpr(n)
 		t = n.Type()
 	}
 
@@ -517,7 +517,7 @@ func typecheck1(n ir.Node, top int) ir.Node {
 		if t != nil {
 			n.X, n.Y = l, r
 			n.SetType(types.UntypedBool)
-			if con := EvalConst(n); con.Op() == ir.OLITERAL {
+			if con := EvalExpr(n); con.Op() == ir.OLITERAL {
 				return con
 			}
 			n.X, n.Y = defaultlit2(l, r, true)
