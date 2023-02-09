@@ -40,6 +40,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f1178727_904fa12c",
+        "filename": "src/bufio/bufio.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-02-09T15:04:59Z",
+      "side": 1,
+      "message": "The doc comment for this function say that it “switches the buffered reader to read from `r`”, but here it does not do that. Instead, it switches the buffered reader to read from `r.(*bufio.Reader).rd`, which is semantically different from `r` — especially if `b` has already read and buffered some data from `b.rd`.\n\nIt seems to me that there are two possible behaviors here: one is to make `b.Reset(b)` equivalent to `b.Reset(b.rd)` (as is done in this patchset), but the other is to make `b.Reset(b)` a no-op. It isn\u0027t obvious to me why we would prefer the `b.Reset(b.rd)` semantics over the no-op semantics — I think the no-op semantics are more likely to be what is intended in real code that may have buffered data.\n\nBut either way, this is very subtle. Given that `NewReader` does document its behavior of returning a large-enough `*bufio.Reader`, I wonder if it would be less confusing to make `b.Reset(b)` panic and push the decision to the caller, as something like:\n```\nif b !\u003d r {\n\tb.Reset(r)\n}\n```\n\nRegardless of which semantics are chosen, I think it is important to update the doc comment for `Reset` to describe the exact behavior for self-calls.",
+      "revId": "16ac2668fb2b41c7396c75833ea7cb9ea1a6ff2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "06585d82_5fe1469b",
         "filename": "src/bufio/bufio.go",
         "patchSetId": 1
