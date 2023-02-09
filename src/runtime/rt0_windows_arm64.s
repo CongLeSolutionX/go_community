@@ -8,16 +8,16 @@
 
 // This is the entry point for the program from the
 // kernel for an ordinary -buildmode=exe program.
-TEXT _rt0_arm64_windows(SB),NOSPLIT|NOFRAME,$0
+TEXT _rt0_arm64_windows(SB),NOSPLIT,$0
 	B	·rt0_go(SB)
 
-TEXT _rt0_arm64_windows_lib(SB),NOSPLIT|NOFRAME,$0
+TEXT _rt0_arm64_windows_lib(SB),NOSPLIT,$0
 	MOVD	$_rt0_arm64_windows_lib_go(SB), R0
 	MOVD	$0, R1
 	MOVD	_cgo_sys_thread_create(SB), R2
 	B	(R2)
 
-TEXT _rt0_arm64_windows_lib_go(SB),NOSPLIT|NOFRAME,$0
+TEXT _rt0_arm64_windows_lib_go(SB),NOSPLIT,$0
 	MOVD	$0, R0
 	MOVD	$0, R1
 	MOVD	$runtime·rt0_go(SB), R2
