@@ -8,7 +8,7 @@
 #include "textflag.h"
 #include "time_windows.h"
 
-TEXT time·now(SB),NOSPLIT|NOFRAME,$0-24
+TEXT time·now(SB),NOSPLIT,$0-24
 	MOVB    runtime·useQPCTime(SB), R0
 	CMP	$0, R0
 	BNE	useQPC

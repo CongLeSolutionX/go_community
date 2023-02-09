@@ -8,5 +8,5 @@
 
 // This is the entry point for the program from the
 // kernel for an ordinary -buildmode=exe program.
-TEXT _rt0_arm_windows(SB),NOSPLIT|NOFRAME,$0
+TEXT _rt0_arm_windows(SB),NOSPLIT,$0
 	B	·rt0_go(SB)

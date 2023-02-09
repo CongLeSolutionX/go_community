@@ -19,8 +19,7 @@
 // load_g and save_g (in tls_arm64.s) clobber R27 (REGTMP) and R0.
 
 // void runtime·asmstdcall(void *c);
-TEXT runtime·asmstdcall(SB),NOSPLIT|NOFRAME,$0
-	STP.W	(R29, R30), -32(RSP)	// allocate C ABI stack frame
+TEXT runtime·asmstdcall(SB),NOSPLIT,$16
 	STP	(R19, R20), 16(RSP) // save old R19, R20
 	MOVD	R0, R19	// save libcall pointer
 	MOVD	RSP, R20	// save stack pointer
@@ -96,10 +95,9 @@ _0args:
 
 	// Restore callee-saved registers.
 	LDP	16(RSP), (R19, R20)
-	LDP.P	32(RSP), (R29, R30)
 	RET
 
-TEXT runtime·getlasterror(SB),NOSPLIT|NOFRAME,$0
+TEXT runtime·getlasterror(SB),NOSPLIT,$0
 	MOVD	TEB_error(R18_PLATFORM), R0
 	MOVD	R0, ret+0(FP)
 	RET
@@ -136,22 +134,22 @@ TEXT sigtramp<>(SB),NOSPLIT,$176
 // It switches stacks and jumps to the continuation address.
 // R0 and R1 are set above at the end of sigtrampgo
 // in the context that starts executing at sigresume.
-TEXT runtime·sigresume(SB),NOSPLIT|NOFRAME,$0
+TEXT runtime·sigresume(SB),NOSPLIT,$0
 	// Important: do not smash LR,
 	// which is set to a live value when handling
 	// a signal by pushing a call to sigpanic onto the stack.
 	MOVD	R0, RSP
 	B	(R1)
 
-TEXT runtime·exceptiontramp(SB),NOSPLIT|NOFRAME,$0
+TEXT runtime·exceptiontramp(SB),NOSPLIT,$0
 	MOVD	$const_callbackVEH, R1
 	B	sigtramp<>(SB)
 
-TEXT runtime·firstcontinuetramp(SB),NOSPLIT|NOFRAME,$0
+TEXT runtime·firstcontinuetramp(SB),NOSPLIT,$0
 	MOVD	$const_callbackFirstVCH, R1
 	B	sigtramp<>(SB)
 
-TEXT runtime·lastcontinuetramp(SB),NOSPLIT|NOFRAME,$0
+TEXT runtime·lastcontinuetramp(SB),NOSPLIT,$0
 	MOVD	$const_callbackLastVCH, R1
 	B	sigtramp<>(SB)
 
@@ -256,7 +254,7 @@ TEXT runtime·switchtothread(SB),NOSPLIT,$16-0
 	ADD	$16, RSP
 	RET
 
-TEXT runtime·nanotime1(SB),NOSPLIT|NOFRAME,$0-8
+TEXT runtime·nanotime1(SB),NOSPLIT,$0-8
 	MOVB	runtime·useQPCTime(SB), R0
 	CMP	$0, R0
 	BNE	useQPC
