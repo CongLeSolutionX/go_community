@@ -1,4 +1,4 @@
-// run -gcflags=-d=inlstaticinit=1
+// run
 //go:build !gcflags_noopt
 
 // Copyright 2010 The Go Authors. All rights reserved.
@@ -342,6 +342,9 @@ func main() {
 		panic("unexpected init funcs")
 	}
 }
+=======
+// run
+>>>>>>> afc0d3bf5f (cmd/compile: reenable inline static init)
 //go:build !gcflags_noopt
 
 // Copyright 2010 The Go Authors. All rights reserved.
