@@ -463,6 +463,11 @@ TEXT runtime·systemstack_switch(SB), NOSPLIT, $0-0
 	RET
 
 // func systemstack(fn func())
+// This function uses NOFRAME because it tail calls
+// when called from m stack, in which case
+// the frame pointer would not be removed form the stack
+// on function exit.
+// TODO: figure out how to remove NOFRAME.
 TEXT runtime·systemstack(SB), NOSPLIT|NOFRAME, $0-8
 	MOVQ	fn+0(FP), DI	// DI = fn
 	get_tls(CX)
