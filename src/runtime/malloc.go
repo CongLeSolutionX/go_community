@@ -849,6 +849,25 @@ retry:
 //
 // The heap lock must not be held over this operation, since it will briefly acquire
 // the heap lock.
+func enableHeapMetadataHugePages() {
+	mheap_.enableMetadataHugePages()
+
+	// N.B. While persistentalloc doesn't strictly need to contain heap metadata, it's
+	// also true that some of the biggest sources of heap metadata do live in persistentalloc'd
+	// memory. For example, various slices whose sizes are roughly proportional to the heap,
+	// or heapArena structures, of which there's a number proportional to the heap size.
+	enablePersistentAllocHugePages()
+}
+
+// enableMetadataHugePages enables huge pages for various sources of heap metadata.
+//
+// A note on latency: for sufficiently small heaps (<10s of GiB) this function will take constant
+// time, but may take time proportional to the size of the mapped heap beyond that.
+//
+// This function is idempotent.
+//
+// The heap lock must not be held over this operation, since it will briefly acquire
+// the heap lock.
 func (h *mheap) enableMetadataHugePages() {
 	// Enable huge pages for page structure.
 	h.pages.enableChunkHugePages()
@@ -1435,14 +1454,22 @@ var globalAlloc struct {
 	persistentAlloc
 }
 
+var persistentChunks struct {
+	// all is the head of a linekd list of all the persistent chunks we have
+	// allocated. The list is maintained through the first word in the
+	// persistent chunk. Only the head of the list is updated atomically;
+	// the rest of the links are write-once and synchronized with changes
+	// to the head.
+	all atomic.UnsafePointer
+
+	// hugePages indicates whether persistentalloc should allow new chunks
+	// to be backed by huge pages.
+	hugePages atomic.Bool
+}
+
 // persistentChunkSize is the number of bytes we allocate when we grow
 // a persistentAlloc.
 const persistentChunkSize = 256 << 10
-
-// persistentChunks is a list of all the persistent chunks we have
-// allocated. The list is maintained through the first word in the
-// persistent chunk. This is updated atomically.
-var persistentChunks *notInHeap
 
 // Wrapper around sysAlloc that can allocate small chunks.
 // There is no associated free operation.
@@ -1508,11 +1535,22 @@ func persistentalloc1(size, align uintptr, sysStat *sysMemStat) *notInHeap {
 
 		// Add the new chunk to the persistentChunks list.
 		for {
-			chunks := uintptr(unsafe.Pointer(persistentChunks))
-			*(*uintptr)(unsafe.Pointer(persistent.base)) = chunks
-			if atomic.Casuintptr((*uintptr)(unsafe.Pointer(&persistentChunks)), chunks, uintptr(unsafe.Pointer(persistent.base))) {
+			chunks := persistentChunks.all.Load()
+			*(**notInHeap)(unsafe.Pointer(persistent.base)) = (*notInHeap)(chunks)
+			if persistentChunks.all.CompareAndSwapNoWB(chunks, unsafe.Pointer(persistent.base)) {
 				break
 			}
+		}
+
+		// Set the chunk's hugepage state.
+		//
+		// N.B. This races with updates to hugePages, but that's OK. Updates are
+		// serialized, so in the worst (and very rare) case, both ourselves and
+		// the writer do the same syscall twice on exactly one chunk.
+		if persistentChunks.hugePages.Load() {
+			sysHugePage(unsafe.Pointer(persistent.base), persistentChunkSize)
+		} else {
+			sysNoHugePage(unsafe.Pointer(persistent.base), persistentChunkSize)
 		}
 		persistent.off = alignUp(goarch.PtrSize, align)
 	}
@@ -1530,13 +1568,30 @@ func persistentalloc1(size, align uintptr, sysStat *sysMemStat) *notInHeap {
 	return p
 }
 
+func enablePersistentAllocHugePages() {
+	if persistentChunks.hugePages.Load() {
+		return
+	}
+	// Set the flag first, then load all.
+	//
+	// This ordering is important as it ensures that at one or both of
+	// enablePersistentAllocHugePages and persistentalloc will sysHugePage
+	// any chunks being concurrently added to all.
+	persistentChunks.hugePages.Store(true)
+	chunk := (*notInHeap)(persistentChunks.all.Load())
+	for chunk != nil {
+		sysHugePage(unsafe.Pointer(chunk), persistentChunkSize)
+		chunk = *(**notInHeap)(unsafe.Pointer(chunk))
+	}
+}
+
 // inPersistentAlloc reports whether p points to memory allocated by
 // persistentalloc. This must be nosplit because it is called by the
 // cgo checker code, which is called by the write barrier code.
 //
 //go:nosplit
 func inPersistentAlloc(p uintptr) bool {
-	chunk := atomic.Loaduintptr((*uintptr)(unsafe.Pointer(&persistentChunks)))
+	chunk := uintptr(persistentChunks.all.Load())
 	for chunk != 0 {
 		if p >= chunk && p < chunk+persistentChunkSize {
 			return true
