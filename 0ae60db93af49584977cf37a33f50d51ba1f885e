@@ -57,6 +57,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "64d492d7_c5545235",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13437
+      },
+      "writtenOn": "2023-02-09T22:41:17Z",
+      "side": 1,
+      "message": "Please note I also made changes in e.g. doc/articles/race_detector.html mentioning the defer problem, so if this CL fixes that problem, it would be nice to clean up those as well.",
+      "revId": "0ae60db93af49584977cf37a33f50d51ba1f885e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "a987c971_71b85948",
         "filename": "src/runtime/traceback.go",
         "patchSetId": 3
