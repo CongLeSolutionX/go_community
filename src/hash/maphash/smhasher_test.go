@@ -335,6 +335,9 @@ func TestSmhasherAvalanche(t *testing.T) {
 	if testing.Short() {
 		t.Skip("Skipping in short mode")
 	}
+	if testing.CoverMode() != "" {
+		t.Skip("too long for coverage")
+	}
 	avalancheTest1(t, &bytesKey{make([]byte, 2)})
 	avalancheTest1(t, &bytesKey{make([]byte, 4)})
 	avalancheTest1(t, &bytesKey{make([]byte, 8)})
@@ -398,6 +401,9 @@ func avalancheTest1(t *testing.T, k key) {
 
 // All bit rotations of a set of distinct keys
 func TestSmhasherWindowed(t *testing.T) {
+	if testing.CoverMode() != "" {
+		t.Skip("too long for coverage")
+	}
 	windowed(t, &bytesKey{make([]byte, 128)})
 }
 func windowed(t *testing.T, k key) {
