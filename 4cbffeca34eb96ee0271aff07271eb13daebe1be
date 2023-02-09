@@ -214,6 +214,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "87a91714_5fed5167",
+        "filename": "src/net/splice_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-02-09T00:03:37Z",
+      "side": 1,
+      "message": "Oh yeah, thanks.",
+      "parentUuid": "9f6f3544_a71aabbd",
+      "revId": "4cbffeca34eb96ee0271aff07271eb13daebe1be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fb7bc11e_c200d08b",
@@ -385,6 +403,24 @@
       "side": 1,
       "message": "This is because that the return error from https://go.googlesource.com/go/+/refs/tags/go1.20/src/internal/poll/fd_poll_runtime.go#82 is not a pre-defined error, maybe we should make it pre-defined?",
       "parentUuid": "04a42460_5e74c0a3",
+      "revId": "4cbffeca34eb96ee0271aff07271eb13daebe1be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "893cf7d0_d15883ae",
+        "filename": "src/os/readfrom_linux.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-02-09T00:03:37Z",
+      "side": 1,
+      "message": "I don\u0027t think this should be looking for this error at all.  It\u0027s very awkward.  What if we actually call internal/poll.Init, so that are using the poller as expected?  Or come up with a way to get the poller FD out of the net.Conn?",
+      "parentUuid": "c8a2e020_2629e246",
       "revId": "4cbffeca34eb96ee0271aff07271eb13daebe1be",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
