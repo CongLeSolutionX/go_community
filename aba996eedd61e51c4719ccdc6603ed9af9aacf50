@@ -70,6 +70,24 @@
       "parentUuid": "041f4164_4d3c3cbc",
       "revId": "aba996eedd61e51c4719ccdc6603ed9af9aacf50",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a3e010a_86419a53",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 51672
+      },
+      "writtenOn": "2023-02-09T09:18:18Z",
+      "side": 1,
+      "message": "Thanks for the patch. As a result, the test will now fail if \"flagdefs.go\" has a missing entry.",
+      "parentUuid": "267000ea_000b7aa9",
+      "revId": "aba996eedd61e51c4719ccdc6603ed9af9aacf50",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
