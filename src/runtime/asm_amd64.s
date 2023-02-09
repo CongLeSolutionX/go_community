@@ -463,6 +463,11 @@ TEXT runtime·systemstack_switch(SB), NOSPLIT, $0-0
 	RET
 
 // func systemstack(fn func())
+// This function uses NOFRAME because it tail calls
+// when called from m stack, in which case
+// the frame pointer would not be removed form the stack
+// on function exit.
+// TODO: figure out how to remove NOFRAME.
 TEXT runtime·systemstack(SB), NOSPLIT|NOFRAME, $0-8
 	MOVQ	fn+0(FP), DI	// DI = fn
 	get_tls(CX)
@@ -789,11 +794,10 @@ TEXT gosave_systemstack_switch<>(SB),NOSPLIT|NOFRAME,$0
 // func asmcgocall_no_g(fn, arg unsafe.Pointer)
 // Call fn(arg) aligned appropriately for the gcc ABI.
 // Called on a system stack, and there may be no g yet (during needm).
-TEXT ·asmcgocall_no_g(SB),NOSPLIT|NOFRAME,$0-16
+TEXT ·asmcgocall_no_g(SB),NOSPLIT,$32-16
 	MOVQ	fn+0(FP), AX
 	MOVQ	arg+8(FP), BX
 	MOVQ	SP, DX
-	SUBQ	$32, SP
 	ANDQ	$~15, SP	// alignment
 	MOVQ	DX, 8(SP)
 	MOVQ	BX, DI		// DI = first argument in AMD64 ABI
@@ -807,7 +811,7 @@ TEXT ·asmcgocall_no_g(SB),NOSPLIT|NOFRAME,$0-16
 // Call fn(arg) on the scheduler stack,
 // aligned appropriately for the gcc ABI.
 // See cgocall.go for more details.
-TEXT ·asmcgocall(SB),NOSPLIT|NOFRAME,$0-20
+TEXT ·asmcgocall(SB),NOSPLIT,$0-20
 	MOVQ	fn+0(FP), AX
 	MOVQ	arg+8(FP), BX
 
