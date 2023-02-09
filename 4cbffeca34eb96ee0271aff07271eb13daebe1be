@@ -477,6 +477,24 @@
       "parentUuid": "85dd07f9_ad906dcf",
       "revId": "4cbffeca34eb96ee0271aff07271eb13daebe1be",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af9b1c1d_e2e68f8d",
+        "filename": "src/os/readfrom_linux.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-02-09T08:54:03Z",
+      "side": 1,
+      "message": "After several attempts to use reflection for this, I find a solution:\n\nFirst of all, `internal/reflectlite` is too lite to pull the `pfd` out of the net.Conn, I have to switch to the standard `reflect`.\n\nThen I used the `reflect` package, trying to pull the `pfd` out of the net.Conn:\n```go\nv :\u003d reflect.Indirect(reflect.ValueOf(r))\n// net.TCPConn/net.UnixConn -\u003e net.netFD -\u003e poll.FD\nvfd :\u003d reflect.Indirect(v.FieldByName(\"fd\"))\nif vfd.IsZero() {\n\treturn\n}\nvpfd :\u003d reflect.Indirect(vfd).FieldByName(\"pfd\")\n// pfd, ok :\u003d vpfd.Interface().(*poll.FD) // this will panic cuz the Value was obtained by accessing unexported struct fields, so we have to use reflect.NewAt below.\n\npfd, ok :\u003d reflect.NewAt(vpfd.Type(), unsafe.Pointer(vpfd.UnsafeAddr())).Interface().(*poll.FD)\nif !ok {\n\treturn\n}\n```\nThis is a workable solution, but I\u0027m not sure if it\u0027s acceptable here cuz I think we just replace the current trick of error checking with a new trick of accessing the private field `pfd` inside `net.Conn`. What do you think of this, Ian?",
+      "parentUuid": "e8ea47b4_154d8604",
+      "revId": "4cbffeca34eb96ee0271aff07271eb13daebe1be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
