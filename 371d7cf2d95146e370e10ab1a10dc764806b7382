@@ -80,6 +80,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "235c6223_f5f7c49b",
+        "filename": "src/cmd/go/testdata/script/test_fullpath.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-02-09T14:18:30Z",
+      "side": 1,
+      "message": "Hrm! Looks like even on Windows the files are printed using `/`, but the leading `/` in the path here fails to match a Windows drive letter.\n\nInstead, maybe:\n```\nstdout \u0027^ +.+/gopath/src/x/fullpath/fullpath_test.go:8: test failed\u0027\n```",
+      "parentUuid": "459f1b27_975e8642",
+      "range": {
+        "startLine": 5,
+        "startChar": 11,
+        "endLine": 5,
+        "endChar": 12
+      },
+      "revId": "371d7cf2d95146e370e10ab1a10dc764806b7382",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c35243b0_dac19487",
         "filename": "src/cmd/go/testdata/script/test_fullpath.txt",
         "patchSetId": 3
