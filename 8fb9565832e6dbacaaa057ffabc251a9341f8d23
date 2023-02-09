@@ -46,6 +46,30 @@
       },
       "revId": "8fb9565832e6dbacaaa057ffabc251a9341f8d23",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "486958f5_c6941115",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 16565
+      },
+      "writtenOn": "2023-02-09T18:46:00Z",
+      "side": 1,
+      "message": "I posted https://github.com/golang/go/issues/58440.",
+      "parentUuid": "065d612c_74a68203",
+      "range": {
+        "startLine": 9,
+        "startChar": 50,
+        "endLine": 10,
+        "endChar": 21
+      },
+      "revId": "8fb9565832e6dbacaaa057ffabc251a9341f8d23",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
