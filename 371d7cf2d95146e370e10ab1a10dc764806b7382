@@ -144,6 +144,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d36a951d_359cbb85",
+        "filename": "src/cmd/go/testdata/script/test_fullpath.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 51672
+      },
+      "writtenOn": "2023-02-09T17:16:10Z",
+      "side": 1,
+      "message": "\u003e Hrm! Looks like even on Windows the files are printed using /\n\nNow that the tests have been passed, I\u0027m not sure if slashes need to be replaced with backslashes for Windows users using something like \"filepath.FromSlash\".",
+      "parentUuid": "7f2efec7_ad59b2d0",
+      "range": {
+        "startLine": 5,
+        "startChar": 11,
+        "endLine": 5,
+        "endChar": 12
+      },
+      "revId": "371d7cf2d95146e370e10ab1a10dc764806b7382",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c35243b0_dac19487",
