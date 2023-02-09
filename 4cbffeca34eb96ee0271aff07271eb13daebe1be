@@ -495,6 +495,24 @@
       "parentUuid": "e8ea47b4_154d8604",
       "revId": "4cbffeca34eb96ee0271aff07271eb13daebe1be",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36a25cbf_11c17839",
+        "filename": "src/os/readfrom_linux.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-02-09T15:21:23Z",
+      "side": 1,
+      "message": "code updated:\n```go\nv :\u003d reflect.Indirect(reflect.ValueOf(r))\n// net.TCPConn/net.UnixConn -\u003e net.netFD -\u003e poll.FD\nvfd :\u003d reflect.Indirect(v.FieldByName(\"fd\"))\nif vfd.IsZero() {\n    return\n}\nvpfd :\u003d vfd.FieldByName(\"pfd\")\n// pfd, ok :\u003d vpfd.Interface().(*poll.FD) // this will panic cuz the Value was obtained by accessing unexported struct fields, so we have to use reflect.NewAt below.\n\npfd, ok :\u003d reflect.NewAt(vpfd.Type(), vpfd.Addr().UnsafePointer()).Interface().(*poll.FD)\nif !ok {\n    return\n}\n```",
+      "parentUuid": "af9b1c1d_e2e68f8d",
+      "revId": "4cbffeca34eb96ee0271aff07271eb13daebe1be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
