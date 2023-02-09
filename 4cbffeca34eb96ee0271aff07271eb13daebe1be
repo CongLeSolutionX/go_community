@@ -423,6 +423,24 @@
       "parentUuid": "c8a2e020_2629e246",
       "revId": "4cbffeca34eb96ee0271aff07271eb13daebe1be",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "472243b4_6cfbab8c",
+        "filename": "src/os/readfrom_linux.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-02-09T04:18:13Z",
+      "side": 1,
+      "message": "\u003e What if we actually call internal/poll.Init, so that are using the poller as expected?\n\nThis is not going to work because epoll will return an EEXIST error given that the underlying fd is already registered to epoll instance.\n\n\u003e Or come up with a way to get the poller FD out of the net.Conn?\n\nThis is the ideal way to implement zero-copy here, but sadly, this seems impossible without adding a new method for the net.Conn to export its underlying poll.FD.\n\nActually, there are four ways to implement the zero-copy here:\n1. Extract the poll.FD from the net.Conn and use it with poll.Splice, this is the ideal way to do the zero-copy, but unfortunately, it can only be done by adding a new method to the net.Conn, something like `func (c *TCPConn) GetPollFD() *poll.FD`, however, means that this new method is also visible to users, which makes no sense because poll.FD is from an internal package and the users can do nothing with it;\n2. Set the underlying fd of the net.Conn with blocking mode via a system call and defer to undo this operation, ensuring there will be no EAGAIN error while poll.Splice is working. This can also work as expected but it will change the IO mode to blocking, which might cause the thread to enter kernel space while the user is calling io.Copy.\n3. Instead of invoking poll.Splice in File.ReadFrom we add a new method WriteTo to the net.TCPConn and net.UnixConn, then leverage the splice to make zero-copy there, in that way, even if we still have the problem getting the poll.FD from the os.File, we won\u0027t encounter EAGAIN error cuz linux will ignore non-blocking mode with regular files and make the IO blocking, with all versions of kernel, up to now. However, the net.UnixConn has already implemented its ReadFrom and WriteTo for PacketConn interface, not io.ReadFrom/io.WriteTo, which means that we can only make zero-copy possible from TCP socket to file by implementing WriteTo instead of ReadFrom.\n4. The current implementation in this CL, ensure both TCP and Unix socket can benefit from the zero-copy to file, but might need some tricks to achieve that, like the error checking here.",
+      "parentUuid": "893cf7d0_d15883ae",
+      "revId": "4cbffeca34eb96ee0271aff07271eb13daebe1be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
