@@ -59,6 +59,30 @@
       },
       "revId": "16ac2668fb2b41c7396c75833ea7cb9ea1a6ff2e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e56f361_b63f8a5e",
+        "filename": "src/bufio/bufio.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2023-02-09T10:29:33Z",
+      "side": 1,
+      "message": "Here\u0027s a morally equivalent program for Writer based on the same example in the issue.\n\nhttps://go.dev/play/p/X4dju6tBuwQ",
+      "parentUuid": "06585d82_5fe1469b",
+      "range": {
+        "startLine": 77,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 2
+      },
+      "revId": "16ac2668fb2b41c7396c75833ea7cb9ea1a6ff2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
