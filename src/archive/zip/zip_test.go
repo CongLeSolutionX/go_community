@@ -507,6 +507,9 @@ func TestZip64LargeDirectory(t *testing.T) {
 	if testing.Short() {
 		t.Skip("skipping in short mode")
 	}
+	if testing.CoverMode() != "" {
+		t.Skip("skipping in coverage mode, too slow")
+	}
 	t.Parallel()
 	// gen returns a func that writes a zip with a wantLen bytes
 	// of central directory.
