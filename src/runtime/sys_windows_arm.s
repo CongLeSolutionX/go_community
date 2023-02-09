@@ -10,7 +10,7 @@
 // Note: For system ABI, R0-R3 are args, R4-R11 are callee-save.
 
 // void runtime·asmstdcall(void *c);
-TEXT runtime·asmstdcall(SB),NOSPLIT|NOFRAME,$0
+TEXT runtime·asmstdcall(SB),NOSPLIT,$0
 	MOVM.DB.W [R4, R5, R14], (R13)	// push {r4, r5, lr}
 	MOVW	R0, R4			// put libcall * in r4
 	MOVW	R13, R5			// save stack pointer in r5
@@ -87,7 +87,7 @@ TEXT runtime·getlasterror(SB),NOSPLIT,$0
 // exception record and context pointers.
 // R1 is the kind of sigtramp function.
 // Return value of sigtrampgo is stored in R0.
-TEXT sigtramp<>(SB),NOSPLIT|NOFRAME,$0
+TEXT sigtramp<>(SB),NOSPLIT,$0
 	MOVM.DB.W [R4-R11, R14], (R13)	// push {r4-r11, lr} (SP-=40)
 	SUB	$(16), R13		// reserve space for parameters/retval to go call
 
@@ -112,22 +112,22 @@ TEXT sigtramp<>(SB),NOSPLIT|NOFRAME,$0
 // It switches stacks and jumps to the continuation address.
 // R0 and R1 are set above at the end of sigtrampgo
 // in the context that starts executing at sigresume.
-TEXT runtime·sigresume(SB),NOSPLIT|NOFRAME,$0
+TEXT runtime·sigresume(SB),NOSPLIT,$0
 	// Important: do not smash LR,
 	// which is set to a live value when handling
 	// a signal by pushing a call to sigpanic onto the stack.
 	MOVW	R0, R13
 	B	(R1)
 
-TEXT runtime·exceptiontramp(SB),NOSPLIT|NOFRAME,$0
+TEXT runtime·exceptiontramp(SB),NOSPLIT,$0
 	MOVW	$const_callbackVEH, R1
 	B	sigtramp<>(SB)
 
-TEXT runtime·firstcontinuetramp(SB),NOSPLIT|NOFRAME,$0
+TEXT runtime·firstcontinuetramp(SB),NOSPLIT,$0
 	MOVW	$const_callbackFirstVCH, R1
 	B	sigtramp<>(SB)
 
-TEXT runtime·lastcontinuetramp(SB),NOSPLIT|NOFRAME,$0
+TEXT runtime·lastcontinuetramp(SB),NOSPLIT,$0
 	MOVW	$const_callbackLastVCH, R1
 	B	sigtramp<>(SB)
 
@@ -170,7 +170,7 @@ TEXT runtime·callbackasm1(SB),NOSPLIT|NOFRAME,$0
 	B	(R12)	// return
 
 // uint32 tstart_stdcall(M *newm);
-TEXT runtime·tstart_stdcall(SB),NOSPLIT|NOFRAME,$0
+TEXT runtime·tstart_stdcall(SB),NOSPLIT,$0
 	MOVM.DB.W [R4-R11, R14], (R13)		// push {r4-r11, lr}
 
 	MOVW	m_g0(R0), g
@@ -195,7 +195,7 @@ TEXT runtime·tstart_stdcall(SB),NOSPLIT|NOFRAME,$0
 // Runs on OS stack.
 // duration (in -100ns units) is in dt+0(FP).
 // g may be nil.
-TEXT runtime·usleep2(SB),NOSPLIT|NOFRAME,$0-4
+TEXT runtime·usleep2(SB),NOSPLIT,$0-4
 	MOVW	dt+0(FP), R3
 	MOVM.DB.W [R4, R14], (R13)	// push {r4, lr}
 	MOVW	R13, R4			// Save SP
@@ -215,11 +215,11 @@ TEXT runtime·usleep2(SB),NOSPLIT|NOFRAME,$0-4
 // duration (in -100ns units) is in dt+0(FP).
 // g is valid.
 // TODO: needs to be implemented properly.
-TEXT runtime·usleep2HighRes(SB),NOSPLIT|NOFRAME,$0-4
+TEXT runtime·usleep2HighRes(SB),NOSPLIT,$0-4
 	B	runtime·abort(SB)
 
 // Runs on OS stack.
-TEXT runtime·switchtothread(SB),NOSPLIT|NOFRAME,$0
+TEXT runtime·switchtothread(SB),NOSPLIT,$0
 	MOVM.DB.W [R4, R14], (R13)  	// push {R4, lr}
 	MOVW    R13, R4
 	BIC	$0x7, R13		// alignment for ABI
@@ -228,16 +228,16 @@ TEXT runtime·switchtothread(SB),NOSPLIT|NOFRAME,$0
 	MOVW 	R4, R13			// restore stack pointer
 	MOVM.IA.W (R13), [R4, R15]	// pop {R4, pc}
 
-TEXT ·publicationBarrier(SB),NOSPLIT|NOFRAME,$0-0
+TEXT ·publicationBarrier(SB),NOSPLIT,$0-0
 	B	runtime·armPublicationBarrier(SB)
 
 // never called (this is a GOARM=7 platform)
-TEXT runtime·read_tls_fallback(SB),NOSPLIT|NOFRAME,$0
+TEXT runtime·read_tls_fallback(SB),NOSPLIT,$0
 	MOVW	$0xabcd, R0
 	MOVW	R0, (R0)
 	RET
 
-TEXT runtime·nanotime1(SB),NOSPLIT|NOFRAME,$0-8
+TEXT runtime·nanotime1(SB),NOSPLIT,$0-8
 	MOVW	$0, R0
 	MOVB	runtime·useQPCTime(SB), R0
 	CMP	$0, R0
@@ -273,7 +273,7 @@ useQPC:
 // Save the value in the _TEB->TlsSlots array.
 // Effectively implements TlsSetValue().
 // tls_g stores the TLS slot allocated TlsAlloc().
-TEXT runtime·save_g(SB),NOSPLIT|NOFRAME,$0
+TEXT runtime·save_g(SB),NOSPLIT,$0
 	MRC	15, 0, R0, C13, C0, 2
 	ADD	$0xe10, R0
 	MOVW 	$runtime·tls_g(SB), R11
@@ -287,7 +287,7 @@ TEXT runtime·save_g(SB),NOSPLIT|NOFRAME,$0
 // ARM code that overwrote those registers.
 // Get the value from the _TEB->TlsSlots array.
 // Effectively implements TlsGetValue().
-TEXT runtime·load_g(SB),NOSPLIT|NOFRAME,$0
+TEXT runtime·load_g(SB),NOSPLIT,$0
 	MRC	15, 0, R0, C13, C0, 2
 	ADD	$0xe10, R0
 	MOVW 	$runtime·tls_g(SB), g
@@ -299,7 +299,7 @@ TEXT runtime·load_g(SB),NOSPLIT|NOFRAME,$0
 // using the initial stack allocated by the OS.
 // It calls back into standard C using the BL below.
 // To do that, the stack pointer must be 8-byte-aligned.
-TEXT runtime·_initcgo(SB),NOSPLIT|NOFRAME,$0
+TEXT runtime·_initcgo(SB),NOSPLIT,$0
 	MOVM.DB.W [R4, R14], (R13)	// push {r4, lr}
 
 	// Ensure stack is 8-byte aligned before calling C code
