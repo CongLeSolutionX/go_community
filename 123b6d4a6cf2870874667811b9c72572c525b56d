@@ -93,6 +93,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f633dfec_99f488ba",
+        "filename": "src/math/compare.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 17921
+      },
+      "writtenOn": "2023-02-09T01:07:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06591cf7_5cf01bfc",
+      "revId": "123b6d4a6cf2870874667811b9c72572c525b56d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "92282faa_d2992a0f",
@@ -141,6 +159,24 @@
       "writtenOn": "2023-02-09T00:11:18Z",
       "side": 1,
       "message": "No reason to convert a and b to float32.",
+      "revId": "123b6d4a6cf2870874667811b9c72572c525b56d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01b56656_d14b9025",
+        "filename": "src/math/compare.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 17921
+      },
+      "writtenOn": "2023-02-09T01:07:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5cb7aa4b_b4563959",
       "revId": "123b6d4a6cf2870874667811b9c72572c525b56d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
