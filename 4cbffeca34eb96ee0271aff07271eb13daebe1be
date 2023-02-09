@@ -531,6 +531,24 @@
       "parentUuid": "36a25cbf_11c17839",
       "revId": "4cbffeca34eb96ee0271aff07271eb13daebe1be",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09e8873e_4f52097d",
+        "filename": "src/os/readfrom_linux.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-02-09T23:47:42Z",
+      "side": 1,
+      "message": "Right, you can\u0027t use reflect.  What is missing from reflectlite?\n\nI don\u0027t see why you need to use NewAt.  We know the type of the field.  Can we do something like (*poll.FD)(unsafe.Pointer(vpdf.Addr().Pointer())) ?",
+      "parentUuid": "a1495e9e_91e02d22",
+      "revId": "4cbffeca34eb96ee0271aff07271eb13daebe1be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
