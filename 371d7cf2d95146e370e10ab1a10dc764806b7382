@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b9e1b33_931afd53",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-02-09T14:00:18Z",
+      "side": 1,
+      "message": "TRY\u003dlongtest,windows-amd64-longtest",
+      "revId": "371d7cf2d95146e370e10ab1a10dc764806b7382",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "459f1b27_975e8642",
+        "filename": "src/cmd/go/testdata/script/test_fullpath.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-02-09T14:00:18Z",
+      "side": 1,
+      "message": "I suspect that these assertions will need to use `${/}` to pass on Windows.",
+      "range": {
+        "startLine": 5,
+        "startChar": 11,
+        "endLine": 5,
+        "endChar": 12
+      },
+      "revId": "371d7cf2d95146e370e10ab1a10dc764806b7382",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c35243b0_dac19487",
+        "filename": "src/cmd/go/testdata/script/test_fullpath.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-02-09T14:00:18Z",
+      "side": 1,
+      "message": "(nit) Let\u0027s omit this case in the test: it adds latency, and the `-test.fullpath` registration is automatic so testing it separately provides little additional confidence in the code.",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 58
+      },
+      "revId": "371d7cf2d95146e370e10ab1a10dc764806b7382",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
