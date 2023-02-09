@@ -514,15 +514,10 @@ func OrigConst(n ir.Node, v constant.Value) ir.Node {
 
 	switch v.Kind() {
 	case constant.Int:
-		if ir.ConstOverflow(v, n.Type()) {
+		if ir.ConstOverflow(v, n.Type()) || constant.BitLen(v) > ir.ConstPrec {
 			return n
 		}
-		if constant.BitLen(v) <= ir.ConstPrec {
-			break
-		}
-		fallthrough
 	case constant.Unknown:
-		n.SetType(nil)
 		return n
 	}
 
