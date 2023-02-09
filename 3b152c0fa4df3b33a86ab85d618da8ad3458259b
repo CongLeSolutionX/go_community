@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3bdc789d_ca3b756f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-02-09T14:22:56Z",
+      "side": 1,
+      "message": "This patch seems to work in most cases, but I see lots of failures when turning on `debugCheckBP`. For example: https://go-review.googlesource.com/c/go/+/466315\n\nI think those need to be fixed, otherwise this patch might cause stack corruption by accidentally adjusting things on the stack that shouldn\u0027t be adjusted.",
+      "revId": "3b152c0fa4df3b33a86ab85d618da8ad3458259b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
