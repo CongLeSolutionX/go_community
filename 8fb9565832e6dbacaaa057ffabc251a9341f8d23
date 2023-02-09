@@ -22,6 +22,30 @@
       },
       "revId": "8fb9565832e6dbacaaa057ffabc251a9341f8d23",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "065d612c_74a68203",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-02-09T16:21:14Z",
+      "side": 1,
+      "message": "runtime_pollWaitCanceled isn\u0027t a problem because callers would just reserve a stack slot/register for return value that would never be set. (It would be a problem if callers used the return value of course).\n\nruntime_procPin _is_ a potential problem because callers _don\u0027t_ reserve a stack slot, so the return value clobbers something [1].\n\nAs far as I can tell, this has been wrong since atomic.Value was introduced in CL 136710045 and hasn\u0027t caused problems. That said, the potential for issues makes me uncomfortable, so I think a backport would be useful for peace of mind.\n\n[1] If I had to guess, it might clobber `typ`, which happens to be dead by the time procPin is called. https://cs.opensource.google/go/go/+/master:src/sync/atomic/value.go;l\u003d97;drc\u003d8fb9565832e6dbacaaa057ffabc251a9341f8d23?",
+      "parentUuid": "727e0347_09575f22",
+      "range": {
+        "startLine": 9,
+        "startChar": 50,
+        "endLine": 10,
+        "endChar": 21
+      },
+      "revId": "8fb9565832e6dbacaaa057ffabc251a9341f8d23",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
