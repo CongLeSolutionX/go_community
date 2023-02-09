@@ -1482,6 +1482,17 @@ func TestReadZero(t *testing.T) {
 }
 
 func TestReaderReset(t *testing.T) {
+	checkAll := func(r *Reader, want string) {
+		t.Helper()
+		all, err := io.ReadAll(r)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if string(all) != want {
+			t.Errorf("ReadAll returned %q, want %q", all, want)
+		}
+	}
+
 	r := NewReader(strings.NewReader("foo foo"))
 	buf := make([]byte, 3)
 	r.Read(buf)
@@ -1490,23 +1501,19 @@ func TestReaderReset(t *testing.T) {
 	}
 
 	r.Reset(strings.NewReader("bar bar"))
-	all, err := io.ReadAll(r)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if string(all) != "bar bar" {
-		t.Errorf("ReadAll = %q; want bar bar", all)
-	}
+	checkAll(r, "bar bar")
 
 	*r = Reader{} // zero out the Reader
 	r.Reset(strings.NewReader("bar bar"))
-	all, err = io.ReadAll(r)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if string(all) != "bar bar" {
-		t.Errorf("ReadAll = %q; want bar bar", all)
-	}
+	checkAll(r, "bar bar")
+
+	// Wrap a reader and then Reset to that reader.
+	r.Reset(strings.NewReader("recur"))
+	r2 := NewReader(r)
+	checkAll(r2, "recur")
+	r.Reset(strings.NewReader("recur2"))
+	r2.Reset(r)
+	checkAll(r2, "recur2")
 }
 
 func TestWriterReset(t *testing.T) {

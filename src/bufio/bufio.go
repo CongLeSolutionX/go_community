@@ -74,6 +74,12 @@ func (b *Reader) Reset(r io.Reader) {
 	if b.buf == nil {
 		b.buf = make([]byte, defaultBufSize)
 	}
+	// If a Reader r is passed to NewReader, NewReader will return r.
+	// Different layers of code may do that, and then later pass r
+	// to Reset. Avoid infinite recursion in that case.
+	if b == r {
+		r = b.rd
+	}
 	b.reset(b.buf, r)
 }
 
