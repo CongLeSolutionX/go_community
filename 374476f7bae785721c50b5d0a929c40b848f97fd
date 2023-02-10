@@ -74,6 +74,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0551ab1a_1c9c966a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 61258
+      },
+      "writtenOn": "2023-02-10T21:34:03Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "be671a03_86a5a807",
+      "revId": "374476f7bae785721c50b5d0a929c40b848f97fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "db48fac4_b7614f8a",
@@ -87,6 +105,24 @@
       "writtenOn": "2023-02-03T21:26:10Z",
       "side": 1,
       "message": "In theory on Windows we should also be checking for `.\\vendor/` and `./vendor\\`.\n\nPerhaps this could be generalized using `cmd/go/internal/str`?\n```\nif str.HasFilePathPrefix(filepath.Clean(r.Path), \"vendor\") {\n```",
+      "revId": "374476f7bae785721c50b5d0a929c40b848f97fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d311c80b_cbfb1b63",
+        "filename": "src/cmd/go/internal/modcmd/vendor.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 61258
+      },
+      "writtenOn": "2023-02-10T21:34:03Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "db48fac4_b7614f8a",
       "revId": "374476f7bae785721c50b5d0a929c40b848f97fd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
