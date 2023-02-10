@@ -132,16 +132,7 @@ func (c *conf) hostLookupOrder(r *Resolver, hostname string) (ret hostLookupOrde
 	}
 	fallbackOrder := hostLookupCgo
 	if c.netGo || r.preferGo() {
-		switch c.goos {
-		case "windows":
-			// TODO(bradfitz): implement files-based
-			// lookup on Windows too? I guess /etc/hosts
-			// kinda exists on Windows. But for now, only
-			// do DNS.
-			fallbackOrder = hostLookupDNS
-		default:
-			fallbackOrder = hostLookupFilesDNS
-		}
+		fallbackOrder = hostLookupFilesDNS
 	}
 	if c.forceCgoLookupHost || c.goos == "android" || c.goos == "windows" || c.goos == "plan9" {
 		return fallbackOrder, nil
