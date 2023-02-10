@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec3a0fa9_488f63c5",
+        "filename": "src/cmd/compile/internal/escape/call.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2023-02-10T02:44:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74a8fcec_68adf1cb",
+      "revId": "44e97967fc1fcf5ea984862b3464b4a214b9c595",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8b6690cb_63379f38",
@@ -95,6 +113,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b986273b_478d92d0",
+        "filename": "src/cmd/compile/internal/escape/call.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2023-02-10T02:44:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b6690cb_63379f38",
+      "range": {
+        "startLine": 416,
+        "startChar": 36,
+        "endLine": 416,
+        "endChar": 76
+      },
+      "revId": "44e97967fc1fcf5ea984862b3464b4a214b9c595",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "de160c0b_e3420f4d",
@@ -108,6 +150,30 @@
       "writtenOn": "2023-02-10T01:11:03Z",
       "side": 1,
       "message": "Can the callers just pass in \u0026call.RType instead of needing a type switch here?\n\nOtherwise, it would be good to at least have a `default: Fatalf` case, to make sure we\u0027re not missing anything.",
+      "range": {
+        "startLine": 428,
+        "startChar": 0,
+        "endLine": 433,
+        "endChar": 2
+      },
+      "revId": "44e97967fc1fcf5ea984862b3464b4a214b9c595",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b32263b0_cbce5749",
+        "filename": "src/cmd/compile/internal/escape/call.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2023-02-10T02:44:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de160c0b_e3420f4d",
       "range": {
         "startLine": 428,
         "startChar": 0,
