@@ -216,6 +216,24 @@
       "message": "Repeating from https://github.com/golang/go/issues/58323#issuecomment-1424878193 . We patched this change into tailscale/go, and verified that we can build+upload a Go iOS app with it.",
       "revId": "e95f1f1cedaa8284bb00dec23da292ef3821cd2e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "edd71dfa_35ea3182",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-02-10T15:36:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f164734_455fdcbc",
+      "revId": "e95f1f1cedaa8284bb00dec23da292ef3821cd2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
