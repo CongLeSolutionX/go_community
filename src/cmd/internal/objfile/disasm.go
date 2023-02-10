@@ -23,6 +23,7 @@ import (
 
 	"golang.org/x/arch/arm/armasm"
 	"golang.org/x/arch/arm64/arm64asm"
+	"golang.org/x/arch/loong64/loong64asm"
 	"golang.org/x/arch/ppc64/ppc64asm"
 	"golang.org/x/arch/x86/x86asm"
 )
@@ -366,6 +367,19 @@ func disasm_arm64(code []byte, pc uint64, lookup lookupFunc, byteOrder binary.By
 	return text, 4
 }
 
+func disasm_loong64(code []byte, pc uint64, lookup lookupFunc, byteOrder binary.ByteOrder, gnuAsm bool) (string, int) {
+	inst, err := loong64asm.Decode(code)
+	var text string
+	if err != nil || inst.Op == 0 {
+		text = "?"
+	} else if gnuAsm {
+		text = fmt.Sprintf("%-36s // %s", loong64asm.GoSyntax(inst, pc, lookup, textReader{code, pc}), loong64asm.GNUSyntax(inst))
+	} else {
+		text = loong64asm.GoSyntax(inst, pc, lookup, textReader{code, pc})
+	}
+	return text, 4
+}
+
 func disasm_ppc64(code []byte, pc uint64, lookup lookupFunc, byteOrder binary.ByteOrder, gnuAsm bool) (string, int) {
 	inst, err := ppc64asm.Decode(code, byteOrder)
 	var text string
@@ -388,6 +402,7 @@ var disasms = map[string]disasmFunc{
 	"amd64":   disasm_amd64,
 	"arm":     disasm_arm,
 	"arm64":   disasm_arm64,
+	"loong64": disasm_loong64,
 	"ppc64":   disasm_ppc64,
 	"ppc64le": disasm_ppc64,
 }
@@ -397,6 +412,7 @@ var byteOrders = map[string]binary.ByteOrder{
 	"amd64":   binary.LittleEndian,
 	"arm":     binary.LittleEndian,
 	"arm64":   binary.LittleEndian,
+	"loong64": binary.LittleEndian,
 	"ppc64":   binary.BigEndian,
 	"ppc64le": binary.LittleEndian,
 	"s390x":   binary.BigEndian,
