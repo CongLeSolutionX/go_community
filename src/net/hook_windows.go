@@ -6,12 +6,15 @@ package net
 
 import (
 	"internal/syscall/windows"
+	"os"
 	"syscall"
 	"time"
 )
 
 var (
 	testHookDialChannel = func() { time.Sleep(time.Millisecond) } // see golang.org/issue/5349
+
+	testHookHostsPath = os.Getenv("SystemRoot") + "/System32/Drivers/etc/hosts"
 
 	// Placeholders for socket system calls.
 	socketFunc    func(int, int, int) (syscall.Handle, error)                                                 = syscall.Socket

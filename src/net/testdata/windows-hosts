@@ -1,0 +1,5 @@
+# <more comments here>
+# localhost name resolution is handled within DNS itself.
+#	127.0.0.1       localhost
+#	::1             localhost
+123.145.167.189    metadata.google.internal metadata
