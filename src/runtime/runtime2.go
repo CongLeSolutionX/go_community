@@ -673,7 +673,7 @@ type p struct {
 	// swept and reclaimed by sweeping in the current sweep loop.
 	traceSwept, traceReclaimed uintptr
 
-	palloc persistentAlloc // per-P to avoid mutex
+	palloc persistentAllocSmall // per-P to avoid mutex
 
 	// The when field of the first entry on the timer heap.
 	// This is 0 if the timer heap is empty.

@@ -1444,32 +1444,52 @@ func nextSampleNoFP() uintptr {
 	return 0
 }
 
-type persistentAlloc struct {
+type persistentAllocSmall struct {
 	base *notInHeap
 	off  uintptr
 }
 
 var globalAlloc struct {
 	mutex
-	persistentAlloc
+	persistentAllocSmall
 }
 
-var persistentChunks struct {
-	// all is the head of a linekd list of all the persistent chunks we have
-	// allocated. The list is maintained through the first word in the
-	// persistent chunk. Only the head of the list is updated atomically;
-	// the rest of the links are write-once and synchronized with changes
-	// to the head.
-	all atomic.UnsafePointer
+// persistentBlockNode represents a single contiguous block of memory for
+// use by persistentalloc. It is stored at the end of each said block of
+// memory. (The end and not the beginning to help fulfill alignment
+// requirements without wasting a lot of memory.)
+type persistentBlockNode struct {
+	_ sys.NotInHeap
+
+	next *persistentBlockNode
+	base *notInHeap
+	size uintptr
+}
+
+var persistentBlocks struct {
+	// all is the head of a linked list of all the persistent alloc mappings
+	// we have allocated from the OS. The list is maintained through a
+	// persistentBlockNode that lives at the end of each mapping.
+	all atomic.UnsafePointer // *persistentBlockNode
 
 	// hugePages indicates whether persistentalloc should allow new chunks
 	// to be backed by huge pages.
 	hugePages atomic.Bool
 }
 
-// persistentChunkSize is the number of bytes we allocate when we grow
-// a persistentAlloc.
-const persistentChunkSize = 256 << 10
+const (
+	// persistentBlockSmallBytes is the number of bytes we allocate when we grow
+	// a persistentAllocSmall.
+	persistentBlockSmallBytes = 256 << 10
+
+	// persistentMaxSmalSize is the threshold beyond which a persistentalloc allocation
+	// is no longer considered "small" and thus won't be stored in a block for small
+	// allocations.
+	//
+	// Allocations beyond this size have their own blocks. This threshold is influenced
+	// by the fact that VM reservation granularity is 64 KiB on Windows.
+	persistentMaxSmallSize = 64 << 10
+)
 
 // Wrapper around sysAlloc that can allocate small chunks.
 // There is no associated free operation.
@@ -1493,9 +1513,7 @@ func persistentalloc(size, align uintptr, sysStat *sysMemStat) unsafe.Pointer {
 //
 //go:systemstack
 func persistentalloc1(size, align uintptr, sysStat *sysMemStat) *notInHeap {
-	const (
-		maxBlock = 64 << 10 // VM reservation granularity is 64K on windows
-	)
+	const usableBlockSmallBytes = persistentBlockSmallBytes - unsafe.Sizeof(persistentBlockNode{})
 
 	if size == 0 {
 		throw("persistentalloc: size == 0")
@@ -1511,53 +1529,50 @@ func persistentalloc1(size, align uintptr, sysStat *sysMemStat) *notInHeap {
 		align = 8
 	}
 
-	if size >= maxBlock {
-		return (*notInHeap)(sysAlloc(size, sysStat))
+	if size >= persistentMaxSmallSize {
+		// Large allocation. Give it its own block.
+		//
+		// Rounding up here is not ideal, but luckily for us most of the persistentalloc
+		// allocations of this size are not neat powers of two in practice, so there's
+		// almost always room to spare.
+		fullSize := alignUp(size+unsafe.Sizeof(persistentBlockNode{}), physPageSize)
+		nodeOff := fullSize - unsafe.Sizeof(persistentBlockNode{})
+		base := (*notInHeap)(sysAlloc(fullSize, sysStat))
+		node := (*persistentBlockNode)(unsafe.Pointer(base.add(nodeOff)))
+		node.base = base
+		node.size = fullSize
+		registerPersistentBlock(node)
+		return base
 	}
 
+	// Small allocation. Grab a persistentAllocSmall and
 	mp := acquirem()
-	var persistent *persistentAlloc
+	var persistent *persistentAllocSmall
 	if mp != nil && mp.p != 0 {
 		persistent = &mp.p.ptr().palloc
 	} else {
 		lock(&globalAlloc.mutex)
-		persistent = &globalAlloc.persistentAlloc
+		persistent = &globalAlloc.persistentAllocSmall
 	}
 	persistent.off = alignUp(persistent.off, align)
-	if persistent.off+size > persistentChunkSize || persistent.base == nil {
-		persistent.base = (*notInHeap)(sysAlloc(persistentChunkSize, &memstats.other_sys))
+	if persistent.off+size > usableBlockSmallBytes || persistent.base == nil {
+		persistent.base = (*notInHeap)(sysAlloc(persistentBlockSmallBytes, &memstats.other_sys))
 		if persistent.base == nil {
-			if persistent == &globalAlloc.persistentAlloc {
+			if persistent == &globalAlloc.persistentAllocSmall {
 				unlock(&globalAlloc.mutex)
 			}
 			throw("runtime: cannot allocate memory")
 		}
-
-		// Add the new chunk to the persistentChunks list.
-		for {
-			chunks := persistentChunks.all.Load()
-			*(**notInHeap)(unsafe.Pointer(persistent.base)) = (*notInHeap)(chunks)
-			if persistentChunks.all.CompareAndSwapNoWB(chunks, unsafe.Pointer(persistent.base)) {
-				break
-			}
-		}
-
-		// Set the chunk's hugepage state.
-		//
-		// N.B. This races with updates to hugePages, but that's OK. Updates are
-		// serialized, so in the worst (and very rare) case, both ourselves and
-		// the writer do the same syscall twice on exactly one chunk.
-		if persistentChunks.hugePages.Load() {
-			sysHugePage(unsafe.Pointer(persistent.base), persistentChunkSize)
-		} else {
-			sysNoHugePage(unsafe.Pointer(persistent.base), persistentChunkSize)
-		}
-		persistent.off = alignUp(goarch.PtrSize, align)
+		persistent.off = 0
+		node := (*persistentBlockNode)(unsafe.Pointer(persistent.base.add(usableBlockSmallBytes)))
+		node.base = persistent.base
+		node.size = persistentBlockSmallBytes
+		registerPersistentBlock(node)
 	}
 	p := persistent.base.add(persistent.off)
 	persistent.off += size
 	releasem(mp)
-	if persistent == &globalAlloc.persistentAlloc {
+	if persistent == &globalAlloc.persistentAllocSmall {
 		unlock(&globalAlloc.mutex)
 	}
 
@@ -1568,8 +1583,30 @@ func persistentalloc1(size, align uintptr, sysStat *sysMemStat) *notInHeap {
 	return p
 }
 
+func registerPersistentBlock(node *persistentBlockNode) {
+	// Add the new chunk to the persistentBlocks list.
+	for {
+		rest := (*persistentBlockNode)(persistentBlocks.all.Load())
+		node.next = rest
+		if persistentBlocks.all.CompareAndSwapNoWB(unsafe.Pointer(rest), unsafe.Pointer(node)) {
+			break
+		}
+	}
+
+	// Set the chunk's hugepage state.
+	//
+	// N.B. This races with updates to hugePages, but that's OK. Updates are
+	// serialized, so in the worst (and very rare) case, both ourselves and
+	// the writer do the same syscall twice on exactly one chunk.
+	if persistentBlocks.hugePages.Load() {
+		sysHugePage(unsafe.Pointer(node.base), node.size)
+	} else {
+		sysNoHugePage(unsafe.Pointer(node.base), node.size)
+	}
+}
+
 func enablePersistentAllocHugePages() {
-	if persistentChunks.hugePages.Load() {
+	if persistentBlocks.hugePages.Load() {
 		return
 	}
 	// Set the flag first, then load all.
@@ -1577,11 +1614,11 @@ func enablePersistentAllocHugePages() {
 	// This ordering is important as it ensures that at one or both of
 	// enablePersistentAllocHugePages and persistentalloc will sysHugePage
 	// any chunks being concurrently added to all.
-	persistentChunks.hugePages.Store(true)
-	chunk := (*notInHeap)(persistentChunks.all.Load())
-	for chunk != nil {
-		sysHugePage(unsafe.Pointer(chunk), persistentChunkSize)
-		chunk = *(**notInHeap)(unsafe.Pointer(chunk))
+	persistentBlocks.hugePages.Store(true)
+	node := (*persistentBlockNode)(persistentBlocks.all.Load())
+	for node != nil {
+		sysHugePage(unsafe.Pointer(node.base), node.size)
+		node = node.next
 	}
 }
 
@@ -1591,12 +1628,13 @@ func enablePersistentAllocHugePages() {
 //
 //go:nosplit
 func inPersistentAlloc(p uintptr) bool {
-	chunk := uintptr(persistentChunks.all.Load())
-	for chunk != 0 {
-		if p >= chunk && p < chunk+persistentChunkSize {
+	node := (*persistentBlockNode)(persistentBlocks.all.Load())
+	for node != nil {
+		base := uintptr(unsafe.Pointer(node.base))
+		if p >= base && p < base+node.size {
 			return true
 		}
-		chunk = *(*uintptr)(unsafe.Pointer(chunk))
+		node = node.next
 	}
 	return false
 }
@@ -1646,13 +1684,13 @@ func (l *linearAlloc) alloc(size, align uintptr, sysStat *sysMemStat) unsafe.Poi
 }
 
 // notInHeap is off-heap memory allocated by a lower-level allocator
-// like sysAlloc or persistentAlloc.
+// like sysAlloc or persistentalloc.
 //
 // In general, it's better to use real types which embed
 // runtime/internal/sys.NotInHeap, but this serves as a generic type
 // for situations where that isn't possible (like in the allocators).
 //
-// TODO: Use this as the return type of sysAlloc, persistentAlloc, etc?
+// TODO: Use this as the return type of sysAlloc, persistentalloc, etc?
 type notInHeap struct{ _ sys.NotInHeap }
 
 func (p *notInHeap) add(bytes uintptr) *notInHeap {
