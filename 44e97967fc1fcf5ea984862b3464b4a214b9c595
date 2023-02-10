@@ -53,6 +53,69 @@
       "message": "Kindly ping guys, quote from @drchase@google.com\u0027s comment in CL 465096: \"If we want this backported to 1.20.1, this needs to be approved and cherry-picked, and the cherry-pick submitted, by Friday evening.\"",
       "revId": "44e97967fc1fcf5ea984862b3464b4a214b9c595",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74a8fcec_68adf1cb",
+        "filename": "src/cmd/compile/internal/escape/call.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-02-10T01:11:03Z",
+      "side": 1,
+      "message": "nit: I think it\u0027s slightly closer to rewriteArgument than to wrapExpr (it\u0027s an implicit argument to the underlying runtime functions), so I\u0027d probably try to model the function that way.",
+      "revId": "44e97967fc1fcf5ea984862b3464b4a214b9c595",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b6690cb_63379f38",
+        "filename": "src/cmd/compile/internal/escape/call.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-02-10T01:11:03Z",
+      "side": 1,
+      "message": "I don\u0027t think this check is right. If the rtype expr has any local ONAMEs (i.e., PAUTO, PPARAM, PPARAMOUT), then it needs to be wrapped.\n\nBut we can probably be even simpler/safer and just wrap everything that isn\u0027t OADDR+OLINKSYMOFFSET.",
+      "range": {
+        "startLine": 416,
+        "startChar": 36,
+        "endLine": 416,
+        "endChar": 76
+      },
+      "revId": "44e97967fc1fcf5ea984862b3464b4a214b9c595",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de160c0b_e3420f4d",
+        "filename": "src/cmd/compile/internal/escape/call.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-02-10T01:11:03Z",
+      "side": 1,
+      "message": "Can the callers just pass in \u0026call.RType instead of needing a type switch here?\n\nOtherwise, it would be good to at least have a `default: Fatalf` case, to make sure we\u0027re not missing anything.",
+      "range": {
+        "startLine": 428,
+        "startChar": 0,
+        "endLine": 433,
+        "endChar": 2
+      },
+      "revId": "44e97967fc1fcf5ea984862b3464b4a214b9c595",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
