@@ -382,7 +382,7 @@ func deadcode(ctxt *Link) {
 
 	methSym := ldr.Lookup("reflect.Value.Method", abiInternalVer)
 	methByNameSym := ldr.Lookup("reflect.Value.MethodByName", abiInternalVer)
-
+	pluginSym := ldr.Lookup("plugin.(*Plugin).Lookup", abiInternalVer)
 	if ctxt.DynlinkingGo() {
 		// Exported methods may satisfy interfaces we don't know
 		// about yet when dynamically linking.
@@ -395,13 +395,17 @@ func deadcode(ctxt *Link) {
 		// all reachable types as reachable.
 		d.reflectSeen = d.reflectSeen || (methSym != 0 && ldr.AttrReachable(methSym)) || (methByNameSym != 0 && ldr.AttrReachable(methByNameSym))
 
+		// If plugin package is imported, but not really lookup some symbols by name,
+		// we don't need to mark all the markableMethods reachable.
+		usePlugin := pluginSym != 0 && ldr.AttrReachable(pluginSym)
+
 		// Mark all methods that could satisfy a discovered
 		// interface as reachable. We recheck old marked interfaces
 		// as new types (with new methods) may have been discovered
 		// in the last pass.
 		rem := d.markableMethods[:0]
 		for _, m := range d.markableMethods {
-			if (d.reflectSeen && (m.isExported() || d.dynlink)) || d.ifaceMethod[m.m] || d.genericIfaceMethod[m.m.name] {
+			if (d.reflectSeen && (m.isExported() || usePlugin)) || d.ifaceMethod[m.m] || d.genericIfaceMethod[m.m.name] {
 				d.markMethod(m)
 			} else {
 				rem = append(rem, m)
