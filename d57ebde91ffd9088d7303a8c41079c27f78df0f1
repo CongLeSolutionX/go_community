@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e1ee143_0dcc25d1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-02-10T14:38:24Z",
+      "side": 1,
+      "message": "This change seems to be causing failures on our MIPS builders. Representative log:\n\nhttps://build.golang.org/log/e2b9bda8d446fc9b8f84edad6329c0c178ba0858\n\nA revert is probably a good idea.",
+      "revId": "d57ebde91ffd9088d7303a8c41079c27f78df0f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
