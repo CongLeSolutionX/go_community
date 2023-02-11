@@ -80,6 +80,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8b1388b1_aad7b27d",
+        "filename": "src/context/context.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 11500
+      },
+      "writtenOn": "2023-02-11T00:59:29Z",
+      "side": 1,
+      "message": "\u003e May implies permission and conditionality. Which one is intended? \n\nMy intent, if I understand the two options, was \"permission\". Should I change to \"can\"?\n\n\u003e Is this something we would want to guarantee? Even though without this API change, it has been possible to obtain values from expired contexts, it seems like this also implies that the value also remains valid. I\u0027m not sure we\u0027d want to advertise that implication.\n\nThis was discussed in the proposal. It is implicitly implied (pun not intended) by the fact that we already explicitly state that context and its values can be used by multiple goroutines, and by the fact there is no way to \"atomically use a value only if the context has not been canceled yet\", i.e. it is inherently racy, and therefore it falls on the values to guarantee that they can be safely used after the context is canceled. The example given in the proposal was that of a logger attached to the context: if the context is canceled and it was not safe to use the logger after this, there would be no non-racy way to use the logger because the context could be canceled between the time we check if the context is canceled, and the time the logger is used.\n\nWe are clarifying this by writing it out explicitly because 1) it may not be immediately evident to inexperienced users and 2) because the proposal potentially makes the probability of data races even higher in case of misuse of Context.",
+      "parentUuid": "542cab37_521f9756",
+      "range": {
+        "startLine": 597,
+        "startChar": 0,
+        "endLine": 599,
+        "endChar": 44
+      },
+      "revId": "57c571082f2deb010e3bab4de409d2cd62fcb651",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6a4efadd_d3eefd07",
         "filename": "src/context/context.go",
         "patchSetId": 8
@@ -124,6 +148,54 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "463ad817_41b88dc8",
+        "filename": "src/context/context.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 11500
+      },
+      "writtenOn": "2023-02-11T00:59:29Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "6a4efadd_d3eefd07",
+      "range": {
+        "startLine": 647,
+        "startChar": 53,
+        "endLine": 647,
+        "endChar": 54
+      },
+      "revId": "57c571082f2deb010e3bab4de409d2cd62fcb651",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d759dd9a_681ae355",
+        "filename": "src/context/context.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 11500
+      },
+      "writtenOn": "2023-02-11T00:59:29Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "d286063f_b2a122a6",
+      "range": {
+        "startLine": 647,
+        "startChar": 6,
+        "endLine": 647,
+        "endChar": 9
+      },
+      "revId": "57c571082f2deb010e3bab4de409d2cd62fcb651",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7a1796b5_ad296c03",
@@ -137,6 +209,30 @@
       "writtenOn": "2023-02-10T16:04:14Z",
       "side": 1,
       "message": "Should we drop the receivers for those methods that don\u0027t use them?",
+      "range": {
+        "startLine": 662,
+        "startChar": 6,
+        "endLine": 662,
+        "endChar": 8
+      },
+      "revId": "57c571082f2deb010e3bab4de409d2cd62fcb651",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f7a233e_3590c3bc",
+        "filename": "src/context/context.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 662,
+      "author": {
+        "id": 11500
+      },
+      "writtenOn": "2023-02-11T00:59:29Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "7a1796b5_ad296c03",
       "range": {
         "startLine": 662,
         "startChar": 6,
