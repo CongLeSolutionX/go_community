@@ -108,6 +108,24 @@
       "parentUuid": "dab18c86_2c5d8bbf",
       "revId": "13e1201df7850252fc3ff88006df88ccdde44a8c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f607de3b_4a7d9b23",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-02-11T18:13:31Z",
+      "side": 1,
+      "message": "Ok, I didn\u0027t realize that. So if there\u0027s any other call besides to itself, then the optimization is turned off? Then I think you\u0027re right we don\u0027t need a proposal for this as it isn\u0027t observable.\n\nThere is still the issue that this introduces a \"performance optimization ratchet\", where once this is implemented, people will use it where otherwise it would cause a stack overflow, and now we\u0027re never going to be able to turn it off. It becomes an additional requirement of any implementation.\nI\u0027m not sure that is a dealbreaker, but something to think about.\n\n\u003e I\u0027m thinking of adding some trivial interprocedural analysis similar to the escape code which marks functions that may observe the stack trace.\n\u003e This would allows to optimise safe code like this (which my code currently conservatively do not optimize):\n\nThat would probably help, yes. Interface calls are a problem because the target is statically unknown, but maybe there are enough cases that could still benefit.\n\nSpeaking of which, you said this triggers a bunch. Could you point to some examples? Particularly, in non-test code? I\u0027m curious what\u0027s using recursion like this but calling no other functions.",
+      "parentUuid": "af99bae8_89f69f85",
+      "revId": "13e1201df7850252fc3ff88006df88ccdde44a8c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
