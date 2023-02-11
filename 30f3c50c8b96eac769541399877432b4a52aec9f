@@ -73,6 +73,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e009f610_4e4af4e5",
+        "filename": "src/net/hook_windows.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 31829
+      },
+      "writtenOn": "2023-02-11T18:24:40Z",
+      "side": 1,
+      "message": "thank you! can you please elaborate a bit here? Should I just copy the full implementation of \"initSysDirectory()\" from os_windows.go? That will require CGO I guess?",
+      "parentUuid": "7189288d_cb4040d7",
+      "revId": "30f3c50c8b96eac769541399877432b4a52aec9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e352cdf8_f20becdc",
         "filename": "src/net/hosts_test.go",
         "patchSetId": 6
