@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7f97a89e_dc754789",
+        "filename": "src/net/hook_windows.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 31829
+      },
+      "writtenOn": "2023-02-11T09:11:34Z",
+      "side": 1,
+      "message": "Hello! In general go src already has two approaches to construct this path: using ExpandPath and using os.Getenv() +\u003crest\u003e. I think we should not add new method - this syscall is not used anywhere in the code.",
+      "parentUuid": "a90fed97_7cd02222",
+      "revId": "30f3c50c8b96eac769541399877432b4a52aec9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e352cdf8_f20becdc",
         "filename": "src/net/hosts_test.go",
         "patchSetId": 6
