@@ -470,6 +470,7 @@ var passes = [...]pass{
 	{name: "phiopt", fn: phiopt},
 	{name: "gcse deadcode", fn: deadcode, required: true}, // clean out after cse and phiopt
 	{name: "nilcheckelim", fn: nilcheckelim},
+	{name: "recursive tail call elimination", fn: recursiveTailCallElimination},
 	{name: "prove", fn: prove},
 	{name: "early fuse", fn: fuseEarly},
 	{name: "decompose builtin", fn: decomposeBuiltIn, required: true},
