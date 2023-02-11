@@ -55,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7189288d_cb4040d7",
+        "filename": "src/net/hook_windows.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 20556
+      },
+      "writtenOn": "2023-02-11T10:44:27Z",
+      "side": 1,
+      "message": "Nah, what Go currently does is rarely a good guide for Windows stuff. Take a look at what the Windows resolver DLL is doing and copy that. That\u0027s the real guide here, not Go.",
+      "parentUuid": "7f97a89e_dc754789",
+      "revId": "30f3c50c8b96eac769541399877432b4a52aec9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e352cdf8_f20becdc",
         "filename": "src/net/hosts_test.go",
         "patchSetId": 6
