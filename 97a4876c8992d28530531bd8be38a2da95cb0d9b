@@ -74,6 +74,69 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "31a3a277_c854c6f5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-02-11T16:53:01Z",
+      "side": 1,
+      "message": "Looks good thanks, a few minor things.",
+      "revId": "97a4876c8992d28530531bd8be38a2da95cb0d9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4cc80954_a4aa8ccb",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1848,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-02-11T16:53:01Z",
+      "side": 1,
+      "message": "I would probably say something like:\n\n```\n// For constants larger than 32 bits in size that have trailing zeros,\n// use the value with the trailing zeros removed and then ...\n```\n\nAlso s/tailing/trailing (typo)",
+      "range": {
+        "startLine": 1848,
+        "startChar": 39,
+        "endLine": 1848,
+        "endChar": 49
+      },
+      "revId": "97a4876c8992d28530531bd8be38a2da95cb0d9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa9cc4a3_672154d5",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1855,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-02-11T16:53:01Z",
+      "side": 1,
+      "message": "I think it is probably worth avoiding bits.TrailingZeros64 unless we know the constant is too large:\n\n```\nif !immIFits(ins.imm, 32) {\n    ctz :\u003d ...\n    ...\n}\n```",
+      "range": {
+        "startLine": 1855,
+        "startChar": 2,
+        "endLine": 1855,
+        "endChar": 46
+      },
+      "revId": "97a4876c8992d28530531bd8be38a2da95cb0d9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4d7595e1_8e2416e6",
@@ -105,6 +168,24 @@
       "side": 1,
       "message": "I think it is still beneficial. Both LLVM and gcc follow this behaviour.\n    * LLVM: https://godbolt.org/z/bYYGcjaY5\n    * gcc: https://godbolt.org/z/4fKzeYPGc",
       "parentUuid": "4d7595e1_8e2416e6",
+      "revId": "97a4876c8992d28530531bd8be38a2da95cb0d9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "079533b3_e8dafb2a",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1862,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-02-11T16:53:01Z",
+      "side": 1,
+      "message": "I agree that this makes sense - a memory load is going to be two instructions, versus three instructions that avoid a memory load (and storage of the constant).",
+      "parentUuid": "b47c19ea_fe5d5399",
       "revId": "97a4876c8992d28530531bd8be38a2da95cb0d9b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
