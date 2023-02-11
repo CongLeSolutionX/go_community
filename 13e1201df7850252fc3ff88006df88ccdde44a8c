@@ -90,6 +90,24 @@
       "parentUuid": "78898663_9627b49e",
       "revId": "13e1201df7850252fc3ff88006df88ccdde44a8c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af99bae8_89f69f85",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2023-02-11T16:55:16Z",
+      "side": 1,
+      "message": "I do not think this require a proposal. (also some proposals changing the sementics were refused already)\nYour example program with my patch prints:\n```\n$ go run a.go \ngoroutine 1 [running]:\nmain.f(0x7f93f66aa888?)\n\t/mnt/ramdisk/a.go:15 +0x39\nmain.f(0x18000000000?)\n\t/mnt/ramdisk/a.go:11 +0x93\nmain.f(0x404da5?)\n\t/mnt/ramdisk/a.go:11 +0x93\nmain.f(0x7f93f66aa6a8?)\n\t/mnt/ramdisk/a.go:11 +0x93\nmain.f(0xc0000021a0?)\n\t/mnt/ramdisk/a.go:11 +0x93\nmain.main()\n\t/mnt/ramdisk/a.go:6 +0x18\n```\nThis was brought up to my attention so I added in patch set 4 to 5:\n```go\n\t\tfor _, v :\u003d range b.Values {\n\t\t\tswitch v.Op {\n\t\t\tcase OpClosureLECall, OpInterLECall, OpTailLECall:\n\t\t\t\t// do not do if this might be observable through runtime.Callers\n\t\t\t\tif f.pass.debug \u003e 1 {\n\t\t\t\t\tf.Warnl(b.Pos, \"failed because we call an other function\")\n\t\t\t\t}\n\t\t\t\treturn\n\t\t\tcase OpStaticLECall:\n\t\t\t\tif v.Aux.(*AuxCall).Fn.Name \u003d\u003d f.OwnAux.Fn.Name {\n\t\t\t\t\tcontinue\n\t\t\t\t}\n\t\t\t\t// TODO: this is on the easy side of interprocedural optimisations, we\n\t\t\t\t// are leaving lots on the table here. If the function we call never\n\t\t\t\t// calls runtime.Callers this would still be safe to do.\n\t\t\t\t// do not do if this might be observable through runtime.Callers\n\t\t\t\tif f.pass.debug \u003e 1 {\n\t\t\t\t\tf.Warnl(b.Pos, \"failed because we call an other function\")\n\t\t\t\t}\n\t\t\t\treturn\n\t\t\t}\n\t\t}\n```\nWhich disable this optimisation if you call a function that is not yours, this prevent the optimisation to ever be observed within the program.\n\nI\u0027m thinking of adding some trivial interprocedural analysis similar to the escape code which marks functions that may observe the stack trace.\nThis would allows to optimise safe code like this (which my code currently conservatively do not optimize):\n```go\n//go:noinline\nfunc defaultCase() uint64 {\n  // we can trivialy prove that defaultCase never observe the stack trace\n  return 42\n}\n\nfunc recurse(x uint64) uint64 {\n  if x !\u003d 0 {\n    return recurse(x)\n  }\n  return defaultCase()\n}\n```",
+      "parentUuid": "dab18c86_2c5d8bbf",
+      "revId": "13e1201df7850252fc3ff88006df88ccdde44a8c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
