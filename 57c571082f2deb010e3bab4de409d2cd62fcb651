@@ -104,6 +104,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b569f991_1c940378",
+        "filename": "src/context/context.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 6400
+      },
+      "writtenOn": "2023-02-11T06:23:45Z",
+      "side": 1,
+      "message": "That makes sense.  A couple of small comments:\n\n1. How about replacing \"still make\" with \"still have the possibility to make.\" That conveys both permission and conditionality.  I think also conveying conditionality is key to getting this right.\n\n2. Because a key-value pair\u0027s lifetime could be coupled to the context and no longer be usable (literally or meaningfully) after cancellation, I might add a second sentence to the effect of: \"Whether the key-value pairs remain usable is dependent on their implementation.\"",
+      "parentUuid": "8b1388b1_aad7b27d",
+      "range": {
+        "startLine": 597,
+        "startChar": 0,
+        "endLine": 599,
+        "endChar": 44
+      },
+      "revId": "57c571082f2deb010e3bab4de409d2cd62fcb651",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6a4efadd_d3eefd07",
         "filename": "src/context/context.go",
         "patchSetId": 8
