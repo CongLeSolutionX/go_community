@@ -250,27 +250,8 @@ func (f *Func) SplitSlot(name *LocalSlot, sfx string, offset int64, t *types.Typ
 
 // newValue allocates a new Value with the given fields and places it at the end of b.Values.
 func (f *Func) newValue(op Op, t *types.Type, b *Block, pos src.XPos) *Value {
-	var v *Value
-	if f.freeValues != nil {
-		v = f.freeValues
-		f.freeValues = v.argstorage[0]
-		v.argstorage[0] = nil
-	} else {
-		ID := f.vid.get()
-		if int(ID) < len(f.Cache.values) {
-			v = &f.Cache.values[ID]
-			v.ID = ID
-		} else {
-			v = &Value{ID: ID}
-		}
-	}
-	v.Op = op
-	v.Type = t
+	v := f.newValueNoBlock(op, t, pos)
 	v.Block = b
-	if notStmtBoundary(op) {
-		pos = pos.WithNotStmt()
-	}
-	v.Pos = pos
 	b.Values = append(b.Values, v)
 	return v
 }
@@ -301,6 +282,16 @@ func (f *Func) newValueNoBlock(op Op, t *types.Type, pos src.XPos) *Value {
 		pos = pos.WithNotStmt()
 	}
 	v.Pos = pos
+	return v
+}
+
+func (f *Func) newValueCopyingValueInto(orig *Value, b *Block) *Value {
+	v := f.newValueNoBlock(orig.Op, orig.Type, orig.Pos)
+	v.AddArgs(orig.Args...)
+	v.Aux = orig.Aux
+	v.AuxInt = orig.AuxInt
+	v.Block = b
+	b.Values = append(b.Values, v)
 	return v
 }
 
