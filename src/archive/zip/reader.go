@@ -740,14 +740,14 @@ type fileInfoDirEntry interface {
 	fs.DirEntry
 }
 
-func (e *fileListEntry) stat() (fileInfoDirEntry, error) {
-	if e.isDup {
-		return nil, errors.New(e.name + ": duplicate entries in zip file")
+func (f *fileListEntry) stat() (fileInfoDirEntry, error) {
+	if f.isDup {
+		return nil, errors.New(f.name + ": duplicate entries in zip file")
 	}
-	if !e.isDir {
-		return headerFileInfo{&e.file.FileHeader}, nil
+	if !f.isDir {
+		return headerFileInfo{&f.file.FileHeader}, nil
 	}
-	return e, nil
+	return f, nil
 }
 
 // Only used for directories.
@@ -781,10 +781,10 @@ func toValidName(name string) string {
 	return p
 }
 
-func (r *Reader) initFileList() {
-	r.fileListOnce.Do(func() {
+func (z *Reader) initFileList() {
+	z.fileListOnce.Do(func() {
 		// files and knownDirs map from a file/directory name
-		// to an index into the r.fileList entry that we are
+		// to an index into the z.fileList entry that we are
 		// building. They are used to mark duplicate entries.
 		files := make(map[string]int)
 		knownDirs := make(map[string]int)
@@ -793,7 +793,7 @@ func (r *Reader) initFileList() {
 		// because it appears as a prefix in a path.
 		dirs := make(map[string]bool)
 
-		for _, file := range r.File {
+		for _, file := range z.File {
 			isDir := len(file.Name) > 0 && file.Name[len(file.Name)-1] == '/'
 			name := toValidName(file.Name)
 			if name == "" {
@@ -801,11 +801,11 @@ func (r *Reader) initFileList() {
 			}
 
 			if idx, ok := files[name]; ok {
-				r.fileList[idx].isDup = true
+				z.fileList[idx].isDup = true
 				continue
 			}
 			if idx, ok := knownDirs[name]; ok {
-				r.fileList[idx].isDup = true
+				z.fileList[idx].isDup = true
 				continue
 			}
 
@@ -813,13 +813,13 @@ func (r *Reader) initFileList() {
 				dirs[dir] = true
 			}
 
-			idx := len(r.fileList)
+			idx := len(z.fileList)
 			entry := fileListEntry{
 				name:  name,
 				file:  file,
 				isDir: isDir,
 			}
-			r.fileList = append(r.fileList, entry)
+			z.fileList = append(z.fileList, entry)
 			if isDir {
 				knownDirs[name] = idx
 			} else {
@@ -829,19 +829,19 @@ func (r *Reader) initFileList() {
 		for dir := range dirs {
 			if _, ok := knownDirs[dir]; !ok {
 				if idx, ok := files[dir]; ok {
-					r.fileList[idx].isDup = true
+					z.fileList[idx].isDup = true
 				} else {
 					entry := fileListEntry{
 						name:  dir,
 						file:  nil,
 						isDir: true,
 					}
-					r.fileList = append(r.fileList, entry)
+					z.fileList = append(z.fileList, entry)
 				}
 			}
 		}
 
-		sort.Slice(r.fileList, func(i, j int) bool { return fileEntryLess(r.fileList[i].name, r.fileList[j].name) })
+		sort.Slice(z.fileList, func(i, j int) bool { return fileEntryLess(z.fileList[i].name, z.fileList[j].name) })
 	})
 }
 
@@ -855,18 +855,18 @@ func fileEntryLess(x, y string) bool {
 // using the semantics of fs.FS.Open:
 // paths are always slash separated, with no
 // leading / or ../ elements.
-func (r *Reader) Open(name string) (fs.File, error) {
-	r.initFileList()
+func (z *Reader) Open(name string) (fs.File, error) {
+	z.initFileList()
 
 	if !fs.ValidPath(name) {
 		return nil, &fs.PathError{Op: "open", Path: name, Err: fs.ErrInvalid}
 	}
-	e := r.openLookup(name)
+	e := z.openLookup(name)
 	if e == nil {
 		return nil, &fs.PathError{Op: "open", Path: name, Err: fs.ErrNotExist}
 	}
 	if e.isDir {
-		return &openDir{e, r.openReadDir(name), 0}, nil
+		return &openDir{e, z.openReadDir(name), 0}, nil
 	}
 	rc, err := e.file.Open()
 	if err != nil {
@@ -892,13 +892,13 @@ func split(name string) (dir, elem string, isDir bool) {
 
 var dotFile = &fileListEntry{name: "./", isDir: true}
 
-func (r *Reader) openLookup(name string) *fileListEntry {
+func (z *Reader) openLookup(name string) *fileListEntry {
 	if name == "." {
 		return dotFile
 	}
 
 	dir, elem, _ := split(name)
-	files := r.fileList
+	files := z.fileList
 	i := sort.Search(len(files), func(i int) bool {
 		idir, ielem, _ := split(files[i].name)
 		return idir > dir || idir == dir && ielem >= elem
@@ -912,8 +912,8 @@ func (r *Reader) openLookup(name string) *fileListEntry {
 	return nil
 }
 
-func (r *Reader) openReadDir(dir string) []fileListEntry {
-	files := r.fileList
+func (z *Reader) openReadDir(dir string) []fileListEntry {
+	files := z.fileList
 	i := sort.Search(len(files), func(i int) bool {
 		idir, _, _ := split(files[i].name)
 		return idir >= dir
