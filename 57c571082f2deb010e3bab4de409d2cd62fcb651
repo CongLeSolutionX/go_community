@@ -128,6 +128,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "24dd8074_a68c062a",
+        "filename": "src/context/context.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 11500
+      },
+      "writtenOn": "2023-02-12T06:36:33Z",
+      "side": 1,
+      "message": "I am not sure I can appreciate the difference in meaning between the two, but it seems to me that \"Users of the returned context may still have the possibility to make use of value val after the context expires or is canceled.\" is a bit hard to read.\n\nAs for the second point, I would suggest avoiding \"usable\" as to my non-native ear that could suggest that the value \"can not be used\". Not sure what to replace it with though. \"Functional\"? \"Useful\"?",
+      "parentUuid": "b569f991_1c940378",
+      "range": {
+        "startLine": 597,
+        "startChar": 0,
+        "endLine": 599,
+        "endChar": 44
+      },
+      "revId": "57c571082f2deb010e3bab4de409d2cd62fcb651",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6a4efadd_d3eefd07",
         "filename": "src/context/context.go",
         "patchSetId": 8
