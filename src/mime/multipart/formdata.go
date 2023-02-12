@@ -67,12 +67,12 @@ func (r *Reader) readForm(maxMemory int64) (_ *Form, err error) {
 
 		if filename == "" {
 			// value, store as string in memory
-			n, err := io.CopyN(&b, p, maxValueBytes+1)
+			n, err := io.CopyN(&b, p, maxValueBytes)
 			if err != nil && err != io.EOF {
 				return nil, err
 			}
 			maxValueBytes -= n
-			if maxValueBytes < 0 {
+			if maxValueBytes < 0 || 0 != int64(p.n) {
 				return nil, ErrMessageTooLarge
 			}
 			form.Value[name] = append(form.Value[name], b.String())
@@ -84,11 +84,11 @@ func (r *Reader) readForm(maxMemory int64) (_ *Form, err error) {
 			Filename: filename,
 			Header:   p.Header,
 		}
-		n, err := io.CopyN(&b, p, maxMemory+1)
+		n, err := io.CopyN(&b, p, maxMemory)
 		if err != nil && err != io.EOF {
 			return nil, err
 		}
-		if n > maxMemory {
+		if n > maxMemory || 0 != int64(p.n) {
 			// too big, write to disk and flush buffer
 			file, err := os.CreateTemp("", "multipart-")
 			if err != nil {
