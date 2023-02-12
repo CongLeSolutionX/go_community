@@ -114,6 +114,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "384cb504_275a7c64",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1848,
+      "author": {
+        "id": 52329
+      },
+      "writtenOn": "2023-02-12T13:18:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4cc80954_a4aa8ccb",
+      "range": {
+        "startLine": 1848,
+        "startChar": 39,
+        "endLine": 1848,
+        "endChar": 49
+      },
+      "revId": "97a4876c8992d28530531bd8be38a2da95cb0d9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fa9cc4a3_672154d5",
@@ -127,6 +151,30 @@
       "writtenOn": "2023-02-11T16:53:01Z",
       "side": 1,
       "message": "I think it is probably worth avoiding bits.TrailingZeros64 unless we know the constant is too large:\n\n```\nif !immIFits(ins.imm, 32) {\n    ctz :\u003d ...\n    ...\n}\n```",
+      "range": {
+        "startLine": 1855,
+        "startChar": 2,
+        "endLine": 1855,
+        "endChar": 46
+      },
+      "revId": "97a4876c8992d28530531bd8be38a2da95cb0d9b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0db1eb7_fbd926bc",
+        "filename": "src/cmd/internal/obj/riscv/obj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1855,
+      "author": {
+        "id": 52329
+      },
+      "writtenOn": "2023-02-12T13:18:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa9cc4a3_672154d5",
       "range": {
         "startLine": 1855,
         "startChar": 2,
