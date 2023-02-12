@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb902fb2_ab3bafe3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 60978
+      },
+      "writtenOn": "2023-02-12T12:26:02Z",
+      "side": 1,
+      "message": "Changed receiver names to `r` for `Reader`.",
+      "revId": "5957200da9984ce47369c03e64e16d40610ef9d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

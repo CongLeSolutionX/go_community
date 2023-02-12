@@ -76,6 +76,30 @@
       },
       "revId": "2dd781c73f62baf7f5c76094c20f84b6a403f79c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a2b49eb_6229b7f3",
+        "filename": "src/archive/zip/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 784,
+      "author": {
+        "id": 60978
+      },
+      "writtenOn": "2023-02-12T12:26:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65a26819_37be38c3",
+      "range": {
+        "startLine": 784,
+        "startChar": 6,
+        "endLine": 784,
+        "endChar": 15
+      },
+      "revId": "2dd781c73f62baf7f5c76094c20f84b6a403f79c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
