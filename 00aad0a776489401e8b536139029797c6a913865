@@ -124,6 +124,24 @@
       "parentUuid": "ca795326_c907a039",
       "revId": "00aad0a776489401e8b536139029797c6a913865",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2338eb5e_663f902c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-02-12T00:51:11Z",
+      "side": 1,
+      "message": "Copysign is written in Go and it does the xor.  Actually, I see that for some targets (PPC64) it is implemented in the compiler, but not for MIPS.",
+      "parentUuid": "59306d14_ad564e8a",
+      "revId": "00aad0a776489401e8b536139029797c6a913865",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
