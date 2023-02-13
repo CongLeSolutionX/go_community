@@ -50,6 +50,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "038544dd_649a8f09",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2023-02-13T20:46:39Z",
+      "side": 1,
+      "message": "This change only affects sizes that are not a multiple of 16. The tests getting odd times shouldn\u0027t even be affected by your change so I wouldn\u0027t even include them in the commit message. We\u0027ve seen odd results like this before and often there is a lot of time spent in the Go function that calls the assembler function, but we\u0027ve never figured out why. Probably cache related like Paul suggests.",
+      "parentUuid": "4e600bd5_e6dc70f6",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 6
+      },
+      "revId": "376d4912f16739d7e147a10f64b45b57ee2cecb2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "8455ce18_bae172e9",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 7
@@ -121,6 +145,40 @@
         "endLine": 95,
         "endChar": 10
       },
+      "revId": "376d4912f16739d7e147a10f64b45b57ee2cecb2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e65a108a_ab9e42d5",
+        "filename": "src/runtime/memclr_ppc64x.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2023-02-13T20:46:39Z",
+      "side": 1,
+      "message": "I believe at this point VS32 (a.k.a. V0) is already filled with 0s.",
+      "revId": "376d4912f16739d7e147a10f64b45b57ee2cecb2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30fe0546_59ef86f2",
+        "filename": "src/runtime/memclr_ppc64x.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2023-02-13T20:46:39Z",
+      "side": 1,
+      "message": "I believe XXLXOR is the preferred way to clear vector registers. In addition, it is better to use the same V register throughout so the minimum number of V regs are used by this function.\n\nThe code for power10 should come before the zerotail label to avoid setting CTR since that is not needed for the power10 code and is costly.",
       "revId": "376d4912f16739d7e147a10f64b45b57ee2cecb2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
