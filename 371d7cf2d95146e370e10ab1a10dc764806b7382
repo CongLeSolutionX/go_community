@@ -213,6 +213,30 @@
       },
       "revId": "371d7cf2d95146e370e10ab1a10dc764806b7382",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc30ef80_58d767ab",
+        "filename": "src/cmd/go/testdata/script/test_fullpath.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-02-13T18:53:48Z",
+      "side": 1,
+      "message": "Sorry, I meant omit the `-test.fullpath` case in favor of keeping just “with `-fullpath`” and “without `-fullpath`” cases.\n\nThe case without `-fullpath` is useful as a “control case” to the `-fullpath` “experiment”.",
+      "parentUuid": "0e243daa_0b37ea6d",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 58
+      },
+      "revId": "371d7cf2d95146e370e10ab1a10dc764806b7382",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
