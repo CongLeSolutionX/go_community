@@ -37,6 +37,9 @@ var testSum = flag.String("testsum", "", `may be tidy, listm, or listall. If set
 
 // TestScript runs the tests in testdata/script/*.txt.
 func TestScript(t *testing.T) {
+	if testing.Short() {
+		t.Skip("Testing things that depend on a working network, which is not always the case.")
+	}
 	testenv.MustHaveGoBuild(t)
 	testenv.SkipIfShortAndSlow(t)
 
