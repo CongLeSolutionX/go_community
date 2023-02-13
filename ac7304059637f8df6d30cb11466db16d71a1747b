@@ -110,6 +110,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a1df6415_a0389cb9",
+        "filename": "src/slices/slices.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 30696
+      },
+      "writtenOn": "2023-02-13T20:23:16Z",
+      "side": 1,
+      "message": "That\u0027s... not what I\u0027d guess it to say :) \nIt\u0027s also not clear what this means for functions like Delete which has specific indices specified and don\u0027t \"apply to all elments starting at 0\".\n\nI don\u0027t feel particularly strongly about this, but consider just removing this sentence - IMHO it causes more confusion than it can potentially avert. We can always clarify later if we see persistent confusion about this point.",
+      "parentUuid": "a82a39ab_895d3cff",
+      "revId": "ac7304059637f8df6d30cb11466db16d71a1747b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cbd7c07f_ad8c0c6f",
         "filename": "src/slices/slices.go",
         "patchSetId": 1
@@ -174,6 +192,24 @@
       "side": 1,
       "message": "The original slice is definitely modified, and that is what the comment says.  Maybe I misunderstand, or maybe you are misreading the function?",
       "parentUuid": "c748bd8d_05a9b74c",
+      "revId": "ac7304059637f8df6d30cb11466db16d71a1747b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "746d1e4f_c684d4ad",
+        "filename": "src/slices/slices.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 30696
+      },
+      "writtenOn": "2023-02-13T20:23:16Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "457a6965_433f61f1",
       "revId": "ac7304059637f8df6d30cb11466db16d71a1747b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
