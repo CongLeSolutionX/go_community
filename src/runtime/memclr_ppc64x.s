@@ -91,12 +91,18 @@ lt32gt8:
 	ADD	$16, R3
 	ADD	$-16, R4
 lt16gt8:
+#ifdef GOPPC64_power10
+	VSPLTISB $0x00, V4
+	SLD	$56, R4, R7
+	STXVL	V4, R3, R7
+	RET
+#else
 	CMP	R4, $8
 	BLT	nozerolarge
 	MOVD	R0, 0(R3)
 	ADD	$8, R3
 	ADD	$-8, R4
-
+#endif
 nozerolarge:
 	ANDCC $7, R4, R5 // any remaining bytes
 	BC    4, 1, LR   // ble lr
@@ -105,10 +111,17 @@ zerotail:
 	MOVD R5, CTR // set up to clear tail bytes
 
 zerotailloop:
+#ifdef GOPPC64_power10
+	VSPLTISB $0x00, V4
+	SLD	$56, R5, R7
+	STXVL	V4, R3, R7
+	RET
+#else
 	MOVB R0, 0(R3)           // clear single bytes
 	ADD  $1, R3
 	BDNZ zerotailloop // dec ctr, br zerotailloop if ctr not 0
 	RET
+#endif
 
 zero512xsetup:  // 512 chunk with extra needed
 	ANDCC $8, R3, R11    // 8 byte alignment?
