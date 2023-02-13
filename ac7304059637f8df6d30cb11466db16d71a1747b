@@ -126,6 +126,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7e5089f_a028e261",
+        "filename": "src/slices/slices.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-02-13T20:46:22Z",
+      "side": 1,
+      "message": "Delete is an example that is \"otherwise specified.\"\n\nBut, OK, I\u0027ll remove the sentence.",
+      "parentUuid": "a1df6415_a0389cb9",
+      "revId": "ac7304059637f8df6d30cb11466db16d71a1747b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cbd7c07f_ad8c0c6f",
