@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed1907a2_1f807afa",
+        "filename": "src/cmd/compile/internal/pgo/irgraph.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-02-13T23:03:09Z",
+      "side": 0,
+      "message": "Just to check my understanding, the issue is in remove (which was also called in redirectEdge), changing g.OutEdges, such that this loop was skipping entries and perhaps indexing beyond the end, right?",
+      "revId": "261fe25c83a94fc3defe064baed3944cd3d16959",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
