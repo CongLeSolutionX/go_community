@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3743b5b9_16eb8e98",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-02-13T18:25:45Z",
+      "side": 1,
+      "message": "This approach will effectively change the meaning of the function parameter, affecting existing programs.  I think an approach like https://go.dev/cl/467557 is better.",
+      "revId": "6150d320b581af8717d1e1d8a42ad6d3084a295c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
