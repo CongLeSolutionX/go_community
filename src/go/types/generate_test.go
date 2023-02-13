@@ -122,8 +122,8 @@ var filemap = map[string]action{
 		renameIdent(f, "Squash", "squash")
 		renameIdent(f, "InsertLazy", "_InsertLazy")
 	},
-	"selection.go":     nil,
-	"sizes.go":         func(f *ast.File) { renameIdent(f, "IsSyncAtomicAlign64", "_IsSyncAtomicAlign64") },
+	"selection.go": nil,
+	// "sizes.go":         func(f *ast.File) { renameIdent(f, "IsSyncAtomicAlign64", "_IsSyncAtomicAlign64") },
 	"slice.go":         nil,
 	"subst.go":         func(f *ast.File) { fixTokenPos(f); fixTraceSel(f) },
 	"termlist.go":      nil,
