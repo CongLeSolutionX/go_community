@@ -34,6 +34,24 @@
       "message": "Ah, I see you set this as WIP. Please add Cherry and I as reviewers once it is ready.",
       "revId": "db9c35369930bca67210124a669a83685d62fcf5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2331f0d_3773dc76",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 33289
+      },
+      "writtenOn": "2023-02-13T12:20:51Z",
+      "side": 1,
+      "message": "Thanks, mark it ready for reviewing.\nI\u0027m wondering if in-edges shall be maintained during redirection, but leave them untouched for now as we only need out-edges in Epilogue and locating\u0026removing in-edges is a little clumsy, perhaps the IR* structs could be augmented later to facilitate the operation?",
+      "parentUuid": "169200d0_da1dead5",
+      "revId": "db9c35369930bca67210124a669a83685d62fcf5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
