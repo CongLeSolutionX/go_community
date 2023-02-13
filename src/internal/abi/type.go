@@ -77,6 +77,16 @@ type Type struct {
 	PtrToThis TypeOff // type for pointer to this type, may be zero
 }
 
+func CommonSize(ptrSize int) int      { return 4*ptrSize + 8 + 8 } // sizeof(Type) for a given ptrSize
+func StructFieldSize(ptrSize int) int { return 3 * ptrSize }       // sizeof(StructField) for a given ptrSize
+func UncommonSize(ptrSize int) int    { return 4 + 2 + 2 + 4 + 4 } // sizeof(UncommonType) for a given ptrSize
+func IMethodSize(ptrSize int) int     { return 4 + 4 }             // sizeof(IMethod) for a given ptrSize
+
+func KindOff(ptrSize int) int     { return 2*ptrSize + 7 }
+func SizeOff(ptrSize int) int     { return 0 }
+func PtrBytesOff(ptrSize int) int { return ptrSize }
+func TFlagOff(ptrSize int) int    { return 2*ptrSize + 4 }
+
 // Method on non-interface type
 type Method struct {
 	Name NameOff // name of method
