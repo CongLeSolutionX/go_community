@@ -72,6 +72,16 @@ type Type struct {
 	PtrToThis TypeOff // type for pointer to this type, may be zero
 }
 
+func CommonSize(ptrSize int) int      { return 4*ptrSize + 8 + 8 } // sizeof(Type) for a given ptrSize
+func StructFieldSize(ptrSize int) int { return 3 * ptrSize }       // sizeof(StructField) for a given ptrSize
+func UncommonSize(ptrSize int) int    { return 4 + 2 + 2 + 4 + 4 } // sizeof(UncommonType) for a given ptrSize
+func IMethodSize(ptrSize int) int     { return 4 + 4 }             // sizeof(IMethod) for a given ptrSize
+
+func KindOff(ptrSize int) int     { return 2*ptrSize + 7 }
+func SizeOff(ptrSize int) int     { return 0 }
+func PtrBytesOff(ptrSize int) int { return ptrSize }
+func TFlagOff(ptrSize int) int    { return 2*ptrSize + 4 }
+
 // Method on non-interface type
 type Method struct {
 	Name NameOff // name of method
@@ -129,4 +139,136 @@ type ArrayType struct {
 	Elem  *Type // array element type
 	Slice *Type // slice type
 	Len   uintptr
+}
+
+/* Not yet shared w/ runtime/reflect/reflectlite */
+
+type InterfaceType struct {
+	Type
+	PkgPath Name
+	Mhdr    []Imethod
+}
+
+type MapType struct {
+	Type
+	Key    *Type
+	Elem   *Type
+	Bucket *Type // internal type representing a hash bucket
+	// function for hashing keys (ptr to key, seed) -> hash
+	Hasher     func(unsafe.Pointer, uintptr) uintptr
+	KeySize    uint8  // size of key slot
+	ElemSize   uint8  // size of elem slot
+	BucketSize uint16 // size of bucket
+	Flags      uint32
+}
+
+type ChanType struct {
+	Type
+	Elem *Type
+	Dir  uintptr
+}
+
+type SliceType struct {
+	Type
+	Elem *Type
+}
+
+type FuncType struct {
+	Type
+	InCount  uint16
+	OutCount uint16
+}
+
+type PtrType struct {
+	Type
+	Elem *Type
+}
+
+type StructField struct {
+	Name   Name
+	Typ    *Type
+	Offset uintptr
+}
+
+type StructType struct {
+	Type
+	PkgPath Name
+	Fields  []StructField
+}
+
+// Name is an encoded type Name with optional extra data.
+// See reflect/type.go for details.
+type Name struct {
+	Bytes *byte
+}
+
+func (n Name) Data(off int) *byte {
+	return (*byte)(add(unsafe.Pointer(n.Bytes), uintptr(off), "trusts caller"))
+}
+
+func (n Name) Data4(off int) []byte {
+	return unsafeSliceFor((*byte)(add(unsafe.Pointer(n.Bytes), uintptr(off), "trusts caller")), 4)
+}
+
+func (n Name) IsExported() bool {
+	return (*n.Bytes)&(1<<0) != 0
+}
+
+func (n Name) IsEmbedded() bool {
+	return (*n.Bytes)&(1<<3) != 0
+}
+
+func (n Name) ReadVarint(off int) (int, int) {
+	v := 0
+	for i := 0; ; i++ {
+		x := *n.Data(off + i)
+		v += int(x&0x7f) << (7 * i)
+		if x&0x80 == 0 {
+			return i + 1, v
+		}
+	}
+}
+
+func (n Name) Name() string {
+	if n.Bytes == nil {
+		return ""
+	}
+	i, l := n.ReadVarint(1)
+	if l == 0 {
+		return ""
+	}
+	return unsafeStringFor(n.Data(1+i), l)
+}
+
+func (n Name) Tag() string {
+	if *n.Data(0)&(1<<1) == 0 {
+		return ""
+	}
+	i, l := n.ReadVarint(1)
+	i2, l2 := n.ReadVarint(1 + i + l)
+	return unsafeStringFor(n.Data(1+i+l+i2), l2)
+}
+
+func (n Name) PkgPath(resolveNameOff func(ptrInModule unsafe.Pointer, off NameOff) Name) string {
+	if n.Bytes == nil || *n.Data(0)&(1<<2) == 0 {
+		return ""
+	}
+	i, l := n.ReadVarint(1)
+	off := 1 + i + l
+	if *n.Data(0)&(1<<1) != 0 {
+		i2, l2 := n.ReadVarint(off)
+		off += i2 + l2
+	}
+	var nameOff NameOff
+	copy((*[4]byte)(unsafe.Pointer(&nameOff))[:], n.Data4(off))
+	pkgPathName := resolveNameOff(unsafe.Pointer(n.Bytes), nameOff)
+	return pkgPathName.Name()
+}
+
+func (n Name) isBlank() bool {
+	if n.Bytes == nil {
+		return false
+	}
+	_, l := n.ReadVarint(1)
+	return l == 1 && *n.Data(2) == '_'
 }
