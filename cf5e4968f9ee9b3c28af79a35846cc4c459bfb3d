@@ -18,6 +18,41 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e78aa22d_989dae4f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-02-13T19:55:43Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "cf5e4968f9ee9b3c28af79a35846cc4c459bfb3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "60d9362e_7c702bad",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-02-13T19:55:43Z",
+      "side": 1,
+      "message": "Trybot failure is indeed bogus. There have been lots of those due lately, I think due to https://go-review.git.corp.google.com/c/go/+/466865.\n\nYes, this CL is definitely worth back porting. I\u0027ll request shortly.",
+      "parentUuid": "49a7e64c_a2679ebc",
+      "revId": "cf5e4968f9ee9b3c28af79a35846cc4c459bfb3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "09ee593e_95707efe",
@@ -31,6 +66,30 @@
       "writtenOn": "2023-02-13T19:51:48Z",
       "side": 1,
       "message": "Why does it now say ARM/ARM64, when there\u0027s a (correct) ARM case above?",
+      "range": {
+        "startLine": 94,
+        "startChar": 34,
+        "endLine": 94,
+        "endChar": 38
+      },
+      "revId": "cf5e4968f9ee9b3c28af79a35846cc4c459bfb3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd183f5a_55606fe5",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-02-13T19:55:43Z",
+      "side": 1,
+      "message": "Whoops, that was a mistake. Fixed.",
+      "parentUuid": "09ee593e_95707efe",
       "range": {
         "startLine": 94,
         "startChar": 34,
