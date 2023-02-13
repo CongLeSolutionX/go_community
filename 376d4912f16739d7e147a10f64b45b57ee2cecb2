@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f5076c0_2c08c117",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-02-13T14:25:40Z",
+      "side": 1,
+      "message": "These are kind of odd blips. Are they cache related?",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 6
+      },
+      "revId": "376d4912f16739d7e147a10f64b45b57ee2cecb2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8455ce18_bae172e9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-02-13T14:25:40Z",
+      "side": 1,
+      "message": "TRY\u003dppc64le,ppc64lep10",
+      "revId": "376d4912f16739d7e147a10f64b45b57ee2cecb2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6f3ada3_e02db753",
+        "filename": "src/runtime/memclr_ppc64x.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-02-13T14:25:40Z",
+      "side": 1,
+      "message": "Trivial nit, this should be a tab (same for line 115).",
+      "range": {
+        "startLine": 95,
+        "startChar": 9,
+        "endLine": 95,
+        "endChar": 10
+      },
+      "revId": "376d4912f16739d7e147a10f64b45b57ee2cecb2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
