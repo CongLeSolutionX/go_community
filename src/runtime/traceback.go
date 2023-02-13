@@ -42,6 +42,10 @@ const (
 	// unwindTrap indicates that the initial PC and SP are from a trap, not a
 	// return PC from a call.
 	//
+	// The unwindTrap flag is updated during unwinding. If set, frame.pc is the
+	// address of a faulting instruction instead of the return address of a
+	// call. It also means the liveness at pc may not be known.
+	//
 	// TODO: Distinguish frame.continpc, which is really the stack map PC, from
 	// the actual continuation PC, which is computed differently depending on
 	// this flag and a few other things.
@@ -448,6 +452,11 @@ func (u *unwinder) next() {
 	}
 
 	injectedCall := f.funcID == funcID_sigpanic || f.funcID == funcID_asyncPreempt || f.funcID == funcID_debugCallV2
+	if injectedCall {
+		u.flags |= unwindTrap
+	} else {
+		u.flags &^= unwindTrap
+	}
 
 	// Unwind to next frame.
 	u.callerFuncID = f.funcID
@@ -525,6 +534,25 @@ func (u *unwinder) finishInternal() {
 	}
 }
 
+// symPC returns the PC that should be used for symbolizing the current frame.
+// Specifically, this is the PC of the last instruction executed in this frame.
+//
+// If this frame did a normal call, then frame.pc is a return PC, so this will
+// return frame.pc-1, which points into the CALL instruction. If the frame was
+// interrupted by a signal (e.g., profiler, segv, etc) then frame.pc is for the
+// trapped instruction, so this returns frame.pc. See issue #34123. Finally,
+// frame.pc can be at function entry when the frame is initialized without
+// actually running code, like in runtime.mstart, in which case this returns
+// frame.pc because that's the best we can do.
+func (u *unwinder) symPC() uintptr {
+	if u.flags&unwindTrap == 0 && u.frame.pc > u.frame.fn.entry() {
+		// Regular call.
+		return u.frame.pc - 1
+	}
+	// Trapping instruction or we're at the function entry point.
+	return u.frame.pc
+}
+
 // Generic traceback. Handles runtime stack prints (pcbuf == nil),
 // and the runtime.Callers function (pcbuf != nil).
 // A little clunky to merge these, but avoids
@@ -565,24 +593,9 @@ func gentraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max in
 		frame := &u.frame
 		f := frame.fn
 
-		// Backup to the CALL instruction to read inlining info
-		//
-		// Normally, pc is a return address. In that case, we want to look up
-		// file/line information using pc-1, because that is the pc of the
-		// call instruction (more precisely, the last byte of the call instruction).
-		// When the pc is from a signal (e.g. profiler or segv) then pc is for
-		// the trapped instruction, not a return address, so we use pc unchanged.
-		// See issue 34123.
-		// The pc can be at function entry when the frame is initialized without
-		// actually running code, like runtime.mstart.
-		callPC := frame.pc
-		if (n > 0 || flags&_TraceTrap == 0) && frame.pc > f.entry() && u.callerFuncID != funcID_sigpanic {
-			callPC--
-		}
-
 		if pcbuf != nil {
 			// TODO: Why does passing &cache cause cache to escape? (Same below)
-			for iu := newInlineUnwinder(f, callPC, nil); iu.valid(); iu.next() {
+			for iu := newInlineUnwinder(f, u.symPC(), nil); iu.valid(); iu.next() {
 				sf := iu.srcFunc()
 				if sf.funcID == funcID_wrapper && elideWrapperCalling(u.callerFuncID) {
 					// ignore wrappers
@@ -607,7 +620,7 @@ func gentraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max in
 			// any frames. And don't elide wrappers that
 			// called panic rather than the wrapped
 			// function. Otherwise, leave them out.
-			for iu := newInlineUnwinder(f, callPC, nil); iu.valid(); iu.next() {
+			for iu := newInlineUnwinder(f, u.symPC(), nil); iu.valid(); iu.next() {
 				sf := iu.srcFunc()
 				if (flags&_TraceRuntimeFrames) != 0 || showframe(sf, gp, nprint == 0, u.callerFuncID) {
 					name := sf.name()
@@ -624,7 +637,7 @@ func gentraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max in
 						print("...")
 					} else {
 						argp := unsafe.Pointer(frame.argp)
-						printArgs(f, argp, callPC)
+						printArgs(f, argp, u.symPC())
 					}
 					print(")\n")
 					print("\t", file, ":", line)
