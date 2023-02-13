@@ -74,6 +74,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "389c5d35_de5ff197",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-02-13T20:00:11Z",
+      "side": 1,
+      "message": "This CL is merely a step in fixing that problem. :) But thanks for the pointer. I just added a note in the race detector issue that I will hopefully notice once I get to that.",
+      "parentUuid": "64d492d7_c5545235",
+      "revId": "0ae60db93af49584977cf37a33f50d51ba1f885e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "a987c971_71b85948",
         "filename": "src/runtime/traceback.go",
         "patchSetId": 3
