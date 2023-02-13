@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49a7e64c_a2679ebc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-02-13T19:51:48Z",
+      "side": 1,
+      "message": "LGTM, the trybot failure looks (very) unrelated to me.\nIs this backport-worthy to 1.20?  Would we also backport to 1.19 for the case where people could enable unified there even though it is not the default?",
+      "revId": "cf5e4968f9ee9b3c28af79a35846cc4c459bfb3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09ee593e_95707efe",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-02-13T19:51:48Z",
+      "side": 1,
+      "message": "Why does it now say ARM/ARM64, when there\u0027s a (correct) ARM case above?",
+      "range": {
+        "startLine": 94,
+        "startChar": 34,
+        "endLine": 94,
+        "endChar": 38
+      },
+      "revId": "cf5e4968f9ee9b3c28af79a35846cc4c459bfb3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
