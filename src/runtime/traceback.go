@@ -619,119 +619,6 @@ func tracebackPCs(u *unwinder, skip int, pcBuf []uintptr) int {
 	return n
 }
 
-// Generic traceback. Handles runtime stack prints (pcbuf == nil).
-//
-// The skip argument is only valid with pcbuf != nil and counts the number
-// of logical frames to skip rather than physical frames (with inlining, a
-// PC in pcbuf can represent multiple calls).
-func gentraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max int, callback func(*stkframe, unsafe.Pointer) bool, v unsafe.Pointer, flags uint) int {
-	if pcbuf != nil {
-		throw("pcbuf argument no longer supported")
-	}
-	if callback != nil {
-		throw("callback argument no longer supported")
-	}
-
-	// Translate flags
-	var uflags unwindFlags
-	printing := true
-	uflags |= unwindPrintErrors
-	if flags&_TraceTrap != 0 {
-		uflags |= unwindTrap
-	}
-	if flags&_TraceJumpStack != 0 {
-		uflags |= unwindJumpStack
-	}
-
-	// Initialize stack unwinder
-	var u unwinder
-	u.initAt(pc0, sp0, lr0, gp, uflags)
-
-	level, _, _ := gotraceback()
-
-	nprint := 0
-	n := 0
-	var cgoBuf [32]uintptr
-	for ; n < max && u.valid(); u.next() {
-		frame := &u.frame
-		f := frame.fn
-
-		cgoN := u.cgoCallers(cgoBuf[:])
-
-		if printing {
-			// assume skip=0 for printing.
-			//
-			// Never elide wrappers if we haven't printed
-			// any frames. And don't elide wrappers that
-			// called panic rather than the wrapped
-			// function. Otherwise, leave them out.
-			for iu := newInlineUnwinder(f, u.symPC(), nil); iu.valid(); iu.next() {
-				sf := iu.srcFunc()
-				if (flags&_TraceRuntimeFrames) != 0 || showframe(sf, gp, nprint == 0, u.callerFuncID) {
-					name := sf.name()
-					file, line := iu.fileLine()
-					if name == "runtime.gopanic" {
-						name = "panic"
-					}
-					// Print during crash.
-					//	main(0x1, 0x2, 0x3)
-					//		/home/rsc/go/src/runtime/x.go:23 +0xf
-					//
-					print(name, "(")
-					if iu.isInlined() {
-						print("...")
-					} else {
-						argp := unsafe.Pointer(frame.argp)
-						printArgs(f, argp, u.symPC())
-					}
-					print(")\n")
-					print("\t", file, ":", line)
-					if !iu.isInlined() {
-						if frame.pc > f.entry() {
-							print(" +", hex(frame.pc-f.entry()))
-						}
-						if gp.m != nil && gp.m.throwing >= throwTypeRuntime && gp == gp.m.curg || level >= 2 {
-							print(" fp=", hex(frame.fp), " sp=", hex(frame.sp), " pc=", hex(frame.pc))
-						}
-					}
-					print("\n")
-					nprint++
-				}
-			}
-			// Print cgo frames.
-			if cgoN > 0 {
-				var arg cgoSymbolizerArg
-				anySymbolized := false
-				for _, pc := range cgoBuf[:cgoN] {
-					if n >= max {
-						break
-					}
-					if cgoSymbolizer == nil {
-						print("non-Go function at pc=", hex(pc), "\n")
-					} else {
-						c := printOneCgoTraceback(pc, max-n, &arg)
-						n += c - 1 // +1 a few lines down
-						anySymbolized = true
-					}
-					nprint++
-				}
-				if anySymbolized {
-					// Free symbolization state.
-					arg.pc = 0
-					callCgoSymbolizer(&arg)
-				}
-			}
-		}
-		n++
-	}
-
-	if printing {
-		n = nprint
-	}
-
-	return n
-}
-
 // printArgs prints function arguments in traceback.
 func printArgs(f funcInfo, argp unsafe.Pointer, pc uintptr) {
 	// The "instruction" of argument printing is encoded in _FUNCDATA_ArgInfo.
@@ -874,10 +761,10 @@ func tracebacktrap(pc, sp, lr uintptr, gp *g) {
 		traceback1(gp.m.libcallpc, gp.m.libcallsp, 0, gp.m.libcallg.ptr(), 0)
 		return
 	}
-	traceback1(pc, sp, lr, gp, _TraceTrap)
+	traceback1(pc, sp, lr, gp, unwindTrap)
 }
 
-func traceback1(pc, sp, lr uintptr, gp *g, flags uint) {
+func traceback1(pc, sp, lr uintptr, gp *g, flags unwindFlags) {
 	// If the goroutine is in cgo, and we have a cgo traceback, print that.
 	if iscgo && gp.m != nil && gp.m.ncgo > 0 && gp.syscallsp != 0 && gp.m.cgoCallers != nil && gp.m.cgoCallers[0] != 0 {
 		// Lock cgoCallers so that a signal handler won't
@@ -898,21 +785,25 @@ func traceback1(pc, sp, lr uintptr, gp *g, flags uint) {
 		// Override registers if blocked in system call.
 		pc = gp.syscallpc
 		sp = gp.syscallsp
-		flags &^= _TraceTrap
+		flags &^= unwindTrap
 	}
 	if gp.m != nil && gp.m.vdsoSP != 0 {
 		// Override registers if running in VDSO. This comes after the
 		// _Gsyscall check to cover VDSO calls after entersyscall.
 		pc = gp.m.vdsoPC
 		sp = gp.m.vdsoSP
-		flags &^= _TraceTrap
+		flags &^= unwindTrap
 	}
 
 	// Print traceback. By default, omits runtime frames.
 	// If that means we print nothing at all, repeat forcing all frames printed.
-	n := gentraceback(pc, sp, lr, gp, 0, nil, _TracebackMaxFrames, nil, nil, flags)
-	if n == 0 && (flags&_TraceRuntimeFrames) == 0 {
-		n = gentraceback(pc, sp, lr, gp, 0, nil, _TracebackMaxFrames, nil, nil, flags|_TraceRuntimeFrames)
+	flags |= unwindPrintErrors
+	var u unwinder
+	u.initAt(pc, sp, lr, gp, flags)
+	n := traceback2(&u, false)
+	if n == 0 {
+		u.initAt(pc, sp, lr, gp, flags)
+		n = traceback2(&u, true)
 	}
 	if n == _TracebackMaxFrames {
 		print("...additional frames elided...\n")
@@ -925,6 +816,77 @@ func traceback1(pc, sp, lr uintptr, gp *g, flags uint) {
 	for _, ancestor := range *gp.ancestors {
 		printAncestorTraceback(ancestor)
 	}
+}
+
+func traceback2(u *unwinder, showRuntime bool) int {
+	gp := u.g.ptr()
+	level, _, _ := gotraceback()
+	n := 0
+	const max = _TracebackMaxFrames
+	var cgoBuf [32]uintptr
+	for ; n < max && u.valid(); u.next() {
+		f := u.frame.fn
+		for iu := newInlineUnwinder(f, u.symPC(), nil); n < max && iu.valid(); iu.next() {
+			sf := iu.srcFunc()
+			if !(showRuntime || showframe(sf, gp, n == 0, u.callerFuncID)) {
+				continue
+			}
+
+			name := sf.name()
+			file, line := iu.fileLine()
+			if name == "runtime.gopanic" {
+				name = "panic"
+			}
+			// Print during crash.
+			//	main(0x1, 0x2, 0x3)
+			//		/home/rsc/go/src/runtime/x.go:23 +0xf
+			//
+			print(name, "(")
+			if iu.isInlined() {
+				print("...")
+			} else {
+				argp := unsafe.Pointer(u.frame.argp)
+				printArgs(f, argp, u.symPC())
+			}
+			print(")\n")
+			print("\t", file, ":", line)
+			if !iu.isInlined() {
+				if u.frame.pc > f.entry() {
+					print(" +", hex(u.frame.pc-f.entry()))
+				}
+				if gp.m != nil && gp.m.throwing >= throwTypeRuntime && gp == gp.m.curg || level >= 2 {
+					print(" fp=", hex(u.frame.fp), " sp=", hex(u.frame.sp), " pc=", hex(u.frame.pc))
+				}
+			}
+			print("\n")
+			n++
+		}
+
+		// Print cgo frames.
+		if cgoN := u.cgoCallers(cgoBuf[:]); cgoN > 0 {
+			var arg cgoSymbolizerArg
+			anySymbolized := false
+			for _, pc := range cgoBuf[:cgoN] {
+				if n >= max {
+					break
+				}
+				if cgoSymbolizer == nil {
+					print("non-Go function at pc=", hex(pc), "\n")
+				} else {
+					c := printOneCgoTraceback(pc, max-n, &arg)
+					n += c - 1 // +1 a few lines down
+					anySymbolized = true
+				}
+				n++
+			}
+			if anySymbolized {
+				// Free symbolization state.
+				arg.pc = 0
+				callCgoSymbolizer(&arg)
+			}
+		}
+	}
+	return n
 }
 
 // printAncestorTraceback prints the traceback of the given ancestor.
