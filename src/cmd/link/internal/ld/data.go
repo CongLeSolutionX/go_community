@@ -2534,7 +2534,8 @@ func assignAddress(ctxt *Link, sect *sym.Section, n int, s loader.Sym, va uint64
 // calls appropriately. The limit allows for the space needed for tables inserted by the
 // linker.
 //
-// The same applies to Darwin/ARM64, with 2^27 byte threshold.
+// The same applies to Darwin/ARM64, with 2^27 byte threshold, and to 32-bit ARM
+// with a 2^24 byte threshold.
 func splitTextSections(ctxt *Link) bool {
 	return (ctxt.IsARM() || ctxt.IsPPC64() || (ctxt.IsARM64() && ctxt.IsDarwin())) && ctxt.IsExternal()
 }
