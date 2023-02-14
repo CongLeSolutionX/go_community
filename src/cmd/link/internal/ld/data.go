@@ -2528,13 +2528,14 @@ func assignAddress(ctxt *Link, sect *sym.Section, n int, s loader.Sym, va uint64
 
 // Return whether we may need to split text sections.
 //
-// On PPC64x whem external linking a text section should not be larger than 2^25 bytes
+// On PPC64x when external linking a text section should not be larger than 2^25 bytes
 // due to the size of call target offset field in the bl instruction.  Splitting into
 // smaller text sections smaller than this limit allows the system linker to modify the long
 // calls appropriately. The limit allows for the space needed for tables inserted by the
 // linker.
 //
-// The same applies to Darwin/ARM64, with 2^27 byte threshold.
+// The same applies to Darwin/ARM64, with 2^27 byte threshold, and to 32-bit ARM
+// with a 2^24 byte threshold.
 func splitTextSections(ctxt *Link) bool {
 	return (ctxt.IsARM() || ctxt.IsPPC64() || (ctxt.IsARM64() && ctxt.IsDarwin())) && ctxt.IsExternal()
 }

@@ -134,6 +134,7 @@ func TestArchiveBuildInvokeWithExec(t *testing.T) {
 func TestLargeTextSectionSplitting(t *testing.T) {
 	switch runtime.GOARCH {
 	case "ppc64", "ppc64le":
+	case "arm":
 	case "arm64":
 		if runtime.GOOS == "darwin" {
 			break
