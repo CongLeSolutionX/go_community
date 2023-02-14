@@ -445,6 +445,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c469e523_e47108db",
+        "filename": "src/os/readfrom_linux.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-02-14T05:00:50Z",
+      "side": 1,
+      "message": "I guess it\u0027s ok to just introduce the function `verifyNotInHeapPtr` and ignore `methodValueCallCodePtr` for now?",
+      "parentUuid": "6e308552_54955f60",
+      "revId": "6993a41315c7733e8b5df8f0e399aa4aa9e49825",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "161939ae_05f186bf",
         "filename": "src/os/readfrom_linux_test.go",
         "patchSetId": 24
