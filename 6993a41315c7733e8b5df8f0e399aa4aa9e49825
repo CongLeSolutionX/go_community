@@ -391,6 +391,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b2b70648_c10de5c7",
+        "filename": "src/os/readfrom_linux.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-02-14T04:15:14Z",
+      "side": 1,
+      "message": "Sorry, I misread `reflectlite.ValueOf(tcp).Elem().Field(0).Field(0).UnsafePointer()`, I assume that you were suggesting that we just call `UnsafePointer` on the `*netFD` cuz `pfd` is its first field with zero offset in memory, right?\n\nBut still, `UnsafePointer` will introduce some extra functions from `reflect`, is that OK?",
+      "parentUuid": "ddd9b143_eee693e8",
+      "revId": "6993a41315c7733e8b5df8f0e399aa4aa9e49825",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "161939ae_05f186bf",
         "filename": "src/os/readfrom_linux_test.go",
         "patchSetId": 24
