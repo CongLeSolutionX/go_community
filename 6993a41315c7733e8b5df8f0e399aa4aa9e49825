@@ -72,6 +72,176 @@
       "message": "Hi Ian, I think we\u0027re good to go.",
       "revId": "6993a41315c7733e8b5df8f0e399aa4aa9e49825",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33eecfeb_9eaba1c9",
+        "filename": "src/internal/reflectlite/value.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-02-14T03:22:35Z",
+      "side": 1,
+      "message": "This is minor, but we shouldn\u0027t need Indirect.  We know the exact types that we are using.  Indirect is only useful if you don\u0027t know whether a field is a pointer or not.  If you know it\u0027s not a pointer, don\u0027t call Indirect.  If you know it\u0027s a pointer, call Elem.",
+      "revId": "6993a41315c7733e8b5df8f0e399aa4aa9e49825",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15cce74f_d6380000",
+        "filename": "src/net/splice_test.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-02-14T03:22:35Z",
+      "side": 1,
+      "message": "Minor, but this error is never going to happen in practice, so just t.Fatal(err) is fine.",
+      "revId": "6993a41315c7733e8b5df8f0e399aa4aa9e49825",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "712b2de2_eb2e3a1c",
+        "filename": "src/net/splice_test.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-02-14T03:22:35Z",
+      "side": 1,
+      "message": "I don\u0027t see anything calling client.Close.",
+      "revId": "6993a41315c7733e8b5df8f0e399aa4aa9e49825",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "140d492a_3b2daf7c",
+        "filename": "src/net/splice_test.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-02-14T03:22:35Z",
+      "side": 1,
+      "message": "This is just printing numbers, so no need for the newlines.  And put got before want.\n\n    t.Errorf(\"got %d bytes, want %d\", got, want)",
+      "revId": "6993a41315c7733e8b5df8f0e399aa4aa9e49825",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4423a20_1da45390",
+        "filename": "src/net/splice_test.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-02-14T03:22:35Z",
+      "side": 1,
+      "message": "How can this be true?  We changed actualSize above.",
+      "revId": "6993a41315c7733e8b5df8f0e399aa4aa9e49825",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09a7401f_986fc436",
+        "filename": "src/net/splice_test.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-02-14T03:22:35Z",
+      "side": 1,
+      "message": "b.Fatalf(err)",
+      "revId": "6993a41315c7733e8b5df8f0e399aa4aa9e49825",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8148462_d742b74e",
+        "filename": "src/os/readfrom_linux.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-02-14T03:22:35Z",
+      "side": 1,
+      "message": "I think we should put everything below here into a different method, so that readFrom tries copyFileRange then tries the other method.\n\n    written, handled, err \u003d f.copyFileRange(r)\n    if handled {\n        return\n    }\n    return f.spliceToFile(r)",
+      "revId": "6993a41315c7733e8b5df8f0e399aa4aa9e49825",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e259551_a0f47165",
+        "filename": "src/os/readfrom_linux.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-02-14T03:22:35Z",
+      "side": 1,
+      "message": "I think this will be clearer if you separate the function definition from the call.\n\n    checkIsStream :\u003d func(fd int) bool { ... }\n    isStream :\u003d checkIsStream(rfd)",
+      "revId": "6993a41315c7733e8b5df8f0e399aa4aa9e49825",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d7a08e3_1f3f8ee6",
+        "filename": "src/os/readfrom_linux.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-02-14T03:22:35Z",
+      "side": 1,
+      "message": "When using the reflect package this code relies on a special exception implemented in the compiler.  Is that exception also implemented for internal/reflectlite?\n\nIt might be better to use vpfd.Addr().Pointer(), although that will require different methods in internal/reflectlite.\n\nBut actually, thinking about it, I think this can be simpler.  The types are\n\n    type TCPSock { conn }\n    type conn { fd *netFD }\n    type netFD { pfd poll.FD; ... }\n\nThe value we want should be\n\n    reflectlite.ValueOf(tcp).Elem().Field(0).Field(0).UnsafePointer()",
+      "revId": "6993a41315c7733e8b5df8f0e399aa4aa9e49825",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "161939ae_05f186bf",
+        "filename": "src/os/readfrom_linux_test.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-02-14T03:22:35Z",
+      "side": 1,
+      "message": "This import should be below the standard library imports, separated by a blank line.",
+      "revId": "6993a41315c7733e8b5df8f0e399aa4aa9e49825",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
