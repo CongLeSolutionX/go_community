@@ -74,6 +74,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3134f389_5c447ed0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2023-02-14T14:58:59Z",
+      "side": 1,
+      "message": "I agree that a broader description of the security boundary as suggested at https://go-review.googlesource.com/c/go/+/455135/2#message-ecbcf37cf1c82f9dac0f53c992451e648e90fa65 would be desirable, but it\u0027s beyond the scope of this change.\n\nI think it makes little sense to leave this half-landed in master but not on pkg.go.dev. Should I revert master, or does anyone have a suggestion for self-contained wording to update this to?",
+      "revId": "a8a68be7602a418c6fedc91abc3e38503e7b3ad0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ee183c9d_051fac65",
         "filename": "src/math/big/int.go",
         "patchSetId": 1
