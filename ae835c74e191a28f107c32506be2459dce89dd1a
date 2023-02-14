@@ -89,6 +89,24 @@
       "message": "nit: add a comment mentioning the significance of this string?",
       "revId": "ae835c74e191a28f107c32506be2459dce89dd1a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea6f1a33_e4fad387",
+        "filename": "src/cmd/internal/obj/wasm/wasmobj.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2023-02-14T19:29:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ca9f291_ed1ae8b9",
+      "revId": "ae835c74e191a28f107c32506be2459dce89dd1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

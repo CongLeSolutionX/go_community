@@ -161,6 +161,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e004bd1_ef0b54f1",
+        "filename": "src/cmd/compile/internal/noder/linker.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2023-02-14T19:29:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b507634_9c06b795",
+      "revId": "0fc6184ddfef117cb26c94bcad05c029b99cb818",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "67dfddd8_f3f3f1fb",
@@ -268,6 +286,30 @@
       "side": 1,
       "message": "We need both a module name and a function name for this code to work, so that\u0027s why it\u0027s `\u0026\u0026`. I consider collapsing this down to a single field to make that clearer but left it 2 fields so I didn\u0027t have to parse it back apart.",
       "parentUuid": "10327dae_d3c1b026",
+      "range": {
+        "startLine": 1077,
+        "startChar": 15,
+        "endLine": 1077,
+        "endChar": 17
+      },
+      "revId": "0fc6184ddfef117cb26c94bcad05c029b99cb818",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "566950c2_16c7f948",
+        "filename": "src/cmd/compile/internal/noder/reader.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1077,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2023-02-14T19:29:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab07b045_2e4b3937",
       "range": {
         "startLine": 1077,
         "startChar": 15,
@@ -409,6 +451,30 @@
       "writtenOn": "2023-01-31T20:17:29Z",
       "side": 1,
       "message": "LGTM, thanks.",
+      "parentUuid": "3afca583_7811dec4",
+      "range": {
+        "startLine": 398,
+        "startChar": 42,
+        "endLine": 398,
+        "endChar": 46
+      },
+      "revId": "0fc6184ddfef117cb26c94bcad05c029b99cb818",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8f10de8_079b9853",
+        "filename": "src/cmd/compile/internal/ssagen/abi.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2023-02-14T19:29:46Z",
+      "side": 1,
+      "message": "Done",
       "parentUuid": "3afca583_7811dec4",
       "range": {
         "startLine": 398,
@@ -833,6 +899,24 @@
       "writtenOn": "2023-01-30T23:15:02Z",
       "side": 1,
       "message": "nit: I think `var wi obj.WasmImport` is more idiomatic within the compiler.",
+      "revId": "0fc6184ddfef117cb26c94bcad05c029b99cb818",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e04d3e88_acf8cbef",
+        "filename": "src/cmd/link/internal/wasm/asm.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2023-02-14T19:29:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3da56c92_769a1187",
       "revId": "0fc6184ddfef117cb26c94bcad05c029b99cb818",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
