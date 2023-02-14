@@ -16,6 +16,24 @@
       "message": "This test is consistently failing on the `-noopt` builders:\nhttps://build.golang.org/log/a9c803ed5cb309a4605146400ac5f43d5a953db0",
       "revId": "1e9925f461c54f5fdc100f9f23916b3df81262ce",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be37c29a_c16ff561",
+        "filename": "src/slices/slices_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-02-14T17:39:10Z",
+      "side": 1,
+      "message": "Thanks.  Sent CL 468196.",
+      "parentUuid": "c3d6da52_28f6165c",
+      "revId": "1e9925f461c54f5fdc100f9f23916b3df81262ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
