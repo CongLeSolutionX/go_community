@@ -463,6 +463,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3c525d41_bd4bb276",
+        "filename": "src/os/readfrom_linux.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-02-14T17:17:48Z",
+      "side": 1,
+      "message": "This is kind of a mess.  Sorry about that.  I suggest that we add a method InternalUnsafePointer that only handles Pointer and UnsafePointer and doesn\u0027t bother to call verifyNotInHeapPtr.",
+      "parentUuid": "c469e523_e47108db",
+      "revId": "6993a41315c7733e8b5df8f0e399aa4aa9e49825",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "161939ae_05f186bf",
         "filename": "src/os/readfrom_linux_test.go",
         "patchSetId": 24
