@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d308689d_31f91825",
+        "filename": "src/math/big/int.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2023-02-14T05:00:34Z",
+      "side": 1,
+      "message": "Apologies for not noticing this one first. I commented on the cherry-pick CL\n\nThis comment is not good enough. It\u0027s not enough to say, \"don\u0027t use this\" without offering a remedy. I suggest the following:\n\n1) Create a page (if it doesn\u0027t exist already) describing the \"security perimeter\" of the standard library.\n2) In this comment, say that this is not in the perimeter, and - briefly! - explain why.\n3) Replace the broad \"cryptographic operations\" text to something more actionable. You can use this package for cryptography, and sometimes do. It\u0027s security that\u0027s the issue, and that\u0027s not the same thing. And even it isn\u0027t always a deal breaker.",
+      "revId": "af2952a73736f8625e7b158383fe49d7a9220a4f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
