@@ -427,6 +427,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6e308552_54955f60",
+        "filename": "src/os/readfrom_linux.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-02-14T04:59:13Z",
+      "side": 1,
+      "message": "Hi Ian, I was trying to add `Value.UnsafePointer` to `internal/relfectlite` and I\u0027m afraid that we have to copy lots of code from `reflect` due to function `methodValueCallCodePtr`, including some assembly code, besides we also need to import `internal/abi` for it. \n\nIn fact, I\u0027ve noticed that the relfectlite package has been avoiding using `methodValueCallCodePtr`, such as [Value.assignTo](https://go.googlesource.com/go/+/refs/tags/go1.20/src/internal/reflectlite/value.go#413) and `valueInterface` compared to `reflect` packge, should we also do that in `Value.UnsafePointer` and eliminate some code for it?",
+      "parentUuid": "f4538425_1245c954",
+      "revId": "6993a41315c7733e8b5df8f0e399aa4aa9e49825",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "161939ae_05f186bf",
         "filename": "src/os/readfrom_linux_test.go",
         "patchSetId": 24
