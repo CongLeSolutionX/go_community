@@ -168,6 +168,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "61efc3eb_f7eedebb",
+        "filename": "src/runtime/memclr_ppc64x.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2023-02-14T09:10:15Z",
+      "side": 1,
+      "message": "Yes, but there is a path from the beginning of the program to nozerolarge which also executes power10 code, we need to see how that can be accommodated",
+      "parentUuid": "e65a108a_ab9e42d5",
+      "revId": "376d4912f16739d7e147a10f64b45b57ee2cecb2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "30fe0546_59ef86f2",
         "filename": "src/runtime/memclr_ppc64x.s",
         "patchSetId": 7
