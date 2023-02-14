@@ -91,6 +91,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff0b2a6a_05e5b951",
+        "filename": "src/internal/reflectlite/value.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-02-14T04:08:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33eecfeb_9eaba1c9",
+      "revId": "6993a41315c7733e8b5df8f0e399aa4aa9e49825",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "15cce74f_d6380000",
@@ -104,6 +122,24 @@
       "writtenOn": "2023-02-14T03:22:35Z",
       "side": 1,
       "message": "Minor, but this error is never going to happen in practice, so just t.Fatal(err) is fine.",
+      "revId": "6993a41315c7733e8b5df8f0e399aa4aa9e49825",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4dcd6663_01bc10e9",
+        "filename": "src/net/splice_test.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-02-14T04:08:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15cce74f_d6380000",
       "revId": "6993a41315c7733e8b5df8f0e399aa4aa9e49825",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -125,6 +161,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b48ddcc4_44431a24",
+        "filename": "src/net/splice_test.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-02-14T04:08:02Z",
+      "side": 1,
+      "message": "client is closed in cleanup(), no need to call client.Close() explicitly.",
+      "parentUuid": "712b2de2_eb2e3a1c",
+      "revId": "6993a41315c7733e8b5df8f0e399aa4aa9e49825",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "140d492a_3b2daf7c",
@@ -138,6 +192,24 @@
       "writtenOn": "2023-02-14T03:22:35Z",
       "side": 1,
       "message": "This is just printing numbers, so no need for the newlines.  And put got before want.\n\n    t.Errorf(\"got %d bytes, want %d\", got, want)",
+      "revId": "6993a41315c7733e8b5df8f0e399aa4aa9e49825",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "50f01c06_16b0a41d",
+        "filename": "src/net/splice_test.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-02-14T04:08:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "140d492a_3b2daf7c",
       "revId": "6993a41315c7733e8b5df8f0e399aa4aa9e49825",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -159,6 +231,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd3513ce_806081e2",
+        "filename": "src/net/splice_test.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-02-14T04:08:02Z",
+      "side": 1,
+      "message": "It will be true when `tc.limitReadSize \u003e tc.totalSize`: https://go.googlesource.com/go/+/eb40f9146bcc0e6eaf28d8d380c14150a4a213d3/src/net/splice_test.go#37",
+      "parentUuid": "a4423a20_1da45390",
+      "revId": "6993a41315c7733e8b5df8f0e399aa4aa9e49825",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "09a7401f_986fc436",
@@ -172,6 +262,24 @@
       "writtenOn": "2023-02-14T03:22:35Z",
       "side": 1,
       "message": "b.Fatalf(err)",
+      "revId": "6993a41315c7733e8b5df8f0e399aa4aa9e49825",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cff0cc8f_fc195bc9",
+        "filename": "src/net/splice_test.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-02-14T04:08:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09a7401f_986fc436",
       "revId": "6993a41315c7733e8b5df8f0e399aa4aa9e49825",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -193,6 +301,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "546d4349_a33635c3",
+        "filename": "src/os/readfrom_linux.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-02-14T04:08:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8148462_d742b74e",
+      "revId": "6993a41315c7733e8b5df8f0e399aa4aa9e49825",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5e259551_a0f47165",
@@ -206,6 +332,24 @@
       "writtenOn": "2023-02-14T03:22:35Z",
       "side": 1,
       "message": "I think this will be clearer if you separate the function definition from the call.\n\n    checkIsStream :\u003d func(fd int) bool { ... }\n    isStream :\u003d checkIsStream(rfd)",
+      "revId": "6993a41315c7733e8b5df8f0e399aa4aa9e49825",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66f2a335_1069b0b0",
+        "filename": "src/os/readfrom_linux.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-02-14T04:08:02Z",
+      "side": 1,
+      "message": "How about I just define an explict function outside?\n\n`func checkIfStream(int) bool`",
+      "parentUuid": "5e259551_a0f47165",
       "revId": "6993a41315c7733e8b5df8f0e399aa4aa9e49825",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -229,6 +373,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ddd9b143_eee693e8",
+        "filename": "src/os/readfrom_linux.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-02-14T04:08:02Z",
+      "side": 1,
+      "message": "Actually, I intended to introduce the `UnsafePointer` in the first place, but that needs more extra functions from `reflect` package, such as `verifyNotInHeapPtr` and `methodValueCallCodePtr`, it just seemed to be a bit more tedious for `internal/reflectlite`, `UnsafeAddr` is just way more straightforward cuz we\u0027ve already known the type.\n\nBesides, even if we do introduce `UnsafePointer`, your way `reflectlite.ValueOf(tcp).Elem().Field(0).Field(0).UnsafePointer()` is also not workable cuz we need a pointer type for `UnsafePointer` and `pfd` in `netFD` is a struct, so we still need `Value.Addr` which also introduces new functions `func (t *rtype) ptrTo() *rtype` into `internal/reflectlite`.",
+      "parentUuid": "2d7a08e3_1f3f8ee6",
+      "revId": "6993a41315c7733e8b5df8f0e399aa4aa9e49825",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "161939ae_05f186bf",
         "filename": "src/os/readfrom_linux_test.go",
         "patchSetId": 24
@@ -240,6 +402,24 @@
       "writtenOn": "2023-02-14T03:22:35Z",
       "side": 1,
       "message": "This import should be below the standard library imports, separated by a blank line.",
+      "revId": "6993a41315c7733e8b5df8f0e399aa4aa9e49825",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d0ff881_8c9daf4c",
+        "filename": "src/os/readfrom_linux_test.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-02-14T04:08:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "161939ae_05f186bf",
       "revId": "6993a41315c7733e8b5df8f0e399aa4aa9e49825",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
