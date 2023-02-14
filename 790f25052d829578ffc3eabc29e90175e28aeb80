@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "49fb25fc_2d136d09",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-02-14T14:25:43Z",
+      "side": 1,
+      "message": "This is a good suggestion. I\u0027ll send a followup CL.",
+      "parentUuid": "f9bc50ab_2571a222",
+      "revId": "790f25052d829578ffc3eabc29e90175e28aeb80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ecb74466_d745a4dc",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-02-14T05:38:48Z",
       "side": 1,
       "message": "The splitting requirements for both PPC64 and Darwin/ARM64 are documented in the comment above - worth adding documentation for ARM as well?",
+      "range": {
+        "startLine": 2538,
+        "startChar": 5,
+        "endLine": 2538,
+        "endChar": 22
+      },
+      "revId": "790f25052d829578ffc3eabc29e90175e28aeb80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ae92fb1_f70dc5b3",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2538,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-02-14T14:25:43Z",
+      "side": 1,
+      "message": "I\u0027ll include this fix in my follow-up CL.",
+      "parentUuid": "ecb74466_d745a4dc",
       "range": {
         "startLine": 2538,
         "startChar": 5,
