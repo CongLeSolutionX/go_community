@@ -34,6 +34,24 @@
       "parentUuid": "ed1907a2_1f807afa",
       "revId": "261fe25c83a94fc3defe064baed3944cd3d16959",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e05e1ef_dcfff675",
+        "filename": "src/cmd/compile/internal/pgo/irgraph.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-02-14T22:57:56Z",
+      "side": 0,
+      "message": "I suppose. FWIW, all of this redirection code is used only for printing the call graph after inlining is applied, with debug flags only. We have #58153 to improve diagnostics and I\u0027m not convinced that we will keep this graph print around as-is with diagnostics improvements.",
+      "parentUuid": "ee135598_22dd8860",
+      "revId": "261fe25c83a94fc3defe064baed3944cd3d16959",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
