@@ -16,6 +16,24 @@
       "message": "Just to check my understanding, the issue is in remove (which was also called in redirectEdge), changing g.OutEdges, such that this loop was skipping entries and perhaps indexing beyond the end, right?",
       "revId": "261fe25c83a94fc3defe064baed3944cd3d16959",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee135598_22dd8860",
+        "filename": "src/cmd/compile/internal/pgo/irgraph.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 33289
+      },
+      "writtenOn": "2023-02-14T02:19:43Z",
+      "side": 0,
+      "message": "Yes, the index \u0027i\u0027 is invalid when redirecting for the second parent (if there is).\n\nBTW, I figure for \"weight :\u003d g.calculateWeight(InEdge.Src, cur)\", weight here is actually a ratio and should be of float type to mitigate potential data skew? Thanks.",
+      "parentUuid": "ed1907a2_1f807afa",
+      "revId": "261fe25c83a94fc3defe064baed3944cd3d16959",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
