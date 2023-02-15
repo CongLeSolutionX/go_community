@@ -34,6 +34,24 @@
       "parentUuid": "13a13a38_615b5b63",
       "revId": "22d2100364a82f741562d9619707b26b79da8317",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bfdda124_279e0785",
+        "filename": "src/math/all_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 3400,
+      "author": {
+        "id": 17921
+      },
+      "writtenOn": "2023-02-15T03:42:22Z",
+      "side": 1,
+      "message": "that should be an *int result",
+      "parentUuid": "08341a25_b0dfa5ea",
+      "revId": "22d2100364a82f741562d9619707b26b79da8317",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
