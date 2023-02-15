@@ -88,6 +88,24 @@
       "parentUuid": "7bf9f6c9_a3e3418a",
       "revId": "22d2100364a82f741562d9619707b26b79da8317",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d5315e1_d468c6d3",
+        "filename": "src/math/all_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 3400,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2023-02-15T14:56:20Z",
+      "side": 1,
+      "message": "Yes you are right. The inlining is OK but if you have inlining with constant arguments that is when it could get optimized into something that doesn\u0027t exercise the function code.\n\nRegarding existing benchmarks, you are right, they are similar in nature and are not meaningful in some cases, but they were added before inlining was in place so at the time they were added they were of some value. They could also be updated at some point.",
+      "parentUuid": "d08aa900_aab0616f",
+      "revId": "22d2100364a82f741562d9619707b26b79da8317",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
