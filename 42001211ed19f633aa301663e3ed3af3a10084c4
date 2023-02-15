@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0875870b_5e26102d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-02-15T21:46:12Z",
+      "side": 1,
+      "message": "Ohh, interesting. Thanks for noticing that.",
+      "parentUuid": "f8094d4a_b95199bd",
+      "revId": "42001211ed19f633aa301663e3ed3af3a10084c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2aa3ad7e_cfb87b66",
