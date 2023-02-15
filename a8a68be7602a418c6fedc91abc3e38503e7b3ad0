@@ -91,6 +91,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cf11041a_d8e3d000",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2023-02-15T06:50:54Z",
+      "side": 1,
+      "message": "If someone creates the \"security perimeter\" document to link to from here, it should be sufficient to say something like (very rough suggestion),\n\n\"\nBecause Int values can can leak through timing side channels, security-sensitive software should avoid Ints. Moreover, this package is not inside the security perimeter as defined by \u003clink\u003e. \n\"\n\n\nAlso, if there is an alternative to suggest, please put a reference to it here too. It\u0027s a disservice to users to say \"don\u0027t use this\" without suggesting an alternative.",
+      "parentUuid": "3134f389_5c447ed0",
+      "revId": "a8a68be7602a418c6fedc91abc3e38503e7b3ad0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ee183c9d_051fac65",
         "filename": "src/math/big/int.go",
         "patchSetId": 1
