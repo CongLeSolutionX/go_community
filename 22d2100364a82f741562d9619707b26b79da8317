@@ -16,6 +16,24 @@
       "message": "These benchmarks are not doing anything meaningful with the Compare or Compare32 functions. The functions are getting inlined and since the arguments are constant, the result is just replaced with the constant result.",
       "revId": "22d2100364a82f741562d9619707b26b79da8317",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08341a25_b0dfa5ea",
+        "filename": "src/math/all_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 3400,
+      "author": {
+        "id": 17921
+      },
+      "writtenOn": "2023-02-15T03:37:35Z",
+      "side": 1,
+      "message": "Isn\u0027t this the case for the other math functions that are benchmarked as well?\nThey all pass in constants. I guess the proper way would be to make this benchmark data-dependent.\n\nHowever, all we really have to work with are the bool result and loop index.",
+      "parentUuid": "13a13a38_615b5b63",
+      "revId": "22d2100364a82f741562d9619707b26b79da8317",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
