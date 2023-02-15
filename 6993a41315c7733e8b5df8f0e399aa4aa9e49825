@@ -479,6 +479,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1f7ad5d_ee6fa675",
+        "filename": "src/os/readfrom_linux.go",
+        "patchSetId": 24
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-02-15T02:21:13Z",
+      "side": 1,
+      "message": "In fact, the main trouble here is `methodValueCallCodePtr` and we only need to eliminate that, we can still have `verifyNotInHeapPtr`, and the new method `InternalUnsafePointer` can also handle other data types other than `Func`.",
+      "parentUuid": "3c525d41_bd4bb276",
+      "revId": "6993a41315c7733e8b5df8f0e399aa4aa9e49825",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "161939ae_05f186bf",
