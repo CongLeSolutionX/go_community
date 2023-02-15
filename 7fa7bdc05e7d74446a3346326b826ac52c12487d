@@ -72,6 +72,23 @@
       "message": "TRY\u003dlinux-386-longtest,linux-amd64-longtest,linux-amd64-noopt,linux-arm64-longtest",
       "revId": "7fa7bdc05e7d74446a3346326b826ac52c12487d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "646c14a6_d7e33fa2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 30
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-02-15T08:17:57Z",
+      "side": 1,
+      "message": "TRY\u003dlinux-386-longtest,linux-amd64-longtest,linux-amd64-noopt,linux-arm64-longtest",
+      "revId": "7fa7bdc05e7d74446a3346326b826ac52c12487d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
