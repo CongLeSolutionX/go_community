@@ -52,6 +52,24 @@
       "parentUuid": "08341a25_b0dfa5ea",
       "revId": "22d2100364a82f741562d9619707b26b79da8317",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7bf9f6c9_a3e3418a",
+        "filename": "src/math/all_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 3400,
+      "author": {
+        "id": 17921
+      },
+      "writtenOn": "2023-02-15T03:52:41Z",
+      "side": 1,
+      "message": "Maybe a `x +\u003d Compare(...)` call will be better than a simple assignment.\nI can also do //go:noinline on the Benchmark function.",
+      "parentUuid": "bfdda124_279e0785",
+      "revId": "22d2100364a82f741562d9619707b26b79da8317",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
