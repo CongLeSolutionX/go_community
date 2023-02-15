@@ -70,6 +70,24 @@
       "parentUuid": "bfdda124_279e0785",
       "revId": "22d2100364a82f741562d9619707b26b79da8317",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d08aa900_aab0616f",
+        "filename": "src/math/all_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 3400,
+      "author": {
+        "id": 17921
+      },
+      "writtenOn": "2023-02-15T05:29:17Z",
+      "side": 1,
+      "message": "@laboger@linux.vnet.ibm.com I updated the benchmark. It should now be executing the comparison logic on each loop iteration. However, I don\u0027t think we should prevent inlining, since that\u0027s a common scenario for users of this function.",
+      "parentUuid": "7bf9f6c9_a3e3418a",
+      "revId": "22d2100364a82f741562d9619707b26b79da8317",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
