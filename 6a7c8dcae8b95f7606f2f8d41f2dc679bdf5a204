@@ -16,6 +16,24 @@
       "message": "Two things in v2:\n - fixed a way to detect if a capability is set (I forgot a bit shift);\n - tested the fix using go 1.20 patched in place with the test from https://github.com/golang/go/issues/58552#issuecomment-1432505621\n\nAny ideas of how to incorporate the test case in the current CI infra? It needs a capability to be set for a test binary, which I guess is tricky (locally I use `sudo capset`).",
       "revId": "6a7c8dcae8b95f7606f2f8d41f2dc679bdf5a204",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "84db7c70_c9f45088",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-02-16T22:45:15Z",
+      "side": 1,
+      "message": "You could have a test calls t.Skip except when running as root, which makes a temporary copy of the test binary (itself), uses `capset` on it, and then runs it with a flag. That\u0027s quite a lot of work, though, for a test that can only be run as root. Not sure it\u0027s worth it.",
+      "parentUuid": "c7504ac4_692e0e56",
+      "revId": "6a7c8dcae8b95f7606f2f8d41f2dc679bdf5a204",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
