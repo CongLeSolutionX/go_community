@@ -350,7 +350,10 @@ func serveContent(w ResponseWriter, r *Request, name string, modtime time.Time, 
 	w.WriteHeader(code)
 
 	if r.Method != "HEAD" {
-		io.CopyN(w, sendContent, sendSize)
+		_, err = io.CopyN(w, sendContent, sendSize)
+		if err != nil {
+			logf(r, "http: error writing content: %v", err)
+		}
 	}
 }
 
