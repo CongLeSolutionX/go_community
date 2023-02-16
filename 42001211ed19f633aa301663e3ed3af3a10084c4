@@ -36,6 +36,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd1814fa_6ce5b4e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2023-02-16T02:07:10Z",
+      "side": 1,
+      "message": "I actually have a similar CL in my local, where I also need to mangle the inline position, But I could not make `go run run.go` pass. Now I see the missing case is in syntheticClosure.",
+      "parentUuid": "0875870b_5e26102d",
+      "revId": "42001211ed19f633aa301663e3ed3af3a10084c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2aa3ad7e_cfb87b66",
