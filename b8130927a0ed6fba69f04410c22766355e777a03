@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fbed8b66_389ac0c3",
+        "filename": "api/next/46259.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-02-16T23:54:43Z",
+      "side": 1,
+      "message": "Seems like we also need entries for freebsd-arm64 and freebsd-riscv64.",
+      "revId": "b8130927a0ed6fba69f04410c22766355e777a03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d54bf4bb_a27b53fb",
+        "filename": "src/syscall/exec_freebsd_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-02-16T23:54:43Z",
+      "side": 1,
+      "message": "s/2022/2023/",
+      "revId": "b8130927a0ed6fba69f04410c22766355e777a03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42c3267c_54693731",
+        "filename": "src/syscall/exec_freebsd_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-02-16T23:54:43Z",
+      "side": 1,
+      "message": "Use t.TempDir instead.",
+      "revId": "b8130927a0ed6fba69f04410c22766355e777a03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66ce8564_4ba45f12",
+        "filename": "src/syscall/exec_freebsd_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-02-16T23:54:43Z",
+      "side": 1,
+      "message": "When you use t.TempDir you can remove this call to os.RemoveAll.",
+      "revId": "b8130927a0ed6fba69f04410c22766355e777a03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc67629f_71377e6e",
+        "filename": "src/syscall/exec_freebsd_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-02-16T23:54:43Z",
+      "side": 1,
+      "message": "At the start of this function add testenv.MustHaveGoBuild(t).",
+      "revId": "b8130927a0ed6fba69f04410c22766355e777a03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2436aba9_fe5c6cd1",
+        "filename": "src/syscall/exec_freebsd_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-02-16T23:54:43Z",
+      "side": 1,
+      "message": "In new code we prefer not introducing another test.  Instead, at the start of this test, if the environment variable is set, call a helper function and return.  Then use -test.run\u003dTestJailAttach here.",
+      "revId": "b8130927a0ed6fba69f04410c22766355e777a03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "347a89fa_7da430c7",
+        "filename": "src/syscall/exec_freebsd_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-02-16T23:54:43Z",
+      "side": 1,
+      "message": "You shouldn\u0027t need to call os.Exit.",
+      "revId": "b8130927a0ed6fba69f04410c22766355e777a03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
