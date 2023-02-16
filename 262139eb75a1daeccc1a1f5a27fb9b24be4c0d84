@@ -89,6 +89,47 @@
       "message": "LGTM but currently fails the API check, something like this probably should go to api/next/46259.txt:\n\npkg syscall (freebsd-386), type SysProcAttr struct, Jail int #46259\npkg syscall (freebsd-386-cgo), type SysProcAttr struct, Jail int #46259\npkg syscall (freebsd-amd64), type SysProcAttr struct, Jail int #46259\npkg syscall (freebsd-amd64-cgo), type SysProcAttr struct, Jail int #46259\npkg syscall (freebsd-arm), type SysProcAttr struct, Jail int #46259\npkg syscall (freebsd-arm-cgo), type SysProcAttr struct, Jail int #46259",
       "revId": "262139eb75a1daeccc1a1f5a27fb9b24be4c0d84",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fddbef20_25fbced5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 60558
+      },
+      "writtenOn": "2023-02-16T16:45:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "595726e4_4bc3243b",
+      "revId": "262139eb75a1daeccc1a1f5a27fb9b24be4c0d84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8e1b104_2ea64ada",
+        "filename": "src/syscall/exec_freebsd_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 60558
+      },
+      "writtenOn": "2023-02-16T16:45:25Z",
+      "side": 1,
+      "message": "Should I test whether the process is in the correct jail or is it enough to test that it is jailed? If it is good the way it is I would remove the TODO here.",
+      "range": {
+        "startLine": 114,
+        "startChar": 1,
+        "endLine": 115,
+        "endChar": 59
+      },
+      "revId": "262139eb75a1daeccc1a1f5a27fb9b24be4c0d84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
