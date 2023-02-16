@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3fe76234_75cd2912",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-02-16T17:37:28Z",
+      "side": 1,
+      "message": "There is no need for `must` here - it\u0027s a convention.\nIt may help readability a tiny bit but the code is already readable.\nPlease rephrase:\n\nBy convention, use `err` as prefix for variables of type `error`.",
+      "revId": "92ffabd387db3902654b28fb35a572f3509147be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "021da2a4_a67b6e3d",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
