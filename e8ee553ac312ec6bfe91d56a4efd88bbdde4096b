@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b87fd8af_356a9036",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 639,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-02-17T21:17:23Z",
+      "side": 0,
+      "message": "I think you can delete these flag definitions now.",
+      "range": {
+        "startLine": 639,
+        "startChar": 10,
+        "endLine": 639,
+        "endChar": 20
+      },
+      "revId": "e8ee553ac312ec6bfe91d56a4efd88bbdde4096b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
