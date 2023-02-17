@@ -237,6 +237,30 @@
       },
       "revId": "371d7cf2d95146e370e10ab1a10dc764806b7382",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0f2cec0_41cfcb42",
+        "filename": "src/cmd/go/testdata/script/test_fullpath.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 51672
+      },
+      "writtenOn": "2023-02-17T09:39:11Z",
+      "side": 1,
+      "message": "Done. Sorry, I removed the wrong case by mistake.",
+      "parentUuid": "bc30ef80_58d767ab",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 58
+      },
+      "revId": "371d7cf2d95146e370e10ab1a10dc764806b7382",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
