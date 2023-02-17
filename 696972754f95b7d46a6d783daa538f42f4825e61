@@ -131,6 +131,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0ad98ce8_72a22b80",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14850
+      },
+      "writtenOn": "2023-02-17T18:45:18Z",
+      "side": 1,
+      "message": "Hi Michael,\nI did spend some time on the investigation (not nearly as much as I\u0027d wanted though). \n\nOn 386 I can\u0027t understand why syscall returns EINVAL. Arguments seem to be alright... I\u0027m at a dead end for now tbh.\n\nWith amd64 I\u0027m investigating `runtime.findRunnable()`. I\u0027m planning to take a few solid days for that next week. And I\u0027ll ask you for some leads if no result then.",
+      "parentUuid": "21a40079_be8d99a0",
+      "revId": "696972754f95b7d46a6d783daa538f42f4825e61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "101141fd_e1c90dfd",
         "filename": "src/runtime/internal/syscall/defs_linux_386.go",
         "patchSetId": 1
