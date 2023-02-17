@@ -10,6 +10,7 @@ import (
 	"cmd/internal/obj"
 	"cmd/internal/src"
 	"fmt"
+	"strings"
 )
 
 // A Func corresponds to a single function in a Go program
@@ -273,6 +274,12 @@ func PkgFuncName(f *Func) string {
 	pkg := s.Pkg
 
 	return pkg.Path + "." + s.Name
+}
+
+// IsEqOrHashFunc reports whether f is type eq/hash function.
+func IsEqOrHashFunc(f *Func) bool {
+	fn := FuncName(f)
+	return strings.HasPrefix(fn, ".eq.") || strings.HasPrefix(fn, ".hash.")
 }
 
 var CurFunc *Func
