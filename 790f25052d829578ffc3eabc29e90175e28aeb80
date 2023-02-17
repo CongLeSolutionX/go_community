@@ -235,6 +235,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5d767f79_b0d6e358",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-02-17T20:17:06Z",
+      "side": 1,
+      "message": "Revised CL is  https://go-review.googlesource.com/c/go/+/469275",
+      "parentUuid": "d631ea98_27b581d9",
+      "revId": "790f25052d829578ffc3eabc29e90175e28aeb80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ecb74466_d745a4dc",
         "filename": "src/cmd/link/internal/ld/data.go",
         "patchSetId": 4
