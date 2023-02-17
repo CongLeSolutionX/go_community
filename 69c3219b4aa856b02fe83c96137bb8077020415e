@@ -300,6 +300,24 @@
       "parentUuid": "998d52bc_1f047f87",
       "revId": "69c3219b4aa856b02fe83c96137bb8077020415e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ed682e3_dccc1e8e",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-02-17T19:08:21Z",
+      "side": 1,
+      "message": "I\u0027ve managed to make this work - it does keep it isolated to mips64, although it seems more convoluted. elfsetupplt gets called before gentext, so we have to defer DT_MIPS_LOCAL_GOTNO until then, however DT_MIPS_SYMTABNO and DT_MIPS_GOTSYM can be updated in addpltsym as you suggest.",
+      "parentUuid": "fd33a2bf_f85b5180",
+      "revId": "69c3219b4aa856b02fe83c96137bb8077020415e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

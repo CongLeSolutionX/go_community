@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6942b813_07704f5b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-02-17T19:08:21Z",
+      "side": 1,
+      "message": "TRY\u003dlinux-mips64\n\nPTAL",
+      "revId": "d95847101fa9eacd7a3e377b33c9e7fe66972bda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
