@@ -127,6 +127,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cb732950_f09f24a0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-02-17T18:08:24Z",
+      "side": 1,
+      "message": "Interesting. Looks like at the point where we could generate a tramp, we don\u0027t.\n\nThe calculated distance for the call (\"t\" from https://go.googlesource.com/go/+/790f25052d829578ffc3eabc29e90175e28aeb80/src/cmd/link/internal/arm/asm.go#401 ) is being computed as -0x7fffe1, which is just within range, so it thinks no tramp is needed.\n\nWhen I dump out the go.o produced by the Go linker feeding into the external link, however, the two symbols in question are indeed out of range: runtime.duffzero is at 0x000808ec, whereas the source of the bad reloc (\u0027github.com/aws/aws-sdk-go/service/ec2.(*DescribeInstanceStatusInput).GoString\u0027) is at 0x02080df0. That\u0027s a distance of 33555200, which is right on the hairy edge of fitting.\n\nI am wondering if maybe we need a slightly higher fudge factor here.",
+      "parentUuid": "4f18d923_0760e8c9",
+      "revId": "790f25052d829578ffc3eabc29e90175e28aeb80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ecb74466_d745a4dc",
         "filename": "src/cmd/link/internal/ld/data.go",
         "patchSetId": 4
