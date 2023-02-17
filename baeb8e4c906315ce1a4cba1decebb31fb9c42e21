@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f183688_ab3697c5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2023-02-17T19:20:09Z",
+      "side": 1,
+      "message": "Coming up with the correct wording here is... painful. I tried to tread the line between stern warning and useful context, but 🤷, happy to take any suggestions.",
+      "revId": "baeb8e4c906315ce1a4cba1decebb31fb9c42e21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
