@@ -72,6 +72,24 @@
       "message": "This should be #ifdef GOPPC64_power10 followed by the power10 block of code from below. After that code you have the #else with the MOVD R5, CTR, then the zerotailloop label and loop code. The power10 code doesn\u0027t use the zerotailloop.",
       "revId": "aee4299bd0defd86d1f52d217378d18b5b8069f2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c232375_74a9aaaf",
+        "filename": "src/runtime/memclr_ppc64x.s",
+        "patchSetId": 10
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2023-02-17T16:24:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45252021_7fe290a5",
+      "revId": "aee4299bd0defd86d1f52d217378d18b5b8069f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
