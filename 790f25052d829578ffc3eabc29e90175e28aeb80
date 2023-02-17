@@ -181,6 +181,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d98d67f9_bd42e8c9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-02-17T19:30:32Z",
+      "side": 1,
+      "message": "Yeah I was thinking along the same lines. It could be that this is a bug/weakness in the external linker, which in most cases (I am guessing) it only handling CALL relocations that target the start of functions, not somewhere in the middle of the function.\n\nIf you look at the distance between the start of runtime.duffcopy and the start of `github.com/aws/aws-sdk-go/service/ec2.(*DescribeInstanceStatusInput).GoString`, it comes out as 768 over the limit. However the call is at offset 44 within Gstring (bringing us up to 812), but the addend on the relocation is 936, meaning that it should technically fit (with 124 bytes to spare).\n\nI think what\u0027s happening is that the external linker is not doing the check correctly, e.g. ignoring the addend. Perhaps we need the slop factor only when looking at calls with non-zero addends ( like to duff routines ).",
+      "parentUuid": "7009ac0a_8f5f3b8f",
+      "revId": "790f25052d829578ffc3eabc29e90175e28aeb80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ecb74466_d745a4dc",
         "filename": "src/cmd/link/internal/ld/data.go",
         "patchSetId": 4
