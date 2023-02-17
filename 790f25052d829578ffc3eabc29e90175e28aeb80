@@ -73,6 +73,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9acadd9c_2468be02",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-02-17T17:02:18Z",
+      "side": 1,
+      "message": "Thanks for the explanation.  Yes, both the source of the call (github.com/aws/aws-sdk-go/service/ec2.(*DescribeInstanceStatusInput).GoString) and the target (runtime.duffcopy) are Go functions, so I suppose you are right, it seems that existing trampoline generation should kick in and handle this case. My mistake. Splitting the text sections does work around the problem, but if this is supposed to be handled by the existing tramp generation then this CL is not the right way to go.\n\nThe relocation in question coming out of the compiler looks kind of interesting:\n\n```\n\trel 0+0 t\u003d23 type:github.com/aws/aws-sdk-go/service/ec2.DescribeInstanceStatusInput+0\n\trel 44+4 t\u003d8 runtime.duffcopy+eb0000ea\n\trel 56+4 t\u003d8 runtime.duffcopy+eb0000ea\n\trel 76+4 t\u003d8 runtime.convT+ebfffffe\n```\n\nThat is a large offset there.",
+      "parentUuid": "52399361_208d400f",
+      "revId": "790f25052d829578ffc3eabc29e90175e28aeb80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ecb74466_d745a4dc",
         "filename": "src/cmd/link/internal/ld/data.go",
         "patchSetId": 4
