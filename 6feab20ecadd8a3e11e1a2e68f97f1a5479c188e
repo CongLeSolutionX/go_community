@@ -53,6 +53,24 @@
       "message": "Hm. Maybe this is overkill after all (even though I suggested it for the clear built in). Let\u0027s see what Matt thinks.",
       "revId": "6feab20ecadd8a3e11e1a2e68f97f1a5479c188e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ee9abe0_51c92e1d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-02-17T21:10:02Z",
+      "side": 1,
+      "message": "It does feel like splitting hairs, but I\u0027m leaning in favor. \"is\" isn\u0027t any heavier on the page than \"\u003d\u003d\", and it does avoid abusing notation. I think we\u0027d reject a CL to make the reverse edit.",
+      "parentUuid": "2dcdd699_07bfa9f1",
+      "revId": "6feab20ecadd8a3e11e1a2e68f97f1a5479c188e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
