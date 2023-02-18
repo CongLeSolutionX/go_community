@@ -237,6 +237,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ddb9ea7b_1fbdb1c5",
+        "filename": "src/cmd/link/internal/mips64/asm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-02-18T05:45:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1fb3044a_d9b32461",
+      "revId": "3d5396bb565a0b705e769761d813376391805757",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "11a74987_f7a6cceb",
@@ -321,6 +339,30 @@
       "side": 1,
       "message": "The resolver requires the index into the GOT to be provided in $t8 (R24) and the return address to be provided in $t7 (R15). The address of the GOTPLT entry is in $t8 at this point, which is turned into an index by subtracting the address of the first entry, shifting to divide by the size of an entry, then subtracting two to allow for the first two entries being reserved.\n\nI\u0027ve expanded the comment slightly.",
       "parentUuid": "3165e19c_4d2e8009",
+      "range": {
+        "startLine": 191,
+        "startChar": 0,
+        "endLine": 196,
+        "endChar": 72
+      },
+      "revId": "3d5396bb565a0b705e769761d813376391805757",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "432e951b_8942362b",
+        "filename": "src/cmd/link/internal/mips64/asm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-02-18T05:45:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "213dfe5e_a87077fc",
       "range": {
         "startLine": 191,
         "startChar": 0,

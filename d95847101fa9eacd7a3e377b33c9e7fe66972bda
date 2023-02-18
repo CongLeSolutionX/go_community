@@ -91,6 +91,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9fa3f0d_d8abe48d",
+        "filename": "src/cmd/link/internal/mips64/asm.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-02-18T05:45:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e2593b73_0ca3d175",
+      "revId": "d95847101fa9eacd7a3e377b33c9e7fe66972bda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f94ca324_ae4465d1",
@@ -104,6 +122,24 @@
       "writtenOn": "2023-02-17T20:26:43Z",
       "side": 1,
       "message": "gotSymIndex only changes once, you can reasonably do this above in the gotSymIndex \u003d\u003d 0 case.",
+      "revId": "d95847101fa9eacd7a3e377b33c9e7fe66972bda",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "69e2f641_c6a7fdaf",
+        "filename": "src/cmd/link/internal/mips64/asm.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-02-18T05:45:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f94ca324_ae4465d1",
       "revId": "d95847101fa9eacd7a3e377b33c9e7fe66972bda",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
