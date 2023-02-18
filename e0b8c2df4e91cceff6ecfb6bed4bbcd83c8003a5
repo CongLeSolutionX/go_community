@@ -76,6 +76,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8e56c1de_6056d339",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2023-02-18T02:22:11Z",
+      "side": 1,
+      "message": "The errors from content.Seek and io.CopyN are still handled in some form. I do think that we should handle the error from io.ReadFull. Are there any other places where the error is not handled?",
+      "parentUuid": "4bf05e0c_3a4be3b2",
+      "revId": "e0b8c2df4e91cceff6ecfb6bed4bbcd83c8003a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "28f75d6e_4fffdd2f",
         "filename": "src/net/http/fs.go",
         "patchSetId": 2
