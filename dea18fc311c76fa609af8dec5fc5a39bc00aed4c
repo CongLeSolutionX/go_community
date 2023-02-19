@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0eb37b20_c6d8b0f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-02-19T23:58:30Z",
+      "side": 1,
+      "message": "Grammar is off. Also, the only that matters here is that we have test cases with digits \u003c \u00270\u0027. We should get an error no matter the implementation. In other words, that fact that the implementation uses a \"trick\" is irrelevant.\n\nSince you already say what this change says in the very 1st (subject) line, you can leave the entire paragraph away. Thanks.",
+      "revId": "dea18fc311c76fa609af8dec5fc5a39bc00aed4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "33f6f848_dc53defe",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
