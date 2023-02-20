@@ -73,6 +73,10 @@ TEXT ·sinAsm(SB),NOSPLIT,$0-16
 	BLTU    L17
 	FMOVD   F0, F5
 L2:
+	MOVD    $sincosxlim<>+0(SB), R1
+	FMOVD   0(R1), F1
+	FCMPU   F5, F1
+	BGT     L16
 	MOVD    $sincoss7<>+0(SB), R1
 	FMOVD   0(R1), F4
 	MOVD    $sincoss6<>+0(SB), R1
@@ -205,9 +209,12 @@ L15:
 	RET
 
 
+L16:
+	BR     ·sin(SB)
 sinIsZero:
 	FMOVD   F0, ret+8(FP)
 	RET
+
 
 // Cos returns the cosine of the radian argument.
 //
@@ -223,6 +230,10 @@ TEXT ·cosAsm(SB),NOSPLIT,$0-16
 	BLTU    L35
 	FMOVD   F0, F1
 L21:
+	MOVD    $sincosxlim<>+0(SB), R1
+	FMOVD   0(R1), F2
+	FCMPU   F1, F2
+	BGT     L30
 	MOVD    $sincosc7<>+0(SB), R1
 	FMOVD   0(R1), F4
 	MOVD    $sincosc6<>+0(SB), R1
@@ -354,3 +365,6 @@ L34:
 	FNEG    F0, F0
 	FMOVD   F0, ret+8(FP)
 	RET
+
+L30:
+	BR     ·cos(SB)
