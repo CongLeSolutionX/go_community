@@ -70,6 +70,24 @@
       "message": "This could also go above, it doesn\u0027t depend on flr, reducing scope just a bit more. Doesn\u0027t matter much though.",
       "revId": "64bd189f9f85a6836c9958750f65eca47564472d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c58a286_2884a9ed",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-02-21T21:52:33Z",
+      "side": 1,
+      "message": "That\u0027s true. The extra scope of flr here doesn\u0027t cause any problems later, though, so I think I\u0027ll leave it.",
+      "parentUuid": "2428c785_0213e035",
+      "revId": "64bd189f9f85a6836c9958750f65eca47564472d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
