@@ -124,6 +124,42 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d4916d6_7ac850f4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34895
+      },
+      "writtenOn": "2023-02-21T06:02:30Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "a81a6a12_f1da762a",
+      "revId": "69c3219b4aa856b02fe83c96137bb8077020415e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f36784d_b0b952e5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34895
+      },
+      "writtenOn": "2023-02-21T06:02:30Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "718467d3_52e304a7",
+      "revId": "69c3219b4aa856b02fe83c96137bb8077020415e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d0215c79_0e336f5d",
@@ -316,6 +352,24 @@
       "side": 1,
       "message": "I\u0027ve managed to make this work - it does keep it isolated to mips64, although it seems more convoluted. elfsetupplt gets called before gentext, so we have to defer DT_MIPS_LOCAL_GOTNO until then, however DT_MIPS_SYMTABNO and DT_MIPS_GOTSYM can be updated in addpltsym as you suggest.",
       "parentUuid": "fd33a2bf_f85b5180",
+      "revId": "69c3219b4aa856b02fe83c96137bb8077020415e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb0efdde_e21c2f21",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 34895
+      },
+      "writtenOn": "2023-02-21T06:02:30Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "5ed682e3_dccc1e8e",
       "revId": "69c3219b4aa856b02fe83c96137bb8077020415e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
