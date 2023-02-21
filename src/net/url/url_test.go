@@ -2182,12 +2182,12 @@ func TestJoinPath(t *testing.T) {
 		{
 			base: "",
 			elem: []string{"a"},
-			out:  "a",
+			out:  "/a",
 		},
 		{
 			base: "",
 			elem: []string{"../a"},
-			out:  "a",
+			out:  "/a",
 		},
 	}
 	for _, tt := range tests {
