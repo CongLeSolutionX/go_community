@@ -21,4 +21,5 @@ type Slice struct {
 	Data unsafe.Pointer
 	Cap  int
 	Len  int
+	pad  int // TODO if we do this for real, this type needs alignment.
 }

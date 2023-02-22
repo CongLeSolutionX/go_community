@@ -13,6 +13,7 @@ type slice struct {
 	array unsafe.Pointer
 	cap   int
 	len   int
+	_     int
 }
 
 // A notInHeapSlice is a slice backed by runtime/internal/sys.NotInHeap memory.
@@ -20,4 +21,5 @@ type notInHeapSlice struct {
 	array *notInHeap
 	cap   int
 	len   int
+	_     int
 }
