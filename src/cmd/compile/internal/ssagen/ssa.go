@@ -329,6 +329,7 @@ func buildssa(fn *ir.Func, worker int) *ssa.Func {
 	}
 
 	var s state
+	s.printSSA = printssa
 	s.pushLine(fn.Pos())
 	defer s.popLine()
 
@@ -887,6 +888,7 @@ type state struct {
 	softFloat       bool
 	hasOpenDefers   bool // whether we are doing open-coded defers
 	checkPtrEnabled bool // whether to insert checkptr instrumentation
+	printSSA        bool // if SSA is being dumped/printed.
 
 	// If doing open-coded defers, list of info about the defer calls in
 	// scanning order. Hence, at exit we should run these defers in reverse
