@@ -44,6 +44,127 @@ type NameOff int32 // offset to a name
 type TypeOff int32 // offset to an *abi.Type
 type TextOff int32 // offset from top of text section
 
+// Offset is for computing offsets of type data structures at compile/link time;
+// the target platform may not be the host platform.  Its state includes the
+// current offset, necessary alignment for the sequence of types, and the size
+// of pointers and alignment of slices.
+type Offset struct {
+	off        uint32
+	align      uint8
+	ptrSize    uint8
+	sliceAlign uint8
+}
+
+// NewOffset returns a new Offset with offset 0 and alignment 1.
+func NewOffset(ptrSize uint8, twoWordAlignSlices bool) Offset {
+	if twoWordAlignSlices {
+		return Offset{off: 0, align: 1, ptrSize: ptrSize, sliceAlign: 2 * ptrSize}
+	}
+	return Offset{off: 0, align: 1, ptrSize: ptrSize, sliceAlign: ptrSize}
+
+}
+
+func assertIsAPowerOfTwo(x uint8) {
+	if x == 0 {
+		panic("Zero is not a power of two")
+	}
+	y := int(x)
+	if y&-y == y {
+		return
+	}
+	panic("Not a power of two")
+}
+
+// NewOffset returns a new Offset with specified offset and alignment.
+func InitializedOffset(off int, align uint8, ptrSize uint8, twoWordAlignSlices bool) Offset {
+	assertIsAPowerOfTwo(align)
+	o0 := NewOffset(ptrSize, twoWordAlignSlices)
+	o0.off = uint32(off)
+	o0.align = align
+	return o0
+}
+
+func (o Offset) align_(a uint8) Offset {
+	o.off = (o.off + uint32(a) - 1) & ^(uint32(a) - 1)
+	if o.align < a {
+		o.align = a
+	}
+	return o
+}
+
+// Align advances the offset as necessary to obtain an alignment.
+// a must be a power of two
+func (o Offset) Align(a uint8) Offset {
+	assertIsAPowerOfTwo(a)
+	return o.align_(a)
+}
+
+func (o Offset) plus(x uint32) Offset {
+	o = o.align_(uint8(x))
+	o.off += x
+	return o
+}
+
+// D8 appends an 8-bit field to o.
+func (o Offset) D8() Offset {
+	return o.plus(1)
+}
+
+// D16 appends an 16-bit field to o.
+func (o Offset) D16() Offset {
+	return o.plus(2)
+}
+
+// D32 appends an 32-bit field to o.
+func (o Offset) D32() Offset {
+	return o.plus(4)
+}
+
+// D64 appends an 64-bit field to o.
+func (o Offset) D64() Offset {
+	return o.plus(8)
+}
+
+// D64 appends an pointer field to o.
+func (o Offset) P() Offset {
+	if o.ptrSize == 0 {
+		panic("This offset has no defined pointer size")
+	}
+	return o.plus(uint32(o.ptrSize))
+}
+
+// Slice appends a slice field to o.
+func (o Offset) Slice() Offset {
+	o = o.align_(o.sliceAlign)
+	o.off += 3 * uint32(o.ptrSize)
+	return o.Align(o.sliceAlign)
+}
+
+// String appends a string field to o.
+func (o Offset) String() Offset {
+	o = o.align_(o.ptrSize)
+	o.off += 2 * uint32(o.ptrSize)
+	return o
+}
+
+// Interface appends an interface field to o.
+func (o Offset) Interface() Offset {
+	o = o.align_(o.ptrSize)
+	o.off += 2 * uint32(o.ptrSize)
+	return o
+}
+
+// Offset returns the struct-aligned offset (size) of o.
+// This is at least as large as the current internal offset; it may be larger.
+func (o Offset) Offset() int {
+	return int(o.Align(o.align).off)
+}
+
+func (o Offset) PlusUncommon() Offset {
+	o.off += uint32(UncommonSize())
+	return o
+}
+
 // Type is the runtime representation of a Go type.
 //
 // Type is also referenced implicitly
@@ -72,9 +193,13 @@ type Type struct {
 	PtrToThis TypeOff // type for pointer to this type, may be zero
 }
 
+func CommonOffset(ptrSize int, twoWordAlignSlices bool) Offset {
+	return InitializedOffset(CommonSize(ptrSize), uint8(ptrSize), uint8(ptrSize), twoWordAlignSlices)
+}
+
 func CommonSize(ptrSize int) int      { return 4*ptrSize + 8 + 8 } // sizeof(Type) for a given ptrSize
 func StructFieldSize(ptrSize int) int { return 3 * ptrSize }       // sizeof(StructField) for a given ptrSize
-func UncommonSize(ptrSize int) int    { return 4 + 2 + 2 + 4 + 4 } // sizeof(UncommonType) for a given ptrSize
+func UncommonSize() int               { return 4 + 2 + 2 + 4 + 4 } // sizeof(UncommonType) for a given ptrSize
 func IMethodSize(ptrSize int) int     { return 4 + 4 }             // sizeof(IMethod) for a given ptrSize
 
 func KindOff(ptrSize int) int     { return 2*ptrSize + 7 }
@@ -249,21 +374,22 @@ func (n Name) Tag() string {
 	return unsafeStringFor(n.Data(1+i+l+i2), l2)
 }
 
-func (n Name) PkgPath(resolveNameOff func(ptrInModule unsafe.Pointer, off NameOff) Name) string {
-	if n.Bytes == nil || *n.Data(0)&(1<<2) == 0 {
-		return ""
-	}
-	i, l := n.ReadVarint(1)
-	off := 1 + i + l
-	if *n.Data(0)&(1<<1) != 0 {
-		i2, l2 := n.ReadVarint(off)
-		off += i2 + l2
-	}
-	var nameOff NameOff
-	copy((*[4]byte)(unsafe.Pointer(&nameOff))[:], n.Data4(off))
-	pkgPathName := resolveNameOff(unsafe.Pointer(n.Bytes), nameOff)
-	return pkgPathName.Name()
-}
+// Causes a compiler error....
+// func (n Name) PkgPath(resolveNameOff func(ptrInModule unsafe.Pointer, off NameOff) Name) string {
+// 	if n.Bytes == nil || *n.Data(0)&(1<<2) == 0 {
+// 		return ""
+// 	}
+// 	i, l := n.ReadVarint(1)
+// 	off := 1 + i + l
+// 	if *n.Data(0)&(1<<1) != 0 {
+// 		i2, l2 := n.ReadVarint(off)
+// 		off += i2 + l2
+// 	}
+// 	var nameOff NameOff
+// 	copy((*[4]byte)(unsafe.Pointer(&nameOff))[:], n.Data4(off))
+// 	pkgPathName := resolveNameOff(unsafe.Pointer(n.Bytes), nameOff)
+// 	return pkgPathName.Name()
+// }
 
 func (n Name) isBlank() bool {
 	if n.Bytes == nil {
