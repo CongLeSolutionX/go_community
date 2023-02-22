@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c85d99a2_b189a57a",
+        "filename": "src/internal/poll/fd_plan9.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-02-22T17:20:17Z",
+      "side": 1,
+      "message": "Hmm... while the mutex is unlocked, is it possible that some other goroutine will also call a `Set.*Deadline` method that will write to `fd.rdone` and/or `fd.wdone`? If so, it seems like that write would race.\n\nPerhaps this should be a loop, and should read the `rdone` and/or `wdone` field while still locked:\n\n```\nfor fd.rtimer !\u003d nil {\n\tif fd.rtimer.Stop() {\n\t\tfd.rtimer \u003d nil\n\t} else {\n\t\trdone :\u003d fd.rdone\n\t\tfd.rmu.Unlock()\n\t\t\u003c-rdone\n\t\tfd.rmu.Lock()\n\t}\n}\nfd.rtimedout.Store(false)\n```",
+      "revId": "063cf15a60e96fbbd76e249aee533d9b774850c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67ddb5b0_7f4e14c3",
+        "filename": "src/internal/poll/fd_plan9.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-02-22T17:20:17Z",
+      "side": 1,
+      "message": "Perhaps also set `fd.rtimer \u003d nil` here?",
+      "revId": "063cf15a60e96fbbd76e249aee533d9b774850c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "195d2363_6c0e2f16",
+        "filename": "src/internal/poll/fd_plan9.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-02-22T17:20:17Z",
+      "side": 1,
+      "message": "also `fd.wtimer \u003d nil`?",
+      "revId": "063cf15a60e96fbbd76e249aee533d9b774850c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
