@@ -235,6 +235,24 @@
       "parentUuid": "37975ea6_f779af00",
       "revId": "04ea6002b25333a2a89b92808223bfac00e4af1a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1152fa79_5b3cdf4e",
+        "filename": "src/os/readfrom_linux.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-02-22T20:43:36Z",
+      "side": 1,
+      "message": "\u003e Here are two questions before I submit a new patchset:\n\u003e 1. Why do we need `FDWrapper`? Why can\u0027t we just define `func (c *rawConn) PollFD() *poll.FD`?\n\nI would be ok with that signature as well, but that would theoretically make it possible for external Go libraries to obtain a `*poll.FD` via the `reflect` package, and to call its methods without using `unsafe`.\n\n(I\u0027m ok with that because the `rawConn` type is already unexported — if someone goes to the trouble to get at its methods via `reflect` I suspect they would also just abuse `unsafe` to access the `*poll.FD` if push comes to shove.)\n\nEither way I will defer to Ian if he has a preference — what\u0027s important to me is that we eliminate the FD race and type-unsafe field access and conversion.\n\n\n\u003e 2. Should I keep the current changes to `reflectlite` for future use? or just restore it?\n\u003e @bcmills@google.com @iant@google.com\n\nI would be inclined to back out the `reflectlite` changes, since part of the point of that package is to be small enough to be a very low level dependency.",
+      "parentUuid": "c67fa25e_f92bd38a",
+      "revId": "04ea6002b25333a2a89b92808223bfac00e4af1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
