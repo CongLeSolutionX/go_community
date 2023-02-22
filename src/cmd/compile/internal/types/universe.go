@@ -50,7 +50,7 @@ func InitTypes(defTypeName func(sym *Sym, typ *Type) Object) {
 	if base.SwapLenCap() {
 		SliceCapOffset = RoundUp(SlicePtrOffset+int64(PtrSize), int64(PtrSize))
 		SliceLenOffset = RoundUp(SliceCapOffset+int64(PtrSize), int64(PtrSize))
-		SliceSize = RoundUp(SliceLenOffset+int64(PtrSize), int64(PtrSize))
+		SliceSize = RoundUp(SliceLenOffset+int64(PtrSize), 2*int64(PtrSize)) // Slice sizes are 4 pointers if aligned at 2 pointers
 	} else {
 		SliceLenOffset = RoundUp(SlicePtrOffset+int64(PtrSize), int64(PtrSize))
 		SliceCapOffset = RoundUp(SliceLenOffset+int64(PtrSize), int64(PtrSize))

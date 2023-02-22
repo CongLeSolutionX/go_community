@@ -11,6 +11,7 @@ import (
 	"cmd/link/internal/loader"
 	"cmd/link/internal/sym"
 	"fmt"
+	"internal/abi"
 	"internal/buildcfg"
 	"strings"
 	"unicode"
@@ -488,9 +489,14 @@ func (d *deadcodePass) decodetypeMethods(ldr *loader.Loader, arch *sys.Arch, sym
 		panic(fmt.Sprintf("no methods on %q", ldr.SymName(symIdx)))
 	}
 	off := commonsize(arch) // reflect.rtype
+	_ = abi.CommonOffset(arch.PtrSize, wideSliceAlign())
 	switch decodetypeKind(arch, p) & kindMask {
 	case kindStruct: // reflect.structType
-		off += 4 * arch.PtrSize
+		toff := off + 4*arch.PtrSize
+		off = abi.CommonOffset(arch.PtrSize, wideSliceAlign()).P().Slice().Offset()
+		if !wideSliceAlign() && off != toff {
+			panic(fmt.Errorf("kindStruct offset mismatch, toff=%d, off=%d", toff, off))
+		}
 	case kindPtr: // reflect.ptrType
 		off += arch.PtrSize
 	case kindFunc: // reflect.funcType
@@ -504,7 +510,8 @@ func (d *deadcodePass) decodetypeMethods(ldr *loader.Loader, arch *sys.Arch, sym
 	case kindMap: // reflect.mapType
 		off += 4*arch.PtrSize + 8
 	case kindInterface: // reflect.interfaceType
-		off += 3 * arch.PtrSize
+		off += 4 * arch.PtrSize
+		panic("haha")
 	default:
 		// just Sizeof(rtype)
 	}

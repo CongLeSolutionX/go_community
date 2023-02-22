@@ -288,6 +288,9 @@ func NewABIConfig(iRegsCount, fRegsCount int, offsetForLocals int64, number int)
 		types.NewField(nxp, fname(third), it),
 	})
 	types.CalcStructSize(synthSlice)
+	if base.SwapLenCap() && number == 1 {
+		synthSlice.SetAlignment(uint8(2 * types.PtrSize))
+	}
 
 	return &ABIConfig{offsetForLocals: offsetForLocals, regAmounts: RegAmounts{iRegsCount, fRegsCount}, regsForTypeCache: make(map[*types.Type]int),
 		abiNumber: number, synthSlice: synthSlice, sliceLenIndex: sliceLenIndex, sliceCapIndex: sliceCapIndex}
