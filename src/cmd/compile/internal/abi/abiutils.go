@@ -288,6 +288,9 @@ func NewABIConfig(iRegsCount, fRegsCount int, offsetForLocals int64, number int)
 		types.NewField(nxp, fname(third), it),
 	})
 	types.CalcStructSize(synthSlice)
+	if base.SwapLenCap() && number == 1 {
+		synthSlice.SetAlignment(uint8(2 * types.PtrSize))
+	}
 
 	return &ABIConfig{offsetForLocals: offsetForLocals, regAmounts: RegAmounts{iRegsCount, fRegsCount}, regsForTypeCache: make(map[*types.Type]int),
 		abiNumber: number, synthSlice: synthSlice, sliceLenIndex: sliceLenIndex, sliceCapIndex: sliceCapIndex}
@@ -644,12 +647,12 @@ func (state *assignState) allocateRegs(regs []RegIndex, t *types.Type) []RegInde
 // regAllocate creates a register ABIParamAssignment object for a param
 // or result with the specified type, as a final step (this assumes
 // that all of the safety/suitability analysis is complete).
-func (state *assignState) regAllocate(t *types.Type, name types.Object, isReturn bool) ABIParamAssignment {
+func (state *assignState) regAllocate(t, aot *types.Type, name types.Object, isReturn bool) ABIParamAssignment {
 	spillLoc := int64(-1)
 	if !isReturn {
 		// Spill for register-resident t must be aligned for storage of a t.
-		spillLoc = align(state.spillOffset, t)
-		state.spillOffset = spillLoc + t.Size()
+		spillLoc = align(state.spillOffset, aot)
+		state.spillOffset = spillLoc + aot.Size()
 	}
 	return ABIParamAssignment{
 		Type:      t,
@@ -662,11 +665,11 @@ func (state *assignState) regAllocate(t *types.Type, name types.Object, isReturn
 // stackAllocate creates a stack memory ABIParamAssignment object for
 // a param or result with the specified type, as a final step (this
 // assumes that all of the safety/suitability analysis is complete).
-func (state *assignState) stackAllocate(t *types.Type, name types.Object) ABIParamAssignment {
+func (state *assignState) stackAllocate(t, aot *types.Type, name types.Object) ABIParamAssignment {
 	return ABIParamAssignment{
 		Type:   t,
 		Name:   name,
-		offset: int32(state.stackSlot(t)),
+		offset: int32(state.stackSlot(aot)),
 	}
 }
 
@@ -801,15 +804,20 @@ func (state *assignState) regassign(pt *types.Type) bool {
 // ABIParamResultInfo held in 'state'.
 func (state *assignState) assignParamOrReturn(pt *types.Type, n types.Object, isReturn bool) ABIParamAssignment {
 	state.pUsed = RegAmounts{}
+	aot := pt
+	if pt.IsSlice() {
+		// Do this to use the per-ABI slice definition, w/ proper alignment for that ABI.
+		aot = state.config.synthSlice
+	}
 	if pt.Size() == types.BADWIDTH {
 		base.Fatalf("should never happen")
 		panic("unreachable")
 	} else if pt.Size() == 0 {
-		return state.stackAllocate(pt, n)
+		return state.stackAllocate(pt, aot, n)
 	} else if state.regassign(pt) {
-		return state.regAllocate(pt, n, isReturn)
+		return state.regAllocate(pt, aot, n, isReturn)
 	} else {
-		return state.stackAllocate(pt, n)
+		return state.stackAllocate(pt, aot, n)
 	}
 }
 
