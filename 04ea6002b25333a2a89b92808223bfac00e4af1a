@@ -148,6 +148,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "af0879ea_2e8dd178",
+        "filename": "src/os/readfrom_linux.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-02-22T22:20:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f3c1727_303b2046",
+      "revId": "04ea6002b25333a2a89b92808223bfac00e4af1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5f13e1a6_7b6ff35c",
@@ -287,6 +305,24 @@
       "side": 1,
       "message": "\u003e I agree that we should eliminate the FD race--thanks for pointing that out.  I\u0027m less concerned about the type-unsafe field access, as there is a test that ensures that it is correct.\n\nI agree that the test ensures that the `getPollFD` returns the correct `*poll.FD` when given an `io.Reader` implementation from the `net` package.\n\nHowever, the type-unsafe access is possible with third-party `io.Reader` implementations that also implement `syscall.Conn`, which as far as I can tell are not covered by the test. There appears to be at least one such implementation in the wild today: https://github.com/grpc/grpc-go/blob/46ab723bb20867a29022047224194fefd311cb37/internal/credentials/syscallconn.go#L28-L42",
       "parentUuid": "8d32a869_1c67e18c",
+      "revId": "04ea6002b25333a2a89b92808223bfac00e4af1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dabb9656_2ddb456e",
+        "filename": "src/os/readfrom_linux.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-02-22T22:20:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fdeebcb1_51d62f3a",
       "revId": "04ea6002b25333a2a89b92808223bfac00e4af1a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
