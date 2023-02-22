@@ -107,15 +107,29 @@ lt32gt8:
 	ADD     $16, SRC
 	ADD     $16, TGT
 
-lt16:	// Move 8 bytes if possible
+lt16:	
+	// Move 8 bytes if possible
 	CMP     DWORDS, $1
 	BLT     checkbytes
+#ifdef GOPPC64_power10
+	ADD 	$8, BYTES
+	SLD	$56, BYTES, TMP
+	LXVL	SRC, TMP, V0
+	STXVL	V0, TGT, TMP
+	RET
+#endif
 	MOVD    0(SRC), TMP
 	ADD	$8, SRC
 	MOVD    TMP, 0(TGT)
 	ADD     $8, TGT
 checkbytes:
 	BC	12, 14, LR		// BEQ lr
+#ifdef GOPPC64_power10
+	SLD	$56, BYTES, TMP
+	LXVL	SRC, TMP, V0
+	STXVL	V0, TGT, TMP
+	RET
+#endif
 lt8:	// Move word if possible
 	CMP BYTES, $4
 	BLT lt4
@@ -149,6 +163,11 @@ backward:
 
 	BEQ	nobackwardtail		// earlier condition
 
+#ifdef GOPPC64_power10
+	SLD 	$56, BYTES, TMP
+	LXVL	SRC, TMP, V0
+	STXVL	V0, TGT, TMP
+#else
 	MOVD	BYTES, CTR			// bytes to move
 
 backwardtailloop:
@@ -157,6 +176,7 @@ backwardtailloop:
 	MOVBZ 	TMP, -1(TGT)
 	SUB	$1,TGT
 	BDNZ	backwardtailloop
+#endif
 
 nobackwardtail:
 	BC	4, 5, LR		// blelr cr1, return if DWORDS == 0
