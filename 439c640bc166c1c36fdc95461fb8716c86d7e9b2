@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "69b7ac3a_6156c85b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 60558
+      },
+      "writtenOn": "2023-02-22T19:40:41Z",
+      "side": 1,
+      "message": "Sorry, I forgot to execute test cases as root when testing locally. The error was triggered by the additional `go test` output due to removing the call to `defer os.Exit(0)`. I have changed the code to use the child process\u0027 exit status instead of checking its output for the jailed status.",
+      "revId": "439c640bc166c1c36fdc95461fb8716c86d7e9b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
