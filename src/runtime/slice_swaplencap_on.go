@@ -10,14 +10,16 @@ package runtime
 import "unsafe"
 
 type slice struct {
-	array unsafe.Pointer
-	cap   int
-	len   int
+	_align [0][]byte // this ought to force alignment
+	array  unsafe.Pointer
+	cap    int
+	len    int
 }
 
 // A notInHeapSlice is a slice backed by runtime/internal/sys.NotInHeap memory.
 type notInHeapSlice struct {
-	array *notInHeap
-	cap   int
-	len   int
+	_align [0][]byte // this ought to force alignment
+	array  *notInHeap
+	cap    int
+	len    int
 }

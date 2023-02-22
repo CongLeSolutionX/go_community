@@ -25,7 +25,7 @@ import (
 )
 
 const (
-	maxAlign  = 8
+	maxAlign  = 16
 	hchanSize = unsafe.Sizeof(hchan{}) + uintptr(-int(unsafe.Sizeof(hchan{}))&(maxAlign-1))
 	debugChan = false
 )

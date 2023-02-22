@@ -18,7 +18,8 @@ import (
 // Unlike reflect.SliceHeader, its Data field is sufficient to guarantee the
 // data it references will not be garbage collected.
 type Slice struct {
-	Data unsafe.Pointer
-	Cap  int
-	Len  int
+	_align [0][]byte // this ought to force alignment
+	Data   unsafe.Pointer
+	Cap    int
+	Len    int
 }
