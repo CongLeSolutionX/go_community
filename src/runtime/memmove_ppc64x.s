@@ -39,6 +39,15 @@ TEXT runtime·memmove<ABIInternal>(SB), NOSPLIT|NOFRAME, $0-24
 	// Determine if there are doublewords to
 	// copy so a more efficient move can be done
 check:
+#ifdef GOPPC64_power10
+	CMP	LEN, $16
+	BGT	mcopy
+	SLD	$56, LEN, TMP
+	LXVL	SRC, TMP, V0
+	STXVL	V0, TGT, TMP
+	RET
+#endif
+mcopy:
 	ANDCC	$7, LEN, BYTES	// R7: bytes to copy
 	SRD	$3, LEN, DWORDS	// R6: double words to copy
 	MOVFL	CR0, CR3	// save CR from ANDCC
@@ -68,7 +77,6 @@ forward64setup:
 	MOVD	OCTWORDS, CTR		// Number of 64 byte chunks
 	MOVD	$32, IDX32
 	MOVD	$48, IDX48
-	PCALIGN	$32
 
 forward64:
 	LXVD2X	(R0)(SRC), VS32		// load 64 bytes
