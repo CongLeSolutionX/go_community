@@ -68,6 +68,9 @@ type Arch struct {
 	// pointer between the hardware stack pointer and the local
 	// variable area.
 	FixedFrameSize int64
+
+	// MinStackAlign is the minimum alignment of a stack frame.
+	MinStackAlign int
 }
 
 // InFamily reports whether a is a member of any of the specified
@@ -92,6 +95,7 @@ var Arch386 = &Arch{
 	CanMergeLoads:  true,
 	HasLR:          false,
 	FixedFrameSize: 0,
+	MinStackAlign:  4,
 }
 
 var ArchAMD64 = &Arch{
@@ -106,6 +110,7 @@ var ArchAMD64 = &Arch{
 	CanJumpTable:   true,
 	HasLR:          false,
 	FixedFrameSize: 0,
+	MinStackAlign:  16,
 }
 
 var ArchARM = &Arch{
@@ -119,6 +124,7 @@ var ArchARM = &Arch{
 	CanMergeLoads:  false,
 	HasLR:          true,
 	FixedFrameSize: 4, // LR
+	MinStackAlign:  4,
 }
 
 var ArchARM64 = &Arch{
@@ -133,6 +139,7 @@ var ArchARM64 = &Arch{
 	CanJumpTable:   true,
 	HasLR:          true,
 	FixedFrameSize: 8, // LR
+	MinStackAlign:  16,
 }
 
 var ArchLoong64 = &Arch{
@@ -146,6 +153,7 @@ var ArchLoong64 = &Arch{
 	CanMergeLoads:  false,
 	HasLR:          true,
 	FixedFrameSize: 8, // LR
+	MinStackAlign:  8,
 }
 
 var ArchMIPS = &Arch{
@@ -159,6 +167,7 @@ var ArchMIPS = &Arch{
 	CanMergeLoads:  false,
 	HasLR:          true,
 	FixedFrameSize: 4, // LR
+	MinStackAlign:  4,
 }
 
 var ArchMIPSLE = &Arch{
@@ -172,6 +181,7 @@ var ArchMIPSLE = &Arch{
 	CanMergeLoads:  false,
 	HasLR:          true,
 	FixedFrameSize: 4, // LR
+	MinStackAlign:  4,
 }
 
 var ArchMIPS64 = &Arch{
@@ -185,6 +195,7 @@ var ArchMIPS64 = &Arch{
 	CanMergeLoads:  false,
 	HasLR:          true,
 	FixedFrameSize: 8, // LR
+	MinStackAlign:  8,
 }
 
 var ArchMIPS64LE = &Arch{
@@ -198,6 +209,7 @@ var ArchMIPS64LE = &Arch{
 	CanMergeLoads:  false,
 	HasLR:          true,
 	FixedFrameSize: 8, // LR
+	MinStackAlign:  8,
 }
 
 var ArchPPC64 = &Arch{
@@ -213,6 +225,7 @@ var ArchPPC64 = &Arch{
 	// PIC code on ppc64le requires 32 bytes of stack, and it's
 	// easier to just use that much stack always.
 	FixedFrameSize: 4 * 8,
+	MinStackAlign:  16,
 }
 
 var ArchPPC64LE = &Arch{
@@ -226,6 +239,7 @@ var ArchPPC64LE = &Arch{
 	CanMergeLoads:  true,
 	HasLR:          true,
 	FixedFrameSize: 4 * 8,
+	MinStackAlign:  16,
 }
 
 var ArchRISCV64 = &Arch{
@@ -239,6 +253,7 @@ var ArchRISCV64 = &Arch{
 	CanMergeLoads:  false,
 	HasLR:          true,
 	FixedFrameSize: 8, // LR
+	MinStackAlign:  8,
 }
 
 var ArchS390X = &Arch{
@@ -252,6 +267,7 @@ var ArchS390X = &Arch{
 	CanMergeLoads:  true,
 	HasLR:          true,
 	FixedFrameSize: 8, // LR
+	MinStackAlign:  8,
 }
 
 var ArchWasm = &Arch{
@@ -265,6 +281,7 @@ var ArchWasm = &Arch{
 	CanMergeLoads:  false,
 	HasLR:          false,
 	FixedFrameSize: 0,
+	MinStackAlign:  8,
 }
 
 var Archs = [...]*Arch{
