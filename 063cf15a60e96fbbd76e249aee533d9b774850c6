@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d848e9a7_dd2ebf3a",
+        "filename": "src/internal/poll/fd_plan9.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 12217
+      },
+      "writtenOn": "2023-02-22T20:50:51Z",
+      "side": 1,
+      "message": "I think you mean read from fd.rdone, not write to. Your loop is problematic because if timer.Stop fails once it will fail every time (because the timer has already fired). Yes there\u0027s a problem if SetDeadline is called more than once concurrently on the same FD. A simple solution would be to serialize SetDeadline calls with yet another mutex.",
+      "parentUuid": "c85d99a2_b189a57a",
+      "revId": "063cf15a60e96fbbd76e249aee533d9b774850c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "67ddb5b0_7f4e14c3",
         "filename": "src/internal/poll/fd_plan9.go",
         "patchSetId": 2
@@ -37,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "da80fa62_0cd4b9c6",
+        "filename": "src/internal/poll/fd_plan9.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 12217
+      },
+      "writtenOn": "2023-02-22T20:50:51Z",
+      "side": 1,
+      "message": "A good idea: allows the timer to be garbage collected sooner. The original version waited till the next deadline would be set.",
+      "parentUuid": "67ddb5b0_7f4e14c3",
+      "revId": "063cf15a60e96fbbd76e249aee533d9b774850c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "195d2363_6c0e2f16",
         "filename": "src/internal/poll/fd_plan9.go",
         "patchSetId": 2
@@ -48,6 +84,24 @@
       "writtenOn": "2023-02-22T17:20:17Z",
       "side": 1,
       "message": "also `fd.wtimer \u003d nil`?",
+      "revId": "063cf15a60e96fbbd76e249aee533d9b774850c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aab9e27e_c9bb85d7",
+        "filename": "src/internal/poll/fd_plan9.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 12217
+      },
+      "writtenOn": "2023-02-22T20:50:51Z",
+      "side": 1,
+      "message": "Also a good idea, as above.",
+      "parentUuid": "195d2363_6c0e2f16",
       "revId": "063cf15a60e96fbbd76e249aee533d9b774850c6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
