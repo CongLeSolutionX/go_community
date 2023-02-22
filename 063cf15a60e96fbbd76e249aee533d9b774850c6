@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f3d7e9f4_f7945472",
+        "filename": "src/internal/poll/fd_plan9.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-02-22T21:37:12Z",
+      "side": 1,
+      "message": "\u003e Your loop is problematic because if timer.Stop fails once it will fail every time (because the timer has already fired).\n\nIf the closure passed to `AfterFunc` sets `fd.rdtimer` to nil before it closes `fs.rdone`, then the loop will terminate after a single iteration as long as there is no concurrent call to `setDeadlineImpl`.\n\n(Since each iteration of the loop sets `fd.rtimer` to nil, the number of iterations of the loop is bounded by the number of times it is set to non-nil — which is the number of concurrent calls to `setDeadlineImpl`.)",
+      "parentUuid": "d848e9a7_dd2ebf3a",
+      "revId": "063cf15a60e96fbbd76e249aee533d9b774850c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "67ddb5b0_7f4e14c3",
         "filename": "src/internal/poll/fd_plan9.go",
         "patchSetId": 2
