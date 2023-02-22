@@ -110,9 +110,9 @@ func MapBucketType(t *types.Type) *types.Type {
 		elemtype = types.NewPtr(elemtype)
 	}
 
-	field := make([]*types.Field, 0, 5)
+	field := make([]*types.Field, 0, 6)
 
-	// The first field is: uint8 topbits[BUCKETSIZE].
+	// The first field is: topbits [BUCKETSIZE]uint8.
 	arr := types.NewArray(types.Types[types.TUINT8], BUCKETSIZE)
 	field = append(field, makefield("topbits", arr))
 
@@ -125,6 +125,15 @@ func MapBucketType(t *types.Type) *types.Type {
 	arr.SetNoalg(true)
 	elems := makefield("elems", arr)
 	field = append(field, elems)
+
+	// TODO hardcoded knowledge of existence of padding field is awful
+	npad := int64(0)
+	if base.SwapLenCap() {
+		// Do this to always align overflow to end of fully aligned structure.
+		npad = 1
+	}
+	padArr := types.NewArray(types.Types[types.TUINTPTR], npad)
+	field = append(field, makefield("_pad", padArr))
 
 	// If keys and elems have no pointers, the map implementation
 	// can keep a list of overflow pointers on the side so that
@@ -1074,9 +1083,22 @@ func writeType(t *types.Type) *obj.LSym {
 		}
 		ot = dgopkgpath(lsym, ot, tpkg)
 
-		ot = objw.SymPtr(lsym, ot, lsym, ot+3*types.PtrSize+uncommonSize(t))
+		// SLICE DATA
+		sliceSize := 3 * types.PtrSize
+		if base.SwapLenCap() {
+			// be sure that ot is aligned to twice types.PtrSize
+			misAlign := ot % (2 * types.PtrSize)
+			if misAlign != 0 {
+				ot += 2*types.PtrSize - misAlign
+			}
+			sliceSize += types.PtrSize // slice alignment padding
+		}
+		ot = objw.SymPtr(lsym, ot, lsym, ot+sliceSize+uncommonSize(t))
 		ot = objw.Uintptr(lsym, ot, uint64(n))
 		ot = objw.Uintptr(lsym, ot, uint64(n))
+		if base.SwapLenCap() { // trailing padding
+			ot += types.PtrSize
+		}
 		dataAdd := imethodSize() * n
 		ot = dextratype(lsym, ot, t, dataAdd)
 
@@ -1182,10 +1204,24 @@ func writeType(t *types.Type) *obj.LSym {
 
 		ot = dcommontype(lsym, t)
 		ot = dgopkgpath(lsym, ot, spkg)
-		ot = objw.SymPtr(lsym, ot, lsym, ot+3*types.PtrSize+uncommonSize(t))
-		ot = objw.Uintptr(lsym, ot, uint64(len(fields)))
-		ot = objw.Uintptr(lsym, ot, uint64(len(fields)))
 
+		// SLICE DATA
+		sliceSize := 3 * types.PtrSize
+		if base.SwapLenCap() {
+			// be sure that ot is aligned to twice types.PtrSize
+			misAlign := ot % (2 * types.PtrSize)
+			if misAlign != 0 {
+				ot += 2*types.PtrSize - misAlign
+			}
+			sliceSize += types.PtrSize // slice alignment padding
+		}
+
+		ot = objw.SymPtr(lsym, ot, lsym, ot+sliceSize+uncommonSize(t))
+		ot = objw.Uintptr(lsym, ot, uint64(len(fields)))
+		ot = objw.Uintptr(lsym, ot, uint64(len(fields)))
+		if base.SwapLenCap() { // trailing padding
+			ot += types.PtrSize
+		}
 		dataAdd := len(fields) * structfieldSize()
 		ot = dextratype(lsym, ot, t, dataAdd)
 
@@ -1246,7 +1282,20 @@ func InterfaceMethodOffset(ityp *types.Type, i int64) int64 {
 	//   [...]imethod
 	// }
 	// The size of imethod is 8.
-	return int64(commonSize()+4*types.PtrSize+uncommonSize(ityp)) + i*8
+
+	o := abi.CommonOffset(types.PtrSize, base.SwapLenCap()).P().Slice()
+	if uncommonSize(ityp) != 0 {
+		o = o.PlusUncommon()
+	}
+
+	if !base.SwapLenCap() {
+		p := int64(commonSize() + 4*types.PtrSize + uncommonSize(ityp))
+		if int64(o.Offset()) != p {
+			panic(fmt.Errorf("InterfaceMethodOffset screwup o=%d, p=%d", o, p))
+		}
+	}
+
+	return int64(o.Offset()) + i*8
 }
 
 // NeedRuntimeType ensures that a runtime type descriptor is emitted for t.

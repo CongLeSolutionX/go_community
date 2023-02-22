@@ -634,9 +634,15 @@ func (ctxt *Link) symtab(pcln *pclntab) []sym.SymKind {
 	moduledata := ldr.MakeSymbolUpdater(ctxt.Moduledata)
 
 	slice := func(sym loader.Sym, len uint64) {
+		if wideSliceAlign() && moduledata.Size()&int64(2*ctxt.Arch.PtrSize-1) != 0 {
+			moduledata.AddUint(ctxt.Arch, 0)
+		}
 		moduledata.AddAddr(ctxt.Arch, sym)
 		moduledata.AddUint(ctxt.Arch, len)
 		moduledata.AddUint(ctxt.Arch, len)
+		if wideSliceAlign() {
+			moduledata.AddUint(ctxt.Arch, 0)
+		}
 	}
 
 	sliceSym := func(sym loader.Sym) {
@@ -644,9 +650,15 @@ func (ctxt *Link) symtab(pcln *pclntab) []sym.SymKind {
 	}
 
 	nilSlice := func() {
+		if wideSliceAlign() && moduledata.Size()&int64(2*ctxt.Arch.PtrSize-1) != 0 {
+			moduledata.AddUint(ctxt.Arch, 0)
+		}
 		moduledata.AddUint(ctxt.Arch, 0)
 		moduledata.AddUint(ctxt.Arch, 0)
 		moduledata.AddUint(ctxt.Arch, 0)
+		if wideSliceAlign() {
+			moduledata.AddUint(ctxt.Arch, 0)
+		}
 	}
 
 	// The pcHeader

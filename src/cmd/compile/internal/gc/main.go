@@ -182,6 +182,7 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 	ssagen.InitTables()
 
 	types.PtrSize = ssagen.Arch.LinkArch.PtrSize
+	types.MinStackAlign = ssagen.Arch.LinkArch.MinStackAlign
 	types.RegSize = ssagen.Arch.LinkArch.RegSize
 	types.MaxWidth = ssagen.Arch.MAXWIDTH
 

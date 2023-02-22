@@ -11,7 +11,9 @@ import (
 	"cmd/link/internal/sym"
 	"debug/elf"
 	"encoding/binary"
+	"fmt"
 	"internal/abi"
+	"internal/buildcfg"
 	"log"
 )
 
@@ -31,6 +33,10 @@ func decodeInuxi(arch *sys.Arch, p []byte, sz int) uint64 {
 		Exitf("dwarf: decode inuxi %d", sz)
 		panic("unreachable")
 	}
+}
+
+func wideSliceAlign() bool {
+	return buildcfg.Experiment.SwapLenCap
 }
 
 func commonsize(arch *sys.Arch) int      { return abi.CommonSize(arch.PtrSize) }      // runtime._type
@@ -78,7 +84,18 @@ func decodetypeFuncOutCount(arch *sys.Arch, p []byte) int {
 
 // InterfaceType.methods.length
 func decodetypeIfaceMethodCount(arch *sys.Arch, p []byte) int64 {
-	return int64(decodeInuxi(arch, p[commonsize(arch)+2*arch.PtrSize:], arch.PtrSize))
+	off := abi.CommonOffset(arch.PtrSize, wideSliceAlign()).P().Slice().Offset()
+	oldOff := commonsize(arch) + 2*arch.PtrSize
+	// If wideSliceAlign, memory is ptr | cap | LEN | pad | <off>
+	// else               memory is       ptr | LEN | cap | <off>
+	off -= 2 * arch.PtrSize
+	if !wideSliceAlign() {
+		if off != oldOff {
+			panic(fmt.Errorf("odd/oldOff mismatch, %v != %v", off, oldOff))
+		}
+	}
+
+	return int64(decodeInuxi(arch, p[off:], arch.PtrSize))
 }
 
 // Matches runtime/typekind.go and reflect.Kind.
@@ -176,12 +193,27 @@ func decodetypePtrElem(ldr *loader.Loader, arch *sys.Arch, symIdx loader.Sym) lo
 
 func decodetypeStructFieldCount(ldr *loader.Loader, arch *sys.Arch, symIdx loader.Sym) int {
 	data := ldr.Data(symIdx)
-	return int(decodeInuxi(arch, data[commonsize(arch)+2*arch.PtrSize:], arch.PtrSize))
+
+	off := abi.CommonOffset(arch.PtrSize, wideSliceAlign()).P().Slice().Offset()
+	oldOff := commonsize(arch) + 2*arch.PtrSize
+	// If wideSliceAlign, memory is ptr | cap | LEN | pad | <off>
+	// else               memory is       ptr | LEN | cap | <off>
+	off -= 2 * arch.PtrSize
+	if !wideSliceAlign() {
+		if off != oldOff {
+			panic(fmt.Errorf("odd/oldOff mismatch, %v != %v", off, oldOff))
+		}
+	}
+
+	return int(decodeInuxi(arch, data[off:], arch.PtrSize))
 }
 
 func decodetypeStructFieldArrayOff(ldr *loader.Loader, arch *sys.Arch, symIdx loader.Sym, i int) int {
 	data := ldr.Data(symIdx)
-	off := commonsize(arch) + 4*arch.PtrSize
+	off := abi.CommonOffset(arch.PtrSize, wideSliceAlign()).P().Slice().Offset() // 4*arch.PtrSize
+	if !wideSliceAlign() && off != commonsize(arch)+4*arch.PtrSize {
+		panic("darn it!")
+	}
 	if decodetypeHasUncommon(arch, data) {
 		off += uncommonSize(arch)
 	}

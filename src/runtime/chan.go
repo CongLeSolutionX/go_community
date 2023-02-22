@@ -19,13 +19,14 @@ package runtime
 
 import (
 	"internal/abi"
+	"internal/goexperiment"
 	"runtime/internal/atomic"
 	"runtime/internal/math"
 	"unsafe"
 )
 
 const (
-	maxAlign  = 8
+	maxAlign  = 8 + 8*goexperiment.SwapLenCapInt
 	hchanSize = unsafe.Sizeof(hchan{}) + uintptr(-int(unsafe.Sizeof(hchan{}))&(maxAlign-1))
 	debugChan = false
 )
