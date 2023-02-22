@@ -7,6 +7,7 @@ package noder
 import (
 	"fmt"
 
+	"cmd/compile/internal/base"
 	"cmd/compile/internal/types"
 	"cmd/compile/internal/types2"
 )
@@ -46,7 +47,13 @@ func (s *gcSizes) Alignof(T types2.Type) int64 {
 			}
 		}
 		return max
-	case *types2.Slice, *types2.Interface:
+	case *types2.Slice:
+		if base.SwapLenCap() {
+			return int64(types.PtrSize) * 2
+		}
+		return int64(types.PtrSize)
+
+	case *types2.Interface:
 		// Multiword data structures are effectively structs
 		// in which each element has size PtrSize.
 		return int64(types.PtrSize)
@@ -137,6 +144,9 @@ func (s *gcSizes) Sizeof(T types2.Type) int64 {
 		}
 		return esize * n
 	case *types2.Slice:
+		if base.SwapLenCap() {
+			return int64(types.PtrSize) * 4
+		}
 		return int64(types.PtrSize) * 3
 	case *types2.Struct:
 		n := t.NumFields()
