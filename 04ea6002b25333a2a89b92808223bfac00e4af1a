@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3034d232_f01a544a",
+        "filename": "src/internal/reflectlite/value.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-02-22T19:31:05Z",
+      "side": 1,
+      "message": "This is the legacy code from the previous patchset, removed it.",
+      "parentUuid": "ddbc837e_48cdcb47",
+      "range": {
+        "startLine": 212,
+        "startChar": 0,
+        "endLine": 215,
+        "endChar": 25
+      },
+      "revId": "04ea6002b25333a2a89b92808223bfac00e4af1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "67e9764b_5eafac9f",
@@ -47,6 +71,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b37c59df_705cccf4",
+        "filename": "src/internal/reflectlite/value.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-02-22T19:31:05Z",
+      "side": 1,
+      "message": "Actually, there is a note \"it doesn\u0027t handle the case of Value.Kind() \u003d\u003d Func.\" below, but I guess we can move that note forward.",
+      "parentUuid": "67e9764b_5eafac9f",
+      "range": {
+        "startLine": 231,
+        "startChar": 28,
+        "endLine": 231,
+        "endChar": 52
+      },
+      "revId": "04ea6002b25333a2a89b92808223bfac00e4af1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c071cc73_61b6d37f",
@@ -60,6 +108,24 @@
       "writtenOn": "2023-02-22T15:19:51Z",
       "side": 1,
       "message": "The documentation for `RawConn.Control` says “The file descriptor `fd` is guaranteed to remain valid while `f` executes but not after `f` returns.”\n\nI don\u0027t see any locking around the file descriptor here — the locking occurs in `internal/poll.copyFileRange`, which is much lower-level. What guarantees that `rfd` remains valid during the call to `checkIfStream`?",
+      "revId": "04ea6002b25333a2a89b92808223bfac00e4af1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f277b0c_9d7732f5",
+        "filename": "src/os/readfrom_linux.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-02-22T19:31:05Z",
+      "side": 1,
+      "message": "I assume you\u0027re talking about the `Reader` being closed in the middle of `readfrom` and the fd becomes invalid, if so, I don\u0027t think that should be the problem cuz if that happens, system calls in `checkIfStream` will fails, and furthermore, even if the integer value of the fd is reassigned by kernel after fd is closed and it pass the `CheckIfStream`, the `poll.Splice` will return error because of the closed `poll.FD`.\n\nBut I guess we can call `checkIfStream` inside `RawConn.Control` if we want to make it more cautious.",
+      "parentUuid": "c071cc73_61b6d37f",
       "revId": "04ea6002b25333a2a89b92808223bfac00e4af1a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -95,6 +161,24 @@
       "side": 1,
       "message": "Concretely, perhaps `internal/poll` could provide a few definitions for restricted communication of `FD` values, and `net.rawConn` and `os` could use those to communicate:\n\n```\npackage poll\n\n// An FDWrapper provides access to an FD only if the caller\n// may import this package.\ntype FDWrapper struct {\n\tfd *FD\n}\n\nfunc Wrap(fd *FD) FDWrapper {\n\treturn FDWrapper{fd: fd}\n}\n\nfunc Unwrap(w FDWrapper) *FD {\n\treturn w.fd\n}\n```\n\n```\npackage net\n\nfunc (c *rawConn) PollFD() poll.FDWrapper {\n\tif !c.ok() {\n\t\treturn poll.Wrap(nil)\n\t}\n\treturn poll.Wrap(\u0026c.fd.pfd)\n}\n```\n\n```\npackage os\n\nfunc (f *File) spliceToFile(r io.Reader) (written int64, handled bool, err error) {\n\t…\n\t\n\tpfdc, ok :\u003d rc.(interface{ PollFD() poll.FDWrapper })\n\tif !ok {\n\t\treturn\n\t}\n\tpfd :\u003d poll.Unwrap(pfdc.PollFD())\n\tif pfd \u003d\u003d nil {\n\t\treturn\n\t}\n\n\t…\n}\n```",
       "parentUuid": "5f13e1a6_7b6ff35c",
+      "revId": "04ea6002b25333a2a89b92808223bfac00e4af1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ddaf8865_a5dc228c",
+        "filename": "src/os/readfrom_linux.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-02-22T19:31:05Z",
+      "side": 1,
+      "message": "\u003e It seems to me that if a third-party io.Reader also implements syscall.Conn, this code could be reached with a value of a type other than *net.rawConn, which might not satisfy these assumptions.\n\nTo achieve this, one must get the underlying fd from `net.TCPConn` or `net.UnixConn` and then put it into the new type and make the memory layout of that type similar to `net.TCPConn` or `net.UnixConn`, which is not how we expected here (we expect the incoming Reader to be `*net.TCPConn` or `*net.UnixConn`), I reckon that this kind of rare case or coincidence or intention to mess around can justify us returning error from `poll.Splice` to the caller. Please let me know if you have a second opinion on that.",
+      "parentUuid": "dc9d7e08_2aed7251",
       "revId": "04ea6002b25333a2a89b92808223bfac00e4af1a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
