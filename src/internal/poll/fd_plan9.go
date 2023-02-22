@@ -25,6 +25,8 @@ type FD struct {
 	waio      *asyncIO
 	rtimer    *time.Timer
 	wtimer    *time.Timer
+	rdone     chan struct{}
+	wdone     chan struct{}
 	rtimedout atomic.Bool // set true when read deadline has been reached
 	wtimedout atomic.Bool // set true when write deadline has been reached
 
@@ -122,46 +124,52 @@ func setDeadlineImpl(fd *FD, t time.Time, mode int) error {
 	if mode == 'r' || mode == 'r'+'w' {
 		fd.rmu.Lock()
 		defer fd.rmu.Unlock()
+		if fd.rtimer != nil {
+			if !fd.rtimer.Stop() {
+				fd.rmu.Unlock()
+				<-fd.rdone
+				fd.rmu.Lock()
+			}
+		}
+		fd.rtimer = nil
 		fd.rtimedout.Store(false)
 	}
 	if mode == 'w' || mode == 'r'+'w' {
 		fd.wmu.Lock()
 		defer fd.wmu.Unlock()
+		if fd.wtimer != nil {
+			if !fd.wtimer.Stop() {
+				fd.wmu.Unlock()
+				<-fd.wdone
+				fd.wmu.Lock()
+			}
+		}
+		fd.wtimer = nil
 		fd.wtimedout.Store(false)
 	}
-	if t.IsZero() || d < 0 {
-		// Stop timer
-		if mode == 'r' || mode == 'r'+'w' {
-			if fd.rtimer != nil {
-				fd.rtimer.Stop()
-			}
-			fd.rtimer = nil
-		}
-		if mode == 'w' || mode == 'r'+'w' {
-			if fd.wtimer != nil {
-				fd.wtimer.Stop()
-			}
-			fd.wtimer = nil
-		}
-	} else {
+	if !t.IsZero() && d > 0 {
 		// Interrupt I/O operation once timer has expired
 		if mode == 'r' || mode == 'r'+'w' {
+			fd.rdone = make(chan struct{})
 			fd.rtimer = time.AfterFunc(d, func() {
 				fd.rmu.Lock()
 				fd.rtimedout.Store(true)
 				if fd.raio != nil {
 					fd.raio.Cancel()
 				}
+				close(fd.rdone)
 				fd.rmu.Unlock()
 			})
 		}
 		if mode == 'w' || mode == 'r'+'w' {
+			fd.wdone = make(chan struct{})
 			fd.wtimer = time.AfterFunc(d, func() {
 				fd.wmu.Lock()
 				fd.wtimedout.Store(true)
 				if fd.waio != nil {
 					fd.waio.Cancel()
 				}
+				close(fd.wdone)
 				fd.wmu.Unlock()
 			})
 		}
