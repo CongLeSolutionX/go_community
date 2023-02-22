@@ -91,6 +91,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f13d43d4_b6bebc37",
+        "filename": "src/cmd/compile/internal/noder/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1560,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-02-22T21:48:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8e55f88_86fdeb6e",
+      "revId": "e711fd6c4608d711ee9bb58d313d03bc7e81d5e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "76bc1dec_e6cc7c6d",
@@ -104,6 +122,30 @@
       "writtenOn": "2023-02-02T20:00:36Z",
       "side": 1,
       "message": "I also wonder if this whole section can become just `name.SetInlLocal(true)`. I.e., no `if` statement or SetPos call.",
+      "range": {
+        "startLine": 3544,
+        "startChar": 0,
+        "endLine": 3548,
+        "endChar": 5
+      },
+      "revId": "e711fd6c4608d711ee9bb58d313d03bc7e81d5e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d30a4389_3cad3240",
+        "filename": "src/cmd/compile/internal/noder/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3548,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-02-22T21:48:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76bc1dec_e6cc7c6d",
       "range": {
         "startLine": 3544,
         "startChar": 0,
