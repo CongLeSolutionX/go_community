@@ -253,6 +253,24 @@
       "parentUuid": "c67fa25e_f92bd38a",
       "revId": "04ea6002b25333a2a89b92808223bfac00e4af1a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d32a869_1c67e18c",
+        "filename": "src/os/readfrom_linux.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-02-22T20:53:26Z",
+      "side": 1,
+      "message": "Any reflectlite changes not needed by this CL should not be part of this CL.\n\nI am also concerned about an exported PollFD method.  Although rawConn is unexported, it\u0027s easy to get a rawConn by calling the SyscallConn method.  That returns a syscall.RawConn, which is an interface type.  Admittedly callers won\u0027t be able to use a type assertion, as they won\u0027t be able to write *poll.FD.  Maybe that is sufficient.  (I\u0027m also not concerned about people use reflect to get to the method.)\n\nI agree that we should eliminate the FD race--thanks for pointing that out.  I\u0027m less concerned about the type-unsafe field access, as there is a test that ensures that it is correct.",
+      "parentUuid": "1152fa79_5b3cdf4e",
+      "revId": "04ea6002b25333a2a89b92808223bfac00e4af1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
