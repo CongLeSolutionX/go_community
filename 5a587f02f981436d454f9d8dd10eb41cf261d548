@@ -53,6 +53,24 @@
       "message": "Thanks, but hang on before we build on that CL stack further. We ran into a build regression internally after one of the CLs, and I\u0027ve been working on minifying the test case to report externally.",
       "revId": "5a587f02f981436d454f9d8dd10eb41cf261d548",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d4e01f0_a321699d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2023-02-22T17:45:54Z",
+      "side": 1,
+      "message": "Hi Matthew, I think we this won\u0027t be blocked by that CL stack, though. CL https://go-review.googlesource.com/c/go/+/436961 is the culprit, but it\u0027s the last CL in chain, and also was reverted. This `eqFor` is still existed under `reflectdata.EqFor`, and can be safely removed in walk.",
+      "parentUuid": "1d25141b_d2537315",
+      "revId": "5a587f02f981436d454f9d8dd10eb41cf261d548",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
