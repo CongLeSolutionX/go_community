@@ -132,6 +132,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5f3c1727_303b2046",
+        "filename": "src/os/readfrom_linux.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-02-22T20:01:41Z",
+      "side": 1,
+      "message": "\u003e I assume you\u0027re talking about the `Reader` being closed in the middle of `readfrom` and the fd becomes invalid, if so, I don\u0027t think that should be the problem cuz if that happens, system calls in `checkIfStream` will fails,\n\nThe syscall in `checkIfStream` will not necessarily fail if the FD is reused.\n\n\u003e and furthermore, even if the integer value of the fd is reassigned by kernel after fd is closed and it pass the `CheckIfStream`, the `poll.Splice` will return error because of the closed `poll.FD`.\n\nThe race I am most worried about is:\n- A descriptor is used for a non-stream.\n- A call to `spliceToFile` begins.\n- Concurrently, the non-stream is closed, and its descriptor is reused for a stream.\n- `checkIfStream` returns true, because the FD number really is currently a stream.\n- `getPollFD` returns a non-nil pointer to an object that is not actually a `poll.FD`, because the `io.Reader` isn\u0027t actually of one of the types representing a stream.\n\nAt that point, `poll.Splice` is working with memory of entirely the wrong type, and we can\u0027t assume anything about what a call to `poll.Splice` will do to the program.",
+      "parentUuid": "5f277b0c_9d7732f5",
+      "revId": "04ea6002b25333a2a89b92808223bfac00e4af1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5f13e1a6_7b6ff35c",
         "filename": "src/os/readfrom_linux.go",
         "patchSetId": 37
@@ -179,6 +197,24 @@
       "side": 1,
       "message": "\u003e It seems to me that if a third-party io.Reader also implements syscall.Conn, this code could be reached with a value of a type other than *net.rawConn, which might not satisfy these assumptions.\n\nTo achieve this, one must get the underlying fd from `net.TCPConn` or `net.UnixConn` and then put it into the new type and make the memory layout of that type similar to `net.TCPConn` or `net.UnixConn`, which is not how we expected here (we expect the incoming Reader to be `*net.TCPConn` or `*net.UnixConn`), I reckon that this kind of rare case or coincidence or intention to mess around can justify us returning error from `poll.Splice` to the caller. Please let me know if you have a second opinion on that.",
       "parentUuid": "dc9d7e08_2aed7251",
+      "revId": "04ea6002b25333a2a89b92808223bfac00e4af1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37975ea6_f779af00",
+        "filename": "src/os/readfrom_linux.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-02-22T20:01:41Z",
+      "side": 1,
+      "message": "\u003e To achieve this, one must get the underlying fd from `net.TCPConn` or `net.UnixConn`\n\nNo, `checkIfStream` doesn\u0027t verify whether the stream came from a `net.TCPConn` or a `net.UnixConn`. It only confirms the return type from `syscall.Getsockname`, which is a different layer from the `net` package.\n\n\u003e and then put it into the new type and make the memory layout of that type similar to `net.TCPConn` or `net.UnixConn`\n\nNothing here is confirming that the memory layout matches `net.TCPConn` or `net.UnixConn`. `getPollFD` ends with an `unsafe.Pointer` conversion to obtain the `*poll.FD`.\n\nIf `v.Field(0)` or `v.Field(0).Field(0)` doesn\u0027t exist or has a non-pointer type, the program will panic. Worse, if `v.Field(0).Field(0)` exists and has a pointer-like type other than `*poll.FD`, the `unsafe.Pointer` conversion will produce a completely bogus pointer and we\u0027re off to arbitrary memory corruption.",
+      "parentUuid": "ddaf8865_a5dc228c",
       "revId": "04ea6002b25333a2a89b92808223bfac00e4af1a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
