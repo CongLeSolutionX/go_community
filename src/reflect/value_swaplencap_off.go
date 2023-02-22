@@ -16,7 +16,8 @@ package reflect
 //
 // In new code, use unsafe.Slice or unsafe.SliceData instead.
 type SliceHeader struct {
-	Data uintptr
-	Len  int
-	Cap  int
+	_align [0][]byte // this ought to force alignment
+	Data   uintptr
+	Len    int
+	Cap    int
 }
