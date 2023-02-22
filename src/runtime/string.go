@@ -308,7 +308,7 @@ func gobytes(p *byte, n int) (b []byte) {
 	bp := mallocgc(uintptr(n), nil, false)
 	memmove(bp, unsafe.Pointer(p), uintptr(n))
 
-	*(*slice)(unsafe.Pointer(&b)) = slice{bp, n, n}
+	*(*slice)(unsafe.Pointer(&b)) = slice{array: bp, len: n, cap: n}
 	return
 }
 
