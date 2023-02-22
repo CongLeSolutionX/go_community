@@ -79,6 +79,24 @@
       "message": "What guarantees that `v.Field(0)` is valid, or that `v.Field(0).Field(0)` is actually a `*poll.FD`?\n\nIt seems to me that if a third-party `io.Reader` also implements `syscall.Conn`, this code could be reached with a value of a type other than `*net.rawConn`, which might not satisfy these assumptions.\n\nI wonder if this could be more robust.",
       "revId": "04ea6002b25333a2a89b92808223bfac00e4af1a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc9d7e08_2aed7251",
+        "filename": "src/os/readfrom_linux.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-02-22T15:32:08Z",
+      "side": 1,
+      "message": "Concretely, perhaps `internal/poll` could provide a few definitions for restricted communication of `FD` values, and `net.rawConn` and `os` could use those to communicate:\n\n```\npackage poll\n\n// An FDWrapper provides access to an FD only if the caller\n// may import this package.\ntype FDWrapper struct {\n\tfd *FD\n}\n\nfunc Wrap(fd *FD) FDWrapper {\n\treturn FDWrapper{fd: fd}\n}\n\nfunc Unwrap(w FDWrapper) *FD {\n\treturn w.fd\n}\n```\n\n```\npackage net\n\nfunc (c *rawConn) PollFD() poll.FDWrapper {\n\tif !c.ok() {\n\t\treturn poll.Wrap(nil)\n\t}\n\treturn poll.Wrap(\u0026c.fd.pfd)\n}\n```\n\n```\npackage os\n\nfunc (f *File) spliceToFile(r io.Reader) (written int64, handled bool, err error) {\n\t…\n\t\n\tpfdc, ok :\u003d rc.(interface{ PollFD() poll.FDWrapper })\n\tif !ok {\n\t\treturn\n\t}\n\tpfd :\u003d poll.Unwrap(pfdc.PollFD())\n\tif pfd \u003d\u003d nil {\n\t\treturn\n\t}\n\n\t…\n}\n```",
+      "parentUuid": "5f13e1a6_7b6ff35c",
+      "revId": "04ea6002b25333a2a89b92808223bfac00e4af1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
