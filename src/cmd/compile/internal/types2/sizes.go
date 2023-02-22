@@ -6,6 +6,8 @@
 
 package types2
 
+import "cmd/compile/internal/base"
+
 // Sizes defines the sizing functions for package unsafe.
 type Sizes interface {
 	// Alignof returns the alignment of a variable of type T.
@@ -74,7 +76,15 @@ func (s *StdSizes) Alignof(T Type) int64 {
 			}
 		}
 		return max
-	case *Slice, *Interface:
+
+	case *Slice:
+		assert(!isTypeParam(T))
+		if base.SwapLenCap() {
+			return 2 * s.WordSize
+		}
+		return s.WordSize
+
+	case *Interface:
 		// Multiword data structures are effectively structs
 		// in which each element has size WordSize.
 		// Type parameters lead to variable sizes/alignments;
@@ -167,6 +177,9 @@ func (s *StdSizes) Sizeof(T Type) int64 {
 		z := s.Sizeof(t.elem)
 		return align(z, a)*(n-1) + z
 	case *Slice:
+		if base.SwapLenCap() {
+			return s.WordSize * 4
+		}
 		return s.WordSize * 3
 	case *Struct:
 		n := t.NumFields()

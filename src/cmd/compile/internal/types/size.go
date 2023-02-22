@@ -15,6 +15,8 @@ var PtrSize int
 
 var RegSize int
 
+var MinStackAlign int
+
 // Slices in the runtime are represented by three components:
 //
 //	type slice struct {
@@ -65,7 +67,7 @@ var defercalc int
 
 // RoundUp rounds o to a multiple of r, r is a power of 2.
 func RoundUp(o int64, r int64) int64 {
-	if r < 1 || r > 8 || r&(r-1) != 0 {
+	if r < 1 || r > 16 || r&(r-1) != 0 {
 		base.Fatalf("Round %d", r)
 	}
 	return (o + r - 1) &^ (r - 1)
@@ -404,7 +406,12 @@ func CalcSize(t *Type) {
 		}
 		w = SliceSize
 		CheckSize(t.Elem())
-		t.align = uint8(PtrSize)
+		a := uint8(PtrSize)
+		if base.SwapLenCap() {
+			// request 2-pointer alignment
+			a *= 2
+		}
+		t.align = a
 
 	case TSTRUCT:
 		if t.IsFuncArgStruct() {

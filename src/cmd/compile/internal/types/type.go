@@ -984,6 +984,12 @@ func (t *Type) Alignment() int64 {
 	return int64(t.align)
 }
 
+// SetAlignment forces an alignment.  This is not the preferred
+// or default way to do this.
+func (t *Type) SetAlignment(newAlign uint8) {
+	t.align = newAlign
+}
+
 func (t *Type) SimpleString() string {
 	return t.kind.String()
 }
