@@ -46,6 +46,30 @@
       },
       "revId": "7e858e9f7491b38b987ae1140606b120b3d378f2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d7d9de0_dacf579d",
+        "filename": "src/internal/poll/fd_plan9.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-02-23T20:38:28Z",
+      "side": 1,
+      "message": "Could work, but at that point I think it\u0027s probably simpler to use the timer itself as the nonce:\n\n```\nif mode \u003d\u003d \u0027r\u0027 || mode \u003d\u003d \u0027r\u0027+\u0027w\u0027 {\n\tfd.rmu.Lock()\n\tdefer fd.rmu.Unlock()\n\tif fd.rtimer !\u003d nil {\n\t\tfd.rtimer.Stop()\n\t\tfd.rtimer \u003d nil\n\t}\n\tfd.rtimedout.Store(false)\n}\n…\n\nif !t.IsZero() \u0026\u0026 d \u003e 0 {\n\t// Interrupt I/O operation once timer has expired\n\tif mode \u003d\u003d \u0027r\u0027 || mode \u003d\u003d \u0027r\u0027+\u0027w\u0027 {\n\t\tvar timer *time.Timer\n\t\ttimer \u003d time.AfterFunc(d, func() {\n\t\t\tfd.rmu.lock()\n\t\t\tdefer fd.rmu.Unlock()\n\t\t\tif fd.rtimer !\u003d timer {\n\t\t\t\treturn // deadline reset\n\t\t\t}\n\t\t\tfd.rtimedout.Store(true)\n\t\t\tif fd.raio !\u003d nil {\n\t\t\t\tfd.raio.Cancel()\n\t\t\t}\n\t\t})\t\n\t\tfd.rtimer \u003d timer\n\t}\n})\n```",
+      "parentUuid": "45f23ddd_342292a5",
+      "range": {
+        "startLine": 153,
+        "startChar": 0,
+        "endLine": 155,
+        "endChar": 29
+      },
+      "revId": "7e858e9f7491b38b987ae1140606b120b3d378f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
