@@ -23,7 +23,7 @@ const (
 	// Whether to panic when unificationDepthLimit is reached.
 	// If disabled, a recursion depth overflow results in a (quiet)
 	// unification failure.
-	panicAtUnificationDepthLimit = true
+	panicAtUnificationDepthLimit = false
 
 	// If enableCoreTypeUnification is set, unification will consider
 	// the core types, if any, of non-local (unbound) type parameters.
@@ -241,7 +241,7 @@ func (u *unifier) nify(x, y Type, p *ifacePair) (result bool) {
 
 	// Unification is symmetric, so we can swap the operands.
 	// Ensure that if we have at least one
-	// - defined type, make sure sure one is in y
+	// - defined type, make sure one is in y
 	// - type parameter recorded with u, make sure one is in x
 	if _, ok := x.(*Named); ok || u.asTypeParam(y) != nil {
 		if traceInference {
@@ -251,12 +251,11 @@ func (u *unifier) nify(x, y Type, p *ifacePair) (result bool) {
 	}
 
 	// If exact unification is known to fail because we attempt to
-	// match a defined type against an unnamed type literal, consider
-	// the underlying type of the defined type.
+	// match a defined type against a type literal (incl. a basic type),
+	// proceed with the underlying type of the defined type.
 	// If we have at least one defined type, there is one in y.
-	// (We use !hasName to exclude any type with a name, including
-	// basic types and type parameters; the rest are unamed types.)
-	if ny, _ := y.(*Named); ny != nil && !hasName(x) {
+	y0 := y
+	if ny, _ := y.(*Named); ny != nil && isTypeLit(x) {
 		if traceInference {
 			u.tracef("%s ≡ under %s", x, ny)
 		}
@@ -286,15 +285,15 @@ func (u *unifier) nify(x, y Type, p *ifacePair) (result bool) {
 				// and y is a defined type, make sure we record that type
 				// for type parameter x, which may have until now only
 				// recorded an underlying type (go.dev/issue/43056).
-				if _, ok := y.(*Named); ok {
-					u.set(px, y)
+				if _, ok := y0.(*Named); ok {
+					u.set(px, y0)
 				}
 				return true
 			}
 			return false
 		}
 		// otherwise, infer type from y
-		u.set(px, y)
+		u.set(px, y0)
 		return true
 	}
 
@@ -310,7 +309,7 @@ func (u *unifier) nify(x, y Type, p *ifacePair) (result bool) {
 			}
 			x, y = y, x
 		}
-		if isTypeParam(x) && !hasName(y) {
+		if isTypeParam(x) {
 			// When considering the type parameter for unification
 			// we look at the adjusted core term (adjusted core type
 			// with tilde information).

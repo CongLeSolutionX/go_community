@@ -225,7 +225,7 @@ func (check *Checker) renameTParams(pos token.Pos, tparams []*TypeParam, params 
 	// same in self-recursive calls. For example:
 	//
 	//  func f[P *Q, Q any](p P, q Q) {
-	//    f(p)
+	//    f(p, q)
 	//  }
 	//
 	// In this example, the fact that the P used in the instantation f[P] has
@@ -237,12 +237,12 @@ func (check *Checker) renameTParams(pos token.Pos, tparams []*TypeParam, params 
 	// any problems of type parameter identity. For example, the following code
 	// is equivalent to the code above.
 	//
-	//  func f[P interface{*Q}, Q any](p P, q Q) {
-	//    f2(p)
+	//  func f[P *Q, Q any](p P, q Q) {
+	//    f2(p, q)
 	//  }
 	//
-	//  func f2[P interface{*Q}, Q any](p P, q Q) {
-	//    f(p)
+	//  func f2[P *Q, Q any](p P, q Q) {
+	//    f(p, q)
 	//  }
 	//
 	// We turn the first example into the second example by renaming type
