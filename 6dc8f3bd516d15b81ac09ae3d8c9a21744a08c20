@@ -74,6 +74,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb64807c_f1d37b22",
+        "filename": "doc/godebug.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-02-23T10:20:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "40bee9ff_7c710fe8",
+      "revId": "6dc8f3bd516d15b81ac09ae3d8c9a21744a08c20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "21b4ef30_c12d3068",
@@ -87,6 +105,24 @@
       "writtenOn": "2023-01-31T17:42:00Z",
       "side": 1,
       "message": "s/compatibillity/compatibility/",
+      "revId": "6dc8f3bd516d15b81ac09ae3d8c9a21744a08c20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "806571eb_374a9797",
+        "filename": "doc/godebug.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-02-23T10:20:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21b4ef30_c12d3068",
       "revId": "6dc8f3bd516d15b81ac09ae3d8c9a21744a08c20",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -108,6 +144,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5472fb5e_b5dd773c",
+        "filename": "doc/godebug.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-02-23T10:20:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5920ec1d_3a09c6a4",
+      "revId": "6dc8f3bd516d15b81ac09ae3d8c9a21744a08c20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d823902d_d08afe68",
@@ -121,6 +175,24 @@
       "writtenOn": "2023-01-31T17:42:00Z",
       "side": 1,
       "message": "It\u0027s a bit confusing to call these \"explicit defaults\".  To me it seems like these defaults are implicit, based on the language version.  Then the use of \"//go:debug\" is an explicit default.",
+      "revId": "6dc8f3bd516d15b81ac09ae3d8c9a21744a08c20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb11b0fa_a9a37704",
+        "filename": "doc/godebug.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-02-23T10:20:15Z",
+      "side": 1,
+      "message": "Rewrote. Please take another look.",
+      "parentUuid": "d823902d_d08afe68",
       "revId": "6dc8f3bd516d15b81ac09ae3d8c9a21744a08c20",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -142,6 +214,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "31eb8231_fbc7ea64",
+        "filename": "doc/godebug.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-02-23T10:20:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4af81cd5_4f7c1df2",
+      "revId": "6dc8f3bd516d15b81ac09ae3d8c9a21744a08c20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d669679d_b7da678d",
@@ -155,6 +245,24 @@
       "writtenOn": "2023-01-31T17:42:00Z",
       "side": 1,
       "message": "There are also a bunch of GODEBUG settings in the runtime package, of course.  I think only one relevant to this kind of list is asyncpreemptoff.  And since we are generally documenting GODEBUG here, I think there should at least be a mention of the runtime settings even though we don\u0027t need to list them here.\n\nThere are also some GODEBUG settings specific to cmd/go (such as gocacheverify); not sure if we should point to those here.",
+      "revId": "6dc8f3bd516d15b81ac09ae3d8c9a21744a08c20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "481a3294_5401dea9",
+        "filename": "doc/godebug.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-02-23T10:20:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d669679d_b7da678d",
       "revId": "6dc8f3bd516d15b81ac09ae3d8c9a21744a08c20",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
