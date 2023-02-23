@@ -89,6 +89,24 @@
       "message": "I think the problem here is that the address being used in the \u003c power10 case is setting the address to the end of the string. For power10 you don\u0027t want to do that -- just use the original address.",
       "revId": "7d6e87ef612ae7f465c8734b4e6c080aeae8b1ab",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b556529_fc673434",
+        "filename": "src/runtime/memmove_ppc64x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2023-02-23T13:36:09Z",
+      "side": 1,
+      "message": "Thanks Lynn that was the problem which was causing the failure",
+      "parentUuid": "572c174e_b805cf77",
+      "revId": "7d6e87ef612ae7f465c8734b4e6c080aeae8b1ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
