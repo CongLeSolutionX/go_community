@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d83e1b6c_ff03960c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-02-23T18:39:32Z",
+      "side": 1,
+      "message": "Thanks for the contribution!",
+      "revId": "4ff9ddfbfafd17ee425da456a620d8e6276fca1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb9abea6_52b63da2",
+        "filename": "src/archive/zip/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-02-23T18:39:32Z",
+      "side": 1,
+      "message": "Why the *Reader return parameter?\n\nI think that a more robust fix is to put the validation check in Reader.init, since this will ensure that it\u0027s performed for every Reader. If we\u0027d done that in the first place, we wouldn\u0027t have overlooked Open.",
+      "revId": "4ff9ddfbfafd17ee425da456a620d8e6276fca1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9eab9480_04be5394",
+        "filename": "src/archive/zip/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-02-23T18:39:32Z",
+      "side": 1,
+      "message": "Drop the extraneous blank line here.",
+      "revId": "4ff9ddfbfafd17ee425da456a620d8e6276fca1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43cf068b_07389582",
+        "filename": "src/archive/zip/reader_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1188,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-02-23T18:39:32Z",
+      "side": 1,
+      "message": "Drop change unrelated to the rest of the CL.",
+      "revId": "4ff9ddfbfafd17ee425da456a620d8e6276fca1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3670b1d_ff38dfd7",
+        "filename": "src/archive/zip/reader_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1376,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-02-23T18:39:32Z",
+      "side": 1,
+      "message": "Don\u0027t rewrite this whole test, which is now doing two different things: Testing the fix for CVE-2021-27919, and testing that OpenReader returns ErrInsecurePath.\n\nI\u0027d add a TestOpenReaderInsecurePath that just checks that OpenReader returns ErrInsecurePath for an insecure archive.",
+      "revId": "4ff9ddfbfafd17ee425da456a620d8e6276fca1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
