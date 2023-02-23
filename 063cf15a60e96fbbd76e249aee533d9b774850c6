@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e602dd9_0b0c47ad",
+        "filename": "src/internal/poll/fd_plan9.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 12217
+      },
+      "writtenOn": "2023-02-23T15:56:24Z",
+      "side": 1,
+      "message": "Here\u0027s a simpler solution. By reversing the direction of the [rw]done channels, there\u0027s no need to unlock the mutex temporarily and therefore no concurrent execution of SetDeadline. I\u0027ve been testing this repeatedly for a few hours without a deadlock.",
+      "parentUuid": "c5da6be1_d61798b5",
+      "revId": "063cf15a60e96fbbd76e249aee533d9b774850c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "67ddb5b0_7f4e14c3",
@@ -107,6 +125,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5d7b7a4_dfd136b6",
+        "filename": "src/internal/poll/fd_plan9.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 12217
+      },
+      "writtenOn": "2023-02-23T15:56:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da80fa62_0cd4b9c6",
+      "revId": "063cf15a60e96fbbd76e249aee533d9b774850c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "195d2363_6c0e2f16",
@@ -138,6 +174,24 @@
       "side": 1,
       "message": "Also a good idea, as above.",
       "parentUuid": "195d2363_6c0e2f16",
+      "revId": "063cf15a60e96fbbd76e249aee533d9b774850c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47b6a8cd_a513badd",
+        "filename": "src/internal/poll/fd_plan9.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 12217
+      },
+      "writtenOn": "2023-02-23T15:56:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aab9e27e_c9bb85d7",
       "revId": "063cf15a60e96fbbd76e249aee533d9b774850c6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
