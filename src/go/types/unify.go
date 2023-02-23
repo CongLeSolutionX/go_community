@@ -241,7 +241,7 @@ func (u *unifier) nify(x, y Type, p *ifacePair) (result bool) {
 
 	// Unification is symmetric, so we can swap the operands.
 	// Ensure that if we have at least one
-	// - defined type, make sure sure one is in y
+	// - defined type, make sure one is in y
 	// - type parameter recorded with u, make sure one is in x
 	if _, ok := x.(*Named); ok || u.asTypeParam(y) != nil {
 		if traceInference {
@@ -251,12 +251,10 @@ func (u *unifier) nify(x, y Type, p *ifacePair) (result bool) {
 	}
 
 	// If exact unification is known to fail because we attempt to
-	// match a defined type against an unnamed type literal, consider
-	// the underlying type of the defined type.
+	// match a defined type against a type literal (incl. a basic type),
+	// proceed with the underlying type of the defined type.
 	// If we have at least one defined type, there is one in y.
-	// (We use !hasName to exclude any type with a name, including
-	// basic types and type parameters; the rest are unamed types.)
-	if ny, _ := y.(*Named); ny != nil && !hasName(x) {
+	if ny, _ := y.(*Named); ny != nil && isTypeLit(x) {
 		if traceInference {
 			u.tracef("%s ≡ under %s", x, ny)
 		}
@@ -268,6 +266,10 @@ func (u *unifier) nify(x, y Type, p *ifacePair) (result bool) {
 
 	// Cases where at least one of x or y is a type parameter recorded with u.
 	// If we have at least one type parameter, there is one in x.
+	// If we have exactly one type parameter, because it is in x,
+	// isTypeLit(x) is false and y was not changed above. In other
+	// words, if y was a defined type, it is still a defined type
+	// (relevant for the logic below).
 	switch px, py := u.asTypeParam(x), u.asTypeParam(y); {
 	case px != nil && py != nil:
 		// both x and y are type parameters
@@ -298,8 +300,8 @@ func (u *unifier) nify(x, y Type, p *ifacePair) (result bool) {
 		return true
 	}
 
-	// If we get here and x or y is a type parameter, they are type parameters
-	// from outside our declaration list. Try to unify their core types, if any
+	// If we get here and x or y is a type parameter, they are unbound
+	// (not recorded with the unifier). Unify their core types, if any
 	// (see go.dev/issue/50755 for a test case).
 	if enableCoreTypeUnification {
 		// swap x and y as needed
@@ -310,18 +312,15 @@ func (u *unifier) nify(x, y Type, p *ifacePair) (result bool) {
 			}
 			x, y = y, x
 		}
-		if isTypeParam(x) && !hasName(y) {
+		if isTypeParam(x) {
 			// When considering the type parameter for unification
-			// we look at the adjusted core term (adjusted core type
-			// with tilde information).
-			// If the adjusted core type is a named type N; the
-			// corresponding core type is under(N).
-			// Since y doesn't have a name, unification will end up
-			// comparing under(N) to y, so we can just use the core
-			// type instead. And we can ignore the tilde because we
-			// already look at the underlying types on both sides
-			// and we have known types on both sides.
-			// Optimization.
+			// we look at the core type.
+			// Because the core type is always an underlying type,
+			// unification will take care of matching against a
+			// defined or literal type automaticaly.
+			// If y is also an unbound type parameter, we will end
+			// up here again with x and y swapped, so we don't
+			// need to take care of that case separately.
 			if cx := coreType(x); cx != nil {
 				if traceInference {
 					u.tracef("core %s ≡ %s", x, y)
