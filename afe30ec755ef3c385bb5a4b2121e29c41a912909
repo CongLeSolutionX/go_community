@@ -16,6 +16,24 @@
       "message": "We normally indent the unusual case, which here I think is the `return \"\"`.",
       "revId": "afe30ec755ef3c385bb5a4b2121e29c41a912909",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d9adc5a_272bbbb9",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 886,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-02-23T19:03:45Z",
+      "side": 1,
+      "message": "Right, updated.",
+      "parentUuid": "9de44dd2_1bd9f3a8",
+      "revId": "afe30ec755ef3c385bb5a4b2121e29c41a912909",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
