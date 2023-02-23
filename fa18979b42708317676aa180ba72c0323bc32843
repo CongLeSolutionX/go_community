@@ -126,6 +126,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "349d0d53_43814c78",
+        "filename": "src/net/rawconn.go",
+        "patchSetId": 39
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-02-23T04:31:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61ad7f54_976b9b80",
+      "revId": "fa18979b42708317676aa180ba72c0323bc32843",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "46f6596a_2069b69d",
@@ -139,6 +157,24 @@
       "writtenOn": "2023-02-22T23:33:38Z",
       "side": 1,
       "message": "For clarity, s/server/r.",
+      "revId": "fa18979b42708317676aa180ba72c0323bc32843",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a48202cf_7957174b",
+        "filename": "src/net/splice_test.go",
+        "patchSetId": 39
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-02-23T04:31:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46f6596a_2069b69d",
       "revId": "fa18979b42708317676aa180ba72c0323bc32843",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -160,6 +196,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "921b93f7_904f9d80",
+        "filename": "src/os/readfrom_linux_test.go",
+        "patchSetId": 39
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-02-23T04:31:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "400cdf3b_c14292d2",
+      "revId": "fa18979b42708317676aa180ba72c0323bc32843",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "37913e34_9ea919e0",
@@ -173,6 +227,24 @@
       "writtenOn": "2023-02-22T23:33:38Z",
       "side": 1,
       "message": "Move these lines into the function passed to Control, and drop the rfd variable.",
+      "revId": "fa18979b42708317676aa180ba72c0323bc32843",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e640a606_7ecb2637",
+        "filename": "src/os/readfrom_linux_test.go",
+        "patchSetId": 39
+      },
+      "lineNbr": 685,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-02-23T04:31:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37913e34_9ea919e0",
       "revId": "fa18979b42708317676aa180ba72c0323bc32843",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
