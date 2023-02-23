@@ -1185,7 +1185,7 @@ func TestIssue12449(t *testing.T) {
 		0x00, 0x01, 0x00, 0x01, 0x00, 0x69, 0x00, 0x00,
 		0x00, 0x50, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
-	// Read in the archive.
+	// Read in the archive with the NewReader interface.
 	_, err := NewReader(bytes.NewReader([]byte(data)), int64(len(data)))
 	if err != nil {
 		t.Errorf("Error reading the archive: %v", err)
@@ -1307,6 +1307,25 @@ func TestFSModTime(t *testing.T) {
 	}
 }
 
+func testCVE202127919postLogic(t *testing.T, r *Reader, err error) {
+	if err != ErrInsecurePath {
+		t.Fatalf("Error reading the archive, we expected ErrInsecurePath but got: %v", err)
+	}
+	_, err = r.Open("test.txt")
+	if err != nil {
+		t.Errorf("Error reading file: %v", err)
+	}
+	if len(r.File) != 1 {
+		t.Fatalf("No entries in the file list")
+	}
+	if r.File[0].Name != "../test.txt" {
+		t.Errorf("Unexpected entry name: %s", r.File[0].Name)
+	}
+	if _, err := r.File[0].Open(); err != nil {
+		t.Errorf("Error opening file: %v", err)
+	}
+}
+
 func TestCVE202127919(t *testing.T) {
 	t.Setenv("GODEBUG", "zipinsecurepath=0")
 	// Archive containing only the file "../test.txt"
@@ -1333,23 +1352,28 @@ func TestCVE202127919(t *testing.T) {
 		0x00, 0x00, 0x01, 0x00, 0x01, 0x00, 0x39, 0x00,
 		0x00, 0x00, 0x59, 0x00, 0x00, 0x00, 0x00, 0x00,
 	}
-	r, err := NewReader(bytes.NewReader([]byte(data)), int64(len(data)))
-	if err != ErrInsecurePath {
-		t.Fatalf("Error reading the archive: %v", err)
-	}
-	_, err = r.Open("test.txt")
+
+	r1, err := NewReader(bytes.NewReader([]byte(data)), int64(len(data)))
+	testCVE202127919postLogic(t, r1, err)
+
+	// Read in the archive with the OpenReader interface.
+	f, err := os.CreateTemp("", "TestIssue12449")
 	if err != nil {
-		t.Errorf("Error reading file: %v", err)
+		t.Errorf("Error creating a temp file: %s", err)
 	}
-	if len(r.File) != 1 {
-		t.Fatalf("No entries in the file list")
+	defer os.Remove(f.Name()) // clean up
+
+	err = os.WriteFile(f.Name(), data, fs.FileMode(0644))
+	if err != nil {
+		t.Errorf("Unable to write out the bugos zip entry")
 	}
-	if r.File[0].Name != "../test.txt" {
-		t.Errorf("Unexpected entry name: %s", r.File[0].Name)
-	}
-	if _, err := r.File[0].Open(); err != nil {
-		t.Errorf("Error opening file: %v", err)
-	}
+	r2, err := OpenReader(f.Name())
+	defer func() {
+		if r2 != nil {
+			r2.Close()
+		}
+	}()
+	testCVE202127919postLogic(t, &r2.Reader, err)
 }
 
 func TestCVE202133196(t *testing.T) {

@@ -65,6 +65,26 @@ type File struct {
 	zip64        bool  // zip64 extended information extra field presence
 }
 
+func verifyZipEntries(zr *Reader) (*Reader, error) {
+	if zipinsecurepath.Value() == "0" {
+
+		for _, f := range zr.File {
+			if f.Name == "" {
+				// Zip permits an empty file name field.
+				continue
+			}
+			// The zip specification states that names must use forward slashes,
+			// so consider any backslashes in the name insecure.
+			if !filepath.IsLocal(f.Name) || strings.Contains(f.Name, `\`) {
+				zipinsecurepath.IncNonDefault()
+				return zr, ErrInsecurePath
+			}
+		}
+	}
+
+	return zr, nil
+}
+
 // OpenReader will open the Zip file specified by name and return a ReadCloser.
 func OpenReader(name string) (*ReadCloser, error) {
 	f, err := os.Open(name)
@@ -82,7 +102,8 @@ func OpenReader(name string) (*ReadCloser, error) {
 		return nil, err
 	}
 	r.f = f
-	return r, nil
+	_, err = verifyZipEntries(&r.Reader)
+	return r, err
 }
 
 // NewReader returns a new Reader reading from r, which is assumed to
@@ -103,22 +124,7 @@ func NewReader(r io.ReaderAt, size int64) (*Reader, error) {
 	if err := zr.init(r, size); err != nil {
 		return nil, err
 	}
-	for _, f := range zr.File {
-		if f.Name == "" {
-			// Zip permits an empty file name field.
-			continue
-		}
-		// The zip specification states that names must use forward slashes,
-		// so consider any backslashes in the name insecure.
-		if !filepath.IsLocal(f.Name) || strings.Contains(f.Name, `\`) {
-			if zipinsecurepath.Value() != "0" {
-				continue
-			}
-			zipinsecurepath.IncNonDefault()
-			return zr, ErrInsecurePath
-		}
-	}
-	return zr, nil
+	return verifyZipEntries(zr)
 }
 
 func (z *Reader) init(r io.ReaderAt, size int64) error {
