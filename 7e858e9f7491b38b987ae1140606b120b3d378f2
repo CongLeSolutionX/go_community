@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc07a1eb_47c8fb1a",
+        "filename": "src/internal/poll/fd_plan9.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-02-23T19:14:30Z",
+      "side": 1,
+      "message": "This is unfortunately somewhat racy. Consider a sequence of `setDeadlineImpl` calls:\n\n- The first `setDeadlineImpl` sets `fd.rdone` and `fd.rtimer`.\n\n- The timer fires, but the timer goroutine is descheduled before it acquires `fd.rmu`.\n\n- The second `setDeadlineImpl` fails to stop `fd.rtimer`, so closes `fd.rdone`. It sets `rtimer` to a new timer and `rdone` to a new channel, and returns nil.\n\n- The timer goroutine acquires the lock, checks the (new) `rdone` channel, and notices that it is not closed, so stores to `fd.rtimedout`.\n\nIf I\u0027m reading correctly, that would result in subsequent `Read` calls failing with a timeout error even though the most recent timeout hasn\u0027t expired.",
+      "range": {
+        "startLine": 153,
+        "startChar": 0,
+        "endLine": 155,
+        "endChar": 29
+      },
+      "revId": "7e858e9f7491b38b987ae1140606b120b3d378f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
