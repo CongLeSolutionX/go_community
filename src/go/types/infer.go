@@ -224,9 +224,9 @@ func (check *Checker) renameTParams(pos token.Pos, tparams []*TypeParam, params 
 	// parameters we are solving for via unification because they may be the
 	// same in self-recursive calls:
 	//
-	//   func f[P constraint](x P) {
-	//           f(x)
-	//   }
+	//  func f[P *Q, Q any](p P, q Q) {
+	//    f(p, q)
+	//  }
 	//
 	// In this example, without type parameter renaming, the P used in the
 	// instantation f[P] has the same pointer identity as the P we are trying
@@ -236,13 +236,13 @@ func (check *Checker) renameTParams(pos token.Pos, tparams []*TypeParam, params 
 	// create separate, disentangled type parameters. The above example
 	// can be rewritten into the following equivalent code:
 	//
-	//   func f[P constraint](x P) {
-	//           f2(x)
-	//   }
+	//  func f[P *Q, Q any](p P, q Q) {
+	//    f2(p, q)
+	//  }
 	//
-	//   func f2[P2 constraint](x P2) {
-	//           f(x)
-	//   }
+	//  func f2[P *Q, Q any](p P, q Q) {
+	//    f(p, q)
+	//  }
 	//
 	// Type parameter renaming turns the first example into the second
 	// example by renaming the type parameter P into P2.
