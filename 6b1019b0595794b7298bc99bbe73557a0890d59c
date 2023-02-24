@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c325abf_2ddd906c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-02-24T20:15:31Z",
+      "side": 1,
+      "message": "Please remove this line, it just duplicates the topic.  Thanks.",
+      "revId": "6b1019b0595794b7298bc99bbe73557a0890d59c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec142de7_5c441618",
+        "filename": "src/vendor/golang.org/x/net/idna/idna9.0.0.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-02-24T20:15:31Z",
+      "side": 1,
+      "message": "This file is copied into the repository from the upstream golang.org/x/net repository.  This must be fixed there, and then at some point reimported.  It should not be changed like this.  Thanks.",
+      "revId": "6b1019b0595794b7298bc99bbe73557a0890d59c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
