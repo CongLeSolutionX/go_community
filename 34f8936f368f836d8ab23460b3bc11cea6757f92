@@ -337,6 +337,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "50fa62d7_88214778",
+        "filename": "src/os/readfrom_linux.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-02-24T23:01:12Z",
+      "side": 1,
+      "message": "Thanks for digging into it! I agree that a separate CL would be appropriate.",
+      "parentUuid": "c232e0c4_1419319a",
+      "revId": "34f8936f368f836d8ab23460b3bc11cea6757f92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a62c2cdc_c3e9628a",
