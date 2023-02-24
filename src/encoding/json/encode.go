@@ -155,16 +155,13 @@ import (
 // handle them. Passing cyclic structures to Marshal will result in
 // an error.
 func Marshal(v any) ([]byte, error) {
-	e := newEncodeState()
-	defer encodeStatePool.Put(e)
-
+	e := getEncodeState()
+	defer putEncodeState(e)
 	err := e.marshal(v, encOpts{escapeHTML: true})
 	if err != nil {
 		return nil, err
 	}
-	buf := append([]byte(nil), e.Bytes()...)
-
-	return buf, nil
+	return e.BytesClone(), nil
 }
 
 // MarshalIndent is like Marshal but applies Indent to format the output.
@@ -281,9 +278,9 @@ func (e *MarshalerError) Unwrap() error { return e.Err }
 
 var hex = "0123456789abcdef"
 
-// An encodeState encodes JSON into a bytes.Buffer.
+// An encodeState encodes JSON into a pooled buffer.
 type encodeState struct {
-	bytes.Buffer // accumulated output
+	pooledBuffer // accumulated output
 
 	// Keep track of what pointers we've seen in the current recursive call
 	// path, to avoid cycles that could lead to a stack overflow. Only do
@@ -294,18 +291,13 @@ type encodeState struct {
 	ptrSeen  map[any]struct{}
 }
 
-func (e *encodeState) AvailableBuffer() []byte {
-	return availableBuffer(&e.Buffer)
-}
-
 const startDetectingCyclesAfter = 1000
 
 var encodeStatePool sync.Pool
 
-func newEncodeState() *encodeState {
+func getEncodeState() *encodeState {
 	if v := encodeStatePool.Get(); v != nil {
 		e := v.(*encodeState)
-		e.Reset()
 		if len(e.ptrSeen) > 0 {
 			panic("ptrEncoder.encode should have emptied ptrSeen via defers")
 		}
@@ -313,6 +305,11 @@ func newEncodeState() *encodeState {
 		return e
 	}
 	return &encodeState{ptrSeen: make(map[any]struct{})}
+}
+
+func putEncodeState(e *encodeState) {
+	e.Reset()
+	encodeStatePool.Put(e)
 }
 
 // jsonError is an error wrapper type for internal use only.
@@ -480,9 +477,9 @@ func marshalerEncoder(e *encodeState, v reflect.Value, opts encOpts) {
 	b, err := m.MarshalJSON()
 	if err == nil {
 		e.Grow(len(b))
-		out := availableBuffer(&e.Buffer)
+		out := e.AvailableBuffer()
 		out, err = appendCompact(out, b, opts.escapeHTML)
-		e.Buffer.Write(out)
+		e.Write(out)
 	}
 	if err != nil {
 		e.error(&MarshalerError{v.Type(), err, "MarshalJSON"})
@@ -499,9 +496,9 @@ func addrMarshalerEncoder(e *encodeState, v reflect.Value, opts encOpts) {
 	b, err := m.MarshalJSON()
 	if err == nil {
 		e.Grow(len(b))
-		out := availableBuffer(&e.Buffer)
+		out := e.AvailableBuffer()
 		out, err = appendCompact(out, b, opts.escapeHTML)
-		e.Buffer.Write(out)
+		e.Write(out)
 	}
 	if err != nil {
 		e.error(&MarshalerError{v.Type(), err, "MarshalJSON"})

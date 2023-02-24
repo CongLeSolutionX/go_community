@@ -22,6 +22,7 @@ import (
 	"runtime"
 	"strings"
 	"sync"
+	"sync/atomic"
 	"testing"
 )
 
@@ -82,6 +83,30 @@ func codeInit() {
 	}
 }
 
+func BenchmarkLargeOutput(b *testing.B) {
+	b.ReportAllocs()
+
+	b.StopTimer()
+	if codeJSON == nil {
+		codeInit()
+	}
+	list := make([]*codeResponse, 250)
+	for i := range list {
+		list[i] = &codeStruct
+	}
+	b.StartTimer()
+
+	for i := 0; i < b.N; i++ {
+		buf, err := Marshal(list)
+		if err != nil {
+			b.Fatal("Marshal:", err)
+		}
+		if i == b.N-1 {
+			b.SetBytes(int64(len(buf)))
+		}
+	}
+}
+
 func BenchmarkCodeEncoder(b *testing.B) {
 	b.ReportAllocs()
 	if codeJSON == nil {
@@ -128,6 +153,74 @@ func BenchmarkCodeEncoderError(b *testing.B) {
 		}
 	})
 	b.SetBytes(int64(len(codeJSON)))
+}
+
+func (e *encodeState) wastedSpace() (n int) {
+	for _, p := range e.fullList() {
+		n += cap(p) - len(p)
+	}
+	return n
+}
+
+func marshalReturnWastage(v any) ([]byte, int, error) {
+	e := getEncodeState()
+	defer putEncodeState(e)
+
+	err := e.marshal(v, encOpts{escapeHTML: true})
+	if err != nil {
+		return nil, e.wastedSpace(), err
+	}
+	return e.Bytes(), e.wastedSpace(), nil
+}
+
+func BenchmarkAllocationWastage(b *testing.B) {
+	b.ReportAllocs()
+
+	b.StopTimer()
+	type SmallNested struct {
+		Name string
+		Next *SmallNested
+	}
+	sn := &SmallNested{Name: "Small and nested"}
+	for i := 0; i < 10; i++ {
+		sn = &SmallNested{
+			Name: fmt.Sprintf("loop iteration %v", i),
+			Next: sn,
+		}
+	}
+	smallObj, err := Marshal(sn)
+	if err != nil {
+		b.Fatal("Marshal:", err)
+	}
+	if codeJSON == nil {
+		codeInit()
+	}
+	b.StartTimer()
+
+	var totalTotal int64
+	var totalCount int64
+
+	b.RunParallel(func(pb *testing.PB) {
+		var totalWasted int64
+		var iterCount int
+		for pb.Next() {
+			if _, wasted, err := marshalReturnWastage(&codeStruct); err != nil {
+				b.Fatal("Marshal:", err)
+			} else {
+				totalWasted += int64(wasted)
+			}
+			if _, wasted, err := marshalReturnWastage(sn); err != nil {
+				b.Fatal("Marshal:", err)
+			} else {
+				totalWasted += int64(wasted)
+			}
+			iterCount++
+		}
+		atomic.AddInt64(&totalTotal, totalWasted)
+		atomic.AddInt64(&totalCount, int64(iterCount))
+	})
+	b.ReportMetric(float64(totalTotal)/float64(totalCount), "wasted_b/op")
+	b.ReportMetric(float64(len(smallObj)+len(codeJSON)), "useful_b/op")
 }
 
 func BenchmarkCodeMarshal(b *testing.B) {
