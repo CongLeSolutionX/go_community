@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5cba364_d2fb43b3",
+        "filename": "src/runtime/rt0_windows_arm.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-02-24T22:52:15Z",
+      "side": 0,
+      "message": "For functions that tail-call by jumping to a different function, we should leave NOFRAME here. Maybe that\u0027s the default for the bodies involved, but IMO explicitly listing NOFRAME when it is required for correctness is good.\n(Maybe since rt0_go never returns it would be ok if this function had a frame that would not be deallocated when the branchee returned? Not sure. But the general point stands that tail-calling things should not allocate a frame.)",
+      "revId": "3161081c12bd7e852a60b836476ad9c3b44037d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f01edf3_1727e920",
+        "filename": "src/runtime/sys_windows_arm.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-02-24T22:52:15Z",
+      "side": 0,
+      "message": "These 2 also.",
+      "revId": "3161081c12bd7e852a60b836476ad9c3b44037d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73d224b5_02ef5d9d",
+        "filename": "src/runtime/sys_windows_arm64.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-02-24T22:52:15Z",
+      "side": 0,
+      "message": "Same here.",
+      "revId": "3161081c12bd7e852a60b836476ad9c3b44037d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

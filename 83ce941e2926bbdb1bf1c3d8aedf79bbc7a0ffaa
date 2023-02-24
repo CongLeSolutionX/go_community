@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59dd0b16_913a792a",
+        "filename": "src/runtime/sys_windows_386.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-02-24T22:52:15Z",
+      "side": 1,
+      "message": "Same here, I\u0027d like to keep this mark.\nIt\u0027s a very strange chunk of code, but it\u0027s clearer to think about when there isn\u0027t a frame that\u0027s half set up and then ignored/made obsolete by the stack switch.",
+      "revId": "83ce941e2926bbdb1bf1c3d8aedf79bbc7a0ffaa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82fb1163_1f73fb77",
+        "filename": "src/runtime/sys_windows_arm.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-02-24T22:52:15Z",
+      "side": 1,
+      "message": "Same here, all these are tail-calling functions.",
+      "revId": "83ce941e2926bbdb1bf1c3d8aedf79bbc7a0ffaa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
