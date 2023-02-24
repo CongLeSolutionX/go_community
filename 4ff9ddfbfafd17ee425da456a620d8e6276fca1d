@@ -18,6 +18,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b62289e_27e3ca66",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 61523
+      },
+      "writtenOn": "2023-02-24T10:35:59Z",
+      "side": 1,
+      "message": "Thanks for the review. Concerns addressed.",
+      "revId": "4ff9ddfbfafd17ee425da456a620d8e6276fca1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cb9abea6_52b63da2",
@@ -31,6 +48,24 @@
       "writtenOn": "2023-02-23T18:39:32Z",
       "side": 1,
       "message": "Why the *Reader return parameter?\n\nI think that a more robust fix is to put the validation check in Reader.init, since this will ensure that it\u0027s performed for every Reader. If we\u0027d done that in the first place, we wouldn\u0027t have overlooked Open.",
+      "revId": "4ff9ddfbfafd17ee425da456a620d8e6276fca1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d926d5fa_b0631880",
+        "filename": "src/archive/zip/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 61523
+      },
+      "writtenOn": "2023-02-24T10:35:59Z",
+      "side": 1,
+      "message": "The `*Reader` parameter was there so I could simply call `return verifyZipEntries(zr)` in `NewReader`.\n\nI refactored the logic according to your request, it required some changes in both `NewReader` and `OpenReader` to do return the reader when the result of `init7 is `ErrInsecurePath`.",
+      "parentUuid": "cb9abea6_52b63da2",
       "revId": "4ff9ddfbfafd17ee425da456a620d8e6276fca1d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -52,6 +87,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0fade1c8_0f058165",
+        "filename": "src/archive/zip/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 61523
+      },
+      "writtenOn": "2023-02-24T10:35:59Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "9eab9480_04be5394",
+      "revId": "4ff9ddfbfafd17ee425da456a620d8e6276fca1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "43cf068b_07389582",
@@ -69,6 +122,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd19c8b0_cf7dbfef",
+        "filename": "src/archive/zip/reader_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1188,
+      "author": {
+        "id": 61523
+      },
+      "writtenOn": "2023-02-24T10:35:59Z",
+      "side": 1,
+      "message": "TestCVE202127919 is now reverted.",
+      "parentUuid": "43cf068b_07389582",
+      "revId": "4ff9ddfbfafd17ee425da456a620d8e6276fca1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a3670b1d_ff38dfd7",
@@ -82,6 +153,24 @@
       "writtenOn": "2023-02-23T18:39:32Z",
       "side": 1,
       "message": "Don\u0027t rewrite this whole test, which is now doing two different things: Testing the fix for CVE-2021-27919, and testing that OpenReader returns ErrInsecurePath.\n\nI\u0027d add a TestOpenReaderInsecurePath that just checks that OpenReader returns ErrInsecurePath for an insecure archive.",
+      "revId": "4ff9ddfbfafd17ee425da456a620d8e6276fca1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fdaa754_fcbdc332",
+        "filename": "src/archive/zip/reader_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1376,
+      "author": {
+        "id": 61523
+      },
+      "writtenOn": "2023-02-24T10:35:59Z",
+      "side": 1,
+      "message": "The motivation here was to make the code dry.\nDedicated TestOpenReaderInsecurePath added.",
+      "parentUuid": "a3670b1d_ff38dfd7",
       "revId": "4ff9ddfbfafd17ee425da456a620d8e6276fca1d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
