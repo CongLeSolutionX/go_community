@@ -53,6 +53,166 @@
       "message": "Please take a look at the latest code when you have time.\n@iant@golang.org @bcmills@google.com",
       "revId": "34f8936f368f836d8ab23460b3bc11cea6757f92",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1188905_9dcdbc78",
+        "filename": "src/net/rawconn.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-02-24T15:54:59Z",
+      "side": 1,
+      "message": "(nit) Can we make this comment more concise?\n\nMaybe:\n```\n// PollFD returns the poll.FD of the underlying connection.\n//\n// Other packages in std that also import internal/poll (such as os)\n// can use a type assertion to access this extension method so that\n// they can pass the *poll.FD to functions like poll.Splice.\n//\n// PollFD is not intended for use outside the standard library.\n```",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 31
+      },
+      "revId": "34f8936f368f836d8ab23460b3bc11cea6757f92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c0e3470_e1ca9779",
+        "filename": "src/net/splice_test.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-02-24T15:54:59Z",
+      "side": 1,
+      "message": "Is it important that `f` be closed before `server`, and that `server` be closed before `cleanup` is called?\n\nIf so, a code comment explaining the sequencing requirements would be helpful.\n\nOtherwise, this seems like it would be easier to follow using `defer` and separate calls for each variable to be cleaned up:\n\n```\nf, err :\u003d …\nif err !\u003d nil {\n\tt.Fatal(err)\n}\ndefer f.Close()\n\nclient, server :\u003d …\ndefer server.Close()\n\ncleanup, err :\u003d startSpliceClient(…)\nif err !\u003d nil {\n\tclient.Close()\n\tt.Fatal(…)\n}\ndefer cleanup()\n```",
+      "revId": "34f8936f368f836d8ab23460b3bc11cea6757f92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4947499_962969f7",
+        "filename": "src/net/splice_test.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-02-24T15:54:59Z",
+      "side": 1,
+      "message": "Will this cause the benchmark to allocate `b.N` bytes on disk?\n\nIn general `b.N` can be arbitrarily large (based on `-benchtime`), so that seems like it will cause the benchmark to fail if the benchmarks are run for a long time to reduce noise.",
+      "revId": "34f8936f368f836d8ab23460b3bc11cea6757f92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3c9cc51_c4d6e3c8",
+        "filename": "src/net/splice_test.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-02-24T15:54:59Z",
+      "side": 1,
+      "message": "As above: this seems like it would be easier to follow with separate `defer` blocks. (A code comment would be helpful if there is a specific reason to do otherwise.)",
+      "range": {
+        "startLine": 515,
+        "startChar": 0,
+        "endLine": 521,
+        "endChar": 3
+      },
+      "revId": "34f8936f368f836d8ab23460b3bc11cea6757f92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92f12670_b12b655c",
+        "filename": "src/os/readfrom_linux.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-02-24T15:54:59Z",
+      "side": 1,
+      "message": "It\u0027s not clear to me from this comment whether this is an optimization (perhaps `poll.Splice` has a fallback path for non-streams?) or necessary for correctness.\n\nIf it is necessary, use stronger wording:\n```\n// splice(2) would fail if r is not a streaming descriptor.\n```\n\nIf it is just an optimization, explain why it\u0027s not desirable:\n```\n// splice(2) provides no benefit for non-streaming descriptors because …\n```",
+      "range": {
+        "startLine": 36,
+        "startChar": 4,
+        "endLine": 36,
+        "endChar": 33
+      },
+      "revId": "34f8936f368f836d8ab23460b3bc11cea6757f92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "073a63fa_7a9e485f",
+        "filename": "src/os/readfrom_linux.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-02-24T15:54:59Z",
+      "side": 1,
+      "message": "Why `1\u003c\u003c62` rather than `math.MaxInt64` (`1\u003c\u003c63 - 1`)?",
+      "revId": "34f8936f368f836d8ab23460b3bc11cea6757f92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a62c2cdc_c3e9628a",
+        "filename": "src/os/readfrom_linux_test.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-02-24T15:54:59Z",
+      "side": 1,
+      "message": "In general tests should be deterministic, so that failures can be reproduced for debugging — is it important that this data be random?\n\n(If so, please add a flag for the seed and write the seed for each run to the test log; if not, please use deterministic data instead.)",
+      "revId": "34f8936f368f836d8ab23460b3bc11cea6757f92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85a1fa07_72755fb1",
+        "filename": "src/os/readfrom_linux_test.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-02-24T15:54:59Z",
+      "side": 1,
+      "message": "When does this goroutine exit? (What prevents it from interfering with other tests, or continuing to run — and racing — after the hook has been uninstalled?)",
+      "range": {
+        "startLine": 524,
+        "startChar": 0,
+        "endLine": 527,
+        "endChar": 4
+      },
+      "revId": "34f8936f368f836d8ab23460b3bc11cea6757f92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
