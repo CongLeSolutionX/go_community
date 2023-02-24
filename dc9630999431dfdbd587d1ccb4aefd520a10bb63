@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "9697f57e_2335408c",
         "filename": "src/encoding/json/decode.go",
@@ -20,10 +21,10 @@
         "endChar": 10
       },
       "revId": "dc9630999431dfdbd587d1ccb4aefd520a10bb63",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "7ab18d62_b322fe85",
         "filename": "src/encoding/json/decode.go",
@@ -44,10 +45,10 @@
         "endChar": 10
       },
       "revId": "dc9630999431dfdbd587d1ccb4aefd520a10bb63",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": false
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "ae6afc84_3d0a899d",
         "filename": "src/encoding/json/decode.go",
@@ -67,10 +68,10 @@
         "endChar": 12
       },
       "revId": "dc9630999431dfdbd587d1ccb4aefd520a10bb63",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "0e6ec9ad_01f6fc0e",
         "filename": "src/encoding/json/decode.go",
@@ -91,8 +92,31 @@
         "endChar": 12
       },
       "revId": "dc9630999431dfdbd587d1ccb4aefd520a10bb63",
-      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
-      "unresolved": true
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "97e51900_12f5b007",
+        "filename": "src/encoding/json/decode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 773,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2023-02-24T23:21:40Z",
+      "side": 1,
+      "message": "Actually, I apologize. You\u0027re right! You\u0027re CL didn\u0027t change the behavior, but it\u0027s always been first match wins before your CL. Ooops!",
+      "parentUuid": "0e6ec9ad_01f6fc0e",
+      "range": {
+        "startLine": 772,
+        "startChar": 5,
+        "endLine": 773,
+        "endChar": 12
+      },
+      "revId": "dc9630999431dfdbd587d1ccb4aefd520a10bb63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
