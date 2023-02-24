@@ -3,6 +3,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "55918880_abc7abd8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-02-24T17:26:12Z",
+      "side": 1,
+      "message": "cmd/compile:",
+      "range": {
+        "startLine": 7,
+        "startChar": 1,
+        "endLine": 7,
+        "endChar": 15
+      },
+      "revId": "5baf69e411d31ba6adabbe5ccdf2415e0fa05057",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b017a4a_ff89f743",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-02-24T17:26:12Z",
+      "side": 1,
+      "message": "You can get rid of this part of the description.",
+      "range": {
+        "startLine": 9,
+        "startChar": 25,
+        "endLine": 9,
+        "endChar": 62
+      },
+      "revId": "5baf69e411d31ba6adabbe5ccdf2415e0fa05057",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "39763e2b_b5efa038",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
