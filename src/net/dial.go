@@ -684,6 +684,40 @@ type ListenConfig struct {
 	// that do not support keep-alives ignore this field.
 	// If negative, keep-alives are disabled.
 	KeepAlive time.Duration
+
+	// If mptcpStatus is set to a value allowing Multipath TCP (MPTCP) to be
+	// used, any call to Listen with "tcp(4|6)" as network will use MPTCP if
+	// supported by the operating system.
+	mptcpStatus mptcpStatus
+}
+
+// MultipathTCP returns whether MPTCP will be used
+//
+// Note that this doesn't check if MPTCP is supported by the operating
+// system or not.
+func (lc *ListenConfig) MultipathTCP() bool {
+	return lc.mptcpStatus.get()
+}
+
+// SetMultipathTCP forces the use of MPTCP if available
+//
+// When creating new stream (TCP) connections with the Listen method
+// -- and if the feature is supported by the operating system -- MPTCP
+// will be used depending on what MultipathTCP method returns.
+//
+// This SetMultipathTCP method can be used to change the system default
+// behavior to force using or not using Multipath TCP.
+//
+// When set, multiple paths between the client and the server can then
+// be used depending on the network configuration. Please refer to the
+// documentation linked to the operating system in use for more details
+// about that.
+//
+// Note that if MPTCP is not available on the host or not supported by
+// the client, a fallback to TCP will be done and the connections will
+// continue in "plain" TCP, with a single path.
+func (lc *ListenConfig) SetMultipathTCP(use bool) {
+	lc.mptcpStatus.set(use)
 }
 
 // Listen announces on the local network address.
@@ -704,7 +738,11 @@ func (lc *ListenConfig) Listen(ctx context.Context, network, address string) (Li
 	la := addrs.first(isIPv4)
 	switch la := la.(type) {
 	case *TCPAddr:
-		l, err = sl.listenTCP(ctx, la)
+		if sl.MultipathTCP() {
+			l, err = sl.listenMPTCP(ctx, la)
+		} else {
+			l, err = sl.listenTCP(ctx, la)
+		}
 	case *UnixAddr:
 		l, err = sl.listenUnix(ctx, la)
 	default:
