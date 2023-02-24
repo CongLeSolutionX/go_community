@@ -179,8 +179,8 @@ func nonSpace(b []byte) bool {
 
 // An Encoder writes JSON values to an output stream.
 type Encoder struct {
-	w          io.Writer
-	err        error
+	wr         io.Writer
+	wrErr      error
 	escapeHTML bool
 
 	indentBuf    []byte
@@ -190,7 +190,7 @@ type Encoder struct {
 
 // NewEncoder returns a new encoder that writes to w.
 func NewEncoder(w io.Writer) *Encoder {
-	return &Encoder{w: w, escapeHTML: true}
+	return &Encoder{wr: w, escapeHTML: true}
 }
 
 // Encode writes the JSON encoding of v to the stream,
@@ -199,12 +199,12 @@ func NewEncoder(w io.Writer) *Encoder {
 // See the documentation for Marshal for details about the
 // conversion of Go values to JSON.
 func (enc *Encoder) Encode(v any) error {
-	if enc.err != nil {
-		return enc.err
+	if enc.wrErr != nil {
+		return enc.wrErr
 	}
 
-	e := newEncodeState()
-	defer encodeStatePool.Put(e)
+	e := getEncodeState()
+	defer putEncodeState(e)
 
 	err := e.marshal(v, encOpts{escapeHTML: enc.escapeHTML})
 	if err != nil {
@@ -219,18 +219,16 @@ func (enc *Encoder) Encode(v any) error {
 	// digits coming.
 	e.WriteByte('\n')
 
-	b := e.Bytes()
 	if enc.indentPrefix != "" || enc.indentValue != "" {
-		enc.indentBuf, err = appendIndent(enc.indentBuf[:0], b, enc.indentPrefix, enc.indentValue)
+		enc.indentBuf, err = appendIndent(enc.indentBuf[:0], e.Bytes(), enc.indentPrefix, enc.indentValue)
 		if err != nil {
 			return err
 		}
-		b = enc.indentBuf
+		_, enc.wrErr = enc.wr.Write(enc.indentBuf)
+	} else {
+		_, enc.wrErr = e.WriteTo(enc.wr)
 	}
-	if _, err = enc.w.Write(b); err != nil {
-		enc.err = err
-	}
-	return err
+	return enc.wrErr
 }
 
 // SetIndent instructs the encoder to format each subsequent encoded
