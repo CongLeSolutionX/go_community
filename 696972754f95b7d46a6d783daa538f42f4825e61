@@ -149,6 +149,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "72e45120_1d67dedd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14850
+      },
+      "writtenOn": "2023-02-24T16:09:43Z",
+      "side": 1,
+      "message": "Regarding `TestSpuriousWakeupsNeverHangSemasleep` for amd64, I thought it might be some timing issues due to nsec precision in `EpollWait2()`. So I tried in `netpoll()` to round delay for `EpollWait2()` to milliseconds so it\u0027d be the same as for `EpollWait()`. But the test still was failing.\nI\u0027m trying to get my head around signals and timers handling in runtime and runtime in general. But it can take quite some time. \nSo @mpratt@google.com, if you can take a look at issues and/or point me out where to look at, it\u0027ll be great.",
+      "parentUuid": "0ad98ce8_72a22b80",
+      "revId": "696972754f95b7d46a6d783daa538f42f4825e61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "101141fd_e1c90dfd",
         "filename": "src/runtime/internal/syscall/defs_linux_386.go",
         "patchSetId": 1
