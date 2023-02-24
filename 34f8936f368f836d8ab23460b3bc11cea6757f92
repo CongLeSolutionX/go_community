@@ -78,6 +78,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d1d9c41_386116a0",
+        "filename": "src/net/rawconn.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-02-24T18:00:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1188905_9dcdbc78",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 31
+      },
+      "revId": "34f8936f368f836d8ab23460b3bc11cea6757f92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7c0e3470_e1ca9779",
@@ -91,6 +115,24 @@
       "writtenOn": "2023-02-24T15:54:59Z",
       "side": 1,
       "message": "Is it important that `f` be closed before `server`, and that `server` be closed before `cleanup` is called?\n\nIf so, a code comment explaining the sequencing requirements would be helpful.\n\nOtherwise, this seems like it would be easier to follow using `defer` and separate calls for each variable to be cleaned up:\n\n```\nf, err :\u003d …\nif err !\u003d nil {\n\tt.Fatal(err)\n}\ndefer f.Close()\n\nclient, server :\u003d …\ndefer server.Close()\n\ncleanup, err :\u003d startSpliceClient(…)\nif err !\u003d nil {\n\tclient.Close()\n\tt.Fatal(…)\n}\ndefer cleanup()\n```",
+      "revId": "34f8936f368f836d8ab23460b3bc11cea6757f92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4d413a4_7c493741",
+        "filename": "src/net/splice_test.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-02-24T18:00:03Z",
+      "side": 1,
+      "message": "\u003e Is it important that f be closed before server, and that server be closed before cleanup is called?\n\nThe sequence is actually not vital, I just wanted to put all cleanup work all into t.Cleanup, I\u0027m ok to use `defer` instead.",
+      "parentUuid": "7c0e3470_e1ca9779",
       "revId": "34f8936f368f836d8ab23460b3bc11cea6757f92",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -112,6 +154,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e513634e_c7e7c498",
+        "filename": "src/net/splice_test.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-02-24T18:00:03Z",
+      "side": 1,
+      "message": "Currently the largest temp file allocated by benchmark on my machine is around 1~2GB, it seems to be fine, and fortunately this is benchmark test, not a general test run by trybot everytime, I will leave a TODO here and see if anything we can do later.",
+      "parentUuid": "a4947499_962969f7",
+      "revId": "34f8936f368f836d8ab23460b3bc11cea6757f92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a3c9cc51_c4d6e3c8",
@@ -125,6 +185,30 @@
       "writtenOn": "2023-02-24T15:54:59Z",
       "side": 1,
       "message": "As above: this seems like it would be easier to follow with separate `defer` blocks. (A code comment would be helpful if there is a specific reason to do otherwise.)",
+      "range": {
+        "startLine": 515,
+        "startChar": 0,
+        "endLine": 521,
+        "endChar": 3
+      },
+      "revId": "34f8936f368f836d8ab23460b3bc11cea6757f92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c6b241e_523d92ba",
+        "filename": "src/net/splice_test.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-02-24T18:00:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3c9cc51_c4d6e3c8",
       "range": {
         "startLine": 515,
         "startChar": 0,
@@ -158,6 +242,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e90f5d25_1b5089ad",
+        "filename": "src/os/readfrom_linux.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-02-24T18:00:03Z",
+      "side": 1,
+      "message": "AFAIK, streams benefit the most from the splice(2), non-streams are not even supported in old kernels, splice will just return EINVAL, newer kernels support non-streams like UDP but I really doubt splice could help non-streams, they usually send small frames respectively and one splice call would result in one frame. splice is suitable for large data but the generation of fragments defeats its edge here.\n\nI\u0027ll leave a TODO here and we can do more tests later to decide if we should unlock the non-streams for splice.",
+      "parentUuid": "92f12670_b12b655c",
+      "range": {
+        "startLine": 36,
+        "startChar": 4,
+        "endLine": 36,
+        "endChar": 33
+      },
+      "revId": "34f8936f368f836d8ab23460b3bc11cea6757f92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "073a63fa_7a9e485f",
@@ -175,6 +283,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa8c7f06_b7fe0619",
+        "filename": "src/os/readfrom_linux.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-02-24T18:00:03Z",
+      "side": 1,
+      "message": "I\u0027m not so sure about this cuz it\u0027s the legacy code prior to this CL.",
+      "parentUuid": "073a63fa_7a9e485f",
+      "revId": "34f8936f368f836d8ab23460b3bc11cea6757f92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a62c2cdc_c3e9628a",
@@ -188,6 +314,24 @@
       "writtenOn": "2023-02-24T15:54:59Z",
       "side": 1,
       "message": "In general tests should be deterministic, so that failures can be reproduced for debugging — is it important that this data be random?\n\n(If so, please add a flag for the seed and write the seed for each run to the test log; if not, please use deterministic data instead.)",
+      "revId": "34f8936f368f836d8ab23460b3bc11cea6757f92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d3d766d_490614b8",
+        "filename": "src/os/readfrom_linux_test.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-02-24T18:00:03Z",
+      "side": 1,
+      "message": "I prefer to use random data for this test cuz there are some comparisons of data content later, I will log the seed here.",
+      "parentUuid": "a62c2cdc_c3e9628a",
       "revId": "34f8936f368f836d8ab23460b3bc11cea6757f92",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -215,6 +359,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "19f54158_fe8de903",
+        "filename": "src/os/readfrom_linux_test.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-02-24T18:00:03Z",
+      "side": 1,
+      "message": "In any case, it will exit after the test (or subtest) and all its subtests complete cuz t.Cleanup in createSocketPair will close the connections.",
+      "parentUuid": "85a1fa07_72755fb1",
+      "range": {
+        "startLine": 524,
+        "startChar": 0,
+        "endLine": 527,
+        "endChar": 4
+      },
+      "revId": "34f8936f368f836d8ab23460b3bc11cea6757f92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "04e36090_7b44d065",
@@ -228,6 +396,30 @@
       "writtenOn": "2023-02-24T15:59:00Z",
       "side": 1,
       "message": "The call to `t.Errorf` needs to occur before the send to `ch` — otherwise, nothing guarantees that the test is even still running when the call to `t.Errorf` is reached.",
+      "range": {
+        "startLine": 718,
+        "startChar": 0,
+        "endLine": 721,
+        "endChar": 3
+      },
+      "revId": "34f8936f368f836d8ab23460b3bc11cea6757f92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cfb1bf6d_9592b250",
+        "filename": "src/os/readfrom_linux_test.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 721,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-02-24T18:00:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04e36090_7b44d065",
       "range": {
         "startLine": 718,
         "startChar": 0,
