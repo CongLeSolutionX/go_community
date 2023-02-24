@@ -50,6 +50,9 @@ func TestSizeof(t *testing.T) {
 		{Package{}, 36, 72},
 		{_TypeSet{}, 28, 56},
 	}
+	if reflect.TypeOf(tests).Size() != 3*reflect.TypeOf(&tests).Size() {
+		t.Skip("wide-aligned slices break this test")
+	}
 
 	for _, test := range tests {
 		got := reflect.TypeOf(test.val).Size()
