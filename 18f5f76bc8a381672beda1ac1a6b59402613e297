@@ -118,6 +118,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7c1b09e_1c0c2f9d",
+        "filename": "src/image/jpeg/reader_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2023-02-24T00:00:31Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "5538fc5b_74948ec9",
+      "revId": "18f5f76bc8a381672beda1ac1a6b59402613e297",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "72b63dc0_9ff08405",
