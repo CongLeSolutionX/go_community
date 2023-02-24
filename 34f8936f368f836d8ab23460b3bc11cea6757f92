@@ -321,6 +321,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c232e0c4_1419319a",
+        "filename": "src/os/readfrom_linux.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-02-24T21:38:45Z",
+      "side": 1,
+      "message": "Actually, I think the first `1\u003c\u003c62` was added in https://golang.org/cl/4543071, `sendfile` support. Then `splice` and `copy_file_range` supports follow this value.\n\nNow we have `1\u003c\u003c62` in https://go.googlesource.com/go/+/refs/tags/go1.20/src/net/sendfile_linux.go#21, https://go.googlesource.com/go/+/refs/tags/go1.20/src/net/splice_linux.go#18 and https://go.googlesource.com/go/+/refs/tags/go1.20/src/os/readfrom_linux.go#21.\n\nIf we want to change it to `MaxInt64` or leave a comment, should we do it to all these occurrences? I prefer to do this in a new CL, what do you say?",
+      "parentUuid": "48d29f00_1e74b68f",
+      "revId": "34f8936f368f836d8ab23460b3bc11cea6757f92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a62c2cdc_c3e9628a",
         "filename": "src/os/readfrom_linux_test.go",
         "patchSetId": 42
@@ -415,6 +433,30 @@
       "side": 1,
       "message": "Closing the connections does not synchronize the calls to `Write` or `Close` here — they can still panic, hang, or race, and without a synchronization point that can cause test failures to be harder to debug. (See https://go.dev/wiki/CodeReviewComments#goroutine-lifetimes.)\n\nIn particular, without a synchronization point here this test will pass even if the call to `Write` deadlocks forever, which seems like a plausible failure mode when the poller is involved.",
       "parentUuid": "19f54158_fe8de903",
+      "range": {
+        "startLine": 524,
+        "startChar": 0,
+        "endLine": 527,
+        "endChar": 4
+      },
+      "revId": "34f8936f368f836d8ab23460b3bc11cea6757f92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "449287fc_a8358d72",
+        "filename": "src/os/readfrom_linux_test.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-02-24T21:38:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ac2dbd42_c688a568",
       "range": {
         "startLine": 524,
         "startChar": 0,

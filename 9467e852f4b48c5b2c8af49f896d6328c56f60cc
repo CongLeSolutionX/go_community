@@ -59,6 +59,30 @@
       },
       "revId": "9467e852f4b48c5b2c8af49f896d6328c56f60cc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78fe2a1f_95cbf502",
+        "filename": "src/net/splice_test.go",
+        "patchSetId": 45
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-02-24T21:38:45Z",
+      "side": 1,
+      "message": "`os.Open` opens file with readonly mode, you have to use `os.OpenFile(os.DevNull, os.O_WRONLY, 0)`.",
+      "parentUuid": "ca642f3d_8c1f3b42",
+      "range": {
+        "startLine": 509,
+        "startChar": 0,
+        "endLine": 512,
+        "endChar": 90
+      },
+      "revId": "9467e852f4b48c5b2c8af49f896d6328c56f60cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
