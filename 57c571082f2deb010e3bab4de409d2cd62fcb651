@@ -152,6 +152,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9382299b_6272be6a",
+        "filename": "src/context/context.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 5265
+      },
+      "writtenOn": "2023-02-24T14:21:02Z",
+      "side": 1,
+      "message": "I would state this as:\n// Context cancellation does not affect the behavior of Value(key).\n\nWe shouldn\u0027t say anything about whether the values themselves are affected by cancellation. That is outside the control of this package; people can do whatever they want with their values.",
+      "parentUuid": "24dd8074_a68c062a",
+      "range": {
+        "startLine": 597,
+        "startChar": 0,
+        "endLine": 599,
+        "endChar": 44
+      },
+      "revId": "57c571082f2deb010e3bab4de409d2cd62fcb651",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6a4efadd_d3eefd07",
         "filename": "src/context/context.go",
         "patchSetId": 8

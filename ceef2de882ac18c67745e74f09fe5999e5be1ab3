@@ -33,6 +33,75 @@
       "message": "Fiendly ping just because I am unsure what to do here. I can change the phrasing if anyone can provide a better version.",
       "revId": "ceef2de882ac18c67745e74f09fe5999e5be1ab3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2a639b0_044eb223",
+        "filename": "src/context/context.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 650,
+      "author": {
+        "id": 5265
+      },
+      "writtenOn": "2023-02-24T14:21:02Z",
+      "side": 1,
+      "message": "rename detachCtx to withoutCancelCtx",
+      "range": {
+        "startLine": 650,
+        "startChar": 5,
+        "endLine": 650,
+        "endChar": 14
+      },
+      "revId": "ceef2de882ac18c67745e74f09fe5999e5be1ab3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "699ced6d_8280020f",
+        "filename": "src/context/context.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 668,
+      "author": {
+        "id": 5265
+      },
+      "writtenOn": "2023-02-24T14:21:02Z",
+      "side": 1,
+      "message": "I think you can omit this and let embedding do it for you.",
+      "range": {
+        "startLine": 664,
+        "startChar": 1,
+        "endLine": 668,
+        "endChar": 1
+      },
+      "revId": "ceef2de882ac18c67745e74f09fe5999e5be1ab3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0434861e_2c138655",
+        "filename": "src/context/context_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 1029,
+      "author": {
+        "id": 5265
+      },
+      "writtenOn": "2023-02-24T14:21:02Z",
+      "side": 1,
+      "message": "I think this and the tests below can be written more clearly as a table-driven test in the style of XTestCause above (this would be XTestWithoutCancel). This makes it easier to see which cases are covered and to add new cases.",
+      "range": {
+        "startLine": 1028,
+        "startChar": 0,
+        "endLine": 1029,
+        "endChar": 48
+      },
+      "revId": "ceef2de882ac18c67745e74f09fe5999e5be1ab3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
