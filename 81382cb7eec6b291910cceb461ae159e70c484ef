@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e664c6ac_7130b8ab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-02-24T20:08:15Z",
+      "side": 1,
+      "message": "This discussion should probably move out of this change description and into the issue (or some other issue).  The change description should just say that it returns a TCPConn and maybe a sentence as to why that is.",
+      "revId": "81382cb7eec6b291910cceb461ae159e70c484ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5cc0dcf9_dbb6984c",
+        "filename": "src/net/dial.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-02-24T20:08:15Z",
+      "side": 1,
+      "message": "This is not the API discussed at https://github.com/golang/go/issues/56539#issuecomment-1332585915 .",
+      "revId": "81382cb7eec6b291910cceb461ae159e70c484ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
