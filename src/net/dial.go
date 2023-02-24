@@ -141,6 +141,11 @@ type Dialer struct {
 	//
 	// If ControlContext is not nil, Control is ignored.
 	ControlContext func(ctx context.Context, network, address string, c syscall.RawConn) error
+
+	// If mptcpStatus is set to a value allowing Multipath TCP (MPTCP) to be
+	// used, any call to Dial with "tcp(4|6)" as network will use MPTCP if
+	// supported by the operating system.
+	mptcpStatus mptcpStatus
 }
 
 func (d *Dialer) dualStack() bool { return d.FallbackDelay >= 0 }
@@ -312,6 +317,35 @@ func (r *Resolver) resolveAddrList(ctx context.Context, op, network, addr string
 		return nil, &AddrError{Err: errNoSuitableAddress.Error(), Addr: hint.String()}
 	}
 	return naddrs, nil
+}
+
+// MultipathTCP returns whether MPTCP will be used
+//
+// Note that this doesn't check if MPTCP is supported by the operating
+// system or not.
+func (d *Dialer) MultipathTCP() bool {
+	return d.mptcpStatus.get()
+}
+
+// SetMultipathTCP forces the use of MPTCP if available
+//
+// When creating new stream (TCP) connections with the different Dial
+// methods -- and if the feature is supported by the operating system --
+// MPTCP will be used depending on what MultipathTCP method returns.
+//
+// This SetMultipathTCP method can be used to change the system default
+// behavior to force using or not using Multipath TCP.
+//
+// When set, multiple paths between the client and the server can then
+// be used depending on the network configuration. Please refer to the
+// documentation linked to the operating system in use for more details
+// about that.
+//
+// Note that if MPTCP is not available on the host or not supported by
+// the server, a fallback to TCP will be done and the connections will
+// continue in "plain" TCP, with a single path.
+func (d *Dialer) SetMultipathTCP(use bool) {
+	d.mptcpStatus.set(use)
 }
 
 // Dial connects to the address on the named network.
@@ -610,7 +644,11 @@ func (sd *sysDialer) dialSingle(ctx context.Context, ra Addr) (c Conn, err error
 	switch ra := ra.(type) {
 	case *TCPAddr:
 		la, _ := la.(*TCPAddr)
-		c, err = sd.dialTCP(ctx, la, ra)
+		if sd.MultipathTCP() {
+			c, err = sd.dialMPTCP(ctx, la, ra)
+		} else {
+			c, err = sd.dialTCP(ctx, la, ra)
+		}
 	case *UDPAddr:
 		la, _ := la.(*UDPAddr)
 		c, err = sd.dialUDP(ctx, la, ra)
