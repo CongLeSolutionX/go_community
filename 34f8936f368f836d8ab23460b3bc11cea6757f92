@@ -213,6 +213,29 @@
       },
       "revId": "34f8936f368f836d8ab23460b3bc11cea6757f92",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04e36090_7b44d065",
+        "filename": "src/os/readfrom_linux_test.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 721,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-02-24T15:59:00Z",
+      "side": 1,
+      "message": "The call to `t.Errorf` needs to occur before the send to `ch` — otherwise, nothing guarantees that the test is even still running when the call to `t.Errorf` is reached.",
+      "range": {
+        "startLine": 718,
+        "startChar": 0,
+        "endLine": 721,
+        "endChar": 3
+      },
+      "revId": "34f8936f368f836d8ab23460b3bc11cea6757f92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
