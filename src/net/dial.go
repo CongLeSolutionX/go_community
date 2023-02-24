@@ -140,6 +140,11 @@ type Dialer struct {
 	//
 	// If ControlContext is not nil, Control is ignored.
 	ControlContext func(ctx context.Context, network, address string, c syscall.RawConn) error
+
+	// If mptcpStatus is set to a value allowing Multipath TCP (MPTCP) to be
+	// used, any call to Dial with "tcp(4|6)" as network will use MPTCP if
+	// supported by the operating system.
+	mptcpStatus mptcpStatus
 }
 
 func (d *Dialer) dualStack() bool { return d.FallbackDelay >= 0 }
@@ -311,6 +316,14 @@ func (r *Resolver) resolveAddrList(ctx context.Context, op, network, addr string
 		return nil, &AddrError{Err: errNoSuitableAddress.Error(), Addr: hint.String()}
 	}
 	return naddrs, nil
+}
+
+func (d *Dialer) MultipathTCP() bool {
+	return d.mptcpStatus.get()
+}
+
+func (d *Dialer) SetMultipathTCP(use bool) {
+	d.mptcpStatus.set(use)
 }
 
 // Dial connects to the address on the named network.
@@ -609,7 +622,11 @@ func (sd *sysDialer) dialSingle(ctx context.Context, ra Addr) (c Conn, err error
 	switch ra := ra.(type) {
 	case *TCPAddr:
 		la, _ := la.(*TCPAddr)
-		c, err = sd.dialTCP(ctx, la, ra)
+		if sd.MultipathTCP() {
+			c, err = sd.dialMPTCP(ctx, la, ra)
+		} else {
+			c, err = sd.dialTCP(ctx, la, ra)
+		}
 	case *UDPAddr:
 		la, _ := la.(*UDPAddr)
 		c, err = sd.dialUDP(ctx, la, ra)
