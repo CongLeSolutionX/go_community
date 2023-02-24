@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3e6c454_d0b28456",
+        "filename": "src/net/mptcpsock_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-02-24T20:01:42Z",
+      "side": 1,
+      "message": "What kind of non-nil error might occur that would mean that MPTCP is available although this particular socket call failed?",
+      "revId": "0ca8cb0b6fd2284398d223ad5e8921360724e727",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
