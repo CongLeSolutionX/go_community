@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4a302dd_bc2dbaa7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-02-24T20:29:33Z",
+      "side": 1,
+      "message": "The files you are changing are copied from an upstream repo.  You need to make this change upstream, in golang.org/x/crypto, and then use \"go mod vendor\" to copy the changes into this repo.",
+      "revId": "a1a6dca512df8ac66ec31149e7a0668264374dee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
