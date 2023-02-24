@@ -303,6 +303,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "48d29f00_1e74b68f",
+        "filename": "src/os/readfrom_linux.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-02-24T20:06:59Z",
+      "side": 1,
+      "message": "Hrm, yeah. I see that it was added in CL 229101, but I don\u0027t see any discussion of the constant on that code review.\n\nI would prefer to switch to a less-arbitrary constant (`MaxInt64`). If you think that\u0027s too risky, we should at least leave a comment so that future maintainers can understand why this constant has its current value.",
+      "parentUuid": "aa8c7f06_b7fe0619",
+      "revId": "34f8936f368f836d8ab23460b3bc11cea6757f92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a62c2cdc_c3e9628a",
         "filename": "src/os/readfrom_linux_test.go",
         "patchSetId": 42
@@ -373,6 +391,30 @@
       "side": 1,
       "message": "In any case, it will exit after the test (or subtest) and all its subtests complete cuz t.Cleanup in createSocketPair will close the connections.",
       "parentUuid": "85a1fa07_72755fb1",
+      "range": {
+        "startLine": 524,
+        "startChar": 0,
+        "endLine": 527,
+        "endChar": 4
+      },
+      "revId": "34f8936f368f836d8ab23460b3bc11cea6757f92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac2dbd42_c688a568",
+        "filename": "src/os/readfrom_linux_test.go",
+        "patchSetId": 42
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-02-24T20:06:59Z",
+      "side": 1,
+      "message": "Closing the connections does not synchronize the calls to `Write` or `Close` here — they can still panic, hang, or race, and without a synchronization point that can cause test failures to be harder to debug. (See https://go.dev/wiki/CodeReviewComments#goroutine-lifetimes.)\n\nIn particular, without a synchronization point here this test will pass even if the call to `Write` deadlocks forever, which seems like a plausible failure mode when the poller is involved.",
+      "parentUuid": "19f54158_fe8de903",
       "range": {
         "startLine": 524,
         "startChar": 0,
