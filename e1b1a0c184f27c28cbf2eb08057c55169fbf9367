@@ -34,6 +34,24 @@
       "parentUuid": "c78477cd_d926de89",
       "revId": "e1b1a0c184f27c28cbf2eb08057c55169fbf9367",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "430a37e5_5c0275ea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 54743
+      },
+      "writtenOn": "2023-02-25T09:28:31Z",
+      "side": 1,
+      "message": "Hi Rob, but that\u0027s precisely the point.  It\u0027s not explained elsewhere, which makes it subject to interpretation.\n\nHow otherwise would people know precisely until which white space the trimming stops, if the term immediately isn\u0027t elaborated?",
+      "parentUuid": "e9f8851d_85309151",
+      "revId": "e1b1a0c184f27c28cbf2eb08057c55169fbf9367",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
