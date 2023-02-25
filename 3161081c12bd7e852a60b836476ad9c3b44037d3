@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0eebb2ba_36aea261",
+        "filename": "src/runtime/rt0_windows_arm.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-02-25T00:03:11Z",
+      "side": 0,
+      "message": "I agree with Keith that keeping NOFRAME for functions that tail call looks clearer.",
+      "parentUuid": "c5cba364_d2fb43b3",
+      "revId": "3161081c12bd7e852a60b836476ad9c3b44037d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2f01edf3_1727e920",
         "filename": "src/runtime/sys_windows_arm.s",
         "patchSetId": 4

@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3249f56d_6fa6b0c0",
+        "filename": "src/runtime/sys_windows_amd64.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-02-25T00:03:11Z",
+      "side": 1,
+      "message": "Interesting that we didn\u0027t align the stack before...",
+      "revId": "83ce941e2926bbdb1bf1c3d8aedf79bbc7a0ffaa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "82fb1163_1f73fb77",
         "filename": "src/runtime/sys_windows_arm.s",
         "patchSetId": 4
