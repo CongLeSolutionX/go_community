@@ -36,6 +36,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bc4abf0_34a3e816",
+        "filename": "src/runtime/rt0_windows_arm.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-02-25T10:35:47Z",
+      "side": 0,
+      "message": "OK, makes sense!",
+      "parentUuid": "0eebb2ba_36aea261",
+      "revId": "3161081c12bd7e852a60b836476ad9c3b44037d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2f01edf3_1727e920",
@@ -53,6 +71,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab8b1943_605a7256",
+        "filename": "src/runtime/sys_windows_arm.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-02-25T10:35:47Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "2f01edf3_1727e920",
+      "revId": "3161081c12bd7e852a60b836476ad9c3b44037d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "73d224b5_02ef5d9d",
@@ -66,6 +102,24 @@
       "writtenOn": "2023-02-24T22:52:15Z",
       "side": 0,
       "message": "Same here.",
+      "revId": "3161081c12bd7e852a60b836476ad9c3b44037d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80d15cc3_62666c39",
+        "filename": "src/runtime/sys_windows_arm64.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-02-25T10:35:47Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "73d224b5_02ef5d9d",
       "revId": "3161081c12bd7e852a60b836476ad9c3b44037d3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }

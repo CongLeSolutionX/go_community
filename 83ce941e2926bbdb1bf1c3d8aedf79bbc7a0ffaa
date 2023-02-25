@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9c2a1911_a5a92ba8",
+        "filename": "src/runtime/sys_windows_386.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-02-25T10:35:47Z",
+      "side": 1,
+      "message": "windows/386 does not support frame pointers, and it will never do due to the lack of available registers. My initial idea was that it does not makes sense to use NOFRAME on that platform, what do you think?",
+      "parentUuid": "59dd0b16_913a792a",
+      "revId": "83ce941e2926bbdb1bf1c3d8aedf79bbc7a0ffaa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3249f56d_6fa6b0c0",
         "filename": "src/runtime/sys_windows_amd64.s",
         "patchSetId": 4
@@ -31,6 +49,24 @@
       "writtenOn": "2023-02-25T00:03:11Z",
       "side": 1,
       "message": "Interesting that we didn\u0027t align the stack before...",
+      "revId": "83ce941e2926bbdb1bf1c3d8aedf79bbc7a0ffaa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b80f2535_ba79b85b",
+        "filename": "src/runtime/sys_windows_amd64.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-02-25T10:35:47Z",
+      "side": 1,
+      "message": "It wasn\u0027t that much of a problem before because all `asmstdcall` calls are routed via `asmstdcall`, which does align the stack. Now that `asmstdcall` can add an additional 8-bytes to the stack due to the frame pointer, we better make sure is properly aligned.",
+      "parentUuid": "3249f56d_6fa6b0c0",
       "revId": "83ce941e2926bbdb1bf1c3d8aedf79bbc7a0ffaa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -48,6 +84,24 @@
       "writtenOn": "2023-02-24T22:52:15Z",
       "side": 1,
       "message": "Same here, all these are tail-calling functions.",
+      "revId": "83ce941e2926bbdb1bf1c3d8aedf79bbc7a0ffaa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1016d019_245e4f18",
+        "filename": "src/runtime/sys_windows_arm.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-02-25T10:35:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82fb1163_1f73fb77",
       "revId": "83ce941e2926bbdb1bf1c3d8aedf79bbc7a0ffaa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
