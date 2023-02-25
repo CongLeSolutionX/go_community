@@ -80,15 +80,24 @@ func Environ() []string {
 	}
 	defer FreeEnvironmentStrings(s)
 	r := make([]string, 0, 50) // Empty with room to grow.
-	for from, i, p := 0, 0, (*[1 << 24]uint16)(unsafe.Pointer(s)); true; i++ {
-		if p[i] == 0 {
-			// empty string marks the end
-			if i <= from {
-				break
-			}
-			r = append(r, string(utf16.Decode(p[from:i])))
-			from = i + 1
+	envp := uintptr(unsafe.Pointer(s))
+	for {
+
+		// find NUL terminator
+		end := unsafe.Pointer(envp)
+		for *(*uint16)(end) != 0 {
+			end = unsafe.Pointer(uintptr(end) + unsafe.Sizeof(*s))
 		}
+
+		n := (uintptr(end) - uintptr(unsafe.Pointer(envp))) / 2
+		if n == 0 {
+			// environment block ends with empty string
+			break
+		}
+
+		entry := (*[(1 << 30) - 1]uint16)(unsafe.Pointer(envp))[:n:n]
+		r = append(r, string(utf16.Decode(entry)))
+		envp += 2 * (uintptr(len(entry)) + 1)
 	}
 	return r
 }
