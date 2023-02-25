@@ -242,6 +242,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b9b823f7_9f846f32",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 61418
+      },
+      "writtenOn": "2023-02-25T19:32:03Z",
+      "side": 1,
+      "message": "I have tested other linkers and here is a gist of observations.\n\nLinkers tested (with gcc, clang and some dummy C program):\n- ld\n- lld\n- mold\n- gold\n- bfd\n\n1. All tested linkers have \"partial relro\" enabled by default for linux targets regardless of PIE setting.\n2. With -Wl,-z,now lld, mold and gold map .got.plt section to the GNU_RELRO segment whereas ld and bfd merge .got.plt into .got.\n3. -z,now is independent from -z,relro meaning one can create an ELF binary without GNU_RELRO header but with DF_BIND_NOW in the DT_FLAGS and DF_1_NOW in the DT_FLAGS_1 dynamic tags.\n4. GNU_RELRO segment is always read-only with -Wl,-z,relro for all linkers whereas go\u0027s internal linker does not put that flag (see 28541: cmd/link: mark rel.ro segment as PT_GNU_RELRO | https://go-review.googlesource.com/c/go/+/28541)\n\nI suggest we preserve current behavior, make -bindnow flag false by default and decouple non-lazy binding from read-only relocations.",
+      "parentUuid": "dd34a900_edd6bad0",
+      "revId": "02f4f4d061a3aac90b0155cebfa8dc666bdf7720",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "91da3b2e_280b8bcd",
         "filename": "src/cmd/link/internal/ld/lib.go",
         "patchSetId": 4
