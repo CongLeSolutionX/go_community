@@ -16,6 +16,24 @@
       "message": "The summary references issue #58671 but it should be #58650",
       "revId": "864b4e9b1e638e5bde045b971017036dac64447c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa44199a_a5ab8227",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-02-25T19:34:38Z",
+      "side": 1,
+      "message": "Thanks for catching this! Updated.",
+      "parentUuid": "d74b52d1_a8a8e4e3",
+      "revId": "864b4e9b1e638e5bde045b971017036dac64447c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
