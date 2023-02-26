@@ -179,3 +179,17 @@ func TestDeleteFunc(t *testing.T) {
 		t.Errorf("DeleteFunc result = %v, want %v", mc, want)
 	}
 }
+
+var m = make(map[int]int)
+var n map[int]int
+
+func init() {
+	for i := 0; i < 1000000; i++ {
+		m[i] = i
+	}
+}
+func BenchmarkMapClone(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		n = Clone(m)
+	}
+}

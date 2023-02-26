@@ -1429,3 +1429,96 @@ var zeroVal [maxZero]byte
 // map init function to this symbol. Defined in assembly so as to avoid
 // complications with instrumentation (coverage, etc).
 func mapinitnoop()
+
+func mapclone(t *maptype, src *hmap) *hmap {
+	dst := &hmap{}
+	dst.count = src.count
+	dst.B = src.B
+	dst.hash0 = src.hash0
+	dst.nevacuate = 0
+	if dst.B != 0 {
+		var nextOverflow *bmap
+		dst.buckets, nextOverflow = makeBucketArray(t, dst.B, nil)
+		if nextOverflow != nil {
+			dst.extra = new(mapextra)
+			dst.extra.nextOverflow = nextOverflow
+		}
+		arraySize := int(bucketShift(dst.B))
+		if src.flags&hashWriting != 0 {
+			fatal("concurrent map clone and map write")
+		}
+		typedslicecopy(t.bucket, dst.buckets, arraySize, src.buckets, arraySize)
+
+		for i := 0; i < arraySize; i++ {
+			prevSrc := (*bmap)(add(src.buckets, uintptr(i*int(t.bucketsize))))
+			nextSrc := prevSrc.overflow(t)
+			prevDst := (*bmap)(add(dst.buckets, uintptr(i*int(t.bucketsize))))
+			for nextSrc != nil {
+				ovf := dst.newoverflow(t, prevDst)
+				if src.flags&hashWriting != 0 {
+					fatal("concurrent map clone and map write")
+				}
+				typedmemmove(t.bucket, unsafe.Pointer(ovf), unsafe.Pointer(nextSrc))
+				prevDst.setoverflow(t, ovf)
+				prevDst = ovf
+				nextSrc = nextSrc.overflow(t)
+			}
+		}
+
+		oldB := src.B
+		if src.oldbuckets != nil {
+			if !src.sameSizeGrow() {
+				oldB--
+			}
+			arraySize = int(bucketShift(oldB))
+			for i := 0; i < arraySize; i++ {
+				b := (*bmap)(add(src.oldbuckets, uintptr(i*int(t.bucketsize))))
+				if evacuated(b) {
+					continue
+				}
+				move := func(h *hmap, b *bmap) {
+					for i := uintptr(0); i < bucketCnt; i++ {
+						if b.tophash[i] == emptyRest {
+							return
+						}
+						if b.tophash[i] == emptyOne {
+							continue
+						}
+
+						if src.flags&hashWriting != 0 {
+							fatal("concurrent map clone and map write")
+						}
+
+						k := add(unsafe.Pointer(b), dataOffset+i*uintptr(t.keysize))
+						if t.indirectkey() {
+							k = *((*unsafe.Pointer)(k))
+						}
+
+						e := add(unsafe.Pointer(b), dataOffset+bucketCnt*uintptr(t.keysize)+i*uintptr(t.elemsize))
+						if t.indirectelem() {
+							e = *((*unsafe.Pointer)(e))
+						}
+						dstE := mapassign(t, dst, k)
+						typedmemmove(t.elem, dstE, e)
+					}
+				}
+				for b != nil {
+					// move from oldBlucket to new bucket
+					move(dst, b)
+					b = b.overflow(t)
+				}
+			}
+		}
+	} else {
+		if src.count != 0 {
+			dst.buckets = newobject(t.bucket)
+
+			if src.flags&hashWriting != 0 {
+				fatal("concurrent map clone and map write")
+			}
+
+			typedmemmove(t.bucket, dst.buckets, src.buckets)
+		}
+	}
+	return dst
+}
