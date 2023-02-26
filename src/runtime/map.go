@@ -313,7 +313,6 @@ func makemap(t *maptype, hint int, h *hmap) *hmap {
 		h = new(hmap)
 	}
 	h.hash0 = fastrand()
-
 	// Find the size parameter B which will hold the requested # of elements.
 	// For hint < 0 overLoadFactor returns false since hint < bucketCnt.
 	B := uint8(0)
@@ -1429,3 +1428,124 @@ var zeroVal [maxZero]byte
 // map init function to this symbol. Defined in assembly so as to avoid
 // complications with instrumentation (coverage, etc).
 func mapinitnoop()
+
+// mapclone for implementing maps.Clone
+func mapclone(m any) any {
+	e := efaceOf(&m)
+	e.data = unsafe.Pointer(mapclone2((*maptype)(unsafe.Pointer(e._type)), (*hmap)(e.data)))
+	return m
+}
+
+func moveToBmap(t *maptype, h *hmap, dst *bmap, pos int, src *bmap) (*bmap, int) {
+	for i := 0; i < bucketCnt; i++ {
+		if !isEmpty(src.tophash[i]) {
+			k := add(unsafe.Pointer(src), dataOffset+uintptr(i)*uintptr(t.keysize))
+			ele := add(unsafe.Pointer(src), dataOffset+bucketCnt*uintptr(t.keysize)+uintptr(i)*uintptr(t.elemsize))
+			dstK := add(unsafe.Pointer(dst), dataOffset+uintptr(pos)*uintptr(t.keysize))
+			dstEle := add(unsafe.Pointer(dst), dataOffset+bucketCnt*uintptr(t.keysize)+uintptr(pos)*uintptr(t.elemsize))
+			dst.tophash[pos] = src.tophash[i]
+			if t.indirectkey() {
+				*(*unsafe.Pointer)(dstK) = *(*unsafe.Pointer)(k)
+			} else {
+				typedmemmove(t.key, dstK, k)
+			}
+			if t.indirectelem() {
+				*(*unsafe.Pointer)(dstEle) = *(*unsafe.Pointer)(ele)
+			} else {
+				typedmemmove(t.elem, dstEle, ele)
+			}
+			pos++
+			if pos == bucketCnt {
+				ovf := h.newoverflow(t, dst)
+				dst.setoverflow(t, ovf)
+				dst = ovf
+				pos = 0
+			}
+		}
+	}
+	return dst, pos
+}
+
+func mapclone2(t *maptype, src *hmap) *hmap {
+	dst := makemap(t, src.count, nil)
+	dst.count = src.count
+	dst.hash0 = src.hash0
+	dst.nevacuate = 0
+	//flags do not need to be copy here, just like a new map has not flags.
+	if dst.B != 0 {
+		arraySize := int(bucketShift(dst.B))
+		if src.flags&hashWriting != 0 {
+			fatal("concurrent map clone and map write")
+		}
+
+		srcArraySize := int(bucketShift(src.B))
+		for i := 0; i < arraySize; i++ {
+			dstBmap := (*bmap)(add(dst.buckets, uintptr(i*int(t.bucketsize))))
+			pos := 0
+			for j := 0; j < srcArraySize; j += arraySize {
+				srcBmap := (*bmap)(add(src.buckets, uintptr(i*int(t.bucketsize))))
+				for srcBmap != nil {
+					dstBmap, pos = moveToBmap(t, dst, dstBmap, pos, srcBmap)
+					srcBmap = srcBmap.overflow(t)
+				}
+			}
+		}
+
+		oldB := src.B
+		if src.oldbuckets != nil {
+			srcOldbuckets := src.oldbuckets
+			src.oldbuckets = nil
+			if !src.sameSizeGrow() {
+				oldB--
+			}
+			arraySize = int(bucketShift(oldB))
+			for i := 0; i < arraySize; i++ {
+				b := (*bmap)(add(srcOldbuckets, uintptr(i*int(t.bucketsize))))
+				if evacuated(b) {
+					continue
+				}
+				move := func(h *hmap, b *bmap) {
+					for i := uintptr(0); i < bucketCnt; i++ {
+						if isEmpty(b.tophash[i]) {
+							continue
+						}
+
+						if src.flags&hashWriting != 0 {
+							fatal("concurrent map clone and map write")
+						}
+
+						k := add(unsafe.Pointer(b), dataOffset+i*uintptr(t.keysize))
+						if t.indirectkey() {
+							k = *((*unsafe.Pointer)(k))
+						}
+						if _, ok := mapaccess2(t, dst, k); ok { // key has being overwring, just continue
+							continue
+						}
+						e := add(unsafe.Pointer(b), dataOffset+bucketCnt*uintptr(t.keysize)+i*uintptr(t.elemsize))
+						if t.indirectelem() {
+							e = *((*unsafe.Pointer)(e))
+						}
+						dstE := mapassign(t, dst, k)
+						typedmemmove(t.elem, dstE, e)
+					}
+				}
+				for b != nil {
+					// move from oldBlucket to new bucket
+					move(dst, b)
+					b = b.overflow(t)
+				}
+			}
+		}
+	} else {
+		if src.count != 0 {
+			dst.buckets = newobject(t.bucket)
+
+			if src.flags&hashWriting != 0 {
+				fatal("concurrent map clone and map write")
+			}
+
+			typedmemmove(t.bucket, dst.buckets, src.buckets)
+		}
+	}
+	return dst
+}
