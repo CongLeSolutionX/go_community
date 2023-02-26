@@ -91,6 +91,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6efe36d_7eb6cb34",
+        "filename": "src/syscall/env_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2023-02-26T01:41:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b44c6a8_2283c135",
+      "revId": "527b84249cf9a250a40313aa2607144907869c0f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "883d1272_f15bebd4",
@@ -108,6 +126,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "31c713ed_9eb6d582",
+        "filename": "src/syscall/env_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2023-02-26T01:41:58Z",
+      "side": 1,
+      "message": "We can just use it now, unsafe.Slice was added since go1.17",
+      "parentUuid": "883d1272_f15bebd4",
+      "revId": "527b84249cf9a250a40313aa2607144907869c0f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "caeacf03_947056f4",
@@ -121,6 +157,24 @@
       "writtenOn": "2023-02-25T20:36:17Z",
       "side": 1,
       "message": "You can use \"n\" here rather than \"len(entry)\".  Or for that matter why not write \"envp \u003d uintptr(end) + 2\".",
+      "revId": "527b84249cf9a250a40313aa2607144907869c0f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3f717fb_426406ca",
+        "filename": "src/syscall/env_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2023-02-26T01:41:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "caeacf03_947056f4",
       "revId": "527b84249cf9a250a40313aa2607144907869c0f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
