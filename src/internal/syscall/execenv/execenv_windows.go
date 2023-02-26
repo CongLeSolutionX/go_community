@@ -46,9 +46,9 @@ func Default(sys *syscall.SysProcAttr) (env []string, err error) {
 			break
 		}
 
-		entry := (*[(1 << 30) - 1]uint16)(unsafe.Pointer(blockp))[:n:n]
+		entry := unsafe.Slice((*uint16)(unsafe.Pointer(blockp)), n)
 		env = append(env, string(utf16.Decode(entry)))
-		blockp += 2 * (uintptr(len(entry)) + 1)
+		blockp = uintptr(end) + 2
 	}
 	return
 }
