@@ -5,6 +5,11 @@
 // Package maps defines various functions useful with maps of any type.
 package maps
 
+import (
+	"reflect"
+	"unsafe"
+)
+
 // Keys returns the keys of the map m.
 // The keys will be in an indeterminate order.
 func Keys[M ~map[K]V, K comparable, V any](m M) []K {
@@ -53,6 +58,9 @@ func EqualFunc[M1 ~map[K]V1, M2 ~map[K]V2, K comparable, V1, V2 any](m1 M1, m2 M
 	return true
 }
 
+//go:linkname clone runtime.mapclone
+func clone(t unsafe.Pointer, m unsafe.Pointer) unsafe.Pointer
+
 // Clone returns a copy of m.  This is a shallow clone:
 // the new keys and values are set using ordinary assignment.
 func Clone[M ~map[K]V, K comparable, V any](m M) M {
@@ -60,10 +68,11 @@ func Clone[M ~map[K]V, K comparable, V any](m M) M {
 	if m == nil {
 		return nil
 	}
-	r := make(M, len(m))
-	for k, v := range m {
-		r[k] = v
-	}
+	r := make(M)
+	t := reflect.TypeOf(m)
+	mt := (*(*[2]unsafe.Pointer)(unsafe.Pointer(&t)))[1]
+	p := (clone(mt, *(*unsafe.Pointer)(unsafe.Pointer(&m))))
+	*(*unsafe.Pointer)(unsafe.Pointer(&r)) = p
 	return r
 }
 
