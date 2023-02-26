@@ -45,7 +45,7 @@ var depsRules = `
 	  internal/cpu, internal/goarch,
 	  internal/goexperiment, internal/goos,
 	  internal/goversion, internal/nettrace, internal/platform,
-	  maps, slices, unicode/utf8, unicode/utf16, unicode,
+	  slices, unicode/utf8, unicode/utf16, unicode,
 	  unsafe;
 
 	# These packages depend only on internal/goarch and unsafe.
@@ -610,6 +610,7 @@ var depsRules = `
 	internal/coverage/encodecounter, internal/coverage/encodemeta,
 	internal/coverage/pods
 	< runtime/coverage;
+	unsafe < maps;
 `
 
 // listStdPkgs returns the same list of packages as "go list std".
