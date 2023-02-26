@@ -1429,3 +1429,91 @@ var zeroVal [maxZero]byte
 // map init function to this symbol. Defined in assembly so as to avoid
 // complications with instrumentation (coverage, etc).
 func mapinitnoop()
+
+func mapclone(t *maptype, src *hmap) *hmap {
+	dst := &hmap{}
+	dst.count = src.count
+	dst.flags = src.flags
+	dst.B = src.B
+	dst.noverflow = src.noverflow
+	dst.hash0 = src.hash0
+	dst.nevacuate = src.nevacuate
+	if dst.B != 0 {
+		var nextOverflow *bmap
+		dst.buckets, nextOverflow = makeBucketArray(t, dst.B, nil)
+		if nextOverflow != nil {
+			dst.extra = new(mapextra)
+			dst.extra.nextOverflow = nextOverflow
+		}
+		arraySize := int(bucketShift(dst.B))
+		typedslicecopy(t.bucket, dst.buckets, arraySize, src.buckets, arraySize)
+
+		for i := 0; i < arraySize; i++ {
+			prevSrc := (*bmap)(add(src.buckets, uintptr(i*int(t.bucketsize))))
+			nextSrc := prevSrc.overflow(t)
+			prevDst := (*bmap)(add(dst.buckets, uintptr(i*int(t.bucketsize))))
+			for nextSrc != nil {
+				ovf := dst.newoverflow(t, prevDst)
+				typedmemmove(t.bucket, unsafe.Pointer(ovf), unsafe.Pointer(nextSrc))
+				prevDst.setoverflow(t, ovf)
+				prevDst = ovf
+				nextSrc = nextSrc.overflow(t)
+			}
+		}
+
+		oldB := src.B
+		if src.oldbuckets != nil {
+			if !src.sameSizeGrow() {
+				oldB--
+			}
+			var oldNextOverFlow *bmap
+			dst.oldbuckets, oldNextOverFlow = makeBucketArray(t, oldB, nil)
+			arraySize = int(bucketShift(oldB))
+			typedslicecopy(t.bucket, dst.oldbuckets, arraySize, src.oldbuckets, arraySize)
+			newOldOverflow := func(t *maptype, b *bmap) *bmap {
+				var ovf *bmap
+				if oldNextOverFlow != nil {
+					// We have preallocated overflow buckets available.
+					// See makeBucketArray for more details.
+					ovf = oldNextOverFlow
+					if ovf.overflow(t) == nil {
+						// We're not at the end of the preallocated overflow buckets. Bump the pointer.
+						oldNextOverFlow = (*bmap)(add(unsafe.Pointer(ovf), uintptr(t.bucketsize)))
+					} else {
+						// This is the last preallocated overflow bucket.
+						// Reset the overflow pointer on this bucket,
+						// which was set to a non-nil sentinel value.
+						ovf.setoverflow(t, nil)
+						oldNextOverFlow = nil
+					}
+				} else {
+					ovf = (*bmap)(newobject(t.bucket))
+				}
+				if t.bucket.ptrdata == 0 {
+					dst.createOverflow()
+					*dst.extra.oldoverflow = append(*dst.extra.oldoverflow, ovf)
+				}
+				b.setoverflow(t, ovf)
+				return ovf
+			}
+			for i := 0; i < arraySize; i++ {
+				prevSrc := (*bmap)(add(src.oldbuckets, uintptr(i*int(t.bucketsize))))
+				nextSrc := prevSrc.overflow(t)
+				prevDst := (*bmap)(add(dst.oldbuckets, uintptr(i*int(t.bucketsize))))
+				for nextSrc != nil {
+					ovf := newOldOverflow(t, prevDst)
+					typedmemmove(t.bucket, unsafe.Pointer(ovf), unsafe.Pointer(nextSrc))
+					prevDst.setoverflow(t, ovf)
+					prevDst = ovf
+					nextSrc = nextSrc.overflow(t)
+				}
+			}
+		}
+	} else {
+		if src.count != 0 {
+			dst.buckets = newobject(t.bucket)
+			typedmemmove(t.bucket, dst.buckets, src.buckets)
+		}
+	}
+	return dst
+}
