@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d49e4649_8fb0d9df",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-02-27T08:34:45Z",
+      "side": 1,
+      "message": "RT\u003dlinux-arm64",
+      "revId": "7d4b4a8071ad83c227dafe81b44eb15478704540",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
