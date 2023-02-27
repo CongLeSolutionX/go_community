@@ -18,6 +18,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8879f218_7fd13c68",
+        "filename": "src/maps/maps.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 55763
+      },
+      "writtenOn": "2023-02-27T07:52:45Z",
+      "side": 1,
+      "message": "This could be recognised by the compiler somewhat easily, like `runtime.mapclear` already do, this remove the need for reflect \u0026 unsafe dark magic and make it work in all packages, not just here.",
+      "revId": "e3a31194a09f14c6cadd70db9120cef33aab80ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f12031e9_8a1f3cef",
