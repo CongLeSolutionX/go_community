@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb846740_72f5568e",
+        "filename": "src/runtime/crash_unix_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-02-27T22:20:24Z",
+      "side": 1,
+      "message": "At one point I had a bug that printed *more* than two testPanicSystemstackInternals, and it was really confusing to see a \"missing\" message for something that was clearly there. It also would have been confusing if there had been just one in the output. So I just changed the message to be clearer about what it was looking for and what it wanted.",
+      "parentUuid": "15a6326a_7c2f5bd7",
+      "revId": "aca66ce21dbd43e53cae6e8bb0c2c29b7cd9b7b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5dca9598_cac92422",
@@ -68,6 +86,30 @@
       "writtenOn": "2023-02-17T20:38:23Z",
       "side": 1,
       "message": "Is \"next frame\" here semantically different from \"current frame\" in the `frame` comment above? It seems like these comments should be consistent.",
+      "range": {
+        "startLine": 85,
+        "startChar": 47,
+        "endLine": 85,
+        "endChar": 61
+      },
+      "revId": "aca66ce21dbd43e53cae6e8bb0c2c29b7cd9b7b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f21afb6_0db21eda",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-02-27T22:20:24Z",
+      "side": 1,
+      "message": "It is different. I\u0027ve expanded the comment. PTAL.",
+      "parentUuid": "5dca9598_cac92422",
       "range": {
         "startLine": 85,
         "startChar": 47,
@@ -101,6 +143,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6221ca6d_f37e018e",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-02-27T22:20:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7cc8389_69995a2a",
+      "range": {
+        "startLine": 88,
+        "startChar": 4,
+        "endLine": 88,
+        "endChar": 17
+      },
+      "revId": "aca66ce21dbd43e53cae6e8bb0c2c29b7cd9b7b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d16206d5_28e382c4",
@@ -114,6 +180,30 @@
       "writtenOn": "2023-02-17T20:38:23Z",
       "side": 1,
       "message": "Could you document the preconditions a bit more? As written, I assume that only frame.pc, sp, and lr are valid. But then we immediately access frame.fn...",
+      "range": {
+        "startLine": 213,
+        "startChar": 28,
+        "endLine": 213,
+        "endChar": 68
+      },
+      "revId": "aca66ce21dbd43e53cae6e8bb0c2c29b7cd9b7b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b43adc05_6c13346d",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-02-27T22:20:24Z",
+      "side": 1,
+      "message": "Done. PTAL.",
+      "parentUuid": "d16206d5_28e382c4",
       "range": {
         "startLine": 213,
         "startChar": 28,
@@ -147,6 +237,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6f94d6f_c2e1b160",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-02-27T22:20:24Z",
+      "side": 1,
+      "message": "Weird. Deleted.",
+      "parentUuid": "65074f2e_f2ddd360",
+      "range": {
+        "startLine": 345,
+        "startChar": 15,
+        "endLine": 345,
+        "endChar": 22
+      },
+      "revId": "aca66ce21dbd43e53cae6e8bb0c2c29b7cd9b7b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eb837f3d_09f63667",
@@ -166,6 +280,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "655651e6_58a682c8",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-02-27T22:20:24Z",
+      "side": 1,
+      "message": "Whoops. That was clearly a behavior change. Should be fixed now. PTAL",
+      "parentUuid": "eb837f3d_09f63667",
+      "revId": "aca66ce21dbd43e53cae6e8bb0c2c29b7cd9b7b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "09ae282a_f2e168c6",
         "filename": "src/runtime/traceback.go",
         "patchSetId": 5
@@ -177,6 +309,24 @@
       "writtenOn": "2023-02-17T20:38:23Z",
       "side": 1,
       "message": "This ignores the print/silence flags. That is intentional. Perhaps the flag docs should note that they don\u0027t actually silence everything?",
+      "revId": "aca66ce21dbd43e53cae6e8bb0c2c29b7cd9b7b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "39dc8d54_acbbc7f4",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-02-27T22:20:24Z",
+      "side": 1,
+      "message": "So noted.",
+      "parentUuid": "09ae282a_f2e168c6",
       "revId": "aca66ce21dbd43e53cae6e8bb0c2c29b7cd9b7b9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -200,6 +350,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "be3132e4_0a290a28",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-02-27T22:20:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1becd750_27bd7635",
+      "revId": "aca66ce21dbd43e53cae6e8bb0c2c29b7cd9b7b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "c34f098a_83a90b5d",
         "filename": "src/runtime/traceback.go",
         "patchSetId": 5
@@ -211,6 +379,30 @@
       "writtenOn": "2023-02-17T20:38:23Z",
       "side": 1,
       "message": "😮 Has this always meant \"generic traceback\" when I thought it meant \"generate traceback\"? Or is this a retcon?",
+      "range": {
+        "startLine": 528,
+        "startChar": 3,
+        "endLine": 528,
+        "endChar": 20
+      },
+      "revId": "aca66ce21dbd43e53cae6e8bb0c2c29b7cd9b7b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da07cb5d_30d2754c",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-02-27T22:20:24Z",
+      "side": 1,
+      "message": "It appears this has been \"generic traceback\" since go.dev/cl/703041 in 2010, where Russ unified a few different implementations of traceback into the shiny new \"gentraceback\" function. (Look at how simple the traceback logic was in 2010!)",
+      "parentUuid": "c34f098a_83a90b5d",
       "range": {
         "startLine": 528,
         "startChar": 3,
