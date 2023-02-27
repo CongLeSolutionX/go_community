@@ -471,6 +471,12 @@ type LSym struct {
 	SymIdx int32
 }
 
+// A UnwindOp represents a generic unwind operation.
+type UnwindOp struct {
+	Prog      *Prog
+	Operation uint8
+}
+
 // A FuncInfo contains extra fields for STEXT symbols.
 type FuncInfo struct {
 	Args      int32
@@ -490,6 +496,7 @@ type FuncInfo struct {
 	dwarfRangesSym     *LSym
 	dwarfAbsFnSym      *LSym
 	dwarfDebugLinesSym *LSym
+	dwarfCFA           *LSym
 
 	GCArgs             *LSym
 	GCLocals           *LSym
@@ -503,6 +510,12 @@ type FuncInfo struct {
 	FuncInfoSym   *LSym
 	WasmImportSym *LSym
 	WasmImport    *WasmImport
+
+	DwarfUnwindOps []UnwindOp
+}
+
+func (fi *FuncInfo) AddDwarfUnwindOp(p *Prog, op uint8) {
+	fi.DwarfUnwindOps = append(fi.DwarfUnwindOps, UnwindOp{p, op})
 }
 
 // JumpTable represents a table used for implementing multi-way
@@ -1072,6 +1085,7 @@ type LinkArch struct {
 	Preprocess     func(*Link, *LSym, ProgAlloc)
 	Assemble       func(*Link, *LSym, ProgAlloc)
 	Progedit       func(*Link, *Prog, ProgAlloc)
+	DwarfCFA       func(*Link, *LSym, *LSym)
 	UnaryDst       map[As]bool // Instruction takes one operand, a destination.
 	DWARFRegisters map[int16]int16
 }
