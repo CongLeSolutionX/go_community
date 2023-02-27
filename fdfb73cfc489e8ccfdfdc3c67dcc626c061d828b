@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86700ff6_70f8b1c4",
+        "filename": "src/encoding/json/buffers.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 34561
+      },
+      "writtenOn": "2023-02-27T18:55:51Z",
+      "side": 1,
+      "message": "This actually appears to retain all segment sizes and just this is where it stops making each segment twice as big as the prior, right (likely this explains why it runs allocation wastage test so much faster)? So I would maybe change this name.",
+      "range": {
+        "startLine": 150,
+        "startChar": 1,
+        "endLine": 150,
+        "endChar": 21
+      },
+      "revId": "fdfb73cfc489e8ccfdfdc3c67dcc626c061d828b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9026291b_2472a30d",
+        "filename": "src/encoding/json/buffers_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 34561
+      },
+      "writtenOn": "2023-02-27T18:55:51Z",
+      "side": 1,
+      "message": "Should probably exercise WriteString and WriteByte somewhere in here?",
+      "revId": "fdfb73cfc489e8ccfdfdc3c67dcc626c061d828b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
