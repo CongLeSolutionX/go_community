@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2fe0bb43_0a26c409",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 61267
+      },
+      "writtenOn": "2023-02-27T16:03:40Z",
+      "side": 1,
+      "message": "We tried to get some feedback from the issue but we didn\u0027t get any for that part (what\u0027s best, etc.). I will change the commit message to explain why we did that.",
+      "parentUuid": "e664c6ac_7130b8ab",
+      "revId": "81382cb7eec6b291910cceb461ae159e70c484ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5cc0dcf9_dbb6984c",
         "filename": "src/net/dial.go",
         "patchSetId": 1
@@ -31,6 +49,24 @@
       "writtenOn": "2023-02-24T20:08:15Z",
       "side": 1,
       "message": "This is not the API discussed at https://github.com/golang/go/issues/56539#issuecomment-1332585915 .",
+      "revId": "81382cb7eec6b291910cceb461ae159e70c484ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9afce7a_8e2d1e2b",
+        "filename": "src/net/dial.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 61267
+      },
+      "writtenOn": "2023-02-27T16:03:40Z",
+      "side": 1,
+      "message": "indeed, good catch, sorry, we forgot to update this. Will fix that in a v2.",
+      "parentUuid": "5cc0dcf9_dbb6984c",
       "revId": "81382cb7eec6b291910cceb461ae159e70c484ef",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
