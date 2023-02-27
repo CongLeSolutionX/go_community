@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "740d50dc_6fe11c61",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2023-02-27T01:48:03Z",
+      "side": 1,
+      "message": "needs to deal with indirect key/val.",
+      "revId": "e3a31194a09f14c6cadd70db9120cef33aab80ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
