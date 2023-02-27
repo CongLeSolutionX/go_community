@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b5c5bec_7921f2ac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-02-27T16:23:28Z",
+      "side": 1,
+      "message": "please write:\n\ncmd/compile: simplify range statement\n\nand leave everything else away. Thanks.\n\n(What\u0027s present now is as standard as what you suggest. It\u0027s just a bit longer.)",
+      "revId": "89dbfaed3df45ecc89bbcc6ebbe269c001be7ea2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
