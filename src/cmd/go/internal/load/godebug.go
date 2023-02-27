@@ -53,15 +53,12 @@ func defaultGODEBUG(p *Package, directives, testDirectives, xtestDirectives []bu
 	if p.Name != "main" {
 		return ""
 	}
+
 	goVersion := modload.MainModules.GoVersion()
-	if modload.RootMode == modload.NoRoot && p.Module != nil {
+	if modload.RootMode == modload.NoRoot && p.Module != nil && p.Module.GoVersion != "" {
 		// This is go install pkg@version or go run pkg@version.
 		// Use the Go version from the package.
-		// If there isn't one, then
 		goVersion = p.Module.GoVersion
-		if goVersion == "" {
-			goVersion = "1.20"
-		}
 	}
 
 	m := godebugForGoVersion(goVersion)

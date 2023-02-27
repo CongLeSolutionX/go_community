@@ -496,6 +496,9 @@ func inWorkspaceMode() bool {
 	if !initialized {
 		panic("inWorkspaceMode called before modload.Init called")
 	}
+	if !Enabled() {
+		return false
+	}
 	return workFilePath != ""
 }
 
