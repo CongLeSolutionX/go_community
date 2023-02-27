@@ -74,6 +74,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "ccab047d_f6bfc84e",
+        "filename": "src/bytes/bytes.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 8495
+      },
+      "writtenOn": "2023-02-27T18:23:19Z",
+      "side": 1,
+      "message": "Good catch. For an optimization change. I\u0027d prefer not to change semantics. I\u0027ll move the check to the original place.",
+      "parentUuid": "7b40c4ce_c82991ea",
+      "revId": "8cdedc553ece3205f28ddd700bc75a282dbee1ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "dbfc665a_e66063da",
         "filename": "src/strings/strings.go",
         "patchSetId": 8
