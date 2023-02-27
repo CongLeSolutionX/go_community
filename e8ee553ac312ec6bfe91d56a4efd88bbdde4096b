@@ -80,6 +80,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7fc2f720_cecfe932",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 588,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-02-27T22:20:24Z",
+      "side": 1,
+      "message": "It does, but they don\u0027t actually need any relation to each other. Honestly, I have no idea how \"32\" was even chosen, though it seems pretty reasonable.",
+      "parentUuid": "33a2cd2f_3417ebe0",
+      "range": {
+        "startLine": 588,
+        "startChar": 13,
+        "endLine": 588,
+        "endChar": 15
+      },
+      "revId": "e8ee553ac312ec6bfe91d56a4efd88bbdde4096b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f2e6e1f0_3de75c46",
@@ -93,6 +117,30 @@
       "writtenOn": "2023-02-17T21:13:11Z",
       "side": 1,
       "message": "This comment seems misleading. If skip only applies to Go frames, then it should be fine to include cgo frames if skip \u003e 0.",
+      "range": {
+        "startLine": 615,
+        "startChar": 19,
+        "endLine": 615,
+        "endChar": 50
+      },
+      "revId": "e8ee553ac312ec6bfe91d56a4efd88bbdde4096b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "522bd8e2_c44cfbc2",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 615,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-02-27T22:20:24Z",
+      "side": 1,
+      "message": "Rewrote comment. PTAL (I would explain here, but don\u0027t want to give it away. 😊)",
+      "parentUuid": "f2e6e1f0_3de75c46",
       "range": {
         "startLine": 615,
         "startChar": 19,
