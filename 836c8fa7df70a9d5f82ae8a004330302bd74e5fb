@@ -53,6 +53,24 @@
       "message": "(Please feel free to ignore this comment; I\u0027m testing a Gerrit behavior affecting this CL.)\n\nThis CL currently has all 3 submit requirements satisfied and I see a \"Ready to submit\" status, however, it unexpectedly shows up in a Gerrit search query with a \"-is:submittable\" filter (see https://user-images.githubusercontent.com/1924134/221690744-b826af61-e375-4008-9f56-521f15f198b3.png). I\u0027m checking if posting this comment corrects that.",
       "revId": "836c8fa7df70a9d5f82ae8a004330302bd74e5fb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a2abcd9_2c987028",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2023-02-27T21:38:57Z",
+      "side": 1,
+      "message": "(It did.)",
+      "parentUuid": "a26f2b78_cc4aa109",
+      "revId": "836c8fa7df70a9d5f82ae8a004330302bd74e5fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
