@@ -50,6 +50,24 @@
       "message": "this is exactly the part you don\u0027t want to have after clone.\n\nmaps.Clone previously got rid of the double memory allocation of a growing map. Please keep that very relevant property of maps.Clone.",
       "revId": "e3a31194a09f14c6cadd70db9120cef33aab80ed",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "572a7402_d44a5271",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1465,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2023-02-27T12:42:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f12031e9_8a1f3cef",
+      "revId": "e3a31194a09f14c6cadd70db9120cef33aab80ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
