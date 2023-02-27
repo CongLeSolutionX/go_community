@@ -1646,7 +1646,7 @@ func (l *Loader) WasmImportSym(fnSymIdx Sym) (Sym, bool) {
 // introduction of the loader, this was done purely using name
 // lookups, e.f. for function with name XYZ we would then look up
 // go.info.XYZ, etc.
-func (l *Loader) GetFuncDwarfAuxSyms(fnSymIdx Sym) (auxDwarfInfo, auxDwarfLoc, auxDwarfRanges, auxDwarfLines Sym) {
+func (l *Loader) GetFuncDwarfAuxSyms(fnSymIdx Sym) (auxDwarfInfo, auxDwarfLoc, auxDwarfRanges, auxDwarfLines, auxDwarfCFA Sym) {
 	if l.SymType(fnSymIdx) != sym.STEXT {
 		log.Fatalf("error: non-function sym %d/%s t=%s passed to GetFuncDwarfAuxSyms", fnSymIdx, l.SymName(fnSymIdx), l.SymType(fnSymIdx).String())
 	}
@@ -1674,6 +1674,11 @@ func (l *Loader) GetFuncDwarfAuxSyms(fnSymIdx Sym) (auxDwarfInfo, auxDwarfLoc, a
 			auxDwarfLines = l.resolve(r, a.Sym())
 			if l.SymType(auxDwarfLines) != sym.SDWARFLINES {
 				panic("aux dwarf lines sym with wrong type")
+			}
+		case goobj.AuxDwarfCFA:
+			auxDwarfCFA = l.resolve(r, a.Sym())
+			if l.SymType(auxDwarfCFA) != sym.SDWARFCFA {
+				panic("aux dwarf CFA sym with wrong type")
 			}
 		}
 	}

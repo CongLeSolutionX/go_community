@@ -71,6 +71,6 @@ const (
 	// Coverage instrumentation counter, aux variable for cmd/cover
 	SCOVERAGE_COUNTER
 	SCOVERAGE_AUXVAR
-
+	SDWARFCFA
 	// Update cmd/link/internal/sym/AbiSymKindToSymKind for new SymKind values.
 )

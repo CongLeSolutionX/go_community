@@ -371,9 +371,22 @@ func testGdbPython(t *testing.T, cgo bool) {
 	}
 }
 
-const backtraceSource = `
-package main
+// TODO: find a way to break into eee without
+// the hardware breakpoint.
+const cgoBacktraceSource = `
+// static int eee() { asm("int $3"); return 1; }
+import "C"
 
+//go:noinline
+func eee() bool { return C.eee() == 1 }
+`
+
+const nocgoBacktraceSource = `
+//go:noinline
+func eee() bool { return true }
+`
+
+const backtraceSource = `
 //go:noinline
 func aaa() bool { return bbb() }
 
@@ -386,9 +399,6 @@ func ccc() bool { return ddd() }
 //go:noinline
 func ddd() bool { return f() }
 
-//go:noinline
-func eee() bool { return true }
-
 var f = eee
 
 func main() {
@@ -399,6 +409,18 @@ func main() {
 // TestGdbBacktrace tests that gdb can unwind the stack correctly
 // using only the DWARF debug info.
 func TestGdbBacktrace(t *testing.T) {
+	testGdbBacktrace(t, false)
+}
+
+func TestGdbBacktraceCGO(t *testing.T) {
+	//TODO: this test has a failure rate of 20%, investigate way.
+	testGdbBacktrace(t, true)
+}
+
+func testGdbBacktrace(t *testing.T, cgo bool) {
+	if cgo {
+		testenv.MustHaveCGO(t)
+	}
 	if runtime.GOOS == "netbsd" {
 		testenv.SkipFlaky(t, 15603)
 	}
@@ -419,8 +441,16 @@ func TestGdbBacktrace(t *testing.T) {
 	dir := t.TempDir()
 
 	// Build the source code.
-	src := filepath.Join(dir, "main.go")
-	err := os.WriteFile(src, []byte(backtraceSource), 0644)
+	var buf bytes.Buffer
+	buf.WriteString("package main\n")
+	if cgo {
+		buf.WriteString(cgoBacktraceSource)
+	} else {
+		buf.WriteString(nocgoBacktraceSource)
+	}
+	buf.WriteString(backtraceSource)
+
+	err := os.WriteFile(filepath.Join(dir, "main.go"), buf.Bytes(), 0644)
 	if err != nil {
 		t.Fatalf("failed to create file: %v", err)
 	}
@@ -436,12 +466,14 @@ func TestGdbBacktrace(t *testing.T) {
 	args := []string{"-nx", "-batch",
 		"-iex", "add-auto-load-safe-path " + filepath.Join(testenv.GOROOT(t), "src", "runtime"),
 		"-ex", "set startup-with-shell off",
-		"-ex", "break main.eee",
-		"-ex", "run",
+	}
+	if !cgo {
+		args = append(args, "-ex", "break main.eee")
+	}
+	args = append(args, "-ex", "run",
 		"-ex", "backtrace",
 		"-ex", "continue",
-		filepath.Join(dir, "a.exe"),
-	}
+		filepath.Join(dir, "a.exe"))
 	cmd = testenv.Command(t, "gdb", args...)
 
 	// Work around the GDB hang reported in https://go.dev/issue/37405.
@@ -487,16 +519,25 @@ func TestGdbBacktrace(t *testing.T) {
 	}
 
 	// Check that the backtrace matches the source code.
-	bt := []string{
-		"eee",
-		"ddd",
-		"ccc",
-		"bbb",
-		"aaa",
-		"main",
+	var bt []string
+	if cgo {
+		bt = append(bt,
+			"_cgo_.*Cfunc_eee",
+			"runtime\\.asmcgocall",
+			"runtime\\.cgocall",
+			"main\\._Cfunc_eee",
+		)
 	}
+	bt = append(bt,
+		"main\\.eee",
+		"main\\.ddd",
+		"main\\.ccc",
+		"main\\.bbb",
+		"main\\.aaa",
+		"main\\.main",
+	)
 	for i, name := range bt {
-		s := fmt.Sprintf("#%v.*main\\.%v", i, name)
+		s := fmt.Sprintf("#%v.*%v", i, name)
 		re := regexp.MustCompile(s)
 		if found := re.Find(got) != nil; !found {
 			t.Fatalf("could not find '%v' in backtrace", s)

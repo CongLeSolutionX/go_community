@@ -123,6 +123,7 @@ const (
 	SDWARFRANGE
 	SDWARFLOC
 	SDWARFLINES
+	SDWARFCFA
 )
 
 // AbiSymKindToSymKind maps values read from object files (which are
@@ -148,6 +149,7 @@ var AbiSymKindToSymKind = [...]SymKind{
 	objabi.SLIBFUZZER_8BIT_COUNTER: SLIBFUZZER_8BIT_COUNTER,
 	objabi.SCOVERAGE_COUNTER:       SCOVERAGE_COUNTER,
 	objabi.SCOVERAGE_AUXVAR:        SCOVERAGE_AUXVAR,
+	objabi.SDWARFCFA:               SDWARFCFA,
 }
 
 // ReadOnly are the symbol kinds that form read-only sections. In some
