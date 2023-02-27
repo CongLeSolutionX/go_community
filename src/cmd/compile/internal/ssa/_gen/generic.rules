@@ -332,6 +332,18 @@
 (OrB ((Less|Leq)16U (Const16 [c]) x) (Eq16 x (Const16 [0]))) && c != 0 => ((Less|Leq)16U (Const16 <x.Type> [c-1]) (Sub16 <x.Type> x (Const16 <x.Type> [1])))
 (OrB ((Less|Leq)8U  (Const8  [c]) x) (Eq8  x (Const8  [0]))) && c != 0 => ((Less|Leq)8U  (Const8  <x.Type> [c-1]) (Sub8  <x.Type> x (Const8  <x.Type> [1])))
 
+// single bit difference: ( x != c && x != d ) -> ( x|(c^d) != c )
+(AndB (Neq64 x (Const64 [c])) (Neq64 x (Const64 [d]))) && c > d && oneBit64(c^d) => (Neq64 (Or64 <x.Type> x (Const64 <x.Type> [c^d])) (Const64 <x.Type> [c]))
+(AndB (Neq32 x (Const32 [c])) (Neq32 x (Const32 [d]))) && c > d && oneBit32(c^d) => (Neq32 (Or32 <x.Type> x (Const32 <x.Type> [c^d])) (Const32 <x.Type> [c]))
+(AndB (Neq16 x (Const16 [c])) (Neq16 x (Const16 [d]))) && c > d && oneBit16(c^d) => (Neq16 (Or16 <x.Type> x (Const16 <x.Type> [c^d])) (Const16 <x.Type> [c]))
+(AndB (Neq8  x (Const8  [c])) (Neq8  x (Const8  [d]))) && c > d && oneBit8(c^d)  => (Neq8  (Or8  <x.Type> x (Const8  <x.Type> [c^d])) (Const8  <x.Type> [c]))
+
+// single bit difference: ( x == c || x == d ) -> ( x|(c^d) == c )
+(OrB (Eq64 x (Const64 [c])) (Eq64 x (Const64 [d]))) && c > d && oneBit64(c^d) => (Eq64 (Or64 <x.Type> x (Const64 <x.Type> [c^d])) (Const64 <x.Type> [c]))
+(OrB (Eq32 x (Const32 [c])) (Eq32 x (Const32 [d]))) && c > d && oneBit32(c^d) => (Eq32 (Or32 <x.Type> x (Const32 <x.Type> [c^d])) (Const32 <x.Type> [c]))
+(OrB (Eq16 x (Const16 [c])) (Eq16 x (Const16 [d]))) && c > d && oneBit16(c^d) => (Eq16 (Or16 <x.Type> x (Const16 <x.Type> [c^d])) (Const16 <x.Type> [c]))
+(OrB (Eq8  x (Const8  [c])) (Eq8  x (Const8  [d]))) && c > d && oneBit8(c^d)  => (Eq8  (Or8  <x.Type> x (Const8  <x.Type> [c^d])) (Const8  <x.Type> [c]))
+
 // Canonicalize x-const to x+(-const)
 (Sub64 x (Const64 <t> [c])) && x.Op != OpConst64 => (Add64 (Const64 <t> [-c]) x)
 (Sub32 x (Const32 <t> [c])) && x.Op != OpConst32 => (Add32 (Const32 <t> [-c]) x)

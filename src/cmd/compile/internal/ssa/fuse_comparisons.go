@@ -158,5 +158,28 @@ func areMergeableInequalities(x, y *Value) bool {
 		// are the same.
 		return x.Args[xi^1] == y.Args[yi^1]
 	}
+
+	// Equality checks with constants that are only one bit apart.
+	if x.Op == y.Op {
+		xi, ok := getConstIntArgIndex(x)
+		if !ok {
+			return false
+		}
+		yi, ok := getConstIntArgIndex(y)
+		if !ok {
+			return false
+		}
+		if x.Args[xi^1] != y.Args[yi^1] {
+			return false
+		}
+
+		switch x.Op {
+		case OpEq64, OpEq32, OpEq16, OpEq8,
+			OpNeq64, OpNeq32, OpNeq16, OpNeq8:
+			a := x.Args[xi].AuxUnsigned()
+			b := y.Args[yi].AuxUnsigned()
+			return oneBit64(int64(a ^ b))
+		}
+	}
 	return false
 }
