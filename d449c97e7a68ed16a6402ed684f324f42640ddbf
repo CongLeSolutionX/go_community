@@ -159,6 +159,24 @@
       "message": "It may be valid to use `uintptr` here because `envs` is outside the Go heap (compare #58625), but it\u0027s probably better to set an example that doesn\u0027t rely on that property throughout.\n\nI think this would be a bit clearer with `envp` remaining as a pointer type the whole time:\n\n```\nenvp, e :\u003d GetEnvironmentStrings()\nif e !\u003d nil {\n\treturn nil\n}\ndefer FreeEnvironmentStrings(envs)\n\nr :\u003d make([]string, 0, 50) // Empty with room to grow.\nconst size \u003d unsafe.Sizeof(*envp)\nfor *envp !\u003d 0 {\n\t// find NUL terminator\n\tend :\u003d unsafe.Add(unsafe.Pointer(envp), size)\n\tfor *(*uint16)(end) !\u003d 0 {\n\t\tend \u003d unsafe.Add(end, size)\n\t}\n\n\tentry :\u003d unsafe.Slice(envp, (uintptr(end) - uintptr(unsafe.Pointer(env))) / size)\n\tr \u003d append(r, string(utf16.Decode(entry)))\n\tenvp \u003d (*uint16)(unsafe.Add(end, size))\n}\nreturn r\n```",
       "revId": "d449c97e7a68ed16a6402ed684f324f42640ddbf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1b9840c_77c6642c",
+        "filename": "src/syscall/env_windows.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2023-02-27T17:47:58Z",
+      "side": 1,
+      "message": "Yay, it looks much better/cleaner.",
+      "parentUuid": "aed05ec9_97add713",
+      "revId": "d449c97e7a68ed16a6402ed684f324f42640ddbf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
