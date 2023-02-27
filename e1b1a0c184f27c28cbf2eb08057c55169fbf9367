@@ -106,6 +106,24 @@
       "parentUuid": "ea03b4a1_538c0e90",
       "revId": "e1b1a0c184f27c28cbf2eb08057c55169fbf9367",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b416b8a_e9852676",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2023-02-27T04:33:55Z",
+      "side": 1,
+      "message": "Sorry, I wasn\u0027t clear. I meant add an example to the suite of examples in the package. Move the idea from a change to doc.go to a new example, probably in example_test.go as new example.",
+      "parentUuid": "25b234ac_b14461aa",
+      "revId": "e1b1a0c184f27c28cbf2eb08057c55169fbf9367",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
