@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5b07d1b_29ea54a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2023-02-27T18:36:04Z",
+      "side": 1,
+      "message": "I\u0027m struggling to incorporate this change into my mental model of unification. Why do we allow unifying two types that aren\u0027t assignable to eachother (MyInt and int)? I think this is done to allow one or both of them to be a core type, and it works out because while unification may succeed spuriously, we\u0027ll get an error when checking assignability rules later.\n\nIt feels like there is some theory lacking around underlying and core types. It\u0027s a happy coincidence that we can encode both assignability and satisfaction into our unification algorithm by changing from !hasName to isTypeLit, and then checking assignability again at the end. But this should be made very clear in the code and description of the unification algorithm.",
+      "range": {
+        "startLine": 20,
+        "startChar": 37,
+        "endLine": 20,
+        "endChar": 64
+      },
+      "revId": "0971610a6d8350069596e8fa83ab977fe01167ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0fb15ff_c2dd443e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2023-02-27T18:36:04Z",
+      "side": 1,
+      "message": "\"because that\u0027s the only thing we can do\" does not sound like a reason to choose an algorithm.\n\nThis is explicitly mentioned as part of the new proposal. The point is that we\u0027re switching from unifying \"necessary and sufficient\" conditions to just unifying \"necessary conditions\", and checking later if they were sufficient.",
+      "range": {
+        "startLine": 24,
+        "startChar": 30,
+        "endLine": 25,
+        "endChar": 10
+      },
+      "revId": "0971610a6d8350069596e8fa83ab977fe01167ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73159786_31d215fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2023-02-27T18:36:04Z",
+      "side": 1,
+      "message": "s/compare easily/easily compare",
+      "range": {
+        "startLine": 34,
+        "startChar": 7,
+        "endLine": 34,
+        "endChar": 22
+      },
+      "revId": "0971610a6d8350069596e8fa83ab977fe01167ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
