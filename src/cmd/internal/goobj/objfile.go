@@ -437,6 +437,7 @@ const (
 	AuxDwarfLoc
 	AuxDwarfRanges
 	AuxDwarfLines
+	AuxDwarfCFA
 	AuxPcsp
 	AuxPcfile
 	AuxPcline

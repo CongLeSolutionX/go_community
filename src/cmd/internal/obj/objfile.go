@@ -590,6 +590,9 @@ func (w *writer) Aux(s *LSym) {
 		if fn.dwarfDebugLinesSym != nil && fn.dwarfDebugLinesSym.Size != 0 {
 			w.aux1(goobj.AuxDwarfLines, fn.dwarfDebugLinesSym)
 		}
+		if fn.dwarfCFA != nil && fn.dwarfCFA.Size != 0 {
+			w.aux1(goobj.AuxDwarfCFA, fn.dwarfCFA)
+		}
 		if fn.Pcln.Pcsp != nil && fn.Pcln.Pcsp.Size != 0 {
 			w.aux1(goobj.AuxPcsp, fn.Pcln.Pcsp)
 		}
@@ -690,6 +693,9 @@ func nAuxSym(s *LSym) int {
 		if fn.dwarfDebugLinesSym != nil && fn.dwarfDebugLinesSym.Size != 0 {
 			n++
 		}
+		if fn.dwarfCFA != nil && fn.dwarfCFA.Size != 0 {
+			n++
+		}
 		if fn.Pcln.Pcsp != nil && fn.Pcln.Pcsp.Size != 0 {
 			n++
 		}
@@ -759,7 +765,7 @@ func genFuncInfoSyms(ctxt *Link) {
 		fn.FuncInfoSym = isym
 		b.Reset()
 
-		dwsyms := []*LSym{fn.dwarfRangesSym, fn.dwarfLocSym, fn.dwarfDebugLinesSym, fn.dwarfInfoSym}
+		dwsyms := []*LSym{fn.dwarfRangesSym, fn.dwarfLocSym, fn.dwarfDebugLinesSym, fn.dwarfInfoSym, fn.dwarfCFA}
 		for _, s := range dwsyms {
 			if s == nil || s.Size == 0 {
 				continue

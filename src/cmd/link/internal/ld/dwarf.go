@@ -1277,7 +1277,7 @@ func (d *dwctxt) writelines(unit *sym.CompilationUnit, lineProlog loader.Sym) []
 	// Output the state machine for each function remaining.
 	for _, s := range unit.Textp {
 		fnSym := loader.Sym(s)
-		_, _, _, lines := d.ldr.GetFuncDwarfAuxSyms(fnSym)
+		_, _, _, lines, _ := d.ldr.GetFuncDwarfAuxSyms(fnSym)
 
 		// Chain the line symbol onto the list.
 		if lines != 0 {
@@ -1426,11 +1426,10 @@ func (d *dwctxt) writeframes(fs loader.Sym) dwarfSecInfo {
 		if !fi.Valid() {
 			continue
 		}
-		fpcsp := d.ldr.Pcsp(s)
+		deltaBuf = deltaBuf[:0]
 
 		// Emit a FDE, Section 6.4.1.
 		// First build the section contents into a byte buffer.
-		deltaBuf = deltaBuf[:0]
 		if haslr && fi.TopFrame() {
 			// Mark the link register as having an undefined value.
 			// This stops call stack unwinders progressing any further.
@@ -1439,43 +1438,47 @@ func (d *dwctxt) writeframes(fs loader.Sym) dwarfSecInfo {
 			deltaBuf = dwarf.AppendUleb128(deltaBuf, uint64(thearch.Dwarfreglr))
 		}
 
-		for pcsp.Init(d.linkctxt.loader.Data(fpcsp)); !pcsp.Done; pcsp.Next() {
-			nextpc := pcsp.NextPC
+		_, _, _, _, cfa := d.ldr.GetFuncDwarfAuxSyms(fn)
+		if cfa != 0 {
+			deltaBuf = append(deltaBuf, d.ldr.Data(cfa)...)
+		} else {
+			fpcsp := d.ldr.Pcsp(s)
+			for pcsp.Init(d.linkctxt.loader.Data(fpcsp)); !pcsp.Done; pcsp.Next() {
+				nextpc := pcsp.NextPC
 
-			// pciterinit goes up to the end of the function,
-			// but DWARF expects us to stop just before the end.
-			if int64(nextpc) == int64(len(d.ldr.Data(fn))) {
-				nextpc--
-				if nextpc < pcsp.PC {
-					continue
+				// pciterinit goes up to the end of the function,
+				// but DWARF expects us to stop just before the end.
+				if int64(nextpc) == int64(len(d.ldr.Data(fn))) {
+					nextpc--
+					if nextpc < pcsp.PC {
+						continue
+					}
+				}
+
+				spdelta := int64(pcsp.Value)
+				if !haslr {
+					// Return address has been pushed onto stack.
+					spdelta += int64(d.arch.PtrSize)
+				}
+
+				if haslr && !fi.TopFrame() {
+					// TODO(bryanpkc): This is imprecise. In general, the instruction
+					// that stores the return address to the stack frame is not the
+					// same one that allocates the frame.
+					if pcsp.Value > 0 {
+						// The return address is preserved at (CFA-frame_size)
+						// after a stack frame has been allocated.
+						deltaBuf = append(deltaBuf, dwarf.DW_CFA_offset_extended_sf)
+						deltaBuf = dwarf.AppendUleb128(deltaBuf, uint64(thearch.Dwarfreglr))
+						deltaBuf = dwarf.AppendSleb128(deltaBuf, -spdelta/dataAlignmentFactor)
+					} else {
+						// The return address is restored into the link register
+						// when a stack frame has been de-allocated.
+						deltaBuf = append(deltaBuf, dwarf.DW_CFA_same_value)
+						deltaBuf = dwarf.AppendUleb128(deltaBuf, uint64(thearch.Dwarfreglr))
+					}
 				}
 			}
-
-			spdelta := int64(pcsp.Value)
-			if !haslr {
-				// Return address has been pushed onto stack.
-				spdelta += int64(d.arch.PtrSize)
-			}
-
-			if haslr && !fi.TopFrame() {
-				// TODO(bryanpkc): This is imprecise. In general, the instruction
-				// that stores the return address to the stack frame is not the
-				// same one that allocates the frame.
-				if pcsp.Value > 0 {
-					// The return address is preserved at (CFA-frame_size)
-					// after a stack frame has been allocated.
-					deltaBuf = append(deltaBuf, dwarf.DW_CFA_offset_extended_sf)
-					deltaBuf = dwarf.AppendUleb128(deltaBuf, uint64(thearch.Dwarfreglr))
-					deltaBuf = dwarf.AppendSleb128(deltaBuf, -spdelta/dataAlignmentFactor)
-				} else {
-					// The return address is restored into the link register
-					// when a stack frame has been de-allocated.
-					deltaBuf = append(deltaBuf, dwarf.DW_CFA_same_value)
-					deltaBuf = dwarf.AppendUleb128(deltaBuf, uint64(thearch.Dwarfreglr))
-				}
-			}
-
-			deltaBuf = appendPCDeltaCFA(d.arch, deltaBuf, int64(nextpc)-int64(pcsp.PC), spdelta)
 		}
 		pad := int(Rnd(int64(len(deltaBuf)), int64(d.arch.PtrSize))) - len(deltaBuf)
 		deltaBuf = append(deltaBuf, zeros[:pad]...)
@@ -1685,7 +1688,7 @@ func (d *dwctxt) dwarfVisitFunction(fnSym loader.Sym, unit *sym.CompilationUnit)
 	// The DWARF subprogram DIE symbol is listed as an aux sym
 	// of the text (fcn) symbol, so ask the loader to retrieve it,
 	// as well as the associated range symbol.
-	infosym, _, rangesym, _ := d.ldr.GetFuncDwarfAuxSyms(fnSym)
+	infosym, _, rangesym, _, _ := d.ldr.GetFuncDwarfAuxSyms(fnSym)
 	if infosym == 0 {
 		return
 	}

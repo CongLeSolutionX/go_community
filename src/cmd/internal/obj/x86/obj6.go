@@ -31,14 +31,21 @@
 package x86
 
 import (
+	"cmd/internal/dwarf"
 	"cmd/internal/obj"
 	"cmd/internal/objabi"
 	"cmd/internal/src"
 	"cmd/internal/sys"
+	"encoding/binary"
 	"log"
 	"math"
 	"path"
 	"strings"
+)
+
+const (
+	unwindOpSaveReg = iota
+	unwindOpSetFP
 )
 
 func CanUse1InsnTLS(ctxt *obj.Link) bool {
@@ -699,6 +706,8 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 		p.From.Type = obj.TYPE_REG
 		p.From.Reg = REG_BP
 
+		cursym.Func().AddDwarfUnwindOp(p, unwindOpSaveReg)
+
 		// Move current frame to BP
 		p = obj.Appendp(p, newprog)
 
@@ -707,6 +716,7 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 		p.From.Reg = REG_SP
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = REG_BP
+		cursym.Func().AddDwarfUnwindOp(p, unwindOpSetFP)
 	}
 
 	if autoffset%int32(ctxt.Arch.RegSize) != 0 {
@@ -1452,6 +1462,7 @@ var Linkamd64 = obj.LinkArch{
 	Progedit:       progedit,
 	UnaryDst:       unaryDst,
 	DWARFRegisters: AMD64DWARFRegisters,
+	DwarfCFA:       generateCFASymbol,
 }
 
 var Link386 = obj.LinkArch{
@@ -1462,4 +1473,46 @@ var Link386 = obj.LinkArch{
 	Progedit:       progedit,
 	UnaryDst:       unaryDst,
 	DWARFRegisters: X86DWARFRegisters,
+}
+
+const dataAlignmentFactor = -4
+
+func generateCFASymbol(ctxt *obj.Link, s, cfa *obj.LSym) {
+	fn := s.Func()
+	ops := fn.DwarfUnwindOps
+	if len(ops) == 0 {
+		return
+	}
+	var deltaBuf []byte
+	var loc int64
+	for _, op := range ops {
+		if deltapc := op.Prog.Pc - loc; deltapc != 0 {
+			switch {
+			case deltapc < 0x40:
+				deltaBuf = append(deltaBuf, uint8(dwarf.DW_CFA_advance_loc+deltapc))
+			case deltapc < 0x100:
+				deltaBuf = append(deltaBuf, dwarf.DW_CFA_advance_loc1)
+				deltaBuf = append(deltaBuf, uint8(deltapc))
+			case deltapc < 0x10000:
+				deltaBuf = append(deltaBuf, dwarf.DW_CFA_advance_loc2, 0, 0)
+				binary.LittleEndian.PutUint16(deltaBuf[len(deltaBuf)-2:], uint16(deltapc))
+			default:
+				deltaBuf = append(deltaBuf, dwarf.DW_CFA_advance_loc4, 0, 0, 0, 0)
+				binary.LittleEndian.PutUint32(deltaBuf[len(deltaBuf)-4:], uint32(deltapc))
+			}
+			loc += op.Prog.Pc
+		}
+		switch op.Operation {
+		case unwindOpSaveReg:
+			deltaBuf = append(deltaBuf, dwarf.DW_CFA_def_cfa_offset)
+			deltaBuf = dwarf.AppendUleb128(deltaBuf, 16)
+			deltaBuf = append(deltaBuf, dwarf.DW_CFA_offset_extended)
+			deltaBuf = dwarf.AppendUleb128(deltaBuf, uint64(AMD64DWARFRegisters[op.Prog.From.Reg]))
+			deltaBuf = dwarf.AppendUleb128(deltaBuf, uint64(-16/dataAlignmentFactor))
+		case unwindOpSetFP:
+			deltaBuf = append(deltaBuf, dwarf.DW_CFA_def_cfa_register)
+			deltaBuf = dwarf.AppendUleb128(deltaBuf, uint64(AMD64DWARFRegisters[op.Prog.To.Reg]))
+		}
+	}
+	cfa.WriteBytes(ctxt, 0, deltaBuf)
 }

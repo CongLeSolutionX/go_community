@@ -298,7 +298,7 @@ func isDwarf64(ctxt *Link) bool {
 	return ctxt.Headtype == objabi.Haix
 }
 
-func (ctxt *Link) dwarfSym(s *LSym) (dwarfInfoSym, dwarfLocSym, dwarfRangesSym, dwarfAbsFnSym, dwarfDebugLines *LSym) {
+func (ctxt *Link) dwarfSym(s *LSym) (dwarfInfoSym, dwarfLocSym, dwarfRangesSym, dwarfAbsFnSym, dwarfDebugLines, dwarfCFA *LSym) {
 	if s.Type != objabi.STEXT {
 		ctxt.Diag("dwarfSym of non-TEXT %v", s)
 	}
@@ -318,11 +318,14 @@ func (ctxt *Link) dwarfSym(s *LSym) (dwarfInfoSym, dwarfLocSym, dwarfRangesSym, 
 		fn.dwarfDebugLinesSym = &LSym{
 			Type: objabi.SDWARFLINES,
 		}
+		fn.dwarfCFA = &LSym{
+			Type: objabi.SDWARFCFA,
+		}
 		if s.WasInlined() {
 			fn.dwarfAbsFnSym = ctxt.DwFixups.AbsFuncDwarfSym(s)
 		}
 	}
-	return fn.dwarfInfoSym, fn.dwarfLocSym, fn.dwarfRangesSym, fn.dwarfAbsFnSym, fn.dwarfDebugLinesSym
+	return fn.dwarfInfoSym, fn.dwarfLocSym, fn.dwarfRangesSym, fn.dwarfAbsFnSym, fn.dwarfDebugLinesSym, fn.dwarfCFA
 }
 
 func (s *LSym) Length(dwarfContext interface{}) int64 {
@@ -346,7 +349,7 @@ func (ctxt *Link) fileSymbol(fn *LSym) *LSym {
 // TEXT symbol 's'. The various DWARF symbols must already have been
 // initialized in InitTextSym.
 func (ctxt *Link) populateDWARF(curfn interface{}, s *LSym, myimportpath string) {
-	info, loc, ranges, absfunc, lines := ctxt.dwarfSym(s)
+	info, loc, ranges, absfunc, lines, cfa := ctxt.dwarfSym(s)
 	if info.Size != 0 {
 		ctxt.Diag("makeFuncDebugEntry double process %v", s)
 	}
@@ -390,6 +393,7 @@ func (ctxt *Link) populateDWARF(curfn interface{}, s *LSym, myimportpath string)
 	}
 	// Fill in the debug lines symbol.
 	ctxt.generateDebugLinesSymbol(s, lines)
+	ctxt.Arch.DwarfCFA(ctxt, s, cfa)
 }
 
 // DwarfIntConst creates a link symbol for an integer constant with the
