@@ -176,6 +176,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c405f667_b21324e3",
+        "filename": "src/context/context.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 11500
+      },
+      "writtenOn": "2023-02-27T00:50:13Z",
+      "side": 1,
+      "message": "I would really prefer positive guidance that explicitly states the point discussed above instead of negative one that requires the user to infer the implication that values must necessarily be still \"valid\" (even if not \"functional\") even after cancellation. The current documentation already implies this, the point here was to try to make it explicit.",
+      "parentUuid": "9382299b_6272be6a",
+      "range": {
+        "startLine": 597,
+        "startChar": 0,
+        "endLine": 599,
+        "endChar": 44
+      },
+      "revId": "57c571082f2deb010e3bab4de409d2cd62fcb651",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6a4efadd_d3eefd07",
         "filename": "src/context/context.go",
         "patchSetId": 8
