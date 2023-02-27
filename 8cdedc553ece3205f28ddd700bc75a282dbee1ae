@@ -53,6 +53,40 @@
       "message": "In the future, we could consider moving internal/bytealg.MakeNoZero to unsafe.MakeNoZero, for the sake of third party packages. It would definitely be dangerous, which is why unsafe comes to mind, but it could really help with low-level packages when used with care.",
       "revId": "8cdedc553ece3205f28ddd700bc75a282dbee1ae",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b40c4ce_c82991ea",
+        "filename": "src/bytes/bytes.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 35155
+      },
+      "writtenOn": "2023-02-27T17:57:39Z",
+      "side": 1,
+      "message": "Moving the len(b) \u003d\u003d 0 check here changes the behavior in this edge case: previously Repeat(nil, -1) would panic, and now it no longer does. The docs just say \"it panics if count is negative\" without specifying if that applies at all times or only on non-zero-length b.\n\nI\u0027m not sure if it matters that the panic is dropped in the zero bytes case, but probably not since the caller can handle it/arrange for it not to happen as desired. I think it\u0027s fine to ack and let this auto-submit, unless you think it\u0027s better to change this.",
+      "revId": "8cdedc553ece3205f28ddd700bc75a282dbee1ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbfc665a_e66063da",
+        "filename": "src/strings/strings.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 35155
+      },
+      "writtenOn": "2023-02-27T17:57:39Z",
+      "side": 1,
+      "message": "Same here.",
+      "revId": "8cdedc553ece3205f28ddd700bc75a282dbee1ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
