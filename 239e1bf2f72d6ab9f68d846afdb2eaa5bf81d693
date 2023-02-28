@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf2c3356_1f494442",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2023-02-28T06:28:59Z",
+      "side": 1,
+      "message": "TRY\u003dandroid",
+      "revId": "239e1bf2f72d6ab9f68d846afdb2eaa5bf81d693",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
