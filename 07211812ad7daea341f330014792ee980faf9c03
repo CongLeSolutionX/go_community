@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "011297e9_e9c4061f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 61267
+      },
+      "writtenOn": "2023-02-28T17:51:10Z",
+      "side": 1,
+      "message": "thank you, I didn\u0027t know about that. I will change that in the v3 and elsewhere",
+      "parentUuid": "95d52e15_5302416b",
+      "revId": "07211812ad7daea341f330014792ee980faf9c03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b6dedd62_cbe4a8e2",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -48,6 +66,24 @@
       "writtenOn": "2023-02-28T17:44:58Z",
       "side": 1,
       "message": "According to https://github.com/golang/go/issues/56539#issuecomment-1332585915 this should be a method, not a field.  The field should be unexported, and should be a tri-state: 1) use MPTCP; 2) do not use MPTCP; 3) use system default.  For the 1.21 release the system default is always off, and for later releases we may change that.",
+      "revId": "07211812ad7daea341f330014792ee980faf9c03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c601f15_35d922f4",
+        "filename": "src/net/dial.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 61267
+      },
+      "writtenOn": "2023-02-28T17:51:10Z",
+      "side": 1,
+      "message": "thank you for this comment, it is clearer now!\n\nI will look at that in the v3 (sorry, it might not be before next week)",
+      "parentUuid": "02b93de9_48a7b6f5",
       "revId": "07211812ad7daea341f330014792ee980faf9c03",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
