@@ -108,6 +108,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a11a48de_9133e447",
+        "filename": "src/runtime/sys_windows_arm.s",
+        "patchSetId": 10
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-02-28T19:04:24Z",
+      "side": 1,
+      "message": "Cool, didn\u0027t know that trick, will use it. Is there anything similar for amd64?",
+      "parentUuid": "ed74a051_dee2d048",
+      "revId": "b13525f5a31838acc7359aa74b0ad6d509aaa963",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d371649e_f159f96a",
@@ -121,6 +139,24 @@
       "writtenOn": "2023-02-28T17:38:25Z",
       "side": 1,
       "message": "Same here.",
+      "revId": "b13525f5a31838acc7359aa74b0ad6d509aaa963",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "207f8a92_be8515f4",
+        "filename": "src/runtime/sys_windows_arm64.s",
+        "patchSetId": 10
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-02-28T19:04:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d371649e_f159f96a",
       "revId": "b13525f5a31838acc7359aa74b0ad6d509aaa963",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -142,6 +178,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2009bb0a_5bc322ec",
+        "filename": "src/runtime/time_windows_arm.s",
+        "patchSetId": 10
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-02-28T19:04:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c936dcc_4b5d2f2d",
+      "revId": "b13525f5a31838acc7359aa74b0ad6d509aaa963",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "db4f663c_05feef13",
@@ -155,6 +209,24 @@
       "writtenOn": "2023-02-28T17:38:25Z",
       "side": 1,
       "message": "Same here.",
+      "revId": "b13525f5a31838acc7359aa74b0ad6d509aaa963",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4852a29_a2643cf9",
+        "filename": "src/runtime/time_windows_arm64.s",
+        "patchSetId": 10
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-02-28T19:04:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db4f663c_05feef13",
       "revId": "b13525f5a31838acc7359aa74b0ad6d509aaa963",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
