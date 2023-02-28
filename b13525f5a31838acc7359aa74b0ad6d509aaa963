@@ -144,6 +144,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "57a3c9a5_11e85352",
+        "filename": "src/runtime/sys_windows_arm.s",
+        "patchSetId": 10
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-02-28T19:44:53Z",
+      "side": 1,
+      "message": "Can confirm that, I got confused with amd64 because I was testing with something like `RET DI`, where DI holds the function address. Doesn\u0027t work on that case:\n\n`invalid instruction: 00127 (src\\runtime\\asm_amd64.s:521)  RET     DI`",
+      "parentUuid": "d9b0cb8f_60395f0b",
+      "revId": "b13525f5a31838acc7359aa74b0ad6d509aaa963",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d371649e_f159f96a",
