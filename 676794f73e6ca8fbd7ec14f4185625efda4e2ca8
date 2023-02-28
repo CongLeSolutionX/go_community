@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "030e888c_3d514899",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2023-02-28T06:30:04Z",
+      "side": 1,
+      "message": "This CL break android build, I sent CL 471936 to fix.",
+      "revId": "676794f73e6ca8fbd7ec14f4185625efda4e2ca8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
