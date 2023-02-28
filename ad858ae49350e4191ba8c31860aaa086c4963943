@@ -69,6 +69,24 @@
       "parentUuid": "882add52_bf740b16",
       "revId": "ad858ae49350e4191ba8c31860aaa086c4963943",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0944ce02_7c1a8b48",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2023-02-28T02:47:10Z",
+      "side": 1,
+      "message": "There is no association between these two patches, the CL 153358 is a very old patch, which is a prototype for SVE instructions. \n\nAdding new instructions via new path is the best way, but we can keep the CL 153358 path as a backup in case someone desperately needs an sve instruction, in case something blocks the implementation of the new path.\n\nSo the CL 153358 does not need any action for the time either. Thank you.",
+      "parentUuid": "d3827ddb_029d7436",
+      "revId": "ad858ae49350e4191ba8c31860aaa086c4963943",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
