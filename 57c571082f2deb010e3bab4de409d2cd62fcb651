@@ -296,6 +296,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "58e67e16_7ac8d67f",
+        "filename": "src/context/context.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 5265
+      },
+      "writtenOn": "2023-02-28T19:00:15Z",
+      "side": 1,
+      "message": "I would like to decouple this CL from this documentation discussion.\nThis CL implements an accepted proposal, so I\u0027d like to see it implemented and submitted.\nWe can take up the documentation change as a separate issue. Whatever change we make there must be compatible with existing uses.",
+      "parentUuid": "64f1af4c_a0d4cb04",
+      "range": {
+        "startLine": 597,
+        "startChar": 0,
+        "endLine": 599,
+        "endChar": 44
+      },
+      "revId": "57c571082f2deb010e3bab4de409d2cd62fcb651",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6a4efadd_d3eefd07",
         "filename": "src/context/context.go",
         "patchSetId": 8
