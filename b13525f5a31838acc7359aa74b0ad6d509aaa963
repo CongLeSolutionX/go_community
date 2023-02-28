@@ -92,6 +92,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ed74a051_dee2d048",
+        "filename": "src/runtime/sys_windows_arm.s",
+        "patchSetId": 10
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-02-28T18:45:29Z",
+      "side": 1,
+      "message": "I think `RET func(SB)` (as opposed to `B func(SB)` or `JMP func(SB)`) should clean up the frame and then do a tail call. If you want to express that it could have a frame but need to be cleaned up before tail call, you could use this syntax.",
+      "parentUuid": "cbb5e126_0c39cc8b",
+      "revId": "b13525f5a31838acc7359aa74b0ad6d509aaa963",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d371649e_f159f96a",
         "filename": "src/runtime/sys_windows_arm64.s",
         "patchSetId": 10
