@@ -87,6 +87,24 @@
       "parentUuid": "d3827ddb_029d7436",
       "revId": "ad858ae49350e4191ba8c31860aaa086c4963943",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6d62fd5_3719b0a3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-02-28T17:01:58Z",
+      "side": 1,
+      "message": "Thanks. Sounds good. Once we have SVE support in the assembler (probably via the new path), we can check in this CL.",
+      "parentUuid": "0944ce02_7c1a8b48",
+      "revId": "ad858ae49350e4191ba8c31860aaa086c4963943",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
