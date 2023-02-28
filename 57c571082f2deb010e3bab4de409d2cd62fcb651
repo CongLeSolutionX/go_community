@@ -272,6 +272,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "64f1af4c_a0d4cb04",
+        "filename": "src/context/context.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 55079
+      },
+      "writtenOn": "2023-02-28T09:11:57Z",
+      "side": 1,
+      "message": "I believe the sentence \"Users of the returned context may still make use of value val after the context expires or is canceled.\" would be a backwards incompatible change of the Context contract:\n\nThe problem is that the pattern you are describing as \"should be illegal\" is in fact not uncommon. Take OpenTelemetry as an example. The documentation contains this example code (https://pkg.go.dev/go.opentelemetry.io/otel/trace#Tracer):\n\n```\nfunc operation(ctx context.Context, inst *Instrumentation) {\n\tvar span trace.Span\n\tctx, span \u003d inst.tracer.Start(ctx, \"operation\")\n\tdefer span.End()\n\t// ...\n}\n```\n\n`inst.tracer.Start` stores a newly created Span in `ctx`. A Span must be completed using `span.End()` otherwise memory or other resources may leak.\n\nSince there is simply no way of coupling the Span lifetime to the Context lifetime (should there be one?), users of the OpenTelemetry API need to ensure that `End` is called.\n\nThis goes back to Matt\u0027s first comment on this CL:\n\n\u003e I would like to discuss whether this implementation would also need support for registering context-value preservation handlers to keep special values alive and handle their closure when the detached child is done.",
+      "parentUuid": "f7605f43_8c280df6",
+      "range": {
+        "startLine": 597,
+        "startChar": 0,
+        "endLine": 599,
+        "endChar": 44
+      },
+      "revId": "57c571082f2deb010e3bab4de409d2cd62fcb651",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6a4efadd_d3eefd07",
         "filename": "src/context/context.go",
         "patchSetId": 8
