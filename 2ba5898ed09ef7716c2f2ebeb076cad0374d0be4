@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0cbb36a4_3dfb4d7e",
+        "filename": "src/net/mptcpsock_stub.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-02-28T17:44:58Z",
+      "side": 0,
+      "message": "Looks like suportsMultipathTCP was dropped, is that right?  If we don\u0027t need it, can we just remove it from the earlier change?",
+      "revId": "2ba5898ed09ef7716c2f2ebeb076cad0374d0be4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
