@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0795b1dc_4b04e7c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-02-28T19:01:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38f0f565_b79cdf6d",
+      "revId": "6fea6f84bf74ff894255d03e55ab2500212685a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5ec80eb6_1af34044",
@@ -72,6 +90,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "033f348a_3df2b173",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2160,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-02-28T19:01:10Z",
+      "side": 1,
+      "message": "No.  (you probably wanted an explanation)\nThe directory that is getting increasingly shortened is something like \n/foo/bar/baz/a\nThe file name that needs the be shortened might be /foo/var/baz/b.\nSo, shortname for /foo/bar/baz/a is \".\" (and that is the first shortening) but that does not match /foo/bar/baz/b.\nShortname for /foo/bar/baz is \"..\", and that does match the prefix of /foo/bar/baz/b yielding ../b.",
+      "parentUuid": "8cec914b_9b99637a",
+      "revId": "6fea6f84bf74ff894255d03e55ab2500212685a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5fa80a6b_d7318661",
@@ -85,6 +121,24 @@
       "writtenOn": "2023-02-08T16:49:57Z",
       "side": 1,
       "message": "Stray debugging line?",
+      "revId": "6fea6f84bf74ff894255d03e55ab2500212685a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab015cb3_8d729181",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2161,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-02-28T19:01:10Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "5fa80a6b_d7318661",
       "revId": "6fea6f84bf74ff894255d03e55ab2500212685a5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -106,6 +160,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "936a6aa6_59f3dacb",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2166,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-02-28T19:01:10Z",
+      "side": 1,
+      "message": "Seems like Split was not necessary.",
+      "parentUuid": "c75fc489_b16da7a6",
+      "revId": "6fea6f84bf74ff894255d03e55ab2500212685a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8545fd28_00da6a1e",
@@ -119,6 +191,30 @@
       "writtenOn": "2023-02-08T16:49:57Z",
       "side": 1,
       "message": "According to https://pkg.go.dev/path/filepath#Dir:\n\u003e If the path is empty, `Dir` returns `\".\"`.\n\nSo I don\u0027t think the empty string is possible here — the only possible end states are `.` or `dir \u003d\u003d dirP` (and note that `filepath.Dir(\".\") \u003d\u003d \".\"`, so `dir \u003d\u003d dirP` should suffice).",
+      "range": {
+        "startLine": 2168,
+        "startChar": 20,
+        "endLine": 2168,
+        "endChar": 30
+      },
+      "revId": "6fea6f84bf74ff894255d03e55ab2500212685a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ed3f1e9_94c85af2",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2168,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-02-28T19:01:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8545fd28_00da6a1e",
       "range": {
         "startLine": 2168,
         "startChar": 20,
