@@ -53,6 +53,24 @@
       "message": "Can we move this to the bottom of the CL stack? (I.e., have it submitted first, before the GOEXPERIMENT\u003dloopvar changes.)\n\nThanks.",
       "revId": "112d7244e0b0cea0afd932ddb9c2c4a8df736f41",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d1aa6e5_cf5fe568",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-02-28T19:07:52Z",
+      "side": 1,
+      "message": "Can do, but I also think the two loopvar CLs are ready.  The first adds the loopvar transformation and reporting, the second makes the semantics follow inlining across packages.",
+      "parentUuid": "c082ce71_d07dc99e",
+      "revId": "112d7244e0b0cea0afd932ddb9c2c4a8df736f41",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
