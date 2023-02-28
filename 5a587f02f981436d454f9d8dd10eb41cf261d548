@@ -71,6 +71,24 @@
       "parentUuid": "1d25141b_d2537315",
       "revId": "5a587f02f981436d454f9d8dd10eb41cf261d548",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "159979e6_31c8b4cf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2023-02-28T17:49:04Z",
+      "side": 1,
+      "message": "That CL stack was land, though, this can now be unblocked.",
+      "parentUuid": "7d4e01f0_a321699d",
+      "revId": "5a587f02f981436d454f9d8dd10eb41cf261d548",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
