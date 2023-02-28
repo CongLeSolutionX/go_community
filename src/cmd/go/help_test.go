@@ -24,7 +24,7 @@ func TestDocsUpToDate(t *testing.T) {
 	// We run 'go help documentation' as a subprocess instead of
 	// calling help.Help directly because it may be sensitive to
 	// init-time configuration
-	cmd := testenv.Command(t, testGo, "help", "documentation")
+	cmd := testenv.Command(t, testenv.GoToolPath(t), "help", "documentation")
 	// Unset GO111MODULE so that the 'go get' section matches
 	// the default 'go get' implementation.
 	cmd.Env = append(cmd.Environ(), "GO111MODULE=")
