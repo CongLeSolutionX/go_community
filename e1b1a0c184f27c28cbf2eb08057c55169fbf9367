@@ -124,6 +124,24 @@
       "parentUuid": "25b234ac_b14461aa",
       "revId": "e1b1a0c184f27c28cbf2eb08057c55169fbf9367",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a458482b_5972c0cf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 54743
+      },
+      "writtenOn": "2023-02-28T01:10:24Z",
+      "side": 1,
+      "message": "Ok, thank you. I\u0027ll close this, and perhaps will open a separate PR/GCR later.",
+      "parentUuid": "6b416b8a_e9852676",
+      "revId": "e1b1a0c184f27c28cbf2eb08057c55169fbf9367",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
