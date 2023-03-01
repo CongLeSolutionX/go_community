@@ -77,6 +77,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "289da805_221d35b7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-03-01T22:38:29Z",
+      "side": 1,
+      "message": "As we no longer ship prebuilt C objects, we\u0027re going to move towards cgo external linking more (even for std cgo-using packages like net). I\u0027m not sure we want to do more on cgo internal linking. Thanks.",
+      "revId": "94bb64779c32642068fcea3a53cd55ec3b47e8e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5e423de7_33484bc9",
         "filename": "src/cmd/link/internal/ld/data.go",
         "patchSetId": 4
