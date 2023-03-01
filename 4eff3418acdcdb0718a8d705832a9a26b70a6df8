@@ -242,6 +242,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7fac6a4e_432303a7",
+        "filename": "src/cmd/compile/internal/loopvar/loopvar.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-03-01T20:11:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f065a0d2_b2510d2e",
+      "revId": "4eff3418acdcdb0718a8d705832a9a26b70a6df8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f687c341_252df6cd",
@@ -302,6 +320,24 @@
       "writtenOn": "2023-02-28T20:59:34Z",
       "side": 1,
       "message": "Can we hoist some of these helper functions to package scope? They don\u0027t seem to need any local variable context.",
+      "revId": "4eff3418acdcdb0718a8d705832a9a26b70a6df8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "15059446_c91e3413",
+        "filename": "src/cmd/compile/internal/loopvar/loopvar.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-03-01T20:11:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43a04fb5_b0651bb1",
       "revId": "4eff3418acdcdb0718a8d705832a9a26b70a6df8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -405,6 +441,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a0a4c7b_3e69a061",
+        "filename": "src/cmd/compile/internal/loopvar/loopvar.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-03-01T20:11:39Z",
+      "side": 1,
+      "message": "Wasn\u0027t sure about PAUTOHEAP, added it, too, for now.",
+      "parentUuid": "12e79f84_ee53a328",
+      "revId": "4eff3418acdcdb0718a8d705832a9a26b70a6df8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7ccfe683_d8c18b6c",
@@ -457,6 +511,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e10123de_d750891b",
+        "filename": "src/cmd/compile/internal/loopvar/loopvar.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-03-01T20:11:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17dbe3b5_fb19485b",
+      "revId": "4eff3418acdcdb0718a8d705832a9a26b70a6df8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c0df67ea_9f4f8ac2",
@@ -474,6 +546,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dedae8e1_1e4c674c",
+        "filename": "src/cmd/compile/internal/loopvar/loopvar.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-03-01T20:11:39Z",
+      "side": 1,
+      "message": "I included that in the example, I hope that works.",
+      "parentUuid": "c0df67ea_9f4f8ac2",
+      "revId": "4eff3418acdcdb0718a8d705832a9a26b70a6df8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9e074b16_61a12f20",
@@ -487,6 +577,24 @@
       "writtenOn": "2023-02-28T20:59:34Z",
       "side": 1,
       "message": "This maps z to z\u0027?",
+      "revId": "4eff3418acdcdb0718a8d705832a9a26b70a6df8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e380f6a8_22d8bbb3",
+        "filename": "src/cmd/compile/internal/loopvar/loopvar.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-03-01T20:11:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e074b16_61a12f20",
       "revId": "4eff3418acdcdb0718a8d705832a9a26b70a6df8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -584,6 +692,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6a97c50_6c41f015",
+        "filename": "src/cmd/compile/internal/loopvar/loopvar.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-03-01T20:11:39Z",
+      "side": 1,
+      "message": "That turns out to need typechecking, maybe I write yet another helper function since I say almost-the-same verbose thing twice.",
+      "parentUuid": "7b090a72_17a60477",
+      "range": {
+        "startLine": 289,
+        "startChar": 55,
+        "endLine": 289,
+        "endChar": 89
+      },
+      "revId": "4eff3418acdcdb0718a8d705832a9a26b70a6df8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "85318593_e745e210",
@@ -597,6 +729,30 @@
       "writtenOn": "2023-02-28T20:59:34Z",
       "side": 1,
       "message": "nit: I think \"assign\" or \"set\" would be a better verb than \"get\".",
+      "range": {
+        "startLine": 293,
+        "startChar": 5,
+        "endLine": 293,
+        "endChar": 22
+      },
+      "revId": "4eff3418acdcdb0718a8d705832a9a26b70a6df8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66c33f83_7ddd5d66",
+        "filename": "src/cmd/compile/internal/loopvar/loopvar.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-03-01T20:11:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85318593_e745e210",
       "range": {
         "startLine": 293,
         "startChar": 5,
@@ -671,6 +827,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4ad56e1_b31e70fa",
+        "filename": "src/cmd/compile/internal/loopvar/loopvar.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-03-01T20:11:39Z",
+      "side": 1,
+      "message": "ir.EditChildren doesn\u0027t let me remove items from lists.\n(Note that it\u0027s not documented to do *anything*, but reading the implementations, it doesn\u0027t support removing items from lists).",
+      "parentUuid": "8518454f_efea28ca",
+      "revId": "4eff3418acdcdb0718a8d705832a9a26b70a6df8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "90cd1b28_6bf5a52c",
@@ -684,6 +858,24 @@
       "writtenOn": "2023-02-28T20:59:34Z",
       "side": 1,
       "message": "What\u0027s this TODO about?",
+      "revId": "4eff3418acdcdb0718a8d705832a9a26b70a6df8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3338c972_f9ea2bd0",
+        "filename": "src/cmd/compile/internal/loopvar/loopvar.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-03-01T20:11:39Z",
+      "side": 1,
+      "message": "I am not sure; I suspect at one time I was worried about the order of processing nested loops, but that turned out to not be an issue.  So, removed.",
+      "parentUuid": "90cd1b28_6bf5a52c",
       "revId": "4eff3418acdcdb0718a8d705832a9a26b70a6df8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
