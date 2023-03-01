@@ -305,6 +305,8 @@ func NewABIConfig(iRegsCount, fRegsCount int, offsetForLocals int64, number int)
 	if base.SwapLenCap() && number == 1 {
 		// TODO SWAPLENCAP increase alignment for string and interface RIGHT HERE.
 		synthSlice.SetAlignment(uint8(2 * types.PtrSize))
+		synthString.SetAlignment(uint8(2 * types.PtrSize))
+		synthIface.SetAlignment(uint8(2 * types.PtrSize))
 	}
 
 	return &ABIConfig{offsetForLocals: offsetForLocals, regAmounts: RegAmounts{iRegsCount, fRegsCount}, regsForTypeCache: make(map[*types.Type]int),
