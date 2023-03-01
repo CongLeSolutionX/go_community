@@ -201,11 +201,23 @@ type funcval struct {
 }
 
 type iface struct {
+	_align [0]interface{}
+	tab    *itab
+	data   unsafe.Pointer
+}
+
+type eface struct {
+	_align [0]interface{}
+	_type  *_type
+	data   unsafe.Pointer
+}
+
+type ifaceDWARF struct {
 	tab  *itab
 	data unsafe.Pointer
 }
 
-type eface struct {
+type efaceDWARF struct {
 	_type *_type
 	data  unsafe.Pointer
 }
