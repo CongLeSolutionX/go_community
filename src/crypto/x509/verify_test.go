@@ -1508,33 +1508,36 @@ ePBQCV1F9sE2q4ZrnsT9TZoNrSe/bMDjzA==
 -----END CERTIFICATE-----`
 
 var unknownAuthorityErrorTests = []struct {
+	name     string
 	cert     string
 	expected string
 }{
-	{selfSignedWithCommonName, "x509: certificate signed by unknown authority (possibly because of \"empty\" while trying to verify candidate authority certificate \"test\")"},
-	{selfSignedNoCommonNameWithOrgName, "x509: certificate signed by unknown authority (possibly because of \"empty\" while trying to verify candidate authority certificate \"ca\")"},
-	{selfSignedNoCommonNameNoOrgName, "x509: certificate signed by unknown authority (possibly because of \"empty\" while trying to verify candidate authority certificate \"serial:0\")"},
+	{"self-signed, cn", selfSignedWithCommonName, "x509: certificate signed by unknown authority (possibly because of \"empty\" while trying to verify candidate authority certificate \"test\")"},
+	{"self-signed, no cn, org", selfSignedNoCommonNameWithOrgName, "x509: certificate signed by unknown authority (possibly because of \"empty\" while trying to verify candidate authority certificate \"ca\")"},
+	{"self-signed, no cn, no org", selfSignedNoCommonNameNoOrgName, "x509: certificate signed by unknown authority (possibly because of \"empty\" while trying to verify candidate authority certificate \"serial:0\")"},
 }
 
 func TestUnknownAuthorityError(t *testing.T) {
 	for i, tt := range unknownAuthorityErrorTests {
-		der, _ := pem.Decode([]byte(tt.cert))
-		if der == nil {
-			t.Errorf("#%d: Unable to decode PEM block", i)
-		}
-		c, err := ParseCertificate(der.Bytes)
-		if err != nil {
-			t.Errorf("#%d: Unable to parse certificate -> %v", i, err)
-		}
-		uae := &UnknownAuthorityError{
-			Cert:     c,
-			hintErr:  fmt.Errorf("empty"),
-			hintCert: c,
-		}
-		actual := uae.Error()
-		if actual != tt.expected {
-			t.Errorf("#%d: UnknownAuthorityError.Error() response invalid actual: %s expected: %s", i, actual, tt.expected)
-		}
+		t.Run(tt.name, func(t *testing.T) {
+			der, _ := pem.Decode([]byte(tt.cert))
+			if der == nil {
+				t.Fatalf("#%d: Unable to decode PEM block", i)
+			}
+			c, err := ParseCertificate(der.Bytes)
+			if err != nil {
+				t.Fatalf("#%d: Unable to parse certificate -> %v", i, err)
+			}
+			uae := &UnknownAuthorityError{
+				Cert:     c,
+				hintErr:  fmt.Errorf("empty"),
+				hintCert: c,
+			}
+			actual := uae.Error()
+			if actual != tt.expected {
+				t.Errorf("#%d: UnknownAuthorityError.Error() response invalid actual: %s expected: %s", i, actual, tt.expected)
+			}
+		})
 	}
 }
 
@@ -1881,6 +1884,15 @@ func TestSystemRootsErrorUnwrap(t *testing.T) {
 }
 
 func TestIssue51759(t *testing.T) {
+<<<<<<< HEAD   (d2d0ee [release-branch.go1.20] syscall: fix invalid unsafe.Pointer )
+=======
+	if runtime.GOOS != "darwin" {
+		t.Skip("only affects darwin")
+	}
+	if builder := testenv.Builder(); builder == "darwin-amd64-10_14" || builder == "darwin-amd64-10_15" {
+		t.Skip("behavior only enforced in macOS 11 and after")
+	}
+>>>>>>> CHANGE (cf3d06 crypto/x509: fix broken tests)
 	// badCertData contains a cert that we parse as valid
 	// but that macOS SecCertificateCreateWithData rejects.
 	const badCertData = "0\x82\x01U0\x82\x01\a\xa0\x03\x02\x01\x02\x02\x01\x020\x05\x06\x03+ep0R1P0N\x06\x03U\x04\x03\x13Gderpkey8dc58100b2493614ee1692831a461f3f4dd3f9b3b088e244f887f81b4906ac260\x1e\x17\r220112235755Z\x17\r220313235755Z0R1P0N\x06\x03U\x04\x03\x13Gderpkey8dc58100b2493614ee1692831a461f3f4dd3f9b3b088e244f887f81b4906ac260*0\x05\x06\x03+ep\x03!\x00bA\xd8e\xadW\xcb\xefZ\x89\xb5\"\x1eR\x9d\xba\x0e:\x1042Q@\u007f\xbd\xfb{ks\x04\xd1£\x020\x000\x05\x06\x03+ep\x03A\x00[\xa7\x06y\x86(\x94\x97\x9eLwA\x00\x01x\xaa\xbc\xbd Ê]\n(΅!ف0\xf5\x9a%I\x19<\xffo\xf1\xeaaf@\xb1\xa7\xaf\xfd\xe9R\xc7\x0f\x8d&\xd5\xfc\x0f;Ϙ\x82\x84a\xbc\r"
@@ -1891,9 +1903,18 @@ func TestIssue51759(t *testing.T) {
 
 	t.Run("leaf", func(t *testing.T) {
 		opts := VerifyOptions{}
+<<<<<<< HEAD   (d2d0ee [release-branch.go1.20] syscall: fix invalid unsafe.Pointer )
+=======
+		expectedErr := "invalid leaf certificate"
+>>>>>>> CHANGE (cf3d06 crypto/x509: fix broken tests)
 		_, err = badCert.Verify(opts)
+<<<<<<< HEAD   (d2d0ee [release-branch.go1.20] syscall: fix invalid unsafe.Pointer )
 		if err == nil {
 			t.Fatal("expected error")
+=======
+		if err == nil || err.Error() != expectedErr {
+			t.Fatalf("unexpected error: want %q, got %q", expectedErr, err)
+>>>>>>> CHANGE (cf3d06 crypto/x509: fix broken tests)
 		}
 	})
 
@@ -1907,9 +1928,18 @@ func TestIssue51759(t *testing.T) {
 			Intermediates: NewCertPool(),
 		}
 		opts.Intermediates.AddCert(badCert)
+<<<<<<< HEAD   (d2d0ee [release-branch.go1.20] syscall: fix invalid unsafe.Pointer )
+=======
+		expectedErr := "SecCertificateCreateWithData: invalid certificate"
+>>>>>>> CHANGE (cf3d06 crypto/x509: fix broken tests)
 		_, err = goodCert.Verify(opts)
+<<<<<<< HEAD   (d2d0ee [release-branch.go1.20] syscall: fix invalid unsafe.Pointer )
 		if err == nil {
 			t.Fatal("expected error")
+=======
+		if err == nil || err.Error() != expectedErr {
+			t.Fatalf("unexpected error: want %q, got %q", expectedErr, err)
+>>>>>>> CHANGE (cf3d06 crypto/x509: fix broken tests)
 		}
 	})
 }
