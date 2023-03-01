@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3990a4b2_4698ff2b",
+        "filename": "src/internal/poll/fd_plan9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 34895
+      },
+      "writtenOn": "2023-03-01T17:39:00Z",
+      "side": 1,
+      "message": "Here it seems that the values are being changed without the mutex being held.  Is this OK?",
+      "revId": "6ed47f6494ba815bbc5474c4a756cfda18c93936",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
