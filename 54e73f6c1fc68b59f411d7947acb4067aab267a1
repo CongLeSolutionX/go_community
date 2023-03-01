@@ -61,6 +61,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8da3596d_a02ea1f7",
+        "filename": "src/cmd/compile/internal/types2/infer.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-03-01T20:26:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e473e06c_a471b649",
+      "range": {
+        "startLine": 92,
+        "startChar": 34,
+        "endLine": 92,
+        "endChar": 40
+      },
+      "revId": "54e73f6c1fc68b59f411d7947acb4067aab267a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0c4db486_56b82688",
@@ -74,6 +98,30 @@
       "writtenOn": "2023-03-01T17:06:25Z",
       "side": 1,
       "message": "always",
+      "range": {
+        "startLine": 94,
+        "startChar": 38,
+        "endLine": 94,
+        "endChar": 45
+      },
+      "revId": "54e73f6c1fc68b59f411d7947acb4067aab267a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e952bb24_70581200",
+        "filename": "src/cmd/compile/internal/types2/infer.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-03-01T20:26:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c4db486_56b82688",
       "range": {
         "startLine": 94,
         "startChar": 38,
