@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b91035d5_712eabea",
+        "filename": "src/internal/testenv/testenv.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-03-01T17:34:19Z",
+      "side": 1,
+      "message": "Something is wrong here.  Did you mean s/false/withCgo/ ?",
+      "revId": "6f7f7802ef2fa01b4c7d8ea8cf0ba8c504b208ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
