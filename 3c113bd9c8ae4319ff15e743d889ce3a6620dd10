@@ -59,6 +59,30 @@
       },
       "revId": "3c113bd9c8ae4319ff15e743d889ce3a6620dd10",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2cba4169_2e79a561",
+        "filename": "src/cmd/compile/internal/types2/unify.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-03-01T20:32:28Z",
+      "side": 1,
+      "message": "Seems a bit overkill. The block above (lines 289ff) just eliminated them. I am just stating the obvious.\n\nI\u0027ll add an assert below, with the type parameter case.",
+      "parentUuid": "a660f925_da2075ae",
+      "range": {
+        "startLine": 322,
+        "startChar": 1,
+        "endLine": 323,
+        "endChar": 36
+      },
+      "revId": "3c113bd9c8ae4319ff15e743d889ce3a6620dd10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
