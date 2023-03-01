@@ -57,6 +57,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d968405d_8565605f",
+        "filename": "src/cmd/compile/internal/base/flag.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-03-01T02:18:01Z",
+      "side": 1,
+      "message": "I am not sure it is worth doing; the 11+ values are mostly for developer (i.e., me) consumption, and in practice logging only makes sense as an enhancement to the \"1\" value, meaning, do it, but also tell me where. I chose \"11\" to try to give some indication that it was not \"just another setting\".  If it was instead {-1,-0,1,2} x {silent, log} I think some users might thing that \"2\" was something that perhaps they could try, which is not what I intend at all.",
+      "parentUuid": "eb47071b_8d11118a",
+      "revId": "4eff3418acdcdb0718a8d705832a9a26b70a6df8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "27beb9cb_2ffc2f66",
         "filename": "src/cmd/compile/internal/base/flag.go",
         "patchSetId": 21
@@ -68,6 +86,30 @@
       "writtenOn": "2023-02-28T20:59:34Z",
       "side": 1,
       "message": "strings.HasPrefix(debug.LoopVarHash, \"FS\")?",
+      "range": {
+        "startLine": 219,
+        "startChar": 5,
+        "endLine": 219,
+        "endChar": 64
+      },
+      "revId": "4eff3418acdcdb0718a8d705832a9a26b70a6df8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4da05e4_b0e83402",
+        "filename": "src/cmd/compile/internal/base/flag.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-03-01T02:18:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27beb9cb_2ffc2f66",
       "range": {
         "startLine": 219,
         "startChar": 5,
@@ -95,6 +137,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ab9efe0_4094b466",
+        "filename": "src/cmd/compile/internal/gc/main.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-03-01T02:18:01Z",
+      "side": 1,
+      "message": "If the base is not changed, WarnfAt will print as the outermost Pos.  I enhanced the comment.",
+      "parentUuid": "1ca1dcf1_8053dc36",
+      "revId": "4eff3418acdcdb0718a8d705832a9a26b70a6df8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "00e0c147_96d75acf",
@@ -112,6 +172,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d4c192f_1d97c074",
+        "filename": "src/cmd/compile/internal/loopvar/loopvar.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-03-01T02:18:01Z",
+      "side": 1,
+      "message": "Pruned, I hope to an acceptable minimum.",
+      "parentUuid": "00e0c147_96d75acf",
+      "revId": "4eff3418acdcdb0718a8d705832a9a26b70a6df8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e603ebb3_aa5f9942",
@@ -125,6 +203,24 @@
       "writtenOn": "2023-02-28T20:59:34Z",
       "side": 1,
       "message": "I think Fn is always Name.Curfn?",
+      "revId": "4eff3418acdcdb0718a8d705832a9a26b70a6df8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f9a7103_794b9edd",
+        "filename": "src/cmd/compile/internal/loopvar/loopvar.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-03-01T02:18:01Z",
+      "side": 1,
+      "message": "This appears to be true.",
+      "parentUuid": "e603ebb3_aa5f9942",
       "revId": "4eff3418acdcdb0718a8d705832a9a26b70a6df8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -159,6 +255,30 @@
       "writtenOn": "2023-02-28T20:59:34Z",
       "side": 1,
       "message": "When is this nil? Can that case be handled within the hashdebug logic itself instead?",
+      "range": {
+        "startLine": 80,
+        "startChar": 6,
+        "endLine": 80,
+        "endChar": 29
+      },
+      "revId": "4eff3418acdcdb0718a8d705832a9a26b70a6df8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7289943f_7c63a6ca",
+        "filename": "src/cmd/compile/internal/loopvar/loopvar.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-03-01T02:18:01Z",
+      "side": 1,
+      "message": "The test is utterly superfluous; it already worked that way.  I rewrote the hashdebug code so this case can be easily inlined anyhow.",
+      "parentUuid": "f687c341_252df6cd",
       "range": {
         "startLine": 80,
         "startChar": 6,
@@ -209,6 +329,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "913c75d0_51fce02c",
+        "filename": "src/cmd/compile/internal/loopvar/loopvar.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-03-01T02:18:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "14d7a64a_c42fb51e",
+      "range": {
+        "startLine": 124,
+        "startChar": 63,
+        "endLine": 124,
+        "endChar": 65
+      },
+      "revId": "4eff3418acdcdb0718a8d705832a9a26b70a6df8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2f629948_8530186c",
@@ -222,6 +366,24 @@
       "writtenOn": "2023-02-28T20:59:34Z",
       "side": 1,
       "message": "Can you just do the assignment unconditionally? Below too.",
+      "revId": "4eff3418acdcdb0718a8d705832a9a26b70a6df8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3df18cb2_f408def6",
+        "filename": "src/cmd/compile/internal/loopvar/loopvar.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-03-01T02:18:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f629948_8530186c",
       "revId": "4eff3418acdcdb0718a8d705832a9a26b70a6df8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -256,6 +418,24 @@
       "writtenOn": "2023-02-28T20:59:34Z",
       "side": 1,
       "message": "nit: `var leaked []*ir.Name`",
+      "revId": "4eff3418acdcdb0718a8d705832a9a26b70a6df8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be5a76ff_6953d5a9",
+        "filename": "src/cmd/compile/internal/loopvar/loopvar.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-03-01T02:18:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ccfe683_d8c18b6c",
       "revId": "4eff3418acdcdb0718a8d705832a9a26b70a6df8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -328,6 +508,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fcfcc668_d8987c38",
+        "filename": "src/cmd/compile/internal/loopvar/loopvar.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-03-01T02:18:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d74318b_50f77a27",
+      "revId": "4eff3418acdcdb0718a8d705832a9a26b70a6df8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ca447f2c_e5849874",
@@ -341,6 +539,24 @@
       "writtenOn": "2023-02-28T20:59:34Z",
       "side": 1,
       "message": "nit: bodyContinue",
+      "revId": "4eff3418acdcdb0718a8d705832a9a26b70a6df8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46a4df89_0b6f3af1",
+        "filename": "src/cmd/compile/internal/loopvar/loopvar.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-03-01T02:18:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca447f2c_e5849874",
       "revId": "4eff3418acdcdb0718a8d705832a9a26b70a6df8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -414,6 +630,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "56c5f9d6_d8a61133",
+        "filename": "src/cmd/compile/internal/loopvar/loopvar.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-03-01T02:18:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eda5f397_4fbf5f12",
+      "range": {
+        "startLine": 362,
+        "startChar": 0,
+        "endLine": 364,
+        "endChar": 5
+      },
+      "revId": "4eff3418acdcdb0718a8d705832a9a26b70a6df8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8518454f_efea28ca",
@@ -461,6 +701,24 @@
       "writtenOn": "2023-02-28T20:59:34Z",
       "side": 1,
       "message": "nit: leave a comment explaining why this isn\u0027t \":\u003d\"?",
+      "revId": "4eff3418acdcdb0718a8d705832a9a26b70a6df8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3246d9bc_9e8f34f9",
+        "filename": "src/runtime/race/testdata/mop_test.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-03-01T02:18:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be72a3d7_c92430e0",
       "revId": "4eff3418acdcdb0718a8d705832a9a26b70a6df8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
