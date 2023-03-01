@@ -165,6 +165,52 @@
       "parentUuid": "74b6b965_275fde46",
       "revId": "a66442432e8762cb15c44ace1f6674e9e0368e46",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20f147e3_b59524ed",
+        "filename": "src/cmd/link/internal/wasm/asm.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 35155
+      },
+      "writtenOn": "2023-03-01T01:30:58Z",
+      "side": 1,
+      "message": "It\u0027s a commented out copy of the next line - is it left over from development?  Delete if so.",
+      "range": {
+        "startLine": 200,
+        "startChar": 1,
+        "endLine": 200,
+        "endChar": 30
+      },
+      "revId": "a66442432e8762cb15c44ace1f6674e9e0368e46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0edc1b1_1edabfa9",
+        "filename": "src/cmd/link/internal/wasm/asm.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 35155
+      },
+      "writtenOn": "2023-03-01T01:30:58Z",
+      "side": 1,
+      "message": "Is this a complete comment? I\u0027m not sure what it refers to.",
+      "range": {
+        "startLine": 362,
+        "startChar": 5,
+        "endLine": 362,
+        "endChar": 17
+      },
+      "revId": "a66442432e8762cb15c44ace1f6674e9e0368e46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
