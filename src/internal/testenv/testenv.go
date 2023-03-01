@@ -289,7 +289,7 @@ func MustHaveCGO(t testing.TB) {
 // CanInternalLink reports whether the current system can link programs with
 // internal linking.
 func CanInternalLink() bool {
-	return !platform.MustLinkExternal(runtime.GOOS, runtime.GOARCH)
+	return !platform.MustLinkExternal(runtime.GOOS, runtime.GOARCH, HasCGO())
 }
 
 // MustInternalLink checks that the current system can link programs with internal
