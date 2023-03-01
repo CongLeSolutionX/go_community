@@ -2156,17 +2156,27 @@ func bucketOf(ktyp, etyp *rtype) *rtype {
 	var ptrdata uintptr
 
 	size := bucketSize*(1+ktyp.Size_+etyp.Size_) + goarch.PtrSize
-	if size&uintptr(ktyp.Align_-1) != 0 || size&uintptr(etyp.Align_-1) != 0 {
-		panic("reflect: bad size computation in MapOf")
+	align := uint8(goarch.PtrSize)
+	if unsafe.Alignof("") > goarch.PtrSize {
+		align *= 2
+		size += goarch.PtrSize
+	}
+	if size&uintptr(ktyp.Align_-1) != 0 {
+		panic("reflect: bad size computation in MapOf " + strconv.FormatInt(int64(size), 10) + " " + strconv.FormatInt(int64(ktyp.Align_), 10))
+	}
+	if size&uintptr(etyp.Align_-1) != 0 {
+		panic("reflect: bad size computation in MapOf " + strconv.FormatInt(int64(size), 10) + " " + strconv.FormatInt(int64(etyp.Align_), 10))
 	}
 
 	if ktyp.PtrBytes != 0 || etyp.PtrBytes != 0 {
-		nptr := (bucketSize*(1+ktyp.Size_+etyp.Size_) + goarch.PtrSize) / goarch.PtrSize
-		n := (nptr + 7) / 8
+		nptr := size / goarch.PtrSize
+		n := (nptr + 7) / 8 // one bit per byte
+
 		// Runtime needs pointer masks to be a multiple of uintptr in size.
+		// Round up byte count to number of uintptr.
 		n = (n + goarch.PtrSize - 1) &^ (goarch.PtrSize - 1)
 		mask := make([]byte, n)
-		base := bucketSize / goarch.PtrSize
+		base := bucketSize / goarch.PtrSize // number of pointers to skip; field tophash is bucketSize bytes
 
 		if ktyp.PtrBytes != 0 {
 			emitGCMask(mask, base, ktyp, bucketSize)
@@ -2177,6 +2187,12 @@ func bucketOf(ktyp, etyp *rtype) *rtype {
 			emitGCMask(mask, base, etyp, bucketSize)
 		}
 		base += bucketSize * etyp.Size_ / goarch.PtrSize
+		// base points to first data past tophash, keys, and elems.
+
+		if align > goarch.PtrSize {
+			// if strings (etc) are doubleword-aligned, skip the padding pointer.
+			base++
+		}
 
 		word := base
 		mask[word/8] |= 1 << (word % 8)
@@ -2185,12 +2201,12 @@ func bucketOf(ktyp, etyp *rtype) *rtype {
 
 		// overflow word must be last
 		if ptrdata != size {
-			panic("reflect: bad layout computation in MapOf")
+			panic("reflect: bad layout computation in MapOf " + strconv.FormatInt(int64(ptrdata), 10) + " " + strconv.FormatInt(int64(size), 10))
 		}
 	}
 
 	b := &rtype{
-		Align_:   goarch.PtrSize,
+		Align_:   align,
 		Size_:    size,
 		Kind_:    uint8(Struct),
 		PtrBytes: ptrdata,

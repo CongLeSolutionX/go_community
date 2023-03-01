@@ -57,10 +57,16 @@ func (s *gcSizes) Alignof(T types2.Type) int64 {
 	case *types2.Interface:
 		// Multiword data structures are effectively structs
 		// in which each element has size PtrSize.
+		if base.SwapLenCap() {
+			return int64(types.PtrSize) * 2
+		}
 		return int64(types.PtrSize)
 	case *types2.Basic:
 		// Strings are like slices and interfaces.
 		if t.Info()&types2.IsString != 0 {
+			if base.SwapLenCap() {
+				return int64(types.PtrSize) * 2
+			}
 			return int64(types.PtrSize)
 		}
 	}

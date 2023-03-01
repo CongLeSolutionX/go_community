@@ -12,7 +12,26 @@ import (
 	"fmt"
 	"os"
 	"unicode/utf8"
+	"unsafe"
 )
+
+// if wide-aligned, length should be 10 * sizeof(int)
+type iSiSi struct {
+	i int
+	s string
+	j int
+	t string
+	k int
+}
+
+// if wide-aligned, length should be 10 * sizeof(int)
+type iIiIi struct {
+	i int
+	s interface{}
+	j int
+	t interface{}
+	k int
+}
 
 //go:noinline
 func G(x []byte) []byte {
@@ -241,6 +260,17 @@ func main() {
 
 	u()
 
+	var i int
+	var is iSiSi
+	var ii iIiIi
+	sizeofInt := unsafe.Sizeof(i)
+	sizeofIntString := unsafe.Sizeof(is)
+	sizeofIntInterface := unsafe.Sizeof(ii)
+
+	if 10*sizeofInt != sizeofIntString || sizeofIntInterface != sizeofIntString {
+		fmt.Printf("Sizeof(int)=%d, sizeof(iSiSi)=%d, sizeof(iIiIi)=%d\n", sizeofInt, sizeofIntString, sizeofIntInterface)
+		os.Exit(20)
+	}
 }
 
 //go:noinline

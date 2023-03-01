@@ -339,7 +339,12 @@ func CalcSize(t *Type) {
 	case TINTER: // implemented as 2 pointers
 		w = 2 * int64(PtrSize)
 		// TODO SWAPLENCAP increase alignment for string and interface RIGHT HERE.
-		t.align = uint8(PtrSize)
+		if base.SwapLenCap() {
+			// request 2-pointer alignment
+			t.align = uint8(2 * PtrSize)
+		} else {
+			t.align = uint8(PtrSize)
+		}
 		expandiface(t)
 
 	case TCHAN: // implemented as pointer
@@ -384,7 +389,12 @@ func CalcSize(t *Type) {
 		}
 		w = StringSize
 		// TODO SWAPLENCAP increase alignment for string and interface RIGHT HERE.
-		t.align = uint8(PtrSize)
+		if base.SwapLenCap() {
+			// request 2-pointer alignment
+			t.align = uint8(2 * PtrSize)
+		} else {
+			t.align = uint8(PtrSize)
+		}
 
 	case TARRAY:
 		if t.Elem() == nil {
