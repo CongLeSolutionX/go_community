@@ -53,6 +53,7 @@ func (s *gcSizes) Alignof(T types2.Type) int64 {
 		}
 		return int64(types.PtrSize)
 
+	// TODO SWAPLENCAP increase alignment for string and interface RIGHT HERE.
 	case *types2.Interface:
 		// Multiword data structures are effectively structs
 		// in which each element has size PtrSize.

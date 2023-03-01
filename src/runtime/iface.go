@@ -469,12 +469,12 @@ func assertE2I2(inter *interfacetype, e eface) (r iface) {
 
 //go:linkname reflect_ifaceE2I reflect.ifaceE2I
 func reflect_ifaceE2I(inter *interfacetype, e eface, dst *iface) {
-	*dst = iface{assertE2I(inter, e._type), e.data}
+	*dst = iface{tab: assertE2I(inter, e._type), data: e.data}
 }
 
 //go:linkname reflectlite_ifaceE2I internal/reflectlite.ifaceE2I
 func reflectlite_ifaceE2I(inter *interfacetype, e eface, dst *iface) {
-	*dst = iface{assertE2I(inter, e._type), e.data}
+	*dst = iface{tab: assertE2I(inter, e._type), data: e.data}
 }
 
 func iterate_itabs(fn func(*itab)) {

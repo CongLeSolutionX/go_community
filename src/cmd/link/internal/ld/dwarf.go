@@ -1764,8 +1764,8 @@ func dwarfGenerateDebugInfo(ctxt *Link) {
 		tdmap:    make(map[loader.Sym]loader.Sym),
 		rtmap:    make(map[loader.Sym]loader.Sym),
 	}
-	d.typeRuntimeEface = d.lookupOrDiag("type:runtime.eface")
-	d.typeRuntimeIface = d.lookupOrDiag("type:runtime.iface")
+	d.typeRuntimeEface = d.lookupOrDiag("type:runtime.efaceDWARF")
+	d.typeRuntimeIface = d.lookupOrDiag("type:runtime.ifaceDWARF")
 
 	if ctxt.HeadType == objabi.Haix {
 		// Initial map used to store package size for each DWARF section.

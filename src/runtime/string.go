@@ -230,8 +230,9 @@ func slicerunetostring(buf *tmpBuf, a []rune) string {
 }
 
 type stringStruct struct {
-	str unsafe.Pointer
-	len int
+	_align [0]string
+	str    unsafe.Pointer
+	len    int
 }
 
 // Variant with *byte pointer type for DWARF debugging.
@@ -536,7 +537,7 @@ func findnull(s *byte) int {
 	safeLen := int(pageSize - uintptr(ptr)%pageSize)
 
 	for {
-		t := *(*string)(unsafe.Pointer(&stringStruct{ptr, safeLen}))
+		t := *(*string)(unsafe.Pointer(&stringStruct{str: ptr, len: safeLen}))
 		// Check one page at a time.
 		if i := bytealg.IndexByteString(t, 0); i != -1 {
 			return offset + i
