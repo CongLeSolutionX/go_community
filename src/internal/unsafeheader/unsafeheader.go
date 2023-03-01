@@ -20,6 +20,7 @@ import (
 // Unlike reflect.StringHeader, its Data field is sufficient to guarantee the
 // data it references will not be garbage collected.
 type String struct {
-	Data unsafe.Pointer
-	Len  int
+	_align [0]string
+	Data   unsafe.Pointer
+	Len    int
 }

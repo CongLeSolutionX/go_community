@@ -338,6 +338,7 @@ func CalcSize(t *Type) {
 
 	case TINTER: // implemented as 2 pointers
 		w = 2 * int64(PtrSize)
+		// TODO SWAPLENCAP increase alignment for string and interface RIGHT HERE.
 		t.align = uint8(PtrSize)
 		expandiface(t)
 
@@ -382,6 +383,7 @@ func CalcSize(t *Type) {
 			base.Fatalf("early CalcSize string")
 		}
 		w = StringSize
+		// TODO SWAPLENCAP increase alignment for string and interface RIGHT HERE.
 		t.align = uint8(PtrSize)
 
 	case TARRAY:

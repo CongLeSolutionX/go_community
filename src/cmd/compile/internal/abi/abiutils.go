@@ -10,7 +10,6 @@ import (
 	"cmd/compile/internal/types"
 	"cmd/internal/src"
 	"fmt"
-	"sync"
 )
 
 //......................................................................
@@ -181,9 +180,9 @@ func (config *ABIConfig) appendParamTypes(rts []*types.Type, t *types.Type) []*t
 		case types.TSLICE:
 			return config.appendParamTypes(rts, config.synthSlice)
 		case types.TSTRING:
-			return config.appendParamTypes(rts, synthString)
+			return config.appendParamTypes(rts, config.synthString)
 		case types.TINTER:
-			return config.appendParamTypes(rts, synthIface)
+			return config.appendParamTypes(rts, config.synthIface)
 		}
 	}
 	return rts
@@ -222,9 +221,9 @@ func (config *ABIConfig) appendParamOffsets(offsets []int64, at int64, t *types.
 		case types.TSLICE:
 			return config.appendParamOffsets(offsets, at, config.synthSlice)
 		case types.TSTRING:
-			return config.appendParamOffsets(offsets, at, synthString)
+			return config.appendParamOffsets(offsets, at, config.synthString)
 		case types.TINTER:
-			return config.appendParamOffsets(offsets, at, synthIface)
+			return config.appendParamOffsets(offsets, at, config.synthIface)
 		}
 	}
 	return offsets, at
@@ -263,6 +262,8 @@ type ABIConfig struct {
 	regsForTypeCache map[*types.Type]int
 	abiNumber        int
 	synthSlice       *types.Type
+	synthString      *types.Type
+	synthIface       *types.Type
 	sliceLenIndex    int64
 	sliceCapIndex    int64
 }
@@ -288,12 +289,26 @@ func NewABIConfig(iRegsCount, fRegsCount int, offsetForLocals int64, number int)
 		types.NewField(nxp, fname(third), it),
 	})
 	types.CalcStructSize(synthSlice)
+
+	synthString := types.NewStruct([]*types.Field{
+		types.NewField(nxp, fname("data"), bp),
+		types.NewField(nxp, fname("len"), it),
+	})
+	types.CalcStructSize(synthString)
+	unsp := types.Types[types.TUNSAFEPTR]
+	synthIface := types.NewStruct([]*types.Field{
+		types.NewField(nxp, fname("f1"), unsp),
+		types.NewField(nxp, fname("f2"), unsp),
+	})
+	types.CalcStructSize(synthIface)
+
 	if base.SwapLenCap() && number == 1 {
+		// TODO SWAPLENCAP increase alignment for string and interface RIGHT HERE.
 		synthSlice.SetAlignment(uint8(2 * types.PtrSize))
 	}
 
 	return &ABIConfig{offsetForLocals: offsetForLocals, regAmounts: RegAmounts{iRegsCount, fRegsCount}, regsForTypeCache: make(map[*types.Type]int),
-		abiNumber: number, synthSlice: synthSlice, sliceLenIndex: sliceLenIndex, sliceCapIndex: sliceCapIndex}
+		abiNumber: number, synthSlice: synthSlice, synthString: synthString, synthIface: synthIface, sliceLenIndex: sliceLenIndex, sliceCapIndex: sliceCapIndex}
 }
 
 // Copy returns a copy of an ABIConfig for use in a function's compilation so that access to the cache does not need to be protected with a mutex.
@@ -356,9 +371,9 @@ func (a *ABIConfig) NumParamRegs(t *types.Type) int {
 		case types.TSLICE:
 			n = a.NumParamRegs(a.synthSlice)
 		case types.TSTRING:
-			n = a.NumParamRegs(synthString)
+			n = a.NumParamRegs(a.synthString)
 		case types.TINTER:
-			n = a.NumParamRegs(synthIface)
+			n = a.NumParamRegs(a.synthIface)
 		}
 	}
 	a.regsForTypeCache[t] = n
@@ -635,9 +650,9 @@ func (state *assignState) allocateRegs(regs []RegIndex, t *types.Type) []RegInde
 		case types.TSLICE:
 			return state.allocateRegs(regs, state.config.synthSlice)
 		case types.TSTRING:
-			return state.allocateRegs(regs, synthString)
+			return state.allocateRegs(regs, state.config.synthString)
 		case types.TINTER:
-			return state.allocateRegs(regs, synthIface)
+			return state.allocateRegs(regs, state.config.synthIface)
 		}
 	}
 	base.Fatalf("was not expecting type %s", t)
@@ -743,34 +758,10 @@ func (state *assignState) regassignStruct(t *types.Type) bool {
 	return true
 }
 
-// synthOnce ensures that we only create the synth* fake types once.
-var synthOnce sync.Once
-
-// synthSlice, synthString, and syncIface are synthesized struct types
-// meant to capture the underlying implementations of string/slice/interface.
-var synthString *types.Type
-var synthIface *types.Type
-
 // setup performs setup for the register assignment utilities, manufacturing
 // a small set of synthesized types that we'll need along the way.
 func setup() {
-	synthOnce.Do(func() {
-		fname := types.BuiltinPkg.Lookup
-		nxp := src.NoXPos
-		bp := types.NewPtr(types.Types[types.TUINT8])
-		it := types.Types[types.TINT]
-		synthString = types.NewStruct([]*types.Field{
-			types.NewField(nxp, fname("data"), bp),
-			types.NewField(nxp, fname("len"), it),
-		})
-		types.CalcStructSize(synthString)
-		unsp := types.Types[types.TUNSAFEPTR]
-		synthIface = types.NewStruct([]*types.Field{
-			types.NewField(nxp, fname("f1"), unsp),
-			types.NewField(nxp, fname("f2"), unsp),
-		})
-		types.CalcStructSize(synthIface)
-	})
+
 }
 
 // regassign examines a given param type (or component within some
@@ -789,9 +780,9 @@ func (state *assignState) regassign(pt *types.Type) bool {
 	case types.TSLICE:
 		return state.regassignStruct(state.config.synthSlice)
 	case types.TSTRING:
-		return state.regassignStruct(synthString)
+		return state.regassignStruct(state.config.synthString)
 	case types.TINTER:
-		return state.regassignStruct(synthIface)
+		return state.regassignStruct(state.config.synthIface)
 	default:
 		base.Fatalf("not expected")
 		panic("unreachable")
@@ -808,6 +799,12 @@ func (state *assignState) assignParamOrReturn(pt *types.Type, n types.Object, is
 	if pt.IsSlice() {
 		// Do this to use the per-ABI slice definition, w/ proper alignment for that ABI.
 		aot = state.config.synthSlice
+	}
+	if pt.IsString() {
+		aot = state.config.synthString
+	}
+	if pt.IsInterface() {
+		aot = state.config.synthIface
 	}
 	if pt.Size() == types.BADWIDTH {
 		base.Fatalf("should never happen")

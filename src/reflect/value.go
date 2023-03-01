@@ -194,12 +194,14 @@ func valueMethodName() string {
 
 // emptyInterface is the header for an interface{} value.
 type emptyInterface struct {
-	typ  *rtype
-	word unsafe.Pointer
+	_align [0]interface{}
+	typ    *rtype
+	word   unsafe.Pointer
 }
 
 // nonEmptyInterface is the header for an interface value with methods.
 type nonEmptyInterface struct {
+	_align [0]interface{}
 	// see ../runtime/iface.go:/Itab
 	itab *struct {
 		ityp *rtype // static interface type
@@ -2745,8 +2747,9 @@ func (v Value) UnsafePointer() unsafe.Pointer {
 //
 // In new code, use unsafe.String or unsafe.StringData instead.
 type StringHeader struct {
-	Data uintptr
-	Len  int
+	_align [0]string
+	Data   uintptr
+	Len    int
 }
 
 func typesMustMatch(what string, t1, t2 Type) {

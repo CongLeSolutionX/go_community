@@ -200,13 +200,15 @@ type funcval struct {
 }
 
 type iface struct {
-	tab  *itab
-	data unsafe.Pointer
+	_align [0]interface{}
+	tab    *itab
+	data   unsafe.Pointer
 }
 
 type eface struct {
-	_type *_type
-	data  unsafe.Pointer
+	_align [0]interface{}
+	_type  *_type
+	data   unsafe.Pointer
 }
 
 func efaceOf(ep *any) *eface {
