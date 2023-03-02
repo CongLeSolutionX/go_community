@@ -826,10 +826,13 @@ func (ctxt *Link) linksetup() {
 		}
 	}
 
-	if ctxt.LinkMode == LinkExternal && ctxt.Arch.Family == sys.PPC64 && buildcfg.GOOS != "aix" {
+	if (buildcfg.GOOS == "openbsd" || ctxt.LinkMode == LinkExternal) && ctxt.Arch.Family == sys.PPC64 && buildcfg.GOOS != "aix" {
 		toc := ctxt.loader.LookupOrCreateSym(".TOC.", 0)
 		sb := ctxt.loader.MakeSymbolUpdater(toc)
 		sb.SetType(sym.SDYNIMPORT)
+		if ctxt.HeadType == objabi.Hopenbsd {
+			sb.SetVisibilityHidden(true)
+		}
 	}
 
 	// The Android Q linker started to complain about underalignment of the our TLS

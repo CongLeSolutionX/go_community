@@ -48,7 +48,7 @@ import (
 // The build configuration supports PC-relative instructions and relocations (limited to tested targets).
 var hasPCrel = buildcfg.GOPPC64 >= 10 && buildcfg.GOOS == "linux"
 
-func genpltstub(ctxt *ld.Link, ldr *loader.Loader, r loader.Reloc, s loader.Sym) (sym loader.Sym, firstUse bool) {
+func genpltstub(ctxt *ld.Link, ldr *loader.Loader, r loader.Reloc, s loader.Sym, ri int) (sym loader.Sym, firstUse bool) {
 	// The ppc64 ABI PLT has similar concepts to other
 	// architectures, but is laid out quite differently. When we
 	// see an R_PPC64_REL24 relocation to a dynamic symbol
@@ -116,10 +116,10 @@ func genpltstub(ctxt *ld.Link, ldr *loader.Loader, r loader.Reloc, s loader.Sym)
 	}
 
 	// Update the relocation to use the call stub
-	r.SetSym(stub.Sym())
-
-	// Make the symbol writeable so we can fixup toc.
 	su := ldr.MakeSymbolUpdater(s)
+	su.SetRelocSym(ri, stub.Sym())
+
+	// Make the symbol writeable so we can update relocation and fixup toc.
 	su.MakeWritable()
 	p := su.Data()
 
@@ -144,13 +144,12 @@ func genstubs(ctxt *ld.Link, ldr *loader.Loader) {
 	for _, s := range ctxt.Textp {
 		relocs := ldr.Relocs(s)
 		for i := 0; i < relocs.Count(); i++ {
-			r := relocs.At(i)
-			switch r.Type() {
-			case objabi.ElfRelocOffset + objabi.RelocType(elf.R_PPC64_REL24):
+			switch r := relocs.At(i); r.Type() {
+			case objabi.ElfRelocOffset + objabi.RelocType(elf.R_PPC64_REL24), objabi.R_CALLPOWER:
 				switch ldr.SymType(r.Sym()) {
 				case sym.SDYNIMPORT:
 					// This call goes through the PLT, generate and call through a PLT stub.
-					if sym, firstUse := genpltstub(ctxt, ldr, r, s); firstUse {
+					if sym, firstUse := genpltstub(ctxt, ldr, r, s, i); firstUse {
 						stubs = append(stubs, sym)
 					}
 
@@ -438,7 +437,7 @@ func addelfdynrel(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s lo
 		su.SetRelocAdd(rIdx, r.Add()+int64(ldr.SymLocalentry(targ)))
 
 		if targType == sym.SDYNIMPORT {
-			// Should have been handled in elfsetupplt
+			// Should have been handled in genstubs
 			ldr.Errorf(s, "unexpected R_PPC64_REL24 for dyn import")
 		}
 
@@ -583,6 +582,9 @@ func addelfdynrel(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s lo
 	r = relocs.At(rIdx)
 
 	switch r.Type() {
+	case objabi.R_ADDRPOWER_PCREL:
+		return true
+
 	case objabi.R_ADDR:
 		if ldr.SymType(s) == sym.STEXT {
 			log.Fatalf("R_ADDR relocation in text symbol %s is unsupported\n", ldr.SymName(s))
@@ -1345,7 +1347,6 @@ func archrelocvariant(target *ld.Target, ldr *loader.Loader, r loader.Reloc, rv 
 			var o1 uint32
 			if target.IsBigEndian() {
 				o1 = binary.BigEndian.Uint32(p[r.Off()-2:])
-
 			} else {
 				o1 = binary.LittleEndian.Uint32(p[r.Off():])
 			}

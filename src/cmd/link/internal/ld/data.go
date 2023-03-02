@@ -231,7 +231,7 @@ func (st *relocSymState) relocsym(s loader.Sym, P []byte) {
 					// DWARF info between the compiler and linker.
 					continue
 				}
-			} else if target.IsPPC64() && ldr.SymName(rs) == ".TOC." {
+			} else if target.IsPPC64() && (ldr.SymName(rs) == ".TOC." || ldr.SymName(rs) == "TOC") {
 				// TOC symbol doesn't have a type but we do assign a value
 				// (see the address pass) and we can resolve it.
 				// TODO: give it a type.
@@ -2821,6 +2821,9 @@ func (ctxt *Link) address() []*sym.Segment {
 		tocAddr := int64(Segdata.Vaddr) + 0x8000
 		if gotAddr := ldr.SymValue(ctxt.GOT); gotAddr != 0 {
 			tocAddr = gotAddr + 0x8000
+		}
+		if ctxt.HeadType == objabi.Hopenbsd {
+			ldr.SetSymValue(ctxt.TOC, tocAddr)
 		}
 		for i := range ctxt.DotTOC {
 			if i >= sym.SymVerABICount && i < sym.SymVerStatic { // these versions are not used currently
