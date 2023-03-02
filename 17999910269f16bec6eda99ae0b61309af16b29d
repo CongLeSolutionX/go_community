@@ -16,6 +16,23 @@
       "message": "Thanks, but in the discussion on #15352 I think we felt that the name wasn\u0027t very good but the behavior was right.  So this doesn\u0027t seem like a good change.",
       "revId": "17999910269f16bec6eda99ae0b61309af16b29d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9bd50cf_2d8993a5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2023-03-02T23:01:09Z",
+      "side": 1,
+      "message": "This change is incorrect. The point of continuing is that the program continues, so it can report the error itself. See the doc string for the constant. It is not about continuing to parse flags.",
+      "revId": "17999910269f16bec6eda99ae0b61309af16b29d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
