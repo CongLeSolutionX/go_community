@@ -55,6 +55,120 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd0949f3_35f799ac",
+        "filename": "src/runtime/asm_amd64.s",
+        "patchSetId": 19
+      },
+      "lineNbr": 2039,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-03-02T22:54:39Z",
+      "side": 1,
+      "message": "I wonder if we should just make this a compiler intrinsic like getcallersp?\n\nhttps://cs.opensource.google/go/go/+/master:src/cmd/compile/internal/ssagen/ssa.go;l\u003d3979-3989",
+      "revId": "b5ecaa0c5cd9cd41cae64f1a30a59af62b192b83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c75612fb_26faa1a0",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-03-02T22:54:39Z",
+      "side": 1,
+      "message": "Related: CL 472957\n\nI\u0027d rather not disable inlining just to make one test pass. Is it possible to add a special case to the test?",
+      "revId": "b5ecaa0c5cd9cd41cae64f1a30a59af62b192b83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4642cc71_a1c18284",
+        "filename": "src/runtime/runtime1.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-03-02T22:54:39Z",
+      "side": 1,
+      "message": "Maybe tracefpunwindoff to be more specific?",
+      "revId": "b5ecaa0c5cd9cd41cae64f1a30a59af62b192b83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ca6ffca_b342769a",
+        "filename": "src/runtime/runtime1.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-03-02T22:54:39Z",
+      "side": 1,
+      "message": "Add to the GODEBUG doc in extern.go.",
+      "revId": "b5ecaa0c5cd9cd41cae64f1a30a59af62b192b83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e07a1c38_47894530",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 892,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-03-02T22:54:39Z",
+      "side": 1,
+      "message": "What kinds of issues? Is it from syscalls perhaps? gcallers has a special case for syscalls: https://cs.opensource.google/go/go/+/master:src/runtime/traceback.go;l\u003d56-70;drc\u003d02411bcd7c8eda9c694a5755aff0a516d4983952",
+      "range": {
+        "startLine": 891,
+        "startChar": 5,
+        "endLine": 892,
+        "endChar": 33
+      },
+      "revId": "b5ecaa0c5cd9cd41cae64f1a30a59af62b192b83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d507df3_0038347f",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 894,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-03-02T22:54:39Z",
+      "side": 1,
+      "message": "Why is this different from the gcallers case above? The callers of this function should be incrementing skip appropriately.",
+      "range": {
+        "startLine": 892,
+        "startChar": 34,
+        "endLine": 894,
+        "endChar": 65
+      },
+      "revId": "b5ecaa0c5cd9cd41cae64f1a30a59af62b192b83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aefd8c35_674a03f3",
@@ -68,6 +182,52 @@
       "writtenOn": "2023-03-02T20:06:35Z",
       "side": 1,
       "message": "Is this a deal breaker for landing this patch?\n\nGenerally speaking curgp.sched.bp works, but some events either have a frame too much or a frame too little, regardless of how I adjust skip here. I suspect the issues I\u0027ve been hitting with it could also be related to https://go-review.googlesource.com/c/go/+/472195 but I\u0027m not entirely sure yet.\n\nI\u0027m also curious about whether or not hiding runtime frames makes sense for a low-level tool like the tracer, especially since it complicates the implementation quite a bit.",
+      "revId": "b5ecaa0c5cd9cd41cae64f1a30a59af62b192b83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52877ea7_cf92e873",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 913,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-03-02T22:54:39Z",
+      "side": 1,
+      "message": "!\u003d 0?\n\nGODEBUG\u003dfpunwindoff\u003d100 should be extra off, right?",
+      "range": {
+        "startLine": 913,
+        "startChar": 25,
+        "endLine": 913,
+        "endChar": 30
+      },
+      "revId": "b5ecaa0c5cd9cd41cae64f1a30a59af62b192b83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f86334e6_ee169119",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 1277,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-03-02T22:54:39Z",
+      "side": 1,
+      "message": "\"Logical\" frames here means the manually constructed stack traces in traceReadCPU and StartTrace, right? Could you define that somewhere?",
+      "range": {
+        "startLine": 1277,
+        "startChar": 43,
+        "endLine": 1277,
+        "endChar": 50
+      },
       "revId": "b5ecaa0c5cd9cd41cae64f1a30a59af62b192b83",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
