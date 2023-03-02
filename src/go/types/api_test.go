@@ -2571,9 +2571,9 @@ func (V4) M()
 	// V2 has method m with wrong signature type (ignoring receiver). Should report wrongType.
 	checkMissingMethod("V2", true)
 
-	// V3 has no method m but it exists on *V3. Should report wrongType.
-	checkMissingMethod("V3", true)
+	// V3 has no method m but it exists on *V3 with correct signature type. Should not report wrongType.
+	checkMissingMethod("V3", false)
 
-	// V4 has no method m but has M. Should not report wrongType.
+	// V4 has no method m but has M with correct signature type. Should not report wrongType.
 	checkMissingMethod("V4", false)
 }
