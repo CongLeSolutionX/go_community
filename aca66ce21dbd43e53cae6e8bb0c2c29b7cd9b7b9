@@ -120,6 +120,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5ffc307_e9e3c562",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-03-02T21:33:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f21afb6_0db21eda",
+      "range": {
+        "startLine": 85,
+        "startChar": 47,
+        "endLine": 85,
+        "endChar": 61
+      },
+      "revId": "aca66ce21dbd43e53cae6e8bb0c2c29b7cd9b7b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a7cc8389_69995a2a",
@@ -216,6 +240,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "3793c308_dee3e883",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-03-02T21:33:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b43adc05_6c13346d",
+      "range": {
+        "startLine": 213,
+        "startChar": 28,
+        "endLine": 213,
+        "endChar": 68
+      },
+      "revId": "aca66ce21dbd43e53cae6e8bb0c2c29b7cd9b7b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "65074f2e_f2ddd360",
         "filename": "src/runtime/traceback.go",
         "patchSetId": 5
@@ -292,6 +340,24 @@
       "side": 1,
       "message": "Whoops. That was clearly a behavior change. Should be fixed now. PTAL",
       "parentUuid": "eb837f3d_09f63667",
+      "revId": "aca66ce21dbd43e53cae6e8bb0c2c29b7cd9b7b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f3a5cbf_f9787a14",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-03-02T21:33:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "655651e6_58a682c8",
       "revId": "aca66ce21dbd43e53cae6e8bb0c2c29b7cd9b7b9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -403,6 +469,30 @@
       "side": 1,
       "message": "It appears this has been \"generic traceback\" since go.dev/cl/703041 in 2010, where Russ unified a few different implementations of traceback into the shiny new \"gentraceback\" function. (Look at how simple the traceback logic was in 2010!)",
       "parentUuid": "c34f098a_83a90b5d",
+      "range": {
+        "startLine": 528,
+        "startChar": 3,
+        "endLine": 528,
+        "endChar": 20
+      },
+      "revId": "aca66ce21dbd43e53cae6e8bb0c2c29b7cd9b7b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81e2f787_1d44c647",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-03-02T21:33:02Z",
+      "side": 1,
+      "message": "🤯 It is \"simple\", but I still laughed at:\n\n```\n// Dangerous, but worthwhile: see if this is a closure:\n//      ADDQ $wwxxyyzz, SP; RET\n//      [48] 81 c4 zz yy xx ww c3\n// The 0x48 byte is only on amd64.\np \u003d (byte*)pc;\nif(mheap.min \u003c p \u0026\u0026 p+8 \u003c mheap.max \u0026\u0026  // pointer in allocated memory\n    (sizeof(uintptr) !\u003d 8 || *p++ \u003d\u003d 0x48) \u0026\u0026  // skip 0x48 byte on amd64\n    p[0] \u003d\u003d 0x81 \u0026\u0026 p[1] \u003d\u003d 0xc4 \u0026\u0026 p[6] \u003d\u003d 0xc3) {\n```",
+      "parentUuid": "da07cb5d_30d2754c",
       "range": {
         "startLine": 528,
         "startChar": 3,
