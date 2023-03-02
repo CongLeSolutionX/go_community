@@ -501,6 +501,30 @@
       },
       "revId": "aca66ce21dbd43e53cae6e8bb0c2c29b7cd9b7b9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67672fe2_c2c75203",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-03-02T22:30:07Z",
+      "side": 1,
+      "message": "That wasn\u0027t the only code at the time that did a bit of careful disassembling! I\u0027m not positive, but I think the other bit was in the defer implementation.",
+      "parentUuid": "81e2f787_1d44c647",
+      "range": {
+        "startLine": 528,
+        "startChar": 3,
+        "endLine": 528,
+        "endChar": 20
+      },
+      "revId": "aca66ce21dbd43e53cae6e8bb0c2c29b7cd9b7b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
