@@ -214,6 +214,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "99e10ce8_c3f18fa4",
+        "filename": "src/cmd/link/internal/wasm/asm.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2023-03-02T05:04:32Z",
+      "side": 1,
+      "message": "On it!",
+      "parentUuid": "93008d6c_9b0833d9",
+      "range": {
+        "startLine": 200,
+        "startChar": 1,
+        "endLine": 200,
+        "endChar": 30
+      },
+      "revId": "a66442432e8762cb15c44ace1f6674e9e0368e46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f0edc1b1_1edabfa9",
@@ -251,6 +275,30 @@
       "side": 1,
       "message": "This should be removed, it was left in from development.",
       "parentUuid": "f0edc1b1_1edabfa9",
+      "range": {
+        "startLine": 362,
+        "startChar": 5,
+        "endLine": 362,
+        "endChar": 17
+      },
+      "revId": "a66442432e8762cb15c44ace1f6674e9e0368e46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ecc3199_5ebd607c",
+        "filename": "src/cmd/link/internal/wasm/asm.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2023-03-02T05:04:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41cc0159_4696e189",
       "range": {
         "startLine": 362,
         "startChar": 5,

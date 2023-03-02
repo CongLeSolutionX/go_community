@@ -22,6 +22,30 @@
       },
       "revId": "65fa9ce8b51f86bf3c9c9ff4d7ae41b40a537e69",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "55a86bca_83991d0b",
+        "filename": "src/cmd/internal/obj/wasm/wasmobj.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 751,
+      "author": {
+        "id": 6330
+      },
+      "writtenOn": "2023-03-02T05:04:32Z",
+      "side": 0,
+      "message": "Ah, that was just because of the previous `p \u003d ` cleanup. Unneeded here, reverting it.",
+      "parentUuid": "15effe73_45cd483e",
+      "range": {
+        "startLine": 751,
+        "startChar": 3,
+        "endLine": 751,
+        "endChar": 7
+      },
+      "revId": "65fa9ce8b51f86bf3c9c9ff4d7ae41b40a537e69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
