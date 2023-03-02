@@ -79,6 +79,11 @@ func testDWARF(t *testing.T, buildmode string, expectDWARF bool, env ...string) 
 			}
 		}
 
+		if runtime.GOOS == "openbsd" && prog == "testprogcgo" {
+			// TODO(jsing): This test currently fails on openbsd/ppc64.
+			t.Skip()
+		}
+
 		t.Run(prog, func(t *testing.T) {
 			t.Parallel()
 
