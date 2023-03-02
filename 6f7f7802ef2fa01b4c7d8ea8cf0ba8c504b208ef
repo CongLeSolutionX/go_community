@@ -16,6 +16,24 @@
       "message": "Something is wrong here.  Did you mean s/false/withCgo/ ?",
       "revId": "6f7f7802ef2fa01b4c7d8ea8cf0ba8c504b208ef",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "adc58638_a3ccb659",
+        "filename": "src/internal/testenv/testenv.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-03-02T15:20:57Z",
+      "side": 1,
+      "message": "Indeed. Fixed.",
+      "parentUuid": "b91035d5_712eabea",
+      "revId": "6f7f7802ef2fa01b4c7d8ea8cf0ba8c504b208ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
