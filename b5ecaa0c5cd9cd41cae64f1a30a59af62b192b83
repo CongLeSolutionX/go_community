@@ -57,6 +57,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "8591ef9f_32fc9425",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-03-02T23:15:07Z",
+      "side": 1,
+      "message": "Thanks for the fast review Michael. Left some comments and will push another patch. Probably tomorrow.",
+      "revId": "b5ecaa0c5cd9cd41cae64f1a30a59af62b192b83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "cd0949f3_35f799ac",
         "filename": "src/runtime/asm_amd64.s",
         "patchSetId": 19
@@ -85,6 +102,24 @@
       "writtenOn": "2023-03-02T22:54:39Z",
       "side": 1,
       "message": "Related: CL 472957\n\nI\u0027d rather not disable inlining just to make one test pass. Is it possible to add a special case to the test?",
+      "revId": "b5ecaa0c5cd9cd41cae64f1a30a59af62b192b83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a573cb4_4851e306",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-03-02T23:15:07Z",
+      "side": 1,
+      "message": "Should be doable. I\u0027ll try it.",
+      "parentUuid": "c75612fb_26faa1a0",
       "revId": "b5ecaa0c5cd9cd41cae64f1a30a59af62b192b83",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -125,6 +160,42 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c190452b_c6c31888",
+        "filename": "src/runtime/runtime1.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-03-02T23:15:07Z",
+      "side": 1,
+      "message": "Will do.",
+      "parentUuid": "7ca6ffca_b342769a",
+      "revId": "b5ecaa0c5cd9cd41cae64f1a30a59af62b192b83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7334f137_06d8b21f",
+        "filename": "src/runtime/runtime1.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-03-02T23:15:07Z",
+      "side": 1,
+      "message": "I\u0027ll rename it.",
+      "parentUuid": "4642cc71_a1c18284",
+      "revId": "b5ecaa0c5cd9cd41cae64f1a30a59af62b192b83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e07a1c38_47894530",
         "filename": "src/runtime/trace.go",
         "patchSetId": 19
@@ -148,6 +219,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9aca0b3a_e5e12329",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 892,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-03-02T23:15:07Z",
+      "side": 1,
+      "message": "I\u0027ll dig deeper. But I think what I saw was that gentraceback will sometimes have an additional frame that fp unwind doesn\u0027t see. But it\u0027s not consistent for some reason. Sometimes it\u0027s 1 extra frame, sometimes it\u0027s 2.",
+      "parentUuid": "e07a1c38_47894530",
+      "range": {
+        "startLine": 891,
+        "startChar": 5,
+        "endLine": 892,
+        "endChar": 33
+      },
+      "revId": "b5ecaa0c5cd9cd41cae64f1a30a59af62b192b83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2d507df3_0038347f",
         "filename": "src/runtime/trace.go",
         "patchSetId": 19
@@ -159,6 +254,30 @@
       "writtenOn": "2023-03-02T22:54:39Z",
       "side": 1,
       "message": "Why is this different from the gcallers case above? The callers of this function should be incrementing skip appropriately.",
+      "range": {
+        "startLine": 892,
+        "startChar": 34,
+        "endLine": 894,
+        "endChar": 65
+      },
+      "revId": "b5ecaa0c5cd9cd41cae64f1a30a59af62b192b83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8124f42a_9d22f4ba",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 894,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-03-02T23:15:07Z",
+      "side": 1,
+      "message": "The gcallers case above starts unwinding at the point where the g transitioned to g0\u0027s stack. This means traceStackID and its callers on the g0 stack are not included in the traceback, so less frames need to be skipped. Does that make sense?",
+      "parentUuid": "2d507df3_0038347f",
       "range": {
         "startLine": 892,
         "startChar": 34,
@@ -211,6 +330,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "da1a0696_d7dbcd6d",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 913,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-03-02T23:15:07Z",
+      "side": 1,
+      "message": "Will do.",
+      "parentUuid": "52877ea7_cf92e873",
+      "range": {
+        "startLine": 913,
+        "startChar": 25,
+        "endLine": 913,
+        "endChar": 30
+      },
+      "revId": "b5ecaa0c5cd9cd41cae64f1a30a59af62b192b83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f86334e6_ee169119",
         "filename": "src/runtime/trace.go",
         "patchSetId": 19
@@ -222,6 +365,30 @@
       "writtenOn": "2023-03-02T22:54:39Z",
       "side": 1,
       "message": "\"Logical\" frames here means the manually constructed stack traces in traceReadCPU and StartTrace, right? Could you define that somewhere?",
+      "range": {
+        "startLine": 1277,
+        "startChar": 43,
+        "endLine": 1277,
+        "endChar": 50
+      },
+      "revId": "b5ecaa0c5cd9cd41cae64f1a30a59af62b192b83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f77a681_d8ed183a",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 1277,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-03-02T23:15:07Z",
+      "side": 1,
+      "message": "\u003e \"Logical\" frames here means the manually constructed stack traces in traceReadCPU and StartTrace, right?\n\nYes.\n\n\u003e Could you define that somewhere?\n\nBy declaring the sentinel value as a constant? That\u0027s probably a good idea. Or did you mean enhancing the comment to explain the different cases in more detail?",
+      "parentUuid": "f86334e6_ee169119",
       "range": {
         "startLine": 1277,
         "startChar": 43,
