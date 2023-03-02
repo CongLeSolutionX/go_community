@@ -74,6 +74,29 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ebad380_0b8fc059",
+        "filename": "src/cmd/internal/objabi/reloctype.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-03-02T18:47:38Z",
+      "side": 1,
+      "message": "Maybe mention from one p..inittask symbol to another?",
+      "range": {
+        "startLine": 336,
+        "startChar": 51,
+        "endLine": 336,
+        "endChar": 71
+      },
+      "revId": "12c7dbe63926b8813cb34d0b529ff40f5e7da3ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "408a60aa_5846cbb3",
@@ -110,6 +133,29 @@
       "writtenOn": "2023-03-01T16:50:33Z",
       "side": 1,
       "message": "FYI, the history here is that we originally started out using the regular stdlib heap in the linker for deadcode, then realized that it is performance critical (makes a difference in how fast deadcode runs), so Cherry replaced the stdlib stuff with a specialized implementation (above).\n\nYour use case is not performance critical however, so it might be nice to have a comment here (at some point hopefully we can replace both with something that uses generics).",
+      "revId": "12c7dbe63926b8813cb34d0b529ff40f5e7da3ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa38ec17_f8cf0a9d",
+        "filename": "src/cmd/link/internal/ld/heap.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-03-02T18:47:38Z",
+      "side": 1,
+      "message": "Accessing a symbol\u0027s name isn\u0027t very cheap. It might be good to not access it repeatedly. On the other hand, if this is only for a relatively small number of init symbols, it is probably fine.",
+      "range": {
+        "startLine": 65,
+        "startChar": 5,
+        "endLine": 65,
+        "endChar": 16
+      },
       "revId": "12c7dbe63926b8813cb34d0b529ff40f5e7da3ce",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -167,6 +213,23 @@
         "endLine": 121,
         "endChar": 34
       },
+      "revId": "12c7dbe63926b8813cb34d0b529ff40f5e7da3ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dff5737d_d4026d83",
+        "filename": "src/cmd/link/internal/ld/link.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-03-02T18:47:38Z",
+      "side": 1,
+      "message": "Minor: usually we put specific symbol into the ArchSyms structure (which is embedded in this struct).",
       "revId": "12c7dbe63926b8813cb34d0b529ff40f5e7da3ce",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
