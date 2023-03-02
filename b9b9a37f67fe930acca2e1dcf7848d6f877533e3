@@ -61,6 +61,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce9e74d4_d6b659b3",
+        "filename": "src/cmd/compile/internal/types2/lookup.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-03-02T18:08:20Z",
+      "side": 1,
+      "message": "wrongType is also used in the signature - now in the same scope",
+      "parentUuid": "c138d64a_13fcb9c2",
+      "range": {
+        "startLine": 330,
+        "startChar": 11,
+        "endLine": 330,
+        "endChar": 12
+      },
+      "revId": "b9b9a37f67fe930acca2e1dcf7848d6f877533e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "de4e06f1_daeca505",
@@ -74,6 +98,30 @@
       "writtenOn": "2023-03-02T15:03:27Z",
       "side": 1,
       "message": "Nit: I don\u0027t think this comment adds much value, as it\u0027s just restating the previous line.\n\nIf it feels like a comment is necessary here, how about adding more \"why\" context. E.g.\n\n```\n// When V is an interface, we need only consider methods in its type set.\n```",
+      "range": {
+        "startLine": 339,
+        "startChar": 2,
+        "endLine": 339,
+        "endChar": 22
+      },
+      "revId": "b9b9a37f67fe930acca2e1dcf7848d6f877533e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d63ebdfb_65aeaf8e",
+        "filename": "src/cmd/compile/internal/types2/lookup.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-03-02T18:08:20Z",
+      "side": 1,
+      "message": "opting for no comment",
+      "parentUuid": "de4e06f1_daeca505",
       "range": {
         "startLine": 339,
         "startChar": 2,
@@ -109,6 +157,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "87821cc0_ad916ac8",
+        "filename": "src/cmd/compile/internal/types2/lookup.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-03-02T18:08:20Z",
+      "side": 1,
+      "message": "opting for no comment",
+      "parentUuid": "8ed5e28e_5c38c0d6",
+      "range": {
+        "startLine": 360,
+        "startChar": 2,
+        "endLine": 360,
+        "endChar": 26
+      },
+      "revId": "b9b9a37f67fe930acca2e1dcf7848d6f877533e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "449b0cec_3dd320b5",
         "filename": "src/cmd/compile/internal/types2/lookup.go",
         "patchSetId": 1
@@ -120,6 +192,30 @@
       "writtenOn": "2023-03-02T15:03:27Z",
       "side": 1,
       "message": "Before I read this comment, I was about to say the same...\n\nlookupFieldOrMethod is expensive. We should avoid the redundant call.",
+      "range": {
+        "startLine": 369,
+        "startChar": 53,
+        "endLine": 369,
+        "endChar": 92
+      },
+      "revId": "b9b9a37f67fe930acca2e1dcf7848d6f877533e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "768bb8af_012faa2a",
+        "filename": "src/cmd/compile/internal/types2/lookup.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-03-02T18:08:20Z",
+      "side": 1,
+      "message": "ack. let\u0027s review the TODO\u0027s in an independent CL.",
+      "parentUuid": "449b0cec_3dd320b5",
       "range": {
         "startLine": 369,
         "startChar": 53,
@@ -143,6 +239,30 @@
       "writtenOn": "2023-03-02T15:03:27Z",
       "side": 1,
       "message": "This is an API change. Furthermore, I\u0027m not sure if it\u0027s a bug fix. Arguably the semantics should be: if wrongType is false then it\u0027s ok to add the missing method. But that\u0027s not true in this case.",
+      "range": {
+        "startLine": 2575,
+        "startChar": 1,
+        "endLine": 2575,
+        "endChar": 32
+      },
+      "revId": "b9b9a37f67fe930acca2e1dcf7848d6f877533e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1cf01527_37e3ad7c",
+        "filename": "src/go/types/api_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2575,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-03-02T18:08:20Z",
+      "side": 1,
+      "message": "I don\u0027t understand this comment.\n\nPer the API description:\n\n// MissingMethod returns (nil, false) if V implements T, otherwise it\n// returns a missing method required by T and whether it is missing or\n// just has the wrong type.\n\nIn this case, the method m is missing altogether. Whether it exists elsewhere or not is irrelevant. The error is that the method is absent, not that it has a wrong type.",
+      "parentUuid": "b1eb58b0_a648cf8f",
       "range": {
         "startLine": 2575,
         "startChar": 1,
