@@ -603,6 +603,12 @@ func Load(l *loader.Loader, arch *sys.Arch, localSymVersion int, f *bio.Reader, 
 			if strings.HasPrefix(elfsym.name, ".LASF") { // gcc on s390x does this
 				continue
 			}
+
+			if strings.HasPrefix(elfsym.name, "__covrec_") && elfsym.type_ == 1 {
+				// This happens with clang 11 when doing coverage analysis.
+				// See golang/go#58848.
+				continue
+			}
 			return errorf("%v: sym#%d (%s): ignoring symbol in section %d (type %d)", elfsym.sym, i, elfsym.name, elfsym.shndx, elfsym.type_)
 		}
 
