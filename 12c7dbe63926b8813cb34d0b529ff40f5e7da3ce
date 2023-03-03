@@ -99,6 +99,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "8810b33d_b585df6c",
+        "filename": "src/cmd/internal/objabi/reloctype.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-03-03T22:26:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ebad380_0b8fc059",
+      "range": {
+        "startLine": 336,
+        "startChar": 51,
+        "endLine": 336,
+        "endChar": 71
+      },
+      "revId": "12c7dbe63926b8813cb34d0b529ff40f5e7da3ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "408a60aa_5846cbb3",
         "filename": "src/cmd/link/internal/ld/deadcode.go",
         "patchSetId": 5
@@ -110,6 +134,30 @@
       "writtenOn": "2023-03-01T16:50:33Z",
       "side": 1,
       "message": "Is it even possible to have a dead inittask record? Not sure how that would happen.",
+      "range": {
+        "startLine": 216,
+        "startChar": 25,
+        "endLine": 216,
+        "endChar": 43
+      },
+      "revId": "12c7dbe63926b8813cb34d0b529ff40f5e7da3ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6d7f2ac_10d9f391",
+        "filename": "src/cmd/link/internal/ld/deadcode.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-03-03T22:26:50Z",
+      "side": 1,
+      "message": "That\u0027s a good point, it is probably not possible. We only load reachable packages.",
+      "parentUuid": "408a60aa_5846cbb3",
       "range": {
         "startLine": 216,
         "startChar": 25,
@@ -133,6 +181,24 @@
       "writtenOn": "2023-03-01T16:50:33Z",
       "side": 1,
       "message": "FYI, the history here is that we originally started out using the regular stdlib heap in the linker for deadcode, then realized that it is performance critical (makes a difference in how fast deadcode runs), so Cherry replaced the stdlib stuff with a specialized implementation (above).\n\nYour use case is not performance critical however, so it might be nice to have a comment here (at some point hopefully we can replace both with something that uses generics).",
+      "revId": "12c7dbe63926b8813cb34d0b529ff40f5e7da3ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "10bef1c3_9b14552c",
+        "filename": "src/cmd/link/internal/ld/heap.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-03-03T22:26:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "561bec9c_a50e9324",
       "revId": "12c7dbe63926b8813cb34d0b529ff40f5e7da3ce",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -162,6 +228,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "94492049_88e8cd5d",
+        "filename": "src/cmd/link/internal/ld/heap.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-03-03T22:26:50Z",
+      "side": 1,
+      "message": "These lists are pretty short, I\u0027m not too worried about it.",
+      "parentUuid": "fa38ec17_f8cf0a9d",
+      "range": {
+        "startLine": 65,
+        "startChar": 5,
+        "endLine": 65,
+        "endChar": 16
+      },
+      "revId": "12c7dbe63926b8813cb34d0b529ff40f5e7da3ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "12f0f015_1bacc6e4",
         "filename": "src/cmd/link/internal/ld/inittask.go",
         "patchSetId": 5
@@ -173,6 +263,24 @@
       "writtenOn": "2023-03-01T16:50:33Z",
       "side": 1,
       "message": "Maybe notify @drchase when you submit this so he can add it to his list for the slice stuff CL he is working on.",
+      "revId": "12c7dbe63926b8813cb34d0b529ff40f5e7da3ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20ab555b_2134d693",
+        "filename": "src/cmd/link/internal/ld/inittask.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-03-03T22:26:50Z",
+      "side": 1,
+      "message": "Will do.",
+      "parentUuid": "12f0f015_1bacc6e4",
       "revId": "12c7dbe63926b8813cb34d0b529ff40f5e7da3ce",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -194,6 +302,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb6dd643_781fd02a",
+        "filename": "src/cmd/link/internal/ld/inittask.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-03-03T22:26:50Z",
+      "side": 1,
+      "message": "Yes, this happens for all the references to the initialization functions from the inittask record.",
+      "parentUuid": "2c991e6a_1a094292",
+      "revId": "12c7dbe63926b8813cb34d0b529ff40f5e7da3ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b8a127ad_36d4b1df",
@@ -207,6 +333,30 @@
       "writtenOn": "2023-03-01T16:50:33Z",
       "side": 1,
       "message": "nit: {from:x, to:s}",
+      "range": {
+        "startLine": 121,
+        "startChar": 30,
+        "endLine": 121,
+        "endChar": 34
+      },
+      "revId": "12c7dbe63926b8813cb34d0b529ff40f5e7da3ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd4245fd_f5a50fcf",
+        "filename": "src/cmd/link/internal/ld/inittask.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-03-03T22:26:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8a127ad_36d4b1df",
       "range": {
         "startLine": 121,
         "startChar": 30,
@@ -236,6 +386,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "9150a6cc_24b19a0c",
+        "filename": "src/cmd/link/internal/ld/link.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-03-03T22:26:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dff5737d_d4026d83",
+      "revId": "12c7dbe63926b8813cb34d0b529ff40f5e7da3ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "80bed1a7_8eae4a8e",
         "filename": "test/fixedbugs/issue31636.out",
         "patchSetId": 5
@@ -247,6 +415,24 @@
       "writtenOn": "2023-03-01T16:50:33Z",
       "side": 1,
       "message": "I tried a variant of this test with gccgo, and it looks like the bug is already fixed there. Is this consistent with your understanding?",
+      "revId": "12c7dbe63926b8813cb34d0b529ff40f5e7da3ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aeaea14a_23cb4c66",
+        "filename": "test/fixedbugs/issue31636.out",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-03-03T22:26:50Z",
+      "side": 1,
+      "message": "No, I was unaware of that.\nWe\u0027re enforcing an order that was previously unspecified, so I guess it could happen by accident.",
+      "parentUuid": "80bed1a7_8eae4a8e",
       "revId": "12c7dbe63926b8813cb34d0b529ff40f5e7da3ce",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
