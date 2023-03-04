@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f444747_f86c67fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-03-04T01:05:10Z",
+      "side": 1,
+      "message": "Wrap comment lines at 80 characters.\n\nThe usual way to reference a previous change is \"CL 452495\" rather than the commit hash. This isn\u0027t actually the right CL, however, and it\u0027s easy enough to find from the file history, so just drop the parenthetical.",
+      "revId": "80ad2e2728af8af12fc779ef50192a5e377f0306",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb087c14_64dd8e16",
+        "filename": "src/archive/zip/reader_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1188,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-03-04T01:05:10Z",
+      "side": 1,
+      "message": "Drop unrelated change.",
+      "revId": "80ad2e2728af8af12fc779ef50192a5e377f0306",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "740e4945_221fa6ca",
+        "filename": "src/archive/zip/reader_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1392,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-03-04T01:05:10Z",
+      "side": 1,
+      "message": "```\nname :\u003d filepath.Join(t.TempDir(), \"test.zip\")\nif err :\u003d os.WriteFile(name, data, 0644); err !\u003d nil {\n  t.Fatal(err)\n}\n```\n\n- Use t.TempDir to create a temporary directory, and the testing package will clean it up.\n- No need to cast 0644 to an fs.FileMode.\n- Don\u0027t write to an open temp file with WriteFile, since this fails (I believe) on Windows. Unless I misremember and we open files for shared access by default on Windows.",
+      "revId": "80ad2e2728af8af12fc779ef50192a5e377f0306",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f61815b6_8813e631",
+        "filename": "src/archive/zip/reader_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1398,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-03-04T01:05:10Z",
+      "side": 1,
+      "message": "Very minor nitpick:\n\n```\nif r !\u003d nil {\n  defer r.Close()\n}\n```\n\nIt\u0027s two lines shorter, and closes the right `r` if it gets redefined later in the test.",
+      "revId": "80ad2e2728af8af12fc779ef50192a5e377f0306",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
