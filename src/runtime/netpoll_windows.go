@@ -128,7 +128,7 @@ func netpoll(delay int64) gList {
 	mp.blocked = false
 	for i = 0; i < n; i++ {
 		op = entries[i].op
-		if op != nil {
+		if op != nil && op.pd != nil {
 			errno = 0
 			qty = 0
 			if stdcall5(_WSAGetOverlappedResult, op.pd.fd, uintptr(unsafe.Pointer(op)), uintptr(unsafe.Pointer(&qty)), 0, uintptr(unsafe.Pointer(&flags))) == 0 {

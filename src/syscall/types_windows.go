@@ -335,6 +335,11 @@ type Overlapped struct {
 	Offset       uint32
 	OffsetHigh   uint32
 	HEvent       Handle
+	// pad so casting to net_op and accessing fd is
+	// safe (in netpoll()) even if the underlying object
+	// is actually an instance of this data structure
+	// and not a net_op.
+	_padding uintptr
 }
 
 type FileNotifyInformation struct {
