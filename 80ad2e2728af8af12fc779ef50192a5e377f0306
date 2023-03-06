@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7bcd3872_cfbb54ab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 61523
+      },
+      "writtenOn": "2023-03-06T09:01:36Z",
+      "side": 1,
+      "message": "Lines rewrapped, reference dropped.",
+      "parentUuid": "0f444747_f86c67fa",
+      "revId": "80ad2e2728af8af12fc779ef50192a5e377f0306",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bb087c14_64dd8e16",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-03-04T01:05:10Z",
       "side": 1,
       "message": "Drop unrelated change.",
+      "revId": "80ad2e2728af8af12fc779ef50192a5e377f0306",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7babf1c0_c30e9c07",
+        "filename": "src/archive/zip/reader_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1188,
+      "author": {
+        "id": 61523
+      },
+      "writtenOn": "2023-03-06T09:01:36Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "bb087c14_64dd8e16",
       "revId": "80ad2e2728af8af12fc779ef50192a5e377f0306",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -52,6 +88,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ada34f71_76b72dd4",
+        "filename": "src/archive/zip/reader_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1392,
+      "author": {
+        "id": 61523
+      },
+      "writtenOn": "2023-03-06T09:01:36Z",
+      "side": 1,
+      "message": "Thanks, adjusted.",
+      "parentUuid": "740e4945_221fa6ca",
+      "revId": "80ad2e2728af8af12fc779ef50192a5e377f0306",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f61815b6_8813e631",
@@ -65,6 +119,24 @@
       "writtenOn": "2023-03-04T01:05:10Z",
       "side": 1,
       "message": "Very minor nitpick:\n\n```\nif r !\u003d nil {\n  defer r.Close()\n}\n```\n\nIt\u0027s two lines shorter, and closes the right `r` if it gets redefined later in the test.",
+      "revId": "80ad2e2728af8af12fc779ef50192a5e377f0306",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8edba9bd_9fae0281",
+        "filename": "src/archive/zip/reader_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1398,
+      "author": {
+        "id": 61523
+      },
+      "writtenOn": "2023-03-06T09:01:36Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "f61815b6_8813e631",
       "revId": "80ad2e2728af8af12fc779ef50192a5e377f0306",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
