@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b8065e04_69b71e43",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-03-06T19:22:23Z",
+      "side": 1,
+      "message": "Minor: period at end of sentence.",
+      "revId": "41b57d7ab10fb30bfb89b07ff14e3d26dd879fde",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c12463fd_56cd7dbb",
         "filename": "src/debug/buildinfo/buildinfo.go",
         "patchSetId": 1
@@ -20,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0eb44fed_694a2183",
+        "filename": "src/debug/buildinfo/buildinfo.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-03-06T19:22:23Z",
+      "side": 1,
+      "message": "gofmt should not have made this change, but perhaps goimports did.  Yes, please revert this part.  Thanks.",
+      "parentUuid": "c12463fd_56cd7dbb",
+      "revId": "41b57d7ab10fb30bfb89b07ff14e3d26dd879fde",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "69e916ed_f9dc4193",
         "filename": "src/debug/buildinfo/buildinfo.go",
         "patchSetId": 1
@@ -31,6 +66,24 @@
       "writtenOn": "2023-03-06T08:59:50Z",
       "side": 1,
       "message": "I am unsure which architecture to take here. Should it be irrelevant? Or should I add more logic to pick which one should be used?",
+      "revId": "41b57d7ab10fb30bfb89b07ff14e3d26dd879fde",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "692b19d1_bcf12d2f",
+        "filename": "src/debug/buildinfo/buildinfo.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-03-06T19:22:23Z",
+      "side": 1,
+      "message": "I think this is OK for now.",
+      "parentUuid": "69e916ed_f9dc4193",
       "revId": "41b57d7ab10fb30bfb89b07ff14e3d26dd879fde",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
