@@ -16,6 +16,23 @@
       "message": "Thank you for the review! Fixed imports and commit message",
       "revId": "b9ad852889307ace1761f7ccaf90b73bf8ff344f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d370a18b_dd76591e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34895
+      },
+      "writtenOn": "2023-03-06T22:12:05Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "b9ad852889307ace1761f7ccaf90b73bf8ff344f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
