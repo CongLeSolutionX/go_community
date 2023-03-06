@@ -91,6 +91,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bed1d03_72896ab0",
+        "filename": "src/cmd/compile/internal/base/flag.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-03-06T18:11:28Z",
+      "side": 1,
+      "message": "Meant for, yes, but they may be helpful to some people trying this change.  It\u0027s definitely not the preferred interface, though.",
+      "parentUuid": "b880776b_67b551da",
+      "revId": "4eff3418acdcdb0718a8d705832a9a26b70a6df8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "27beb9cb_2ffc2f66",
