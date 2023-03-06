@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6bfeba82_bdc145cb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-03-06T14:55:25Z",
+      "side": 1,
+      "message": "This appears to have introduced or exposed a segfault on `aix-ppc64` (https://build.golang.org/log/24c90ab924d95afb99d89eda9035e2d24b727755):\n```\nBuilding Go toolchain2 using go_bootstrap and Go toolchain1.\nunexpected fault address 0x200732d00\nfatal error: fault\n[signal SIGSEGV: segmentation violation code\u003d0x32 addr\u003d0x200732d00 pc\u003d0x10004e748]\n\ngoroutine 1 [running, locked to thread]:\nruntime.throw({0x100482525?, 0x0?})\n\t/ramdisk8GB/workdir-host-aix-ppc64-osuosl/go/src/runtime/panic.go:1075 +0x40 fp\u003d0xa00010000064d70 sp\u003d0xa00010000064d30 pc\u003d0x10003c1b0\nruntime.sigpanic()\n\t/ramdisk8GB/workdir-host-aix-ppc64-osuosl/go/src/runtime/signal_unix.go:851 +0x1e8 fp\u003d0xa00010000064db8 sp\u003d0xa00010000064d70 pc\u003d0x100055f78\nruntime.doInit1(0x200732d00?)\n\t/ramdisk8GB/workdir-host-aix-ppc64-osuosl/go/src/runtime/proc.go:6470 +0x38 fp\u003d0xa00010000064f18 sp\u003d0xa00010000064dd8 pc\u003d0x10004e748\nruntime.doInit(...)\n\t/ramdisk8GB/workdir-host-aix-ppc64-osuosl/go/src/runtime/proc.go:6465\nruntime.main()\n\t/ramdisk8GB/workdir-host-aix-ppc64-osuosl/go/src/runtime/proc.go:197 +0x160 fp\u003d0xa00010000064fc0 sp\u003d0xa00010000064f18 pc\u003d0x10003eb20\nruntime.goexit()\n\t/ramdisk8GB/workdir-host-aix-ppc64-osuosl/go/src/runtime/asm_ppc64x.s:902 +0x4 fp\u003d0xa00010000064fc0 sp\u003d0xa00010000064fc0 pc\u003d0x100074784\ngo tool dist: FAILED: /ramdisk8GB/workdir-host-aix-ppc64-osuosl/go/pkg/tool/aix_ppc64/go_bootstrap install cmd/asm cmd/cgo cmd/compile cmd/link: exit status 2\n```",
+      "revId": "ce2a609909d9de3391a99a00fe140506f724f933",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
