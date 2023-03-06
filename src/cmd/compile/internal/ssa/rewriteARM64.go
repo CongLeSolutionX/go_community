@@ -5690,11 +5690,11 @@ func rewriteValueARM64_OpARM64GreaterEqual(v *Value) bool {
 		v.AddArg(v0)
 		return true
 	}
-	// match: (GreaterEqual (CMPWconst [0] x:(ANDconst [c] y)))
+	// match: (GreaterEqual (CMPconst [0] x:(ANDconst [c] y)))
 	// cond: x.Uses == 1
 	// result: (GreaterEqual (TSTconst [c] y))
 	for {
-		if v_0.Op != OpARM64CMPWconst || auxIntToInt32(v_0.AuxInt) != 0 {
+		if v_0.Op != OpARM64CMPconst || auxIntToInt64(v_0.AuxInt) != 0 {
 			break
 		}
 		x := v_0.Args[0]
@@ -5848,11 +5848,11 @@ func rewriteValueARM64_OpARM64GreaterThan(v *Value) bool {
 		v.AddArg(v0)
 		return true
 	}
-	// match: (GreaterThan (CMPWconst [0] x:(ANDconst [c] y)))
+	// match: (GreaterThan (CMPconst [0] x:(ANDconst [c] y)))
 	// cond: x.Uses == 1
 	// result: (GreaterThan (TSTconst [c] y))
 	for {
-		if v_0.Op != OpARM64CMPWconst || auxIntToInt32(v_0.AuxInt) != 0 {
+		if v_0.Op != OpARM64CMPconst || auxIntToInt64(v_0.AuxInt) != 0 {
 			break
 		}
 		x := v_0.Args[0]
@@ -6054,11 +6054,11 @@ func rewriteValueARM64_OpARM64LessEqual(v *Value) bool {
 		v.AddArg(v0)
 		return true
 	}
-	// match: (LessEqual (CMPWconst [0] x:(ANDconst [c] y)))
+	// match: (LessEqual (CMPconst [0] x:(ANDconst [c] y)))
 	// cond: x.Uses == 1
 	// result: (LessEqual (TSTconst [c] y))
 	for {
-		if v_0.Op != OpARM64CMPWconst || auxIntToInt32(v_0.AuxInt) != 0 {
+		if v_0.Op != OpARM64CMPconst || auxIntToInt64(v_0.AuxInt) != 0 {
 			break
 		}
 		x := v_0.Args[0]
@@ -6212,11 +6212,11 @@ func rewriteValueARM64_OpARM64LessThan(v *Value) bool {
 		v.AddArg(v0)
 		return true
 	}
-	// match: (LessThan (CMPWconst [0] x:(ANDconst [c] y)))
+	// match: (LessThan (CMPconst [0] x:(ANDconst [c] y)))
 	// cond: x.Uses == 1
 	// result: (LessThan (TSTconst [c] y))
 	for {
-		if v_0.Op != OpARM64CMPWconst || auxIntToInt32(v_0.AuxInt) != 0 {
+		if v_0.Op != OpARM64CMPconst || auxIntToInt64(v_0.AuxInt) != 0 {
 			break
 		}
 		x := v_0.Args[0]
