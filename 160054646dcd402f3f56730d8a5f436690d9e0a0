@@ -72,6 +72,69 @@
       "message": "PTAL?  One question remaining.",
       "revId": "160054646dcd402f3f56730d8a5f436690d9e0a0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a18ebf51_2b9db317",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 23
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-03-06T09:22:49Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "160054646dcd402f3f56730d8a5f436690d9e0a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "552bb591_aa2b3f1a",
+        "filename": "src/cmd/compile/internal/loopvar/loopvar.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-03-06T09:22:49Z",
+      "side": 1,
+      "message": "nit: tabs",
+      "range": {
+        "startLine": 157,
+        "startChar": 5,
+        "endLine": 157,
+        "endChar": 33
+      },
+      "revId": "160054646dcd402f3f56730d8a5f436690d9e0a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29ed6667_231778c4",
+        "filename": "src/cmd/compile/internal/loopvar/loopvar.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-03-06T09:22:49Z",
+      "side": 1,
+      "message": "nit: \"stuff\" doesn\u0027t appear in AFTER",
+      "range": {
+        "startLine": 161,
+        "startChar": 11,
+        "endLine": 161,
+        "endChar": 16
+      },
+      "revId": "160054646dcd402f3f56730d8a5f436690d9e0a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

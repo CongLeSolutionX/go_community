@@ -75,6 +75,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b880776b_67b551da",
+        "filename": "src/cmd/compile/internal/base/flag.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-03-06T09:22:49Z",
+      "side": 1,
+      "message": "I don\u0027t really understand that rationale, sorry. I don\u0027t see why 2 is any more something they\u0027d try than 11, or why it\u0027s undesirable if they do try it.\n\nMore generally, all of the -d flags are meant for our (the compiler team\u0027s) use.",
+      "parentUuid": "d968405d_8565605f",
+      "revId": "4eff3418acdcdb0718a8d705832a9a26b70a6df8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "27beb9cb_2ffc2f66",
         "filename": "src/cmd/compile/internal/base/flag.go",
         "patchSetId": 21
@@ -455,6 +473,24 @@
       "side": 1,
       "message": "Wasn\u0027t sure about PAUTOHEAP, added it, too, for now.",
       "parentUuid": "12e79f84_ee53a328",
+      "revId": "4eff3418acdcdb0718a8d705832a9a26b70a6df8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0ff6efb_e1f56497",
+        "filename": "src/cmd/compile/internal/loopvar/loopvar.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-03-06T09:22:49Z",
+      "side": 1,
+      "message": "FWIW, PAUTOHEAP should never happen here, because this pass runs before escape analysis.",
+      "parentUuid": "4a0a4c7b_3e69a061",
       "revId": "4eff3418acdcdb0718a8d705832a9a26b70a6df8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
