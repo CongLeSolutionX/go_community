@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad14e2c6_88fab14e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-03-06T04:10:12Z",
+      "side": 1,
+      "message": "I don\u0027t understand how user code could attach something to iocphandle used by netpoll_windows.go.  So I don\u0027t see why this change is required.\n\nTo put it another way: this change should have a test that fails before this change and passes after this change.\n\nThanks.",
+      "revId": "96606331bbeabcebad6170a43bb76eea79151d54",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
