@@ -53,6 +53,24 @@
       "message": "It seems to me that the test is getting the memory use _per thread_. I don\u0027t really understand why it still depends on the number of threads...",
       "revId": "745df3a84244dbad781ccca4054a27cccf3b8573",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6cffed2a_d5b4fb20",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-03-06T16:42:37Z",
+      "side": 1,
+      "message": "The testprog part of this test assumes that there are 100 threads: https://cs.opensource.google/go/go/+/master:src/runtime/testdata/testprogcgo/stack_windows.go;l\u003d38\n\nIf there are actually, then it will report artificially high memory \"per thread\".\n\nIf there is a simple API to get thread count in Windows it might be better to use that rather than this estimate.",
+      "parentUuid": "fadab768_67a4a262",
+      "revId": "745df3a84244dbad781ccca4054a27cccf3b8573",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
