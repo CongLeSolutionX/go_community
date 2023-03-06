@@ -16,6 +16,41 @@
       "message": "I don\u0027t understand how user code could attach something to iocphandle used by netpoll_windows.go.  So I don\u0027t see why this change is required.\n\nTo put it another way: this change should have a test that fails before this change and passes after this change.\n\nThanks.",
       "revId": "96606331bbeabcebad6170a43bb76eea79151d54",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89a3955e_133bdf4a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 56718
+      },
+      "writtenOn": "2023-03-06T15:08:58Z",
+      "side": 1,
+      "message": "I will attempt to create a test that shows how this can happen, but the problem is relatively timing dependent. The situation is relatively straightforward: If I (as user code) attempt to issue a WSAIoctl on something that is already being polled by the runtime (ie, a connection that I got through \n\n```Go\n\tconn, err :\u003d net.Dial(\"tcp4\", fmt.Sprintf(\"%s:%d\", *serverIp, *serverPort))\n```\n\n) then I hit this situation straight on the head. The code that I am using to reproduce is at \n\nhttps://github.com/hawkinsw/windowpane\n\nI will include a trace of the panic output on the bug report. \n\nI hope that is okay? Thanks for the quick feedback!",
+      "parentUuid": "ad14e2c6_88fab14e",
+      "revId": "96606331bbeabcebad6170a43bb76eea79151d54",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "505ad059_7023ea9e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 56718
+      },
+      "writtenOn": "2023-03-06T15:08:58Z",
+      "side": 1,
+      "message": "Sorry for the partial response, Ian! I will continue to add more details but wanted to respond quickly to let you know I was engaged!\n\nThanks again for everything!",
+      "revId": "96606331bbeabcebad6170a43bb76eea79151d54",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
