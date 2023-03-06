@@ -57,6 +57,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8c8283c_89d559f6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-03-06T20:46:43Z",
+      "side": 1,
+      "message": "Thanks!",
+      "revId": "cb9547a3abf7f26fb2b718fd27ec5938d5f7da91",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e2e187b1_6b9e11b6",
@@ -74,6 +91,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2bcd46c7_925085cb",
+        "filename": "src/crypto/tls/conn.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1570,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-03-06T20:46:43Z",
+      "side": 1,
+      "message": "Fixed by ensuring the handshake mutex is dropped when HandleCryptoData is not running.",
+      "parentUuid": "e2e187b1_6b9e11b6",
+      "revId": "cb9547a3abf7f26fb2b718fd27ec5938d5f7da91",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "75b0e2ba_8334d8e0",
@@ -87,6 +122,24 @@
       "writtenOn": "2023-03-04T11:08:00Z",
       "side": 1,
       "message": "This is set to the error returned by handshake(). The alert passed to sendAlert is set on q.conn.out.\n\nThe QUIC stack needs to be able to access the alert though, as it needs to send the correct error code in the CONNECTION_CLOSE frame.",
+      "revId": "cb9547a3abf7f26fb2b718fd27ec5938d5f7da91",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "62d87dca_41eedc22",
+        "filename": "src/crypto/tls/quic.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-03-06T20:46:43Z",
+      "side": 1,
+      "message": "handshake should return the same alert as passed to sendAlert; everything which calls sendAlert also returns the error back up the stack.\n\nAdded a test to verify that TLS errors are reported as an AlertError. Also reworked a bit of the handling of errors to hopefully make the godoc a bit clearer.",
+      "parentUuid": "75b0e2ba_8334d8e0",
       "revId": "cb9547a3abf7f26fb2b718fd27ec5938d5f7da91",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
