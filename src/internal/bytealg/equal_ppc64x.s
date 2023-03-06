@@ -150,6 +150,14 @@ check17_32:
 	RET
 
 check0_16:
+#ifdef GOPPC64_power10
+	SLD	$56, R5, R7
+	LXVL	R8, R7, V0
+	LXVL	R4, R7, V1
+	VCMPEQUDCC	V0, V1, V2
+	ISEL	$CR6LT, R11, R0, R3
+	RET
+#endif
 	CMP	R5, $8
 	BLT	check0_7
 	// Load sX[0:7] and compare.
