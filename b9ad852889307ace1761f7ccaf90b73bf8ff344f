@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd2c9d8d_6428aed1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 58259
+      },
+      "writtenOn": "2023-03-06T20:48:46Z",
+      "side": 1,
+      "message": "Thank you for the review! Fixed imports and commit message",
+      "revId": "b9ad852889307ace1761f7ccaf90b73bf8ff344f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
