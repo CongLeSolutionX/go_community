@@ -127,6 +127,24 @@
       "parentUuid": "61a51abf_318cf4b9",
       "revId": "66223b1c42eed9b1cb894c094352e74eaa6e66f3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e786a626_9abe2b57",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-03-07T16:02:28Z",
+      "side": 1,
+      "message": "I think that there\u0027s something wrong here, not sure what.  I just tried the original code in its directory on a Windows box, and got the intended output:\n```\nC:\\workdir\\go\\bin\\go build -gcflags\u003dcmd/c\nompile/internal/loopvar/testdata/inlines/a\u003d-d\u003dloopvar\u003d2 .\n# cmd/compile/internal/loopvar/testdata/inlines/a\na\\a.go:11:6: transformed loop variable i escapes\n.\\b\\b.go:16:6: transformed loop variable b.i escapes (loop inlined into a\\a.go:18)\n.\\b\\b.go:16:9: transformed loop variable b.j escapes (loop inlined into a\\a.go:18)\n```\nnotably, the first message is ALREADY shortened without this CL.  So I think there\u0027s something wrong with the testscript environment (and by-the-way, there was no test for path shortening in the simpler case, ahem.)",
+      "parentUuid": "cf20340e_34421a0f",
+      "revId": "66223b1c42eed9b1cb894c094352e74eaa6e66f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }

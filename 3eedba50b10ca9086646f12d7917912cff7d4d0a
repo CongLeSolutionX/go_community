@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8053510_c4ee5f32",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-03-07T16:02:28Z",
+      "side": 1,
+      "message": "The problem is in the test/test harness; the code works as intended, even on Windows, except in the testscript harness.",
+      "revId": "3eedba50b10ca9086646f12d7917912cff7d4d0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
