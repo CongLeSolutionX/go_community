@@ -57,6 +57,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "480a9365_40be8462",
+        "filename": "src/maps/maps.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-03-07T17:58:25Z",
+      "side": 1,
+      "message": "I do not think that maps.Clone should clone the capacity.  I think that people would find that surprising.  If a map has N entries, then the result of maps.Clone should be sized for N entries.",
+      "parentUuid": "cc1b47ab_6cd93cb8",
+      "revId": "ad80aebf4bf8ca459455db9949098d85ec62c891",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8e8781e8_b0e2d7d7",
         "filename": "src/maps/maps.go",
         "patchSetId": 6
