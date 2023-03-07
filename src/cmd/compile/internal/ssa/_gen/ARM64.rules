@@ -161,64 +161,40 @@
 
 // shift value may be out of range, use CMP + CSEL instead
 (Lsh64x64 <t> x y) && !shiftIsBounded(v) => (CSEL [OpARM64LessThanU] (SLL <t> x y) (Const64 <t> [0]) (CMPconst [64] y))
-(Lsh64x32 <t> x y) && !shiftIsBounded(v) => (CSEL [OpARM64LessThanU] (SLL <t> x y) (Const64 <t> [0]) (CMPconst [64] (ZeroExt32to64 y)))
-(Lsh64x16 <t> x y) && !shiftIsBounded(v) => (CSEL [OpARM64LessThanU] (SLL <t> x y) (Const64 <t> [0]) (CMPconst [64] (ZeroExt16to64 y)))
-(Lsh64x8  <t> x y) && !shiftIsBounded(v) => (CSEL [OpARM64LessThanU] (SLL <t> x y) (Const64 <t> [0]) (CMPconst [64] (ZeroExt8to64  y)))
+(Lsh64x(32|16|8) <t> x y) && !shiftIsBounded(v) => (CSEL [OpARM64LessThanU] (SLL <t> x y) (Const64 <t> [0]) (CMPconst [64] ((ZeroExt32to64|ZeroExt16to64|ZeroExt8to64) y)))
 
 (Lsh32x64 <t> x y) && !shiftIsBounded(v) => (CSEL [OpARM64LessThanU] (SLL <t> x y) (Const64 <t> [0]) (CMPconst [64] y))
-(Lsh32x32 <t> x y) && !shiftIsBounded(v) => (CSEL [OpARM64LessThanU] (SLL <t> x y) (Const64 <t> [0]) (CMPconst [64] (ZeroExt32to64 y)))
-(Lsh32x16 <t> x y) && !shiftIsBounded(v) => (CSEL [OpARM64LessThanU] (SLL <t> x y) (Const64 <t> [0]) (CMPconst [64] (ZeroExt16to64 y)))
-(Lsh32x8  <t> x y) && !shiftIsBounded(v) => (CSEL [OpARM64LessThanU] (SLL <t> x y) (Const64 <t> [0]) (CMPconst [64] (ZeroExt8to64  y)))
+(Lsh32x(32|16|8) <t> x y) && !shiftIsBounded(v) => (CSEL [OpARM64LessThanU] (SLL <t> x y) (Const64 <t> [0]) (CMPconst [64] ((ZeroExt32to64|ZeroExt16to64|ZeroExt8to64) y)))
 
 (Lsh16x64 <t> x y) && !shiftIsBounded(v) => (CSEL [OpARM64LessThanU] (SLL <t> x y) (Const64 <t> [0]) (CMPconst [64] y))
-(Lsh16x32 <t> x y) && !shiftIsBounded(v) => (CSEL [OpARM64LessThanU] (SLL <t> x y) (Const64 <t> [0]) (CMPconst [64] (ZeroExt32to64 y)))
-(Lsh16x16 <t> x y) && !shiftIsBounded(v) => (CSEL [OpARM64LessThanU] (SLL <t> x y) (Const64 <t> [0]) (CMPconst [64] (ZeroExt16to64 y)))
-(Lsh16x8  <t> x y) && !shiftIsBounded(v) => (CSEL [OpARM64LessThanU] (SLL <t> x y) (Const64 <t> [0]) (CMPconst [64] (ZeroExt8to64  y)))
+(Lsh16x(32|16|8) <t> x y) && !shiftIsBounded(v) => (CSEL [OpARM64LessThanU] (SLL <t> x y) (Const64 <t> [0]) (CMPconst [64] ((ZeroExt32to64|ZeroExt16to64|ZeroExt8to64) y)))
 
 (Lsh8x64 <t> x y) && !shiftIsBounded(v) => (CSEL [OpARM64LessThanU] (SLL <t> x y) (Const64 <t> [0]) (CMPconst [64] y))
-(Lsh8x32 <t> x y) && !shiftIsBounded(v) => (CSEL [OpARM64LessThanU] (SLL <t> x y) (Const64 <t> [0]) (CMPconst [64] (ZeroExt32to64 y)))
-(Lsh8x16 <t> x y) && !shiftIsBounded(v) => (CSEL [OpARM64LessThanU] (SLL <t> x y) (Const64 <t> [0]) (CMPconst [64] (ZeroExt16to64 y)))
-(Lsh8x8  <t> x y) && !shiftIsBounded(v) => (CSEL [OpARM64LessThanU] (SLL <t> x y) (Const64 <t> [0]) (CMPconst [64] (ZeroExt8to64  y)))
+(Lsh8x(32|16|8) <t> x y) && !shiftIsBounded(v) => (CSEL [OpARM64LessThanU] (SLL <t> x y) (Const64 <t> [0]) (CMPconst [64] ((ZeroExt32to64|ZeroExt16to64|ZeroExt8to64) y)))
 
 (Rsh64Ux64 <t> x y) && !shiftIsBounded(v) => (CSEL [OpARM64LessThanU] (SRL <t> x y) (Const64 <t> [0]) (CMPconst [64] y))
-(Rsh64Ux32 <t> x y) && !shiftIsBounded(v) => (CSEL [OpARM64LessThanU] (SRL <t> x y) (Const64 <t> [0]) (CMPconst [64] (ZeroExt32to64 y)))
-(Rsh64Ux16 <t> x y) && !shiftIsBounded(v) => (CSEL [OpARM64LessThanU] (SRL <t> x y) (Const64 <t> [0]) (CMPconst [64] (ZeroExt16to64 y)))
-(Rsh64Ux8  <t> x y) && !shiftIsBounded(v) => (CSEL [OpARM64LessThanU] (SRL <t> x y) (Const64 <t> [0]) (CMPconst [64] (ZeroExt8to64  y)))
+(Rsh64Ux(32|16|8) <t> x y) && !shiftIsBounded(v) => (CSEL [OpARM64LessThanU] (SRL <t> x y) (Const64 <t> [0]) (CMPconst [64] ((ZeroExt32to64|ZeroExt16to64|ZeroExt8to64) y)))
 
 (Rsh32Ux64 <t> x y) && !shiftIsBounded(v) => (CSEL [OpARM64LessThanU] (SRL <t> (ZeroExt32to64 x) y) (Const64 <t> [0]) (CMPconst [64] y))
-(Rsh32Ux32 <t> x y) && !shiftIsBounded(v) => (CSEL [OpARM64LessThanU] (SRL <t> (ZeroExt32to64 x) y) (Const64 <t> [0]) (CMPconst [64] (ZeroExt32to64 y)))
-(Rsh32Ux16 <t> x y) && !shiftIsBounded(v) => (CSEL [OpARM64LessThanU] (SRL <t> (ZeroExt32to64 x) y) (Const64 <t> [0]) (CMPconst [64] (ZeroExt16to64 y)))
-(Rsh32Ux8  <t> x y) && !shiftIsBounded(v) => (CSEL [OpARM64LessThanU] (SRL <t> (ZeroExt32to64 x) y) (Const64 <t> [0]) (CMPconst [64] (ZeroExt8to64  y)))
+(Rsh32Ux(32|16|8) <t> x y) && !shiftIsBounded(v) => (CSEL [OpARM64LessThanU] (SRL <t> (ZeroExt32to64 x) y) (Const64 <t> [0]) (CMPconst [64] ((ZeroExt32to64|ZeroExt16to64|ZeroExt8to64) y)))
 
 (Rsh16Ux64 <t> x y) && !shiftIsBounded(v) => (CSEL [OpARM64LessThanU] (SRL <t> (ZeroExt16to64 x) y) (Const64 <t> [0]) (CMPconst [64] y))
-(Rsh16Ux32 <t> x y) && !shiftIsBounded(v) => (CSEL [OpARM64LessThanU] (SRL <t> (ZeroExt16to64 x) y) (Const64 <t> [0]) (CMPconst [64] (ZeroExt32to64 y)))
-(Rsh16Ux16 <t> x y) && !shiftIsBounded(v) => (CSEL [OpARM64LessThanU] (SRL <t> (ZeroExt16to64 x) y) (Const64 <t> [0]) (CMPconst [64] (ZeroExt16to64 y)))
-(Rsh16Ux8  <t> x y) && !shiftIsBounded(v) => (CSEL [OpARM64LessThanU] (SRL <t> (ZeroExt16to64 x) y) (Const64 <t> [0]) (CMPconst [64] (ZeroExt8to64  y)))
+(Rsh16Ux(32|16|8) <t> x y) && !shiftIsBounded(v) => (CSEL [OpARM64LessThanU] (SRL <t> (ZeroExt16to64 x) y) (Const64 <t> [0]) (CMPconst [64] ((ZeroExt32to64|ZeroExt16to64|ZeroExt8to64) y)))
 
 (Rsh8Ux64 <t> x y) && !shiftIsBounded(v) => (CSEL [OpARM64LessThanU] (SRL <t> (ZeroExt8to64 x) y) (Const64 <t> [0]) (CMPconst [64] y))
-(Rsh8Ux32 <t> x y) && !shiftIsBounded(v) => (CSEL [OpARM64LessThanU] (SRL <t> (ZeroExt8to64 x) y) (Const64 <t> [0]) (CMPconst [64] (ZeroExt32to64 y)))
-(Rsh8Ux16 <t> x y) && !shiftIsBounded(v) => (CSEL [OpARM64LessThanU] (SRL <t> (ZeroExt8to64 x) y) (Const64 <t> [0]) (CMPconst [64] (ZeroExt16to64 y)))
-(Rsh8Ux8  <t> x y) && !shiftIsBounded(v) => (CSEL [OpARM64LessThanU] (SRL <t> (ZeroExt8to64 x) y) (Const64 <t> [0]) (CMPconst [64] (ZeroExt8to64  y)))
+(Rsh8Ux(32|16|8) <t> x y) && !shiftIsBounded(v) => (CSEL [OpARM64LessThanU] (SRL <t> (ZeroExt8to64 x) y) (Const64 <t> [0]) (CMPconst [64] ((ZeroExt32to64|ZeroExt16to64|ZeroExt8to64) y)))
 
 (Rsh64x64 x y) && !shiftIsBounded(v) => (SRA x (CSEL [OpARM64LessThanU] <y.Type> y (Const64 <y.Type> [63]) (CMPconst [64] y)))
-(Rsh64x32 x y) && !shiftIsBounded(v) => (SRA x (CSEL [OpARM64LessThanU] <y.Type> y (Const64 <y.Type> [63]) (CMPconst [64] (ZeroExt32to64 y))))
-(Rsh64x16 x y) && !shiftIsBounded(v) => (SRA x (CSEL [OpARM64LessThanU] <y.Type> y (Const64 <y.Type> [63]) (CMPconst [64] (ZeroExt16to64 y))))
-(Rsh64x8  x y) && !shiftIsBounded(v) => (SRA x (CSEL [OpARM64LessThanU] <y.Type> y (Const64 <y.Type> [63]) (CMPconst [64] (ZeroExt8to64  y))))
+(Rsh64x(32|16|8) x y) && !shiftIsBounded(v) => (SRA x (CSEL [OpARM64LessThanU] <y.Type> y (Const64 <y.Type> [63]) (CMPconst [64] ((ZeroExt32to64|ZeroExt16to64|ZeroExt8to64) y))))
 
 (Rsh32x64 x y) && !shiftIsBounded(v) => (SRA (SignExt32to64 x) (CSEL [OpARM64LessThanU] <y.Type> y (Const64 <y.Type> [63]) (CMPconst [64] y)))
-(Rsh32x32 x y) && !shiftIsBounded(v) => (SRA (SignExt32to64 x) (CSEL [OpARM64LessThanU] <y.Type> y (Const64 <y.Type> [63]) (CMPconst [64] (ZeroExt32to64 y))))
-(Rsh32x16 x y) && !shiftIsBounded(v) => (SRA (SignExt32to64 x) (CSEL [OpARM64LessThanU] <y.Type> y (Const64 <y.Type> [63]) (CMPconst [64] (ZeroExt16to64 y))))
-(Rsh32x8  x y) && !shiftIsBounded(v) => (SRA (SignExt32to64 x) (CSEL [OpARM64LessThanU] <y.Type> y (Const64 <y.Type> [63]) (CMPconst [64] (ZeroExt8to64  y))))
+(Rsh32x(32|16|8) x y) && !shiftIsBounded(v) => (SRA (SignExt32to64 x) (CSEL [OpARM64LessThanU] <y.Type> y (Const64 <y.Type> [63]) (CMPconst [64] ((ZeroExt32to64|ZeroExt16to64|ZeroExt8to64) y))))
 
 (Rsh16x64 x y) && !shiftIsBounded(v) => (SRA (SignExt16to64 x) (CSEL [OpARM64LessThanU] <y.Type> y (Const64 <y.Type> [63]) (CMPconst [64] y)))
-(Rsh16x32 x y) && !shiftIsBounded(v) => (SRA (SignExt16to64 x) (CSEL [OpARM64LessThanU] <y.Type> y (Const64 <y.Type> [63]) (CMPconst [64] (ZeroExt32to64 y))))
-(Rsh16x16 x y) && !shiftIsBounded(v) => (SRA (SignExt16to64 x) (CSEL [OpARM64LessThanU] <y.Type> y (Const64 <y.Type> [63]) (CMPconst [64] (ZeroExt16to64 y))))
-(Rsh16x8  x y) && !shiftIsBounded(v) => (SRA (SignExt16to64 x) (CSEL [OpARM64LessThanU] <y.Type> y (Const64 <y.Type> [63]) (CMPconst [64] (ZeroExt8to64  y))))
+(Rsh16x(32|16|8) x y) && !shiftIsBounded(v) => (SRA (SignExt16to64 x) (CSEL [OpARM64LessThanU] <y.Type> y (Const64 <y.Type> [63]) (CMPconst [64] ((ZeroExt32to64|ZeroExt16to64|ZeroExt8to64) y))))
 
 (Rsh8x64 x y) && !shiftIsBounded(v) => (SRA (SignExt8to64 x) (CSEL [OpARM64LessThanU] <y.Type> y (Const64 <y.Type> [63]) (CMPconst [64] y)))
-(Rsh8x32 x y) && !shiftIsBounded(v) => (SRA (SignExt8to64 x) (CSEL [OpARM64LessThanU] <y.Type> y (Const64 <y.Type> [63]) (CMPconst [64] (ZeroExt32to64 y))))
-(Rsh8x16 x y) && !shiftIsBounded(v) => (SRA (SignExt8to64 x) (CSEL [OpARM64LessThanU] <y.Type> y (Const64 <y.Type> [63]) (CMPconst [64] (ZeroExt16to64 y))))
-(Rsh8x8  x y) && !shiftIsBounded(v) => (SRA (SignExt8to64 x) (CSEL [OpARM64LessThanU] <y.Type> y (Const64 <y.Type> [63]) (CMPconst [64] (ZeroExt8to64  y))))
+(Rsh8x(32|16|8) x y) && !shiftIsBounded(v) => (SRA (SignExt8to64 x) (CSEL [OpARM64LessThanU] <y.Type> y (Const64 <y.Type> [63]) (CMPconst [64] ((ZeroExt32to64|ZeroExt16to64|ZeroExt8to64) y))))
 
 // constants
 (Const(64|32|16|8) [val]) => (MOVDconst [int64(val)])
@@ -561,20 +537,8 @@
 (GetCallerPC ...) => (LoweredGetCallerPC ...)
 
 // Absorb pseudo-ops into blocks.
-(If (Equal cc) yes no) => (EQ cc yes no)
-(If (NotEqual cc) yes no) => (NE cc yes no)
-(If (LessThan cc) yes no) => (LT cc yes no)
-(If (LessThanU cc) yes no) => (ULT cc yes no)
-(If (LessEqual cc) yes no) => (LE cc yes no)
-(If (LessEqualU cc) yes no) => (ULE cc yes no)
-(If (GreaterThan cc) yes no) => (GT cc yes no)
-(If (GreaterThanU cc) yes no) => (UGT cc yes no)
-(If (GreaterEqual cc) yes no) => (GE cc yes no)
-(If (GreaterEqualU cc) yes no) => (UGE cc yes no)
-(If (LessThanF cc) yes no) => (FLT cc yes no)
-(If (LessEqualF cc) yes no) => (FLE cc yes no)
-(If (GreaterThanF cc) yes no) => (FGT cc yes no)
-(If (GreaterEqualF cc) yes no) => (FGE cc yes no)
+(If ((Equal|NotEqual|LessThan|LessThanU|LessEqual|LessEqualU|GreaterThan|GreaterThanU|GreaterEqual|GreaterEqualU|LessThanF|LessEqualF|GreaterThanF|GreaterEqualF) cc) yes no) =>
+	((EQ|NE|LT|ULT|LE|ULE|GT|UGT|GE|UGE|FLT|FLE|FGT|FGE) cc yes no)
 
 (If cond yes no) => (TBNZ [0] cond yes no)
 
@@ -601,15 +565,10 @@
 (AtomicCompareAndSwap(32|64)Variant ...) => (LoweredAtomicCas(32|64)Variant      ...)
 
 // Currently the updated value is not used, but we need a register to temporarily hold it.
-(AtomicAnd8  ptr val mem) => (Select1 (LoweredAtomicAnd8  ptr val mem))
-(AtomicAnd32 ptr val mem) => (Select1 (LoweredAtomicAnd32 ptr val mem))
-(AtomicOr8   ptr val mem) => (Select1 (LoweredAtomicOr8   ptr val mem))
-(AtomicOr32  ptr val mem) => (Select1 (LoweredAtomicOr32  ptr val mem))
-
-(AtomicAnd8Variant  ptr val mem) => (Select1 (LoweredAtomicAnd8Variant  ptr val mem))
-(AtomicAnd32Variant ptr val mem) => (Select1 (LoweredAtomicAnd32Variant ptr val mem))
-(AtomicOr8Variant   ptr val mem) => (Select1 (LoweredAtomicOr8Variant   ptr val mem))
-(AtomicOr32Variant  ptr val mem) => (Select1 (LoweredAtomicOr32Variant  ptr val mem))
+(AtomicAnd(8|32)  ptr val mem) => (Select1 (LoweredAtomicAnd(8|32)  ptr val mem))
+(AtomicOr(8|32)  ptr val mem) => (Select1 (LoweredAtomicOr(8|32)  ptr val mem))
+(AtomicAnd(8|32)Variant  ptr val mem) => (Select1 (LoweredAtomicAnd(8|32)Variant  ptr val mem))
+(AtomicOr(8|32)Variant  ptr val mem) => (Select1 (LoweredAtomicOr(8|32)Variant  ptr val mem))
 
 // Write barrier.
 (WB ...) => (LoweredWB ...)
@@ -624,198 +583,56 @@
 // Optimizations
 
 // Absorb boolean tests into block
-(NZ (Equal cc) yes no) => (EQ cc yes no)
-(NZ (NotEqual cc) yes no) => (NE cc yes no)
-(NZ (LessThan cc) yes no) => (LT cc yes no)
-(NZ (LessThanU cc) yes no) => (ULT cc yes no)
-(NZ (LessEqual cc) yes no) => (LE cc yes no)
-(NZ (LessEqualU cc) yes no) => (ULE cc yes no)
-(NZ (GreaterThan cc) yes no) => (GT cc yes no)
-(NZ (GreaterThanU cc) yes no) => (UGT cc yes no)
-(NZ (GreaterEqual cc) yes no) => (GE cc yes no)
-(NZ (GreaterEqualU cc) yes no) => (UGE cc yes no)
-(NZ (LessThanF cc) yes no) => (FLT cc yes no)
-(NZ (LessEqualF cc) yes no) => (FLE cc yes no)
-(NZ (GreaterThanF cc) yes no) => (FGT cc yes no)
-(NZ (GreaterEqualF cc) yes no) => (FGE cc yes no)
+(NZ ((Equal|NotEqual|LessThan|LessThanU|LessEqual|LessEqualU|GreaterThan|GreaterThanU|GreaterEqual|GreaterEqualU|LessThanF|LessEqualF|GreaterThanF|GreaterEqualF) cc) yes no) =>
+	((EQ|NE|LT|ULT|LE|ULE|GT|UGT|GE|UGE|FLT|FLE|FGT|FGE) cc yes no)
+(TBNZ [0] ((Equal|NotEqual|LessThan|LessThanU|LessEqual|LessEqualU|GreaterThan|GreaterThanU|GreaterEqual|GreaterEqualU|LessThanF|LessEqualF|GreaterThanF|GreaterEqualF) cc) yes no) =>
+	((EQ|NE|LT|ULT|LE|ULE|GT|UGT|GE|UGE|FLT|FLE|FGT|FGE) cc yes no)
 
-(TBNZ [0] (Equal cc) yes no) => (EQ cc yes no)
-(TBNZ [0] (NotEqual cc) yes no) => (NE cc yes no)
-(TBNZ [0] (LessThan cc) yes no) => (LT cc yes no)
-(TBNZ [0] (LessThanU cc) yes no) => (ULT cc yes no)
-(TBNZ [0] (LessEqual cc) yes no) => (LE cc yes no)
-(TBNZ [0] (LessEqualU cc) yes no) => (ULE cc yes no)
-(TBNZ [0] (GreaterThan cc) yes no) => (GT cc yes no)
-(TBNZ [0] (GreaterThanU cc) yes no) => (UGT cc yes no)
-(TBNZ [0] (GreaterEqual cc) yes no) => (GE cc yes no)
-(TBNZ [0] (GreaterEqualU cc) yes no) => (UGE cc yes no)
-(TBNZ [0] (LessThanF cc) yes no) => (FLT cc yes no)
-(TBNZ [0] (LessEqualF cc) yes no) => (FLE cc yes no)
-(TBNZ [0] (GreaterThanF cc) yes no) => (FGT cc yes no)
-(TBNZ [0] (GreaterEqualF cc) yes no) => (FGE cc yes no)
-
-(EQ (CMPconst [0] z:(AND x y)) yes no) && z.Uses == 1 => (EQ (TST x y) yes no)
-(NE (CMPconst [0] z:(AND x y)) yes no) && z.Uses == 1 => (NE (TST x y) yes no)
-(LT (CMPconst [0] z:(AND x y)) yes no) && z.Uses == 1 => (LT (TST x y) yes no)
-(LE (CMPconst [0] z:(AND x y)) yes no) && z.Uses == 1 => (LE (TST x y) yes no)
-(GT (CMPconst [0] z:(AND x y)) yes no) && z.Uses == 1 => (GT (TST x y) yes no)
-(GE (CMPconst [0] z:(AND x y)) yes no) && z.Uses == 1 => (GE (TST x y) yes no)
-
-(EQ (CMPconst [0] x:(ANDconst [c] y)) yes no) && x.Uses == 1 => (EQ (TSTconst [c] y) yes no)
-(NE (CMPconst [0] x:(ANDconst [c] y)) yes no) && x.Uses == 1 => (NE (TSTconst [c] y) yes no)
-(LT (CMPconst [0] x:(ANDconst [c] y)) yes no) && x.Uses == 1 => (LT (TSTconst [c] y) yes no)
-(LE (CMPconst [0] x:(ANDconst [c] y)) yes no) && x.Uses == 1 => (LE (TSTconst [c] y) yes no)
-(GT (CMPconst [0] x:(ANDconst [c] y)) yes no) && x.Uses == 1 => (GT (TSTconst [c] y) yes no)
-(GE (CMPconst [0] x:(ANDconst [c] y)) yes no) && x.Uses == 1 => (GE (TSTconst [c] y) yes no)
-
-(EQ (CMPWconst [0] z:(AND x y)) yes no) && z.Uses == 1 => (EQ (TSTW x y) yes no)
-(NE (CMPWconst [0] z:(AND x y)) yes no) && z.Uses == 1 => (NE (TSTW x y) yes no)
-(LT (CMPWconst [0] z:(AND x y)) yes no) && z.Uses == 1 => (LT (TSTW x y) yes no)
-(LE (CMPWconst [0] z:(AND x y)) yes no) && z.Uses == 1 => (LE (TSTW x y) yes no)
-(GT (CMPWconst [0] z:(AND x y)) yes no) && z.Uses == 1 => (GT (TSTW x y) yes no)
-(GE (CMPWconst [0] z:(AND x y)) yes no) && z.Uses == 1 => (GE (TSTW x y) yes no)
-
-(EQ (CMPWconst [0] x:(ANDconst [c] y)) yes no) && x.Uses == 1 => (EQ (TSTWconst [int32(c)] y) yes no)
-(NE (CMPWconst [0] x:(ANDconst [c] y)) yes no) && x.Uses == 1 => (NE (TSTWconst [int32(c)] y) yes no)
-(LT (CMPWconst [0] x:(ANDconst [c] y)) yes no) && x.Uses == 1 => (LT (TSTWconst [int32(c)] y) yes no)
-(LE (CMPWconst [0] x:(ANDconst [c] y)) yes no) && x.Uses == 1 => (LE (TSTWconst [int32(c)] y) yes no)
-(GT (CMPWconst [0] x:(ANDconst [c] y)) yes no) && x.Uses == 1 => (GT (TSTWconst [int32(c)] y) yes no)
-(GE (CMPWconst [0] x:(ANDconst [c] y)) yes no) && x.Uses == 1 => (GE (TSTWconst [int32(c)] y) yes no)
+((EQ|NE|LT|LE|GT|GE) (CMPconst [0] z:(AND x y)) yes no) && z.Uses == 1 => ((EQ|NE|LT|LE|GT|GE) (TST x y) yes no)
+((EQ|NE|LT|LE|GT|GE) (CMPconst [0] x:(ANDconst [c] y)) yes no) && x.Uses == 1 => ((EQ|NE|LT|LE|GT|GE) (TSTconst [c] y) yes no)
+((EQ|NE|LT|LE|GT|GE) (CMPWconst [0] z:(AND x y)) yes no) && z.Uses == 1 => ((EQ|NE|LT|LE|GT|GE) (TSTW x y) yes no)
+((EQ|NE|LT|LE|GT|GE) (CMPWconst [0] x:(ANDconst [c] y)) yes no) && x.Uses == 1 => ((EQ|NE|LT|LE|GT|GE) (TSTWconst [int32(c)] y) yes no)
 
 // For conditional instructions such as CSET, CSEL.
-(Equal (CMPconst [0] z:(AND x y))) && z.Uses == 1 => (Equal (TST x y))
-(NotEqual (CMPconst [0] z:(AND x y))) && z.Uses == 1 => (NotEqual (TST x y))
-(LessThan (CMPconst [0] z:(AND x y))) && z.Uses == 1 => (LessThan (TST x y))
-(LessEqual (CMPconst [0] z:(AND x y))) && z.Uses == 1 => (LessEqual (TST x y))
-(GreaterThan (CMPconst [0] z:(AND x y))) && z.Uses == 1 => (GreaterThan (TST x y))
-(GreaterEqual (CMPconst [0] z:(AND x y))) && z.Uses == 1 => (GreaterEqual (TST x y))
+((Equal|NotEqual|LessThan|LessEqual|GreaterThan|GreaterEqual) (CMPconst [0] z:(AND x y))) && z.Uses == 1 => ((Equal|NotEqual|LessThan|LessEqual|GreaterThan|GreaterEqual) (TST x y))
+((Equal|NotEqual|LessThan|LessEqual|GreaterThan|GreaterEqual) (CMPWconst [0] x:(ANDconst [c] y))) && x.Uses == 1 => ((Equal|NotEqual|LessThan|LessEqual|GreaterThan|GreaterEqual) (TSTWconst [int32(c)] y))
+((Equal|NotEqual|LessThan|LessEqual|GreaterThan|GreaterEqual) (CMPWconst [0] z:(AND x y))) && z.Uses == 1 => ((Equal|NotEqual|LessThan|LessEqual|GreaterThan|GreaterEqual) (TSTW x y))
+((Equal|NotEqual|LessThan|LessEqual|GreaterThan|GreaterEqual) (CMPconst [0] x:(ANDconst [c] y))) && x.Uses == 1 => ((Equal|NotEqual|LessThan|LessEqual|GreaterThan|GreaterEqual) (TSTconst [c] y))
 
-(Equal (CMPWconst [0] x:(ANDconst [c] y))) && x.Uses == 1 => (Equal (TSTWconst [int32(c)] y))
-(NotEqual (CMPWconst [0] x:(ANDconst [c] y))) && x.Uses == 1 => (NotEqual (TSTWconst [int32(c)] y))
-(LessThan (CMPWconst [0] x:(ANDconst [c] y))) && x.Uses == 1 => (LessThan (TSTWconst [int32(c)] y))
-(LessEqual (CMPWconst [0] x:(ANDconst [c] y))) && x.Uses == 1 => (LessEqual (TSTWconst [int32(c)] y))
-(GreaterThan (CMPWconst [0] x:(ANDconst [c] y))) && x.Uses == 1 => (GreaterThan (TSTWconst [int32(c)] y))
-(GreaterEqual (CMPWconst [0] x:(ANDconst [c] y))) && x.Uses == 1 => (GreaterEqual (TSTWconst [int32(c)] y))
-
-(Equal (CMPWconst [0] z:(AND x y))) && z.Uses == 1 => (Equal (TSTW x y))
-(NotEqual (CMPWconst [0] z:(AND x y))) && z.Uses == 1 => (NotEqual (TSTW x y))
-(LessThan (CMPWconst [0] z:(AND x y))) && z.Uses == 1 => (LessThan (TSTW x y))
-(LessEqual (CMPWconst [0] z:(AND x y))) && z.Uses == 1 => (LessEqual (TSTW x y))
-(GreaterThan (CMPWconst [0] z:(AND x y))) && z.Uses == 1 => (GreaterThan (TSTW x y))
-(GreaterEqual (CMPWconst [0] z:(AND x y))) && z.Uses == 1 => (GreaterEqual (TSTW x y))
-
-(Equal (CMPconst [0] x:(ANDconst [c] y))) && x.Uses == 1 => (Equal (TSTconst [c] y))
-(NotEqual (CMPconst [0] x:(ANDconst [c] y))) && x.Uses == 1 => (NotEqual (TSTconst [c] y))
-(LessThan (CMPconst [0] x:(ANDconst [c] y))) && x.Uses == 1 => (LessThan (TSTconst [c] y))
-(LessEqual (CMPconst [0] x:(ANDconst [c] y))) && x.Uses == 1 => (LessEqual (TSTconst [c] y))
-(GreaterThan (CMPconst [0] x:(ANDconst [c] y))) && x.Uses == 1 => (GreaterThan (TSTconst [c] y))
-(GreaterEqual (CMPconst [0] x:(ANDconst [c] y))) && x.Uses == 1 => (GreaterEqual (TSTconst [c] y))
-
-(EQ (CMPconst [0] x:(ADDconst [c] y)) yes no) && x.Uses == 1 => (EQ (CMNconst [c] y) yes no)
-(NE (CMPconst [0] x:(ADDconst [c] y)) yes no) && x.Uses == 1 => (NE (CMNconst [c] y) yes no)
-(LT (CMPconst [0] x:(ADDconst [c] y)) yes no) && x.Uses == 1 => (LTnoov (CMNconst [c] y) yes no)
-(LE (CMPconst [0] x:(ADDconst [c] y)) yes no) && x.Uses == 1 => (LEnoov (CMNconst [c] y) yes no)
-(GT (CMPconst [0] x:(ADDconst [c] y)) yes no) && x.Uses == 1 => (GTnoov (CMNconst [c] y) yes no)
-(GE (CMPconst [0] x:(ADDconst [c] y)) yes no) && x.Uses == 1 => (GEnoov (CMNconst [c] y) yes no)
-
-(EQ (CMPWconst [0] x:(ADDconst [c] y)) yes no) && x.Uses == 1 => (EQ (CMNWconst [int32(c)] y) yes no)
-(NE (CMPWconst [0] x:(ADDconst [c] y)) yes no) && x.Uses == 1 => (NE (CMNWconst [int32(c)] y) yes no)
-(LT (CMPWconst [0] x:(ADDconst [c] y)) yes no) && x.Uses == 1 => (LTnoov (CMNWconst [int32(c)] y) yes no)
-(LE (CMPWconst [0] x:(ADDconst [c] y)) yes no) && x.Uses == 1 => (LEnoov (CMNWconst [int32(c)] y) yes no)
-(GT (CMPWconst [0] x:(ADDconst [c] y)) yes no) && x.Uses == 1 => (GTnoov (CMNWconst [int32(c)] y) yes no)
-(GE (CMPWconst [0] x:(ADDconst [c] y)) yes no) && x.Uses == 1 => (GEnoov (CMNWconst [int32(c)] y) yes no)
-
-(EQ (CMPconst [0] z:(ADD x y)) yes no) && z.Uses == 1 => (EQ (CMN x y) yes no)
-(NE (CMPconst [0] z:(ADD x y)) yes no) && z.Uses == 1 => (NE (CMN x y) yes no)
-(LT (CMPconst [0] z:(ADD x y)) yes no) && z.Uses == 1 => (LTnoov (CMN x y) yes no)
-(LE (CMPconst [0] z:(ADD x y)) yes no) && z.Uses == 1 => (LEnoov (CMN x y) yes no)
-(GT (CMPconst [0] z:(ADD x y)) yes no) && z.Uses == 1 => (GTnoov (CMN x y) yes no)
-(GE (CMPconst [0] z:(ADD x y)) yes no) && z.Uses == 1 => (GEnoov (CMN x y) yes no)
-
-(EQ (CMPWconst [0] z:(ADD x y)) yes no) && z.Uses == 1 => (EQ (CMNW x y) yes no)
-(NE (CMPWconst [0] z:(ADD x y)) yes no) && z.Uses == 1 => (NE (CMNW x y) yes no)
-(LT (CMPWconst [0] z:(ADD x y)) yes no) && z.Uses == 1 => (LTnoov (CMNW x y) yes no)
-(LE (CMPWconst [0] z:(ADD x y)) yes no) && z.Uses == 1 => (LEnoov (CMNW x y) yes no)
-(GT (CMPWconst [0] z:(ADD x y)) yes no) && z.Uses == 1 => (GTnoov (CMNW x y) yes no)
-(GE (CMPWconst [0] z:(ADD x y)) yes no) && z.Uses == 1 => (GEnoov (CMNW x y) yes no)
+((EQ|NE|LT|LE|GT|GE) (CMPconst [0] x:(ADDconst [c] y)) yes no) && x.Uses == 1 => ((EQ|NE|LTnoov|LEnoov|GTnoov|GEnoov) (CMNconst [c] y) yes no)
+((EQ|NE|LT|LE|GT|GE) (CMPWconst [0] x:(ADDconst [c] y)) yes no) && x.Uses == 1 => ((EQ|NE|LTnoov|LEnoov|GTnoov|GEnoov) (CMNWconst [int32(c)] y) yes no)
+((EQ|NE|LT|LE|GT|GE) (CMPconst [0] z:(ADD x y)) yes no) && z.Uses == 1 => ((EQ|NE|LTnoov|LEnoov|GTnoov|GEnoov) (CMN x y) yes no)
+((EQ|NE|LT|LE|GT|GE) (CMPWconst [0] z:(ADD x y)) yes no) && z.Uses == 1 => ((EQ|NE|LTnoov|LEnoov|GTnoov|GEnoov) (CMNW x y) yes no)
 
 // CMP(x,-y) -> CMN(x,y) is only valid for unordered comparison, if y can be -1<<63
-(EQ (CMP x z:(NEG y)) yes no) && z.Uses == 1 => (EQ (CMN x y) yes no)
-(NE (CMP x z:(NEG y)) yes no) && z.Uses == 1 => (NE (CMN x y) yes no)
-
-(Equal (CMP x z:(NEG y))) && z.Uses == 1 => (Equal (CMN x y))
-(NotEqual (CMP x z:(NEG y))) && z.Uses == 1 => (NotEqual (CMN x y))
+((EQ|NE) (CMP x z:(NEG y)) yes no) && z.Uses == 1 => ((EQ|NE) (CMN x y) yes no)
+((Equal|NotEqual) (CMP x z:(NEG y))) && z.Uses == 1 => ((Equal|NotEqual) (CMN x y))
 
 // CMPW(x,-y) -> CMNW(x,y) is only valid for unordered comparison, if y can be -1<<31
-(EQ (CMPW x z:(NEG y)) yes no) && z.Uses == 1 => (EQ (CMNW x y) yes no)
-(NE (CMPW x z:(NEG y)) yes no) && z.Uses == 1 => (NE (CMNW x y) yes no)
-
-(Equal (CMPW x z:(NEG y))) && z.Uses == 1 => (Equal (CMNW x y))
-(NotEqual (CMPW x z:(NEG y))) && z.Uses == 1 => (NotEqual (CMNW x y))
+((EQ|NE) (CMPW x z:(NEG y)) yes no) && z.Uses == 1 => ((EQ|NE) (CMNW x y) yes no)
+((Equal|NotEqual) (CMPW x z:(NEG y))) && z.Uses == 1 => ((Equal|NotEqual) (CMNW x y))
 
 // For conditional instructions such as CSET, CSEL.
 // TODO: add support for LT, LE, GT, GE, overflow needs to be considered.
-(Equal (CMPconst [0] x:(ADDconst [c] y))) && x.Uses == 1 => (Equal (CMNconst [c] y))
-(NotEqual (CMPconst [0] x:(ADDconst [c] y))) && x.Uses == 1 => (NotEqual (CMNconst [c] y))
+((Equal|NotEqual) (CMPconst [0] x:(ADDconst [c] y))) && x.Uses == 1 => ((Equal|NotEqual) (CMNconst [c] y))
+((Equal|NotEqual) (CMPWconst [0] x:(ADDconst [c] y))) && x.Uses == 1 => ((Equal|NotEqual) (CMNWconst [int32(c)] y))
+((Equal|NotEqual) (CMPconst [0] z:(ADD x y))) && z.Uses == 1 => ((Equal|NotEqual) (CMN x y))
+((Equal|NotEqual) (CMPWconst [0] z:(ADD x y))) && z.Uses == 1 => ((Equal|NotEqual) (CMNW x y))
+((Equal|NotEqual) (CMPconst [0] z:(MADD a x y))) && z.Uses==1 => ((Equal|NotEqual) (CMN a (MUL <x.Type> x y)))
+((Equal|NotEqual) (CMPconst [0] z:(MSUB a x y))) && z.Uses==1 => ((Equal|NotEqual) (CMP a (MUL <x.Type> x y)))
+((Equal|NotEqual) (CMPWconst [0] z:(MADDW a x y))) && z.Uses==1 => ((Equal|NotEqual) (CMNW a (MULW <x.Type> x y)))
+((Equal|NotEqual) (CMPWconst [0] z:(MSUBW a x y))) && z.Uses==1 => ((Equal|NotEqual) (CMPW a (MULW <x.Type> x y)))
 
-(Equal (CMPWconst [0] x:(ADDconst [c] y))) && x.Uses == 1 => (Equal (CMNWconst [int32(c)] y))
-(NotEqual (CMPWconst [0] x:(ADDconst [c] y))) && x.Uses == 1 => (NotEqual (CMNWconst [int32(c)] y))
+((CMPconst|CMNconst) [c] y) && c < 0 && c != -1<<63 => ((CMNconst|CMPconst) [-c] y)
+((CMPWconst|CMNWconst) [c] y) && c < 0 && c != -1<<31 => ((CMNWconst|CMPWconst) [-c] y)
 
-(Equal (CMPconst [0] z:(ADD x y))) && z.Uses == 1 => (Equal (CMN x y))
-(NotEqual (CMPconst [0] z:(ADD x y))) && z.Uses == 1 => (NotEqual (CMN x y))
+((EQ|NE) (CMPconst [0] x) yes no) => ((Z|NZ) x yes no)
+((EQ|NE) (CMPWconst [0] x) yes no) => ((ZW|NZW) x yes no)
 
-(Equal (CMPWconst [0] z:(ADD x y))) && z.Uses == 1 => (Equal (CMNW x y))
-(NotEqual (CMPWconst [0] z:(ADD x y))) && z.Uses == 1 => (NotEqual (CMNW x y))
-
-(Equal (CMPconst [0] z:(MADD a x y))) && z.Uses==1 => (Equal (CMN a (MUL <x.Type> x y)))
-(NotEqual (CMPconst [0] z:(MADD a x y))) && z.Uses==1 => (NotEqual (CMN a (MUL <x.Type> x y)))
-
-(Equal (CMPconst [0] z:(MSUB a x y))) && z.Uses==1 => (Equal (CMP a (MUL <x.Type> x y)))
-(NotEqual (CMPconst [0] z:(MSUB a x y))) && z.Uses==1 => (NotEqual (CMP a (MUL <x.Type> x y)))
-
-(Equal (CMPWconst [0] z:(MADDW a x y))) && z.Uses==1 => (Equal (CMNW a (MULW <x.Type> x y)))
-(NotEqual (CMPWconst [0] z:(MADDW a x y))) && z.Uses==1 => (NotEqual (CMNW a (MULW <x.Type> x y)))
-
-(Equal (CMPWconst [0] z:(MSUBW a x y))) && z.Uses==1 => (Equal (CMPW a (MULW <x.Type> x y)))
-(NotEqual (CMPWconst [0] z:(MSUBW a x y))) && z.Uses==1 => (NotEqual (CMPW a (MULW <x.Type> x y)))
-
-(CMPconst [c] y) && c < 0 && c != -1<<63 => (CMNconst [-c] y)
-(CMPWconst [c] y) && c < 0 && c != -1<<31 => (CMNWconst [-c] y)
-(CMNconst [c] y) && c < 0 && c != -1<<63 => (CMPconst [-c] y)
-(CMNWconst [c] y) && c < 0 && c != -1<<31 => (CMPWconst [-c] y)
-
-(EQ (CMPconst [0] x) yes no) => (Z x yes no)
-(NE (CMPconst [0] x) yes no) => (NZ x yes no)
-(EQ (CMPWconst [0] x) yes no) => (ZW x yes no)
-(NE (CMPWconst [0] x) yes no) => (NZW x yes no)
-
-(EQ (CMPconst [0]  z:(MADD a x y)) yes no) && z.Uses==1 => (EQ (CMN a (MUL <x.Type> x y)) yes no)
-(NE (CMPconst [0]  z:(MADD a x y)) yes no) && z.Uses==1 => (NE (CMN a (MUL <x.Type> x y)) yes no)
-(LT (CMPconst [0]  z:(MADD a x y)) yes no) && z.Uses==1 => (LTnoov (CMN a (MUL <x.Type> x y)) yes no)
-(LE (CMPconst [0]  z:(MADD a x y)) yes no) && z.Uses==1 => (LEnoov (CMN a (MUL <x.Type> x y)) yes no)
-(GT (CMPconst [0]  z:(MADD a x y)) yes no) && z.Uses==1 => (GTnoov (CMN a (MUL <x.Type> x y)) yes no)
-(GE (CMPconst [0]  z:(MADD a x y)) yes no) && z.Uses==1 => (GEnoov (CMN a (MUL <x.Type> x y)) yes no)
-
-(EQ (CMPconst [0]  z:(MSUB a x y)) yes no) && z.Uses==1 => (EQ (CMP a (MUL <x.Type> x y)) yes no)
-(NE (CMPconst [0]  z:(MSUB a x y)) yes no) && z.Uses==1 => (NE (CMP a (MUL <x.Type> x y)) yes no)
-(LE (CMPconst [0]  z:(MSUB a x y)) yes no) && z.Uses==1 => (LEnoov (CMP a (MUL <x.Type> x y)) yes no)
-(LT (CMPconst [0]  z:(MSUB a x y)) yes no) && z.Uses==1 => (LTnoov (CMP a (MUL <x.Type> x y)) yes no)
-(GE (CMPconst [0]  z:(MSUB a x y)) yes no) && z.Uses==1 => (GEnoov (CMP a (MUL <x.Type> x y)) yes no)
-(GT (CMPconst [0]  z:(MSUB a x y)) yes no) && z.Uses==1 => (GTnoov (CMP a (MUL <x.Type> x y)) yes no)
-
-(EQ (CMPWconst [0] z:(MADDW a x y)) yes no) && z.Uses==1 => (EQ (CMNW a (MULW <x.Type> x y)) yes no)
-(NE (CMPWconst [0] z:(MADDW a x y)) yes no) && z.Uses==1 => (NE (CMNW a (MULW <x.Type> x y)) yes no)
-(LE (CMPWconst [0] z:(MADDW a x y)) yes no) && z.Uses==1 => (LEnoov (CMNW a (MULW <x.Type> x y)) yes no)
-(LT (CMPWconst [0] z:(MADDW a x y)) yes no) && z.Uses==1 => (LTnoov (CMNW a (MULW <x.Type> x y)) yes no)
-(GE (CMPWconst [0] z:(MADDW a x y)) yes no) && z.Uses==1 => (GEnoov (CMNW a (MULW <x.Type> x y)) yes no)
-(GT (CMPWconst [0] z:(MADDW a x y)) yes no) && z.Uses==1 => (GTnoov (CMNW a (MULW <x.Type> x y)) yes no)
-
-(EQ (CMPWconst [0] z:(MSUBW a x y)) yes no) && z.Uses==1 => (EQ (CMPW a (MULW <x.Type> x y)) yes no)
-(NE (CMPWconst [0] z:(MSUBW a x y)) yes no) && z.Uses==1 => (NE (CMPW a (MULW <x.Type> x y)) yes no)
-(LE (CMPWconst [0] z:(MSUBW a x y)) yes no) && z.Uses==1 => (LEnoov (CMPW a (MULW <x.Type> x y)) yes no)
-(LT (CMPWconst [0] z:(MSUBW a x y)) yes no) && z.Uses==1 => (LTnoov (CMPW a (MULW <x.Type> x y)) yes no)
-(GE (CMPWconst [0] z:(MSUBW a x y)) yes no) && z.Uses==1 => (GEnoov (CMPW a (MULW <x.Type> x y)) yes no)
-(GT (CMPWconst [0] z:(MSUBW a x y)) yes no) && z.Uses==1 => (GTnoov (CMPW a (MULW <x.Type> x y)) yes no)
+((EQ|NE|LT|LE|GT|GE) (CMPconst [0]  z:(MADD a x y)) yes no) && z.Uses==1 => ((EQ|NE|LTnoov|LEnoov|GTnoov|GEnoov) (CMN a (MUL <x.Type> x y)) yes no)
+((EQ|NE|LT|LE|GT|GE) (CMPconst [0]  z:(MSUB a x y)) yes no) && z.Uses==1 => ((EQ|NE|LTnoov|LEnoov|GTnoov|GEnoov) (CMP a (MUL <x.Type> x y)) yes no)
+((EQ|NE|LT|LE|GT|GE) (CMPWconst [0] z:(MADDW a x y)) yes no) && z.Uses==1 => ((EQ|NE|LTnoov|LEnoov|GTnoov|GEnoov) (CMNW a (MULW <x.Type> x y)) yes no)
+((EQ|NE|LT|LE|GT|GE) (CMPWconst [0] z:(MSUBW a x y)) yes no) && z.Uses==1 => ((EQ|NE|LTnoov|LEnoov|GTnoov|GEnoov) (CMPW a (MULW <x.Type> x y)) yes no)
 
 // Absorb bit-tests into block
 (Z  (ANDconst [c] x) yes no) && oneBit(c) => (TBZ  [int64(ntz64(c))] x yes no)
@@ -869,6 +686,7 @@
 (MOVBload  [off] {sym} (ADD ptr idx) mem) && off == 0 && sym == nil => (MOVBloadidx ptr idx mem)
 (FMOVSload [off] {sym} (ADD ptr idx) mem) && off == 0 && sym == nil => (FMOVSloadidx ptr idx mem)
 (FMOVDload [off] {sym} (ADD ptr idx) mem) && off == 0 && sym == nil => (FMOVDloadidx ptr idx mem)
+
 (MOVDloadidx  ptr (MOVDconst [c]) mem) && is32Bit(c) => (MOVDload  [int32(c)] ptr mem)
 (MOVDloadidx  (MOVDconst [c]) ptr mem) && is32Bit(c) => (MOVDload  [int32(c)] ptr mem)
 (MOVWUloadidx ptr (MOVDconst [c]) mem) && is32Bit(c) => (MOVWUload [int32(c)] ptr mem)
