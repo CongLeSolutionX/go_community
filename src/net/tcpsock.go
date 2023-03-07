@@ -167,9 +167,11 @@ func (c *TCPConn) CloseWrite() error {
 // If sec == 0, the operating system discards any unsent or
 // unacknowledged data.
 //
-// If sec > 0, the data is sent in the background as with sec < 0. On
-// some operating systems after sec seconds have elapsed any remaining
-// unsent data may be discarded.
+// If sec > 0, the data is sent in the background as with sec < 0.
+// On some operating systems including Linux after sec seconds have
+// elapsed any remaining unsent data may be discarded.
+// On some operating systems, this may cause Close to block until all
+// data has been sent or discarded.
 func (c *TCPConn) SetLinger(sec int) error {
 	if !c.ok() {
 		return syscall.EINVAL
