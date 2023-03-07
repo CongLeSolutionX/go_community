@@ -2903,9 +2903,10 @@ func PackagesAndErrors(ctx context.Context, opts PackageOpts, patterns []string)
 // setPGOProfilePath sets the PGO profile path for pkgs.
 // In -pgo=auto mode, it finds the default PGO profile.
 func setPGOProfilePath(pkgs []*Package) {
+	if cfg.BuildPGO == "" {
+		cfg.BuildPGO = "auto"
+	}
 	switch cfg.BuildPGO {
-	case "":
-		fallthrough // default to "off"
 	case "off":
 		return
 
@@ -2917,6 +2918,7 @@ func setPGOProfilePath(pkgs []*Package) {
 		// have different profiles. We may need to split (unshare)
 		// the dependency graph so they can attach different
 		// profiles.
+		sawProfile := false
 		for _, p := range pkgs {
 			if p.Name != "main" {
 				continue
@@ -2960,6 +2962,11 @@ func setPGOProfilePath(pkgs []*Package) {
 
 			// Replace the package and imports with the PGO version.
 			split(pmain)
+
+			sawProfile = true
+		}
+		if !sawProfile {
+			cfg.BuildPGO = "off"
 		}
 
 	default:
