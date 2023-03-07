@@ -94,6 +94,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4145ff67_dd789c51",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-03-07T19:57:22Z",
+      "side": 1,
+      "message": "Handled in some form, but the form is very different from what\u0027s being added below--returning a non-200 status to a client vs. logging to the server error log.\n\nMy first concern here is still that logging an error just because a client dropped its connection (which is an entirely expected event) doesn\u0027t seem right.",
+      "parentUuid": "8e56c1de_6056d339",
+      "revId": "e0b8c2df4e91cceff6ecfb6bed4bbcd83c8003a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "28f75d6e_4fffdd2f",
         "filename": "src/net/http/fs.go",
         "patchSetId": 2
