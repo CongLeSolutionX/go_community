@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "901295a3_acb0a7a6",
+        "filename": "src/debug/elf/file_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1242,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-03-07T17:49:31Z",
+      "side": 1,
+      "message": "We know exactly what we should get, so it seems better to write\n\n    if len(vals) !\u003d 1 || vals[0] !\u003d 1 {\n        t.Error(\"argh\")\n    }",
+      "revId": "402e85dc048e36d9aab00755011a4bd62983a143",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
