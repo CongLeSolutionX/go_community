@@ -53,6 +53,57 @@
       "message": "Hello,\nIs there any interest in this patch? It improves IsWordChar() speed on average, without affecting readability.",
       "revId": "13be769f5e1245b9f5870362af013f1b5512d5f2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "02883bf3_f038017c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2023-03-07T23:09:07Z",
+      "side": 1,
+      "message": "Thank you for this change Ludi! Apologies that we hadn\u0027t taken a look at this CL. Nice catch. Kindly rebase with the latest code from master, then some updates too on the test to use a sink of type any and also to check that the benchmark got ran and also to reset it.",
+      "revId": "13be769f5e1245b9f5870362af013f1b5512d5f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e44be495_d3903a26",
+        "filename": "src/regexp/syntax/prog.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2023-03-07T23:09:07Z",
+      "side": 1,
+      "message": "Minor nit: please add a comment\n\n// Test for lowercase letters firstly, as these occur more\n// frequently than uppercase letters in common instances and literature.",
+      "revId": "13be769f5e1245b9f5870362af013f1b5512d5f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40fa442d_3fe2253c",
+        "filename": "src/regexp/syntax/prog_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2023-03-07T23:09:07Z",
+      "side": 1,
+      "message": "Please make this an any so:\n\nvar sink any\n\nand then later check to ensure that sink is not nil and then reset it as well, so:\n\nvar sink any\n\nfunc BenchmarkIsWordChar(b *testing.B) {\n\tconst chars \u003d \"Don\u0027t communicate by sharing memory, share memory by communicating.\"\n\tfor i :\u003d 0; i \u003c b.N; i++ {\n\t\tfor _, r :\u003d range chars {\n\t\t\tsink \u003d IsWordChar(r)\n\t\t}\n\t}\n\tif sink \u003d\u003d nil {\n\t        b.Fatal(\"Benchmark did not run\")\n\t}\n\tsink \u003d (any)(nil)\n}",
+      "revId": "13be769f5e1245b9f5870362af013f1b5512d5f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
