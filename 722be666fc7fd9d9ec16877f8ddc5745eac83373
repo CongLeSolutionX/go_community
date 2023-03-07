@@ -16,6 +16,24 @@
       "message": "Could you add a test case for this?  For example, look for one or two of the dynamic tags in testdata/gcc-amd64-linux-exec.  Thanks.",
       "revId": "722be666fc7fd9d9ec16877f8ddc5745eac83373",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f87316b_ce55e948",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 51988
+      },
+      "writtenOn": "2023-03-07T05:21:15Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "cd743051_69b15323",
+      "revId": "722be666fc7fd9d9ec16877f8ddc5745eac83373",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
