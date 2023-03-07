@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc99a7b7_1e2c26f5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-03-07T23:37:16Z",
+      "side": 1,
+      "message": "As a change to the exported API of net/http, this needs an accepted proposal to proceed. I\u0027ve tagged https://go.dev/issue/44855 as a proposal.",
+      "revId": "39fcbdc16abaf08725fb181f3f2cf0362a71be45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
