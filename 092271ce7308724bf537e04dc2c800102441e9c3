@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "372e962a_aa04b02e",
+        "filename": "src/internal/cpu/cpu.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2023-03-07T18:38:05Z",
+      "side": 1,
+      "message": "This is only used for x86 at the moment. Add that fact to the comment here somewhere.",
+      "revId": "092271ce7308724bf537e04dc2c800102441e9c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c25895ce_24544b90",
+        "filename": "src/internal/cpu/cpu_arm64.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2023-03-07T18:38:05Z",
+      "side": 1,
+      "message": "inclusive",
+      "range": {
+        "startLine": 34,
+        "startChar": 58,
+        "endLine": 34,
+        "endChar": 67
+      },
+      "revId": "092271ce7308724bf537e04dc2c800102441e9c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8910b006_33eed0e8",
+        "filename": "src/internal/cpu/cpu_x86_cache.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2023-03-07T18:38:05Z",
+      "side": 1,
+      "message": "You can define this type and enums inside getCacheInfoIntel.",
+      "revId": "092271ce7308724bf537e04dc2c800102441e9c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "039af2f5_f5389996",
+        "filename": "src/internal/cpu/cpu_x86_cache.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2023-03-07T18:38:05Z",
+      "side": 1,
+      "message": "This should probably live with the other extractBits. Call it extractBits32? Move both to cpu.go so archs can share them?",
+      "revId": "092271ce7308724bf537e04dc2c800102441e9c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71303de2_2af5d02e",
+        "filename": "src/internal/cpu/cpu_x86_cache.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2023-03-07T18:38:05Z",
+      "side": 1,
+      "message": "Move this to a default case.",
+      "revId": "092271ce7308724bf537e04dc2c800102441e9c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68214672_43a33aca",
+        "filename": "src/internal/cpu/cpu_x86_cache.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 6875
+      },
+      "writtenOn": "2023-03-07T18:38:05Z",
+      "side": 1,
+      "message": "return getCacheInfoIntel(). Same for other cases.",
+      "revId": "092271ce7308724bf537e04dc2c800102441e9c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
