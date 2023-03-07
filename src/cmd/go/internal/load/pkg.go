@@ -2904,8 +2904,6 @@ func PackagesAndErrors(ctx context.Context, opts PackageOpts, patterns []string)
 // In -pgo=auto mode, it finds the default PGO profile.
 func setPGOProfilePath(pkgs []*Package) {
 	switch cfg.BuildPGO {
-	case "":
-		fallthrough // default to "off"
 	case "off":
 		return
 
