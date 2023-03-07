@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8c6cd784_b453ef2f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-03-07T18:55:33Z",
+      "side": 1,
+      "message": "If there is a problem in the script environment, we should fix the script environment and/or the existing behavior, not skip the test. Skipping the test can mask other bugs (several of which we have found by removing similar existing skips).\n\nThe intent is for the test environment to match what a real user might encounter when running the `go` command (either themselves or via `gopls` or in their own CI environment). If it doesn\u0027t match what we should expect for real users, we should fix that; on the other hand, if it is a reasonable match for what we expect of users, then a failure in a script test is real enough to be worth fixing.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 22
+      },
+      "revId": "83879b5a7a9cb3bda1c5022a369c0fad8bc5dc16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2592ea2e_30c87b3e",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
