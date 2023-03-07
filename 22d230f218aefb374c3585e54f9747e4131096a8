@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f34adf56_590c430d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-03-07T14:16:57Z",
+      "side": 1,
+      "message": "Got it, thanks. I\u0027ll update in the next patch set.",
+      "parentUuid": "88566476_ec7494f8",
+      "revId": "22d230f218aefb374c3585e54f9747e4131096a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "da966f78_3afa776e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -37,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9968c1cc_d841c936",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-03-07T14:16:57Z",
+      "side": 1,
+      "message": "\u003e So I think this one never fires? We should remove it, though.\n\nI think it\u0027s just because of the existence of the above rule, it won\u0027t fire. After correcting it, it will fire.\n\n\u003e The one above it looks fine to me. Or do you think it has a problem?\n\nNo problem, it\u0027s fine.",
+      "parentUuid": "da966f78_3afa776e",
+      "revId": "22d230f218aefb374c3585e54f9747e4131096a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ae9c0a1e_44f56f66",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -48,6 +84,30 @@
       "writtenOn": "2023-03-06T18:37:04Z",
       "side": 1,
       "message": "Let\u0027s put the cleanups in a separate CL, not combining cleanups with bug fix in the same CL. Thanks.",
+      "range": {
+        "startLine": 21,
+        "startChar": 18,
+        "endLine": 22,
+        "endChar": 30
+      },
+      "revId": "22d230f218aefb374c3585e54f9747e4131096a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23b9ea27_b2df5a46",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-03-07T14:16:57Z",
+      "side": 1,
+      "message": "Ok",
+      "parentUuid": "ae9c0a1e_44f56f66",
       "range": {
         "startLine": 21,
         "startChar": 18,
