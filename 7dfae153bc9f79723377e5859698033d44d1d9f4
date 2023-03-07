@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6d511a4_7ac03791",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2023-03-07T23:42:02Z",
+      "side": 1,
+      "message": "Thank you for this change and welcome to the Go project! So code in the vendor directories has a separate repository and for example for http2/hpack, the code resides here https://pkg.go.dev/golang.org/x/net/http2. I am going to close this change but please don\u0027t be discouraged, please open up a new change aimed for golang.org/x/net/http2. Thank you!",
+      "revId": "7dfae153bc9f79723377e5859698033d44d1d9f4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
