@@ -167,8 +167,14 @@ func (c *TCPConn) CloseWrite() error {
 // If sec == 0, the operating system discards any unsent or
 // unacknowledged data.
 //
-// If sec > 0, the data is sent in the background as with sec < 0. On
-// some operating systems after sec seconds have elapsed any remaining
+// If sec > 0, the data is sent in the background as with sec < 0 for
+// most Unix-like OS's with non-blocking I/O: BSD, Darwin, Illumos/Solaris etc.
+// But be aware that there are exceptions to some operating systems where
+// setting linger with sec > 0 may still cause Conn.Close to block for up to
+// sec seconds, for instance Linux. Invoking SetLinger with sec > 0 on these OS's
+// is a bad idea because the system will block the process on the close(2) until
+// it is able to transmit the leftover data or until the linger time expires.
+// Also Note that on some operating systems after sec seconds have elapsed any remaining
 // unsent data may be discarded.
 func (c *TCPConn) SetLinger(sec int) error {
 	if !c.ok() {
