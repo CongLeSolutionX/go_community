@@ -183,6 +183,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d0ff475_4b4b9c85",
+        "filename": "src/net/http/responsecontroller_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-03-07T23:03:40Z",
+      "side": 1,
+      "message": "Can\u0027t be t.Fatal, since this isn\u0027t the main test goroutine.\n\nI\u0027m not using t.Skip, since the test validates that HTTP/2 supports full duplex; the only difference from the HTTP/1 path is that EnableFullDuplex returns an error.",
+      "parentUuid": "29733e75_1f36d88b",
+      "revId": "df12dc8cd5cddc5ad11318f9acafaf161a6e525e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e75bdb76_09864d00",
@@ -284,6 +302,30 @@
       "side": 1,
       "message": "I second Roland\u0027s suggestion to use an atomic.Bool",
       "parentUuid": "3d55985a_b6f2c383",
+      "range": {
+        "startLine": 465,
+        "startChar": 12,
+        "endLine": 465,
+        "endChar": 16
+      },
+      "revId": "df12dc8cd5cddc5ad11318f9acafaf161a6e525e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0411b3da_682985dd",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-03-07T23:03:40Z",
+      "side": 1,
+      "message": "Why?\n\nUnder what circumstances will that have any effect other than to hide a real race condition from the race detector?",
+      "parentUuid": "b16bf919_d6cfe4ea",
       "range": {
         "startLine": 465,
         "startChar": 12,
