@@ -16,6 +16,24 @@
       "message": "please write:\n\ncmd/compile: simplify range statement\n\nand leave everything else away. Thanks.\n\n(What\u0027s present now is as standard as what you suggest. It\u0027s just a bit longer.)",
       "revId": "89dbfaed3df45ecc89bbcc6ebbe269c001be7ea2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa78337a_8f14dfb3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-03-07T19:51:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b5c5bec_7921f2ac",
+      "revId": "89dbfaed3df45ecc89bbcc6ebbe269c001be7ea2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
