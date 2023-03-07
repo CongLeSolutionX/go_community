@@ -149,6 +149,80 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "687ec1d7_4843fda9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2023-03-07T22:56:22Z",
+      "side": 1,
+      "message": "Thank you for this change Damien! Some suggestions.",
+      "revId": "df12dc8cd5cddc5ad11318f9acafaf161a6e525e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29733e75_1f36d88b",
+        "filename": "src/net/http/responsecontroller_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2023-03-07T22:56:22Z",
+      "side": 1,
+      "message": "Did you perhaps just want to invoke t.Skip(\"ctl.EnableFullDuplex is not enabled\") or even better t.Fatalf(\"...\")",
+      "revId": "df12dc8cd5cddc5ad11318f9acafaf161a6e525e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e75bdb76_09864d00",
+        "filename": "src/net/http/responsecontroller_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2023-03-07T22:56:22Z",
+      "side": 1,
+      "message": "This can be made further concise by putting ctl.Flush() as the first statement in the loop so:\n\n\n\t\tw.WriteHeader(200)\n\t\tfor {\n\t\t\tctl.Flush()\n\t\t\tvar buf [1]byte\n\t\t\tn, err :\u003d req.Body.Read(buf[:])\n\t\t\tif n !\u003d 1 || err !\u003d nil {\n\t\t\t\tbreak\n\t\t\t}\n\t\t\tw.Write(buf[:])\n\t\t}",
+      "range": {
+        "startLine": 283,
+        "startChar": 2,
+        "endLine": 292,
+        "endChar": 3
+      },
+      "revId": "df12dc8cd5cddc5ad11318f9acafaf161a6e525e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96c39e87_1b939bd6",
+        "filename": "src/net/http/responsecontroller_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2023-03-07T22:56:22Z",
+      "side": 1,
+      "message": "Please make this a defer pw.Close() right after defer res.Body.Close()",
+      "revId": "df12dc8cd5cddc5ad11318f9acafaf161a6e525e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3d55985a_b6f2c383",
@@ -185,6 +259,30 @@
       "writtenOn": "2023-03-07T22:49:47Z",
       "side": 1,
       "message": "The user needs to set full duplex mode before starting to write the response body. If setting this field races with that write, then there\u0027s a real race going on--you\u0027ll get different behavior depending on which value the body write observes.",
+      "parentUuid": "3d55985a_b6f2c383",
+      "range": {
+        "startLine": 465,
+        "startChar": 12,
+        "endLine": 465,
+        "endChar": 16
+      },
+      "revId": "df12dc8cd5cddc5ad11318f9acafaf161a6e525e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b16bf919_d6cfe4ea",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2023-03-07T22:56:22Z",
+      "side": 1,
+      "message": "I second Roland\u0027s suggestion to use an atomic.Bool",
       "parentUuid": "3d55985a_b6f2c383",
       "range": {
         "startLine": 465,
