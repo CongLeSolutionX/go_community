@@ -170,6 +170,30 @@
       },
       "revId": "df12dc8cd5cddc5ad11318f9acafaf161a6e525e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "08f296d8_3926a032",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-03-07T22:49:47Z",
+      "side": 1,
+      "message": "The user needs to set full duplex mode before starting to write the response body. If setting this field races with that write, then there\u0027s a real race going on--you\u0027ll get different behavior depending on which value the body write observes.",
+      "parentUuid": "3d55985a_b6f2c383",
+      "range": {
+        "startLine": 465,
+        "startChar": 12,
+        "endLine": 465,
+        "endChar": 16
+      },
+      "revId": "df12dc8cd5cddc5ad11318f9acafaf161a6e525e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
