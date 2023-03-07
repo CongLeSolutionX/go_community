@@ -163,7 +163,7 @@ and test commands:
 		build, the go command selects a file named "default.pgo" in the package's
 		directory if that file exists, and applies it to the (transitive)
 		dependencies of the main package (other packages are not affected).
-		Special name "off" turns off PGO.
+		Special name "off" turns off PGO. The default is "auto".
 	-pkgdir dir
 		install and load all packages from dir instead of the usual locations.
 		For example, when building with a non-standard configuration,
