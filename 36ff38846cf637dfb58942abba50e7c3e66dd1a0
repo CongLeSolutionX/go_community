@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc25ccc3_331d9a8f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2023-03-07T23:55:31Z",
+      "side": 1,
+      "message": "Just one more code update, thank you Ludi!",
+      "revId": "36ff38846cf637dfb58942abba50e7c3e66dd1a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98e9a1cf_5837d0cc",
+        "filename": "src/regexp/syntax/prog.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2023-03-07T23:55:31Z",
+      "side": 1,
+      "message": "We want to add these comments inside the function itself as they are an implementation detail rather than a functional detail :-) So after line 110",
+      "range": {
+        "startLine": 108,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 72
+      },
+      "revId": "36ff38846cf637dfb58942abba50e7c3e66dd1a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
