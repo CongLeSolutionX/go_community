@@ -112,6 +112,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "50284f50_5f241ec5",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2023-03-08T03:55:00Z",
+      "side": 1,
+      "message": "In our case, it wasn\u0027t the client, but AWS itself which sent a bad response and closed it. Therefore the problem was that it affected all clients, and there was nothing logged anywhere. So there was no way of knowing what was the exact error message thrown by AWS.\n\nThat is what I am trying to solve here. Happy to use any other solution that you recommend.",
+      "parentUuid": "4145ff67_dd789c51",
+      "revId": "e0b8c2df4e91cceff6ecfb6bed4bbcd83c8003a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "28f75d6e_4fffdd2f",
         "filename": "src/net/http/fs.go",
         "patchSetId": 2
