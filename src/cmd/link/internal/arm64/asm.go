@@ -1231,7 +1231,7 @@ func gensymlate(ctxt *ld.Link, ldr *loader.Loader) {
 		}
 		t := ldr.SymType(s)
 		if t == sym.STEXT {
-			if ctxt.IsDarwin() || ctxt.IsWindows() {
+			if ctxt.IsWindows() {
 				// Cannot relocate into middle of function.
 				// Generate symbol names for every offset we need in duffcopy/duffzero (only 64 each).
 				switch ldr.SymName(s) {
