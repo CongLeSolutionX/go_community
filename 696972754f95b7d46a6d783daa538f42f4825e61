@@ -167,6 +167,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f2d0fb25_9935619d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-03-08T22:24:09Z",
+      "side": 1,
+      "message": "Regarding 386, I think I see the problem. The 32-bit implementation is https://elixir.bootlin.com/linux/v6.2/source/fs/eventpoll.c#L2417. It takes a __kernel_timespec, which is always a 64-bit timespec, regardless of architecture. But we are passing it a 32-bit timespec. (Note that glibc has a wrapper to convert 32-bit timespec to 64-bit timespec, hence why glibc\u0027s version takes a 32-bit timespec. https://github.com/bminor/glibc/blob/4c721f24fc190d1dc935eb0bab283de7cf13182e/sysdeps/unix/sysv/linux/epoll_pwait2.c#L39) I\u0027m not 100% sure though, this kernel code is always a bit hard to follow.\n\nRegarding amd64, I haven\u0027t taken a close look yet, but I can reproduce.",
+      "parentUuid": "72e45120_1d67dedd",
+      "revId": "696972754f95b7d46a6d783daa538f42f4825e61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "101141fd_e1c90dfd",
         "filename": "src/runtime/internal/syscall/defs_linux_386.go",
         "patchSetId": 1
