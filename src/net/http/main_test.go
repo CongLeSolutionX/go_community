@@ -143,15 +143,13 @@ func afterTest(t testing.TB) {
 // waitCondition reports whether fn eventually returned true,
 // checking immediately and then every checkEvery amount,
 // until waitFor has elapsed, at which point it returns false.
-func waitCondition(waitFor, checkEvery time.Duration, fn func() bool) bool {
-	deadline := time.Now().Add(waitFor)
-	for time.Now().Before(deadline) {
+func waitCondition(checkEvery time.Duration, fn func() bool) bool {
+	for {
 		if fn() {
 			return true
 		}
 		time.Sleep(checkEvery)
 	}
-	return false
 }
 
 // waitErrCondition is like waitCondition but with errors instead of bools.

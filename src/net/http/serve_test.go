@@ -5564,7 +5564,7 @@ func testServerSetKeepAlivesEnabledClosesConns(t *testing.T, mode testMode) {
 	ts.Config.SetKeepAlivesEnabled(false)
 
 	var idle1 int
-	if !waitCondition(2*time.Second, 10*time.Millisecond, func() bool {
+	if !waitCondition(50*time.Millisecond, func() bool {
 		idle1 = tr.IdleConnCountForTesting("http", addr)
 		return idle1 == 0
 	}) {
@@ -5715,7 +5715,7 @@ func testServerKeepAlivesEnabled(t *testing.T, mode testMode) {
 	srv := cst.ts.Config
 	srv.SetKeepAlivesEnabled(false)
 	for try := 0; try < 2; try++ {
-		if !waitCondition(2*time.Second, 10*time.Millisecond, srv.ExportAllConnsIdle) {
+		if !waitCondition(50*time.Millisecond, srv.ExportAllConnsIdle) {
 			t.Fatalf("request %v: test server has active conns", try)
 		}
 		conns := 0

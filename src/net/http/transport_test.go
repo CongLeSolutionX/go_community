@@ -763,7 +763,7 @@ func testTransportRemovesDeadIdleConnections(t *testing.T, mode testMode) {
 	ts.CloseClientConnections()
 
 	var keys2 []string
-	if !waitCondition(3*time.Second, 50*time.Millisecond, func() bool {
+	if !waitCondition(50*time.Millisecond, func() bool {
 		keys2 = tr.IdleConnKeysForTesting()
 		return len(keys2) == 0
 	}) {
