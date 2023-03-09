@@ -126,6 +126,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "eaf83d8a_c43429b4",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-03-09T14:47:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a573cb4_4851e306",
+      "revId": "b5ecaa0c5cd9cd41cae64f1a30a59af62b192b83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "4642cc71_a1c18284",
         "filename": "src/runtime/runtime1.go",
         "patchSetId": 19
@@ -194,6 +212,42 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9bce60a_c8cf4433",
+        "filename": "src/runtime/runtime1.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-03-09T14:47:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c190452b_c6c31888",
+      "revId": "b5ecaa0c5cd9cd41cae64f1a30a59af62b192b83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9c314d8_a097557c",
+        "filename": "src/runtime/runtime1.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-03-09T14:47:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7334f137_06d8b21f",
+      "revId": "b5ecaa0c5cd9cd41cae64f1a30a59af62b192b83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e07a1c38_47894530",
@@ -231,6 +285,30 @@
       "side": 1,
       "message": "I\u0027ll dig deeper. But I think what I saw was that gentraceback will sometimes have an additional frame that fp unwind doesn\u0027t see. But it\u0027s not consistent for some reason. Sometimes it\u0027s 1 extra frame, sometimes it\u0027s 2.",
       "parentUuid": "e07a1c38_47894530",
+      "range": {
+        "startLine": 891,
+        "startChar": 5,
+        "endLine": 892,
+        "endChar": 33
+      },
+      "revId": "b5ecaa0c5cd9cd41cae64f1a30a59af62b192b83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29995b99_4b397bfb",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 892,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-03-09T14:47:44Z",
+      "side": 1,
+      "message": "We\u0027re still looking into this.",
+      "parentUuid": "9aca0b3a_e5e12329",
       "range": {
         "startLine": 891,
         "startChar": 5,
@@ -352,6 +430,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f46e666_a4d59db4",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 913,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-03-09T14:47:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da1a0696_d7dbcd6d",
+      "range": {
+        "startLine": 913,
+        "startChar": 25,
+        "endLine": 913,
+        "endChar": 30
+      },
+      "revId": "b5ecaa0c5cd9cd41cae64f1a30a59af62b192b83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f86334e6_ee169119",
@@ -413,6 +515,30 @@
       "side": 1,
       "message": "I meant enhancing the comment, since this is the only place that term is used.",
       "parentUuid": "5f77a681_d8ed183a",
+      "range": {
+        "startLine": 1277,
+        "startChar": 43,
+        "endLine": 1277,
+        "endChar": 50
+      },
+      "revId": "b5ecaa0c5cd9cd41cae64f1a30a59af62b192b83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f353603_c23c7018",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 1277,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-03-09T14:47:44Z",
+      "side": 1,
+      "message": "I\u0027ve enhanced the comment. But I don\u0027t think this patch introduces \"logical frames\" as a new term, gentraceback already uses it:\n\nhttps://github.com/golang/go/blob/71c84d4b4149bebc2abcc495ef744e1a010a18e7/src/runtime/traceback.go#L29-L31",
+      "parentUuid": "f4323191_0f151d22",
       "range": {
         "startLine": 1277,
         "startChar": 43,
