@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bd6ab9b_c61e8bfb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-03-09T16:44:46Z",
+      "side": 1,
+      "message": "Not directly (that CL is ARM32, this is ARM64). Using label symbols could be another way to work around the problem there (and might be more reliable?), though.",
+      "parentUuid": "4cd0ec23_2c3ec979",
+      "revId": "08d6eb5a389fe417fd98ed48c65389b7cb76160d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a931bc67_5471b5be",
@@ -95,6 +113,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0a0a8f1_c32eb0f8",
+        "filename": "src/cmd/link/internal/arm64/asm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1190,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-03-09T16:44:46Z",
+      "side": 1,
+      "message": "Windows doesn\u0027t handle CALL with addend at all. Darwin fails with large programs. I\u0027ll reword.",
+      "parentUuid": "a931bc67_5471b5be",
+      "range": {
+        "startLine": 1190,
+        "startChar": 4,
+        "endLine": 1190,
+        "endChar": 8
+      },
+      "revId": "08d6eb5a389fe417fd98ed48c65389b7cb76160d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "314a7715_1f2c5064",
@@ -108,6 +150,24 @@
       "writtenOn": "2023-03-09T16:13:15Z",
       "side": 1,
       "message": "If I am reading this correctly, we\u0027re doing this for linux/arm64 as well? I guess it is probably a good idea.",
+      "revId": "08d6eb5a389fe417fd98ed48c65389b7cb76160d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "224896fb_f816acf9",
+        "filename": "src/cmd/link/internal/arm64/asm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1222,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-03-09T16:44:46Z",
+      "side": 1,
+      "message": "Not for now. We have an early return at line 1194. If it it necessary we could do that.",
+      "parentUuid": "314a7715_1f2c5064",
       "revId": "08d6eb5a389fe417fd98ed48c65389b7cb76160d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
