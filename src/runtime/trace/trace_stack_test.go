@@ -239,6 +239,7 @@ func TestTraceSymbolize(t *testing.T) {
 			{"testing.tRunner", 0},
 		}},
 	}
+
 	// Stacks for the following events are OS-dependent due to OS-specific code in net package.
 	if runtime.GOOS != "windows" && runtime.GOOS != "plan9" {
 		want = append(want, []eventDesc{
@@ -260,6 +261,7 @@ func TestTraceSymbolize(t *testing.T) {
 			}},
 		}...)
 	}
+
 	matched := make([]bool, len(want))
 	for _, ev := range events {
 	wantLoop:
