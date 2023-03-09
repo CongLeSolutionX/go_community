@@ -345,6 +345,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6fd735cf_ec2ae2d9",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 892,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-03-09T17:20:03Z",
+      "side": 1,
+      "message": "\u003e  That\u0027s easy to fix by checking that the frame pointer is nonzero before following it.\n\n\nThat\u0027s probably a good idea in general. Done in Patchset 21.",
+      "parentUuid": "e605fcde_2e41696c",
+      "range": {
+        "startLine": 891,
+        "startChar": 5,
+        "endLine": 892,
+        "endChar": 33
+      },
+      "revId": "b5ecaa0c5cd9cd41cae64f1a30a59af62b192b83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2d507df3_0038347f",
         "filename": "src/runtime/trace.go",
         "patchSetId": 19
