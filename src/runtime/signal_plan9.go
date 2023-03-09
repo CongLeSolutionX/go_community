@@ -4,6 +4,10 @@
 
 package runtime
 
+func enableWER() {
+	// WER not supported on Plan-9.
+}
+
 type sigTabT struct {
 	flags int
 	name  string

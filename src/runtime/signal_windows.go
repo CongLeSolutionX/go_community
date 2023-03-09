@@ -10,16 +10,37 @@ import (
 	"unsafe"
 )
 
-func disableWER() {
-	// do not display Windows Error Reporting dialogue
-	const (
-		SEM_FAILCRITICALERRORS     = 0x0001
-		SEM_NOGPFAULTERRORBOX      = 0x0002
-		SEM_NOALIGNMENTFAULTEXCEPT = 0x0004
-		SEM_NOOPENFILEERRORBOX     = 0x8000
-	)
-	errormode := uint32(stdcall1(_SetErrorMode, SEM_NOGPFAULTERRORBOX))
-	stdcall1(_SetErrorMode, uintptr(errormode)|SEM_FAILCRITICALERRORS|SEM_NOGPFAULTERRORBOX|SEM_NOOPENFILEERRORBOX)
+const (
+	_SEM_FAILCRITICALERRORS = 0x0001
+	_SEM_NOGPFAULTERRORBOX  = 0x0002
+	_SEM_NOOPENFILEERRORBOX = 0x8000
+
+	_WER_FAULT_REPORTING_NO_UI = 0x0020
+)
+
+func preventErrorDialogs() {
+	errormode := stdcall0(_GetErrorMode)
+	stdcall1(_SetErrorMode, errormode|_SEM_FAILCRITICALERRORS|_SEM_NOGPFAULTERRORBOX|_SEM_NOOPENFILEERRORBOX)
+
+	// disable WER fault reporting UI.
+	// do this even if WER is disabled, as is might be enabled
+	// latter with setTraceback("wer").
+	var werflags uintptr
+	stdcall2(_WerGetFlags, currentProcess, uintptr(unsafe.Pointer(&werflags)))
+	stdcall1(_WerSetFlags, werflags|_WER_FAULT_REPORTING_NO_UI)
+}
+
+// enableWER re-enables Windows error reporting without fault reporting UI.
+//
+// This is marked nosplit since it is used during crash.
+//
+//go:nosplit
+func enableWER() {
+	// re-enable Windows Error Reporting
+	errormode := stdcall0(_GetErrorMode)
+	if errormode&_SEM_NOGPFAULTERRORBOX != 0 {
+		stdcall1(_SetErrorMode, errormode^_SEM_NOGPFAULTERRORBOX)
+	}
 }
 
 // in sys_windows_386.s, sys_windows_amd64.s, sys_windows_arm.s, and sys_windows_arm64.s
@@ -333,7 +354,7 @@ func winthrow(info *exceptionrecord, r *context, gp *g) {
 	}
 
 	if docrash {
-		crash()
+		dieFromException(info, r)
 	}
 
 	exit(2)
@@ -396,14 +417,36 @@ func signame(sig uint32) string {
 
 //go:nosplit
 func crash() {
-	// TODO: This routine should do whatever is needed
-	// to make the Windows program abort/crash as it
-	// would if Go was not intercepting signals.
-	// On Unix the routine would remove the custom signal
-	// handler and then raise a signal (like SIGABRT).
-	// Something like that should happen here.
-	// It's okay to leave this empty for now: if crash returns
-	// the ordinary exit-after-panic happens.
+	dieFromException(nil, nil)
+}
+
+// dieFromException raises an exception that bypasses all exception handlers.
+// This provides the expected exit status for the shell.
+//
+//go:nosplit
+func dieFromException(info *exceptionrecord, r *context) {
+	if info == nil {
+		gp := getg()
+		if gp.sig != 0 {
+			// Try to reconstruct an exception record from
+			// the exception information stored in gp.
+			info = &exceptionrecord{
+				exceptionaddress: gp.sigpc,
+				exceptioncode:    gp.sig,
+				numberparameters: 2,
+			}
+			info.exceptioninformation[0] = gp.sigcode0
+			info.exceptioninformation[1] = gp.sigcode1
+		} else {
+			// Historically Windows applications existed with status code 2.
+			// Use it when gp does not contain exception info.
+			info = &exceptionrecord{
+				exceptioncode: 2,
+			}
+		}
+	}
+	const FAIL_FAST_GENERATE_EXCEPTION_ADDRESS = 0x1
+	stdcall3(_RaiseFailFastException, uintptr(unsafe.Pointer(info)), uintptr(unsafe.Pointer(r)), FAIL_FAST_GENERATE_EXCEPTION_ADDRESS)
 }
 
 // gsignalStack is unused on Windows.
