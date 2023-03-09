@@ -333,7 +333,7 @@ func winthrow(info *exceptionrecord, r *context, gp *g) {
 	}
 
 	if docrash {
-		crash()
+		dieFromException(info, r)
 	}
 
 	exit(2)
@@ -396,14 +396,36 @@ func signame(sig uint32) string {
 
 //go:nosplit
 func crash() {
-	// TODO: This routine should do whatever is needed
-	// to make the Windows program abort/crash as it
-	// would if Go was not intercepting signals.
-	// On Unix the routine would remove the custom signal
-	// handler and then raise a signal (like SIGABRT).
-	// Something like that should happen here.
-	// It's okay to leave this empty for now: if crash returns
-	// the ordinary exit-after-panic happens.
+	dieFromException(nil, nil)
+}
+
+// dieFromException raises an exception that bypasses all exception handlers.
+// This provides the expected exit status for the shell.
+//
+//go:nosplit
+func dieFromException(info *exceptionrecord, r *context) {
+	const FAIL_FAST_GENERATE_EXCEPTION_ADDRESS = 0x1
+	if info == nil {
+		gp := getg()
+		if gp.sig != 0 {
+			// Try to reconstruct an exception record from
+			// the exception information stored in gp.
+			info = &exceptionrecord{
+				exceptionaddress: gp.sigpc,
+				exceptioncode:    gp.sig,
+				numberparameters: 2,
+			}
+			info.exceptioninformation[0] = gp.sigcode0
+			info.exceptioninformation[1] = gp.sigcode1
+		} else {
+			// Historically windows applications existed with status code 2.
+			// Use it when gp does not contain exception info.
+			info = &exceptionrecord{
+				exceptioncode: 2,
+			}
+		}
+	}
+	stdcall3(_RaiseFailFastException, uintptr(unsafe.Pointer(info)), uintptr(unsafe.Pointer(r)), FAIL_FAST_GENERATE_EXCEPTION_ADDRESS)
 }
 
 // gsignalStack is unused on Windows.
