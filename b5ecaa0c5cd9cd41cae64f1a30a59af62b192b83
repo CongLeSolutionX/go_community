@@ -321,6 +321,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e605fcde_2e41696c",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 892,
+      "author": {
+        "id": 57733
+      },
+      "writtenOn": "2023-03-09T15:49:13Z",
+      "side": 1,
+      "message": "I can update this a bit. I tried out unwinding from curgp.sched.bp. If you do that with no other changes, I observe crashes when 1) we\u0027re in runtime.goexit1, and 2) the stack grows. In this case, we attempt to unwind from traceGoPreempt within runtime.newstack, and there is no saved base pointer because we\u0027re at the top of the stack, so we crash on a nil pointer dereference. That\u0027s easy to fix by checking that the frame pointer is nonzero before following it.\n\nHowever, that still leaves some inconsistencies. I think they mostly come down to not having runtime.systemstack save a frame pointer. Without that, when we unwind from curgp.sched.bp, we might unwind from the caller of runtime.systemstack, or from the caller\u0027s caller if the caller is inlined, and so on. If I pull in go.dev/cl/472195 to add a frame pointer to runtime.systemstack, I can use skip - 1 and get fully consistent results, with the exception of traceGoSysCall. The \"minus 1\" is because gcallers is going to start from the program counter and stack pointer saved by gosave_systemstack_switch, so it\u0027ll get one extra frame to unwind.\n\nAs for traceGoSysCall, as you say Michael that\u0027s a special case. gcallers will unwind from a saved PC and SP at the point where entersyscall was called. This is a few frames up from runtime.systemstack gets called, so I can change the special case in traceGoSysCall to skip 4 frames instead of 1 and get all of the original TestTraceSymbolize cases to pass.\n\nAll that said, I think curgp.sched.bp is workable if runtime.systemstack saves a frame pointer. And it would have the benefit of being able to start unwinding earlier in the stack, without having to pass through frames on the system stack like this CL does now.\n\n---\n\nAnother direction I tried is to more closely imitate what gentraceback does. We start with a PC and an SP, and use findfunc and funcspdelta to reconstruct the first frame pointer. Then we can do normal frame pointer unwinding from there. I didn\u0027t get far with that, though, because I ran into morestack-related crashes that I haven\u0027t debugged yet. Plus you lose a little bit of the performance gain since you\u0027re doing the lookup stuff for the first frame.",
+      "parentUuid": "29995b99_4b397bfb",
+      "range": {
+        "startLine": 891,
+        "startChar": 5,
+        "endLine": 892,
+        "endChar": 33
+      },
+      "revId": "b5ecaa0c5cd9cd41cae64f1a30a59af62b192b83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2d507df3_0038347f",
         "filename": "src/runtime/trace.go",
         "patchSetId": 19
