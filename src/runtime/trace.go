@@ -260,7 +260,7 @@ func StartTrace() error {
 			gp.traceseq = 0
 			gp.tracelastp = getg().m.p
 			// +PCQuantum because traceFrameForPC expects return PCs and subtracts PCQuantum.
-			id := trace.stackTab.put([]uintptr{startPCforTrace(gp.startpc) + sys.PCQuantum})
+			id := trace.stackTab.put([]uintptr{logicalStackSentinel, startPCforTrace(gp.startpc) + sys.PCQuantum})
 			traceEvent(traceEvGoCreate, -1, gp.goid, uint64(id), stackID)
 		}
 		if status == _Gwaiting {
@@ -278,7 +278,7 @@ func StartTrace() error {
 			gp.traceseq = 0
 			gp.tracelastp = getg().m.p
 			// +PCQuantum because traceFrameForPC expects return PCs and subtracts PCQuantum.
-			id := trace.stackTab.put([]uintptr{startPCforTrace(0) + sys.PCQuantum}) // no start pc
+			id := trace.stackTab.put([]uintptr{logicalStackSentinel, startPCforTrace(0) + sys.PCQuantum}) // no start pc
 			traceEvent(traceEvGoCreate, -1, gp.goid, uint64(id), stackID)
 			gp.traceseq++
 			traceEvent(traceEvGoInSyscall, -1, gp.goid)
@@ -859,27 +859,47 @@ func traceReadCPU() {
 				})
 				buf = bufp.ptr()
 			}
+			buf.stk[0] = logicalStackSentinel
 			for i := range stk {
-				if i >= len(buf.stk) {
+				if i+1 >= len(buf.stk) {
 					break
 				}
-				buf.stk[i] = uintptr(stk[i])
+				buf.stk[i+1] = uintptr(stk[i])
 			}
-			stackID := trace.stackTab.put(buf.stk[:len(stk)])
+			stackID := trace.stackTab.put(buf.stk[:len(stk)+1])
 
 			traceEventLocked(0, nil, 0, bufp, traceEvCPUSample, stackID, 1, timestamp/traceTickDiv, ppid, goid)
 		}
 	}
 }
 
-func traceStackID(mp *m, buf []uintptr, skip int) uint64 {
+const logicalStackSentinel = ^uintptr(0)
+
+func traceStackID(mp *m, pcBuf []uintptr, skip int) uint64 {
 	gp := getg()
 	curgp := mp.curg
 	var nstk int
-	if curgp == gp {
-		nstk = callers(skip+1, buf)
-	} else if curgp != nil {
-		nstk = gcallers(curgp, skip, buf)
+	if tracefpunwindoff() {
+		// Slow path: Unwind using default unwinder. Used when frame pointer
+		// unwinding is unavailable or disabled.
+		pcBuf[0] = logicalStackSentinel
+		if curgp == gp {
+			nstk = callers(skip+1, pcBuf[1:]) + 1
+		} else if curgp != nil {
+			nstk = gcallers(curgp, skip, pcBuf[1:]) + 1
+		}
+	} else {
+		// Fast path: Unwind using frame pointers.
+		if curgp == gp {
+			nstk = fpTracebackPCs(getcallerfp(), skip, pcBuf)
+		} else if curgp != nil {
+			// TODO: unwinding from curgp.sched.bp would be a better approach,
+			// but it's causing a lot of TestTraceSymbolize failures that are
+			// difficult to debug and fix. skip+4 is a workaround to hide g0
+			// frames for now, but it's brittle because the number of frames
+			// leading up to traceStackID is variable, see traceGoSysCall.
+			nstk = fpTracebackPCs(getcallerfp(), skip+5, pcBuf)
+		}
 	}
 	if nstk > 0 {
 		nstk-- // skip runtime.goexit
@@ -887,8 +907,38 @@ func traceStackID(mp *m, buf []uintptr, skip int) uint64 {
 	if nstk > 0 && curgp.goid == 1 {
 		nstk-- // skip runtime.main
 	}
-	id := trace.stackTab.put(buf[:nstk])
+	id := trace.stackTab.put(pcBuf[:nstk])
 	return uint64(id)
+}
+
+// tracefpunwindoff returns false if frame pointer unwinding for the tracer is
+// disabled via GODEBUG or not supported by the architecture.
+func tracefpunwindoff() bool {
+	// compiler emits frame pointers for amd64 and arm64, but issue 58432 blocks
+	// arm64 support for now.
+	return debug.tracefpunwindoff != 0 || goarch.ArchFamily != goarch.AMD64
+}
+
+// fpTracebackPCs populates pcBuf with the return addresses for each frame and
+// returns the number of PCs written to pcBuf. The returned PCs correspond to
+// "physical frames" rather than "logical frames"; that is if A is inlined into
+// B, this will return a PC for only B. pcBuf[0] is used to pass skip to
+// fpunwindExpand.
+//
+//go:nosplit otherwise fp could point to old stack
+func fpTracebackPCs(fp uintptr, skip int, pcBuf []uintptr) (i int) {
+	if skip >= 0 {
+		// skip needs to take into account inlined frames, but those are handled by
+		// fpunwindExpand for performance reasons.
+		pcBuf[0] = uintptr(skip)
+	}
+	for i = 1; i < len(pcBuf) && fp != 0; i++ {
+		// return addr sits one word above the frame pointer
+		pcBuf[i] = *(*uintptr)(unsafe.Pointer(fp + goarch.PtrSize))
+		// follow the frame pointer to the next one
+		fp = *(*uintptr)(unsafe.Pointer(fp))
+	}
+	return i
 }
 
 // traceAcquireBuffer returns trace buffer to use and, if necessary, locks it.
@@ -1175,7 +1225,7 @@ func (tab *traceStackTable) dump(bufp traceBufPtr) traceBufPtr {
 		stk := tab.tab[i].ptr()
 		for ; stk != nil; stk = stk.link.ptr() {
 			var frames []traceFrame
-			frames, bufp = traceFrames(bufp, stk.stack())
+			frames, bufp = traceFrames(bufp, fpunwindExpand(stk.stack()))
 
 			// Estimate the size of this record. This
 			// bound is pretty loose, but avoids counting
@@ -1213,6 +1263,62 @@ func (tab *traceStackTable) dump(bufp traceBufPtr) traceBufPtr {
 	lockInit(&((*tab).lock), lockRankTraceStackTab)
 
 	return bufp
+}
+
+// fpunwindExpand checks if pcBuf contains logical frames (which include inlined
+// frames) or physical frames (produced by frame pointer unwinding) using a
+// sentinel value in pcBuf[0]. Logical frames are simply returned without the
+// sentinel. Physical frames are turned into logical frames via inline unwinding
+// and by applying the skip value that's stored in pcBuf[0].
+func fpunwindExpand(pcBuf []uintptr) []uintptr {
+	if len(pcBuf) > 0 && pcBuf[0] == logicalStackSentinel {
+		// pcBuf contains logical rather than inlined frames, skip has already been
+		// applied, just return it without the sentinel value in pcBuf[0].
+		return pcBuf[1:]
+	}
+
+	var (
+		cache      pcvalueCache
+		lastFuncID = funcID_normal
+		newPCBuf   = make([]uintptr, 0, traceStackSize)
+		skip       = pcBuf[0]
+		// skipOrAdd skips or appends retPC to newPCBuf and returns true if more
+		// pcs can be added.
+		skipOrAdd = func(retPC uintptr) bool {
+			if skip > 0 {
+				skip--
+			} else {
+				newPCBuf = append(newPCBuf, retPC)
+			}
+			return len(newPCBuf) < traceStackSize
+		}
+	)
+
+outer:
+	for _, retPC := range pcBuf[1:] {
+		callPC := retPC - goarch.PCQuantum
+		fi := findfunc(callPC)
+		if !fi.valid() {
+			// There is no funcInfo if callPC belongs to a C function. In this case
+			// we still keep the pc, but don't attempt to expand inlined frames.
+			if more := skipOrAdd(retPC); !more {
+				break outer
+			}
+			continue
+		}
+
+		u, uf := newInlineUnwinder(fi, callPC, &cache)
+		for ; uf.valid(); uf = u.next(uf) {
+			sf := u.srcFunc(uf)
+			if sf.funcID == funcID_wrapper && elideWrapperCalling(lastFuncID) {
+				// ignore wrappers
+			} else if more := skipOrAdd(uf.pc + goarch.PCQuantum); !more {
+				break outer
+			}
+			lastFuncID = sf.funcID
+		}
+	}
+	return newPCBuf
 }
 
 type traceFrame struct {
@@ -1387,7 +1493,7 @@ func traceGoCreate(newg *g, pc uintptr) {
 	newg.traceseq = 0
 	newg.tracelastp = getg().m.p
 	// +PCQuantum because traceFrameForPC expects return PCs and subtracts PCQuantum.
-	id := trace.stackTab.put([]uintptr{startPCforTrace(pc) + sys.PCQuantum})
+	id := trace.stackTab.put([]uintptr{^uintptr(0), startPCforTrace(pc) + sys.PCQuantum})
 	traceEvent(traceEvGoCreate, 2, newg.goid, uint64(id))
 }
 
@@ -1440,7 +1546,12 @@ func traceGoUnpark(gp *g, skip int) {
 }
 
 func traceGoSysCall() {
-	traceEvent(traceEvGoSysCall, 1)
+	if tracefpunwindoff() {
+		traceEvent(traceEvGoSysCall, 1)
+	} else {
+		// TODO: remove this workaround, see traceStackID
+		traceEvent(traceEvGoSysCall, 2)
+	}
 }
 
 func traceGoSysExit(ts int64) {
