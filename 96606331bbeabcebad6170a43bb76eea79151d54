@@ -86,6 +86,23 @@
       "message": "I have updated the issue with some information about how to trigger this error. I hope that it helps!",
       "revId": "96606331bbeabcebad6170a43bb76eea79151d54",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3a825f5_4674a3be",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 56718
+      },
+      "writtenOn": "2023-03-10T21:13:13Z",
+      "side": 1,
+      "message": "FYI: Added some Win32 code that will demonstrate the \"spooky action at a distance\" between handles and completion ports: [https://github.com/hawkinsw/windowpane/tree/main/bug_poc](https://github.com/hawkinsw/windowpane/tree/main/bug_poc). I hope that this is useful -- please let me know if/how I can help!\n\nThanks, as always, for everything that you do for the community!\n\nWill",
+      "revId": "96606331bbeabcebad6170a43bb76eea79151d54",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
