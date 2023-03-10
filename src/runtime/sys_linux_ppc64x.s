@@ -12,6 +12,7 @@
 #include "go_tls.h"
 #include "textflag.h"
 #include "asm_ppc64x.h"
+#include "cgo/abi_ppc64x.h"
 
 #define SYS_exit		  1
 #define SYS_read		  3
@@ -633,11 +634,18 @@ TEXT sigtramp<>(SB),NOSPLIT|NOFRAME|TOPFRAME,$0
 TEXT runtime·cgoSigtramp(SB),NOSPLIT|NOFRAME,$0
 	// The stack unwinder, presumably written in C, may not be able to
 	// handle Go frame correctly. So, this function is NOFRAME, and we
-	// save/restore LR manually.
+	// save/restore LR manually, and obey ELFv2 calling conventions.
 	MOVD	LR, R10
 
-	// We're coming from C code, initialize essential registers.
-	CALL	runtime·reginit(SB)
+	// We're coming from C code, initialize R0
+	MOVD	$0, R0
+
+	// Save g/R30 and R31 to volatile VRs, and restore them before tail
+	// calling the next function. In C, these are callee-save registers
+	// which must be preserved. They are clobbered if runtime.load_g is
+	// called.
+	MTVSRD	g, V0
+	MTVSRD	R31, V1
 
 	// If no traceback function, do usual sigtramp.
 	MOVD	runtime·cgoTraceback(SB), R6
@@ -658,6 +666,8 @@ TEXT runtime·cgoSigtramp(SB),NOSPLIT|NOFRAME,$0
 	// compared to ARM64 and others.
 	CMP	$0, g
 	BEQ	sigtrampnog // g == nil
+
+
 	MOVD	g_m(g), R6
 	CMP	$0, R6
 	BEQ	sigtramp    // g.m == nil
@@ -677,6 +687,9 @@ TEXT runtime·cgoSigtramp(SB),NOSPLIT|NOFRAME,$0
 	CMPW	$0, R8
 	BNE	sigtramp    // g.m.cgoCallersUse != 0
 
+	MFVSRD	V0, g       // restore r30/r31 before calling back into C code.
+	MFVSRD	V1, R31
+
 	// Jump to a function in runtime/cgo.
 	// That function, written in C, will call the user's traceback
 	// function with proper unwind info, and will then call back here.
@@ -690,10 +703,15 @@ TEXT runtime·cgoSigtramp(SB),NOSPLIT|NOFRAME,$0
 	JMP	(CTR)
 
 sigtramp:
+	MFVSRD	V0, g   // restore r30/r31
+	MFVSRD	V1, R31
 	MOVD	R10, LR // restore LR
 	JMP	runtime·sigtramp(SB)
 
 sigtrampnog:
+	MFVSRD	V0, g   // restore r30/r31
+	MFVSRD	V1, R31
+
 	// Signal arrived on a non-Go thread. If this is SIGPROF, get a
 	// stack trace.
 	CMPW	R3, $27 // 27 == SIGPROF
@@ -716,7 +734,7 @@ sigtrampnog:
 	// First three arguments to traceback function are in registers already.
 	MOVD	runtime·cgoTraceback(SB), R6
 	MOVD	$runtime·sigprofCallers(SB), R7
-	MOVD	$runtime·sigprofNonGoWrapper<>(SB), R8
+	MOVD	$runtime·sigprofNonGoWrapper<ABIInternal>(SB), R8
 	MOVD	_cgo_callers(SB), R12
 	MOVD	R12, CTR
 	MOVD	R10, LR // restore LR
@@ -731,13 +749,33 @@ TEXT cgoSigtramp<>(SB),NOSPLIT,$0
 	JMP	sigtramp<>(SB)
 #endif
 
-TEXT runtime·sigprofNonGoWrapper<>(SB),NOSPLIT,$0
-	// We're coming from C code, set up essential register, then call sigprofNonGo.
-	CALL	runtime·reginit(SB)
-	MOVW	R3, FIXED_FRAME+0(R1)	// sig
-	MOVD	R4, FIXED_FRAME+8(R1)	// info
-	MOVD	R5, FIXED_FRAME+16(R1)	// ctx
-	CALL	runtime·sigprofNonGo(SB)
+TEXT runtime·sigprofNonGoWrapper<ABIInternal>(SB),NOSPLIT|NOFRAME,$0
+	// This is called from C code. Callee save registers must be saved.
+	// R3,R4,R5 hold arguments.
+	// Save LR into R0 and stack a big frame.
+	MOVD	LR, R0
+	MOVD	R0, 16(R1)
+	MOVW	CR, R0
+	MOVD	R0, 8(R1)
+	MOVDU	R1, -(32+SAVE_ALL_REG_SIZE)(R1)
+
+	SAVE_GPR(32)
+	SAVE_FPR(32+SAVE_GPR_SIZE)
+	SAVE_VR(32+SAVE_GPR_SIZE+SAVE_FPR_SIZE, R6)
+
+	MOVD	$0, R0
+	CALL	runtime·sigprofNonGo<ABIInternal>(SB)
+
+	RESTORE_GPR(32)
+	RESTORE_FPR(32+SAVE_GPR_SIZE)
+	RESTORE_VR(32+SAVE_GPR_SIZE+SAVE_FPR_SIZE, R6)
+
+	// Clear frame, restore LR, return
+	ADD 	$(32+SAVE_ALL_REG_SIZE), R1
+	MOVD	16(R1), R0
+	MOVD	R0, LR
+	MOVD	8(R1), R0
+	MOVW	R0, CR
 	RET
 
 TEXT runtime·mmap(SB),NOSPLIT|NOFRAME,$0
