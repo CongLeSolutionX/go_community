@@ -369,6 +369,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "68f72dac_ece608e8",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 892,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-03-10T10:12:55Z",
+      "side": 1,
+      "message": "@mpratt@google.com we need to decide whether:\n\n1. We can land this patch with the `skip+4` workaround before CL 472195 lands. But this will prevent CL 472195 to land because it breaks unwinding from g0 to g stack [1].\n2. Wait for CL 472195 to land, and adjust this patch like shown here [2].\n\nI probably slightly prefer figuring out CL 472195 first. What do you think?\n\n[1] https://go-review.googlesource.com/c/go/+/472195/comment/9441d839_7e1a92db/\n[2] https://gist.github.com/felixge/8fa0b66298910417edbc0426b700a7b1",
+      "parentUuid": "6fd735cf_ec2ae2d9",
+      "range": {
+        "startLine": 891,
+        "startChar": 5,
+        "endLine": 892,
+        "endChar": 33
+      },
+      "revId": "b5ecaa0c5cd9cd41cae64f1a30a59af62b192b83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2d507df3_0038347f",
         "filename": "src/runtime/trace.go",
         "patchSetId": 19
@@ -404,6 +428,30 @@
       "side": 1,
       "message": "The gcallers case above starts unwinding at the point where the g transitioned to g0\u0027s stack. This means traceStackID and its callers on the g0 stack are not included in the traceback, so less frames need to be skipped. Does that make sense?",
       "parentUuid": "2d507df3_0038347f",
+      "range": {
+        "startLine": 892,
+        "startChar": 34,
+        "endLine": 894,
+        "endChar": 65
+      },
+      "revId": "b5ecaa0c5cd9cd41cae64f1a30a59af62b192b83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28ae44a2_b1219379",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 894,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-03-10T10:12:55Z",
+      "side": 1,
+      "message": "Marking this as resolved.",
+      "parentUuid": "8124f42a_9d22f4ba",
       "range": {
         "startLine": 892,
         "startChar": 34,
