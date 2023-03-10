@@ -56,6 +56,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d433ef3b_315c7a34",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-03-10T20:27:16Z",
+      "side": 1,
+      "message": "Done. Added some test for the default behavior in pgo_auto tests.",
+      "parentUuid": "2e6b2cc0_86e7fdb4",
+      "revId": "06b561ab41e1fe79b18f9bbcfac902823ddc1a3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "657d512a_23c5bb85",
@@ -79,6 +97,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "da4ab32d_bf8145df",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2908,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-03-10T20:27:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "657d512a_23c5bb85",
+      "range": {
+        "startLine": 2906,
+        "startChar": 0,
+        "endLine": 2908,
+        "endChar": 2
+      },
+      "revId": "06b561ab41e1fe79b18f9bbcfac902823ddc1a3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "50b011b8_70f0bfbf",
@@ -92,6 +134,30 @@
       "writtenOn": "2023-03-08T15:39:33Z",
       "side": 1,
       "message": "A comment here would be helpful — why do we need to switch `BuildPGO` back to `\"off\"`? (Don\u0027t we need to handle a mix of PGO and non-PGO packages in the general case anyway?)\n\nIn general I would like to keep the `cfg.Build` flags as close to what the user requested on the command line as possible, so that error messages generated based on those flags accurately describe what happened and why; compare `cfg.BuildModExplicit` and `cfg.BuildModReason`.",
+      "range": {
+        "startLine": 2968,
+        "startChar": 0,
+        "endLine": 2970,
+        "endChar": 3
+      },
+      "revId": "06b561ab41e1fe79b18f9bbcfac902823ddc1a3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02ae1e5f_29f0ceee",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2970,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-03-10T20:27:16Z",
+      "side": 1,
+      "message": "This is just to avoid extra work due to -pgo\u003dauto (or build split), e.g. https://cs.opensource.google/go/go/+/master:src/cmd/go/internal/list/list.go;l\u003d736\nWe could use a different variable, or just not do it and allow the extra work (which is not very expensive anyway).\n\nTried the latter, found there are two tests failing, though, which I don\u0027t really understand. They are script tests mod_vendor_auto and get_dash_t. I think both failures are due to the code in the if block in list.go https://cs.opensource.google/go/go/+/master:src/cmd/go/internal/list/list.go;l\u003d736 runs now. If we modify the test to do `go list -test` instead of `go list`, we can reproduce the failure (without this CL or previous PGO CLs).\n\nFor mod_vendor_auto, adding `-test` to https://cs.opensource.google/go/go/+/master:src/cmd/go/testdata/script/mod_vendor_auto.txt;l\u003d14 would cause it to fail with `tools.go:5:8: import \"example.com/printversion\" is a program, not an importable package`. This seems from https://cs.opensource.google/go/go/+/master:src/cmd/go/testdata/script/mod_vendor_auto.txt;l\u003d201 importing a main package. Why would `go list` not report importing main error, whereas `go list -test` does? Is it an intentional choice? (I couldn\u0027t find it from documentation.) (I can also reproduce this without vendoring, like below)\n```\n# no error\ngo list all\n# error\ngo list -test all\n\n-- go.mod --\nmodule test\ngo 1.21\n-- a/a.go --\npackage a\nimport _ \"test/b\"\n-- b/b.go --\npackage main\nfunc main() {}\n```\n\nFor get_dash_t, it shows many error for failing to load package, like\n```\n           golang.org/x/build/autocertcache/autocertcache.go:13:2: cannot find package \"cloud.google.com/go/storage\" in any of:\n```\nI guess `go get -t` doesn\u0027t download tests for transitive dependencies whereas `go list -test ...` tries to list them? This makes sense. But I don\u0027t quite understand why the code in the if block in list.go causes it to load more packages which were not loaded before...\n\nI think these shouldn\u0027t fail. (One could have a default.pgo file there and then this code would run and cause some unexpected behavior change.)\n\nSome help would be really appreciated. Thanks!",
+      "parentUuid": "50b011b8_70f0bfbf",
       "range": {
         "startLine": 2968,
         "startChar": 0,
