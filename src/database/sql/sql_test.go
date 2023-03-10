@@ -4583,3 +4583,31 @@ func BenchmarkManyConcurrentQueries(b *testing.B) {
 		}
 	})
 }
+
+func TestGrabConnAllocs(t *testing.T) {
+	c := new(Conn)
+	ctx := context.Background()
+	n := int(testing.AllocsPerRun(1000, func() {
+		_, release, err := c.grabConn(ctx)
+		if err != nil {
+			t.Fatal(err)
+		}
+		release(nil)
+	}))
+	if n > 0 {
+		t.Fatalf("Conn.grabConn allocated %v objects; want 0", n)
+	}
+}
+
+func BenchmarkGrabConn(b *testing.B) {
+	b.ReportAllocs()
+	c := new(Conn)
+	ctx := context.Background()
+	for i := 0; i < b.N; i++ {
+		_, release, err := c.grabConn(ctx)
+		if err != nil {
+			b.Fatal(err)
+		}
+		release(nil)
+	}
+}
