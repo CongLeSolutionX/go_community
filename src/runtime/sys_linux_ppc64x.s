@@ -633,11 +633,16 @@ TEXT sigtramp<>(SB),NOSPLIT|NOFRAME|TOPFRAME,$0
 TEXT runtime·cgoSigtramp(SB),NOSPLIT|NOFRAME,$0
 	// The stack unwinder, presumably written in C, may not be able to
 	// handle Go frame correctly. So, this function is NOFRAME, and we
-	// save/restore LR manually.
+	// save/restore LR manually, and obey ELFv2 calling conventions.
 	MOVD	LR, R10
 
-	// We're coming from C code, initialize essential registers.
-	CALL	runtime·reginit(SB)
+	// We're coming from C code, initialize R0
+	MOVD	$0, R0
+
+	// load_g clobbers callee-save registers. Save them in volatile
+	// vector regs. If g is loaded, it will clobber r30 and r31.
+	MTVSRD	g, V0
+	MTVSRD	R31, V1
 
 	// If no traceback function, do usual sigtramp.
 	MOVD	runtime·cgoTraceback(SB), R6
@@ -650,7 +655,7 @@ TEXT runtime·cgoSigtramp(SB),NOSPLIT|NOFRAME,$0
 	CMP	$0, R6
 	BEQ	sigtramp
 
-	// Set up g register.
+	// This clobbers g and R31.
 	CALL	runtime·load_g(SB)
 
 	// Figure out if we are currently in a cgo call.
@@ -658,6 +663,8 @@ TEXT runtime·cgoSigtramp(SB),NOSPLIT|NOFRAME,$0
 	// compared to ARM64 and others.
 	CMP	$0, g
 	BEQ	sigtrampnog // g == nil
+
+
 	MOVD	g_m(g), R6
 	CMP	$0, R6
 	BEQ	sigtramp    // g.m == nil
@@ -677,6 +684,9 @@ TEXT runtime·cgoSigtramp(SB),NOSPLIT|NOFRAME,$0
 	CMPW	$0, R8
 	BNE	sigtramp    // g.m.cgoCallersUse != 0
 
+	MFVSRD	V0, g       // restore r30/r31 before calling back into C code.
+	MFVSRD	V1, R31
+
 	// Jump to a function in runtime/cgo.
 	// That function, written in C, will call the user's traceback
 	// function with proper unwind info, and will then call back here.
@@ -690,10 +700,16 @@ TEXT runtime·cgoSigtramp(SB),NOSPLIT|NOFRAME,$0
 	JMP	(CTR)
 
 sigtramp:
+	MFVSRD	V0, g   // restore r30/r31
+	MFVSRD	V1, R31
 	MOVD	R10, LR // restore LR
 	JMP	runtime·sigtramp(SB)
 
 sigtrampnog:
+	// Restore R30, R31 if this wasn't a go thread.
+	MFVSRD	V0, g
+	MFVSRD	V1, R31
+
 	// Signal arrived on a non-Go thread. If this is SIGPROF, get a
 	// stack trace.
 	CMPW	R3, $27 // 27 == SIGPROF
@@ -716,7 +732,7 @@ sigtrampnog:
 	// First three arguments to traceback function are in registers already.
 	MOVD	runtime·cgoTraceback(SB), R6
 	MOVD	$runtime·sigprofCallers(SB), R7
-	MOVD	$runtime·sigprofNonGoWrapper<>(SB), R8
+	MOVD	$runtime·sigprofNonGoWrapper<ABIInternal>(SB), R8
 	MOVD	_cgo_callers(SB), R12
 	MOVD	R12, CTR
 	MOVD	R10, LR // restore LR
@@ -731,13 +747,147 @@ TEXT cgoSigtramp<>(SB),NOSPLIT,$0
 	JMP	sigtramp<>(SB)
 #endif
 
-TEXT runtime·sigprofNonGoWrapper<>(SB),NOSPLIT,$0
-	// We're coming from C code, set up essential register, then call sigprofNonGo.
-	CALL	runtime·reginit(SB)
-	MOVW	R3, FIXED_FRAME+0(R1)	// sig
-	MOVD	R4, FIXED_FRAME+8(R1)	// info
-	MOVD	R5, FIXED_FRAME+16(R1)	// ctx
-	CALL	runtime·sigprofNonGo(SB)
+TEXT runtime·sigprofNonGoWrapper<ABIInternal>(SB),NOSPLIT|NOFRAME,$0
+	// This is called from C code. Callee save registers must be saved.
+	// R3,R4,R5 hold arguments.
+	// Save LR into R0 and stack a big frame.
+	MOVD	LR, R0
+	MOVD	R0, 16(R1)
+	MOVW	CR, R0
+	MOVD	R0, 8(R1)
+	MOVDU	R1, -(32+36*8+12*16)(R1)
+	// Save R14-R31
+	MOVD	R14, (32+8*0)(R1)
+	MOVD	R15, (32+8*1)(R1)
+	MOVD	R16, (32+8*2)(R1)
+	MOVD	R17, (32+8*3)(R1)
+	MOVD	R18, (32+8*4)(R1)
+	MOVD	R19, (32+8*5)(R1)
+	MOVD	R20, (32+8*6)(R1)
+	MOVD	R21, (32+8*7)(R1)
+	MOVD	R22, (32+8*8)(R1)
+	MOVD	R23, (32+8*9)(R1)
+	MOVD	R24, (32+8*10)(R1)
+	MOVD	R25, (32+8*11)(R1)
+	MOVD	R26, (32+8*12)(R1)
+	MOVD	R27, (32+8*13)(R1)
+	MOVD	R28, (32+8*14)(R1)
+	MOVD	R29, (32+8*15)(R1)
+	MOVD	g,   (32+8*16)(R1)
+	MOVD	R31, (32+8*17)(R1)
+	FMOVD	F14, (32+8*18+8*0)(R1)
+	FMOVD	F15, (32+8*18+8*1)(R1)
+	FMOVD	F16, (32+8*18+8*2)(R1)
+	FMOVD	F17, (32+8*18+8*3)(R1)
+	FMOVD	F18, (32+8*18+8*4)(R1)
+	FMOVD	F19, (32+8*18+8*5)(R1)
+	FMOVD	F20, (32+8*18+8*6)(R1)
+	FMOVD	F21, (32+8*18+8*7)(R1)
+	FMOVD	F22, (32+8*18+8*8)(R1)
+	FMOVD	F23, (32+8*18+8*9)(R1)
+	FMOVD	F24, (32+8*18+8*10)(R1)
+	FMOVD	F25, (32+8*18+8*11)(R1)
+	FMOVD	F26, (32+8*18+8*12)(R1)
+	FMOVD	F27, (32+8*18+8*13)(R1)
+	FMOVD	F28, (32+8*18+8*14)(R1)
+	FMOVD	F29, (32+8*18+8*15)(R1)
+	FMOVD	F30, (32+8*18+8*16)(R1)
+	FMOVD	F31, (32+8*18+8*17)(R1)
+	MOVD	$(32+8*36), R6
+	STVX	V20, (R6)(R1)
+	ADD	$16, R6
+	STVX	V21, (R6)(R1)
+	ADD	$16, R6
+	STVX	V22, (R6)(R1)
+	ADD	$16, R6
+	STVX	V23, (R6)(R1)
+	ADD	$16, R6
+	STVX	V24, (R6)(R1)
+	ADD	$16, R6
+	STVX	V25, (R6)(R1)
+	ADD	$16, R6
+	STVX	V26, (R6)(R1)
+	ADD	$16, R6
+	STVX	V27, (R6)(R1)
+	ADD	$16, R6
+	STVX	V28, (R6)(R1)
+	ADD	$16, R6
+	STVX	V29, (R6)(R1)
+	ADD	$16, R6
+	STVX	V30, (R6)(R1)
+	ADD	$16, R6
+	STVX	V31, (R6)(R1)
+
+	MOVD	$0, R0
+	CALL	runtime·sigprofNonGo<ABIInternal>(SB)
+
+	MOVD	(32+8*0)(R1), R14
+	MOVD	(32+8*1)(R1), R15
+	MOVD	(32+8*2)(R1), R16
+	MOVD	(32+8*3)(R1), R17
+	MOVD	(32+8*4)(R1), R18
+	MOVD	(32+8*5)(R1), R19
+	MOVD	(32+8*6)(R1), R20
+	MOVD	(32+8*7)(R1), R21
+	MOVD	(32+8*8)(R1), R22
+	MOVD	(32+8*9)(R1), R23
+	MOVD	(32+8*10)(R1), R24
+	MOVD	(32+8*11)(R1), R25
+	MOVD	(32+8*12)(R1), R26
+	MOVD	(32+8*13)(R1), R27
+	MOVD	(32+8*14)(R1), R28
+	MOVD	(32+8*15)(R1), R29
+	MOVD	(32+8*16)(R1), g
+	MOVD	(32+8*17)(R1), R31
+	FMOVD	(32+8*18+8*0)(R1), F14
+	FMOVD	(32+8*18+8*1)(R1), F15
+	FMOVD	(32+8*18+8*2)(R1), F16
+	FMOVD	(32+8*18+8*3)(R1), F17
+	FMOVD	(32+8*18+8*4)(R1), F18
+	FMOVD	(32+8*18+8*5)(R1), F19
+	FMOVD	(32+8*18+8*6)(R1), F20
+	FMOVD	(32+8*18+8*7)(R1), F21
+	FMOVD	(32+8*18+8*8)(R1), F22
+	FMOVD	(32+8*18+8*9)(R1), F23
+	FMOVD	(32+8*18+8*10)(R1), F24
+	FMOVD	(32+8*18+8*11)(R1), F25
+	FMOVD	(32+8*18+8*12)(R1), F26
+	FMOVD	(32+8*18+8*13)(R1), F27
+	FMOVD	(32+8*18+8*14)(R1), F28
+	FMOVD	(32+8*18+8*15)(R1), F29
+	FMOVD	(32+8*18+8*16)(R1), F30
+	FMOVD	(32+8*18+8*17)(R1), F31
+	MOVD	$(32+8*36), R6
+	LVX	(R6)(R1), V20
+	ADD	$16, R6
+	LVX	(R6)(R1), V21
+	ADD	$16, R6
+	LVX	(R6)(R1), V22
+	ADD	$16, R6
+	LVX	(R6)(R1), V23
+	ADD	$16, R6
+	LVX	(R6)(R1), V24
+	ADD	$16, R6
+	LVX	(R6)(R1), V25
+	ADD	$16, R6
+	LVX	(R6)(R1), V26
+	ADD	$16, R6
+	LVX	(R6)(R1), V27
+	ADD	$16, R6
+	LVX	(R6)(R1), V28
+	ADD	$16, R6
+	LVX	(R6)(R1), V29
+	ADD	$16, R6
+	LVX	(R6)(R1), V30
+	ADD	$16, R6
+	LVX	(R6)(R1), V31
+
+	// Clear frame, restore LR, return
+	ADD 	$(32+36*8+12*16), R1
+	MOVD	16(R1), R0
+	MOVD	R0, LR
+	MOVD	8(R1), R0
+	MOVW	R0, CR
 	RET
 
 TEXT runtime·mmap(SB),NOSPLIT|NOFRAME,$0
