@@ -34,6 +34,24 @@
       "message": "comment is now redundant",
       "revId": "59f814cf32d612236b8abda3fde760c4f6d9d894",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05df5bb7_66e0e5ad",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1952,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2023-03-10T17:46:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b0176bd_83d3adcf",
+      "revId": "59f814cf32d612236b8abda3fde760c4f6d9d894",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
