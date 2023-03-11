@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dba133b5_e8fd5854",
+        "filename": "src/image/jpeg/reader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 51518
+      },
+      "writtenOn": "2023-03-11T08:00:09Z",
+      "side": 1,
+      "message": "Thanks for pointing it out, edited",
+      "parentUuid": "6f12cf36_de3dc209",
+      "revId": "d537a6731a30382af43591c994a83ce3fd6c351f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "60b761e1_3a30a77a",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-03-11T04:25:10Z",
       "side": 1,
       "message": "I think we can leave this capitalized too.",
+      "revId": "d537a6731a30382af43591c994a83ce3fd6c351f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bdb5c730_5949bf62",
+        "filename": "src/internal/cpu/cpu.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 51518
+      },
+      "writtenOn": "2023-03-11T08:00:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "60b761e1_3a30a77a",
       "revId": "d537a6731a30382af43591c994a83ce3fd6c351f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
