@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53d7b000_76a8413e",
+        "filename": "src/time/zoneinfo.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-03-11T00:05:32Z",
+      "side": 1,
+      "message": "It seems to me that it\u0027s only correct to pass start here if end is omega.  Am I missing something?",
+      "revId": "c13e419cf71bf1791b71a35e550e26b5b23f2dd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
