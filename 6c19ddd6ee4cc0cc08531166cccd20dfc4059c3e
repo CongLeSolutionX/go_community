@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0027a52c_da3c9c83",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 27207
+      },
+      "writtenOn": "2023-03-11T20:24:11Z",
+      "side": 1,
+      "message": "Not intimately familiar with every detail here, but I\u0027ve confirmed the changes match the code I\u0027ve been exercising on openbsd ppc64 and the changes all look sensible.",
+      "revId": "6c19ddd6ee4cc0cc08531166cccd20dfc4059c3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
