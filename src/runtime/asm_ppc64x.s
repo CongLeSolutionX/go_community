@@ -13,7 +13,11 @@
 #ifdef GOOS_aix
 #define cgoCalleeStackSize 48
 #else
+#ifdef GOOS_openbsd
+#define cgoCalleeStackSize 64
+#else
 #define cgoCalleeStackSize 32
+#endif
 #endif
 
 TEXT runtime·rt0_go(SB),NOSPLIT|TOPFRAME,$0
@@ -545,6 +549,45 @@ TEXT gosave_systemstack_switch<>(SB),NOSPLIT|NOFRAME,$0
 #define asmcgocallSaveOffset cgoCalleeStackSize
 #endif
 
+// func asmcgocall_no_g(fn, arg unsafe.Pointer)
+// Call fn(arg) aligned appropriately for the gcc ABI.
+// Called on a system stack, and there may be no g yet (during needm).
+TEXT ·asmcgocall_no_g(SB),NOSPLIT,$0-16
+	MOVD	fn+0(FP), R3
+	MOVD	arg+8(FP), R4
+
+	MOVD	R1, R15
+	SUB	$64, R1
+	RLDCR	$0, R1, $~15, R1	// 16-byte alignment for gcc ABI
+	MOVD	R15, 56(R1)
+
+	// This is a "global call", so put the global entry point in r12
+	MOVD	R3, R12
+
+#ifdef GOARCH_ppc64
+#ifndef GOOS_openbsd
+	// ppc64 use elf ABI v1. we must get the real entry address from
+	// first slot of the function descriptor before call.
+	// Same for AIX.
+	MOVD	8(R12), R2
+	MOVD	(R12), R12
+#endif
+#endif
+#ifdef GOOS_openbsd
+	MOVD	$runtime·toc(SB), R2
+	MOVD	(R2), R2
+#endif
+	MOVD	R12, CTR
+	MOVD	R4, R3		// arg in r3
+	BL	(CTR)
+
+	// C code can clobber R0, so set it back to 0. F27-F31 are
+	// callee save, so we don't need to recover those.
+	XOR	R0, R0
+
+	MOVD	56(R1), R1
+	RET
+
 // func asmcgocall(fn, arg unsafe.Pointer) int32
 // Call fn(arg) on the scheduler stack,
 // aligned appropriately for the gcc ABI.
@@ -604,6 +647,10 @@ TEXT ·asmcgocall(SB),NOSPLIT,$0-20
 	MOVD	8(R12), R2
 	MOVD	(R12), R12
 #endif
+#ifdef GOOS_openbsd
+	MOVD	$runtime·toc(SB), R2
+	MOVD	(R2), R2
+#endif
 	MOVD	R12, CTR
 	MOVD	R4, R3		// arg in r3
 	BL	(CTR)
@@ -647,6 +694,10 @@ nosave:
 	MOVD	8(R12), R2
 	MOVD	(R12), R12
 #endif
+#ifdef GOOS_openbsd
+	MOVD	$runtime·toc(SB), R2
+	MOVD	(R2), R2
+#endif
 	MOVD	R12, CTR
 	MOVD	R4, R3		// arg
 	BL	(CTR)
@@ -667,9 +718,11 @@ TEXT ·cgocallback(SB),NOSPLIT,$24-24
 	NO_LOCAL_POINTERS
 
 	// Load m and g from thread-local storage.
+#ifndef GOOS_openbsd
 	MOVBZ	runtime·iscgo(SB), R3
 	CMP	R3, $0
 	BEQ	nocgo
+#endif
 	BL	runtime·load_g(SB)
 nocgo:
 
