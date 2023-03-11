@@ -133,7 +133,7 @@ func Initialize(env string) {
 // (e.g. SSE2 on amd64).
 var options []option
 
-// Option names should be lower case. e.g. avx instead of AVX.
+// option names should be lower case. e.g. avx instead of AVX.
 type option struct {
 	Name      string
 	Feature   *bool

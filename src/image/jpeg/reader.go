@@ -26,7 +26,7 @@ func (e UnsupportedError) Error() string { return "unsupported JPEG feature: " +
 
 var errUnsupportedSubsamplingRatio = UnsupportedError("luma/chroma subsampling ratio")
 
-// Component specification, specified in section B.2.2.
+// component specification, specified in section B.2.2.
 type component struct {
 	h  int   // Horizontal sampling factor.
 	v  int   // Vertical sampling factor.
