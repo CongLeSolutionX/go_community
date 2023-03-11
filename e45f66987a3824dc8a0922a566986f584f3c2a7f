@@ -87,6 +87,24 @@
       "message": "I would like to also add\n\n// Functions and methods should document the cases in which an error\n// wrapping this will be returned.",
       "revId": "e45f66987a3824dc8a0922a566986f584f3c2a7f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90bc8230_aadae19f",
+        "filename": "src/errors/errors.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 34725
+      },
+      "writtenOn": "2023-03-11T04:55:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbeaf396_c834462b",
+      "revId": "e45f66987a3824dc8a0922a566986f584f3c2a7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
