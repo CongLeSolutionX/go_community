@@ -349,8 +349,12 @@ TestCases:
 				// nosplit -> split -> nosplit, but it's good enough.
 				if !adjusted && nosplit != "" {
 					const stackNosplitBase = 800 // internal/abi.StackNosplitBase
+					stackGuardMultiplier := 1
+					if runtime.GOOS == "openbsd" && runtime.GOARCH == "ppc64" {
+						stackGuardMultiplier = 2
+					}
+					size += stackNosplitBase * stackGuardMultiplier - 128
 					adjusted = true
-					size += stackNosplitBase - 128
 				}
 
 				if nosplit != "" {
