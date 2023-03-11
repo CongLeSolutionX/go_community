@@ -34,6 +34,41 @@
       "parentUuid": "53d7b000_76a8413e",
       "revId": "c13e419cf71bf1791b71a35e550e26b5b23f2dd9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d1fb47f_04b1d4b9",
+        "filename": "src/time/zoneinfo.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-03-11T00:42:16Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "89c2765f_64c76480",
+      "revId": "c13e419cf71bf1791b71a35e550e26b5b23f2dd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ea65aa1_29ead39a",
+        "filename": "src/time/zoneinfo.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-03-11T00:42:16Z",
+      "side": 1,
+      "message": "This comment now seems incorrect.  It doesn\u0027t take the end of the last timezone transition, because the last timezone transition doesn\u0027t have an end.  It takes the start of the last timezone transition.  If I\u0027m right about that, please update this comment.  Thanks.",
+      "revId": "c13e419cf71bf1791b71a35e550e26b5b23f2dd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
