@@ -69,6 +69,24 @@
       "message": "This comment now seems incorrect.  It doesn\u0027t take the end of the last timezone transition, because the last timezone transition doesn\u0027t have an end.  It takes the start of the last timezone transition.  If I\u0027m right about that, please update this comment.  Thanks.",
       "revId": "c13e419cf71bf1791b71a35e550e26b5b23f2dd9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61bef0a1_0fdeb3a0",
+        "filename": "src/time/zoneinfo.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 26706
+      },
+      "writtenOn": "2023-03-11T01:03:29Z",
+      "side": 1,
+      "message": "Great!\nI updated the comment and renamed `initEnd` parameter to `lastTxSec`.\n\n\\+ I want to avoid using \u0027start\u0027 or \u0027end\u0027 in this context because, technically, the transition itself doesn\u0027t have an interval; it only has the time that indicates when it happened.",
+      "parentUuid": "2ea65aa1_29ead39a",
+      "revId": "c13e419cf71bf1791b71a35e550e26b5b23f2dd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
