@@ -13,7 +13,11 @@
 #ifdef GOOS_aix
 #define cgoCalleeStackSize 48
 #else
+#ifdef GOOS_openbsd
+#define cgoCalleeStackSize 64
+#else
 #define cgoCalleeStackSize 32
+#endif
 #endif
 
 TEXT runtime·rt0_go(SB),NOSPLIT|TOPFRAME,$0
@@ -43,10 +47,12 @@ TEXT runtime·rt0_go(SB),NOSPLIT|TOPFRAME,$0
 	CMP	R0, R12
 	BEQ	nocgo
 #ifdef GOARCH_ppc64
+#ifndef GOOS_openbsd
 	// ppc64 use elf ABI v1. we must get the real entry address from
 	// first slot of the function descriptor before call.
 	MOVD	8(R12), R2
 	MOVD	(R12), R12
+#endif
 #endif
 	MOVD	R12, CTR		// r12 = "global function entry point"
 	MOVD	R13, R5			// arg 2: TLS base pointer
@@ -545,6 +551,45 @@ TEXT gosave_systemstack_switch<>(SB),NOSPLIT|NOFRAME,$0
 #define asmcgocallSaveOffset cgoCalleeStackSize
 #endif
 
+// func asmcgocall_no_g(fn, arg unsafe.Pointer)
+// Call fn(arg) aligned appropriately for the gcc ABI.
+// Called on a system stack, and there may be no g yet (during needm).
+TEXT ·asmcgocall_no_g(SB),NOSPLIT,$0-16
+	MOVD	fn+0(FP), R3
+	MOVD	arg+8(FP), R4
+
+	MOVD	R1, R15
+	SUB	$64, R1
+	RLDCR	$0, R1, $~15, R1	// 16-byte alignment for gcc ABI
+	MOVD	R15, 56(R1)
+
+	// This is a "global call", so put the global entry point in r12
+	MOVD	R3, R12
+
+#ifdef GOARCH_ppc64
+#ifndef GOOS_openbsd
+	// ppc64 use elf ABI v1. we must get the real entry address from
+	// first slot of the function descriptor before call.
+	// Same for AIX.
+	MOVD	8(R12), R2
+	MOVD	(R12), R12
+#endif
+#endif
+#ifdef GOOS_openbsd
+	MOVD	$runtime·toc(SB), R2
+	MOVD	(R2), R2
+#endif
+	MOVD	R12, CTR
+	MOVD	R4, R3		// arg in r3
+	BL	(CTR)
+
+	// C code can clobber R0, so set it back to 0. F27-F31 are
+	// callee save, so we don't need to recover those.
+	XOR	R0, R0
+
+	MOVD	56(R1), R1
+	RET
+
 // func asmcgocall(fn, arg unsafe.Pointer) int32
 // Call fn(arg) on the scheduler stack,
 // aligned appropriately for the gcc ABI.
@@ -554,6 +599,8 @@ TEXT ·asmcgocall(SB),NOSPLIT,$0-20
 	MOVD	arg+8(FP), R4
 
 	MOVD	R1, R7		// save original stack pointer
+	CMP	$0, g
+	BEQ	nosave
 	MOVD	g, R5
 
 	// Figure out if we need to switch to m->g0 stack.
@@ -563,10 +610,11 @@ TEXT ·asmcgocall(SB),NOSPLIT,$0-20
 	MOVD	g_m(g), R8
 	MOVD	m_gsignal(R8), R6
 	CMP	R6, g
-	BEQ	g0
+	BEQ	nosave
 	MOVD	m_g0(R8), R6
 	CMP	R6, g
-	BEQ	g0
+	BEQ	nosave
+
 	BL	gosave_systemstack_switch<>(SB)
 	MOVD	R6, g
 	BL	runtime·save_g(SB)
@@ -598,11 +646,17 @@ g0:
 	MOVD	R3, R12
 
 #ifdef GOARCH_ppc64
+#ifndef GOOS_openbsd
 	// ppc64 use elf ABI v1. we must get the real entry address from
 	// first slot of the function descriptor before call.
 	// Same for AIX.
 	MOVD	8(R12), R2
 	MOVD	(R12), R12
+#endif
+#endif
+#ifdef GOOS_openbsd
+	MOVD	$runtime·toc(SB), R2
+	MOVD	(R2), R2
 #endif
 	MOVD	R12, CTR
 	MOVD	R4, R3		// arg in r3
@@ -625,15 +679,48 @@ g0:
 	MOVW	R3, ret+16(FP)
 	RET
 
+nosave:
+	SUB	$64, R1
+	RLDCR	$0, R1, $~15, R1	// 16-byte alignment for gcc ABI
+	MOVD	R7, 56(R1)	// Save original stack pointer.
+
+	MOVD	R3, R12		// fn
+#ifdef GOARCH_ppc64
+#ifndef GOOS_openbsd
+	// ppc64 use elf ABI v1. we must get the real entry address from
+	// first slot of the function descriptor before call.
+	// Same for AIX.
+	MOVD	8(R12), R2
+	MOVD	(R12), R12
+#endif
+#endif
+#ifdef GOOS_openbsd
+	MOVD	$runtime·toc(SB), R2
+	MOVD	(R2), R2
+#endif
+	MOVD	R12, CTR
+	MOVD	R4, R3		// arg
+	BL	(CTR)
+
+	// C code can clobber R0, so set it back to 0. F27-F31 are
+	// callee save, so we don't need to recover those.
+	XOR	R0, R0
+
+	MOVD	56(R1), R1	// Restore stack pointer.
+	MOVW	R3, ret+16(FP)
+	RET
+
 // func cgocallback(fn, frame unsafe.Pointer, ctxt uintptr)
 // See cgocall.go for more details.
 TEXT ·cgocallback(SB),NOSPLIT,$24-24
 	NO_LOCAL_POINTERS
 
 	// Load m and g from thread-local storage.
+#ifndef GOOS_openbsd
 	MOVBZ	runtime·iscgo(SB), R3
 	CMP	R3, $0
 	BEQ	nocgo
+#endif
 	BL	runtime·load_g(SB)
 nocgo:
 
@@ -746,6 +833,7 @@ TEXT runtime·setg(SB), NOSPLIT, $0-8
 	BL	runtime·save_g(SB)
 	RET
 
+#ifndef GOOS_openbsd
 #ifdef GOARCH_ppc64
 #ifdef GOOS_aix
 DATA    setg_gcc<>+0(SB)/8, $_setg_gcc<>(SB)
@@ -759,13 +847,18 @@ TEXT setg_gcc<>(SB),NOSPLIT|NOFRAME,$0-0
 	DWORD	$0
 #endif
 #endif
+#endif
 
 // void setg_gcc(G*); set g in C TLS.
 // Must obey the gcc calling convention.
 #ifdef GOARCH_ppc64le
 TEXT setg_gcc<>(SB),NOSPLIT|NOFRAME,$0-0
 #else
+#ifdef GOOS_openbsd
+TEXT setg_gcc<>(SB),NOSPLIT|NOFRAME,$0-0
+#else
 TEXT _setg_gcc<>(SB),NOSPLIT|NOFRAME,$0-0
+#endif
 #endif
 	// The standard prologue clobbers R31, which is callee-save in
 	// the C ABI, so we have to use $-8-0 and save LR ourselves.
