@@ -36,6 +36,7 @@ import (
 	"cmd/internal/sys"
 	"internal/abi"
 	"log"
+	"strings"
 )
 
 func progedit(ctxt *obj.Link, p *obj.Prog, newprog obj.ProgAlloc) {
@@ -124,6 +125,15 @@ func progedit(ctxt *obj.Link, p *obj.Prog, newprog obj.ProgAlloc) {
 			p.Reg = p.RestArgs[1].Addr.Reg
 			p.RestArgs = p.RestArgs[:1]
 		}
+	}
+
+	// TODO(jsing): Is there a way to determine SDYNIMPORT equivalent here?
+	if (p.As == obj.ACALL || p.As == obj.AJMP) && p.To.Name == obj.NAME_EXTERN &&
+		ctxt.Headtype == objabi.Hopenbsd && strings.HasPrefix(p.To.Sym.Name, "libc_") {
+		q := obj.Appendp(p, c.newprog)
+		q.As = AWORD
+		q.From.Type = obj.TYPE_CONST
+		q.From.Offset = 0x60000000
 	}
 
 	if c.ctxt.Headtype == objabi.Haix {
