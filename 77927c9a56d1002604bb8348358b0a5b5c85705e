@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "712aae11_b13836dc",
+        "filename": "src/cmd/internal/obj/ppc64/obj9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 27207
+      },
+      "writtenOn": "2023-03-11T20:38:14Z",
+      "side": 1,
+      "message": "Pardon if I misunderstand Go and linker conventions, but this code would look a bit mysterious to me if not for the commit title. I suppose the curious reader would find that by following git blame, but isn\u0027t it worth a comment here?",
+      "revId": "77927c9a56d1002604bb8348358b0a5b5c85705e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a00693c_a0a0f452",
+        "filename": "src/cmd/internal/obj/ppc64/obj9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 27207
+      },
+      "writtenOn": "2023-03-11T20:38:14Z",
+      "side": 1,
+      "message": "Do I understand correctly that this is big-endian and OpenBSD only supports big-endian on ppc64? If so, fine, no comment needed.",
+      "revId": "77927c9a56d1002604bb8348358b0a5b5c85705e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
