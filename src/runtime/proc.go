@@ -1382,7 +1382,7 @@ func usesLibcall() bool {
 	case "aix", "darwin", "illumos", "ios", "solaris", "windows":
 		return true
 	case "openbsd":
-		return GOARCH == "386" || GOARCH == "amd64" || GOARCH == "arm" || GOARCH == "arm64"
+		return GOARCH != "mips64"
 	}
 	return false
 }
@@ -1394,10 +1394,7 @@ func mStackIsSystemAllocated() bool {
 	case "aix", "darwin", "plan9", "illumos", "ios", "solaris", "windows":
 		return true
 	case "openbsd":
-		switch GOARCH {
-		case "386", "amd64", "arm", "arm64":
-			return true
-		}
+		return GOARCH != "mips64"
 	}
 	return false
 }
