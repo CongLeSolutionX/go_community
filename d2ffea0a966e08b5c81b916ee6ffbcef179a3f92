@@ -53,6 +53,24 @@
       "message": "I fail to see how this is going to help #58808 (without changing the behavior of `io.Copy`) in which file (and TCP socket) is the source, not the destination, and we use the `ReadFrom` not `WriteTo` of dst in `io.Copy` that only requires one method from the dst: `Write`.",
       "revId": "d2ffea0a966e08b5c81b916ee6ffbcef179a3f92",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ed48b91_49d05fa7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-03-12T00:54:37Z",
+      "side": 1,
+      "message": "By itself this won\u0027t help #58808.  My hope is that a similar technique can be used for the WriteTo method, if we need a WriteTo method.  If there is no WriteTo method, then this doesn\u0027t matter, but it still seems slightly cleaner.",
+      "parentUuid": "4267e8f6_e02c319f",
+      "revId": "d2ffea0a966e08b5c81b916ee6ffbcef179a3f92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
