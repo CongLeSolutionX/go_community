@@ -38,6 +38,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1c29536_94267e85",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-03-12T17:55:11Z",
+      "side": 1,
+      "message": "TRY\u003daix-ppc64",
+      "revId": "9eefb83919dfa9fa66f893423357bdd62f6113b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e66b8f83_f30b9341",
@@ -51,6 +68,24 @@
       "writtenOn": "2023-03-11T21:22:00Z",
       "side": 1,
       "message": "The \"false\" here is for sequencing with the other cgo changes and you\u0027ll change to true later?",
+      "revId": "9eefb83919dfa9fa66f893423357bdd62f6113b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e92c77b6_53c06553",
+        "filename": "src/cmd/dist/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1712,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-03-12T17:55:11Z",
+      "side": 1,
+      "message": "Correct - this adds the platform with cgo disabled. When cgo is enabled later (https://go-review.googlesource.com/c/go/+/475639/1) it will be changed to true.",
+      "parentUuid": "e66b8f83_f30b9341",
       "revId": "9eefb83919dfa9fa66f893423357bdd62f6113b8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
