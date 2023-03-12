@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45639d67_296891fe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 24
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-03-12T15:24:11Z",
+      "side": 1,
+      "message": "Note: Patchset 23 accidentally contained an older version of this patch.",
+      "revId": "b9c2244a530a9bf5d3ce16be05d360b6f3924ded",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
