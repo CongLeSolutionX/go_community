@@ -5454,31 +5454,37 @@ func testServerSetKeepAlivesEnabledClosesConns(t *testing.T, mode testMode) {
 
 func TestServerShutdown(t *testing.T) { run(t, testServerShutdown) }
 func testServerShutdown(t *testing.T, mode testMode) {
-	var doShutdown func() // set later
-	var doStateCount func()
-	var shutdownRes = make(chan error, 1)
-	var statesRes = make(chan map[ConnState]int, 1)
-	var gotOnShutdown = make(chan struct{}, 1)
+	var cst *clientServerTest
+
+	var once sync.Once
+	statesRes := make(chan map[ConnState]int, 1)
+	shutdownRes := make(chan error, 1)
+	gotOnShutdown := make(chan struct{})
 	handler := HandlerFunc(func(w ResponseWriter, r *Request) {
-		doStateCount()
-		go doShutdown()
-		// Shutdown is graceful, so it should not interrupt
-		// this in-flight response. Add a tiny sleep here to
-		// increase the odds of a failure if shutdown has
-		// bugs.
-		time.Sleep(20 * time.Millisecond)
+		once.Do(func() {
+			statesRes <- cst.ts.Config.ExportAllConnsByState()
+			go func() {
+				shutdownRes <- cst.ts.Config.Shutdown(context.Background())
+			}()
+		})
+
+		// Shutdown is graceful, so it should not interrupt this in-flight response
+		// but should reject new requests. (Since this request is still in flight,
+		// the server's port should not be reused for another server yet.)
+		<-gotOnShutdown
+		res, err := cst.c.Get(cst.ts.URL)
+		if err == nil {
+			res.Body.Close()
+			t.Errorf("%v: unexpected success. Listener should be closed before OnShutdown is called.", cst.ts.URL)
+		}
+
 		io.WriteString(w, r.RemoteAddr)
 	})
-	cst := newClientServerTest(t, mode, handler, func(srv *httptest.Server) {
-		srv.Config.RegisterOnShutdown(func() { gotOnShutdown <- struct{}{} })
+
+	cst = newClientServerTest(t, mode, handler, func(srv *httptest.Server) {
+		srv.Config.RegisterOnShutdown(func() { close(gotOnShutdown) })
 	})
 
-	doShutdown = func() {
-		shutdownRes <- cst.ts.Config.Shutdown(context.Background())
-	}
-	doStateCount = func() {
-		statesRes <- cst.ts.Config.ExportAllConnsByState()
-	}
 	get(t, cst.c, cst.ts.URL) // calls t.Fail on failure
 
 	if err := <-shutdownRes; err != nil {
@@ -5489,12 +5495,6 @@ func testServerShutdown(t *testing.T, mode testMode) {
 	if states := <-statesRes; states[StateActive] != 1 {
 		t.Errorf("connection in wrong state, %v", states)
 	}
-
-	res, err := cst.c.Get(cst.ts.URL)
-	if err == nil {
-		res.Body.Close()
-		t.Fatal("second request should fail. server should be shut down")
-	}
 }
 
 func TestServerShutdownStateNew(t *testing.T) { run(t, testServerShutdownStateNew) }
@@ -5502,6 +5502,9 @@ func testServerShutdownStateNew(t *testing.T, mode testMode) {
 	if testing.Short() {
 		t.Skip("test takes 5-6 seconds; skipping in short mode")
 	}
+	// The run helper runs the test in parallel only in short mode by default.
+	// Since this test has a very long latency, always run it in parallel.
+	t.Parallel()
 
 	var connAccepted sync.WaitGroup
 	ts := newClientServerTest(t, mode, HandlerFunc(func(w ResponseWriter, r *Request) {
@@ -5538,7 +5541,11 @@ func testServerShutdownStateNew(t *testing.T, mode testMode) {
 		readRes <- err
 	}()
 
+	// TODO(#59037): This timeout is hard-coded in closeIdleConnections.
+	// It is undocumented, and some users may find it surprising.
+	// Either document it, or switch to a less surprising behavior.
 	const expectTimeout = 5 * time.Second
+
 	t0 := time.Now()
 	select {
 	case got := <-shutdownRes:
