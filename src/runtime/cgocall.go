@@ -229,6 +229,7 @@ func cgocallbackg(fn, frame unsafe.Pointer, ctxt uintptr) {
 	savedpc := gp.syscallpc
 	exitsyscall() // coming out of cgo call
 	gp.m.incgo = false
+	gp.m.incgocallback = true
 
 	osPreemptExtExit(gp.m)
 
@@ -238,6 +239,7 @@ func cgocallbackg(fn, frame unsafe.Pointer, ctxt uintptr) {
 	// The following code must not change to a different m.
 	// This is enforced by checking incgo in the schedule function.
 
+	gp.m.incgocallback = false
 	gp.m.incgo = true
 
 	if gp.m != checkm {

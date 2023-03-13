@@ -560,6 +560,7 @@ type m struct {
 	newSigstack   bool // minit on C thread called sigaltstack
 	printlock     int8
 	incgo         bool          // m is executing a cgo call
+	incgocallback bool          // m is executing a cgo callback into go
 	isextra       bool          // m is an extra m
 	freeWait      atomic.Uint32 // Whether it is safe to free g0 and delete m (one of freeMRef, freeMStack, freeMWait)
 	fastrand      uint64
