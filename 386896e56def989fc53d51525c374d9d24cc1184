@@ -16,6 +16,24 @@
       "message": "Probably want this comment in the new location.",
       "revId": "386896e56def989fc53d51525c374d9d24cc1184",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4329f04e_df7963de",
+        "filename": "src/runtime/internal/sys/intrinsics_common.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 52329
+      },
+      "writtenOn": "2023-03-13T01:59:06Z",
+      "side": 0,
+      "message": "There is already a copy in intrinisics.go#L7.",
+      "parentUuid": "c1e869f0_0180f29b",
+      "revId": "386896e56def989fc53d51525c374d9d24cc1184",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
