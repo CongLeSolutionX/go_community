@@ -51,6 +51,23 @@
       "message": "This may not be the final version, and some comments need cleaned up, but I want to verify this on our builders too.\n\nIt seems to behave with my local testing.",
       "revId": "eb8248ee9ce6521284929957458efb95a19d8301",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eff74f10_2c74133d",
+        "filename": "src/runtime/sys_linux_ppc64x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 751,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-03-13T15:21:03Z",
+      "side": 1,
+      "message": "On some archtectures we define macros for saving/restore C callee save registers, e.g. https://cs.opensource.google/go/go/+/master:src/runtime/cgo/abi_amd64.h Maybe do the same (and reuse in other places like runtime/cgo/asm_ppc64x.s)?",
+      "revId": "eb8248ee9ce6521284929957458efb95a19d8301",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
