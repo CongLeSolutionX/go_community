@@ -152,6 +152,10 @@ func TestTraceSymbolize(t *testing.T) {
 		{trace.EvGoStart, []frame{
 			{"runtime/trace_test.TestTraceSymbolize.func1", 0},
 		}},
+		{trace.EvGoSched, []frame{
+			{"runtime/trace_test.TestTraceSymbolize", 112},
+			{"testing.tRunner", 0},
+		}},
 		{trace.EvGoCreate, []frame{
 			{"runtime/trace_test.TestTraceSymbolize", 41},
 			{"testing.tRunner", 0},
@@ -232,10 +236,6 @@ func TestTraceSymbolize(t *testing.T) {
 
 	if tracefpunwindoff() {
 		want = append(want,
-			eventDesc{trace.EvGoSched, []frame{
-				{"runtime/trace_test.TestTraceSymbolize", 112}, // runtime.Gosched call gets inlined and mcall doesn't push frame pointer (TODO: make mcall push fp?)
-				{"testing.tRunner", 0},
-			}},
 			eventDesc{trace.EvGomaxprocs, []frame{
 				{"runtime.startTheWorld", 0}, // this is when the current gomaxprocs is logged.
 				{"runtime.startTheWorldGC", 0},
@@ -246,8 +246,8 @@ func TestTraceSymbolize(t *testing.T) {
 		)
 	} else {
 		want = append(want, eventDesc{trace.EvGomaxprocs, []frame{
-			{"runtime.startTheWorld.func1", 0}, // this is when the current gomaxprocs is logged.
-			{"runtime.systemstack", 0},         // systemstack doesn't push rbp, so no runtime.startTheWorld frame
+			{"runtime.systemstack", 0},
+			{"runtime.startTheWorld", 0},
 			{"runtime.startTheWorldGC", 0},
 			{"runtime.GOMAXPROCS", 0},
 			{"runtime/trace_test.TestTraceSymbolize", 0},

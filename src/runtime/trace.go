@@ -879,9 +879,13 @@ func traceStackID(mp *m, pcBuf []uintptr, skip int) uint64 {
 	gp := getg()
 	curgp := mp.curg
 	var nstk int
-	if tracefpunwindoff() {
+	if tracefpunwindoff() || (curgp != nil && curgp.m != nil && curgp.m.incgocallback) {
 		// Slow path: Unwind using default unwinder. Used when frame pointer
-		// unwinding is unavailable or disabled.
+		// unwinding is unavailable or disabled (tracefpunwindoff), or might
+		// produce incomplete results or crashes (incgocallback). Note that no
+		// cgo callback related crashes have been observed yet. The main
+		// motivation is to take advantage of a potentially registered cgo
+		// symbolizer.
 		pcBuf[0] = logicalStackSentinel
 		if curgp == gp {
 			nstk = callers(skip+1, pcBuf[1:]) + 1
@@ -898,7 +902,7 @@ func traceStackID(mp *m, pcBuf []uintptr, skip int) uint64 {
 			// difficult to debug and fix. skip+4 is a workaround to hide g0
 			// frames for now, but it's brittle because the number of frames
 			// leading up to traceStackID is variable, see traceGoSysCall.
-			nstk = fpTracebackPCs(getcallerfp(), skip+4, pcBuf)
+			nstk = fpTracebackPCs(getcallerfp(), skip+5, pcBuf)
 		}
 	}
 	if nstk > 0 {
