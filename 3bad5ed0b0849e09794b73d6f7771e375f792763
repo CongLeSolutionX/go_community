@@ -63,6 +63,75 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e845033e_0566e95e",
+        "filename": "doc/godebug.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2023-03-13T18:52:52Z",
+      "side": 1,
+      "message": "defaults",
+      "range": {
+        "startLine": 84,
+        "startChar": 35,
+        "endLine": 84,
+        "endChar": 42
+      },
+      "revId": "3bad5ed0b0849e09794b73d6f7771e375f792763",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "105f10db_ea37056b",
+        "filename": "doc/godebug.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2023-03-13T18:52:52Z",
+      "side": 1,
+      "message": "1",
+      "range": {
+        "startLine": 84,
+        "startChar": 56,
+        "endLine": 84,
+        "endChar": 57
+      },
+      "revId": "3bad5ed0b0849e09794b73d6f7771e375f792763",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a7d5949_f0ecaf8e",
+        "filename": "doc/godebug.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2023-03-13T18:52:52Z",
+      "side": 1,
+      "message": "I\u0027m confused by this sentence in this context. It\u0027s not related to panicnil being introduced in 1.21, is it? I think it says that for programs listing go versions before 1.20, all GODEBUG settings are as of 1.20. Is that right? If so, consider a paragraph break.",
+      "range": {
+        "startLine": 86,
+        "startChar": 0,
+        "endLine": 88,
+        "endChar": 22
+      },
+      "revId": "3bad5ed0b0849e09794b73d6f7771e375f792763",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "80ccf34c_07f058cc",
         "filename": "doc/godebug.md",
         "patchSetId": 7
@@ -102,6 +171,29 @@
         "startChar": 5,
         "endLine": 100,
         "endChar": 37
+      },
+      "revId": "3bad5ed0b0849e09794b73d6f7771e375f792763",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "514b170f_70e8c6c7",
+        "filename": "doc/godebug.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2023-03-13T18:52:52Z",
+      "side": 1,
+      "message": "The directive applies per-program, not per-file, right? In that case, what happens if two different files conflict?",
+      "range": {
+        "startLine": 101,
+        "startChar": 58,
+        "endLine": 101,
+        "endChar": 59
       },
       "revId": "3bad5ed0b0849e09794b73d6f7771e375f792763",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
