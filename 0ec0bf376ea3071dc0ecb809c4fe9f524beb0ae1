@@ -78,6 +78,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "23a9b5b5_139b40c0",
+        "filename": "src/runtime/cgo/abi_ppc64x.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-03-13T22:43:05Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "704379da_887f4100",
+      "range": {
+        "startLine": 7,
+        "startChar": 26,
+        "endLine": 7,
+        "endChar": 50
+      },
+      "revId": "0ec0bf376ea3071dc0ecb809c4fe9f524beb0ae1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "50a59912_9e059df6",
@@ -95,6 +119,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a838a754_41c6f86c",
+        "filename": "src/runtime/cgo/abi_ppc64x.h",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-03-13T22:43:05Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "50a59912_9e059df6",
+      "revId": "0ec0bf376ea3071dc0ecb809c4fe9f524beb0ae1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9015e71c_bcac8ada",
@@ -108,6 +150,30 @@
       "writtenOn": "2023-03-13T21:05:30Z",
       "side": 1,
       "message": "Why V registers? There are no integer registers we can clobber at this point?",
+      "range": {
+        "startLine": 643,
+        "startChar": 26,
+        "endLine": 643,
+        "endChar": 38
+      },
+      "revId": "0ec0bf376ea3071dc0ecb809c4fe9f524beb0ae1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be679465_8c94b9bd",
+        "filename": "src/runtime/sys_linux_ppc64x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 643,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-03-13T22:43:05Z",
+      "side": 1,
+      "message": "They are trivially available here. I think R11 and R12 are safe now that I understand this function.\n\nLooking more closely, we can avoid the clobber entirely by not loading g into the g register. It will be reloaded into the g register later, if needed, and when safe.",
+      "parentUuid": "9015e71c_bcac8ada",
       "range": {
         "startLine": 643,
         "startChar": 26,
@@ -141,6 +207,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f73952d_594132a9",
+        "filename": "src/runtime/sys_linux_ppc64x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 669,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-03-13T22:43:05Z",
+      "side": 1,
+      "message": "This is intentional. It is easy to overlook the branch goes to sigtrampnog instead of sigtramp.",
+      "parentUuid": "782b6b1d_0f644c30",
+      "range": {
+        "startLine": 669,
+        "startChar": 0,
+        "endLine": 669,
+        "endChar": 0
+      },
+      "revId": "0ec0bf376ea3071dc0ecb809c4fe9f524beb0ae1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a1a9f9ef_99302808",
@@ -164,6 +254,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "59020a81_efa9248c",
+        "filename": "src/runtime/sys_linux_ppc64x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 752,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-03-13T22:43:05Z",
+      "side": 1,
+      "message": "I thought it wasn\u0027t permissible to call one ABI from the other. I guess that isn\u0027t true. I\u0027ll revert it.",
+      "parentUuid": "a1a9f9ef_99302808",
+      "range": {
+        "startLine": 752,
+        "startChar": 32,
+        "endLine": 752,
+        "endChar": 45
+      },
+      "revId": "0ec0bf376ea3071dc0ecb809c4fe9f524beb0ae1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3eee2f77_87f3c883",
@@ -177,6 +291,30 @@
       "writtenOn": "2023-03-13T21:05:30Z",
       "side": 1,
       "message": "Why save R1 on stack?",
+      "range": {
+        "startLine": 760,
+        "startChar": 7,
+        "endLine": 760,
+        "endChar": 9
+      },
+      "revId": "0ec0bf376ea3071dc0ecb809c4fe9f524beb0ae1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d395d4ad_7a940dbe",
+        "filename": "src/runtime/sys_linux_ppc64x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 760,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-03-13T22:43:05Z",
+      "side": 1,
+      "message": "It is where the back chain pointer lives in an ELFv2 frame. It probably doesn\u0027t matter here as it is likely overwritten with the saved LR when calling into go.",
+      "parentUuid": "3eee2f77_87f3c883",
       "range": {
         "startLine": 760,
         "startChar": 7,
