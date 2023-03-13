@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c80edc52_2794a874",
+        "filename": "src/cmd/internal/obj/ppc64/obj9.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-03-13T18:37:22Z",
+      "side": 1,
+      "message": "I suspect you want to update the aclass function in the assembler (asm9.go). See the obj.TYPE_BRANCH case. The matching should be updated to classify these calls as C_LBRAPIC which will insert a NOP after the call.",
+      "range": {
+        "startLine": 129,
+        "startChar": 4,
+        "endLine": 129,
+        "endChar": 8
+      },
+      "revId": "0748a27b069644c08c625370e73d649422cfb700",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
