@@ -89,6 +89,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f28e0bb_a0024086",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-03-13T20:03:55Z",
+      "side": 1,
+      "message": "I wanted to update a couple of inline comments, so I created an abi_ppc64x.h. We can move the other uses over in a separate commit.",
+      "parentUuid": "f9eaac2f_536f64d7",
+      "revId": "eb8248ee9ce6521284929957458efb95a19d8301",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3762e956_e8fef560",
@@ -106,6 +124,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c042146c_cd8f287b",
+        "filename": "src/runtime/sys_linux_ppc64x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 642,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-03-13T20:03:55Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "3762e956_e8fef560",
+      "revId": "eb8248ee9ce6521284929957458efb95a19d8301",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eff74f10_2c74133d",
@@ -119,6 +155,24 @@
       "writtenOn": "2023-03-13T15:21:03Z",
       "side": 1,
       "message": "On some archtectures we define macros for saving/restore C callee save registers, e.g. https://cs.opensource.google/go/go/+/master:src/runtime/cgo/abi_amd64.h Maybe do the same (and reuse in other places like runtime/cgo/asm_ppc64x.s)?",
+      "revId": "eb8248ee9ce6521284929957458efb95a19d8301",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0e838fb_c8fff8b7",
+        "filename": "src/runtime/sys_linux_ppc64x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 751,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-03-13T20:03:55Z",
+      "side": 1,
+      "message": "Yes, that would be desirable. Though, in the interest of getting the CI unclogged, merging the other users can wait for a separate patch.",
+      "parentUuid": "eff74f10_2c74133d",
       "revId": "eb8248ee9ce6521284929957458efb95a19d8301",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
