@@ -8,6 +8,7 @@ package types2
 
 import (
 	"cmd/compile/internal/syntax"
+	"fmt"
 	. "internal/types/errors"
 	"strings"
 	"unicode"
@@ -15,21 +16,36 @@ import (
 
 // funcInst type-checks a function instantiation inst and returns the result in x.
 // The operand x must be the evaluation of inst.X and its type must be a signature.
-func (check *Checker) funcInst(x *operand, inst *syntax.IndexExpr) {
+func (check *Checker) funcInst(pos syntax.Pos, x *operand, inst *syntax.IndexExpr, target Type) {
 	if !check.allowVersion(check.pkg, 1, 18) {
 		check.versionErrorf(inst.Pos(), "go1.18", "function instantiation")
 	}
 
-	xlist := unpackExpr(inst.Index)
-	targs := check.typeList(xlist)
-	if targs == nil {
-		x.mode = invalid
-		x.expr = inst
-		return
+	// tsig is the (assignment) target function signature, or nil.
+	var tsig *Signature
+	if target != nil {
+		tsig, _ = under(target).(*Signature)
 	}
-	assert(len(targs) == len(xlist))
 
-	// check number of type arguments (got) vs number of type parameters (want)
+	// targs and xlist are the type arguments and corresponding type expressions, or nil.
+	var targs []Type
+	var xlist []syntax.Expr
+	if inst != nil {
+		xlist = unpackExpr(inst.Index)
+		targs = check.typeList(xlist)
+		if targs == nil {
+			x.mode = invalid
+			x.expr = inst
+			return
+		}
+		assert(len(targs) == len(xlist))
+	}
+
+	// TODO(gri) should we exit early if targs == nil and tsig == nil?
+
+	// Check the number of type arguments (got) vs number of type parameters (want).
+	// Note that there are no generic function types, so we don't need to call under
+	// below.
 	sig := x.typ.(*Signature)
 	got, want := len(targs), sig.TypeParams().Len()
 	if got > want {
@@ -40,7 +56,37 @@ func (check *Checker) funcInst(x *operand, inst *syntax.IndexExpr) {
 	}
 
 	if got < want {
-		targs = check.infer(inst.Pos(), sig.TypeParams().list(), targs, nil, nil)
+		// If the partially instantiated function x is used in an assignment, use
+		// the respective function parameter and result types to infer additional
+		// type arguments if possible.
+		var args []*operand
+		var params []*Var
+		if tsig != nil && sig.tparams != nil && tsig.params.Len() == sig.params.Len() && tsig.results.Len() == sig.results.Len() {
+			// x is a generic function and the signature arity matches the target function.
+			// To infer x's missing type arguments, treat the function assignment as a call
+			// of a synthetic function f where f's parameters are the parameters and results
+			// of x and where the arguments to the call of f are values of the parameter and
+			// result types of x.
+			n := tsig.params.Len()
+			m := tsig.results.Len()
+			args = make([]*operand, n+m)
+			params = make([]*Var, n+m)
+			for i := 0; i < n; i++ {
+				lvar := tsig.params.At(i)
+				lname := syntax.NewName(x.Pos(), paramName(lvar.name, i, "parameter"))
+				args[i] = &operand{mode: value, expr: lname, typ: lvar.typ}
+				params[i] = sig.params.At(i)
+			}
+			for i := 0; i < m; i++ {
+				lvar := tsig.results.At(i)
+				lname := syntax.NewName(x.Pos(), paramName(lvar.name, i, "result parameter"))
+				args[n+i] = &operand{mode: value, expr: lname, typ: lvar.typ}
+				params[n+i] = sig.results.At(i)
+			}
+		}
+
+		// Note that NewTuple(params...) below is nil if len(params) == 0, as desired.
+		targs = check.infer(pos, sig.TypeParams().list(), targs, NewTuple(params...), args)
 		if targs == nil {
 			// error was already reported
 			x.mode = invalid
@@ -54,10 +100,32 @@ func (check *Checker) funcInst(x *operand, inst *syntax.IndexExpr) {
 	// instantiate function signature
 	sig = check.instantiateSignature(x.Pos(), sig, targs, xlist)
 	assert(sig.TypeParams().Len() == 0) // signature is not generic anymore
-	check.recordInstance(inst.X, targs, sig)
+	if inst != nil {
+		// TODO(gri) fix this
+		check.recordInstance(inst.X, targs, sig)
+	}
 	x.typ = sig
 	x.mode = value
 	x.expr = inst
+}
+
+func paramName(name string, i int, kind string) string {
+	if name != "" {
+		return name
+	}
+	return nth(i+1) + " " + kind
+}
+
+func nth(n int) string {
+	switch n {
+	case 1:
+		return "1st"
+	case 2:
+		return "2nd"
+	case 3:
+		return "3rd"
+	}
+	return fmt.Sprintf("%dth", n)
 }
 
 func (check *Checker) instantiateSignature(pos syntax.Pos, typ *Signature, targs []Type, xlist []syntax.Expr) (res *Signature) {
@@ -119,7 +187,7 @@ func (check *Checker) callExpr(x *operand, call *syntax.CallExpr) exprKind {
 
 	case typexpr:
 		// conversion
-		check.nonGeneric(x)
+		check.nonGeneric(x, nil)
 		if x.mode == invalid {
 			return conversion
 		}
@@ -129,7 +197,7 @@ func (check *Checker) callExpr(x *operand, call *syntax.CallExpr) exprKind {
 		case 0:
 			check.errorf(call, WrongArgCount, "missing argument in conversion to %s", T)
 		case 1:
-			check.expr(x, call.ArgList[0])
+			check.expr(x, call.ArgList[0], nil)
 			if x.mode != invalid {
 				if t, _ := under(T).(*Interface); t != nil && !isTypeParam(T) {
 					if !t.IsMethodSet() {
@@ -272,7 +340,7 @@ func (check *Checker) exprList(elist []syntax.Expr, allowCommaOk bool) (xlist []
 		xlist = make([]*operand, len(elist))
 		for i, e := range elist {
 			var x operand
-			check.expr(&x, e)
+			check.expr(&x, e, nil)
 			xlist[i] = &x
 		}
 	}
@@ -705,8 +773,6 @@ func (check *Checker) use(arg ...syntax.Expr) {
 	for _, e := range arg {
 		switch n := e.(type) {
 		case nil:
-			// some AST fields may be nil (e.g., elements of syntax.SliceExpr.Index)
-			// TODO(gri) can those fields really make it here?
 			continue
 		case *syntax.Name:
 			// don't report an error evaluating blank
@@ -717,6 +783,6 @@ func (check *Checker) use(arg ...syntax.Expr) {
 			check.use(n.ElemList...)
 			continue
 		}
-		check.rawExpr(&x, e, nil, false)
+		check.rawExpr(&x, e, nil, nil, false)
 	}
 }

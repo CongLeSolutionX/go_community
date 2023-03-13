@@ -196,7 +196,7 @@ func (check *Checker) lhsVar(lhs syntax.Expr) Type {
 	}
 
 	var x operand
-	check.expr(&x, lhs)
+	check.expr(&x, lhs, nil)
 
 	if v != nil {
 		v.used = v_used // restore v.used
@@ -216,7 +216,7 @@ func (check *Checker) lhsVar(lhs syntax.Expr) Type {
 	default:
 		if sel, ok := x.expr.(*syntax.SelectorExpr); ok {
 			var op operand
-			check.expr(&op, sel.X)
+			check.expr(&op, sel.X, nil)
 			if op.mode == mapindex {
 				check.errorf(&x, UnaddressableFieldAssign, "cannot assign to struct field %s in map", syntax.String(x.expr))
 				return Typ[Invalid]
@@ -229,16 +229,22 @@ func (check *Checker) lhsVar(lhs syntax.Expr) Type {
 	return x.typ
 }
 
-// assignVar checks the assignment lhs = x and returns the type of x.
-// If the assignment is invalid, the result is nil.
-func (check *Checker) assignVar(lhs syntax.Expr, x *operand) Type {
-	if x.mode == invalid || x.typ == Typ[Invalid] {
-		check.use(lhs)
+// assignVar checks the assignment lhs = rhs and returns the type of rhs.
+// If lhs, rhs, x, or the assignment is invalid, the result is nil.
+// If x != nil, it must be the evaluation of rhs, and x will
+// be used instead of rhs; rhs will be ignored in that case.
+func (check *Checker) assignVar(lhs, rhs syntax.Expr, x *operand) Type {
+	T := check.lhsVar(lhs) // nil if lhs is _
+	if T == Typ[Invalid] {
+		check.use(rhs)
 		return nil
 	}
 
-	T := check.lhsVar(lhs) // nil if lhs is _
-	if T == Typ[Invalid] {
+	if x == nil {
+		x = new(operand)
+		check.expr(x, rhs, T)
+	}
+	if x.mode == invalid {
 		return nil
 	}
 
@@ -408,9 +414,7 @@ func (check *Checker) assignVars(lhs, orig_rhs []syntax.Expr) {
 	// each value can be assigned to its corresponding variable.
 	if l == r && !isCall {
 		for i, lhs := range lhs {
-			var x operand
-			check.expr(&x, orig_rhs[i])
-			check.assignVar(lhs, &x)
+			check.assignVar(lhs, orig_rhs[i], nil)
 		}
 		return
 	}
@@ -428,7 +432,7 @@ func (check *Checker) assignVars(lhs, orig_rhs []syntax.Expr) {
 	r = len(rhs)
 	if l == r {
 		for i, lhs := range lhs {
-			check.assignVar(lhs, rhs[i])
+			check.assignVar(lhs, nil, rhs[i])
 		}
 		if commaOk {
 			check.recordCommaOkTypes(orig_rhs[0], rhs)

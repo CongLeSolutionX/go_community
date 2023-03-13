@@ -21,7 +21,7 @@ func assignments0() (int, int) {
 
 	a = f0 /* ERROR "used as value" */ ()
 	a = f1()
-	a = f2 /* ERROR "assignment mismatch: 1 variable but f2 returns 2 values" */ ()
+	a = f2 /* ERROR "multiple-value f2() (value of type (int, int)) in single-value context" */ ()
 	a, b = f2()
 	a, b, c = f2 /* ERROR "assignment mismatch: 3 variables but f2 returns 2 values" */ ()
 	a, b, c = f3()

@@ -173,7 +173,7 @@ func underIs(typ Type, f func(Type) bool) bool {
 }
 
 func (check *Checker) unary(x *operand, e *syntax.Operation) {
-	check.expr(x, e.X)
+	check.expr(x, e.X, nil)
 	if x.mode == invalid {
 		return
 	}
@@ -1091,8 +1091,8 @@ func init() {
 func (check *Checker) binary(x *operand, e syntax.Expr, lhs, rhs syntax.Expr, op syntax.Operator) {
 	var y operand
 
-	check.expr(x, lhs)
-	check.expr(&y, rhs)
+	check.expr(x, lhs, nil)
+	check.expr(&y, rhs, nil)
 
 	if x.mode == invalid {
 		return
@@ -1244,7 +1244,7 @@ const (
 // If hint != nil, it is the type of a composite literal element.
 // If allowGeneric is set, the operand type may be an uninstantiated
 // parameterized type or function value.
-func (check *Checker) rawExpr(x *operand, e syntax.Expr, hint Type, allowGeneric bool) exprKind {
+func (check *Checker) rawExpr(x *operand, e syntax.Expr, target, hint Type, allowGeneric bool) exprKind {
 	if check.conf.Trace {
 		check.trace(e.Pos(), "-- expr %s", e)
 		check.indent++
@@ -1254,10 +1254,10 @@ func (check *Checker) rawExpr(x *operand, e syntax.Expr, hint Type, allowGeneric
 		}()
 	}
 
-	kind := check.exprInternal(x, e, hint)
+	kind := check.exprInternal(x, e, target, hint)
 
 	if !allowGeneric {
-		check.nonGeneric(x)
+		check.nonGeneric(x, target)
 	}
 
 	check.record(x)
@@ -1267,7 +1267,7 @@ func (check *Checker) rawExpr(x *operand, e syntax.Expr, hint Type, allowGeneric
 
 // If x is a generic function or type, nonGeneric reports an error and invalidates x.mode and x.typ.
 // Otherwise it leaves x alone.
-func (check *Checker) nonGeneric(x *operand) {
+func (check *Checker) nonGeneric(x *operand, target Type) {
 	if x.mode == invalid || x.mode == novalue {
 		return
 	}
@@ -1279,6 +1279,12 @@ func (check *Checker) nonGeneric(x *operand) {
 		}
 	case *Signature:
 		if t.tparams != nil {
+			if target != nil {
+				if _, ok := under(target).(*Signature); ok {
+					check.funcInst(x.Pos(), x, nil, target)
+					return
+				}
+			}
 			what = "function"
 		}
 	}
@@ -1291,7 +1297,7 @@ func (check *Checker) nonGeneric(x *operand) {
 
 // exprInternal contains the core of type checking of expressions.
 // Must only be called by rawExpr.
-func (check *Checker) exprInternal(x *operand, e syntax.Expr, hint Type) exprKind {
+func (check *Checker) exprInternal(x *operand, e syntax.Expr, target, hint Type) exprKind {
 	// make sure x has a valid state in case of bailout
 	// (was go.dev/issue/5770)
 	x.mode = invalid
@@ -1432,7 +1438,7 @@ func (check *Checker) exprInternal(x *operand, e syntax.Expr, hint Type) exprKin
 					key, _ := kv.Key.(*syntax.Name)
 					// do all possible checks early (before exiting due to errors)
 					// so we don't drop information on the floor
-					check.expr(x, kv.Value)
+					check.expr(x, kv.Value, nil)
 					if key == nil {
 						check.errorf(kv, InvalidLitField, "invalid field name %s in struct literal", kv.Key)
 						continue
@@ -1460,7 +1466,7 @@ func (check *Checker) exprInternal(x *operand, e syntax.Expr, hint Type) exprKin
 						check.error(kv, MixedStructLit, "mixture of field:value and value elements in struct literal")
 						continue
 					}
-					check.expr(x, e)
+					check.expr(x, e, nil)
 					if i >= len(fields) {
 						check.errorf(x, InvalidStructLit, "too many values in struct literal of type %s", base)
 						break // cannot continue
@@ -1587,7 +1593,8 @@ func (check *Checker) exprInternal(x *operand, e syntax.Expr, hint Type) exprKin
 		x.typ = typ
 
 	case *syntax.ParenExpr:
-		kind := check.rawExpr(x, e.X, nil, false)
+		// type inference doesn't go past parentheses (target = nil)
+		kind := check.rawExpr(x, e.X, nil, nil, false)
 		x.expr = e
 		return kind
 
@@ -1596,7 +1603,7 @@ func (check *Checker) exprInternal(x *operand, e syntax.Expr, hint Type) exprKin
 
 	case *syntax.IndexExpr:
 		if check.indexExpr(x, e) {
-			check.funcInst(x, e)
+			check.funcInst(e.Pos(), x, e, target)
 		}
 		if x.mode == invalid {
 			goto Error
@@ -1609,7 +1616,7 @@ func (check *Checker) exprInternal(x *operand, e syntax.Expr, hint Type) exprKin
 		}
 
 	case *syntax.AssertExpr:
-		check.expr(x, e.X)
+		check.expr(x, e.X, nil)
 		if x.mode == invalid {
 			goto Error
 		}
@@ -1810,8 +1817,15 @@ func (check *Checker) typeAssertion(e syntax.Expr, x *operand, T Type, typeSwitc
 // expr typechecks expression e and initializes x with the expression value.
 // The result must be a single value.
 // If an error occurred, x.mode is set to invalid.
-func (check *Checker) expr(x *operand, e syntax.Expr) {
-	check.rawExpr(x, e, nil, false)
+func (check *Checker) expr(x *operand, e syntax.Expr, target Type) {
+	check.rawExpr(x, e, target, nil, false)
+	check.exclude(x, 1<<novalue|1<<builtin|1<<typexpr)
+	check.singleValue(x)
+}
+
+// genericExpr is like expr but the result may also be generic.
+func (check *Checker) genericExpr(x *operand, e syntax.Expr) {
+	check.rawExpr(x, e, nil, nil, true)
 	check.exclude(x, 1<<novalue|1<<builtin|1<<typexpr)
 	check.singleValue(x)
 }
@@ -1823,7 +1837,7 @@ func (check *Checker) expr(x *operand, e syntax.Expr) {
 // If an error occurred, list[0] is not valid.
 func (check *Checker) multiExpr(e syntax.Expr, allowCommaOk bool) (list []*operand, commaOk bool) {
 	var x operand
-	check.rawExpr(&x, e, nil, false)
+	check.rawExpr(&x, e, nil, nil, false)
 	check.exclude(&x, 1<<novalue|1<<builtin|1<<typexpr)
 
 	if t, ok := x.typ.(*Tuple); ok && x.mode != invalid {
@@ -1854,7 +1868,7 @@ func (check *Checker) multiExpr(e syntax.Expr, allowCommaOk bool) (list []*opera
 // If an error occurred, x.mode is set to invalid.
 func (check *Checker) exprWithHint(x *operand, e syntax.Expr, hint Type) {
 	assert(hint != nil)
-	check.rawExpr(x, e, hint, false)
+	check.rawExpr(x, e, nil, hint, false)
 	check.exclude(x, 1<<novalue|1<<builtin|1<<typexpr)
 	check.singleValue(x)
 }
@@ -1864,7 +1878,7 @@ func (check *Checker) exprWithHint(x *operand, e syntax.Expr, hint Type) {
 // value.
 // If an error occurred, x.mode is set to invalid.
 func (check *Checker) exprOrType(x *operand, e syntax.Expr, allowGeneric bool) {
-	check.rawExpr(x, e, nil, allowGeneric)
+	check.rawExpr(x, e, nil, nil, allowGeneric)
 	check.exclude(x, 1<<novalue)
 	check.singleValue(x)
 }
