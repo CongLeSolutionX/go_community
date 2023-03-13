@@ -57,6 +57,52 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4bf7bc4_c7c63a25",
+        "filename": "src/runtime/asm_ppc64x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-03-13T18:16:16Z",
+      "side": 1,
+      "message": "I wonder if we want to add some helper macros inside asm_ppc64x.h to define things like GO_PPC64_ELFV2, GO_PPC64_ELFV1, GO_PC64_HAS_FUNCDESC (for those similar aix/elfv1 cases).\n\nIMO, the primitive preprocessor implementation makes it difficult to concisely express compound conditionals.",
+      "range": {
+        "startLine": 11,
+        "startChar": 10,
+        "endLine": 11,
+        "endChar": 20
+      },
+      "revId": "3ae88be61ef462eef43e50ad19f64d038fb949d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "527421b6_c1ac159e",
+        "filename": "src/runtime/asm_ppc64x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-03-13T18:16:16Z",
+      "side": 1,
+      "message": "What is different about openbsd that requires a slightly larger minimum stack frame?",
+      "range": {
+        "startLine": 17,
+        "startChar": 8,
+        "endLine": 17,
+        "endChar": 26
+      },
+      "revId": "3ae88be61ef462eef43e50ad19f64d038fb949d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "879b237f_dae82ac4",
@@ -70,6 +116,75 @@
       "writtenOn": "2023-03-13T17:22:30Z",
       "side": 1,
       "message": "Please update comment regarding openbsd\u0027s use of ELFv2.",
+      "revId": "3ae88be61ef462eef43e50ad19f64d038fb949d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e41210b7_9c6761d0",
+        "filename": "src/runtime/asm_ppc64x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 557,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-03-13T18:16:16Z",
+      "side": 1,
+      "message": "Is this function needed only for openbsd?",
+      "range": {
+        "startLine": 557,
+        "startChar": 6,
+        "endLine": 557,
+        "endChar": 21
+      },
+      "revId": "3ae88be61ef462eef43e50ad19f64d038fb949d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb99a72d_cd985e47",
+        "filename": "src/runtime/asm_ppc64x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 603,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-03-13T18:16:16Z",
+      "side": 1,
+      "message": "When does openbsd call this without a valid g? Is it safe to assume that it is always 0 in that case?",
+      "range": {
+        "startLine": 603,
+        "startChar": 5,
+        "endLine": 603,
+        "endChar": 11
+      },
+      "revId": "3ae88be61ef462eef43e50ad19f64d038fb949d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b84d8fcc_3f7a207a",
+        "filename": "src/runtime/asm_ppc64x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 616,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-03-13T18:16:16Z",
+      "side": 1,
+      "message": "This is a hard change to follow. If I understand, it is just switching to the g0 stack if not already. Similarly, the g0 label below is unused now too.\n\nSimilarly, openbsd introduces a new path where g isn\u0027t yet set up, so we can assume it is a stack sufficiently large for the call?",
+      "range": {
+        "startLine": 616,
+        "startChar": 5,
+        "endLine": 616,
+        "endChar": 11
+      },
       "revId": "3ae88be61ef462eef43e50ad19f64d038fb949d5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
