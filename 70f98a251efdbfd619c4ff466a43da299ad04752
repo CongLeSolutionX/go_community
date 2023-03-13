@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22d0ea89_68e494cd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-03-13T14:52:28Z",
+      "side": 1,
+      "message": "Hmm. I don\u0027t think this actually completes #41198 — part of the point of that proposal is to make existing “unsupported” errors equivalent to `ErrUnsupported`, and this CL doesn\u0027t implement that part.",
+      "revId": "70f98a251efdbfd619c4ff466a43da299ad04752",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
