@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc16fbeb_aa7e3587",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5497,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-03-13T22:59:01Z",
+      "side": 0,
+      "message": "Would it make sense to mark this test as not parallel (pass testNotParallel to run) instead of dropping this check?",
+      "revId": "e8543a6fa6e68a9d35178a5bbb71812cfbc2ba05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
