@@ -53,6 +53,24 @@
       "message": "I\u0027m just brainstorming, but I wonder if it would be possible to directly switch back and forth? That is, the framepointer unwinder runs until it hits cgocallback, which it treats as a kind of \"stack switch\" to switch to cgoTraceback, and once that is exhausted and we are back in Go code, switch back to framepointer unwinding.",
       "revId": "bca39ab31899ff7f60e7bee87e053b5ae500650d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab2590f9_3f01c6cc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-03-13T19:00:29Z",
+      "side": 1,
+      "message": "I think that\u0027s doable, but I\u0027m concerned about performance.\n\nLoading funcInfo for every frame to check if it is a cgocallback would probably be a significant performance hit.\n\nMaybe another way to detect the stack transition would be to check if fp falls into the g or g0 stack. But even that could slow things down a bit.\n\nI\u0027d probably prefer to go ahead with the current approach, but I\u0027d be happy to send another CL to attempt your idea afterwards.",
+      "parentUuid": "a3825674_246e7086",
+      "revId": "bca39ab31899ff7f60e7bee87e053b5ae500650d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
