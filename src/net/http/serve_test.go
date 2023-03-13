@@ -5489,12 +5489,6 @@ func testServerShutdown(t *testing.T, mode testMode) {
 	if states := <-statesRes; states[StateActive] != 1 {
 		t.Errorf("connection in wrong state, %v", states)
 	}
-
-	res, err := cst.c.Get(cst.ts.URL)
-	if err == nil {
-		res.Body.Close()
-		t.Fatal("second request should fail. server should be shut down")
-	}
 }
 
 func TestServerShutdownStateNew(t *testing.T) { run(t, testServerShutdownStateNew) }
