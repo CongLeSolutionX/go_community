@@ -34,6 +34,24 @@
       "parentUuid": "fc16fbeb_aa7e3587",
       "revId": "e8543a6fa6e68a9d35178a5bbb71812cfbc2ba05",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb08eb8b_35cb6344",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5497,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-03-14T18:11:26Z",
+      "side": 0,
+      "message": "\u003e It might be possible to test a case like this by blocking the initial `get` request while initiating shutdown\n\nReworked the test to use this approach.",
+      "parentUuid": "1915ef78_e859251f",
+      "revId": "e8543a6fa6e68a9d35178a5bbb71812cfbc2ba05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
