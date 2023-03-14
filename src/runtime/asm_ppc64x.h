@@ -23,3 +23,39 @@
 // and currently always use that much, PIC on ppc64 would need to use 48).
 
 #define FIXED_FRAME 32
+
+// ELFv1 is used by linux/ppc64.
+#ifdef GOOS_linux
+#ifdef GOARCH_ppc64
+#define GO_PPC64X_ELFV1
+#endif
+#endif
+
+// ELFv2 is used by linux/ppc64le.
+#ifdef GOOS_linux
+#ifdef GOARCH_ppc64le
+#define GO_PPC64X_ELFV2
+#endif
+#endif
+
+// ELFv2 is used by openbsd/ppc64.
+#ifdef GOOS_openbsd
+#ifdef GOARCH_ppc64
+#define GO_PPC64X_ELFV2
+#endif
+#endif
+
+// XCOFF is used by aix/ppc64.
+#ifdef GOOS_aix
+#ifdef GOARCH_ppc64
+#define GO_PPC64X_XCOFF
+#endif
+#endif
+
+// Both ELFv1 and XCOFF use function descriptors.
+#ifdef GO_PPC64X_ELFV1
+#define GO_PPC64X_HAS_FUNCDESC
+#endif
+#ifdef GO_PPC64X_XCOFF
+#define GO_PPC64X_HAS_FUNCDESC
+#endif
