@@ -59,6 +59,30 @@
       },
       "revId": "d520cec78a444bf825b6a12fb5ecb6b814ed942d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ffe9fa6_df75c01c",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1954,
+      "author": {
+        "id": 35588
+      },
+      "writtenOn": "2023-03-14T19:22:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e9fef126_f2c2d5df",
+      "range": {
+        "startLine": 1954,
+        "startChar": 21,
+        "endLine": 1954,
+        "endChar": 27
+      },
+      "revId": "d520cec78a444bf825b6a12fb5ecb6b814ed942d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
