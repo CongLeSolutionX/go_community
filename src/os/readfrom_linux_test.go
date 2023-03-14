@@ -6,6 +6,7 @@ package os_test
 
 import (
 	"bytes"
+	"errors"
 	"internal/poll"
 	"io"
 	"math/rand"
@@ -279,6 +280,12 @@ func TestSpliceFile(t *testing.T) {
 			})
 		}
 	})
+	t.Run("TCP-To-Stdout", func(t *testing.T) {
+		testSpliceToStdout(t, "tcp", 32768)
+	})
+	t.Run("Unix-To-Stdout", func(t *testing.T) {
+		testSpliceToStdout(t, "unix", 32768)
+	})
 	t.Run("Limited", func(t *testing.T) {
 		t.Run("OneLess-TCP", func(t *testing.T) {
 			for _, size := range sizes {
@@ -394,6 +401,47 @@ func testSpliceFile(t *testing.T, proto string, size, limit int64) {
 			t.Fatalf("didn't update limit correctly: got %d, want %d", lr.N, want)
 		}
 	}
+}
+
+func testSpliceToStdout(t *testing.T, proto string, size int64) {
+	// This dumps a lot of data on stdout, so skip in short mode.
+	if testing.Short() {
+		t.Skip("skipping in short mode to avoid spamming terminal")
+	}
+
+	client, server := createSocketPair(t, proto)
+
+	data := bytes.Repeat([]byte{'a'}, int(size))
+
+	done := make(chan bool)
+	go func() {
+		defer func() { close(done) }()
+		// The problem (issue #59041) occurs when writing
+		// a series of blocks of data. It does not occur
+		// when all the data is written at once.
+		for i := 0; i < len(data); i += 1024 {
+			if _, err := client.Write(data); err != nil {
+				// If we get here because the client was
+				// closed, skip the error.
+				if !errors.Is(err, net.ErrClosed) {
+					t.Errorf("error writing to socket: %v", err)
+				}
+				return
+			}
+		}
+		client.Close()
+	}()
+	defer func() {
+		// Close Client to wake up the goroutine if necessary.
+		client.Close()
+		<-done
+	}()
+
+	_, err := io.Copy(os.Stdout, server)
+	if err != nil {
+		t.Fatal(err)
+	}
+	os.Stdout.Write([]byte{'\n'})
 }
 
 func testCopyFileRange(t *testing.T, size int64, limit int64) {
