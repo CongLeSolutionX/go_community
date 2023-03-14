@@ -436,7 +436,8 @@ TEXT runtime·mcall<ABIInternal>(SB), NOSPLIT, $0-8
 	MOVQ	BX, (g_sched+gobuf_pc)(R14)
 	LEAQ	fn+0(FP), BX	// caller's SP
 	MOVQ	BX, (g_sched+gobuf_sp)(R14)
-	MOVQ	BP, (g_sched+gobuf_bp)(R14)
+	MOVQ	(BP), BX // caller's BP
+	MOVQ	BX, (g_sched+gobuf_bp)(R14)
 
 	// switch to m->g0 & its stack, call fn
 	MOVQ	g_m(R14), BX
