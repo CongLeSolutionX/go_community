@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59e116a1_90a9e08f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-03-14T19:48:17Z",
+      "side": 1,
+      "message": "This change needs an integration test (in `cmd/go/testdata/script`) demonstrating `go list` commands similar to the ones in the issue report.\n\nNamely:\n- The test should have a `go.mod` file that requires some module that is present in the test proxy (`cmd/go/testdata/mod`).\n- The test should have a `.go` source file that imports a package from that module.\n- The test should compare the output of `go list -m -json` for that module with and without the exact version string named in the `go.mod` file.",
+      "revId": "0891a79d4fed3f92977ce4fda93ba7fcd81c3c70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "385d5bac_1e443fed",
+        "filename": "src/cmd/go/internal/modinfo/info.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-03-14T19:48:17Z",
+      "side": 1,
+      "message": "This does not look like the right fix to me. It is still correct to omit the `Indirect` field if is value is false.",
+      "revId": "0891a79d4fed3f92977ce4fda93ba7fcd81c3c70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
