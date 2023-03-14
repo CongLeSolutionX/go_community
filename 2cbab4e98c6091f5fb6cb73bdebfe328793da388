@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d103bd82_188430f3",
+        "filename": "src/runtime/sys_linux_ppc64x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-03-14T10:01:52Z",
+      "side": 0,
+      "message": "While not directly related, I wonder if runtime.reginit should not just be removed - it only zeroes a single register and this introduces another case where it is done manually (there are already others in asm_ppc64x.s). As an aside, the code in reginit uses XOR rather than MOVD, which also makes the code inconsistent.",
+      "range": {
+        "startLine": 640,
+        "startChar": 1,
+        "endLine": 640,
+        "endChar": 25
+      },
+      "revId": "2cbab4e98c6091f5fb6cb73bdebfe328793da388",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
