@@ -107,6 +107,24 @@
       "message": "This could be simplified by moving the #define GO_PPC64X_HAS_FUNCDESC to the sections above where appropriate.",
       "revId": "c3985a80e2659a728fae4214d6c1295148971524",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c34c90bb_994a7c15",
+        "filename": "src/runtime/asm_ppc64x.h",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2023-03-14T15:59:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31f8591e_8280facb",
+      "revId": "c3985a80e2659a728fae4214d6c1295148971524",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
