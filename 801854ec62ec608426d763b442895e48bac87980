@@ -59,6 +59,30 @@
       },
       "revId": "801854ec62ec608426d763b442895e48bac87980",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc47bf3b_037b9b4c",
+        "filename": "src/cmd/compile/internal/ssa/_gen/ARM64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 616,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-03-14T09:29:55Z",
+      "side": 1,
+      "message": "It handles two cases of LT and GE, and the other two cases I am currently not sure whether it can be optimized. Thanks",
+      "parentUuid": "62cda943_c7aeb91d",
+      "range": {
+        "startLine": 616,
+        "startChar": 0,
+        "endLine": 616,
+        "endChar": 65
+      },
+      "revId": "801854ec62ec608426d763b442895e48bac87980",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
