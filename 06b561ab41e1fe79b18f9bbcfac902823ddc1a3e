@@ -166,6 +166,30 @@
       },
       "revId": "06b561ab41e1fe79b18f9bbcfac902823ddc1a3e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49d24d20_fd407d7f",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2970,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-03-14T19:06:54Z",
+      "side": 1,
+      "message": "\u003e This is just to avoid extra work due to -pgo\u003dauto (or build split), e.g. https://cs.opensource.google/go/go/+/master:src/cmd/go/internal/list/list.go;l\u003d736\n\u003e We could use a different variable, or just not do it and allow the extra work (which is not very expensive anyway).\n\u003e \n\u003e Tried the latter, found there are two tests failing, though, which I don\u0027t really understand. They are script tests mod_vendor_auto and get_dash_t. I think both failures are due to the code in the if block in list.go https://cs.opensource.google/go/go/+/master:src/cmd/go/internal/list/list.go;l\u003d736 runs now. If we modify the test to do `go list -test` instead of `go list`, we can reproduce the failure (without this CL or previous PGO CLs).\n\u003e \n\u003e For mod_vendor_auto, adding `-test` to https://cs.opensource.google/go/go/+/master:src/cmd/go/testdata/script/mod_vendor_auto.txt;l\u003d14 would cause it to fail with `tools.go:5:8: import \"example.com/printversion\" is a program, not an importable package`. This seems from https://cs.opensource.google/go/go/+/master:src/cmd/go/testdata/script/mod_vendor_auto.txt;l\u003d201 importing a main package. Why would `go list` not report importing main error, whereas `go list -test` does? Is it an intentional choice?\n\nInteresting. That error message comes from here:\nhttps://cs.opensource.google/go/go/+/master:src/cmd/go/internal/load/pkg.go;l\u003d784;drc\u003d34d6aaae29023b9edfef2d3360d89e48c8dd118f\n\nI don\u0027t know why `go list` would fail to report the error prior to this CL — that certainly seems like a bug. 😅 (That test should probably be using the `-e` flag, like `go list -f {{.Dir}} -tags tools -e all`.)\n\n\u003e For get_dash_t, it shows many error for failing to load package, like\n\n\u003e           golang.org/x/build/autocertcache/autocertcache.go:13:2: cannot find \u003epackage \"cloud.google.com/go/storage\" in any of:\n\u003e I guess go get -t doesn\u0027t download tests for transitive dependencies whereas go list -test ... tries to list them?\n\nThat test is _definitely_ problematic. `go list ...` lists all packages in the known universe (for that particular test, all packages found in `GOPATH`). The dependencies of those packages may well be unresolved, because the `go get` command in that test will pull the entire `x/build` repo into `GOPATH`. It should instead use `go list -test github.com/rsc/go-get-issue-8181/b`.\n\n----\n\nI think the thing that concerns me most about those failures is that I don\u0027t understand why they weren\u0027t _already_ failing. 😩",
+      "parentUuid": "02ae1e5f_29f0ceee",
+      "range": {
+        "startLine": 2968,
+        "startChar": 0,
+        "endLine": 2970,
+        "endChar": 3
+      },
+      "revId": "06b561ab41e1fe79b18f9bbcfac902823ddc1a3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
