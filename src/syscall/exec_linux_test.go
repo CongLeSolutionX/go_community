@@ -51,11 +51,9 @@ func isNotSupported(err error) bool {
 		}
 	}
 
-	if errors.Is(err, fs.ErrPermission) {
+	if errors.Is(err, fs.ErrPermission) || errors.Is(err, errors.ErrUnsupported) {
 		return true
 	}
-
-	// TODO(#41198): Also return true if errors.Is(err, errors.ErrUnsupported).
 
 	return false
 }
