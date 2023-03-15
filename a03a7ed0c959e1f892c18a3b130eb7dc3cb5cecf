@@ -78,6 +78,30 @@
       },
       "revId": "a03a7ed0c959e1f892c18a3b130eb7dc3cb5cecf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "816812a7_9e1428b4",
+        "filename": "src/net/protoconn_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2023-03-15T17:06:17Z",
+      "side": 1,
+      "message": "It could be both, either not running as root (lacking capabilities) or running inside a container. I\u0027ve updated the comment. Thanks.",
+      "parentUuid": "3f6dce08_b0812f88",
+      "range": {
+        "startLine": 171,
+        "startChar": 5,
+        "endLine": 171,
+        "endChar": 64
+      },
+      "revId": "a03a7ed0c959e1f892c18a3b130eb7dc3cb5cecf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
