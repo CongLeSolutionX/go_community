@@ -6,8 +6,17 @@
 
 package testenv
 
-import "os"
+import (
+	"errors"
+	"os"
+)
 
 // Sigquit is the signal to send to kill a hanging subprocess.
 // On Unix we send SIGQUIT, but on non-Unix we only have os.Kill.
 var Sigquit = os.Kill
+
+// SyscallIsNotSupported reports whether err may indicate that a system call is
+// not supported by the current platform or execution environment.
+func SyscallIsNotSupported(err error) bool {
+	return errors.Is(err, errors.ErrUnsupported)
+}
