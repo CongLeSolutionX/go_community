@@ -91,6 +91,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9a0dbb2c_893a2c05",
+        "filename": "src/runtime/mem_js.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 61003
+      },
+      "writtenOn": "2023-03-15T23:32:48Z",
+      "side": 1,
+      "message": "Can we put a link about where this value is coming from ? https://webassembly.github.io/spec/core/exec/runtime.html#memory-instances maybe ?",
+      "revId": "42403d6ff4a7c092b7f201c7ff9f438a0d05df05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "37588b21_3bf29435",
         "filename": "src/runtime/mem_sbrk.go",
         "patchSetId": 1
