@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "570e8402_f21d2b19",
+        "filename": "src/net/protoconn_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-03-15T17:52:30Z",
+      "side": 1,
+      "message": "Looks like we need to include `syscall.EPLAN9` in the predicate on plan9.\n\nhttps://build.golang.org/log/073412bbb8f3d8ec4ef0db87e651668ff43e7781:\n```\n--- FAIL: TestIPConnSpecificMethods (0.00s)\n    protoconn_test.go:174: listen ip4:icmp 127.0.0.1: not supported by plan 9\nFAIL\nFAIL\tnet\t32.966s\n```\n\nProbably the simplest way to do that is to make `EPLAN9` (and `EWINDOWS`) implement `Is(errors.ErrNotSupported)`.",
+      "revId": "1d06667bc40160d909897470948bb3fc6ad4da96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
