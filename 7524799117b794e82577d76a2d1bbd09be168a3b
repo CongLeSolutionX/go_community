@@ -59,6 +59,30 @@
       },
       "revId": "7524799117b794e82577d76a2d1bbd09be168a3b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71fbdb38_45aba837",
+        "filename": "src/os/readfrom_linux_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-03-15T01:31:06Z",
+      "side": 1,
+      "message": "It\u0027s not the identical failure with a PTY, although I can\u0027t fully explain the difference.  It may have something to do with the test harness when using \"go test\".  Still, it does test the failure at least in part, so, converted to a PTY.",
+      "parentUuid": "5e892a64_d0f7a4b4",
+      "range": {
+        "startLine": 407,
+        "startChar": 0,
+        "endLine": 410,
+        "endChar": 2
+      },
+      "revId": "7524799117b794e82577d76a2d1bbd09be168a3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
