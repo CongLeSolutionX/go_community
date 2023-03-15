@@ -445,7 +445,7 @@ func (st *relocSymState) relocsym(s loader.Sym, P []byte) {
 				continue
 			}
 			if ldr.SymSect(rs) == nil {
-				st.err.Errorf(s, "unreachable sym in relocation: %s", ldr.SymName(rs))
+				st.err.Errorf(s, "missing section for relocation target %s", ldr.SymName(rs))
 				continue
 			}
 
