@@ -439,6 +439,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aff04abb_b281d96a",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 892,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-03-15T19:09:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15c418b0_1b100f13",
+      "range": {
+        "startLine": 891,
+        "startChar": 5,
+        "endLine": 892,
+        "endChar": 33
+      },
+      "revId": "b5ecaa0c5cd9cd41cae64f1a30a59af62b192b83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2d507df3_0038347f",
@@ -523,6 +547,24 @@
       "writtenOn": "2023-03-02T20:06:35Z",
       "side": 1,
       "message": "Is this a deal breaker for landing this patch?\n\nGenerally speaking curgp.sched.bp works, but some events either have a frame too much or a frame too little, regardless of how I adjust skip here. I suspect the issues I\u0027ve been hitting with it could also be related to https://go-review.googlesource.com/c/go/+/472195 but I\u0027m not entirely sure yet.\n\nI\u0027m also curious about whether or not hiding runtime frames makes sense for a low-level tool like the tracer, especially since it complicates the implementation quite a bit.",
+      "revId": "b5ecaa0c5cd9cd41cae64f1a30a59af62b192b83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "447d972f_c8938d00",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 895,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-03-15T19:09:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aefd8c35_674a03f3",
       "revId": "b5ecaa0c5cd9cd41cae64f1a30a59af62b192b83",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -710,6 +752,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "88e78baa_01501bc9",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 1281,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-03-15T19:09:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0007467_5cf101d5",
+      "revId": "b5ecaa0c5cd9cd41cae64f1a30a59af62b192b83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c12b4e97_e16b7036",
@@ -723,6 +783,24 @@
       "writtenOn": "2023-03-02T20:06:35Z",
       "side": 1,
       "message": "This problem would go away if https://go-review.googlesource.com/c/go/+/472195 lands, but it seems like there might be concerns about it: https://github.com/golang/go/issues/58378#issuecomment-1452270103",
+      "revId": "b5ecaa0c5cd9cd41cae64f1a30a59af62b192b83",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6050737_7847ffb2",
+        "filename": "src/runtime/trace/trace_stack_test.go",
+        "patchSetId": 19
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-03-15T19:09:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c12b4e97_e16b7036",
       "revId": "b5ecaa0c5cd9cd41cae64f1a30a59af62b192b83",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
