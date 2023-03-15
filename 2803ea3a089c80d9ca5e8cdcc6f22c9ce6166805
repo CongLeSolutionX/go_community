@@ -34,6 +34,24 @@
       "parentUuid": "909d1ee2_1fbc8767",
       "revId": "2803ea3a089c80d9ca5e8cdcc6f22c9ce6166805",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f0acedf_6020de28",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 20
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-03-15T15:12:10Z",
+      "side": 1,
+      "message": "Thanks, good to know. Do you know which version(s) of the kernel have the fix? Should we update the kernel on the builder?",
+      "parentUuid": "d9bb654c_cae76e1c",
+      "revId": "2803ea3a089c80d9ca5e8cdcc6f22c9ce6166805",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
