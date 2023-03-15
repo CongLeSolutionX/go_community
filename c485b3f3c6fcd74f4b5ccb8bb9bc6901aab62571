@@ -78,6 +78,30 @@
       },
       "revId": "c485b3f3c6fcd74f4b5ccb8bb9bc6901aab62571",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d09192f6_718a1fc7",
+        "filename": "src/net/protoconn_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2023-03-15T13:53:04Z",
+      "side": 1,
+      "message": "Agree, removed.",
+      "parentUuid": "03982650_b0a64b4a",
+      "range": {
+        "startLine": 165,
+        "startChar": 0,
+        "endLine": 168,
+        "endChar": 0
+      },
+      "revId": "c485b3f3c6fcd74f4b5ccb8bb9bc6901aab62571",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
