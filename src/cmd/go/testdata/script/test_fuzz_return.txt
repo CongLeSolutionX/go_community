@@ -1,4 +1,5 @@
 [short] skip
+env GOCACHE=$WORK/cache
 
 ! go test .
 stdout '^panic: testing: fuzz target must not return a value \[recovered\]$'

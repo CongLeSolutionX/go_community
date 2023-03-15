@@ -2,6 +2,7 @@
 # (See https://golang.org/issue/48495.)
 
 [short] skip
+env GOCACHE=$WORK/cache
 
 # Set -modcacherw so that the test behaves the same regardless of whether the
 # module cache is writable. (For example, on some platforms it can always be

@@ -1,4 +1,5 @@
 [!fuzz] skip
+env GOCACHE=$WORK/cache
 
 ! go test -fuzz=FuzzTrivial -coverprofile=prof
 ! stdout .
