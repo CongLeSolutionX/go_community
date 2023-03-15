@@ -16,6 +16,24 @@
       "message": "Hmm, given the original issue was a kernel regression after all, do we still want the local workaround here?",
       "revId": "2803ea3a089c80d9ca5e8cdcc6f22c9ce6166805",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9bb654c_cae76e1c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 20
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 54019
+      },
+      "writtenOn": "2023-03-15T09:50:51Z",
+      "side": 1,
+      "message": "The kernel has fix it,  I think the workaround here is  unnecessary",
+      "parentUuid": "909d1ee2_1fbc8767",
+      "revId": "2803ea3a089c80d9ca5e8cdcc6f22c9ce6166805",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
