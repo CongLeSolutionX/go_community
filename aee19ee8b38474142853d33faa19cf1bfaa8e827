@@ -143,6 +143,24 @@
       "message": "I would be surprised if this error message is portable to non-Unix platforms (it corresponds to `ENOENT`). Is there some other prefix or suffix of the error message we could check for?",
       "revId": "aee19ee8b38474142853d33faa19cf1bfaa8e827",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "818b12bb_ebf4aad5",
+        "filename": "src/cmd/go/testdata/script/test_fuzz_err_deadlock.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 12545
+      },
+      "writtenOn": "2023-03-16T16:24:11Z",
+      "side": 1,
+      "message": "Good call.",
+      "parentUuid": "2d74f016_c8744805",
+      "revId": "aee19ee8b38474142853d33faa19cf1bfaa8e827",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
