@@ -846,7 +846,7 @@ func elfbuildinfo(sh *ElfShdr, startva uint64, resoff uint64) int {
 }
 
 func elfgobuildid(sh *ElfShdr, startva uint64, resoff uint64) int {
-	n := len(ELF_NOTE_GO_NAME) + int(Rnd(int64(len(*flagBuildid)), 4))
+	n := ELF_NOTE_GO_NAMESZ + int(Rnd(int64(len(*flagBuildid)), 4))
 	return elfnote(sh, startva, resoff, n)
 }
 
@@ -865,12 +865,13 @@ func elfwritebuildinfo(out *OutBuf) int {
 }
 
 func elfwritegobuildid(out *OutBuf) int {
-	sh := elfwritenotehdr(out, ".note.go.buildid", uint32(len(ELF_NOTE_GO_NAME)), uint32(len(*flagBuildid)), ELF_NOTE_GOBUILDID_TAG)
+	sh := elfwritenotehdr(out, ".note.go.buildid", uint32(ELF_NOTE_GO_NAMESZ), uint32(len(*flagBuildid)), ELF_NOTE_GOBUILDID_TAG)
 	if sh == nil {
 		return 0
 	}
 
 	out.Write(ELF_NOTE_GO_NAME)
+	out.Write8(0)
 	out.Write([]byte(*flagBuildid))
 	var zero = make([]byte, 4)
 	out.Write(zero[:int(Rnd(int64(len(*flagBuildid)), 4)-int64(len(*flagBuildid)))])
@@ -886,7 +887,9 @@ const (
 	ELF_NOTE_GOBUILDID_TAG = 4
 )
 
-var ELF_NOTE_GO_NAME = []byte("Go\x00\x00")
+var ELF_NOTE_GO_NAME = []byte("Go\x00")
+
+const ELF_NOTE_GO_NAMESZ = 4
 
 var elfverneed int
 
@@ -1363,13 +1366,15 @@ func addgonote(ctxt *Link, sectionName string, tag uint32, desc []byte) {
 	s := ldr.CreateSymForUpdate(sectionName, 0)
 	s.SetType(sym.SELFROSECT)
 	// namesz
-	s.AddUint32(ctxt.Arch, uint32(len(ELF_NOTE_GO_NAME)))
+	s.AddUint32(ctxt.Arch, uint32(ELF_NOTE_GO_NAMESZ))
 	// descsz
 	s.AddUint32(ctxt.Arch, uint32(len(desc)))
 	// tag
 	s.AddUint32(ctxt.Arch, tag)
 	// name + padding
 	s.AddBytes(ELF_NOTE_GO_NAME)
+	s.AddUint32(ctxt.Arch, uint32(0))
+
 	for len(s.Data())%4 != 0 {
 		s.AddUint8(0)
 	}
