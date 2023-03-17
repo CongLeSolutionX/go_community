@@ -102,9 +102,10 @@ func mdestroy(mp *m) {
 }
 
 func osinit() {
+	initBloc()
 	ncpu = 1
 	getg().m.procid = 2
-	physPageSize = 64 * 1024
+	physPageSize = _PAGESIZE
 }
 
 // wasm has no signals
