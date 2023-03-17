@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0906c502_4f8780a0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17110
+      },
+      "writtenOn": "2023-03-17T11:25:46Z",
+      "side": 1,
+      "message": "This CL is very similar to previous one https://go-review.googlesource.com/c/go/+/217857. But contains changes that make tests pass.",
+      "revId": "9d47fc116af037bb0ad59d8ebc905867ce9a05ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
