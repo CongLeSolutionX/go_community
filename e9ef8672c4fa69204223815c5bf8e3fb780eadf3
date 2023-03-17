@@ -53,6 +53,132 @@
       "message": "Ready for review.",
       "revId": "e9ef8672c4fa69204223815c5bf8e3fb780eadf3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c92dcf11_c5295100",
+        "filename": "src/runtime/testdata/testprogcgo/trace.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-03-17T15:29:50Z",
+      "side": 1,
+      "message": "FWIW, I think it would be cleaner for the parent to pass the filename to use via a flag or environment variable.",
+      "revId": "e9ef8672c4fa69204223815c5bf8e3fb780eadf3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ffdc3a2_2ba752f9",
+        "filename": "src/runtime/testdata/testprogcgo/trace_windows.c",
+        "patchSetId": 20
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-03-17T15:29:50Z",
+      "side": 1,
+      "message": "Inconsistent tabs",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 2
+      },
+      "revId": "e9ef8672c4fa69204223815c5bf8e3fb780eadf3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "530188ea_821188f6",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 880,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-03-17T15:29:50Z",
+      "side": 1,
+      "message": "Is this flag different from `!mp.incgo \u0026\u0026 mp.ncgo \u003e 0`?\n\n(The `!mp.incgo` portion should be trivially true anywhere we currently use tracing)",
+      "range": {
+        "startLine": 880,
+        "startChar": 61,
+        "endLine": 880,
+        "endChar": 81
+      },
+      "revId": "e9ef8672c4fa69204223815c5bf8e3fb780eadf3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cda0a894_c120a7b0",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 880,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-03-17T15:29:50Z",
+      "side": 1,
+      "message": "Optional: you could just access `mp` here, though going through curgp perhaps makes the intention clearer.",
+      "range": {
+        "startLine": 880,
+        "startChar": 43,
+        "endLine": 880,
+        "endChar": 68
+      },
+      "revId": "e9ef8672c4fa69204223815c5bf8e3fb780eadf3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c68bb6a8_d9f3c261",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 884,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-03-17T15:29:50Z",
+      "side": 1,
+      "message": "I don\u0027t think you need to mention this. Wanting to use the cgo traceback is perfectly reasonable motivation.",
+      "range": {
+        "startLine": 883,
+        "startChar": 59,
+        "endLine": 884,
+        "endChar": 57
+      },
+      "revId": "e9ef8672c4fa69204223815c5bf8e3fb780eadf3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f393dc0a_dd48b6fc",
+        "filename": "src/runtime/trace_test.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-03-17T15:29:50Z",
+      "side": 1,
+      "message": "trace_cgo_test.go would better match others (e.g. crash_cgo_test.go)",
+      "revId": "e9ef8672c4fa69204223815c5bf8e3fb780eadf3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
