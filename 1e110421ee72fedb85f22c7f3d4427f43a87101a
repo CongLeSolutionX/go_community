@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71046c88_27fa6b4a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-03-18T18:16:49Z",
+      "side": 1,
+      "message": "Thanks for the reviews 😊. Updated the patch with some more code comments as requested.",
+      "revId": "1e110421ee72fedb85f22c7f3d4427f43a87101a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
