@@ -89,6 +89,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "a618c08c_f0b50b6a",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-03-18T19:48:55Z",
+      "side": 1,
+      "message": "If the goal is to keep the maximum stack depth exactly as before, then yes. But I\u0027m not sure if that matters, since the value is kind of arbitrary to begin with.\n\nI don\u0027t feel strongly about it. Do you?",
+      "parentUuid": "52ee12d3_394a33ee",
+      "revId": "5461e725839cc9187baab5d33c3e12302453a389",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "92a592d4_f435679b",
@@ -152,6 +170,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c784fa9_335bad39",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 897,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-03-18T19:48:55Z",
+      "side": 1,
+      "message": "Thanks for noticing. I rewrote the comment.",
+      "parentUuid": "fcf439b0_f764950b",
+      "range": {
+        "startLine": 897,
+        "startChar": 19,
+        "endLine": 897,
+        "endChar": 53
+      },
+      "revId": "5461e725839cc9187baab5d33c3e12302453a389",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d8a27445_4da6b185",
@@ -165,6 +207,30 @@
       "writtenOn": "2023-03-17T15:07:53Z",
       "side": 1,
       "message": "Could you document in a function comment that pcBuf must be traceStackSize?",
+      "range": {
+        "startLine": 899,
+        "startChar": 57,
+        "endLine": 899,
+        "endChar": 61
+      },
+      "revId": "5461e725839cc9187baab5d33c3e12302453a389",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "425dd1a6_d969f918",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 899,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-03-18T19:48:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8a27445_4da6b185",
       "range": {
         "startLine": 899,
         "startChar": 57,
@@ -192,6 +258,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ba95842_61dbf2df",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 925,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-03-18T19:48:55Z",
+      "side": 1,
+      "message": "Yeah, I definitely tried to be cute with that 😅. Moved the comment as suggested.",
+      "parentUuid": "6969d529_aa29d6ef",
+      "revId": "5461e725839cc9187baab5d33c3e12302453a389",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9272b172_c71be27b",
@@ -205,6 +289,30 @@
       "writtenOn": "2023-03-17T15:07:53Z",
       "side": 1,
       "message": "logicalStackSentinel",
+      "range": {
+        "startLine": 1488,
+        "startChar": 36,
+        "endLine": 1488,
+        "endChar": 47
+      },
+      "revId": "5461e725839cc9187baab5d33c3e12302453a389",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45d7ff66_9b784411",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 32
+      },
+      "lineNbr": 1488,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-03-18T19:48:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9272b172_c71be27b",
       "range": {
         "startLine": 1488,
         "startChar": 36,
