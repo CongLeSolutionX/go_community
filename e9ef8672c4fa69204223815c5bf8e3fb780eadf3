@@ -95,6 +95,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cef78cd4_b9b49281",
+        "filename": "src/runtime/testdata/testprogcgo/trace_windows.c",
+        "patchSetId": 20
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-03-18T19:57:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ffdc3a2_2ba752f9",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 2
+      },
+      "revId": "e9ef8672c4fa69204223815c5bf8e3fb780eadf3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "530188ea_821188f6",
@@ -143,6 +167,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "8983b082_0e791e92",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 880,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-03-18T19:57:54Z",
+      "side": 1,
+      "message": "Yes, it\u0027s different. I tried using mp.ncgo, but that\u0027s 0 when a thread created in C calls into Go. I also tried to describe this in the commit message.",
+      "parentUuid": "530188ea_821188f6",
+      "range": {
+        "startLine": 880,
+        "startChar": 61,
+        "endLine": 880,
+        "endChar": 81
+      },
+      "revId": "e9ef8672c4fa69204223815c5bf8e3fb780eadf3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "c68bb6a8_d9f3c261",
         "filename": "src/runtime/trace.go",
         "patchSetId": 20
@@ -177,6 +225,24 @@
       "writtenOn": "2023-03-17T15:29:50Z",
       "side": 1,
       "message": "trace_cgo_test.go would better match others (e.g. crash_cgo_test.go)",
+      "revId": "e9ef8672c4fa69204223815c5bf8e3fb780eadf3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8db89812_ca9edb53",
+        "filename": "src/runtime/trace_test.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-03-18T19:57:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f393dc0a_dd48b6fc",
       "revId": "e9ef8672c4fa69204223815c5bf8e3fb780eadf3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
