@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1c903ae2_881612c0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-03-19T17:59:17Z",
+      "side": 1,
+      "message": "Given that this question is still pending, are we able to proceed with the current change such that the openbsd/mips64 port can become viable and the builder can resume operation? If there is eventually further follow up, I\u0027m willing to come back and rework this if need be.",
+      "parentUuid": "89663aac_bdf003ee",
+      "revId": "18b74f5104da629e003446dceb5e860986b5254b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "abc9742d_d0d4ed67",
         "filename": "src/cmd/link/internal/mips64/asm.go",
         "patchSetId": 9
@@ -85,6 +103,24 @@
       "writtenOn": "2023-02-22T00:12:19Z",
       "side": 1,
       "message": "Looks like this case can be merged into the previous one.  I think it would also help to have a short comment explaining why this works.",
+      "revId": "18b74f5104da629e003446dceb5e860986b5254b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c544af29_c72d2c96",
+        "filename": "src/cmd/link/internal/mips64/asm.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-03-19T17:59:17Z",
+      "side": 1,
+      "message": "I\u0027ve taken a different approach which I think is more readable, avoids having multiple switch statements and removes various uint8 casts.",
+      "parentUuid": "abc9742d_d0d4ed67",
       "revId": "18b74f5104da629e003446dceb5e860986b5254b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
