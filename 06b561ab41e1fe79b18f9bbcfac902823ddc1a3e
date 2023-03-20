@@ -190,6 +190,30 @@
       },
       "revId": "06b561ab41e1fe79b18f9bbcfac902823ddc1a3e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "345481ea_bfdaaacf",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2970,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-03-20T20:36:27Z",
+      "side": 1,
+      "message": "Thanks. Yeah, I\u0027m also wondering why they are not currently failing...\n\nI sent CL 477837 and CL 477838 to adjust the tests. For mod_vendor_auto, do you know why the test imports a main package? Is that on purpose? (I added -e in my CL, but I\u0027m not sure that\u0027s the best solution. It seems some \"go list\" commands are expected to fail, which implies some others are expected to succeed? -e would make it hard to check the ones actually succeed, module the \"import main\" error...)\n\nRemoved the code that changes the flag value. Now it would do the extra work https://cs.opensource.google/go/go/+/master:src/cmd/go/internal/list/list.go;l\u003d736 if there are multiple packages listed. Maybe not too bad (it doesn\u0027t seem to be very expensive). Let me know if this is better.\n\nThanks.",
+      "parentUuid": "49d24d20_fd407d7f",
+      "range": {
+        "startLine": 2968,
+        "startChar": 0,
+        "endLine": 2970,
+        "endChar": 3
+      },
+      "revId": "06b561ab41e1fe79b18f9bbcfac902823ddc1a3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
