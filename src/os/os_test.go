@@ -1335,6 +1335,32 @@ func TestTruncate(t *testing.T) {
 	}
 }
 
+func TestTruncateNonExistenceFile(t *testing.T) {
+	t.Parallel()
+
+	nonExistenceFileName := "./ThisFileDoesNotExist"
+	err := os.Truncate(nonExistenceFileName, 1)
+	if err == nil {
+		t.Error("Expect an error when truncating a non-existence file")
+	}
+	if !os.IsNotExist(err) {
+		t.Error("The error's Err field is not set properly")
+	}
+
+	pathErr, ok := err.(*os.PathError)
+	if !ok {
+		t.Errorf("Incorrect error type, got %T, want *os.PathError", err)
+	}
+	if pathErr.Path != nonExistenceFileName {
+		t.Errorf("Incorrect error file path, got %s, want %s", pathErr.Path, nonExistenceFileName)
+	}
+
+	// Truncate shouldn't create any new file.
+	if _, err := os.Open(nonExistenceFileName); err == nil || !os.IsNotExist(err) {
+		t.Error("Truncating a non existence file should not create a new file")
+	}
+}
+
 // Use TempDir (via newFile) to make sure we're on a local file system,
 // so that timings are not distorted by latency and caching.
 // On NFS, timings can be off due to caching of meta-data on
