@@ -88,6 +88,24 @@
       "parentUuid": "99238c27_02680bb1",
       "revId": "da7ed29d72703237cb28968a9eea3360f140ae0f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a05df62d_d107aab4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 60538
+      },
+      "writtenOn": "2023-03-20T06:29:06Z",
+      "side": 1,
+      "message": "I have added the test cases as suggested, plus the one that checks if Truncate() creates a file after being called.  Let me know if they are ok.",
+      "parentUuid": "34167e12_255dd9d7",
+      "revId": "da7ed29d72703237cb28968a9eea3360f140ae0f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
