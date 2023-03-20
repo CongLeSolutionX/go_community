@@ -137,6 +137,24 @@
       "message": "We don\u0027t need both. Just always use physPageSize (even on Plan 9).",
       "revId": "39ab10ff861434ea0e0a73acf2fe32cfd18372e3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72998e1f_214eeff5",
+        "filename": "src/runtime/os_js.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 12980
+      },
+      "writtenOn": "2023-03-20T20:21:29Z",
+      "side": 1,
+      "message": "This _PAGESIZE constant was used in the plan9 code already; do you want me to edit the original code to use physPageSize?\n\nI would prefer to keep it as-is to keep the change as minimal as possible and not risk creating behavior changes on the plan9 code, but let me know!",
+      "parentUuid": "5790ceb1_2c0f3c59",
+      "revId": "39ab10ff861434ea0e0a73acf2fe32cfd18372e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
