@@ -189,6 +189,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "003442d9_e8bf16b7",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 880,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-03-20T16:42:05Z",
+      "side": 1,
+      "message": "Ah, good point. I think `(!mp.incgo \u0026\u0026 mp.ncgo \u003e 0) || mp.isextra` would cover that case. (`isextra` is set for Ms used for cgocallbacks on threads not created by Go).\n\nThough it may be clearer to have a new field. Or perhaps a method `mp.incgocallback()` to help with documentation.",
+      "parentUuid": "8983b082_0e791e92",
+      "range": {
+        "startLine": 880,
+        "startChar": 61,
+        "endLine": 880,
+        "endChar": 81
+      },
+      "revId": "e9ef8672c4fa69204223815c5bf8e3fb780eadf3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "c68bb6a8_d9f3c261",
