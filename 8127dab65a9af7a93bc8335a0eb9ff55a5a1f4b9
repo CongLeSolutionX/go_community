@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "692dfa6d_6c962f7c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-03-20T17:26:00Z",
+      "side": 1,
+      "message": "(nit) (https://go.dev/wiki/CommitMessage)\n\nThe first line of the commit message should complete the blank in \"this change modifies Go to _\".\n\nGrammatically, that would be something like:\n\n```\nos: avoid creating a new file in Truncate on Windows\n```",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 50
+      },
+      "revId": "8127dab65a9af7a93bc8335a0eb9ff55a5a1f4b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc4ec49a_79a66a14",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-03-20T17:26:00Z",
+      "side": 1,
+      "message": "(nit) Please wrap the commit message to ~70 columns.\n\n(You can edit the commit message in Gerrit by editing the first comment in the GitHub PR.)",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 311
+      },
+      "revId": "8127dab65a9af7a93bc8335a0eb9ff55a5a1f4b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dcba20d3_2f1969bd",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1341,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-03-20T17:26:00Z",
+      "side": 1,
+      "message": "(nit) This would be more robust using a file in a temp directory, since creating a file in `GOROOT/src` is not allowed in general (and could fail with a different error even if the bug is still present).",
+      "revId": "8127dab65a9af7a93bc8335a0eb9ff55a5a1f4b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85e56f77_ca4a6052",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1347,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-03-20T17:26:00Z",
+      "side": 1,
+      "message": "(https://go.dev/wiki/CodeReviewComments#useful-test-failures)\n\nIf the test fails, it should log what was actually seen and what was expected. You can consolidate many of these checks into just one case:\n\n```\npath :\u003d filepath.Join(t.TempDir(), \"nonexistent.txt\")\nerr :\u003d os.Truncate(path, 1)\nif pe, ok :\u003d err.(*os.PathError); !ok || !os.IsNotExist(err) || pe.Path !\u003d path {\n\tt.Errorf(\"got error: %v\\nwant an ErrNotExist PathError with path %q\", err, path)\n}\n```",
+      "revId": "8127dab65a9af7a93bc8335a0eb9ff55a5a1f4b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a654daa6_13dafc66",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1359,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-03-20T17:26:00Z",
+      "side": 1,
+      "message": "Calling `os.Open` leaks a `*File` until its finalizer runs. Instead, use `os.Stat` to check for non-existence.",
+      "range": {
+        "startLine": 1359,
+        "startChar": 14,
+        "endLine": 1359,
+        "endChar": 43
+      },
+      "revId": "8127dab65a9af7a93bc8335a0eb9ff55a5a1f4b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
