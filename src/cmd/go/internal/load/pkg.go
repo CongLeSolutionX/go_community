@@ -2615,6 +2615,17 @@ func externalLinkingForced(p *Package) bool {
 		return true
 	}
 
+	// Some build modes always require external linking.
+	switch cfg.BuildBuildmode {
+	case "c-shared", "plugin":
+		return true
+	}
+
+	// Using -linkshared always requires external linking.
+	if cfg.BuildLinkshared {
+		return true
+	}
+
 	// Decide whether we are building a PIE,
 	// bearing in mind that some systems default to PIE.
 	isPIE := false
@@ -2630,10 +2641,7 @@ func externalLinkingForced(p *Package) bool {
 		return true
 	}
 
-	// Currently build modes c-shared, plugin, and -linkshared force
-	// external linking mode, as of course does
-	// -ldflags=-linkmode=external. External linking mode forces
-	// an import of runtime/cgo.
+	// Using -ldflags=-linkmode=external forces external linking.
 	// If there are multiple -linkmode options, the last one wins.
 	linkmodeExternal := false
 	if p != nil {
@@ -2650,8 +2658,7 @@ func externalLinkingForced(p *Package) bool {
 			}
 		}
 	}
-
-	return cfg.BuildBuildmode == "c-shared" || cfg.BuildBuildmode == "plugin" || cfg.BuildLinkshared || linkmodeExternal
+	return linkmodeExternal
 }
 
 // mkAbs rewrites list, which must be paths relative to p.Dir,
