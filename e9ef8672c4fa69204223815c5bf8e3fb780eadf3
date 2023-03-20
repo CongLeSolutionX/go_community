@@ -215,6 +215,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "58d3522f_1b747b34",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 880,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-03-20T19:14:25Z",
+      "side": 1,
+      "message": "I didn\u0027t realize the `isextra` field is dedicated to C-created threads. But in that case your idea should work great as well. I uploaded a new patch that implements it. I don\u0027t feel strongly about it either way, so if you prefer the dedicated field I can restore it.",
+      "parentUuid": "003442d9_e8bf16b7",
+      "range": {
+        "startLine": 880,
+        "startChar": 61,
+        "endLine": 880,
+        "endChar": 81
+      },
+      "revId": "e9ef8672c4fa69204223815c5bf8e3fb780eadf3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "c68bb6a8_d9f3c261",
         "filename": "src/runtime/trace.go",
         "patchSetId": 20
