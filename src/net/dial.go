@@ -11,11 +11,43 @@ import (
 	"time"
 )
 
-// defaultTCPKeepAlive is a default constant value for TCPKeepAlive times
-// See golang.org/issue/31510
 const (
+	// defaultTCPKeepAlive is a default constant value for TCPKeepAlive times
+	// See golang.org/issue/31510
 	defaultTCPKeepAlive = 15 * time.Second
+
+	// For the moment, MultiPath TCP is not used by default
+	// See golang.org/issue/56539
+	defaultMPTCPEnabled = false
 )
+
+// Tristate for Multipatch TCP, see golang.org/issue/56539
+type mptcpStatus uint8
+
+const (
+	// The value 0 is the system default, linked to defaultMPTCPEnabled
+	mptcpEnabled mptcpStatus = iota + 1
+	mptcpDisabled
+)
+
+func (m *mptcpStatus) get() bool {
+	switch *m {
+	case mptcpEnabled:
+		return true
+	case mptcpDisabled:
+		return false
+	}
+
+	return defaultMPTCPEnabled
+}
+
+func (m *mptcpStatus) set(use bool) {
+	if use {
+		*m = mptcpEnabled
+	} else {
+		*m = mptcpDisabled
+	}
+}
 
 // A Dialer contains options for connecting to an address.
 //
