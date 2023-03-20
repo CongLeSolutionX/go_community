@@ -124,6 +124,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "091bdc5c_5b62b477",
+        "filename": "src/runtime/mem_js.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 12980
+      },
+      "writtenOn": "2023-03-20T20:34:45Z",
+      "side": 1,
+      "message": "After reviewing the code, I don\u0027t think alignUp is doing what we need here. The grow variable holds the number of pages to grow by, not the number of bytes.\n\nI can rename the variable to be more explicit, let me know if I\u0027m missing something.",
+      "parentUuid": "fb97b29a_fad9080a",
+      "range": {
+        "startLine": 15,
+        "startChar": 9,
+        "endLine": 15,
+        "endChar": 47
+      },
+      "revId": "39ab10ff861434ea0e0a73acf2fe32cfd18372e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5790ceb1_2c0f3c59",
         "filename": "src/runtime/os_js.go",
         "patchSetId": 4
