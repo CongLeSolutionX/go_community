@@ -33,6 +33,40 @@
       "message": "Could I get a ask for a review on this CL?",
       "revId": "9d47fc116af037bb0ad59d8ebc905867ce9a05ad",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30a1d4c3_daca2d19",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 892,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-03-21T15:58:30Z",
+      "side": 1,
+      "message": "From the discussion on the issue, it seems the padding should not be included in namesz, so namesz should be 3. This constant is confusing.\n\nAnd if I understand correctly, this CL doesn\u0027t solve the actual problem. It just changed how it is represented internally, but still puts 4 in namesz as before.",
+      "revId": "9d47fc116af037bb0ad59d8ebc905867ce9a05ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e635d61_6718fa3c",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1376,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-03-21T15:58:30Z",
+      "side": 1,
+      "message": "This adds 4 bytes of 0. What is this for?",
+      "revId": "9d47fc116af037bb0ad59d8ebc905867ce9a05ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
