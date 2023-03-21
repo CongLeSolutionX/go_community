@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "abc19b8f_c2721b6d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 61267
+      },
+      "writtenOn": "2023-03-21T22:03:10Z",
+      "side": 1,
+      "message": "good idea! Done",
+      "parentUuid": "21f99e15_230b9046",
+      "revId": "d3c3c6b55230b8ed79fdfbf2b1fe22c8f423286b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d2753354_3bf88f52",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-03-21T21:30:41Z",
       "side": 1,
       "message": "This is good information, and I wonder whether it should be in a comment in the file rather than in the change description.",
+      "revId": "d3c3c6b55230b8ed79fdfbf2b1fe22c8f423286b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b669c864_67a33136",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 61267
+      },
+      "writtenOn": "2023-03-21T22:03:10Z",
+      "side": 1,
+      "message": "indeed, it might not be clear what we are doing when creating an MPTCP socket. → Done\n\nThe rest below is already in the comments in the code but only brief ones. Should they be longer?",
+      "parentUuid": "d2753354_3bf88f52",
       "revId": "d3c3c6b55230b8ed79fdfbf2b1fe22c8f423286b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
