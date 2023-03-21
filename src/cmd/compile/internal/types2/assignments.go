@@ -395,48 +395,55 @@ func (check *Checker) initVars(lhs []*Var, orig_rhs []syntax.Expr, returnStmt sy
 }
 
 func (check *Checker) assignVars(lhs, orig_rhs []syntax.Expr) {
-	rhs, commaOk := check.exprList(orig_rhs, len(lhs) == 2)
+	l, r := len(lhs), len(orig_rhs)
 
-	if len(lhs) != len(rhs) {
+	// If l == 1 and the rhs is a single call, for a better
+	// error message don't handle it as n:n mapping below.
+	isCall := false
+	if r == 1 {
+		_, isCall = unparen(orig_rhs[0]).(*syntax.CallExpr)
+	}
+
+	// If we have a n:n mapping from lhs variable to rhs expression,
+	// each value can be assigned to its corresponding variable.
+	if l == r && !isCall {
+		for i, lhs := range lhs {
+			var x operand
+			check.expr(&x, orig_rhs[i])
+			check.assignVar(lhs, &x)
+		}
+		return
+	}
+
+	// If we don't have an n:n mapping, the rhs must be a single expression
+	// resulting in 2 or more values; otherwise we have an assignment mismatch.
+	if r != 1 {
+		check.assignError(orig_rhs, l, r)
 		check.use(lhs...)
-		// don't report an error if we already reported one
-		for _, x := range rhs {
-			if x.mode == invalid {
-				return
-			}
-		}
-		check.assignError(orig_rhs, len(lhs), len(rhs))
+		check.use(orig_rhs...)
 		return
 	}
 
-	if commaOk {
-		check.assignVar(lhs[0], rhs[0])
-		check.assignVar(lhs[1], rhs[1])
-		check.recordCommaOkTypes(orig_rhs[0], rhs)
+	rhs, commaOk := check.multiExpr(orig_rhs[0], l == 2)
+	r = len(rhs)
+	if l == r {
+		for i, lhs := range lhs {
+			check.assignVar(lhs, rhs[i])
+		}
+		if commaOk {
+			check.recordCommaOkTypes(orig_rhs[0], rhs)
+		}
 		return
 	}
 
-	ok := true
-	for i, lhs := range lhs {
-		if check.assignVar(lhs, rhs[i]) == nil {
-			ok = false
-		}
+	// In all other cases we have an assignment mismatch.
+	// Only report a mismatch error if there was no error
+	// in the rhs.
+	if rhs[0].mode != invalid {
+		check.assignError(orig_rhs, l, r)
 	}
-
-	// avoid follow-on "declared and not used" errors if any assignment failed
-	if !ok {
-		// don't call check.use to avoid re-evaluation of the lhs expressions
-		for _, lhs := range lhs {
-			if name, _ := unparen(lhs).(*syntax.Name); name != nil {
-				if obj := check.lookup(name.Value); obj != nil {
-					// see comment in assignVar
-					if v, _ := obj.(*Var); v != nil && v.pkg == check.pkg {
-						v.used = true
-					}
-				}
-			}
-		}
-	}
+	check.use(lhs...)
+	// orig_rhs[0] was already evaluated
 }
 
 // unpackExpr unpacks a *syntax.ListExpr into a list of syntax.Expr.
