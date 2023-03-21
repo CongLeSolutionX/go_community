@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b79024d1_7cb75c6e",
+        "filename": "src/runtime/rt0_openbsd_ppc64.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-03-21T22:14:18Z",
+      "side": 1,
+      "message": "This seems a bit strange if openbsd is following ELFv2 ABI with it\u0027s TOC pointer (looking at the openbsd libc.so, it seems to follow similar conventions to ppc64le/linux).\n\nThe only usage I see is in runtime.asmcgocall_no_g. The indirect callee should always regenerate TOC in R2 on entry when needed.",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 2
+      },
+      "revId": "0d601d1d5521fa0772ebe0ab5fe81acf914e84d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7f88b68_b68dabfb",
+        "filename": "src/runtime/sys_openbsd_ppc64.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-03-21T22:14:18Z",
+      "side": 1,
+      "message": "With ELFv2, R2 is only nonvolatile between local calls which share the same TOC pointer.\n\nAlso, if strictly following the ELFv2 ABI, V20-V31 are also callee-save registers too.",
+      "range": {
+        "startLine": 28,
+        "startChar": 45,
+        "endLine": 28,
+        "endChar": 47
+      },
+      "revId": "0d601d1d5521fa0772ebe0ab5fe81acf914e84d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1743a308_a36a85f8",
+        "filename": "src/runtime/sys_openbsd_ppc64.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-03-21T22:14:18Z",
+      "side": 1,
+      "message": "Same comment here too.",
+      "range": {
+        "startLine": 35,
+        "startChar": 48,
+        "endLine": 35,
+        "endChar": 50
+      },
+      "revId": "0d601d1d5521fa0772ebe0ab5fe81acf914e84d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
