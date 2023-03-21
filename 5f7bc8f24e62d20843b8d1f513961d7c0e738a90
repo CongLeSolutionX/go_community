@@ -76,6 +76,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "fb7cc716_eafc7370",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-03-21T18:43:51Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "5f7bc8f24e62d20843b8d1f513961d7c0e738a90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "1576d009_1a2f8b4f",
         "filename": "src/cmd/link/internal/ld/data.go",
         "patchSetId": 3
@@ -99,6 +116,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "ff4cdf8c_e1ab553a",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-03-21T18:43:51Z",
+      "side": 1,
+      "message": "At this point seeing an SXREF is generally an error, or otherwise converted to SDYNIMPORT (the code block at line 222). So I don\u0027t think we need to handle that.",
+      "parentUuid": "1576d009_1a2f8b4f",
+      "range": {
+        "startLine": 449,
+        "startChar": 18,
+        "endLine": 449,
+        "endChar": 28
+      },
+      "revId": "5f7bc8f24e62d20843b8d1f513961d7c0e738a90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "d6413da4_82ed0f17",
         "filename": "src/cmd/link/internal/ld/main.go",
         "patchSetId": 3
@@ -110,6 +151,24 @@
       "writtenOn": "2023-03-16T00:16:49Z",
       "side": 1,
       "message": "This seems ok in general, but to be honest I have never really gotten much out of the ctxt.loader.Dump() output (mainly because it doesn\u0027t include relocations). I always wind up using different dumper (from CL 252824).",
+      "revId": "5f7bc8f24e62d20843b8d1f513961d7c0e738a90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "97e7b391_4aa1f6cb",
+        "filename": "src/cmd/link/internal/ld/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-03-21T18:43:51Z",
+      "side": 1,
+      "message": "For this case I wanted to see the symbol\u0027s type, so it helped. Feel free to improve the dumper. Maybe we can have it take options?",
+      "parentUuid": "d6413da4_82ed0f17",
       "revId": "5f7bc8f24e62d20843b8d1f513961d7c0e738a90",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
