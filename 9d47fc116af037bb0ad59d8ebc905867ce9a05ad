@@ -110,6 +110,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c4ebaa73_f88f822f",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 892,
+      "author": {
+        "id": 17110
+      },
+      "writtenOn": "2023-03-21T19:04:49Z",
+      "side": 1,
+      "message": "But if we change the size to 3, then the total length of the note will be incorrect, as it needs to remain a multiple of four in `elfgobuildid`\n\nLet me read the issue description again. I looked at the previous attempt of fixing this issue: https://go-review.googlesource.com/c/go/+/217857, and the only problem with that was failing tests.",
+      "parentUuid": "30a1d4c3_daca2d19",
+      "revId": "9d47fc116af037bb0ad59d8ebc905867ce9a05ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7e635d61_6718fa3c",
         "filename": "src/cmd/link/internal/ld/elf.go",
         "patchSetId": 1
@@ -121,6 +139,24 @@
       "writtenOn": "2023-03-21T15:58:30Z",
       "side": 1,
       "message": "This adds 4 bytes of 0. What is this for?",
+      "revId": "9d47fc116af037bb0ad59d8ebc905867ce9a05ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90f87800_92b3eba7",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1376,
+      "author": {
+        "id": 17110
+      },
+      "writtenOn": "2023-03-21T19:04:49Z",
+      "side": 1,
+      "message": "This has to be `AddUint8`. Looks like this caused tests fail.",
+      "parentUuid": "7e635d61_6718fa3c",
       "revId": "9d47fc116af037bb0ad59d8ebc905867ce9a05ad",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
