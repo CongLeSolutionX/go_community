@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21f99e15_230b9046",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-03-21T21:30:41Z",
+      "side": 1,
+      "message": "I\u0027m not quite sure what this line means.  Maybe\n\nnet: add initial MPTCP support",
+      "revId": "d3c3c6b55230b8ed79fdfbf2b1fe22c8f423286b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2753354_3bf88f52",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-03-21T21:30:41Z",
+      "side": 1,
+      "message": "This is good information, and I wonder whether it should be in a comment in the file rather than in the change description.",
+      "revId": "d3c3c6b55230b8ed79fdfbf2b1fe22c8f423286b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
