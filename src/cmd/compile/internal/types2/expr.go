@@ -1816,10 +1816,32 @@ func (check *Checker) expr(x *operand, e syntax.Expr) {
 	check.singleValue(x)
 }
 
-// multiExpr is like expr but the result may also be a multi-value.
-func (check *Checker) multiExpr(x *operand, e syntax.Expr) {
-	check.rawExpr(x, e, nil, false)
-	check.exclude(x, 1<<novalue|1<<builtin|1<<typexpr)
+// multiExpr typechecks e and returns its value (or values) in list.
+// If allowCommaOk is set and e is a map index, comma-ok, or comma-err
+// expression, the result is the value of e and an untyped bool value.
+func (check *Checker) multiExpr(e syntax.Expr, allowCommaOk bool) (list []*operand, commaOk bool) {
+	var x operand
+	check.rawExpr(&x, e, nil, false)
+	check.exclude(&x, 1<<novalue|1<<builtin|1<<typexpr)
+
+	if t, ok := x.typ.(*Tuple); ok && x.mode != invalid {
+		// multiple values
+		list = make([]*operand, t.Len())
+		for i, v := range t.vars {
+			list[i] = &operand{mode: value, expr: e, typ: v.typ}
+		}
+		return
+	}
+
+	// exactly one (possibly invalid or comma-ok) value
+	list = []*operand{&x}
+	if allowCommaOk && (x.mode == mapindex || x.mode == commaok || x.mode == commaerr) {
+		x.mode = value
+		list = append(list, &operand{mode: value, expr: e, typ: Typ[UntypedBool]})
+		commaOk = true
+	}
+
+	return
 }
 
 // exprWithHint typechecks expression e and initializes x with the expression value;
