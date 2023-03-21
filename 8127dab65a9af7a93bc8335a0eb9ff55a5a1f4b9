@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb84d099_59dbb1ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 60538
+      },
+      "writtenOn": "2023-03-21T05:48:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "692dfa6d_6c962f7c",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 50
+      },
+      "revId": "8127dab65a9af7a93bc8335a0eb9ff55a5a1f4b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cc4ec49a_79a66a14",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-03-20T17:26:00Z",
       "side": 1,
       "message": "(nit) Please wrap the commit message to ~70 columns.\n\n(You can edit the commit message in Gerrit by editing the first comment in the GitHub PR.)",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 311
+      },
+      "revId": "8127dab65a9af7a93bc8335a0eb9ff55a5a1f4b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d51d3c0_49cef271",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 60538
+      },
+      "writtenOn": "2023-03-21T05:48:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cc4ec49a_79a66a14",
       "range": {
         "startLine": 9,
         "startChar": 0,
@@ -64,6 +112,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f922cea4_bf35d9f0",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1341,
+      "author": {
+        "id": 60538
+      },
+      "writtenOn": "2023-03-21T05:48:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcba20d3_2f1969bd",
+      "revId": "8127dab65a9af7a93bc8335a0eb9ff55a5a1f4b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "85e56f77_ca4a6052",
@@ -81,6 +147,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b06339f_d27c5def",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1347,
+      "author": {
+        "id": 60538
+      },
+      "writtenOn": "2023-03-21T05:48:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85e56f77_ca4a6052",
+      "revId": "8127dab65a9af7a93bc8335a0eb9ff55a5a1f4b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a654daa6_13dafc66",
@@ -94,6 +178,30 @@
       "writtenOn": "2023-03-20T17:26:00Z",
       "side": 1,
       "message": "Calling `os.Open` leaks a `*File` until its finalizer runs. Instead, use `os.Stat` to check for non-existence.",
+      "range": {
+        "startLine": 1359,
+        "startChar": 14,
+        "endLine": 1359,
+        "endChar": 43
+      },
+      "revId": "8127dab65a9af7a93bc8335a0eb9ff55a5a1f4b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a493d59d_58b4ccf2",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1359,
+      "author": {
+        "id": 60538
+      },
+      "writtenOn": "2023-03-21T05:48:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a654daa6_13dafc66",
       "range": {
         "startLine": 1359,
         "startChar": 14,
