@@ -78,6 +78,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4b9136b_803504f8",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1338,
+      "author": {
+        "id": 60538
+      },
+      "writtenOn": "2023-03-22T01:06:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8bbfd10a_a8479c0e",
+      "range": {
+        "startLine": 1338,
+        "startChar": 17,
+        "endLine": 1338,
+        "endChar": 29
+      },
+      "revId": "6b189aa50bb5ff94062311929f68b329ff8d557c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cc657182_b2c9d81a",
@@ -91,6 +115,24 @@
       "writtenOn": "2023-03-21T22:05:21Z",
       "side": 1,
       "message": "(https://go.dev/wiki/CodeReviewComments#useful-test-failures)\n\nThere are two calls to `assertPathError`. If the check fails, it won\u0027t be clear which one triggered — this needs a call to `t.Helper()` before the call to `t.Errorf`.\n\nThis should also be a local function within `TestTruncateNonexistentFile`, not a package-level function, since the assertions it makes about the `PathError` are specific to that test.",
+      "revId": "6b189aa50bb5ff94062311929f68b329ff8d557c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac5ac014_64539c13",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1353,
+      "author": {
+        "id": 60538
+      },
+      "writtenOn": "2023-03-22T01:06:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cc657182_b2c9d81a",
       "revId": "6b189aa50bb5ff94062311929f68b329ff8d557c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
