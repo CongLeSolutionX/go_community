@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c35884f1_644cdbbe",
+        "filename": "src/net/dial.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-03-22T04:52:25Z",
+      "side": 1,
+      "message": "These new exported methods should have doc comments.",
+      "revId": "e76610152acb89b7d56036835e2448b1c278c62a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
