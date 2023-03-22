@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd4a0329_d4a4c4cf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-03-22T04:50:57Z",
+      "side": 1,
+      "message": "No need to say \"dial: \" here.",
+      "revId": "8ad3de3170cff401e24ad3a62cec7ac8b3f07d1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8cfb3d0_a5da2cc7",
+        "filename": "src/net/dial.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-03-22T04:50:57Z",
+      "side": 1,
+      "message": "In new comments use go.dev/issue rather than golang.org/issue.\n\nSimilarly elsewhere.",
+      "revId": "8ad3de3170cff401e24ad3a62cec7ac8b3f07d1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6991582_0061c998",
+        "filename": "src/net/dial.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-03-22T04:50:57Z",
+      "side": 1,
+      "message": "// mptcpStatus is a tristate ...\n\nAlso I think s/Multipatch/Multipath/",
+      "revId": "8ad3de3170cff401e24ad3a62cec7ac8b3f07d1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e284e4f5_e8ec1049",
+        "filename": "src/net/dial.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-03-22T04:50:57Z",
+      "side": 1,
+      "message": "Let\u0027s give it a name, even if we don\u0027t use the name.\n\n    mptcpUseDefault \u003d iota",
+      "revId": "8ad3de3170cff401e24ad3a62cec7ac8b3f07d1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
