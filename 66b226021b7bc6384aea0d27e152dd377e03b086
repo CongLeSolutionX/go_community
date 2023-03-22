@@ -74,6 +74,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b60d743_72468607",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 1507,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2023-03-22T21:29:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "717fdd51_69273177",
+      "revId": "66b226021b7bc6384aea0d27e152dd377e03b086",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "206f626e_1affcf79",
@@ -87,6 +105,24 @@
       "writtenOn": "2023-03-22T16:34:03Z",
       "side": 1,
       "message": "I think you can dispense with the closure and just put this loop around the code above.",
+      "revId": "66b226021b7bc6384aea0d27e152dd377e03b086",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96fc9687_4bd431a0",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 1536,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2023-03-22T21:29:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "206f626e_1affcf79",
       "revId": "66b226021b7bc6384aea0d27e152dd377e03b086",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
