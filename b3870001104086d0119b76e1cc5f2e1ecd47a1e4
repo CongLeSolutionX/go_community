@@ -331,6 +331,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "104e262e_7e097adc",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1486,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-03-22T16:34:03Z",
+      "side": 1,
+      "message": "Still needs a test that exercises this.",
+      "parentUuid": "188b9699_f01608b0",
+      "range": {
+        "startLine": 1486,
+        "startChar": 48,
+        "endLine": 1486,
+        "endChar": 49
+      },
+      "revId": "b3870001104086d0119b76e1cc5f2e1ecd47a1e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "47e88fc5_cf9b011a",
         "filename": "src/runtime/map.go",
         "patchSetId": 9
@@ -518,6 +542,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b8f12616_31d5a3ca",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1521,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-03-22T16:34:03Z",
+      "side": 1,
+      "message": "So I think I understand what you mean here. The problem is if dst.B \u003e src.oldB, we don\u0027t know which bucket an element should go to. We need one more bit of hash to decide that.\n\nSo yes, using mapassign to do that for us is fine.\n\n(We could test for dst.B \u003c\u003d src.oldB and use the faster copying method in that case, but let\u0027s save that for a possible followon CL.)\n\nDefinitely worth a comment in the code explaining this.",
+      "parentUuid": "b25f920f_4e82de45",
+      "revId": "b3870001104086d0119b76e1cc5f2e1ecd47a1e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1cff11cd_4efa24af",
         "filename": "src/runtime/map.go",
         "patchSetId": 9
@@ -547,6 +589,24 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "1cff11cd_4efa24af",
+      "revId": "b3870001104086d0119b76e1cc5f2e1ecd47a1e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ef77eca_2ad5deab",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1539,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-03-22T16:34:03Z",
+      "side": 1,
+      "message": "Looks not done yet.",
+      "parentUuid": "de1d7e72_1d0c7263",
       "revId": "b3870001104086d0119b76e1cc5f2e1ecd47a1e4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
