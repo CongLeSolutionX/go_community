@@ -97,7 +97,7 @@ func (check *Checker) assignment(x *operand, T Type, context string) {
 }
 
 func (check *Checker) initConst(lhs *Const, x *operand) {
-	if x.mode == invalid || x.typ == Typ[Invalid] || lhs.typ == Typ[Invalid] {
+	if x.mode == invalid || lhs.typ == Typ[Invalid] {
 		if lhs.typ == nil {
 			lhs.typ = Typ[Invalid]
 		}
@@ -128,7 +128,7 @@ func (check *Checker) initConst(lhs *Const, x *operand) {
 }
 
 func (check *Checker) initVar(lhs *Var, x *operand, context string) Type {
-	if x.mode == invalid || x.typ == Typ[Invalid] || lhs.typ == Typ[Invalid] {
+	if x.mode == invalid || lhs.typ == Typ[Invalid] {
 		if lhs.typ == nil {
 			lhs.typ = Typ[Invalid]
 		}
@@ -194,10 +194,6 @@ func (check *Checker) lhsVar(lhs ast.Expr) Type {
 
 	if v != nil {
 		v.used = v_used // restore v.used
-	}
-
-	if x.mode == invalid || x.typ == Typ[Invalid] {
-		return Typ[Invalid]
 	}
 
 	// spec: "Each left-hand side operand must be addressable, a map index
