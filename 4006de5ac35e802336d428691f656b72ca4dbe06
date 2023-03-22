@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52b455ac_7480cb65",
+        "filename": "src/net/dial.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-03-22T19:08:19Z",
+      "side": 1,
+      "message": "We usually say \"reports\" rather than \"returns\".",
+      "revId": "4006de5ac35e802336d428691f656b72ca4dbe06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d07e8522_f08a1072",
+        "filename": "src/net/dial.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-03-22T19:08:19Z",
+      "side": 1,
+      "message": "Period at end of sentence.",
+      "revId": "4006de5ac35e802336d428691f656b72ca4dbe06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0db465c7_6b8a7cde",
+        "filename": "src/net/dial.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-03-22T19:08:19Z",
+      "side": 1,
+      "message": "I\u0027m not sure this paragraph adds anything.  Maybe slightly extend the previous sentence: SetMultipathTCP directs the Dial methods to use, or not use, MPTCP, if supported by the operating system.",
+      "revId": "4006de5ac35e802336d428691f656b72ca4dbe06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14c91b98_58f1b29b",
+        "filename": "src/net/dial.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-03-22T19:08:19Z",
+      "side": 1,
+      "message": "This doesn\u0027t change the system default behavior.  Perhaps s/change/override/",
+      "revId": "4006de5ac35e802336d428691f656b72ca4dbe06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4852529d_ffa8e9e8",
+        "filename": "src/net/dial.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-03-22T19:08:19Z",
+      "side": 1,
+      "message": "I\u0027m not sure this paragraph adds much useful information.  If people know what MPTCP is they don\u0027t need this paragraph, and if they don\u0027t know what it is I don\u0027t think this paragraph will help.",
+      "revId": "4006de5ac35e802336d428691f656b72ca4dbe06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06fcafe0_4ed577ca",
+        "filename": "src/net/dial.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-03-22T19:08:19Z",
+      "side": 1,
+      "message": "A bit too passive.\n\nIf MPTCP is not available on the host or not supported by the server, the Dial method will fall back to TCP.",
+      "revId": "4006de5ac35e802336d428691f656b72ca4dbe06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
