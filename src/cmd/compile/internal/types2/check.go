@@ -504,22 +504,25 @@ func (check *Checker) recordBuiltinType(f syntax.Expr, sig *Signature) {
 	}
 }
 
-func (check *Checker) recordCommaOkTypes(x syntax.Expr, a [2]Type) {
+func (check *Checker) recordCommaOkTypes(x syntax.Expr, a []*operand) {
 	assert(x != nil)
-	if a[0] == nil || a[1] == nil {
+	assert(len(a) == 2)
+	if a[0].mode == invalid {
 		return
 	}
-	assert(isTyped(a[0]) && isTyped(a[1]) && (isBoolean(a[1]) || a[1] == universeError))
+	a0, a1 := a[0].typ, a[1].typ
+	assert(isTyped(a0) && isTyped(a1) && (isBoolean(a1) || a1 == universeError))
 	if m := check.Types; m != nil {
 		for {
 			tv := m[x]
 			assert(tv.Type != nil) // should have been recorded already
 			pos := x.Pos()
 			tv.Type = NewTuple(
-				NewVar(pos, check.pkg, "", a[0]),
-				NewVar(pos, check.pkg, "", a[1]),
+				NewVar(pos, check.pkg, "", a0),
+				NewVar(pos, check.pkg, "", a1),
 			)
 			m[x] = tv
+			// if x is a parenthesized expression (p.X), update p.X
 			p, _ := x.(*syntax.ParenExpr)
 			if p == nil {
 				break
@@ -535,8 +538,8 @@ func (check *Checker) recordCommaOkTypes(x syntax.Expr, a [2]Type) {
 			assert(tv.Type != nil) // should have been recorded already
 			pos := x.Pos()
 			tv.Type = NewTuple(
-				NewVar(pos, check.pkg, "", a[0]),
-				NewVar(pos, check.pkg, "", a[1]),
+				NewVar(pos, check.pkg, "", a0),
+				NewVar(pos, check.pkg, "", a1),
 			)
 			x.SetTypeInfo(tv)
 			p, _ := x.(*syntax.ParenExpr)
