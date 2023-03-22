@@ -1,0 +1,272 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "912a7ba0_4614932c",
+        "filename": "src/go/build/deps_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 603,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-03-22T01:00:23Z",
+      "side": 1,
+      "message": "Don\u0027t need reflectlite any more?",
+      "range": {
+        "startLine": 603,
+        "startChar": 8,
+        "endLine": 603,
+        "endChar": 28
+      },
+      "revId": "b3870001104086d0119b76e1cc5f2e1ecd47a1e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6487745e_a6ed1ddd",
+        "filename": "src/maps/maps_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-03-22T01:00:23Z",
+      "side": 1,
+      "message": "This might be better inside the BenchmarkMapClone function instead of having this run even when just testing.\nYou can use b.ResetTimer after the initialization so it doesn\u0027t count towards the benchmark time or allocation metrics.",
+      "revId": "b3870001104086d0119b76e1cc5f2e1ecd47a1e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0051717b_9e5d7970",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1441,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-03-22T01:00:23Z",
+      "side": 1,
+      "message": "This will be easier to read, less indenting if you reverse the sense.\n\nif isEmpty(src.tophash[i])) {\n    continue\n}",
+      "revId": "b3870001104086d0119b76e1cc5f2e1ecd47a1e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ab04ca1_d3a67d94",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1444,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-03-22T01:00:23Z",
+      "side": 1,
+      "message": "It\u0027s a bit strange to sometimes use the dst/src prefixes and sometimes not.\n\nEspecially because sometimes src is the default and sometimes dst is the default (eg. k/dstK here, but arraySize/srcArraySize below).\n\nIt would be better to be consistant and always use these prefixes when there\u0027s any confusion.",
+      "revId": "b3870001104086d0119b76e1cc5f2e1ecd47a1e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2d3a705_3c17ae3d",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1458,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-03-22T01:00:23Z",
+      "side": 1,
+      "message": "This can allocate an overflow bucket but then never put anything in it.\nIt would be better to allocate this overflow only when you\u0027re about to put something in it. (Just before computing dstK above, probably.)",
+      "revId": "b3870001104086d0119b76e1cc5f2e1ecd47a1e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b65db4e_c7b4651f",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1474,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-03-22T01:00:23Z",
+      "side": 1,
+      "message": "s/not/no/",
+      "range": {
+        "startLine": 1474,
+        "startChar": 62,
+        "endLine": 1474,
+        "endChar": 65
+      },
+      "revId": "b3870001104086d0119b76e1cc5f2e1ecd47a1e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e217290_62d13c9a",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1474,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-03-22T01:00:23Z",
+      "side": 1,
+      "message": "s/copy/copied/",
+      "range": {
+        "startLine": 1474,
+        "startChar": 27,
+        "endLine": 1474,
+        "endChar": 31
+      },
+      "revId": "b3870001104086d0119b76e1cc5f2e1ecd47a1e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5015d229_f83f22cf",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1486,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-03-22T01:00:23Z",
+      "side": 1,
+      "message": "shouldn\u0027t this be i+j?\n\nDefinitely need a test for when the new map has less capacity than the old map.",
+      "range": {
+        "startLine": 1486,
+        "startChar": 48,
+        "endLine": 1486,
+        "endChar": 49
+      },
+      "revId": "b3870001104086d0119b76e1cc5f2e1ecd47a1e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47e88fc5_cf9b011a",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1495,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-03-22T01:00:23Z",
+      "side": 1,
+      "message": "Same here,\nif src.oldbuckets \u003d\u003d nil {\n   return dst\n}",
+      "revId": "b3870001104086d0119b76e1cc5f2e1ecd47a1e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "330c53ba_059fd6a1",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1497,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-03-22T01:00:23Z",
+      "side": 1,
+      "message": "I don\u0027t think we can modify src in this function. Clone is a read operation, this Clone may be happening concurrently with other normal reads.",
+      "revId": "b3870001104086d0119b76e1cc5f2e1ecd47a1e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bfb2069e_84455a1e",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1507,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-03-22T01:00:23Z",
+      "side": 1,
+      "message": "This function is very similar to moveToBmap. Can we share the code somehow?",
+      "revId": "b3870001104086d0119b76e1cc5f2e1ecd47a1e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac5c953a_898442c7",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1521,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-03-22T01:00:23Z",
+      "side": 1,
+      "message": "I\u0027m not sure this is a problem. Any bucket which has not been evacuated can be copied completely, right?\nAny updated bucket during a grow will cause the old bucket to be evacuated and marked as such.\n\n(So I think we can just use moveToBmap with the main buckets and all unevacuated old buckets.)\n\n(This is more complicated in map iteration because we can have inserts in the middle of iterating through a bucket. That\u0027s not possible here.)",
+      "revId": "b3870001104086d0119b76e1cc5f2e1ecd47a1e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96c21d7a_281343c3",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1521,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-03-22T01:00:23Z",
+      "side": 1,
+      "message": "been overwritten",
+      "range": {
+        "startLine": 1521,
+        "startChar": 57,
+        "endLine": 1521,
+        "endChar": 72
+      },
+      "revId": "b3870001104086d0119b76e1cc5f2e1ecd47a1e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1cff11cd_4efa24af",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1539,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-03-22T01:00:23Z",
+      "side": 1,
+      "message": "else if on one line\n\nOr even better, put this early on, like\n\nif src.count \u003d\u003d 0 {\n   return dst\n}\nif src.B \u003d\u003d 0 {\n   dst.buckets \u003d newobject(t.bucket)\n   ... typedmemmove ...\n   return dst\n}\n\nThat way the easier cases come earlier, and everything is indented less.",
+      "revId": "b3870001104086d0119b76e1cc5f2e1ecd47a1e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
