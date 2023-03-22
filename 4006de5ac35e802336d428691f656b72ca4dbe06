@@ -176,6 +176,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5e423e5_c70a6b0f",
+        "filename": "src/net/dial.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-03-22T23:58:43Z",
+      "side": 1,
+      "message": "Yes, it doesn\u0027t seem to me that we need to say that here.  The Go docs should be accurate but concise.  This isn\u0027t the place to teach people how to use MPTCP.",
+      "parentUuid": "9a1e2972_823c7b89",
+      "revId": "4006de5ac35e802336d428691f656b72ca4dbe06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "06fcafe0_4ed577ca",

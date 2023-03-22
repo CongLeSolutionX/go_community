@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a633581a_41bf7838",
+        "filename": "src/net/dial.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-03-22T23:58:43Z",
+      "side": 1,
+      "message": "The second sentence can be \"This method overrides the system default.\"",
+      "revId": "73d5860e8df7f66506b6498738342a21f41681d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06eae441_e9a08731",
+        "filename": "src/net/dial.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-03-22T23:58:43Z",
+      "side": 1,
+      "message": "s/method/methods/",
+      "revId": "73d5860e8df7f66506b6498738342a21f41681d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
