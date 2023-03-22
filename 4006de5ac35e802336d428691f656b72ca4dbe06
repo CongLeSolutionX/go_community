@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2248e395_6fa2b982",
+        "filename": "src/net/dial.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 61267
+      },
+      "writtenOn": "2023-03-22T22:58:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "52b455ac_7480cb65",
+      "revId": "4006de5ac35e802336d428691f656b72ca4dbe06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d07e8522_f08a1072",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-03-22T19:08:19Z",
       "side": 1,
       "message": "Period at end of sentence.",
+      "revId": "4006de5ac35e802336d428691f656b72ca4dbe06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6247b6f9_f0597c38",
+        "filename": "src/net/dial.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 61267
+      },
+      "writtenOn": "2023-03-22T22:58:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d07e8522_f08a1072",
       "revId": "4006de5ac35e802336d428691f656b72ca4dbe06",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -52,6 +88,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4998d5c8_261d12d1",
+        "filename": "src/net/dial.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 61267
+      },
+      "writtenOn": "2023-03-22T22:58:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0db465c7_6b8a7cde",
+      "revId": "4006de5ac35e802336d428691f656b72ca4dbe06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "14c91b98_58f1b29b",
@@ -65,6 +119,24 @@
       "writtenOn": "2023-03-22T19:08:19Z",
       "side": 1,
       "message": "This doesn\u0027t change the system default behavior.  Perhaps s/change/override/",
+      "revId": "4006de5ac35e802336d428691f656b72ca4dbe06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2845266d_38a3e166",
+        "filename": "src/net/dial.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 61267
+      },
+      "writtenOn": "2023-03-22T22:58:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "14c91b98_58f1b29b",
       "revId": "4006de5ac35e802336d428691f656b72ca4dbe06",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -88,6 +160,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9a1e2972_823c7b89",
+        "filename": "src/net/dial.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 61267
+      },
+      "writtenOn": "2023-03-22T22:58:52Z",
+      "side": 1,
+      "message": "I understand. I just removed this paragraph.\n\nI wanted to mention that it is not enough to have the kernel supporting the feature and the app asking for it: it is also important to have it correctly configured. But maybe it is obvious or not the place to say that?",
+      "parentUuid": "4852529d_ffa8e9e8",
+      "revId": "4006de5ac35e802336d428691f656b72ca4dbe06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "06fcafe0_4ed577ca",
         "filename": "src/net/dial.go",
         "patchSetId": 6
@@ -99,6 +189,24 @@
       "writtenOn": "2023-03-22T19:08:19Z",
       "side": 1,
       "message": "A bit too passive.\n\nIf MPTCP is not available on the host or not supported by the server, the Dial method will fall back to TCP.",
+      "revId": "4006de5ac35e802336d428691f656b72ca4dbe06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ab72a61_33214b94",
+        "filename": "src/net/dial.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 61267
+      },
+      "writtenOn": "2023-03-22T22:58:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06fcafe0_4ed577ca",
       "revId": "4006de5ac35e802336d428691f656b72ca4dbe06",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
