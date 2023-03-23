@@ -12,14 +12,17 @@ package types
 type Sizes interface {
 	// Alignof returns the alignment of a variable of type T.
 	// Alignof must implement the alignment guarantees required by the spec.
+	// The result must be >= 1.
 	Alignof(T Type) int64
 
 	// Offsetsof returns the offsets of the given struct fields, in bytes.
 	// Offsetsof must implement the offset guarantees required by the spec.
+	// A negative entry in the result indicates that the struct is too large.
 	Offsetsof(fields []*Var) []int64
 
 	// Sizeof returns the size of a variable of type T.
 	// Sizeof must implement the size guarantees required by the spec.
+	// A negative result indicates that T is too large.
 	Sizeof(T Type) int64
 }
 
@@ -46,7 +49,11 @@ type StdSizes struct {
 	MaxAlign int64 // maximum alignment in bytes - must be >= 1
 }
 
-func (s *StdSizes) Alignof(T Type) int64 {
+func (s *StdSizes) Alignof(T Type) (alignment int64) {
+	defer func() {
+		assert(alignment >= 1)
+	}()
+
 	// For arrays and structs, alignment is defined in terms
 	// of alignment of the elements and fields, respectively.
 	switch t := under(T).(type) {
@@ -165,9 +172,20 @@ func (s *StdSizes) Sizeof(T Type) int64 {
 			return 0
 		}
 		// n > 0
-		a := s.Alignof(t.elem)
-		z := s.Sizeof(t.elem)
-		return align(z, a)*(n-1) + z
+		e := s.Sizeof(t.elem)
+		if e < 0 {
+			return -1 // element too large
+		}
+		if e == 0 {
+			return 0 // 0-size element
+		}
+		// e > 0
+		a := s.Alignof(t.elem) // a >= 1
+		s := align(e, a)*(n-1) + e
+		if s == 0 {
+			return -1 // array size overflowed to 0
+		}
+		return s
 	case *Slice:
 		return s.WordSize * 3
 	case *Struct:
@@ -176,7 +194,12 @@ func (s *StdSizes) Sizeof(T Type) int64 {
 			return 0
 		}
 		offsets := s.Offsetsof(t.fields)
-		return offsets[n-1] + s.Sizeof(t.fields[n-1].typ)
+		o := offsets[n-1]
+		s := s.Sizeof(t.fields[n-1].typ)
+		if o < 0 || s < 0 {
+			return -1 // type too large
+		}
+		return o + s // may overflow to < 0 which is ok
 	case *Interface:
 		// Type parameters lead to variable sizes/alignments;
 		// StdSizes.Sizeof won't be called for them.
@@ -237,58 +260,60 @@ func SizesFor(compiler, arch string) Sizes {
 var stdSizes = SizesFor("gc", "amd64")
 
 func (conf *Config) alignof(T Type) int64 {
-	if s := conf.Sizes; s != nil {
-		if a := s.Alignof(T); a >= 1 {
-			return a
-		}
-		panic("Config.Sizes.Alignof returned an alignment < 1")
+	f := stdSizes.Alignof
+	if conf.Sizes != nil {
+		f = conf.Sizes.Alignof
 	}
-	return stdSizes.Alignof(T)
+	if a := f(T); a >= 1 {
+		return a
+	}
+	panic("implementation of alignof returned an alignment < 1")
 }
 
 func (conf *Config) offsetsof(T *Struct) []int64 {
 	var offsets []int64
 	if T.NumFields() > 0 {
 		// compute offsets on demand
-		if s := conf.Sizes; s != nil {
-			offsets = s.Offsetsof(T.fields)
-			// sanity checks
-			if len(offsets) != T.NumFields() {
-				panic("Config.Sizes.Offsetsof returned the wrong number of offsets")
-			}
-			for _, o := range offsets {
-				if o < 0 {
-					panic("Config.Sizes.Offsetsof returned an offset < 0")
-				}
-			}
-		} else {
-			offsets = stdSizes.Offsetsof(T.fields)
+		f := stdSizes.Offsetsof
+		if conf.Sizes != nil {
+			f = conf.Sizes.Offsetsof
+		}
+		offsets = f(T.fields)
+		// sanity checks
+		if len(offsets) != T.NumFields() {
+			panic("implementation of offsetsof returned the wrong number of offsets")
 		}
 	}
 	return offsets
 }
 
 // offsetof returns the offset of the field specified via
-// the index sequence relative to typ. All embedded fields
-// must be structs (rather than pointer to structs).
-func (conf *Config) offsetof(typ Type, index []int) int64 {
+// the index sequence relative to T. All embedded fields
+// must be structs (rather than pointers to structs).
+// If the offset is too large (because T is too large),
+// the result is negative.
+func (conf *Config) offsetof(T Type, index []int) int64 {
 	var o int64
 	for _, i := range index {
-		s := under(typ).(*Struct)
-		o += conf.offsetsof(s)[i]
-		typ = s.fields[i].typ
+		s := under(T).(*Struct)
+		d := conf.offsetsof(s)[i]
+		if d < 0 {
+			return -1
+		}
+		o += d
+		T = s.fields[i].typ
 	}
 	return o
 }
 
+// sizeof returns the size of T.
+// If T is too large, the result is negative.
 func (conf *Config) sizeof(T Type) int64 {
-	if s := conf.Sizes; s != nil {
-		if z := s.Sizeof(T); z >= 0 {
-			return z
-		}
-		panic("Config.Sizes.Sizeof returned a size < 0")
+	f := stdSizes.Sizeof
+	if conf.Sizes != nil {
+		f = conf.Sizes.Sizeof
 	}
-	return stdSizes.Sizeof(T)
+	return f(T)
 }
 
 // align returns the smallest y >= x such that y % a == 0.

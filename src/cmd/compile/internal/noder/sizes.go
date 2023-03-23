@@ -80,11 +80,19 @@ func (s *gcSizes) Offsetsof(fields []*types2.Var) []int64 {
 	offsets := make([]int64, len(fields))
 	var o int64
 	for i, f := range fields {
-		typ := f.Type()
-		a := s.Alignof(typ)
-		o = types.RoundUp(o, a)
-		offsets[i] = o
-		o += s.Sizeof(typ)
+		if o >= 0 {
+			typ := f.Type()
+			a := s.Alignof(typ)
+			o = types.RoundUp(o, a)
+			offsets[i] = o
+			if d := s.Sizeof(typ); d >= 0 {
+				o += d // ok to overflow to < 0
+			} else {
+				o = -1
+			}
+		} else {
+			offsets[i] = -1
+		}
 	}
 	return offsets
 }
@@ -112,7 +120,21 @@ func (s *gcSizes) Sizeof(T types2.Type) int64 {
 		}
 		// n > 0
 		// gc: Size includes alignment padding.
-		return s.Sizeof(t.Elem()) * n
+		e := s.Sizeof(t.Elem())
+		if e < 0 {
+			return -1 // array element too large
+		}
+		if e == 0 {
+			return 0 // 0-size element
+		}
+		// e > 0
+		// Final size is s = e * n; and s must be <= maxInt64.
+		const maxInt64 = 1<<63 - 1
+		if e > maxInt64/n {
+			return -1 // e * n overflows
+		}
+		return e * n
+
 	case *types2.Slice:
 		return int64(types.PtrSize) * 3
 	case *types2.Struct:
