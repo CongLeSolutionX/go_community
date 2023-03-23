@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5d46f4ce_283cb4d6",
+        "filename": "src/runtime/rt0_openbsd_ppc64.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-03-23T13:22:18Z",
+      "side": 1,
+      "message": "So it seems that the issue relates to the PLT stubs (created by gencallstub in the linker), which are:\n\n```\nDump of assembler code for function runtime.sysctl_trampoline.libc_sysctl:\n   0x0000000000011340 \u003c+0\u003e:     std     r2,24(r1)\n\u003d\u003e 0x0000000000011344 \u003c+4\u003e:     addis   r12,r2,-1\n   0x0000000000011348 \u003c+8\u003e:     ld      r12,32296(r12)\n   0x000000000001134c \u003c+12\u003e:    mtctr   r12\n   0x0000000000011350 \u003c+16\u003e:    bctr\n```\n\nThis means that if our R2 becomes incorrect (i.e. changed from what the dynamic linker set up for us), our attempt to load the relocation fails.\n\nThat said, upon double checking it seems that R2 (aka REGSB) is indeed a reserved register for ppc64, so the fix may be as simple as ensuring that we are correctly saving R2 prior to making the call, in which case the TOC restoration slots will\nensure that it is kept correct. I\u0027ll investigate further.",
+      "parentUuid": "46db35de_be683bd1",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 2
+      },
+      "revId": "0d601d1d5521fa0772ebe0ab5fe81acf914e84d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e7f88b68_b68dabfb",
         "filename": "src/runtime/sys_openbsd_ppc64.s",
         "patchSetId": 5
