@@ -25,15 +25,28 @@
 #define FIXED_FRAME 32
 
 // aix/ppc64 uses XCOFF which has function descriptors.
+// These descriptors do not live in the text section.
 #ifdef GOOS_aix
 #ifdef GOARCH_ppc64
 #define GO_PPC64X_HAS_FUNCDESC
+#define DEFINE_PPC64X_FUNCDESC(funcname, localfuncname)	\
+	DATA	funcname+0(SB)/8, $localfuncname(SB) 	\
+	DATA	funcname+8(SB)/8, $TOC(SB)		\
+	DATA	funcname+16(SB)/8, $0			\
+	GLOBL	funcname(SB), NOPTR, $24
 #endif
 #endif
 
 // linux/ppc64 uses ELFv1 which has function descriptors.
+// Sometimes these are used like an ABI0 function pointer,
+// thus the descriptors must live in ABI0 namespace.
 #ifdef GOOS_linux
 #ifdef GOARCH_ppc64
 #define GO_PPC64X_HAS_FUNCDESC
+#define DEFINE_PPC64X_FUNCDESC(funcname, localfuncname)	\
+	TEXT	funcname(SB),NOSPLIT|NOFRAME,$0		\
+		DWORD	$localfuncname(SB)		\
+		DWORD	$0				\
+		DWORD	$0
 #endif
 #endif
