@@ -47,7 +47,11 @@ type StdSizes struct {
 	MaxAlign int64 // maximum alignment in bytes - must be >= 1
 }
 
-func (s *StdSizes) Alignof(T Type) int64 {
+func (s *StdSizes) Alignof(T Type) (alignment int64) {
+	defer func() {
+		assert(alignment >= 1)
+	}()
+
 	// For arrays and structs, alignment is defined in terms
 	// of alignment of the elements and fields, respectively.
 	switch t := under(T).(type) {
@@ -166,9 +170,20 @@ func (s *StdSizes) Sizeof(T Type) int64 {
 			return 0
 		}
 		// n > 0
-		a := s.Alignof(t.elem)
-		z := s.Sizeof(t.elem)
-		return align(z, a)*(n-1) + z
+		e := s.Sizeof(t.elem)
+		if e < 0 {
+			return -1 // element too large
+		}
+		if e == 0 {
+			return 0 // 0-size element
+		}
+		// e > 0
+		a := s.Alignof(t.elem) // a >= 1
+		s := align(e, a)*(n-1) + e
+		if s == 0 {
+			return -1 // array size overflowed to 0
+		}
+		return s
 	case *Slice:
 		return s.WordSize * 3
 	case *Struct:
@@ -177,7 +192,12 @@ func (s *StdSizes) Sizeof(T Type) int64 {
 			return 0
 		}
 		offsets := s.Offsetsof(t.fields)
-		return offsets[n-1] + s.Sizeof(t.fields[n-1].typ)
+		o := offsets[n-1]
+		s := s.Sizeof(t.fields[n-1].typ)
+		if o < 0 || s < 0 {
+			return -1 // type too large
+		}
+		return o + s // may overflow to < 0 which is ok
 	case *Interface:
 		// Type parameters lead to variable sizes/alignments;
 		// StdSizes.Sizeof won't be called for them.
