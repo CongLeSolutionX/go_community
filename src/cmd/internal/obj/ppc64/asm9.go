@@ -3231,6 +3231,11 @@ func asmout(c *ctxt9, p *obj.Prog, o *Optab, out *[5]uint32) {
 			rel.Sym = p.From.Sym
 			rel.Add = p.From.Offset
 			rel.Type = objabi.R_ADDR
+			// For compatability with AIX/xcoff. Redirect the global symbol
+			// to the ELF (v1 and v2) defined, hidden symbol .TOC.
+			if c.ctxt.Headtype != objabi.Haix && p.From.Sym.Name == "TOC" {
+				rel.Sym = c.ctxt.Lookup(".TOC.")
+			}
 			o2 = 0
 			o1 = o2
 		}

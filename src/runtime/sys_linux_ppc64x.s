@@ -450,7 +450,7 @@ TEXT runtime·sigfwd(SB),NOSPLIT,$0-32
 TEXT runtime·sigreturn(SB),NOSPLIT,$0-0
 	RET
 
-#ifdef GOARCH_ppc64le
+#ifndef GO_PPC64X_HAS_FUNCDESC
 // ppc64le doesn't need function descriptors
 // Save callee-save registers in the case of signal forwarding.
 // Same as on ARM64 https://golang.org/issue/31827 .
@@ -459,7 +459,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT|NOFRAME,$0
 // function descriptor for the real sigtramp
 TEXT runtime·sigtramp(SB),NOSPLIT|NOFRAME,$0
 	DWORD	$sigtramp<>(SB)
-	DWORD	$0
+	DWORD	$TOC(SB)
 	DWORD	$0
 TEXT sigtramp<>(SB),NOSPLIT|NOFRAME|TOPFRAME,$0
 #endif
@@ -629,8 +629,7 @@ TEXT sigtramp<>(SB),NOSPLIT|NOFRAME|TOPFRAME,$0
 
 	RET
 
-#ifdef GOARCH_ppc64le
-// ppc64le doesn't need function descriptors
+#ifndef GO_PPC64X_HAS_FUNCDESC
 TEXT runtime·cgoSigtramp(SB),NOSPLIT|NOFRAME,$0
 	// The stack unwinder, presumably written in C, may not be able to
 	// handle Go frame correctly. So, this function is NOFRAME, and we
@@ -729,7 +728,7 @@ sigtrampnog:
 // function descriptor for the real sigtramp
 TEXT runtime·cgoSigtramp(SB),NOSPLIT|NOFRAME,$0
 	DWORD	$cgoSigtramp<>(SB)
-	DWORD	$0
+	DWORD	$TOC(SB)
 	DWORD	$0
 TEXT cgoSigtramp<>(SB),NOSPLIT,$0
 	JMP	sigtramp<>(SB)
