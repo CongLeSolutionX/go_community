@@ -112,7 +112,19 @@ func (s *gcSizes) Sizeof(T types2.Type) int64 {
 		}
 		// n > 0
 		// gc: Size includes alignment padding.
-		return s.Sizeof(t.Elem()) * n
+		e := s.Sizeof(t.Elem())
+		if e < 0 {
+			return -1 // array element too large
+		}
+		if e == 0 {
+			return 0 // 0-size element
+		}
+		// e > 0
+		a := e * n
+		if a == 0 {
+			return -1 // array size overflowed to 0
+		}
+		return a
 	case *types2.Slice:
 		return int64(types.PtrSize) * 3
 	case *types2.Struct:
