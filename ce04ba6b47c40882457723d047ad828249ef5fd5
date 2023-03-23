@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3519697b_f39a4245",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-03-23T19:49:43Z",
+      "side": 1,
+      "message": "\u003e If I understand correctly, this is saying that it is in fact possible to change the cmd/go command in a way that would permit normal Go tests to emit ^V characters without breaking go test -json, but because it\u0027s rare for them to do so, it\u0027s decided not to do that and instead burden all Go tests with the responsibility to not to emit ^V characters or risk breaking go test\u0027s -json mode?\n\nThe change to filter out the extraneous `^V` characters completely would have to be deep down in the `runtime` or `syscall` packages (intercepting `write` calls to filter out their arguments).\n\nIn theory the `testing` package itself could shim in something to filter out those characters from output produced by `t.Logf`, `t.Errorf`, etc. That would be less invasive but still incomplete: if the package under test writes a `^V` character directly to stdout or stderr, it still would not be caught and would not be escaped. Fortunately, most extraneous test outputs are printable ASCII, not control characters.\n\nI don`t see a viable way for `cmd/go` itself to work around the problem: it doesn\u0027t have any way to distinguish `^V` characters produced by the `testing` package from those produced by the package under test.\n\n\u003e I guess this can be reconsidered if more people report running into this problem, but until then, we\u0027re just fixing the testing package and moving on?\n\nYep, that\u0027s the idea: so far the only test affected by this is the test of `-test.v\u003dtest2json` itself, which is definitely not typical (nobody in the real world should be running a subprocess with `-test.v\u003dtest2json` unless they\u0027re parsing the output with `cmd/test2json` or similar, which will filter out those characters itself).\n\n\u003e I would\u0027ve initially thought it\u0027s better to fix the general case rather than individual tests if doing so is possible (and living with it if not possible), but perhaps that\u0027s not the optimal balance, and so just fixing the one test in \u0027testing\u0027 for now seems reasonable to me.\n\nI agree that it\u0027s usually better to fix the general case, but in this case the general fix would be either very invasive or incomplete, and as far as incomplete fixes go I prefer this one. (We can indeed reconsider if we find many tests in the wild that happen to emit `^V` characters.)",
+      "parentUuid": "2b5eef5c_47a77fa3",
+      "range": {
+        "startLine": 12,
+        "startChar": 40,
+        "endLine": 14,
+        "endChar": 12
+      },
+      "revId": "ce04ba6b47c40882457723d047ad828249ef5fd5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1ce0a6a5_08f8fac3",
