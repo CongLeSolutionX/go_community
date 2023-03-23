@@ -1441,4 +1441,15 @@ const (
 	//  	clear(x)
 	//  }
 	InvalidClear
+
+	// TypeTooLarge occurs if unsafe.Sizeof or unsafe.Offsetof is
+	// called with an expression whose type is too large.
+	//
+	// Example:
+	//  import "unsafe"
+	//
+	// type E [1<<31 - 1]int
+	// var a [1<<31]E
+	// var _ = unsafe.Sizeof(a)
+	TypeTooLarge
 )
