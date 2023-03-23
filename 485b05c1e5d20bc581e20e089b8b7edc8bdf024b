@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "71af5a87_783b159e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-03-23T09:51:52Z",
+      "side": 1,
+      "message": "There is no special benefit, but when doing CL 473617, I feel that many rules are repetitive and a bit messy, so I want to tidy this file a bit.\nVery long rules are really ugly, I reverted some very long rules.\nThanks.",
+      "parentUuid": "015f5358_aeeae101",
+      "revId": "485b05c1e5d20bc581e20e089b8b7edc8bdf024b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2039b2f9_22e4c85b",
@@ -85,6 +103,30 @@
       "writtenOn": "2023-03-22T17:32:10Z",
       "side": 1,
       "message": "Maybe align the components to make it read better.",
+      "range": {
+        "startLine": 568,
+        "startChar": 0,
+        "endLine": 572,
+        "endChar": 0
+      },
+      "revId": "485b05c1e5d20bc581e20e089b8b7edc8bdf024b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6260f5db_3e58feb0",
+        "filename": "src/cmd/compile/internal/ssa/_gen/ARM64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2023-03-23T09:51:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2039b2f9_22e4c85b",
       "range": {
         "startLine": 568,
         "startChar": 0,
