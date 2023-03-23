@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "46db35de_be683bd1",
+        "filename": "src/runtime/rt0_openbsd_ppc64.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-03-23T10:17:48Z",
+      "side": 1,
+      "message": "Working from memory, the dynamic linker (ld.so) loads the TOC pointer into R2 when it is loading shared libraries, before handing control to the Go binary - the GOT (or equivalent) then contains references that are based off this R2. This means that when we need to call into libc, we make a call via the GOT/PLT and if R2 is not the same as it was when it was initialised by the dynamic linker, bad things happen. I\u0027ve just checked that this is needed - I\u0027ll check the exact crash location without it later.\n\nGiven that R2 is not a reserved register in Go, after running any Go code we need to reload R2 with the original value before calling into C code via the PLT. This loading is done in both asmcgocall and asmcgocall_no_g.",
+      "parentUuid": "b79024d1_7cb75c6e",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 2
+      },
+      "revId": "0d601d1d5521fa0772ebe0ab5fe81acf914e84d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e7f88b68_b68dabfb",
         "filename": "src/runtime/sys_openbsd_ppc64.s",
         "patchSetId": 5
@@ -37,6 +61,30 @@
       "writtenOn": "2023-03-21T22:14:18Z",
       "side": 1,
       "message": "With ELFv2, R2 is only nonvolatile between local calls which share the same TOC pointer.\n\nAlso, if strictly following the ELFv2 ABI, V20-V31 are also callee-save registers too.",
+      "range": {
+        "startLine": 28,
+        "startChar": 45,
+        "endLine": 28,
+        "endChar": 47
+      },
+      "revId": "0d601d1d5521fa0772ebe0ab5fe81acf914e84d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57d445bb_5feea1aa",
+        "filename": "src/runtime/sys_openbsd_ppc64.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-03-23T10:17:48Z",
+      "side": 1,
+      "message": "Thanks, I\u0027ll update this.",
+      "parentUuid": "e7f88b68_b68dabfb",
       "range": {
         "startLine": 28,
         "startChar": 45,

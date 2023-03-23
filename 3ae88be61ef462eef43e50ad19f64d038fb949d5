@@ -82,6 +82,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "34011ba8_0816d514",
+        "filename": "src/runtime/asm_ppc64x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-03-23T10:17:48Z",
+      "side": 1,
+      "message": "Agreed - CL 476117 added GO_PPC64X_HAS_FUNCDESC and made use of it, separate to this change. I originally added the ELFv1/ELFv2/XCOFF defines, but ended up directly defining HAS_FUNCDESC instead.",
+      "parentUuid": "c4bf7bc4_c7c63a25",
+      "range": {
+        "startLine": 11,
+        "startChar": 10,
+        "endLine": 11,
+        "endChar": 20
+      },
+      "revId": "3ae88be61ef462eef43e50ad19f64d038fb949d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "527421b6_c1ac159e",
         "filename": "src/runtime/asm_ppc64x.s",
         "patchSetId": 2
@@ -120,6 +144,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3aeea632_a5ef1a81",
+        "filename": "src/runtime/asm_ppc64x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-03-23T10:17:48Z",
+      "side": 1,
+      "message": "This was addressed via CL 476117.",
+      "parentUuid": "879b237f_dae82ac4",
+      "revId": "3ae88be61ef462eef43e50ad19f64d038fb949d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e41210b7_9c6761d0",
@@ -143,6 +185,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "b93c30b4_09c04d49",
+        "filename": "src/runtime/asm_ppc64x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 557,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-03-23T10:17:48Z",
+      "side": 1,
+      "message": "Currently, yes.\n\nAs way of some background, on OpenBSD all system calls have to be performed via libc and that means that asmcgocall has to be callable from all contexts (g or no g, already on systemstack, already on signal stack, etc). AIUI there is also a case where the g is in an unknown state, so we\u0027re not able to determine if the g is valid or not (namely during needm). In that case asmcgocall_no_g is used (`grep asmcgocall_no_g\\(unsafe runtime/*` will show the occurrences where asmcgocall_no_g is used for darwin and openbsd).\n\nLooking over the code again, we could also factor out the code that is used to call _cgo_init and reuse that here as well. I\u0027ll see about a separate change that does that.\n\nFWIW asmcgocall_no_g was introduced in CL 288793 - the commit message for that change also provides additional details.",
+      "parentUuid": "e41210b7_9c6761d0",
+      "range": {
+        "startLine": 557,
+        "startChar": 6,
+        "endLine": 557,
+        "endChar": 21
+      },
+      "revId": "3ae88be61ef462eef43e50ad19f64d038fb949d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "bb99a72d_cd985e47",
@@ -156,6 +222,30 @@
       "writtenOn": "2023-03-13T18:16:16Z",
       "side": 1,
       "message": "When does openbsd call this without a valid g? Is it safe to assume that it is always 0 in that case?",
+      "range": {
+        "startLine": 603,
+        "startChar": 5,
+        "endLine": 603,
+        "endChar": 11
+      },
+      "revId": "3ae88be61ef462eef43e50ad19f64d038fb949d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27e4cb38_595fbcd5",
+        "filename": "src/runtime/asm_ppc64x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 603,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-03-23T10:17:48Z",
+      "side": 1,
+      "message": "I\u0027m not entirely certain when this will occur, but it would be during thread creation/teardown or when a C thread calls into Go (e.g. plugin mode, although that is not currently supported). In such a case the g would be nil and the test follows the pattern used for other architectures.",
+      "parentUuid": "bb99a72d_cd985e47",
       "range": {
         "startLine": 603,
         "startChar": 5,
@@ -191,6 +281,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "34e25a9c_915a79ac",
+        "filename": "src/runtime/asm_ppc64x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 616,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-03-23T10:17:48Z",
+      "side": 1,
+      "message": "I\u0027ve split the non-OpenBSD changes into CL 478775 - hopefully that makes it easier to understand.\n\nIn short, this brings the ppc64x asmcgocall inline with others (e.g. amd64/arm64) - if we\u0027re called with either a nil g (the case above), already on a system stack, or already on a signal stack, then we do not save the stack offset or the g and simply call through to the C function.\n\nCL 17072 introduced the nosave: path to amd64 and has some additional details, likewise CL 117176 brought it over to arm64.",
+      "parentUuid": "b84d8fcc_3f7a207a",
+      "range": {
+        "startLine": 616,
+        "startChar": 5,
+        "endLine": 616,
+        "endChar": 11
+      },
+      "revId": "3ae88be61ef462eef43e50ad19f64d038fb949d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7d27a42a_941573f2",
         "filename": "src/runtime/asm_ppc64x.s",
         "patchSetId": 2
@@ -202,6 +316,24 @@
       "writtenOn": "2023-03-13T17:22:30Z",
       "side": 1,
       "message": "Please update comment.",
+      "revId": "3ae88be61ef462eef43e50ad19f64d038fb949d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b81a7f6_497bc53c",
+        "filename": "src/runtime/asm_ppc64x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 692,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-03-23T10:17:48Z",
+      "side": 1,
+      "message": "Also addressed via CL 476117.",
+      "parentUuid": "7d27a42a_941573f2",
       "revId": "3ae88be61ef462eef43e50ad19f64d038fb949d5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
