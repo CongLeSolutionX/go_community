@@ -78,13 +78,22 @@ func isComplex(T types2.Type) bool {
 
 func (s *gcSizes) Offsetsof(fields []*types2.Var) []int64 {
 	offsets := make([]int64, len(fields))
-	var o int64
+	var offs int64
 	for i, f := range fields {
+		if offs < 0 {
+			offsets[i] = -1
+			continue
+		}
+		// offs >= 0
 		typ := f.Type()
 		a := s.Alignof(typ)
-		o = types.RoundUp(o, a)
-		offsets[i] = o
-		o += s.Sizeof(typ)
+		offs = types.RoundUp(offs, a) // unlikely but could overflow // TODO(gri) double-check
+		offsets[i] = offs
+		if d := s.Sizeof(typ); d >= 0 {
+			offs += d // ok to overflow to < 0
+		} else {
+			offs = -1
+		}
 	}
 	return offsets
 }
@@ -112,7 +121,20 @@ func (s *gcSizes) Sizeof(T types2.Type) int64 {
 		}
 		// n > 0
 		// gc: Size includes alignment padding.
-		return s.Sizeof(t.Elem()) * n
+		esize := s.Sizeof(t.Elem())
+		if esize < 0 {
+			return -1 // array element too large
+		}
+		if esize == 0 {
+			return 0 // 0-size element
+		}
+		// esize > 0
+		// Final size is esize * n; and size must be <= maxInt64.
+		const maxInt64 = 1<<63 - 1
+		if esize > maxInt64/n {
+			return -1 // e * n overflows
+		}
+		return esize * n
 	case *types2.Slice:
 		return int64(types.PtrSize) * 3
 	case *types2.Struct:
