@@ -49,7 +49,11 @@ type StdSizes struct {
 	MaxAlign int64 // maximum alignment in bytes - must be >= 1
 }
 
-func (s *StdSizes) Alignof(T Type) int64 {
+func (s *StdSizes) Alignof(T Type) (alignment int64) {
+	defer func() {
+		assert(alignment >= 1)
+	}()
+
 	// For arrays and structs, alignment is defined in terms
 	// of alignment of the elements and fields, respectively.
 	switch t := under(T).(type) {
@@ -168,9 +172,13 @@ func (s *StdSizes) Sizeof(T Type) int64 {
 			return 0
 		}
 		// n > 0
-		a := s.Alignof(t.elem)
+		a := s.Alignof(t.elem) // a >= 1
 		z := s.Sizeof(t.elem)
-		return align(z, a)*(n-1) + z
+		s := align(z, a)*(n-1) + z
+		if z != 0 && s == 0 {
+			return -1 // array size overflowed to 0
+		}
+		return s
 	case *Slice:
 		return s.WordSize * 3
 	case *Struct:
