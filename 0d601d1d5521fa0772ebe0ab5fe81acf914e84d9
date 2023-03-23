@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0d42516a_d2dcb8f9",
+        "filename": "src/runtime/rt0_openbsd_ppc64.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-03-23T14:10:24Z",
+      "side": 1,
+      "message": "The PLT stub code was only ever used to generated stubs from GCC generated code on linux (which should always have a valid R2). It will need to be smarter when generating stubs from external objects and/or go code. That shouldn\u0027t be too hard to workaround.",
+      "parentUuid": "5d46f4ce_283cb4d6",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 2
+      },
+      "revId": "0d601d1d5521fa0772ebe0ab5fe81acf914e84d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e7f88b68_b68dabfb",
         "filename": "src/runtime/sys_openbsd_ppc64.s",
         "patchSetId": 5
