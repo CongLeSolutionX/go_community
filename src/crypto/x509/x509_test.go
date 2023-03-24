@@ -3917,3 +3917,68 @@ func TestDuplicateAttributesCSR(t *testing.T) {
 		t.Fatal("ParseCertificateRequest should succeed when parsing CSR with duplicate attributes")
 	}
 }
+
+const mostlyZerosHex = `
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0000
+0000 0000 0000 0000 0000 0000 0000 0000 0000 0001
+`
+
+func TestGenerateSerial(t *testing.T) {
+	// check that we keep trying to generate non-zero serials
+	// even when the RNG is returning mostly zeros
+	mostlyZeros, err := hex.DecodeString(
+		strings.Join(strings.Fields(mostlyZerosHex), ""),
+	)
+	if err != nil {
+		t.Fatalf("couldn't decode sample hex data: %v", err)
+	}
+	mostlyZerosReader := bytes.NewReader(mostlyZeros)
+	serial, err := GenerateSerial(mostlyZerosReader)
+	if err != nil {
+		t.Fatalf("generateSerial failed: %v", err)
+	}
+	if serial.Cmp(big.NewInt(0)) == 0 {
+		t.Errorf("generateSerial returned zero serial")
+	} else if serial.Cmp(big.NewInt(1)) != 0 {
+		t.Errorf("generateSerial was expected to return 1 but returned %v", serial)
+	}
+
+	// check that we get an error if the RNG returns all zeros
+	allZeros := make([]byte, 500)
+	_, err = GenerateSerial(bytes.NewReader(allZeros))
+	if err == nil {
+		t.Errorf("generateSerial should have failed when RNG returned all zeros")
+	}
+
+	// generate a bunch of serials and make sure they're all
+	// * positive
+	// * under 20 bytes
+	// * mostly (lets say 80% or more) full 20 bytes
+	// * unique
+	serials := make(map[string]bool)
+	full20count := 0
+	for i := 0; i < 100; i++ {
+		serial, err := GenerateSerial(rand.Reader)
+		if err != nil {
+			t.Fatalf("generateSerial failed: %v", err)
+		}
+		if serial.Cmp(big.NewInt(0)) <= 0 {
+			t.Errorf("generateSerial returned non-positive serial: %v", serial)
+		}
+		if serial.BitLen() > 20*8 {
+			t.Errorf("generateSerial returned serial too big: %v", serial)
+		}
+		if len(serial.Bytes()) == 20 {
+			full20count++
+		}
+		serialStr := serial.String()
+		if serials[serialStr] {
+			t.Errorf("generateSerial returned duplicate serial: %s", serialStr)
+		}
+	}
+
+	if full20count < 80 {
+		t.Errorf("generateSerial returned too few full 20 byte serials: %d/100", full20count)
+	}
+}
