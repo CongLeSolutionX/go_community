@@ -105,6 +105,24 @@
       "parentUuid": "15f3cf26_6d53bc9a",
       "revId": "789dbcf28a1e9a20868ef3f1a1383e8ca65ae616",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "299d0e53_147a51f5",
+        "filename": "src/net/dial.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 61267
+      },
+      "writtenOn": "2023-03-24T11:05:51Z",
+      "side": 1,
+      "message": "Hi Emmanuel,\n\nThank you for the review and for having submitted this Change!\n\n\u003e Minor nit, why is this a pointer? It is a uint8 by type definition and doesn\u0027t contain any complex values plus this is a getter.\n\nIndeed but I understood it was what was usually done, please see this comment on my v1: https://go-review.googlesource.com/c/go/+/477735/1..5/src/net/dial.go#b32\n\nDo I need to change that?",
+      "parentUuid": "de02a1d8_038580bf",
+      "revId": "789dbcf28a1e9a20868ef3f1a1383e8ca65ae616",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ],
   "submitRequirementResults": [
