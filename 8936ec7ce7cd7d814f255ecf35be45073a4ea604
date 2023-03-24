@@ -130,6 +130,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "1392e8be_ee5bb03d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2023-03-24T07:02:56Z",
+      "side": 1,
+      "message": "Is a similar check required in some other places in this file as well ? If not, may be a comment that all instances have been checked for such a situation could be useful along with the issue number related to the bug?",
+      "revId": "8936ec7ce7cd7d814f255ecf35be45073a4ea604",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "67fedeb0_beedf32a",
         "filename": "src/cmd/internal/obj/ppc64/asm9.go",
         "patchSetId": 1
