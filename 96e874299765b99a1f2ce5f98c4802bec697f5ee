@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "012d7e6a_c095df6a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2023-03-24T10:49:53Z",
+      "side": 1,
+      "message": "Please rebase as https://go-review.googlesource.com/c/go/+/477735 has been submitted. Thank you",
+      "revId": "96e874299765b99a1f2ce5f98c4802bec697f5ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
