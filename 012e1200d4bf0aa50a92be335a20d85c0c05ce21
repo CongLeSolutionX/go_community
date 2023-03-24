@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "313c1c63_96f9d18e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-03-24T16:56:35Z",
+      "side": 1,
+      "message": "And fixing up the recent change to cgo/asm_ppc64x.s.\n\nXCOFF does some things to export symbols which might be referenced from C. I don\u0027t fully understand them, so this should be mostly cleanup, but also prevents breaking openbsd.",
+      "revId": "012e1200d4bf0aa50a92be335a20d85c0c05ce21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
