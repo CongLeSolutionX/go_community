@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "acb7e3a0_720e5bac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25422
+      },
+      "writtenOn": "2023-03-24T08:56:07Z",
+      "side": 1,
+      "message": "The old/new benchmark results are easier to read and interpret when they\u0027re analyzed by benchstat (https://pkg.go.dev/golang.org/x/perf/cmd/benchstat) utility.\nPlease consider reformatting the commit message to include a benchstat output.\nIt would require you to run benchmarks with -count no less than 5 for both old/new sets.",
+      "revId": "b38530d12d3ded9430f6dff30ca5bc090c2489dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
