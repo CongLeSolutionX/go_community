@@ -95,6 +95,30 @@
       },
       "revId": "f5d10008034d92f6f0b891525e101384854834f6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d75869e8_aa7873c3",
+        "filename": "src/cmd/compile/internal/noder/sizes.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-03-24T18:20:34Z",
+      "side": 1,
+      "message": "Duh. Basic binary arithmetic error.\nWe don\u0027t need the constant package, but this is not sufficient. Thanks for catching this.\n\nIn any case, I will move this change into the next CL (which handles the same issue in go/types), and adjust the test case in this CL so that it doesn\u0027t fail because of this issue.",
+      "parentUuid": "c6b7450c_3f0c56a9",
+      "range": {
+        "startLine": 123,
+        "startChar": 2,
+        "endLine": 126,
+        "endChar": 3
+      },
+      "revId": "f5d10008034d92f6f0b891525e101384854834f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
