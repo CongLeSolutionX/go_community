@@ -2469,3 +2469,32 @@ func (rl *RevocationList) CheckSignatureFrom(parent *Certificate) error {
 
 	return parent.CheckSignature(rl.SignatureAlgorithm, rl.RawTBSRevocationList, rl.Signature)
 }
+
+// GenerateSerial produces an RFC 5280 conformant serial number to be used
+// in a certificate. The serial number will be a positive integer, no more
+// than 20 octets in length, generated using the provided random source.
+func GenerateSerial(rand io.Reader) (*big.Int, error) {
+	randBytes := make([]byte, 20)
+	for i := 0; i < 10; i++ {
+		// get 20 random bytes
+		_, err := io.ReadFull(rand, randBytes)
+		if err != nil {
+			return nil, err
+		}
+
+		// clear the top bit (to prevent the number being negative)
+		randBytes[0] &= 0x7f
+
+		// convert to big.Int
+		serial := new(big.Int).SetBytes(randBytes)
+
+		// check that the serial is not zero
+		if serial.Sign() == 0 {
+			continue
+		}
+
+		return serial, nil
+	}
+
+	return nil, errors.New("x509: failed to generate serial number because the random source returns only zeros")
+}
