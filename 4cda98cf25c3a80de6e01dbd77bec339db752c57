@@ -16,6 +16,23 @@
       "message": "@iant@golang.org thank you for the help improving the documentation, it is not an easy part for me as a non native.",
       "revId": "4cda98cf25c3a80de6e01dbd77bec339db752c57",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb8a4d02_f997f3d1",
+        "filename": "src/net/dial.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-03-24T01:25:10Z",
+      "side": 1,
+      "message": "Thanks.  Now that I read this again, I don\u0027t think we need this first sentence.",
+      "revId": "4cda98cf25c3a80de6e01dbd77bec339db752c57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
