@@ -80,6 +80,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "38ba3086_d0f852af",
+        "filename": "src/log/slog/internal/benchmarks/benchmarks.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2023-03-24T20:37:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f4d16c_081a29bb",
+      "range": {
+        "startLine": 1,
+        "startChar": 16,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "17b541bbe3a485625807d1a5e784f0c713b7a335",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cea469a5_a116ecc3",
@@ -93,6 +117,30 @@
       "writtenOn": "2023-03-24T19:28:05Z",
       "side": 1,
       "message": "an upper (?)",
+      "range": {
+        "startLine": 18,
+        "startChar": 66,
+        "endLine": 18,
+        "endChar": 73
+      },
+      "revId": "17b541bbe3a485625807d1a5e784f0c713b7a335",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe396c39_d5a7f7c1",
+        "filename": "src/log/slog/internal/benchmarks/benchmarks.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2023-03-24T20:37:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cea469a5_a116ecc3",
       "range": {
         "startLine": 18,
         "startChar": 66,
@@ -120,6 +168,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7003ac3_4b019496",
+        "filename": "src/log/slog/internal/benchmarks/benchmarks_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2023-03-24T20:37:21Z",
+      "side": 1,
+      "message": "It\u0027s to make sure the numbers don\u0027t explode at extreme values. Added a comment.",
+      "parentUuid": "0d4238e4_946da519",
+      "revId": "17b541bbe3a485625807d1a5e784f0c713b7a335",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a08939c2_dba0fd63",
@@ -137,6 +203,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee0f5e55_82730043",
+        "filename": "src/log/slog/internal/benchmarks/handlers.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2023-03-24T20:37:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a08939c2_dba0fd63",
+      "revId": "17b541bbe3a485625807d1a5e784f0c713b7a335",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2b49da44_28a07ed0",
@@ -150,6 +234,24 @@
       "writtenOn": "2023-03-24T19:28:05Z",
       "side": 1,
       "message": "Perhaps mention that nothing actually reads from the ring buffer, so it\u0027s possible to Handle an arbitrary number of records without either blocking or allocation.",
+      "revId": "17b541bbe3a485625807d1a5e784f0c713b7a335",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "40b6559b_af68b012",
+        "filename": "src/log/slog/internal/benchmarks/handlers.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2023-03-24T20:37:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b49da44_28a07ed0",
       "revId": "17b541bbe3a485625807d1a5e784f0c713b7a335",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
