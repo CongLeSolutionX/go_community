@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f18dc225_ffe8740e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 61267
+      },
+      "writtenOn": "2023-03-24T11:13:21Z",
+      "side": 1,
+      "message": "@emmanuel@orijtech.com just to be sure: is it normal the parent Change has not been submitted, only this one?\n\nhttps://go-review.googlesource.com/c/go/+/471135/\n\nIt was not depending on the parent, that\u0027s not an issue. It is just to know if I need to wait before doing the rebase",
+      "revId": "e4abe90bf8bee451971c4b23d4418a9fc021c4a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
