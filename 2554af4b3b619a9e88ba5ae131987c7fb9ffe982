@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21dab647_1abb8be4",
+        "filename": "src/cmd/internal/obj/loong64/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-03-24T18:24:20Z",
+      "side": 1,
+      "message": "Should this be reg to match Prog.Reg?",
+      "revId": "2554af4b3b619a9e88ba5ae131987c7fb9ffe982",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
