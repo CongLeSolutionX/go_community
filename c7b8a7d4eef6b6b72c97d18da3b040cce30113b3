@@ -61,6 +61,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "104a5772_727eb411",
+        "filename": "src/cmd/compile/internal/types2/call.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 702,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-03-24T22:58:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "909fc4f9_4aa362ea",
+      "range": {
+        "startLine": 702,
+        "startChar": 26,
+        "endLine": 702,
+        "endChar": 29
+      },
+      "revId": "c7b8a7d4eef6b6b72c97d18da3b040cce30113b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3f7d7bfe_27741281",
@@ -84,6 +108,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "42ac0a00_7fbb5b81",
+        "filename": "src/cmd/compile/internal/types2/call.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 713,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-03-24T22:58:08Z",
+      "side": 1,
+      "message": "Changed. This is not speed critical as it\u0027s run when there\u0027s an error.",
+      "parentUuid": "3f7d7bfe_27741281",
+      "range": {
+        "startLine": 713,
+        "startChar": 1,
+        "endLine": 713,
+        "endChar": 14
+      },
+      "revId": "c7b8a7d4eef6b6b72c97d18da3b040cce30113b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fda3afd2_1cda4099",
@@ -97,6 +145,30 @@
       "writtenOn": "2023-03-24T14:36:28Z",
       "side": 1,
       "message": "Worth a comment as to why this does not need to preserve the LHS bit.\n\nIn fact, I think it\u0027s probably clearer to call rawExpr for each element of ElemList, so that the relationship between \u0027use\u0027 functions and \u0027expr\u0027 functions is clearer.",
+      "range": {
+        "startLine": 749,
+        "startChar": 2,
+        "endLine": 749,
+        "endChar": 26
+      },
+      "revId": "c7b8a7d4eef6b6b72c97d18da3b040cce30113b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac2b0040_0165bcce",
+        "filename": "src/cmd/compile/internal/types2/call.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 749,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-03-24T22:58:08Z",
+      "side": 1,
+      "message": "I think it probably (for consistency) should use the LHS bit. It\u0027s just the case that ListExpr do not appear on the LHS in the syntax tree, but it\u0027s implicit knowledge. Changed the code.",
+      "parentUuid": "fda3afd2_1cda4099",
       "range": {
         "startLine": 749,
         "startChar": 2,
