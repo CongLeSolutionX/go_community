@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0cb627b_6bad6fe8",
+        "filename": "src/runtime/asm_amd64.s",
+        "patchSetId": 35
+      },
+      "lineNbr": 2063,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-03-24T11:00:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d64643c_c06aef83",
+      "revId": "322af9928a5539d1853a48097f5dc1602239d0a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5bcc80b8_b8c22dad",
@@ -85,6 +103,24 @@
       "writtenOn": "2023-03-21T20:01:14Z",
       "side": 1,
       "message": "Same here.",
+      "revId": "322af9928a5539d1853a48097f5dc1602239d0a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34edf044_6578f90b",
+        "filename": "src/runtime/asm_arm64.s",
+        "patchSetId": 35
+      },
+      "lineNbr": 1546,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-03-24T11:00:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5bcc80b8_b8c22dad",
       "revId": "322af9928a5539d1853a48097f5dc1602239d0a9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -106,6 +142,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e6840ed_fc04bff1",
+        "filename": "src/runtime/asm_arm64.s",
+        "patchSetId": 35
+      },
+      "lineNbr": 1547,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-03-24T11:00:58Z",
+      "side": 1,
+      "message": "Thanks for calling that out, it\u0027s wrong.\n\nI initially started this work on arm64 and remember being confused why this was needed. Looking back, I suspect that I mistakenly took this approach to indirectly fix up issues related to the `skip` value.\n\nFixed in the new patch I just uploaded.\n\nPS: While looking into this I was pleasantly surprised to see TestTraceSymbolize passes on arm64 (when enabling it by tweaking `tracefpunwindoff()`). That being said, some work still needs to be done before it will be safe to enable arm64, see https://github.com/golang/go/issues/58432.",
+      "parentUuid": "a5e3fc50_aa4719d4",
+      "revId": "322af9928a5539d1853a48097f5dc1602239d0a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "65f94681_a65721aa",
@@ -123,6 +177,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "83a9cfc2_a78db293",
+        "filename": "src/runtime/stubs_amd64.go",
+        "patchSetId": 35
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-03-24T11:00:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65f94681_a65721aa",
+      "revId": "322af9928a5539d1853a48097f5dc1602239d0a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d555a936_198db58d",
@@ -136,6 +208,24 @@
       "writtenOn": "2023-03-21T20:01:14Z",
       "side": 1,
       "message": "Doc comment.",
+      "revId": "322af9928a5539d1853a48097f5dc1602239d0a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42270182_459b6ebf",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 35
+      },
+      "lineNbr": 874,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-03-24T11:00:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d555a936_198db58d",
       "revId": "322af9928a5539d1853a48097f5dc1602239d0a9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -165,6 +255,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "9eab99d2_724d6f6f",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 35
+      },
+      "lineNbr": 930,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-03-24T11:00:58Z",
+      "side": 1,
+      "message": "I played around with it, and it seems that using `unsafe.Pointer` leads to slightly better code gen that shows up on the benchmark. So I applied your suggestion 👍\n\n```\ngoos: linux\ngoarch: amd64\npkg: runtime\ncpu: Intel(R) Xeon(R) Platinum 8375C CPU @ 2.90GHz\n                    │ before.txt  │             after.txt              │\n                    │   sec/op    │   sec/op     vs base               │\nFPCallers/cached-32   25.96n ± 0%   25.00n ± 0%  -3.70% (p\u003d0.000 n\u003d20)\n```\n\nFull details are here: https://gist.github.com/felixge/cc73980ff255bfdd658b8d97ed9fd16a",
+      "parentUuid": "f220e3b6_b0047e5e",
+      "range": {
+        "startLine": 929,
+        "startChar": 40,
+        "endLine": 930,
+        "endChar": 37
+      },
+      "revId": "322af9928a5539d1853a48097f5dc1602239d0a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "58d609b8_45979af0",
         "filename": "src/runtime/trace.go",
         "patchSetId": 35
@@ -176,6 +290,24 @@
       "writtenOn": "2023-03-21T20:01:14Z",
       "side": 1,
       "message": "FWIW, I\u0027m considering switching everything over to physical frame PCs with delayed logical expansion. This will all get much more uniform if we do that.",
+      "revId": "322af9928a5539d1853a48097f5dc1602239d0a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "62012244_ec6cfdeb",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 35
+      },
+      "lineNbr": 1267,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-03-24T11:00:58Z",
+      "side": 1,
+      "message": "Oh, that\u0027d be great. It should also simplify generating pprofs. Currently there is a lot of complexity when it comes to inlined frames that would probably go away with delayed logical expansion 👍.",
+      "parentUuid": "58d609b8_45979af0",
       "revId": "322af9928a5539d1853a48097f5dc1602239d0a9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -193,6 +325,30 @@
       "writtenOn": "2023-03-21T20:01:14Z",
       "side": 1,
       "message": "cap(newPCBuf)?",
+      "range": {
+        "startLine": 1292,
+        "startChar": 26,
+        "endLine": 1292,
+        "endChar": 40
+      },
+      "revId": "322af9928a5539d1853a48097f5dc1602239d0a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d17c2a74_ca368778",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 35
+      },
+      "lineNbr": 1292,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-03-24T11:00:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a0652f8_cba1d3d6",
       "range": {
         "startLine": 1292,
         "startChar": 26,
@@ -226,6 +382,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "85c574fb_f17da64a",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 35
+      },
+      "lineNbr": 1298,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-03-24T11:00:58Z",
+      "side": 1,
+      "message": "I changed it to 1 in order to be consistent with the traceback code.\n\nAll retPC values should point to an instruction after a `CALL` instruction. This invariant should insure that `callPC` will never fall outside the function\u0027s body.",
+      "parentUuid": "2610dd4a_6d7fd27f",
+      "range": {
+        "startLine": 1298,
+        "startChar": 20,
+        "endLine": 1298,
+        "endChar": 36
+      },
+      "revId": "322af9928a5539d1853a48097f5dc1602239d0a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6160c351_b6e6331c",
@@ -239,6 +419,30 @@
       "writtenOn": "2023-03-21T20:01:14Z",
       "side": 1,
       "message": "For consistency with tracebackPCs (and thus runtime.callers), this should be + 1.",
+      "range": {
+        "startLine": 1314,
+        "startChar": 39,
+        "endLine": 1314,
+        "endChar": 55
+      },
+      "revId": "322af9928a5539d1853a48097f5dc1602239d0a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4289bcfd_51a86e26",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 35
+      },
+      "lineNbr": 1314,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-03-24T11:00:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6160c351_b6e6331c",
       "range": {
         "startLine": 1314,
         "startChar": 39,
