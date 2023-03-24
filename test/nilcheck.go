@@ -188,3 +188,10 @@ func f5(m map[string]struct{}) bool {
 	_, ok := tmp1, tmp2
 	return ok
 }
+
+func f6(x []byte) {
+	p := (*[0]byte)(x)
+	_ = *p // ERROR "nil check"
+	q := (*[4]byte)(x)
+	_ = *q
+}
