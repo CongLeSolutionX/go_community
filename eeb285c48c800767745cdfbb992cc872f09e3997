@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "73bcbf7e_73bddee2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 27738
+      },
+      "writtenOn": "2023-03-25T06:29:08Z",
+      "side": 1,
+      "message": "Thank you for preparing the implementation.",
+      "revId": "eeb285c48c800767745cdfbb992cc872f09e3997",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dcd5ff8a_86e3d222",
+        "filename": "src/crypto/x509/x509.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2493,
+      "author": {
+        "id": 27738
+      },
+      "writtenOn": "2023-03-25T06:29:08Z",
+      "side": 1,
+      "message": "Should there be some limit on the number of retries in case someone passes /dev/zero as rand?",
+      "revId": "eeb285c48c800767745cdfbb992cc872f09e3997",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
