@@ -1547,7 +1547,7 @@ func (t test) wantedAsmOpcodes(fn string) asmChecks {
 			default: // 1 component: "386"
 				os, arch, subarch = "linux", archspec[0], ""
 				if arch == "wasm" {
-					os = "js"
+					os = ""
 				}
 			}
 
