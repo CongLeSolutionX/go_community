@@ -15,7 +15,9 @@ TEXT runtime·rt0_go(SB), NOSPLIT|NOFRAME|TOPFRAME, $0
 	// set g to g0
 	MOVD $runtime·g0(SB), g
 	CALLNORESUME runtime·check(SB)
+#ifdef GOOS_js
 	CALLNORESUME runtime·args(SB)
+#endif
 	CALLNORESUME runtime·osinit(SB)
 	CALLNORESUME runtime·schedinit(SB)
 	MOVD $runtime·mainPC(SB), 0(SP)
