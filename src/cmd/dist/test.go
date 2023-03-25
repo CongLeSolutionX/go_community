@@ -675,7 +675,7 @@ func (t *tester) registerTests() {
 	}
 
 	// Runtime CPU tests.
-	if !t.compileOnly && goos != "js" { // js can't handle -cpu != 1
+	if !t.compileOnly && goos != "js" && goos != "wasip1" { // js and wasip1 can't handle -cpu != 1
 		t.registerTest("runtime:cpu124", "GOMAXPROCS=2 runtime -cpu=1,2,4 -quick",
 			&goTest{
 				timeout:   300 * time.Second,
