@@ -16,6 +16,24 @@
       "message": "Should this be reg to match Prog.Reg?",
       "revId": "2554af4b3b619a9e88ba5ae131987c7fb9ffe982",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "afa441e9_7f4eac9c",
+        "filename": "src/cmd/internal/obj/loong64/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 34360
+      },
+      "writtenOn": "2023-03-25T03:19:11Z",
+      "side": 1,
+      "message": "For now, it is corresponding to Reg, but next cycle I plan to change most (if not all) of the Prog.Reg usage to become RestArgs-based instead, so I have chosen the current name for not having to tweak it again afterwards and creating churn.\n\n(I reckon it\u0027s the general trend to move to RestArgs for an eventual big refactor to make all arguments one or two slice(s), as documented in the comments around Prog. amd64 has moved to RestArgs, riscv is RestArgs from day 1, there may be more. A couple of weeks ago I tried eliminating every Reg usage from loong64 code, but mysterious bugs that completely broke toolchain2 build then appeared; maybe some Reg usage has to remain but I believe migrating the other places would make people\u0027s lives easier.)",
+      "parentUuid": "21dab647_1abb8be4",
+      "revId": "2554af4b3b619a9e88ba5ae131987c7fb9ffe982",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
