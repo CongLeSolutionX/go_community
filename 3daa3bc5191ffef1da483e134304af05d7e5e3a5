@@ -16,6 +16,41 @@
       "message": "Thanks, but this shouldn\u0027t be necessary.  There isn\u0027t any code path in which netGo is true but we don\u0027t return fallbackOrder.  If there is such a code path, then we could make this change, but it would have to have a test.",
       "revId": "3daa3bc5191ffef1da483e134304af05d7e5e3a5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc1b6b3f_7a1ba43d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-03-26T08:00:58Z",
+      "side": 1,
+      "message": "\u003e There isn\u0027t any code path in which netGo is true but we don\u0027t return fallbackOrder.\n\nLets say that `nsswitch.conf` has: `hosts: files dns` then without this change `forceCgoDNS()`, doesn\u0027t force the cgo resolver, it just uses the go resolver. (line 292)",
+      "parentUuid": "a72068e1_39b8564b",
+      "revId": "3daa3bc5191ffef1da483e134304af05d7e5e3a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1e5eb0b_b294932f",
+        "filename": "src/net/conf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-03-26T08:00:58Z",
+      "side": 1,
+      "message": "here",
+      "revId": "3daa3bc5191ffef1da483e134304af05d7e5e3a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
