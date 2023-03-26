@@ -669,6 +669,7 @@ func checka(U PS, a []*rat, str string) {
 
 func main() {
 	Init()
+	print(os.Args)
 	if len(os.Args) > 1 { // print
 		print("Ones: ")
 		Printn(Ones, 10)
