@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e0d3c3f_56225eeb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57598
+      },
+      "writtenOn": "2023-03-26T02:34:25Z",
+      "side": 1,
+      "message": "the feature allow ctr-aes support parallel xor, just like xts-aes, ^_^",
+      "revId": "4c551e1e4c0c592240fb03fbda14e759c3ebc594",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
