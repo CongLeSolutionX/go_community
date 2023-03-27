@@ -34,6 +34,24 @@
       "parentUuid": "6bfeba82_bdc145cb",
       "revId": "ce2a609909d9de3391a99a00fe140506f724f933",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "beb664b9_38294db8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-03-27T17:22:41Z",
+      "side": 1,
+      "message": "Retrying in CL 478916",
+      "parentUuid": "70da849f_1b1d93f0",
+      "revId": "ce2a609909d9de3391a99a00fe140506f724f933",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
