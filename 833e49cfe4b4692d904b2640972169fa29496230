@@ -16,6 +16,29 @@
       "message": "Thanks for the review.",
       "revId": "833e49cfe4b4692d904b2640972169fa29496230",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3a01ee7_229b0522",
+        "filename": "src/runtime/sys_openbsd_ppc64.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-03-27T16:30:18Z",
+      "side": 1,
+      "message": "Combing through the ppc64x ABI macros again, I think we want a pair of macros to handle calls from Go into C.\n\nThe Go to C transitions should always ensure R1 is aligned to 16B. It might be helpful to add a pair of macros in cgo/abi_ppc64x.h. It might also be helpful to explicitly stack these frames with a nullptr in the backchain slot. Otherwise, go will save the LR here which might confuse a simple backtracer.\n\nI suspect the other functions here should be aligning R1 before calling into libc too.",
+      "range": {
+        "startLine": 105,
+        "startChar": 0,
+        "endLine": 105,
+        "endChar": 2
+      },
+      "revId": "833e49cfe4b4692d904b2640972169fa29496230",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
