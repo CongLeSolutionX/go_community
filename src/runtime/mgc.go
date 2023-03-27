@@ -135,9 +135,12 @@ import (
 )
 
 const (
-	_DebugGC         = 0
-	_ConcurrentSweep = true
-	_FinBlockSize    = 4 * 1024
+	_DebugGC      = 0
+	_FinBlockSize = 4 * 1024
+
+	// concurrentSweep is a debug flag. Disabling this flag
+	// ensures all spans are swept while the world is stopped.
+	concurrentSweep = true
 
 	// debugScanConservative enables debug logging for stack
 	// frames that are scanned conservatively.
@@ -948,6 +951,7 @@ func gcMarkTermination() {
 		// before continuing.
 	})
 
+	var stwSwept bool
 	systemstack(func() {
 		work.heap2 = work.bytesMarked
 		if debug.gccheckmark > 0 {
@@ -966,7 +970,7 @@ func gcMarkTermination() {
 
 		// marking is complete so we can turn the write barrier off
 		setGCPhase(_GCoff)
-		gcSweep(work.mode)
+		stwSwept = gcSweep(work.mode)
 	})
 
 	mp.traceback = 0
@@ -1081,9 +1085,19 @@ func gcMarkTermination() {
 	// Those aren't tracked in any sweep lists, so we need to
 	// count them against sweep completion until we ensure all
 	// those spans have been forced out.
+	//
+	// If gcSweep fully swept the heap (for example if the sweep
+	// is not concurrent due to a GODEBUG setting), then we expect
+	// the sweepLocker to be invalid, since sweeping is done.
+	//
+	// N.B. Below we might duplicate some work from gcSweep; this is
+	// fine as all that work is idempotent within a GC cycle, and
+	// we're still holding worldsema so a new cycle can't start.
 	sl := sweep.active.begin()
-	if !sl.valid {
+	if !stwSwept && !sl.valid {
 		throw("failed to set sweep barrier")
+	} else if stwSwept && sl.valid {
+		throw("non-concurrent sweep failed to drain all sweep queues")
 	}
 
 	systemstack(func() { startTheWorldWithSema(trace.enabled) })
@@ -1109,9 +1123,15 @@ func gcMarkTermination() {
 			pp.mcache.prepareForSweep()
 		})
 	})
-	// Now that we've swept stale spans in mcaches, they don't
-	// count against unswept spans.
-	sweep.active.end(sl)
+	if sl.valid {
+		// Now that we've swept stale spans in mcaches, they don't
+		// count against unswept spans.
+		//
+		// Note: this sweepLocker may not be valid if sweeping had
+		// already completed during the STW. See the corresponding
+		// begin() call that produced sl.
+		sweep.active.end(sl)
+	}
 
 	// Print gctrace before dropping worldsema. As soon as we drop
 	// worldsema another cycle could start and smash the stats
@@ -1519,10 +1539,12 @@ func gcMark(startTime int64) {
 // gcSweep must be called on the system stack because it acquires the heap
 // lock. See mheap for details.
 //
+// Returns true if the heap was fully swept by this function.
+//
 // The world must be stopped.
 //
 //go:systemstack
-func gcSweep(mode gcMode) {
+func gcSweep(mode gcMode) bool {
 	assertWorldStopped()
 
 	if gcphase != _GCoff {
@@ -1540,12 +1562,16 @@ func gcSweep(mode gcMode) {
 
 	sweep.centralIndex.clear()
 
-	if !_ConcurrentSweep || mode == gcForceBlockMode {
+	if !concurrentSweep || mode == gcForceBlockMode {
 		// Special case synchronous sweep.
 		// Record that no proportional sweeping has to happen.
 		lock(&mheap_.lock)
 		mheap_.sweepPagesPerByte = 0
 		unlock(&mheap_.lock)
+		// Flush all mcaches.
+		for _, pp := range allp {
+			pp.mcache.prepareForSweep()
+		}
 		// Sweep all spans eagerly.
 		for sweepone() != ^uintptr(0) {
 			sweep.npausesweep++
@@ -1559,7 +1585,7 @@ func gcSweep(mode gcMode) {
 		// available immediately.
 		mProf_NextCycle()
 		mProf_Flush()
-		return
+		return true
 	}
 
 	// Background sweep.
@@ -1569,6 +1595,7 @@ func gcSweep(mode gcMode) {
 		ready(sweep.g, 0, true)
 	}
 	unlock(&sweep.lock)
+	return false
 }
 
 // gcResetMarkState resets global state prior to marking (concurrent
