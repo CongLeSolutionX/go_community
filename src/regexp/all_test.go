@@ -947,3 +947,27 @@ func TestMinInputLen(t *testing.T) {
 		}
 	}
 }
+
+func TestUnmarshalText(t *testing.T) {
+	unmarshaled := new(Regexp)
+	for i := range goodRe {
+		re := compileTest(t, goodRe[i], "")
+		marshaled, err := re.MarshalText()
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := unmarshaled.UnmarshalText(marshaled); err != nil {
+			t.Fatal(err)
+		}
+		if unmarshaled.String() != goodRe[i] {
+			t.Errorf("UnmarshalText returned unexpected value: %s", unmarshaled.String())
+		}
+	}
+	t.Run("invalid pattern", func(t *testing.T) {
+		re := new(Regexp)
+		err := re.UnmarshalText([]byte(`\`))
+		if err == nil {
+			t.Errorf("Expected error, got none")
+		}
+	})
+}
