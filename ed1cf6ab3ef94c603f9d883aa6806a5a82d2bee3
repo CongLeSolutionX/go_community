@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d27c444_790c9708",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-03-27T19:33:36Z",
+      "side": 1,
+      "message": "32-bit 386 freebsd builder fails https://build.golang.org/log/e6e442cd353024c4fdb64111ad0bcbf5b25b8ecd . Not sure if it is due to this CL or actually ran out of disk space (and happens to be at same time of this CL).",
+      "revId": "ed1cf6ab3ef94c603f9d883aa6806a5a82d2bee3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
