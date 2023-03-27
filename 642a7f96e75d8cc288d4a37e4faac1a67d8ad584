@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "abf45626_18bc97b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-03-27T22:32:21Z",
+      "side": 1,
+      "message": "minor: s/Make/make/\n\nAlso topic lines should ideally be only 60 characters so this is pretty long.  How about\n\nregexp: add Regexp.TextMarshaler/TextUnmarshaler",
+      "revId": "642a7f96e75d8cc288d4a37e4faac1a67d8ad584",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58b04b9f_54925267",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-03-27T22:32:21Z",
+      "side": 1,
+      "message": "This paragraph doesn\u0027t add any useful information to the topic sentence.  Please omit.  Thanks.",
+      "revId": "642a7f96e75d8cc288d4a37e4faac1a67d8ad584",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72a171a1_5de2167e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-03-27T22:32:21Z",
+      "side": 1,
+      "message": "You\u0027ll need to add a new file in $GOROOT/api/next, similar to the existing files.  Make sure that \"go test go/build\" passes with your changes.",
+      "revId": "642a7f96e75d8cc288d4a37e4faac1a67d8ad584",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f48973a_74f4f4f8",
+        "filename": "src/regexp/all_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 957,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-03-27T22:32:21Z",
+      "side": 1,
+      "message": "We don\u0027t want a failure on one regexp to stop the test, so this should be t.Error followed by a continue.  And the t.Error should say which regexp failed.  Similarly a couple of lines down.",
+      "revId": "642a7f96e75d8cc288d4a37e4faac1a67d8ad584",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d09c87d9_cfbc84bb",
+        "filename": "src/regexp/all_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 970,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-03-27T22:32:21Z",
+      "side": 1,
+      "message": "t.Error(\"unexpected success\")",
+      "revId": "642a7f96e75d8cc288d4a37e4faac1a67d8ad584",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a38d61a0_4f8783e1",
+        "filename": "src/regexp/regexp.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1288,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-03-27T22:32:21Z",
+      "side": 1,
+      "message": "godoc doesn\u0027t use the parens, so we omit them in doc comments.  Also, use square brackets to add links for encoding.TextMarshaler and String.  That is write something like \"The output matches that of calling the [Regexp.String] method\".  See https://go.dev/doc/comment.",
+      "revId": "642a7f96e75d8cc288d4a37e4faac1a67d8ad584",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4782a03_45070bfa",
+        "filename": "src/regexp/regexp.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1292,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-03-27T22:32:21Z",
+      "side": 1,
+      "message": "Omit parens after Longest, write it as [Regexp.Longest].",
+      "revId": "642a7f96e75d8cc288d4a37e4faac1a67d8ad584",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
