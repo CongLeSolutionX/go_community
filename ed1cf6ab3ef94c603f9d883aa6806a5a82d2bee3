@@ -16,6 +16,24 @@
       "message": "32-bit 386 freebsd builder fails https://build.golang.org/log/e6e442cd353024c4fdb64111ad0bcbf5b25b8ecd . Not sure if it is due to this CL or actually ran out of disk space (and happens to be at same time of this CL).",
       "revId": "ed1cf6ab3ef94c603f9d883aa6806a5a82d2bee3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f23f8ea_98aa80b2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2023-03-27T19:45:28Z",
+      "side": 1,
+      "message": "Looking at the build dashboard it consistently fails on both freebsd/386 builders (12.3 and 13.0) in the same way. The failure is likely caused by this CL. I think we need to pass the off and size 64-bit syscall arguments as two 32-bit values each (like for other syscalls on 32-bit freebsd). I\u0027ll send a follow-up CL.",
+      "parentUuid": "8d27c444_790c9708",
+      "revId": "ed1cf6ab3ef94c603f9d883aa6806a5a82d2bee3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
