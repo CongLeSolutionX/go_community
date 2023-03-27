@@ -99,6 +99,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7574143f_499cde16",
+        "filename": "src/go/types/builtins.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 732,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-03-27T16:35:25Z",
+      "side": 1,
+      "message": "It\u0027s undefined per API of this function.",
+      "parentUuid": "66870e7a_101b3516",
+      "range": {
+        "startLine": 732,
+        "startChar": 4,
+        "endLine": 732,
+        "endChar": 10
+      },
+      "revId": "af1a21dba6bed51e5ad1cb78388e205745119e2f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "759b7363_595301c5",
@@ -112,6 +136,30 @@
       "writtenOn": "2023-03-27T16:10:36Z",
       "side": 1,
       "message": "// may be 0 or negative\n\nDitto for types2",
+      "range": {
+        "startLine": 101,
+        "startChar": 18,
+        "endLine": 101,
+        "endChar": 29
+      },
+      "revId": "af1a21dba6bed51e5ad1cb78388e205745119e2f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d621fae_162d3481",
+        "filename": "src/go/types/sizes.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-03-27T16:35:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "759b7363_595301c5",
       "range": {
         "startLine": 101,
         "startChar": 18,
