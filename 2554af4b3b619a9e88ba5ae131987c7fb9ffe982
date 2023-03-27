@@ -52,6 +52,24 @@
       "parentUuid": "afa441e9_7f4eac9c",
       "revId": "2554af4b3b619a9e88ba5ae131987c7fb9ffe982",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf85854c_bca00e5d",
+        "filename": "src/cmd/internal/obj/loong64/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-03-27T15:44:28Z",
+      "side": 1,
+      "message": "I don\u0027t think replacing Prog.Reg with RestArgs is the right direction. If an operand is known to be always a register, Prog.Reg is a good fit. RestArgs is more CPU- and memory-expensive. I think it is used for replacing From3, but not Reg. E.g. RISCV uses RestArgs in some cases, but uses Reg for a lot more cases (see e.g. in https://cs.opensource.google/go/go/+/master:src/cmd/compile/internal/riscv64/ssa.go).",
+      "parentUuid": "b3efcc72_fa1a2957",
+      "revId": "2554af4b3b619a9e88ba5ae131987c7fb9ffe982",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
