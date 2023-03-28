@@ -22,6 +22,17 @@ x_cgo_init(G *g, void (*setg)(void*), void **tlsg, void **tlsbase)
 	g->stacklo = (uintptr)&size - size + 4096;
 }
 
+void
+x_cgo_getstackbound(G *g)
+{
+	pthread_attr_t attr;
+	size_t size;
+
+	pthread_attr_init(&attr);
+	pthread_attr_getstacksize(&attr, &size);
+
+	g->stacklo = (uintptr)__builtin_frame_address(0) - size + 1024;
+}
 
 void
 _cgo_sys_thread_start(ThreadStart *ts)

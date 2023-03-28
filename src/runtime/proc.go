@@ -1935,14 +1935,18 @@ func needm() {
 	osSetupTLS(mp)
 
 	// Install g (= m->g0) and set the stack bounds
-	// to match the current stack. We don't actually know
+	// to match the current stack. If we don't actually know
 	// how big the stack is, like we don't know how big any
-	// scheduling stack is, but we assume there's at least 32 kB,
-	// which is more than enough for us.
+	// scheduling stack is, but we assume there's at least 32 kB.
+	// If we can get a more accurate stack bound from pthread,
+	// use that.
 	setg(mp.g0)
 	gp := getg()
 	gp.stack.hi = getcallersp() + 1024
 	gp.stack.lo = getcallersp() - 32*1024
+	if _cgo_getstackbound != nil {
+		asmcgocall(_cgo_getstackbound, unsafe.Pointer(gp))
+	}
 	gp.stackguard0 = gp.stack.lo + _StackGuard
 
 	// Should mark we are already in Go now.
