@@ -61,6 +61,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1db919a_c8d9f183",
+        "filename": "src/cmd/compile/internal/types2/assignments.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-03-28T17:45:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c5e6136_c1fb5579",
+      "range": {
+        "startLine": 339,
+        "startChar": 6,
+        "endLine": 339,
+        "endChar": 23
+      },
+      "revId": "142f337296df32b091f2bde5e3c0b916c806a9ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7ca19e4c_e65c79ef",
@@ -86,6 +110,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "b8889b6b_ea8660c2",
+        "filename": "src/cmd/compile/internal/types2/assignments.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-03-28T17:45:49Z",
+      "side": 1,
+      "message": "We generally call check.use to emphasize that we just want to \"use\" (type check) the expressions after an error. Again, it\u0027s check.use that perhaps should call check.expr as there are more places where we call check.use.",
+      "parentUuid": "7ca19e4c_e65c79ef",
+      "range": {
+        "startLine": 382,
+        "startChar": 2,
+        "endLine": 382,
+        "endChar": 24
+      },
+      "revId": "142f337296df32b091f2bde5e3c0b916c806a9ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "6957e2de_09aefab9",
         "filename": "test/fixedbugs/issue19012.go",
         "patchSetId": 6
@@ -97,6 +145,30 @@
       "writtenOn": "2023-03-28T15:23:02Z",
       "side": 1,
       "message": "Not for this CL, but do we still need all of these cases?",
+      "range": {
+        "startLine": 18,
+        "startChar": 38,
+        "endLine": 19,
+        "endChar": 1
+      },
+      "revId": "142f337296df32b091f2bde5e3c0b916c806a9ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc7d24b0_81417a4c",
+        "filename": "test/fixedbugs/issue19012.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-03-28T17:45:49Z",
+      "side": 1,
+      "message": "Probably not but I didn\u0027t want to remove some that might be used by gccgo.\nWe should probably clean them up at some point.",
+      "parentUuid": "6957e2de_09aefab9",
       "range": {
         "startLine": 18,
         "startChar": 38,
