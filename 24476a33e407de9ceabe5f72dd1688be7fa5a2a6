@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "542dee2f_decfd276",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-03-28T16:55:53Z",
+      "side": 1,
+      "message": "Thanks for the test.\n\nI think I see what I was thinking of earlier.  If initConfVal sets netCgo to true, then initConfVal either sets forceCgoLookupHost, or GOOS \u003d\u003d \"windows\" or \"plan9\".  So if initConfVal sets netCgo to true, then hostLookupOrder does always return fallbackOrder.\n\nYour test shows a failure because it sets netCgo without going through initConfVal, so forceCgoLookupHost winds up not getting set.  So as far as I can tell this failure can\u0027t happen normally, even though it does happen in the test.\n\nThis code is overly complex and even though this is a small change I\u0027m wary of making it slightly more complex.  I would prefer to try to simplify it if we can.",
+      "revId": "24476a33e407de9ceabe5f72dd1688be7fa5a2a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
