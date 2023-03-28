@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eabeeada_5c3f5b69",
+        "filename": "src/runtime/debug/heapdump_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-03-28T00:26:33Z",
+      "side": 1,
+      "message": "OK, I can see already that we may have a bunch of places to change when we add wasip2 or wasip3 support.  Can we centralize this, perhaps in internal/testenv?  What is the characteristic of js and wasip1 that means that WriteHeapDump doesn\u0027t work?",
+      "revId": "fc089589ad444a4b97ca8a4984c69ea968f10c58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
