@@ -112,7 +112,21 @@ func TestPackagesAndErrors(ctx context.Context, opts PackageOpts, p *Package, co
 	rawTestImports := str.StringList(p.TestImports)
 	for i, path := range p.TestImports {
 		p1 := loadImport(ctx, opts, pre, path, p.Dir, p, &stk, p.Internal.Build.TestImportPos[path], ResolveImport)
-		if str.Contains(p1.Deps, p.ImportPath) || p1.ImportPath == p.ImportPath {
+		if opts.SuppressDeps {
+			// For correctness, we still have to look through the set of transitive
+			// deps to find an import cycle. If we make the computation of Deps faster
+			// might be faster to not suppress deps when tests are requested.
+			if searchTransitiveDeps(p1, p) || p1.ImportPath == p.ImportPath {
+				// Same error that loadPackage returns (via reusePackage) in pkg.go.
+				// Can't change that code, because that code is only for loading the
+				// non-test copy of a package.
+				ptestErr = &PackageError{
+					ImportStack:   importCycleStack(p1, p.ImportPath),
+					Err:           errors.New("import cycle not allowed in test"),
+					IsImportCycle: true,
+				}
+			}
+		} else if str.Contains(p1.Deps, p.ImportPath) || p1.ImportPath == p.ImportPath {
 			// Same error that loadPackage returns (via reusePackage) in pkg.go.
 			// Can't change that code, because that code is only for loading the
 			// non-test copy of a package.
@@ -401,6 +415,34 @@ func TestPackagesAndErrors(ctx context.Context, opts PackageOpts, p *Package, co
 	pmain.Internal.TestmainGo = &data
 
 	return pmain, ptest, pxtest
+}
+
+// searchTransitiveDeps searches the transitive deps of depsOf for a package
+// with p's import path.
+func searchTransitiveDeps(depsOf *Package, p *Package) bool {
+	// Do a search for a p in p's transitive deps to find cycles.
+	seen := make(map[string]bool)
+	var q []*Package
+	q = append(q, depsOf.Internal.Imports...)
+	for i := 0; i < len(q); i++ {
+		p1 := q[i]
+		seen[p1.ImportPath] = true
+		// The same import path could produce an error or not,
+		// depending on what tries to import it.
+		// Prefer to record entries with errors, so we can report them.
+		if p1.ImportPath == p.ImportPath {
+			// Same error that loadPackage returns (via reusePackage) in pkg.go.
+			// Can't change that code, because that code is only for loading the
+			// non-test copy of a package.
+			return true
+		}
+		for _, p2 := range p1.Internal.Imports {
+			if !seen[p2.ImportPath] {
+				q = append(q, p2)
+			}
+		}
+	}
+	return false
 }
 
 // importCycleStack returns an import stack from p to the package whose import

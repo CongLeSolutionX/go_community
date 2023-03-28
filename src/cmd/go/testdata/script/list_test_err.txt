@@ -60,6 +60,9 @@ stdout 'testdep_cycle <nil>'
 stdout 'cycleerr \[cycleerr.test\] "[^"]*import cycle not allowed in test'
 ! stderr 'import cycle not allowed in test'
 
+go list -e -test -deps -json=ImportPath,Error cycleerr
+stdout 'import cycle not allowed in test'
+
 -- syntaxerr/syntaxerr.go --
 package syntaxerr
 
