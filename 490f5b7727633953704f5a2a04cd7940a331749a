@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f141808c_dd54d955",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-03-28T17:21:56Z",
+      "side": 1,
+      "message": "This was submitted already as CL 478919, and you reviewed it. I think this got screwed up because I forgot to remove one of the Change-Ids in the CL description. Will abandon.",
+      "parentUuid": "5d200e43_1f9dd8c8",
+      "revId": "490f5b7727633953704f5a2a04cd7940a331749a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "00f356d6_95694f18",
@@ -49,6 +67,24 @@
       "side": 1,
       "message": "Yes, it\u0027s completely wrong. Not sure what I was thinking...",
       "parentUuid": "00f356d6_95694f18",
+      "revId": "490f5b7727633953704f5a2a04cd7940a331749a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d861506c_85f4ee40",
+        "filename": "src/cmd/compile/internal/noder/sizes.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-03-28T17:21:56Z",
+      "side": 1,
+      "message": "Submitted as CL 478919.",
+      "parentUuid": "8b686cca_cee243d9",
       "revId": "490f5b7727633953704f5a2a04cd7940a331749a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
