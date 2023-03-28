@@ -29,6 +29,7 @@ type ctxt0 struct {
 
 const (
 	FuncAlign = 4
+	loopAlign = 16
 )
 
 type Optab struct {
@@ -46,6 +47,10 @@ type Optab struct {
 
 const (
 	NOTUSETMP = 1 << iota // p expands to multiple instructions, but does NOT use REGTMP
+
+	// branchLoopHead marks loop entry.
+	// Used to insert padding for misaligned loops.
+	branchLoopHead
 )
 
 var optab = []Optab{
@@ -421,6 +426,14 @@ func span0(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 
 	c.cursym.Size = pc
 
+	// mark loop entry instructions for padding
+	// loop entrances are defined as targets of backward branches
+	for p = c.cursym.Func().Text.Link; p != nil; p = p.Link {
+		if q := p.To.Target(); q != nil && q.Pc < p.Pc {
+			q.Mark |= branchLoopHead
+		}
+	}
+
 	/*
 	 * if any procedure is large enough to
 	 * generate a large SBRA branch, then
@@ -434,7 +447,8 @@ func span0(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 	for bflag != 0 {
 		bflag = 0
 		pc = 0
-		for p = c.cursym.Func().Text.Link; p != nil; p = p.Link {
+		prev := c.cursym.Func().Text
+		for p = prev.Link; p != nil; prev, p = p, p.Link {
 			p.Pc = pc
 			o = c.oplook(p)
 
@@ -457,6 +471,20 @@ func span0(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 					q.Pos = p.Pos
 					q.To.Type = obj.TYPE_BRANCH
 					q.To.SetTarget(q.Link.Link)
+					bflag = 1
+				}
+			}
+
+			// loop heads that need padding
+			if p.Mark&branchLoopHead != 0 && pc&(loopAlign-1) != 0 {
+				padLength := pcAlignPadLength(pc, loopAlign, ctxt)
+				for i := 0; i < padLength/4; i++ {
+					q = c.newprog()
+					prev.Link = q
+					q.Link = p
+					q.As = ANOOP
+					// don't associate the padded NOOPs
+					// with the original source
 					bflag = 1
 				}
 			}
