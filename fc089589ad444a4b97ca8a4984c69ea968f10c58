@@ -16,6 +16,24 @@
       "message": "OK, I can see already that we may have a bunch of places to change when we add wasip2 or wasip3 support.  Can we centralize this, perhaps in internal/testenv?  What is the characteristic of js and wasip1 that means that WriteHeapDump doesn\u0027t work?",
       "revId": "fc089589ad444a4b97ca8a4984c69ea968f10c58",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57712560_19a9dd75",
+        "filename": "src/runtime/debug/heapdump_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-03-28T18:50:45Z",
+      "side": 1,
+      "message": "To the second point first, this restriction was actually unnecessary in wasip1 after I looked into it. I\u0027ve updated this patch to remove this restriction. We\u0027ll have a look through all the other tests we\u0027ve skipped and see if some of them carried over from JS unnecessarily. The reason this doesn\u0027t work on JS is because it tries to write to a tempfile directly through the file descriptor, and it appears js/wasm doesn\u0027t support any file descriptors \u003e 2: https://github.com/golang/go/blob/17426912703c2c053e271a1ae43de70c68a35967/src/runtime/os_js.go#L17-L19.\n\nTo the first point, we\u0027d be happy to add some helpers to internal/testenv for this, but we\u0027ll go and categorize the test skips first. Thanks!",
+      "parentUuid": "eabeeada_5c3f5b69",
+      "revId": "fc089589ad444a4b97ca8a4984c69ea968f10c58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
