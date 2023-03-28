@@ -145,3 +145,15 @@ pthread_key_destructor(void* g) {
 		x_crosscall2_ptr(NULL, g, 0, 0);
 	}
 }
+
+void
+x_cgo_getstackbound(G *g)
+{
+	pthread_attr_t attr;
+	size_t size;
+
+	pthread_attr_init(&attr);
+	pthread_attr_getstacksize(&attr, &size);
+
+	g->stacklo = (uintptr)__builtin_frame_address(0) - size + 1024;
+}

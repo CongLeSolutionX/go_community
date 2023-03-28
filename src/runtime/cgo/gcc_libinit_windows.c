@@ -156,3 +156,5 @@ void _cgo_beginthread(void (*func)(void*), void* arg) {
 	fprintf(stderr, "runtime: failed to create new OS thread (%d)\n", errno);
 	abort();
 }
+
+void x_cgo_getstackbound(G *g) {}
