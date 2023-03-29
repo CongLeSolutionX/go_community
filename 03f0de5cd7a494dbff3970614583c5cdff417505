@@ -48,6 +48,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "5cdaf149_bce7fc24",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-03-29T16:33:53Z",
+      "side": 1,
+      "message": ":( sigh. what a mess.\n\nhere\u0027s some additional context I found just poking around the internet: http://elliotth.blogspot.com/2011/09/how-can-i-get-threads-stack-bounds.html\n\nno idea what the state-of-the-art is.",
+      "parentUuid": "1a010bde_99d7158c",
+      "range": {
+        "startLine": 21,
+        "startChar": 9,
+        "endLine": 22,
+        "endChar": 19
+      },
+      "revId": "03f0de5cd7a494dbff3970614583c5cdff417505",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "f477062b_e2bdc7c7",
