@@ -71,3 +71,8 @@ func _() func(string) []int {
 
 func _() (_, _ func(int)) { return f1, f1 }
 func _() (_, _ func(int)) { return f1, f2 /* ERROR "cannot infer P" */ }
+
+// Assignments of function calls
+func f[K comparable, V any]() map[K]V { return nil }
+
+var _ map[int]float64 = f()

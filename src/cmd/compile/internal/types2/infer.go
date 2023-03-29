@@ -19,7 +19,7 @@ import (
 // than type parameters, and params and args must match in number (incl. zero).
 // If successful, infer returns the complete list of given and inferred type arguments, one for each
 // type parameter. Otherwise the result is nil and appropriate errors will be reported.
-func (check *Checker) infer(pos syntax.Pos, tparams []*TypeParam, targs []Type, params *Tuple, args []*operand) (inferred []Type) {
+func (check *Checker) infer(pos syntax.Pos, tparams []*TypeParam, targs []Type, params *Tuple, args []*operand, results *Tuple, T Type) (inferred []Type) {
 	if debug {
 		defer func() {
 			assert(inferred == nil || len(inferred) == len(tparams))
@@ -50,7 +50,7 @@ func (check *Checker) infer(pos syntax.Pos, tparams []*TypeParam, targs []Type, 
 	// len(targs) < n
 
 	// Rename type parameters to avoid conflicts in recursive instantiation scenarios.
-	tparams, params = check.renameTParams(pos, tparams, params)
+	tparams, params, results = check.renameTParams(pos, tparams, params, results)
 
 	if traceInference {
 		check.dump("-- rename: %s%s ➞ %s\n", tparams, params, targs)
@@ -171,6 +171,16 @@ func (check *Checker) infer(pos syntax.Pos, tparams []*TypeParam, targs []Type, 
 				// that are single type parameters.
 				untyped = append(untyped, i)
 			}
+		}
+	}
+
+	if results.Len() == 1 && T != nil {
+		r0 := results.At(0)
+		if isParameterized(tparams, r0.typ) && !u.unify(r0.typ, T) {
+			smap := makeSubstMap(tparams, targs)
+			inferred := check.subst(pos, r0.typ, smap, nil, check.context())
+			check.errorf(pos, CannotInferTypeArgs, "result %s does not match %s", inferred, T)
+			return nil
 		}
 	}
 
@@ -393,7 +403,7 @@ func (check *Checker) infer(pos syntax.Pos, tparams []*TypeParam, targs []Type, 
 // renameTParams renames the type parameters in a function signature described by its
 // type and ordinary parameters (tparams and params) such that each type parameter is
 // given a new identity. renameTParams returns the new type and ordinary parameters.
-func (check *Checker) renameTParams(pos syntax.Pos, tparams []*TypeParam, params *Tuple) ([]*TypeParam, *Tuple) {
+func (check *Checker) renameTParams(pos syntax.Pos, tparams []*TypeParam, params, results *Tuple) ([]*TypeParam, *Tuple, *Tuple) {
 	// For the purpose of type inference we must differentiate type parameters
 	// occurring in explicit type or value function arguments from the type
 	// parameters we are solving for via unification because they may be the
@@ -433,7 +443,9 @@ func (check *Checker) renameTParams(pos syntax.Pos, tparams []*TypeParam, params
 		tparams2[i].bound = check.subst(pos, tparam.bound, renameMap, nil, check.context())
 	}
 
-	return tparams2, check.subst(pos, params, renameMap, nil, check.context()).(*Tuple)
+	return tparams2,
+		check.subst(pos, params, renameMap, nil, check.context()).(*Tuple),
+		check.subst(pos, results, renameMap, nil, check.context()).(*Tuple)
 }
 
 // typeParamsString produces a string containing all the type parameter names

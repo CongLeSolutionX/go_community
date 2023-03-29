@@ -1666,7 +1666,7 @@ func (check *Checker) exprInternal(T Type, x *operand, e syntax.Expr, hint Type)
 		goto Error
 
 	case *syntax.CallExpr:
-		return check.callExpr(x, e)
+		return check.callExpr(T, x, e)
 
 	case *syntax.ListExpr:
 		// catch-all for unexpected expression lists
