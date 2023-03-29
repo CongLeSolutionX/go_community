@@ -89,6 +89,7 @@ import (
 	"io"
 	"os"
 	"reflect"
+	"runtime"
 	"sort"
 	"strconv"
 	"strings"
@@ -399,7 +400,8 @@ type FlagSet struct {
 	formal        map[string]*Flag
 	args          []string // arguments after flags
 	errorHandling ErrorHandling
-	output        io.Writer // nil means stderr; use Output() accessor
+	output        io.Writer         // nil means stderr; use Output() accessor
+	undef         map[string]string // flags which didn't exist at the time of Set
 }
 
 // A Flag represents the state of a flag.
@@ -492,6 +494,28 @@ func Lookup(name string) *Flag {
 func (f *FlagSet) Set(name, value string) error {
 	flag, ok := f.formal[name]
 	if !ok {
+		// Remember that a flag that isn't defined is being set.
+		// We return an error in this case, but in addition if
+		// subsequently that flag is defined, we want to panic
+		// at the definition point.
+		// This is a problem which occurs if both the definition
+		// and the Set call are in init code and for whatever
+		// reason the init code changes evaluation order.
+		// See issue 57411.
+		_, file, line, ok := runtime.Caller(1)
+		if ok && strings.HasSuffix(file, "src/flag/flag.go") {
+			// Called from Set just below.
+			_, file, line, ok = runtime.Caller(2)
+		}
+		if !ok {
+			file = "?"
+			line = 0
+		}
+		if f.undef == nil {
+			f.undef = map[string]string{}
+		}
+		f.undef[name] = fmt.Sprintf("%s:%d", file, line)
+
 		return fmt.Errorf("no such flag -%v", name)
 	}
 	err := flag.Value.Set(value)
@@ -1003,6 +1027,9 @@ func (f *FlagSet) Var(value Value, name string, usage string) {
 			msg = f.sprintf("%s flag redefined: %s", f.name, name)
 		}
 		panic(msg) // Happens only if flags are declared with identical names
+	}
+	if pos := f.undef[name]; pos != "" {
+		panic(fmt.Sprintf("flag %s set at %s before being defined", name, pos))
 	}
 	if f.formal == nil {
 		f.formal = make(map[string]*Flag)
