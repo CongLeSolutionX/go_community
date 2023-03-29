@@ -52,6 +52,24 @@
       "parentUuid": "9df2a87a_3bf3d9c3",
       "revId": "6aa2aac106997835cfb2f4b3cbc70f628f0a602d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c34e4203_e4336020",
+        "filename": "src/errors/wrap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 21295
+      },
+      "writtenOn": "2023-03-29T20:11:29Z",
+      "side": 1,
+      "message": "Perfect, thank you! I\u0027ve made that change.",
+      "parentUuid": "64281a13_c461caa9",
+      "revId": "6aa2aac106997835cfb2f4b3cbc70f628f0a602d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
