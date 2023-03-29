@@ -85,7 +85,7 @@ func (check *Checker) funcInst(tsig *Signature, pos syntax.Pos, x *operand, inst
 		}
 
 		// Note that NewTuple(params...) below is nil if len(params) == 0, as desired.
-		targs = check.infer(pos, sig.TypeParams().list(), targs, NewTuple(params...), args)
+		targs = check.infer(pos, sig.TypeParams().list(), targs, NewTuple(params...), args, nil, nil)
 		if targs == nil {
 			// error was already reported
 			x.mode = invalid
@@ -162,7 +162,7 @@ func (check *Checker) instantiateSignature(pos syntax.Pos, typ *Signature, targs
 	return inst
 }
 
-func (check *Checker) callExpr(x *operand, call *syntax.CallExpr) exprKind {
+func (check *Checker) callExpr(T Type, x *operand, call *syntax.CallExpr) exprKind {
 	var inst *syntax.IndexExpr // function instantiation, if any
 	if iexpr, _ := call.Fun.(*syntax.IndexExpr); iexpr != nil {
 		if check.indexExpr(x, iexpr) {
@@ -295,7 +295,7 @@ func (check *Checker) callExpr(x *operand, call *syntax.CallExpr) exprKind {
 
 	// evaluate arguments
 	args := check.exprList(call.ArgList)
-	sig = check.arguments(call, sig, targs, args, xlist)
+	sig = check.arguments(T, call, sig, targs, args, xlist)
 
 	if wasGeneric && sig.TypeParams().Len() == 0 {
 		// update the recorded type of call.Fun to its instantiated type
@@ -348,7 +348,7 @@ func (check *Checker) exprList(elist []syntax.Expr) (xlist []*operand) {
 }
 
 // xlist is the list of type argument expressions supplied in the source code.
-func (check *Checker) arguments(call *syntax.CallExpr, sig *Signature, targs []Type, args []*operand, xlist []syntax.Expr) (rsig *Signature) {
+func (check *Checker) arguments(T Type, call *syntax.CallExpr, sig *Signature, targs []Type, args []*operand, xlist []syntax.Expr) (rsig *Signature) {
 	rsig = sig
 
 	// TODO(gri) try to eliminate this extra verification loop
@@ -451,7 +451,7 @@ func (check *Checker) arguments(call *syntax.CallExpr, sig *Signature, targs []T
 				check.versionErrorf(call.Pos(), "go1.18", "implicit function instantiation")
 			}
 		}
-		targs := check.infer(call.Pos(), sig.TypeParams().list(), targs, sigParams, args)
+		targs := check.infer(call.Pos(), sig.TypeParams().list(), targs, sigParams, args, sig.results, T)
 		if targs == nil {
 			return // error already reported
 		}
