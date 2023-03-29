@@ -83,6 +83,30 @@
       },
       "revId": "55e1bede19a281b14f0341e9516f8643b4ddb04e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f43349f7_24d5c5db",
+        "filename": "src/cmd/compile/internal/types2/expr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1623,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-03-29T21:08:23Z",
+      "side": 1,
+      "message": "That doesn\u0027t help: we need the signature of T not of x.",
+      "parentUuid": "cce48941_967ee7fc",
+      "range": {
+        "startLine": 1621,
+        "startChar": 3,
+        "endLine": 1623,
+        "endChar": 4
+      },
+      "revId": "55e1bede19a281b14f0341e9516f8643b4ddb04e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
