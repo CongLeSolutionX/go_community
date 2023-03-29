@@ -340,6 +340,9 @@ func (s *regAllocState) freeReg(r register) {
 	if s.f.pass.debug > regDebug {
 		fmt.Printf("freeReg %s (dump %s/%s)\n", &s.registers[r], v, s.regs[r].c)
 	}
+	if s.f.pass.debug == logSpills {
+		fmt.Printf("%s.%s: freeReg %s (dump %s/%s)\n", types.LocalPkg.Path, s.f.Name, &s.registers[r], v, s.regs[r].c)
+	}
 	s.regs[r] = regState{}
 	s.values[v.ID].regs &^= regMask(1) << r
 	s.used &^= regMask(1) << r
@@ -386,6 +389,9 @@ func (s *regAllocState) setOrig(c *Value, v *Value) {
 func (s *regAllocState) assignReg(r register, v *Value, c *Value) {
 	if s.f.pass.debug > regDebug {
 		fmt.Printf("assignReg %s %s/%s\n", &s.registers[r], v, c)
+	}
+	if s.f.pass.debug == logSpills {
+		fmt.Printf("%s.%s: assignReg %s %s/%s\n", types.LocalPkg.Path, s.f.Name, &s.registers[r], v, c)
 	}
 	if s.regs[r].v != nil {
 		s.f.Fatalf("tried to assign register %d to %s/%s but it is already used by %s", r, v, c, s.regs[r].v)
@@ -466,6 +472,9 @@ func (s *regAllocState) allocReg(mask regMask, v *Value) register {
 		s.copies[c] = false
 		if s.f.pass.debug > regDebug {
 			fmt.Printf("copy %s to %s : %s\n", v2, c, &s.registers[r2])
+		}
+		if s.f.pass.debug == logSpills {
+			fmt.Printf("%s.%s: copy %s to %s : %s\n", types.LocalPkg.Path, s.f.Name, v2, c, &s.registers[r2])
 		}
 		s.setOrig(c, v2)
 		s.assignReg(r2, v2, c)
