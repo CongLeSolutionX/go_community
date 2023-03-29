@@ -34,6 +34,24 @@
       "parentUuid": "e0b87189_796887fa",
       "revId": "6aa2aac106997835cfb2f4b3cbc70f628f0a602d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64281a13_c461caa9",
+        "filename": "src/errors/wrap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-03-29T19:30:39Z",
+      "side": 1,
+      "message": "Mentioning Join makes sense.  What do you think of\n\nUnwrap only calls a method of the form \"Unwrap() error\".\nIn particular Unwrap does not unwrap errors returned by Join.",
+      "parentUuid": "9df2a87a_3bf3d9c3",
+      "revId": "6aa2aac106997835cfb2f4b3cbc70f628f0a602d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
