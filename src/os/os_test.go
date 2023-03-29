@@ -1432,11 +1432,6 @@ func testChtimes(t *testing.T, name string) {
 }
 
 func TestFileChdir(t *testing.T) {
-	// TODO(brainman): file.Chdir() is not implemented on windows.
-	if runtime.GOOS == "windows" {
-		return
-	}
-
 	wd, err := Getwd()
 	if err != nil {
 		t.Fatalf("Getwd: %s", err)
@@ -1461,16 +1456,17 @@ func TestFileChdir(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Getwd: %s", err)
 	}
-	if wdNew != wd {
+	if runtime.GOOS == "windows" {
+		// Getwd returns a path prefixed with `\\?\` when File.Chdir is used.
+		// Remove it so path equality tests work.
+		wdNew = strings.TrimPrefix(wdNew, `\\?\`)
+	}
+	if !equal(wdNew, wd) {
 		t.Fatalf("fd.Chdir failed, got %s, want %s", wdNew, wd)
 	}
 }
 
 func TestChdirAndGetwd(t *testing.T) {
-	// TODO(brainman): file.Chdir() is not implemented on windows.
-	if runtime.GOOS == "windows" {
-		return
-	}
 	fd, err := Open(".")
 	if err != nil {
 		t.Fatalf("Open .: %s", err)
@@ -1484,13 +1480,9 @@ func TestChdirAndGetwd(t *testing.T) {
 		dirs = []string{"/system/bin"}
 	case "plan9":
 		dirs = []string{"/", "/usr"}
-	case "ios":
+	case "ios", "windows":
 		dirs = nil
-		for _, d := range []string{"d1", "d2"} {
-			dir, err := os.MkdirTemp("", d)
-			if err != nil {
-				t.Fatalf("TempDir: %v", err)
-			}
+		for _, dir := range []string{t.TempDir(), t.TempDir()} {
 			// Expand symlinks so path equality tests work.
 			dir, err = filepath.EvalSymlinks(dir)
 			if err != nil {
@@ -1534,7 +1526,12 @@ func TestChdirAndGetwd(t *testing.T) {
 				fd.Close()
 				t.Fatalf("Getwd in %s: %s", d, err1)
 			}
-			if pwd != d {
+			if runtime.GOOS == "windows" {
+				// Getwd returns a path prefixed with `\\?\` when File.Chdir is used.
+				// Remove it so path equality tests work.
+				pwd = strings.TrimPrefix(pwd, `\\?\`)
+			}
+			if !equal(pwd, d) {
 				fd.Close()
 				t.Fatalf("Getwd returned %q want %q", pwd, d)
 			}
