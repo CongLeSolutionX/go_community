@@ -53,6 +53,24 @@
       "message": "Since you are overriding every method of Context anyhow, I think it would be clearer to not embed Context here.  Just give the field an unexported name.",
       "revId": "5bc227dd507fa9d530e21c6260170a5cb1f05a94",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "adc6c3b0_738f47fd",
+        "filename": "src/context/context.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 5265
+      },
+      "writtenOn": "2023-03-29T19:09:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bccb36f9_57777b7c",
+      "revId": "5bc227dd507fa9d530e21c6260170a5cb1f05a94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
