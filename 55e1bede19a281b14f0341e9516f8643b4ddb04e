@@ -40,6 +40,30 @@
       },
       "revId": "55e1bede19a281b14f0341e9516f8643b4ddb04e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cce48941_967ee7fc",
+        "filename": "src/cmd/compile/internal/types2/expr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1623,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2023-03-29T21:02:39Z",
+      "side": 1,
+      "message": "i.e.\n\n```\nif tsig :\u003d check.indexExpr; tsig !\u003d nil \u0026\u0026 T !\u003d nil {\n  check.funcInst(tsig, e.Pos(), x, e)\n}\n```",
+      "parentUuid": "b06f28a6_30e27dd7",
+      "range": {
+        "startLine": 1621,
+        "startChar": 3,
+        "endLine": 1623,
+        "endChar": 4
+      },
+      "revId": "55e1bede19a281b14f0341e9516f8643b4ddb04e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
