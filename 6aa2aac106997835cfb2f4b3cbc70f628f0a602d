@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0b87189_796887fa",
+        "filename": "src/errors/wrap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-03-29T00:28:52Z",
+      "side": 1,
+      "message": "How about\n\n// Unwrap returns nil if err has an Unwrap method that returns []error.",
+      "revId": "6aa2aac106997835cfb2f4b3cbc70f628f0a602d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
