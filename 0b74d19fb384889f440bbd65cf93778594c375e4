@@ -72,6 +72,24 @@
       "message": "Solaris does support pthread_getattr_np, although it is not glibc. On the other hand, the \"fallback\" doesn\u0027t work on Solaris -- pthread_attr_getstacksize gets size 0...",
       "revId": "0b74d19fb384889f440bbd65cf93778594c375e4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b06b4daa_4ddce05b",
+        "filename": "src/runtime/cgo/gcc_stack_unix.c",
+        "patchSetId": 12
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-03-30T16:55:21Z",
+      "side": 1,
+      "message": "ugh. ack.",
+      "parentUuid": "e1c56c93_1dd7ba88",
+      "revId": "0b74d19fb384889f440bbd65cf93778594c375e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
