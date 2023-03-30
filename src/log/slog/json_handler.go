@@ -80,6 +80,7 @@ func (h *JSONHandler) WithGroup(name string) Handler {
 // exceptions:
 //   - Floating-point NaNs and infinities are formatted as one of the strings
 //     "NaN", "Infinity" or "-Infinity".
+//   - Durations are formatted by Duration.String.
 //   - Levels are formatted as with Level.String.
 //   - HTML characters are not escaped.
 //
@@ -129,8 +130,10 @@ func appendJSONValue(s *handleState, v Value) error {
 	case KindBool:
 		*s.buf = strconv.AppendBool(*s.buf, v.Bool())
 	case KindDuration:
-		// Do what json.Marshal does.
-		*s.buf = strconv.AppendInt(*s.buf, int64(v.Duration()), 10)
+		// Use Duration.String, which produces an easy-to-understand value.
+		// json.Marshal formats durations as an int64, which is faster
+		// but means you have to know that it's nanoseconds.
+		*s.buf = append(*s.buf, v.Duration().String()...)
 	case KindTime:
 		s.appendTime(v.Time())
 	case KindAny:

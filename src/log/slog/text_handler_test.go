@@ -60,6 +60,11 @@ func TestTextHandler(t *testing.T) {
 			Any("a", nil),
 			`a`, `<nil>`,
 		},
+		{
+			"duration",
+			Duration("d", 15*time.Minute),
+			`d`, `15m0s`,
+		},
 	} {
 		t.Run(test.name, func(t *testing.T) {
 			for _, opts := range []struct {
