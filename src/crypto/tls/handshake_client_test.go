@@ -2595,3 +2595,39 @@ func TestClientHandshakeContextCancellation(t *testing.T) {
 		t.Error("Client connection was not closed when the context was canceled")
 	}
 }
+
+func TestClientHelloTLS13CipherSuites(t *testing.T) {
+	testConfig := testConfig.Clone()
+	testConfig.MinVersion = VersionTLS13
+
+	c, s := localPipe(t)
+	msgChan := make(chan []byte)
+	go func() {
+		b := make([]byte, 1<<10)
+		n, _ := s.Read(b)
+		s.Close()
+		msgChan <- b[:n]
+	}()
+
+	cli := Client(c, testConfig)
+	cli.Handshake()
+	var clientHello clientHelloMsg
+	if !clientHello.unmarshal((<-msgChan)[5:]) {
+		t.Fatal("failed to unmarshal ClientHello")
+	}
+	if len(clientHello.cipherSuites) != 3 {
+		t.Fatalf("expected exactly 3 cipher suites, got %d", len(clientHello.cipherSuites))
+	}
+	for _, cs := range cipherSuitesTLS13 {
+		var found bool
+		for _, c := range clientHello.cipherSuites {
+			if c == cs.id {
+				found = true
+				break
+			}
+		}
+		if !found {
+			t.Fatalf("cipher suite %#x missing", cs.id)
+		}
+	}
+}
