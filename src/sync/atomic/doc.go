@@ -109,7 +109,7 @@ func CompareAndSwapUint64(addr *uint64, old, new uint64) (swapped bool)
 // Consider using the more ergonomic and less error-prone [Uintptr.CompareAndSwap] instead.
 func CompareAndSwapUintptr(addr *uintptr, old, new uintptr) (swapped bool)
 
-// CompareAndSwapPointer executes the compare-and-swap operation for a unsafe.Pointer value.
+// CompareAndSwapPointer executes the compare-and-swap operation for an unsafe.Pointer value.
 // Consider using the more ergonomic and less error-prone [Pointer.CompareAndSwap] instead.
 func CompareAndSwapPointer(addr *unsafe.Pointer, old, new unsafe.Pointer) (swapped bool)
 
