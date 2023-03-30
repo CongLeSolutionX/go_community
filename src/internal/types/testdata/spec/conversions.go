@@ -157,7 +157,7 @@ func _[X ~*string, T ~[]byte | ~[]rune](x X) T {
 }
 
 // package unsafe:
-// "any pointer or value of underlying type uintptr can be converted into a unsafe.Pointer"
+// "any pointer or value of underlying type uintptr can be converted into an unsafe.Pointer"
 
 type myUintptr uintptr
 

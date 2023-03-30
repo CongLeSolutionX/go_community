@@ -901,7 +901,7 @@ func tcStar(n *ir.StarExpr, top int) ir.Node {
 	return n
 }
 
-// tcUnaryArith typechecks a unary arithmetic expression.
+// tcUnaryArith typechecks an unary arithmetic expression.
 func tcUnaryArith(n *ir.UnaryExpr) ir.Node {
 	n.X = Expr(n.X)
 	l := n.X

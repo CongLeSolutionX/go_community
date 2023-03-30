@@ -381,14 +381,14 @@ type (
 	}
 
 	// A StarExpr node represents an expression of the form "*" Expression.
-	// Semantically it could be a unary "*" expression, or a pointer type.
+	// Semantically it could be an unary "*" expression, or a pointer type.
 	//
 	StarExpr struct {
 		Star token.Pos // position of "*"
 		X    Expr      // operand
 	}
 
-	// A UnaryExpr node represents a unary expression.
+	// A UnaryExpr node represents an unary expression.
 	// Unary "*" expressions are represented via StarExpr nodes.
 	//
 	UnaryExpr struct {

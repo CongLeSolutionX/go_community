@@ -364,7 +364,7 @@ func findObject(p, refBase, refOff uintptr) (base uintptr, s *mspan, objIndex ui
 	return
 }
 
-// reflect_verifyNotInHeapPtr reports whether converting the not-in-heap pointer into a unsafe.Pointer is ok.
+// reflect_verifyNotInHeapPtr reports whether converting the not-in-heap pointer into an unsafe.Pointer is ok.
 //
 //go:linkname reflect_verifyNotInHeapPtr reflect.verifyNotInHeapPtr
 func reflect_verifyNotInHeapPtr(p uintptr) bool {

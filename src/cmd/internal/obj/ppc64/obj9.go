@@ -1385,7 +1385,7 @@ func (c *ctxt9) stacksplit(p *obj.Prog, framesize int32) *obj.Prog {
 
 // MMA accumulator to/from instructions are slightly ambiguous since
 // the argument represents both source and destination, specified as
-// an accumulator. It is treated as a unary destination to simplify
+// an accumulator. It is treated as an unary destination to simplify
 // the code generation in ppc64map.
 var unaryDst = map[obj.As]bool{
 	AXXSETACCZ: true,

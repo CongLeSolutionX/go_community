@@ -380,7 +380,7 @@ func (n *InlinedCallExpr) SingleResult() Node {
 	return n.ReturnVars[0]
 }
 
-// A LogicalExpr is a expression X Op Y where Op is && or ||.
+// A LogicalExpr is an expression X Op Y where Op is && or ||.
 // It is separate from BinaryExpr to make room for statements
 // that must be executed before Y but after X.
 type LogicalExpr struct {
@@ -727,7 +727,7 @@ func (n *DynamicTypeAssertExpr) SetOp(op Op) {
 	}
 }
 
-// A UnaryExpr is a unary expression Op X,
+// A UnaryExpr is an unary expression Op X,
 // or Op(X) for a builtin function that does not end up being a call.
 type UnaryExpr struct {
 	miniExpr

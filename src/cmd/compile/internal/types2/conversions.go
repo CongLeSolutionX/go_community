@@ -168,7 +168,7 @@ func (x *operand) convertibleTo(check *Checker, T Type, cause *string) bool {
 	}
 
 	// package unsafe:
-	// "any pointer or value of underlying type uintptr can be converted into a unsafe.Pointer"
+	// "any pointer or value of underlying type uintptr can be converted into an unsafe.Pointer"
 	if (isPointer(Vu) || isUintptr(Vu)) && isUnsafePointer(Tu) {
 		return true
 	}
