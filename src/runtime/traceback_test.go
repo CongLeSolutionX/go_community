@@ -408,7 +408,8 @@ func TestTracebackArgs(t *testing.T) {
 				return testTracebackArgs11b(1, 2, 3, 4)
 			},
 			abiSel(
-				"testTracebackArgs11b(0xffffffff?, 0xffffffff?, 0x3?, 0x4)",
+				// XXX: not great spill placement.
+				"testTracebackArgs11b(0xffffffff?, 0x2, 0x3, 0x4)",
 				"testTracebackArgs11b(0x1, 0x2, 0x3, 0x4)"),
 		},
 	}

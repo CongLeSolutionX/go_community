@@ -114,6 +114,7 @@
 package ssa
 
 import (
+	"bytes"
 	"cmd/compile/internal/base"
 	"cmd/compile/internal/ir"
 	"cmd/compile/internal/types"
@@ -123,6 +124,7 @@ import (
 	"internal/buildcfg"
 	"math/bits"
 	"unsafe"
+	"runtime/debug"
 )
 
 const (
@@ -138,12 +140,16 @@ const (
 	likelyDistance   = 1
 	normalDistance   = 10
 	unlikelyDistance = 100
+	callDistance     = 100000
 )
 
 // regalloc performs register allocation on f. It sets f.RegAlloc
 // to the resulting allocation.
 func regalloc(f *Func) {
 	var s regAllocState
+	if f.pass.debug > regDebug {
+		fmt.Printf("regalloc: %s\n", f.Name)
+	}
 	s.init(f)
 	s.regalloc(f)
 	s.close()
@@ -339,6 +345,9 @@ func (s *regAllocState) freeReg(r register) {
 	// Mark r as unused.
 	if s.f.pass.debug > regDebug {
 		fmt.Printf("freeReg %s (dump %s/%s)\n", &s.registers[r], v, s.regs[r].c)
+		if s.registers[r].String() == "SP" {
+			fmt.Printf("%s\n", debug.Stack())
+		}
 	}
 	if s.f.pass.debug == logSpills {
 		fmt.Printf("%s.%s: freeReg %s (dump %s/%s)\n", types.LocalPkg.Path, s.f.Name, &s.registers[r], v, s.regs[r].c)
@@ -404,10 +413,29 @@ func (s *regAllocState) assignReg(r register, v *Value, c *Value) {
 	s.f.setHome(c, &s.registers[r])
 }
 
+func (s *regAllocState) maskString(mask regMask) string {
+	var buf bytes.Buffer
+	for r := register(0); r < 64; r++ {
+		space := " "
+		if buf.Len() == 0 {
+			space = ""
+		}
+		if mask&(regMask(1) << r) != 0 {
+			fmt.Fprintf(&buf, "%s%s", space, &s.registers[r])
+		}
+	}
+	return buf.String()
+}
+
 // allocReg chooses a register from the set of registers in mask.
 // If there is no unused register, a Value will be kicked out of
 // a register to make room.
 func (s *regAllocState) allocReg(mask regMask, v *Value) register {
+	if s.f.pass.debug > regDebug {
+		regs := s.values[v.ID].regs
+		fmt.Printf("allocReg %s (already in %s): mask %s\n", v, s.maskString(regs), s.maskString(mask))
+	}
+
 	if v.OnWasmStack {
 		return noRegister
 	}
@@ -778,6 +806,9 @@ func (s *regAllocState) close() {
 // Adds a use record for id at distance dist from the start of the block.
 // All calls to addUse must happen with nonincreasing dist.
 func (s *regAllocState) addUse(id ID, dist int32, pos src.XPos) {
+	if s.f.pass.debug > logSpills {
+		fmt.Printf("addUse v%d -> %d\n", id, dist)
+	}
 	r := s.freeUseRecords
 	if r != nil {
 		s.freeUseRecords = r.next
@@ -796,9 +827,15 @@ func (s *regAllocState) addUse(id ID, dist int32, pos src.XPos) {
 // advanceUses advances the uses of v's args from the state before v to the state after v.
 // Any values which have no more uses are deallocated from registers.
 func (s *regAllocState) advanceUses(v *Value) {
-	for _, a := range v.Args {
+	if s.f.pass.debug > logSpills {
+		fmt.Printf("advanceUses v%d\n", v.ID)
+	}
+	for i, a := range v.Args {
 		if !s.values[a.ID].needReg {
 			continue
+		}
+		if s.f.pass.debug > logSpills {
+			fmt.Printf("advanceUses v%d: arg %d v%d\n", v.ID, i, a.ID)
 		}
 		ai := &s.values[a.ID]
 		r := ai.uses
@@ -806,6 +843,25 @@ func (s *regAllocState) advanceUses(v *Value) {
 		if r.next == nil {
 			// Value is dead, free all registers that hold it.
 			s.freeRegs(ai.regs)
+		} else if r.next.dist > callDistance && a.ID != s.sp && a.ID != s.sb {
+			// Function call clobbers all the registers but SP and SB.
+			//if s.f.pass.debug > logSpills {
+			//	fmt.Printf("next use of v%d after CALL, dropping registers\n", a.ID)
+			//}
+			//// TODO: this results in bad spill placement (spills
+			//// placed too early, outside of a conditional where the
+			//// spill is needed). This is because the register is
+			//// freed immediately when the next use is after a call
+			//// (possibly in an earlier basic block). The basic
+			//// block containing the call doesn't have the register
+			//// live at entry, so it can't spill.
+			////
+			//// It may be better to leave the register allocated
+			//// here, but have allocValToReg prefer to take these
+			//// registers first.
+			////
+			//// This applies to the ArgIntReg special case as well.
+			//s.freeRegs(ai.regs)
 		}
 		r.next = s.freeUseRecords
 		s.freeUseRecords = r
@@ -816,6 +872,15 @@ func (s *regAllocState) advanceUses(v *Value) {
 // the current instruction is completed.  v must be used by the
 // current instruction.
 func (s *regAllocState) liveAfterCurrentInstruction(v *Value) bool {
+	if s.f.pass.debug > logSpills {
+		fmt.Printf("liveAfterCurrentInstruct v%d uses: ", v.ID)
+		u := s.values[v.ID].uses
+		for u != nil {
+			fmt.Printf("%d ", u.dist)
+			u = u.next
+		}
+		fmt.Println()
+	}
 	u := s.values[v.ID].uses
 	if u == nil {
 		panic(fmt.Errorf("u is nil, v = %s, s.values[v.ID] = %v", v.LongString(), s.values[v.ID]))
@@ -925,6 +990,9 @@ func (s *regAllocState) regalloc(f *Func) {
 		// Walk backwards through the block doing liveness analysis.
 		regValLiveSet.clear()
 		for _, e := range s.live[b.ID] {
+			if s.f.pass.debug > regDebug {
+				fmt.Printf("b%d: live at end: v%d -> %d\n", b.ID, e.ID, e.dist)
+			}
 			s.addUse(e.ID, int32(len(b.Values))+e.dist, e.pos) // pseudo-uses from beyond end of block
 			regValLiveSet.add(e.ID)
 		}
@@ -943,7 +1011,23 @@ func (s *regAllocState) regalloc(f *Func) {
 				// case below desires; it wants to process phis specially.
 				continue
 			}
-			if opcodeTable[v.Op].call {
+			if v.Op.IsCall() {
+				// Note that CALL cost in all of the next use
+				// of all live values except SP and SB.
+				for _, id := range regValLiveSet.contents() {
+					// N.B. s.sp and s.sb may not be set yet.
+					//if s.orig[id].Op == OpSP || s.orig[id].Op == OpSB {
+					//if id == s.sp || id == s.sb {
+					//	continue
+					//}
+					if s.f.pass.debug > regDebug {
+						fmt.Printf("b%d: note call cost on v%d\n", b.ID, id)
+					}
+					for u := s.values[id].uses; u != nil; u = u.next {
+						u.dist += callDistance
+					}
+				}
+
 				// Function call clobbers all the registers but SP and SB.
 				regValLiveSet.clear()
 				if s.sp != 0 && s.values[s.sp].uses != nil {
@@ -1754,6 +1838,26 @@ func (s *regAllocState) regalloc(f *Func) {
 				v.SetArg(i, a) // use register version of arguments
 			}
 			b.Values = append(b.Values, v)
+
+			// ArgIntReg has to come first because the value is
+			// already in a register, but the value may be dead. If
+			// so, deallocate the value immediately.
+			if v.Op == OpArgIntReg {
+				vi := &s.values[v.ID]
+				u := vi.uses
+				if u == nil {
+					// Value is dead, free all registers that hold it.
+					if s.f.pass.debug > logSpills {
+						fmt.Printf("ArgIntArg v%d is dead, free regs\n", v.ID)
+					}
+					s.freeRegs(vi.regs)
+				} else if u.dist > callDistance {
+					if s.f.pass.debug > logSpills {
+						fmt.Printf("next use of ArgIntArg v%d after CALL, dropping registers\n", v.ID)
+					}
+					s.freeRegs(vi.regs)
+				}
+			}
 		}
 
 		// Copy the control values - we need this so we can reduce the
@@ -2661,8 +2765,23 @@ func (s *regAllocState) computeLive() {
 				}
 				if opcodeTable[v.Op].call {
 					c := live.contents()
+					if s.f.pass.debug > logSpills {
+						for _, v := range live.contents() {
+							fmt.Printf("v%d=%d ", v.key, v.val)
+						}
+						fmt.Println()
+					}
 					for i := range c {
-						c[i].val += unlikelyDistance
+						if s.f.pass.debug > logSpills {
+							fmt.Printf("computeLive v%d use after call\n", c[i].key)
+						}
+						c[i].val += callDistance
+					}
+					if s.f.pass.debug > logSpills {
+						for _, v := range live.contents() {
+							fmt.Printf("v%d=%d ", v.key, v.val)
+						}
+						fmt.Println()
 					}
 				}
 				for _, a := range v.Args {
@@ -2765,6 +2884,9 @@ func (s *regAllocState) computeLive() {
 				}
 				for _, e := range t.contents() {
 					l = append(l, liveInfo{e.key, e.val, e.pos})
+				}
+				if s.f.pass.debug > regDebug {
+					fmt.Printf("b%d: s.live = %+v\n", p.ID, l)
 				}
 				s.live[p.ID] = l
 				changed = true
