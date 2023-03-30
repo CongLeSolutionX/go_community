@@ -85,7 +85,6 @@ func TestAppendJSONValue(t *testing.T) {
 		-12.75,
 		1.23e-9,
 		false,
-		time.Minute,
 		testTime,
 		jsonMarshaler{"xyz"},
 		jsonMarshalerError{jsonMarshaler{"pqr"}},
@@ -121,6 +120,7 @@ func TestJSONAppendAttrValueSpecial(t *testing.T) {
 		{math.Inf(+1), `"Infinity"`},
 		{math.Inf(-1), `"-Infinity"`},
 		{LevelWarn, `"WARN"`},
+		{time.Minute + 20*time.Second, `"1m20s"`},
 	} {
 		got := jsonValueString(t, AnyValue(test.value))
 		if got != test.want {
