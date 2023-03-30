@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d284b510_08ab3df7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 21295
+      },
+      "writtenOn": "2023-03-30T16:04:13Z",
+      "side": 1,
+      "message": "Thanks! I\u0027ve fixed the commit message.",
+      "revId": "eaddaed3782c671d94164998cbeb5551f81f8914",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
