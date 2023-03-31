@@ -361,6 +361,8 @@ var optab = []Optab{
 	{ARDTIMEHW, C_NONE, C_NONE, C_NONE, C_REG, C_REG, 62, 4, 0, 0},
 	{ARDTIMED, C_NONE, C_NONE, C_NONE, C_REG, C_REG, 62, 4, 0, 0},
 
+	{AAMSWAPW, C_REG, C_NONE, C_NONE, C_ZOREG, C_REG, 65, 4, 0, 0},
+
 	{obj.AUNDEF, C_NONE, C_NONE, C_NONE, C_NONE, C_NONE, 49, 4, 0, 0},
 	{obj.APCALIGN, C_SCON, C_NONE, C_NONE, C_NONE, C_NONE, 0, 0, 0, 0},
 	{obj.APCDATA, C_LCON, C_NONE, C_NONE, C_LCON, C_NONE, 0, 0, 0, 0},
@@ -375,6 +377,51 @@ var optab = []Optab{
 	{obj.ADUFFCOPY, C_NONE, C_NONE, C_NONE, C_LBRA, C_NONE, 11, 4, 0, 0}, // same as AJMP
 
 	{obj.AXXX, C_NONE, C_NONE, C_NONE, C_NONE, C_NONE, 0, 4, 0, 0},
+}
+
+var atomicInst = map[obj.As]uint32{
+	AAMSWAPW:   0x070C0 << 15, // amswap.w
+	AAMSWAPV:   0x070C1 << 15, // amswap.d
+	AAMADDW:    0x070C2 << 15, // amadd.w
+	AAMADDV:    0x070C3 << 15, // amadd.d
+	AAMANDW:    0x070C4 << 15, // amand.w
+	AAMANDV:    0x070C5 << 15, // amand.d
+	AAMORW:     0x070C6 << 15, // amor.w
+	AAMORV:     0x070C7 << 15, // amor.d
+	AAMXORW:    0x070C8 << 15, // amxor.w
+	AAMXORV:    0x070C9 << 15, // amxor.d
+	AAMMAXW:    0x070CA << 15, // ammax.w
+	AAMMAXV:    0x070CB << 15, // ammax.d
+	AAMMINW:    0x070CC << 15, // ammin.w
+	AAMMINV:    0x070CD << 15, // ammin.d
+	AAMMAXWU:   0x070CE << 15, // ammax.wu
+	AAMMAXVU:   0x070CF << 15, // ammax.du
+	AAMMINWU:   0x070D0 << 15, // ammin.wu
+	AAMMINVU:   0x070D1 << 15, // ammin.du
+	AAMSWAPDBW: 0x070D2 << 15, // amswap_db.w
+	AAMSWAPDBV: 0x070D3 << 15, // amswap_db.d
+	AAMADDDBW:  0x070D4 << 15, // amadd_db.w
+	AAMADDDBV:  0x070D5 << 15, // amadd_db.d
+	AAMANDDBW:  0x070D6 << 15, // amand_db.w
+	AAMANDDBV:  0x070D7 << 15, // amand_db.d
+	AAMORDBW:   0x070D8 << 15, // amor_db.w
+	AAMORDBV:   0x070D9 << 15, // amor_db.d
+	AAMXORDBW:  0x070DA << 15, // amxor_db.w
+	AAMXORDBV:  0x070DB << 15, // amxor_db.d
+	AAMMAXDBW:  0x070DC << 15, // ammax_db.w
+	AAMMAXDBV:  0x070DD << 15, // ammax_db.d
+	AAMMINDBW:  0x070DE << 15, // ammin_db.w
+	AAMMINDBV:  0x070DF << 15, // ammin_db.d
+	AAMMAXDBWU: 0x070E0 << 15, // ammax_db.wu
+	AAMMAXDBVU: 0x070E1 << 15, // ammax_db.du
+	AAMMINDBWU: 0x070E2 << 15, // ammin_db.wu
+	AAMMINDBVU: 0x070E3 << 15, // ammin_db.du
+}
+
+func IsAtomicInst(as obj.As) bool {
+	_, ok := atomicInst[as]
+
+	return ok
 }
 
 // pcAlignPadLength returns the number of bytes required to align pc to alignedValue,
@@ -1167,6 +1214,14 @@ func buildop(ctxt *obj.Link) {
 
 		case AMASKEQZ:
 			opset(AMASKNEZ, r0)
+
+		case AAMSWAPW:
+			for i := range atomicInst {
+				if i == AAMSWAPW {
+					continue
+				}
+				opset(i, r0)
+			}
 		}
 	}
 }
@@ -1776,6 +1831,18 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 	case 64: // movv c_reg, c_fcc0 ==> movgr2cf cd, rj
 		a := OP_TEN(8, 1334)
 		o1 = OP_RR(a, uint32(p.From.Reg), uint32(p.To.Reg))
+
+	case 65: // am* From, To, RegTo2 ==> am* RegTo2, From, To
+		rk := p.From.Reg
+		rj := p.To.Reg
+		rd := p.RegTo2
+
+		// See section 2.2.7.1 of https://loongson.github.io/LoongArch-Documentation/LoongArch-Vol1-EN.html
+		// for the register usage constraints.
+		if rd == rj || rd == rk {
+			c.ctxt.Diag("illegal register combination: %v\n", p)
+		}
+		o1 = OP_RRR(atomicInst[p.As], uint32(rk), uint32(rj), uint32(rd))
 	}
 
 	out[0] = o1
