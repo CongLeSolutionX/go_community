@@ -805,7 +805,7 @@ func (s *regAllocState) compatRegs(t *types.Type) regMask {
 	if t.IsTuple() || t.IsFlags() {
 		return 0
 	}
-	if t.IsFloat() || t == types.TypeInt128 || t == types.TypeStr128 {
+	if t.IsFloat() || t == types.TypeInt128 || t == types.TypeStr128 || t == types.TypeInter128 {
 		if t.Kind() == types.TFLOAT32 && s.f.Config.fp32RegMask != 0 {
 			m = s.f.Config.fp32RegMask
 		} else if t.Kind() == types.TFLOAT64 && s.f.Config.fp64RegMask != 0 {

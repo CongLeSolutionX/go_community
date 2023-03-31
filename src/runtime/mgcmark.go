@@ -920,7 +920,7 @@ func scanframeworker(frame *stkframe, state *stackScanState, gcw *gcWork) {
 		print("scanframe ", funcname(frame.fn), "\n")
 	}
 
-	// TODO: check that this is correct for strings in float registers. I think it is.
+	// TODO: check that this is correct for strings/interfaces in float registers. I think it is.
 
 	isAsyncPreempt := frame.fn.valid() && frame.fn.funcID == funcID_asyncPreempt
 	isDebugCall := frame.fn.valid() && frame.fn.funcID == funcID_debugCallV2
