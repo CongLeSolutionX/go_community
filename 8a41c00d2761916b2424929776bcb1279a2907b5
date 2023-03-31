@@ -74,6 +74,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2842e0fb_8a948509",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-03-31T23:38:55Z",
+      "side": 1,
+      "message": "Thank you for the review Cherry, we will get to your comments soon 😊!",
+      "revId": "8a41c00d2761916b2424929776bcb1279a2907b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2553ecb8_668eb2e6",
@@ -87,6 +104,24 @@
       "writtenOn": "2023-03-31T23:09:59Z",
       "side": 1,
       "message": "This file is only for js. Why this needs to be changed?",
+      "revId": "8a41c00d2761916b2424929776bcb1279a2907b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a480b2fa_c3e8c884",
+        "filename": "misc/wasm/wasm_exec.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-03-31T23:38:55Z",
+      "side": 1,
+      "message": "This was changed because we changed the exported identifier in src/cmd/link/internal/wasm/asm.go from \"mem\" to \"memory\", since seems to be the standard in most WASI client implementations (https://github.com/WebAssembly/wasi-sdk/issues/183#issuecomment-853422943) and we thought we could do the same for JS. If we are concerned that this is breaking users using an old wasm_exec.js with newer compiled Go code, we could leave this the same and just export two different variables.",
+      "parentUuid": "2553ecb8_668eb2e6",
       "revId": "8a41c00d2761916b2424929776bcb1279a2907b5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
