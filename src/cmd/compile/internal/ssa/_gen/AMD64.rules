@@ -241,7 +241,7 @@
 (Store {t} ptr val mem) && t.Size() == 2 => (MOVWstore ptr val mem)
 (Store {t} ptr val mem) && t.Size() == 1 => (MOVBstore ptr val mem)
 
-// Special cases for strings-in-16byte-registers
+// Special cases for {strings,interfaces}-in-16byte-registers
 (Load <t> ptr mem) && t.Size() == 16 => (MOVOload ptr mem)
 (Store {t} ptr val mem) && t.Size() == 16 => (MOVOstore ptr val mem)
 
@@ -2230,3 +2230,7 @@
 (ExpStringPtr ...) => (MOVQf2i ...)
 (ExpStringLen s) => (PEXTRQ [1] s)
 (ExpStringMake ptr len) => (PINSRQ [1] (MOVQi2f ptr) len)
+
+(ExpInterType ...) => (MOVQf2i ...)
+(ExpInterData i) => (PEXTRQ [1] i)
+(ExpInterMake type_ data) => (PINSRQ [1] (MOVQi2f type_) data)

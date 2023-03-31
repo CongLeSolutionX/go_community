@@ -508,9 +508,13 @@ var genericOps = []opData{
 	{name: "ExpStringLen", argLength: 1},  // select len part of string-in-16byte-register
 
 	// Interfaces
-	{name: "IMake", argLength: 2},                // arg0=itab, arg1=data
-	{name: "ITab", argLength: 1, typ: "Uintptr"}, // arg0=interface, returns itable field
-	{name: "IData", argLength: 1},                // arg0=interface, returns data field
+	{name: "IMake", argLength: 2},                 // arg0=itab, arg1=data
+	{name: "ITab", argLength: 1, typ: "Uintptr"},  // arg0=interface, returns itable field
+	{name: "IData", argLength: 1, typ: "BytePtr"}, // arg0=interface, returns data field
+
+	{name: "ExpInterMake", argLength: 2}, // make interface-in-16byte-register from (arg0=type/itab arg1=data)
+	{name: "ExpInterType", argLength: 1}, // select type/itab part of interface-in-16byte-register
+	{name: "ExpInterData", argLength: 1}, // select data part of interface-in-16byte-register
 
 	// Structs
 	{name: "StructMake0"},                              // Returns struct with 0 fields.
