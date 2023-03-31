@@ -5758,6 +5758,12 @@ func (s *state) storeTypeScalars(t *types.Type, left, right *ssa.Value, skip ski
 		lenAddr := s.newValue1I(ssa.OpOffPtr, s.f.Config.Types.IntPtr, s.config.PtrSize, left)
 		s.store(types.Types[types.TINT], lenAddr, len)
 	case t.IsSlice():
+		if buildcfg.Experiment.AtomicAggregates && skip&skipPtr == 0 {
+			// If we're going to be writing the pointer, we write all of ptr/cap/len
+			// in the pointer case. No need to do it here.
+			// TODO: separate out the len write and do that here.
+			return
+		}
 		if skip&skipLen == 0 {
 			len := s.newValue1(ssa.OpSliceLen, types.Types[types.TINT], right)
 			lenAddr := s.newValue1I(ssa.OpOffPtr, s.f.Config.Types.IntPtr, s.f.ABISelf.SliceLenIndex()*s.config.PtrSize, left)
@@ -5811,6 +5817,13 @@ func (s *state) storeTypePtrs(t *types.Type, left, right *ssa.Value) {
 		ptr := s.newValue1(ssa.OpStringPtr, s.f.Config.Types.BytePtr, right)
 		s.store(s.f.Config.Types.BytePtr, left, ptr)
 	case t.IsSlice():
+		if buildcfg.Experiment.AtomicAggregates {
+			// Store all of ptr/cap/len. Later passes will
+			// do the ptr/cap atomically.
+			s.store(t, left, right)
+			return
+		}
+		// Store just the pointer.
 		elType := types.NewPtr(t.Elem())
 		ptr := s.newValue1(ssa.OpSlicePtr, elType, right)
 		s.store(elType, left, ptr)
