@@ -47,6 +47,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "49a94a43_d9a43578",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2023-03-31T11:18:29Z",
+      "side": 1,
+      "message": "I misunderstood something you wrote in the comment on the other CL and vaguely remembered that encoding/json considered this problem (but I was thinking of Decoder.UseNumber).\n\nFixed.",
+      "parentUuid": "a52c1425_d4721368",
+      "range": {
+        "startLine": 20,
+        "startChar": 2,
+        "endLine": 20,
+        "endChar": 62
+      },
+      "revId": "08d055bf6818fef53526df9bce9755af94641b30",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ae436e47_1e5bbe08",
