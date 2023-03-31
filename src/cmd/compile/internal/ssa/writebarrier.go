@@ -389,10 +389,11 @@ func writebarrier(f *Func) {
 			pos := w.Pos
 			ptr := w.Args[0]
 			val := w.Args[1]
+
 			if !srcs.contains(val.ID) && needWBsrc(val) {
 				srcs.add(val.ID)
 				if val.Type.Size() == 16 {
-					// Storing the string/interface is atomic, but the write barrier only wants
+					// Storing the string/interface/slice is atomic, but the write barrier only wants
 					// to know about the pointer parts.
 					// TODO: this causes an sse register to be spilled/restored around
 					// the gcWriterBarrierX call. Consider saving/restoring a few sse registers
@@ -400,6 +401,8 @@ func writebarrier(f *Func) {
 					switch val.Type {
 					case types.TypeStr128:
 						val = bThen.NewValue1(pos, OpExpStringPtr, types.Types[types.TUINTPTR], val)
+					case types.TypeSlice128:
+						val = bThen.NewValue1(pos, OpExpSlicePtr, types.Types[types.TUINTPTR], val)
 					case types.TypeInter128:
 						// type/itab field doesn't need a write barrier. Just the data field.
 						val = bThen.NewValue1(pos, OpExpInterData, types.Types[types.TUINTPTR], val)

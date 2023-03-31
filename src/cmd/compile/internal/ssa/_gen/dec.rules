@@ -82,7 +82,7 @@
       mem))
 
 // Experimental slice ptr-cap-len
-(Load <t> ptr mem) && t.IsSlice() && v.Block.Func.ABISelf.SliceLenIndex() == 2 =>
+(Load <t> ptr mem) && t.IsSlice() && v.Block.Func.ABISelf.SliceLenIndex() == 2 && !buildcfg.Experiment.AtomicAggregates =>
   (SliceMake
     (Load <t.Elem().PtrTo()> ptr mem)
     (Load <typ.Int>
@@ -91,6 +91,27 @@
     (Load <typ.Int>
       (OffPtr <typ.IntPtr> [config.PtrSize] ptr)
       mem))
+
+// Note: we require that the 128-bit loads be CSEd. So this isn't
+// correct with optimizations off.
+(Load <t> ptr mem) && t.IsSlice() && v.Block.Func.ABISelf.SliceLenIndex() == 2 && buildcfg.Experiment.AtomicAggregates =>
+  (SliceMake
+    (ExpSlicePtr <t.Elem().PtrTo()> (Load <types.TypeSlice128> ptr mem))
+    (Load <typ.Int> (OffPtr <typ.IntPtr> [2*config.PtrSize] ptr) mem)
+    (ExpSliceCap <typ.Int> (Load <types.TypeSlice128> ptr mem)))
+
+(Store {t} dst s mem) && t.IsSlice() && v.Block.Func.ABISelf.SliceLenIndex() == 2 && buildcfg.Experiment.AtomicAggregates =>
+  (Store {typ.Int}
+    (OffPtr <typ.IntPtr> [2*config.PtrSize] dst)
+    (SliceLen <typ.Int> s)
+    (Store {types.TypeSlice128}
+      dst
+      (ExpSliceMake <types.TypeSlice128> (SlicePtr s) (SliceCap <typ.Int> s))
+      mem))
+
+// Avoid round-tripping through the integer registers. Useful when
+// we're just doing a load+store of a slice.
+(ExpSliceMake (ExpSlicePtr x) (ExpSliceCap x)) => x
 
 // interface ops
 (ITab (IMake itab _)) => itab

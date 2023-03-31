@@ -762,6 +762,13 @@ func rewriteValueAMD64(v *Value) bool {
 	case OpExpInterType:
 		v.Op = OpAMD64MOVQf2i
 		return true
+	case OpExpSliceCap:
+		return rewriteValueAMD64_OpExpSliceCap(v)
+	case OpExpSliceMake:
+		return rewriteValueAMD64_OpExpSliceMake(v)
+	case OpExpSlicePtr:
+		v.Op = OpAMD64MOVQf2i
+		return true
 	case OpExpStringLen:
 		return rewriteValueAMD64_OpExpStringLen(v)
 	case OpExpStringMake:
@@ -29258,6 +29265,36 @@ func rewriteValueAMD64_OpExpInterMake(v *Value) bool {
 		v0 := b.NewValue0(v.Pos, OpAMD64MOVQi2f, typ.Float64)
 		v0.AddArg(type_)
 		v.AddArg2(v0, data)
+		return true
+	}
+}
+func rewriteValueAMD64_OpExpSliceCap(v *Value) bool {
+	v_0 := v.Args[0]
+	// match: (ExpSliceCap s)
+	// result: (PEXTRQ [1] s)
+	for {
+		s := v_0
+		v.reset(OpAMD64PEXTRQ)
+		v.AuxInt = int32ToAuxInt(1)
+		v.AddArg(s)
+		return true
+	}
+}
+func rewriteValueAMD64_OpExpSliceMake(v *Value) bool {
+	v_1 := v.Args[1]
+	v_0 := v.Args[0]
+	b := v.Block
+	typ := &b.Func.Config.Types
+	// match: (ExpSliceMake ptr cap)
+	// result: (PINSRQ [1] (MOVQi2f ptr) cap)
+	for {
+		ptr := v_0
+		cap := v_1
+		v.reset(OpAMD64PINSRQ)
+		v.AuxInt = int32ToAuxInt(1)
+		v0 := b.NewValue0(v.Pos, OpAMD64MOVQi2f, typ.Float64)
+		v0.AddArg(ptr)
+		v.AddArg2(v0, cap)
 		return true
 	}
 }

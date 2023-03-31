@@ -971,7 +971,7 @@ func (t *Type) ArgWidth() int64 {
 
 func (t *Type) Size() int64 {
 	if t.kind == TSSA {
-		if t == TypeInt128 || t == TypeStr128 || t == TypeInter128 {
+		if t == TypeInt128 || t == TypeStr128 || t == TypeInter128 || t == TypeSlice128 {
 			return 16
 		}
 		return 0
@@ -1584,6 +1584,8 @@ var (
 	TypeResultMem = newResults([]*Type{TypeMem})
 	TypeStr128    = newSSA("str128")   // except this one has a pointer in it
 	TypeInter128  = newSSA("inter128") // except this one has a pointer in it
+	TypeSlice128  = newSSA("slice128") // except this one has a pointer in it
+	// TypeSlice128 holds the slice pointer and capacity.
 )
 
 func init() {
@@ -1593,6 +1595,8 @@ func init() {
 	TypeStr128.align = 16
 	TypeInter128.width = 16
 	TypeInter128.align = 16
+	TypeSlice128.width = 16
+	TypeSlice128.align = 16
 }
 
 // NewNamed returns a new named type for the given type name. obj should be an

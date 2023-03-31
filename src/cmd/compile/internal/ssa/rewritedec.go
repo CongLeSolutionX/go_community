@@ -13,6 +13,8 @@ func rewriteValuedec(v *Value) bool {
 		return rewriteValuedec_OpComplexReal(v)
 	case OpExpInterMake:
 		return rewriteValuedec_OpExpInterMake(v)
+	case OpExpSliceMake:
+		return rewriteValuedec_OpExpSliceMake(v)
 	case OpExpStringMake:
 		return rewriteValuedec_OpExpStringMake(v)
 	case OpIData:
@@ -77,6 +79,24 @@ func rewriteValuedec_OpExpInterMake(v *Value) bool {
 		}
 		x := v_0.Args[0]
 		if v_1.Op != OpExpInterData || x != v_1.Args[0] {
+			break
+		}
+		v.copyOf(x)
+		return true
+	}
+	return false
+}
+func rewriteValuedec_OpExpSliceMake(v *Value) bool {
+	v_1 := v.Args[1]
+	v_0 := v.Args[0]
+	// match: (ExpSliceMake (ExpSlicePtr x) (ExpSliceCap x))
+	// result: x
+	for {
+		if v_0.Op != OpExpSlicePtr {
+			break
+		}
+		x := v_0.Args[0]
+		if v_1.Op != OpExpSliceCap || x != v_1.Args[0] {
 			break
 		}
 		v.copyOf(x)
@@ -246,13 +266,13 @@ func rewriteValuedec_OpLoad(v *Value) bool {
 		return true
 	}
 	// match: (Load <t> ptr mem)
-	// cond: t.IsSlice() && v.Block.Func.ABISelf.SliceLenIndex() == 2
+	// cond: t.IsSlice() && v.Block.Func.ABISelf.SliceLenIndex() == 2 && !buildcfg.Experiment.AtomicAggregates
 	// result: (SliceMake (Load <t.Elem().PtrTo()> ptr mem) (Load <typ.Int> (OffPtr <typ.IntPtr> [2*config.PtrSize] ptr) mem) (Load <typ.Int> (OffPtr <typ.IntPtr> [config.PtrSize] ptr) mem))
 	for {
 		t := v.Type
 		ptr := v_0
 		mem := v_1
-		if !(t.IsSlice() && v.Block.Func.ABISelf.SliceLenIndex() == 2) {
+		if !(t.IsSlice() && v.Block.Func.ABISelf.SliceLenIndex() == 2 && !buildcfg.Experiment.AtomicAggregates) {
 			break
 		}
 		v.reset(OpSliceMake)
@@ -269,6 +289,31 @@ func rewriteValuedec_OpLoad(v *Value) bool {
 		v4.AddArg(ptr)
 		v3.AddArg2(v4, mem)
 		v.AddArg3(v0, v1, v3)
+		return true
+	}
+	// match: (Load <t> ptr mem)
+	// cond: t.IsSlice() && v.Block.Func.ABISelf.SliceLenIndex() == 2 && buildcfg.Experiment.AtomicAggregates
+	// result: (SliceMake (ExpSlicePtr <t.Elem().PtrTo()> (Load <types.TypeSlice128> ptr mem)) (Load <typ.Int> (OffPtr <typ.IntPtr> [2*config.PtrSize] ptr) mem) (ExpSliceCap <typ.Int> (Load <types.TypeSlice128> ptr mem)))
+	for {
+		t := v.Type
+		ptr := v_0
+		mem := v_1
+		if !(t.IsSlice() && v.Block.Func.ABISelf.SliceLenIndex() == 2 && buildcfg.Experiment.AtomicAggregates) {
+			break
+		}
+		v.reset(OpSliceMake)
+		v0 := b.NewValue0(v.Pos, OpExpSlicePtr, t.Elem().PtrTo())
+		v1 := b.NewValue0(v.Pos, OpLoad, types.TypeSlice128)
+		v1.AddArg2(ptr, mem)
+		v0.AddArg(v1)
+		v2 := b.NewValue0(v.Pos, OpLoad, typ.Int)
+		v3 := b.NewValue0(v.Pos, OpOffPtr, typ.IntPtr)
+		v3.AuxInt = int64ToAuxInt(2 * config.PtrSize)
+		v3.AddArg(ptr)
+		v2.AddArg2(v3, mem)
+		v4 := b.NewValue0(v.Pos, OpExpSliceCap, typ.Int)
+		v4.AddArg(v1)
+		v.AddArg3(v0, v2, v4)
 		return true
 	}
 	// match: (Load <t> ptr mem)
@@ -375,6 +420,7 @@ func rewriteValuedec_OpStore(v *Value) bool {
 	v_1 := v.Args[1]
 	v_0 := v.Args[0]
 	b := v.Block
+	config := b.Func.Config
 	typ := &b.Func.Config.Types
 	// match: (Store {t} dst (ComplexMake real imag) mem)
 	// cond: t.Size() == 8
@@ -448,6 +494,36 @@ func rewriteValuedec_OpStore(v *Value) bool {
 		v2.AddArg(str)
 		v0.AddArg2(v1, v2)
 		v.AddArg3(dst, v0, mem)
+		return true
+	}
+	// match: (Store {t} dst s mem)
+	// cond: t.IsSlice() && v.Block.Func.ABISelf.SliceLenIndex() == 2 && buildcfg.Experiment.AtomicAggregates
+	// result: (Store {typ.Int} (OffPtr <typ.IntPtr> [2*config.PtrSize] dst) (SliceLen <typ.Int> s) (Store {types.TypeSlice128} dst (ExpSliceMake <types.TypeSlice128> (SlicePtr s) (SliceCap <typ.Int> s)) mem))
+	for {
+		t := auxToType(v.Aux)
+		dst := v_0
+		s := v_1
+		mem := v_2
+		if !(t.IsSlice() && v.Block.Func.ABISelf.SliceLenIndex() == 2 && buildcfg.Experiment.AtomicAggregates) {
+			break
+		}
+		v.reset(OpStore)
+		v.Aux = typeToAux(typ.Int)
+		v0 := b.NewValue0(v.Pos, OpOffPtr, typ.IntPtr)
+		v0.AuxInt = int64ToAuxInt(2 * config.PtrSize)
+		v0.AddArg(dst)
+		v1 := b.NewValue0(v.Pos, OpSliceLen, typ.Int)
+		v1.AddArg(s)
+		v2 := b.NewValue0(v.Pos, OpStore, types.TypeMem)
+		v2.Aux = typeToAux(types.TypeSlice128)
+		v3 := b.NewValue0(v.Pos, OpExpSliceMake, types.TypeSlice128)
+		v4 := b.NewValue0(v.Pos, OpSlicePtr, typ.BytePtr)
+		v4.AddArg(s)
+		v5 := b.NewValue0(v.Pos, OpSliceCap, typ.Int)
+		v5.AddArg(s)
+		v3.AddArg2(v4, v5)
+		v2.AddArg3(dst, v3, mem)
+		v.AddArg3(v0, v1, v2)
 		return true
 	}
 	// match: (Store {t} dst int mem)
