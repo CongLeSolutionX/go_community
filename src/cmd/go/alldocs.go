@@ -117,9 +117,10 @@
 //		linux/ppc64le and linux/arm64 (only for 48-bit VMA).
 //	-msan
 //		enable interoperation with memory sanitizer.
-//		Supported only on linux/amd64, linux/arm64, freebsd/amd64
+//		Supported only on linux/amd64, linux/arm64, linux/loong64, freebsd/amd64
 //		and only with Clang/LLVM as the host C compiler.
 //		PIE build mode will be used on all platforms except linux/amd64.
+//		And supported on linux/loong64 only with Clang/LLVM 17 and higher.
 //	-asan
 //		enable interoperation with address sanitizer.
 //		Supported only on linux/arm64, linux/amd64.
