@@ -92,8 +92,8 @@ func Info(fnsym *obj.LSym, infosym *obj.LSym, curfn interface{}) (scopes []dwarf
 			}
 			apdecls = append(apdecls, n)
 			if n.Type().Kind() == types.TSSA {
-				// Can happen for TypeInt128, TypeStr128, or TypInter128 types. This only happens for
-				// spill locations, so not a huge deal.
+				// Can happen for TypeInt128, TypeStr128, TypInter128, or TypeSlice128 types.
+				// This only happens for spill locations, so not a huge deal.
 				continue
 			}
 			fnsym.Func().RecordAutoType(reflectdata.TypeLinksym(n.Type()))

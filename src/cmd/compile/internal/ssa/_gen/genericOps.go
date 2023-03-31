@@ -493,6 +493,10 @@ var genericOps = []opData{
 	// SlicePtrUnchecked values can be nil.
 	{name: "SlicePtrUnchecked", argLength: 1},
 
+	{name: "ExpSliceMake", argLength: 2}, // arg0=ptr,arg1=cap
+	{name: "ExpSlicePtr", argLength: 1},  // ptr(arg0)
+	{name: "ExpSliceCap", argLength: 1},  // cap(arg0)
+
 	// Complex (part/whole)
 	{name: "ComplexMake", argLength: 2}, // arg0=real, arg1=imag
 	{name: "ComplexReal", argLength: 1}, // real(arg0)

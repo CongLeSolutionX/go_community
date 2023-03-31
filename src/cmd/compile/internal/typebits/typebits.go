@@ -96,6 +96,8 @@ func set(t *types.Type, off int64, bv bitvec.BitVec, skip bool) {
 			bv.Set(int32(off / int64(types.PtrSize))) //pointer in first slot
 		case types.TypeInter128:
 			bv.Set(int32(off/int64(types.PtrSize) + 1)) //pointer in second slot
+		case types.TypeSlice128:
+			bv.Set(int32(off / int64(types.PtrSize))) //pointer in first slot
 		default:
 			base.Fatalf("typebits.Set: unexpected type, %v", t)
 		}

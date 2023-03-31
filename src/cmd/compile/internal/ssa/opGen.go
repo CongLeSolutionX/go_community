@@ -3083,6 +3083,9 @@ const (
 	OpSliceLen
 	OpSliceCap
 	OpSlicePtrUnchecked
+	OpExpSliceMake
+	OpExpSlicePtr
+	OpExpSliceCap
 	OpComplexMake
 	OpComplexReal
 	OpComplexImag
@@ -39261,6 +39264,21 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:    "SlicePtrUnchecked",
+		argLen:  1,
+		generic: true,
+	},
+	{
+		name:    "ExpSliceMake",
+		argLen:  2,
+		generic: true,
+	},
+	{
+		name:    "ExpSlicePtr",
+		argLen:  1,
+		generic: true,
+	},
+	{
+		name:    "ExpSliceCap",
 		argLen:  1,
 		generic: true,
 	},
