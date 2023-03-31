@@ -3095,6 +3095,9 @@ const (
 	OpIMake
 	OpITab
 	OpIData
+	OpExpInterMake
+	OpExpInterType
+	OpExpInterData
 	OpStructMake0
 	OpStructMake1
 	OpStructMake2
@@ -39318,6 +39321,21 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:    "IData",
+		argLen:  1,
+		generic: true,
+	},
+	{
+		name:    "ExpInterMake",
+		argLen:  2,
+		generic: true,
+	},
+	{
+		name:    "ExpInterType",
+		argLen:  1,
+		generic: true,
+	},
+	{
+		name:    "ExpInterData",
 		argLen:  1,
 		generic: true,
 	},

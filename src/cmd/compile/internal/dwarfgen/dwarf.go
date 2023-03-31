@@ -92,7 +92,7 @@ func Info(fnsym *obj.LSym, infosym *obj.LSym, curfn interface{}) (scopes []dwarf
 			}
 			apdecls = append(apdecls, n)
 			if n.Type().Kind() == types.TSSA {
-				// Can happen for TypeInt128 or TypeStr128 types. This only happens for
+				// Can happen for TypeInt128, TypeStr128, or TypInter128 types. This only happens for
 				// spill locations, so not a huge deal.
 				continue
 			}

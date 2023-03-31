@@ -96,9 +96,26 @@
 (ITab (IMake itab _)) => itab
 (IData (IMake _ data)) => data
 
-(Load <t> ptr mem) && t.IsInterface() =>
+(Load <t> ptr mem) && t.IsInterface() && !buildcfg.Experiment.AtomicAggregates =>
   (IMake
     (Load <typ.Uintptr> ptr mem)
     (Load <typ.BytePtr>
       (OffPtr <typ.BytePtrPtr> [config.PtrSize] ptr)
       mem))
+
+// Note: we require that these loads be CSEd. So this isn't
+// correct with optimizations off.
+(Load <t> ptr mem) && t.IsInterface() && buildcfg.Experiment.AtomicAggregates =>
+  (IMake
+    (ExpInterType <typ.Uintptr> (Load <types.TypeInter128> ptr mem))
+    (ExpInterData <typ.BytePtr> (Load <types.TypeInter128> ptr mem)))
+
+(Store {t} dst int mem) && t.IsInterface() && buildcfg.Experiment.AtomicAggregates =>
+  (Store {types.TypeInter128}
+    dst
+    (ExpInterMake <types.TypeInter128> (ITab int) (IData int))
+    mem)
+
+// Avoid round-tripping through the integer registers. Useful when
+// we're just doing a load+store of an interface.
+(ExpInterMake (ExpInterType x) (ExpInterData x)) => x
