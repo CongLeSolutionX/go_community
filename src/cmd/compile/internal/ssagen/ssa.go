@@ -5769,6 +5769,11 @@ func (s *state) storeTypeScalars(t *types.Type, left, right *ssa.Value, skip ski
 		lenAddr := s.newValue1I(ssa.OpOffPtr, s.f.Config.Types.IntPtr, s.config.PtrSize, left)
 		s.store(types.Types[types.TINT], lenAddr, len)
 	case t.IsSlice():
+		if skip&skipPtr == 0 {
+			// If we're going to be writing the pointer, we write all of ptr/len/cap
+			// in the pointer case. No need to do it here.
+			return
+		}
 		if skip&skipLen == 0 {
 			len := s.newValue1(ssa.OpSliceLen, types.Types[types.TINT], right)
 			lenAddr := s.newValue1I(ssa.OpOffPtr, s.f.Config.Types.IntPtr, s.config.PtrSize, left)
@@ -5810,9 +5815,9 @@ func (s *state) storeTypePtrs(t *types.Type, left, right *ssa.Value) {
 		// Store both ptr and len atomically.
 		s.store(t, left, right)
 	case t.IsSlice():
-		elType := types.NewPtr(t.Elem())
-		ptr := s.newValue1(ssa.OpSlicePtr, elType, right)
-		s.store(elType, left, ptr)
+		// Store all of ptr/len/cap. Later passes will
+		// do the ptr/len atomically. (TODO: ptr/cap)
+		s.store(t, left, right)
 	case t.IsInterface():
 		// Store both type/itab and data atomically.
 		s.store(t, left, right)

@@ -50,6 +50,11 @@
   (IMake
     (ExpInterType <typ.Uintptr> (Load <types.TypeInter128> ptr mem))
     (ExpInterData <typ.BytePtr> (Load <types.TypeInter128> ptr mem)))
+(Load <t> ptr mem) && t.IsSlice() =>
+  (SliceMake
+    (ExpSlicePtr <t.Elem().PtrTo()> (Load <types.TypeSlice128> ptr mem))
+    (ExpSliceLen <typ.Int> (Load <types.TypeSlice128> ptr mem))
+    (Load <typ.Int> (OffPtr <typ.IntPtr> [2*config.PtrSize] ptr) mem))
 
 (Store {t} dst str mem) && t.IsString() =>
   (Store {types.TypeStr128}
@@ -61,11 +66,20 @@
     dst
     (ExpInterMake <types.TypeInter128> (ITab int) (IData int))
     mem)
+(Store {t} dst s mem) && t.IsSlice() =>
+  (Store {typ.Int}
+    (OffPtr <typ.IntPtr> [2*config.PtrSize] dst)
+    (SliceCap <typ.Int> s)
+    (Store {types.TypeSlice128}
+      dst
+      (ExpSliceMake <types.TypeSlice128> (SlicePtr s) (SliceLen <typ.Int> s))
+      mem))
 
 // Avoid round-tripping through the integer registers. Useful when
-// we're just doing a load+store of a string or interface.
+// we're just doing a load+store of a string, interface, or slice.
 (ExpStringMake (ExpStringPtr x) (ExpStringLen x)) => x
 (ExpInterMake (ExpInterType x) (ExpInterData x)) => x
+(ExpSliceMake (ExpSlicePtr x) (ExpSliceLen x)) => x
 
 // slice ops
 (SlicePtr (SliceMake ptr _ _ )) => ptr

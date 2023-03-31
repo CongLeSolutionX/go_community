@@ -2236,3 +2236,7 @@
 (ExpInterType ...) => (MOVQf2i ...)
 (ExpInterData i) => (PEXTRQ [1] i)
 (ExpInterMake type_ data) => (PINSRQ [1] (MOVQi2f type_) data)
+
+(ExpSlicePtr ...) => (MOVQf2i ...)
+(ExpSliceLen s) => (PEXTRQ [1] s)
+(ExpSliceMake ptr len) => (PINSRQ [1] (MOVQi2f ptr) len)
