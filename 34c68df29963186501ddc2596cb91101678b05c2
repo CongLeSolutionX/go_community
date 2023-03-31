@@ -52,6 +52,24 @@
       "parentUuid": "1addafcb_bc28c361",
       "revId": "34c68df29963186501ddc2596cb91101678b05c2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f92c2435_460efacc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34360
+      },
+      "writtenOn": "2023-03-31T06:18:56Z",
+      "side": 1,
+      "message": "For the record: we\u0027ve had a talk on WeChat over this, and the desire to keep the PCADDU12I instruction was to avoid code churn should anyone find a use for it later.\n\nThis is not a problem, because the instruction wasn\u0027t directly usable from asm or Go to begin with, and after the asm backend refactor I\u0027m planning for the next cycle it would return anyway (and usable from asm).",
+      "parentUuid": "0569a802_e1157502",
+      "revId": "34c68df29963186501ddc2596cb91101678b05c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
