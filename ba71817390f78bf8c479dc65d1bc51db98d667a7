@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2fb536e0_ff99df17",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 37
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-03-31T19:56:18Z",
+      "side": 1,
+      "message": "This appears to be causing failures in `runtime/trace.TestTraceSymbolize` on `solaris/amd64` due to a missing `syscall.read` frame on the stacks.\n\nFiled as #59350.",
+      "revId": "ba71817390f78bf8c479dc65d1bc51db98d667a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
