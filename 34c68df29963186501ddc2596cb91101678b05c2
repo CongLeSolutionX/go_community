@@ -34,6 +34,24 @@
       "parentUuid": "bcfa498a_1821bba2",
       "revId": "34c68df29963186501ddc2596cb91101678b05c2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0569a802_e1157502",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2023-03-31T03:34:55Z",
+      "side": 1,
+      "message": "\u003e so the rest won\u0027t get blocked in case you don\u0027t want this one to get merged for any reason.\n\nYou misunderstood me, that\u0027s not what I meant.",
+      "parentUuid": "1addafcb_bc28c361",
+      "revId": "34c68df29963186501ddc2596cb91101678b05c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
