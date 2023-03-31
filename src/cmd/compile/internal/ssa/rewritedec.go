@@ -10,6 +10,8 @@ func rewriteValuedec(v *Value) bool {
 		return rewriteValuedec_OpComplexImag(v)
 	case OpComplexReal:
 		return rewriteValuedec_OpComplexReal(v)
+	case OpExpInterMake:
+		return rewriteValuedec_OpExpInterMake(v)
 	case OpExpStringMake:
 		return rewriteValuedec_OpExpStringMake(v)
 	case OpIData:
@@ -59,6 +61,24 @@ func rewriteValuedec_OpComplexReal(v *Value) bool {
 		}
 		real := v_0.Args[0]
 		v.copyOf(real)
+		return true
+	}
+	return false
+}
+func rewriteValuedec_OpExpInterMake(v *Value) bool {
+	v_1 := v.Args[1]
+	v_0 := v.Args[0]
+	// match: (ExpInterMake (ExpInterType x) (ExpInterData x))
+	// result: x
+	for {
+		if v_0.Op != OpExpInterType {
+			break
+		}
+		x := v_0.Args[0]
+		if v_1.Op != OpExpInterData || x != v_1.Args[0] {
+			break
+		}
+		v.copyOf(x)
 		return true
 	}
 	return false
@@ -173,6 +193,26 @@ func rewriteValuedec_OpLoad(v *Value) bool {
 		v1.AddArg2(ptr, mem)
 		v0.AddArg(v1)
 		v2 := b.NewValue0(v.Pos, OpExpStringLen, typ.Int)
+		v2.AddArg(v1)
+		v.AddArg2(v0, v2)
+		return true
+	}
+	// match: (Load <t> ptr mem)
+	// cond: t.IsInterface()
+	// result: (IMake (ExpInterType <typ.Uintptr> (Load <types.TypeInter128> ptr mem)) (ExpInterData <typ.BytePtr> (Load <types.TypeInter128> ptr mem)))
+	for {
+		t := v.Type
+		ptr := v_0
+		mem := v_1
+		if !(t.IsInterface()) {
+			break
+		}
+		v.reset(OpIMake)
+		v0 := b.NewValue0(v.Pos, OpExpInterType, typ.Uintptr)
+		v1 := b.NewValue0(v.Pos, OpLoad, types.TypeInter128)
+		v1.AddArg2(ptr, mem)
+		v0.AddArg(v1)
+		v2 := b.NewValue0(v.Pos, OpExpInterData, typ.BytePtr)
 		v2.AddArg(v1)
 		v.AddArg2(v0, v2)
 		return true
@@ -359,6 +399,28 @@ func rewriteValuedec_OpStore(v *Value) bool {
 		v1.AddArg(str)
 		v2 := b.NewValue0(v.Pos, OpStringLen, typ.Int)
 		v2.AddArg(str)
+		v0.AddArg2(v1, v2)
+		v.AddArg3(dst, v0, mem)
+		return true
+	}
+	// match: (Store {t} dst int mem)
+	// cond: t.IsInterface()
+	// result: (Store {types.TypeInter128} dst (ExpInterMake <types.TypeInter128> (ITab int) (IData int)) mem)
+	for {
+		t := auxToType(v.Aux)
+		dst := v_0
+		int := v_1
+		mem := v_2
+		if !(t.IsInterface()) {
+			break
+		}
+		v.reset(OpStore)
+		v.Aux = typeToAux(types.TypeInter128)
+		v0 := b.NewValue0(v.Pos, OpExpInterMake, types.TypeInter128)
+		v1 := b.NewValue0(v.Pos, OpITab, typ.Uintptr)
+		v1.AddArg(int)
+		v2 := b.NewValue0(v.Pos, OpIData, typ.BytePtr)
+		v2.AddArg(int)
 		v0.AddArg2(v1, v2)
 		v.AddArg3(dst, v0, mem)
 		return true

@@ -46,16 +46,26 @@
   (StringMake
     (ExpStringPtr <typ.BytePtr> (Load <types.TypeStr128> ptr mem))
     (ExpStringLen <typ.Int> (Load <types.TypeStr128> ptr mem)))
+(Load <t> ptr mem) && t.IsInterface() =>
+  (IMake
+    (ExpInterType <typ.Uintptr> (Load <types.TypeInter128> ptr mem))
+    (ExpInterData <typ.BytePtr> (Load <types.TypeInter128> ptr mem)))
 
 (Store {t} dst str mem) && t.IsString() =>
   (Store {types.TypeStr128}
     dst
     (ExpStringMake <types.TypeStr128> (StringPtr str) (StringLen str))
     mem)
+(Store {t} dst int mem) && t.IsInterface() =>
+  (Store {types.TypeInter128}
+    dst
+    (ExpInterMake <types.TypeInter128> (ITab int) (IData int))
+    mem)
 
 // Avoid round-tripping through the integer registers. Useful when
-// we're just doing a load+store of a string.
+// we're just doing a load+store of a string or interface.
 (ExpStringMake (ExpStringPtr x) (ExpStringLen x)) => x
+(ExpInterMake (ExpInterType x) (ExpInterData x)) => x
 
 // slice ops
 (SlicePtr (SliceMake ptr _ _ )) => ptr

@@ -5780,9 +5780,7 @@ func (s *state) storeTypeScalars(t *types.Type, left, right *ssa.Value, skip ski
 			s.store(types.Types[types.TINT], capAddr, cap)
 		}
 	case t.IsInterface():
-		// itab field doesn't need a write barrier (even though it is a pointer).
-		itab := s.newValue1(ssa.OpITab, s.f.Config.Types.BytePtr, right)
-		s.store(types.Types[types.TUINTPTR], left, itab)
+		// nothing
 	case t.IsStruct():
 		n := t.NumFields()
 		for i := 0; i < n; i++ {
@@ -5816,10 +5814,8 @@ func (s *state) storeTypePtrs(t *types.Type, left, right *ssa.Value) {
 		ptr := s.newValue1(ssa.OpSlicePtr, elType, right)
 		s.store(elType, left, ptr)
 	case t.IsInterface():
-		// itab field is treated as a scalar.
-		idata := s.newValue1(ssa.OpIData, s.f.Config.Types.BytePtr, right)
-		idataAddr := s.newValue1I(ssa.OpOffPtr, s.f.Config.Types.BytePtrPtr, s.config.PtrSize, left)
-		s.store(s.f.Config.Types.BytePtr, idataAddr, idata)
+		// Store both type/itab and data atomically.
+		s.store(t, left, right)
 	case t.IsStruct():
 		n := t.NumFields()
 		for i := 0; i < n; i++ {
