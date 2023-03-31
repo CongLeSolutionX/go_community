@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "539363ca_33fe2343",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2023-03-31T15:41:45Z",
+      "side": 1,
+      "message": "Seems prudent. When I was working with Splunk it was common for it to assume a different unit for bare numeric durations than the program that emitted it. This way is clear and less error prone.",
+      "revId": "01c0f748e7961e2bc13666445a9234195c96fdcb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
