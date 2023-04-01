@@ -53,6 +53,23 @@
       "message": "When using QUIC, clients MUST NOT send the EndOfEarlyData message, see section 8.3 of RFC 9001. It wouldn\u0027t hurt to check that here and return an error (alertUnexpectedMessage).",
       "revId": "149b881fbfbad96b2474966a2e88a5d2f7151218",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "927dc582_3ac9b664",
+        "filename": "src/crypto/tls/conn.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 1314,
+      "author": {
+        "id": 28787
+      },
+      "writtenOn": "2023-04-01T00:03:36Z",
+      "side": 1,
+      "message": "According to section 6 of RFC 9001, this needs to result in an unexpected_message alert when using QUIC.",
+      "revId": "149b881fbfbad96b2474966a2e88a5d2f7151218",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
