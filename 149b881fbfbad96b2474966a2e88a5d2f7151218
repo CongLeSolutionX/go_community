@@ -38,6 +38,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2effea6_cdd91c96",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28787
+      },
+      "writtenOn": "2023-04-01T00:35:46Z",
+      "side": 1,
+      "message": "There are two places where we need to check that the quic_transport_parameters is not set when not using QUIC.",
+      "revId": "149b881fbfbad96b2474966a2e88a5d2f7151218",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e3b84b00_f3692432",
@@ -68,6 +85,40 @@
       "writtenOn": "2023-04-01T00:03:36Z",
       "side": 1,
       "message": "According to section 6 of RFC 9001, this needs to result in an unexpected_message alert when using QUIC.",
+      "revId": "149b881fbfbad96b2474966a2e88a5d2f7151218",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab79d1cf_d55cd5b7",
+        "filename": "src/crypto/tls/handshake_client_tls13.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 28787
+      },
+      "writtenOn": "2023-04-01T00:35:46Z",
+      "side": 1,
+      "message": "Section 8.2 of RFC 9001 requires sending an unsupported_extension alert if the quic_transport_parameters extension is set and QUIC is not used.",
+      "revId": "149b881fbfbad96b2474966a2e88a5d2f7151218",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6069f145_0076b494",
+        "filename": "src/crypto/tls/handshake_server_tls13.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 28787
+      },
+      "writtenOn": "2023-04-01T00:35:46Z",
+      "side": 1,
+      "message": "Section 8.2 of RFC 9001 requires sending an unsupported_extension alert if the quic_transport_parameters extension is set and QUIC is not used.",
       "revId": "149b881fbfbad96b2474966a2e88a5d2f7151218",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
