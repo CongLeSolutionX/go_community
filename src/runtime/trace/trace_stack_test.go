@@ -240,6 +240,7 @@ func TestTraceSymbolize(t *testing.T) {
 		}},
 	}
 	// Stacks for the following events are OS-dependent due to OS-specific code in net package.
+	// TODO: add solaris/illumos?
 	if runtime.GOOS != "windows" && runtime.GOOS != "plan9" {
 		want = append(want, []eventDesc{
 			{trace.EvGoBlockNet, []frame{
