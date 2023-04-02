@@ -187,7 +187,6 @@ func BenchmarkKeys(b *testing.B) {
 		m1[i] = i
 	}
 	b.ResetTimer()
-
 	for i := 0; i < b.N; i++ {
 		keysArr = Keys(m1)
 	}
