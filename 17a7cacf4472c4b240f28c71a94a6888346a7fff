@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfa14b3f_5a42e88f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-04-02T00:27:40Z",
+      "side": 1,
+      "message": "TRY\u003dsolaris-amd64-oraclerel, illumos",
+      "revId": "17a7cacf4472c4b240f28c71a94a6888346a7fff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
