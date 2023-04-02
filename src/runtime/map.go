@@ -1467,3 +1467,40 @@ func copyKeys(t *maptype, h *hmap, b *bmap, data unsafe.Pointer) unsafe.Pointer 
 	}
 	return data
 }
+
+//go:linkname values maps.values
+func values(m any, data unsafe.Pointer) {
+	e := efaceOf(&m)
+	t := (*maptype)(unsafe.Pointer(e._type))
+	h := (*hmap)(e.data)
+	if h.B == 0 {
+		data = copyValues(t, h, (*bmap)(h.buckets), data)
+		return
+	}
+	arraySize := int(bucketShift(h.B))
+	for i := 0; i < arraySize; i++ {
+		b := (*bmap)(add(h.buckets, uintptr(i)*uintptr(t.bucketsize)))
+		data = copyValues(t, h, b, data)
+	}
+}
+
+func copyValues(t *maptype, h *hmap, b *bmap, data unsafe.Pointer) unsafe.Pointer {
+	for i := uintptr(0); i < bucketCnt; i++ {
+		if isEmpty(b.tophash[i]) {
+			continue
+		}
+		if h.flags&hashWriting != 0 {
+			fatal("concurrent map read and map write")
+		}
+		ele := add(unsafe.Pointer(b), dataOffset+bucketCnt*uintptr(t.keysize)+i*uintptr(t.elemsize))
+		if t.indirectelem() {
+			ele = *((*unsafe.Pointer)(ele))
+		}
+		typedmemmove(t.elem, data, ele)
+		data = add(data, t.elem.size)
+	}
+	if b.overflow(t) != nil {
+		return copyValues(t, h, b.overflow(t), data)
+	}
+	return data
+}
