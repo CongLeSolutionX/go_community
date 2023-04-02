@@ -220,6 +220,24 @@
       "parentUuid": "40a2a029_69b4d78e",
       "revId": "08d055bf6818fef53526df9bce9755af94641b30",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "829574f1_d3f05737",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2023-04-02T11:44:28Z",
+      "side": 1,
+      "message": "Yes, your technical arguments convinced me.",
+      "parentUuid": "3a681bdc_2d453497",
+      "revId": "08d055bf6818fef53526df9bce9755af94641b30",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
