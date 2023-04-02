@@ -16,14 +16,13 @@ func Keys[M ~map[K]V, K comparable, V any](m M) []K {
 	return unsafe.Slice((*K)(p), l)
 }
 
+func values(m any) (unsafe.Pointer, int)
+
 // Values returns the values of the map m.
 // The values will be in an indeterminate order.
 func Values[M ~map[K]V, K comparable, V any](m M) []V {
-	r := make([]V, 0, len(m))
-	for _, v := range m {
-		r = append(r, v)
-	}
-	return r
+	p, l := values(m)
+	return unsafe.Slice((*V)(p), l)
 }
 
 // Equal reports whether two maps contain the same key/value pairs.
