@@ -46,12 +46,14 @@ var depsRules = `
 	  internal/goexperiment, internal/goos,
 	  internal/goversion, internal/nettrace, internal/platform,
 	  log/internal,
-	  maps, slices, unicode/utf8, unicode/utf16, unicode,
+	  slices, unicode/utf8, unicode/utf16, unicode,
 	  unsafe;
 
 	# These packages depend only on internal/goarch and unsafe.
 	internal/goarch, unsafe
 	< internal/abi;
+
+	unsafe < maps;	
 
 	# RUNTIME is the core runtime group of packages, all of them very light-weight.
 	internal/abi, internal/cpu, internal/goarch,
