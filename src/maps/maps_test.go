@@ -192,3 +192,16 @@ func BenchmarkKeys(b *testing.B) {
 		keysArr = Keys(m1)
 	}
 }
+
+var valuesArr []int
+
+func BenchmarkValues(b *testing.B) {
+	for i := 0; i < 1000000; i++ {
+		m1[i] = i
+	}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		valuesArr = Values(m1)
+	}
+}
