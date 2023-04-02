@@ -179,3 +179,16 @@ func TestDeleteFunc(t *testing.T) {
 		t.Errorf("DeleteFunc result = %v, want %v", mc, want)
 	}
 }
+
+var keysArr []int
+
+func BenchmarkKeys(b *testing.B) {
+	for i := 0; i < 1000000; i++ {
+		m1[i] = i
+	}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		keysArr = Keys(m1)
+	}
+}
