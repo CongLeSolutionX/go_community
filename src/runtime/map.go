@@ -1429,3 +1429,107 @@ var zeroVal [maxZero]byte
 // map init function to this symbol. Defined in assembly so as to avoid
 // complications with instrumentation (coverage, etc).
 func mapinitnoop()
+<<<<<<< PATCH SET (8781a3 maps,runtime: improve maps.Values)
+
+//go:linkname keys maps.keys
+func keys(m any, p unsafe.Pointer) {
+	e := efaceOf(&m)
+	t := (*maptype)(unsafe.Pointer(e._type))
+	h := (*hmap)(e.data)
+
+	if h == nil || h.count == 0 {
+		return
+	}
+	s := (*slice)(p)
+	*s = slice{
+		array: newarray(t.key, h.count),
+		len:   0,
+		cap:   h.count,
+	}
+	if h.B == 0 {
+		copyKeys(t, h, (*bmap)(h.buckets), s)
+		return
+	}
+	arraySize := int(bucketShift(h.B))
+	for i := 0; i < arraySize; i++ {
+		b := (*bmap)(add(h.buckets, uintptr(i)*uintptr(t.bucketsize)))
+		copyKeys(t, h, b, s)
+	}
+	return
+}
+
+func copyKeys(t *maptype, h *hmap, b *bmap, s *slice) {
+	for i := uintptr(0); i < bucketCnt; i++ {
+		if isEmpty(b.tophash[i]) {
+			continue
+		}
+		if h.flags&hashWriting != 0 {
+			fatal("concurrent map read and map write")
+		}
+		k := add(unsafe.Pointer(b), dataOffset+i*uintptr(t.keysize))
+		if t.indirectkey() {
+			k = *((*unsafe.Pointer)(k))
+		}
+		if s.len >= s.cap {
+			*s = growslice(s.array, s.len+1, s.cap, 1, t.key)
+		}
+		typedmemmove(t.key, add(s.array, uintptr(s.len)*uintptr(t.keysize)), k)
+		s.len++
+	}
+	if b.overflow(t) != nil {
+		copyKeys(t, h, b.overflow(t), s)
+	}
+}
+
+//go:linkname values maps.values
+func values(m any, p unsafe.Pointer) {
+	e := efaceOf(&m)
+	t := (*maptype)(unsafe.Pointer(e._type))
+	h := (*hmap)(e.data)
+	if h == nil || h.count == 0 {
+		return
+	}
+	s := (*slice)(p)
+	*s = slice{
+		array: newarray(t.elem, h.count),
+		len:   0,
+		cap:   h.count,
+	}
+
+	if h.B == 0 {
+		copyValues(t, h, (*bmap)(h.buckets), s)
+		return
+	}
+
+	arraySize := int(bucketShift(h.B))
+	for i := 0; i < arraySize; i++ {
+		b := (*bmap)(add(h.buckets, uintptr(i)*uintptr(t.bucketsize)))
+		copyValues(t, h, b, s)
+	}
+	return
+}
+
+func copyValues(t *maptype, h *hmap, b *bmap, s *slice) {
+	for i := uintptr(0); i < bucketCnt; i++ {
+		if isEmpty(b.tophash[i]) {
+			continue
+		}
+		if h.flags&hashWriting != 0 {
+			fatal("concurrent map read and map write")
+		}
+		ele := add(unsafe.Pointer(b), dataOffset+bucketCnt*uintptr(t.keysize)+i*uintptr(t.elemsize))
+		if t.indirectelem() {
+			ele = *((*unsafe.Pointer)(ele))
+		}
+		if s.len >= s.cap {
+			*s = growslice(s.array, s.len+1, s.cap, 1, t.key)
+		}
+		typedmemmove(t.elem, add(s.array, uintptr(s.len)*uintptr(t.elemsize)), ele)
+		s.len++
+	}
+	if b.overflow(t) != nil {
+		copyValues(t, h, b.overflow(t), s)
+	}
+}
+=======
+>>>>>>> BASE      (8edcdd crypto/subtle: don't cast to *uintptr when word size is 0)
