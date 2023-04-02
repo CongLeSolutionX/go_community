@@ -1479,3 +1479,54 @@ func copyKeys(t *maptype, h *hmap, b *bmap, s *slice) {
 		copyKeys(t, h, b.overflow(t), s)
 	}
 }
+
+//go:linkname values maps.values
+func values(m any) (unsafe.Pointer, int) {
+	e := efaceOf(&m)
+	t := (*maptype)(unsafe.Pointer(e._type))
+	h := (*hmap)(e.data)
+	if h == nil || h.count == 0 {
+		return unsafe.Pointer(uintptr(0)), 0
+	}
+
+	var s = &slice{
+		array: newarray(t.elem, h.count),
+		len:   0,
+		cap:   h.count,
+	}
+
+	if h.B == 0 {
+		copyValues(t, h, (*bmap)(h.buckets), s)
+		return s.array, s.len
+	}
+
+	arraySize := int(bucketShift(h.B))
+	for i := 0; i < arraySize; i++ {
+		b := (*bmap)(add(h.buckets, uintptr(i)*uintptr(t.bucketsize)))
+		copyValues(t, h, b, s)
+	}
+	return s.array, s.len
+}
+
+func copyValues(t *maptype, h *hmap, b *bmap, s *slice) {
+	for i := uintptr(0); i < bucketCnt; i++ {
+		if isEmpty(b.tophash[i]) {
+			continue
+		}
+		if h.flags&hashWriting != 0 {
+			fatal("concurrent map read and map write")
+		}
+		ele := add(unsafe.Pointer(b), dataOffset+bucketCnt*uintptr(t.keysize)+i*uintptr(t.elemsize))
+		if t.indirectelem() {
+			ele = *((*unsafe.Pointer)(ele))
+		}
+		if s.len >= s.cap {
+			*s = growslice(s.array, s.len+1, s.cap, 1, t.key)
+		}
+		typedmemmove(t.elem, add(s.array, uintptr(s.len)*uintptr(t.elemsize)), ele)
+		s.len++
+	}
+	if b.overflow(t) != nil {
+		copyValues(t, h, b.overflow(t), s)
+	}
+}
