@@ -9,7 +9,9 @@ import (
 	"runtime"
 	"runtime/debug"
 	"sync"
+	"sync/atomic"
 	"testing"
+	_ "unsafe"
 )
 
 // We assume that the Once.Do tests have already covered parallelism.
@@ -181,6 +183,61 @@ func TestOnceFuncPanicTraceback(t *testing.T) {
 func onceFuncPanic() {
 	panic("x")
 }
+
+func TestOnceXxxGC(t *testing.T) {
+	fns := map[string]func([]byte) func(){
+		"OnceFunc": func(buf []byte) func() {
+			return sync.OnceFunc(func() { buf[0] = 1 })
+		},
+		"OnceValue": func(buf []byte) func() {
+			f := sync.OnceValue(func() any { buf[0] = 1; return nil })
+			return func() { f() }
+		},
+		"OnceValues": func(buf []byte) func() {
+			f := sync.OnceValues(func() (any, any) { buf[0] = 1; return nil, nil })
+			return func() { f() }
+		},
+	}
+	for n, fn := range fns {
+		t.Run(n, func(t *testing.T) {
+			buf := make([]byte, 1024)
+			var gc atomic.Bool
+			runtime.SetFinalizer(&buf[0], func(_ *byte) {
+				gc.Store(true)
+			})
+			f := fn(buf)
+			gcwaitfin()
+			if gc.Load() != false {
+				t.Fatal("buffer already garbage collected")
+			}
+			f()
+			gcwaitfin()
+			if gc.Load() != true {
+				// Even if f is still alive, the function passed to OnceXxx
+				// is not kept alive after the first call to f.
+				t.Fatal("buffer not garbage collected")
+			}
+			f()
+		})
+	}
+}
+
+// gcwaitfin performs garbage collection and waits for all finalizers to run.
+func gcwaitfin() {
+	doneCh := make(chan struct{})
+	sentinel := make([]byte, 64)
+	runtime.SetFinalizer(&sentinel[0], func(_ *byte) {
+		close(doneCh)
+	})
+	runtime.GC()
+	<-doneCh                  // when channel is closed fing must have been active
+	for !runtime_fingwait() { // wait for fing to go idle
+		runtime.Gosched()
+	}
+}
+
+//go:linkname runtime_fingwait runtime.fingwait
+func runtime_fingwait() bool
 
 var (
 	onceFunc = sync.OnceFunc(func() {})

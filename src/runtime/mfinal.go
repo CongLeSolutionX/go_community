@@ -157,6 +157,12 @@ func wakefing() *g {
 	return nil
 }
 
+func fingwait() bool {
+	// used by tests to check that fing is idle in order to ensure that all
+	// queued finalizers have finished running.
+	return fingStatus.Load()&fingWait != 0
+}
+
 func createfing() {
 	// start the finalizer goroutine exactly once
 	if fingStatus.Load() == fingUninitialized && fingStatus.CompareAndSwap(fingUninitialized, fingCreated) {
