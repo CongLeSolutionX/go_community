@@ -1429,3 +1429,41 @@ var zeroVal [maxZero]byte
 // map init function to this symbol. Defined in assembly so as to avoid
 // complications with instrumentation (coverage, etc).
 func mapinitnoop()
+
+//go:linkname keys maps.keys
+func keys(m any, data unsafe.Pointer) {
+	e := efaceOf(&m)
+	t := (*maptype)(unsafe.Pointer(e._type))
+	h := (*hmap)(e.data)
+	if h.B == 0 {
+		data = copyKeys(t, h, (*bmap)(h.buckets), data)
+		return
+	}
+	arraySize := int(bucketShift(h.B))
+	for i := 0; i < arraySize; i++ {
+		b := (*bmap)(add(h.buckets, uintptr(i)*uintptr(t.bucketsize)))
+		data = copyKeys(t, h, b, data)
+	}
+}
+
+func copyKeys(t *maptype, h *hmap, b *bmap, data unsafe.Pointer) unsafe.Pointer {
+	for i := uintptr(0); i < bucketCnt; i++ {
+		if isEmpty(b.tophash[i]) {
+			continue
+		}
+		if h.flags&hashWriting != 0 {
+			fatal("concurrent map read and map write")
+		}
+		k := add(unsafe.Pointer(b), dataOffset+i*uintptr(t.keysize))
+		if t.indirectkey() {
+			k = *((*unsafe.Pointer)(k))
+		}
+		typedmemmove(t.key, data, k)
+		data = add(data, t.key.size)
+
+	}
+	if b.overflow(t) != nil {
+		return copyKeys(t, h, b.overflow(t), data)
+	}
+	return data
+}
