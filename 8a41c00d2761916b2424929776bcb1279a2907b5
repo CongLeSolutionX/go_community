@@ -143,6 +143,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "db6e3a4d_fc23d202",
+        "filename": "src/cmd/internal/obj/wasm/wasmobj.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 907,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-04-02T04:29:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef5b86f4_1621fe82",
+      "revId": "8a41c00d2761916b2424929776bcb1279a2907b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8a61397c_648d768b",
@@ -160,6 +178,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6503c5ee_e906466e",
+        "filename": "src/cmd/internal/obj/wasm/wasmobj.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 962,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-04-02T04:29:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a61397c_648d768b",
+      "revId": "8a41c00d2761916b2424929776bcb1279a2907b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f7b1aebd_afa0db52",
@@ -173,6 +209,24 @@
       "writtenOn": "2023-03-31T23:09:59Z",
       "side": 1,
       "message": "Same here. I think we should keep both?",
+      "revId": "8a41c00d2761916b2424929776bcb1279a2907b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d59949ff_82766d8b",
+        "filename": "src/cmd/link/internal/wasm/asm.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-04-02T04:29:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7b1aebd_afa0db52",
       "revId": "8a41c00d2761916b2424929776bcb1279a2907b5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -211,6 +265,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7dab532c_e2d71b64",
+        "filename": "src/runtime/asm_wasip1_wasm.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-04-02T04:29:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6b9978a_8fe36bcd",
+      "revId": "8a41c00d2761916b2424929776bcb1279a2907b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4c766f83_08b7b72d",
@@ -224,6 +296,24 @@
       "writtenOn": "2023-03-31T23:09:59Z",
       "side": 1,
       "message": "Undo.",
+      "revId": "8a41c00d2761916b2424929776bcb1279a2907b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5794e3d3_4a6de60b",
+        "filename": "src/runtime/asm_wasm.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-04-02T04:29:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c766f83_08b7b72d",
       "revId": "8a41c00d2761916b2424929776bcb1279a2907b5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -245,6 +335,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "94fe2f81_10765890",
+        "filename": "src/runtime/rt0_js_wasm.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-04-02T04:29:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b23458e9_6a9bca2c",
+      "revId": "8a41c00d2761916b2424929776bcb1279a2907b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1f1d0b0f_e529eebc",
@@ -258,6 +366,24 @@
       "writtenOn": "2023-03-31T23:09:59Z",
       "side": 1,
       "message": "Same here. The build tag is probably unnecessary.",
+      "revId": "8a41c00d2761916b2424929776bcb1279a2907b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a66fe16_37f6352a",
+        "filename": "src/runtime/rt0_wasip1_wasm.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-04-02T04:29:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f1d0b0f_e529eebc",
       "revId": "8a41c00d2761916b2424929776bcb1279a2907b5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
