@@ -41,6 +41,20 @@ func TestKeys(t *testing.T) {
 	if !slicesEqual(got2, want) {
 		t.Errorf("Keys(%v) = %v, want %v", m2, got2, want)
 	}
+
+	//test for oldbucket code path
+	var want3 []int
+	var m = make(map[int]int)
+	for i := 0; i < 1000; i++ {
+		want3 = append(want3, i)
+		m[i] = i
+	}
+
+	got3 := Keys(m)
+	sort.Ints(got3)
+	if !slicesEqual(got3, want3) {
+		t.Errorf("Keys(%v) = %v, want %v", m, got3, want3)
+	}
 }
 
 func TestValues(t *testing.T) {
@@ -177,5 +191,18 @@ func TestDeleteFunc(t *testing.T) {
 	want := map[int]int{1: 2, 2: 4}
 	if !Equal(mc, want) {
 		t.Errorf("DeleteFunc result = %v, want %v", mc, want)
+	}
+}
+
+var keysArr []int
+
+func BenchmarkKeys(b *testing.B) {
+	for i := 0; i < 1000000; i++ {
+		m1[i] = i
+	}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		keysArr = Keys(m1)
 	}
 }
