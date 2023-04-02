@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "55bae4e9_37cba494",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-04-02T03:54:06Z",
+      "side": 1,
+      "message": "Ready for review. Let me know if you\u0027d prefer gp.syscallbp. It probably wouldn\u0027t be too hard, but this is still easier for now.",
+      "revId": "356f79ffdfeadacef449d70c5cbd3ac8eb3679d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
