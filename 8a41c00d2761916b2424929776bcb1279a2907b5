@@ -250,6 +250,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "54d17ade_05c35733",
+        "filename": "src/runtime/asm_js_wasm.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-04-02T04:51:15Z",
+      "side": 1,
+      "message": "This is the only difference currently. I\u0027m looking into whether we should add args for wasi.",
+      "parentUuid": "9ed9835d_d245e9f7",
+      "revId": "8a41c00d2761916b2424929776bcb1279a2907b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a6b9978a_8fe36bcd",
         "filename": "src/runtime/asm_wasip1_wasm.s",
         "patchSetId": 4
