@@ -128,6 +128,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5b9c7a3a_256654c0",
+        "filename": "misc/wasm/wasm_exec.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-04-03T19:26:52Z",
+      "side": 1,
+      "message": "Okay, thanks for the context. Changing wasm_exec.js is okay, and we\u0027ve done it a few times before. Technically we only support wasm_exec.js of the same version as the Go toolchain. But each time there was some churn for users. Would it be possible to do some workaround (e.g. alias memory to mem in the JS)? If so, we could avoid some churn.",
+      "parentUuid": "a480b2fa_c3e8c884",
+      "revId": "8a41c00d2761916b2424929776bcb1279a2907b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ef5b86f4_1621fe82",
         "filename": "src/cmd/internal/obj/wasm/wasmobj.go",
         "patchSetId": 4
@@ -280,6 +298,24 @@
       "side": 1,
       "message": "WASI supports args, but they are initialized in runtime.osinit instead. This was part of the original change we inherited, I\u0027m not sure what were the reasons behind it.\n\nI think we can unify the code if that\u0027s preferred, no fundamental reasons to keep them separated from what I know.",
       "parentUuid": "54d17ade_05c35733",
+      "revId": "8a41c00d2761916b2424929776bcb1279a2907b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "275e536e_9de09efb",
+        "filename": "src/runtime/asm_js_wasm.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-04-03T19:26:52Z",
+      "side": 1,
+      "message": "Okay, thanks. Yeah, it may be better if we can unify it and put the arg handling code in runtime.args.",
+      "parentUuid": "648f3076_a9b48636",
       "revId": "8a41c00d2761916b2424929776bcb1279a2907b5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
