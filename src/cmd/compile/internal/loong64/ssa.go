@@ -530,48 +530,27 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		p.RegTo2 = v.Reg0()
 
 	case ssa.OpLOONG64LoweredAtomicAdd32, ssa.OpLOONG64LoweredAtomicAdd64:
-		// DBAR
-		// LL	(Rarg0), Rout
-		// ADDV Rarg1, Rout, Rtmp
-		// SC	Rtmp, (Rarg0)
-		// BEQ	Rtmp, -3(PC)
-		// DBAR
-		// ADDV Rarg1, Rout
-		ll := loong64.ALLV
-		sc := loong64.ASCV
+		// AMADDx	Rarg1, (Rarg0), Rout
+		// ADDxU	Rarg1, Rout, Rout
+		amaddx := loong64.AAMADDV
+		addx := loong64.AADDVU
 		if v.Op == ssa.OpLOONG64LoweredAtomicAdd32 {
-			ll = loong64.ALL
-			sc = loong64.ASC
+			amaddx = loong64.AAMADDW
+			addx = loong64.AADDU
 		}
-		s.Prog(loong64.ADBAR)
-		p := s.Prog(ll)
-		p.From.Type = obj.TYPE_MEM
-		p.From.Reg = v.Args[0].Reg()
-		p.To.Type = obj.TYPE_REG
-		p.To.Reg = v.Reg0()
-		p1 := s.Prog(loong64.AADDVU)
+		p := s.Prog(amaddx)
+		p.From.Type = obj.TYPE_REG
+		p.From.Reg = v.Args[1].Reg()
+		p.To.Type = obj.TYPE_MEM
+		p.To.Reg = v.Args[0].Reg()
+		p.RegTo2 = v.Reg0()
+		p1 := s.Prog(addx)
 		p1.From.Type = obj.TYPE_REG
 		p1.From.Reg = v.Args[1].Reg()
 		p1.Reg = v.Reg0()
 		p1.To.Type = obj.TYPE_REG
-		p1.To.Reg = loong64.REGTMP
-		p2 := s.Prog(sc)
-		p2.From.Type = obj.TYPE_REG
-		p2.From.Reg = loong64.REGTMP
-		p2.To.Type = obj.TYPE_MEM
-		p2.To.Reg = v.Args[0].Reg()
-		p3 := s.Prog(loong64.ABEQ)
-		p3.From.Type = obj.TYPE_REG
-		p3.From.Reg = loong64.REGTMP
-		p3.To.Type = obj.TYPE_BRANCH
-		p3.To.SetTarget(p)
-		s.Prog(loong64.ADBAR)
-		p4 := s.Prog(loong64.AADDVU)
-		p4.From.Type = obj.TYPE_REG
-		p4.From.Reg = v.Args[1].Reg()
-		p4.Reg = v.Reg0()
-		p4.To.Type = obj.TYPE_REG
-		p4.To.Reg = v.Reg0()
+		p1.To.Reg = v.Reg0()
+
 	case ssa.OpLOONG64LoweredAtomicAddconst32, ssa.OpLOONG64LoweredAtomicAddconst64:
 		// DBAR
 		// LL	(Rarg0), Rout
