@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9725cbe2_9ced05d2",
+        "filename": "src/cmd/go/internal/mmap/mmap_other.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-03T01:28:49Z",
+      "side": 1,
+      "message": "Perhaps just \"wasip1\", not \"wasi1 \u0026\u0026 wasm\".",
+      "revId": "9714bca9ea25f3d6ae35ea09607fe4148c600809",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

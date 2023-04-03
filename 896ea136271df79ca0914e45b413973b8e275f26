@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d80aa4e8_79b85d60",
+        "filename": "src/cmd/dist/build.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 1734,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-03T01:28:49Z",
+      "side": 0,
+      "message": "Do we expect the port to be working at this point?  There seem to be more CLs in the stack.  I would expect this to be one of the final changes.",
+      "revId": "896ea136271df79ca0914e45b413973b8e275f26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
