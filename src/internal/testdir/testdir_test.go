@@ -1457,7 +1457,7 @@ var (
 		"arm":     {"GOARM", "5", "6", "7"},
 		"arm64":   {},
 		"loong64": {},
-		"mips":    {"GOMIPS", "hardfloat", "softfloat"},
+		"mips":    {"GOMIPS", "hardfloat", "softfloat", "hardfloat,mips32r2", "hardfloat,mips32r5"},
 		"mips64":  {"GOMIPS64", "hardfloat", "softfloat"},
 		"ppc64":   {"GOPPC64", "power8", "power9", "power10"},
 		"ppc64le": {"GOPPC64", "power8", "power9", "power10"},
