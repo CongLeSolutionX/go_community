@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2e9544b_8d16717c",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 678,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-04-03T16:50:38Z",
+      "side": 1,
+      "message": "Would it make sense to change these to `goarch !\u003d \"wasm\"` instead of checking two different-but-related GOOS values?",
+      "range": {
+        "startLine": 678,
+        "startChar": 22,
+        "endLine": 678,
+        "endChar": 54
+      },
+      "revId": "8de0053decc36c3422de6a4b451265bbdf87e4d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4e4cb28_ecc3d30f",
+        "filename": "src/cmd/go/internal/cache/cache_test.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-04-03T16:50:38Z",
+      "side": 1,
+      "message": "Issue #35220 is closed; I don\u0027t know why I referred to it in CL 436816.\n\nProbably this should be changed to use a more appropriately-named `Must` function in the `testenv` package, or it should be updated to refer to an issue that specifically focuses on some bug on `js` and `waspi1` that prevents the test from passing.",
+      "range": {
+        "startLine": 155,
+        "startChar": 0,
+        "endLine": 157,
+        "endChar": 2
+      },
+      "revId": "8de0053decc36c3422de6a4b451265bbdf87e4d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79f714b6_04793c23",
+        "filename": "src/cmd/go/internal/work/build_test.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-04-03T16:50:38Z",
+      "side": 1,
+      "message": "Why is this skipped on `wasip1` but not `js`? (Does `js` support a syscall that `wasip1` does not?)\n\nProbably this test should use a different, platform-agnostic style of skip instead.\n\n(Perhaps the test should skip if the `os.Chown` or `os.Chmod` call returns an error for which `testenv.SyscallIsNotSupported(err)` returns true?)",
+      "revId": "8de0053decc36c3422de6a4b451265bbdf87e4d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04e4af98_477dab07",
+        "filename": "src/cmd/internal/osinfo/os_wasip1.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-04-03T16:50:38Z",
+      "side": 1,
+      "message": "(nit) This should return an error for which `errors.Is(err, errors.ErrUnsupported)` is true.",
+      "revId": "8de0053decc36c3422de6a4b451265bbdf87e4d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
