@@ -204,6 +204,7 @@ func Import(fset *token.FileSet, packages map[string]*types.Package, path, srcDi
 		if exportFormat, err = buf.ReadByte(); err != nil {
 			return
 		}
+		size--
 
 		// The unified export format starts with a 'u'; the indexed export
 		// format starts with an 'i'; and the older binary export format
@@ -214,9 +215,11 @@ func Import(fset *token.FileSet, packages map[string]*types.Package, path, srcDi
 			var data []byte
 			var r io.Reader = buf
 			if size >= 0 {
-				r = io.LimitReader(r, int64(size))
-			}
-			if data, err = io.ReadAll(r); err != nil {
+				data = make([]byte, size)
+				if _, err = io.ReadFull(r, data); err != nil {
+					return
+				}
+			} else if data, err = io.ReadAll(r); err != nil {
 				return
 			}
 			s := string(data)
