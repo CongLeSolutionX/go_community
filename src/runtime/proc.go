@@ -4277,8 +4277,10 @@ func newproc1(fn *funcval, callergp *g, callerpc uintptr) *g {
 	if usesLR {
 		// caller's LR
 		*(*uintptr)(unsafe.Pointer(sp)) = 0
+		// caller's FP
+		*(*uintptr)(unsafe.Pointer(sp - 8)) = 0
 		prepGoExitFrame(sp)
-		spArg += sys.MinFrameSize
+		spArg += 2 * sys.MinFrameSize
 	}
 
 	memclrNoHeapPointers(unsafe.Pointer(&newg.sched), unsafe.Sizeof(newg.sched))
