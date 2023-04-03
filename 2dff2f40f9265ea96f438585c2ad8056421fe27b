@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fdbbdc3c_bb7a130b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-04-03T18:26:33Z",
+      "side": 1,
+      "message": "This appears to be changing the set of supported `GOMIPS` values.\n\nIt should have a corresponding proposal; see https://go.dev/s/proposal.",
+      "revId": "2dff2f40f9265ea96f438585c2ad8056421fe27b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
