@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "556f9460_bcdf911f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2023-04-03T04:19:21Z",
+      "side": 1,
+      "message": "add growslice logic.",
+      "parentUuid": "42c382c3_ffa751d7",
+      "revId": "d9e2e66841610664549f2a297d6761fd3a146aaf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cde3f8c1_0e3d001c",
@@ -68,6 +86,24 @@
       "writtenOn": "2023-04-03T01:40:07Z",
       "side": 1,
       "message": "This list is very roughly sorted from low-level packages with few dependencies to high-level packages with many dependencies.  This line should be much earlier.",
+      "revId": "d9e2e66841610664549f2a297d6761fd3a146aaf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36c37749_314f930b",
+        "filename": "src/go/build/deps_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2023-04-03T04:19:21Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "cde3f8c1_0e3d001c",
       "revId": "d9e2e66841610664549f2a297d6761fd3a146aaf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
