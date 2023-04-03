@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "acd63c5f_825b0d04",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-04-03T18:49:21Z",
+      "side": 1,
+      "message": "Is it possible to reproduce the failure mode in a test that runs on the `linux-s390x-ibm` builder?\n\nIt looks like a subset of the `os/exec` tests are already run under the race detector on all builders. Is there a specific test that could be added to that subset to catch this bug?\n(https://cs.opensource.google/go/go/+/master:src/cmd/dist/test.go;l\u003d1499-1535;drc\u003d9b221f9350b555a1e8c01c08a88ed6590ca11a17)",
+      "parentUuid": "f5c4d43b_2d41cc0b",
+      "revId": "7608a650fe12bccc61f4dba2611125b7e8e669db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "e7f2ec96_1ac7d5f6",
