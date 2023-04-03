@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d58ff822_e0290a49",
+        "filename": "src/syscall/dirent.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 12980
+      },
+      "writtenOn": "2023-04-03T04:40:11Z",
+      "side": 1,
+      "message": "The only reason was to maintain consistency with the historical \"js \u0026\u0026 wasm\" pattern, tho admittedly we may not have done it thoroughly.\n\nI agree that the redundancy is unnecessary and sometimes distracting, we can unify everything to only test for \"js\", \"wasip1\", or \"wasm\" where meaningful.",
+      "parentUuid": "f837c589_dd8ec8bd",
+      "revId": "3a70e266c39315db408a51eae5ce82bdf2c26f8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3ea80ae5_eedbdeb9",
         "filename": "src/syscall/fs_wasip1.go",
         "patchSetId": 11
@@ -37,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7e13fa4f_f9afe95f",
+        "filename": "src/syscall/fs_wasip1.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 12980
+      },
+      "writtenOn": "2023-04-03T04:40:11Z",
+      "side": 1,
+      "message": "The types come from the WASI spec https://github.com/WebAssembly/WASI/blob/main/legacy/preview1/docs.md\n\nWe declared them as aliases because it reduces the binary footprint compared to declaring types (assuming due to reflection data that does not get generated). We measured on the compiled tests which were ~5% smaller with type aliases.",
+      "parentUuid": "3ea80ae5_eedbdeb9",
+      "revId": "3a70e266c39315db408a51eae5ce82bdf2c26f8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "df07cc99_a584f359",
         "filename": "src/syscall/fs_wasip1.go",
         "patchSetId": 11
@@ -48,6 +84,24 @@
       "writtenOn": "2023-04-03T01:24:58Z",
       "side": 1,
       "message": "Why the leading double underscore on these names?  Are we matching names defined somewhere else?",
+      "revId": "3a70e266c39315db408a51eae5ce82bdf2c26f8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "193e1296_3d25911f",
+        "filename": "src/syscall/fs_wasip1.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 12980
+      },
+      "writtenOn": "2023-04-03T04:40:11Z",
+      "side": 1,
+      "message": "This was part of the original change we inherited and based this work on. I believe it came from translating the code in wasi-libc.",
+      "parentUuid": "df07cc99_a584f359",
       "revId": "3a70e266c39315db408a51eae5ce82bdf2c26f8d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
