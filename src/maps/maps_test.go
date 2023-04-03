@@ -179,3 +179,32 @@ func TestDeleteFunc(t *testing.T) {
 		t.Errorf("DeleteFunc result = %v, want %v", mc, want)
 	}
 }
+<<<<<<< PATCH SET (00fb1e maps,runtime: improve maps.Values)
+
+var keysArr []int
+
+func BenchmarkKeys(b *testing.B) {
+	for i := 0; i < 1000000; i++ {
+		m1[i] = i
+	}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		keysArr = Keys(m1)
+	}
+}
+
+var valuesArr []int
+
+func BenchmarkValues(b *testing.B) {
+	for i := 0; i < 1000000; i++ {
+		m1[i] = i
+	}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		valuesArr = Values(m1)
+	}
+}
+=======
+>>>>>>> BASE      (8edcdd crypto/subtle: don't cast to *uintptr when word size is 0)
