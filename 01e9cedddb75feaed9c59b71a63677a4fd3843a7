@@ -163,6 +163,24 @@
       "parentUuid": "1f09ad78_161e717f",
       "revId": "01e9cedddb75feaed9c59b71a63677a4fd3843a7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2d4cbfc_38b7be1d",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4283,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-04-03T23:20:03Z",
+      "side": 1,
+      "message": "\u003e But, spArg is actually not used anywhere.\n\nOh wow, I totally missed that 🙈. Thanks!\n\nThat being said, do we need to modify `sp` here since we pushed another value on the stack? I think the answer is no, because the frame pointer is supposed to sit 8 bytes below SP.\n\n[1] https://blog.felixge.de/go-arm64-function-call-assembly/#prologue-2-setup-foos-frame",
+      "parentUuid": "5dbc99a5_ce608262",
+      "revId": "01e9cedddb75feaed9c59b71a63677a4fd3843a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
