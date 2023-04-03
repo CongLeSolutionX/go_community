@@ -39,6 +39,30 @@
       },
       "revId": "ba71817390f78bf8c479dc65d1bc51db98d667a7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d0cbb8e_7d7efd95",
+        "filename": "src/runtime/stubs_amd64.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-04-03T23:08:14Z",
+      "side": 1,
+      "message": "Thanks for the careful review of this!\n\nI can change this to say: `getcallerfp returns the value of the frame pointer register or 0 if not implemented`.\n\nThat being said, I think the current comment is also correct. The caller here is the caller of `getcallerfp()` which has pushed the frame pointer of its caller on the stack and updated the frame pointer register to the address of this value. My comment would be wrong if it said: \"returns the value of the frame pointer\".\n\nAnyway, I agree it\u0027s confusing, and I\u0027m doubting myself while I\u0027m typing this, so if you prefer my suggestion from above, I\u0027ll send a CL for it ASAP 😊.",
+      "parentUuid": "0279b6ca_03091757",
+      "range": {
+        "startLine": 51,
+        "startChar": 56,
+        "endLine": 51,
+        "endChar": 76
+      },
+      "revId": "ba71817390f78bf8c479dc65d1bc51db98d667a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
