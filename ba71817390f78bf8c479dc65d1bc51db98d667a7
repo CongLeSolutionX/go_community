@@ -63,6 +63,30 @@
       },
       "revId": "ba71817390f78bf8c479dc65d1bc51db98d667a7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba94cfc2_ddaa28bb",
+        "filename": "src/runtime/stubs_amd64.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-04-03T23:13:48Z",
+      "side": 1,
+      "message": "Submitted a CL 481617 for this. PTAL.",
+      "parentUuid": "0d0cbb8e_7d7efd95",
+      "range": {
+        "startLine": 51,
+        "startChar": 56,
+        "endLine": 51,
+        "endChar": 76
+      },
+      "revId": "ba71817390f78bf8c479dc65d1bc51db98d667a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
