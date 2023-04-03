@@ -71,6 +71,20 @@ func TestValues(t *testing.T) {
 	if !slicesEqual(got2, want2) {
 		t.Errorf("Values(%v) = %v, want %v", m2, got2, want2)
 	}
+
+	//test for oldbucket code path
+	var want3 []int
+	var m = make(map[int]int)
+	for i := 0; i < 1000; i++ {
+		want3 = append(want3, i)
+		m[i] = i
+	}
+
+	got3 := Values(m)
+	sort.Ints(got3)
+	if !slicesEqual(got3, want3) {
+		t.Errorf("Values(%v) = %v, want %v", m, got3, want3)
+	}
 }
 
 func TestEqual(t *testing.T) {
@@ -204,5 +218,18 @@ func BenchmarkKeys(b *testing.B) {
 
 	for i := 0; i < b.N; i++ {
 		keysArr = Keys(m1)
+	}
+}
+
+var valuesArr []int
+
+func BenchmarkValues(b *testing.B) {
+	for i := 0; i < 1000000; i++ {
+		m1[i] = i
+	}
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		valuesArr = Values(m1)
 	}
 }
