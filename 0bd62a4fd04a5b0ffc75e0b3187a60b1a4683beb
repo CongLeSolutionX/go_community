@@ -16,6 +16,24 @@
       "message": "This could have a PCALIGN before it also.",
       "revId": "0bd62a4fd04a5b0ffc75e0b3187a60b1a4683beb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f6966bc_1de61ad8",
+        "filename": "src/internal/bytealg/index_ppc64x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 720,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2023-04-03T09:51:39Z",
+      "side": 1,
+      "message": "Thanks for spotting it, it does improve perf for certain input sizes",
+      "parentUuid": "78391e35_b8dadca4",
+      "revId": "0bd62a4fd04a5b0ffc75e0b3187a60b1a4683beb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
