@@ -71,6 +71,24 @@
       "parentUuid": "d9788ec4_d8e28895",
       "revId": "424efd10e85519f943a2a7f510b7ddcd0efcd5cd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e279b19f_d640079d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-04-03T18:26:48Z",
+      "side": 1,
+      "message": "Results of additional benchmark (the \"bent\" suite): https://perf.golang.org/search?q\u003dupload:20230401.1\n\nIt\u0027s not super compelling on amd64.  My usual arm64 benchmark box is down, I will try to look into that later today.",
+      "parentUuid": "9417fccc_115291ec",
+      "revId": "424efd10e85519f943a2a7f510b7ddcd0efcd5cd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
