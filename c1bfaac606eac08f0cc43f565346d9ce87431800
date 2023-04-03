@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "481866ce_1c907d09",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-04-03T15:01:18Z",
+      "side": 1,
+      "message": "gp.syscallbp is mentioned as a TODO right above the libc_read_trampoline comment. Do you want to rearrange the location of that comment, or mention it twice?",
+      "parentUuid": "8e036cbe_47477294",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 61
+      },
+      "revId": "c1bfaac606eac08f0cc43f565346d9ce87431800",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "880d7b58_4f248a59",
@@ -93,6 +117,23 @@
       "writtenOn": "2023-04-03T14:34:51Z",
       "side": 1,
       "message": "thanks!",
+      "revId": "c1bfaac606eac08f0cc43f565346d9ce87431800",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf9d77d4_3d1bbdb7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-04-03T15:01:18Z",
+      "side": 1,
+      "message": "Thanks for the reviews!",
       "revId": "c1bfaac606eac08f0cc43f565346d9ce87431800",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
