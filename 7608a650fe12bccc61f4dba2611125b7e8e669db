@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "22ab75a6_d68987a6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-04-03T18:37:43Z",
+      "side": 1,
+      "message": "The CL description should mention what the CL does, instead of the bug itself. Maybe something like \"runtime: mark forkAndExecInChild1 nocheckptr\". Also explain why it should be marked. Thanks.",
+      "revId": "7608a650fe12bccc61f4dba2611125b7e8e669db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "e7f2ec96_1ac7d5f6",
@@ -14,6 +31,23 @@
       "writtenOn": "2023-04-01T18:59:54Z",
       "side": 1,
       "message": "Request you all to review my code changes and give your comments/feedback.\nThanks..",
+      "revId": "7608a650fe12bccc61f4dba2611125b7e8e669db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3ee7b34_260f0060",
+        "filename": "src/syscall/exec_linux.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-04-03T18:37:43Z",
+      "side": 1,
+      "message": "Add some comment explaining why it needs to be nocheckptr.\n\n(I wonder if the compiler should imply nocheckptr for functions marked norace? Either say, this is fine by itself.)",
       "revId": "7608a650fe12bccc61f4dba2611125b7e8e669db",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
