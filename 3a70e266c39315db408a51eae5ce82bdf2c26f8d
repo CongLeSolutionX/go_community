@@ -1,0 +1,259 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f837c589_dd8ec8bd",
+        "filename": "src/syscall/dirent.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-03T01:24:58Z",
+      "side": 1,
+      "message": "Is there a reason to specify \"wasip1 \u0026\u0026 wasm\"?  It seems to me that we could just say \"wasip1\".  It doesn\u0027t seem to make sense to speak of wasip1 without wasm.  And even if it somehow did, we would probably still want to compile this file.\n\nAdmittedly I don\u0027t know why we say \"js \u0026\u0026 wasm\" rather than just \"js\".",
+      "revId": "3a70e266c39315db408a51eae5ce82bdf2c26f8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ea80ae5_eedbdeb9",
+        "filename": "src/syscall/fs_wasip1.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-03T01:24:58Z",
+      "side": 1,
+      "message": "Why use type aliases here?",
+      "revId": "3a70e266c39315db408a51eae5ce82bdf2c26f8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df07cc99_a584f359",
+        "filename": "src/syscall/fs_wasip1.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-03T01:24:58Z",
+      "side": 1,
+      "message": "Why the leading double underscore on these names?  Are we matching names defined somewhere else?",
+      "revId": "3a70e266c39315db408a51eae5ce82bdf2c26f8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8eee9379_910eea4c",
+        "filename": "src/syscall/fs_wasip1.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-03T01:24:58Z",
+      "side": 1,
+      "message": "Don\u0027t add line breaks to the function declarations here and below.  We don\u0027t usually do that.",
+      "revId": "3a70e266c39315db408a51eae5ce82bdf2c26f8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3fa3da61_94d769d6",
+        "filename": "src/syscall/fs_wasip1.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-03T01:24:58Z",
+      "side": 1,
+      "message": "s/other others/others/",
+      "revId": "3a70e266c39315db408a51eae5ce82bdf2c26f8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f790a8dc_50aade41",
+        "filename": "src/syscall/fs_wasip1.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-03T01:24:58Z",
+      "side": 1,
+      "message": "Use :\u003d rather than a var statement.",
+      "revId": "3a70e266c39315db408a51eae5ce82bdf2c26f8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b318b54e_d817e223",
+        "filename": "src/syscall/fs_wasip1.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-03T01:24:58Z",
+      "side": 1,
+      "message": "This isn\u0027t a conventional three-part for loop.  I think it would be clearer to write it as\n\n    i :\u003d 0\n    for i \u003c len(path) {",
+      "revId": "3a70e266c39315db408a51eae5ce82bdf2c26f8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b918dcae_1307f31a",
+        "filename": "src/syscall/fs_wasip1.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-03T01:24:58Z",
+      "side": 1,
+      "message": "No need to check len(buf) \u003e 0 here, you ensured above that it that is always true.",
+      "revId": "3a70e266c39315db408a51eae5ce82bdf2c26f8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58b1d3c9_3cec4d26",
+        "filename": "src/syscall/fs_wasip1.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-03T01:24:58Z",
+      "side": 1,
+      "message": "Write this as\n\n    return unsafe.String(\u0026buf[0], len(buf))",
+      "revId": "3a70e266c39315db408a51eae5ce82bdf2c26f8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e3a93af_3b13aadb",
+        "filename": "src/syscall/fs_wasip1.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-03T01:24:58Z",
+      "side": 1,
+      "message": "This function is complex enough to need a doc comment.",
+      "revId": "3a70e266c39315db408a51eae5ce82bdf2c26f8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5dad30cb_3107a5a2",
+        "filename": "src/syscall/fs_wasip1.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-03T01:24:58Z",
+      "side": 1,
+      "message": "Should this be exported?  If it should, it needs a doc comment.",
+      "revId": "3a70e266c39315db408a51eae5ce82bdf2c26f8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e34777b5_a11034ba",
+        "filename": "src/syscall/os_wasip1.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-03T01:24:58Z",
+      "side": 1,
+      "message": "Missing copyright header.",
+      "revId": "3a70e266c39315db408a51eae5ce82bdf2c26f8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "802e7b7c_d26f3e0e",
+        "filename": "src/syscall/os_wasip1.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-03T01:24:58Z",
+      "side": 1,
+      "message": "Omit the line breaks.",
+      "revId": "3a70e266c39315db408a51eae5ce82bdf2c26f8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48665bf7_d9377356",
+        "filename": "src/syscall/rlimit_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-03T01:24:58Z",
+      "side": 1,
+      "message": "This test doesn\u0027t try to set the rlimit, and should run on all systems.  Does it fail on wasip1?  How?",
+      "revId": "3a70e266c39315db408a51eae5ce82bdf2c26f8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd27efda_962c9822",
+        "filename": "src/syscall/syscall_wasip1.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-03T01:24:58Z",
+      "side": 1,
+      "message": "Why type aliases?",
+      "revId": "3a70e266c39315db408a51eae5ce82bdf2c26f8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
