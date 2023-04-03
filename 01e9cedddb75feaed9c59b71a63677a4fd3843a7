@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fc0adfcd_ff4e2eee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-04-03T23:09:27Z",
+      "side": 1,
+      "message": "(Not necessarily in this CL) Maybe we should rename the variable to debugCheckFP.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 12
+      },
+      "revId": "01e9cedddb75feaed9c59b71a63677a4fd3843a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5746d310_bf83a169",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -55,6 +78,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "777bfc05_ab8cf93e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-04-03T23:09:27Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "01e9cedddb75feaed9c59b71a63677a4fd3843a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1a4e06ac_aa9fc276",
@@ -74,6 +114,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4c4f8c8e_90952753",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4281,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-04-03T23:09:27Z",
+      "side": 1,
+      "message": "Yeah, this probably should be guarded with GOARCH \u003d\u003d \"arm64\". (Otherwise it runs no only on 32-bit ARM but also other LR architectures like PPC64. It probably doesn\u0027t hurt as this is really the top of the stack and nothing is supposed to read there.)\n\nAnd yes, PtrSize would be better.",
+      "parentUuid": "1a4e06ac_aa9fc276",
+      "revId": "01e9cedddb75feaed9c59b71a63677a4fd3843a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1f09ad78_161e717f",
         "filename": "src/runtime/proc.go",
         "patchSetId": 1
@@ -85,6 +143,24 @@
       "writtenOn": "2023-04-03T20:11:31Z",
       "side": 1,
       "message": "1. This also seems wrong for 32 bit `arm`.\n2. How did this ever work? I thought SP on arm64 needs to by aligned by 16 bytes and that the HW enforces this. So either this version or the old version should have had a misaligned SP?",
+      "revId": "01e9cedddb75feaed9c59b71a63677a4fd3843a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5dbc99a5_ce608262",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4283,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-04-03T23:09:27Z",
+      "side": 1,
+      "message": "Yeah, this looks wrong, even on ARM64, because the stack args are still 1 word above SP, not two words. But, spArg is actually not used anywhere. (It is probably a leftover before register ABI.) So we should just delete spArg.",
+      "parentUuid": "1f09ad78_161e717f",
       "revId": "01e9cedddb75feaed9c59b71a63677a4fd3843a7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
