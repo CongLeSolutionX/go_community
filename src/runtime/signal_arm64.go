@@ -68,6 +68,7 @@ func (c *sigctxt) preparePanic(sig uint32, gp *g) {
 	sp := c.sp() - sys.StackAlign // needs only sizeof uint64, but must align the stack
 	c.set_sp(sp)
 	*(*uint64)(unsafe.Pointer(uintptr(sp))) = c.lr()
+	*(*uint64)(unsafe.Pointer(uintptr(sp - 8))) = c.r29()
 
 	pc := gp.sigpc
 
@@ -89,6 +90,7 @@ func (c *sigctxt) pushCall(targetPC, resumePC uintptr) {
 	sp := c.sp() - 16 // SP needs 16-byte alignment
 	c.set_sp(sp)
 	*(*uint64)(unsafe.Pointer(uintptr(sp))) = c.lr()
+	*(*uint64)(unsafe.Pointer(uintptr(sp - 8))) = c.r29()
 	// Set up PC and LR to pretend the function being signaled
 	// calls targetPC at resumePC.
 	c.set_lr(uint64(resumePC))
