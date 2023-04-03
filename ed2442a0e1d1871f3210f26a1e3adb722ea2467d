@@ -16,6 +16,23 @@
       "message": "LGTM.\n\nThank you.\n\nAlex",
       "revId": "ed2442a0e1d1871f3210f26a1e3adb722ea2467d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d88104e5_7c18d813",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-04-03T18:41:33Z",
+      "side": 1,
+      "message": "RELNOTE\u003dos.Truncate on Windows no longer now fails if the file does not exist, consistent with other platforms",
+      "revId": "ed2442a0e1d1871f3210f26a1e3adb722ea2467d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
