@@ -36,6 +36,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f4598d5_c6320125",
+        "filename": "src/syscall/dirent.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-03T22:25:17Z",
+      "side": 1,
+      "message": "Let\u0027s do just waspi1 where appropriate, which is most places.  We can worry about js later.",
+      "parentUuid": "d58ff822_e0290a49",
+      "revId": "3a70e266c39315db408a51eae5ce82bdf2c26f8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3ea80ae5_eedbdeb9",
@@ -67,6 +85,24 @@
       "side": 1,
       "message": "The types come from the WASI spec https://github.com/WebAssembly/WASI/blob/main/legacy/preview1/docs.md\n\nWe declared them as aliases because it reduces the binary footprint compared to declaring types (assuming due to reflection data that does not get generated). We measured on the compiled tests which were ~5% smaller with type aliases.",
       "parentUuid": "3ea80ae5_eedbdeb9",
+      "revId": "3a70e266c39315db408a51eae5ce82bdf2c26f8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a4dc506_76b19e37",
+        "filename": "src/syscall/fs_wasip1.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-03T22:25:17Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "7e13fa4f_f9afe95f",
       "revId": "3a70e266c39315db408a51eae5ce82bdf2c26f8d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -108,6 +144,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cae3d6fc_d06af56e",
+        "filename": "src/syscall/fs_wasip1.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-03T22:25:17Z",
+      "side": 1,
+      "message": "If there isn\u0027t a good reason to keep the leading underscores, let\u0027s drop them.  Thanks.",
+      "parentUuid": "193e1296_3d25911f",
+      "revId": "3a70e266c39315db408a51eae5ce82bdf2c26f8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8eee9379_910eea4c",
         "filename": "src/syscall/fs_wasip1.go",
         "patchSetId": 11
@@ -119,6 +173,24 @@
       "writtenOn": "2023-04-03T01:24:58Z",
       "side": 1,
       "message": "Don\u0027t add line breaks to the function declarations here and below.  We don\u0027t usually do that.",
+      "revId": "3a70e266c39315db408a51eae5ce82bdf2c26f8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8341564b_3c3ac983",
+        "filename": "src/syscall/fs_wasip1.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-03T22:25:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8eee9379_910eea4c",
       "revId": "3a70e266c39315db408a51eae5ce82bdf2c26f8d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -140,6 +212,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c419a14d_a2c7d0c6",
+        "filename": "src/syscall/fs_wasip1.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-03T22:25:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fa3da61_94d769d6",
+      "revId": "3a70e266c39315db408a51eae5ce82bdf2c26f8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f790a8dc_50aade41",
@@ -153,6 +243,24 @@
       "writtenOn": "2023-04-03T01:24:58Z",
       "side": 1,
       "message": "Use :\u003d rather than a var statement.",
+      "revId": "3a70e266c39315db408a51eae5ce82bdf2c26f8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4101307_713f6f60",
+        "filename": "src/syscall/fs_wasip1.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-03T22:25:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f790a8dc_50aade41",
       "revId": "3a70e266c39315db408a51eae5ce82bdf2c26f8d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -174,6 +282,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "594e68ee_a9db24d0",
+        "filename": "src/syscall/fs_wasip1.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-03T22:25:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b318b54e_d817e223",
+      "revId": "3a70e266c39315db408a51eae5ce82bdf2c26f8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b918dcae_1307f31a",
@@ -187,6 +313,24 @@
       "writtenOn": "2023-04-03T01:24:58Z",
       "side": 1,
       "message": "No need to check len(buf) \u003e 0 here, you ensured above that it that is always true.",
+      "revId": "3a70e266c39315db408a51eae5ce82bdf2c26f8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20d58ec2_cf05c795",
+        "filename": "src/syscall/fs_wasip1.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-03T22:25:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b918dcae_1307f31a",
       "revId": "3a70e266c39315db408a51eae5ce82bdf2c26f8d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -208,6 +352,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "96b09482_46d4fcd1",
+        "filename": "src/syscall/fs_wasip1.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-03T22:25:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58b1d3c9_3cec4d26",
+      "revId": "3a70e266c39315db408a51eae5ce82bdf2c26f8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4e3a93af_3b13aadb",
@@ -225,6 +387,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "64afe74b_4677c019",
+        "filename": "src/syscall/fs_wasip1.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-03T22:25:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e3a93af_3b13aadb",
+      "revId": "3a70e266c39315db408a51eae5ce82bdf2c26f8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5dad30cb_3107a5a2",
@@ -238,6 +418,24 @@
       "writtenOn": "2023-04-03T01:24:58Z",
       "side": 1,
       "message": "Should this be exported?  If it should, it needs a doc comment.",
+      "revId": "3a70e266c39315db408a51eae5ce82bdf2c26f8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d1c2e07_a53e9f15",
+        "filename": "src/syscall/fs_wasip1.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-03T22:25:17Z",
+      "side": 1,
+      "message": "Thanks for writing the doc comment.  Next question: why should we export this function from the syscall package when it is not available on any other platform?",
+      "parentUuid": "5dad30cb_3107a5a2",
       "revId": "3a70e266c39315db408a51eae5ce82bdf2c26f8d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
