@@ -14,6 +14,7 @@ import (
 	"errors"
 	"fmt"
 	"go/token"
+	"internal/buildcfg"
 	"internal/coverage"
 	"internal/lazyregexp"
 	"io"
@@ -3079,12 +3080,27 @@ func (b *Builder) gccArchArgs() []string {
 			return append(args, "-msoft-float")
 		}
 	case "mips", "mipsle":
-		args := []string{"-mabi=32", "-march=mips32"}
-		if cfg.GOMIPS == "hardfloat" {
-			return append(args, "-mhard-float", "-mfp32", "-mno-odd-spreg")
-		} else if cfg.GOMIPS == "softfloat" {
-			return append(args, "-msoft-float")
+		args := []string{"-mabi=32"}
+		if buildcfg.HasOption(buildcfg.GOMIPS, "mips32r5") {
+			args = append(args, "-march=mips32r5")
+		} else if buildcfg.HasOption(buildcfg.GOMIPS, "mips32r2") {
+			args = append(args, "-march=mips32r2")
+		} else {
+			args = append(args, "-march=mips32")
 		}
+		if buildcfg.HasOption(buildcfg.GOMIPS, "softfloat") {
+			args = append(args, "-msoft-float")
+		} else {
+			args = append(args, "-mhard-float", "-mno-odd-spreg")
+			if buildcfg.HasOption(buildcfg.GOMIPS, "mips32r5") {
+				args = append(args, "-mnan=2008", "-mfpxx")
+			} else if buildcfg.HasOption(buildcfg.GOMIPS, "mips32r2") {
+				args = append(args, "-mnan=legacy", "-mfpxx")
+			} else {
+				args = append(args, "-mnan=legacy", "-mfp32")
+			}
+		}
+		return args
 	case "loong64":
 		return []string{"-mabi=lp64d"}
 	case "ppc64":

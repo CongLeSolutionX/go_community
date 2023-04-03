@@ -20,6 +20,7 @@ import (
 	"go/ast"
 	"go/parser"
 	"go/token"
+	"internal/buildcfg"
 	"internal/xcoff"
 	"math"
 	"os"
@@ -1635,11 +1636,25 @@ func (p *Package) gccMachine() []string {
 			return []string{"-mabi=64", "-msoft-float"}
 		}
 	case "mips", "mipsle":
-		if gomips == "hardfloat" {
-			return []string{"-mabi=32", "-mfp32", "-mhard-float", "-mno-odd-spreg"}
-		} else if gomips == "softfloat" {
-			return []string{"-mabi=32", "-msoft-float"}
+		args := []string{"-mabi=32"}
+		if buildcfg.HasOption(gomips, "mips32r5") {
+			args = append(args, "-march=mips32r5")
+		} else if buildcfg.HasOption(gomips, "mips32r2") {
+			args = append(args, "-march=mips32r2")
 		}
+		if buildcfg.HasOption(gomips, "softfloat") {
+			args = append(args, "-msoft-float")
+		} else {
+			args = append(args, "-mhard-float", "-mno-odd-spreg")
+			if buildcfg.HasOption(gomips, "mips32r5") {
+				args = append(args, "-mnan=2008", "-mfpxx")
+			} else if buildcfg.HasOption(gomips, "mips32r2") {
+				args = append(args, "-mnan=legacy", "-mfpxx")
+			} else {
+				args = append(args, "-mfp32")
+			}
+		}
+		return args
 	case "loong64":
 		return []string{"-mabi=lp64d"}
 	}
