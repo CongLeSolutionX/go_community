@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc7260dc_19c9f721",
+        "filename": "src/go/internal/gcimporter/gcimporter.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-04T00:38:08Z",
+      "side": 1,
+      "message": "In at least some cases size is being read directly from the input.  That means that if the input is corrupt, size could be absurdly large.  Rather than always allocating a slice, this should use internal/saferio.ReadData.  That will still call io.ReadFull so it will still implement this optimization.",
+      "revId": "adf4439de1bc61fe70fab8b75b23c11cc21992ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
