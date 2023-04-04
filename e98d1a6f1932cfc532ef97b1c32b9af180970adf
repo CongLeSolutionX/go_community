@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88ea1f75_cd1d69fb",
+        "filename": "src/cmd/link/internal/wasm/asm.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-04T19:42:50Z",
+      "side": 1,
+      "message": "For protection against future WASI releases, please add something like\n\n    default:\n        ld.Exitf(\"internal error: writeExportSec: unrecognized GOOS %s\", buildcfg.GOOS)",
+      "revId": "e98d1a6f1932cfc532ef97b1c32b9af180970adf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
