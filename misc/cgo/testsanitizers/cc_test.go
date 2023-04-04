@@ -8,9 +8,11 @@ package sanitizers_test
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -454,10 +456,36 @@ func (c *config) checkCSanitizer() (skip bool, err error) {
 		return false, nil
 	}
 
-	if out, err := exec.Command(dst).CombinedOutput(); err != nil {
+	// On the linux-amd64 trybot with GCC 10.2.1 we sometimes see
+	// an endless stream of AddressSanitizer:DEADLYSIGNAL.
+
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	testCmd := exec.CommandContext(ctx, dst)
+	var stdout bytes.Buffer
+	testCmd.Stdout = &stdout
+	stderr, err := testCmd.StderrPipe()
+	if err != nil {
+		return false, fmt.Errorf("StderrPipe failed: %v", err)
+	}
+	if err := testCmd.Start(); err != nil {
 		if os.IsNotExist(err) {
 			return true, fmt.Errorf("%#q failed to produce executable: %v", strings.Join(cmd.Args, " "), err)
 		}
+		return false, fmt.Errorf("starting %s failed: %v", dst, err)
+	}
+	buf := make([]byte, 100)
+	n, err := stderr.Read(buf)
+	if err != nil && err != io.EOF {
+		return false, fmt.Errorf("read from stderr pipe failed: %v", err)
+	}
+	if bytes.Contains(buf[:n], []byte("DEADLYSIGNAL")) {
+		cancel()
+		testCmd.Wait()
+		return true, fmt.Errorf("%#q generated broken executable\n%s", strings.Join(cmd.Args, " "), buf[:n])
+	}
+	if err := testCmd.Wait(); err != nil {
+		out = append(stdout.Bytes(), buf[:n]...)
 		snippet, _, _ := bytes.Cut(out, []byte("\n"))
 		return true, fmt.Errorf("%#q generated broken executable: %v\n%s", strings.Join(cmd.Args, " "), err, snippet)
 	}
