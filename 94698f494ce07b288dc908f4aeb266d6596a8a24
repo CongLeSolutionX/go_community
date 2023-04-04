@@ -237,6 +237,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb3b1844_3d01f7f3",
+        "filename": "src/runtime/os_wasip1.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-04-04T19:14:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c506a4ee_e492005c",
+      "revId": "94698f494ce07b288dc908f4aeb266d6596a8a24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "300763f8_ae5f39fd",
@@ -268,6 +286,24 @@
       "side": 1,
       "message": "This was in the original change by Richard, I believe it came from a translation of the wasi-libc code which uses this naming convention.\n\nWould you recommend adopting names that are more common in Go source code? e.g. wasip1ArgsGet, or just argsGet?",
       "parentUuid": "300763f8_ae5f39fd",
+      "revId": "94698f494ce07b288dc908f4aeb266d6596a8a24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f239e717_3786af9d",
+        "filename": "src/runtime/os_wasip1.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-04-04T19:14:26Z",
+      "side": 1,
+      "message": "We\u0027ve removed the leading underscores, but left the names of the functions using snake_case, since it maps to the method exported from the wasip1 syscall API. PTAL.",
+      "parentUuid": "c02dedef_ae2cbd1c",
       "revId": "94698f494ce07b288dc908f4aeb266d6596a8a24",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
