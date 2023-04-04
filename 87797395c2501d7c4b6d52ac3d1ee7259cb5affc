@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7e72d58_a883e321",
+        "filename": "misc/cgo/testsanitizers/cc_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-04-04T12:27:40Z",
+      "side": 1,
+      "message": "Do we understand why that occurs?\n\n(Is it a GCC or ASAN bug already fixed upstream that we\u0027re working around, or is it an unfixed upstream bug that we should escalate, or is it a Go bug that we\u0027re temporarily patching around that will eventually need a compiler and/or runtime fix?)",
+      "range": {
+        "startLine": 459,
+        "startChar": 0,
+        "endLine": 460,
+        "endChar": 55
+      },
+      "revId": "87797395c2501d7c4b6d52ac3d1ee7259cb5affc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
