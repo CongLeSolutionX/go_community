@@ -99,6 +99,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ac4cb8d_da36379c",
+        "filename": "src/cmd/go/internal/load/test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2023-04-04T21:03:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9765059b_aef7ede4",
+      "range": {
+        "startLine": 455,
+        "startChar": 0,
+        "endLine": 460,
+        "endChar": 42
+      },
+      "revId": "2b10c7af584dc79dac40118463f4a67c11c92ddc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9fc0a1ed_7c803968",
@@ -112,6 +136,30 @@
       "writtenOn": "2023-04-04T20:54:21Z",
       "side": 1,
       "message": "This `TODO(bcmills)` can definitely be removed, since we are doing something else to look for cycles.",
+      "range": {
+        "startLine": 461,
+        "startChar": 0,
+        "endLine": 462,
+        "endChar": 42
+      },
+      "revId": "2b10c7af584dc79dac40118463f4a67c11c92ddc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80fa8647_e1db8664",
+        "filename": "src/cmd/go/internal/load/test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2023-04-04T21:03:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9fc0a1ed_7c803968",
       "range": {
         "startLine": 461,
         "startChar": 0,
