@@ -144,6 +144,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "58210796_1a024395",
+        "filename": "misc/wasm/wasm_exec.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-04-04T03:26:55Z",
+      "side": 1,
+      "message": "I expect the most likely breakage to be users using newer instances of Go with an older instance of wasm_exec.js. The only way we can support that migration is by having our Go code export both \"mem\" and \"memory\" and somehow point one to the other. I think the easier solution would be to export different memory exports for wasip1 and js, this would be easy and with not much extra code so I\u0027ve done that.",
+      "parentUuid": "5b9c7a3a_256654c0",
+      "revId": "8a41c00d2761916b2424929776bcb1279a2907b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ef5b86f4_1621fe82",
@@ -316,6 +334,24 @@
       "side": 1,
       "message": "Okay, thanks. Yeah, it may be better if we can unify it and put the arg handling code in runtime.args.",
       "parentUuid": "648f3076_a9b48636",
+      "revId": "8a41c00d2761916b2424929776bcb1279a2907b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11d6079b_b024c0c5",
+        "filename": "src/runtime/asm_js_wasm.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-04-04T03:26:55Z",
+      "side": 1,
+      "message": "I\u0027ve introduced the discussed #ifdef and merged the files, PTAL.",
+      "parentUuid": "275e536e_9de09efb",
       "revId": "8a41c00d2761916b2424929776bcb1279a2907b5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
