@@ -35,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4b7431a_4b873150",
+        "filename": "src/runtime/netpoll.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-04-04T20:13:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "255425c9_a8910a80",
+      "revId": "2edf113c79b5b8e43e647a4d741e76fffe63f626",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "26d62095_0b624226",
@@ -48,6 +66,24 @@
       "writtenOn": "2023-04-04T19:53:11Z",
       "side": 1,
       "message": "s/(wasip1 \u0026\u0026 wasm)/wasip1/",
+      "revId": "2edf113c79b5b8e43e647a4d741e76fffe63f626",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3356b73c_f66c70b3",
+        "filename": "src/runtime/netpoll_fake.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-04-04T20:13:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26d62095_0b624226",
       "revId": "2edf113c79b5b8e43e647a4d741e76fffe63f626",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
