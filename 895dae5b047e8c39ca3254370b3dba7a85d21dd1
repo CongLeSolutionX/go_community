@@ -53,6 +53,24 @@
       "message": "This is an important property that the new implementation appears to lose. We\u0027ve unintentionally dropped map order randomization in some cases in the past and it\u0027s incredibly hard to claw that back because tests will quickly start to depend on fixed map iteration order. The same thing applies to Keys and Values.",
       "revId": "895dae5b047e8c39ca3254370b3dba7a85d21dd1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c35e963f_dfe4f664",
+        "filename": "src/maps/maps.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2023-04-04T02:15:38Z",
+      "side": 1,
+      "message": "add random to keys/values.",
+      "parentUuid": "222f2245_ffeafc4f",
+      "revId": "895dae5b047e8c39ca3254370b3dba7a85d21dd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
