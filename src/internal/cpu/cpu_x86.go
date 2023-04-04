@@ -39,6 +39,7 @@ const (
 	cpuid_BMI2 = 1 << 8
 	cpuid_ERMS = 1 << 9
 	cpuid_ADX  = 1 << 19
+	cpuid_IFMA = 1 << 21
 	cpuid_SHA  = 1 << 29
 
 	// edx bits for CPUID 0x80000001
@@ -128,6 +129,7 @@ func doinit() {
 	X86.HasERMS = isSet(ebx7, cpuid_ERMS)
 	X86.HasADX = isSet(ebx7, cpuid_ADX)
 	X86.HasSHA = isSet(ebx7, cpuid_SHA)
+	X86.HasIFMA = isSet(ebx7, cpuid_IFMA)
 
 	var maxExtendedInformation uint32
 	maxExtendedInformation, _, _, _ = cpuid(0x80000000, 0)

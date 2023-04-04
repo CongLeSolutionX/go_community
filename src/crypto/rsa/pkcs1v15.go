@@ -10,7 +10,9 @@ import (
 	"crypto/internal/randutil"
 	"crypto/subtle"
 	"errors"
+	"internal/cpu"
 	"io"
+	"os"
 )
 
 // This file implements encryption and decryption using PKCS #1 v1.5 padding.
@@ -295,7 +297,12 @@ func SignPKCS1v15(random io.Reader, priv *PrivateKey, hash crypto.Hash, hashed [
 	copy(em[k-tLen:k-hashLen], prefix)
 	copy(em[k-hashLen:k], hashed)
 
-	return decrypt(priv, em, withCheck)
+	_, ignoreIfma := os.LookupEnv("GO_RSA_IGNORE_IFMA")
+	if cpu.X86.HasIFMA && 255 <= len(priv.D.Bytes()) && len(priv.D.Bytes()) <= 256 && !ignoreIfma {
+		return decryptIfma2048(priv, em, withCheck)
+	} else {
+		return decrypt(priv, em, withCheck)
+	}
 }
 
 // VerifyPKCS1v15 verifies an RSA PKCS #1 v1.5 signature.
