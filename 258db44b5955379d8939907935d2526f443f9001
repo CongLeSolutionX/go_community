@@ -70,6 +70,41 @@
       "message": "Thanks.",
       "revId": "258db44b5955379d8939907935d2526f443f9001",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3d236ee_e140242e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2023-04-04T23:07:11Z",
+      "side": 1,
+      "message": "TRY\u003dlinux-amd64-boringcrypto",
+      "revId": "258db44b5955379d8939907935d2526f443f9001",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dde6b862_3b2776ae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2023-04-04T23:07:11Z",
+      "side": 1,
+      "message": "Note that this SlowBot request had an effect because there’s no alias named “boringcrypto”. Without an alias, you need to write out the full builder name (one of linux-{amd64,arm64}-boringcrypto).",
+      "parentUuid": "f33726ca_0331681f",
+      "revId": "258db44b5955379d8939907935d2526f443f9001",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
