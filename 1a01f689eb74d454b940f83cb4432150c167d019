@@ -91,6 +91,24 @@
       "message": "The CLs are not designed to be individually buildable - the CL split is mostly based on where in the tree the changes were made. I\u0027m afraid I don\u0027t expect any of the trybots to pass except for in the last CL. If this is unacceptable, I can try to rearrange the CLs so that each will build independently on top of one another.",
       "revId": "1a01f689eb74d454b940f83cb4432150c167d019",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1de4183a_0d98e48b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-04T04:47:45Z",
+      "side": 1,
+      "message": "It doesn\u0027t matter if the wasip1 trybot fails, but all the other trybots must pass at each CL.  Otherwise the tree will be broken (temporarily) for other developers.",
+      "parentUuid": "14a36795_8f60139b",
+      "revId": "1a01f689eb74d454b940f83cb4432150c167d019",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
