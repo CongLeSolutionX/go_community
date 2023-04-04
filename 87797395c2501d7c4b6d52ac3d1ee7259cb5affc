@@ -18,6 +18,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7049bb0a_d96845f1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-04T20:26:09Z",
+      "side": 1,
+      "message": "This appears to be a bad interaction between ASAN and a kernel update for Google Cloud Container-Optimized OS.  The new kernel can allocate memory at addresses that ASAN believes will never be used by the kernel.  The workaround in this CL is incomplete, as even if this test passes other tests could fail.  CL 482195 pins us to an earlier kernel version until this is addressed.  So we don\u0027t need this change.",
+      "revId": "87797395c2501d7c4b6d52ac3d1ee7259cb5affc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e7e72d58_a883e321",
