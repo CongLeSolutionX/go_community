@@ -1007,7 +1007,28 @@ func mapclear(t *maptype, h *hmap) {
 	}
 
 	h.flags ^= hashWriting
-
+	hash := uintptr(fastrand())
+	mask := bucketMask(h.B)
+	buckets := h.buckets
+	for i := uintptr(0); i <= mask; i++ {
+		b := (*bmap)(add(buckets, ((i+hash)&mask)*uintptr(t.bucketsize)))
+		for ; b != nil; b = b.overflow(t) {
+			for i := uintptr(0); i < bucketCnt; i++ {
+				b.tophash[i] = emptyOne
+			}
+		}
+	}
+	if oldBuckets := h.oldbuckets; oldBuckets != nil {
+		oldMask := h.oldbucketmask()
+		for i := uintptr(0); i <= oldMask; i++ {
+			b := (*bmap)(add(oldBuckets, ((i+hash)&oldMask)*uintptr(t.bucketsize)))
+			for ; b != nil; b = b.overflow(t) {
+				for i := uintptr(0); i < bucketCnt; i++ {
+					b.tophash[i] = emptyOne
+				}
+			}
+		}
+	}
 	h.flags &^= sameSizeGrow
 	h.oldbuckets = nil
 	h.nevacuate = 0
