@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dda47c5e_0c2c5921",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-04-04T22:34:44Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "3c450450ee73a30a16c2f5d7772e60def6318307",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2ee5da89_3fd4a028",
@@ -14,6 +31,24 @@
       "writtenOn": "2023-04-04T21:43:26Z",
       "side": 1,
       "message": "Why decrement size?",
+      "revId": "3c450450ee73a30a16c2f5d7772e60def6318307",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7e303ac_97d3510c",
+        "filename": "src/go/internal/gcimporter/gcimporter.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-04-04T22:34:44Z",
+      "side": 1,
+      "message": "To account for the buf.ReadByte() on L205. Seems like the code below was potentially overreading by a byte.",
+      "parentUuid": "2ee5da89_3fd4a028",
       "revId": "3c450450ee73a30a16c2f5d7772e60def6318307",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
