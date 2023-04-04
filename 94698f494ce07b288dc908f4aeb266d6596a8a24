@@ -73,6 +73,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8179b67_c4ecb097",
+        "filename": "src/runtime/lock_wasip1.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-04T19:53:11Z",
+      "side": 1,
+      "message": "These build tags are required for packages built during bootstrap, so leaving them in is the right choice here.",
+      "parentUuid": "9b10f1ab_57d53275",
+      "revId": "94698f494ce07b288dc908f4aeb266d6596a8a24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "10e7d50f_5f77e997",
@@ -304,6 +322,24 @@
       "side": 1,
       "message": "We\u0027ve removed the leading underscores, but left the names of the functions using snake_case, since it maps to the method exported from the wasip1 syscall API. PTAL.",
       "parentUuid": "c02dedef_ae2cbd1c",
+      "revId": "94698f494ce07b288dc908f4aeb266d6596a8a24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ffd0bb49_76866b76",
+        "filename": "src/runtime/os_wasip1.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-04T19:53:11Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "f239e717_3786af9d",
       "revId": "94698f494ce07b288dc908f4aeb266d6596a8a24",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },

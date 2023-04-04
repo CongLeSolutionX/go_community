@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c141d555_7a422d31",
+        "filename": "src/runtime/lock_wasip1.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-04T19:53:11Z",
+      "side": 1,
+      "message": "Is passive_spin used anywhere?  I suspect that this does not need to be defined.",
+      "revId": "2edf113c79b5b8e43e647a4d741e76fffe63f626",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "255425c9_a8910a80",
+        "filename": "src/runtime/netpoll.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-04T19:53:11Z",
+      "side": 1,
+      "message": "s/(wasip1 \u0026\u0026 wasm)/wasip1/",
+      "revId": "2edf113c79b5b8e43e647a4d741e76fffe63f626",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26d62095_0b624226",
+        "filename": "src/runtime/netpoll_fake.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-04T19:53:11Z",
+      "side": 1,
+      "message": "s/(wasip1 \u0026\u0026 wasm)/wasip1/",
+      "revId": "2edf113c79b5b8e43e647a4d741e76fffe63f626",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1f5973c_43a5539c",
+        "filename": "src/runtime/os_wasip1.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-04T19:53:11Z",
+      "side": 1,
+      "message": "I don\u0027t understand this comment.  If the compiler rejects uint16, then how does it work to use uint16 here?",
+      "revId": "2edf113c79b5b8e43e647a4d741e76fffe63f626",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
