@@ -66,6 +66,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fc17e148_adff0f65",
+        "filename": "src/cmd/go/internal/work/build_test.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 12980
+      },
+      "writtenOn": "2023-04-04T03:04:00Z",
+      "side": 1,
+      "message": "You are correct. chown/chmod is implemented for GOOS\u003djs but there are no concepts of file permissions in WASI preview 1.\n\nAre you suggesting that we also modify the test for the windows and plan9 cases?",
+      "parentUuid": "79f714b6_04793c23",
+      "revId": "8de0053decc36c3422de6a4b451265bbdf87e4d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "04e4af98_477dab07",
         "filename": "src/cmd/internal/osinfo/os_wasip1.go",
         "patchSetId": 15
