@@ -442,6 +442,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ec41f42d_febc78f7",
+        "filename": "src/syscall/fs_wasip1.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 12980
+      },
+      "writtenOn": "2023-04-04T02:06:04Z",
+      "side": 1,
+      "message": "It is exported to support the way we emulate the working directory. WASI does not have the concept of working directory so we implement it by keeping a global variable (syscall.cwd).\n\nOn other operating systems which have the concept of working directory, os.(*File).Chdir can be implemented by a call to syscall.Fchdir, but in WASI syscall.Fchdir does not exist and instead we implement os.(*File).Chdir by passing the file\u0027s absolute path to syscall.Chdir. As now documented, the file\u0027s absolute path is the string returned by syscall.PathOpen.\n\nAn alternative approach could consist in keeping a global map of open file descriptors to their absolute path in the syscall package, and implement syscall.Fchdir by looking up the file path associated with the file descriptor. I didn\u0027t know which trade off would cause the fewer issues down the line, but I had to pick a solution so I went with exporting this new function since the syscall package is not really intended to be used outside of the standard library, it seemed like it would avoid any issues that the global map could cause at runtime.\n\nLet me know if you think a different approach would make more sense.",
+      "parentUuid": "8d1c2e07_a53e9f15",
+      "revId": "3a70e266c39315db408a51eae5ce82bdf2c26f8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e34777b5_a11034ba",
         "filename": "src/syscall/os_wasip1.go",
         "patchSetId": 11
