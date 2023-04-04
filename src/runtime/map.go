@@ -1008,6 +1008,28 @@ func mapclear(t *maptype, h *hmap) {
 
 	h.flags ^= hashWriting
 
+	// Mark buckets empty, so existing iterators can be terminated, see issue #59411.
+	mask := bucketMask(h.B)
+	buckets := h.buckets
+	for i := uintptr(0); i <= mask; i++ {
+		b := (*bmap)(add(buckets, i*uintptr(t.bucketsize)))
+		for ; b != nil; b = b.overflow(t) {
+			for i := uintptr(0); i < bucketCnt; i++ {
+				b.tophash[i] = emptyRest
+			}
+		}
+	}
+	if oldBuckets := h.oldbuckets; oldBuckets != nil {
+		oldMask := h.oldbucketmask()
+		for i := uintptr(0); i <= oldMask; i++ {
+			b := (*bmap)(add(oldBuckets, i*uintptr(t.bucketsize)))
+			for ; b != nil; b = b.overflow(t) {
+				for i := uintptr(0); i < bucketCnt; i++ {
+					b.tophash[i] = emptyRest
+				}
+			}
+		}
+	}
 	h.flags &^= sameSizeGrow
 	h.oldbuckets = nil
 	h.nevacuate = 0
