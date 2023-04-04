@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a9b0ab61_cc8fd2bf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-04-04T14:25:56Z",
+      "side": 1,
+      "message": "I think we should leave #59419 open as a tracking issue for diagnosing whatever regression introduced this failure mode in the first place.",
+      "revId": "87797395c2501d7c4b6d52ac3d1ee7259cb5affc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e7e72d58_a883e321",
         "filename": "misc/cgo/testsanitizers/cc_test.go",
         "patchSetId": 2
