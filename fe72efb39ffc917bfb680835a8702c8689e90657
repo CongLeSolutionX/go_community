@@ -16,6 +16,24 @@
       "message": "This documentation change belongs in the same CL as the change to `internal/platform/supported.go` (probably CL 481315?).\n\nThat way, if the change to enable support ends up getting reverted for some reason, the documentation will revert along with it.",
       "revId": "fe72efb39ffc917bfb680835a8702c8689e90657",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f81cdf78_7f0ab690",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 59718
+      },
+      "writtenOn": "2023-04-04T02:29:57Z",
+      "side": 1,
+      "message": "Thanks, I have moved the documentation change to CL481315.",
+      "parentUuid": "f1556c5f_f911821c",
+      "revId": "fe72efb39ffc917bfb680835a8702c8689e90657",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
