@@ -4,16 +4,64 @@
 
 package pprof
 
-import "os"
+import (
+	"bytes"
+	"fmt"
+	"hash/crc32"
+	"io"
+	"os"
+	"path/filepath"
+	"strconv"
+)
 
-// peBuildID returns a best effort unique ID for the named executable.
-//
-// It would be wasteful to calculate the hash of the whole file,
-// instead use the binary name and the last modified time for the buildid.
+// peBuildID returns a build ID from the binary.
 func peBuildID(file string) string {
-	s, err := os.Stat(file)
+	// We'll try to find the build ID in the first 32 kB of the binary.
+	const readSize = 32 * 1024
+	data := make([]byte, readSize)
+
+	f, err := os.Open(file)
 	if err != nil {
-		return file
+		return ""
 	}
-	return file + s.ModTime().String()
+	defer f.Close()
+
+	var n int
+	n, err = io.ReadFull(f, data)
+	if err == io.ErrUnexpectedEOF {
+		err = nil
+	}
+	if err != nil {
+		return fallbackBuildID(file, data)
+	}
+	data = data[:n]
+
+	const goBuildPrefix = "\xff Go build ID: \""
+	const goBuildEnd = "\"\n \xff"
+
+	i := bytes.Index(data, []byte(goBuildPrefix))
+	if i < 0 {
+		return fallbackBuildID(file, data)
+	}
+
+	k := bytes.Index(data[i+len(goBuildPrefix):], []byte(goBuildEnd))
+	if k < 0 {
+		return fallbackBuildID(file, data)
+	}
+
+	quoted := data[i+len(goBuildPrefix)-1 : i+len(goBuildPrefix)+k+1]
+	id, err := strconv.Unquote(string(quoted))
+	if err != nil {
+		return fallbackBuildID(file, data)
+	}
+
+	return id
+}
+
+// fallbackBuildID computes an hash of the filename and 32 kB of the binary.
+func fallbackBuildID(file string, data []byte) string {
+	// using crc32, because it's already a dependency from pprof gzip.
+	nameHash := crc32.ChecksumIEEE([]byte(filepath.Base(file)))
+	dataHash := crc32.ChecksumIEEE(data)
+	return fmt.Sprintf("%04x%04x", nameHash, dataHash)
 }
