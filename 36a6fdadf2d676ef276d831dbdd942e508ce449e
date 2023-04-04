@@ -90,6 +90,24 @@
       "parentUuid": "7f07002c_c91240ae",
       "revId": "36a6fdadf2d676ef276d831dbdd942e508ce449e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8129b525_f5b387fe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57733
+      },
+      "writtenOn": "2023-04-04T15:46:21Z",
+      "side": 1,
+      "message": "RE: the 386 failures, I think the getfp declarations still need a body, even if it\u0027s just \"return 0\". arm64 and amd64 have assembly implementations, but the rest of the architectures don\u0027t have an implementation so you\u0027ll see the \"relocation target runtime.getfp not defined\" error when compiling the tests.",
+      "parentUuid": "c6d6c00e_c04b583d",
+      "revId": "36a6fdadf2d676ef276d831dbdd942e508ce449e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
