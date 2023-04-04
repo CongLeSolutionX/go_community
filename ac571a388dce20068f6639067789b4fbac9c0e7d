@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a826a490_58c99937",
+        "filename": "src/runtime/stubs_386.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-04-04T22:37:04Z",
+      "side": 0,
+      "message": "I think this should not be removed? (Also other architectures.)",
+      "range": {
+        "startLine": 23,
+        "startChar": 27,
+        "endLine": 23,
+        "endChar": 39
+      },
+      "revId": "ac571a388dce20068f6639067789b4fbac9c0e7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
