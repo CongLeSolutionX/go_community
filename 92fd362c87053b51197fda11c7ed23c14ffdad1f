@@ -156,6 +156,24 @@
       "parentUuid": "90eed57d_79c9a74b",
       "revId": "92fd362c87053b51197fda11c7ed23c14ffdad1f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93029484_6f656e87",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 56718
+      },
+      "writtenOn": "2023-04-04T16:12:15Z",
+      "side": 1,
+      "message": "The concern that I had was the existence of a `TestMain` function in a different file that the `go test` tool would automatically include as part of its process of building a \"test program or benchmark\". The potential presence of that file and it\u0027s ability to change the normal semantics of a \"test program or benchmark\" was surprising. But, I am just a contributor so please feel free to ignore me.",
+      "parentUuid": "b6036001_8dc1e09b",
+      "revId": "92fd362c87053b51197fda11c7ed23c14ffdad1f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
