@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "00f75f25_2c31adfe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 57733
+      },
+      "writtenOn": "2023-04-04T13:14:17Z",
+      "side": 1,
+      "message": "That name sounds better to me. I\u0027ve made a note to submit a CL later.",
+      "parentUuid": "fc0adfcd_ff4e2eee",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 12
+      },
+      "revId": "01e9cedddb75feaed9c59b71a63677a4fd3843a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5746d310_bf83a169",
@@ -95,6 +119,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0c3e7a8_f6c89b48",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57733
+      },
+      "writtenOn": "2023-04-04T13:14:17Z",
+      "side": 1,
+      "message": "RE: why the bots are happy, one reason is that tests aren\u0027t run on 32-bit ARM by default 😄 This change now only does anything for arm64, so we don\u0027t need to run them. But in the future we can explicitly ask for an arm builder with a `TRY\u003d\u003cbuilder\u003e` comment.",
+      "parentUuid": "092ea3fe_69cd5fce",
+      "revId": "01e9cedddb75feaed9c59b71a63677a4fd3843a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1a4e06ac_aa9fc276",
@@ -126,6 +168,24 @@
       "side": 1,
       "message": "Yeah, this probably should be guarded with GOARCH \u003d\u003d \"arm64\". (Otherwise it runs no only on 32-bit ARM but also other LR architectures like PPC64. It probably doesn\u0027t hurt as this is really the top of the stack and nothing is supposed to read there.)\n\nAnd yes, PtrSize would be better.",
       "parentUuid": "1a4e06ac_aa9fc276",
+      "revId": "01e9cedddb75feaed9c59b71a63677a4fd3843a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ec63b3d_f4ec0e1c",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4281,
+      "author": {
+        "id": 57733
+      },
+      "writtenOn": "2023-04-04T13:14:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c4f8c8e_90952753",
       "revId": "01e9cedddb75feaed9c59b71a63677a4fd3843a7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -197,6 +257,24 @@
       "side": 1,
       "message": "Correct. We should not modify sp, just write to sp-8, as the code currently does.",
       "parentUuid": "d2d4cbfc_38b7be1d",
+      "revId": "01e9cedddb75feaed9c59b71a63677a4fd3843a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "adaa6a1d_c3b7bc22",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4283,
+      "author": {
+        "id": 57733
+      },
+      "writtenOn": "2023-04-04T13:14:17Z",
+      "side": 1,
+      "message": "\u003e But, spArg is actually not used anywhere.\n\nI noticed that as well. I\u0027m surprised that the compiler is okay with that, actually. At any rate, I removed it.",
+      "parentUuid": "0b28e271_a60cc87e",
       "revId": "01e9cedddb75feaed9c59b71a63677a4fd3843a7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
