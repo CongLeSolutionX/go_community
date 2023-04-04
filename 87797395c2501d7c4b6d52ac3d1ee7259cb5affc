@@ -70,6 +70,30 @@
       },
       "revId": "87797395c2501d7c4b6d52ac3d1ee7259cb5affc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7bf0a432_3a8f10c7",
+        "filename": "misc/cgo/testsanitizers/cc_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2023-04-04T14:17:03Z",
+      "side": 1,
+      "message": "IIRC, there’s an open issue on LLVM about this same error, but only happens when missing -lresolv in program that call getaddrinfo, so very likely that not related to Go.",
+      "parentUuid": "87d56feb_a093d850",
+      "range": {
+        "startLine": 459,
+        "startChar": 0,
+        "endLine": 460,
+        "endChar": 55
+      },
+      "revId": "87797395c2501d7c4b6d52ac3d1ee7259cb5affc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
