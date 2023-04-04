@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1242dab6_1d76f10b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-04-04T13:44:09Z",
+      "side": 1,
+      "message": "Ah, looks like it follows the ARM calling convention in general:\nhttps://github.com/ARM-software/abi-aa/blob/2bcab1e3b22d55170c563c3c7940134089176746/aapcs32/aapcs32.rst#parameter-passing\n\nThe relevant step here is C.3:\n\u003e If the argument requires double-word alignment (8-byte), the NCRN is rounded up to the next even register number.",
+      "parentUuid": "51a7d3d0_b31865c0",
+      "range": {
+        "startLine": 9,
+        "startChar": 57,
+        "endLine": 10,
+        "endChar": 40
+      },
+      "revId": "302f6ce57647e14f3db9e28690148036865ab734",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "750c6f64_afe1a6c6",
