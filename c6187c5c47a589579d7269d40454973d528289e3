@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b2237d6_0d700d87",
+        "filename": "src/runtime/pprof/pe.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-04-04T16:13:59Z",
+      "side": 1,
+      "message": "We store the build ID in a symbol. I think we should be able to read the build ID through the symbol instead of opening another copy of the executable and read from there.\n\nI can try that if it helps.",
+      "revId": "c6187c5c47a589579d7269d40454973d528289e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
