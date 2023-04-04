@@ -160,6 +160,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "59f815d6_963315a5",
+        "filename": "src/syscall/fs_wasip1.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-04-04T19:16:07Z",
+      "side": 1,
+      "message": "We\u0027ve removed the leading underscores, but we left the functions named with snake_case since it maps to the wasip1 syscall API function names.",
+      "parentUuid": "cae3d6fc_d06af56e",
+      "revId": "3a70e266c39315db408a51eae5ce82bdf2c26f8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8eee9379_910eea4c",
@@ -475,6 +493,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0fce33e_cd0b0374",
+        "filename": "src/syscall/os_wasip1.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-04-04T19:16:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e34777b5_a11034ba",
+      "revId": "3a70e266c39315db408a51eae5ce82bdf2c26f8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "802e7b7c_d26f3e0e",
@@ -488,6 +524,24 @@
       "writtenOn": "2023-04-03T01:24:58Z",
       "side": 1,
       "message": "Omit the line breaks.",
+      "revId": "3a70e266c39315db408a51eae5ce82bdf2c26f8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "00ce307e_3a038935",
+        "filename": "src/syscall/os_wasip1.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-04-04T19:16:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "802e7b7c_d26f3e0e",
       "revId": "3a70e266c39315db408a51eae5ce82bdf2c26f8d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -509,6 +563,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b00ce07f_bce6f65c",
+        "filename": "src/syscall/rlimit_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-04-04T19:16:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48665bf7_d9377356",
+      "revId": "3a70e266c39315db408a51eae5ce82bdf2c26f8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fd27efda_962c9822",
@@ -522,6 +594,24 @@
       "writtenOn": "2023-04-03T01:24:58Z",
       "side": 1,
       "message": "Why type aliases?",
+      "revId": "3a70e266c39315db408a51eae5ce82bdf2c26f8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49abc438_9230cd63",
+        "filename": "src/syscall/syscall_wasip1.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-04-04T19:16:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd27efda_962c9822",
       "revId": "3a70e266c39315db408a51eae5ce82bdf2c26f8d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
