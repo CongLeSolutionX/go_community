@@ -2,14 +2,12 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build freebsd && (amd64 || arm64 || riscv64)
-
 package unix
 
 import "syscall"
 
 func PosixFallocate(fd int, off int64, size int64) error {
-	_, _, errno := syscall.Syscall(posixFallocateTrap, uintptr(fd), uintptr(off), uintptr(size))
+	_, _, errno := syscall.Syscall6(posixFallocateTrap, uintptr(fd), 0, uintptr(off), uintptr(off>>32), uintptr(size), uintptr(size>>32))
 	if errno != 0 {
 		return errno
 	}
