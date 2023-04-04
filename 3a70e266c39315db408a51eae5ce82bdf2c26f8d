@@ -496,6 +496,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7f835de2_94f4716b",
+        "filename": "src/syscall/fs_wasip1.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 12980
+      },
+      "writtenOn": "2023-04-04T20:18:38Z",
+      "side": 1,
+      "message": "That\u0027s a good idea, I\u0027ll look into making the change. Thanks for the suggestion!",
+      "parentUuid": "4e8375f5_d36c9b40",
+      "revId": "3a70e266c39315db408a51eae5ce82bdf2c26f8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e34777b5_a11034ba",
         "filename": "src/syscall/os_wasip1.go",
         "patchSetId": 11
