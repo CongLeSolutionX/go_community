@@ -41,6 +41,48 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "66477801_8edf5721",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-04T21:47:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d310da8e_2a7ba6b4",
+      "range": {
+        "startLine": 7,
+        "startChar": 13,
+        "endLine": 7,
+        "endChar": 26
+      },
+      "revId": "9b8fe862b7735ac770fded969879c117f42809fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "309130a9_5b797221",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-04T21:47:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bdef89b0_88b7c13a",
+      "revId": "9b8fe862b7735ac770fded969879c117f42809fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "41c1be34_2f6182f4",
@@ -54,6 +96,24 @@
       "writtenOn": "2023-04-04T03:01:46Z",
       "side": 1,
       "message": "It would be helpful to add a bit more info about why checkptr is bad here. Something like, the checkptr functions added by the instrumentation could grow the stack, which we should not do between fork and exec.",
+      "revId": "9b8fe862b7735ac770fded969879c117f42809fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf07cbad_cfd80d21",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-04T21:47:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41c1be34_2f6182f4",
       "revId": "9b8fe862b7735ac770fded969879c117f42809fc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
