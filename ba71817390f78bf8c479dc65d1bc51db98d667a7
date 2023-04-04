@@ -111,6 +111,30 @@
       },
       "revId": "ba71817390f78bf8c479dc65d1bc51db98d667a7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86002e65_54954d04",
+        "filename": "src/runtime/stubs_amd64.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-04-04T08:46:20Z",
+      "side": 1,
+      "message": "💡 Thanks! I misunderstood how getcallerpc/getcallersp work. I\u0027m not sure how, getcallersp is nicely documented. I\u0027ll update CL 481617 to rename the function to getfp.\n\nThank you for your patience!",
+      "parentUuid": "d4055c4f_32dddf85",
+      "range": {
+        "startLine": 51,
+        "startChar": 56,
+        "endLine": 51,
+        "endChar": 76
+      },
+      "revId": "ba71817390f78bf8c479dc65d1bc51db98d667a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
