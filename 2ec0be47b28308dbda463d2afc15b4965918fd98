@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dee4c95b_5163cd8d",
+        "filename": "src/crypto/rsa/rsa_ifma.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-04-04T14:55:40Z",
+      "side": 1,
+      "message": "We cannot accept OpenSSL-licensed code into Go.",
+      "revId": "2ec0be47b28308dbda463d2afc15b4965918fd98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
