@@ -478,6 +478,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4e8375f5_d36c9b40",
+        "filename": "src/syscall/fs_wasip1.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-04T20:00:13Z",
+      "side": 1,
+      "message": "If the only goal is to support the os package, it doesn\u0027t seem hard for the os package itself to join the current directory to a relative path before calling Open.  That seems slightly preferable to introducing the new exported function in the syscall package.  It\u0027s true that the syscall package is system-dependent, but I don\u0027t see any obvious reason why any code outside of the os package would want to call PathOpen.",
+      "parentUuid": "ec41f42d_febc78f7",
+      "revId": "3a70e266c39315db408a51eae5ce82bdf2c26f8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e34777b5_a11034ba",
         "filename": "src/syscall/os_wasip1.go",
         "patchSetId": 11
