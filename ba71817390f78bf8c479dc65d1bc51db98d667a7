@@ -87,6 +87,30 @@
       },
       "revId": "ba71817390f78bf8c479dc65d1bc51db98d667a7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4055c4f_32dddf85",
+        "filename": "src/runtime/stubs_amd64.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-04-04T03:18:39Z",
+      "side": 1,
+      "message": "For getcallerpc/getcallersp, it means the caller of the current function, not the caller of getcallerpc itself. I.e. suppose F calls G, which calls getcallerpc/getcallersp, it returns the PC and SP in F (at the point it calls G), i.e. the PC and SP of the caller of G.\n\nIf this function is named similar, I think it should have similar semantics, i.e. for the case above it should return the FP of F (which seems not the case to me).",
+      "parentUuid": "ba94cfc2_ddaa28bb",
+      "range": {
+        "startLine": 51,
+        "startChar": 56,
+        "endLine": 51,
+        "endChar": 76
+      },
+      "revId": "ba71817390f78bf8c479dc65d1bc51db98d667a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
