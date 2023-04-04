@@ -181,6 +181,24 @@
       "parentUuid": "5dbc99a5_ce608262",
       "revId": "01e9cedddb75feaed9c59b71a63677a4fd3843a7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b28e271_a60cc87e",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4283,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-04-04T03:04:10Z",
+      "side": 1,
+      "message": "Correct. We should not modify sp, just write to sp-8, as the code currently does.",
+      "parentUuid": "d2d4cbfc_38b7be1d",
+      "revId": "01e9cedddb75feaed9c59b71a63677a4fd3843a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
