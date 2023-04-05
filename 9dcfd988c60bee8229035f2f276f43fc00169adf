@@ -124,6 +124,24 @@
       "parentUuid": "6beb48df_29c0d66b",
       "revId": "9dcfd988c60bee8229035f2f276f43fc00169adf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0dbf58af_eb9d5254",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-04-05T15:30:59Z",
+      "side": 1,
+      "message": "Thanks for your review and comments!\n\n\u003e What is the performance overhead for turning on the check?\n\nWe suspect it will be negligible and not show up on benchmarks. We\u0027ll try to measure it.\n\nIf we get to the point where frame pointers are as reliable as return addresses we could consider integrating them into the normal unwinder. This would allow us to skip the `funcspdelta` lookup on arm64/amd64.\n\nSo ultimately this could become a performance win.\n\n\u003e Maybe we don\u0027t turn it on by default, but we could have special builders to run in this mode (like we have the SSA check builder, lock ranking check builder, race builder, etc.)\n\nThat would also work for us. We\u0027re interested in anything that will ensure that frame pointers are highly reliable.",
+      "parentUuid": "e11d6b9f_a563f26f",
+      "revId": "9dcfd988c60bee8229035f2f276f43fc00169adf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
