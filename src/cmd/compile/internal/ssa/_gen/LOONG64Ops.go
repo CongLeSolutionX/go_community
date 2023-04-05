@@ -388,6 +388,11 @@ func init() {
 		{name: "LoweredAtomicExchange32", argLength: 3, reg: amxchg, resultNotInArgs: true, faultOnNilArg0: true, hasSideEffects: true},
 		{name: "LoweredAtomicExchange64", argLength: 3, reg: amxchg, resultNotInArgs: true, faultOnNilArg0: true, hasSideEffects: true},
 
+		// Atomic 32 bit AND/OR.
+		// *arg0 &= (|=) arg1. arg2=mem. returns nil.
+		{name: "LoweredAtomicAnd32", argLength: 3, reg: amxchg, asm: "AMANDDBW", faultOnNilArg0: true, hasSideEffects: true},
+		{name: "LoweredAtomicOr32", argLength: 3, reg: amxchg, asm: "AMORDBW", faultOnNilArg0: true, hasSideEffects: true},
+
 		// atomic add.
 		// *arg0 += arg1. arg2=mem. returns <new content of *arg0, memory>.
 		{name: "LoweredAtomicAdd32", argLength: 3, reg: amxchg, resultNotInArgs: true, faultOnNilArg0: true, hasSideEffects: true, unsafePoint: true},
