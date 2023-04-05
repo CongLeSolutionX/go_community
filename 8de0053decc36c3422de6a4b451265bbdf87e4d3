@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d16d0bde_e895b31b",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 678,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-04-05T04:48:43Z",
+      "side": 1,
+      "message": "In this case, the problem is really no support for concurrency, so I\u0027ve added a helper to `t` that can be used to skip tests based on this. Naturally, only js and wasip1 are affected right now.",
+      "parentUuid": "e2e9544b_8d16717c",
+      "range": {
+        "startLine": 678,
+        "startChar": 22,
+        "endLine": 678,
+        "endChar": 54
+      },
+      "revId": "8de0053decc36c3422de6a4b451265bbdf87e4d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f4e4cb28_ecc3d30f",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-04-03T16:50:38Z",
       "side": 1,
       "message": "Issue #35220 is closed; I don\u0027t know why I referred to it in CL 436816.\n\nProbably this should be changed to use a more appropriately-named `Must` function in the `testenv` package, or it should be updated to refer to an issue that specifically focuses on some bug on `js` and `waspi1` that prevents the test from passing.",
+      "range": {
+        "startLine": 155,
+        "startChar": 0,
+        "endLine": 157,
+        "endChar": 2
+      },
+      "revId": "8de0053decc36c3422de6a4b451265bbdf87e4d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3601d772_d216046f",
+        "filename": "src/cmd/go/internal/cache/cache_test.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-04-05T04:48:43Z",
+      "side": 1,
+      "message": "I will be doing a pass over all the test skips and add testenv helpers as necessary once we\u0027ve got all the tests passing.",
+      "parentUuid": "f4e4cb28_ecc3d30f",
       "range": {
         "startLine": 155,
         "startChar": 0,
@@ -100,6 +148,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "364e0822_c3ecdf97",
+        "filename": "src/cmd/go/internal/work/build_test.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-04-05T04:48:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ca4c2a2_3243448a",
+      "revId": "8de0053decc36c3422de6a4b451265bbdf87e4d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "04e4af98_477dab07",
@@ -113,6 +179,24 @@
       "writtenOn": "2023-04-03T16:50:38Z",
       "side": 1,
       "message": "(nit) This should return an error for which `errors.Is(err, errors.ErrUnsupported)` is true.",
+      "revId": "8de0053decc36c3422de6a4b451265bbdf87e4d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28419f71_3c715f8c",
+        "filename": "src/cmd/internal/osinfo/os_wasip1.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-04-05T04:48:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04e4af98_477dab07",
       "revId": "8de0053decc36c3422de6a4b451265bbdf87e4d3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
