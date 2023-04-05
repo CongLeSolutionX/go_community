@@ -196,6 +196,24 @@
       "parentUuid": "c60b6046_4a1578aa",
       "revId": "9dcfd988c60bee8229035f2f276f43fc00169adf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d04f35c_fb0324a5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-04-05T16:31:40Z",
+      "side": 1,
+      "message": "I honestly don\u0027t know how external unwinders handle the injected frame like sigpanic. As the pushed LR is not always meaningful, I\u0027m not sure this FP would help much. Also, for external unwinder, if I understand correctly, unless we\u0027re in the prologue of sigpanic, it will probably use the saved frame pointer in the sigpanic frame, which should point to the actual panicking frame, skipping over the pushed fake frame. So I don\u0027t think it matters too much. Anyway, saying this is not used by the Go runtime unwinder is probably enough, and helpful. Thanks.",
+      "parentUuid": "38823b72_28f57498",
+      "revId": "9dcfd988c60bee8229035f2f276f43fc00169adf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
