@@ -139,6 +139,24 @@
       "parentUuid": "a1f5973c_43a5539c",
       "revId": "2edf113c79b5b8e43e647a4d741e76fffe63f626",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "abba7d31_5c0e7829",
+        "filename": "src/runtime/os_wasip1.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-05T19:29:51Z",
+      "side": 1,
+      "message": "Thanks for the explanation.  Can you add something like this to the comment in the source?  Because the current comment doesn\u0027t make much sense to me without that additional explanation.",
+      "parentUuid": "318523ea_2f38d5e1",
+      "revId": "2edf113c79b5b8e43e647a4d741e76fffe63f626",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
