@@ -50,6 +50,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "42d17e24_a5969c3c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-04-05T13:36:24Z",
+      "side": 1,
+      "message": "I was curious how the various paths performed, so I wrote to observe:\n\n```\nfunc BenchmarkIndex512xN(b *testing.B) {\n        needleLen :\u003d []int{}\n        haystackLen :\u003d 512\n        for i :\u003d 1; i \u003c\u003d 33; i++ {\n                needleLen \u003d append(needleLen, i)\n        }\n        for _, n :\u003d range needleLen {\n                b.Run(valName(n), func(b *testing.B) {\n                        b.SetBytes(int64(haystackLen))\n                        if len(bmbuf) \u003c haystackLen {\n                                bmbuf \u003d make([]byte, haystackLen)\n                        }\n                        buf :\u003d bmbuf\n                        buf[haystackLen-1] \u003d \u0027x\u0027\n                        for i :\u003d 0; i \u003c b.N; i++ {\n                                j :\u003d Index(buf, buf[haystackLen-n:])\n                                if j !\u003d haystackLen-n {\n                                        b.Fatal(\"bad index\", j)\n                                }\n                        }\n                        buf[haystackLen-1] \u003d \u0027\\x00\u0027\n                })\n        }\n}\n```\n\n33 is the switchover to native Go. It surprises me the existing PPC64 variant isn\u0027t much faster (it was only 30-40%).\n\nI wonder if the index2to16 case could be improved.",
+      "parentUuid": "f65ba83c_19991d4a",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 2
+      },
+      "revId": "6abac59d4d7a4fb3e589b31bbf132640a17960d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "b3a0bc08_375120b0",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 7
