@@ -88,6 +88,24 @@
       "parentUuid": "cf8ac1b8_04639479",
       "revId": "9dcfd988c60bee8229035f2f276f43fc00169adf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6beb48df_29c0d66b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57733
+      },
+      "writtenOn": "2023-04-05T15:12:12Z",
+      "side": 1,
+      "message": "To clarify the problem we saw: with debugCheckBP enabled, we saw frame pointer check failures in TestStackWrapperPanic. I captured some detailed output in the following gist: https://gist.github.com/nsrip-dd/d131d9d57ede9db4a610557836ccd6bf\n\nEssentially, that tests causes a panic, and then makes some assertions about the call stack collected when recovering from the panic. In this test, the stack happens to grow within this deferred function, so the debugCheckBP check happens. That check fails when looking at the runtime.sigpanic frame. This happens because runtime.sigpanic isn\u0027t called like a regular function, where the caller would record its frame pointer. Instead, preparePanic takes over the stack and then jumps into runtime.sigpanic. The spot where the caller\u0027s frame pointer would have been saved, at the top of the callees stack frame, just has whatever data happened to be on the stack. This CL puts a valid frame pointer there instead.\n\nPractically speaking, doing frame pointer unwinding from within a panic stack still works okay without this change since sigpanic will set up a frame pointer before calling into one of the panic functions. But as Felix said, it would be good if frame pointers are consistent so that we could have that check on all the time and be more confident about frame pointers being handled correctly.",
+      "parentUuid": "cc5dbaae_315f8167",
+      "revId": "9dcfd988c60bee8229035f2f276f43fc00169adf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
