@@ -112,6 +112,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "479a687d_503a62fd",
+        "filename": "src/cmd/link/internal/ld/fallocate_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2023-04-05T09:10:58Z",
+      "side": 1,
+      "message": "I was trying to implement this, but in all variants I had to use `errors.ErrUnsupported` in the non-test code in `cmd/link/internal/ld`. That package still needs to compile with Go 1.17.13 for bootstrapping, but `errors.ErrUnsupported` is only introduced in Go 1.21. So I don\u0027t think this approach currently works.\n\nThe easiest fix I could come up with was to let `(*OutBuf).fallocate` on freebsd (which is built on Go 1.21+ only) return `errors.ErrUnsupported` instead of `errNoFallocate` and then use `errors.Is(errNoFallocate, errors.ErrUnsupported)` in the test.\n\nSGTY?",
+      "parentUuid": "f756ca40_42a3f41c",
+      "revId": "3412229ec8dd2892725db94f226738ddccfcb2be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6dcacd55_9dbaee1b",
         "filename": "src/internal/syscall/unix/fallocate_freebsd_arm.go",
         "patchSetId": 5
@@ -123,6 +141,24 @@
       "writtenOn": "2023-04-04T16:10:24Z",
       "side": 1,
       "message": "It may be helpful to add a comment explaining why we need the padding 0.",
+      "revId": "3412229ec8dd2892725db94f226738ddccfcb2be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a79dff4d_c77eff5d",
+        "filename": "src/internal/syscall/unix/fallocate_freebsd_arm.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2023-04-05T09:10:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6dcacd55_9dbaee1b",
       "revId": "3412229ec8dd2892725db94f226738ddccfcb2be",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
