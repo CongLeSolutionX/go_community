@@ -121,6 +121,24 @@
       "message": "I don\u0027t understand this comment.  If the compiler rejects uint16, then how does it work to use uint16 here?",
       "revId": "2edf113c79b5b8e43e647a4d741e76fffe63f626",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "318523ea_2f38d5e1",
+        "filename": "src/runtime/os_wasip1.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 12980
+      },
+      "writtenOn": "2023-04-05T15:59:35Z",
+      "side": 1,
+      "message": "The go:wasmimport directive currently does not accept values of type uint16 in arguments or returns of the function signature. Most WASI imports return a errno value, which we have to define as uint32 because of that limitation. However, the WASI errno type is intended to be a 16 bits integer, and in the event struct the error field should be of type errno. If we used the errno type here it would result in a mismatching field alignment and struct size because errno is declared as a 32 bits types, so we declare the error field as a plain uint16.",
+      "parentUuid": "a1f5973c_43a5539c",
+      "revId": "2edf113c79b5b8e43e647a4d741e76fffe63f626",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
