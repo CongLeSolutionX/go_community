@@ -78,6 +78,30 @@
       },
       "revId": "6d6df8e51ac286e2ed3b5040c6766dfeac51ab22",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "020ef543_f9aa7b6a",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-04-05T21:36:17Z",
+      "side": 1,
+      "message": "this is 1 GiB, so I\u0027m not sure there\u0027s a simpler way to write it.",
+      "parentUuid": "c52ae0b5_bc1b5ca2",
+      "range": {
+        "startLine": 347,
+        "startChar": 31,
+        "endLine": 347,
+        "endChar": 38
+      },
+      "revId": "6d6df8e51ac286e2ed3b5040c6766dfeac51ab22",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
