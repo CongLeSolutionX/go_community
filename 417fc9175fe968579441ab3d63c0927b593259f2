@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95805690_80f2319a",
+        "filename": "src/internal/testenv/testenv_unix.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-04-05T05:16:19Z",
+      "side": 1,
+      "message": "I want to highlight this, I was surprised this check wasn\u0027t already in place as js seems to be using ENOSYS for this already.",
+      "revId": "417fc9175fe968579441ab3d63c0927b593259f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
