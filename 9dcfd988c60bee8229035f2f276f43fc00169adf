@@ -214,6 +214,24 @@
       "parentUuid": "38823b72_28f57498",
       "revId": "9dcfd988c60bee8229035f2f276f43fc00169adf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c08f8ac7_2d30dd14",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57733
+      },
+      "writtenOn": "2023-04-05T16:36:43Z",
+      "side": 1,
+      "message": "Cherry beat me to it, but here\u0027s the sequence, as I understand it:\n\n* We\u0027re in function X\n* Function X dereferences a nil pointer or something, and gets a SEGV signal\n* Go\u0027s signal handler takes over the stack, to pretend that runtime.sigpanic was called at the point where the signal happened. It jumps right into runtime.sigpanic.\n* runtime.sigpanic is going to call into another panic function, so it saves the current frame pointer value and sets up its own frame pointer. It could call panicmem, for example.\n* The current frame pointer at that point would have been whatever function X had saved.\n* Lets say we\u0027re now in the panic proper, running a deferred function, and we tried to do frame pointer unwinding at that point.\n* Unwinding gets to the panicmem frame.\n* At this point, the caller\u0027s frame pointer is going to be what sigpanic saved, meaning it\u0027s going to be function X\u0027s frame pointer.\n\nSo we won\u0027t actually visit sigpanic\u0027s frame, as far as I can tell, when we do frame pointer unwinding. Even without this patch, I think that would still be true because sigpanic is going to save the same frame pointer before calling panicmem/etc.\n\nI\u0027ve updated the comments as requested. Okay to mark this as resolved?",
+      "parentUuid": "38823b72_28f57498",
+      "revId": "9dcfd988c60bee8229035f2f276f43fc00169adf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
