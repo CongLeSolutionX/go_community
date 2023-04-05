@@ -106,6 +106,24 @@
       "parentUuid": "cc5dbaae_315f8167",
       "revId": "9dcfd988c60bee8229035f2f276f43fc00169adf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e11d6b9f_a563f26f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-04-05T15:18:25Z",
+      "side": 1,
+      "message": "Thanks for the explanation, Felix and Nick! It may be helpful to add a comment mentioning that this pushed FP is not used for unwinding, but to make debugCheckBP happy.\n\n\u003e Ideally we\u0027d like to turn debugCheckBP on by default to avoid future regressions on frame pointer management.\n\nWhat is the performance overhead for turning on the check? Maybe we don\u0027t turn it on by default, but we could have special builders to run in this mode (like we have the SSA check builder, lock ranking check builder, race builder, etc.)",
+      "parentUuid": "6beb48df_29c0d66b",
+      "revId": "9dcfd988c60bee8229035f2f276f43fc00169adf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
