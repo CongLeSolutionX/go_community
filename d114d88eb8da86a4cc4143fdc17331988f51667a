@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "af5bcf95_c2966d04",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 28
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-04-05T16:18:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11b760a7_e94f9abf",
+      "revId": "d114d88eb8da86a4cc4143fdc17331988f51667a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7ac2a27b_886760b0",
@@ -35,6 +53,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "47e1c1dd_9e351729",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 28
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-04-05T16:18:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ac2a27b_886760b0",
+      "revId": "d114d88eb8da86a4cc4143fdc17331988f51667a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6c6f89b0_aad28520",
@@ -48,6 +84,24 @@
       "writtenOn": "2023-04-05T11:07:35Z",
       "side": 1,
       "message": "Update the godoc comment on rand.Reader.",
+      "revId": "d114d88eb8da86a4cc4143fdc17331988f51667a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ccfb7db9_ba6cab0a",
+        "filename": "src/crypto/rand/rand_wasip1.go",
+        "patchSetId": 28
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-04-05T16:18:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c6f89b0_aad28520",
       "revId": "d114d88eb8da86a4cc4143fdc17331988f51667a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -71,6 +125,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4e96f8dc_0c8d2a9e",
+        "filename": "src/crypto/rand/rand_wasip1.go",
+        "patchSetId": 28
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-04-05T16:18:55Z",
+      "side": 1,
+      "message": "The best source we have for this is the wasip1 API docs: https://github.com/WebAssembly/WASI/blob/23a52736049f4327dd335434851d5dc40ab7cad1/legacy/preview1/docs.md#-random_getbuf-pointeru8-buf_len-size---result-errno. I don\u0027t see a guarantee that it won\u0027t return short, but it also says that it will block to fill a large buffer. If you\u0027d like, we could turn this into a loop to ensure it fills the buffer before returning, to be safe?\n\nWould you like me to add a link to this doc here too?",
+      "parentUuid": "c7004eaa_6c70da36",
+      "revId": "d114d88eb8da86a4cc4143fdc17331988f51667a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e07fc742_c0a0341f",
         "filename": "src/crypto/x509/root_wasm.go",
         "patchSetId": 28
@@ -82,6 +154,24 @@
       "writtenOn": "2023-04-05T11:07:35Z",
       "side": 1,
       "message": "Where is a WASI program expected to find roots? How should it do X.509 verification?",
+      "revId": "d114d88eb8da86a4cc4143fdc17331988f51667a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a9b94a4_5d6c5fcc",
+        "filename": "src/crypto/x509/root_wasm.go",
+        "patchSetId": 28
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-04-05T16:18:55Z",
+      "side": 1,
+      "message": "This is very unclear in wasip1 unfortunately. We know nothing about the host filesystem, nor are there any APIs for getting roots from the host. Perhaps one blessing is that wasip1 also doesn\u0027t support networking at all, so it\u0027s unlikely that we\u0027ll need to do any automatic x509 verification from the host roots. If a user wants to do x509 verification they will need to explicitly provide the roots.",
+      "parentUuid": "e07fc742_c0a0341f",
       "revId": "d114d88eb8da86a4cc4143fdc17331988f51667a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
