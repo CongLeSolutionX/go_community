@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11b760a7_e94f9abf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 28
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2023-04-05T11:07:35Z",
+      "side": 1,
+      "message": "Link all these CLs to an issue maybe? It was hard for me to get context.",
+      "revId": "d114d88eb8da86a4cc4143fdc17331988f51667a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ac2a27b_886760b0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 28
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2023-04-05T11:07:35Z",
+      "side": 1,
+      "message": "Remaining suggests there are other wasip1 crypto files, which is not the case AFAIK? \"add wasip1 support\" maybe?",
+      "revId": "d114d88eb8da86a4cc4143fdc17331988f51667a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c6f89b0_aad28520",
+        "filename": "src/crypto/rand/rand_wasip1.go",
+        "patchSetId": 28
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2023-04-05T11:07:35Z",
+      "side": 1,
+      "message": "Update the godoc comment on rand.Reader.",
+      "revId": "d114d88eb8da86a4cc4143fdc17331988f51667a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7004eaa_6c70da36",
+        "filename": "src/crypto/rand/rand_wasip1.go",
+        "patchSetId": 28
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2023-04-05T11:07:35Z",
+      "side": 1,
+      "message": "Can you link to where the semantics of this are documented? Or ideally add in a comment why they match the other platforms in not ever returning short?",
+      "revId": "d114d88eb8da86a4cc4143fdc17331988f51667a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e07fc742_c0a0341f",
+        "filename": "src/crypto/x509/root_wasm.go",
+        "patchSetId": 28
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2023-04-05T11:07:35Z",
+      "side": 1,
+      "message": "Where is a WASI program expected to find roots? How should it do X.509 verification?",
+      "revId": "d114d88eb8da86a4cc4143fdc17331988f51667a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

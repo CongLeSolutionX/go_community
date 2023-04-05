@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb66aedd_d54d9c7f",
+        "filename": "src/crypto/x509/root_wasm.go",
+        "patchSetId": 28
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2023-04-05T11:07:35Z",
+      "side": 0,
+      "message": "We don\u0027t update copyright headers.",
+      "revId": "d1502c6703764e017e17b31eb223f035c6b37f88",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
