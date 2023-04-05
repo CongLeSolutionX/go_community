@@ -430,7 +430,7 @@ func (p *printer) marshalValue(val reflect.Value, finfo *fieldInfo, startTemplat
 	if !val.IsValid() {
 		return nil
 	}
-	if finfo != nil && finfo.flags&fOmitEmpty != 0 && isEmptyValue(val) {
+	if finfo != nil && finfo.flags&fOmitEmpty != 0 && val.IsEmpty() {
 		return nil
 	}
 
@@ -529,7 +529,7 @@ func (p *printer) marshalValue(val reflect.Value, finfo *fieldInfo, startTemplat
 		}
 		fv := finfo.value(val, dontInitNilPointers)
 
-		if finfo.flags&fOmitEmpty != 0 && (!fv.IsValid() || isEmptyValue(fv)) {
+		if finfo.flags&fOmitEmpty != 0 && (!fv.IsValid() || fv.IsEmpty()) {
 			continue
 		}
 
@@ -1113,22 +1113,4 @@ type UnsupportedTypeError struct {
 
 func (e *UnsupportedTypeError) Error() string {
 	return "xml: unsupported type: " + e.Type.String()
-}
-
-func isEmptyValue(v reflect.Value) bool {
-	switch v.Kind() {
-	case reflect.Array, reflect.Map, reflect.Slice, reflect.String:
-		return v.Len() == 0
-	case reflect.Bool:
-		return !v.Bool()
-	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
-		return v.Int() == 0
-	case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64, reflect.Uintptr:
-		return v.Uint() == 0
-	case reflect.Float32, reflect.Float64:
-		return v.Float() == 0
-	case reflect.Interface, reflect.Pointer:
-		return v.IsNil()
-	}
-	return false
 }

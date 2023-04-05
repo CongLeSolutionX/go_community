@@ -1677,6 +1677,24 @@ func (v Value) SetZero() {
 	}
 }
 
+func (v Value) IsEmpty() bool {
+	switch v.Kind() {
+	case Array, Map, Slice, String:
+		return v.Len() == 0
+	case Bool:
+		return !v.Bool()
+	case Int, Int8, Int16, Int32, Int64:
+		return v.Int() == 0
+	case Uint, Uint8, Uint16, Uint32, Uint64, Uintptr:
+		return v.Uint() == 0
+	case Float32, Float64:
+		return v.Float() == 0
+	case Interface, Pointer:
+		return v.IsNil()
+	}
+	return false
+}
+
 // Kind returns v's Kind.
 // If v is the zero Value (IsValid returns false), Kind returns Invalid.
 func (v Value) Kind() Kind {
