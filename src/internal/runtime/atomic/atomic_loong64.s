@@ -191,13 +191,7 @@ TEXT ·Or8(SB), NOSPLIT, $0-9
 	SLLV	$3, R7
 	// Shift val for aligned ptr. R5 = val << R4
 	SLLV	R7, R5
-
-	DBAR
-	LL	(R6), R7
-	OR	R5, R7
-	SC	R7, (R6)
-	BEQ	R7, -4(PC)
-	DBAR
+	AMORDBW	R5, (R6), R0
 	RET
 
 // void	And8(byte volatile*, byte);
@@ -216,49 +210,28 @@ TEXT ·And8(SB), NOSPLIT, $0-9
 	SLLV	R7, R8
 	NOR	R0, R8
 	OR	R8, R5
-
-	DBAR
-	LL	(R6), R7
-	AND	R5, R7
-	SC	R7, (R6)
-	BEQ	R7, -4(PC)
-	DBAR
+	AMANDDBW	R5, (R6), R0
 	RET
 
 // func Or(addr *uint32, v uint32)
 TEXT ·Or(SB), NOSPLIT, $0-12
 	MOVV	ptr+0(FP), R4
 	MOVW	val+8(FP), R5
-	DBAR
-	LL	(R4), R6
-	OR	R5, R6
-	SC	R6, (R4)
-	BEQ	R6, -4(PC)
-	DBAR
+	AMORDBW	R5, (R4), R0
 	RET
 
 // func And(addr *uint32, v uint32)
 TEXT ·And(SB), NOSPLIT, $0-12
 	MOVV	ptr+0(FP), R4
 	MOVW	val+8(FP), R5
-	DBAR
-	LL	(R4), R6
-	AND	R5, R6
-	SC	R6, (R4)
-	BEQ	R6, -4(PC)
-	DBAR
+	AMANDDBW	R5, (R4), R0
 	RET
 
 // func Or32(addr *uint32, v uint32) old uint32
 TEXT ·Or32(SB), NOSPLIT, $0-20
 	MOVV	ptr+0(FP), R4
 	MOVW	val+8(FP), R5
-	DBAR
-	LL	(R4), R6
-	OR	R5, R6, R7
-	SC	R7, (R4)
-	BEQ	R7, -4(PC)
-	DBAR
+	AMORDBW	R5, (R4), R6
 	MOVW R6, ret+16(FP)
 	RET
 
@@ -266,12 +239,7 @@ TEXT ·Or32(SB), NOSPLIT, $0-20
 TEXT ·And32(SB), NOSPLIT, $0-20
 	MOVV	ptr+0(FP), R4
 	MOVW	val+8(FP), R5
-	DBAR
-	LL	(R4), R6
-	AND	R5, R6, R7
-	SC	R7, (R4)
-	BEQ	R7, -4(PC)
-	DBAR
+	AMANDDBW	R5, (R4), R6
 	MOVW R6, ret+16(FP)
 	RET
 
@@ -279,12 +247,7 @@ TEXT ·And32(SB), NOSPLIT, $0-20
 TEXT ·Or64(SB), NOSPLIT, $0-24
 	MOVV	ptr+0(FP), R4
 	MOVV	val+8(FP), R5
-	DBAR
-	LLV	(R4), R6
-	OR	R5, R6, R7
-	SCV	R7, (R4)
-	BEQ	R7, -4(PC)
-	DBAR
+	AMORDBV	R5, (R4), R6
 	MOVV R6, ret+16(FP)
 	RET
 
@@ -292,12 +255,7 @@ TEXT ·Or64(SB), NOSPLIT, $0-24
 TEXT ·And64(SB), NOSPLIT, $0-24
 	MOVV	ptr+0(FP), R4
 	MOVV	val+8(FP), R5
-	DBAR
-	LLV	(R4), R6
-	AND	R5, R6, R7
-	SCV	R7, (R4)
-	BEQ	R7, -4(PC)
-	DBAR
+	AMANDDBV	R5, (R4), R6
 	MOVV R6, ret+16(FP)
 	RET
 
