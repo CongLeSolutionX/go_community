@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "41781e89_da8f1f9c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-04-05T19:46:57Z",
+      "side": 1,
+      "message": "TRY\u003dlinux-arm64\n\nThanks for the review.",
+      "revId": "5c5b6ed0a7dbc3eb5fcbf220d18650792a92c77c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "283c68c3_f2bda496",
@@ -18,6 +35,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "729745c0_4de7acf5",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3355,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-04-05T19:46:57Z",
+      "side": 1,
+      "message": "This is needed for the Sbit test on line 3359.",
+      "parentUuid": "283c68c3_f2bda496",
+      "revId": "5c5b6ed0a7dbc3eb5fcbf220d18650792a92c77c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d1637422_05bceb35",
@@ -31,6 +66,24 @@
       "writtenOn": "2023-04-05T15:31:03Z",
       "side": 1,
       "message": "Hmmm, this is only needed for the check next line. Could we do it differently so we can avoid opirr here? (It\u0027s fine as-is.)",
+      "revId": "5c5b6ed0a7dbc3eb5fcbf220d18650792a92c77c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95f518f3_5885913d",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 4178,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-04-05T19:46:57Z",
+      "side": 1,
+      "message": "Correct - it is less than ideal, however I\u0027d prefer to deal with it in a separate pass so will leave it as is for now.",
+      "parentUuid": "d1637422_05bceb35",
       "revId": "5c5b6ed0a7dbc3eb5fcbf220d18650792a92c77c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
