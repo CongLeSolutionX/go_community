@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c644b404_b04d6b8d",
+        "filename": "src/runtime/lock_wasip1.go",
+        "patchSetId": 27
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-04-06T04:03:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dfbb9a2b_84bdd003",
+      "revId": "0c810b8b973267a5d01c7636ff38031de0793652",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "41431f29_0249d127",
@@ -85,6 +103,30 @@
       "writtenOn": "2023-04-05T22:00:04Z",
       "side": 1,
       "message": "wasi",
+      "range": {
+        "startLine": 68,
+        "startChar": 35,
+        "endLine": 68,
+        "endChar": 37
+      },
+      "revId": "0c810b8b973267a5d01c7636ff38031de0793652",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56963e30_87ecd3b9",
+        "filename": "src/runtime/lock_wasip1.go",
+        "patchSetId": 27
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-04-06T04:03:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41431f29_0249d127",
       "range": {
         "startLine": 68,
         "startChar": 35,
@@ -126,6 +168,24 @@
       "side": 1,
       "message": "Great idea, let me try it out!",
       "parentUuid": "5fdc9ab7_bed3f642",
+      "revId": "0c810b8b973267a5d01c7636ff38031de0793652",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba9512f4_5c585b1e",
+        "filename": "src/runtime/mem_wasm.go",
+        "patchSetId": 27
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-04-06T04:03:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c1b8a6f_3e1b3a38",
       "revId": "0c810b8b973267a5d01c7636ff38031de0793652",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -196,6 +256,30 @@
       "writtenOn": "2023-04-06T01:48:39Z",
       "side": 1,
       "message": "an",
+      "range": {
+        "startLine": 95,
+        "startChar": 3,
+        "endLine": 95,
+        "endChar": 5
+      },
+      "revId": "0c810b8b973267a5d01c7636ff38031de0793652",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dcbbc3f6_3f83dc4b",
+        "filename": "src/runtime/os_wasip1.go",
+        "patchSetId": 27
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-04-06T04:03:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a28f38a_ecdb6332",
       "range": {
         "startLine": 95,
         "startChar": 3,
