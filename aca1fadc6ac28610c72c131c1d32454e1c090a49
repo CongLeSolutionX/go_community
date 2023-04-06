@@ -22,6 +22,30 @@
       },
       "revId": "aca1fadc6ac28610c72c131c1d32454e1c090a49",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "738f49c9_93fb2361",
+        "filename": "src/syscall/syscall_wasip1.go",
+        "patchSetId": 30
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 12980
+      },
+      "writtenOn": "2023-04-06T15:58:00Z",
+      "side": 1,
+      "message": "Possibly, we could return ESRCH if pid!\u003d0 (pretending that only pid 0 exists).",
+      "parentUuid": "bdea6976_1de7a886",
+      "range": {
+        "startLine": 391,
+        "startChar": 4,
+        "endLine": 391,
+        "endChar": 22
+      },
+      "revId": "aca1fadc6ac28610c72c131c1d32454e1c090a49",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
