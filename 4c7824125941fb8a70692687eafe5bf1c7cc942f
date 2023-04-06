@@ -97,6 +97,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "29a6c7c9_d969323d",
+        "filename": "src/runtime/extern.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-04-06T07:46:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aabea858_909b0061",
+      "range": {
+        "startLine": 220,
+        "startChar": 0,
+        "endLine": 220,
+        "endChar": 17
+      },
+      "revId": "4c7824125941fb8a70692687eafe5bf1c7cc942f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eca8086e_f3399ae1",
@@ -120,6 +144,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f274984_cdd34add",
+        "filename": "src/runtime/nonwindows_stub.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-04-06T07:46:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eca8086e_f3399ae1",
+      "range": {
+        "startLine": 20,
+        "startChar": 3,
+        "endLine": 20,
+        "endChar": 36
+      },
+      "revId": "4c7824125941fb8a70692687eafe5bf1c7cc942f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bbd71dfb_0f52fed5",
@@ -133,6 +181,30 @@
       "writtenOn": "2023-04-05T18:06:45Z",
       "side": 1,
       "message": "A few typos: \"as is\" -\u003e \"as it\", \"latter\" -\u003e \"later\".\n\nI think it could also be a little clearer about which pieces of WER it\u0027s talking about, maybe something like this:\n\n\u003e Disable WER fault reporting UI.\n\u003e Do this even if WER is disabled as a whole, as WER might be enabled later with setTraceback(\"wer\") and we still want the fault reporting UI to be disabled if this happens.\n\nThe `enableWER` comment does clarify this, but maybe it\u0027s worth clarifying here for anyone reading through this file from top to bottom.",
+      "range": {
+        "startLine": 25,
+        "startChar": 1,
+        "endLine": 27,
+        "endChar": 36
+      },
+      "revId": "4c7824125941fb8a70692687eafe5bf1c7cc942f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbd47fdf_1d06e861",
+        "filename": "src/runtime/signal_windows.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-04-06T07:46:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bbd71dfb_0f52fed5",
       "range": {
         "startLine": 25,
         "startChar": 1,
@@ -184,6 +256,54 @@
         "startChar": 6,
         "endLine": 437,
         "endChar": 18
+      },
+      "revId": "4c7824125941fb8a70692687eafe5bf1c7cc942f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "726249ba_49b6a617",
+        "filename": "src/runtime/signal_windows.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-04-06T07:46:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9bf6ceae_220fcdea",
+      "range": {
+        "startLine": 437,
+        "startChar": 6,
+        "endLine": 437,
+        "endChar": 18
+      },
+      "revId": "4c7824125941fb8a70692687eafe5bf1c7cc942f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43d4040f_0d9731c8",
+        "filename": "src/runtime/signal_windows.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-04-06T07:46:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b62ff52_7de8a66f",
+      "range": {
+        "startLine": 437,
+        "startChar": 40,
+        "endLine": 437,
+        "endChar": 47
       },
       "revId": "4c7824125941fb8a70692687eafe5bf1c7cc942f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
