@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "137de27b_e106fa2f",
+        "filename": "src/cmd/internal/osinfo/os_wasip1.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-04-06T02:03:19Z",
+      "side": 1,
+      "message": "Is there any possible way to detect the Wasm engine/runtime version?",
+      "revId": "1c7dfde596cd6c87dc098c0a94c10ad32d2ebf44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
