@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "60432ac4_6b6d7654",
+        "filename": "src/syscall/fs_wasip1.go",
+        "patchSetId": 29
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 12980
+      },
+      "writtenOn": "2023-04-06T04:57:55Z",
+      "side": 1,
+      "message": "It appears this particular issue was not reported, we\u0027ll do. Thanks for pointing it out!",
+      "parentUuid": "a360e668_f647a90c",
+      "revId": "0906f8ada84d464f6e04574f8d6397f4d2ebcb10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "491892de_f4219aec",
         "filename": "src/syscall/fs_wasip1.go",
         "patchSetId": 29
@@ -54,6 +72,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e1250813_09c6d442",
+        "filename": "src/syscall/fs_wasip1.go",
+        "patchSetId": 29
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 12980
+      },
+      "writtenOn": "2023-04-06T04:57:55Z",
+      "side": 1,
+      "message": "WASI doesn\u0027t provide guidelines on how to set the working directory (it\u0027s not even a concept that exists in the spec), so this is the least disruptive way we could come up with to emulate the behavior.",
+      "parentUuid": "feb2de21_ed3e0e55",
+      "revId": "0906f8ada84d464f6e04574f8d6397f4d2ebcb10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d06eade3_7d2baf3e",
         "filename": "src/syscall/fs_wasip1.go",
         "patchSetId": 29
@@ -65,6 +101,24 @@
       "writtenOn": "2023-04-06T04:33:50Z",
       "side": 1,
       "message": "I wonder if there is a way to avoid allocation on iovec by like making the fd_read and others accept uintptr instead of *iovec, allocating iovec on stack, passing it as uintptr. Not sure if it\u0027s feasible, but may be worth a thought.",
+      "revId": "0906f8ada84d464f6e04574f8d6397f4d2ebcb10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "250c007a_2bb339d0",
+        "filename": "src/syscall/fs_wasip1.go",
+        "patchSetId": 29
+      },
+      "lineNbr": 754,
+      "author": {
+        "id": 12980
+      },
+      "writtenOn": "2023-04-06T04:57:55Z",
+      "side": 1,
+      "message": "This actually does not cause a heap allocation: we mark the imports with go:noescape, and makeIOVec gets inlined at the call sites so the compiler knows it can allocate those values on the stack (verified with `go build -gcflags \u0027-m -m\u0027`).",
+      "parentUuid": "d06eade3_7d2baf3e",
       "revId": "0906f8ada84d464f6e04574f8d6397f4d2ebcb10",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
