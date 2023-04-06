@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8bcc947_da6d1633",
+        "filename": "src/net/conf.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-04-06T08:32:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "013eef16_2537ad96",
+      "revId": "a808b640039eee1a71e7d90dfee798d19e670dff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "34ee0756_9ad5b340",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-04-05T22:32:54Z",
       "side": 1,
       "message": "Use the same message as before: \"go package net: GODEBUG setting forcing use of Go\u0027s resolver\".",
+      "revId": "a808b640039eee1a71e7d90dfee798d19e670dff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac1aa721_c9a69426",
+        "filename": "src/net/conf.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-04-06T08:32:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34ee0756_9ad5b340",
       "revId": "a808b640039eee1a71e7d90dfee798d19e670dff",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -54,6 +90,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4f5b6eed_e191f995",
+        "filename": "src/net/conf.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-04-06T08:32:24Z",
+      "side": 1,
+      "message": "the confVal.resolver might not change at all, so it might still be resolverDynamic (linux).",
+      "parentUuid": "01a334ec_bf8063fb",
+      "revId": "a808b640039eee1a71e7d90dfee798d19e670dff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5a9d9c27_f6ba3e36",
         "filename": "src/net/conf_netcgo.go",
         "patchSetId": 7
@@ -65,6 +119,24 @@
       "writtenOn": "2023-04-05T22:32:54Z",
       "side": 1,
       "message": "We shouldn\u0027t need to check netgo here.  We don\u0027t have to worry about people who set both netgo and netcgo.  Also, if netcgo is set, we should set resolverCgo regardless of cgo/darwin/windows.",
+      "revId": "a808b640039eee1a71e7d90dfee798d19e670dff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9670dc11_d958c96d",
+        "filename": "src/net/conf_netcgo.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-04-06T08:32:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a9d9c27_f6ba3e36",
       "revId": "a808b640039eee1a71e7d90dfee798d19e670dff",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -86,6 +158,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd58e73f_449c6013",
+        "filename": "src/net/conf_netgo.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-04-06T08:32:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e60f3db_8581cd00",
+      "revId": "a808b640039eee1a71e7d90dfee798d19e670dff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "254884e6_9e9b3ef8",
@@ -99,6 +189,24 @@
       "writtenOn": "2023-04-05T22:32:54Z",
       "side": 1,
       "message": "Perhaps it would be simpler to just make this \"go:build netgo\" and handle the cgo/darwin/windows decision in conf.go at run time.",
+      "revId": "a808b640039eee1a71e7d90dfee798d19e670dff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f8a18b2_0af2c66c",
+        "filename": "src/net/conf_netgo.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-04-06T08:32:24Z",
+      "side": 1,
+      "message": "I feel like this would make it more complicated. Is it even possible to get the cgo build tag at runtime?",
+      "parentUuid": "254884e6_9e9b3ef8",
       "revId": "a808b640039eee1a71e7d90dfee798d19e670dff",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
