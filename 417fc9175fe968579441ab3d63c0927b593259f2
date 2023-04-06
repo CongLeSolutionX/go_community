@@ -52,6 +52,24 @@
       "parentUuid": "6bf9abb4_d73f0bc1",
       "revId": "417fc9175fe968579441ab3d63c0927b593259f2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "754e0fbd_712080c2",
+        "filename": "src/internal/testenv/testenv_unix.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-04-06T21:30:22Z",
+      "side": 1,
+      "message": "JS\u0027s ENOSYS \"Is\" ErrUnsupported, https://cs.opensource.google/go/go/+/master:src/syscall/syscall_js.go;l\u003d77 . Maybe we want to do the same for WASI? Creating a new file is also fine with me.",
+      "parentUuid": "37de1c03_69f92247",
+      "revId": "417fc9175fe968579441ab3d63c0927b593259f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
