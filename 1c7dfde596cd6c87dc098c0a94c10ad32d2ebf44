@@ -16,6 +16,24 @@
       "message": "Is there any possible way to detect the Wasm engine/runtime version?",
       "revId": "1c7dfde596cd6c87dc098c0a94c10ad32d2ebf44",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e82b0d9a_d61b694d",
+        "filename": "src/cmd/internal/osinfo/os_wasip1.go",
+        "patchSetId": 31
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 12980
+      },
+      "writtenOn": "2023-04-06T02:53:52Z",
+      "side": 1,
+      "message": "Unfortunately there is nothing in the WASI spec which describes a standard way to do this.",
+      "parentUuid": "137de27b_e106fa2f",
+      "revId": "1c7dfde596cd6c87dc098c0a94c10ad32d2ebf44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
