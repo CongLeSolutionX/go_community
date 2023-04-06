@@ -1,10 +1,8 @@
 // Copyright 2017 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
-
 // Check correctness of various closure corner cases
 // that are expected to be inlined
-
 package main
 
 var ok bool
@@ -23,7 +21,6 @@ func main() {
 			ppanic("x() != 1")
 		}
 	}
-
 	{
 		if y := func(x int) int { // ERROR "can inline main.func3"
 			return x + 2
@@ -36,7 +33,6 @@ func main() {
 			ppanic("y(40) != 42")
 		}
 	}
-
 	{
 		y := func(x int) int { // ERROR "can inline main.func5" "func literal does not escape"
 			return x + 2
@@ -48,7 +44,6 @@ func main() {
 			ppanic("y(40) != 41")
 		}
 	}
-
 	{
 		func() { // ERROR "func literal does not escape"
 			y := func(x int) int { // ERROR "can inline main.func7.1" "func literal does not escape"
@@ -62,7 +57,6 @@ func main() {
 			}
 		}()
 	}
-
 	{
 		y := func(x int) int { // ERROR "can inline main.func8" "func literal does not escape"
 			return x + 2
@@ -74,7 +68,6 @@ func main() {
 			ppanic("y(40) != 41")
 		}
 	}
-
 	{
 		func() { // ERROR "func literal does not escape"
 			y := func(x int) int { // ERROR "can inline main.func10.1" "func literal does not escape"
@@ -88,7 +81,6 @@ func main() {
 			}
 		}()
 	}
-
 	{
 		y := func(x int) int { // ERROR "can inline main.func11" "func literal does not escape"
 			return x + 2
@@ -102,7 +94,6 @@ func main() {
 			ppanic("y(40) != 41")
 		}
 	}
-
 	{
 		func() { // ERROR "func literal does not escape"
 			y := func(x int) int { // ERROR "func literal does not escape" "can inline main.func13.1"
@@ -118,7 +109,6 @@ func main() {
 			}
 		}()
 	}
-
 	{
 		y := func(x int) int { // ERROR "can inline main.func14" "func literal does not escape"
 			return x + 2
@@ -130,7 +120,6 @@ func main() {
 			ppanic("y(40) != 41")
 		}
 	}
-
 	{
 		func() { // ERROR "func literal does not escape"
 			y := func(x int) int { // ERROR "can inline main.func16.1" "func literal does not escape"
@@ -144,7 +133,6 @@ func main() {
 			}
 		}()
 	}
-
 	{
 		y := func(x int) int { // ERROR "can inline main.func17" "func literal does not escape"
 			return x + 2
@@ -156,7 +144,6 @@ func main() {
 			ppanic("y(40) != 41")
 		}
 	}
-
 	{
 		func() { // ERROR "func literal does not escape"
 			y := func(x int) int { // ERROR "can inline main.func19.1" "func literal does not escape"
@@ -170,7 +157,6 @@ func main() {
 			}
 		}()
 	}
-
 	{
 		x := 42
 		if y := func() int { // ERROR "can inline main.func20"
@@ -184,7 +170,6 @@ func main() {
 			ppanic("y() != 42")
 		}
 	}
-
 	{
 		x := 42
 		if z := func(y int) int { // ERROR "can inline main.func22"
@@ -202,7 +187,6 @@ func main() {
 			ppanic("z(1) != 43")
 		}
 	}
-
 	{
 		a := 1
 		func() { // ERROR "can inline main.func24"
@@ -214,7 +198,6 @@ func main() {
 			ppanic("a != 2")
 		}
 	}
-
 	{
 		b := 2
 		func(b int) { // ERROR "func literal does not escape"
@@ -229,52 +212,53 @@ func main() {
 			ppanic("b != 2")
 		}
 	}
-
 	{
 		c := 3
-		func() { // ERROR "func literal does not escape"
+		func() { // ERROR "can inline main.func26"
 			c = 4
-			func() { // ERROR "func literal does not escape"
+			func() {
 				if c != 4 {
 					ppanic("c != 4")
 				}
 				recover() // prevent inlining
 			}()
-		}()
+		}() // ERROR "inlining call to main.func26" "func literal does not escape"
 		if c != 4 {
 			ppanic("c != 4")
 		}
 	}
-
 	{
 		a := 2
-		if r := func(x int) int { // ERROR "func literal does not escape"
+		// This has an unfortunate exponential growth, where as we visit each
+		// function, we inline the inner closure, and that constructs a new
+		// function for any closures inside the inner function, and then we
+		// revisit those. E.g., func34 and func36 are constructed by the inliner.
+		if r := func(x int) int { // ERROR "can inline main.func27"
 			b := 3
-			return func(y int) int { // ERROR "can inline main.func27.1"
+			return func(y int) int { // ERROR "can inline main.func27.1" "can inline main.func34"
 				c := 5
-				return func(z int) int { // ERROR "can inline main.func27.1.1" "can inline main.func27.(func)?2"
+				return func(z int) int { // ERROR "can inline main.func27.1.1" "can inline main.func27.(func)?2" "can inline main.func34.1" "can inline main.func36"
 					return a*x + b*y + c*z
 				}(10) // ERROR "inlining call to main.func27.1.1"
 			}(100) // ERROR "inlining call to main.func27.1" "inlining call to main.func27.(func)?2"
-		}(1000); r != 2350 {
+		}(1000); r != 2350 { // ERROR "inlining call to main.func27" "inlining call to main.func34" "inlining call to main.func36"
 			ppanic("r != 2350")
 		}
 	}
-
 	{
 		a := 2
-		if r := func(x int) int { // ERROR "func literal does not escape"
+		if r := func(x int) int { // ERROR "can inline main.func28"
 			b := 3
-			return func(y int) int { // ERROR "can inline main.func28.1"
+			return func(y int) int { // ERROR "can inline main.func28.1" "can inline main.func35"
 				c := 5
-				func(z int) { // ERROR "can inline main.func28.1.1" "can inline main.func28.(func)?2"
+				func(z int) { // ERROR "can inline main.func28.1.1" "can inline main.func28.(func)?2" "can inline main.func35.1" "can inline main.func37"
 					a = a * x
 					b = b * y
 					c = c * z
 				}(10) // ERROR "inlining call to main.func28.1.1"
 				return a + c
 			}(100) + b // ERROR "inlining call to main.func28.1" "inlining call to main.func28.(func)?2"
-		}(1000); r != 2350 {
+		}(1000); r != 2350 { // ERROR "inlining call to main.func28" "inlining call to main.func35" "inlining call to main.func37"
 			ppanic("r != 2350")
 		}
 		if a != 2000 {

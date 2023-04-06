@@ -577,13 +577,10 @@ func (v *hairyVisitor) doNode(n ir.Node) bool {
 		// TODO(danscales): Maybe make budget proportional to number of closure
 		// variables, e.g.:
 		//v.budget -= int32(len(n.(*ir.ClosureExpr).Func.ClosureVars) * 3)
+		// TODO(austin): However, if we're able to inline this closure into
+		// v.curFunc, then we actually pay nothing for the closure captures. We
+		// should try to account for that if we're going to account for captures.
 		v.budget -= 15
-		// Scan body of closure (which DoChildren doesn't automatically
-		// do) to check for disallowed ops in the body and include the
-		// body in the budget.
-		if doList(n.(*ir.ClosureExpr).Func.Body, v.do) {
-			return true
-		}
 
 	case ir.OGO,
 		ir.ODEFER,
@@ -883,6 +880,13 @@ func inlnode(n ir.Node, maxCost int32, inlCalls *[]*ir.InlinedCallExpr, edit fun
 		}
 		if fn := inlCallee(call.X, profile); fn != nil && typecheck.HaveInlineBody(fn) {
 			n = mkinlcall(call, fn, maxCost, inlCalls, edit)
+			if fn.IsHiddenClosure() {
+				ir.Visit(fn, func(node ir.Node) {
+					if clo, ok := node.(*ir.ClosureExpr); ok && clo.Func.IsHiddenClosure() {
+						clo.Func.SetIsDeadcodeClosure(true)
+					}
+				})
+			}
 		}
 	}
 
