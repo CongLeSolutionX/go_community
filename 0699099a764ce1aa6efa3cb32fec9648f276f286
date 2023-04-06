@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c835e22_8c00ca93",
+        "filename": "src/os/dirent_wasip1.go",
+        "patchSetId": 36
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-04-06T21:26:58Z",
+      "side": 1,
+      "message": "Like the other CL, maybe add a comment about 24.",
+      "range": {
+        "startLine": 20,
+        "startChar": 8,
+        "endLine": 20,
+        "endChar": 10
+      },
+      "revId": "0699099a764ce1aa6efa3cb32fec9648f276f286",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63f04403_a30c3eb4",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 36
+      },
+      "lineNbr": 1273,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-04-06T21:26:58Z",
+      "side": 1,
+      "message": "Minor: add this before t.Parallel().",
+      "range": {
+        "startLine": 1270,
+        "startChar": 0,
+        "endLine": 1273,
+        "endChar": 2
+      },
+      "revId": "0699099a764ce1aa6efa3cb32fec9648f276f286",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fba437a_41b0256a",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 36
+      },
+      "lineNbr": 2193,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-04-06T21:26:58Z",
+      "side": 1,
+      "message": "Same here.",
+      "revId": "0699099a764ce1aa6efa3cb32fec9648f276f286",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76c2e786_101b246a",
+        "filename": "src/os/removeall_test.go",
+        "patchSetId": 36
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-04-06T21:26:58Z",
+      "side": 1,
+      "message": "Typo?",
+      "range": {
+        "startLine": 428,
+        "startChar": 47,
+        "endLine": 428,
+        "endChar": 59
+      },
+      "revId": "0699099a764ce1aa6efa3cb32fec9648f276f286",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
