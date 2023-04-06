@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9db01c3_c80a246c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 34
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-04-06T22:26:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dafe4eab_84e3ddeb",
+      "revId": "4dbed8a80f0251e60fa78ea4a8d932661ab409d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f51ceade_ee8730e1",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-04-06T22:19:13Z",
       "side": 1,
       "message": "Either way I think you can remove this sentence.",
+      "revId": "4dbed8a80f0251e60fa78ea4a8d932661ab409d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af0e36c7_a9df144a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 34
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-04-06T22:26:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f51ceade_ee8730e1",
       "revId": "4dbed8a80f0251e60fa78ea4a8d932661ab409d1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -85,6 +121,24 @@
       "writtenOn": "2023-04-06T22:19:13Z",
       "side": 1,
       "message": "Add a comment saying that this is a copy of the function in internal/testenv.  And in internal/testenv add a comment mentioning this copy.  See the similar comments for buildModeSupported in this file and platform.BuildModeSupported.",
+      "revId": "4dbed8a80f0251e60fa78ea4a8d932661ab409d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9774a928_438b5669",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 34
+      },
+      "lineNbr": 1479,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-04-06T22:26:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c22caa73_2a3a25f9",
       "revId": "4dbed8a80f0251e60fa78ea4a8d932661ab409d1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
