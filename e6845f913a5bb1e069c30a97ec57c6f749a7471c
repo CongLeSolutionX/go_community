@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "217db5fd_4b665c4b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 37
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-06T22:34:56Z",
+      "side": 1,
+      "message": "internal: add wasip1 support",
+      "revId": "e6845f913a5bb1e069c30a97ec57c6f749a7471c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f08949b_f1354b90",
+        "filename": "src/internal/poll/fd_poll_wasm.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-06T22:34:56Z",
+      "side": 1,
+      "message": "No need to change the copyright year.  I see that the file is renamed, but it can retain the same year.",
+      "revId": "e6845f913a5bb1e069c30a97ec57c6f749a7471c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "022e9b64_bc06bc31",
+        "filename": "src/internal/poll/fd_readdir_wasip1.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-06T22:34:56Z",
+      "side": 1,
+      "message": "This is internal/poll, not syscall.",
+      "revId": "e6845f913a5bb1e069c30a97ec57c6f749a7471c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c372408_fe821513",
+        "filename": "src/internal/poll/fd_seek_wasip1.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-06T22:34:56Z",
+      "side": 1,
+      "message": "This looks like a race condition.  incref is not an exclusive lock.  If two goroutines execute this code simultaneously, they could both collide here.  I understand that that probably can\u0027t happen today, but still.  We should use atomic operations to set fd.Filetype, which should be safe since we will presumably always be doing the same transition in all threads.",
+      "revId": "e6845f913a5bb1e069c30a97ec57c6f749a7471c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91357603_8de7ac20",
+        "filename": "src/internal/poll/fd_sysfile_unix.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-06T22:34:56Z",
+      "side": 1,
+      "message": "This CL is adding several small files with this build tag, with corresponding versions for wasip1.  I think with this many cases we should just pack them all into two files: fd_unixjs.go and fd_wasi.go.",
+      "revId": "e6845f913a5bb1e069c30a97ec57c6f749a7471c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ceffe926_cc95ca56",
+        "filename": "src/internal/poll/fd_unix.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-06T22:34:56Z",
+      "side": 1,
+      "message": "I don\u0027t see any reason to export this type.  This can be sysFile.",
+      "revId": "e6845f913a5bb1e069c30a97ec57c6f749a7471c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
