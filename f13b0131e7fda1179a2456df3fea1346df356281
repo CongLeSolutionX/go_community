@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "899388e6_9d8cc188",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 28
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-04-06T05:27:58Z",
+      "side": 1,
+      "message": "Nit: It would be better to say something like \"add support for wasip1\" (the CL is doing more than just adding files and the fact that files are being added is already reflected by the RCS).",
+      "range": {
+        "startLine": 7,
+        "startChar": 9,
+        "endLine": 7,
+        "endChar": 35
+      },
+      "revId": "f13b0131e7fda1179a2456df3fea1346df356281",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
