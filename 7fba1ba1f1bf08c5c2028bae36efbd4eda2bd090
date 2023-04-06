@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a23173b3_99c80988",
+        "filename": "src/runtime/cgo/mmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 59718
+      },
+      "writtenOn": "2023-04-06T01:55:58Z",
+      "side": 1,
+      "message": "Done. Thanks.",
+      "parentUuid": "e13c4fc1_153682a3",
+      "range": {
+        "startLine": 5,
+        "startChar": 11,
+        "endLine": 5,
+        "endChar": 91
+      },
+      "revId": "7fba1ba1f1bf08c5c2028bae36efbd4eda2bd090",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1406d993_b5fb8070",
@@ -47,6 +71,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "48e464cf_4df8c85f",
+        "filename": "src/runtime/cgo_mmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 59718
+      },
+      "writtenOn": "2023-04-06T01:55:58Z",
+      "side": 1,
+      "message": "Done. Thanks.",
+      "parentUuid": "1406d993_b5fb8070",
+      "range": {
+        "startLine": 7,
+        "startChar": 11,
+        "endLine": 7,
+        "endChar": 69
+      },
+      "revId": "7fba1ba1f1bf08c5c2028bae36efbd4eda2bd090",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a7295a87_f96ee4c9",
@@ -60,6 +108,30 @@
       "writtenOn": "2023-04-04T16:02:30Z",
       "side": 1,
       "message": "Simplify to explicitly negate the constraint in `runtime/cgo_mmap.go`?\n\n`… \u0026\u0026 !((linux \u0026\u0026 (amd64 || arm64 || loong64)) || (freebsd \u0026\u0026 amd64)) \u0026\u0026 …`",
+      "range": {
+        "startLine": 5,
+        "startChar": 37,
+        "endLine": 5,
+        "endChar": 125
+      },
+      "revId": "7fba1ba1f1bf08c5c2028bae36efbd4eda2bd090",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca5edf88_81309ce8",
+        "filename": "src/runtime/mmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 59718
+      },
+      "writtenOn": "2023-04-06T01:55:58Z",
+      "side": 1,
+      "message": "Done. Thanks.",
+      "parentUuid": "a7295a87_f96ee4c9",
       "range": {
         "startLine": 5,
         "startChar": 37,
