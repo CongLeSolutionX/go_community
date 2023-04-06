@@ -59,6 +59,30 @@
       },
       "revId": "e0675fd13f8b4ed38ff9d067453b79fc03a4fc98",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d34e89c_b6fd33ba",
+        "filename": "misc/wasm/go_wasip1_wasm_exec",
+        "patchSetId": 28
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-04-06T05:48:32Z",
+      "side": 1,
+      "message": "It\u0027s used for caching architecture-specific compiled code that wazero produces when running in pre-compiled mode (not interpreted). It allows reuse of these artifacts if rerun over multiple invocations. It is ideal for this directory to remain stable across many invocations of the runtime.",
+      "parentUuid": "d5901b0b_52fad461",
+      "range": {
+        "startLine": 6,
+        "startChar": 40,
+        "endLine": 6,
+        "endChar": 68
+      },
+      "revId": "e0675fd13f8b4ed38ff9d067453b79fc03a4fc98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
