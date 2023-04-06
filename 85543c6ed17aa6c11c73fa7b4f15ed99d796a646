@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b1f1697_fae31715",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-04-06T18:47:33Z",
+      "side": 1,
+      "message": "(Note that this change is unlikely to be tested by the Go builders due to #46693.)",
+      "revId": "85543c6ed17aa6c11c73fa7b4f15ed99d796a646",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
