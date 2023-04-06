@@ -53,6 +53,24 @@
       "message": "Should we also call `pw.Close()` on this path to avoid leaks and/or ensure that the `Post` unblocks (if it hasn\u0027t already)?\n\nOr maybe do that in the `defer` above?\n```\ndefer func() {\n\tpw.Close()\n\twg.Done()\n}()\n```",
       "revId": "c8213ba4fcf9fb10d7a1bb63253b922ecacf1c75",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0714151f_085e1637",
+        "filename": "src/net/http/responsecontroller_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-04-06T21:13:44Z",
+      "side": 1,
+      "message": "Moved into a defer.",
+      "parentUuid": "6bf9f00c_e76cb801",
+      "revId": "c8213ba4fcf9fb10d7a1bb63253b922ecacf1c75",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
