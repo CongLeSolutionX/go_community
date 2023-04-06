@@ -121,6 +121,24 @@
       "parentUuid": "d06eade3_7d2baf3e",
       "revId": "0906f8ada84d464f6e04574f8d6397f4d2ebcb10",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1975dbc2_c17804e7",
+        "filename": "src/syscall/fs_wasip1.go",
+        "patchSetId": 29
+      },
+      "lineNbr": 754,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-04-06T14:28:50Z",
+      "side": 1,
+      "message": "Yeah, it does not have an allocation if makeIOVec is inlined. I think this is clearer than using uintptr.",
+      "parentUuid": "250c007a_2bb339d0",
+      "revId": "0906f8ada84d464f6e04574f8d6397f4d2ebcb10",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
