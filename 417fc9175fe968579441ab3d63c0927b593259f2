@@ -16,6 +16,24 @@
       "message": "I want to highlight this, I was surprised this check wasn\u0027t already in place as js seems to be using ENOSYS for this already.",
       "revId": "417fc9175fe968579441ab3d63c0927b593259f2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6bf9abb4_d73f0bc1",
+        "filename": "src/internal/testenv/testenv_unix.go",
+        "patchSetId": 26
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-04-06T21:01:51Z",
+      "side": 1,
+      "message": "Adding ENOSYS makes sense to me. (This file isn\u0027t used on js, though, and the js version does seem to return true for ENOSYS.)",
+      "parentUuid": "95805690_80f2319a",
+      "revId": "417fc9175fe968579441ab3d63c0927b593259f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
