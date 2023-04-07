@@ -72,6 +72,24 @@
       "message": "Hm, I guess this might have uncovered a bug. I\u0027m not familiar enough with the code to tell what would be the best way to move forward. Continuing to ignore the errors doesn\u0027t seem great.",
       "revId": "ddf167096e44b4539ca8742d32d60436dd9219f3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8cdad0e7_d43df11b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-04-07T19:26:12Z",
+      "side": 1,
+      "message": "It looks like we expect empty profile to be parsed without error. We probably need to add `if p.Empty() { return nil }` at the start of `postDecode`.",
+      "parentUuid": "f7d612a1_77b94e4e",
+      "revId": "ddf167096e44b4539ca8742d32d60436dd9219f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
