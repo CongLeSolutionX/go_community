@@ -71,6 +71,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "15fa5c07_bce85442",
+        "filename": "src/internal/poll/fd_seek_wasip1.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 12980
+      },
+      "writtenOn": "2023-04-07T00:33:17Z",
+      "side": 1,
+      "message": "`syscall.Filetype` is declared as a `uint8` today because that\u0027s how it\u0027s defined in the WASI spec, but there are no operations in the `atomic` package to load/store values of this size.\n\nWe could change `syscall.Filetype` to a `uint32` to be able to use atomic operations, but it might be cause confusion and other issues to have diverged from the spec.\n\nWe could add a mutex to `SysFile` to manage this synchronization.\n\nWe could also ensure that `Filetype` is never unknown, tho it forces to make a `stat` call for every `open`.\n\nLet me know if you have a suggestion on which approach would be preferred.",
+      "parentUuid": "6c372408_fe821513",
+      "revId": "e6845f913a5bb1e069c30a97ec57c6f749a7471c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "91357603_8de7ac20",
         "filename": "src/internal/poll/fd_sysfile_unix.go",
         "patchSetId": 37
@@ -99,6 +117,24 @@
       "writtenOn": "2023-04-06T22:34:56Z",
       "side": 1,
       "message": "I don\u0027t see any reason to export this type.  This can be sysFile.",
+      "revId": "e6845f913a5bb1e069c30a97ec57c6f749a7471c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f4db30d_3d658336",
+        "filename": "src/internal/poll/fd_unix.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 12980
+      },
+      "writtenOn": "2023-04-07T00:33:17Z",
+      "side": 1,
+      "message": "It is exported because the `os` package initializes the field when it constructs `poll.FD` values.\n\nThis is related to the discussion we had in an earlier commit about how `os.File.Chdir` is emulated using the absolute path that the file was opened at. `poll.FD.Fchdir` needs access to that path so `SysFile` is where it\u0027s currently stored.\n\nI agree that this new coupling is a bit unfortunate, it was already the `os` package\u0027s responsibility to initialize `Sysfd` so it seemed to be the least disruptive to add this new field. This approach tries to balance for the least amount of code duplication while maintaining portability to make `os.File.Chdir` work on GOOS\u003dwasip1 in a similar way it does on other platforms, despite the lack of support from the WASM runtime.\n\nHappy to revisit the approach if you have a preference for making a different trade off.",
+      "parentUuid": "ceffe926_cc95ca56",
       "revId": "e6845f913a5bb1e069c30a97ec57c6f749a7471c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
