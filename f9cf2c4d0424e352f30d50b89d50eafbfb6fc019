@@ -111,6 +111,30 @@
       },
       "revId": "f9cf2c4d0424e352f30d50b89d50eafbfb6fc019",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8947f431_8798da07",
+        "filename": "src/cmd/compile/internal/ssa/_gen/AMD64latelower.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-04-07T16:15:35Z",
+      "side": 1,
+      "message": "Just FYI, I located/confirmed the miscompiled function for windows amd64 race.  I\u0027m not planning to dig deeper than this today, but it seems like a good idea to figure out where it went wrong.  \n```\ngopher@SERVER-2016-V8- C:\\workdir\\go\\src\u003eSET GOCOMPILEDEBUG\u003dgossahash\u003d00100001001\ngopher@SERVER-2016-V8- C:\\workdir\\go\\src\u003eC:\\workdir\\go\\bin\\go test -race -count\u003d50 cmd/doc\n# os\ngossahash0 triggered os.(*File).readdir 111111011100000100001001\ngossahash0 triggered os.(*File).readdir 111111011100000100001001\ngossahash0 triggered os.(*File).readdir 111111011100000100001001\ngossahash0 triggered os.(*File).readdir 111111011100000100001001\ngossahash0 triggered os.(*File).readdir 111111011100000100001001\ngossahash0 triggered os.(*File).readdir 111111011100000100001001\ngossahash0 triggered os.(*File).readdir 111111011100000100001001\ngossahash0 triggered os.(*File).readdir 111111011100000100001001\ngossahash0 triggered os.(*File).readdir 111111011100000100001001\n\nruntime: bad pointer in frame os.(*File).readdir at 0xc0001b7be0: 0x2b8\nfatal error: invalid pointer found on stack\n```\n(This is with the rules modified by adding ` \u0026\u0026 v.Block.Func.DebugHashMatch()` )\n\nA value of 0x2b8 does suggest that perhaps a uint64/32 would be the better choice.",
+      "parentUuid": "1aabe1d7_510e4109",
+      "range": {
+        "startLine": 7,
+        "startChar": 87,
+        "endLine": 7,
+        "endChar": 114
+      },
+      "revId": "f9cf2c4d0424e352f30d50b89d50eafbfb6fc019",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
