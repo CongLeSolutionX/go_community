@@ -5510,10 +5510,11 @@ func retake(now int64) uint32 {
 	// Prevent allp slice changes. This lock will be completely
 	// uncontended unless we're already stopping the world.
 	lock(&allpLock)
+	lenAllp := len(allp)
 	// We can't use a range loop over allp because we may
 	// temporarily drop the allpLock. Hence, we need to re-fetch
 	// allp each time around the loop.
-	for i := 0; i < len(allp); i++ {
+	for i := 0; i < lenAllp; i++ {
 		pp := allp[i]
 		if pp == nil {
 			// This can happen if procresize has grown
@@ -5568,6 +5569,7 @@ func retake(now int64) uint32 {
 			}
 			incidlelocked(1)
 			lock(&allpLock)
+			lenAllp = len(allp)
 		}
 	}
 	unlock(&allpLock)
