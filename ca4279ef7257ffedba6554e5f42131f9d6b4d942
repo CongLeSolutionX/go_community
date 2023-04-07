@@ -80,6 +80,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a18159f4_50f1034c",
+        "filename": "src/internal/poll/fd_readdir_wasip1.go",
+        "patchSetId": 35
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 12980
+      },
+      "writtenOn": "2023-04-07T01:53:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80c5c330_094232d0",
+      "range": {
+        "startLine": 79,
+        "startChar": 8,
+        "endLine": 79,
+        "endChar": 11
+      },
+      "revId": "ca4279ef7257ffedba6554e5f42131f9d6b4d942",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "80bfc15b_0cdb4ecd",
@@ -93,6 +117,24 @@
       "writtenOn": "2023-04-06T21:01:51Z",
       "side": 1,
       "message": "This function seems not used anywhere?",
+      "revId": "ca4279ef7257ffedba6554e5f42131f9d6b4d942",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "940b2438_1b26d9b2",
+        "filename": "src/internal/poll/fd_readdir_wasip1.go",
+        "patchSetId": 35
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 12980
+      },
+      "writtenOn": "2023-04-07T01:53:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80bfc15b_0cdb4ecd",
       "revId": "ca4279ef7257ffedba6554e5f42131f9d6b4d942",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
