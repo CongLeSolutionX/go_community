@@ -134,5 +134,6 @@ var Anames = []string{
 	"RDTIMELW",
 	"RDTIMEHW",
 	"RDTIMED",
+	"CPUCFG",
 	"LAST",
 }
