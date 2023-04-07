@@ -72,6 +72,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2cd75e8b_b2defaab",
+        "filename": "src/crypto/tls/conn.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 1157,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-04-07T18:46:29Z",
+      "side": 1,
+      "message": "We\u0027ll always return alertUnexpectedMessage if we receive EndOfEarlyData, since there\u0027s no support for early data at the moment.\n\nWhenever crypto/tls gains support for early data, the path which processes EndOfEarlyData can verify that the connection isn\u0027t a QUIC one.",
+      "parentUuid": "e3b84b00_f3692432",
+      "revId": "149b881fbfbad96b2474966a2e88a5d2f7151218",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "927dc582_3ac9b664",
@@ -85,6 +103,24 @@
       "writtenOn": "2023-04-01T00:03:36Z",
       "side": 1,
       "message": "According to section 6 of RFC 9001, this needs to result in an unexpected_message alert when using QUIC.",
+      "revId": "149b881fbfbad96b2474966a2e88a5d2f7151218",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "badc35d2_92333d5e",
+        "filename": "src/crypto/tls/conn.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 1314,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-04-07T18:46:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "927dc582_3ac9b664",
       "revId": "149b881fbfbad96b2474966a2e88a5d2f7151218",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -106,6 +142,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "86067122_9ac0b043",
+        "filename": "src/crypto/tls/handshake_client_tls13.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-04-07T18:46:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab79d1cf_d55cd5b7",
+      "revId": "149b881fbfbad96b2474966a2e88a5d2f7151218",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6069f145_0076b494",
@@ -119,6 +173,24 @@
       "writtenOn": "2023-04-01T00:35:46Z",
       "side": 1,
       "message": "Section 8.2 of RFC 9001 requires sending an unsupported_extension alert if the quic_transport_parameters extension is set and QUIC is not used.",
+      "revId": "149b881fbfbad96b2474966a2e88a5d2f7151218",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2e20746_e71f990b",
+        "filename": "src/crypto/tls/handshake_server_tls13.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-04-07T18:46:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6069f145_0076b494",
       "revId": "149b881fbfbad96b2474966a2e88a5d2f7151218",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
