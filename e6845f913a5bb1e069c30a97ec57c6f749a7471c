@@ -53,6 +53,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1042caa1_0b7c16c3",
+        "filename": "src/internal/poll/fd_poll_wasm.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-04-07T05:55:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f08949b_f1354b90",
+      "revId": "e6845f913a5bb1e069c30a97ec57c6f749a7471c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "022e9b64_bc06bc31",
@@ -66,6 +84,24 @@
       "writtenOn": "2023-04-06T22:34:56Z",
       "side": 1,
       "message": "This is internal/poll, not syscall.",
+      "revId": "e6845f913a5bb1e069c30a97ec57c6f749a7471c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c1b99c1_4d596e05",
+        "filename": "src/internal/poll/fd_readdir_wasip1.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-04-07T05:55:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "022e9b64_bc06bc31",
       "revId": "e6845f913a5bb1e069c30a97ec57c6f749a7471c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -123,6 +159,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed5731b2_8b334772",
+        "filename": "src/internal/poll/fd_seek_wasip1.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-04-07T05:55:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d09ee4e8_e49d5f3f",
+      "revId": "e6845f913a5bb1e069c30a97ec57c6f749a7471c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "91357603_8de7ac20",
@@ -136,6 +190,24 @@
       "writtenOn": "2023-04-06T22:34:56Z",
       "side": 1,
       "message": "This CL is adding several small files with this build tag, with corresponding versions for wasip1.  I think with this many cases we should just pack them all into two files: fd_unixjs.go and fd_wasi.go.",
+      "revId": "e6845f913a5bb1e069c30a97ec57c6f749a7471c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "75b1b9d1_56a313ee",
+        "filename": "src/internal/poll/fd_sysfile_unix.go",
+        "patchSetId": 37
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-04-07T05:55:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91357603_8de7ac20",
       "revId": "e6845f913a5bb1e069c30a97ec57c6f749a7471c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
