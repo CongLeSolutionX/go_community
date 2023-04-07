@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17375cef_633ec17f",
+        "filename": "src/internal/testdir/testdir_test.go",
+        "patchSetId": 48
+      },
+      "lineNbr": 1551,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-04-07T17:07:34Z",
+      "side": 0,
+      "message": "Why remove this? I think the compiler\u0027s code generation is the same for js and wasip1. So we just use \"js\" to do the check and that seems fine. (Just like we just use linux for other architectures, even if the actual OS is not linux.)",
+      "range": {
+        "startLine": 1549,
+        "startChar": 0,
+        "endLine": 1551,
+        "endChar": 5
+      },
+      "revId": "cfaa7dc16b93171a5c68c6178c9d0a2033daae6d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0929e691_d51ebc6e",
+        "filename": "src/path/filepath/path_test.go",
+        "patchSetId": 48
+      },
+      "lineNbr": 616,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-04-07T17:07:34Z",
+      "side": 1,
+      "message": "A comment may be helpful.",
+      "revId": "ccfd77708af89ccf62ac04956dec1c0c166a5f0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03ad54bf_2818dc74",
+        "filename": "test/codegen/comparisons.go",
+        "patchSetId": 48
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-04-07T17:07:34Z",
+      "side": 1,
+      "message": "Why this change? I think the code generation is the same for js and wasip1?",
+      "range": {
+        "startLine": 271,
+        "startChar": 4,
+        "endLine": 271,
+        "endChar": 12
+      },
+      "revId": "ccfd77708af89ccf62ac04956dec1c0c166a5f0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
