@@ -53,6 +53,41 @@
       "message": "Interesting bug.\n\nDid not know until now that clang+lld flips the text and rodata segments, I wonder what the thinking is there?",
       "revId": "27731e6e6862b9c2c38329f3d67fabb44647ad95",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e55496b_76671c35",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-04-07T20:44:45Z",
+      "side": 1,
+      "message": "Maybe it wants to merge rodata and a few other RO non-executable sections like the build ID, version, hash, dynstr, etc. into the same segment. Might save some binary size. Also not aligning the segment\u0027s start address will probably save some binary size.",
+      "parentUuid": "a9695b32_fd4b2f92",
+      "revId": "27731e6e6862b9c2c38329f3d67fabb44647ad95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d9df0df_8684917c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-04-07T20:44:45Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "27731e6e6862b9c2c38329f3d67fabb44647ad95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
