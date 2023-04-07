@@ -108,6 +108,24 @@
       "parentUuid": "f7d612a1_77b94e4e",
       "revId": "ddf167096e44b4539ca8742d32d60436dd9219f3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1dc64037_d8533715",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2023-04-07T19:29:27Z",
+      "side": 1,
+      "message": "Thanks both - suggestion applied, and indeed the legacy fallback further confused me when I looked at this for five minutes :)",
+      "parentUuid": "364bbb11_e29125bc",
+      "revId": "ddf167096e44b4539ca8742d32d60436dd9219f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
