@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac07d6a8_43ef87a9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2023-04-07T10:25:06Z",
+      "side": 1,
+      "message": "This makes the loop more subtle and easier to break in a later change. Is the performance difference even measurable, especially given one must reload the variable sometimes anyway?\n\nI prefer the original code.",
+      "revId": "bb907e6107bb3468a027f568e620eef900a861fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
