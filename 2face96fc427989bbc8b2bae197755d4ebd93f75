@@ -16,6 +16,24 @@
       "message": "Why did you remove SEM_NOALIGNMENTFAULTEXCEPT flag?",
       "revId": "2face96fc427989bbc8b2bae197755d4ebd93f75",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ac51cca_7fa5b64e",
+        "filename": "src/runtime/signal_windows.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-04-07T20:07:43Z",
+      "side": 0,
+      "message": "It was unused, and I see no reason to set it here anyway.",
+      "parentUuid": "5bed3d60_81da681b",
+      "revId": "2face96fc427989bbc8b2bae197755d4ebd93f75",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
