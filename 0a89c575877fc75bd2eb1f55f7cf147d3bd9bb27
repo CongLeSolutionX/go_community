@@ -53,6 +53,23 @@
       "message": "gentle ping!",
       "revId": "0a89c575877fc75bd2eb1f55f7cf147d3bd9bb27",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "695b7b9a_edef3b36",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 20
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2023-04-07T07:55:59Z",
+      "side": 1,
+      "message": "Hi guys, continue review the cl?",
+      "revId": "0a89c575877fc75bd2eb1f55f7cf147d3bd9bb27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
