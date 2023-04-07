@@ -53,6 +53,24 @@
       "message": "Sorry, this isn\u0027t quite what I expected.  It seems reasonable to leave syscall.Filetype as uint8.  In internal/poll, make the Filetype field type uint32 (actually better would be atomic.Uint32).  Then convert in and out of syscall.Filetype when using that field.",
       "revId": "2f989a9234a95aa6cd9a06d6e30fb68989a64030",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8bcb53b_c68b481c",
+        "filename": "src/syscall/syscall_wasip1.go",
+        "patchSetId": 41
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-04-07T22:57:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b4e4a8b_c5adf479",
+      "revId": "2f989a9234a95aa6cd9a06d6e30fb68989a64030",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
