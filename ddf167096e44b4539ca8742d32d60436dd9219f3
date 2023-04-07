@@ -90,6 +90,24 @@
       "parentUuid": "f7d612a1_77b94e4e",
       "revId": "ddf167096e44b4539ca8742d32d60436dd9219f3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "364bbb11_e29125bc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-04-07T19:26:49Z",
+      "side": 1,
+      "message": "I agree we probably shouldn\u0027t ignore errors.\n\nThe error shown in the test isn\u0027t very helpful because Parse falls back to parseLegacy on error, so only the parseLegacy error is passed through: https://cs.opensource.google/go/go/+/refs/heads/master:src/internal/profile/profile.go;l\u003d144;drc\u003d17770315280330ff3cbe4fb32620e020b0218bd6",
+      "parentUuid": "f7d612a1_77b94e4e",
+      "revId": "ddf167096e44b4539ca8742d32d60436dd9219f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
