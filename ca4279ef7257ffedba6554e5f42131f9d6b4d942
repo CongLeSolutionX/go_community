@@ -22,6 +22,30 @@
       },
       "revId": "ca4279ef7257ffedba6554e5f42131f9d6b4d942",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65b95cbc_4356b6a0",
+        "filename": "src/os/dir_unix.go",
+        "patchSetId": 36
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 12980
+      },
+      "writtenOn": "2023-04-07T00:56:20Z",
+      "side": 0,
+      "message": "During development, there were conditions under which some WASM runtimes did not populate the inode number.\n\nWe investigated why this check was introduced and could not find the reason why it exists. From what we found, this was the CL that added it https://go-review.googlesource.com/c/go/+/261540/7/src/os/dir_unix.go#74\n\nRemoving the check did not break any of the tests on other platforms, which seems to indicate that the condition wasn\u0027t being tested either.\n\nI\u0027ll test reverting this change to re-validate our initial observations.",
+      "parentUuid": "afa51fa0_e40fd044",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 3
+      },
+      "revId": "ca4279ef7257ffedba6554e5f42131f9d6b4d942",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
