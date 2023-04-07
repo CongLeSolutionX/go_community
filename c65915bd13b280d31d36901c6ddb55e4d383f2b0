@@ -74,6 +74,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2518fef1_35fe0640",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1010,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2023-04-07T19:22:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa15fa7a_388a212c",
+      "revId": "c65915bd13b280d31d36901c6ddb55e4d383f2b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6414cbfe_d03e89e6",
@@ -87,6 +105,30 @@
       "writtenOn": "2023-04-07T18:14:13Z",
       "side": 1,
       "message": "I don\u0027t think you need hash here. hash\u003d\u003d0 is fine.\nThen you don\u0027t need \u0026mask either.",
+      "range": {
+        "startLine": 1014,
+        "startChar": 32,
+        "endLine": 1014,
+        "endChar": 36
+      },
+      "revId": "c65915bd13b280d31d36901c6ddb55e4d383f2b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43d1a7a9_66ef6724",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1014,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2023-04-07T19:22:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6414cbfe_d03e89e6",
       "range": {
         "startLine": 1014,
         "startChar": 32,
@@ -120,6 +162,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8847ca87_0f8cb6dd",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1017,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2023-04-07T19:22:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b4928b6_6c957cde",
+      "range": {
+        "startLine": 1017,
+        "startChar": 19,
+        "endLine": 1017,
+        "endChar": 27
+      },
+      "revId": "c65915bd13b280d31d36901c6ddb55e4d383f2b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ad0cfd99_63c5b096",
@@ -133,6 +199,24 @@
       "writtenOn": "2023-04-07T18:14:13Z",
       "side": 1,
       "message": "Same comments down here.",
+      "revId": "c65915bd13b280d31d36901c6ddb55e4d383f2b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e26c684a_e752db16",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1024,
+      "author": {
+        "id": 14665
+      },
+      "writtenOn": "2023-04-07T19:22:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad0cfd99_63c5b096",
       "revId": "c65915bd13b280d31d36901c6ddb55e4d383f2b0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
