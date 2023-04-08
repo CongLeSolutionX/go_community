@@ -149,6 +149,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1d48e11_aa19ea97",
+        "filename": "src/internal/bytealg/index_ppc64x.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2023-04-08T06:09:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b8092d8_dd924531",
+      "range": {
+        "startLine": 444,
+        "startChar": 31,
+        "endLine": 444,
+        "endChar": 54
+      },
+      "revId": "6abac59d4d7a4fb3e589b31bbf132640a17960d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2a6a9a89_3e5a2087",
@@ -162,6 +186,30 @@
       "writtenOn": "2023-04-07T15:58:20Z",
       "side": 1,
       "message": "I think this is OK, but I think it would be a little clearer to define a distinct label within this #ifdef for this backwards jump. Maybe `index2to16next_p10` between line 721 and 722.",
+      "range": {
+        "startLine": 727,
+        "startChar": 12,
+        "endLine": 727,
+        "endChar": 26
+      },
+      "revId": "6abac59d4d7a4fb3e589b31bbf132640a17960d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4510ab73_51efba41",
+        "filename": "src/internal/bytealg/index_ppc64x.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 727,
+      "author": {
+        "id": 53859
+      },
+      "writtenOn": "2023-04-08T06:09:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a6a9a89_3e5a2087",
       "range": {
         "startLine": 727,
         "startChar": 12,
