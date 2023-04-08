@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "4015e9d8_63f8ba80",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 36178
+      },
+      "writtenOn": "2023-04-08T00:40:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b6d633c_91de5c8e",
+      "revId": "1c0765a8e8922f47fc17043608b32b78f9255673",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "13148bac_857c2875",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -48,6 +66,42 @@
       "writtenOn": "2023-04-07T23:37:28Z",
       "side": 1,
       "message": "Also, I suspect that you will need a new file in $GOROOT/api/next, following the format of the other files in that directory.  Please check that \"go test go/build\" passes.",
+      "revId": "1c0765a8e8922f47fc17043608b32b78f9255673",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f4cac44_ccc22e32",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 36178
+      },
+      "writtenOn": "2023-04-08T00:40:11Z",
+      "side": 1,
+      "message": "This is not a public API, in the sense that `openFile` is not public.\n\nWe just promise that the `fs.File` returned by `embed.FS.Open` is-a `io.ReaderAt` (as we did `io.Seeker`). `Seek` is *not* mentioned in `go1.16.txt`.\n\n\"go test go/build\" passes.",
+      "parentUuid": "d3a573a5_08837af3",
+      "revId": "1c0765a8e8922f47fc17043608b32b78f9255673",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16abff07_34b7aa17",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 36178
+      },
+      "writtenOn": "2023-04-08T00:40:11Z",
+      "side": 1,
+      "message": "I can try. I had looked around for existing testing infra.\n`Seek` is not tested either; even `Read` is untested.\nOnly `embed.FS.ReadFile` seems to be tested.",
+      "parentUuid": "13148bac_857c2875",
       "revId": "1c0765a8e8922f47fc17043608b32b78f9255673",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
