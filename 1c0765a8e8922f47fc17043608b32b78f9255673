@@ -140,6 +140,24 @@
       "parentUuid": "16abff07_34b7aa17",
       "revId": "1c0765a8e8922f47fc17043608b32b78f9255673",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b2018bd_92a2be3b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 36178
+      },
+      "writtenOn": "2023-04-08T01:13:44Z",
+      "side": 1,
+      "message": "Added a simple test that tests all three methods (`Read`, `Seek`, `ReadAt`) and some interactions between them (through the internal offset).\n\nIf this is the way, I can assert a few more behaviours.",
+      "parentUuid": "16abff07_34b7aa17",
+      "revId": "1c0765a8e8922f47fc17043608b32b78f9255673",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
