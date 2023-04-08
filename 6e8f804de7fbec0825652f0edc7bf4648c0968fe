@@ -53,6 +53,24 @@
       "message": "I\u0027m worried that this might end up causing a failure if there are more than 200 loops in a function. Each one might in succession trigger a whole loop redo.\n\nI think a better scheme would be to keep track of the correct pc so that only the very large branch case above can cause looping.\n\nI think just doing \n\nq.Pc \u003d pc\npc +\u003d loopAlign - pc\u0026(loopAlign-1)\np.Pc \u003d pc\n\nwould do it?",
       "revId": "6e8f804de7fbec0825652f0edc7bf4648c0968fe",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0fd36f2_4d950c73",
+        "filename": "src/cmd/internal/obj/loong64/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 34360
+      },
+      "writtenOn": "2023-04-08T08:22:20Z",
+      "side": 1,
+      "message": "Thanks for the suggestion, indeed it was unnecessary to reprocess in this case. (So was the arbitrary convergence check; it was remnant of a previous approach that inserted actual NOOPs but occasionally overflowed the output buffer.)\n\nThe latest revision should have essentially the same snippet incorporated.",
+      "parentUuid": "b204d73e_eac1f7a8",
+      "revId": "6e8f804de7fbec0825652f0edc7bf4648c0968fe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
