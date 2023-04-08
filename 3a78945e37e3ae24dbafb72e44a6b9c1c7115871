@@ -16,6 +16,23 @@
       "message": "Thanks, but new API like this has to go through the proposal process: https://go.dev/s/proposal.\n\nIn general we\u0027ve avoided adding this kind of function to the slices package, because we want to get a clear idea of how iterators should work for general purpose containers.  If we have a good iterator implementation, then a function like this would apply to a general iterator, and would not belong in the slices package.",
       "revId": "3a78945e37e3ae24dbafb72e44a6b9c1c7115871",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b4be684_68592e0f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11680
+      },
+      "writtenOn": "2023-04-08T15:09:12Z",
+      "side": 1,
+      "message": "Different opinions, now some functions in the slices package can also be replaced by generic iterators, like: Equal(Func) can be replaced by iterate over two iterator and do compare one by one, Index(Func) can be replaced by iterate over an iterator and perform equal operation, Contains(Func) can be replaced by Index(Func). But they are still in the slices package. Do these functions need to be rethought?\nIs there a clear standard for which functions are in slices and which are in generic iterators?",
+      "revId": "3a78945e37e3ae24dbafb72e44a6b9c1c7115871",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
