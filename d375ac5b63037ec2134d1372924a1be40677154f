@@ -40,6 +40,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "663d5562_82c11d85",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 28787
+      },
+      "writtenOn": "2023-04-08T09:28:27Z",
+      "side": 1,
+      "message": "Looks like there was a small misunderstanding regarding my comment about RFC 9001 Section 8.2. The RFC also requires TLS implementations to check (and reject) the QUIC transport parameter extension when QUIC is **not** used.",
+      "revId": "d375ac5b63037ec2134d1372924a1be40677154f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a8a070fc_c2a05f63",
         "filename": "src/crypto/tls/alert.go",
         "patchSetId": 14

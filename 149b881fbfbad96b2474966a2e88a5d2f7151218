@@ -162,6 +162,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a499fa8f_a50c5aa3",
+        "filename": "src/crypto/tls/handshake_client_tls13.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 28787
+      },
+      "writtenOn": "2023-04-08T09:28:27Z",
+      "side": 1,
+      "message": "Sending an alertMissingExtension here was correct. Returning a descriptive error is a worthwhile change.\n\nI believe this would be correct:\n\n```\nif c.quic !\u003d nil {\n\t\tif encryptedExtensions.quicTransportParameters \u003d\u003d nil {\n\t\t\t// RFC 9001 Section 8.2.\n\t\t\tc.sendAlert(alertMissingExtension)\n\t\t\treturn errors.New(\"tls: server did not send a quic_transport_parameters extension\")\n\t\t}\n\t\t...\n```\n\nHowever, the thing I was pointing out is that we need to send a unsupported_extension alert when QUIC is **not** used, by adding:\n\n```\nif c.quic \u003d\u003d nil \u0026\u0026 encryptedExtensions.quicTransportParameters !\u003d nil {\n    c.sendAlert(alertUnsupportedExtension)\n    return errors.New(\"tls: server sent quic_transport_parameters on a non-QUIC connection\")\n}\n```",
+      "parentUuid": "86067122_9ac0b043",
+      "revId": "149b881fbfbad96b2474966a2e88a5d2f7151218",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6069f145_0076b494",
         "filename": "src/crypto/tls/handshake_server_tls13.go",
         "patchSetId": 13
@@ -191,6 +209,24 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "6069f145_0076b494",
+      "revId": "149b881fbfbad96b2474966a2e88a5d2f7151218",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab8f677f_7b8f558d",
+        "filename": "src/crypto/tls/handshake_server_tls13.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 28787
+      },
+      "writtenOn": "2023-04-08T09:28:27Z",
+      "side": 1,
+      "message": "Same here.",
+      "parentUuid": "e2e20746_e71f990b",
       "revId": "149b881fbfbad96b2474966a2e88a5d2f7151218",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
