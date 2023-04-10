@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2898c009_6a3fbc5c",
+        "filename": "src/time/sys_wasip1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 12980
+      },
+      "writtenOn": "2023-04-10T23:16:59Z",
+      "side": 1,
+      "message": "I had it as an if statement originally but Ian asked if we could move the code to a different file. It seems the plan9 implementation is in a different file and copies the other functions as well, so maybe it\u0027s consistent that way?",
+      "parentUuid": "9b82b829_d3b6a4bf",
+      "revId": "95602d34efd1491103c91209bebde6dccf53c299",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "56c132a2_c9985c99",
         "filename": "src/time/zoneinfo_wasip1.go",
         "patchSetId": 2
@@ -85,6 +103,24 @@
       "writtenOn": "2023-04-10T22:07:23Z",
       "side": 1,
       "message": "Is this really the best we can do?  wasip1 doesn\u0027t provide any timezone information at all?",
+      "revId": "95602d34efd1491103c91209bebde6dccf53c299",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9ac0f7d_4d1a919e",
+        "filename": "src/time/zoneinfo_wasip1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 12980
+      },
+      "writtenOn": "2023-04-10T23:16:59Z",
+      "side": 1,
+      "message": "There is nothing in the spec. Maybe we can interpret the TZ variable but the presence of zone info files is going to depend on the runtime exposing those files, which is not portable (e.g. depending on the runtime running on a unix or windows system).",
+      "parentUuid": "56c132a2_c9985c99",
       "revId": "95602d34efd1491103c91209bebde6dccf53c299",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
