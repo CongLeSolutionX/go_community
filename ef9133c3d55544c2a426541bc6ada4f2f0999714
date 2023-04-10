@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "189bcb7c_8c8b0c2b",
+        "filename": "src/cmd/compile/internal/ssagen/abi.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-04-10T19:33:25Z",
+      "side": 1,
+      "message": "A comment would probably be good.\n\nOn the Go side, currently one can convert between uintptr and uint64 without losing any data. Translating to i32 might also be confusing. Maybe we just don\u0027t allow it for now? Is there a need for that?",
+      "revId": "ef9133c3d55544c2a426541bc6ada4f2f0999714",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
