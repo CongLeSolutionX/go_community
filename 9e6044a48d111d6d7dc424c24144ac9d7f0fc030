@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0f84494_d7cdf172",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-10T23:10:08Z",
+      "side": 1,
+      "message": "Write this as\n\ncmd/dist: check for errors from filepath.Glob\n\n(For more information please see https://go.dev/wiki/CommitMessage.  Thanks.)",
+      "revId": "9e6044a48d111d6d7dc424c24144ac9d7f0fc030",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
