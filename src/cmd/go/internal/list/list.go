@@ -598,8 +598,6 @@ func runList(ctx context.Context, cmd *base.Command, args []string) {
 		base.Fatalf("go list -export cannot be used with -find")
 	}
 
-	suppressDeps := !listJsonFields.needAny("Deps", "DepsErrors")
-
 	pkgOpts := load.PackageOpts{
 		IgnoreImports:      *listFind,
 		ModResolveTests:    *listTest,
@@ -767,15 +765,22 @@ func runList(ctx context.Context, cmd *base.Command, args []string) {
 		}
 	}
 
-	if !suppressDeps {
+	if listJsonFields.needAny("Deps", "DepsErrors") {
 		all := pkgs
 		if !*listDeps {
 			// if *listDeps, then all is already in PackageList order.
 			all = load.PackageList(pkgs)
 		}
 		// Recompute deps lists using new strings, from the leaves up.
-		for _, p := range all {
-			collectDeps(p)
+		if listJsonFields.needAny("Deps") {
+			for _, p := range all {
+				collectDeps(p)
+			}
+		}
+		if listJsonFields.needAny("DepsErrors") {
+			for _, p := range all {
+				collectDepsErrors(p)
+			}
 		}
 	}
 
@@ -884,23 +889,12 @@ func loadPackageList(roots []*load.Package) []*load.Package {
 // TODO(jayconrod): collectDeps iterates over transitive imports for every
 // package. We should only need to visit direct imports.
 func collectDeps(p *load.Package) {
-	deps := make(map[string]*load.Package)
-	var q []*load.Package
-	q = append(q, p.Internal.Imports...)
-	for i := 0; i < len(q); i++ {
-		p1 := q[i]
-		path := p1.ImportPath
-		// The same import path could produce an error or not,
-		// depending on what tries to import it.
-		// Prefer to record entries with errors, so we can report them.
-		p0 := deps[path]
-		if p0 == nil || p1.Error != nil && (p0.Error == nil || len(p0.Error.ImportStack) > len(p1.Error.ImportStack)) {
-			deps[path] = p1
-			for _, p2 := range p1.Internal.Imports {
-				if deps[p2.ImportPath] != p2 {
-					q = append(q, p2)
-				}
-			}
+	deps := make(map[string]bool)
+
+	for _, p := range p.Internal.Imports {
+		deps[p.ImportPath] = true
+		for _, q := range p.Deps {
+			deps[q] = true
 		}
 	}
 
@@ -909,15 +903,34 @@ func collectDeps(p *load.Package) {
 		p.Deps = append(p.Deps, dep)
 	}
 	sort.Strings(p.Deps)
-	for _, dep := range p.Deps {
-		p1 := deps[dep]
-		if p1 == nil {
-			panic("impossible: missing entry in package cache for " + dep + " imported by " + p.ImportPath)
+}
+
+// collectDeps populates p.Deps and p.DepsErrors by iterating over
+// p.Internal.Imports.
+//
+// TODO(jayconrod): collectDeps iterates over transitive imports for every
+// package. We should only need to visit direct imports.
+func collectDepsErrors(p *load.Package) {
+	depsErrors := make(map[*load.PackageError]bool)
+
+	for _, p := range p.Internal.Imports {
+		if p.Error != nil {
+			depsErrors[p.Error] = true
 		}
-		if p1.Error != nil {
-			p.DepsErrors = append(p.DepsErrors, p1.Error)
+		for _, q := range p.DepsErrors {
+			depsErrors[q] = true
 		}
 	}
+
+	p.DepsErrors = make([]*load.PackageError, 0, len(depsErrors))
+	for deperr := range depsErrors {
+		p.DepsErrors = append(p.DepsErrors, deperr)
+	}
+	sort.Slice(p.DepsErrors, func(i, j int) bool {
+		stki, stkj := p.DepsErrors[i].ImportStack, p.DepsErrors[j].ImportStack
+		pathi, pathj := stki[len(stki)-1], stkj[len(stkj)-1]
+		return pathi < pathj
+	})
 }
 
 // TrackingWriter tracks the last byte written on every write so
