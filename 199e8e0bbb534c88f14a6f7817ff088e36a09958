@@ -53,6 +53,24 @@
       "message": "Would you be willing to try this with some other benchmarks?\n\nFor this CL:\n```\n# one time\ngo install golang.org/x/benchmarks/cmd/bent@latest\nmkdir bent-stuff\ncd bent-stuff\nbent -I\n# for each CL you want to benchmark\n./cmpcl.sh refs/changes/17/479817/4 \u003e\u0026 cmpcl-479817.log \u0026\n```\n\n\"Bent\" go-gets a collection of go benchmarks for various pieces of software at fixed versions (fixed versions both for consistent benchmarking, and avoiding supply-chain attacks).  cmpcl.sh benchmarks a CL against its parent, running each for 15 iterations, and tries to upload results to perf.golang.org.  It will take a few hours.  The results will land in subdirectory \"bench\" in files with names like 20230404T212631.{Old,New}.{benchsize,benchdwarf,build,stdout}\n\nThis will optionally run some other programs, perflock\n( https://github.com/aclements/perflock/ )\nif your arch/os supports that, and various tools used by \"benchdwarf\".\n\nOur attitude towards these benchmarks suites is that we are somewhat more interested in changes that move the geometric mean, but also pay attention to large movements in individual benchmarks.  A CL that improves geomean by 1% but slows down one benchmark by 10% is worth keeping (in my opinion), but then we\u0027ll file a bug against the lost 10%.",
       "revId": "199e8e0bbb534c88f14a6f7817ff088e36a09958",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66e7e80b_7291bbc6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34360
+      },
+      "writtenOn": "2023-04-10T18:45:33Z",
+      "side": 1,
+      "message": "Thanks for your review and suggestion regarding the benchmarks! I\u0027ll give it a try before going to sleep. This loong64 dev box can have other workload in the day so it\u0027s probably a good idea to run the hour-long benchmarks at 3am.",
+      "parentUuid": "c79d0bb5_93c73ce5",
+      "revId": "199e8e0bbb534c88f14a6f7817ff088e36a09958",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
