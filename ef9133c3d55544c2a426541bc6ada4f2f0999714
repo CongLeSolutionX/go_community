@@ -52,6 +52,24 @@
       "parentUuid": "66adca19_fcccda49",
       "revId": "ef9133c3d55544c2a426541bc6ada4f2f0999714",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d6580f0_207da07a",
+        "filename": "src/cmd/compile/internal/ssagen/abi.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-04-10T21:15:26Z",
+      "side": 1,
+      "message": "int and uint are less of a concern because one usually would not confuse it with a pointer type. But yeah, allowing only explicit (u)int32/64 sounds good. Thanks.",
+      "parentUuid": "1b057e64_b64facdb",
+      "revId": "ef9133c3d55544c2a426541bc6ada4f2f0999714",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
