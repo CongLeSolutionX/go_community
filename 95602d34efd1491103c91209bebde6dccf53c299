@@ -70,6 +70,23 @@
       "message": "It seems this is the only difference from sys_unix.go? Maybe we just use an if statement and skips the Kill on wasip1?",
       "revId": "95602d34efd1491103c91209bebde6dccf53c299",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56c132a2_c9985c99",
+        "filename": "src/time/zoneinfo_wasip1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-10T22:07:23Z",
+      "side": 1,
+      "message": "Is this really the best we can do?  wasip1 doesn\u0027t provide any timezone information at all?",
+      "revId": "95602d34efd1491103c91209bebde6dccf53c299",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
