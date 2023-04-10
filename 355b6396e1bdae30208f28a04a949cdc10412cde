@@ -93,6 +93,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cae034bc_888c7a5b",
+        "filename": "src/cmd/compile/internal/ssagen/abi.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 12980
+      },
+      "writtenOn": "2023-04-10T17:22:59Z",
+      "side": 1,
+      "message": "I\u0027ll add a special case for uintptr to be translated to i32, thanks for pointing it out!",
+      "parentUuid": "1f16be73_9d619ddb",
+      "revId": "355b6396e1bdae30208f28a04a949cdc10412cde",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e9058eee_fd941f6f",
         "filename": "src/cmd/compile/internal/ssagen/abi.go",
         "patchSetId": 2
@@ -104,6 +122,24 @@
       "writtenOn": "2023-04-10T16:23:57Z",
       "side": 1,
       "message": "It seems the difference between this function and the above is the error message, and this function does not support unsafe.Pointer (why?). Maybe combine the two with an extra parameter to distinguish args and results?\n\nAlso, should we check that there is only one (or zero) result?",
+      "revId": "355b6396e1bdae30208f28a04a949cdc10412cde",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29d034fe_cc43c68c",
+        "filename": "src/cmd/compile/internal/ssagen/abi.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 12980
+      },
+      "writtenOn": "2023-04-10T17:22:59Z",
+      "side": 1,
+      "message": "WebAssembly imports cannot return pointers to the calling module because there is no standard mechanism by which the import can allocate memory in the caller (the returned pointer would have to be valid in the linear memory of the caller). There are compiler-specific work arounds that can be used but it seems less error prone to disallow it, otherwise silent conversions from the WebAssembly i32 type to unsafe.Pointer in the return could create bugs that are extremely difficult to track down.\n\nWe already validate that there can be at most one return value but in a different part of the code which causes a panic, I\u0027ll add a check here to report an error instead, thanks for the suggestion!",
+      "parentUuid": "e9058eee_fd941f6f",
       "revId": "355b6396e1bdae30208f28a04a949cdc10412cde",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
