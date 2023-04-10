@@ -283,7 +283,13 @@ func Elfinit(ctxt *Link) {
 				ehdr.Flags = 0x5000002 // has entry point, Version5 EABI
 			}
 		} else if ctxt.Arch.Family == sys.MIPS {
-			ehdr.Flags = 0x50001004 /* MIPS 32 CPIC O32*/
+			if buildcfg.HasOption(buildcfg.GOMIPS, "r5") {
+				ehdr.Flags = 0x70001404 /* MIPS 32 CPIC O32 mips32r2 nan2008*/
+			} else if buildcfg.HasOption(buildcfg.GOMIPS, "r2") {
+				ehdr.Flags = 0x70001004 /* MIPS 32 CPIC O32, mips32r2*/
+			} else {
+				ehdr.Flags = 0x50001004 /* MIPS 32 CPIC O32*/
+			}
 		}
 		fallthrough
 	default:
@@ -549,9 +555,9 @@ func elfwriteinterp(out *OutBuf) int {
 // member of .gnu.attributes of MIPS for fpAbi
 const (
 	// No floating point is present in the module (default)
-	MIPS_FPABI_NONE = 0
+	MIPS_FPABI_ANY = 0
 	// FP code in the module uses the FP32 ABI for a 32-bit ABI
-	MIPS_FPABI_ANY = 1
+	MIPS_FPABI_DOUBLE = 1
 	// FP code in the module only uses single precision ABI
 	MIPS_FPABI_SINGLE = 2
 	// FP code in the module uses soft-float ABI
@@ -609,21 +615,22 @@ func elfWriteMipsAbiFlags(ctxt *Link) int {
 	ctxt.Out.SeekSet(int64(sh.Off))
 	ctxt.Out.Write16(0) // version
 	ctxt.Out.Write8(32) // isaLevel
-	ctxt.Out.Write8(1)  // isaRev
-	ctxt.Out.Write8(1)  // gprSize
-	ctxt.Out.Write8(1)  // cpr1Size
-	ctxt.Out.Write8(0)  // cpr2Size
-	if buildcfg.GOMIPS == "softfloat" {
+	if buildcfg.HasOption(buildcfg.GOMIPS, "r2") || buildcfg.HasOption(buildcfg.GOMIPS, "r5") {
+		ctxt.Out.Write8(2) // isaRev
+	} else {
+		ctxt.Out.Write8(1) // isaRev
+	}
+	ctxt.Out.Write8(1) // gprSize
+	ctxt.Out.Write8(1) // cpr1Size
+	ctxt.Out.Write8(0) // cpr2Size
+	if buildcfg.HasOption(buildcfg.GOMIPS, "softfloat") {
 		ctxt.Out.Write8(MIPS_FPABI_SOFT) // fpAbi
 	} else {
-		// Go cannot make sure non odd-number-fpr is used (ie, in load a double from memory).
-		// So, we mark the object is MIPS I style paired float/double register scheme,
-		// aka MIPS_FPABI_ANY. If we mark the object as FPXX, the kernel may use FR=1 mode,
-		// then we meet some problem.
-		// Note: MIPS_FPABI_ANY is bad naming: in fact it is MIPS I style FPR usage.
-		//       It is not for 'ANY'.
-		// TODO: switch to FPXX after be sure that no odd-number-fpr is used.
-		ctxt.Out.Write8(MIPS_FPABI_ANY) // fpAbi
+		if buildcfg.HasOption(buildcfg.GOMIPS, "r2") || buildcfg.HasOption(buildcfg.GOMIPS, "r5") {
+			ctxt.Out.Write8(MIPS_FPABI_FPXX) // fpAbi
+		} else {
+			ctxt.Out.Write8(MIPS_FPABI_DOUBLE) // fpAbi
+		}
 	}
 	ctxt.Out.Write32(0) // isaExt
 	ctxt.Out.Write32(0) // ases
@@ -1675,13 +1682,14 @@ func (ctxt *Link) doelf() {
 		gnuattributes.AddUint8(1)                 // 1:file, 2: section, 3: symbol, 1 here
 		gnuattributes.AddUint32(ctxt.Arch, 7)     // tag length, including tag, 7 here
 		gnuattributes.AddUint8(4)                 // 4 for FP, 8 for MSA
-		if buildcfg.GOMIPS == "softfloat" {
+		if buildcfg.HasOption(buildcfg.GOMIPS, "softfloat") {
 			gnuattributes.AddUint8(MIPS_FPABI_SOFT)
 		} else {
-			// Note: MIPS_FPABI_ANY is bad naming: in fact it is MIPS I style FPR usage.
-			//       It is not for 'ANY'.
-			// TODO: switch to FPXX after be sure that no odd-number-fpr is used.
-			gnuattributes.AddUint8(MIPS_FPABI_ANY)
+			if buildcfg.HasOption(buildcfg.GOMIPS, "r2") || buildcfg.HasOption(buildcfg.GOMIPS, "r5") {
+				gnuattributes.AddUint8(MIPS_FPABI_FPXX)
+			} else {
+				gnuattributes.AddUint8(MIPS_FPABI_DOUBLE)
+			}
 		}
 	}
 }

@@ -234,6 +234,7 @@ const (
 	REGCTXT = REG_R22 /* context for closures */
 	REGG    = REG_R30 /* G */
 	REGTMP  = REG_R23 /* used by the linker */
+	REGTMP2 = REG_R24
 	FREGRET = REG_F0
 )
 

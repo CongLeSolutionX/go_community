@@ -54,6 +54,17 @@ func envOr(key, value string) string {
 	return value
 }
 
+// check if option exists in archenv. Used by GOMIPS now.
+func HasOption(archenv string, option string) bool {
+	s := strings.Split(archenv, ",")
+	for _, v := range s {
+		if v == option {
+			return true
+		}
+	}
+	return false
+}
+
 func goamd64() int {
 	switch v := envOr("GOAMD64", defaultGOAMD64); v {
 	case "v1":
@@ -88,12 +99,36 @@ func goarm() int {
 }
 
 func gomips() string {
-	switch v := envOr("GOMIPS", defaultGOMIPS); v {
-	case "hardfloat", "softfloat":
-		return v
+	float := [2]int{0, 0}
+	isa := [3]int{0, 0, 0}
+	for _, opt := range strings.Split(envOr("GOMIPS", defaultGOMIPS), ",") {
+		switch opt {
+		case "softfloat":
+			float[0] = 1
+		case "hardfloat":
+			float[1] = 1
+		case "r1":
+			isa[0] = 1
+		case "r2":
+			isa[1] = 1
+		case "r5":
+			isa[2] = 1
+		case "":
+			// ignore
+		default:
+			Error = fmt.Errorf("invalid GOMIPS: no such feature %q", opt)
+			return defaultGOMIPS
+		}
 	}
-	Error = fmt.Errorf("invalid GOMIPS: must be hardfloat, softfloat")
-	return defaultGOMIPS
+	if float[0]+float[1] > 1 {
+		Error = fmt.Errorf("Both hardfloat and softfloat are given")
+		return defaultGOMIPS
+	}
+	if isa[0]+isa[1]+isa[2] > 1 {
+		Error = fmt.Errorf("More than 1 of r1/r2/r5 are given")
+		return defaultGOMIPS
+	}
+	return envOr("GOMIPS", defaultGOMIPS)
 }
 
 func gomips64() string {

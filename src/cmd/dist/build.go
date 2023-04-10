@@ -99,6 +99,17 @@ var okgoos = []string{
 	"aix",
 }
 
+// check if option exists in archenv. Used by GOMIPS now.
+func hasOption(archenv string, option string) bool {
+	s := strings.Split(archenv, ",")
+	for _, v := range s {
+		if v == option {
+			return true
+		}
+	}
+	return false
+}
+
 // find reports the first index of p in l[0:n], or else -1.
 func find(p string, l []string) int {
 	for i, s := range l {
@@ -887,7 +898,18 @@ func runInstall(pkg string, ch chan struct{}) {
 	}
 	if goarch == "mips" || goarch == "mipsle" {
 		// Define GOMIPS_value from gomips.
-		asmArgs = append(asmArgs, "-D", "GOMIPS_"+gomips)
+		if hasOption(gomips, "softfloat") {
+			asmArgs = append(asmArgs, "-D", "GOMIPS_"+"softfloat")
+		} else {
+			asmArgs = append(asmArgs, "-D", "GOMIPS_"+"hardfloat")
+		}
+		if hasOption(gomips, "r5") {
+			asmArgs = append(asmArgs, "-D", "GOMIPS_"+"mips32r5")
+		} else if hasOption(gomips, "r2") {
+			asmArgs = append(asmArgs, "-D", "GOMIPS_"+"mips32r2")
+		} else {
+			asmArgs = append(asmArgs, "-D", "GOMIPS_"+"mips32")
+		}
 	}
 	if goarch == "mips64" || goarch == "mips64le" {
 		// Define GOMIPS64_value from gomips64.

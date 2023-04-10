@@ -34,6 +34,7 @@ import (
 	"cmd/internal/objabi"
 	"cmd/internal/sys"
 	"fmt"
+	"internal/buildcfg"
 	"log"
 	"sort"
 )
@@ -309,10 +310,10 @@ var optab = []Optab{
 	{AMOVF, C_SEXT, C_NONE, C_FREG, 27, 4, REGSB, sys.MIPS64, 0},
 	{AMOVD, C_SEXT, C_NONE, C_FREG, 27, 4, REGSB, sys.MIPS64, 0},
 	{AMOVW, C_SAUTO, C_NONE, C_FREG, 27, 4, REGSP, sys.MIPS64, 0},
-	{AMOVF, C_SAUTO, C_NONE, C_FREG, 27, 4, REGSP, 0, 0},
+	{AMOVF, C_SAUTO, C_NONE, C_FREG, 27, 8, REGSP, 0, 0},
 	{AMOVD, C_SAUTO, C_NONE, C_FREG, 27, 4, REGSP, 0, 0},
 	{AMOVW, C_SOREG, C_NONE, C_FREG, 27, 4, REGZERO, sys.MIPS64, 0},
-	{AMOVF, C_SOREG, C_NONE, C_FREG, 27, 4, REGZERO, 0, 0},
+	{AMOVF, C_SOREG, C_NONE, C_FREG, 27, 8, REGZERO, 0, 0},
 	{AMOVD, C_SOREG, C_NONE, C_FREG, 27, 4, REGZERO, 0, 0},
 
 	{AMOVW, C_LEXT, C_NONE, C_FREG, 27, 12, REGSB, sys.MIPS64, 0},
@@ -324,19 +325,19 @@ var optab = []Optab{
 	{AMOVW, C_LOREG, C_NONE, C_FREG, 27, 12, REGZERO, sys.MIPS64, 0},
 	{AMOVF, C_LOREG, C_NONE, C_FREG, 27, 12, REGZERO, 0, 0},
 	{AMOVD, C_LOREG, C_NONE, C_FREG, 27, 12, REGZERO, 0, 0},
-	{AMOVF, C_ADDR, C_NONE, C_FREG, 51, 8, 0, sys.MIPS, 0},
+	{AMOVF, C_ADDR, C_NONE, C_FREG, 51, 12, 0, sys.MIPS, 0},
 	{AMOVF, C_ADDR, C_NONE, C_FREG, 51, 12, 0, sys.MIPS64, 0},
-	{AMOVD, C_ADDR, C_NONE, C_FREG, 51, 8, 0, sys.MIPS, 0},
+	{AMOVD, C_ADDR, C_NONE, C_FREG, 51, 12, 0, sys.MIPS, 0},
 	{AMOVD, C_ADDR, C_NONE, C_FREG, 51, 12, 0, sys.MIPS64, 0},
 
 	{AMOVW, C_FREG, C_NONE, C_SEXT, 28, 4, REGSB, sys.MIPS64, 0},
 	{AMOVF, C_FREG, C_NONE, C_SEXT, 28, 4, REGSB, sys.MIPS64, 0},
 	{AMOVD, C_FREG, C_NONE, C_SEXT, 28, 4, REGSB, sys.MIPS64, 0},
 	{AMOVW, C_FREG, C_NONE, C_SAUTO, 28, 4, REGSP, sys.MIPS64, 0},
-	{AMOVF, C_FREG, C_NONE, C_SAUTO, 28, 4, REGSP, 0, 0},
+	{AMOVF, C_FREG, C_NONE, C_SAUTO, 28, 8, REGSP, 0, 0},
 	{AMOVD, C_FREG, C_NONE, C_SAUTO, 28, 4, REGSP, 0, 0},
 	{AMOVW, C_FREG, C_NONE, C_SOREG, 28, 4, REGZERO, sys.MIPS64, 0},
-	{AMOVF, C_FREG, C_NONE, C_SOREG, 28, 4, REGZERO, 0, 0},
+	{AMOVF, C_FREG, C_NONE, C_SOREG, 28, 8, REGZERO, 0, 0},
 	{AMOVD, C_FREG, C_NONE, C_SOREG, 28, 4, REGZERO, 0, 0},
 
 	{AMOVW, C_FREG, C_NONE, C_LEXT, 28, 12, REGSB, sys.MIPS64, 0},
@@ -348,9 +349,9 @@ var optab = []Optab{
 	{AMOVW, C_FREG, C_NONE, C_LOREG, 28, 12, REGZERO, sys.MIPS64, 0},
 	{AMOVF, C_FREG, C_NONE, C_LOREG, 28, 12, REGZERO, 0, 0},
 	{AMOVD, C_FREG, C_NONE, C_LOREG, 28, 12, REGZERO, 0, 0},
-	{AMOVF, C_FREG, C_NONE, C_ADDR, 50, 8, 0, sys.MIPS, 0},
+	{AMOVF, C_FREG, C_NONE, C_ADDR, 50, 12, 0, sys.MIPS, 0},
 	{AMOVF, C_FREG, C_NONE, C_ADDR, 50, 12, 0, sys.MIPS64, 0},
-	{AMOVD, C_FREG, C_NONE, C_ADDR, 50, 8, 0, sys.MIPS, 0},
+	{AMOVD, C_FREG, C_NONE, C_ADDR, 50, 12, 0, sys.MIPS, 0},
 	{AMOVD, C_FREG, C_NONE, C_ADDR, 50, 12, 0, sys.MIPS64, 0},
 
 	{AMOVW, C_REG, C_NONE, C_FREG, 30, 4, 0, 0, 0},
@@ -1462,6 +1463,13 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 			o2 = OP_RRR(c.oprrr(add), uint32(r), uint32(REGTMP), uint32(REGTMP))
 			o3 = OP_IRR(c.opirr(a), uint32(v), uint32(REGTMP), uint32(p.To.Reg))
 
+		case 8:
+			if p.To.Reg%2 != 0 && (buildcfg.HasOption(buildcfg.GOMIPS, "r5") || buildcfg.HasOption(buildcfg.GOMIPS, "r2")) {
+				o1 = OP_IRR(c.opirr(-AMOVW), uint32(v), uint32(r), uint32(REGTMP))
+				o2 = OP_FRRR((0x11<<26)|(0x7<<21), uint32(REGTMP), uint32(p.To.Reg-1), 0) // mthc1 REGTMP,(p.To.Reg-1)
+			} else {
+				o1 = OP_IRR(c.opirr(a), uint32(v), uint32(r), uint32(p.To.Reg))
+			}
 		case 4:
 			o1 = OP_IRR(c.opirr(a), uint32(v), uint32(r), uint32(p.To.Reg))
 		}
@@ -1481,6 +1489,14 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 			o1 = OP_IRR(c.opirr(ALUI), uint32((v+1<<15)>>16), uint32(REGZERO), uint32(REGTMP))
 			o2 = OP_RRR(c.oprrr(add), uint32(r), uint32(REGTMP), uint32(REGTMP))
 			o3 = OP_IRR(c.opirr(a), uint32(v), uint32(REGTMP), uint32(p.From.Reg))
+
+		case 8:
+			if p.From.Reg%2 != 0 && (buildcfg.HasOption(buildcfg.GOMIPS, "r5") || buildcfg.HasOption(buildcfg.GOMIPS, "r2")) {
+				o1 = OP_FRRR((0x11<<26)|(0x3<<21), uint32(REGTMP), uint32(p.From.Reg-1), 0) // mfhc1 REGTMP,(p.From.Reg-1)
+				o2 = OP_IRR(c.opirr(AMOVW), uint32(v), uint32(r), uint32(REGTMP))
+			} else {
+				o1 = OP_IRR(c.opirr(a), uint32(v), uint32(r), uint32(p.From.Reg))
+			}
 
 		case 4:
 			o1 = OP_IRR(c.opirr(a), uint32(v), uint32(r), uint32(p.From.Reg))
@@ -1576,15 +1592,22 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		rel.Sym = p.To.Sym
 		rel.Add = p.To.Offset
 		rel.Type = objabi.R_ADDRMIPSU
-		o2 = OP_IRR(c.opirr(p.As), uint32(0), uint32(REGTMP), uint32(p.From.Reg))
+
 		rel2 := obj.Addrel(c.cursym)
-		rel2.Off = int32(c.pc + 4)
+		if o.a1 == C_FREG && p.From.Reg%2 != 0 && (buildcfg.HasOption(buildcfg.GOMIPS, "r5") || buildcfg.HasOption(buildcfg.GOMIPS, "r2")) {
+			o2 = OP_FRRR((0x11<<26)|(0x3<<21), uint32(REGTMP2), uint32(p.From.Reg-1), 0) // mfhc1 AT,(p.From.Reg-1)
+			o3 = OP_IRR(c.opirr(AMOVW), uint32(0), uint32(REGTMP), uint32(REGTMP2))
+			rel2.Off = int32(c.pc + 8)
+		} else {
+			o2 = OP_IRR(c.opirr(p.As), uint32(0), uint32(REGTMP), uint32(p.From.Reg))
+			rel2.Off = int32(c.pc + 4)
+		}
 		rel2.Siz = 4
 		rel2.Sym = p.To.Sym
 		rel2.Add = p.To.Offset
 		rel2.Type = objabi.R_ADDRMIPS
 
-		if o.size == 12 {
+		if o.size == 12 && o.family == sys.MIPS64 {
 			o3 = o2
 			o2 = OP_RRR(c.oprrr(AADDVU), uint32(REGSB), uint32(REGTMP), uint32(REGTMP))
 			rel2.Off += 4
@@ -1598,7 +1621,12 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		rel.Sym = p.From.Sym
 		rel.Add = p.From.Offset
 		rel.Type = objabi.R_ADDRMIPSU
-		o2 = OP_IRR(c.opirr(-p.As), uint32(0), uint32(REGTMP), uint32(p.To.Reg))
+		if o.a3 == C_FREG && p.To.Reg%2 != 0 && (buildcfg.HasOption(buildcfg.GOMIPS, "r5") || buildcfg.HasOption(buildcfg.GOMIPS, "r2")) {
+			o2 = OP_IRR(c.opirr(-AMOVW), uint32(0), uint32(REGTMP), uint32(REGTMP))
+			o3 = OP_FRRR((0x11<<26)|(0x7<<21), uint32(REGTMP), uint32(p.To.Reg-1), 0) // mthc1 REGTMP,(p.To.Reg-1)
+		} else {
+			o2 = OP_IRR(c.opirr(-p.As), uint32(0), uint32(REGTMP), uint32(p.To.Reg))
+		}
 		rel2 := obj.Addrel(c.cursym)
 		rel2.Off = int32(c.pc + 4)
 		rel2.Siz = 4
@@ -1606,7 +1634,7 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		rel2.Add = p.From.Offset
 		rel2.Type = objabi.R_ADDRMIPS
 
-		if o.size == 12 {
+		if o.size == 12 && o.family == sys.MIPS64 {
 			o3 = o2
 			o2 = OP_RRR(c.oprrr(AADDVU), uint32(REGSB), uint32(REGTMP), uint32(REGTMP))
 			rel2.Off += 4

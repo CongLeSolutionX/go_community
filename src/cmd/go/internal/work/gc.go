@@ -8,6 +8,7 @@ import (
 	"bufio"
 	"bytes"
 	"fmt"
+	"internal/buildcfg"
 	"internal/platform"
 	"io"
 	"log"
@@ -383,7 +384,18 @@ func asmArgs(a *Action, p *load.Package) []any {
 
 	if cfg.Goarch == "mips" || cfg.Goarch == "mipsle" {
 		// Define GOMIPS_value from cfg.GOMIPS.
-		args = append(args, "-D", "GOMIPS_"+cfg.GOMIPS)
+		if buildcfg.HasOption(buildcfg.GOMIPS, "softfloat") {
+			args = append(args, "-D", "GOMIPS_"+"softfloat")
+		} else {
+			args = append(args, "-D", "GOMIPS_"+"hardfloat")
+		}
+		if buildcfg.HasOption(buildcfg.GOMIPS, "r5") {
+			args = append(args, "-D", "GOMIPS_"+"mips32r5")
+		} else if buildcfg.HasOption(buildcfg.GOMIPS, "r2") {
+			args = append(args, "-D", "GOMIPS_"+"mips32r2")
+		} else {
+			args = append(args, "-D", "GOMIPS_"+"mips32")
+		}
 	}
 
 	if cfg.Goarch == "mips64" || cfg.Goarch == "mips64le" {
