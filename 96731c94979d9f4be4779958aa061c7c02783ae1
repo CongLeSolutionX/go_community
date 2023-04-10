@@ -111,6 +111,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ec58227c_85acc7f8",
+        "filename": "src/cmd/go/internal/list/list.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 892,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2023-04-10T22:16:50Z",
+      "side": 1,
+      "message": "We call collectDeps for each entry in load.PackageList, which produces a postorder traversal.",
+      "parentUuid": "73741e45_e71e5406",
+      "revId": "96731c94979d9f4be4779958aa061c7c02783ae1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ac16771c_a1b27d61",
         "filename": "src/cmd/go/internal/list/list.go",
         "patchSetId": 4
@@ -122,6 +140,30 @@
       "writtenOn": "2023-04-10T21:08:43Z",
       "side": 1,
       "message": "(not sure) Is it possible for one top-level package to end up with two distinct `DepsErrors` with the same final entry in their `ImportPath`?\n\n(I can\u0027t think of a situation in which that would occur, but it might be helpful to add a comment with our reasoning one way or another.)",
+      "range": {
+        "startLine": 923,
+        "startChar": 0,
+        "endLine": 924,
+        "endChar": 22
+      },
+      "revId": "96731c94979d9f4be4779958aa061c7c02783ae1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4f78bfc_e9cce16b",
+        "filename": "src/cmd/go/internal/list/list.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 924,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2023-04-10T22:16:50Z",
+      "side": 1,
+      "message": "If the stacks are all correct, it shouldn\u0027t be possible, because each error should appear on a single unique package. But I don\u0027t think we guarantee it anywhere? I added a comment. Do you think we should add a tie-breaker?",
+      "parentUuid": "ac16771c_a1b27d61",
       "range": {
         "startLine": 923,
         "startChar": 0,
