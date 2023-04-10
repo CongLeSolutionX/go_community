@@ -885,6 +885,8 @@ func loadPackageList(roots []*load.Package) []*load.Package {
 // package. We should only need to visit direct imports.
 func collectDeps(p *load.Package) {
 	deps := make(map[string]*load.Package)
+	depsErrors := make(map[string]*load.Package)
+
 	var q []*load.Package
 	q = append(q, p.Internal.Imports...)
 	for i := 0; i < len(q); i++ {
