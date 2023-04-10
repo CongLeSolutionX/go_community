@@ -94,6 +94,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "73741e45_e71e5406",
+        "filename": "src/cmd/go/internal/list/list.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 892,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-04-10T21:44:44Z",
+      "side": 1,
+      "message": "Wait, hang on — how do we know that `p.Deps` is correctly populated at this point? 🤔",
+      "revId": "96731c94979d9f4be4779958aa061c7c02783ae1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ac16771c_a1b27d61",
         "filename": "src/cmd/go/internal/list/list.go",
         "patchSetId": 4
