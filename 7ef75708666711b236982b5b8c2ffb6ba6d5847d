@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1eaa4942_d990c9c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-11T20:23:06Z",
+      "side": 1,
+      "message": "I\u0027m wondering whether we should have a general test that runs \"go generate ./...\".  But that is a different CL.",
+      "parentUuid": "3d2ca4dc_bdf45962",
+      "range": {
+        "startLine": 10,
+        "startChar": 45,
+        "endLine": 11,
+        "endChar": 50
+      },
+      "revId": "7ef75708666711b236982b5b8c2ffb6ba6d5847d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c0e4edf5_6a315946",
