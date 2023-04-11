@@ -68,6 +68,23 @@
       "message": "Got it! After introducing the iterator, how to treat the slices package, then there will be a lot of duplicate functions, whether to deprecate it or create an alias to iterator api.\n\nSorry not very familiar with the use of Gerrit, so created a new comment.",
       "revId": "3a78945e37e3ae24dbafb72e44a6b9c1c7115871",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1845e901_67618483",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 62228
+      },
+      "writtenOn": "2023-04-11T12:47:32Z",
+      "side": 1,
+      "message": "Thanks for everyone’s consideration.\n\nHaving come to Go from Perl \u0026 JS, I’ve missed quick-and-easy array/list iteration patterns. The `slices` package definitely helps, but the absence of a “map”-like function in particular seemed odd. (I suppose filter also, though I somehow miss that a bit less.) Thank you for the link to prior discussion on the topic.\n\nWhen/if `slices` adds such a function, please consider _not_ naming it “Map”, in order to avoid confusion with Go’s data type of the same name.",
+      "revId": "3a78945e37e3ae24dbafb72e44a6b9c1c7115871",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
