@@ -92,6 +92,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b2dff83a_83806380",
+        "filename": "src/time/sys_wasip1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-11T03:03:47Z",
+      "side": 1,
+      "message": "It was this comment: https://go-review.googlesource.com/c/go/+/479627/comment/b2fe56e5_aaea1e1c/ .  I suggested sys_waspi1.go, but I didn\u0027t notice when I wrote that that there was no such file.  I\u0027m fine with putting a conditional in the interrupt function in sys_unix.go.  The condition I was objecting to was a slightly convoluted change in internal_test.go.  Thanks.",
+      "parentUuid": "2898c009_6a3fbc5c",
+      "revId": "95602d34efd1491103c91209bebde6dccf53c299",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "56c132a2_c9985c99",
         "filename": "src/time/zoneinfo_wasip1.go",
         "patchSetId": 2
