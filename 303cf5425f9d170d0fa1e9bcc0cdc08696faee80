@@ -151,6 +151,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "362566cf_e1ba960d",
+        "filename": "src/cmd/go/internal/list/list.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 771,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-04-11T19:03:36Z",
+      "side": 1,
+      "message": "That explanation seems right. Thanks!",
+      "parentUuid": "2f0de35e_182004f8",
+      "range": {
+        "startLine": 771,
+        "startChar": 5,
+        "endLine": 771,
+        "endChar": 39
+      },
+      "revId": "303cf5425f9d170d0fa1e9bcc0cdc08696faee80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aed6cd88_587db7cb",
@@ -188,6 +212,30 @@
       "side": 1,
       "message": "loadPackageList checks errors and exits nonzero on dependency packages if not -e, which is the behavior we want when running go list -deps. But doing that here would change the current behavior of go list, which is to ignore errors set on dependency packages if -deps is not set.",
       "parentUuid": "aed6cd88_587db7cb",
+      "range": {
+        "startLine": 775,
+        "startChar": 9,
+        "endLine": 775,
+        "endChar": 25
+      },
+      "revId": "303cf5425f9d170d0fa1e9bcc0cdc08696faee80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e935e224_fdec91de",
+        "filename": "src/cmd/go/internal/list/list.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 775,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-04-11T19:03:36Z",
+      "side": 1,
+      "message": "Seems reasonable. (And if need be, we can always change that behavior in a followup.)",
+      "parentUuid": "6363c09d_24e62275",
       "range": {
         "startLine": 775,
         "startChar": 9,
