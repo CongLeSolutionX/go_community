@@ -78,6 +78,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2aa683c9_d6d33f02",
+        "filename": "src/maps/maps.s",
+        "patchSetId": 21
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2023-04-11T01:00:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e350fe6c_865f7eb6",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "fd09c07df3a1bf0918bbd14a9e18c92d29ab64b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e2469fe2_a3c20b34",
@@ -91,6 +115,30 @@
       "writtenOn": "2023-04-10T20:11:53Z",
       "side": 1,
       "message": "This could just be dst \u003d h.newoverflow(t, dst)",
+      "range": {
+        "startLine": 1457,
+        "startChar": 3,
+        "endLine": 1457,
+        "endChar": 31
+      },
+      "revId": "fd09c07df3a1bf0918bbd14a9e18c92d29ab64b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ffe58b3d_040fc616",
+        "filename": "src/runtime/map.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 1457,
+      "author": {
+        "id": 37653
+      },
+      "writtenOn": "2023-04-11T01:00:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e2469fe2_a3c20b34",
       "range": {
         "startLine": 1457,
         "startChar": 3,
