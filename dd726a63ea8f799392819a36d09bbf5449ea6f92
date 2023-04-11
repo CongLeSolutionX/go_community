@@ -16,6 +16,24 @@
       "message": "Sorry, but no quotation marks.  The line should be just\n\nFixes #58785\n\nFor more information please see https://go.dev/wiki/CommitMessage.",
       "revId": "dd726a63ea8f799392819a36d09bbf5449ea6f92",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "936fd893_b3acb188",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-11T21:16:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10eac999_68b1b87e",
+      "revId": "dd726a63ea8f799392819a36d09bbf5449ea6f92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
