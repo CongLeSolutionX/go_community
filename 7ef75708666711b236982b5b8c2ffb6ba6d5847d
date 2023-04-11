@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3d2ca4dc_bdf45962",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-04-11T19:08:27Z",
+      "side": 1,
+      "message": "(not sure)\n\nWould it make sense to add a check for this in `cmd/internal/moddeps/moddeps_test.go`, along the same lines as the existing checks for `go generate` being up to date for `net/http`, `syscall`, and `internal/syscall/...`?",
+      "range": {
+        "startLine": 10,
+        "startChar": 45,
+        "endLine": 11,
+        "endChar": 50
+      },
+      "revId": "7ef75708666711b236982b5b8c2ffb6ba6d5847d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c0e4edf5_6a315946",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
