@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ced85561_a1ea0698",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-11T22:29:29Z",
+      "side": 1,
+      "message": "TRY\u003d386,amd64,arm,arm64,s390x,ppc64le",
+      "revId": "1bbc6d62d59d643ca27d427853e1e4e8dea75ad8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
