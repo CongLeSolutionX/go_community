@@ -51,6 +51,23 @@
       "parentUuid": "8b4be684_68592e0f",
       "revId": "3a78945e37e3ae24dbafb72e44a6b9c1c7115871",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9021db65_da997de2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11680
+      },
+      "writtenOn": "2023-04-11T05:00:23Z",
+      "side": 1,
+      "message": "Got it! After introducing the iterator, how to treat the slices package, then there will be a lot of duplicate functions, whether to deprecate it or create an alias to iterator api.\n\nSorry not very familiar with the use of Gerrit, so created a new comment.",
+      "revId": "3a78945e37e3ae24dbafb72e44a6b9c1c7115871",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
