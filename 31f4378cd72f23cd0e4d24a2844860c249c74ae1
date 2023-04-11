@@ -89,6 +89,24 @@
       "parentUuid": "0b1987bf_ec8a1969",
       "revId": "31f4378cd72f23cd0e4d24a2844860c249c74ae1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66734203_d6844969",
+        "filename": "src/crypto/dsa/dsa_test.go",
+        "patchSetId": 46
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-11T03:50:37Z",
+      "side": 1,
+      "message": "I tend to think it\u0027s OK because the test is skipped when `-test.short` is used, and running make.bash always uses `-test.short`.  So this will only affect people who explicitly run `go test crypto/dsa` without passing `-test.short`.",
+      "parentUuid": "525b749a_e2bfd3c5",
+      "revId": "31f4378cd72f23cd0e4d24a2844860c249c74ae1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
