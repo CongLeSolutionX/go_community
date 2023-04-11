@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa37fdc3_42f401a6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-11T21:42:38Z",
+      "side": 1,
+      "message": "Minor: in a path like this src is assumed, so the path can just start with testing.  Thanks.",
+      "revId": "3a83a6b707a37c8c47aa074968ec503af6f69072",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec0bffa4_e0467c51",
+        "filename": "src/embed/internal/embedtest/embed_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-11T21:42:38Z",
+      "side": 1,
+      "message": "Tests, including subtests, should be independent and it should be possible to run them in any order.  Since this EOF test must run after the Read test, these should not be separate subtests.",
+      "revId": "3a83a6b707a37c8c47aa074968ec503af6f69072",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
