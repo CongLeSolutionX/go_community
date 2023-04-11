@@ -31,7 +31,12 @@ tail:
 	JB	_5through7
 	JE	_8
 	CMPQ	BX, $16
+#ifdef GOEXPERIMENT_atomicaggregates
+	JB	_9through15
+	JE	_16
+#else
 	JBE	_9through16
+#endif
 	CMPQ	BX, $32
 	JBE	_17through32
 	CMPQ	BX, $64
@@ -41,6 +46,8 @@ tail:
 	CMPQ	BX, $256
 	JBE	_129through256
 
+#ifdef GOEXPERIMENT_atomicaggregates
+#else
 	CMPB	internal∕cpu·X86+const_offsetX86HasERMS(SB), $1 // enhanced REP MOVSB/STOSB
 	JNE	skip_erms
 
@@ -50,6 +57,7 @@ tail:
 	// from 2KB. Benchmarks show the similar threshold for REP STOS vs AVX.
 	CMPQ    BX, $2048
 	JAE	loop_preheader_erms
+#endif
 
 skip_erms:
 #ifndef hasAVX2
@@ -174,7 +182,15 @@ _8:
 	// We need a separate case for 8 to make sure we clear pointers atomically.
 	MOVQ	AX, (DI)
 	RET
+#ifdef GOEXPERIMENT_atomicaggregates
+_16:
+	// atomicaggregates experiment also needs to clear 16 bytes atomically.
+	MOVOU	X15, (DI)
+	RET
+_9through15:
+#else
 _9through16:
+#endif
 	MOVQ	AX, (DI)
 	MOVQ	AX, -8(DI)(BX*1)
 	RET
