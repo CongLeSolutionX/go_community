@@ -4,13 +4,16 @@
 
 package sha1
 
-import "internal/cpu"
+import (
+	"internal/cpu"
+	"unsafe"
+)
 
 //go:noescape
-func blockAVX2(dig *digest, p []byte)
+func blockAVX2(dig *digest, p *byte, n int)
 
 //go:noescape
-func blockAMD64(dig *digest, p []byte)
+func blockAMD64(dig *digest, p *byte, n int)
 
 var useAVX2 = cpu.X86.HasAVX2 && cpu.X86.HasBMI1 && cpu.X86.HasBMI2
 
@@ -26,9 +29,25 @@ func block(dig *digest, p []byte) {
 		if safeLen%128 != 0 {
 			safeLen -= 64
 		}
-		blockAVX2(dig, p[:safeLen])
-		blockAMD64(dig, p[safeLen:])
+		blockAVX2(dig, unsafe.SliceData(p), safeLen)
+		prem := p[safeLen:]
+		blockAMD64(dig, unsafe.SliceData(prem), len(prem))
 	} else {
-		blockAMD64(dig, p)
+		blockAMD64(dig, unsafe.SliceData(p), len(p))
+	}
+}
+
+// blockString is a duplicate of block that takes a string.
+func blockString(dig *digest, s string) {
+	if useAVX2 && len(s) >= 256 {
+		safeLen := len(s) - 128
+		if safeLen%128 != 0 {
+			safeLen -= 64
+		}
+		blockAVX2(dig, unsafe.StringData(s), safeLen)
+		srem := s[safeLen:]
+		blockAMD64(dig, unsafe.StringData(srem), len(srem))
+	} else {
+		blockAMD64(dig, unsafe.StringData(s), len(s))
 	}
 }
