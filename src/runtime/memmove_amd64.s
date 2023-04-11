@@ -62,7 +62,12 @@ tail:
 	JB	move_5through7
 	JE	move_8
 	CMPQ	BX, $16
+#ifdef GOEXPERIMENT_atomicaggregates
+	JB	move_9through15
+	JE	move_16
+#else
 	JBE	move_9through16
+#endif
 	CMPQ	BX, $32
 	JBE	move_17through32
 	CMPQ	BX, $64
@@ -71,6 +76,14 @@ tail:
 	JBE	move_65through128
 	CMPQ	BX, $256
 	JBE	move_129through256
+
+#ifdef GOEXPERIMENT_atomicaggregates
+	// TODO: this assumes that the avx implementation will read/write
+	// in at least 16 byte chunks for anything that is 16 byte aligned/sized.
+	// It looks at a glance ok, but it is complicated code.
+	// Particularly tricky is the backwards copying portion.
+	JMP	avxUnaligned
+#endif
 
 	TESTB	$1, runtime·useAVXmemmove(SB)
 	JNZ	avxUnaligned
@@ -174,7 +187,16 @@ move_8:
 	MOVQ	(SI), AX
 	MOVQ	AX, (DI)
 	RET
+#ifdef GOEXPERIMENT_atomicaggregates
+move_16:
+	// atomicaggregates experiment also needs to move 16 bytes atomically.
+	MOVOU	(SI), X0
+	MOVOU	X0, (DI)
+	RET
+move_9through15:
+#else
 move_9through16:
+#endif
 	MOVQ	(SI), AX
 	MOVQ	-8(SI)(BX*1), CX
 	MOVQ	AX, (DI)
