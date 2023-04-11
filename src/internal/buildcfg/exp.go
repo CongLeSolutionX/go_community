@@ -146,8 +146,11 @@ func ParseGOEXPERIMENT(goos, goarch, goexp string) (*ExperimentFlags, error) {
 		if GOARCH != "amd64" {
 			return nil, fmt.Errorf("GOEXPERIMENT atomicaggregates requires GOARCH=amd64")
 		}
-		if GOAMD64 < 2 {
-			return nil, fmt.Errorf("GOEXPERIMENT atomicaggregates requires GOAMD64>=v2")
+		if GOAMD64 < 3 {
+			// The main atomicaggregate code uses PINSRQ and PEXTRQ instructions, which are v2.
+			// The memcpy implementation relies on avx, which is v3.
+			// (We could probably work around the latter, see runtime/cpuflags_amd64.go.)
+			return nil, fmt.Errorf("GOEXPERIMENT atomicaggregates requires GOAMD64>=v3")
 		}
 	}
 	return flags, nil
