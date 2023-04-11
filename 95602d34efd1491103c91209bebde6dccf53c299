@@ -141,6 +141,24 @@
       "parentUuid": "56c132a2_c9985c99",
       "revId": "95602d34efd1491103c91209bebde6dccf53c299",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c50ae23d_24a5b02b",
+        "filename": "src/time/zoneinfo_wasip1.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-11T03:05:02Z",
+      "side": 1,
+      "message": "I guess it is what it is but it\u0027s going to be a real problem for real program if they can\u0027t even figure out the current timezone.  But we don\u0027t have to worry about that now.",
+      "parentUuid": "c9ac0f7d_4d1a919e",
+      "revId": "95602d34efd1491103c91209bebde6dccf53c299",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
