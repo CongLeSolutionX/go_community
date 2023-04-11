@@ -71,6 +71,24 @@
       "parentUuid": "f88f5aeb_d96f0fc5",
       "revId": "31f4378cd72f23cd0e4d24a2844860c249c74ae1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "525b749a_e2bfd3c5",
+        "filename": "src/crypto/dsa/dsa_test.go",
+        "patchSetId": 46
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 12980
+      },
+      "writtenOn": "2023-04-11T03:08:28Z",
+      "side": 1,
+      "message": "Just did another run:\n\n$ GOOS\u003dwasip1 GOARCH\u003dwasm GOROOT\u003d$PWD PATH\u003d$PWD/misc/wasm/:$PATH ./bin/go test -run TestParameterGeneration -v ./src/crypto/dsa\n\u003d\u003d\u003d RUN   TestParameterGeneration\n--- PASS: TestParameterGeneration (171.44s)\nPASS\nok  \tcrypto/dsa\t171.511s\n\n\nFor comparison with the native code:\n\n$ GOROOT\u003d$PWD ./bin/go test -run TestParameterGeneration -v ./src/crypto/dsa\n\u003d\u003d\u003d RUN   TestParameterGeneration\n--- PASS: TestParameterGeneration (7.25s)\nPASS\nok  \tcrypto/dsa\t7.343s\n\n\nIf ~3 minutes is acceptable we can put this test back.",
+      "parentUuid": "0b1987bf_ec8a1969",
+      "revId": "31f4378cd72f23cd0e4d24a2844860c249c74ae1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
