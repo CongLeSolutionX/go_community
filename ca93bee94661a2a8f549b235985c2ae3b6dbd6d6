@@ -70,6 +70,24 @@
       "message": "GetFinalPathNameByHandle can also fail while n is not 0. Search for:\n```\nIf the function fails because lpszFilePath is too small to hold the string plus the terminating null character, the return value is the required buffer size, in TCHARs. This value includes the size of the terminating null character.\n```\nin https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getfinalpathnamebyhandlew\nIf that happens you will be returning err set to nil from this function.",
       "revId": "ca93bee94661a2a8f549b235985c2ae3b6dbd6d6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3128d738_7ab010fe",
+        "filename": "src/syscall/zsyscall_windows.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 786,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-04-11T07:42:55Z",
+      "side": 1,
+      "message": "Good catch, fixed.",
+      "parentUuid": "db31be7d_b25d03f3",
+      "revId": "ca93bee94661a2a8f549b235985c2ae3b6dbd6d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
