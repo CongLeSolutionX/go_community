@@ -33,6 +33,24 @@
       "message": "Different opinions, now some functions in the slices package can also be replaced by generic iterators, like: Equal(Func) can be replaced by iterate over two iterator and do compare one by one, Index(Func) can be replaced by iterate over an iterator and perform equal operation, Contains(Func) can be replaced by Index(Func). But they are still in the slices package. Do these functions need to be rethought?\nIs there a clear standard for which functions are in slices and which are in generic iterators?",
       "revId": "3a78945e37e3ae24dbafb72e44a6b9c1c7115871",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6ed249b_7b5ad528",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-11T03:56:21Z",
+      "side": 1,
+      "message": "The rough standard is how often we find these functions re-implemented for specific slice types.  For example, we found that there are many different copies of Contains in older Go code, so it seemed clearly useful to provide as a function in the slices package.\n\nThe Transform function is not widely found in existing code, because people just write a loop.  And there is nothing wrong with that.  So we\u0027re not rushing into a slices Transform function until we understand iterators.  See also comments like https://github.com/golang/go/issues/45955#issuecomment-880091874 in the discussion of the slices package.",
+      "parentUuid": "8b4be684_68592e0f",
+      "revId": "3a78945e37e3ae24dbafb72e44a6b9c1c7115871",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
