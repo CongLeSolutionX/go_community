@@ -868,7 +868,7 @@ func asmbMacho(ctxt *Link) {
 		if int64(len(data)) != codesigOff {
 			panic("wrong size")
 		}
-		codesign.Sign(ldr.Data(cs), bytes.NewReader(data), "a.out", codesigOff, int64(Segtext.Fileoff), int64(Segtext.Filelen), ctxt.IsExe() || ctxt.IsPIE())
+		codesign.Sign(ldr.Data(cs), bytes.NewReader(data), "a.out", codesigOff, 0, v, ctxt.IsExe() || ctxt.IsPIE())
 		ctxt.Out.SeekSet(codesigOff)
 		ctxt.Out.Write(ldr.Data(cs))
 	}
