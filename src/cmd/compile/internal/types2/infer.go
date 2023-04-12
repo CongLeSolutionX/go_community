@@ -50,7 +50,7 @@ func (check *Checker) infer(pos syntax.Pos, tparams []*TypeParam, targs []Type, 
 	// len(targs) < n
 
 	// Rename type parameters to avoid conflicts in recursive instantiation scenarios.
-	tparams, params = check.renameTParams(pos, tparams, params)
+	tparams, params, args = check.renameTParams(pos, tparams, params, args)
 
 	if traceInference {
 		check.dump("-- rename: %s%s ➞ %s\n", tparams, params, targs)
@@ -151,7 +151,7 @@ func (check *Checker) infer(pos syntax.Pos, tparams []*TypeParam, targs []Type, 
 		// If we permit bidirectional unification, this conditional code needs to be
 		// executed even if par.typ is not parameterized since the argument may be a
 		// generic function (for which we want to infer its type arguments).
-		if isParameterized(tparams, par.typ) {
+		if isParameterized(tparams, par.typ) || isParameterized(tparams, arg.typ) {
 			if arg.mode == invalid {
 				// An error was reported earlier. Ignore this targ
 				// and continue, we may still be able to infer all
@@ -390,7 +390,7 @@ func (check *Checker) infer(pos syntax.Pos, tparams []*TypeParam, targs []Type, 
 // renameTParams renames the type parameters in a function signature described by its
 // type and ordinary parameters (tparams and params) such that each type parameter is
 // given a new identity. renameTParams returns the new type and ordinary parameters.
-func (check *Checker) renameTParams(pos syntax.Pos, tparams []*TypeParam, params *Tuple) ([]*TypeParam, *Tuple) {
+func (check *Checker) renameTParams(pos syntax.Pos, tparams []*TypeParam, params *Tuple, args []*operand) ([]*TypeParam, *Tuple, []*operand) {
 	// For the purpose of type inference we must differentiate type parameters
 	// occurring in explicit type or value function arguments from the type
 	// parameters we are solving for via unification because they may be the
@@ -430,7 +430,16 @@ func (check *Checker) renameTParams(pos syntax.Pos, tparams []*TypeParam, params
 		tparams2[i].bound = check.subst(pos, tparam.bound, renameMap, nil, check.context())
 	}
 
-	return tparams2, check.subst(pos, params, renameMap, nil, check.context()).(*Tuple)
+	params2 := check.subst(pos, params, renameMap, nil, check.context()).(*Tuple)
+
+	args2 := make([]*operand, len(args))
+	for i, arg := range args {
+		x := *arg
+		x.typ = check.subst(pos, x.typ, renameMap, nil, check.context())
+		args2[i] = &x
+	}
+
+	return tparams2, params2, args2
 }
 
 // typeParamsString produces a string containing all the type parameter names
@@ -543,7 +552,6 @@ func (w *tpWalker) isParameterized(typ Type) (res bool) {
 		return w.isParameterizedTypeList(t.TypeArgs().list())
 
 	case *TypeParam:
-		// t must be one of w.tparams
 		return tparamIndex(w.tparams, t) >= 0
 
 	default:
