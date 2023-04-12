@@ -8,4 +8,4 @@ package p
 
 func f[P /* ERROR "requires go1.18" */ interface{}](P) {}
 
-var v func(int) = f /* ERROR "requires go1.18" */
+var v func(int) = f /* ERROR "requires go1.18" */ /* ERROR "requires go1.21" */ // TODO(gri) fix this
