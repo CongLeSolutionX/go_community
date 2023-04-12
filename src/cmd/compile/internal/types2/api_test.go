@@ -544,6 +544,12 @@ type T[P any] []P
 		{`package issue51803; func foo[T any](T) {}; func _() { foo[int]( /* leave arg away on purpose */ ) }`,
 			[]testInst{{`foo`, []string{`int`}, `func(int)`}},
 		},
+
+		// reverse type parameter inferece
+		// TODO(gri) expand
+		// {`package reverse1; func f(func(int)) {}; func g[T any](T) {}; func _() { f(g) }`,
+		// 	[]testInst{{`g`, []string{`int`}, `func(int)`}},
+		// },
 	}
 
 	for _, test := range tests {
