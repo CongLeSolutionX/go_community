@@ -45,7 +45,7 @@ func (check *Checker) builtin(x *operand, call *syntax.CallExpr, id builtinId) (
 	switch id {
 	default:
 		// make argument getter
-		xlist := check.exprList(call.ArgList)
+		xlist := check.exprList(call.ArgList, false)
 		arg = func(x *operand, i int) { *x = *xlist[i] }
 		nargs = len(xlist)
 		// evaluate first argument, if present
