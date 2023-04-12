@@ -6,3 +6,11 @@
 // without source arguments. Use for one-off debugging.
 
 package p
+
+func f(func(int) string) {}
+
+func g[P, Q any](P) Q { var q Q; return q }
+
+func _() {
+	f(g)
+}
