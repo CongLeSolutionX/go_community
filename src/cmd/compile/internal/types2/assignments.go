@@ -368,7 +368,7 @@ func (check *Checker) initVars(lhs []*Var, orig_rhs []syntax.Expr, returnStmt sy
 		// Only report a mismatch error if there are no other errors on the rhs.
 		if check.use(orig_rhs...) {
 			if returnStmt != nil {
-				rhs := check.exprList(orig_rhs)
+				rhs := check.exprList(orig_rhs, false)
 				check.returnError(returnStmt, lhs, rhs)
 			} else {
 				check.assignError(orig_rhs, l, r)
