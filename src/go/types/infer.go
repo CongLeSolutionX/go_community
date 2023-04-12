@@ -143,16 +143,26 @@ func (check *Checker) infer(posn positioner, tparams []*TypeParam, targs []Type,
 
 	for i, arg := range args {
 		par := params.At(i)
-		// If we permit bidirectional unification, this conditional code needs to be
-		// executed even if par.typ is not parameterized since the argument may be a
-		// generic function (for which we want to infer its type arguments).
-		if isParameterized(tparams, par.typ) {
+		genPar := isParameterized(tparams, par.typ)
+		genArg := isParameterized(tparams, arg.typ)
+		if traceInference {
+			if genPar {
+				u.tracef("-- %d. %s is generic", i, par.typ)
+			}
+			if genArg {
+				u.tracef("-- %d. %s is generic", i, arg.typ)
+			}
+		}
+		if genPar || genArg {
 			if arg.mode == invalid {
 				// An error was reported earlier. Ignore this targ
 				// and continue, we may still be able to infer all
 				// targs resulting in fewer follow-on errors.
+				// TODO(gri) determine if we still need this check
 				continue
 			}
+			// Function parameters are always typed. Arguments may be untyped.
+			// Collect the indices of untyped arguments and handle them later.
 			if isTyped(arg.typ) {
 				if !u.unify(par.typ, arg.typ) {
 					errorf("type", par.typ, arg.typ, arg)
@@ -539,7 +549,6 @@ func (w *tpWalker) isParameterized(typ Type) (res bool) {
 		}
 
 	case *TypeParam:
-		// t must be one of w.tparams
 		return tparamIndex(w.tparams, t) >= 0
 
 	default:

@@ -6,3 +6,12 @@
 // without source arguments. Use for one-off debugging.
 
 package p
+
+func f[T any](func(int), T) {}
+
+func g[T any](T) {}
+
+// TODO(gri) make this work for one-argument functions
+func _() {
+	f(g, 0)
+}
