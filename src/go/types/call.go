@@ -308,7 +308,7 @@ func (check *Checker) callExpr(x *operand, call *ast.CallExpr) exprKind {
 	}
 
 	// evaluate arguments
-	args := check.exprList(call.Args)
+	args := check.genericExprList(call.Args)
 	sig = check.arguments(call, sig, targs, args, xlist)
 
 	if wasGeneric && sig.TypeParams().Len() == 0 {
@@ -361,6 +361,24 @@ func (check *Checker) exprList(elist []ast.Expr) (xlist []*operand) {
 	return
 }
 
+func (check *Checker) genericExprList(elist []ast.Expr) (xlist []*operand) {
+	switch len(elist) {
+	case 0:
+		// nothing to do
+	case 1:
+		xlist = check.genericMultiExpr(elist[0])
+	default:
+		// multiple (possibly invalid) values
+		xlist = make([]*operand, len(elist))
+		for i, e := range elist {
+			var x operand
+			check.genericExpr(&x, e)
+			xlist[i] = &x
+		}
+	}
+	return
+}
+
 // xlist is the list of type argument expressions supplied in the source code.
 func (check *Checker) arguments(call *ast.CallExpr, sig *Signature, targs []Type, args []*operand, xlist []ast.Expr) (rsig *Signature) {
 	rsig = sig
@@ -391,7 +409,7 @@ func (check *Checker) arguments(call *ast.CallExpr, sig *Signature, targs []Type
 
 	// set up parameters
 	sigParams := sig.params // adjusted for variadic functions (may be nil for empty parameter lists!)
-	adjusted := false       // indicates if sigParams is different from t.params
+	adjusted := false       // indicates if sigParams is different from sig.params
 	if sig.variadic {
 		if ddd {
 			// variadic_func(a, b, c...)
@@ -452,8 +470,77 @@ func (check *Checker) arguments(call *ast.CallExpr, sig *Signature, targs []Type
 		return
 	}
 
+	// infer type arguments and instantiate signatures if necessary
+	const allowGenericArgs = true
+	if allowGenericArgs {
+		// collect all type parameters
+
+		// Rename type parameters to avoid problems with recursive calls.
+		var tparams []*TypeParam
+		tparams, sigParams = check.renameTParams(call.Pos(), sig.TypeParams().list(), sigParams)
+
+		// collect type parameters from generic function arguments
+		// TODO(gri) need a version check for Go 1.21
+		var genericArgs []int // indices of generic function arguments
+		for i, arg := range args {
+			// generic arguments cannot have a defined (*Named) type - no need for underlying type below
+			if asig, _ := arg.typ.(*Signature); asig != nil && asig.TypeParams().Len() > 0 {
+				tparams = append(tparams, asig.TypeParams().list()...)
+				genericArgs = append(genericArgs, i)
+			}
+		}
+
+		if len(tparams) > 0 {
+			if !check.allowVersion(check.pkg, call.Pos(), 1, 18) {
+				switch call.Fun.(type) {
+				case *ast.IndexExpr, *ast.IndexListExpr:
+					ix := typeparams.UnpackIndexExpr(call.Fun)
+					check.softErrorf(inNode(call.Fun, ix.Lbrack), UnsupportedFeature, "function instantiation requires go1.18 or later")
+				default:
+					check.softErrorf(inNode(call, call.Lparen), UnsupportedFeature, "implicit function instantiation requires go1.18 or later")
+				}
+			}
+
+			targs := check.infer(call, tparams, targs, sigParams, args)
+			if targs == nil {
+				return // error already reported
+			}
+
+			// compute result signature
+			top := sig.TypeParams().Len()
+			rsig = check.instantiateSignature(call.Pos(), sig, targs[:top], xlist)
+			assert(rsig.TypeParams().Len() == 0) // signature is not generic anymore
+			if top > 0 {
+				check.recordInstance(call.Fun, targs[:top], rsig)
+			}
+
+			// Optimization: Only if the parameter list was adjusted do we
+			// need to compute it from the adjusted list; otherwise we can
+			// simply use the result signature's parameter list.
+			if adjusted {
+				sigParams = check.subst(call.Pos(), sigParams, makeSubstMap(tparams, targs), nil, check.context()).(*Tuple)
+			} else {
+				sigParams = rsig.params
+			}
+
+			// compute argument signatures
+			for _, i := range genericArgs {
+				//println("genericArg", i)
+				asig := args[i].typ.(*Signature)
+				bot := top
+				top += asig.TypeParams().Len()
+				asig = check.instantiateSignature(call.Pos(), asig, targs[bot:top], nil) // TODO need xlist
+				assert(asig.TypeParams().Len() == 0)                                     // signature is not generic anymore
+				args[i].typ = asig
+
+				// record argument instance
+				check.recordInstance(args[i].expr, targs[bot:top], asig)
+			}
+		}
+	}
+
 	// infer type arguments and instantiate signature if necessary
-	if sig.TypeParams().Len() > 0 {
+	if !allowGenericArgs && sig.TypeParams().Len() > 0 {
 		if !check.allowVersion(check.pkg, call.Pos(), 1, 18) {
 			switch call.Fun.(type) {
 			case *ast.IndexExpr, *ast.IndexListExpr:
