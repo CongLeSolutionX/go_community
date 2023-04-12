@@ -59,7 +59,7 @@ const (
 	//   p ⇄ q    type parameters p and q match (p is inferred to be q and vice versa)
 	//   x ≢ y    types x and y cannot be unified
 	//   [p, q, ...] ➞ [x, y, ...]    mapping from type parameters to types
-	traceInference = false
+	traceInference = true
 )
 
 // A unifier maintains a list of type parameters and
