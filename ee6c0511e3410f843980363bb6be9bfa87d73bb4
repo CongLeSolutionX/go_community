@@ -16,6 +16,24 @@
       "message": "Add a continue statement after the errors, so that we report at most one error per regexp.",
       "revId": "ee6c0511e3410f843980363bb6be9bfa87d73bb4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c60ae467_b64385f5",
+        "filename": "src/regexp/all_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 958,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-12T16:31:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5703cb88_98ad4236",
+      "revId": "ee6c0511e3410f843980363bb6be9bfa87d73bb4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
