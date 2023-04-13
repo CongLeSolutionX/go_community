@@ -36,6 +36,14 @@ func ExampleReadDir() {
 	for _, file := range files {
 		fmt.Println(file.Name())
 	}
+
+	// Output:
+	// example_test.go
+	// ioutil.go
+	// ioutil_test.go
+	// tempfile.go
+	// tempfile_test.go
+	// testdata
 }
 
 func ExampleTempDir() {
