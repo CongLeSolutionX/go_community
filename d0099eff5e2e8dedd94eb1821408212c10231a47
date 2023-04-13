@@ -22,6 +22,30 @@
       },
       "revId": "d0099eff5e2e8dedd94eb1821408212c10231a47",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9ee9416_6565e838",
+        "filename": "src/cmd/dist/build.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1735,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2023-04-13T19:02:22Z",
+      "side": 1,
+      "message": "It\u0027s not really a side-effect, just a formalization of the reality that the build has been broken for months. To resume builds, fix it so that it compiles again (and ideally passes tests), then revert this change.",
+      "parentUuid": "af6c59af_96b59de7",
+      "range": {
+        "startLine": 1735,
+        "startChar": 1,
+        "endLine": 1735,
+        "endChar": 67
+      },
+      "revId": "d0099eff5e2e8dedd94eb1821408212c10231a47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
