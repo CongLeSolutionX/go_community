@@ -180,6 +180,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a45e1d92_3342f5ec",
+        "filename": "src/net/conf.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-13T18:06:54Z",
+      "side": 1,
+      "message": "I am saying: in this function, near the end, add the lines\n\n    if confval.resolver \u003d\u003d resolverDynamic {\n        confval.resolver \u003d ...\n    }\n\nOnce we go through unixResolverOrder we\u0027re going to pick either resolverGo or resolverCgo, right?\n\nLet me ask it this way.  Once we have completed this function, is there is any way in which resolverDynamic differs from both resolverGo and resolverCgo?  If so, why?",
+      "parentUuid": "8e438084_c03f4433",
+      "revId": "a808b640039eee1a71e7d90dfee798d19e670dff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5a9d9c27_f6ba3e36",
         "filename": "src/net/conf_netcgo.go",
         "patchSetId": 7
