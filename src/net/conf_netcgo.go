@@ -2,6 +2,8 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+// Set the defaultResolver to resolverCgo when the netcgo build tag is being used.
+
 //go:build netcgo
 
 package net
@@ -13,6 +15,4 @@ package net
 */
 import "C"
 
-// The build tag "netcgo" forces use of the cgo DNS resolver.
-// It is the opposite of "netgo".
-func init() { netCgo = true }
+func init() { defaultResolver = resolverCgo }
