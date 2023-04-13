@@ -403,7 +403,7 @@ func (check *Checker) renameTParams(pos token.Pos, tparams []*TypeParam, params 
 	//   }
 	//
 	// In this example, without type parameter renaming, the P used in the
-	// instantation f[P] has the same pointer identity as the P we are trying
+	// instantiation f[P] has the same pointer identity as the P we are trying
 	// to solve for through type inference. This causes problems for type
 	// unification. Because any such self-recursive call is equivalent to
 	// a mutually recursive call, type parameter renaming can be used to
@@ -487,8 +487,8 @@ func (w *tpWalker) isParameterized(typ Type) (res bool) {
 	}()
 
 	switch t := typ.(type) {
-	case nil, *Basic: // TODO(gri) should nil be handled here?
-		break
+	case *Basic:
+		// nothing to do
 
 	case *Array:
 		return w.isParameterized(t.elem)
@@ -497,22 +497,14 @@ func (w *tpWalker) isParameterized(typ Type) (res bool) {
 		return w.isParameterized(t.elem)
 
 	case *Struct:
-		for _, fld := range t.fields {
-			if w.isParameterized(fld.typ) {
-				return true
-			}
-		}
+		return w.varList(t.fields)
 
 	case *Pointer:
 		return w.isParameterized(t.base)
 
-	case *Tuple:
-		n := t.Len()
-		for i := 0; i < n; i++ {
-			if w.isParameterized(t.At(i).typ) {
-				return true
-			}
-		}
+	// case *Tuple:
+	//      This case should not occur because tuples only appear
+	//      in signatures where they are handled explicitly.
 
 	case *Signature:
 		// t.tparams may not be nil if we are looking at a signature
@@ -522,7 +514,7 @@ func (w *tpWalker) isParameterized(typ Type) (res bool) {
 		// Similarly, the receiver of a method may declare (rather then
 		// use) type parameters, we don't care about those either.
 		// Thus, we only need to look at the input and result parameters.
-		return w.isParameterized(t.params) || w.isParameterized(t.results)
+		return t.params != nil && w.varList(t.params.vars) || t.results != nil && w.varList(t.results.vars)
 
 	case *Interface:
 		tset := t.typeSet()
@@ -542,22 +534,26 @@ func (w *tpWalker) isParameterized(typ Type) (res bool) {
 		return w.isParameterized(t.elem)
 
 	case *Named:
-		return w.isParameterizedTypeList(t.TypeArgs().list())
+		for _, t := range t.TypeArgs().list() {
+			if w.isParameterized(t) {
+				return true
+			}
+		}
 
 	case *TypeParam:
 		// t must be one of w.tparams
 		return tparamIndex(w.tparams, t) >= 0
 
 	default:
-		unreachable()
+		panic(fmt.Sprintf("unexpected %T", typ))
 	}
 
 	return false
 }
 
-func (w *tpWalker) isParameterizedTypeList(list []Type) bool {
-	for _, t := range list {
-		if w.isParameterized(t) {
+func (w *tpWalker) varList(list []*Var) bool {
+	for _, v := range list {
+		if w.isParameterized(v.typ) {
 			return true
 		}
 	}
