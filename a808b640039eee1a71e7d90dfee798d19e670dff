@@ -162,6 +162,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8e438084_c03f4433",
+        "filename": "src/net/conf.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-04-13T17:58:31Z",
+      "side": 1,
+      "message": "Sorry, i still have no idea what you are proposing here. 😄\n\n\u003e I suggest that we change this function so that confval.resolver is always set to either resolverGo or resolverCgo. I think that would be clearer. Would that cause any problems?\n\nI interpret this as: \"Is it possible to remove from confVal.resolver the resolverDynamic case?\", Probably not, then the go resolver won\u0027t be preffered on linux (conf.go:190).",
+      "parentUuid": "33377ac8_2cbbac1d",
+      "revId": "a808b640039eee1a71e7d90dfee798d19e670dff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5a9d9c27_f6ba3e36",
         "filename": "src/net/conf_netcgo.go",
         "patchSetId": 7
