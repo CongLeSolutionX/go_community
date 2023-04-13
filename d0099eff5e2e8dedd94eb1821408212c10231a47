@@ -46,6 +46,30 @@
       },
       "revId": "d0099eff5e2e8dedd94eb1821408212c10231a47",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8cf2430_c8ab5a92",
+        "filename": "src/cmd/dist/build.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1735,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-04-13T19:18:00Z",
+      "side": 1,
+      "message": "Huh? openbsd/ppc64 is a port that only started to be landed this cycle - the point of having a working builder prior to merging a port is so that you can see where it is currently failing and when it goes green... *shrug*",
+      "parentUuid": "d9ee9416_6565e838",
+      "range": {
+        "startLine": 1735,
+        "startChar": 1,
+        "endLine": 1735,
+        "endChar": 67
+      },
+      "revId": "d0099eff5e2e8dedd94eb1821408212c10231a47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
