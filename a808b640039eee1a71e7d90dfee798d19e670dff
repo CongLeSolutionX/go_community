@@ -198,6 +198,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8750520e_ebf1c0da",
+        "filename": "src/net/conf.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-04-13T18:24:28Z",
+      "side": 1,
+      "message": "\u003e Once we go through unixResolverOrder we\u0027re going to pick either resolverGo or resolverCgo, right?\n\nhostLookupCgo or the go resolver alternatives\n\n\u003e  is there is any way in which resolverDynamic differs from both resolverGo and resolverCgo? If so, why?\n\nYes, resolverDynamic means that go and cgo is available, but the go resolver is preferred over the cgo one (The net package should do its best to use the go resolver).\n\n```\nconst (\n\t// Compiled with go and cgo resolver support.\n\t// The preferred resolver is the go resolver, unless\n\t// something unsupported is found.\n\tresolverDynamic resolverType \u003d iota\n\t// Compiled without support for the cgo resolver.\n\t// The go resolver must be always used.\n\tresolverGo\n\t// Compiled with support for both the cgo and go resolver.\n\t// The cgo resolver is preferrd over the go resolver,\n\t// unless explicitly forced by (*Resolver).PreferGo \u003d true.\n\tresolverCgo\n)\n```",
+      "parentUuid": "a45e1d92_3342f5ec",
+      "revId": "a808b640039eee1a71e7d90dfee798d19e670dff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5a9d9c27_f6ba3e36",
         "filename": "src/net/conf_netcgo.go",
         "patchSetId": 7
