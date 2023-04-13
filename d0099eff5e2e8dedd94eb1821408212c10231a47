@@ -70,6 +70,30 @@
       },
       "revId": "d0099eff5e2e8dedd94eb1821408212c10231a47",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e993231_939cdafc",
+        "filename": "src/cmd/dist/build.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1735,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2023-04-13T19:23:50Z",
+      "side": 1,
+      "message": "Oops, sorry, I thought you were asking about mips64. Answer is the same, though -- once you have everything working just send a CL that removes this line. You can send it through slowbots to prove that it\u0027s succeeding.",
+      "parentUuid": "e8cf2430_c8ab5a92",
+      "range": {
+        "startLine": 1735,
+        "startChar": 1,
+        "endLine": 1735,
+        "endChar": 67
+      },
+      "revId": "d0099eff5e2e8dedd94eb1821408212c10231a47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
