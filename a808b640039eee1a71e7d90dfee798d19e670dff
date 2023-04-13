@@ -216,6 +216,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cc7ba9ba_1962591e",
+        "filename": "src/net/conf.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-13T23:22:39Z",
+      "side": 1,
+      "message": "Thanks, I understand that.\n\nOK, I may have figured out an answer to my question.  If the configuration is resolverDynamic, then it is possible that it will start out as resolverGo, but then resolv.conf may change, and may pick up an unknown option, at which point we will switch to resolverCgo.",
+      "parentUuid": "8750520e_ebf1c0da",
+      "revId": "a808b640039eee1a71e7d90dfee798d19e670dff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5a9d9c27_f6ba3e36",
         "filename": "src/net/conf_netcgo.go",
         "patchSetId": 7
