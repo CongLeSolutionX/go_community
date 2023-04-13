@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b54e9fe5_0b0f5fd9",
+        "filename": "src/net/conf.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-13T23:38:52Z",
+      "side": 1,
+      "message": "It\u0027s strange to call a method named unixResolverOrder on windows or plan9.",
+      "revId": "68279bc5f2476433854e77a34e1a6a1fd2525b17",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51e91b44_b983186f",
+        "filename": "src/net/conf.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-13T23:38:52Z",
+      "side": 1,
+      "message": "This",
+      "revId": "68279bc5f2476433854e77a34e1a6a1fd2525b17",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69241e9d_ee50404a",
+        "filename": "src/net/conf.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-13T23:38:52Z",
+      "side": 1,
+      "message": "Per the documentation of os.IsPermission, this should be errors.Is(conf.err, fs.ErrPermission).  Although I\u0027m not entirely sure why this code is here.  It doesn\u0027t seem related to the general goal of this change.",
+      "revId": "68279bc5f2476433854e77a34e1a6a1fd2525b17",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9c21364_218e3d40",
+        "filename": "src/net/conf_cgo.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-13T23:38:52Z",
+      "side": 1,
+      "message": "s/correspons/corresponds/",
+      "revId": "68279bc5f2476433854e77a34e1a6a1fd2525b17",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2649c552_0fe50b57",
+        "filename": "src/net/net.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-13T23:38:52Z",
+      "side": 1,
+      "message": "s/be always/always be/",
+      "revId": "68279bc5f2476433854e77a34e1a6a1fd2525b17",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9013e9dc_b9903da9",
+        "filename": "src/net/net.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-13T23:38:52Z",
+      "side": 1,
+      "message": "s/preferrd/preferred/",
+      "revId": "68279bc5f2476433854e77a34e1a6a1fd2525b17",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5db6d49_8cc4ad0b",
+        "filename": "src/net/net.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-13T23:38:52Z",
+      "side": 1,
+      "message": "s/resovler/resolver/",
+      "revId": "68279bc5f2476433854e77a34e1a6a1fd2525b17",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
