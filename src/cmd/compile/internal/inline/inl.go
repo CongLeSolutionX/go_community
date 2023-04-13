@@ -410,6 +410,7 @@ func canDelayResults(fn *ir.Func) bool {
 	// (3) the result parameters aren't named.
 
 	nreturns := 0
+	constantFoldSwitchHasReturn := false
 	ir.VisitList(fn.Body, func(n ir.Node) {
 		if n, ok := n.(*ir.ReturnStmt); ok {
 			nreturns++
@@ -417,9 +418,22 @@ func canDelayResults(fn *ir.Func) bool {
 				nreturns++ // empty return statement (case 2)
 			}
 		}
+		if n, ok := n.(*ir.SwitchStmt); ok {
+			if len(n.Cases) == 1 && len(n.Cases[0].List) > 0 && !constantFoldSwitchHasReturn {
+				constantFoldSwitchHasReturn = ir.Any(n, func(node ir.Node) bool {
+					_, ok := node.(*ir.ReturnStmt)
+					return ok
+				})
+			}
+		}
 	})
 
 	if nreturns != 1 {
+		return false // not exactly one return statement (case 1)
+	}
+	// If case 1 happens, but the only return is from constant fold switch,
+	// then there must be more than one "return" in the original inline body.
+	if constantFoldSwitchHasReturn {
 		return false // not exactly one return statement (case 1)
 	}
 
@@ -1034,7 +1048,7 @@ func mkinlcall(n *ir.CallExpr, fn *ir.Func, bigCaller bool, inlCalls *[]*ir.Inli
 	if ok, maxCost := inlineCostOK(n, ir.CurFunc, fn, bigCaller); !ok {
 		if logopt.Enabled() {
 			logopt.LogOpt(n.Pos(), "cannotInlineCall", "inline", ir.FuncName(ir.CurFunc),
-			fmt.Sprintf("cost %d of %s exceeds max caller cost %d", fn.Inl.Cost, ir.PkgFuncName(fn), maxCost))
+				fmt.Sprintf("cost %d of %s exceeds max caller cost %d", fn.Inl.Cost, ir.PkgFuncName(fn), maxCost))
 		}
 		return n
 	}
