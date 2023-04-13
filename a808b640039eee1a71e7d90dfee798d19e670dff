@@ -126,6 +126,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2c49c83a_2d6bef47",
+        "filename": "src/net/conf.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-04-13T15:27:14Z",
+      "side": 1,
+      "message": "\u003e  But what I\u0027m thinking is that if we see that in this function, we set confVal.resolver to resolverCgo.\n\nThis is not the case for Linux, the confval.resolver is set at the beginning of this function to defaultResolver and might not change at all, so it might still be resolverDynamic. right?",
+      "parentUuid": "a01061e5_55f9d494",
+      "revId": "a808b640039eee1a71e7d90dfee798d19e670dff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5a9d9c27_f6ba3e36",
         "filename": "src/net/conf_netcgo.go",
         "patchSetId": 7
@@ -243,6 +261,24 @@
       "side": 1,
       "message": "My concern is that part of what makes this code hard to understand is these complicated build tag expressions and the way that they set variables at initialization time, so it\u0027s to understand from the source code what the configuration winds up being.  If we could get rid of all the init functions related to this, that would be ideal.\n\nCode can get the cgo build tag (or any build tag) by using two tiny files\n\n//go:build cgo\nconst cgoBuild \u003d true\n\n//go:build !cgo\nconst cgoBuild \u003d false",
       "parentUuid": "4f8a18b2_0af2c66c",
+      "revId": "a808b640039eee1a71e7d90dfee798d19e670dff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76b4c296_444ee8f4",
+        "filename": "src/net/conf_netgo.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-04-13T15:27:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ff9184d_f3a0ed3d",
       "revId": "a808b640039eee1a71e7d90dfee798d19e670dff",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
