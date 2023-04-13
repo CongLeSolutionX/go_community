@@ -144,6 +144,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "33377ac8_2cbbac1d",
+        "filename": "src/net/conf.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-13T17:24:07Z",
+      "side": 1,
+      "message": "I\u0027m sorry, I\u0027m not expressing myself clearly.\n\nI suggest that we change this function so that confval.resolver is always set to either resolverGo or resolverCgo.  I think that would be clearer.  Would that cause any problems?",
+      "parentUuid": "2c49c83a_2d6bef47",
+      "revId": "a808b640039eee1a71e7d90dfee798d19e670dff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5a9d9c27_f6ba3e36",
         "filename": "src/net/conf_netcgo.go",
         "patchSetId": 7
