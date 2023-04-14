@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7e450e8e_b22c4d74",
+        "filename": "src/net/conf.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-04-14T08:13:07Z",
+      "side": 1,
+      "message": "conf.go:111, windows and plan9 is excluded from resolverDynamic",
+      "parentUuid": "b54e9fe5_0b0f5fd9",
+      "revId": "68279bc5f2476433854e77a34e1a6a1fd2525b17",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "51e91b44_b983186f",
         "filename": "src/net/conf.go",
         "patchSetId": 13
@@ -31,6 +49,24 @@
       "writtenOn": "2023-04-13T23:38:52Z",
       "side": 1,
       "message": "This",
+      "revId": "68279bc5f2476433854e77a34e1a6a1fd2525b17",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7bb93565_581dc929",
+        "filename": "src/net/conf.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-04-14T08:13:07Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "51e91b44_b983186f",
       "revId": "68279bc5f2476433854e77a34e1a6a1fd2525b17",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -54,6 +90,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "896b42bd_307f5b9e",
+        "filename": "src/net/conf.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-04-14T08:13:07Z",
+      "side": 1,
+      "message": "\u003e  It doesn\u0027t seem related to the general goal of this change.\n\nRight, found this while adding tests, Look at line conf.go:204, so conf.go:236 will execute without this change for perm access errors. I don\u0027t know whether this is correct for openbsd, so decided to fallback to cgo. The openbsd resolv.conf manual only specifies that non-existent resolv.conf means hostLookupFiles.\n\n\u003e Per the documentation of os.IsPermission, this should be errors.Is(conf.err, fs.ErrPermission). \n\nMatching what was used in conf.go:204.",
+      "parentUuid": "69241e9d_ee50404a",
+      "revId": "68279bc5f2476433854e77a34e1a6a1fd2525b17",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b9c21364_218e3d40",
         "filename": "src/net/conf_cgo.go",
         "patchSetId": 13
@@ -65,6 +119,24 @@
       "writtenOn": "2023-04-13T23:38:52Z",
       "side": 1,
       "message": "s/correspons/corresponds/",
+      "revId": "68279bc5f2476433854e77a34e1a6a1fd2525b17",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "272425ed_7216049e",
+        "filename": "src/net/conf_cgo.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-04-14T08:13:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9c21364_218e3d40",
       "revId": "68279bc5f2476433854e77a34e1a6a1fd2525b17",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -86,6 +158,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b63b62f_74a9ac97",
+        "filename": "src/net/net.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-04-14T08:13:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2649c552_0fe50b57",
+      "revId": "68279bc5f2476433854e77a34e1a6a1fd2525b17",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9013e9dc_b9903da9",
@@ -103,6 +193,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb5e3dee_732b388f",
+        "filename": "src/net/net.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-04-14T08:13:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9013e9dc_b9903da9",
+      "revId": "68279bc5f2476433854e77a34e1a6a1fd2525b17",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e5db6d49_8cc4ad0b",
@@ -116,6 +224,24 @@
       "writtenOn": "2023-04-13T23:38:52Z",
       "side": 1,
       "message": "s/resovler/resolver/",
+      "revId": "68279bc5f2476433854e77a34e1a6a1fd2525b17",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c2a9a71_f7bd931d",
+        "filename": "src/net/net.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-04-14T08:13:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5db6d49_8cc4ad0b",
       "revId": "68279bc5f2476433854e77a34e1a6a1fd2525b17",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
