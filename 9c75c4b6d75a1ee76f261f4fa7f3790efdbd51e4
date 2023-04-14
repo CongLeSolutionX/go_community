@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "256f39a6_1f93d1bf",
+        "filename": "src/go/types/call.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-04-14T15:12:44Z",
+      "side": 1,
+      "message": "The uses of ix.Orig and ix.Lbrack are going to panic here if ix \u003d\u003d nil, which the assert says can be the case. What should this code do instead?",
+      "revId": "9c75c4b6d75a1ee76f261f4fa7f3790efdbd51e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
