@@ -351,6 +351,12 @@ type ArrayType struct {
 	Len   uintptr
 }
 
+type ChanType struct {
+	Type
+	Elem *Type
+	Dir  uintptr
+}
+
 type StructTypeUncommon struct {
 	StructType
 	u UncommonType
@@ -437,12 +443,6 @@ type MapType struct {
 	ElemSize   uint8  // size of elem slot
 	BucketSize uint16 // size of bucket
 	Flags      uint32
-}
-
-type ChanType struct {
-	Type
-	Elem *Type
-	Dir  uintptr
 }
 
 type SliceType struct {
