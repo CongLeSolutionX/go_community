@@ -71,9 +71,10 @@ const pollBlockSize = 4 * 1024
 //
 // No heap pointers.
 type pollDesc struct {
-	_    sys.NotInHeap
-	link *pollDesc // in pollcache, protected by pollcache.lock
-	fd   uintptr   // constant for pollDesc usage lifetime
+	_     sys.NotInHeap
+	link  *pollDesc      // in pollcache, protected by pollcache.lock
+	fd    uintptr        // constant for pollDesc usage lifetime
+	fdseq atomic.Uintptr // protects against stale pollDesc
 
 	// atomicInfo holds bits from closing, rd, and wd,
 	// which are only ever written while holding the lock,
@@ -264,6 +265,12 @@ func poll_runtime_pollClose(pd *pollDesc) {
 }
 
 func (c *pollCache) free(pd *pollDesc) {
+	// Increment the fdseq field, so that any currently
+	// running netpoll calls will not mark pd as ready.
+	fdseq := pd.fdseq.Load()
+	fdseq = (fdseq + 1) & (1<<taggedPointerBits - 1)
+	pd.fdseq.Store(fdseq)
+
 	lock(&c.lock)
 	pd.link = c.first
 	c.first = pd
