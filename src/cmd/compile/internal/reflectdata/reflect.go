@@ -85,7 +85,7 @@ func uncommonSize(t *types.Type) int { // Sizeof(runtime.uncommontype{})
 	if t.Sym() == nil && len(methods(t)) == 0 {
 		return 0
 	}
-	return abi.UncommonSize(types.PtrSize)
+	return abi.UncommonSize()
 }
 
 func makefield(name string, t *types.Type) *types.Field {

@@ -35,7 +35,7 @@ func decodeInuxi(arch *sys.Arch, p []byte, sz int) uint64 {
 
 func commonsize(arch *sys.Arch) int      { return abi.CommonSize(arch.PtrSize) }      // runtime._type
 func structfieldSize(arch *sys.Arch) int { return abi.StructFieldSize(arch.PtrSize) } // runtime.structfield
-func uncommonSize(arch *sys.Arch) int    { return abi.UncommonSize(arch.PtrSize) }    // runtime.uncommontype
+func uncommonSize(arch *sys.Arch) int    { return abi.UncommonSize() }                // runtime.uncommontype
 
 // Type.commonType.kind
 func decodetypeKind(arch *sys.Arch, p []byte) uint8 {
