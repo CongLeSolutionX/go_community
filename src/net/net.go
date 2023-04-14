@@ -93,13 +93,41 @@ import (
 	"time"
 )
 
-// netGo and netCgo contain the state of the build tags used
-// to build this binary, and whether cgo is available.
-// conf.go mirrors these into conf for easier testing.
-var (
-	netGo  bool // set true in cgo_stub.go for build tag "netgo" (or no cgo)
-	netCgo bool // set true in conf_netcgo.go for build tag "netcgo"
+type resolverType uint8
+
+func (r resolverType) String() string {
+	switch r {
+	case resolverDynamic:
+		return "dynamic resolver"
+	case resolverGo:
+		return "go resolver"
+	case resolverCgo:
+		return "cgo resolver"
+	default:
+		return "unknown resolver"
+	}
+}
+
+const (
+	// Compiled with go and cgo resolver support.
+	// The preferred resolver is the go resolver, unless
+	// something unsupported is found.
+	resolverDynamic resolverType = iota
+
+	// Compiled without support for the cgo resolver.
+	// The go resolver must always be used.
+	resolverGo
+
+	// Compiled with support for both the cgo and go resolver.
+	// The cgo resolver is preferred over the go resolver,
+	// unless explicitly forced by (*Resolver).PreferGo = true.
+	resolverCgo
 )
+
+// defaultResolver directs the default resolver to be used.
+// updated by conf_netgo.go and conf_netcgo.go depending on the
+// netgo and netcgo build tags.
+var defaultResolver resolverType = resolverDynamic
 
 // Addr represents a network end point address.
 //
