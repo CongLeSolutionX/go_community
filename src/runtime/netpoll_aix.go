@@ -88,6 +88,9 @@ func netpollopen(fd uintptr, pd *pollDesc) int32 {
 	lock(&mtxset)
 	unlock(&mtxpoll)
 
+	// We don't worry about pd.fdseq here,
+	// as mtxset protects us from stale pollDescs.
+
 	pd.user = uint32(len(pfds))
 	pfds = append(pfds, pollfd{fd: int32(fd)})
 	pds = append(pds, pd)
