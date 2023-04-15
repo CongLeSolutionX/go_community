@@ -7,6 +7,7 @@ package main
 import (
 	"bytes"
 	"fmt"
+	"go/build"
 	"log"
 	"os"
 	"os/exec"
@@ -42,7 +43,7 @@ var dirs Dirs
 // extra paths passed to it are included in the channel.
 func dirsInit(extra ...Dir) {
 	if buildCtx.GOROOT == "" {
-		stdout, err := exec.Command("go", "env", "GOROOT").Output()
+		stdout, err := exec.Command(filepath.Join(build.Default.GOROOT, "bin", "go"), "env", "GOROOT").Output()
 		if err != nil {
 			if ee, ok := err.(*exec.ExitError); ok && len(ee.Stderr) > 0 {
 				log.Fatalf("failed to determine GOROOT: $GOROOT is not set and 'go env GOROOT' failed:\n%s", ee.Stderr)
