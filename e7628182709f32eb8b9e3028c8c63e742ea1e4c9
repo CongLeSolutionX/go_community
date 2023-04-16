@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe499297_760aa85d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2023-04-16T01:20:29Z",
+      "side": 1,
+      "message": "There should be an issue filed for a behavior change like this. Please see go.dev/issue/new",
+      "revId": "e7628182709f32eb8b9e3028c8c63e742ea1e4c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
