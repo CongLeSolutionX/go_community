@@ -55,6 +55,41 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "08db4eb8_e2b5d9bd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-04-17T18:39:01Z",
+      "side": 1,
+      "message": "Ah, right. I misread you, and then my assumption carried over and I misread RFC 9001. Fixed.",
+      "parentUuid": "663d5562_82c11d85",
+      "revId": "d375ac5b63037ec2134d1372924a1be40677154f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71d7665f_4ff6fa3f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-04-17T18:39:01Z",
+      "side": 1,
+      "message": "Sorry for the delay, was on vacation last week.",
+      "revId": "d375ac5b63037ec2134d1372924a1be40677154f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a8a070fc_c2a05f63",
@@ -72,6 +107,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4cb3cd35_a132fb74",
+        "filename": "src/crypto/tls/alert.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-04-17T18:39:01Z",
+      "side": 1,
+      "message": "This is to make the CL smaller to review; it can be either temporary or left as-is to avoid a large diff.\n\nIf we do rename alert to AlertError, I\u0027ll do it in a separate CL to isolate the uninteresting part of the change.",
+      "parentUuid": "a8a070fc_c2a05f63",
+      "revId": "d375ac5b63037ec2134d1372924a1be40677154f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1581b812_53a9700f",
@@ -85,6 +138,24 @@
       "writtenOn": "2023-04-07T21:36:34Z",
       "side": 1,
       "message": "document whether this can be nil?",
+      "revId": "d375ac5b63037ec2134d1372924a1be40677154f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "360d7e24_48b6ed5a",
+        "filename": "src/crypto/tls/conn.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2023-04-17T18:39:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1581b812_53a9700f",
       "revId": "d375ac5b63037ec2134d1372924a1be40677154f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
