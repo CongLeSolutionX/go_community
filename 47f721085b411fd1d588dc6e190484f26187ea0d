@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "95b85b0e_9727a7ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-17T21:49:04Z",
+      "side": 1,
+      "message": "We don\u0027t.  We can\u0027t.  But the failure requires 1) a call to netpoll starts, calling epoll_wait (or whatever); 2) one of the descriptors passed to epoll is erroneous, so epoll_wait is going to return immediately with an error; 3) but before it does, we close the erroneous descriptor; 4) then we open and close at least 1024 other descriptors, so that the sequence number wraps around; 5) then we open a file that gets the wrapped sequence number; 6) now, finally, after at least 1025 other system calls, epoll_wait returns; 7) because of the wrapped sequence number, we incorrectly mark a valid descriptor as not pollable.\n\nAnd it\u0027s worth noting that the lowest number of tag bits, on AIX, doesn\u0027t need to use this mechanism.  To date the only case where the problem is known to be possible is Linux, on which we have 19 tag bits except on riscv64, where we have 11.  So, current worst case requires at least 2049 system calls to complete before epoll_wait returns in order to see the problem.\n\nWith the current design I have not yet seen a way to avoid this problem completely.  The problem is that the runtime poller is part of the runtime scheduler and as such has to run entirely independently of the user code that is closing and opening file descriptors.",
+      "parentUuid": "34f8f150_5c96c1ec",
+      "range": {
+        "startLine": 15,
+        "startChar": 44,
+        "endLine": 19,
+        "endChar": 14
+      },
+      "revId": "47f721085b411fd1d588dc6e190484f26187ea0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1727c171_73d8b690",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-04-17T15:59:40Z",
       "side": 1,
       "message": "`windows/386` is notable as a 32-bit first-class port that is not Linux, and I am not aware of a proposal to deprecate or remove it.\n\n- Do we have some other solution for netpoll races on 32-bit Windows?\n\n- Have we notified the maintainers of 32-bit secondary ports (`freebsd`, `netbsd`, and `openbsd`) of this problem, and is there some viable hook for them to address it a port-specific way?",
+      "range": {
+        "startLine": 24,
+        "startChar": 44,
+        "endLine": 25,
+        "endChar": 36
+      },
+      "revId": "47f721085b411fd1d588dc6e190484f26187ea0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98d1ea0f_430190b8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-17T21:49:04Z",
+      "side": 1,
+      "message": "This problem can\u0027t happen on Windows, which never calls setEventErr.\n\nIt\u0027s not clear to me that this problem can actually occur on the *BSD systems.  The code path is there but I don\u0027t know that it is ever executed.  We have code in newFile in os/file_unix.go that avoids adding non-pollable files on the *BSD systems.  I don\u0027t know of a similar way to avoid it on Linux.\n\nI tweaked the CL description.",
+      "parentUuid": "1727c171_73d8b690",
       "range": {
         "startLine": 24,
         "startChar": 44,
@@ -234,6 +282,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1dce8cc0_9bcc0d61",
+        "filename": "src/runtime/netpoll_kqueue.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-17T21:49:04Z",
+      "side": 1,
+      "message": "Maybe?  But as noted to date this is not a problem.  Added a comment.",
+      "parentUuid": "f58be122_2f1ed9cd",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 57
+      },
+      "revId": "47f721085b411fd1d588dc6e190484f26187ea0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2d4c67d6_2f003eb3",
@@ -247,6 +319,24 @@
       "writtenOn": "2023-04-17T15:59:40Z",
       "side": 1,
       "message": "I don\u0027t understand this comment — do we have reason to suspect that this *doesn\u0027t* \ncause issues on 32-bit platforms?",
+      "revId": "47f721085b411fd1d588dc6e190484f26187ea0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd393d88_ce72c60e",
+        "filename": "src/runtime/netpoll_kqueue.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-17T21:49:04Z",
+      "side": 1,
+      "message": "Yes, per above.",
+      "parentUuid": "2d4c67d6_2f003eb3",
       "revId": "47f721085b411fd1d588dc6e190484f26187ea0d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
