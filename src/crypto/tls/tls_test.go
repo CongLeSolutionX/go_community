@@ -170,35 +170,59 @@ func TestDialTimeout(t *testing.T) {
 	if testing.Short() {
 		t.Skip("skipping in short mode")
 	}
+
+	acceptErr := make(chan error, 1)
 	listener := newLocalListener(t)
-
-	addr := listener.Addr().String()
-	defer listener.Close()
-
-	complete := make(chan bool)
-	defer close(complete)
-
-	go func() {
-		conn, err := listener.Accept()
-		if err != nil {
-			t.Error(err)
-			return
+	defer func() {
+		listener.Close()
+		for range acceptErr {
+			// Wait for the Accept goroutine to complete.
 		}
-		<-complete
-		conn.Close()
+	}()
+	go func() {
+		defer close(acceptErr)
+
+		for {
+			conn, err := listener.Accept()
+			select {
+			case acceptErr <- err:
+			default:
+			}
+			if err != nil {
+				return
+			}
+			defer conn.Close()
+		}
 	}()
 
-	dialer := &net.Dialer{
-		Timeout: 10 * time.Millisecond,
-	}
+	addr := listener.Addr().String()
+	timeout := 1 * time.Millisecond
+	for {
+		dialer := &net.Dialer{
+			Timeout: timeout,
+		}
+		if conn, err := DialWithDialer(dialer, "tcp", addr, nil); err == nil {
+			conn.Close()
+			t.Fatal("DialWithTimeout completed successfully")
+		} else if !isTimeoutError(err) {
+			t.Fatalf("resulting error not a timeout: %v\nType %T: %#v", err, err, err)
+		}
 
-	var err error
-	if _, err = DialWithDialer(dialer, "tcp", addr, nil); err == nil {
-		t.Fatal("DialWithTimeout completed successfully")
-	}
+		select {
+		case err, ok := <-acceptErr:
+			if !ok {
+				t.Fatal("Listener stopped accepting prematurely")
+			}
+			if err != nil {
+				t.Fatalf("unexpected error from Accept: %v", err)
+			}
+		default:
+			t.Logf("with timeout %v, DialWithDialer returned before listener accepted connection; retrying", timeout)
+			timeout *= 2
+			continue
+		}
 
-	if !isTimeoutError(err) {
-		t.Errorf("resulting error not a timeout: %v\nType %T: %#v", err, err, err)
+		break
 	}
 }
 
