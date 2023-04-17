@@ -350,6 +350,10 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 
 	ir.CurFunc = nil
 
+	if base.Flag.LowerM > 2 {
+		dumpDecls(typecheck.Target.Decls)
+	}
+
 	// Compile top level functions.
 	// Don't use range--walk can add functions to Target.Decls.
 	base.Timer.Start("be", "compilefuncs")
@@ -441,4 +445,76 @@ func writebench(filename string) error {
 
 func makePos(b *src.PosBase, line, col uint) src.XPos {
 	return base.Ctxt.PosTable.XPos(src.MakePos(b, line, col))
+}
+
+func dumpFn(fn *ir.Func, ilevel int, clo *ir.ClosureExpr) {
+	fmt.Printf(" ")
+	for i := 0; i < ilevel; i++ {
+		fmt.Printf("| ")
+	}
+	hidstr := ""
+	if fn.IsHiddenClosure() {
+		hidstr = " [HIDDEN]"
+	}
+	orphstr := ""
+	if fn.IsHiddenClosure() && clo == nil {
+		orphstr = " [ORPHAN]"
+	}
+	inlstr := ""
+	if fn.Inl != nil {
+		inlstr = " [INL]"
+	}
+	haslsym := ""
+	if fn.LSym != nil {
+		haslsym = " [HASLSYM]"
+	}
+	tstr := ""
+	//clostr := ""
+	if clo != nil {
+		//clostr = " [CLO]"
+		if ir.IsTrivialClosure(clo) {
+			tstr = " [TRIV]"
+		}
+	}
+	dstr := ""
+	if fn.IsDeadcodeClosure() {
+		dstr = " [DEAD]"
+	}
+	fmt.Printf("fn=%v %s%s%s%s%s%s\n", fn, hidstr, orphstr, tstr, inlstr, haslsym, dstr)
+	var vis func(node ir.Node)
+	vis = func(node ir.Node) {
+		if clo, ok := node.(*ir.ClosureExpr); ok {
+			dumpFn(clo.Func, ilevel+1, clo)
+		}
+	}
+	ir.Visit(fn, vis)
+}
+
+func findNested(fn *ir.Func, parent map[*ir.Func]*ir.Func) {
+	var vis func(node ir.Node)
+	vis = func(node ir.Node) {
+		if clo, ok := node.(*ir.ClosureExpr); ok {
+			parent[clo.Func] = fn
+			findNested(clo.Func, parent)
+		}
+	}
+	ir.Visit(fn, vis)
+}
+
+func dumpDecls(decls []ir.Node) {
+	fmt.Printf("=-= typecheck.Target.Decls DUMP:\n")
+	parent := make(map[*ir.Func]*ir.Func)
+	for i := 0; i < len(typecheck.Target.Decls); i++ {
+		if fn, ok := typecheck.Target.Decls[i].(*ir.Func); ok {
+			findNested(fn, parent)
+		}
+	}
+	for i := 0; i < len(typecheck.Target.Decls); i++ {
+		if fn, ok := typecheck.Target.Decls[i].(*ir.Func); ok {
+			if parent[fn] != nil {
+				continue
+			}
+			dumpFn(fn, 0, nil)
+		}
+	}
 }
