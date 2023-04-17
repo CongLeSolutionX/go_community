@@ -1,6 +1,52 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "34f8f150_5c96c1ec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-04-17T15:59:40Z",
+      "side": 1,
+      "message": "`taggedPointer` appears to support something like 10–11 tag bits on the most restricted platforms. How do we guarantee that a given pollDesc won\u0027t cycle through its tag space before the in-flight errors are reported?",
+      "range": {
+        "startLine": 15,
+        "startChar": 44,
+        "endLine": 19,
+        "endChar": 14
+      },
+      "revId": "47f721085b411fd1d588dc6e190484f26187ea0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1727c171_73d8b690",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-04-17T15:59:40Z",
+      "side": 1,
+      "message": "`windows/386` is notable as a 32-bit first-class port that is not Linux, and I am not aware of a proposal to deprecate or remove it.\n\n- Do we have some other solution for netpoll races on 32-bit Windows?\n\n- Have we notified the maintainers of 32-bit secondary ports (`freebsd`, `netbsd`, and `openbsd`) of this problem, and is there some viable hook for them to address it a port-specific way?",
+      "range": {
+        "startLine": 24,
+        "startChar": 44,
+        "endLine": 25,
+        "endChar": 36
+      },
+      "revId": "47f721085b411fd1d588dc6e190484f26187ea0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "97ee6897_2f24e9d6",
@@ -161,6 +207,46 @@
       "side": 1,
       "message": "Would it be possible to add the updated test to the issue?  Thanks.",
       "parentUuid": "97fb721a_46377ca6",
+      "revId": "47f721085b411fd1d588dc6e190484f26187ea0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f58be122_2f1ed9cd",
+        "filename": "src/runtime/netpoll_kqueue.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-04-17T15:59:40Z",
+      "side": 1,
+      "message": "On 64-bit architectures we steal 3 extra low-order bits for tagged pointers. Would it make sense to do the same on 32-bit arches so that we would have a nonzero amount of sequence protection here?",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 57
+      },
+      "revId": "47f721085b411fd1d588dc6e190484f26187ea0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d4c67d6_2f003eb3",
+        "filename": "src/runtime/netpoll_kqueue.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-04-17T15:59:40Z",
+      "side": 1,
+      "message": "I don\u0027t understand this comment — do we have reason to suspect that this *doesn\u0027t* \ncause issues on 32-bit platforms?",
       "revId": "47f721085b411fd1d588dc6e190484f26187ea0d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
