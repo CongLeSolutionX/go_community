@@ -259,6 +259,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "90fca851_d87ea3c3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-17T23:25:31Z",
+      "side": 1,
+      "message": "Thanks for updating the issue.  I changed the code to publish the sequence number into atomicInfo, and check it before setting the error flag.  That seems to fix the updated test.",
+      "parentUuid": "e25e3b9d_aec905f4",
+      "revId": "47f721085b411fd1d588dc6e190484f26187ea0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f58be122_2f1ed9cd",
