@@ -138,6 +138,13 @@
 
 (Slicemask <t> x) => (SRAVconst (NEGV <t> x) [63])
 
+(Ctz(64|32)NonZero ...) => (Ctz(64|32) ...)
+
+// count trailing zero
+// 64/32 - CLZ(x&-x - 1)
+(Ctz64 <t> x) => (SUBV (MOVVconst [64]) (CLZV <t> (SUBVconst <t> [1] (AND <t> x (NEGV <t> x)))))
+(Ctz32 <t> x) => (SUBV (MOVVconst [32]) (CLZ <t> (SUBVconst <t> [1] (AND <t> x (NEGV <t> x)))))
+
 (BitLen64 x) => (SUBV (MOVVconst [64]) (CLZV <typ.Int> x))
 (BitLen32 x) => (SUBV (MOVVconst [32]) (CLZ <typ.Int> x))
 
