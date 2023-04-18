@@ -359,7 +359,9 @@ func ssaGenValue(s *ssagen.State, v *ssa.Value) {
 		ssa.OpMIPS64NEGF,
 		ssa.OpMIPS64NEGD,
 		ssa.OpMIPS64SQRTF,
-		ssa.OpMIPS64SQRTD:
+		ssa.OpMIPS64SQRTD,
+		ssa.OpMIPS64CLZ,
+		ssa.OpMIPS64CLZV:
 		p := s.Prog(v.Op.Asm())
 		p.From.Type = obj.TYPE_REG
 		p.From.Reg = v.Args[0].Reg()

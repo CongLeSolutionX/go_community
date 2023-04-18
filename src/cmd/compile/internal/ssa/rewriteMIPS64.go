@@ -87,6 +87,10 @@ func rewriteValueMIPS64(v *Value) bool {
 		return true
 	case OpAvg64u:
 		return rewriteValueMIPS64_OpAvg64u(v)
+	case OpBitLen32:
+		return rewriteValueMIPS64_OpBitLen32(v)
+	case OpBitLen64:
+		return rewriteValueMIPS64_OpBitLen64(v)
 	case OpClosureCall:
 		v.Op = OpMIPS64CALLclosure
 		return true
@@ -733,6 +737,40 @@ func rewriteValueMIPS64_OpAvg64u(v *Value) bool {
 		v1.AddArg2(x, y)
 		v0.AddArg(v1)
 		v.AddArg2(v0, y)
+		return true
+	}
+}
+func rewriteValueMIPS64_OpBitLen32(v *Value) bool {
+	v_0 := v.Args[0]
+	b := v.Block
+	typ := &b.Func.Config.Types
+	// match: (BitLen32 x)
+	// result: (SUBV (MOVVconst [32]) (CLZ <typ.Int> x))
+	for {
+		x := v_0
+		v.reset(OpMIPS64SUBV)
+		v0 := b.NewValue0(v.Pos, OpMIPS64MOVVconst, typ.UInt64)
+		v0.AuxInt = int64ToAuxInt(32)
+		v1 := b.NewValue0(v.Pos, OpMIPS64CLZ, typ.Int)
+		v1.AddArg(x)
+		v.AddArg2(v0, v1)
+		return true
+	}
+}
+func rewriteValueMIPS64_OpBitLen64(v *Value) bool {
+	v_0 := v.Args[0]
+	b := v.Block
+	typ := &b.Func.Config.Types
+	// match: (BitLen64 x)
+	// result: (SUBV (MOVVconst [64]) (CLZV <typ.Int> x))
+	for {
+		x := v_0
+		v.reset(OpMIPS64SUBV)
+		v0 := b.NewValue0(v.Pos, OpMIPS64MOVVconst, typ.UInt64)
+		v0.AuxInt = int64ToAuxInt(64)
+		v1 := b.NewValue0(v.Pos, OpMIPS64CLZV, typ.Int)
+		v1.AddArg(x)
+		v.AddArg2(v0, v1)
 		return true
 	}
 }

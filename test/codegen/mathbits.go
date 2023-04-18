@@ -77,6 +77,7 @@ func Len(n uint) int {
 	// s390x:"FLOGR"
 	// arm:"CLZ" arm64:"CLZ"
 	// mips:"CLZ"
+	// mips64:"CLZ"
 	// wasm:"I64Clz"
 	// ppc64x:"SUBC","CNTLZD"
 	return bits.Len(n)
@@ -88,6 +89,7 @@ func Len64(n uint64) int {
 	// s390x:"FLOGR"
 	// arm:"CLZ" arm64:"CLZ"
 	// mips:"CLZ"
+	// mips64:"CLZ"
 	// wasm:"I64Clz"
 	// ppc64x:"SUBC","CNTLZD"
 	return bits.Len64(n)
@@ -104,6 +106,7 @@ func Len32(n uint32) int {
 	// s390x:"FLOGR"
 	// arm:"CLZ" arm64:"CLZ"
 	// mips:"CLZ"
+	// mips64:"CLZ"
 	// wasm:"I64Clz"
 	// ppc64x: "CNTLZW"
 	return bits.Len32(n)
@@ -115,6 +118,7 @@ func Len16(n uint16) int {
 	// s390x:"FLOGR"
 	// arm:"CLZ" arm64:"CLZ"
 	// mips:"CLZ"
+	// mips64:"CLZ"
 	// wasm:"I64Clz"
 	// ppc64x:"SUBC","CNTLZD"
 	return bits.Len16(n)
@@ -126,6 +130,7 @@ func Len8(n uint8) int {
 	// s390x:"FLOGR"
 	// arm:"CLZ" arm64:"CLZ"
 	// mips:"CLZ"
+	// mips64:"CLZ"
 	// wasm:"I64Clz"
 	// ppc64x:"SUBC","CNTLZD"
 	return bits.Len8(n)

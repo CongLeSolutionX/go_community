@@ -138,6 +138,9 @@
 
 (Slicemask <t> x) => (SRAVconst (NEGV <t> x) [63])
 
+(BitLen64 x) => (SUBV (MOVVconst [64]) (CLZV <typ.Int> x))
+(BitLen32 x) => (SUBV (MOVVconst [32]) (CLZ <typ.Int> x))
+
 // truncations
 // Because we ignore high parts of registers, truncates are just copies.
 (Trunc16to8 ...) => (Copy ...)
