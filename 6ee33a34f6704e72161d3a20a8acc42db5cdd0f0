@@ -78,6 +78,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b614bc49_5e3fbfc6",
+        "filename": "src/runtime/tagptr_64bit.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-18T16:53:28Z",
+      "side": 1,
+      "message": "Done.  Added a new file tagptr.go for a couple of shared items.",
+      "parentUuid": "c79d27b1_eb742ac8",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 21
+      },
+      "revId": "6ee33a34f6704e72161d3a20a8acc42db5cdd0f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cae67e61_4de715da",
@@ -91,6 +115,30 @@
       "writtenOn": "2023-04-18T16:39:16Z",
       "side": 1,
       "message": "I have a slight preference for validating this in mallocinit next to some of the other constants. it\u0027s a little clearer, and that way we can have a nicer error message if this goes wrong.",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 42
+      },
+      "revId": "6ee33a34f6704e72161d3a20a8acc42db5cdd0f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21ac3c12_9004af49",
+        "filename": "src/runtime/tagptr_64bit.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-18T16:53:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cae67e61_4de715da",
       "range": {
         "startLine": 64,
         "startChar": 0,
