@@ -78,6 +78,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "348d97ef_8919d79a",
+        "filename": "src/runtime/netpoll.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-18T16:26:01Z",
+      "side": 1,
+      "message": "netpollopen is the OS-specific part of poll_runtime_pollOpen, so netpollopen is only ever called by poll_runtime_pollOpen.  So, yes, the atomic load is only required in netpoll.",
+      "parentUuid": "a0ad5040_7aadda00",
+      "range": {
+        "startLine": 248,
+        "startChar": 0,
+        "endLine": 251,
+        "endChar": 2
+      },
+      "revId": "96579e27ac0afcfde2c83cb17e7901210a6e3c7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "22efcf33_f87ea59d",
@@ -91,6 +115,24 @@
       "writtenOn": "2023-04-18T14:13:07Z",
       "side": 1,
       "message": "Maybe add a `throw` here if `goarch.PtrSize !\u003d 8`?\n\nI don\u0027t expect that we\u0027ll ever add a 32-bit Solaris or Illumos port, but in the unlikely chance that that does ever happen it would be nice not to have a known bug lurking undetected.",
+      "revId": "96579e27ac0afcfde2c83cb17e7901210a6e3c7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c769a421_5d9f44ac",
+        "filename": "src/runtime/netpoll_solaris.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-18T16:26:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "22efcf33_f87ea59d",
       "revId": "96579e27ac0afcfde2c83cb17e7901210a6e3c7f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
