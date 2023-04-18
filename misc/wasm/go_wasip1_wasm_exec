@@ -3,4 +3,8 @@
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
-exec wazero run -mount /:/ -env-inherit -cachedir "${TMPDIR}"/wazero $1 "${@:2}"
+if [[ "$RUNTIME" == "wasmtime" ]]; then
+	exec wasmtime run --dir=/ --env GOROOT="$GOROOT" --env PWD="$PWD" --max-wasm-stack 1048576 "$1" -- "${@:2}"
+else
+	exec wazero run -mount /:/ -env-inherit -cachedir "${TMPDIR}"/wazero "$1" "${@:2}"
+fi
