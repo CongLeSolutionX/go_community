@@ -73,11 +73,11 @@ func Drivers() []string {
 }
 
 // A NamedArg is a named argument. NamedArg values may be used as
-// arguments to Query or Exec and bind to the corresponding named
+// arguments to [DB.Query] or [DB.Exec] and bind to the corresponding named
 // parameter in the SQL statement.
 //
 // For a more concise way to create NamedArg values, see
-// the Named function.
+// the [Named] function.
 type NamedArg struct {
 	_NamedFieldsRequired struct{}
 
@@ -115,10 +115,10 @@ func Named(name string, value any) NamedArg {
 	return NamedArg{Name: name, Value: value}
 }
 
-// IsolationLevel is the transaction isolation level used in TxOptions.
+// IsolationLevel is the transaction isolation level used in [TxOptions].
 type IsolationLevel int
 
-// Various isolation levels that drivers may support in BeginTx.
+// Various isolation levels that drivers may support in [DB.BeginTx].
 // If a driver does not support a given isolation level an error may be returned.
 //
 // See https://en.wikipedia.org/wiki/Isolation_(database_systems)#Isolation_levels.
@@ -159,7 +159,7 @@ func (i IsolationLevel) String() string {
 
 var _ fmt.Stringer = LevelDefault
 
-// TxOptions holds the transaction options to be used in DB.BeginTx.
+// TxOptions holds the transaction options to be used in [DB.BeginTx].
 type TxOptions struct {
 	// Isolation is the transaction isolation level.
 	// If zero, the driver or database's default level is used.
@@ -168,12 +168,12 @@ type TxOptions struct {
 }
 
 // RawBytes is a byte slice that holds a reference to memory owned by
-// the database itself. After a Scan into a RawBytes, the slice is only
-// valid until the next call to Next, Scan, or Close.
+// the database itself. After a [Rows.Scan] into a RawBytes, the slice is only
+// valid until the next call to [Rows.Next], [Rows.Scan], or [Rows.Close].
 type RawBytes []byte
 
 // NullString represents a string that may be null.
-// NullString implements the Scanner interface so
+// NullString implements the [Scanner] interface so
 // it can be used as a scan destination:
 //
 //	var s NullString
@@ -189,7 +189,7 @@ type NullString struct {
 	Valid  bool // Valid is true if String is not NULL
 }
 
-// Scan implements the Scanner interface.
+// Scan implements the [Scanner] interface.
 func (ns *NullString) Scan(value any) error {
 	if value == nil {
 		ns.String, ns.Valid = "", false
@@ -199,7 +199,7 @@ func (ns *NullString) Scan(value any) error {
 	return convertAssign(&ns.String, value)
 }
 
-// Value implements the driver Valuer interface.
+// Value implements the [driver.Valuer] interface.
 func (ns NullString) Value() (driver.Value, error) {
 	if !ns.Valid {
 		return nil, nil
@@ -208,14 +208,14 @@ func (ns NullString) Value() (driver.Value, error) {
 }
 
 // NullInt64 represents an int64 that may be null.
-// NullInt64 implements the Scanner interface so
-// it can be used as a scan destination, similar to NullString.
+// NullInt64 implements the [Scanner] interface so
+// it can be used as a scan destination, similar to [NullString].
 type NullInt64 struct {
 	Int64 int64
 	Valid bool // Valid is true if Int64 is not NULL
 }
 
-// Scan implements the Scanner interface.
+// Scan implements the [Scanner] interface.
 func (n *NullInt64) Scan(value any) error {
 	if value == nil {
 		n.Int64, n.Valid = 0, false
@@ -225,7 +225,7 @@ func (n *NullInt64) Scan(value any) error {
 	return convertAssign(&n.Int64, value)
 }
 
-// Value implements the driver Valuer interface.
+// Value implements the [driver.Valuer] interface.
 func (n NullInt64) Value() (driver.Value, error) {
 	if !n.Valid {
 		return nil, nil
@@ -234,14 +234,14 @@ func (n NullInt64) Value() (driver.Value, error) {
 }
 
 // NullInt32 represents an int32 that may be null.
-// NullInt32 implements the Scanner interface so
-// it can be used as a scan destination, similar to NullString.
+// NullInt32 implements the [Scanner] interface so
+// it can be used as a scan destination, similar to [NullString].
 type NullInt32 struct {
 	Int32 int32
 	Valid bool // Valid is true if Int32 is not NULL
 }
 
-// Scan implements the Scanner interface.
+// Scan implements the [Scanner] interface.
 func (n *NullInt32) Scan(value any) error {
 	if value == nil {
 		n.Int32, n.Valid = 0, false
@@ -251,7 +251,7 @@ func (n *NullInt32) Scan(value any) error {
 	return convertAssign(&n.Int32, value)
 }
 
-// Value implements the driver Valuer interface.
+// Value implements the [driver.Valuer] interface.
 func (n NullInt32) Value() (driver.Value, error) {
 	if !n.Valid {
 		return nil, nil
@@ -260,14 +260,14 @@ func (n NullInt32) Value() (driver.Value, error) {
 }
 
 // NullInt16 represents an int16 that may be null.
-// NullInt16 implements the Scanner interface so
-// it can be used as a scan destination, similar to NullString.
+// NullInt16 implements the [Scanner] interface so
+// it can be used as a scan destination, similar to [NullString].
 type NullInt16 struct {
 	Int16 int16
 	Valid bool // Valid is true if Int16 is not NULL
 }
 
-// Scan implements the Scanner interface.
+// Scan implements the [Scanner] interface.
 func (n *NullInt16) Scan(value any) error {
 	if value == nil {
 		n.Int16, n.Valid = 0, false
@@ -278,7 +278,7 @@ func (n *NullInt16) Scan(value any) error {
 	return err
 }
 
-// Value implements the driver Valuer interface.
+// Value implements the [driver.Valuer] interface.
 func (n NullInt16) Value() (driver.Value, error) {
 	if !n.Valid {
 		return nil, nil
@@ -287,14 +287,14 @@ func (n NullInt16) Value() (driver.Value, error) {
 }
 
 // NullByte represents a byte that may be null.
-// NullByte implements the Scanner interface so
-// it can be used as a scan destination, similar to NullString.
+// NullByte implements the [Scanner] interface so
+// it can be used as a scan destination, similar to [NullString].
 type NullByte struct {
 	Byte  byte
 	Valid bool // Valid is true if Byte is not NULL
 }
 
-// Scan implements the Scanner interface.
+// Scan implements the [Scanner] interface.
 func (n *NullByte) Scan(value any) error {
 	if value == nil {
 		n.Byte, n.Valid = 0, false
@@ -305,7 +305,7 @@ func (n *NullByte) Scan(value any) error {
 	return err
 }
 
-// Value implements the driver Valuer interface.
+// Value implements the [driver.Valuer] interface.
 func (n NullByte) Value() (driver.Value, error) {
 	if !n.Valid {
 		return nil, nil
@@ -314,14 +314,14 @@ func (n NullByte) Value() (driver.Value, error) {
 }
 
 // NullFloat64 represents a float64 that may be null.
-// NullFloat64 implements the Scanner interface so
-// it can be used as a scan destination, similar to NullString.
+// NullFloat64 implements the [Scanner] interface so
+// it can be used as a scan destination, similar to [NullString].
 type NullFloat64 struct {
 	Float64 float64
 	Valid   bool // Valid is true if Float64 is not NULL
 }
 
-// Scan implements the Scanner interface.
+// Scan implements the [Scanner] interface.
 func (n *NullFloat64) Scan(value any) error {
 	if value == nil {
 		n.Float64, n.Valid = 0, false
@@ -331,7 +331,7 @@ func (n *NullFloat64) Scan(value any) error {
 	return convertAssign(&n.Float64, value)
 }
 
-// Value implements the driver Valuer interface.
+// Value implements the [driver.Valuer] interface.
 func (n NullFloat64) Value() (driver.Value, error) {
 	if !n.Valid {
 		return nil, nil
@@ -340,14 +340,14 @@ func (n NullFloat64) Value() (driver.Value, error) {
 }
 
 // NullBool represents a bool that may be null.
-// NullBool implements the Scanner interface so
-// it can be used as a scan destination, similar to NullString.
+// NullBool implements the [Scanner] interface so
+// it can be used as a scan destination, similar to [NullString].
 type NullBool struct {
 	Bool  bool
 	Valid bool // Valid is true if Bool is not NULL
 }
 
-// Scan implements the Scanner interface.
+// Scan implements the [Scanner] interface.
 func (n *NullBool) Scan(value any) error {
 	if value == nil {
 		n.Bool, n.Valid = false, false
@@ -357,7 +357,7 @@ func (n *NullBool) Scan(value any) error {
 	return convertAssign(&n.Bool, value)
 }
 
-// Value implements the driver Valuer interface.
+// Value implements the [driver.Valuer] interface.
 func (n NullBool) Value() (driver.Value, error) {
 	if !n.Valid {
 		return nil, nil
@@ -365,15 +365,15 @@ func (n NullBool) Value() (driver.Value, error) {
 	return n.Bool, nil
 }
 
-// NullTime represents a time.Time that may be null.
-// NullTime implements the Scanner interface so
-// it can be used as a scan destination, similar to NullString.
+// NullTime represents a [time.Time] that may be null.
+// NullTime implements the [Scanner] interface so
+// it can be used as a scan destination, similar to [NullString].
 type NullTime struct {
 	Time  time.Time
 	Valid bool // Valid is true if Time is not NULL
 }
 
-// Scan implements the Scanner interface.
+// Scan implements the [Scanner] interface.
 func (n *NullTime) Scan(value any) error {
 	if value == nil {
 		n.Time, n.Valid = time.Time{}, false
@@ -383,7 +383,7 @@ func (n *NullTime) Scan(value any) error {
 	return convertAssign(&n.Time, value)
 }
 
-// Value implements the driver Valuer interface.
+// Value implements the [driver.Valuer] interface.
 func (n NullTime) Value() (driver.Value, error) {
 	if !n.Valid {
 		return nil, nil
@@ -391,7 +391,7 @@ func (n NullTime) Value() (driver.Value, error) {
 	return n.Time, nil
 }
 
-// Scanner is an interface used by Scan.
+// Scanner is an interface used by [Rows.Scan].
 type Scanner interface {
 	// Scan assigns a value from a database driver.
 	//
@@ -408,7 +408,7 @@ type Scanner interface {
 	// An error should be returned if the value cannot be stored
 	// without loss of information.
 	//
-	// Reference types such as []byte are only valid until the next call to Scan
+	// Reference types such as []byte are only valid until the next call to [Rows.Scan]
 	// and should not be retained. Their underlying memory is owned by the driver.
 	// If retention is necessary, copy their values before the next call to Scan.
 	Scan(src any) error
@@ -435,7 +435,7 @@ type Out struct {
 	In bool
 }
 
-// ErrNoRows is returned by Scan when QueryRow doesn't return a
+// ErrNoRows is returned by [Row.Scan] when [DB.QueryRow] doesn't return a
 // row. In such a case, QueryRow returns a placeholder *Row value that
 // defers this error until a Scan.
 var ErrNoRows = errors.New("sql: no rows in result set")
@@ -447,11 +447,11 @@ var ErrNoRows = errors.New("sql: no rows in result set")
 // The sql package creates and frees connections automatically; it
 // also maintains a free pool of idle connections. If the database has
 // a concept of per-connection state, such state can be reliably observed
-// within a transaction (Tx) or connection (Conn). Once DB.Begin is called, the
-// returned Tx is bound to a single connection. Once Commit or
-// Rollback is called on the transaction, that transaction's
+// within a transaction ([Tx]) or connection ([Conn]). Once [DB.Begin] is called, the
+// returned Tx is bound to a single connection. Once [Tx.Commit] or
+// [Tx.Rollback] is called on the transaction, that transaction's
 // connection is returned to DB's idle connection pool. The pool size
-// can be controlled with SetMaxIdleConns.
+// can be controlled with [DB.SetMaxIdleConns].
 type DB struct {
 	// Total time waited for new connections.
 	waitDuration atomic.Int64
@@ -654,7 +654,7 @@ func (dc *driverConn) finalClose() error {
 	return err
 }
 
-// driverStmt associates a driver.Stmt with the
+// driverStmt associates a [driver.Stmt] with the
 // *driverConn from which it came, so the driverConn's lock can be
 // held during calls.
 type driverStmt struct {
@@ -664,7 +664,7 @@ type driverStmt struct {
 	closeErr    error // return value of previous Close call
 }
 
-// Close ensures driver.Stmt is only closed once and always returns the same
+// Close ensures [driver.Stmt] is only closed once and always returns the same
 // result.
 func (ds *driverStmt) Close() error {
 	ds.Lock()
@@ -680,16 +680,16 @@ func (ds *driverStmt) Close() error {
 // depSet is a finalCloser's outstanding dependencies
 type depSet map[any]bool // set of true bools
 
-// The finalCloser interface is used by (*DB).addDep and related
+// The finalCloser interface is used by [DB.addDep] and related
 // dependency reference counting.
 type finalCloser interface {
 	// finalClose is called when the reference count of an object
-	// goes to zero. (*DB).mu is not held while calling it.
+	// goes to zero. [DB.mu] is not held while calling it.
 	finalClose() error
 }
 
 // addDep notes that x now depends on dep, and x's finalClose won't be
-// called until all of x's dependencies are removed with removeDep.
+// called until all of x's dependencies are removed with [DB.removeDep].
 func (db *DB) addDep(x finalCloser, dep any) {
 	db.mu.Lock()
 	defer db.mu.Unlock()
@@ -742,9 +742,9 @@ func (db *DB) removeDepLocked(x finalCloser, dep any) func() error {
 	}
 }
 
-// This is the size of the connectionOpener request chan (DB.openerCh).
+// This is the size of the connectionOpener request chan ([DB.openerCh]).
 // This value should be larger than the maximum typical value
-// used for db.maxOpen. If maxOpen is significantly larger than
+// used for [DB.maxOpen]. If maxOpen is significantly larger than
 // connectionRequestQueueSize then it is possible for ALL calls into the *DB
 // to block until the connectionOpener can satisfy the backlog of requests.
 var connectionRequestQueueSize = 1000000
@@ -762,7 +762,7 @@ func (t dsnConnector) Driver() driver.Driver {
 	return t.driver
 }
 
-// OpenDB opens a database using a Connector, allowing drivers to
+// OpenDB opens a database using a [driver.Connector], allowing drivers to
 // bypass a string based data source name.
 //
 // Most users will open a database via a driver-specific connection
@@ -772,9 +772,9 @@ func (t dsnConnector) Driver() driver.Driver {
 //
 // OpenDB may just validate its arguments without creating a connection
 // to the database. To verify that the data source name is valid, call
-// Ping.
+// [DB.Ping].
 //
-// The returned DB is safe for concurrent use by multiple goroutines
+// The returned [DB] is safe for concurrent use by multiple goroutines
 // and maintains its own pool of idle connections. Thus, the OpenDB
 // function should be called just once. It is rarely necessary to
 // close a DB.
@@ -798,15 +798,15 @@ func OpenDB(c driver.Connector) *DB {
 // database name and connection information.
 //
 // Most users will open a database via a driver-specific connection
-// helper function that returns a *DB. No database drivers are included
+// helper function that returns a [*DB]. No database drivers are included
 // in the Go standard library. See https://golang.org/s/sqldrivers for
 // a list of third-party drivers.
 //
 // Open may just validate its arguments without creating a connection
 // to the database. To verify that the data source name is valid, call
-// Ping.
+// [DB.Ping].
 //
-// The returned DB is safe for concurrent use by multiple goroutines
+// The returned [DB] is safe for concurrent use by multiple goroutines
 // and maintains its own pool of idle connections. Thus, the Open
 // function should be called just once. It is rarely necessary to
 // close a DB.
@@ -861,8 +861,8 @@ func (db *DB) PingContext(ctx context.Context) error {
 // Ping verifies a connection to the database is still alive,
 // establishing a connection if necessary.
 //
-// Ping uses context.Background internally; to specify the context, use
-// PingContext.
+// Ping uses [context.Background] internally; to specify the context, use
+// [DB.PingContext].
 func (db *DB) Ping() error {
 	return db.PingContext(context.Background())
 }
@@ -1163,9 +1163,9 @@ type DBStats struct {
 	// Counters
 	WaitCount         int64         // The total number of connections waited for.
 	WaitDuration      time.Duration // The total time blocked waiting for a new connection.
-	MaxIdleClosed     int64         // The total number of connections closed due to SetMaxIdleConns.
-	MaxIdleTimeClosed int64         // The total number of connections closed due to SetConnMaxIdleTime.
-	MaxLifetimeClosed int64         // The total number of connections closed due to SetConnMaxLifetime.
+	MaxIdleClosed     int64         // The total number of connections closed due to [DB.SetMaxIdleConns].
+	MaxIdleTimeClosed int64         // The total number of connections closed due to [DB.SetConnMaxIdleTime.
+	MaxLifetimeClosed int64         // The total number of connections closed due to [DB.SetConnMaxLifetime.
 }
 
 // Stats returns database statistics.
@@ -1277,7 +1277,7 @@ func (db *DB) nextRequestKeyLocked() uint64 {
 	return next
 }
 
-// conn returns a newly-opened or cached *driverConn.
+// conn returns a newly-opened or cached [*driverConn].
 func (db *DB) conn(ctx context.Context, strategy connReuseStrategy) (*driverConn, error) {
 	db.mu.Lock()
 	if db.closed {
@@ -1428,7 +1428,7 @@ func (db *DB) noteUnusedDriverStatement(c *driverConn, ds *driverStmt) {
 	}
 }
 
-// debugGetPut determines whether getConn & putConn calls' stack traces
+// debugGetPut determines whether [DB.getConn] & [DB.putConn] calls' stack traces
 // are returned for more verbose crashes.
 const debugGetPut = false
 
@@ -1529,7 +1529,7 @@ func (db *DB) putConnDBLocked(dc *driverConn, err error) bool {
 }
 
 // maxBadConnRetries is the number of maximum retries if the driver returns
-// driver.ErrBadConn to signal a broken connection before forcing a new
+// [driver.ErrBadConn] to signal a broken connection before forcing a new
 // connection to be opened.
 const maxBadConnRetries = 2
 
@@ -1548,7 +1548,7 @@ func (db *DB) retry(fn func(strategy connReuseStrategy) error) error {
 // PrepareContext creates a prepared statement for later queries or executions.
 // Multiple queries or executions may be run concurrently from the
 // returned statement.
-// The caller must call the statement's Close method
+// The caller must call the statement's [*Stmt.Close] method
 // when the statement is no longer needed.
 //
 // The provided context is used for the preparation of the statement, not for the
@@ -1568,11 +1568,11 @@ func (db *DB) PrepareContext(ctx context.Context, query string) (*Stmt, error) {
 // Prepare creates a prepared statement for later queries or executions.
 // Multiple queries or executions may be run concurrently from the
 // returned statement.
-// The caller must call the statement's Close method
+// The caller must call the statement's [*Stmt.Close] method
 // when the statement is no longer needed.
 //
-// Prepare uses context.Background internally; to specify the context, use
-// PrepareContext.
+// Prepare uses [context.Background] internally; to specify the context, use
+// [DB.PrepareContext].
 func (db *DB) Prepare(query string) (*Stmt, error) {
 	return db.PrepareContext(context.Background(), query)
 }
@@ -1641,8 +1641,8 @@ func (db *DB) ExecContext(ctx context.Context, query string, args ...any) (Resul
 // Exec executes a query without returning any rows.
 // The args are for any placeholder parameters in the query.
 //
-// Exec uses context.Background internally; to specify the context, use
-// ExecContext.
+// Exec uses [context.Background] internally; to specify the context, use
+// [DB.ExecContext].
 func (db *DB) Exec(query string, args ...any) (Result, error) {
 	return db.ExecContext(context.Background(), query, args...)
 }
@@ -1711,8 +1711,8 @@ func (db *DB) QueryContext(ctx context.Context, query string, args ...any) (*Row
 // Query executes a query that returns rows, typically a SELECT.
 // The args are for any placeholder parameters in the query.
 //
-// Query uses context.Background internally; to specify the context, use
-// QueryContext.
+// Query uses [context.Background] internally; to specify the context, use
+// [DB.QueryContext].
 func (db *DB) Query(query string, args ...any) (*Rows, error) {
 	return db.QueryContext(context.Background(), query, args...)
 }
@@ -1797,8 +1797,8 @@ func (db *DB) queryDC(ctx, txctx context.Context, dc *driverConn, releaseConn fu
 // QueryRowContext executes a query that is expected to return at most one row.
 // QueryRowContext always returns a non-nil value. Errors are deferred until
 // Row's Scan method is called.
-// If the query selects no rows, the *Row's Scan will return ErrNoRows.
-// Otherwise, the *Row's Scan scans the first selected row and discards
+// If the query selects no rows, the [*Row.Scan] will return [ErrNoRows].
+// Otherwise, [*Row.Scan] scans the first selected row and discards
 // the rest.
 func (db *DB) QueryRowContext(ctx context.Context, query string, args ...any) *Row {
 	rows, err := db.QueryContext(ctx, query, args...)
@@ -1808,12 +1808,12 @@ func (db *DB) QueryRowContext(ctx context.Context, query string, args ...any) *R
 // QueryRow executes a query that is expected to return at most one row.
 // QueryRow always returns a non-nil value. Errors are deferred until
 // Row's Scan method is called.
-// If the query selects no rows, the *Row's Scan will return ErrNoRows.
-// Otherwise, the *Row's Scan scans the first selected row and discards
+// If the query selects no rows, the [*Row.Scan] will return [ErrNoRows].
+// Otherwise, [*Row.Scan] scans the first selected row and discards
 // the rest.
 //
-// QueryRow uses context.Background internally; to specify the context, use
-// QueryRowContext.
+// QueryRow uses [context.Background] internally; to specify the context, use
+// [DB.QueryRowContext].
 func (db *DB) QueryRow(query string, args ...any) *Row {
 	return db.QueryRowContext(context.Background(), query, args...)
 }
@@ -1822,10 +1822,10 @@ func (db *DB) QueryRow(query string, args ...any) *Row {
 //
 // The provided context is used until the transaction is committed or rolled back.
 // If the context is canceled, the sql package will roll back
-// the transaction. Tx.Commit will return an error if the context provided to
+// the transaction. [Tx.Commit] will return an error if the context provided to
 // BeginTx is canceled.
 //
-// The provided TxOptions is optional and may be nil if defaults should be used.
+// The provided [TxOptions] is optional and may be nil if defaults should be used.
 // If a non-default isolation level is used that the driver doesn't support,
 // an error will be returned.
 func (db *DB) BeginTx(ctx context.Context, opts *TxOptions) (*Tx, error) {
@@ -1843,7 +1843,7 @@ func (db *DB) BeginTx(ctx context.Context, opts *TxOptions) (*Tx, error) {
 // Begin starts a transaction. The default isolation level is dependent on
 // the driver.
 //
-// Begin uses context.Background internally; to specify the context, use
+// Begin uses [context.Background] internally; to specify the context, use
 // BeginTx.
 func (db *DB) Begin() (*Tx, error) {
 	return db.BeginTx(context.Background(), nil)
@@ -1903,7 +1903,7 @@ var ErrConnDone = errors.New("sql: connection is already closed")
 // Queries run on the same Conn will be run in the same database session.
 //
 // Every Conn must be returned to the database pool after use by
-// calling Conn.Close.
+// calling [*Conn.Close].
 func (db *DB) Conn(ctx context.Context) (*Conn, error) {
 	var dc *driverConn
 	var err error
@@ -1927,14 +1927,14 @@ func (db *DB) Conn(ctx context.Context) (*Conn, error) {
 type releaseConn func(error)
 
 // Conn represents a single database connection rather than a pool of database
-// connections. Prefer running queries from DB unless there is a specific
+// connections. Prefer running queries from [DB] unless there is a specific
 // need for a continuous single database connection.
 //
-// A Conn must call Close to return the connection to the database pool
+// A Conn must call [Conn.Close] to return the connection to the database pool
 // and may do so concurrently with a running query.
 //
-// After a call to Close, all operations on the
-// connection fail with ErrConnDone.
+// After a call to [Conn.Close], all operations on the
+// connection fail with [ErrConnDone].
 type Conn struct {
 	db *DB
 
@@ -2001,9 +2001,9 @@ func (c *Conn) QueryContext(ctx context.Context, query string, args ...any) (*Ro
 
 // QueryRowContext executes a query that is expected to return at most one row.
 // QueryRowContext always returns a non-nil value. Errors are deferred until
-// Row's Scan method is called.
-// If the query selects no rows, the *Row's Scan will return ErrNoRows.
-// Otherwise, the *Row's Scan scans the first selected row and discards
+// the [*Row.Scan] method is called.
+// If the query selects no rows, the [*Row.Scan] will return [ErrNoRows].
+// Otherwise, the [*Row.Scan] scans the first selected row and discards
 // the rest.
 func (c *Conn) QueryRowContext(ctx context.Context, query string, args ...any) *Row {
 	rows, err := c.QueryContext(ctx, query, args...)
@@ -2013,7 +2013,7 @@ func (c *Conn) QueryRowContext(ctx context.Context, query string, args ...any) *
 // PrepareContext creates a prepared statement for later queries or executions.
 // Multiple queries or executions may be run concurrently from the
 // returned statement.
-// The caller must call the statement's Close method
+// The caller must call the statement's [*Stmt.Close] method
 // when the statement is no longer needed.
 //
 // The provided context is used for the preparation of the statement, not for the
@@ -2029,8 +2029,8 @@ func (c *Conn) PrepareContext(ctx context.Context, query string) (*Stmt, error) 
 // Raw executes f exposing the underlying driver connection for the
 // duration of f. The driverConn must not be used outside of f.
 //
-// Once f returns and err is not driver.ErrBadConn, the Conn will continue to be usable
-// until Conn.Close is called.
+// Once f returns and err is not [driver.ErrBadConn], the Conn will continue to be usable
+// until [Conn.Close] is called.
 func (c *Conn) Raw(f func(driverConn any) error) (err error) {
 	var dc *driverConn
 	var release releaseConn
@@ -2063,10 +2063,10 @@ func (c *Conn) Raw(f func(driverConn any) error) (err error) {
 //
 // The provided context is used until the transaction is committed or rolled back.
 // If the context is canceled, the sql package will roll back
-// the transaction. Tx.Commit will return an error if the context provided to
+// the transaction. [Tx.Commit] will return an error if the context provided to
 // BeginTx is canceled.
 //
-// The provided TxOptions is optional and may be nil if defaults should be used.
+// The provided [TxOptions] is optional and may be nil if defaults should be used.
 // If a non-default isolation level is used that the driver doesn't support,
 // an error will be returned.
 func (c *Conn) BeginTx(ctx context.Context, opts *TxOptions) (*Tx, error) {
@@ -2107,7 +2107,7 @@ func (c *Conn) close(err error) error {
 }
 
 // Close returns the connection to the connection pool.
-// All operations after a Close will return with ErrConnDone.
+// All operations after a Close will return with [ErrConnDone].
 // Close is safe to call concurrently with other operations and will
 // block until all other operations finish. It may be useful to first
 // cancel any used context and then call close directly after.
@@ -2124,7 +2124,7 @@ func (c *Conn) Close() error {
 //
 // The statements prepared for a transaction by calling
 // the transaction's Prepare or Stmt methods are closed
-// by the call to Commit or Rollback.
+// by the call to [Tx.Commit] or [Tx.Rollback].
 type Tx struct {
 	db *DB
 
@@ -2229,7 +2229,7 @@ func (tx *Tx) txCtx() context.Context {
 }
 
 // closemuRUnlockRelease is used as a func(error) method value in
-// ExecContext and QueryContext. Unlocking in the releaseConn keeps
+// [DB.ExecContext] and [DB.QueryContext]. Unlocking in the releaseConn keeps
 // the driver conn from being returned to the connection pool until
 // the Rows has been closed.
 func (tx *Tx) closemuRUnlockRelease(error) {
@@ -2326,7 +2326,7 @@ func (tx *Tx) Rollback() error {
 // The returned statement operates within the transaction and will be closed
 // when the transaction has been committed or rolled back.
 //
-// To use an existing prepared statement on this transaction, see Tx.Stmt.
+// To use an existing prepared statement on this transaction, see [Tx.Stmt].
 //
 // The provided context will be used for the preparation of the context, not
 // for the execution of the returned statement. The returned statement
@@ -2352,10 +2352,10 @@ func (tx *Tx) PrepareContext(ctx context.Context, query string) (*Stmt, error) {
 // The returned statement operates within the transaction and will be closed
 // when the transaction has been committed or rolled back.
 //
-// To use an existing prepared statement on this transaction, see Tx.Stmt.
+// To use an existing prepared statement on this transaction, see [Tx.Stmt].
 //
-// Prepare uses context.Background internally; to specify the context, use
-// PrepareContext.
+// Prepare uses [context.Background] internally; to specify the context, use
+// [Tx.PrepareContext].
 func (tx *Tx) Prepare(query string) (*Stmt, error) {
 	return tx.PrepareContext(context.Background(), query)
 }
@@ -2462,8 +2462,8 @@ func (tx *Tx) StmtContext(ctx context.Context, stmt *Stmt) *Stmt {
 // The returned statement operates within the transaction and will be closed
 // when the transaction has been committed or rolled back.
 //
-// Stmt uses context.Background internally; to specify the context, use
-// StmtContext.
+// Stmt uses [context.Background] internally; to specify the context, use
+// [Tx.StmtContext].
 func (tx *Tx) Stmt(stmt *Stmt) *Stmt {
 	return tx.StmtContext(context.Background(), stmt)
 }
@@ -2482,7 +2482,7 @@ func (tx *Tx) ExecContext(ctx context.Context, query string, args ...any) (Resul
 // For example: an INSERT and UPDATE.
 //
 // Exec uses context.Background internally; to specify the context, use
-// ExecContext.
+// [Tx.ExecContext].
 func (tx *Tx) Exec(query string, args ...any) (Result, error) {
 	return tx.ExecContext(context.Background(), query, args...)
 }
@@ -2500,7 +2500,7 @@ func (tx *Tx) QueryContext(ctx context.Context, query string, args ...any) (*Row
 // Query executes a query that returns rows, typically a SELECT.
 //
 // Query uses context.Background internally; to specify the context, use
-// QueryContext.
+// [Tx.QueryContext].
 func (tx *Tx) Query(query string, args ...any) (*Rows, error) {
 	return tx.QueryContext(context.Background(), query, args...)
 }
@@ -2508,8 +2508,8 @@ func (tx *Tx) Query(query string, args ...any) (*Rows, error) {
 // QueryRowContext executes a query that is expected to return at most one row.
 // QueryRowContext always returns a non-nil value. Errors are deferred until
 // Row's Scan method is called.
-// If the query selects no rows, the *Row's Scan will return ErrNoRows.
-// Otherwise, the *Row's Scan scans the first selected row and discards
+// If the query selects no rows, the [*Row.Scan] will return [ErrNoRows].
+// Otherwise, the [*Row.Scan] scans the first selected row and discards
 // the rest.
 func (tx *Tx) QueryRowContext(ctx context.Context, query string, args ...any) *Row {
 	rows, err := tx.QueryContext(ctx, query, args...)
@@ -2519,12 +2519,12 @@ func (tx *Tx) QueryRowContext(ctx context.Context, query string, args ...any) *R
 // QueryRow executes a query that is expected to return at most one row.
 // QueryRow always returns a non-nil value. Errors are deferred until
 // Row's Scan method is called.
-// If the query selects no rows, the *Row's Scan will return ErrNoRows.
-// Otherwise, the *Row's Scan scans the first selected row and discards
+// If the query selects no rows, the [*Row.Scan] will return [ErrNoRows].
+// Otherwise, the [*Row.Scan] scans the first selected row and discards
 // the rest.
 //
-// QueryRow uses context.Background internally; to specify the context, use
-// QueryRowContext.
+// QueryRow uses [context.Background] internally; to specify the context, use
+// [Tx.QueryRowContext].
 func (tx *Tx) QueryRow(query string, args ...any) *Row {
 	return tx.QueryRowContext(context.Background(), query, args...)
 }
@@ -2556,10 +2556,10 @@ var (
 // Stmt is a prepared statement.
 // A Stmt is safe for concurrent use by multiple goroutines.
 //
-// If a Stmt is prepared on a Tx or Conn, it will be bound to a single
+// If a Stmt is prepared on a [Tx] or [Conn], it will be bound to a single
 // underlying connection forever. If the Tx or Conn closes, the Stmt will
 // become unusable and all operations will return an error.
-// If a Stmt is prepared on a DB, it will remain usable for the lifetime of the
+// If a Stmt is prepared on a [DB], it will remain usable for the lifetime of the
 // DB. When the Stmt needs to execute on a new underlying connection, it will
 // prepare itself on the new connection automatically.
 type Stmt struct {
@@ -2624,8 +2624,8 @@ func (s *Stmt) ExecContext(ctx context.Context, args ...any) (Result, error) {
 // Exec executes a prepared statement with the given arguments and
 // returns a Result summarizing the effect of the statement.
 //
-// Exec uses context.Background internally; to specify the context, use
-// ExecContext.
+// Exec uses [context.Background] internally; to specify the context, use
+// [Stmt.ExecContext].
 func (s *Stmt) Exec(args ...any) (Result, error) {
 	return s.ExecContext(context.Background(), args...)
 }
@@ -2741,7 +2741,7 @@ func (s *Stmt) prepareOnConnLocked(ctx context.Context, dc *driverConn) (*driver
 }
 
 // QueryContext executes a prepared query statement with the given arguments
-// and returns the query results as a *Rows.
+// and returns the query results as a [*Rows].
 func (s *Stmt) QueryContext(ctx context.Context, args ...any) (*Rows, error) {
 	s.closemu.RLock()
 	defer s.closemu.RUnlock()
@@ -2793,7 +2793,7 @@ func (s *Stmt) QueryContext(ctx context.Context, args ...any) (*Rows, error) {
 // and returns the query results as a *Rows.
 //
 // Query uses context.Background internally; to specify the context, use
-// QueryContext.
+// [*Stmt.QueryContext].
 func (s *Stmt) Query(args ...any) (*Rows, error) {
 	return s.QueryContext(context.Background(), args...)
 }
@@ -2810,9 +2810,9 @@ func rowsiFromStatement(ctx context.Context, ci driver.Conn, ds *driverStmt, arg
 
 // QueryRowContext executes a prepared query statement with the given arguments.
 // If an error occurs during the execution of the statement, that error will
-// be returned by a call to Scan on the returned *Row, which is always non-nil.
-// If the query selects no rows, the *Row's Scan will return ErrNoRows.
-// Otherwise, the *Row's Scan scans the first selected row and discards
+// be returned by a call to Scan on the returned [*Row], which is always non-nil.
+// If the query selects no rows, the [*Row.Scan] will return [ErrNoRows].
+// Otherwise, the [*Row.Scan] scans the first selected row and discards
 // the rest.
 func (s *Stmt) QueryRowContext(ctx context.Context, args ...any) *Row {
 	rows, err := s.QueryContext(ctx, args...)
@@ -2824,9 +2824,9 @@ func (s *Stmt) QueryRowContext(ctx context.Context, args ...any) *Row {
 
 // QueryRow executes a prepared query statement with the given arguments.
 // If an error occurs during the execution of the statement, that error will
-// be returned by a call to Scan on the returned *Row, which is always non-nil.
-// If the query selects no rows, the *Row's Scan will return ErrNoRows.
-// Otherwise, the *Row's Scan scans the first selected row and discards
+// be returned by a call to Scan on the returned [*Row], which is always non-nil.
+// If the query selects no rows, the [*Row.Scan] will return [ErrNoRows].
+// Otherwise, the [*Row.Scan] scans the first selected row and discards
 // the rest.
 //
 // Example usage:
@@ -2834,8 +2834,8 @@ func (s *Stmt) QueryRowContext(ctx context.Context, args ...any) *Row {
 //	var name string
 //	err := nameByUseridStmt.QueryRow(id).Scan(&name)
 //
-// QueryRow uses context.Background internally; to specify the context, use
-// QueryRowContext.
+// QueryRow uses [context.Background] internally; to specify the context, use
+// [*Stmt.QueryRowContext].
 func (s *Stmt) QueryRow(args ...any) *Row {
 	return s.QueryRowContext(context.Background(), args...)
 }
@@ -2947,12 +2947,12 @@ func (rs *Rows) awaitDone(ctx, txctx context.Context) {
 	rs.close(ctx.Err())
 }
 
-// Next prepares the next result row for reading with the Scan method. It
+// Next prepares the next result row for reading with the [*Rows.Scan] method. It
 // returns true on success, or false if there is no next result row or an error
-// happened while preparing it. Err should be consulted to distinguish between
+// happened while preparing it. [*Rows.Err] should be consulted to distinguish between
 // the two cases.
 //
-// Every call to Scan, even the first one, must be preceded by a call to Next.
+// Every call to [Rows.Scan], even the first one, must be preceded by a call to Next.
 func (rs *Rows) Next() bool {
 	var doClose, ok bool
 	withLock(rs.closemu.RLocker(), func() {
@@ -3001,10 +3001,10 @@ func (rs *Rows) nextLocked() (doClose, ok bool) {
 
 // NextResultSet prepares the next result set for reading. It reports whether
 // there is further result sets, or false if there is no further result set
-// or if there is an error advancing to it. The Err method should be consulted
+// or if there is an error advancing to it. The [*Rows.Err] method should be consulted
 // to distinguish between the two cases.
 //
-// After calling NextResultSet, the Next method should always be called before
+// After calling NextResultSet, the [*Rows.Next] method should always be called before
 // scanning. If there are further result sets they may not have rows in the result
 // set.
 func (rs *Rows) NextResultSet() bool {
@@ -3042,7 +3042,7 @@ func (rs *Rows) NextResultSet() bool {
 }
 
 // Err returns the error, if any, that was encountered during iteration.
-// Err may be called after an explicit or implicit Close.
+// Err may be called after an explicit or implicit [*Rows.Close].
 func (rs *Rows) Err() error {
 	rs.closemu.RLock()
 	defer rs.closemu.RUnlock()
@@ -3109,7 +3109,7 @@ func (ci *ColumnType) Name() string {
 
 // Length returns the column type length for variable length column types such
 // as text and binary field types. If the type length is unbounded the value will
-// be math.MaxInt64 (any database limits will still apply).
+// be [math.MaxInt64] (any database limits will still apply).
 // If the column type is not variable length, such as an int, or if not supported
 // by the driver ok is false.
 func (ci *ColumnType) Length() (length int64, ok bool) {
@@ -3122,7 +3122,7 @@ func (ci *ColumnType) DecimalSize() (precision, scale int64, ok bool) {
 	return ci.precision, ci.scale, ci.hasPrecisionScale
 }
 
-// ScanType returns a Go type suitable for scanning into using Rows.Scan.
+// ScanType returns a Go type suitable for scanning into using [Rows.Scan].
 // If a driver does not support this property ScanType will return
 // the type of an empty interface.
 func (ci *ColumnType) ScanType() reflect.Type {
@@ -3178,7 +3178,7 @@ func rowsColumnInfoSetupConnLocked(rowsi driver.Rows) []*ColumnType {
 
 // Scan copies the columns in the current row into the values pointed
 // at by dest. The number of values in dest must be the same as the
-// number of columns in Rows.
+// number of columns in [Rows].
 //
 // Scan converts columns read from the database into the following
 // common Go types and special types provided by the sql package:
@@ -3219,22 +3219,22 @@ func rowsColumnInfoSetupConnLocked(rowsi driver.Rows) []*ColumnType {
 // from a source value of type []byte to *interface{}, a copy of the
 // slice is made and the caller owns the result.
 //
-// Source values of type time.Time may be scanned into values of type
+// Source values of type [time.Time] may be scanned into values of type
 // *time.Time, *interface{}, *string, or *[]byte. When converting to
-// the latter two, time.RFC3339Nano is used.
+// the latter two, [time.RFC3339Nano] is used.
 //
 // Source values of type bool may be scanned into types *bool,
 // *interface{}, *string, *[]byte, or *RawBytes.
 //
 // For scanning into *bool, the source may be true, false, 1, 0, or
-// string inputs parseable by strconv.ParseBool.
+// string inputs parseable by [strconv.ParseBool].
 //
 // Scan can also convert a cursor returned from a query, such as
 // "select cursor(select * from my_table) from dual", into a
 // *Rows value that can itself be scanned from. The parent
 // select query will close any cursor *Rows if the parent *Rows is closed.
 //
-// If any of the first arguments implementing Scanner returns an error,
+// If any of the first arguments implementing [Scanner] returns an error,
 // that error will be wrapped in the returned error.
 func (rs *Rows) Scan(dest ...any) error {
 	rs.closemu.RLock()
@@ -3269,10 +3269,10 @@ func (rs *Rows) Scan(dest ...any) error {
 // hook through a test only mutex.
 var rowsCloseHook = func() func(*Rows, *error) { return nil }
 
-// Close closes the Rows, preventing further enumeration. If Next is called
+// Close closes the Rows, preventing further enumeration. If [*Rows.Next] is called
 // and returns false and there are no further result sets,
 // the Rows are closed automatically and it will suffice to check the
-// result of Err. Close is idempotent and does not affect the result of Err.
+// result of [*Rows.Err]. Close is idempotent and does not affect the result of [*Rows.Err].
 func (rs *Rows) Close() error {
 	return rs.close(nil)
 }
@@ -3309,7 +3309,7 @@ func (rs *Rows) close(err error) error {
 	return err
 }
 
-// Row is the result of calling QueryRow to select a single row.
+// Row is the result of calling [DB.QueryRow] to select a single row.
 type Row struct {
 	// One of these two will be non-nil:
 	err  error // deferred error for easy chaining
@@ -3317,10 +3317,10 @@ type Row struct {
 }
 
 // Scan copies the columns from the matched row into the values
-// pointed at by dest. See the documentation on Rows.Scan for details.
+// pointed at by dest. See the documentation on [Rows.Scan] for details.
 // If more than one row matches the query,
 // Scan uses the first row and discards the rest. If no row matches
-// the query, Scan returns ErrNoRows.
+// the query, Scan returns [ErrNoRows].
 func (r *Row) Scan(dest ...any) error {
 	if r.err != nil {
 		return r.err
@@ -3361,7 +3361,7 @@ func (r *Row) Scan(dest ...any) error {
 }
 
 // Err provides a way for wrapping packages to check for
-// query errors without calling Scan.
+// query errors without calling [*Row.Scan].
 // Err returns the error, if any, that was encountered while running the query.
 // If this error is not nil, this error will also be returned from Scan.
 func (r *Row) Err() error {
