@@ -149,7 +149,7 @@ a global LevelVar:
 
 Then use the LevelVar to construct a handler, and make it the default:
 
-	h := slog.HandlerOptions{Level: programLevel}.NewJSONHandler(os.Stderr)
+	h := slog.NewJSONHandler(os.Stderr, &slog.HandlerOptions{Level: programLevel})
 	slog.SetDefault(slog.New(h))
 
 Now the program can change its logging level with a single statement:
