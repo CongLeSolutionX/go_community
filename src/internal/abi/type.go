@@ -474,7 +474,132 @@ type StructType struct {
 }
 
 // Name is an encoded type Name with optional extra data.
-// See reflect/type.go for details.
+//
+// The first byte is a bit field containing:
+//
+//	1<<0 the name is exported
+//	1<<1 tag data follows the name
+//	1<<2 pkgPath nameOff follows the name and tag
+//	1<<3 the name is of an embedded (a.k.a. anonymous) field
+//
+// Following that, there is a varint-encoded length of the name,
+// followed by the name itself.
+//
+// If tag data is present, it also has a varint-encoded length
+// followed by the tag itself.
+//
+// If the import path follows, then 4 bytes at the end of
+// the data form a nameOff. The import path is only set for concrete
+// methods that are defined in a different package than their type.
+//
+// If a name starts with "*", then the exported bit represents
+// whether the pointed to type is exported.
+//
+// Note: this encoding must match here and in:
+//   cmd/compile/internal/reflectdata/reflect.go
+//   runtime/type.go
+//   internal/reflectlite/type.go
+//   cmd/link/internal/ld/decodesym.go
+
 type Name struct {
 	Bytes *byte
+}
+
+func (n Name) Data(off int, whySafe string) *byte {
+	return (*byte)(add(unsafe.Pointer(n.Bytes), uintptr(off), whySafe))
+}
+
+func (n Name) IsExported() bool {
+	return (*n.Bytes)&(1<<0) != 0
+}
+
+func (n Name) HasTag() bool {
+	return (*n.Bytes)&(1<<1) != 0
+}
+
+func (n Name) Embedded() bool {
+	return (*n.Bytes)&(1<<3) != 0
+}
+
+// ReadVarint parses a varint as encoded by encoding/binary.
+// It returns the number of encoded bytes and the encoded value.
+func (n Name) ReadVarint(off int) (int, int) {
+	v := 0
+	for i := 0; ; i++ {
+		x := *n.Data(off+i, "read varint")
+		v += int(x&0x7f) << (7 * i)
+		if x&0x80 == 0 {
+			return i + 1, v
+		}
+	}
+}
+
+// writeVarint writes n to buf in varint form. Returns the
+// number of bytes written. n must be nonnegative.
+// Writes at most 10 bytes.
+func writeVarint(buf []byte, n int) int {
+	for i := 0; ; i++ {
+		b := byte(n & 0x7f)
+		n >>= 7
+		if n == 0 {
+			buf[i] = b
+			return i + 1
+		}
+		buf[i] = b | 0x80
+	}
+}
+
+func (n Name) Name() string {
+	if n.Bytes == nil {
+		return ""
+	}
+	i, l := n.ReadVarint(1)
+	return unsafeStringFor(n.Data(1+i, "non-empty string"), l)
+}
+
+func (n Name) Tag() string {
+	if !n.HasTag() {
+		return ""
+	}
+	i, l := n.ReadVarint(1)
+	i2, l2 := n.ReadVarint(1 + i + l)
+	return unsafeStringFor(n.Data(1+i+l+i2, "non-empty string"), l2)
+}
+
+func NewName(n, tag string, exported, embedded bool) Name {
+	if len(n) >= 1<<29 {
+		panic("reflect.nameFrom: name too long: " + n[:1024] + "...")
+	}
+	if len(tag) >= 1<<29 {
+		panic("reflect.nameFrom: tag too long: " + tag[:1024] + "...")
+	}
+	var nameLen [10]byte
+	var tagLen [10]byte
+	nameLenLen := writeVarint(nameLen[:], len(n))
+	tagLenLen := writeVarint(tagLen[:], len(tag))
+
+	var bits byte
+	l := 1 + nameLenLen + len(n)
+	if exported {
+		bits |= 1 << 0
+	}
+	if len(tag) > 0 {
+		l += tagLenLen + len(tag)
+		bits |= 1 << 1
+	}
+	if embedded {
+		bits |= 1 << 3
+	}
+
+	b := make([]byte, l)
+	b[0] = bits
+	copy(b[1:], nameLen[:nameLenLen])
+	copy(b[1+nameLenLen:], n)
+	if len(tag) > 0 {
+		tb := b[1+nameLenLen+len(n):]
+		copy(tb, tagLen[:tagLenLen])
+		copy(tb[tagLenLen:], tag)
+	}
+
+	return Name{Bytes: &b[0]}
 }
