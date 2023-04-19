@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "eb85c4ac_8e1b41e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 62263
+      },
+      "writtenOn": "2023-04-19T16:57:22Z",
+      "side": 1,
+      "message": "Hmm, yes you are correct. I changed the commit message and pushed it again, but the CL description is still the same. For some reason, i cannot change the CL description here, it gives me a \"Error 403: modifying commit message not permitted\".\n\nI wanted to change it to:\nPreviously, codesign.Sign was called with Segtext.Fileoff and Segtext.Filelen. However, both variables do not contain the complete __TEXT segment, as it excludes padding and header. Therefore, we now store a reference to the complete segment in mstext when it is created and pass its offset (which should always be 0) and filesize to codesign.Sign.",
+      "parentUuid": "c05fcdc5_cea900d2",
+      "range": {
+        "startLine": 10,
+        "startChar": 64,
+        "endLine": 11,
+        "endChar": 8
+      },
+      "revId": "c02af223e799443c0c669fa09b378abfd4539e94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5d661167_187975e0",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
