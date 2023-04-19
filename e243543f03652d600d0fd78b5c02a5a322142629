@@ -89,6 +89,24 @@
       "message": "Maybe also check for \"wazero\", allowing \"wazero\" and empty (default to wazero) but error out on other values?",
       "revId": "e243543f03652d600d0fd78b5c02a5a322142629",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fac70280_decfcc89",
+        "filename": "misc/wasm/go_wasip1_wasm_exec",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-04-19T03:05:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1216ff57_ec874435",
+      "revId": "e243543f03652d600d0fd78b5c02a5a322142629",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
