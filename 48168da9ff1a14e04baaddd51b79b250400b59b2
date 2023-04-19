@@ -145,6 +145,30 @@
       },
       "revId": "48168da9ff1a14e04baaddd51b79b250400b59b2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d9cdfe9_a77e65a8",
+        "filename": "misc/wasm/go_wasip1_wasm_exec",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-04-19T16:27:16Z",
+      "side": 1,
+      "message": "There were a bunch of tests that could plausibly have failed without it in 1.18, but after the test fixes I made for #51473 they should all pass (unless something has regressed). Just `PWD` ought to suffice.\n\nThat said, I know that `cmd/go` uses `os.Executable` to find `GOROOT` in some cases, and some of the `cmd/go` tests might not require `exec` support. It is plausible that those may break, but perhaps we can fix them a different way.\n\nMaybe remove it and send it through the TryBots (or run `go test std cmd`) to see what breaks?",
+      "parentUuid": "d0b623d1_13e5890f",
+      "range": {
+        "startLine": 8,
+        "startChar": 34,
+        "endLine": 8,
+        "endChar": 50
+      },
+      "revId": "48168da9ff1a14e04baaddd51b79b250400b59b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
