@@ -70,6 +70,24 @@
       "message": "Hmm — could you further improve `Compact` for large elements by checking against `s[i-1]` instead of storing `last` as a separate variable?\n\nSeems like that could potentially give a ~2x speedup when the slice is mostly values with differences in early fields.",
       "revId": "212dd65cf1bced8c622ccbf9439a9dc50b9be147",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5e294d7_37effe80",
+        "filename": "src/slices/slices.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 6785
+      },
+      "writtenOn": "2023-04-19T14:17:15Z",
+      "side": 1,
+      "message": "Sure, I\u0027ll experiment to find what\u0027s the fastest.",
+      "parentUuid": "630c0a99_b27c229b",
+      "revId": "212dd65cf1bced8c622ccbf9439a9dc50b9be147",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
