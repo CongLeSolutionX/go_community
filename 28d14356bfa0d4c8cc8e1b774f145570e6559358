@@ -82,6 +82,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "b379438e_b2d84155",
+        "filename": "src/cmd/compile/internal/types2/assignments.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-04-19T02:09:26Z",
+      "side": 1,
+      "message": "Yes. It just so happens that rhs \u003d\u003d nil if x !\u003d nil, and check.use is fine with the nil case. But I will adjust to match the docstring.",
+      "parentUuid": "ce57573a_a2589057",
+      "range": {
+        "startLine": 238,
+        "startChar": 2,
+        "endLine": 238,
+        "endChar": 16
+      },
+      "revId": "28d14356bfa0d4c8cc8e1b774f145570e6559358",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "6c17d706_8a362e70",
         "filename": "src/cmd/compile/internal/types2/assignments.go",
         "patchSetId": 2
@@ -93,6 +117,30 @@
       "writtenOn": "2023-04-19T01:20:58Z",
       "side": 1,
       "message": "How do you think about the fact that RHS operands are mutated in this function and/or check.assignment?\n\nAn operand is an intermediate value. At this point, while checking an assignment, I would expect that the RHS operand is fully evaluated and immutable.\n\nI think the point is that operands are not fully evaluated until after the assignment is type-checked, as their type may depend on the LHS. But if you have a better way to think about it, I\u0027d be interested.",
+      "range": {
+        "startLine": 240,
+        "startChar": 3,
+        "endLine": 240,
+        "endChar": 19
+      },
+      "revId": "28d14356bfa0d4c8cc8e1b774f145570e6559358",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5092787_002ffa95",
+        "filename": "src/cmd/compile/internal/types2/assignments.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-04-19T02:09:26Z",
+      "side": 1,
+      "message": "It\u0027s not great, I admit. I\u0027ve gone back and forth with this which why it took me so long. In the end I copied what we\u0027ve always been doing in Checker.assignment. We generally use x.mode to signal success or failure, even if this is stretching it a bit.\n\nThere ought to be a cleaner solution (maybe return a boolean?), but the primary objective here was to fix the issue and not introduce more code in the common (correct) path.\n\nWe can revisit at some point.",
+      "parentUuid": "6c17d706_8a362e70",
       "range": {
         "startLine": 240,
         "startChar": 3,
