@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "10fd6cc7_f6dc1f16",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 62263
+      },
+      "writtenOn": "2023-04-19T16:21:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46d821dd_9e2871cc",
+      "range": {
+        "startLine": 10,
+        "startChar": 64,
+        "endLine": 11,
+        "endChar": 8
+      },
+      "revId": "c02af223e799443c0c669fa09b378abfd4539e94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d661167_187975e0",
@@ -61,6 +85,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e278d82e_1f45f2be",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 62263
+      },
+      "writtenOn": "2023-04-19T16:21:34Z",
+      "side": 1,
+      "message": "Thanks! I addressed both comments, I added a mistest variable that now contains the complete segment.",
+      "revId": "c02af223e799443c0c669fa09b378abfd4539e94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "83ce57d0_53d78682",
@@ -74,6 +115,30 @@
       "writtenOn": "2023-04-18T23:11:06Z",
       "side": 1,
       "message": "Maybe rename v to something more descriptive, like \"textSegSize\". Also add a comment mentioning that the text segment starts at offset 0.\n\nAlternatively we could save the text segment created above to a variable, e.g. mstext, and use mstext.fileoffset and mstext.filesize here.",
+      "range": {
+        "startLine": 871,
+        "startChar": 77,
+        "endLine": 871,
+        "endChar": 78
+      },
+      "revId": "c02af223e799443c0c669fa09b378abfd4539e94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "84fa77a0_dff76403",
+        "filename": "src/cmd/link/internal/ld/macho.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 871,
+      "author": {
+        "id": 62263
+      },
+      "writtenOn": "2023-04-19T16:21:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83ce57d0_53d78682",
       "range": {
         "startLine": 871,
         "startChar": 77,
