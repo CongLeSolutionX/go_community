@@ -120,6 +120,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ddcf0d13_f32f8958",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-04-19T17:14:26Z",
+      "side": 1,
+      "message": "Thanks. Yeah, for a CL converted from a PR you\u0027d need to change the PR message. Sorry about the extra complexity.",
+      "parentUuid": "b6d1eba4_745055f9",
+      "range": {
+        "startLine": 10,
+        "startChar": 64,
+        "endLine": 11,
+        "endChar": 8
+      },
+      "revId": "c02af223e799443c0c669fa09b378abfd4539e94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d661167_187975e0",
