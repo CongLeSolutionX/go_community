@@ -278,6 +278,10 @@ var kindNames = []string{
 
 func (t *Type) Kind() Kind { return Kind(t.Kind_ & KindMask) }
 
+func (t *Type) HasName() bool {
+	return t.TFlag&TFlagNamed != 0
+}
+
 func CommonOffset(ptrSize int, twoWordAlignSlices bool) Offset {
 	return InitializedOffset(CommonSize(ptrSize), uint8(ptrSize), uint8(ptrSize), twoWordAlignSlices)
 }
@@ -450,10 +454,63 @@ type SliceType struct {
 	Elem *Type
 }
 
+// funcType represents a function type.
+//
+// A *rtype for each in and out parameter is stored in an array that
+// directly follows the funcType (and possibly its uncommonType). So
+// a function type with one method, one input, and one output is:
+//
+//	struct {
+//		funcType
+//		uncommonType
+//		[2]*rtype    // [0] is in, [1] is out
+//	}
 type FuncType struct {
 	Type
 	InCount  uint16
-	OutCount uint16
+	OutCount uint16 // top bit is set if last input parameter is ...
+}
+
+func (t *FuncType) In(i int) *Type {
+	return t.InSlice()[i]
+}
+
+func (t *FuncType) NumIn() int {
+	return int(t.InCount)
+}
+
+func (t *FuncType) NumOut() int {
+	return int(t.OutCount & (1<<15 - 1))
+}
+
+func (t *FuncType) Out(i int) *Type {
+	return (t.OutSlice()[i])
+}
+
+func (t *FuncType) InSlice() []*Type {
+	uadd := unsafe.Sizeof(*t)
+	if t.TFlag&TFlagUncommon != 0 {
+		uadd += unsafe.Sizeof(UncommonType{})
+	}
+	if t.InCount == 0 {
+		return nil
+	}
+	return (*[1 << 20]*Type)(add(unsafe.Pointer(t), uadd, "t.inCount > 0"))[:t.InCount:t.InCount]
+}
+func (t *FuncType) OutSlice() []*Type {
+	outCount := uint16(t.NumOut())
+	if outCount == 0 {
+		return nil
+	}
+	uadd := unsafe.Sizeof(*t)
+	if t.TFlag&TFlagUncommon != 0 {
+		uadd += unsafe.Sizeof(UncommonType{})
+	}
+	return (*[1 << 20]*Type)(add(unsafe.Pointer(t), uadd, "outCount > 0"))[t.InCount : t.InCount+outCount : t.InCount+outCount]
+}
+
+func (t *FuncType) IsVariadic() bool {
+	return t.OutCount&(1<<15) != 0
 }
 
 type PtrType struct {
