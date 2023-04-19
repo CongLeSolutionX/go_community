@@ -53,6 +53,24 @@
       "message": "Oh yeah this is much better.\n\nOne possible addition: this seems to just be reliant on the assumption that the handshake will ~always take \u003e1ms in order to trigger the timeout. That seems rather likely, but it might be reasonable to add a `VerifyConnection` callback which explicitly blocks for \u003etimeout so that we know the timeout will definitely always happen. Don\u0027t think it\u0027s particularly necessary, but would make it somewhat more concrete.",
       "revId": "a65597251c1710c7ecce57c90e67ca96afcd3f78",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c7dfeb5_c6b66862",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-04-19T21:26:40Z",
+      "side": 1,
+      "message": "My understanding is that `VerifyConnection` is only called after `VerifyPeerCertificate`, but here we should never get to that point because the listener never presents the client with any peer certificate (or, for that matter, any bytes at all).\n\nSo the handshake is guaranteed to always time out: the accepted connections are never closed until after `DialWithDialer` has already returned.\n\nHowever, I suppose it is possible that (due to kernel buffering) the server\u0027s `Accept` call for the first iteration may return just after the `DialWithDialer` call gives up and moves on.\n\nIt\u0027s probably better to open a separate Listener for each iteration, so that we can be sure the Accept call actually corresponds to the DialWithDialer call. Reworked the test to do so; PTAL.",
+      "parentUuid": "3d4bb8e2_64c80727",
+      "revId": "a65597251c1710c7ecce57c90e67ca96afcd3f78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
