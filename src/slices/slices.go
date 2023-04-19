@@ -43,8 +43,8 @@ func EqualFunc[E1, E2 any](s1 []E1, s2 []E2, eq func(E1, E2) bool) bool {
 // Index returns the index of the first occurrence of v in s,
 // or -1 if not present.
 func Index[E comparable](s []E, v E) int {
-	for i, vs := range s {
-		if v == vs {
+	for i := range s {
+		if v == s[i] {
 			return i
 		}
 	}
@@ -54,8 +54,8 @@ func Index[E comparable](s []E, v E) int {
 // IndexFunc returns the first index i satisfying f(s[i]),
 // or -1 if none do.
 func IndexFunc[E any](s []E, f func(E) bool) int {
-	for i, v := range s {
-		if f(v) {
+	for i := range s {
+		if f(s[i]) {
 			return i
 		}
 	}
@@ -179,11 +179,12 @@ func Compact[S ~[]E, E comparable](s S) S {
 	}
 	i := 1
 	last := s[0]
-	for _, v := range s[1:] {
-		if v != last {
-			s[i] = v
+	rest := s[1:]
+	for k := range rest {
+		if rest[k] != last {
+			s[i] = rest[k]
 			i++
-			last = v
+			last = rest[k]
 		}
 	}
 	return s[:i]
