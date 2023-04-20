@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d313c06_523bc2bb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-20T23:59:06Z",
+      "side": 1,
+      "message": "Thanks.  I\u0027m still finding this new code to be confusing.  I\u0027ve written a somewhat different approach in https://go.dev/cl/487196.  Do you see any problems there?",
+      "revId": "317fa4884792ee4d15c5ddb41649e103cac34e4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
