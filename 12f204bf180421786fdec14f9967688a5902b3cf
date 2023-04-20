@@ -53,6 +53,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a2e2fdb_54746365",
+        "filename": "src/runtime/signal_windows_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-04-20T16:09:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76c20568_b8640a46",
+      "revId": "12f204bf180421786fdec14f9967688a5902b3cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5b7f633e_d2e8087e",
@@ -66,6 +84,30 @@
       "writtenOn": "2023-04-20T15:47:34Z",
       "side": 1,
       "message": "(nit) `testenv.Command(t, …)` throughout (in case one of the commands hangs or the overall test times out)",
+      "range": {
+        "startLine": 279,
+        "startChar": 8,
+        "endLine": 279,
+        "endChar": 20
+      },
+      "revId": "12f204bf180421786fdec14f9967688a5902b3cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "79dd6d2a_1999257c",
+        "filename": "src/runtime/signal_windows_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-04-20T16:09:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b7f633e_d2e8087e",
       "range": {
         "startLine": 279,
         "startChar": 8,
@@ -100,6 +142,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf4fe3d4_90881469",
+        "filename": "src/runtime/testdata/testwintls/main.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-04-20T16:09:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6be022f7_5ad5b7d4",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 1
+      },
+      "revId": "12f204bf180421786fdec14f9967688a5902b3cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7d34ca7b_d8c2443f",
@@ -114,6 +180,30 @@
       "side": 1,
       "message": "\u003e Missing copyright statement.\n\u003e Use the following for BSD:\n\u003e Copyright \u003cyear\u003e The \u003cgroup\u003e Authors. All rights reserved.\n\u003e Use of this source code is governed by a BSD-style license that can be\n\u003e found in the LICENSE file.\n\u003e \n\u003e See: https://chromium.googlesource.com/chromium/src/+/master/styleguide/c++/c++.md#file-headers\n\u003e \n\u003e Or the following for MIT: Copyright \u003cyear\u003e The \u003cgroup\u003e Authors\n\u003e \n\u003e Use of this source code is governed by a MIT-style\n\u003e license that can be found in the LICENSE file or at\n\u003e https://opensource.org/licenses/MIT.\n\nPlease fix.",
       "parentUuid": "908649ee_4fd68904",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 1
+      },
+      "revId": "12f204bf180421786fdec14f9967688a5902b3cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "629a0e21_dc50fb8c",
+        "filename": "src/runtime/testdata/testwintls/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-04-20T16:09:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d34ca7b_d8c2443f",
       "range": {
         "startLine": 1,
         "startChar": 0,
