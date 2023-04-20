@@ -347,6 +347,30 @@
       },
       "revId": "48168da9ff1a14e04baaddd51b79b250400b59b2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c02a6a31_66ba872d",
+        "filename": "misc/wasm/go_wasip1_wasm_exec",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-04-20T16:25:03Z",
+      "side": 1,
+      "message": "\u003e Yes, that was the error I was seeing as well, is that a bug or expected? \n\nI\u0027m calling it a bug: the test should skip instead of failing if it is built without cgo and the variables it needs are not set.\n\n(IMO it\u0027s fine if those tests always skip on the `wasip1-wasmtime` builder.)",
+      "parentUuid": "9db18069_7391ff84",
+      "range": {
+        "startLine": 8,
+        "startChar": 34,
+        "endLine": 8,
+        "endChar": 50
+      },
+      "revId": "48168da9ff1a14e04baaddd51b79b250400b59b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
