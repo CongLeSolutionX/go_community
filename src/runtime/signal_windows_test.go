@@ -257,3 +257,42 @@ func TestLibraryCtrlHandler(t *testing.T) {
 		t.Fatalf("Program exited with error: %v\n%s", err, &stderr)
 	}
 }
+
+func TestIssue59213(t *testing.T) {
+	if runtime.GOOS != "windows" {
+		t.Skip("skipping windows only test")
+	}
+	if *flagQuick {
+		t.Skip("-quick")
+	}
+	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveCGO(t)
+	testenv.MustHaveExecPath(t, "gcc")
+
+	t.Parallel()
+
+	tmpdir := t.TempDir()
+	dllfile := filepath.Join(tmpdir, "test.dll")
+	exefile := filepath.Join(tmpdir, "gotest.exe")
+
+	// build go dll
+	cmd := exec.Command(testenv.GoToolPath(t), "build", "-o", dllfile, "-buildmode", "c-shared", "testdata/testwintls/main.go")
+	out, err := testenv.CleanCmdEnv(cmd).CombinedOutput()
+	if err != nil {
+		t.Fatalf("failed to build go library: %s\n%s", err, out)
+	}
+
+	// build c program
+	cmd = exec.Command("gcc", "-o", exefile, "testdata/testwintls/main.c")
+	out, err = testenv.CleanCmdEnv(cmd).CombinedOutput()
+	if err != nil {
+		t.Fatalf("failed to build c exe: %s\n%s", err, out)
+	}
+
+	// run test program
+	cmd = exec.Command(exefile, dllfile, "GoFunc")
+	out, err = testenv.CleanCmdEnv(cmd).CombinedOutput()
+	if err != nil {
+		t.Fatalf("failed: %s\n%s", err, out)
+	}
+}
