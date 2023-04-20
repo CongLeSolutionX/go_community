@@ -282,8 +282,19 @@ func (t *Type) HasName() bool {
 	return t.TFlag&TFlagNamed != 0
 }
 
+func (t *Type) Pointers() bool { return t.PtrBytes != 0 }
+
+// IfaceIndir reports whether t is stored indirectly in an interface value.
+func (t *Type) IfaceIndir() bool {
+	return t.Kind_&KindDirectIface == 0
+}
+
 func CommonOffset(ptrSize int, twoWordAlignSlices bool) Offset {
 	return InitializedOffset(CommonSize(ptrSize), uint8(ptrSize), uint8(ptrSize), twoWordAlignSlices)
+}
+
+func (t *Type) GcSlice(begin, end uintptr) []byte {
+	return (*[1 << 30]byte)(unsafe.Pointer(t.GCData))[begin:end:end]
 }
 
 func CommonSize(ptrSize int) int      { return 4*ptrSize + 8 + 8 } // sizeof(Type) for a given ptrSize
@@ -355,15 +366,43 @@ type ArrayType struct {
 	Len   uintptr
 }
 
+func (t *Type) Len() uintptr {
+	if t.Kind() == Array {
+		return (*ArrayType)(unsafe.Pointer(t)).Len
+	}
+	return 0
+}
+
+func (t *Type) Common() *Type {
+	return t
+}
+
+type ChanDir int
+
+const (
+	RecvDir    ChanDir = 1 << iota         // <-chan
+	SendDir                                // chan<-
+	BothDir            = RecvDir | SendDir // chan
+	InvalidDir ChanDir = 0
+)
+
 type ChanType struct {
 	Type
 	Elem *Type
-	Dir  uintptr
+	Dir  ChanDir
 }
 
 type StructTypeUncommon struct {
 	StructType
 	u UncommonType
+}
+
+func (t *Type) ChanDir() ChanDir {
+	if t.Kind() == Chan {
+		ch := (*ChanType)(unsafe.Pointer(t))
+		return ch.Dir
+	}
+	return 0
 }
 
 func (t *Type) Uncommon() *UncommonType {
@@ -424,6 +463,27 @@ func (t *Type) Uncommon() *UncommonType {
 	}
 }
 
+func (t *Type) Elem() *Type {
+	switch t.Kind() {
+	case Array:
+		tt := (*ArrayType)(unsafe.Pointer(t))
+		return tt.Elem
+	case Chan:
+		tt := (*ChanType)(unsafe.Pointer(t))
+		return tt.Elem
+	case Map:
+		tt := (*MapType)(unsafe.Pointer(t))
+		return tt.Elem
+	case Pointer:
+		tt := (*PtrType)(unsafe.Pointer(t))
+		return tt.Elem
+	case Slice:
+		tt := (*SliceType)(unsafe.Pointer(t))
+		return tt.Elem
+	}
+	return nil
+}
+
 func (t *Type) Size() uintptr { return t.Size_ }
 
 func (t *Type) Align() int { return int(t.Align_) }
@@ -432,9 +492,28 @@ func (t *Type) FieldAlign() int { return int(t.FieldAlign_) }
 
 type InterfaceType struct {
 	Type
-	PkgPath Name
-	Mhdr    []Imethod
+	PkgPath Name      // import path
+	Methods []Imethod // sorted by hash
 }
+
+func (t *Type) ExportedMethods() []Method {
+	ut := t.Uncommon()
+	if ut == nil {
+		return nil
+	}
+	return ut.ExportedMethods()
+}
+
+func (t *Type) NumMethod() int {
+	if t.Kind() == Interface {
+		tt := (*InterfaceType)(unsafe.Pointer(t))
+		return tt.NumMethod()
+	}
+	return len(t.ExportedMethods())
+}
+
+// NumMethod returns the number of interface methods in the type's method set.
+func (t *InterfaceType) NumMethod() int { return len(t.Methods) }
 
 type MapType struct {
 	Type
@@ -444,19 +523,26 @@ type MapType struct {
 	// function for hashing keys (ptr to key, seed) -> hash
 	Hasher     func(unsafe.Pointer, uintptr) uintptr
 	KeySize    uint8  // size of key slot
-	ElemSize   uint8  // size of elem slot
+	ValueSize  uint8  // size of elem slot
 	BucketSize uint16 // size of bucket
 	Flags      uint32
 }
 
+func (t *Type) Key() *Type {
+	if t.Kind() == Map {
+		return (*MapType)(unsafe.Pointer(t)).Key
+	}
+	return nil
+}
+
 type SliceType struct {
 	Type
-	Elem *Type
+	Elem *Type // slice element type
 }
 
 // funcType represents a function type.
 //
-// A *rtype for each in and out parameter is stored in an array that
+// A *Type for each in and out parameter is stored in an array that
 // directly follows the funcType (and possibly its uncommonType). So
 // a function type with one method, one input, and one output is:
 //
@@ -515,13 +601,17 @@ func (t *FuncType) IsVariadic() bool {
 
 type PtrType struct {
 	Type
-	Elem *Type
+	Elem *Type // pointer element (pointed at) type
 }
 
 type StructField struct {
-	Name   Name
-	Typ    *Type
-	Offset uintptr
+	Name   Name    // name is always non-empty
+	Typ    *Type   // type of field
+	Offset uintptr // byte offset of field
+}
+
+func (f *StructField) Embedded() bool {
+	return f.Name.Embedded()
 }
 
 type StructType struct {
