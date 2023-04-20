@@ -371,6 +371,30 @@
       },
       "revId": "48168da9ff1a14e04baaddd51b79b250400b59b2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "623110f7_7c51229a",
+        "filename": "misc/wasm/go_wasip1_wasm_exec",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-04-20T18:01:52Z",
+      "side": 1,
+      "message": "I\u0027ve mailed CL 487015 to fix the `os/user` tests.",
+      "parentUuid": "c02a6a31_66ba872d",
+      "range": {
+        "startLine": 8,
+        "startChar": 34,
+        "endLine": 8,
+        "endChar": 50
+      },
+      "revId": "48168da9ff1a14e04baaddd51b79b250400b59b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
