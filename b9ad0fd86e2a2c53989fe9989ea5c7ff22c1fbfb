@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01cced20_9e24ca3b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 35588
+      },
+      "writtenOn": "2023-04-20T04:13:57Z",
+      "side": 1,
+      "message": "(",
+      "revId": "b9ad0fd86e2a2c53989fe9989ea5c7ff22c1fbfb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a291e4e_cc095374",
+        "filename": "src/cmd/go/internal/cache/cache.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 35588
+      },
+      "writtenOn": "2023-04-20T04:13:57Z",
+      "side": 1,
+      "message": "I can send this change and the Cache-\u003eDiskCache rename separately to minimize diff size if desired.\n\nOTOH if y\u0027all want to go the other way and clean a bunch of this stuff up in the process and change this interface to be more minimal per the TODOs, happy to do that too. I can do this all in 1, 2, or 3 CLs.",
+      "revId": "b9ad0fd86e2a2c53989fe9989ea5c7ff22c1fbfb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
