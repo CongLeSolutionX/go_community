@@ -18,6 +18,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "38bebe76_969f22c7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 35588
+      },
+      "writtenOn": "2023-04-20T04:26:28Z",
+      "side": 1,
+      "message": "Open questions:\n\n* where should the JSON protocol types live? separate package somewhere? in internals like `go list --json` and let people copy/paste? mirrored in two places?\n\n* how documented should this be, and where?\n\nFor both questions, I\u0027d kinda prefer two x/tools packages: one for the types and protocol docs, and then another package for making it easy to write these helper programs, doing all the JSON stdin/stdout mechanics for you and giving you a nice Go interface atop.",
+      "revId": "b9ad0fd86e2a2c53989fe9989ea5c7ff22c1fbfb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8a291e4e_cc095374",
