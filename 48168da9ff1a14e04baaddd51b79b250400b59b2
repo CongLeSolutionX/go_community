@@ -299,6 +299,30 @@
       },
       "revId": "48168da9ff1a14e04baaddd51b79b250400b59b2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9db18069_7391ff84",
+        "filename": "misc/wasm/go_wasip1_wasm_exec",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-04-20T16:21:34Z",
+      "side": 1,
+      "message": "Yes, that was the error I was seeing as well, is that a bug or expected? It seems it would always fail on wasip1 without those environment variables set.",
+      "parentUuid": "8de57b98_6bb9952b",
+      "range": {
+        "startLine": 8,
+        "startChar": 34,
+        "endLine": 8,
+        "endChar": 50
+      },
+      "revId": "48168da9ff1a14e04baaddd51b79b250400b59b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
