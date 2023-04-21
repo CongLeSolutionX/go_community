@@ -26,7 +26,7 @@ var _ = fmt.Print
 
 // Sym encapsulates a global symbol index, used to identify a specific
 // Go symbol. The 0-valued Sym is corresponds to an invalid symbol.
-type Sym int
+type Sym uint32
 
 // Relocs encapsulates the set of relocations on a given symbol; an
 // instance of this type is returned by the Loader Relocs() method.
@@ -363,6 +363,9 @@ func (st *loadState) addSym(name string, ver int, r *oReader, li uint32, kind in
 		panic("addSym called after external symbol is created")
 	}
 	i := Sym(len(l.objSyms))
+	if i == 0 { // overflow
+		panic("too many symbols")
+	}
 	addToGlobal := func() {
 		l.objSyms = append(l.objSyms, objSym{r.objidx, li})
 	}
@@ -484,6 +487,9 @@ func (st *loadState) addSym(name string, ver int, r *oReader, li uint32, kind in
 // name/version.
 func (l *Loader) newExtSym(name string, ver int) Sym {
 	i := Sym(len(l.objSyms))
+	if i == 0 { // overflow
+		panic("too many symbols")
+	}
 	if l.extStart == 0 {
 		l.extStart = i
 	}
