@@ -195,7 +195,7 @@ var allDesc = []Description{
 	},
 	{
 		Name: "/gc/heap/allocs-by-size:bytes",
-		Description: "Distribution of heap allocations by approximate size. " +
+		Description: "Cumulative distribution of heap allocations by approximate size. " +
 			"Note that this does not include tiny objects as defined by " +
 			"/gc/heap/tiny/allocs:objects, only tiny blocks.",
 		Kind:       KindFloat64Histogram,
@@ -217,7 +217,7 @@ var allDesc = []Description{
 	},
 	{
 		Name: "/gc/heap/frees-by-size:bytes",
-		Description: "Distribution of freed heap allocations by approximate size. " +
+		Description: "Cumulative distribution of freed heap allocations by approximate size. " +
 			"Note that this does not include tiny objects as defined by " +
 			"/gc/heap/tiny/allocs:objects, only tiny blocks.",
 		Kind:       KindFloat64Histogram,
@@ -269,7 +269,7 @@ var allDesc = []Description{
 	},
 	{
 		Name:        "/gc/pauses:seconds",
-		Description: "Distribution individual GC-related stop-the-world pause latencies.",
+		Description: "Cumulative distribution individual GC-related stop-the-world pause latencies.",
 		Kind:        KindFloat64Histogram,
 		Cumulative:  true,
 	},
@@ -365,7 +365,7 @@ var allDesc = []Description{
 	},
 	{
 		Name:        "/sched/latencies:seconds",
-		Description: "Distribution of the time goroutines have spent in the scheduler in a runnable state before actually running.",
+		Description: "Cumulative distribution of the time goroutines have spent in the scheduler in a runnable state before actually running.",
 		Kind:        KindFloat64Histogram,
 		Cumulative:  true,
 	},

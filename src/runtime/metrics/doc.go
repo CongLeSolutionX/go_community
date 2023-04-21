@@ -148,7 +148,7 @@ Below is the full list of supported metrics, ordered lexicographically.
 		Count of all completed GC cycles.
 
 	/gc/heap/allocs-by-size:bytes
-		Distribution of heap allocations by approximate size.
+		Cumulative distribution of heap allocations by approximate size.
 		Note that this does not include tiny objects as defined by
 		/gc/heap/tiny/allocs:objects, only tiny blocks.
 
@@ -162,8 +162,8 @@ Below is the full list of supported metrics, ordered lexicographically.
 		defined by /gc/heap/tiny/allocs:objects, only tiny blocks.
 
 	/gc/heap/frees-by-size:bytes
-		Distribution of freed heap allocations by approximate size.
-		Note that this does not include tiny objects as defined by
+		Cumulative distribution of freed heap allocations by approximate
+		size. Note that this does not include tiny objects as defined by
 		/gc/heap/tiny/allocs:objects, only tiny blocks.
 
 	/gc/heap/frees:bytes
@@ -197,8 +197,8 @@ Below is the full list of supported metrics, ordered lexicographically.
 		1, so a value of 0 indicates that it was never enabled.
 
 	/gc/pauses:seconds
-		Distribution individual GC-related stop-the-world pause
-		latencies.
+		Cumulative distribution individual GC-related stop-the-world
+		pause latencies.
 
 	/gc/stack/starting-size:bytes
 		The stack size of new goroutines.
@@ -330,8 +330,8 @@ Below is the full list of supported metrics, ordered lexicographically.
 		Count of live goroutines.
 
 	/sched/latencies:seconds
-		Distribution of the time goroutines have spent in the scheduler
-		in a runnable state before actually running.
+		Cumulative distribution of the time goroutines have spent in the
+		scheduler in a runnable state before actually running.
 
 	/sync/mutex/wait/total:seconds
 		Approximate cumulative time goroutines have spent blocked
