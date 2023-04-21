@@ -616,6 +616,7 @@ type cpuStatsAggregate struct {
 // compute populates the cpuStatsAggregate with values from the runtime.
 func (a *cpuStatsAggregate) compute() {
 	a.cpuStats = work.cpuStats
+	a.cpuStats.accumulate(nanotime(), gcphase == _GCmark)
 }
 
 // nsToSec takes a duration in nanoseconds and converts it to seconds as
