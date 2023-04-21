@@ -95,6 +95,42 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1a75fdf_07cb390f",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2347,
+      "author": {
+        "id": 62403
+      },
+      "writtenOn": "2023-04-21T22:19:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19d10da2_39207a4c",
+      "revId": "149336314fb7d7d649f58cfea4c719950fc4e7c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5a8b8c2_fe65411f",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2347,
+      "author": {
+        "id": 62403
+      },
+      "writtenOn": "2023-04-21T22:19:02Z",
+      "side": 1,
+      "message": "Makes sense, it sounds indeed beneficial to have a more unified way of calling startm, which would simplify the code (and lying about the number of running M\u0027s seems odd). However, the performance impact of requiring the lock to be held for all callers is unclear to me.\n\nI\u0027d err on the side of caution and change current behavior around the observed case only before considering the broader picture in another CL, like you said. I believe the current change does not affect performance nor significantly change execution flow. WDTY?",
+      "parentUuid": "3dc5b668_4767c001",
+      "revId": "149336314fb7d7d649f58cfea4c719950fc4e7c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "76fde66b_7f85f8cb",
@@ -108,6 +144,30 @@
       "writtenOn": "2023-04-21T15:47:57Z",
       "side": 1,
       "message": "The case described here of checkdead seeing \"no running M\u0027s\" while we are executing in startm is only possible when startm is called from sysmon, because the sysmon thread doesn\u0027t count as a \"running M\". Any other thread calling startm is itself a running M, so checkdead can\u0027t report a deadlock.\n\nCould you add that to the end of this comment paragraph: \"This apparent deadlock is possible when startm is called from sysmon, which doesn\u0027t count as a running M.\"",
+      "range": {
+        "startLine": 2398,
+        "startChar": 5,
+        "endLine": 2398,
+        "endChar": 19
+      },
+      "revId": "149336314fb7d7d649f58cfea4c719950fc4e7c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad17e6d8_18d2f6ad",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2398,
+      "author": {
+        "id": 62403
+      },
+      "writtenOn": "2023-04-21T22:19:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76fde66b_7f85f8cb",
       "range": {
         "startLine": 2398,
         "startChar": 5,
