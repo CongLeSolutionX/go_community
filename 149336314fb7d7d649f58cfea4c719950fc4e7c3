@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "feb6e1ed_c1102536",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-04-21T15:47:57Z",
+      "side": 1,
+      "message": "releasing",
+      "range": {
+        "startLine": 10,
+        "startChar": 53,
+        "endLine": 10,
+        "endChar": 63
+      },
+      "revId": "149336314fb7d7d649f58cfea4c719950fc4e7c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19d10da2_39207a4c",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2347,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-04-21T15:47:57Z",
+      "side": 1,
+      "message": "Please note that lockheld indicates whether the caller already holds sched.lock. Also not that the lock may be temporarily dropped, but we will return with the lock held.",
+      "revId": "149336314fb7d7d649f58cfea4c719950fc4e7c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3dc5b668_4767c001",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2347,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-04-21T15:47:57Z",
+      "side": 1,
+      "message": "Per my comment below, generally lockheld must be true when startm is called from sysmon.\n\nOthers don\u0027t have to, but most callers already hold it anyway and drop it just to call startm. I think it would be conceptually cleaner to just require that sched.lock is already held when startm is called.\n\nAs an aside, handoffp is also called from sysmon (via retake) and doesn\u0027t hold the lock. It works around this issue by lying about the number of idle Ms (https://cs.opensource.google/go/go/+/refs/heads/master:src/runtime/proc.go;l\u003d5480;drc\u003d598cf5e6ac1deb87f4931af195dad66f2b3f1672;bpv\u003d1;bpt\u003d1). I think that holding sched.lock would allow us to remove that? (That should be a separate CL though, I need to think about that more)",
+      "revId": "149336314fb7d7d649f58cfea4c719950fc4e7c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76fde66b_7f85f8cb",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2398,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-04-21T15:47:57Z",
+      "side": 1,
+      "message": "The case described here of checkdead seeing \"no running M\u0027s\" while we are executing in startm is only possible when startm is called from sysmon, because the sysmon thread doesn\u0027t count as a \"running M\". Any other thread calling startm is itself a running M, so checkdead can\u0027t report a deadlock.\n\nCould you add that to the end of this comment paragraph: \"This apparent deadlock is possible when startm is called from sysmon, which doesn\u0027t count as a running M.\"",
+      "range": {
+        "startLine": 2398,
+        "startChar": 5,
+        "endLine": 2398,
+        "endChar": 19
+      },
+      "revId": "149336314fb7d7d649f58cfea4c719950fc4e7c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
