@@ -11096,6 +11096,16 @@ func rewriteValuegeneric_OpIsNonNil(v *Value) bool {
 		v.AuxInt = boolToAuxInt(true)
 		return true
 	}
+	// match: (IsNonNil (LocalAddr _ _))
+	// result: (ConstBool [true])
+	for {
+		if v_0.Op != OpLocalAddr {
+			break
+		}
+		v.reset(OpConstBool)
+		v.AuxInt = boolToAuxInt(true)
+		return true
+	}
 	return false
 }
 func rewriteValuegeneric_OpIsSliceInBounds(v *Value) bool {
