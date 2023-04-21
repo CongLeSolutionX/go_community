@@ -16,6 +16,24 @@
       "message": "Thanks.  I\u0027m still finding this new code to be confusing.  I\u0027ve written a somewhat different approach in https://go.dev/cl/487196.  Do you see any problems there?",
       "revId": "317fa4884792ee4d15c5ddb41649e103cac34e4c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f65bbe03_8eb6c48e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 55874
+      },
+      "writtenOn": "2023-04-21T11:24:35Z",
+      "side": 1,
+      "message": "I really like the `cgoAvailable` in your CL, it makes it much more clear and simpler. I think that this CL (mine) would be much simpler to understand if I would have added the `cgoAvailable`and same as you made the netgo/netcgo build tags as constant and then in the initConfVal converted them to the confVal.resolver.\n\nI will give this a try and will see.\n\n\u003e  Do you see any problems there?\n\nI don\u0027t feel like it really simplifies the cgo/go selection. I mean it is still really easy to make an unnoticeable mistake there.",
+      "parentUuid": "3d313c06_523bc2bb",
+      "revId": "317fa4884792ee4d15c5ddb41649e103cac34e4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
