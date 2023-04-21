@@ -106,6 +106,24 @@
       "parentUuid": "a1e9b75f_38744cd2",
       "revId": "48a80df8aef42caf52be6f00e1c66032385f79ce",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4805622_fc05f25c",
+        "filename": "src/runtime/cgo/gcc_linux_ppc64x.S",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-04-21T14:44:47Z",
+      "side": 1,
+      "message": "In the hypothetical case, between threadentry and crosscall_ppc64.",
+      "parentUuid": "95d0e2ef_dfbb3e22",
+      "revId": "48a80df8aef42caf52be6f00e1c66032385f79ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
