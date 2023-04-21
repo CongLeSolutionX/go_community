@@ -108,6 +108,24 @@
       "message": "The current failure is still because the builders haven\u0027t been updated with the latest configuration (it\u0027s not setting the environment variable as configured in https://go-review.googlesource.com/c/build/+/485556). Will give it a few more days and try again.",
       "revId": "2b6328194c2a9a7f5ce89f60b6805fa17c2eb928",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ad88af7_d7b99863",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-04-21T19:05:01Z",
+      "side": 1,
+      "message": "I believe that a coordinator including CL 485556 is now deployed.",
+      "parentUuid": "6f47da8f_11c879b6",
+      "revId": "2b6328194c2a9a7f5ce89f60b6805fa17c2eb928",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
