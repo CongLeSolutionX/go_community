@@ -393,7 +393,12 @@ func exit(code int32) {
 	// Check the validity of g because without a g during
 	// newosproc0.
 	if gp != nil {
+		// We are calling the libc exit which may run atexit functions
+		// and C++ destructors, which may call back into Go code.
+		// Tell the scheduler we are entering system code.
+		entersyscall()
 		syscall1(&libc_exit, uintptr(code))
+		exitsyscall()
 		return
 	}
 	exit1(code)

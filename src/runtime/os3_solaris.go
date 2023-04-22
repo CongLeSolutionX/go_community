@@ -382,7 +382,12 @@ func closefd(fd int32) int32 {
 
 //go:nosplit
 func exit(r int32) {
+	// We are calling the libc exit which may run atexit functions
+	// and C++ destructors, which may call back into Go code.
+	// Tell the scheduler we are entering system code.
+	entersyscall()
 	sysvicall1(&libc_exit, uintptr(r))
+	exitsyscall()
 }
 
 //go:nosplit
