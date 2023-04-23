@@ -489,7 +489,7 @@ TEXT runtime·systemstack(SB), NOSPLIT, $0-8
 	JEQ	noswitch
 
 	CMPQ	AX, m_curg(BX)
-	JNE	bad
+	JNE	badg
 
 	// Switch stacks.
 	// The original frame pointer is stored in BP,
@@ -515,7 +515,14 @@ TEXT runtime·systemstack(SB), NOSPLIT, $0-8
 	MOVQ	m_curg(BX), AX
 	MOVQ	AX, g(CX)
 	MOVQ	(g_sched+gobuf_sp)(AX), SP
-	MOVQ	(g_sched+gobuf_bp)(AX), BP
+	// Verify that the BP restored by our callee agrees with sched.bp, even
+	// if the stack of our g was shrunk in the meantime. This requires
+	// adjusting the bp on the frame of our callee on the g0 stack, see
+	// adjustctxt.
+	MOVQ	(g_sched+gobuf_bp)(AX), R9
+	CMPQ	BP, R9
+	JNE	badbp
+cont:
 	MOVQ	$0, (g_sched+gobuf_sp)(AX)
 	MOVQ	$0, (g_sched+gobuf_bp)(AX)
 	RET
@@ -531,12 +538,17 @@ noswitch:
 	POPQ	BP
 	JMP	DI
 
-bad:
+badg:
 	// Bad: g is not gsignal, not g0, not curg. What is it?
 	MOVQ	$runtime·badsystemstack(SB), AX
 	CALL	AX
 	INT	$3
 
+badbp:
+	// Bad: sched.bp and bp restored by callee disagree
+	MOVQ	$runtime·badsystemstackbp(SB), AX
+	CALL	AX
+	INT	$3
 
 /*
  * support for morestack

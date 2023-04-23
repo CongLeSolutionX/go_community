@@ -761,6 +761,7 @@ func adjustctxt(gp *g, adjinfo *adjustinfo) {
 	}
 	oldfp := gp.sched.bp
 	adjustpointer(adjinfo, unsafe.Pointer(&gp.sched.bp))
+
 	if GOARCH == "arm64" {
 		// On ARM64, the frame pointer is saved one word *below* the SP,
 		// which is not copied or adjusted in any frame. Do it explicitly
@@ -950,6 +951,17 @@ func copystack(gp *g, newsize uintptr) {
 	var u unwinder
 	for u.init(gp, 0); u.valid(); u.next() {
 		adjustframe(&u.frame, &adjinfo)
+	}
+
+	if GOARCH == "amd64" && gp.m != nil && gp.m.g0 != nil {
+		// When a g switches to the g0 stack, the first frame of the g0 stack
+		// contains a frame pointer that points to frame on the g stack that
+		// invoked it. Adjust this pointer after adjusting the frames of the g
+		// stack, but before calling stackfree below. This ensures that there is no
+		// moment in time where an async frame pointer unwinder may unwind into
+		// a stack that has already been freed.
+		// TODO(fg): Do we want this for ARM64 as well?
+		adjustpointer(&adjinfo, unsafe.Pointer(gp.m.g0.sched.sp-goarch.PtrSize*2))
 	}
 
 	// free old stack
