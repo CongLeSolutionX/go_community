@@ -62,7 +62,13 @@ func systemstack(fn func())
 //go:nosplit
 //go:nowritebarrierrec
 func badsystemstack() {
-	writeErrStr("fatal: systemstack called from unexpected goroutine")
+	writeErrStr("fatal: systemstack called from unexpected goroutine\n")
+}
+
+//go:nosplit
+//go:nowritebarrierrec
+func badsystemstackbp() {
+	writeErrStr("fatal: callee of systemstack restored a bp that is not sched.bp\n")
 }
 
 // memclrNoHeapPointers clears n bytes starting at ptr.
