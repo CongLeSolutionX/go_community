@@ -123,6 +123,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f17814fd_cee2f19c",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 683,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-04-24T13:30:57Z",
+      "side": 1,
+      "message": "Yes, I think we should reserve R25 in c-shared mode. My question is whether 1\u003c\u003c25 actually means R25. As R23 is not included in the bitmask, it probably should be 1\u003c\u003c24 ?",
+      "parentUuid": "77407de3_c919e6bb",
+      "range": {
+        "startLine": 683,
+        "startChar": 21,
+        "endLine": 683,
+        "endChar": 28
+      },
+      "revId": "747da88a20c4a3bf175ea15cd0f5249f20b771b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "02d308d0_4b73ac8e",
         "filename": "src/cmd/compile/internal/ssa/regalloc.go",
         "patchSetId": 4
