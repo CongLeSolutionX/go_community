@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "b542d3b5_0c270bad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2023-04-24T15:17:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11aa9a68_74d03368",
+      "range": {
+        "startLine": 9,
+        "startChar": 12,
+        "endLine": 9,
+        "endChar": 22
+      },
+      "revId": "2a8fd5e407f731347ff41fd7528751e3a31bca37",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "b7c4fc23_5373a99b",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 4
@@ -137,6 +161,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "17ede56e_ad2f3f08",
+        "filename": "api/next/28089.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2023-04-24T15:17:14Z",
+      "side": 1,
+      "message": "I had the same thought myself, but decided against that API because I expect the vast majority of clients not to need the middle portion of the comment. The few that do can easily fork IsGenerated without significant risk as its behavior is totally governed by a published spec.\n\nNonetheless I\u0027ve structured it internally in this way.",
+      "parentUuid": "ef710462_634a0f09",
+      "range": {
+        "startLine": 1,
+        "startChar": 36,
+        "endLine": 1,
+        "endChar": 40
+      },
+      "revId": "2a8fd5e407f731347ff41fd7528751e3a31bca37",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "19dfefd3_1984bd6c",
@@ -150,6 +198,30 @@
       "writtenOn": "2023-04-23T23:02:02Z",
       "side": 1,
       "message": "This can be shortened slightly and reduce redirects by 1: s/golang.org/go.dev/.",
+      "range": {
+        "startLine": 1079,
+        "startChar": 14,
+        "endLine": 1079,
+        "endChar": 24
+      },
+      "revId": "2a8fd5e407f731347ff41fd7528751e3a31bca37",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5c29dc1_efd70a2b",
+        "filename": "src/go/ast/ast.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1079,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2023-04-24T15:17:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19dfefd3_1984bd6c",
       "range": {
         "startLine": 1079,
         "startChar": 14,
@@ -206,6 +278,54 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b15803d3_29639c8e",
+        "filename": "src/go/ast/ast.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1084,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2023-04-24T15:17:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a0372f8b_bae8dffe",
+      "range": {
+        "startLine": 1084,
+        "startChar": 53,
+        "endLine": 1084,
+        "endChar": 65
+      },
+      "revId": "2a8fd5e407f731347ff41fd7528751e3a31bca37",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5791055b_0ad830c0",
+        "filename": "src/go/ast/ast.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1084,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2023-04-24T15:17:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5dd3a957_b1886965",
+      "range": {
+        "startLine": 1084,
+        "startChar": 45,
+        "endLine": 1084,
+        "endChar": 46
+      },
+      "revId": "2a8fd5e407f731347ff41fd7528751e3a31bca37",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4743bda4_8de38804",
@@ -241,6 +361,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aadc95d4_43be14b5",
+        "filename": "src/go/ast/ast.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1093,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2023-04-24T15:17:14Z",
+      "side": 1,
+      "message": "Indeed! I replaced the Has calls with Cut, and added a test.",
+      "parentUuid": "48cecdbd_31f38291",
+      "revId": "2a8fd5e407f731347ff41fd7528751e3a31bca37",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f66d59da_2a61ea5c",
@@ -258,6 +396,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9531a5d8_a71bb437",
+        "filename": "src/go/ast/issues_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2023-04-24T15:17:14Z",
+      "side": 1,
+      "message": "Thanks Dmitri for such a thorough review.\n\nFor (1) I\u0027ve fixed it and added a test; by a stroke of good luck, the parser doesn\u0027t remove \"//\" from the comment text so it\u0027s sufficient to just iterate over the lines.\n\nFor (2) I already have a test case that asserts a positive result, which is strictly incorrect because of the indent, but it\u0027s impossible to compute the correct answer without more information than the proposed IsGenerated signature provides. I propose we sweep this under the rug and never speak of it again.\n\n\nFor (3) I have fixed the bug and added a test.",
+      "parentUuid": "f66d59da_2a61ea5c",
+      "revId": "2a8fd5e407f731347ff41fd7528751e3a31bca37",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "15cd5977_f66f9eb2",
@@ -271,6 +427,30 @@
       "writtenOn": "2023-04-24T14:15:34Z",
       "side": 1,
       "message": "Nit: no need for this to be a multi-line call.",
+      "range": {
+        "startLine": 109,
+        "startChar": 5,
+        "endLine": 110,
+        "endChar": 21
+      },
+      "revId": "2a8fd5e407f731347ff41fd7528751e3a31bca37",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e622e441_4aa8179f",
+        "filename": "src/go/ast/issues_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2023-04-24T15:17:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15cd5977_f66f9eb2",
       "range": {
         "startLine": 109,
         "startChar": 5,
