@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "00f3ccbd_aa080dfc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 10685
+      },
+      "writtenOn": "2023-04-24T08:56:58Z",
+      "side": 1,
+      "message": "This patch is currently implemented in an optimistic way (go doc formatting bugs #54033 #59728 being fixed).",
+      "revId": "600f933760be0d674661b607a59d135fc0c484d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
