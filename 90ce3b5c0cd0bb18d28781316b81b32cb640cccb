@@ -59,6 +59,30 @@
       },
       "revId": "90ce3b5c0cd0bb18d28781316b81b32cb640cccb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9883254b_7eab0d8a",
+        "filename": "src/syscall/mkasm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-04-24T16:40:40Z",
+      "side": 1,
+      "message": "If it is calling into another shared library, no. It almost always needs a frame to save and restore the current R2/TOC. It\u0027s a more generic PPC64 restriction.\n\nIt might be prudent to also stick a hardware NOP (`OR $0, R0`) for the linker since this will almost always need to be rewritten to reload TOC.",
+      "parentUuid": "282ce363_8d65a690",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 59,
+        "endChar": 32
+      },
+      "revId": "90ce3b5c0cd0bb18d28781316b81b32cb640cccb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
