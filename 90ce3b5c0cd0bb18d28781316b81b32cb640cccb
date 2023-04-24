@@ -83,6 +83,30 @@
       },
       "revId": "90ce3b5c0cd0bb18d28781316b81b32cb640cccb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0efd3947_43eba519",
+        "filename": "src/syscall/mkasm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-04-24T21:43:03Z",
+      "side": 1,
+      "message": "You can ignore my comment about the NOP. The Go asm will insert only when needed.",
+      "parentUuid": "9883254b_7eab0d8a",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 59,
+        "endChar": 32
+      },
+      "revId": "90ce3b5c0cd0bb18d28781316b81b32cb640cccb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
