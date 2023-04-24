@@ -112,7 +112,6 @@ pkg log/slog, method (Level) Level() Level #56345
 pkg log/slog, method (Level) MarshalJSON() ([]uint8, error) #56345
 pkg log/slog, method (Level) MarshalText() ([]uint8, error) #56345
 pkg log/slog, method (Level) String() string #56345
-pkg log/slog, method (Record) Attrs(func(Attr)) #56345
 pkg log/slog, method (Record) Clone() Record #56345
 pkg log/slog, method (Record) NumAttrs() int #56345
 pkg log/slog, method (Value) Any() interface{} #56345
