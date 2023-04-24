@@ -70,6 +70,24 @@
       "message": "Do we only ever grow l.objSyms by 1 at a time? Maybe more robust to do something like int(i) !\u003d len(l.objSyms)? (Same below.)",
       "revId": "e842e723487ecc47d089c2682934bc1a008566bf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a054a148_782d7569",
+        "filename": "src/cmd/link/internal/loader/loader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-04-24T14:06:06Z",
+      "side": 1,
+      "message": "I think currently we only add one symbol a time. But, done.",
+      "parentUuid": "9e0ed424_a28bf9a5",
+      "revId": "e842e723487ecc47d089c2682934bc1a008566bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
