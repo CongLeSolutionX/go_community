@@ -102,37 +102,45 @@ func genpltstub(ctxt *ld.Link, ldr *loader.Loader, r loader.Reloc, s loader.Sym)
 	// resolver
 	addpltsym(ctxt, ldr, r.Sym())
 
-	// Generate call stub. Important to note that we're looking
-	// up the stub using the same version as the parent symbol (s),
-	// needed so that symtoc() will select the right .TOC. symbol
-	// when processing the stub.  In older versions of the linker
-	// this was done by setting stub.Outer to the parent, but
-	// if the stub has the right version initially this is not needed.
-	n := fmt.Sprintf("%s.%s", ldr.SymName(s), ldr.SymName(r.Sym()))
-	stub := ldr.CreateSymForUpdate(n, ldr.SymVersion(s))
+	stubType := 0
+	stubSfx := ""
+
+	if ldr.IsExternal(s) || ldr.AttrShared(s) {
+		stubType = 1 // Caller has set up R2 and expects PLT call stub to save TOC.
+	} else {
+		stubSfx = ".nopic"
+		stubType = 3 // Caller has not set up R2 to hold the TOC pointer.
+	}
+	n := fmt.Sprintf("%s@plt%s", ldr.SymName(r.Sym()), stubSfx)
+
+	// When internal linking, all text symbols share the same TOC pointer.
+	stub := ldr.CreateSymForUpdate(n, 0)
 	firstUse = stub.Size() == 0
 	if firstUse {
-		gencallstub(ctxt, ldr, 1, stub, r.Sym())
+		gencallstub(ctxt, ldr, stubType, stub, r.Sym())
 	}
 
 	// Update the relocation to use the call stub
 	r.SetSym(stub.Sym())
 
-	// Make the symbol writeable so we can fixup toc.
-	su := ldr.MakeSymbolUpdater(s)
-	su.MakeWritable()
-	p := su.Data()
+	// Rewrite the NOP following the call for a type 1 PLT call stub.
+	if stubType == 1 {
+		// Make the symbol writeable so we can update relocation and fixup toc.
+		su := ldr.MakeSymbolUpdater(s)
+		su.MakeWritable()
+		p := su.Data()
 
-	// Check for toc restore slot (a nop), and replace with toc restore.
-	var nop uint32
-	if len(p) >= int(r.Off()+8) {
-		nop = ctxt.Arch.ByteOrder.Uint32(p[r.Off()+4:])
+		// Check for toc restore slot (a nop), and replace with toc restore.
+		var nop uint32
+		if len(p) >= int(r.Off()+8) {
+			nop = ctxt.Arch.ByteOrder.Uint32(p[r.Off()+4:])
+		}
+		if nop != 0x60000000 {
+			ldr.Errorf(s, "Symbol %s is missing toc restoration slot at offset %d", ldr.SymName(s), r.Off()+4)
+		}
+		const o1 = 0xe8410018 // ld r2,24(r1)
+		ctxt.Arch.ByteOrder.PutUint32(p[r.Off()+4:], o1)
 	}
-	if nop != 0x60000000 {
-		ldr.Errorf(s, "Symbol %s is missing toc restoration slot at offset %d", ldr.SymName(s), r.Off()+4)
-	}
-	const o1 = 0xe8410018 // ld r2,24(r1)
-	ctxt.Arch.ByteOrder.PutUint32(p[r.Off()+4:], o1)
 
 	return stub.Sym(), firstUse
 }
@@ -340,44 +348,38 @@ func gentext(ctxt *ld.Link, ldr *loader.Loader) {
 	}
 }
 
-// Construct a call stub in stub that calls symbol targ via its PLT
-// entry.
-func gencallstub(ctxt *ld.Link, ldr *loader.Loader, abicase int, stub *loader.SymbolBuilder, targ loader.Sym) {
-	if abicase != 1 {
-		// If we see R_PPC64_TOCSAVE or R_PPC64_REL24_NOTOC
-		// relocations, we'll need to implement cases 2 and 3.
-		log.Fatalf("gencallstub only implements case 1 calls")
-	}
-
+// Create a calling stub. The stubType maps directly to the properties listed in the ELFv2 1.5
+// section 4.2.5.3.
+//
+// There are 3 cases today (as paraphrased from the ELFv2 document):
+//
+//  1. R2 holds the TOC pointer on entry. The call stub must save R2 into the ELFv2 TOC stack save slot.
+//
+//  2. R2 holds the TOC pointer on entry. The caller has already saved R2 to the TOC stack save slot.
+//
+//  3. R2 does not hold the TOC pointer on entry. The caller has no expectations of R2.
+//
+// Go only needs case 1 and 3 today. Go symbols which have AttrShare set could use case 2, but case 1 always
+// works in those cases too.
+func gencallstub(ctxt *ld.Link, ldr *loader.Loader, stubType int, stub *loader.SymbolBuilder, targ loader.Sym) {
 	plt := ctxt.PLT
-
 	stub.SetType(sym.STEXT)
 
-	// Save TOC pointer in TOC save slot
-	stub.AddUint32(ctxt.Arch, 0xf8410018) // std r2,24(r1)
-
-	// Load the function pointer from the PLT.
-	rel, ri1 := stub.AddRel(objabi.R_POWER_TOC)
-	rel.SetOff(int32(stub.Size()))
-	rel.SetSiz(2)
-	rel.SetAdd(int64(ldr.SymPlt(targ)))
-	rel.SetSym(plt)
-	if ctxt.Arch.ByteOrder == binary.BigEndian {
-		rel.SetOff(rel.Off() + int32(rel.Siz()))
+	switch stubType {
+	case 1:
+		// Save TOC, then load targ address from PLT using TOC.
+		stub.AddUint32(ctxt.Arch, 0xf8410018) // std r2,24(r1)
+		stub.AddSymRef(ctxt.Arch, plt, int64(ldr.SymPlt(targ)), objabi.R_ADDRPOWER_TOCREL_DS, 8)
+		stub.SetUint32(ctxt.Arch, stub.Size()-8, 0x3d820000) // addis r12,r2,targ@plt@toc@ha
+		stub.SetUint32(ctxt.Arch, stub.Size()-4, 0xe98c0000) // ld r12,targ@plt@toc@l(r12)
+	case 3:
+		// Load targ address from PLT. This is position dependent.
+		stub.AddSymRef(ctxt.Arch, plt, int64(ldr.SymPlt(targ)), objabi.R_ADDRPOWER_DS, 8)
+		stub.SetUint32(ctxt.Arch, stub.Size()-8, 0x3d800000) // lis r12,targ@plt@ha
+		stub.SetUint32(ctxt.Arch, stub.Size()-4, 0xe98c0000) // ld r12,targ@plt@l(r12)
+	default:
+		log.Fatalf("gencallstub does not support ELFv2 ABI property %d", stubType)
 	}
-	ldr.SetRelocVariant(stub.Sym(), int(ri1), sym.RV_POWER_HA)
-	stub.AddUint32(ctxt.Arch, 0x3d820000) // addis r12,r2,targ@plt@toc@ha
-
-	rel2, ri2 := stub.AddRel(objabi.R_POWER_TOC)
-	rel2.SetOff(int32(stub.Size()))
-	rel2.SetSiz(2)
-	rel2.SetAdd(int64(ldr.SymPlt(targ)))
-	rel2.SetSym(plt)
-	if ctxt.Arch.ByteOrder == binary.BigEndian {
-		rel2.SetOff(rel2.Off() + int32(rel2.Siz()))
-	}
-	ldr.SetRelocVariant(stub.Sym(), int(ri2), sym.RV_POWER_LO)
-	stub.AddUint32(ctxt.Arch, 0xe98c0000) // ld r12,targ@plt@toc@l(r12)
 
 	// Jump to the loaded pointer
 	stub.AddUint32(ctxt.Arch, 0x7d8903a6) // mtctr r12
