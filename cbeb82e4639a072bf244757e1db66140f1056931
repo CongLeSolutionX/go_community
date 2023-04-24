@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed904120_778cff76",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-04-24T21:37:55Z",
+      "side": 1,
+      "message": "I think CL 488316 should remove the need for openbsd specific TOC workarounds.",
+      "revId": "cbeb82e4639a072bf244757e1db66140f1056931",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
