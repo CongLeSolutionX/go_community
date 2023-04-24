@@ -56,16 +56,16 @@ func TestRuntimeTypesPresent(t *testing.T) {
 	}
 
 	want := map[string]bool{
-		"runtime._type": true,
-		// "runtime.arraytype":     true,
-		"runtime.chantype":      true,
-		"runtime.functype":      true,
-		"runtime.maptype":       true,
-		"runtime.ptrtype":       true,
-		"runtime.slicetype":     true,
-		"runtime.structtype":    true,
-		"runtime.interfacetype": true,
-		"runtime.itab":          true,
+		"internal/abi.Type":      true,
+		"internal/abi.ArrayType": true,
+		"runtime.chantype":       true,
+		"runtime.functype":       true,
+		"runtime.maptype":        true,
+		"runtime.ptrtype":        true,
+		"runtime.slicetype":      true,
+		"runtime.structtype":     true,
+		"runtime.interfacetype":  true,
+		"runtime.itab":           true,
 	}
 
 	found := findTypes(t, dwarf, want)
