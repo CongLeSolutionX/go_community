@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce3542f9_a6aeaff0",
+        "filename": "src/syscall/zsyscall_openbsd_ppc64.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1390,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-04-24T16:32:06Z",
+      "side": 1,
+      "message": "I ran into issues on bootstrap here. This is a private function on the other bsd targets. I was able to build a bootstrap after changing this.",
+      "range": {
+        "startLine": 1390,
+        "startChar": 5,
+        "endLine": 1390,
+        "endChar": 14
+      },
+      "revId": "3c5259290a494847c40107964fec9981c94b875a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
