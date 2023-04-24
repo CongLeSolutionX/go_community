@@ -97,6 +97,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "77407de3_c919e6bb",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 683,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2023-04-24T12:55:10Z",
+      "side": 1,
+      "message": "Yes, it is. Per the comment in CL 348733 around code \"case 65\", we decided to reserve R25 register only for c-shared. R23 should be reserved for every build mode.",
+      "parentUuid": "4742d339_628800b7",
+      "range": {
+        "startLine": 683,
+        "startChar": 21,
+        "endLine": 683,
+        "endChar": 28
+      },
+      "revId": "747da88a20c4a3bf175ea15cd0f5249f20b771b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "02d308d0_4b73ac8e",
@@ -110,6 +134,24 @@
       "writtenOn": "2023-04-21T22:44:27Z",
       "side": 1,
       "message": "This looks like it is going to break every architecture other than mips64.",
+      "revId": "747da88a20c4a3bf175ea15cd0f5249f20b771b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f08e033b_601bb245",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 685,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2023-04-24T12:55:10Z",
+      "side": 1,
+      "message": "Yes, I fix the issue. This allocatable config is only for mips64x, other architectures should do nothing for now.",
+      "parentUuid": "02d308d0_4b73ac8e",
       "revId": "747da88a20c4a3bf175ea15cd0f5249f20b771b3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
