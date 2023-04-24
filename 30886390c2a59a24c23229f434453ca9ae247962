@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f568f62_1ee6c091",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-24T05:17:00Z",
+      "side": 1,
+      "message": "This caused failures on Solaris and AIX, already fixed by CL 487635.\n\nThis caused failures on the staticlockranking builder; CL 487955 which fixes this is currently awaiting review.",
+      "revId": "30886390c2a59a24c23229f434453ca9ae247962",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
