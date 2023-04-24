@@ -89,6 +89,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b8c62e9_777de813",
+        "filename": "misc/cgo/testsanitizers/testdata/tsan14.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-04-24T20:16:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7416ac2a_54f3261e",
+      "revId": "7aed58d7ee94df672ca0cd8e63e331d9b3dbca09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3e9e39b0_59e29795",
@@ -102,6 +120,30 @@
       "writtenOn": "2023-04-24T19:02:56Z",
       "side": 1,
       "message": "I think the test runner already pass these flags, so it isn\u0027t necessary here.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 31
+      },
+      "revId": "7aed58d7ee94df672ca0cd8e63e331d9b3dbca09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b95e1c8_95ee3e56",
+        "filename": "misc/cgo/testsanitizers/testdata/tsan14.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-04-24T20:16:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e9e39b0_59e29795",
       "range": {
         "startLine": 11,
         "startChar": 0,
