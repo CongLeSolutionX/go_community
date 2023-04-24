@@ -30,18 +30,18 @@ func (*TypeAssertionError) RuntimeError() {}
 func (e *TypeAssertionError) Error() string {
 	inter := "interface"
 	if e._interface != nil {
-		inter = e._interface.string()
+		inter = toType(e._interface).string()
 	}
-	as := e.asserted.string()
+	as := toType(e.asserted).string()
 	if e.concrete == nil {
 		return "interface conversion: " + inter + " is nil, not " + as
 	}
-	cs := e.concrete.string()
+	cs := toType(e.concrete).string()
 	if e.missingMethod == "" {
 		msg := "interface conversion: " + inter + " is " + cs + ", not " + as
 		if cs == as {
 			// provide slightly clearer error message
-			if e.concrete.pkgpath() != e.asserted.pkgpath() {
+			if toType(e.concrete).pkgpath() != toType(e.asserted).pkgpath() {
 				msg += " (types from different packages)"
 			} else {
 				msg += " (types from different scopes)"
@@ -256,7 +256,7 @@ func printany(i any) {
 
 func printanycustomtype(i any) {
 	eface := efaceOf(&i)
-	typestring := eface._type.string()
+	typestring := toType(eface._type).string()
 
 	switch eface._type.Kind_ {
 	case kindString:
