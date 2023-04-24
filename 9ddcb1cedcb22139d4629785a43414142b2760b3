@@ -70,6 +70,24 @@
       "message": "What can we do with this information?  There\u0027s no reason to add something to internal/cpu that isn\u0027t used.",
       "revId": "9ddcb1cedcb22139d4629785a43414142b2760b3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4b3502c_6b92d5e7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2023-04-24T03:13:24Z",
+      "side": 1,
+      "message": "It‘s for the memmove performance，the memmove implementation adds code to detect Neoverse N1 and V1 to use aligned loads, please see the code: https://go.googlesource.com/go/+/refs/heads/master/src/runtime/memmove_arm64.s#132.\n\nAll the current Neoverse cores prefer aligned loads, and the section 4.3 of the Neoverse V2 core software optimization guide mentions `Align loads on 16B boundary wherever possible`. For details, please refer to: https://developer.arm.com/documentation/PJDOC-466751330-593177/r0p2/?lang\u003den.\n\nThank you.",
+      "parentUuid": "16260acb_c8967b86",
+      "revId": "9ddcb1cedcb22139d4629785a43414142b2760b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
