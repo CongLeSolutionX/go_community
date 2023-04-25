@@ -16,6 +16,23 @@
       "message": "IMO, we can add a mini unit test to reproduce the issue. Thanks!",
       "revId": "ad5e790934c113d115ef3bf6be38104a9203cb6e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9cfc7e72_f5a1af5a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 25
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-04-25T13:00:02Z",
+      "side": 1,
+      "message": "As the kernel bug is already fixed, do we still want this?",
+      "revId": "ad5e790934c113d115ef3bf6be38104a9203cb6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
