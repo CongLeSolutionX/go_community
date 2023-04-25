@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80be43a6_db0e5372",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2023-04-25T20:33:00Z",
+      "side": 1,
+      "message": "RELNOTES\u003dyes\n\n🎉 🎉 🎉 🎉 🎉 🎉",
+      "revId": "b46e44a399045d0177dd063dc192168f0b5b3f55",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
