@@ -289,6 +289,11 @@ func (t *Type) IfaceIndir() bool {
 	return t.Kind_&KindDirectIface == 0
 }
 
+// isDirectIface reports whether t is stored directly in an interface value.
+func (t *Type) IsDirectIface() bool {
+	return t.Kind_&KindDirectIface != 0
+}
+
 func CommonOffset(ptrSize int, twoWordAlignSlices bool) Offset {
 	return InitializedOffset(CommonSize(ptrSize), uint8(ptrSize), uint8(ptrSize), twoWordAlignSlices)
 }
@@ -331,24 +336,24 @@ func (t *UncommonType) Methods() []Method {
 	if t.Mcount == 0 {
 		return nil
 	}
-	return (*[1 << 16]Method)(add(unsafe.Pointer(t), uintptr(t.Moff), "t.mcount > 0"))[:t.Mcount:t.Mcount]
+	return (*[1 << 16]Method)(addChecked(unsafe.Pointer(t), uintptr(t.Moff), "t.mcount > 0"))[:t.Mcount:t.Mcount]
 }
 
 func (t *UncommonType) ExportedMethods() []Method {
 	if t.Xcount == 0 {
 		return nil
 	}
-	return (*[1 << 16]Method)(add(unsafe.Pointer(t), uintptr(t.Moff), "t.xcount > 0"))[:t.Xcount:t.Xcount]
+	return (*[1 << 16]Method)(addChecked(unsafe.Pointer(t), uintptr(t.Moff), "t.xcount > 0"))[:t.Xcount:t.Xcount]
 }
 
-// add returns p+x.
+// addChecked returns p+x.
 //
 // The whySafe string is ignored, so that the function still inlines
 // as efficiently as p+x, but all call sites should use the string to
 // record why the addition is safe, which is to say why the addition
 // does not cause x to advance to the very end of p's allocation
 // and therefore point incorrectly at the next block in memory.
-func add(p unsafe.Pointer, x uintptr, whySafe string) unsafe.Pointer {
+func addChecked(p unsafe.Pointer, x uintptr, whySafe string) unsafe.Pointer {
 	return unsafe.Pointer(uintptr(p) + x)
 }
 
@@ -528,6 +533,24 @@ type MapType struct {
 	Flags      uint32
 }
 
+// Note: flag values must match those used in the TMAP case
+// in ../cmd/compile/internal/reflectdata/reflect.go:writeType.
+func (mt *MapType) IndirectKey() bool { // store ptr to key instead of key itself
+	return mt.Flags&1 != 0
+}
+func (mt *MapType) IndirectElem() bool { // store ptr to elem instead of elem itself
+	return mt.Flags&2 != 0
+}
+func (mt *MapType) ReflexiveKey() bool { // true if k==k for all keys
+	return mt.Flags&4 != 0
+}
+func (mt *MapType) NeedKeyUpdate() bool { // true if we need to update key on an overwrite
+	return mt.Flags&8 != 0
+}
+func (mt *MapType) HashMightPanic() bool { // true if hash function might panic
+	return mt.Flags&16 != 0
+}
+
 func (t *Type) Key() *Type {
 	if t.Kind() == Map {
 		return (*MapType)(unsafe.Pointer(t)).Key
@@ -581,7 +604,7 @@ func (t *FuncType) InSlice() []*Type {
 	if t.InCount == 0 {
 		return nil
 	}
-	return (*[1 << 20]*Type)(add(unsafe.Pointer(t), uadd, "t.inCount > 0"))[:t.InCount:t.InCount]
+	return (*[1 << 20]*Type)(addChecked(unsafe.Pointer(t), uadd, "t.inCount > 0"))[:t.InCount:t.InCount]
 }
 func (t *FuncType) OutSlice() []*Type {
 	outCount := uint16(t.NumOut())
@@ -592,7 +615,7 @@ func (t *FuncType) OutSlice() []*Type {
 	if t.TFlag&TFlagUncommon != 0 {
 		uadd += unsafe.Sizeof(UncommonType{})
 	}
-	return (*[1 << 20]*Type)(add(unsafe.Pointer(t), uadd, "outCount > 0"))[t.InCount : t.InCount+outCount : t.InCount+outCount]
+	return (*[1 << 20]*Type)(addChecked(unsafe.Pointer(t), uadd, "outCount > 0"))[t.InCount : t.InCount+outCount : t.InCount+outCount]
 }
 
 func (t *FuncType) IsVariadic() bool {
@@ -611,7 +634,7 @@ type StructField struct {
 }
 
 func (f *StructField) Embedded() bool {
-	return f.Name.Embedded()
+	return f.Name.IsEmbedded()
 }
 
 type StructType struct {
@@ -652,8 +675,12 @@ type Name struct {
 	Bytes *byte
 }
 
-func (n Name) Data(off int, whySafe string) *byte {
-	return (*byte)(add(unsafe.Pointer(n.Bytes), uintptr(off), whySafe))
+func (n Name) DataChecked(off int, whySafe string) *byte {
+	return (*byte)(addChecked(unsafe.Pointer(n.Bytes), uintptr(off), whySafe))
+}
+
+func (n Name) Data(off int) *byte {
+	return (*byte)(addChecked(unsafe.Pointer(n.Bytes), uintptr(off), "the runtime doesn't need to give you a reason"))
 }
 
 func (n Name) IsExported() bool {
@@ -664,7 +691,7 @@ func (n Name) HasTag() bool {
 	return (*n.Bytes)&(1<<1) != 0
 }
 
-func (n Name) Embedded() bool {
+func (n Name) IsEmbedded() bool {
 	return (*n.Bytes)&(1<<3) != 0
 }
 
@@ -673,12 +700,20 @@ func (n Name) Embedded() bool {
 func (n Name) ReadVarint(off int) (int, int) {
 	v := 0
 	for i := 0; ; i++ {
-		x := *n.Data(off+i, "read varint")
+		x := *n.DataChecked(off+i, "read varint")
 		v += int(x&0x7f) << (7 * i)
 		if x&0x80 == 0 {
 			return i + 1, v
 		}
 	}
+}
+
+func (n Name) IsBlank() bool {
+	if n.Bytes == nil {
+		return false
+	}
+	_, l := n.ReadVarint(1)
+	return l == 1 && *n.Data(2) == '_'
 }
 
 // writeVarint writes n to buf in varint form. Returns the
@@ -701,7 +736,7 @@ func (n Name) Name() string {
 		return ""
 	}
 	i, l := n.ReadVarint(1)
-	return unsafeStringFor(n.Data(1+i, "non-empty string"), l)
+	return unsafeStringFor(n.DataChecked(1+i, "non-empty string"), l)
 }
 
 func (n Name) Tag() string {
@@ -710,7 +745,7 @@ func (n Name) Tag() string {
 	}
 	i, l := n.ReadVarint(1)
 	i2, l2 := n.ReadVarint(1 + i + l)
-	return unsafeStringFor(n.Data(1+i+l+i2, "non-empty string"), l2)
+	return unsafeStringFor(n.DataChecked(1+i+l+i2, "non-empty string"), l2)
 }
 
 func NewName(n, tag string, exported, embedded bool) Name {

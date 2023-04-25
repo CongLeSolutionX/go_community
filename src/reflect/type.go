@@ -368,7 +368,7 @@ type structType struct {
 }
 
 func pkgPath(n abi.Name) string {
-	if n.Bytes == nil || *n.Data(0, "name flag field")&(1<<2) == 0 {
+	if n.Bytes == nil || *n.DataChecked(0, "name flag field")&(1<<2) == 0 {
 		return ""
 	}
 	i, l := n.ReadVarint(1)
@@ -380,7 +380,7 @@ func pkgPath(n abi.Name) string {
 	var nameOff int32
 	// Note that this field may not be aligned in memory,
 	// so we cannot use a direct int32 assignment here.
-	copy((*[4]byte)(unsafe.Pointer(&nameOff))[:], (*[4]byte)(unsafe.Pointer(n.Data(off, "name offset field")))[:])
+	copy((*[4]byte)(unsafe.Pointer(&nameOff))[:], (*[4]byte)(unsafe.Pointer(n.DataChecked(off, "name offset field")))[:])
 	pkgPathName := abi.Name{Bytes: (*byte)(resolveTypeOff(unsafe.Pointer(n.Bytes), nameOff))}
 	return pkgPathName.Name()
 }

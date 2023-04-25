@@ -123,7 +123,7 @@ func FirstMethodNameBytes(t Type) *byte {
 	}
 	m := ut.Methods()[0]
 	mname := t.(rtype).nameOff(m.Name)
-	if *mname.Data(0, "name flag field")&(1<<2) == 0 {
+	if *mname.DataChecked(0, "name flag field")&(1<<2) == 0 {
 		panic("method name does not have pkgPath *string")
 	}
 	return mname.Bytes
