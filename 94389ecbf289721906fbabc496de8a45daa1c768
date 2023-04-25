@@ -40,6 +40,29 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "d47f6f5d_d17b08f5",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-04-25T15:16:24Z",
+      "side": 1,
+      "message": "Cherry, if ldr.AttrExternal(s) initially returns true, then symbol s is modified, should ldr.AttrExternal(s) continue to return true?\n\nSee the previous revision for more context. It returned false for external object symbols when setting up stubs for external cgo objects.",
+      "range": {
+        "startLine": 108,
+        "startChar": 8,
+        "endLine": 108,
+        "endChar": 18
+      },
+      "revId": "94389ecbf289721906fbabc496de8a45daa1c768",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "9e48ec79_ce4cc56c",
         "filename": "src/cmd/link/internal/ppc64/asm.go",
         "patchSetId": 3
