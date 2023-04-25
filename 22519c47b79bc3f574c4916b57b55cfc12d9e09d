@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c403ff79_0fe132d5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-04-25T05:31:19Z",
+      "side": 1,
+      "message": "Excellent, thanks for this.",
+      "revId": "22519c47b79bc3f574c4916b57b55cfc12d9e09d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e04143f2_b7934424",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-04-25T05:31:19Z",
+      "side": 1,
+      "message": "The PPC ELFv2 specification uses \"case 1\" - this change uses \u0027typ\u0027 here, but switches to abicase as the gencallstub argument name. It would be good to keep the naming consistent (perhaps pltType or stubType throughout?).",
+      "range": {
+        "startLine": 107,
+        "startChar": 1,
+        "endLine": 107,
+        "endChar": 4
+      },
+      "revId": "22519c47b79bc3f574c4916b57b55cfc12d9e09d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0795aa4a_144afdf0",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-04-25T05:31:19Z",
+      "side": 1,
+      "message": "Probably not an issue here, however +\u003d will result in string reallocation, while the following should not (which I also find a little more readable):\n\nvar suffix string\n...\n   suffix \u003d \"-notoc\"\n...\nn :\u003d fmt.Sprintf(%s@plt%s\", ld.SymName(r.Sym()), suffix)",
+      "range": {
+        "startLine": 111,
+        "startChar": 2,
+        "endLine": 111,
+        "endChar": 15
+      },
+      "revId": "22519c47b79bc3f574c4916b57b55cfc12d9e09d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb1bb2bf_aef3a775",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-04-25T05:31:19Z",
+      "side": 1,
+      "message": "Perhaps s/case/ABI case/ for clarity (or \"PLT stub type\")?",
+      "range": {
+        "startLine": 366,
+        "startChar": 43,
+        "endLine": 366,
+        "endChar": 47
+      },
+      "revId": "22519c47b79bc3f574c4916b57b55cfc12d9e09d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
