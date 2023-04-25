@@ -846,6 +846,8 @@ func (t *tester) registerTests() {
 		t.registerRaceTests()
 	}
 
+	t.registerTest("go_android_exec", "", &goTest{dir: "../misc/go_android_exec"})
+
 	if t.cgoEnabled && !t.iOS() {
 		// Disabled on iOS. golang.org/issue/15919
 		t.registerTest("cgo_stdio", "", &goTest{dir: "../misc/cgo/stdio", timeout: 5 * time.Minute}, rtHostTest{})
