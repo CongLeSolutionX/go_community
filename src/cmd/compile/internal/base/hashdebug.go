@@ -40,9 +40,9 @@ type HashDebug struct {
 	bytesTmp         bytes.Buffer
 	matches          []hashAndMask // A hash matches if one of these matches.
 	excludes         []hashAndMask // explicitly excluded hash suffixes
-	yes, no          bool
-	fileSuffixOnly   bool // for Pos hashes, remove the directory prefix.
-	inlineSuffixOnly bool // for Pos hashes, remove all but the most inline position.
+	yes, no          bool          // explicitly all jammed on (with logging), or all jammed off
+	fileSuffixOnly   bool          // for Pos hashes, remove the directory prefix.
+	inlineSuffixOnly bool          // for Pos hashes, remove all but the most inline position.
 }
 
 // SetFileSuffixOnly controls whether hashing and reporting use the entire
