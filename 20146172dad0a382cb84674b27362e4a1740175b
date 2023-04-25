@@ -53,6 +53,24 @@
       "message": "Please rebase code. Thanks!",
       "revId": "20146172dad0a382cb84674b27362e4a1740175b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e8fb3d7_99256a90",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34360
+      },
+      "writtenOn": "2023-04-25T12:07:37Z",
+      "side": 1,
+      "message": "The merge conflict isn\u0027t caused by a stale base commit, but is because the `case 66` hunk is adjacent to the newly-added FMA `case 65`.",
+      "parentUuid": "e4169388_24ae4396",
+      "revId": "20146172dad0a382cb84674b27362e4a1740175b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
