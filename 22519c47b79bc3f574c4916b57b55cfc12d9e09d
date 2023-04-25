@@ -43,6 +43,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "429c62ca_6372b1fb",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-04-25T15:04:25Z",
+      "side": 1,
+      "message": "Agreed, the naming is something Go made up. ELFv2 1.5 calls them \"properties\".",
+      "parentUuid": "e04143f2_b7934424",
+      "range": {
+        "startLine": 107,
+        "startChar": 1,
+        "endLine": 107,
+        "endChar": 4
+      },
+      "revId": "22519c47b79bc3f574c4916b57b55cfc12d9e09d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "0795aa4a_144afdf0",
         "filename": "src/cmd/link/internal/ppc64/asm.go",
         "patchSetId": 2
