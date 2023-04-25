@@ -76,6 +76,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "0380d1bf_16acceff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2023-04-25T13:46:59Z",
+      "side": 1,
+      "message": "Thanks again for the thorough review.",
+      "revId": "43529dc15e6ce87d4296d77a4986065c9c0759ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "6a82f080_60600643",
         "filename": "src/go/ast/ast.go",
         "patchSetId": 6
@@ -87,6 +104,24 @@
       "writtenOn": "2023-04-25T13:37:54Z",
       "side": 1,
       "message": "I expect this leaves some room for future reduction of allocations and other optimizations, but I think it\u0027s good to leave that for when it\u0027s actually a bottleneck for someone (if ever).",
+      "revId": "43529dc15e6ce87d4296d77a4986065c9c0759ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "24170811_126db224",
+        "filename": "src/go/ast/ast.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1098,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2023-04-25T13:46:59Z",
+      "side": 1,
+      "message": "Good point: this will likely be called on all top-of-file comments in all Go files visited by the client application, so let\u0027s avoid the allocation. I\u0027ve added a quick initial check for the substring before calling Split.",
+      "parentUuid": "6a82f080_60600643",
       "revId": "43529dc15e6ce87d4296d77a4986065c9c0759ef",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }

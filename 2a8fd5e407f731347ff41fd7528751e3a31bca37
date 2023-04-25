@@ -350,6 +350,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "81aa283c_105f8772",
+        "filename": "src/go/ast/ast.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1084,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2023-04-25T13:46:59Z",
+      "side": 1,
+      "message": "Oops, fixed.",
+      "parentUuid": "aeb00bb1_9aaf198b",
+      "range": {
+        "startLine": 1084,
+        "startChar": 45,
+        "endLine": 1084,
+        "endChar": 46
+      },
+      "revId": "2a8fd5e407f731347ff41fd7528751e3a31bca37",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4743bda4_8de38804",
@@ -417,6 +441,30 @@
       "side": 1,
       "message": "\u003e \"commment\" is a possible misspelling of \"comment\".\n\nConsider fixing this (and 2 below) if you\u0027d like, it might save a future CL from touching these lines.",
       "parentUuid": "0687ccf2_7136faa7",
+      "range": {
+        "startLine": 72,
+        "startChar": 17,
+        "endLine": 72,
+        "endChar": 25
+      },
+      "revId": "2a8fd5e407f731347ff41fd7528751e3a31bca37",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8312cbd3_4d5db963",
+        "filename": "src/go/ast/issues_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 57259
+      },
+      "writtenOn": "2023-04-25T13:46:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1cddc6f9_8f7943b7",
       "range": {
         "startLine": 72,
         "startChar": 17,
