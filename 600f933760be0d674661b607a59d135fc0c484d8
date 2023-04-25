@@ -16,6 +16,57 @@
       "message": "This patch is currently implemented in an optimistic way (go doc formatting bugs #54033 #59728 being fixed).",
       "revId": "600f933760be0d674661b607a59d135fc0c484d8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95a4cd31_5366956a",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-25T00:01:14Z",
+      "side": 1,
+      "message": "How about\n\nMost code should use the [database/sql] package.",
+      "revId": "600f933760be0d674661b607a59d135fc0c484d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7236d084_a39db5f0",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-25T00:01:14Z",
+      "side": 1,
+      "message": "I think this paragraph becomes a bit less clear with these changes.  Perhaps\n\nIf a [Conn] implements [Validator], then the [Validator.Isvalid] method is called before returning the connection to the connection pool.  If an entry in the connection pool implements [SessionResetter], then [SessionResetter.ResetSession] is called before reusing the connection for another query. If a connection is never returned to the connection pool but is immediately reused, then [SessionResetter.ResetSession} is called prior to reuse but [Validator.IsValid] is not called.",
+      "revId": "600f933760be0d674661b607a59d135fc0c484d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2bb4130_42b4e8eb",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-04-25T00:01:14Z",
+      "side": 1,
+      "message": "Add \"the\" before \"[database/sql.DB.Close] method\".",
+      "revId": "600f933760be0d674661b607a59d135fc0c484d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
