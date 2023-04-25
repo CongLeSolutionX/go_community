@@ -10,6 +10,7 @@
 package main
 
 import (
+	"bytes"
 	"errors"
 	"fmt"
 	"go/build"
@@ -25,10 +26,17 @@ import (
 	"syscall"
 )
 
-func run(args ...string) (string, error) {
-	cmd := adbCmd(args...)
-	buf := new(strings.Builder)
-	cmd.Stdout = io.MultiWriter(os.Stdout, buf)
+func adbRun(args string) (int, error) {
+	// The exit code of adb is often wrong. In theory it was fixed in 2016
+	// (https://code.google.com/p/android/issues/detail?id=3254), but it's
+	// still broken in 2023. Instead, append the exitcode to
+	// the output and parse it from there.
+	const exitStr = "exitcode="
+	args += "; echo -n " + exitStr + "$?"
+
+	cmd := adbCmd("exec-out", args)
+	filter := &exitCodeFilter{w: os.Stdout, exitStr: exitStr}
+	cmd.Stdout = filter
 	// If the adb subprocess somehow hangs, go test will kill this wrapper
 	// and wait for our os.Stderr (and os.Stdout) to close as a result.
 	// However, if the os.Stderr (or os.Stdout) file descriptors are
@@ -40,10 +48,14 @@ func run(args ...string) (string, error) {
 	// along stderr from adb.
 	cmd.Stderr = struct{ io.Writer }{os.Stderr}
 	err := cmd.Run()
+
+	// Before we process err, flush any further output.
+	exitCode, err2 := filter.Flush()
+
 	if err != nil {
-		return "", fmt.Errorf("adb %s: %v", strings.Join(args, " "), err)
+		return 0, fmt.Errorf("adb exec-out %s: %v", args, err)
 	}
-	return buf.String(), nil
+	return exitCode, err2
 }
 
 func adb(args ...string) error {
@@ -159,11 +171,6 @@ func runMain() (int, error) {
 			adb("exec-out", "killall -QUIT "+binName)
 		}
 	}()
-	// In light of
-	// https://code.google.com/p/android/issues/detail?id=3254
-	// dont trust the exitcode of adb. Instead, append the exitcode to
-	// the output and parse it from there.
-	const exitstr = "exitcode="
 	cmd := `export TMPDIR="` + deviceGotmp + `"` +
 		`; export GOROOT="` + deviceGoroot + `"` +
 		`; export GOPATH="` + deviceGopath + `"` +
@@ -171,23 +178,59 @@ func runMain() (int, error) {
 		`; export GOPROXY=` + os.Getenv("GOPROXY") +
 		`; export GOCACHE="` + deviceRoot + `/gocache"` +
 		`; export PATH=$PATH:"` + deviceGoroot + `/bin"` +
+		`; export GODEBUG="` + os.Getenv("GODEBUG") + `"` +
 		`; cd "` + deviceCwd + `"` +
-		"; '" + deviceBin + "' " + strings.Join(os.Args[2:], " ") +
-		"; echo -n " + exitstr + "$?"
-	output, err := run("exec-out", cmd)
+		"; '" + deviceBin + "' " + strings.Join(os.Args[2:], " ")
+	code, err := adbRun(cmd)
 	signal.Reset(syscall.SIGQUIT)
 	close(quit)
-	if err != nil {
-		return 0, err
+	return code, err
+}
+
+type exitCodeFilter struct {
+	w        io.Writer // Pass through to w
+	exitStr  string
+	lastLine bytes.Buffer
+}
+
+func (f *exitCodeFilter) Write(data []byte) (int, error) {
+	n := len(data)
+	// Flush complete lines from lastLine + data.
+	if nl := bytes.LastIndexByte(data, '\n'); nl >= 0 {
+		// First flush the buffer.
+		_, err := f.w.Write(f.lastLine.Bytes())
+		if err != nil {
+			return 0, err
+		}
+		f.lastLine.Reset()
+		// Flush up to and including the '\n'
+		_, err = f.w.Write(data[:nl+1])
+		if err != nil {
+			return 0, err
+		}
+		data = data[nl+1:]
+	}
+	// Put the rest of the data in the buffer.
+	f.lastLine.Write(data)
+	return n, nil
+}
+
+func (f *exitCodeFilter) Flush() (int, error) {
+	buf := f.lastLine.Bytes()
+	if !bytes.HasPrefix(buf, []byte(f.exitStr)) {
+		// Exit code is missing.
+		_, err := f.w.Write(buf)
+		if err != nil {
+			return 0, err
+		}
+		f.lastLine.Reset()
+		return 0, fmt.Errorf("no exit code (in %q)", string(buf))
 	}
 
-	exitIdx := strings.LastIndex(output, exitstr)
-	if exitIdx == -1 {
-		return 0, fmt.Errorf("no exit code: %q", output)
-	}
-	code, err := strconv.Atoi(output[exitIdx+len(exitstr):])
+	// Parse the exit code.
+	code, err := strconv.Atoi(string(buf[len(f.exitStr):]))
 	if err != nil {
-		return 0, fmt.Errorf("bad exit code: %v", err)
+		return 0, fmt.Errorf("bad exit code: %v (in %q)", err, string(buf))
 	}
 	return code, nil
 }
@@ -307,7 +350,7 @@ func adbCopyGoroot() error {
 	if err := adb("push", tmpGo.Name(), deviceGo); err != nil {
 		return err
 	}
-	for _, dir := range []string{"src", "test", "lib", "api"} {
+	for _, dir := range []string{"src", "test", "lib", "api", "misc"} {
 		if err := adb("push", filepath.Join(goroot, dir), filepath.Join(deviceGoroot)); err != nil {
 			return err
 		}
