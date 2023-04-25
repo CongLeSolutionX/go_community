@@ -33,6 +33,24 @@
       "message": "As the kernel bug is already fixed, do we still want this?",
       "revId": "ad5e790934c113d115ef3bf6be38104a9203cb6e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09c5e3aa_a274d2f8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 25
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34360
+      },
+      "writtenOn": "2023-04-25T13:15:14Z",
+      "side": 1,
+      "message": "FYI I just did a survey on the stable kernels and it seems this bug has narrowly escaped being included in any of the stable/LTS series: 5.15.y and earlier didn\u0027t have the bug, and 6.1.y has the fix from day one.\n\nI haven\u0027t checked the various distro kernels yet though.",
+      "parentUuid": "9cfc7e72_f5a1af5a",
+      "revId": "ad5e790934c113d115ef3bf6be38104a9203cb6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
