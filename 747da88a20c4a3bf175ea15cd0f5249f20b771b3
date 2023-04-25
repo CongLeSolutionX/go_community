@@ -145,6 +145,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d8aebc6_fdaf7094",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 683,
+      "author": {
+        "id": 45165
+      },
+      "writtenOn": "2023-04-25T11:14:16Z",
+      "side": 1,
+      "message": "Yes, you are right. I changed it and add some comments.",
+      "parentUuid": "f17814fd_cee2f19c",
+      "range": {
+        "startLine": 683,
+        "startChar": 21,
+        "endLine": 683,
+        "endChar": 28
+      },
+      "revId": "747da88a20c4a3bf175ea15cd0f5249f20b771b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "02d308d0_4b73ac8e",
