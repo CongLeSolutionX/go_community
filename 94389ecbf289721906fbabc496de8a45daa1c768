@@ -76,6 +76,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "eb451741_5b4488c2",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-04-25T22:22:59Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "f3f1adcc_1ef1b69b",
+      "revId": "94389ecbf289721906fbabc496de8a45daa1c768",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "d47f6f5d_d17b08f5",
         "filename": "src/cmd/link/internal/ppc64/asm.go",
         "patchSetId": 3
@@ -121,6 +139,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee584d68_dded2627",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-04-25T22:22:59Z",
+      "side": 1,
+      "message": "Ah, it was more subtle than I realized. These relocations are being processed against the section symbol. Those aren\u0027t getting marked with the external attribute.\n\nI created CL 488895 to try to address this.",
+      "parentUuid": "f41c8aa6_7cc6c228",
+      "range": {
+        "startLine": 108,
+        "startChar": 8,
+        "endLine": 108,
+        "endChar": 18
+      },
+      "revId": "94389ecbf289721906fbabc496de8a45daa1c768",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ab034a66_c912ff79",
@@ -134,6 +176,24 @@
       "writtenOn": "2023-04-25T17:51:24Z",
       "side": 1,
       "message": "Could we have more comments about when to use what type of stub? Is this used when the callee is in a dynamic library? Should we check for that?",
+      "revId": "94389ecbf289721906fbabc496de8a45daa1c768",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fccfc685_b50ef57c",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-04-25T22:22:59Z",
+      "side": 1,
+      "message": "I think it is assumed this is a dynamic call if genpltstub is called.",
+      "parentUuid": "ab034a66_c912ff79",
       "revId": "94389ecbf289721906fbabc496de8a45daa1c768",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -184,6 +244,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6449e40c_d099984a",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-04-25T22:22:59Z",
+      "side": 1,
+      "message": "Maybe not.",
+      "parentUuid": "b0ba75cf_161bcdf3",
+      "range": {
+        "startLine": 114,
+        "startChar": 21,
+        "endLine": 114,
+        "endChar": 25
+      },
+      "revId": "94389ecbf289721906fbabc496de8a45daa1c768",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6ce1a98d_5b923b9a",
@@ -197,6 +281,24 @@
       "writtenOn": "2023-04-25T21:06:06Z",
       "side": 1,
       "message": "It is better to be consistent when naming \"toc\" throughout the file so the reader can tell you are referring to the same thing. It looks like all the cases here are handling the TOC pointer, not the TOC itself.",
+      "revId": "94389ecbf289721906fbabc496de8a45daa1c768",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c59e146_e47de25f",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-04-25T22:22:59Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "6ce1a98d_5b923b9a",
       "revId": "94389ecbf289721906fbabc496de8a45daa1c768",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
