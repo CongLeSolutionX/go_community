@@ -91,6 +91,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb438d7c_db084a7c",
+        "filename": "src/runtime/sys_windows_386.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-04-25T13:58:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15ba6822_20f9d0ca",
+      "revId": "aa0f5e2f2855405e92affaf0a533008d80438ed4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4cabf790_539640bd",
@@ -104,6 +122,30 @@
       "writtenOn": "2023-04-22T08:50:57Z",
       "side": 1,
       "message": "Should you add check that DLL GoFunc func returns 42?",
+      "range": {
+        "startLine": 25,
+        "startChar": 4,
+        "endLine": 25,
+        "endChar": 8
+      },
+      "revId": "aa0f5e2f2855405e92affaf0a533008d80438ed4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "373b83c5_bd9fc78c",
+        "filename": "src/runtime/testdata/testwintls/main.c",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 34993
+      },
+      "writtenOn": "2023-04-25T13:58:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4cabf790_539640bd",
       "range": {
         "startLine": 25,
         "startChar": 4,
