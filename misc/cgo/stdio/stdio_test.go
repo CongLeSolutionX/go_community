@@ -46,10 +46,6 @@ func testMain(m *testing.M) int {
 
 // TestTestRun runs a cgo test that doesn't depend on non-standard libraries.
 func TestTestRun(t *testing.T) {
-	if os.Getenv("GOOS") == "android" {
-		t.Skip("subpackage stdio is not available on android")
-	}
-
 	for _, file := range [...]string{
 		"chain.go",
 		"fib.go",

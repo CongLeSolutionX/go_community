@@ -850,10 +850,8 @@ func (t *tester) registerTests() {
 		// Disabled on iOS. golang.org/issue/15919
 		t.registerTest("cgo_stdio", "", &goTest{dir: "../misc/cgo/stdio", timeout: 5 * time.Minute}, rtHostTest{})
 		t.registerTest("cgo_life", "", &goTest{dir: "../misc/cgo/life", timeout: 5 * time.Minute}, rtHostTest{})
-		if goos != "android" {
-			t.registerTest("cgo_fortran", "", &goTest{dir: "../misc/cgo/fortran", timeout: 5 * time.Minute}, rtHostTest{})
-		}
-		if t.hasSwig() && goos != "android" {
+		t.registerTest("cgo_fortran", "", &goTest{dir: "../misc/cgo/fortran", timeout: 5 * time.Minute}, rtHostTest{})
+		if t.hasSwig() {
 			t.registerTest("swig_stdio", "", &goTest{dir: "../misc/swig/stdio"})
 			if t.hasCxx() {
 				t.registerTest("swig_callback", "", &goTest{dir: "../misc/swig/callback"})
