@@ -646,7 +646,11 @@ func runList(ctx context.Context, cmd *base.Command, args []string) {
 				} else {
 					pmain, ptest, pxtest, err = load.TestPackagesFor(ctx, pkgOpts, p, nil)
 					if err != nil {
+<<<<<<< HEAD   (324c3a [release-branch.go1.20] go1.20.4)
 						base.Errorf("can't load test package: %s", err)
+=======
+						base.Fatalf("go: can't load test package: %s", err)
+>>>>>>> CHANGE (06fd1f cmd/go: save checksums for go.mod files needed for go versio)
 					}
 				}
 				if pmain != nil {
