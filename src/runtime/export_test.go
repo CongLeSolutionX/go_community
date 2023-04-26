@@ -423,6 +423,18 @@ func ReadMemStatsSlow() (base, slow MemStats) {
 	return
 }
 
+func ShrinkAndUnwindStack() {
+	before := stackPoisonCopy
+	defer func() { stackPoisonCopy = before }()
+	stackPoisonCopy = 1
+
+	gp := getg()
+	systemstack(func() {
+		shrinkstack(gp)
+	})
+	fpTracebackPCs(unsafe.Pointer(getcallerfp()), 0, make([]uintptr, 128))
+}
+
 // BlockOnSystemStack switches to the system stack, prints "x\n" to
 // stderr, and blocks in a stack containing
 // "runtime.blockOnSystemStackInternal".
