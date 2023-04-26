@@ -898,7 +898,7 @@ func (t *tester) registerTests() {
 			// supported on Linux and FreeBSD.
 			t.registerTest("testsanitizers", "", &goTest{dir: "../misc/cgo/testsanitizers", timeout: 5 * time.Minute}, rtHostTest{})
 		}
-		if t.hasBash() && goos != "android" && !t.iOS() && gohostos != "windows" {
+		if t.hasBash() && !t.iOS() && gohostos != "windows" {
 			t.registerTest("cgo_errors", "", &goTest{dir: "../misc/cgo/errors", timeout: 5 * time.Minute}, rtHostTest{})
 		}
 	}

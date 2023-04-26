@@ -8,12 +8,15 @@ package errorstest
 
 import (
 	"bytes"
+	"encoding/json"
 	"flag"
 	"fmt"
 	"os"
 	"os/exec"
 	"path/filepath"
+	"runtime"
 	"strings"
+	"sync"
 	"sync/atomic"
 	"testing"
 )
@@ -433,6 +436,39 @@ var ptrTests = []ptrTest{
 	},
 }
 
+var execWrapperOnce = sync.OnceValues(func() ([]string, error) {
+	out, err := exec.Command("go", "env", "-json").Output()
+	var env struct {
+		GOOS   string
+		GOARCH string
+	}
+	if err := json.Unmarshal(out, &env); err != nil {
+		return nil, err
+	}
+	goos := env.GOOS
+	goarch := env.GOARCH
+
+	if goos == runtime.GOOS && goarch == runtime.GOARCH {
+		// Do nothing.
+		return nil, nil
+	}
+
+	path, err := exec.LookPath(fmt.Sprintf("go_%s_%s_exec", goos, goarch))
+	if err != nil {
+		return nil, err
+	}
+	return []string{path}, nil
+})
+
+// TODO: Use testenv.ExecWrapper
+func ExecWrapper(t testing.TB) []string {
+	cmd, err := execWrapperOnce()
+	if err != nil {
+		t.Fatal("getting exec wrapper:", err)
+	}
+	return cmd
+}
+
 func TestPointerChecks(t *testing.T) {
 	var gopath string
 	var dir string
@@ -598,7 +634,8 @@ func testOne(t *testing.T, pt ptrTest, exe, exe2 string) {
 			x = exe2
 			cgocheck = "1"
 		}
-		cmd := exec.Command(x, pt.name)
+		args := append(ExecWrapper(t), x, pt.name)
+		cmd := exec.Command(args[0], args[1:]...)
 		cmd.Env = append(os.Environ(), "GODEBUG=cgocheck="+cgocheck)
 		return cmd.CombinedOutput()
 	}
