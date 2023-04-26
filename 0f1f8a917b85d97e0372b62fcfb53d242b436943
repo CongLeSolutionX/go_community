@@ -53,6 +53,24 @@
       "message": "It looks like this in the only non-test call site for the `compareAPI` function — can we remove the `optional` argument from that entirely?",
       "revId": "0f1f8a917b85d97e0372b62fcfb53d242b436943",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "816c1e30_3e4170f2",
+        "filename": "src/cmd/api/api.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2023-04-26T21:08:13Z",
+      "side": 1,
+      "message": "Yeah, I agree it\u0027s better not to wait long before completing that cleanup, it\u0027ll become more effort (or not happen for far too long) otherwise. There turned out to be a bit more stale stuff to clean up, so I\u0027ve split it off into change Iaa4656a89a3fca3129742165a448d385e55e4a98.\n\nDone, PTAL.",
+      "parentUuid": "b9489faa_01ec39b9",
+      "revId": "0f1f8a917b85d97e0372b62fcfb53d242b436943",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
