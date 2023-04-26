@@ -939,3 +939,15 @@ func TestFramePointerAdjust(t *testing.T) {
 		t.Errorf("output:\n%s\n\nwant no output", output)
 	}
 }
+
+func TestFramePointerAdjustment(t *testing.T) {
+	growAndShrinkStack(512, [1024]byte{})
+}
+
+func growAndShrinkStack(n int, stackBallast [1024]byte) {
+	if n <= 0 {
+		return
+	}
+	growAndShrinkStack(n-1, stackBallast)
+	ShrinkAndUnwindStack()
+}
