@@ -10,6 +10,7 @@ import (
 	"bytes"
 	"flag"
 	"fmt"
+	"internal/testenv"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -434,6 +435,9 @@ var ptrTests = []ptrTest{
 }
 
 func TestPointerChecks(t *testing.T) {
+	testenv.MustHaveGoBuild(t)
+	testenv.MustHaveCGO(t)
+
 	var gopath string
 	var dir string
 	if *tmp != "" {
