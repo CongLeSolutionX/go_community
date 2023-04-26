@@ -10,8 +10,7 @@ package crc32
 
 import "internal/cpu"
 
-func castagnoliUpdate(crc uint32, p []byte) uint32
-func ieeeUpdate(crc uint32, p []byte) uint32
+func crcUpdate(crc uint32, p []byte) uint32
 
 func archAvailableCastagnoli() bool {
 	return cpu.ARM64.HasCRC32
@@ -28,7 +27,7 @@ func archUpdateCastagnoli(crc uint32, p []byte) uint32 {
 		panic("arch-specific crc32 instruction for Castagnoli not available")
 	}
 
-	return ^castagnoliUpdate(^crc, p)
+	return ^crcUpdate(^crc, p)
 }
 
 func archAvailableIEEE() bool {
@@ -46,5 +45,5 @@ func archUpdateIEEE(crc uint32, p []byte) uint32 {
 		panic("arch-specific crc32 instruction for IEEE not available")
 	}
 
-	return ^ieeeUpdate(^crc, p)
+	return ^crcUpdate(^crc, p)
 }
