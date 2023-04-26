@@ -188,6 +188,23 @@
       },
       "revId": "446d808d1fb5791944f261d8def55f14ba46a6f7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39d4fa77_b1d5fb2a",
+        "filename": "src/runtime/stack.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 947,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-04-26T16:51:50Z",
+      "side": 1,
+      "message": "Could we check that the content of the memory is actually the frame pointer before changing it? I\u0027m a little worried about whether gp.sched.sp points to the point where we do the stack switch (maybe it always does, but I\u0027m not super sure).",
+      "revId": "446d808d1fb5791944f261d8def55f14ba46a6f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
