@@ -846,8 +846,7 @@ func (t *tester) registerTests() {
 		t.registerRaceTests()
 	}
 
-	if t.cgoEnabled && !t.iOS() {
-		// Disabled on iOS. golang.org/issue/15919
+	if t.cgoEnabled {
 		t.registerTest("cgo_stdio", "", &goTest{dir: "../misc/cgo/stdio", timeout: 5 * time.Minute}, rtHostTest{})
 		t.registerTest("cgo_life", "", &goTest{dir: "../misc/cgo/life", timeout: 5 * time.Minute}, rtHostTest{})
 		t.registerTest("cgo_fortran", "", &goTest{dir: "../misc/cgo/fortran", timeout: 5 * time.Minute}, rtHostTest{})
@@ -898,7 +897,7 @@ func (t *tester) registerTests() {
 			// supported on Linux and FreeBSD.
 			t.registerTest("testsanitizers", "", &goTest{dir: "../misc/cgo/testsanitizers", timeout: 5 * time.Minute}, rtHostTest{})
 		}
-		if t.hasBash() && !t.iOS() && gohostos != "windows" {
+		if t.hasBash() && gohostos != "windows" {
 			t.registerTest("cgo_errors", "", &goTest{dir: "../misc/cgo/errors", timeout: 5 * time.Minute}, rtHostTest{})
 		}
 	}
