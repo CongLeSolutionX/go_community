@@ -34,6 +34,24 @@
       "parentUuid": "69288823_147b6084",
       "revId": "5d679e629e9e09952b169ccad29d6cd0152b6c6f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7799a4c1_5330e208",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57733
+      },
+      "writtenOn": "2023-04-26T15:02:09Z",
+      "side": 1,
+      "message": "Yeah, I filed an issue, I think it will affect amd64. I\u0027ve got a fix here: https://go-review.googlesource.com/c/go/+/488755, perhaps we re-enable for amd64 after that lands? (Assuming the fix is right 😊)",
+      "parentUuid": "f93532f0_9bb5c3ca",
+      "revId": "5d679e629e9e09952b169ccad29d6cd0152b6c6f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
