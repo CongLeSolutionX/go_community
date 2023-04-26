@@ -16,6 +16,23 @@
       "message": "This should fix https://github.com/golang/go/issues/59692.\n\nThanks for taking a look when you get a chance 🙇🏻‍♂️. I\u0027ve also added a few more CLs to this chain that further improve the testing and handling of frame pointers and systemstack.",
       "revId": "c522b3a1178462493e028c9958c2f60bb0d3a39e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bf99469_2abd938b",
+        "filename": "src/runtime/stack.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 676,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-04-26T16:19:44Z",
+      "side": 1,
+      "message": "I think we can just remove this special case entirely. But it is fine if you want to do a minimal change.",
+      "revId": "c522b3a1178462493e028c9958c2f60bb0d3a39e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
