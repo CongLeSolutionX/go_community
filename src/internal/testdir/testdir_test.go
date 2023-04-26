@@ -851,7 +851,7 @@ func (t test) run() error {
 					return err
 				}
 				var cmd []string
-				cmd = append(cmd, findExecCmd()...)
+				cmd = append(cmd, testenv.ExecWrapper(t)...)
 				cmd = append(cmd, filepath.Join(tempDir, "a.exe"))
 				cmd = append(cmd, args...)
 				out, err := runcmd(cmd...)
@@ -973,7 +973,7 @@ func (t test) run() error {
 		if action == "builddir" {
 			return nil
 		}
-		cmd = append(findExecCmd(), filepath.Join(tempDir, "a.exe"))
+		cmd = append(testenv.ExecWrapper(t), filepath.Join(tempDir, "a.exe"))
 		out, err := runcmd(cmd...)
 		if err != nil {
 			return err
@@ -1108,20 +1108,6 @@ func (t test) run() error {
 		}
 		return t.errorCheck(string(out), false, tfile, "tmp__.go")
 	}
-}
-
-var execCmdOnce sync.Once
-var execCmd []string
-
-func findExecCmd() []string {
-	execCmdOnce.Do(func() {
-		if goos == runtime.GOOS && goarch == runtime.GOARCH {
-			// Do nothing.
-		} else if path, err := exec.LookPath(fmt.Sprintf("go_%s_%s_exec", goos, goarch)); err == nil {
-			execCmd = []string{path}
-		}
-	})
-	return execCmd
 }
 
 // checkExpectedOutput compares the output from compiling and/or running with the contents

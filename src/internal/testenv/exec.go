@@ -6,6 +6,8 @@ package testenv
 
 import (
 	"context"
+	"encoding/json"
+	"fmt"
 	"os"
 	"os/exec"
 	"runtime"
@@ -226,4 +228,44 @@ func CommandContext(t testing.TB, ctx context.Context, name string, args ...stri
 func Command(t testing.TB, name string, args ...string) *exec.Cmd {
 	t.Helper()
 	return CommandContext(t, context.Background(), name, args...)
+}
+
+var execWrapperOnce = sync.OnceValues(func() ([]string, error) {
+	goTool, err := GoTool()
+	if err != nil {
+		return nil, err
+	}
+	out, err := exec.Command(goTool, "env", "-json").Output()
+	var env struct {
+		GOOS   string
+		GOARCH string
+	}
+	if err := json.Unmarshal(out, &env); err != nil {
+		return nil, err
+	}
+	goos := env.GOOS
+	goarch := env.GOARCH
+
+	if goos == runtime.GOOS && goarch == runtime.GOARCH {
+		// Do nothing.
+		return nil, nil
+	}
+
+	path, err := exec.LookPath(fmt.Sprintf("go_%s_%s_exec", goos, goarch))
+	if err != nil {
+		return nil, err
+	}
+	return []string{path}, nil
+})
+
+// ExecWrapper returns the command line prefix to use on any command
+// that should be run through a go_$GOOS_$GOARCH_exec wrapper. If
+// there is no exec wrapper, it returns an empty slice.
+func ExecWrapper(t testing.TB) []string {
+	MustHaveExec(t)
+	cmd, err := execWrapperOnce()
+	if err != nil {
+		t.Fatal("getting exec wrapper:", err)
+	}
+	return cmd
 }
