@@ -50,7 +50,6 @@ import (
 	"fmt"
 	"internal/profile"
 	"os"
-	"strings"
 )
 
 // IRGraph is the key data structure that is built from profile. It is
@@ -135,15 +134,6 @@ type Profile struct {
 	// aggregated weight.
 	NodeMap map[NodeMapKey]*Weights
 
-	// IfaceTypeMap maps interface type names to their Type nodes.
-	IfaceTypeMap map[string]*types.Type
-
-	// ConcreteFuncMap maps function names to their corresponding Func nodes.
-	ConcreteFuncMap map[string]*ir.Func
-
-	// IfaceCallMap maps profile information to direct function calls.
-	IfaceCallMap map[IfaceInfo]*CalleeInfo
-
 	// WeightedCG represents the IRGraph built from profile, which we will
 	// update as part of inlining.
 	WeightedCG *IRGraph
@@ -171,7 +161,7 @@ func New(profileFile string) (*Profile, error) {
 		// Samples count is the raw data collected, and CPU nanoseconds is just
 		// a scaled version of it, so either one we can find is fine.
 		if (s.Type == "samples" && s.Unit == "count") ||
-			(s.Type == "cpu" && s.Unit == "nanoseconds") {
+		(s.Type == "cpu" && s.Unit == "nanoseconds") {
 			valueIndex = i
 			break
 		}
@@ -188,9 +178,6 @@ func New(profileFile string) (*Profile, error) {
 
 	p := &Profile{
 		NodeMap:         make(map[NodeMapKey]*Weights),
-		ConcreteFuncMap: make(map[string]*ir.Func),
-		IfaceTypeMap:    make(map[string]*types.Type),
-		IfaceCallMap:    make(map[IfaceInfo]*CalleeInfo),
 		WeightedCG: &IRGraph{
 			IRNodes: make(map[string]*IRNode),
 		},
@@ -211,51 +198,6 @@ func New(profileFile string) (*Profile, error) {
 	return p, nil
 }
 
-// preprocessDecls populates IfaceTypeMap and ConcreteFuncMap by traversing all the declarations.
-func (p *Profile) preprocessDecls() {
-	for _, n := range typecheck.Target.Externs {
-		if n.Op() == ir.OTYPE {
-			symPkgName := n.Sym().Pkg.Path + "." + n.Sym().Name
-			p.IfaceTypeMap[symPkgName] = n.Type()
-		}
-	}
-	for _, n := range typecheck.Target.Decls {
-		if n.Op() == ir.ODCLFUNC {
-			f := n.(*ir.Func)
-			p.ConcreteFuncMap[ir.PkgFuncName(f)] = f
-		}
-	}
-}
-
-// findConcreteType finds the concrete Type for an interface method call.
-func (p *Profile) findConcreteType(fname string) *types.Type {
-	inter := strings.Split(fname, ".")
-	if len(inter) > 1 {
-		str := inter[:len(inter)-1]
-		ctypstr := strings.Join(str[:], ".")
-		if ctyp, ok := p.IfaceTypeMap[ctypstr]; ok {
-			return ctyp
-		}
-	}
-	return nil
-}
-
-// cacheSoleHotCallees picks the hot callee for an interface method and caches it for easy access.
-func (p *Profile) cacheSoleHotCallees() {
-	for _, cinfo := range p.IfaceCallMap {
-		var hotCallee string
-		maxweight := int64(0)
-		for c, w := range cinfo.CalleeMap {
-			if w > maxweight {
-				maxweight = w
-				hotCallee = c
-			}
-		}
-		cinfo.HotCallee = hotCallee
-		cinfo.HotCalleeFreq = maxweight
-	}
-}
-
 // processprofileGraph builds various maps from the profile-graph.
 //
 // It initializes NodeMap and Total{Node,Edge}Weight based on the name and
@@ -267,10 +209,6 @@ func (p *Profile) processprofileGraph(g *Graph) error {
 	nFlat := make(map[string]int64)
 	nCum := make(map[string]int64)
 	seenStartLine := false
-
-	if base.Flag.PgoSpecialize {
-		p.preprocessDecls()
-	}
 
 	// Accummulate weights for the same node.
 	for _, n := range g.Nodes {
@@ -304,32 +242,6 @@ func (p *Profile) processprofileGraph(g *Graph) error {
 				weights.EWeight = e.WeightValue()
 				p.NodeMap[nodeinfo] = weights
 			}
-
-			if !base.Flag.PgoSpecialize {
-				continue
-			}
-			ctyp := p.findConcreteType(e.Dest.Info.Name)
-			if ctyp == nil {
-				continue
-			}
-
-			fileInfo := IfaceInfo{
-				CallerName:     canonicalName,
-				CallSiteOffset: n.Info.Lineno - n.Info.StartLine,
-			}
-			if c, ok := p.IfaceCallMap[fileInfo]; ok {
-				if c1, ok1 := c.CalleeMap[e.Dest.Info.Name]; ok1 {
-					c.CalleeMap[e.Dest.Info.Name] = c1 + e.WeightValue()
-				} else {
-					c.CalleeMap[e.Dest.Info.Name] = e.WeightValue()
-				}
-			} else {
-				m := make(map[string]int64)
-				m[e.Dest.Info.Name] = e.WeightValue()
-				p.IfaceCallMap[fileInfo] = &CalleeInfo{
-					CalleeMap: m,
-				}
-			}
 		}
 	}
 
@@ -343,10 +255,6 @@ func (p *Profile) processprofileGraph(g *Graph) error {
 		// than nothing.
 		return fmt.Errorf("profile missing Function.start_line data (Go version of profiled application too old? Go 1.20+ automatically adds this to profiles)")
 	}
-	// Cache hot callees.
-	if base.Flag.PgoSpecialize {
-		p.cacheSoleHotCallees()
-	}
 
 	return nil
 }
@@ -358,6 +266,13 @@ func (p *Profile) initializeIRGraph() {
 	ir.VisitFuncsBottomUp(typecheck.Target.Decls, func(list []*ir.Func, recursive bool) {
 		for _, n := range list {
 			p.VisitIR(n)
+		}
+	})
+
+	// Done second so that IRNodes is fully populated.
+	ir.VisitFuncsBottomUp(typecheck.Target.Decls, func(list []*ir.Func, recursive bool) {
+		for _, n := range list {
+			p.VisitIndirect(n)
 		}
 	})
 }
@@ -396,6 +311,103 @@ func (p *Profile) VisitIR(fn *ir.Func) {
 
 	// Recursively walk over the body of the function to create IRGraph edges.
 	p.createIRGraphEdge(fn, g.IRNodes[name], name)
+}
+
+// TODO: In Visit we use the direct calls discovered in the IR to build the
+// WeightedCG. That is, we discover call edges from the IR and then add weights
+// on the side via lookup from the profile.
+//
+// In VisitIndirect, we now extend the WeightedCG by adding additional edges
+// visible in the profile that we did not discover from the IR. These should
+// primarily be the indirect calls.
+//
+// This split approach is uneccesarily complicated. We could use the profile as
+// the source of all edges. Any edges in the IR but not the profile are defined
+// to have weight 0 anyway.
+func (p *Profile) VisitIndirect(fn *ir.Func) {
+	g := p.WeightedCG
+
+	name := ir.LinkFuncName(fn)
+	node := g.IRNodes[name]
+
+	// Add partial in-edges, needed for indirect calls.
+	// TODO: iterating the entire NodeMap for every function is extremely inefficient.
+inedge:
+	for key, weights := range p.NodeMap {
+		if key.CalleeName != name {
+			//fmt.Printf("%s != %s\n", key.CalleeName, name)
+			continue
+		}
+		for _, e := range g.InEdges[node] {
+			if e.Src == nil {
+				panic("impossible for in-edge to be added to this function without a src ir.Func")
+			}
+			if ir.LinkFuncName(e.Src.AST) != key.CallerName {
+				continue
+			}
+			if e.CallSiteOffset != key.CallSiteOffset {
+				continue
+			}
+			// Already handled this key.
+			continue inedge
+		}
+
+		callerNode, ok := g.IRNodes[key.CallerName]
+		if !ok {
+			// TODO: record this call anyway. If this is the
+			// hottest, then we want to skip specialization rather
+			// than specializing to the second most common callee.
+			//fmt.Printf("No node for %s in %s -> %s\n", key.CallerName, key.CallerName, name)
+			continue
+		}
+		edge := &IREdge{
+			Src:            callerNode,
+			Dst:            node,
+			Weight:         weights.EWeight,
+			CallSiteOffset: key.CallSiteOffset,
+		}
+		g.InEdges[node] = append(g.InEdges[node], edge)
+		g.OutEdges[callerNode] = append(g.OutEdges[callerNode], edge)
+	}
+
+	// Add partial out-edges, needed for indirect calls.
+outedge:
+	for key, weights := range p.NodeMap {
+		if key.CallerName != name {
+			continue
+		}
+
+		for _, e := range g.OutEdges[node] {
+			if e.Dst == nil {
+				panic("impossible for out-edge to be added to this function without a dst ir.Func")
+			}
+			if ir.LinkFuncName(e.Dst.AST) != key.CalleeName {
+				continue
+			}
+			if e.CallSiteOffset != key.CallSiteOffset {
+				continue
+			}
+			// Already handled this key.
+			continue outedge
+		}
+
+		calleeNode, ok := g.IRNodes[key.CalleeName]
+		if !ok {
+			// TODO: record this call anyway. If this is the
+			// hottest, then we want to skip specialization rather
+			// than specializing to the second most common callee.
+			//fmt.Printf("No node for %s in %s -> %s", key.CalleeName, name, key.CalleeName)
+			continue
+		}
+		edge := &IREdge{
+			Src:            node,
+			Dst:            calleeNode,
+			Weight:         weights.EWeight,
+			CallSiteOffset: key.CallSiteOffset,
+		}
+		g.OutEdges[node] = append(g.OutEdges[node], edge)
+		g.InEdges[calleeNode] = append(g.InEdges[calleeNode], edge)
+	}
 }
 
 // NodeLineOffset returns the line offset of n in fn.
@@ -462,31 +474,92 @@ func (p *Profile) addIREdge(caller *IRNode, callername string, call ir.Node, cal
 	}
 }
 
-// findHotConcreteCallee finds the concrete Func node for a callsite node in `call`.
-func (p *Profile) findHotConcreteCallee(caller *ir.Func, call ir.Node) *ir.Func {
-
-	if _, ok := call.(*ir.CallExpr); !ok {
+// typeOfMethodParent returns the type containing method fn. Returns nil if fn
+// is not a method.
+func typeOfMethodParent(fn *ir.Func) *types.Type {
+	recv := fn.Nname.Type().Recv()
+	if recv == nil {
 		return nil
 	}
-	callername := ir.PkgFuncName(caller)
-	var callee *ir.Func
-	fileinfo := IfaceInfo{
-		CallerName:     callername,
-		CallSiteOffset: NodeLineOffset(call, caller),
+	return recv.Type
+}
+
+// interfaceCallType returns the type of the interface used in an interface
+// call. Returns nil if call is not an interface call.
+func interfaceCallType(n ir.Node) *types.Type {
+	if n.Op() != ir.OCALLINTER {
+		// TODO: return nil. For now, catch bugs.
+		panic(fmt.Sprintf("unexpected call type: %+v", n))
 	}
-	if fn, ok := p.IfaceCallMap[fileinfo]; ok {
-		callee = p.ConcreteFuncMap[fn.HotCallee]
+
+	call, ok := n.(*ir.CallExpr)
+	if !ok {
+		panic(fmt.Sprintf("OCALLINTER isn't CallExpr? %+v", n))
 	}
-	return callee
+
+	sel, ok := call.X.(*ir.SelectorExpr)
+	if !ok {
+		panic(fmt.Sprintf("OCALLINTER doesn't contain SelectorExpr? %+v", n))
+	}
+
+	return sel.X.Type()
+}
+
+// findHotConcreteCallee finds the concrete Func node for a callsite node in `call`.
+func (p *Profile) findHotConcreteCallee(caller *ir.Func, call ir.Node) *ir.Func {
+	if _, ok := call.(*ir.CallExpr); !ok {
+		panic(fmt.Sprintf("call isn't a call: %+v", call))
+		return nil
+	}
+
+	callerName := ir.LinkFuncName(caller)
+	callerNode := p.WeightedCG.IRNodes[callerName]
+	callOffset := NodeLineOffset(call, caller)
+
+	inter := interfaceCallType(call)
+
+	var hottest *ir.Func
+	var hottestWeight int64
+
+	for _, e := range p.WeightedCG.OutEdges[callerNode] {
+		if e.CallSiteOffset != callOffset {
+			continue
+		}
+
+		if e.Weight <= hottestWeight {
+			// TODO: make sure sort order if fully deterministic so
+			// we always pick the same callee if there are equal
+			// weights.
+			// TODO: consider total caller weight? i.e., if the
+			// hottest callee is only 10% of the weight, maybe
+			// don't specialize?
+			continue
+		}
+
+		ctyp := typeOfMethodParent(e.Dst.AST)
+		if ctyp == nil {
+			// Not a method.
+			// TODO: need to do more to consider this?
+			continue
+		}
+
+		// If ctyp doesn't implement inter it is most likely from a
+		// different call on the same line
+		op, _ := typecheck.Assignop(ctyp, inter)
+		if op == ir.OXXX {
+			//fmt.Printf("%v doesn't implement %v: %s\n", ctyp, inter, why)
+			continue
+		}
+
+		hottest = e.Dst.AST
+		hottestWeight = e.Weight
+	}
+
+	return hottest
 }
 
 // createIRGraphEdge traverses the nodes in the body of ir.Func and adds edges between the callernode which points to the ir.Func and the nodes in the body.
 func (p *Profile) createIRGraphEdge(fn *ir.Func, callernode *IRNode, name string) {
-	var lineMap map[int]int
-	if base.Flag.PgoSpecialize {
-		lineMap = make(map[int]int)
-		countIfaceMethodCallsPerLine(fn, lineMap)
-	}
 	ir.VisitList(fn.Body, func(n ir.Node) {
 		switch n.Op() {
 		case ir.OCALLFUNC:
@@ -501,19 +574,6 @@ func (p *Profile) createIRGraphEdge(fn *ir.Func, callernode *IRNode, name string
 			// Find the callee method from the call site and add the edge.
 			callee := ir.MethodExprName(call.X).Func
 			p.addIREdge(callernode, name, n, callee)
-		case ir.OCALLINTER:
-			if base.Flag.PgoSpecialize {
-				// Prevent creating edges in IRGraph if the same line has more than one interface method call.
-				line := NodeLineOffset(n, fn)
-				if count, ok := lineMap[line]; ok {
-					if count == 1 {
-						callee := p.findHotConcreteCallee(callernode.AST, n)
-						if callee != nil {
-							p.addIREdge(callernode, name, n, callee)
-						}
-					}
-				}
-			}
 		}
 	})
 }

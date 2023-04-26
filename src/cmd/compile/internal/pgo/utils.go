@@ -85,17 +85,3 @@ func CanInlineOrSpecialize(fn *ir.Func) string {
 
 	return ""
 }
-
-// countIfaceMethodCallsPerLine counts the number of interface calls per line in order to prevent code specilization on a line that has more than one hot interface method calls, e.g., L: i1.foo() + i2.foo(). i1 and i2 could be different interface types having same method name `foo`. There is no way to distinguish this in our current profile representation.
-func countIfaceMethodCallsPerLine(fn *ir.Func, lineMap map[int]int) {
-	ir.VisitList(fn.Body, func(n ir.Node) {
-		if n.Op() == ir.OCALLINTER {
-			line := NodeLineOffset(n, fn)
-			if count, ok := lineMap[line]; ok {
-				lineMap[line] = count + 1
-			} else {
-				lineMap[line] = 1
-			}
-		}
-	})
-}

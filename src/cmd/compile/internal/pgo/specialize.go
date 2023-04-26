@@ -2,6 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 //
+// TODO: update
 // The code specialization uses profile information to optimize interface method calls.
 // An interface call is converted into an "if-else" code block based on the hot dynamic type.
 // We use IRGraph and Profile data structures to determine the sole hot dynamic type.
@@ -23,13 +24,6 @@ import (
 
 // Specializer is the main driver for code specialization using profile data.
 func Specializer(p *Profile) {
-	if p.IfaceCallMap == nil || len(p.IfaceCallMap) == 0 {
-		if base.Flag.LowerM > 1 {
-			fmt.Printf("Specializer: nothing to specialize\n")
-		}
-		return
-	}
-
 	ir.VisitFuncsBottomUp(typecheck.Target.Decls, func(list []*ir.Func, recursive bool) {
 		for _, f := range list {
 			SpecializeIfaceCallSites(f, p)
@@ -73,205 +67,174 @@ func CanSpecialize(fn *ir.Func) bool {
 
 // SpecializeIfaceCallSites specializes calls using the profile information by
 // walking over the body of fn.
-func SpecializeIfaceCallSites(fn *ir.Func, p *Profile) bool {
-	changed := false
-	lineMap := make(map[int]int)
-	countIfaceMethodCallsPerLine(fn, lineMap)
-	var enclosingStmtNode ir.Node
-	var enclosingStmtLn int
+func SpecializeIfaceCallSites(fn *ir.Func, p *Profile) {
+	if base.Flag.LowerM > 2 {
+		fmt.Printf("%s before specialization: %+v\n", ir.LinkFuncName(fn), fn)
+	}
+
 	ir.CurFunc = fn
-	ir.VisitList(fn.Body, func(n ir.Node) {
-		if isEnclosingStmt(n) {
-			enclosingStmtNode = n
-			enclosingStmtLn = NodeLineOffset(n, fn)
+	var edit func(n ir.Node) ir.Node
+	edit = func(n ir.Node) ir.Node {
+		//fmt.Printf("node: %+v\n", n)
+
+		if n == nil {
+			return n
 		}
-		if call, ok := n.(*ir.CallExpr); ok {
-			if call.Op() == ir.OCALLINTER {
-				// Ensure that the interface method call `call` is enclosed in a
-				// statement node and that the line offsets match.
-				if enclosingStmtNode == nil {
-					return
-				}
-				line := NodeLineOffset(n, fn)
-				if line != enclosingStmtLn {
-					return
-				}
-				// Bail, if we do not have a hot callee.
-				f := p.findHotConcreteCallee(fn, n)
-				if f == nil {
-					return
-				}
-				// Bail, if we do not have a Type node for the hot callee.
-				ctyp := p.findConcreteType(ir.PkgFuncName(f))
-				if ctyp == nil {
-					return
-				}
-				if ctyp.IsInterface() {
-					return
-				}
-				// Bail, if we can not inline the hot callee proactively.
-				if !CanSpecialize(f) {
-					return
-				}
-				// Prevent specialization on lines with more than one iface method specialization opportunities.
-				if count, ok := lineMap[line]; ok {
-					if count == 1 {
-						ret := SpecializeACallSite(call, fn, ctyp, enclosingStmtNode)
-						changed = changed || ret
-					} else if count > 1 {
-						if base.Flag.LowerM != 0 {
-							fmt.Printf("%v: cannot specialize hot interface method call %v\n", ir.Line(n), call)
-						}
-					}
-				}
-			}
+
+		ir.EditChildren(n, edit)
+
+		call, ok := n.(*ir.CallExpr)
+		if !ok {
+			return n
 		}
-	})
-	return changed
+		if call.Op() != ir.OCALLINTER {
+			return n
+		}
+
+		//fmt.Printf("Call: %+v\n", call)
+		//fmt.Printf("Enclosing statement: %+v\n", enclosingStmtNode)
+		// Bail, if we do not have a hot callee.
+		f := p.findHotConcreteCallee(fn, n)
+		if f == nil {
+			//fmt.Printf("no callee\n")
+			return n
+		}
+		// Bail, if we do not have a Type node for the hot callee.
+		ctyp := typeOfMethodParent(f)
+		if ctyp == nil {
+			//fmt.Printf("no type\n")
+			return n
+		}
+		if ctyp.IsInterface() {
+			//fmt.Printf("concrete type is an interface? %+v\n", ctyp)
+			return n
+		}
+		// Bail, if we can not inline the hot callee proactively.
+		if !CanSpecialize(f) {
+			//fmt.Printf("can't specialize %+v\n", f)
+			return n
+		}
+		return SpecializeACallSite(n, call, fn, ctyp)
+	}
+
+	ir.EditChildren(fn, edit)
+
+	if base.Flag.LowerM > 2 {
+		fmt.Printf("%s after specialization: %+v\n", ir.LinkFuncName(fn), fn)
+	}
 }
 
 // SpecializeACallSite specializes the given call using a direct method call to
 // concretenode.
-func SpecializeACallSite(call *ir.CallExpr, curfn *ir.Func, concretetyp *types.Type, enclosingStmtNode ir.Node) bool {
-	newnode := rewriteASTNode(enclosingStmtNode, curfn, concretetyp)
-	if newnode == nil {
-		return false
+func SpecializeACallSite(n ir.Node, call *ir.CallExpr, curfn *ir.Func, concretetyp *types.Type) ir.Node {
+	if base.Flag.LowerM > 2 {
+		fmt.Printf("Specializing call to %+v. Before: %+v\n", concretetyp, n)
 	}
+
+	// TODO: move into package inline?
+
+	// OINCALL of:
+	//
+	// var ret1 R1
+	// var retN RN
+	//
+	// var arg1 A1 = arg1 expr
+	// var argN AN = argN expr
+	//
+	// t, ok := sel.(Concrete)
+	// if ok {
+	//   ret1, retN = t.Method(arg1, ... argN)
+	// } else {
+	//   ret1, retN = sel.Method(arg1, ... argN)
+	// }
+	//
+	// OINCALL retvars: ret1, ... retN
+
+	var retvars []ir.Node
+
+	sig := call.X.Type()
+	for _, ret := range sig.Results().FieldSlice() {
+		retvars = append(retvars, typecheck.Temp(ret.Type))
+	}
+
+	sel := call.X.(*ir.SelectorExpr)
+	pos := call.Pos()
+	init := ir.TakeInit(call)
+
+	// Move arguments to assignments prior to the if statement. We cannot
+	// simply copy the args' IR, as some IR constructs cannot be copied,
+	// such as labels (possible in InlinedCall nodes).
+	args := call.Args.Take()
+	argvars := make([]ir.Node, 0, len(args))
+	for _, arg := range args {
+		argvar := typecheck.Temp(arg.Type())
+		argvars = append(argvars, argvar)
+
+		assign := ir.NewAssignStmt(pos, argvar, arg)
+		assign.SetTypecheck(1)
+		init.Append(assign)
+	}
+	call.Args = argvars
+
+	assert := ir.NewTypeAssertExpr(pos, sel.X, concretetyp)
+	assert.SetOp(ir.ODOTTYPE2)
+	assert.SetTypecheck(1)
+
 	tmpnode := typecheck.Temp(concretetyp)
-	tmpcond := typecheck.Temp(types.Types[types.TBOOL])
-	r := createIfStmt(call, enclosingStmtNode, newnode, concretetyp, tmpnode, tmpcond)
-	ReplaceNode(curfn, r, enclosingStmtNode)
-	if base.Flag.LowerM != 0 {
-		fmt.Printf("%v: specializing %v: %v\n", ir.Line(enclosingStmtNode), enclosingStmtNode, r)
-	}
-	return true
-}
+	tmpok := typecheck.Temp(types.Types[types.TBOOL])
 
-// createIfStmt creates an if-stmt surrounding the direct method call.
-func createIfStmt(call *ir.CallExpr, oldnode ir.Node, newnode ir.Node, concretetyp *types.Type, tmpnode *ir.Name, tmpcond *ir.Name) ir.Node {
-	sel := call.X.(*ir.SelectorExpr)
-	dt := ir.NewTypeAssertExpr(sel.Pos(), sel.X, nil)
-	dt.SetType(concretetyp)
-	dt.SetOp(ir.ODOTTYPE2)
-	dt.SetTypecheck(1)
-	r := ir.NewIfStmt(sel.Pos(), nil, nil, nil)
-	aslist := ir.NewAssignListStmt(sel.Pos(), ir.OAS2DOTTYPE, []ir.Node{tmpnode, tmpcond}, []ir.Node{dt})
-	aslist.Def = true
-	aslist.SetTypecheck(1)
-	r.PtrInit().Append(typecheck.Stmt(aslist))
-	r.Else = []ir.Node{oldnode}
-	r.Cond = typecheck.Expr(tmpcond)
-	r.Body = []ir.Node{newnode}
-	r.SetTypecheck(1)
-	return r
-}
+	assertAsList := ir.NewAssignListStmt(pos, ir.OAS2DOTTYPE, []ir.Node{tmpnode, tmpok}, []ir.Node{assert})
+	assertAsList.Def = true
+	assertAsList.SetTypecheck(1)
+	init.Append(typecheck.Stmt(assertAsList))
 
-// isEnclosingStmt checks if the statement surrounding the interface method is specializable.
-func isEnclosingStmt(node ir.Node) bool {
-	// These are a subset of nodes that we decide to specialize. This list can
-	// be extended in the future.
-	switch node.Op() {
-	case ir.OAS2FUNC, ir.OAS2RECV, ir.OAS2MAPR, ir.OAS2DOTTYPE:
-		as := node.(*ir.AssignListStmt)
-		if as.Def {
-			return false
-		}
-	case ir.OAS:
-		as := node.(*ir.AssignStmt)
-		if as.Def {
-			return false
-		}
-	case ir.OINDEX, ir.OEFACE, ir.OAND, ir.OANDNOT, ir.OASOP,
-		ir.OSUB, ir.OMUL, ir.OADD, ir.OOR, ir.OXOR, ir.OLSH, ir.ORSH, ir.OUNSAFEADD, ir.OCOMPLEX, ir.OEQ, ir.ONE,
-		ir.OLT, ir.OLE, ir.OGT, ir.OGE, ir.ONOT, ir.ONEG, ir.OPLUS, ir.OBITNOT, ir.OREAL, ir.OIMAG,
-		ir.OSPTR, ir.OITAB, ir.OIDATA, ir.OADDSTR, ir.OANDAND, ir.OOROR, ir.ORETURN:
-		return true
-	default:
-		return false
-	}
-	return true
-}
+	concreteCallee := typecheck.Callee(ir.NewSelectorExpr(pos, ir.OXDOT, tmpnode, sel.Sel))
+	concreteCall := typecheck.Call(pos, concreteCallee, argvars, call.IsDDD)
 
-// rewriteASTNode takes an expression node that contains an interface call
-// (ir.OCALLINTER) and devirtualizes that call while keeping the remaining AST
-// nodes untouched.
-func rewriteASTNode(newNode ir.Node, fn *ir.Func, concretetyp *types.Type) ir.Node {
-	cn := ir.DeepCopy(newNode.Pos(), newNode)
-	var edit func(ir.Node) ir.Node
-	edit = func(n ir.Node) ir.Node {
-		if n == nil {
-			return n
-		}
-		ir.EditChildren(n, edit)
-		if call, ok := n.(*ir.CallExpr); ok {
-			if call.Op() == ir.OCALLINTER {
-				return mkcallnode(call, fn, concretetyp)
-			}
-		}
-		return n
-	}
-	ir.EditChildren(cn, edit)
-	return cn
-}
-
-// mkcallnode creates the direct call node with arguments while retaining the
-// original statement.
-func mkcallnode(call *ir.CallExpr, curfn *ir.Func, concretetyp *types.Type) ir.Node {
-	if call.Op() != ir.OCALLINTER {
-		return call
-	}
-	sel := call.X.(*ir.SelectorExpr)
-	dt := ir.NewTypeAssertExpr(sel.Pos(), sel.X, nil)
-	dt.SetType(concretetyp)
-	x := typecheck.Callee(ir.NewSelectorExpr(sel.Pos(), ir.OXDOT, dt, sel.Sel))
-	call1 := ir.NewCallExpr(sel.Pos(), ir.OCALL, nil, call.Args)
-
-	switch x.Op() {
-	case ir.ODOTMETH:
-		x := x.(*ir.SelectorExpr)
-		if base.Flag.LowerM > 1 {
-			base.WarnfAt(call.Pos(), "specializing %v to %v", sel, concretetyp)
-		}
-		call1.SetOp(ir.OCALLMETH)
-		call1.X = x
-	case ir.ODOTINTER:
-		x := x.(*ir.SelectorExpr)
-		if base.Flag.LowerM > 1 {
-			base.WarnfAt(call.Pos(), "partially specializing %v to %v", sel, concretetyp)
-		}
-		call1.SetOp(ir.OCALLINTER)
-		call1.X = x
-	default:
-		if base.Flag.LowerM > 1 {
-			base.WarnfAt(call.Pos(), "Specializer:: failed to specialize %v (%v)", x, x.Op())
-		}
-		return call
-	}
-	call1.SetTypecheck(1)
-	types.CheckSize(x.Type())
-	switch ft := x.Type(); ft.NumResults() {
+	var trueNode, elseNode ir.Node
+	switch len(retvars) {
 	case 0:
+		trueNode = concreteCall
+		elseNode = call
 	case 1:
-		call1.SetType(ft.Results().Field(0).Type)
-	default:
-		call1.SetType(ft.Results())
-	}
-	typecheck.FixMethodCall(call1)
-	return call1
-}
+		trueAs := ir.NewAssignStmt(pos, retvars[0], concreteCall)
+		trueAs.SetTypecheck(1)
+		trueNode = trueAs
 
-// ReplaceNode replaces the old node containing virtual method calls with a new
-// specialized node.
-func ReplaceNode(fn *ir.Func, rep ir.Node, node ir.Node) {
-	ir.CurFunc = fn
-	var edit func(ir.Node) ir.Node
-	line := ir.Line(node)
-	edit = func(n ir.Node) ir.Node {
-		ir.EditChildren(n, edit)
-		if ir.Line(n) == line {
-			return rep
-		}
-		return n
+		elseAs := ir.NewAssignStmt(pos, retvars[0], call)
+		elseAs.SetTypecheck(1)
+		elseNode = elseAs
+	default:
+		trueAsList := ir.NewAssignListStmt(pos, ir.OAS2FUNC, retvars, []ir.Node{concreteCall})
+		trueAsList.SetTypecheck(1)
+		trueNode = trueAsList
+
+		elseAsList := ir.NewAssignListStmt(pos, ir.OAS2FUNC, retvars, []ir.Node{call})
+		elseAsList.SetTypecheck(1)
+		elseNode = elseAsList
 	}
-	ir.EditChildren(fn, edit)
+
+	cond := ir.NewIfStmt(pos, nil, nil, nil)
+	cond.SetInit(init)
+	cond.Cond = typecheck.Expr(tmpok)
+	cond.Body = []ir.Node{trueNode}
+	cond.Else = []ir.Node{elseNode}
+	cond.Likely = true
+	cond.SetTypecheck(1)
+
+	body := []ir.Node{cond}
+
+	// This isn't really an inlined call, but InlinedCallExpr makes
+	// handling reassignment of return values easier.
+	//
+	// TODO: make sure this doesn't muck up the inline tree.
+	res := ir.NewInlinedCallExpr(pos, body, retvars)
+	res.SetType(call.Type())
+	res.SetTypecheck(1)
+
+	if base.Flag.LowerM > 2 {
+		fmt.Printf("Specializing call to %+v. After: %+v\n", concretetyp, res)
+	}
+
+	return res
 }
