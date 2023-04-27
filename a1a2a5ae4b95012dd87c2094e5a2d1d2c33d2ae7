@@ -57,6 +57,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e0bc9289_0e204b02",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-04-27T20:38:20Z",
+      "side": 1,
+      "message": "An external symbol is a symbol from a non-Go object file. That is exactly what AttrExternal indicates. It should return false for any symbol within a Go object (shared or not).\n\nThe ELF documentation ignores whether the stub itself is PIC or non-PIC when discussing the caller properties.\n\nToday we have case 1 (in any sane implementation, it is always PIC), and non-PIC + case 3. I\u0027ll extend the comment.",
+      "parentUuid": "6ad3cac8_00f44747",
+      "revId": "a1a2a5ae4b95012dd87c2094e5a2d1d2c33d2ae7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "908b5954_67b91761",
         "filename": "src/cmd/link/internal/ppc64/asm.go",
         "patchSetId": 4
@@ -68,6 +86,24 @@
       "writtenOn": "2023-04-27T20:02:50Z",
       "side": 1,
       "message": "Could you use stub.AddUint32 instead of SetUint32 for these so you don\u0027t have to pass in the offset with a computation?",
+      "revId": "a1a2a5ae4b95012dd87c2094e5a2d1d2c33d2ae7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6abba17c_c8204812",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-04-27T20:38:20Z",
+      "side": 1,
+      "message": "AddSymRef grows the symbol by size of the relocation, we need to backtrack to set the non-relocated bits. IMO, this seems much less error prone than the previous approach.",
+      "parentUuid": "908b5954_67b91761",
       "revId": "a1a2a5ae4b95012dd87c2094e5a2d1d2c33d2ae7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
