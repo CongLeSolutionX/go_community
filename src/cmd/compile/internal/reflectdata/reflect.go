@@ -1241,7 +1241,7 @@ func InterfaceMethodOffset(ityp *types.Type, i int64) int64 {
 	// interface type descriptor layout is struct {
 	//   _type        // commonSize
 	//   pkgpath      // 1 word
-	//   []imethod    // 3 words (pointing to [...]imethod below)
+	//   []imethod    // 3 or 4 words (pointing to [...]imethod below), possibly 2-word aligned.
 	//   uncommontype // uncommonSize
 	//   [...]imethod
 	// }
