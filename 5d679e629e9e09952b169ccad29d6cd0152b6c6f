@@ -52,6 +52,24 @@
       "parentUuid": "f93532f0_9bb5c3ca",
       "revId": "5d679e629e9e09952b169ccad29d6cd0152b6c6f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b574ea58_d07a6f3a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-04-27T12:05:20Z",
+      "side": 1,
+      "message": "Ok, let\u0027s try get Nick\u0027s patch and my patches merged and then apply this CL.\n\nI tried to detach this CL from the original chain to make this clear, but Gerrit is still tracking the connection. It seems like that\u0027s just [the way it works](https://stackoverflow.com/a/74408822) 🤷🏻‍♂️.",
+      "parentUuid": "7799a4c1_5330e208",
+      "revId": "5d679e629e9e09952b169ccad29d6cd0152b6c6f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
