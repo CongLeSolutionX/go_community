@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ead4edcd_4a2d3ebd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 62498
+      },
+      "writtenOn": "2023-04-27T20:25:52Z",
+      "side": 1,
+      "message": "More info on the security concerns here: https://lore.kernel.org/git/pull.1261.v8.git.git.1657834081.gitgitgadget@gmail.com/ (Maybe I should add it to the commit message...)\n\nThis is related to an internal bug in git-core\u0027s component, is it OK to post the b/ URL here or include it in the CL?",
+      "revId": "ee72a6b062754bea2c30f57d292d0c8ffc8b3a8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
