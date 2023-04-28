@@ -69,6 +69,24 @@
       "parentUuid": "da11ce5b_2bd4d516",
       "revId": "ee72a6b062754bea2c30f57d292d0c8ffc8b3a8b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "feee19d4_21d80a1b",
+        "filename": "src/cmd/go/internal/modfetch/codehost/git.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-04-28T03:27:27Z",
+      "side": 1,
+      "message": "\u003e That said, I haven\u0027t figured out how to test that this does meet the requirements for us to turn on safe.bareRepository\u003dexplicit on our end; is there somewhere i can manipulate the default local gitconfig during the test suite to try it out? Adding that test would also help with the fragility you pointed out.\n\nThere are a few existing script tests that shim in a `.gitconfig` in various ways:\nhttps://cs.opensource.google/search?q\u003dgitconfig%20filepath:cmd%2Fgo%2Ftestdata%2Fscript\u0026ss\u003dgo%2Fgo",
+      "parentUuid": "f1d404c2_620db034",
+      "revId": "ee72a6b062754bea2c30f57d292d0c8ffc8b3a8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
