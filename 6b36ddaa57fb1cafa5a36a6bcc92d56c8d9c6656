@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "410fb4df_02c7617e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 62403
+      },
+      "writtenOn": "2023-04-28T14:09:45Z",
+      "side": 1,
+      "message": "Done - reverted to 80 col",
+      "parentUuid": "90481ca8_d8c1d1e2",
+      "revId": "6b36ddaa57fb1cafa5a36a6bcc92d56c8d9c6656",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "14adc35d_73405004",
