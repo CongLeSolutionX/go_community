@@ -89,6 +89,63 @@
       "message": "This was a drive by fix, if we\u0027d rather I make a separate CL for this, let me know.",
       "revId": "38bf800b8a06718aec4092b596061d1704c35c18",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ad19d9b_d8903b41",
+        "filename": "src/internal/testenv/testenv_notwin.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-04-28T14:59:31Z",
+      "side": 1,
+      "message": "Could you also include `android` in this case? It\u0027s not at all obvious to me why and `android` builder would necessarily prohibit symlinks (and I wonder whether the `corellium` builders in particular might actually support them).\n\nIf it breaks I\u0027ll do the cleanup, since I\u0027ve been messing with the `android` environment anyway. 😅",
+      "revId": "38bf800b8a06718aec4092b596061d1704c35c18",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9cfeccd0_55293e3c",
+        "filename": "src/internal/testenv/testenv_notwin.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-04-28T14:59:31Z",
+      "side": 1,
+      "message": "(nit) use `SyscallIsNotSupported` instead, so that this will generalize better if we need it on more platforms?",
+      "revId": "38bf800b8a06718aec4092b596061d1704c35c18",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7bccb092_94416be3",
+        "filename": "src/internal/testenv/testenv_notwin.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-04-28T14:59:31Z",
+      "side": 1,
+      "message": "(nit) “runtime” here seems a little confusing, since it could either refer to the Go runtime or the WASI runtime.\n\nMaybe instead:\n```\nreturn false, fmt.Sprintf(\"symlinks unsupported: %v\", err)\n```",
+      "range": {
+        "startLine": 39,
+        "startChar": 39,
+        "endLine": 39,
+        "endChar": 54
+      },
+      "revId": "38bf800b8a06718aec4092b596061d1704c35c18",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
