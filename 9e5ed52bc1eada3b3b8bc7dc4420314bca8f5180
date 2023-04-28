@@ -76,6 +76,30 @@
       },
       "revId": "9e5ed52bc1eada3b3b8bc7dc4420314bca8f5180",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "deae3978_6d65940b",
+        "filename": "src/runtime/internal/atomic/atomic_loong64.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 54019
+      },
+      "writtenOn": "2023-04-28T09:46:25Z",
+      "side": 1,
+      "message": "Thanks！",
+      "parentUuid": "cc9b3426_1047d52b",
+      "range": {
+        "startLine": 101,
+        "startChar": 2,
+        "endLine": 101,
+        "endChar": 6
+      },
+      "revId": "9e5ed52bc1eada3b3b8bc7dc4420314bca8f5180",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
