@@ -55,6 +55,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8332c33_51eddccb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-04-28T17:43:19Z",
+      "side": 1,
+      "message": "Thanks for the thorough review.",
+      "revId": "6b76e24c0595bad1be56c1bffb095381df4ffe77",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d44a8325_1e2e0483",
@@ -80,6 +97,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "6887a936_27d4ba43",
+        "filename": "src/go/types/api_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1310,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-04-28T17:43:19Z",
+      "side": 1,
+      "message": "Understood - but both files have to be in the same package.\nI note that the new situation is not worse than what we had before (\"\" path in both cases).\nMaybe we should have a mechanism for these cases but this is a simple-enough test that I think we\u0027re ok for now.",
+      "parentUuid": "d44a8325_1e2e0483",
+      "range": {
+        "startLine": 1310,
+        "startChar": 10,
+        "endLine": 1310,
+        "endChar": 19
+      },
+      "revId": "6b76e24c0595bad1be56c1bffb095381df4ffe77",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "412028b4_d94e0817",
         "filename": "src/go/types/issues_test.go",
         "patchSetId": 4
@@ -91,6 +132,30 @@
       "writtenOn": "2023-04-28T16:42:16Z",
       "side": 1,
       "message": "Could this use typecheck/mustTypecheck? (I think it could)",
+      "range": {
+        "startLine": 296,
+        "startChar": 0,
+        "endLine": 302,
+        "endChar": 0
+      },
+      "revId": "6b76e24c0595bad1be56c1bffb095381df4ffe77",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6dcdce8a_ce839690",
+        "filename": "src/go/types/issues_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-04-28T17:43:19Z",
+      "side": 1,
+      "message": "It can\u0027t at the moment because we need f (the AST), not the package, and we need to type check as well.",
+      "parentUuid": "412028b4_d94e0817",
       "range": {
         "startLine": 296,
         "startChar": 0,
@@ -126,6 +191,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "42a124a4_7187b5c6",
+        "filename": "src/go/types/issues_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-04-28T17:43:19Z",
+      "side": 1,
+      "message": "Same reply applies here as before.",
+      "parentUuid": "10b5bcd9_c921d463",
+      "range": {
+        "startLine": 403,
+        "startChar": 1,
+        "endLine": 404,
+        "endChar": 58
+      },
+      "revId": "6b76e24c0595bad1be56c1bffb095381df4ffe77",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "f85042b7_964777ea",
         "filename": "src/go/types/issues_test.go",
         "patchSetId": 4
@@ -137,6 +226,30 @@
       "writtenOn": "2023-04-28T16:42:16Z",
       "side": 1,
       "message": "This could use typecheck.",
+      "range": {
+        "startLine": 491,
+        "startChar": 2,
+        "endLine": 496,
+        "endChar": 3
+      },
+      "revId": "6b76e24c0595bad1be56c1bffb095381df4ffe77",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "210e47f6_d4888c85",
+        "filename": "src/go/types/issues_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-04-28T17:43:19Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "f85042b7_964777ea",
       "range": {
         "startLine": 491,
         "startChar": 2,
