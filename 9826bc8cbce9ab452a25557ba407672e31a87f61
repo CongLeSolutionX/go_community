@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1f210e6_7467f97d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-04-30T08:53:58Z",
+      "side": 1,
+      "message": "Something is odd about the state of this CL in Gerrit. Unlike the following the CLs in the chain, it\u0027s not marked as Submittable. And in my dashboard it says it\u0027s missing Code-Review and TryBots checks, even so it has them. Let me know if there is something I need to do here to make this submittable. Thanks!",
+      "revId": "9826bc8cbce9ab452a25557ba407672e31a87f61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
