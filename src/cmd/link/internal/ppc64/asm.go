@@ -48,6 +48,94 @@ import (
 // The build configuration supports PC-relative instructions and relocations (limited to tested targets).
 var hasPCrel = buildcfg.GOPPC64 >= 10 && buildcfg.GOOS == "linux"
 
+const (
+	// For genstub, the type of stub required by the caller.
+	STUB_TOC = iota
+	STUB_PCREL
+)
+
+var stubStrs = []string{
+	STUB_TOC:   "_callstub_toc",
+	STUB_PCREL: "_callstub_pcrel",
+}
+
+const (
+	OP_TOCRESTORE    = 0xe8410018 // ld r2,24(r1)
+	OP_TOCSAVE       = 0xf8410018 // std r2,24(r1)
+	OP_NOP           = 0x60000000 // nop
+	OP_BL            = 0x48000001 // bl 0
+	OP_BCTR          = 0x4e800420 // bctr
+	OP_BCTRL         = 0x4e800421 // bctrl
+	OP_ADDI          = 0x38000000 // addi
+	OP_ADDIS         = 0x3c000000 // addis
+	OP_LD            = 0xe8000000 // ld
+	OP_PLA_PFX       = 0x06100000 // pla (prefix instruction word)
+	OP_PLA_SFX       = 0x38000000 // pla (suffix instruction word)
+	OP_PLD_PFX_PCREL = 0x04100000 // pld (prefix instruction word, R=1)
+	OP_PLD_SFX       = 0xe4000000 // pld (suffix instruction word)
+
+	OP_ADDIS_R12_R2 = OP_ADDIS | 12<<21 | 2<<16 // addis r12,r2,0
+	OP_ADDI_R12_R12 = OP_ADDI | 12<<21 | 12<<16 // addi  r12,r12,0
+	OP_PLD_SFX_R12  = OP_PLD_SFX | 12<<21       // pld   r12,0 (suffix instruction word)
+	OP_PLA_SFX_R12  = OP_PLA_SFX | 12<<21       // pla   r12,0 (suffix instruction word)
+	OP_LIS_R12      = OP_ADDIS | 12<<21         // lis r12,0
+	OP_LD_R12_R12   = OP_LD | 12<<21 | 12<<16   // ld r12,0(r12)
+	OP_MTCTR_R12    = 0x7d8903a6                // mtctr r12
+
+	// Masks to match opcodes
+	MASK_PLD_PFX  = 0xfff70000
+	MASK_PLD_SFX  = 0xfc1f0000 // Also checks RA = 0 if check value is OP_PLD_SFX.
+	MASK_PLD_RT   = 0x03e00000 // Extract RT from the pld suffix.
+	MASK_OP_LD    = 0xfc000003
+	MASK_OP_ADDIS = 0xfc000000
+)
+
+// Generate a stub to call between TOC and NOTOC functions. See genpltstub for more details about calling stubs.
+// This is almost identical to genpltstub, except the location of the target symbol is known at link time.
+func genstub(ctxt *ld.Link, ldr *loader.Loader, r loader.Reloc, ri int, s loader.Sym, stubType int) (ssym loader.Sym, firstUse bool) {
+	addendStr := ""
+	if r.Add() != 0 {
+		addendStr = fmt.Sprintf("%+d", r.Add())
+	}
+
+	stubName := fmt.Sprintf("%s%s.%s", stubStrs[stubType], addendStr, ldr.SymName(r.Sym()))
+	stub := ldr.CreateSymForUpdate(stubName, 0)
+	firstUse = stub.Size() == 0
+	if firstUse {
+		switch stubType {
+		// A call from a function using a TOC pointer.
+		case STUB_TOC:
+			stub.AddUint32(ctxt.Arch, OP_TOCSAVE) // std r2,24(r1)
+			stub.AddSymRef(ctxt.Arch, r.Sym(), r.Add(), objabi.R_ADDRPOWER_TOCREL_DS, 8)
+			stub.SetUint32(ctxt.Arch, stub.Size()-8, OP_ADDIS_R12_R2) // addis r12,r2,targ@toc@ha
+			stub.SetUint32(ctxt.Arch, stub.Size()-4, OP_ADDI_R12_R12) // addi  r12,targ@toc@l(r12)
+
+		// A call from PC relative function.
+		case STUB_PCREL:
+			// Set up address of targ in r12, PCrel
+			stub.AddSymRef(ctxt.Arch, r.Sym(), r.Add(), objabi.R_ADDRPOWER_PCREL34, 8)
+			stub.SetUint32(ctxt.Arch, stub.Size()-8, OP_PLA_PFX)
+			stub.SetUint32(ctxt.Arch, stub.Size()-4, OP_PLA_SFX_R12) // pla r12, r
+		}
+		// Jump to the loaded pointer
+		stub.AddUint32(ctxt.Arch, OP_MTCTR_R12) // mtctr r12
+		stub.AddUint32(ctxt.Arch, OP_BCTR)      // bctr
+		stub.SetType(sym.STEXT)
+	}
+
+	// Update the relocation to use the call stub
+	su := ldr.MakeSymbolUpdater(s)
+	su.SetRelocSym(ri, stub.Sym())
+
+	// Rewrite the TOC restore slot (a nop) if the caller uses a TOC pointer.
+	switch stubType {
+	case STUB_TOC:
+		rewritetoinsn(&ctxt.Target, ldr, su, int64(r.Off()+4), 0xFFFFFFFF, OP_NOP, OP_TOCRESTORE)
+	}
+
+	return stub.Sym(), firstUse
+}
+
 func genpltstub(ctxt *ld.Link, ldr *loader.Loader, r loader.Reloc, ri int, s loader.Sym) (sym loader.Sym, firstUse bool) {
 	// The ppc64 ABI PLT has similar concepts to other
 	// architectures, but is laid out quite differently. When we
@@ -104,14 +192,19 @@ func genpltstub(ctxt *ld.Link, ldr *loader.Loader, r loader.Reloc, ri int, s loa
 	// the caller maintains a TOC pointer in R2. A TOC pointer implies
 	// we can always generate a position independent stub.
 	//
-	// For dynamic calls made from an external object, it is safe to
-	// assume a TOC pointer is maintained. These were imported from
-	// a R_PPC64_REL24 relocation.
+	// For dynamic calls made from an external object, they maintain
+	// a TOC pointer only when an R_PPC64_REL24 relocation is used.
+	// An R_PPC64_REL24_NOTOC relocation does not use or maintain
+	// a TOC pointer, and almost always implies a Power10 target.
 	//
 	// For dynamic calls made from a Go object, the shared attribute
 	// indicates a PIC symbol, which requires a TOC pointer be
 	// maintained. Otherwise, a simpler non-PIC stub suffices.
-	if ldr.AttrExternal(s) || ldr.AttrShared(s) {
+	if r.Type() == objabi.ElfRelocOffset+objabi.RelocType(elf.R_PPC64_REL24_NOTOC) {
+		// This is the PIC version of stubType 3.
+		stubTypeStr = "_pic"
+		stubType = 4
+	} else if ldr.AttrExternal(s) || ldr.AttrShared(s) {
 		stubTypeStr = "_tocrel"
 		stubType = 1
 	} else {
@@ -141,11 +234,10 @@ func genpltstub(ctxt *ld.Link, ldr *loader.Loader, r loader.Reloc, ri int, s loa
 		if len(p) >= int(r.Off()+8) {
 			nop = ctxt.Arch.ByteOrder.Uint32(p[r.Off()+4:])
 		}
-		if nop != 0x60000000 {
+		if nop != OP_NOP {
 			ldr.Errorf(s, "Symbol %s is missing toc restoration slot at offset %d", ldr.SymName(s), r.Off()+4)
 		}
-		const o1 = 0xe8410018 // ld r2,24(r1)
-		ctxt.Arch.ByteOrder.PutUint32(p[r.Off()+4:], o1)
+		ctxt.Arch.ByteOrder.PutUint32(p[r.Off()+4:], OP_TOCRESTORE)
 	}
 
 	return stub.Sym(), firstUse
@@ -178,6 +270,42 @@ func genstubs(ctxt *ld.Link, ldr *loader.Loader) {
 							abifuncs = append(abifuncs, sym)
 						}
 					}
+				case sym.STEXT:
+					targ := r.Sym()
+					if (ldr.AttrExternal(targ) && ldr.SymLocalentry(targ) != 1) || !ldr.AttrExternal(targ) {
+						// All local symbols share the same TOC pointer in R2. Direct calls into a Go
+						// symbol always preserve R2. No call stub is needed.
+					} else {
+						// This caller has a TOC pointer. The callee might clobber it. R2 needs to be saved
+						// and restored.
+						if sym, firstUse := genstub(ctxt, ldr, r, i, s, STUB_TOC); firstUse {
+							stubs = append(stubs, sym)
+						}
+					}
+				}
+
+			case objabi.ElfRelocOffset + objabi.RelocType(elf.R_PPC64_REL24_NOTOC):
+				switch ldr.SymType(r.Sym()) {
+				case sym.SDYNIMPORT:
+					// This call goes through the PLT, generate and call through a PLT stub.
+					if sym, firstUse := genpltstub(ctxt, ldr, r, i, s); firstUse {
+						stubs = append(stubs, sym)
+					}
+
+				case sym.SXREF:
+					// TODO: This is not supported yet.
+					ldr.Errorf(s, "Unsupported NOTOC external reference call into %s", ldr.SymName(r.Sym()))
+
+				case sym.STEXT:
+					targ := r.Sym()
+					if (ldr.AttrExternal(targ) && ldr.SymLocalentry(targ) <= 1) || (!ldr.AttrExternal(targ) && !ldr.AttrShared(targ)) {
+						// This is NOTOC to NOTOC call (st_other is 0 or 1). No call stub is needed.
+					} else {
+						// This is a NOTOC to TOC function. Generate a calling stub.
+						if sym, firstUse := genstub(ctxt, ldr, r, i, s, STUB_PCREL); firstUse {
+							stubs = append(stubs, sym)
+						}
+					}
 				}
 
 			// Handle objects compiled with -fno-plt. Rewrite local calls to avoid indirect calling.
@@ -193,10 +321,6 @@ func genstubs(ctxt *ld.Link, ldr *loader.Loader) {
 			case objabi.ElfRelocOffset + objabi.RelocType(elf.R_PPC64_PLTCALL):
 				if ldr.SymType(r.Sym()) == sym.STEXT {
 					// This relocation should point to a bctrl followed by a ld r2, 24(41)
-					const OP_BL = 0x48000001         // bl 0
-					const OP_TOCRESTORE = 0xe8410018 // ld r2,24(r1)
-					const OP_BCTRL = 0x4e800421      // bctrl
-
 					// Convert the bctrl into a bl.
 					su := ldr.MakeSymbolUpdater(s)
 					rewritetoinsn(&ctxt.Target, ldr, su, int64(r.Off()), 0xFFFFFFFF, OP_BCTRL, OP_BL)
@@ -271,14 +395,14 @@ func genaddmoduledata(ctxt *ld.Link, ldr *loader.Loader) {
 		sz = initfunc.AddSymRef(ctxt.Arch, tgt, 0, objabi.R_ADDRPOWER_GOT_PCREL34, 8)
 		// Note, this is prefixed instruction. It must not cross a 64B boundary.
 		// It is doubleworld aligned here, so it will never cross (this function is 16B aligned, minimum).
-		initfunc.SetUint32(ctxt.Arch, sz-8, 0x04100000)
-		initfunc.SetUint32(ctxt.Arch, sz-4, 0xe4600000) // pld r3, local.moduledata@got@pcrel
+		initfunc.SetUint32(ctxt.Arch, sz-8, OP_PLD_PFX_PCREL)
+		initfunc.SetUint32(ctxt.Arch, sz-4, OP_PLD_SFX_R12) // pld r3, local.moduledata@got@pcrel
 	}
 
 	// Call runtime.addmoduledata
 	sz = initfunc.AddSymRef(ctxt.Arch, addmoduledata, 0, objabi.R_CALLPOWER, 4)
 	initfunc.SetUint32(ctxt.Arch, sz-4, 0x48000001) // bl runtime.addmoduledata
-	o(0x60000000)                                   // nop (for TOC restore)
+	o(OP_NOP)                                       // nop (for TOC restore)
 
 	// Pop stack frame and return.
 	o(0xe8010000) // ld r31, 0(r1)
@@ -369,6 +493,10 @@ func gentext(ctxt *ld.Link, ldr *loader.Loader) {
 //
 //  3. R2 does not hold the TOC pointer on entry. The caller has no expectations of R2.
 //
+// The fourth case is used for R_PPC64_REL24_NOTOC dynamic calls. This is case 3 with extra assumptions.
+//
+//  4. Identical to 3, but the target machine supports P10 PCrel instructions.
+//
 // Go only needs case 1 and 3 today. Go symbols which have AttrShare set could use case 2, but case 1 always
 // works in those cases too.
 func gencallstub(ctxt *ld.Link, ldr *loader.Loader, stubType int, stub *loader.SymbolBuilder, targ loader.Sym) {
@@ -378,22 +506,27 @@ func gencallstub(ctxt *ld.Link, ldr *loader.Loader, stubType int, stub *loader.S
 	switch stubType {
 	case 1:
 		// Save TOC, then load targ address from PLT using TOC.
-		stub.AddUint32(ctxt.Arch, 0xf8410018) // std r2,24(r1)
+		stub.AddUint32(ctxt.Arch, OP_TOCSAVE) // std r2,24(r1)
 		stub.AddSymRef(ctxt.Arch, plt, int64(ldr.SymPlt(targ)), objabi.R_ADDRPOWER_TOCREL_DS, 8)
-		stub.SetUint32(ctxt.Arch, stub.Size()-8, 0x3d820000) // addis r12,r2,targ@plt@toc@ha
-		stub.SetUint32(ctxt.Arch, stub.Size()-4, 0xe98c0000) // ld r12,targ@plt@toc@l(r12)
+		stub.SetUint32(ctxt.Arch, stub.Size()-8, OP_ADDIS_R12_R2) // addis r12,r2,targ@plt@toc@ha
+		stub.SetUint32(ctxt.Arch, stub.Size()-4, OP_LD_R12_R12)   // ld r12,targ@plt@toc@l(r12)
 	case 3:
 		// Load targ address from PLT. This is position dependent.
 		stub.AddSymRef(ctxt.Arch, plt, int64(ldr.SymPlt(targ)), objabi.R_ADDRPOWER_DS, 8)
-		stub.SetUint32(ctxt.Arch, stub.Size()-8, 0x3d800000) // lis r12,targ@plt@ha
-		stub.SetUint32(ctxt.Arch, stub.Size()-4, 0xe98c0000) // ld r12,targ@plt@l(r12)
+		stub.SetUint32(ctxt.Arch, stub.Size()-8, OP_LIS_R12)    // lis r12,targ@plt@ha
+		stub.SetUint32(ctxt.Arch, stub.Size()-4, OP_LD_R12_R12) // ld r12,targ@plt@l(r12)
+	case 4:
+		// Set up address of targ in r12 (PCrel)
+		stub.AddSymRef(ctxt.Arch, plt, int64(ldr.SymPlt(targ)), objabi.R_ADDRPOWER_PCREL34, 8)
+		stub.SetUint32(ctxt.Arch, stub.Size()-8, OP_PLD_PFX_PCREL)
+		stub.SetUint32(ctxt.Arch, stub.Size()-4, OP_PLD_SFX_R12) // pld r12, targ@plt
 	default:
 		log.Fatalf("gencallstub does not support ELFv2 ABI property %d", stubType)
 	}
 
 	// Jump to the loaded pointer
-	stub.AddUint32(ctxt.Arch, 0x7d8903a6) // mtctr r12
-	stub.AddUint32(ctxt.Arch, 0x4e800420) // bctr
+	stub.AddUint32(ctxt.Arch, OP_MTCTR_R12) // mtctr r12
+	stub.AddUint32(ctxt.Arch, OP_BCTR)      // bctr
 }
 
 // Rewrite the instruction at offset into newinsn. Also, verify the
@@ -410,8 +543,7 @@ func rewritetoinsn(target *ld.Target, ldr *loader.Loader, su *loader.SymbolBuild
 // Rewrite the instruction at offset into a hardware nop instruction. Also, verify the
 // existing instruction under mask matches the check value.
 func rewritetonop(target *ld.Target, ldr *loader.Loader, su *loader.SymbolBuilder, offset int64, mask, check uint32) {
-	const NOP = 0x60000000
-	rewritetoinsn(target, ldr, su, offset, mask, check, NOP)
+	rewritetoinsn(target, ldr, su, offset, mask, check, OP_NOP)
 }
 
 func adddynrel(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s loader.Sym, r loader.Reloc, rIdx int) bool {
@@ -438,6 +570,16 @@ func addelfdynrel(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s lo
 		}
 
 		// Handle relocations found in ELF object files.
+	case objabi.ElfRelocOffset + objabi.RelocType(elf.R_PPC64_REL24_NOTOC):
+		su := ldr.MakeSymbolUpdater(s)
+		su.SetRelocType(rIdx, objabi.R_CALLPOWER)
+
+		if targType == sym.SDYNIMPORT {
+			// Should have been handled in elfsetupplt
+			ldr.Errorf(s, "unexpected R_PPC64_REL24_NOTOC for dyn import")
+		}
+		return true
+
 	case objabi.ElfRelocOffset + objabi.RelocType(elf.R_PPC64_REL24):
 		su := ldr.MakeSymbolUpdater(s)
 		su.SetRelocType(rIdx, objabi.R_CALLPOWER)
@@ -458,6 +600,26 @@ func addelfdynrel(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s lo
 			ldr.Errorf(s, "unexpected R_PPC64_REL24 for dyn import")
 		}
 
+		return true
+
+	case objabi.ElfRelocOffset + objabi.RelocType(elf.R_PPC64_PCREL34):
+		su := ldr.MakeSymbolUpdater(s)
+		su.SetRelocType(rIdx, objabi.R_ADDRPOWER_PCREL34)
+		return true
+
+	case objabi.ElfRelocOffset + objabi.RelocType(elf.R_PPC64_GOT_PCREL34):
+		su := ldr.MakeSymbolUpdater(s)
+		su.SetRelocType(rIdx, objabi.R_ADDRPOWER_PCREL34)
+		if targType != sym.STEXT {
+			ld.AddGotSym(target, ldr, syms, targ, uint32(elf.R_PPC64_GLOB_DAT))
+			su.SetRelocSym(rIdx, syms.GOT)
+			su.SetRelocAdd(rIdx, r.Add()+int64(ldr.SymGot(targ)))
+		} else {
+			// The address of targ is known at link time. Rewrite to "pla rt,targ" from "pld rt,targ@got"
+			rewritetoinsn(target, ldr, su, int64(r.Off()), MASK_PLD_PFX, OP_PLD_PFX_PCREL, OP_PLA_PFX)
+			pla_sfx := target.Arch.ByteOrder.Uint32(su.Data()[r.Off()+4:])&MASK_PLD_RT | OP_PLA_SFX
+			rewritetoinsn(target, ldr, su, int64(r.Off()+4), MASK_PLD_SFX, OP_PLD_SFX, pla_sfx)
+		}
 		return true
 
 	case objabi.ElfRelocOffset + objabi.RelocType(elf.R_PPC_REL32):
@@ -577,13 +739,9 @@ func addelfdynrel(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, s lo
 		} else if targType == sym.STEXT {
 			if isPLT16_LO_DS {
 				// Expect an ld opcode to nop
-				const MASK_OP_LD = 63<<26 | 0x3
-				const OP_LD = 58 << 26
 				rewritetonop(target, ldr, su, int64(r.Off()), MASK_OP_LD, OP_LD)
 			} else {
 				// Expect an addis opcode to nop
-				const MASK_OP_ADDIS = 63 << 26
-				const OP_ADDIS = 15 << 26
 				rewritetonop(target, ldr, su, int64(r.Off()), MASK_OP_ADDIS, OP_ADDIS)
 			}
 			// And we can ignore this reloc now.
@@ -933,19 +1091,29 @@ func archrelocaddr(ldr *loader.Loader, target *ld.Target, syms *ld.ArchSyms, r l
 		ldr.Errorf(s, "relocation for %s is too big (>=2G): 0x%x", ldr.SymName(s), ldr.SymValue(rs))
 	}
 
+	// Note, relocations imported from external objects may not have cleared bits
+	// within a relocatable field. They need cleared before applying the relocation.
 	switch r.Type() {
 	case objabi.R_ADDRPOWER_PCREL34:
 		// S + A - P
 		t -= (ldr.SymValue(s) + int64(r.Off()))
+		o1 &^= 0x3ffff
+		o2 &^= 0x0ffff
 		o1 |= computePrefix34HI(t)
 		o2 |= computeLO(int32(t))
 	case objabi.R_ADDRPOWER_D34:
+		o1 &^= 0x3ffff
+		o2 &^= 0x0ffff
 		o1 |= computePrefix34HI(t)
 		o2 |= computeLO(int32(t))
 	case objabi.R_ADDRPOWER:
+		o1 &^= 0xffff
+		o2 &^= 0xffff
 		o1 |= computeHA(int32(t))
 		o2 |= computeLO(int32(t))
 	case objabi.R_ADDRPOWER_DS:
+		o1 &^= 0xffff
+		o2 &^= 0xfffc
 		o1 |= computeHA(int32(t))
 		o2 |= computeLO(int32(t))
 		if t&3 != 0 {
@@ -1063,8 +1231,8 @@ func gentramp(ctxt *ld.Link, ldr *loader.Loader, tramp *loader.SymbolBuilder, ta
 		// However, all text symbols are accessed with a TOC symbol as
 		// text relocations aren't supposed to be possible.
 		// So, keep using the external linking way to be more AIX friendly.
-		o1 = uint32(0x3c000000) | 12<<21 | 2<<16  // addis r12,  r2, toctargetaddr hi
-		o2 = uint32(0xe8000000) | 12<<21 | 12<<16 // ld    r12, r12, toctargetaddr lo
+		o1 = uint32(OP_ADDIS_R12_R2) // addis r12,  r2, toctargetaddr hi
+		o2 = uint32(OP_LD_R12_R12)   // ld    r12, r12, toctargetaddr lo
 
 		toctramp := ldr.CreateSymForUpdate("TOC."+ldr.SymName(tramp.Sym()), 0)
 		toctramp.SetType(sym.SXCOFFTOC)
@@ -1076,8 +1244,8 @@ func gentramp(ctxt *ld.Link, ldr *loader.Loader, tramp *loader.SymbolBuilder, ta
 		r.SetSym(toctramp.Sym())
 	} else if hasPCrel {
 		// pla r12, addr (PCrel). This works for static or PIC, with or without a valid TOC pointer.
-		o1 = uint32(0x06100000)
-		o2 = uint32(0x39800000) // pla r12, addr
+		o1 = uint32(OP_PLA_PFX)
+		o2 = uint32(OP_PLA_SFX_R12) // pla r12, addr
 
 		// The trampoline's position is not known yet, insert a relocation.
 		r, _ := tramp.AddRel(objabi.R_ADDRPOWER_PCREL34)
@@ -1089,8 +1257,8 @@ func gentramp(ctxt *ld.Link, ldr *loader.Loader, tramp *loader.SymbolBuilder, ta
 		// Used for default build mode for an executable
 		// Address of the call target is generated using
 		// relocation and doesn't depend on r2 (TOC).
-		o1 = uint32(0x3c000000) | 12<<21          // lis  r12,targetaddr hi
-		o2 = uint32(0x38000000) | 12<<21 | 12<<16 // addi r12,r12,targetaddr lo
+		o1 = uint32(OP_LIS_R12)      // lis  r12,targetaddr hi
+		o2 = uint32(OP_ADDI_R12_R12) // addi r12,r12,targetaddr lo
 
 		t := ldr.SymValue(target)
 		if t == 0 || r2Valid(ctxt) || ctxt.IsExternal() {
@@ -1113,8 +1281,8 @@ func gentramp(ctxt *ld.Link, ldr *loader.Loader, tramp *loader.SymbolBuilder, ta
 		}
 	}
 
-	o3 := uint32(0x7c0903a6) | 12<<21 // mtctr r12
-	o4 := uint32(0x4e800420)          // bctr
+	o3 := uint32(OP_MTCTR_R12) // mtctr r12
+	o4 := uint32(OP_BCTR)      // bctr
 	ctxt.Arch.ByteOrder.PutUint32(P, o1)
 	ctxt.Arch.ByteOrder.PutUint32(P[4:], o2)
 	ctxt.Arch.ByteOrder.PutUint32(P[8:], o3)
@@ -1201,7 +1369,7 @@ func archreloc(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, r loade
 					ldr.Errorf(s, "relocation for %s+%d is not an addis/addi pair: %16x", ldr.SymName(rs), r.Off(), uint64(val))
 				}
 				nval := (int64(uint32(0x380d0000)) | val&0x03e00000) << 32 // addi rX, r13, $0
-				nval |= int64(0x60000000)                                  // nop
+				nval |= int64(OP_NOP)                                      // nop
 				val = nval
 				nExtReloc = 1
 			} else {
@@ -1294,7 +1462,6 @@ func archreloc(target *ld.Target, ldr *loader.Loader, syms *ld.ArchSyms, r loade
 		// addis to, r0, x@tprel@ha
 		// addi to, to, x@tprel@l(to)
 
-		const OP_ADDI = 14 << 26
 		const OP_MASK = 0x3F << 26
 		const OP_RA_MASK = 0x1F << 16
 		// convert r2 to r0, and ld to addi
@@ -1538,8 +1705,8 @@ func ensureglinkresolver(ctxt *ld.Link, ldr *loader.Loader) *loader.SymbolBuilde
 	glink.AddUint32(ctxt.Arch, 0xe96b0008) // ld r11,8(r11)
 
 	// Jump to the dynamic resolver
-	glink.AddUint32(ctxt.Arch, 0x7d8903a6) // mtctr r12
-	glink.AddUint32(ctxt.Arch, 0x4e800420) // bctr
+	glink.AddUint32(ctxt.Arch, OP_MTCTR_R12) // mtctr r12
+	glink.AddUint32(ctxt.Arch, OP_BCTR)      // bctr
 
 	// Store the PC-rel offset to the PLT
 	r, _ := glink.AddRel(objabi.R_PCREL)
