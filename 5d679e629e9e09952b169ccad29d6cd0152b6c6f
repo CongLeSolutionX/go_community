@@ -160,6 +160,24 @@
       "parentUuid": "c354948d_f95f8c0b",
       "revId": "5d679e629e9e09952b169ccad29d6cd0152b6c6f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "318c0db6_37776744",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57733
+      },
+      "writtenOn": "2023-05-01T17:19:38Z",
+      "side": 1,
+      "message": "Ok, I\u0027ve updated my CL 👍",
+      "parentUuid": "833b79b2_ce329eea",
+      "revId": "5d679e629e9e09952b169ccad29d6cd0152b6c6f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
