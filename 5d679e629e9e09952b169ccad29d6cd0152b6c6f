@@ -142,6 +142,24 @@
       "parentUuid": "9c537aed_5fe6afec",
       "revId": "5d679e629e9e09952b169ccad29d6cd0152b6c6f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "833b79b2_ce329eea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-05-01T14:53:46Z",
+      "side": 1,
+      "message": "You can also update that one, and we abandon this CL.\n\nI\u0027m OOO today (public holiday), so feel free to go for it. If not, I\u0027ll update this CL tomorrow.",
+      "parentUuid": "c354948d_f95f8c0b",
+      "revId": "5d679e629e9e09952b169ccad29d6cd0152b6c6f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
