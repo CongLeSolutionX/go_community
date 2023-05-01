@@ -57,6 +57,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "14222b21_4ade5759",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-05-01T19:39:38Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "21188fbe61f1822f1464dbc967d94c0ed24313d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "1876d701_1a25e0df",
         "filename": "src/cmd/internal/obj/objfile.go",
         "patchSetId": 1
@@ -68,6 +85,30 @@
       "writtenOn": "2023-05-01T19:30:19Z",
       "side": 1,
       "message": "when would this happen? just curious",
+      "range": {
+        "startLine": 729,
+        "startChar": 30,
+        "endLine": 729,
+        "endChar": 54
+      },
+      "revId": "21188fbe61f1822f1464dbc967d94c0ed24313d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "511e4940_ea262469",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 729,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-05-01T19:39:38Z",
+      "side": 1,
+      "message": "I just followed the code above. I\u0027m not sure if this could happen, or any of the above.\n\nIt seems the condition above was first added in CL 222673 . Maybe we create the symbol but not populate it in some cases?",
+      "parentUuid": "1876d701_1a25e0df",
       "range": {
         "startLine": 729,
         "startChar": 30,
