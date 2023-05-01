@@ -106,6 +106,24 @@
       "parentUuid": "6932259d_db05e358",
       "revId": "5d679e629e9e09952b169ccad29d6cd0152b6c6f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c537aed_5fe6afec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 50449
+      },
+      "writtenOn": "2023-05-01T14:43:41Z",
+      "side": 1,
+      "message": "Yup, we should be able to turn on frame pointers for amd64 and arm64 now!\n\nI\u0027ll update this patch to turn on both, fix a typo in the commit message in the commit message, and then submit a new version for review.",
+      "parentUuid": "989e9f9c_27f9abad",
+      "revId": "5d679e629e9e09952b169ccad29d6cd0152b6c6f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
