@@ -124,6 +124,24 @@
       "parentUuid": "989e9f9c_27f9abad",
       "revId": "5d679e629e9e09952b169ccad29d6cd0152b6c6f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c354948d_f95f8c0b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57733
+      },
+      "writtenOn": "2023-05-01T14:45:01Z",
+      "side": 1,
+      "message": "I\u0027ve got a patch to turn it on for arm64 (https://go-review.googlesource.com/c/go/+/490815, WIP until I write an actual commit message). I can abandon that one if you\u0027d prefer to do everything in one shot?",
+      "parentUuid": "9c537aed_5fe6afec",
+      "revId": "5d679e629e9e09952b169ccad29d6cd0152b6c6f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
