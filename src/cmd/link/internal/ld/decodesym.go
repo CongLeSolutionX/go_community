@@ -11,7 +11,9 @@ import (
 	"cmd/link/internal/sym"
 	"debug/elf"
 	"encoding/binary"
+	"internal/unsafeheader"
 	"log"
+	"unsafe"
 )
 
 // Decoding the type.* symbols.	 This has to be in sync with
@@ -129,6 +131,14 @@ func decodetypeName(ldr *loader.Loader, symIdx loader.Sym, relocs *loader.Relocs
 
 	data := ldr.Data(r)
 	nameLen, nameLenLen := binary.Uvarint(data[1:])
+	// string(data[1+nameLenLen : 1+nameLenLen+int(nameLen)])
+	if ldr.AttrReadOnly(r) {
+		var s string
+		hdr := (*unsafeheader.String)(unsafe.Pointer(&s))
+		hdr.Data = unsafe.Pointer(&data[1+nameLenLen])
+		hdr.Len = int(nameLen)
+		return s
+	}
 	return string(data[1+nameLenLen : 1+nameLenLen+int(nameLen)])
 }
 
