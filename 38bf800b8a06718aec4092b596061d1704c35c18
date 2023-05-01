@@ -181,6 +181,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3f6d516f_38042382",
+        "filename": "src/internal/testenv/testenv_notwin.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-05-01T15:16:40Z",
+      "side": 1,
+      "message": "Hmm. We care about two properties here:\n1. Is the necessary system call supported at all?\n2. Are symlinks supported in the temp directory in particular?\n\nWe could have (1) without (2) if the OS supports symlinks but the temp directory does not (such as if it is a FAT32 partition), but in that case I would still want to tolerate errors other than a permission error (for example, `ENOTSUP`).\n\nOn the other hand, I could also imagine a Unix platform deciding to disallow symlinks in `/tmp` for some reason or another, and I wouldn\u0027t be surprised if they returned `EPERM` in that case.\n\nFWIW, `SyscallIsNotSupported` already includes `fs.ErrPermission` on Unix systems, because many container environments return `EPERM` for disallowed syscalls. Although in my opinion `ENOSYS` would usually be more appropriate, the pattern of returning `EPERM` seems pretty entrenched, and to my eye it looks exactly analogous to what `wasmtime` is doing here. I think it would be appropriate to widen `syscallIsNotSupported` in `testenv_notunix.go` to include the same `ErrPermission` check as on Unix.",
+      "parentUuid": "d34646a1_6c7b4195",
+      "revId": "38bf800b8a06718aec4092b596061d1704c35c18",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7bccb092_94416be3",
         "filename": "src/internal/testenv/testenv_notwin.go",
         "patchSetId": 1
