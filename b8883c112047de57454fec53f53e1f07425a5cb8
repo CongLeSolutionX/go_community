@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "40faeffd_d9c647bf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-05-01T19:37:05Z",
+      "side": 1,
+      "message": "Kind of icky that we need such CLs, but LGTM.",
+      "revId": "b8883c112047de57454fec53f53e1f07425a5cb8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
