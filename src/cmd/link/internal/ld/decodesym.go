@@ -127,9 +127,9 @@ func decodetypeName(ldr *loader.Loader, symIdx loader.Sym, relocs *loader.Relocs
 		return ""
 	}
 
-	data := ldr.Data(r)
-	nameLen, nameLenLen := binary.Uvarint(data[1:])
-	return string(data[1+nameLenLen : 1+nameLenLen+int(nameLen)])
+	data := ldr.DataString(r)
+	nameLen, nameLenLen := binary.Uvarint([]byte(data[1 : 1+binary.MaxVarintLen64]))
+	return data[1+nameLenLen : 1+nameLenLen+int(nameLen)]
 }
 
 func decodetypeNameEmbedded(ldr *loader.Loader, symIdx loader.Sym, relocs *loader.Relocs, off int) bool {
