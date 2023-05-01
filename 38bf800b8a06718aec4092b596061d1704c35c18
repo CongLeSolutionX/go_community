@@ -91,6 +91,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4356ee7c_9dd63133",
+        "filename": "src/internal/testenv/testenv.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-05-01T00:39:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91932339_1e54f3d3",
+      "revId": "38bf800b8a06718aec4092b596061d1704c35c18",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7ad19d9b_d8903b41",
@@ -104,6 +122,24 @@
       "writtenOn": "2023-04-28T14:59:31Z",
       "side": 1,
       "message": "Could you also include `android` in this case? It\u0027s not at all obvious to me why and `android` builder would necessarily prohibit symlinks (and I wonder whether the `corellium` builders in particular might actually support them).\n\nIf it breaks I\u0027ll do the cleanup, since I\u0027ve been messing with the `android` environment anyway. 😅",
+      "revId": "38bf800b8a06718aec4092b596061d1704c35c18",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d355fda1_53de5a59",
+        "filename": "src/internal/testenv/testenv_notwin.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-05-01T00:39:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ad19d9b_d8903b41",
       "revId": "38bf800b8a06718aec4092b596061d1704c35c18",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -125,6 +161,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d34646a1_6c7b4195",
+        "filename": "src/internal/testenv/testenv_notwin.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-05-01T00:39:49Z",
+      "side": 1,
+      "message": "I\u0027m worried about expanding the meaning of `SyscallIsNotSupported` to include `os.ErrPermission` in the general case on wasip1, since it might not always mean that it\u0027s not supported, but rather an actual permission error.",
+      "parentUuid": "9cfeccd0_55293e3c",
+      "revId": "38bf800b8a06718aec4092b596061d1704c35c18",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7bccb092_94416be3",
@@ -138,6 +192,30 @@
       "writtenOn": "2023-04-28T14:59:31Z",
       "side": 1,
       "message": "(nit) “runtime” here seems a little confusing, since it could either refer to the Go runtime or the WASI runtime.\n\nMaybe instead:\n```\nreturn false, fmt.Sprintf(\"symlinks unsupported: %v\", err)\n```",
+      "range": {
+        "startLine": 39,
+        "startChar": 39,
+        "endLine": 39,
+        "endChar": 54
+      },
+      "revId": "38bf800b8a06718aec4092b596061d1704c35c18",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72a4d1f7_cecb318e",
+        "filename": "src/internal/testenv/testenv_notwin.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 16585
+      },
+      "writtenOn": "2023-05-01T00:39:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7bccb092_94416be3",
       "range": {
         "startLine": 39,
         "startChar": 39,
