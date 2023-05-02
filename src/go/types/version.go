@@ -6,6 +6,7 @@ package types
 
 import (
 	"errors"
+	"fmt"
 	"go/ast"
 	"go/token"
 	. "internal/types/errors"
@@ -16,7 +17,7 @@ import (
 // literal is not compatible with the current language version.
 func (check *Checker) langCompat(lit *ast.BasicLit) {
 	s := lit.Value
-	if len(s) <= 2 || check.allowVersion(check.pkg, lit.Pos(), 1, 13) {
+	if len(s) <= 2 || check.allowVersion(check.pkg, lit, 1, 13) {
 		return
 	}
 	// len(s) > 2
@@ -43,7 +44,7 @@ func (check *Checker) langCompat(lit *ast.BasicLit) {
 
 // allowVersion reports whether the given package
 // is allowed to use version major.minor.
-func (check *Checker) allowVersion(pkg *Package, pos token.Pos, major, minor int) bool {
+func (check *Checker) allowVersion(pkg *Package, at positioner, major, minor int) bool {
 	// We assume that imported packages have all been checked,
 	// so we only have to check for the local package.
 	if pkg != check.pkg {
@@ -52,7 +53,7 @@ func (check *Checker) allowVersion(pkg *Package, pos token.Pos, major, minor int
 
 	// If the source file declares its Go version, use that to decide.
 	if check.posVers != nil {
-		if v, ok := check.posVers[check.fset.File(pos)]; ok && v.major >= 1 {
+		if v, ok := check.posVers[check.fset.File(at.Pos())]; ok && v.major >= 1 {
 			return v.major > major || v.major == major && v.minor >= minor
 		}
 	}
@@ -60,6 +61,16 @@ func (check *Checker) allowVersion(pkg *Package, pos token.Pos, major, minor int
 	// Otherwise fall back to the version in the checker.
 	ma, mi := check.version.major, check.version.minor
 	return ma == 0 && mi == 0 || ma > major || ma == major && mi >= minor
+}
+
+// allowVersionf is like allowVersion but also accepts a format string and arguments
+// which are used to report a version error if allowVersion returns false.
+func (check *Checker) allowVersionf(pkg *Package, at positioner, major, minor int, format string, args ...interface{}) bool {
+	if !check.allowVersion(pkg, at, major, minor) {
+		check.versionErrorf(at, fmt.Sprintf("go%d.%d", major, minor), format, args...)
+		return false
+	}
+	return true
 }
 
 type version struct {
