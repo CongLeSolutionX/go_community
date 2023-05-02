@@ -979,7 +979,7 @@ func ReadCorpus(dir string, types []reflect.Type) ([]CorpusEntry, error) {
 	if os.IsNotExist(err) {
 		return nil, nil // No corpus to read
 	} else if err != nil {
-		return nil, fmt.Errorf("reading seed corpus from testdata: %v", err)
+		return nil, fmt.Errorf("reading seed corpus from testdata: %w", err)
 	}
 	var corpus []CorpusEntry
 	var errs []error
@@ -995,12 +995,12 @@ func ReadCorpus(dir string, types []reflect.Type) ([]CorpusEntry, error) {
 		filename := filepath.Join(dir, file.Name())
 		data, err := os.ReadFile(filename)
 		if err != nil {
-			return nil, fmt.Errorf("failed to read corpus file: %v", err)
+			return nil, fmt.Errorf("failed to read corpus file: %w", err)
 		}
 		var vals []any
 		vals, err = readCorpusData(data, types)
 		if err != nil {
-			errs = append(errs, fmt.Errorf("%q: %v", filename, err))
+			errs = append(errs, fmt.Errorf("%q: %w", filename, err))
 			continue
 		}
 		corpus = append(corpus, CorpusEntry{Path: filename, Values: vals})
@@ -1014,7 +1014,7 @@ func ReadCorpus(dir string, types []reflect.Type) ([]CorpusEntry, error) {
 func readCorpusData(data []byte, types []reflect.Type) ([]any, error) {
 	vals, err := unmarshalCorpusFile(data)
 	if err != nil {
-		return nil, fmt.Errorf("unmarshal: %v", err)
+		return nil, fmt.Errorf("unmarshal: %w", err)
 	}
 	if err = CheckCorpus(vals, types); err != nil {
 		return nil, err
