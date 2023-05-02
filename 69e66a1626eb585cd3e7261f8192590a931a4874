@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d966e6d_8869012d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 62618
+      },
+      "writtenOn": "2023-05-02T11:44:33Z",
+      "side": 1,
+      "message": "Get rip off",
+      "revId": "69e66a1626eb585cd3e7261f8192590a931a4874",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
