@@ -165,7 +165,7 @@ func (w *worker) coordinate(ctx context.Context) error {
 				if w.interrupted {
 					// Communication error before we stopped the worker.
 					// Report an error, but don't record a crasher.
-					return fmt.Errorf("communicating with fuzzing process: %v", err)
+					return fmt.Errorf("communicating with fuzzing process: %w", err)
 				}
 				if sig, ok := terminationSignal(w.waitErr); ok && !isCrashSignal(sig) {
 					// Worker terminated by a signal that probably wasn't caused by a
@@ -173,7 +173,7 @@ func (w *worker) coordinate(ctx context.Context) error {
 					// the kernel (OOM killer) may send SIGKILL to a process using a lot
 					// of memory. Or the shell might send SIGHUP when the terminal
 					// is closed. Don't record a crasher.
-					return fmt.Errorf("fuzzing process terminated by unexpected signal; no crash will be recorded: %v", w.waitErr)
+					return fmt.Errorf("fuzzing process terminated by unexpected signal; no crash will be recorded: %w", w.waitErr)
 				}
 				if isInternalError {
 					// An internal error occurred which shouldn't be considered
@@ -1003,7 +1003,7 @@ func (wc *workerClient) minimize(ctx context.Context, entryIn CorpusEntry, args 
 	entryOut = entryIn
 	entryOut.Values, err = unmarshalCorpusFile(inp)
 	if err != nil {
-		return CorpusEntry{}, minimizeResponse{}, fmt.Errorf("workerClient.minimize unmarshaling provided value: %v", err)
+		return CorpusEntry{}, minimizeResponse{}, fmt.Errorf("workerClient.minimize unmarshaling provided value: %w", err)
 	}
 	for i, v := range entryOut.Values {
 		if !isMinimizable(reflect.TypeOf(v)) {
@@ -1046,7 +1046,7 @@ func (wc *workerClient) minimize(ctx context.Context, entryIn CorpusEntry, args 
 			entryOut.Data = mem.valueCopy()
 			entryOut.Values, err = unmarshalCorpusFile(entryOut.Data)
 			if err != nil {
-				return CorpusEntry{}, minimizeResponse{}, fmt.Errorf("workerClient.minimize unmarshaling minimized value: %v", err)
+				return CorpusEntry{}, minimizeResponse{}, fmt.Errorf("workerClient.minimize unmarshaling minimized value: %w", err)
 			}
 		}
 
@@ -1108,7 +1108,7 @@ func (wc *workerClient) fuzz(ctx context.Context, entryIn CorpusEntry, args fuzz
 	if needEntryOut {
 		valuesOut, err := unmarshalCorpusFile(inp)
 		if err != nil {
-			return CorpusEntry{}, fuzzResponse{}, true, fmt.Errorf("unmarshaling fuzz input value after call: %v", err)
+			return CorpusEntry{}, fuzzResponse{}, true, fmt.Errorf("unmarshaling fuzz input value after call: %w", err)
 		}
 		wc.m.r.restore(mem.header().randState, mem.header().randInc)
 		if !args.Warmup {
