@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b25e351a_55418620",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-05-02T17:24:53Z",
+      "side": 1,
+      "message": "This is a change to the net package, so write this as\n\nnet: correct Dialer.ControlContext documentation",
+      "revId": "73267f8d0ab446572f9c078ec9b4564d5e8cccb2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
