@@ -149,6 +149,10 @@ func lookupProtocol(ctx context.Context, name string) (proto int, err error) {
 }
 
 func (*Resolver) lookupHost(ctx context.Context, host string) (addrs []string, err error) {
+	if order, conf, preferGo := r.preferGoOverPlan9WithOrderAndConf(); preferGo {
+		return r.goLookupHostOrder(ctx, host, order, conf)
+	}
+
 	// Use netdir/cs instead of netdir/dns because cs knows about
 	// host names in local network (e.g. from /lib/ndb/local)
 	lines, err := queryCS(ctx, "net", host, "1")
