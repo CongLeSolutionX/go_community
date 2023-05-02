@@ -16,6 +16,24 @@
       "message": "Might be good to include your comment from the commit message here (e.g. that typenames only come from Go object files, etc).",
       "revId": "2902444d3dbae98e9e5bd61f559c42af7262ca89",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2bbd67f5_948cf8f5",
+        "filename": "src/cmd/link/internal/ld/decodesym.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2023-05-02T16:37:02Z",
+      "side": 1,
+      "message": "Rewrote it with a different API. I think this is more natural? PTAL. Thanks.",
+      "parentUuid": "7a8dd19a_16a47442",
+      "revId": "2902444d3dbae98e9e5bd61f559c42af7262ca89",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
