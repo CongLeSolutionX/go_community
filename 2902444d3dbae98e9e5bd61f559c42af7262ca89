@@ -34,6 +34,24 @@
       "parentUuid": "7a8dd19a_16a47442",
       "revId": "2902444d3dbae98e9e5bd61f559c42af7262ca89",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f4467e7_c1f7d29a",
+        "filename": "src/cmd/link/internal/ld/decodesym.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2023-05-02T16:42:48Z",
+      "side": 1,
+      "message": "Yeah that looks better (also more \"future-proof\"). Thanks.",
+      "parentUuid": "2bbd67f5_948cf8f5",
+      "revId": "2902444d3dbae98e9e5bd61f559c42af7262ca89",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
