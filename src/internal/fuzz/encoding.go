@@ -130,7 +130,7 @@ func unmarshalCorpusFile(b []byte) ([]any, error) {
 		}
 		v, err := parseCorpusValue(line)
 		if err != nil {
-			return nil, fmt.Errorf("malformed line %q: %v", line, err)
+			return nil, fmt.Errorf("malformed line %q: %w", line, err)
 		}
 		vals = append(vals, v)
 	}
