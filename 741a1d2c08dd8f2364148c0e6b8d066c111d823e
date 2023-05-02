@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b86c2372_858c7140",
+        "filename": "src/cmd/compile/internal/types2/call.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2023-05-02T21:53:24Z",
+      "side": 1,
+      "message": "expression",
+      "range": {
+        "startLine": 351,
+        "startChar": 20,
+        "endLine": 351,
+        "endChar": 29
+      },
+      "revId": "741a1d2c08dd8f2364148c0e6b8d066c111d823e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20734273_1ed3dde8",
+        "filename": "src/cmd/compile/internal/types2/call.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2023-05-02T21:53:24Z",
+      "side": 1,
+      "message": "What about the case of f(g, g), where g occurs multiple times in the argument list? I think we need to rename type parameters to ensure uniqueness.",
+      "range": {
+        "startLine": 507,
+        "startChar": 4,
+        "endLine": 507,
+        "endChar": 58
+      },
+      "revId": "741a1d2c08dd8f2364148c0e6b8d066c111d823e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6678cc35_510500c4",
+        "filename": "src/cmd/compile/internal/types2/call.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2023-05-02T21:53:24Z",
+      "side": 1,
+      "message": "How does this comment relate to the version check?",
+      "range": {
+        "startLine": 513,
+        "startChar": 2,
+        "endLine": 513,
+        "endChar": 80
+      },
+      "revId": "741a1d2c08dd8f2364148c0e6b8d066c111d823e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "114f08f8_fa073922",
+        "filename": "src/cmd/compile/internal/types2/call.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2023-05-02T21:53:24Z",
+      "side": 1,
+      "message": "Hmm. Technically, we could infer targs[:n] and fail to infer a later targ. In that case, I think we should still instantiate the call signature.",
+      "range": {
+        "startLine": 525,
+        "startChar": 3,
+        "endLine": 525,
+        "endChar": 9
+      },
+      "revId": "741a1d2c08dd8f2364148c0e6b8d066c111d823e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6fda4348_63bb6178",
+        "filename": "src/cmd/compile/internal/types2/expr.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 1887,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2023-05-02T21:53:24Z",
+      "side": 1,
+      "message": "These generic.*Expr functions constitute a lot of duplication for not much more functionality, and few call sites. Perhaps better to just thread through allowGeneric.",
+      "range": {
+        "startLine": 1887,
+        "startChar": 22,
+        "endLine": 1887,
+        "endChar": 38
+      },
+      "revId": "741a1d2c08dd8f2364148c0e6b8d066c111d823e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
