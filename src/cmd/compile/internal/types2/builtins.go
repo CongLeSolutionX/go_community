@@ -234,8 +234,7 @@ func (check *Checker) builtin(x *operand, call *syntax.CallExpr, id builtinId) (
 
 	case _Clear:
 		// clear(m)
-		if !check.allowVersion(check.pkg, call.Pos(), 1, 21) {
-			check.versionErrorf(call.Fun, "go1.21", "clear")
+		if !check.allowVersionf(check.pkg, call.Fun, 1, 21, "clear") {
 			return
 		}
 
@@ -626,8 +625,7 @@ func (check *Checker) builtin(x *operand, call *syntax.CallExpr, id builtinId) (
 
 	case _Add:
 		// unsafe.Add(ptr unsafe.Pointer, len IntegerType) unsafe.Pointer
-		if !check.allowVersion(check.pkg, call.Pos(), 1, 17) {
-			check.versionErrorf(call.Fun, "go1.17", "unsafe.Add")
+		if !check.allowVersionf(check.pkg, call.Fun, 1, 17, "unsafe.Add") {
 			return
 		}
 
@@ -762,8 +760,7 @@ func (check *Checker) builtin(x *operand, call *syntax.CallExpr, id builtinId) (
 
 	case _Slice:
 		// unsafe.Slice(ptr *T, len IntegerType) []T
-		if !check.allowVersion(check.pkg, call.Pos(), 1, 17) {
-			check.versionErrorf(call.Fun, "go1.17", "unsafe.Slice")
+		if !check.allowVersionf(check.pkg, call.Fun, 1, 17, "unsafe.Slice") {
 			return
 		}
 
@@ -787,8 +784,7 @@ func (check *Checker) builtin(x *operand, call *syntax.CallExpr, id builtinId) (
 
 	case _SliceData:
 		// unsafe.SliceData(slice []T) *T
-		if !check.allowVersion(check.pkg, call.Pos(), 1, 20) {
-			check.versionErrorf(call.Fun, "go1.20", "unsafe.SliceData")
+		if !check.allowVersionf(check.pkg, call.Fun, 1, 20, "unsafe.SliceData") {
 			return
 		}
 
@@ -806,8 +802,7 @@ func (check *Checker) builtin(x *operand, call *syntax.CallExpr, id builtinId) (
 
 	case _String:
 		// unsafe.String(ptr *byte, len IntegerType) string
-		if !check.allowVersion(check.pkg, call.Pos(), 1, 20) {
-			check.versionErrorf(call.Fun, "go1.20", "unsafe.String")
+		if !check.allowVersionf(check.pkg, call.Fun, 1, 20, "unsafe.String") {
 			return
 		}
 
@@ -830,8 +825,7 @@ func (check *Checker) builtin(x *operand, call *syntax.CallExpr, id builtinId) (
 
 	case _StringData:
 		// unsafe.StringData(str string) *byte
-		if !check.allowVersion(check.pkg, call.Pos(), 1, 20) {
-			check.versionErrorf(call.Fun, "go1.20", "unsafe.StringData")
+		if !check.allowVersionf(check.pkg, call.Fun, 1, 20, "unsafe.StringData") {
 			return
 		}
 
