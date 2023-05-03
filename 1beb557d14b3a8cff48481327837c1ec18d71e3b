@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd19ecc9_baeef792",
+        "filename": "src/runtime/syscall_windows_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 664,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-05-03T16:37:51Z",
+      "side": 1,
+      "message": "(nit) use `testenv.Command` instead of `exec.Command` for both of these tests.",
+      "range": {
+        "startLine": 664,
+        "startChar": 28,
+        "endLine": 664,
+        "endChar": 41
+      },
+      "revId": "1beb557d14b3a8cff48481327837c1ec18d71e3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6b59dd0_83754452",
+        "filename": "src/runtime/syscall_windows_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 664,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-05-03T16:37:51Z",
+      "side": 1,
+      "message": "(nit) In general we can\u0027t assume that `os.Args[0]` is a usable path — on Unix platforms, at least, it can be a relative or short path like `./runtime.test`.\n\nMore robust would be to call `os.Executable` to find the absolute path.",
+      "range": {
+        "startLine": 664,
+        "startChar": 41,
+        "endLine": 664,
+        "endChar": 51
+      },
+      "revId": "1beb557d14b3a8cff48481327837c1ec18d71e3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
