@@ -78,6 +78,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a24885f_bb90bee8",
+        "filename": "src/cmd/compile/internal/types2/call.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-05-03T18:35:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "820bca3e_3b1c6428",
+      "range": {
+        "startLine": 507,
+        "startChar": 4,
+        "endLine": 507,
+        "endChar": 75
+      },
+      "revId": "c2d760dc509c4dfc63e48caa7ab50d18540ee1c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "365d93aa_743496eb",
@@ -91,6 +115,30 @@
       "writtenOn": "2023-05-03T16:32:55Z",
       "side": 1,
       "message": "This path doesn\u0027t actually allow comma-ok expressions. I think you mean \u0027multi-valued expressoins\u0027.",
+      "range": {
+        "startLine": 1886,
+        "startChar": 7,
+        "endLine": 1886,
+        "endChar": 26
+      },
+      "revId": "c2d760dc509c4dfc63e48caa7ab50d18540ee1c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21e2fce3_ec7cb674",
+        "filename": "src/cmd/compile/internal/types2/expr.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 1886,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-05-03T18:35:32Z",
+      "side": 1,
+      "message": "No, I mean comma-ok expressions: If a single value might possibly be used as a comma-ok expression, it\u0027s still simply returned as the single value.\n\nA single expression that is multi-valued (function result) is returned as multiple operands.",
+      "parentUuid": "365d93aa_743496eb",
       "range": {
         "startLine": 1886,
         "startChar": 7,
@@ -124,6 +172,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "252e451a_2bf030f3",
+        "filename": "src/cmd/compile/internal/types2/infer.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-05-03T18:35:32Z",
+      "side": 1,
+      "message": "Sadly, the comment is mangled so I can\u0027t fully follow the example. But if it is\n```\nfunc _() { f(g) }\nfunc f[P any](func(P)) {}\nfunc g[Q int](Q)       {}\n```\nit will work because in step 1 we infer that P and Q must have the same type (this is a capability the unifier always had, but only now gets to actually employ).",
+      "parentUuid": "111cecb6_d477c2b4",
+      "range": {
+        "startLine": 265,
+        "startChar": 1,
+        "endLine": 265,
+        "endChar": 12
+      },
+      "revId": "c2d760dc509c4dfc63e48caa7ab50d18540ee1c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4370243b_496a59d4",
@@ -137,6 +209,30 @@
       "writtenOn": "2023-05-03T16:32:55Z",
       "side": 1,
       "message": "constants (just noticed...)",
+      "range": {
+        "startLine": 266,
+        "startChar": 33,
+        "endLine": 266,
+        "endChar": 41
+      },
+      "revId": "c2d760dc509c4dfc63e48caa7ab50d18540ee1c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "654c327d_4e603084",
+        "filename": "src/cmd/compile/internal/types2/infer.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-05-03T18:35:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4370243b_496a59d4",
       "range": {
         "startLine": 266,
         "startChar": 33,
