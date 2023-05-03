@@ -22,7 +22,7 @@ var encVersion1 = "go test fuzz v1"
 
 // marshalCorpusFile encodes an arbitrary number of arguments into the file format for the
 // corpus.
-func marshalCorpusFile(vals ...any) []byte {
+func marshalCorpusFile(vals ...any) ([]byte, error) {
 	if len(vals) == 0 {
 		panic("must have at least one value to marshal")
 	}
@@ -95,18 +95,14 @@ func marshalCorpusFile(vals ...any) []byte {
 		case customMutator:
 			buf, err := t.MarshalBinary()
 			if err != nil {
-				// TODO(48815): Plumb the error all the way back to the coordinator so
-				// that the input is not mistakenly treated as a crasher, and so that
-				// the error message is not suppressed (worker stdout/stderr is
-				// discarded).
-				panic(fmt.Sprintf("failed to marshal custom mutator of type %T: %v", t, err))
+				return nil, fmt.Errorf("failed to marshal custom mutator of type %T: %w", t, err)
 			}
 			fmt.Fprintf(b, "custom(%q, []byte(%q))\n", customMutatorTypeName(reflect.TypeOf(t)), buf)
 		default:
 			panic(fmt.Sprintf("unsupported type: %T", t))
 		}
 	}
-	return b.Bytes()
+	return b.Bytes(), nil
 }
 
 // unmarshalCorpusFile decodes corpus bytes into their respective values.

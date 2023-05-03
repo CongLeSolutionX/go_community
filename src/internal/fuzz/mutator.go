@@ -100,7 +100,7 @@ func min(a, b int) int {
 }
 
 // mutate performs several mutations on the provided values.
-func (m *mutator) mutate(vals []any, maxBytes int) {
+func (m *mutator) mutate(vals []any, maxBytes int) error {
 	// TODO(katiehockman): pull some of these functions into helper methods and
 	// test that each case is working as expected.
 	// TODO(katiehockman): perform more types of mutations for []byte.
@@ -169,14 +169,12 @@ func (m *mutator) mutate(vals []any, maxBytes int) {
 	case customMutator:
 		seed := int64(m.r.uint32())<<32 + int64(m.r.uint32())
 		if err := v.Mutate(seed); err != nil {
-			// TODO(48815): Plumb the error all the way back to the coordinator so
-			// that the input is not mistakenly treated as a crasher, and so that the
-			// error message is not suppressed (worker stdout/stderr is discarded).
-			panic(fmt.Sprintf("failed to mutate fuzz input of type %T: %v", v, err))
+			return fmt.Errorf("failed to mutate fuzz input of type %T: %w", v, err)
 		}
 	default:
 		panic(fmt.Sprintf("type not supported for mutating: %T", vals[i]))
 	}
+	return nil
 }
 
 func (m *mutator) mutateInt(v, maxValue int64) int64 {
