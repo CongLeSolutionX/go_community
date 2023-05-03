@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4dedcf42_8b15b8e3",
+        "filename": "src/cmd/compile/internal/types2/call.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-05-03T00:24:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b86c2372_858c7140",
+      "range": {
+        "startLine": 351,
+        "startChar": 20,
+        "endLine": 351,
+        "endChar": 29
+      },
+      "revId": "741a1d2c08dd8f2364148c0e6b8d066c111d823e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "20734273_1ed3dde8",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-05-02T21:53:24Z",
       "side": 1,
       "message": "What about the case of f(g, g), where g occurs multiple times in the argument list? I think we need to rename type parameters to ensure uniqueness.",
+      "range": {
+        "startLine": 507,
+        "startChar": 4,
+        "endLine": 507,
+        "endChar": 58
+      },
+      "revId": "741a1d2c08dd8f2364148c0e6b8d066c111d823e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d01dac13_e296b677",
+        "filename": "src/cmd/compile/internal/types2/call.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-05-03T00:24:34Z",
+      "side": 1,
+      "message": "Indeed, great catch!\nWould like to fix in separate CL as it may require some reorgs.\nAdded a TODO and test case.",
+      "parentUuid": "20734273_1ed3dde8",
       "range": {
         "startLine": 507,
         "startChar": 4,
@@ -70,6 +118,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5bd0d133_cf9282cc",
+        "filename": "src/cmd/compile/internal/types2/call.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-05-03T00:24:34Z",
+      "side": 1,
+      "message": "It relates to the error message. If we have partial instantiations, we should adjust the error message (as we do on line 78).",
+      "parentUuid": "6678cc35_510500c4",
+      "range": {
+        "startLine": 513,
+        "startChar": 2,
+        "endLine": 513,
+        "endChar": 80
+      },
+      "revId": "741a1d2c08dd8f2364148c0e6b8d066c111d823e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "114f08f8_fa073922",
@@ -93,6 +165,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9133cfc_8b059e71",
+        "filename": "src/cmd/compile/internal/types2/call.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-05-03T00:24:34Z",
+      "side": 1,
+      "message": "Why? For better gopls or error handling?\n(Happy to do if good reason, but would like to do in separate CL because currently infer reports all or nothing.)",
+      "parentUuid": "114f08f8_fa073922",
+      "range": {
+        "startLine": 525,
+        "startChar": 3,
+        "endLine": 525,
+        "endChar": 9
+      },
+      "revId": "741a1d2c08dd8f2364148c0e6b8d066c111d823e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6fda4348_63bb6178",
@@ -106,6 +202,30 @@
       "writtenOn": "2023-05-02T21:53:24Z",
       "side": 1,
       "message": "These generic.*Expr functions constitute a lot of duplication for not much more functionality, and few call sites. Perhaps better to just thread through allowGeneric.",
+      "range": {
+        "startLine": 1887,
+        "startChar": 22,
+        "endLine": 1887,
+        "endChar": 38
+      },
+      "revId": "741a1d2c08dd8f2364148c0e6b8d066c111d823e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7bf0fdc_6b2604fd",
+        "filename": "src/cmd/compile/internal/types2/expr.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 1887,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-05-03T00:24:34Z",
+      "side": 1,
+      "message": "I was playing with that. This seemed much clearer because we don\u0027t have all these conditions (allowGeneric or not).\nCan revisit down the road.",
+      "parentUuid": "6fda4348_63bb6178",
       "range": {
         "startLine": 1887,
         "startChar": 22,
