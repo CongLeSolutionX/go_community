@@ -196,6 +196,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb457746_4ab2a7c0",
+        "filename": "src/cmd/compile/internal/types2/infer.go",
+        "patchSetId": 23
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2023-05-03T18:51:29Z",
+      "side": 1,
+      "message": "Oops, sorry I didn\u0027t notice the mangling.\n\nNo, it was:\n```\nfunc _() { f(g) }\nfunc f[P any](P) {}\nfunc g[Q int](Q) {}\n```",
+      "parentUuid": "252e451a_2bf030f3",
+      "range": {
+        "startLine": 265,
+        "startChar": 1,
+        "endLine": 265,
+        "endChar": 12
+      },
+      "revId": "c2d760dc509c4dfc63e48caa7ab50d18540ee1c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4370243b_496a59d4",
