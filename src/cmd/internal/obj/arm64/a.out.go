@@ -341,7 +341,7 @@ const (
 	// optab is sorted based on the order of these constants
 	// and the first match is chosen.
 	// The more specific class needs to come earlier.
-	C_NONE   = iota
+	C_NONE   = iota + 1
 	C_REG    // R0..R30
 	C_ZREG   // R0..R30, ZR
 	C_RSP    // R0..R30, RSP
