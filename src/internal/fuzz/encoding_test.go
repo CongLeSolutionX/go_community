@@ -232,7 +232,7 @@ uint(18446744073709551615)`
 			if err != nil {
 				t.Fatalf("unmarshal unexpected error: %v", err)
 			}
-			newB := marshalCorpusFile(vals...)
+			newB, err := marshalCorpusFile(vals...)
 			if err != nil {
 				t.Fatalf("marshal unexpected error: %v", err)
 			}
@@ -267,7 +267,9 @@ func BenchmarkMarshalCorpusFile(b *testing.B) {
 		b.Run(strconv.Itoa(sz), func(b *testing.B) {
 			for i := 0; i < b.N; i++ {
 				b.SetBytes(int64(sz))
-				marshalCorpusFile(buf[:sz])
+				if _, err := marshalCorpusFile(buf[:sz]); err != nil {
+					b.Fatal(err)
+				}
 			}
 		})
 	}
@@ -284,7 +286,10 @@ func BenchmarkUnmarshalCorpusFile(b *testing.B) {
 
 	for sz := 1; sz <= len(buf); sz <<= 1 {
 		sz := sz
-		data := marshalCorpusFile(buf[:sz])
+		data, err := marshalCorpusFile(buf[:sz])
+		if err != nil {
+			b.Fatal(err)
+		}
 		b.Run(strconv.Itoa(sz), func(b *testing.B) {
 			for i := 0; i < b.N; i++ {
 				b.SetBytes(int64(sz))
@@ -297,7 +302,10 @@ func BenchmarkUnmarshalCorpusFile(b *testing.B) {
 func TestByteRoundTrip(t *testing.T) {
 	for x := 0; x < 256; x++ {
 		b1 := byte(x)
-		buf := marshalCorpusFile(b1)
+		buf, err := marshalCorpusFile(b1)
+		if err != nil {
+			t.Fatal(err)
+		}
 		vs, err := unmarshalCorpusFile(buf)
 		if err != nil {
 			t.Fatal(err)
@@ -312,7 +320,10 @@ func TestByteRoundTrip(t *testing.T) {
 func TestInt8RoundTrip(t *testing.T) {
 	for x := -128; x < 128; x++ {
 		i1 := int8(x)
-		buf := marshalCorpusFile(i1)
+		buf, err := marshalCorpusFile(i1)
+		if err != nil {
+			t.Fatal(err)
+		}
 		vs, err := unmarshalCorpusFile(buf)
 		if err != nil {
 			t.Fatal(err)
@@ -337,7 +348,10 @@ func FuzzFloat64RoundTrip(f *testing.F) {
 	f.Fuzz(func(t *testing.T, u1 uint64) {
 		x1 := math.Float64frombits(u1)
 
-		b := marshalCorpusFile(x1)
+		b, err := marshalCorpusFile(x1)
+		if err != nil {
+			t.Fatal(err)
+		}
 		t.Logf("marshaled math.Float64frombits(0x%x):\n%s", u1, b)
 
 		xs, err := unmarshalCorpusFile(b)
@@ -368,7 +382,10 @@ func FuzzRuneRoundTrip(f *testing.F) {
 	f.Add(rune(0x7fffffff))
 
 	f.Fuzz(func(t *testing.T, r1 rune) {
-		b := marshalCorpusFile(r1)
+		b, err := marshalCorpusFile(r1)
+		if err != nil {
+			t.Fatal(err)
+		}
 		t.Logf("marshaled rune(0x%x):\n%s", r1, b)
 
 		rs, err := unmarshalCorpusFile(b)
@@ -391,7 +408,10 @@ func FuzzStringRoundTrip(f *testing.F) {
 	f.Add(string([]rune{unicode.ReplacementChar}))
 
 	f.Fuzz(func(t *testing.T, s1 string) {
-		b := marshalCorpusFile(s1)
+		b, err := marshalCorpusFile(s1)
+		if err != nil {
+			t.Fatal(err)
+		}
 		t.Logf("marshaled %q:\n%s", s1, b)
 
 		rs, err := unmarshalCorpusFile(b)

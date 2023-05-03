@@ -35,7 +35,9 @@ func BenchmarkMutatorBytes(b *testing.B) {
 				// resize buffer to the correct shape and reset the PCG
 				buf = buf[0:size]
 				m.r = newPcgRand()
-				m.mutate(context.Background(), []any{buf}, workerSharedMemSize)
+				if err := m.mutate(context.Background(), []any{buf}, workerSharedMemSize); err != nil {
+					b.Fatal(err)
+				}
 			}
 		})
 	}
@@ -63,7 +65,9 @@ func BenchmarkMutatorString(b *testing.B) {
 				// resize buffer to the correct shape and reset the PCG
 				buf = buf[0:size]
 				m.r = newPcgRand()
-				m.mutate(context.Background(), []any{string(buf)}, workerSharedMemSize)
+				if err := m.mutate(context.Background(), []any{string(buf)}, workerSharedMemSize); err != nil {
+					b.Fatal(err)
+				}
 			}
 		})
 	}
@@ -96,7 +100,9 @@ func BenchmarkMutatorAllBasicTypes(b *testing.B) {
 		b.Run(fmt.Sprintf("%T", t), func(b *testing.B) {
 			for i := 0; i < b.N; i++ {
 				m.r = newPcgRand()
-				m.mutate(context.Background(), []any{t}, workerSharedMemSize)
+				if err := m.mutate(context.Background(), []any{t}, workerSharedMemSize); err != nil {
+					b.Fatal(err)
+				}
 			}
 		})
 	}
@@ -105,12 +111,16 @@ func BenchmarkMutatorAllBasicTypes(b *testing.B) {
 func TestStringImmutability(t *testing.T) {
 	v := []any{"hello"}
 	m := newMutator()
-	m.mutate(context.Background(), v, 1024)
+	if err := m.mutate(context.Background(), v, 1024); err != nil {
+		t.Fatal(err)
+	}
 	original := v[0].(string)
 	originalCopy := make([]byte, len(original))
 	copy(originalCopy, []byte(original))
 	for i := 0; i < 25; i++ {
-		m.mutate(context.Background(), v, 1024)
+		if err := m.mutate(context.Background(), v, 1024); err != nil {
+			t.Fatal(err)
+		}
 	}
 	if !bytes.Equal([]byte(original), originalCopy) {
 		t.Fatalf("string was mutated: got %x, want %x", []byte(original), originalCopy)
