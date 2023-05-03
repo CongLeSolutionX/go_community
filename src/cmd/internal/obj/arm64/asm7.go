@@ -2090,61 +2090,54 @@ func (c *ctxt7) aclass(a *obj.Addr) int {
 }
 
 func oclass(a *obj.Addr) int {
-	return int(a.Class) - 1
+	return int(a.Class)
 }
 
 func (c *ctxt7) oplook(p *obj.Prog) *Optab {
-	a1 := int(p.Optab)
-	if a1 != 0 {
-		return &optab[a1-1]
+	if p.Optab != 0 {
+		return &optab[p.Optab-1]
 	}
-	a1 = int(p.From.Class)
+
+	a1 := int(p.From.Class)
 	if a1 == 0 {
-		a0 := c.aclass(&p.From)
+		a1 = c.aclass(&p.From)
 		// do not break C_ADDCON2 when S bit is set
-		if (p.As == AADDS || p.As == AADDSW || p.As == ASUBS || p.As == ASUBSW) && a0 == C_ADDCON2 {
-			a0 = C_LCON
+		if (p.As == AADDS || p.As == AADDSW || p.As == ASUBS || p.As == ASUBSW) && a1 == C_ADDCON2 {
+			a1 = C_LCON
 		}
-		a1 = a0 + 1
-		p.From.Class = int8(a1)
 		if p.From.Type == obj.TYPE_CONST && p.From.Name == obj.NAME_NONE {
 			if p.As == AMOVW || isADDWop(p.As) || isANDWop(p.As) {
 				// For 32-bit instruction with constant, we need to
 				// treat its offset value as 32 bits to classify it.
-				ra0 := c.con32class(&p.From)
+				a1 = c.con32class(&p.From)
 				// do not break C_ADDCON2 when S bit is set
-				if (p.As == AADDSW || p.As == ASUBSW) && ra0 == C_ADDCON2 {
-					ra0 = C_LCON
+				if (p.As == AADDSW || p.As == ASUBSW) && a1 == C_ADDCON2 {
+					a1 = C_LCON
 				}
-				a1 = ra0 + 1
-				p.From.Class = int8(a1)
 			}
-			if ((p.As == AMOVD) || isANDop(p.As) || isADDop(p.As)) && (a0 == C_LCON || a0 == C_VCON) {
+			if ((p.As == AMOVD) || isANDop(p.As) || isADDop(p.As)) && (a1 == C_LCON || a1 == C_VCON) {
 				// more specific classification of 64-bit integers
-				a1 = c.con64class(&p.From) + 1
-				p.From.Class = int8(a1)
+				a1 = c.con64class(&p.From)
 			}
 		}
+		p.From.Class = int8(a1)
 	}
 
-	a1--
-	a3 := C_NONE + 1
+	a3 := C_NONE
 	if p.GetFrom3() != nil && p.RestArgs[0].Pos == 0 {
 		a3 = int(p.GetFrom3().Class)
 		if a3 == 0 {
-			a3 = c.aclass(p.GetFrom3()) + 1
+			a3 = c.aclass(p.GetFrom3())
 			p.GetFrom3().Class = int8(a3)
 		}
 	}
 
-	a3--
 	a4 := int(p.To.Class)
 	if a4 == 0 {
-		a4 = c.aclass(&p.To) + 1
+		a4 = c.aclass(&p.To)
 		p.To.Class = int8(a4)
 	}
 
-	a4--
 	a2 := C_NONE
 	if p.Reg != 0 {
 		a2 = rclass(p.Reg)
