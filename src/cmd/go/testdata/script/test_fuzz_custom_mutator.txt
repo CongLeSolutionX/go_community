@@ -98,7 +98,7 @@ stdout FAIL
 # Failure mode: mutate error.
 ! go test -fuzz=FuzzErrorMutate$ -run=^$
 ! stdout ^ok
-stdout 'terminated unexpectedly'
+stdout 'x\.customInput.*injected'
 stdout FAIL
 
 -- go.mod --
