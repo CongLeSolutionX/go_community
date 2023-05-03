@@ -261,6 +261,10 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 		if err != nil {
 			log.Fatalf("%s: PGO error: %v", base.Flag.PgoProfile, err)
 		}
+		// Profile-guided code specializer.
+		if base.Flag.PgoSpecialize {
+			pgo.Specializer(profile)
+		}
 	}
 
 	// Inlining

@@ -50,6 +50,7 @@ import (
 	"fmt"
 	"internal/profile"
 	"os"
+	"strings"
 )
 
 // IRGraph is the key data structure that is built from profile. It is
@@ -107,6 +108,20 @@ type CallSiteInfo struct {
 	Callee     *ir.Func
 }
 
+// IfaceInfo captures interface method call-site information.
+type IfaceInfo struct {
+	CallerName     string
+	CallSiteOffset int // Line offset from function start line.
+}
+
+// CalleeInfo stores the sole hot-callee and its frequency. It also contains additional callee targets in CalleeMap.
+type CalleeInfo struct {
+	HotCallee     string
+	HotCalleeFreq int64
+	// CalleeMap stores all callees recorded in profile, for a given interface method call.
+	CalleeMap map[string]int64
+}
+
 // Profile contains the processed PGO profile and weighted call graph used for
 // PGO optimizations.
 type Profile struct {
@@ -119,6 +134,15 @@ type Profile struct {
 	// NodeMap contains all unique call-edges in the profile and their
 	// aggregated weight.
 	NodeMap map[NodeMapKey]*Weights
+
+	// IfaceTypeMap maps interface type names to their Type nodes.
+	IfaceTypeMap map[string]*types.Type
+
+	// ConcreteFuncMap maps function names to their corresponding Func nodes.
+	ConcreteFuncMap map[string]*ir.Func
+
+	// IfaceCallMap maps profile information to direct function calls.
+	IfaceCallMap map[IfaceInfo]*CalleeInfo
 
 	// WeightedCG represents the IRGraph built from profile, which we will
 	// update as part of inlining.
@@ -163,7 +187,10 @@ func New(profileFile string) (*Profile, error) {
 	})
 
 	p := &Profile{
-		NodeMap: make(map[NodeMapKey]*Weights),
+		NodeMap:         make(map[NodeMapKey]*Weights),
+		ConcreteFuncMap: make(map[string]*ir.Func),
+		IfaceTypeMap:    make(map[string]*types.Type),
+		IfaceCallMap:    make(map[IfaceInfo]*CalleeInfo),
 		WeightedCG: &IRGraph{
 			IRNodes: make(map[string]*IRNode),
 		},
@@ -184,6 +211,51 @@ func New(profileFile string) (*Profile, error) {
 	return p, nil
 }
 
+// preprocessDecls populates IfaceTypeMap and ConcreteFuncMap by traversing all the declarations.
+func (p *Profile) preprocessDecls() {
+	for _, n := range typecheck.Target.Externs {
+		if n.Op() == ir.OTYPE {
+			symPkgName := n.Sym().Pkg.Path + "." + n.Sym().Name
+			p.IfaceTypeMap[symPkgName] = n.Type()
+		}
+	}
+	for _, n := range typecheck.Target.Decls {
+		if n.Op() == ir.ODCLFUNC {
+			f := n.(*ir.Func)
+			p.ConcreteFuncMap[ir.PkgFuncName(f)] = f
+		}
+	}
+}
+
+// findConcreteType finds the concrete Type for an interface method call.
+func (p *Profile) findConcreteType(fname string) *types.Type {
+	inter := strings.Split(fname, ".")
+	if len(inter) > 1 {
+		str := inter[:len(inter)-1]
+		ctypstr := strings.Join(str[:], ".")
+		if ctyp, ok := p.IfaceTypeMap[ctypstr]; ok {
+			return ctyp
+		}
+	}
+	return nil
+}
+
+// cacheSoleHotCallees picks the hot callee for an interface method and caches it for easy access.
+func (p *Profile) cacheSoleHotCallees() {
+	for _, cinfo := range p.IfaceCallMap {
+		var hotCallee string
+		maxweight := int64(0)
+		for c, w := range cinfo.CalleeMap {
+			if w > maxweight {
+				maxweight = w
+				hotCallee = c
+			}
+		}
+		cinfo.HotCallee = hotCallee
+		cinfo.HotCalleeFreq = maxweight
+	}
+}
+
 // processprofileGraph builds various maps from the profile-graph.
 //
 // It initializes NodeMap and Total{Node,Edge}Weight based on the name and
@@ -195,6 +267,10 @@ func (p *Profile) processprofileGraph(g *Graph) error {
 	nFlat := make(map[string]int64)
 	nCum := make(map[string]int64)
 	seenStartLine := false
+
+	if base.Flag.PgoSpecialize {
+		p.preprocessDecls()
+	}
 
 	// Accummulate weights for the same node.
 	for _, n := range g.Nodes {
@@ -228,6 +304,32 @@ func (p *Profile) processprofileGraph(g *Graph) error {
 				weights.EWeight = e.WeightValue()
 				p.NodeMap[nodeinfo] = weights
 			}
+
+			if !base.Flag.PgoSpecialize {
+				continue
+			}
+			ctyp := p.findConcreteType(e.Dest.Info.Name)
+			if ctyp == nil {
+				continue
+			}
+
+			fileInfo := IfaceInfo{
+				CallerName:     canonicalName,
+				CallSiteOffset: n.Info.Lineno - n.Info.StartLine,
+			}
+			if c, ok := p.IfaceCallMap[fileInfo]; ok {
+				if c1, ok1 := c.CalleeMap[e.Dest.Info.Name]; ok1 {
+					c.CalleeMap[e.Dest.Info.Name] = c1 + e.WeightValue()
+				} else {
+					c.CalleeMap[e.Dest.Info.Name] = e.WeightValue()
+				}
+			} else {
+				m := make(map[string]int64)
+				m[e.Dest.Info.Name] = e.WeightValue()
+				p.IfaceCallMap[fileInfo] = &CalleeInfo{
+					CalleeMap: m,
+				}
+			}
 		}
 	}
 
@@ -240,6 +342,10 @@ func (p *Profile) processprofileGraph(g *Graph) error {
 		// fall back to using absolute line numbers, which is better
 		// than nothing.
 		return fmt.Errorf("profile missing Function.start_line data (Go version of profiled application too old? Go 1.20+ automatically adds this to profiles)")
+	}
+	// Cache hot callees.
+	if base.Flag.PgoSpecialize {
+		p.cacheSoleHotCallees()
 	}
 
 	return nil
@@ -356,13 +462,33 @@ func (p *Profile) addIREdge(caller *IRNode, callername string, call ir.Node, cal
 	}
 }
 
-// createIRGraphEdge traverses the nodes in the body of ir.Func and add edges between callernode which points to the ir.Func and the nodes in the body.
+// findHotConcreteCallee finds the concrete Func node for a callsite node in `call`.
+func (p *Profile) findHotConcreteCallee(caller *ir.Func, call ir.Node) *ir.Func {
+
+	if _, ok := call.(*ir.CallExpr); !ok {
+		return nil
+	}
+	callername := ir.PkgFuncName(caller)
+	var callee *ir.Func
+	fileinfo := IfaceInfo{
+		CallerName:     callername,
+		CallSiteOffset: NodeLineOffset(call, caller),
+	}
+	if fn, ok := p.IfaceCallMap[fileinfo]; ok {
+		callee = p.ConcreteFuncMap[fn.HotCallee]
+	}
+	return callee
+}
+
+// createIRGraphEdge traverses the nodes in the body of ir.Func and adds edges between the callernode which points to the ir.Func and the nodes in the body.
 func (p *Profile) createIRGraphEdge(fn *ir.Func, callernode *IRNode, name string) {
-	var doNode func(ir.Node) bool
-	doNode = func(n ir.Node) bool {
+	var lineMap map[int]int
+	if base.Flag.PgoSpecialize {
+		lineMap = make(map[int]int)
+		countIfaceMethodCallsPerLine(fn, lineMap)
+	}
+	ir.VisitList(fn.Body, func(n ir.Node) {
 		switch n.Op() {
-		default:
-			ir.DoChildren(n, doNode)
 		case ir.OCALLFUNC:
 			call := n.(*ir.CallExpr)
 			// Find the callee function from the call site and add the edge.
@@ -375,10 +501,21 @@ func (p *Profile) createIRGraphEdge(fn *ir.Func, callernode *IRNode, name string
 			// Find the callee method from the call site and add the edge.
 			callee := ir.MethodExprName(call.X).Func
 			p.addIREdge(callernode, name, n, callee)
+		case ir.OCALLINTER:
+			if base.Flag.PgoSpecialize {
+				// Prevent creating edges in IRGraph if the same line has more than one interface method call.
+				line := NodeLineOffset(n, fn)
+				if count, ok := lineMap[line]; ok {
+					if count == 1 {
+						callee := p.findHotConcreteCallee(callernode.AST, n)
+						if callee != nil {
+							p.addIREdge(callernode, name, n, callee)
+						}
+					}
+				}
+			}
 		}
-		return false
-	}
-	doNode(fn)
+	})
 }
 
 // WeightInPercentage converts profile weights to a percentage.
