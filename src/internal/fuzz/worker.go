@@ -709,11 +709,11 @@ func (ws *workerServer) serve(ctx context.Context) error {
 		case c.Fuzz != nil:
 			cr.Response, err = ws.fuzz(ctx, *c.Fuzz)
 		case c.Minimize != nil:
-			cr.Response = ws.minimize(ctx, *c.Minimize)
+			cr.Response, err = ws.minimize(ctx, *c.Minimize)
 		case c.Ping != nil:
 			cr.Response = ws.ping(ctx, *c.Ping)
 		default:
-			return errors.New("no arguments provided for any call")
+			err = errors.New("no arguments provided for any call")
 		}
 		if err != nil {
 			cr.Err = err.Error()
@@ -824,7 +824,9 @@ func (ws *workerServer) fuzz(ctx context.Context, args fuzzArgs) (resp fuzzRespo
 			copy(vals, originalVals)
 			ws.m.r.save(&mem.header().randState, &mem.header().randInc)
 		}
-		ws.m.mutate(vals, cap(mem.valueRef()))
+		if err := ws.m.mutate(vals, cap(mem.valueRef())); err != nil {
+			return resp, err
+		}
 
 		entry := CorpusEntry{Values: vals}
 		dur, cov, errMsg := fuzzOnce(entry)
@@ -841,14 +843,14 @@ func (ws *workerServer) fuzz(ctx context.Context, args fuzzArgs) (resp fuzzRespo
 	return resp, nil
 }
 
-func (ws *workerServer) minimize(ctx context.Context, args minimizeArgs) (resp minimizeResponse) {
+func (ws *workerServer) minimize(ctx context.Context, args minimizeArgs) (resp minimizeResponse, internalErr error) {
 	start := time.Now()
 	defer func() { resp.Duration = time.Since(start) }()
 	mem := <-ws.memMu
 	defer func() { ws.memMu <- mem }()
 	vals, err := unmarshalCorpusFile(mem.valueCopy())
 	if err != nil {
-		panic(err)
+		return resp, err
 	}
 	inpHash := sha256.Sum256(mem.valueCopy())
 	if args.Timeout != 0 {
@@ -861,7 +863,9 @@ func (ws *workerServer) minimize(ctx context.Context, args minimizeArgs) (resp m
 	// to shared memory after completing minimization.
 	success, testErr := ws.minimizeInput(ctx, vals, mem, args)
 	if success {
-		writeToMem(vals, mem)
+		if err := writeToMem(vals, mem); err != nil {
+			return resp, err
+		}
 		outHash := sha256.Sum256(mem.valueCopy())
 		mem.header().rawInMem = false
 		resp.WroteToMem = true
@@ -880,7 +884,7 @@ func (ws *workerServer) minimize(ctx context.Context, args minimizeArgs) (resp m
 			}
 		}
 	}
-	return resp
+	return resp, nil
 }
 
 // minimizeInput applies a series of minimizing transformations on the provided
@@ -967,9 +971,13 @@ func (ws *workerServer) minimizeInput(ctx context.Context, vals []any, mem *shar
 	return true, testErr
 }
 
-func writeToMem(vals []any, mem *sharedMem) {
-	b := marshalCorpusFile(vals...)
+func writeToMem(vals []any, mem *sharedMem) error {
+	b, err := marshalCorpusFile(vals...)
+	if err != nil {
+		return err
+	}
 	mem.setValue(b)
+	return nil
 }
 
 // ping does nothing. The coordinator calls this method to ensure the worker
@@ -1073,8 +1081,6 @@ func (wc *workerClient) minimize(ctx context.Context, entryIn CorpusEntry, args 
 		// worth the effort or complexity.)
 		var callCommErr workerCommunicationError
 		if callErr != nil && !errors.As(callErr, &callCommErr) {
-			// Only communication errors are currently possible (internal worker
-			// errors cause the worker to panic), so this should never happen.
 			panic(fmt.Errorf("during minimize: %w", callErr))
 		}
 
@@ -1095,7 +1101,9 @@ func (wc *workerClient) minimize(ctx context.Context, entryIn CorpusEntry, args 
 			default:
 				panic("impossible")
 			}
-			entryOut.Data = marshalCorpusFile(entryOut.Values...)
+			if entryOut.Data, err = marshalCorpusFile(entryOut.Values...); err != nil {
+				return CorpusEntry{}, minimizeResponse{}, fmt.Errorf("workerClient.minimize marshaling minimized values: %w", err)
+			}
 			// Stop minimizing; another unrecoverable error is likely to occur.
 			break
 		}
@@ -1182,10 +1190,15 @@ func (wc *workerClient) fuzz(ctx context.Context, entryIn CorpusEntry, args fuzz
 			// Only mutate the valuesOut if fuzzing actually occurred.
 			numMutations := ((resp.Count - 1) % chainedMutations) + 1
 			for i := int64(0); i < numMutations; i++ {
-				wc.m.mutate(valuesOut, cap(mem.valueRef()))
+				if err := wc.m.mutate(valuesOut, cap(mem.valueRef())); err != nil {
+					return CorpusEntry{}, fuzzResponse{}, true, fmt.Errorf("mutating fuzz input value after call: %w", err)
+				}
 			}
 		}
-		dataOut := marshalCorpusFile(valuesOut...)
+		dataOut, err := marshalCorpusFile(valuesOut...)
+		if err != nil {
+			return CorpusEntry{}, fuzzResponse{}, true, fmt.Errorf("marshaling fuzz input value after call: %w", err)
+		}
 
 		h := sha256.Sum256(dataOut)
 		name := fmt.Sprintf("%x", h[:4])

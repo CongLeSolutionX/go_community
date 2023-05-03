@@ -52,7 +52,7 @@ func min(a, b int) int {
 }
 
 // mutate performs several mutations on the provided values.
-func (m *mutator) mutate(vals []any, maxBytes int) {
+func (m *mutator) mutate(vals []any, maxBytes int) error {
 	// TODO(katiehockman): pull some of these functions into helper methods and
 	// test that each case is working as expected.
 	// TODO(katiehockman): perform more types of mutations for []byte.
@@ -119,8 +119,9 @@ func (m *mutator) mutate(vals []any, maxBytes int) {
 		m.mutateBytes(&m.scratch)
 		vals[i] = m.scratch
 	default:
-		panic(fmt.Sprintf("type not supported for mutating: %T", vals[i]))
+		return fmt.Errorf("type not supported for mutating: %T", vals[i])
 	}
+	return nil
 }
 
 func (m *mutator) mutateInt(v, maxValue int64) int64 {
