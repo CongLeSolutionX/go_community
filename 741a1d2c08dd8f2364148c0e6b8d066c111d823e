@@ -142,6 +142,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3b0697c_468223c1",
+        "filename": "src/cmd/compile/internal/types2/call.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2023-05-03T16:32:55Z",
+      "side": 1,
+      "message": "Aha, thanks.",
+      "parentUuid": "5bd0d133_cf9282cc",
+      "range": {
+        "startLine": 513,
+        "startChar": 2,
+        "endLine": 513,
+        "endChar": 80
+      },
+      "revId": "741a1d2c08dd8f2364148c0e6b8d066c111d823e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "114f08f8_fa073922",
@@ -189,6 +213,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e89a3720_76d3ac70",
+        "filename": "src/cmd/compile/internal/types2/call.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2023-05-03T16:32:55Z",
+      "side": 1,
+      "message": "Yes, I think it will lead to better behavior in gopls (e.g. the result type will be correct). It may also lead to better errors.",
+      "parentUuid": "d9133cfc_8b059e71",
+      "range": {
+        "startLine": 525,
+        "startChar": 3,
+        "endLine": 525,
+        "endChar": 9
+      },
+      "revId": "741a1d2c08dd8f2364148c0e6b8d066c111d823e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6fda4348_63bb6178",
@@ -226,6 +274,30 @@
       "side": 1,
       "message": "I was playing with that. This seemed much clearer because we don\u0027t have all these conditions (allowGeneric or not).\nCan revisit down the road.",
       "parentUuid": "6fda4348_63bb6178",
+      "range": {
+        "startLine": 1887,
+        "startChar": 22,
+        "endLine": 1887,
+        "endChar": 38
+      },
+      "revId": "741a1d2c08dd8f2364148c0e6b8d066c111d823e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36a59157_d5e08c36",
+        "filename": "src/cmd/compile/internal/types2/expr.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 1887,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2023-05-03T16:32:55Z",
+      "side": 1,
+      "message": "Ok, if you tried it out and prefer this, that\u0027s fine.",
+      "parentUuid": "d7bf0fdc_6b2604fd",
       "range": {
         "startLine": 1887,
         "startChar": 22,
