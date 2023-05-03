@@ -219,6 +219,9 @@ func TestScopeRanges(t *testing.T) {
 		t.Skip("skipping on plan9; no DWARF symbol table in executables")
 	}
 
+	// External linking may bring in C symbols with unknown size.
+	testenv.MustInternalLink(t, false)
+
 	src, f := gobuild(t, t.TempDir(), false, testfile)
 	defer f.Close()
 
@@ -489,6 +492,9 @@ func TestEmptyDwarfRanges(t *testing.T) {
 	if runtime.GOOS == "plan9" {
 		t.Skip("skipping on plan9; no DWARF symbol table in executables")
 	}
+
+	// External linking may bring in C symbols with unknown size.
+	testenv.MustInternalLink(t, false)
 
 	_, f := gobuild(t, t.TempDir(), true, []testline{{line: "package main"}, {line: "func main(){ println(\"hello\") }"}})
 	defer f.Close()
