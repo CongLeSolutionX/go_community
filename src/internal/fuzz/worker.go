@@ -874,10 +874,11 @@ func (ws *workerServer) minimizeInput(ctx context.Context, vals []any, mem *shar
 	}
 	mem.header().rawInMem = true
 
-	// tryMinimized runs the fuzz function with candidate replacing the value
-	// at index valI. tryMinimized returns whether the input with candidate is
-	// interesting for the same reason as the original input: it returns
-	// an error if one was expected, or it preserves coverage.
+	// tryMinimized runs the fuzz function with candidate replacing the value at
+	// index args.Index.  It returns whether the candidate input is interesting
+	// for the same reason as the original input: true if either the test function
+	// failed (in which case it sets retErr to the error) or if coverage was
+	// preserved, false otherwise.
 	tryMinimized := func(candidate []byte) bool {
 		prev := vals[args.Index]
 		switch prev.(type) {
