@@ -105,7 +105,7 @@ func pgoInlinePrologue(p *pgo.Profile, decls []ir.Node) {
 			candHotCalleeMap[callee] = struct{}{}
 		}
 		// mark hot call sites
-		if caller := p.WeightedCG.IRNodes[n.CallerName]; caller != nil {
+		if caller := p.WeightedCG.IRNodes[n.CallerName]; caller != nil && caller.AST != nil {
 			csi := pgo.CallSiteInfo{LineOffset: n.CallSiteOffset, Caller: caller.AST}
 			candHotEdgeMap[csi] = struct{}{}
 		}
@@ -304,71 +304,12 @@ func CanInline(fn *ir.Func, profile *pgo.Profile) {
 		}()
 	}
 
-	// If marked "go:noinline", don't inline
-	if fn.Pragma&ir.Noinline != 0 {
-		reason = "marked go:noinline"
+	// Inlineability checks have been moved to pgo dir in order for it to be
+	// shareable with code specialization.
+	reason = pgo.CanInlineOrSpecialize(fn)
+	if reason != "" {
 		return
 	}
-
-	// If marked "go:norace" and -race compilation, don't inline.
-	if base.Flag.Race && fn.Pragma&ir.Norace != 0 {
-		reason = "marked go:norace with -race compilation"
-		return
-	}
-
-	// If marked "go:nocheckptr" and -d checkptr compilation, don't inline.
-	if base.Debug.Checkptr != 0 && fn.Pragma&ir.NoCheckPtr != 0 {
-		reason = "marked go:nocheckptr"
-		return
-	}
-
-	// If marked "go:cgo_unsafe_args", don't inline, since the
-	// function makes assumptions about its argument frame layout.
-	if fn.Pragma&ir.CgoUnsafeArgs != 0 {
-		reason = "marked go:cgo_unsafe_args"
-		return
-	}
-
-	// If marked as "go:uintptrkeepalive", don't inline, since the
-	// keep alive information is lost during inlining.
-	//
-	// TODO(prattmic): This is handled on calls during escape analysis,
-	// which is after inlining. Move prior to inlining so the keep-alive is
-	// maintained after inlining.
-	if fn.Pragma&ir.UintptrKeepAlive != 0 {
-		reason = "marked as having a keep-alive uintptr argument"
-		return
-	}
-
-	// If marked as "go:uintptrescapes", don't inline, since the
-	// escape information is lost during inlining.
-	if fn.Pragma&ir.UintptrEscapes != 0 {
-		reason = "marked as having an escaping uintptr argument"
-		return
-	}
-
-	// The nowritebarrierrec checker currently works at function
-	// granularity, so inlining yeswritebarrierrec functions can
-	// confuse it (#22342). As a workaround, disallow inlining
-	// them for now.
-	if fn.Pragma&ir.Yeswritebarrierrec != 0 {
-		reason = "marked go:yeswritebarrierrec"
-		return
-	}
-
-	// If fn has no body (is defined outside of Go), cannot inline it.
-	if len(fn.Body) == 0 {
-		reason = "no function body"
-		return
-	}
-
-	// If fn is synthetic hash or eq function, cannot inline it.
-	// The function is not generated in Unified IR frontend at this moment.
-	if ir.IsEqOrHashFunc(fn) {
-		reason = "type eq/hash function"
-		return
-	}
-
 	if fn.Typecheck() == 0 {
 		base.Fatalf("CanInline on non-typechecked function %v", fn)
 	}
