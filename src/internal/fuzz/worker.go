@@ -714,18 +714,27 @@ func (ws *workerServer) fuzz(ctx context.Context, args fuzzArgs) (resp fuzzRespo
 	start := time.Now()
 	defer func() { resp.TotalDuration = time.Since(start) }()
 
+	var cancel func()
 	if args.Timeout != 0 {
-		var cancel func()
 		ctx, cancel = context.WithTimeout(ctx, args.Timeout)
-		defer cancel()
+	} else {
+		ctx, cancel = context.WithCancel(ctx)
 	}
+	defer cancel()
 	mem := <-ws.memMu
 	ws.m.r.save(&mem.header().randState, &mem.header().randInc)
 	defer func() {
 		resp.Count = mem.header().count
 		ws.memMu <- mem
 	}()
-	if args.Limit > 0 && mem.header().count >= args.Limit {
+	reachedLimit := func() bool { return args.Limit > 0 && mem.header().count >= args.Limit }
+	incCount := func() {
+		mem.header().count++
+		if reachedLimit() {
+			cancel()
+		}
+	}
+	if reachedLimit() {
 		resp.InternalErr = fmt.Sprintf("mem.header().count %d already exceeds args.Limit %d", mem.header().count, args.Limit)
 		return resp
 	}
@@ -738,11 +747,8 @@ func (ws *workerServer) fuzz(ctx context.Context, args fuzzArgs) (resp fuzzRespo
 	vals := make([]any, len(originalVals))
 	copy(vals, originalVals)
 
-	shouldStop := func() bool {
-		return args.Limit > 0 && mem.header().count >= args.Limit
-	}
 	fuzzOnce := func(entry CorpusEntry) (dur time.Duration, cov []byte, errMsg string) {
-		mem.header().count++
+		incCount()
 		var err error
 		dur, err = ws.fuzzFn(entry)
 		if err != nil {
@@ -791,9 +797,6 @@ func (ws *workerServer) fuzz(ctx context.Context, args fuzzArgs) (resp fuzzRespo
 			if cov != nil {
 				resp.CoverageData = cov
 				resp.InterestingDuration = dur
-				return resp
-			}
-			if shouldStop() {
 				return resp
 			}
 		}
@@ -851,19 +854,23 @@ func (ws *workerServer) minimizeInput(ctx context.Context, vals []any, mem *shar
 	keepCoverage := args.KeepCoverage
 	memBytes := mem.valueRef()
 	bPtr := &memBytes
-	count := &mem.header().count
-	shouldStop := func() bool {
-		return ctx.Err() != nil ||
-			(args.Limit > 0 && *count >= args.Limit)
+	reachedLimit := func() bool { return args.Limit > 0 && mem.header().count >= args.Limit }
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+	incCount := func() {
+		mem.header().count++
+		if reachedLimit() {
+			cancel()
+		}
 	}
-	if shouldStop() {
+	if reachedLimit() {
 		return false, nil
 	}
 
 	// Check that the original value preserves coverage or causes an error.
 	// If not, then whatever caused us to think the value was interesting may
 	// have been a flake, and we can't minimize it.
-	*count++
+	incCount()
 	_, testErr = ws.fuzzFn(CorpusEntry{Values: vals})
 	if keepCoverage != nil {
 		if !hasCoverageBit(keepCoverage, coverageSnapshot) || testErr != nil {
@@ -892,7 +899,7 @@ func (ws *workerServer) minimizeInput(ctx context.Context, vals []any, mem *shar
 		copy(*bPtr, candidate)
 		*bPtr = (*bPtr)[:len(candidate)]
 		mem.setValueLen(len(candidate))
-		*count++
+		incCount()
 		_, err := ws.fuzzFn(CorpusEntry{Values: vals})
 		if err != nil {
 			testErr = err
@@ -913,9 +920,9 @@ func (ws *workerServer) minimizeInput(ctx context.Context, vals []any, mem *shar
 	}
 	switch v := vals[args.Index].(type) {
 	case string:
-		minimizeBytes([]byte(v), tryMinimized, shouldStop)
+		minimizeBytes(ctx, []byte(v), tryMinimized)
 	case []byte:
-		minimizeBytes(v, tryMinimized, shouldStop)
+		minimizeBytes(ctx, v, tryMinimized)
 	default:
 		panic("impossible")
 	}

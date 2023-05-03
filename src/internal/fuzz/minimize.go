@@ -5,6 +5,7 @@
 package fuzz
 
 import (
+	"context"
 	"reflect"
 )
 
@@ -12,7 +13,7 @@ func isMinimizable(t reflect.Type) bool {
 	return t == reflect.TypeOf("") || t == reflect.TypeOf([]byte(nil))
 }
 
-func minimizeBytes(v []byte, try func([]byte) bool, shouldStop func() bool) {
+func minimizeBytes(ctx context.Context, v []byte, try func([]byte) bool) {
 	tmp := make([]byte, len(v))
 	// If minimization was successful at any point during minimizeBytes,
 	// then the vals slice in (*workerServer).minimizeInput will point to
@@ -24,7 +25,7 @@ func minimizeBytes(v []byte, try func([]byte) bool, shouldStop func() bool) {
 	// First, try to cut the tail.
 	for n := 1024; n != 0; n /= 2 {
 		for len(v) > n {
-			if shouldStop() {
+			if ctx.Err() != nil {
 				return
 			}
 			candidate := v[:len(v)-n]
@@ -38,7 +39,7 @@ func minimizeBytes(v []byte, try func([]byte) bool, shouldStop func() bool) {
 
 	// Then, try to remove each individual byte.
 	for i := 0; i < len(v)-1; i++ {
-		if shouldStop() {
+		if ctx.Err() != nil {
 			return
 		}
 		candidate := tmp[:len(v)-1]
@@ -59,7 +60,7 @@ func minimizeBytes(v []byte, try func([]byte) bool, shouldStop func() bool) {
 	for i := 0; i < len(v)-1; i++ {
 		copy(tmp, v[:i])
 		for j := len(v); j > i+1; j-- {
-			if shouldStop() {
+			if ctx.Err() != nil {
 				return
 			}
 			candidate := tmp[:len(v)-j+i]
@@ -78,7 +79,7 @@ func minimizeBytes(v []byte, try func([]byte) bool, shouldStop func() bool) {
 	// byte with a printable character.
 	printableChars := []byte("012789ABCXYZabcxyz !\"#$%&'()*+,.")
 	for i, b := range v {
-		if shouldStop() {
+		if ctx.Err() != nil {
 			return
 		}
 
