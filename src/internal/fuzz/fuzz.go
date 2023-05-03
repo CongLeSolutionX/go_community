@@ -656,7 +656,10 @@ func newCoordinator(opts CoordinateFuzzingOpts) (*coordinator, error) {
 	// Make sure all of the seed corpus has marshalled data.
 	for i := range opts.Seed {
 		if opts.Seed[i].Data == nil && opts.Seed[i].Values != nil {
-			opts.Seed[i].Data = marshalCorpusFile(opts.Seed[i].Values...)
+			var err error
+			if opts.Seed[i].Data, err = marshalCorpusFile(opts.Seed[i].Values...); err != nil {
+				return nil, err
+			}
 		}
 	}
 	c := &coordinator{
@@ -706,7 +709,10 @@ func newCoordinator(opts CoordinateFuzzingOpts) (*coordinator, error) {
 		for _, t := range opts.Types {
 			vals = append(vals, zeroValue(t))
 		}
-		data := marshalCorpusFile(vals...)
+		data, err := marshalCorpusFile(vals...)
+		if err != nil {
+			return nil, err
+		}
 		h := sha256.Sum256(data)
 		name := fmt.Sprintf("%x", h[:4])
 		c.addCorpusEntries(false, CorpusEntry{Path: name, Data: data})

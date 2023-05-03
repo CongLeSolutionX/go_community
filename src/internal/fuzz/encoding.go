@@ -21,9 +21,9 @@ var encVersion1 = "go test fuzz v1"
 
 // marshalCorpusFile encodes an arbitrary number of arguments into the file format for the
 // corpus.
-func marshalCorpusFile(vals ...any) []byte {
+func marshalCorpusFile(vals ...any) ([]byte, error) {
 	if len(vals) == 0 {
-		panic("must have at least one value to marshal")
+		return nil, fmt.Errorf("must have at least one value to marshal")
 	}
 	b := bytes.NewBuffer([]byte(encVersion1 + "\n"))
 	// TODO(katiehockman): keep uint8 and int32 encoding where applicable,
@@ -92,10 +92,10 @@ func marshalCorpusFile(vals ...any) []byte {
 		case []byte: // []uint8
 			fmt.Fprintf(b, "[]byte(%q)\n", t)
 		default:
-			panic(fmt.Sprintf("unsupported type: %T", t))
+			return nil, fmt.Errorf("unsupported type: %T", t)
 		}
 	}
-	return b.Bytes()
+	return b.Bytes(), nil
 }
 
 // unmarshalCorpusFile decodes corpus bytes into their respective values.
