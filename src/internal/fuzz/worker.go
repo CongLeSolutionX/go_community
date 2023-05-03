@@ -39,6 +39,35 @@ const (
 	workerSharedMemSize = 100 << 20 // 100 MB
 )
 
+// A workerCommunicationError indicates that the client (the coordinator
+// process) had trouble exchanging a message with the server (the worker
+// process). The root cause might be a bug in the code under test triggered by
+// the fuzz input (e.g., SIGSEGV, call to os.Exit, or OOM kill due to memory
+// leak) or not (e.g., SIGINT from the user pressing Ctrl-C, OOM kill due to low
+// available memory).
+type workerCommunicationError struct {
+	err error
+}
+
+func (err workerCommunicationError) Error() string {
+	return "fuzzing process communication error: " + err.err.Error()
+}
+func (err workerCommunicationError) Unwrap() error {
+	return err.err
+}
+
+// A workerInternalError indicates that the server (the worker process)
+// encountered a problem outside of the test function while processing a request
+// from the client (the coordinator process). These errors should not be
+// considered to be caused by fuzz input.
+type workerInternalError struct {
+	msg string
+}
+
+func (err workerInternalError) Error() string {
+	return "fuzzing process internal error: " + err.msg
+}
+
 // worker manages a worker process running a test binary. The worker object
 // exists only in the coordinator (the process started by 'go test -fuzz').
 // workerClient is used by the coordinator to send RPCs to the worker process,
@@ -165,7 +194,7 @@ func (w *worker) coordinate(ctx context.Context) error {
 				if w.interrupted {
 					// Communication error before we stopped the worker.
 					// Report an error, but don't record a crasher.
-					return fmt.Errorf("communicating with fuzzing process: %w", err)
+					return err
 				}
 				if sig, ok := terminationSignal(w.waitErr); ok && !isCrashSignal(sig) {
 					// Worker terminated by a signal that probably wasn't caused by a
@@ -511,6 +540,21 @@ type call struct {
 	Minimize *minimizeArgs
 }
 
+// callResponse is serialized and sent from the worker to the coordinator in
+// response to a call message.
+type callResponse struct {
+	// Err is set only for "internal" errors: errors that occur in the fuzz
+	// infrastructure itself, not in the function under test. These errors should
+	// not be considered to be caused by the fuzz input. If Err is set, Response
+	// is undefined.
+	Err string
+
+	// Response holds a response value whose type is specific to the method that
+	// was called (a pingResponse for call.Ping, a fuzzResponse for call.Fuzz, or
+	// a minimizeResponse for call.Minimize).
+	Response any
+}
+
 // minimizeArgs contains arguments to workerServer.minimize. The value to
 // minimize is already in shared memory.
 type minimizeArgs struct {
@@ -592,10 +636,6 @@ type fuzzResponse struct {
 	// Err is the error string caused by the value in shared memory, which is
 	// non-empty if the value in shared memory caused a crash.
 	Err string
-
-	// InternalErr is the error string caused by an internal error in the
-	// worker. This shouldn't be considered a crasher.
-	InternalErr string
 }
 
 // pingArgs contains arguments to workerServer.ping.
@@ -663,19 +703,23 @@ func (ws *workerServer) serve(ctx context.Context) error {
 			}
 		}
 
-		var resp any
+		var cr callResponse
+		var err error
 		switch {
 		case c.Fuzz != nil:
-			resp = ws.fuzz(ctx, *c.Fuzz)
+			cr.Response, err = ws.fuzz(ctx, *c.Fuzz)
 		case c.Minimize != nil:
-			resp = ws.minimize(ctx, *c.Minimize)
+			cr.Response = ws.minimize(ctx, *c.Minimize)
 		case c.Ping != nil:
-			resp = ws.ping(ctx, *c.Ping)
+			cr.Response = ws.ping(ctx, *c.Ping)
 		default:
 			return errors.New("no arguments provided for any call")
 		}
+		if err != nil {
+			cr.Err = err.Error()
+		}
 
-		if err := enc.Encode(resp); err != nil {
+		if err := enc.Encode(&cr); err != nil {
 			return err
 		}
 	}
@@ -703,11 +747,14 @@ const chainedMutations = 5
 // initial PRNG state in shared memory and increments a counter in shared
 // memory before each call to the test function. The caller may reconstruct
 // the crashing input with this information, since the PRNG is deterministic.
-func (ws *workerServer) fuzz(ctx context.Context, args fuzzArgs) (resp fuzzResponse) {
+//
+// fuzz only returns a non-nil error if there is an internal error in the fuzz
+// infrastructure itself. If an error occurs in the test function, the
+// response's Err field is set and this function returns a nil error.
+func (ws *workerServer) fuzz(ctx context.Context, args fuzzArgs) (resp fuzzResponse, internalErr error) {
 	if args.CoverageData != nil {
 		if ws.coverageMask != nil && len(args.CoverageData) != len(ws.coverageMask) {
-			resp.InternalErr = fmt.Sprintf("unexpected size for CoverageData: got %d, expected %d", len(args.CoverageData), len(ws.coverageMask))
-			return resp
+			return resp, fmt.Errorf("unexpected size for CoverageData: got %d, expected %d", len(args.CoverageData), len(ws.coverageMask))
 		}
 		ws.coverageMask = args.CoverageData
 	}
@@ -729,14 +776,12 @@ func (ws *workerServer) fuzz(ctx context.Context, args fuzzArgs) (resp fuzzRespo
 	}()
 	reachedLimit := func() bool { return args.Limit > 0 && mem.header().count >= args.Limit }
 	if reachedLimit() {
-		resp.InternalErr = fmt.Sprintf("mem.header().count %d already exceeds args.Limit %d", mem.header().count, args.Limit)
-		return resp
+		return resp, fmt.Errorf("mem.header().count %d already exceeds args.Limit %d", mem.header().count, args.Limit)
 	}
 
 	originalVals, err := unmarshalCorpusFile(mem.valueCopy())
 	if err != nil {
-		resp.InternalErr = err.Error()
-		return resp
+		return resp, err
 	}
 	vals := make([]any, len(originalVals))
 	copy(vals, originalVals)
@@ -765,13 +810,13 @@ func (ws *workerServer) fuzz(ctx context.Context, args fuzzArgs) (resp fuzzRespo
 		dur, _, errMsg := fuzzOnce(CorpusEntry{Values: vals})
 		if errMsg != "" {
 			resp.Err = errMsg
-			return resp
+			return resp, nil
 		}
 		resp.InterestingDuration = dur
 		if coverageEnabled {
 			resp.CoverageData = coverageSnapshot
 		}
-		return resp
+		return resp, nil
 	}
 
 	for ctx.Err() == nil {
@@ -785,15 +830,15 @@ func (ws *workerServer) fuzz(ctx context.Context, args fuzzArgs) (resp fuzzRespo
 		dur, cov, errMsg := fuzzOnce(entry)
 		if errMsg != "" {
 			resp.Err = errMsg
-			return resp
+			return resp, nil
 		}
 		if cov != nil {
 			resp.CoverageData = cov
 			resp.InterestingDuration = dur
-			return resp
+			return resp, nil
 		}
 	}
-	return resp
+	return resp, nil
 }
 
 func (ws *workerServer) minimize(ctx context.Context, args minimizeArgs) (resp minimizeResponse) {
@@ -1019,6 +1064,19 @@ func (wc *workerClient) minimize(ctx context.Context, entryIn CorpusEntry, args 
 		if !ok {
 			return CorpusEntry{}, minimizeResponse{}, errSharedMemClosed
 		}
+		// An error communicating with the worker process is assumed to be caused by
+		// a bug in the code under test that was triggered by the fuzz input. All
+		// other errors are internal errors, not test failures.
+		// (To reliably distinguish internal error panics from test function panics
+		// the worker could be modified to notify the coordinator every time it
+		// starts and finishes executing the test function, but that is probably not
+		// worth the effort or complexity.)
+		var callCommErr workerCommunicationError
+		if callErr != nil && !errors.As(callErr, &callCommErr) {
+			// Only communication errors are currently possible (internal worker
+			// errors cause the worker to panic), so this should never happen.
+			panic(fmt.Errorf("during minimize: %w", callErr))
+		}
 
 		if callErr != nil {
 			retErr = callErr
@@ -1091,8 +1149,16 @@ func (wc *workerClient) fuzz(ctx context.Context, entryIn CorpusEntry, args fuzz
 
 	c := call{Fuzz: &args}
 	callErr := wc.callLocked(ctx, c, &resp)
-	if resp.InternalErr != "" {
-		return CorpusEntry{}, fuzzResponse{}, true, errors.New(resp.InternalErr)
+	// An error communicating with the worker process is assumed to be caused by a
+	// bug in the code under test that was triggered by the fuzz input. All other
+	// errors are internal errors, not test failures.
+	// (To reliably distinguish internal error panics from test function panics
+	// the worker could be modified to notify the coordinator every time it starts
+	// and finishes executing the test function, but that is probably not worth
+	// the effort or complexity.)
+	var callCommErr workerCommunicationError
+	if callErr != nil && !errors.As(callErr, &callCommErr) {
+		return CorpusEntry{}, fuzzResponse{}, true, callErr
 	}
 	mem, ok = <-wc.memMu
 	if !ok {
@@ -1154,9 +1220,16 @@ func (wc *workerClient) callLocked(ctx context.Context, c call, resp any) (err e
 	enc := json.NewEncoder(wc.fuzzIn)
 	dec := json.NewDecoder(&contextReader{ctx: ctx, r: wc.fuzzOut})
 	if err := enc.Encode(c); err != nil {
-		return err
+		return workerCommunicationError{err}
 	}
-	return dec.Decode(resp)
+	cr := callResponse{Response: resp}
+	if err := dec.Decode(&cr); err != nil {
+		return workerCommunicationError{err}
+	}
+	if cr.Err != "" {
+		return workerInternalError{cr.Err}
+	}
+	return nil
 }
 
 // contextReader wraps a Reader with a Context. If the context is cancelled
