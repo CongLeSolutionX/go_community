@@ -76,6 +76,30 @@
       },
       "revId": "e53e58d559fdb1690e0c563697b7694cf2a92999",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c5c60c9_2b3b09ed",
+        "filename": "src/cmd/compile/internal/types2/call.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-05-03T19:14:22Z",
+      "side": 1,
+      "message": "Yes, happy to make the change in a followup CL. (I just tried in-situ and it lead to multiple dozen merge conflicts with the next CL.)",
+      "parentUuid": "eb95c54a_49fbbc17",
+      "range": {
+        "startLine": 484,
+        "startChar": 12,
+        "endLine": 484,
+        "endChar": 24
+      },
+      "revId": "e53e58d559fdb1690e0c563697b7694cf2a92999",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
