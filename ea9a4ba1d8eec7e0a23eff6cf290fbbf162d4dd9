@@ -34,6 +34,24 @@
       "message": "Is the goal to get to a state where we can run \"go test cmd/cgo\" to run these tests?",
       "revId": "ea9a4ba1d8eec7e0a23eff6cf290fbbf162d4dd9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f36542f_d8ab9f1d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-05-04T21:38:49Z",
+      "side": 1,
+      "message": "Some of them will be able to get there, though some of them involve non-default build flags provided by dist. For example, swig_callback is run with default flags, but also as swig_callback_lto, which provides non-default build flags. I\u0027m also not sure if it\u0027s possible to mask them the way dist does, which dynamically checks for the presence of swig before trying to run these.\n\nBut that\u0027s not the main point anyway. I mostly want access to internal/testenv so I can clean up host test support in dist. This isn\u0027t the only way to do this, though, if you want to weigh in: https://go-review.git.corp.google.com/c/go/+/489196/5#message-84abaf93e8181bb94410219f2c3a90fa371a2418",
+      "parentUuid": "12474aa2_fa067eca",
+      "revId": "ea9a4ba1d8eec7e0a23eff6cf290fbbf162d4dd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
