@@ -854,13 +854,13 @@ func (t *tester) registerTests() {
 			t.registerTest("cgo_fortran", "", &goTest{dir: "cmd/cgo/testdata/fortran", timeout: 5 * time.Minute}, rtHostTest{})
 		}
 		if t.hasSwig() && goos != "android" {
-			t.registerTest("swig_stdio", "", &goTest{dir: "../misc/swig/stdio"})
+			t.registerTest("swig_stdio", "", &goTest{dir: "cmd/cgo/testdata/swig_stdio"})
 			if t.hasCxx() {
-				t.registerTest("swig_callback", "", &goTest{dir: "../misc/swig/callback"})
+				t.registerTest("swig_callback", "", &goTest{dir: "cmd/cgo/testdata/swig_callback"})
 				const cflags = "-flto -Wno-lto-type-mismatch -Wno-unknown-warning-option"
 				t.registerTest("swig_callback_lto", "",
 					&goTest{
-						dir: "../misc/swig/callback",
+						dir: "cmd/cgo/testdata/swig_callback",
 						env: []string{
 							"CGO_CFLAGS=" + cflags,
 							"CGO_CXXFLAGS=" + cflags,
