@@ -38,6 +38,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac240a99_d32380e9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-05-04T23:29:37Z",
+      "side": 1,
+      "message": "all done, thanks.  The only iffy part for me is if there is a better way to find the \"end\" of a loop, but I am not sure it matters since I think the walk code visits everything within the loop and keeps the highest position seen (in the same file, of course).",
+      "revId": "122fa346521c8f516c53b007b9f6bd250b49eee6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "56f72d35_af062444",
@@ -145,6 +162,30 @@
       "side": 1,
       "message": "It is the last position I could find within the loop; I could not figure out how to obtain the position of the \"}\" and I am not sure that I need that (I want to be able to notice that a profiled hotspot is \"within\" the position range of a loop).\nIf I could get \"}\" I would but I don\u0027t see where that is recorded.",
       "parentUuid": "9b06fe1e_a8eb45a9",
+      "range": {
+        "startLine": 21,
+        "startChar": 1,
+        "endLine": 21,
+        "endChar": 8
+      },
+      "revId": "122fa346521c8f516c53b007b9f6bd250b49eee6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ee93f0b_86e34c1d",
+        "filename": "src/cmd/compile/internal/loopvar/loopvar.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-05-04T23:29:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee72e1df_78330fb3",
       "range": {
         "startLine": 21,
         "startChar": 1,
