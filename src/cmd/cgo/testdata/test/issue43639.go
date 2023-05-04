@@ -4,6 +4,6 @@
 
 package cgotest
 
-// Issue 43639: No runtime test needed, make sure package misc/cgo/test/issue43639 compiles well.
+// Issue 43639: No runtime test needed, make sure package cmd/cgo/testdata/test/issue43639 compiles well.
 
-import _ "misc/cgo/test/issue43639"
+import _ "cmd/cgo/testdata/test/issue43639"

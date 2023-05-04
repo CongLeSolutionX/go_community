@@ -7,7 +7,7 @@
 
 package cgotest
 
-import "misc/cgo/test/issue30527"
+import "cmd/cgo/testdata/test/issue30527"
 
 func issue30527G() {
 	issue30527.G(nil)

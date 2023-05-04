@@ -1167,7 +1167,7 @@ func (t *tester) supportedBuildmode(mode string) bool {
 func (t *tester) registerCgoTests() {
 	cgoTest := func(name string, subdir, linkmode, buildmode string, opts ...registerTestOpt) *goTest {
 		gt := &goTest{
-			dir:       "../misc/cgo/" + subdir,
+			dir:       "cmd/cgo/testdata/" + subdir,
 			buildmode: buildmode,
 			ldflags:   "-linkmode=" + linkmode,
 		}
@@ -1192,7 +1192,7 @@ func (t *tester) registerCgoTests() {
 			gt.tags = append(gt.tags, "static")
 		}
 
-		t.registerTest("cgo:"+name, "../misc/cgo/test", gt, opts...)
+		t.registerTest("cgo:"+name, "cmd/cgo/testdata/test", gt, opts...)
 		return gt
 	}
 
@@ -1252,7 +1252,7 @@ func (t *tester) registerCgoTests() {
 					return false
 				}
 			} else {
-				cmd := t.dirCmd("misc/cgo/test", cc, "-xc", "-o", "/dev/null", "-static", "-")
+				cmd := t.dirCmd("src/cmd/cgo/testdata/test", cc, "-xc", "-o", "/dev/null", "-static", "-")
 				cmd.Stdin = strings.NewReader("int main() {}")
 				cmd.Stdout, cmd.Stderr = nil, nil // Discard output
 				if err := cmd.Run(); err != nil {
@@ -1536,11 +1536,11 @@ func (t *tester) registerRaceTests() {
 	// TODO(iant): Figure out how to catch this.
 	// t.registerTest("race:cmd/go", hdr, &goTest{race: true, runTests: "TestParallelTest", pkg: "cmd/go"})
 	if t.cgoEnabled {
-		// Building misc/cgo/test takes a long time.
+		// Building cmd/cgo/testdata/test takes a long time.
 		// There are already cgo-enabled packages being tested with the race detector.
-		// We shouldn't need to redo all of misc/cgo/test too.
+		// We shouldn't need to redo all of cmd/cgo/testdata/test too.
 		// The race buildler will take care of this.
-		// t.registerTest("race:misc/cgo/test", hdr, &goTest{dir: "../misc/cgo/test", race: true, env: []string{"GOTRACEBACK=2"}})
+		// t.registerTest("race:cmd/cgo/testdata/test", hdr, &goTest{dir: "cmd/cgo/testdata/test", race: true, env: []string{"GOTRACEBACK=2"}})
 	}
 	if t.extLink() {
 		// Test with external linking; see issue 9133.
