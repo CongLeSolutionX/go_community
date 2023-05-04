@@ -600,6 +600,8 @@ func (t *tester) registerTests() {
 		"cmd/cgo/internal/teststdio":      true,
 		"cmd/cgo/internal/testlife":       true,
 		"cmd/cgo/internal/testfortran":    true,
+		"cmd/cgo/internal/swig_stdio":     true,
+		"cmd/cgo/internal/swig_callback":  true,
 		"cmd/cgo/internal/test":           true,
 		"cmd/cgo/internal/testnocgo":      true,
 		"cmd/cgo/internal/testtls":        true,
@@ -871,7 +873,7 @@ func (t *tester) registerTests() {
 			t.registerTest("cgo_testfortran", "", &goTest{dir: "cmd/cgo/internal/testfortran", timeout: 5 * time.Minute}, rtHostTest{})
 		}
 		if goos != "android" {
-			t.registerTest("swig", "", &goTest{dir: "../misc/swig"})
+			t.registerTest("swig", "", &goTest{dir: "cmd/cgo/internal/swig"})
 		}
 	}
 	if t.cgoEnabled {
