@@ -11,8 +11,15 @@ import (
 	"cmd/compile/internal/ir"
 	"cmd/compile/internal/typecheck"
 	"cmd/compile/internal/types"
+	"cmd/internal/src"
 	"fmt"
 )
+
+type VarAndLoop struct {
+	Name    *ir.Name
+	Loop    ir.Node
+	LastPos src.XPos
+}
 
 // ForCapture transforms for and range loops that declare variables that might be
 // captured by a closure or escaped to the heap, using a syntactic check that
@@ -36,9 +43,9 @@ import (
 // base.Debug.LoopVar == 11 => transform ALL loops ignoring syntactic/potential escape. Do not log, can be in addition to GOEXPERIMENT.
 //
 // The effect of GOEXPERIMENT=loopvar is to change the default value (0) of base.Debug.LoopVar to 1 for all packages.
-func ForCapture(fn *ir.Func) []*ir.Name {
+func ForCapture(fn *ir.Func) []VarAndLoop {
 	// if a loop variable is transformed it is appended to this slice for later logging
-	var transformed []*ir.Name
+	var transformed []VarAndLoop
 
 	forCapture := func() {
 		seq := 1
@@ -66,6 +73,18 @@ func ForCapture(fn *ir.Func) []*ir.Name {
 			}
 		}
 
+		// For reporting, keep track of the last position within any loop.
+		// Loops nest, also need to be sensitive to inlining.
+		var lastPos src.XPos
+
+		updateLastPos := func(p src.XPos) {
+			pl, ll := p.Line(), lastPos.Line()
+			if p.SameFile(lastPos) &&
+				(pl > ll || pl == ll && p.Col() > lastPos.Col()) {
+				lastPos = p
+			}
+		}
+
 		// maybeReplaceVar unshares an iteration variable for a range loop,
 		// if that variable was actually (syntactically) leaked,
 		// subject to hash-variable debugging.
@@ -73,7 +92,7 @@ func ForCapture(fn *ir.Func) []*ir.Name {
 			if n, ok := k.(*ir.Name); ok && possiblyLeaked[n] {
 				if base.LoopVarHash.DebugHashMatchPos(n.Pos()) {
 					// Rename the loop key, prefix body with assignment from loop key
-					transformed = append(transformed, n)
+					transformed = append(transformed, VarAndLoop{n, x, lastPos})
 					tk := typecheck.Temp(n.Type())
 					tk.SetTypecheck(1)
 					as := ir.NewAssignStmt(x.Pos(), n, tk)
@@ -97,6 +116,11 @@ func ForCapture(fn *ir.Func) []*ir.Name {
 		//  of iteration variables and the transformation is more involved, range loops have at most 2.
 		var scanChildrenThenTransform func(x ir.Node) bool
 		scanChildrenThenTransform = func(n ir.Node) bool {
+
+			if loopDepth > 0 {
+				updateLastPos(n.Pos())
+			}
+
 			switch x := n.(type) {
 			case *ir.ClosureExpr:
 				if returnInLoopDepth >= loopDepth {
@@ -147,10 +171,15 @@ func ForCapture(fn *ir.Func) []*ir.Name {
 				noteMayLeak(x.Key)
 				noteMayLeak(x.Value)
 				loopDepth++
+				savedLastPos := lastPos
+				lastPos = x.Pos() // this sets the file.
 				ir.DoChildren(n, scanChildrenThenTransform)
 				loopDepth--
 				x.Key = maybeReplaceVar(x.Key, x)
 				x.Value = maybeReplaceVar(x.Value, x)
+				thisLastPos := lastPos
+				lastPos = savedLastPos
+				updateLastPos(thisLastPos) // this will propagate lastPos if in the same file.
 				x.DistinctVars = false
 				return false
 
@@ -160,6 +189,8 @@ func ForCapture(fn *ir.Func) []*ir.Name {
 				}
 				forAllDefInInit(x, noteMayLeak)
 				loopDepth++
+				savedLastPos := lastPos
+				lastPos = x.Pos() // this sets the file.
 				ir.DoChildren(n, scanChildrenThenTransform)
 				loopDepth--
 				var leaked []*ir.Name
@@ -248,7 +279,7 @@ func ForCapture(fn *ir.Func) []*ir.Name {
 
 					// (1,2) initialize preBody and postBody
 					for _, z := range leaked {
-						transformed = append(transformed, z)
+						transformed = append(transformed, VarAndLoop{z, x, lastPos})
 
 						tz := typecheck.Temp(z.Type())
 						tz.SetTypecheck(1)
@@ -362,6 +393,9 @@ func ForCapture(fn *ir.Func) []*ir.Name {
 					// (11) post' = {}
 					x.Post = nil
 				}
+				thisLastPos := lastPos
+				lastPos = savedLastPos
+				updateLastPos(thisLastPos) // this will propagate lastPos if in the same file.
 				x.DistinctVars = false
 
 				return false

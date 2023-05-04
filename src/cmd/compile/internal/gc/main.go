@@ -271,7 +271,7 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 	noder.MakeWrappers(typecheck.Target) // must happen after inlining
 
 	// Devirtualize and get variable capture right in for loops
-	var transformed []*ir.Name
+	var transformed []loopvar.VarAndLoop
 	for _, n := range typecheck.Target.Decls {
 		if n.Op() == ir.ODCLFUNC {
 			devirtualize.Func(n.(*ir.Func))
@@ -300,9 +300,38 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 	base.Timer.Start("fe", "escapes")
 	escape.Funcs(typecheck.Target.Decls)
 
-	if 2 <= base.Debug.LoopVar && base.Debug.LoopVar != 11 || logopt.Enabled() { // 11 is do them all, quietly, 12 includes debugging.
+	print := 2 <= base.Debug.LoopVar && base.Debug.LoopVar != 11
+
+	if print || logopt.Enabled() { // 11 is do them all, quietly, 12 includes debugging.
 		fileToPosBase := make(map[string]*src.PosBase) // used to remove inline context for innermost reporting.
-		for _, n := range transformed {
+
+		// trueInlinedPos rebases inner w/o inline context so that it prints correctly in WarnfAt; otherwise it prints as outer.
+		trueInlinedPos := func(inner src.Pos) src.XPos {
+			afn := inner.AbsFilename()
+			pb, ok := fileToPosBase[afn]
+			if !ok {
+				pb = src.NewFileBase(inner.Filename(), afn)
+				fileToPosBase[afn] = pb
+			}
+			inner.SetBase(pb)
+			return base.Ctxt.PosTable.XPos(inner)
+		}
+
+		type unit struct{}
+		loopsSeen := make(map[ir.Node]unit)
+		type loopPos struct {
+			loop  ir.Node
+			last  src.XPos
+			curfn *ir.Func
+		}
+		var loops []loopPos
+		for _, lv := range transformed {
+			n := lv.Name
+			if _, ok := loopsSeen[lv.Loop]; !ok {
+				l := lv.Loop
+				loopsSeen[l] = unit{}
+				loops = append(loops, loopPos{l, lv.LastPos, n.Curfn})
+			}
 			pos := n.Pos()
 			if logopt.Enabled() {
 				// For automated checking of coverage of this transformation, include this in the JSON information.
@@ -312,29 +341,42 @@ func Main(archInit func(*ssagen.ArchInfo)) {
 					logopt.LogOpt(pos, "transform-noescape", "loopvar", ir.FuncName(n.Curfn))
 				}
 			}
-			inner := base.Ctxt.InnermostPos(pos)
-			outer := base.Ctxt.OutermostPos(pos)
-			if inner == outer {
-				if n.Esc() == ir.EscHeap {
-					base.WarnfAt(pos, "transformed loop variable %v escapes", n)
+			if print {
+				inner := base.Ctxt.InnermostPos(pos)
+				outer := base.Ctxt.OutermostPos(pos)
+				if inner == outer {
+					if n.Esc() == ir.EscHeap {
+						base.WarnfAt(pos, "transformed loop variable %v escapes", n)
+					} else {
+						base.WarnfAt(pos, "transformed loop variable %v does not escape", n)
+					}
 				} else {
-					base.WarnfAt(pos, "transformed loop variable %v does not escape", n)
+					innerXPos := trueInlinedPos(inner)
+					if n.Esc() == ir.EscHeap {
+						base.WarnfAt(innerXPos, "transformed loop variable %v escapes (loop inlined into %s:%d)", n, outer.Filename(), outer.Line())
+					} else {
+						base.WarnfAt(innerXPos, "transformed loop variable %v does not escape (loop inlined into %s:%d)", n, outer.Filename(), outer.Line())
+					}
 				}
-			} else {
-				// Report the problem at the line where it actually occurred.
-				afn := inner.AbsFilename()
-				pb, ok := fileToPosBase[afn]
-				if !ok {
-					pb = src.NewFileBase(inner.Filename(), afn)
-					fileToPosBase[afn] = pb
-				}
-				inner.SetBase(pb) // rebasing w/o inline context makes it print correctly in WarnfAt; otherwise it prints as outer.
-				innerXPos := base.Ctxt.PosTable.XPos(inner)
-
-				if n.Esc() == ir.EscHeap {
-					base.WarnfAt(innerXPos, "transformed loop variable %v escapes (loop inlined into %s:%d)", n, outer.Filename(), outer.Line())
+			}
+		}
+		for _, l := range loops {
+			pos := l.loop.Pos()
+			last := l.last
+			if logopt.Enabled() {
+				// Intended to
+				logopt.LogOptRange(pos, last, "transform-loop", "loopvar", ir.FuncName(l.curfn))
+			}
+			if print && 3 <= base.Debug.LoopVar {
+				// TODO decide if we want to keep this, or not.  It was helpful for validating logopt, otherwise, eh.
+				inner := base.Ctxt.InnermostPos(pos)
+				outer := base.Ctxt.OutermostPos(pos)
+				if inner == outer {
+					base.WarnfAt(pos, "loop ending at %d:%d was transformed", last.Line(), last.Col())
 				} else {
-					base.WarnfAt(innerXPos, "transformed loop variable %v does not escape (loop inlined into %s:%d)", n, outer.Filename(), outer.Line())
+					pos = trueInlinedPos(inner)
+					last = trueInlinedPos(base.Ctxt.InnermostPos(last))
+					base.WarnfAt(pos, "loop ending at %d:%d was transformed (loop inlined into %s:%d)", last.Line(), last.Col(), outer.Filename(), outer.Line())
 				}
 			}
 		}
