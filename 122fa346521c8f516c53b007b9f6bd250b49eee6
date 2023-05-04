@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cece3bdd_eb4edce6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2023-05-04T23:45:17Z",
+      "side": 1,
+      "message": "Currently, we only track the \"}\" token position for overall function declarations. We could track it for loops too, if it would simplify or improve things.",
+      "parentUuid": "ac240a99_d32380e9",
+      "revId": "122fa346521c8f516c53b007b9f6bd250b49eee6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "56f72d35_af062444",
