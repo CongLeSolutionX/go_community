@@ -2,12 +2,9 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Test that we can have two identical cgo packages in a single binary.
+// Issue 26743: typedef of uint leads to inconsistent typedefs error.
 // No runtime test; just make sure it compiles.
 
 package cgotest
 
-import (
-	_ "misc/cgo/test/issue23555a"
-	_ "misc/cgo/test/issue23555b"
-)
+import _ "cmd/cgo/internal/test/issue26743"

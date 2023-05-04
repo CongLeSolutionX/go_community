@@ -2,11 +2,12 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Failed to resolve typedefs consistently.
+// Test that we can have two identical cgo packages in a single binary.
 // No runtime test; just make sure it compiles.
 
 package cgotest
 
-import "misc/cgo/test/issue27340"
-
-var issue27340Var = issue27340.Issue27340GoFunc
+import (
+	_ "cmd/cgo/internal/test/issue23555a"
+	_ "cmd/cgo/internal/test/issue23555b"
+)
