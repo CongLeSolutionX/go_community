@@ -2,12 +2,11 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build cgo
-
 package swig
 
 import (
 	"bytes"
+	"internal/testenv"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -19,11 +18,13 @@ import (
 )
 
 func TestStdio(t *testing.T) {
+	testenv.MustHaveCGO(t)
 	mustHaveSwig(t)
 	run(t, "testdata/stdio", false)
 }
 
 func TestCall(t *testing.T) {
+	testenv.MustHaveCGO(t)
 	mustHaveSwig(t)
 	mustHaveCxx(t)
 	run(t, "testdata/callback", false, "Call")
@@ -31,6 +32,7 @@ func TestCall(t *testing.T) {
 }
 
 func TestCallback(t *testing.T) {
+	testenv.MustHaveCGO(t)
 	mustHaveSwig(t)
 	mustHaveCxx(t)
 	run(t, "testdata/callback", false, "Callback")
@@ -63,10 +65,7 @@ func mustHaveCxx(t *testing.T) {
 		t.Fatalf("go env CXX failed: %s", err)
 	}
 	cxx = bytes.TrimSuffix(cxx, []byte("\n"))
-	p, err := exec.LookPath(string(cxx))
-	if p == "" {
-		t.Skipf("test requires C++ compiler, but failed to find %s: %s", string(cxx), err)
-	}
+	testenv.MustHaveExecPath(t, string(cxx))
 }
 
 var (
