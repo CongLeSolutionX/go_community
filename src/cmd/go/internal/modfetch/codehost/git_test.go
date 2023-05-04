@@ -56,6 +56,9 @@ func localGitURL(t testing.TB) string {
 	if runtime.GOOS == "android" && strings.HasSuffix(testenv.Builder(), "-corellium") {
 		testenv.SkipFlaky(t, 59940)
 	}
+	if testenv.Builder() == "linux-loong64-3a5000" {
+		testenv.SkipFlaky(t, 59984)
+	}
 
 	localGitURLOnce.Do(func() {
 		// Clone gitrepo1 into a local directory.
@@ -141,6 +144,9 @@ func testRepo(t *testing.T, remote string) (Repo, error) {
 	testenv.MustHaveExecPath(t, vcsName)
 	if runtime.GOOS == "android" && strings.HasSuffix(testenv.Builder(), "-corellium") {
 		testenv.SkipFlaky(t, 59940)
+	}
+	if testenv.Builder() == "linux-loong64-3a5000" {
+		testenv.SkipFlaky(t, 59984)
 	}
 	return NewRepo(vcsName, remote)
 }
