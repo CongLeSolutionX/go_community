@@ -848,10 +848,10 @@ func (t *tester) registerTests() {
 
 	if t.cgoEnabled && !t.iOS() {
 		// Disabled on iOS. golang.org/issue/15919
-		t.registerTest("cgo_stdio", "", &goTest{dir: "../misc/cgo/stdio", timeout: 5 * time.Minute}, rtHostTest{})
-		t.registerTest("cgo_life", "", &goTest{dir: "../misc/cgo/life", timeout: 5 * time.Minute}, rtHostTest{})
+		t.registerTest("cgo_stdio", "", &goTest{dir: "cmd/cgo/testdata/stdio", timeout: 5 * time.Minute}, rtHostTest{})
+		t.registerTest("cgo_life", "", &goTest{dir: "cmd/cgo/testdata/life", timeout: 5 * time.Minute}, rtHostTest{})
 		if goos != "android" {
-			t.registerTest("cgo_fortran", "", &goTest{dir: "../misc/cgo/fortran", timeout: 5 * time.Minute}, rtHostTest{})
+			t.registerTest("cgo_fortran", "", &goTest{dir: "cmd/cgo/testdata/fortran", timeout: 5 * time.Minute}, rtHostTest{})
 		}
 		if t.hasSwig() && goos != "android" {
 			t.registerTest("swig_stdio", "", &goTest{dir: "../misc/swig/stdio"})
@@ -879,29 +879,29 @@ func (t *tester) registerTests() {
 	// recompile the entire standard library. If make.bash ran with
 	// special -gcflags, that's not true.
 	if t.cgoEnabled && gogcflags == "" {
-		t.registerTest("testgodefs", "", &goTest{dir: "../misc/cgo/testgodefs", timeout: 5 * time.Minute}, rtHostTest{})
+		t.registerTest("cgo_testgodefs", "", &goTest{dir: "cmd/cgo/testdata/testgodefs", timeout: 5 * time.Minute}, rtHostTest{})
 
-		t.registerTest("testso", "", &goTest{dir: "../misc/cgo/testso", timeout: 600 * time.Second})
-		t.registerTest("testsovar", "", &goTest{dir: "../misc/cgo/testsovar", timeout: 600 * time.Second})
+		t.registerTest("cgo_testso", "", &goTest{dir: "cmd/cgo/testdata/testso", timeout: 600 * time.Second})
+		t.registerTest("cgo_testsovar", "", &goTest{dir: "cmd/cgo/testdata/testsovar", timeout: 600 * time.Second})
 		if t.supportedBuildmode("c-archive") {
-			t.registerTest("testcarchive", "", &goTest{dir: "../misc/cgo/testcarchive", timeout: 5 * time.Minute}, rtHostTest{})
+			t.registerTest("cgo_testcarchive", "", &goTest{dir: "cmd/cgo/testdata/testcarchive", timeout: 5 * time.Minute}, rtHostTest{})
 		}
 		if t.supportedBuildmode("c-shared") {
-			t.registerTest("testcshared", "", &goTest{dir: "../misc/cgo/testcshared", timeout: 5 * time.Minute}, rtHostTest{})
+			t.registerTest("cgo_testcshared", "", &goTest{dir: "cmd/cgo/testdata/testcshared", timeout: 5 * time.Minute}, rtHostTest{})
 		}
 		if t.supportedBuildmode("shared") {
-			t.registerTest("testshared", "", &goTest{dir: "../misc/cgo/testshared", timeout: 600 * time.Second})
+			t.registerTest("cgo_testshared", "", &goTest{dir: "cmd/cgo/testdata/testshared", timeout: 600 * time.Second})
 		}
 		if t.supportedBuildmode("plugin") {
-			t.registerTest("testplugin", "", &goTest{dir: "../misc/cgo/testplugin", timeout: 600 * time.Second})
+			t.registerTest("cgo_testplugin", "", &goTest{dir: "cmd/cgo/testdata/testplugin", timeout: 600 * time.Second})
 		}
 		if goos == "linux" || (goos == "freebsd" && goarch == "amd64") {
-			// because Pdeathsig of syscall.SysProcAttr struct used in misc/cgo/testsanitizers is only
+			// because Pdeathsig of syscall.SysProcAttr struct used in cmd/cgo/testdata/testsanitizers is only
 			// supported on Linux and FreeBSD.
-			t.registerTest("testsanitizers", "", &goTest{dir: "../misc/cgo/testsanitizers", timeout: 5 * time.Minute}, rtHostTest{})
+			t.registerTest("cgo_testsanitizers", "", &goTest{dir: "cmd/cgo/testdata/testsanitizers", timeout: 5 * time.Minute}, rtHostTest{})
 		}
 		if t.hasBash() && goos != "android" && !t.iOS() && gohostos != "windows" {
-			t.registerTest("cgo_errors", "", &goTest{dir: "../misc/cgo/errors", timeout: 5 * time.Minute}, rtHostTest{})
+			t.registerTest("cgo_errors", "", &goTest{dir: "cmd/cgo/testdata/errors", timeout: 5 * time.Minute}, rtHostTest{})
 		}
 	}
 
