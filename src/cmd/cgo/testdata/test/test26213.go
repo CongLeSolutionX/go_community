@@ -2,9 +2,14 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Issue 26743: typedef of uint leads to inconsistent typedefs error.
-// No runtime test; just make sure it compiles.
-
 package cgotest
 
-import _ "misc/cgo/test/issue26743"
+import (
+	"testing"
+
+	"cmd/cgo/testdata/test/issue26213"
+)
+
+func test26213(t *testing.T) {
+	issue26213.Test26213(t)
+}

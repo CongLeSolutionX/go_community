@@ -244,9 +244,9 @@ func TestCgo(t *testing.T) {
 	testenv.MustHaveCGO(t)
 
 	buildCtx := build.Default
-	buildCtx.Dir = filepath.Join(testenv.GOROOT(t), "misc")
+	buildCtx.Dir = filepath.Join(testenv.GOROOT(t), "src")
 	importer := New(&buildCtx, token.NewFileSet(), make(map[string]*types.Package))
-	_, err := importer.ImportFrom("./cgo/test", buildCtx.Dir, 0)
+	_, err := importer.ImportFrom("cmd/cgo/testdata/test", buildCtx.Dir, 0)
 	if err != nil {
 		t.Fatalf("Import failed: %v", err)
 	}
