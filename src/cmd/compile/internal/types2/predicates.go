@@ -510,3 +510,27 @@ func Default(t Type) Type {
 	}
 	return t
 }
+
+// maxType returns the "largest" type that encompasses both x and y:
+// If x and y are different untyped types, the result is the type of x or y
+// that appears later in this list: integer, rune, floating-point, complex.
+// Otherwise, if x != y, the result is nil.
+func maxType(x, y Type) Type {
+	// We only care about untyped types (for now), so == is good enough.
+	// TODO(gri) investigate generalizing this function to simplify code elsewhere
+	if x == y {
+		return x
+	}
+	if isUntyped(x) && isUntyped(y) {
+		// untyped types are basic types
+		xkind := x.(*Basic).kind
+		ykind := y.(*Basic).kind
+		if isNumeric(x) && isNumeric(y) {
+			if xkind > ykind {
+				return x
+			}
+			return y
+		}
+	}
+	return nil
+}
