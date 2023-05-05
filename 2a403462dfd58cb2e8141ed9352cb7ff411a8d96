@@ -274,6 +274,30 @@
       },
       "revId": "2a403462dfd58cb2e8141ed9352cb7ff411a8d96",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "479d677e_b587c374",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 851,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-05-05T18:44:00Z",
+      "side": 1,
+      "message": "\u003e I\u0027m not sure how you\u0027re thinking we would deal with these.\n\nActually, none of these are package main. Does that mean it\u0027s a non-issue? It would add some test packages to `go list cmd`, as you said, but won\u0027t install new binaries.",
+      "parentUuid": "1bf6365e_f9e52886",
+      "range": {
+        "startLine": 851,
+        "startChar": 56,
+        "endLine": 851,
+        "endChar": 64
+      },
+      "revId": "2a403462dfd58cb2e8141ed9352cb7ff411a8d96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
