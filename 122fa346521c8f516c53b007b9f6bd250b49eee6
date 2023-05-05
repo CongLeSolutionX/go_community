@@ -73,6 +73,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "727a00a1_aa0d8f8b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-05-05T14:02:07Z",
+      "side": 1,
+      "message": "It would be a more invasive change I think, and given that this is in the service of a hopefully-temporary tool, probably not worth the extra work.  I also realized last night thinking about the tests (are they adequate to exercise the end-of-loop finder?) that XPos.SameFile is misnamed but we want its \"wrong\" semantics anyhow.  (It is \"same inlining index\".). I should fix that in another CL.",
+      "parentUuid": "cece3bdd_eb4edce6",
+      "revId": "122fa346521c8f516c53b007b9f6bd250b49eee6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "56f72d35_af062444",
