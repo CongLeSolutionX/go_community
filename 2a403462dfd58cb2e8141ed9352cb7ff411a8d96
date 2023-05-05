@@ -250,6 +250,30 @@
       },
       "revId": "2a403462dfd58cb2e8141ed9352cb7ff411a8d96",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1bf6365e_f9e52886",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 851,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-05-05T18:42:07Z",
+      "side": 1,
+      "message": "Just to clarify and make sure I understand what you\u0027re getting at: I think you\u0027re proposing that we move, say, misc/cgo/stdio to, say, cmd/cgo/internal/stdio (or maybe teststdio). Then in dist, because these tests run with complicated conditions and often non-default build flags, we\u0027d add these test packages to the registerStdTestSpecially set to exclude them from running as part of the std cmd tests, and continue to register them specially. (Ideally we can reduce some of the special registration logic, but that can be follow-up work.)\n\nMost of these tests already consist entirely of _test.go files. A few are messier: nocgo, test, and testtls have non-_test.go files in them. I\u0027m not sure how you\u0027re thinking we would deal with these. These are structured to have all `import \"C\"` blocks in non-_test.go files because you can\u0027t `import \"C\"` in _test.go files, but these functions are usually used directly from test code also in the package, so we can\u0027t just move non-_test.go files into testdata.",
+      "parentUuid": "a1e9d91e_45f0afc5",
+      "range": {
+        "startLine": 851,
+        "startChar": 56,
+        "endLine": 851,
+        "endChar": 64
+      },
+      "revId": "2a403462dfd58cb2e8141ed9352cb7ff411a8d96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
