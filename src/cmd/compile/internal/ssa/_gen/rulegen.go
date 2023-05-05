@@ -912,9 +912,25 @@ func genBlockRewrite(rule Rule, arch arch, data blockData) *RuleRewrite {
 			log.Fatalf("op %s has no declared type for %s", data.name, e.field)
 		}
 		if !token.IsIdentifier(e.name) || rr.declared(e.name) {
-			rr.add(breakf("%sTo%s(b.%s) != %s", unTitle(e.field), title(e.dclType), e.field, e.name))
+			if e.field == "AuxInt" {
+				if auxIntIsZero(auxint) {
+					rr.add(breakf("b.AuxInt != 0"))
+				} else {
+					rr.add(breakf(auxIntToTypeCast("b", e.dclType)+" != %s", e.name))
+				}
+			} else {
+				rr.add(breakf("%sTo%s(b.%s) != %s", unTitle(e.field), title(e.dclType), e.field, e.name))
+			}
 		} else {
-			rr.add(declf(rr.Loc, e.name, "%sTo%s(b.%s)", unTitle(e.field), title(e.dclType), e.field))
+			if e.field == "AuxInt" {
+				if auxIntIsZero(auxint) {
+					rr.add(declf(rr.Loc, e.name, "0"))
+				} else {
+					rr.add(declf(rr.Loc, e.name, auxIntToTypeCast("b", e.dclType)))
+				}
+			} else {
+				rr.add(declf(rr.Loc, e.name, "%sTo%s(b.%s)", unTitle(e.field), title(e.dclType), e.field))
+			}
 		}
 	}
 	if rr.Cond != "" {
@@ -975,12 +991,13 @@ func genBlockRewrite(rule Rule, arch arch, data blockData) *RuleRewrite {
 	}
 
 	if auxint != "" {
-		// Make sure auxint value has the right type.
-		rr.add(stmtf("b.AuxInt = %sToAuxInt(%s)", unTitle(outdata.auxIntType()), auxint))
+		// AuxInt is already set to 0 by .reset() or NewValue
+		if !auxIntIsZero(auxint) {
+			rr.add(stmtf("b.AuxInt = %s", typeToAuxIntCast(auxint, outdata.auxIntType())))
+		}
 	}
 	if aux != "" {
-		// Make sure aux value has the right type.
-		rr.add(stmtf("b.Aux = %sToAux(%s)", unTitle(outdata.auxType()), aux))
+		rr.add(stmtf("b.Aux = %s", aux))
 	}
 
 	succChanged := false
@@ -1057,7 +1074,7 @@ func genMatch0(rr *RuleRewrite, arch arch, match, v string, cnt map[string]int, 
 			case "Aux":
 				rr.add(breakf("auxTo%s(%s.%s) != %s", title(e.dclType), v, e.field, e.name))
 			case "AuxInt":
-				rr.add(breakf("auxIntTo%s(%s.%s) != %s", title(e.dclType), v, e.field, e.name))
+				rr.add(breakf(auxIntToTypeCast(v, e.dclType)+" != %s", e.name))
 			case "Type":
 				rr.add(breakf("%s.%s != %s", v, e.field, e.name))
 			}
@@ -1066,7 +1083,7 @@ func genMatch0(rr *RuleRewrite, arch arch, match, v string, cnt map[string]int, 
 			case "Aux":
 				rr.add(declf(rr.Loc, e.name, "auxTo%s(%s.%s)", title(e.dclType), v, e.field))
 			case "AuxInt":
-				rr.add(declf(rr.Loc, e.name, "auxIntTo%s(%s.%s)", title(e.dclType), v, e.field))
+				rr.add(declf(rr.Loc, e.name, auxIntToTypeCast(v, e.dclType)))
 			case "Type":
 				rr.add(declf(rr.Loc, e.name, "%s.%s", v, e.field))
 			}
@@ -1237,12 +1254,13 @@ func genResult0(rr *RuleRewrite, arch arch, result string, top, move bool, pos s
 	}
 
 	if auxint != "" {
-		// Make sure auxint value has the right type.
-		rr.add(stmtf("%s.AuxInt = %sToAuxInt(%s)", v, unTitle(op.auxIntType()), auxint))
+		// AuxInt is already set to 0 by .reset() or NewValue
+		if !auxIntIsZero(auxint) {
+			rr.add(stmtf("%s.AuxInt = %s", v, typeToAuxIntCast(auxint, op.auxIntType())))
+		}
 	}
 	if aux != "" {
-		// Make sure aux value has the right type.
-		rr.add(stmtf("%s.Aux = %sToAux(%s)", v, unTitle(op.auxType()), aux))
+		rr.add(stmtf("%s.Aux = %s", v, aux))
 	}
 	all := new(strings.Builder)
 	for i, arg := range args {
@@ -1882,4 +1900,70 @@ func unTitle(s string) string {
 		}
 	}
 	return strings.ToLower(s[:1]) + s[1:]
+}
+
+func auxIntToTypeCast(prefix, target string) string {
+	switch target {
+	case "int64":
+		return fmt.Sprintf("%s.AuxInt", prefix)
+	case "int32":
+		return fmt.Sprintf("int32(%s.AuxInt)", prefix)
+	case "int16":
+		return fmt.Sprintf("int16(%s.AuxInt)", prefix)
+	case "int8":
+		return fmt.Sprintf("int8(%s.AuxInt)", prefix)
+	case "uint8":
+		return fmt.Sprintf("uint8(%s.AuxInt)", prefix)
+	case "flagConstant":
+		return fmt.Sprintf("flagConstant(%s.AuxInt)", prefix)
+	case "ValAndOff":
+		return fmt.Sprintf("ValAndOff(%s.AuxInt)", prefix)
+	case "arm64BitField":
+		return fmt.Sprintf("arm64BitField(%s.AuxInt)", prefix)
+	case "Op":
+		return fmt.Sprintf("Op(%s.AuxInt)", prefix)
+	case "bool":
+		return fmt.Sprintf("(%s.AuxInt == 1)", prefix)
+	default:
+		return fmt.Sprintf("auxIntTo%s(%s.AuxInt)", title(target), prefix)
+	}
+}
+
+func typeToAuxIntCast(value, source string) string {
+	num, err := strconv.Atoi(value)
+	isConstant := err == nil
+
+	if source != "int64" {
+		switch source {
+		case "int8", "int16", "int32":
+			if isConstant {
+				return value
+			}
+			return fmt.Sprintf("int64(%v)", value)
+		case "ValAndOff", "Op", "flagConstant", "arm64BitField":
+			return fmt.Sprintf("int64(%s)", value)
+		case "bool":
+			// We skip this for false as reset() and NewValue already set it to 0
+			if value == "true" {
+				return "1"
+			} else if !auxIntIsZero(value) {
+				return fmt.Sprintf("boolToAuxInt(%s)", value)
+			}
+		case "uint8":
+			if isConstant && num <= 127 && num >= 0 {
+				return value
+			}
+			return fmt.Sprintf("uint8ToAuxInt(%s)", value)
+		default:
+			return fmt.Sprintf("%sToAuxInt(%s)", source, value)
+		}
+	}
+
+	return value
+}
+
+// auxIntIsZero checks if auxint is "0" or "false".
+// Useful for avoiding redundant zero assignments.
+func auxIntIsZero(auxint string) bool {
+	return auxint == "0" || auxint == "false"
 }

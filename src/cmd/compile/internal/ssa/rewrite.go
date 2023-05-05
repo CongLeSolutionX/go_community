@@ -629,38 +629,11 @@ func auxTo64F(i int64) float64 {
 	return math.Float64frombits(uint64(i))
 }
 
-func auxIntToBool(i int64) bool {
-	if i == 0 {
-		return false
-	}
-	return true
-}
-func auxIntToInt8(i int64) int8 {
-	return int8(i)
-}
-func auxIntToInt16(i int64) int16 {
-	return int16(i)
-}
-func auxIntToInt32(i int64) int32 {
-	return int32(i)
-}
-func auxIntToInt64(i int64) int64 {
-	return i
-}
-func auxIntToUint8(i int64) uint8 {
-	return uint8(i)
-}
 func auxIntToFloat32(i int64) float32 {
 	return float32(math.Float64frombits(uint64(i)))
 }
 func auxIntToFloat64(i int64) float64 {
 	return math.Float64frombits(uint64(i))
-}
-func auxIntToValAndOff(i int64) ValAndOff {
-	return ValAndOff(i)
-}
-func auxIntToArm64BitField(i int64) arm64BitField {
-	return arm64BitField(i)
 }
 func auxIntToInt128(x int64) int128 {
 	if x != 0 {
@@ -668,31 +641,11 @@ func auxIntToInt128(x int64) int128 {
 	}
 	return 0
 }
-func auxIntToFlagConstant(x int64) flagConstant {
-	return flagConstant(x)
-}
-
-func auxIntToOp(cc int64) Op {
-	return Op(cc)
-}
-
 func boolToAuxInt(b bool) int64 {
 	if b {
 		return 1
 	}
 	return 0
-}
-func int8ToAuxInt(i int8) int64 {
-	return int64(i)
-}
-func int16ToAuxInt(i int16) int64 {
-	return int64(i)
-}
-func int32ToAuxInt(i int32) int64 {
-	return int64(i)
-}
-func int64ToAuxInt(i int64) int64 {
-	return int64(i)
 }
 func uint8ToAuxInt(i uint8) int64 {
 	return int64(int8(i))
@@ -703,24 +656,11 @@ func float32ToAuxInt(f float32) int64 {
 func float64ToAuxInt(f float64) int64 {
 	return int64(math.Float64bits(f))
 }
-func valAndOffToAuxInt(v ValAndOff) int64 {
-	return int64(v)
-}
-func arm64BitFieldToAuxInt(v arm64BitField) int64 {
-	return int64(v)
-}
 func int128ToAuxInt(x int128) int64 {
 	if x != 0 {
 		panic("nonzero int128 not allowed")
 	}
 	return 0
-}
-func flagConstantToAuxInt(x flagConstant) int64 {
-	return int64(x)
-}
-
-func opToAuxInt(o Op) int64 {
-	return int64(o)
 }
 
 // Aux is an interface to hold miscellaneous data in Blocks and Values.
@@ -763,21 +703,6 @@ func auxToS390xRotateParams(i Aux) s390x.RotateParams {
 
 func StringToAux(s string) Aux {
 	return stringAux(s)
-}
-func symToAux(s Sym) Aux {
-	return s
-}
-func callToAux(s *AuxCall) Aux {
-	return s
-}
-func typeToAux(t *types.Type) Aux {
-	return t
-}
-func s390xCCMaskToAux(c s390x.CCMask) Aux {
-	return c
-}
-func s390xRotateParamsToAux(r s390x.RotateParams) Aux {
-	return r
 }
 
 // uaddOvf reports whether unsigned a+b would overflow.

@@ -65,7 +65,7 @@ func rewriteValuedec_OpArraySelect(v *Value) bool {
 	// cond: x.Type.IsPtrShaped()
 	// result: x
 	for {
-		if auxIntToInt64(v.AuxInt) != 0 {
+		if v.AuxInt != 0 {
 			break
 		}
 		x := v_0
@@ -88,7 +88,7 @@ func rewriteValuedec_OpArraySelect(v *Value) bool {
 	// match: (ArraySelect [0] (IData x))
 	// result: (IData x)
 	for {
-		if auxIntToInt64(v.AuxInt) != 0 || v_0.Op != OpIData {
+		if v.AuxInt != 0 || v_0.Op != OpIData {
 			break
 		}
 		x := v_0.Args[0]
@@ -99,7 +99,7 @@ func rewriteValuedec_OpArraySelect(v *Value) bool {
 	// match: (ArraySelect [i] x:(Load <t> ptr mem))
 	// result: @x.Block (Load <v.Type> (OffPtr <v.Type.PtrTo()> [t.Elem().Size()*i] ptr) mem)
 	for {
-		i := auxIntToInt64(v.AuxInt)
+		i := v.AuxInt
 		x := v_0
 		if x.Op != OpLoad {
 			break
@@ -111,7 +111,7 @@ func rewriteValuedec_OpArraySelect(v *Value) bool {
 		v0 := b.NewValue0(v.Pos, OpLoad, v.Type)
 		v.copyOf(v0)
 		v1 := b.NewValue0(v.Pos, OpOffPtr, v.Type.PtrTo())
-		v1.AuxInt = int64ToAuxInt(t.Elem().Size() * i)
+		v1.AuxInt = t.Elem().Size() * i
 		v1.AddArg(ptr)
 		v0.AddArg2(v1, mem)
 		return true
@@ -150,7 +150,7 @@ func rewriteValuedec_OpComplexImag(v *Value) bool {
 		v0 := b.NewValue0(v.Pos, OpLoad, typ.Float32)
 		v.copyOf(v0)
 		v1 := b.NewValue0(v.Pos, OpOffPtr, typ.Float32Ptr)
-		v1.AuxInt = int64ToAuxInt(4)
+		v1.AuxInt = 4
 		v1.AddArg(ptr)
 		v0.AddArg2(v1, mem)
 		return true
@@ -173,7 +173,7 @@ func rewriteValuedec_OpComplexImag(v *Value) bool {
 		v0 := b.NewValue0(v.Pos, OpLoad, typ.Float64)
 		v.copyOf(v0)
 		v1 := b.NewValue0(v.Pos, OpOffPtr, typ.Float64Ptr)
-		v1.AuxInt = int64ToAuxInt(8)
+		v1.AuxInt = 8
 		v1.AddArg(ptr)
 		v0.AddArg2(v1, mem)
 		return true
@@ -269,7 +269,7 @@ func rewriteValuedec_OpIData(v *Value) bool {
 		v0 := b.NewValue0(v.Pos, OpLoad, typ.BytePtr)
 		v.copyOf(v0)
 		v1 := b.NewValue0(v.Pos, OpOffPtr, typ.BytePtrPtr)
-		v1.AuxInt = int64ToAuxInt(config.PtrSize)
+		v1.AuxInt = config.PtrSize
 		v1.AddArg(ptr)
 		v0.AddArg2(v1, mem)
 		return true
@@ -350,7 +350,7 @@ func rewriteValuedec_OpLoad(v *Value) bool {
 		v0.AddArg2(ptr, mem)
 		v1 := b.NewValue0(v.Pos, OpLoad, typ.Float32)
 		v2 := b.NewValue0(v.Pos, OpOffPtr, typ.Float32Ptr)
-		v2.AuxInt = int64ToAuxInt(4)
+		v2.AuxInt = 4
 		v2.AddArg(ptr)
 		v1.AddArg2(v2, mem)
 		v.AddArg2(v0, v1)
@@ -371,7 +371,7 @@ func rewriteValuedec_OpLoad(v *Value) bool {
 		v0.AddArg2(ptr, mem)
 		v1 := b.NewValue0(v.Pos, OpLoad, typ.Float64)
 		v2 := b.NewValue0(v.Pos, OpOffPtr, typ.Float64Ptr)
-		v2.AuxInt = int64ToAuxInt(8)
+		v2.AuxInt = 8
 		v2.AddArg(ptr)
 		v1.AddArg2(v2, mem)
 		v.AddArg2(v0, v1)
@@ -392,7 +392,7 @@ func rewriteValuedec_OpLoad(v *Value) bool {
 		v0.AddArg2(ptr, mem)
 		v1 := b.NewValue0(v.Pos, OpLoad, typ.Int)
 		v2 := b.NewValue0(v.Pos, OpOffPtr, typ.IntPtr)
-		v2.AuxInt = int64ToAuxInt(config.PtrSize)
+		v2.AuxInt = config.PtrSize
 		v2.AddArg(ptr)
 		v1.AddArg2(v2, mem)
 		v.AddArg2(v0, v1)
@@ -413,12 +413,12 @@ func rewriteValuedec_OpLoad(v *Value) bool {
 		v0.AddArg2(ptr, mem)
 		v1 := b.NewValue0(v.Pos, OpLoad, typ.Int)
 		v2 := b.NewValue0(v.Pos, OpOffPtr, typ.IntPtr)
-		v2.AuxInt = int64ToAuxInt(config.PtrSize)
+		v2.AuxInt = config.PtrSize
 		v2.AddArg(ptr)
 		v1.AddArg2(v2, mem)
 		v3 := b.NewValue0(v.Pos, OpLoad, typ.Int)
 		v4 := b.NewValue0(v.Pos, OpOffPtr, typ.IntPtr)
-		v4.AuxInt = int64ToAuxInt(2 * config.PtrSize)
+		v4.AuxInt = 2 * config.PtrSize
 		v4.AddArg(ptr)
 		v3.AddArg2(v4, mem)
 		v.AddArg3(v0, v1, v3)
@@ -439,7 +439,7 @@ func rewriteValuedec_OpLoad(v *Value) bool {
 		v0.AddArg2(ptr, mem)
 		v1 := b.NewValue0(v.Pos, OpLoad, typ.BytePtr)
 		v2 := b.NewValue0(v.Pos, OpOffPtr, typ.BytePtrPtr)
-		v2.AuxInt = int64ToAuxInt(config.PtrSize)
+		v2.AuxInt = config.PtrSize
 		v2.AddArg(ptr)
 		v1.AddArg2(v2, mem)
 		v.AddArg2(v0, v1)
@@ -480,7 +480,7 @@ func rewriteValuedec_OpSliceCap(v *Value) bool {
 		v0 := b.NewValue0(v.Pos, OpLoad, typ.Int)
 		v.copyOf(v0)
 		v1 := b.NewValue0(v.Pos, OpOffPtr, typ.IntPtr)
-		v1.AuxInt = int64ToAuxInt(2 * config.PtrSize)
+		v1.AuxInt = 2 * config.PtrSize
 		v1.AddArg(ptr)
 		v0.AddArg2(v1, mem)
 		return true
@@ -520,7 +520,7 @@ func rewriteValuedec_OpSliceLen(v *Value) bool {
 		v0 := b.NewValue0(v.Pos, OpLoad, typ.Int)
 		v.copyOf(v0)
 		v1 := b.NewValue0(v.Pos, OpOffPtr, typ.IntPtr)
-		v1.AuxInt = int64ToAuxInt(config.PtrSize)
+		v1.AuxInt = config.PtrSize
 		v1.AddArg(ptr)
 		v0.AddArg2(v1, mem)
 		return true
@@ -611,12 +611,12 @@ func rewriteValuedec_OpStore(v *Value) bool {
 			break
 		}
 		v.reset(OpStore)
-		v.Aux = typeToAux(typ.Float32)
+		v.Aux = typ.Float32
 		v0 := b.NewValue0(v.Pos, OpOffPtr, typ.Float32Ptr)
-		v0.AuxInt = int64ToAuxInt(4)
+		v0.AuxInt = 4
 		v0.AddArg(dst)
 		v1 := b.NewValue0(v.Pos, OpStore, types.TypeMem)
-		v1.Aux = typeToAux(typ.Float32)
+		v1.Aux = typ.Float32
 		v1.AddArg3(dst, real, mem)
 		v.AddArg3(v0, imag, v1)
 		return true
@@ -637,12 +637,12 @@ func rewriteValuedec_OpStore(v *Value) bool {
 			break
 		}
 		v.reset(OpStore)
-		v.Aux = typeToAux(typ.Float64)
+		v.Aux = typ.Float64
 		v0 := b.NewValue0(v.Pos, OpOffPtr, typ.Float64Ptr)
-		v0.AuxInt = int64ToAuxInt(8)
+		v0.AuxInt = 8
 		v0.AddArg(dst)
 		v1 := b.NewValue0(v.Pos, OpStore, types.TypeMem)
-		v1.Aux = typeToAux(typ.Float64)
+		v1.Aux = typ.Float64
 		v1.AddArg3(dst, real, mem)
 		v.AddArg3(v0, imag, v1)
 		return true
@@ -658,12 +658,12 @@ func rewriteValuedec_OpStore(v *Value) bool {
 		ptr := v_1.Args[0]
 		mem := v_2
 		v.reset(OpStore)
-		v.Aux = typeToAux(typ.Int)
+		v.Aux = typ.Int
 		v0 := b.NewValue0(v.Pos, OpOffPtr, typ.IntPtr)
-		v0.AuxInt = int64ToAuxInt(config.PtrSize)
+		v0.AuxInt = config.PtrSize
 		v0.AddArg(dst)
 		v1 := b.NewValue0(v.Pos, OpStore, types.TypeMem)
-		v1.Aux = typeToAux(typ.BytePtr)
+		v1.Aux = typ.BytePtr
 		v1.AddArg3(dst, ptr, mem)
 		v.AddArg3(v0, len, v1)
 		return true
@@ -681,17 +681,17 @@ func rewriteValuedec_OpStore(v *Value) bool {
 		len := v_1.Args[1]
 		mem := v_2
 		v.reset(OpStore)
-		v.Aux = typeToAux(typ.Int)
+		v.Aux = typ.Int
 		v0 := b.NewValue0(v.Pos, OpOffPtr, typ.IntPtr)
-		v0.AuxInt = int64ToAuxInt(2 * config.PtrSize)
+		v0.AuxInt = 2 * config.PtrSize
 		v0.AddArg(dst)
 		v1 := b.NewValue0(v.Pos, OpStore, types.TypeMem)
-		v1.Aux = typeToAux(typ.Int)
+		v1.Aux = typ.Int
 		v2 := b.NewValue0(v.Pos, OpOffPtr, typ.IntPtr)
-		v2.AuxInt = int64ToAuxInt(config.PtrSize)
+		v2.AuxInt = config.PtrSize
 		v2.AddArg(dst)
 		v3 := b.NewValue0(v.Pos, OpStore, types.TypeMem)
-		v3.Aux = typeToAux(t.Elem().PtrTo())
+		v3.Aux = t.Elem().PtrTo()
 		v3.AddArg3(dst, ptr, mem)
 		v1.AddArg3(v2, len, v3)
 		v.AddArg3(v0, cap, v1)
@@ -708,12 +708,12 @@ func rewriteValuedec_OpStore(v *Value) bool {
 		itab := v_1.Args[0]
 		mem := v_2
 		v.reset(OpStore)
-		v.Aux = typeToAux(typ.BytePtr)
+		v.Aux = typ.BytePtr
 		v0 := b.NewValue0(v.Pos, OpOffPtr, typ.BytePtrPtr)
-		v0.AuxInt = int64ToAuxInt(config.PtrSize)
+		v0.AuxInt = config.PtrSize
 		v0.AddArg(dst)
 		v1 := b.NewValue0(v.Pos, OpStore, types.TypeMem)
-		v1.Aux = typeToAux(typ.Uintptr)
+		v1.Aux = typ.Uintptr
 		v1.AddArg3(dst, itab, mem)
 		v.AddArg3(v0, data, v1)
 		return true
@@ -729,9 +729,8 @@ func rewriteValuedec_OpStore(v *Value) bool {
 		f0 := v_1.Args[0]
 		mem := v_2
 		v.reset(OpStore)
-		v.Aux = typeToAux(t.FieldType(0))
+		v.Aux = t.FieldType(0)
 		v0 := b.NewValue0(v.Pos, OpOffPtr, t.FieldType(0).PtrTo())
-		v0.AuxInt = int64ToAuxInt(0)
 		v0.AddArg(dst)
 		v.AddArg3(v0, f0, mem)
 		return true
@@ -748,14 +747,13 @@ func rewriteValuedec_OpStore(v *Value) bool {
 		f0 := v_1.Args[0]
 		mem := v_2
 		v.reset(OpStore)
-		v.Aux = typeToAux(t.FieldType(1))
+		v.Aux = t.FieldType(1)
 		v0 := b.NewValue0(v.Pos, OpOffPtr, t.FieldType(1).PtrTo())
-		v0.AuxInt = int64ToAuxInt(t.FieldOff(1))
+		v0.AuxInt = t.FieldOff(1)
 		v0.AddArg(dst)
 		v1 := b.NewValue0(v.Pos, OpStore, types.TypeMem)
-		v1.Aux = typeToAux(t.FieldType(0))
+		v1.Aux = t.FieldType(0)
 		v2 := b.NewValue0(v.Pos, OpOffPtr, t.FieldType(0).PtrTo())
-		v2.AuxInt = int64ToAuxInt(0)
 		v2.AddArg(dst)
 		v1.AddArg3(v2, f0, mem)
 		v.AddArg3(v0, f1, v1)
@@ -774,19 +772,18 @@ func rewriteValuedec_OpStore(v *Value) bool {
 		f1 := v_1.Args[1]
 		mem := v_2
 		v.reset(OpStore)
-		v.Aux = typeToAux(t.FieldType(2))
+		v.Aux = t.FieldType(2)
 		v0 := b.NewValue0(v.Pos, OpOffPtr, t.FieldType(2).PtrTo())
-		v0.AuxInt = int64ToAuxInt(t.FieldOff(2))
+		v0.AuxInt = t.FieldOff(2)
 		v0.AddArg(dst)
 		v1 := b.NewValue0(v.Pos, OpStore, types.TypeMem)
-		v1.Aux = typeToAux(t.FieldType(1))
+		v1.Aux = t.FieldType(1)
 		v2 := b.NewValue0(v.Pos, OpOffPtr, t.FieldType(1).PtrTo())
-		v2.AuxInt = int64ToAuxInt(t.FieldOff(1))
+		v2.AuxInt = t.FieldOff(1)
 		v2.AddArg(dst)
 		v3 := b.NewValue0(v.Pos, OpStore, types.TypeMem)
-		v3.Aux = typeToAux(t.FieldType(0))
+		v3.Aux = t.FieldType(0)
 		v4 := b.NewValue0(v.Pos, OpOffPtr, t.FieldType(0).PtrTo())
-		v4.AuxInt = int64ToAuxInt(0)
 		v4.AddArg(dst)
 		v3.AddArg3(v4, f0, mem)
 		v1.AddArg3(v2, f1, v3)
@@ -807,24 +804,23 @@ func rewriteValuedec_OpStore(v *Value) bool {
 		f2 := v_1.Args[2]
 		mem := v_2
 		v.reset(OpStore)
-		v.Aux = typeToAux(t.FieldType(3))
+		v.Aux = t.FieldType(3)
 		v0 := b.NewValue0(v.Pos, OpOffPtr, t.FieldType(3).PtrTo())
-		v0.AuxInt = int64ToAuxInt(t.FieldOff(3))
+		v0.AuxInt = t.FieldOff(3)
 		v0.AddArg(dst)
 		v1 := b.NewValue0(v.Pos, OpStore, types.TypeMem)
-		v1.Aux = typeToAux(t.FieldType(2))
+		v1.Aux = t.FieldType(2)
 		v2 := b.NewValue0(v.Pos, OpOffPtr, t.FieldType(2).PtrTo())
-		v2.AuxInt = int64ToAuxInt(t.FieldOff(2))
+		v2.AuxInt = t.FieldOff(2)
 		v2.AddArg(dst)
 		v3 := b.NewValue0(v.Pos, OpStore, types.TypeMem)
-		v3.Aux = typeToAux(t.FieldType(1))
+		v3.Aux = t.FieldType(1)
 		v4 := b.NewValue0(v.Pos, OpOffPtr, t.FieldType(1).PtrTo())
-		v4.AuxInt = int64ToAuxInt(t.FieldOff(1))
+		v4.AuxInt = t.FieldOff(1)
 		v4.AddArg(dst)
 		v5 := b.NewValue0(v.Pos, OpStore, types.TypeMem)
-		v5.Aux = typeToAux(t.FieldType(0))
+		v5.Aux = t.FieldType(0)
 		v6 := b.NewValue0(v.Pos, OpOffPtr, t.FieldType(0).PtrTo())
-		v6.AuxInt = int64ToAuxInt(0)
 		v6.AddArg(dst)
 		v5.AddArg3(v6, f0, mem)
 		v3.AddArg3(v4, f1, v5)
@@ -842,7 +838,7 @@ func rewriteValuedec_OpStore(v *Value) bool {
 		e := v_1.Args[0]
 		mem := v_2
 		v.reset(OpStore)
-		v.Aux = typeToAux(e.Type)
+		v.Aux = e.Type
 		v.AddArg3(dst, e, mem)
 		return true
 	}
@@ -881,7 +877,7 @@ func rewriteValuedec_OpStringLen(v *Value) bool {
 		v0 := b.NewValue0(v.Pos, OpLoad, typ.Int)
 		v.copyOf(v0)
 		v1 := b.NewValue0(v.Pos, OpOffPtr, typ.IntPtr)
-		v1.AuxInt = int64ToAuxInt(config.PtrSize)
+		v1.AuxInt = config.PtrSize
 		v1.AddArg(ptr)
 		v0.AddArg2(v1, mem)
 		return true
@@ -945,7 +941,7 @@ func rewriteValuedec_OpStructSelect(v *Value) bool {
 	// match: (StructSelect [0] (IData x))
 	// result: (IData x)
 	for {
-		if auxIntToInt64(v.AuxInt) != 0 || v_0.Op != OpIData {
+		if v.AuxInt != 0 || v_0.Op != OpIData {
 			break
 		}
 		x := v_0.Args[0]
@@ -966,7 +962,7 @@ func rewriteValuedec_OpStructSelect(v *Value) bool {
 	// match: (StructSelect [0] (StructMake2 x _))
 	// result: x
 	for {
-		if auxIntToInt64(v.AuxInt) != 0 || v_0.Op != OpStructMake2 {
+		if v.AuxInt != 0 || v_0.Op != OpStructMake2 {
 			break
 		}
 		x := v_0.Args[0]
@@ -976,7 +972,7 @@ func rewriteValuedec_OpStructSelect(v *Value) bool {
 	// match: (StructSelect [1] (StructMake2 _ x))
 	// result: x
 	for {
-		if auxIntToInt64(v.AuxInt) != 1 || v_0.Op != OpStructMake2 {
+		if v.AuxInt != 1 || v_0.Op != OpStructMake2 {
 			break
 		}
 		x := v_0.Args[1]
@@ -986,7 +982,7 @@ func rewriteValuedec_OpStructSelect(v *Value) bool {
 	// match: (StructSelect [0] (StructMake3 x _ _))
 	// result: x
 	for {
-		if auxIntToInt64(v.AuxInt) != 0 || v_0.Op != OpStructMake3 {
+		if v.AuxInt != 0 || v_0.Op != OpStructMake3 {
 			break
 		}
 		x := v_0.Args[0]
@@ -996,7 +992,7 @@ func rewriteValuedec_OpStructSelect(v *Value) bool {
 	// match: (StructSelect [1] (StructMake3 _ x _))
 	// result: x
 	for {
-		if auxIntToInt64(v.AuxInt) != 1 || v_0.Op != OpStructMake3 {
+		if v.AuxInt != 1 || v_0.Op != OpStructMake3 {
 			break
 		}
 		x := v_0.Args[1]
@@ -1006,7 +1002,7 @@ func rewriteValuedec_OpStructSelect(v *Value) bool {
 	// match: (StructSelect [2] (StructMake3 _ _ x))
 	// result: x
 	for {
-		if auxIntToInt64(v.AuxInt) != 2 || v_0.Op != OpStructMake3 {
+		if v.AuxInt != 2 || v_0.Op != OpStructMake3 {
 			break
 		}
 		x := v_0.Args[2]
@@ -1016,7 +1012,7 @@ func rewriteValuedec_OpStructSelect(v *Value) bool {
 	// match: (StructSelect [0] (StructMake4 x _ _ _))
 	// result: x
 	for {
-		if auxIntToInt64(v.AuxInt) != 0 || v_0.Op != OpStructMake4 {
+		if v.AuxInt != 0 || v_0.Op != OpStructMake4 {
 			break
 		}
 		x := v_0.Args[0]
@@ -1026,7 +1022,7 @@ func rewriteValuedec_OpStructSelect(v *Value) bool {
 	// match: (StructSelect [1] (StructMake4 _ x _ _))
 	// result: x
 	for {
-		if auxIntToInt64(v.AuxInt) != 1 || v_0.Op != OpStructMake4 {
+		if v.AuxInt != 1 || v_0.Op != OpStructMake4 {
 			break
 		}
 		x := v_0.Args[1]
@@ -1036,7 +1032,7 @@ func rewriteValuedec_OpStructSelect(v *Value) bool {
 	// match: (StructSelect [2] (StructMake4 _ _ x _))
 	// result: x
 	for {
-		if auxIntToInt64(v.AuxInt) != 2 || v_0.Op != OpStructMake4 {
+		if v.AuxInt != 2 || v_0.Op != OpStructMake4 {
 			break
 		}
 		x := v_0.Args[2]
@@ -1046,7 +1042,7 @@ func rewriteValuedec_OpStructSelect(v *Value) bool {
 	// match: (StructSelect [3] (StructMake4 _ _ _ x))
 	// result: x
 	for {
-		if auxIntToInt64(v.AuxInt) != 3 || v_0.Op != OpStructMake4 {
+		if v.AuxInt != 3 || v_0.Op != OpStructMake4 {
 			break
 		}
 		x := v_0.Args[3]
@@ -1057,7 +1053,7 @@ func rewriteValuedec_OpStructSelect(v *Value) bool {
 	// cond: x.Type.IsPtrShaped()
 	// result: x
 	for {
-		if auxIntToInt64(v.AuxInt) != 0 {
+		if v.AuxInt != 0 {
 			break
 		}
 		x := v_0
@@ -1070,7 +1066,7 @@ func rewriteValuedec_OpStructSelect(v *Value) bool {
 	// match: (StructSelect [i] x:(Load <t> ptr mem))
 	// result: @x.Block (Load <v.Type> (OffPtr <v.Type.PtrTo()> [t.FieldOff(int(i))] ptr) mem)
 	for {
-		i := auxIntToInt64(v.AuxInt)
+		i := v.AuxInt
 		x := v_0
 		if x.Op != OpLoad {
 			break
@@ -1082,7 +1078,7 @@ func rewriteValuedec_OpStructSelect(v *Value) bool {
 		v0 := b.NewValue0(v.Pos, OpLoad, v.Type)
 		v.copyOf(v0)
 		v1 := b.NewValue0(v.Pos, OpOffPtr, v.Type.PtrTo())
-		v1.AuxInt = int64ToAuxInt(t.FieldOff(int(i)))
+		v1.AuxInt = t.FieldOff(int(i))
 		v1.AddArg(ptr)
 		v0.AddArg2(v1, mem)
 		return true
