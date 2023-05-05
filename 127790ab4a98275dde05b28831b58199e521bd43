@@ -201,6 +201,24 @@
       "parentUuid": "76d42a33_4d4bacf8",
       "revId": "127790ab4a98275dde05b28831b58199e521bd43",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "939a39d9_3a335bea",
+        "filename": "src/cmd/go/testdata/script/mod_upgrade.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 62608
+      },
+      "writtenOn": "2023-05-05T15:06:00Z",
+      "side": 1,
+      "message": "@bcmills@google.com, could you check the above comment, pleas?",
+      "parentUuid": "abd6c79a_f29cc9c2",
+      "revId": "127790ab4a98275dde05b28831b58199e521bd43",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
