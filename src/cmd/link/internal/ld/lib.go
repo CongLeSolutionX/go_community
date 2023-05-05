@@ -1385,7 +1385,7 @@ func (ctxt *Link) hostlink() {
 
 	// On darwin, whether to combine DWARF into executable.
 	// Only macOS supports unmapped segments such as our __DWARF segment.
-	combineDwarf := ctxt.IsDarwin() && !*FlagS && !*FlagW && !debug_s && machoPlatform == PLATFORM_MACOS
+	combineDwarf := ctxt.IsDarwin() && !*FlagW && machoPlatform == PLATFORM_MACOS
 
 	switch ctxt.HeadType {
 	case objabi.Hdarwin:
@@ -1884,59 +1884,77 @@ func (ctxt *Link) hostlink() {
 		ctxt.Logf("%s", out)
 	}
 
-	if combineDwarf {
-		// Find "dsymutils" and "strip" tools using CC --print-prog-name.
+	if combineDwarf || (ctxt.IsDarwin() && debug_s) {
+		// Find the "strip" tool using CC --print-prog-name.
 		var cc []string
 		cc = append(cc, ctxt.extld()...)
 		cc = append(cc, hostlinkArchArgs(ctxt.Arch)...)
-		cc = append(cc, "--print-prog-name", "dsymutil")
+		cc = append(cc, "--print-prog-name", "strip")
 		out, err := exec.Command(cc[0], cc[1:]...).CombinedOutput()
-		if err != nil {
-			Exitf("%s: finding dsymutil failed: %v\n%s", os.Args[0], err, out)
-		}
-		dsymutilCmd := strings.TrimSuffix(string(out), "\n")
-
-		cc[len(cc)-1] = "strip"
-		out, err = exec.Command(cc[0], cc[1:]...).CombinedOutput()
 		if err != nil {
 			Exitf("%s: finding strip failed: %v\n%s", os.Args[0], err, out)
 		}
 		stripCmd := strings.TrimSuffix(string(out), "\n")
 
-		dsym := filepath.Join(*flagTmpdir, "go.dwarf")
-		cmd := exec.Command(dsymutilCmd, "-f", *flagOutfile, "-o", dsym)
-		// dsymutil may not clean up its temp directory at exit.
-		// Set DSYMUTIL_REPRODUCER_PATH to work around. see issue 59026.
-		cmd.Env = append(os.Environ(), "DSYMUTIL_REPRODUCER_PATH="+*flagTmpdir)
-		if out, err := cmd.CombinedOutput(); err != nil {
-			Exitf("%s: running dsymutil failed: %v\n%s", os.Args[0], err, out)
+		var dsym string
+		if combineDwarf {
+			// Find the "dsymutil" tool.
+			cc[len(cc)-1] = "dsymutil"
+			out, err = exec.Command(cc[0], cc[1:]...).CombinedOutput()
+			if err != nil {
+				Exitf("%s: finding dsymutil failed: %v\n%s", os.Args[0], err, out)
+			}
+			dsymutilCmd := strings.TrimSuffix(string(out), "\n")
+
+			dsym = filepath.Join(*flagTmpdir, "go.dwarf")
+			cmd := exec.Command(dsymutilCmd, "-f", *flagOutfile, "-o", dsym)
+			// dsymutil may not clean up its temp directory at exit.
+			// Set DSYMUTIL_REPRODUCER_PATH to work around. see issue 59026.
+			cmd.Env = append(os.Environ(), "DSYMUTIL_REPRODUCER_PATH="+*flagTmpdir)
+			if out, err := cmd.CombinedOutput(); err != nil {
+				Exitf("%s: running dsymutil failed: %v\n%s", os.Args[0], err, out)
+			}
 		}
+
 		// Remove STAB (symbolic debugging) symbols after we are done with them (by dsymutil).
 		// They contain temporary file paths and make the build not reproducible.
-		if out, err := exec.Command(stripCmd, "-S", *flagOutfile).CombinedOutput(); err != nil {
+		var stripArgs []string
+		if !debug_s {
+			stripArgs = []string{"-S"}
+		} else {
+			// We are generarting a binary with symbol table suppressed. Stip
+			// all symbols except dynamic symbol references (which are required
+			// at run time).
+			stripArgs = []string{"-u", "-r"}
+		}
+		stripArgs = append(stripArgs, *flagOutfile)
+		if out, err := exec.Command(stripCmd, stripArgs...).CombinedOutput(); err != nil {
 			Exitf("%s: running strip failed: %v\n%s", os.Args[0], err, out)
 		}
-		// Skip combining if `dsymutil` didn't generate a file. See #11994.
-		if _, err := os.Stat(dsym); os.IsNotExist(err) {
-			return
-		}
-		// For os.Rename to work reliably, must be in same directory as outfile.
-		combinedOutput := *flagOutfile + "~"
-		exef, err := os.Open(*flagOutfile)
-		if err != nil {
-			Exitf("%s: combining dwarf failed: %v", os.Args[0], err)
-		}
-		defer exef.Close()
-		exem, err := macho.NewFile(exef)
-		if err != nil {
-			Exitf("%s: parsing Mach-O header failed: %v", os.Args[0], err)
-		}
-		if err := machoCombineDwarf(ctxt, exef, exem, dsym, combinedOutput); err != nil {
-			Exitf("%s: combining dwarf failed: %v", os.Args[0], err)
-		}
-		os.Remove(*flagOutfile)
-		if err := os.Rename(combinedOutput, *flagOutfile); err != nil {
-			Exitf("%s: %v", os.Args[0], err)
+
+		if combineDwarf {
+			// Skip combining if `dsymutil` didn't generate a file. See #11994.
+			if _, err := os.Stat(dsym); os.IsNotExist(err) {
+				return
+			}
+			// For os.Rename to work reliably, must be in same directory as outfile.
+			combinedOutput := *flagOutfile + "~"
+			exef, err := os.Open(*flagOutfile)
+			if err != nil {
+				Exitf("%s: combining dwarf failed: %v", os.Args[0], err)
+			}
+			defer exef.Close()
+			exem, err := macho.NewFile(exef)
+			if err != nil {
+				Exitf("%s: parsing Mach-O header failed: %v", os.Args[0], err)
+			}
+			if err := machoCombineDwarf(ctxt, exef, exem, dsym, combinedOutput); err != nil {
+				Exitf("%s: combining dwarf failed: %v", os.Args[0], err)
+			}
+			os.Remove(*flagOutfile)
+			if err := os.Rename(combinedOutput, *flagOutfile); err != nil {
+				Exitf("%s: %v", os.Args[0], err)
+			}
 		}
 	}
 	if ctxt.NeedCodeSign() {
