@@ -37,7 +37,8 @@ func StringToUTF16(s string) []uint16 {
 
 // UTF16FromString returns the UTF-16 encoding of the UTF-8 string
 // s, with a terminating NUL added. If s contains a NUL byte at any
-// location, it returns (nil, EINVAL).
+// location, it returns (nil, EINVAL). Invalid UTF-8 runes are encoded
+// using WTF-8.
 func UTF16FromString(s string) ([]uint16, error) {
 	if bytealg.IndexByteString(s, 0) != -1 {
 		return nil, EINVAL
@@ -49,14 +50,13 @@ func UTF16FromString(s string) ([]uint16, error) {
 	// equal than the number of UTF-16 code units.
 	// Also account for the terminating NUL character.
 	buf := make([]uint16, 0, len(s)+1)
-	for _, r := range s {
-		buf = utf16.AppendRune(buf, r)
-	}
+	buf = encodeWTF16(s, buf)
 	return utf16.AppendRune(buf, '\x00'), nil
 }
 
 // UTF16ToString returns the UTF-8 encoding of the UTF-16 sequence s,
-// with a terminating NUL removed.
+// with a terminating NUL removed. Invalid UTF-16 characters are decoded
+// using WTF-8 instead of UTF-8 encoding.
 func UTF16ToString(s []uint16) string {
 	for i, v := range s {
 		if v == 0 {
@@ -64,7 +64,8 @@ func UTF16ToString(s []uint16) string {
 			break
 		}
 	}
-	return string(utf16.Decode(s))
+	buf := make([]byte, 0, 64)
+	return string(decodeWTF16(s, buf))
 }
 
 // utf16PtrToString is like UTF16ToString, but takes *uint16
@@ -82,8 +83,9 @@ func utf16PtrToString(p *uint16) string {
 	}
 	// Turn *uint16 into []uint16.
 	s := unsafe.Slice(p, n)
+	buf := make([]byte, 0, 64)
 	// Decode []uint16 into string.
-	return string(utf16.Decode(s))
+	return string(decodeWTF16(s, buf))
 }
 
 // StringToUTF16Ptr returns pointer to the UTF-16 encoding of
@@ -97,6 +99,7 @@ func StringToUTF16Ptr(s string) *uint16 { return &StringToUTF16(s)[0] }
 // UTF16PtrFromString returns pointer to the UTF-16 encoding of
 // the UTF-8 string s, with a terminating NUL added. If s
 // contains a NUL byte at any location, it returns (nil, EINVAL).
+// Invalid UTF-8 runes are encoded using WTF-8.
 func UTF16PtrFromString(s string) (*uint16, error) {
 	a, err := UTF16FromString(s)
 	if err != nil {
