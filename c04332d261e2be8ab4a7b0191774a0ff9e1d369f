@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8194305b_883d63b7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-05-05T20:59:27Z",
+      "side": 1,
+      "message": "Both toolchains share this option, with similar implications. I\u0027ll add a note specifying CGO_CFLAGS and such.",
+      "parentUuid": "5296fbc8_07b1c487",
+      "revId": "c04332d261e2be8ab4a7b0191774a0ff9e1d369f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "306b38ae_1fa4adf8",
@@ -35,6 +53,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d06ddb4_2484e2f1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-05-05T20:59:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "306b38ae_1fa4adf8",
+      "revId": "c04332d261e2be8ab4a7b0191774a0ff9e1d369f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "944b2368_1dd27c7e",
@@ -48,6 +84,24 @@
       "writtenOn": "2023-05-05T16:41:10Z",
       "side": 1,
       "message": "I think you should stick with consistent terms. In your headline you say ELFv2 objects but here you say C objects. ELFv2 is more general (since you should also include C++).\n\nWhy would these targets contain non-zero values that are not needed?",
+      "revId": "c04332d261e2be8ab4a7b0191774a0ff9e1d369f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91036ba2_ce5dc0cb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-05-05T20:59:27Z",
+      "side": 1,
+      "message": "I would need to look around for an answer. Another alternative is to clear the bits when importing relocations.",
+      "parentUuid": "944b2368_1dd27c7e",
       "revId": "c04332d261e2be8ab4a7b0191774a0ff9e1d369f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -123,6 +177,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "70b2b7eb_477265f7",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-05-05T20:59:27Z",
+      "side": 1,
+      "message": "Yes, AddSymRef grows the symbol by the size of the relocation. This fills in the non-relocated bits.",
+      "parentUuid": "316946c5_120f78a1",
+      "revId": "c04332d261e2be8ab4a7b0191774a0ff9e1d369f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2ba91947_c25c8885",
@@ -136,6 +208,24 @@
       "writtenOn": "2023-05-05T16:41:10Z",
       "side": 1,
       "message": "There is a define for a PLA version above, could this one be done in the same way?",
+      "revId": "c04332d261e2be8ab4a7b0191774a0ff9e1d369f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "380ec2f3_c87646e9",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-05-05T20:59:27Z",
+      "side": 1,
+      "message": "Yeah, I\u0027ll try to clean up those used in more than one place.",
+      "parentUuid": "2ba91947_c25c8885",
       "revId": "c04332d261e2be8ab4a7b0191774a0ff9e1d369f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -157,6 +247,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "10803ba6_b2d75128",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-05-05T20:59:27Z",
+      "side": 1,
+      "message": "I\u0027ll add a note.",
+      "parentUuid": "4cb87005_a5549b6b",
+      "revId": "c04332d261e2be8ab4a7b0191774a0ff9e1d369f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b0522517_b9a335a3",
@@ -170,6 +278,24 @@
       "writtenOn": "2023-05-05T16:41:10Z",
       "side": 1,
       "message": "OP_NOP?",
+      "revId": "c04332d261e2be8ab4a7b0191774a0ff9e1d369f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4561bb7_01913210",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-05-05T20:59:27Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "b0522517_b9a335a3",
       "revId": "c04332d261e2be8ab4a7b0191774a0ff9e1d369f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -191,6 +317,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ab2a107_1dd4c48d",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-05-05T20:59:27Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "8a3f1b7d_b4800fe2",
+      "revId": "c04332d261e2be8ab4a7b0191774a0ff9e1d369f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0be008a6_8681ffb1",
@@ -204,6 +348,24 @@
       "writtenOn": "2023-05-05T16:41:10Z",
       "side": 1,
       "message": "These comments need better clarification.\n\nWhen you say TOC to TOC call, are you including Go? Because in the next part of the statement you say \"or a call into a Go symbol\" which seems like \"TOC to TOC\" does not include Go. But Go could be TOC or no TOC or PCrel (maybe that\u0027s really no TOC but maybe that needs to be different).\n\nThe second statement describes something different, and doesn\u0027t say how R2 gets preserved. I don\u0027t see why both these comments are under this case because they are inconsistent -- one says no fixups, the other says R2 is preserved.",
+      "revId": "c04332d261e2be8ab4a7b0191774a0ff9e1d369f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1787d275_23eaf8f9",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-05-05T20:59:27Z",
+      "side": 1,
+      "message": "Yes. It\u0027s a complicated answer that won\u0027t help the reader without considerable context. I\u0027ll simplify the comment.",
+      "parentUuid": "0be008a6_8681ffb1",
       "revId": "c04332d261e2be8ab4a7b0191774a0ff9e1d369f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -225,6 +387,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "26a95b48_ea7da1bf",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-05-05T20:59:27Z",
+      "side": 1,
+      "message": "A dynamic call is independent of the TOC usage. It always targets a global entry point.",
+      "parentUuid": "8110fbb7_2bdae098",
+      "revId": "c04332d261e2be8ab4a7b0191774a0ff9e1d369f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2bab035e_26ce0a49",
@@ -238,6 +418,24 @@
       "writtenOn": "2023-05-05T16:41:10Z",
       "side": 1,
       "message": "Are you using trampoline to mean call stub?\n\nThis says a trampoline is inserted but under the \"if\" it says no fixups are needed.",
+      "revId": "c04332d261e2be8ab4a7b0191774a0ff9e1d369f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48570999_ac9cbf35",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-05-05T20:59:27Z",
+      "side": 1,
+      "message": "The terms should be interchangeable in this context. It is only needed if R2 is expected to hold a TOC pointer. I\u0027ll change the comment.\n\nIt might be worth making this a little smarter and only inserting for TOC callee\u0027s without a distinct local entry.",
+      "parentUuid": "2bab035e_26ce0a49",
       "revId": "c04332d261e2be8ab4a7b0191774a0ff9e1d369f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -259,6 +457,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9fba532e_67db226a",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-05-05T20:59:27Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "9eeca8e4_fca6ad24",
+      "revId": "c04332d261e2be8ab4a7b0191774a0ff9e1d369f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c6a126c1_441445c1",
@@ -272,6 +488,24 @@
       "writtenOn": "2023-05-05T16:41:10Z",
       "side": 1,
       "message": "It would be helpful to have a comment here that you are clearing out relocation bits in the code below. (Why are they set?)",
+      "revId": "c04332d261e2be8ab4a7b0191774a0ff9e1d369f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81720ecc_fb891d43",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1078,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-05-05T20:59:27Z",
+      "side": 1,
+      "message": "I\u0027ll add a comment regarding why we clear the bits.",
+      "parentUuid": "c6a126c1_441445c1",
       "revId": "c04332d261e2be8ab4a7b0191774a0ff9e1d369f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
