@@ -1057,7 +1057,28 @@ func genMatch0(rr *RuleRewrite, arch arch, match, v string, cnt map[string]int, 
 			case "Aux":
 				rr.add(breakf("auxTo%s(%s.%s) != %s", title(e.dclType), v, e.field, e.name))
 			case "AuxInt":
-				rr.add(breakf("auxIntTo%s(%s.%s) != %s", title(e.dclType), v, e.field, e.name))
+				switch title(e.dclType) {
+				case "Int64":
+					rr.add(breakf("%s.%s != %s", v, e.field, e.name))
+				case "Int32":
+					rr.add(breakf("int32(%s.%s) != %s", v, e.field, e.name))
+				case "Int16":
+					rr.add(breakf("int16(%s.%s) != %s", v, e.field, e.name))
+				case "Int8":
+					rr.add(breakf("int8(%s.%s) != %s", v, e.field, e.name))
+				case "Uint8":
+					rr.add(breakf("uint8(%s.%s) != %s", v, e.field, e.name))
+				case "FlagConstant":
+					rr.add(breakf("flagConstant(%s.%s) != %s", v, e.field, e.name))
+				case "ValAndOff":
+					rr.add(breakf("ValAndOff(%s.%s) != %s", v, e.field, e.name))
+				case "Arm64BitField":
+					rr.add(breakf("arm64BitField(%s.%s) != %s", v, e.field, e.name))
+				case "Op":
+					rr.add(breakf("Op(%s.%s) != %s", v, e.field, e.name))
+				default:
+					rr.add(breakf("auxIntTo%s(%s.%s) != %s", title(e.dclType), v, e.field, e.name))
+				}
 			case "Type":
 				rr.add(breakf("%s.%s != %s", v, e.field, e.name))
 			}
@@ -1066,7 +1087,29 @@ func genMatch0(rr *RuleRewrite, arch arch, match, v string, cnt map[string]int, 
 			case "Aux":
 				rr.add(declf(rr.Loc, e.name, "auxTo%s(%s.%s)", title(e.dclType), v, e.field))
 			case "AuxInt":
-				rr.add(declf(rr.Loc, e.name, "auxIntTo%s(%s.%s)", title(e.dclType), v, e.field))
+				switch title(e.dclType) {
+				case "Int64":
+					rr.add(declf(rr.Loc, e.name, "%s.%s", v, e.field))
+				case "Int32":
+					rr.add(declf(rr.Loc, e.name, "int32(%s.%s)", v, e.field))
+				case "Int16":
+					rr.add(declf(rr.Loc, e.name, "int16(%s.%s)", v, e.field))
+				case "Int8":
+					rr.add(declf(rr.Loc, e.name, "int8(%s.%s)", v, e.field))
+				case "Uint8":
+					rr.add(declf(rr.Loc, e.name, "uint8(%s.%s)", v, e.field))
+				case "FlagConstant":
+					rr.add(declf(rr.Loc, e.name, "flagConstant(%s.%s)", v, e.field))
+				case "ValAndOff":
+					rr.add(declf(rr.Loc, e.name, "ValAndOff(%s.%s)", v, e.field))
+				case "Arm64BitField":
+					rr.add(declf(rr.Loc, e.name, "arm64BitField(%s.%s)", v, e.field))
+				case "Op":
+					rr.add(declf(rr.Loc, e.name, "Op(%s.%s)", v, e.field))
+				default:
+					rr.add(declf(rr.Loc, e.name, "auxIntTo%s(%s.%s)", title(e.dclType), v, e.field))
+				}
+
 			case "Type":
 				rr.add(declf(rr.Loc, e.name, "%s.%s", v, e.field))
 			}
@@ -1237,12 +1280,49 @@ func genResult0(rr *RuleRewrite, arch arch, result string, top, move bool, pos s
 	}
 
 	if auxint != "" {
+		num, err := strconv.Atoi(auxint)
 		// Make sure auxint value has the right type.
-		rr.add(stmtf("%s.AuxInt = %sToAuxInt(%s)", v, unTitle(op.auxIntType()), auxint))
+		switch op.auxIntType() {
+		case "int8", "int16", "int32", "int64", "ValAndOff":
+			if err != nil && op.auxIntType() != "int64" {
+				rr.add(stmtf("%s.AuxInt = int64(%s)", v, auxint))
+			} else {
+				// .reset() sets AuxInt to 0 so we don't have to do it again
+				if num != 0 || err != nil {
+					rr.add(stmtf("%s.AuxInt = %s", v, auxint))
+				}
+			}
+		case "float32", "float64":
+			if num != 0 || err != nil {
+				rr.add(stmtf("%s.AuxInt = %sToAuxInt(%s)", v, unTitle(op.auxIntType()), auxint))
+			}
+		case "Op", "flagConstant", "arm64BitField":
+			rr.add(stmtf("%s.AuxInt = int64(%s)", v, auxint))
+		case "bool":
+			if auxint == "false" {
+				// noop since false is represented as AuxInt == 0 and reset() zeroes it
+			} else if auxint == "true" {
+				rr.add(stmtf("%s.AuxInt = 1", v))
+			} else {
+				rr.add(stmtf("%s.AuxInt = boolToAuxInt(%s)", v, auxint))
+			}
+		case "uint8":
+			if err == nil && num <= 127 && num >= 0 {
+				rr.add(stmtf("%s.AuxInt = %s", v, auxint))
+			} else {
+				rr.add(stmtf("%s.AuxInt = uint8ToAuxInt(%s)", v, auxint))
+			}
+		default:
+			rr.add(stmtf("%s.AuxInt = %sToAuxInt(%s)", v, unTitle(op.auxIntType()), auxint))
+		}
 	}
 	if aux != "" {
 		// Make sure aux value has the right type.
-		rr.add(stmtf("%s.Aux = %sToAux(%s)", v, unTitle(op.auxType()), aux))
+		if op.auxType() == "Sym" || op.auxType() == "*types.Type" {
+			rr.add(stmtf("%s.Aux = %s", v, aux))
+		} else {
+			rr.add(stmtf("%s.Aux = %sToAux(%s)", v, unTitle(op.auxType()), aux))
+		}
 	}
 	all := new(strings.Builder)
 	for i, arg := range args {

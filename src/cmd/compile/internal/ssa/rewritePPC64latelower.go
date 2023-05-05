@@ -22,28 +22,28 @@ func rewriteValuePPC64latelower_OpPPC64ISEL(v *Value) bool {
 	// match: (ISEL [a] x (MOVDconst [0]) z)
 	// result: (ISELZ [a] x z)
 	for {
-		a := auxIntToInt32(v.AuxInt)
+		a := int32(v.AuxInt)
 		x := v_0
-		if v_1.Op != OpPPC64MOVDconst || auxIntToInt64(v_1.AuxInt) != 0 {
+		if v_1.Op != OpPPC64MOVDconst || v_1.AuxInt != 0 {
 			break
 		}
 		z := v_2
 		v.reset(OpPPC64ISELZ)
-		v.AuxInt = int32ToAuxInt(a)
+		v.AuxInt = int64(a)
 		v.AddArg2(x, z)
 		return true
 	}
 	// match: (ISEL [a] (MOVDconst [0]) y z)
 	// result: (ISELZ [a^0x4] y z)
 	for {
-		a := auxIntToInt32(v.AuxInt)
-		if v_0.Op != OpPPC64MOVDconst || auxIntToInt64(v_0.AuxInt) != 0 {
+		a := int32(v.AuxInt)
+		if v_0.Op != OpPPC64MOVDconst || v_0.AuxInt != 0 {
 			break
 		}
 		y := v_1
 		z := v_2
 		v.reset(OpPPC64ISELZ)
-		v.AuxInt = int32ToAuxInt(a ^ 0x4)
+		v.AuxInt = int64(a ^ 0x4)
 		v.AddArg2(y, z)
 		return true
 	}
@@ -57,7 +57,7 @@ func rewriteValuePPC64latelower_OpPPC64SETBC(v *Value) bool {
 	// cond: buildcfg.GOPPC64 <= 9
 	// result: (ISELZ [2] (MOVDconst [1]) cmp)
 	for {
-		if auxIntToInt32(v.AuxInt) != 2 {
+		if int32(v.AuxInt) != 2 {
 			break
 		}
 		cmp := v_0
@@ -65,9 +65,9 @@ func rewriteValuePPC64latelower_OpPPC64SETBC(v *Value) bool {
 			break
 		}
 		v.reset(OpPPC64ISELZ)
-		v.AuxInt = int32ToAuxInt(2)
+		v.AuxInt = 2
 		v0 := b.NewValue0(v.Pos, OpPPC64MOVDconst, typ.Int64)
-		v0.AuxInt = int64ToAuxInt(1)
+		v0.AuxInt = 1
 		v.AddArg2(v0, cmp)
 		return true
 	}
@@ -75,7 +75,7 @@ func rewriteValuePPC64latelower_OpPPC64SETBC(v *Value) bool {
 	// cond: buildcfg.GOPPC64 <= 9
 	// result: (ISELZ [0] (MOVDconst [1]) cmp)
 	for {
-		if auxIntToInt32(v.AuxInt) != 0 {
+		if int32(v.AuxInt) != 0 {
 			break
 		}
 		cmp := v_0
@@ -83,9 +83,8 @@ func rewriteValuePPC64latelower_OpPPC64SETBC(v *Value) bool {
 			break
 		}
 		v.reset(OpPPC64ISELZ)
-		v.AuxInt = int32ToAuxInt(0)
 		v0 := b.NewValue0(v.Pos, OpPPC64MOVDconst, typ.Int64)
-		v0.AuxInt = int64ToAuxInt(1)
+		v0.AuxInt = 1
 		v.AddArg2(v0, cmp)
 		return true
 	}
@@ -93,7 +92,7 @@ func rewriteValuePPC64latelower_OpPPC64SETBC(v *Value) bool {
 	// cond: buildcfg.GOPPC64 <= 9
 	// result: (ISELZ [1] (MOVDconst [1]) cmp)
 	for {
-		if auxIntToInt32(v.AuxInt) != 1 {
+		if int32(v.AuxInt) != 1 {
 			break
 		}
 		cmp := v_0
@@ -101,9 +100,9 @@ func rewriteValuePPC64latelower_OpPPC64SETBC(v *Value) bool {
 			break
 		}
 		v.reset(OpPPC64ISELZ)
-		v.AuxInt = int32ToAuxInt(1)
+		v.AuxInt = 1
 		v0 := b.NewValue0(v.Pos, OpPPC64MOVDconst, typ.Int64)
-		v0.AuxInt = int64ToAuxInt(1)
+		v0.AuxInt = 1
 		v.AddArg2(v0, cmp)
 		return true
 	}
@@ -117,7 +116,7 @@ func rewriteValuePPC64latelower_OpPPC64SETBCR(v *Value) bool {
 	// cond: buildcfg.GOPPC64 <= 9
 	// result: (ISELZ [6] (MOVDconst [1]) cmp)
 	for {
-		if auxIntToInt32(v.AuxInt) != 2 {
+		if int32(v.AuxInt) != 2 {
 			break
 		}
 		cmp := v_0
@@ -125,9 +124,9 @@ func rewriteValuePPC64latelower_OpPPC64SETBCR(v *Value) bool {
 			break
 		}
 		v.reset(OpPPC64ISELZ)
-		v.AuxInt = int32ToAuxInt(6)
+		v.AuxInt = 6
 		v0 := b.NewValue0(v.Pos, OpPPC64MOVDconst, typ.Int64)
-		v0.AuxInt = int64ToAuxInt(1)
+		v0.AuxInt = 1
 		v.AddArg2(v0, cmp)
 		return true
 	}
@@ -135,7 +134,7 @@ func rewriteValuePPC64latelower_OpPPC64SETBCR(v *Value) bool {
 	// cond: buildcfg.GOPPC64 <= 9
 	// result: (ISELZ [4] (MOVDconst [1]) cmp)
 	for {
-		if auxIntToInt32(v.AuxInt) != 0 {
+		if int32(v.AuxInt) != 0 {
 			break
 		}
 		cmp := v_0
@@ -143,9 +142,9 @@ func rewriteValuePPC64latelower_OpPPC64SETBCR(v *Value) bool {
 			break
 		}
 		v.reset(OpPPC64ISELZ)
-		v.AuxInt = int32ToAuxInt(4)
+		v.AuxInt = 4
 		v0 := b.NewValue0(v.Pos, OpPPC64MOVDconst, typ.Int64)
-		v0.AuxInt = int64ToAuxInt(1)
+		v0.AuxInt = 1
 		v.AddArg2(v0, cmp)
 		return true
 	}
@@ -153,7 +152,7 @@ func rewriteValuePPC64latelower_OpPPC64SETBCR(v *Value) bool {
 	// cond: buildcfg.GOPPC64 <= 9
 	// result: (ISELZ [5] (MOVDconst [1]) cmp)
 	for {
-		if auxIntToInt32(v.AuxInt) != 1 {
+		if int32(v.AuxInt) != 1 {
 			break
 		}
 		cmp := v_0
@@ -161,9 +160,9 @@ func rewriteValuePPC64latelower_OpPPC64SETBCR(v *Value) bool {
 			break
 		}
 		v.reset(OpPPC64ISELZ)
-		v.AuxInt = int32ToAuxInt(5)
+		v.AuxInt = 5
 		v0 := b.NewValue0(v.Pos, OpPPC64MOVDconst, typ.Int64)
-		v0.AuxInt = int64ToAuxInt(1)
+		v0.AuxInt = 1
 		v.AddArg2(v0, cmp)
 		return true
 	}
