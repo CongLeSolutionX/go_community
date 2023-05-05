@@ -2,11 +2,11 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !windows && !static && (!darwin || (!internal_pie && !arm64))
+//go:build !windows && !static && !darwin
 
-// Excluded in darwin internal linking PIE mode, as dynamic export is not
-// supported.
-// Excluded in internal linking mode on darwin/arm64, as it is always PIE.
+// On darwin, dlsym requires the symbol table to work.
+// "go test" builds this with -ldflags=-s, with the
+// symbol table suppressed. Skip on darwin.
 
 package cgotest
 
