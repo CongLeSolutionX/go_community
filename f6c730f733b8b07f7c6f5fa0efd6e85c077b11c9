@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c846569_e3282c8b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-05-05T20:58:57Z",
+      "side": 1,
+      "message": "I would like to also squash in a backport of CL 492741 once that lands.",
+      "revId": "f6c730f733b8b07f7c6f5fa0efd6e85c077b11c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
