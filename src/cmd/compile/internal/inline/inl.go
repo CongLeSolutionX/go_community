@@ -230,7 +230,7 @@ func InlineDecls(p *pgo.Profile, decls []ir.Node, doInline bool) {
 	})
 
 	// Rewalk post-inlining functions to check for closures that are
-	// still visible but were (over-agressively) marked as dead, and
+	// still visible but were (over-aggressively) marked as dead, and
 	// undo that marking here. See #59404 for more context.
 	ir.VisitFuncsBottomUp(decls, func(list []*ir.Func, recursive bool) {
 		for _, n := range list {
