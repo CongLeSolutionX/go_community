@@ -322,6 +322,30 @@
       },
       "revId": "2a403462dfd58cb2e8141ed9352cb7ff411a8d96",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff69e4e6_0709d93d",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 851,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2023-05-05T21:28:13Z",
+      "side": 1,
+      "message": "It looks great to me. I consider it a further improvement now that they\u0027ve ended up being normal internal Go packages with tests (that are registered specially). Thanks.\n\nLooked over PS 4 and didn\u0027t spot problems.",
+      "parentUuid": "5be5e711_2c7dd33a",
+      "range": {
+        "startLine": 851,
+        "startChar": 56,
+        "endLine": 851,
+        "endChar": 64
+      },
+      "revId": "2a403462dfd58cb2e8141ed9352cb7ff411a8d96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
