@@ -301,6 +301,8 @@ type goTest struct {
 	dir string   // If non-empty, run in GOROOT/src-relative directory dir
 	env []string // Environment variables to add, as KEY=VAL. KEY= unsets a variable
 
+	runOnHost bool // When cross-compiling, run this test on the host instead of guest
+
 	// We have both pkg and pkgs as a convenience. Both may be set, in which
 	// case they will be combined. If both are empty, the default is ".".
 	pkgs []string // Multiple packages to test
@@ -473,6 +475,11 @@ func (opts *goTest) buildArgs(t *tester) (goCmd string, build, run, pkgs []strin
 	if opts.buildmode != "" {
 		build = append(build, "-buildmode="+opts.buildmode)
 	}
+	runOnHost := opts.runOnHost && (goarch != gohostarch || goos != gohostos)
+	if runOnHost {
+		// -target is a special flag understood by tests that can run on the host
+		run = append(run, "-target="+goos+"/"+goarch)
+	}
 
 	pkgs = opts.pkgs
 	if opts.pkg != "" {
@@ -505,6 +512,10 @@ func (opts *goTest) buildArgs(t *tester) (goCmd string, build, run, pkgs []strin
 					setEnv(cmd, kv[:i], kv[i+1:])
 				}
 			}
+		}
+		if runOnHost {
+			setEnv(cmd, "GOARCH", gohostarch)
+			setEnv(cmd, "GOOS", gohostos)
 		}
 	}
 
@@ -929,8 +940,8 @@ func (t *tester) registerTests() {
 				&goTest{
 					dir:       "internal/testdir",
 					testFlags: []string{fmt.Sprintf("-shard=%d", shard), fmt.Sprintf("-shards=%d", nShards)},
+					runOnHost: true,
 				},
-				rtHostTest{},
 			)
 		}
 	}
