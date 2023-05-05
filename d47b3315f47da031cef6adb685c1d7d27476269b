@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3654a2fe_74b3b588",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1235,
+      "author": {
+        "id": 36863
+      },
+      "writtenOn": "2023-05-05T21:01:29Z",
+      "side": 1,
+      "message": "Reminder to myself: ensure trybot runs on AIX.",
+      "range": {
+        "startLine": 1235,
+        "startChar": 14,
+        "endLine": 1235,
+        "endChar": 27
+      },
+      "revId": "d47b3315f47da031cef6adb685c1d7d27476269b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
