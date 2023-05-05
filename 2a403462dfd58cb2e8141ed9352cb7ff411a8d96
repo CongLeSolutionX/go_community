@@ -226,6 +226,30 @@
       },
       "revId": "2a403462dfd58cb2e8141ed9352cb7ff411a8d96",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1e9d91e_45f0afc5",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 851,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-05-05T17:11:34Z",
+      "side": 1,
+      "message": "I think we could keep `go test ./...` working without adding `main` packages to `cmd`. The approach would be to put the `_test.go` source files in a non-`testdata` package (such as `cmd/cgo/internal/testshared/shared_test.go`), but make sure all of the non-`_test.go` files are in `testdata` subdirectories.\n\nThat would add some test packages to `go list cmd`, but given the number of `internal` packages already there that\u0027s probably ok. The important thing is that we want to avoid adding any non-test `package main` to `cmd`, since that would install the binary in `$GOROOT/pkg/tool`.",
+      "parentUuid": "158ed64c_8c417911",
+      "range": {
+        "startLine": 851,
+        "startChar": 56,
+        "endLine": 851,
+        "endChar": 64
+      },
+      "revId": "2a403462dfd58cb2e8141ed9352cb7ff411a8d96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
