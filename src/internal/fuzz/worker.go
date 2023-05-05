@@ -777,30 +777,26 @@ func (ws *workerServer) fuzz(ctx context.Context, args fuzzArgs) (resp fuzzRespo
 		return resp
 	}
 
-	for {
-		select {
-		case <-ctx.Done():
-			return resp
-		default:
-			if mem.header().count%chainedMutations == 0 {
-				copy(vals, originalVals)
-				ws.m.r.save(&mem.header().randState, &mem.header().randInc)
-			}
-			ws.m.mutate(vals, cap(mem.valueRef()))
+	for ctx.Err() == nil {
+		if mem.header().count%chainedMutations == 0 {
+			copy(vals, originalVals)
+			ws.m.r.save(&mem.header().randState, &mem.header().randInc)
+		}
+		ws.m.mutate(vals, cap(mem.valueRef()))
 
-			entry := CorpusEntry{Values: vals}
-			dur, cov, errMsg := fuzzOnce(entry)
-			if errMsg != "" {
-				resp.Err = errMsg
-				return resp
-			}
-			if cov != nil {
-				resp.CoverageData = cov
-				resp.InterestingDuration = dur
-				return resp
-			}
+		entry := CorpusEntry{Values: vals}
+		dur, cov, errMsg := fuzzOnce(entry)
+		if errMsg != "" {
+			resp.Err = errMsg
+			return resp
+		}
+		if cov != nil {
+			resp.CoverageData = cov
+			resp.InterestingDuration = dur
+			return resp
 		}
 	}
+	return resp
 }
 
 func (ws *workerServer) minimize(ctx context.Context, args minimizeArgs) (resp minimizeResponse) {
