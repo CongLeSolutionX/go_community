@@ -24,7 +24,7 @@ func Getenv(key string) (value string, found bool) {
 			return "", false
 		}
 		if n <= uint32(len(b)) {
-			return string(utf16.Decode(b[:n])), true
+			return UTF16ToString(b[:n]), true
 		}
 	}
 }
