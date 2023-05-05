@@ -37,7 +37,8 @@ func StringToUTF16(s string) []uint16 {
 
 // UTF16FromString returns the UTF-16 encoding of the UTF-8 string
 // s, with a terminating NUL added. If s contains a NUL byte at any
-// location, it returns (nil, EINVAL).
+// location, it returns (nil, EINVAL). Unpaired surrogates
+// are encoded using WTF-8.
 func UTF16FromString(s string) ([]uint16, error) {
 	if bytealg.IndexByteString(s, 0) != -1 {
 		return nil, EINVAL
@@ -49,22 +50,34 @@ func UTF16FromString(s string) ([]uint16, error) {
 	// equal than the number of UTF-16 code units.
 	// Also account for the terminating NUL character.
 	buf := make([]uint16, 0, len(s)+1)
-	for _, r := range s {
-		buf = utf16.AppendRune(buf, r)
-	}
-	return utf16.AppendRune(buf, '\x00'), nil
+	buf = encodeWTF16(s, buf)
+	return append(buf, 0), nil
 }
 
 // UTF16ToString returns the UTF-8 encoding of the UTF-16 sequence s,
-// with a terminating NUL removed.
+// with a terminating NUL removed. Unpaired surrogates are decoded
+// using WTF-8 instead of UTF-8 encoding.
 func UTF16ToString(s []uint16) string {
+	maxLen := 0
 	for i, v := range s {
+		// If v is half of a surrogate pair, we will
+		// add 3 for the second surrogate (total of 6)
+		// and overestimate by 2 bytes for the pair,
+		// since the resulting rune only requires 4 bytes.
+		maxLen += runeLen(rune(v))
 		if v == 0 {
 			s = s[0:i]
 			break
 		}
 	}
-	return string(utf16.Decode(s))
+	// Stack-allocate buf for small strings by using a hard-coded length,
+	// but if we are likely to need to allocate a larger heap-allocated buffer,
+	// pre-size it to avoid the need to resize during decoding.
+	buf := make([]byte, 0, 64)
+	if maxLen > cap(buf) {
+		buf = make([]byte, 0, maxLen)
+	}
+	return string(decodeWTF16(s, buf))
 }
 
 // utf16PtrToString is like UTF16ToString, but takes *uint16
@@ -73,17 +86,7 @@ func utf16PtrToString(p *uint16) string {
 	if p == nil {
 		return ""
 	}
-	// Find NUL terminator.
-	end := unsafe.Pointer(p)
-	n := 0
-	for *(*uint16)(end) != 0 {
-		end = unsafe.Pointer(uintptr(end) + unsafe.Sizeof(*p))
-		n++
-	}
-	// Turn *uint16 into []uint16.
-	s := unsafe.Slice(p, n)
-	// Decode []uint16 into string.
-	return string(utf16.Decode(s))
+	return UTF16ToString(unsafe.Slice(p, 1<<32-1))
 }
 
 // StringToUTF16Ptr returns pointer to the UTF-16 encoding of
@@ -97,6 +100,7 @@ func StringToUTF16Ptr(s string) *uint16 { return &StringToUTF16(s)[0] }
 // UTF16PtrFromString returns pointer to the UTF-16 encoding of
 // the UTF-8 string s, with a terminating NUL added. If s
 // contains a NUL byte at any location, it returns (nil, EINVAL).
+// Unpaired surrogates are encoded using WTF-8.
 func UTF16PtrFromString(s string) (*uint16, error) {
 	a, err := UTF16FromString(s)
 	if err != nil {
