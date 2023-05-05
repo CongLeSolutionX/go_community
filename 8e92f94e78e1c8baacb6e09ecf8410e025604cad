@@ -61,6 +61,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "78589a36_1de064ce",
+        "filename": "src/cmd/compile/internal/types2/predicates.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-05-05T18:45:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80a37e00_05325e61",
+      "range": {
+        "startLine": 515,
+        "startChar": 28,
+        "endLine": 515,
+        "endChar": 41
+      },
+      "revId": "8e92f94e78e1c8baacb6e09ecf8410e025604cad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8c27dadb_d752adbc",
@@ -74,6 +98,30 @@
       "writtenOn": "2023-05-05T16:55:34Z",
       "side": 1,
       "message": "Move this up to the condition line 524:\n\n```\nif isUntyped(x) \u0026\u0026 isUntyped(y) \u0026\u0026 isNumeric(x) \u0026\u0026 isNumeric(y) {\n  ...\n}\n```",
+      "range": {
+        "startLine": 528,
+        "startChar": 5,
+        "endLine": 528,
+        "endChar": 33
+      },
+      "revId": "8e92f94e78e1c8baacb6e09ecf8410e025604cad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa21bf9f_9beda48d",
+        "filename": "src/cmd/compile/internal/types2/predicates.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-05-05T18:45:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c27dadb_d752adbc",
       "range": {
         "startLine": 528,
         "startChar": 5,
