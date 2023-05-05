@@ -298,6 +298,30 @@
       },
       "revId": "2a403462dfd58cb2e8141ed9352cb7ff411a8d96",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5be5e711_2c7dd33a",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 851,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-05-05T20:51:43Z",
+      "side": 1,
+      "message": "The latest PS moves these to cmd/cgo/internal instead. I haven\u0027t gotten to the \"weird\" ones yet, but this does seem to work for the easy cases. PTAL.",
+      "parentUuid": "479d677e_b587c374",
+      "range": {
+        "startLine": 851,
+        "startChar": 56,
+        "endLine": 851,
+        "endChar": 64
+      },
+      "revId": "2a403462dfd58cb2e8141ed9352cb7ff411a8d96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
