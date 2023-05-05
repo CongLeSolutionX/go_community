@@ -1377,3 +1377,41 @@ func TestAppExecLinkStat(t *testing.T) {
 		t.Errorf("exec.LookPath(%q) = %q; want %q", pythonPath, p, pythonPath)
 	}
 }
+
+func TestIllformedUTF16(t *testing.T) {
+	dir := t.TempDir()
+	const sep = string(os.PathSeparator)
+	if !strings.HasSuffix(dir, sep) {
+		dir += sep
+	}
+
+	// This UTF-16 file name is ill-formed as it contains low surrogates that are not preceded by high surrogates ([1:5]).
+	namew := []uint16{0x2e, 0xdc6d, 0xdc73, 0xdc79, 0xdc73, 0x30, 0x30, 0x30, 0x31, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30,
+		0x35, 0x36, 0x33, 0x39, 0x64, 0x64, 0x35, 0x30, 0x61, 0x37, 0x32, 0x61, 0x62, 0x34, 0x36, 0x36, 0x38, 0x62, 0x33, 0x33, 0}
+
+	// Create a file whose name contains unpaired surrogates.
+	// Use syscall.CreateFile instead of os.Create to simulate a file that is created by
+	// a non-Go program so the file name hasn't gone through syscall.UTF16FromString.
+	dirw := utf16.Encode([]rune(dir))
+	pathw := append(dirw, namew...)
+	fd, err := syscall.CreateFile(&pathw[0], syscall.GENERIC_ALL, 0, nil, syscall.CREATE_NEW, 0, 0)
+	if err != nil {
+		t.Fatal(err)
+	}
+	syscall.CloseHandle(fd)
+
+	// Verify that os.Lstat can query the file.
+	name := syscall.UTF16ToString(namew)
+	path := filepath.Join(dir, name)
+	_, err = os.Lstat(path)
+	if err != nil {
+		t.Error()
+	}
+
+	// Verify that os.RemoveAll can remove the directory
+	// and that it doesn't hang.
+	err = os.RemoveAll(dir)
+	if err != nil {
+		t.Error()
+	}
+}
