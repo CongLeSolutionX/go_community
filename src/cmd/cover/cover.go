@@ -70,15 +70,13 @@ var (
 	htmlOut     = flag.String("html", "", "generate HTML representation of coverage profile")
 	funcOut     = flag.String("func", "", "output coverage profile information for each function")
 	pkgcfg      = flag.String("pkgcfg", "", "enable full-package instrumentation mode using params from specified config file")
+	pkgconfig   coverage.CoverPkgConfig
+	outputfiles []string // set when -pkgcfg is in use
+	profile     string   // The profile to read; the value of -html or -func
+	counterStmt func(*File, string) string
+	cmode       coverage.CounterMode
+	cgran       coverage.CounterGranularity
 )
-
-var pkgconfig coverage.CoverPkgConfig
-
-var outputfiles []string // set when -pkgcfg is in use
-
-var profile string // The profile to read; the value of -html or -func
-
-var counterStmt func(*File, string) string
 
 const (
 	atomicPackagePath = "sync/atomic"
@@ -144,12 +142,19 @@ func parseFlags() error {
 		switch *mode {
 		case "set":
 			counterStmt = setCounterStmt
+			cmode = coverage.CtrModeSet
 		case "count":
 			counterStmt = incCounterStmt
+			cmode = coverage.CtrModeCount
 		case "atomic":
 			counterStmt = atomicCounterStmt
-		case "regonly", "testmain":
+			cmode = coverage.CtrModeAtomic
+		case "regonly":
 			counterStmt = nil
+			cmode = coverage.CtrModeRegOnly
+		case "testmain":
+			counterStmt = nil
+			cmode = coverage.CtrModeTestMain
 		default:
 			return fmt.Errorf("unknown -mode %v", *mode)
 		}
@@ -205,7 +210,12 @@ func readPackageConfig(path string) error {
 	if err := json.Unmarshal(data, &pkgconfig); err != nil {
 		return fmt.Errorf("error reading pkgconfig file %q: %v", path, err)
 	}
-	if pkgconfig.Granularity != "perblock" && pkgconfig.Granularity != "perfunc" {
+	switch pkgconfig.Granularity {
+	case "perblock":
+		cgran = coverage.CtrGranularityPerBlock
+	case "perfunc":
+		cgran = coverage.CtrGranularityPerFunc
+	default:
 		return fmt.Errorf(`%s: pkgconfig requires perblock/perfunc value`, path)
 	}
 	return nil
@@ -1067,6 +1077,14 @@ func (p *Package) emitMetaData(w io.Writer) {
 		return
 	}
 
+	// If the "EmitMetaFile" path has been set, invoke a helper
+	// that will write out a pre-cooked meta-data file for this package
+	// to the specified location, in effect simulating the execution
+	// of a test binary that doesn't do any testing to speak of.
+	if pkgconfig.EmitMetaFile != "" {
+		p.emitMetaFile(pkgconfig.EmitMetaFile)
+	}
+
 	// Something went wrong if regonly/testmain mode is in effect and
 	// we have instrumented functions.
 	if counterStmt == nil && len(p.counterLengths) != 0 {
@@ -1133,4 +1151,37 @@ func atomicPackagePrefix() string {
 		return ""
 	}
 	return atomicPackageName + "."
+}
+
+func (p *Package) emitMetaFile(outpath string) {
+	if len(p.counterLengths) == 0 {
+		// This corresponds to the case where we have no functions
+		// in the package to instrument. We're all done if that happens.
+		return
+	}
+
+	// Open output file.
+	of, err := os.OpenFile(outpath, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0666)
+	if err != nil {
+		log.Fatalf("opening covmeta %s: %v", outpath, err)
+	}
+
+	// Encode meta-data.
+	var sws slicewriter.WriteSeeker
+	digest, err := p.mdb.Emit(&sws)
+	if err != nil {
+		log.Fatalf("encoding meta-data: %v", err)
+	}
+	payload := sws.BytesWritten()
+	blobs := [][]byte{payload}
+
+	// Write meta-data file directly.
+	mfw := encodemeta.NewCoverageMetaFileWriter(outpath, of)
+	err = mfw.Write(digest, blobs, cmode, cgran)
+	if err != nil {
+		log.Fatalf("writing meta-data file: %v", err)
+	}
+	if err = of.Close(); err != nil {
+		log.Fatalf("closing meta-data file: %v", err)
+	}
 }
