@@ -340,6 +340,7 @@ const (
 	AFENCE
 	AFENCEI
 	AFENCETSO
+	APAUSE
 
 	// 5.2: Integer Computational Instructions (RV64I)
 	AADDIW
@@ -517,10 +518,12 @@ const (
 	AFNMSUBQ
 
 	// 13.3 Quad-Precision Convert and Move Instructions
+	AFCVTHQ
 	AFCVTWQ
 	AFCVTLQ
 	AFCVTSQ
 	AFCVTDQ
+	AFCVTQH
 	AFCVTQW
 	AFCVTQL
 	AFCVTQS
@@ -574,6 +577,19 @@ const (
 	// Hypervisor Memory-Management Instructions
 	AHFENCEGVMA
 	AHFENCEVVMA
+	AHLVB
+	AHLVBU
+	AHLVD
+	AHLVH
+	AHLVHU
+	AHLVW
+	AHLVWU
+	AHLVXHU
+	AHLVXWU
+	AHSVB
+	AHSVD
+	AHSVH
+	AHSVW
 
 	// The escape hatch. Inserts a single 32-bit word.
 	AWORD
