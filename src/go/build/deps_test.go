@@ -363,7 +363,8 @@ var depsRules = `
 	internal/singleflight,
 	internal/race,
 	net/netip,
-	os
+	os,
+	slices
 	< net;
 
 	fmt, unicode !< net;

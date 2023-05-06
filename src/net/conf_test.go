@@ -365,6 +365,16 @@ func TestConfHostLookupOrder(t *testing.T) {
 				{"x.com", "myhostname", hostLookupDNSFiles},
 			},
 		},
+		{
+			name:     "dns-among-unknown-sources",
+			resolver: &Resolver{PreferGo: true},
+			c:        &conf{},
+			resolv:   defaultResolvConf,
+			nss:      nssStr(t, "hosts: mymachines files dns"),
+			hostTests: []nssHostTest{
+				{"x.com", "myhostname", hostLookupFilesDNS},
+			},
+		},
 	}
 
 	origGetHostname := getHostname
