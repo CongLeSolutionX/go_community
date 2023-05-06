@@ -514,6 +514,30 @@
       },
       "revId": "2a403462dfd58cb2e8141ed9352cb7ff411a8d96",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9aabb41d_0dc22d0b",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 851,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-05-06T21:08:08Z",
+      "side": 1,
+      "message": "Fixed the cmd/go issue in CL 493255. All of the tests are in cmd/cgo/internal, now. 🎉",
+      "parentUuid": "4c353e94_a22a984e",
+      "range": {
+        "startLine": 851,
+        "startChar": 56,
+        "endLine": 851,
+        "endChar": 64
+      },
+      "revId": "2a403462dfd58cb2e8141ed9352cb7ff411a8d96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
