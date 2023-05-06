@@ -38,6 +38,63 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "875b9a93_fead00a2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 62695
+      },
+      "writtenOn": "2023-05-06T06:21:53Z",
+      "side": 1,
+      "message": "[Tested successfully](https://github.com/golang/go/issues/59971#issuecomment-1537057545) with the reproduction case in Docker.",
+      "revId": "373489978b93a8fd2c9b3bd71315bf9647001b2d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2724be7f_836197b5",
+        "filename": "src/syscall/wtf8_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 62695
+      },
+      "writtenOn": "2023-05-06T06:21:53Z",
+      "side": 1,
+      "message": "Nit: \"superset\" twice. (Same thing in the commit message)\n```suggestion\n// WTF-8 is a strict superset of UTF-8, i.e. any string that is\n```",
+      "revId": "373489978b93a8fd2c9b3bd71315bf9647001b2d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c506672c_2db0337f",
+        "filename": "src/syscall/wtf8_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 62695
+      },
+      "writtenOn": "2023-05-06T06:21:53Z",
+      "side": 1,
+      "message": "Nit: Missing \"string\" here?\n\n```suggestion\n// The benefit of using WTF-8 instead of UTF-8 when decoding a UTF-16 string is\n```",
+      "range": {
+        "startLine": 14,
+        "startChar": 52,
+        "endLine": 14,
+        "endChar": 69
+      },
+      "revId": "373489978b93a8fd2c9b3bd71315bf9647001b2d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f72d1914_27c2bbf4",
