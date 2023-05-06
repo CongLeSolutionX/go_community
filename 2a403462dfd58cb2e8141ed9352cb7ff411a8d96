@@ -346,6 +346,30 @@
       },
       "revId": "2a403462dfd58cb2e8141ed9352cb7ff411a8d96",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00b3abf3_aa48c08c",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 851,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-05-06T02:14:36Z",
+      "side": 1,
+      "message": "So, moving misc/cgo/test to cmd/cgo/internal/test causes \"go install cmd\" to now build that package. That\u0027s a bit unnecessary, but the real problem happens when make.bash builds all packages and commands with (apparently) CGO_ENABLED\u003d0. This causes a slew of errors like:\n\npackage cmd/cgo/internal/test\n\timports cmd/cgo/internal/test/gcc68255: build constraints exclude all Go files in /home/austin/go.dev/src/cmd/cgo/internal/test/gcc68255\n\nI\u0027m not entirely sure what the rules of CGO_ENABLED\u003d0 are. There are no obvious build constraints in gcc68255, but the only .go file contains import \"C\", so I\u0027m guessing that implicitly creates a build constraint. But cmd/cgo/internal/test also contains several sources that import \"C\", so I\u0027m surprised it\u0027s trying to build that. Maybe it\u0027s only excluding the files that import \"C\" and doesn\u0027t get to the point where that causes lots of other build errors?",
+      "parentUuid": "ff69e4e6_0709d93d",
+      "range": {
+        "startLine": 851,
+        "startChar": 56,
+        "endLine": 851,
+        "endChar": 64
+      },
+      "revId": "2a403462dfd58cb2e8141ed9352cb7ff411a8d96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
