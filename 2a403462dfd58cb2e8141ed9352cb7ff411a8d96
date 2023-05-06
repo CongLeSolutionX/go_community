@@ -466,6 +466,30 @@
       },
       "revId": "2a403462dfd58cb2e8141ed9352cb7ff411a8d96",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "630bbbc8_75815bcd",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 851,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-05-06T17:33:04Z",
+      "side": 1,
+      "message": "Moving the swig tests to cmd/cgo/internal is a little messier because there\u0027s no build tag that indicates we have swig. So if you go test cmd and don\u0027t have swig installed, you get a rather unfriendly error like:\n\ncmd/cgo/internal/swig_stdio: swig: exec: \"swig\": executable file not found in $PATH\nFAIL\tcmd/cgo/internal/swig_stdio [build failed]\n\nIt\u0027s also causing a cmd/go script test to fail for reasons I don\u0027t understand at all (maybe a real bug, now that there\u0027s some swig in the tree?): https://storage.googleapis.com/go-build-log/8a11f7e6/linux-arm64_ba212a95.log\n\nI\u0027m considering putting the swig test files behind a \"swig\" build tag that dist sets if swig is actually available. Alternatively, they\u0027re simple enough it might be okay to refactor them so the test is pure Go and the swig code moves into testdata (not as a Go test).",
+      "parentUuid": "29d0c794_4c696c76",
+      "range": {
+        "startLine": 851,
+        "startChar": 56,
+        "endLine": 851,
+        "endChar": 64
+      },
+      "revId": "2a403462dfd58cb2e8141ed9352cb7ff411a8d96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
