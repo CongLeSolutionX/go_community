@@ -370,6 +370,30 @@
       },
       "revId": "2a403462dfd58cb2e8141ed9352cb7ff411a8d96",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0aeb14fc_3c0ea090",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 851,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2023-05-06T02:29:51Z",
+      "side": 1,
+      "message": "Would it work to make that package test-only? That is, add \"_test\" to all of its source files. I\u0027d expect then it not to get installed via \u0027go install cmd\u0027 (nor listed via \u0027go list cmd\u0027) but do the test as usual via go test (where we don\u0027t try to do it with CGO_ENABLED\u003d0)?",
+      "parentUuid": "00b3abf3_aa48c08c",
+      "range": {
+        "startLine": 851,
+        "startChar": 56,
+        "endLine": 851,
+        "endChar": 64
+      },
+      "revId": "2a403462dfd58cb2e8141ed9352cb7ff411a8d96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
