@@ -72,6 +72,24 @@
       "message": "The trybot failures are real.\n\nAnd this has picked up a merge conflict.",
       "revId": "032a99051ccab260e71c6d8e003bfb1e177e4757",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "50ef298e_0e3c9914",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 51518
+      },
+      "writtenOn": "2023-05-06T03:31:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3703d10_c2c2871e",
+      "revId": "032a99051ccab260e71c6d8e003bfb1e177e4757",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
