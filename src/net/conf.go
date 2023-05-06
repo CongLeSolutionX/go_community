@@ -339,7 +339,17 @@ func (c *conf) hostLookupOrder(r *Resolver, hostname string) (ret hostLookupOrde
 		return fallbackOrder, dnsConf
 	}
 
-	var mdnsSource, filesSource, dnsSource, unknownSource bool
+	var hasDNSSource bool
+	if !canUseCgo {
+		for _, v := range srcs {
+			if v.source == "dns" {
+				hasDNSSource = true
+				break
+			}
+		}
+	}
+
+	var mdnsSource, filesSource, dnsSource bool
 	var first string
 	for _, src := range srcs {
 		if src.source == "myhostname" {
@@ -383,9 +393,14 @@ func (c *conf) hostLookupOrder(r *Resolver, hostname string) (ret hostLookupOrde
 			return hostLookupCgo, dnsConf
 		}
 
-		unknownSource = true
-		if first == "" {
-			first = src.source
+		// If we saw a source we don't recognize, which can only
+		// happen if we can't use the cgo resolver, treat it as DNS,
+		// but only when there is no dns in all other sources.
+		if !hasDNSSource {
+			dnsSource = true
+			if first == "" {
+				first = "dns"
+			}
 		}
 	}
 
@@ -410,12 +425,6 @@ func (c *conf) hostLookupOrder(r *Resolver, hostname string) (ret hostLookupOrde
 		if haveMDNSAllow {
 			return hostLookupCgo, dnsConf
 		}
-	}
-
-	// If we saw a source we don't recognize, which can only
-	// happen if we can't use the cgo resolver, treat it as DNS.
-	if unknownSource {
-		dnsSource = true
 	}
 
 	// Cases where Go can handle it without cgo and C thread overhead,
