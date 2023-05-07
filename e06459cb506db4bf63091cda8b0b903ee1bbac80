@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80cbfcc0_6dc9ec1a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 62723
+      },
+      "writtenOn": "2023-05-07T07:14:04Z",
+      "side": 1,
+      "message": "The parent commits in the relation chain are code health changes, mostly to improve error reporting from worker processes to the coordinator.",
+      "revId": "e06459cb506db4bf63091cda8b0b903ee1bbac80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94d38b54_1de6c932",
+        "filename": "src/internal/fuzz/encoding.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 62723
+      },
+      "writtenOn": "2023-05-07T07:14:04Z",
+      "side": 1,
+      "message": "Would it be better to do `[]byte(%q)` here?",
+      "range": {
+        "startLine": 100,
+        "startChar": 30,
+        "endLine": 100,
+        "endChar": 32
+      },
+      "revId": "e06459cb506db4bf63091cda8b0b903ee1bbac80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72293155_d79b9790",
+        "filename": "src/internal/fuzz/mutator.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 62723
+      },
+      "writtenOn": "2023-05-07T07:14:04Z",
+      "side": 1,
+      "message": "Is this necessary?  If so, should this be `int64` to match https://pkg.go.dev/math/rand#NewSource ?",
+      "range": {
+        "startLine": 26,
+        "startChar": 8,
+        "endLine": 26,
+        "endChar": 19
+      },
+      "revId": "e06459cb506db4bf63091cda8b0b903ee1bbac80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8bf90a9b_1e872471",
+        "filename": "src/internal/fuzz/mutator.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 62723
+      },
+      "writtenOn": "2023-05-07T07:14:04Z",
+      "side": 1,
+      "message": "Any suggestions would be appreciated.",
+      "range": {
+        "startLine": 45,
+        "startChar": 1,
+        "endLine": 46,
+        "endChar": 69
+      },
+      "revId": "e06459cb506db4bf63091cda8b0b903ee1bbac80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
