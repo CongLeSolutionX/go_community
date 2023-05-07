@@ -1071,6 +1071,15 @@ func zeroValue(t reflect.Type) any {
 	if v, ok := zeroVals[t]; ok {
 		return v
 	}
+	if IsCustomMutator(t) {
+		if t.Kind() == reflect.Pointer {
+			return reflect.New(t.Elem()).Interface()
+		} else {
+			v := reflect.New(t).Elem().Interface()
+			zeroVals[t] = v
+			return v
+		}
+	}
 	panic(fmt.Sprintf("unsupported type: %v", t))
 }
 
