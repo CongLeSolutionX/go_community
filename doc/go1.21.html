@@ -1139,6 +1139,12 @@ Do not send CLs removing the interior tags from such phrases.
     <p><!-- https://go.dev/issue/52600, CL 475496 -->
       The new <a href="/pkg/testing/#Testing"><code>Testing</code></a> function reports whether the program is a test created by <code>go</code> <code>test</code>.
     </p>
+
+    <p><!-- https://go.dev/issue/48815, CL 493304 -->
+      The <a href="/pkg/testing/#F.Fuzz"><code>F.Fuzz</code></a> method now
+      supports custom fuzz input value types with custom mutation logic,
+      enabling structure-aware fuzz testing.
+    </p>
   </dd>
 </dl><!-- testing -->
 

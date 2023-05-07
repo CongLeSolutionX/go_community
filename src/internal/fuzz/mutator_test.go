@@ -6,6 +6,7 @@ package fuzz
 
 import (
 	"bytes"
+	"context"
 	"fmt"
 	"os"
 	"strconv"
@@ -34,7 +35,7 @@ func BenchmarkMutatorBytes(b *testing.B) {
 				// resize buffer to the correct shape and reset the PCG
 				buf = buf[0:size]
 				m.r = newPcgRand()
-				m.mutate([]any{buf}, workerSharedMemSize)
+				m.mutate(context.Background(), []any{buf}, workerSharedMemSize)
 			}
 		})
 	}
@@ -62,7 +63,7 @@ func BenchmarkMutatorString(b *testing.B) {
 				// resize buffer to the correct shape and reset the PCG
 				buf = buf[0:size]
 				m.r = newPcgRand()
-				m.mutate([]any{string(buf)}, workerSharedMemSize)
+				m.mutate(context.Background(), []any{string(buf)}, workerSharedMemSize)
 			}
 		})
 	}
@@ -95,7 +96,7 @@ func BenchmarkMutatorAllBasicTypes(b *testing.B) {
 		b.Run(fmt.Sprintf("%T", t), func(b *testing.B) {
 			for i := 0; i < b.N; i++ {
 				m.r = newPcgRand()
-				m.mutate([]any{t}, workerSharedMemSize)
+				m.mutate(context.Background(), []any{t}, workerSharedMemSize)
 			}
 		})
 	}
@@ -104,12 +105,12 @@ func BenchmarkMutatorAllBasicTypes(b *testing.B) {
 func TestStringImmutability(t *testing.T) {
 	v := []any{"hello"}
 	m := newMutator()
-	m.mutate(v, 1024)
+	m.mutate(context.Background(), v, 1024)
 	original := v[0].(string)
 	originalCopy := make([]byte, len(original))
 	copy(originalCopy, []byte(original))
 	for i := 0; i < 25; i++ {
-		m.mutate(v, 1024)
+		m.mutate(context.Background(), v, 1024)
 	}
 	if !bytes.Equal([]byte(original), originalCopy) {
 		t.Fatalf("string was mutated: got %x, want %x", []byte(original), originalCopy)
