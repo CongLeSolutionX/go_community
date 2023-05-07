@@ -11,6 +11,7 @@ import (
 	"go/parser"
 	"go/token"
 	"math"
+	"reflect"
 	"strconv"
 	"strings"
 	"unicode/utf8"
@@ -91,6 +92,12 @@ func marshalCorpusFile(vals ...any) ([]byte, error) {
 			fmt.Fprintf(b, "byte(%q)\n", t)
 		case []byte: // []uint8
 			fmt.Fprintf(b, "[]byte(%q)\n", t)
+		case CustomMutator:
+			buf, err := t.MarshalBinary()
+			if err != nil {
+				return nil, fmt.Errorf("failed to marshal custom mutator of type %T: %w", t, err)
+			}
+			fmt.Fprintf(b, "custom(%q, %q)\n", customMutatorTypeName(reflect.TypeOf(t)), buf)
 		default:
 			return nil, fmt.Errorf("unsupported type: %T", t)
 		}
@@ -136,6 +143,40 @@ func parseCorpusValue(line []byte) (any, error) {
 	if !ok {
 		return nil, fmt.Errorf("expected call expression")
 	}
+
+	if ident, ok := call.Fun.(*ast.Ident); ok && ident.Name == "custom" {
+		if len(call.Args) != 2 {
+			return nil, fmt.Errorf("expected 2 arguments to custom call; got %d", len(call.Args))
+		}
+		typenamelit, ok := call.Args[0].(*ast.BasicLit)
+		if !ok || typenamelit.Kind != token.STRING {
+			return nil, fmt.Errorf("first argument to custom must be a string literal")
+		}
+		typename, err := strconv.Unquote(typenamelit.Value)
+		// The parsing above should have failed if Unquote would fail, but just in case...
+		if err != nil {
+			return nil, fmt.Errorf("failed to parse first argument to custom: %w", err)
+		}
+		typ, ok := customMutators[typename]
+		if !ok {
+			return nil, fmt.Errorf("unknown custom mutator type: %s", typename)
+		}
+		vallit, ok := call.Args[1].(*ast.BasicLit)
+		if !ok || vallit.Kind != token.STRING {
+			return nil, fmt.Errorf("second argument to custom must be a string literal")
+		}
+		val, err := strconv.Unquote(vallit.Value)
+		// The parsing above should have failed if Unquote would fail, but just in case...
+		if err != nil {
+			return nil, fmt.Errorf("failed to parse second argument to custom: %w", err)
+		}
+		m := zeroValue(typ).(CustomMutator)
+		if err := m.UnmarshalBinary([]byte(val)); err != nil {
+			return nil, fmt.Errorf("custom mutator %s failed to unmarshal: %w", typename, err)
+		}
+		return m, nil
+	}
+
 	if len(call.Args) != 1 {
 		return nil, fmt.Errorf("expected call expression with 1 argument; got %d", len(call.Args))
 	}
@@ -143,7 +184,7 @@ func parseCorpusValue(line []byte) (any, error) {
 
 	if arrayType, ok := call.Fun.(*ast.ArrayType); ok {
 		if arrayType.Len != nil {
-			return nil, fmt.Errorf("expected []byte or primitive type")
+			return nil, fmt.Errorf("expected []byte, primitive type, or custom")
 		}
 		elt, ok := arrayType.Elt.(*ast.Ident)
 		if !ok || elt.Name != "byte" {
@@ -177,7 +218,7 @@ func parseCorpusValue(line []byte) (any, error) {
 	} else {
 		idType, ok = call.Fun.(*ast.Ident)
 		if !ok {
-			return nil, fmt.Errorf("expected []byte or primitive type")
+			return nil, fmt.Errorf("expected []byte, primitive type, or custom")
 		}
 		if idType.Name == "bool" {
 			id, ok := arg.(*ast.Ident)
