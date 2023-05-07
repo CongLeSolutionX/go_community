@@ -152,7 +152,7 @@ func (f *F) Skipped() bool {
 func (f *F) Add(args ...any) {
 	var values []any
 	for i := range args {
-		if t := reflect.TypeOf(args[i]); !supportedTypes[t] {
+		if t := reflect.TypeOf(args[i]); !f.isSupportedType(t) {
 			panic(fmt.Sprintf("testing: unsupported type to Add %v", t))
 		}
 		values = append(values, args[i])
@@ -160,7 +160,7 @@ func (f *F) Add(args ...any) {
 	f.corpus = append(f.corpus, corpusEntry{Values: values, IsSeed: true, Path: fmt.Sprintf("seed#%d", len(f.corpus))})
 }
 
-// supportedTypes represents all of the supported types which can be fuzzed.
+// supportedTypes contains all of the basic types which can be fuzzed.  See [F.isSupportedType].
 var supportedTypes = map[reflect.Type]bool{
 	reflect.TypeOf(([]byte)("")):  true,
 	reflect.TypeOf((string)("")):  true,
@@ -181,6 +181,11 @@ var supportedTypes = map[reflect.Type]bool{
 	reflect.TypeOf((uint64)(0)):   true,
 }
 
+// isSupportedType returns true if a value of the given type can be fuzzed.
+func (f *F) isSupportedType(t reflect.Type) bool {
+	return supportedTypes[t] || f.fuzzContext.deps.IsCustomMutator(t)
+}
+
 // Fuzz runs the fuzz function, ff, for fuzz testing. If ff fails for a set of
 // arguments, those arguments will be added to the seed corpus.
 //
@@ -191,8 +196,22 @@ var supportedTypes = map[reflect.Type]bool{
 //	f.Fuzz(func(t *testing.T, b []byte, i int) { ... })
 //
 // The following types are allowed: []byte, string, bool, byte, rune, float32,
-// float64, int, int8, int16, int32, int64, uint, uint8, uint16, uint32, uint64.
-// More types may be supported in the future.
+// float64, int, int8, int16, int32, int64, uint, uint8, uint16, uint32, uint64,
+// or a type that implements the following interface:
+//
+//	// A CustomMutator is a fuzz input value that is self-mutating.
+//	type CustomMutator interface {
+//		// MarshalBinary encodes the CustomMutator's value in a platform-independent
+//		// way (e.g., JSON or Protocol Buffers).
+//		MarshalBinary() ([]byte, error)
+//		// UnmarshalBinary restores the CustomMutator's value from encoded data
+//		// previously returned from a call to MarshalBinary.
+//		UnmarshalBinary([]byte) error
+//		// Mutate pseudo-randomly transforms the CustomMutator's value.  The mutation
+//		// must be deterministic: every call to Mutate with the same starting value
+//		// and seed must result in the same transformed value.
+//		Mutate(seed uint64) error
+//	}
 //
 // ff must not call any *F methods, e.g. (*F).Log, (*F).Error, (*F).Skip. Use
 // the corresponding *T method instead. The only *F methods that are allowed in
@@ -234,7 +253,7 @@ func (f *F) Fuzz(ff any) {
 	var types []reflect.Type
 	for i := 1; i < fnType.NumIn(); i++ {
 		t := fnType.In(i)
-		if !supportedTypes[t] {
+		if !f.isSupportedType(t) {
 			panic(fmt.Sprintf("testing: unsupported type for fuzzing %v", t))
 		}
 		types = append(types, t)
