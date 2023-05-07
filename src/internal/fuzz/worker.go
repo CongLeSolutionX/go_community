@@ -780,7 +780,7 @@ func (ws *workerServer) fuzz(ctx context.Context, args fuzzArgs) (resp fuzzRespo
 				copy(vals, originalVals)
 				ws.m.r.save(&mem.header().randState, &mem.header().randInc)
 			}
-			ws.m.mutate(vals, cap(mem.valueRef()))
+			ws.m.mutate(ctx, vals, cap(mem.valueRef()))
 
 			entry := CorpusEntry{Values: vals}
 			dur, cov, errMsg := fuzzOnce(entry)
@@ -1115,7 +1115,7 @@ func (wc *workerClient) fuzz(ctx context.Context, entryIn CorpusEntry, args fuzz
 			// Only mutate the valuesOut if fuzzing actually occurred.
 			numMutations := ((resp.Count - 1) % chainedMutations) + 1
 			for i := int64(0); i < numMutations; i++ {
-				wc.m.mutate(valuesOut, cap(mem.valueRef()))
+				wc.m.mutate(ctx, valuesOut, cap(mem.valueRef()))
 			}
 		}
 		dataOut := marshalCorpusFile(valuesOut...)
