@@ -11,6 +11,7 @@ import (
 	"go/parser"
 	"go/token"
 	"math"
+	"reflect"
 	"strconv"
 	"strings"
 	"unicode/utf8"
@@ -91,6 +92,16 @@ func marshalCorpusFile(vals ...any) []byte {
 			fmt.Fprintf(b, "byte(%q)\n", t)
 		case []byte: // []uint8
 			fmt.Fprintf(b, "[]byte(%q)\n", t)
+		case customMutator:
+			buf, err := t.MarshalBinary()
+			if err != nil {
+				// TODO(48815): Plumb the error all the way back to the coordinator so
+				// that the input is not mistakenly treated as a crasher, and so that
+				// the error message is not suppressed (worker stdout/stderr is
+				// discarded).
+				panic(fmt.Sprintf("failed to marshal custom mutator of type %T: %v", t, err))
+			}
+			fmt.Fprintf(b, "custom(%q, []byte(%q))\n", customMutatorTypeName(reflect.TypeOf(t)), buf)
 		default:
 			panic(fmt.Sprintf("unsupported type: %T", t))
 		}
@@ -136,28 +147,37 @@ func parseCorpusValue(line []byte) (any, error) {
 	if !ok {
 		return nil, fmt.Errorf("expected call expression")
 	}
+
+	if ident, ok := call.Fun.(*ast.Ident); ok && ident.Name == "custom" {
+		if len(call.Args) != 2 {
+			return nil, fmt.Errorf("expected 2 arguments to custom call; got %d", len(call.Args))
+		}
+		typename, err := parseStringLiteral(call.Args[0])
+		if err != nil {
+			return nil, err
+		}
+		typ, ok := customMutators[typename]
+		if !ok {
+			return nil, fmt.Errorf("unknown custom mutator type: %s", typename)
+		}
+		val, err := parseByteSlice(call.Args[1])
+		if err != nil {
+			return nil, err
+		}
+		m := zeroValue(typ).(customMutator)
+		if err := m.UnmarshalBinary([]byte(val)); err != nil {
+			return nil, fmt.Errorf("custom mutator %s failed to unmarshal: %w", typename, err)
+		}
+		return m, nil
+	}
+
 	if len(call.Args) != 1 {
 		return nil, fmt.Errorf("expected call expression with 1 argument; got %d", len(call.Args))
 	}
 	arg := call.Args[0]
 
-	if arrayType, ok := call.Fun.(*ast.ArrayType); ok {
-		if arrayType.Len != nil {
-			return nil, fmt.Errorf("expected []byte or primitive type")
-		}
-		elt, ok := arrayType.Elt.(*ast.Ident)
-		if !ok || elt.Name != "byte" {
-			return nil, fmt.Errorf("expected []byte")
-		}
-		lit, ok := arg.(*ast.BasicLit)
-		if !ok || lit.Kind != token.STRING {
-			return nil, fmt.Errorf("string literal required for type []byte")
-		}
-		s, err := strconv.Unquote(lit.Value)
-		if err != nil {
-			return nil, err
-		}
-		return []byte(s), nil
+	if _, ok := call.Fun.(*ast.ArrayType); ok {
+		return parseByteSlice(expr)
 	}
 
 	var idType *ast.Ident
@@ -177,7 +197,7 @@ func parseCorpusValue(line []byte) (any, error) {
 	} else {
 		idType, ok = call.Fun.(*ast.Ident)
 		if !ok {
-			return nil, fmt.Errorf("expected []byte or primitive type")
+			return nil, fmt.Errorf("expected []byte, primitive type, or custom")
 		}
 		if idType.Name == "bool" {
 			id, ok := arg.(*ast.Ident)
@@ -236,10 +256,7 @@ func parseCorpusValue(line []byte) (any, error) {
 
 	switch typ := idType.Name; typ {
 	case "string":
-		if kind != token.STRING {
-			return nil, fmt.Errorf("string literal value required for type string")
-		}
-		return strconv.Unquote(val)
+		return parseStringLiteral(arg)
 	case "byte", "rune":
 		if kind == token.INT {
 			switch typ {
@@ -309,6 +326,38 @@ func parseCorpusValue(line []byte) (any, error) {
 	default:
 		return nil, fmt.Errorf("expected []byte or primitive type")
 	}
+}
+
+// parseByteSlice returns the bytes represented by expr, which must have the
+// form []byte("value").  It returns an error if expr does not have that form.
+func parseByteSlice(expr ast.Expr) ([]byte, error) {
+	call, ok := expr.(*ast.CallExpr)
+	if !ok || len(call.Args) != 1 {
+		return nil, fmt.Errorf("expected []byte")
+	}
+	arr, ok := call.Fun.(*ast.ArrayType)
+	if !ok || arr.Len != nil {
+		return nil, fmt.Errorf("expected []byte")
+	}
+	elt, ok := arr.Elt.(*ast.Ident)
+	if !ok || elt.Name != "byte" {
+		return nil, fmt.Errorf("expected []byte")
+	}
+	str, err := parseStringLiteral(call.Args[0])
+	if err != nil {
+		return nil, err
+	}
+	return []byte(str), nil
+}
+
+// parseStringLiteral returns the string contents in the string literal expr, or
+// an error if expr is not a string literal.
+func parseStringLiteral(expr ast.Expr) (string, error) {
+	lit, ok := expr.(*ast.BasicLit)
+	if !ok || lit.Kind != token.STRING {
+		return "", fmt.Errorf("expected string literal")
+	}
+	return strconv.Unquote(lit.Value)
 }
 
 // parseInt returns an integer of value val and type typ.

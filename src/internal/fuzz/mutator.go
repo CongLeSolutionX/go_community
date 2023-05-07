@@ -8,8 +8,56 @@ import (
 	"encoding/binary"
 	"fmt"
 	"math"
+	"reflect"
 	"unsafe"
 )
+
+// A customMutator is a fuzz input value that is self-mutating. This interface
+// extends the encoding.BinaryMarshaler and encoding.BinaryUnmarshaler
+// interfaces.
+type customMutator interface {
+	// MarshalBinary encodes the customMutator's value in a platform-independent
+	// way (e.g., JSON or Protocol Buffers).
+	MarshalBinary() ([]byte, error)
+	// UnmarshalBinary restores the customMutator's value from encoded data
+	// previously returned from a call to MarshalBinary.
+	UnmarshalBinary([]byte) error
+	// Mutate pseudo-randomly transforms the customMutator's value. The mutation
+	// must be deterministic: every call to Mutate with the same starting value
+	// and seed must result in the same transformed value.
+	Mutate(seed int64) error
+}
+
+var customMutators = map[string]reflect.Type{}
+
+func IsCustomMutator(typ reflect.Type) bool {
+	if !typ.Implements(reflect.TypeOf((*customMutator)(nil)).Elem()) {
+		return false
+	}
+	typename := customMutatorTypeName(typ)
+	// Check before set to avoid the need to synchronize access to the map.  (All
+	// writes should happen before any concurrent reads.)
+	if _, ok := customMutators[typename]; !ok {
+		customMutators[typename] = typ
+	}
+	return true
+}
+
+func customMutatorTypeName(typ reflect.Type) string {
+	// TODO: Can we somehow reuse go/types.TypeString (with nil qualifier)?
+	// Unfortunately, reflect.Type.String does not guarantee uniqueness.
+	ptrpfx := ""
+	for typ.Name() == "" && typ.Kind() == reflect.Pointer {
+		ptrpfx += "*"
+		typ = typ.Elem()
+	}
+	pkg := typ.PkgPath()
+	name := typ.Name()
+	if pkg != "" && name != "" {
+		pkg += "."
+	}
+	return ptrpfx + pkg + name
+}
 
 type mutator struct {
 	r       mutatorRand
@@ -118,6 +166,14 @@ func (m *mutator) mutate(vals []any, maxBytes int) {
 		}
 		m.mutateBytes(&m.scratch)
 		vals[i] = m.scratch
+	case customMutator:
+		seed := int64(m.r.uint32())<<32 + int64(m.r.uint32())
+		if err := v.Mutate(seed); err != nil {
+			// TODO(48815): Plumb the error all the way back to the coordinator so
+			// that the input is not mistakenly treated as a crasher, and so that the
+			// error message is not suppressed (worker stdout/stderr is discarded).
+			panic(fmt.Sprintf("failed to mutate fuzz input of type %T: %v", v, err))
+		}
 	default:
 		panic(fmt.Sprintf("type not supported for mutating: %T", vals[i]))
 	}

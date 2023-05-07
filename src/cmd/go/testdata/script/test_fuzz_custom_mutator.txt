@@ -1,0 +1,282 @@
+[!fuzz] skip
+[short] skip
+env GOCACHE=$WORK/cache
+
+# Successful with no seed corpus.  Should allocate a zero value.
+go test -fuzz=FuzzSuccessEmptyCorpus$ -run=^$ -fuzztime=1x
+stdout ^ok
+! stdout FAIL
+
+# Successful with seed in testdata/fuzz.
+go test -fuzz=FuzzSuccessWithTestdata$ -run=^$ -fuzztime=1x
+stdout ^ok
+! stdout FAIL
+
+# Successful with cached seed.
+mkdir $GOCACHE/fuzz/example.test/x/FuzzSuccessWithCachedSeed
+cp cache-file $GOCACHE/fuzz/example.test/x/FuzzSuccessWithCachedSeed/x
+go test -fuzz=FuzzSuccessWithCachedSeed$ -run=^$ -fuzztime=1x
+stdout ^ok
+! stdout FAIL
+
+# Successful with f.Add seed.
+go test -fuzz=FuzzSuccessWithAddedSeed$ -run=^$ -fuzztime=1x
+stdout ^ok
+! stdout FAIL
+
+# Successful when the underlying type is plain ol data, not the usual pointer to a struct.
+go test -fuzz=FuzzSuccessPod$ -run=^$ -fuzztime=1x
+stdout ^ok
+! stdout FAIL
+
+# Failure mode: testdata has data for an unknown mutator type.
+! go test -fuzz=FuzzErrorUnknownCustomMutator$ -run=^$ -fuzztime=1x
+! stdout ^ok
+stdout 'unknown custom mutator type: does_not_exist'
+stdout FAIL
+
+# Failure mode: testdata custom call has zero arguments.
+! go test -fuzz=FuzzErrorCustomZeroArgs$ -run=^$ -fuzztime=1x
+! stdout ^ok
+stdout 'expected 2 arguments to custom call; got 0'
+stdout FAIL
+
+# Failure mode: testdata custom call has one argument.
+! go test -fuzz=FuzzErrorCustomOneArg$ -run=^$ -fuzztime=1x
+! stdout ^ok
+stdout 'expected 2 arguments to custom call; got 1'
+stdout FAIL
+
+# Failure mode: testdata custom call has three arguments.
+! go test -fuzz=FuzzErrorCustomThreeArgs$ -run=^$ -fuzztime=1x
+! stdout ^ok
+stdout 'expected 2 arguments to custom call; got 3'
+stdout FAIL
+
+# Failure mode: testdata custom call first arg is not a string literal.
+! go test -fuzz=FuzzErrorCustomFirstArgNotStrLit$ -run=^$ -fuzztime=1x
+! stdout ^ok
+stdout 'expected string literal'
+stdout FAIL
+
+# Failure mode: testdata custom call second arg is not a []byte.
+! go test -fuzz=FuzzErrorCustomSecondArgNotByteSlice$ -run=^$ -fuzztime=1x
+! stdout ^ok
+stdout 'expected \[\]byte'
+stdout FAIL
+
+# Failure mode: testdata custom call second arg does not have the form []byte("literal").
+! go test -fuzz=FuzzErrorCustomSecondArgByteSliceNotStrLit$ -run=^$ -fuzztime=1x
+! stdout ^ok
+stdout 'expected string literal'
+stdout FAIL
+
+# Failure mode: testdata custom call first arg invalid escape.
+# Note that parsing should fail before strconv.Unquote is even called.
+! go test -fuzz=FuzzErrorCustomFirstArgInvalidEscape$ -run=^$ -fuzztime=1x
+! stdout ^ok
+stdout FAIL
+
+# Failure mode: testdata custom call second arg invalid escape.
+# Note that parsing should fail before strconv.Unquote is even called.
+! go test -fuzz=FuzzErrorCustomSecondArgInvalidEscape$ -run=^$ -fuzztime=1x
+! stdout ^ok
+stdout FAIL
+
+# Failure mode: marshal error.
+! go test -fuzz=FuzzErrorMarshal$ -run=^$ -fuzztime=1x
+! stdout ^ok
+stdout 'failed to marshal custom mutator .*x\.customInput.*injected'
+stdout FAIL
+
+# Failure mode: unmarshal error.
+! go test -fuzz=FuzzErrorUnmarshal$ -run=^$ -fuzztime=1x
+! stdout ^ok
+stdout '\*example\.test/x\.customInput.*injected'
+stdout FAIL
+
+# Failure mode: mutate error.
+! go test -fuzz=FuzzErrorMutate$ -run=^$
+! stdout ^ok
+stdout 'terminated unexpectedly'
+stdout FAIL
+
+-- go.mod --
+module example.test/x
+
+go 1.20
+-- testdata/fuzz/FuzzSuccessWithTestdata/x --
+go test fuzz v1
+custom("*example.test/x.customInput", []byte("{\"Mutations\":10}"))
+-- cache-file --
+go test fuzz v1
+custom("*example.test/x.customInput", []byte("{\"Mutations\":100}"))
+-- testdata/fuzz/FuzzErrorUnknownCustomMutator/x --
+go test fuzz v1
+custom("does_not_exist", []byte(""))
+-- testdata/fuzz/FuzzErrorCustomZeroArgs/x --
+go test fuzz v1
+custom()
+-- testdata/fuzz/FuzzErrorCustomOneArg/x --
+go test fuzz v1
+custom("*example.test/x.customInput")
+-- testdata/fuzz/FuzzErrorCustomThreeArgs/x --
+go test fuzz v1
+custom("*example.test/x.customInput", []byte("{\"Mutations\":0}"), "foo")
+-- testdata/fuzz/FuzzErrorCustomFirstArgNotStrLit/x --
+go test fuzz v1
+custom(1234, []byte("{\"Mutations\":0}"))
+-- testdata/fuzz/FuzzErrorCustomSecondArgNotByteSlice/x --
+go test fuzz v1
+custom("*example.test/x.customInput", 1234)
+-- testdata/fuzz/FuzzErrorCustomSecondArgByteSliceNotStrLit/x --
+go test fuzz v1
+custom("*example.test/x.customInput", []byte("{\"Mutations\":"+"0}"))
+-- testdata/fuzz/FuzzErrorCustomFirstArgInvalidEscape/x --
+go test fuzz v1
+custom("\400", []byte(""))
+-- testdata/fuzz/FuzzErrorCustomSecondArgInvalidEscape/x --
+go test fuzz v1
+custom("*example.test/x.customInput", []byte("\400"))
+-- x_test.go --
+package x
+
+import (
+	"encoding/json"
+	"errors"
+	"reflect"
+	"testing"
+)
+
+type customInput struct {
+	Mutations int
+	// These are bools, not errors, so that they can survive serialization to a worker process.
+	MarshalErr   bool
+	UnmarshalErr bool
+	MutateErr    bool
+}
+
+func (m *customInput) MarshalBinary() ([]byte, error) {
+	if m.MarshalErr {
+		return nil, errors.New("injected")
+	}
+	return json.Marshal(m)
+}
+func (m *customInput) UnmarshalBinary(data []byte) error {
+	if err := json.Unmarshal(data, m); err != nil {
+		return err
+	}
+	// UnmarshalErr must be checked after unmarshaling.
+	if m.UnmarshalErr {
+		return errors.New("injected")
+	}
+	return nil
+}
+func (m *customInput) Mutate(seed int64) error {
+	if m.MutateErr {
+		return errors.New("injected")
+	}
+	m.Mutations++
+	return nil
+}
+
+func FuzzSuccessEmptyCorpus(f *testing.F) {
+	f.Fuzz(func(t *testing.T, got *customInput) {
+		if want := (&customInput{Mutations: 1}); !reflect.DeepEqual(got, want) {
+			t.Errorf("got %#v, want %#v", got, want)
+		}
+	})
+}
+
+func FuzzSuccessWithTestdata(f *testing.F) {
+	f.Fuzz(func(t *testing.T, got *customInput) {
+		if want := (&customInput{Mutations: 10}); !reflect.DeepEqual(got, want) {
+			t.Errorf("got %#v, want %#v", got, want)
+		}
+	})
+}
+
+func FuzzSuccessWithCachedSeed(f *testing.F) {
+	f.Fuzz(func(t *testing.T, got *customInput) {
+		if want := (&customInput{Mutations: 100}); !reflect.DeepEqual(got, want) {
+			t.Errorf("got %#v, want %#v", got, want)
+		}
+	})
+}
+
+func FuzzSuccessWithAddedSeed(f *testing.F) {
+	f.Add(&customInput{Mutations: 1000})
+	f.Fuzz(func(t *testing.T, got *customInput) {
+		if want := (&customInput{Mutations: 1000}); !reflect.DeepEqual(got, want) {
+			t.Errorf("got %#v, want %#v", got, want)
+		}
+	})
+}
+
+var podState *customInput
+
+type customInputPod int
+
+func (customInputPod) MarshalBinary() ([]byte, error) { return podState.MarshalBinary() }
+func (customInputPod) UnmarshalBinary(d []byte) error { return podState.UnmarshalBinary(d) }
+func (customInputPod) Mutate(s int64) error           { return podState.Mutate(s) }
+
+func FuzzSuccessPod(f *testing.F) {
+	podState = &customInput{}
+	f.Fuzz(func(t *testing.T, v customInputPod) {
+		if got, want := podState, (&customInput{Mutations: 1}); !reflect.DeepEqual(got, want) {
+			t.Errorf("got %#v, want %#v", got, want)
+		}
+	})
+}
+
+func FuzzErrorUnknownCustomMutator(f *testing.F) {
+	f.Fuzz(func(t *testing.T, got *customInput) {})
+}
+
+func FuzzErrorCustomZeroArgs(f *testing.F) {
+	f.Fuzz(func(t *testing.T, got *customInput) {})
+}
+
+func FuzzErrorCustomOneArg(f *testing.F) {
+	f.Fuzz(func(t *testing.T, got *customInput) {})
+}
+
+func FuzzErrorCustomThreeArgs(f *testing.F) {
+	f.Fuzz(func(t *testing.T, got *customInput) {})
+}
+
+func FuzzErrorCustomFirstArgNotStrLit(f *testing.F) {
+	f.Fuzz(func(t *testing.T, got *customInput) {})
+}
+
+func FuzzErrorCustomSecondArgNotByteSlice(f *testing.F) {
+	f.Fuzz(func(t *testing.T, got *customInput) {})
+}
+
+func FuzzErrorCustomSecondArgByteSliceNotStrLit(f *testing.F) {
+	f.Fuzz(func(t *testing.T, got *customInput) {})
+}
+
+func FuzzErrorCustomFirstArgInvalidEscape(f *testing.F) {
+	f.Fuzz(func(t *testing.T, got *customInput) {})
+}
+
+func FuzzErrorCustomSecondArgInvalidEscape(f *testing.F) {
+	f.Fuzz(func(t *testing.T, got *customInput) {})
+}
+
+func FuzzErrorMarshal(f *testing.F) {
+	f.Add(&customInput{MarshalErr: true})
+	f.Fuzz(func(t *testing.T, got *customInput) {})
+}
+
+func FuzzErrorUnmarshal(f *testing.F) {
+	f.Add(&customInput{UnmarshalErr: true})
+	f.Fuzz(func(t *testing.T, got *customInput) {})
+}
+
+func FuzzErrorMutate(f *testing.F) {
+	f.Add(&customInput{MutateErr: true})
+	f.Fuzz(func(t *testing.T, got *customInput) {})
+}
