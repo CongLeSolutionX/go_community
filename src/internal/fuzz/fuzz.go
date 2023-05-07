@@ -1068,33 +1068,37 @@ func testName(path string) string {
 }
 
 func zeroValue(t reflect.Type) any {
-	for _, v := range zeroVals {
-		if reflect.TypeOf(v) == t {
-			return v
-		}
+	if v, ok := zeroVals[t]; ok {
+		return v
 	}
 	panic(fmt.Sprintf("unsupported type: %v", t))
 }
 
-var zeroVals []any = []any{
-	[]byte(""),
-	string(""),
-	false,
-	byte(0),
-	rune(0),
-	float32(0),
-	float64(0),
-	int(0),
-	int8(0),
-	int16(0),
-	int32(0),
-	int64(0),
-	uint(0),
-	uint8(0),
-	uint16(0),
-	uint32(0),
-	uint64(0),
-}
+var zeroVals = func() map[reflect.Type]any {
+	m := map[reflect.Type]any{}
+	for _, v := range []any{
+		[]byte(""),
+		string(""),
+		false,
+		byte(0),
+		rune(0),
+		float32(0),
+		float64(0),
+		int(0),
+		int8(0),
+		int16(0),
+		int32(0),
+		int64(0),
+		uint(0),
+		uint8(0),
+		uint16(0),
+		uint32(0),
+		uint64(0),
+	} {
+		m[reflect.TypeOf(v)] = v
+	}
+	return m
+}()
 
 var debugInfo = godebug.New("#fuzzdebug").Value() == "1"
 
