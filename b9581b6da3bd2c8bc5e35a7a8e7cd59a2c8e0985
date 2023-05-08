@@ -127,6 +127,46 @@
       "message": "Thanks.",
       "revId": "b9581b6da3bd2c8bc5e35a7a8e7cd59a2c8e0985",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c223543a_22788f63",
+        "filename": "misc/cgo/test/issue9026.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-05-08T15:09:05Z",
+      "side": 1,
+      "message": "(nit) Also add copyright header?",
+      "revId": "b9581b6da3bd2c8bc5e35a7a8e7cd59a2c8e0985",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31dd417b_9146d716",
+        "filename": "misc/cgo/test/test_unix.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-05-08T15:09:05Z",
+      "side": 1,
+      "message": "The alternate declaration of the variable in this file is in `misc/cgo/test/test_windows.go` — won\u0027t this cause a build failure on `plan9`?\n\n(Perhaps rename `test_windows.go` to `test_notunix.go` and use `//go:build unix` and `//go:build !unix` as the constraints?)",
+      "range": {
+        "startLine": 5,
+        "startChar": 20,
+        "endLine": 5,
+        "endChar": 29
+      },
+      "revId": "b9581b6da3bd2c8bc5e35a7a8e7cd59a2c8e0985",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
