@@ -63,6 +63,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "52d98bd6_eabb2532",
+        "filename": "src/cmd/compile/internal/types2/infer.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-05-08T22:21:43Z",
+      "side": 1,
+      "message": "It\u0027s worth noting and it\u0027s noted on line 167ff.\nI hope the comment on line 286: \"by construction\" also helps as an additional hint.",
+      "parentUuid": "bd4070a2_dc0a86fd",
+      "range": {
+        "startLine": 283,
+        "startChar": 2,
+        "endLine": 283,
+        "endChar": 68
+      },
+      "revId": "39d5ae64111500f4846404157c0ed7494a7f233c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "e3e835dc_8e054cb8",
         "filename": "src/internal/types/testdata/fixedbugs/issue58671.go",
         "patchSetId": 3
@@ -74,6 +98,30 @@
       "writtenOn": "2023-05-08T22:06:16Z",
       "side": 1,
       "message": "! this code is at least a little surprising.\n\nBut this is still better than not making this change.",
+      "range": {
+        "startLine": 15,
+        "startChar": 19,
+        "endLine": 15,
+        "endChar": 30
+      },
+      "revId": "39d5ae64111500f4846404157c0ed7494a7f233c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "234b3a2d_ebb4034f",
+        "filename": "src/internal/types/testdata/fixedbugs/issue58671.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-05-08T22:21:43Z",
+      "side": 1,
+      "message": "Agreed but it follows from the spec-defined order in which untyped kinds are chosen: integer, rune, floating-point, complex.\n\nEven in non-generic code we can have surprising behavior: for i + r, where i is an untyped int and r an untyped rune, the result is an untyped rune. If i + r overflows (e.g., i is simply bigger than 32 bits), this untyped operation overflows when given the rune default type: https://go.dev/play/p/8HGrhO1K_b1",
+      "parentUuid": "e3e835dc_8e054cb8",
       "range": {
         "startLine": 15,
         "startChar": 19,
