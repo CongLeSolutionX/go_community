@@ -16,6 +16,23 @@
       "message": "Is there anything that I can do to proceed with this PR?",
       "revId": "ee0c5a76ef23bee8c0778c588ef55e2d9d4ca3c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba3a6ddd_b0710071",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34895
+      },
+      "writtenOn": "2023-05-08T23:43:40Z",
+      "side": 1,
+      "message": "Thanks.",
+      "revId": "ee0c5a76ef23bee8c0778c588ef55e2d9d4ca3c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
