@@ -1,0 +1,147 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60ba3a40_67f29b82",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-05-08T14:26:49Z",
+      "side": 1,
+      "message": "(nit) Single space between sentences, throughout.\n\n(I personally prefer a single em-space between sentences, but standards are standards. 🤷‍♂️)",
+      "range": {
+        "startLine": 47,
+        "startChar": 70,
+        "endLine": 47,
+        "endChar": 72
+      },
+      "revId": "253161b8afc702d53882178ec6aa2a49633cf259",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ed13e8d_4d4b7fb9",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-05-08T14:26:49Z",
+      "side": 1,
+      "message": "I don\u0027t understand what this means — in some sense every error is “reported”.\n\nPerhaps this should be called “internal” instead of “reported”?",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 69
+      },
+      "revId": "253161b8afc702d53882178ec6aa2a49633cf259",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54940380_343deb8f",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 539,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-05-08T14:26:49Z",
+      "side": 1,
+      "message": "This field needs a comment — what properties do we expect of the `Response` field? (What types may be the `Response` field be set to?)",
+      "revId": "253161b8afc702d53882178ec6aa2a49633cf259",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c79bc55_720feba7",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1069,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-05-08T14:26:49Z",
+      "side": 1,
+      "message": "Is there an issue filed for this? (Should there be?)",
+      "range": {
+        "startLine": 1061,
+        "startChar": 0,
+        "endLine": 1069,
+        "endChar": 0
+      },
+      "revId": "253161b8afc702d53882178ec6aa2a49633cf259",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84eb896f_cf9d62cb",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1148,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-05-08T14:26:49Z",
+      "side": 1,
+      "message": "The TODO should probably refer to some issue filed for this. (Is there one already present in the issue tracker?)\n\n```\n// TODO(#NNNNN): Have the worker …\n```",
+      "range": {
+        "startLine": 1147,
+        "startChar": 41,
+        "endLine": 1148,
+        "endChar": 63
+      },
+      "revId": "253161b8afc702d53882178ec6aa2a49633cf259",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a7c49af_bad7be74",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1212,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-05-08T14:26:49Z",
+      "side": 1,
+      "message": "This seems like it would be clearer using a struct type (and `errors.As`) instead of a `fmt.Errorf` that wraps multiple errors.\n\nSomething like:\n\n```\n// A communicationError indicates …\ntype communicationError struct {\n\terr error\n}\n\nfunc (ce communicationError) Error() {\n\treturn \"communicating with fuzzing process: \"+ce.err.Error()\n}\n```",
+      "revId": "253161b8afc702d53882178ec6aa2a49633cf259",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40060ebd_2cd2a2ea",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1219,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-05-08T14:26:49Z",
+      "side": 1,
+      "message": "Same here — this seems clearer as an error type than as a `fmt.Errorf` wrapping two different errors.",
+      "revId": "253161b8afc702d53882178ec6aa2a49633cf259",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
