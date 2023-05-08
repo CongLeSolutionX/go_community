@@ -82,6 +82,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "9c0cc734_9bfdee2b",
+        "filename": "misc/go.mod",
+        "patchSetId": 7
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-05-08T15:55:45Z",
+      "side": 1,
+      "message": "Updated in a follow-up CL.",
+      "parentUuid": "8db978c0_a75d2863",
+      "range": {
+        "startLine": 2,
+        "startChar": 4,
+        "endLine": 2,
+        "endChar": 7
+      },
+      "revId": "f012b3b7f954f398aabb86076980d1875abda984",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "8804da8e_67012837",
         "filename": "src/cmd/cgo/internal/teststdio/testdata/stdio/file.go",
         "patchSetId": 7
@@ -93,6 +117,30 @@
       "writtenOn": "2023-05-08T11:15:49Z",
       "side": 1,
       "message": "(minor) Spotted this instance of an outdated relative path, though it was already broken even before this move.",
+      "range": {
+        "startLine": 8,
+        "startChar": 4,
+        "endLine": 8,
+        "endChar": 10
+      },
+      "revId": "f012b3b7f954f398aabb86076980d1875abda984",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce99e1a3_d053044f",
+        "filename": "src/cmd/cgo/internal/teststdio/testdata/stdio/file.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-05-08T15:55:45Z",
+      "side": 1,
+      "message": "Fixed.",
+      "parentUuid": "8804da8e_67012837",
       "range": {
         "startLine": 8,
         "startChar": 4,
