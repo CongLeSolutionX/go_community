@@ -8,6 +8,7 @@ package reboot_test
 
 import (
 	"fmt"
+	"internal/testenv"
 	"io"
 	"os"
 	"os/exec"
@@ -21,6 +22,14 @@ import (
 func TestRepeatBootstrap(t *testing.T) {
 	if testing.Short() {
 		t.Skipf("skipping test that rebuilds the entire toolchain")
+	}
+	switch runtime.GOOS {
+	case "android", "ios", "js", "wasip1":
+		t.Skipf("skipping because the toolchain does not have to bootstrap on GOOS=%s", runtime.GOOS)
+	}
+	// This test adds another ~45s to all.bash if run sequentially, so run it only on the builders.
+	if testenv.Builder() == "" {
+		t.Skipf("test only runs of GO_BUILDER_NAME is set")
 	}
 
 	realGoroot, err := filepath.Abs(filepath.Join("..", ".."))
