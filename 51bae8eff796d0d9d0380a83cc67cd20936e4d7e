@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "635b7f70_857778ae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-05-08T14:39:08Z",
+      "side": 1,
+      "message": "API additions need to go through the Go [proposal process](https://go.dev/s/proposal).",
+      "range": {
+        "startLine": 19,
+        "startChar": 57,
+        "endLine": 21,
+        "endChar": 57
+      },
+      "revId": "51bae8eff796d0d9d0380a83cc67cd20936e4d7e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f09d503_b3b05845",
+        "filename": "src/internal/fuzz/encoding.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-05-08T14:39:08Z",
+      "side": 1,
+      "message": "An error return is not appropriate here.\n\nThe caller can (and should) ensure that `len(vals) \u003e 0` and the return values are of appropriate types, and we should have enough test coverage for `internal/fuzz` to be confident that that always holds. Returning an `error` adds extra plumbing and error-checking boilerplate on the caller side that should be literally unreachable.",
+      "range": {
+        "startLine": 24,
+        "startChar": 44,
+        "endLine": 24,
+        "endChar": 50
+      },
+      "revId": "51bae8eff796d0d9d0380a83cc67cd20936e4d7e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "327e88b0_c0fe1b07",
+        "filename": "src/internal/fuzz/mutator.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-05-08T14:39:08Z",
+      "side": 1,
+      "message": "Same here: `mutate` should not be called with a value that cannot be mutated, so returning an error adds overhead for essentially no benefit.",
+      "revId": "51bae8eff796d0d9d0380a83cc67cd20936e4d7e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
