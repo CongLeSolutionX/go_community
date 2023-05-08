@@ -89,6 +89,24 @@
       "parentUuid": "d342d84f_302cbf8c",
       "revId": "4c70ea9f959b2cff11de8dfa366cede53d9e7b3e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "720ef1c8_2a4b08e4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2023-05-08T15:36:33Z",
+      "side": 1,
+      "message": "(https://go-review.googlesource.com/c/go/+/492721/comment/d848c4a2_3da440e5/ is related.)",
+      "parentUuid": "d342d84f_302cbf8c",
+      "revId": "4c70ea9f959b2cff11de8dfa366cede53d9e7b3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
