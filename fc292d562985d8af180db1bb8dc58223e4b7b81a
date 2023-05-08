@@ -49,6 +49,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "944069fd_55d912a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2023-05-08T10:03:43Z",
+      "side": 1,
+      "message": "These also appear to have been added via the \u0027zfh\u0027 extension to \u0027q\u0027 - I\u0027d suggest omitting rv_q_zfh for now and if we need/want these, add them in a follow up CL.\n\nIf we regenerate with:\n\nrv64_a rv64_d rv64_f rv64_i rv64_m rv64_q rv_a rv_d rv_f rv_i rv_m rv_q rv_s rv_system rv_zicsr\n\nWe then appear to have the following to add:\n\nAPAUSE\n\nAnd the following (currently unused) to remove:\n\nAFENCEI\nAFMVQX\nAFMVXQ\nAHFENCEGVMA\nAHFENCEVVMA\nASLLIRV32\nASRAIRV32\nASRLIRV32\nAURET",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 40
+      },
+      "revId": "fc292d562985d8af180db1bb8dc58223e4b7b81a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "60c239da_c7cdea8e",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
