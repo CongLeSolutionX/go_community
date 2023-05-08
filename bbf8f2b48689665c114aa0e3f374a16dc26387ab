@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "745839da_f77c304b",
+        "filename": "src/cmd/compile/internal/ssa/reassociate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 62691
+      },
+      "writtenOn": "2023-05-08T21:21:43Z",
+      "side": 1,
+      "message": "For ILP work this may be more appropriate, but my eventual goal is to preserve block positioning rather than moving nodes from other blocks in. Forgetting about the original nodes would mean I need to keep track of the old nodes\u0027 blocks. This helps preserve loop invariant expressions as currently it could possibly pull invariant expressions in.\n\nWe can always forget the nodes for now but then be more careful after I can spend some more time to refactor.",
+      "parentUuid": "13c7016a_ba9619c7",
+      "revId": "bbf8f2b48689665c114aa0e3f374a16dc26387ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e05f0359_6e4cc3df",
         "filename": "src/cmd/compile/internal/ssa/reassociate.go",
         "patchSetId": 4
@@ -31,6 +49,24 @@
       "writtenOn": "2023-05-08T15:17:02Z",
       "side": 1,
       "message": "This file needs gofmt-ing, there is a bunch of extraneous whitespace.",
+      "revId": "bbf8f2b48689665c114aa0e3f374a16dc26387ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88c640f5_a159f8ba",
+        "filename": "src/cmd/compile/internal/ssa/reassociate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 62691
+      },
+      "writtenOn": "2023-05-08T21:21:43Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "e05f0359_6e4cc3df",
       "revId": "bbf8f2b48689665c114aa0e3f374a16dc26387ab",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -54,6 +90,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "eee83e5b_d3cf8988",
+        "filename": "src/cmd/compile/internal/ssa/reassociate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 62691
+      },
+      "writtenOn": "2023-05-08T21:21:43Z",
+      "side": 1,
+      "message": "It appears that it is still a problem.\n\nmemcombine looks for a zero extension in the first argument to an or, and then a sub-expression that is also an or. Once the tree gets balanced however, all sub-expressions that aren\u0027t leaves are ors.\n\n\nI think that a) we should probably fix the problem in memcombine so that it can handle reassociate and b) keep this check in since balanceExprTree would get called a whole lot when it doesn\u0027t need to be otherwise. \n\nAlso, this heuristic is good enough, but wouldn\u0027t handle something odd like:\n```\nexprToMemcombine :\u003d l[0] | l[1] \u003c\u003c 8 | l[2] \u003c\u003c 16 | l[3] \u003c\u003c 24\nbitwiseAndLoad :\u003d a | b | c | d | e | exprToMemcombine\n```\n\nreassociate needs to run very early on to be helpful, so I don\u0027t think moving it after memcombine is a good idea either.",
+      "parentUuid": "03a92b75_6a06762c",
+      "revId": "bbf8f2b48689665c114aa0e3f374a16dc26387ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0b97251c_20e62a64",
         "filename": "src/cmd/compile/internal/ssa/reassociate.go",
         "patchSetId": 4
@@ -65,6 +119,30 @@
       "writtenOn": "2023-05-08T15:17:02Z",
       "side": 1,
       "message": "v3 isn\u0027t defined here. Maybe do\n\nv1:(a + v2:(b + v3:(c + d))\n\nabove",
+      "range": {
+        "startLine": 100,
+        "startChar": 60,
+        "endLine": 100,
+        "endChar": 62
+      },
+      "revId": "bbf8f2b48689665c114aa0e3f374a16dc26387ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "75fe5b38_1c21508b",
+        "filename": "src/cmd/compile/internal/ssa/reassociate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 62691
+      },
+      "writtenOn": "2023-05-08T21:21:43Z",
+      "side": 1,
+      "message": "Thanks for the catch. I had some ASCII art of v1/v2/v3 but gofmt wasn\u0027t particularly kind to it so I removed it. I\u0027ll use the above",
+      "parentUuid": "0b97251c_20e62a64",
       "range": {
         "startLine": 100,
         "startChar": 60,
@@ -98,6 +176,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "02dc8edf_8984a84a",
+        "filename": "src/cmd/compile/internal/ssa/reassociate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 62691
+      },
+      "writtenOn": "2023-05-08T21:21:43Z",
+      "side": 1,
+      "message": "I\u0027ll remove this comment since I\u0027ve thought about it more and I don\u0027t need \"log math\".\n\nThe idea the comment is based of is that for a binary op you need a minimum of 4 leaves to trigger reassociation, but given an n-ary op you need n^2 leaves to trigger it. Initially I thought this would require a call to log_n() to help preallocate `leaves` and `nodes` so I hardcoded 2 args, but I think it would be best to do:\n\n```\nminLeaves :\u003d len(v.Args) * len(v.Args)\nif len(leaves) \u003c minLeaves\n...  \n```\n\nNo log_n call and allows 3 arg ops such as ADC to be reassociated, and not worry about the leaves/nodes list not being perfectly preallocated",
+      "parentUuid": "b4030498_e941f8a9",
+      "range": {
+        "startLine": 110,
+        "startChar": 75,
+        "endLine": 110,
+        "endChar": 83
+      },
+      "revId": "bbf8f2b48689665c114aa0e3f374a16dc26387ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e1c049e2_af59f4d0",
@@ -111,6 +213,24 @@
       "writtenOn": "2023-05-08T15:17:02Z",
       "side": 1,
       "message": "It is ok if the root value is used in more than one place. It\u0027s just the intermediate values that need to be used only once.",
+      "revId": "bbf8f2b48689665c114aa0e3f374a16dc26387ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "669a33e6_ec158f00",
+        "filename": "src/cmd/compile/internal/ssa/reassociate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 62691
+      },
+      "writtenOn": "2023-05-08T21:21:43Z",
+      "side": 1,
+      "message": "Nice catch. I\u0027ve updated it accordingly",
+      "parentUuid": "e1c049e2_af59f4d0",
       "revId": "bbf8f2b48689665c114aa0e3f374a16dc26387ab",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -132,6 +252,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "07283dcf_257bff85",
+        "filename": "src/cmd/compile/internal/ssa/reassociate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 62691
+      },
+      "writtenOn": "2023-05-08T21:21:43Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "44891a25_8ca28fe9",
+      "revId": "bbf8f2b48689665c114aa0e3f374a16dc26387ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b7b04444_0ad62cee",
@@ -145,6 +283,24 @@
       "writtenOn": "2023-05-08T15:17:02Z",
       "side": 1,
       "message": "Start the file with this function. It helps readers find the top-level doc comment easily.",
+      "revId": "bbf8f2b48689665c114aa0e3f374a16dc26387ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e64f1fc0_f2c6b2be",
+        "filename": "src/cmd/compile/internal/ssa/reassociate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 62691
+      },
+      "writtenOn": "2023-05-08T21:21:43Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "b7b04444_0ad62cee",
       "revId": "bbf8f2b48689665c114aa0e3f374a16dc26387ab",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -174,6 +330,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ce7052e9_19172f4d",
+        "filename": "src/cmd/compile/internal/ssa/reassociate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 62691
+      },
+      "writtenOn": "2023-05-08T21:21:43Z",
+      "side": 1,
+      "message": "If reassociate tries to rebalance in a deterministic fashion (i.e. pushing all constant expressions to one side, grouping common terms together, etc) then it helps expose optimizations such as (a + ... + a + ... + a) \u003d\u003e (3*a + ...), or (a + ..... (-a)) \u003d\u003e (0 + ....) that rewrite rules might struggle to find.\n\nIt also resolves/untangles dependencies between expressions and linearizes it so that if you wanted to vectorize it, do an easy CSE, or loop invariance analysis it makes things much more recognizable. With a bit of extra work it can also tell if an expression has all its uses within the parent expression which would allow:\n```\nx :\u003d a + a\ny :\u003d x + x\nz :\u003d y + b + c + d\n```\n\nto get optimized to something like:\n```\nz :\u003d 4*a + b + c + d\n```\n\nRight now it doesn\u0027t try to rebalance deterministically or do other analysis as it is mostly for ILP as Josh mentioned, but I thought I would document its other uses if others (or, more likely, I) wanted to pick this work up. Would a TODO be appropriate instead? I did mention it as a TODO on L121, but I can mention it again.\n\n\nTLDR; it does but not yet so document the possibility and no tests?",
+      "parentUuid": "ff35c364_0103f248",
+      "range": {
+        "startLine": 158,
+        "startChar": 3,
+        "endLine": 159,
+        "endChar": 49
+      },
+      "revId": "bbf8f2b48689665c114aa0e3f374a16dc26387ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1d6e6ab7_ee0464aa",
         "filename": "src/cmd/compile/internal/ssa/reassociate.go",
         "patchSetId": 4
@@ -185,6 +365,24 @@
       "writtenOn": "2023-05-08T15:17:02Z",
       "side": 1,
       "message": "Use f.newSparseSet. See other uses in this directory for examples.",
+      "revId": "bbf8f2b48689665c114aa0e3f374a16dc26387ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f92b099_725b28c7",
+        "filename": "src/cmd/compile/internal/ssa/reassociate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 62691
+      },
+      "writtenOn": "2023-05-08T21:21:43Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "1d6e6ab7_ee0464aa",
       "revId": "bbf8f2b48689665c114aa0e3f374a16dc26387ab",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -206,6 +404,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8665a9cd_2bb884d5",
+        "filename": "src/cmd/compile/internal/ssa/reassociate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 62691
+      },
+      "writtenOn": "2023-05-08T21:21:43Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "9b3fea73_9dd34a2e",
+      "revId": "bbf8f2b48689665c114aa0e3f374a16dc26387ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8abccc9d_255af5a9",
@@ -219,6 +435,24 @@
       "writtenOn": "2023-05-08T15:17:02Z",
       "side": 1,
       "message": "This seems pretty fragile, encoding exact registers used. In particular, I would have expected this code to be:\n  ADD R2, R3, R2\n  ADD R0, R1, R0\n  ADD R0, R2, R0\nWhich is also ok.\n\nAny way we can make this less fragile?",
+      "revId": "bbf8f2b48689665c114aa0e3f374a16dc26387ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "adfac7e5_00e2342a",
+        "filename": "test/codegen/reassociate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 62691
+      },
+      "writtenOn": "2023-05-08T21:21:43Z",
+      "side": 1,
+      "message": "Agreed it does seem to be fragile, it is a bit hard with the current test harness setup to guarantee that the expressions are balanced without referencing concrete registers. I\u0027m open to suggestions if there\u0027s a better way to test this other than codegen.\n\nAlso note that the test uses ADD R0, R1, R1 since I search operands in order from left to right rather than right to left, then rebalance backwards. (a + (b + (c + d))) turns into (c + d) + (b + a)\n\nThe only case I have for keeping it the way it is is that using 4 integers on ARM64 will make use of the register-based ABI so we have some guarantee that a-\u003eR0, b-\u003eR1, ... which I can document in case of test flaky-ness.",
+      "parentUuid": "8abccc9d_255af5a9",
       "revId": "bbf8f2b48689665c114aa0e3f374a16dc26387ab",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
