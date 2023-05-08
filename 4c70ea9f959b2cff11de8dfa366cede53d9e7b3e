@@ -71,6 +71,24 @@
       "parentUuid": "17bdfce6_f78df2b8",
       "revId": "4c70ea9f959b2cff11de8dfa366cede53d9e7b3e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7b6ec2f_80088e29",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-05-08T15:35:36Z",
+      "side": 1,
+      "message": "This also affects `go/types.TestStdlib`:\n```\n--- FAIL: TestStdlib (20.13s)\n    errors.go:279: /usr/local/google/home/bcmills/go-review/src/cmd/cgo/internal/swig_callback/callback_test.go:12:7: undefined: NewCaller\n    errors.go:279: /usr/local/google/home/bcmills/go-review/src/cmd/cgo/internal/swig_callback/callback_test.go:13:8: undefined: NewCallback\n    errors.go:279: /usr/local/google/home/bcmills/go-review/src/cmd/cgo/internal/swig_callback/callback_test.go:24:7: undefined: NewCaller\n    errors.go:279: /usr/local/google/home/bcmills/go-review/src/cmd/cgo/internal/swig_callback/callback_test.go:25:8: undefined: NewDirectorCallback\n    errors.go:279: /usr/local/google/home/bcmills/go-review/src/cmd/cgo/internal/swig_callback/callback_test.go:32:2: undefined: DeleteDirectorCallback\n    errors.go:279: /usr/local/google/home/bcmills/go-review/src/cmd/cgo/internal/swig_stdio/file_test.go:12:7: undefined: Fopen\n    errors.go:279: /usr/local/google/home/bcmills/go-review/src/cmd/cgo/internal/swig_stdio/file_test.go:16:5: undefined: Fgetc\n    errors.go:279: /usr/local/google/home/bcmills/go-review/src/cmd/cgo/internal/swig_stdio/file_test.go:16:24: undefined: Fgetc\n    errors.go:279: /usr/local/google/home/bcmills/go-review/src/cmd/cgo/internal/swig_stdio/file_test.go:16:43: undefined: Fgetc\n    errors.go:279: /usr/local/google/home/bcmills/go-review/src/cmd/cgo/internal/swig_stdio/file_test.go:16:62: undefined: Fgetc\n    errors.go:279: /usr/local/google/home/bcmills/go-review/src/cmd/cgo/internal/swig_stdio/file_test.go:19:5: undefined: Fclose\n    errors.go:279: /usr/local/google/home/bcmills/go-review/src/cmd/cgo/internal/swig_stdio/file_test.go:25:10: undefined: F\n    errors.go:279: /usr/local/google/home/bcmills/go-review/src/cmd/cgo/internal/testtls/tls_test.go:12:2: undefined: testTLS\nFAIL\nFAIL    go/types        28.423s\n```",
+      "parentUuid": "d342d84f_302cbf8c",
+      "revId": "4c70ea9f959b2cff11de8dfa366cede53d9e7b3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
