@@ -162,6 +162,24 @@
       "message": "TestStdlib may fail on longtest builders or Go developers testing this package without -short flag if these 3 packages aren\u0027t also excluded:\n\n```\n\"cmd/cgo/internal/swig_callback\": true, // undefined: NewCaller, NewCallback, NewDirectorCallback, DeleteDirectorCallback\n\"cmd/cgo/internal/swig_stdio\":    true, // undefined: Fopen, Fgetc, Fclose, F\n\"cmd/cgo/internal/testtls\":       true, // undefined: testTLS\n```\n\nI think `testtls` can be fixed trivially by adding `//go:build cgo \u0026\u0026 ...` in its `tls_test.go`, but the other two need SWIG to be available to be buildable from source. If you don\u0027t want to always exclude them then maybe it can work conditionally?\n\n```\n\"cmd/cgo/internal/swig_callback\": !hasSwig(),\n\"cmd/cgo/internal/swig_stdio\":    !hasSwig(),\n```\n\n(Same applies to the copy in cmd/compile/internal/types2.)",
       "revId": "7065c18cd3c5ee05fb53e71248984914c84868e1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1816f4a7_76344e34",
+        "filename": "src/go/types/stdlib_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-05-08T16:05:59Z",
+      "side": 1,
+      "message": "Added the cgo build tag to testtls.\n\nFor the swig tests, I\u0027m strongly leaning toward turning those into driver-style tests where we can hide the SWIG code in testdata. I\u0027ll give that a shot.",
+      "parentUuid": "d848c4a2_3da440e5",
+      "revId": "7065c18cd3c5ee05fb53e71248984914c84868e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
