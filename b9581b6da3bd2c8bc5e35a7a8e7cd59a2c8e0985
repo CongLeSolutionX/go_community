@@ -146,6 +146,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "791a2647_78c1be64",
+        "filename": "misc/cgo/test/issue9026.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-05-08T15:55:45Z",
+      "side": 1,
+      "message": "Done. (What year do we put? I just did 2023.)",
+      "parentUuid": "c223543a_22788f63",
+      "revId": "b9581b6da3bd2c8bc5e35a7a8e7cd59a2c8e0985",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "31dd417b_9146d716",
@@ -159,6 +177,30 @@
       "writtenOn": "2023-05-08T15:09:05Z",
       "side": 1,
       "message": "The alternate declaration of the variable in this file is in `misc/cgo/test/test_windows.go` — won\u0027t this cause a build failure on `plan9`?\n\n(Perhaps rename `test_windows.go` to `test_notunix.go` and use `//go:build unix` and `//go:build !unix` as the constraints?)",
+      "range": {
+        "startLine": 5,
+        "startChar": 20,
+        "endLine": 5,
+        "endChar": 29
+      },
+      "revId": "b9581b6da3bd2c8bc5e35a7a8e7cd59a2c8e0985",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a63f558c_d0c851a4",
+        "filename": "misc/cgo/test/test_unix.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-05-08T15:55:45Z",
+      "side": 1,
+      "message": "It winds up not mattering because the use of this variable is in test.go, which implicitly has a cgo build tag, and there\u0027s no cgo on Plan 9. Your renaming doesn\u0027t quite work because there\u0027s not even a syscall.Signal type on Plan 9, but I like using the unix tag better than what I have here, so I\u0027ve done that.",
+      "parentUuid": "31dd417b_9146d716",
       "range": {
         "startLine": 5,
         "startChar": 20,
