@@ -16,6 +16,52 @@
       "message": "This is clearly duplicating code from Linux. IMO we could be better off implementing `/proc/cpuinfo` parsing somehow and trivially enable our use case...",
       "revId": "9e2662858286adce050392a4c8017bec3e11026a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37684034_4af5b64c",
+        "filename": "src/internal/cpu/cpu_loong64.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2023-05-08T15:24:46Z",
+      "side": 1,
+      "message": "Is more than LOONG64_CPUCFG_REG0  \u003d 0 needed for this CL?",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 26
+      },
+      "revId": "9e2662858286adce050392a4c8017bec3e11026a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ffcf7804_64abbf9c",
+        "filename": "src/internal/cpu/cpu_loong64.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2023-05-08T15:24:46Z",
+      "side": 1,
+      "message": "seems unused",
+      "range": {
+        "startLine": 58,
+        "startChar": 1,
+        "endLine": 58,
+        "endChar": 18
+      },
+      "revId": "9e2662858286adce050392a4c8017bec3e11026a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
