@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ad5c250_b3344a18",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34360
+      },
+      "writtenOn": "2023-05-08T11:44:42Z",
+      "side": 1,
+      "message": "This is clearly duplicating code from Linux. IMO we could be better off implementing `/proc/cpuinfo` parsing somehow and trivially enable our use case...",
+      "revId": "9e2662858286adce050392a4c8017bec3e11026a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
