@@ -164,6 +164,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3583f20e_24b2cc75",
+        "filename": "misc/cgo/test/issue9026.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-05-08T21:25:08Z",
+      "side": 1,
+      "message": "2023 seems fine. You could also look up what year the original file was committed and use that. 🤷‍♂️",
+      "parentUuid": "791a2647_78c1be64",
+      "revId": "b9581b6da3bd2c8bc5e35a7a8e7cd59a2c8e0985",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "31dd417b_9146d716",
