@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4014bd12_391c919a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34360
+      },
+      "writtenOn": "2023-05-08T11:42:07Z",
+      "side": 1,
+      "message": "TRY\u003dloong64",
+      "revId": "2fbfb37ccee76daa0c7cd133c9e1846313570e84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26c37256_a6d72ada",
+        "filename": "src/cmd/internal/obj/loong64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1997,
+      "author": {
+        "id": 34360
+      },
+      "writtenOn": "2023-05-08T11:42:07Z",
+      "side": 1,
+      "message": "`andi`\u0027s encoding is not the same as the others (in https://github.com/loongson-community/loongarch-opcodes jargon: `DJUk12` is clearly not `Ud15`), do we want to pretend they\u0027re the same here?\n\nBut, all of this will go away in the go1.22 cycle, so I\u0027d kind of approve leaving it as-is too. What do others think?",
+      "range": {
+        "startLine": 1995,
+        "startChar": 1,
+        "endLine": 1997,
+        "endChar": 19
+      },
+      "revId": "2fbfb37ccee76daa0c7cd133c9e1846313570e84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
