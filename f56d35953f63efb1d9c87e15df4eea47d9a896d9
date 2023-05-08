@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "968f42f0_0587cfcc",
+        "filename": "src/internal/fuzz/fuzz.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1101,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-05-08T14:42:00Z",
+      "side": 1,
+      "message": "This changes a slice that performs no init-time work to a map allocation that does substantial work (compare #2559).\n\nThe right time to add that overhead is in the same CL where it is actually used — that will make it easier to see whether and why the overhead is justified, and easier to consider alternatives that achieve the same goals.",
+      "range": {
+        "startLine": 1077,
+        "startChar": 0,
+        "endLine": 1101,
+        "endChar": 3
+      },
+      "revId": "f56d35953f63efb1d9c87e15df4eea47d9a896d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
