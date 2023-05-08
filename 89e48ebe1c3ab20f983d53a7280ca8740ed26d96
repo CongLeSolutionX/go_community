@@ -16,6 +16,24 @@
       "message": "What if we did\n\ntype rtype \u003d abi.Type\n\nhere?\nThat might let you get rid of the casts you had to add.",
       "revId": "89e48ebe1c3ab20f983d53a7280ca8740ed26d96",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7c5442d_07197296",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-05-08T18:08:12Z",
+      "side": 0,
+      "message": "That doesn\u0027t work; it would leak methods of internal/abi.Type to reflect.Type.\nAs it stands, we have an internal tool that sees this and doesn\u0027t like it (so we may need to revert, refactor all into a single CL, and try it as one large, though it\u0027s also likely that the internal tool could be taught that \"internal\" is not public).\n\n\nThe goal, done as the last CL in stack of several, is to use\n```\ntype rtype struct {\n\tt *abi.Type\n}\n```\nwhich has the same bit representation and also encodes efficiently into an interface.  This gets rid of all the icky casts, and also (in the end) makes it so that reflect.Type has only a single implementation (perhaps someday we will handle that as a special case and gain a little effiency).",
+      "parentUuid": "16b122ea_636b454b",
+      "revId": "89e48ebe1c3ab20f983d53a7280ca8740ed26d96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
