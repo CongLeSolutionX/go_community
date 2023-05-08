@@ -8,6 +8,8 @@ import (
 	"internal/abi"
 	"internal/cpu"
 	"internal/goarch"
+	"internal/goexperiment"
+	"internal/goos"
 	"runtime/internal/atomic"
 	"runtime/internal/sys"
 	"unsafe"
@@ -882,6 +884,20 @@ func (mp *m) hasCgoOnStack() bool {
 	return mp.ncgo > 0 || mp.isextra
 }
 
+const (
+	// osHasLowResTimer indicates that the platform's internal timer system has a low resolution,
+	// typically on the order of 1 ms or more.
+	osHasLowResTimer = GOOS == "windows" || GOOS == "openbsd" || GOOS == "netbsd"
+
+	// osHasLowResClockInt is osHasLowResClock but in integer form, so it can be used to create
+	// constants conditionally.
+	osHasLowResClockInt = goos.IsWindows
+
+	// osHasLowResClock indicates that timestamps produced by nanotime on the platform have a
+	// low resolution, typically on the order of 1 ms or more.
+	osHasLowResClock = osHasLowResClockInt > 0
+)
+
 var fastrandseed uintptr
 
 func fastrandinit() {
@@ -1273,7 +1289,10 @@ func stopTheWorld(reason stwReason) {
 		// must have preempted all goroutines, including any attempting
 		// to scan our stack, in which case, any stack shrinking will
 		// have already completed by the time we exit.
-		// Don't provide a wait reason because we're still executing.
+		//
+		// N.B. The execution tracer is not aware of this status
+		// transition and handles it specially based on the
+		// wait reason.
 		casGToWaiting(gp, _Grunning, waitReasonStoppingTheWorld)
 		stopTheWorldWithSema(reason)
 		casgstatus(gp, _Gwaiting, _Grunning)
@@ -1380,7 +1399,7 @@ func stopTheWorldWithSema(reason stwReason) {
 		if s == _Psyscall && atomic.Cas(&pp.status, s, _Pgcstop) {
 			if trace.ok() {
 				trace.GoSysBlock(pp)
-				trace.ProcStop(pp)
+				trace.ProcSteal(pp)
 			}
 			pp.syscalltick++
 			sched.stopwait--
@@ -1701,6 +1720,8 @@ func mexit(osStack bool) {
 	}
 	throw("m not found in allm")
 found:
+	// Events must not be traced after this point.
+
 	// Delay reaping m until it's done with the stack.
 	//
 	// Put mp on the free list, though it will not be reaped while freeWait
@@ -1710,6 +1731,9 @@ found:
 	//
 	// Note that the free list must not be linked through alllink because
 	// some functions walk allm without locking, so may be using alllink.
+	//
+	// N.B. It's important that the M appears on the free list simultaneously
+	// with it being removed so that the tracer can find it.
 	mp.freeWait.Store(freeMWait)
 	mp.freelink = sched.freem
 	sched.freem = mp
@@ -1833,20 +1857,24 @@ func forEachPInternal(fn func(*p)) {
 
 	// Force Ps currently in _Psyscall into _Pidle and hand them
 	// off to induce safe point function execution.
-	trace := traceAcquire()
 	for _, p2 := range allp {
 		s := p2.status
+
+		// We need to be fine-grained about tracing here, since handoffp
+		// might call into the tracer, and the tracer is non-reentrant.
+		trace := traceAcquire()
 		if s == _Psyscall && p2.runSafePointFn == 1 && atomic.Cas(&p2.status, s, _Pidle) {
 			if trace.ok() {
+				// It's important that we traceRelease before we call handoffp, which may also traceAcquire.
 				trace.GoSysBlock(p2)
-				trace.ProcStop(p2)
+				trace.ProcSteal(p2)
+				traceRelease(trace)
 			}
 			p2.syscalltick++
 			handoffp(p2)
+		} else if trace.ok() {
+			traceRelease(trace)
 		}
-	}
-	if trace.ok() {
-		traceRelease(trace)
 	}
 
 	// Wait for remaining Ps to run fn.
@@ -1945,6 +1973,7 @@ func allocm(pp *p, fn func(), id int64) *m {
 		lock(&sched.lock)
 		var newList *m
 		for freem := sched.freem; freem != nil; {
+			// Wait for freeWait to indicate that freem's stack is unused.
 			wait := freem.freeWait.Load()
 			if wait == freeMWait {
 				next := freem.freelink
@@ -1952,6 +1981,12 @@ func allocm(pp *p, fn func(), id int64) *m {
 				newList = freem
 				freem = next
 				continue
+			}
+			// Drop any remaining trace resources.
+			// Ms can continue to emit events all the way until wait != freeMWait,
+			// so it's only safe to call traceThreadDestroy at this point.
+			if traceEnabled() || traceShuttingDown() {
+				traceThreadDestroy(freem)
 			}
 			// Free the stack if needed. For freeMRef, there is
 			// nothing to do except drop freem from the sched.freem
@@ -2903,8 +2938,8 @@ func execute(gp *g, inheritTime bool) {
 	if trace.ok() {
 		// GoSysExit has to happen when we have a P, but before GoStart.
 		// So we emit it here.
-		if gp.syscallsp != 0 {
-			trace.GoSysExit()
+		if !goexperiment.ExecTracer2 && gp.syscallsp != 0 {
+			trace.GoSysExit(true)
 		}
 		trace.GoStart()
 		traceRelease(trace)
@@ -4075,7 +4110,7 @@ func save(pc, sp uintptr) {
 // must always point to a valid stack frame. entersyscall below is the normal
 // entry point for syscalls, which obtains the SP and PC from the caller.
 //
-// Syscall tracing:
+// Syscall tracing (old tracer):
 // At the start of a syscall we emit traceGoSysCall to capture the stack trace.
 // If the syscall does not block, that is it, we do not emit any other events.
 // If the syscall blocks (that is, P is retaken), retaker emits traceGoSysBlock;
@@ -4185,6 +4220,8 @@ func entersyscall_gcwait() {
 		trace := traceAcquire()
 		if trace.ok() {
 			trace.GoSysBlock(pp)
+			// N.B. ProcSteal not necessary because if we succeed we're
+			// always stopping the P we just put into the syscall status.
 			trace.ProcStop(pp)
 			traceRelease(trace)
 		}
@@ -4285,11 +4322,23 @@ func exitsyscall() {
 		}
 		trace := traceAcquire()
 		if trace.ok() {
-			if oldp != gp.m.p.ptr() || gp.m.syscalltick != gp.m.p.ptr().syscalltick {
-				systemstack(func() {
+			lostP := oldp != gp.m.p.ptr() || gp.m.syscalltick != gp.m.p.ptr().syscalltick
+			systemstack(func() {
+				if goexperiment.ExecTracer2 {
+					// Write out syscall exit eagerly in the experiment.
+					//
+					// It's important that we write this *after* we know whether we
+					// lost our P or not (determined by exitsyscallfast).
+					trace.GoSysExit(lostP)
+				}
+				if lostP {
+					// We lost the P at some point, even though we got it back here.
+					// Trace that we're starting again, because there was a traceGoSysBlock
+					// call somewhere in exitsyscallfast (indicating that this goroutine
+					// had blocked) and we're about to start running again.
 					trace.GoStart()
-				})
-			}
+				}
+			})
 		}
 		// There's a cpu for us, so we can run.
 		gp.m.p.ptr().syscalltick++
@@ -4320,19 +4369,21 @@ func exitsyscall() {
 		return
 	}
 
-	trace := traceAcquire()
-	if trace.ok() {
-		// Wait till traceGoSysBlock event is emitted.
-		// This ensures consistency of the trace (the goroutine is started after it is blocked).
-		for oldp != nil && oldp.syscalltick == gp.m.syscalltick {
-			osyield()
+	if !goexperiment.ExecTracer2 {
+		trace := traceAcquire()
+		if trace.ok() {
+			// Wait till traceGoSysBlock event is emitted.
+			// This ensures consistency of the trace (the goroutine is started after it is blocked).
+			for oldp != nil && oldp.syscalltick == gp.m.syscalltick {
+				osyield()
+			}
+			// We can't trace syscall exit right now because we don't have a P.
+			// Tracing code can invoke write barriers that cannot run without a P.
+			// So instead we remember the syscall exit time and emit the event
+			// in execute when we have a P.
+			gp.trace.sysExitTime = traceClockNow()
+			traceRelease(trace)
 		}
-		// We can't trace syscall exit right now because we don't have a P.
-		// Tracing code can invoke write barriers that cannot run without a P.
-		// So instead we remember the syscall exit time and emit the event
-		// in execute when we have a P.
-		gp.trace.sysExitTime = traceClockNow()
-		traceRelease(trace)
 	}
 
 	gp.m.locks--
@@ -4373,7 +4424,7 @@ func exitsyscallfast(oldp *p) bool {
 		var ok bool
 		systemstack(func() {
 			ok = exitsyscallfast_pidle()
-			if ok {
+			if ok && !goexperiment.ExecTracer2 {
 				trace := traceAcquire()
 				if trace.ok() {
 					if oldp != nil {
@@ -4383,7 +4434,9 @@ func exitsyscallfast(oldp *p) bool {
 							osyield()
 						}
 					}
-					trace.GoSysExit()
+					// In the experiment, we write this in exitsyscall.
+					// Don't write it here unless the experiment is off.
+					trace.GoSysExit(true)
 					traceRelease(trace)
 				}
 			}
@@ -4409,10 +4462,17 @@ func exitsyscallfast_reacquired() {
 			// traceGoSysBlock for this syscall was already emitted,
 			// but here we effectively retake the p from the new syscall running on the same p.
 			systemstack(func() {
-				// Denote blocking of the new syscall.
-				trace.GoSysBlock(gp.m.p.ptr())
-				// Denote completion of the current syscall.
-				trace.GoSysExit()
+				if goexperiment.ExecTracer2 {
+					// In the experiment, we're stealing the P. It's treated
+					// as if it temporarily stopped running. Then, start running.
+					trace.ProcSteal(gp.m.p.ptr())
+					trace.ProcStart()
+				} else {
+					// Denote blocking of the new syscall.
+					trace.GoSysBlock(gp.m.p.ptr())
+					// Denote completion of the current syscall.
+					trace.GoSysExit(true)
+				}
 				traceRelease(trace)
 			})
 		}
@@ -4442,7 +4502,23 @@ func exitsyscallfast_pidle() bool {
 //
 //go:nowritebarrierrec
 func exitsyscall0(gp *g) {
+	var trace traceLocker
+	if goexperiment.ExecTracer2 {
+		traceExitingSyscall()
+		trace = traceAcquire()
+	}
 	casgstatus(gp, _Gsyscall, _Grunnable)
+	if goexperiment.ExecTracer2 {
+		traceExitedSyscall()
+		if trace.ok() {
+			// Write out syscall exit eagerly in the experiment.
+			//
+			// It's important that we write this *after* we know whether we
+			// lost our P or not (determined by exitsyscallfast).
+			trace.GoSysExit(true)
+			traceRelease(trace)
+		}
+	}
 	dropg()
 	lock(&sched.lock)
 	var pp *p
@@ -4693,6 +4769,7 @@ func newproc1(fn *funcval, callergp *g, callerpc uintptr) *g {
 	}
 	newg.goid = pp.goidcache
 	pp.goidcache++
+	newg.trace.reset()
 	if trace.ok() {
 		trace.GoCreate(newg, newg.startpc)
 		traceRelease(trace)
@@ -5125,14 +5202,16 @@ func sigprof(pc, sp, lr uintptr, gp *g, mp *m) {
 		cpuprof.add(tagPtr, stk[:n])
 
 		gprof := gp
+		var mp *m
 		var pp *p
 		if gp != nil && gp.m != nil {
 			if gp.m.curg != nil {
 				gprof = gp.m.curg
 			}
+			mp = gp.m
 			pp = gp.m.p.ptr()
 		}
-		traceCPUSample(gprof, pp, stk[:n])
+		traceCPUSample(gprof, mp, pp, stk[:n])
 	}
 	getg().m.mallocing--
 }
@@ -5501,6 +5580,16 @@ func wirep(pp *p) {
 
 // Disassociate p and the current m.
 func releasep() *p {
+	trace := traceAcquire()
+	if trace.ok() {
+		trace.ProcStop(getg().m.p.ptr())
+		traceRelease(trace)
+	}
+	return releasepNoTrace()
+}
+
+// Disassociate p and the current m without tracing an event.
+func releasepNoTrace() *p {
 	gp := getg()
 
 	if gp.m.p == 0 {
@@ -5510,11 +5599,6 @@ func releasep() *p {
 	if pp.m.ptr() != gp.m || pp.status != _Prunning {
 		print("releasep: m=", gp.m, " m->p=", gp.m.p.ptr(), " p->m=", hex(pp.m), " p->status=", pp.status, "\n")
 		throw("releasep: invalid p state")
-	}
-	trace := traceAcquire()
-	if trace.ok() {
-		trace.ProcStop(gp.m.p.ptr())
-		traceRelease(trace)
 	}
 	gp.m.p = 0
 	pp.m = 0
@@ -5864,7 +5948,7 @@ func retake(now int64) uint32 {
 				trace := traceAcquire()
 				if trace.ok() {
 					trace.GoSysBlock(pp)
-					trace.ProcStop(pp)
+					trace.ProcSteal(pp)
 					traceRelease(trace)
 				}
 				n++
@@ -6536,7 +6620,7 @@ func runqgrab(pp *p, batch *[256]guintptr, batchHead uint32, stealRunNextG bool)
 						// between different Ps.
 						// A sync chan send/recv takes ~50ns as of time of
 						// writing, so 3us gives ~50x overshoot.
-						if GOOS != "windows" && GOOS != "openbsd" && GOOS != "netbsd" {
+						if !osHasLowResTimer {
 							usleep(3)
 						} else {
 							// On some platforms system timer granularity is

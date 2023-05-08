@@ -603,11 +603,32 @@ var depsRules = `
 	syscall
 	< os/exec/internal/fdtest;
 
+	FMT
+	< internal/diff, internal/txtar;
+
 	FMT, container/heap, math/rand
 	< internal/trace;
 
 	FMT
-	< internal/diff, internal/txtar;
+	< internal/trace/v2/internal/event;
+
+	internal/trace/v2/internal/event
+	< internal/trace/v2/internal/event/go122;
+
+	FMT, io, internal/trace/v2/internal/event/go122
+	< internal/trace/v2/internal/version;
+
+	FMT, encoding/binary, internal/trace/v2/internal/version
+	< internal/trace/v2/internal/raw;
+
+	FMT, encoding/binary, internal/trace/v2/internal/version
+	< internal/trace/v2;
+
+	regexp, internal/trace/v2
+	< internal/trace/v2/internal/testtrace;
+
+	regexp, internal/txtar, internal/trace/v2, internal/trace/v2/internal/raw
+	< internal/trace/v2/internal/testgen/go122;
 
 	FMT, crypto/md5, encoding/binary, regexp, sort, text/tabwriter, unsafe,
 	internal/coverage, internal/coverage/uleb128

@@ -116,4 +116,8 @@ type Flags struct {
 
 	// Range enables range over int and func.
 	Range bool
+
+	// ExecTracer2 controls whether to use the new execution trace
+	// implementation.
+	ExecTracer2 bool
 }
