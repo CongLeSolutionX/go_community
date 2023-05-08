@@ -1,0 +1,226 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13c7016a_ba9619c7",
+        "filename": "src/cmd/compile/internal/ssa/reassociate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-05-08T15:17:02Z",
+      "side": 1,
+      "message": "This might be easier if you just forget about the original nodes, except for the root one.\nJust build a binary tree from all the leaves. The old nodes will be removed by deadcode.",
+      "revId": "bbf8f2b48689665c114aa0e3f374a16dc26387ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e05f0359_6e4cc3df",
+        "filename": "src/cmd/compile/internal/ssa/reassociate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-05-08T15:17:02Z",
+      "side": 1,
+      "message": "This file needs gofmt-ing, there is a bunch of extraneous whitespace.",
+      "revId": "bbf8f2b48689665c114aa0e3f374a16dc26387ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03a92b75_6a06762c",
+        "filename": "src/cmd/compile/internal/ssa/reassociate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-05-08T15:17:02Z",
+      "side": 1,
+      "message": "Is this still a problem with the new memcombine pass?\nI think it should handle reassociation just fine.\n\nhttps://go-review.googlesource.com/c/go/+/478475",
+      "revId": "bbf8f2b48689665c114aa0e3f374a16dc26387ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b97251c_20e62a64",
+        "filename": "src/cmd/compile/internal/ssa/reassociate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-05-08T15:17:02Z",
+      "side": 1,
+      "message": "v3 isn\u0027t defined here. Maybe do\n\nv1:(a + v2:(b + v3:(c + d))\n\nabove",
+      "range": {
+        "startLine": 100,
+        "startChar": 60,
+        "endLine": 100,
+        "endChar": 62
+      },
+      "revId": "bbf8f2b48689665c114aa0e3f374a16dc26387ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4030498_e941f8a9",
+        "filename": "src/cmd/compile/internal/ssa/reassociate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-05-08T15:17:02Z",
+      "side": 1,
+      "message": "what is \"log math\"?",
+      "range": {
+        "startLine": 110,
+        "startChar": 75,
+        "endLine": 110,
+        "endChar": 83
+      },
+      "revId": "bbf8f2b48689665c114aa0e3f374a16dc26387ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1c049e2_af59f4d0",
+        "filename": "src/cmd/compile/internal/ssa/reassociate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-05-08T15:17:02Z",
+      "side": 1,
+      "message": "It is ok if the root value is used in more than one place. It\u0027s just the intermediate values that need to be used only once.",
+      "revId": "bbf8f2b48689665c114aa0e3f374a16dc26387ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44891a25_8ca28fe9",
+        "filename": "src/cmd/compile/internal/ssa/reassociate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-05-08T15:17:02Z",
+      "side": 1,
+      "message": "This seems overly complicated. Can\u0027t we just keep appending to the haystack slice and keep an integer which is our search position?\nSee, e.g., the BFS in memcombine.go:memcombineLoads",
+      "revId": "bbf8f2b48689665c114aa0e3f374a16dc26387ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7b04444_0ad62cee",
+        "filename": "src/cmd/compile/internal/ssa/reassociate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-05-08T15:17:02Z",
+      "side": 1,
+      "message": "Start the file with this function. It helps readers find the top-level doc comment easily.",
+      "revId": "bbf8f2b48689665c114aa0e3f374a16dc26387ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff35c364_0103f248",
+        "filename": "src/cmd/compile/internal/ssa/reassociate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-05-08T15:17:02Z",
+      "side": 1,
+      "message": "My understanding was this was just to improve ILP. What are these other benefits? Can you write some tests for those?",
+      "range": {
+        "startLine": 158,
+        "startChar": 3,
+        "endLine": 159,
+        "endChar": 49
+      },
+      "revId": "bbf8f2b48689665c114aa0e3f374a16dc26387ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d6e6ab7_ee0464aa",
+        "filename": "src/cmd/compile/internal/ssa/reassociate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-05-08T15:17:02Z",
+      "side": 1,
+      "message": "Use f.newSparseSet. See other uses in this directory for examples.",
+      "revId": "bbf8f2b48689665c114aa0e3f374a16dc26387ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b3fea73_9dd34a2e",
+        "filename": "src/cmd/compile/internal/ssa/reassociate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-05-08T15:17:02Z",
+      "side": 1,
+      "message": "This is unnecessary, visitied is about to go dead.",
+      "revId": "bbf8f2b48689665c114aa0e3f374a16dc26387ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8abccc9d_255af5a9",
+        "filename": "test/codegen/reassociate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-05-08T15:17:02Z",
+      "side": 1,
+      "message": "This seems pretty fragile, encoding exact registers used. In particular, I would have expected this code to be:\n  ADD R2, R3, R2\n  ADD R0, R1, R0\n  ADD R0, R2, R0\nWhich is also ok.\n\nAny way we can make this less fragile?",
+      "revId": "bbf8f2b48689665c114aa0e3f374a16dc26387ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
