@@ -90,6 +90,11 @@ func TestIntendedInlining(t *testing.T) {
 			"(*puintptr).set",
 			"(*wbBuf).get1",
 			"(*wbBuf).get2",
+
+			// Trace-related ones.
+			"traceAcquire",
+			"(*traceLocker).ok",
+			"traceEnabled",
 		},
 		"runtime/internal/sys": {},
 		"runtime/internal/math": {
