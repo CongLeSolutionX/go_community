@@ -2,6 +2,8 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+//go:build !goexperiment.exectracer2
+
 // Go execution tracer.
 // The tracer captures a wide range of execution events like goroutine
 // creation/blocking/unblocking, syscall enter/exit/block, GC-related events,
@@ -194,9 +196,13 @@ var trace struct {
 type gTraceState struct {
 	sysExitTime        traceTime // timestamp when syscall has returned
 	tracedSyscallEnter bool      // syscall or cgo was entered while trace was enabled or StartTrace has emitted EvGoInSyscall about this goroutine
+	inMarkAssist       bool      // unused; for compatibility with new tracer
 	seq                uint64    // trace event sequencer
 	lastP              puintptr  // last P emitted an event for this goroutine
 }
+
+// Unused; for compatibility with the new tracer.
+func (s *gTraceState) reset() {}
 
 // mTraceState is per-M state for the tracer.
 type mTraceState struct {
@@ -770,6 +776,13 @@ func traceProcFree(pp *p) {
 	unlock(&trace.lock)
 }
 
+// ThreadDestroy is a no-op. It exists as a stub to support the new tracer.
+//
+// This must run on the system stack, just to match the new tracer.
+func traceThreadDestroy(_ *m) {
+	// No-op in old tracer.
+}
+
 // traceFullQueue queues buf into queue of full buffers.
 func traceFullQueue(buf traceBufPtr) {
 	buf.ptr().link = 0
@@ -902,7 +915,7 @@ func traceEventLocked(extraBytes int, mp *m, pid int32, bufp *traceBufPtr, ev by
 // traceCPUSample writes a CPU profile sample stack to the execution tracer's
 // profiling buffer. It is called from a signal handler, so is limited in what
 // it can do.
-func traceCPUSample(gp *g, pp *p, stk []uintptr) {
+func traceCPUSample(gp *g, _ *m, pp *p, stk []uintptr) {
 	if !traceEnabled() {
 		// Tracing is usually turned off; don't spend time acquiring the signal
 		// lock unless it's active.
@@ -1702,7 +1715,10 @@ func (_ traceLocker) GoSysCall() {
 	traceEvent(traceEvGoSysCall, skip)
 }
 
-func (_ traceLocker) GoSysExit() {
+func (_ traceLocker) GoSysExit(lostP bool) {
+	if !lostP {
+		throw("lostP must always be true in the old tracer for GoSysExit")
+	}
 	gp := getg().m.curg
 	if !gp.trace.tracedSyscallEnter {
 		// There was no syscall entry traced for us at all, so there's definitely
@@ -1738,6 +1754,10 @@ func (_ traceLocker) GoSysBlock(pp *p) {
 	traceEvent(traceEvGoSysBlock, -1)
 	mp.p = oldp
 	releasem(mp)
+}
+
+func (t traceLocker) ProcSteal(pp *p) {
+	t.ProcStop(pp)
 }
 
 func (_ traceLocker) HeapAlloc(live uint64) {
@@ -1858,6 +1878,14 @@ func (tl traceLocker) OneNewExtraM(gp *g) {
 	traceEvent(traceEvGoInSyscall, -1, gp.goid)
 }
 
+// Used only in the new tracer.
+func (tl traceLocker) GoCreateSyscall(gp *g) {
+}
+
+// Used only in the new tracer.
+func (tl traceLocker) GoDestroySyscall() {
+}
+
 // traceTime represents a timestamp for the trace.
 type traceTime uint64
 
@@ -1871,3 +1899,12 @@ type traceTime uint64
 func traceClockNow() traceTime {
 	return traceTime(cputicks() / traceTimeDiv)
 }
+
+func traceExitingSyscall() {
+}
+
+func traceExitedSyscall() {
+}
+
+// Not used in the old tracer. Defined for compatibility.
+const defaultTraceAdvancePeriod = 0

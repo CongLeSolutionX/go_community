@@ -572,6 +572,7 @@ type m struct {
 	incgo         bool          // m is executing a cgo call
 	isextra       bool          // m is an extra m
 	isExtraInC    bool          // m is an extra m that is not executing Go code
+	isExtraInSig  bool          // m is an extra m in a signal handler
 	freeWait      atomic.Uint32 // Whether it is safe to free g0 and delete m (one of freeMRef, freeMStack, freeMWait)
 	fastrand      uint64
 	needextram    bool
@@ -1113,6 +1114,8 @@ const (
 	waitReasonGCMarkTermination                       // "GC mark termination"
 	waitReasonStoppingTheWorld                        // "stopping the world"
 	waitReasonFlushProcCaches                         // "flushing proc caches"
+	waitReasonTraceGoroutineStatus                    // "trace goroutine status"
+	waitReasonTraceProcStatus                         // "trace proc status"
 )
 
 var waitReasonStrings = [...]string{
@@ -1149,6 +1152,8 @@ var waitReasonStrings = [...]string{
 	waitReasonGCMarkTermination:     "GC mark termination",
 	waitReasonStoppingTheWorld:      "stopping the world",
 	waitReasonFlushProcCaches:       "flushing proc caches",
+	waitReasonTraceGoroutineStatus:  "trace goroutine status",
+	waitReasonTraceProcStatus:       "trace proc status",
 }
 
 func (w waitReason) String() string {
