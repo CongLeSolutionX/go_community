@@ -39,6 +39,30 @@
       },
       "revId": "e336aad3cd2f492916a5ae29c728b9a7e0bc44e2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "60f6d0c7_9974a01f",
+        "filename": "src/cmd/go/internal/modload/query.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 52385
+      },
+      "writtenOn": "2023-05-09T18:27:32Z",
+      "side": 1,
+      "message": "Rollback. Thank you for catching the error and the explanation!!",
+      "parentUuid": "286ba9c4_445242e4",
+      "range": {
+        "startLine": 372,
+        "startChar": 40,
+        "endLine": 372,
+        "endChar": 47
+      },
+      "revId": "e336aad3cd2f492916a5ae29c728b9a7e0bc44e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
