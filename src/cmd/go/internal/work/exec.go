@@ -449,6 +449,7 @@ const (
 	needCgoHdr
 	needVet
 	needCompiledGoFiles
+	needCovMetaFile
 	needStale
 )
 
@@ -468,6 +469,7 @@ func (b *Builder) build(ctx context.Context, a *Action) (err error) {
 	need := bit(needBuild, !b.IsCmdList && a.needBuild || b.NeedExport) |
 		bit(needCgoHdr, b.needCgoHdr(a)) |
 		bit(needVet, a.needVet) |
+		bit(needCovMetaFile, genCovMetaFile(a)) |
 		bit(needCompiledGoFiles, b.NeedCompiledGoFiles)
 
 	if !p.BinaryOnly {
@@ -549,6 +551,14 @@ func (b *Builder) build(ctx context.Context, a *Action) (err error) {
 	if cachedBuild && need&needCgoHdr != 0 {
 		if err := b.loadCachedCgoHdr(a); err == nil {
 			need &^= needCgoHdr
+		}
+	}
+
+	// Load cached coverage meta-data file fragment, but only if we're
+	// skipping the main build (cachedBuild==true).
+	if cachedBuild && need&needCovMetaFile != 0 {
+		if err := b.loadCachedCovMetaFile(a); err == nil {
+			need &^= needCovMetaFile
 		}
 	}
 
@@ -691,6 +701,15 @@ OverlayLoop:
 				if mode == "" {
 					panic("covermode should be set at this point")
 				}
+				if genCovMetaFile(a) {
+					// Create a subdirectory within the compile action
+					// objdir, into which the cover tool will deposit
+					// the meta-data file.
+					cdir := CovMetaDestDir(a)
+					if err := b.Mkdir(cdir); err != nil {
+						return err
+					}
+				}
 				if newoutfiles, err := b.cover2(a, infiles, outfiles, coverVar, mode); err != nil {
 					return err
 				} else {
@@ -704,6 +723,9 @@ OverlayLoop:
 				// the empty string so as to signal that we need to do
 				// that.
 				p.Internal.CoverMode = ""
+			}
+			if genCovMetaFile(a) {
+				b.cacheCovMetaFile(a)
 			}
 		}
 	}
@@ -2070,6 +2092,9 @@ func (b *Builder) writeCoverPkgInputs(a *Action, pconfigfile string, covoutputsf
 		OutConfig:   p.Internal.CoverageCfg,
 		Local:       p.Internal.Local,
 	}
+	if genCovMetaFile(a) {
+		pcfg.EmitMetaFile = covMetaDestPath(a)
+	}
 	if a.Package.Module != nil {
 		pcfg.ModulePath = a.Package.Module.Path
 	}
@@ -2077,6 +2102,7 @@ func (b *Builder) writeCoverPkgInputs(a *Action, pconfigfile string, covoutputsf
 	if err != nil {
 		return err
 	}
+	data = append(data, '\n')
 	if err := b.writeFile(pconfigfile, data); err != nil {
 		return err
 	}
