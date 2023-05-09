@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4612805_445ab74b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-05-09T15:35:51Z",
+      "side": 1,
+      "message": "TRY\u003dlongtest,windows-amd64-longtest",
+      "revId": "e336aad3cd2f492916a5ae29c728b9a7e0bc44e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "286ba9c4_445242e4",
+        "filename": "src/cmd/go/internal/modload/query.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-05-09T15:35:51Z",
+      "side": 1,
+      "message": "“statting” is correct here. (The root verb is “stat”, as in `repo.Stat` — “stating” would be for the verb “state”.)",
+      "range": {
+        "startLine": 372,
+        "startChar": 40,
+        "endLine": 372,
+        "endChar": 47
+      },
+      "revId": "e336aad3cd2f492916a5ae29c728b9a7e0bc44e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
