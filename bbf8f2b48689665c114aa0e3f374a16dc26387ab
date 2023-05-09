@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5ef484df_6382ceb4",
+        "filename": "src/cmd/compile/internal/ssa/reassociate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-05-09T16:32:21Z",
+      "side": 1,
+      "message": "I\u0027m not sure there\u0027s any general way to keep the block of the nodes.\n\nv1:(x + v2:(y + v3:(z + w)))\n\nb1:\n  v3: z+w\n  v2: y+v3\nb2:\n  v1: x+v2\n\nIf you\u0027re going to reassociate to (x+y)+(z+w), then we can\u0027t have anything but v3 in b1. If we reuse v2 to do (x+y), it needs to move to b2.",
+      "parentUuid": "745839da_f77c304b",
+      "revId": "bbf8f2b48689665c114aa0e3f374a16dc26387ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e05f0359_6e4cc3df",
         "filename": "src/cmd/compile/internal/ssa/reassociate.go",
         "patchSetId": 4
@@ -102,6 +120,24 @@
       "side": 1,
       "message": "It appears that it is still a problem.\n\nmemcombine looks for a zero extension in the first argument to an or, and then a sub-expression that is also an or. Once the tree gets balanced however, all sub-expressions that aren\u0027t leaves are ors.\n\n\nI think that a) we should probably fix the problem in memcombine so that it can handle reassociate and b) keep this check in since balanceExprTree would get called a whole lot when it doesn\u0027t need to be otherwise. \n\nAlso, this heuristic is good enough, but wouldn\u0027t handle something odd like:\n```\nexprToMemcombine :\u003d l[0] | l[1] \u003c\u003c 8 | l[2] \u003c\u003c 16 | l[3] \u003c\u003c 24\nbitwiseAndLoad :\u003d a | b | c | d | e | exprToMemcombine\n```\n\nreassociate needs to run very early on to be helpful, so I don\u0027t think moving it after memcombine is a good idea either.",
       "parentUuid": "03a92b75_6a06762c",
+      "revId": "bbf8f2b48689665c114aa0e3f374a16dc26387ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc9c1061_896e3d98",
+        "filename": "src/cmd/compile/internal/ssa/reassociate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-05-09T16:32:21Z",
+      "side": 1,
+      "message": "\u003e memcombine looks for a zero extension in the first argument to an or, and then a sub-expression that is also an or. Once the tree gets balanced however, all sub-expressions that aren\u0027t leaves are ors.\n\nI see. I will try to fix that.\n\n\u003e Also, this heuristic is good enough, but wouldn\u0027t handle something odd like:\n\u003e \n\u003e exprToMemcombine :\u003d l[0] | l[1] \u003c\u003c 8 | l[2] \u003c\u003c 16 | l[3] \u003c\u003c 24\n\u003e bitwiseAndLoad :\u003d a | b | c | d | e | exprToMemcombine\n\nThat\u0027s a good point. We don\u0027t want to mix up the memcombine expressions with other things in a big OR.\n\n\u003e reassociate needs to run very early on to be helpful, so I don\u0027t think moving it after memcombine is a good idea either.\n\nI think there are 2 goals here, which are somewhat conflated. Reassociating for better ILP can happen later than memcombine, I think.\nReassociating to move constants together to enable constant folding, for example, probably needs to happen earlier. Maybe those are distinct passes or pass variants. For this CL whose only current benefit is ILP, I\u0027d lean toward running after memcombine.\n\nSave that chunk of code though, we may want it later.",
+      "parentUuid": "eee83e5b_d3cf8988",
       "revId": "bbf8f2b48689665c114aa0e3f374a16dc26387ab",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -354,6 +390,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "aabd44d5_839493a8",
+        "filename": "src/cmd/compile/internal/ssa/reassociate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-05-09T16:32:21Z",
+      "side": 1,
+      "message": "If we\u0027re just doing reassociation for ILP right now, then the comment here should just say that. Anything it doesn\u0027t do yet should be marked TODO.\n\n\tx :\u003d a + (-a)\n\ty :\u003d b + (-b)\n\tz :\u003d x + y + c + d\n\nCurrently this can eval to c+d because this associates by default in a way that the rewrite rules can see the i+-i pattern. Will this CL reassociate in a different way that will hide the i+-i opportunity from rewrite rules?",
+      "parentUuid": "ce7052e9_19172f4d",
+      "range": {
+        "startLine": 158,
+        "startChar": 3,
+        "endLine": 159,
+        "endChar": 49
+      },
+      "revId": "bbf8f2b48689665c114aa0e3f374a16dc26387ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1d6e6ab7_ee0464aa",
         "filename": "src/cmd/compile/internal/ssa/reassociate.go",
         "patchSetId": 4
@@ -453,6 +513,24 @@
       "side": 1,
       "message": "Agreed it does seem to be fragile, it is a bit hard with the current test harness setup to guarantee that the expressions are balanced without referencing concrete registers. I\u0027m open to suggestions if there\u0027s a better way to test this other than codegen.\n\nAlso note that the test uses ADD R0, R1, R1 since I search operands in order from left to right rather than right to left, then rebalance backwards. (a + (b + (c + d))) turns into (c + d) + (b + a)\n\nThe only case I have for keeping it the way it is is that using 4 integers on ARM64 will make use of the register-based ABI so we have some guarantee that a-\u003eR0, b-\u003eR1, ... which I can document in case of test flaky-ness.",
       "parentUuid": "8abccc9d_255af5a9",
+      "revId": "bbf8f2b48689665c114aa0e3f374a16dc26387ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af1198e3_c703bf8b",
+        "filename": "test/codegen/reassociate.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2023-05-09T16:32:21Z",
+      "side": 1,
+      "message": "Yeah, I don\u0027t have any great ideas here. Something to think about...",
+      "parentUuid": "adfac7e5_00e2342a",
       "revId": "bbf8f2b48689665c114aa0e3f374a16dc26387ab",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
