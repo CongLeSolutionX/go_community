@@ -283,6 +283,88 @@ func growslice(oldPtr unsafe.Pointer, newLen, oldCap, num int, et *_type) slice 
 	return slice{p, newLen, newcap}
 }
 
+func growslice_bytes(oldPtr unsafe.Pointer, newLen, oldCap, num int, et *_type) slice {
+	oldLen := newLen - num
+	if raceenabled {
+		callerpc := getcallerpc()
+		racereadrangepc(oldPtr, uintptr(oldLen*int(et.Size_)), callerpc, abi.FuncPCABIInternal(growslice))
+	}
+	if msanenabled {
+		msanread(oldPtr, uintptr(oldLen*int(et.Size_)))
+	}
+	if asanenabled {
+		asanread(oldPtr, uintptr(oldLen*int(et.Size_)))
+	}
+
+	if newLen < 0 {
+		panic(errorString("growslice: len out of range"))
+	}
+
+	if et.Size_ == 0 {
+		// append should not create a slice with nil pointer but non-zero len.
+		// We assume that append doesn't need to preserve oldPtr in this case.
+		return slice{unsafe.Pointer(&zerobase), newLen, newLen}
+	}
+
+	newcap := oldCap
+	doublecap := newcap + newcap
+	if newLen > doublecap {
+		newcap = newLen
+	} else {
+		const threshold = 256
+		if oldCap < threshold {
+			newcap = doublecap
+		} else {
+			// Check 0 < newcap to detect overflow
+			// and prevent an infinite loop.
+			for 0 < newcap && newcap < newLen {
+				// Transition from growing 2x for small slices
+				// to growing 1.25x for large slices. This formula
+				// gives a smooth-ish transition between the two.
+				newcap += (newcap + 3*threshold) / 4
+			}
+			// Set newcap to the requested cap when
+			// the newcap calculation overflowed.
+			if newcap <= 0 {
+				newcap = newLen
+			}
+		}
+	}
+
+	lenmem := uintptr(oldLen)
+	newlenmem := uintptr(newLen)
+	capmem := roundupsize(uintptr(newcap))
+	overflow := uintptr(newcap) > maxAlloc
+	newcap = int(capmem)
+
+	// The check of overflow in addition to capmem > maxAlloc is needed
+	// to prevent an overflow which can be used to trigger a segfault
+	// on 32bit architectures with this example program:
+	//
+	// type T [1<<27 + 1]int64
+	//
+	// var d T
+	// var s []T
+	//
+	// func main() {
+	//   s = append(s, d, d, d, d)
+	//   print(len(s), "\n")
+	// }
+	if overflow || capmem > maxAlloc {
+		panic(errorString("growslice: len out of range"))
+	}
+
+	p := mallocgc(capmem, nil, false)
+	// The append() that calls growslice is going to overwrite from oldLen to newLen.
+	// Only clear the part that will not be overwritten.
+	// The reflect_growslice() that calls growslice will manually clear
+	// the region not cleared here.
+	memclrNoHeapPointers(add(p, newlenmem), capmem-newlenmem)
+	memmove(p, oldPtr, lenmem)
+
+	return slice{p, newLen, newcap}
+}
+
 //go:linkname reflect_growslice reflect.growslice
 func reflect_growslice(et *_type, old slice, num int) slice {
 	// Semantically equivalent to slices.Grow, except that the caller

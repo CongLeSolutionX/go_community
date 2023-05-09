@@ -514,7 +514,12 @@ func appendSlice(n *ir.CallExpr, init *ir.Nodes) ir.Node {
 	nif.Body = []ir.Node{ir.NewAssignStmt(base.Pos, s, slice)}
 
 	// func growslice(oldPtr unsafe.Pointer, newLen, oldCap, num int, et *_type) []T
-	fn := typecheck.LookupRuntime("growslice")
+	var fn *ir.Name
+	if elemtype.Size() == 1 {
+		fn = typecheck.LookupRuntime("growslice_bytes")
+	} else {
+		fn = typecheck.LookupRuntime("growslice")
+	}
 	fn = typecheck.SubstArgTypes(fn, elemtype, elemtype)
 
 	// else { s = growslice(oldPtr, newLen, oldCap, num, T) }
@@ -696,7 +701,12 @@ func extendSlice(n *ir.CallExpr, init *ir.Nodes) ir.Node {
 	nif.Body = []ir.Node{ir.NewAssignStmt(base.Pos, s, nt)}
 
 	// instantiate growslice(oldPtr *any, newLen, oldCap, num int, typ *type) []any
-	fn := typecheck.LookupRuntime("growslice")
+	var fn *ir.Name
+	if elemtype.Size() == 1 {
+		fn = typecheck.LookupRuntime("growslice_bytes")
+	} else {
+		fn = typecheck.LookupRuntime("growslice")
+	}
 	fn = typecheck.SubstArgTypes(fn, elemtype, elemtype)
 
 	// else { s = growslice(s.ptr, n, s.cap, l2, T) }
