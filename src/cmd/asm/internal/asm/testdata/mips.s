@@ -428,6 +428,7 @@ label4:
 	NEGW	R1, R2 // 00011023
 	CLZ	R1, R2 // 70221020
 	CLO	R1, R2 // 70221021
+	REBH	R1, R2 // 7c2210a0
 
 	// to (Hi, Lo)
 	MADD	R2, R1 // 70220000
