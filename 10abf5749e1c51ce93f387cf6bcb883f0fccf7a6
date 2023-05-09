@@ -16,6 +16,24 @@
       "message": "Please fold this into CL 493299.\n\nEach change carries some overhead for both human reviewers and process (particularly CI testing). It\u0027s good to keep unrelated changes separate (so that they can be bisected and reviewed separately), but please consolidate related changes into a smaller stack of commits.",
       "revId": "10abf5749e1c51ce93f387cf6bcb883f0fccf7a6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5681456_87c8a6b1",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 780,
+      "author": {
+        "id": 62723
+      },
+      "writtenOn": "2023-05-09T09:16:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f2e4ee48_bb380586",
+      "revId": "10abf5749e1c51ce93f387cf6bcb883f0fccf7a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
