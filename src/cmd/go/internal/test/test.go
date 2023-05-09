@@ -902,16 +902,21 @@ func runTest(ctx context.Context, cmd *base.Command, args []string) {
 		}
 	}
 
+	if cfg.BuildCover && cfg.BuildCoverMode == "atomic" {
+		for _, p := range pkgs {
+			// sync/atomic import is inserted by the cover tool if we're
+			// using atomic mode (and not compiling sync/atomic package itself).
+			// See #18486 and #57445. Note that this needs to be done
+			// prior to any of the builderTest invocations below.
+			if cfg.BuildCover && cfg.BuildCoverMode == "atomic" &&
+				p.ImportPath != "sync/atomic" {
+				load.EnsureImport(p, "sync/atomic")
+			}
+		}
+	}
+
 	// Prepare build + run + print actions for all packages being tested.
 	for _, p := range pkgs {
-		// sync/atomic import is inserted by the cover tool if we're
-		// using atomic mode (and not compiling sync/atomic package itself).
-		// See #18486 and #57445.
-		if cfg.BuildCover && cfg.BuildCoverMode == "atomic" &&
-			p.ImportPath != "sync/atomic" {
-			load.EnsureImport(p, "sync/atomic")
-		}
-
 		buildTest, runTest, printTest, err := builderTest(b, ctx, pkgOpts, p, allImports[p])
 		if err != nil {
 			str := err.Error()
@@ -977,6 +982,9 @@ var windowsBadWords = []string{
 func builderTest(b *work.Builder, ctx context.Context, pkgOpts load.PackageOpts, p *load.Package, imported bool) (buildAction, runAction, printAction *work.Action, err error) {
 	if len(p.TestGoFiles)+len(p.XTestGoFiles) == 0 {
 		build := b.CompileAction(work.ModeBuild, work.ModeBuild, p)
+		if cfg.BuildCover {
+			p.Internal.CoverMode = cfg.BuildCoverMode
+		}
 		run := &work.Action{
 			Mode:       "test run",
 			Actor:      new(runTestActor),
@@ -1253,7 +1261,13 @@ func (r *runTestActor) Act(b *work.Builder, ctx context.Context, a *work.Action)
 	close(r.next)
 
 	if p := a.Package; len(p.TestGoFiles)+len(p.XTestGoFiles) == 0 {
-		fmt.Fprintf(stdout, "?   \t%s\t[no test files]\n", p.ImportPath)
+		if cfg.BuildCover {
+			if err := reportCoverageNoTestPkg(b, p, a, stdout); err != nil {
+				return err
+			}
+		} else {
+			fmt.Fprintf(stdout, "?   \t%s\t[no test files]\n", p.ImportPath)
+		}
 		return nil
 	}
 
