@@ -164,6 +164,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b932a567_cd1d74df",
+        "filename": "misc/cgo/test/issue43639.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2023-05-09T14:23:50Z",
+      "side": 1,
+      "message": "Yeah, it\u0027s similarity index is only 56% (2 long lines changed in an otherwise small file) which must be below the threshold configured here.",
+      "parentUuid": "1080961b_4db680f6",
+      "revId": "7065c18cd3c5ee05fb53e71248984914c84868e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aa2537cb_8dba977e",
