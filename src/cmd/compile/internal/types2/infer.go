@@ -91,6 +91,9 @@ func (check *Checker) infer(pos syntax.Pos, tparams []*TypeParam, targs []Type, 
 	if params.Len() > 0 {
 		smap := makeSubstMap(tparams, targs)
 		params = check.subst(nopos, params, smap, nil, check.context()).(*Tuple)
+		// for _, arg := range args {
+		// 	arg.typ = check.subst(nopos, arg.typ, smap, nil, check.context())
+		// }
 	}
 
 	// Unify parameter and argument types for generic parameters with typed arguments
