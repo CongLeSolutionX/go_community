@@ -76,6 +76,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "54d0f50c_9a321cf7",
+        "filename": "src/internal/fuzz/encoding.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 62723
+      },
+      "writtenOn": "2023-05-09T09:10:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94d38b54_1de6c932",
+      "range": {
+        "startLine": 100,
+        "startChar": 30,
+        "endLine": 100,
+        "endChar": 32
+      },
+      "revId": "e06459cb506db4bf63091cda8b0b903ee1bbac80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "72293155_d79b9790",
@@ -99,6 +123,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c426d05_7a857ccf",
+        "filename": "src/internal/fuzz/mutator.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 62723
+      },
+      "writtenOn": "2023-05-09T09:10:33Z",
+      "side": 1,
+      "message": "Done; see rationale in design doc: https://go.dev/cl/493637",
+      "parentUuid": "72293155_d79b9790",
+      "range": {
+        "startLine": 26,
+        "startChar": 8,
+        "endLine": 26,
+        "endChar": 19
+      },
+      "revId": "e06459cb506db4bf63091cda8b0b903ee1bbac80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8bf90a9b_1e872471",
@@ -112,6 +160,30 @@
       "writtenOn": "2023-05-07T07:14:04Z",
       "side": 1,
       "message": "Any suggestions would be appreciated.",
+      "range": {
+        "startLine": 45,
+        "startChar": 1,
+        "endLine": 46,
+        "endChar": 69
+      },
+      "revId": "e06459cb506db4bf63091cda8b0b903ee1bbac80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb24dd0c_19034942",
+        "filename": "src/internal/fuzz/mutator.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 62723
+      },
+      "writtenOn": "2023-05-09T09:10:33Z",
+      "side": 1,
+      "message": "Moved discussion to design doc: https://go.dev/cl/493637",
+      "parentUuid": "8bf90a9b_1e872471",
       "range": {
         "startLine": 45,
         "startChar": 1,
