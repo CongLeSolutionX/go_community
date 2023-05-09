@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f638fd4_37ff8ca2",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 62723
+      },
+      "writtenOn": "2023-05-09T09:03:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "60ba3a40_67f29b82",
+      "range": {
+        "startLine": 47,
+        "startChar": 70,
+        "endLine": 47,
+        "endChar": 72
+      },
+      "revId": "253161b8afc702d53882178ec6aa2a49633cf259",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7ed13e8d_4d4b7fb9",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-05-08T14:26:49Z",
       "side": 1,
       "message": "I don\u0027t understand what this means — in some sense every error is “reported”.\n\nPerhaps this should be called “internal” instead of “reported”?",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 69
+      },
+      "revId": "253161b8afc702d53882178ec6aa2a49633cf259",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d017c92_77c2c7c3",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 62723
+      },
+      "writtenOn": "2023-05-09T09:03:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ed13e8d_4d4b7fb9",
       "range": {
         "startLine": 53,
         "startChar": 0,
@@ -64,6 +112,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ca59283_c919b947",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 539,
+      "author": {
+        "id": 62723
+      },
+      "writtenOn": "2023-05-09T09:03:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54940380_343deb8f",
+      "revId": "253161b8afc702d53882178ec6aa2a49633cf259",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6c79bc55_720feba7",
@@ -77,6 +143,30 @@
       "writtenOn": "2023-05-08T14:26:49Z",
       "side": 1,
       "message": "Is there an issue filed for this? (Should there be?)",
+      "range": {
+        "startLine": 1061,
+        "startChar": 0,
+        "endLine": 1069,
+        "endChar": 0
+      },
+      "revId": "253161b8afc702d53882178ec6aa2a49633cf259",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4f4a30e_57c3ef58",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1069,
+      "author": {
+        "id": 62723
+      },
+      "writtenOn": "2023-05-09T09:03:21Z",
+      "side": 1,
+      "message": "Done (softened the wording)",
+      "parentUuid": "6c79bc55_720feba7",
       "range": {
         "startLine": 1061,
         "startChar": 0,
@@ -110,6 +200,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "52b47a22_00baf677",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1148,
+      "author": {
+        "id": 62723
+      },
+      "writtenOn": "2023-05-09T09:03:21Z",
+      "side": 1,
+      "message": "Done. After thinking about it some more I concluded that a TODO isn\u0027t warranted. I downgraded it to a note.",
+      "parentUuid": "84eb896f_cf9d62cb",
+      "range": {
+        "startLine": 1147,
+        "startChar": 41,
+        "endLine": 1148,
+        "endChar": 63
+      },
+      "revId": "253161b8afc702d53882178ec6aa2a49633cf259",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2a7c49af_bad7be74",
@@ -127,6 +241,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a04ba2e8_d8458c81",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1212,
+      "author": {
+        "id": 62723
+      },
+      "writtenOn": "2023-05-09T09:03:21Z",
+      "side": 1,
+      "message": "Done.  Thanks for the suggestion.",
+      "parentUuid": "2a7c49af_bad7be74",
+      "revId": "253161b8afc702d53882178ec6aa2a49633cf259",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "40060ebd_2cd2a2ea",
@@ -140,6 +272,24 @@
       "writtenOn": "2023-05-08T14:26:49Z",
       "side": 1,
       "message": "Same here — this seems clearer as an error type than as a `fmt.Errorf` wrapping two different errors.",
+      "revId": "253161b8afc702d53882178ec6aa2a49633cf259",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7aad3468_d6338335",
+        "filename": "src/internal/fuzz/worker.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1219,
+      "author": {
+        "id": 62723
+      },
+      "writtenOn": "2023-05-09T09:03:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "40060ebd_2cd2a2ea",
       "revId": "253161b8afc702d53882178ec6aa2a49633cf259",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
