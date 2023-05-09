@@ -108,6 +108,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d03dcb9_b1fab003",
+        "filename": "src/cmd/internal/bootstrap_test/reboot_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-05-09T16:13:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90dfe640_ad5c21d3",
+      "revId": "0b2784bbd38de096f4d8cca1fb711ef5dfd47065",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f9f34c37_a0ee5375",
@@ -131,6 +149,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "49925f22_352ccd2c",
+        "filename": "src/cmd/internal/bootstrap_test/reboot_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-05-09T16:13:51Z",
+      "side": 1,
+      "message": "Done.\n\n(There\u0027s no harm in the suggestion UI, but, yeah, I haven\u0027t figured out how to integrate it into a complicated rebase workflow at all.)",
+      "parentUuid": "f9f34c37_a0ee5375",
+      "range": {
+        "startLine": 32,
+        "startChar": 26,
+        "endLine": 32,
+        "endChar": 28
+      },
+      "revId": "0b2784bbd38de096f4d8cca1fb711ef5dfd47065",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8a613403_8aaf034e",
@@ -144,6 +186,30 @@
       "writtenOn": "2023-05-09T12:34:38Z",
       "side": 1,
       "message": "I don\u0027t think we even need a skip based on `GO_BUILDER_NAME` any more.\n\nThe original justification in CL 167478 was to speed up `make.bash`, but at that point in time the test didn\u0027t skip if `testing.Short()` is set. (We had intended to run it on all of the builders, not just the `-longtest` ones.)\n\nThe `testing.Short()` skip was added in CL 366538, and that by itself should be enough to keep the test from stalling `make.bash` for Go developers. We probably should have removed the `GO_BUILDER_NAME` special case in `cmd/dist` at that point, but forgot to.",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 2
+      },
+      "revId": "0b2784bbd38de096f4d8cca1fb711ef5dfd47065",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5184425_80b9564a",
+        "filename": "src/cmd/internal/bootstrap_test/reboot_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-05-09T16:13:51Z",
+      "side": 1,
+      "message": "But now that it\u0027s in cmd, this *will* run for \"go test cmd\". Is that desirable?",
+      "parentUuid": "8a613403_8aaf034e",
       "range": {
         "startLine": 30,
         "startChar": 0,
@@ -191,6 +257,30 @@
       "side": 1,
       "message": "`runtime.GOROOT` does not work for binaries built with `-trimpath` (see #51473).\n\nSince we can use `testenv` in `cmd/internal`, I would change this to:\n```\nrealGoroot :\u003d testenv.GOROOT(t)\n```",
       "parentUuid": "49be86a5_3aaaed0e",
+      "range": {
+        "startLine": 35,
+        "startChar": 47,
+        "endLine": 35,
+        "endChar": 57
+      },
+      "revId": "0b2784bbd38de096f4d8cca1fb711ef5dfd47065",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1627af05_919c0036",
+        "filename": "src/cmd/internal/bootstrap_test/reboot_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-05-09T16:13:51Z",
+      "side": 1,
+      "message": "Nice. Done.",
+      "parentUuid": "94bfb71e_98fd2872",
       "range": {
         "startLine": 35,
         "startChar": 47,
