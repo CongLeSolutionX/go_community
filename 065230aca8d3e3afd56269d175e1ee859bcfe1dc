@@ -72,6 +72,23 @@
       "message": "Allegedly better messages.",
       "revId": "065230aca8d3e3afd56269d175e1ee859bcfe1dc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f70eeb5_1e9b4823",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 8470
+      },
+      "writtenOn": "2023-05-09T07:40:44Z",
+      "side": 1,
+      "message": "Thanks, I like this phrasing better :)",
+      "revId": "065230aca8d3e3afd56269d175e1ee859bcfe1dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
