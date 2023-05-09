@@ -7,6 +7,7 @@ package test
 import (
 	"cmd/go/internal/base"
 	"cmd/go/internal/cfg"
+	"cmd/go/internal/load"
 	"cmd/go/internal/work"
 	"fmt"
 	"io"
@@ -161,4 +162,75 @@ func mergeGoCoverDir(b *work.Builder, src, dst string) error {
 		}
 	}
 	return nil
+}
+
+// reportCoverageNoTestPkg reports the coverage percentage for a
+// package that has no *_test.go files. This includes the usual
+// percent of statements covered, but also taking care of
+// -coverprofile support as well as the -gocoverdir case. The
+// percentage reporting is done with "go tool covdata" which is in
+// fact a bit of overkill (since we know a priori that coverage will
+// be zero) but it helps make the "-n" and "-x" output more
+// comprehensible. Here "p" is the package we're testing, "a" is the
+// "test run" action for the package, and "stdout" is the writer to
+// which we're sending the test output.
+func reportCoverageNoTestPkg(b *work.Builder, p *load.Package, a *work.Action, stdout io.Writer) error {
+	// Locate the directory containing the meta-data file fragment
+	// emitted for the package by cmd/cover.
+	mdir, err := buildActionMetaDir(a, p)
+	if err != nil {
+		return err
+	}
+	dirHasContent := func(d string) bool {
+		f, err := os.Open(d)
+		if err != nil {
+			return false
+		}
+		defer f.Close()
+		_, err = f.Readdir(1)
+		if err == io.EOF {
+			return false
+		}
+		return true
+	}
+	// NB: the directory in question may be empty in the case where
+	// there are no functions in the package (in addition to no
+	// *_test.go files); in this case the cover tool won't emit a
+	// meta-data file.
+	if dirHasContent(mdir) || cfg.BuildN {
+		if coverMerge.f != nil {
+			// Generate coverprofile fragment for this package...
+			cp := a.Objdir + "_cover_.out"
+			if err := b.CovData(a, "textfmt", "-i", mdir, "-o", cp); err != nil {
+				return err
+			}
+			// ... then merge into the final output coverprofile.
+			mergeCoverProfile(stdout, cp)
+		}
+		if testGoCoverDir != "" {
+			if err := mergeGoCoverDir(b, mdir, testGoCoverDir); err != nil {
+				return err
+			}
+		}
+		return b.CovDataToWriter(a, stdout, "percent", "-i", mdir)
+	} else {
+		fmt.Fprintf(stdout, "?   \t%s\t[no test files]\n", p.ImportPath)
+	}
+	return nil
+}
+
+// buildActionMetaDir locates and returns the meta-data file written
+// by the "go tool cover" step as part of the build action for
+// a given "go test -cover" run action.
+func buildActionMetaDir(runAct *work.Action, p *load.Package) (string, error) {
+	for i := range runAct.Deps {
+		pred := runAct.Deps[i]
+		if pred.Mode != "build" || pred.Package == nil {
+			continue
+		}
+		if pred.Package.ImportPath == p.ImportPath {
+			return work.CovMetaDestDir(pred), nil
+		}
+	}
+	return "", fmt.Errorf("internal error: unable to locate build action for package %q run action", p.ImportPath)
 }
