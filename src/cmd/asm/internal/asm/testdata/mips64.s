@@ -587,8 +587,13 @@ label4:
 	CALL	foo(SB)
 	RET	foo(SB)
 
+	// unary operation
 	NEGW	R1, R2 // 00011023
 	NEGV	R1, R2 // 0001102f
+	WSBH	R1, R2 // 7c2210a0
+	DSBH	R1, R2 // 7c2210a4
+	DSHD	R1, R2 // 7c221164
+
 	RET
 
 // MSA VMOVI

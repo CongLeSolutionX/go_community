@@ -387,6 +387,9 @@ const (
 	ANOOP // hardware nop
 	ANOR
 	AOR
+	AWSBH
+	ADSBH
+	ADSHD
 	AREM
 	AREMU
 	ARFE
