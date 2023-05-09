@@ -980,7 +980,7 @@ func (check *Checker) nonGeneric(T Type, x *operand) {
 		if t.tparams != nil {
 			if enableReverseTypeInference && T != nil {
 				if tsig, _ := under(T).(*Signature); tsig != nil {
-					check.funcInst(tsig, x, nil)
+					check.funcInst(tsig, x, nil, true)
 					return
 				}
 			}
@@ -1305,7 +1305,7 @@ func (check *Checker) exprInternal(T Type, x *operand, e ast.Expr, hint Type) ex
 			if enableReverseTypeInference && T != nil {
 				tsig, _ = under(T).(*Signature)
 			}
-			check.funcInst(tsig, x, ix)
+			check.funcInst(tsig, x, ix, true)
 		}
 		if x.mode == invalid {
 			goto Error
