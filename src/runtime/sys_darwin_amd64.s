@@ -943,3 +943,7 @@ TEXT runtime·syscall_x509(SB),NOSPLIT,$0
 	MOVQ	BP, SP
 	POPQ	BP
 	RET
+
+TEXT runtime·issetugid_trampoline(SB),NOSPLIT,$0
+	CALL	libc_issetugid(SB)
+	RET
