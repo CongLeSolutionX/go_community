@@ -49,6 +49,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2a3b0523_c26a2dae",
+        "filename": "src/internal/fuzz/encoding.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 62723
+      },
+      "writtenOn": "2023-05-09T09:08:23Z",
+      "side": 1,
+      "message": "The error plumbing is a prerequisite for https://go.dev/cl/493304. I can undo the panic to error conversions and fold the plumbing into https://go.dev/cl/493304. WDYT?",
+      "parentUuid": "8f09d503_b3b05845",
+      "range": {
+        "startLine": 24,
+        "startChar": 44,
+        "endLine": 24,
+        "endChar": 50
+      },
+      "revId": "51bae8eff796d0d9d0380a83cc67cd20936e4d7e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "327e88b0_c0fe1b07",
         "filename": "src/internal/fuzz/mutator.go",
         "patchSetId": 1
