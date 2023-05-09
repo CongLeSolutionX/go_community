@@ -382,6 +382,8 @@ var optab = []Optab{
 	{AVMOVB, C_SOREG, C_NONE, C_WREG, 57, 4, 0, sys.MIPS64, 0},
 	{AVMOVB, C_WREG, C_NONE, C_SOREG, 58, 4, 0, sys.MIPS64, 0},
 
+	{AWSBH, C_REG, C_NONE, C_REG, 59, 4, 0, 0, 0},
+
 	{ABREAK, C_REG, C_NONE, C_SEXT, 7, 4, REGSB, sys.MIPS64, 0}, /* really CACHE instruction */
 	{ABREAK, C_REG, C_NONE, C_SAUTO, 7, 4, REGSP, sys.MIPS64, 0},
 	{ABREAK, C_REG, C_NONE, C_SOREG, 7, 4, REGZERO, sys.MIPS64, 0},
@@ -1101,6 +1103,10 @@ func buildop(ctxt *obj.Link) {
 
 		case ATEQ:
 			opset(ATNE, r0)
+
+		case AWSBH:
+			opset(ADSBH, r0)
+			opset(ADSHD, r0)
 		}
 	}
 }
@@ -1683,6 +1689,9 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 	case 58: /* vst wr, $soreg */
 		v := c.lsoffset(p.As, c.regoff(&p.To))
 		o1 = OP_VMI10(v, uint32(p.To.Reg), uint32(p.From.Reg), 9, c.twobitdf(p.As))
+
+	case 59:
+		o1 = OP_RRR(c.oprrr(p.As), p.From.Reg, REGZERO, p.To.Reg)
 	}
 
 	out[0] = o1
@@ -1883,6 +1892,12 @@ func (c *ctxt0) oprrr(a obj.As) uint32 {
 		return SP(3, 4) | OP(0, 0)
 	case AMSUB:
 		return SP(3, 4) | OP(0, 4)
+	case AWSBH:
+		return SP(3, 7) | OP(20, 0)
+	case ADSBH:
+		return SP(3, 7) | OP(20, 4)
+	case ADSHD:
+		return SP(3, 7) | OP(44, 4)
 	}
 
 	if a < 0 {
