@@ -71,6 +71,23 @@
       "parentUuid": "9393dfb6_bb507adc",
       "revId": "96788caeb1a6f53dfaef3ff65a6c21bf036f142d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ca4f838_174edfe3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-05-09T22:04:36Z",
+      "side": 1,
+      "message": "For bisect.go:\n```\ngit diff\ndiff --git a/cmd/bisect/main.go b/cmd/bisect/main.go\nindex baae1fa17..59603c161 100644\n--- a/cmd/bisect/main.go\n+++ b/cmd/bisect/main.go\n@@ -439,7 +439,7 @@ func (b *Bisect) search(r *Result) []string {\n                if r.Suffix \u003d\u003d \"\" {\n                        return []string{\"y\"}\n                }\n-               return []string{r.Suffix}\n+               return []string{fmt.Sprintf(\"%b\", r.MatchIDs[0])}\n        }\n\n        // If the suffix we were tracking in the trial is already 64 bits,\n```\n\nExcept that then we want the hash encodings to also process hex because otherwise 64 is a lot of bits -- unless we collect universe of hashcodes ever observed and truncate down to the minimum required to be unambiguous.",
+      "revId": "96788caeb1a6f53dfaef3ff65a6c21bf036f142d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
