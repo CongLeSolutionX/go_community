@@ -47,6 +47,54 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b32342f3_3890df36",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2023-05-09T06:28:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1be225d0_cdac30e9",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 16
+      },
+      "revId": "fc292d562985d8af180db1bb8dc58223e4b7b81a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "30624c1b_8fad770a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2023-05-09T06:28:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "95f60281_804b0486",
+      "range": {
+        "startLine": 7,
+        "startChar": 18,
+        "endLine": 7,
+        "endChar": 59
+      },
+      "revId": "fc292d562985d8af180db1bb8dc58223e4b7b81a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "944069fd_55d912a4",
@@ -60,6 +108,30 @@
       "writtenOn": "2023-05-08T10:03:43Z",
       "side": 1,
       "message": "These also appear to have been added via the \u0027zfh\u0027 extension to \u0027q\u0027 - I\u0027d suggest omitting rv_q_zfh for now and if we need/want these, add them in a follow up CL.\n\nIf we regenerate with:\n\nrv64_a rv64_d rv64_f rv64_i rv64_m rv64_q rv_a rv_d rv_f rv_i rv_m rv_q rv_s rv_system rv_zicsr\n\nWe then appear to have the following to add:\n\nAPAUSE\n\nAnd the following (currently unused) to remove:\n\nAFENCEI\nAFMVQX\nAFMVXQ\nAHFENCEGVMA\nAHFENCEVVMA\nASLLIRV32\nASRAIRV32\nASRLIRV32\nAURET",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 40
+      },
+      "revId": "fc292d562985d8af180db1bb8dc58223e4b7b81a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ed4467c_7d0aa198",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2023-05-09T06:28:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "944069fd_55d912a4",
       "range": {
         "startLine": 17,
         "startChar": 0,
@@ -120,6 +192,30 @@
       "writtenOn": "2023-05-08T07:43:02Z",
       "side": 1,
       "message": "I presume you\u0027ve manually curated this list - if this is the case, I think we\u0027re better off sorting purely alphabetically (which will ease maintenance and make it easier to reproduce... it\u0027s a shame that there is no easy \u0027rv64gc\u0027 option).\n\nAlso, I would suggest that we simply drop the H extension for now (i.e. remove rv64_h and rv_h). These are unused and the HFENCE instructions only previously existed since they got pulled in via other includes.",
+      "range": {
+        "startLine": 1,
+        "startChar": 34,
+        "endLine": 1,
+        "endChar": 150
+      },
+      "revId": "fc292d562985d8af180db1bb8dc58223e4b7b81a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b27b2759_078d7564",
+        "filename": "src/cmd/internal/obj/riscv/inst.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2023-05-09T06:28:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d81950ce_d800f807",
       "range": {
         "startLine": 1,
         "startChar": 34,
