@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "7cbfb274_76c165a8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 62723
+      },
+      "writtenOn": "2023-05-09T01:15:10Z",
+      "side": 1,
+      "message": "Design doc: https://go.dev/cl/493637",
+      "parentUuid": "dff1c4c1_55c067b6",
+      "revId": "e06459cb506db4bf63091cda8b0b903ee1bbac80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "80cbfcc0_6dc9ec1a",
