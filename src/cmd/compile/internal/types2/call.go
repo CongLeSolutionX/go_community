@@ -324,8 +324,8 @@ func (check *Checker) callExpr(x *operand, call *syntax.CallExpr) exprKind {
 	}
 
 	// evaluate arguments
-	args := check.genericExprList(call.ArgList)
-	sig = check.arguments(call, sig, targs, args, xlist)
+	args, atargs, atxlist := check.genericExprList(call.ArgList)
+	sig = check.arguments(call, sig, targs, args, atargs, atxlist, xlist)
 
 	if wasGeneric && sig.TypeParams().Len() == 0 {
 		// update the recorded type of call.Fun to its instantiated type
@@ -383,43 +383,62 @@ func (check *Checker) exprList(elist []syntax.Expr) []*operand {
 }
 
 // genericExprList is like exprList but result operands may be generic (not fully instantiated).
-func (check *Checker) genericExprList(elist []syntax.Expr) []*operand {
-	switch len(elist) {
+func (check *Checker) genericExprList(elist []syntax.Expr) ([]*operand, [][]Type, [][]syntax.Expr) {
+	switch n := len(elist); n {
 	case 0:
-		return nil
+		return nil, nil, nil
 
 	case 1:
 		e := elist[0]
 		var x operand
-		check.rawExpr(nil, &x, e, nil, true)
-		check.exclude(&x, 1<<novalue|1<<builtin|1<<typexpr)
-
-		if t, ok := x.typ.(*Tuple); ok && x.mode != invalid {
-			// multiple values - cannot be generic
-			xlist := make([]*operand, t.Len())
-			for i, v := range t.vars {
-				xlist[i] = &operand{mode: value, expr: e, typ: v.typ}
+		if inst, _ := e.(*syntax.IndexExpr); inst != nil && check.indexExpr(&x, inst) {
+			targs, xlist := check.funcInst(nil, &x, inst, false)
+			if x.mode == invalid {
+				return nil, nil, nil
 			}
-			return xlist
-		}
+			return []*operand{&x}, [][]Type{targs}, [][]syntax.Expr{xlist}
+		} else {
+			check.rawExpr(nil, &x, e, nil, true)
+			check.exclude(&x, 1<<novalue|1<<builtin|1<<typexpr)
 
-		// exactly one (possible invalid or generic) value
-		return []*operand{&x}
+			if t, ok := x.typ.(*Tuple); ok && x.mode != invalid {
+				// multiple values - cannot be generic
+				xlist := make([]*operand, t.Len())
+				for i, v := range t.vars {
+					xlist[i] = &operand{mode: value, expr: e, typ: v.typ}
+				}
+				return xlist, nil, nil
+			}
+
+			// exactly one (possible invalid or generic) value
+			return []*operand{&x}, nil, nil
+		}
 
 	default:
 		// multiple (possibly invalid) values
-		xlist := make([]*operand, len(elist))
+		xlist := make([]*operand, n)
+		atalist := make([][]Type, n)
+		atxlist := make([][]syntax.Expr, n)
 		for i, e := range elist {
 			var x operand
-			check.genericExpr(&x, e)
+			if inst, _ := e.(*syntax.IndexExpr); inst != nil && check.indexExpr(&x, inst) {
+				targs, xlist := check.funcInst(nil, &x, inst, false)
+				if x.mode == invalid {
+					return nil, nil, nil
+				}
+				atalist[i] = targs
+				atxlist[i] = xlist
+			} else {
+				check.genericExpr(&x, e)
+			}
 			xlist[i] = &x
 		}
-		return xlist
+		return xlist, atalist, atxlist
 	}
 }
 
 // xlist is the list of type argument expressions supplied in the source code.
-func (check *Checker) arguments(call *syntax.CallExpr, sig *Signature, targs []Type, args []*operand, xlist []syntax.Expr) (rsig *Signature) {
+func (check *Checker) arguments(call *syntax.CallExpr, sig *Signature, targs []Type, args []*operand, atargs [][]Type, atxlist [][]syntax.Expr, xlist []syntax.Expr) (rsig *Signature) {
 	rsig = sig
 
 	// TODO(gri) try to eliminate this extra verification loop
@@ -530,6 +549,9 @@ func (check *Checker) arguments(call *syntax.CallExpr, sig *Signature, targs []T
 		var tmp Type
 		tparams, tmp = check.renameTParams(call.Pos(), sig.TypeParams().list(), sigParams)
 		sigParams = tmp.(*Tuple)
+		for len(targs) < len(tparams) {
+			targs = append(targs, nil)
+		}
 	}
 
 	// collect type parameters from generic function arguments
@@ -547,10 +569,18 @@ func (check *Checker) arguments(call *syntax.CallExpr, sig *Signature, targs []T
 				asig.tparams = &TypeParamList{atparams} // renameTParams doesn't touch associated type parameters
 				arg.typ = asig                          // new type identity for the function argument
 				tparams = append(tparams, atparams...)
+				if i < len(atargs) {
+					targs = append(targs, atargs[i]...)
+				}
+				for len(targs) < len(tparams) {
+					targs = append(targs, nil)
+				}
 				genericArgs = append(genericArgs, i)
 			}
 		}
 	}
+	assert(len(tparams) == len(targs))
+
 	// at the moment we only support implicit instantiations of argument functions
 	_ = len(genericArgs) > 0 && check.verifyVersionf(check.pkg, args[genericArgs[0]], go1_21, "implicitly instantiated function as argument")
 
