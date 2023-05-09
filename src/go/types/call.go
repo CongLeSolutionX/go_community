@@ -16,13 +16,17 @@ import (
 	"unicode"
 )
 
-// funcInst type-checks a function instantiation and returns the result in x.
+// funcInst type-checks a function instantiation.
 // The incoming x must be an uninstantiated generic function. If ix != nil,
 // it provides (some or all of) the type arguments (ix.Indices) for the
 // instantiation. If the target type tsig != nil, the signature's parameter
-// types are used to infer additional missing type arguments of x, if any.
-// At least one of tsig or ix must be provided.
-func (check *Checker) funcInst(tsig *Signature, pos token.Pos, x *operand, ix *typeparams.IndexExpr) {
+// types are used to infer additional missing type arguments of x, if any,
+// and in infer is true. At least one of tsig or inst must be provided.
+// If not enough type arguments are provided and infer is false, funcInst
+// returns the available type arguments and corresponding type expressions.
+// Otherwise, funcInst infers the missing type arguments, if any, and returns
+// the instantiated function in x.
+func (check *Checker) funcInst(tsig *Signature, pos token.Pos, x *operand, ix *typeparams.IndexExpr, infer bool) ([]Type, []ast.Expr) {
 	assert(tsig != nil || ix != nil)
 
 	var instErrPos positioner
@@ -42,7 +46,7 @@ func (check *Checker) funcInst(tsig *Signature, pos token.Pos, x *operand, ix *t
 		if targs == nil {
 			x.mode = invalid
 			x.expr = ix
-			return
+			return nil, nil
 		}
 		assert(len(targs) == len(xlist))
 	}
@@ -57,10 +61,14 @@ func (check *Checker) funcInst(tsig *Signature, pos token.Pos, x *operand, ix *t
 		check.errorf(ix.Indices[got-1], WrongTypeArgCount, "got %d type arguments but want %d", got, want)
 		x.mode = invalid
 		x.expr = ix.Orig
-		return
+		return nil, nil
 	}
 
 	if got < want {
+		if !infer {
+			return targs, xlist
+		}
+
 		// If the uninstantiated or partially instantiated function x is used in an
 		// assignment (tsig != nil), use the respective function parameter and result
 		// types to infer additional type arguments.
@@ -108,7 +116,7 @@ func (check *Checker) funcInst(tsig *Signature, pos token.Pos, x *operand, ix *t
 			// error was already reported
 			x.mode = invalid
 			x.expr = ix // TODO(gri) is this correct?
-			return
+			return nil, nil
 		}
 		got = len(targs)
 	}
@@ -125,6 +133,7 @@ func (check *Checker) funcInst(tsig *Signature, pos token.Pos, x *operand, ix *t
 		x.expr = ix.Orig
 	}
 	check.recordInstance(x.expr, targs, sig)
+	return nil, nil
 }
 
 func paramName(name string, i int, kind string) string {
