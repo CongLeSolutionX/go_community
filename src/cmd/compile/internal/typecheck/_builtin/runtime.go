@@ -179,6 +179,7 @@ func makeslice(typ *byte, len int, cap int) unsafe.Pointer
 func makeslice64(typ *byte, len int64, cap int64) unsafe.Pointer
 func makeslicecopy(typ *byte, tolen int, fromlen int, from unsafe.Pointer) unsafe.Pointer
 func growslice(oldPtr *any, newLen, oldCap, num int, et *byte) (ary []any)
+func growslice_bytes(oldPtr *any, newLen, oldCap, num int, et *byte) (ary []any)
 func unsafeslicecheckptr(typ *byte, ptr unsafe.Pointer, len int64)
 func panicunsafeslicelen()
 func panicunsafeslicenilptr()

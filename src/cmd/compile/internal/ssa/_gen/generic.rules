@@ -2610,6 +2610,8 @@
 // the post-decomposed (*T,int,int) result. (The latter is generated after call expansion.)
 (SliceLen (SelectN [0] (StaticLECall {sym} _ newLen:(Const(64|32)) _ _ _ _))) && isSameCall(sym, "runtime.growslice") => newLen
 (SelectN [1] (StaticCall {sym} _ newLen:(Const(64|32)) _ _ _ _)) && v.Type.IsInteger() && isSameCall(sym, "runtime.growslice") => newLen
+(SliceLen (SelectN [0] (StaticLECall {sym} _ newLen:(Const(64|32)) _ _ _ _))) && isSameCall(sym, "runtime.growslice_bytes") => newLen
+(SelectN [1] (StaticCall {sym} _ newLen:(Const(64|32)) _ _ _ _)) && v.Type.IsInteger() && isSameCall(sym, "runtime.growslice_bytes") => newLen
 
 // Collapse moving A -> B -> C into just A -> C.
 // Later passes (deadstore, elim unread auto) will remove the A -> B move, if possible.

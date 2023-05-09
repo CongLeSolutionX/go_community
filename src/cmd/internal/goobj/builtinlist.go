@@ -130,6 +130,7 @@ var builtins = [...]struct {
 	{"runtime.makeslice64", 1},
 	{"runtime.makeslicecopy", 1},
 	{"runtime.growslice", 1},
+	{"runtime.growslice_bytes", 1},
 	{"runtime.unsafeslice", 1},
 	{"runtime.unsafeslice64", 1},
 	{"runtime.memmove", 1},
