@@ -3003,6 +3003,23 @@ func rewriteValueMIPS64_OpMIPS64MOVDload(v *Value) bool {
 	v_0 := v.Args[0]
 	b := v.Block
 	config := b.Func.Config
+	// match: (MOVDload [off] {sym} ptr (MOVVstore [off] {sym} ptr val _))
+	// result: (MOVDgpfp val)
+	for {
+		off := auxIntToInt32(v.AuxInt)
+		sym := auxToSym(v.Aux)
+		ptr := v_0
+		if v_1.Op != OpMIPS64MOVVstore || auxIntToInt32(v_1.AuxInt) != off || auxToSym(v_1.Aux) != sym {
+			break
+		}
+		val := v_1.Args[1]
+		if ptr != v_1.Args[0] {
+			break
+		}
+		v.reset(OpMIPS64MOVDgpfp)
+		v.AddArg(val)
+		return true
+	}
 	// match: (MOVDload [off1] {sym} (ADDVconst [off2] ptr) mem)
 	// cond: is32Bit(int64(off1)+off2) && (ptr.Op != OpSB || !config.ctxt.Flag_shared)
 	// result: (MOVDload [off1+int32(off2)] {sym} ptr mem)
@@ -3054,6 +3071,23 @@ func rewriteValueMIPS64_OpMIPS64MOVDstore(v *Value) bool {
 	v_0 := v.Args[0]
 	b := v.Block
 	config := b.Func.Config
+	// match: (MOVDstore [off] {sym} ptr (MOVDgpfp val) mem)
+	// result: (MOVVstore [off] {sym} ptr val mem)
+	for {
+		off := auxIntToInt32(v.AuxInt)
+		sym := auxToSym(v.Aux)
+		ptr := v_0
+		if v_1.Op != OpMIPS64MOVDgpfp {
+			break
+		}
+		val := v_1.Args[0]
+		mem := v_2
+		v.reset(OpMIPS64MOVVstore)
+		v.AuxInt = int32ToAuxInt(off)
+		v.Aux = symToAux(sym)
+		v.AddArg3(ptr, val, mem)
+		return true
+	}
 	// match: (MOVDstore [off1] {sym} (ADDVconst [off2] ptr) val mem)
 	// cond: is32Bit(int64(off1)+off2) && (ptr.Op != OpSB || !config.ctxt.Flag_shared)
 	// result: (MOVDstore [off1+int32(off2)] {sym} ptr val mem)
@@ -3106,6 +3140,23 @@ func rewriteValueMIPS64_OpMIPS64MOVFload(v *Value) bool {
 	v_0 := v.Args[0]
 	b := v.Block
 	config := b.Func.Config
+	// match: (MOVFload [off] {sym} ptr (MOVWstore [off] {sym} ptr val _))
+	// result: (MOVFgpfp val)
+	for {
+		off := auxIntToInt32(v.AuxInt)
+		sym := auxToSym(v.Aux)
+		ptr := v_0
+		if v_1.Op != OpMIPS64MOVWstore || auxIntToInt32(v_1.AuxInt) != off || auxToSym(v_1.Aux) != sym {
+			break
+		}
+		val := v_1.Args[1]
+		if ptr != v_1.Args[0] {
+			break
+		}
+		v.reset(OpMIPS64MOVFgpfp)
+		v.AddArg(val)
+		return true
+	}
 	// match: (MOVFload [off1] {sym} (ADDVconst [off2] ptr) mem)
 	// cond: is32Bit(int64(off1)+off2) && (ptr.Op != OpSB || !config.ctxt.Flag_shared)
 	// result: (MOVFload [off1+int32(off2)] {sym} ptr mem)
@@ -3157,6 +3208,23 @@ func rewriteValueMIPS64_OpMIPS64MOVFstore(v *Value) bool {
 	v_0 := v.Args[0]
 	b := v.Block
 	config := b.Func.Config
+	// match: (MOVFstore [off] {sym} ptr (MOVFgpfp val) mem)
+	// result: (MOVWstore [off] {sym} ptr val mem)
+	for {
+		off := auxIntToInt32(v.AuxInt)
+		sym := auxToSym(v.Aux)
+		ptr := v_0
+		if v_1.Op != OpMIPS64MOVFgpfp {
+			break
+		}
+		val := v_1.Args[0]
+		mem := v_2
+		v.reset(OpMIPS64MOVWstore)
+		v.AuxInt = int32ToAuxInt(off)
+		v.Aux = symToAux(sym)
+		v.AddArg3(ptr, val, mem)
+		return true
+	}
 	// match: (MOVFstore [off1] {sym} (ADDVconst [off2] ptr) val mem)
 	// cond: is32Bit(int64(off1)+off2) && (ptr.Op != OpSB || !config.ctxt.Flag_shared)
 	// result: (MOVFstore [off1+int32(off2)] {sym} ptr val mem)
@@ -3649,6 +3717,23 @@ func rewriteValueMIPS64_OpMIPS64MOVVload(v *Value) bool {
 	v_0 := v.Args[0]
 	b := v.Block
 	config := b.Func.Config
+	// match: (MOVVload [off] {sym} ptr (MOVDstore [off] {sym} ptr val _))
+	// result: (MOVDfpgp val)
+	for {
+		off := auxIntToInt32(v.AuxInt)
+		sym := auxToSym(v.Aux)
+		ptr := v_0
+		if v_1.Op != OpMIPS64MOVDstore || auxIntToInt32(v_1.AuxInt) != off || auxToSym(v_1.Aux) != sym {
+			break
+		}
+		val := v_1.Args[1]
+		if ptr != v_1.Args[0] {
+			break
+		}
+		v.reset(OpMIPS64MOVDfpgp)
+		v.AddArg(val)
+		return true
+	}
 	// match: (MOVVload [off1] {sym} (ADDVconst [off2] ptr) mem)
 	// cond: is32Bit(int64(off1)+off2) && (ptr.Op != OpSB || !config.ctxt.Flag_shared)
 	// result: (MOVVload [off1+int32(off2)] {sym} ptr mem)
@@ -3755,6 +3840,23 @@ func rewriteValueMIPS64_OpMIPS64MOVVstore(v *Value) bool {
 	v_0 := v.Args[0]
 	b := v.Block
 	config := b.Func.Config
+	// match: (MOVVstore [off] {sym} ptr (MOVDfpgp val) mem)
+	// result: (MOVDstore [off] {sym} ptr val mem)
+	for {
+		off := auxIntToInt32(v.AuxInt)
+		sym := auxToSym(v.Aux)
+		ptr := v_0
+		if v_1.Op != OpMIPS64MOVDfpgp {
+			break
+		}
+		val := v_1.Args[0]
+		mem := v_2
+		v.reset(OpMIPS64MOVDstore)
+		v.AuxInt = int32ToAuxInt(off)
+		v.Aux = symToAux(sym)
+		v.AddArg3(ptr, val, mem)
+		return true
+	}
 	// match: (MOVVstore [off1] {sym} (ADDVconst [off2] ptr) val mem)
 	// cond: is32Bit(int64(off1)+off2) && (ptr.Op != OpSB || !config.ctxt.Flag_shared)
 	// result: (MOVVstore [off1+int32(off2)] {sym} ptr val mem)
@@ -3873,6 +3975,23 @@ func rewriteValueMIPS64_OpMIPS64MOVWUload(v *Value) bool {
 	v_0 := v.Args[0]
 	b := v.Block
 	config := b.Func.Config
+	// match: (MOVWUload [off] {sym} ptr (MOVFstore [off] {sym} ptr val _))
+	// result: (MOVFfpgp val)
+	for {
+		off := auxIntToInt32(v.AuxInt)
+		sym := auxToSym(v.Aux)
+		ptr := v_0
+		if v_1.Op != OpMIPS64MOVFstore || auxIntToInt32(v_1.AuxInt) != off || auxToSym(v_1.Aux) != sym {
+			break
+		}
+		val := v_1.Args[1]
+		if ptr != v_1.Args[0] {
+			break
+		}
+		v.reset(OpMIPS64MOVFfpgp)
+		v.AddArg(val)
+		return true
+	}
 	// match: (MOVWUload [off1] {sym} (ADDVconst [off2] ptr) mem)
 	// cond: is32Bit(int64(off1)+off2) && (ptr.Op != OpSB || !config.ctxt.Flag_shared)
 	// result: (MOVWUload [off1+int32(off2)] {sym} ptr mem)
@@ -4182,6 +4301,23 @@ func rewriteValueMIPS64_OpMIPS64MOVWstore(v *Value) bool {
 	v_0 := v.Args[0]
 	b := v.Block
 	config := b.Func.Config
+	// match: (MOVWstore [off] {sym} ptr (MOVFfpgp val) mem)
+	// result: (MOVFstore [off] {sym} ptr val mem)
+	for {
+		off := auxIntToInt32(v.AuxInt)
+		sym := auxToSym(v.Aux)
+		ptr := v_0
+		if v_1.Op != OpMIPS64MOVFfpgp {
+			break
+		}
+		val := v_1.Args[0]
+		mem := v_2
+		v.reset(OpMIPS64MOVFstore)
+		v.AuxInt = int32ToAuxInt(off)
+		v.Aux = symToAux(sym)
+		v.AddArg3(ptr, val, mem)
+		return true
+	}
 	// match: (MOVWstore [off1] {sym} (ADDVconst [off2] ptr) val mem)
 	// cond: is32Bit(int64(off1)+off2) && (ptr.Op != OpSB || !config.ctxt.Flag_shared)
 	// result: (MOVWstore [off1+int32(off2)] {sym} ptr val mem)
