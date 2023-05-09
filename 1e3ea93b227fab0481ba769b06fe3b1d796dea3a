@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df010b40_52276517",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-05-09T00:41:30Z",
+      "side": 1,
+      "message": "Thanks, but I don\u0027t think this is worth doing.  Is there even a measurable performance difference for the normal case of a small number of errors?",
+      "revId": "1e3ea93b227fab0481ba769b06fe3b1d796dea3a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "585c6d5a_897fa16f",
+        "filename": "src/errors/join.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2023-05-09T00:41:30Z",
+      "side": 1,
+      "message": "Why is this a good idea?  Why not just do something reasonable for len(e.errs) \u003d\u003d 0, as the current code does?",
+      "revId": "1e3ea93b227fab0481ba769b06fe3b1d796dea3a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
