@@ -89,6 +89,24 @@
       "message": "Have you thought about what a stable \"import/path:variant\" format could look like for a test like this? Perhaps, since it seems similar in nature to the reboot test, it can reuse that import path if there isn\u0027t something even more fitting? That is, something like \"cmd/internal/bootstrap_test:movedgoroot\".\n\nAnd if we decide it\u0027d be helpful to move this test later (not that we need to, it\u0027s just an option) to that package, then its eventual test ID diff would be small:\n\n```diff\n-cmd/internal/bootstrap_test:movedgoroot\n+cmd/internal/bootstrap_test.TestMovedGOROOT\n```\n\n(Just wanted to use it as an example to think through a bit.)",
       "revId": "db93d2506c83a8adce404c68af72347771307228",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8238f1c_b490f256",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2023-05-10T18:04:30Z",
+      "side": 1,
+      "message": "Hrm. I wonder if this particular test even still needs to be its own special thing. It seems a bit redundant with two `cmd/go` script tests: `goroot_executable` and `list_goroot_symlink`.\n\nMore generally: maybe we can avoid needing to think about “a test like this” by converting them all to ordinary Go tests, pushing the logic down from `cmd/dist` into the test driver itself. 🙃",
+      "parentUuid": "96e2dc15_d9d7876d",
+      "revId": "db93d2506c83a8adce404c68af72347771307228",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
