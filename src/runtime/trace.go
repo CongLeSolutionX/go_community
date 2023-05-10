@@ -161,6 +161,14 @@ var trace struct {
 	buf     traceBufPtr // global trace buffer, used when running without a p
 }
 
+// gTraceState is per-G state for the tracer.
+type gTraceState struct {
+	sysExitTicks   int64    // cputicks when syscall has returned
+	sysBlockTraced bool     // StartTrace has emitted EvGoInSyscall about this goroutine
+	seq            uint64   // trace event sequencer
+	lastP          puintptr // last P emitted an event for this goroutine
+}
+
 // traceInit initializes the tracer subsystem and performs basic consistency checks.
 func traceInit() {
 	lockInit(&trace.bufLock, lockRankTraceBuf)
@@ -274,33 +282,33 @@ func StartTrace() error {
 	forEachGRace(func(gp *g) {
 		status := readgstatus(gp)
 		if status != _Gdead {
-			gp.traceseq = 0
-			gp.tracelastp = getg().m.p
+			gp.trace.seq = 0
+			gp.trace.lastP = getg().m.p
 			// +PCQuantum because traceFrameForPC expects return PCs and subtracts PCQuantum.
 			id := trace.stackTab.put([]uintptr{logicalStackSentinel, startPCforTrace(gp.startpc) + sys.PCQuantum})
 			traceEvent(traceEvGoCreate, -1, gp.goid, uint64(id), stackID)
 		}
 		if status == _Gwaiting {
 			// traceEvGoWaiting is implied to have seq=1.
-			gp.traceseq++
+			gp.trace.seq++
 			traceEvent(traceEvGoWaiting, -1, gp.goid)
 		}
 		if status == _Gsyscall {
-			gp.traceseq++
+			gp.trace.seq++
 			traceEvent(traceEvGoInSyscall, -1, gp.goid)
 		} else if status == _Gdead && gp.m != nil && gp.m.isextra {
 			// Trigger two trace events for the dead g in the extra m,
 			// since the next event of the g will be traceEvGoSysExit in exitsyscall,
 			// while calling from C thread to Go.
-			gp.traceseq = 0
-			gp.tracelastp = getg().m.p
+			gp.trace.seq = 0
+			gp.trace.lastP = getg().m.p
 			// +PCQuantum because traceFrameForPC expects return PCs and subtracts PCQuantum.
 			id := trace.stackTab.put([]uintptr{logicalStackSentinel, startPCforTrace(0) + sys.PCQuantum}) // no start pc
 			traceEvent(traceEvGoCreate, -1, gp.goid, uint64(id), stackID)
-			gp.traceseq++
+			gp.trace.seq++
 			traceEvent(traceEvGoInSyscall, -1, gp.goid)
 		} else {
-			gp.sysblocktraced = false
+			gp.trace.sysBlockTraced = false
 		}
 	})
 	traceProcStart()
@@ -1512,8 +1520,8 @@ func traceGCMarkAssistDone() {
 }
 
 func traceGoCreate(newg *g, pc uintptr) {
-	newg.traceseq = 0
-	newg.tracelastp = getg().m.p
+	newg.trace.seq = 0
+	newg.trace.lastP = getg().m.p
 	// +PCQuantum because traceFrameForPC expects return PCs and subtracts PCQuantum.
 	id := trace.stackTab.put([]uintptr{logicalStackSentinel, startPCforTrace(pc) + sys.PCQuantum})
 	traceEvent(traceEvGoCreate, 2, newg.goid, uint64(id))
@@ -1522,14 +1530,14 @@ func traceGoCreate(newg *g, pc uintptr) {
 func traceGoStart() {
 	gp := getg().m.curg
 	pp := gp.m.p
-	gp.traceseq++
+	gp.trace.seq++
 	if pp.ptr().gcMarkWorkerMode != gcMarkWorkerNotWorker {
-		traceEvent(traceEvGoStartLabel, -1, gp.goid, gp.traceseq, trace.markWorkerLabels[pp.ptr().gcMarkWorkerMode])
-	} else if gp.tracelastp == pp {
+		traceEvent(traceEvGoStartLabel, -1, gp.goid, gp.trace.seq, trace.markWorkerLabels[pp.ptr().gcMarkWorkerMode])
+	} else if gp.trace.lastP == pp {
 		traceEvent(traceEvGoStartLocal, -1, gp.goid)
 	} else {
-		gp.tracelastp = pp
-		traceEvent(traceEvGoStart, -1, gp.goid, gp.traceseq)
+		gp.trace.lastP = pp
+		traceEvent(traceEvGoStart, -1, gp.goid, gp.trace.seq)
 	}
 }
 
@@ -1539,13 +1547,13 @@ func traceGoEnd() {
 
 func traceGoSched() {
 	gp := getg()
-	gp.tracelastp = gp.m.p
+	gp.trace.lastP = gp.m.p
 	traceEvent(traceEvGoSched, 1)
 }
 
 func traceGoPreempt() {
 	gp := getg()
-	gp.tracelastp = gp.m.p
+	gp.trace.lastP = gp.m.p
 	traceEvent(traceEvGoPreempt, 1)
 }
 
@@ -1609,12 +1617,12 @@ var waitReasonToTraceEv = [...]byte{
 
 func traceGoUnpark(gp *g, skip int) {
 	pp := getg().m.p
-	gp.traceseq++
-	if gp.tracelastp == pp {
+	gp.trace.seq++
+	if gp.trace.lastP == pp {
 		traceEvent(traceEvGoUnblockLocal, skip, gp.goid)
 	} else {
-		gp.tracelastp = pp
-		traceEvent(traceEvGoUnblock, skip, gp.goid, gp.traceseq)
+		gp.trace.lastP = pp
+		traceEvent(traceEvGoUnblock, skip, gp.goid, gp.trace.seq)
 	}
 }
 
@@ -1652,9 +1660,9 @@ func traceGoSysExit(ts int64) {
 		ts = 0
 	}
 	gp := getg().m.curg
-	gp.traceseq++
-	gp.tracelastp = gp.m.p
-	traceEvent(traceEvGoSysExit, -1, gp.goid, gp.traceseq, uint64(ts)/traceTickDiv)
+	gp.trace.seq++
+	gp.trace.lastP = gp.m.p
+	traceEvent(traceEvGoSysExit, -1, gp.goid, gp.trace.seq, uint64(ts)/traceTickDiv)
 }
 
 func traceGoSysBlock(pp *p) {
@@ -1782,6 +1790,6 @@ func traceOneNewExtraM(gp *g) {
 	// since the next event of the g will be traceEvGoSysExit in exitsyscall,
 	// while calling from C thread to Go.
 	traceGoCreate(gp, 0) // no start pc
-	gp.traceseq++
+	gp.trace.seq++
 	traceEvent(traceEvGoInSyscall, -1, gp.goid)
 }
