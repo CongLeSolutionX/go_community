@@ -83,6 +83,30 @@
       },
       "revId": "6d430beb3de8132d370c60cca6ecc39c55a6397f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a94d5a92_b3616242",
+        "filename": "src/cmd/compile/internal/types2/call.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2023-05-10T16:24:47Z",
+      "side": 1,
+      "message": "SG. I\u0027ll move myself to CC to keep my review queue clean.",
+      "parentUuid": "1f01c7b6_f1f35d93",
+      "range": {
+        "startLine": 30,
+        "startChar": 15,
+        "endLine": 30,
+        "endChar": 22
+      },
+      "revId": "6d430beb3de8132d370c60cca6ecc39c55a6397f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
