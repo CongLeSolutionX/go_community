@@ -59,6 +59,30 @@
       },
       "revId": "3c5f053dbe72bc3f5fdef8fdd1ffad54ea9f9b64",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8ff89bf_adaf7e03",
+        "filename": "src/go/types/call.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 7392
+      },
+      "writtenOn": "2023-05-10T15:29:55Z",
+      "side": 1,
+      "message": "Ack. I think we can clean up some more eventually, possibly by splitting up functionality. I prefer doing small, incremental steps that are easier to follow along.",
+      "parentUuid": "d94fe2eb_0881f96b",
+      "range": {
+        "startLine": 30,
+        "startChar": 25,
+        "endLine": 31,
+        "endChar": 34
+      },
+      "revId": "3c5f053dbe72bc3f5fdef8fdd1ffad54ea9f9b64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
