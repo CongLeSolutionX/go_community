@@ -18,6 +18,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3dbb5e9f_35667591",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 62633
+      },
+      "writtenOn": "2023-05-10T08:26:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a2677fe5_3e2d0c77",
+      "revId": "d6652a0f99de12a2fbde88bb297dbe87dcb4efc4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ecc5ddd5_38783a43",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-05-09T18:58:22Z",
       "side": 1,
       "message": "Please don\u0027t use markdown in git commit messages.  Thanks.",
+      "revId": "d6652a0f99de12a2fbde88bb297dbe87dcb4efc4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d3973bf_eb7abeb8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 62633
+      },
+      "writtenOn": "2023-05-10T08:26:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ecc5ddd5_38783a43",
       "revId": "d6652a0f99de12a2fbde88bb297dbe87dcb4efc4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
