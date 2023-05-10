@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "31d9893b_66130c78",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 61713
+      },
+      "writtenOn": "2023-05-10T02:47:22Z",
+      "side": 1,
+      "message": "WSBH/DSBH/DSHD are the instrcutions name in MIPS Instruction Set. I renamed them in golang\u0027s way REBH/REBHV/REHVV. REBH means reverse bytes within halfwords(aka WSBH), REBHV means reverse bytes within halfwords(aka DSBH), REHVV means reverse halfwords within doublewords(aka DSHD), and the last alphabet V means it\u0027s a 64bits version instruction.",
+      "parentUuid": "ba691179_73afeffc",
+      "range": {
+        "startLine": 7,
+        "startChar": 27,
+        "endLine": 7,
+        "endChar": 41
+      },
+      "revId": "a20aa57bdd96f3c037d84a76b9dbdd7e6ab0560a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6da819a0_031de16a",
@@ -37,6 +61,24 @@
       "writtenOn": "2023-05-09T15:40:31Z",
       "side": 1,
       "message": "Please remove. Thanks.",
+      "revId": "a20aa57bdd96f3c037d84a76b9dbdd7e6ab0560a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9150132b_d452d4c0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 61713
+      },
+      "writtenOn": "2023-05-10T02:47:22Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "6da819a0_031de16a",
       "revId": "a20aa57bdd96f3c037d84a76b9dbdd7e6ab0560a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
