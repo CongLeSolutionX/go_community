@@ -20,14 +20,14 @@ import (
 // instantiation. If the target type tsig != nil, the signature's parameter
 // types are used to infer additional missing type arguments of x, if any.
 // At least one of tsig or inst must be provided.
-func (check *Checker) funcInst(tsig *Signature, pos syntax.Pos, x *operand, inst *syntax.IndexExpr) {
+func (check *Checker) funcInst(tsig *Signature, x *operand, inst *syntax.IndexExpr) {
 	assert(tsig != nil || inst != nil)
 
 	var instErrPos poser
 	if inst != nil {
 		instErrPos = inst.Pos()
 	} else {
-		instErrPos = pos
+		instErrPos = x.Pos()
 	}
 	versionErr := !check.verifyVersionf(check.pkg, instErrPos, go1_18, "function instantiation")
 
@@ -97,9 +97,9 @@ func (check *Checker) funcInst(tsig *Signature, pos syntax.Pos, x *operand, inst
 
 		// Rename type parameters to avoid problems with recursive instantiations.
 		// Note that NewTuple(params...) below is (*Tuple)(nil) if len(params) == 0, as desired.
-		tparams, params2 := check.renameTParams(pos, sig.TypeParams().list(), NewTuple(params...))
+		tparams, params2 := check.renameTParams(x.Pos(), sig.TypeParams().list(), NewTuple(params...))
 
-		targs = check.infer(pos, tparams, targs, params2.(*Tuple), args)
+		targs = check.infer(x.Pos(), tparams, targs, params2.(*Tuple), args)
 		if targs == nil {
 			// error was already reported
 			x.mode = invalid
